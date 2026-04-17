@@ -124,6 +124,7 @@ interface FilterState {
 
   // NEW — terminal narrative filters
   activeMetaFilter: MetaFilter | null;
+  activeTag: string | null; // e.g. "claude-code" — additive to metaFilter
   activeTab: TerminalTab;
 
   // NEW — layout prefs
@@ -148,6 +149,7 @@ interface FilterState {
 
   // NEW actions
   setActiveMetaFilter: (m: MetaFilter | null) => void;
+  setActiveTag: (t: string | null) => void;
   setActiveTab: (t: TerminalTab) => void;
   setDensity: (d: Density) => void;
   toggleColumn: (id: ColumnId) => void;
@@ -185,6 +187,7 @@ const FILTER_DEFAULTS = {
   sortBy: "momentum" as SortBy,
   category: null as string | null,
   activeMetaFilter: null as MetaFilter | null,
+  activeTag: null as string | null,
   activeTab: "trending" as TerminalTab,
   languages: [] as string[],
   starsRange: null as [number, number] | null,
@@ -223,6 +226,10 @@ export const useFilterStore = create<FilterState>()(
         // Setting a meta filter implicitly returns to the trending tab so the
         // filter semantics are unambiguous.
         set({ activeMetaFilter: m, activeTab: "trending" });
+      },
+
+      setActiveTag: (t) => {
+        set({ activeTag: t, activeTab: "trending" });
       },
 
       setActiveTab: (t) => {

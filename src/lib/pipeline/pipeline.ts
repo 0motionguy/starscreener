@@ -33,7 +33,11 @@ import { isPersistenceEnabled } from "./storage/file-persistence";
 import { applyDeltasToRepo, computeAllDeltas } from "./ingestion/deltas";
 import { deriveSparklineData } from "./ingestion/snapshotter";
 import { emitPipelineEvent } from "./events";
-import { classifyBatch, classifyRepo } from "./classification/classifier";
+import {
+  classifyBatch,
+  classifyRepo,
+  deriveTags,
+} from "./classification/classifier";
 import { scoreBatch, scoreRepo } from "./scoring/engine";
 import { generateReasons, generateReasonsBatch } from "./reasons/generator";
 import {
@@ -195,9 +199,13 @@ function recomputeAll(): RecomputeSummary {
   for (let i = 0; i < classifications.length; i++) {
     const classification = classifications[i];
     categoryStore.save(classification);
+    // Derive flat, multi-label AI-focus tags in the same pass so cards +
+    // filter bar + /api/repos?tag= all see consistent data.
+    const tags = deriveTags(freshRepos[i]);
     freshRepos[i] = {
       ...freshRepos[i],
       categoryId: classification.primary.categoryId,
+      tags,
     };
   }
 
@@ -340,6 +348,7 @@ function recomputeRepo(repoId: string): RecomputeSummary {
   // Project the classification's primary categoryId onto the repo so the
   // single-repo recompute matches the batch path's semantics.
   fresh.categoryId = classification.primary.categoryId;
+  fresh.tags = deriveTags(fresh);
 
   const reason: RepoReason = generateReasons({
     repo: fresh,

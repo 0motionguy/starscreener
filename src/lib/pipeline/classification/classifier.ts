@@ -27,6 +27,7 @@ import type {
   RepoCategory,
 } from "../types";
 import { CLASSIFICATION_RULES } from "./rules";
+import { TAG_RULES } from "./tag-rules";
 
 // ---------------------------------------------------------------------------
 // Tunables
@@ -186,6 +187,58 @@ export function classifyBatch(repos: Repo[]): RepoCategory[] {
  * category IDs whose topic rules fire, ranked by (matches * weight) desc.
  * Useful for cheap pre-filtering or UI facets.
  */
+/**
+ * Flat multi-label tag derivation. Returns the sorted, deduped list of tag
+ * ids that match the repo's topics / keywords / owner prefix. Safe to call
+ * on every classify pass; cheap (no weight math, just membership checks).
+ */
+export function deriveTags(repo: Repo): string[] {
+  const description = normalize(repo.description);
+  const name = normalize(repo.name);
+  const owner = normalize(repo.owner);
+  const fullName = normalize(repo.fullName);
+  const topicsLower = (repo.topics ?? []).map((t) => t.toLowerCase());
+
+  const hits = new Set<string>();
+  for (const rule of TAG_RULES) {
+    // Topics (strongest signal).
+    for (const topic of rule.topics) {
+      if (topicsLower.includes(topic.toLowerCase())) {
+        hits.add(rule.tagId);
+        break;
+      }
+    }
+    if (hits.has(rule.tagId)) continue;
+
+    // Keywords across description + name (lowercased).
+    for (const keyword of rule.keywords) {
+      const k = keyword.toLowerCase();
+      if (!k) continue;
+      if (description.includes(k) || name.includes(k)) {
+        hits.add(rule.tagId);
+        break;
+      }
+    }
+    if (hits.has(rule.tagId)) continue;
+
+    // Owner prefixes.
+    for (const prefix of rule.ownerPrefixes) {
+      const p = prefix.toLowerCase();
+      if (
+        owner === p ||
+        fullName.startsWith(`${p}/`) ||
+        fullName === p ||
+        fullName.startsWith(p)
+      ) {
+        hits.add(rule.tagId);
+        break;
+      }
+    }
+  }
+
+  return Array.from(hits).sort();
+}
+
 export function classifyByTopics(topics: string[]): PipelineCategoryId[] {
   const normalized = topics.map((t) => t.toLowerCase());
   const ranked = CLASSIFICATION_RULES.map((rule) => {

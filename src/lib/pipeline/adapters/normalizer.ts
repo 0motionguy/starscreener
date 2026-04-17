@@ -70,5 +70,8 @@ export function normalizeGitHubRepo(
     // Filled by social aggregator.
     socialBuzzScore: 0,
     mentionCount24h: 0,
+
+    // Tags — filled by deriveTags() during classify pass.
+    tags: [],
   };
 }

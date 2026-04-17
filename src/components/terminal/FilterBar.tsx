@@ -14,6 +14,7 @@ import type { GlobalStats } from "@/lib/pipeline/queries/aggregate";
 import { MetasBar } from "./MetasBar";
 import { StatsBarClient } from "./StatsBarClient";
 import { TabBar } from "./TabBar";
+import { TagsBar } from "./TagsBar";
 import { TimeRangePills } from "./TimeRangePills";
 import { ViewControls } from "./ViewControls";
 
@@ -66,6 +67,7 @@ export function FilterBar({ variant = "full" }: FilterBarProps) {
     <div className="sticky top-14 z-30 bg-bg-primary/90 backdrop-blur-md border-b border-border-primary">
       <div className="max-w-full mx-auto px-4 sm:px-6 py-3 space-y-3">
         {cfg.showMetas && <MetasBar counts={counts} />}
+        {cfg.showMetas && <TagsBar />}
 
         <div className="flex items-center gap-4 flex-wrap">
           {cfg.showStats && stats && <StatsBarClient stats={stats} />}

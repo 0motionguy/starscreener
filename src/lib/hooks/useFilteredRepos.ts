@@ -18,10 +18,9 @@ export function useFilteredRepos(source: Repo[]): Repo[] {
   const starsRange = useFilterStore((s) => s.starsRange);
   const minMomentum = useFilterStore((s) => s.minMomentum);
   const onlyWatched = useFilterStore((s) => s.onlyWatched);
-  // No archived field on Repo yet — kept as dependency so the memo reruns
-  // when the toggle flips and we can wire real behaviour later.
   const excludeArchived = useFilterStore((s) => s.excludeArchived);
   const activeMetaFilter = useFilterStore((s) => s.activeMetaFilter);
+  const activeTag = useFilterStore((s) => s.activeTag);
   // Read the raw repos array — NEVER call .map/.filter inside the selector
   // (returning a new array every call triggers an infinite re-render loop
   // with useSyncExternalStore). Map inside useMemo instead.
@@ -55,11 +54,17 @@ export function useFilteredRepos(source: Repo[]): Repo[] {
       out = applyMetaFilter(out, activeMetaFilter);
     }
 
+    if (activeTag) {
+      out = out.filter(
+        (r) => Array.isArray(r.tags) && r.tags.includes(activeTag),
+      );
+    }
+
+    if (excludeArchived) {
+      out = out.filter((r) => r.archived !== true && r.deleted !== true);
+    }
+
     return out;
-    // excludeArchived is intentionally listed so the memo reruns when the
-    // toggle flips — real filtering will be wired when Repo gains an
-    // `archived` field. Silence exhaustive-deps for the placeholder.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     source,
     category,
@@ -69,6 +74,7 @@ export function useFilteredRepos(source: Repo[]): Repo[] {
     onlyWatched,
     excludeArchived,
     activeMetaFilter,
+    activeTag,
     watchedItems,
   ]);
 }

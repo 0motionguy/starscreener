@@ -1,23 +1,15 @@
 // StarScreener — AI-focus tag rules.
 //
 // Tags are flat, multi-label, and intersect with categories. A repo in the
-// `ai-agents` category can simultaneously carry `claude-code`, `agent-memory`
+// `ai-agents` category can simultaneously carry `claude-code` + `agent-memory`
 // tags. Tags narrow the screener onto the AI-focus universe (Claude Code,
-// agent memory / skills / plugins, swarm orchestration) without fracturing
-// the existing 10-category taxonomy.
+// agent frameworks, memory/skills/plugins, swarm orchestration, local LLM
+// inference) without fracturing the existing category taxonomy.
 //
 // Matching is case-insensitive on topics, keywords, owner prefixes. A repo
 // gets a tag if ANY of the three matchers fire. No weighting — the tag is
-// either present or absent.
-//
-// Vocabulary rationale:
-//   - 5 tags total. Densest useful set that fits in a chip bar without
-//     overwhelming the existing FilterBar hierarchy.
-//   - `claude-code`: Anthropic CLI + derived agent tooling.
-//   - `agent-memory`: persistent memory stores / second-brain tooling.
-//   - `agent-skills`: skill systems, skill marketplaces, Anthropic skills.
-//   - `agent-plugins`: plugin frameworks for agents (MCP-adjacent).
-//   - `swarm-orchestration`: multi-agent coordination frameworks.
+// either present or absent. Rules are deliberately BROAD so real GitHub
+// topics (which vary wildly) still fire.
 
 export interface TagRule {
   tagId: string;
@@ -37,21 +29,43 @@ export const TAG_RULES: TagRule[] = [
   {
     tagId: "claude-code",
     label: "Claude Code",
-    description: "Anthropic CLI and derived agent tooling",
-    topics: ["claude-code", "anthropic-cli", "claude-cli"],
-    keywords: ["claude code", "anthropic cli", "claude cli"],
-    ownerPrefixes: ["anthropics"],
+    description: "Anthropic Claude, Claude Code, agent tooling on Claude",
+    topics: [
+      "claude",
+      "claude-code",
+      "claude-cli",
+      "claude-api",
+      "anthropic",
+      "anthropic-cli",
+      "anthropic-claude",
+    ],
+    keywords: [
+      "claude code",
+      "claude cli",
+      "anthropic cli",
+      "anthropic claude",
+      "claude agent",
+      "claude plugin",
+      "claude skill",
+      "claude mcp",
+    ],
+    ownerPrefixes: ["anthropics", "anthropic"],
   },
   {
     tagId: "agent-memory",
     label: "Agent Memory",
-    description: "Persistent memory stores and second-brain systems for agents",
+    description: "Memory layers, second brain, long-term context for agents",
     topics: [
       "agent-memory",
       "long-term-memory",
+      "memory",
       "memgpt",
       "mem0",
+      "letta",
+      "zep",
       "second-brain",
+      "rag",
+      "vector-memory",
     ],
     keywords: [
       "agent memory",
@@ -60,24 +74,86 @@ export const TAG_RULES: TagRule[] = [
       "second brain",
       "memory store",
       "memory layer",
+      "memory system",
+      "llm memory",
+      "conversational memory",
+    ],
+    ownerPrefixes: ["mem0ai", "letta-ai"],
+  },
+  {
+    tagId: "agent-skills",
+    label: "Skills",
+    description: "Skill systems, tool use, function calling, plugin skills",
+    topics: [
+      "skills",
+      "anthropic-skills",
+      "agent-skills",
+      "skill-library",
+      "skill-registry",
+      "tool-use",
+      "function-calling",
+    ],
+    keywords: [
+      "agent skill",
+      "skill library",
+      "skill registry",
+      "skill system",
+      "tool use",
+      "function calling",
+      "tool calling",
     ],
     ownerPrefixes: [],
   },
   {
-    tagId: "agent-skills",
-    label: "Agent Skills",
-    description: "Skill systems, skill registries, and skill libraries",
-    topics: ["agent-skills", "anthropic-skills", "skill-registry"],
-    keywords: ["agent skills", "skill library", "skill registry"],
-    ownerPrefixes: [],
+    tagId: "mcp",
+    label: "MCP",
+    description: "Model Context Protocol servers and clients",
+    topics: [
+      "mcp",
+      "model-context-protocol",
+      "mcp-server",
+      "mcp-client",
+      "mcp-tools",
+    ],
+    keywords: [
+      "mcp server",
+      "mcp client",
+      "model context protocol",
+      "model-context-protocol",
+    ],
+    ownerPrefixes: ["modelcontextprotocol"],
   },
   {
-    tagId: "agent-plugins",
-    label: "Agent Plugins",
-    description: "Plugin frameworks for agents (MCP-adjacent)",
-    topics: ["agent-plugin", "agent-plugins", "mcp-plugin"],
-    keywords: ["agent plugin", "agent plugins", "plugin framework"],
-    ownerPrefixes: [],
+    tagId: "ai-agents",
+    label: "Agents",
+    description: "Autonomous agents, agent frameworks, multi-step reasoning",
+    topics: [
+      "ai-agents",
+      "agents",
+      "agent",
+      "autonomous-agent",
+      "autonomous-agents",
+      "ai-agent",
+      "llm-agent",
+      "llm-agents",
+      "autogpt",
+      "babyagi",
+      "agentic",
+      "agentops",
+      "agent-framework",
+      "autonomousagents",
+      "aiagentframework",
+    ],
+    keywords: [
+      "ai agent",
+      "ai agents",
+      "autonomous agent",
+      "llm agent",
+      "agent framework",
+      "agentic",
+      "agent-based",
+    ],
+    ownerPrefixes: ["langchain-ai", "crewaiinc", "langgraph-ai"],
   },
   {
     tagId: "swarm-orchestration",
@@ -86,18 +162,80 @@ export const TAG_RULES: TagRule[] = [
     topics: [
       "swarm",
       "multi-agent",
+      "multiagent",
       "agent-swarm",
       "autogen",
       "crewai",
+      "agent-team",
+      "agent-orchestration",
     ],
     keywords: [
       "swarm",
       "multi-agent",
+      "multi agent",
       "agent swarm",
       "agent team",
       "agent orchestration",
+      "role-playing",
+      "collaborative intelligence",
     ],
-    ownerPrefixes: ["crewAIInc", "microsoft/autogen"],
+    ownerPrefixes: ["crewaiinc"],
+  },
+  {
+    tagId: "local-llm",
+    label: "Local LLM",
+    description: "Run LLMs locally (Ollama, llama.cpp, MLX, GGUF, etc.)",
+    topics: [
+      "local-llm",
+      "ollama",
+      "llama-cpp",
+      "llama.cpp",
+      "gguf",
+      "mlx",
+      "local-inference",
+      "on-device",
+      "edge-ai",
+    ],
+    keywords: [
+      "run locally",
+      "local inference",
+      "on-device",
+      "local llm",
+      "llama.cpp",
+      "ollama",
+    ],
+    ownerPrefixes: ["ollama", "ggerganov", "ggml-org", "mlc-ai", "ml-explore"],
+  },
+  {
+    tagId: "llm-infra",
+    label: "LLM Infra",
+    description: "Inference servers, fine-tuning, RLHF, LLM training infra",
+    topics: [
+      "llm",
+      "llms",
+      "llm-inference",
+      "llm-training",
+      "llm-serving",
+      "fine-tuning",
+      "finetuning",
+      "rlhf",
+      "vllm",
+      "transformers",
+      "huggingface",
+    ],
+    keywords: [
+      "inference server",
+      "model serving",
+      "fine-tuning",
+      "fine tune",
+      "llm serving",
+    ],
+    ownerPrefixes: [
+      "vllm-project",
+      "huggingface",
+      "unslothai",
+      "axolotl-ai-cloud",
+    ],
   },
 ];
 

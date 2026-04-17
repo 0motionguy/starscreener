@@ -1,22 +1,14 @@
 {
-  "crons": [
-    { "path": "/api/cron/ingest?tier=cold", "schedule": "0 0 * * *" }
-  ],
-  "functions": {
-    "src/app/api/pipeline/recompute/route.ts": {
-      "maxDuration": 60
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "https://starscreener-production.up.railway.app/",
+      "permanent": false
     },
-    "src/app/api/cron/ingest/route.ts": {
-      "maxDuration": 300
-    },
-    "src/app/api/cron/seed/route.ts": {
-      "maxDuration": 300
-    },
-    "src/app/api/cron/backfill-top/route.ts": {
-      "maxDuration": 300
-    },
-    "src/app/api/pipeline/backfill-history/route.ts": {
-      "maxDuration": 300
+    {
+      "source": "/:path+",
+      "destination": "https://starscreener-production.up.railway.app/:path+",
+      "permanent": false
     }
-  }
+  ]
 }

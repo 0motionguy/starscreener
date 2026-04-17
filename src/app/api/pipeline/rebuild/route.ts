@@ -45,9 +45,20 @@ export const dynamic = "force-dynamic";
 export const maxDuration = 300;
 
 interface RebuildBody {
+  /** How many repos to process in this call. Default 20 (safe under 300s). */
   limit?: number;
+  /** Start index into the candidate list; supports cursor pagination. */
+  offset?: number;
+  /** Max stargazer pages per repo (stargazer path only). Default 4. */
   maxPages?: number;
+  /** Only rebuild repos without meaningful sparkline history. */
   skipSeeded?: boolean;
+  /** Skip the recomputeAll at the end (call again with this=false once). */
+  skipRecompute?: boolean;
+  /** Process only these specific fullNames (overrides offset/limit/skipSeeded). */
+  fullNames?: string[];
+  /** If true, only process repos where stars > 40_000 (events-api fast path). */
+  onlyMegaRepos?: boolean;
 }
 
 interface PerRepoResult {
@@ -89,27 +100,46 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   const limit =
     typeof body.limit === "number" && body.limit > 0 && body.limit <= 500
       ? Math.floor(body.limit)
-      : 50;
+      : 20;
+  const offset =
+    typeof body.offset === "number" && body.offset >= 0
+      ? Math.floor(body.offset)
+      : 0;
   const maxPages =
     typeof body.maxPages === "number" && body.maxPages > 0 && body.maxPages <= 50
       ? Math.floor(body.maxPages)
-      : 8;
+      : 4;
   const skipSeeded = body.skipSeeded === true;
+  const skipRecompute = body.skipRecompute === true;
+  const onlyMegaRepos = body.onlyMegaRepos === true;
+  const targetFullNames = Array.isArray(body.fullNames)
+    ? body.fullNames.filter((s): s is string => typeof s === "string")
+    : null;
 
   await pipeline.ensureReady();
   const stores = pipelineStores;
 
-  // Pick candidates: everything the store knows, optionally filtered to repos
-  // that don't already have meaningful sparkline history.
+  // Pick candidates. Priority:
+  //   1. explicit fullNames (targeted rebuild)
+  //   2. onlyMegaRepos (>40k stars → events-api fast path)
+  //   3. skipSeeded (only repos missing history)
+  //   4. everything
   const all = repoStore.getAll();
-  const candidates = (skipSeeded
-    ? all.filter((r) => {
-        const spark = r.sparklineData ?? [];
-        const unique = new Set(spark).size;
-        return spark.length === 0 || unique <= 1;
-      })
-    : all
-  ).slice(0, limit);
+  let pool = all;
+  if (targetFullNames) {
+    const wanted = new Set(targetFullNames);
+    pool = all.filter((r) => wanted.has(r.fullName));
+  } else if (onlyMegaRepos) {
+    pool = all.filter((r) => r.stars > 40000);
+  } else if (skipSeeded) {
+    pool = all.filter((r) => {
+      const spark = r.sparklineData ?? [];
+      const unique = new Set(spark).size;
+      return spark.length === 0 || unique <= 1;
+    });
+  }
+  const candidates = pool.slice(offset, offset + limit);
+  const totalInPool = pool.length;
 
   const startedAt = Date.now();
   const details: PerRepoResult[] = [];
@@ -195,23 +225,36 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     }
   }
 
-  // Recompute so the fresh snapshots flow into scores + ranks + tags.
-  const recompute = await pipeline.recomputeAll();
+  // Optional final recompute so scores/ranks/tags pick up the new snapshots.
+  // Skip when paginating through a large rebuild — only recompute on the last
+  // call.
+  let recomputeResult: { reposRecomputed: number; scoresComputed: number } | null =
+    null;
+  if (!skipRecompute) {
+    const r = await pipeline.recomputeAll();
+    recomputeResult = {
+      reposRecomputed: r.reposRecomputed,
+      scoresComputed: r.scoresComputed,
+    };
+  }
+
+  const nextOffset = offset + details.length;
 
   return NextResponse.json({
     ok: true,
     processed: details.length,
     totalCandidates: candidates.length,
+    totalInPool,
+    offset,
+    nextOffset,
+    hasMore: nextOffset < totalInPool,
     backfilled,
     skipped,
     failed,
     aborted,
     rateLimitRemaining,
     durationMs: Date.now() - startedAt,
-    recompute: {
-      reposRecomputed: recompute.reposRecomputed,
-      scoresComputed: recompute.scoresComputed,
-    },
+    recompute: recomputeResult,
     details,
   });
 }

@@ -1,21 +1,42 @@
 {
   "name": "starscreener-mcp",
   "version": "0.1.0",
-  "private": true,
   "description": "MCP server exposing the StarScreener GitHub trend REST API to AI agents via stdio.",
   "type": "module",
   "bin": {
-    "starscreener-mcp": "./dist/server.js"
+    "starscreener-mcp": "dist/server.js"
   },
   "main": "./dist/server.js",
   "files": [
-    "dist"
+    "dist/**",
+    "README.md"
   ],
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "starscreener",
+    "github",
+    "trending",
+    "ai-agents",
+    "claude"
+  ],
+  "license": "MIT",
+  "author": "Mirko Basil Dolger",
+  "homepage": "https://github.com/Kermit457/STARSCREENER#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kermit457/STARSCREENER.git",
+    "directory": "mcp"
+  },
+  "bugs": {
+    "url": "https://github.com/Kermit457/STARSCREENER/issues"
+  },
   "scripts": {
     "build": "tsc -p .",
     "dev": "tsx src/server.ts",
     "start": "node dist/server.js",
-    "typecheck": "tsc --noEmit -p ."
+    "typecheck": "tsc --noEmit -p .",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.4",

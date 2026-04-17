@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { pipeline } from "@/lib/pipeline/pipeline";
 import { slugToId } from "@/lib/utils";
 import type { CompareRepoData } from "@/lib/types";
+import { READ_CACHE_HEADERS } from "@/lib/api/cache";
 
 export async function GET(request: NextRequest) {
   await pipeline.ensureReady();
@@ -65,13 +66,16 @@ export async function GET(request: NextRequest) {
     forkHistory: m.forkHistory,
   }));
 
-  return NextResponse.json({
-    repos,
-    winner: {
-      momentum: result.winners.momentum,
-      stars: result.winners.stars,
-      // UI expects `growth`; pipeline exposes `growth7d`. Rename here.
-      growth: result.winners.growth7d,
+  return NextResponse.json(
+    {
+      repos,
+      winner: {
+        momentum: result.winners.momentum,
+        stars: result.winners.stars,
+        // UI expects `growth`; pipeline exposes `growth7d`. Rename here.
+        growth: result.winners.growth7d,
+      },
     },
-  });
+    { headers: READ_CACHE_HEADERS },
+  );
 }

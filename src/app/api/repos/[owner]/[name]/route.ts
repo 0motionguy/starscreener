@@ -7,6 +7,9 @@ import {
 } from "@/lib/pipeline/adapters/nitter-adapter";
 import type { SocialMention, WhyMoving } from "@/lib/types";
 import type { RepoMention, RepoReason } from "@/lib/pipeline/types";
+import { READ_CACHE_HEADERS } from "@/lib/api/cache";
+
+const SLUG_PART_PATTERN = /^[A-Za-z0-9._-]+$/;
 
 /**
  * Adapt the pipeline's RepoReason shape to the UI's legacy WhyMoving shape.
@@ -54,8 +57,14 @@ export async function GET(
   _request: NextRequest,
   { params }: { params: Promise<{ owner: string; name: string }> },
 ) {
-  await pipeline.ensureReady();
   const { owner, name } = await params;
+
+  // Reject path-traversal / malformed slugs before hitting the pipeline.
+  if (!SLUG_PART_PATTERN.test(owner) || !SLUG_PART_PATTERN.test(name)) {
+    return NextResponse.json({ error: "Invalid repo slug" }, { status: 400 });
+  }
+
+  await pipeline.ensureReady();
 
   const summary = pipeline.getRepoSummary(`${owner}/${name}`);
 
@@ -92,15 +101,18 @@ export async function GET(
 
   const relatedRepos = pipeline.getRelatedRepos(repo.id, 6);
 
-  return NextResponse.json({
-    repo,
-    score,
-    category,
-    reasons,
-    social,
-    mentions,
-    whyMoving,
-    relatedRepos,
-    twitterAvailable: TWITTER_AVAILABLE,
-  });
+  return NextResponse.json(
+    {
+      repo,
+      score,
+      category,
+      reasons,
+      social,
+      mentions,
+      whyMoving,
+      relatedRepos,
+      twitterAvailable: TWITTER_AVAILABLE,
+    },
+    { headers: READ_CACHE_HEADERS },
+  );
 }

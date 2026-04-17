@@ -21,6 +21,8 @@ import { WhyMoving as WhyMovingSection } from "@/components/detail/WhyMoving";
 import { SocialMentions } from "@/components/detail/SocialMentions";
 import { RelatedRepos } from "@/components/detail/RelatedRepos";
 
+const SLUG_PART_PATTERN = /^[A-Za-z0-9._-]+$/;
+
 interface PageProps {
   params: Promise<{ owner: string; name: string }>;
 }
@@ -50,8 +52,17 @@ function reasonToWhyMoving(
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
-  await pipeline.ensureReady();
   const { owner, name } = await params;
+
+  if (!SLUG_PART_PATTERN.test(owner) || !SLUG_PART_PATTERN.test(name)) {
+    return {
+      title: `Invalid repo URL — ${SITE_NAME}`,
+      description: "Invalid repo URL.",
+      robots: { index: false, follow: false },
+    };
+  }
+
+  await pipeline.ensureReady();
   const summary = pipeline.getRepoSummary(`${owner}/${name}`);
   const canonical = absoluteUrl(`/repo/${owner}/${name}`);
 
@@ -105,9 +116,13 @@ export async function generateMetadata({
 }
 
 export default async function RepoDetailPage({ params }: PageProps) {
-  await pipeline.ensureReady();
-
   const { owner, name } = await params;
+
+  if (!SLUG_PART_PATTERN.test(owner) || !SLUG_PART_PATTERN.test(name)) {
+    notFound();
+  }
+
+  await pipeline.ensureReady();
   const summary = pipeline.getRepoSummary(`${owner}/${name}`);
 
   if (!summary) {

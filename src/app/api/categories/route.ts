@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { pipeline } from "@/lib/pipeline/pipeline";
 import { CATEGORIES } from "@/lib/constants";
 import type { Category } from "@/lib/types";
+import { READ_CACHE_HEADERS } from "@/lib/api/cache";
 
 export async function GET() {
   await pipeline.ensureReady();
@@ -20,5 +21,8 @@ export async function GET() {
     };
   });
 
-  return NextResponse.json({ categories });
+  return NextResponse.json(
+    { categories },
+    { headers: READ_CACHE_HEADERS },
+  );
 }

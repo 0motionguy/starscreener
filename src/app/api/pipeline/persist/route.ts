@@ -8,7 +8,7 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import { persistPipeline, pipeline } from "@/lib/pipeline/pipeline";
 import {
@@ -16,6 +16,7 @@ import {
   FILES,
   isPersistenceEnabled,
 } from "@/lib/pipeline/storage/file-persistence";
+import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 
 export interface PersistResponse {
   ok: true;
@@ -25,9 +26,10 @@ export interface PersistResponse {
   files: Record<string, number>;
 }
 
-export async function POST(): Promise<
-  NextResponse<PersistResponse | { ok: false; error: string }>
-> {
+export async function POST(request: NextRequest): Promise<NextResponse> {
+  const deny = authFailureResponse(verifyCronAuth(request));
+  if (deny) return deny;
+
   const startedAt = Date.now();
   try {
     const enabled = isPersistenceEnabled();

@@ -30,7 +30,16 @@ import {
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const HEARTBEAT_MS = 15_000;
+const HEARTBEAT_MS = (() => {
+  const raw = Number(process.env.SSE_HEARTBEAT_MS);
+  return Number.isFinite(raw) && raw >= 1_000 && raw <= 60_000 ? raw : 15_000;
+})();
+
+const MAX_SUBSCRIBERS = (() => {
+  const raw = Number(process.env.SSE_MAX_SUBSCRIBERS);
+  return Number.isFinite(raw) && raw > 0 && raw <= 1_000 ? raw : 50;
+})();
+
 const ALL_TYPES: PipelineEventName[] = [
   "rank_changed",
   "breakout_detected",
@@ -52,6 +61,26 @@ function parseTypeFilter(req: NextRequest): Set<PipelineEventName> {
 }
 
 export async function GET(req: NextRequest): Promise<Response> {
+  // Cap concurrent subscribers to protect the long-lived process. Returning
+  // 503 here keeps clients' auto-reconnect honest — they'll back off and
+  // retry rather than hammering a saturated server.
+  if (subscriberCount() >= MAX_SUBSCRIBERS) {
+    return new Response(
+      `event: full\ndata: ${JSON.stringify({
+        max: MAX_SUBSCRIBERS,
+        at: new Date().toISOString(),
+      })}\n\n`,
+      {
+        status: 503,
+        headers: {
+          "Content-Type": "text/event-stream; charset=utf-8",
+          "Cache-Control": "no-cache, no-transform",
+          "Retry-After": "30",
+        },
+      },
+    );
+  }
+
   const wantedTypes = parseTypeFilter(req);
   const encoder = new TextEncoder();
 

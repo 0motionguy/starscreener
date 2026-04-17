@@ -3,6 +3,7 @@ import { pipeline, repoStore } from "@/lib/pipeline/pipeline";
 import type { Repo } from "@/lib/types";
 import type { TrendFilter, TrendWindow } from "@/lib/pipeline/types";
 import { slugToId } from "@/lib/utils";
+import { READ_CACHE_HEADERS } from "@/lib/api/cache";
 
 // ---------------------------------------------------------------------------
 // Param validation
@@ -104,42 +105,66 @@ export async function GET(request: NextRequest) {
       if (repo) repos.push(repo);
       else missing.push(rawIds[i]);
     }
-    return NextResponse.json({
-      repos,
-      meta: {
-        total: repos.length,
-        requested: rawIds.length,
-        missing,
+    return NextResponse.json(
+      {
+        repos,
+        meta: {
+          total: repos.length,
+          requested: rawIds.length,
+          missing,
+        },
       },
-    });
+      { headers: READ_CACHE_HEADERS },
+    );
   }
 
   const periodParam = searchParams.get("period") ?? "week";
   const filterParam = searchParams.get("filter") ?? "all";
   const category = searchParams.get("category") ?? null;
   const sortParam = (searchParams.get("sort") ?? "momentum") as SortKey;
+  const tagParam = searchParams.get("tag");
   const limit = Math.min(
     Math.max(Number(searchParams.get("limit")) || 25, 1),
     100,
   );
   const offset = Math.max(Number(searchParams.get("offset")) || 0, 0);
 
-  // Validate sort
+  // Strict param validation: unknown sort/filter/period/tag return 400
+  // rather than silently defaulting, so typos and stale bookmarks surface
+  // instead of hiding behind a misleading response.
   const validSorts: SortKey[] = [
     "momentum",
     "stars-today",
     "stars-total",
     "newest",
   ];
-  const sort: SortKey = validSorts.includes(sortParam) ? sortParam : "momentum";
-
-  // Normalize period/filter against the pipeline's shapes
-  const period: TrendWindow = VALID_PERIODS.has(periodParam as TrendWindow)
-    ? (periodParam as TrendWindow)
-    : "week";
-  const filter: TrendFilter = VALID_FILTERS.has(filterParam as TrendFilter)
-    ? (filterParam as TrendFilter)
-    : "all";
+  if (!validSorts.includes(sortParam)) {
+    return NextResponse.json(
+      { error: `Invalid sort: ${sortParam}`, valid: validSorts },
+      { status: 400 },
+    );
+  }
+  if (!VALID_PERIODS.has(periodParam as TrendWindow)) {
+    return NextResponse.json(
+      {
+        error: `Invalid period: ${periodParam}`,
+        valid: Array.from(VALID_PERIODS),
+      },
+      { status: 400 },
+    );
+  }
+  if (!VALID_FILTERS.has(filterParam as TrendFilter)) {
+    return NextResponse.json(
+      {
+        error: `Invalid filter: ${filterParam}`,
+        valid: Array.from(VALID_FILTERS),
+      },
+      { status: 400 },
+    );
+  }
+  const sort: SortKey = sortParam;
+  const period: TrendWindow = periodParam as TrendWindow;
+  const filter: TrendFilter = filterParam as TrendFilter;
 
   // Pull the full candidate set from the pipeline so we can apply our own
   // sort + pagination. The pipeline already ran recompute during
@@ -156,6 +181,20 @@ export async function GET(request: NextRequest) {
     candidates = pipeline.getTopMovers(period, 1000, filter);
   }
 
+  // Optional tag filter (additive). Rejects empty/invalid input with 400.
+  if (tagParam !== null) {
+    const tag = tagParam.trim().toLowerCase();
+    if (!tag || !/^[a-z0-9-]+$/.test(tag)) {
+      return NextResponse.json(
+        { error: `Invalid tag: ${tagParam}` },
+        { status: 400 },
+      );
+    }
+    candidates = candidates.filter((r) =>
+      Array.isArray(r.tags) && r.tags.includes(tag),
+    );
+  }
+
   const total = candidates.length;
 
   // Apply requested sort (may override the pipeline's delta-desc default).
@@ -164,14 +203,17 @@ export async function GET(request: NextRequest) {
   // Paginate
   const page = sorted.slice(offset, offset + limit);
 
-  return NextResponse.json({
-    repos: page,
-    meta: {
-      total,
-      limit,
-      offset,
-      period: periodParam,
-      filter: filterParam,
+  return NextResponse.json(
+    {
+      repos: page,
+      meta: {
+        total,
+        limit,
+        offset,
+        period: periodParam,
+        filter: filterParam,
+      },
     },
-  });
+    { headers: READ_CACHE_HEADERS },
+  );
 }

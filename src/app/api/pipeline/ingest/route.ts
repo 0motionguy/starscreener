@@ -11,6 +11,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { pipeline } from "@/lib/pipeline/pipeline";
 import { createGitHubAdapter } from "@/lib/pipeline/ingestion/ingest";
 import type { IngestBatchResult } from "@/lib/pipeline/types";
+import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 
 const FULL_NAME_PATTERN = /^[A-Za-z0-9._-]+\/[A-Za-z0-9._-]+$/;
 const MAX_BATCH_SIZE = 50;
@@ -89,10 +90,11 @@ function parseBody(raw: unknown): {
   };
 }
 
-export async function POST(
-  request: NextRequest,
-): Promise<NextResponse<IngestResponse | IngestErrorResponse>> {
+export async function POST(request: NextRequest): Promise<NextResponse> {
   const startedAt = Date.now();
+
+  const deny = authFailureResponse(verifyCronAuth(request));
+  if (deny) return deny;
 
   let raw: unknown;
   try {

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { pipeline } from "@/lib/pipeline/pipeline";
 import type { Repo } from "@/lib/types";
+import { READ_CACHE_HEADERS } from "@/lib/api/cache";
 
 type SearchSort = "momentum" | "stars-today" | "stars-total";
 
@@ -32,18 +33,26 @@ export async function GET(request: NextRequest) {
     100,
   );
 
-  // Validate sort
+  // Validate sort — strict: unknown sort returns 400 rather than silently
+  // defaulting (surface typos instead of masking them).
   const validSorts: SearchSort[] = ["momentum", "stars-today", "stars-total"];
-  const sort: SearchSort = validSorts.includes(sortParam)
-    ? sortParam
-    : "momentum";
+  if (!validSorts.includes(sortParam)) {
+    return NextResponse.json(
+      { error: `Invalid sort: ${sortParam}`, valid: validSorts },
+      { status: 400 },
+    );
+  }
+  const sort: SearchSort = sortParam;
 
   // Empty query returns empty results (not an error)
   if (!query.trim()) {
-    return NextResponse.json({
-      results: [],
-      meta: { total: 0, query: "", limit },
-    });
+    return NextResponse.json(
+      {
+        results: [],
+        meta: { total: 0, query: "", limit },
+      },
+      { headers: READ_CACHE_HEADERS },
+    );
   }
 
   // Delegate to pipeline — it owns fullName/description/topics match + live
@@ -61,8 +70,11 @@ export async function GET(request: NextRequest) {
   // Limit
   const results = sorted.slice(0, limit);
 
-  return NextResponse.json({
-    results,
-    meta: { total, query, limit },
-  });
+  return NextResponse.json(
+    {
+      results,
+      meta: { total, query, limit },
+    },
+    { headers: READ_CACHE_HEADERS },
+  );
 }

@@ -16,14 +16,30 @@ export interface RecomputeResponse {
   durationMs: number;
 }
 
-export async function POST(): Promise<
-  NextResponse<RecomputeResponse | { ok: false; error: string }>
-> {
+// Per-process cooldown so the UI refresh button can't DOS the process.
+// Recompute is user-facing (the stats-bar refresh), so we rate-limit instead
+// of gating behind CRON_SECRET. One call per 15s max.
+const COOLDOWN_MS = 15_000;
+let lastFinishedAt = 0;
+
+export async function POST(): Promise<NextResponse> {
+  const now = Date.now();
+  const sinceLast = now - lastFinishedAt;
+  if (sinceLast < COOLDOWN_MS) {
+    const waitSec = Math.ceil((COOLDOWN_MS - sinceLast) / 1000);
+    return NextResponse.json(
+      {
+        ok: false,
+        error: `cooldown active (${waitSec}s remaining)`,
+      },
+      { status: 429, headers: { "Retry-After": String(waitSec) } },
+    );
+  }
+
   try {
-    // recomputeAll itself awaits ensureReady internally, but calling it here
-    // keeps the pattern uniform across every API route.
     await pipeline.ensureReady();
     const summary = await pipeline.recomputeAll();
+    lastFinishedAt = Date.now();
     return NextResponse.json({
       ok: true,
       reposRecomputed: summary.reposRecomputed,

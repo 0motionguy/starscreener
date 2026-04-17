@@ -18,15 +18,19 @@ export const contentType = "image/png";
 
 const DESCRIPTION_MAX = 120;
 const SPARKLINE_MIN_POINTS = 7;
+const SLUG_PART_PATTERN = /^[A-Za-z0-9._-]+$/;
 
 interface RouteParams {
   params: Promise<{ owner: string; name: string }>;
 }
 
 export default async function RepoTwitterImage({ params }: RouteParams) {
-  await pipeline.ensureReady();
   const { owner, name } = await params;
-  const summary = pipeline.getRepoSummary(`${owner}/${name}`);
+  const validSlug =
+    SLUG_PART_PATTERN.test(owner) && SLUG_PART_PATTERN.test(name);
+
+  await pipeline.ensureReady();
+  const summary = validSlug ? pipeline.getRepoSummary(`${owner}/${name}`) : null;
 
   if (!summary) {
     return new ImageResponse(

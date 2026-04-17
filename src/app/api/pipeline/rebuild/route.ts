@@ -38,6 +38,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { pipeline, repoStore } from "@/lib/pipeline/pipeline";
 import { stores as pipelineStores } from "@/lib/pipeline/storage/singleton";
 import { backfillStargazerHistory } from "@/lib/pipeline/ingestion/stargazer-backfill";
+import { backfillFromEvents } from "@/lib/pipeline/ingestion/events-backfill";
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 
 export const dynamic = "force-dynamic";
@@ -128,7 +129,27 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         { maxPages },
       );
       rateLimitRemaining = result.rateLimitRemaining;
-      if (result.skipped) {
+
+      // Fallback for mega-repos (>40k stars) where the stargazer endpoint
+      // hits GitHub's hard list cap. Use the Events API which works for
+      // any repo size (trades depth for universality).
+      if (result.skipped === "exceeds_list_cap") {
+        const ev = await backfillFromEvents(repo.fullName, token, stores, {
+          days: 30,
+          maxPages: 3,
+        });
+        rateLimitRemaining = ev.rateLimitRemaining ?? rateLimitRemaining;
+        backfilled += 1;
+        details.push({
+          fullName: repo.fullName,
+          ok: true,
+          snapshotsWritten: ev.snapshotsWritten,
+          daysCovered: ev.daysCovered,
+          ms: Date.now() - t0,
+          reason: `events-api watch=${ev.watchEventsCounted}`,
+          rateLimitRemaining,
+        });
+      } else if (result.skipped) {
         skipped += 1;
         details.push({
           fullName: repo.fullName,

@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { Flame, TrendingUp, Zap } from "lucide-react";
 import { pipeline } from "@/lib/pipeline/pipeline";
+
+export const dynamic = "force-dynamic";
 import { getDefaultSocialAdapters } from "@/lib/pipeline/adapters/social-adapters";
 import {
   NitterAdapter,

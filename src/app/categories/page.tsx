@@ -7,6 +7,8 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { pipeline } from "@/lib/pipeline/pipeline";
+
+export const dynamic = "force-dynamic";
 import { CATEGORIES } from "@/lib/constants";
 import { getCategoryIcon } from "@/lib/category-icons";
 import { MomentumBadge } from "@/components/shared/MomentumBadge";

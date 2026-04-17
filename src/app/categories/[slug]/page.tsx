@@ -9,6 +9,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { pipeline } from "@/lib/pipeline/pipeline";
+
+export const dynamic = "force-dynamic";
 import { CATEGORIES } from "@/lib/constants";
 import { getCategoryIcon } from "@/lib/category-icons";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";

@@ -8,6 +8,10 @@ import type { Metadata } from "next";
 import { pipeline } from "@/lib/pipeline/pipeline";
 import { TerminalLayout } from "@/components/terminal/TerminalLayout";
 
+// Pipeline state is mutable (cron writes new snapshots hourly). Skip
+// full-route caching so each request sees the current store.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "StarScreener — Repo Momentum Terminal",
   description: "Discover trending GitHub repos before they blow up.",

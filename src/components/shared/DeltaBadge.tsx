@@ -7,6 +7,11 @@ interface DeltaBadgeProps {
   size?: "sm" | "md";
   showBackground?: boolean;
   className?: string;
+  /**
+   * Optional window label (e.g. "24h", "7d", "30d"). When present, renders a
+   * muted suffix so readers can tell a +5% / day from a +5% / week at a glance.
+   */
+  window?: "24h" | "7d" | "30d";
 }
 
 /**
@@ -18,6 +23,7 @@ export function DeltaBadge({
   size = "sm",
   showBackground = false,
   className = "",
+  window,
 }: DeltaBadgeProps) {
   const isPositive = value > 0;
   const isNegative = value < 0;
@@ -64,6 +70,11 @@ export function DeltaBadge({
         />
       )}
       {formatted}
+      {window && (
+        <span className="ml-1 font-normal text-text-tertiary/75">
+          · {window}
+        </span>
+      )}
     </span>
   );
 }

@@ -306,6 +306,24 @@ export function RepoChart({ repo }: RepoChartProps) {
         </ResponsiveContainer>
         )}
       </div>
+
+      {/*
+        Chart-honesty footnote. Today the pipeline only stores per-day star
+        history; forks/contributors curves are derived from that star shape
+        (see buildSeries above). The note makes the estimation explicit
+        instead of letting readers assume the lines are independently tracked.
+      */}
+      {!isSparse &&
+        (visible.forks || visible.contributors) && (
+          <p
+            className="mt-2 text-[10px] text-text-tertiary leading-snug"
+            title="Forks and contributors are reconstructed from star growth, scaled to current totals. Per-day fork/contributor history will arrive in a future pipeline pass."
+          >
+            <span className="font-mono">*</span> Forks and contributors curves
+            are estimated from the star-history shape; only today&apos;s totals
+            are exact.
+          </p>
+        )}
     </section>
   );
 }

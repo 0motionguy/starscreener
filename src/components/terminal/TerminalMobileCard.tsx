@@ -97,8 +97,8 @@ export function TerminalMobileCard({
           "shadow-[inset_0_0_0_1px_rgba(245,110,15,0.3),0_0_16px_-4px_rgba(245,110,15,0.35)]",
       )}
     >
-      {/* Row 1: rank + name + momentum + category */}
-      <div className="flex min-w-0 items-center gap-2">
+      {/* Row 1: rank + name (flex-wraps momentum/category under name on <380px) */}
+      <div className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
         {displayRank <= 3 ? (
           <RankBadge rank={displayRank} size="sm" />
         ) : (
@@ -106,11 +106,13 @@ export function TerminalMobileCard({
             #{displayRank}
           </span>
         )}
-        <span className="min-w-0 flex-1 truncate text-[13px] font-semibold text-text-primary">
+        <span className="min-w-0 flex-1 basis-[60%] truncate text-[13px] font-semibold text-text-primary">
           {repo.fullName}
         </span>
-        <MomentumBadge score={repo.momentumScore} size="sm" />
-        <CategoryPill categoryId={repo.categoryId} size="sm" />
+        <div className="flex items-center gap-2 ml-auto">
+          <MomentumBadge score={repo.momentumScore} size="sm" />
+          <CategoryPill categoryId={repo.categoryId} size="sm" />
+        </div>
       </div>
 
       {/* Row 2: description */}
@@ -126,7 +128,7 @@ export function TerminalMobileCard({
           <Star size={11} className="text-warning" />
           {formatNumber(repo.stars)}
         </span>
-        <DeltaBadge value={delta7dPct} size="sm" />
+        <DeltaBadge value={delta7dPct} size="sm" window="7d" />
         <Sparkline
           data={repo.sparklineData}
           width={72}
@@ -255,7 +257,7 @@ export function TerminalMobileCard({
             <Metric
               icon={<span className="label-micro">24H</span>}
               label=""
-              value={<DeltaBadge value={delta24hPct} size="sm" />}
+              value={<DeltaBadge value={delta24hPct} size="sm" window="24h" />}
             />
             <Metric
               icon={<Users size={11} />}
@@ -265,7 +267,7 @@ export function TerminalMobileCard({
             <Metric
               icon={<span className="label-micro">30D</span>}
               label=""
-              value={<DeltaBadge value={delta30dPct} size="sm" />}
+              value={<DeltaBadge value={delta30dPct} size="sm" window="30d" />}
             />
             <Metric
               icon={<MessageCircle size={11} />}

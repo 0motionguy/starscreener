@@ -49,6 +49,20 @@ export const CATEGORY_WEIGHT_OVERRIDES: Record<string, Partial<ScoreWeights>> = 
     commitFreshness: 0.07,
   },
 
+  // MCP (Model Context Protocol) — the ecosystem is tiny (50-500 stars
+  // typical), discovery is X/Discord/Anthropic-blog driven, and forks are
+  // the strongest adoption signal because "install an MCP" usually means
+  // fork + configure. Under default weights, MCP repos flatline on velocity
+  // components; this override boosts social + forks + contributor growth
+  // and de-emphasizes 24h star spikes which are pure noise at that scale.
+  mcp: {
+    socialBuzz: 0.18,
+    starVelocity24h: 0.10,
+    forkVelocity7d: 0.13,
+    contributorGrowth30d: 0.14,
+    categoryMomentum: 0.10,
+  },
+
   // Developer tools — sustained maintenance and frequent releases signal
   // health more than social buzz does.
   devtools: {

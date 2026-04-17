@@ -65,7 +65,11 @@ export function componentForkVelocity7d(input: ScoringInput): number {
 export function componentContributorGrowth30d(input: ScoringInput): number {
   if (!Number.isFinite(input.contributors) || input.contributors <= 0) return 0;
   const percent = (input.contributorsDelta30d / input.contributors) * 100;
-  return linearNorm(percent, 0, 50);
+  // Tightened from 0-50 to 0-35: 50% monthly contributor growth is extreme
+  // and reachable only for greenfield repos. Top-tier mature AI tooling
+  // grows 10-20%/month, so saturating at 35% gives real mid-growth repos
+  // meaningful score spread instead of hugging zero.
+  return linearNorm(percent, 0, 35);
 }
 
 export function componentCommitFreshness(input: ScoringInput): number {
@@ -111,7 +115,9 @@ export function componentCommunityHealth(input: ScoringInput): number {
 }
 
 export function componentCategoryMomentum(input: ScoringInput): number {
-  return logNorm(input.categoryAvgStarVelocity7d ?? 0, 100);
+  // Raised from 100 to 250 so hot categories (avg 7d star velocity
+  // 300-800 for AI/ML) don't flatline at 100 and erase the signal.
+  return logNorm(input.categoryAvgStarVelocity7d ?? 0, 250);
 }
 
 // ---------------------------------------------------------------------------

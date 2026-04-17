@@ -49,10 +49,15 @@ if (!parsed.success) {
 export const env = parsed.data;
 
 // Production fail-closed: GITHUB_TOKEN and CRON_SECRET are required for a real
-// production boot. Preview deployments set NODE_ENV=production but typically
-// override via STARSCREENER_ALLOW_MISSING_ENV=true when intentionally running
-// a degraded preview (e.g. a mock-data showcase).
-if (env.NODE_ENV === "production") {
+// production boot. Skipped during `next build` (NEXT_PHASE=phase-production-build)
+// because Vercel's build step doesn't have access to the same runtime env by
+// default — we check again at request time via runtime handlers. Preview
+// deployments can override via STARSCREENER_ALLOW_MISSING_ENV=true.
+const IS_BUILD_PHASE =
+  process.env.NEXT_PHASE === "phase-production-build" ||
+  process.env.NEXT_PHASE === "phase-export";
+
+if (env.NODE_ENV === "production" && !IS_BUILD_PHASE) {
   const allowMissing = process.env.STARSCREENER_ALLOW_MISSING_ENV === "true";
   const missing: string[] = [];
   if (!env.GITHUB_TOKEN) missing.push("GITHUB_TOKEN");

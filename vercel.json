@@ -1,14 +1,4 @@
 {
-  "redirects": [
-    {
-      "source": "/",
-      "destination": "https://starscreener-production.up.railway.app/",
-      "permanent": false
-    },
-    {
-      "source": "/:path+",
-      "destination": "https://starscreener-production.up.railway.app/:path+",
-      "permanent": false
-    }
-  ]
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs"
 }

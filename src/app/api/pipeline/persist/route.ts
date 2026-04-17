@@ -1,0 +1,68 @@
+// POST /api/pipeline/persist
+//
+// Manually flushes every pipeline store to disk as JSONL. Returns the byte
+// size of each file so operators can sanity-check that persistence actually
+// wrote data. No-op / empty response when persistence is disabled via
+// `STARSCREENER_PERSIST=false`.
+
+import { promises as fs } from "node:fs";
+import path from "node:path";
+
+import { NextResponse } from "next/server";
+
+import { persistPipeline, pipeline } from "@/lib/pipeline/pipeline";
+import {
+  DATA_DIR,
+  FILES,
+  isPersistenceEnabled,
+} from "@/lib/pipeline/storage/file-persistence";
+
+export interface PersistResponse {
+  ok: true;
+  enabled: boolean;
+  durationMs: number;
+  dataDir: string;
+  files: Record<string, number>;
+}
+
+export async function POST(): Promise<
+  NextResponse<PersistResponse | { ok: false; error: string }>
+> {
+  const startedAt = Date.now();
+  try {
+    const enabled = isPersistenceEnabled();
+    if (enabled) {
+      // Make sure any in-flight hydration settles first so we don't race
+      // against an ensureReady() load that hasn't finished yet.
+      await pipeline.ensureReady();
+      await persistPipeline();
+    }
+
+    const files: Record<string, number> = {};
+    for (const filename of Object.values(FILES)) {
+      const fullPath = path.join(DATA_DIR, filename);
+      try {
+        const stat = await fs.stat(fullPath);
+        files[filename] = stat.size;
+      } catch {
+        // File may not exist when persistence is disabled or before a
+        // store has ever been written — report 0 bytes rather than erroring.
+        files[filename] = 0;
+      }
+    }
+
+    return NextResponse.json({
+      ok: true,
+      enabled,
+      durationMs: Date.now() - startedAt,
+      dataDir: DATA_DIR,
+      files,
+    });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    return NextResponse.json(
+      { ok: false, error: message },
+      { status: 500 },
+    );
+  }
+}

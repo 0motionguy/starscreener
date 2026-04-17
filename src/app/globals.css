@@ -1,26 +1,518 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ---------------------------------------------------------------------------
+   StarScreener Design System — Tailwind 4 CSS-first configuration
+   Dark Void + Liquid Lava dual-accent system.
+   Dark-first: @theme defines dark tokens, .light class overrides for light.
+   --------------------------------------------------------------------------- */
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------------------
+   Theme tokens (dark by default)
+   --------------------------------------------------------------------------- */
+@theme {
+  /* ── Backgrounds (Dark Void palette) ───────────────────────────────────── */
+  --color-bg-primary: #151419;         /* Dark Void */
+  --color-bg-secondary: #1b1b1e;       /* Gluon Grey */
+  --color-bg-tertiary: #262626;        /* Slate Grey */
+  --color-bg-card: #1b1b1e;
+  --color-bg-card-hover: #262626;
+  --color-bg-row-hover: #1f1f22;
+  --color-bg-elevated: #2e2e33;
+  --color-bg-inset: #101014;
+  --color-bg-overlay: rgba(10, 10, 12, 0.78);
+
+  /* ── Text ──────────────────────────────────────────────────────────────── */
+  --color-text-primary: #fbfbfb;       /* Snow */
+  --color-text-secondary: #c4c4c6;
+  --color-text-tertiary: #878787;      /* Dusty Grey */
+  --color-text-muted: #5a5a5c;
+  --color-text-inverse: #151419;
+
+  /* ── Borders ───────────────────────────────────────────────────────────── */
+  --color-border-primary: #2b2b2f;
+  --color-border-secondary: #1f1f23;
+  --color-border-strong: #3a3a3e;
+  --color-border-focus: #f56e0f;
+
+  /* ── Brand accent (Liquid Lava orange) — hero/CTA/momentum-hot ─────────── */
+  --color-brand: #f56e0f;
+  --color-brand-hover: #ff7f1f;
+  --color-brand-active: #d85b00;
+  --color-brand-glow: rgba(245, 110, 15, 0.12);
+  --color-brand-glow-strong: rgba(245, 110, 15, 0.22);
+  --color-brand-subtle: rgba(245, 110, 15, 0.06);
+
+  /* ── Functional accent (Green) — active tab/selected/toggle ON ─────────── */
+  --color-functional: #22c55e;
+  --color-functional-hover: #34d572;
+  --color-functional-glow: rgba(34, 197, 94, 0.12);
+  --color-functional-subtle: rgba(34, 197, 94, 0.06);
+
+  /* ── Deltas ────────────────────────────────────────────────────────────── */
+  --color-up: #22c55e;
+  --color-up-bg: rgba(34, 197, 94, 0.10);
+  --color-down: #ef4444;
+  --color-down-bg: rgba(239, 68, 68, 0.10);
+  --color-warning: #f59e0b;
+  --color-warning-bg: rgba(245, 158, 11, 0.10);
+  --color-info: #3b82f6;
+  --color-info-bg: rgba(59, 130, 246, 0.10);
+
+  /* ── Heat tiers (momentum) ─────────────────────────────────────────────── */
+  --color-heat-hot: #f56e0f;           /* brand orange is the hot tier */
+  --color-heat-warm: #f59e0b;
+  --color-heat-neutral: #878787;
+  --color-heat-cool: #60a5fa;
+
+  /* ── Chart series ──────────────────────────────────────────────────────── */
+  --color-series-1: #60a5fa;
+  --color-series-2: #a855f7;
+  --color-series-3: #f59e0b;
+  --color-series-4: #14b8a6;
+
+  /* ── Terminal surfaces ─────────────────────────────────────────────────── */
+  --color-terminal-row-hover: rgba(245, 110, 15, 0.04);
+  --color-terminal-divider: rgba(42, 42, 58, 0.6);
+
+  /* ── Backwards-compat aliases (migration) ──────────────────────────────── */
+  --color-accent-green: var(--color-functional);
+  --color-accent-red: var(--color-down);
+  --color-accent-blue: var(--color-info);
+  --color-accent-amber: var(--color-warning);
+  --color-accent-purple: #a855f7;
+  --color-accent-cyan: #06b6d4;
+  --color-momentum-hot: var(--color-heat-hot);
+  --color-momentum-warm: var(--color-heat-warm);
+  --color-momentum-neutral: var(--color-heat-neutral);
+  --color-momentum-cool: var(--color-heat-cool);
+
+  /* ── Fonts ─────────────────────────────────────────────────────────────── */
+  --font-sans: var(--font-inter), "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), "JetBrains Mono", ui-monospace, "Cascadia Code", monospace;
+  --font-display: var(--font-space-grotesk), "Space Grotesk", var(--font-inter), "Inter", sans-serif;
+  --font-editorial: var(--font-instrument-serif), "Instrument Serif", ui-serif, Georgia, serif;
+
+  /* ── Type scale ────────────────────────────────────────────────────────── */
+  --text-2xs: 0.625rem;     /* 10px */
+  --text-xs: 0.6875rem;     /* 11px */
+  --text-sm: 0.75rem;       /* 12px */
+  --text-base: 0.8125rem;   /* 13px */
+  --text-md: 0.875rem;      /* 14px */
+  --text-lg: 1rem;          /* 16px */
+  --text-xl: 1.125rem;      /* 18px */
+  --text-2xl: 1.25rem;      /* 20px */
+  --text-3xl: 1.5rem;       /* 24px */
+  --text-4xl: 2rem;         /* 32px */
+  --text-5xl: 3rem;         /* 48px */
+  --text-6xl: 4.5rem;       /* 72px */
+
+  /* ── Weights ───────────────────────────────────────────────────────────── */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-heavy: 800;
+
+  /* ── Line heights ──────────────────────────────────────────────────────── */
+  --leading-tight: 1.1;
+  --leading-snug: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.7;
+
+  /* ── Tracking ──────────────────────────────────────────────────────────── */
+  --tracking-display: -0.02em;
+  --tracking-tight: -0.01em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.05em;
+  --tracking-wider: 0.08em;
+  --tracking-widest: 0.14em;
+
+  /* ── Radii ─────────────────────────────────────────────────────────────── */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-button: 0.5rem;
+  --radius-card: 0.75rem;
+  --radius-card-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --radius-badge: 9999px;
+
+  /* ── Shadows ───────────────────────────────────────────────────────────── */
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4), 0 1px 1px rgba(0, 0, 0, 0.25);
+  --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.4);
+  --shadow-row-hover: inset 3px 0 0 var(--color-functional);
+  --shadow-overlay: 0 24px 48px rgba(0, 0, 0, 0.55), 0 2px 6px rgba(0, 0, 0, 0.35);
+  --shadow-popover: 0 12px 32px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.35);
+  --shadow-glow-orange: 0 0 0 1px rgba(245, 110, 15, 0.4), 0 0 16px rgba(245, 110, 15, 0.35);
+  --shadow-glow-green: 0 0 0 1px rgba(34, 197, 94, 0.35), 0 0 12px rgba(34, 197, 94, 0.25);
+
+  /* ── Animations ────────────────────────────────────────────────────────── */
+  --animate-fade-in: fade-in 0.3s ease-out forwards;
+  --animate-slide-up: slide-up 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  --animate-slide-in-left: slide-in-left 0.28s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  --animate-slide-in-right: slide-in-right 0.28s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  --animate-pulse-glow: pulse-glow 2.2s ease-in-out infinite;
+  --animate-heat-border: heat-border 1.8s ease-in-out infinite;
+  --animate-heat-pulse: heat-border 1.8s ease-in-out infinite; /* alias */
+  --animate-brand-pulse: brand-pulse 2.4s ease-in-out infinite;
+  --animate-shimmer: shimmer 1.6s linear infinite;
+  --animate-tick: tick 0.4s ease-out;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ---------------------------------------------------------------------------
+   Keyframes
+   --------------------------------------------------------------------------- */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 4px rgba(245, 110, 15, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 18px rgba(245, 110, 15, 0.5);
+  }
+}
+
+@keyframes heat-border {
+  0%,
+  100% {
+    border-color: rgba(245, 110, 15, 0.3);
+  }
+  50% {
+    border-color: rgba(245, 110, 15, 0.85);
+  }
+}
+
+@keyframes brand-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 1px rgba(245, 110, 15, 0.35), 0 0 14px rgba(245, 110, 15, 0.28);
+  }
+  50% {
+    box-shadow: 0 0 0 1px rgba(245, 110, 15, 0.55), 0 0 24px rgba(245, 110, 15, 0.45);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes tick {
+  0% {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-2px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Light theme overrides — warm off-white so Liquid Lava stays brand, not alert
+   --------------------------------------------------------------------------- */
+.light {
+  /* Backgrounds (warm off-white) */
+  --color-bg-primary: #f7f6f2;
+  --color-bg-secondary: #efede6;
+  --color-bg-tertiary: #e4e2da;
+  --color-bg-card: #ffffff;
+  --color-bg-card-hover: #f2f0e9;
+  --color-bg-row-hover: #efede6;
+  --color-bg-elevated: #ffffff;
+  --color-bg-inset: #ecebe4;
+  --color-bg-overlay: rgba(30, 28, 24, 0.55);
+
+  /* Text */
+  --color-text-primary: #151419;
+  --color-text-secondary: #3d3c44;
+  --color-text-tertiary: #6a6a70;
+  --color-text-muted: #9a9aa1;
+  --color-text-inverse: #fbfbfb;
+
+  /* Borders */
+  --color-border-primary: #d7d4c8;
+  --color-border-secondary: #e4e2da;
+  --color-border-strong: #b7b4a6;
+  --color-border-focus: #d85b00;
+
+  /* Brand stays Liquid Lava but slightly darker for AA on warm white */
+  --color-brand: #e85d00;
+  --color-brand-hover: #f56e0f;
+  --color-brand-active: #b94a00;
+  --color-brand-glow: rgba(232, 93, 0, 0.12);
+  --color-brand-glow-strong: rgba(232, 93, 0, 0.22);
+  --color-brand-subtle: rgba(232, 93, 0, 0.07);
+
+  /* Functional green */
+  --color-functional: #16a34a;
+  --color-functional-hover: #22c55e;
+  --color-functional-glow: rgba(22, 163, 74, 0.14);
+  --color-functional-subtle: rgba(22, 163, 74, 0.08);
+
+  /* Deltas */
+  --color-up: #16a34a;
+  --color-up-bg: rgba(22, 163, 74, 0.12);
+  --color-down: #dc2626;
+  --color-down-bg: rgba(220, 38, 38, 0.10);
+  --color-warning: #d97706;
+  --color-warning-bg: rgba(217, 119, 6, 0.12);
+  --color-info: #2563eb;
+  --color-info-bg: rgba(37, 99, 235, 0.10);
+
+  /* Heat tiers */
+  --color-heat-hot: #e85d00;
+  --color-heat-warm: #d97706;
+  --color-heat-neutral: #6a6a70;
+  --color-heat-cool: #2563eb;
+
+  /* Terminal surfaces */
+  --color-terminal-row-hover: rgba(232, 93, 0, 0.05);
+  --color-terminal-divider: rgba(120, 115, 100, 0.25);
+
+  /* Shadows lighter, more spread */
+  --shadow-card: 0 1px 3px rgba(20, 18, 14, 0.08), 0 1px 2px rgba(20, 18, 14, 0.05);
+  --shadow-card-hover: 0 10px 30px rgba(20, 18, 14, 0.12), 0 4px 12px rgba(20, 18, 14, 0.08);
+  --shadow-overlay: 0 24px 48px rgba(20, 18, 14, 0.18), 0 2px 6px rgba(20, 18, 14, 0.1);
+  --shadow-popover: 0 12px 32px rgba(20, 18, 14, 0.15), 0 2px 6px rgba(20, 18, 14, 0.08);
+}
+
+/* ---------------------------------------------------------------------------
+   Base styles
+   --------------------------------------------------------------------------- */
+html {
+  color-scheme: dark;
+}
+
+html.light {
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  border-color: var(--color-border-primary);
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---------------------------------------------------------------------------
+   App shell — CSS grid wrapper driven by AppShell's data-mode attribute
+   --------------------------------------------------------------------------- */
+.app-shell {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: calc(100vh - 56px);
+}
+
+.app-shell[data-mode="focused"] {
+  grid-template-columns: 56px 1fr;
+}
+
+@media (max-width: 767px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+  .app-shell > aside {
+    display: none;
+  }
+}
+
+.app-main {
+  min-width: 0;
+  padding-bottom: 80px;
+}
+
+@media (min-width: 768px) {
+  .app-main {
+    padding-bottom: 0;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Utility classes
+   --------------------------------------------------------------------------- */
+
+/* Hide scrollbar (horizontal scroll areas) */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Tabular numerals — stable column widths for numeric data */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* Terminal-style text: mono + tabular + tight */
+.font-terminal {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+  letter-spacing: var(--tracking-tight);
+}
+
+/* Display type — Space Grotesk heavy for hero / section titles */
+.font-display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: var(--tracking-display);
+  line-height: var(--leading-tight);
+}
+
+/* Editorial type — Instrument Serif italic for magazine-style pull quotes */
+.font-editorial {
+  font-family: var(--font-editorial);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: var(--tracking-tight);
+}
+
+/* Micro label: 10px mono uppercase, widest tracking, tertiary text */
+.label-micro {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-widest);
+  color: var(--color-text-tertiary);
+}
+
+/* Section label: 11px mono uppercase, wider tracking, secondary text */
+.label-section {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+  color: var(--color-text-secondary);
+}
+
+/* Terminal row hover: tint bg + green inset-left rail on hover */
+.row-hover {
+  transition:
+    background-color 150ms ease-out,
+    box-shadow 150ms ease-out;
+}
+
+.row-hover:hover {
+  background-color: var(--color-bg-row-hover);
+  box-shadow: var(--shadow-row-hover);
+}
+
+/* Utility shadow: orange brand glow for hero cards / momentum hot */
+.glow-orange {
+  box-shadow: var(--shadow-glow-orange);
+}
+
+/* Utility shadow: green functional glow for active / selected states */
+.glow-green {
+  box-shadow: var(--shadow-glow-green);
+}
+
+/* SVG noise grain overlay for editorial / featured card texture */
+.grain {
+  position: relative;
+  isolation: isolate;
+}
+
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.08;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-size: 160px 160px;
+}
+
+.light .grain::after {
+  mix-blend-mode: multiply;
+  opacity: 0.06;
+}
+
+/* Dashed horizontal divider for editorial sections */
+.divider-dashed {
+  display: block;
+  width: 100%;
+  height: 0;
+  border: 0;
+  border-top: 1px dashed var(--color-terminal-divider);
+}
+
+/* Respect reduced motion preference globally for our animations */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }

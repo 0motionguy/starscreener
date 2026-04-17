@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# StarScreener
 
-## Getting Started
+**The repo momentum terminal.** Dexscreener-style dense scanning UI for GitHub repos with live momentum scoring, breakout detection, category heat, and social signal aggregation.
 
-First, run the development server:
+![License](https://img.shields.io/badge/license-MIT-green)
+
+## What it does
+
+- Tracks 300+ curated GitHub repos across 10 categories
+- Computes a 0-100 momentum score from star velocity, fork growth, contributor growth, commit/release freshness, social buzz, with anti-spam dampening and breakout/quiet-killer detection
+- Surfaces trending movers, breakouts, quiet killers, fresh releases, rank climbers
+- Ingests social signals from Hacker News (Algolia API), Reddit (public JSON), and GitHub issue mentions
+- Watchlist + alerts with rule-based trigger evaluation
+
+## Stack
+
+Next.js 15 App Router . React 19 . TypeScript strict . Tailwind 4 . Recharts . Zustand (persist) . Framer Motion . Lucide . next-themes . JSONL file persistence . native fetch (no Octokit)
+
+## Quick start
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env.local   # fill in GITHUB_TOKEN + CRON_SECRET
+npm run dev -- -p 3008
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3008
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Seed the pipeline with real data (optional)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+curl -X POST -H "Authorization: Bearer $CRON_SECRET" http://localhost:3008/api/cron/seed
+```
 
-## Learn More
+Without `GITHUB_TOKEN`, the pipeline uses mock data (80 realistic repos) so the UI still works.
 
-To learn more about Next.js, take a look at the following resources:
+## Directory structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+src/
+├── app/              # Next.js App Router (pages + API routes)
+├── components/       # React components
+│   ├── terminal/     # Terminal table, FilterBar, FeaturedCards
+│   ├── detail/       # Repo detail page sections
+│   ├── layout/       # Sidebar, Header, MobileNav
+│   └── shared/       # Primitive UI
+├── lib/
+│   ├── pipeline/     # Data layer
+│   │   ├── adapters/       # GitHub + social adapters
+│   │   ├── ingestion/      # ingest, snapshotter, scheduler
+│   │   ├── scoring/        # momentum engine + components
+│   │   ├── classification/ # rule-based classifier
+│   │   ├── reasons/        # why-it's-moving generator
+│   │   ├── alerts/         # rule eval + digest
+│   │   ├── queries/        # query service
+│   │   └── storage/        # in-memory + JSONL persistence
+│   ├── hooks/        # useFilteredRepos, useSortedRepos
+│   └── store.ts      # Zustand stores
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Commands
 
-## Deploy on Vercel
+- `npm run dev` — start dev server (use `-- -p 3008` to pick a port)
+- `npm run build` — production build
+- `npm run start` — serve production build
+- `npm test` — run pipeline unit tests
+- `npm run typecheck` — TypeScript check
+- `npm run seed` — seed pipeline via `/api/cron/seed` (requires `CRON_SECRET`)
+- `npm run ingest:hot` / `ingest:warm` / `ingest:cold` — trigger tier ingestion
+- `npm run recompute` — trigger pipeline score recomputation
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## API
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `GET /api/repos` — list trending repos (window, filter, category, sort)
+- `GET /api/repos/[owner]/[name]` — full repo detail + score + reasons + mentions
+- `GET /api/search?q=...` — fuzzy search
+- `GET /api/pipeline/status` — pipeline health
+- `POST /api/pipeline/recompute` — trigger score recomputation
+- `POST /api/pipeline/ingest` — ingest specific repos (body: `{ fullNames: [...] }`)
+- `GET /api/pipeline/featured?limit=8` — featured trending cards
+- `GET /api/pipeline/meta-counts` — meta filter counts
+- `GET /api/pipeline/alerts?userId=local` — recent alert events
+- `GET/POST/DELETE /api/pipeline/alerts/rules` — alert rule CRUD
+- `POST /api/cron/ingest?tier=hot|warm|cold` — cron-protected tier ingestion
+- `POST /api/cron/seed` — one-shot seed from curated list
+
+See [docs/API.md](./docs/API.md) for full request/response schemas.
+
+## Docs
+
+- [INGESTION.md](./docs/INGESTION.md) — how real GitHub ingestion works
+- [DEPLOY.md](./docs/DEPLOY.md) — Vercel deployment walkthrough
+- [ARCHITECTURE.md](./docs/ARCHITECTURE.md) — pipeline internals
+- [DATABASE.md](./docs/DATABASE.md) — migration path from in-memory to Postgres
+- [API.md](./docs/API.md) — per-endpoint API reference
+
+## License
+
+MIT — see [LICENSE](./LICENSE).

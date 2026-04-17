@@ -39,3 +39,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# runtime data (live ingestion state — regenerated per env from /api/cron/seed)
+/.data/
+
+# local Claude Code workspace (agent prompts, skills, settings)
+/.claude/
+
+# mcp workspace build artifacts + installed deps
+/mcp/node_modules/
+/mcp/dist/

@@ -2,26 +2,52 @@
   "name": "starscreener-app",
   "version": "0.1.0",
   "private": true,
+  "bin": {
+    "ss": "./bin/ss.mjs"
+  },
   "scripts": {
+    "cli:dev": "node bin/ss.mjs",
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "tsx --test src/lib/pipeline/__tests__/*.test.ts",
+    "typecheck": "tsc --noEmit",
+    "seed": "curl -X POST -H \"Authorization: Bearer $CRON_SECRET\" http://localhost:3008/api/cron/seed",
+    "ingest:hot": "curl -X POST -H \"Authorization: Bearer $CRON_SECRET\" http://localhost:3008/api/cron/ingest?tier=hot",
+    "ingest:warm": "curl -X POST -H \"Authorization: Bearer $CRON_SECRET\" http://localhost:3008/api/cron/ingest?tier=warm",
+    "ingest:cold": "curl -X POST -H \"Authorization: Bearer $CRON_SECRET\" http://localhost:3008/api/cron/ingest?tier=cold",
+    "recompute": "curl -X POST http://localhost:3008/api/pipeline/recompute",
+    "ingest:sample": "curl -X POST http://localhost:3008/api/pipeline/ingest -H 'Content-Type: application/json' -d '{\"fullNames\":[\"vercel/next.js\",\"ollama/ollama\",\"anthropics/claude-code\"]}'",
+    "reset:data": "node scripts/reset-data.mjs",
+    "sync:all": "curl -X POST -H \"Authorization: Bearer $CRON_SECRET\" http://localhost:3008/api/cron/seed && curl -X POST -H \"Authorization: Bearer $CRON_SECRET\" http://localhost:3008/api/cron/ingest?tier=hot && curl -X POST -H \"Authorization: Bearer $CRON_SECRET\" http://localhost:3008/api/cron/ingest?tier=warm && curl -X POST -H \"Authorization: Bearer $CRON_SECRET\" http://localhost:3008/api/cron/ingest?tier=cold",
+    "backfill:history": "curl -X POST -H \"Authorization: Bearer $CRON_SECRET\" -H \"Content-Type: application/json\" -d",
+    "backfill:top": "curl -X POST -H \"Authorization: Bearer $CRON_SECRET\" http://localhost:3008/api/cron/backfill-top?n=20",
+    "mcp:build": "cd mcp && npm install && npm run build",
+    "mcp:dev": "cd mcp && npm run dev"
   },
   "dependencies": {
+    "framer-motion": "^12.38.0",
+    "lucide-react": "^1.8.0",
+    "next": "15.5.15",
+    "next-themes": "^0.4.6",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "next": "15.5.15"
+    "recharts": "^3.8.1",
+    "sonner": "^2.0.7",
+    "zod": "^4.3.6",
+    "zustand": "^5.0.12"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4",
     "eslint": "^9",
     "eslint-config-next": "15.5.15",
-    "@eslint/eslintrc": "^3"
+    "tailwindcss": "^4",
+    "tsx": "^4.21.0",
+    "typescript": "^5"
   }
 }

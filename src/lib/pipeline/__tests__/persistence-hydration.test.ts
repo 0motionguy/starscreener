@@ -118,7 +118,9 @@ function mockRepo(id = "acme--rocket"): Repo {
 
 function mockSnapshot(repoId: string, capturedAt: string): RepoSnapshot {
   return {
-    id: `${repoId}:${capturedAt}`,
+    // Composite id: `${repoId}:${capturedAt}:${source}`. Legacy 2-part ids
+    // are rewritten by hydrate() to this shape.
+    id: `${repoId}:${capturedAt}:mock`,
     repoId,
     capturedAt,
     source: "mock",

@@ -48,7 +48,7 @@ function placesGainedFromReason(repoId: string): number | null {
  */
 export function getMetaCounts(): MetaCounts {
   const now = Date.now();
-  const all = repoStore.getAll();
+  const all = repoStore.getActive();
 
   let hot = 0;
   let breakouts = 0;
@@ -131,7 +131,7 @@ export function getRankClimbers(
   limit: number = 10,
 ): Array<{ repo: Repo; rankDelta: number }> {
   const lim = Math.max(0, limit);
-  const all = repoStore.getAll();
+  const all = repoStore.getActive();
 
   // Reason-backed path.
   const byReason: Array<{ repo: Repo; rankDelta: number }> = [];
@@ -165,7 +165,7 @@ export function getFreshReleases(hoursBack: number, limit: number): Repo[] {
   const hours = Math.max(0, hoursBack);
   const lim = Math.max(0, limit);
   const cutoff = now - hours * MS_PER_HOUR;
-  const all = repoStore.getAll();
+  const all = repoStore.getActive();
 
   // Reason-backed first.
   const reasoned: Repo[] = [];

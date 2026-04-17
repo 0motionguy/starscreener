@@ -154,7 +154,32 @@ export async function ingestRepo(
  * Ingest a batch of repos sequentially with a small delay between each. Stops
  * early if the GitHub rate limit hits zero. Returns the aggregate outcome.
  */
+// Module-level mutex. The app runs as a single long-lived Node.js process
+// (Railway / Fly / Render — Vercel serverless doesn't hold state anyway),
+// and two concurrent batches race on the GitHub rate limit and produce
+// non-deterministic snapshot ordering. Serializing batches keeps both
+// concerns clean without distributed-lock complexity.
+let batchInFlight: Promise<IngestBatchResult> | null = null;
+
 export async function ingestBatch(
+  fullNames: string[],
+  opts: IngestBatchOptions,
+): Promise<IngestBatchResult> {
+  if (batchInFlight) {
+    // Wait for the in-flight batch to finish, then run ours. This keeps
+    // simultaneous /api/cron/ingest and /api/pipeline/ingest calls deterministic.
+    await batchInFlight.catch(() => {});
+  }
+  const run = runIngestBatch(fullNames, opts);
+  batchInFlight = run;
+  try {
+    return await run;
+  } finally {
+    if (batchInFlight === run) batchInFlight = null;
+  }
+}
+
+async function runIngestBatch(
   fullNames: string[],
   opts: IngestBatchOptions,
 ): Promise<IngestBatchResult> {
@@ -261,7 +286,7 @@ function buildSnapshot(
   capturedAt: string,
 ): RepoSnapshot {
   return {
-    id: `${repo.id}:${capturedAt}`,
+    id: `${repo.id}:${capturedAt}:${source}`,
     repoId: repo.id,
     capturedAt,
     source,
@@ -301,6 +326,10 @@ function mergePreserving(existing: Repo | undefined, fresh: Repo): Repo {
     sparklineData: existing.sparklineData,
     socialBuzzScore: existing.socialBuzzScore,
     mentionCount24h: existing.mentionCount24h,
+    // Tags are owned downstream by deriveTags(); preserve across fresh upserts.
+    tags: existing.tags ?? fresh.tags ?? [],
+    archived: existing.archived,
+    deleted: existing.deleted,
   };
 }
 

@@ -94,6 +94,14 @@ export class InMemoryRepoStore implements RepoStore {
   private dirty = false;
 
   upsert(repo: Repo): void {
+    // Rename detection: if the same id already exists under a different
+    // fullName, drop the stale byFullName key before writing the new one.
+    // Without this, GitHub repo renames (e.g. vercel/next -> vercel/next.js)
+    // leave an orphan lookup that can return a different repo later.
+    const prior = this.byId.get(repo.id);
+    if (prior && prior.fullName !== repo.fullName) {
+      this.byFullName.delete(prior.fullName);
+    }
     this.byId.set(repo.id, repo);
     this.byFullName.set(repo.fullName, repo.id);
     this.markDirty();
@@ -106,6 +114,18 @@ export class InMemoryRepoStore implements RepoStore {
 
   getAll(): Repo[] {
     return Array.from(this.byId.values());
+  }
+
+  /**
+   * Repos not flagged `deleted`. Use for user-facing queries; use `getAll()`
+   * for operational paths (cleanup, scheduler) that need to see tombstones.
+   */
+  getActive(): Repo[] {
+    const out: Repo[] = [];
+    for (const repo of this.byId.values()) {
+      if (repo.deleted !== true) out.push(repo);
+    }
+    return out;
   }
 
   getByFullName(fullName: string): Repo | undefined {
@@ -224,10 +244,28 @@ export class InMemorySnapshotStore implements SnapshotStore {
 
   async hydrate(): Promise<void> {
     const items = await readJsonlFile<RepoSnapshot>(FILES.snapshots);
+    let migrated = 0;
     for (const item of items) {
+      // Legacy IDs were `${repoId}:${capturedAt}` — missing the `:source`
+      // suffix that disambiguates snapshots captured at the same ms from
+      // different sources (e.g. github + mock during mock-replay testing).
+      // Rewrite on load and mark dirty so the next persist flushes the
+      // upgraded shape.
+      const expectedSuffix = `:${item.source}`;
+      if (!item.id.endsWith(expectedSuffix)) {
+        item.id = `${item.repoId}:${item.capturedAt}:${item.source}`;
+        migrated += 1;
+      }
       this.append(item);
     }
-    this.dirty = false;
+    if (migrated > 0) {
+      console.info(
+        `[snapshot-store] migrated ${migrated} legacy snapshot ids to composite shape`,
+      );
+      this.dirty = true;
+    } else {
+      this.dirty = false;
+    }
   }
 }
 

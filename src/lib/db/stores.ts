@@ -56,6 +56,9 @@ export class PostgresRepoStore implements RepoStore {
   getAll(): Repo[] {
     throw NOT_IMPLEMENTED;
   }
+  getActive(): Repo[] {
+    throw NOT_IMPLEMENTED;
+  }
   getByFullName(_fullName: string): Repo | undefined {
     throw NOT_IMPLEMENTED;
   }

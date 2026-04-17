@@ -279,7 +279,7 @@ export function getFeaturedTrending(opts?: {
 
   // Build the candidate pool. When metaFilter is set, narrow the pool
   // up-front — every downstream picker respects this scope.
-  let pool = repoStore.getAll();
+  let pool = repoStore.getActive();
   if (metaFilter) {
     pool = applyMetaFilter(pool, metaFilter);
   }

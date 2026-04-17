@@ -45,7 +45,7 @@ export interface TopMoversAllWindows {
  */
 export function getCategoryStats(): CategoryStats[] {
   const byCategory = new Map<string, Repo[]>();
-  for (const repo of repoStore.getAll()) {
+  for (const repo of repoStore.getActive()) {
     const list = byCategory.get(repo.categoryId);
     if (list) {
       list.push(repo);
@@ -95,7 +95,7 @@ export function getCategoryStats(): CategoryStats[] {
  * "when did the pipeline last run". Null when no scores have been computed.
  */
 export function getGlobalStats(): GlobalStats {
-  const all = repoStore.getAll();
+  const all = repoStore.getActive();
 
   const totalRepos = all.length;
   let totalStars = 0;

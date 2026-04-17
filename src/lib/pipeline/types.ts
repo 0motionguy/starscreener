@@ -79,7 +79,7 @@ export interface IngestBatchResult {
 
 /** Point-in-time metrics for a repo. One per capture interval. */
 export interface RepoSnapshot {
-  id: string;                    // `${repoId}:${capturedAt}`
+  id: string;                    // `${repoId}:${capturedAt}:${source}`
   repoId: string;
   capturedAt: string;            // ISO 8601
   source: "github" | "mock";
@@ -443,7 +443,10 @@ export interface SocialAdapter {
 export interface RepoStore {
   upsert(repo: Repo): void;
   get(repoId: string): Repo | undefined;
+  /** Returns every record, including tombstoned ones (deleted/archived). */
   getAll(): Repo[];
+  /** Excludes records flagged `deleted: true`. Prefer this for user-facing queries. */
+  getActive(): Repo[];
   getByFullName(fullName: string): Repo | undefined;
 }
 

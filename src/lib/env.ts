@@ -48,18 +48,29 @@ if (!parsed.success) {
 
 export const env = parsed.data;
 
-// Production-only advisories. These are recommended but not required so
-// preview deployments and local smoke tests keep working.
+// Production fail-closed: GITHUB_TOKEN and CRON_SECRET are required for a real
+// production boot. Preview deployments set NODE_ENV=production but typically
+// override via STARSCREENER_ALLOW_MISSING_ENV=true when intentionally running
+// a degraded preview (e.g. a mock-data showcase).
 if (env.NODE_ENV === "production") {
-  if (!env.GITHUB_TOKEN) {
-    console.warn(
-      "[env] GITHUB_TOKEN missing \u2014 pipeline will use mock data",
-    );
-  }
-  if (!env.CRON_SECRET) {
-    console.warn(
-      "[env] CRON_SECRET missing \u2014 cron endpoints unprotected",
-    );
+  const allowMissing = process.env.STARSCREENER_ALLOW_MISSING_ENV === "true";
+  const missing: string[] = [];
+  if (!env.GITHUB_TOKEN) missing.push("GITHUB_TOKEN");
+  if (!env.CRON_SECRET) missing.push("CRON_SECRET");
+
+  if (missing.length > 0) {
+    if (allowMissing) {
+      console.warn(
+        `[env] ${missing.join(", ")} missing in production but STARSCREENER_ALLOW_MISSING_ENV=true \u2014 continuing with degraded surface`,
+      );
+    } else {
+      console.error(
+        `[env] Production boot aborted: missing required env vars: ${missing.join(", ")}. Set them or set STARSCREENER_ALLOW_MISSING_ENV=true to override.`,
+      );
+      throw new Error(
+        `Production boot aborted: missing ${missing.join(", ")}`,
+      );
+    }
   }
 }
 

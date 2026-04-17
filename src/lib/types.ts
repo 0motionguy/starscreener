@@ -53,6 +53,14 @@ export interface Repo {
   sparklineData: number[]; // 30 data points (daily star counts)
   socialBuzzScore: number; // 0-100
   mentionCount24h: number;
+
+  /** Set by /api/pipeline/cleanup when GitHub reports the repo archived/disabled. */
+  archived?: boolean;
+  /** Set by /api/pipeline/cleanup when the upstream fetch returns 404. */
+  deleted?: boolean;
+
+  /** Tags (flat, multi-label). Populated by `deriveTags` during classify pass. */
+  tags?: string[];
 }
 
 export interface Category {

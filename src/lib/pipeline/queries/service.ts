@@ -86,7 +86,7 @@ export function getTopMovers(
   limit = 25,
   filter: TrendFilter = "all",
 ): Repo[] {
-  const all = repoStore.getAll();
+  const all = repoStore.getActive();
   const filtered = applyTrendFilter(all, filter);
   const sorted = sortByWindowDesc(filtered, window);
   return sorted.slice(0, Math.max(0, limit));
@@ -293,7 +293,7 @@ export function searchReposByQuery(
   const categoryId = options?.categoryId;
   const limit = options?.limit;
 
-  const matches = repoStore.getAll().filter((r) => {
+  const matches = repoStore.getActive().filter((r) => {
     if (categoryId && r.categoryId !== categoryId) return false;
     if (r.fullName.toLowerCase().includes(q)) return true;
     if ((r.description ?? "").toLowerCase().includes(q)) return true;

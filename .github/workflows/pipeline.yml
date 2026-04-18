@@ -41,16 +41,17 @@ jobs:
       - name: Resolve tier from trigger
         id: tier
         run: |
-          # Interim: */15 fires warm instead of hot because the hot-tier
-          # assignTier filter returns zero repos under the current seed
-          # (verified 2026-04-18 — tier=hot returns processed:0 in 5ms,
-          # so every /api/health verify step fails). Route */15 to warm
-          # until P0.3 populates the hot tier from WATCHLIST_SEED.md.
+          # P0.3 landed in commit 91bb5f7 (PR #3): curated AI watchlist
+          # now populates the hot tier via TierContext.isWatchlisted.
+          # Verified 2026-04-18 post-deploy — /api/cron/ingest?tier=hot
+          # returned processed:50 in 55s with rateLimitRemaining:4780.
+          # Reverting the interim warm-routing from commit 8771186 so
+          # the curated watchlist gets its intended sub-15min cadence.
           case "${{ github.event.schedule }}" in
-            '*/15 * * * *') echo "tier=warm" >> "$GITHUB_OUTPUT" ;;
+            '*/15 * * * *') echo "tier=hot" >> "$GITHUB_OUTPUT" ;;
             '17 */6 * * *') echo "tier=warm" >> "$GITHUB_OUTPUT" ;;
             '23 8 * * *')   echo "tier=cold" >> "$GITHUB_OUTPUT" ;;
-            *)              echo "tier=${{ github.event.inputs.tier || 'warm' }}" >> "$GITHUB_OUTPUT" ;;
+            *)              echo "tier=${{ github.event.inputs.tier || 'hot' }}" >> "$GITHUB_OUTPUT" ;;
           esac
 
       - name: Ingest ${{ steps.tier.outputs.tier }}

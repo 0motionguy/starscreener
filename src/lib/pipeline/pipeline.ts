@@ -51,6 +51,7 @@ import {
   validateRule,
   type CreateRuleInput,
 } from "./alerts/rule-management";
+import { deliverAlertsViaEmail } from "../email/deliver";
 
 import {
   getBreakouts,
@@ -304,6 +305,17 @@ function recomputeAll(): RecomputeSummary {
       repoId: ev.repoId,
       fullName: repo.fullName,
       condition: ev.trigger,
+    });
+  }
+
+  // P0.1: fire-and-forget email delivery. No-op when
+  // RESEND_API_KEY / ALERT_EMAIL_TO are unset (dev, pre-DNS-propagation).
+  // Errors are logged by the delivery layer — we don't propagate them
+  // so a Resend outage can't wedge the recompute loop.
+  if (firedEvents.length > 0) {
+    const repoLookup = new Map(rankedRepos.map((r) => [r.id, r]));
+    deliverAlertsViaEmail(firedEvents, repoLookup).catch((err) => {
+      console.error("[pipeline] email delivery threw (non-fatal)", err);
     });
   }
 

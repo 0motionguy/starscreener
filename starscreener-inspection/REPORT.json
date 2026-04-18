@@ -1,0 +1,248 @@
+{
+  "meta": {
+    "audit_date": "2026-04-18",
+    "audit_scope": "read-only exhaustive inspection of Star Screener monorepo",
+    "repo_age_days": 1,
+    "repo_commit_count_same_day": 14,
+    "commit_range": "initial Create-Next-App scaffold through 2026-04-17",
+    "branch": "main",
+    "subagents_dispatched": 11,
+    "subagents_completed": 11,
+    "detail_files": {
+      "cartography": "starscreener-inspection/cartography.json",
+      "sources": "starscreener-inspection/sources.json",
+      "trend": "starscreener-inspection/trend.json",
+      "classifier": "starscreener-inspection/classifier.json",
+      "filters": "starscreener-inspection/filters.json",
+      "alerts": "starscreener-inspection/alerts.json",
+      "latency": "starscreener-inspection/latency.json",
+      "storage": "starscreener-inspection/storage.json",
+      "observability": "starscreener-inspection/observability.json",
+      "moat": "starscreener-inspection/moat.json",
+      "truth": "starscreener-inspection/truth.json"
+    },
+    "limitations": [
+      "web tools were blocked in the moat-scanner sandbox — every competitor claim in moat.json is tagged LIVE_CHECK_REQUIRED and must be re-verified with live URLs before external quotation",
+      "backtest against historical GH Archive was not run (no BigQuery access); trend-engine backtest is based on the code's behavior against the existing .data/ JSONL state only"
+    ]
+  },
+
+  "headline": {
+    "one_sentence": "StarScreener is a well-architected 1-day-old prototype that ships a convincing UI on top of an almost-entirely-unfired pipeline: no cron scheduler is wired, no alerts are delivered, the AI classifier is stale, the momentum math has untested components, and ~96% of seeded repos have flat-zero sparklines because the 400-page stargazer cap makes them invisible.",
+    "tier_today": "hourly (in practice: manual)",
+    "p50_event_to_ui_sec": 86400,
+    "p95_event_to_ui_sec": 604800,
+    "catches_breakout_in_progress": false,
+    "alert_delivery_rate": "0%",
+    "ai_recall_estimated": "~35% today, ~55-65% after a fresh pipeline run, ~75% ceiling without seed additions",
+    "observability_grade": "D"
+  },
+
+  "subsystems": [
+    { "id": "ingestion", "wire": "GitHub REST via native fetch", "status": "implemented, not scheduled", "single_point_of_failure": "one GITHUB_TOKEN" },
+    { "id": "scheduler", "wire": "declared hot/warm/cold in src/lib/pipeline/ingestion/scheduler.ts:16-20", "status": "POLICY-ONLY, not wired (no vercel crons, no GH Actions, no railway.toml, no Procfile)" },
+    { "id": "stargazer_backfill", "wire": "GitHub /repos/:o/:r/stargazers (caps at 400 pages / 40k stars)", "status": "shipped; endpoint /api/cron/backfill-top exists, not scheduled" },
+    { "id": "events_backfill", "wire": "GitHub /repos/:o/:r/events fallback for mega-repos", "status": "shipped; silently truncates on non-2xx (events-backfill.ts:103 `if (!res.ok) break` with no log)" },
+    { "id": "social_mentions", "wire": "HN Algolia + Reddit public JSON + Nitter RSS + GitHub code-search", "status": "live-on-demand only; .data/mentions.jsonl is empty; never persisted" },
+    { "id": "storage", "wire": "JSONL in .data/ via in-memory Map + debounced (2s) atomic rewrite", "status": "works at 1x; breaks at 100x (~1.4GB snapshots file)" },
+    { "id": "scoring", "wire": "synchronous recompute of 10 components * weights * modifiers (src/lib/pipeline/scoring/engine.ts:229-239)", "status": "implemented; 0 unit tests on scoring engine; antiSpamDampening=1.0 in every stored row" },
+    { "id": "classifier", "wire": "rule-based on topics (+30), description (+15), name (+10), owner (+50) * weight(1.0-2.0)", "status": "implemented; persisted .data/categories.jsonl is stale (predates recent AI-focus seed additions)" },
+    { "id": "alerts", "wire": "8 triggers + cooldown engine in src/lib/pipeline/alerts/; SSE emit server-only; no browser consumer", "status": "engine shipped + 17 tests; delivery rate 0%" },
+    { "id": "sse_stream", "wire": "/api/stream long-lived Node process; Vercel-incompatible", "status": "alive on Railway, zero browser subscribers" },
+    { "id": "mcp", "wire": "8 read-only discovery tools in mcp/src/server.ts against the REST facade", "status": "shipped; no alert/watch tools" },
+    { "id": "cli", "wire": "bin/ss.mjs thin HTTP client (byte-identical to cli/ss.mjs)", "status": "shipped; duplicate file is a drift risk" },
+    { "id": "ui", "wire": "Next.js 15 App Router, React 19, Zustand, Tailwind v4", "status": "shipped" },
+    { "id": "observability", "wire": "console.* + one structured JSON log line per cron run; no SDK", "status": "grade D; status endpoint returns 200 on a dead pipeline" }
+  ],
+
+  "sources": [
+    { "id": "github_rest", "wire": "REST", "auth": "single PAT (GITHUB_TOKEN)", "rate_limit": "5000/hr", "latency_est_sec": "manual trigger only today", "failure_mode": "429/5xx retried 3x with exp backoff; 429 cap short-circuits further calls until reset (good)", "cost_today_usd": 0, "cost_100x_usd": "infeasible on single PAT — needs token pool or GH App" },
+    { "id": "github_stargazers_listing", "wire": "REST /stargazers", "auth": "same PAT", "rate_limit": "shared with github_rest", "latency_est_sec": "N/A (on-demand backfill only)", "failure_mode": "HARD CAP at 400 pages (40k stars) — mega-repos (ollama/langchain/transformers/next.js) invisible to history engine" },
+    { "id": "github_events_fallback", "wire": "REST /events", "auth": "same PAT", "rate_limit": "shared", "latency_est_sec": "~1-5min propagation", "failure_mode": "silently breaks on non-2xx (no counter, no log); reports partial as success" },
+    { "id": "hn_algolia", "wire": "REST", "auth": "none", "rate_limit": "generous", "latency_est_sec": "on-demand only — detail page load", "failure_mode": "fail-soft: mentions absent" },
+    { "id": "reddit_public", "wire": "REST public JSON", "auth": "none", "rate_limit": "tight (unauth)", "latency_est_sec": "on-demand only", "failure_mode": "fail-soft" },
+    { "id": "nitter_rss", "wire": "scrape (RSS)", "auth": "none", "rate_limit": "varies per mirror", "latency_est_sec": "on-demand only", "failure_mode": "4 hard-coded mirrors probed once at module load; if all down, TWITTER_AVAILABLE=false for lifetime" },
+    { "id": "github_code_search", "wire": "REST", "auth": "same PAT", "rate_limit": "10/min search-specific", "latency_est_sec": "on-demand only", "failure_mode": "fail-soft" }
+  ],
+
+  "trend_math": {
+    "overall_formula": "clamp(round1((Σ w_k * c_k) * decayFactor * antiSpamDampening * breakoutMultiplier + quietKillerBonus), 0, 100)",
+    "formula_file": "src/lib/pipeline/scoring/engine.ts:229-239",
+    "components_count": 10,
+    "normalization": "log-normalized for star/fork velocity; linear % for contributor growth; step-function for freshness; clamped linear for mention count and issueActivity",
+    "weakest_components": [
+      "categoryMomentum — 5% weight, defaults to 0 when scoreRepo is called without the pre-pass → silent 5-point hole",
+      "issueActivity — linearNorm(openIssues, 0, 200); rewards abandoned bug-swamps equally with healthy-but-busy projects"
+    ],
+    "active_false_positives": [
+      "MAJOR_VERSION_RE matches pre-release tags like `langchain-core==1.3.0a3` as release_major (already firing in .data/reasons.jsonl line 2)"
+    ],
+    "anti_spam_status": "code exists (modifiers.ts:64-94) but dampening=1.0 in every stored row across 309 repos — never fires in production data",
+    "breakout_detection_live_count": 0,
+    "tests_on_scoring_engine": 0
+  },
+
+  "classifier": {
+    "mechanism": "hybrid (rule engine + curated seed list, but seed is NOT used as a prior — just ingestion ordering)",
+    "rule_count": 15,
+    "match_weights": { "topics": 30, "description": 15, "name": 10, "owner": 50, "per_rule_multiplier": "1.0-2.0" },
+    "llm_calls": 0,
+    "persisted_categories_file_stale": true,
+    "estimated_recall_vs_ossinsight_ai_agents": { "today": "~35%", "after_fresh_run": "~55-65%", "ceiling_without_new_seeds": "~75%" },
+    "structural_misses": [
+      "karpathy/nanoGPT, triton, DeepSeek-V3, whisper.cpp, outlines, meta-llama/llama, llama3 → collapse into devtools:0",
+      "anthropics owner prefix lives ONLY in the mcp rule (weight 2.0) → every anthropics SDK/course/cookbook force-classified as MCP"
+    ]
+  },
+
+  "latency": {
+    "tier_today": "hourly (de facto: manual — no cron wired)",
+    "p50_sec": 86400,
+    "p95_sec": 604800,
+    "stages": {
+      "A_event_to_gh_api": [1, 60],
+      "B_gh_api_to_cron": [0, 86400],
+      "C_cron_to_snapshot": [5, 30],
+      "D_snapshot_to_score": [1, 10],
+      "E_score_to_ui": [0, 15]
+    },
+    "evidence": "snapshots.jsonl has 4 real fetch-time points (all from one 2026-04-17 manual burst); every other row is a T23:59:59 synthetic backfill. vercel.json = redirects only (no crons), no .github/workflows/*cron*, no railway.toml / Procfile / nixpacks scheduler.",
+    "top_choke_points": [
+      "Stage B: no scheduler wired → effectively infinite",
+      "Hot tier cap 50/hr covers only 16% of 309 repos per pass",
+      "recomputeAll runs once at batch end — no per-repo micro-recompute"
+    ],
+    "path_to_5min": "GitHub Actions */5 cron → /api/cron/ingest?tier=hot + shrink hot to ~50-repo AI watchlist",
+    "path_to_seconds": "GitHub Events API firehose (already half-exists per commit 77a9cc5) driving pipeline.ingestRepo + recomputeRepo per event, SSE delivery on existing Railway process"
+  },
+
+  "cost": {
+    "current_1x_usd_per_month": 0,
+    "at_10x_usd_per_month": "still ~$0 in API spend; Railway instance size may need to rise; PAT burns 100% of quota if hot cadence drops under 5 min",
+    "at_100x_usd_per_month": "infeasible on a single PAT — needs token pool or GitHub App; single-instance JSONL storage blows up (~1.4GB snapshots file); Postgres migration becomes mandatory",
+    "primary_cost_risks": [
+      "PAT quota (5000/hr) shared across repo+release+contributors+rate_limit+stargazer+events+social mentions",
+      "Nitter mirrors probed once at module load; no retry on mirror failure"
+    ]
+  },
+
+  "storage": {
+    "files_total_bytes": "~1MB across 9 JSONL files",
+    "snapshot_cap_per_repo": 120,
+    "snapshots_rows": 304,
+    "snapshots_real_vs_synthetic": { "real": 4, "synthetic": 300 },
+    "persist_mechanism": "in-memory Map + 2s-debounced atomic (tmp+rename) full-file rewrite",
+    "scale_cliff_file": "snapshots.jsonl",
+    "break_at_100x": "~1.4GB → event-loop blocks multi-second, cold-start readFile + 3.6M JSON.parse OOMs a 512MB Railway instance",
+    "break_point_mb": 200,
+    "postgres_scaffold_exists": true,
+    "postgres_scaffold_file": "src/lib/db/schema.ts:112 + src/lib/db/stores.ts (all methods throw NOT_IMPLEMENTED)"
+  },
+
+  "observability": {
+    "sdks": 0,
+    "structured_log_sites": 1,
+    "free_form_console_calls_in_pipeline": 38,
+    "bare_catch_sites": 18,
+    "silent_truncation_sites": ["events-backfill.ts:103"],
+    "health_endpoint": "/api/pipeline/status — data-counts snapshot, NOT a health check; returns 200 OK on a dead pipeline",
+    "no_mock_guard_exists": true,
+    "no_mock_guard_file": "src/lib/pipeline/ingestion/ingest.ts:236-258",
+    "rate_limit_tracking": true,
+    "grade": "D",
+    "minimum_fix_for_operator_signal": "add freshness gate to /api/pipeline/status → return 503 when lastRefreshAt > 2 * hotTierCadence; point UptimeRobot/BetterStack at it"
+  },
+
+  "alerts": {
+    "engine_exists": true,
+    "triggers_implemented": 8,
+    "triggers_exposed_in_ui": 4,
+    "delivery_channels_implemented": 0,
+    "delivery_channels_stubbed": ["email (Resend)", "push", "webhook", "Slack", "Telegram", "Discord"],
+    "browser_sse_consumer_exists": false,
+    "alert_rules_jsonl_size": "empty",
+    "alert_events_jsonl_size": "empty",
+    "cooldown_scope_bug": "rule-global, not per-(rule,repo) — a global rule firing on repo-A silences repo-B for the whole window",
+    "mcp_alert_surface": "none — agents can read trends but cannot subscribe/create rules/poll fires",
+    "toggle_persistence_bug": "AlertConfig.tsx enabled toggle is local-only — lost on reload (backend has no PUT /rules)"
+  },
+
+  "filters": {
+    "worst_scale_risk": "/api/search — per-request toLowerCase() over every repo field; no cached-lowercase column, no index; ~3ms at 300, 300ms+ at 30k with no pagination",
+    "silent_liars": [
+      "rank-climbers meta pill counts reason.codes.includes('rank_jump') but the filter applies rank <= 20 → two different repos",
+      "New tab sorts by lastCommit, not createdAt → user asks for new, gets recently-active",
+      "fresh-releases has THREE cutoffs (14d / 48h / variable) across filter/count/server paths",
+      "home sidebar category compounds onto pre-truncated top-80 → never re-queries that category's actual top movers",
+      "timeRange is dead code — stored/toggled, never read",
+      "starsRange filters absolute stars; no delta equivalent exists despite UI implying momentum screening"
+    ]
+  },
+
+  "moat": {
+    "note": "web tools blocked — every competitor claim is LIVE_CHECK_REQUIRED",
+    "unique_moats_today": [
+      "terminal-style Dexscreener UX",
+      "SSE live-stream signal feed on a long-lived Railway process",
+      "MCP read-only surface (agent-native)",
+      "CLI (bin/ss.mjs) thin HTTP client",
+      "no-mock rule enforced at adapter-construction time",
+      "rules-based alert engine with 8 triggers + cooldown (even though delivery is 0%)",
+      "composite compound signals (quiet-killer, rank-climber, breakout-multiplier) not present on GH Trending"
+    ],
+    "biggest_gap_to_close": "detection latency — we are hourly-manual, competitors are daily; OSSInsight has multi-year historical depth we cannot match on a single PAT",
+    "weekend_copy_risk": "any team with a GitHub PAT can reimplement the 10-component score; the moat is not the math",
+    "asymmetric_opportunities": [
+      "MCP registry listing — agent-first distribution surface no competitor holds",
+      "SVG momentum badge at /badge/:owner/:name.svg — README badges become a viral distribution loop",
+      "agent-native webhook bus (alert_triggered over MCP SSE) — no competitor has this",
+      "watchlist-driven GitHub Events firehose — sub-minute detection on a curated list",
+      "AI-only breakout digest RSS — zero-cost SEO"
+    ]
+  },
+
+  "gaps": {
+    "critical_now": [
+      "no scheduler wired → pipeline is frozen except for manual triggers",
+      "296/309 seeded repos have flat-zero sparklines (40k-star cap + stargazer backfill never re-runs)",
+      "persisted .data/categories.jsonl predates the AI-focus seed additions → new AI seeds show as devtools:0",
+      "alerts deliver to zero users (no browser SSE consumer, no email, no MCP surface)",
+      "/api/pipeline/status returns 200 on a dead pipeline",
+      "rank-climber badge vs filter show different repos",
+      "pre-release tags (1.3.0a3) fire `release_major`"
+    ],
+    "critical_at_scale": [
+      "snapshots.jsonl breaks at ~200MB / 100x",
+      "single PAT infeasible at 100x",
+      "search toLowerCase() per-request becomes dominant cost",
+      "cooldown scope bug silences legitimate fires on other repos"
+    ],
+    "correctness_debt": [
+      "src/lib/scoring.ts is 288 LOC of dead code superseded by src/lib/pipeline/scoring/engine.ts",
+      "bin/ss.mjs and cli/ss.mjs are byte-identical duplicates",
+      "RepoChart forks/contributors curves are scaled off the star sparkline (admitted in code at RepoChart.tsx:316)",
+      "SnapshotDelta.commitsInWindow is hardcoded 0",
+      "rank-change arrow ▲N is fabricated from movementStatus + starsDelta7d magnitude — no stored previousRank",
+      "Terminal '#1' uses the row index in the current sort, not repo.rank"
+    ],
+    "unfinished_env_vars": ["DATABASE_URL", "RESEND_API_KEY", "NEXTAUTH_SECRET", "NEXTAUTH_URL"]
+  },
+
+  "top_recommendations_ranked": [
+    { "rank": 1, "action": "Wire a real scheduler (GitHub Actions */5 cron → /api/cron/ingest?tier=hot) — 1 file, 0 code changes", "impact": "p50 24h → 5-10 min; everything else becomes observable; alerts start firing" },
+    { "rank": 2, "action": "Shrink hot tier to a curated AI-watchlist of ~50 repos", "impact": "hot pass refreshes 100% of watchlist every 5 min; catches breakouts in progress" },
+    { "rank": 3, "action": "Add freshness gate to /api/pipeline/status (503 when lastRefreshAt > 2h)", "impact": "real uptime monitoring without an SDK; operator can finally tell when ingestion is broken" },
+    { "rank": 4, "action": "Add EventSource client in a root layout provider + sonner toast + bell badge for `alert_triggered`", "impact": "alert delivery 0% → real-time on open tabs; uses existing SSE pipe" },
+    { "rank": 5, "action": "Re-run full pipeline ingest to rebuild .data/categories.jsonl with the updated rule set (includes claude-code/MCP/agent seeds)", "impact": "AI recall 35% → 55-65% with zero code change" },
+    { "rank": 6, "action": "Add MCP tools list_alerts + create_alert + subscribe_alerts over SSE", "impact": "agent-native alert surface no competitor has — distribution wedge" },
+    { "rank": 7, "action": "Fix MAJOR_VERSION_RE to reject pre-release tags (1.3.0a3, 2.0.0-rc1)", "impact": "kills an actively-firing false positive in .data/reasons.jsonl" },
+    { "rank": 8, "action": "Cooldown scope → per-(rule,repo) instead of per-rule", "impact": "global rules stop silencing unrelated repos" },
+    { "rank": 9, "action": "Migrate snapshots.jsonl → Postgres (scaffold already exists at src/lib/db/schema.ts:112)", "impact": "unblocks 10x scale; removes OOM cliff" },
+    { "rank": 10, "action": "Add Resend sender called from pipeline.ts right after evaluateAllRules", "impact": "durable alert channel; RESEND_API_KEY already declared in env" },
+    { "rank": 11, "action": "Fix rank-climber badge vs filter inconsistency (pick one source)", "impact": "correctness" },
+    { "rank": 12, "action": "Delete src/lib/scoring.ts dead code + dedupe bin/ss.mjs vs cli/ss.mjs", "impact": "housekeeping, drift prevention" },
+    { "rank": 13, "action": "Remove RepoChart forks/contributors synthetic curves (admit real data only per no-mock rule)", "impact": "restores truth claim" },
+    { "rank": 14, "action": "Add X-RateLimit-Remaining surface to StatsBar (operator signal without admin page)", "impact": "operator observability" },
+    { "rank": 15, "action": "Register SVG momentum badge route `/badge/:owner/:name.svg`", "impact": "viral distribution wedge — readme badges on rising AI repos" }
+  ]
+}

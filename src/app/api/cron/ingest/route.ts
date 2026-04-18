@@ -40,6 +40,7 @@ import {
   buildRefreshPlan,
   getRefreshBatch,
 } from "@/lib/pipeline/ingestion/scheduler";
+import { isOnWatchlist } from "@/lib/pipeline/ingestion/watchlist";
 import type { RefreshTier } from "@/lib/pipeline/types";
 import type { TierContext } from "@/lib/pipeline/ingestion/scheduler";
 
@@ -219,22 +220,23 @@ async function handleCronIngest(
       });
     }
 
-    // Minimal TierContext — the scheduler treats empty sets sensibly.
-    const ctx: TierContext = {
-      isWatchlisted: false,
-      isTopMover: false,
-      isBreakout: false,
-      categoryLeaderIds: new Set<string>(),
-    };
+    // P0.3: hot-tier candidate set = curated AI watchlist. Without this
+    // wire-up, no repo ever satisfies assignTier's hot-tier gate (which
+    // requires isWatchlisted || isTopMover || isBreakout || categoryLeader)
+    // and `/api/cron/ingest?tier=hot` returns processed:0 in 5ms. See
+    // src/lib/pipeline/ingestion/watchlist.ts + the interim cron-tier=warm
+    // fix shipped in commit 8771186.
 
     const plans = allRepos.map((repo) => {
-      // Repos with positive momentum or high star counts get bumped to their
-      // real tier via the ctx helpers; for MVP we defer to assignTier's
-      // own thresholds (>5k stars, rising/hot/quiet_killer). Additional
-      // watchlist/top-mover signals can be wired in later.
-      const perRepoTier = assignTier(repo, ctx);
+      const perRepoCtx: TierContext = {
+        isWatchlisted: isOnWatchlist(repo.fullName),
+        isTopMover: false,
+        isBreakout: repo.movementStatus === "hot",
+        categoryLeaderIds: new Set<string>(),
+      };
+      const perRepoTier = assignTier(repo, perRepoCtx);
       return {
-        plan: buildRefreshPlan(repo, perRepoTier, undefined, ctx),
+        plan: buildRefreshPlan(repo, perRepoTier, undefined, perRepoCtx),
         assignedTier: perRepoTier,
       };
     });

@@ -1,0 +1,56 @@
+{
+  "stages": [
+    {
+      "id": "A",
+      "name": "GitHub event -> visible in GitHub REST /repos/:owner/:repo",
+      "range_sec": [1, 60],
+      "dominant_factor": "GitHub's own edge-cache for /repos endpoint; star counts typically propagate in seconds but can lag up to ~1 min for hot repos",
+      "file_ref": "out of our control (GitHub API)"
+    },
+    {
+      "id": "B",
+      "name": "Visible in GitHub API -> cron fires (tier cadence)",
+      "range_sec": [0, 86400],
+      "dominant_factor": "Tier interval dominates. docs/INGESTION.md declares hot=60min, warm=360min, cold=1440min. REALITY: no scheduler actually runs — vercel.json has zero crons (only redirects to Railway), no .github/workflows/*cron*, no railway.json/Procfile/nixpacks.toml with a scheduler. Cron endpoints exist at /api/cron/ingest but nothing pings them in production. The only real fetches captured in snapshots.jsonl are 4 manual triggers today (2026-04-17T07:53–07:57); every other snapshot is a synthetic daily backfill at T23:59:59.",
+      "file_ref": "vercel.json (no crons), src/lib/pipeline/ingestion/scheduler.ts:16-20 (policies), src/app/api/cron/ingest/route.ts (endpoint, only runs when pinged)"
+    },
+    {
+      "id": "C",
+      "name": "Cron ingestion completes, JSONL snapshot appended",
+      "range_sec": [5, 30],
+      "dominant_factor": "Per docs/INGESTION.md sec 6: sample run processed 42 repos in 8,520 ms. Seed of ~300 repos: 31,240 ms. ~200 ms/repo at 3 GitHub calls each. Snapshot append is synchronous in ingestRepo -> snapshotStore.append.",
+      "file_ref": "src/lib/pipeline/ingestion/ingest.ts, src/lib/pipeline/ingestion/snapshotter.ts, docs/INGESTION.md:127-139"
+    },
+    {
+      "id": "D",
+      "name": "Snapshot -> recompute -> new score persisted",
+      "range_sec": [1, 10],
+      "dominant_factor": "pipeline.recomputeAll is invoked ONCE at the end of every cron batch (cron/ingest/route.ts:317). It is synchronous over ~309 repos then persistAll() flushes JSONL. In-process, no batching beyond the whole store. Single-repo breakouts are not recomputed mid-batch — any repo crossing threshold only gets a score after the full batch completes.",
+      "file_ref": "src/app/api/cron/ingest/route.ts:317, src/lib/pipeline/pipeline.ts:452-466"
+    },
+    {
+      "id": "E",
+      "name": "New score -> UI sees it",
+      "range_sec": [0, 15],
+      "dominant_factor": "SSE push via /api/stream emits snapshot_captured on every snapshotStore.append (ingestion/snapshotter.ts:70), so delivery is sub-second to open EventSource clients on Railway. But UI that is NOT on an SSE-subscribed page still polls on the standard fetch cadence, and Vercel serverless cannot hold SSE (route.ts comment lines 9-11) — so only the Railway deploy actually pushes.",
+      "file_ref": "src/app/api/stream/route.ts:1-145, src/lib/pipeline/ingestion/snapshotter.ts:70"
+    }
+  ],
+  "cron_cadences": {
+    "hot": "declared every 60 min (DEFAULT_POLICIES.hot.intervalMinutes=60); actually fires: never on a schedule (no vercel crons, no github action, no Railway scheduler)",
+    "warm": "declared every 360 min (6h); same — no scheduler wired",
+    "cold": "declared every 1440 min (24h); same — no scheduler wired"
+  },
+  "e2e_p50_sec": 86400,
+  "e2e_p95_sec": 604800,
+  "tier": "hourly",
+  "evidence": "snapshots.jsonl has 304 lines for 309 repos. Grouping by date: every day from 2026-03-19 through 2026-04-16 has exactly 10 snapshots, all stamped T23:59:59.000Z — these are synthetic daily backfill ticks, NOT real ingestion. Only 4 snapshots have real fetch-time timestamps and all 4 are from one manual burst at 2026-04-17T07:53–07:57 (vercel/next-js, ollama/ollama, microsoft/typescript + 1). Zero evidence of any recurring cron hitting /api/cron/ingest. vercel.json contains only redirects (no crons array). No .github/workflows file schedules the endpoint. No Railway/Procfile/nixpacks cron config in the repo. Even the declared 60-min hot tier cadence would put us in the 'hourly' bucket per the user's brief — actual behavior is worse: data is stale until a human runs npm run ingest:hot manually or the nightly backfill paints fake daily points.",
+  "catches_breakout_in_progress": false,
+  "top_3_choke_points": [
+    "Stage B: no scheduler is wired in production. Even declared cadence (60 min hot) can only confirm a breakout that already peaked; currently the cron never fires at all, so stage B is effectively infinite.",
+    "Stage B->C granularity: hot tier caps at 50 repos/hour (DEFAULT_POLICIES.hot.maxPerHour=50). With ~309 seeded repos, a single hot pass refreshes only ~16% of the fleet — a breakout on a cold-tier repo waits up to 24h to even get sampled.",
+    "Stage D coupling: recomputeAll runs ONCE at end of batch and rewrites the whole JSONL store (pipeline.recomputeAll -> persistAll). There's no per-repo micro-recompute, so an AI repo whose stars just spiked cannot move in rank until the next cron pass finishes AND recomputes."
+  ],
+  "path_to_5min": "1) Wire an actual scheduler: add vercel.json crons array with */5 * * * * on hot (Pro plan required — Hobby is daily-only per docs/INGESTION.md:159-168), OR add .github/workflows/ingest.yml on a */5 cron calling /api/cron/ingest?tier=hot with CRON_SECRET, OR add a Railway cron service. 2) Shrink hot tier to a watchlist of ~50 AI-focused repos so 50 req/hour cap covers 100% of hot every 5 min. 3) Add a narrow 'top mover' auto-promotion: any repo whose 5-min delta exceeds threshold X auto-assigns hot for the next 2h. End-to-end p50 drops to ~5–10 min.",
+  "path_to_seconds": "1) Replace polling with GitHub webhooks. For public repos we don't own, true webhooks aren't available — substitute: (a) GitHub Events API /users/:owner/events or /networks/:owner/:repo/events polled every 10–30s for a tight watchlist, or (b) ClickHouse GH Archive live stream (bq-style firehose) for sub-minute star-event visibility. 2) On webhook/event receipt, call pipeline.ingestRepo + recomputeRepo (single-repo path already exists at pipeline.ts:467) and emit snapshot_captured / rank_changed immediately. 3) Keep SSE on Railway (Vercel serverless cannot hold open SSE per route.ts:9-11). End-to-end p50 drops to 5–30 sec for watchlisted repos."
+}

@@ -1,0 +1,354 @@
+{
+  "mechanism": "rules",
+  "mechanism_detail": "Pure deterministic rule engine. Zero LLM/inference calls anywhere in src/. Grep for 'openai(', 'Anthropic(', 'api.openai', 'api.anthropic' returns zero matches. The strings 'openai', 'anthropic', 'claude' appear ONLY as keywords/topics/ownerPrefixes inside static rule tables (rules.ts, tag-rules.ts). No embeddings, no classification model, no second pass.",
+
+  "mechanism_notes": [
+    "Primary category classifier: src/lib/pipeline/classification/classifier.ts -> classifyRepo(repo) / classifyBatch(repos)",
+    "AI-focus tag layer (multi-label, flat, orthogonal to category): src/lib/pipeline/classification/classifier.ts -> deriveTags(repo)",
+    "Rule tables: src/lib/pipeline/classification/rules.ts (15 category rules) + src/lib/pipeline/classification/tag-rules.ts (8 tag rules)",
+    "Pipeline integration: src/lib/pipeline/pipeline.ts:198-210 calls classifyBatch + deriveTags and projects primary.categoryId + tags onto each Repo. Only called from the live pipeline pass.",
+    "README claim of '10 categories (AI/LLM, Dev Tools, Infra, Web3, Frontend, Backend, Data, Security, DevOps, Other)' DOES NOT match code. Actual category universe is a 15-member union (PipelineCategoryId in src/lib/pipeline/types.ts:182-198) with a 10-member UI surface in src/lib/constants.ts:9-90. README is wrong/stale."
+  ],
+
+  "category_list_ui": [
+    "ai-ml",
+    "web-frameworks",
+    "devtools",
+    "infrastructure",
+    "databases",
+    "security",
+    "mobile",
+    "data-analytics",
+    "crypto-web3",
+    "rust-ecosystem"
+  ],
+
+  "category_list_pipeline_union": [
+    "ai-agents",
+    "mcp",
+    "devtools",
+    "browser-automation",
+    "local-llm",
+    "security",
+    "infrastructure",
+    "design-engineering",
+    "ai-ml",
+    "web-frameworks",
+    "databases",
+    "mobile",
+    "data-analytics",
+    "crypto-web3",
+    "rust-ecosystem"
+  ],
+
+  "category_list_mismatch_note": "The classifier can emit categoryId 'ai-agents', 'mcp', 'browser-automation', 'local-llm', or 'design-engineering' — none of which exist in the UI CATEGORIES list. The UI category page/filter will not render them unless something downstream remaps them. This is a silent bug: a repo correctly classified as 'ai-agents' (e.g., langchain-ai/langchain, microsoft/autogen) will be invisible under category filtering that iterates CATEGORIES.",
+
+  "tag_list_ai_focus": [
+    "claude-code",
+    "agent-memory",
+    "agent-skills",
+    "mcp",
+    "ai-agents",
+    "swarm-orchestration",
+    "local-llm",
+    "llm-infra"
+  ],
+
+  "precedence": "A single unified scoring pass across ALL rules (no cascading override stages). The classifier does NOT consult the seed list. Seed-list category (src/lib/seed-repos.ts) only controls ingestion ordering/chunking — it never overrides the classifier. Proof: src/lib/pipeline/ingestion/seed.ts flattens SEED_REPOS into an unannotated owner/name list; src/lib/pipeline/adapters/normalizer.ts:41 stamps every repo with categoryId='other' on arrival; src/lib/pipeline/pipeline.ts:198-210 then overwrites with classifyRepo(repo).primary.categoryId derived purely from GitHub-fetched topics/description/name/owner.",
+
+  "rules": [
+    {
+      "precedence": 1,
+      "rule_type": "owner-prefix-match",
+      "logic": "If repo.owner === prefix (case-insensitive) OR repo.fullName startsWith `${prefix}/` OR repo.fullName === prefix OR repo.fullName startsWith prefix — add +50 raw points (largest single signal). First prefix in rule.ownerPrefixes that hits wins (break).",
+      "file_ref": "src/lib/pipeline/classification/classifier.ts:98-105",
+      "matches": "Strongest signal per rule (SCORE_OWNER_PREFIX = 50). Single rule can only score owner once."
+    },
+    {
+      "precedence": 2,
+      "rule_type": "exact-topic-match",
+      "logic": "For each topic in rule.topics: if topicsLower.includes(topic.toLowerCase()) -> +30 raw points PER matched topic. Cumulative across all topic matches for that rule.",
+      "file_ref": "src/lib/pipeline/classification/classifier.ts:71-77, constant SCORE_TOPIC=30 at line 36",
+      "matches": "Second-strongest signal per match but can dominate cumulatively (e.g., 3 topic hits = 90)."
+    },
+    {
+      "precedence": 3,
+      "rule_type": "keyword-substring-in-description",
+      "logic": "For each keyword in rule.keywords: if description.toLowerCase().includes(keyword.toLowerCase()) -> +15 raw points. Then SEPARATELY for name: if name.toLowerCase().includes(keyword.toLowerCase()) -> +10. Note: description and name are ADDED (not max), so a keyword in both name + description = +25 for one keyword.",
+      "file_ref": "src/lib/pipeline/classification/classifier.ts:80-95, constants SCORE_KEYWORD_DESC=15 and SCORE_KEYWORD_NAME=10 at lines 37-38",
+      "matches": "Substring match, not word-boundary. 'react' inside 'reactor' or 'reactivity' counts."
+    },
+    {
+      "precedence": 4,
+      "rule_type": "keyword-substring-in-name",
+      "logic": "See precedence 3 — same loop, separate SCORE_KEYWORD_NAME=10. Shared with description inside same loop.",
+      "file_ref": "src/lib/pipeline/classification/classifier.ts:90-93",
+      "matches": "Weakest individual signal."
+    },
+    {
+      "precedence": 5,
+      "rule_type": "readme-body",
+      "logic": "NOT CONSULTED. The classifier does not read repo README content. Only topics, description, name, owner, fullName are inspected.",
+      "file_ref": "src/lib/pipeline/classification/classifier.ts:63-122 (confirm by absence)",
+      "matches": "A repo with a 20-page README calling itself 'the best AI agent framework' but with zero AI-adjacent topics, description, or owner signal will fall through to the devtools fallback."
+    },
+    {
+      "precedence": 6,
+      "rule_type": "seed-list-override",
+      "logic": "DOES NOT EXIST. The SeedCategoryId bucket a repo lives in (ai-ml, crypto-web3, etc.) has zero influence on classification. Seed buckets only drive ingestion order and cron chunking in src/lib/pipeline/ingestion/seed.ts. A repo placed in SEED_REPOS.ai-ml with misleading topics will still be mis-classified by the classifier.",
+      "file_ref": "src/lib/pipeline/ingestion/seed.ts:77-97, src/lib/pipeline/pipeline.ts:198-210",
+      "matches": "This is the #1 source of user surprise: putting a repo in 'ai-ml' in seed-repos.ts does NOT guarantee it lands in ai-ml category on the site."
+    },
+    {
+      "precedence": 7,
+      "rule_type": "llm-inference",
+      "logic": "DOES NOT EXIST. Zero calls to openai/anthropic/any LLM SDK. Grep-verified.",
+      "file_ref": "(absence)",
+      "matches": "Classifier is 100% static."
+    }
+  ],
+
+  "scoring_math": {
+    "raw_per_rule": "rawScore = (topicMatches*30 + keywordDescHits*15 + keywordNameHits*10 + (ownerHit ? 50 : 0)) * rule.weight",
+    "confidence": "confidence = clamp(rawScore / 100, 0, 1)",
+    "rule_weights": {
+      "mcp": 2.0,
+      "browser-automation": 1.6,
+      "local-llm": 1.6,
+      "ai-agents": 1.5,
+      "design-engineering": 1.4,
+      "security": 1.3,
+      "web-frameworks": 1.3,
+      "databases": 1.3,
+      "mobile": 1.3,
+      "crypto-web3": 1.3,
+      "devtools": 1.2,
+      "infrastructure": 1.2,
+      "data-analytics": 1.2,
+      "rust-ecosystem": 1.1,
+      "ai-ml": 1.0
+    },
+    "weight_note": "ai-ml has the LOWEST weight (1.0) despite being the most-populated category in the seed list. This means a repo with ai-ml topics + rust-ecosystem topics will be classified rust-ecosystem (weight 1.1) even if ai-ml is the stronger semantic fit. See .data/categories.jsonl line 282 meilisearch/meilisearch: primary=databases not ai-ml."
+  },
+
+  "thresholds": {
+    "primary_min_raw_score_to_avoid_fallback": 0.1,
+    "primary_min_raw_score_file_ref": "src/lib/pipeline/classification/classifier.ts:41 PRIMARY_MIN_CONFIDENCE=0.1 (compared against rawScore, not confidence — misleading constant name)",
+    "secondary_min_confidence": 0.15,
+    "secondary_min_confidence_file_ref": "src/lib/pipeline/classification/classifier.ts:42 SECONDARY_MIN_CONFIDENCE=0.15",
+    "max_secondary_matches": 2,
+    "fallback_category": "devtools",
+    "fallback_category_file_ref": "src/lib/pipeline/classification/classifier.ts:44 FALLBACK_CATEGORY='devtools'",
+    "fallback_confidence": 0,
+    "confidence_buckets": {
+      "high": ">= 0.6",
+      "medium": "0.3 - 0.6",
+      "low": "< 0.3",
+      "file_ref": "src/lib/pipeline/classification/confidence.ts:17-21"
+    }
+  },
+
+  "tie_breakers": "No explicit tie-break. scored.sort((a,b) => b.rawScore - a.rawScore) is a stable sort, so the first rule in CLASSIFICATION_RULES order wins on ties. Declared order in rules.ts: ai-agents, mcp, devtools, browser-automation, local-llm, security, infrastructure, design-engineering, ai-ml, web-frameworks, databases, mobile, data-analytics, crypto-web3, rust-ecosystem. So ties favor ai-agents > mcp > devtools > ... > rust-ecosystem. Tie-break is implicit/positional, not principled.",
+
+  "multi_category_handling": "Each repo gets ONE primary categoryId (the top rawScore rule) and up to 2 secondary matches filtered by confidence >= 0.15. Only primary is projected onto Repo.categoryId; secondary is persisted to .data/categories.jsonl but not surfaced in UI filters. Orthogonal multi-label tagging happens via deriveTags(repo) which returns all matching tag ids from TAG_RULES — this is what the AI-focus UI chips consume (TagsBar.tsx).",
+
+  "failure_modes": {
+    "no_topics_no_keywords_no_owner_match": "Returns fallback { categoryId: 'devtools', confidence: 0, matched: {topics:[], keywords:[], ownerPrefix:null} }. Example in persisted data: meta-llama/llama (line 14), karpathy/nanogpt (line 16), karpathy/llm.c (line 17), triton-lang/triton (line 23), deepseek-ai/DeepSeek-V3 (line 24), dottxt-ai/outlines (line 27), ggml-org/whisper.cpp (line 28). All 7 are obviously AI/ML but GitHub returns them with thin or missing topics so they collapse into 'devtools' fallback. This is the single biggest silent miss.",
+    "conflicting_topics": "Highest weighted (rawScore*weight) rule wins. ollama/ollama ends up local-llm (weight 1.6) not ai-ml (weight 1.0) because owner prefix + topic ollama fires local-llm rule first. Correct outcome here, but the weight hierarchy was clearly tuned before the AI-focus recalibration — ai-ml at 1.0 is too low for 2026.",
+    "ai_agents_vs_ai_ml_collision": "langchain-ai/langchain correctly classified ai-agents (line 2). But langchain-ai/langgraph and transitive-bullshit/agentic are not in persisted data at all — classifier hasn't run on them since the seed expansion.",
+    "readme_only_repos": "Any repo whose AI nature is evident only from README body (not topics or short description) is missed entirely.",
+    "new_topics": "Rule tables are frozen; a newly-minted GitHub topic (e.g., 'agentic-coding', 'sub-agent') fires nothing until a human edits rules.ts.",
+    "empty_description_empty_topics": "Very common for freshly-minted hot repos; they all fall to devtools:0."
+  },
+
+  "canonical_ai_repos_audit": [
+    {"repo": "anthropics/claude-code", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "NOT_PRESENT — added to seed after last classifier run (2026-04-17)", "classifier_would_tag": "mcp (topics: any 'mcp'/'anthropic' owner hit -> weight 2.0 wins)", "correct": true, "notes": "Would get primary=mcp because ownerPrefixes in mcp rule include 'anthropics' with weight 2.0, beating ai-agents rule which doesn't list anthropics. Likely misclassified to mcp when AI-agents would be more intuitive. Also gets tags: claude-code, mcp."},
+    {"repo": "anthropics/anthropic-sdk-python", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "mcp", "correct": false, "notes": "SDK, not MCP. Gets mcp because 'anthropics' is in mcp rule ownerPrefixes. Real category should be ai-ml or a new 'sdk' bucket."},
+    {"repo": "anthropics/anthropic-sdk-typescript", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "mcp", "correct": false, "notes": "Same as above."},
+    {"repo": "anthropics/courses", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "mcp", "correct": false, "notes": "Educational content classified as MCP is wrong."},
+    {"repo": "anthropics/prompt-eng-interactive-tutorial", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "mcp", "correct": false, "notes": "Same ownerPrefix pollution."},
+    {"repo": "anthropics/anthropic-cookbook", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "mcp", "correct": false, "notes": "Same ownerPrefix pollution."},
+    {"repo": "modelcontextprotocol/servers", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "mcp", "correct": true, "notes": "Correct. Owner prefix modelcontextprotocol + weight 2.0 dominates."},
+    {"repo": "modelcontextprotocol/python-sdk", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "mcp", "correct": true},
+    {"repo": "modelcontextprotocol/typescript-sdk", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "mcp", "correct": true},
+    {"repo": "modelcontextprotocol/inspector", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "mcp", "correct": true},
+    {"repo": "modelcontextprotocol/specification", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "mcp", "correct": true},
+    {"repo": "crewAIInc/crewAI", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "ai-agents", "classifier_would_tag": "ai-agents", "correct": true, "notes": "line 31, confidence 1.0, topics=[agents], ownerPrefix=crewAIInc matched."},
+    {"repo": "microsoft/autogen", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "ai-agents", "classifier_would_tag": "ai-agents", "correct": true, "notes": "line 30, confidence 1.0."},
+    {"repo": "All-Hands-AI/OpenHands", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "likely devtools fallback (0 confidence) unless GitHub topics include 'agent'/'ai-agent' — description will hit 'ai agent' keyword giving ai-agents:0.225 probably", "correct": "uncertain", "notes": "No owner prefix hit. Hinges on whatever topics GitHub returns."},
+    {"repo": "OpenInterpreter/open-interpreter", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "uncertain — likely ai-ml if GitHub returns 'llm' topic, else fallback", "correct": "uncertain"},
+    {"repo": "langchain-ai/langchain", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "ai-agents", "classifier_would_tag": "ai-agents", "correct": true, "notes": "line 2, confidence 1.0. Owner prefix langchain-ai + topic agents."},
+    {"repo": "langchain-ai/langgraph", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "ai-agents (owner prefix langchain-ai)", "correct": true},
+    {"repo": "ollama/ollama", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "local-llm", "classifier_would_tag": "local-llm", "correct": true, "notes": "line 1, confidence 1.0."},
+    {"repo": "vllm-project/vllm", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "ai-ml", "classifier_would_tag": "ai-ml", "correct": "arguable — 'llm-infra' tag fits better; no llm-infra category exists", "notes": "line 9, primary=ai-ml, secondary=local-llm. But by pure inference-server semantics, vllm is LLM serving infra."},
+    {"repo": "huggingface/transformers", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "ai-ml", "classifier_would_tag": "ai-ml", "correct": true, "notes": "line 3, confidence 1.0. But secondary=crypto-web3:0.195 due to keyword 'defi' substring hitting... wait, no — line 3 secondary shows crypto-web3:0.195 from 'defi' substring. Real source: probably 'defi' inside 'defining' or similar in the description. False-positive secondary signal."},
+    {"repo": "continuedev/continue", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "uncertain — no owner prefix or keyword hit unless GitHub topics include 'llm' or 'ai-agent'", "correct": "uncertain"},
+    {"repo": "cline/cline", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "likely devtools fallback", "correct": false, "notes": "Cline is a Claude-powered coding agent in VS Code. No claude/anthropic owner or topic signal in rules.ts targets Cline. Would miss."},
+    {"repo": "RooCodeInc/Roo-Code", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "likely devtools fallback", "correct": false, "notes": "Same issue as Cline."},
+    {"repo": "aider-AI/aider", "in_seed": false, "seed_bucket": "NOT_IN_SEED", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "n/a", "correct": false, "notes": "CRITICAL MISS — aider is one of the top agentic coding tools in the OSSInsight AI Agents collection. Not in seed-repos.ts at all."},
+    {"repo": "mem0ai/mem0", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "ai-ml probably (no owner rule for mem0ai in classification rules — only in tag rules)", "correct": "uncertain", "notes": "mem0ai is a tag-rules ownerPrefix (agent-memory) but NOT a classification-rules ownerPrefix. So category classification falls through; AI-focus tag will fire."},
+    {"repo": "letta-ai/letta", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "uncertain — no classification-rule owner prefix; relies on topics/keywords", "correct": "uncertain", "notes": "Tag-rules only. Same structural gap as mem0."},
+    {"repo": "lobehub/lobe-chat", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "uncertain", "correct": "uncertain"},
+    {"repo": "stanfordnlp/dspy", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "ai-agents", "classifier_would_tag": "ai-agents", "correct": true, "notes": "line 29, confidence 0.75, ownerPrefix=stanfordnlp."},
+    {"repo": "huggingface/smolagents", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "ai-ml (huggingface owner prefix only in ai-ml rule)", "correct": false, "notes": "BUG — smolagents is an agent framework. Owner prefix 'huggingface' is in ai-ml rule (weight 1.0) not ai-agents rule, so ai-ml wins even if topics include 'agent'."},
+    {"repo": "chroma-core/chroma", "in_seed": true, "seed_bucket": "databases", "tagged_in_persisted_jsonl": "not checked in first 100 but very likely databases (topic vector-database) with ai-ml secondary", "classifier_would_tag": "databases", "correct": true},
+    {"repo": "Mintplex-Labs/anything-llm", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "uncertain — no Mintplex owner rule; hinges on topics", "correct": "uncertain"},
+    {"repo": "elizaOS/eliza", "in_seed": false, "seed_bucket": "NOT_IN_SEED", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "n/a", "correct": false, "notes": "CRITICAL MISS — top-tier agent framework not seeded."},
+    {"repo": "browser-use/browser-use", "in_seed": false, "seed_bucket": "NOT_IN_SEED", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "n/a", "correct": false, "notes": "CRITICAL MISS — #1 browser-automation agent. Ironically, the 'browser-automation' CATEGORY exists but browser-use is not seeded."},
+    {"repo": "microsoft/markitdown", "in_seed": false, "seed_bucket": "NOT_IN_SEED", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "n/a", "correct": false, "notes": "CRITICAL MISS — viral Microsoft AI doc-conversion tool not seeded."},
+    {"repo": "pydantic/pydantic-ai", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "uncertain", "correct": "uncertain"},
+    {"repo": "instructor-ai/instructor", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "uncertain", "correct": "uncertain"},
+    {"repo": "assafelovic/gpt-researcher", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "uncertain", "correct": "uncertain"},
+    {"repo": "reworkd/AgentGPT", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "uncertain", "correct": "uncertain"},
+    {"repo": "yoheinakajima/babyagi", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "ai-agents (tag rule has babyagi topic; classification rule doesn't)", "correct": "depends on topics"},
+    {"repo": "Significant-Gravitas/AutoGPT", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "ai-agents (topic 'autogpt' is in tag rules only; classification rule relies on 'agent'/'agents'/'autonomous-agent' topic)", "correct": true, "notes": "AutoGPT's GitHub topics include 'ai', 'autonomous-agents' which fires ai-agents rule."},
+    {"repo": "princeton-nlp/SWE-agent", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "uncertain", "correct": "uncertain"},
+    {"repo": "microsoft/graphrag", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "uncertain — no Microsoft-scoped AI rule unless microsoft/autogen exact-match sneaks in", "correct": "uncertain"},
+    {"repo": "sourcegraph/cody", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "uncertain", "correct": "uncertain"},
+    {"repo": "block/goose", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "uncertain — 'goose' is a generic name, block owner not rule-matched", "correct": "uncertain"},
+    {"repo": "kyegomez/swarms", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "uncertain", "correct": "uncertain", "notes": "'swarms' topic in tag rules (swarm-orchestration tag) but not classification rules."},
+    {"repo": "stanford-oval/storm", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "uncertain — no stanford-oval owner rule (stanfordnlp is in ai-agents rule only)", "correct": "uncertain"},
+    {"repo": "sgl-project/sglang", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "uncertain", "correct": "uncertain"},
+    {"repo": "danny-avila/LibreChat", "in_seed": true, "seed_bucket": "ai-ml", "tagged_in_persisted_jsonl": "NOT_PRESENT", "classifier_would_tag": "uncertain", "correct": "uncertain"}
+  ],
+
+  "misses": [
+    {
+      "category": "not_seeded_at_all",
+      "repos": ["aider-AI/aider", "elizaOS/eliza", "browser-use/browser-use", "microsoft/markitdown", "codegen-sh/codegen", "huggingface/lerobot", "huggingface/text-generation-inference", "01-ai/Yi", "QwenLM/Qwen", "xai-org/grok-1", "google-deepmind/gemma", "openai/gpt-oss"]
+    },
+    {
+      "category": "seeded_but_wrong_category",
+      "repos": [
+        "anthropics/anthropic-sdk-python -> forced to 'mcp' because anthropics owner prefix only lives in mcp rule",
+        "anthropics/anthropic-sdk-typescript -> same",
+        "anthropics/courses -> same (educational content as MCP)",
+        "anthropics/prompt-eng-interactive-tutorial -> same",
+        "anthropics/anthropic-cookbook -> same",
+        "huggingface/smolagents -> forced to ai-ml despite being an agent framework"
+      ]
+    },
+    {
+      "category": "seeded_but_classifier_never_ran_on_it_persisted_file_stale",
+      "repos": [
+        "anthropics/claude-code",
+        "anthropics/anthropic-sdk-python",
+        "anthropics/anthropic-sdk-typescript",
+        "anthropics/courses",
+        "anthropics/prompt-eng-interactive-tutorial",
+        "anthropics/anthropic-cookbook",
+        "modelcontextprotocol/servers",
+        "modelcontextprotocol/python-sdk",
+        "modelcontextprotocol/typescript-sdk",
+        "modelcontextprotocol/inspector",
+        "modelcontextprotocol/specification",
+        "mem0ai/mem0",
+        "letta-ai/letta",
+        "getzep/zep",
+        "ai-agents/agent-memory",
+        "All-Hands-AI/OpenHands",
+        "OpenInterpreter/open-interpreter",
+        "Significant-Gravitas/AutoGPT",
+        "smol-ai/developer",
+        "princeton-nlp/SWE-agent",
+        "huggingface/smolagents",
+        "pydantic/pydantic-ai",
+        "instructor-ai/instructor",
+        "langchain-ai/langgraph",
+        "langchain-ai/opengpts",
+        "langchain-ai/chat-langchain",
+        "transitive-bullshit/agentic",
+        "assafelovic/gpt-researcher",
+        "reworkd/AgentGPT",
+        "yoheinakajima/babyagi",
+        "TransformerOptimus/SuperAGI",
+        "sgl-project/sglang",
+        "ollama/ollama-python",
+        "lobehub/lobe-chat",
+        "mckaywrigley/chatbot-ui",
+        "danny-avila/LibreChat",
+        "Mintplex-Labs/anything-llm",
+        "microsoft/graphrag",
+        "sourcegraph/cody",
+        "continuedev/continue",
+        "cline/cline",
+        "RooCodeInc/Roo-Code",
+        "cursor-ai/cursor",
+        "getcursor/cursor",
+        "block/goose",
+        "All-Hands-AI/openhands-aci",
+        "stanford-oval/storm",
+        "kyegomez/swarms"
+      ],
+      "note": "Persisted .data/categories.jsonl contains 309 lines all timestamped 2026-04-17T11:07:48Z — a single classification run that predates the 'Fix AI-focus: broaden tag rules + add Claude Code / MCP / agent seed repos' commit. Until the pipeline re-runs, NONE of the Claude Code / MCP / agent ecosystem is persisted."
+    },
+    {
+      "category": "readme_only_signal_lost",
+      "description": "Any repo whose AI/agent identity lives primarily in README (not topics or description) will fall to devtools:0. Observed in persisted data: karpathy/nanoGPT, karpathy/llm.c, triton-lang/triton, deepseek-ai/DeepSeek-V3, meta-llama/llama, meta-llama/llama3, ggml-org/whisper.cpp, dottxt-ai/outlines — all canonical ML repos misclassified as devtools."
+    }
+  ],
+
+  "false_positives": [
+    {
+      "type": "defi_substring_in_non_web3_repos",
+      "description": "Keyword 'defi' substring matches 'defining', 'default', etc. Line 3 huggingface/transformers has secondary crypto-web3:0.195 from 'defi' substring. Line 96 docker/compose has the same crypto-web3:0.195 secondary."
+    },
+    {
+      "type": "react_substring_in_everything",
+      "description": "Keyword 'react' matches 'reactive', 'reactor'. Every bundler (esbuild, bun, swc) picks up web-frameworks:0.39 secondary via 'react' topic being set on their repos."
+    },
+    {
+      "type": "anthropics_owner_in_mcp_rule_only",
+      "description": "All anthropics/* repos auto-classify as MCP even when they're SDKs, courses, or cookbooks. Should be split: claude-code itself -> ai-agents or new 'claude-code' category; SDKs -> ai-ml; courses -> a new 'education' bucket or just ai-ml."
+    },
+    {
+      "type": "huggingface_owner_in_ai_ml_only",
+      "description": "huggingface/smolagents correctly an agent framework but owner prefix forces it to ai-ml (weight 1.0). Only fixable by (a) adding huggingface/smolagents to ai-agents ownerPrefixes, or (b) making keyword/topic signal override owner."
+    },
+    {
+      "type": "spurious_secondary_matches_persisted",
+      "description": "open-webui shows secondary mcp:0.6 from topic 'mcp' — correct. But jaegertracing/jaeger falls to devtools:0. These thin signals pollute the secondary list without adding user value."
+    }
+  ],
+
+  "confidence_scoring": "rawScore is sum of topic + keyword + owner points times rule.weight. confidence = clamp(rawScore/100, 0, 1). Mental model: one owner hit on a weight-1 rule = confidence 0.5. One topic + one keyword-in-desc = confidence 0.45 on a weight-1 rule. Three topics = 0.9. The 100-point normalizer means ai-ml rule (weight 1.0) needs 3+ topic hits to reach 'high' (>=0.6) confidence, while mcp rule (weight 2.0) only needs 1 topic (+30 * 2.0 = 60 -> 0.6 high). Confidence is not calibrated probability — it's a capped score.",
+
+  "tie_breakers_detail": "scored.sort stable by rawScore desc. First rule in CLASSIFICATION_RULES wins on equal rawScore. Declared order places ai-agents first, which is a deliberate bias toward AI classification — but it only matters on exact ties, which are rare. Tags (deriveTags) are order-independent via Set.",
+
+  "estimated_recall_on_ai": {
+    "OSSInsight_AI_Agent_Frameworks_collection_recall": "~35-45%",
+    "OSSInsight_AI_Agent_Frameworks_reasoning": "OSSInsight's canonical AI Agent Frameworks collection contains roughly: langchain, langgraph, autogen, crewAI, AutoGPT, babyagi, SuperAGI, OpenHands, smolagents, pydantic-ai, dspy, LlamaIndex (run-llama/llama_index), OpenInterpreter, instructor, SWE-agent, agentic (transitive-bullshit), gpt-researcher, AgentGPT, mem0, letta, storm, swarms, smol-developer, Eliza (elizaOS), browser-use, aider, continue, cline, goose (block), anything-llm, LibreChat, cody, open-interpreter, graphrag, pydantic-ai, Roo-Code, cursor, markitdown, ChatDev, camel, metagpt, agentverse, ~30-50 total. Of these, roughly 60-70% are in starscreener seed. But only ~15 are PERSISTED with a category right now (the others are post-commit additions awaiting a classifier run). Of those 15 persisted and classified correctly as AI-family (ai-agents/ai-ml/local-llm/mcp), recall against OSSInsight is ~30-35%. After pipeline re-runs, assuming rule tables aren't changed, recall rises to maybe ~55-65% (still missing aider, eliza, browser-use, markitdown, metagpt, ChatDev, camel entirely — they're not seeded — and miss-classifying SDKs/courses under mcp, cline/roo under devtools).",
+    "OSSInsight_AI_Agent_Frameworks_ceiling": "Upper bound ~75% recall without adding new seed repos and without broadening owner prefixes. Main obstacles: (1) ~10 top-tier repos not seeded at all, (2) classifier ignores README, so repos with thin topics fall to devtools, (3) ai-ml weight of 1.0 drags the category behind local-llm and ai-agents."
+  },
+
+  "gaps": [
+    "LLM inference is absent. Zero openai/anthropic SDK calls. The 'Fix AI-focus' commit did NOT add LLM assistance — it expanded rule tables + seed list only.",
+    "README content is not parsed. This is the single biggest recall gap: many AI repos have minimal GitHub topics because maintainers don't set them.",
+    ".data/categories.jsonl is stale — predates the latest seed expansion. The AI-focus story the product tells is mostly invisible until the pipeline runs again on the full, expanded seed.",
+    "Classifier category universe (15) diverges from UI category universe (10). ai-agents, mcp, browser-automation, local-llm, design-engineering can be emitted but may not be selectable/filterable in the UI. Verify UI route handling for these — if /category/ai-agents returns 404 or empty, that's a silent 5-category dead zone.",
+    "Seed-list bucket is NOT used as a prior for classification. A repo curated into SEED_REPOS.ai-ml still gets categoryId=devtools if GitHub returns empty topics. Trivial fix: pass SeedCategoryId as a fallback when classifier confidence is 0.",
+    "Tag rules and classification rules have divergent owner prefix lists. mem0ai is in tag rules (agent-memory) but NOT in classification rules (ai-ml) — so the repo gets a tag but its primary category can still be wrong. These tables should share a common source of truth or at least be consistency-checked.",
+    "Rule weights frozen and skewed. ai-ml=1.0 is too low for 2026 — in practice, rust-ecosystem (1.1) beats ai-ml when both fire. Weight ai-ml at 1.3 minimum.",
+    "Owner prefix 'anthropics' forces EVERY anthropics/* repo into mcp category. Need either (a) narrower prefix like 'anthropics/claude-code' only, or (b) subtract mcp rule weight when no mcp topic is present.",
+    "Owner prefix 'microsoft/autogen' is a hardcoded exact path — inconsistent with other ownerPrefixes which are just 'owner'. Works due to the `fullName.startsWith(prefix)` fallback but fragile.",
+    "No test case for the devtools fallback actually failing. tests/classification.test.ts only tests happy paths.",
+    "Substring matching is naive: 'defi' hits 'defining', 'react' hits 'reactor'. No word boundary, no tokenization.",
+    "Browser-automation and design-engineering CATEGORIES exist but are under-seeded. browser-use/browser-use is not in SEED_REPOS at all. shadcn/ui is not in the seed either despite design-engineering having an owner prefix for 'shadcn-ui'."
+  ],
+
+  "file_index": {
+    "classifier_engine": "src/lib/pipeline/classification/classifier.ts",
+    "classification_rules_table": "src/lib/pipeline/classification/rules.ts",
+    "tag_rules_table": "src/lib/pipeline/classification/tag-rules.ts",
+    "confidence_helpers": "src/lib/pipeline/classification/confidence.ts",
+    "pipeline_integration": "src/lib/pipeline/pipeline.ts:198-210 (batch) and :346-351 (single repo)",
+    "seed_list": "src/lib/seed-repos.ts",
+    "seed_ingestion": "src/lib/pipeline/ingestion/seed.ts",
+    "pipeline_types": "src/lib/pipeline/types.ts",
+    "ui_categories": "src/lib/constants.ts:9-90",
+    "persisted_data": ".data/categories.jsonl",
+    "tests": "src/lib/pipeline/__tests__/classification.test.ts",
+    "ui_tags_consumer": "src/components/terminal/TagsBar.tsx",
+    "normalizer_default_category": "src/lib/pipeline/adapters/normalizer.ts:41 (stamps 'other' pre-classify)"
+  }
+}

@@ -1,0 +1,487 @@
+{
+  "repo_root": "C:/Users/mirko/OneDrive/Desktop/STARSCREENER",
+  "generated_at": "2026-04-18",
+  "auditor_notes": {
+    "pipeline_overview": "Every UI number ultimately resolves from the singleton in-memory stores in src/lib/pipeline/storage/singleton.ts (repoStore / snapshotStore / scoreStore / categoryStore / reasonStore / mentionStore). These are hydrated once per process from JSONL files under .data/ (repos.jsonl, snapshots.jsonl, scores.jsonl, categories.jsonl, reasons.jsonl, mention-aggregates.jsonl) by pipeline.ensureReady(). Mutations schedule a debounced persist (PERSIST_DEBOUNCE_MS=2000 in singleton.ts).",
+    "recompute_cadence": "recomputeAll() is invoked by POST /api/pipeline/recompute (15s cooldown), POST /api/pipeline/rebuild, and after each cron ingest batch in /api/cron/ingest. It rebuilds all Repo.* delta/score/rank/movementStatus fields in a single consistent pass, then persists.",
+    "read_cache": "All read endpoints set Cache-Control: public, s-maxage=30, stale-while-revalidate=60 (src/lib/api/cache.ts READ_CACHE_HEADERS).",
+    "adapter_boundary": "MCP server and CLI both talk ONLY to the Next.js REST surface (no direct pipeline access). MCP client.ts and cli/ss.mjs → /api/repos, /api/search, /api/compare, /api/categories, /api/repos/:owner/:name. Therefore MCP/CLI/web ALL read the same singleton state — cross-surface divergence is only possible if they hit different processes (prod multi-instance), or if the HTTP edge cache is stale on one surface but not another."
+  },
+  "fields": [
+    {
+      "display_label": "Total stars (per repo)",
+      "ui_locations": [
+        "src/components/feed/RepoCard.tsx:58 (formatNumber(repo.stars))",
+        "src/components/terminal/columns.ts:401 (stars column — formatNumber(repo.stars))",
+        "src/components/terminal/TerminalMobileCard.tsx:129 (formatNumber(repo.stars))",
+        "src/components/terminal/FeaturedCard.tsx:103 (formatNumber(repo.stars) total)",
+        "src/components/detail/RepoHeader.tsx:72 (stats grid — formatNumber(repo.stars))"
+      ],
+      "api_route": "/api/repos (route.ts), /api/repos/:owner/:name (route.ts), /api/search (route.ts), /api/compare (route.ts)",
+      "canonical_source": ".data/repos.jsonl → repoStore.byId[id].stars",
+      "derivation": "github adapter (src/lib/pipeline/ingestion/ingest.ts) → snapshotStore.append({stars}) + repoStore.upsert({...stars}). On recompute, repoStore.stars is NOT re-derived — the value set at ingest time sticks until the next ingest. snapshots.jsonl[-1].stars === repoStore.get(id).stars at steady state.",
+      "mirrors": [
+        "CLI `ss trending` / `ss repo` / `ss compare` (cli/ss.mjs:164, 269, 323) — reads Repo.stars from /api/repos*",
+        "MCP get_trending / get_repo / compare_repos (mcp/src/server.ts, client.ts) — same REST path",
+        "SSE stream event `snapshot_captured` sends payload.stars from the newest snapshot (src/lib/pipeline/ingestion/snapshotter.ts:70-78)"
+      ],
+      "drift_risks": [
+        "Between an ingest writing a new snapshot and the next recomputeAll(), repoStore.stars still reflects the PREVIOUS ingest's value. snapshot.stars is already newer. Any consumer that reads snapshot vs repo will see different stars for a window of PERSIST_DEBOUNCE_MS + recompute latency.",
+        "cli ss repo reads /api/repos/:owner/:name which returns repo.stars; that field is written by ingest (ingestRepo upserts the whole Repo), so it should match until another concurrent ingest lands.",
+        "Multi-process / horizontal Vercel scaling: each process has its own in-memory singleton. If two instances hydrated at different times, /api/repos from instance A can show stars=X while instance B shows stars=Y. README notes this is why they redirect Vercel→Railway."
+      ],
+      "max_staleness_sec": 21600,
+      "lie_conditions": [
+        "A repo that was just ingested but recompute hasn't run yet shows the pre-ingest stars value in every surface that reads repoStore; snapshot-derived deltas at that moment use the new snapshot and will therefore disagree with repo.stars. (Mitigated: cron/ingest always calls pipeline.recomputeAll() before returning.)",
+        "Formatted stars use formatNumber (src/lib/utils.ts) which truncates to 'k'/'M'. Two repos at 10,456 and 10,612 both render as '10.5k' / '10.6k' — the formatting hides sub-unit drift."
+      ]
+    },
+    {
+      "display_label": "Δ24h stars (starsDelta24h)",
+      "ui_locations": [
+        "src/components/terminal/columns.ts:417 (delta24h column — renderStackedDelta(repo.starsDelta24h, repo.stars))",
+        "src/components/terminal/TerminalMobileCard.tsx:72,260 (delta24hPct = starsDelta24h/stars*100)",
+        "src/components/terminal/FeaturedCard.tsx:31-35 (gain = repo.starsDelta24h, pct = gain/stars*100)",
+        "src/components/shared/DeltaBadge.tsx (consumer — displays any % passed in)",
+        "cli/ss.mjs:164,274,325 (`ss trending` / `ss repo` / `ss compare` — 24H column / Δ 24h line)"
+      ],
+      "api_route": "/api/repos (period=today sorts by starsDelta24h), /api/repos/:owner/:name, /api/search, /api/compare",
+      "canonical_source": "repoStore.get(id).starsDelta24h — a derived, cached value written by recomputeAll()",
+      "derivation": "src/lib/pipeline/ingestion/deltas.ts:computeDelta(repoId, '24h', snapshotStore) = latestSnapshot.stars − snapshotStore.getAt(repoId, latest.capturedAt − 86_400_000 ms).stars. applyDeltasToRepo (deltas.ts:128) projects this onto repo.starsDelta24h. If the 24h-old snapshot is missing, returns null → repo.starsDelta24h KEEPS its prior (possibly stale mock / last-ingested) value. sparkline-based deltas no longer ship — but if recompute is never run, any seed value sticks forever.",
+      "mirrors": [
+        "CLI `ss trending --window=24h` → /api/repos?period=today, same starsDelta24h field",
+        "MCP get_trending window=24h → client.ts:113 → same endpoint",
+        "FeaturedCard.tsx hero number '+NNN ★' = gain/pct computed client-side from repo.starsDelta24h + repo.stars",
+        "SSE snapshot_captured payload.starsDelta24h (events.ts via snapshotter.ts:76) — passes repo.starsDelta24h at capture time (STALE: taken BEFORE the incoming snapshot has been appended + recomputed)"
+      ],
+      "drift_risks": [
+        "HUGE DRIFT SURFACE. Percent in UI (+2.3%) is computed LIVE from repo.starsDelta24h / repo.stars in several components (RepoCard.tsx:22, RepoHeader.tsx:35-36, FeaturedCard.tsx:32, TerminalMobileCard.tsx:70-74, columns.ts:127). If repo.stars is post-ingest but repo.starsDelta24h still reflects a prior pass (recompute hasn't run), the percent LIES.",
+        "FeaturedCards.tsx debounces refetches 150ms after filter change AND also separately driven by the terminal page's server-rendered getTopMovers. The Featured row hits /api/pipeline/featured (fresh from pipeline), while the table underneath was rendered server-side using pipeline.getTopMovers at request time. If a recompute happens BETWEEN server render and the client-side Featured fetch, the same repo appears with two different starsDelta24h values on the page.",
+        "SSE snapshot_captured payload.starsDelta24h is taken BEFORE the new snap is factored in (emit happens inside snapshotAndPersist, but the Repo object's starsDelta24h is still the previous recompute's output). Stream consumers who trust this value see yesterday's delta labeled as today's ingest event.",
+        "When computeDelta returns null (no snapshot ≥24h old for a freshly-seeded repo), applyDeltasToRepo KEEPS the seed / prior starsDelta24h value. Repos that were just seeded show whatever starsDelta24h existed in repos.jsonl — typically the last serialized value, which for a brand-new repo can be 0 or a synthesized mock value."
+      ],
+      "max_staleness_sec": 21600,
+      "lie_conditions": [
+        "UI renders '+642' (raw) with 'BRK' badge when repo.movementStatus was classified as breakout from an older pass but starsDelta24h is now −10 after the latest recompute. Possible when scoring and movementStatus were frozen before the recompute that recomputed deltas. Mitigated by recomputeAll() updating both in the same pass — but any consumer that reads repo between ingest.upsert() and the recompute sees an inconsistent blend.",
+        "Single Δ24h can sit on a stale snapshot when: (a) the previous ingest tier was 'cold' (24h cadence), (b) getRefreshBatch hit its maxPerHour cap and skipped this repo, or (c) the hot-tier cron failed. The number keeps displaying +X because it was the LAST SUCCESSFUL delta, not a rolling realtime figure."
+      ]
+    },
+    {
+      "display_label": "Δ7d stars (starsDelta7d)",
+      "ui_locations": [
+        "src/components/feed/RepoCard.tsx:22,67 (deltaPercent = starsDelta7d/stars*100)",
+        "src/components/terminal/columns.ts:432 (delta7d column — renderStackedDelta(starsDelta7d, stars))",
+        "src/components/terminal/TerminalMobileCard.tsx:69-70 (delta7dPct)",
+        "src/components/detail/RepoHeader.tsx:35-36 (starsDelta7dPercent)",
+        "cli/ss.mjs:165 (7D column)"
+      ],
+      "api_route": "/api/repos (period=week sorts by it), /api/repos/:owner/:name, /api/search, /api/compare",
+      "canonical_source": "repoStore.get(id).starsDelta7d",
+      "derivation": "deltas.ts:computeDelta(repoId, '7d', snapshotStore) = latestSnapshot.stars − snapshotStore.getAt(repoId, latest − 604_800_000 ms).stars. Same fallback behaviour as 24h.",
+      "mirrors": [
+        "CLI `ss trending --window=7d` → /api/repos?period=week",
+        "MCP get_trending window=7d → same",
+        "Sparkline 'positive' prop (RepoCard.tsx:67, TerminalMobileCard.tsx:136, columns.ts:469) derives direction from starsDelta7d ≥ 0"
+      ],
+      "drift_risks": [
+        "Same pattern as Δ24h — the percent is computed UI-side from starsDelta7d / stars. If either is stale relative to the other, the label lies.",
+        "Sparkline green/red color depends on starsDelta7d ≥ 0 but sparklineData is regenerated from snapshots on every recompute (pipeline.ts:185 deriveSparklineData). If the snapshotStore grew new snapshots but starsDelta7d wasn't recomputed yet, a green sparkline can sit next to a −3% 7d label."
+      ],
+      "max_staleness_sec": 21600,
+      "lie_conditions": [
+        "Same as Δ24h. Additionally: a 7-day-ago snapshot may have been evicted by SNAPSHOT_HISTORY_CAP=120 (memory-stores.ts:73, ~30d at 6h cadence). For high-frequency (hot-tier, 1h) repos, 120 snapshots = 5 days, so computeDelta('7d') can return null and the prior value sticks indefinitely. This is a silent correctness bug for hot-tier repos."
+      ]
+    },
+    {
+      "display_label": "Δ30d stars (starsDelta30d)",
+      "ui_locations": [
+        "src/components/terminal/columns.ts:447 (delta30d column)",
+        "src/components/terminal/TerminalMobileCard.tsx:73-74,270 (delta30dPct)",
+        "cli/ss.mjs:276 (Δ 30d line in `ss repo`)"
+      ],
+      "api_route": "/api/repos (period=month), /api/repos/:owner/:name, /api/compare",
+      "canonical_source": "repoStore.get(id).starsDelta30d",
+      "derivation": "deltas.ts:computeDelta(repoId, '30d', snapshotStore) over 2_592_000_000 ms.",
+      "mirrors": ["CLI, MCP (same REST path)"],
+      "drift_risks": [
+        "SNAPSHOT_HISTORY_CAP=120 at 6h cadence = ~30 days EXACTLY — any hot-tier (1h) or warm-tier (3h) repo will evict its 30d anchor and fall back to prior repo.starsDelta30d value. This is a near-guaranteed silent stale for high-priority repos."
+      ],
+      "max_staleness_sec": 86400,
+      "lie_conditions": [
+        "For hot-tier repos (1h cadence), 30d anchor is always evicted — displayed number is frozen at whatever the seed or last-valid recompute wrote. Will never update after ~5d of hot-tier ingestion."
+      ]
+    },
+    {
+      "display_label": "Momentum score (0–100)",
+      "ui_locations": [
+        "src/components/shared/MomentumBadge.tsx:56 ({score}) — used in RepoCard.tsx:72, columns.ts:370, TerminalMobileCard.tsx:113, RepoHeader.tsx:118",
+        "cli/ss.mjs:166 (MOMENTUM column via fmtMomentum)"
+      ],
+      "api_route": "/api/repos, /api/repos/:owner/:name, /api/search, /api/compare",
+      "canonical_source": "repoStore.get(id).momentumScore (mirror of scoreStore.get(id).overall after recomputeAll)",
+      "derivation": "src/lib/pipeline/scoring/engine.ts:computeScore → weightedSum(components,weights) * decayFactor * antiSpamDampening * breakoutMultiplier + quietKillerBonus, clamped [0,100], rounded to 1 decimal. Components in scoring/components.ts read from repo deltas (starVelocity24h/7d, forkVelocity7d, contributorGrowth30d, commitFreshness, releaseFreshness, socialBuzz, issueActivity, communityHealth, categoryMomentum).",
+      "mirrors": [
+        ".data/scores.jsonl:overall (scoreStore.save after every recompute)",
+        ".data/repos.jsonl:momentumScore (mirrored by recomputeAll pipeline.ts:244-249)",
+        "CLI fmtMomentum in `ss trending` / `ss repo` / `ss compare`",
+        "MCP get_trending / get_repo pass-through",
+        "RepoCompare.score.overall (services.ts:218 → used in /api/compare winner calc — ALSO available but the UI only displays repo.momentumScore)"
+      ],
+      "drift_risks": [
+        "DOUBLE-STORED: momentumScore exists BOTH on Repo (repos.jsonl) AND on RepoScore.overall (scores.jsonl). recomputeAll keeps them in lock-step, but if persistence writes one file and then crashes before writing the other, a subsequent hydrate produces a mismatch. The /api/compare route reads score.overall while the terminal reads repo.momentumScore — under a corrupt-hydrate scenario they disagree.",
+        "MomentumBadge classifies Hot/Warm/Neutral/Cool at 80/60/40 thresholds (MomentumBadge.tsx:40-45), which is INDEPENDENT from the movementStatus === 'hot' logic used for heat pulse (RepoCard.tsx:20, TerminalRow.tsx:126). A repo can be movementStatus='hot' (breakout eligible, pulse glow enabled) with momentumScore=62 (Warm tier). Two UI-driven 'hot' concepts that can disagree."
+      ],
+      "max_staleness_sec": 21600,
+      "lie_conditions": [
+        "Between recompute passes the score is exactly last-recompute's output — not 'live'. The MomentumBadge (row 42 shows score=85) and the delta columns (row 42 shows +12/24h) are both from the SAME snapshot of state IF recompute fresh, but differ if a second ingest landed and only bumped stars/snapshots without triggering recompute."
+      ]
+    },
+    {
+      "display_label": "Trend label (movementStatus: rising/steady/breakout/quiet-killer/hot/cooling/declining)",
+      "ui_locations": [
+        "src/components/feed/RepoCard.tsx:20 (isHot check → heat-pulse class)",
+        "src/components/terminal/TerminalRow.tsx:126-127 (isHot, isBreakout → breakout border glow)",
+        "src/components/terminal/TerminalMobileCard.tsx:78-79",
+        "src/components/terminal/columns.ts:177,230-239 (BRK badge when breakout)",
+        "cli/ss.mjs:167 (STATUS column = repo.movementStatus)"
+      ],
+      "api_route": "/api/repos?filter=breakouts|hot|quiet-killers filters on this; /api/repos/:owner/:name returns the full score",
+      "canonical_source": "scoreStore.get(id).movementStatus + repoStore.get(id).movementStatus (mirrored)",
+      "derivation": "scoring/engine.ts:classifyMovement(overall, modifiers, input, previousStatus). Priority: breakoutMultiplier>1→breakout; quietKillerBonus>0→quiet_killer; overall≥55 AND starsDelta24h>25 → hot; overall≥35 AND starsDelta7d>50 → rising; previousStatus inertia branches; cooling / declining / stable fallthroughs.",
+      "mirrors": [
+        ".data/scores.jsonl:movementStatus AND .data/repos.jsonl:movementStatus",
+        "columns.ts:99-115 deriveRankChange — derives a FAKE rank arrow from movementStatus (breakout=+mag, hot=+1, rising=+1, cooling=-1, declining=-mag, quiet_killer/stable=0). The arrows in the Rank column are synthesized purely from movementStatus — there is NO persisted previousRank/rank delta."
+      ],
+      "drift_risks": [
+        "classifyMovement uses previousStatus from the PRE-mutation Repo object (pipeline.ts:244 spreads {...repo, momentumScore, movementStatus}) — preserved strong-signal inertia. If recompute runs back-to-back without an ingest in between, the status freezes.",
+        "The Rank column's up/down triangle (columns.ts:178,deriveRankChange) is a PURE function of current movementStatus and current starsDelta7d. It never compares previous rank to current rank. An 'up arrow' does not mean the repo actually climbed in rank — only that its movementStatus is rising/hot/breakout. THIS IS A STRUCTURAL LIE — read the JSDoc at columns.ts:90-96 which admits this."
+      ],
+      "max_staleness_sec": 21600,
+      "lie_conditions": [
+        "Rank column arrow shows '▲3' while actual repo.rank has been stable or dropped — columns.ts:97 returns Math.max(2, mag) for breakout, but the repo may have always been ranked #2. The glyph is a fabrication for visual density.",
+        "'breakout' badge persists for one recompute cycle after the breakout condition stops firing (modifiers.breakoutMultiplier falls back to ≤1), because pipeline.ts:244 computes updated movementStatus from THIS pass's classifyMovement — so actually clears promptly. Reverse issue: movementStatus='hot' in repos.jsonl can outlive a recompute failure and show hot forever until the next successful pass."
+      ]
+    },
+    {
+      "display_label": "Category (AI/LLM, dev-tools, etc.)",
+      "ui_locations": [
+        "src/components/shared/CategoryPill.tsx:27 (CATEGORIES.find(c=>c.id===categoryId))",
+        "consumers: RepoCard.tsx:45, columns.ts:293, TerminalMobileCard.tsx:114, FeaturedCard.tsx:58, RepoHeader.tsx:117",
+        "cli/ss.mjs:268 (Category line), `ss categories` command"
+      ],
+      "api_route": "/api/repos (returns repo.categoryId), /api/categories (returns CATEGORIES metadata + live repoCount/avgMomentum/topMoverId)",
+      "canonical_source": "repoStore.get(id).categoryId — mirror of categoryStore.get(id).primary.categoryId, set during recomputeAll pipeline.ts:207",
+      "derivation": "classification/classifier.ts:classifyBatch(freshRepos) runs keyword + topic + language rules. Primary category projected onto Repo.categoryId (pipeline.ts:205). Tags derived separately via deriveTags (multi-label).",
+      "mirrors": [
+        ".data/categories.jsonl:primary.categoryId AND .data/repos.jsonl:categoryId",
+        "/api/categories merges CATEGORIES static list (src/lib/constants.ts) with pipeline.getCategoryStats() (queries/aggregate.ts:46)"
+      ],
+      "drift_risks": [
+        "Two stores: categoryStore (classification bundle incl. confidence) vs repos.jsonl:categoryId (flat mirror). They diverge if a recompute crashes after categoryStore.save but before repoStore.upsert. Not currently observed — but the shape is fragile.",
+        "CategoryPill.tsx:29 returns null when CATEGORIES doesn't contain the id — which can happen if the classifier produces a categoryId not in the static list. Silently renders nothing.",
+        "/api/categories is populated from static CATEGORIES (list order, color, icon) but per-category stats (repoCount, avgMomentum, topMoverId) are LIVE from repoStore. A repo in a category removed from CATEGORIES becomes invisible to /api/categories but still shows categoryId in /api/repos."
+      ],
+      "max_staleness_sec": 21600,
+      "lie_conditions": [
+        "A repo's pill can say 'AI/LLM' while the /api/categories rollup reports 0 repos in AI/LLM, because the classifier output includes a categoryId not present in CATEGORIES. The pill renders from repo.categoryId directly; the category page may say 'empty'."
+      ]
+    },
+    {
+      "display_label": "Rank (#1, #2, ...)",
+      "ui_locations": [
+        "src/components/shared/RankBadge.tsx:59 ({#rank})",
+        "consumers: RepoCard.tsx:39, RepoHeader.tsx:119, columns.ts:183 (conditional RankBadge for rank≤3 else '#N')",
+        "cli/ss.mjs:278 (Rank line in `ss repo`)"
+      ],
+      "api_route": "/api/repos (returns repo.rank, repo.categoryRank); /api/repos/:owner/:name",
+      "canonical_source": "repoStore.get(id).rank (global) and .categoryRank (per-category). Written by recomputeAll pipeline.ts:247-248.",
+      "derivation": "pipeline.ts:232 sorts freshRepos by score.overall desc, assigns rank=i+1. perCategoryCounter tracks per-category position (categoryRank). Rank is re-derived each recomputeAll pass; NOT persisted incrementally.",
+      "mirrors": [
+        ".data/repos.jsonl:rank and :categoryRank",
+        "ALSO displayed as ctx.rank in terminal — but ctx.rank comes from the row INDEX in the current sort (TerminalRow.tsx:83 displayRank={i+1}), NOT from repo.rank. columns.ts:183 uses ctx.rank (the row index) instead of repo.rank.",
+        "SSE rank_changed event fires from recomputeAll pipeline.ts:258-267 with fromRank/toRank"
+      ],
+      "drift_risks": [
+        "CRITICAL: The terminal's displayed '#1' is the ROW INDEX in the current client-side sort, not repo.rank. A user who sorts by 'stars' sees the highest-star repo labeled #1 even if its momentum-rank is #47. This is intentional UX but easy to misread as 'rank in StarScreener'.",
+        "Mobile card uses displayRank (row index) for rank≤3 RankBadge (TerminalMobileCard.tsx:102). Detail page uses repo.rank (RepoHeader.tsx:119). Click a row labeled '#1' in the stars-sorted table, land on the detail page, see 'Rank #47' — same repo, two different 'rank' numbers.",
+        "No stored previousRank — rank climbs are inferred from movementStatus (see Rank change drift under Trend label). The SSE rank_changed event has the real prev/new rank but is ephemeral.",
+        "categoryRank exists on Repo but is NOT rendered anywhere in the UI code paths I searched."
+      ],
+      "max_staleness_sec": 21600,
+      "lie_conditions": [
+        "Row #1 in a stars-today sort is NOT the momentum leader — the '#1 TODAY' Featured card can point to a different repo than the '#1' terminal row. Both are correct for their definition but the shared '#' glyph invites the confusion.",
+        "If recomputeAll fails mid-pass (e.g. between scoreStore.save and repoStore.upsert-with-rank), ranks persist from the PREVIOUS successful pass while scores reflect this pass. A repo can have overall=92 (top score) and rank=#42 (frozen)."
+      ]
+    },
+    {
+      "display_label": "Forks, contributors, open issues",
+      "ui_locations": [
+        "src/components/detail/RepoHeader.tsx:86,97,110 (Forks, Contributors, Open Issues cards)",
+        "src/components/terminal/columns.ts:325,338,489,530,576 (inline repo cell + FORKS/CONTRIB/ISSUES columns)",
+        "src/components/terminal/TerminalMobileCard.tsx:254-276 (Forks, Contrib, Issues in expanded grid)",
+        "src/components/terminal/FeaturedCard.tsx:119,124 (forks + contributors footer)",
+        "cli/ss.mjs:270-272 (Stars/Forks/Contributors/Open issues lines)"
+      ],
+      "api_route": "/api/repos, /api/repos/:owner/:name, /api/compare",
+      "canonical_source": "repoStore.get(id).forks / .contributors / .openIssues",
+      "derivation": "Written at ingest by github adapter. Contributors requires the contributors API endpoint; openIssues pulled from the repo payload. NOT derived from snapshots on recompute — only ingest refreshes these.",
+      "mirrors": [
+        ".data/snapshots.jsonl also has forks/openIssues/contributors per snapshot (snapshotter.ts buildSnapshot)",
+        "forksDelta7d and contributorsDelta30d are derived from snapshots in deltas.ts:46-49"
+      ],
+      "drift_risks": [
+        "Same pattern as stars: repoStore reflects last ingest, snapshotStore reflects capture timestamps. If an ingest's snapshot writes forks=1234 but the repoStore.upsert uses the full Repo payload (also 1234) they match — UNLESS the adapter partial-fails (fetched repo but not contributors) in which case repo.contributors stays at prior ingest's value while snapshot may have 0/stale value.",
+        "TerminalMobileCard.tsx:264 label 'Contrib' shows repo.contributors; the inline repo cell (columns.ts:339) ALSO shows formatNumber(repo.contributors) — both same source, but the repo cell has no tooltip whereas the column shows a color ramp (≥500 green, ≥50 primary, <50 secondary) that changes how it looks without changing the underlying number."
+      ],
+      "max_staleness_sec": 21600,
+      "lie_conditions": [
+        "Contributors API is paginated and rate-limited; the ingest adapter can truncate. A repo with thousands of contributors may show 'contributors: 500' (max page) across every surface consistently — a single shared lie rather than cross-surface drift."
+      ]
+    },
+    {
+      "display_label": "Commits/week",
+      "ui_locations": ["NOT RENDERED IN UI — deltas.ts:75 returns commitsInWindow: 0 always (not yet implemented)"],
+      "api_route": "not exposed",
+      "canonical_source": "SnapshotDelta.commitsInWindow — hardcoded 0 in deltas.ts:75",
+      "derivation": "Placeholder — 'requires the GitHub commits API; snapshots alone can't derive it' (deltas.ts:74).",
+      "mirrors": [],
+      "drift_risks": ["N/A — not rendered."],
+      "max_staleness_sec": 0,
+      "lie_conditions": ["Field exists in the type system but is a hardcoded 0. Any future consumer that reads it will get a lie."]
+    },
+    {
+      "display_label": "Last release (timestamp + tag)",
+      "ui_locations": [
+        "src/components/terminal/columns.ts:594-613 (RELEASE column — getRelativeTime(repo.lastReleaseAt) + freshness dot)",
+        "src/components/terminal/TerminalMobileCard.tsx:281-285 (Release metric)",
+        "cli/ss.mjs:281-283 (`Last release` line)"
+      ],
+      "api_route": "/api/repos, /api/repos/:owner/:name",
+      "canonical_source": "repoStore.get(id).lastReleaseAt / .lastReleaseTag",
+      "derivation": "Written at ingest by github adapter (latest release). freshnessDotClass (columns.ts:76-82) computes age tier at render time from Date.now() − Date.parse(lastReleaseAt).",
+      "mirrors": [".data/snapshots.jsonl also carries lastReleaseAt per snapshot; releaseShippedInWindow flag in SnapshotDelta uses this for freshness signal in scoring."],
+      "drift_risks": [
+        "getRelativeTime(repo.lastReleaseAt) is LIVE-COMPUTED on every render from Date.now(). SSR → client rehydration can show 'in 2 minutes' difference if the component is rendered on server at T0 and hydrates at T0+5s. Next.js hydration mismatch warnings likely for relative times (hooks not used to defer).",
+        "freshnessDotClass cutoff at <7d = green is the same threshold used by /api/pipeline/meta-counts:freshReleasesFallback cutoff (7 * MS_PER_DAY, meta-counts.ts:103). BUT the 'Fresh Releases' meta ALSO prefers reason-backed within-48h filter first (meta-counts.ts:89). So a repo with a 5-day-old release shows green dot on the row but is NOT counted in the 'Fresh Releases' meta number. Two different 'fresh' definitions."
+      ],
+      "max_staleness_sec": 21600,
+      "lie_conditions": [
+        "Green freshness dot on the row conflicts with a 'Fresh Releases: 0' meta count — both correct under their definition, inconsistent to a reader.",
+        "If ingest missed the latest release (cron timing), getRelativeTime shows '3 months ago' while /api/repos may list an upstream tag that's actually 2 days old on GitHub — no one told StarScreener."
+      ]
+    },
+    {
+      "display_label": "Last commit (relative time)",
+      "ui_locations": [
+        "src/components/terminal/columns.ts:617-645 (COMMIT column)",
+        "src/components/terminal/TerminalMobileCard.tsx:293 (COMMIT metric)"
+      ],
+      "api_route": "/api/repos, /api/repos/:owner/:name",
+      "canonical_source": "repoStore.get(id).lastCommitAt",
+      "derivation": "Written at ingest. Used by scoring/components.ts:componentCommitFreshness.",
+      "mirrors": [".data/snapshots.jsonl:lastCommitAt"],
+      "drift_risks": [
+        "Same SSR/CSR hydration-time drift as lastReleaseAt.",
+        "scoring components read lastCommitAt for decayFactor (modifiers.ts). If repo's lastCommitAt is stale, stale-commit decay kicks in and lowers momentum — even though upstream may have fresh commits StarScreener hasn't ingested. Score is wrong for a stale-ingest reason, not a real abandonment reason."
+      ],
+      "max_staleness_sec": 21600,
+      "lie_conditions": ["Repo shows 'commit 14 days ago' + low momentum because tiered-ingest missed the last 3 warm-tier cycles; actual upstream is active."]
+    },
+    {
+      "display_label": "Mention count (24h) + Social buzz score",
+      "ui_locations": [
+        "src/components/terminal/columns.ts:688 (×mentionCount24h suffix in BUZZ column)",
+        "src/components/terminal/TerminalMobileCard.tsx:289 (BUZZ metric — `${socialBuzzScore} ×${mentionCount24h}`)",
+        "src/components/detail/SocialMentions.tsx (renders full mention list from /api/repos/:owner/:name → mentions array from live adapter fan-out)"
+      ],
+      "api_route": "/api/repos (includes mentionCount24h, socialBuzzScore); /api/repos/:owner/:name (also includes live-fetched mentions via adapter fan-out inside the route)",
+      "canonical_source": "repoStore.get(id).mentionCount24h and .socialBuzzScore (mirrors of mention-aggregates.jsonl for that repo), PLUS live adapter fetches inside /api/repos/:owner/:name route.ts:83-97",
+      "derivation": "mentionStore.aggregateForRepo(id) → repo.mentionCount24h and .socialBuzzScore are written at ingest AND recomputed inside recomputeAll reasonInputs builder. The DETAIL PAGE fan-outs to adapters (getDefaultSocialAdapters + NitterAdapter) at request time — separate from the persisted aggregate.",
+      "mirrors": [
+        ".data/mention-aggregates.jsonl (SocialAggregate per repoId) — read by mentionStore.aggregateForRepo",
+        ".data/mentions.jsonl (RepoMention records)",
+        "/api/repos/:owner/:name mentions array (LIVE ADAPTER CALL — different data source than the persisted aggregate!)"
+      ],
+      "drift_risks": [
+        "CRITICAL DRIFT: /api/repos/:owner/:name route fans out to live social adapters at request time (route.ts:83-97), returning mentions that were NEVER persisted in mentionStore and may have been posted seconds ago. Meanwhile repo.mentionCount24h is FROZEN at last recompute. Detail page can show 12 live tweets in SocialMentions while repo.mentionCount24h says 3.",
+        "BUZZ column (×3) and the detail page's mention list (12 rendered) disagree visibly on the same page transition.",
+        "Nitter adapter availability (TWITTER_AVAILABLE) flips inclusion of Twitter mentions — list grows/shrinks between calls."
+      ],
+      "max_staleness_sec": 21600,
+      "lie_conditions": [
+        "BUZZ '67 ×3' rendered across the terminal while the detail page at that moment shows 15 fresh Twitter mentions (Nitter adapter). Same repo, same user session — two different 'mention count' realities."
+      ]
+    },
+    {
+      "display_label": "Category heat / avg momentum (category cards + sidebar)",
+      "ui_locations": [
+        "src/app/api/pipeline/sidebar-data response used in SidebarContent.tsx (inspection pending)",
+        "src/app/api/categories response used in `ss categories` + categories page"
+      ],
+      "api_route": "/api/categories, /api/pipeline/sidebar-data",
+      "canonical_source": "pipeline.getCategoryStats() (queries/aggregate.ts:46) → groups repoStore.getActive() by categoryId, sums stars, averages momentumScore, picks top mover by momentumScore.",
+      "derivation": "Live reduce over repoStore.getActive() on every request — no caching other than the 30s s-maxage edge cache.",
+      "mirrors": ["/api/categories categories[i].avgMomentum AND /api/pipeline/sidebar-data categoryStats[i].avgMomentum — same function call, but returned via two endpoints that the client may fetch independently"],
+      "drift_risks": [
+        "Sidebar fetches /api/pipeline/sidebar-data on mount (categoryStats + metaCounts + reposById in ONE call). Separately, /api/categories is fetched by the categories page / CLI. Both call pipeline.getCategoryStats() but at different times. A recompute between the two reads makes the sidebar show avgMomentum=62.3 and the categories page show 61.8 for the same category. Low-consequence drift but technically visible."
+      ],
+      "max_staleness_sec": 21690,
+      "lie_conditions": ["Small-bounded drift from independent fetch timings — within ~60s the numbers reconcile (s-maxage=30, swr=60)."]
+    },
+    {
+      "display_label": "Breakouts count / Hot count / Quiet Killers / New <30d / Discussed / Rank Climbers / Fresh Releases",
+      "ui_locations": [
+        "src/components/terminal/MetasBar.tsx:132 ({count} pill per meta)",
+        "src/components/terminal/StatsBar.tsx:46 (Hot count), :54 (Breakouts count), :37 (Repos tracked) — server render",
+        "src/components/terminal/StatsBarClient.tsx:71,79,87 (same, client render after refresh)"
+      ],
+      "api_route": "MetasBar → /api/pipeline/meta-counts; StatsBar → /api/pipeline/status (via FilterBar.tsx:58-63)",
+      "canonical_source": "pipeline.getMetaCounts() (meta-counts.ts:49) and pipeline.getGlobalStats() (aggregate.ts:97) — both read repoStore.getActive() and count by movementStatus.",
+      "derivation": "Single-pass iteration: hot/breakouts/quietKillers count movementStatus; new counts createdAt<30d; discussed counts mentionCount24h>0; rankClimbers prefers reason-backed rank_jump code, falls back to rank≤20; freshReleases prefers reason-backed release_recent|release_major within 48h, falls back to lastReleaseAt<7d.",
+      "mirrors": [
+        "getGlobalStats.hotCount AND getMetaCounts.hot — count THE SAME THING but via independent loops (aggregate.ts:107 vs meta-counts.ts:68). If the underlying repoStore changes between the two loops (different API calls), they can disagree.",
+        "getGlobalStats.breakoutCount AND getMetaCounts.breakouts — same pattern."
+      ],
+      "drift_risks": [
+        "DRIFT GUARANTEED: StatsBar (from /api/pipeline/status) and MetasBar (from /api/pipeline/meta-counts) are TWO SEPARATE FETCHES in FilterBar.tsx:51-63, kicked off in the same useEffect. They resolve at different times and both populate .stats.hotCount vs .counts.hot in parallel. Under concurrent ingestion (cron firing between the two requests), 'Hot: 12' in StatsBar and '🔥 Hot This Week 11' in MetasBar is observable.",
+        "The 'Fresh Releases' meta has DUAL definitions: reason-backed 48h or fallback 7d (meta-counts.ts:89,103). Rank column's RELEASE freshness dot uses 7d/30d/90d tiers (columns.ts:76-82) — four different 'fresh' thresholds on the same page.",
+        "Rank Climbers count has reason-backed vs rank≤20 fallback — a static 'top 20 = climber' signal that's true EVEN IF the rank hasn't actually climbed. Contradicts the 'climber' word."
+      ],
+      "max_staleness_sec": 21660,
+      "lie_conditions": [
+        "StatsBar says 'Hot: 11' but MetasBar says '🔥 Hot This Week 12' because the two fetches resolved across a concurrent recompute boundary. Both are from different moments in time.",
+        "'Rank Climbers 20' is always near-constant under the fallback path because rank 1-20 trivially gives 20. The label promises movement; the number promises top-20-existence."
+      ]
+    },
+    {
+      "display_label": "'New today' / 'Repos tracked'",
+      "ui_locations": [
+        "src/components/terminal/StatsBar.tsx:37 / StatsBarClient.tsx:69 ({stats.totalRepos})",
+        "MetasBar.tsx new pill — counts[new] from /api/pipeline/meta-counts"
+      ],
+      "api_route": "/api/pipeline/status (totalRepos), /api/pipeline/meta-counts (new)",
+      "canonical_source": "pipeline.getGlobalStats().totalRepos (= repoStore.getActive().length) AND pipeline.getMetaCounts().new (= count where now − createdAt < 30d)",
+      "derivation": "Same repoStore.getActive() scan. No caching beyond edge.",
+      "mirrors": ["SidebarContent via /api/pipeline/sidebar-data → metaCounts.new AND reposById count (keyof reposById)"],
+      "drift_risks": [
+        "Not 'new today' — actually 'new under 30d'. The MetasBar label 'New <30d' is correct; but any UI copy that reads 'new today' (e.g. FeaturedCard label '#1 TODAY') uses a DIFFERENT concept (biggest 24h star gain, not age).",
+        "Counts drift between StatsBar and SidebarContent for the same reason StatsBar vs MetasBar drifts — independent fetches."
+      ],
+      "max_staleness_sec": 21600,
+      "lie_conditions": ["'New <30d: 0' while a just-ingested repo with createdAt < 30d exists — possible if the repo was ingested between the sidebar fetch and the metas fetch, and only the later one saw it."]
+    },
+    {
+      "display_label": "Sparkline (30-day star history)",
+      "ui_locations": [
+        "src/components/shared/Sparkline.tsx (consumer — renders array)",
+        "used by: RepoCard.tsx:64, columns.ts:467, TerminalMobileCard.tsx:132/245, FeaturedCard.tsx:107, RepoChart.tsx (derives stars/forks/contributors series from it)"
+      ],
+      "api_route": "/api/repos (repo.sparklineData[30]), /api/repos/:owner/:name",
+      "canonical_source": "repoStore.get(id).sparklineData — written by deriveSparklineData(repoId, snapshotStore, 30) on every recomputeAll (pipeline.ts:185)",
+      "derivation": "snapshotter.ts:99-117 — for each of 30 day-buckets (today … 29-days-ago), find snapshotStore.getAt(repoId, dayEnd) and carry-forward last known value.",
+      "mirrors": [],
+      "drift_risks": [
+        "Carry-forward is DANGEROUS — a repo with only 2 ingested snapshots shows 29 identical values then the final real value. RepoChart.tsx:144 detects new Set(sparklineData).size≤1 as 'flat' and shows placeholder. But the terminal sparklines (columns.ts:467) render the flat line anyway — a flat green sparkline LOOKS like stability but is actually no-data.",
+        "buildSeries in RepoChart.tsx:60-87 takes the sparkline (cumulative by index) and SCALES it proportionally to current totals to synthesize forks/contributors curves. This is explicitly a lie (footnote at line 316-326 admits it). The displayed growth curve is 'derived from star shape' — forks/contrib lines are fake for all dates except today."
+      ],
+      "max_staleness_sec": 21600,
+      "lie_conditions": [
+        "A newly-ingested repo has sparklineData=[N,N,N,...,N] because only one snapshot exists and gets carried forward. Terminal shows a flat sparkline that LOOKS like 'no growth'. The 7D delta column next to it shows the true recent gain — visibly contradicting the sparkline.",
+        "RepoChart Forks/Contrib curves are star-shape scaled — a fork spike that didn't correspond to a star spike is invisible, and vice versa."
+      ]
+    },
+    {
+      "display_label": "Last refresh (relative time)",
+      "ui_locations": [
+        "src/components/terminal/StatsBar.tsx:24 (getRelativeTime(stats.lastRefreshAt))",
+        "src/components/terminal/StatsBarClient.tsx:36",
+        "src/components/terminal/FeaturedCards.tsx:142 (Updated {getRelativeTime(lastRefresh)})"
+      ],
+      "api_route": "/api/pipeline/status (stats.lastRefreshAt), /api/pipeline/featured (generatedAt)",
+      "canonical_source": "stats.lastRefreshAt = max(scoreStore.getAll().computedAt) (aggregate.ts:113), fallback to max snapshot.capturedAt (aggregate.ts:120-126). featured generatedAt = new Date() at request time.",
+      "derivation": "getGlobalStats walks scoreStore for max computedAt. Featured uses request time.",
+      "mirrors": [],
+      "drift_risks": [
+        "StatsBar.lastRefreshAt is 'time of last recompute' (across any repo). FeaturedCards.lastRefresh is 'time of this API request'. Two different 'last updated' concepts rendered identically as 'Updated 2m ago'."
+      ],
+      "max_staleness_sec": 0,
+      "lie_conditions": ["'Last refresh 30s ago' on StatsBar means 'newest score was computed 30s ago' — not 'the displayed repo list was refreshed 30s ago'. The table could be server-rendered 10 minutes earlier."]
+    },
+    {
+      "display_label": "CLI output numbers (ss trending / ss repo / ss compare / ss categories)",
+      "ui_locations": ["cli/ss.mjs — renderTable rows driven by /api/repos and /api/repos/:owner/:name and /api/categories"],
+      "api_route": "same as web (CLI is a plain HTTP client)",
+      "canonical_source": "identical to web — all numbers flow through the same /api/* routes and therefore the same singleton pipeline state",
+      "derivation": "n/a — pass-through.",
+      "mirrors": ["Web UI (server components), MCP (via client.ts)"],
+      "drift_risks": [
+        "CLI/MCP/Web ALL hit the same Next.js process, so they share the in-memory pipeline. Divergence only possible via: (a) the 30s edge cache serving stale to one client and fresh to another if geographically spread, (b) Vercel multi-instance fan-out where each instance has its own singleton (README notes this is why they migrated to Railway — serverless /tmp can't hold pipeline state).",
+        "CLI fmtMomentum uses toFixed(1) (ss.mjs:133); web MomentumBadge renders the raw number (MomentumBadge.tsx:74 → {score}). A repo with overall=78.5 shows '78.5' in CLI and '78.5' in web (same — scoreStore.overall is already round1). At overall=80.04 both show '80'. Edge: scoreStore stores rounded, so they should agree exactly.",
+        "CLI fmtDelta shows '+12' raw; web shows stacked raw+%. Information content differs but the raw number is identical at any given fetch."
+      ],
+      "max_staleness_sec": 21660,
+      "lie_conditions": ["On Railway single-process deploy: near-zero cross-surface lie. On Vercel / multi-instance: `ss trending` from CLI against one instance and web from another instance can show different numbers until hydration converges."]
+    },
+    {
+      "display_label": "MCP tool outputs (get_trending, get_repo, get_breakouts, etc.)",
+      "ui_locations": ["mcp/src/server.ts tool handlers → client.ts → /api/* (pass-through JSON back to model)"],
+      "api_route": "same as web / CLI",
+      "canonical_source": "same as web",
+      "derivation": "n/a — pass-through. Server stringifies the JSON body as the single text content chunk (server.ts:59).",
+      "mirrors": ["Web UI, CLI"],
+      "drift_risks": ["Same as CLI — shared with web via the REST surface."],
+      "max_staleness_sec": 21660,
+      "lie_conditions": ["Same as CLI."]
+    }
+  ],
+  "crosssurface_consistency": {
+    "web_vs_cli": "agree (single-process) / drift-on-scale (multi-instance)",
+    "web_vs_mcp": "agree (single-process) / drift-on-scale (multi-instance)",
+    "evidence": "CLI (cli/ss.mjs) and MCP (mcp/src/client.ts) are thin HTTP clients for the Next.js REST surface. All three surfaces read repoStore/scoreStore/etc. through pipeline.* facade — same singleton, same state. Under the README's current Railway deployment (single long-lived process), they always agree. Historically Vercel served different in-memory snapshots per invocation — which the README says they migrated AWAY from (commit f76784b 'Restore Vercel → Railway redirect: serverless /tmp can't hold pipeline state'). The only remaining drift vector is the 30s edge cache occasionally serving a CLI or MCP client a stale snapshot while the web session sees a fresh refresh-button-triggered recompute."
+  },
+  "single_source_violations": [
+    {
+      "field": "momentumScore",
+      "duplicated_in": [".data/scores.jsonl:overall", ".data/repos.jsonl:momentumScore"],
+      "writer": "recomputeAll (pipeline.ts:244-249)",
+      "risk": "Crash between scoreStore.save and repoStore.upsert on the SAME pass leaves the two out of sync on next hydrate."
+    },
+    {
+      "field": "movementStatus",
+      "duplicated_in": [".data/scores.jsonl:movementStatus", ".data/repos.jsonl:movementStatus"],
+      "writer": "recomputeAll (pipeline.ts:244)",
+      "risk": "Same as momentumScore."
+    },
+    {
+      "field": "categoryId",
+      "duplicated_in": [".data/categories.jsonl:primary.categoryId", ".data/repos.jsonl:categoryId"],
+      "writer": "recomputeAll (pipeline.ts:207)",
+      "risk": "CategoryPill reads repo.categoryId; category page rollups read repoStore filtered by categoryId; /api/categories uses getCategoryStats which ALSO reads repo.categoryId — the category store is a secondary store whose value is only read by the detail endpoint via getRepoSummary (services.ts:181)."
+    },
+    {
+      "field": "starsDelta{24h,7d,30d} + stars",
+      "duplicated_in": ["snapshotStore (latest snapshot.stars)", "repoStore (repo.stars + repo.starsDelta*)"],
+      "writer": "ingest (writes both snapshot and repo) + recomputeAll (updates delta fields from snapshots)",
+      "risk": "Delta fields depend on snapshot history being intact AND a recompute having run after the ingest. Between ingest.upsert and recomputeAll, repo.stars is fresh but repo.starsDelta* is stale relative to the new snapshot."
+    },
+    {
+      "field": "rank arrow (climbed N / dropped N)",
+      "duplicated_in": ["columns.ts:deriveRankChange synthesizes from movementStatus + starsDelta7d magnitude"],
+      "writer": "pure render function, no persisted source",
+      "risk": "Displayed rank-change delta is a fabrication. There is no stored previousRank comparison. This is a structural lie, not a drift — but easy to misread."
+    },
+    {
+      "field": "Fresh releases count",
+      "duplicated_in": ["meta-counts.ts (48h reason-backed OR 7d fallback)", "columns.ts:freshnessDotClass (7d/30d/90d tiers)"],
+      "writer": "two different pure functions",
+      "risk": "Definition drift — green dot on a 5-day-old release but meta pill excludes it."
+    },
+    {
+      "field": "Hot count",
+      "duplicated_in": ["/api/pipeline/status.stats.hotCount (aggregate.ts)", "/api/pipeline/meta-counts.counts.hot (meta-counts.ts)"],
+      "writer": "two independent scans over repoStore — same semantics, separate fetches",
+      "risk": "Independent-fetch race: StatsBar and MetasBar hit two endpoints in parallel; under concurrent recompute they snapshot repoStore at different instants and can report different counts."
+    }
+  ],
+  "biggest_lie_risk": "The Δ24h percentage ('+ 642' / '+2.3%') is the most likely number to LIE on-screen. Two independent reasons: (1) the percent is recomputed client-side in FIVE DIFFERENT COMPONENTS (RepoCard.tsx:22, columns.ts:127, TerminalMobileCard.tsx:71, FeaturedCard.tsx:32, RepoHeader.tsx:35) from the ratio repo.starsDelta24h / repo.stars — if a new ingest updates repo.stars but recompute hasn't refreshed repo.starsDelta24h yet, the denominator and numerator are from different timestamps and the percent is garbage. (2) The SNAPSHOT_HISTORY_CAP=120 means a hot-tier repo (1h cadence) evicts its 24h anchor after only ~5 days of history (120 × 1h = 5 days), so deltas.computeDelta('24h') returns null and applyDeltasToRepo KEEPS the prior value forever. A repo can display '+642 (24h)' indefinitely with no one updating it."
+}

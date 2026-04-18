@@ -1,0 +1,183 @@
+{
+  "meta": {
+    "audit_date": "2026-04-18",
+    "verification_method": "main-agent WebFetch (previous subagent sandbox denied web tools)",
+    "fetches_used": 7,
+    "fetch_cap": 8,
+    "note": "Every claim below cites a fetched URL. Any cell lacking a fetched-evidence URL is tagged 'Unknown — not advertised'."
+  },
+
+  "targets": [
+    {
+      "target": "OSSInsight",
+      "url": "https://ossinsight.io",
+      "status": "LIVE_VERIFIED",
+      "fetched_at": "2026-04-18",
+      "data_source": "monitors 'over 10 billion GitHub events in real time' — implies GH Archive / events firehose at warehouse scale (TiDB per public PingCAP docs, not re-verified in this pass)",
+      "cadence": "'real time' is advertised on the landing page; specific cadence (seconds vs minutes) is not stated",
+      "categories": ["Data Explorer", "Collections", "Trending", "Languages", "Blog", "More"],
+      "ai_agents_first_class": true,
+      "ai_agents_evidence": {
+        "url": "https://ossinsight.io/collections/ai-agent-frameworks",
+        "collection_name": "AI Agent Frameworks",
+        "repo_count": 17,
+        "repos_sample": ["langchain-ai/langchain", "crewAIInc/crewAI", "openai/openai-agents-python", "FoundationAgents/MetaGPT", "VoltAgent/voltagent", "microsoft/autogen", "Significant-Gravitas/AutoGPT", "mastra-ai/mastra", "pydantic/pydantic-ai", "agno-agi/agno", "camel-ai/camel", "ag2ai/ag2", "microsoft/JARVIS", "yoheinakajima/babyagi", "langroid/langroid", "omega-memory/omega-memory", "aiwaves-cn/agents"],
+        "metrics_tracked_quote": "stars, pull requests, issues — last 28 days and month-to-month comparisons, plus year-to-year historical rankings since 2011",
+        "ranking_indicator_quote": "moving up or down the rankings"
+      },
+      "alerts": {
+        "email": false,
+        "rss": "Unknown — not advertised",
+        "push": false,
+        "mcp": false,
+        "webhook": false,
+        "paid_tier": "Unknown — not advertised"
+      },
+      "they_have_we_dont": "Curated AI Agent Frameworks collection (17 repos, stars/PRs/issues × 28d/MoM/YoY) with live rank-change indicators. Warehouse-depth historical data back to 2011.",
+      "we_could_have_they_dont": "MCP server + SSE live subscribe channel + alert delivery. OSSInsight is read-only analytics; a warehouse architecture cannot push sub-minute events to an agent without re-architecting.",
+      "evidence_urls": [
+        "https://ossinsight.io",
+        "https://ossinsight.io/collections/ai-agent-frameworks"
+      ]
+    },
+
+    {
+      "target": "Trendshift",
+      "url": "https://trendshift.io",
+      "status": "LIVE_VERIFIED",
+      "fetched_at": "2026-04-18",
+      "data_source": "Unknown — not advertised on landing page; self-described as 'An alternative to GitHub Trending, using a consistent scoring algorithm informed by daily engagement metrics'",
+      "cadence": "Daily — landing header dates page '2026-04-18', nav reads 'Trending // Daily' and 'Daily explore'",
+      "categories": ["Daily explore (root)", "Trending topics list including #AI agent, #AI coding assistant, #AI skills, and others"],
+      "ai_agents_first_class": true,
+      "ai_agents_evidence": {
+        "url": "https://trendshift.io/topics/ai-agent",
+        "topic_label": "#AI agent",
+        "topic_star_count_shown": "45.6k stars",
+        "topic_position": "top of the trending topics list"
+      },
+      "alerts": {
+        "email": "Unknown — not advertised on landing",
+        "rss": "Unknown — not advertised on landing",
+        "push": false,
+        "mcp": false,
+        "webhook": false,
+        "paid_tier": "Unknown — not advertised"
+      },
+      "they_have_we_dont": "First-class topic taxonomy exposed as URL paths (#ai-agent, #ai-coding-assistant, #ai-skills) with daily editorial-feeling curation and aggregated topic-level star counts.",
+      "we_could_have_they_dont": "Agent-native subscribe surface (MCP + SSE), API, CLI, per-repo compound signals (quiet-killer, rank-climber). Trendshift is a human-browsing surface — no dev API advertised on landing.",
+      "evidence_urls": ["https://trendshift.io"]
+    },
+
+    {
+      "target": "GitHub Trending",
+      "url": "https://github.com/trending",
+      "status": "LIVE_VERIFIED",
+      "fetched_at": "2026-04-18",
+      "data_source": "GitHub's internal trending algorithm (opaque, not documented)",
+      "cadence": "Today / This week / This month windows; no explicit refresh cadence stated on the page",
+      "categories": ["Time: Today / This week / This month", "Language: 500+ options (1C Enterprise … Zmodel)", "Spoken Language: 180+ options", "View: Repositories | Developers"],
+      "ai_agents_first_class": false,
+      "ai_agents_evidence": {
+        "note": "No dedicated AI or AI-agents filter. Page acknowledged AI-heavy content via the trending list itself (openai-agents-python, omi, evolver, thunderbolt observed in the list), but no category selector for AI."
+      },
+      "alerts": {
+        "email": false,
+        "rss": false,
+        "push": false,
+        "mcp": false,
+        "webhook": false,
+        "paid_tier": false
+      },
+      "they_have_we_dont": "Default brand. Every developer on Earth can discover trending repos at github.com/trending without a single click of onboarding. Language-by-language filter depth StarScreener can't match.",
+      "we_could_have_they_dont": "An AI category, alerts, API, MCP, compound signals, latency better than hours/day, badges. Everything except reach.",
+      "evidence_urls": ["https://github.com/trending"]
+    },
+
+    {
+      "target": "star-history.com",
+      "url": "https://star-history.com",
+      "status": "LIVE_VERIFIED",
+      "fetched_at": "2026-04-18",
+      "data_source": "Unknown — not explicitly stated on landing page",
+      "cadence": "Unknown — not stated; star histories are snapshot-rendered on demand",
+      "categories": ["Per-repo viewer (primary)", "Weekly trending leaderboard (secondary)", "Star Map (geographic)", "Compare (multi-repo overlay)"],
+      "ai_agents_first_class": false,
+      "ai_agents_evidence": {
+        "note": "Not primarily a categorizing tool — product centers on per-repo star-curve rendering."
+      },
+      "alerts": {
+        "email": "Unknown — 'Subscribe' string visible on landing but channel not specified in fetched content",
+        "rss": "Unknown — not advertised",
+        "push": false,
+        "mcp": false,
+        "webhook": false,
+        "browser_extension": "Chrome extension offered (landing page)",
+        "paid_tier": "Unknown — not advertised"
+      },
+      "they_have_we_dont": "The viral chart itself — a single iconic star-history image that gets embedded in README files and tweets. Brand-defining visual.",
+      "we_could_have_they_dont": "A trending screener with compound signals, categories, alerts, and API. star-history is a viewer, not a screener — they solve a different problem.",
+      "scope_note": "Per the brief: this is primarily a per-repo chart viewer, NOT a trending screener. The weekly trending leaderboard is a secondary surface.",
+      "evidence_urls": ["https://star-history.com"]
+    },
+
+    {
+      "target": "Gitlogs",
+      "url": "https://gitlogs.com",
+      "status": "DEAD_SITE",
+      "fetched_at": "2026-04-18",
+      "data_source": "N/A — domain no longer hosts the product",
+      "cadence": "N/A",
+      "categories": [],
+      "ai_agents_first_class": false,
+      "alerts": {},
+      "http_status": 301,
+      "redirect_target": "https://writinggoals.com/about-us",
+      "dead_site_detail": "301 Moved Permanently to writinggoals.com/about-us — an unrelated 'writing goals' site. The GitLogs product as described in the audit is defunct at this URL.",
+      "they_have_we_dont": "N/A — site is dead; no competitive claim possible.",
+      "we_could_have_they_dont": "N/A",
+      "evidence_urls": ["https://gitlogs.com"]
+    },
+
+    {
+      "target": "daily-stars-explorer (emanuelef/daily-stars-explorer)",
+      "url": "https://github.com/emanuelef/daily-stars-explorer",
+      "status": "LIVE_VERIFIED",
+      "fetched_at": "2026-04-18",
+      "classification": "reference tool, NOT a competitor — open-source library + self-hostable app",
+      "data_source": "GitHub API — both GraphQL and REST endpoints, user-provided PAT (5000/hr auth vs 60/hr unauth)",
+      "cadence": "On-demand per repo; initial fetch for a 100k-star repo takes ~3 minutes",
+      "categories": [],
+      "ai_agents_first_class": false,
+      "alerts": {
+        "email": false,
+        "rss": false,
+        "push": false,
+        "mcp": false,
+        "webhook": false
+      },
+      "distinctive_capability": "DUAL-ENDED FETCH WORKAROUND FOR THE 40K-STAR CAP — 'fetches star history from both ends simultaneously' to reconstruct complete daily star data for repos above GitHub's 400-page stargazer listing cap. Direct solution to StarScreener's #4 finding (296/309 flat sparklines).",
+      "license_check_required": "confirm MIT/Apache before porting the technique",
+      "they_have_we_dont": "Working 40k-cap bypass technique (dual-ended pagination) — SHIP-READY IN PRODUCTION. Exports as CSV/JSON. Self-hostable with Docker.",
+      "we_could_have_they_dont": "Everything trending/category/alert-related — they don't screen, they visualize. StarScreener should PORT the dual-ended fetch and keep the rest of its surface area.",
+      "evidence_urls": ["https://github.com/emanuelef/daily-stars-explorer"]
+    }
+  ],
+
+  "moat_matrix": [
+    {"dimension": "AI-agents category (first-class)", "ss_today": "classifier broken (35% recall)", "ossinsight": "yes (curated 17-repo collection)", "trendshift": "yes (#ai-agent topic)", "gh_trending": "no", "star_history": "no", "gitlogs": "DEAD", "daily_stars_explorer": "N/A (reference)"},
+    {"dimension": "Detection latency", "ss_today": "manual / 24h", "ss_after_preflight": "5-10 min (hot cron wired)", "ossinsight": "'real time' advertised", "trendshift": "daily", "gh_trending": "opaque", "star_history": "N/A", "gitlogs": "DEAD", "daily_stars_explorer": "on-demand"},
+    {"dimension": "Historical depth", "ss_today": "30d window + 40k-star cap", "ossinsight": "since 2011", "trendshift": "Unknown", "gh_trending": "month max", "star_history": "full history per repo", "gitlogs": "DEAD", "daily_stars_explorer": "full history (via dual-ended fetch)"},
+    {"dimension": "Public API", "ss_today": "REST documented", "ossinsight": "/docs/api exists", "trendshift": "not advertised", "gh_trending": "none", "star_history": "Unknown", "gitlogs": "DEAD", "daily_stars_explorer": "N/A (self-host)"},
+    {"dimension": "MCP / agent-native", "ss_today": "8 read-only tools", "ossinsight": "not advertised", "trendshift": "not advertised", "gh_trending": "none", "star_history": "none", "gitlogs": "DEAD", "daily_stars_explorer": "none"},
+    {"dimension": "CLI", "ss_today": "bin/ss.mjs", "ossinsight": "not advertised", "trendshift": "not advertised", "gh_trending": "none", "star_history": "none", "gitlogs": "DEAD", "daily_stars_explorer": "self-host only"},
+    {"dimension": "Alert engine + delivery", "ss_today": "engine shipped, 0% delivery", "ossinsight": "none advertised", "trendshift": "none advertised", "gh_trending": "none", "star_history": "Subscribe string + Chrome ext; details unclear", "gitlogs": "DEAD", "daily_stars_explorer": "none"},
+    {"dimension": "SSE live stream / webhook", "ss_today": "SSE live, no consumer", "ossinsight": "none advertised", "trendshift": "none advertised", "gh_trending": "none", "star_history": "none", "gitlogs": "DEAD", "daily_stars_explorer": "none"},
+    {"dimension": "40k-star cap workaround", "ss_today": "Events-API fallback, silently truncates", "ossinsight": "warehouse-level — irrelevant", "trendshift": "Unknown", "gh_trending": "N/A", "star_history": "Unknown", "gitlogs": "DEAD", "daily_stars_explorer": "dual-ended fetch — PRODUCTION-READY TECHNIQUE"},
+    {"dimension": "Compound signals (breakout/quiet-killer/rank-climb)", "ss_today": "shipped math, 0 stored fires", "ossinsight": "rank-change indicators on collections", "trendshift": "engagement-score based", "gh_trending": "none", "star_history": "none", "gitlogs": "DEAD", "daily_stars_explorer": "none"},
+    {"dimension": "README badge / embed", "ss_today": "none", "ossinsight": "Unknown", "trendshift": "Unknown", "gh_trending": "none", "star_history": "viral embed chart", "gitlogs": "DEAD", "daily_stars_explorer": "Unknown"}
+  ],
+
+  "verdict": "thesis needs revision",
+  "verdict_summary": "StarScreener's 'AI focus' differentiator is NO LONGER UNIQUE — OSSInsight ships a curated 17-repo AI Agent Frameworks collection with stars/PRs/issues × 28d/MoM/YoY historical ranks, and Trendshift has #ai-agent as a first-class topic with aggregated star counts. Both predate StarScreener. The moat must shift to (a) agent-native delivery (MCP + SSE + webhook for alerts — competitors don't advertise any alert surface), (b) sub-minute latency on a curated AI watchlist via GitHub Events firehose, and (c) porting daily-stars-explorer's dual-ended fetch to solve the 40k cap that blinds 296/309 seeded repos today."
+}

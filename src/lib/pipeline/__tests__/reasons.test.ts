@@ -263,6 +263,67 @@ test("release_major overlaps with release_recent when both apply", () => {
   assert.ok(result.codes.includes("release_recent"));
 });
 
+// P0.4 — finding #8: MAJOR_VERSION_RE substring-matches pre-release tags
+// like "1.3.0a3" (Python PEP 440) and "v1.0.0-rc1" (semver). These are
+// not major releases and must not fire `release_major`.
+test("P0.4 release_major rejects PEP 440 pre-release (1.3.0a3)", () => {
+  const input = makeInput({
+    repo: makeRepo({
+      lastReleaseAt: iso(2 * DAY),
+      lastReleaseTag: "1.3.0a3",
+    }),
+  });
+  const result = generateReasons(input, NOW);
+  assert.ok(
+    !result.codes.includes("release_major"),
+    "1.3.0a3 should NOT fire release_major (pre-release alpha)",
+  );
+});
+
+test("P0.4 release_major rejects semver pre-release (v1.0.0-rc1)", () => {
+  const input = makeInput({
+    repo: makeRepo({
+      lastReleaseAt: iso(2 * DAY),
+      lastReleaseTag: "v1.0.0-rc1",
+    }),
+  });
+  const result = generateReasons(input, NOW);
+  assert.ok(
+    !result.codes.includes("release_major"),
+    "v1.0.0-rc1 should NOT fire release_major (pre-release candidate)",
+  );
+});
+
+test("P0.4 release_major rejects build metadata (v2.0.0+build.42)", () => {
+  const input = makeInput({
+    repo: makeRepo({
+      lastReleaseAt: iso(2 * DAY),
+      lastReleaseTag: "v2.0.0+build.42",
+    }),
+  });
+  const result = generateReasons(input, NOW);
+  assert.ok(
+    !result.codes.includes("release_major"),
+    "v2.0.0+build.42 should NOT fire release_major (build metadata means non-canonical)",
+  );
+});
+
+test("P0.4 release_major still fires on clean major (v2.0, 3.0.0, release-4.0)", () => {
+  for (const tag of ["v2.0", "3.0.0", "release-4.0", "15.0"]) {
+    const input = makeInput({
+      repo: makeRepo({
+        lastReleaseAt: iso(2 * DAY),
+        lastReleaseTag: tag,
+      }),
+    });
+    const result = generateReasons(input, NOW);
+    assert.ok(
+      result.codes.includes("release_major"),
+      `${tag} should fire release_major (clean major)`,
+    );
+  }
+});
+
 test("repoId and generatedAt are populated correctly", () => {
   const input = makeInput();
   const result = generateReasons(input, NOW);

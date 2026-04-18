@@ -12,6 +12,18 @@ import type { ClassificationRule } from "../types";
 
 export const CLASSIFICATION_RULES: ClassificationRule[] = [
   {
+    // P0.4 (2026-04-18): broadened to catch the modern coding-agent cohort
+    // that gate 4 missed — cline, continuedev, aider, OpenHands, letta,
+    // smolagents, opencode, plandex, etc. Two failure modes fixed:
+    //   1. Keyword matcher used substring → "autonomous coding agent"
+    //      didn't match "autonomous agent" (word between). Added
+    //      "coding agent", "coding assistant", "pair programming",
+    //      "ai software engineer", "autonomous code" as standalone
+    //      keywords that catch the modern phrasing.
+    //   2. No owner-prefix coverage for the canonical coding-agent repos.
+    //      Added the full cohort so repo_name + owner alone dominate
+    //      the fallback signal when topics are empty (which is common
+    //      for young repos that haven't been topic-tagged yet).
     categoryId: "ai-agents",
     topics: [
       "ai-agent",
@@ -20,6 +32,11 @@ export const CLASSIFICATION_RULES: ClassificationRule[] = [
       "agent",
       "agents",
       "multi-agent",
+      "coding-agent",
+      "ai-coding-agent",
+      "coding-assistant",
+      "ide-agent",
+      "software-agent",
     ],
     keywords: [
       "ai agent",
@@ -27,14 +44,58 @@ export const CLASSIFICATION_RULES: ClassificationRule[] = [
       "autonomous agent",
       "multi-agent",
       "agentic",
+      // P0.4 additions — catch modern coding-agent phrasing
+      "coding agent",
+      "autonomous coding",
+      "ai coding",
+      "ide agent",
+      "coding assistant",
+      "pair programming",
+      "ai software engineer",
+      "autonomous code",
+      "ai pair",
+      "stateful llm",
+      "stateful agent",
+      // smolagents and similar self-describe as "library for agents"
+      "library for agents",
+      "agents that",
     ],
     ownerPrefixes: [
       "langchain-ai",
       "crewAIInc",
       "microsoft/autogen",
       "stanfordnlp",
+      // P0.4 additions — canonical coding/agent repos
+      "cline",
+      "continuedev",
+      "Aider-AI",
+      "Pythagora-io",
+      "All-Hands-AI",
+      "sst",
+      "Doriandarko",
+      "plandex-ai",
+      "semanser",
+      "stitionai",
+      "princeton-nlp",
+      "letta-ai",
+      "mem0ai",
+      "smol-ai",
+      "OpenInterpreter",
+      "reworkd",
+      "TransformerOptimus",
+      "yoheinakajima",
+      "agno-agi",
+      "mastra-ai",
+      "VoltAgent",
+      "FoundationAgents",
+      "huggingface/smolagents",
+      "pydantic/pydantic-ai",
+      "openai/openai-agents-python",
+      "openai/swarm",
+      "block/goose",
+      "ag2ai",
     ],
-    weight: 1.5,
+    weight: 1.6,
   },
   {
     categoryId: "mcp",

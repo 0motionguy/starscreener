@@ -218,3 +218,106 @@ test("explainClassification handles empty matches", () => {
   });
   assert.ok(explanation.includes("low confidence"));
 });
+
+// ---------------------------------------------------------------------------
+// P0.4 regression tests — gate 4 misses (2026-04-18)
+// ---------------------------------------------------------------------------
+//
+// Gate 4 against fresh production data surfaced three canonical AI repos
+// that classified wrong. These tests lock the fix in place:
+//
+//   cline/cline       → classified as devtools fallback (no rule scored > 0)
+//   letta-ai/letta    → classified as ai-ml (should be ai-agents)
+//   huggingface/smolagents → classified as ai-ml (should be ai-agents)
+//
+// Root cause: the keyword matcher used substring, so "autonomous coding
+// agent" in cline's description didn't match "autonomous agent" (two
+// words vs three with "coding" in between). No owner prefix covered the
+// modern coding-agent cohort (cline, continuedev, Aider-AI, Pythagora-io,
+// All-Hands-AI, sst/opencode, Doriandarko, plandex-ai, semanser, etc.).
+
+test("P0.4 cline/cline classifies as ai-agents (was devtools fallback)", () => {
+  const repo = makeRepo({
+    fullName: "cline/cline",
+    description:
+      "Autonomous coding agent right in your IDE, capable of creating/editing files, executing commands, using the browser, and more with your permission every step of the way.",
+    topics: [],
+  });
+  const result = classifyRepo(repo);
+  assert.equal(result.primary.categoryId, "ai-agents");
+  assert.ok(
+    result.primary.confidence > 0,
+    `expected confidence > 0, got ${result.primary.confidence}`,
+  );
+});
+
+test("P0.4 continuedev/continue classifies as ai-agents", () => {
+  const repo = makeRepo({
+    fullName: "continuedev/continue",
+    description:
+      "The leading open-source AI code assistant. You can connect any models and any context to create custom autocomplete and chat experiences inside the IDE",
+    topics: [],
+  });
+  const result = classifyRepo(repo);
+  assert.equal(result.primary.categoryId, "ai-agents");
+});
+
+test("P0.4 Aider-AI/aider classifies as ai-agents", () => {
+  const repo = makeRepo({
+    fullName: "Aider-AI/aider",
+    description: "aider is AI pair programming in your terminal",
+    topics: [],
+  });
+  const result = classifyRepo(repo);
+  assert.equal(result.primary.categoryId, "ai-agents");
+});
+
+test("P0.4 letta-ai/letta classifies as ai-agents (was ai-ml)", () => {
+  const repo = makeRepo({
+    fullName: "letta-ai/letta",
+    description:
+      "Letta (formerly MemGPT) is a framework for creating stateful LLM agents with long-term memory",
+    topics: ["llm", "ai"],
+  });
+  const result = classifyRepo(repo);
+  assert.equal(result.primary.categoryId, "ai-agents");
+});
+
+test("P0.4 huggingface/smolagents classifies as ai-agents (was ai-ml)", () => {
+  const repo = makeRepo({
+    fullName: "huggingface/smolagents",
+    description:
+      "smolagents: a barebones library for agents that think in code.",
+    topics: [],
+  });
+  const result = classifyRepo(repo);
+  // smolagents is an ai-agents primary because "agents" is literally in
+  // its name and description. Even though huggingface is an ai-ml owner,
+  // the ai-agents signal should dominate.
+  assert.equal(result.primary.categoryId, "ai-agents");
+});
+
+test("P0.4 All-Hands-AI/OpenHands classifies as ai-agents", () => {
+  const repo = makeRepo({
+    fullName: "All-Hands-AI/OpenHands",
+    description:
+      "🙌 OpenHands: Code Less, Make More — an autonomous AI software engineer",
+    topics: [],
+  });
+  const result = classifyRepo(repo);
+  assert.equal(result.primary.categoryId, "ai-agents");
+});
+
+test("P0.4 keyword matcher catches 'coding agent' in descriptions", () => {
+  // The original bug: substring "autonomous agent" didn't match
+  // "autonomous coding agent" because of the word between. The fix
+  // adds "coding agent" as a standalone keyword that catches the entire
+  // modern coding-agent cohort.
+  const repo = makeRepo({
+    fullName: "unknown-owner/mystery-tool",
+    description: "A brand-new coding agent that writes code for you.",
+    topics: [],
+  });
+  const result = classifyRepo(repo);
+  assert.equal(result.primary.categoryId, "ai-agents");
+});

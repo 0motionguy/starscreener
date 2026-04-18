@@ -1,0 +1,126 @@
+{
+  "engine_exists": true,
+  "shipped_vs_stub": "Rule evaluation is fully implemented end-to-end (schema + storage + 8 trigger evaluators + cooldown + SSE emit + in-app /watchlist UI + tests). ZERO user-reaching delivery exists: no email, no push, no webhook, no toast, no in-page SSE listener. Events are appended to alert-events.jsonl and to an in-memory event bus only; a user only ever sees them if they manually open the Watchlist page and the AlertConfig React component polls /api/pipeline/alerts on mount. Both .data/alert-rules.jsonl and .data/alert-events.jsonl are currently empty on disk, so in practice zero alerts have ever fired in persisted storage.",
+  "rule_schema": {
+    "source_file": "src/lib/pipeline/types.ts:317-328",
+    "shape": {
+      "id": "string (rule_<uuid|random>)",
+      "userId": "string — always \"local\" in MVP (DEFAULT_USER_ID, single-user)",
+      "repoId": "string | null — null = global rule",
+      "categoryId": "PipelineCategoryId | null — optional category filter for global rules",
+      "trigger": "AlertTriggerType (one of 8)",
+      "threshold": "number (>=0; interpretation depends on trigger)",
+      "cooldownMinutes": "number (default 60)",
+      "enabled": "boolean (default true)",
+      "createdAt": "ISO string",
+      "lastFiredAt": "ISO string | null (stamped by engine after fire)"
+    },
+    "supported_triggers": [
+      "star_spike — starsDelta24h > threshold",
+      "new_release — lastReleaseTag changed AND release <48h old",
+      "rank_jump — (previousRank - currentRank) >= threshold",
+      "discussion_spike — mentionCount24h > threshold",
+      "momentum_threshold — score.overall crosses threshold (either direction)",
+      "breakout_detected — transition from non-breakout to breakout",
+      "daily_digest — scheduled, 24h cadence via lastFiredAt",
+      "weekly_digest — scheduled, 7d cadence via lastFiredAt"
+    ],
+    "ui_exposed_triggers": [
+      "star_spike",
+      "new_release",
+      "breakout_detected",
+      "rank_jump"
+    ],
+    "ui_gap": "src/components/watchlist/AlertConfig.tsx only exposes 4 of the 8 triggers; discussion_spike, momentum_threshold, daily_digest, weekly_digest cannot be created through the UI (API accepts them, UI doesn't surface them)."
+  },
+  "channels": [
+    {
+      "name": "in-app-list (pull via REST)",
+      "implemented": true,
+      "evidence": "src/app/api/pipeline/alerts/route.ts:30-58 (GET list); src/components/watchlist/AlertConfig.tsx:509-530 (fetches once on mount, no polling, no websocket, no revalidation). Only visible on /watchlist page."
+    },
+    {
+      "name": "SSE pipeline-event bus (alert_triggered)",
+      "implemented": "server-only",
+      "evidence": "src/lib/pipeline/pipeline.ts:300-308 emits to emitter; src/app/api/stream/route.ts:47 forwards 'alert_triggered'. NO client code subscribes: grep 'EventSource' returns only the server-side route comment (src/app/api/stream/route.ts:5). The SSE transport is live but has zero consumers in the repo."
+    },
+    {
+      "name": "email (Resend)",
+      "implemented": false,
+      "evidence": ".env.example:47-49 marks RESEND_API_KEY as 'Future: auth + db + email (not yet wired)'; src/lib/env.ts:30-32 declares it optional with comment 'Future: auth + db + alerts delivery (stubbed for now)'. package.json has no resend/nodemailer/sendgrid/postmark/mailgun dependency. No sender code exists anywhere (grep resend|nodemailer|sendgrid returns only env declaration)."
+    },
+    {
+      "name": "push notifications",
+      "implemented": false,
+      "evidence": "No service worker, no VAPID keys, no web-push dep, no FCM/OneSignal code in repo."
+    },
+    {
+      "name": "webhook delivery",
+      "implemented": false,
+      "evidence": "src/lib/pipeline/events.ts:5 says 'future consumers (webhook delivery, Slack, metrics) subscribe the same way' — aspirational comment only; no subscriber exists."
+    },
+    {
+      "name": "Slack / Telegram / Discord",
+      "implemented": false,
+      "evidence": "No matches in deps or src. Only Slack mention is twitter-image.tsx comments about OG preview parity."
+    },
+    {
+      "name": "in-app toast (sonner)",
+      "implemented": "rule-CRUD-only",
+      "evidence": "src/lib/toast.ts exposes toastAlertCreated/toastAlertDeleted/toastAlertError; these fire only on the create/delete API calls in AlertConfig.tsx (~620, ~644). No toast fires when a rule actually triggers — the trigger only writes to alert-events.jsonl."
+    },
+    {
+      "name": "MCP tool surface for alerts",
+      "implemented": false,
+      "evidence": "mcp/src/server.ts registers 8 tools: get_trending, get_breakouts, get_new_repos, search_repos, get_repo, compare_repos, get_categories, get_category_repos. No list_alerts, create_alert, or evaluate_alerts. grep 'alert' inside mcp/ returns zero hits."
+    }
+  ],
+  "evaluation": {
+    "where": "src/lib/pipeline/alerts/engine.ts (evaluateRulesForRepo, evaluateAllRules)",
+    "when": [
+      "Inside pipeline.recomputeAll() at src/lib/pipeline/pipeline.ts:295 — runs once after every full recompute",
+      "Inside pipeline.recomputeRepo(repoId) at src/lib/pipeline/pipeline.ts:377 — runs after single-repo recompute",
+      "Via facade pipeline.evaluateAlerts() and pipeline.evaluateAlertsNow() at pipeline.ts:508-535 — callable but nothing in the codebase actually invokes them"
+    ],
+    "trigger_path": "External cron hits POST /api/cron/ingest or /api/cron/seed with CRON_SECRET -> ingest batch -> pipeline.recomputeAll() -> evaluateAllRules(). There is NO Vercel cron (vercel.json only declares redirects to Railway) and no Railway cron config (no railway.toml/Procfile/package scripts for schedulers in the repo). Ticks only happen when an operator manually hits the cron endpoints from npm scripts (ingest:hot/warm/cold/sync:all).",
+    "previous_state_source": "pipeline.ts:161-293 snapshots repoStore+scoreStore into previousRepos/previousScores before recompute, so delta-sensitive triggers (rank_jump, momentum_threshold, new_release, breakout transition) work correctly.",
+    "sse_emission": "On fire, pipeline.ts:297-308 emits PipelineEvent { type: 'alert_triggered', ruleId, repoId, fullName, condition } to the in-process EventEmitter. No client listens."
+  },
+  "dedup_cooldown": {
+    "mechanism": "rule.lastFiredAt + rule.cooldownMinutes; checked in engine.ts:62-68 (isInCooldown) before each evaluator call. After fire, engine.ts:131 re-saves the rule with updated lastFiredAt.",
+    "default_cooldown_minutes": 60,
+    "scope": "Per-rule — NOT per-(rule,repo). A global rule (repoId=null) that fires against repo-A sets lastFiredAt for the entire rule, so the same rule cannot fire against repo-B until cooldown elapses. This can silently suppress legitimate alerts on other repos within the cooldown window. Confirmed by reading ruleStore.save(updated) in engine.ts:131-132 writing one row per rule only.",
+    "hard_dedup_on_event_id": "Event IDs are deterministic-ish: `${ruleId}:${ms}:${counter}` (engine.ts:79-81) — no hashing of trigger content, so an identical event body could be written twice if cooldown is 0."
+  },
+  "rate_limits": {
+    "per_user": "none",
+    "per_rule": "only the cooldown window above — no max-fires-per-hour cap",
+    "per_process_fan_out": "evaluateAllRules iterates every active rule for every repo in ctxMap; no batching, no backpressure, no max-events-per-tick guard. With ~5k tracked repos and N global rules, worst case is 5k*N evaluator calls per recompute. No runaway guard.",
+    "sse_subscribers": "MAX_SUBSCRIBERS cap (default 50, overridable via SSE_MAX_SUBSCRIBERS) at src/app/api/stream/route.ts:38-41 — unrelated to alerts but it's the only rate-guard in the pipeline."
+  },
+  "mcp_alerts_surface": {
+    "exposed_tools": [],
+    "note": "The MCP server at mcp/src/server.ts is fully read-only for discovery (trending, breakouts, search, repo detail, categories). Alerts are invisible to agents via MCP. If an agent wanted to set a watch, it would have to hit the Next REST API directly (/api/pipeline/alerts/rules POST)."
+  },
+  "sse_coupling": {
+    "emit_exists": true,
+    "transport_exists": true,
+    "client_consumer_exists": false,
+    "evidence": "src/lib/pipeline/pipeline.ts:300 emits alert_triggered; src/app/api/stream/route.ts:47 advertises it. grep EventSource across src returns only the route-file comment — no React hook, no /watchlist page subscription, nothing. The SSE pipe is wired on the server but has no browser listener, so alerts never reach the UI in real time; AlertConfig sees them only via the next manual /api/pipeline/alerts poll on mount or remount."
+  },
+  "test_coverage": "src/lib/pipeline/__tests__/alerts.test.ts — 17 node:test cases covering evaluateStarSpike (fire/no-fire), evaluateNewRelease (fire-on-change, no-fire-on-same-tag), evaluateRankJump, evaluateBreakoutDetected (transition guard), cooldown window, global-rule scoping, validateRule (negative threshold), createRule defaults + invalid trigger rejection, DEFAULT_ALERT_SUGGESTIONS shape, digest ranking (bucket priority + 10-item cap + 24h period). Tests cover rule logic well. No tests for: discussion_spike, momentum_threshold, daily_digest, weekly_digest, end-to-end recompute->persistence, delivery, or dedup across multiple repos for a global rule.",
+  "critical_gaps": [
+    "NO DELIVERY CHANNEL WHATSOEVER. A user creates a rule, it fires on the server, an AlertEvent hits alert-events.jsonl. Unless that user is currently on /watchlist AND triggers an AlertConfig remount, they will never see it. Core 'alert' user value is 0%.",
+    "SSE is emitted but has no browser subscriber — the one path that could have given real-time delivery is half-wired. No toast on fire, no bell-badge in the sidebar updating live, no page-level listener. Fix: add EventSource in a client provider that pushes 'alert_triggered' into a zustand store and renders a sonner toast.",
+    "AlertConfig fetches events ONCE on mount (no polling, no refetch on focus, no SSE). Even if the user keeps the page open, new fires won't appear until they navigate away and back.",
+    "alerts.jsonl on disk is empty (0 rules, 0 events) — either no tick has ever happened on this environment or rules have never been created. Both JSONL files exist only because storage-singleton pre-creates them (memory-stores.ts:535/590). So 'rule-based alerts' is shipped UI + empty reality.",
+    "Local-only UI toggle for rule.enabled: AlertConfig.tsx:13-17 comment admits the backend has no PUT /rules, so flipping a rule 'off' in the UI does NOT persist — it lives in component state and vanishes on reload. Users who disable a noisy rule will get it back every time they refresh.",
+    "Cooldown is rule-global, not rule-per-repo. Global rules (repoId=null) can suppress fires on repo-B for up to 60 min because repo-A's fire already stamped rule.lastFiredAt. No test covers this.",
+    "No rate-limit guard: runaway fan-out possible once categoryId+global rules stack up, though capped in practice by evaluator purity + small repo count.",
+    "No cron scheduler is configured in the repo (no vercel.json crons, no railway.toml, no Procfile schedule). Alerts only fire when an operator curl's /api/cron/ingest manually (npm run ingest:hot et al). Production cadence is undefined in-repo.",
+    "MCP has zero alert surface — agents can read trends but cannot subscribe, create rules, or poll fired events.",
+    "No tier gating / auth at all. userId is hard-coded 'local' everywhere (AlertConfig.tsx:56, route.ts:13/18). Anyone who can reach the Next server can list/create/delete all rules.",
+    "Dev-only SSE process requirement: /api/stream requires one long-lived Node.js process (route.ts:8-11 comment). Vercel deployment is redirected to Railway (vercel.json) — fine — but nothing validates that the Railway box is the only place rules actually fire (JSONL-backed in-memory stores are per-process)."
+  ],
+  "summary": "Does any user get a notification right now? NO. The evaluation engine is real, typed, and tested — it writes AlertEvents to alert-events.jsonl and emits on an in-process EventEmitter. But there is literally zero delivery: no email sender (RESEND_API_KEY is declared optional and no resend/nodemailer/sendgrid dep exists), no push stack, no webhook subscriber, no Slack/Telegram integration, no toast on fire, and no EventSource on any page consumes the SSE 'alert_triggered' frames. The only way to 'see' a fired alert is to open /watchlist — where AlertConfig fetches /api/pipeline/alerts exactly once on mount. Worse, both .data/alert-rules.jsonl and .data/alert-events.jsonl are empty, and there is no configured cron (only manual npm run ingest:* scripts), so nothing is ticking on a schedule in this repo. Minimum to ship a working notification: (1) add a client EventSource in a layout-level provider that listens to 'alert_triggered' and shows a sonner toast + bell-badge count, (2) wire Resend with a templated email sender called from pipeline.ts right after evaluateAllRules, (3) add a real cron (Railway cron or Vercel cron hitting the Railway host) so recomputes actually tick, (4) switch cooldown scoping to per-(rule,repo) so global rules aren't silenced."
+}

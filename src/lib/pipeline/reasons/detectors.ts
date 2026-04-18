@@ -84,14 +84,30 @@ function formatInt(n: number): string {
 // Major-version pattern matching
 // ---------------------------------------------------------------------------
 
-// Accept patterns like:
-//   v2.0, v15.0, v2.0.0, 1.0.0, 3.0, release-4.0, 10.0.0
-// Reject things like v2.1, 1.2.3, v0.5.0
-const MAJOR_VERSION_RE = /(?:^|[^0-9])v?(\d+)\.0(?:\.0)?(?:$|[^0-9])/i;
-
+// Accept clean major versions:
+//   v2.0, v15.0, v2.0.0, 1.0.0, 3.0, release-4.0, release/4.0.0, 10.0.0
+// Reject non-major OR any pre-release / build-metadata suffix:
+//   v2.1, 1.2.3, v0.5.0            (non-major minor or patch)
+//   1.3.0a3, 2.0.0b1, 3.0.0rc2     (PEP 440 pre-release — alpha/beta/rc)
+//   v1.0.0-rc1, 2.0.0-alpha.2      (semver pre-release)
+//   v2.0.0+build.42                (semver build metadata)
+//
+// P0.4 / finding #8 fix (2026-04-18): the previous pure-regex approach
+// was substring-scanned and matched the "3.0" inside "1.3.0a3", firing
+// release_major on pre-release alphas. We now normalize the tag (strip
+// "v"/"release-"/"release/" prefix) and require the remainder to be
+// strictly digits + dots in the shape X.0 or X.0.0. Any letters, hyphens,
+// plus signs, or additional digit runs fail the gate.
 function isMajorVersionTag(tag: string | null | undefined): boolean {
   if (!tag) return false;
-  return MAJOR_VERSION_RE.test(tag);
+  const normalized = tag
+    .replace(/^release[-/_]/i, "")
+    .replace(/^v(?=\d)/i, "");
+  // Reject pre-release (alpha/beta/rc/dev/pre), build metadata (+sha),
+  // or any other non-version-number suffix.
+  if (/[^0-9.]/.test(normalized)) return false;
+  // Must be exactly X.0 or X.0.0 with nothing else.
+  return /^\d+\.0(\.0)?$/.test(normalized);
 }
 
 // ---------------------------------------------------------------------------

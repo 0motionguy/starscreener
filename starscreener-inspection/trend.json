@@ -1,0 +1,328 @@
+{
+  "signals": [
+    {
+      "id": "momentum_0_100",
+      "formula_text": "overall = clamp( round1( Σ_i w_i * c_i * decayFactor * antiSpamDampening * breakoutMultiplier + quietKillerBonus ), 0, 100 ). Weights sum to 1.0 (re-normalized per category). c_i ∈ [0,100]. Modifier ranges: decay ∈ [0.3,1.0], antiSpam ∈ [0.3,1.0], breakoutMult ∈ [1.0,1.5], quietKillerBonus ∈ [0,10].",
+      "formula_pseudocode": "base = sum(weights[k] * components[k] for k in COMPONENT_KEYS)\nafter = base * modifiers.decayFactor * modifiers.antiSpamDampening * modifiers.breakoutMultiplier\noverall = clamp(round1(after + modifiers.quietKillerBonus), 0, 100)",
+      "file_refs": [
+        "src/lib/pipeline/scoring/engine.ts:229-239",
+        "src/lib/pipeline/scoring/components.ts:135-148",
+        "src/lib/pipeline/scoring/weights.ts:15-26",
+        "src/lib/pipeline/scoring/modifiers.ts:235-247",
+        "src/lib/scoring.ts:86-140 (legacy duplicate)"
+      ],
+      "inputs": [
+        "starsDelta24h (int, missing→0 in ingestion defaults; 300/309 repos in repos.jsonl have 0)",
+        "starsDelta7d (int)",
+        "forksDelta7d (int)",
+        "contributorsDelta30d (int)",
+        "contributors (int; used as denominator so growth% not contribs abs)",
+        "openIssues (int; linear 0..200 → 0..100 — larger project = higher 'activity', conflates health with bug-debt)",
+        "lastCommitAt (ISO or null → freshness 0)",
+        "lastReleaseAt (ISO or null → freshness 0)",
+        "socialBuzzScore (0..100; all 309 repos currently =0)",
+        "mentionCount24h (int; all 309 currently =0)",
+        "stars, forks (for breakout / antiSpam gating)",
+        "categoryAvgStarVelocity7d (filled by scoreBatch pre-pass; reduces to 0 when called via scoreRepo)"
+      ],
+      "thresholds": {
+        "starVelocity24h_logNorm_ceiling": 500,
+        "starVelocity7d_logNorm_ceiling": 2000,
+        "forkVelocity7d_logNorm_ceiling": 300,
+        "contributorGrowth30d_linearNorm_max_percent": 35,
+        "openIssues_linearNorm_max": 200,
+        "categoryMomentum_logNorm_ceiling": 250,
+        "communityHealth_neutral_when_flags_undefined": 50,
+        "weights_default": {
+          "starVelocity24h": 0.20,
+          "starVelocity7d": 0.15,
+          "forkVelocity7d": 0.08,
+          "contributorGrowth30d": 0.10,
+          "commitFreshness": 0.12,
+          "releaseFreshness": 0.08,
+          "socialBuzz": 0.12,
+          "issueActivity": 0.05,
+          "communityHealth": 0.05,
+          "categoryMomentum": 0.05
+        },
+        "category_overrides_exist_for": [
+          "ai-ml", "ai-agents", "local-llm", "mcp", "devtools", "infra", "databases", "security"
+        ]
+      },
+      "windows": {
+        "starVelocity24h": "24h (snapshot delta from latest vs capture ≤ now-86.4M ms)",
+        "starVelocity7d": "7d",
+        "contributorGrowth30d": "30d",
+        "freshness_curve_bins_days": [0,1,3,7,14,30,60,90],
+        "source": "SnapshotStore.getAt(repoId, cutoffIso) in src/lib/pipeline/ingestion/deltas.ts:87-105"
+      },
+      "sensitivity": {
+        "doubling_starsDelta24h_from_50_to_100": "logNorm(50,500)=62.8; logNorm(100,500)=74.1; Δcomponent ≈ +11.3; at w=0.20 ⇒ base +2.26 points (before modifiers).",
+        "doubling_starsDelta24h_from_500_to_1000": "logNorm(500,500)=100; logNorm(1000,500)=100 (clamped). No change — ceiling saturation.",
+        "mentions_to_zero": "socialBuzz component (weight 0.12 default, 0.18 for AI cats) drops to 0; mentionCount24h=0 also disables breakout criterion 3 and HackerNews detector; antiSpamDampening x0.5 gate only fires at starsDelta24h>500 AND socialBuzz<10, which rarely co-occurs in practice.",
+        "small_to_large_forks": "Δ0→50 forks/7d ⇒ logNorm(50,300)=68.2 → at w=0.08 ⇒ +5.5 base points."
+      },
+      "cold_start_behavior": "A brand-new repo with 5 stars IS in the candidate set: there is no stars floor in the scoring path. Even a 0-star repo with 0 deltas still gets a score (will surface ~22 from commitFresh=95 + releaseFresh=95 + issueActivity=0 + communityHealth=50). Movement classification will usually return 'declining' or 'stable'. Breakout is GATED at stars ≥ 10 and stars < 1000 (modifiers.ts:117) — so 5 stars ⇒ never breakout. Quiet killer gated at stars ≥ 100 (modifiers.ts:185) ⇒ never fires for 5-star repo. `contributorGrowth30d` returns 0 when contributors ≤ 0 (components.ts:66).",
+      "anti_spam": "See dedicated signal below. Active in scoring modifiers (modifiers.ts:64-94)."
+    },
+    {
+      "id": "trending_star_velocity_up",
+      "formula_text": "fires when starsDelta24h > 20 AND dailyAvg7d > 0 AND ratio = starsDelta24h / dailyAvg7d > 2. Confidence: ratio ≥ 4 → 'high', ≥ 2.5 → 'medium', else 'low'.",
+      "formula_pseudocode": "if delta24 <= 20: return null\ndailyAvg7d = delta7 / 7\nratio = delta24 / dailyAvg7d\nif ratio <= 2: return null",
+      "file_refs": ["src/lib/pipeline/reasons/detectors.ts:156-179"],
+      "inputs": [
+        "repo.starsDelta24h (int)",
+        "repo.starsDelta7d (int)"
+      ],
+      "thresholds": {
+        "min_delta24h": 20,
+        "min_ratio_vs_weekly_daily_avg": 2.0,
+        "high_confidence_ratio": 4.0,
+        "medium_confidence_ratio": 2.5
+      },
+      "windows": {"delta24": "24h", "baseline": "trailing 7d / 7"},
+      "sensitivity": {
+        "doubling_delta24_from_40_to_80_at_delta7=70": "ratio 4.0x→8.0x, triggers same signal but confidence shifts low→high. Binary trigger, ratio only affects confidence label.",
+        "delta7=0_case": "dailyAvg7d=0 ⇒ early-return null. This is the STATE OF EVERY SEED REPO except chroma-core/chroma in current .data/repos.jsonl."
+      },
+      "cold_start_behavior": "Requires starsDelta7d > 0 AND starsDelta24h > 20. A new repo with <20 stars/day will never trigger this signal. No absolute-stars gate, so small repos qualify IF they pass deltas.",
+      "anti_spam": "None here — anti-spam lives only in the scoring modifier, not in the reason detector. A botspike of +500 stars/24h with near-zero forks fires star_velocity_up AND star_spike at high confidence with no dampening at the reason layer."
+    },
+    {
+      "id": "trending_star_spike",
+      "formula_text": "fires when stars > 50 AND starsDelta24h > 0 AND (starsDelta24h / stars) > 0.05. High confidence if pct > 0.10.",
+      "formula_pseudocode": "if repo.stars <= 50: null\npct = delta24 / stars\nif pct <= 0.05: null",
+      "file_refs": ["src/lib/pipeline/reasons/detectors.ts:181-203"],
+      "inputs": ["repo.stars", "repo.starsDelta24h"],
+      "thresholds": {"min_stars": 51, "min_pct_gain_24h": 0.05, "high_pct_gain_24h": 0.10},
+      "windows": {"window": "24h only"},
+      "sensitivity": {"worked_example": "stars=1000, delta24=150 ⇒ pct 15% ⇒ high. stars=10000, delta24=150 ⇒ pct 1.5% ⇒ null."},
+      "cold_start_behavior": "Gated at stars > 50 — brand-new 5-star repo is excluded.",
+      "anti_spam": "None at detector level. Bot-spike of 1000 fake stars on a 5k-star repo registers as 20% spike = 'high' with zero scrutiny."
+    },
+    {
+      "id": "breakout",
+      "formula_text": "Breakout multiplier fires when stars ∈ [10, 1000) AND at least 2 of 3 criteria hold: (1) starsDelta24h > 3 * (starsDelta7d/7); (2) starsDelta24h/stars > 0.05; (3) socialBuzzScore > 30 AND mentionCount24h ≥ 3. Multiplier = clamp(1.1 + maxIntensity*0.4, 1.0, 1.5).",
+      "formula_pseudocode": "if stars<10 or stars>=1000: not breakout\ncrit1 = delta24 > (delta7/7)*3\ncrit2 = delta24/stars > 0.05\ncrit3 = social>30 AND mentions24h>=3\nif count([crit1,crit2,crit3] where true) < 2: not breakout\nmult = 1.1 + max(intensities)*0.4, capped at 1.5",
+      "file_refs": [
+        "src/lib/pipeline/scoring/modifiers.ts:116-158",
+        "src/lib/scoring.ts:154-190 (legacy — different: requires ALL of acceleration+social AND abs delta24≥10, single-criterion intensity formula)"
+      ],
+      "inputs": ["stars", "starsDelta24h", "starsDelta7d", "socialBuzzScore", "mentionCount24h"],
+      "thresholds": {
+        "stars_floor": 10,
+        "stars_ceiling_exclusive": 1000,
+        "criterion1_accel_ratio": 3.0,
+        "criterion2_daily_share": 0.05,
+        "criterion3_social_buzz": 30,
+        "criterion3_min_mentions_24h": 3,
+        "min_criteria_to_fire": 2,
+        "multiplier_range": "[1.0, 1.5]",
+        "intensity_saturation": {
+          "crit1": "accel=10x → intensity 1.0 (3x → 0)",
+          "crit2": "daily share 25% → 1.0 (5% → 0)",
+          "crit3": "socialBuzz 100 → 1.0 (30 → 0)"
+        }
+      },
+      "windows": {"baseline": "7d/7 vs 24h", "social": "24h mentions"},
+      "sensitivity": {
+        "doubling_delta24_from_15_to_30_at_stars_500_delta7_70_social_40_mentions_5": "Crit1: 15/(70/7)=1.5 → fail; 30/10=3.0 → still fails > strict (needs >3, not ≥3). Crit2 (delta24/stars): 15/500=3% → fail; 30/500=6% → crit2 fires. Crit3 passes always. Transitions 1-of-3 → 2-of-3, NOT breakout → breakout.",
+        "mentions_to_zero": "Crit3 dies (mentions<3). With only crit1+crit2 possible, a pure bot-spiked small repo CAN still be breakout. Social-validation guarantee the code COMMENT claims is broken — it's only one of three criteria."
+      },
+      "cold_start_behavior": "stars<10 ⇒ never breakout. A new repo with 5 stars fails the gate.",
+      "anti_spam": "Has structural overlap with antiSpamDampening (which fires at deltas>200), but neither references mentionCount24h robustly. Below 200 stars-spiked AND social=0, antiSpam NEVER fires (starsDelta24h>200 gate). So a 999-star repo with +150/24h and 0 forks and 0 social passes breakout Crit2 (15%) cleanly, unscrutinized."
+    },
+    {
+      "id": "quiet_killer",
+      "formula_text": "Fires when ALL hold: stars ∈ [100, 50000]; starsDelta7d ≥ 30; starsDelta24h < starsDelta7d/3; commit freshness > 55 (i.e. commit within ~14d); contributors ≥ 5; contributorsDelta30d > 0. Bonus = clamp(consistencyFactor*5 + growthFactor*5, 0, 10).",
+      "formula_pseudocode": "inBand = 100 <= stars <= 50000\nweeklyOk = delta7 >= 30\nnoSpike = delta24 < delta7/3\nactive = freshness(lastCommit) > 55\nteamOk = contributors >= 5\nteamGrowing = contribsDelta30d > 0\nif any missing: null\nconsistency = 1 - |delta24 - delta7/7| / (delta7/7)  # 0..1, capped\ngrowthRate = contribsDelta30d / contributors\ngrowthFactor = clamp(growthRate / 0.25, 0, 1)  # 25% monthly → 1.0\nbonus = clamp(consistency*5 + growthFactor*5, 0, 10)",
+      "file_refs": [
+        "src/lib/pipeline/scoring/modifiers.ts:182-226",
+        "src/lib/scoring.ts:204-239 (legacy — different: 30≤dailyAvg≤200, no contributor gate, no 50k star cap, sparkline-variance CV instead of contributor-growth factor)"
+      ],
+      "inputs": ["stars", "starsDelta24h", "starsDelta7d", "contributors", "contributorsDelta30d", "lastCommitAt"],
+      "thresholds": {
+        "stars_min": 100,
+        "stars_max": 50000,
+        "min_delta7": 30,
+        "no_spike_rule": "delta24 < delta7/3",
+        "min_commit_freshness": 55,
+        "min_contributors": 5,
+        "contributors_delta30d_min_exclusive": 0,
+        "growth_saturation_rate": 0.25,
+        "bonus_range": "[0, 10]"
+      },
+      "windows": {"weekly": "7d", "maintenance": "14d commit freshness bucket", "team_growth": "30d"},
+      "sensitivity": {
+        "doubling_contribsDelta30d_from_5_to_10_at_contributors_50": "growthRate 10%→20%; growthFactor 0.4→0.8; bonus contribution +2.0 before cap.",
+        "delta24_equals_delta7_over_7_exactly": "consistencyFactor = 1.0 (perfectly flat week) ⇒ consistency contribution = 5.",
+        "no_history_delta7_lt_30": "null. This is EVERY repo in current .data except chroma (which has delta7=138 but delta30d=0 and contribsDelta30d=0 so still null)."
+      },
+      "cold_start_behavior": "stars<100 OR contributors<5 ⇒ not quiet killer. A 5-star or <5-contributor repo is categorically excluded.",
+      "anti_spam": "The no-spike rule (delta24<delta7/3) is the implicit anti-spam filter for this detector — a 200-star spike in 24h on a weekly-100 baseline cannot be a quiet killer. Weak because it's still window-based, not sourced from fork/contributor/social cross-checks."
+    },
+    {
+      "id": "rank_climber",
+      "formula_text": "fires when previousRank - currentRank > 5. Confidence: jump ≥ 25 high, ≥ 12 medium, else low.",
+      "formula_pseudocode": "if previousRank undefined: null\njump = previousRank - repo.rank\nif jump <= 5: null",
+      "file_refs": [
+        "src/lib/pipeline/reasons/detectors.ts:262-281",
+        "src/lib/pipeline/alerts/triggers.ts:114-127"
+      ],
+      "inputs": ["previousRank (injected by caller)", "repo.rank"],
+      "thresholds": {"min_jump_reason": 6, "medium_conf_jump": 12, "high_conf_jump": 25, "alert_rule_threshold_is_rule_defined": true},
+      "windows": {"window": "between compute cycles — depends on when caller last persisted a rank"},
+      "sensitivity": {
+        "rank_tie_at_startup": "previousRank is passed in from ReasonInput. If storage never persisted prior ranks, every repo is undefined → detector never fires. Current reasons.jsonl: 0 rank_jump hits out of 309 repos."
+      },
+      "cold_start_behavior": "Requires a previousRank. Brand-new repos with no prior rank ⇒ never fire.",
+      "anti_spam": "None. A ghost-rank jump caused by a sibling repo leaving the list (shifting everyone up) is indistinguishable from real climbing."
+    },
+    {
+      "id": "fresh_release",
+      "formula_text": "release_recent: 0 ≤ daysSince(lastReleaseAt) ≤ 7. release_major: regex /(^|[^0-9])v?(\\d+)\\.0(\\.0)?($|[^0-9])/ on lastReleaseTag AND daysSince ≤ 14.",
+      "formula_pseudocode": "recent: 0<=days<=7\nmajor: MAJOR_VERSION_RE.test(tag) AND 0<=days<=14",
+      "file_refs": ["src/lib/pipeline/reasons/detectors.ts:111-154"],
+      "inputs": ["repo.lastReleaseAt", "repo.lastReleaseTag"],
+      "thresholds": {"recent_window_days": 7, "major_window_days": 14, "recent_high_conf_days": 2, "recent_medium_conf_days": 5},
+      "windows": {"release_recent": "7d", "release_major": "14d"},
+      "sensitivity": {
+        "non_semver_major_tag_like_langchain-core==1.3.0a3": "Matches MAJOR_VERSION_RE because regex is anchored on '[^0-9]' delimiters — accepts the '1.3' partial? Actually no — regex requires N.0 literal. BUT langchain's reasons.jsonl line 2 shows 'release_major' firing on 'langchain-core==1.3.0a3' — meaning current metadata has a non-matching tag being MARKED major. Verify: '==1.3.0a3' — MAJOR_VERSION_RE = /(?:^|[^0-9])v?(\\d+)\\.0(?:\\.0)?(?:$|[^0-9])/i hunting for '1.0' etc. Actually the substring 'a3' after 1.3.0 means the regex sees '3.0a' — the 'a' is [^0-9] so '(?:$|[^0-9])' matches. That's matching v0.0/v1.0/v3.0 in ANY substring. Fragile.",
+        "tag_without_release_date": "days computed only if lastReleaseAt non-null — null ⇒ returns null cleanly."
+      },
+      "cold_start_behavior": "No star/size gate. Even a 0-star repo that shipped v1.0 yesterday would fire release_major at high confidence.",
+      "anti_spam": "None. Regex matching of 'major' is substring-based and naive — easily fooled by tags like 'v0.10.0-beta' (no, that's '10.0' match), or 'release-2.0-hotfix' (matches). No check for whether a prior release existed or whether this is a genuinely new semver major."
+    },
+    {
+      "id": "anti_spam_dampening_modifier",
+      "formula_text": "factor = 1.0 * (0.6 if starsDelta24h>200 AND (forksDelta7d/stars)<0.005) * (0.5 if starsDelta24h>500 AND socialBuzzScore<10) * (0.4 if stars>1000 AND commitFreshness<20 AND contributors<3). Floored at 0.3.",
+      "formula_pseudocode": "factor = 1.0\nratio = forksDelta7d/stars  # NOTE: uses 7d delta, not total forks\nif delta24>200 AND ratio<0.005: factor *= 0.6\nif delta24>500 AND social<10: factor *= 0.5\nif stars>1000 AND freshness(commit)<20 AND contribs<3: factor *= 0.4\nreturn clamp(factor, 0.3, 1.0)",
+      "file_refs": ["src/lib/pipeline/scoring/modifiers.ts:64-94"],
+      "inputs": ["stars", "forksDelta7d (NOT total forks)", "starsDelta24h", "socialBuzzScore", "lastCommitAt", "contributors"],
+      "thresholds": {
+        "spike_gate_1_delta24": 200,
+        "spike_gate_1_forkratio": 0.005,
+        "spike_gate_2_delta24": 500,
+        "spike_gate_2_social": 10,
+        "deadrepo_gate_stars": 1000,
+        "deadrepo_gate_commit_freshness": 20,
+        "deadrepo_gate_contributors": 3,
+        "floor": 0.3,
+        "multiplier_values": [0.6, 0.5, 0.4]
+      },
+      "windows": {"24h": "delta24", "7d": "forksDelta7d", "commit": "freshness curve"},
+      "sensitivity": {
+        "bot_spike_100_stars_on_5star_repo": "delta24=100 < 200 ⇒ gate 1 fails. No dampening applied.",
+        "bot_spike_300_stars_no_social_big_repo": "delta24=300 & social=0 — gate 1: needs delta24>200 (yes) AND forksDelta7d/stars<0.005. On a 20k-star repo with typical +50/7d forks ratio is 0.0025 → fires. factor*=0.6. Score reduced 40%.",
+        "doubling_delta24": "Unless it crosses 200 or 500 boundary, NO sensitivity — multiplicative heuristics are binary gates."
+      },
+      "cold_start_behavior": "All three gates are effectively upper-bound gates (require large delta or large stars). A brand-new 5-star repo cannot trigger any of them; antiSpam=1.0 by default. This means 'anti-spam' does NOT protect small repos from vanity-star attacks, which is exactly the attack surface most vulnerable.",
+      "anti_spam": "This IS the anti-spam mechanism. Issue: comment at modifiers.ts:67-74 admits they use forksDelta7d instead of absolute fork count because ModifierInput doesn't carry absolute forks. So gate 1 misfires on fast-moving legit forks (delta7 temporarily dips), and misses spam on repos that already had high total forks. The 'forkRatio' variable is miscalibrated."
+    }
+  ],
+  "momentum_0_100_math": {
+    "formula": "overall = clamp( round1( (Σ w_k * c_k) * decayFactor * antiSpamDampening * breakoutMultiplier + quietKillerBonus ), 0, 100 )",
+    "weights_sum_to": 1.0,
+    "components_11": ["starVelocity24h","starVelocity7d","forkVelocity7d","contributorGrowth30d","commitFreshness","releaseFreshness","socialBuzz","issueActivity","communityHealth","categoryMomentum"],
+    "normalizations": {
+      "starVelocity24h": "logNorm(delta24, ceiling=500)",
+      "starVelocity7d": "logNorm(delta7, ceiling=2000)",
+      "forkVelocity7d": "logNorm(forksDelta7d, ceiling=300)",
+      "contributorGrowth30d": "linearNorm((delta30d/contributors)*100, 0, 35)  — only non-zero if contributors>0",
+      "commitFreshness": "step function over daysSinceCommit: {0:100, 1:95, 3:85, 7:70, 14:55, 30:30, 60:15, 90:5, >90:0}",
+      "releaseFreshness": "same step function on lastReleaseAt (null→0)",
+      "socialBuzz": "passthrough clamp(score, 0, 100)",
+      "issueActivity": "linearNorm(openIssues, 0, 200) — NOT issue velocity, just absolute open count",
+      "communityHealth": "fixed 50 when flags undefined (current default for all repos)",
+      "categoryMomentum": "logNorm(categoryAvgStarVelocity7d, ceiling=250); zero when scoreRepo called without categoryAverages"
+    },
+    "modifier_ranges": {
+      "decayFactor": "[0.3, 1.0]",
+      "antiSpamDampening": "[0.3, 1.0]",
+      "breakoutMultiplier": "[1.0, 1.5]",
+      "quietKillerBonus": "[0, 10] (additive, not multiplicative)"
+    },
+    "weight_resolution": "resolveWeights(categoryId) merges DEFAULT_WEIGHTS + CATEGORY_WEIGHT_OVERRIDES[category] then divides by sum so weights sum to 1.0. Fallback to defaults if no category match.",
+    "theoretical_max": "100 * 1.0 * 1.0 * 1.5 + 10 = 160, but clamped to 100. This means a breakout-multiplier boost is often wasted (saturation)."
+  },
+  "backtest_observations": [
+    "Snapshots.jsonl covers ONLY 13 distinct repos over ~1 month (2026-03-19 through 2026-04-17), 304 lines total. The other ~296 seed repos have zero history — their deltas are 0 by construction.",
+    "repos.jsonl shows 300/309 repos with starsDelta24h=0 and 309/309 with socialBuzzScore=0 and mentionCount24h=0. Only chroma-core/chroma has non-trivial deltas (24h:4, 7d:138).",
+    "scores.jsonl distribution: max overall score is 45.5 (chroma at 42.6, nextjs/tokio around 40-45). 172/309 are 'declining', 127/309 'stable', only 6 'rising' (chroma, tanstack/router, argoproj/argo-cd, semgrep, tokio, slint). 0 'hot', 0 'breakout', 0 'quiet_killer'.",
+    "reasons.jsonl: 0 breakout_detected, 0 quiet_killer_detected, 0 rank_jump, 0 star_velocity_up, 0 star_spike, 0 fork_velocity_up, 0 contributor_growth, 0 hacker_news_front_page, 0 viral_social_post, 0 social_buzz_elevated, 0 category_top. Only commit_fresh, release_recent, release_major, organic_growth fire.",
+    "The entire 'trend + breakout detection' claim is currently VAPOR in production data: the pipeline has no history, no deltas, no social, so the trend engine is running on a skeleton input and produces no signals.",
+    "The 40k-star stargazer-backfill ceiling has not been hit in data — the limitation is absence of ANY stargazer history, not the ceiling."
+  ],
+  "known_blowups_check": [
+    {"repo":"anthropics/claude-code","flagged_as":"NOT IN REPOS.JSONL","when":"never ingested","verdict":"missed","notes":"Present in seed-repos.ts:62 but not in .data/repos.jsonl — ingestion never completed for it."},
+    {"repo":"anthropics/anthropic-sdk-python","flagged_as":"NOT IN REPOS.JSONL","when":"never ingested","verdict":"missed"},
+    {"repo":"modelcontextprotocol/servers","flagged_as":"NOT IN REPOS.JSONL","when":"never ingested","verdict":"missed","notes":"MCP repos in seed but absent from data/"},
+    {"repo":"modelcontextprotocol/python-sdk","flagged_as":"NOT IN REPOS.JSONL","when":"never ingested","verdict":"missed"},
+    {"repo":"crewAIInc/crewAI","flagged_as":"NOT IN REPOS.JSONL","when":"never ingested","verdict":"missed","notes":"Listed at seed-repos.ts:60 but not in persisted repos.jsonl."},
+    {"repo":"ollama/ollama","flagged_as":"stable, movement='stable', score 21.9, reasons=[release_major, release_recent, commit_fresh]","when":"2026-04-17","verdict":"missed","notes":"Has 169k stars and +0 starsDelta24h/7d/30d in the data. No snapshot history — engine cannot see any growth. Score pinned by commitFresh=95, releaseFresh=95, issueActivity=100. No trend/breakout signal despite being a mega-repo."},
+    {"repo":"chroma-core/chroma","flagged_as":"rising, score 42.6, reasons include commit_fresh (NOT star_velocity_up despite delta7=138)","when":"2026-04-17","verdict":"partial","notes":"starsDelta24h=4, starsDelta7d=138. dailyAvg7d=19.7. star_velocity_up requires delta24>20 — fails by 16 stars. star_spike requires delta24/stars>0.05 — gets 4/27472=0.0001, fails. Only 'rising' because overall>=35 AND delta7>50 triggered basic classifier."},
+    {"repo":"langchain-ai/langchain","flagged_as":"stable, score 21.9, reasons=[release_major, release_recent, commit_fresh]","when":"2026-04-17","verdict":"missed","notes":"133k stars, 0 deltas. 'release_major' fires on tag 'langchain-core==1.3.0a3' — that's a pre-release alpha tag being misclassified as MAJOR due to substring regex matching '3.0a3'."},
+    {"repo":"openai/whisper","flagged_as":"declining, score 8.5, reason=organic_growth fallback","when":"2026-04-17","verdict":"n/a","notes":"Stale last-release from 2025-06-26 so releaseFresh=0 → decayFactor=0.716, penalizes score correctly in spirit."}
+  ],
+  "fp_fn_qualitative": {
+    "fp_patterns": [
+      "MAJOR_VERSION_RE is substring-based and flags pre-release/alpha tags like 'langchain-core==1.3.0a3' as release_major — already happening in production reasons.jsonl.",
+      "issueActivity component: linearNorm(openIssues, 0, 200) rewards abandoned bug-swamps. Any 10-year-old repo with 200 stale issues scores 100 on this component. NOT velocity-based, NOT age-normalized.",
+      "antiSpamDampening uses forksDelta7d in place of total forks (modifiers.ts:67-74 acknowledges the approximation). A legitimate repo that happened to have zero forks added this week is labeled spam; a repo with 10k old forks but sudden 500-star 24h spike with real botting passes (delta is >0).",
+      "breakout_detected requires 2-of-3 criteria. Criterion 2 alone (relDailyGrowth>5%) can be satisfied by a 20-star-to-100-star vanity spike; combined with the accel ratio being easy at low bases, 2-criterion 'breakout' is noisy for tiny repos.",
+      "categoryMomentum logNorm(categoryAvg, 250) is zero by default when scoreRepo is called without a batch average — a batching bug silently zeros a 5% weight.",
+      "commitFreshness=100 for never-released bot repos with auto-commit jobs. No cross-check against contributor count (communityHealth defaults to 50 when flags unset).",
+      "No awesome-list pattern detection. Seed-repos.ts currently has 0 awesome-*, but IF one were added (or auto-discovered), nothing in scoring.ts or classification rules specifically discounts readme-dump repos. Issue count (15+ readme lists flagged by OWASP/CheatSheetSeries pattern is at least one in seed) would score full 100 on issueActivity if they had 200+ open issues.",
+      "Rank_jump has no guard against ghost climbs — removing a repo from the leaderboard shifts all others up by 1, and the system would flag them with no signal."
+    ],
+    "fn_patterns": [
+      "ANY repo with 0 snapshot history (currently 296/309) produces 0 deltas and therefore fires 0 velocity/breakout/quiet-killer signals. The trend engine is structurally BLIND to new repos.",
+      "Social-driven breakouts without GitHub stars yet (e.g., a repo trending hard on X before stars catch up): socialBuzzScore=0 everywhere currently, so criterion 3 of breakout never fires. The entire 'social validation' path is dead.",
+      "Mega-repo blowups (ollama at 169k stars) never breakout: modifiers.ts:117 gates breakout at stars<1000. Even if ollama went +10k stars tomorrow, breakout multiplier never applies. Only star_velocity_up+star_spike detectors remain, and they have no anti-spam filter.",
+      "Quiet-killer requires contributorsDelta30d>0. Currently every repo has 0. Combined with 7d≥30 requirement, 0 firings.",
+      "The dampening for 'small repo commit-stale old vanity' kicks at stars>1000 only — stale 500-star repos that get a bot spike are not dampened."
+    ]
+  },
+  "tests_coverage": {
+    "test_files": [
+      "alerts.test.ts", "classification.test.ts", "featured.test.ts", "filters.test.ts",
+      "persistence-hydration.test.ts", "persistence.test.ts", "reasons.test.ts", "scheduler-integration.test.ts"
+    ],
+    "total_tests": 100,
+    "test_result_on_run": "100 pass / 0 fail (npm test, node:test runner)",
+    "scoring_engine_tests": "ZERO direct tests of computeMomentumScore, scoreRepo, computeScore, computeAllComponents, computeAllModifiers, computeAntiSpamDampening, computeDecayFactor, detectBreakout, detectQuietKiller, classifyMovement, logNorm, linearNorm, freshnessScore, resolveWeights. Grep across all __tests__/*.ts returned no matches.",
+    "what_is_tested": {
+      "reasons.test.ts": "detector trigger conditions (release_recent, star_velocity_up, star_spike, rank_jump, breakout_detected pass-through, organic_growth fallback), priority ordering, summary length, formatTimeframe. Tests the detectors with hand-crafted inputs but not the upstream scoring engine that sets isBreakout.",
+      "classification.test.ts": "rule-based category classifier (topics/keywords/owner matching). Not scoring.",
+      "filters.test.ts": "applyMetaFilter and sort helpers. Tests movementStatus filtering but not how movementStatus is computed.",
+      "featured.test.ts": "UI featured-card waterfall logic: rank_jump card mapping, TODAY backfill, no duplicates. Depends on fixtures, not real scoring.",
+      "alerts.test.ts": "trigger evaluators (star_spike, new_release, rank_jump, momentum_threshold, breakout_detected transition-in semantics), cooldown window, digest bucketing, rule CRUD validation.",
+      "persistence.test.ts / persistence-hydration.test.ts": "JSONL IO, atomicity, debouncing, snapshot retention cap.",
+      "scheduler-integration.test.ts": "tier assignment (hot/warm/cold), refresh batching, ingestion idempotency."
+    },
+    "gap_obvious_from_what_ISNT_tested": [
+      "NO numeric oracle test: 'given these inputs, computeScore must return X ± 0.1'. Current implementation could silently drift.",
+      "NO test for re-normalization bug risk: does resolveWeights preserve sum=1.0 after every override merge?",
+      "NO test for cold-start behavior: does a 0-star, 0-delta, null-lastReleaseAt repo produce a sensible score?",
+      "NO test for antiSpamDampening thresholds — the fork-delta-vs-total-forks mismatch is unverified.",
+      "NO test for breakout criterion interaction: the 2-of-3 rule versus all-3 (legacy scoring.ts) divergence is untested and never caught.",
+      "NO test for issueActivity overflow: a repo with 500k open issues silently clamps to 200 ceiling = 100 score, boosting it.",
+      "NO test on the MAJOR_VERSION_RE regex for false positives (alpha/beta/rc tags, substring-matched N.0 fragments).",
+      "TWO SEPARATE IMPLEMENTATIONS: src/lib/scoring.ts (legacy, used by classifyMovement in that file) and src/lib/pipeline/scoring/engine.ts (new). Drift risk is real — legacy detectBreakout requires absolute delta24≥10 and needs all-3 conditions; new one only needs 2-of-3. No test locks the semantic contract on either."
+    ]
+  },
+  "gaps_and_bugs": [
+    "BUG: MAJOR_VERSION_RE incorrectly matches pre-release tags like 'langchain-core==1.3.0a3' because the regex uses substring scanning with [^0-9] delimiters and catches '3.0a' as 3.0 followed by 'a'. Already firing in reasons.jsonl.",
+    "BUG: antiSpamDampening uses forksDelta7d instead of total forks; code comment at modifiers.ts:67-74 admits it. Miscalibrated threshold 0.005 against a delta instead of a ratio.",
+    "BUG: Two forking implementations of the scoring math (src/lib/scoring.ts vs src/lib/pipeline/scoring/engine.ts) diverge on breakout logic, quietKiller logic, and don't share ModifierInput shape. Unclear which is 'the one'.",
+    "BUG: categoryMomentum defaults to 0 when scoreRepo is called without categoryAverages — a 5% weight silently zeros in single-repo code paths.",
+    "BUG: logNorm ceiling saturation at low ceilings (starVelocity24h cap=500) means any mega-viral spike ≥500/24h is indistinguishable from exactly 500. No way to surface 'extreme' above 'very strong' from a single signal.",
+    "GAP: No anti-spam heuristic for small-stars vanity spikes (<200 delta24). Vanity attacks on fresh repos pass through unscathed.",
+    "GAP: No stargazer-history backfill observed in .data/snapshots.jsonl — only 13/309 repos have snapshot history. 96% of seed is blind.",
+    "GAP: quietKillerBonus is additive (up to +10) AFTER modifiers are applied; this breaks the nice 0-100 contract in edge cases where base*modifiers already = 95 ⇒ 105 clamped to 100.",
+    "GAP: No rank-climber guard against ghost climbs (repos shifting because another repo dropped out).",
+    "GAP: issueActivity conflates 'healthy project with lots of issues' with 'abandoned project with a backlog'. Should be issue-velocity, not absolute count.",
+    "GAP: No tests pin any numeric score outcomes. A regression that multiplies all scores by 2 or shifts the freshness curve would pass the test suite.",
+    "GAP: 'Anti-spam dampening' marketing claim (README) is real CODE, but in practice on the current 309-repo dataset fires zero times. It is architecturally present but operationally vapor because (a) zero socialBuzz/zero forksDelta7d makes the gate-1 denominator useless, and (b) the starsDelta24h>200 gate needs history that most repos don't have."
+  ]
+}

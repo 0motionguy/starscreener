@@ -1,0 +1,559 @@
+{
+  "_scope": {
+    "repo_root": "c:/Users/mirko/OneDrive/Desktop/STARSCREENER/",
+    "storage_model": "In-memory Map-of-Map stores (repoStore, snapshotStore, scoreStore, reasonStore, categoryStore, mentionStore) hydrated on boot from JSONL files under src/lib/pipeline/storage. No real indexes. Every query is a linear scan of an array returned by Map.values().",
+    "current_scale": "Seed list ~300 repos (src/lib/seed-repos.ts). snapshotStore has per-repo cap SNAPSHOT_HISTORY_CAP=120 (~30d @ 6h cadence). Deltas are precomputed per recompute and baked onto Repo rows, so sort-by-delta is already O(1) read."
+  },
+
+  "filters": [
+    {
+      "id": "meta_filter.hot",
+      "applied_at": "client",
+      "code_ref": "src/lib/filters.ts:24 (applyMetaFilter) + src/lib/hooks/useFilteredRepos.ts:53",
+      "indexed": false,
+      "complexity": "O(N) scan over page repos; reads precomputed r.movementStatus",
+      "latency_now": "~0.05ms @ 300",
+      "latency_x10": "~0.5ms @ 3k",
+      "latency_x100": "~5ms @ 30k (but UI pipeline not designed to ship 30k rows over the wire)",
+      "edge_cases": [
+        "movementStatus is recomputed on every recomputeAll; stale after a pipeline crash between ingest and recompute",
+        "Setting any meta filter forces activeTab='trending' via store — tab selection silently lost"
+      ],
+      "bugs_or_smells": [
+        "UI-only filter: the API route /api/repos also exposes filter=hot but the FilterBar/MetasBar applies client-side. Two code paths (applyMetaFilter + applyLocalFilter + pipeline.applyTrendFilter) duplicate the same logic in 3 files — drift risk."
+      ],
+      "user_visible": true
+    },
+    {
+      "id": "meta_filter.breakouts",
+      "applied_at": "client",
+      "code_ref": "src/lib/filters.ts:26",
+      "indexed": false,
+      "complexity": "O(N) scan; precomputed r.movementStatus",
+      "latency_now": "~0.05ms",
+      "latency_x10": "~0.5ms",
+      "latency_x100": "~5ms",
+      "edge_cases": ["movementStatus may be 'stable' until next recompute"],
+      "bugs_or_smells": [
+        "Same as hot: duplicated in /api/repos applyLocalFilter AND queries/service applyTrendFilter — 3 copies."
+      ],
+      "user_visible": true
+    },
+    {
+      "id": "meta_filter.quiet-killers",
+      "applied_at": "client",
+      "code_ref": "src/lib/filters.ts:28",
+      "indexed": false,
+      "complexity": "O(N)",
+      "latency_now": "~0.05ms",
+      "latency_x10": "~0.5ms",
+      "latency_x100": "~5ms",
+      "edge_cases": [],
+      "bugs_or_smells": ["Same 3-way duplication"],
+      "user_visible": true
+    },
+    {
+      "id": "meta_filter.new",
+      "applied_at": "client",
+      "code_ref": "src/lib/filters.ts:30-33",
+      "indexed": false,
+      "complexity": "O(N) + one Date.parse per row",
+      "latency_now": "~0.2ms @ 300",
+      "latency_x10": "~2ms",
+      "latency_x100": "~20ms (Date.parse dominates)",
+      "edge_cases": [
+        "cutoff = Date.now() - 30*86_400_000; re-evaluated every render ⇒ unstable useMemo dep when Date.now drifts (but it's inside useMemo without Date.now in deps, so it only re-runs on other dep change — filter window frozen to last dep change)",
+        "Repos with unparseable createdAt silently pass the cutoff test via NaN < cutoff → false, correct but not defensive"
+      ],
+      "bugs_or_smells": [
+        "30d magic number lives in 3 places: filters.ts:31, queries/service.ts:66, /api/repos:63 — change one and only one path updates.",
+        "Date.parse called on every pass; could be precomputed once onto Repo."
+      ],
+      "user_visible": true
+    },
+    {
+      "id": "meta_filter.discussed",
+      "applied_at": "client",
+      "code_ref": "src/lib/filters.ts:35",
+      "indexed": false,
+      "complexity": "O(N); reads precomputed mentionCount24h",
+      "latency_now": "~0.05ms",
+      "latency_x10": "~0.5ms",
+      "latency_x100": "~5ms",
+      "edge_cases": ["mentionCount24h is a 24h rolling count but recomputed only when recomputeAll runs — NOT actually 24h rolling at query time"],
+      "bugs_or_smells": [
+        "Silently lies: 'Most Discussed (24h)' is a stale snapshot; if recompute hasn't run in 12h the '24h' label is misleading."
+      ],
+      "user_visible": true
+    },
+    {
+      "id": "meta_filter.rank-climbers",
+      "applied_at": "client",
+      "code_ref": "src/lib/filters.ts:37-39",
+      "indexed": false,
+      "complexity": "O(N)",
+      "latency_now": "~0.05ms",
+      "latency_x10": "~0.5ms",
+      "latency_x100": "~5ms",
+      "edge_cases": [
+        "Placeholder: code comment admits previousRank isn't tracked; just returns rank 1-20 = 'climbers'. Wholly fake signal at the UI layer.",
+        "meta-counts.ts/getRankClimbers has a real reason-backed path but applyMetaFilter does NOT use it — UI filter and UI count disagree."
+      ],
+      "bugs_or_smells": [
+        "SILENT LIE: top-20 by rank is NOT 'climbers'. A repo ranked #1 forever still qualifies.",
+        "Two different semantics: meta-counts getRankClimbers (reason.codes.includes('rank_jump')) vs applyMetaFilter (rank<=20). Count badge in MetasBar shows one number, clicking the pill filters by the other."
+      ],
+      "user_visible": true
+    },
+    {
+      "id": "meta_filter.fresh-releases",
+      "applied_at": "client",
+      "code_ref": "src/lib/filters.ts:41-44",
+      "indexed": false,
+      "complexity": "O(N) + Date.parse per row",
+      "latency_now": "~0.2ms",
+      "latency_x10": "~2ms",
+      "latency_x100": "~20ms",
+      "edge_cases": ["14-day cutoff in UI but meta-counts uses 48h + fallback 7d — THREE separate release windows"],
+      "bugs_or_smells": [
+        "SILENT LIE: label says 'Fresh Releases' but count (48h or 7d fallback), filter (14d), and query API /api/pipeline/featured/getFreshReleases (hoursBack param) all use different cutoffs."
+      ],
+      "user_visible": true
+    },
+    {
+      "id": "active_tag",
+      "applied_at": "hybrid (client filter in useFilteredRepos; server filter in /api/repos?tag=)",
+      "code_ref": "src/lib/hooks/useFilteredRepos.ts:57-61, src/app/api/repos/route.ts:185-196",
+      "indexed": false,
+      "complexity": "O(N * T) where T = avg tags per repo",
+      "latency_now": "~0.1ms",
+      "latency_x10": "~1ms",
+      "latency_x100": "~10ms",
+      "edge_cases": [
+        "Client uses r.tags.includes(activeTag) exact match; server regex-validates tag against /^[a-z0-9-]+$/ — client does NOT validate, so a malformed store value would silently match nothing",
+        "Tag derivation (deriveTags) runs inside recomputeAll only; tags are stale between recomputes"
+      ],
+      "bugs_or_smells": [
+        "Tag applied CLIENT side against whatever repos[] the page fetched. /api/repos?tag= is never actually called from the MetasBar/TagsBar components — TagsBar toggles activeTag in the store, useFilteredRepos filters in-memory. The server tag path exists but is orphaned.",
+        "Case sensitivity: tag ids are lowercased by convention but no normalization at the store boundary. A hand-set activeTag='Claude-Code' would match nothing."
+      ],
+      "user_visible": true
+    },
+    {
+      "id": "category",
+      "applied_at": "hybrid",
+      "code_ref": "src/lib/hooks/useFilteredRepos.ts:32-34 (client), src/lib/pipeline/queries/service.ts:96-106 (server getCategoryMovers), src/app/api/search/route.ts:60-62 (search category scope)",
+      "indexed": false,
+      "complexity": "O(N) scan per call",
+      "latency_now": "~0.05-0.1ms",
+      "latency_x10": "~0.5-1ms",
+      "latency_x100": "~5-10ms",
+      "edge_cases": [
+        "category is a string id but NOT validated against CATEGORIES list anywhere in useFilteredRepos — a stale URL with unknown category filters to zero results silently",
+        "Repo.categoryId is set in recomputeAll from classification.primary.categoryId; between ingest and first recompute new repos have the ingest-time placeholder"
+      ],
+      "bugs_or_smells": [
+        "Inconsistent scope: /categories/[slug] uses pipeline.getReposByCategory (repoStore.getAll, NOT getActive) — surfaces deleted/archived tombstones by default, relying on the downstream excludeArchived toggle to hide them.",
+        "Server category filter in /api/repos uses getCategoryMovers which reads repoStore.getAll(), while global path uses repoStore.getActive() — category pages leak archived/deleted."
+      ],
+      "user_visible": true
+    },
+    {
+      "id": "languages",
+      "applied_at": "client",
+      "code_ref": "src/lib/hooks/useFilteredRepos.ts:36-40",
+      "indexed": false,
+      "complexity": "O(N * L) where L = selected languages",
+      "latency_now": "~0.1ms",
+      "latency_x10": "~1ms",
+      "latency_x100": "~10ms",
+      "edge_cases": [
+        "languages.includes(r.language) is EXACT case-sensitive match — GitHub returns 'TypeScript' with exact capitalization so matches, but a user-entered list would silently fail",
+        "Repos where r.language === null always fail (correct; excluded from language filter)"
+      ],
+      "bugs_or_smells": [
+        "Case sensitivity: no toLowerCase anywhere. If the sidebar ever accepted free-text entry this breaks.",
+        "Persisted in localStorage (partialize includes 'languages') but if the source repo dataset drops a language, stale-selected language silently hides every row."
+      ],
+      "user_visible": true
+    },
+    {
+      "id": "starsRange (min,max)",
+      "applied_at": "client",
+      "code_ref": "src/lib/filters.ts:144-150 (repoInStarsRange) + src/lib/hooks/useFilteredRepos.ts:42",
+      "indexed": false,
+      "complexity": "O(N), trivial comparison",
+      "latency_now": "~0.05ms",
+      "latency_x10": "~0.5ms",
+      "latency_x100": "~5ms",
+      "edge_cases": [
+        "range is [min, max] INCLUSIVE on both sides — stars==min passes, stars==max passes. Off-by-one ambiguity if UI copy says 'under 1000'.",
+        "null range = everything passes (correct).",
+        "No validation that min <= max; if store has [5000, 100] everything filters out."
+      ],
+      "bugs_or_smells": [
+        "SILENT LIE POTENTIAL: filter applies to current absolute stars, NOT to delta. A sidebar labelled 'min_stars: 1000' cannot filter by delta; there is no delta-range filter anywhere.",
+        "Not persisted (starsRange absent from partialize) — contradicts languages/onlyWatched persistence."
+      ],
+      "user_visible": true
+    },
+    {
+      "id": "minMomentum",
+      "applied_at": "client",
+      "code_ref": "src/lib/hooks/useFilteredRepos.ts:44-46",
+      "indexed": false,
+      "complexity": "O(N)",
+      "latency_now": "~0.05ms",
+      "latency_x10": "~0.5ms",
+      "latency_x100": "~5ms",
+      "edge_cases": [
+        "minMomentum=0 (default) skips the filter entirely (correct).",
+        "Negative values never produced by store API but not guarded."
+      ],
+      "bugs_or_smells": [
+        "Not persisted (absent from partialize) but 'languages' is — inconsistent persistence policy.",
+        "momentumScore is recomputed in recomputeAll; reading mid-recompute could show fresh scores paired with stale rank, but recompute is synchronous so minor risk."
+      ],
+      "user_visible": true
+    },
+    {
+      "id": "onlyWatched",
+      "applied_at": "client",
+      "code_ref": "src/lib/hooks/useFilteredRepos.ts:48-51",
+      "indexed": false,
+      "complexity": "O(N) + Set construction O(W)",
+      "latency_now": "~0.1ms",
+      "latency_x10": "~1ms",
+      "latency_x100": "~10ms",
+      "edge_cases": [
+        "Set is built inside useMemo — rebuilt only when watchedItems or source changes. Correct.",
+        "Watchlist IDs are slug-normalized by the store (addRepo takes repoId as-is); a watchlist entry with a non-slug id (e.g. 'vercel/next.js') will NEVER match r.id which is always 'vercel--next-js'. No normalization at add time."
+      ],
+      "bugs_or_smells": [
+        "Mismatch with /api/repos?ids=… path which DOES normalize via slugToId (route.ts:94). Store path does not. Adding a repo from a legacy URL that reached store.addRepo(\"vercel/next.js\", …) would leak into localStorage and be un-matchable until manually removed."
+      ],
+      "user_visible": true
+    },
+    {
+      "id": "excludeArchived",
+      "applied_at": "client (post-everything pass)",
+      "code_ref": "src/lib/hooks/useFilteredRepos.ts:63-65",
+      "indexed": false,
+      "complexity": "O(N)",
+      "latency_now": "~0.05ms",
+      "latency_x10": "~0.5ms",
+      "latency_x100": "~5ms",
+      "edge_cases": [
+        "Applies LAST in the filter chain (after meta + tag) — correct conceptually but means the meta/tag counts on MetasBar might include archived repos while the table excludes them. Badge numbers lie.",
+        "Default is TRUE so archived/deleted never surface unless the user toggles."
+      ],
+      "bugs_or_smells": [
+        "r.archived?:boolean — undefined is treated as not-archived (r.archived !== true). OK. Same for r.deleted."
+      ],
+      "user_visible": true
+    },
+    {
+      "id": "search.query (q)",
+      "applied_at": "server (pipeline.searchReposByQuery)",
+      "code_ref": "src/lib/pipeline/queries/service.ts:286-312, src/app/api/search/route.ts:48-71",
+      "indexed": false,
+      "complexity": "O(N * (1 + |desc| + |topics|)) — toLowerCase called PER REPO PER QUERY, no normalized column cached",
+      "latency_now": "~2-5ms @ 300 (toLowerCase dominates)",
+      "latency_x10": "~25-50ms @ 3k",
+      "latency_x100": "~250-500ms @ 30k — FIRST TO BLOW UP because toLowerCase creates strings allocs each call",
+      "edge_cases": [
+        "Empty query returns [] (short-circuit at service.ts:291).",
+        "Query is lowercased but substring match, not token match — 'type script' won't match 'typescript'.",
+        "Topics loop allocates per-topic lowercase string every call."
+      ],
+      "bugs_or_smells": [
+        "NO fuzzy match, NO typo tolerance, NO scoring by match quality — always sorted by momentumScore desc.",
+        "repoStore.getActive() excludes deleted but NOT archived — a recently-archived repo still shows in search.",
+        "Category-scoped search uses pipeline.searchReposByQuery with categoryId option, but the route-level category param is passed through; no validation of category against CATEGORIES."
+      ],
+      "user_visible": true
+    },
+    {
+      "id": "repos.filter (TrendFilter preset)",
+      "applied_at": "server (/api/repos)",
+      "code_ref": "src/app/api/repos/route.ts:50-73, src/lib/pipeline/queries/service.ts:54-77",
+      "indexed": false,
+      "complexity": "O(N)",
+      "latency_now": "~0.1ms",
+      "latency_x10": "~1ms",
+      "latency_x100": "~10ms",
+      "edge_cases": [
+        "under-1k-stars hardcoded 1000. 'new-under-30d' hardcoded 30d. Not configurable.",
+        "Strict validation: invalid filter returns 400 (good).",
+        "category+filter composed: pipeline.getCategoryMovers(1000 cap) then local applyTrendFilter — double-scan but on ≤1000 rows."
+      ],
+      "bugs_or_smells": [
+        "getCategoryMovers reads repoStore.getAll() (includes tombstones); global path uses getActive. Inconsistent between category-scoped and global filter paths."
+      ],
+      "user_visible": true
+    },
+    {
+      "id": "repos.period (TrendWindow: today|week|month)",
+      "applied_at": "server",
+      "code_ref": "src/app/api/repos/route.ts:121, src/lib/pipeline/queries/service.ts:37-52",
+      "indexed": false,
+      "complexity": "O(N log N) — sorts the full set",
+      "latency_now": "~0.5ms",
+      "latency_x10": "~8ms",
+      "latency_x100": "~120ms @ 30k",
+      "edge_cases": [
+        "Reads precomputed starsDelta24h/7d/30d — these are baked in recomputeAll. If recompute is delayed, 'today' delta can be up to 6h stale (cron cadence).",
+        "No 'all-time' window."
+      ],
+      "bugs_or_smells": []
+    },
+    {
+      "id": "repos.sort",
+      "applied_at": "server",
+      "code_ref": "src/app/api/repos/route.ts:26-46",
+      "indexed": false,
+      "complexity": "O(N log N)",
+      "latency_now": "~0.5ms",
+      "latency_x10": "~8ms",
+      "latency_x100": "~120ms",
+      "edge_cases": [
+        "sort=newest uses new Date(createdAt).getTime() — invalid date → NaN, NaN subtraction moves the row unpredictably in sort (non-deterministic order).",
+        "sort is applied AFTER applyTrendFilter, so paginating 'stars-today' with filter='breakouts' is consistent as long as the pipeline state doesn't mutate mid-request."
+      ],
+      "bugs_or_smells": [
+        "sortResults/sortRepos/sortReposByColumn — THREE sort implementations that overlap (search, repos, filters.ts). Delta-normalized sort (delta24h/stars) only exists in filters.ts, not server routes. UI sort and API sort disagree on 'stars-today' semantics (client: delta/stars ratio, server: raw delta)."
+      ]
+    },
+    {
+      "id": "repos.tag (server)",
+      "applied_at": "server (/api/repos?tag=)",
+      "code_ref": "src/app/api/repos/route.ts:185-196",
+      "indexed": false,
+      "complexity": "O(N * T)",
+      "latency_now": "~0.1ms",
+      "latency_x10": "~1ms",
+      "latency_x100": "~10ms",
+      "edge_cases": [
+        "Empty tag string (after trim) returns 400.",
+        "Regex ^[a-z0-9-]+$ rejects uppercase, underscores, dots — consistent with deriveTags output."
+      ],
+      "bugs_or_smells": [
+        "This server-side tag filter is NOT reached by the normal UI path — TagsBar uses the client-only activeTag store filter. Orphaned endpoint."
+      ]
+    },
+    {
+      "id": "sortColumn (client)",
+      "applied_at": "client",
+      "code_ref": "src/lib/filters.ts:57-73, src/lib/hooks/useSortedRepos.ts",
+      "indexed": false,
+      "complexity": "O(N log N)",
+      "latency_now": "~1ms @ 300",
+      "latency_x10": "~15ms",
+      "latency_x100": "~200ms",
+      "edge_cases": [
+        "Delta columns (delta24h/7d/30d) normalize by current stars via Math.max(r.stars,1) — protects div-zero but a 10-star repo with +5 delta outranks a 10k repo with +1000 on 'delta24h' sort.",
+        "'chart' column sorts by raw starsDelta7d (NOT normalized) — inconsistent with delta7d column.",
+        "string localeCompare branch used when extractor returns string; mixing number/string values within a column silently coerces.",
+        "'actions' column extractor returns () => 0 — sorting by actions is a no-op but allowed by the type."
+      ],
+      "bugs_or_smells": [
+        "Client sort runs AFTER server sort — two sort passes with potentially different keys for the same listing.",
+        "Direction is applied consistently but default is 'desc' for every column via store presets — sort on 'repo' (string) defaults to reverse alphabetical, which is surprising UX."
+      ]
+    },
+    {
+      "id": "activeTab (trending/gainers/new/watchlisted)",
+      "applied_at": "client (sort preset, not a true filter)",
+      "code_ref": "src/lib/store.ts:174-182, src/lib/store.ts:235-243",
+      "indexed": false,
+      "complexity": "O(1) — just sets sortColumn/sortDirection",
+      "latency_now": "n/a",
+      "latency_x10": "n/a",
+      "latency_x100": "n/a",
+      "edge_cases": [
+        "Setting activeTab clears activeMetaFilter (destructive). Setting activeMetaFilter force-sets activeTab='trending'. They cannot coexist.",
+        "Tab 'new' preset sorts by lastCommit desc — NOT by createdAt. So 'New' tab is really 'most-recent commit' not 'recently created'.",
+        "Tab 'watchlisted' preset sorts by momentum but does NOT filter to watched repos — the filter has to come from elsewhere (onlyWatched toggle or /watchlist page source)."
+      ],
+      "bugs_or_smells": [
+        "SILENT LIE: 'New' tab ≠ new repos. User clicks 'New' expecting recently-created projects, actually gets recently-active projects.",
+        "'Watchlisted' tab is a pure sort preset; on home page it does NOT narrow to the user's watchlist. Works only because /watchlist passes a pre-filtered source."
+      ]
+    },
+    {
+      "id": "timeRange (24h/7d/30d URL param in store)",
+      "applied_at": "client (store only; never wired to API)",
+      "code_ref": "src/lib/store.ts:120 + src/components/terminal/TimeRangePills.tsx",
+      "indexed": false,
+      "complexity": "n/a",
+      "latency_now": "n/a",
+      "latency_x10": "n/a",
+      "latency_x100": "n/a",
+      "edge_cases": [
+        "Set via TimeRangePills but no consumer actually filters by timeRange — the delta columns are all shown side-by-side. Store value is effectively a breadcrumb."
+      ],
+      "bugs_or_smells": [
+        "DEAD FILTER: timeRange is set in store, has an action, but nothing reads it to filter/sort. It's not in the useFilteredRepos dep list. Ship as dead code or wire up."
+      ]
+    }
+  ],
+
+  "combined_paths": [
+    {
+      "path": "search page: q + category + sort (server) then client sidebar filters (category/languages/starsRange/minMomentum/onlyWatched/meta/tag/excludeArchived)",
+      "composition": "Server narrows by q + category (substring scan), returns up to 50, client then reapplies FULL sidebar filter pipeline inside useFilteredRepos. Category is reapplied on client even though server already applied it — harmless dup-check.",
+      "cost": "server: O(N) scan of repoStore.getActive(); client: O(M) with M ≤ 50",
+      "issues": [
+        "Client applies category AGAIN on the already-category-filtered server result — no harm, but if URL category differs from store category, the store wins and silently hides the server results. URL vs store drift."
+      ]
+    },
+    {
+      "path": "home page: pipeline.getTopMovers('today', 80) → client filters + client sort",
+      "composition": "Server returns top 80 only; any client filter narrows further. If the user enables a restrictive filter (e.g. category=crypto-web3 + minMomentum=80), the result is 'top 80 today' ∩ crypto — which is NOT the top-80 crypto today. Two layers of ranking don't compose.",
+      "cost": "O(80)",
+      "issues": [
+        "SILENT LIE: sidebar category filter on the home page does NOT re-query to that category's actual top movers. A crypto repo ranked #120 globally never appears even though it's the #1 crypto mover."
+      ]
+    },
+    {
+      "path": "category detail page: pipeline.getReposByCategory(slug) [ALL repos in cat, no limit] → client filters + client sort",
+      "composition": "Full category slice (uses repoStore.getAll, no active filter) goes to client.",
+      "cost": "O(|cat|)",
+      "issues": [
+        "Surfaces archived/deleted repos by default because getReposByCategory uses getAll(). Only hidden by excludeArchived client toggle (default on). Turn it off → tombstones appear."
+      ]
+    },
+    {
+      "path": "/api/repos: category + filter + tag + sort + offset/limit",
+      "composition": "order: pipeline.getTopMovers|getCategoryMovers (already limited to 1000) → applyLocalFilter → tag filter → sortRepos → slice(offset, offset+limit). Each step is O(N) over a capped 1000 rows.",
+      "cost": "O(1000) worst case per request",
+      "issues": [
+        "1000 hard cap is silent: if seed grows past 1000 a category will never surface its 1001st repo via /api/repos.",
+        "getCategoryMovers uses getAll (tombstones), getTopMovers uses getActive — inconsistent base set."
+      ]
+    },
+    {
+      "path": "meta counts vs meta filter",
+      "composition": "Separate code paths: meta-counts.ts walks repoStore.getActive once and returns 7 counts. applyMetaFilter walks the repos-on-page client-side and filters. They read different sources (all active vs page repos) so counts and visible rows diverge.",
+      "cost": "O(N)",
+      "issues": [
+        "Counts include repos the page never fetched. Home page fetches top 80 only, but MetasBar says '412 hot' — clicking hot filters 80 → subset. User perceives inconsistency."
+      ]
+    }
+  ],
+
+  "pagination": {
+    "exists": true,
+    "type": "offset+limit (only on /api/repos and /api/pipeline/rebuild). /api/search uses limit-only, no offset. No cursor-based pagination anywhere.",
+    "issues": [
+      "/api/search has NO offset — caller can only get top-N; paging beyond N impossible (limit capped at 100).",
+      "Offset pagination over a mutable in-memory store: recomputeAll rewrites rank/momentum and sort order on every tick. A second page request after a recompute can skip or repeat repos.",
+      "No 'ETag' or 'snapshot token' — callers have no way to pin results to a pipeline version.",
+      "Home, categories, watchlist, and search UIs do NOT paginate — they slice a fixed limit (80/all/persisted/50) and trust the client to scroll. No infinite-scroll, no 'next page' UI.",
+      "Compare endpoint caps at 5 but compareStore UI caps at 4 — off-by-one between store and API."
+    ]
+  },
+
+  "sort_orders": [
+    {
+      "surface": "/api/search",
+      "keys": ["momentum (default)", "stars-today", "stars-total"],
+      "invalid": "returns 400"
+    },
+    {
+      "surface": "/api/repos",
+      "keys": ["momentum (default)", "stars-today", "stars-total", "newest"],
+      "invalid": "returns 400"
+    },
+    {
+      "surface": "TerminalBody (client)",
+      "keys": "17 column IDs via sortReposByColumn",
+      "default_by_tab": {
+        "trending": "momentum desc",
+        "gainers": "delta24h desc (% of stars)",
+        "new": "lastCommit desc (NOT createdAt)",
+        "watchlisted": "momentum desc"
+      },
+      "invalid": "TS-typed; unknown column id falls through switch and the sort is undefined behavior (extract returns undefined → NaN comparisons)"
+    },
+    {
+      "surface": "Category queries (service.ts)",
+      "keys": "momentum desc",
+      "invalid": "n/a — fixed"
+    },
+    {
+      "surface": "Breakouts/QuietKillers/MostDiscussed/NewRepos/RelatedRepos/Search",
+      "keys": "momentum desc (fixed) except MostDiscussed=mentionCount24h desc, NewRepos=momentum desc, Search=momentum desc",
+      "invalid": "n/a"
+    }
+  ],
+
+  "seed_leak_risk": "LOW at query layer, MEDIUM at ingestion layer. Every user-facing query reads repoStore which is populated exclusively from the seed list (src/lib/seed-repos.ts) via /api/cron/seed or /api/pipeline/rebuild. /api/search specifically reads repoStore.getActive() and cannot surface a non-seed repo. HOWEVER: /api/pipeline/ingest and /api/pipeline/rebuild accept arbitrary owner/name pairs in the body (not validated against the seed list), so an operator with an API key can insert non-seed repos into the store. After insertion, every query (search, categories, featured) will surface them. This is an auth/admin control, not a filter control — but it means 'search is seed-bounded' is only true by convention.",
+
+  "ux_smell_ranking": [
+    {
+      "severity": "high",
+      "smell": "rank-climbers meta pill: count uses reason.rank_jump, filter uses rank<=20 — badge and filtered list disagree (src/lib/filters.ts:37 vs src/lib/pipeline/queries/meta-counts.ts:139)"
+    },
+    {
+      "severity": "high",
+      "smell": "'New' tab sorts by lastCommit, not createdAt — label lies (src/lib/store.ts:180)"
+    },
+    {
+      "severity": "high",
+      "smell": "Fresh-releases uses THREE different cutoffs across UI filter (14d), count (48h), server query (variable hoursBack). Count badge, filtered list, and featured row all disagree."
+    },
+    {
+      "severity": "high",
+      "smell": "Home page sidebar category filter compounds onto already-truncated top-80 — users get 'top 80 today AND crypto', not 'top crypto today' (src/app/page.tsx:24)"
+    },
+    {
+      "severity": "medium",
+      "smell": "timeRange (24h/7d/30d) is dead — stored, toggled, never read by any filter"
+    },
+    {
+      "severity": "medium",
+      "smell": "Three duplicate filter implementations for hot/breakouts/quiet-killers/new/under-1k (filters.ts, api/repos, queries/service). Drift inevitable."
+    },
+    {
+      "severity": "medium",
+      "smell": "/categories/[slug] uses repoStore.getAll (tombstones) while / uses getActive. Archived flag toggle flips whether tombstones appear ONLY on category detail page."
+    },
+    {
+      "severity": "medium",
+      "smell": "Watchlist id normalization mismatch: store.addRepo() accepts raw ids without slug normalization, but /api/repos?ids= does normalize. Legacy localStorage entries can be un-matchable."
+    },
+    {
+      "severity": "medium",
+      "smell": "Server-side /api/repos?tag= endpoint is orphaned — UI applies tag filter client-side, so pagination over tag filter never works (all-in-page)."
+    },
+    {
+      "severity": "medium",
+      "smell": "starsRange inclusive on both ends with no UI affordance for min>max — empty result if swapped."
+    },
+    {
+      "severity": "low",
+      "smell": "sort direction defaults to desc for every column, including 'repo' (fullName string) — reverse alphabetical surprising."
+    },
+    {
+      "severity": "low",
+      "smell": "sortColumn='chart' sorts by raw starsDelta7d, but sortColumn='delta7d' sorts by starsDelta7d/stars. Same-looking column, different semantics."
+    },
+    {
+      "severity": "low",
+      "smell": "minMomentum, starsRange not in partialize() — behave differently from languages/onlyWatched on reload."
+    },
+    {
+      "severity": "low",
+      "smell": "Offset pagination over recompute-mutable store can skip/repeat rows across pages — no cursor."
+    },
+    {
+      "severity": "low",
+      "smell": "Featured cards limit param differs from home default (page passes 8, URL may pass 1-20) but no effect on other surfaces."
+    },
+    {
+      "severity": "low",
+      "smell": "MetasBar counts come from /api/pipeline/meta-counts (total active repos) but applyMetaFilter only filters the currently-fetched repos[] — badge often shows more than visible."
+    }
+  ]
+}

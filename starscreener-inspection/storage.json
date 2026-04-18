@@ -1,0 +1,361 @@
+{
+  "_meta": {
+    "audited_at": "2026-04-18",
+    "data_dir": ".data/ (overridable via STARSCREENER_DATA_DIR)",
+    "engine": "JSONL — in-memory Map, full-file rewrite on every debounced flush",
+    "persistence_toggle": "STARSCREENER_PERSIST (default true, set 'false' to disable)"
+  },
+  "files": [
+    {
+      "name": "repos.jsonl",
+      "path": ".data/repos.jsonl",
+      "lines": 309,
+      "bytes": 295445,
+      "avg_bytes_per_line": 956,
+      "field_schema": {
+        "id": "string (slug: 'owner--repo')",
+        "fullName": "string ('owner/repo')",
+        "name": "string",
+        "owner": "string",
+        "ownerAvatarUrl": "string (URL)",
+        "description": "string|null",
+        "url": "string (URL)",
+        "language": "string|null",
+        "topics": "string[]",
+        "categoryId": "string",
+        "stars": "number",
+        "forks": "number",
+        "contributors": "number",
+        "openIssues": "number",
+        "lastCommitAt": "ISO timestamp|null",
+        "lastReleaseAt": "ISO timestamp|null",
+        "lastReleaseTag": "string|null",
+        "createdAt": "ISO timestamp",
+        "starsDelta24h": "number",
+        "starsDelta7d": "number",
+        "starsDelta30d": "number",
+        "forksDelta7d": "number",
+        "contributorsDelta30d": "number",
+        "momentumScore": "number (real)",
+        "movementStatus": "enum: stable|breakout|hot|quiet_killer|declining|warming|cooling",
+        "rank": "number",
+        "categoryRank": "number",
+        "sparklineData": "number[] (fixed 30-slot window)",
+        "socialBuzzScore": "number",
+        "mentionCount24h": "number",
+        "tags": "string[] (optional, referenced in repos/route.ts filter path)",
+        "deleted": "boolean (optional; tombstone used by getActive())"
+      },
+      "first_ts": "n/a (no embedded ts; order is insertion)",
+      "last_ts": "n/a",
+      "daily_growth_est": "bounded — one row per tracked repo. Grows only when seed list expands.",
+      "written_by": [
+        "src/lib/pipeline/storage/memory-stores.ts:148 InMemoryRepoStore.persist()",
+        "src/lib/pipeline/storage/file-persistence.ts:134 writeJsonlFile() — full rewrite"
+      ],
+      "read_by": [
+        "src/lib/pipeline/storage/memory-stores.ts:154 InMemoryRepoStore.hydrate() (cold start only)",
+        "all /api/** routes reach repoStore.getAll()/get() via in-memory Map — file is NOT re-read per request"
+      ],
+      "pruning": "none — upsert-by-id; tombstoned via repo.deleted=true but rows stay",
+      "scan_cost_now": "hydrate: 1 readFile + 309 JSON.parse (~0.3MB). Queries: O(1) Map.get, O(n) Array.from.",
+      "scan_cost_x100": "30,000 repos => ~30MB JSONL, full rewrite on every debounced persist. readFile+parse spike on cold start ~1-3s. Queries stay O(n) over memory Map."
+    },
+    {
+      "name": "snapshots.jsonl",
+      "path": ".data/snapshots.jsonl",
+      "lines": 304,
+      "bytes": 114667,
+      "avg_bytes_per_line": 377,
+      "field_schema": {
+        "id": "string (composite: '${repoId}:${capturedAt}:${source}' — legacy '${repoId}:${capturedAt}' is auto-migrated on hydrate, see memory-stores.ts:256)",
+        "repoId": "string",
+        "capturedAt": "ISO timestamp",
+        "source": "string ('github', 'events', 'mock')",
+        "stars": "number",
+        "forks": "number",
+        "openIssues": "number",
+        "watchers": "number",
+        "contributors": "number",
+        "sizeKb": "number (commonly 0 in wild data)",
+        "lastCommitAt": "ISO timestamp|null",
+        "lastReleaseAt": "ISO timestamp|null",
+        "lastReleaseTag": "string|null",
+        "mentionCount24h": "number",
+        "socialBuzzScore": "number"
+      },
+      "first_ts": "2026-03-19T23:59:59.000Z",
+      "last_ts": "2026-04-17T23:59:59.000Z (plus fine-grained 'live' caps at 07:53-07:57 and 11:07)",
+      "daily_growth_est": "~10 rows/day currently (304 lines / 30 days). At 309 repos with daily cadence that would be 309/day; the retention cap at 120 per repo + the SNAPSHOT_HISTORY_CAP slicing hides the real ingest volume. Realistic steady state = (repo_count * cadence_per_day) with cap enforced in memory, so on-disk count is bounded by repo_count * 120.",
+      "written_by": [
+        "src/lib/pipeline/storage/memory-stores.ts:180 InMemorySnapshotStore.append()",
+        "src/lib/pipeline/storage/memory-stores.ts:236 InMemorySnapshotStore.persist() — full rewrite of flat list"
+      ],
+      "read_by": [
+        "src/lib/pipeline/storage/memory-stores.ts:246 InMemorySnapshotStore.hydrate() (cold start)",
+        "delta computation during pipeline.recomputeAll()",
+        "/api/repos/[owner]/[name] and sparkline generation via snapshotStore.list/getLatest"
+      ],
+      "pruning": "SNAPSHOT_HISTORY_CAP = 120 per repo (~30 days at 6h cadence). Enforced in-memory on append — oldest slice dropped. File mirrors memory on next debounced persist.",
+      "scan_cost_now": "304 lines, sub-millisecond parse. append() does filter+sort+slice O(n log n) per call where n<=120.",
+      "scan_cost_x100": "30,000 repos * 120 cap = 3.6M lines * ~400B = ~1.4GB JSONL on disk. Every mutation triggers debounced persist = full 1.4GB rewrite within 2s. readFileSync-style hydrate will OOM on a 512MB Railway dyno around 1-2M lines."
+    },
+    {
+      "name": "scores.jsonl",
+      "path": ".data/scores.jsonl",
+      "lines": 309,
+      "bytes": 274085,
+      "avg_bytes_per_line": 887,
+      "field_schema": {
+        "repoId": "string",
+        "computedAt": "ISO timestamp",
+        "overall": "number (real)",
+        "components": "object { starVelocity24h, starVelocity7d, forkVelocity7d, contributorGrowth30d, commitFreshness, releaseFreshness, socialBuzz, issueActivity, communityHealth, categoryMomentum } — all numbers",
+        "weights": "object (same keys as components, sum~=1)",
+        "modifiers": "object { decayFactor, antiSpamDampening, breakoutMultiplier, quietKillerBonus }",
+        "isBreakout": "boolean",
+        "isQuietKiller": "boolean",
+        "movementStatus": "enum (mirrors Repo.movementStatus)",
+        "explanation": "string (human-readable)"
+      },
+      "first_ts": "2026-04-17T11:07:48.891Z",
+      "last_ts": "2026-04-17T11:07:48.900Z",
+      "daily_growth_est": "bounded — one row per repo, upsert by repoId. File size scales only with repo count.",
+      "written_by": [
+        "src/lib/pipeline/storage/memory-stores.ts:306 InMemoryScoreStore.persist()"
+      ],
+      "read_by": [
+        "src/lib/pipeline/storage/memory-stores.ts:314 hydrate() (cold start)",
+        "pipeline.getTopMovers / getCategoryMovers via in-memory scoreStore"
+      ],
+      "pruning": "none — upsert-by-repoId; no tombstone",
+      "scan_cost_now": "309 rows, ~0.3MB rewrite on persist. All 9 timestamps above cluster in a 10ms window = single recompute pass.",
+      "scan_cost_x100": "30k rows * ~900B = ~27MB. Full rewrite every debounced cycle. Acceptable on SSD but blocks event loop briefly on rewrite under Node."
+    },
+    {
+      "name": "categories.jsonl",
+      "path": ".data/categories.jsonl",
+      "lines": 309,
+      "bytes": 79100,
+      "avg_bytes_per_line": 256,
+      "field_schema": {
+        "repoId": "string",
+        "classifiedAt": "ISO timestamp",
+        "primary": "object { categoryId, confidence(number), matched { topics[], keywords[], ownerPrefix|null } }",
+        "secondary": "array of same shape as primary"
+      },
+      "first_ts": "2026-04-17T11:07:48.xxx (cluster)",
+      "last_ts": "2026-04-17T11:07:48.xxx (cluster)",
+      "daily_growth_est": "bounded — one row per repo",
+      "written_by": ["src/lib/pipeline/storage/memory-stores.ts:355 InMemoryCategoryStore.persist()"],
+      "read_by": ["src/lib/pipeline/storage/memory-stores.ts:363 hydrate()"],
+      "pruning": "none — upsert-by-repoId",
+      "scan_cost_now": "trivial",
+      "scan_cost_x100": "~8MB rewrite; safe"
+    },
+    {
+      "name": "reasons.jsonl",
+      "path": ".data/reasons.jsonl",
+      "lines": 309,
+      "bytes": 170475,
+      "avg_bytes_per_line": 552,
+      "field_schema": {
+        "repoId": "string",
+        "generatedAt": "ISO timestamp",
+        "codes": "string[] (enum: release_major, release_recent, commit_fresh, star_velocity_up, ...)",
+        "summary": "string (human-readable)",
+        "details": "array of { code, headline, detail, confidence(low|med|high), timeframe, evidence:[{label,value}] }"
+      },
+      "first_ts": "2026-04-17 (same recompute cluster)",
+      "last_ts": "2026-04-17",
+      "daily_growth_est": "bounded — one row per repo",
+      "written_by": ["src/lib/pipeline/storage/memory-stores.ts:398 InMemoryReasonStore.persist()"],
+      "read_by": ["src/lib/pipeline/storage/memory-stores.ts:406 hydrate()"],
+      "pruning": "none — upsert-by-repoId; overwrite on each recompute",
+      "scan_cost_now": "trivial",
+      "scan_cost_x100": "~17MB rewrite; safe"
+    },
+    {
+      "name": "mentions.jsonl",
+      "path": ".data/mentions.jsonl",
+      "lines": 0,
+      "bytes": 0,
+      "avg_bytes_per_line": 0,
+      "field_schema": {
+        "id": "string",
+        "repoId": "string",
+        "platform": "string (hn|reddit|x|github)",
+        "author": "string",
+        "authorFollowers": "number|null",
+        "content": "string",
+        "url": "string",
+        "sentiment": "enum (pos|neu|neg)",
+        "engagement": "number",
+        "reach": "number",
+        "postedAt": "ISO timestamp",
+        "discoveredAt": "ISO timestamp",
+        "isInfluencer": "boolean"
+      },
+      "first_ts": "n/a — empty in wild",
+      "last_ts": "n/a",
+      "daily_growth_est": "UNBOUNDED once social ingest is wired. Append-only, NO retention cap in memory-stores.ts.",
+      "written_by": ["src/lib/pipeline/storage/memory-stores.ts:464 InMemoryMentionStore.persist()"],
+      "read_by": ["src/lib/pipeline/storage/memory-stores.ts:477 hydrate()"],
+      "pruning": "NONE — this is the sleeping scale bomb. No per-repo cap, no age cutoff.",
+      "scan_cost_now": "0 bytes",
+      "scan_cost_x100": "At 30k repos * avg 20 mentions/day * 365 days = 219M rows * ~500B = ~110GB. File-based storage fails long before that — full rewrite on every append-debounce becomes impossible past ~1GB."
+    },
+    {
+      "name": "mention-aggregates.jsonl",
+      "path": ".data/mention-aggregates.jsonl",
+      "lines": 0,
+      "bytes": 0,
+      "avg_bytes_per_line": 0,
+      "field_schema": {
+        "repoId": "string",
+        "computedAt": "ISO timestamp",
+        "mentionCount24h": "number",
+        "mentionCount7d": "number",
+        "platformBreakdown": "object (platform -> count)",
+        "sentimentScore": "number",
+        "influencerMentions": "number",
+        "totalReach": "number",
+        "buzzScore": "number",
+        "buzzTrend": "enum (rising|flat|falling)"
+      },
+      "first_ts": "n/a",
+      "last_ts": "n/a",
+      "daily_growth_est": "bounded — one row per repo",
+      "written_by": ["src/lib/pipeline/storage/memory-stores.ts:470 (same persist() call as mentions)"],
+      "read_by": ["src/lib/pipeline/storage/memory-stores.ts:481 (same hydrate() call)"],
+      "pruning": "none — upsert-by-repoId",
+      "scan_cost_now": "0 bytes",
+      "scan_cost_x100": "bounded, ~safe"
+    },
+    {
+      "name": "alert-rules.jsonl",
+      "path": ".data/alert-rules.jsonl",
+      "lines": 0,
+      "bytes": 0,
+      "avg_bytes_per_line": 0,
+      "field_schema": {
+        "id": "string",
+        "userId": "string",
+        "repoId": "string|null",
+        "categoryId": "string|null",
+        "trigger": "string (enum)",
+        "threshold": "number",
+        "cooldownMinutes": "number",
+        "enabled": "boolean",
+        "createdAt": "ISO timestamp",
+        "lastFiredAt": "ISO timestamp|null"
+      },
+      "first_ts": "n/a",
+      "last_ts": "n/a",
+      "daily_growth_est": "bounded by user count * rules-per-user (user feature not live yet)",
+      "written_by": ["src/lib/pipeline/storage/memory-stores.ts:533 InMemoryAlertRuleStore.persist()"],
+      "read_by": ["src/lib/pipeline/storage/memory-stores.ts:541 hydrate()"],
+      "pruning": "none (explicit .remove() only)",
+      "scan_cost_now": "0 bytes",
+      "scan_cost_x100": "safe"
+    },
+    {
+      "name": "alert-events.jsonl",
+      "path": ".data/alert-events.jsonl",
+      "lines": 0,
+      "bytes": 0,
+      "avg_bytes_per_line": 0,
+      "field_schema": {
+        "id": "string",
+        "ruleId": "string",
+        "repoId": "string",
+        "userId": "string",
+        "trigger": "string",
+        "title": "string",
+        "body": "string",
+        "url": "string",
+        "firedAt": "ISO timestamp",
+        "readAt": "ISO timestamp|null",
+        "conditionValue": "number",
+        "threshold": "number"
+      },
+      "first_ts": "n/a",
+      "last_ts": "n/a",
+      "daily_growth_est": "append-only log. Scales with (rules * cross-threshold events/day).",
+      "written_by": ["src/lib/pipeline/storage/memory-stores.ts:588 InMemoryAlertEventStore.persist()"],
+      "read_by": ["src/lib/pipeline/storage/memory-stores.ts:596 hydrate()"],
+      "pruning": "NONE — append-only, no retention policy. Secondary scale bomb after mentions.",
+      "scan_cost_now": "0 bytes",
+      "scan_cost_x100": "Unbounded — will grow linearly with time once alerting ships."
+    }
+  ],
+  "concurrency_model": {
+    "write_strategy": "full-file atomic rewrite — tmp-sibling write then rename (file-persistence.ts:134 writeJsonlFile). The canonical filename never contains a partial buffer.",
+    "debounce": "PERSIST_DEBOUNCE_MS = 2000. Every store mutator fires the 'onStoreMutation' hook (memory-stores.ts:57) which calls schedulePersist() (singleton.ts:132) — a leading-edge debounce: timer resets on each mutation, so a burst of writes produces ONE flush 2s after the burst ends.",
+    "locking": "NONE — no file lock, no advisory lock, no fsync. Two concurrent Node processes writing the same .data/ would race on rename and can corrupt. Single-process protection only: singleton.ts holds a module-level persistTimer, and ingest.ts:162 holds a module-level 'batchInFlight' mutex to serialize ingest batches.",
+    "dedup": "per-store: InMemorySnapshotStore.append() filters by s.id before push (memory-stores.ts:183). InMemoryRepoStore.upsert handles GitHub rename collisions (memory-stores.ts:102). No cross-file consistency.",
+    "corruption_vector_on_serverless": "writeJsonlFile serializes the entire in-memory Map on every flush, so two Vercel lambda instances each holding their own in-memory copy would clobber each other on rename. This is why the team redirected all traffic to the Railway single-process deployment (see ephemeral_disk_handling)."
+  },
+  "ephemeral_disk_handling": {
+    "problem": "Vercel serverless functions run on isolated containers with ephemeral /tmp that does not survive cold start. JSONL persistence requires a single long-lived filesystem.",
+    "current_fix": "vercel.json is a PURE-REDIRECT config: '/' and '/:path+' both 302 to 'https://starscreener-production.up.railway.app/'. Vercel never serves dynamic traffic — it's a DNS/redirect shell. The Next.js app runs as a single long-lived Node process on Railway, where .data/ is a real persistent disk.",
+    "evidence": [
+      "vercel.json:3-13 — the entire config is 2 redirect rules, no serverless functions, no rewrites",
+      "next.config.ts:13 — 'output: \"standalone\"' is commented out with note 'Uncomment for Docker/Railway/Fly deployments'",
+      "src/lib/pipeline/ingestion/ingest.ts:157-162 — explicit comment: 'The app runs as a single long-lived Node.js process (Railway / Fly / Render — Vercel serverless doesn't hold state anyway)'",
+      "src/app/api/stream/route.ts:10 and src/lib/pipeline/events.ts:64 — SSE noted as Railway-only",
+      "recent commits: b54ca49 'Rebuild: offset + skipRecompute', f76784b 'Restore Vercel -> Railway redirect: serverless /tmp can't hold pipeline state', 7e9f5da 'Add /api/pipeline/rebuild: real data engine for every seed repo'"
+    ],
+    "persistence_boundary": "Railway container filesystem, rooted at process.cwd()/.data (file-persistence.ts:37 currentDataDir). Environment can override with STARSCREENER_DATA_DIR. Railway mounts this as persistent storage tied to the instance."
+  },
+  "backup_strategy": {
+    "on_disk": ".data/backup-2026-04-17/ exists with a snapshot of the JSONL files from 2026-04-17T13:04. Manual / ad-hoc — no rotation script found in src/.",
+    "automatic": "none — no cron route writing backups, no git-LFS of .data/, no S3 sync.",
+    "risk": "If Railway volume is lost or corrupted by a mid-rename crash between writeFile and rename (unlikely but possible), the single backup from 2026-04-17 is the only recovery point. Mentions/alert-events append-only streams have no recovery granularity at all."
+  },
+  "read_path_analysis": {
+    "cold_start": "hydrateAll() in singleton.ts:72 runs readJsonlFile for all 9 files in parallel via Promise.all. Current cold start: ~1MB total, sub-100ms. The mutation hook is suspended during hydrate (singleton.ts:184 suspendPersistHook) so re-append during hydrate does NOT schedule a feedback-loop flush.",
+    "hot_path": "NO file reads. Every API route calls pipeline.ensureReady() (which is memoized — readyPromise guard at pipeline.ts:121), then reads from the in-memory Map directly. 18 API route files hit repoStore/snapshotStore/etc; zero of them readFile.",
+    "scan_pattern": "repoStore.getAll() returns Array.from(Map.values()) on every call — O(n) allocation. pipeline.getTopMovers() sorts that array per request. No query cache beyond HTTP cache headers (READ_CACHE_HEADERS)."
+  },
+  "schema_drift_risk": {
+    "unknown_fields_on_read": "TOLERATED — readJsonlFile<T>() uses JSON.parse without a zod/runtime schema check (file-persistence.ts:114). Extra fields flow into memory as-is; missing optional fields become 'undefined'. TypeScript type is a static claim only.",
+    "missing_required_fields": "SILENT CORRUPTION RISK — a missing 'repoId' on a snapshot would still hydrate into the Map under byRepo.get(undefined), leading to confusing lookups. No validation.",
+    "observed_migrations": [
+      "Snapshot id shape migrated from '${repoId}:${capturedAt}' to '${repoId}:${capturedAt}:${source}' — auto-detected and rewritten on hydrate (memory-stores.ts:249-266), marks dirty so next persist flushes the new shape. Good pattern."
+    ],
+    "malformed_lines": "skipped with console.warn (file-persistence.ts:118). Blank lines tolerated. No line-count mismatch alarm."
+  },
+  "scale_cliffs": [
+    {
+      "file": "mentions.jsonl",
+      "at_scale": "x10",
+      "failure": "append-only with NO pruning. At 10x (3000 repos, social ingest enabled) and 20 mentions/repo/day this hits ~21M rows/year * 500B = ~10GB/year. Full-file rewrite on every debounced flush (writeJsonlFile, not appendJsonlFile — persist() is a full rewrite) blocks the event loop for multi-second windows and eventually exceeds disk."
+    },
+    {
+      "file": "snapshots.jsonl",
+      "at_scale": "x100",
+      "failure": "30k repos * 120 cap = 3.6M lines * ~400B = ~1.4GB. Cold-start hydrate is readFile of the whole file + 3.6M JSON.parse calls — ~30-60s, likely OOM on 512MB container. Every debounced persist rewrites the entire 1.4GB. Break point is ~500k lines / ~200MB."
+    },
+    {
+      "file": "alert-events.jsonl",
+      "at_scale": "x100",
+      "failure": "append-only with NO pruning, no TTL. At 30k repos and active alerting users, expected multiple events per repo per day; unbounded growth + full-rewrite persist means this breaks whenever total alert-event volume passes ~200MB (approx hundreds of thousands of events)."
+    },
+    {
+      "file": "repos.jsonl",
+      "at_scale": "x100",
+      "failure": "~30MB rewrite per flush. Blocks event loop ~200-400ms per write. Uncomfortable but survivable. The pain is in-memory: Array.from(byId.values()) in every getAll() call allocates 30k-element arrays per request."
+    }
+  ],
+  "recommendations": [
+    "Ship the documented Postgres migration (docs/DATABASE.md). Descriptors already exist (src/lib/db/schema.ts), scaffold classes exist (src/lib/db/stores.ts). Gate on process.env.DATABASE_URL in singleton.ts so dev keeps JSONL.",
+    "FIRST TABLE TO MIGRATE: snapshots — it's the one with real time-series pressure, time-range query value, and the natural primary key (repo_id, captured_at) maps cleanly. Neon or Supabase with a monthly partition + 90d retention job.",
+    "Add retention policies to mentions and alert-events BEFORE social ingest + alerting ship. Mirror SNAPSHOT_HISTORY_CAP with a max-per-repo cap (e.g. 500 mentions/repo) or a rolling 30d cutoff, enforced in-memory on append.",
+    "Replace writeJsonlFile full-rewrite with a true appendJsonlFile path for append-only stores (snapshots, mentions, alert-events). helper already exists at file-persistence.ts:148 but is unused — stores call persist() which always rewrites everything.",
+    "Add runtime schema validation at the readJsonlFile boundary (zod or ajv). Current 'trust the type' approach is silent-corruption friendly.",
+    "Add fsync after rename in writeJsonlFile. Current atomic-rename is safe against partial writes but not against unflushed OS buffer loss on crash.",
+    "Treat /api/pipeline/persist + the debounce timer as a safety net only; once on Postgres, delete the JSONL path (STARSCREENER_PERSIST=false) and drop the 2s debounce.",
+    "When moving off Railway-single-instance, either pick a Postgres-backed stack OR a DO-style block volume + single-writer lock. Current code has ZERO multi-writer safety — two Railway replicas would corrupt each other."
+  ]
+}

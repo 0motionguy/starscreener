@@ -1,0 +1,191 @@
+{
+  "deps": [],
+  "deps_note": "package.json has ZERO observability SDKs — no Sentry, OpenTelemetry, Datadog, Logtail, pino, winston, or any structured-logging library. Only framer-motion, lucide-react, next, next-themes, react, recharts, sonner (UI toast only), zod, zustand. Observability is entirely stdout-based (console.log/error/warn) and relies on whatever platform (Railway) aggregates them.",
+  "logging": {
+    "type": "partially_structured",
+    "samples": [
+      {
+        "file": "src/app/api/cron/ingest/route.ts",
+        "line": 108,
+        "shape": "single-line JSON per cron run",
+        "example_fields": ["scope:cron:ingest", "tier", "count", "ok", "failed", "rateLimitRemaining", "durationMs", "status", "error?"],
+        "verdict": "real structured logging — parseable by Vercel Logs / log aggregators"
+      },
+      {
+        "file": "src/lib/pipeline/adapters/github-adapter.ts",
+        "line": 214,
+        "shape": "free-form string",
+        "example": "console.log(`[github] GET ${path} rl=${remaining}`)",
+        "verdict": "unstructured — fine for eyeballing, useless for querying"
+      },
+      {
+        "file": "src/lib/pipeline/ingestion/ingest.ts",
+        "line": 138,
+        "shape": "free-form",
+        "example": "console.error(`[ingest] unexpected error for ${fullName}`, err)",
+        "verdict": "unstructured; error object serialization depends on Node default (often loses stack)"
+      }
+    ],
+    "total_console_calls_in_pipeline": 38,
+    "structured_json_sites": 1,
+    "overall": "ONE cron endpoint emits structured JSON. Everything else in the pipeline (github-adapter, ingest, normalizer, backfill, stargazer-backfill, social-adapters, nitter-adapter, file-persistence, singleton) is free-form console.* with bracketed tags like [github-adapter], [ingest], [cron:ingest]. Grep-friendly but not query-friendly."
+  },
+  "error_handling": [
+    {
+      "site": "GitHubApiAdapter.request()",
+      "file": "src/lib/pipeline/adapters/github-adapter.ts:183-234",
+      "pattern": "log + retry + safe null",
+      "detail": "429 and 5xx retried up to 3 total attempts with exp backoff (1s, 2s). Network errors retried. After exhaustion: console.error + return null. 403 is NOT retried (correct — 403 with remaining=0 is rate limit handled via isRateLimited). 404 returned to caller. Reads x-ratelimit-remaining / x-ratelimit-reset on every response — good."
+    },
+    {
+      "site": "GitHubApiAdapter.fetchRepo/fetchLatestRelease/fetchContributorCount",
+      "file": "src/lib/pipeline/adapters/github-adapter.ts:42-125",
+      "pattern": "log + swallow (return null/0)",
+      "detail": "Non-2xx and parse errors: console.error then return null/0. Caller sees degraded data but no exception. No Sentry/alert — errors only surface if an operator reads the Railway log stream."
+    },
+    {
+      "site": "ingestRepo",
+      "file": "src/lib/pipeline/ingestion/ingest.ts:41-151",
+      "pattern": "log + capture in IngestResult",
+      "detail": "Wraps entire per-repo ingest in try/catch. Never throws. Failures recorded in IngestResult.error + ok=false and counted as `failed` in batch result. This is the one place error rollup happens — visible via /api/cron/ingest response body, not stored anywhere durable."
+    },
+    {
+      "site": "events-backfill",
+      "file": "src/lib/pipeline/ingestion/events-backfill.ts:103-110",
+      "pattern": "silent break",
+      "detail": "`if (!res.ok) break` — a 403/429/5xx on the Events API silently truncates the backfill. No log. No counter. The backfill-top cron will report success with partial data."
+    },
+    {
+      "site": "cron/ingest handler",
+      "file": "src/app/api/cron/ingest/route.ts:344-367",
+      "pattern": "log structured + return 500",
+      "detail": "Outer catch emits structured JSON with status:error + message, returns HTTP 500. Good."
+    },
+    {
+      "site": "stargazer-backfill / social-adapters / nitter-adapter",
+      "file": "multiple",
+      "pattern": "log + swallow",
+      "detail": "console.error and continue. No aggregation, no alerting."
+    },
+    {
+      "site": "assorted API routes (persist, cleanup, backfill-history, rebuild, alerts/rules, sidebar-data)",
+      "file": "multiple",
+      "pattern": "bare `} catch {` (no binding, no log)",
+      "detail": "Grep found 18 bare catches. Several in API routes silently swallow errors and return degraded data or fall through. Examples: src/app/api/pipeline/persist/route.ts:49, src/app/api/pipeline/cleanup/route.ts:46,132, src/app/api/pipeline/sidebar-data/route.ts:81, src/app/api/pipeline/rebuild/route.ts:96, src/app/api/pipeline/backfill-history/route.ts:71. Silent failure risk."
+    }
+  ],
+  "health_endpoint": {
+    "exists": false,
+    "file": "src/app/api/pipeline/status/route.ts",
+    "note": "No /api/health or /api/healthz. The closest thing is GET /api/pipeline/status.",
+    "asserts": [
+      {
+        "field": "seeded",
+        "computed": true,
+        "source": "repoStore.getAll().length > 0",
+        "real_health_signal": false,
+        "note": "A stale seed from 3 weeks ago still returns seeded:true — does NOT assert freshness."
+      },
+      {
+        "field": "repoCount / snapshotCount / scoreCount",
+        "computed": true,
+        "source": "real in-memory stores",
+        "real_health_signal": false,
+        "note": "Counts, not freshness. A frozen system returns non-zero counts."
+      },
+      {
+        "field": "lastRefreshAt",
+        "computed": true,
+        "source": "max(score.computedAt) across scoreStore; falls back to newest snapshot.capturedAt",
+        "real_health_signal": true,
+        "note": "REAL. Pulled from actual data. Operator could compare to `now()` to detect stuck pipeline — but the endpoint does NOT do that comparison or turn red when stale."
+      },
+      {
+        "field": "rateLimitRemaining",
+        "computed": true,
+        "source": "live adapter.getRateLimit() call against GitHub",
+        "real_health_signal": true,
+        "note": "REAL. But only surfaces current budget, not whether the cron actually ran."
+      }
+    ],
+    "does_not_assert": [
+      "DB / filesystem reachability (no probe on disk-persistence layer)",
+      "lastRefreshAt within N seconds threshold (no freshness gate)",
+      "cron last-run-status (no record of cron invocations)",
+      "mock adapter is NOT active (guard lives only inside createGitHubAdapter at call time)",
+      "HTTP status always 200 unless the handler itself throws — never returns 503/degraded based on data state"
+    ],
+    "verdict": "status endpoint is a data-counts snapshot, not a health check. Will return 200 OK indefinitely on a dead pipeline."
+  },
+  "admin_dashboard": {
+    "exists": false,
+    "note": "No /admin, /status, /dashboard route exists under src/app/. Operator-facing observability is: (a) the public StatsBar on the homepage, (b) the JSON at /api/pipeline/status, (c) Railway/Vercel log tails.",
+    "fields": [
+      {
+        "label": "Repos tracked (StatsBar)",
+        "source": "real",
+        "evidence": "src/components/terminal/StatsBar.tsx:37 → stats.totalRepos from getGlobalStats() which iterates repoStore.getActive()"
+      },
+      {
+        "label": "Hot count (StatsBar)",
+        "source": "real",
+        "evidence": "getGlobalStats() counts movementStatus==='hot' at query time"
+      },
+      {
+        "label": "Breakouts count (StatsBar)",
+        "source": "real",
+        "evidence": "same — counts movementStatus==='breakout'"
+      },
+      {
+        "label": "Last refresh (StatsBar)",
+        "source": "real",
+        "evidence": "getGlobalStats(): max(score.computedAt) across scoreStore, fallback to snapshot.capturedAt. NOT mount time. NOT build time. NOT Date.now(). Confirmed by reading aggregate.ts:111-127."
+      }
+    ]
+  },
+  "cron_failure_visibility": "ZERO active signal. No Sentry/webhook/email. If Vercel Cron fails: Vercel logs it, nobody is notified. BUT vercel.json contains only redirects — no `crons` block — so Vercel Cron is NOT configured here. The app runs on Railway (redirect target starscreener-production.up.railway.app) and no railway.toml is present. Cron mechanism is external/undocumented in repo; operator must know to check Railway scheduler dashboard manually. The one mitigation: successful cron runs emit structured JSON lines that Railway/Vercel logs aggregate, so a tail `| jq 'select(.status!=\"ok\")'` would surface failures — if someone runs it. No automated alert, no delta-against-last-run tracking.",
+  "rate_limit_surface": true,
+  "rate_limit_surface_detail": "github-adapter.ts updates rateLimit state from x-ratelimit-remaining / x-ratelimit-reset on every response (line 236-251), logs per-request `rl=N` (line 214), and short-circuits further requests when remaining<=0 until reset (line 253-258). Surfaced on /api/pipeline/status as rateLimitRemaining and on /api/cron/ingest response body. NOT surfaced in the user-facing StatsBar.",
+  "no_mock_runtime_guard": {
+    "exists": true,
+    "file": "src/lib/pipeline/ingestion/ingest.ts:236-258",
+    "detail": "createGitHubAdapter throws at construction time if useMock=true without STARSCREENER_ALLOW_MOCK=true, AND throws if no GITHUB_TOKEN is set (even with useMock=false). Both cron/ingest and seed.ts explicitly pass useMock:false. Strong guard — mock cannot silently activate in prod.",
+    "gap": "Guard runs ONLY when createGitHubAdapter is called (per-cron-run). No startup/boot-time assertion. Nothing in /api/pipeline/status reveals adapter.id==='github' to a caller — the ingest endpoint returns `source: \"github\"` but the status endpoint does not. An operator cannot tell from /api/pipeline/status whether the most recent ingest used mock or real."
+  },
+  "vibes_bugs": [
+    {
+      "where": "/api/pipeline/status always returns HTTP 200 regardless of data age",
+      "drift_risk": "Operator hitting the URL sees JSON with lastRefreshAt: '2026-03-01' and rateLimitRemaining: 4800, everything looks green. No red light. A health checker pinging this endpoint reports UP even if ingestion has been dead for a month."
+    },
+    {
+      "where": "StatsBar 'Last refresh: 2 hours ago' on the landing page is the only visible freshness signal to users",
+      "drift_risk": "Copy is relative-time only; no color/state turns red when stale. If ingestion stops, users see the number drift from '2h' to '4d' to '3w' with no visual alert. Freshness threshold is undefined."
+    },
+    {
+      "where": "events-backfill silent `if (!res.ok) break` on the Events API",
+      "drift_risk": "Mega-repo daily star counts will silently truncate on 422/403 from GitHub. The surrounding cron reports success; the data just becomes partial with no counter incremented."
+    },
+    {
+      "where": "18 bare `} catch {}` sites",
+      "drift_risk": "Cleanup, persist, rebuild, sidebar-data, backfill-history routes can throw internally and return a degraded response without any log line. Bugs become invisible."
+    },
+    {
+      "where": "No Sentry / no alerting",
+      "drift_risk": "A fatal error in the cron handler emits one structured JSON line to stdout and is forgotten. Unless the operator is watching the log stream at that moment, or runs a periodic `jq 'select(.status==\"error\")'` query, the error is lost."
+    },
+    {
+      "where": "No cron config in repo (vercel.json=redirects only, no railway.toml)",
+      "drift_risk": "Cron schedule lives entirely in the Railway dashboard. A paused/deleted scheduler is invisible to anyone reading the repo. No on-call alert if the cron never fires."
+    },
+    {
+      "where": "adapter.id not surfaced on /api/pipeline/status",
+      "drift_risk": "If STARSCREENER_ALLOW_MOCK slips through on a non-prod env that a stakeholder is reviewing, the status endpoint won't reveal it. (Note: the runtime guard prevents silent activation on the ingest path, so actual prod drift risk is low.)"
+    },
+    {
+      "where": "sonner toast is the ONLY alerting surface",
+      "drift_risk": "UI-level only. No operator notification pipeline."
+    }
+  ],
+  "overall_grade": "D",
+  "grade_justification": "Not F because: (1) structured JSON logging exists on the critical cron path; (2) GitHub rate-limit tracking is real (reads X-RateLimit-Remaining/Reset, retries 429/5xx with exp backoff); (3) the no-mock runtime guard actually throws in createGitHubAdapter; (4) lastRefreshAt is computed from real store data, not hardcoded/mount time; (5) StatsBar dashboard fields are wired to real counters. Not C or better because: (1) zero observability SDK — no Sentry, OTel, or any alerting substrate; (2) /api/pipeline/status is a counts snapshot, not a real health check — it returns 200 on a frozen pipeline; (3) no /api/health endpoint; (4) no admin/status UI page; (5) 18 bare `} catch {}` silent-swallow sites; (6) events-backfill silently truncates on HTTP errors; (7) cron failure has ZERO active notification — an operator only finds out if they happen to tail the log; (8) no cron config in vercel.json or railway.toml, so the schedule is invisible to the repo; (9) the user-facing 'Last refresh' has no stale threshold or color state. Net: an operator CANNOT tell if ingestion is broken right now without manually tailing Railway logs or eyeballing a relative timestamp."
+}

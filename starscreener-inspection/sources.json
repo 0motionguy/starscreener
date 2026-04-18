@@ -1,0 +1,419 @@
+{
+  "audit_meta": {
+    "audited_at": "2026-04-18",
+    "auditor": "data-source-auditor (read-only)",
+    "repo_root": "C:/Users/mirko/OneDrive/Desktop/STARSCREENER",
+    "git_head": "b54ca49",
+    "store_counts_observed": {
+      "repos.jsonl": 309,
+      "snapshots.jsonl": 304,
+      "snapshots_unique_repos": 13,
+      "scores.jsonl": 309,
+      "categories.jsonl": 309,
+      "reasons.jsonl": 309,
+      "mentions.jsonl": 0,
+      "mention-aggregates.jsonl": 0,
+      "alert-rules.jsonl": 0,
+      "alert-events.jsonl": 0
+    }
+  },
+
+  "sources": [
+    {
+      "id": "github_rest_repo",
+      "name": "GitHub REST API — repo metadata",
+      "wire": "REST",
+      "endpoints": [
+        "GET https://api.github.com/repos/{owner}/{name}",
+        "GET https://api.github.com/repos/{owner}/{name}/releases/latest",
+        "GET https://api.github.com/repos/{owner}/{name}/contributors?per_page=1&anon=true",
+        "GET https://api.github.com/rate_limit"
+      ],
+      "auth": "PAT (Bearer ${GITHUB_TOKEN}); unauth falls back but is gated — createGitHubAdapter throws when token missing unless STARSCREENER_ALLOW_MOCK=true",
+      "rate_limit": {
+        "documented_ceiling": "5000 req/hour authenticated; 60/hr unauth",
+        "tracked_via": "x-ratelimit-remaining + x-ratelimit-reset headers, cached in GitHubApiAdapter.rateLimit, preemptively blocks requests until reset",
+        "observed_cost_per_repo": "3 calls (repo + release + contributors)",
+        "per_tier_caps": { "hot_per_hr": 50, "warm_per_hr": 20, "cold_per_hr": 5 }
+      },
+      "called_from": [
+        "src/lib/pipeline/adapters/github-adapter.ts:42 (fetchRepo)",
+        "src/lib/pipeline/adapters/github-adapter.ts:62 (fetchLatestRelease)",
+        "src/lib/pipeline/adapters/github-adapter.ts:88 (fetchContributorCount)",
+        "src/lib/pipeline/adapters/github-adapter.ts:127 (getRateLimit)",
+        "src/lib/pipeline/adapters/github-adapter.ts:195 (private request — central call)"
+      ],
+      "retry_backoff_timeout": {
+        "attempts": "1 original + 2 retries = 3 max",
+        "retry_on": "HTTP 429, 5xx, network error",
+        "no_retry_on": "403 with rate-limit-remaining=0 (handled by isRateLimited)",
+        "backoff_ms": [1000, 2000],
+        "timeout_ms": "none — relies on platform default; no AbortSignal.timeout"
+      },
+      "caching": {
+        "etag": false,
+        "if_modified_since": false,
+        "local_cache": false,
+        "note": "grep for 'If-None-Match|ETag' returns zero hits; every call is a cold request"
+      },
+      "typical_latency_event_to_db_sec": {
+        "estimate_hot_tier_repos_seconds": 3600,
+        "estimate_warm_tier_seconds": 21600,
+        "estimate_cold_tier_seconds": 86400,
+        "how_estimated": "cron cadence in vercel.json: hot=hourly (0 * * * *), warm=every 6h (0 */6 * * *), cold=daily (0 0 * * *). Worst-case GitHub event-time → snapshot row == next cron tick after event. Observed: vercel.json currently only contains redirects to Railway, so the cron cadence is whatever the Railway deploy runs."
+      },
+      "failure_mode": {
+        "404": "fetchRepo returns null → IngestResult.ok=false with error='repo not found'; store is untouched (safe)",
+        "non_2xx_other": "console.error, return null → silent skip; prior Repo/Score row retained, sparkline stays flat, no user-facing warning",
+        "network_error": "up to 2 retries, then null → same as above",
+        "rate_limited": "cron/ingest aborts batch and returns { ok:false, reason:'rate-limited' }; repos already processed are kept and recomputeAll runs",
+        "token_missing_production": "createGitHubAdapter throws synchronously → HTTP 500 from cron endpoint (loud failure, correct)",
+        "mock_fallback_in_prod": "NOT reachable — useMock=true requires STARSCREENER_ALLOW_MOCK=true which env.example explicitly tells you to leave blank in prod. Verified src/lib/pipeline/ingestion/ingest.ts:240-249."
+      },
+      "cost_model": {
+        "current_300_repos": "~900 calls per full seed (18% of hourly budget). Steady-state cron: hot 50/hr + warm 20/6hr + cold 5/day ≈ 63 calls/hr peak = 1.3% of budget.",
+        "x10_3000_repos": "full seed = 9000 calls → needs ~1.8hr (breaks 1-hour budget). Steady-state hot tier alone capped at 50/hr by scheduler; actual refresh cadence drops to once per 60 hours for any given repo in hot. This is the scalability ceiling.",
+        "x100_30000_repos": "full seed = 90,000 calls → 18 hours. Single-token model breaks: need token pool, app-installation, or BigQuery/GHArchive backfill (neither wired in)."
+      }
+    },
+
+    {
+      "id": "github_rest_stargazers",
+      "name": "GitHub REST API — stargazers backfill",
+      "wire": "REST",
+      "endpoints": [
+        "GET https://api.github.com/repos/{owner}/{name}/stargazers?per_page=100&page=N",
+        "Accept: application/vnd.github.star+json  (returns {starred_at, user})"
+      ],
+      "auth": "PAT required (hard error without token — see stargazer-backfill.ts:70)",
+      "rate_limit": {
+        "shares_budget_with": "github_rest_repo (5000/hr)",
+        "per_page": 100,
+        "github_list_cap_pages": 400,
+        "implication": "mega-repos >40k stars cannot be backfilled via this endpoint — GitHub caps pagination at 400 pages × 100 = 40,000 users, oldest-first. See events-backfill.ts:3 comment block."
+      },
+      "called_from": [
+        "src/lib/pipeline/ingestion/stargazer-backfill.ts:95 (probe for rel='last')",
+        "src/lib/pipeline/ingestion/stargazer-backfill.ts:153 (page walk)",
+        "invoked by POST /api/pipeline/backfill-history (src/app/api/pipeline/backfill-history/route.ts:116)",
+        "invoked by GET/POST /api/cron/backfill-top (src/app/api/cron/backfill-top/route.ts:133)",
+        "invoked by POST /api/pipeline/rebuild (src/app/api/pipeline/rebuild/route.ts:155)"
+      ],
+      "retry_backoff_timeout": {
+        "retries": "NONE — direct fetch, no exponential backoff wrapper",
+        "abort_condition": "x-ratelimit-remaining < 200 → stops after current page",
+        "timeout_ms": "none"
+      },
+      "caching": { "etag": false, "local_cache": false },
+      "typical_latency_event_to_db_sec": {
+        "estimate": "driven by manual/cron invocation. A run writes 30 backdated daily snapshots computed from the full stargazer history the endpoint returns — so once run, day-granularity history is exact. Staleness after the run == time until the next backfill call (currently there is no scheduled /cron/backfill-top cron in vercel.json). Forward freshness relies on the ingest cron running hourly/daily.",
+        "evidence": ".data/snapshots.jsonl contains 30 daily rows each for 13 repos (chroma-core/chroma, slint-ui/slint, tanstack/router, tokio-rs/tokio, weaviate/weaviate, yarnpkg/berry, semgrep/semgrep, nomicfoundation/hardhat, + a few others). Remaining 296 repos have no daily snapshots."
+      },
+      "failure_mode": {
+        "probe_non_ok": "throws (src/lib/pipeline/ingestion/stargazer-backfill.ts:145). Surfaced as HTTP 500 by /api/pipeline/rebuild per-repo catch",
+        "list_cap_exceeded": "returns { skipped: 'exceeds_list_cap' }. Rebuild route (route.ts:166) falls through to backfillFromEvents as Plan B",
+        "rate_limit_tight": "aborts current run, preserves already-written snapshots, next call resumes",
+        "result_leaves_sparklines_empty_for": "all repos >40k stars that never had backfillFromEvents run"
+      },
+      "cost_model": {
+        "current_300_repos": "50 pages × 300 repos = 15,000 calls if backfilling every repo at full depth — 3 hours of budget. In practice operator-invoked with small maxPages (default 8 in rebuild, 50 in backfill-top).",
+        "x10": "150,000 calls = 30 hours of budget. Infeasible without token rotation.",
+        "x100": "not viable. Would need GH Archive on BigQuery (not wired in)."
+      }
+    },
+
+    {
+      "id": "github_rest_events_api_fallback",
+      "name": "GitHub REST API — Events API fallback for mega-repos",
+      "wire": "REST",
+      "endpoints": [
+        "GET https://api.github.com/repos/{owner}/{name}/events?per_page=100&page=N"
+      ],
+      "auth": "PAT required (token argument is non-optional; events-backfill.ts:56 throws if missing — 60/hr unauth would melt)",
+      "rate_limit": "shared 5000/hr budget. Max 3 pages = 300 events per repo per call. Budget floor: stops when x-ratelimit-remaining < 200.",
+      "called_from": [
+        "src/lib/pipeline/ingestion/events-backfill.ts:92 (main GET)",
+        "invoked ONLY by src/app/api/pipeline/rebuild/route.ts:167 when stargazer-backfill returned skipped='exceeds_list_cap'"
+      ],
+      "trigger_condition": "repo.stars > 40,000 AND stargazer-backfill probe sees Link rel='last' page>=400. In practice: repo has enough stars that the stargazer list cap is hit.",
+      "what_it_fetches": "recent 90 days of repo activity, up to 300 events. Filters to WatchEvent (star actions), buckets by YYYY-MM-DD, builds daily star-delta map.",
+      "reconstructs_real_history_vs_fake": {
+        "verdict": "PARTIALLY real — the day-bucketed WatchEvent counts are real GitHub events with real created_at. BUT Events API truncates at 300 events per request: for very active mega-repos (e.g. ollama, langchain, next.js) those 300 events cover only the last few DAYS, so the remaining days in the 30-day reconstruction land at delta=0 and the running-total walk just repeats today's star count backward (see events-backfill.ts:139-164).",
+        "concrete_failure": "ollama repo row in .data/repos.jsonl has sparklineData=[0,0,0,...,0,169220] — only the final day populated. langchain sparkline is all zeros. These are exactly the mega-repos that would hit this fallback; whether it ran or not, the visible history is effectively fake-looking (flat line) for large swathes of days.",
+        "mentionCount24h": "always 0 in synthesized snapshots; the backfill does not try to reconstruct social mentions"
+      },
+      "caching": { "etag": false },
+      "failure_mode": "non-ok response breaks out of the page loop; whatever was collected is still written. Zero-delta days silently render as flat line in sparkline UI — indistinguishable from a repo with no recent stars.",
+      "cost_model": {
+        "current_300_repos": "maxPages=3 × ~10 mega-repos = ~30 calls per rebuild. Cheap.",
+        "x10": "~300 calls. Still cheap.",
+        "x100": "~3000 calls. Fine, but still limited by 90d/300-event horizon."
+      }
+    },
+
+    {
+      "id": "github_rest_search_issues",
+      "name": "GitHub Search API — cross-repo issue mentions",
+      "wire": "REST",
+      "endpoints": [
+        "GET https://api.github.com/search/issues?q={fullName}+in:body+is:issue&per_page=10&sort=updated"
+      ],
+      "auth": "optional PAT. Unauth: 10 req/min. With token: 30 req/min. Much lower than core API.",
+      "rate_limit": "separate search-API bucket (not 5000/hr). Limit headers are respected implicitly; on 403/429 a single global 'ghRateLimitLogged' flag suppresses repeat logs.",
+      "called_from": [
+        "src/lib/pipeline/adapters/social-adapters.ts:474 (GitHubActivityAdapter.fetchMentionsForRepo)",
+        "ONLY invoked from detail page & /api/repos/[owner]/[name] (src/app/api/repos/[owner]/[name]/route.ts:83, src/app/repo/[owner]/[name]/page.tsx:139)"
+      ],
+      "retry_backoff_timeout": { "retries": "none", "timeout_ms": 5000 },
+      "caching": { "etag": false, "in_memory_cache": false },
+      "typical_latency_event_to_db_sec": "N/A — results are never persisted. Every detail-page request re-fetches live. No mentionStore append path.",
+      "failure_mode": "returns [] on non-ok, logs once. UI shows 'no mentions' section. Invisible to user.",
+      "cost_model": {
+        "current_300_repos": "1 call per detail page view. Per-repo on-demand only.",
+        "x10": "same — scales with page views, not repo count.",
+        "x100": "same. Concern is search-API budget (30/min authenticated) colliding with heavy UI traffic."
+      }
+    },
+
+    {
+      "id": "hackernews_algolia",
+      "name": "Hacker News — Algolia search index",
+      "wire": "REST (3rd-party public API)",
+      "endpoints": [
+        "GET https://hn.algolia.com/api/v1/search?query={fullName}&tags=story&numericFilters=created_at_i>{since}"
+      ],
+      "auth": "none (public endpoint)",
+      "rate_limit": "no published ceiling for reasonable use. No retry-after handling.",
+      "called_from": [
+        "src/lib/pipeline/adapters/social-adapters.ts:185 (HackerNewsAdapter.fetchMentionsForRepo)",
+        "getDefaultSocialAdapters() — wired in src/app/api/repos/[owner]/[name]/route.ts:83, src/app/repo/[owner]/[name]/page.tsx"
+      ],
+      "retry_backoff_timeout": { "retries": "none", "timeout_ms": 5000 },
+      "caching": { "etag": false, "local_cache": false },
+      "typical_latency_event_to_db_sec": "never stored — re-fetched on every detail request. HN→UI lag ≈ Algolia indexing lag (seconds to minutes) + 1 fetch round-trip.",
+      "failure_mode": "non-ok → console.error + return []. UI hides HN section silently.",
+      "cost_model": "free, unbounded; concern is only timeouts at high concurrency."
+    },
+
+    {
+      "id": "reddit_public_json",
+      "name": "Reddit — public unauthenticated search.json",
+      "wire": "REST (scrape-adjacent — public JSON endpoint)",
+      "endpoints": [
+        "GET https://www.reddit.com/search.json?q={fullName} OR {repoName}&sort=relevance&t=week&limit=25"
+      ],
+      "auth": "none, but REQUIRES descriptive User-Agent ('StarScreener/1.0 (by /u/starscreener)'). Default undici/node-fetch UA gets 403/429.",
+      "rate_limit": "Reddit's anti-scraping rules. ~60 req/min/IP for unauth public JSON in practice. No retry-after handling.",
+      "called_from": [
+        "src/lib/pipeline/adapters/social-adapters.ts:321 (RedditAdapter.fetchMentionsForRepo)",
+        "same invocation sites as HN adapter — detail-page only"
+      ],
+      "retry_backoff_timeout": { "retries": "none", "timeout_ms": 5000 },
+      "caching": { "etag": false },
+      "dedup_logic": "title/selftext must contain fullName OR repoName OR (owner length>=4). Anti-false-positive. See social-adapters.ts:349-360.",
+      "typical_latency_event_to_db_sec": "never stored. Re-fetched per detail request.",
+      "failure_mode": "non-ok → [], UI hides. Reddit is known to serve 429/403 under bot suspicion, which would be completely invisible to end users.",
+      "cost_model": "free. Risk is IP bans at scale on a shared Railway/Vercel IP."
+    },
+
+    {
+      "id": "nitter_twitter_rss",
+      "name": "Twitter/X via Nitter mirror RSS (no Twitter API)",
+      "wire": "scrape (RSS over HTTPS from community-run mirrors)",
+      "endpoints": [
+        "GET https://{mirror}/search/rss?f=tweets&q={fullName}",
+        "probe: GET https://{mirror}/about (checks for Nitter generator meta tag)"
+      ],
+      "mirrors_in_order": [
+        "nitter.net",
+        "nitter.privacydev.net",
+        "nitter.poast.org",
+        "nitter.tiekoetter.com"
+      ],
+      "probe_logic": "on module load (src/lib/pipeline/adapters/nitter-adapter.ts:138). First mirror that (a) returns 200 on /about AND (b) body matches /<meta name=\"generator\" content=\"Nitter/i wins. Stored in module-level nitterHost; TWITTER_AVAILABLE flag exported so UI can hide the tab entirely when no mirror reachable.",
+      "dedup_logic": "tweet id extracted from status/{id} URL path (nitter-adapter.ts:266). Falls back to postedMs+author string when unparseable.",
+      "rate_limit": "hard-coded 1 request / 10s globally across the whole process (nitter-adapter.ts:41, 144). Serialized via lastFetchAt timestamp.",
+      "auth": "none",
+      "called_from": [
+        "src/lib/pipeline/adapters/nitter-adapter.ts:217 (fetchMentionsForRepo)",
+        "wired conditionally: src/app/api/repos/[owner]/[name]/route.ts:85 — only if TWITTER_AVAILABLE is true"
+      ],
+      "retry_backoff_timeout": {
+        "retries": "none",
+        "timeout_ms_probe": 3000,
+        "timeout_ms_fetch": 5000
+      },
+      "caching": { "etag": false, "probe_result_cached": "module-level singleton for process lifetime" },
+      "failure_mode": "fail-soft. No mirror → TWITTER_AVAILABLE=false → UI simply omits Twitter tab (no error text per design). Any mirror error → [] + log. Canonical twitter.com URL is restored for clicks.",
+      "single_point_of_failure": "YES — all 4 hardcoded mirrors are operated by volunteer third parties. nitter.net has been intermittently captcha-blocked; the list in code has no automatic refresh, so a cascading mirror failure results in Twitter section silently disappearing with no alert.",
+      "cost_model": "free. Risk is mirror IP blocks at scale — the global 10s rate limit caps RPM to 6, so all users of a single deploy contend for one shared token-bucket."
+    },
+
+    {
+      "id": "mock_github_adapter",
+      "name": "MockGitHubAdapter (dev-only fixture adapter)",
+      "wire": "in-process fixture",
+      "endpoints": "none — synthesizes GitHubRepoRaw from a provided Repo[]",
+      "reachability_in_prod": "BLOCKED. Factory in src/lib/pipeline/ingestion/ingest.ts:236 throws unless both (a) caller passes useMock=true AND (b) STARSCREENER_ALLOW_MOCK=='true' env var is set. cron/ingest hard-codes useMock=false (src/app/api/cron/ingest/route.ts:283) and cron/seed + pipeline/rebuild both call createGitHubAdapter({ useMock: false }).",
+      "remaining_risks": "src/app/api/pipeline/ingest/route.ts:76 accepts body.useMock from the request. An authenticated caller (CRON_SECRET holder) can request useMock=true, but the factory still refuses unless STARSCREENER_ALLOW_MOCK=true env var is also set. Double-gate is intact.",
+      "tests_only_usage": "src/lib/pipeline/__tests__/scheduler-integration.test.ts:336,370,420,459 — all test code."
+    }
+  ],
+
+  "mock_escape_hatches": [
+    {
+      "name": "STARSCREENER_ALLOW_MOCK env var",
+      "defined_in": ".env.example:45 (explicitly blank with a 'leave blank in production' comment)",
+      "gated_by": "src/lib/pipeline/ingestion/ingest.ts:240 — `allowMock = process.env.STARSCREENER_ALLOW_MOCK === 'true'`",
+      "reachable_in_prod": false,
+      "notes": "Verified: unless the env var is literally the string 'true' AND the caller opts in with useMock=true, the factory throws. cron paths pin useMock=false. Only /api/pipeline/ingest accepts useMock from the JSON body, but still passes through the same factory gate."
+    },
+    {
+      "name": "MockGitHubAdapter with empty fixture set",
+      "location": "src/lib/pipeline/adapters/mock-github-adapter.ts:22",
+      "reachable_in_prod": false,
+      "notes": "Constructor accepts repos:Repo[]=[] default. If reached with no fixtures, every fetch returns null/0 — never synthesizes data it wasn't given. Defensive."
+    },
+    {
+      "name": "MockGitHubAdapter.getRateLimit always returns remaining=5000",
+      "location": "src/lib/pipeline/adapters/mock-github-adapter.ts:54",
+      "reachable_in_prod": false,
+      "notes": "Consistent with the broader 'no silent mock in prod' contract. Only active under explicit test/local-dev opt-in."
+    }
+  ],
+
+  "latency_histogram": [
+    {
+      "repo": "chroma-core/chroma",
+      "sampled_ts": "2026-04-17T23:59:59.000Z",
+      "stars": 27472,
+      "est_lag_sec": 0,
+      "how_estimated": "stargazer backfill uses real starred_at timestamps from /stargazers endpoint; day-granularity is exact on the DB side. Day-end boundary means worst-case 86400s lag between a star event and its snapshot bucket — but within a given day the count is correct."
+    },
+    {
+      "repo": "slint-ui/slint",
+      "sampled_ts": "2026-04-17T23:59:59.000Z",
+      "stars": 22263,
+      "est_lag_sec": 0,
+      "how_estimated": "same as chroma — stargazer backfill has written 30 daily rows with monotonic star counts (22008 → 22263). Real GitHub timestamps."
+    },
+    {
+      "repo": "tanstack/router",
+      "sampled_ts": "2026-04-17T23:59:59.000Z",
+      "stars": 14125,
+      "est_lag_sec": 0,
+      "how_estimated": "30 real daily rows present. Stargazer timestamps are authoritative."
+    },
+    {
+      "repo": "tokio-rs/tokio",
+      "sampled_ts": "2026-04-17T23:59:59.000Z",
+      "est_lag_sec": 0,
+      "how_estimated": "real stargazer history"
+    },
+    {
+      "repo": "weaviate/weaviate",
+      "sampled_ts": "2026-04-17T23:59:59.000Z",
+      "est_lag_sec": 0,
+      "how_estimated": "real stargazer history"
+    },
+    {
+      "repo": "vercel/next-js",
+      "sampled_ts": "2026-04-17T07:55:45.242Z",
+      "stars": 138962,
+      "est_lag_sec": "unknown (probably >=86400)",
+      "how_estimated": "only TWO snapshots in store, both from the same seed run 2 minutes apart (07:53:53Z and 07:55:45Z). Same star count in both. No 30-day stargazer backfill — this mega-repo exceeds the 400-page list cap. No Events API fallback ran either (would have produced 30 rows). sparklineData is all zeros. Actual GitHub→DB lag for new stars is therefore at MINIMUM the time between ingest cron runs (1-24h); star-delta signals are effectively dead for this repo."
+    },
+    {
+      "repo": "ollama/ollama",
+      "sampled_ts": "2026-04-17T07:55:46.416Z",
+      "stars": 169220,
+      "est_lag_sec": "unknown (probably >=86400)",
+      "how_estimated": "one snapshot. sparklineData in repos.jsonl is [0,0,...,0,169220] — 29 zeros then today. Classic exceeds_list_cap with no events-api fallback successfully populating days. Delta calcs are wrong."
+    },
+    {
+      "repo": "langchain-ai/langchain",
+      "sampled_ts": "derived from repos.jsonl",
+      "stars": 133824,
+      "est_lag_sec": "unknown",
+      "how_estimated": "sparklineData is all zeros including today. starsDelta24h/7d/30d all read 0. No snapshot ever written for this repo."
+    },
+    {
+      "repo": "huggingface/transformers",
+      "sampled_ts": "derived from repos.jsonl",
+      "stars": 159498,
+      "est_lag_sec": "unknown",
+      "how_estimated": "all-zeros sparkline. movementStatus='declining' is scored off all-zero deltas, not real decline."
+    },
+    {
+      "repo": "296 other repos in repos.jsonl",
+      "sampled_ts": "none in snapshots.jsonl",
+      "est_lag_sec": "unknown (no history)",
+      "how_estimated": "snapshots.jsonl contains only 13 unique repos. The remaining ~296 seeded repos have ZERO snapshots stored — they were seeded once, recomputeAll fired against empty deltas, and nothing has refreshed them since. The hot-tier cron (if actually running on Railway) would slowly rebuild history one point per hour going forward."
+    }
+  ],
+
+  "cost_model": {
+    "current_300_repos": {
+      "github_api_calls_per_full_seed": 900,
+      "github_api_calls_steady_state_per_hour_peak": 63,
+      "pct_of_5000_hr_budget_peak": "1.3%",
+      "backfill_calls_per_repo": "1-8 pages × 1 calls = 1-8 (at default maxPages=4 in rebuild)",
+      "social_calls_per_detail_view": "3 (HN + Reddit + GH-search) + 1 nitter probe if TWITTER_AVAILABLE; all on-demand, 0 written to DB",
+      "dollars_per_month": 0,
+      "bigquery_dollars_per_month": 0,
+      "note": "GH Archive / BigQuery is NOT wired in. 100% of ingestion is GitHub REST."
+    },
+    "x10_3000_repos": {
+      "github_api_calls_per_full_seed": 9000,
+      "github_api_calls_steady_state_per_hour_peak": 630,
+      "pct_of_5000_hr_budget_peak": "12.6%",
+      "refresh_cadence_degrades": "hot cap is 50/hr (DEFAULT_POLICIES.hot), so hot-tier repos get refreshed at best every 60h instead of every 1h — scheduler becomes the bottleneck, not the API.",
+      "dollars_per_month": 0
+    },
+    "x100_30000_repos": {
+      "github_api_calls_per_full_seed": 90000,
+      "time_to_seed_on_5000_hr_budget_hours": 18,
+      "steady_state_hourly_load_peak": 6300,
+      "pct_of_5000_hr_budget_peak": "126% — EXCEEDS single-token budget",
+      "required_changes": [
+        "token pool (N tokens, round-robin) OR",
+        "GitHub App installation (5000/hr/installation × N installations) OR",
+        "GitHub Archive + BigQuery for historical backfill — would replace stargazer-backfill for mega-repos, cost ~$5-50/mo depending on query shape (NOT wired in)"
+      ],
+      "dollars_per_month": "N/A today (code assumes single PAT)"
+    }
+  },
+
+  "failure_modes_summary": "Four distinct silent-degradation paths: (1) GitHub REST non-2xx → null → prior row retained → UI sees stale data with no indicator. (2) Stargazer backfill hits the 40k-star list cap → Events API fallback runs but is capped at 300 events / 90 days, so for mega-repos the 30-day sparkline is reconstructed mostly as flat-line zeros and deltas compute to 0. UI renders 'declining' (see huggingface/transformers) or 'stable' for repos that in reality are adding thousands of stars per day. (3) Social adapters (HN/Reddit/Nitter/GH-search) return [] on any error — detail-page mentions section silently empties with no error text. (4) Nitter probe failure → TWITTER_AVAILABLE=false module-wide → Twitter tab vanishes until process restart; no self-healing. Mock fallback is correctly gated and cannot be hit in prod.",
+
+  "no_mock_claim_verified": true,
+  "no_mock_claim_evidence": "Verified at src/lib/pipeline/ingestion/ingest.ts:236-258 — createGitHubAdapter throws synchronously when GITHUB_TOKEN is missing AND useMock is not explicitly true, AND useMock=true further requires STARSCREENER_ALLOW_MOCK=true. Every cron route (cron/ingest:283, cron/seed, cron/backfill-top, pipeline/rebuild) pins useMock=false. .env.example:41-45 explicitly documents STARSCREENER_ALLOW_MOCK as 'leave blank in production'. ingestRepo sets result.source='github' vs 'mock' purely based on adapter.id, so downstream code can distinguish. No code path silently falls back to mock on failure — failures surface as repo:null results, HTTP 500s, or empty arrays. The stricter claim in README — 'if a value can't be verified against GitHub, HN, Reddit, or Nitter, it isn't shown' — is PARTIALLY true: mega-repo sparklines are reconstructed from partial Events API data and DO appear in the UI as flat-zero lines, which is arguably 'showing unverified values' even if the backing adapter is real.",
+
+  "readme_misrepresentations": [
+    {
+      "claim": "README line 19: '300-repo curated seed ... plus nightly stargazer-backfill for the top 20 to produce real historical sparklines'",
+      "reality": "There is no 'nightly' stargazer backfill wired up in vercel.json — vercel.json currently contains only Railway redirects (no crons section). /api/cron/backfill-top exists as an endpoint but nothing schedules it. Of 309 seeded repos, only 13 have stargazer-reconstructed 30-day history in snapshots.jsonl. The remaining 296 have zero or one snapshot row.",
+      "severity": "high"
+    },
+    {
+      "claim": "README line 12: 'All numbers come from live sources — strict no-mock rule ... if a value can't be verified against GitHub, HN, Reddit, or Nitter, it isn't shown'",
+      "reality": "Sparkline values of zero for mega-repos are computed/shown despite not being verified — they're the Events API fallback's default when 300 events don't cover a day. starsDelta24h/7d/30d of zero are shown even when no snapshot history exists to prove the delta is actually zero. momentumScore is still rendered on the back of those zeros.",
+      "severity": "medium"
+    },
+    {
+      "claim": "README line 23: 'SSE event stream at /api/events/stream'",
+      "reality": "Endpoint is /api/stream (src/app/api/stream/route.ts), not /api/events/stream. Minor but it breaks copy-paste docs.",
+      "severity": "low"
+    },
+    {
+      "claim": "README implies Vercel cron schedule (ARCHITECTURE.md referenced, and docs/INGESTION.md:146 shows crons block)",
+      "reality": "vercel.json has been reduced to a pure redirect config (Railway proxy). The crons block documented in INGESTION.md:150-156 is no longer in vercel.json. Scheduling is happening somewhere else (Railway scheduled jobs? GitHub Actions?) — or not at all.",
+      "severity": "high"
+    }
+  ],
+
+  "single_point_of_failure": {
+    "name": "single GITHUB_TOKEN",
+    "why": "Every ingest path (core API, stargazer backfill, Events API fallback, GitHub search in social) pulls from process.env.GITHUB_TOKEN. A revoked/expired token kills the entire pipeline — ingest returns 500, cron stops writing snapshots, and within 24 hours every sparkline grows stale with no user-facing warning. There is no token rotation, no multi-token pool, no app-installation alternate path."
+  }
+}

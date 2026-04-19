@@ -32,9 +32,34 @@ import path from "node:path";
  * every call site so a test that mutates `STARSCREENER_DATA_DIR` after
  * module-load (or a deploy that injects the env after the bundle is
  * evaluated) lands I/O in the right place.
+ *
+ * Safety (F-DATA-003, Phase 2 P-111):
+ *   - When `STARSCREENER_DATA_DIR` is set, it must be an absolute path
+ *     and must resolve to its own normalized form (no `..` segments that
+ *     escape). Violations throw at call time so a misconfigured env var
+ *     cannot silently redirect writes to arbitrary filesystem locations.
+ *   - When unset, we default to `<cwd>/.data` which is always safe because
+ *     `cwd()` is absolute.
  */
 export function currentDataDir(): string {
-  return process.env.STARSCREENER_DATA_DIR ?? path.join(process.cwd(), ".data");
+  const raw = process.env.STARSCREENER_DATA_DIR;
+  if (!raw) return path.join(process.cwd(), ".data");
+
+  if (!path.isAbsolute(raw)) {
+    throw new Error(
+      `STARSCREENER_DATA_DIR must be an absolute path (got ${JSON.stringify(raw)})`,
+    );
+  }
+  // Normalize resolves `.` and `..` segments. If the result differs from the
+  // raw input, the path was non-canonical (e.g. contained traversal) and
+  // we reject rather than silently redirecting writes somewhere unexpected.
+  const normalized = path.normalize(raw);
+  if (normalized !== raw) {
+    throw new Error(
+      `STARSCREENER_DATA_DIR contains non-canonical segments (got ${JSON.stringify(raw)}, normalized ${JSON.stringify(normalized)})`,
+    );
+  }
+  return normalized;
 }
 
 /**

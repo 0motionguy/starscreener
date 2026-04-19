@@ -50,6 +50,10 @@ jobs:
           APP_URL: ${{ secrets.APP_URL }}
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
         run: |
+          # Debug: confirm env vars are present at the expected length.
+          # Value is masked by GHA; length isn't a secret.
+          echo "APP_URL length: ${#APP_URL} (expected ~31)"
+          echo "CRON_SECRET length: ${#CRON_SECRET} (expected >20)"
           trap 'echo "--- response body ---"; cat /tmp/cron-response.json 2>/dev/null || echo "(no body written)"' EXIT
           curl --fail-with-body -sS --max-time 30 \
             -X POST \

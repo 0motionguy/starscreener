@@ -21,6 +21,26 @@ import type { RepoSnapshot } from "../types";
 
 const GITHUB_API = "https://api.github.com";
 const ONE_DAY_MS = 86_400_000;
+const FETCH_TIMEOUT_MS = 10_000;
+
+/**
+ * AbortSignal that fires after `ms`. Duplicate of the helper in the social
+ * adapters and github-adapter.ts; H2-2 consolidates them. Kept local so the
+ * Phase 2 P-118 patch (F-RES-001) is minimal-diff.
+ */
+function timeoutSignal(ms: number): { signal: AbortSignal; clear: () => void } {
+  type TimeoutFn = (ms: number) => AbortSignal;
+  const native = (AbortSignal as unknown as { timeout?: TimeoutFn }).timeout;
+  if (typeof native === "function") {
+    return { signal: native.call(AbortSignal, ms), clear: () => {} };
+  }
+  const controller = new AbortController();
+  const handle = setTimeout(() => controller.abort(), ms);
+  return {
+    signal: controller.signal,
+    clear: () => clearTimeout(handle),
+  };
+}
 
 export interface EventsBackfillOptions {
   /** Days of history to reconstruct (max 90 per GitHub limit). Default 30. */
@@ -89,14 +109,27 @@ export async function backfillFromEvents(
 
   for (let page = 1; page <= maxPages; page++) {
     const url = `${GITHUB_API}/repos/${fullName}/events?per_page=100&page=${page}`;
-    const res = await fetch(url, {
-      headers: {
-        Accept: "application/vnd.github+json",
-        Authorization: `Bearer ${token}`,
-        "X-GitHub-Api-Version": "2022-11-28",
-        "User-Agent": "StarScreener",
-      },
-    });
+    const { signal, clear } = timeoutSignal(FETCH_TIMEOUT_MS);
+    let res: Response;
+    try {
+      res = await fetch(url, {
+        headers: {
+          Accept: "application/vnd.github+json",
+          Authorization: `Bearer ${token}`,
+          "X-GitHub-Api-Version": "2022-11-28",
+          "User-Agent": "StarScreener",
+        },
+        signal,
+      });
+    } catch (err) {
+      console.error(
+        `[events-backfill] network error for ${fullName} page ${page}`,
+        err,
+      );
+      break;
+    } finally {
+      clear();
+    }
     const rlHeader = res.headers.get("x-ratelimit-remaining");
     if (rlHeader) rateLimitRemaining = parseInt(rlHeader, 10);
 

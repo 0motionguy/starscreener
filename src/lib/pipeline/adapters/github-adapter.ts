@@ -12,12 +12,33 @@ import type {
 } from "../types";
 
 const GITHUB_API = "https://api.github.com";
+const FETCH_TIMEOUT_MS = 10_000;
 
 const BASE_HEADERS: Record<string, string> = {
   Accept: "application/vnd.github+json",
   "X-GitHub-Api-Version": "2022-11-28",
   "User-Agent": "StarScreener",
 };
+
+/**
+ * AbortSignal that fires after `ms`. Duplicates the helper already in
+ * social-adapters.ts / nitter-adapter.ts; H2-2 consolidates all four into
+ * a shared `src/lib/external-fetch.ts` wrapper. Local copy kept here so
+ * the Phase 2 P-118 resilience patch (F-RES-004) is a contained diff.
+ */
+function timeoutSignal(ms: number): { signal: AbortSignal; clear: () => void } {
+  type TimeoutFn = (ms: number) => AbortSignal;
+  const native = (AbortSignal as unknown as { timeout?: TimeoutFn }).timeout;
+  if (typeof native === "function") {
+    return { signal: native.call(AbortSignal, ms), clear: () => {} };
+  }
+  const controller = new AbortController();
+  const handle = setTimeout(() => controller.abort(), ms);
+  return {
+    signal: controller.signal,
+    clear: () => clearTimeout(handle),
+  };
+}
 
 interface RateLimitState {
   remaining: number | null;
@@ -191,10 +212,12 @@ export class GitHubApiAdapter implements GitHubAdapter {
     const maxAttempts = 3; // 1 original + 2 retries
     for (let attempt = 0; attempt < maxAttempts; attempt++) {
       let res: Response;
+      const { signal, clear } = timeoutSignal(FETCH_TIMEOUT_MS);
       try {
         res = await fetch(`${GITHUB_API}${path}`, {
           method: "GET",
           headers: this.buildHeaders(),
+          signal,
         });
       } catch (err) {
         console.error(
@@ -206,6 +229,8 @@ export class GitHubApiAdapter implements GitHubAdapter {
           continue;
         }
         return null;
+      } finally {
+        clear();
       }
 
       this.updateRateLimit(res);

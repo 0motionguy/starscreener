@@ -9,13 +9,30 @@
 //
 // Header shape:
 //   Authorization: Bearer <CRON_SECRET>   (raw <CRON_SECRET> also accepted).
+//
+// Token comparison uses crypto.timingSafeEqual to blunt remote timing
+// attacks on the bearer-token compare (P-108, F-SENT-001 / F-SENT-008).
 
 import { NextRequest, NextResponse } from "next/server";
+import { timingSafeEqual } from "node:crypto";
 
 export type AuthVerdict =
   | { kind: "ok" }
   | { kind: "unauthorized" }
   | { kind: "not_configured" };
+
+/**
+ * Constant-time string equality. Length mismatches short-circuit because
+ * length is not a secret — the content of the expected secret is.
+ *
+ * Exported for tests; production callers go through verifyCronAuth.
+ */
+export function timingSafeEqualStr(a: string, b: string): boolean {
+  const ab = Buffer.from(a, "utf8");
+  const bb = Buffer.from(b, "utf8");
+  if (ab.length !== bb.length) return false;
+  return timingSafeEqual(ab, bb);
+}
 
 export function verifyCronAuth(request: NextRequest): AuthVerdict {
   const secret = process.env.CRON_SECRET;
@@ -28,9 +45,10 @@ export function verifyCronAuth(request: NextRequest): AuthVerdict {
   const header = request.headers.get("authorization");
   if (!header) return { kind: "unauthorized" };
   const trimmed = header.trim();
-  if (trimmed === secret) return { kind: "ok" };
+  if (timingSafeEqualStr(trimmed, secret)) return { kind: "ok" };
   if (trimmed.startsWith("Bearer ")) {
-    return trimmed.slice("Bearer ".length) === secret
+    const candidate = trimmed.slice("Bearer ".length);
+    return timingSafeEqualStr(candidate, secret)
       ? { kind: "ok" }
       : { kind: "unauthorized" };
   }

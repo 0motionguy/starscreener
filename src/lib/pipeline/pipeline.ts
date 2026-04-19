@@ -52,6 +52,7 @@ import {
   type CreateRuleInput,
 } from "./alerts/rule-management";
 import { deliverAlertsViaEmail } from "../email/deliver";
+import { withRecomputeLock } from "./locks";
 
 import {
   getBreakouts,
@@ -486,21 +487,29 @@ export const pipeline = {
   ingestBatch: ingestBatchFacade,
 
   // Compute
-  recomputeAll: async (): Promise<RecomputeSummary> => {
-    // Hydrate first so a recompute triggered by an API call doesn't
-    // overwrite persisted state with an empty recompute. If the async
-    // bootstrap hasn't run yet, fall through to the sync seed path.
-    if (!readyPromise && !isSeeded) {
-      await ensureReady();
-    } else if (!isSeeded) {
-      // readyPromise may still be pending — await it.
-      await readyPromise;
-    }
-    const summary = recomputeAll();
-    // Flush fresh state to disk so a server restart resumes in place.
-    await persistPipeline();
-    return summary;
-  },
+  //
+  // Recompute is a read-modify-write across every store and alert state;
+  // concurrent invocations (two cron jobs, a cron + a manual recompute,
+  // etc.) produced lost-update races and duplicate alerts. The
+  // withRecomputeLock helper coalesces every concurrent caller onto a
+  // single in-flight run so at most one recompute executes at a time
+  // (P-112, F-RACE-001).
+  recomputeAll: (): Promise<RecomputeSummary> =>
+    withRecomputeLock(async () => {
+      // Hydrate first so a recompute triggered by an API call doesn't
+      // overwrite persisted state with an empty recompute. If the async
+      // bootstrap hasn't run yet, fall through to the sync seed path.
+      if (!readyPromise && !isSeeded) {
+        await ensureReady();
+      } else if (!isSeeded) {
+        // readyPromise may still be pending — await it.
+        await readyPromise;
+      }
+      const summary = recomputeAll();
+      // Flush fresh state to disk so a server restart resumes in place.
+      await persistPipeline();
+      return summary;
+    }),
   recomputeRepo: (repoId: string) => {
     ensureSeeded();
     return recomputeRepo(repoId);

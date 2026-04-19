@@ -94,7 +94,7 @@ Then add to `claude_desktop_config.json` (macOS: `~/Library/Application Support/
       "command": "node",
       "args": ["/absolute/path/to/starscreener/mcp/dist/server.js"],
       "env": {
-        "STARSCREENER_API_URL": "http://localhost:3000"
+        "STARSCREENER_API_URL": "http://localhost:3023"
       }
     }
   }
@@ -102,6 +102,44 @@ Then add to `claude_desktop_config.json` (macOS: `~/Library/Application Support/
 ```
 
 All tools are read-only. Full tool list in [mcp/README.md](mcp/README.md).
+
+## Agent integrations
+
+Star Screener is the first production-grade adopter of **three agent-native standards in one service**. All three share a single tool source at [src/tools/](src/tools/) so a tool behaves identically whether invoked through a drive-by HTTP visitor, an installed MCP server, or a procedural skill.
+
+### 1. Portal v0.1 — drive-by access over HTTP
+
+Any LLM visitor with Portal SDK support can discover Star Screener's capabilities by fetching a manifest:
+
+```bash
+curl https://starscreener.xyz/portal | jq .tools
+```
+
+Then call any of the three canonical tools (`top_gainers`, `search_repos`, `maintainer_profile`):
+
+```bash
+curl -X POST https://starscreener.xyz/portal/call \
+  -H 'Content-Type: application/json' \
+  -d '{"tool":"top_gainers","params":{"limit":5,"window":"7d"}}'
+```
+
+Rate-limited to 10 req/min per IP (unauthenticated) or 1000 req/min with `X-API-Key`. Spec: [visitportal.dev](https://visitportal.dev). Details: [docs/protocols/portal.md](docs/protocols/portal.md).
+
+### 2. MCP server — installed tool access
+
+For Claude Desktop, Claude Code, Cursor, or any MCP-compatible agent. See the MCP quickstart above or the dedicated [mcp/README.md](mcp/README.md). Exposes 10 tools (3 Portal-canonical + 7 legacy). Details: [docs/protocols/mcp.md](docs/protocols/mcp.md).
+
+### 3. Agent Skills — procedural playbooks
+
+Three [agentskills.io](https://agentskills.io)-compliant SKILL.md files under [skills/](skills/) that teach Claude how to get the most out of Star Screener:
+
+| Skill | Trigger |
+|---|---|
+| `screen-trending-repos` | "What's trending this week?" |
+| `investigate-maintainer` | "Who's behind `<handle>`?" |
+| `weekly-report` | "Give me a Monday brief." |
+
+Portable across Claude Code, Claude Desktop, Cursor, Codex. Details: [docs/protocols/skills.md](docs/protocols/skills.md).
 
 ## Known limits
 

@@ -26,7 +26,9 @@
     "backfill:history": "curl -X POST -H \"Authorization: Bearer $CRON_SECRET\" -H \"Content-Type: application/json\" -d",
     "backfill:top": "curl -X POST -H \"Authorization: Bearer $CRON_SECRET\" http://localhost:3023/api/cron/backfill-top?n=20",
     "mcp:build": "cd mcp && npm install && npm run build",
-    "mcp:dev": "cd mcp && npm run dev"
+    "mcp:dev": "cd mcp && npm run dev",
+    "mcp:inspect": "npx @modelcontextprotocol/inspector node mcp/dist/server.js",
+    "portal:conformance": "node scripts/portal-conformance.mjs"
   },
   "dependencies": {
     "framer-motion": "^12.38.0",

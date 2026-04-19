@@ -45,13 +45,11 @@ export async function GET(): Promise<NextResponse<PipelineStatusResponse | { err
 
     const stats = pipeline.getGlobalStats();
 
-    // Sum snapshots across repos — snapshot store is keyed by repoId so we
-    // walk the repo list to count.
+    // O(1) snapshot count — SnapshotStore maintains a running total across
+    // all repos (P-114, F-PERF-001). Previously an N*M walk that scaled
+    // with repo count × snapshot-history cap.
     const repos = repoStore.getAll();
-    let snapshotCount = 0;
-    for (const repo of repos) {
-      snapshotCount += snapshotStore.list(repo.id).length;
-    }
+    const snapshotCount = snapshotStore.totalCount();
 
     // Rate limit: query the current adapter (mock returns null).
     let rateLimitRemaining: number | null = null;

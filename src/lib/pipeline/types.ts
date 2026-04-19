@@ -456,6 +456,8 @@ export interface SnapshotStore {
   getAt(repoId: string, atOrBefore: string): RepoSnapshot | undefined;
   getLatest(repoId: string): RepoSnapshot | undefined;
   clear(repoId?: string): void;
+  /** Total snapshots across every repo, maintained in O(1). */
+  totalCount(): number;
 }
 
 export interface ScoreStore {

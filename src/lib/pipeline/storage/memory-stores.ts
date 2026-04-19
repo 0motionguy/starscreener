@@ -176,9 +176,14 @@ export class InMemoryRepoStore implements RepoStore {
 export class InMemorySnapshotStore implements SnapshotStore {
   private byRepo = new Map<string, RepoSnapshot[]>();
   private dirty = false;
+  // Running total across every repo, maintained in O(1) by append/clear so
+  // callers (e.g. /api/pipeline/status) don't need an O(N*M) walk. See
+  // Phase 2 P-114 (F-PERF-001).
+  private countTotal = 0;
 
   append(snapshot: RepoSnapshot): void {
     const existing = this.byRepo.get(snapshot.repoId) ?? [];
+    const prevLen = existing.length;
     // Guard against duplicate ids for the same capturedAt.
     const withoutDupe = existing.filter((s) => s.id !== snapshot.id);
     withoutDupe.push(snapshot);
@@ -189,6 +194,7 @@ export class InMemorySnapshotStore implements SnapshotStore {
         ? withoutDupe.slice(0, SNAPSHOT_HISTORY_CAP)
         : withoutDupe;
     this.byRepo.set(snapshot.repoId, capped);
+    this.countTotal += capped.length - prevLen;
     this.markDirty();
     notifyMutation();
   }
@@ -217,11 +223,20 @@ export class InMemorySnapshotStore implements SnapshotStore {
   clear(repoId?: string): void {
     if (repoId === undefined) {
       this.byRepo.clear();
+      this.countTotal = 0;
     } else {
-      this.byRepo.delete(repoId);
+      const existing = this.byRepo.get(repoId);
+      if (existing) {
+        this.countTotal -= existing.length;
+        this.byRepo.delete(repoId);
+      }
     }
     this.markDirty();
     notifyMutation();
+  }
+
+  totalCount(): number {
+    return this.countTotal;
   }
 
   markDirty(): void {

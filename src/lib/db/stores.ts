@@ -84,6 +84,9 @@ export class PostgresSnapshotStore implements SnapshotStore {
   clear(_repoId?: string): void {
     throw NOT_IMPLEMENTED;
   }
+  totalCount(): number {
+    throw NOT_IMPLEMENTED;
+  }
 }
 
 // ---------------------------------------------------------------------------

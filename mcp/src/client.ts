@@ -2,7 +2,7 @@
  * HTTP client for the StarScreener REST API.
  *
  * Wraps the public read endpoints served by the Next.js app at
- * STARSCREENER_API_URL (default http://localhost:3004) and exposes small,
+ * STARSCREENER_API_URL (default http://localhost:3023) and exposes small,
  * typed helpers that the MCP tool handlers delegate to. No response caching —
  * the pipeline is already the single source of truth for momentum/deltas and
  * recomputes on ensureReady(), so every tool call hits fresh data.
@@ -48,7 +48,7 @@ export class StarScreenerClient {
     const raw =
       opts.baseUrl ??
       process.env.STARSCREENER_API_URL ??
-      "http://localhost:3004";
+      "http://localhost:3023";
     // Strip trailing slash so we can always concat `${baseUrl}/api/...`.
     this.baseUrl = raw.replace(/\/+$/, "");
     this.token = opts.token ?? process.env.STARSCREENER_API_TOKEN;

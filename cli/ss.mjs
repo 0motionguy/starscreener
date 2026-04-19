@@ -9,7 +9,7 @@
 // ---------------------------------------------------------------------------
 
 const BASE_URL = (
-  process.env.STARSCREENER_API_URL || "http://localhost:3004"
+  process.env.STARSCREENER_API_URL || "http://localhost:3023"
 ).replace(/\/+$/, "");
 
 const CLI_VERSION = "0.1.0";

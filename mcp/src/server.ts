@@ -4,7 +4,7 @@
  *
  * Exposes the StarScreener GitHub trend platform to AI agents over stdio.
  * Reads from the Next.js REST API at STARSCREENER_API_URL (default
- * http://localhost:3004). All tools are read-only.
+ * http://localhost:3023). All tools are read-only.
  *
  * Run: `node dist/server.js` (after `npm run build`) or `npm run dev`.
  */
@@ -265,7 +265,7 @@ async function main(): Promise<void> {
   await server.connect(transport);
   // stdout is reserved for the MCP JSON-RPC stream — log banner to stderr.
   console.error(
-    `[starscreener-mcp] connected — API base: ${process.env.STARSCREENER_API_URL ?? "http://localhost:3004"}`,
+    `[starscreener-mcp] connected — API base: ${process.env.STARSCREENER_API_URL ?? "http://localhost:3023"}`,
   );
 }
 

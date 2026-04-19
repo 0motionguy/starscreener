@@ -1,0 +1,43 @@
+name: Scrape OSS Insight trending
+
+on:
+  schedule:
+    # Hourly at :07 to avoid peak-hour scheduler delays.
+    - cron: '7 * * * *'
+  workflow_dispatch:
+
+# Only the commit step needs write access; everything else is read-only.
+permissions:
+  contents: write
+
+# Prevent overlap if a run is slow — the next tick will just start fresh.
+concurrency:
+  group: scrape-trending
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Scrape OSS Insight
+        run: node scripts/scrape-trending.mjs
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "starscreener-bot"
+          git config user.email "bot@starscreener.local"
+          git add data/trending.json
+          if git diff --quiet --staged; then
+            echo "no changes — skipping commit"
+            exit 0
+          fi
+          git commit -m "chore(data): refresh trending.json"
+          git push

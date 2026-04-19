@@ -1,17 +1,23 @@
 // StarScreener Pipeline — seed shared stores from the REAL GitHub API.
 //
-// Silent mock seeding is gone. This module reads the curated SEED_REPOS list
-// in `src/lib/seed-repos.ts` and runs every `owner/name` through the live
-// GitHub adapter via `ingestBatch()`. `createGitHubAdapter({ useMock: false })`
+// Silent mock seeding is gone. Discovery now flows through
+// `data/trending.json` (refreshed hourly by the scrape-trending GHA
+// workflow); each resolved `owner/name` is run through the live GitHub
+// adapter via `ingestBatch()`. `createGitHubAdapter({ useMock: false })`
 // throws when `GITHUB_TOKEN` is missing — we let that bubble up so cold
 // deploys fail loudly rather than silently producing synthetic data.
 
 import type { PipelineStores } from "../storage/singleton";
 import { createGitHubAdapter, ingestBatch } from "./ingest";
-import { SEED_REPOS, type SeedCategoryId } from "../../seed-repos";
+import { getAllFullNames } from "../../trending";
 
 export interface SeedLiveOptions {
-  /** Restrict to a subset of SEED_REPOS keys (chunked cron runs). */
+  /**
+   * Optional category filter — kept for API compatibility with existing
+   * cron callers. Phase 1 ignores this because trending.json is not
+   * partitioned by StarScreener's internal category taxonomy; the
+   * classifier handles categorization downstream of ingestion.
+   */
   categories?: string[];
   /** Hard cap on how many repos to ingest this call (smoke tests). */
   limit?: number;
@@ -69,29 +75,12 @@ export async function seedPipelineLive(
   };
 }
 
-/**
- * Flatten SEED_REPOS into a deduped `owner/name[]` honoring `categories` and
- * `limit`. Unknown category keys are ignored (same behavior as filtering an
- * empty subset — they just contribute nothing).
- */
+// TODO(phase-2): pipeline ingestion trigger is dead (Vercel cron not firing).
+// Options: GHA cron hitting /api/cron/seed, or switch to git-history deltas.
 function collectFullNames(opts: SeedLiveOptions): string[] {
-  const keys = Object.keys(SEED_REPOS) as SeedCategoryId[];
-  const filter = opts.categories && opts.categories.length > 0
-    ? new Set(opts.categories.map((c) => c.trim()).filter((c) => c.length > 0))
-    : null;
-
-  const seen = new Set<string>();
-  const out: string[] = [];
-  for (const key of keys) {
-    if (filter && !filter.has(key)) continue;
-    for (const fullName of SEED_REPOS[key]) {
-      if (seen.has(fullName)) continue;
-      seen.add(fullName);
-      out.push(fullName);
-      if (opts.limit !== undefined && out.length >= opts.limit) {
-        return out;
-      }
-    }
+  const all = getAllFullNames();
+  if (opts.limit !== undefined && all.length > opts.limit) {
+    return all.slice(0, opts.limit);
   }
-  return out;
+  return all;
 }

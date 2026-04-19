@@ -41,3 +41,18 @@ jobs:
           fi
           git commit -m "chore(data): refresh trending.json"
           git push
+
+      # Always-run: re-fetches stars on known repos even when trending.json
+      # didn't change. A quiet-trending hour still needs a pipeline tick,
+      # and skipping would mask pipeline failures on those hours.
+      - name: Trigger pipeline refresh
+        env:
+          APP_URL: ${{ secrets.APP_URL }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          trap 'echo "--- response body ---"; cat /tmp/cron-response.json 2>/dev/null || echo "(no body written)"' EXIT
+          curl --fail-with-body -sS --max-time 30 \
+            -X POST \
+            -H "Authorization: Bearer ${CRON_SECRET}" \
+            -o /tmp/cron-response.json -w "HTTP %{http_code} in %{time_total}s\n" \
+            "${APP_URL}/api/cron/seed?limit=50"

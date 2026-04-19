@@ -160,6 +160,13 @@ npm run lint         # eslint (next/core-web-vitals)
 - **Vercel** works out of the box for the web UI, REST API, and crons. SSE will not hold open on serverless.
 - **Railway / Fly.io / VPS** for the full platform including the SSE event stream.
 
+### GitHub Actions secrets
+
+The hourly `scrape-trending` workflow refreshes `data/trending.json` and then triggers the deployed pipeline. Two repo secrets are required (Settings → Secrets and variables → Actions):
+
+- `APP_URL` — deployed host, e.g. `https://starscreener.vercel.app` (no trailing slash).
+- `CRON_SECRET` — must match the `CRON_SECRET` env var set on the deployed host; checked by `src/app/api/cron/seed/route.ts` as a `Bearer` token.
+
 Step-by-step: [docs/DEPLOY.md](docs/DEPLOY.md).
 
 ## License

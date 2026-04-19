@@ -75,8 +75,6 @@ export async function seedPipelineLive(
   };
 }
 
-// TODO(phase-2): pipeline ingestion trigger is dead (Vercel cron not firing).
-// Options: GHA cron hitting /api/cron/seed, or switch to git-history deltas.
 function collectFullNames(opts: SeedLiveOptions): string[] {
   const all = getAllFullNames();
   if (opts.limit !== undefined && all.length > opts.limit) {

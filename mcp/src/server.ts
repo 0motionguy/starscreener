@@ -14,6 +14,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 
 import { StarScreenerClient, StarScreenerApiError } from "./client.js";
+import { PortalClient, PortalCallError } from "./portal-client.js";
 
 const WindowEnum = z.enum(["24h", "7d", "30d"]);
 const LimitField = z
@@ -33,13 +34,17 @@ const server = new McpServer(
       "StarScreener exposes live GitHub trend data (momentum score 0-100, " +
       "movement status, breakout detection, 30-day sparklines) for the " +
       "repos tracked by the StarScreener platform. All tools are read-only. " +
-      "Start with get_trending or get_breakouts for discovery; use get_repo " +
-      "for a full detail view with sparkline + reasons. Windows map: 24h=today, " +
+      "Canonical tools (also exposed via Portal v0.1 at /portal): top_gainers, " +
+      "search_repos, maintainer_profile. Additional legacy tools kept for " +
+      "backwards compatibility: get_breakouts, get_new_repos, get_repo, " +
+      "compare_repos, get_categories, get_category_repos. 'get_trending' is " +
+      "deprecated in favor of 'top_gainers'. Windows map: 24h=today, " +
       "7d=week, 30d=month.",
   },
 );
 
 const client = new StarScreenerClient();
+const portal = new PortalClient();
 
 // ---------------------------------------------------------------------------
 // Small helper: wrap a tool handler so thrown errors (network, API 4xx/5xx,
@@ -81,9 +86,11 @@ async function run(fn: () => Promise<unknown>): Promise<ToolResult> {
     const message =
       err instanceof StarScreenerApiError
         ? `StarScreener API error ${err.status} at ${err.url}: ${err.body.slice(0, 500)}`
-        : err instanceof Error
-          ? err.message
-          : String(err);
+        : err instanceof PortalCallError
+          ? `Portal call error ${err.code} at ${err.url}: ${err.message}`
+          : err instanceof Error
+            ? err.message
+            : String(err);
     return {
       content: [{ type: "text", text: message }],
       isError: true,
@@ -103,9 +110,10 @@ server.registerTool(
   {
     title: "Get trending repos",
     description:
-      "Top-momentum repositories on StarScreener over a time window. " +
-      "Returns { repos: Repo[], meta } where each Repo includes momentumScore, " +
-      "movementStatus, stars deltas, sparklineData, categoryId and rank.",
+      "[DEPRECATED — prefer top_gainers] Top-momentum repositories on " +
+      "StarScreener over a time window. Returns { repos: Repo[], meta } where " +
+      "each Repo includes momentumScore, movementStatus, stars deltas, " +
+      "sparklineData, categoryId and rank.",
     inputSchema: {
       window: WindowEnum.optional().describe(
         'Time window: "24h" (today), "7d" (week, default), "30d" (month).',
@@ -117,6 +125,76 @@ server.registerTool(
   async ({ window, limit }) =>
     run(() => client.getTrending({ window, limit })),
 );
+
+// -------- New Portal-canonical tools — route through POST /portal/call --------
+
+server.registerTool(
+  "top_gainers",
+  {
+    title: "Top gainers",
+    description:
+      "Return trending GitHub repos sorted by star delta over the chosen time " +
+      "window. Optional language filter. Routes through the Star Screener " +
+      "Portal v0.1 endpoint so MCP and Portal visitors see identical results.",
+    inputSchema: {
+      limit: z
+        .number()
+        .int()
+        .min(1)
+        .max(50)
+        .optional()
+        .describe("Max repos to return (1-50). Default 10."),
+      window: WindowEnum.optional().describe(
+        "Time window for the star-delta sort. Defaults to '7d'.",
+      ),
+      language: z
+        .string()
+        .min(1)
+        .optional()
+        .describe(
+          "Primary-language filter (case-insensitive exact match, e.g. 'TypeScript').",
+        ),
+    },
+    annotations: { readOnlyHint: true, idempotentHint: true },
+  },
+  async ({ limit, window, language }) =>
+    run(() =>
+      portal.call("top_gainers", {
+        ...(limit !== undefined ? { limit } : {}),
+        ...(window !== undefined ? { window } : {}),
+        ...(language !== undefined ? { language } : {}),
+      }),
+    ),
+);
+
+server.registerTool(
+  "maintainer_profile",
+  {
+    title: "Maintainer profile",
+    description:
+      "Aggregate profile for a GitHub handle, composed from repos Star " +
+      "Screener already tracks where owner == handle. Returns total stars, " +
+      "weekly velocity, languages, and top-momentum repos. NOT_FOUND when " +
+      "the handle has no owned repos in the index. Does not make live " +
+      "GitHub API calls.",
+    inputSchema: {
+      handle: z
+        .string()
+        .min(1)
+        .max(39)
+        .regex(
+          /^[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$/,
+          "GitHub username (alnum + hyphen, no leading/trailing hyphen)",
+        )
+        .describe("GitHub username (the 'owner' part of owner/repo)."),
+    },
+    annotations: { readOnlyHint: true, idempotentHint: true },
+  },
+  async ({ handle }) =>
+    run(() => portal.call("maintainer_profile", { handle })),
+);
+
+// -----------------------------------------------------------------------------
 
 server.registerTool(
   "get_breakouts",

@@ -43,6 +43,7 @@ import {
 import { isOnWatchlist } from "@/lib/pipeline/ingestion/watchlist";
 import type { RefreshTier } from "@/lib/pipeline/types";
 import type { TierContext } from "@/lib/pipeline/ingestion/scheduler";
+import { recordCronActivity } from "@/lib/observability/cron-activity";
 
 export interface CronIngestResponse {
   ok: true;
@@ -116,7 +117,9 @@ function logRun(payload: {
   status: "ok" | "rate_limited" | "error" | "unauthorized" | "not_configured";
   error?: string;
 }): void {
+  const at = new Date().toISOString();
   const line = {
+    at,
     scope: "cron:ingest",
     tier: payload.tier,
     count: payload.count,
@@ -129,6 +132,20 @@ function logRun(payload: {
   };
   // Single JSON line — keep on stdout so Vercel groups it as an info log.
   console.log(JSON.stringify(line));
+  // P-119 (F-OBSV-001): also push to the in-memory ring buffer so
+  // /api/health/cron-activity can surface fire-rate to uptime monitors.
+  recordCronActivity({
+    at,
+    scope: "cron:ingest",
+    tier: payload.tier,
+    status: payload.status,
+    durationMs: payload.durationMs,
+    count: payload.count,
+    ok: payload.ok,
+    failed: payload.failed,
+    rateLimitRemaining: payload.rateLimitRemaining,
+    ...(payload.error ? { error: payload.error } : {}),
+  });
 }
 
 /**

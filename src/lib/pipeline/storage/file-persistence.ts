@@ -34,32 +34,31 @@ import path from "node:path";
  * evaluated) lands I/O in the right place.
  *
  * Safety (F-DATA-003, Phase 2 P-111):
- *   - When `STARSCREENER_DATA_DIR` is set, it must be an absolute path
- *     and must resolve to its own normalized form (no `..` segments that
- *     escape). Violations throw at call time so a misconfigured env var
- *     cannot silently redirect writes to arbitrary filesystem locations.
- *   - When unset, we default to `<cwd>/.data` which is always safe because
- *     `cwd()` is absolute.
+ *   - Explicit `..` segments are rejected — that's the shape a traversal
+ *     attack takes (either as `/absolute/../../tmp` or as `../foo`).
+ *     `path.resolve()` would silently resolve them; we want a loud throw
+ *     so a misconfigured env can't quietly redirect writes.
+ *   - Relative paths are accepted and resolved against `process.cwd()`
+ *     so `./.data` (the local-dev default in .env.local) keeps working.
+ *   - When unset, we default to `<cwd>/.data`.
  */
 export function currentDataDir(): string {
   const raw = process.env.STARSCREENER_DATA_DIR;
   if (!raw) return path.join(process.cwd(), ".data");
 
-  if (!path.isAbsolute(raw)) {
+  // Block any path that tries to escape via a parent-directory segment —
+  // on both POSIX and Windows separators. `path.resolve` would silently
+  // flatten these; we want the throw so the intent is visible in logs.
+  const segments = raw.split(/[/\\]/);
+  if (segments.includes("..")) {
     throw new Error(
-      `STARSCREENER_DATA_DIR must be an absolute path (got ${JSON.stringify(raw)})`,
+      `STARSCREENER_DATA_DIR must not contain '..' segments (got ${JSON.stringify(raw)})`,
     );
   }
-  // Normalize resolves `.` and `..` segments. If the result differs from the
-  // raw input, the path was non-canonical (e.g. contained traversal) and
-  // we reject rather than silently redirecting writes somewhere unexpected.
-  const normalized = path.normalize(raw);
-  if (normalized !== raw) {
-    throw new Error(
-      `STARSCREENER_DATA_DIR contains non-canonical segments (got ${JSON.stringify(raw)}, normalized ${JSON.stringify(normalized)})`,
-    );
-  }
-  return normalized;
+
+  // `path.resolve` makes relative paths absolute (rooted at cwd) and is
+  // a no-op on already-absolute paths. Safe after the `..` guard above.
+  return path.resolve(raw);
 }
 
 /**

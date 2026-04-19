@@ -36,36 +36,39 @@ test("currentDataDir() defaults to <cwd>/.data when env unset", async () => {
   }
 });
 
-test("currentDataDir() rejects relative paths", async () => {
+test("currentDataDir() resolves relative paths against cwd", async () => {
   const prior = process.env.STARSCREENER_DATA_DIR;
   process.env.STARSCREENER_DATA_DIR = "./relative-dir";
   try {
     const mod = await reload();
-    assert.throws(() => mod.currentDataDir(), /must be an absolute path/);
+    const dir = mod.currentDataDir();
+    assert.equal(path.isAbsolute(dir), true);
+    assert.equal(dir, path.resolve(process.cwd(), "relative-dir"));
   } finally {
     if (prior !== undefined) process.env.STARSCREENER_DATA_DIR = prior;
     else delete process.env.STARSCREENER_DATA_DIR;
   }
 });
 
-test("currentDataDir() rejects absolute paths with traversal segments", async () => {
+test("currentDataDir() rejects any path containing '..' segments", async () => {
   const prior = process.env.STARSCREENER_DATA_DIR;
-  // Construct an absolute-but-non-canonical path as a raw string so that
-  // path.join doesn't helpfully normalize it before our validator sees it.
-  // path.sep is used so the test works on both POSIX and Windows.
-  const tmp = os.tmpdir();
-  const sep = path.sep;
-  const nonCanonical = `${tmp}${sep}..${sep}${path.basename(tmp)}${sep}foo`;
-  // Sanity — this string should NOT already equal its normalized form.
-  assert.notEqual(path.normalize(nonCanonical), nonCanonical);
-  process.env.STARSCREENER_DATA_DIR = nonCanonical;
-  try {
+  const cases = [
+    "../foo",
+    "../../etc/passwd",
+    `${os.tmpdir()}${path.sep}..${path.sep}evil`,
+    "/absolute/../traversal",
+  ];
+  for (const c of cases) {
+    process.env.STARSCREENER_DATA_DIR = c;
     const mod = await reload();
-    assert.throws(() => mod.currentDataDir(), /non-canonical segments/);
-  } finally {
-    if (prior !== undefined) process.env.STARSCREENER_DATA_DIR = prior;
-    else delete process.env.STARSCREENER_DATA_DIR;
+    assert.throws(
+      () => mod.currentDataDir(),
+      /must not contain '\.\.' segments/,
+      `expected rejection for ${JSON.stringify(c)}`,
+    );
   }
+  if (prior !== undefined) process.env.STARSCREENER_DATA_DIR = prior;
+  else delete process.env.STARSCREENER_DATA_DIR;
 });
 
 test("currentDataDir() accepts a canonical absolute path", async () => {

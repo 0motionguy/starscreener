@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   verify:
-    name: Typecheck & test
+    name: Typecheck, lint, test, build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -30,8 +30,17 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
+      - name: Lint
+        run: npm run lint
+
       - name: Test
         run: npm test
+
+      # Next.js production build. Catches regressions that typecheck + tests
+      # miss (dead imports, side-effect ordering, Turbopack-specific issues).
+      # F-QA-005 from the Phase 2 red-team review.
+      - name: Build
+        run: npm run build
 
   mcp-build:
     name: MCP server build

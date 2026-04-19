@@ -168,7 +168,11 @@ function recomputeAll(): RecomputeSummary {
 
   // 0. Snapshot previous state (repos + scores) BEFORE we mutate anything.
   //    These are fed into the alert engine as `previousRepo`/`previousScore`.
-  const baseRepos = repoStore.getAll();
+  //    Use `getActive()` so soft-deleted repos (marked via /api/pipeline/cleanup)
+  //    are excluded from scoring + alert evaluation — otherwise tombstones keep
+  //    firing rules and email deliveries reference repos that no longer exist
+  //    (F-DATA-001, Phase 2 P-110).
+  const baseRepos = repoStore.getActive();
   const previousRepos = new Map<string, Repo>();
   for (const r of baseRepos) {
     previousRepos.set(r.id, r);

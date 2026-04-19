@@ -312,11 +312,32 @@ function recomputeAll(): RecomputeSummary {
   // RESEND_API_KEY / ALERT_EMAIL_TO are unset (dev, pre-DNS-propagation).
   // Errors are logged by the delivery layer — we don't propagate them
   // so a Resend outage can't wedge the recompute loop.
+  //
+  // Phase 2 (F-OBSV-002): log the DeliveryStats on both success and failure
+  // so operators can see at a glance whether emails actually went out,
+  // without awaiting the call (preserves "don't wedge recompute" spirit).
   if (firedEvents.length > 0) {
     const repoLookup = new Map(rankedRepos.map((r) => [r.id, r]));
-    deliverAlertsViaEmail(firedEvents, repoLookup).catch((err) => {
-      console.error("[pipeline] email delivery threw (non-fatal)", err);
-    });
+    deliverAlertsViaEmail(firedEvents, repoLookup)
+      .then((stats) => {
+        console.log(
+          JSON.stringify({
+            scope: "alert:delivery",
+            level: stats.failed > 0 ? "warn" : "info",
+            ...stats,
+          }),
+        );
+      })
+      .catch((err) => {
+        console.error(
+          JSON.stringify({
+            scope: "alert:delivery",
+            level: "error",
+            message: err instanceof Error ? err.message : String(err),
+            eventsConsidered: firedEvents.length,
+          }),
+        );
+      });
   }
 
   return {

@@ -121,6 +121,25 @@ this is a quarterly manual pass:
 3. Copy any new AI-relevant YAMLs, strip numeric prefix, update
    NOTICE.md sync date + commit SHA.
 
+### P10 — migrate backfill-history to verifyCronAuth
+
+Source: docs/API.md "Known auth divergence" callout surfaced this during P4.
+
+Scope: `src/app/api/pipeline/backfill-history/route.ts:43-54` replaces inline
+`verifyAuth()` with `verifyCronAuth` from `src/lib/api/auth.ts`. Update
+`docs/API.md` to remove the divergence callout.
+
+Pre-work: `git blame src/app/api/pipeline/backfill-history/route.ts:43-54`
+and confirm the inline check wasn't intentional (e.g., author comment
+explaining why dev-fallback was rejected). If intentional, escalate — do
+not silently migrate.
+
+Risk: none beyond the intended behavior change (adds dev-mode permissiveness
++ timing-safe comparison). No callers depend on the 401-only behavior;
+production has CRON_SECRET set.
+
+Commit: `fix(api): backfill-history uses shared verifyCronAuth`
+
 ## Files explicitly not touched this session (next sessions will)
 
 - `src/components/terminal/StatsBar.tsx`

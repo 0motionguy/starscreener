@@ -207,6 +207,169 @@ Flush all stores to disk manually.
 curl -X POST "$HOST/api/pipeline/persist"
 ```
 
+### `POST /api/pipeline/backfill-history`
+
+On-demand stargazer backfill for a single repo. Walks `/repos/{owner}/{name}/stargazers` with the `application/vnd.github.star+json` Accept header, buckets the real `starred_at` timestamps into daily counts, and writes up to 30 backdated `RepoSnapshots` so the delta engine has actual history to work with for that repo.
+
+**Auth:** inline `CRON_SECRET` check (see [Known auth divergence](#known-auth-divergence) below). Header: `Authorization: Bearer $CRON_SECRET` (raw `$CRON_SECRET` also accepted). `maxDuration: 300s`.
+
+**Body (required JSON)**
+
+| Field | Type | Default | Notes |
+|-------|------|---------|-------|
+| `fullName` | string | required | Must match `^[A-Za-z0-9._-]+/[A-Za-z0-9._-]+$` |
+| `maxPages` | number | unset (helper picks) | Clamped to 1-200 when supplied |
+
+```bash
+curl -X POST "$HOST/api/pipeline/backfill-history" \
+  -H "Authorization: Bearer $CRON_SECRET" \
+  -H 'Content-Type: application/json' \
+  -d '{"fullName":"vercel/next.js","maxPages":50}'
+```
+
+**Response 200**
+
+```json
+{
+  "ok": true,
+  "fullName": "vercel/next.js",
+  "snapshotsWritten": 30,
+  "daysCovered": 30,
+  "rateLimitRemaining": 4823,
+  "skipped": null,
+  "durationMs": 8412
+}
+```
+
+**Error responses**
+
+| Status | Reason |
+|--------|--------|
+| 400 | `invalid JSON body`, `body must be an object`, `fullName must be in the form 'owner/repo'` |
+| 401 | `unauthorized` (missing or wrong header — also returned when `CRON_SECRET` is unset, see callout) |
+| 500 | `GITHUB_TOKEN is not set — stargazer backfill requires a PAT with public_repo scope` or `internal error: <message>` |
+
+**Side effects:** mutates `snapshotStore` for the named repo only. Does NOT recompute scores; chase with `POST /api/pipeline/recompute` if leaderboard refresh is desired.
+
+### `POST /api/pipeline/cleanup` (also `GET`)
+
+Re-fetches a batch of tracked repos from GitHub and flags those that are now archived, disabled, or 404'd. Soft flag only — preserves historical snapshots so user-visible charts don't lose data; downstream queries filter on the `archived` / `deleted` flags. Healthy repos previously flagged get revived (both flags cleared).
+
+**Auth:** shared `verifyCronAuth` (tri-state — see [src/lib/api/auth.ts](../src/lib/api/auth.ts)). `maxDuration: 300s`.
+
+**Body (optional JSON; defaults applied when absent)**
+
+| Field | Type | Default | Notes |
+|-------|------|---------|-------|
+| `mode` | string | `"all"` | One of `"archived"`, `"deleted"`, `"all"` |
+| `dryRun` | boolean | `false` | When true, computes counts + change list without mutating |
+| `max` | number | `50` | Repos to check this call. Clamped to 1-500. Rate-limit guard. |
+
+```bash
+curl -X POST "$HOST/api/pipeline/cleanup" \
+  -H "Authorization: Bearer $CRON_SECRET" \
+  -H 'Content-Type: application/json' \
+  -d '{"mode":"archived","dryRun":true,"max":100}'
+```
+
+**Response 200**
+
+```json
+{
+  "ok": true,
+  "mode": "archived",
+  "dryRun": true,
+  "checked": 100,
+  "wouldArchive": 3,
+  "wouldDelete": 0,
+  "updated": 0,
+  "rateLimitRemaining": 4720,
+  "changes": [
+    { "id": "repo_xyz", "fullName": "owner/abandoned", "change": "archived" }
+  ]
+}
+```
+
+**Side effects:** when `dryRun: false`, mutates `repoStore` via `upsert` for each match — flips `archived` / `deleted` flags, or clears both for revivals. The `updated` count excludes `dryRun` runs (always `0`).
+
+### `POST /api/pipeline/rebuild` (also `GET`)
+
+Full-data rebuild. Iterates tracked repos, runs stargazer backfill to reconstruct 30-day history from real GitHub timestamps, then optionally recomputes scores so the leaderboard reflects actual momentum instead of zero-delta defaults. The "give me real data NOW" path that goes beyond the snapshot cron's forward-only history. 100% real GitHub data — no mocks, no synthesized values; fails loudly on missing `GITHUB_TOKEN`.
+
+**Auth:** shared `verifyCronAuth` (tri-state). Requires `GITHUB_TOKEN` env var. `maxDuration: 300s`.
+
+**Candidate selection priority**
+
+1. Explicit `fullNames` array (targeted rebuild) — overrides everything else.
+2. `onlyMegaRepos: true` — only repos with `> 40000` stars (hardcoded threshold). Triggers the events-API fast path on stargazer-list-cap hits.
+3. `skipSeeded: true` — only repos missing meaningful sparkline history (empty array OR ≤1 unique value).
+4. All repos in the store.
+
+After selection, `offset` + `limit` slice the candidate pool for cursor pagination.
+
+**Body (optional JSON)**
+
+| Field | Type | Default | Notes |
+|-------|------|---------|-------|
+| `limit` | number | `20` | Repos to process this call. Clamped to 1-500. |
+| `offset` | number | `0` | Start index into candidate pool. `>= 0`. |
+| `maxPages` | number | `4` | Max stargazer pages per repo (~100 stars/page). Clamped to 1-50. |
+| `skipSeeded` | boolean | `false` | See selection priority. |
+| `skipRecompute` | boolean | `false` | Skip the final `pipeline.recomputeAll()`. Use when paginating through a large rebuild — only recompute on the last call. |
+| `fullNames` | string[] | none | Explicit targeted rebuild. |
+| `onlyMegaRepos` | boolean | `false` | See selection priority. |
+
+```bash
+curl -X POST "$HOST/api/pipeline/rebuild" \
+  -H "Authorization: Bearer $CRON_SECRET" \
+  -H 'Content-Type: application/json' \
+  -d '{"limit":20,"maxPages":4,"skipSeeded":true}'
+```
+
+**Response 200**
+
+```json
+{
+  "ok": true,
+  "processed": 20,
+  "totalCandidates": 20,
+  "totalInPool": 412,
+  "offset": 0,
+  "nextOffset": 20,
+  "hasMore": true,
+  "backfilled": 18,
+  "skipped": 1,
+  "failed": 1,
+  "aborted": false,
+  "rateLimitRemaining": 3812,
+  "durationMs": 67421,
+  "recompute": { "reposRecomputed": 80, "scoresComputed": 80 },
+  "details": [
+    { "fullName": "owner/x", "ok": true, "snapshotsWritten": 30, "daysCovered": 30, "ms": 3211, "rateLimitRemaining": 4823 },
+    { "fullName": "owner/y", "ok": true, "snapshotsWritten": 30, "daysCovered": 30, "ms": 2840, "reason": "events-api watch=412", "rateLimitRemaining": 4801 },
+    { "fullName": "owner/z", "ok": false, "snapshotsWritten": 0, "daysCovered": 0, "ms": 412, "reason": "404 Not Found" }
+  ]
+}
+```
+
+**Mega-repo fallback:** when stargazer backfill returns `skipped: "exceeds_list_cap"` (GitHub caps the stargazers list at ~40k), the route falls back to `backfillFromEvents` with `days: 30, maxPages: 3` (both hardcoded, passed inline). The `details` entry annotates `reason: "events-api watch=N"`.
+
+**Rate-limit guard:** the loop aborts mid-run when `rateLimitRemaining < 200` (hardcoded threshold, no env override) so scheduled crons retain headroom. `aborted: true` in the response signals an early break.
+
+**Side effects:** mutates `snapshotStore` per repo via stargazer or events-API path. Triggers `pipeline.recomputeAll()` at the end unless `skipRecompute: true`.
+
+### Known auth divergence
+
+`/api/pipeline/backfill-history` uses an inline auth check instead of the shared `verifyCronAuth` helper used by `cleanup` and `rebuild`. Practical differences:
+
+| Behavior | backfill-history (inline) | cleanup, rebuild (verifyCronAuth) |
+|---|---|---|
+| `CRON_SECRET` unset | 401 always | dev: allow; prod: 503 not_configured |
+| Comparison | `===` | `crypto.timingSafeEqual` |
+| Response codes | 401 only | 401 or 503 |
+
+Migration to the shared helper is tracked as P10 in `NEXT_SESSION.md`. The docstring in [src/lib/api/auth.ts](../src/lib/api/auth.ts) lists `backfill-history` as a consumer in anticipation of that migration.
+
 ---
 
 ## Health

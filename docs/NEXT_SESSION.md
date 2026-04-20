@@ -1,8 +1,9 @@
 # Next-session handoff — 2026-04-20
 
-Session-close note after Phase 1 / 2 / 3 + cleanup landed. Pick up cold from here.
+Session-close note after Phase 1 / 2 / 3 + cleanup + P1 docs refresh landed.
+Pick up cold from here.
 
-## What shipped this session
+## What shipped
 
 - **Phase 1** — OSS Insight trending → `data/trending.json` scraped hourly by
   `.github/workflows/scrape-trending.yml`; loader in `src/lib/trending.ts`;
@@ -26,46 +27,18 @@ Session-close note after Phase 1 / 2 / 3 + cleanup landed. Pick up cold from her
   `CRON_SECRET` retained (still used by `/api/pipeline/*` admin routes via
   `verifyCronAuth`). Tests: **187 / 187 passing** (was 215 — the 28-test drop is
   the two deleted test files).
+- **P1 docs refresh** — shipped `7c34a92`. INGESTION.md rewritten for the
+  OSS Insight + git-history flow; API.md lost `/api/cron/*` block and gained
+  `/api/health`; DEPLOY.md drops the Vercel cron array and seed-on-deploy
+  block; ARCHITECTURE.md retired the "Refresh tier system" section.
 
 ## Priorities for next session
 
-### P1 — docs refresh
+### P1 — docs refresh  ✅ DONE — `7c34a92`
 
-Living docs still describe the deleted cron routes as authoritative. Four files
-to update:
+Living docs refreshed for the Phase 3 architecture. Sealed.
 
-- [docs/INGESTION.md](INGESTION.md) — biggest rewrite. Old narrative is
-  cron-tier-driven ingestion as the primary path. New narrative: hourly GHA
-  workflow scrapes OSS Insight → computes deltas from git history → commits
-  both JSON files → Vercel rebuilds → every Lambda reads the same committed
-  JSON. Delete the old cron tiers section and rewrite from scratch rather
-  than diff-patching.
-- [docs/API.md](API.md) — delete the three sections documenting
-  `/api/cron/seed`, `/api/cron/ingest`, `/api/cron/backfill-top`. Do not
-  strikethrough; delete.
-- [docs/DEPLOY.md](DEPLOY.md) — replace the Vercel cron config example with
-  one line pointing at `.github/workflows/scrape-trending.yml` as the
-  ingestion schedule.
-- [docs/ARCHITECTURE.md](ARCHITECTURE.md) — one-line mention of
-  `/api/cron/ingest` at line 132; trivial fix.
-
-**Include this operator note somewhere prominent in the refreshed docs
-(either INGESTION.md's ops section or DEPLOY.md's troubleshooting block):**
-
-> If `/api/health` reports `lastFetchedAt` > 2h old on prod, check
-> (a) the latest `data/trending.json` commit timestamp — if recent, this is
-> Vercel deploy lag, not a scraper failure; (b) the Actions tab for the last
-> `scrape-trending` run. Delta staleness almost always traces to either the
-> scrape workflow failing or a Vercel build not triggering, never to a
-> server-side cron.
-
-**Do NOT touch** these — they're historical audit snapshots, not living docs:
-
-- `docs/review/**`
-- `starscreener-inspection/**`
-- `starscreener-fix/**`
-
-### P2 — UI sweep (committed-JSON-backed source for cold Lambdas)
+### P2 — UI sweep  ⬅ NEXT UP
 
 These three files read `pipeline.getGlobalStats()` or the pipeline's in-memory
 stores, which return zeros on cold Vercel Lambdas. On prod the UI/OG cards
@@ -78,25 +51,18 @@ endpoint that derives the counts from those files.
 - [src/components/terminal/StatsBarClient.tsx](../src/components/terminal/StatsBarClient.tsx)
 - [src/app/opengraph-image.tsx](../src/app/opengraph-image.tsx)
 
-### P3 — wait-and-watch
+### P3 — wait-and-watch (classifier verification)
 
-Do not diagnose classifier behavior for 48 hours. `delta_24h` needs real
-hour-over-hour data to populate with non-null values; `hot` / `breakout` can't
-fire until that coverage is meaningful. If the scrape-trending workflow is
-running green for 24h+ and classifier still silent after that, reopen.
+Do not run before **2026-04-22T02:27Z**. Phase 3 (`17434e5`) landed
+2026-04-20T02:27Z; the 48h wait exists so `delta_24h` has real hour-over-hour
+data to populate with non-null values before checking `hot` / `breakout`
+firing. If the scrape-trending workflow is running green for 24h+ and the
+classifier is still silent after that, reopen.
 
-## Files explicitly not touched this session (next sessions will)
-
-- `docs/INGESTION.md`
-- `docs/API.md`
-- `docs/DEPLOY.md`
-- `docs/ARCHITECTURE.md`
-- `src/components/terminal/StatsBar.tsx`
-- `src/components/terminal/StatsBarClient.tsx`
-- `src/app/opengraph-image.tsx`
-
-Everything in `docs/review/`, `starscreener-inspection/`, `starscreener-fix/`
-was intentionally left alone — those are frozen snapshots.
+Single-shot check when the window opens:
+`GET /api/search?sort=movement` — does at least one repo show
+`movementStatus` of `hot` or `breakout`? Pass/fail only; don't diagnose on
+fail, flag for the following session.
 
 ### P4 — admin API documentation
 
@@ -104,3 +70,12 @@ was intentionally left alone — those are frozen snapshots.
 `/api/pipeline/rebuild` are live but undocumented in `docs/API.md`.
 Separate commit, separate review. Requires reading each route for auth
 model + behavior before writing prose — do not paraphrase the filename.
+
+## Files explicitly not touched this session (next sessions will)
+
+- `src/components/terminal/StatsBar.tsx`
+- `src/components/terminal/StatsBarClient.tsx`
+- `src/app/opengraph-image.tsx`
+
+Everything in `docs/review/`, `starscreener-inspection/`, `starscreener-fix/`
+was intentionally left alone — those are frozen snapshots.

@@ -14,7 +14,10 @@
 
 import { headers } from "next/headers";
 import { ImageResponse } from "next/og";
-import { pipeline } from "@/lib/pipeline/pipeline";
+import {
+  getDerivedRepoById,
+  getDerivedRepos,
+} from "@/lib/derived-repos";
 import { OG_COLORS } from "@/lib/seo";
 import { StarMark } from "@/lib/og-primitives";
 import type { Repo } from "@/lib/types";
@@ -62,14 +65,13 @@ function parseIds(raw: string): string[] {
 function resolveRepos(ids: string[]): Repo[] {
   const repos: Repo[] = [];
   for (const id of ids) {
-    const summary = pipeline.getRepoSummary(id);
-    if (summary) repos.push(summary.repo);
+    const repo = getDerivedRepoById(id);
+    if (repo) repos.push(repo);
   }
   return repos;
 }
 
 export default async function CompareOGImage() {
-  await pipeline.ensureReady();
   const requestedIds = await readIdsFromRequest();
 
   let repos = resolveRepos(requestedIds);
@@ -78,7 +80,10 @@ export default async function CompareOGImage() {
   // Fallback when the metadata wrapper didn't expose ids — surface the two
   // loudest movers today so the preview still demos the compare experience.
   if (repos.length < MIN_CARDS_FOR_COMPARE) {
-    const movers = pipeline.getTopMovers("today", 2);
+    const all = getDerivedRepos();
+    const movers = [...all]
+      .sort((a, b) => b.starsDelta24h - a.starsDelta24h)
+      .slice(0, 2);
     if (movers.length >= MIN_CARDS_FOR_COMPARE) {
       repos = movers;
       isFallback = true;

@@ -5,7 +5,7 @@
 // badge at the bottom.
 
 import { ImageResponse } from "next/og";
-import { pipeline } from "@/lib/pipeline/pipeline";
+import { getDerivedRepos } from "@/lib/derived-repos";
 import { CATEGORIES } from "@/lib/constants";
 import { OG_COLORS } from "@/lib/seo";
 import { StarMark } from "@/lib/og-primitives";
@@ -20,7 +20,6 @@ interface RouteParams {
 }
 
 export default async function CategoryOGImage({ params }: RouteParams) {
-  await pipeline.ensureReady();
   const { slug } = await params;
   const category = CATEGORIES.find((c) => c.id === slug);
 
@@ -63,7 +62,9 @@ export default async function CategoryOGImage({ params }: RouteParams) {
     );
   }
 
-  const repos = pipeline.getReposByCategory(slug);
+  const repos = getDerivedRepos()
+    .filter((r) => r.categoryId === slug)
+    .sort((a, b) => b.momentumScore - a.momentumScore);
   const top3 = repos.slice(0, 3);
   const avgMomentum =
     repos.length > 0

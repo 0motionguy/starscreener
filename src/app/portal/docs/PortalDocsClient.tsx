@@ -21,11 +21,25 @@ export interface PortalDocsTool {
   >;
 }
 
-const MCP_INSTALL = `claude mcp add starscreener node "C:/path/to/mcp/dist/server.js"`;
+// Portal v0.1 wire format calls the method key "tool", not "method".
+// Matches src/portal/dispatcher.ts — keep these strings in lock-step.
+const LIVE_BASE = "https://starscreener.vercel.app";
 
-const CURL_EXAMPLE = `curl -X POST https://starscreener.xyz/portal/call \\
+const VISIT_CLI = `# Portal visitor CLI (spec-native, works against any /portal endpoint)
+npx @visitportal/visit ${LIVE_BASE}/portal top_gainers --limit=10`;
+
+const MCP_INSTALL = `# Claude Code — register StarScreener as an HTTP MCP bridge
+# via the Portal adapter. No local checkout required.
+claude mcp add starscreener \\
+  --transport http \\
+  --url ${LIVE_BASE}/portal
+
+# Or pipe the manifest straight into your agent
+curl ${LIVE_BASE}/portal | jq`;
+
+const CURL_EXAMPLE = `curl -X POST ${LIVE_BASE}/portal/call \\
   -H "Content-Type: application/json" \\
-  -d '{"method":"search_repos","params":{"query":"agent","limit":5}}'`;
+  -d '{"tool":"search_repos","params":{"query":"agent","limit":5}}'`;
 
 export default function PortalDocsClient({
   tools,
@@ -82,16 +96,25 @@ function McpTab({ tools }: { tools: PortalDocsTool[] }) {
   return (
     <div className="space-y-8">
       <section>
-        <span className="label-section">Install</span>
+        <span className="label-section">Register with Claude</span>
         <p className="text-text-secondary text-sm mt-2 mb-3">
-          Register StarScreener with the Claude CLI as a local MCP server.
-          Replace the binary path with wherever you checked out{" "}
-          <span className="font-mono text-text-primary">
-            @starscreener/mcp
-          </span>
-          .
+          Claude Code speaks the Model Context Protocol over HTTP. Point it
+          at our live Portal endpoint and every tool below becomes callable
+          from the agent — no local checkout, no bundled binary, no keys.
         </p>
         <CodeBlock value={MCP_INSTALL} />
+      </section>
+
+      <section>
+        <span className="label-section">Visitor CLI</span>
+        <p className="text-text-secondary text-sm mt-2 mb-3">
+          For one-off queries from a terminal, the spec-native{" "}
+          <span className="font-mono text-text-primary">
+            @visitportal/visit
+          </span>{" "}
+          CLI speaks Portal v0.1 directly:
+        </p>
+        <CodeBlock value={VISIT_CLI} />
       </section>
 
       <section>
@@ -141,9 +164,9 @@ function RestTab() {
         <p className="text-text-secondary text-sm mt-2 mb-3">
           POST a JSON body to{" "}
           <span className="font-mono text-text-primary">/portal/call</span>{" "}
-          with a <span className="font-mono">method</span> (tool name) and{" "}
-          <span className="font-mono">params</span> object. The response
-          shape mirrors JSON-RPC: either{" "}
+          with a <span className="font-mono">tool</span> (name from the
+          manifest) and <span className="font-mono">params</span> object —
+          Portal v0.1 wire format. The response shape is{" "}
           <span className="font-mono">{"{ ok: true, result }"}</span> on a
           successful dispatch or{" "}
           <span className="font-mono">
@@ -153,8 +176,8 @@ function RestTab() {
           429 with{" "}
           <span className="font-mono">
             code: &quot;RATE_LIMITED&quot;
-          </span>
-          .
+          </span>{" "}
+          and a <span className="font-mono">Retry-After</span> header.
         </p>
         <CodeBlock value={CURL_EXAMPLE} />
       </section>

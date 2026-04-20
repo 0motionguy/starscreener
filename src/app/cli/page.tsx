@@ -56,13 +56,28 @@ const CLI_COMMANDS: CliCommand[] = [
   },
 ];
 
-const INSTALL_ASPIRATIONAL = `npx starscreener trending`;
+// Live prod endpoint — the CLI reads STARSCREENER_API_URL, so a one-line
+// export gets you real data immediately. Portal v0.1 /portal + /portal/call
+// run against the same base.
+const LIVE_BASE = "https://starscreener.vercel.app";
 
-const INSTALL_DEV = `# from a local checkout
+const INSTALL_LIVE = `# Pipe straight from the live Vercel deployment
+npx github:0motionguy/starscreener \\
+  trending --window=24h --limit=10
+
+# Or export the API base and keep the command short across a session
+export STARSCREENER_API_URL=${LIVE_BASE}
+npx github:0motionguy/starscreener trending --limit=5`;
+
+const INSTALL_DEV = `# From a local checkout against npm run dev
 npm run cli:dev -- trending --window=24h --limit=10
 
-# or run the bin directly
-node bin/ss.mjs trending`;
+# Or run the bin directly
+STARSCREENER_API_URL=${LIVE_BASE} node bin/ss.mjs trending`;
+
+const PORTAL_CLI = `# Spec-native Portal v0.1 visitor CLI — works against /portal
+# on any provider that publishes a manifest, not just StarScreener.
+npx @visitportal/visit ${LIVE_BASE}/portal top_gainers --limit=5`;
 
 const TRANSCRIPT = `$ ss trending --window=24h --limit=5
 Trending repos (window=24h, showing 5 of 212)
@@ -95,25 +110,39 @@ export default function CliPage() {
 
       {/* Install ------------------------------------------------------ */}
       <section className="mb-10">
-        <span className="label-section">Install</span>
+        <span className="label-section">Run against live production</span>
         <p className="text-text-secondary text-sm mt-2 mb-3">
-          When the npm release ships you&apos;ll be one command away:
+          The CLI hits the live Portal pipeline directly — no clone, no
+          setup. Node 18+ is the only prerequisite.
         </p>
-        <pre className="bg-bg-card border border-border-primary rounded-md p-3 font-mono text-[13px] overflow-x-auto text-text-primary">
-          {INSTALL_ASPIRATIONAL}
+        <pre className="bg-bg-card border border-border-primary rounded-md p-3 font-mono text-[13px] overflow-x-auto text-text-primary whitespace-pre">
+          {INSTALL_LIVE}
         </pre>
-        <p className="text-text-tertiary text-xs mt-3 mb-2 font-mono uppercase tracking-wider">
-          Today — local dev
+
+        <p className="text-text-tertiary text-xs mt-5 mb-2 font-mono uppercase tracking-wider">
+          Or via the Portal v0.1 visitor CLI
         </p>
-        <pre className="bg-bg-card border border-border-primary rounded-md p-3 font-mono text-[13px] overflow-x-auto text-text-primary">
+        <p className="text-text-secondary text-sm mb-3">
+          Same data, spec-native. Works against any{" "}
+          <span className="font-mono text-text-primary">/portal</span>{" "}
+          endpoint on the open agent web.
+        </p>
+        <pre className="bg-bg-card border border-border-primary rounded-md p-3 font-mono text-[13px] overflow-x-auto text-text-primary whitespace-pre">
+          {PORTAL_CLI}
+        </pre>
+
+        <p className="text-text-tertiary text-xs mt-5 mb-2 font-mono uppercase tracking-wider">
+          Local dev
+        </p>
+        <pre className="bg-bg-card border border-border-primary rounded-md p-3 font-mono text-[13px] overflow-x-auto text-text-primary whitespace-pre">
           {INSTALL_DEV}
         </pre>
         <p className="text-text-tertiary text-xs mt-2">
-          Point at a non-default API with{" "}
+          Every command accepts{" "}
           <span className="font-mono text-text-secondary">
             STARSCREENER_API_URL=https://…
-          </span>
-          .
+          </span>{" "}
+          to point at a non-default API.
         </p>
       </section>
 

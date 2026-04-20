@@ -7,7 +7,9 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 
-export const dynamic = "force-dynamic";
+// ISR — data/*.json only changes on GHA scrape. 30-min edge cache skips
+// the per-request getDerivedCategoryStats() recompute.
+export const revalidate = 1800;
 import { CATEGORIES } from "@/lib/constants";
 import { getCategoryIcon } from "@/lib/category-icons";
 import { getDerivedCategoryStats } from "@/lib/derived-insights";

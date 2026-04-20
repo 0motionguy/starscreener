@@ -11,7 +11,11 @@ import { getDerivedRepos } from "@/lib/derived-repos";
 import { TerminalLayout } from "@/components/terminal/TerminalLayout";
 import { BubbleMap } from "@/components/terminal/BubbleMap";
 
-export const dynamic = "force-dynamic";
+// ISR: data/*.json only changes when the GHA scrape commits new trending
+// data, so serving the homepage from a 30-minute edge cache is safe. Drops
+// per-request getDerivedRepos() re-runs (15 passes × ~2.4k rows + full
+// scoreBatch) from ~300 ms to a lookup. `force-dynamic` is no longer needed.
+export const revalidate = 1800;
 
 export const metadata: Metadata = {
   title: "StarScreener — AI Trending Terminal",

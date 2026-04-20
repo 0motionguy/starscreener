@@ -6,6 +6,15 @@ import type { Category, SortBy, TimeRange } from "./types";
 // Categories
 // ---------------------------------------------------------------------------
 
+// Category palette rules of thumb:
+// - Hues spread ~24° apart so adjacent categories in the legend don't
+//   read as "same color" at a glance (the old palette had devtools +
+//   agents both in the orange family, plus mcp == crypto teal duplicate).
+// - Saturation / lightness kept within a narrow band so no single
+//   category screams louder than the rest on the bubble map.
+// - DevTools retains its orange (biggest cluster, matches brand warmth).
+// - Agents moved off amber to purple — same "AI" semantic family as AI/ML
+//   but a distinctly different hue so the two top buckets separate visually.
 export const CATEGORIES: Omit<Category, "repoCount" | "avgMomentum" | "topMoverId">[] = [
   {
     id: "ai-agents",
@@ -13,7 +22,7 @@ export const CATEGORIES: Omit<Category, "repoCount" | "avgMomentum" | "topMoverI
     shortName: "Agents",
     description: "Agent frameworks, copilots, autonomous workflows, and multi-agent systems",
     icon: "Brain",
-    color: "#F59E0B",
+    color: "#A855F7", // purple-500 — AI family, distinct from devtools orange
   },
   {
     id: "mcp",
@@ -21,7 +30,7 @@ export const CATEGORIES: Omit<Category, "repoCount" | "avgMomentum" | "topMoverI
     shortName: "MCP",
     description: "Protocol servers, connectors, registries, and tooling around MCP ecosystems",
     icon: "Server",
-    color: "#14B8A6",
+    color: "#14B8A6", // teal-500
   },
   {
     id: "devtools",
@@ -29,7 +38,7 @@ export const CATEGORIES: Omit<Category, "repoCount" | "avgMomentum" | "topMoverI
     shortName: "DevTools",
     description: "Build tools, linters, formatters, editors, and DX utilities",
     icon: "Wrench",
-    color: "#FB923C",
+    color: "#FB923C", // orange-400
   },
   {
     id: "browser-automation",
@@ -37,7 +46,7 @@ export const CATEGORIES: Omit<Category, "repoCount" | "avgMomentum" | "topMoverI
     shortName: "Browser",
     description: "Browser-use stacks, automation agents, web operators, and testing runtimes",
     icon: "Globe",
-    color: "#0EA5E9",
+    color: "#0EA5E9", // sky-500
   },
   {
     id: "local-llm",
@@ -45,7 +54,7 @@ export const CATEGORIES: Omit<Category, "repoCount" | "avgMomentum" | "topMoverI
     shortName: "Local LLM",
     description: "On-device inference engines, local model runtimes, and self-hosted LLM stacks",
     icon: "Cog",
-    color: "#6366F1",
+    color: "#6366F1", // indigo-500
   },
   {
     id: "security",
@@ -53,7 +62,7 @@ export const CATEGORIES: Omit<Category, "repoCount" | "avgMomentum" | "topMoverI
     shortName: "Security",
     description: "Vulnerability scanning, secrets detection, and security automation",
     icon: "Shield",
-    color: "#EF4444",
+    color: "#EF4444", // red-500
   },
   {
     id: "infrastructure",
@@ -61,7 +70,7 @@ export const CATEGORIES: Omit<Category, "repoCount" | "avgMomentum" | "topMoverI
     shortName: "Infra",
     description: "Cloud platforms, orchestration, containers, and deployment tools",
     icon: "Server",
-    color: "#10B981",
+    color: "#10B981", // emerald-500
   },
   {
     id: "design-engineering",
@@ -69,7 +78,7 @@ export const CATEGORIES: Omit<Category, "repoCount" | "avgMomentum" | "topMoverI
     shortName: "Design",
     description: "Design-to-code systems, UI generation, design tooling, and frontend engineering kits",
     icon: "BarChart3",
-    color: "#EC4899",
+    color: "#EC4899", // pink-500
   },
   {
     id: "ai-ml",
@@ -77,7 +86,7 @@ export const CATEGORIES: Omit<Category, "repoCount" | "avgMomentum" | "topMoverI
     shortName: "AI/ML",
     description: "Large language models, inference engines, training frameworks, and AI tooling",
     icon: "Brain",
-    color: "#8B5CF6",
+    color: "#8B5CF6", // violet-500 — AI family, hue-shifted from agents purple
   },
   {
     id: "web-frameworks",
@@ -85,7 +94,7 @@ export const CATEGORIES: Omit<Category, "repoCount" | "avgMomentum" | "topMoverI
     shortName: "Web",
     description: "Frontend and full-stack frameworks powering the modern web",
     icon: "Globe",
-    color: "#3B82F6",
+    color: "#3B82F6", // blue-500
   },
   {
     id: "databases",
@@ -93,7 +102,7 @@ export const CATEGORIES: Omit<Category, "repoCount" | "avgMomentum" | "topMoverI
     shortName: "DBs",
     description: "SQL, NoSQL, vector, time-series, and analytical databases",
     icon: "Database",
-    color: "#06B6D4",
+    color: "#06B6D4", // cyan-500
   },
   {
     id: "mobile",
@@ -101,7 +110,7 @@ export const CATEGORIES: Omit<Category, "repoCount" | "avgMomentum" | "topMoverI
     shortName: "Mobile",
     description: "Cross-platform frameworks, native tooling, and desktop apps",
     icon: "Smartphone",
-    color: "#F43F5E",
+    color: "#F43F5E", // rose-500
   },
   {
     id: "data-analytics",
@@ -109,7 +118,7 @@ export const CATEGORIES: Omit<Category, "repoCount" | "avgMomentum" | "topMoverI
     shortName: "Data",
     description: "BI tools, data pipelines, visualization, and analytics engines",
     icon: "BarChart3",
-    color: "#F97316",
+    color: "#EAB308", // yellow-500 — moved off orange family
   },
   {
     id: "crypto-web3",
@@ -117,7 +126,7 @@ export const CATEGORIES: Omit<Category, "repoCount" | "avgMomentum" | "topMoverI
     shortName: "Web3",
     description: "Blockchain clients, smart contract tooling, and DeFi infrastructure",
     icon: "Coins",
-    color: "#14B8A6",
+    color: "#84CC16", // lime-500 — moved off teal duplicate with mcp
   },
   {
     id: "rust-ecosystem",
@@ -125,7 +134,7 @@ export const CATEGORIES: Omit<Category, "repoCount" | "avgMomentum" | "topMoverI
     shortName: "Rust",
     description: "Rust-native libraries, frameworks, and tools built for performance",
     icon: "Cog",
-    color: "#D97706",
+    color: "#B7410E", // Rust brand rust-red, distinct from devtools orange
   },
 ];
 

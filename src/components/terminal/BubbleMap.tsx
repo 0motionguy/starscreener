@@ -29,7 +29,10 @@ interface BubbleMapProps {
 
 const MAP_WIDTH = 1200;
 const MAP_HEIGHT = 360;
-const MIN_RADIUS = 11;
+// Raised min radius so the smallest bubbles still fit a truncated name
+// (e.g. "ca…") instead of showing just the delta number. Keeps the pack
+// slightly less dense but much more legible.
+const MIN_RADIUS = 18;
 const MAX_RADIUS = 76;
 
 /**
@@ -62,11 +65,13 @@ function hexToRgb(hex: string): { r: number; g: number; b: number } {
   };
 }
 
-/** Map relative intensity (0-1) + category color → fill / stroke / glow / text. */
-function tintForCategory(
-  categoryId: string,
-  intensity: number,
-): {
+/**
+ * Flat category tint — every repo in a category reads the same color,
+ * independent of delta size. That way the bubble field works as a real
+ * color-coded legend (one color = one category) instead of a
+ * luminance-ramp where small movers bleed into black.
+ */
+function tintForCategory(categoryId: string): {
   fill: string;
   stroke: string;
   glow: string;
@@ -75,28 +80,15 @@ function tintForCategory(
   const hex = CATEGORY_COLOR.get(categoryId) ?? FALLBACK_COLOR;
   const { r, g, b } = hexToRgb(hex);
 
-  // Low-intensity bubbles: darken 45%. High-intensity: punch straight
-  // through at full saturation. Smooth lerp between.
-  const t = Math.max(0.15, Math.min(1, intensity));
-  const darken = (c: number) => Math.round(c * (0.45 + t * 0.55));
+  const stroke = `rgba(${r}, ${g}, ${b}, 0.9)`;
+  const glow = `rgba(${r}, ${g}, ${b}, 0.22)`;
 
-  const fr = darken(r);
-  const fg = darken(g);
-  const fb = darken(b);
-
-  // Stroke is the full-brightness version at 40-80% alpha.
-  const strokeAlpha = (0.4 + t * 0.4).toFixed(2);
-  const stroke = `rgba(${r}, ${g}, ${b}, ${strokeAlpha})`;
-
-  // Halo is the brand-color at low alpha.
-  const glow = `rgba(${r}, ${g}, ${b}, ${(0.08 + t * 0.3).toFixed(2)})`;
-
-  // Pick text color for contrast against the fill. Luminance threshold.
-  const luminance = (fr * 299 + fg * 587 + fb * 114) / 1000;
-  const text = luminance > 130 ? "#0d121a" : "#f3f6fb";
+  // Text color = contrast pick on the saturated fill. Luminance threshold.
+  const luminance = (r * 299 + g * 587 + b * 114) / 1000;
+  const text = luminance > 150 ? "#0d121a" : "#f6f9fc";
 
   return {
-    fill: `rgb(${fr}, ${fg}, ${fb})`,
+    fill: `rgb(${r}, ${g}, ${b})`,
     stroke,
     glow,
     text,
@@ -133,8 +125,6 @@ function seedsForWindow(
 
   if (candidates.length === 0) return [];
 
-  const maxWeight = candidates[0].weight;
-
   const packed = packBubbles(
     candidates.map((x) => ({ id: x.repo.id, value: x.weight })),
     {
@@ -154,11 +144,7 @@ function seedsForWindow(
       const hit = byId.get(p.id);
       if (!hit) return null;
       const repo = hit.repo;
-      const logIntensity =
-        maxWeight > 1
-          ? Math.log10(hit.weight + 1) / Math.log10(maxWeight + 1)
-          : 1;
-      const tint = tintForCategory(repo.categoryId, logIntensity);
+      const tint = tintForCategory(repo.categoryId);
 
       return {
         id: p.id,

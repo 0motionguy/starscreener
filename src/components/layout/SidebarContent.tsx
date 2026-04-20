@@ -8,15 +8,14 @@
  */
 import { usePathname, useRouter } from "next/navigation";
 import {
-  Bell,
   Eye,
   Flame,
-  Gem,
   GitCompareArrows,
   Layers,
   Rocket,
   Sparkles,
   TrendingUp,
+  Trophy,
   X,
 } from "lucide-react";
 import type { CategoryStats } from "@/lib/pipeline/queries/aggregate";
@@ -124,18 +123,17 @@ export function SidebarContent({
             active={pathname === "/" && activeMetaFilter === "new"}
           />
           <SidebarNavItem
-            onClick={() => goToTerminal("quiet-killers")}
-            icon={Gem}
-            label="Quiet Killers"
-            badge={metaCounts.quietKillers}
-            active={pathname === "/" && activeMetaFilter === "quiet-killers"}
-          />
-          <SidebarNavItem
             onClick={() => goToTerminal("hot")}
             icon={Flame}
             label="Hot This Week"
             badge={metaCounts.hot}
             active={pathname === "/" && activeMetaFilter === "hot"}
+          />
+          <SidebarNavItem
+            href="/search?sort=trending&limit=100"
+            icon={Trophy}
+            label="Top 100"
+            active={pathname === "/search"}
           />
         </SidebarSection>
 
@@ -154,14 +152,6 @@ export function SidebarContent({
             label="Compare"
             badge={compareCount > 0 ? compareCount : undefined}
             active={pathname === "/compare"}
-          />
-          <SidebarNavItem
-            href="/alerts"
-            icon={Bell}
-            label="Alerts"
-            badge={unreadAlerts > 0 ? unreadAlerts : undefined}
-            badgeVariant={unreadAlerts > 0 ? "danger" : "default"}
-            active={pathname === "/alerts"}
           />
         </SidebarSection>
 

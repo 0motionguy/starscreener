@@ -15,6 +15,12 @@
 
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { formatNumber } from "@/lib/utils";
+import { CATEGORIES } from "@/lib/constants";
+
+// Stable lookup for the legend strip.
+const CATEGORY_META = new Map(
+  CATEGORIES.map((c) => [c.id, { name: c.shortName || c.name, color: c.color }]),
+);
 
 /**
  * AI-native category IDs — kept in sync with the same set in BubbleMap.tsx.
@@ -117,6 +123,27 @@ export function BubbleMapCanvas({ windows, width, height }: BubbleMapCanvasProps
   }, [windows, aiOnly]);
 
   const seeds = filteredWindows[activeTab];
+
+  // Legend = unique categoryIds present in the current view, sorted by
+  // how many bubbles each category contributes (biggest slice first).
+  // Rendered under the tabs so the color code is self-documenting.
+  const legendEntries = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const s of seeds) {
+      counts.set(s.categoryId, (counts.get(s.categoryId) ?? 0) + 1);
+    }
+    return Array.from(counts.entries())
+      .map(([id, count]) => {
+        const meta = CATEGORY_META.get(id);
+        return {
+          id,
+          count,
+          name: meta?.name ?? id,
+          color: meta?.color ?? "#22c55e",
+        };
+      })
+      .sort((a, b) => b.count - a.count);
+  }, [seeds]);
 
   const svgRef = useRef<SVGSVGElement | null>(null);
   const groupRefs = useRef<Record<string, SVGGElement | null>>({});
@@ -404,13 +431,21 @@ export function BubbleMapCanvas({ windows, width, height }: BubbleMapCanvasProps
       // Tab state enforces one window at a time — label is always
       // just "+N" without a window suffix.
       const deltaLabel = `+${formatNumber(s.delta)}`;
-      const showAvatar = s.r >= 26;
-      const showName = s.r >= 32;
-      const avatarSize = Math.min(30, Math.max(14, s.r * 0.38));
+      // Even the smallest pack bubbles now fit a short truncated name,
+      // so the map is legible at a glance without hovering. Avatar is
+      // still avatar-sized-down on anything under r=24.
+      const showAvatar = s.r >= 24;
+      const showName = s.r >= 18;
+      const avatarSize = Math.min(30, Math.max(12, s.r * 0.36));
       const deltaFontSize = Math.max(9, Math.min(22, s.r * 0.3));
-      const nameFontSize = Math.max(8, Math.min(13, s.r * 0.15));
+      const nameFontSize = Math.max(8, Math.min(13, s.r * 0.2));
+      // Truncation length scales with bubble radius — tiny bubbles get a
+      // tight 6-char cut, larger ones show up to 14.
+      const maxNameChars = Math.max(6, Math.min(14, Math.round(s.r / 5.5)));
       const shortName =
-        s.name.length > 14 ? `${s.name.slice(0, 13)}…` : s.name;
+        s.name.length > maxNameChars
+          ? `${s.name.slice(0, maxNameChars - 1)}…`
+          : s.name;
       const isDragging = draggingId === s.id;
 
       return (
@@ -585,6 +620,35 @@ export function BubbleMapCanvas({ windows, width, height }: BubbleMapCanvasProps
           );
         })}
       </div>
+      {/* Category legend — sits below the floating tab pills, above the
+          canvas. Shows only the categories actually present in the
+          current (filtered + windowed) view, with a color swatch
+          matching the bubble fill so users can decode the map at a
+          glance. Count per category is tabular-nums so row wraps
+          stay tidy. */}
+      {legendEntries.length > 0 && (
+        <div
+          aria-label="Category legend"
+          className="pt-11 px-3 pb-1.5 flex items-center flex-wrap gap-x-3 gap-y-1 font-mono text-[10px] uppercase tracking-wider text-text-tertiary"
+        >
+          {legendEntries.map((entry) => (
+            <span
+              key={entry.id}
+              className="inline-flex items-center gap-1.5 whitespace-nowrap"
+            >
+              <span
+                aria-hidden="true"
+                className="inline-block w-2 h-2 rounded-full"
+                style={{ backgroundColor: entry.color }}
+              />
+              <span className="text-text-secondary">{entry.name}</span>
+              <span className="tabular-nums text-text-muted">
+                {entry.count}
+              </span>
+            </span>
+          ))}
+        </div>
+      )}
       <svg
         ref={svgRef}
         viewBox={`0 0 ${width} ${height}`}

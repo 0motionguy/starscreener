@@ -7,9 +7,9 @@ OSS Insight AI collections import landed. Pick up cold from here.
 
 ### Session: OSS Insight AI collections imported (2026-04-20)
 
-- `fix(deltas)` cold-start fallback → `85601b0`
-- `feat(collections)` 28 Apache-2.0 YAMLs → `9a7fff3`
-- `feat(collections)` `/collections` + `/collections/[slug]` routes → `d160da2`
+- `fix(deltas)` cold-start fallback → `741139a`
+- `feat(collections)` 28 Apache-2.0 YAMLs → `5f3e31a`
+- `feat(collections)` `/collections` + `/collections/[slug]` routes → `54cf020`
 - `/api/health` now reports `coverageQuality: "partial"` (expected during
   cold-start window).
 - Next milestone: real `delta_24h` coverage lands **2026-04-22T02:27Z**

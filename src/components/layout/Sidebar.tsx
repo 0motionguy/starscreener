@@ -18,13 +18,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  Bell,
-  Eye,
-  GitCompareArrows,
-  Settings,
-  TrendingUp,
-} from "lucide-react";
+import { Eye, GitCompareArrows, TrendingUp } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useWatchlistStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
@@ -50,8 +44,6 @@ const RAIL_ITEMS: RailItem[] = [
   { href: "/", icon: TrendingUp, label: "Trending" },
   { href: "/watchlist", icon: Eye, label: "Watchlist" },
   { href: "/compare", icon: GitCompareArrows, label: "Compare" },
-  { href: "/alerts", icon: Bell, label: "Alerts" },
-  { href: "/settings", icon: Settings, label: "Settings" },
 ];
 
 function IconRail() {

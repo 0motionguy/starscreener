@@ -70,4 +70,4 @@ console.log(`[reset-data] archived ${moved} jsonl file(s) into ${backupDir}`);
 if (skipped > 0) {
   console.log(`[reset-data] skipped ${skipped} non-jsonl / existing-backup entr(ies)`);
 }
-console.log(`[reset-data] .data is now clean — run \`npm run seed\` to repopulate`);
+console.log(`[reset-data] .data is now clean — delta/score reads fall back to committed data/trending.json + data/deltas.json. Run \`npm run scrape && npm run compute-deltas\` locally if you also want to refresh those.`);

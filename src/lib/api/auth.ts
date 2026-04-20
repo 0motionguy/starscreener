@@ -1,7 +1,6 @@
-// Shared tri-state CRON_SECRET auth helper.
-//
-// Extracted from /api/cron/ingest so /api/pipeline/{ingest,recompute,persist,cleanup}
-// and other admin endpoints can share the exact same behavior:
+// Shared tri-state CRON_SECRET auth helper for admin endpoints under
+// /api/pipeline/{ingest,recompute,persist,cleanup,rebuild,backfill-history}.
+// Verdicts:
 //
 //   - "ok":                 authenticated, OR CRON_SECRET unset in dev (convenience).
 //   - "unauthorized":       CRON_SECRET set but header missing / wrong  → 401.

@@ -167,7 +167,7 @@ export async function ingestBatch(
 ): Promise<IngestBatchResult> {
   if (batchInFlight) {
     // Wait for the in-flight batch to finish, then run ours. This keeps
-    // simultaneous /api/cron/ingest and /api/pipeline/ingest calls deterministic.
+    // concurrent /api/pipeline/ingest (and programmatic) callers deterministic.
     await batchInFlight.catch(() => {});
   }
   const run = runIngestBatch(fullNames, opts);

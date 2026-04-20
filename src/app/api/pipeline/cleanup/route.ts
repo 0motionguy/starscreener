@@ -5,7 +5,8 @@
 // (preserves historical snapshots for user-visible charts); instead flags the
 // repo so downstream queries can filter.
 //
-// Auth: same tri-state CRON_SECRET protection as /api/cron/ingest.
+// Auth: tri-state CRON_SECRET protection via the shared `verifyCronAuth`
+// helper in src/lib/api/auth.ts — "ok" / "unauthorized" / "not_configured".
 //
 // Body (optional JSON):
 //   {

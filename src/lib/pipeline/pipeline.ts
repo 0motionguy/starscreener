@@ -30,7 +30,6 @@ import {
   snapshotStore,
 } from "./storage/singleton";
 import { isPersistenceEnabled } from "./storage/file-persistence";
-import { applyDeltasToRepo, computeAllDeltas } from "./ingestion/deltas";
 import { assembleRepoFromTrending, getDeltas } from "../trending";
 import { deriveSparklineData } from "./ingestion/snapshotter";
 import { emitPipelineEvent } from "./events";
@@ -91,8 +90,10 @@ let readyPromise: Promise<void> | null = null;
 /**
  * Synchronous readiness marker. With auto-seed removed, this never performs
  * I/O — it just flips the guard so query wrappers don't spin waiting for a
- * seed that will never come from inside a query path. Cold-start seeding is
- * now the operator's explicit job (POST /api/cron/seed).
+ * seed that will never come from inside a query path. Delta state now ships
+ * as committed JSON under `data/` (see src/lib/trending.ts); the in-memory
+ * pipeline stores only hold local sparkline / snapshot residue from
+ * optional dev-time ingests via `/api/pipeline/ingest`.
  *
  * Callers that depend on persisted state being loaded MUST still await
  * `ensureReady()` from an async entry point (API route, server component)
@@ -113,8 +114,10 @@ function ensureSeeded(): void {
  * Order of operations:
  *  1. Hydrate every store from disk (no-op when persistence is disabled).
  *  2. If hydration produced zero repos, there is NO mock fallback — we just
- *     mark the pipeline seeded and return. Queries will see empty results
- *     until an operator triggers `/api/cron/seed` (real GitHub backfill).
+ *     mark the pipeline seeded and return. Queries for delta/score data
+ *     still return values because those are assembled from `data/deltas.json`
+ *     at the Repo boundary (see `assembleRepoFromTrending`); only the
+ *     sparkline / snapshot-derived fields degrade until a manual ingest.
  *
  * Every API route that reads pipeline data should `await pipeline.ensureReady()`
  * before the first store read. Server components should await it at the top
@@ -125,8 +128,8 @@ export async function ensureReady(): Promise<void> {
   readyPromise = (async () => {
     await hydrateAll();
     // Whether or not hydration produced data, the pipeline is now "ready":
-    // consumers can read, mutators will debounce-persist. Seeding an empty
-    // deploy is an explicit operator action via /api/cron/seed.
+    // consumers can read, mutators will debounce-persist. The authoritative
+    // delta source is committed JSON, so zero-hydration doesn't block reads.
     isSeeded = true;
   })();
   return readyPromise;

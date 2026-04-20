@@ -49,22 +49,3 @@ jobs:
           TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
           git commit -m "chore(data): trending + deltas snapshot ${TS}"
           git push
-
-      # Always-run: re-fetches stars on known repos even when trending.json
-      # didn't change. A quiet-trending hour still needs a pipeline tick,
-      # and skipping would mask pipeline failures on those hours.
-      - name: Trigger pipeline refresh
-        env:
-          APP_URL: ${{ secrets.APP_URL }}
-          CRON_SECRET: ${{ secrets.CRON_SECRET }}
-        run: |
-          # Debug: confirm env vars are present at the expected length.
-          # Value is masked by GHA; length isn't a secret.
-          echo "APP_URL length: ${#APP_URL} (expected ~31)"
-          echo "CRON_SECRET length: ${#CRON_SECRET} (expected >20)"
-          trap 'echo "--- response body ---"; cat /tmp/cron-response.json 2>/dev/null || echo "(no body written)"' EXIT
-          curl --fail-with-body -sS --max-time 30 \
-            -X POST \
-            -H "Authorization: Bearer ${CRON_SECRET}" \
-            -o /tmp/cron-response.json -w "HTTP %{http_code} in %{time_total}s\n" \
-            "${APP_URL}/api/cron/seed?limit=50"

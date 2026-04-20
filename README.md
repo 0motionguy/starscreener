@@ -32,13 +32,13 @@ StarScreener ingests real GitHub data for a curated seed of ~300 repos, scores m
 git clone https://github.com/0motionguy/starscreener.git
 cd starscreener
 npm install
-cp .env.example .env.local    # then fill in GITHUB_TOKEN + CRON_SECRET
-npm run dev                   # localhost:3000
-npm run seed                  # in a second terminal — ~6 min, ingests 300 repos
-npm run backfill:top          # populate sparklines for top 20 breakouts
+cp .env.example .env.local    # then fill in GITHUB_TOKEN
+npm run scrape                # refresh data/trending.json from OSS Insight
+npm run compute-deltas        # build data/deltas.json from git history
+npm run dev                   # localhost:3023
 ```
 
-`GITHUB_TOKEN` needs `public_repo` scope. `CRON_SECRET` is any random string — the cron routes require it as a bearer token.
+`GITHUB_TOKEN` needs `public_repo` scope (used by the legacy ingest helpers under `/api/pipeline/*`; the hourly data path is auth-free).
 
 ## Architecture
 
@@ -166,14 +166,9 @@ The hourly `scrape-trending` GitHub Actions workflow drives the whole ingest loo
 
 1. `scripts/scrape-trending.mjs` pulls OSS Insight trending into `data/trending.json`.
 2. `scripts/compute-deltas.mjs` walks the git history of `data/trending.json`, finds the commit nearest each target window (1h / 24h / 7d / 30d), and writes `data/deltas.json` with per-repo delta values + window metadata.
-3. The workflow commits both files; Vercel rebuilds on push and every Lambda sees the same committed JSON — no DB, no shared runtime state.
+3. The workflow commits both files; Vercel rebuilds on push and every Lambda sees the same committed JSON — no DB, no shared runtime state, no server-side cron trigger.
 
 Cold-start: delta windows populate as git history accumulates. `delta_1h` works after two scrapes; full `delta_30d` coverage takes ~30 days. The classifier tolerates missing deltas via per-field `*Missing` flags on `Repo`.
-
-Two repo secrets (Settings → Secrets and variables → Actions) are still required while the legacy pipeline-trigger step exists; both will be retired in the cleanup commit after Phase 3:
-
-- `APP_URL` — deployed host, e.g. `https://starscreener.vercel.app` (no trailing slash).
-- `CRON_SECRET` — must match the `CRON_SECRET` env var set on the deployed host.
 
 Step-by-step: [docs/DEPLOY.md](docs/DEPLOY.md).
 

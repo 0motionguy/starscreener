@@ -50,3 +50,12 @@ next-env.d.ts
 /mcp/node_modules/
 /mcp/dist/
 .next-dev-debug.*.log
+
+
+# local dev logs (next start -p <port> redirects)
+.next-start-*.log
+.next-start-*.out.log
+.next-start-*.err.log
+
+# dogfood script output
+dogfood-output/

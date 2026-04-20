@@ -1,6 +1,6 @@
 # StarScreener API Reference
 
-All routes live under `/api/*`. Every response is `application/json`. No auth on the public routes; cron routes require `Authorization: Bearer $CRON_SECRET`.
+All routes live under `/api/*`. Every response is `application/json`. Public routes are unauthenticated; a small set of admin routes under `/api/pipeline/*` require `Authorization: Bearer $CRON_SECRET` via `verifyCronAuth`.
 
 Replace `$HOST` with `http://localhost:3008` (dev) or your deployed URL.
 
@@ -209,59 +209,62 @@ curl -X POST "$HOST/api/pipeline/persist"
 
 ---
 
-## Cron (auth required)
+## Health
 
-All cron routes require `Authorization: Bearer $CRON_SECRET`. Accept both GET (Vercel Cron) and POST (manual curl).
+### `GET /api/health`
 
-### `POST /api/cron/ingest?tier=hot|warm|cold`
-
-Run the tier scheduler: pick the top N overdue repos for the given tier and ingest them.
+Freshness-gated health endpoint for external uptime monitors. Reports
+ages of both the OSS Insight scrape and the git-history delta computation
+against a 2-hour threshold. No auth.
 
 ```bash
-curl -X POST -H "Authorization: Bearer $CRON_SECRET" \
-  "$HOST/api/cron/ingest?tier=hot"
+curl "$HOST/api/health"
 ```
 
-**Response**
+**Response shape**
 
 ```json
 {
-  "ok": true,
-  "tier": "hot",
-  "processed": 50,
-  "okCount": 49,
-  "failed": 1,
-  "rateLimitRemaining": 4831,
-  "durationMs": 8210,
-  "source": "github"
+  "status": "ok",
+  "lastFetchedAt": "2026-04-20T03:07:15.126Z",
+  "computedAt": "2026-04-20T03:07:20.412Z",
+  "ageSeconds": { "scraper": 1342, "deltas": 1337 },
+  "thresholdSeconds": 7200,
+  "stale": { "scraper": false, "deltas": false },
+  "coveragePct": 12.4,
+  "warning": "delta coverage 12.4% < 50% — expected during 30-day cold-start window"
 }
 ```
 
-Error responses return `{ "ok": false, "reason": "..." }` with status 401 (auth), 400 (tier), or 500.
+`status` is `"ok"` when both signals are within threshold, `"stale"` when
+either is older than 2h. `warning` appears when `coveragePct < 50` (i.e.
+fewer than half the tracked repos have at least one non-null delta) —
+expected during the first 30 days of accumulation, not a failure.
 
-### `POST /api/cron/seed`
+**Status codes**
 
-One-shot seed from `ALL_SEED_REPOS` (chunks of 25 with a 300ms delay). Safe to re-run — existing repos skip gracefully.
+- `200` — `status: "ok"`.
+- `503` — `status: "stale"` (either scraper or deltas older than 2h) or
+  `status: "error"` (read failure on the committed JSON).
 
-```bash
-curl -X POST -H "Authorization: Bearer $CRON_SECRET" "$HOST/api/cron/seed"
-```
-
-**Response**
+**Stale example**
 
 ```json
 {
-  "ok": true,
-  "total": 300,
-  "okCount": 287,
-  "failed": 13,
-  "rateLimitRemaining": 2415,
-  "chunks": 12,
-  "durationMs": 92341,
-  "source": "github",
-  "stoppedEarly": false
+  "status": "stale",
+  "lastFetchedAt": "2026-04-20T00:07:15.126Z",
+  "computedAt": "2026-04-20T00:07:20.412Z",
+  "ageSeconds": { "scraper": 10800, "deltas": 10795 },
+  "thresholdSeconds": 7200,
+  "stale": { "scraper": true, "deltas": true },
+  "coveragePct": 62.1
 }
 ```
+
+Both signals exceeded the 2h threshold — scraper workflow skipped a run,
+or a Vercel build failed to pick up a committed snapshot. See
+[INGESTION.md → Operator runbook](./INGESTION.md#operator-runbook) for
+diagnosis steps.
 
 ---
 

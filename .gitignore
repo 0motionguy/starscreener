@@ -40,7 +40,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# runtime data (live ingestion state — regenerated per env from /api/cron/seed)
+# runtime data (no longer used in prod; kept ignored for local dev scratch)
 /.data/
 
 # local Claude Code workspace (agent prompts, skills, settings)

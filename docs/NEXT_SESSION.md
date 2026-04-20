@@ -97,3 +97,10 @@ running green for 24h+ and classifier still silent after that, reopen.
 
 Everything in `docs/review/`, `starscreener-inspection/`, `starscreener-fix/`
 was intentionally left alone — those are frozen snapshots.
+
+### P4 — admin API documentation
+
+`/api/pipeline/backfill-history`, `/api/pipeline/cleanup`, and
+`/api/pipeline/rebuild` are live but undocumented in `docs/API.md`.
+Separate commit, separate review. Requires reading each route for auth
+model + behavior before writing prose — do not paraphrase the filename.

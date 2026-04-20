@@ -1,236 +1,125 @@
 # StarScreener Ingestion — Operator Guide
 
-This document covers how StarScreener pulls data from GitHub and the operator
-surfaces for driving that process (manual triggers, cron, seeding, rate-limit
-management).
+## Ingestion
 
-## 1. Overview
+StarScreener pulls a trending-repo universe from OSS Insight and computes
+per-window star deltas from the git history of that universe. Both outputs
+are committed JSON files and ship with the build.
 
-The pipeline has three phases:
-
-1. **Ingest** — fetch repo + latest release + contributor count from GitHub
-   for a list of `owner/repo` identifiers. Normalizes into our `Repo` shape
-   and snapshots point-in-time metrics for delta computation.
-2. **Recompute** — re-derive deltas, scores, categories, reasons, and rank
-   across the whole store in one consistent pass.
-3. **Persist** — flush every store to `.data/*.jsonl` so a server restart
-   resumes state in place.
-
-The entry points are:
-
-- `POST /api/pipeline/ingest` — ad-hoc batch (1–50 repos) without auth.
-- `POST /api/pipeline/recompute` — recompute derived state on demand.
-- `GET/POST /api/cron/ingest?tier=hot|warm|cold` — cron-triggered batch
-  for a scheduler tier (auth required).
-- `GET/POST /api/cron/seed` — one-shot seed from `ALL_SEED_REPOS`
-  (auth required).
-
-## 2. Create a GitHub token
-
-1. Go to <https://github.com/settings/tokens>.
-2. "Generate new token" → classic.
-3. Scope: `public_repo` is sufficient — we only read public metadata.
-4. Copy the token value.
-
-Rate limits:
-
-- Authenticated: **5,000 requests / hour / token**.
-- Unauthenticated: 60 requests / hour / IP — **not enough** for real use.
-
-## 3. Local setup
-
-Create `.env.local` in the project root:
+## Flow
 
 ```
-GITHUB_TOKEN=ghp_...
-CRON_SECRET=<openssl rand -hex 32>
-STARSCREENER_PERSIST=true
+OSS Insight
+    │
+    ▼
+scripts/scrape-trending.mjs  →  data/trending.json  →  git commit
+                                       │
+                                       ▼
+                     scripts/compute-deltas.mjs (walks git log)
+                                       │
+                                       ▼
+                           data/deltas.json  →  git commit
+                                       │
+                                       ▼
+                                Vercel rebuild
+                                       │
+                                       ▼
+                  every Lambda reads the same committed JSON
 ```
 
-When `GITHUB_TOKEN` is **not** set, every endpoint transparently falls back
-to `MockGitHubAdapter` — the code never throws, it just serves fixture data.
+## Why this architecture
 
-## 4. One-shot seed from the curated list
+Phase 2 tried a conventional cron: `POST /api/cron/seed` on a schedule wrote
+ingested metrics into an in-memory snapshot store, and `GET /api/health`
+read them back. It returned HTTP 200s and did nothing useful. On Vercel,
+each Lambda invocation gets its own `/tmp` and its own process memory —
+the writer and reader never shared state, so freshly written snapshots
+were invisible to the next request. This is architectural, not a bug.
 
-`src/lib/seed-repos.ts` contains ~300 curated real repositories across 10
-categories. To populate a fresh deploy:
+The fix is to remove shared state from the request path. Scrape and delta
+computation run in GitHub Actions, commit both JSON files, and the next
+Vercel deploy ships them in the bundle. Every Lambda reads identical bytes
+from the build; git history substitutes for a delta database. Serverless
+plus cross-invocation state normally needs external infra (KV, Redis,
+Postgres); committing JSON gives us the same property for free, with the
+deploy pipeline as the only coordination point.
+
+## Scraper (`scripts/scrape-trending.mjs`)
+
+Fetches the cartesian of periods × languages from OSS Insight and writes
+`data/trending.json`. No auth required. OSS Insight rate-limits at 600
+requests/hour/IP; the script throttles 1.5s between calls (~10 req/min).
+Exits 1 on the first failure so the Actions run fails visibly — silent
+drift of stale JSON is the exact failure mode this replaces.
+
+## Delta computer (`scripts/compute-deltas.mjs`)
+
+Runs `git log` on `data/trending.json`. For each window in {1h, 24h, 7d,
+30d}, picks the commit whose timestamp is nearest to `now − window`, within
+a per-window buffer (±30 min for 1h/24h, ±6h for 7d/30d). Loads the
+historical snapshot via `git show <sha>:data/trending.json` and joins
+against the current snapshot by `repo_id`. Writes `data/deltas.json`.
+
+Cold-start caveat: `delta_30d` only populates fully after 30 days of
+continuous hourly operation. Entries emit `basis: "no-history"` when no
+commit lands inside the window buffer — expected during ramp, not a bug.
+
+## Cadence (`.github/workflows/scrape-trending.yml`)
+
+Hourly at `:07` UTC. `workflow_dispatch` available for manual triggers.
+`fetch-depth: 0` on the checkout step is non-negotiable — `compute-deltas`
+needs full history to resolve 30-day-old commits. Observed schedule drift
+under GitHub's hourly queue runs ~40 min in the worst case, well within
+the delta buffers.
+
+## Storage
+
+Committed JSON under `data/`:
+
+- `data/trending.json` — scraped OSS Insight rows, keyed by period ×
+  language; see `TrendingFile` in `src/lib/trending.ts`.
+- `data/deltas.json` — per-repo delta entries + per-window pick metadata;
+  see `DeltasJson` in `src/lib/trending.ts`.
+
+No database, no pipeline state, no `.data/` directory on prod.
+
+## Operator runbook
+
+- **Force a refresh** — Actions tab → "Scrape OSS Insight trending" → Run
+  workflow. Commits land on `main` and trigger a Vercel rebuild.
+
+- **Read `/api/health`** — returns `status`, `lastFetchedAt` (scraper),
+  `computedAt` (deltas), `ageSeconds.{scraper,deltas}`, `thresholdSeconds`,
+  `stale.{scraper,deltas}`, `coveragePct`. 503 when either signal is stale
+  (>2h old). A `warning` field appears when `coveragePct < 50` — expected
+  during the first 30 days, not a failure.
+
+- **Read `/api/pipeline/status`** — same freshness gates as `/api/health`
+  plus volume counts (`repoCount`, `snapshotCount`, `hotCount`,
+  `breakoutCount`).
+
+- **Deploy-lag vs. scraper-failure diagnosis** — if `/api/health` reports
+  `lastFetchedAt > 2h` old on prod, check (a) the latest `data/trending.json`
+  commit timestamp — if recent, this is Vercel deploy lag, not a scraper
+  failure; (b) the Actions tab for the last `scrape-trending` run. Delta
+  staleness almost always traces to either the scrape workflow failing or
+  a Vercel build not triggering, never to a server-side cron.
+
+## Local dev
 
 ```bash
-# local dev (dev port is 3008; adjust if your dev server picks a
-# different port — Next.js logs it on boot).
-curl -X POST \
-  -H "Authorization: Bearer $CRON_SECRET" \
-  http://localhost:3008/api/cron/seed
-
-# production
-curl -X POST \
-  -H "Authorization: Bearer $CRON_SECRET" \
-  https://your-host.vercel.app/api/cron/seed
+node scripts/scrape-trending.mjs
+node scripts/compute-deltas.mjs
 ```
 
-The endpoint processes repos in chunks of 25 with a 300ms delay between
-chunks. Response:
+Idempotent and safe to run anytime. `GITHUB_TOKEN` only matters for the
+ad-hoc `POST /api/pipeline/ingest` path; it is not used by either script.
 
-```json
-{
-  "ok": true,
-  "total": 317,
-  "okCount": 310,
-  "failed": 7,
-  "rateLimitRemaining": 4683,
-  "chunks": 13,
-  "durationMs": 31240,
-  "source": "github",
-  "stoppedEarly": false
-}
-```
+## Relevant source files
 
-If the rate limit is exhausted mid-batch, `stoppedEarly: true` — re-run the
-endpoint after the reset window. Ingest is idempotent (same repo can be
-re-ingested safely; snapshots append but derived state is recomputed from
-the current snapshot set).
-
-## 5. Rate-limit math
-
-Each repo costs ~3 GitHub API calls:
-
-1. `GET /repos/{full_name}`
-2. `GET /repos/{full_name}/releases/latest`
-3. `GET /repos/{full_name}/contributors?per_page=1`
-
-With a 5,000 req/hr budget: **~1,666 repos per hour** maximum. Our curated
-seed is ~300 repos, so a full cold seed uses ~900 calls — one-shot seeding
-fits comfortably.
-
-The scheduler's per-tier caps reflect this:
-
-| Tier | Interval  | maxPerHour |
-| ---- | --------- | ---------- |
-| hot  | 60 min    | 50         |
-| warm | 360 min   | 20         |
-| cold | 1440 min  | 5          |
-
-At worst-case all three tiers firing every hour: `50 + 20 + 5 = 75` repos ×
-3 calls = 225 calls/hour. ~1/22 of the budget.
-
-## 6. Manual cron triggers
-
-To manually trigger a tier refresh (useful for debugging):
-
-```bash
-curl -X POST \
-  -H "Authorization: Bearer $CRON_SECRET" \
-  "http://localhost:3008/api/cron/ingest?tier=hot"
-```
-
-Response:
-
-```json
-{
-  "ok": true,
-  "tier": "hot",
-  "processed": 42,
-  "okCount": 40,
-  "failed": 2,
-  "rateLimitRemaining": 4641,
-  "durationMs": 8520,
-  "source": "github"
-}
-```
-
-If the adapter reports `rateLimitRemaining <= 0` during the batch, the
-endpoint returns `{ ok: false, reason: "rate-limited" }` and aborts.
-Retry after the reset window.
-
-## 7. Vercel Cron schedule
-
-`vercel.json`:
-
-```json
-{
-  "crons": [
-    { "path": "/api/cron/ingest?tier=hot", "schedule": "0 * * * *" },
-    { "path": "/api/cron/ingest?tier=warm", "schedule": "0 */6 * * *" },
-    { "path": "/api/cron/ingest?tier=cold", "schedule": "0 0 * * *" }
-  ]
-}
-```
-
-### Vercel tier caveat
-
-| Vercel plan | Cron support                                   |
-| ----------- | ---------------------------------------------- |
-| Hobby       | **Daily only** — hot/warm crons won't fire     |
-| Pro         | Full — all three schedules above work          |
-| Enterprise  | Full + more expressive schedules available     |
-
-On Hobby, the `cold` cron still runs daily. For more frequent refreshes on
-Hobby you'd need an external trigger (GitHub Actions on a schedule calling
-our endpoint with the bearer token, for example).
-
-Vercel automatically injects the `CRON_SECRET` when you configure it in
-the project's environment variables — the GET requests from Vercel Cron
-arrive with the bearer token pre-set, so the endpoint authenticates the
-same way a manual `curl` does.
-
-## 8. Troubleshooting
-
-### "unauthorized" (401)
-
-- `CRON_SECRET` env var is unset, or the Authorization header is missing /
-  doesn't match. Verify:
-  ```bash
-  echo $CRON_SECRET
-  curl -v -H "Authorization: Bearer $CRON_SECRET" \
-    "http://localhost:3008/api/cron/ingest?tier=hot"
-  ```
-
-### "rate-limited"
-
-- The GitHub token's hourly budget is exhausted. Check:
-  ```bash
-  curl -H "Authorization: Bearer $GITHUB_TOKEN" \
-    https://api.github.com/rate_limit
-  ```
-- The reset timestamp tells you when to retry. Consider raising the token
-  scope to `repo` (private repos) only if you actually need them — same
-  5000/hr budget.
-
-### Everything returns from the mock adapter
-
-- `GITHUB_TOKEN` is not set, or is invalid. The pipeline falls back to
-  `MockGitHubAdapter` whenever `process.env.GITHUB_TOKEN` is empty/missing.
-- Check the response `source` field: `"mock"` confirms fallback.
-
-### Network errors / 5xx from GitHub
-
-- The adapter retries up to 2 times with exponential backoff (1s, 2s) on
-  429 and 5xx responses. If all retries fail it logs and returns `null` —
-  that repo appears in `batch.results` with `ok: false`. Individual
-  failures don't abort the batch.
-
-### Token scope issues
-
-- `public_repo` is sufficient for all metadata we read. If you see `403`
-  responses despite a valid token, verify the scope in
-  <https://github.com/settings/tokens>. The CSV-only `read:user` scope is
-  NOT enough.
-
-### Stale data after seeding
-
-- `POST /api/pipeline/recompute` forces a full re-score without a new
-  GitHub fetch. Use this when you've manually edited persisted JSONL files
-  or want to see the effect of a scoring weight change.
-
-## 9. Relevant source files
-
-- `src/lib/seed-repos.ts` — curated ~300 repo list by category.
-- `src/lib/pipeline/pipeline.ts` — facade (`pipeline.ingestBatch`, `pipeline.recomputeAll`).
-- `src/lib/pipeline/adapters/github-adapter.ts` — real REST adapter with
-  rate-limit + retry.
-- `src/lib/pipeline/adapters/mock-github-adapter.ts` — fixture adapter.
-- `src/lib/pipeline/ingestion/ingest.ts` — orchestrator + `createGitHubAdapter`.
-- `src/lib/pipeline/ingestion/scheduler.ts` — tier assignment + refresh plans.
-- `src/app/api/cron/ingest/route.ts` — tier-driven cron endpoint.
-- `src/app/api/cron/seed/route.ts` — one-shot seeder.
-- `vercel.json` — cron schedules.
+- `scripts/scrape-trending.mjs` — OSS Insight scraper.
+- `scripts/compute-deltas.mjs` — git-history delta computer.
+- `src/lib/trending.ts` — loader + shape definitions.
+- `.github/workflows/scrape-trending.yml` — hourly workflow.
+- `src/app/api/health/route.ts` — freshness gate.
+- `src/app/api/pipeline/status/route.ts` — telemetry + freshness gate.

@@ -117,23 +117,17 @@ Supported triggers:
 - `new_release` (release since previous tick)
 - `breakout` (breakout flag flipped on)
 
-## Refresh tier system
+## Refresh via committed JSON
 
-Source: `src/lib/pipeline/ingestion/scheduler.ts`.
+Source: `scripts/scrape-trending.mjs`, `scripts/compute-deltas.mjs`, `.github/workflows/scrape-trending.yml`, `src/lib/trending.ts`.
 
-Every repo is assigned a `RefreshTier`:
+Ingestion does not run in the request path. A GitHub Actions workflow scrapes OSS Insight hourly, runs the delta computer against the git history of `data/trending.json`, and commits both `data/trending.json` and `data/deltas.json`. The next Vercel build ships those files in the bundle; every Lambda reads identical bytes. There is no scheduler, no refresh tier, no in-memory snapshot store on the request path — the earlier tier-driven cron design was retired in Phase 3 because Vercel Lambdas cannot share ephemeral state across invocations.
 
-| Tier | Interval | Cap/hr | Criteria |
-|------|---------|--------|----------|
-| `hot` | 60 min | 50 | watchlisted OR top mover OR breakout OR category leader |
-| `warm` | 360 min | 20 | >5k stars OR rising/hot/quiet_killer |
-| `cold` | 1440 min | 5 | everything else |
-
-The cron endpoints (`/api/cron/ingest`) pick a batch via `getRefreshBatch()` which sorts plans by priority (overdue > not-yet-due) and picks the top N for the tier.
+`src/lib/trending.ts::assembleRepoFromTrending` projects per-window delta values onto `Repo` objects at the query boundary; scoring and classification below are untouched. Freshness is enforced by `/api/health` and `/api/pipeline/status` against the committed timestamps. See [INGESTION.md](./INGESTION.md) for the full flow and operator runbook.
 
 ## Seeing changes
 
-After ingestion, the UI doesn't hot-reload automatically — call `/api/pipeline/recompute` (or wait for the next cron) so derived stores are fresh.
+After ingestion, the UI doesn't hot-reload automatically — call `/api/pipeline/recompute` so derived stores are fresh. In production the committed JSON is refreshed hourly by the scrape workflow and a Vercel rebuild picks it up; no recompute call is needed on the request path.
 
 ## Related docs
 

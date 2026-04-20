@@ -34,6 +34,12 @@ node -e "console.log(require('crypto').randomBytes(24).toString('base64url'))"
 `GITHUB_TOKEN` must be a GitHub PAT (classic) with at minimum `public_repo` scope.
 Without it, the ingestion layer falls back to mock data.
 
+> **Scope of `GITHUB_TOKEN` in Phase 3.** Production ingestion runs in
+> GitHub Actions and calls OSS Insight, not the GitHub API — it does not
+> consume this token. `GITHUB_TOKEN` is only required for the ad-hoc
+> `POST /api/pipeline/ingest` path and for local dev against real GitHub.
+> Leaving it unset on Vercel is fine for the default flow.
+
 ---
 
 ## Vercel deploy
@@ -57,26 +63,17 @@ vercel env add GITHUB_TOKEN          production   # <paste PAT>
 vercel --prod --yes
 ```
 
-**Hobby plan constraint:** only one daily cron is allowed. `vercel.json` ships
-with `/api/cron/ingest?tier=cold` daily. To run hourly/warm/backfill crons you
-must upgrade to Pro and re-add:
+**Ingestion schedule.** Production ingestion runs hourly in GitHub Actions
+via [`.github/workflows/scrape-trending.yml`](../.github/workflows/scrape-trending.yml),
+not Vercel Cron. The workflow scrapes OSS Insight, computes deltas from
+git history, and commits both `data/trending.json` and `data/deltas.json`;
+the next Vercel build picks them up. Vercel Hobby is sufficient — no cron
+entries required.
 
-```json
-{ "path": "/api/cron/ingest?tier=hot",     "schedule": "0 * * * *" },
-{ "path": "/api/cron/ingest?tier=warm",    "schedule": "0 */6 * * *" },
-{ "path": "/api/cron/backfill-top?n=20",   "schedule": "30 2 * * *" }
-```
-
-**Seed on first deploy:**
-
-```bash
-curl -X POST -H "Authorization: Bearer $CRON_SECRET" \
-  https://starscreener.vercel.app/api/cron/seed
-```
-
-The seed takes ~6 minutes. Vercel Hobby tier function timeout is 60s and this
-route is capped at 300s in `vercel.json` (Pro tier). On Hobby, run seed in
-chunks using `?categories=ai-ml,devtools,...`.
+**Seed on first deploy.** Not needed. The repo ships with committed
+`data/trending.json` and `data/deltas.json`, so a fresh deploy is already
+populated. To force an immediate refresh, trigger the workflow manually:
+Actions → "Scrape OSS Insight trending" → Run workflow.
 
 ---
 
@@ -134,8 +131,8 @@ Secrets are NEVER committed. Paste these once in each dashboard:
 - `GITHUB_TOKEN` — same GitHub PAT
 - `CRON_SECRET` — already set
 
-Both deploys must share the same `CRON_SECRET` so authenticated cron requests
-work against either host.
+Both deploys must share the same `CRON_SECRET` so authenticated admin
+requests work against either host.
 
 ---
 
@@ -143,10 +140,9 @@ work against either host.
 
 | Symptom                          | Likely cause                                      |
 |----------------------------------|---------------------------------------------------|
-| `401` on `/api/cron/*`           | `CRON_SECRET` missing / mismatched                |
-| Empty `repoCount` on categories  | Initial seed never ran                            |
+| `401` on `/api/pipeline/*` admin routes | `CRON_SECRET` missing / mismatched         |
+| Empty `repoCount` on categories  | Stale deploy — check `/api/health` and latest `data/trending.json` commit |
 | SSE connection closes immediately| Hitting the Vercel deploy, not Railway            |
-| Seed times out on Vercel         | Hobby 60s limit — use `?categories=` chunking     |
 | Data disappears after redeploy   | No persistent volume on Railway / `/tmp` on Vercel|
 
 See `INGESTION.md`, `API.md`, `DATABASE.md` for subsystem details.

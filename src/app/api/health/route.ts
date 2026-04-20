@@ -17,6 +17,8 @@ import {
   lastFetchedAt,
   deltasComputedAt,
   deltasCoveragePct,
+  deltasCoverageQuality,
+  type DeltaCoverageQuality,
 } from "@/lib/trending";
 
 // 2 hours ≈ 2× hourly GHA cadence. Stale past this means at least one tick
@@ -37,6 +39,8 @@ interface HealthBody {
   thresholdSeconds: number;
   stale: { scraper: boolean; deltas: boolean };
   coveragePct: number;
+  /** 'full' = real deltas, 'partial' = cold-start, 'cold' = no data yet. */
+  coverageQuality: DeltaCoverageQuality;
   warning?: string;
   error?: string;
 }
@@ -59,6 +63,7 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
 
     const coverage = deltasCoveragePct();
     const coverageLow = coverage < COVERAGE_WARN_PCT;
+    const quality = deltasCoverageQuality();
 
     const body: HealthBody = {
       status: anyStale ? "stale" : "ok",
@@ -71,9 +76,12 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
       thresholdSeconds: STALE_THRESHOLD_MS / 1000,
       stale: { scraper: scraperStale, deltas: deltasStale },
       coveragePct: Math.round(coverage * 10) / 10,
+      coverageQuality: quality,
     };
 
-    if (!anyStale && coverageLow) {
+    if (!anyStale && quality === "partial") {
+      body.warning = `coverageQuality=partial — cold-start fallback in use; real 24h/7d/30d windows will populate as history matures`;
+    } else if (!anyStale && coverageLow) {
       body.warning = `delta coverage ${body.coveragePct}% < ${COVERAGE_WARN_PCT}% — expected during 30-day cold-start window`;
     }
 
@@ -89,6 +97,7 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
         thresholdSeconds: STALE_THRESHOLD_MS / 1000,
         stale: { scraper: true, deltas: true },
         coveragePct: 0,
+        coverageQuality: "cold" as DeltaCoverageQuality,
         error: message,
       },
       { status: 503 },

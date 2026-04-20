@@ -9,9 +9,14 @@
 // buffer. Load that historical trending.json via `git show <sha>:path`
 // and join current rows against historical rows by repo_id.
 //
-// Cold-start: if no commit falls inside a window's buffer, the delta is
-// emitted as { value: null, basis: 'no-history' }. The script exits 0 so
-// the workflow stays green during the first 30 days of accumulation.
+// Cold-start: if no commit falls inside a window's buffer we fall back to
+// the nearest-in-time commit from the full history of trending.json and
+// tag the basis as 'cold-start' with `age_seconds = now - picked_ts`. The
+// delta value is real but computed over a shorter window than requested,
+// so downstream consumers treat it as diagnostic-only until at least one
+// window hits a real (exact/nearest) commit. Only when trending.json has
+// never been committed do we emit { value: null, basis: 'no-history' }.
+// The script exits 0 either way.
 
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { execFileSync } from "node:child_process";
@@ -54,7 +59,18 @@ function listCommitsInWindow(sinceEpoch, untilEpoch) {
     "--",
     TRENDING_REL,
   ]);
-  return out
+  return parseCommitList(out);
+}
+
+// Every commit touching data/trending.json. Used for cold-start fallback
+// when no commit falls inside a window's buffer.
+function listAllCommits() {
+  const out = git(["log", "--format=%H %ct", "--", TRENDING_REL]);
+  return parseCommitList(out);
+}
+
+function parseCommitList(stdout) {
+  return stdout
     .split("\n")
     .map((line) => line.trim())
     .filter((line) => line.length > 0)
@@ -124,7 +140,17 @@ async function main() {
     throw new Error("current trending.json has zero joinable rows");
   }
 
-  // Resolve each window to a picked commit (or null/no-history).
+  // Cached once — used for cold-start fallback when no in-buffer commit
+  // exists. `git log` on a single file is cheap, but no need to repeat it
+  // per window.
+  const allCommits = listAllCommits();
+
+  // Resolve each window to a picked commit. Three outcomes per window:
+  //   - exact / nearest: commit found inside [target ± buffer_s].
+  //   - cold-start:     buffer missed; fall back to nearest-in-time commit
+  //                     from the full history. The resulting delta is a
+  //                     partial-window number, diagnostic-only.
+  //   - null:           no trending.json commits exist at all.
   const windowPicks = {};
   const historicalStars = {};
   for (const w of WINDOWS) {
@@ -132,10 +158,16 @@ async function main() {
     const since = target - w.buffer_s;
     const until = target + w.buffer_s;
     const candidates = listCommitsInWindow(since, until);
-    const picked = pickNearest(candidates, target);
+    let picked = pickNearest(candidates, target);
+    let basis;
     if (picked) {
-      const basis = picked.offset < EXACT_THRESHOLD_S ? "exact" : "nearest";
-      windowPicks[w.key] = {
+      basis = picked.offset < EXACT_THRESHOLD_S ? "exact" : "nearest";
+    } else {
+      picked = pickNearest(allCommits, target);
+      basis = picked ? "cold-start" : null;
+    }
+    if (picked && basis) {
+      const pickInfo = {
         target_ts: target,
         buffer_s: w.buffer_s,
         picked_commit: picked.sha,
@@ -143,6 +175,8 @@ async function main() {
         offset_s: picked.offset,
         basis,
       };
+      if (basis === "cold-start") pickInfo.age_seconds = now - picked.ts;
+      windowPicks[w.key] = pickInfo;
       const hist = readTrendingAt(picked.sha);
       historicalStars[w.key] = hist ? flattenToStarsById(hist) : new Map();
     } else {
@@ -152,10 +186,10 @@ async function main() {
   }
 
   const coverage = {
-    "1h":  { exact: 0, nearest: 0, "no-history": 0, "repo-not-tracked": 0 },
-    "24h": { exact: 0, nearest: 0, "no-history": 0, "repo-not-tracked": 0 },
-    "7d":  { exact: 0, nearest: 0, "no-history": 0, "repo-not-tracked": 0 },
-    "30d": { exact: 0, nearest: 0, "no-history": 0, "repo-not-tracked": 0 },
+    "1h":  { exact: 0, nearest: 0, "cold-start": 0, "no-history": 0, "repo-not-tracked": 0 },
+    "24h": { exact: 0, nearest: 0, "cold-start": 0, "no-history": 0, "repo-not-tracked": 0 },
+    "7d":  { exact: 0, nearest: 0, "cold-start": 0, "no-history": 0, "repo-not-tracked": 0 },
+    "30d": { exact: 0, nearest: 0, "cold-start": 0, "no-history": 0, "repo-not-tracked": 0 },
   };
 
   const repos = {};
@@ -174,20 +208,34 @@ async function main() {
         coverage[w.key]["repo-not-tracked"] += 1;
         continue;
       }
-      entry[`delta_${w.key}`] = {
+      const deltaEntry = {
         value: starsNow - histStars,
         basis: pick.basis,
         from_commit: pick.picked_commit,
         from_ts: pick.picked_ts,
       };
+      if (pick.basis === "cold-start") {
+        deltaEntry.age_seconds = pick.age_seconds;
+      }
+      entry[`delta_${w.key}`] = deltaEntry;
       coverage[w.key][pick.basis] += 1;
     }
     repos[repoId] = entry;
   }
 
+  // Roll coverage into a flat summary so /api/health can compute
+  // coverageQuality in O(1) without scanning every repo.
+  const coverageSummary = { exact: 0, nearest: 0, "cold-start": 0, "no-history": 0, "repo-not-tracked": 0 };
+  for (const w of WINDOWS) {
+    for (const k of Object.keys(coverageSummary)) {
+      coverageSummary[k] += coverage[w.key][k];
+    }
+  }
+
   const payload = {
     computedAt: new Date().toISOString(),
     windows: windowPicks,
+    coverage: coverageSummary,
     repos,
   };
 
@@ -198,10 +246,10 @@ async function main() {
   console.log(`repos: ${currentStars.size}`);
   for (const w of WINDOWS) {
     const c = coverage[w.key];
-    const total = c.exact + c.nearest + c["no-history"] + c["repo-not-tracked"];
+    const total = c.exact + c.nearest + c["cold-start"] + c["no-history"] + c["repo-not-tracked"];
     const pct = (n) => (total === 0 ? "0" : ((n * 100) / total).toFixed(1));
     console.log(
-      `  ${w.key.padStart(3)}: exact=${c.exact} (${pct(c.exact)}%)  nearest=${c.nearest} (${pct(c.nearest)}%)  no-history=${c["no-history"]}  repo-not-tracked=${c["repo-not-tracked"]}`,
+      `  ${w.key.padStart(3)}: exact=${c.exact} (${pct(c.exact)}%)  nearest=${c.nearest} (${pct(c.nearest)}%)  cold-start=${c["cold-start"]} (${pct(c["cold-start"])}%)  no-history=${c["no-history"]}  repo-not-tracked=${c["repo-not-tracked"]}`,
     );
   }
 }

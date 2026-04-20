@@ -77,8 +77,17 @@ export type DeltaWindowKey = "1h" | "24h" | "7d" | "30d";
 
 export type DeltaValue =
   | { value: number; basis: "exact" | "nearest"; from_commit: string; from_ts: number }
+  | { value: number; basis: "cold-start"; from_commit: string; from_ts: number; age_seconds: number }
   | { value: null; basis: "no-history" }
   | { value: null; basis: "repo-not-tracked" };
+
+export interface DeltaCoverageSummary {
+  exact: number;
+  nearest: number;
+  "cold-start": number;
+  "no-history": number;
+  "repo-not-tracked": number;
+}
 
 export interface RepoDeltaEntry {
   stars_now: number;
@@ -94,12 +103,16 @@ export interface WindowPick {
   picked_commit: string;
   picked_ts: number;
   offset_s: number;
-  basis: "exact" | "nearest";
+  basis: "exact" | "nearest" | "cold-start";
+  /** Seconds since now for the picked commit. Present only when basis === 'cold-start'. */
+  age_seconds?: number;
 }
 
 export interface DeltasJson {
   computedAt: string;
   windows: Record<DeltaWindowKey, WindowPick | null>;
+  /** Aggregate basis counts across all windows. Missing on pre-Phase-3.1 files. */
+  coverage?: DeltaCoverageSummary;
   repos: Record<string, RepoDeltaEntry>;
 }
 
@@ -147,6 +160,36 @@ export function deltasCoveragePct(): number {
   return (covered * 100) / total;
 }
 
+export type DeltaCoverageQuality = "full" | "partial" | "cold";
+
+/**
+ * Classify overall delta coverage health in one token:
+ *   'full'    → majority of delta slots are exact+nearest (>50%). Real deltas.
+ *   'partial' → cold-start dominates. System is warming up; data is diagnostic.
+ *   'cold'    → every slot is no-history. Barely any data yet.
+ */
+export function deltasCoverageQuality(): DeltaCoverageQuality {
+  const c = deltas.coverage;
+  if (!c) {
+    // Pre-Phase-3.1 deltas.json without coverage summary — derive from
+    // windows[] basis tags as a rough proxy.
+    const windowBases = Object.values(deltas.windows)
+      .filter((w): w is WindowPick => w !== null)
+      .map((w) => w.basis);
+    if (windowBases.length === 0) return "cold";
+    const good = windowBases.filter((b) => b === "exact" || b === "nearest").length;
+    if (good / windowBases.length > 0.5) return "full";
+    if (windowBases.includes("cold-start")) return "partial";
+    return "cold";
+  }
+  const total = c.exact + c.nearest + c["cold-start"] + c["no-history"] + c["repo-not-tracked"];
+  if (total === 0) return "cold";
+  const good = c.exact + c.nearest;
+  if (good / total > 0.5) return "full";
+  if (c["cold-start"] > 0) return "partial";
+  return "cold";
+}
+
 /**
  * Project the delta values for this repo onto a fresh Repo copy. Replaces
  * the previous `applyDeltasToRepo(repo, computeAllDeltas(...))` pair which
@@ -171,8 +214,14 @@ export function assembleRepoFromTrending(repo: Repo, d: DeltasJson): Repo {
     return { ...repo, hasMovementData: false };
   }
 
+  // Cold-start values are real partial-window numbers in deltas.json (useful
+  // for diagnostics and future classifier gating), but we project them as
+  // {value: 0, missing: true} onto Repo so scoring / breakout / hot
+  // detection don't fire on warm-up noise. Upgrades naturally once a window
+  // resolves to exact/nearest.
   const take = (v: DeltaValue): { value: number; missing: boolean } => {
     if (v.value === null) return { value: 0, missing: true };
+    if (v.basis === "cold-start") return { value: 0, missing: true };
     return { value: v.value, missing: false };
   };
 

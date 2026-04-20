@@ -10,10 +10,8 @@
 import { useEffect, useState } from "react";
 import type { FilterBarVariant, MetaCounts } from "@/lib/types";
 
-import { MetasBar } from "./MetasBar";
 import { StatsBarClient, type StatsBarStats } from "./StatsBarClient";
 import { TabBar } from "./TabBar";
-import { TagsBar } from "./TagsBar";
 import { TimeRangePills } from "./TimeRangePills";
 import { ViewControls } from "./ViewControls";
 
@@ -62,12 +60,15 @@ export function FilterBar({ variant = "full" }: FilterBarProps) {
     }
   }, [cfg.showMetas, cfg.showStats]);
 
+  // MetasBar + TagsBar removed — the BubbleMap + left-sidebar category
+  // pills cover the same navigation surface without the stacked filter
+  // chrome. `cfg.showMetas` still gates the meta-counts fetch above in
+  // case a future surface wants to reintroduce the pills.
+  void counts;
+
   return (
     <div className="sticky top-14 z-30 bg-bg-primary/90 backdrop-blur-md border-b border-border-primary">
-      <div className="max-w-full mx-auto px-4 sm:px-6 py-3 space-y-3">
-        {cfg.showMetas && <MetasBar counts={counts} />}
-        {cfg.showMetas && <TagsBar />}
-
+      <div className="max-w-full mx-auto px-4 sm:px-6 py-3">
         <div className="flex items-center gap-4 flex-wrap">
           {cfg.showStats && stats && <StatsBarClient stats={stats} />}
 

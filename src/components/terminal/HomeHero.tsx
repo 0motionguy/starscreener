@@ -38,12 +38,6 @@ export function HomeHero({
           <h1 className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-text-primary leading-[1.05]">
             Repo Momentum Terminal
           </h1>
-          <p className="mt-2 max-w-2xl text-sm sm:text-[15px] text-text-secondary leading-relaxed">
-            Real-time trend screener for GitHub&apos;s hottest repos.{" "}
-            <span className="text-text-tertiary">
-              Classified, scored, and ranked on every scrape cycle.
-            </span>
-          </p>
         </div>
 
         <dl className="flex items-stretch gap-5 sm:gap-6 font-mono">

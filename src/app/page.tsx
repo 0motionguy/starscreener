@@ -10,7 +10,7 @@ import type { Metadata } from "next";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { lastFetchedAt } from "@/lib/trending";
 import { TerminalLayout } from "@/components/terminal/TerminalLayout";
-import { MindshareMap } from "@/components/terminal/MindshareMap";
+import { BubbleMap } from "@/components/terminal/BubbleMap";
 import { HomeHero } from "@/components/terminal/HomeHero";
 
 export const dynamic = "force-dynamic";
@@ -43,7 +43,7 @@ export default async function HomePage() {
             rising={rising}
             fetchedAt={lastFetchedAt}
           />
-          <MindshareMap repos={all} />
+          <BubbleMap repos={all} limit={50} />
         </>
       }
     />

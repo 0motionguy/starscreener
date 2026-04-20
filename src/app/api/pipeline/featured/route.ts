@@ -12,7 +12,7 @@
 // Reads from committed JSON so the homepage renders on cold lambdas.
 
 import { NextRequest, NextResponse } from "next/server";
-import { applyTerminalTabFilter } from "@/lib/filters";
+import { applyTerminalTabFilter, trendScoreForTimeRange } from "@/lib/filters";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import type {
   FeaturedCard,
@@ -155,6 +155,7 @@ function buildFeaturedCards(
   watchlistRepoIds: string[],
   limit: number,
   timeRange: TimeRange,
+  activeTab: TerminalTab,
 ): FeaturedCard[] {
   const seen = new Set<string>();
   const out: FeaturedCard[] = [];
@@ -169,11 +170,21 @@ function buildFeaturedCards(
   const byWindowDelta = [...pool]
     .filter((repo) => deltaForRange(repo, timeRange) > 0)
     .sort((a, b) => deltaForRange(b, timeRange) - deltaForRange(a, timeRange));
+  const byTrendingScore = [...pool]
+    .filter((repo) => trendScoreForTimeRange(repo, timeRange) > 0)
+    .sort(
+      (a, b) =>
+        trendScoreForTimeRange(b, timeRange) - trendScoreForTimeRange(a, timeRange),
+    );
+  const primaryRanking =
+    activeTab === "trending" && byTrendingScore.length > 0
+      ? byTrendingScore
+      : byWindowDelta;
 
-  if (byWindowDelta[0]) {
+  if (primaryRanking[0]) {
     push(
       buildCard(
-        byWindowDelta[0],
+        primaryRanking[0],
         "NUMBER_ONE_TODAY",
         `#1 ${timeRangeLabel(timeRange)}`,
         timeRange,
@@ -215,7 +226,7 @@ function buildFeaturedCards(
     }
   }
 
-  for (const repo of byWindowDelta) {
+  for (const repo of primaryRanking) {
     if (out.length >= limit) break;
     push(buildCard(repo, "NUMBER_ONE_TODAY", "TOP MOVER", timeRange));
   }
@@ -305,7 +316,13 @@ export async function GET(
       activeTab,
       watchlistRepoIds,
     );
-    const cards = buildFeaturedCards(pool, watchlistRepoIds, limit, timeRange);
+    const cards = buildFeaturedCards(
+      pool,
+      watchlistRepoIds,
+      limit,
+      timeRange,
+      activeTab,
+    );
 
     return NextResponse.json(
       {

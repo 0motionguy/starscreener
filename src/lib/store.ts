@@ -175,7 +175,7 @@ const TAB_SORT_PRESETS: Record<
   TerminalTab,
   { col: ColumnId; dir: SortDirection }
 > = {
-  trending: { col: "momentum", dir: "desc" },
+  trending: { col: "rank", dir: "asc" },
   gainers: { col: "delta24h", dir: "desc" },
   new: { col: "lastCommit", dir: "desc" },
   watchlisted: { col: "momentum", dir: "desc" },
@@ -200,8 +200,8 @@ const LAYOUT_DEFAULTS = {
   viewMode: "card" as ViewMode,
   density: "compact" as Density,
   visibleColumns: [...DEFAULT_VISIBLE_COLUMNS] as ColumnId[],
-  sortColumn: "momentum" as ColumnId,
-  sortDirection: "desc" as SortDirection,
+  sortColumn: "rank" as ColumnId,
+  sortDirection: "asc" as SortDirection,
 };
 
 const ALL_DEFAULTS = {
@@ -311,7 +311,7 @@ export const useFilterStore = create<FilterState>()(
     }),
     {
       name: "starscreener-filters",
-      version: 1,
+      version: 2,
       // Only persist layout preferences and sticky toggles — transient
       // narrative filters (meta, tab, time range, category, etc.) always
       // start fresh each session per spec.

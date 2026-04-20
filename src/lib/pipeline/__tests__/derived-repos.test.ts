@@ -27,6 +27,18 @@ function maxPast24hStars(fullName: string): number {
   return max;
 }
 
+function maxPast24hScore(fullName: string): number {
+  let max = 0;
+  for (const lang of LANGS) {
+    for (const row of getTrending("past_24_hours", lang)) {
+      if (row.repo_name !== fullName) continue;
+      const score = Number.parseFloat(row.total_score ?? "0");
+      if (Number.isFinite(score)) max = Math.max(max, score);
+    }
+  }
+  return max;
+}
+
 test("derived repos project OSS Insight 24h stars into starsDelta24h", () => {
   __resetDerivedReposCache();
 
@@ -45,6 +57,7 @@ test("derived repos project OSS Insight 24h stars into starsDelta24h", () => {
   const repoDelta = deltas.repos[sourceRow.repo_id];
   assert.ok(repoDelta, "expected repo in deltas.json");
   assert.equal(repo.stars, repoDelta.stars_now);
+  assert.equal(repo.trendScore24h, maxPast24hScore(sourceRow.repo_name));
 });
 
 test("derived repos expose a 30-point sparkline ending at current stars", () => {

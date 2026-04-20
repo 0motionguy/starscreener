@@ -183,7 +183,7 @@ export function buildDerivedWhyMoving(repo: Repo): WhyMoving | null {
     factors.push({
       factor: "collection_upstream",
       headline: `Tracked in ${repo.collectionNames[0]}`,
-      detail: `${repo.fullName} is present in the OSSInsights collection feed, which reinforces the upstream discovery signal.`,
+      detail: `${repo.fullName} is present in a curated collection, which reinforces the discovery signal.`,
       confidence: "medium",
       timeframe: "now",
     });
@@ -193,7 +193,7 @@ export function buildDerivedWhyMoving(repo: Repo): WhyMoving | null {
 
   return {
     repoId: repo.id,
-    headline: `${repo.fullName} is moving on upstream OSSInsights trend data.`,
+    headline: `${repo.fullName} is moving on upstream trend data.`,
     factors: factors.slice(0, 4),
   };
 }

@@ -390,7 +390,7 @@ export const COLUMNS: Column[] = [
     minBreakpoint: "sm",
     defaultVisible: true,
     compactVisible: true,
-    description: "OSS Insight star activity over the broadest available period.",
+    description: "Period star activity across the broadest window available.",
     render: (repo) =>
       createElement(
         "span",

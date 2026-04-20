@@ -52,6 +52,9 @@ interface TrendingRepoAggregate {
   stars24h: number;
   stars7d: number;
   stars30d: number;
+  trendScore24h: number;
+  trendScore7d: number;
+  trendScore30d: number;
   activityStars: number;
   forks: number;
   contributors: number;
@@ -69,6 +72,11 @@ interface SnapshotRow {
 
 function parseMetric(value: string | null | undefined): number {
   const parsed = Number.parseInt(value ?? "0", 10);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function parseScore(value: string | null | undefined): number {
+  const parsed = Number.parseFloat(value ?? "0");
   return Number.isFinite(parsed) ? parsed : 0;
 }
 
@@ -286,19 +294,23 @@ function pickSparkline(
   );
 }
 
-function setPeriodStars(
+function setPeriodMetrics(
   aggregate: TrendingRepoAggregate,
   period: TrendingPeriod,
   stars: number,
+  totalScore: number,
 ): void {
   if (period === "past_24_hours") {
     aggregate.stars24h = Math.max(aggregate.stars24h, stars);
+    aggregate.trendScore24h = Math.max(aggregate.trendScore24h, totalScore);
     aggregate.has24h = true;
   } else if (period === "past_week") {
     aggregate.stars7d = Math.max(aggregate.stars7d, stars);
+    aggregate.trendScore7d = Math.max(aggregate.trendScore7d, totalScore);
     aggregate.has7d = true;
   } else if (period === "past_month") {
     aggregate.stars30d = Math.max(aggregate.stars30d, stars);
+    aggregate.trendScore30d = Math.max(aggregate.trendScore30d, totalScore);
     aggregate.has30d = true;
   }
 }
@@ -312,6 +324,7 @@ function buildTrendingAggregates(): Map<string, TrendingRepoAggregate> {
         if (!row.repo_name || !row.repo_name.includes("/")) continue;
 
         const stars = parseMetric(row.stars);
+        const totalScore = parseScore(row.total_score);
         const forks = parseMetric(row.forks);
         const contributors = contributorCount(row);
         const collectionNames = parseCollectionNames(row.collection_names);
@@ -323,6 +336,9 @@ function buildTrendingAggregates(): Map<string, TrendingRepoAggregate> {
             stars24h: 0,
             stars7d: 0,
             stars30d: 0,
+            trendScore24h: 0,
+            trendScore7d: 0,
+            trendScore30d: 0,
             activityStars: 0,
             forks: 0,
             contributors: 0,
@@ -339,7 +355,7 @@ function buildTrendingAggregates(): Map<string, TrendingRepoAggregate> {
           aggregate.row = { ...aggregate.row, ...row };
         }
 
-        setPeriodStars(aggregate, period, stars);
+        setPeriodMetrics(aggregate, period, stars, totalScore);
         aggregate.activityStars = Math.max(aggregate.activityStars, stars);
         aggregate.forks = Math.max(aggregate.forks, forks);
         aggregate.contributors = Math.max(aggregate.contributors, contributors);
@@ -389,6 +405,9 @@ function baseRepoFromTrending(
     starsDelta24h: 0,
     starsDelta7d: 0,
     starsDelta30d: 0,
+    trendScore24h: 0,
+    trendScore7d: 0,
+    trendScore30d: 0,
     forksDelta7d: 0,
     contributorsDelta30d: 0,
     momentumScore: 0,
@@ -522,6 +541,9 @@ export function getDerivedRepos(): Repo[] {
       starsDelta24h: d24.value,
       starsDelta7d: d7.value,
       starsDelta30d: d30.value,
+      trendScore24h: aggregate.trendScore24h,
+      trendScore7d: aggregate.trendScore7d,
+      trendScore30d: aggregate.trendScore30d,
       hasMovementData: !(d24.missing && d7.missing && d30.missing),
       starsDelta24hMissing: d24.missing,
       starsDelta7dMissing: d7.missing,

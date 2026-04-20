@@ -100,6 +100,17 @@ export function timeRangeToDeltaColumn(timeRange: TimeRange): ColumnId {
   }
 }
 
+export function trendScoreForTimeRange(repo: Repo, timeRange: TimeRange): number {
+  switch (timeRange) {
+    case "24h":
+      return repo.trendScore24h ?? 0;
+    case "7d":
+      return repo.trendScore7d ?? 0;
+    case "30d":
+      return repo.trendScore30d ?? 0;
+  }
+}
+
 export function getEffectiveSortColumn(
   sortColumn: ColumnId,
   activeTab: TerminalTab,
@@ -197,6 +208,16 @@ export function sortReposForTerminal(
     activeTab,
     timeRange,
   );
+
+  if (activeTab === "trending" && sortColumn === "rank") {
+    const directionMultiplier = sortDirection === "asc" ? -1 : 1;
+    return [...repos].sort((a, b) => {
+      const delta =
+        trendScoreForTimeRange(a, timeRange) - trendScoreForTimeRange(b, timeRange);
+      if (delta !== 0) return delta * directionMultiplier;
+      return (b.starsDelta24h ?? 0) - (a.starsDelta24h ?? 0);
+    });
+  }
 
   if (activeTab === "new" && sortColumn === "lastCommit") {
     return [...repos].sort((a, b) => {

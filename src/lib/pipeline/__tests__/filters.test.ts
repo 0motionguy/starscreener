@@ -12,6 +12,7 @@ import {
   extractLanguages,
   getEffectiveSortColumn,
   repoInStarsRange,
+  trendScoreForTimeRange,
   sortReposForTerminal,
   sortReposByColumn,
 } from "../../filters";
@@ -45,6 +46,9 @@ function makeRepo(partial: Partial<Repo> & { fullName: string }): Repo {
     starsDelta24h: partial.starsDelta24h ?? 0,
     starsDelta7d: partial.starsDelta7d ?? 0,
     starsDelta30d: partial.starsDelta30d ?? 0,
+    trendScore24h: partial.trendScore24h ?? 0,
+    trendScore7d: partial.trendScore7d ?? 0,
+    trendScore30d: partial.trendScore30d ?? 0,
     forksDelta7d: partial.forksDelta7d ?? 0,
     contributorsDelta30d: partial.contributorsDelta30d ?? 0,
     momentumScore: partial.momentumScore ?? 0,
@@ -273,6 +277,42 @@ test("sortReposForTerminal uses time range when gainers tab is active", () => {
     timeRange: "7d",
   });
   assert.equal(weekly[0].fullName, "a/steady");
+});
+
+test("sortReposForTerminal uses OSSInsight trend score when trending tab is active", () => {
+  const repos = [
+    makeRepo({
+      fullName: "a/top-this-week",
+      trendScore24h: 80,
+      trendScore7d: 900,
+      trendScore30d: 910,
+      starsDelta24h: 10,
+    }),
+    makeRepo({
+      fullName: "b/top-today",
+      trendScore24h: 120,
+      trendScore7d: 300,
+      trendScore30d: 400,
+      starsDelta24h: 50,
+    }),
+  ];
+
+  const weekly = sortReposForTerminal(repos, {
+    sortColumn: "rank",
+    sortDirection: "asc",
+    activeTab: "trending",
+    timeRange: "7d",
+  });
+  assert.equal(weekly[0].fullName, "a/top-this-week");
+
+  const daily = sortReposForTerminal(repos, {
+    sortColumn: "rank",
+    sortDirection: "asc",
+    activeTab: "trending",
+    timeRange: "24h",
+  });
+  assert.equal(daily[0].fullName, "b/top-today");
+  assert.equal(trendScoreForTimeRange(daily[0], "24h"), 120);
 });
 
 test("sortReposForTerminal sorts new tab by createdAt when using the default preset", () => {

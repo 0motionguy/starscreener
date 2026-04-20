@@ -3,6 +3,7 @@ import type { Repo } from "@/lib/types";
 import type { TrendFilter, TrendWindow } from "@/lib/pipeline/types";
 import { slugToId } from "@/lib/utils";
 import { READ_CACHE_HEADERS } from "@/lib/api/cache";
+import { trendScoreForTimeRange } from "@/lib/filters";
 import {
   getDerivedRepoById,
   getDerivedRepos,
@@ -24,7 +25,7 @@ const VALID_FILTERS = new Set<TrendFilter>([
 
 const MS_PER_DAY = 86_400_000;
 
-type SortKey = "momentum" | "stars-today" | "stars-total" | "newest";
+type SortKey = "trending" | "momentum" | "stars-today" | "stars-total" | "newest";
 
 function deltaForWindow(repo: Repo, window: TrendWindow): number {
   switch (window) {
@@ -37,9 +38,27 @@ function deltaForWindow(repo: Repo, window: TrendWindow): number {
   }
 }
 
+function trendScoreForWindow(repo: Repo, window: TrendWindow): number {
+  switch (window) {
+    case "today":
+      return trendScoreForTimeRange(repo, "24h");
+    case "week":
+      return trendScoreForTimeRange(repo, "7d");
+    case "month":
+      return trendScoreForTimeRange(repo, "30d");
+  }
+}
+
 function sortRepos(repos: Repo[], sort: SortKey, window: TrendWindow): Repo[] {
   const sorted = [...repos];
   switch (sort) {
+    case "trending":
+      sorted.sort((a, b) => {
+        const d = trendScoreForWindow(b, window) - trendScoreForWindow(a, window);
+        if (d !== 0) return d;
+        return deltaForWindow(b, window) - deltaForWindow(a, window);
+      });
+      break;
     case "momentum":
       // Momentum default additionally pre-orders by the requested window's
       // delta so ties in the global momentumScore break consistently with
@@ -138,7 +157,7 @@ export async function GET(request: NextRequest) {
   const periodParam = searchParams.get("period") ?? "week";
   const filterParam = searchParams.get("filter") ?? "all";
   const category = searchParams.get("category") ?? null;
-  const sortParam = (searchParams.get("sort") ?? "momentum") as SortKey;
+  const sortParam = (searchParams.get("sort") ?? "trending") as SortKey;
   const tagParam = searchParams.get("tag");
   const limit = Math.min(
     Math.max(Number(searchParams.get("limit")) || 25, 1),
@@ -150,6 +169,7 @@ export async function GET(request: NextRequest) {
   // rather than silently defaulting, so typos and stale bookmarks surface
   // instead of hiding behind a misleading response.
   const validSorts: SortKey[] = [
+    "trending",
     "momentum",
     "stars-today",
     "stars-total",

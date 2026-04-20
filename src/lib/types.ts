@@ -44,6 +44,9 @@ export interface Repo {
   starsDelta24h: number;
   starsDelta7d: number;
   starsDelta30d: number;
+  trendScore24h?: number;
+  trendScore7d?: number;
+  trendScore30d?: number;
   forksDelta7d: number;
   contributorsDelta30d: number;
   // Phase 3: deltas now come from git-history of data/trending.json. When a

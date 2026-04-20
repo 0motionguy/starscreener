@@ -2,9 +2,18 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 const FOOTER_LINKS = [
-  { href: "https://github.com", label: "GitHub", external: true },
-  { href: "#", label: "API Docs", external: false },
-  { href: "#", label: "About", external: false },
+  {
+    href: "https://github.com/0motionguy/starscreener",
+    label: "GitHub",
+    external: true,
+  },
+  {
+    href: "https://x.com/0motionguy",
+    label: "@0motionguy",
+    external: true,
+  },
+  { href: "/portal/docs", label: "API Docs", external: false },
+  { href: "/cli", label: "CLI", external: false },
 ] as const;
 
 export function Footer() {

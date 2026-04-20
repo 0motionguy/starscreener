@@ -92,7 +92,6 @@
   --font-sans: var(--font-inter), "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-jetbrains-mono), "JetBrains Mono", ui-monospace, "Cascadia Code", monospace;
   --font-display: var(--font-space-grotesk), "Space Grotesk", var(--font-inter), "Inter", sans-serif;
-  --font-editorial: var(--font-instrument-serif), "Instrument Serif", ui-serif, Georgia, serif;
 
   /* ── Type scale ────────────────────────────────────────────────────────── */
   --text-2xs: 0.625rem;     /* 10px */
@@ -476,13 +475,6 @@ body > * {
   line-height: var(--leading-tight);
 }
 
-/* Editorial type — Instrument Serif italic for magazine-style pull quotes */
-.font-editorial {
-  font-family: var(--font-editorial);
-  font-style: italic;
-  font-weight: 400;
-  letter-spacing: var(--tracking-tight);
-}
 
 /* Micro label: 10px mono uppercase, widest tracking, tertiary text */
 .label-micro {

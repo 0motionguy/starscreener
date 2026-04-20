@@ -1,181 +1,237 @@
+<div align="center">
+
 # StarScreener
 
-**Live GitHub trend terminal — Dexscreener for open source.**
+**The live GitHub trend terminal. Dexscreener for open source.**
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
-[![CI](https://github.com/0motionguy/starscreener/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/0motionguy/starscreener/actions/workflows/ci.yml)
-[![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6.svg?logo=typescript&logoColor=white)](./tsconfig.json)
-[![Next.js](https://img.shields.io/badge/Next.js-15-black.svg?logo=next.js)](https://nextjs.org)
+[![License: MIT](https://img.shields.io/badge/License-MIT-22c55e.svg?style=for-the-badge)](./LICENSE)
+[![Next.js 15](https://img.shields.io/badge/Next.js-15-000000.svg?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6.svg?style=for-the-badge&logo=typescript&logoColor=white)](./tsconfig.json)
+[![Portal v0.1](https://img.shields.io/badge/Portal-v0.1-f56e0f.svg?style=for-the-badge)](https://visitportal.dev)
+[![MCP](https://img.shields.io/badge/MCP-ready-a855f7.svg?style=for-the-badge)](https://modelcontextprotocol.io)
 
-## What is this?
+[**Live demo**](https://starscreener.vercel.app)  ·  [**Portal manifest**](https://starscreener.vercel.app/portal)  ·  [**API docs**](https://starscreener.vercel.app/portal/docs)  ·  [**CLI**](https://starscreener.vercel.app/cli)  ·  [**@0motionguy**](https://x.com/0motionguy)
 
-StarScreener ingests real GitHub data for a curated seed of ~300 repos, scores momentum and breakout velocity against rolling baselines, and surfaces the movers through a Dexscreener-style terminal UI, a REST API, a CLI, an SSE event stream, and an MCP server. All numbers come from live sources — there is a strict **no-mock rule** in the ingestion pipeline; if a value can't be verified against GitHub, HN, Reddit, or Nitter, it isn't shown.
+</div>
 
-<!-- Live demo: TODO — no public deploy yet. -->
+---
 
-## Features
+StarScreener ingests GitHub trending data every 20 min, scores momentum + breakout velocity, and surfaces the movers through four parallel surfaces: a **Dexscreener-style web terminal**, a **zero-dependency CLI**, an **MCP server** for Claude / any agent, and a **Portal v0.1** endpoint so any LLM can query trending repos with a single manifest fetch.
 
-- **Live GitHub ingestion** with per-endpoint retry + rate-limit backoff (native `fetch`, no Octokit).
-- **300-repo curated seed** across 10 categories, plus **nightly stargazer-backfill for the top 20** to produce real historical sparklines.
-- **10 categories** (AI/LLM, Dev Tools, Infra, Web3, Frontend, Backend, Data, Security, DevOps, Other) with per-category heat and leaderboards.
-- **Momentum scoring** (0–100) blending star velocity, fork growth, contributor churn, commit/release freshness, and social mentions — with anti-spam dampening.
-- **Trend + breakout detection** against rolling baselines; also flags quiet killers, rank climbers, and fresh releases.
-- **SSE event stream** at `/api/events/stream` for live UI updates and external subscribers.
-- **MCP server** (`mcp/`) exposing the REST surface as read-only tools for Claude Desktop and other agents.
-- **CLI** (`bin/ss.mjs`) for terminal-native trend browsing — zero deps, Node 18+.
-- **Dynamic OG share cards** per repo and per page via Next.js `opengraph-image` routes.
-- **No-mock rule** — every metric is derived from a live source or persisted GitHub snapshot; placeholder data is forbidden.
+One data pipeline. Four consumers. No mocks — every number is anchored in a live source or a committed snapshot, so the numbers you see are the numbers your agent queries.
 
-## Quickstart
+## Highlights
+
+- 🫧 **Bubble map** — Coin360-style physics visualisation of the top 220 movers per window (24 h / 7 d / 30 d). Auto-stops when settled, so idle CPU is zero.
+- 📈 **Momentum score (0–100)** — composite of 24 h / 7 d / 30 d star velocity + fork growth + contributor churn + commit / release freshness + anti-spam dampening.
+- 🔥 **Breakout + hot + quiet-killer classifier** — tier-aware rules run against rolling baselines, not static cutoffs.
+- 🎯 **15 categories** × 15 distinct hues — DevTools, AI Agents, MCP, Databases, Infra, Rust, Crypto, Web Frameworks, and more.
+- ⚡ **ISR-cached homepage** — `revalidate = 1800`. Static edge hit, fresh data every 30 min via GHA scrape.
+- 🧩 **Portal v0.1 + MCP server** — same three tools (`top_gainers`, `search_repos`, `maintainer_profile`) exposed over both protocols from a single registry. No drift between the CLI, the browser, and the agent.
+- 📊 **Side-by-side compare** — pick up to 4 repos, see star-history, contributor grids, commit heatmaps, language breakdown, and a winner scoreboard.
+- 🔖 **Watchlist + bookmarks** — local-first, synced via Zustand + `localStorage`. No auth required.
+- 💻 **Zero-dep CLI** (`bin/ss.mjs`) — Node 18+, reads the same pipeline as the web.
+- 🔎 **Live search preview** — debounced autocomplete dropdown with keyboard nav, rendered through a Portal so it escapes the sticky-header stacking context.
+
+## Quick start
+
+Three ways to use StarScreener, ordered by effort:
+
+**1. Visit the site.** [starscreener.vercel.app](https://starscreener.vercel.app)
+
+**2. Query from a terminal.**
 
 ```bash
-git clone https://github.com/0motionguy/starscreener.git
-cd starscreener
-npm install
-cp .env.example .env.local    # then fill in GITHUB_TOKEN
-npm run scrape                # refresh data/trending.json from OSS Insight
-npm run compute-deltas        # build data/deltas.json from git history
-npm run dev                   # localhost:3023
+# Via the spec-native Portal visitor
+npx @visitportal/visit https://starscreener.vercel.app/portal top_gainers --limit=10
+
+# Or via the native CLI (clones + runs from GitHub)
+npx github:0motionguy/starscreener trending --window=24h --limit=5
 ```
 
-`GITHUB_TOKEN` needs `public_repo` scope (used by the legacy ingest helpers under `/api/pipeline/*`; the hourly data path is auth-free).
+**3. Plug into Claude / any MCP agent.**
+
+```bash
+# HTTP transport (Claude Code 2+)
+claude mcp add starscreener \
+  --transport http \
+  --url https://starscreener.vercel.app/portal
+```
+
+Or hit the REST endpoint directly:
+
+```bash
+curl -X POST https://starscreener.vercel.app/portal/call \
+  -H "Content-Type: application/json" \
+  -d '{"tool":"search_repos","params":{"query":"agent","limit":5}}'
+```
+
+## Repository structure
+
+```
+starscreener/
+├─ src/
+│  ├─ app/                       Next.js App Router — pages, API routes, OG cards
+│  │  ├─ page.tsx                  Homepage: bubble map + terminal (ISR 30 min)
+│  │  ├─ search/ compare/          Search + side-by-side compare surfaces
+│  │  ├─ repo/[owner]/[name]/      Repo detail page — growth chart, why-moving, mentions
+│  │  ├─ collections/ categories/  Curated sets + category browsers
+│  │  ├─ portal/                   GET /portal  +  POST /portal/call
+│  │  ├─ portal/docs/              Integration guide (REST + MCP tabs)
+│  │  ├─ cli/                      CLI landing page
+│  │  └─ api/                      REST + pipeline admin + SSE stream
+│  ├─ components/
+│  │  ├─ terminal/                 Dense table, BubbleMap, FilterBar, FeaturedCards, column defs
+│  │  ├─ compare/                  Side-by-side chart, heatmap, contributor grid, winner chips
+│  │  ├─ detail/                   Repo detail: header, Recharts growth, why-moving, mentions
+│  │  ├─ layout/                   AppShell, Sidebar, MobileDrawer, Footer
+│  │  └─ shared/                   Primitives: Sparkline, SearchBar, badges
+│  ├─ lib/
+│  │  ├─ derived-repos.ts          Assembles the full Repo[] from data/*.json (cached once)
+│  │  ├─ trending.ts               OSS Insight + git-history delta loader
+│  │  ├─ bubble-pack.ts            Circle-pack algorithm for the bubble map
+│  │  ├─ pipeline/
+│  │  │  ├─ scoring/               Momentum score: components + weights + modifiers
+│  │  │  ├─ classification/        Category + tag inference from topics, name, desc
+│  │  │  ├─ ingestion/             GitHub API pulls, stargazer backfill
+│  │  │  └─ storage/               Snapshot + repo + score stores (in-memory)
+│  │  └─ types.ts                  Single source of truth for Repo, Category, etc.
+│  ├─ portal/                     Portal v0.1 server — manifest, dispatcher, rate-limit, validate
+│  └─ tools/                      Tool handlers (callable via /portal/call + MCP + CLI)
+│     ├─ top-gainers.ts
+│     ├─ search-repos.ts
+│     └─ maintainer-profile.ts
+├─ mcp/                           Published MCP server (starscreener-mcp) — stdio bridge
+├─ bin/
+│  └─ ss.mjs                      Zero-dependency CLI (Node 18+)
+├─ data/                          Committed JSON — ships with every deploy
+│  ├─ trending.json                 OSS Insight buckets (24h/7d/30d × 5 langs)
+│  ├─ deltas.json                   Star deltas computed from git history
+│  ├─ repo-metadata.json            GitHub REST snapshot per repo
+│  ├─ recent-repos.json             Newly discovered repos
+│  ├─ hot-collections.json
+│  ├─ collection-rankings.json
+│  └─ collections/                  Curated YAML sets (imported from OSS Insight, Apache 2.0)
+├─ scripts/                       Data-refresh mjs scripts (run via GHA)
+│  ├─ scrape-trending.mjs
+│  ├─ compute-deltas.mjs
+│  ├─ fetch-repo-metadata.mjs
+│  ├─ discover-recent-repos.mjs
+│  └─ portal-conformance.mjs
+├─ docs/                          Architecture notes (ARCHITECTURE, API, DEPLOY, etc.)
+├─ .github/workflows/
+│  ├─ ci.yml                        Typecheck + lint + test + build on push/PR
+│  ├─ scrape-trending.yml           Refresh data/*.json every 20 min (cron 7/27/47 * * * *)
+│  └─ refresh-collection-rankings.yml
+└─ public/                        Favicons, manifest, app icons
+```
 
 ## Architecture
 
-Next.js 15 App Router, React 19, TypeScript strict. Persistence is **JSONL files under `.data/`** — no external DB for v0. Ingestion runs on **Vercel crons** split into **hot / warm / cold tiers**; a tier-based scheduler decides which repos get refreshed when based on momentum, rank, and staleness. Client state uses **Zustand** (with `persist` for the watchlist). The REST surface lives under `src/app/api/`, and the SSE bus is a single long-lived route.
+```
+                      GitHub + OSS Insight
+                              │
+             ┌────────────────┼────────────────┐
+             │                │                │
+    scrape-trending   fetch-repo-metadata   discover-recent
+       (every 20m)         (daily)            (daily)
+             │                │                │
+             └────────────────┼────────────────┘
+                              ▼
+                       data/*.json  ──── committed to main
+                              │
+                              │  (read once per Lambda cold start)
+                              ▼
+              src/lib/derived-repos.ts
+      ┌───────────┬───────────┼───────────┬───────────┐
+      │           │           │           │           │
+  classify    score   synth-sparkline  deltas    metadata
+      └───────────┴─────────┬─┴───────────┴───────────┘
+                            │
+                    fully-scored Repo[]
+                            │
+       ┌─────────────┬──────┴──────┬──────────────┐
+       │             │             │              │
+   /  + /search  /api/repos    /portal/call    mcp/server.js
+   (ISR 30m)    (REST + SSE)   (Portal v0.1)   (stdio → LLM)
+```
 
-Full write-up: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). API reference: [docs/API.md](docs/API.md). Ingestion internals: [docs/INGESTION.md](docs/INGESTION.md). Storage layout: [docs/DATABASE.md](docs/DATABASE.md).
+## Data pipeline
 
-## Surfaces
+1. **Every 20 min** — `scrape-trending.yml` runs `scripts/scrape-trending.mjs` against OSS Insight's trending API (24 h / 7 d / 30 d × 5 languages), commits `data/trending.json` + updates `data/deltas.json` via `compute-deltas.mjs` (git-history-based windowed deltas).
+2. **Daily** — `fetch-repo-metadata.mjs` refreshes `data/repo-metadata.json` (GitHub REST: stars, forks, contributors, topics, avatar).
+3. **Runtime** — `src/lib/derived-repos.ts` merges trending + metadata + recent-repos, runs `classifyBatch()` + `scoreBatch()`, and caches the result module-level (survives Lambda warm-starts).
+4. **Deltas warm up over time** — for repos new to the tracking set, `delta_24h.basis === "cold-start"` until 24 h of history accumulates. The UI displays a dash instead of a fake 0 %, and sparklines are synthesized from the available anchors so rows aren't blank.
 
-### Web UI
-
-| Route | What it is |
-| --- | --- |
-| `/` | Terminal home — trending, breakouts, category heat, live ticker. |
-| `/search` | Full-text + filter search across the ingested repo set. |
-| `/categories` | Category index; drill into any of the 10 for per-category leaderboards. |
-| `/compare` | Side-by-side compare of 2–4 repos with winner picks per dimension. |
-| `/repo/[owner]/[name]` | Deep detail view: sparkline, score breakdown, reasons, social, related. |
-| `/watchlist` | Local (Zustand-persisted) watchlist with rule-based alerts. |
-
-### CLI
+## Portal v0.1 integration
 
 ```bash
-npm link          # registers the `ss` binary globally
-ss trending       # print the top trending repos right now
+# Read the manifest
+curl https://starscreener.vercel.app/portal | jq
+
+# Call a tool
+curl -X POST https://starscreener.vercel.app/portal/call \
+  -H "Content-Type: application/json" \
+  -d '{"tool":"top_gainers","params":{"limit":5}}'
 ```
 
-Example (real output, truncated):
+Three tools, one registry (`src/tools/`):
 
-```
-#  REPO                           STARS     Δ24h   MOMENTUM  TREND     CATEGORY
-1  chroma-core/chroma             27,472    +312   84        rising    ai-llm
-2  ollama/ollama                  96,104    +488   81        rising    ai-llm
-3  vercel/next.js                128,902    +214   76        steady    frontend
-4  anthropics/claude-code         11,208    +642   92        breakout  dev-tools
-...
-```
+| Tool | Purpose |
+|---|---|
+| `top_gainers` | Repos sorted by star delta across a window (24 h / 7 d / 30 d) |
+| `search_repos` | Full-text search over name / description / topics, ranked by momentum |
+| `maintainer_profile` | Aggregates owned repos for a GitHub handle across the tracked set |
 
-Other commands: `ss breakouts`, `ss new`, `ss repo <owner>/<name>`, `ss compare <a> <b>`, `ss categories`. `ss --help` for the full list.
+Envelope on every response: `{ ok: true, result }` or `{ ok: false, error, code }` with stable codes (`NOT_FOUND`, `INVALID_PARAMS`, `RATE_LIMITED`, `INTERNAL`). Rate limit returns HTTP 429 with `Retry-After`.
 
-### MCP
+## MCP server
+
+A stdio MCP bridge lives in [`mcp/`](./mcp). Build + register:
 
 ```bash
 npm run mcp:build
+claude mcp add starscreener node ./mcp/dist/server.js
 ```
 
-Then add to `claude_desktop_config.json` (macOS: `~/Library/Application Support/Claude/`, Windows: `%APPDATA%\Claude\`):
-
-```json
-{
-  "mcpServers": {
-    "starscreener": {
-      "command": "node",
-      "args": ["/absolute/path/to/starscreener/mcp/dist/server.js"],
-      "env": {
-        "STARSCREENER_API_URL": "http://localhost:3023"
-      }
-    }
-  }
-}
-```
-
-All tools are read-only. Full tool list in [mcp/README.md](mcp/README.md).
-
-## Agent integrations
-
-Star Screener is the first production-grade adopter of **three agent-native standards in one service**. All three share a single tool source at [src/tools/](src/tools/) so a tool behaves identically whether invoked through a drive-by HTTP visitor, an installed MCP server, or a procedural skill.
-
-### 1. Portal v0.1 — drive-by access over HTTP
-
-Any LLM visitor with Portal SDK support can discover Star Screener's capabilities by fetching a manifest:
+Or go HTTP-native (no bundle required):
 
 ```bash
-curl https://starscreener.xyz/portal | jq .tools
+claude mcp add starscreener --transport http --url https://starscreener.vercel.app/portal
 ```
-
-Then call any of the three canonical tools (`top_gainers`, `search_repos`, `maintainer_profile`):
-
-```bash
-curl -X POST https://starscreener.xyz/portal/call \
-  -H 'Content-Type: application/json' \
-  -d '{"tool":"top_gainers","params":{"limit":5,"window":"7d"}}'
-```
-
-Rate-limited to 10 req/min per IP (unauthenticated) or 1000 req/min with `X-API-Key`. Spec: [visitportal.dev](https://visitportal.dev). Details: [docs/protocols/portal.md](docs/protocols/portal.md).
-
-### 2. MCP server — installed tool access
-
-For Claude Desktop, Claude Code, Cursor, or any MCP-compatible agent. See the MCP quickstart above or the dedicated [mcp/README.md](mcp/README.md). Exposes 10 tools (3 Portal-canonical + 7 legacy). Details: [docs/protocols/mcp.md](docs/protocols/mcp.md).
-
-### 3. Agent Skills — procedural playbooks
-
-Three [agentskills.io](https://agentskills.io)-compliant SKILL.md files under [skills/](skills/) that teach Claude how to get the most out of Star Screener:
-
-| Skill | Trigger |
-|---|---|
-| `screen-trending-repos` | "What's trending this week?" |
-| `investigate-maintainer` | "Who's behind `<handle>`?" |
-| `weekly-report` | "Give me a Monday brief." |
-
-Portable across Claude Code, Claude Desktop, Cursor, Codex. Details: [docs/protocols/skills.md](docs/protocols/skills.md).
-
-## Known limits
-
-- **Sparkline backfill ceiling.** GitHub caps stargazer listings at ~400 pages (≈40,000 stargazers). Repos above that cap can't have history reconstructed retroactively — they show **"Collecting history"** until the daily snapshot cron builds a forward history over days.
-- **SSE requires a long-lived process.** Vercel serverless functions won't hold the connection open. For the full live-stream experience, deploy to **Railway**, **Fly.io**, or self-host on a VPS. Vercel still works fine for every non-SSE surface.
-- **Twitter/X mentions via Nitter.** Social counts from X depend on public Nitter mirrors being reachable. When every mirror we probe is down, the Twitter section is **hidden** rather than faked — consistent with the no-mock rule.
 
 ## Development
 
 ```bash
-npm run typecheck    # tsc --noEmit, strict
-npm test             # tsx --test for the pipeline test suite
-npm run lint         # eslint (next/core-web-vitals)
+# Install + run
+npm install
+npm run dev              # http://localhost:3023
+
+# Quality
+npm run typecheck        # tsc --noEmit
+npm run lint             # eslint
+npm run test             # pipeline + tools + portal tests
+npm run build            # production build
+
+# Data refresh (local parity with GHA)
+npm run scrape
+npm run fetch:metadata
+npm run compute-deltas
+
+# Portal conformance against the live endpoint
+npm run portal:conformance
 ```
 
 ## Deploy
 
-- **Vercel** works out of the box for the web UI, REST API, and crons. SSE will not hold open on serverless.
-- **Railway / Fly.io / VPS** for the full platform including the SSE event stream.
+Vercel. Root-level `next.config.ts` is prod-safe (no turbopack, no experimental flags). The homepage, categories, and collections pages build as static (`○`) with `revalidate = 1800` — so every edge request hits cache and the pipeline only recomputes when data changes on main.
 
-### Data refresh pipeline
-
-The hourly `scrape-trending` GitHub Actions workflow drives the whole ingest loop with zero external state:
-
-1. `scripts/scrape-trending.mjs` pulls OSS Insight trending into `data/trending.json`.
-2. `scripts/compute-deltas.mjs` walks the git history of `data/trending.json`, finds the commit nearest each target window (1h / 24h / 7d / 30d), and writes `data/deltas.json` with per-repo delta values + window metadata.
-3. The workflow commits both files; Vercel rebuilds on push and every Lambda sees the same committed JSON — no DB, no shared runtime state, no server-side cron trigger.
-
-Cold-start: delta windows populate as git history accumulates. `delta_1h` works after two scrapes; full `delta_30d` coverage takes ~30 days. The classifier tolerates missing deltas via per-field `*Missing` flags on `Repo`.
-
-Step-by-step: [docs/DEPLOY.md](docs/DEPLOY.md).
-
-## License
-
-[MIT](./LICENSE).
+Required env: `GITHUB_TOKEN` (for scraping + compare API), `CRON_SECRET` (guards `/api/pipeline/*` admin routes). See [`.env.example`](./.env.example).
 
 ## Credits
 
-StarScreener built by [@Kermit457](https://github.com/Kermit457) with [Claude Code](https://claude.com/claude-code).
+Built by [@0motionguy](https://x.com/0motionguy). Curated collections imported from [pingcap/ossinsight](https://github.com/pingcap/ossinsight) under Apache 2.0 (see `data/collections/NOTICE.md`). Portal spec from [visitportal.dev](https://visitportal.dev). MCP from [modelcontextprotocol.io](https://modelcontextprotocol.io).
+
+## License
+
+MIT — see [LICENSE](./LICENSE).

@@ -33,6 +33,7 @@ import { LanguageBar } from "@/components/compare/LanguageBar";
 import { ContributorGrid } from "@/components/compare/ContributorGrid";
 import { WinnerChips } from "@/components/compare/WinnerChips";
 import { StatIcon } from "@/components/compare/StatIcon";
+import { resolveCompareFullNames } from "@/lib/compare-selection";
 import type { CompareRepoBundle } from "@/lib/github-compare";
 import type { Repo } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -42,14 +43,6 @@ import { cn } from "@/lib/utils";
 const PALETTE = ["#22c55e", "#3b82f6", "#a855f7", "#f59e0b"] as const;
 
 const MAX_SLOTS = 4;
-
-// Store IDs are "owner--name" (see slugToId). Convert to "owner/name" for
-// /api/compare, which expects the canonical GitHub shorthand.
-function idToFullName(id: string): string {
-  const idx = id.indexOf("--");
-  if (idx === -1) return id;
-  return `${id.slice(0, idx)}/${id.slice(idx + 2)}`;
-}
 
 /** Synthesize a well-typed ok:false bundle for IDs /api/compare didn't return. */
 function fallbackBundle(fullName: string): CompareRepoBundle {
@@ -158,6 +151,7 @@ export function CompareClient() {
     const controller = new AbortController();
     setReposLoading(true);
     setBundlesLoading(true);
+    setBundles([]);
 
     // Fetch 1: legacy Repo[] for CompareChart.
     (async () => {
@@ -188,9 +182,9 @@ export function CompareClient() {
     // owner/name; store IDs are owner--name — normalize.
     (async () => {
       try {
-        const slug = repoIds.map((id) => idToFullName(id)).join(",");
+        const ids = repoIds.join(",");
         const res = await fetch(
-          `/api/compare?repos=${encodeURIComponent(slug)}`,
+          `/api/compare?ids=${encodeURIComponent(ids)}`,
           { signal: controller.signal },
         );
         if (!res.ok) throw new Error(`status ${res.status}`);
@@ -217,18 +211,23 @@ export function CompareClient() {
     return map;
   }, [bundles]);
 
+  const selectedFullNames = useMemo(
+    () => resolveCompareFullNames(repoIds, repos),
+    [repoIds, repos],
+  );
+
   // Ordered bundles mirroring selector order. Missing bundles become
   // ok:false fallbacks so the banner card + stack/contrib/pulse panels
   // can render an inline per-repo error without blocking the page.
   const orderedBundles = useMemo<CompareRepoBundle[]>(() => {
-    return repoIds.map((id) => {
-      const fullName = idToFullName(id);
-      return bundlesByFullName.get(fullName) ?? fallbackBundle(fullName);
-    });
-  }, [repoIds, bundlesByFullName]);
+    return selectedFullNames.map(
+      (fullName) => bundlesByFullName.get(fullName) ?? fallbackBundle(fullName),
+    );
+  }, [selectedFullNames, bundlesByFullName]);
 
   const isLoading = reposLoading || bundlesLoading;
   const isEmpty = hasHydrated && repoIds.length === 0;
+  const showBundleSkeletons = bundlesLoading && bundles.length === 0;
 
   // ------------------------------------------------------------------
   // Empty state — no repos queued in the store.
@@ -264,8 +263,8 @@ export function CompareClient() {
         aria-label="Repo banners"
         className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4"
       >
-        {isLoading && orderedBundles.length === 0
-          ? Array.from({ length: 3 }).map((_, i) => (
+        {showBundleSkeletons
+          ? Array.from({ length: Math.min(Math.max(repoIds.length, 2), 4) }).map((_, i) => (
               <BannerSkeleton key={`bskel-${i}`} />
             ))
           : orderedBundles.map((bundle, i) => (
@@ -300,7 +299,7 @@ export function CompareClient() {
          ------------------------------------------------------------- */}
       <section aria-label="Commit heatmap">
         <h2 className="label-section mb-3">COMMIT HEATMAP · 52 WEEKS</h2>
-        {isLoading && orderedBundles.length === 0 ? (
+        {showBundleSkeletons ? (
           <HeatmapSkeleton />
         ) : (
           <CompareHeatmap bundles={orderedBundles} palette={[...PALETTE]} />

@@ -16,7 +16,7 @@ interface SparklineProps {
  * dotted baseline instead to signal "collecting history" without leaving
  * an empty box.
  */
-const MIN_SAMPLES = 7;
+const MIN_SAMPLES = 2;
 
 /**
  * Pure SVG sparkline — lightweight inline chart.
@@ -35,13 +35,11 @@ export function Sparkline({
     () => data.filter((n) => Number.isFinite(n) && n !== 0).length,
     [data],
   );
-  const uniqueCount = useMemo(() => new Set(data).size, [data]);
   // A series with fewer than MIN_SAMPLES values, all zeros, or all identical
   // values (common when the repo exceeds GitHub's stargazer list cap and
   // deriveSparklineData had to carry one data point forward across every
   // slot) is not a real trend — show the placeholder instead.
-  const isSparse =
-    data.length < MIN_SAMPLES || nonZeroCount === 0 || uniqueCount <= 1;
+  const isSparse = data.length < MIN_SAMPLES || nonZeroCount === 0;
 
   const { linePath, areaPath } = useMemo(() => {
     if (data.length < 2 || isSparse) return { linePath: "", areaPath: "" };
@@ -101,16 +99,19 @@ export function Sparkline({
         className={className}
         aria-hidden="true"
       >
-        <line
-          x1={1}
-          x2={width - 1}
-          y1={height / 2}
-          y2={height / 2}
+        <path
+          d={`M ${Math.round(width * 0.18)} ${height / 2} H ${Math.round(width * 0.7)}`}
           stroke="var(--color-text-muted, var(--color-text-tertiary))"
           strokeWidth={1}
-          strokeDasharray="2 3"
           strokeLinecap="round"
-          opacity={0.6}
+          opacity={0.35}
+        />
+        <circle
+          cx={Math.round(width * 0.78)}
+          cy={height / 2}
+          r={2.5}
+          fill="var(--color-text-muted, var(--color-text-tertiary))"
+          opacity={0.75}
         />
       </svg>
     );

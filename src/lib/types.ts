@@ -179,10 +179,12 @@ export type ColumnId =
 export const DEFAULT_VISIBLE_COLUMNS: ColumnId[] = [
   "rank",
   "repo",
-  "stars",
   "delta24h",
   "delta7d",
+  "delta30d",
   "chart",
+  "stars",
+  "forks",
   "actions",
 ];
 

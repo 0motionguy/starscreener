@@ -318,10 +318,11 @@ export const useFilterStore = create<FilterState>()(
     }),
     {
       name: "starscreener-filters",
-      // v3 — tightened default visible columns (dropped momentum +
-      // lastRelease from the first-impression layout). Bump forces old
-      // persisted state through migrate() so users see the new defaults.
-      version: 3,
+      // v4 — reset the first-impression layout to repo + real trend windows
+      // (24h/7d/30d), chart, stars, forks, actions. Bump forces old persisted
+      // state through migrate() so returning users do not keep MOM/language-era
+      // layouts after the terminal density cleanup.
+      version: 4,
       // Only persist layout preferences and sticky toggles — transient
       // narrative filters (meta, tab, time range, category, etc.) always
       // start fresh each session per spec.
@@ -337,12 +338,12 @@ export const useFilterStore = create<FilterState>()(
       }),
       migrate: (persistedState, version) => {
         const s = (persistedState ?? {}) as Partial<FilterState>;
-        // v3 — any persisted state from v1/v2 gets its visibleColumns
+        // v4 — any persisted state from older layouts gets visibleColumns
         // reset to the new defaults so the density cleanup actually
         // reaches returning users. Users who customized their layout
-        // pre-v3 will see the clean set and can toggle back via the
+        // pre-v4 will see the clean set and can toggle back via the
         // column picker.
-        if (version < 3) {
+        if (version < 4) {
           s.visibleColumns = [...DEFAULT_VISIBLE_COLUMNS];
         } else if (Array.isArray(s.visibleColumns)) {
           // Post-v3: filter out unknown ColumnId values and guarantee

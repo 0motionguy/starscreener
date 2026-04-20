@@ -7,9 +7,9 @@
 //   - breakpoint-aware column visibility
 //   - keyboard focus + key bindings (arrows, W, C, Enter, Esc)
 //   - the column picker popover open state
-//
-// Virtualization is not installed yet; we log a TODO when the list
-// crosses 200 rows so the threshold is easy to spot during QA.
+//   - first-paint row cap (DEFAULT_VISIBLE_ROWS) with a "Show all" CTA
+//     so cold-load renders 150 rows instead of 800. Keyboard arrow-down
+//     past the cap auto-expands so navigation isn't blocked.
 
 import {
   useCallback,
@@ -63,6 +63,14 @@ const BP_PX: Record<Breakpoint, number> = {
   xl: 1280,
   "2xl": 1536,
 };
+
+/**
+ * First-paint row cap. 800-row un-virtualized tables tank TTI — rendering
+ * 150 rows cuts DOM node count by ~80% while still covering the top of
+ * every common sort preset. Users hit "Show all" (or arrow-down past the
+ * cap) to opt into the full list.
+ */
+const DEFAULT_VISIBLE_ROWS = 150;
 
 function bpPasses(current: number, minBp: Breakpoint): boolean {
   return current >= BP_PX[minBp];
@@ -129,14 +137,19 @@ export function Terminal({
     return kept;
   }, [storedVisible, windowWidth]);
 
-  // 200+ row TODO — virtualization deferred.
+  // Row cap state — reset whenever the source list changes (sort, filter,
+  // category switch) so the user always starts from the top N of the fresh
+  // view. `virtualized` prop opts out of the cap entirely.
+  const [showAll, setShowAll] = useState(false);
   useEffect(() => {
-    if (!virtualized && repos.length >= 200) {
-      console.warn(
-        `[Terminal] TODO-virt: rendering ${repos.length} rows without virtualization`,
-      );
-    }
-  }, [repos.length, virtualized]);
+    setShowAll(false);
+  }, [repos]);
+  const totalRows = repos.length;
+  const effectiveLimit =
+    virtualized || showAll || totalRows <= DEFAULT_VISIBLE_ROWS
+      ? totalRows
+      : DEFAULT_VISIBLE_ROWS;
+  const hiddenRowCount = totalRows - effectiveLimit;
 
   // Keyboard focus state
   const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
@@ -215,7 +228,15 @@ export function Terminal({
       switch (e.key) {
         case "ArrowDown":
           e.preventDefault();
-          setFocusedIndex((i) => (i === null ? 0 : Math.min(lastIdx, i + 1)));
+          setFocusedIndex((i) => {
+            const next = i === null ? 0 : Math.min(lastIdx, i + 1);
+            // Auto-expand the row cap once the user arrows past it so
+            // keyboard nav never hits an invisible wall.
+            if (next >= effectiveLimit - 1 && hiddenRowCount > 0) {
+              setShowAll(true);
+            }
+            return next;
+          });
           break;
         case "ArrowUp":
           e.preventDefault();
@@ -297,6 +318,8 @@ export function Terminal({
     pickerOpen,
     closeColumnPicker,
     helpOpen,
+    effectiveLimit,
+    hiddenRowCount,
   ]);
 
   // Mobile expand state — single-expanded policy keeps the viewport sane.
@@ -318,10 +341,11 @@ export function Terminal({
 
   // ---------------- Mobile layout ----------------
   if (isMobile) {
+    const mobileVisible = repos.slice(0, effectiveLimit);
     return (
       <>
         <div className={cn("space-y-2", className)}>
-          {repos.map((repo, i) => (
+          {mobileVisible.map((repo, i) => (
             <TerminalMobileCard
               key={repo.id}
               repo={repo}
@@ -334,6 +358,24 @@ export function Terminal({
               }
             />
           ))}
+          {hiddenRowCount > 0 && (
+            <button
+              type="button"
+              onClick={() => setShowAll(true)}
+              className={cn(
+                "w-full py-3 rounded-card text-sm font-mono",
+                "border border-border-primary text-text-secondary",
+                "hover:border-brand hover:text-brand hover:bg-brand-subtle",
+                "transition-colors",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40",
+              )}
+            >
+              Show all {totalRows.toLocaleString()} repos
+              <span className="ml-2 text-text-muted">
+                (+{hiddenRowCount.toLocaleString()} more)
+              </span>
+            </button>
+          )}
         </div>
         {helpOpen ? <KeyboardHelp onClose={closeHelp} /> : null}
       </>
@@ -364,7 +406,7 @@ export function Terminal({
             onOpenColumnPicker={openColumnPicker}
           />
           <tbody>
-            {repos.map((repo, i) => (
+            {repos.slice(0, effectiveLimit).map((repo, i) => (
               <TerminalRow
                 key={repo.id}
                 repo={repo}
@@ -380,6 +422,38 @@ export function Terminal({
 
         {pickerOpen ? <ColumnPicker onClose={closeColumnPicker} /> : null}
       </div>
+
+      {hiddenRowCount > 0 && (
+        <div className="mt-3 flex items-center justify-center">
+          <button
+            type="button"
+            onClick={() => setShowAll(true)}
+            className={cn(
+              "inline-flex items-center gap-2 px-4 py-2 rounded-card text-xs font-mono",
+              "border border-border-primary text-text-secondary",
+              "hover:border-brand hover:text-brand hover:bg-brand-subtle",
+              "transition-colors",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40",
+            )}
+            title="Load the full sorted list — may briefly increase CPU on slower devices."
+          >
+            <span>
+              Showing top{" "}
+              <span className="text-text-primary font-semibold">
+                {effectiveLimit.toLocaleString()}
+              </span>
+              {" "}of{" "}
+              <span className="text-text-primary font-semibold">
+                {totalRows.toLocaleString()}
+              </span>
+            </span>
+            <span className="text-text-muted">·</span>
+            <span className="text-brand">
+              Show all {totalRows.toLocaleString()}
+            </span>
+          </button>
+        </div>
+      )}
       {helpOpen ? <KeyboardHelp onClose={closeHelp} /> : null}
     </>
   );

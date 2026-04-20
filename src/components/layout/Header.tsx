@@ -41,8 +41,16 @@ export function Header() {
             className="live-dot live-dot-brand"
             aria-hidden="true"
           />
-          <span className="font-display font-bold text-lg tracking-tight text-text-primary leading-none">
-            Star<span className="text-brand">Screener</span>
+          <span className="flex flex-col leading-none">
+            <span className="font-display font-bold text-lg tracking-tight text-text-primary leading-none">
+              Star<span className="text-brand">Screener</span>
+            </span>
+            <span
+              className="hidden sm:inline font-mono text-[9px] uppercase tracking-[0.14em] text-text-tertiary leading-none mt-0.5"
+              aria-hidden="true"
+            >
+              AI trending · every surface
+            </span>
           </span>
         </Link>
       </div>

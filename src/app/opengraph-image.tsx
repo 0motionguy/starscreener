@@ -11,7 +11,7 @@ import { OG_COLORS } from "@/lib/seo";
 import { Dot, StarMark } from "@/lib/og-primitives";
 
 export const runtime = "nodejs";
-export const alt = "StarScreener — The momentum terminal for GitHub repos";
+export const alt = "StarScreener — AI Trending Terminal";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -54,17 +54,34 @@ export default async function HomeOGImage() {
           <span style={{ color: OG_COLORS.textPrimary }}>StarScreener</span>
         </div>
 
-        {/* Tagline */}
+        {/* Headline */}
         <div
           style={{
             display: "flex",
-            marginTop: 24,
-            fontSize: 32,
-            color: OG_COLORS.textSecondary,
-            letterSpacing: "-0.01em",
+            marginTop: 28,
+            fontSize: 72,
+            fontWeight: 700,
+            color: OG_COLORS.textPrimary,
+            letterSpacing: "-0.02em",
+            lineHeight: 1,
           }}
         >
-          The momentum terminal for GitHub repos
+          AI Trending Terminal
+        </div>
+
+        {/* Sub — surfaces */}
+        <div
+          style={{
+            display: "flex",
+            marginTop: 18,
+            fontSize: 22,
+            fontFamily: "monospace",
+            color: OG_COLORS.textTertiary,
+            letterSpacing: "0.18em",
+            textTransform: "uppercase",
+          }}
+        >
+          WEB · CLI · CLAUDE
         </div>
 
         {/* 3x2 repo grid */}

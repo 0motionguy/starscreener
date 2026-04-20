@@ -2,4 +2,4 @@
 
 export const APP_VERSION = "0.1.0";
 export const APP_NAME = "StarScreener";
-export const APP_TAGLINE = "Repo Momentum Terminal";
+export const APP_TAGLINE = "AI Trending Terminal";

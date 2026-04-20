@@ -1,0 +1,256 @@
+"use client";
+
+// StarScreener — /portal/docs client shell.
+//
+// Tab state + copy-to-clipboard lives here. The tool list is sourced
+// from the shared @/tools registry so drift with the live manifest is
+// impossible.
+
+import { useState } from "react";
+import Link from "next/link";
+import { Plug, Terminal, Copy, Check } from "lucide-react";
+import { TOOLS } from "@/tools";
+
+type Tab = "mcp" | "rest";
+
+const MCP_INSTALL = `claude mcp add starscreener node "C:/path/to/mcp/dist/server.js"`;
+
+const CURL_EXAMPLE = `curl -X POST https://starscreener.xyz/portal/call \\
+  -H "Content-Type: application/json" \\
+  -d '{"method":"search_repos","params":{"query":"agent","limit":5}}'`;
+
+export default function PortalDocsClient() {
+  const [tab, setTab] = useState<Tab>("mcp");
+
+  return (
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
+      {/* Heading ------------------------------------------------------ */}
+      <header className="mb-8">
+        <span className="label-micro">MCP Portal · v0.1</span>
+        <h1 className="font-display text-4xl sm:text-5xl mt-2 mb-3">
+          Plug StarScreener into any agent.
+        </h1>
+        <p className="text-text-secondary text-md max-w-2xl leading-relaxed">
+          Point your Claude, OpenAI, or custom LLM at our read-only tool
+          surface. No auth, no keys, no setup — just top gainers,
+          full-text search, and maintainer rollups piped through either
+          MCP or plain HTTP.
+        </p>
+      </header>
+
+      {/* Tabs --------------------------------------------------------- */}
+      <div
+        role="tablist"
+        aria-label="Integration mode"
+        className="inline-flex items-center gap-1 border border-border-primary rounded-button p-1 bg-bg-card mb-6"
+      >
+        <TabButton active={tab === "mcp"} onClick={() => setTab("mcp")}>
+          <Plug className="w-3.5 h-3.5" /> MCP
+        </TabButton>
+        <TabButton active={tab === "rest"} onClick={() => setTab("rest")}>
+          <Terminal className="w-3.5 h-3.5" /> REST
+        </TabButton>
+      </div>
+
+      {tab === "mcp" ? <McpTab /> : <RestTab />}
+
+      {/* Footer link back to raw manifest ----------------------------- */}
+      <p className="mt-10 text-xs font-mono text-text-tertiary">
+        Raw manifest:{" "}
+        <Link
+          href="/portal"
+          className="text-brand hover:text-brand-hover underline decoration-dotted"
+        >
+          GET /portal
+        </Link>
+        {"  ·  "}Call endpoint: POST /portal/call
+      </p>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// MCP tab
+// ---------------------------------------------------------------------------
+
+function McpTab() {
+  return (
+    <div className="space-y-8">
+      <section>
+        <span className="label-section">Install</span>
+        <p className="text-text-secondary text-sm mt-2 mb-3">
+          Register StarScreener with the Claude CLI as a local MCP server.
+          Replace the binary path with wherever you checked out{" "}
+          <span className="font-mono text-text-primary">
+            @starscreener/mcp
+          </span>
+          .
+        </p>
+        <CodeBlock value={MCP_INSTALL} />
+      </section>
+
+      <section>
+        <span className="label-section">Tools · {TOOLS.length}</span>
+        <p className="text-text-secondary text-sm mt-2 mb-3">
+          Every tool below is also callable over REST. Params are
+          validated at the boundary and errors come back as typed codes
+          (<span className="font-mono">INVALID_PARAMS</span>,{" "}
+          <span className="font-mono">NOT_FOUND</span>).
+        </p>
+        <ul className="divide-y divide-border-secondary border border-border-primary rounded-md overflow-hidden bg-bg-card">
+          {TOOLS.map((tool) => (
+            <li key={tool.name} className="p-4">
+              <div className="font-mono text-sm text-brand mb-1">
+                {tool.name}
+              </div>
+              <p className="text-text-secondary text-sm leading-relaxed">
+                {tool.description}
+              </p>
+              {Object.keys(tool.portalParams).length > 0 && (
+                <div className="mt-3 flex flex-wrap gap-1.5">
+                  {Object.entries(tool.portalParams).map(([k, v]) => (
+                    <span
+                      key={k}
+                      className="font-mono text-[11px] px-1.5 py-0.5 rounded bg-bg-tertiary text-text-tertiary border border-border-secondary"
+                    >
+                      {k}
+                      {v.required ? "*" : ""}
+                      <span className="text-text-muted">:{v.type}</span>
+                    </span>
+                  ))}
+                </div>
+              )}
+            </li>
+          ))}
+        </ul>
+      </section>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// REST tab
+// ---------------------------------------------------------------------------
+
+function RestTab() {
+  return (
+    <div className="space-y-8">
+      <section>
+        <span className="label-section">Call any tool over HTTP</span>
+        <p className="text-text-secondary text-sm mt-2 mb-3">
+          POST a JSON body to{" "}
+          <span className="font-mono text-text-primary">/portal/call</span>{" "}
+          with a <span className="font-mono">method</span> (tool name) and{" "}
+          <span className="font-mono">params</span> object. The response
+          shape mirrors JSON-RPC: either{" "}
+          <span className="font-mono">{"{ ok: true, result }"}</span> on a
+          successful dispatch or{" "}
+          <span className="font-mono">
+            {"{ ok: false, error, code }"}
+          </span>{" "}
+          on a handled failure. Rate-limited responses come back as HTTP
+          429 with{" "}
+          <span className="font-mono">
+            code: &quot;RATE_LIMITED&quot;
+          </span>
+          .
+        </p>
+        <CodeBlock value={CURL_EXAMPLE} />
+      </section>
+
+      <section>
+        <span className="label-section">Response shape</span>
+        <ul className="mt-3 space-y-2 text-text-secondary text-sm leading-relaxed list-disc pl-5">
+          <li>
+            <span className="font-mono text-text-primary">ok</span> —
+            boolean. <span className="font-mono">true</span> means the
+            tool ran and returned data.
+          </li>
+          <li>
+            <span className="font-mono text-text-primary">result</span> —
+            the tool&apos;s typed payload (e.g. a{" "}
+            <span className="font-mono">repos[]</span> array for
+            search_repos). Shape matches the tool&apos;s output contract
+            in <span className="font-mono">src/tools/types.ts</span>.
+          </li>
+          <li>
+            <span className="font-mono text-text-primary">error</span> /{" "}
+            <span className="font-mono">code</span> — on failure. Codes
+            are stable strings, safe to branch on.
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <span className="label-section">CORS</span>
+        <p className="mt-2 text-text-secondary text-sm leading-relaxed">
+          The endpoint echoes the request Origin, so browser-resident
+          agents can call it directly from any host. No preflight
+          surprises.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Shared bits
+// ---------------------------------------------------------------------------
+
+function TabButton({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      role="tab"
+      aria-selected={active}
+      onClick={onClick}
+      className={
+        "flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono uppercase tracking-wider rounded-sm transition-colors " +
+        (active
+          ? "bg-brand text-black"
+          : "text-text-secondary hover:text-text-primary")
+      }
+    >
+      {children}
+    </button>
+  );
+}
+
+function CodeBlock({ value }: { value: string }) {
+  const [copied, setCopied] = useState(false);
+
+  function copy() {
+    void navigator.clipboard.writeText(value).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1400);
+    });
+  }
+
+  return (
+    <div className="relative group">
+      <pre className="bg-bg-card border border-border-primary rounded-md p-3 font-mono text-[13px] overflow-x-auto whitespace-pre text-text-primary">
+        {value}
+      </pre>
+      <button
+        type="button"
+        onClick={copy}
+        aria-label="Copy to clipboard"
+        className="absolute top-2 right-2 w-7 h-7 flex items-center justify-center rounded-button border border-border-primary bg-bg-primary text-text-tertiary hover:text-brand hover:border-brand opacity-0 group-hover:opacity-100 transition-opacity"
+      >
+        {copied ? (
+          <Check className="w-3.5 h-3.5 text-accent-green" />
+        ) : (
+          <Copy className="w-3.5 h-3.5" />
+        )}
+      </button>
+    </div>
+  );
+}

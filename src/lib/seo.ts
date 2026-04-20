@@ -7,9 +7,9 @@ export const SITE_URL: string =
   process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3008";
 
 export const SITE_NAME = "StarScreener";
-export const SITE_TAGLINE = "Repo Momentum Terminal";
+export const SITE_TAGLINE = "AI Trending Terminal";
 export const SITE_DESCRIPTION =
-  "The momentum terminal for GitHub repos — discover trending open-source projects before they blow up.";
+  "The live AI repo trending terminal. Bubble map, feeds, CLI, and MCP — so every agent and every terminal sees what's heating up.";
 
 /**
  * Resolve a site-relative path to an absolute URL using the configured

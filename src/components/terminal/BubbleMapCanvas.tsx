@@ -16,6 +16,18 @@
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { formatNumber } from "@/lib/utils";
 
+/**
+ * AI-native category IDs — kept in sync with the same set in BubbleMap.tsx.
+ * Both files are small and closely coupled; duplicating this tiny set keeps
+ * the server/client boundary clean without adding a shared module.
+ */
+const AI_CATEGORY_IDS = new Set<string>([
+  "ai-ml",
+  "ai-agents",
+  "mcp",
+  "local-llm",
+]);
+
 export type WindowKey = "24h" | "7d" | "30d";
 
 export interface BubbleSeed {
@@ -87,8 +99,24 @@ export function BubbleMapCanvas({ windows, width, height }: BubbleMapCanvasProps
         ? "7d"
         : "30d";
   const [activeTab, setActiveTab] = useState<WindowKey>(defaultTab);
+  // AI-first: default to the AI-only view so the map reads as an AI map
+  // on first paint. User can switch to ALL to see the full boosted pack.
+  const [aiOnly, setAiOnly] = useState<boolean>(true);
 
-  const seeds = windows[activeTab];
+  // Per-window seed list after the AI filter. When aiOnly is false we hand
+  // back the full boosted pack unchanged. When true, each window is
+  // filtered down to the four AI-native categories — an empty filtered
+  // window is intentional; we don't auto-switch tabs.
+  const filteredWindows = useMemo<WindowSeedSet>(() => {
+    if (!aiOnly) return windows;
+    return {
+      "24h": windows["24h"].filter((s) => AI_CATEGORY_IDS.has(s.categoryId)),
+      "7d": windows["7d"].filter((s) => AI_CATEGORY_IDS.has(s.categoryId)),
+      "30d": windows["30d"].filter((s) => AI_CATEGORY_IDS.has(s.categoryId)),
+    };
+  }, [windows, aiOnly]);
+
+  const seeds = filteredWindows[activeTab];
 
   const svgRef = useRef<SVGSVGElement | null>(null);
   const groupRefs = useRef<Record<string, SVGGElement | null>>({});
@@ -482,6 +510,43 @@ export function BubbleMapCanvas({ windows, width, height }: BubbleMapCanvasProps
       aria-label="Trending bubble map — drag to rearrange, click to open"
       className="relative mb-4 rounded-card border border-border-primary bg-bg-card/60 overflow-hidden"
     >
+      {/* AI / ALL toggle — lives in the top-left corner, mirroring the
+          window-tab pill group on the right. Default is "AI" so the map
+          opens as an AI-first view; "ALL" reveals the full boosted pack. */}
+      <div
+        className="absolute top-2 left-2 z-10 flex items-center gap-0.5 rounded-full border border-border-primary bg-bg-card/80 backdrop-blur-sm p-0.5 font-mono text-[11px]"
+        role="tablist"
+        aria-label="Category filter"
+      >
+        {[
+          { key: true, label: "AI" },
+          { key: false, label: "ALL" },
+        ].map(({ key, label }) => {
+          const active = aiOnly === key;
+          return (
+            <button
+              key={label}
+              type="button"
+              role="tab"
+              aria-selected={active}
+              aria-label={
+                key
+                  ? "Show only AI-native categories"
+                  : "Show all trending categories"
+              }
+              onClick={() => setAiOnly(key)}
+              className={
+                "px-3 py-1 rounded-full transition-colors uppercase tracking-wider " +
+                (active
+                  ? "bg-brand text-text-inverse font-semibold"
+                  : "text-text-secondary hover:bg-bg-tertiary hover:text-text-primary")
+              }
+            >
+              {label}
+            </button>
+          );
+        })}
+      </div>
       {/* Window tabs — overlaid in the top-right corner so the canvas
           stays the focus. Absolute-positioned so they float above the
           SVG without consuming vertical space. */}
@@ -491,9 +556,12 @@ export function BubbleMapCanvas({ windows, width, height }: BubbleMapCanvasProps
         aria-label="Time window"
       >
         {WINDOW_TABS.map((tab) => {
-          const count = windows[tab.key].length;
+          const count = filteredWindows[tab.key].length;
           const active = activeTab === tab.key;
-          const disabled = count === 0;
+          // Disable only when the underlying (unfiltered) window is empty.
+          // An AI-filter zero-out should still be selectable so the user
+          // can see "AI + 24h = 0" without the UI forcing a reset.
+          const disabled = windows[tab.key].length === 0;
           return (
             <button
               key={tab.key}

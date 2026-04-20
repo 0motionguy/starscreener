@@ -32,6 +32,21 @@ const MAP_HEIGHT = 360;
 const MIN_RADIUS = 11;
 const MAX_RADIUS = 76;
 
+/**
+ * Category IDs considered "AI-native". These repos get a weight boost in the
+ * bubble pack so the map skews AI-first by default, and they're the set the
+ * client-side "AI" toggle filters to.
+ */
+const AI_CATEGORY_IDS = new Set<string>([
+  "ai-ml",
+  "ai-agents",
+  "mcp",
+  "local-llm",
+]);
+
+/** Multiplier applied to the pack weight of any AI-category repo. */
+const AI_WEIGHT_BOOST = 1.8;
+
 const CATEGORY_COLOR: Map<string, string> = new Map(
   CATEGORIES.map((c) => [c.id, c.color]),
 );
@@ -100,9 +115,19 @@ function seedsForWindow(
         ? (r: Repo) => r.starsDelta7d
         : (r: Repo) => r.starsDelta30d;
 
+  // Pack weight = raw window delta, but AI-category repos get a 1.8× boost
+  // so they skew toward the center and dominate the pack. The `rawDelta`
+  // field preserves the honest window delta for the bubble label so the
+  // user still sees the true number.
   const candidates = repos
-    .map((r) => ({ repo: r, weight: deltaOf(r) }))
-    .filter((x) => x.weight > 0)
+    .map((r) => {
+      const rawDelta = deltaOf(r);
+      const weight = AI_CATEGORY_IDS.has(r.categoryId)
+        ? rawDelta * AI_WEIGHT_BOOST
+        : rawDelta;
+      return { repo: r, weight, rawDelta };
+    })
+    .filter((x) => x.rawDelta > 0)
     .sort((a, b) => b.weight - a.weight)
     .slice(0, limit);
 
@@ -140,7 +165,8 @@ function seedsForWindow(
         cx: p.cx,
         cy: p.cy,
         r: p.r,
-        delta: hit.weight,
+        // Label shows the honest, un-boosted window delta.
+        delta: hit.rawDelta,
         deltaWindow: window,
         fullName: repo.fullName,
         name: repo.name,

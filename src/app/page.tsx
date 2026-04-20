@@ -14,8 +14,9 @@ import { BubbleMap } from "@/components/terminal/BubbleMap";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "StarScreener — Repo Momentum Terminal",
-  description: "Discover trending GitHub repos before they blow up.",
+  title: "StarScreener — AI Trending Terminal",
+  description:
+    "The live AI repo trending terminal. Bubble map, feeds, CLI, and MCP — so every agent and every terminal sees what's heating up.",
 };
 
 export default async function HomePage() {

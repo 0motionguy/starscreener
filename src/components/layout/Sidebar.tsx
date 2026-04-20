@@ -18,7 +18,14 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Eye, GitCompareArrows, TrendingUp } from "lucide-react";
+import {
+  Eye,
+  GitCompareArrows,
+  Plug,
+  Terminal,
+  TrendingUp,
+  User,
+} from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useWatchlistStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
@@ -29,6 +36,61 @@ import type {
   SidebarDataResponse,
 } from "@/app/api/pipeline/sidebar-data/route";
 import type { SidebarWatchlistPreviewRepo } from "./SidebarWatchlistPreview";
+
+// ---------------------------------------------------------------------------
+// LaunchpadStrip — 3-tile shortcut row for power-user integrations
+// ---------------------------------------------------------------------------
+
+interface LaunchpadTile {
+  href: string;
+  icon: LucideIcon;
+  label: string;
+  matchPrefix?: string; // active when pathname startsWith this
+}
+
+const LAUNCHPAD_TILES: LaunchpadTile[] = [
+  { href: "/you", icon: User, label: "You", matchPrefix: "/you" },
+  {
+    href: "/portal/docs",
+    icon: Plug,
+    label: "MCP",
+    matchPrefix: "/portal/docs",
+  },
+  { href: "/cli", icon: Terminal, label: "CLI", matchPrefix: "/cli" },
+];
+
+function LaunchpadStrip() {
+  const pathname = usePathname() ?? "/";
+  return (
+    <nav
+      aria-label="Launchpad"
+      className="grid grid-cols-3 gap-1.5 px-3 pt-3 pb-2 border-b border-border-primary"
+    >
+      {LAUNCHPAD_TILES.map((tile) => {
+        const active = pathname === tile.href
+          || (tile.matchPrefix && pathname.startsWith(tile.matchPrefix));
+        const Icon = tile.icon;
+        return (
+          <Link
+            key={tile.href}
+            href={tile.href}
+            aria-label={tile.label}
+            className={cn(
+              "h-9 flex items-center justify-center gap-1.5 rounded-button border transition-all",
+              "text-[11px] font-mono uppercase tracking-wider",
+              active
+                ? "bg-brand border-brand text-black"
+                : "border-border-primary text-text-secondary hover:text-text-primary hover:border-brand hover:shadow-[0_0_12px_var(--color-brand-glow)]",
+            )}
+          >
+            <Icon className="w-3.5 h-3.5" strokeWidth={2} />
+            <span>{tile.label}</span>
+          </Link>
+        );
+      })}
+    </nav>
+  );
+}
 
 // ---------------------------------------------------------------------------
 // IconRail — focused-mode compact variant
@@ -171,6 +233,7 @@ export function Sidebar() {
 
   return (
     <aside className="hidden md:flex md:flex-col w-[280px] h-[calc(100vh-56px)] sticky top-14 border-r border-border-primary bg-bg-primary">
+      <LaunchpadStrip />
       {data ? (
         <SidebarContent
           categoryStats={data.categoryStats}

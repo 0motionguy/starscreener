@@ -49,20 +49,22 @@ const instrumentSerif = Instrument_Serif({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${SITE_NAME} — Repo Momentum Terminal`,
+    default: `${SITE_NAME} — AI Trending Terminal`,
     template: `%s — ${SITE_NAME}`,
   },
   description: SITE_DESCRIPTION,
   applicationName: SITE_NAME,
   keywords: [
+    "AI trending",
+    "AI terminal",
+    "trending repos",
+    "AI repos",
+    "MCP",
+    "CLI",
+    "Claude",
     "GitHub",
     "open source",
-    "trending repos",
-    "repo momentum",
     "developer tools",
-    "GitHub stars",
-    "OSS analytics",
-    "repo screener",
   ],
   manifest: "/manifest.json",
   icons: {
@@ -76,14 +78,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: SITE_NAME,
-    title: `${SITE_NAME} — Repo Momentum Terminal`,
+    title: `${SITE_NAME} — AI Trending Terminal`,
     description: SITE_DESCRIPTION,
     url: SITE_URL,
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE_NAME} — Repo Momentum Terminal`,
+    title: `${SITE_NAME} — AI Trending Terminal`,
     description: SITE_DESCRIPTION,
   },
   alternates: {

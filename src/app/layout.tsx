@@ -4,6 +4,7 @@ import type { Metadata, Viewport } from "next";
 // Dropping it saves ~30 KB of font payload + one <link rel="preload">.
 import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import { Toaster } from "sonner";
+import { Analytics } from "@vercel/analytics/next";
 // Validate environment variables at server boot. Must stay first so misconfig
 // crashes the app before any routes load.
 import "@/lib/bootstrap";
@@ -146,6 +147,7 @@ export default function RootLayout({
             />
           </StoreProvider>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );

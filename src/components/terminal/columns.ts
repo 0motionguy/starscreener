@@ -382,7 +382,7 @@ export const COLUMNS: Column[] = [
   // --- stars --------------------------------------------------------------
   {
     id: "stars",
-    label: "STARS",
+    label: "TREND",
     width: 96,
     align: "right",
     sortable: true,
@@ -390,7 +390,7 @@ export const COLUMNS: Column[] = [
     minBreakpoint: "sm",
     defaultVisible: true,
     compactVisible: true,
-    description: "Total stars.",
+    description: "OSS Insight star activity over the broadest available period.",
     render: (repo) =>
       createElement(
         "span",
@@ -721,7 +721,15 @@ export const COLUMNS: Column[] = [
       createElement(
         "div",
         {
-          className: "inline-flex items-center justify-end gap-1",
+          className: cn(
+            "inline-flex items-center justify-end gap-1 transition-opacity duration-150",
+            // Reveal on row hover OR keep visible when either action is
+            // already engaged (watchlisted / comparing) so state is always
+            // legible.
+            ctx.isWatched || ctx.isComparing
+              ? "opacity-100"
+              : "opacity-60 group-hover:opacity-100 focus-within:opacity-100",
+          ),
           onClick: (e: React.MouseEvent) => e.stopPropagation(),
         },
         // Watch

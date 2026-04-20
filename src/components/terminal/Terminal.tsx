@@ -340,6 +340,7 @@ export function Terminal({
         ref={containerRef}
         className={cn(
           "relative w-full overflow-x-auto rounded-card border border-border-primary bg-bg-card",
+          "shadow-[inset_0_1px_0_rgba(255,255,255,0.035)] shadow-card",
           className,
         )}
       >

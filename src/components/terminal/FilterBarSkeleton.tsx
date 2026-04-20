@@ -23,7 +23,7 @@ export function FilterBarSkeleton() {
           {Array.from({ length: 7 }).map((_, i) => (
             <div
               key={i}
-              className="h-8 w-32 rounded-full bg-bg-secondary animate-pulse"
+              className="h-8 w-32 skeleton-shimmer rounded-full"
             />
           ))}
         </div>
@@ -35,10 +35,10 @@ export function FilterBarSkeleton() {
             {Array.from({ length: 4 }).map((_, i) => (
               <div
                 key={i}
-                className="h-4 w-20 rounded bg-bg-secondary animate-pulse"
+                className="h-4 w-20 skeleton-shimmer rounded"
               />
             ))}
-            <div className="size-6 rounded-md bg-bg-secondary animate-pulse" />
+            <div className="size-6 skeleton-shimmer rounded-md" />
           </div>
 
           <div className="ml-auto flex items-center gap-3">
@@ -47,7 +47,7 @@ export function FilterBarSkeleton() {
               {Array.from({ length: 4 }).map((_, i) => (
                 <div
                   key={i}
-                  className="h-7 w-20 rounded-md bg-bg-secondary animate-pulse"
+                  className="h-7 w-20 skeleton-shimmer rounded-md"
                 />
               ))}
             </div>
@@ -55,14 +55,14 @@ export function FilterBarSkeleton() {
             <div className="hidden sm:block w-px h-5 bg-border-primary" />
 
             {/* Time range skeleton */}
-            <div className="h-7 w-28 rounded-md bg-bg-secondary animate-pulse" />
+            <div className="h-7 w-28 skeleton-shimmer rounded-md" />
 
             <div className="hidden sm:block w-px h-5 bg-border-primary" />
 
             {/* View controls skeleton */}
             <div className="flex items-center gap-2">
-              <div className="h-7 w-14 rounded-md bg-bg-secondary animate-pulse" />
-              <div className="size-7 rounded-md bg-bg-secondary animate-pulse" />
+              <div className="h-7 w-14 skeleton-shimmer rounded-md" />
+              <div className="size-7 skeleton-shimmer rounded-md" />
             </div>
           </div>
         </div>

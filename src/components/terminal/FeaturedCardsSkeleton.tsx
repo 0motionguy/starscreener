@@ -16,15 +16,15 @@ export function FeaturedCardsSkeleton() {
         >
           {/* Top label bar */}
           <div className="flex items-start justify-between">
-            <div className="h-3 w-20 rounded bg-bg-elevated animate-pulse" />
-            <div className="h-4 w-14 rounded-badge bg-bg-elevated animate-pulse" />
+            <div className="h-3 w-20 skeleton-shimmer rounded" />
+            <div className="h-4 w-14 skeleton-shimmer rounded-badge" />
           </div>
           {/* Big number block */}
-          <div className="mt-4 h-10 w-28 rounded bg-bg-elevated animate-pulse" />
+          <div className="mt-4 h-10 w-28 skeleton-shimmer rounded" />
           {/* Footer */}
           <div className="mt-auto space-y-1.5">
-            <div className="h-3.5 w-36 rounded bg-bg-elevated animate-pulse" />
-            <div className="h-3 w-44 rounded bg-bg-elevated animate-pulse" />
+            <div className="h-3.5 w-36 skeleton-shimmer rounded" />
+            <div className="h-3 w-44 skeleton-shimmer rounded" />
           </div>
         </div>
       ))}

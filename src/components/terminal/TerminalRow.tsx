@@ -141,8 +141,9 @@ function TerminalRowBase({
         animationDelay: stagger > 0 ? `${stagger}ms` : undefined,
       }}
       className={cn(
-        "row-hover cursor-pointer border-b border-border-secondary bg-bg-primary",
+        "group row-hover cursor-pointer border-b border-border-secondary bg-bg-primary",
         "animate-[slide-up_0.35s_ease-out_forwards] opacity-0",
+        "transition-colors",
         focused &&
           "outline outline-2 -outline-offset-2 outline-functional bg-bg-row-hover",
         (isHot || isBreakout) &&

@@ -39,8 +39,10 @@ export function FeaturedCard({ card, index = 0 }: FeaturedCardProps) {
       href={`/repo/${repo.owner}/${repo.name}`}
       className={cn(
         "group relative flex flex-col flex-shrink-0 min-w-[280px] sm:w-[320px] h-[200px]",
-        "bg-bg-card border border-border-primary rounded-xl p-4",
-        "hover:border-brand/60 hover:shadow-[0_0_24px_-4px_var(--color-brand-glow)]",
+        "bg-gradient-to-br from-bg-card via-bg-card to-bg-secondary",
+        "border border-border-primary rounded-xl p-4",
+        "shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] grain",
+        "hover:border-brand/60 hover:shadow-[0_0_28px_-4px_var(--color-brand-glow),inset_0_1px_0_rgba(255,255,255,0.06)]",
         "hover:-translate-y-0.5 transition-all duration-200",
         "overflow-hidden",
         "animate-slide-up",
@@ -77,7 +79,7 @@ export function FeaturedCard({ card, index = 0 }: FeaturedCardProps) {
         </span>
       </div>
 
-      {/* Row 3: big stars-gain + total-stars left, sparkline right */}
+      {/* Row 3: big stars-gain + period activity left, sparkline right */}
       <div className="mt-3 flex items-center justify-between gap-3">
         <div className="flex flex-col min-w-0">
           <span
@@ -99,7 +101,7 @@ export function FeaturedCard({ card, index = 0 }: FeaturedCardProps) {
             {pctSign}
             {pct.toFixed(1)}%
             <span className="ml-2 text-text-tertiary">
-              · {formatNumber(repo.stars)} total
+              · {formatNumber(repo.stars)} activity
             </span>
           </span>
         </div>

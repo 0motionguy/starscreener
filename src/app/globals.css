@@ -352,6 +352,59 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  position: relative;
+}
+
+/* Ambient canvas: 40px dot+line grid (AGNTCP-inspired) + two pinned
+   radial glows (lava top-left, functional-green bottom-right) so the
+   page reads as an instrument panel, not a flat dark rectangle.
+   Sits behind all content; zero interaction cost. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    radial-gradient(
+      1200px 600px at 8% -8%,
+      rgba(245, 110, 15, 0.07),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 500px at 100% 110%,
+      rgba(34, 197, 94, 0.045),
+      transparent 60%
+    ),
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: auto, auto, 40px 40px, 40px 40px;
+  background-position: 0 0, 0 0, 0 0, 0 0;
+}
+
+/* Light theme: swap grid lines + glow opacities so they stay subtle
+   on the warm off-white canvas. */
+.light body::before {
+  background-image:
+    radial-gradient(
+      1200px 600px at 8% -8%,
+      rgba(216, 91, 0, 0.06),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 500px at 100% 110%,
+      rgba(22, 163, 74, 0.04),
+      transparent 60%
+    ),
+    linear-gradient(rgba(30, 28, 24, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30, 28, 24, 0.05) 1px, transparent 1px);
+  background-size: auto, auto, 40px 40px, 40px 40px;
+}
+
+/* Content sits above the ambient canvas. */
+body > * {
+  position: relative;
+  z-index: 1;
 }
 
 /* ---------------------------------------------------------------------------
@@ -471,6 +524,74 @@ body {
 /* Utility shadow: green functional glow for active / selected states */
 .glow-green {
   box-shadow: var(--shadow-glow-green);
+}
+
+/* Shimmer skeleton: premium loading affordance over plain opacity pulse.
+   Consumes the `shimmer` keyframe defined above. Pair with a muted base
+   color (e.g. bg-bg-tertiary) and a rounded rectangle to mimic content. */
+.skeleton-shimmer {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-bg-tertiary);
+}
+
+.skeleton-shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.05) 40%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.05) 60%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+
+.light .skeleton-shimmer::after {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.035) 40%,
+    rgba(0, 0, 0, 0.06) 50%,
+    rgba(0, 0, 0, 0.035) 60%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+}
+
+/* Pulsing "live data" dot — small 6px circle with breathing halo. Used
+   beside "LIVE" / "updated Xm ago" labels so freshness reads visually.
+   Halo color derives from --dot-rgb (r,g,b triplet) so the same utility
+   can serve functional-green (default) or brand-orange (.live-dot-brand). */
+.live-dot {
+  --dot-rgb: 34, 197, 94;
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background-color: rgb(var(--dot-rgb));
+  box-shadow: 0 0 0 0 rgb(var(--dot-rgb) / 0.5);
+  animation: live-dot-pulse 1.8s ease-out infinite;
+}
+
+.live-dot-brand {
+  --dot-rgb: 245, 110, 15;
+}
+
+@keyframes live-dot-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgb(var(--dot-rgb) / 0.45);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgb(var(--dot-rgb) / 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgb(var(--dot-rgb) / 0);
+  }
 }
 
 /* SVG noise grain overlay for editorial / featured card texture */

@@ -50,6 +50,7 @@ interface TrendingRepoAggregate {
   has24h: boolean;
   has7d: boolean;
   has30d: boolean;
+  collectionNames: Set<string>;
 }
 
 function parseMetric(value: string | null | undefined): number {
@@ -61,6 +62,14 @@ function contributorCount(row: TrendingRow): number {
   return row.contributor_logins
     ? row.contributor_logins.split(",").filter(Boolean).length
     : 0;
+}
+
+function parseCollectionNames(value: string | null | undefined): string[] {
+  if (!value) return [];
+  return value
+    .split(",")
+    .map((name) => name.trim())
+    .filter(Boolean);
 }
 
 function setPeriodStars(
@@ -91,6 +100,7 @@ function buildTrendingAggregates(): Map<string, TrendingRepoAggregate> {
         const stars = parseMetric(row.stars);
         const forks = parseMetric(row.forks);
         const contributors = contributorCount(row);
+        const collectionNames = parseCollectionNames(row.collection_names);
 
         let aggregate = aggregates.get(row.repo_name);
         if (!aggregate) {
@@ -105,6 +115,7 @@ function buildTrendingAggregates(): Map<string, TrendingRepoAggregate> {
             has24h: false,
             has7d: false,
             has30d: false,
+            collectionNames: new Set(collectionNames),
           };
           aggregates.set(row.repo_name, aggregate);
         } else if (
@@ -118,6 +129,7 @@ function buildTrendingAggregates(): Map<string, TrendingRepoAggregate> {
         aggregate.activityStars = Math.max(aggregate.activityStars, stars);
         aggregate.forks = Math.max(aggregate.forks, forks);
         aggregate.contributors = Math.max(aggregate.contributors, contributors);
+        for (const name of collectionNames) aggregate.collectionNames.add(name);
       }
     }
   }
@@ -173,6 +185,7 @@ function baseRepoFromTrending(
     socialBuzzScore: 0,
     mentionCount24h: 0,
     tags: [],
+    collectionNames: Array.from(aggregate.collectionNames).sort(),
   };
 }
 

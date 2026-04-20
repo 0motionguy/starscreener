@@ -32,9 +32,17 @@ export function Header() {
       {/* Left: Hamburger (mobile) + Logo */}
       <div className="flex items-center gap-3 shrink-0">
         <HamburgerButton />
-        <Link href={ROUTES.HOME} className="flex items-center gap-2">
-          <span className="font-mono font-bold text-lg text-accent-green tracking-tight">
-            StarScreener
+        <Link
+          href={ROUTES.HOME}
+          className="flex items-center gap-2.5 group"
+          aria-label="StarScreener home"
+        >
+          <span
+            className="live-dot live-dot-brand"
+            aria-hidden="true"
+          />
+          <span className="font-display font-bold text-lg tracking-tight text-text-primary leading-none">
+            Star<span className="text-brand">Screener</span>
           </span>
         </Link>
       </div>

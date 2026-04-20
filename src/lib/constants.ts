@@ -109,11 +109,11 @@ export const ROUTES = {
 // ---------------------------------------------------------------------------
 
 export const SORT_OPTIONS: { value: SortBy; label: string }[] = [
-  { value: "momentum", label: "Momentum Score" },
-  { value: "stars-today", label: "Stars Today" },
-  { value: "stars-total", label: "Total Stars" },
-  { value: "newest", label: "Newest First" },
-];
+    { value: "momentum", label: "Momentum Score" },
+    { value: "stars-today", label: "Stars Today" },
+    { value: "stars-total", label: "Trend Stars" },
+    { value: "newest", label: "Newest First" },
+  ];
 
 // ---------------------------------------------------------------------------
 // Time range options

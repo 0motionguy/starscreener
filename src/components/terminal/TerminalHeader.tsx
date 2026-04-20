@@ -55,7 +55,7 @@ export function TerminalHeader({
   const setDensity = useFilterStore((s) => s.setDensity);
 
   return (
-    <thead className="sticky top-0 z-20 bg-bg-primary">
+    <thead className="sticky top-0 z-20 bg-bg-primary/85 backdrop-blur-md">
       <tr className="border-b border-border-primary">
         {visibleColumns.map((col) => {
           const isActive = sortColumn === col.id && sortDirection !== null;

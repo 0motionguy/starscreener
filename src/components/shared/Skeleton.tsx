@@ -8,10 +8,7 @@ interface SkeletonProps {
 function Bone({ className }: { className?: string }) {
   return (
     <div
-      className={cn(
-        "animate-pulse rounded-card bg-bg-tertiary",
-        className
-      )}
+      className={cn("skeleton-shimmer rounded-card", className)}
     />
   );
 }

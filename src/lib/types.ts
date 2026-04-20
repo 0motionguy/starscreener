@@ -74,6 +74,9 @@ export interface Repo {
 
   /** Tags (flat, multi-label). Populated by `deriveTags` during classify pass. */
   tags?: string[];
+
+  /** OSS Insight collection labels carried by the trending feed. */
+  collectionNames?: string[];
 }
 
 export interface Category {

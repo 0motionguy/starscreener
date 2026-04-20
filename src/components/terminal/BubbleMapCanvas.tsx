@@ -67,13 +67,20 @@ const WINDOW_TABS: Array<{ key: WindowKey; label: string }> = [
 
 const SIM = {
   centerPull: 0.00045,
-  damping: 0.92,
+  damping: 0.9,
   pairPad: 1.5,
   wallBounce: -0.35,
   /** Pointer-velocity multiplier on release (fling strength). */
   flingScale: 0.5,
-  /** Velocity below which we skip the per-frame DOM write. */
-  idleThreshold: 0.005,
+  /** Max total speed below which we consider a body idle this frame. */
+  idleThreshold: 0.05,
+  /**
+   * Number of consecutive frames with EVERY body's speed under
+   * `idleThreshold` before we cancel the rAF loop. At 60fps, 30 frames
+   * ≈ 500ms — long enough to outlast a fling, short enough that the CPU
+   * goes back to zero promptly.
+   */
+  settleFrames: 30,
 };
 
 /**
@@ -128,10 +135,12 @@ export function BubbleMapCanvas({ windows, width, height }: BubbleMapCanvasProps
   // parent). Tab switch is a full reset — we want the new window's
   // positions, not a lerp from the previous. Ids that persist keep no
   // velocity, so the tab change reads as "snap to new state."
+  //
+  // We intentionally do NOT wake the sim here: the seed positions are
+  // already a valid packed layout, so the new tab snaps to rest. The
+  // loop only starts on real user interaction (drag/fling) below.
   useEffect(() => {
     bodies.current = seeds.map((s) => ({ ...s, vx: 0, vy: 0, held: false }));
-    // Force a render cycle so React maps DOM refs to the new <g> set.
-    // The subsequent rAF tick will write transforms.
   }, [seeds]);
 
   // Pointer state refs (outside React render for perf).
@@ -178,17 +187,35 @@ export function BubbleMapCanvas({ windows, width, height }: BubbleMapCanvasProps
   );
 
   // ------------- physics loop -------------
-  useEffect(() => {
-    let raf = 0;
+  //
+  // The seed positions handed to the canvas already come from a deterministic
+  // circle-pack on the server, so on first mount the bubbles are ready to
+  // render statically — no perpetual drift toward center, no O(n²) collision
+  // work on cold load. The loop is only kicked off via `wakeSim()` when the
+  // user actually interacts (drag, fling, tab switch) and auto-cancels itself
+  // once every body has stayed under `idleThreshold` for `settleFrames`.
+  const rafRef = useRef<number | null>(null);
+  const idleFramesRef = useRef(0);
 
-    function step() {
+  const wakeSim = useCallback(() => {
+    // Reset the idle-frame counter so any in-flight cancellation plan is
+    // pushed back, then start the loop if nothing is running.
+    idleFramesRef.current = 0;
+    if (rafRef.current !== null) return;
+
+    const step = () => {
       const list = bodies.current;
       const n = list.length;
+      let maxSpeed = 0;
+      let anyHeld = false;
 
       // 1. Apply forces (center gravity + damping).
       for (let i = 0; i < n; i++) {
         const a = list[i];
-        if (a.held) continue;
+        if (a.held) {
+          anyHeld = true;
+          continue;
+        }
         a.vx += (width / 2 - a.cx) * SIM.centerPull;
         a.vy += (height / 2 - a.cy) * SIM.centerPull;
         a.vx *= SIM.damping;
@@ -268,17 +295,38 @@ export function BubbleMapCanvas({ windows, width, height }: BubbleMapCanvasProps
         const node = groupRefs.current[a.id];
         if (!node) continue;
         const speed = Math.abs(a.vx) + Math.abs(a.vy);
+        if (speed > maxSpeed) maxSpeed = speed;
         if (speed > SIM.idleThreshold || a.held) {
           node.setAttribute("transform", `translate(${a.cx} ${a.cy})`);
         }
       }
 
-      raf = requestAnimationFrame(step);
-    }
+      // 6. Auto-stop: once no one is held and every body is under the idle
+      //    threshold for `settleFrames` consecutive frames, cancel rAF.
+      if (!anyHeld && maxSpeed <= SIM.idleThreshold) {
+        idleFramesRef.current += 1;
+      } else {
+        idleFramesRef.current = 0;
+      }
+      if (idleFramesRef.current >= SIM.settleFrames) {
+        rafRef.current = null;
+        return;
+      }
 
-    raf = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(raf);
+      rafRef.current = requestAnimationFrame(step);
+    };
+
+    rafRef.current = requestAnimationFrame(step);
   }, [width, height]);
+
+  useEffect(() => {
+    return () => {
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
+    };
+  }, []);
 
   // ------------- pointer handlers -------------
   const handlePointerDown = useCallback(
@@ -313,8 +361,9 @@ export function BubbleMapCanvas({ windows, width, height }: BubbleMapCanvasProps
       body.vx = 0;
       body.vy = 0;
       setDraggingId(id);
+      wakeSim();
     },
-    [toSvgCoords],
+    [toSvgCoords, wakeSim],
   );
 
   const handlePointerMove = useCallback(
@@ -339,8 +388,11 @@ export function BubbleMapCanvas({ windows, width, height }: BubbleMapCanvasProps
       // Snap the body to the pointer (with initial grab-offset preserved).
       body.cx = coords.x + p.offsetX;
       body.cy = coords.y + p.offsetY;
+      // Keep the sim awake while the pointer is moving so neighbor
+      // collisions resolve live as the user drags through them.
+      wakeSim();
     },
-    [toSvgCoords],
+    [toSvgCoords, wakeSim],
   );
 
   const handlePointerUp = useCallback(
@@ -352,6 +404,8 @@ export function BubbleMapCanvas({ windows, width, height }: BubbleMapCanvasProps
         body.held = false;
         body.vx = p.vx * SIM.flingScale;
         body.vy = p.vy * SIM.flingScale;
+        // Fling + re-pack neighbors — then the loop auto-stops on settle.
+        wakeSim();
       }
 
       const wasShortDrag = p.moved < CLICK_DRAG_THRESHOLD;
@@ -393,7 +447,7 @@ export function BubbleMapCanvas({ windows, width, height }: BubbleMapCanvasProps
 
       void e;
     },
-    [],
+    [wakeSim],
   );
 
   const bubbleElements = useMemo(() => {

@@ -16,23 +16,29 @@
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { formatNumber } from "@/lib/utils";
 
+export type WindowKey = "24h" | "7d" | "30d";
+
 export interface BubbleSeed {
   id: string;
   cx: number;
   cy: number;
   r: number;
   delta: number;
-  /** Which window the delta value was taken from: 24h > 7d > 30d. */
-  deltaWindow: "24h" | "7d" | "30d";
+  /** Which window this seed was packed for. */
+  deltaWindow: WindowKey;
   fullName: string;
   name: string;
   owner: string;
   avatarUrl: string;
+  categoryId: string;
   fill: string;
   stroke: string;
   glow: string;
   textColor: string;
 }
+
+/** One pack per window — the canvas switches between them via tab state. */
+export type WindowSeedSet = Record<WindowKey, BubbleSeed[]>;
 
 interface Body extends BubbleSeed {
   vx: number;
@@ -42,10 +48,16 @@ interface Body extends BubbleSeed {
 }
 
 interface BubbleMapCanvasProps {
-  seeds: BubbleSeed[];
+  windows: WindowSeedSet;
   width: number;
   height: number;
 }
+
+const WINDOW_TABS: Array<{ key: WindowKey; label: string }> = [
+  { key: "24h", label: "24h" },
+  { key: "7d", label: "7d" },
+  { key: "30d", label: "30d" },
+];
 
 const SIM = {
   centerPull: 0.00045,
@@ -65,25 +77,34 @@ const SIM = {
  */
 const CLICK_DRAG_THRESHOLD = 5;
 
-export function BubbleMapCanvas({ seeds, width, height }: BubbleMapCanvasProps) {
+export function BubbleMapCanvas({ windows, width, height }: BubbleMapCanvasProps) {
+  // Default to the first window that has any bubbles, so the map never
+  // opens on an empty canvas.
+  const defaultTab: WindowKey =
+    windows["24h"].length > 0
+      ? "24h"
+      : windows["7d"].length > 0
+        ? "7d"
+        : "30d";
+  const [activeTab, setActiveTab] = useState<WindowKey>(defaultTab);
+
+  const seeds = windows[activeTab];
+
   const svgRef = useRef<SVGSVGElement | null>(null);
   const groupRefs = useRef<Record<string, SVGGElement | null>>({});
   const bodies = useRef<Body[]>(
     seeds.map((s) => ({ ...s, vx: 0, vy: 0, held: false })),
   );
 
-  // Keep the body array in sync when the seed list changes (e.g. hourly
-  // trending refresh re-renders the parent). New ids get seeded fresh;
-  // existing ids keep their in-flight cx/cy/vx/vy so the animation
-  // doesn't jump.
+  // Keep the body array in sync when the seed list changes (e.g. the
+  // user switches tab or the hourly trending refresh re-renders the
+  // parent). Tab switch is a full reset — we want the new window's
+  // positions, not a lerp from the previous. Ids that persist keep no
+  // velocity, so the tab change reads as "snap to new state."
   useEffect(() => {
-    const prev = new Map(bodies.current.map((b) => [b.id, b]));
-    bodies.current = seeds.map((s) => {
-      const existing = prev.get(s.id);
-      return existing
-        ? { ...existing, ...s, vx: existing.vx, vy: existing.vy, held: false }
-        : { ...s, vx: 0, vy: 0, held: false };
-    });
+    bodies.current = seeds.map((s) => ({ ...s, vx: 0, vy: 0, held: false }));
+    // Force a render cycle so React maps DOM refs to the new <g> set.
+    // The subsequent rAF tick will write transforms.
   }, [seeds]);
 
   // Pointer state refs (outside React render for perf).
@@ -352,10 +373,9 @@ export function BubbleMapCanvas({ seeds, width, height }: BubbleMapCanvasProps) 
     return seeds.map((s) => {
       // Label is "+N" for 24h, "+N/7d" or "+N/30d" otherwise so the user
       // always knows what window the number represents.
-      const deltaLabel =
-        s.deltaWindow === "24h"
-          ? `+${formatNumber(s.delta)}`
-          : `+${formatNumber(s.delta)}/${s.deltaWindow}`;
+      // Tab state enforces one window at a time — label is always
+      // just "+N" without a window suffix.
+      const deltaLabel = `+${formatNumber(s.delta)}`;
       const showAvatar = s.r >= 26;
       const showName = s.r >= 32;
       const avatarSize = Math.min(30, Math.max(14, s.r * 0.38));
@@ -380,7 +400,7 @@ export function BubbleMapCanvas({ seeds, width, height }: BubbleMapCanvasProps) 
             cursor: isDragging ? "grabbing" : "grab",
             touchAction: "none",
           }}
-          aria-label={`${s.fullName} gained ${deltaLabel} stars in 24 hours (click or drag)`}
+          aria-label={`${s.fullName} gained ${deltaLabel} stars over ${s.deltaWindow} (click or drag)`}
         >
           {/* Invisible oversize hit target so tiny bubbles still grab easily */}
           <circle r={Math.max(s.r, 20)} fill="transparent" />
@@ -462,12 +482,47 @@ export function BubbleMapCanvas({ seeds, width, height }: BubbleMapCanvasProps) 
       aria-label="Trending bubble map — drag to rearrange, click to open"
       className="relative mb-4 rounded-card border border-border-primary bg-bg-card/60 overflow-hidden"
     >
+      {/* Window tabs — overlaid in the top-right corner so the canvas
+          stays the focus. Absolute-positioned so they float above the
+          SVG without consuming vertical space. */}
+      <div
+        className="absolute top-2 right-2 z-10 flex items-center gap-0.5 rounded-full border border-border-primary bg-bg-card/80 backdrop-blur-sm p-0.5 font-mono text-[11px]"
+        role="tablist"
+        aria-label="Time window"
+      >
+        {WINDOW_TABS.map((tab) => {
+          const count = windows[tab.key].length;
+          const active = activeTab === tab.key;
+          const disabled = count === 0;
+          return (
+            <button
+              key={tab.key}
+              type="button"
+              role="tab"
+              aria-selected={active}
+              aria-label={`Show ${tab.label} window (${count} repos)`}
+              disabled={disabled}
+              onClick={() => setActiveTab(tab.key)}
+              className={
+                "px-3 py-1 rounded-full transition-colors uppercase tracking-wider " +
+                (active
+                  ? "bg-brand text-text-inverse font-semibold"
+                  : disabled
+                    ? "text-text-muted cursor-not-allowed"
+                    : "text-text-secondary hover:bg-bg-tertiary hover:text-text-primary")
+              }
+            >
+              {tab.label}
+            </button>
+          );
+        })}
+      </div>
       <svg
         ref={svgRef}
         viewBox={`0 0 ${width} ${height}`}
         width="100%"
         role="img"
-        aria-label={`${seeds.length} trending repos by 24h star gain — drag any bubble to rearrange`}
+        aria-label={`${seeds.length} trending repos by ${activeTab} star gain — drag any bubble to rearrange`}
         className="block select-none"
         style={{
           aspectRatio: `${width} / ${height}`,

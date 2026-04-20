@@ -19,10 +19,7 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-  const all = getDerivedRepos();
-  const repos = [...all]
-    .sort((a, b) => b.starsDelta24h - a.starsDelta24h)
-    .slice(0, 80);
+  const repos = getDerivedRepos();
 
   return (
     <TerminalLayout
@@ -30,7 +27,7 @@ export default async function HomePage() {
       filterBarVariant="full"
       showFeatured
       featuredCount={8}
-      heading={<BubbleMap repos={all} limit={120} />}
+      heading={<BubbleMap repos={repos} limit={220} />}
     />
   );
 }

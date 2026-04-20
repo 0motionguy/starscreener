@@ -17,6 +17,12 @@ import { MomentumBadge } from "@/components/shared/MomentumBadge";
 import { RankBadge } from "@/components/shared/RankBadge";
 import { Sparkline } from "@/components/shared/Sparkline";
 import type { ColumnId, Repo } from "@/lib/types";
+
+// Inlined instead of imported from @/lib/collections to keep node:fs out
+// of the client bundle. Same signature as collections.ts::isCuratedQuietStub.
+function isCuratedQuietStub(repo: Repo): boolean {
+  return repo.stars === 0 && repo.hasMovementData === false;
+}
 import {
   cn,
   formatNumber,
@@ -414,7 +420,10 @@ export const COLUMNS: Column[] = [
     defaultVisible: true,
     compactVisible: true,
     description: "Star change over the last 24 hours (raw + percent).",
-    render: (repo) => renderStackedDelta(repo.starsDelta24h, repo.stars),
+    render: (repo) =>
+      isCuratedQuietStub(repo)
+        ? renderDash()
+        : renderStackedDelta(repo.starsDelta24h, repo.stars),
   },
 
   // --- delta7d ------------------------------------------------------------
@@ -429,7 +438,10 @@ export const COLUMNS: Column[] = [
     defaultVisible: true,
     compactVisible: true,
     description: "Star change over the last 7 days (raw + percent).",
-    render: (repo) => renderStackedDelta(repo.starsDelta7d, repo.stars),
+    render: (repo) =>
+      isCuratedQuietStub(repo)
+        ? renderDash()
+        : renderStackedDelta(repo.starsDelta7d, repo.stars),
   },
 
   // --- delta30d -----------------------------------------------------------
@@ -444,7 +456,10 @@ export const COLUMNS: Column[] = [
     defaultVisible: true,
     compactVisible: false,
     description: "Star change over the last 30 days (raw + percent).",
-    render: (repo) => renderStackedDelta(repo.starsDelta30d, repo.stars),
+    render: (repo) =>
+      isCuratedQuietStub(repo)
+        ? renderDash()
+        : renderStackedDelta(repo.starsDelta30d, repo.stars),
   },
 
   // --- chart --------------------------------------------------------------

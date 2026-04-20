@@ -7,6 +7,7 @@
 import type { MetadataRoute } from "next";
 import { pipeline, repoStore } from "@/lib/pipeline/pipeline";
 import { CATEGORIES } from "@/lib/constants";
+import { loadAllCollections } from "@/lib/collections";
 import { absoluteUrl } from "@/lib/seo";
 
 export const revalidate = 3600; // regenerate hourly
@@ -48,6 +49,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "weekly",
       priority: 0.4,
     },
+    {
+      url: absoluteUrl("/collections"),
+      lastModified: now,
+      changeFrequency: "daily",
+      priority: 0.8,
+    },
   ];
 
   const categoryEntries: MetadataRoute.Sitemap = CATEGORIES.map((c) => ({
@@ -56,6 +63,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changeFrequency: "daily" as const,
     priority: 0.7,
   }));
+
+  const collectionEntries: MetadataRoute.Sitemap = loadAllCollections().map(
+    (c) => ({
+      url: absoluteUrl(`/collections/${c.slug}`),
+      lastModified: now,
+      changeFrequency: "weekly" as const,
+      priority: 0.7,
+    }),
+  );
 
   const repoEntries: MetadataRoute.Sitemap = repoStore.getAll().map((r) => {
     const last = r.lastCommitAt ? new Date(r.lastCommitAt) : now;
@@ -68,5 +84,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     };
   });
 
-  return [...staticEntries, ...categoryEntries, ...repoEntries];
+  return [
+    ...staticEntries,
+    ...categoryEntries,
+    ...collectionEntries,
+    ...repoEntries,
+  ];
 }

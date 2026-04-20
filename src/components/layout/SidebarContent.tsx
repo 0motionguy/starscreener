@@ -13,6 +13,7 @@ import {
   Flame,
   Gem,
   GitCompareArrows,
+  Layers,
   Rocket,
   Sparkles,
   TrendingUp,
@@ -140,6 +141,16 @@ export function SidebarContent({
             badge={unreadAlerts > 0 ? unreadAlerts : undefined}
             badgeVariant={unreadAlerts > 0 ? "danger" : "default"}
             active={pathname === "/alerts"}
+          />
+        </SidebarSection>
+
+        {/* CURATED ----------------------------------------------------- */}
+        <SidebarSection id="curated" label="Curated">
+          <SidebarNavItem
+            href="/collections"
+            icon={Layers}
+            label="Collections"
+            active={pathname === "/collections" || pathname.startsWith("/collections/")}
           />
         </SidebarSection>
 

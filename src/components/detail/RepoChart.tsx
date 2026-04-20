@@ -234,8 +234,10 @@ export function RepoChart({ repo }: RepoChartProps) {
         </div>
       </div>
 
-      {/* Chart */}
-      <div className="h-[240px] w-full">
+      {/* Chart — wrapped in a horizontal-scroll container so narrow viewports
+          can pan across dense time labels instead of cramming the axis. */}
+      <div className="h-[240px] w-full overflow-x-auto scrollbar-hide">
+        <div className="h-full min-w-[520px]">
         {isSparse ? (
           <ChartPlaceholder captured={nonZeroDays} />
         ) : (
@@ -305,6 +307,7 @@ export function RepoChart({ repo }: RepoChartProps) {
           </AreaChart>
         </ResponsiveContainer>
         )}
+        </div>
       </div>
 
       {/*

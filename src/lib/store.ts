@@ -318,7 +318,10 @@ export const useFilterStore = create<FilterState>()(
     }),
     {
       name: "starscreener-filters",
-      version: 2,
+      // v3 — tightened default visible columns (dropped momentum +
+      // lastRelease from the first-impression layout). Bump forces old
+      // persisted state through migrate() so users see the new defaults.
+      version: 3,
       // Only persist layout preferences and sticky toggles — transient
       // narrative filters (meta, tab, time range, category, etc.) always
       // start fresh each session per spec.
@@ -332,14 +335,21 @@ export const useFilterStore = create<FilterState>()(
         excludeArchived: state.excludeArchived,
         viewMode: state.viewMode,
       }),
-      migrate: (persistedState, _version) => {
-        // v1: filter out unknown ColumnId values from visibleColumns.
+      migrate: (persistedState, version) => {
         const s = (persistedState ?? {}) as Partial<FilterState>;
-        if (Array.isArray(s.visibleColumns)) {
+        // v3 — any persisted state from v1/v2 gets its visibleColumns
+        // reset to the new defaults so the density cleanup actually
+        // reaches returning users. Users who customized their layout
+        // pre-v3 will see the clean set and can toggle back via the
+        // column picker.
+        if (version < 3) {
+          s.visibleColumns = [...DEFAULT_VISIBLE_COLUMNS];
+        } else if (Array.isArray(s.visibleColumns)) {
+          // Post-v3: filter out unknown ColumnId values and guarantee
+          // required columns are present.
           const filtered = s.visibleColumns.filter((c): c is ColumnId =>
             ALL_COLUMNS.includes(c as ColumnId),
           );
-          // Make sure required columns survive the migration.
           const withRequired = [...filtered];
           for (const req of REQUIRED_COLUMNS) {
             if (!withRequired.includes(req)) withRequired.unshift(req);

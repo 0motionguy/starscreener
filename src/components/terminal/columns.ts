@@ -295,20 +295,9 @@ export const COLUMNS: Column[] = [
               },
               repo.fullName,
             ),
-            repo.language
-              ? createElement(
-                  "span",
-                  {
-                    className:
-                      "inline-flex shrink-0 items-center gap-1 font-mono text-[10px] text-text-tertiary",
-                  },
-                  createElement("span", {
-                    className: "size-1.5 shrink-0 rounded-full bg-info",
-                    "aria-hidden": true,
-                  }),
-                  repo.language,
-                )
-              : null,
+            // Language pill intentionally omitted — per-user feedback the
+            // coding language adds noise to the terminal row. Available via
+            // column picker if users want it back.
             // Forks + contributors inline — always visible, Dexscreener-density.
             createElement(
               "span",
@@ -355,6 +344,9 @@ export const COLUMNS: Column[] = [
   },
 
   // --- momentum -----------------------------------------------------------
+  // Hidden by default per user feedback — the raw 24h/7d delta cells are
+  // more legible at a glance than a 0-100 composite score for a first-time
+  // visitor. Still available via the column picker.
   {
     id: "momentum",
     label: "MOM",
@@ -363,8 +355,8 @@ export const COLUMNS: Column[] = [
     sortable: true,
     sortKey: (r) => r.momentumScore,
     minBreakpoint: "xs",
-    defaultVisible: true,
-    compactVisible: true,
+    defaultVisible: false,
+    compactVisible: false,
     description: "Composite momentum score (0-100).",
     render: (repo) =>
       createElement(MomentumBadge, {

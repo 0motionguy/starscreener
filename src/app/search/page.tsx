@@ -16,6 +16,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Search as SearchIcon } from "lucide-react";
 import type { Repo } from "@/lib/types";
+import { useFilterStore } from "@/lib/store";
 import { SearchBar } from "@/components/shared/SearchBar";
 import { TerminalLayout } from "@/components/terminal/TerminalLayout";
 
@@ -45,6 +46,18 @@ function SearchPageInner() {
 
   const [results, setResults] = useState<Repo[]>([]);
   const [loading, setLoading] = useState(false);
+
+  // Top-100 list needs the terminal grid to show stars-desc. The client
+  // <Terminal/> re-sorts every fetched result through useSortedRepos against
+  // the persisted filterStore sort (defaults to rank/asc = momentum), which
+  // silently overrode the API's star ordering — so the UI looked like a
+  // random list instead of "1 to 100 by most stars". Force the sort here.
+  const setSort = useFilterStore((s) => s.setSort);
+  useEffect(() => {
+    if (isTopList) {
+      setSort("stars", "desc");
+    }
+  }, [isTopList, setSort]);
 
   useEffect(() => {
     if (!query.trim() && !isTopList) {

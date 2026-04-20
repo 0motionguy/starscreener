@@ -3,7 +3,6 @@ import type { Repo } from "@/lib/types";
 import { formatNumber } from "@/lib/utils";
 import { DeltaBadge } from "@/components/shared/DeltaBadge";
 import { CategoryPill } from "@/components/shared/CategoryPill";
-import { MomentumBadge } from "@/components/shared/MomentumBadge";
 import { RankBadge } from "@/components/shared/RankBadge";
 import { Star, GitFork, Users, CircleDot } from "lucide-react";
 
@@ -11,33 +10,16 @@ interface RepoHeaderProps {
   repo: Repo;
 }
 
-const LANGUAGE_COLORS: Record<string, string> = {
-  TypeScript: "#3178c6",
-  JavaScript: "#f1e05a",
-  Python: "#3572A5",
-  Rust: "#dea584",
-  Go: "#00ADD8",
-  "C++": "#f34b7d",
-  C: "#555555",
-  Java: "#b07219",
-  Swift: "#F05138",
-  Kotlin: "#A97BFF",
-  Ruby: "#701516",
-  Zig: "#ec915c",
-  Scala: "#c22d40",
-  Clojure: "#db5855",
-  OCaml: "#3be133",
-  Svelte: "#ff3e00",
-  "Objective-C": "#438eff",
-};
-
 export function RepoHeader({ repo }: RepoHeaderProps) {
   const starsDelta7dPercent =
     repo.stars > 0 ? (repo.starsDelta7d / repo.stars) * 100 : 0;
 
   return (
-    <section className="space-y-4 animate-fade-in">
-      {/* Identity */}
+    <section className="space-y-3 animate-fade-in">
+      {/* Identity + inline stat row — stats are pulled up tight against the
+          repo name per user feedback ("move the STATS closer to the
+          projects"). Language pill + MomentumBadge removed from the header;
+          both are available elsewhere (column picker / Why is this moving). */}
       <div className="flex items-start gap-3">
         <Image
           src={repo.ownerAvatarUrl}
@@ -46,7 +28,7 @@ export function RepoHeader({ repo }: RepoHeaderProps) {
           height={32}
           className="rounded-full shrink-0 mt-1"
         />
-        <div className="min-w-0">
+        <div className="min-w-0 flex-1">
           <h1 className="text-2xl font-bold text-text-primary truncate">
             {repo.fullName}
           </h1>
@@ -55,10 +37,14 @@ export function RepoHeader({ repo }: RepoHeaderProps) {
               {repo.description}
             </p>
           )}
+          <div className="flex flex-wrap items-center gap-2 mt-2">
+            <CategoryPill categoryId={repo.categoryId} size="sm" />
+            <RankBadge rank={repo.rank} size="sm" />
+          </div>
         </div>
       </div>
 
-      {/* Stats grid */}
+      {/* Stats grid — pulled closer to the project (tighter top spacing). */}
       <div className="grid grid-cols-3 md:grid-cols-4 gap-2">
         <div className="bg-bg-card rounded-card p-3 border shadow-card">
           <div className="flex items-center gap-1.5 mb-1">
@@ -110,27 +96,6 @@ export function RepoHeader({ repo }: RepoHeaderProps) {
             {formatNumber(repo.openIssues)}
           </span>
         </div>
-      </div>
-
-      {/* Badges row */}
-      <div className="flex flex-wrap items-center gap-2">
-        <CategoryPill categoryId={repo.categoryId} size="md" />
-        <MomentumBadge score={repo.momentumScore} size="md" showLabel />
-        <RankBadge rank={repo.rank} size="md" />
-
-        {repo.language && (
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 text-xs font-medium rounded-badge border border-border-primary text-text-secondary">
-            <span
-              className="shrink-0 size-2 rounded-full"
-              style={{
-                backgroundColor:
-                  LANGUAGE_COLORS[repo.language] ?? "#6b7280",
-              }}
-              aria-hidden="true"
-            />
-            {repo.language}
-          </span>
-        )}
       </div>
 
       {/* Topics */}

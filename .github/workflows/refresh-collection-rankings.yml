@@ -1,8 +1,8 @@
-name: Refresh fast discovery
+name: Refresh collection rankings
 
 on:
   schedule:
-    - cron: "7,27,47 * * * *"
+    - cron: "17 */6 * * *"
   workflow_dispatch:
 
 permissions:
@@ -26,26 +26,18 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Refresh OSSInsight trending + hot collections
-        run: node scripts/scrape-trending.mjs --skip-collection-rankings
-
-      - name: Discover recent GitHub repos
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        run: node scripts/discover-recent-repos.mjs
-
-      - name: Compute deltas from git history
-        run: node scripts/compute-deltas.mjs
+      - name: Refresh OSSInsight collection rankings
+        run: node scripts/scrape-trending.mjs --only-collection-rankings
 
       - name: Commit if changed
         run: |
           git config user.name  "starscreener-bot"
           git config user.email "bot@starscreener.local"
-          git add data/trending.json data/deltas.json data/hot-collections.json data/recent-repos.json
+          git add data/collection-rankings.json
           if git diff --quiet --staged; then
             echo "no changes - skipping commit"
             exit 0
           fi
           TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-          git commit -m "chore(data): refresh fast discovery snapshots ${TS}"
+          git commit -m "chore(data): refresh collection rankings ${TS}"
           git push

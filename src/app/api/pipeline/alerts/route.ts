@@ -7,7 +7,7 @@
 // marking an event as read.
 
 import { NextRequest, NextResponse } from "next/server";
-import { pipeline } from "@/lib/pipeline/pipeline";
+import { persistPipeline, pipeline } from "@/lib/pipeline/pipeline";
 import type { AlertEvent } from "@/lib/pipeline/types";
 
 const DEFAULT_USER_ID = "local";
@@ -88,6 +88,9 @@ export async function POST(
   try {
     await pipeline.ensureReady();
     const ok = pipeline.markAlertRead(eventId);
+    if (ok) {
+      await persistPipeline();
+    }
     return NextResponse.json({ ok });
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);

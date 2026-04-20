@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Compute per-repo deltas from the git history of data/trending.json and
-// emit data/deltas.json. Runs after scrape-trending in the hourly GHA
+// emit data/deltas.json. Runs after the fast discovery refresh workflow
 // workflow; replaces the ephemeral /tmp-based snapshot pipeline that
 // couldn't survive per-invocation Vercel Lambdas.
 //

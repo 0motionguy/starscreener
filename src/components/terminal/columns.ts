@@ -12,7 +12,6 @@ import type { ReactNode } from "react";
 import { createElement } from "react";
 import { ArrowLeftRight, Eye, GitFork, Star, Users, Zap } from "lucide-react";
 
-import { CategoryPill } from "@/components/shared/CategoryPill";
 import { MomentumBadge } from "@/components/shared/MomentumBadge";
 import { RankBadge } from "@/components/shared/RankBadge";
 import { Sparkline } from "@/components/shared/Sparkline";
@@ -259,7 +258,7 @@ export const COLUMNS: Column[] = [
     minBreakpoint: "xs",
     defaultVisible: true,
     compactVisible: true,
-    description: "Avatar + owner/name + category + language.",
+    description: "Avatar + owner/name + language.",
     render: (repo, ctx) => {
       const spacious = ctx.density === "spacious";
       return createElement(
@@ -296,11 +295,6 @@ export const COLUMNS: Column[] = [
               },
               repo.fullName,
             ),
-            createElement(CategoryPill, {
-              categoryId: repo.categoryId,
-              size: "sm",
-              className: "shrink-0",
-            }),
             repo.language
               ? createElement(
                   "span",

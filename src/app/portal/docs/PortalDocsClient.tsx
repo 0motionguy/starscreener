@@ -1,17 +1,25 @@
 "use client";
 
-// StarScreener — /portal/docs client shell.
+// StarScreener - /portal/docs client shell.
 //
-// Tab state + copy-to-clipboard lives here. The tool list is sourced
-// from the shared @/tools registry so drift with the live manifest is
-// impossible.
+// Tab state + copy-to-clipboard lives here. The tool list is passed from the
+// server wrapper as plain metadata so this client bundle stays free of any
+// server-only pipeline imports.
 
 import { useState } from "react";
 import Link from "next/link";
 import { Plug, Terminal, Copy, Check } from "lucide-react";
-import { TOOLS } from "@/tools";
 
 type Tab = "mcp" | "rest";
+
+export interface PortalDocsTool {
+  name: string;
+  description: string;
+  portalParams: Record<
+    string,
+    { type: string; required?: boolean; description?: string }
+  >;
+}
 
 const MCP_INSTALL = `claude mcp add starscreener node "C:/path/to/mcp/dist/server.js"`;
 
@@ -19,12 +27,15 @@ const CURL_EXAMPLE = `curl -X POST https://starscreener.xyz/portal/call \\
   -H "Content-Type: application/json" \\
   -d '{"method":"search_repos","params":{"query":"agent","limit":5}}'`;
 
-export default function PortalDocsClient() {
+export default function PortalDocsClient({
+  tools,
+}: {
+  tools: PortalDocsTool[];
+}) {
   const [tab, setTab] = useState<Tab>("mcp");
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
-      {/* Heading ------------------------------------------------------ */}
       <header className="mb-8">
         <span className="label-micro">MCP Portal · v0.1</span>
         <h1 className="font-display text-4xl sm:text-5xl mt-2 mb-3">
@@ -32,13 +43,12 @@ export default function PortalDocsClient() {
         </h1>
         <p className="text-text-secondary text-md max-w-2xl leading-relaxed">
           Point your Claude, OpenAI, or custom LLM at our read-only tool
-          surface. No auth, no keys, no setup — just top gainers,
+          surface. No auth, no keys, no setup - just top gainers,
           full-text search, and maintainer rollups piped through either
           MCP or plain HTTP.
         </p>
       </header>
 
-      {/* Tabs --------------------------------------------------------- */}
       <div
         role="tablist"
         aria-label="Integration mode"
@@ -52,9 +62,8 @@ export default function PortalDocsClient() {
         </TabButton>
       </div>
 
-      {tab === "mcp" ? <McpTab /> : <RestTab />}
+      {tab === "mcp" ? <McpTab tools={tools} /> : <RestTab />}
 
-      {/* Footer link back to raw manifest ----------------------------- */}
       <p className="mt-10 text-xs font-mono text-text-tertiary">
         Raw manifest:{" "}
         <Link
@@ -69,11 +78,7 @@ export default function PortalDocsClient() {
   );
 }
 
-// ---------------------------------------------------------------------------
-// MCP tab
-// ---------------------------------------------------------------------------
-
-function McpTab() {
+function McpTab({ tools }: { tools: PortalDocsTool[] }) {
   return (
     <div className="space-y-8">
       <section>
@@ -90,7 +95,7 @@ function McpTab() {
       </section>
 
       <section>
-        <span className="label-section">Tools · {TOOLS.length}</span>
+        <span className="label-section">Tools · {tools.length}</span>
         <p className="text-text-secondary text-sm mt-2 mb-3">
           Every tool below is also callable over REST. Params are
           validated at the boundary and errors come back as typed codes
@@ -98,7 +103,7 @@ function McpTab() {
           <span className="font-mono">NOT_FOUND</span>).
         </p>
         <ul className="divide-y divide-border-secondary border border-border-primary rounded-md overflow-hidden bg-bg-card">
-          {TOOLS.map((tool) => (
+          {tools.map((tool) => (
             <li key={tool.name} className="p-4">
               <div className="font-mono text-sm text-brand mb-1">
                 {tool.name}
@@ -127,10 +132,6 @@ function McpTab() {
     </div>
   );
 }
-
-// ---------------------------------------------------------------------------
-// REST tab
-// ---------------------------------------------------------------------------
 
 function RestTab() {
   return (
@@ -162,12 +163,12 @@ function RestTab() {
         <span className="label-section">Response shape</span>
         <ul className="mt-3 space-y-2 text-text-secondary text-sm leading-relaxed list-disc pl-5">
           <li>
-            <span className="font-mono text-text-primary">ok</span> —
+            <span className="font-mono text-text-primary">ok</span> -
             boolean. <span className="font-mono">true</span> means the
             tool ran and returned data.
           </li>
           <li>
-            <span className="font-mono text-text-primary">result</span> —
+            <span className="font-mono text-text-primary">result</span> -
             the tool&apos;s typed payload (e.g. a{" "}
             <span className="font-mono">repos[]</span> array for
             search_repos). Shape matches the tool&apos;s output contract
@@ -175,7 +176,7 @@ function RestTab() {
           </li>
           <li>
             <span className="font-mono text-text-primary">error</span> /{" "}
-            <span className="font-mono">code</span> — on failure. Codes
+            <span className="font-mono">code</span> - on failure. Codes
             are stable strings, safe to branch on.
           </li>
         </ul>
@@ -192,10 +193,6 @@ function RestTab() {
     </div>
   );
 }
-
-// ---------------------------------------------------------------------------
-// Shared bits
-// ---------------------------------------------------------------------------
 
 function TabButton({
   active,

@@ -34,6 +34,7 @@ import {
   toastAlertDeleted,
   toastAlertError,
 } from "@/lib/toast";
+import { BrowserAlertToggle } from "@/components/watchlist/BrowserAlertToggle";
 import type { Repo } from "@/lib/types";
 import type {
   AlertEvent,
@@ -703,19 +704,22 @@ export function AlertConfig() {
           )}
         </div>
 
-        {!showForm && (
-          <button
-            onClick={() => setShowForm(true)}
-            className={cn(
-              "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--radius-button)] text-xs font-medium min-h-[36px]",
-              "bg-accent-green/10 text-accent-green",
-              "hover:bg-accent-green/20 transition-colors duration-150 cursor-pointer",
-            )}
-          >
-            <Plus size={13} />
-            Add Alert
-          </button>
-        )}
+        <div className="flex items-start gap-2">
+          <BrowserAlertToggle />
+          {!showForm && (
+            <button
+              onClick={() => setShowForm(true)}
+              className={cn(
+                "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--radius-button)] text-xs font-medium min-h-[36px]",
+                "bg-accent-green/10 text-accent-green",
+                "hover:bg-accent-green/20 transition-colors duration-150 cursor-pointer",
+              )}
+            >
+              <Plus size={13} />
+              Add Alert
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Error banner */}

@@ -21,6 +21,7 @@ import {
   alertRuleStore,
   categoryStore,
   flushPendingPersist,
+  hydrateAlertStores,
   hydrateAll,
   mentionStore,
   persistAll,
@@ -124,15 +125,17 @@ function ensureSeeded(): void {
  * of their render function (App Router allows async server components).
  */
 export async function ensureReady(): Promise<void> {
-  if (readyPromise) return readyPromise;
-  readyPromise = (async () => {
-    await hydrateAll();
-    // Whether or not hydration produced data, the pipeline is now "ready":
-    // consumers can read, mutators will debounce-persist. The authoritative
-    // delta source is committed JSON, so zero-hydration doesn't block reads.
-    isSeeded = true;
-  })();
-  return readyPromise;
+  if (!readyPromise) {
+    readyPromise = (async () => {
+      await hydrateAll();
+      // Whether or not hydration produced data, the pipeline is now "ready":
+      // consumers can read, mutators will debounce-persist. The authoritative
+      // delta source is committed JSON, so zero-hydration doesn't block reads.
+      isSeeded = true;
+    })();
+  }
+  await readyPromise;
+  await hydrateAlertStores();
 }
 
 /**

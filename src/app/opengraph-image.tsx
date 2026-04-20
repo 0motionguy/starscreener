@@ -6,7 +6,8 @@
 // tokens don't resolve inside ImageResponse.
 
 import { ImageResponse } from "next/og";
-import { getTopMoversByDelta24h, getTrackedRepoCount } from "@/lib/trending";
+import { getTopMoversByDelta24h } from "@/lib/trending";
+import { getDerivedRepoCount } from "@/lib/derived-repos";
 import { OG_COLORS } from "@/lib/seo";
 import { Dot, StarMark } from "@/lib/og-primitives";
 
@@ -21,7 +22,7 @@ export default async function HomeOGImage() {
   // /api/pipeline/status route header for the same Phase-3 boundary
   // pattern.
   const top = getTopMoversByDelta24h(6);
-  const totalTracked = getTrackedRepoCount();
+  const totalTracked = getDerivedRepoCount();
 
   return new ImageResponse(
     (
@@ -180,7 +181,7 @@ export default async function HomeOGImage() {
           <span style={{ color: OG_COLORS.textMuted, margin: "0 16px" }}>
             ·
           </span>
-          <span style={{ color: OG_COLORS.textSecondary }}>Updated hourly</span>
+          <span style={{ color: OG_COLORS.textSecondary }}>Updated ~20m</span>
         </div>
 
         {/* Bottom orange accent strip */}

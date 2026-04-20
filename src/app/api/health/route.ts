@@ -26,10 +26,12 @@ import {
   getCollectionRankingsCoverage,
   type CollectionRankingsCoverage,
 } from "@/lib/collection-rankings";
+import { recentReposFetchedAt } from "@/lib/recent-repos";
 
 // 2 hours ≈ 2× hourly GHA cadence. Stale past this means at least one tick
 // has missed; operator should be paged.
-const STALE_THRESHOLD_MS = 2 * 60 * 60 * 1000;
+const FAST_DATA_STALE_THRESHOLD_MS = 2 * 60 * 60 * 1000;
+const RANKINGS_STALE_THRESHOLD_MS = 12 * 60 * 60 * 1000;
 
 // Below this percent of repos having ≥1 non-null delta, the endpoint emits
 // a warning field. Expected during the first 30 days of accumulation.
@@ -42,18 +44,24 @@ interface HealthBody {
   lastFetchedAt: string | null;
   computedAt: string | null;
   hotCollectionsFetchedAt: string | null;
+  recentReposFetchedAt: string | null;
   collectionRankingsFetchedAt: string | null;
   ageSeconds: {
     scraper: number | null;
     deltas: number | null;
     hotCollections: number | null;
+    recentRepos: number | null;
     collectionRankings: number | null;
   };
-  thresholdSeconds: number;
+  thresholdSeconds: {
+    fastData: number;
+    collectionRankings: number;
+  };
   stale: {
     scraper: boolean;
     deltas: boolean;
     hotCollections: boolean;
+    recentRepos: boolean;
     collectionRankings: boolean;
   };
   coveragePct: number;
@@ -76,16 +84,27 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
     const scraperAge = ageMs(lastFetchedAt);
     const deltasAge = ageMs(deltasComputedAt);
     const hotCollectionsAge = ageMs(hotCollectionsFetchedAt);
+    const recentReposAge = ageMs(recentReposFetchedAt);
     const collectionRankingsAge = ageMs(collectionRankingsFetchedAt);
 
-    const scraperStale = scraperAge === null || scraperAge > STALE_THRESHOLD_MS;
-    const deltasStale = deltasAge === null || deltasAge > STALE_THRESHOLD_MS;
+    const scraperStale =
+      scraperAge === null || scraperAge > FAST_DATA_STALE_THRESHOLD_MS;
+    const deltasStale =
+      deltasAge === null || deltasAge > FAST_DATA_STALE_THRESHOLD_MS;
     const hotCollectionsStale =
-      hotCollectionsAge === null || hotCollectionsAge > STALE_THRESHOLD_MS;
+      hotCollectionsAge === null ||
+      hotCollectionsAge > FAST_DATA_STALE_THRESHOLD_MS;
+    const recentReposStale =
+      recentReposAge === null || recentReposAge > FAST_DATA_STALE_THRESHOLD_MS;
     const collectionRankingsStale =
-      collectionRankingsAge === null || collectionRankingsAge > STALE_THRESHOLD_MS;
+      collectionRankingsAge === null ||
+      collectionRankingsAge > RANKINGS_STALE_THRESHOLD_MS;
     const anyStale =
-      scraperStale || deltasStale || hotCollectionsStale || collectionRankingsStale;
+      scraperStale ||
+      deltasStale ||
+      hotCollectionsStale ||
+      recentReposStale ||
+      collectionRankingsStale;
 
     const coverage = deltasCoveragePct();
     const coverageLow = coverage < COVERAGE_WARN_PCT;
@@ -97,20 +116,27 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
       lastFetchedAt: lastFetchedAt ?? null,
       computedAt: deltasComputedAt ?? null,
       hotCollectionsFetchedAt: hotCollectionsFetchedAt ?? null,
+      recentReposFetchedAt,
       collectionRankingsFetchedAt,
       ageSeconds: {
         scraper: scraperAge === null ? null : Math.floor(scraperAge / 1000),
         deltas: deltasAge === null ? null : Math.floor(deltasAge / 1000),
         hotCollections:
           hotCollectionsAge === null ? null : Math.floor(hotCollectionsAge / 1000),
+        recentRepos:
+          recentReposAge === null ? null : Math.floor(recentReposAge / 1000),
         collectionRankings:
           collectionRankingsAge === null ? null : Math.floor(collectionRankingsAge / 1000),
       },
-      thresholdSeconds: STALE_THRESHOLD_MS / 1000,
+      thresholdSeconds: {
+        fastData: FAST_DATA_STALE_THRESHOLD_MS / 1000,
+        collectionRankings: RANKINGS_STALE_THRESHOLD_MS / 1000,
+      },
       stale: {
         scraper: scraperStale,
         deltas: deltasStale,
         hotCollections: hotCollectionsStale,
+        recentRepos: recentReposStale,
         collectionRankings: collectionRankingsStale,
       },
       coveragePct: Math.round(coverage * 10) / 10,
@@ -133,18 +159,24 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
         lastFetchedAt: lastFetchedAt ?? null,
         computedAt: deltasComputedAt ?? null,
         hotCollectionsFetchedAt: hotCollectionsFetchedAt ?? null,
+        recentReposFetchedAt,
         collectionRankingsFetchedAt,
         ageSeconds: {
           scraper: null,
           deltas: null,
           hotCollections: null,
+          recentRepos: null,
           collectionRankings: null,
         },
-        thresholdSeconds: STALE_THRESHOLD_MS / 1000,
+        thresholdSeconds: {
+          fastData: FAST_DATA_STALE_THRESHOLD_MS / 1000,
+          collectionRankings: RANKINGS_STALE_THRESHOLD_MS / 1000,
+        },
         stale: {
           scraper: true,
           deltas: true,
           hotCollections: true,
+          recentRepos: true,
           collectionRankings: true,
         },
         coveragePct: 0,

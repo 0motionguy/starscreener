@@ -7,7 +7,7 @@
 // no userId is supplied.
 
 import { NextRequest, NextResponse } from "next/server";
-import { pipeline } from "@/lib/pipeline/pipeline";
+import { persistPipeline, pipeline } from "@/lib/pipeline/pipeline";
 import {
   DEFAULT_ALERT_SUGGESTIONS,
   validateRule,
@@ -175,6 +175,7 @@ export async function POST(
   try {
     await pipeline.ensureReady();
     const rule = pipeline.createAlertRule(parsed.value.input);
+    await persistPipeline();
     // Defense-in-depth: re-validate the constructed rule before returning.
     const validation = validateRule(rule);
     if (!validation.valid) {
@@ -220,6 +221,9 @@ export async function DELETE(
   try {
     await pipeline.ensureReady();
     const ok = pipeline.deleteAlertRule(id);
+    if (ok) {
+      await persistPipeline();
+    }
     return NextResponse.json({ ok });
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);

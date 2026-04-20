@@ -60,22 +60,6 @@ test("derived repos project OSS Insight 24h stars into starsDelta24h", () => {
   assert.equal(repo.trendScore24h, maxPast24hScore(sourceRow.repo_name));
 });
 
-test("derived repos expose a 30-point sparkline ending at current stars", () => {
-  __resetDerivedReposCache();
-
-  const sourceRow = getTrending("past_24_hours", "All")[0];
-  assert.ok(sourceRow, "expected committed OSS Insight 24h data");
-
-  const repo = getDerivedRepoByFullName(sourceRow.repo_name);
-  assert.ok(repo, `expected derived repo for ${sourceRow.repo_name}`);
-  assert.equal(repo.sparklineData.length, 30);
-  assert.equal(repo.sparklineData[repo.sparklineData.length - 1], repo.stars);
-  assert.ok(
-    repo.sparklineData.some((value) => value > 0),
-    "expected sparkline data to include non-zero values",
-  );
-});
-
 test("top movers use OSS Insight 24h activity instead of cold-start deltas", () => {
   __resetDerivedReposCache();
 

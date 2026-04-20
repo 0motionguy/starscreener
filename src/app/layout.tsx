@@ -16,6 +16,7 @@ import { Header } from "@/components/layout/Header";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { MobileDrawer } from "@/components/layout/MobileDrawer";
 import { MobileNav } from "@/components/layout/MobileNav";
+import { BrowserAlertBridge } from "@/components/alerts/BrowserAlertBridge";
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/seo";
 import "./globals.css";
 
@@ -134,6 +135,7 @@ export default function RootLayout({
               <main className="app-main">{children}</main>
             </AppShell>
             <MobileNav />
+            <BrowserAlertBridge />
             <Toaster
               theme="dark"
               position="bottom-right"

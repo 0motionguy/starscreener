@@ -412,6 +412,38 @@ test("multi-repo hydrate preserves every repo's data", async () => {
   }
 });
 
+test("alert hydrate replaces deleted rules and events instead of merging", async () => {
+  const { memoryStores } = harness;
+
+  const writer = {
+    rule: new memoryStores.InMemoryAlertRuleStore(),
+    event: new memoryStores.InMemoryAlertEventStore(),
+  };
+  const reader = {
+    rule: new memoryStores.InMemoryAlertRuleStore(),
+    event: new memoryStores.InMemoryAlertEventStore(),
+  };
+
+  const rule = mockAlertRule();
+  const event = mockAlertEvent();
+
+  writer.rule.save(rule);
+  writer.event.append(event);
+  await Promise.all([writer.rule.persist(), writer.event.persist()]);
+
+  await Promise.all([reader.rule.hydrate(), reader.event.hydrate()]);
+  assert.equal(reader.rule.listAll().length, 1);
+  assert.equal(reader.event.listForUser(event.userId).length, 1);
+
+  writer.rule.remove(rule.id);
+  await writer.rule.persist();
+  await writer.event.persist();
+
+  await Promise.all([reader.rule.hydrate(), reader.event.hydrate()]);
+  assert.equal(reader.rule.listAll().length, 0);
+  assert.equal(reader.event.listForUser(event.userId).length, 1);
+});
+
 test("snapshot retention cap drops oldest entries beyond SNAPSHOT_HISTORY_CAP", () => {
   const { memoryStores } = harness;
   const store = new memoryStores.InMemorySnapshotStore();

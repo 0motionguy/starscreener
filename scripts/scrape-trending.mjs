@@ -22,6 +22,16 @@ const HOT_COLLECTIONS_OUT = resolve(__dirname, "..", "data", "hot-collections.js
 const COLLECTIONS_ROOT = resolve(__dirname, "..", "data", "collections");
 const COLLECTION_RANKINGS_OUT = resolve(__dirname, "..", "data", "collection-rankings.json");
 
+const args = new Set(process.argv.slice(2));
+const fetchTrendBuckets = !args.has("--only-collection-rankings");
+const fetchCollectionRankings = !args.has("--skip-collection-rankings");
+
+if (!fetchTrendBuckets && !fetchCollectionRankings) {
+  throw new Error(
+    "invalid flags: choose either --skip-collection-rankings or --only-collection-rankings, not both",
+  );
+}
+
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 function expectRows(body, label) {
@@ -120,75 +130,89 @@ async function fetchCollectionRanking(collectionId, metric) {
 
 async function main() {
   const fetchedAt = new Date().toISOString();
-  const buckets = {};
   let totalRows = 0;
-
-  for (const period of PERIODS) {
-    buckets[period] = {};
-    for (const language of LANGUAGES) {
-      const rows = await fetchBucket(period, language);
-      buckets[period][language] = rows;
-      totalRows += rows.length;
-      console.log(`ok  ${period} / ${language} - ${rows.length} rows`);
-      await sleep(TRENDS_PAUSE_MS);
-    }
-  }
-
-  const hotCollections = await fetchHotCollections();
-  console.log(`ok  hot collections - ${hotCollections.length} rows`);
-
-  const collectionRefs = await loadCollectionRefs();
-  const collectionRankings = {};
+  let hotCollections = [];
   let totalCollectionRankingRows = 0;
 
-  for (const collection of collectionRefs) {
-    const metrics = {};
-    for (const metric of COLLECTION_RANKING_METRICS) {
-      const rows = await fetchCollectionRanking(collection.id, metric);
-      metrics[metric] = rows;
-      totalCollectionRankingRows += rows.length;
-      console.log(
-        `ok  collection ${collection.id} (${collection.slug}) / ${metric} - ${rows.length} rows`,
-      );
-      await sleep(COLLECTIONS_PAUSE_MS);
+  if (fetchTrendBuckets) {
+    const buckets = {};
+
+    for (const period of PERIODS) {
+      buckets[period] = {};
+      for (const language of LANGUAGES) {
+        const rows = await fetchBucket(period, language);
+        buckets[period][language] = rows;
+        totalRows += rows.length;
+        console.log(`ok  ${period} / ${language} - ${rows.length} rows`);
+        await sleep(TRENDS_PAUSE_MS);
+      }
     }
-    collectionRankings[String(collection.id)] = metrics;
+
+    hotCollections = await fetchHotCollections();
+    console.log(`ok  hot collections - ${hotCollections.length} rows`);
+
+    const trendsPayload = {
+      fetchedAt,
+      buckets,
+    };
+    const hotCollectionsPayload = {
+      fetchedAt,
+      rows: hotCollections,
+    };
+
+    await mkdir(dirname(TRENDS_OUT), { recursive: true });
+    await writeFile(
+      TRENDS_OUT,
+      JSON.stringify(trendsPayload, null, 2) + "\n",
+      "utf8",
+    );
+    await writeFile(
+      HOT_COLLECTIONS_OUT,
+      JSON.stringify(hotCollectionsPayload, null, 2) + "\n",
+      "utf8",
+    );
+
+    console.log(
+      `wrote ${TRENDS_OUT} (${totalRows} rows across ${PERIODS.length * LANGUAGES.length} buckets)`,
+    );
+    console.log(`wrote ${HOT_COLLECTIONS_OUT} (${hotCollections.length} rows)`);
   }
 
-  const trendsPayload = {
-    fetchedAt,
-    buckets,
-  };
-  const hotCollectionsPayload = {
-    fetchedAt,
-    rows: hotCollections,
-  };
-  const collectionRankingsPayload = {
-    fetchedAt,
-    period: COLLECTION_RANKING_PERIOD,
-    collections: collectionRankings,
-  };
+  if (fetchCollectionRankings) {
+    const collectionRefs = await loadCollectionRefs();
+    const collectionRankings = {};
 
-  await mkdir(dirname(TRENDS_OUT), { recursive: true });
-  await writeFile(TRENDS_OUT, JSON.stringify(trendsPayload, null, 2) + "\n", "utf8");
-  await writeFile(
-    HOT_COLLECTIONS_OUT,
-    JSON.stringify(hotCollectionsPayload, null, 2) + "\n",
-    "utf8",
-  );
-  await writeFile(
-    COLLECTION_RANKINGS_OUT,
-    JSON.stringify(collectionRankingsPayload, null, 2) + "\n",
-    "utf8",
-  );
+    for (const collection of collectionRefs) {
+      const metrics = {};
+      for (const metric of COLLECTION_RANKING_METRICS) {
+        const rows = await fetchCollectionRanking(collection.id, metric);
+        metrics[metric] = rows;
+        totalCollectionRankingRows += rows.length;
+        console.log(
+          `ok  collection ${collection.id} (${collection.slug}) / ${metric} - ${rows.length} rows`,
+        );
+        await sleep(COLLECTIONS_PAUSE_MS);
+      }
+      collectionRankings[String(collection.id)] = metrics;
+    }
 
-  console.log(
-    `wrote ${TRENDS_OUT} (${totalRows} rows across ${PERIODS.length * LANGUAGES.length} buckets)`,
-  );
-  console.log(`wrote ${HOT_COLLECTIONS_OUT} (${hotCollections.length} rows)`);
-  console.log(
-    `wrote ${COLLECTION_RANKINGS_OUT} (${totalCollectionRankingRows} rows across ${collectionRefs.length} collections x ${COLLECTION_RANKING_METRICS.length} metrics)`,
-  );
+    const collectionRankingsPayload = {
+      fetchedAt,
+      period: COLLECTION_RANKING_PERIOD,
+      collections: collectionRankings,
+    };
+
+    await mkdir(dirname(TRENDS_OUT), { recursive: true });
+    await writeFile(
+      COLLECTION_RANKINGS_OUT,
+      JSON.stringify(collectionRankingsPayload, null, 2) + "\n",
+      "utf8",
+    );
+
+    console.log(
+      `wrote ${COLLECTION_RANKINGS_OUT} (${totalCollectionRankingRows} rows across ${collectionRefs.length} collections x ${COLLECTION_RANKING_METRICS.length} metrics)`,
+    );
+  }
 }
 
 main().catch((err) => {

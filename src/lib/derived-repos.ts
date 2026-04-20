@@ -9,14 +9,14 @@
 // compare + category OG cards). MCP tools + admin pipeline routes continue
 // to read the in-memory stores.
 
-import { existsSync, readFileSync } from "node:fs";
-import { join } from "node:path";
-
 import type { Repo } from "./types";
 import { slugToId } from "./utils";
 import {
+  buildBaseRepoFromRecent,
+  getRecentRepos,
+} from "./recent-repos";
+import {
   assembleRepoFromTrending,
-  getAllFullNames,
   getDeltas,
   getTrending,
   lastFetchedAt,
@@ -34,8 +34,6 @@ import {
 let _cache: Repo[] | null = null;
 let _byFullName: Map<string, Repo> | null = null;
 let _byId: Map<string, Repo> | null = null;
-let _repoEnrichment: Map<string, Repo> | null = null;
-let _snapshotSparklines: Map<string, number[]> | null = null;
 
 const PERIODS: TrendingPeriod[] = [
   "past_24_hours",
@@ -43,9 +41,6 @@ const PERIODS: TrendingPeriod[] = [
   "past_month",
 ];
 const LANGS: TrendingLanguage[] = ["All", "Python", "TypeScript", "Rust", "Go"];
-const DAY_MS = 86_400_000;
-const SPARKLINE_DAYS = 30;
-const MIN_RENDERABLE_HISTORY_DAYS = 7;
 
 interface TrendingRepoAggregate {
   row: TrendingRow;
@@ -62,12 +57,6 @@ interface TrendingRepoAggregate {
   has7d: boolean;
   has30d: boolean;
   collectionNames: Set<string>;
-}
-
-interface SnapshotRow {
-  repoId: string;
-  capturedAtMs: number;
-  stars: number;
 }
 
 function parseMetric(value: string | null | undefined): number {
@@ -92,206 +81,6 @@ function parseCollectionNames(value: string | null | undefined): string[] {
     .split(",")
     .map((name) => name.trim())
     .filter(Boolean);
-}
-
-function safeReadLines(filePath: string): string[] {
-  if (!existsSync(filePath)) return [];
-  return readFileSync(filePath, "utf8")
-    .split(/\r?\n/)
-    .map((line) => line.trim())
-    .filter(Boolean);
-}
-
-function loadRepoEnrichment(): Map<string, Repo> {
-  if (_repoEnrichment) return _repoEnrichment;
-
-  const enrichments = new Map<string, Repo>();
-  const filePath = join(process.cwd(), ".data", "repos.jsonl");
-
-  for (const line of safeReadLines(filePath)) {
-    try {
-      const repo = JSON.parse(line) as Repo;
-      if (!repo.fullName) continue;
-      enrichments.set(repo.fullName.toLowerCase(), repo);
-    } catch {
-      // Ignore malformed lines in best-effort local enrichment.
-    }
-  }
-
-  _repoEnrichment = enrichments;
-  return enrichments;
-}
-
-function buildSparklineFromSnapshots(
-  rows: SnapshotRow[],
-  days: number = SPARKLINE_DAYS,
-): number[] {
-  const sorted = [...rows].sort((a, b) => a.capturedAtMs - b.capturedAtMs);
-  const out = new Array<number>(days).fill(0);
-  const today = new Date();
-  today.setUTCHours(23, 59, 59, 999);
-
-  let cursor = 0;
-  let lastKnown = 0;
-
-  for (let i = 0; i < days; i += 1) {
-    const daysAgo = days - 1 - i;
-    const dayEndMs = today.getTime() - daysAgo * DAY_MS;
-    while (
-      cursor < sorted.length &&
-      sorted[cursor] &&
-      sorted[cursor].capturedAtMs <= dayEndMs
-    ) {
-      lastKnown = sorted[cursor].stars;
-      cursor += 1;
-    }
-    out[i] = lastKnown;
-  }
-
-  return out;
-}
-
-function loadSnapshotSparklines(): Map<string, number[]> {
-  if (_snapshotSparklines) return _snapshotSparklines;
-
-  const byRepo = new Map<string, SnapshotRow[]>();
-  const filePath = join(process.cwd(), ".data", "snapshots.jsonl");
-
-  for (const line of safeReadLines(filePath)) {
-    try {
-      const parsed = JSON.parse(line) as {
-        repoId?: string;
-        capturedAt?: string;
-        stars?: number;
-      };
-      const repoId = parsed.repoId?.trim();
-      const capturedAtMs = parsed.capturedAt ? Date.parse(parsed.capturedAt) : NaN;
-      const stars = Number(parsed.stars ?? 0);
-      if (!repoId || !Number.isFinite(capturedAtMs) || !Number.isFinite(stars)) {
-        continue;
-      }
-      const current = byRepo.get(repoId) ?? [];
-      current.push({ repoId, capturedAtMs, stars });
-      byRepo.set(repoId, current);
-    } catch {
-      // Ignore malformed lines in best-effort local enrichment.
-    }
-  }
-
-  const sparklines = new Map<string, number[]>();
-  for (const [repoId, rows] of byRepo.entries()) {
-    sparklines.set(repoId, buildSparklineFromSnapshots(rows));
-  }
-
-  _snapshotSparklines = sparklines;
-  return sparklines;
-}
-
-function hasRenderableSparkline(sparkline: number[]): boolean {
-  if (sparkline.length < MIN_RENDERABLE_HISTORY_DAYS) return false;
-  const nonZeroDays = sparkline.filter(
-    (value) => Number.isFinite(value) && value > 0,
-  ).length;
-  const uniqueValues = new Set(sparkline).size;
-  return nonZeroDays >= MIN_RENDERABLE_HISTORY_DAYS && uniqueValues > 1;
-}
-
-function normalizeSparklineToStars(
-  sparkline: number[],
-  starsNow: number,
-): number[] {
-  if (sparkline.length === 0 || starsNow <= 0) return sparkline;
-  const lastValue = sparkline[sparkline.length - 1] ?? 0;
-  if (lastValue <= 0 || lastValue === starsNow) return sparkline;
-
-  const scale = starsNow / lastValue;
-  const normalized = sparkline.map((value) =>
-    Math.max(0, Math.round(value * scale)),
-  );
-  normalized[normalized.length - 1] = starsNow;
-
-  for (let i = 1; i < normalized.length; i += 1) {
-    if (normalized[i] < normalized[i - 1]) {
-      normalized[i] = normalized[i - 1];
-    }
-  }
-
-  return normalized;
-}
-
-function fillLinearSegment(
-  out: number[],
-  startIndex: number,
-  endIndex: number,
-  startValue: number,
-  endValue: number,
-): void {
-  if (endIndex <= startIndex) {
-    out[endIndex] = endValue;
-    return;
-  }
-
-  for (let i = startIndex; i <= endIndex; i += 1) {
-    const ratio = (i - startIndex) / (endIndex - startIndex);
-    out[i] = Math.round(startValue + (endValue - startValue) * ratio);
-  }
-}
-
-function buildSyntheticSparkline(
-  starsNow: number,
-  starsDelta24h: number,
-  starsDelta7d: number,
-  starsDelta30d: number,
-): number[] {
-  if (starsNow <= 0) return new Array<number>(SPARKLINE_DAYS).fill(0);
-
-  const delta24 = Math.max(0, Math.round(starsDelta24h));
-  const delta7 = Math.max(delta24, Math.round(starsDelta7d));
-  const delta30 = Math.max(delta7, Math.round(starsDelta30d));
-
-  const thirtyDaysAgo = Math.max(0, starsNow - delta30);
-  const sevenDaysAgo = Math.max(thirtyDaysAgo, starsNow - delta7);
-  const yesterday = Math.max(sevenDaysAgo, starsNow - delta24);
-
-  const out = new Array<number>(SPARKLINE_DAYS).fill(starsNow);
-  fillLinearSegment(out, 0, 22, thirtyDaysAgo, sevenDaysAgo);
-  fillLinearSegment(out, 22, 28, sevenDaysAgo, yesterday);
-  fillLinearSegment(out, 28, 29, yesterday, starsNow);
-  out[SPARKLINE_DAYS - 1] = starsNow;
-
-  for (let i = 1; i < out.length; i += 1) {
-    if (out[i] < out[i - 1]) {
-      out[i] = out[i - 1];
-    }
-  }
-
-  return out;
-}
-
-function pickSparkline(
-  repoId: string,
-  enrichment: Repo | undefined,
-  starsNow: number,
-  starsDelta24h: number,
-  starsDelta7d: number,
-  starsDelta30d: number,
-): number[] {
-  const snapshotSparkline = loadSnapshotSparklines().get(repoId) ?? [];
-  if (hasRenderableSparkline(snapshotSparkline)) {
-    return normalizeSparklineToStars(snapshotSparkline, starsNow);
-  }
-
-  const enrichedSparkline = enrichment?.sparklineData ?? [];
-  if (hasRenderableSparkline(enrichedSparkline)) {
-    return normalizeSparklineToStars(enrichedSparkline, starsNow);
-  }
-
-  return buildSyntheticSparkline(
-    starsNow,
-    starsDelta24h,
-    starsDelta7d,
-    starsDelta30d,
-  );
 }
 
 function setPeriodMetrics(
@@ -431,41 +220,21 @@ function baseRepoFromTrending(
 export function getDerivedRepos(): Repo[] {
   if (_cache) return _cache;
 
-  // One aggregate per unique owner/name, taking the max period metric across
-  // duplicate All/language buckets. OSS Insight's `row.stars` inside a bucket
-  // is the stars-gained-in-period (a real delta), not the cumulative total —
-  // the cumulative total lives in data/deltas.json as `stars_now`.
   const aggregates = buildTrendingAggregates();
-
   const deltas = getDeltas();
   const fetchedAt = lastFetchedAt;
 
-  // repoId → stars_now lookup, so we can set Repo.stars to the cumulative
-  // total (deltas.json) rather than the period-delta found in trending.json.
+  // repoId → stars_now lookup for authoritative cumulative totals.
   const starsNowByRepoId = new Map<string, number>();
   for (const [repoId, entry] of Object.entries(deltas.repos)) {
     starsNowByRepoId.set(repoId, entry.stars_now);
   }
 
-  // 1. Base Repo[]. Deltas come from two sources:
-  //    a) OSS Insight period delta from `aggregate.stars{24h,7d,30d}` —
-  //       real single-bucket numbers from the upstream trending feed.
-  //       This is the PRIMARY source because OSS Insight's pre-computed
-  //       period aggregates are the canonical upstream trend signal.
-  //    b) data/deltas.json — git-history-derived. Used as a secondary
-  //       fallback when (a) is missing for a given window AND (b) has
-  //       a real (non-cold-start) value. This mostly fires for repos
-  //       we track but that dropped out of OSS Insight's trending
-  //       bucket for one window.
-  //    We read `deltas.repos[repoId]` directly instead of the projected
-  //    `starsDelta*Missing` flags because those fold the 1h-as-24h
-  //    fallback into their semantics — which conflates with our source
-  //    selection here.
   const isRealDelta = (d: DeltaValue | undefined): boolean =>
     !!d && d.value !== null && d.basis !== "cold-start";
 
-  const repoEnrichment = loadRepoEnrichment();
   let repos: Repo[] = [];
+
   for (const aggregate of aggregates.values()) {
     const base = baseRepoFromTrending(aggregate, fetchedAt);
     const id = slugToId(aggregate.row.repo_name);
@@ -503,31 +272,12 @@ export function getDerivedRepos(): Repo[] {
       deltaEntry?.delta_30d,
     );
     const starsTotal = starsNow > 0 ? starsNow : aggregate.activityStars;
-    const enrichment = repoEnrichment.get(base.fullName.toLowerCase());
+
     const enrichedBase: Repo = {
       ...base,
-      ...(enrichment ?? {}),
       id,
-      fullName: base.fullName,
-      name: base.name,
-      owner: base.owner,
-      url: base.url,
       stars: starsTotal,
-      forks: enrichment?.forks ?? aggregate.forks,
-      contributors: enrichment?.contributors ?? aggregate.contributors,
-      openIssues: enrichment?.openIssues ?? 0,
-      lastCommitAt: enrichment?.lastCommitAt ?? fetchedAt,
-      lastReleaseAt: enrichment?.lastReleaseAt ?? null,
-      lastReleaseTag: enrichment?.lastReleaseTag ?? null,
-      createdAt: enrichment?.createdAt ?? "",
-      sparklineData: pickSparkline(
-        id,
-        enrichment,
-        starsTotal,
-        d24.value,
-        d7.value,
-        d30.value,
-      ),
+      sparklineData: [],
       collectionNames: Array.from(aggregate.collectionNames).sort(),
     };
     const withHistory = assembleRepoFromTrending(enrichedBase, deltas);
@@ -536,8 +286,8 @@ export function getDerivedRepos(): Repo[] {
       ...withHistory,
       id,
       stars: starsTotal,
-      forks: enrichment?.forks ?? aggregate.forks,
-      contributors: enrichment?.contributors ?? aggregate.contributors,
+      forks: aggregate.forks,
+      contributors: aggregate.contributors,
       starsDelta24h: d24.value,
       starsDelta7d: d7.value,
       starsDelta30d: d30.value,
@@ -549,6 +299,23 @@ export function getDerivedRepos(): Repo[] {
       starsDelta7dMissing: d7.missing,
       starsDelta30dMissing: d30.missing,
     });
+  }
+
+  // Supplemental: freshly discovered repos from data/recent-repos.json that
+  // aren't yet in the trending feed. These have no enrichment beyond what the
+  // recent-repos list carries; we give them zero deltas and empty sparkline.
+  const seenFullNames = new Set(
+    repos.map((repo) => repo.fullName.toLowerCase()),
+  );
+  for (const row of getRecentRepos()) {
+    const normalized = row.fullName.toLowerCase();
+    if (seenFullNames.has(normalized)) continue;
+    const base = buildBaseRepoFromRecent(row);
+    repos.push({
+      ...base,
+      sparklineData: [],
+    });
+    seenFullNames.add(normalized);
   }
 
   // 2. Classify first so scoreBatch's per-category averages use the real
@@ -608,9 +375,9 @@ export function getDerivedRepoById(id: string): Repo | null {
   return _byId.get(id) ?? null;
 }
 
-/** Track count for pagination debug. Equal to `getAllFullNames().length`. */
+/** Track count for pagination/debug across OSS + supplemental recent repos. */
 export function getDerivedRepoCount(): number {
-  return getAllFullNames().length;
+  return getDerivedRepos().length;
 }
 
 // Test-only cache reset.
@@ -618,6 +385,4 @@ export function __resetDerivedReposCache(): void {
   _cache = null;
   _byFullName = null;
   _byId = null;
-  _repoEnrichment = null;
-  _snapshotSparklines = null;
 }

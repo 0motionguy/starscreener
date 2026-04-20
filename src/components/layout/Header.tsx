@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Send } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ROUTES } from "@/lib/constants";
 import { SearchBar } from "@/components/shared/SearchBar";
@@ -62,6 +63,19 @@ export function Header() {
 
       {/* Right: Theme toggle */}
       <div className="flex items-center gap-1 md:gap-2 shrink-0">
+        <Link
+          href={ROUTES.SUBMIT}
+          className={cn(
+            "inline-flex h-9 items-center gap-2 rounded-card",
+            "border border-border-primary bg-bg-secondary px-3",
+            "text-sm font-medium text-text-secondary transition-colors",
+            "hover:text-text-primary",
+          )}
+          aria-label="Drop your repo"
+        >
+          <Send className="h-4 w-4" />
+          <span className="hidden md:inline">Drop repo</span>
+        </Link>
         <ThemeToggle />
       </div>
     </header>

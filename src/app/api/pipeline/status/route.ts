@@ -11,8 +11,6 @@ import {
   lastFetchedAt,
   deltasComputedAt,
   deltasCoveragePct,
-  getTrackedRepoCount,
-  getTotalStars,
 } from "@/lib/trending";
 import { hotCollectionsFetchedAt } from "@/lib/hot-collections";
 import {
@@ -20,9 +18,11 @@ import {
   getCollectionRankingsCoverage,
   type CollectionRankingsCoverage,
 } from "@/lib/collection-rankings";
+import { recentReposFetchedAt } from "@/lib/recent-repos";
+import { getDerivedRepoCount, getDerivedRepos } from "@/lib/derived-repos";
 
-// Must stay in lockstep with src/app/api/health/route.ts STALE_THRESHOLD_MS.
-const STALE_THRESHOLD_MS = 2 * 60 * 60 * 1000;
+const FAST_DATA_STALE_THRESHOLD_MS = 2 * 60 * 60 * 1000;
+const RANKINGS_STALE_THRESHOLD_MS = 12 * 60 * 60 * 1000;
 
 export interface PipelineStatusResponse {
   seeded: boolean;
@@ -35,12 +35,14 @@ export interface PipelineStatusResponse {
   lastFetchedAt: string | null;
   computedAt: string | null;
   hotCollectionsFetchedAt: string | null;
+  recentReposFetchedAt: string | null;
   collectionRankingsFetchedAt: string | null;
   coveragePct: number;
   stale: {
     scraper: boolean;
     deltas: boolean;
     hotCollections: boolean;
+    recentRepos: boolean;
     collectionRankings: boolean;
   };
   collectionCoverage: CollectionRankingsCoverage;
@@ -80,19 +82,32 @@ export async function GET(): Promise<NextResponse<PipelineStatusResponse | { err
     const scraperAge = ageMs(lastFetchedAt);
     const deltasAge = ageMs(deltasComputedAt);
     const hotCollectionsAge = ageMs(hotCollectionsFetchedAt);
+    const recentReposAge = ageMs(recentReposFetchedAt);
     const collectionRankingsAge = ageMs(collectionRankingsFetchedAt);
 
-    const scraperStale = scraperAge === null || scraperAge > STALE_THRESHOLD_MS;
-    const deltasStale = deltasAge === null || deltasAge > STALE_THRESHOLD_MS;
+    const scraperStale =
+      scraperAge === null || scraperAge > FAST_DATA_STALE_THRESHOLD_MS;
+    const deltasStale =
+      deltasAge === null || deltasAge > FAST_DATA_STALE_THRESHOLD_MS;
     const hotCollectionsStale =
-      hotCollectionsAge === null || hotCollectionsAge > STALE_THRESHOLD_MS;
+      hotCollectionsAge === null ||
+      hotCollectionsAge > FAST_DATA_STALE_THRESHOLD_MS;
+    const recentReposStale =
+      recentReposAge === null || recentReposAge > FAST_DATA_STALE_THRESHOLD_MS;
     const collectionRankingsStale =
-      collectionRankingsAge === null || collectionRankingsAge > STALE_THRESHOLD_MS;
+      collectionRankingsAge === null ||
+      collectionRankingsAge > RANKINGS_STALE_THRESHOLD_MS;
 
     const isEmpty = !lastFetchedAt;
     const isStale =
       !isEmpty &&
-      (scraperStale || deltasStale || hotCollectionsStale || collectionRankingsStale);
+      (
+        scraperStale ||
+        deltasStale ||
+        hotCollectionsStale ||
+        recentReposStale ||
+        collectionRankingsStale
+      );
     const healthStatus: "ok" | "stale" | "empty" = isEmpty
       ? "empty"
       : isStale
@@ -105,6 +120,7 @@ export async function GET(): Promise<NextResponse<PipelineStatusResponse | { err
       scraperAge,
       deltasAge,
       hotCollectionsAge,
+      recentReposAge,
       collectionRankingsAge,
     ].filter((age): age is number => age !== null);
     const worstAgeMs = ageCandidates.length > 0 ? Math.max(...ageCandidates) : null;
@@ -120,19 +136,21 @@ export async function GET(): Promise<NextResponse<PipelineStatusResponse | { err
       lastFetchedAt: lastFetchedAt ?? null,
       computedAt: deltasComputedAt ?? null,
       hotCollectionsFetchedAt: hotCollectionsFetchedAt ?? null,
+      recentReposFetchedAt,
       collectionRankingsFetchedAt,
       coveragePct: Math.round(deltasCoveragePct() * 10) / 10,
       stale: {
         scraper: scraperStale,
         deltas: deltasStale,
         hotCollections: hotCollectionsStale,
+        recentRepos: recentReposStale,
         collectionRankings: collectionRankingsStale,
       },
       collectionCoverage: getCollectionRankingsCoverage(),
       rateLimitRemaining,
       stats: {
-        totalRepos: getTrackedRepoCount(),
-        totalStars: getTotalStars(),
+        totalRepos: getDerivedRepoCount(),
+        totalStars: getDerivedRepos().reduce((sum, repo) => sum + repo.stars, 0),
         hotCount: getDerivedMetaCounts().hot,
         breakoutCount: getDerivedMetaCounts().breakouts,
         lastRefreshAt: lastFetchedAt ?? null,

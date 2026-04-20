@@ -71,7 +71,7 @@ export const useWatchlistStore = create<WatchlistState>()(
 );
 
 // ---------------------------------------------------------------------------
-// Compare Store — NOT persisted
+// Compare Store — persisted to localStorage
 // ---------------------------------------------------------------------------
 
 interface CompareState {
@@ -83,31 +83,38 @@ interface CompareState {
   isFull: () => boolean;
 }
 
-export const useCompareStore = create<CompareState>()((set, get) => ({
-  repos: [],
+export const useCompareStore = create<CompareState>()(
+  persist(
+    (set, get) => ({
+      repos: [],
 
-  addRepo: (id) => {
-    const { repos } = get();
-    if (repos.length >= 4 || repos.includes(id)) return;
-    set({ repos: [...repos, id] });
-  },
+      addRepo: (id) => {
+        const { repos } = get();
+        if (repos.length >= 4 || repos.includes(id)) return;
+        set({ repos: [...repos, id] });
+      },
 
-  removeRepo: (id) => {
-    set({ repos: get().repos.filter((r) => r !== id) });
-  },
+      removeRepo: (id) => {
+        set({ repos: get().repos.filter((r) => r !== id) });
+      },
 
-  clearAll: () => {
-    set({ repos: [] });
-  },
+      clearAll: () => {
+        set({ repos: [] });
+      },
 
-  isComparing: (id) => {
-    return get().repos.includes(id);
-  },
+      isComparing: (id) => {
+        return get().repos.includes(id);
+      },
 
-  isFull: () => {
-    return get().repos.length >= 4;
-  },
-}));
+      isFull: () => {
+        return get().repos.length >= 4;
+      },
+    }),
+    {
+      name: "starscreener-compare",
+    },
+  ),
+);
 
 // ---------------------------------------------------------------------------
 // Filter Store — partial persist (terminal layout prefs + filter toggles)

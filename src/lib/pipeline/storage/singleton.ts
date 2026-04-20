@@ -96,6 +96,24 @@ export async function hydrateAll(): Promise<void> {
 }
 
 /**
+ * Refresh only alert rules/events from disk.
+ *
+ * These stores are user-configured and can mutate independently of the main
+ * repo corpus. Re-hydrating them per request keeps multiple server workers
+ * consistent after alert mutations.
+ */
+export async function hydrateAlertStores(): Promise<void> {
+  if (!isPersistenceEnabled()) return;
+  await ensureDataDir();
+  suspendPersistHook();
+  try {
+    await Promise.all([alertRuleStore.hydrate(), alertEventStore.hydrate()]);
+  } finally {
+    restorePersistHook();
+  }
+}
+
+/**
  * Flush every store to disk in parallel. No-op when persistence is disabled.
  */
 export async function persistAll(): Promise<void> {

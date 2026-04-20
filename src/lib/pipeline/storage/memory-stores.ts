@@ -554,6 +554,7 @@ export class InMemoryAlertRuleStore implements AlertRuleStore {
   }
 
   async hydrate(): Promise<void> {
+    this.byId.clear();
     const items = await readJsonlFile<AlertRule>(FILES.alertRules);
     for (const item of items) {
       this.byId.set(item.id, item);
@@ -609,6 +610,7 @@ export class InMemoryAlertEventStore implements AlertEventStore {
   }
 
   async hydrate(): Promise<void> {
+    this.byId.clear();
     const items = await readJsonlFile<AlertEvent>(FILES.alertEvents);
     for (const item of items) {
       this.byId.set(item.id, item);

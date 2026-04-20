@@ -141,7 +141,8 @@ export const ROUTES = {
   CATEGORY: (id: string) => `/category/${id}`,
   COMPARE: "/compare",
   WATCHLIST: "/watchlist",
-  SEARCH: "/search",
+    SEARCH: "/search",
+    SUBMIT: "/submit",
 } as const;
 
 // ---------------------------------------------------------------------------

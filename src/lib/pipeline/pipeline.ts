@@ -31,6 +31,7 @@ import {
 } from "./storage/singleton";
 import { isPersistenceEnabled } from "./storage/file-persistence";
 import { applyDeltasToRepo, computeAllDeltas } from "./ingestion/deltas";
+import { assembleRepoFromTrending, getDeltas } from "../trending";
 import { deriveSparklineData } from "./ingestion/snapshotter";
 import { emitPipelineEvent } from "./events";
 import {
@@ -183,13 +184,14 @@ function recomputeAll(): RecomputeSummary {
     previousScores.set(s.repoId, s);
   }
 
-  // 1. Pull current repos, compute per-repo deltas from snapshots, derive
-  //    the 30-day sparkline from the same snapshot history, and project both
-  //    back onto each Repo.
+  // 1. Pull current repos, project deltas from data/deltas.json (git-history
+  //    source), derive the 30-day sparkline from the snapshot history that
+  //    still exists in dev, and stitch both back onto each Repo.
+  //    Deltas are loaded once outside the map — the JSON is static.
+  const trendingDeltas = getDeltas();
   const freshRepos: Repo[] = baseRepos.map((repo) => {
-    const deltas = computeAllDeltas(repo.id, snapshotStore);
     const sparklineData = deriveSparklineData(repo.id, snapshotStore);
-    return { ...applyDeltasToRepo(repo, deltas), sparklineData };
+    return { ...assembleRepoFromTrending(repo, trendingDeltas), sparklineData };
   });
 
   // 2. Score everything in one pass so category averages are consistent.
@@ -374,9 +376,8 @@ function recomputeRepo(repoId: string): RecomputeSummary {
   const previousRepo = repo;
   const previousScore = scoreStore.get(repoId);
 
-  const deltas = computeAllDeltas(repoId, snapshotStore);
   const sparklineData = deriveSparklineData(repoId, snapshotStore);
-  const fresh: Repo = { ...applyDeltasToRepo(repo, deltas), sparklineData };
+  const fresh: Repo = { ...assembleRepoFromTrending(repo, getDeltas()), sparklineData };
 
   const score = scoreRepo(fresh);
   scoreStore.save(score);

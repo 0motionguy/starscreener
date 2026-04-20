@@ -21,6 +21,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # Full history so compute-deltas.mjs can resolve 30d-old commits
+          # via `git log --since/--until` + `git show <sha>:data/trending.json`.
+          fetch-depth: 0
 
       - name: Setup Node 20
         uses: actions/setup-node@v4
@@ -30,16 +34,20 @@ jobs:
       - name: Scrape OSS Insight
         run: node scripts/scrape-trending.mjs
 
+      - name: Compute deltas from git history
+        run: node scripts/compute-deltas.mjs
+
       - name: Commit if changed
         run: |
           git config user.name  "starscreener-bot"
           git config user.email "bot@starscreener.local"
-          git add data/trending.json
+          git add data/trending.json data/deltas.json
           if git diff --quiet --staged; then
             echo "no changes — skipping commit"
             exit 0
           fi
-          git commit -m "chore(data): refresh trending.json"
+          TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          git commit -m "chore(data): trending + deltas snapshot ${TS}"
           git push
 
       # Always-run: re-fetches stars on known repos even when trending.json

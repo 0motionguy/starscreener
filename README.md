@@ -160,12 +160,20 @@ npm run lint         # eslint (next/core-web-vitals)
 - **Vercel** works out of the box for the web UI, REST API, and crons. SSE will not hold open on serverless.
 - **Railway / Fly.io / VPS** for the full platform including the SSE event stream.
 
-### GitHub Actions secrets
+### Data refresh pipeline
 
-The hourly `scrape-trending` workflow refreshes `data/trending.json` and then triggers the deployed pipeline. Two repo secrets are required (Settings → Secrets and variables → Actions):
+The hourly `scrape-trending` GitHub Actions workflow drives the whole ingest loop with zero external state:
+
+1. `scripts/scrape-trending.mjs` pulls OSS Insight trending into `data/trending.json`.
+2. `scripts/compute-deltas.mjs` walks the git history of `data/trending.json`, finds the commit nearest each target window (1h / 24h / 7d / 30d), and writes `data/deltas.json` with per-repo delta values + window metadata.
+3. The workflow commits both files; Vercel rebuilds on push and every Lambda sees the same committed JSON — no DB, no shared runtime state.
+
+Cold-start: delta windows populate as git history accumulates. `delta_1h` works after two scrapes; full `delta_30d` coverage takes ~30 days. The classifier tolerates missing deltas via per-field `*Missing` flags on `Repo`.
+
+Two repo secrets (Settings → Secrets and variables → Actions) are still required while the legacy pipeline-trigger step exists; both will be retired in the cleanup commit after Phase 3:
 
 - `APP_URL` — deployed host, e.g. `https://starscreener.vercel.app` (no trailing slash).
-- `CRON_SECRET` — must match the `CRON_SECRET` env var set on the deployed host; checked by `src/app/api/cron/seed/route.ts` as a `Bearer` token.
+- `CRON_SECRET` — must match the `CRON_SECRET` env var set on the deployed host.
 
 Step-by-step: [docs/DEPLOY.md](docs/DEPLOY.md).
 

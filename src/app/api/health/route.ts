@@ -1,32 +1,43 @@
 // GET /api/health
 //
-// Freshness-gated health endpoint designed for external uptime monitors
-// (UptimeRobot, BetterStack, etc.). Returns 503 when EITHER the trending
-// scraper OR the ingestion pipeline is stale so a ping-style checker can
-// alert without parsing JSON.
+// Freshness-gated health endpoint for external uptime monitors
+// (UptimeRobot, BetterStack, etc.). Returns 503 when EITHER the OSS
+// Insight scrape OR the git-history delta computation is stale.
 //
-// Distinct from /api/pipeline/status, which is a data-counts snapshot
-// and always returns 200 on a dead pipeline (see REPORT.md finding #5).
-// Do not fold the two together — status is operator-facing telemetry,
-// health is a boolean uptime gate.
+// Phase 3: the snapshot pipeline's `lastRefreshAt` is no longer consulted
+// — it's ephemeral on Vercel Lambdas and meaningless across invocations.
+// Both freshness signals here ride committed JSON (data/trending.json and
+// data/deltas.json) so every Lambda sees the same view.
+//
+// Distinct from /api/pipeline/status, which reports per-pipeline stats
+// on top of the same freshness gate.
 
 import { NextResponse } from "next/server";
-import { pipeline } from "@/lib/pipeline/pipeline";
-import { lastFetchedAt } from "@/lib/trending";
+import {
+  lastFetchedAt,
+  deltasComputedAt,
+  deltasCoveragePct,
+} from "@/lib/trending";
 
-// 2 hours ≈ 2× hot-tier cadence (see docs/INGESTION.md). Stale past this
-// means at least one hot pass (or scrape) has missed; operator should be paged.
+// 2 hours ≈ 2× hourly GHA cadence. Stale past this means at least one tick
+// has missed; operator should be paged.
 const STALE_THRESHOLD_MS = 2 * 60 * 60 * 1000;
+
+// Below this percent of repos having ≥1 non-null delta, the endpoint emits
+// a warning field. Expected during the first 30 days of accumulation.
+const COVERAGE_WARN_PCT = 50;
 
 type HealthStatus = "ok" | "stale" | "error";
 
 interface HealthBody {
   status: HealthStatus;
   lastFetchedAt: string | null;
-  lastRefreshAt: string | null;
-  ageSeconds: { scraper: number | null; pipeline: number | null };
+  computedAt: string | null;
+  ageSeconds: { scraper: number | null; deltas: number | null };
   thresholdSeconds: number;
-  stale: { scraper: boolean; pipeline: boolean };
+  stale: { scraper: boolean; deltas: boolean };
+  coveragePct: number;
+  warning?: string;
   error?: string;
 }
 
@@ -39,42 +50,45 @@ function ageMs(iso: string | null): number | null {
 
 export async function GET(): Promise<NextResponse<HealthBody>> {
   try {
-    await pipeline.ensureReady();
-    const stats = pipeline.getGlobalStats();
-    const lastRefreshAt = stats.lastRefreshAt;
-
     const scraperAge = ageMs(lastFetchedAt);
-    const pipelineAge = ageMs(lastRefreshAt);
+    const deltasAge = ageMs(deltasComputedAt);
 
-    // null age = no data ever → treat as stale (operator should be paged).
     const scraperStale = scraperAge === null || scraperAge > STALE_THRESHOLD_MS;
-    const pipelineStale = pipelineAge === null || pipelineAge > STALE_THRESHOLD_MS;
-    const anyStale = scraperStale || pipelineStale;
+    const deltasStale = deltasAge === null || deltasAge > STALE_THRESHOLD_MS;
+    const anyStale = scraperStale || deltasStale;
 
-    return NextResponse.json(
-      {
-        status: anyStale ? "stale" : "ok",
-        lastFetchedAt: lastFetchedAt ?? null,
-        lastRefreshAt: lastRefreshAt ?? null,
-        ageSeconds: {
-          scraper: scraperAge === null ? null : Math.floor(scraperAge / 1000),
-          pipeline: pipelineAge === null ? null : Math.floor(pipelineAge / 1000),
-        },
-        thresholdSeconds: STALE_THRESHOLD_MS / 1000,
-        stale: { scraper: scraperStale, pipeline: pipelineStale },
+    const coverage = deltasCoveragePct();
+    const coverageLow = coverage < COVERAGE_WARN_PCT;
+
+    const body: HealthBody = {
+      status: anyStale ? "stale" : "ok",
+      lastFetchedAt: lastFetchedAt ?? null,
+      computedAt: deltasComputedAt ?? null,
+      ageSeconds: {
+        scraper: scraperAge === null ? null : Math.floor(scraperAge / 1000),
+        deltas: deltasAge === null ? null : Math.floor(deltasAge / 1000),
       },
-      { status: anyStale ? 503 : 200 },
-    );
+      thresholdSeconds: STALE_THRESHOLD_MS / 1000,
+      stale: { scraper: scraperStale, deltas: deltasStale },
+      coveragePct: Math.round(coverage * 10) / 10,
+    };
+
+    if (!anyStale && coverageLow) {
+      body.warning = `delta coverage ${body.coveragePct}% < ${COVERAGE_WARN_PCT}% — expected during 30-day cold-start window`;
+    }
+
+    return NextResponse.json(body, { status: anyStale ? 503 : 200 });
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     return NextResponse.json(
       {
         status: "error",
         lastFetchedAt: lastFetchedAt ?? null,
-        lastRefreshAt: null,
-        ageSeconds: { scraper: null, pipeline: null },
+        computedAt: deltasComputedAt ?? null,
+        ageSeconds: { scraper: null, deltas: null },
         thresholdSeconds: STALE_THRESHOLD_MS / 1000,
-        stale: { scraper: true, pipeline: true },
+        stale: { scraper: true, deltas: true },
+        coveragePct: 0,
         error: message,
       },
       { status: 503 },

@@ -46,6 +46,19 @@ export interface Repo {
   starsDelta30d: number;
   forksDelta7d: number;
   contributorsDelta30d: number;
+  // Phase 3: deltas now come from git-history of data/trending.json. When a
+  // given window has no usable historical snapshot (or the repo wasn't in
+  // it), the corresponding delta field above is shimmed to 0 and the
+  // matching *Missing flag below is set so scoring can distinguish
+  // "genuinely flat" from "we don't know yet". Optional for backwards
+  // compatibility with existing fixtures; the trending adapter always sets
+  // hasMovementData explicitly on production paths.
+  hasMovementData?: boolean;
+  starsDelta24hMissing?: boolean;
+  starsDelta7dMissing?: boolean;
+  starsDelta30dMissing?: boolean;
+  forksDelta7dMissing?: boolean;
+  contributorsDelta30dMissing?: boolean;
   momentumScore: number; // 0-100
   movementStatus: MovementStatus;
   rank: number;

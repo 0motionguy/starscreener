@@ -18,6 +18,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { ensureSeededAsync } from "@/lib/pipeline/pipeline";
 import { backfillStargazerHistory } from "@/lib/pipeline/ingestion/stargazer-backfill";
 import { stores } from "@/lib/pipeline/storage/singleton";
+import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 
 export const runtime = "nodejs";
 export const maxDuration = 300;
@@ -40,30 +41,13 @@ export interface BackfillHistoryErrorResponse {
   durationMs?: number;
 }
 
-function verifyAuth(request: NextRequest): boolean {
-  const secret = process.env.CRON_SECRET;
-  if (!secret) return false;
-  const header = request.headers.get("authorization");
-  if (!header) return false;
-  const trimmed = header.trim();
-  if (trimmed === secret) return true;
-  if (trimmed.startsWith("Bearer ")) {
-    return trimmed.slice("Bearer ".length) === secret;
-  }
-  return false;
-}
-
 export async function POST(
   request: NextRequest,
 ): Promise<NextResponse<BackfillHistoryResponse | BackfillHistoryErrorResponse>> {
   const startedAt = Date.now();
 
-  if (!verifyAuth(request)) {
-    return NextResponse.json(
-      { ok: false, reason: "unauthorized" },
-      { status: 401 },
-    );
-  }
+  const deny = authFailureResponse(verifyCronAuth(request));
+  if (deny) return deny as NextResponse<BackfillHistoryErrorResponse>;
 
   let body: unknown;
   try {

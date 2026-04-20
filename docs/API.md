@@ -211,7 +211,7 @@ curl -X POST "$HOST/api/pipeline/persist"
 
 On-demand stargazer backfill for a single repo. Walks `/repos/{owner}/{name}/stargazers` with the `application/vnd.github.star+json` Accept header, buckets the real `starred_at` timestamps into daily counts, and writes up to 30 backdated `RepoSnapshots` so the delta engine has actual history to work with for that repo.
 
-**Auth:** inline `CRON_SECRET` check (see [Known auth divergence](#known-auth-divergence) below). Header: `Authorization: Bearer $CRON_SECRET` (raw `$CRON_SECRET` also accepted). `maxDuration: 300s`.
+**Auth:** shared `verifyCronAuth` (tri-state — see [src/lib/api/auth.ts](../src/lib/api/auth.ts)). Header: `Authorization: Bearer $CRON_SECRET` (raw `$CRON_SECRET` also accepted). `maxDuration: 300s`.
 
 **Body (required JSON)**
 
@@ -357,18 +357,6 @@ curl -X POST "$HOST/api/pipeline/rebuild" \
 **Rate-limit guard:** the loop aborts mid-run when `rateLimitRemaining < 200` (hardcoded threshold, no env override) so scheduled crons retain headroom. `aborted: true` in the response signals an early break.
 
 **Side effects:** mutates `snapshotStore` per repo via stargazer or events-API path. Triggers `pipeline.recomputeAll()` at the end unless `skipRecompute: true`.
-
-### Known auth divergence
-
-`/api/pipeline/backfill-history` uses an inline auth check instead of the shared `verifyCronAuth` helper used by `cleanup` and `rebuild`. Practical differences:
-
-| Behavior | backfill-history (inline) | cleanup, rebuild (verifyCronAuth) |
-|---|---|---|
-| `CRON_SECRET` unset | 401 always | dev: allow; prod: 503 not_configured |
-| Comparison | `===` | `crypto.timingSafeEqual` |
-| Response codes | 401 only | 401 or 503 |
-
-Migration to the shared helper is tracked as P10 in `NEXT_SESSION.md`. The docstring in [src/lib/api/auth.ts](../src/lib/api/auth.ts) lists `backfill-history` as a consumer in anticipation of that migration.
 
 ---
 

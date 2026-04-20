@@ -20,14 +20,40 @@ import { BubbleMapCanvas, type BubbleSeed } from "./BubbleMapCanvas";
 
 interface BubbleMapProps {
   repos: Repo[];
-  /** Max number of bubbles. Default 120. */
+  /** Max number of bubbles. Default 220. */
   limit?: number;
 }
 
 const MAP_WIDTH = 1200;
 const MAP_HEIGHT = 360;
-const MIN_RADIUS = 14;
-const MAX_RADIUS = 82;
+const MIN_RADIUS = 11;
+const MAX_RADIUS = 76;
+
+/**
+ * Effective daily star velocity. The 24h bucket only covers ~100 of 681
+ * tracked repos, so using `starsDelta24h` alone leaves the map sparse.
+ * For repos without a 24h entry we fall through to 7d/7 then 30d/30 so
+ * every positive-movement repo gets represented at a fair relative
+ * magnitude.
+ */
+function effectiveDailyDelta(r: Repo): number {
+  const d24 = r.starsDelta24h ?? 0;
+  const d7 = r.starsDelta7d ?? 0;
+  const d30 = r.starsDelta30d ?? 0;
+  return Math.max(d24, Math.round(d7 / 7), Math.round(d30 / 30));
+}
+
+/**
+ * Pick the label to display inside the bubble. Prefer the 24h number when
+ * it's positive (most timely), else 7d, else 30d — so the user sees a
+ * real delta instead of "+0".
+ */
+function displayDeltaFor(r: Repo): { value: number; window: "24h" | "7d" | "30d" } {
+  if (r.starsDelta24h > 0) return { value: r.starsDelta24h, window: "24h" };
+  if (r.starsDelta7d > 0) return { value: r.starsDelta7d, window: "7d" };
+  if (r.starsDelta30d > 0) return { value: r.starsDelta30d, window: "30d" };
+  return { value: 0, window: "24h" };
+}
 
 function greenTintFor(delta: number, maxDelta: number): {
   fill: string;
@@ -52,41 +78,47 @@ function greenTintFor(delta: number, maxDelta: number): {
   return { fill, stroke, glow, text };
 }
 
-export function BubbleMap({ repos, limit = 120 }: BubbleMapProps) {
+export function BubbleMap({ repos, limit = 220 }: BubbleMapProps) {
+  // Include every repo with ANY positive window signal. Ranked by the
+  // effective daily velocity so the 24h movers still land at the center.
   const candidates = repos
-    .filter((r) => r.starsDelta24h > 0)
-    .sort((a, b) => b.starsDelta24h - a.starsDelta24h)
+    .map((r) => ({ repo: r, weight: effectiveDailyDelta(r) }))
+    .filter((x) => x.weight > 0)
+    .sort((a, b) => b.weight - a.weight)
     .slice(0, limit);
 
   if (candidates.length === 0) {
     return null;
   }
 
-  const maxDelta = candidates[0].starsDelta24h;
+  const maxWeight = candidates[0].weight;
   const packed = packBubbles(
-    candidates.map((r) => ({ id: r.id, value: r.starsDelta24h })),
+    candidates.map((x) => ({ id: x.repo.id, value: x.weight })),
     {
       width: MAP_WIDTH,
       height: MAP_HEIGHT,
       minRadius: MIN_RADIUS,
       maxRadius: MAX_RADIUS,
-      padding: 2,
-      fillRatio: 0.82,
+      padding: 1.5,
+      fillRatio: 0.88,
     },
   );
 
-  const byId = new Map(candidates.map((r) => [r.id, r]));
+  const byId = new Map(candidates.map((x) => [x.repo.id, x]));
   const seeds: BubbleSeed[] = packed
     .map((p) => {
-      const repo = byId.get(p.id);
-      if (!repo) return null;
-      const tint = greenTintFor(repo.starsDelta24h, maxDelta);
+      const hit = byId.get(p.id);
+      if (!hit) return null;
+      const repo = hit.repo;
+      const tint = greenTintFor(hit.weight, maxWeight);
+      const disp = displayDeltaFor(repo);
       return {
         id: p.id,
         cx: p.cx,
         cy: p.cy,
         r: p.r,
-        delta: repo.starsDelta24h,
+        delta: disp.value,
+        deltaWindow: disp.window,
         fullName: repo.fullName,
         name: repo.name,
         owner: repo.owner,

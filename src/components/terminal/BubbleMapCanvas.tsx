@@ -22,6 +22,8 @@ export interface BubbleSeed {
   cy: number;
   r: number;
   delta: number;
+  /** Which window the delta value was taken from: 24h > 7d > 30d. */
+  deltaWindow: "24h" | "7d" | "30d";
   fullName: string;
   name: string;
   owner: string;
@@ -348,7 +350,12 @@ export function BubbleMapCanvas({ seeds, width, height }: BubbleMapCanvasProps) 
 
   const bubbleElements = useMemo(() => {
     return seeds.map((s) => {
-      const deltaLabel = `+${formatNumber(s.delta)}`;
+      // Label is "+N" for 24h, "+N/7d" or "+N/30d" otherwise so the user
+      // always knows what window the number represents.
+      const deltaLabel =
+        s.deltaWindow === "24h"
+          ? `+${formatNumber(s.delta)}`
+          : `+${formatNumber(s.delta)}/${s.deltaWindow}`;
       const showAvatar = s.r >= 26;
       const showName = s.r >= 32;
       const avatarSize = Math.min(30, Math.max(14, s.r * 0.38));

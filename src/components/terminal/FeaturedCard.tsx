@@ -38,9 +38,9 @@ export function FeaturedCard({ card, index = 0 }: FeaturedCardProps) {
     <Link
       href={`/repo/${repo.owner}/${repo.name}`}
       className={cn(
-        "group relative flex flex-col flex-shrink-0 min-w-[280px] sm:w-[320px] h-[200px]",
+        "group relative flex flex-col flex-shrink-0 min-w-[220px] sm:w-[252px] h-[156px]",
         "bg-gradient-to-br from-bg-card via-bg-card to-bg-secondary",
-        "border border-border-primary rounded-xl p-4",
+        "border border-border-primary rounded-xl p-3",
         "shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] grain",
         "hover:border-brand/60 hover:shadow-[0_0_28px_-4px_var(--color-brand-glow),inset_0_1px_0_rgba(255,255,255,0.06)]",
         "hover:-translate-y-0.5 transition-all duration-200",
@@ -65,26 +65,26 @@ export function FeaturedCard({ card, index = 0 }: FeaturedCardProps) {
       </div>
 
       {/* Row 2: repo name — prominent */}
-      <div className="mt-2 flex items-center gap-2 min-w-0">
+      <div className="mt-1.5 flex items-center gap-2 min-w-0">
         <img
           src={repo.ownerAvatarUrl}
           alt=""
-          width={20}
-          height={20}
+          width={18}
+          height={18}
           loading="lazy"
-          className="size-5 shrink-0 rounded-full border border-border-primary bg-bg-tertiary"
+          className="size-[18px] shrink-0 rounded-full border border-border-primary bg-bg-tertiary"
         />
-        <span className="truncate font-semibold text-[15px] text-text-primary">
+        <span className="truncate font-semibold text-[13px] text-text-primary">
           {repo.fullName}
         </span>
       </div>
 
       {/* Row 3: big stars-gain + period activity left, sparkline right */}
-      <div className="mt-3 flex items-center justify-between gap-3">
+      <div className="mt-2 flex items-center justify-between gap-2">
         <div className="flex flex-col min-w-0">
           <span
             className={cn(
-              "text-2xl font-mono font-bold leading-none tabular-nums",
+              "text-xl font-mono font-bold leading-none tabular-nums",
               isPositive ? "text-up" : "text-down",
             )}
           >
@@ -93,35 +93,35 @@ export function FeaturedCard({ card, index = 0 }: FeaturedCardProps) {
           </span>
           <span
             className={cn(
-              "mt-1 text-[11px] font-mono tabular-nums",
+              "mt-1 text-[10px] font-mono tabular-nums",
               isPositive ? "text-up" : "text-down",
               "opacity-80",
             )}
           >
             {pctSign}
             {pct.toFixed(1)}%
-            <span className="ml-2 text-text-tertiary">
-              · {formatNumber(repo.stars)} activity
+            <span className="ml-1.5 text-text-tertiary">
+              · {formatNumber(repo.stars)}
             </span>
           </span>
         </div>
         <Sparkline
           data={repo.sparklineData}
-          width={80}
-          height={44}
+          width={64}
+          height={32}
           positive={isPositive}
           className="shrink-0 self-center"
         />
       </div>
 
       {/* Row 4: forks + contributors + reason (line-clamp) */}
-      <div className="mt-auto flex items-center gap-3 text-[11px] font-mono text-text-tertiary">
+      <div className="mt-auto flex items-center gap-2 text-[10px] font-mono text-text-tertiary">
         <span className="inline-flex items-center gap-1 shrink-0">
-          <GitFork size={11} aria-hidden="true" />
+          <GitFork size={10} aria-hidden="true" />
           <span className="tabular-nums">{formatNumber(repo.forks)}</span>
         </span>
         <span className="inline-flex items-center gap-1 shrink-0">
-          <Users size={11} aria-hidden="true" />
+          <Users size={10} aria-hidden="true" />
           <span className="tabular-nums">{formatNumber(repo.contributors)}</span>
         </span>
         <span className="truncate text-text-secondary">

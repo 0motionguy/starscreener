@@ -9,10 +9,9 @@
 
 import { useEffect, useState } from "react";
 import type { FilterBarVariant, MetaCounts } from "@/lib/types";
-import type { GlobalStats } from "@/lib/pipeline/queries/aggregate";
 
 import { MetasBar } from "./MetasBar";
-import { StatsBarClient } from "./StatsBarClient";
+import { StatsBarClient, type StatsBarStats } from "./StatsBarClient";
 import { TabBar } from "./TabBar";
 import { TagsBar } from "./TagsBar";
 import { TimeRangePills } from "./TimeRangePills";
@@ -46,7 +45,7 @@ const EMPTY_COUNTS: MetaCounts = {
 export function FilterBar({ variant = "full" }: FilterBarProps) {
   const cfg = VARIANTS[variant];
   const [counts, setCounts] = useState<MetaCounts>(EMPTY_COUNTS);
-  const [stats, setStats] = useState<GlobalStats | null>(null);
+  const [stats, setStats] = useState<StatsBarStats | null>(null);
 
   useEffect(() => {
     if (cfg.showMetas) {

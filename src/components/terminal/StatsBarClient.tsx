@@ -4,11 +4,21 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Check, Flame, RefreshCcw, Zap } from "lucide-react";
 import { cn, getRelativeTime } from "@/lib/utils";
-import type { GlobalStats } from "@/lib/pipeline/queries/aggregate";
 import { toastRefreshError, toastRefreshSuccess } from "@/lib/toast";
 
+// UI-shape view of the stats payload returned by /api/pipeline/status.
+// Distinct from the pipeline-internal `GlobalStats` interface — hot/breakout
+// can be null here when the classifier signal isn't verified yet (P2 / P3).
+export interface StatsBarStats {
+  totalRepos: number;
+  totalStars: number;
+  hotCount: number | null;
+  breakoutCount: number | null;
+  lastRefreshAt: string | null;
+}
+
 interface StatsBarClientProps {
-  stats: GlobalStats;
+  stats: StatsBarStats;
 }
 
 function Divider() {
@@ -75,7 +85,7 @@ export function StatsBarClient({ stats }: StatsBarClientProps) {
       <span className="flex items-center gap-1.5 text-brand">
         <Flame size={12} aria-hidden="true" />
         <span className="text-text-tertiary">Hot:</span>
-        <span>{stats.hotCount}</span>
+        <span>{stats.hotCount ?? "—"}</span>
       </span>
 
       <Divider />
@@ -83,7 +93,7 @@ export function StatsBarClient({ stats }: StatsBarClientProps) {
       <span className="flex items-center gap-1.5">
         <Zap size={12} aria-hidden="true" className="text-warning" />
         <span className="text-text-tertiary">Breakouts:</span>
-        <span className="text-warning">{stats.breakoutCount}</span>
+        <span className="text-warning">{stats.breakoutCount ?? "—"}</span>
       </span>
 
       <Divider />

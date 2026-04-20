@@ -12,6 +12,13 @@
 // compatibility with FilterBar → StatsBarClient, but now points at the
 // scrape timestamp — semantically "last time data was refreshed", which
 // matches what the UI label claims to show.
+//
+// P2 (2026-04-20): `stats.totalRepos` and `stats.totalStars` likewise
+// rerouted to derive from committed JSON (previously read from
+// `pipeline.getGlobalStats()`, which returned zeros on cold Vercel
+// Lambdas). `stats.hotCount` / `stats.breakoutCount` are returned as
+// null until the classifier signal is verified end-to-end (P3,
+// post-2026-04-22T02:27Z) — UI renders em-dash for nulls.
 
 import { NextResponse } from "next/server";
 import { pipeline, repoStore, scoreStore, snapshotStore } from "@/lib/pipeline/pipeline";
@@ -20,6 +27,8 @@ import {
   lastFetchedAt,
   deltasComputedAt,
   deltasCoveragePct,
+  getTrackedRepoCount,
+  getTotalStars,
 } from "@/lib/trending";
 
 // Must stay in lockstep with src/app/api/health/route.ts STALE_THRESHOLD_MS.
@@ -41,8 +50,8 @@ export interface PipelineStatusResponse {
   stats: {
     totalRepos: number;
     totalStars: number;
-    hotCount: number;
-    breakoutCount: number;
+    hotCount: number | null;
+    breakoutCount: number | null;
     lastRefreshAt: string | null;
   };
 }
@@ -60,7 +69,6 @@ export async function GET(): Promise<NextResponse<PipelineStatusResponse | { err
     // any reads so the local telemetry counts reflect the durable snapshot.
     await pipeline.ensureReady();
 
-    const stats = pipeline.getGlobalStats();
     const repos = repoStore.getAll();
     const snapshotCount = snapshotStore.totalCount();
 
@@ -112,10 +120,15 @@ export async function GET(): Promise<NextResponse<PipelineStatusResponse | { err
       stale: { scraper: scraperStale, deltas: deltasStale },
       rateLimitRemaining,
       stats: {
-        totalRepos: stats.totalRepos,
-        totalStars: stats.totalStars,
-        hotCount: stats.hotCount,
-        breakoutCount: stats.breakoutCount,
+        totalRepos: getTrackedRepoCount(),
+        totalStars: getTotalStars(),
+        // Classifier requires in-memory pipeline state which is empty on
+        // cold Vercel Lambdas. Returning null until P3 verifies the
+        // classifier signal end-to-end (post-2026-04-22T02:27Z) keeps the
+        // StatsBar honest — em-dash beats "0 hot" when the truthful
+        // answer is "we don't know yet".
+        hotCount: null,
+        breakoutCount: null,
         // UI contract: StatsBar renders "last refreshed Xm ago" off this
         // field. Point at the scrape timestamp — it's the honest "last
         // time we learned anything new" signal.

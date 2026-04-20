@@ -190,6 +190,76 @@ export function deltasCoverageQuality(): DeltaCoverageQuality {
   return "cold";
 }
 
+// ---------------------------------------------------------------------------
+// JSON-derived stats / mover helpers — used by surfaces that need real
+// numbers without going through the in-memory pipeline (which is empty on
+// cold Vercel Lambdas). Phase 3's "compute at the boundary" pattern.
+// ---------------------------------------------------------------------------
+
+/** Total unique tracked repos = unique owner/name set across all trending buckets. */
+export function getTrackedRepoCount(): number {
+  return getAllFullNames().length;
+}
+
+/** Sum of stars_now across every repo in deltas.json. Ignores repos absent from deltas. */
+export function getTotalStars(): number {
+  let total = 0;
+  for (const entry of Object.values(deltas.repos)) {
+    total += entry.stars_now;
+  }
+  return total;
+}
+
+export interface TrendingTopMover {
+  id: string;
+  fullName: string;
+  language: string | null;
+  starsDelta24h: number;
+}
+
+let _repoIdToTrendingRow: Map<string, TrendingRow> | null = null;
+function repoIdToRowIndex(): Map<string, TrendingRow> {
+  if (_repoIdToTrendingRow) return _repoIdToTrendingRow;
+  const map = new Map<string, TrendingRow>();
+  for (const langMap of Object.values(data.buckets)) {
+    for (const rows of Object.values(langMap)) {
+      for (const row of rows) {
+        if (!row.repo_id) continue;
+        if (!map.has(row.repo_id)) map.set(row.repo_id, row);
+      }
+    }
+  }
+  _repoIdToTrendingRow = map;
+  return map;
+}
+
+/**
+ * Top N repos sorted by delta_24h.value desc. Excludes entries whose 24h
+ * delta is null OR cold-start (no real signal yet) so callers don't render
+ * warm-up noise as movers. Joins deltas.repos[id] against the trending
+ * bucket lookup for fullName + language.
+ */
+export function getTopMoversByDelta24h(limit: number): TrendingTopMover[] {
+  if (limit <= 0) return [];
+  const rowIndex = repoIdToRowIndex();
+  const movers: TrendingTopMover[] = [];
+  for (const [repoId, entry] of Object.entries(deltas.repos)) {
+    const d24 = entry.delta_24h;
+    if (d24.value === null) continue;
+    if (d24.basis === "cold-start") continue;
+    const row = rowIndex.get(repoId);
+    if (!row) continue;
+    movers.push({
+      id: repoId,
+      fullName: row.repo_name,
+      language: row.primary_language || null,
+      starsDelta24h: d24.value,
+    });
+  }
+  movers.sort((a, b) => b.starsDelta24h - a.starsDelta24h);
+  return movers.slice(0, limit);
+}
+
 /**
  * Project the delta values for this repo onto a fresh Repo copy. Replaces
  * the previous `applyDeltasToRepo(repo, computeAllDeltas(...))` pair which

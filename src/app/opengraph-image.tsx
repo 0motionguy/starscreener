@@ -6,7 +6,7 @@
 // tokens don't resolve inside ImageResponse.
 
 import { ImageResponse } from "next/og";
-import { pipeline } from "@/lib/pipeline/pipeline";
+import { getTopMoversByDelta24h, getTrackedRepoCount } from "@/lib/trending";
 import { OG_COLORS } from "@/lib/seo";
 import { Dot, StarMark } from "@/lib/og-primitives";
 
@@ -16,9 +16,12 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export default async function HomeOGImage() {
-  await pipeline.ensureReady();
-  const top = pipeline.getTopMovers("today", 6);
-  const totalTracked = pipeline.getGlobalStats().totalRepos;
+  // Read from committed trending + deltas JSON instead of the in-memory
+  // pipeline — the latter returns zeros on cold Vercel Lambdas. See
+  // /api/pipeline/status route header for the same Phase-3 boundary
+  // pattern.
+  const top = getTopMoversByDelta24h(6);
+  const totalTracked = getTrackedRepoCount();
 
   return new ImageResponse(
     (

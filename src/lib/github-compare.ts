@@ -12,7 +12,10 @@
 
 const GITHUB_API = "https://api.github.com";
 const DEFAULT_TIMEOUT_MS = 8_000;
-const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
+const DAY_MS = 24 * 60 * 60 * 1000;
+const THIRTY_DAYS_MS = 30 * DAY_MS;
+const WEEKS_IN_HEATMAP = 52;
+const COMMIT_ACTIVITY_RETRY_DELAYS_MS = [1_000, 2_000, 3_000] as const;
 
 export interface CompareRepoBundle {
   fullName: string;
@@ -81,6 +84,13 @@ interface GhCommitActivityWeek {
   total: number;
   week: number;
   days: number[];
+}
+
+interface GhCommitListItem {
+  commit?: {
+    author?: { date?: string | null } | null;
+    committer?: { date?: string | null } | null;
+  } | null;
 }
 
 interface GhContributor {
@@ -228,8 +238,76 @@ async function fetchRepo(
   return ghJson<GhRepo>(`${GITHUB_API}/repos/${owner}/${name}`, token);
 }
 
-/** Commit activity endpoint: can return 202 while GitHub builds stats.
- *  We retry once after 2s; if still pending, return []. */
+function emptyCommitDays(): [number, number, number, number, number, number, number] {
+  return [0, 0, 0, 0, 0, 0, 0];
+}
+
+function recentCommitBuckets(): CompareRepoBundle["commitActivity"] {
+  const now = new Date();
+  const todayUtc = Date.UTC(
+    now.getUTCFullYear(),
+    now.getUTCMonth(),
+    now.getUTCDate(),
+  );
+  const currentWeekStartMs = todayUtc - now.getUTCDay() * DAY_MS;
+
+  return Array.from({ length: WEEKS_IN_HEATMAP }, (_, i) => ({
+    weekStart: Math.floor(
+      (currentWeekStartMs - (WEEKS_IN_HEATMAP - 1 - i) * 7 * DAY_MS) / 1000,
+    ),
+    days: emptyCommitDays(),
+  }));
+}
+
+async function fetchRecentCommitActivityFallback(
+  owner: string,
+  name: string,
+  token: string | undefined,
+): Promise<CompareRepoBundle["commitActivity"]> {
+  const weeks = recentCommitBuckets();
+  const firstWeekMs = weeks[0].weekStart * 1000;
+  const byWeek = new Map(weeks.map((week, i) => [week.weekStart, i]));
+  const since = new Date(firstWeekMs).toISOString();
+  const res = await ghFetch(
+    `${GITHUB_API}/repos/${owner}/${name}/commits?since=${encodeURIComponent(
+      since,
+    )}&per_page=100`,
+    token,
+  );
+
+  if (res.status === 404) throw new GhStatusError(404, "not_found");
+  if (res.status === 403) throw new GhStatusError(403, "rate_limited");
+  if (res.status === 409 || !res.ok) return [];
+
+  const body = (await res.json()) as GhCommitListItem[];
+  if (!Array.isArray(body) || body.length === 0) return [];
+
+  let commitsBucketed = 0;
+  for (const item of body) {
+    const iso =
+      item.commit?.author?.date ?? item.commit?.committer?.date ?? null;
+    if (!iso) continue;
+    const ts = Date.parse(iso);
+    if (!Number.isFinite(ts) || ts < firstWeekMs) continue;
+
+    const d = new Date(ts);
+    const dayUtc = Date.UTC(
+      d.getUTCFullYear(),
+      d.getUTCMonth(),
+      d.getUTCDate(),
+    );
+    const weekStart = Math.floor((dayUtc - d.getUTCDay() * DAY_MS) / 1000);
+    const weekIndex = byWeek.get(weekStart);
+    if (weekIndex == null) continue;
+    weeks[weekIndex].days[d.getUTCDay()] += 1;
+    commitsBucketed += 1;
+  }
+
+  return commitsBucketed > 0 ? weeks : [];
+}
+
+/** Commit activity endpoint can return 202 while GitHub builds stats.
+ *  Give GitHub a few seconds before falling back to an empty heatmap. */
 async function fetchCommitActivity(
   owner: string,
   name: string,
@@ -237,27 +315,34 @@ async function fetchCommitActivity(
 ): Promise<CompareRepoBundle["commitActivity"]> {
   const url = `${GITHUB_API}/repos/${owner}/${name}/stats/commit_activity`;
   let res = await ghFetch(url, token);
-  if (res.status === 202) {
-    await new Promise((r) => setTimeout(r, 2_000));
+  for (const delayMs of COMMIT_ACTIVITY_RETRY_DELAYS_MS) {
+    if (res.status !== 202) break;
+    await new Promise((r) => setTimeout(r, delayMs));
     res = await ghFetch(url, token);
   }
-  if (res.status === 202) return [];
+  if (res.status === 202) {
+    return fetchRecentCommitActivityFallback(owner, name, token);
+  }
   if (res.status === 404) throw new GhStatusError(404, "not_found");
-  if (res.status === 403) throw new GhStatusError(403, "rate_limited");
-  if (!res.ok) return [];
+  if (res.status === 403) {
+    return fetchRecentCommitActivityFallback(owner, name, token);
+  }
+  if (!res.ok) return fetchRecentCommitActivityFallback(owner, name, token);
   // 204 (no content) for brand-new/empty repos.
   if (res.status === 204) return [];
   const text = await res.text();
-  if (!text) return [];
+  if (!text) return fetchRecentCommitActivityFallback(owner, name, token);
   let body: unknown;
   try {
     body = JSON.parse(text);
   } catch {
-    return [];
+    return fetchRecentCommitActivityFallback(owner, name, token);
   }
-  if (!Array.isArray(body)) return [];
+  if (!Array.isArray(body) || body.length === 0) {
+    return fetchRecentCommitActivityFallback(owner, name, token);
+  }
   const weeks = body as GhCommitActivityWeek[];
-  return weeks.map((w) => {
+  const normalized = weeks.map((w) => {
     const d = Array.isArray(w.days) ? w.days : [];
     const days: [number, number, number, number, number, number, number] = [
       Number(d[0] ?? 0),
@@ -270,6 +355,13 @@ async function fetchCommitActivity(
     ];
     return { weekStart: Number(w.week ?? 0), days };
   });
+  const total = normalized.reduce(
+    (sum, week) => sum + week.days.reduce((inner, day) => inner + day, 0),
+    0,
+  );
+  return total > 0
+    ? normalized
+    : fetchRecentCommitActivityFallback(owner, name, token);
 }
 
 async function fetchLanguages(

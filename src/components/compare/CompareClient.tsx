@@ -216,18 +216,22 @@ export function CompareClient() {
     [repoIds, repos],
   );
 
-  // Ordered bundles mirroring selector order. Missing bundles become
-  // ok:false fallbacks so the banner card + stack/contrib/pulse panels
-  // can render an inline per-repo error without blocking the page.
+  // Ordered bundles mirroring selector order. Prefer the API response slot
+  // first so rich bundles can render even if /api/repos hydrates a beat later.
+  // Missing bundles become ok:false fallbacks so one failed repo never blocks
+  // its siblings.
   const orderedBundles = useMemo<CompareRepoBundle[]>(() => {
-    return selectedFullNames.map(
-      (fullName) => bundlesByFullName.get(fullName) ?? fallbackBundle(fullName),
-    );
-  }, [selectedFullNames, bundlesByFullName]);
+    return selectedFullNames.map((fullName, i) => {
+      const directBundle = bundles[i];
+      if (directBundle?.fullName) return directBundle;
+      return bundlesByFullName.get(fullName) ?? fallbackBundle(fullName);
+    });
+  }, [selectedFullNames, bundles, bundlesByFullName]);
 
   const isLoading = reposLoading || bundlesLoading;
   const isEmpty = hasHydrated && repoIds.length === 0;
   const showBundleSkeletons = bundlesLoading && bundles.length === 0;
+  const skeletonCount = Math.min(Math.max(repoIds.length, 2), MAX_SLOTS);
 
   // ------------------------------------------------------------------
   // Empty state — no repos queued in the store.
@@ -264,7 +268,7 @@ export function CompareClient() {
         className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4"
       >
         {showBundleSkeletons
-          ? Array.from({ length: Math.min(Math.max(repoIds.length, 2), 4) }).map((_, i) => (
+          ? Array.from({ length: skeletonCount }).map((_, i) => (
               <BannerSkeleton key={`bskel-${i}`} />
             ))
           : orderedBundles.map((bundle, i) => (
@@ -312,13 +316,17 @@ export function CompareClient() {
       <section aria-label="Activity pulse">
         <h2 className="label-section mb-3">ACTIVITY PULSE</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-          {orderedBundles.map((bundle, i) => (
-            <PulseCard
-              key={`pulse-${bundle.fullName || i}`}
-              bundle={bundle}
-              accent={PALETTE[i] ?? PALETTE[0]}
-            />
-          ))}
+          {showBundleSkeletons
+            ? Array.from({ length: skeletonCount }).map((_, i) => (
+                <PulseSkeleton key={`pskel-${i}`} />
+              ))
+            : orderedBundles.map((bundle, i) => (
+                <PulseCard
+                  key={`pulse-${bundle.fullName || i}`}
+                  bundle={bundle}
+                  accent={PALETTE[i] ?? PALETTE[0]}
+                />
+              ))}
         </div>
       </section>
 
@@ -328,15 +336,19 @@ export function CompareClient() {
       <section aria-label="Tech stack">
         <h2 className="label-section mb-3">TECH STACK</h2>
         <div className="space-y-4">
-          {orderedBundles.map((bundle, i) => (
-            <RepoSubHeader
-              key={`lang-${bundle.fullName || i}`}
-              bundle={bundle}
-              accent={PALETTE[i] ?? PALETTE[0]}
-            >
-              <LanguageBar bundle={bundle} />
-            </RepoSubHeader>
-          ))}
+          {showBundleSkeletons
+            ? Array.from({ length: skeletonCount }).map((_, i) => (
+                <SectionRowSkeleton key={`lskel-${i}`} />
+              ))
+            : orderedBundles.map((bundle, i) => (
+                <RepoSubHeader
+                  key={`lang-${bundle.fullName || i}`}
+                  bundle={bundle}
+                  accent={PALETTE[i] ?? PALETTE[0]}
+                >
+                  <LanguageBar bundle={bundle} />
+                </RepoSubHeader>
+              ))}
         </div>
       </section>
 
@@ -346,15 +358,19 @@ export function CompareClient() {
       <section aria-label="Contributors">
         <h2 className="label-section mb-3">CONTRIBUTORS</h2>
         <div className="space-y-4">
-          {orderedBundles.map((bundle, i) => (
-            <RepoSubHeader
-              key={`contrib-${bundle.fullName || i}`}
-              bundle={bundle}
-              accent={PALETTE[i] ?? PALETTE[0]}
-            >
-              <ContributorGrid bundle={bundle} />
-            </RepoSubHeader>
-          ))}
+          {showBundleSkeletons
+            ? Array.from({ length: skeletonCount }).map((_, i) => (
+                <SectionRowSkeleton key={`cskel-${i}`} />
+              ))
+            : orderedBundles.map((bundle, i) => (
+                <RepoSubHeader
+                  key={`contrib-${bundle.fullName || i}`}
+                  bundle={bundle}
+                  accent={PALETTE[i] ?? PALETTE[0]}
+                >
+                  <ContributorGrid bundle={bundle} />
+                </RepoSubHeader>
+              ))}
         </div>
       </section>
 
@@ -363,7 +379,7 @@ export function CompareClient() {
          ------------------------------------------------------------- */}
       <section aria-label="Wins" className="flex flex-col items-center gap-3">
         <h2 className="label-section">WINS</h2>
-        <WinnerChips bundles={orderedBundles} />
+        {showBundleSkeletons ? <WinnerSkeleton /> : <WinnerChips bundles={orderedBundles} />}
       </section>
     </main>
   );
@@ -432,6 +448,52 @@ function HeatmapSkeleton() {
           />
         ))}
       </div>
+    </div>
+  );
+}
+
+function PulseSkeleton() {
+  return (
+    <div className="bg-bg-card rounded-card border border-border-primary p-4 space-y-3">
+      <div className="flex items-center gap-2">
+        <div className="skeleton-shimmer size-6 rounded-full shrink-0" />
+        <div className="skeleton-shimmer h-4 w-2/3 rounded-sm" />
+      </div>
+      <div className="grid grid-cols-2 gap-y-2 gap-x-3">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div key={i} className="space-y-1">
+            <div className="skeleton-shimmer h-3 w-20 rounded-sm" />
+            <div className="skeleton-shimmer h-4 w-14 rounded-sm" />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function SectionRowSkeleton() {
+  return (
+    <div className="bg-bg-card rounded-card border border-border-primary p-4 space-y-3">
+      <div className="flex items-center gap-2">
+        <div className="skeleton-shimmer size-6 rounded-full shrink-0" />
+        <div className="skeleton-shimmer h-5 w-64 max-w-[70%] rounded-sm" />
+      </div>
+      <div className="skeleton-shimmer h-3 w-full rounded-sm" />
+      <div className="flex gap-2">
+        <div className="skeleton-shimmer h-3 w-24 rounded-sm" />
+        <div className="skeleton-shimmer h-3 w-20 rounded-sm" />
+        <div className="skeleton-shimmer h-3 w-16 rounded-sm" />
+      </div>
+    </div>
+  );
+}
+
+function WinnerSkeleton() {
+  return (
+    <div className="flex flex-wrap justify-center gap-1.5">
+      {Array.from({ length: 4 }).map((_, i) => (
+        <div key={i} className="skeleton-shimmer h-7 w-36 rounded-full" />
+      ))}
     </div>
   );
 }

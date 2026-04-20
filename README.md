@@ -12,7 +12,24 @@
 
 [**Live demo**](https://starscreener.vercel.app)  ·  [**Portal manifest**](https://starscreener.vercel.app/portal)  ·  [**API docs**](https://starscreener.vercel.app/portal/docs)  ·  [**CLI**](https://starscreener.vercel.app/cli)  ·  [**@0motionguy**](https://x.com/0motionguy)
 
+<br />
+
+[![StarScreener — live homepage](https://starscreener.vercel.app/opengraph-image)](https://starscreener.vercel.app)
+
 </div>
+
+### Screenshots
+
+Every image below is served live from the deployed app — click through to the real surface.
+
+| Surface | Live preview |
+|---|---|
+| Homepage (terminal + bubble map) | [starscreener.vercel.app](https://starscreener.vercel.app)  ·  [OG card](https://starscreener.vercel.app/opengraph-image) |
+| Compare deep-dive | [/compare](https://starscreener.vercel.app/compare)  ·  [OG card](https://starscreener.vercel.app/compare/opengraph-image) |
+| Repo detail | [NawfalMotii79/PLFM_RADAR](https://starscreener.vercel.app/repo/NawfalMotii79/PLFM_RADAR)  ·  [OG card](https://starscreener.vercel.app/repo/NawfalMotii79/PLFM_RADAR/opengraph-image) |
+| Category page | [/categories/ai-agents](https://starscreener.vercel.app/categories/ai-agents) |
+| Portal docs | [/portal/docs](https://starscreener.vercel.app/portal/docs) |
+| CLI page | [/cli](https://starscreener.vercel.app/cli) |
 
 ---
 
@@ -129,7 +146,7 @@ starscreener/
 ## Architecture
 
 ```
-                      GitHub + OSS Insight
+                            GitHub
                               │
              ┌────────────────┼────────────────┐
              │                │                │
@@ -158,8 +175,8 @@ starscreener/
 
 ## Data pipeline
 
-1. **Every 20 min** — `scrape-trending.yml` runs `scripts/scrape-trending.mjs` against OSS Insight's trending API (24 h / 7 d / 30 d × 5 languages), commits `data/trending.json` + updates `data/deltas.json` via `compute-deltas.mjs` (git-history-based windowed deltas).
-2. **Daily** — `fetch-repo-metadata.mjs` refreshes `data/repo-metadata.json` (GitHub REST: stars, forks, contributors, topics, avatar).
+1. **Every 20 min** — `scrape-trending.yml` refreshes `data/trending.json` (top movers across 24 h / 7 d / 30 d × 5 languages) and regenerates `data/deltas.json` from that file's git history so each repo gets windowed star deltas anchored in real commit timestamps.
+2. **Daily** — `fetch-repo-metadata.mjs` pulls `data/repo-metadata.json` from the GitHub REST API (stars, forks, contributors, topics, avatar).
 3. **Runtime** — `src/lib/derived-repos.ts` merges trending + metadata + recent-repos, runs `classifyBatch()` + `scoreBatch()`, and caches the result module-level (survives Lambda warm-starts).
 4. **Deltas warm up over time** — for repos new to the tracking set, `delta_24h.basis === "cold-start"` until 24 h of history accumulates. The UI displays a dash instead of a fake 0 %, and sparklines are synthesized from the available anchors so rows aren't blank.
 

@@ -1,81 +1,83 @@
+// StarScreener — `/api/compare` route.
+//
+// Fetches a rich per-repo bundle directly from the GitHub REST API for the
+// Compare page rewrite. Up to 4 repos per request. Bundles are fetched in
+// parallel; individual failures (404 / rate-limit) are encoded in the bundle
+// as `ok:false` rather than surfacing as a batch error.
+//
+// Response is cached at the edge for an hour with stale-while-revalidate for
+// six hours — the underlying GitHub data does not move that fast and caching
+// shields our rate limit.
+
 import { NextRequest, NextResponse } from "next/server";
-import { pipeline } from "@/lib/pipeline/pipeline";
-import { slugToId } from "@/lib/utils";
-import type { CompareRepoData } from "@/lib/types";
-import { READ_CACHE_HEADERS } from "@/lib/api/cache";
+import {
+  fetchCompareBundles,
+  type CompareRepoBundle,
+} from "@/lib/github-compare";
+
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
+const FULL_NAME_RE = /^[A-Za-z0-9._-]+\/[A-Za-z0-9._-]+$/;
+const MAX_REPOS = 4;
 
 export async function GET(request: NextRequest) {
-  await pipeline.ensureReady();
   const { searchParams } = request.nextUrl;
   const reposParam = searchParams.get("repos") ?? "";
 
-  if (!reposParam.trim()) {
-    return NextResponse.json(
-      { error: "Missing required 'repos' parameter" },
-      { status: 400 },
-    );
-  }
-
-  const rawIds = reposParam
+  const requested = reposParam
     .split(",")
-    .map((id) => id.trim())
+    .map((s) => s.trim())
     .filter(Boolean);
 
-  if (rawIds.length < 2) {
+  if (requested.length === 0) {
     return NextResponse.json(
-      { error: "At least 2 repos are required for comparison" },
+      { error: "Missing required 'repos' parameter (comma-separated owner/name)" },
       { status: 400 },
     );
   }
 
-  if (rawIds.length > 5) {
+  if (requested.length > MAX_REPOS) {
     return NextResponse.json(
-      { error: "Maximum 5 repos can be compared at once" },
+      { error: `Maximum ${MAX_REPOS} repos per request` },
       { status: 400 },
     );
   }
 
-  // Accept either "owner/name" or "owner--name" forms. The compare pipeline
-  // operates on repo IDs (owner--name), so normalize up front.
-  const repoIds = rawIds.map((id) => (id.includes("/") ? slugToId(id) : id));
-
-  const result = pipeline.getRepoCompare(repoIds);
-
-  // Detect any IDs the pipeline couldn't resolve — keeps the 404 behavior
-  // the existing UI relies on.
-  const resolvedIds = new Set(result.repos.map((m) => m.repo.id));
-  const notFound = repoIds.filter((id) => !resolvedIds.has(id));
-  if (notFound.length > 0) {
+  const invalid = requested.filter((n) => !FULL_NAME_RE.test(n));
+  if (invalid.length > 0) {
     return NextResponse.json(
-      { error: `Repos not found: ${notFound.join(", ")}` },
-      { status: 404 },
-    );
-  }
-
-  if (result.repos.length < 2) {
-    return NextResponse.json(
-      { error: "At least 2 valid repos are required for comparison" },
-      { status: 400 },
-    );
-  }
-
-  // Adapt the pipeline's CompareResult to the UI's CompareRepoData shape.
-  const repos: CompareRepoData[] = result.repos.map((m) => ({
-    repo: m.repo,
-    starHistory: m.starHistory,
-    forkHistory: m.forkHistory,
-  }));
-
-  return NextResponse.json(
-    {
-      repos,
-      winner: {
-        momentum: result.winners.momentum,
-        stars: result.winners.stars,
-        // UI expects `growth`; pipeline exposes `growth7d`. Rename here.
-        growth: result.winners.growth7d,
+      {
+        error: `Invalid repo name(s): ${invalid.join(", ")} (expected 'owner/name')`,
       },
+      { status: 400 },
+    );
+  }
+
+  // De-duplicate while preserving order so `bundles[i]` still lines up with
+  // the caller's intent.
+  const seen = new Set<string>();
+  const names: string[] = [];
+  for (const n of requested) {
+    if (!seen.has(n)) {
+      seen.add(n);
+      names.push(n);
+    }
+  }
+
+  const bundles: CompareRepoBundle[] = await fetchCompareBundles(names, {
+    token: process.env.GITHUB_TOKEN,
+  });
+
+  const body = {
+    bundles,
+    fetchedAt: new Date().toISOString(),
+  };
+
+  return NextResponse.json(body, {
+    headers: {
+      "Cache-Control":
+        "public, s-maxage=3600, stale-while-revalidate=21600",
     },
-    { headers: READ_CACHE_HEADERS },
-  );
+  });
 }

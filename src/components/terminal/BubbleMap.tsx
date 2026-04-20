@@ -35,12 +35,22 @@ const MAX_RADIUS = 76;
  * For repos without a 24h entry we fall through to 7d/7 then 30d/30 so
  * every positive-movement repo gets represented at a fair relative
  * magnitude.
+ *
+ * Floor of 0.1 for anything with a positive raw window so the bubble
+ * still places (minRadius). Otherwise a repo with `d7d=1` would round
+ * to 0 and get filtered.
  */
 function effectiveDailyDelta(r: Repo): number {
   const d24 = r.starsDelta24h ?? 0;
   const d7 = r.starsDelta7d ?? 0;
   const d30 = r.starsDelta30d ?? 0;
-  return Math.max(d24, Math.round(d7 / 7), Math.round(d30 / 30));
+  const rawBest = Math.max(d24, d7 / 7, d30 / 30);
+  if (rawBest <= 0) {
+    // Still represent if any single window is positive, just at the floor.
+    if (d24 > 0 || d7 > 0 || d30 > 0) return 0.1;
+    return 0;
+  }
+  return Math.max(rawBest, 0.1);
 }
 
 /**

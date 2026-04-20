@@ -75,13 +75,23 @@ export function packBubbles(
       continue;
     }
 
-    // Archimedean spiral: angle step small, radial step scales with r so we
-    // don't probe thousands of points for the big bubbles.
-    const step = 0.35;
-    const radialStep = Math.max(2, r * 0.15);
+    // Phyllotaxis/sunflower-style spiral. Radial step has to be
+    // independent of the current bubble's radius — otherwise the small
+    // bubbles placed last would have a tiny stride and never reach the
+    // outer canvas to find empty space. Step is sized so the spiral
+    // covers the farther-wall diagonal within the iteration budget
+    // regardless of bubble size.
+    const diag = Math.sqrt(
+      (width / 2) * (width / 2) + (height / 2) * (height / 2),
+    );
+    const MAX_ITER = 12000;
+    const step = 0.38;
+    // Distance at iter i will be radialStep * sqrt(i) * 0.7, so we need
+    // radialStep * sqrt(MAX_ITER) * 0.7 >= diag to cover the canvas.
+    const radialStep = Math.max(4, (diag * 1.15) / (Math.sqrt(MAX_ITER) * 0.7));
     let found = false;
 
-    for (let i = 1; i < 6000 && !found; i++) {
+    for (let i = 1; i < MAX_ITER && !found; i++) {
       const angle = i * step;
       const dist = radialStep * Math.sqrt(i) * 0.7;
       const cx = cx0 + Math.cos(angle) * dist;

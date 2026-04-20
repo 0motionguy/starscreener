@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { pipeline } from "@/lib/pipeline/pipeline";
 import type { Repo } from "@/lib/types";
 import { READ_CACHE_HEADERS } from "@/lib/api/cache";
+import { getDerivedRepos } from "@/lib/derived-repos";
 
 type SearchSort = "momentum" | "stars-today" | "stars-total";
 
@@ -21,8 +21,16 @@ function sortResults(repos: Repo[], sort: SearchSort): Repo[] {
   return sorted;
 }
 
+function matchesQuery(repo: Repo, q: string): boolean {
+  if (repo.fullName.toLowerCase().includes(q)) return true;
+  if ((repo.description ?? "").toLowerCase().includes(q)) return true;
+  for (const topic of repo.topics ?? []) {
+    if (topic.toLowerCase().includes(q)) return true;
+  }
+  return false;
+}
+
 export async function GET(request: NextRequest) {
-  await pipeline.ensureReady();
   const { searchParams } = request.nextUrl;
 
   const query = searchParams.get("q") ?? "";
@@ -55,16 +63,19 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  // Delegate to pipeline — it owns fullName/description/topics match + live
-  // momentumScore ordering.
-  const raw = pipeline.searchReposByQuery(query, {
-    categoryId: category ?? undefined,
+  // Read from committed JSON rather than the in-memory repoStore. The store
+  // is empty on cold Vercel Lambdas (persistence disabled in prod) so the
+  // previous pipeline.searchReposByQuery path returned [] for every search.
+  const q = query.trim().toLowerCase();
+  const all = getDerivedRepos();
+  const raw = all.filter((r) => {
+    if (category && r.categoryId !== category) return false;
+    return matchesQuery(r, q);
   });
 
   const total = raw.length;
 
-  // Apply requested sort (overrides pipeline's default momentum-desc when
-  // the user explicitly picked stars-today or stars-total).
+  // Apply requested sort.
   const sorted = sortResults(raw, sort);
 
   // Limit

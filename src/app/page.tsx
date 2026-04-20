@@ -1,15 +1,15 @@
-// StarScreener — Home (Phase 3)
+// StarScreener — Home (Phase 3 / P9)
 //
-// Server component. Seeds repos via the pipeline facade and hands the
-// full working set to TerminalLayout. All visual composition (FilterBar,
-// FeaturedCards, Terminal) lives inside TerminalLayout.
+// Server component. Reads the derived Repo[] from committed JSON
+// (data/trending.json + data/deltas.json) and hands the top 80 by
+// starsDelta24h to TerminalLayout. The in-memory pipeline store is empty
+// on cold Vercel Lambdas, so reading from JSON is the only way to serve
+// non-empty repo cards consistently.
 
 import type { Metadata } from "next";
-import { pipeline } from "@/lib/pipeline/pipeline";
+import { getDerivedRepos } from "@/lib/derived-repos";
 import { TerminalLayout } from "@/components/terminal/TerminalLayout";
 
-// Pipeline state is mutable (cron writes new snapshots hourly). Skip
-// full-route caching so each request sees the current store.
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
@@ -18,10 +18,10 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-  // Hydrate persisted pipeline state from disk (or fall back to mock seed)
-  // before the first query so a server restart resumes in place.
-  await pipeline.ensureReady();
-  const repos = pipeline.getTopMovers("today", 80);
+  const all = getDerivedRepos();
+  const repos = [...all]
+    .sort((a, b) => b.starsDelta24h - a.starsDelta24h)
+    .slice(0, 80);
 
   return (
     <TerminalLayout

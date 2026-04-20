@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { pipeline, repoStore } from "@/lib/pipeline/pipeline";
 import type { Repo } from "@/lib/types";
 import type { TrendFilter, TrendWindow } from "@/lib/pipeline/types";
 import { slugToId } from "@/lib/utils";
 import { READ_CACHE_HEADERS } from "@/lib/api/cache";
+import {
+  getDerivedRepoById,
+  getDerivedRepos,
+} from "@/lib/derived-repos";
 
 // ---------------------------------------------------------------------------
 // Param validation
@@ -23,11 +26,29 @@ const MS_PER_DAY = 86_400_000;
 
 type SortKey = "momentum" | "stars-today" | "stars-total" | "newest";
 
-function sortRepos(repos: Repo[], sort: SortKey): Repo[] {
+function deltaForWindow(repo: Repo, window: TrendWindow): number {
+  switch (window) {
+    case "today":
+      return repo.starsDelta24h;
+    case "week":
+      return repo.starsDelta7d;
+    case "month":
+      return repo.starsDelta30d;
+  }
+}
+
+function sortRepos(repos: Repo[], sort: SortKey, window: TrendWindow): Repo[] {
   const sorted = [...repos];
   switch (sort) {
     case "momentum":
-      sorted.sort((a, b) => b.momentumScore - a.momentumScore);
+      // Momentum default additionally pre-orders by the requested window's
+      // delta so ties in the global momentumScore break consistently with
+      // the caller's time-window intent.
+      sorted.sort((a, b) => {
+        const d = b.momentumScore - a.momentumScore;
+        if (d !== 0) return d;
+        return deltaForWindow(b, window) - deltaForWindow(a, window);
+      });
       break;
     case "stars-today":
       sorted.sort((a, b) => b.starsDelta24h - a.starsDelta24h);
@@ -45,8 +66,6 @@ function sortRepos(repos: Repo[], sort: SortKey): Repo[] {
   return sorted;
 }
 
-// Mirrors pipeline's applyTrendFilter so category-scoped lookups can accept
-// the same preset filter the top-movers query supports.
 function applyLocalFilter(repos: Repo[], filter: TrendFilter): Repo[] {
   if (filter === "all") return repos;
   if (filter === "breakouts") {
@@ -73,7 +92,6 @@ function applyLocalFilter(repos: Repo[], filter: TrendFilter): Repo[] {
 }
 
 export async function GET(request: NextRequest) {
-  await pipeline.ensureReady();
   const { searchParams } = request.nextUrl;
 
   // Direct-id lookup path — ?ids=a,b,c returns the corresponding Repo
@@ -89,8 +107,7 @@ export async function GET(request: NextRequest) {
       .filter(Boolean);
     // Normalize each input through the same slugifier the ingest path uses.
     // This lets callers pass either the canonical slug ("vercel--next-js")
-    // or the fullName ("vercel/next.js") — both resolve. Fixes a silent
-    // miss where dots in the input weren't collapsed to hyphens.
+    // or the fullName ("vercel/next.js") — both resolve.
     const normalized = rawIds.map((raw) =>
       raw.includes("/") || raw.includes(".") ? slugToId(raw) : raw,
     );
@@ -101,7 +118,7 @@ export async function GET(request: NextRequest) {
       const id = normalized[i];
       if (seen.has(id)) continue;
       seen.add(id);
-      const repo = repoStore.get(id);
+      const repo = getDerivedRepoById(id);
       if (repo) repos.push(repo);
       else missing.push(rawIds[i]);
     }
@@ -166,20 +183,16 @@ export async function GET(request: NextRequest) {
   const period: TrendWindow = periodParam as TrendWindow;
   const filter: TrendFilter = filterParam as TrendFilter;
 
-  // Pull the full candidate set from the pipeline so we can apply our own
-  // sort + pagination. The pipeline already ran recompute during
-  // ensureSeeded, so momentumScore/movementStatus/deltas are live values.
-  let candidates: Repo[];
-  if (category) {
-    // Category-scoped: pipeline.getCategoryMovers doesn't take a filter
-    // preset, so we pull the full list for the category and apply the
-    // same filter locally for consistency with the global path.
-    const all = pipeline.getCategoryMovers(category, period, 1000);
-    candidates = applyLocalFilter(all, filter);
-  } else {
-    // Global: let the pipeline apply the trend filter directly.
-    candidates = pipeline.getTopMovers(period, 1000, filter);
-  }
+  // P9: read from committed JSON rather than the in-memory repoStore —
+  // the store is empty on cold Vercel Lambdas, so the previous
+  // pipeline.getTopMovers / getCategoryMovers path served 0 repos in prod.
+  const all = getDerivedRepos();
+
+  // Scope to category (if requested), then apply the filter preset.
+  let candidates: Repo[] = category
+    ? all.filter((r) => r.categoryId === category)
+    : all;
+  candidates = applyLocalFilter(candidates, filter);
 
   // Optional tag filter (additive). Rejects empty/invalid input with 400.
   if (tagParam !== null) {
@@ -190,15 +203,15 @@ export async function GET(request: NextRequest) {
         { status: 400 },
       );
     }
-    candidates = candidates.filter((r) =>
-      Array.isArray(r.tags) && r.tags.includes(tag),
+    candidates = candidates.filter(
+      (r) => Array.isArray(r.tags) && r.tags.includes(tag),
     );
   }
 
   const total = candidates.length;
 
-  // Apply requested sort (may override the pipeline's delta-desc default).
-  const sorted = sortRepos(candidates, sort);
+  // Apply requested sort.
+  const sorted = sortRepos(candidates, sort, period);
 
   // Paginate
   const page = sorted.slice(offset, offset + limit);

@@ -71,18 +71,24 @@ export function StatsBarClient({ stats }: StatsBarClientProps) {
   return (
     <div
       className={cn(
-        "flex items-center gap-3",
+        "flex items-center gap-2.5 shrink-0 whitespace-nowrap",
         "font-mono text-xs tabular-nums",
       )}
     >
-      <span className="flex items-center gap-1.5">
+      <span
+        className="flex items-center gap-1.5"
+        title="Total unique repos in the screener universe — everything the pipeline tracks across discovery feeds and curated collections."
+      >
         <span className="text-text-tertiary">Repos tracked:</span>
         <span className="text-text-primary">{stats.totalRepos}</span>
       </span>
 
       <Divider />
 
-      <span className="flex items-center gap-1.5 text-brand">
+      <span
+        className="flex items-center gap-1.5 text-brand"
+        title="Hot = momentum score ≥ 55 AND +25 stars in the last 24 h (or curated-hot inertia). Strong short-term buzz right now."
+      >
         <Flame size={12} aria-hidden="true" />
         <span className="text-text-tertiary">Hot:</span>
         <span>{stats.hotCount ?? "—"}</span>
@@ -90,7 +96,10 @@ export function StatsBarClient({ stats }: StatsBarClientProps) {
 
       <Divider />
 
-      <span className="flex items-center gap-1.5">
+      <span
+        className="flex items-center gap-1.5"
+        title="Breakout = surge detected on star + fork velocity vs. baseline. Rarer than Hot — the ones actually going parabolic."
+      >
         <Zap size={12} aria-hidden="true" className="text-warning" />
         <span className="text-text-tertiary">Breakouts:</span>
         <span className="text-warning">{stats.breakoutCount ?? "—"}</span>

@@ -31,27 +31,46 @@ function SearchPageInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const query = searchParams.get("q") ?? "";
+  // Sidebar "Top 100" links here with ?sort=trending&limit=100. When there's no
+  // `q`, fall back to /api/repos?sort=stars so the page becomes a usable
+  // top-ranked list instead of the empty-state prompt.
+  const sortParam = searchParams.get("sort");
+  const limitParam = searchParams.get("limit");
+  const isTopList = !query.trim() && (sortParam !== null || limitParam !== null);
+  const topLimit = Math.min(Math.max(Number.parseInt(limitParam ?? "100", 10) || 100, 1), 100);
+  // /api/repos accepts: trending | momentum | stars-today | stars-total | newest.
+  // The Top 100 sidebar link sends sort=stars-total so this becomes a pure
+  // star-ranked list.
+  const topSort = sortParam === "stars" ? "stars-total" : (sortParam ?? "stars-total");
 
   const [results, setResults] = useState<Repo[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (!query.trim()) {
+    if (!query.trim() && !isTopList) {
       setResults([]);
       setLoading(false);
       return;
     }
     const controller = new AbortController();
     setLoading(true);
+    const url = query.trim()
+      ? `/api/search?q=${encodeURIComponent(query)}&limit=50`
+      : `/api/repos?sort=${encodeURIComponent(topSort)}&limit=${topLimit}`;
     (async () => {
       try {
-        const res = await fetch(
-          `/api/search?q=${encodeURIComponent(query)}&limit=50`,
-          { signal: controller.signal },
-        );
+        const res = await fetch(url, { signal: controller.signal });
         if (!res.ok) throw new Error(`status ${res.status}`);
-        const data = (await res.json()) as { results?: Repo[] };
-        setResults(Array.isArray(data.results) ? data.results : []);
+        const data = (await res.json()) as {
+          results?: Repo[];
+          repos?: Repo[];
+        };
+        const list = Array.isArray(data.results)
+          ? data.results
+          : Array.isArray(data.repos)
+            ? data.repos
+            : [];
+        setResults(list);
       } catch (err) {
         if ((err as { name?: string }).name === "AbortError") return;
         console.error("[search] fetch failed", err);
@@ -61,7 +80,7 @@ function SearchPageInner() {
       }
     })();
     return () => controller.abort();
-  }, [query]);
+  }, [query, isTopList, topSort, topLimit]);
 
   const handleSearch = useCallback(
     (q: string) => {

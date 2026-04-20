@@ -69,10 +69,10 @@ export function FilterBar({ variant = "full" }: FilterBarProps) {
   return (
     <div className="sticky top-14 z-30 bg-bg-primary/90 backdrop-blur-md border-b border-border-primary">
       <div className="max-w-full mx-auto px-4 sm:px-6 py-3">
-        <div className="flex items-center gap-4 flex-wrap">
+        <div className="flex items-center gap-3 flex-nowrap overflow-x-auto scrollbar-hide">
           {cfg.showStats && stats && <StatsBarClient stats={stats} />}
 
-          <div className="ml-auto flex items-center gap-3">
+          <div className="ml-auto flex items-center gap-3 shrink-0">
             {cfg.showTabs && <TabBar />}
 
             {cfg.showTime && (

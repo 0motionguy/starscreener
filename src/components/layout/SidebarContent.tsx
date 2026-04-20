@@ -8,7 +8,7 @@
  */
 import { usePathname, useRouter } from "next/navigation";
 import {
-  Eye,
+  Bookmark,
   Flame,
   GitCompareArrows,
   Layers,
@@ -130,7 +130,7 @@ export function SidebarContent({
             active={pathname === "/" && activeMetaFilter === "hot"}
           />
           <SidebarNavItem
-            href="/search?sort=trending&limit=100"
+            href="/search?sort=stars-total&limit=100"
             icon={Trophy}
             label="Top 100"
             active={pathname === "/search"}
@@ -141,7 +141,7 @@ export function SidebarContent({
         <SidebarSection id="mylist" label="My List">
           <SidebarNavItem
             href="/watchlist"
-            icon={Eye}
+            icon={Bookmark}
             label="Watchlist"
             badge={watchCount > 0 ? watchCount : undefined}
             active={pathname === "/watchlist"}

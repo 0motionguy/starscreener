@@ -10,7 +10,7 @@
 
 import type { ReactNode } from "react";
 import { createElement } from "react";
-import { ArrowLeftRight, Eye, GitFork, Star, Users, Zap } from "lucide-react";
+import { ArrowLeftRight, Bookmark, GitFork, Star, Users, Zap } from "lucide-react";
 
 import { MomentumBadge } from "@/components/shared/MomentumBadge";
 import { RankBadge } from "@/components/shared/RankBadge";
@@ -415,7 +415,7 @@ export const COLUMNS: Column[] = [
     compactVisible: true,
     description: "Star change over the last 24 hours (raw + percent).",
     render: (repo) =>
-      isCuratedQuietStub(repo)
+      isCuratedQuietStub(repo) || repo.starsDelta24hMissing
         ? renderDash()
         : renderStackedDelta(repo.starsDelta24h, repo.stars),
   },
@@ -433,7 +433,7 @@ export const COLUMNS: Column[] = [
     compactVisible: true,
     description: "Star change over the last 7 days (raw + percent).",
     render: (repo) =>
-      isCuratedQuietStub(repo)
+      isCuratedQuietStub(repo) || repo.starsDelta7dMissing
         ? renderDash()
         : renderStackedDelta(repo.starsDelta7d, repo.stars),
   },
@@ -451,7 +451,7 @@ export const COLUMNS: Column[] = [
     compactVisible: false,
     description: "Star change over the last 30 days (raw + percent).",
     render: (repo) =>
-      isCuratedQuietStub(repo)
+      isCuratedQuietStub(repo) || repo.starsDelta30dMissing
         ? renderDash()
         : renderStackedDelta(repo.starsDelta30d, repo.stars),
   },
@@ -741,10 +741,11 @@ export const COLUMNS: Column[] = [
               : "Add to watchlist",
             className: cn(
               "inline-flex size-6 items-center justify-center rounded hover:bg-bg-tertiary transition-colors",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-functional/40",
               ctx.isWatched ? "text-functional" : "text-text-tertiary",
             ),
           },
-          createElement(Eye, {
+          createElement(Bookmark, {
             size: 14,
             strokeWidth: 2,
             fill: ctx.isWatched ? "currentColor" : "none",
@@ -774,6 +775,7 @@ export const COLUMNS: Column[] = [
                 : "Add to compare",
             className: cn(
               "inline-flex size-6 items-center justify-center rounded transition-colors",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40",
               ctx.isComparing
                 ? "text-brand hover:bg-bg-tertiary"
                 : ctx.compareDisabled

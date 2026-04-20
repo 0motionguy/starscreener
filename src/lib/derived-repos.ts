@@ -83,6 +83,59 @@ function parseCollectionNames(value: string | null | undefined): string[] {
     .filter(Boolean);
 }
 
+/**
+ * Synthesize a 14-point daily sparkline from known deltas + stars_now.
+ *
+ * Anchors: today = stars_now, -1d = stars_now - delta_24h, -7d = stars_now -
+ * delta_7d, -30d shrunk to -13d proportionally so the curve stays in the
+ * visible 14-day window. Intermediate days are linearly interpolated. This
+ * is a cold-start-friendly stand-in for real snapshot history; once the
+ * in-memory snapshotter accumulates real datapoints those override.
+ */
+function synthesizeSparkline(
+  starsNow: number,
+  delta24h: number,
+  delta7d: number,
+  delta30d: number,
+): number[] {
+  if (starsNow <= 0) return [];
+
+  // Anchor points keyed by days-ago (0 = today).
+  const anchors = new Map<number, number>();
+  anchors.set(0, starsNow);
+  anchors.set(1, Math.max(0, starsNow - Math.max(0, delta24h)));
+  anchors.set(7, Math.max(0, starsNow - Math.max(0, delta7d)));
+  // Compress 30d onto the 13-days-ago slot so the curve shows the longer-term
+  // slope within a 14-point window without requiring 30 data points.
+  const delta13d = Math.round(delta30d * (13 / 30));
+  anchors.set(13, Math.max(0, starsNow - Math.max(0, delta13d)));
+
+  const sortedKeys = Array.from(anchors.keys()).sort((a, b) => a - b);
+
+  const series: number[] = [];
+  for (let day = 13; day >= 0; day--) {
+    // Find surrounding anchors for linear interpolation.
+    let lower = sortedKeys[0];
+    let upper = sortedKeys[sortedKeys.length - 1];
+    for (const k of sortedKeys) {
+      if (k <= day) lower = k;
+      if (k >= day) {
+        upper = k;
+        break;
+      }
+    }
+    const lo = anchors.get(lower)!;
+    const hi = anchors.get(upper)!;
+    if (lower === upper) {
+      series.push(lo);
+    } else {
+      const t = (day - lower) / (upper - lower);
+      series.push(Math.round(lo + (hi - lo) * t));
+    }
+  }
+  return series;
+}
+
 function setPeriodMetrics(
   aggregate: TrendingRepoAggregate,
   period: TrendingPeriod,
@@ -282,6 +335,28 @@ export function getDerivedRepos(): Repo[] {
     };
     const withHistory = assembleRepoFromTrending(enrichedBase, deltas);
 
+    // Prefer real snapshot-derived sparkline when the pipeline provided one;
+    // otherwise synthesize a credible 14-point curve from the anchor deltas.
+    // For synthesis we accept cold-start raw values (numbers only — nulls and
+    // repo-not-tracked fall back to 0), because even diagnostic partial-window
+    // numbers produce a more useful visual curve than a flat dotted line.
+    const rawDelta = (d: DeltaValue | undefined): number => {
+      if (!d || d.value === null) return 0;
+      return d.value;
+    };
+    const realSparkline = Array.isArray(withHistory.sparklineData)
+      ? withHistory.sparklineData
+      : [];
+    const sparkline =
+      realSparkline.length >= 7
+        ? realSparkline
+        : synthesizeSparkline(
+            starsTotal,
+            aggregate.has24h ? aggregate.stars24h : rawDelta(deltaEntry?.delta_24h),
+            aggregate.has7d ? aggregate.stars7d : rawDelta(deltaEntry?.delta_7d),
+            aggregate.has30d ? aggregate.stars30d : rawDelta(deltaEntry?.delta_30d),
+          );
+
     repos.push({
       ...withHistory,
       id,
@@ -294,6 +369,7 @@ export function getDerivedRepos(): Repo[] {
       trendScore24h: aggregate.trendScore24h,
       trendScore7d: aggregate.trendScore7d,
       trendScore30d: aggregate.trendScore30d,
+      sparklineData: sparkline,
       hasMovementData: !(d24.missing && d7.missing && d30.missing),
       starsDelta24hMissing: d24.missing,
       starsDelta7dMissing: d7.missing,

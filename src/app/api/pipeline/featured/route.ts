@@ -6,15 +6,22 @@
 //   watched     comma-separated list of repo ids
 //   metaFilter  one of "hot"|"breakouts"|"quiet-killers"|"new"|"discussed"|
 //               "rank-climbers"|"fresh-releases"
+//   tab         one of "trending"|"gainers"|"new"|"watchlisted"
+//   timeRange   one of "24h"|"7d"|"30d"
 //
-// v1 reads from committed JSON (derived-repos) so the homepage renders on
-// cold Vercel Lambdas. The full pipeline waterfall (HN featured, reason-
-// backed rank climbers, fresh releases) requires the in-memory pipeline
-// state which isn't available in prod.
+// Reads from committed JSON so the homepage renders on cold lambdas.
 
 import { NextRequest, NextResponse } from "next/server";
+import { applyTerminalTabFilter } from "@/lib/filters";
 import { getDerivedRepos } from "@/lib/derived-repos";
-import type { FeaturedCard, FeaturedLabel, MetaFilter, Repo } from "@/lib/types";
+import type {
+  FeaturedCard,
+  FeaturedLabel,
+  MetaFilter,
+  Repo,
+  TerminalTab,
+  TimeRange,
+} from "@/lib/types";
 
 const KNOWN_META_FILTERS: ReadonlyArray<MetaFilter> = [
   "hot",
@@ -25,7 +32,13 @@ const KNOWN_META_FILTERS: ReadonlyArray<MetaFilter> = [
   "rank-climbers",
   "fresh-releases",
 ];
-
+const KNOWN_TABS: ReadonlyArray<TerminalTab> = [
+  "trending",
+  "gainers",
+  "new",
+  "watchlisted",
+];
+const KNOWN_TIME_RANGES: ReadonlyArray<TimeRange> = ["24h", "7d", "30d"];
 const MS_PER_DAY = 86_400_000;
 
 export interface FeaturedResponse {
@@ -33,30 +46,59 @@ export interface FeaturedResponse {
   generatedAt: string;
 }
 
-function computeDeltaPercent(repo: Repo): number {
-  return (repo.starsDelta24h / Math.max(repo.stars, 1)) * 100;
+function deltaForRange(repo: Repo, timeRange: TimeRange): number {
+  switch (timeRange) {
+    case "24h":
+      return repo.starsDelta24h;
+    case "7d":
+      return repo.starsDelta7d;
+    case "30d":
+      return repo.starsDelta30d;
+  }
 }
 
-function synthReason(label: FeaturedLabel, repo: Repo): string {
+function timeRangeLabel(timeRange: TimeRange): string {
+  switch (timeRange) {
+    case "24h":
+      return "24H";
+    case "7d":
+      return "7D";
+    case "30d":
+      return "30D";
+  }
+}
+
+function computeDeltaPercent(repo: Repo, timeRange: TimeRange): number {
+  return (deltaForRange(repo, timeRange) / Math.max(repo.stars, 1)) * 100;
+}
+
+function synthReason(
+  label: FeaturedLabel,
+  repo: Repo,
+  timeRange: TimeRange,
+): string {
+  const delta = deltaForRange(repo, timeRange);
+  const window = timeRangeLabel(timeRange).toLowerCase();
+
   switch (label) {
     case "NUMBER_ONE_TODAY":
-      return `Leading today with +${repo.starsDelta24h.toLocaleString()} stars`;
+      return `Leading ${window} with +${delta.toLocaleString()} stars`;
     case "BREAKOUT":
-      return `Breakout — momentum accelerating into the top tier`;
+      return "Breakout - momentum accelerating into the top tier";
     case "RANK_CLIMBER":
-      return `Climbing fast — now ranked #${repo.rank} overall`;
+      return `Climbing fast - now ranked #${repo.rank} overall`;
     case "HN_FEATURED":
-      return `Featured on Hacker News front page in the last 24h`;
+      return "Featured on Hacker News front page in the last 24h";
     case "FRESH_RELEASE":
       return repo.lastReleaseTag
         ? `Shipped ${repo.lastReleaseTag} recently`
-        : `Fresh major release in the last 48h`;
+        : "Fresh major release in the last 48h";
     case "MOST_DISCUSSED":
-      return `Most discussed — ${repo.mentionCount24h} mentions in 24h`;
+      return `Most discussed - ${repo.mentionCount24h} mentions in 24h`;
     case "QUIET_KILLER":
-      return `Quiet killer — steady sustained growth, no single spike`;
+      return "Quiet killer - steady sustained growth, no single spike";
     case "WATCHED_MOVING":
-      return `Watched & moving — ${repo.starsDelta7d >= 0 ? "+" : ""}${repo.starsDelta7d.toLocaleString()} stars in 7d`;
+      return `Watched and moving - ${delta >= 0 ? "+" : ""}${delta.toLocaleString()} stars in ${window}`;
   }
 }
 
@@ -64,13 +106,14 @@ function buildCard(
   repo: Repo,
   label: FeaturedLabel,
   labelDisplay: string,
+  timeRange: TimeRange,
 ): FeaturedCard {
   return {
     label,
     labelDisplay,
     repo,
-    reason: synthReason(label, repo),
-    deltaPercent: computeDeltaPercent(repo),
+    reason: synthReason(label, repo, timeRange),
+    deltaPercent: computeDeltaPercent(repo, timeRange),
     rankDelta: null,
     sparkline: repo.sparklineData,
   };
@@ -79,41 +122,39 @@ function buildCard(
 function applyMetaFilter(repos: Repo[], filter: MetaFilter | null): Repo[] {
   if (!filter) return repos;
   const now = Date.now();
+
   switch (filter) {
     case "hot":
-      return repos.filter((r) => r.movementStatus === "hot");
+      return repos.filter((repo) => repo.movementStatus === "hot");
     case "breakouts":
-      return repos.filter((r) => r.movementStatus === "breakout");
+      return repos.filter((repo) => repo.movementStatus === "breakout");
     case "quiet-killers":
-      return repos.filter((r) => r.movementStatus === "quiet_killer");
+      return repos.filter((repo) => repo.movementStatus === "quiet_killer");
     case "new":
-      return repos.filter((r) => {
-        const created = Date.parse(r.createdAt);
-        if (!Number.isFinite(created)) return false;
-        return now - created < 30 * MS_PER_DAY;
+      return repos.filter((repo) => {
+        const createdAt = Date.parse(repo.createdAt);
+        if (!Number.isFinite(createdAt)) return false;
+        return now - createdAt < 30 * MS_PER_DAY;
       });
     case "discussed":
-      return repos.filter((r) => r.mentionCount24h > 0);
+      return repos.filter((repo) => repo.mentionCount24h > 0);
     case "rank-climbers":
-      return repos.filter((r) => r.rank > 0 && r.rank <= 20);
+      return repos.filter((repo) => repo.rank > 0 && repo.rank <= 20);
     case "fresh-releases":
-      return repos.filter((r) => {
-        if (!r.lastReleaseAt) return false;
-        const t = Date.parse(r.lastReleaseAt);
-        if (!Number.isFinite(t)) return false;
-        return now - t < 7 * MS_PER_DAY;
+      return repos.filter((repo) => {
+        if (!repo.lastReleaseAt) return false;
+        const releaseAt = Date.parse(repo.lastReleaseAt);
+        if (!Number.isFinite(releaseAt)) return false;
+        return now - releaseAt < 7 * MS_PER_DAY;
       });
   }
 }
 
-/**
- * Waterfall: pick the strongest signal we can find, fill remaining slots
- * from the momentum-sorted pool. Dedupes by repo id.
- */
 function buildFeaturedCards(
   pool: Repo[],
   watchlistRepoIds: string[],
   limit: number,
+  timeRange: TimeRange,
 ): FeaturedCard[] {
   const seen = new Set<string>();
   const out: FeaturedCard[] = [];
@@ -125,56 +166,67 @@ function buildFeaturedCards(
     out.push(card);
   };
 
-  // 1. #1 today — top starsDelta24h with positive movement.
-  const byDelta24h = [...pool]
-    .filter((r) => r.starsDelta24h > 0)
-    .sort((a, b) => b.starsDelta24h - a.starsDelta24h);
-  if (byDelta24h[0]) {
-    push(buildCard(byDelta24h[0], "NUMBER_ONE_TODAY", "#1 TODAY"));
+  const byWindowDelta = [...pool]
+    .filter((repo) => deltaForRange(repo, timeRange) > 0)
+    .sort((a, b) => deltaForRange(b, timeRange) - deltaForRange(a, timeRange));
+
+  if (byWindowDelta[0]) {
+    push(
+      buildCard(
+        byWindowDelta[0],
+        "NUMBER_ONE_TODAY",
+        `#1 ${timeRangeLabel(timeRange)}`,
+        timeRange,
+      ),
+    );
   }
 
-  // 2. Breakouts — up to 2 different repos with movementStatus === 'breakout'.
-  const breakouts = pool.filter((r) => r.movementStatus === "breakout");
-  for (const r of breakouts.slice(0, 2)) {
-    push(buildCard(r, "BREAKOUT", "BREAKOUT"));
+  const breakouts = pool.filter((repo) => repo.movementStatus === "breakout");
+  for (const repo of breakouts.slice(0, 2)) {
+    push(buildCard(repo, "BREAKOUT", "BREAKOUT", timeRange));
   }
 
-  // 3. Rank climbers — top-20 by momentum, not yet seen.
-  const climbers = pool.filter((r) => r.rank > 0 && r.rank <= 20);
+  const climbers = pool.filter((repo) => repo.rank > 0 && repo.rank <= 20);
   if (climbers[0]) {
-    push(buildCard(climbers[0], "RANK_CLIMBER", "RANK CLIMBER"));
+    push(buildCard(climbers[0], "RANK_CLIMBER", "RANK CLIMBER", timeRange));
   }
 
-  // 4. Quiet killers — movementStatus === 'quiet_killer'.
-  const quietKillers = pool.filter((r) => r.movementStatus === "quiet_killer");
+  const quietKillers = pool.filter(
+    (repo) => repo.movementStatus === "quiet_killer",
+  );
   if (quietKillers[0]) {
-    push(buildCard(quietKillers[0], "QUIET_KILLER", "QUIET KILLER"));
+    push(buildCard(quietKillers[0], "QUIET_KILLER", "QUIET KILLER", timeRange));
   }
 
-  // 5. Watched & moving — repos in watchlistRepoIds with positive 7d delta.
   if (watchlistRepoIds.length > 0) {
     const watched = new Set(watchlistRepoIds);
     const watchedMoving = pool
-      .filter((r) => watched.has(r.id) && r.starsDelta7d > 0)
-      .sort((a, b) => b.starsDelta7d - a.starsDelta7d);
+      .filter((repo) => watched.has(repo.id) && deltaForRange(repo, timeRange) > 0)
+      .sort((a, b) => deltaForRange(b, timeRange) - deltaForRange(a, timeRange));
     if (watchedMoving[0]) {
-      push(buildCard(watchedMoving[0], "WATCHED_MOVING", "WATCHED & MOVING"));
+      push(
+        buildCard(
+          watchedMoving[0],
+          "WATCHED_MOVING",
+          "WATCHED & MOVING",
+          timeRange,
+        ),
+      );
     }
   }
 
-  // 6. Backfill with top movers by starsDelta24h (any positive), then
-  //    momentum desc, until we hit the limit or exhaust the pool.
-  for (const r of byDelta24h) {
+  for (const repo of byWindowDelta) {
     if (out.length >= limit) break;
-    push(buildCard(r, "NUMBER_ONE_TODAY", "TOP MOVER"));
+    push(buildCard(repo, "NUMBER_ONE_TODAY", "TOP MOVER", timeRange));
   }
+
   if (out.length < limit) {
     const byMomentum = [...pool].sort(
       (a, b) => b.momentumScore - a.momentumScore,
     );
-    for (const r of byMomentum) {
+    for (const repo of byMomentum) {
       if (out.length >= limit) break;
-      push(buildCard(r, "RANK_CLIMBER", "TRENDING"));
+      push(buildCard(repo, "RANK_CLIMBER", "TRENDING", timeRange));
     }
   }
 
@@ -186,7 +238,6 @@ export async function GET(
 ): Promise<NextResponse<FeaturedResponse | { error: string }>> {
   const { searchParams } = request.nextUrl;
 
-  // limit: default 8, clamped to [1, 20]. Reject non-numeric explicitly.
   const limitParam = searchParams.get("limit");
   let limit = 8;
   if (limitParam !== null) {
@@ -206,16 +257,14 @@ export async function GET(
     limit = parsed;
   }
 
-  // watched: comma-separated ids → array.
   const watchedParam = searchParams.get("watched");
   const watchlistRepoIds = watchedParam
     ? watchedParam
         .split(",")
-        .map((s) => s.trim())
-        .filter((s) => s.length > 0)
+        .map((value) => value.trim())
+        .filter(Boolean)
     : [];
 
-  // metaFilter: optional, must be from KNOWN_META_FILTERS.
   const metaFilterParam = searchParams.get("metaFilter");
   let metaFilter: MetaFilter | null = null;
   if (metaFilterParam !== null && metaFilterParam !== "") {
@@ -230,10 +279,33 @@ export async function GET(
     metaFilter = metaFilterParam as MetaFilter;
   }
 
+  const tabParam = searchParams.get("tab") ?? "trending";
+  if (!KNOWN_TABS.includes(tabParam as TerminalTab)) {
+    return NextResponse.json(
+      { error: `tab must be one of: ${KNOWN_TABS.join(", ")}` },
+      { status: 400 },
+    );
+  }
+  const activeTab = tabParam as TerminalTab;
+
+  const timeRangeParam = searchParams.get("timeRange") ?? "7d";
+  if (!KNOWN_TIME_RANGES.includes(timeRangeParam as TimeRange)) {
+    return NextResponse.json(
+      { error: `timeRange must be one of: ${KNOWN_TIME_RANGES.join(", ")}` },
+      { status: 400 },
+    );
+  }
+  const timeRange = timeRangeParam as TimeRange;
+
   try {
     const allRepos = getDerivedRepos();
-    const pool = applyMetaFilter(allRepos, metaFilter);
-    const cards = buildFeaturedCards(pool, watchlistRepoIds, limit);
+    const metaFiltered = applyMetaFilter(allRepos, metaFilter);
+    const pool = applyTerminalTabFilter(
+      metaFiltered,
+      activeTab,
+      watchlistRepoIds,
+    );
+    const cards = buildFeaturedCards(pool, watchlistRepoIds, limit, timeRange);
 
     return NextResponse.json(
       {

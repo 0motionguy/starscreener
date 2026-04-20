@@ -6,11 +6,11 @@
 
 import Link from "next/link";
 import type { Metadata } from "next";
-import { pipeline } from "@/lib/pipeline/pipeline";
 
 export const dynamic = "force-dynamic";
 import { CATEGORIES } from "@/lib/constants";
 import { getCategoryIcon } from "@/lib/category-icons";
+import { getDerivedCategoryStats } from "@/lib/derived-insights";
 import { MomentumBadge } from "@/components/shared/MomentumBadge";
 import { formatNumber } from "@/lib/utils";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
@@ -42,10 +42,8 @@ export const metadata: Metadata = {
 };
 
 export default async function CategoriesPage() {
-  // Hydrate persisted state (or fall back to mock seed) before the first read.
-  await pipeline.ensureReady();
   const stats = new Map(
-    pipeline.getCategoryStats().map((s) => [s.categoryId, s]),
+    getDerivedCategoryStats().map((s) => [s.categoryId, s]),
   );
 
   return (

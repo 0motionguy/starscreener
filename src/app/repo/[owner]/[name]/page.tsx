@@ -2,7 +2,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { Flame, TrendingUp, Zap } from "lucide-react";
-import { pipeline } from "@/lib/pipeline/pipeline";
 
 export const dynamic = "force-dynamic";
 import { getDefaultSocialAdapters } from "@/lib/pipeline/adapters/social-adapters";
@@ -10,8 +9,13 @@ import {
   NitterAdapter,
   TWITTER_AVAILABLE,
 } from "@/lib/pipeline/adapters/nitter-adapter";
-import type { SocialMention, WhyMoving } from "@/lib/types";
-import type { RepoMention, RepoReason } from "@/lib/pipeline/types";
+import {
+  buildDerivedWhyMoving,
+  getDerivedRelatedRepos,
+} from "@/lib/derived-insights";
+import { getDerivedRepoByFullName } from "@/lib/derived-repos";
+import type { SocialMention } from "@/lib/types";
+import type { RepoMention } from "@/lib/pipeline/types";
 import { formatNumber, getRelativeTime } from "@/lib/utils";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 import { RepoHeader } from "@/components/detail/RepoHeader";
@@ -27,28 +31,6 @@ interface PageProps {
   params: Promise<{ owner: string; name: string }>;
 }
 
-// ---------------------------------------------------------------------------
-// Adapter — pipeline RepoReason → UI WhyMoving shape
-// ---------------------------------------------------------------------------
-
-function reasonToWhyMoving(
-  repoId: string,
-  reason: RepoReason | null,
-): WhyMoving | null {
-  if (!reason) return null;
-  return {
-    repoId,
-    headline: reason.summary,
-    factors: reason.details.map((d) => ({
-      factor: d.code,
-      headline: d.headline,
-      detail: d.detail,
-      confidence: d.confidence,
-      timeframe: d.timeframe,
-    })),
-  };
-}
-
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
@@ -62,11 +44,10 @@ export async function generateMetadata({
     };
   }
 
-  await pipeline.ensureReady();
-  const summary = pipeline.getRepoSummary(`${owner}/${name}`);
+  const repo = getDerivedRepoByFullName(`${owner}/${name}`);
   const canonical = absoluteUrl(`/repo/${owner}/${name}`);
 
-  if (!summary) {
+  if (!repo) {
     return {
       title: `Repo Not Found — ${SITE_NAME}`,
       description: `We don't have ${owner}/${name} in the momentum terminal yet.`,
@@ -75,7 +56,6 @@ export async function generateMetadata({
     };
   }
 
-  const { repo } = summary;
   const deltaSign = repo.starsDelta24h >= 0 ? "+" : "";
   const title = `${repo.fullName} — ${SITE_NAME}`;
   const description =
@@ -122,14 +102,10 @@ export default async function RepoDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  await pipeline.ensureReady();
-  const summary = pipeline.getRepoSummary(`${owner}/${name}`);
-
-  if (!summary) {
+  const repo = getDerivedRepoByFullName(`${owner}/${name}`);
+  if (!repo) {
     notFound();
   }
-
-  const { repo, reasons } = summary;
 
   // Fetch mentions live from the social adapters. Each adapter swallows its
   // own errors and returns []; we wrap the whole fan-out in try/catch so a
@@ -168,9 +144,8 @@ export default async function RepoDetailPage({ params }: PageProps) {
     mentions = [];
   }
 
-  const whyMoving = reasonToWhyMoving(repo.id, reasons);
-
-  const related = pipeline.getRelatedRepos(repo.id, 6);
+  const whyMoving = buildDerivedWhyMoving(repo);
+  const related = getDerivedRelatedRepos(repo, 6);
 
   const lastRefresh = getRelativeTime(new Date().toISOString());
 

@@ -8,11 +8,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { pipeline } from "@/lib/pipeline/pipeline";
 
 export const dynamic = "force-dynamic";
 import { CATEGORIES } from "@/lib/constants";
 import { getCategoryIcon } from "@/lib/category-icons";
+import { getDerivedRepos } from "@/lib/derived-repos";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 import { TerminalLayout } from "@/components/terminal/TerminalLayout";
 
@@ -63,14 +63,11 @@ export async function generateMetadata({
 }
 
 export default async function CategoryDetailPage({ params }: PageProps) {
-  // Hydrate persisted state before reads.
-  await pipeline.ensureReady();
-
   const { slug } = await params;
   const category = CATEGORIES.find((c) => c.id === slug);
   if (!category) notFound();
 
-  const repos = pipeline.getReposByCategory(slug);
+  const repos = getDerivedRepos().filter((repo) => repo.categoryId === slug);
   const Icon = getCategoryIcon(category.icon);
 
   const heading = (

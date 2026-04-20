@@ -71,6 +71,8 @@ export function FeaturedCards({
       params.set("limit", String(limit));
       if (watchedKey) params.set("watched", watchedKey);
       if (activeMetaFilter) params.set("metaFilter", activeMetaFilter);
+      params.set("tab", activeTab);
+      params.set("timeRange", timeRange);
       fetch(`/api/pipeline/featured?${params.toString()}`, {
         signal: controller.signal,
       })
@@ -116,6 +118,8 @@ export function FeaturedCards({
       params.set("limit", String(limit));
       if (watchedKey) params.set("watched", watchedKey);
       if (activeMetaFilter) params.set("metaFilter", activeMetaFilter);
+      params.set("tab", activeTab);
+      params.set("timeRange", timeRange);
       const res = await fetch(
         `/api/pipeline/featured?${params.toString()}`,
       );

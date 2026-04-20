@@ -7,6 +7,7 @@ import {
   getDerivedRepos,
 } from "../../derived-repos";
 import {
+  getDeltas,
   getTopMoversByDelta24h,
   getTrending,
   type TrendingLanguage,
@@ -39,6 +40,27 @@ test("derived repos project OSS Insight 24h stars into starsDelta24h", () => {
   assert.ok(expected24h > 0, "fixture should include positive 24h stars");
   assert.equal(repo.starsDelta24h, expected24h);
   assert.equal(repo.starsDelta24hMissing, false);
+
+  const deltas = getDeltas();
+  const repoDelta = deltas.repos[sourceRow.repo_id];
+  assert.ok(repoDelta, "expected repo in deltas.json");
+  assert.equal(repo.stars, repoDelta.stars_now);
+});
+
+test("derived repos expose a 30-point sparkline ending at current stars", () => {
+  __resetDerivedReposCache();
+
+  const sourceRow = getTrending("past_24_hours", "All")[0];
+  assert.ok(sourceRow, "expected committed OSS Insight 24h data");
+
+  const repo = getDerivedRepoByFullName(sourceRow.repo_name);
+  assert.ok(repo, `expected derived repo for ${sourceRow.repo_name}`);
+  assert.equal(repo.sparklineData.length, 30);
+  assert.equal(repo.sparklineData[repo.sparklineData.length - 1], repo.stars);
+  assert.ok(
+    repo.sparklineData.some((value) => value > 0),
+    "expected sparkline data to include non-zero values",
+  );
 });
 
 test("top movers use OSS Insight 24h activity instead of cold-start deltas", () => {

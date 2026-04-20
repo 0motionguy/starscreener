@@ -6,7 +6,7 @@
  * two mounts is the mobile-only header strip (logo + close button) which
  * appears when `onClose` is provided by the drawer.
  */
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   Bell,
   Eye,
@@ -57,13 +57,30 @@ export function SidebarContent({
   unreadAlerts = 0,
   onClose,
 }: SidebarContentProps) {
+  const router = useRouter();
   const pathname = usePathname() ?? "/";
   const activeCategory = useFilterStore((s) => s.category);
+  const activeMetaFilter = useFilterStore((s) => s.activeMetaFilter);
+  const setActiveMetaFilter = useFilterStore((s) => s.setActiveMetaFilter);
+  const setActiveTab = useFilterStore((s) => s.setActiveTab);
 
   const watchCount = useWatchlistStore((s) => s.repos.length);
   const compareCount = useCompareStore((s) => s.repos.length);
 
   const statsByCategory = byCategoryId(categoryStats);
+
+  function goToTerminal(filter: "breakouts" | "new" | "quiet-killers" | "hot" | null) {
+    if (filter) {
+      setActiveMetaFilter(filter);
+    } else {
+      setActiveMetaFilter(null);
+      setActiveTab("trending");
+    }
+    if (pathname !== "/") {
+      router.push("/");
+    }
+    onClose?.();
+  }
 
   return (
     <div className="flex flex-col h-full">
@@ -87,34 +104,38 @@ export function SidebarContent({
         {/* TERMINAL ---------------------------------------------------- */}
         <SidebarSection id="terminal" label="Terminal">
           <SidebarNavItem
-            href="/"
+            onClick={() => goToTerminal(null)}
             icon={TrendingUp}
             label="Trending"
-            active={pathname === "/"}
+            active={pathname === "/" && activeMetaFilter === null}
           />
           <SidebarNavItem
-            href="/?filter=breakouts"
+            onClick={() => goToTerminal("breakouts")}
             icon={Rocket}
             label="Breakouts"
             badge={metaCounts.breakouts}
+            active={pathname === "/" && activeMetaFilter === "breakouts"}
           />
           <SidebarNavItem
-            href="/?filter=new"
+            onClick={() => goToTerminal("new")}
             icon={Sparkles}
             label="New Repos"
             badge={metaCounts.new}
+            active={pathname === "/" && activeMetaFilter === "new"}
           />
           <SidebarNavItem
-            href="/?filter=quiet-killers"
+            onClick={() => goToTerminal("quiet-killers")}
             icon={Gem}
             label="Quiet Killers"
             badge={metaCounts.quietKillers}
+            active={pathname === "/" && activeMetaFilter === "quiet-killers"}
           />
           <SidebarNavItem
-            href="/?filter=hot"
+            onClick={() => goToTerminal("hot")}
             icon={Flame}
             label="Hot This Week"
             badge={metaCounts.hot}
+            active={pathname === "/" && activeMetaFilter === "hot"}
           />
         </SidebarSection>
 

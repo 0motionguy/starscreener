@@ -17,7 +17,13 @@
 //           `unreadAlerts` count for that user.
 
 import { NextRequest, NextResponse } from "next/server";
-import { pipeline, repoStore } from "@/lib/pipeline/pipeline";
+import { pipeline } from "@/lib/pipeline/pipeline";
+import {
+  getDerivedAvailableLanguages,
+  getDerivedCategoryStats,
+  getDerivedMetaCounts,
+} from "@/lib/derived-insights";
+import { getDerivedRepos } from "@/lib/derived-repos";
 import type { MetaCounts } from "@/lib/types";
 import type { CategoryStats } from "@/lib/pipeline/queries/aggregate";
 
@@ -42,20 +48,14 @@ export async function GET(
   request: NextRequest,
 ): Promise<NextResponse<SidebarDataResponse | { error: string }>> {
   try {
-    // Hydrate persisted state (or fall back to mock seed) before any reads —
-    // matches every other API route that goes through the facade.
-    await pipeline.ensureReady();
-
-    const categoryStats = pipeline.getCategoryStats();
-    const metaCounts = pipeline.getMetaCounts();
-
-    const repos = repoStore.getAll();
+    const repos = getDerivedRepos();
+    const categoryStats = getDerivedCategoryStats(repos);
+    const metaCounts = getDerivedMetaCounts(repos);
 
     // Build a compact repo map keyed by id. Only the fields the sidebar
     // actually renders travel over the wire so the payload stays small
     // even with 80+ repos.
     const reposById: Record<string, SidebarDataRepo> = {};
-    const languages = new Set<string>();
     for (const r of repos) {
       reposById[r.id] = {
         id: r.id,
@@ -64,18 +64,14 @@ export async function GET(
         sparklineData: r.sparklineData,
         starsDelta24h: r.starsDelta24h,
       };
-      if (r.language && r.language.trim()) {
-        languages.add(r.language);
-      }
     }
-    const availableLanguages = Array.from(languages).sort((a, b) =>
-      a.localeCompare(b),
-    );
+    const availableLanguages = getDerivedAvailableLanguages(repos);
 
     // Unread alerts — optional, keyed by userId. Default to 0 when absent.
     const userId = request.nextUrl.searchParams.get("userId") ?? undefined;
     let unreadAlerts = 0;
     try {
+      await pipeline.ensureReady();
       const events = pipeline.getAlerts(userId);
       unreadAlerts = events.filter((e) => e.readAt === null).length;
     } catch {

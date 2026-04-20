@@ -5,7 +5,7 @@
 // repo in a single pass.
 
 import { NextResponse } from "next/server";
-import { pipeline } from "@/lib/pipeline/pipeline";
+import { getDerivedMetaCounts } from "@/lib/derived-insights";
 import type { MetaCounts } from "@/lib/types";
 
 export interface MetaCountsResponse {
@@ -16,8 +16,7 @@ export async function GET(): Promise<
   NextResponse<MetaCountsResponse | { error: string }>
 > {
   try {
-    await pipeline.ensureReady();
-    const counts = pipeline.getMetaCounts();
+    const counts = getDerivedMetaCounts();
     return NextResponse.json(
       { counts },
       { headers: { "Content-Type": "application/json; charset=utf-8" } },

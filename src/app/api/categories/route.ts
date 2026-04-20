@@ -1,14 +1,11 @@
 import { NextResponse } from "next/server";
-import { pipeline } from "@/lib/pipeline/pipeline";
 import { CATEGORIES } from "@/lib/constants";
+import { getDerivedCategoryStats } from "@/lib/derived-insights";
 import type { Category } from "@/lib/types";
 import { READ_CACHE_HEADERS } from "@/lib/api/cache";
 
 export async function GET() {
-  await pipeline.ensureReady();
-  // Pull live per-category rollups from the pipeline (repoCount, avgMomentum,
-  // topMoverId) and merge with the static name/icon/color/description metadata.
-  const stats = pipeline.getCategoryStats();
+  const stats = getDerivedCategoryStats();
   const statsById = new Map(stats.map((s) => [s.categoryId, s]));
 
   const categories: Category[] = CATEGORIES.map((cat) => {

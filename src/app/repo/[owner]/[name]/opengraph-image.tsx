@@ -12,8 +12,8 @@
 //   - STARSCREENER wordmark bottom-left, URL bottom-right
 
 import { ImageResponse } from "next/og";
-import { pipeline } from "@/lib/pipeline/pipeline";
 import { CATEGORIES } from "@/lib/constants";
+import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import { OG_COLORS } from "@/lib/seo";
 import { StarMark } from "@/lib/og-primitives";
 
@@ -35,10 +35,9 @@ export default async function RepoOGImage({ params }: RouteParams) {
   const validSlug =
     SLUG_PART_PATTERN.test(owner) && SLUG_PART_PATTERN.test(name);
 
-  await pipeline.ensureReady();
-  const summary = validSlug ? pipeline.getRepoSummary(`${owner}/${name}`) : null;
+  const repo = validSlug ? getDerivedRepoByFullName(`${owner}/${name}`) : null;
 
-  if (!summary) {
+  if (!repo) {
     return new ImageResponse(
       (
         <div
@@ -94,7 +93,6 @@ export default async function RepoOGImage({ params }: RouteParams) {
     );
   }
 
-  const { repo } = summary;
   const category = CATEGORIES.find((c) => c.id === repo.categoryId);
   const deltaPositive = repo.starsDelta24h >= 0;
   const deltaColor = deltaPositive ? OG_COLORS.up : OG_COLORS.down;

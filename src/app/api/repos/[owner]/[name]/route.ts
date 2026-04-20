@@ -1,38 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
-import { pipeline } from "@/lib/pipeline/pipeline";
 import { getDefaultSocialAdapters } from "@/lib/pipeline/adapters/social-adapters";
 import {
   NitterAdapter,
   TWITTER_AVAILABLE,
 } from "@/lib/pipeline/adapters/nitter-adapter";
-import type { SocialMention, WhyMoving } from "@/lib/types";
-import type { RepoMention, RepoReason } from "@/lib/pipeline/types";
+import {
+  buildDerivedWhyMoving,
+  getDerivedRelatedRepos,
+} from "@/lib/derived-insights";
+import { getDerivedRepoByFullName } from "@/lib/derived-repos";
+import type { SocialMention } from "@/lib/types";
+import type { RepoMention } from "@/lib/pipeline/types";
 import { READ_CACHE_HEADERS } from "@/lib/api/cache";
 
 const SLUG_PART_PATTERN = /^[A-Za-z0-9._-]+$/;
-
-/**
- * Adapt the pipeline's RepoReason shape to the UI's legacy WhyMoving shape.
- * The UI component expects `{ repoId, headline, factors: [...] }` — map
- * RepoReason.details onto that. Returns null when no reason bundle exists.
- */
-function reasonToWhyMoving(
-  repoId: string,
-  reason: RepoReason | null,
-): WhyMoving | null {
-  if (!reason) return null;
-  return {
-    repoId,
-    headline: reason.summary,
-    factors: reason.details.map((d) => ({
-      factor: d.code,
-      headline: d.headline,
-      detail: d.detail,
-      confidence: d.confidence,
-      timeframe: d.timeframe,
-    })),
-  };
-}
 
 /**
  * Narrow the pipeline's RepoMention shape down to the UI's SocialMention
@@ -64,15 +45,10 @@ export async function GET(
     return NextResponse.json({ error: "Invalid repo slug" }, { status: 400 });
   }
 
-  await pipeline.ensureReady();
-
-  const summary = pipeline.getRepoSummary(`${owner}/${name}`);
-
-  if (!summary) {
+  const repo = getDerivedRepoByFullName(`${owner}/${name}`);
+  if (!repo) {
     return NextResponse.json({ error: "Repo not found" }, { status: 404 });
   }
-
-  const { repo, score, category, reasons, social } = summary;
 
   // Fan out to the live social adapters. Each adapter swallows its own
   // errors and returns []; the Promise.all wrapper is additionally guarded
@@ -97,17 +73,16 @@ export async function GET(
     mentions = [];
   }
 
-  const whyMoving = reasonToWhyMoving(repo.id, reasons);
-
-  const relatedRepos = pipeline.getRelatedRepos(repo.id, 6);
+  const whyMoving = buildDerivedWhyMoving(repo);
+  const relatedRepos = getDerivedRelatedRepos(repo, 6);
 
   return NextResponse.json(
     {
       repo,
-      score,
-      category,
-      reasons,
-      social,
+      score: null,
+      category: null,
+      reasons: null,
+      social: [],
       mentions,
       whyMoving,
       relatedRepos,

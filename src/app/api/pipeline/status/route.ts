@@ -6,6 +6,7 @@
 import { NextResponse } from "next/server";
 import { pipeline, repoStore, scoreStore, snapshotStore } from "@/lib/pipeline/pipeline";
 import { createGitHubAdapter } from "@/lib/pipeline/ingestion/ingest";
+import { getDerivedMetaCounts } from "@/lib/derived-insights";
 import {
   lastFetchedAt,
   deltasComputedAt,
@@ -132,8 +133,8 @@ export async function GET(): Promise<NextResponse<PipelineStatusResponse | { err
       stats: {
         totalRepos: getTrackedRepoCount(),
         totalStars: getTotalStars(),
-        hotCount: null,
-        breakoutCount: null,
+        hotCount: getDerivedMetaCounts().hot,
+        breakoutCount: getDerivedMetaCounts().breakouts,
         lastRefreshAt: lastFetchedAt ?? null,
       },
     };

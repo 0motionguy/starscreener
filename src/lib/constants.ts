@@ -8,20 +8,20 @@ import type { Category, SortBy, TimeRange } from "./types";
 
 export const CATEGORIES: Omit<Category, "repoCount" | "avgMomentum" | "topMoverId">[] = [
   {
-    id: "ai-ml",
-    name: "AI & Machine Learning",
-    shortName: "AI/ML",
-    description: "Large language models, inference engines, training frameworks, and AI tooling",
+    id: "ai-agents",
+    name: "AI Agents",
+    shortName: "Agents",
+    description: "Agent frameworks, copilots, autonomous workflows, and multi-agent systems",
     icon: "Brain",
-    color: "#8B5CF6", // violet
+    color: "#F59E0B",
   },
   {
-    id: "web-frameworks",
-    name: "Web Frameworks",
-    shortName: "Web",
-    description: "Frontend and full-stack frameworks powering the modern web",
-    icon: "Globe",
-    color: "#3B82F6", // blue
+    id: "mcp",
+    name: "Model Context Protocol",
+    shortName: "MCP",
+    description: "Protocol servers, connectors, registries, and tooling around MCP ecosystems",
+    icon: "Server",
+    color: "#14B8A6",
   },
   {
     id: "devtools",
@@ -29,23 +29,23 @@ export const CATEGORIES: Omit<Category, "repoCount" | "avgMomentum" | "topMoverI
     shortName: "DevTools",
     description: "Build tools, linters, formatters, editors, and DX utilities",
     icon: "Wrench",
-    color: "#F59E0B", // amber
+    color: "#FB923C",
   },
   {
-    id: "infrastructure",
-    name: "Infrastructure",
-    shortName: "Infra",
-    description: "Cloud platforms, orchestration, containers, and deployment tools",
-    icon: "Server",
-    color: "#10B981", // emerald
+    id: "browser-automation",
+    name: "Browser Automation",
+    shortName: "Browser",
+    description: "Browser-use stacks, automation agents, web operators, and testing runtimes",
+    icon: "Globe",
+    color: "#0EA5E9",
   },
   {
-    id: "databases",
-    name: "Databases",
-    shortName: "DBs",
-    description: "SQL, NoSQL, vector, time-series, and analytical databases",
-    icon: "Database",
-    color: "#06B6D4", // cyan
+    id: "local-llm",
+    name: "Local LLM",
+    shortName: "Local LLM",
+    description: "On-device inference engines, local model runtimes, and self-hosted LLM stacks",
+    icon: "Cog",
+    color: "#6366F1",
   },
   {
     id: "security",
@@ -53,7 +53,47 @@ export const CATEGORIES: Omit<Category, "repoCount" | "avgMomentum" | "topMoverI
     shortName: "Security",
     description: "Vulnerability scanning, secrets detection, and security automation",
     icon: "Shield",
-    color: "#EF4444", // red
+    color: "#EF4444",
+  },
+  {
+    id: "infrastructure",
+    name: "Infrastructure",
+    shortName: "Infra",
+    description: "Cloud platforms, orchestration, containers, and deployment tools",
+    icon: "Server",
+    color: "#10B981",
+  },
+  {
+    id: "design-engineering",
+    name: "Design Engineering",
+    shortName: "Design",
+    description: "Design-to-code systems, UI generation, design tooling, and frontend engineering kits",
+    icon: "BarChart3",
+    color: "#EC4899",
+  },
+  {
+    id: "ai-ml",
+    name: "AI & Machine Learning",
+    shortName: "AI/ML",
+    description: "Large language models, inference engines, training frameworks, and AI tooling",
+    icon: "Brain",
+    color: "#8B5CF6",
+  },
+  {
+    id: "web-frameworks",
+    name: "Web Frameworks",
+    shortName: "Web",
+    description: "Frontend and full-stack frameworks powering the modern web",
+    icon: "Globe",
+    color: "#3B82F6",
+  },
+  {
+    id: "databases",
+    name: "Databases",
+    shortName: "DBs",
+    description: "SQL, NoSQL, vector, time-series, and analytical databases",
+    icon: "Database",
+    color: "#06B6D4",
   },
   {
     id: "mobile",
@@ -61,7 +101,7 @@ export const CATEGORIES: Omit<Category, "repoCount" | "avgMomentum" | "topMoverI
     shortName: "Mobile",
     description: "Cross-platform frameworks, native tooling, and desktop apps",
     icon: "Smartphone",
-    color: "#EC4899", // pink
+    color: "#F43F5E",
   },
   {
     id: "data-analytics",
@@ -69,7 +109,7 @@ export const CATEGORIES: Omit<Category, "repoCount" | "avgMomentum" | "topMoverI
     shortName: "Data",
     description: "BI tools, data pipelines, visualization, and analytics engines",
     icon: "BarChart3",
-    color: "#F97316", // orange
+    color: "#F97316",
   },
   {
     id: "crypto-web3",
@@ -77,7 +117,7 @@ export const CATEGORIES: Omit<Category, "repoCount" | "avgMomentum" | "topMoverI
     shortName: "Web3",
     description: "Blockchain clients, smart contract tooling, and DeFi infrastructure",
     icon: "Coins",
-    color: "#14B8A6", // teal
+    color: "#14B8A6",
   },
   {
     id: "rust-ecosystem",
@@ -85,7 +125,7 @@ export const CATEGORIES: Omit<Category, "repoCount" | "avgMomentum" | "topMoverI
     shortName: "Rust",
     description: "Rust-native libraries, frameworks, and tools built for performance",
     icon: "Cog",
-    color: "#D97706", // dark amber / rust
+    color: "#D97706",
   },
 ];
 

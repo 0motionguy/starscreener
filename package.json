@@ -8,7 +8,7 @@
   "scripts": {
     "cli:dev": "node bin/ss.mjs",
     "dev": "next dev --turbopack -p 3023",
-    "build": "next build --turbopack",
+    "build": "next build",
     "start": "next start -p 3023",
     "lint": "eslint",
     "test": "tsx --test src/lib/pipeline/__tests__/*.test.ts src/tools/__tests__/*.test.ts src/portal/__tests__/*.test.ts",

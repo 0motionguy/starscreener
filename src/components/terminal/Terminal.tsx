@@ -29,6 +29,7 @@ import { TerminalMobileCard } from "./TerminalMobileCard";
 import { TerminalRow } from "./TerminalRow";
 
 import type { ColumnId, Repo, SortDirection } from "@/lib/types";
+import { getEffectiveSortColumn } from "@/lib/filters";
 import { cn } from "@/lib/utils";
 import {
   useCompareStore,
@@ -95,6 +96,8 @@ export function Terminal({
   const storedVisible = useFilterStore((s) => s.visibleColumns);
   const sortColumn = useFilterStore((s) => s.sortColumn);
   const sortDirection = useFilterStore((s) => s.sortDirection);
+  const activeTab = useFilterStore((s) => s.activeTab);
+  const timeRange = useFilterStore((s) => s.timeRange);
   const setSort = useFilterStore((s) => s.setSort);
 
   // Watch/compare actions for keyboard shortcuts
@@ -107,7 +110,11 @@ export function Terminal({
   const isMobile = windowWidth < 768;
 
   // Track: effective sort state tri-state (column + direction) for header UI.
-  const effectiveSortColumn: ColumnId | null = sortColumn;
+  const effectiveSortColumn: ColumnId | null = getEffectiveSortColumn(
+    sortColumn,
+    activeTab,
+    timeRange,
+  );
   const effectiveSortDirection: SortDirection | null = sortDirection;
 
   // Breakpoint-aware column visibility

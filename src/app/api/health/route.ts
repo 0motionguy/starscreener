@@ -20,6 +20,12 @@ import {
   deltasCoverageQuality,
   type DeltaCoverageQuality,
 } from "@/lib/trending";
+import { hotCollectionsFetchedAt } from "@/lib/hot-collections";
+import {
+  collectionRankingsFetchedAt,
+  getCollectionRankingsCoverage,
+  type CollectionRankingsCoverage,
+} from "@/lib/collection-rankings";
 
 // 2 hours ≈ 2× hourly GHA cadence. Stale past this means at least one tick
 // has missed; operator should be paged.
@@ -35,12 +41,25 @@ interface HealthBody {
   status: HealthStatus;
   lastFetchedAt: string | null;
   computedAt: string | null;
-  ageSeconds: { scraper: number | null; deltas: number | null };
+  hotCollectionsFetchedAt: string | null;
+  collectionRankingsFetchedAt: string | null;
+  ageSeconds: {
+    scraper: number | null;
+    deltas: number | null;
+    hotCollections: number | null;
+    collectionRankings: number | null;
+  };
   thresholdSeconds: number;
-  stale: { scraper: boolean; deltas: boolean };
+  stale: {
+    scraper: boolean;
+    deltas: boolean;
+    hotCollections: boolean;
+    collectionRankings: boolean;
+  };
   coveragePct: number;
   /** 'full' = real deltas, 'partial' = cold-start, 'cold' = no data yet. */
   coverageQuality: DeltaCoverageQuality;
+  collectionCoverage: CollectionRankingsCoverage;
   warning?: string;
   error?: string;
 }
@@ -56,27 +75,47 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
   try {
     const scraperAge = ageMs(lastFetchedAt);
     const deltasAge = ageMs(deltasComputedAt);
+    const hotCollectionsAge = ageMs(hotCollectionsFetchedAt);
+    const collectionRankingsAge = ageMs(collectionRankingsFetchedAt);
 
     const scraperStale = scraperAge === null || scraperAge > STALE_THRESHOLD_MS;
     const deltasStale = deltasAge === null || deltasAge > STALE_THRESHOLD_MS;
-    const anyStale = scraperStale || deltasStale;
+    const hotCollectionsStale =
+      hotCollectionsAge === null || hotCollectionsAge > STALE_THRESHOLD_MS;
+    const collectionRankingsStale =
+      collectionRankingsAge === null || collectionRankingsAge > STALE_THRESHOLD_MS;
+    const anyStale =
+      scraperStale || deltasStale || hotCollectionsStale || collectionRankingsStale;
 
     const coverage = deltasCoveragePct();
     const coverageLow = coverage < COVERAGE_WARN_PCT;
     const quality = deltasCoverageQuality();
+    const collectionCoverage = getCollectionRankingsCoverage();
 
     const body: HealthBody = {
       status: anyStale ? "stale" : "ok",
       lastFetchedAt: lastFetchedAt ?? null,
       computedAt: deltasComputedAt ?? null,
+      hotCollectionsFetchedAt: hotCollectionsFetchedAt ?? null,
+      collectionRankingsFetchedAt,
       ageSeconds: {
         scraper: scraperAge === null ? null : Math.floor(scraperAge / 1000),
         deltas: deltasAge === null ? null : Math.floor(deltasAge / 1000),
+        hotCollections:
+          hotCollectionsAge === null ? null : Math.floor(hotCollectionsAge / 1000),
+        collectionRankings:
+          collectionRankingsAge === null ? null : Math.floor(collectionRankingsAge / 1000),
       },
       thresholdSeconds: STALE_THRESHOLD_MS / 1000,
-      stale: { scraper: scraperStale, deltas: deltasStale },
+      stale: {
+        scraper: scraperStale,
+        deltas: deltasStale,
+        hotCollections: hotCollectionsStale,
+        collectionRankings: collectionRankingsStale,
+      },
       coveragePct: Math.round(coverage * 10) / 10,
       coverageQuality: quality,
+      collectionCoverage,
     };
 
     if (!anyStale && quality === "partial") {
@@ -93,11 +132,29 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
         status: "error",
         lastFetchedAt: lastFetchedAt ?? null,
         computedAt: deltasComputedAt ?? null,
-        ageSeconds: { scraper: null, deltas: null },
+        hotCollectionsFetchedAt: hotCollectionsFetchedAt ?? null,
+        collectionRankingsFetchedAt,
+        ageSeconds: {
+          scraper: null,
+          deltas: null,
+          hotCollections: null,
+          collectionRankings: null,
+        },
         thresholdSeconds: STALE_THRESHOLD_MS / 1000,
-        stale: { scraper: true, deltas: true },
+        stale: {
+          scraper: true,
+          deltas: true,
+          hotCollections: true,
+          collectionRankings: true,
+        },
         coveragePct: 0,
         coverageQuality: "cold" as DeltaCoverageQuality,
+        collectionCoverage: {
+          totalCollections: 0,
+          withStars: 0,
+          withIssues: 0,
+          withAnyRanking: 0,
+        },
         error: message,
       },
       { status: 503 },

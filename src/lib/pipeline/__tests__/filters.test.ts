@@ -8,8 +8,11 @@ import { test } from "node:test";
 
 import {
   applyMetaFilter,
+  applyTerminalTabFilter,
   extractLanguages,
+  getEffectiveSortColumn,
   repoInStarsRange,
+  sortReposForTerminal,
   sortReposByColumn,
 } from "../../filters";
 import type { Repo } from "../../types";
@@ -191,6 +194,108 @@ test("sortReposByColumn by repo (string column) sorts alphabetically", () => {
     desc.map((r) => r.fullName),
     ["zed/z", "mango/m", "alpha/a"],
   );
+});
+
+test("applyTerminalTabFilter('new') keeps only repos created recently", () => {
+  const repos = [
+    makeRepo({ fullName: "a/new", createdAt: iso(3) }),
+    makeRepo({ fullName: "b/old", createdAt: iso(45) }),
+    makeRepo({ fullName: "c/fresh", createdAt: iso(29) }),
+  ];
+
+  const out = applyTerminalTabFilter(repos, "new", [], now);
+  assert.deepEqual(
+    out.map((repo) => repo.fullName).sort(),
+    ["a/new", "c/fresh"],
+  );
+});
+
+test("applyTerminalTabFilter('watchlisted') keeps only watched repos", () => {
+  const repos = [
+    makeRepo({ fullName: "a/one", id: "a--one" }),
+    makeRepo({ fullName: "b/two", id: "b--two" }),
+    makeRepo({ fullName: "c/three", id: "c--three" }),
+  ];
+
+  const out = applyTerminalTabFilter(repos, "watchlisted", [
+    "b--two",
+    "c--three",
+  ]);
+  assert.deepEqual(
+    out.map((repo) => repo.id).sort(),
+    ["b--two", "c--three"],
+  );
+});
+
+test("getEffectiveSortColumn maps gainers sort to the selected time range", () => {
+  assert.equal(getEffectiveSortColumn("delta24h", "gainers", "24h"), "delta24h");
+  assert.equal(getEffectiveSortColumn("delta24h", "gainers", "7d"), "delta7d");
+  assert.equal(
+    getEffectiveSortColumn("delta24h", "gainers", "30d"),
+    "delta30d",
+  );
+  assert.equal(
+    getEffectiveSortColumn("momentum", "trending", "30d"),
+    "momentum",
+  );
+});
+
+test("sortReposForTerminal uses time range when gainers tab is active", () => {
+  const repos = [
+    makeRepo({
+      fullName: "a/steady",
+      stars: 1000,
+      starsDelta24h: 10,
+      starsDelta7d: 80,
+      starsDelta30d: 100,
+    }),
+    makeRepo({
+      fullName: "b/spiky",
+      stars: 1000,
+      starsDelta24h: 30,
+      starsDelta7d: 40,
+      starsDelta30d: 50,
+    }),
+  ];
+
+  const daily = sortReposForTerminal(repos, {
+    sortColumn: "delta24h",
+    sortDirection: "desc",
+    activeTab: "gainers",
+    timeRange: "24h",
+  });
+  assert.equal(daily[0].fullName, "b/spiky");
+
+  const weekly = sortReposForTerminal(repos, {
+    sortColumn: "delta24h",
+    sortDirection: "desc",
+    activeTab: "gainers",
+    timeRange: "7d",
+  });
+  assert.equal(weekly[0].fullName, "a/steady");
+});
+
+test("sortReposForTerminal sorts new tab by createdAt when using the default preset", () => {
+  const repos = [
+    makeRepo({
+      fullName: "a/older-created",
+      createdAt: iso(10),
+      lastCommitAt: iso(0),
+    }),
+    makeRepo({
+      fullName: "b/newer-created",
+      createdAt: iso(2),
+      lastCommitAt: iso(4),
+    }),
+  ];
+
+  const out = sortReposForTerminal(repos, {
+    sortColumn: "lastCommit",
+    sortDirection: "desc",
+    activeTab: "new",
+    timeRange: "7d",
+  });
+  assert.equal(out[0].fullName, "b/newer-created");
 });
 
 // ---------------------------------------------------------------------------

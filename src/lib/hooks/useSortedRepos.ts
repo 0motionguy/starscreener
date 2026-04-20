@@ -8,16 +8,24 @@
 
 import { useMemo } from "react";
 
-import { sortReposByColumn } from "../filters";
+import { sortReposForTerminal } from "../filters";
 import { useFilterStore } from "../store";
 import type { Repo } from "../types";
 
 export function useSortedRepos(repos: Repo[]): Repo[] {
   const sortColumn = useFilterStore((s) => s.sortColumn);
   const sortDirection = useFilterStore((s) => s.sortDirection);
+  const activeTab = useFilterStore((s) => s.activeTab);
+  const timeRange = useFilterStore((s) => s.timeRange);
 
   return useMemo(
-    () => sortReposByColumn(repos, sortColumn, sortDirection),
-    [repos, sortColumn, sortDirection],
+    () =>
+      sortReposForTerminal(repos, {
+        sortColumn,
+        sortDirection,
+        activeTab,
+        timeRange,
+      }),
+    [repos, sortColumn, sortDirection, activeTab, timeRange],
   );
 }

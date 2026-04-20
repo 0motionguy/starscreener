@@ -109,8 +109,8 @@ export function BubbleMap({ repos, limit = 220 }: BubbleMapProps) {
       height: MAP_HEIGHT,
       minRadius: MIN_RADIUS,
       maxRadius: MAX_RADIUS,
-      padding: 1.5,
-      fillRatio: 0.88,
+      padding: 1,
+      fillRatio: 0.92,
     },
   );
 

@@ -84,11 +84,11 @@ export function packBubbles(
     const diag = Math.sqrt(
       (width / 2) * (width / 2) + (height / 2) * (height / 2),
     );
-    const MAX_ITER = 12000;
-    const step = 0.38;
+    const MAX_ITER = 24000;
+    const step = 0.41;
     // Distance at iter i will be radialStep * sqrt(i) * 0.7, so we need
     // radialStep * sqrt(MAX_ITER) * 0.7 >= diag to cover the canvas.
-    const radialStep = Math.max(4, (diag * 1.15) / (Math.sqrt(MAX_ITER) * 0.7));
+    const radialStep = Math.max(3, (diag * 1.25) / (Math.sqrt(MAX_ITER) * 0.7));
     let found = false;
 
     for (let i = 1; i < MAX_ITER && !found; i++) {

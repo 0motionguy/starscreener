@@ -8,6 +8,7 @@ import {
   type MindshareRepo,
   type TreemapRect,
 } from "@/lib/mindshare-map";
+import { getHotAiCollections } from "@/lib/hot-collections";
 import type { Repo } from "@/lib/types";
 import { cn, formatNumber } from "@/lib/utils";
 
@@ -197,6 +198,7 @@ function GroupTile({ rect }: { rect: TreemapRect<WeightedGroup> }) {
 }
 
 export function MindshareMap({ repos }: MindshareMapProps) {
+  const hotCollections = getHotAiCollections().slice(0, 6);
   const groups = buildMindshareGroups(repos, {
     includeCategoryFallback: false,
     maxGroups: 16,
@@ -236,6 +238,26 @@ export function MindshareMap({ repos }: MindshareMapProps) {
           </span>
         </div>
       </div>
+
+      {hotCollections.length > 0 ? (
+        <div className="mb-3 flex flex-wrap items-center gap-2">
+          <span className="font-mono text-[10px] font-semibold uppercase text-text-tertiary">
+            Upstream hot collections
+          </span>
+          {hotCollections.map((collection) => (
+            <Link
+              key={collection.id}
+              href={collection.slug ? `/collections/${collection.slug}` : "/collections"}
+              className="inline-flex items-center gap-2 rounded-sm border border-border-primary bg-bg-secondary px-2 py-1 font-mono text-[11px] text-text-secondary transition-colors hover:border-brand hover:text-text-primary"
+            >
+              <span>{collection.name}</span>
+              <span className="text-text-tertiary">
+                {collection.repos ?? collection.topRepos.length} repos
+              </span>
+            </Link>
+          ))}
+        </div>
+      ) : null}
 
       <div className="relative h-[320px] overflow-hidden rounded-card border border-border-primary bg-bg-inset shadow-card md:h-[380px]">
         {groupRects.map((groupRect) => (

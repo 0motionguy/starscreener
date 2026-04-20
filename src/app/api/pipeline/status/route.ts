@@ -1,24 +1,7 @@
 // GET /api/pipeline/status
 //
-// Telemetry + freshness gate for the pipeline. Reports data-volume counts
-// on top of the same two freshness signals /api/health enforces.
-//
-// Phase 3: dropped `lastRefreshAt` / `getGlobalStats().lastRefreshAt` as
-// freshness sources — they rode the ephemeral Vercel /tmp snapshot store
-// and always looked stale on prod. Both gates now read committed JSON:
-// trending.json (scraper) and deltas.json (delta computation).
-//
-// `stats.lastRefreshAt` is kept in the response shape for backwards
-// compatibility with FilterBar → StatsBarClient, but now points at the
-// scrape timestamp — semantically "last time data was refreshed", which
-// matches what the UI label claims to show.
-//
-// P2 (2026-04-20): `stats.totalRepos` and `stats.totalStars` likewise
-// rerouted to derive from committed JSON (previously read from
-// `pipeline.getGlobalStats()`, which returned zeros on cold Vercel
-// Lambdas). `stats.hotCount` / `stats.breakoutCount` are returned as
-// null until the classifier signal is verified end-to-end (P3,
-// post-2026-04-22T02:27Z) — UI renders em-dash for nulls.
+// Telemetry + freshness gate for the pipeline. Reports data-volume counts on
+// top of the same committed JSON freshness signals /api/health enforces.
 
 import { NextResponse } from "next/server";
 import { pipeline, repoStore, scoreStore, snapshotStore } from "@/lib/pipeline/pipeline";
@@ -30,6 +13,12 @@ import {
   getTrackedRepoCount,
   getTotalStars,
 } from "@/lib/trending";
+import { hotCollectionsFetchedAt } from "@/lib/hot-collections";
+import {
+  collectionRankingsFetchedAt,
+  getCollectionRankingsCoverage,
+  type CollectionRankingsCoverage,
+} from "@/lib/collection-rankings";
 
 // Must stay in lockstep with src/app/api/health/route.ts STALE_THRESHOLD_MS.
 const STALE_THRESHOLD_MS = 2 * 60 * 60 * 1000;
@@ -44,8 +33,16 @@ export interface PipelineStatusResponse {
   scoreCount: number;
   lastFetchedAt: string | null;
   computedAt: string | null;
+  hotCollectionsFetchedAt: string | null;
+  collectionRankingsFetchedAt: string | null;
   coveragePct: number;
-  stale: { scraper: boolean; deltas: boolean };
+  stale: {
+    scraper: boolean;
+    deltas: boolean;
+    hotCollections: boolean;
+    collectionRankings: boolean;
+  };
+  collectionCoverage: CollectionRankingsCoverage;
   rateLimitRemaining: number | null;
   stats: {
     totalRepos: number;
@@ -65,14 +62,11 @@ function ageMs(iso: string | null): number | null {
 
 export async function GET(): Promise<NextResponse<PipelineStatusResponse | { error: string }>> {
   try {
-    // Hydrate persisted state from disk (or fall back to mock seed) before
-    // any reads so the local telemetry counts reflect the durable snapshot.
     await pipeline.ensureReady();
 
     const repos = repoStore.getAll();
     const snapshotCount = snapshotStore.totalCount();
 
-    // Rate limit: query the current adapter (mock returns null).
     let rateLimitRemaining: number | null = null;
     try {
       const adapter = createGitHubAdapter();
@@ -82,14 +76,22 @@ export async function GET(): Promise<NextResponse<PipelineStatusResponse | { err
       rateLimitRemaining = null;
     }
 
-    // Freshness — same logic as /api/health.
     const scraperAge = ageMs(lastFetchedAt);
     const deltasAge = ageMs(deltasComputedAt);
+    const hotCollectionsAge = ageMs(hotCollectionsFetchedAt);
+    const collectionRankingsAge = ageMs(collectionRankingsFetchedAt);
+
     const scraperStale = scraperAge === null || scraperAge > STALE_THRESHOLD_MS;
     const deltasStale = deltasAge === null || deltasAge > STALE_THRESHOLD_MS;
+    const hotCollectionsStale =
+      hotCollectionsAge === null || hotCollectionsAge > STALE_THRESHOLD_MS;
+    const collectionRankingsStale =
+      collectionRankingsAge === null || collectionRankingsAge > STALE_THRESHOLD_MS;
 
     const isEmpty = !lastFetchedAt;
-    const isStale = !isEmpty && (scraperStale || deltasStale);
+    const isStale =
+      !isEmpty &&
+      (scraperStale || deltasStale || hotCollectionsStale || collectionRankingsStale);
     const healthStatus: "ok" | "stale" | "empty" = isEmpty
       ? "empty"
       : isStale
@@ -98,13 +100,13 @@ export async function GET(): Promise<NextResponse<PipelineStatusResponse | { err
     const healthy = healthStatus === "ok";
     const httpStatus = healthy ? 200 : 503;
 
-    // `ageSeconds` preserves its top-level field for consumers that read it,
-    // but now reflects the older of the two freshness signals so a stale
-    // scraper or stale delta computation both surface.
-    const worstAgeMs =
-      scraperAge === null || deltasAge === null
-        ? scraperAge ?? deltasAge
-        : Math.max(scraperAge, deltasAge);
+    const ageCandidates = [
+      scraperAge,
+      deltasAge,
+      hotCollectionsAge,
+      collectionRankingsAge,
+    ].filter((age): age is number => age !== null);
+    const worstAgeMs = ageCandidates.length > 0 ? Math.max(...ageCandidates) : null;
 
     const body: PipelineStatusResponse = {
       seeded: repos.length > 0,
@@ -116,22 +118,22 @@ export async function GET(): Promise<NextResponse<PipelineStatusResponse | { err
       scoreCount: scoreStore.getAll().length,
       lastFetchedAt: lastFetchedAt ?? null,
       computedAt: deltasComputedAt ?? null,
+      hotCollectionsFetchedAt: hotCollectionsFetchedAt ?? null,
+      collectionRankingsFetchedAt,
       coveragePct: Math.round(deltasCoveragePct() * 10) / 10,
-      stale: { scraper: scraperStale, deltas: deltasStale },
+      stale: {
+        scraper: scraperStale,
+        deltas: deltasStale,
+        hotCollections: hotCollectionsStale,
+        collectionRankings: collectionRankingsStale,
+      },
+      collectionCoverage: getCollectionRankingsCoverage(),
       rateLimitRemaining,
       stats: {
         totalRepos: getTrackedRepoCount(),
         totalStars: getTotalStars(),
-        // Classifier requires in-memory pipeline state which is empty on
-        // cold Vercel Lambdas. Returning null until P3 verifies the
-        // classifier signal end-to-end (post-2026-04-22T02:27Z) keeps the
-        // StatsBar honest — em-dash beats "0 hot" when the truthful
-        // answer is "we don't know yet".
         hotCount: null,
         breakoutCount: null,
-        // UI contract: StatsBar renders "last refreshed Xm ago" off this
-        // field. Point at the scrape timestamp — it's the honest "last
-        // time we learned anything new" signal.
         lastRefreshAt: lastFetchedAt ?? null,
       },
     };

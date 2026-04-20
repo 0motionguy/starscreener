@@ -8,7 +8,12 @@ import type {
   MetaFilter,
   Repo,
   SortDirection,
+  TerminalTab,
+  TimeRange,
 } from "./types";
+
+const DAY_MS = 86_400_000;
+const NEW_REPO_WINDOW_DAYS = 30;
 
 // ---------------------------------------------------------------------------
 // Meta filter application
@@ -44,6 +49,66 @@ export function applyMetaFilter(repos: Repo[], filter: MetaFilter): Repo[] {
       );
     }
   }
+}
+
+function isDeltaColumn(column: ColumnId): boolean {
+  return column === "delta24h" || column === "delta7d" || column === "delta30d";
+}
+
+export function isRepoNew(
+  repo: Repo,
+  nowMs: number = Date.now(),
+  windowDays: number = NEW_REPO_WINDOW_DAYS,
+): boolean {
+  const createdAt = Date.parse(repo.createdAt);
+  if (Number.isFinite(createdAt)) {
+    return nowMs - createdAt <= windowDays * DAY_MS;
+  }
+
+  const lastCommitAt = Date.parse(repo.lastCommitAt);
+  if (!Number.isFinite(lastCommitAt)) return false;
+  return nowMs - lastCommitAt <= Math.min(windowDays, 14) * DAY_MS;
+}
+
+export function applyTerminalTabFilter(
+  repos: Repo[],
+  tab: TerminalTab,
+  watchedRepoIds: string[] = [],
+  nowMs: number = Date.now(),
+): Repo[] {
+  if (tab === "watchlisted") {
+    if (watchedRepoIds.length === 0) return [];
+    const watched = new Set(watchedRepoIds);
+    return repos.filter((repo) => watched.has(repo.id));
+  }
+
+  if (tab === "new") {
+    return repos.filter((repo) => isRepoNew(repo, nowMs));
+  }
+
+  return repos;
+}
+
+export function timeRangeToDeltaColumn(timeRange: TimeRange): ColumnId {
+  switch (timeRange) {
+    case "24h":
+      return "delta24h";
+    case "7d":
+      return "delta7d";
+    case "30d":
+      return "delta30d";
+  }
+}
+
+export function getEffectiveSortColumn(
+  sortColumn: ColumnId,
+  activeTab: TerminalTab,
+  timeRange: TimeRange,
+): ColumnId {
+  if (activeTab === "gainers" && isDeltaColumn(sortColumn)) {
+    return timeRangeToDeltaColumn(timeRange);
+  }
+  return sortColumn;
 }
 
 // ---------------------------------------------------------------------------
@@ -115,6 +180,35 @@ function getSortExtractor(column: ColumnId): (r: Repo) => number | string {
     case "actions":
       return () => 0;
   }
+}
+
+export function sortReposForTerminal(
+  repos: Repo[],
+  options: {
+    sortColumn: ColumnId;
+    sortDirection: SortDirection;
+    activeTab: TerminalTab;
+    timeRange: TimeRange;
+  },
+): Repo[] {
+  const { sortColumn, sortDirection, activeTab, timeRange } = options;
+  const effectiveColumn = getEffectiveSortColumn(
+    sortColumn,
+    activeTab,
+    timeRange,
+  );
+
+  if (activeTab === "new" && sortColumn === "lastCommit") {
+    return [...repos].sort((a, b) => {
+      const av = Date.parse(a.createdAt);
+      const bv = Date.parse(b.createdAt);
+      const aValue = Number.isFinite(av) ? av : Date.parse(a.lastCommitAt) || 0;
+      const bValue = Number.isFinite(bv) ? bv : Date.parse(b.lastCommitAt) || 0;
+      return sortDirection === "asc" ? aValue - bValue : bValue - aValue;
+    });
+  }
+
+  return sortReposByColumn(repos, effectiveColumn, sortDirection);
 }
 
 // ---------------------------------------------------------------------------

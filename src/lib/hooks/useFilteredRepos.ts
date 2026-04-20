@@ -8,7 +8,11 @@
 
 import { useMemo } from "react";
 
-import { applyMetaFilter, repoInStarsRange } from "../filters";
+import {
+  applyMetaFilter,
+  applyTerminalTabFilter,
+  repoInStarsRange,
+} from "../filters";
 import { useFilterStore, useWatchlistStore } from "../store";
 import type { Repo } from "../types";
 
@@ -21,13 +25,15 @@ export function useFilteredRepos(source: Repo[]): Repo[] {
   const excludeArchived = useFilterStore((s) => s.excludeArchived);
   const activeMetaFilter = useFilterStore((s) => s.activeMetaFilter);
   const activeTag = useFilterStore((s) => s.activeTag);
+  const activeTab = useFilterStore((s) => s.activeTab);
   // Read the raw repos array — NEVER call .map/.filter inside the selector
   // (returning a new array every call triggers an infinite re-render loop
   // with useSyncExternalStore). Map inside useMemo instead.
   const watchedItems = useWatchlistStore((s) => s.repos);
 
   return useMemo(() => {
-    let out = source;
+    const watchedRepoIds = watchedItems.map((w) => w.repoId);
+    let out = applyTerminalTabFilter(source, activeTab, watchedRepoIds);
 
     if (category) {
       out = out.filter((r) => r.categoryId === category);
@@ -75,6 +81,7 @@ export function useFilteredRepos(source: Repo[]): Repo[] {
     excludeArchived,
     activeMetaFilter,
     activeTag,
+    activeTab,
     watchedItems,
   ]);
 }

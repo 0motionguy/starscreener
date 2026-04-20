@@ -18,14 +18,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  Eye,
-  GitCompareArrows,
-  Plug,
-  Terminal,
-  TrendingUp,
-  User,
-} from "lucide-react";
+import { Plug, Terminal, User } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useWatchlistStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
@@ -85,59 +78,6 @@ function LaunchpadStrip() {
           >
             <Icon className="w-3.5 h-3.5" strokeWidth={2} />
             <span>{tile.label}</span>
-          </Link>
-        );
-      })}
-    </nav>
-  );
-}
-
-// ---------------------------------------------------------------------------
-// IconRail — focused-mode compact variant
-// ---------------------------------------------------------------------------
-
-interface RailItem {
-  href: string;
-  icon: LucideIcon;
-  label: string;
-}
-
-const RAIL_ITEMS: RailItem[] = [
-  { href: "/", icon: TrendingUp, label: "Trending" },
-  { href: "/watchlist", icon: Eye, label: "Watchlist" },
-  { href: "/compare", icon: GitCompareArrows, label: "Compare" },
-];
-
-function IconRail() {
-  const pathname = usePathname() ?? "/";
-  return (
-    <nav
-      aria-label="Primary"
-      className="flex flex-col items-center gap-1 py-3"
-    >
-      {RAIL_ITEMS.map((item) => {
-        const active =
-          item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
-        const Icon = item.icon;
-        return (
-          <Link
-            key={item.href}
-            href={item.href}
-            aria-label={item.label}
-            title={item.label}
-            className={cn(
-              "w-10 h-10 flex items-center justify-center rounded-button transition-colors",
-              active
-                ? "bg-functional-subtle text-functional"
-                : "text-text-tertiary hover:text-text-primary hover:bg-bg-card-hover",
-            )}
-            style={
-              active
-                ? { boxShadow: "inset 2px 0 0 var(--color-functional)" }
-                : undefined
-            }
-          >
-            <Icon className="w-4 h-4" strokeWidth={2} />
           </Link>
         );
       })}
@@ -217,20 +157,13 @@ export function useWatchlistPreview(
 // ---------------------------------------------------------------------------
 
 export function Sidebar() {
-  const pathname = usePathname() ?? "/";
-  const focused = /^\/repo\/[^/]+\/[^/]+/.test(pathname);
-
   const data = useSidebarData();
   const watchlistPreview = useWatchlistPreview(data?.reposById);
 
-  if (focused) {
-    return (
-      <aside className="hidden md:flex md:flex-col w-[56px] h-[calc(100vh-56px)] sticky top-14 border-r border-border-primary bg-bg-primary">
-        <IconRail />
-      </aside>
-    );
-  }
-
+  // Full sidebar everywhere — including repo detail pages. The old
+  // focused-mode collapse to a 56px IconRail created a 224px empty gap
+  // because AppShell's grid column stays 280px, which read as "the menu
+  // disappeared" on repo detail. Keep the terminal chrome always visible.
   return (
     <aside className="hidden md:flex md:flex-col w-[280px] h-[calc(100vh-56px)] sticky top-14 border-r border-border-primary bg-bg-primary">
       <LaunchpadStrip />

@@ -60,8 +60,11 @@ export function SidebarContent({
   const pathname = usePathname() ?? "/";
   const activeCategory = useFilterStore((s) => s.category);
   const activeMetaFilter = useFilterStore((s) => s.activeMetaFilter);
+  const activeTab = useFilterStore((s) => s.activeTab);
+  const timeRange = useFilterStore((s) => s.timeRange);
   const setActiveMetaFilter = useFilterStore((s) => s.setActiveMetaFilter);
   const setActiveTab = useFilterStore((s) => s.setActiveTab);
+  const setTimeRange = useFilterStore((s) => s.setTimeRange);
 
   const watchCount = useWatchlistStore((s) => s.repos.length);
   const compareCount = useCompareStore((s) => s.repos.length);
@@ -69,7 +72,14 @@ export function SidebarContent({
   const statsByCategory = byCategoryId(categoryStats);
 
   function goToTerminal(filter: "breakouts" | "new" | "quiet-killers" | "hot" | null) {
-    if (filter) {
+    if (filter === "hot") {
+      // "Hot This Week" — the hot movementStatus count is empty during delta
+      // warm-up, so route to top 7-day gainers instead. Same user intent
+      // ("what's actually trending this week") with real data behind it.
+      setActiveMetaFilter(null);
+      setActiveTab("gainers");
+      setTimeRange("7d");
+    } else if (filter) {
       setActiveMetaFilter(filter);
     } else {
       setActiveMetaFilter(null);
@@ -80,6 +90,12 @@ export function SidebarContent({
     }
     onClose?.();
   }
+
+  const hotThisWeekActive =
+    pathname === "/" &&
+    activeMetaFilter === null &&
+    activeTab === "gainers" &&
+    timeRange === "7d";
 
   return (
     <div className="flex flex-col h-full">
@@ -126,8 +142,7 @@ export function SidebarContent({
             onClick={() => goToTerminal("hot")}
             icon={Flame}
             label="Hot This Week"
-            badge={metaCounts.hot}
-            active={pathname === "/" && activeMetaFilter === "hot"}
+            active={hotThisWeekActive}
           />
           <SidebarNavItem
             href="/search?sort=stars-total&limit=100"

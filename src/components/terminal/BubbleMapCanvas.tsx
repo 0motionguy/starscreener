@@ -453,7 +453,7 @@ export function BubbleMapCanvas({ seeds, width, height }: BubbleMapCanvasProps) 
   return (
     <section
       aria-label="Trending bubble map — drag to rearrange, click to open"
-      className="relative mb-6 rounded-card border border-border-primary bg-bg-card/60 overflow-hidden"
+      className="relative mb-4 rounded-card border border-border-primary bg-bg-card/60 overflow-hidden"
     >
       <svg
         ref={svgRef}

@@ -25,9 +25,9 @@ interface BubbleMapProps {
 }
 
 const MAP_WIDTH = 1200;
-const MAP_HEIGHT = 560;
-const MIN_RADIUS = 16;
-const MAX_RADIUS = 104;
+const MAP_HEIGHT = 360;
+const MIN_RADIUS = 14;
+const MAX_RADIUS = 82;
 
 function greenTintFor(delta: number, maxDelta: number): {
   fill: string;
@@ -71,7 +71,7 @@ export function BubbleMap({ repos, limit = 120 }: BubbleMapProps) {
       minRadius: MIN_RADIUS,
       maxRadius: MAX_RADIUS,
       padding: 2,
-      fillRatio: 0.78,
+      fillRatio: 0.82,
     },
   );
 

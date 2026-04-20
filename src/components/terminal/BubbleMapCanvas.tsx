@@ -499,12 +499,15 @@ export function BubbleMapCanvas({ windows, width, height }: BubbleMapCanvasProps
             fill={s.glow}
             style={{ transition: "r 180ms ease-out" }}
           />
-          {/* Disk */}
+          {/* Disk — faint gradient (stops 0.35 → 0.12) with a slightly
+              thicker stroke carrying category identity. The bubble field
+              now recedes into the page instead of competing with brand
+              orange + Featured cards + delta greens. */}
           <circle
             r={s.r}
             fill={`url(#bgrad-${s.id})`}
             stroke={s.stroke}
-            strokeWidth={isDragging ? 2 : 1.25}
+            strokeWidth={isDragging ? 2.25 : 1.5}
             style={{
               transition: "stroke-width 120ms ease-out",
               filter: isDragging
@@ -660,8 +663,8 @@ export function BubbleMapCanvas({ windows, width, height }: BubbleMapCanvasProps
               cy="30%"
               r="75%"
             >
-              <stop offset="0%" stopColor={s.fill} stopOpacity={1} />
-              <stop offset="100%" stopColor={s.fill} stopOpacity={0.82} />
+              <stop offset="0%" stopColor={s.fill} stopOpacity={0.35} />
+              <stop offset="100%" stopColor={s.fill} stopOpacity={0.12} />
             </radialGradient>
           ))}
           {seeds.map((s) => {

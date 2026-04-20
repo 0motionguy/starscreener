@@ -27,6 +27,13 @@ import {
   type CollectionRankingsCoverage,
 } from "@/lib/collection-rankings";
 import { recentReposFetchedAt } from "@/lib/recent-repos";
+import {
+  getRepoMetadataCoveragePct,
+  getRepoMetadataCount,
+  getRepoMetadataFailures,
+  getRepoMetadataSourceCount,
+  repoMetadataFetchedAt,
+} from "@/lib/repo-metadata";
 
 // 2 hours ≈ 2× hourly GHA cadence. Stale past this means at least one tick
 // has missed; operator should be paged.
@@ -45,12 +52,14 @@ interface HealthBody {
   computedAt: string | null;
   hotCollectionsFetchedAt: string | null;
   recentReposFetchedAt: string | null;
+  repoMetadataFetchedAt: string | null;
   collectionRankingsFetchedAt: string | null;
   ageSeconds: {
     scraper: number | null;
     deltas: number | null;
     hotCollections: number | null;
     recentRepos: number | null;
+    repoMetadata: number | null;
     collectionRankings: number | null;
   };
   thresholdSeconds: {
@@ -62,12 +71,19 @@ interface HealthBody {
     deltas: boolean;
     hotCollections: boolean;
     recentRepos: boolean;
+    repoMetadata: boolean;
     collectionRankings: boolean;
   };
   coveragePct: number;
   /** 'full' = real deltas, 'partial' = cold-start, 'cold' = no data yet. */
   coverageQuality: DeltaCoverageQuality;
   collectionCoverage: CollectionRankingsCoverage;
+  repoMetadata: {
+    count: number;
+    sourceCount: number;
+    coveragePct: number;
+    failureCount: number;
+  };
   warning?: string;
   error?: string;
 }
@@ -85,6 +101,7 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
     const deltasAge = ageMs(deltasComputedAt);
     const hotCollectionsAge = ageMs(hotCollectionsFetchedAt);
     const recentReposAge = ageMs(recentReposFetchedAt);
+    const repoMetadataAge = ageMs(repoMetadataFetchedAt);
     const collectionRankingsAge = ageMs(collectionRankingsFetchedAt);
 
     const scraperStale =
@@ -96,6 +113,9 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
       hotCollectionsAge > FAST_DATA_STALE_THRESHOLD_MS;
     const recentReposStale =
       recentReposAge === null || recentReposAge > FAST_DATA_STALE_THRESHOLD_MS;
+    const repoMetadataStale =
+      repoMetadataAge === null ||
+      repoMetadataAge > FAST_DATA_STALE_THRESHOLD_MS;
     const collectionRankingsStale =
       collectionRankingsAge === null ||
       collectionRankingsAge > RANKINGS_STALE_THRESHOLD_MS;
@@ -104,6 +124,7 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
       deltasStale ||
       hotCollectionsStale ||
       recentReposStale ||
+      repoMetadataStale ||
       collectionRankingsStale;
 
     const coverage = deltasCoveragePct();
@@ -117,6 +138,7 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
       computedAt: deltasComputedAt ?? null,
       hotCollectionsFetchedAt: hotCollectionsFetchedAt ?? null,
       recentReposFetchedAt,
+      repoMetadataFetchedAt,
       collectionRankingsFetchedAt,
       ageSeconds: {
         scraper: scraperAge === null ? null : Math.floor(scraperAge / 1000),
@@ -125,6 +147,8 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
           hotCollectionsAge === null ? null : Math.floor(hotCollectionsAge / 1000),
         recentRepos:
           recentReposAge === null ? null : Math.floor(recentReposAge / 1000),
+        repoMetadata:
+          repoMetadataAge === null ? null : Math.floor(repoMetadataAge / 1000),
         collectionRankings:
           collectionRankingsAge === null ? null : Math.floor(collectionRankingsAge / 1000),
       },
@@ -137,11 +161,18 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
         deltas: deltasStale,
         hotCollections: hotCollectionsStale,
         recentRepos: recentReposStale,
+        repoMetadata: repoMetadataStale,
         collectionRankings: collectionRankingsStale,
       },
       coveragePct: Math.round(coverage * 10) / 10,
       coverageQuality: quality,
       collectionCoverage,
+      repoMetadata: {
+        count: getRepoMetadataCount(),
+        sourceCount: getRepoMetadataSourceCount(),
+        coveragePct: Math.round(getRepoMetadataCoveragePct() * 10) / 10,
+        failureCount: getRepoMetadataFailures().length,
+      },
     };
 
     if (!anyStale && quality === "partial") {
@@ -160,12 +191,14 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
         computedAt: deltasComputedAt ?? null,
         hotCollectionsFetchedAt: hotCollectionsFetchedAt ?? null,
         recentReposFetchedAt,
+        repoMetadataFetchedAt,
         collectionRankingsFetchedAt,
         ageSeconds: {
           scraper: null,
           deltas: null,
           hotCollections: null,
           recentRepos: null,
+          repoMetadata: null,
           collectionRankings: null,
         },
         thresholdSeconds: {
@@ -177,6 +210,7 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
           deltas: true,
           hotCollections: true,
           recentRepos: true,
+          repoMetadata: true,
           collectionRankings: true,
         },
         coveragePct: 0,
@@ -186,6 +220,12 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
           withStars: 0,
           withIssues: 0,
           withAnyRanking: 0,
+        },
+        repoMetadata: {
+          count: 0,
+          sourceCount: 0,
+          coveragePct: 0,
+          failureCount: 0,
         },
         error: message,
       },

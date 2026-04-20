@@ -1,5 +1,5 @@
 // Build a fully-assembled Repo[] entirely from committed JSON
-// (data/trending.json + data/deltas.json). Used by surfaces that run on cold
+// (OSSInsights growth + GitHub metadata). Used by surfaces that run on cold
 // Vercel Lambdas where the in-memory repoStore is empty.
 //
 // Cached once per process because both source files are static at runtime —
@@ -10,6 +10,10 @@
 // to read the in-memory stores.
 
 import type { Repo } from "./types";
+import {
+  getRepoMetadata,
+  type RepoMetadata,
+} from "./repo-metadata";
 import { slugToId } from "./utils";
 import {
   buildBaseRepoFromRecent,
@@ -243,30 +247,34 @@ function buildTrendingAggregates(): Map<string, TrendingRepoAggregate> {
 function baseRepoFromTrending(
   aggregate: TrendingRepoAggregate,
   fetchedAt: string,
+  metadata: RepoMetadata | null,
 ): Repo {
   const row = aggregate.row;
   const parts = row.repo_name.split("/");
   const owner = parts[0] ?? "";
   const name = parts[1] ?? row.repo_name;
+  const lastCommitAt =
+    metadata?.pushedAt || metadata?.updatedAt || metadata?.createdAt || fetchedAt;
   return {
     id: slugToId(row.repo_name),
-    fullName: row.repo_name,
-    name,
-    owner,
-    ownerAvatarUrl: owner ? `https://github.com/${owner}.png` : "",
-    description: row.description ?? "",
-    url: `https://github.com/${row.repo_name}`,
-    language: row.primary_language || null,
-    topics: [],
+    fullName: metadata?.fullName ?? row.repo_name,
+    name: metadata?.name ?? name,
+    owner: metadata?.owner ?? owner,
+    ownerAvatarUrl:
+      metadata?.ownerAvatarUrl || (owner ? `https://github.com/${owner}.png` : ""),
+    description: metadata?.description || row.description || "",
+    url: metadata?.url ?? `https://github.com/${row.repo_name}`,
+    language: row.primary_language || metadata?.language || null,
+    topics: metadata?.topics ?? [],
     categoryId: "other",
-    stars: aggregate.activityStars,
-    forks: aggregate.forks,
+    stars: metadata?.stars ?? aggregate.activityStars,
+    forks: metadata?.forks ?? aggregate.forks,
     contributors: aggregate.contributors,
-    openIssues: 0,
-    lastCommitAt: fetchedAt,
+    openIssues: metadata?.openIssues ?? 0,
+    lastCommitAt,
     lastReleaseAt: null,
     lastReleaseTag: null,
-    createdAt: "",
+    createdAt: metadata?.createdAt ?? "",
     starsDelta24h: 0,
     starsDelta7d: 0,
     starsDelta30d: 0,
@@ -284,6 +292,7 @@ function baseRepoFromTrending(
     mentionCount24h: 0,
     tags: [],
     collectionNames: Array.from(aggregate.collectionNames).sort(),
+    archived: metadata?.archived,
   };
 }
 
@@ -300,7 +309,8 @@ export function getDerivedRepos(): Repo[] {
   const deltas = getDeltas();
   const fetchedAt = lastFetchedAt;
 
-  // repoId → stars_now lookup for authoritative cumulative totals.
+  // repoId -> OSSInsights period-star fallback. Lifetime totals come from
+  // data/repo-metadata.json when available.
   const starsNowByRepoId = new Map<string, number>();
   for (const [repoId, entry] of Object.entries(deltas.repos)) {
     starsNowByRepoId.set(repoId, entry.stars_now);
@@ -312,8 +322,9 @@ export function getDerivedRepos(): Repo[] {
   let repos: Repo[] = [];
 
   for (const aggregate of aggregates.values()) {
-    const base = baseRepoFromTrending(aggregate, fetchedAt);
     const id = slugToId(aggregate.row.repo_name);
+    const metadata = getRepoMetadata(aggregate.row.repo_name);
+    const base = baseRepoFromTrending(aggregate, fetchedAt, metadata);
 
     const repoIdLookup = aggregate.row.repo_id;
     const starsNow =
@@ -347,12 +358,19 @@ export function getDerivedRepos(): Repo[] {
       aggregate.has30d,
       deltaEntry?.delta_30d,
     );
-    const starsTotal = starsNow > 0 ? starsNow : aggregate.activityStars;
+    const starsTotal =
+      metadata && metadata.stars > 0
+        ? metadata.stars
+        : starsNow > 0
+          ? starsNow
+          : aggregate.activityStars;
+    const forksTotal = metadata?.forks ?? aggregate.forks;
 
     const enrichedBase: Repo = {
       ...base,
       id,
       stars: starsTotal,
+      forks: forksTotal,
       sparklineData: [],
       collectionNames: Array.from(aggregate.collectionNames).sort(),
     };
@@ -384,8 +402,17 @@ export function getDerivedRepos(): Repo[] {
       ...withHistory,
       id,
       stars: starsTotal,
-      forks: aggregate.forks,
+      forks: forksTotal,
       contributors: aggregate.contributors,
+      openIssues: metadata?.openIssues ?? withHistory.openIssues,
+      lastCommitAt:
+        metadata?.pushedAt ||
+        metadata?.updatedAt ||
+        metadata?.createdAt ||
+        withHistory.lastCommitAt,
+      createdAt: metadata?.createdAt ?? withHistory.createdAt,
+      topics: metadata?.topics ?? withHistory.topics,
+      archived: metadata?.archived ?? withHistory.archived,
       starsDelta24h: d24.value,
       starsDelta7d: d7.value,
       starsDelta30d: d30.value,
@@ -409,10 +436,35 @@ export function getDerivedRepos(): Repo[] {
   for (const row of getRecentRepos()) {
     const normalized = row.fullName.toLowerCase();
     if (seenFullNames.has(normalized)) continue;
+    const metadata = getRepoMetadata(row.fullName);
     const base = buildBaseRepoFromRecent(row);
-    repos.push({
+    const enrichedBase: Repo = {
       ...base,
-      sparklineData: synthesizeRecentRepoSparkline(base.stars, base.createdAt),
+      fullName: metadata?.fullName ?? base.fullName,
+      name: metadata?.name ?? base.name,
+      owner: metadata?.owner ?? base.owner,
+      ownerAvatarUrl: metadata?.ownerAvatarUrl || base.ownerAvatarUrl,
+      description: metadata?.description || base.description,
+      url: metadata?.url ?? base.url,
+      language: metadata?.language ?? base.language,
+      topics: metadata?.topics ?? base.topics,
+      stars: metadata?.stars ?? base.stars,
+      forks: metadata?.forks ?? base.forks,
+      openIssues: metadata?.openIssues ?? base.openIssues,
+      lastCommitAt:
+        metadata?.pushedAt ||
+        metadata?.updatedAt ||
+        metadata?.createdAt ||
+        base.lastCommitAt,
+      createdAt: metadata?.createdAt ?? base.createdAt,
+      archived: metadata?.archived ?? base.archived,
+    };
+    repos.push({
+      ...enrichedBase,
+      sparklineData: synthesizeRecentRepoSparkline(
+        enrichedBase.stars,
+        enrichedBase.createdAt,
+      ),
     });
     seenFullNames.add(normalized);
   }

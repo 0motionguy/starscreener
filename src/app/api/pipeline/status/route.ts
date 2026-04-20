@@ -19,6 +19,13 @@ import {
   type CollectionRankingsCoverage,
 } from "@/lib/collection-rankings";
 import { recentReposFetchedAt } from "@/lib/recent-repos";
+import {
+  getRepoMetadataCoveragePct,
+  getRepoMetadataCount,
+  getRepoMetadataFailures,
+  getRepoMetadataSourceCount,
+  repoMetadataFetchedAt,
+} from "@/lib/repo-metadata";
 import { getDerivedRepoCount, getDerivedRepos } from "@/lib/derived-repos";
 
 const FAST_DATA_STALE_THRESHOLD_MS = 2 * 60 * 60 * 1000;
@@ -36,6 +43,7 @@ export interface PipelineStatusResponse {
   computedAt: string | null;
   hotCollectionsFetchedAt: string | null;
   recentReposFetchedAt: string | null;
+  repoMetadataFetchedAt: string | null;
   collectionRankingsFetchedAt: string | null;
   coveragePct: number;
   stale: {
@@ -43,9 +51,16 @@ export interface PipelineStatusResponse {
     deltas: boolean;
     hotCollections: boolean;
     recentRepos: boolean;
+    repoMetadata: boolean;
     collectionRankings: boolean;
   };
   collectionCoverage: CollectionRankingsCoverage;
+  repoMetadata: {
+    count: number;
+    sourceCount: number;
+    coveragePct: number;
+    failureCount: number;
+  };
   rateLimitRemaining: number | null;
   stats: {
     totalRepos: number;
@@ -83,6 +98,7 @@ export async function GET(): Promise<NextResponse<PipelineStatusResponse | { err
     const deltasAge = ageMs(deltasComputedAt);
     const hotCollectionsAge = ageMs(hotCollectionsFetchedAt);
     const recentReposAge = ageMs(recentReposFetchedAt);
+    const repoMetadataAge = ageMs(repoMetadataFetchedAt);
     const collectionRankingsAge = ageMs(collectionRankingsFetchedAt);
 
     const scraperStale =
@@ -94,6 +110,9 @@ export async function GET(): Promise<NextResponse<PipelineStatusResponse | { err
       hotCollectionsAge > FAST_DATA_STALE_THRESHOLD_MS;
     const recentReposStale =
       recentReposAge === null || recentReposAge > FAST_DATA_STALE_THRESHOLD_MS;
+    const repoMetadataStale =
+      repoMetadataAge === null ||
+      repoMetadataAge > FAST_DATA_STALE_THRESHOLD_MS;
     const collectionRankingsStale =
       collectionRankingsAge === null ||
       collectionRankingsAge > RANKINGS_STALE_THRESHOLD_MS;
@@ -106,6 +125,7 @@ export async function GET(): Promise<NextResponse<PipelineStatusResponse | { err
         deltasStale ||
         hotCollectionsStale ||
         recentReposStale ||
+        repoMetadataStale ||
         collectionRankingsStale
       );
     const healthStatus: "ok" | "stale" | "empty" = isEmpty
@@ -121,6 +141,7 @@ export async function GET(): Promise<NextResponse<PipelineStatusResponse | { err
       deltasAge,
       hotCollectionsAge,
       recentReposAge,
+      repoMetadataAge,
       collectionRankingsAge,
     ].filter((age): age is number => age !== null);
     const worstAgeMs = ageCandidates.length > 0 ? Math.max(...ageCandidates) : null;
@@ -137,6 +158,7 @@ export async function GET(): Promise<NextResponse<PipelineStatusResponse | { err
       computedAt: deltasComputedAt ?? null,
       hotCollectionsFetchedAt: hotCollectionsFetchedAt ?? null,
       recentReposFetchedAt,
+      repoMetadataFetchedAt,
       collectionRankingsFetchedAt,
       coveragePct: Math.round(deltasCoveragePct() * 10) / 10,
       stale: {
@@ -144,9 +166,16 @@ export async function GET(): Promise<NextResponse<PipelineStatusResponse | { err
         deltas: deltasStale,
         hotCollections: hotCollectionsStale,
         recentRepos: recentReposStale,
+        repoMetadata: repoMetadataStale,
         collectionRankings: collectionRankingsStale,
       },
       collectionCoverage: getCollectionRankingsCoverage(),
+      repoMetadata: {
+        count: getRepoMetadataCount(),
+        sourceCount: getRepoMetadataSourceCount(),
+        coveragePct: Math.round(getRepoMetadataCoveragePct() * 10) / 10,
+        failureCount: getRepoMetadataFailures().length,
+      },
       rateLimitRemaining,
       stats: {
         totalRepos: getDerivedRepoCount(),

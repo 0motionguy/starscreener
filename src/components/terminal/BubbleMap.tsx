@@ -67,9 +67,11 @@ function hexToRgb(hex: string): { r: number; g: number; b: number } {
 
 /**
  * Flat category tint — every repo in a category reads the same color,
- * independent of delta size. That way the bubble field works as a real
- * color-coded legend (one color = one category) instead of a
- * luminance-ramp where small movers bleed into black.
+ * independent of delta size. Toned down from the original vivid fills
+ * (users reported the bubble field was shouting over the rest of the
+ * UI — brand orange logo accent, Featured cards, delta greens all got
+ * drowned). Now: faint fill for identity hint, crisp colored stroke for
+ * shape, uniformly light text so contrast holds against any hue.
  */
 function tintForCategory(categoryId: string): {
   fill: string;
@@ -80,18 +82,21 @@ function tintForCategory(categoryId: string): {
   const hex = CATEGORY_COLOR.get(categoryId) ?? FALLBACK_COLOR;
   const { r, g, b } = hexToRgb(hex);
 
-  const stroke = `rgba(${r}, ${g}, ${b}, 0.9)`;
-  const glow = `rgba(${r}, ${g}, ${b}, 0.22)`;
-
-  // Text color = contrast pick on the saturated fill. Luminance threshold.
-  const luminance = (r * 299 + g * 587 + b * 114) / 1000;
-  const text = luminance > 150 ? "#0d121a" : "#f6f9fc";
+  // Stroke carries the category identity — medium-strong so the bubble
+  // still reads as a crisp shape even at the faint fill below.
+  const stroke = `rgba(${r}, ${g}, ${b}, 0.75)`;
+  // Ambient glow dropped from 0.22 → 0.08 so halos don't add to the noise.
+  const glow = `rgba(${r}, ${g}, ${b}, 0.08)`;
 
   return {
     fill: `rgb(${r}, ${g}, ${b})`,
     stroke,
     glow,
-    text,
+    // Always light text — with the new faint fill, the dark page bg shows
+    // through and light text stays legible on every hue. The earlier
+    // luminance-triggered dark-on-light switch broke on semi-transparent
+    // yellows/limes where fill lightness no longer dominated.
+    text: "#f6f9fc",
   };
 }
 

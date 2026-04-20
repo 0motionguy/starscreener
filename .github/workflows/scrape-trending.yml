@@ -34,6 +34,11 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         run: node scripts/discover-recent-repos.mjs
 
+      - name: Refresh GitHub repo metadata
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/fetch-repo-metadata.mjs
+
       - name: Compute deltas from git history
         run: node scripts/compute-deltas.mjs
 
@@ -41,7 +46,7 @@ jobs:
         run: |
           git config user.name  "starscreener-bot"
           git config user.email "bot@starscreener.local"
-          git add data/trending.json data/deltas.json data/hot-collections.json data/recent-repos.json
+          git add data/trending.json data/deltas.json data/hot-collections.json data/recent-repos.json data/repo-metadata.json
           if git diff --quiet --staged; then
             echo "no changes - skipping commit"
             exit 0

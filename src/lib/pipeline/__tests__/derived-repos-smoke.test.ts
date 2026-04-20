@@ -25,8 +25,8 @@ test("derived-repos smoke — assemble + classify + score + rank", () => {
   assert.ok(top.momentumScore > 0, "expected top repo to have momentum > 0");
   assert.ok(top.rank === 1, "top repo should have rank 1");
 
-  // stars should be the cumulative total (from deltas.json stars_now),
-  // not the period-delta pulled from trending.json's bucket.
+  // stars should be the GitHub lifetime total, not the period-delta pulled
+  // from an OSSInsights bucket.
   assert.ok(
     top.stars > top.starsDelta24h,
     "top repo's total stars should exceed its 24h delta",

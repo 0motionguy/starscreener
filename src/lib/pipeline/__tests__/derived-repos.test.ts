@@ -56,8 +56,27 @@ test("derived repos project OSS Insight 24h stars into starsDelta24h", () => {
   const deltas = getDeltas();
   const repoDelta = deltas.repos[sourceRow.repo_id];
   assert.ok(repoDelta, "expected repo in deltas.json");
-  assert.equal(repo.stars, repoDelta.stars_now);
+  assert.ok(
+    repo.stars >= repoDelta.stars_now,
+    "lifetime stars should not be below OSS period-star fallback",
+  );
   assert.equal(repo.trendScore24h, maxPast24hScore(sourceRow.repo_name));
+});
+
+test("derived repos keep lifetime stars separate from OSS Insight period gains", () => {
+  __resetDerivedReposCache();
+
+  const repo = getDerivedRepoByFullName("forrestchang/andrej-karpathy-skills");
+  assert.ok(repo, "expected known trending fixture repo");
+
+  assert.ok(
+    repo.stars > 50_000,
+    `expected GitHub lifetime stars, got ${repo.stars}`,
+  );
+  assert.ok(
+    repo.stars > repo.starsDelta30d,
+    `lifetime stars (${repo.stars}) must exceed 30d gain (${repo.starsDelta30d})`,
+  );
 });
 
 test("top movers use OSS Insight 24h activity instead of cold-start deltas", () => {

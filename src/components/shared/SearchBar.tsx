@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useCallback, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { Search, Star, X } from "lucide-react";
 import { cn, formatNumber } from "@/lib/utils";
@@ -42,6 +43,44 @@ export function SearchBar({
   const [previewResults, setPreviewResults] = useState<Repo[]>([]);
   const [previewLoading, setPreviewLoading] = useState(false);
   const [highlight, setHighlight] = useState(-1);
+  // Anchor rect of the input — the dropdown is rendered through a Portal
+  // attached to document.body so it escapes the sticky header's stacking
+  // context (z-30 + backdrop-blur). Without the Portal, bubble-map SVG
+  // layers further down the page were painting over the dropdown.
+  const [anchorRect, setAnchorRect] = useState<{
+    left: number;
+    top: number;
+    width: number;
+  } | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const recomputeAnchor = useCallback(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    setAnchorRect({
+      left: rect.left,
+      top: rect.bottom + 4,
+      width: rect.width,
+    });
+  }, []);
+
+  // Keep the portal dropdown glued under the input on scroll/resize.
+  useEffect(() => {
+    if (!previewOpen) return;
+    recomputeAnchor();
+    const onUpdate = () => recomputeAnchor();
+    window.addEventListener("scroll", onUpdate, true);
+    window.addEventListener("resize", onUpdate);
+    return () => {
+      window.removeEventListener("scroll", onUpdate, true);
+      window.removeEventListener("resize", onUpdate);
+    };
+  }, [previewOpen, recomputeAnchor]);
 
   // Cleanup debounce + in-flight fetch on unmount.
   useEffect(() => {
@@ -210,90 +249,105 @@ export function SearchBar({
         </button>
       )}
 
-      {showPreview && previewOpen && (
-        <div
-          id="search-preview"
-          role="listbox"
-          className={cn(
-            "absolute left-0 right-0 top-full mt-1 z-50",
-            "bg-bg-card border border-border-primary rounded-card shadow-popover",
-            "overflow-hidden",
-          )}
-        >
-          {previewLoading && previewResults.length === 0 ? (
-            <div className="px-3 py-4 text-xs text-text-tertiary font-mono text-center">
-              Searching…
-            </div>
-          ) : previewResults.length === 0 ? (
-            <div className="px-3 py-4 text-xs text-text-tertiary font-mono text-center">
-              No matches for &ldquo;{value.trim()}&rdquo;
-            </div>
-          ) : (
-            <ul className="max-h-[360px] overflow-y-auto">
-              {previewResults.map((repo, i) => (
-                <li key={repo.id}>
-                  <button
-                    type="button"
-                    role="option"
-                    aria-selected={i === highlight}
-                    onMouseEnter={() => setHighlight(i)}
-                    onClick={() => gotoRepo(repo)}
-                    className={cn(
-                      "w-full flex items-center gap-3 px-3 py-2 text-left",
-                      "transition-colors",
-                      i === highlight
-                        ? "bg-bg-tertiary"
-                        : "hover:bg-bg-tertiary/60",
-                    )}
-                  >
-                    <img
-                      src={repo.ownerAvatarUrl}
-                      alt=""
-                      width={20}
-                      height={20}
-                      loading="lazy"
-                      className="size-5 shrink-0 rounded-full border border-border-primary bg-bg-tertiary"
-                    />
-                    <span className="min-w-0 flex-1 truncate text-[13px] font-medium text-text-primary">
-                      {repo.fullName}
-                    </span>
-                    {repo.language && (
-                      <span className="hidden sm:inline text-[10px] font-mono text-text-tertiary whitespace-nowrap">
-                        {repo.language}
-                      </span>
-                    )}
-                    <span className="inline-flex items-center gap-1 text-[11px] font-mono text-text-tertiary tabular-nums whitespace-nowrap">
-                      <Star
-                        size={10}
-                        className="text-warning"
-                        fill="currentColor"
-                        aria-hidden
+      {showPreview &&
+        previewOpen &&
+        mounted &&
+        anchorRect &&
+        createPortal(
+          <div
+            id="search-preview"
+            role="listbox"
+            // Fixed positioning + Portal to document.body so the dropdown
+            // escapes the sticky header's z-30 stacking context. Backed by
+            // a solid bg + explicit z-[9999] so bubble-map SVG / Featured
+            // cards can't paint over it.
+            style={{
+              position: "fixed",
+              left: anchorRect.left,
+              top: anchorRect.top,
+              width: anchorRect.width,
+              zIndex: 9999,
+            }}
+            className={cn(
+              "bg-bg-card border border-border-primary rounded-card shadow-popover",
+              "overflow-hidden",
+            )}
+          >
+            {previewLoading && previewResults.length === 0 ? (
+              <div className="px-3 py-4 text-xs text-text-tertiary font-mono text-center">
+                Searching…
+              </div>
+            ) : previewResults.length === 0 ? (
+              <div className="px-3 py-4 text-xs text-text-tertiary font-mono text-center">
+                No matches for &ldquo;{value.trim()}&rdquo;
+              </div>
+            ) : (
+              <ul className="max-h-[360px] overflow-y-auto bg-bg-card">
+                {previewResults.map((repo, i) => (
+                  <li key={repo.id} className="bg-bg-card">
+                    <button
+                      type="button"
+                      role="option"
+                      aria-selected={i === highlight}
+                      onMouseEnter={() => setHighlight(i)}
+                      onClick={() => gotoRepo(repo)}
+                      className={cn(
+                        "w-full flex items-center gap-3 px-3 py-2 text-left",
+                        "transition-colors",
+                        i === highlight
+                          ? "bg-bg-tertiary"
+                          : "hover:bg-bg-tertiary/60",
+                      )}
+                    >
+                      <img
+                        src={repo.ownerAvatarUrl}
+                        alt=""
+                        width={20}
+                        height={20}
+                        loading="lazy"
+                        className="size-5 shrink-0 rounded-full border border-border-primary bg-bg-tertiary"
                       />
-                      {formatNumber(repo.stars)}
-                    </span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
-          <div className="border-t border-border-primary px-3 py-1.5 text-[10px] font-mono text-text-muted flex items-center justify-between">
-            <span>↑↓ to navigate · ↵ to open</span>
-            <button
-              type="button"
-              onClick={() => {
-                const q = value.trim();
-                if (q) {
-                  router.push(`${ROUTES.SEARCH}?q=${encodeURIComponent(q)}`);
-                  setPreviewOpen(false);
-                }
-              }}
-              className="text-text-tertiary hover:text-text-primary transition-colors"
-            >
-              See all results →
-            </button>
-          </div>
-        </div>
-      )}
+                      <span className="min-w-0 flex-1 truncate text-[13px] font-medium text-text-primary">
+                        {repo.fullName}
+                      </span>
+                      {repo.language && (
+                        <span className="hidden sm:inline text-[10px] font-mono text-text-tertiary whitespace-nowrap">
+                          {repo.language}
+                        </span>
+                      )}
+                      <span className="inline-flex items-center gap-1 text-[11px] font-mono text-text-tertiary tabular-nums whitespace-nowrap">
+                        <Star
+                          size={10}
+                          className="text-warning"
+                          fill="currentColor"
+                          aria-hidden
+                        />
+                        {formatNumber(repo.stars)}
+                      </span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+            <div className="border-t border-border-primary px-3 py-1.5 text-[10px] font-mono text-text-muted flex items-center justify-between bg-bg-card">
+              <span>↑↓ to navigate · ↵ to open</span>
+              <button
+                type="button"
+                onClick={() => {
+                  const q = value.trim();
+                  if (q) {
+                    router.push(`${ROUTES.SEARCH}?q=${encodeURIComponent(q)}`);
+                    setPreviewOpen(false);
+                  }
+                }}
+                className="text-text-tertiary hover:text-text-primary transition-colors"
+              >
+                See all results →
+              </button>
+            </div>
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }

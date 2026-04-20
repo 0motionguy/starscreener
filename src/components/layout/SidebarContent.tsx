@@ -53,7 +53,6 @@ export function SidebarContent({
   metaCounts,
   availableLanguages,
   watchlistPreview,
-  unreadAlerts = 0,
   onClose,
 }: SidebarContentProps) {
   const router = useRouter();
@@ -142,6 +141,7 @@ export function SidebarContent({
             onClick={() => goToTerminal("hot")}
             icon={Flame}
             label="Hot This Week"
+            badge={metaCounts.hot}
             active={hotThisWeekActive}
           />
           <SidebarNavItem

@@ -14,6 +14,16 @@ import type {
 
 const DAY_MS = 86_400_000;
 const NEW_REPO_WINDOW_DAYS = 30;
+const HOT_24H_STARS = 100;
+const HOT_7D_STARS = 250;
+
+export function isHotRepo(repo: Repo): boolean {
+  if (repo.movementStatus === "hot") return true;
+  if (repo.starsDelta24hMissing !== true && repo.starsDelta24h >= HOT_24H_STARS) {
+    return true;
+  }
+  return repo.starsDelta7dMissing !== true && repo.starsDelta7d >= HOT_7D_STARS;
+}
 
 // ---------------------------------------------------------------------------
 // Meta filter application
@@ -27,7 +37,7 @@ const NEW_REPO_WINDOW_DAYS = 30;
 export function applyMetaFilter(repos: Repo[], filter: MetaFilter): Repo[] {
   switch (filter) {
     case "hot":
-      return repos.filter((r) => r.movementStatus === "hot");
+      return repos.filter(isHotRepo);
     case "breakouts":
       return repos.filter((r) => r.movementStatus === "breakout");
     case "quiet-killers":
@@ -164,6 +174,8 @@ function getSortExtractor(column: ColumnId): (r: Repo) => number | string {
       return (r) => r.momentumScore;
     case "stars":
       return (r) => r.stars;
+    case "trend":
+      return (r) => r.trendScore7d ?? 0;
     case "delta24h":
       return (r) => r.starsDelta24h / Math.max(r.stars, 1);
     case "delta7d":

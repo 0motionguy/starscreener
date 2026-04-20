@@ -3,7 +3,7 @@ import type { Repo } from "@/lib/types";
 import type { TrendFilter, TrendWindow } from "@/lib/pipeline/types";
 import { slugToId } from "@/lib/utils";
 import { READ_CACHE_HEADERS } from "@/lib/api/cache";
-import { trendScoreForTimeRange } from "@/lib/filters";
+import { isHotRepo, trendScoreForTimeRange } from "@/lib/filters";
 import {
   getDerivedRepoById,
   getDerivedRepos,
@@ -94,7 +94,7 @@ function applyLocalFilter(repos: Repo[], filter: TrendFilter): Repo[] {
     return repos.filter((r) => r.movementStatus === "quiet_killer");
   }
   if (filter === "hot") {
-    return repos.filter((r) => r.movementStatus === "hot");
+    return repos.filter(isHotRepo);
   }
   if (filter === "new-under-30d") {
     const now = Date.now();

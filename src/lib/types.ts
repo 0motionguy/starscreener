@@ -162,6 +162,7 @@ export type ColumnId =
   | "repo"
   | "momentum"
   | "stars"
+  | "trend"
   | "delta24h"
   | "delta7d"
   | "delta30d"
@@ -179,11 +180,12 @@ export type ColumnId =
 export const DEFAULT_VISIBLE_COLUMNS: ColumnId[] = [
   "rank",
   "repo",
+  "stars",
   "delta24h",
   "delta7d",
   "delta30d",
   "chart",
-  "stars",
+  "trend",
   "forks",
   "actions",
 ];
@@ -193,6 +195,7 @@ export const ALL_COLUMNS: ColumnId[] = [
   "repo",
   "momentum",
   "stars",
+  "trend",
   "delta24h",
   "delta7d",
   "delta30d",

@@ -38,5 +38,9 @@ test("buildBaseRepoFromRecent maps recent discovery rows into Repo shape", () =>
   assert.equal(repo.createdAt, "2026-04-20T00:00:00.000Z");
   assert.deepEqual(repo.topics, ["ai", "agents"]);
   assert.equal(repo.starsDelta24h, 0);
+  assert.equal(repo.hasMovementData, false);
+  assert.equal(repo.starsDelta24hMissing, true);
+  assert.equal(repo.starsDelta7dMissing, true);
+  assert.equal(repo.starsDelta30dMissing, true);
   assert.equal(repo.trendScore24h, 0);
 });

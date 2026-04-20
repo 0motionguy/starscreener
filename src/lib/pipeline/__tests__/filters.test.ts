@@ -46,6 +46,12 @@ function makeRepo(partial: Partial<Repo> & { fullName: string }): Repo {
     starsDelta24h: partial.starsDelta24h ?? 0,
     starsDelta7d: partial.starsDelta7d ?? 0,
     starsDelta30d: partial.starsDelta30d ?? 0,
+    hasMovementData: partial.hasMovementData,
+    starsDelta24hMissing: partial.starsDelta24hMissing,
+    starsDelta7dMissing: partial.starsDelta7dMissing,
+    starsDelta30dMissing: partial.starsDelta30dMissing,
+    forksDelta7dMissing: partial.forksDelta7dMissing,
+    contributorsDelta30dMissing: partial.contributorsDelta30dMissing,
     trendScore24h: partial.trendScore24h ?? 0,
     trendScore7d: partial.trendScore7d ?? 0,
     trendScore30d: partial.trendScore30d ?? 0,
@@ -277,6 +283,29 @@ test("sortReposForTerminal uses time range when gainers tab is active", () => {
     timeRange: "7d",
   });
   assert.equal(weekly[0].fullName, "a/steady");
+});
+
+test("applyMetaFilter('hot') includes strong real star movers", () => {
+  const repos = [
+    makeRepo({ fullName: "a/status-hot", movementStatus: "hot" }),
+    makeRepo({ fullName: "b/day-hot", starsDelta24h: 125 }),
+    makeRepo({ fullName: "c/week-hot", starsDelta7d: 300 }),
+    makeRepo({
+      fullName: "d/missing-day",
+      starsDelta24h: 200,
+      starsDelta24hMissing: true,
+    }),
+    makeRepo({
+      fullName: "e/missing-week",
+      starsDelta7d: 400,
+      starsDelta7dMissing: true,
+    }),
+  ];
+  const out = applyMetaFilter(repos, "hot");
+  assert.deepEqual(
+    out.map((r) => r.fullName).sort(),
+    ["a/status-hot", "b/day-hot", "c/week-hot"],
+  );
 });
 
 test("sortReposForTerminal uses OSSInsight trend score when trending tab is active", () => {

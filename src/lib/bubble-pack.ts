@@ -29,6 +29,14 @@ export interface PackOptions {
   padding?: number;
   /** How aggressively to fill canvas area. 0-1. Default 0.72. */
   fillRatio?: number;
+  /**
+   * Extra space reserved at every canvas edge beyond the disk radius.
+   * Covers strokes + glow halos (the bubble rendererpaints an ambient
+   * ring at `r + 4` that would otherwise clip against the container's
+   * `overflow: hidden`). Default 1 — callers that draw a glow pass in
+   * whatever halo width they use.
+   */
+  edgeMargin?: number;
 }
 
 export function packBubbles(
@@ -42,6 +50,7 @@ export function packBubbles(
     maxRadius = 96,
     padding = 3,
     fillRatio = 0.72,
+    edgeMargin = 1,
   } = opts;
 
   if (inputs.length === 0) return [];
@@ -97,12 +106,13 @@ export function packBubbles(
       const cx = cx0 + Math.cos(angle) * dist;
       const cy = cy0 + Math.sin(angle) * dist;
 
-      // Bounds check — keep a tiny margin so strokes don't clip.
+      // Bounds check — reserve `edgeMargin` on every side for stroke + glow
+      // halo width so the disk never lands flush against the container edge.
       if (
-        cx - r < 1 ||
-        cx + r > width - 1 ||
-        cy - r < 1 ||
-        cy + r > height - 1
+        cx - r < edgeMargin ||
+        cx + r > width - edgeMargin ||
+        cy - r < edgeMargin ||
+        cy + r > height - edgeMargin
       ) {
         continue;
       }

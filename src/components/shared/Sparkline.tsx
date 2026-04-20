@@ -11,18 +11,16 @@ interface SparklineProps {
 }
 
 /**
- * Minimum non-zero samples required before we draw a real sparkline. Below
- * this threshold the series is too short to convey a trend — we render a
- * dotted baseline instead to signal "collecting history" without leaving
- * an empty box.
+ * Minimum samples required before we draw a line. Two points are enough for
+ * the terminal glyph; empty/all-zero series still get a neutral marker.
  */
 const MIN_SAMPLES = 2;
 
 /**
  * Pure SVG sparkline — lightweight inline chart.
  * Draws a smooth quadratic bezier path with a subtle fill area beneath.
- * When the series is too sparse (fewer than MIN_SAMPLES non-zero points
- * OR all zeros), a dotted horizontal baseline is drawn as a placeholder.
+ * When the series is empty/all-zero, a compact snapshot marker is drawn as a
+ * placeholder.
  */
 export function Sparkline({
   data,
@@ -35,10 +33,8 @@ export function Sparkline({
     () => data.filter((n) => Number.isFinite(n) && n !== 0).length,
     [data],
   );
-  // A series with fewer than MIN_SAMPLES values, all zeros, or all identical
-  // values (common when the repo exceeds GitHub's stargazer list cap and
-  // deriveSparklineData had to carry one data point forward across every
-  // slot) is not a real trend — show the placeholder instead.
+  // Empty/all-zero series do not carry trend direction; flat non-zero series
+  // still render as a real line because they communicate "no movement".
   const isSparse = data.length < MIN_SAMPLES || nonZeroCount === 0;
 
   const { linePath, areaPath } = useMemo(() => {
@@ -89,7 +85,7 @@ export function Sparkline({
   }, [data, width, height, isSparse]);
 
   if (isSparse) {
-    // Dotted baseline — signals "collecting history" without breaking layout.
+    // Neutral snapshot marker keeps the chart cell intentional during warm-up.
     return (
       <svg
         width={width}

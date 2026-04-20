@@ -396,7 +396,11 @@ export function Terminal({
         <table
           role="grid"
           aria-rowcount={repos.length}
-          className="w-full border-separate border-spacing-0"
+          // table-layout: fixed so explicit per-column widths are honored
+          // strictly. Prevents the repo (name) cell from bloating with
+          // slack and pushing the stats cluster away from the name.
+          style={{ tableLayout: "fixed", width: "100%" }}
+          className="border-separate border-spacing-0"
         >
           <TerminalHeader
             visibleColumns={visibleColumns}

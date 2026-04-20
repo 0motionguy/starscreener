@@ -66,22 +66,26 @@ function buildSeries(
   if (sparkline.length === 0) {
     return { stars: [], forks: [], contributors: [] };
   }
-  // Running sum so we show cumulative total stars, not per-day deltas.
-  let running = 0;
-  const cum: number[] = sparkline.map((v) => {
-    running += v;
-    return running;
+  const isCumulative = sparkline.every((value, index) => {
+    return index === 0 || value >= sparkline[index - 1];
   });
-  const lastCum = cum[cum.length - 1] || 1;
+  const base = isCumulative
+    ? sparkline
+    : sparkline.reduce<number[]>((acc, value, index) => {
+        const previous = index === 0 ? 0 : acc[index - 1];
+        acc.push(previous + value);
+        return acc;
+      }, []);
+  const last = base[base.length - 1] || 1;
   // Anchor the final point to the current total, then back-fill proportionally.
-  const scale = totalStars / lastCum;
-  const stars = cum.map((v) => Math.round(v * scale));
+  const scale = totalStars > 0 ? totalStars / last : 1;
+  const stars = base.map((v) => Math.round(v * scale));
 
   // Forks + contributors mirror the shape but with their own totals as
   // the right-edge anchor. Proportional back-fill gives realistic history.
-  const forks = cum.map((v) => Math.round((v / lastCum) * totalForks));
-  const contributors = cum.map((v) =>
-    Math.round((v / lastCum) * totalContribs),
+  const forks = base.map((v) => Math.round((v / last) * totalForks));
+  const contributors = base.map((v) =>
+    Math.round((v / last) * totalContribs),
   );
   return { stars, forks, contributors };
 }
@@ -122,7 +126,7 @@ function CustomTooltip({ active, payload, label }: TooltipProps) {
   );
 }
 
-const MIN_HISTORY_DAYS = 7;
+const MIN_HISTORY_POINTS = 2;
 
 export function RepoChart({ repo }: RepoChartProps) {
   const [timeRange, setTimeRange] = useState<TimeRange>("7d");
@@ -132,20 +136,13 @@ export function RepoChart({ repo }: RepoChartProps) {
     contributors: true,
   });
 
-  // Sparse-history guard — newly-tracked repos will have <7 meaningful
-  // sparkline entries until the snapshot store has captured enough days.
-  // Show a placeholder instead of a jaggy 2-point chart.
+  // Only completely empty/all-zero histories get the placeholder. A two-point
+  // series is enough to show direction and avoids blank project pages.
   const nonZeroDays = repo.sparklineData.filter(
     (n) => Number.isFinite(n) && n !== 0,
   ).length;
-  // A series where every value is identical (common when we can't reach the
-  // recent stargazer pages for a >40k-star repo) is NOT history — it's just
-  // today's value carried across every slot. Treat as sparse.
-  const isFlat = new Set(repo.sparklineData).size <= 1;
   const isSparse =
-    repo.sparklineData.length < MIN_HISTORY_DAYS ||
-    nonZeroDays < MIN_HISTORY_DAYS ||
-    isFlat;
+    repo.sparklineData.length < MIN_HISTORY_POINTS || nonZeroDays === 0;
 
   const chartData = useMemo(() => {
     const data = repo.sparklineData;
@@ -236,7 +233,7 @@ export function RepoChart({ repo }: RepoChartProps) {
 
       {/* Chart — wrapped in a horizontal-scroll container so narrow viewports
           can pan across dense time labels instead of cramming the axis. */}
-      <div className="h-[240px] w-full overflow-x-auto scrollbar-hide">
+      <div className="h-[240px] w-full overflow-x-auto">
         <div className="h-full min-w-[520px]">
         {isSparse ? (
           <ChartPlaceholder captured={nonZeroDays} />

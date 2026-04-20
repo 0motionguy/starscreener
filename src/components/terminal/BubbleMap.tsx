@@ -132,8 +132,12 @@ function seedsForWindow(
       height: MAP_HEIGHT,
       minRadius: MIN_RADIUS,
       maxRadius: MAX_RADIUS,
-      padding: 1,
+      padding: 2,
       fillRatio: 0.92,
+      // Reserve 6 px on every edge — covers the ambient glow halo (r + 4)
+      // plus a hair of extra breathing room so nothing clips against the
+      // section's overflow-hidden at the right / top / bottom walls.
+      edgeMargin: 6,
     },
   );
 

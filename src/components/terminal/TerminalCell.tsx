@@ -45,7 +45,7 @@ export function TerminalCell({ column, repo, rowContext }: TerminalCellProps) {
   const style =
     column.width > 0
       ? { width: column.width, minWidth: column.width, maxWidth: column.width }
-      : { minWidth: 240 };
+      : { minWidth: 240, maxWidth: 340 };
 
   const numeric = NUMERIC_IDS.has(column.id);
 

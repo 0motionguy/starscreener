@@ -65,11 +65,6 @@ export const REQUIRED_COLUMNS: ColumnId[] = ["rank", "repo"];
 // Small render helpers
 // ---------------------------------------------------------------------------
 
-/** Compute a % delta against current star count; safe for zero-star repos. */
-function pctOfStars(delta: number, stars: number): number {
-  return stars > 0 ? (delta / stars) * 100 : 0;
-}
-
 /**
  * Freshness dot color tier based on age in days. Returns a Tailwind bg class.
  * <7d  → functional green
@@ -251,7 +246,11 @@ export const COLUMNS: Column[] = [
   {
     id: "repo",
     label: "REPO",
-    width: 0, // flex
+    // Capped (was `0` flex) so horizontal slack no longer pools INSIDE the
+    // name cell and pushes the stats cluster 100-200 px to the right. With
+    // `table-layout: fixed` on the parent, names ellipsize at 320 px and
+    // the number columns sit immediately next to the name.
+    width: 320,
     align: "left",
     sortable: true,
     sortKey: (r) => r.fullName,
@@ -365,10 +364,10 @@ export const COLUMNS: Column[] = [
       }),
   },
 
-  // --- stars --------------------------------------------------------------
+  // --- stars (all-time total) --------------------------------------------
   {
     id: "stars",
-    label: "TREND",
+    label: "STARS",
     width: 96,
     align: "right",
     sortable: true,
@@ -376,7 +375,8 @@ export const COLUMNS: Column[] = [
     minBreakpoint: "sm",
     defaultVisible: true,
     compactVisible: true,
-    description: "Period star activity across the broadest window available.",
+    description:
+      "Total star count — the project's all-time stargazer total, not a period delta.",
     render: (repo) =>
       createElement(
         "span",
@@ -392,6 +392,42 @@ export const COLUMNS: Column[] = [
         }),
         formatNumber(repo.stars),
       ),
+  },
+
+  // --- trend (period trend score) ----------------------------------------
+  // Distinct from TOTAL: this is the OSS Insight trending feed's composite
+  // 7-day trend index. Non-zero only for repos currently in the trending
+  // set — others render a dash. Keeps "how much this repo is trending right
+  // now" legible alongside "how big it is overall".
+  {
+    id: "trend",
+    label: "TREND",
+    width: 84,
+    align: "right",
+    sortable: true,
+    sortKey: (r) => r.trendScore7d ?? 0,
+    minBreakpoint: "md",
+    defaultVisible: true,
+    compactVisible: false,
+    description:
+      "OSS Insight 7-day trend score — higher = more velocity right now (not an all-time metric).",
+    render: (repo) => {
+      const score = repo.trendScore7d ?? 0;
+      if (score <= 0) return renderDash();
+      return createElement(
+        "span",
+        {
+          className:
+            "inline-flex items-center justify-end gap-1 font-mono tabular-nums text-up",
+        },
+        createElement(Zap, {
+          size: 11,
+          className: "text-up shrink-0",
+          "aria-hidden": true,
+        }),
+        formatNumber(Math.round(score)),
+      );
+    },
   },
 
   // --- delta24h -----------------------------------------------------------

@@ -30,9 +30,14 @@ import type { CategoryStats } from "@/lib/pipeline/queries/aggregate";
 export interface SidebarDataRepo {
   id: string;
   fullName: string;
+  owner: string;
+  name: string;
+  ownerAvatarUrl: string;
   momentumScore: number;
   sparklineData: number[];
+  stars: number;
   starsDelta24h: number;
+  starsDelta24hMissing?: boolean;
 }
 
 export interface SidebarDataResponse {
@@ -60,9 +65,14 @@ export async function GET(
       reposById[r.id] = {
         id: r.id,
         fullName: r.fullName,
+        owner: r.owner,
+        name: r.name,
+        ownerAvatarUrl: r.ownerAvatarUrl,
         momentumScore: r.momentumScore,
         sparklineData: r.sparklineData,
+        stars: r.stars,
         starsDelta24h: r.starsDelta24h,
+        starsDelta24hMissing: r.starsDelta24hMissing,
       };
     }
     const availableLanguages = getDerivedAvailableLanguages(repos);

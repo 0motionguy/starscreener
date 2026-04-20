@@ -1,23 +1,27 @@
 "use client";
 
 /**
- * SidebarWatchlistPreview — top 5 watched repos rendered in a dense
- * sparkline / name / momentum layout. Empty state prompts the user to
- * start watching a repo.
+ * SidebarWatchlistPreview — top 5 watched repos rendered as avatar +
+ * name + 24h delta. Empty state prompts the user to start watching.
  *
  * Parent resolves the top 5 from the watchlist store + repo data before
  * passing them in — this component is a pure presentation layer.
  */
 import Link from "next/link";
 import { EyeOff } from "lucide-react";
-import { Sparkline } from "@/components/shared/Sparkline";
+import { cn, formatNumber } from "@/lib/utils";
 
 export interface SidebarWatchlistPreviewRepo {
   id: string;
   fullName: string;
+  owner: string;
+  name: string;
+  ownerAvatarUrl: string;
   momentumScore: number;
   sparklineData: number[];
+  stars: number;
   starsDelta24h: number;
+  starsDelta24hMissing?: boolean;
 }
 
 export interface SidebarWatchlistPreviewProps {
@@ -35,7 +39,7 @@ export function SidebarWatchlistPreview({
           No watched repos
         </span>
         <span className="text-[11px] text-text-muted leading-snug">
-          Click the eye icon on any repo to start watching.
+          Click the bookmark icon on any repo to start watching.
         </span>
       </div>
     );
@@ -45,26 +49,53 @@ export function SidebarWatchlistPreview({
 
   return (
     <div className="flex flex-col">
-      {top.map((repo) => (
-        <Link
-          key={repo.id}
-          href={`/repo/${repo.id}`}
-          className="grid grid-cols-[40px_1fr_auto] gap-2 items-center px-3 h-10 hover:bg-bg-card-hover transition-colors"
-        >
-          <Sparkline
-            data={repo.sparklineData}
-            width={40}
-            height={12}
-            positive={repo.starsDelta24h >= 0}
-          />
-          <span className="text-[12px] text-text-secondary truncate">
-            {repo.fullName}
-          </span>
-          <span className="text-[10px] font-mono tabular-nums px-1 rounded bg-bg-tertiary text-functional">
-            {repo.momentumScore}
-          </span>
-        </Link>
-      ))}
+      {top.map((repo) => {
+        const delta = repo.starsDelta24h;
+        const missing = repo.starsDelta24hMissing === true;
+        const deltaClass =
+          missing
+            ? "text-text-muted"
+            : delta > 0
+              ? "text-up"
+              : delta < 0
+                ? "text-down"
+                : "text-text-tertiary";
+        const deltaLabel = missing
+          ? "—"
+          : delta > 0
+            ? `+${formatNumber(delta)}`
+            : delta < 0
+              ? formatNumber(delta)
+              : "0";
+        return (
+          <Link
+            key={repo.id}
+            href={`/repo/${repo.owner}/${repo.name}`}
+            className="grid grid-cols-[20px_1fr_auto] gap-2 items-center px-3 h-10 hover:bg-bg-card-hover transition-colors"
+            title={`${repo.fullName} — ${deltaLabel} stars / 24h`}
+          >
+            <img
+              src={repo.ownerAvatarUrl}
+              alt=""
+              width={20}
+              height={20}
+              loading="lazy"
+              className="size-5 shrink-0 rounded-full border border-border-primary bg-bg-tertiary"
+            />
+            <span className="text-[12px] text-text-secondary truncate">
+              {repo.fullName}
+            </span>
+            <span
+              className={cn(
+                "text-[10px] font-mono tabular-nums whitespace-nowrap",
+                deltaClass,
+              )}
+            >
+              {deltaLabel}
+            </span>
+          </Link>
+        );
+      })}
       <Link
         href="/watchlist"
         className="px-3 h-8 flex items-center font-mono text-[10px] uppercase tracking-wider text-text-tertiary hover:text-functional transition-colors"

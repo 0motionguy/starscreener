@@ -79,7 +79,17 @@ Living docs refreshed for the Phase 3 architecture. Sealed.
 em-dash for null hot/breakout counts until P3 verifies classifier.
 Sealed.
 
-### P3 — classifier verification (wait-and-watch)  ⬅ NEXT UP
+### Recommended run order (next session)
+
+**P9 first (unblocks P3) → P3 verification (now meaningful) → P8 or P10 as time permits.**
+
+This order holds whether the next session opens before or after
+2026-04-22T02:27Z. P9 reroutes `/api/search` through committed JSON; the
+P3 single-shot curl currently returns `{"results":[]}` on cold Lambdas
+and stays that way until P9 lands. Running P3 before P9 produces a
+false FAIL.
+
+### P3 — classifier verification (wait-and-watch)  ⬅ NEXT UP (after P9)
 
 Do not run before **2026-04-22T02:27Z**. Phase 3 (`17434e5`) landed
 2026-04-20T02:27Z; the 48h wait exists so `delta_24h` has real

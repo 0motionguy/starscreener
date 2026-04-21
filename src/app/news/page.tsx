@@ -766,7 +766,14 @@ function ProductHuntTabBody({ launches }: { launches: Launch[] }) {
         </ul>
       </ListShell>
 
-      <ComingSoonNote message="dedicated /producthunt page coming soon" />
+      <div className="mt-4 text-right">
+        <Link
+          href="/producthunt"
+          className="text-[11px] font-mono uppercase tracking-wider text-text-tertiary hover:text-brand transition-colors"
+        >
+          Full launches view (/producthunt) →
+        </Link>
+      </div>
     </>
   );
 }

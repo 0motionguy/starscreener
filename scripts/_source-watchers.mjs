@@ -67,8 +67,12 @@ export const BLUESKY_QUERY_FAMILIES = [
   },
   {
     id: "skills",
-    label: "Skills",
-    queries: ["lang:en skills"],
+    label: "AI skills",
+    queries: [
+      'lang:en "claude skill"',
+      'lang:en "claude skills"',
+      'lang:en "ai skills"',
+    ],
   },
   {
     id: "open-source-ai",

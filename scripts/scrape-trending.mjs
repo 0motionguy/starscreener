@@ -6,6 +6,7 @@
 import { writeFile, mkdir, readdir, readFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { fetchJsonWithRetry } from "./_fetch-json.mjs";
 
 const PERIODS = ["past_24_hours", "past_week", "past_month"];
 const LANGUAGES = ["All", "Python", "TypeScript", "Rust", "Go"];
@@ -53,11 +54,16 @@ function toFloat(value) {
 }
 
 async function fetchJson(url, label) {
-  const res = await fetch(url, { headers: { Accept: "application/json" } });
-  if (!res.ok) {
-    throw new Error(`${label}: HTTP ${res.status} ${res.statusText}`);
+  try {
+    return await fetchJsonWithRetry(url, {
+      headers: { Accept: "application/json" },
+      timeoutMs: 15_000,
+      attempts: 3,
+      retryDelayMs: 750,
+    });
+  } catch (err) {
+    throw new Error(`${label}: ${err.message}`);
   }
-  return res.json();
 }
 
 async function fetchBucket(period, language) {

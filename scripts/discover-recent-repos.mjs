@@ -10,6 +10,7 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { fetchJsonWithRetry } from "./_fetch-json.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT_FILE = resolve(__dirname, "..", "data", "recent-repos.json");
@@ -84,17 +85,20 @@ async function fetchSearchWindow(window, token) {
     url.searchParams.set("per_page", String(PER_PAGE));
     url.searchParams.set("page", String(page));
 
-    const res = await fetch(url, {
-      headers: requestHeaders(token),
-    });
-    if (!res.ok) {
-      const text = await res.text();
+    let body;
+    try {
+      body = await fetchJsonWithRetry(url, {
+        headers: requestHeaders(token),
+        attempts: 3,
+        retryDelayMs: 1000,
+        timeoutMs: 15_000,
+      });
+    } catch (err) {
       throw new Error(
-        `GitHub search failed (${window.days}d page ${page}): HTTP ${res.status} ${res.statusText} ${text}`,
+        `GitHub search failed (${window.days}d page ${page}): ${err.message}`,
       );
     }
 
-    const body = await res.json();
     const items = Array.isArray(body.items) ? body.items : [];
     for (const item of items) {
       if (!item?.full_name || !item.full_name.includes("/")) continue;

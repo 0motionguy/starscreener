@@ -6,6 +6,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { fetchJsonWithRetry } from "./_fetch-json.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
@@ -128,24 +129,26 @@ function buildBatchQuery(batch) {
 
 async function fetchBatch(batch, token) {
   const payload = buildBatchQuery(batch);
-  const res = await fetch(GRAPHQL_URL, {
-    method: "POST",
-    headers: {
-      Accept: "application/vnd.github+json",
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-      "User-Agent": "starscreener-metadata-bot",
-      "X-GitHub-Api-Version": API_VERSION,
-    },
-    body: JSON.stringify(payload),
-  });
-
-  if (!res.ok) {
-    const text = await res.text();
-    throw new Error(`GitHub GraphQL metadata fetch failed: HTTP ${res.status} ${res.statusText} ${text}`);
+  let body;
+  try {
+    body = await fetchJsonWithRetry(GRAPHQL_URL, {
+      method: "POST",
+      headers: {
+        Accept: "application/vnd.github+json",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "User-Agent": "starscreener-metadata-bot",
+        "X-GitHub-Api-Version": API_VERSION,
+      },
+      body: JSON.stringify(payload),
+      attempts: 3,
+      retryDelayMs: 1000,
+      timeoutMs: 15_000,
+    });
+  } catch (err) {
+    throw new Error(`GitHub GraphQL metadata fetch failed: ${err.message}`);
   }
 
-  const body = await res.json();
   return {
     data: body?.data ?? {},
     errors: Array.isArray(body?.errors) ? body.errors : [],

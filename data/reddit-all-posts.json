@@ -1,5 +1,5 @@
 {
-  "lastFetchedAt": "2026-04-21T21:02:45.688Z",
+  "lastFetchedAt": "2026-04-21T21:55:37.351Z",
   "scannedSubreddits": [
     "ClaudeAI",
     "ChatGPT",
@@ -48,8 +48,8 @@
     "nocode"
   ],
   "windowDays": 7,
-  "totalPosts": 3434,
-  "prunedOldPosts": 15,
+  "totalPosts": 3427,
+  "prunedOldPosts": 7,
   "prunedOverflowPosts": 0,
   "posts": [
     {
@@ -9871,28 +9871,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1sllkio",
-      "subreddit": "AgentsOfAI",
-      "title": "Hooks that force Claude Code to use LSP instead of Grep for code navigation. Saves ~80% tokens",
-      "url": "https://www.reddit.com/r/AgentsOfAI/comments/1sllkio/hooks_that_force_claude_code_to_use_lsp_instead/",
-      "permalink": "https://www.reddit.com/r/AgentsOfAI/comments/1sllkio/hooks_that_force_claude_code_to_use_lsp_instead/",
-      "score": 26,
-      "numComments": 12,
-      "createdUtc": 1776200761,
-      "author": "Ok-Motor-9812",
-      "repoFullName": null,
-      "baselineRatio": 26,
-      "baselineTier": "breakout",
-      "baselineConfidence": "high",
-      "ageHours": 139.01,
-      "velocity": 0.19,
-      "trendingScore": 6.99,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "https://preview.redd.it/rrm1ud0r08vg1.png?width=2072&amp;format=png&amp;auto=webp&amp;s=4327432d3b5e94109d9258303432bd0c594f95ea Saving tokens with Claude Code. Tested for a week. Works 100%. The whole thing is genuinely simple: swap Grep-based file search for LSP. Breaking down what that even means LSP (Language Server Protocol) is the tech your IDE uses for \"Go to Definition\" and \"Find References\" — exact answers instead of text search. The problem: Claude Code searches through code via Grep. ",
-      "linkedRepos": []
-    },
-    {
       "id": "1sqrlim",
       "subreddit": "AI_Agents",
       "title": "Ok, this might be unpopular but whatever,most of you are doing it completely wrong",
@@ -11345,36 +11323,6 @@
       "value_score": 0,
       "selftext": "I got stuck in 99%",
       "linkedRepos": []
-    },
-    {
-      "id": "1slmfmw",
-      "subreddit": "MachineLearning",
-      "title": "You can decompose models into a graph database [N]",
-      "url": "https://www.reddit.com/r/MachineLearning/comments/1slmfmw/you_can_decompose_models_into_a_graph_database_n/",
-      "permalink": "https://www.reddit.com/r/MachineLearning/comments/1slmfmw/you_can_decompose_models_into_a_graph_database_n/",
-      "score": 69,
-      "numComments": 28,
-      "createdUtc": 1776202699,
-      "author": "Educational_Win_2982",
-      "repoFullName": "chrishayuk/larql",
-      "baselineRatio": 5.5,
-      "baselineTier": "above-average",
-      "baselineConfidence": "high",
-      "ageHours": 138.49,
-      "velocity": 0.48,
-      "trendingScore": 4.8,
-      "content_tags": [
-        "has-github-repo"
-      ],
-      "value_score": 1,
-      "selftext": "Now you can decompose a static llm model and do a knn walk on each layer (which was decomposed into a graph database), and it's mathematically identical to doing matmult. It allows you to update the models internal factual knowledge without retraining (just insert into graph DB), it also uses less memory (since its just a database). The creator is the CTO at Customer Transformation at IBM.",
-      "linkedRepos": [
-        {
-          "fullName": "chrishayuk/larql",
-          "matchType": "url",
-          "confidence": 1
-        }
-      ]
     },
     {
       "id": "1sondov",
@@ -26146,30 +26094,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1sllq3i",
-      "subreddit": "ChatGPTPromptGenius",
-      "title": "This one extra line fixed most of my “AI email tone” problems (full prompt included)",
-      "url": "https://www.reddit.com/r/ChatGPTPromptGenius/comments/1sllq3i/this_one_extra_line_fixed_most_of_my_ai_email/",
-      "permalink": "https://www.reddit.com/r/ChatGPTPromptGenius/comments/1sllq3i/this_one_extra_line_fixed_most_of_my_ai_email/",
-      "score": 13,
-      "numComments": 3,
-      "createdUtc": 1776201113,
-      "author": "Rich_Specific_7165",
-      "repoFullName": null,
-      "baselineRatio": 2,
-      "baselineTier": "normal",
-      "baselineConfidence": "medium",
-      "ageHours": 138.94,
-      "velocity": 0.09,
-      "trendingScore": 0.19,
-      "content_tags": [
-        "has-prompt"
-      ],
-      "value_score": 1,
-      "selftext": "I kept running into the same issue using ChatGPT for emails. The replies were technically correct… but still off. Too polite Too long Kind of avoiding the actual point So I’d end up rewriting them anyway. What fixed it wasn’t a better prompt. It was adding one missing piece: *the actual goal of the email* **Here’s the exact format I use now:** Write a reply to this client email. Context: \\[paste email here\\] Goal of this reply: \\- set a clear deadline \\- push back on scope \\- keep the relationsh",
-      "linkedRepos": []
-    },
-    {
       "id": "1soww2c",
       "subreddit": "GoogleGeminiAI",
       "title": "Why did Google Nuke Gemini's\"Walkie Talkie\" feature?",
@@ -30933,28 +30857,6 @@
       ],
       "value_score": 0,
       "selftext": "",
-      "linkedRepos": []
-    },
-    {
-      "id": "1sllj0y",
-      "subreddit": "SEO",
-      "title": "Blog/information pages Vs product pages",
-      "url": "https://www.reddit.com/r/SEO/comments/1sllj0y/bloginformation_pages_vs_product_pages/",
-      "permalink": "https://www.reddit.com/r/SEO/comments/1sllj0y/bloginformation_pages_vs_product_pages/",
-      "score": 8,
-      "numComments": 23,
-      "createdUtc": 1776200668,
-      "author": "mrapple7",
-      "repoFullName": null,
-      "baselineRatio": 1.6,
-      "baselineTier": "normal",
-      "baselineConfidence": "high",
-      "ageHours": 139.11,
-      "velocity": 0.06,
-      "trendingScore": 0.09,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "hi running a site in a regulated niche and wondering if the ratio of information (blog/guide) pages to actual product pages matters? for example if we had 500+ blog/information pages on our health industry website and 50 products, would this be viewed poorly by Google? or is the relevance of those pages be more important? thank you",
       "linkedRepos": []
     },
     {
@@ -37007,28 +36909,6 @@
       ],
       "value_score": 0,
       "selftext": "My site has a large set of programmatic pages that stopped getting indexed due to a glitch. I've since resolved the underlying issue, and all the pages are now working correctly. Here's what I've already done: * Regenerated the sitemap * Submitted it via Google Search Console It's been about two weeks and there's been no noticeable change in indexing status. What additional steps can I take to send Google a stronger signal that these pages are updated and ready to be re-crawled? Has anyone dealt",
-      "linkedRepos": []
-    },
-    {
-      "id": "1slmpj0",
-      "subreddit": "SEO",
-      "title": "Semrush or not, is the question",
-      "url": "https://www.reddit.com/r/SEO/comments/1slmpj0/semrush_or_not_is_the_question/",
-      "permalink": "https://www.reddit.com/r/SEO/comments/1slmpj0/semrush_or_not_is_the_question/",
-      "score": 5,
-      "numComments": 17,
-      "createdUtc": 1776203319,
-      "author": "SkyTheLine",
-      "repoFullName": null,
-      "baselineRatio": 1,
-      "baselineTier": "normal",
-      "baselineConfidence": "high",
-      "ageHours": 138.38,
-      "velocity": 0.04,
-      "trendingScore": 0.03,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "hi there i'm currently thinking to seek a solution for our content and keyword management. right now its either semrush (but i dont like adobe and that they kill everything after 2 years) and similaweb. we have an it company and want track our metrics and see what we can optimize. so to see how we rank in seo and aeo compared to our competitors. what do you use and why?",
       "linkedRepos": []
     },
     {
@@ -43098,28 +42978,6 @@
       ],
       "value_score": 3,
       "selftext": "Followup to last post with answers to the top questions from the comments. Appreciate everyone who jumped in. The most common one by a mile was \"what happens when two agents write to the same file at the same time?\" Fair question, it's the first thing everyone asks about a shared-filesystem setup. Honest answer: almost never happens, because the framework makes it hard to happen. Four things keep it clean: 1. Planning first. Every multi-agent task runs through a flow plan template before any fil",
-      "linkedRepos": []
-    },
-    {
-      "id": "1slmkf0",
-      "subreddit": "AIToolTesting",
-      "title": "Finally found a reliable AI slide generator (Dokie AI) for my monthly business reports",
-      "url": "https://www.reddit.com/r/AIToolTesting/comments/1slmkf0/finally_found_a_reliable_ai_slide_generator_dokie/",
-      "permalink": "https://www.reddit.com/r/AIToolTesting/comments/1slmkf0/finally_found_a_reliable_ai_slide_generator_dokie/",
-      "score": 3,
-      "numComments": 2,
-      "createdUtc": 1776202997,
-      "author": "canoesenpai",
-      "repoFullName": null,
-      "baselineRatio": 0.75,
-      "baselineTier": "below-average",
-      "baselineConfidence": "medium",
-      "ageHours": 138.42,
-      "velocity": 0.02,
-      "trendingScore": 0.01,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "I do monthly business reports (performance, insights, next steps), and honestly most AI slide tools didn’t help much. They either: * look nice but lack real structure * or dump content into slides with no clear story Recently started using Dokie AI, and it’s the first time I felt like it actually fits this use case. My workflow now: * paste in raw data + notes * generate full deck * review structure (usually already usable) * tweak insights + summary slides What changed: * no more starting from ",
       "linkedRepos": []
     },
     {
@@ -78801,28 +78659,6 @@
       "content_tags": [],
       "value_score": 0,
       "selftext": "",
-      "linkedRepos": []
-    },
-    {
-      "id": "1sllkvt",
-      "subreddit": "perplexity_ai",
-      "title": "Perplexity’s mission is to “serve the world’s curiosity” — its Pro pricing does the opposite",
-      "url": "https://www.reddit.com/r/perplexity_ai/comments/1sllkvt/perplexitys_mission_is_to_serve_the_worlds/",
-      "permalink": "https://www.reddit.com/r/perplexity_ai/comments/1sllkvt/perplexitys_mission_is_to_serve_the_worlds/",
-      "score": 0,
-      "numComments": 9,
-      "createdUtc": 1776200784,
-      "author": "Sad-Platform-9671",
-      "repoFullName": null,
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 139,
-      "velocity": 0,
-      "trendingScore": 0,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "&amp;#x200B; I’ve been using Perplexity for quite some time and I’ve appreciated the updates, the progression of the app, and everything tied to it. The free tier already delivers substantial value, and the core experience is strong. But I’ve now hit a hard wall: \\*\\*only 5 requests per day\\*\\* on the free plan. So I looked into Pro to see what it actually offers. The honest answer is \\*\\*no, not really\\*\\*. Beyond “unlimited” requests and a few extras, \\*\\*there’s not a lot functionally differe",
       "linkedRepos": []
     },
     {

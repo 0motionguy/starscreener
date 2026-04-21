@@ -32,7 +32,13 @@ function parseTab(raw: string | string[] | undefined): PhTab {
     : DEFAULT_TAB;
 }
 
-export const dynamic = "force-static";
+// Dynamic (not force-static) because the route reads searchParams to pick
+// the active tab. force-static would prerender the page once at build time
+// with searchParams = {} and serve the same HTML regardless of `?tab=all`,
+// so tab switching would do nothing. Per-request render is cheap: the
+// underlying data comes from the committed JSON loader which is already
+// O(N) in the 70-row range.
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "StarScreener — ProductHunt Launches",

@@ -29,6 +29,7 @@ interface HealthSnapshot {
     hn: number | null;
     producthunt: number | null;
     devto: number | null;
+    lobsters: number | null;
   };
 }
 
@@ -74,6 +75,7 @@ export function FreshBadge() {
               hn: null,
               producthunt: null,
               devto: null,
+              lobsters: null,
             },
           });
         }
@@ -131,6 +133,7 @@ export function FreshBadge() {
     ["Bluesky", snap.ageSeconds.bluesky],
     ["ProductHunt", snap.ageSeconds.producthunt],
     ["dev.to", snap.ageSeconds.devto],
+    ["Lobsters", snap.ageSeconds.lobsters],
   ]
     .map(([k, s]) => `${k}: ${formatAge(s as number | null)}`)
     .join("\n");

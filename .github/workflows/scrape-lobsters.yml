@@ -1,0 +1,51 @@
+name: Refresh Lobsters signals
+
+# Hourly at :37 — staggered from reddit (:27), bluesky (:17), and
+# fast-discovery (:07/:27/:47) so we don't all hit github.com + git push
+# at the same minute. Lobsters is a small volunteer-run site; hourly is
+# the gentlest cadence that still catches breakouts before they age out.
+on:
+  schedule:
+    - cron: "37 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: lobsters-refresh
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Refresh Lobsters mentions + trending snapshot
+        # No auth required — Lobsters exposes hottest/active/newest as
+        # public JSON. The scraper uses a polite UA + 3 retries and
+        # continues on per-page failure so one 503 doesn't kill the run.
+        run: node scripts/scrape-lobsters.mjs
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "trendingrepo-bot"
+          git config user.email "bot@trendingrepo.com"
+          git add data/lobsters-mentions.json data/lobsters-trending.json
+          if git diff --quiet --staged; then
+            echo "no changes - skipping commit"
+            exit 0
+          fi
+          TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          git commit -m "chore(data): refresh lobsters signals ${TS}"
+          git pull --rebase origin main
+          git push

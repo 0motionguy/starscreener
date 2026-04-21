@@ -39,6 +39,7 @@ import { blueskyFetchedAt, blueskyCold } from "@/lib/bluesky";
 import { hnFetchedAt, hnCold } from "@/lib/hackernews";
 import { producthuntFetchedAt, producthuntCold } from "@/lib/producthunt";
 import { devtoFetchedAt, devtoCold } from "@/lib/devto";
+import { lobstersFetchedAt, lobstersCold } from "@/lib/lobsters";
 
 // 2 hours ≈ 2× hourly GHA cadence. Stale past this means at least one tick
 // has missed; operator should be paged.
@@ -74,6 +75,8 @@ interface HealthBody {
   producthuntCold: boolean;
   devtoFetchedAt: string | null;
   devtoCold: boolean;
+  lobstersFetchedAt: string | null;
+  lobstersCold: boolean;
   ageSeconds: {
     scraper: number | null;
     deltas: number | null;
@@ -86,6 +89,7 @@ interface HealthBody {
     hn: number | null;
     producthunt: number | null;
     devto: number | null;
+    lobsters: number | null;
   };
   thresholdSeconds: {
     fastData: number;
@@ -105,6 +109,7 @@ interface HealthBody {
     hn: boolean;
     producthunt: boolean;
     devto: boolean;
+    lobsters: boolean;
   };
   coveragePct: number;
   /** 'full' = real deltas, 'partial' = cold-start, 'cold' = no data yet. */
@@ -140,6 +145,7 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
     const hnAge = ageMs(hnFetchedAt);
     const producthuntAge = ageMs(producthuntFetchedAt);
     const devtoAge = ageMs(devtoFetchedAt);
+    const lobstersAge = ageMs(lobstersFetchedAt);
 
     const scraperStale =
       scraperAge === null || scraperAge > FAST_DATA_STALE_THRESHOLD_MS;
@@ -177,6 +183,10 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
     // dev.to runs daily — same contract as ProductHunt.
     const devtoStale = !devtoCold &&
       (devtoAge === null || devtoAge > DEVTO_STALE_THRESHOLD_MS);
+    // Lobsters runs hourly (:37). Same 2h fast threshold as Reddit/HN/Bluesky
+    // once a scrape has landed. Cold = never committed.
+    const lobstersStale = !lobstersCold &&
+      (lobstersAge === null || lobstersAge > FAST_DATA_STALE_THRESHOLD_MS);
     const anyStale =
       scraperStale ||
       deltasStale ||
@@ -188,7 +198,8 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
       blueskyStale ||
       hnStale ||
       producthuntStale ||
-      devtoStale;
+      devtoStale ||
+      lobstersStale;
 
     const coverage = deltasCoveragePct();
     const coverageLow = coverage < COVERAGE_WARN_PCT;
@@ -215,6 +226,8 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
       producthuntCold,
       devtoFetchedAt: devtoCold ? null : (devtoFetchedAt ?? null),
       devtoCold,
+      lobstersFetchedAt: lobstersCold ? null : (lobstersFetchedAt ?? null),
+      lobstersCold,
       ageSeconds: {
         scraper: scraperAge === null ? null : Math.floor(scraperAge / 1000),
         deltas: deltasAge === null ? null : Math.floor(deltasAge / 1000),
@@ -238,6 +251,10 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
             : Math.floor(producthuntAge / 1000),
         devto:
           devtoCold || devtoAge === null ? null : Math.floor(devtoAge / 1000),
+        lobsters:
+          lobstersCold || lobstersAge === null
+            ? null
+            : Math.floor(lobstersAge / 1000),
       },
       thresholdSeconds: {
         fastData: FAST_DATA_STALE_THRESHOLD_MS / 1000,
@@ -257,6 +274,7 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
         hn: hnStale,
         producthunt: producthuntStale,
         devto: devtoStale,
+        lobsters: lobstersStale,
       },
       coveragePct: Math.round(coverage * 10) / 10,
       coverageQuality: quality,
@@ -297,6 +315,8 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
         producthuntCold: true,
         devtoFetchedAt: null,
         devtoCold: true,
+        lobstersFetchedAt: null,
+        lobstersCold: true,
         ageSeconds: {
           scraper: null,
           deltas: null,
@@ -309,6 +329,7 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
           hn: null,
           producthunt: null,
           devto: null,
+          lobsters: null,
         },
         thresholdSeconds: {
           fastData: FAST_DATA_STALE_THRESHOLD_MS / 1000,
@@ -328,6 +349,7 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
           hn: false,
           producthunt: false,
           devto: false,
+          lobsters: false,
         },
         coveragePct: 0,
         coverageQuality: "cold" as DeltaCoverageQuality,

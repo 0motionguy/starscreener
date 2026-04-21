@@ -25,6 +25,7 @@ import {
   BlueskyIcon,
   DevtoIcon,
   ProductHuntIcon,
+  LobstersIcon,
 } from "@/components/brand/BrandIcons";
 import type { SidebarIconComponent } from "./SidebarNavItem";
 import type { CategoryStats } from "@/lib/pipeline/queries/aggregate";
@@ -61,6 +62,9 @@ const DevtoSidebarIcon: SidebarIconComponent = (p) => (
 );
 const ProductHuntSidebarIcon: SidebarIconComponent = (p) => (
   <ProductHuntIcon {...p} monochrome />
+);
+const LobstersSidebarIcon: SidebarIconComponent = (p) => (
+  <LobstersIcon {...p} monochrome />
 );
 
 export interface SidebarContentProps {
@@ -236,6 +240,15 @@ export function SidebarContent({
             active={
               pathname === "/devto" ||
               pathname.startsWith("/devto/")
+            }
+          />
+          <SidebarNavItem
+            href="/news?tab=lobsters"
+            icon={LobstersSidebarIcon}
+            label="Lobsters"
+            active={
+              pathname === "/lobsters" ||
+              (pathname.startsWith("/news") && /tab=lobsters/.test(pathname + "?"))
             }
           />
         </SidebarSection>

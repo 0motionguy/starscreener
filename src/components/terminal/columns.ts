@@ -21,7 +21,9 @@ import { BskyBadge } from "@/components/bluesky/BskyBadge";
 import { getBlueskyMentions } from "@/lib/bluesky";
 import { PhBadge } from "@/components/producthunt/PhBadge";
 import { DevtoBadge } from "@/components/devto/DevtoBadge";
+import { LobstersBadge } from "@/components/lobsters/LobstersBadge";
 import { getLaunchForRepo } from "@/lib/producthunt";
+import { getLobstersMentions } from "@/lib/lobsters";
 import type { ColumnId, Repo } from "@/lib/types";
 
 // Inlined instead of imported from @/lib/collections to keep node:fs out
@@ -346,6 +348,13 @@ export const COLUMNS: Column[] = [
             // article was published in the last 7d (sparser than HN).
             createElement(DevtoBadge, {
               mention: repo.devto ?? null,
+              size: "sm",
+            }),
+            // Lobsters mention badge — renders null when the repo has no
+            // lobste.rs mention in the last 7d. Lobsters is low-volume
+            // and high-signal, so when this chip lights up it matters.
+            createElement(LobstersBadge, {
+              mention: getLobstersMentions(repo.fullName),
               size: "sm",
             }),
             // ChannelDots removed from the row — the per-source badges

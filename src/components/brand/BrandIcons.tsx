@@ -226,6 +226,33 @@ export function DevtoIcon({ size = 16, className, monochrome }: IconProps) {
 }
 
 /**
+ * Lobsters — community-run OSS/tech link aggregator. No simple-icons mark
+ * exists for Lobsters; their own favicon is a stylised "L" in a red
+ * shield. We render a shield silhouette with an inset "L" so the glyph
+ * reads as Lobsters at chip scale without redistributing their artwork.
+ * Canonical fill: #AC130D.
+ */
+export function LobstersIcon({ size = 16, className, monochrome }: IconProps) {
+  const fill = monochrome ? "currentColor" : "#AC130D";
+  return (
+    <svg {...svgRoot(size, className)}>
+      {/* Shield silhouette */}
+      <path
+        d="M12 2.5 L20 5 V12 C20 16.5 16.5 20 12 21.5 C7.5 20 4 16.5 4 12 V5 Z"
+        fill={fill}
+      />
+      {/* Inset "L" — rendered in the surface bg so it reads as a
+          negative-space cutout. Adopts the theme's --color-bg-primary
+          so the cutout works in both dark and light modes. */}
+      <path
+        d="M9 7 L9 15 L15 15 L15 13 L11 13 L11 7 Z"
+        fill="var(--color-bg-primary)"
+      />
+    </svg>
+  );
+}
+
+/**
  * Product Hunt — official cat-face circle + P (simple-icons "producthunt").
  * Canonical fill: #DA552F.
  */

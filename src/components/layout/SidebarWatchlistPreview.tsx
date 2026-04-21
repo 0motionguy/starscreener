@@ -16,6 +16,8 @@ import { ChannelDots } from "@/components/cross-signal/ChannelDots";
 import { getHnMentions } from "@/lib/hackernews";
 import { BskyBadge } from "@/components/bluesky/BskyBadge";
 import { getBlueskyMentions } from "@/lib/bluesky";
+import { PhBadge } from "@/components/producthunt/PhBadge";
+import { getLaunchForRepo } from "@/lib/producthunt";
 
 export interface SidebarWatchlistPreviewRepo {
   id: string;
@@ -103,6 +105,7 @@ export function SidebarWatchlistPreview({
               />
               <HnBadge mention={getHnMentions(repo.fullName)} size="sm" />
               <BskyBadge mention={getBlueskyMentions(repo.fullName)} size="sm" />
+              <PhBadge launch={getLaunchForRepo(repo.fullName)} size="sm" />
             </div>
             <span
               className={cn(

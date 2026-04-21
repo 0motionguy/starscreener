@@ -35,6 +35,7 @@ import {
   deriveTags,
 } from "./pipeline/classification/classifier";
 import { attachCrossSignal } from "./pipeline/cross-signal";
+import { getLaunchForRepo } from "./producthunt";
 
 let _cache: Repo[] | null = null;
 let _byFullName: Map<string, Repo> | null = null;
@@ -494,6 +495,29 @@ export function getDerivedRepos(): Repo[] {
   // `bluesky` rollup so surfaces can render the BskyBadge without
   // re-querying the mentions JSON.
   repos = attachCrossSignal(repos);
+
+  // 3.6 Attach ProductHunt launch for tracked repos that have a recent (7d)
+  // PH match. Sparse by design — only repos whose github.com URL appeared
+  // in a PH launch's website/description get this field set. Most repos
+  // keep producthunt = undefined. Used by PhBadge and the "Hot launch"
+  // cross-signal highlight.
+  repos = repos.map((r) => {
+    const launch = getLaunchForRepo(r.fullName);
+    if (!launch) return r;
+    return {
+      ...r,
+      producthunt: {
+        launchedOnPH: true,
+        launch: {
+          id: launch.id,
+          name: launch.name,
+          votesCount: launch.votesCount,
+          daysSinceLaunch: launch.daysSinceLaunch,
+          url: launch.url,
+        },
+      },
+    };
+  });
 
   // 4. Rank by momentum desc, tracking per-category position.
   const sorted = [...repos].sort((a, b) => b.momentumScore - a.momentumScore);

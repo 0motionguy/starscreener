@@ -20,6 +20,8 @@ import { ChannelDots } from "@/components/cross-signal/ChannelDots";
 import { getHnMentions } from "@/lib/hackernews";
 import { BskyBadge } from "@/components/bluesky/BskyBadge";
 import { getBlueskyMentions } from "@/lib/bluesky";
+import { PhBadge } from "@/components/producthunt/PhBadge";
+import { getLaunchForRepo } from "@/lib/producthunt";
 import type { ColumnId, Repo } from "@/lib/types";
 
 // Inlined instead of imported from @/lib/collections to keep node:fs out
@@ -340,6 +342,12 @@ export const COLUMNS: Column[] = [
             }),
             createElement(BskyBadge, {
               mention: getBlueskyMentions(repo.fullName),
+              size: "sm",
+            }),
+            // ProductHunt launch badge — renders null unless this repo has a
+            // matched PH launch in the last 7d (sparse by design).
+            createElement(PhBadge, {
+              launch: getLaunchForRepo(repo.fullName),
               size: "sm",
             }),
             // 4-channel cross-signal indicator. hideWhenEmpty so quiet

@@ -120,6 +120,24 @@ export interface Repo {
       author: { handle: string; displayName?: string };
     };
   } | null;
+
+  /**
+   * ProductHunt launch match — set only when a tracked repo has a recent PH
+   * launch (last 7d) whose website/description links to github.com/<repo>.
+   * Null/undefined for most repos (sparse by design). Drives the PhBadge on
+   * repo rows + the "🚀 Hot launch" indicator when combined with cross-
+   * signal channel firing.
+   */
+  producthunt?: {
+    launchedOnPH: boolean;
+    launch: {
+      id: string;
+      name: string;
+      votesCount: number;
+      daysSinceLaunch: number;
+      url: string;
+    };
+  } | null;
 }
 
 export interface Category {

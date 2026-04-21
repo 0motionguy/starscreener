@@ -15,6 +15,8 @@ import { ChannelDots } from "@/components/cross-signal/ChannelDots";
 import { getHnMentions } from "@/lib/hackernews";
 import { BskyBadge } from "@/components/bluesky/BskyBadge";
 import { getBlueskyMentions } from "@/lib/bluesky";
+import { PhBadge } from "@/components/producthunt/PhBadge";
+import { getLaunchForRepo } from "@/lib/producthunt";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 
 interface RepoBannerCardProps {
@@ -59,6 +61,7 @@ export function RepoBannerCard({
   const topics = bundle.topics?.slice(0, MAX_TOPICS) ?? [];
   const hnMention = getHnMentions(bundle.fullName);
   const bskyMention = getBlueskyMentions(bundle.fullName);
+  const phLaunch = getLaunchForRepo(bundle.fullName);
   // Pull the derived Repo so ChannelDots can compute channel state.
   // null when the repo isn't in the trending corpus — channel dots
   // stay hidden, hnMention badge can still render.
@@ -105,6 +108,7 @@ export function RepoBannerCard({
             )}
             <HnBadge mention={hnMention} size="md" />
             <BskyBadge mention={bskyMention} size="md" />
+            <PhBadge launch={phLaunch} size="md" />
             {derivedRepo && (
               <ChannelDots repo={derivedRepo} hideWhenEmpty size="md" />
             )}

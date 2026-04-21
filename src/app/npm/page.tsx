@@ -1,26 +1,45 @@
-// /npm - package download telemetry.
+// /npm - top repo-linked npm packages by download velocity.
 //
-// This is its own terminal because npm is not editorial/news flow. It is
-// registry adoption data: downloads, package metadata, and GitHub repo links.
+// npm is its own terminal because it is registry adoption telemetry, not a
+// news/social mention source. The scraper discovers package candidates,
+// keeps only rows whose metadata links to GitHub, then ranks 24h/7d/30d.
 
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
-  getNpmPackages,
+  deltaPctForNpmWindow,
+  downloadsForNpmWindow,
   getNpmPackagesFile,
+  getTopNpmPackages,
   npmCold,
   npmFetchedAt,
   type NpmPackageRow,
+  type NpmWindow,
 } from "@/lib/npm";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 
-export const dynamic = "force-static";
+const WINDOWS: NpmWindow[] = ["24h", "7d", "30d"];
+const DEFAULT_WINDOW: NpmWindow = "24h";
+
+// Dynamic because the active window comes from searchParams.
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "TrendingRepo - NPM Packages",
+  title: "TrendingRepo - NPM Trending Packages",
   description:
-    "npm package download velocity, registry metadata, and GitHub repo links for TrendingRepo package signals.",
+    "Top npm packages over 24h, 7d, and 30d windows, filtered to packages with GitHub repositories attached.",
 };
+
+interface NpmPageProps {
+  searchParams: Promise<{ range?: string | string[] }>;
+}
+
+function parseWindow(raw: string | string[] | undefined): NpmWindow {
+  const candidate = Array.isArray(raw) ? raw[0] : raw;
+  return (WINDOWS as readonly string[]).includes(candidate ?? "")
+    ? (candidate as NpmWindow)
+    : DEFAULT_WINDOW;
+}
 
 function formatRelative(iso: string | null | undefined): string {
   if (!iso) return "never";
@@ -43,19 +62,18 @@ function formatCompact(n: number): string {
   }).format(n);
 }
 
-function formatDeltaPct(n: number): string {
-  if (!Number.isFinite(n)) return "0%";
+function formatDeltaPct(n: number | null): string {
+  if (n === null || !Number.isFinite(n)) return "-";
   const sign = n > 0 ? "+" : "";
   return `${sign}${n.toFixed(Math.abs(n) >= 10 ? 0 : 1)}%`;
 }
 
-export default function NpmPage() {
+export default async function NpmPage({ searchParams }: NpmPageProps) {
+  const { range } = await searchParams;
+  const activeWindow = parseWindow(range);
   const file = getNpmPackagesFile();
-  const packages = getNpmPackages();
-  const published = packages.filter((pkg) => pkg.status === "ok");
-  const missing = packages.filter((pkg) => pkg.status === "missing");
-  const repoLinked = packages.filter((pkg) => pkg.linkedRepo);
-  const top7d = published[0]?.downloads7d ?? 0;
+  const packages = getTopNpmPackages(activeWindow, 100);
+  const top = packages[0];
   const cold = npmCold || packages.length === 0;
 
   return (
@@ -64,17 +82,17 @@ export default function NpmPage() {
         <header className="mb-6 border-b border-border-primary pb-6">
           <div className="flex items-baseline gap-3 flex-wrap">
             <h1 className="text-2xl font-bold uppercase tracking-wider">
-              NPM / PACKAGES
+              NPM / TOP PACKAGES
             </h1>
             <span className="text-xs text-text-tertiary">
-              {"// package adoption telemetry, not news"}
+              {"// 24h / 7d / 30d repo-linked package velocity"}
             </span>
           </div>
           <p className="mt-2 text-sm text-text-secondary max-w-3xl">
-            Public npm download stats are scraped without auth and joined with
-            registry metadata. Use this terminal for package velocity and
-            repo-linked package badges; keep News Terminal for Reddit,
-            HackerNews, ProductHunt, Bluesky, dev.to, and Lobsters.
+            Top npm packages are discovered through npm registry search, then
+            filtered to packages with a GitHub repository attached. The table
+            ranks public download velocity over the selected window; npm stats
+            usually lag by 24-48 hours.
           </p>
         </header>
 
@@ -82,6 +100,8 @@ export default function NpmPage() {
           <ColdState />
         ) : (
           <>
+            <TabNav active={activeWindow} />
+
             <section className="mb-6 grid grid-cols-2 md:grid-cols-4 gap-3">
               <StatTile
                 label="LAST SCRAPE"
@@ -96,23 +116,23 @@ export default function NpmPage() {
                 }
               />
               <StatTile
-                label="PACKAGES"
-                value={packages.length.toLocaleString()}
-                hint={`${published.length} published / ${missing.length} cold`}
+                label={`TOP ${activeWindow.toUpperCase()}`}
+                value={top ? formatCompact(downloadsForNpmWindow(top, activeWindow)) : "0"}
+                hint={top?.name}
               />
               <StatTile
                 label="REPOS LINKED"
-                value={repoLinked.length.toLocaleString()}
-                hint="registry repository -> GitHub"
+                value={file.counts.linkedRepos.toLocaleString()}
+                hint={`${file.discovery.candidatesFound.toLocaleString()} search candidates`}
               />
               <StatTile
-                label="TOP 7D"
-                value={formatCompact(top7d)}
-                hint={file.lagHint}
+                label="DISCOVERY"
+                value={file.discovery.queries.length.toLocaleString()}
+                hint={`queries x ${file.discovery.searchSize} results`}
               />
             </section>
 
-            <PackageFeed packages={packages} />
+            <PackageFeed packages={packages} activeWindow={activeWindow} />
           </>
         )}
       </div>
@@ -120,22 +140,56 @@ export default function NpmPage() {
   );
 }
 
-function PackageFeed({ packages }: { packages: NpmPackageRow[] }) {
+function TabNav({ active }: { active: NpmWindow }) {
+  return (
+    <nav
+      aria-label="npm time windows"
+      className="mb-6 flex items-center gap-1 border-b border-border-primary overflow-x-auto scrollbar-hide"
+    >
+      {WINDOWS.map((window) => {
+        const isActive = window === active;
+        return (
+          <Link
+            key={window}
+            href={`/npm?range=${window}`}
+            aria-current={isActive ? "page" : undefined}
+            className={`inline-flex items-center gap-2 px-3 min-h-[40px] text-xs uppercase tracking-wider whitespace-nowrap transition-colors ${
+              isActive
+                ? "text-text-primary border-b-2 border-accent-green"
+                : "text-text-tertiary hover:text-text-secondary border-b-2 border-transparent"
+            }`}
+          >
+            Top {window}
+          </Link>
+        );
+      })}
+    </nav>
+  );
+}
+
+function PackageFeed({
+  packages,
+  activeWindow,
+}: {
+  packages: NpmPackageRow[];
+  activeWindow: NpmWindow;
+}) {
   return (
     <section className="border border-border-primary rounded-md bg-bg-secondary overflow-hidden">
-      <div className="hidden md:grid grid-cols-[40px_minmax(0,1.35fr)_minmax(0,1fr)_110px_110px_86px_120px] gap-3 items-center px-3 h-9 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
+      <div className="hidden md:grid grid-cols-[40px_minmax(0,1.3fr)_minmax(0,1fr)_100px_100px_100px_86px_110px] gap-3 items-center px-3 h-9 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
         <div>#</div>
         <div>PACKAGE</div>
         <div>REPO</div>
+        <div className="text-right">24H</div>
         <div className="text-right">7D</div>
         <div className="text-right">30D</div>
         <div className="text-right">DELTA</div>
-        <div>STATUS</div>
+        <div>VERSION</div>
       </div>
       <div className="grid md:hidden grid-cols-[32px_1fr_86px] gap-2 items-center px-3 h-9 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
         <div>#</div>
         <div>PACKAGE</div>
-        <div className="text-right">7D</div>
+        <div className="text-right">{activeWindow.toUpperCase()}</div>
       </div>
 
       <ul>
@@ -144,26 +198,27 @@ function PackageFeed({ packages }: { packages: NpmPackageRow[] }) {
             key={pkg.name}
             className="border-b border-border-primary/40 last:border-b-0"
           >
-            <div className="hidden md:grid grid-cols-[40px_minmax(0,1.35fr)_minmax(0,1fr)_110px_110px_86px_120px] gap-3 items-center px-3 py-2 min-h-[58px] hover:bg-bg-card-hover transition-colors">
-              <Rank index={i} status={pkg.status} />
+            <div className="hidden md:grid grid-cols-[40px_minmax(0,1.3fr)_minmax(0,1fr)_100px_100px_100px_86px_110px] gap-3 items-center px-3 py-2 min-h-[58px] hover:bg-bg-card-hover transition-colors">
+              <Rank index={i} />
               <PackageIdentity pkg={pkg} />
               <RepoLink pkg={pkg} />
-              <Metric value={pkg.downloads7d} />
-              <Metric value={pkg.downloads30d} muted />
-              <Delta value={pkg.deltaPct7d} />
-              <StatusPill pkg={pkg} />
+              <Metric value={pkg.downloads24h} active={activeWindow === "24h"} />
+              <Metric value={pkg.downloads7d} active={activeWindow === "7d"} />
+              <Metric value={pkg.downloads30d} active={activeWindow === "30d"} />
+              <Delta value={deltaPctForNpmWindow(pkg, activeWindow)} />
+              <VersionPill pkg={pkg} />
             </div>
 
             <div className="grid md:hidden grid-cols-[32px_1fr_86px] gap-2 items-center px-3 py-2 min-h-[64px] hover:bg-bg-card-hover transition-colors">
-              <Rank index={i} status={pkg.status} />
+              <Rank index={i} />
               <div className="min-w-0">
                 <PackageIdentity pkg={pkg} />
                 <div className="mt-1 flex items-center gap-2">
-                  <StatusPill pkg={pkg} />
-                  <Delta value={pkg.deltaPct7d} />
+                  <VersionPill pkg={pkg} />
+                  <Delta value={deltaPctForNpmWindow(pkg, activeWindow)} />
                 </div>
               </div>
-              <Metric value={pkg.downloads7d} />
+              <Metric value={downloadsForNpmWindow(pkg, activeWindow)} active />
             </div>
           </li>
         ))}
@@ -172,19 +227,9 @@ function PackageFeed({ packages }: { packages: NpmPackageRow[] }) {
   );
 }
 
-function Rank({
-  index,
-  status,
-}: {
-  index: number;
-  status: NpmPackageRow["status"];
-}) {
+function Rank({ index }: { index: number }) {
   return (
-    <div
-      className={`text-xs tabular-nums font-semibold ${
-        status === "ok" ? "text-accent-green" : "text-text-tertiary"
-      }`}
-    >
+    <div className="text-xs tabular-nums font-semibold text-accent-green">
       #{index + 1}
     </div>
   );
@@ -203,17 +248,13 @@ function PackageIdentity({ pkg }: { pkg: NpmPackageRow }) {
         {pkg.name}
       </a>
       <div className="text-[11px] text-text-tertiary truncate">
-        {pkg.description ?? pkg.error ?? "no registry metadata yet"}
+        {pkg.description ?? "repo-linked npm package"}
       </div>
     </div>
   );
 }
 
 function RepoLink({ pkg }: { pkg: NpmPackageRow }) {
-  if (!pkg.linkedRepo) {
-    return <div className="text-[11px] text-text-tertiary">-</div>;
-  }
-
   const derived = getDerivedRepoByFullName(pkg.linkedRepo);
   if (derived) {
     return (
@@ -240,11 +281,11 @@ function RepoLink({ pkg }: { pkg: NpmPackageRow }) {
   );
 }
 
-function Metric({ value, muted = false }: { value: number; muted?: boolean }) {
+function Metric({ value, active = false }: { value: number; active?: boolean }) {
   return (
     <div
       className={`text-right text-xs tabular-nums ${
-        muted ? "text-text-secondary" : "text-text-primary font-semibold"
+        active ? "text-text-primary font-semibold" : "text-text-secondary"
       }`}
     >
       {formatCompact(value)}
@@ -252,9 +293,9 @@ function Metric({ value, muted = false }: { value: number; muted?: boolean }) {
   );
 }
 
-function Delta({ value }: { value: number }) {
-  const up = value > 0;
-  const flat = Math.abs(value) < 0.1;
+function Delta({ value }: { value: number | null }) {
+  const up = value !== null && value > 0;
+  const flat = value === null || Math.abs(value) < 0.1;
   return (
     <div
       className={`text-right text-xs tabular-nums ${
@@ -266,28 +307,15 @@ function Delta({ value }: { value: number }) {
   );
 }
 
-function StatusPill({ pkg }: { pkg: NpmPackageRow }) {
-  const label =
-    pkg.status === "ok"
-      ? pkg.latestVersion
-        ? `v${pkg.latestVersion}`
-        : "published"
-      : pkg.status === "missing"
-        ? "not published"
-        : "stats error";
-  const cls =
-    pkg.status === "ok"
-      ? "border-accent-green/40 text-accent-green bg-accent-green/10"
-      : pkg.status === "missing"
-        ? "border-border-primary text-text-tertiary bg-bg-tertiary"
-        : "border-red-500/40 text-red-300 bg-red-500/10";
-
+function VersionPill({ pkg }: { pkg: NpmPackageRow }) {
   return (
     <span
-      className={`inline-flex max-w-full items-center rounded-sm border px-1.5 py-0.5 text-[10px] uppercase tracking-wider ${cls}`}
-      title={pkg.error ?? undefined}
+      className="inline-flex max-w-full items-center rounded-sm border border-accent-green/40 bg-accent-green/10 px-1.5 py-0.5 text-[10px] uppercase tracking-wider text-accent-green"
+      title={pkg.publishedAt ?? undefined}
     >
-      <span className="truncate">{label}</span>
+      <span className="truncate">
+        {pkg.latestVersion ? `v${pkg.latestVersion}` : "published"}
+      </span>
     </span>
   );
 }
@@ -320,12 +348,13 @@ function ColdState() {
   return (
     <section className="border border-dashed border-border-primary rounded-md p-8 bg-bg-secondary/40">
       <h2 className="text-lg font-bold uppercase tracking-wider text-accent-green">
-        {"// no npm data yet"}
+        {"// no repo-linked npm data yet"}
       </h2>
       <p className="mt-3 text-sm text-text-secondary max-w-xl">
         Run <code className="text-text-primary">npm run scrape:npm</code> to
-        populate <code className="text-text-primary">data/npm-packages.json</code>.
-        No API key is required.
+        discover npm packages, keep only packages with GitHub repos attached,
+        and populate{" "}
+        <code className="text-text-primary">data/npm-packages.json</code>.
       </p>
     </section>
   );

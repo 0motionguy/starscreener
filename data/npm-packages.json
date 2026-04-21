@@ -1,163 +1,743 @@
 {
-  "fetchedAt": "2026-04-21T13:43:42.734Z",
+  "fetchedAt": "2026-04-21T13:59:37.306Z",
   "source": "npm",
   "sourceUrl": "https://api.npmjs.org/downloads/",
-  "registryUrl": "https://registry.npmjs.org/",
+  "registrySearchUrl": "https://registry.npmjs.org/-/v1/search",
   "windowDays": 30,
-  "downloadRange": "last-month",
+  "windows": [
+    "24h",
+    "7d",
+    "30d"
+  ],
+  "activeWindowDefault": "24h",
+  "downloadRange": "point:last-day,last-week,last-month",
   "lagHint": "npm public download stats usually lag by 24-48 hours",
+  "discovery": {
+    "mode": "registry-search-with-github-repo-filter",
+    "searchSize": 10,
+    "topLimit": 75,
+    "candidateLimit": 80,
+    "downloadBulkSize": 100,
+    "queries": [
+      "ai",
+      "llm",
+      "agent",
+      "mcp",
+      "rag",
+      "openai",
+      "anthropic",
+      "claude",
+      "ollama",
+      "embedding",
+      "react",
+      "next",
+      "vite",
+      "cli"
+    ],
+    "candidatesFound": 118,
+    "failures": []
+  },
   "counts": {
-    "total": 14,
-    "ok": 10,
-    "missing": 4,
+    "total": 76,
+    "ok": 76,
+    "missing": 0,
     "error": 0,
-    "linkedRepos": 10
+    "linkedRepos": 76
+  },
+  "top": {
+    "24h": [
+      "react-is",
+      "react",
+      "react-dom",
+      "@types/react",
+      "vite",
+      "cli-cursor",
+      "eslint-plugin-react-hooks",
+      "@aws-sdk/middleware-user-agent",
+      "@aws-sdk/util-user-agent-node",
+      "@aws-sdk/util-user-agent-browser",
+      "react-router",
+      "tunnel-agent",
+      "next",
+      "react-smooth",
+      "vite-node",
+      "@next/swc-linux-x64-gnu",
+      "universal-user-agent",
+      "@npmcli/agent",
+      "react-redux",
+      "@next/swc-linux-x64-musl",
+      "openai",
+      "vite-tsconfig-paths",
+      "@anthropic-ai/sdk",
+      "webpack-cli",
+      "ai",
+      "@ai-sdk/gateway",
+      "@storybook/builder-vite",
+      "@angular-devkit/schematics-cli",
+      "@ai-sdk/openai",
+      "@cloudflare/vite-plugin",
+      "@angular/cli",
+      "@ai-sdk/react",
+      "@ai-sdk/anthropic",
+      "@firebase/ai",
+      "@react-navigation/native",
+      "@expo/cli",
+      "@sentry/vite-plugin",
+      "react-freeze",
+      "@next/swc-linux-arm64-gnu",
+      "@module-federation/cli",
+      "@swc/cli",
+      "@ai-sdk/google",
+      "@next/swc-linux-arm64-musl",
+      "@next/swc-darwin-arm64",
+      "@next/swc-win32-x64-msvc",
+      "vite-plugin-dts",
+      "vite-plugin-pwa",
+      "@next/swc-darwin-x64",
+      "@opentelemetry/instrumentation-openai",
+      "@langchain/openai",
+      "@google/generative-ai",
+      "partial-json",
+      "@playwright/mcp",
+      "@pm2/agent",
+      "laravel-vite-plugin",
+      "postcss-cli",
+      "@newrelic/security-agent",
+      "@anthropic-ai/vertex-sdk",
+      "@postman/tunnel-agent",
+      "@ai-sdk/xai",
+      "@ai-sdk/azure",
+      "sequelize-cli",
+      "cli",
+      "vite-plugin-istanbul",
+      "chrome-devtools-mcp",
+      "mcp-proxy",
+      "@langchain/anthropic",
+      "@openai/agents",
+      "@openai/agents-openai",
+      "@traceloop/instrumentation-anthropic",
+      "@stdlib/utils-next-tick",
+      "@upstash/context7-mcp",
+      "ollama",
+      "@bytecodealliance/componentize-js",
+      "@anthropic-ai/bedrock-sdk"
+    ],
+    "7d": [
+      "react-is",
+      "react",
+      "react-dom",
+      "@types/react",
+      "vite",
+      "telecom-mas-agent",
+      "cli-cursor",
+      "eslint-plugin-react-hooks",
+      "@aws-sdk/middleware-user-agent",
+      "@aws-sdk/util-user-agent-node",
+      "@aws-sdk/util-user-agent-browser",
+      "react-router",
+      "next",
+      "react-smooth",
+      "tunnel-agent",
+      "vite-node",
+      "@next/swc-linux-x64-gnu",
+      "universal-user-agent",
+      "react-redux",
+      "@next/swc-linux-x64-musl",
+      "@npmcli/agent",
+      "openai",
+      "@anthropic-ai/sdk",
+      "vite-tsconfig-paths",
+      "ai",
+      "webpack-cli",
+      "@ai-sdk/gateway",
+      "@storybook/builder-vite",
+      "@ai-sdk/openai",
+      "@angular-devkit/schematics-cli",
+      "@ai-sdk/react",
+      "@ai-sdk/anthropic",
+      "@angular/cli",
+      "@firebase/ai",
+      "@react-navigation/native",
+      "@expo/cli",
+      "react-freeze",
+      "@next/swc-linux-arm64-gnu",
+      "@ai-sdk/google",
+      "@sentry/vite-plugin",
+      "@next/swc-darwin-arm64",
+      "@swc/cli",
+      "@next/swc-linux-arm64-musl",
+      "@module-federation/cli",
+      "@next/swc-win32-x64-msvc",
+      "@cloudflare/vite-plugin",
+      "vite-plugin-pwa",
+      "@next/swc-darwin-x64",
+      "vite-plugin-dts",
+      "@langchain/openai",
+      "@opentelemetry/instrumentation-openai",
+      "@google/generative-ai",
+      "@playwright/mcp",
+      "partial-json",
+      "@pm2/agent",
+      "@anthropic-ai/vertex-sdk",
+      "laravel-vite-plugin",
+      "postcss-cli",
+      "@newrelic/security-agent",
+      "@ai-sdk/xai",
+      "@postman/tunnel-agent",
+      "@ai-sdk/azure",
+      "cli",
+      "sequelize-cli",
+      "vite-plugin-istanbul",
+      "chrome-devtools-mcp",
+      "@upstash/context7-mcp",
+      "@langchain/anthropic",
+      "mcp-proxy",
+      "@openai/agents",
+      "@openai/agents-openai",
+      "@stdlib/utils-next-tick",
+      "@traceloop/instrumentation-anthropic",
+      "ollama",
+      "@anthropic-ai/bedrock-sdk"
+    ],
+    "30d": [
+      "react-is",
+      "react",
+      "react-dom",
+      "@types/react",
+      "vite",
+      "cli-cursor",
+      "eslint-plugin-react-hooks",
+      "@aws-sdk/middleware-user-agent",
+      "@aws-sdk/util-user-agent-node",
+      "@aws-sdk/util-user-agent-browser",
+      "react-router",
+      "telecom-mas-agent",
+      "next",
+      "@next/swc-linux-x64-gnu",
+      "tunnel-agent",
+      "@next/swc-linux-x64-musl",
+      "vite-node",
+      "universal-user-agent",
+      "react-smooth",
+      "react-redux",
+      "@npmcli/agent",
+      "openai",
+      "@anthropic-ai/sdk",
+      "webpack-cli",
+      "ai",
+      "vite-tsconfig-paths",
+      "@ai-sdk/gateway",
+      "@storybook/builder-vite",
+      "@ai-sdk/openai",
+      "@angular-devkit/schematics-cli",
+      "@ai-sdk/react",
+      "@angular/cli",
+      "@ai-sdk/anthropic",
+      "@firebase/ai",
+      "@react-navigation/native",
+      "@expo/cli",
+      "react-freeze",
+      "@next/swc-linux-arm64-gnu",
+      "@next/swc-linux-arm64-musl",
+      "@next/swc-darwin-arm64",
+      "@next/swc-win32-x64-msvc",
+      "@module-federation/cli",
+      "@ai-sdk/google",
+      "@sentry/vite-plugin",
+      "@swc/cli",
+      "@next/swc-darwin-x64",
+      "vite-plugin-dts",
+      "@langchain/openai",
+      "@playwright/mcp",
+      "vite-plugin-pwa",
+      "@opentelemetry/instrumentation-openai",
+      "@google/generative-ai",
+      "partial-json",
+      "@pm2/agent",
+      "@anthropic-ai/vertex-sdk",
+      "@cloudflare/vite-plugin",
+      "laravel-vite-plugin",
+      "postcss-cli",
+      "@newrelic/security-agent",
+      "@postman/tunnel-agent",
+      "@ai-sdk/xai",
+      "sequelize-cli",
+      "@ai-sdk/azure",
+      "cli",
+      "vite-plugin-istanbul",
+      "@upstash/context7-mcp",
+      "@langchain/anthropic",
+      "chrome-devtools-mcp",
+      "@openai/agents",
+      "@openai/agents-openai",
+      "@stdlib/utils-next-tick",
+      "@traceloop/instrumentation-anthropic",
+      "ollama",
+      "mcp-proxy",
+      "@anthropic-ai/bedrock-sdk"
+    ]
   },
   "packages": [
     {
-      "name": "zod",
-      "status": "ok",
-      "npmUrl": "https://www.npmjs.com/package/zod",
-      "description": "TypeScript-first schema declaration and validation library with static type inference",
-      "latestVersion": "4.3.6",
-      "publishedAt": "2026-01-22T19:14:35.382Z",
-      "repositoryUrl": "https://github.com/colinhacks/zod",
-      "linkedRepo": "colinhacks/zod",
-      "homepage": "https://zod.dev",
-      "downloads": [
-        {
-          "day": "2026-03-22",
-          "downloads": 10380778
-        },
-        {
-          "day": "2026-03-23",
-          "downloads": 22223907
-        },
-        {
-          "day": "2026-03-24",
-          "downloads": 22621391
-        },
-        {
-          "day": "2026-03-25",
-          "downloads": 23911412
-        },
-        {
-          "day": "2026-03-26",
-          "downloads": 29696229
-        },
-        {
-          "day": "2026-03-27",
-          "downloads": 24968079
-        },
-        {
-          "day": "2026-03-28",
-          "downloads": 11803581
-        },
-        {
-          "day": "2026-03-29",
-          "downloads": 11132594
-        },
-        {
-          "day": "2026-03-30",
-          "downloads": 24771994
-        },
-        {
-          "day": "2026-03-31",
-          "downloads": 24739821
-        },
-        {
-          "day": "2026-04-01",
-          "downloads": 26450117
-        },
-        {
-          "day": "2026-04-02",
-          "downloads": 22728015
-        },
-        {
-          "day": "2026-04-03",
-          "downloads": 17864800
-        },
-        {
-          "day": "2026-04-04",
-          "downloads": 11525146
-        },
-        {
-          "day": "2026-04-05",
-          "downloads": 10943291
-        },
-        {
-          "day": "2026-04-06",
-          "downloads": 18867840
-        },
-        {
-          "day": "2026-04-07",
-          "downloads": 23822652
-        },
-        {
-          "day": "2026-04-08",
-          "downloads": 24183175
-        },
-        {
-          "day": "2026-04-09",
-          "downloads": 25796474
-        },
-        {
-          "day": "2026-04-10",
-          "downloads": 24359426
-        },
-        {
-          "day": "2026-04-11",
-          "downloads": 14024545
-        },
-        {
-          "day": "2026-04-12",
-          "downloads": 13618603
-        },
-        {
-          "day": "2026-04-13",
-          "downloads": 25330653
-        },
-        {
-          "day": "2026-04-14",
-          "downloads": 26748075
-        },
-        {
-          "day": "2026-04-15",
-          "downloads": 27221476
-        },
-        {
-          "day": "2026-04-16",
-          "downloads": 26768507
-        },
-        {
-          "day": "2026-04-17",
-          "downloads": 24922988
-        },
-        {
-          "day": "2026-04-18",
-          "downloads": 13777510
-        },
-        {
-          "day": "2026-04-19",
-          "downloads": 14097650
-        },
-        {
-          "day": "2026-04-20",
-          "downloads": 26567370
-        }
+      "name": "react-is",
+      "npmUrl": "https://www.npmjs.com/package/react-is",
+      "description": "Brand checking of React Elements.",
+      "latestVersion": "19.2.5",
+      "publishedAt": "2026-04-08T18:39:43.685Z",
+      "repositoryUrl": "https://github.com/facebook/react",
+      "linkedRepo": "facebook/react",
+      "homepage": "https://react.dev/",
+      "keywords": [
+        "react"
       ],
-      "downloadsLastDay": 26567370,
-      "downloads7d": 160103576,
-      "previous7d": 151135528,
-      "downloads30d": 625868099,
-      "delta7d": 8968048,
-      "deltaPct7d": 5.9,
-      "trendScore": 1566122917,
+      "discovery": {
+        "queries": [
+          "react"
+        ],
+        "searchScore": 253.54585,
+        "finalScore": 253.54585,
+        "weeklyDownloads": 278517311,
+        "monthlyDownloads": 1061168179
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 48247140,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 278517311,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 1061168179,
+      "trendScore24h": 48247140,
+      "trendScore7d": 278517311,
+      "trendScore30d": 1061168179,
+      "error": null
+    },
+    {
+      "name": "react",
+      "npmUrl": "https://www.npmjs.com/package/react",
+      "description": "React is a JavaScript library for building user interfaces.",
+      "latestVersion": "19.2.5",
+      "publishedAt": "2026-04-08T18:39:24.455Z",
+      "repositoryUrl": "https://github.com/facebook/react",
+      "linkedRepo": "facebook/react",
+      "homepage": "https://react.dev/",
+      "keywords": [
+        "react"
+      ],
+      "discovery": {
+        "queries": [
+          "react"
+        ],
+        "searchScore": 2203.7427,
+        "finalScore": 2203.7427,
+        "weeklyDownloads": 125187902,
+        "monthlyDownloads": 495113995
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 20855871,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 125187902,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 495113995,
+      "trendScore24h": 20855871,
+      "trendScore7d": 125187902,
+      "trendScore30d": 495113995,
+      "error": null
+    },
+    {
+      "name": "react-dom",
+      "npmUrl": "https://www.npmjs.com/package/react-dom",
+      "description": "React package for working with the DOM.",
+      "latestVersion": "19.2.5",
+      "publishedAt": "2026-04-08T18:39:31.423Z",
+      "repositoryUrl": "https://github.com/facebook/react",
+      "linkedRepo": "facebook/react",
+      "homepage": "https://react.dev/",
+      "keywords": [
+        "react"
+      ],
+      "discovery": {
+        "queries": [
+          "react"
+        ],
+        "searchScore": 231.23688,
+        "finalScore": 231.23688,
+        "weeklyDownloads": 119439386,
+        "monthlyDownloads": 479199718
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 19664009,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 119439386,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 479199718,
+      "trendScore24h": 19664009,
+      "trendScore7d": 119439386,
+      "trendScore30d": 479199718,
+      "error": null
+    },
+    {
+      "name": "@types/react",
+      "npmUrl": "https://www.npmjs.com/package/@types/react",
+      "description": "TypeScript definitions for react",
+      "latestVersion": "19.2.14",
+      "publishedAt": "2026-02-11T11:44:58.515Z",
+      "repositoryUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+      "linkedRepo": "DefinitelyTyped/DefinitelyTyped",
+      "homepage": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react",
+      "keywords": [],
+      "discovery": {
+        "queries": [
+          "react"
+        ],
+        "searchScore": 227.46017,
+        "finalScore": 227.46017,
+        "weeklyDownloads": 110949168,
+        "monthlyDownloads": 435525545
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 18559631,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 110949168,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 435525545,
+      "trendScore24h": 18559631,
+      "trendScore7d": 110949168,
+      "trendScore30d": 435525545,
+      "error": null
+    },
+    {
+      "name": "vite",
+      "npmUrl": "https://www.npmjs.com/package/vite",
+      "description": "Native-ESM powered web dev build tool",
+      "latestVersion": "8.0.9",
+      "publishedAt": "2026-04-20T04:26:09.510Z",
+      "repositoryUrl": "https://github.com/vitejs/vite",
+      "linkedRepo": "vitejs/vite",
+      "homepage": "https://vite.dev",
+      "keywords": [
+        "frontend",
+        "framework",
+        "hmr",
+        "dev-server",
+        "build-tool",
+        "vite"
+      ],
+      "discovery": {
+        "queries": [
+          "vite"
+        ],
+        "searchScore": 2257.7998,
+        "finalScore": 2257.7998,
+        "weeklyDownloads": 108377244,
+        "monthlyDownloads": 390872847
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 18195531,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 108377244,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 390872847,
+      "trendScore24h": 18195531,
+      "trendScore7d": 108377244,
+      "trendScore30d": 390872847,
+      "error": null
+    },
+    {
+      "name": "cli-cursor",
+      "npmUrl": "https://www.npmjs.com/package/cli-cursor",
+      "description": "Toggle the CLI cursor",
+      "latestVersion": "5.0.0",
+      "publishedAt": "2024-07-26T14:02:26.233Z",
+      "repositoryUrl": "https://github.com/sindresorhus/cli-cursor",
+      "linkedRepo": "sindresorhus/cli-cursor",
+      "homepage": "https://github.com/sindresorhus/cli-cursor#readme",
+      "keywords": [
+        "cli",
+        "cursor",
+        "ansi",
+        "toggle",
+        "display",
+        "show",
+        "hide",
+        "term",
+        "terminal",
+        "console",
+        "tty",
+        "shell"
+      ],
+      "discovery": {
+        "queries": [
+          "cli"
+        ],
+        "searchScore": 294.94806,
+        "finalScore": 294.94806,
+        "weeklyDownloads": 89119060,
+        "monthlyDownloads": 370565790
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 15718663,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 89119060,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 370565790,
+      "trendScore24h": 15718663,
+      "trendScore7d": 89119060,
+      "trendScore30d": 370565790,
+      "error": null
+    },
+    {
+      "name": "eslint-plugin-react-hooks",
+      "npmUrl": "https://www.npmjs.com/package/eslint-plugin-react-hooks",
+      "description": "ESLint rules for React Hooks",
+      "latestVersion": "7.1.1",
+      "publishedAt": "2026-04-17T18:03:19.591Z",
+      "repositoryUrl": "https://github.com/facebook/react",
+      "linkedRepo": "facebook/react",
+      "homepage": "https://react.dev/",
+      "keywords": [
+        "eslint",
+        "eslint-plugin",
+        "eslintplugin",
+        "react"
+      ],
+      "discovery": {
+        "queries": [
+          "react"
+        ],
+        "searchScore": 222.70267,
+        "finalScore": 222.70267,
+        "weeklyDownloads": 77834148,
+        "monthlyDownloads": 301401995
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 13278731,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 77834148,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 301401995,
+      "trendScore24h": 13278731,
+      "trendScore7d": 77834148,
+      "trendScore30d": 301401995,
+      "error": null
+    },
+    {
+      "name": "@aws-sdk/middleware-user-agent",
+      "npmUrl": "https://www.npmjs.com/package/@aws-sdk/middleware-user-agent",
+      "description": "[![NPM version](https://img.shields.io/npm/v/@aws-sdk/middleware-user-agent/latest.svg)](https://www.npmjs.com/package/@aws-sdk/middleware-user-agent) [![NPM downloads](https://img.shields.io/npm/dm/@aws-sdk/middleware-user-agent.svg)](https://www.npmjs.c",
+      "latestVersion": "3.972.32",
+      "publishedAt": "2026-04-20T19:04:48.141Z",
+      "repositoryUrl": "https://github.com/aws/aws-sdk-js-v3",
+      "linkedRepo": "aws/aws-sdk-js-v3",
+      "homepage": "https://github.com/aws/aws-sdk-js-v3/tree/main/packages-internal/middleware-user-agent",
+      "keywords": [],
+      "discovery": {
+        "queries": [
+          "agent"
+        ],
+        "searchScore": 314.91202,
+        "finalScore": 314.91202,
+        "weeklyDownloads": 59014087,
+        "monthlyDownloads": 231797967
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 10273626,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 59014087,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 231797967,
+      "trendScore24h": 10273626,
+      "trendScore7d": 59014087,
+      "trendScore30d": 231797967,
+      "error": null
+    },
+    {
+      "name": "@aws-sdk/util-user-agent-node",
+      "npmUrl": "https://www.npmjs.com/package/@aws-sdk/util-user-agent-node",
+      "description": "[![NPM version](https://img.shields.io/npm/v/@aws-sdk/util-user-agent-node/latest.svg)](https://www.npmjs.com/package/@aws-sdk/util-user-agent-node) [![NPM downloads](https://img.shields.io/npm/dm/@aws-sdk/util-user-agent-node.svg)](https://www.npmjs.com/",
+      "latestVersion": "3.973.18",
+      "publishedAt": "2026-04-20T19:04:48.162Z",
+      "repositoryUrl": "https://github.com/aws/aws-sdk-js-v3",
+      "linkedRepo": "aws/aws-sdk-js-v3",
+      "homepage": "https://github.com/aws/aws-sdk-js-v3/tree/main/packages-internal/util-user-agent-node",
+      "keywords": [],
+      "discovery": {
+        "queries": [
+          "agent"
+        ],
+        "searchScore": 333.85193,
+        "finalScore": 333.85193,
+        "weeklyDownloads": 58794885,
+        "monthlyDownloads": 230984413
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 10232154,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 58794885,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 230984413,
+      "trendScore24h": 10232154,
+      "trendScore7d": 58794885,
+      "trendScore30d": 230984413,
+      "error": null
+    },
+    {
+      "name": "@aws-sdk/util-user-agent-browser",
+      "npmUrl": "https://www.npmjs.com/package/@aws-sdk/util-user-agent-browser",
+      "description": "[![NPM version](https://img.shields.io/npm/v/@aws-sdk/util-user-agent-browser/latest.svg)](https://www.npmjs.com/package/@aws-sdk/util-user-agent-browser) [![NPM downloads](https://img.shields.io/npm/dm/@aws-sdk/util-user-agent-browser.svg)](https://www.n",
+      "latestVersion": "3.972.10",
+      "publishedAt": "2026-04-16T19:26:09.539Z",
+      "repositoryUrl": "https://github.com/aws/aws-sdk-js-v3",
+      "linkedRepo": "aws/aws-sdk-js-v3",
+      "homepage": "https://github.com/aws/aws-sdk-js-v3/tree/main/packages-internal/util-user-agent-browser",
+      "keywords": [],
+      "discovery": {
+        "queries": [
+          "agent"
+        ],
+        "searchScore": 338.5356,
+        "finalScore": 338.5356,
+        "weeklyDownloads": 56292036,
+        "monthlyDownloads": 218955166
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 9816055,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 56292036,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 218955166,
+      "trendScore24h": 9816055,
+      "trendScore7d": 56292036,
+      "trendScore30d": 218955166,
+      "error": null
+    },
+    {
+      "name": "react-router",
+      "npmUrl": "https://www.npmjs.com/package/react-router",
+      "description": "Declarative routing for React",
+      "latestVersion": "7.14.1",
+      "publishedAt": "2026-04-13T21:04:01.266Z",
+      "repositoryUrl": "https://github.com/remix-run/react-router",
+      "linkedRepo": "remix-run/react-router",
+      "homepage": "https://github.com/remix-run/react-router#readme",
+      "keywords": [
+        "react",
+        "router",
+        "route",
+        "routing",
+        "history",
+        "link"
+      ],
+      "discovery": {
+        "queries": [
+          "react"
+        ],
+        "searchScore": 238.86201,
+        "finalScore": 238.86201,
+        "weeklyDownloads": 54190697,
+        "monthlyDownloads": 197209993
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 8755000,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 54190697,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 197209993,
+      "trendScore24h": 8755000,
+      "trendScore7d": 54190697,
+      "trendScore30d": 197209993,
+      "error": null
+    },
+    {
+      "name": "tunnel-agent",
+      "npmUrl": "https://www.npmjs.com/package/tunnel-agent",
+      "description": "HTTP proxy tunneling agent. Formerly part of mikeal/request, now a standalone module.",
+      "latestVersion": "0.6.0",
+      "publishedAt": "2017-03-05T00:30:01.500Z",
+      "repositoryUrl": "https://github.com/mikeal/tunnel-agent",
+      "linkedRepo": "mikeal/tunnel-agent",
+      "homepage": "https://github.com/mikeal/tunnel-agent#readme",
+      "keywords": [],
+      "discovery": {
+        "queries": [
+          "agent"
+        ],
+        "searchScore": 351.6955,
+        "finalScore": 351.6955,
+        "weeklyDownloads": 33539114,
+        "monthlyDownloads": 141644153
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 5780943,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 33539114,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 141644153,
+      "trendScore24h": 5780943,
+      "trendScore7d": 33539114,
+      "trendScore30d": 141644153,
       "error": null
     },
     {
       "name": "next",
-      "status": "ok",
       "npmUrl": "https://www.npmjs.com/package/next",
       "description": "The React Framework",
       "latestVersion": "16.2.4",
@@ -165,281 +745,299 @@
       "repositoryUrl": "https://github.com/vercel/next.js",
       "linkedRepo": "vercel/next.js",
       "homepage": "https://nextjs.org",
-      "downloads": [
-        {
-          "day": "2026-03-22",
-          "downloads": 4496824
-        },
-        {
-          "day": "2026-03-23",
-          "downloads": 6224858
-        },
-        {
-          "day": "2026-03-24",
-          "downloads": 7402189
-        },
-        {
-          "day": "2026-03-25",
-          "downloads": 7395811
-        },
-        {
-          "day": "2026-03-26",
-          "downloads": 6641177
-        },
-        {
-          "day": "2026-03-27",
-          "downloads": 6126540
-        },
-        {
-          "day": "2026-03-28",
-          "downloads": 4849363
-        },
-        {
-          "day": "2026-03-29",
-          "downloads": 4722152
-        },
-        {
-          "day": "2026-03-30",
-          "downloads": 7982718
-        },
-        {
-          "day": "2026-03-31",
-          "downloads": 6966608
-        },
-        {
-          "day": "2026-04-01",
-          "downloads": 7210424
-        },
-        {
-          "day": "2026-04-02",
-          "downloads": 7167959
-        },
-        {
-          "day": "2026-04-03",
-          "downloads": 5103383
-        },
-        {
-          "day": "2026-04-04",
-          "downloads": 3548843
-        },
-        {
-          "day": "2026-04-05",
-          "downloads": 3346243
-        },
-        {
-          "day": "2026-04-06",
-          "downloads": 5056956
-        },
-        {
-          "day": "2026-04-07",
-          "downloads": 6605146
-        },
-        {
-          "day": "2026-04-08",
-          "downloads": 5931029
-        },
-        {
-          "day": "2026-04-09",
-          "downloads": 5941187
-        },
-        {
-          "day": "2026-04-10",
-          "downloads": 5498125
-        },
-        {
-          "day": "2026-04-11",
-          "downloads": 4218399
-        },
-        {
-          "day": "2026-04-12",
-          "downloads": 3840718
-        },
-        {
-          "day": "2026-04-13",
-          "downloads": 5448550
-        },
-        {
-          "day": "2026-04-14",
-          "downloads": 5416902
-        },
-        {
-          "day": "2026-04-15",
-          "downloads": 6052450
-        },
-        {
-          "day": "2026-04-16",
-          "downloads": 5584411
-        },
-        {
-          "day": "2026-04-17",
-          "downloads": 5369030
-        },
-        {
-          "day": "2026-04-18",
-          "downloads": 3318890
-        },
-        {
-          "day": "2026-04-19",
-          "downloads": 3567124
-        },
-        {
-          "day": "2026-04-20",
-          "downloads": 5772305
-        }
+      "keywords": [
+        "react",
+        "framework",
+        "nextjs",
+        "web",
+        "server",
+        "node",
+        "front-end",
+        "backend",
+        "cli",
+        "vercel"
       ],
-      "downloadsLastDay": 5772305,
-      "downloads7d": 35081112,
-      "previous7d": 37483154,
-      "downloads30d": 166806314,
-      "delta7d": -2402042,
-      "deltaPct7d": -6.4,
-      "trendScore": 288444358,
+      "discovery": {
+        "queries": [
+          "next"
+        ],
+        "searchScore": 2043.6615,
+        "finalScore": 2043.6615,
+        "weeklyDownloads": 34757357,
+        "monthlyDownloads": 166262508
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 5772305,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 34757357,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 166262508,
+      "trendScore24h": 5772305,
+      "trendScore7d": 34757357,
+      "trendScore30d": 166262508,
       "error": null
     },
     {
-      "name": "@modelcontextprotocol/sdk",
-      "status": "ok",
-      "npmUrl": "https://www.npmjs.com/package/@modelcontextprotocol/sdk",
-      "description": "Model Context Protocol implementation for TypeScript",
-      "latestVersion": "1.29.0",
-      "publishedAt": "2026-03-30T16:50:42.718Z",
-      "repositoryUrl": "https://github.com/modelcontextprotocol/typescript-sdk",
-      "linkedRepo": "modelcontextprotocol/typescript-sdk",
-      "homepage": "https://modelcontextprotocol.io",
-      "downloads": [
-        {
-          "day": "2026-03-22",
-          "downloads": 3176488
-        },
-        {
-          "day": "2026-03-23",
-          "downloads": 8043511
-        },
-        {
-          "day": "2026-03-24",
-          "downloads": 5207082
-        },
-        {
-          "day": "2026-03-25",
-          "downloads": 6097993
-        },
-        {
-          "day": "2026-03-26",
-          "downloads": 13275472
-        },
-        {
-          "day": "2026-03-27",
-          "downloads": 9240622
-        },
-        {
-          "day": "2026-03-28",
-          "downloads": 3331995
-        },
-        {
-          "day": "2026-03-29",
-          "downloads": 2701235
-        },
-        {
-          "day": "2026-03-30",
-          "downloads": 5033418
-        },
-        {
-          "day": "2026-03-31",
-          "downloads": 5212402
-        },
-        {
-          "day": "2026-04-01",
-          "downloads": 5141311
-        },
-        {
-          "day": "2026-04-02",
-          "downloads": 5022257
-        },
-        {
-          "day": "2026-04-03",
-          "downloads": 4003636
-        },
-        {
-          "day": "2026-04-04",
-          "downloads": 2599276
-        },
-        {
-          "day": "2026-04-05",
-          "downloads": 2481724
-        },
-        {
-          "day": "2026-04-06",
-          "downloads": 4290705
-        },
-        {
-          "day": "2026-04-07",
-          "downloads": 5166543
-        },
-        {
-          "day": "2026-04-08",
-          "downloads": 5379234
-        },
-        {
-          "day": "2026-04-09",
-          "downloads": 5456544
-        },
-        {
-          "day": "2026-04-10",
-          "downloads": 5239010
-        },
-        {
-          "day": "2026-04-11",
-          "downloads": 2845559
-        },
-        {
-          "day": "2026-04-12",
-          "downloads": 2852058
-        },
-        {
-          "day": "2026-04-13",
-          "downloads": 5257382
-        },
-        {
-          "day": "2026-04-14",
-          "downloads": 5485818
-        },
-        {
-          "day": "2026-04-15",
-          "downloads": 5328423
-        },
-        {
-          "day": "2026-04-16",
-          "downloads": 5639882
-        },
-        {
-          "day": "2026-04-17",
-          "downloads": 5450995
-        },
-        {
-          "day": "2026-04-18",
-          "downloads": 2803598
-        },
-        {
-          "day": "2026-04-19",
-          "downloads": 2691497
-        },
-        {
-          "day": "2026-04-20",
-          "downloads": 5545353
-        }
+      "name": "react-smooth",
+      "npmUrl": "https://www.npmjs.com/package/react-smooth",
+      "description": "react animation library",
+      "latestVersion": "4.0.4",
+      "publishedAt": "2024-12-16T19:07:53.945Z",
+      "repositoryUrl": "https://github.com/recharts/react-smooth",
+      "linkedRepo": "recharts/react-smooth",
+      "homepage": "https://github.com/recharts/react-smooth#readme",
+      "keywords": [
+        "react",
+        "reactjs",
+        "animation",
+        "react-component"
       ],
-      "downloadsLastDay": 5545353,
-      "downloads7d": 32945566,
-      "previous7d": 32196330,
-      "downloads30d": 150001023,
-      "delta7d": 749236,
-      "deltaPct7d": 2.3,
-      "trendScore": 281617701,
+      "discovery": {
+        "queries": [
+          "react"
+        ],
+        "searchScore": 239.49174,
+        "finalScore": 239.49174,
+        "weeklyDownloads": 34467057,
+        "monthlyDownloads": 107582439
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 5482200,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 34467057,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 107582439,
+      "trendScore24h": 5482200,
+      "trendScore7d": 34467057,
+      "trendScore30d": 107582439,
+      "error": null
+    },
+    {
+      "name": "vite-node",
+      "npmUrl": "https://www.npmjs.com/package/vite-node",
+      "description": "Vite as Node.js runtime",
+      "latestVersion": "6.0.0",
+      "publishedAt": "2026-03-13T14:41:46.760Z",
+      "repositoryUrl": "https://github.com/antfu-collective/vite-node",
+      "linkedRepo": "antfu-collective/vite-node",
+      "homepage": "https://github.com/antfu-collective/vite-node#readme",
+      "keywords": [],
+      "discovery": {
+        "queries": [
+          "vite"
+        ],
+        "searchScore": 418.95267,
+        "finalScore": 418.95267,
+        "weeklyDownloads": 31512015,
+        "monthlyDownloads": 120981002
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 5272894,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 31512015,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 120981002,
+      "trendScore24h": 5272894,
+      "trendScore7d": 31512015,
+      "trendScore30d": 120981002,
+      "error": null
+    },
+    {
+      "name": "@next/swc-linux-x64-gnu",
+      "npmUrl": "https://www.npmjs.com/package/@next/swc-linux-x64-gnu",
+      "description": "This is the **x86_64-unknown-linux-gnu** binary for `@next/swc`",
+      "latestVersion": "16.2.4",
+      "publishedAt": "2026-04-15T22:32:44.654Z",
+      "repositoryUrl": "https://github.com/vercel/next.js",
+      "linkedRepo": "vercel/next.js",
+      "homepage": "https://github.com/vercel/next.js#readme",
+      "keywords": [],
+      "discovery": {
+        "queries": [
+          "next"
+        ],
+        "searchScore": 266.4283,
+        "finalScore": 266.4283,
+        "weeklyDownloads": 31131275,
+        "monthlyDownloads": 151856466
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 5182652,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 31131275,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 151856466,
+      "trendScore24h": 5182652,
+      "trendScore7d": 31131275,
+      "trendScore30d": 151856466,
+      "error": null
+    },
+    {
+      "name": "universal-user-agent",
+      "npmUrl": "https://www.npmjs.com/package/universal-user-agent",
+      "description": "Get a user agent string across all JavaScript Runtime Environments",
+      "latestVersion": "7.0.3",
+      "publishedAt": "2025-05-12T03:35:01.466Z",
+      "repositoryUrl": "https://github.com/gr2m/universal-user-agent",
+      "linkedRepo": "gr2m/universal-user-agent",
+      "homepage": "https://github.com/gr2m/universal-user-agent#readme",
+      "keywords": [],
+      "discovery": {
+        "queries": [
+          "agent"
+        ],
+        "searchScore": 363.09204,
+        "finalScore": 363.09204,
+        "weeklyDownloads": 27042737,
+        "monthlyDownloads": 117453305
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 4715024,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 27042737,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 117453305,
+      "trendScore24h": 4715024,
+      "trendScore7d": 27042737,
+      "trendScore30d": 117453305,
+      "error": null
+    },
+    {
+      "name": "@npmcli/agent",
+      "npmUrl": "https://www.npmjs.com/package/@npmcli/agent",
+      "description": "the http/https agent used by the npm cli",
+      "latestVersion": "4.0.0",
+      "publishedAt": "2025-09-18T16:21:44.311Z",
+      "repositoryUrl": "https://github.com/npm/agent",
+      "linkedRepo": "npm/agent",
+      "homepage": "https://github.com/npm/agent#readme",
+      "keywords": [],
+      "discovery": {
+        "queries": [
+          "agent"
+        ],
+        "searchScore": 368.30255,
+        "finalScore": 368.30255,
+        "weeklyDownloads": 24558845,
+        "monthlyDownloads": 90162158
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 4589144,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 24558845,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 90162158,
+      "trendScore24h": 4589144,
+      "trendScore7d": 24558845,
+      "trendScore30d": 90162158,
+      "error": null
+    },
+    {
+      "name": "react-redux",
+      "npmUrl": "https://www.npmjs.com/package/react-redux",
+      "description": "Official React bindings for Redux",
+      "latestVersion": "9.2.0",
+      "publishedAt": "2024-12-10T23:06:45.755Z",
+      "repositoryUrl": "https://github.com/reduxjs/react-redux",
+      "linkedRepo": "reduxjs/react-redux",
+      "homepage": "https://github.com/reduxjs/react-redux",
+      "keywords": [
+        "react",
+        "reactjs",
+        "redux"
+      ],
+      "discovery": {
+        "queries": [
+          "react"
+        ],
+        "searchScore": 225.47203,
+        "finalScore": 225.47203,
+        "weeklyDownloads": 24799493,
+        "monthlyDownloads": 96396213
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 4355330,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 24799493,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 96396213,
+      "trendScore24h": 4355330,
+      "trendScore7d": 24799493,
+      "trendScore30d": 96396213,
+      "error": null
+    },
+    {
+      "name": "@next/swc-linux-x64-musl",
+      "npmUrl": "https://www.npmjs.com/package/@next/swc-linux-x64-musl",
+      "description": "This is the **linux-x64-musl** binary for `@next/swc`",
+      "latestVersion": "16.2.4",
+      "publishedAt": "2026-04-15T22:32:46.834Z",
+      "repositoryUrl": "https://github.com/vercel/next.js",
+      "linkedRepo": "vercel/next.js",
+      "homepage": "https://github.com/vercel/next.js#readme",
+      "keywords": [],
+      "discovery": {
+        "queries": [
+          "next"
+        ],
+        "searchScore": 276.51865,
+        "finalScore": 276.51865,
+        "weeklyDownloads": 24718998,
+        "monthlyDownloads": 125942129
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 4120858,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 24718998,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 125942129,
+      "trendScore24h": 4120858,
+      "trendScore7d": 24718998,
+      "trendScore30d": 125942129,
       "error": null
     },
     {
       "name": "openai",
-      "status": "ok",
       "npmUrl": "https://www.npmjs.com/package/openai",
       "description": "The official TypeScript library for the OpenAI API",
       "latestVersion": "6.34.0",
@@ -447,140 +1045,74 @@
       "repositoryUrl": "https://github.com/openai/openai-node",
       "linkedRepo": "openai/openai-node",
       "homepage": "https://github.com/openai/openai-node#readme",
-      "downloads": [
-        {
-          "day": "2026-03-22",
-          "downloads": 1287621
-        },
-        {
-          "day": "2026-03-23",
-          "downloads": 2642986
-        },
-        {
-          "day": "2026-03-24",
-          "downloads": 2919694
-        },
-        {
-          "day": "2026-03-25",
-          "downloads": 2840428
-        },
-        {
-          "day": "2026-03-26",
-          "downloads": 2813536
-        },
-        {
-          "day": "2026-03-27",
-          "downloads": 2551231
-        },
-        {
-          "day": "2026-03-28",
-          "downloads": 1312556
-        },
-        {
-          "day": "2026-03-29",
-          "downloads": 1281988
-        },
-        {
-          "day": "2026-03-30",
-          "downloads": 2801198
-        },
-        {
-          "day": "2026-03-31",
-          "downloads": 2848712
-        },
-        {
-          "day": "2026-04-01",
-          "downloads": 2807814
-        },
-        {
-          "day": "2026-04-02",
-          "downloads": 2707916
-        },
-        {
-          "day": "2026-04-03",
-          "downloads": 2083206
-        },
-        {
-          "day": "2026-04-04",
-          "downloads": 1242667
-        },
-        {
-          "day": "2026-04-05",
-          "downloads": 1202220
-        },
-        {
-          "day": "2026-04-06",
-          "downloads": 2303859
-        },
-        {
-          "day": "2026-04-07",
-          "downloads": 2835369
-        },
-        {
-          "day": "2026-04-08",
-          "downloads": 2954920
-        },
-        {
-          "day": "2026-04-09",
-          "downloads": 3260002
-        },
-        {
-          "day": "2026-04-10",
-          "downloads": 2898982
-        },
-        {
-          "day": "2026-04-11",
-          "downloads": 1416338
-        },
-        {
-          "day": "2026-04-12",
-          "downloads": 1451809
-        },
-        {
-          "day": "2026-04-13",
-          "downloads": 2957335
-        },
-        {
-          "day": "2026-04-14",
-          "downloads": 3168236
-        },
-        {
-          "day": "2026-04-15",
-          "downloads": 3168776
-        },
-        {
-          "day": "2026-04-16",
-          "downloads": 3088326
-        },
-        {
-          "day": "2026-04-17",
-          "downloads": 2779261
-        },
-        {
-          "day": "2026-04-18",
-          "downloads": 1369761
-        },
-        {
-          "day": "2026-04-19",
-          "downloads": 1404875
-        },
-        {
-          "day": "2026-04-20",
-          "downloads": 3013884
-        }
+      "keywords": [],
+      "discovery": {
+        "queries": [
+          "openai"
+        ],
+        "searchScore": 2283.5354,
+        "finalScore": 2283.5354,
+        "weeklyDownloads": 17936570,
+        "monthlyDownloads": 69653618
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 3013884,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 17936570,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 69653618,
+      "trendScore24h": 3013884,
+      "trendScore7d": 17936570,
+      "trendScore30d": 69653618,
+      "error": null
+    },
+    {
+      "name": "vite-tsconfig-paths",
+      "npmUrl": "https://www.npmjs.com/package/vite-tsconfig-paths",
+      "description": "Vite resolver for TypeScript compilerOptions.paths",
+      "latestVersion": "6.1.1",
+      "publishedAt": "2026-02-11T23:26:08.179Z",
+      "repositoryUrl": "https://github.com/aleclarson/vite-tsconfig-paths",
+      "linkedRepo": "aleclarson/vite-tsconfig-paths",
+      "homepage": "https://github.com/aleclarson/vite-tsconfig-paths#readme",
+      "keywords": [
+        "vite",
+        "resolver",
+        "tsconfig",
+        "paths"
       ],
-      "downloadsLastDay": 3013884,
-      "downloads7d": 17993119,
-      "previous7d": 17774755,
-      "downloads30d": 71415506,
-      "delta7d": 218364,
-      "deltaPct7d": 1.2,
-      "trendScore": 144744196,
+      "discovery": {
+        "queries": [
+          "vite"
+        ],
+        "searchScore": 390.1797,
+        "finalScore": 390.1797,
+        "weeklyDownloads": 12979335,
+        "monthlyDownloads": 42813834
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 2552507,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 12979335,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 42813834,
+      "trendScore24h": 2552507,
+      "trendScore7d": 12979335,
+      "trendScore30d": 42813834,
       "error": null
     },
     {
       "name": "@anthropic-ai/sdk",
-      "status": "ok",
       "npmUrl": "https://www.npmjs.com/package/@anthropic-ai/sdk",
       "description": "The official TypeScript library for the Anthropic API",
       "latestVersion": "0.90.0",
@@ -588,140 +1120,76 @@
       "repositoryUrl": "https://github.com/anthropics/anthropic-sdk-typescript",
       "linkedRepo": "anthropics/anthropic-sdk-typescript",
       "homepage": null,
-      "downloads": [
-        {
-          "day": "2026-03-22",
-          "downloads": 858168
-        },
-        {
-          "day": "2026-03-23",
-          "downloads": 1625831
-        },
-        {
-          "day": "2026-03-24",
-          "downloads": 1827032
-        },
-        {
-          "day": "2026-03-25",
-          "downloads": 1709104
-        },
-        {
-          "day": "2026-03-26",
-          "downloads": 1645079
-        },
-        {
-          "day": "2026-03-27",
-          "downloads": 1519824
-        },
-        {
-          "day": "2026-03-28",
-          "downloads": 1068397
-        },
-        {
-          "day": "2026-03-29",
-          "downloads": 1051247
-        },
-        {
-          "day": "2026-03-30",
-          "downloads": 1976009
-        },
-        {
-          "day": "2026-03-31",
-          "downloads": 2064570
-        },
-        {
-          "day": "2026-04-01",
-          "downloads": 2186695
-        },
-        {
-          "day": "2026-04-02",
-          "downloads": 2125249
-        },
-        {
-          "day": "2026-04-03",
-          "downloads": 1768715
-        },
-        {
-          "day": "2026-04-04",
-          "downloads": 1151603
-        },
-        {
-          "day": "2026-04-05",
-          "downloads": 1089637
-        },
-        {
-          "day": "2026-04-06",
-          "downloads": 1860590
-        },
-        {
-          "day": "2026-04-07",
-          "downloads": 2216902
-        },
-        {
-          "day": "2026-04-08",
-          "downloads": 2311713
-        },
-        {
-          "day": "2026-04-09",
-          "downloads": 2383485
-        },
-        {
-          "day": "2026-04-10",
-          "downloads": 2129085
-        },
-        {
-          "day": "2026-04-11",
-          "downloads": 1238717
-        },
-        {
-          "day": "2026-04-12",
-          "downloads": 1247796
-        },
-        {
-          "day": "2026-04-13",
-          "downloads": 2251756
-        },
-        {
-          "day": "2026-04-14",
-          "downloads": 2952408
-        },
-        {
-          "day": "2026-04-15",
-          "downloads": 2469477
-        },
-        {
-          "day": "2026-04-16",
-          "downloads": 2384118
-        },
-        {
-          "day": "2026-04-17",
-          "downloads": 2240059
-        },
-        {
-          "day": "2026-04-18",
-          "downloads": 1241089
-        },
-        {
-          "day": "2026-04-19",
-          "downloads": 1253305
-        },
-        {
-          "day": "2026-04-20",
-          "downloads": 2309879
-        }
+      "keywords": [],
+      "discovery": {
+        "queries": [
+          "anthropic"
+        ],
+        "searchScore": 539.526,
+        "finalScore": 539.526,
+        "weeklyDownloads": 14792212,
+        "monthlyDownloads": 52655890
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 2309879,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 14792212,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 52655890,
+      "trendScore24h": 2309879,
+      "trendScore7d": 14792212,
+      "trendScore30d": 52655890,
+      "error": null
+    },
+    {
+      "name": "webpack-cli",
+      "npmUrl": "https://www.npmjs.com/package/webpack-cli",
+      "description": "CLI for webpack & friends",
+      "latestVersion": "7.0.2",
+      "publishedAt": "2026-03-17T11:53:14.522Z",
+      "repositoryUrl": "https://github.com/webpack/webpack-cli",
+      "linkedRepo": "webpack/webpack-cli",
+      "homepage": "https://github.com/webpack/webpack-cli/tree/main/packages/webpack-cli",
+      "keywords": [
+        "webpack",
+        "cli",
+        "scaffolding",
+        "module",
+        "bundler",
+        "web"
       ],
-      "downloadsLastDay": 2309879,
-      "downloads7d": 14850335,
-      "previous7d": 13779454,
-      "downloads30d": 54157539,
-      "delta7d": 1070881,
-      "deltaPct7d": 7.8,
-      "trendScore": 131411084,
+      "discovery": {
+        "queries": [
+          "cli"
+        ],
+        "searchScore": 265.99927,
+        "finalScore": 265.99927,
+        "weeklyDownloads": 11419586,
+        "monthlyDownloads": 47679099
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 2078457,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 11419586,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 47679099,
+      "trendScore24h": 2078457,
+      "trendScore7d": 11419586,
+      "trendScore30d": 47679099,
       "error": null
     },
     {
       "name": "ai",
-      "status": "ok",
       "npmUrl": "https://www.npmjs.com/package/ai",
       "description": "AI SDK by Vercel - build apps like ChatGPT, Claude, Gemini, and more with a single interface for any model using the Vercel AI Gateway or go direct to OpenAI, Anthropic, Google, or any other model provider.",
       "latestVersion": "6.0.168",
@@ -729,563 +1197,1909 @@
       "repositoryUrl": "https://github.com/vercel/ai",
       "linkedRepo": "vercel/ai",
       "homepage": "https://ai-sdk.dev/docs",
-      "downloads": [
-        {
-          "day": "2026-03-22",
-          "downloads": 661008
-        },
-        {
-          "day": "2026-03-23",
-          "downloads": 1879399
-        },
-        {
-          "day": "2026-03-24",
-          "downloads": 1868961
-        },
-        {
-          "day": "2026-03-25",
-          "downloads": 1780769
-        },
-        {
-          "day": "2026-03-26",
-          "downloads": 1760788
-        },
-        {
-          "day": "2026-03-27",
-          "downloads": 1668591
-        },
-        {
-          "day": "2026-03-28",
-          "downloads": 759726
-        },
-        {
-          "day": "2026-03-29",
-          "downloads": 731759
-        },
-        {
-          "day": "2026-03-30",
-          "downloads": 1735419
-        },
-        {
-          "day": "2026-03-31",
-          "downloads": 1837782
-        },
-        {
-          "day": "2026-04-01",
-          "downloads": 1880462
-        },
-        {
-          "day": "2026-04-02",
-          "downloads": 1810109
-        },
-        {
-          "day": "2026-04-03",
-          "downloads": 1400378
-        },
-        {
-          "day": "2026-04-04",
-          "downloads": 740533
-        },
-        {
-          "day": "2026-04-05",
-          "downloads": 701392
-        },
-        {
-          "day": "2026-04-06",
-          "downloads": 1488336
-        },
-        {
-          "day": "2026-04-07",
-          "downloads": 1883715
-        },
-        {
-          "day": "2026-04-08",
-          "downloads": 1922912
-        },
-        {
-          "day": "2026-04-09",
-          "downloads": 1980103
-        },
-        {
-          "day": "2026-04-10",
-          "downloads": 1788469
-        },
-        {
-          "day": "2026-04-11",
-          "downloads": 777841
-        },
-        {
-          "day": "2026-04-12",
-          "downloads": 775292
-        },
-        {
-          "day": "2026-04-13",
-          "downloads": 1844590
-        },
-        {
-          "day": "2026-04-14",
-          "downloads": 1990187
-        },
-        {
-          "day": "2026-04-15",
-          "downloads": 2051903
-        },
-        {
-          "day": "2026-04-16",
-          "downloads": 2080453
-        },
-        {
-          "day": "2026-04-17",
-          "downloads": 1850471
-        },
-        {
-          "day": "2026-04-18",
-          "downloads": 868127
-        },
-        {
-          "day": "2026-04-19",
-          "downloads": 855435
-        },
-        {
-          "day": "2026-04-20",
-          "downloads": 1942747
-        }
+      "keywords": [
+        "ai",
+        "vercel",
+        "sdk",
+        "llm",
+        "mcp",
+        "tool-calling",
+        "tools",
+        "structured-output",
+        "agent",
+        "agentic",
+        "generative",
+        "genai"
       ],
-      "downloadsLastDay": 1942747,
+      "discovery": {
+        "queries": [
+          "ai"
+        ],
+        "searchScore": 2084.435,
+        "finalScore": 2084.435,
+        "weeklyDownloads": 11639323,
+        "monthlyDownloads": 45317657
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 1942747,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
       "downloads7d": 11639323,
-      "previous7d": 10972922,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
       "downloads30d": 45317657,
-      "delta7d": 666401,
-      "deltaPct7d": 6.1,
-      "trendScore": 99318060,
+      "trendScore24h": 1942747,
+      "trendScore7d": 11639323,
+      "trendScore30d": 45317657,
       "error": null
     },
     {
-      "name": "@google/genai",
-      "status": "ok",
-      "npmUrl": "https://www.npmjs.com/package/@google/genai",
-      "description": "[![NPM Downloads](https://img.shields.io/npm/dw/%40google%2Fgenai)](https://www.npmjs.com/package/@google/genai) [![Node Current](https://img.shields.io/node/v/%40google%2Fgenai)](https://www.npmjs.com/package/@google/genai)",
-      "latestVersion": "1.50.1",
-      "publishedAt": "2026-04-14T21:54:39.631Z",
-      "repositoryUrl": "https://github.com/googleapis/js-genai",
-      "linkedRepo": "googleapis/js-genai",
-      "homepage": "https://github.com/googleapis/js-genai#readme",
-      "downloads": [
-        {
-          "day": "2026-03-22",
-          "downloads": 953358
-        },
-        {
-          "day": "2026-03-23",
-          "downloads": 1447497
-        },
-        {
-          "day": "2026-03-24",
-          "downloads": 1573544
-        },
-        {
-          "day": "2026-03-25",
-          "downloads": 1437610
-        },
-        {
-          "day": "2026-03-26",
-          "downloads": 1419637
-        },
-        {
-          "day": "2026-03-27",
-          "downloads": 1334580
-        },
-        {
-          "day": "2026-03-28",
-          "downloads": 924974
-        },
-        {
-          "day": "2026-03-29",
-          "downloads": 989368
-        },
-        {
-          "day": "2026-03-30",
-          "downloads": 1519628
-        },
-        {
-          "day": "2026-03-31",
-          "downloads": 1487570
-        },
-        {
-          "day": "2026-04-01",
-          "downloads": 1472883
-        },
-        {
-          "day": "2026-04-02",
-          "downloads": 1408024
-        },
-        {
-          "day": "2026-04-03",
-          "downloads": 1281727
-        },
-        {
-          "day": "2026-04-04",
-          "downloads": 959701
-        },
-        {
-          "day": "2026-04-05",
-          "downloads": 936488
-        },
-        {
-          "day": "2026-04-06",
-          "downloads": 1354618
-        },
-        {
-          "day": "2026-04-07",
-          "downloads": 1497069
-        },
-        {
-          "day": "2026-04-08",
-          "downloads": 1576246
-        },
-        {
-          "day": "2026-04-09",
-          "downloads": 1673660
-        },
-        {
-          "day": "2026-04-10",
-          "downloads": 1500994
-        },
-        {
-          "day": "2026-04-11",
-          "downloads": 1002618
-        },
-        {
-          "day": "2026-04-12",
-          "downloads": 970017
-        },
-        {
-          "day": "2026-04-13",
-          "downloads": 1533435
-        },
-        {
-          "day": "2026-04-14",
-          "downloads": 1684890
-        },
-        {
-          "day": "2026-04-15",
-          "downloads": 1677420
-        },
-        {
-          "day": "2026-04-16",
-          "downloads": 1662024
-        },
-        {
-          "day": "2026-04-17",
-          "downloads": 1553872
-        },
-        {
-          "day": "2026-04-18",
-          "downloads": 1037983
-        },
-        {
-          "day": "2026-04-19",
-          "downloads": 1012199
-        },
-        {
-          "day": "2026-04-20",
-          "downloads": 1562030
-        }
+      "name": "@ai-sdk/gateway",
+      "npmUrl": "https://www.npmjs.com/package/@ai-sdk/gateway",
+      "description": "The Gateway provider for the [AI SDK](https://ai-sdk.dev/docs) allows the use of a wide variety of AI models and providers.",
+      "latestVersion": "3.0.104",
+      "publishedAt": "2026-04-16T23:06:35.994Z",
+      "repositoryUrl": "https://github.com/vercel/ai",
+      "linkedRepo": "vercel/ai",
+      "homepage": "https://ai-sdk.dev/docs",
+      "keywords": [
+        "ai"
       ],
-      "downloadsLastDay": 1562030,
-      "downloads7d": 10190418,
-      "previous7d": 9754039,
-      "downloads30d": 40445664,
-      "delta7d": 436379,
-      "deltaPct7d": 4.5,
-      "trendScore": 84156165,
+      "discovery": {
+        "queries": [
+          "ai"
+        ],
+        "searchScore": 314.2302,
+        "finalScore": 314.2302,
+        "weeklyDownloads": 9804133,
+        "monthlyDownloads": 36496594
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 1630559,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 9804133,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 36496594,
+      "trendScore24h": 1630559,
+      "trendScore7d": 9804133,
+      "trendScore30d": 36496594,
       "error": null
     },
     {
-      "name": "@langchain/core",
+      "name": "@storybook/builder-vite",
+      "npmUrl": "https://www.npmjs.com/package/@storybook/builder-vite",
+      "description": "A Storybook builder to dev and build with Vite",
+      "latestVersion": "10.3.5",
+      "publishedAt": "2026-04-07T17:01:53.828Z",
+      "repositoryUrl": "https://github.com/storybookjs/storybook",
+      "linkedRepo": "storybookjs/storybook",
+      "homepage": "https://github.com/storybookjs/storybook/tree/next/code/builders/builder-vite/#readme",
+      "keywords": [
+        "storybook",
+        "storybook-builder",
+        "vite",
+        "builder",
+        "bundler",
+        "component",
+        "components"
+      ],
+      "discovery": {
+        "queries": [
+          "vite"
+        ],
+        "searchScore": 342.92062,
+        "finalScore": 342.92062,
+        "weeklyDownloads": 8928979,
+        "monthlyDownloads": 33841986
+      },
       "status": "ok",
-      "npmUrl": "https://www.npmjs.com/package/@langchain/core",
-      "description": "Core LangChain.js abstractions and schemas",
-      "latestVersion": "1.1.40",
-      "publishedAt": "2026-04-15T00:22:01.739Z",
+      "downloads": [],
+      "downloads24h": 1607056,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 8928979,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 33841986,
+      "trendScore24h": 1607056,
+      "trendScore7d": 8928979,
+      "trendScore30d": 33841986,
+      "error": null
+    },
+    {
+      "name": "@angular-devkit/schematics-cli",
+      "npmUrl": "https://www.npmjs.com/package/@angular-devkit/schematics-cli",
+      "description": "Angular Schematics - CLI",
+      "latestVersion": "21.2.7",
+      "publishedAt": "2026-04-08T18:44:38.911Z",
+      "repositoryUrl": "https://github.com/angular/angular-cli",
+      "linkedRepo": "angular/angular-cli",
+      "homepage": "https://github.com/angular/angular-cli",
+      "keywords": [
+        "Angular CLI",
+        "Angular DevKit",
+        "angular",
+        "blueprints",
+        "code generation",
+        "devkit",
+        "scaffolding",
+        "schematics",
+        "sdk",
+        "template",
+        "tooling"
+      ],
+      "discovery": {
+        "queries": [
+          "cli"
+        ],
+        "searchScore": 245.71265,
+        "finalScore": 245.71265,
+        "weeklyDownloads": 5447483,
+        "monthlyDownloads": 20763183
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 980446,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 5447483,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 20763183,
+      "trendScore24h": 980446,
+      "trendScore7d": 5447483,
+      "trendScore30d": 20763183,
+      "error": null
+    },
+    {
+      "name": "@ai-sdk/openai",
+      "npmUrl": "https://www.npmjs.com/package/@ai-sdk/openai",
+      "description": "The **[OpenAI provider](https://ai-sdk.dev/providers/ai-sdk-providers/openai)** for the [AI SDK](https://ai-sdk.dev/docs) contains language model support for the OpenAI chat and completion APIs and embedding model support for the OpenAI embeddings API.",
+      "latestVersion": "3.0.53",
+      "publishedAt": "2026-04-14T18:07:03.918Z",
+      "repositoryUrl": "https://github.com/vercel/ai",
+      "linkedRepo": "vercel/ai",
+      "homepage": "https://ai-sdk.dev/docs",
+      "keywords": [
+        "ai"
+      ],
+      "discovery": {
+        "queries": [
+          "ai",
+          "openai"
+        ],
+        "searchScore": 465.18085,
+        "finalScore": 465.18085,
+        "weeklyDownloads": 5521967,
+        "monthlyDownloads": 20888213
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 900035,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 5521967,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 20888213,
+      "trendScore24h": 900035,
+      "trendScore7d": 5521967,
+      "trendScore30d": 20888213,
+      "error": null
+    },
+    {
+      "name": "@cloudflare/vite-plugin",
+      "npmUrl": "https://www.npmjs.com/package/@cloudflare/vite-plugin",
+      "description": "Cloudflare plugin for Vite",
+      "latestVersion": "1.33.0",
+      "publishedAt": "2026-04-20T14:51:20.926Z",
+      "repositoryUrl": "https://github.com/cloudflare/workers-sdk",
+      "linkedRepo": "cloudflare/workers-sdk",
+      "homepage": "https://github.com/cloudflare/workers-sdk/tree/main/packages/vite-plugin-cloudflare#readme",
+      "keywords": [
+        "cloudflare",
+        "cloudflare-workers",
+        "vite",
+        "vite-plugin",
+        "workers"
+      ],
+      "discovery": {
+        "queries": [
+          "vite"
+        ],
+        "searchScore": 343.33118,
+        "finalScore": 343.33118,
+        "weeklyDownloads": 3394188,
+        "monthlyDownloads": 5514495
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 868507,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 3394188,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 5514495,
+      "trendScore24h": 868507,
+      "trendScore7d": 3394188,
+      "trendScore30d": 5514495,
+      "error": null
+    },
+    {
+      "name": "@angular/cli",
+      "npmUrl": "https://www.npmjs.com/package/@angular/cli",
+      "description": "CLI tool for Angular",
+      "latestVersion": "21.2.7",
+      "publishedAt": "2026-04-08T18:44:05.535Z",
+      "repositoryUrl": "https://github.com/angular/angular-cli",
+      "linkedRepo": "angular/angular-cli",
+      "homepage": "https://github.com/angular/angular-cli",
+      "keywords": [
+        "Angular CLI",
+        "Angular DevKit",
+        "angular",
+        "angular-cli",
+        "devkit",
+        "sdk"
+      ],
+      "discovery": {
+        "queries": [
+          "cli"
+        ],
+        "searchScore": 259.4366,
+        "finalScore": 259.4366,
+        "weeklyDownloads": 4744782,
+        "monthlyDownloads": 19031572
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 865556,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 4744782,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 19031572,
+      "trendScore24h": 865556,
+      "trendScore7d": 4744782,
+      "trendScore30d": 19031572,
+      "error": null
+    },
+    {
+      "name": "@ai-sdk/react",
+      "npmUrl": "https://www.npmjs.com/package/@ai-sdk/react",
+      "description": "[React](https://react.dev/) UI components for the [AI SDK](https://ai-sdk.dev/docs):",
+      "latestVersion": "3.0.170",
+      "publishedAt": "2026-04-16T23:06:35.614Z",
+      "repositoryUrl": "https://github.com/vercel/ai",
+      "linkedRepo": "vercel/ai",
+      "homepage": "https://ai-sdk.dev/docs",
+      "keywords": [
+        "ai",
+        "react"
+      ],
+      "discovery": {
+        "queries": [
+          "ai"
+        ],
+        "searchScore": 307.70084,
+        "finalScore": 307.70084,
+        "weeklyDownloads": 5139658,
+        "monthlyDownloads": 19979339
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 864264,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 5139658,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 19979339,
+      "trendScore24h": 864264,
+      "trendScore7d": 5139658,
+      "trendScore30d": 19979339,
+      "error": null
+    },
+    {
+      "name": "@ai-sdk/anthropic",
+      "npmUrl": "https://www.npmjs.com/package/@ai-sdk/anthropic",
+      "description": "The **[Anthropic provider](https://ai-sdk.dev/providers/ai-sdk-providers/anthropic)** for the [AI SDK](https://ai-sdk.dev/docs) contains language model support for the [Anthropic Messages API](https://docs.anthropic.com/claude/reference/messages_post).",
+      "latestVersion": "3.0.71",
+      "publishedAt": "2026-04-16T19:46:13.907Z",
+      "repositoryUrl": "https://github.com/vercel/ai",
+      "linkedRepo": "vercel/ai",
+      "homepage": "https://ai-sdk.dev/docs",
+      "keywords": [
+        "ai"
+      ],
+      "discovery": {
+        "queries": [
+          "ai",
+          "anthropic"
+        ],
+        "searchScore": 489.1929,
+        "finalScore": 489.1929,
+        "weeklyDownloads": 4920151,
+        "monthlyDownloads": 18081261
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 840877,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 4920151,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 18081261,
+      "trendScore24h": 840877,
+      "trendScore7d": 4920151,
+      "trendScore30d": 18081261,
+      "error": null
+    },
+    {
+      "name": "@firebase/ai",
+      "npmUrl": "https://www.npmjs.com/package/@firebase/ai",
+      "description": "The Firebase AI SDK",
+      "latestVersion": "2.11.1",
+      "publishedAt": "2026-04-20T22:37:45.729Z",
+      "repositoryUrl": "https://github.com/firebase/firebase-js-sdk",
+      "linkedRepo": "firebase/firebase-js-sdk",
+      "homepage": "https://github.com/firebase/firebase-js-sdk#readme",
+      "keywords": [],
+      "discovery": {
+        "queries": [
+          "ai"
+        ],
+        "searchScore": 306.5301,
+        "finalScore": 306.5301,
+        "weeklyDownloads": 4585244,
+        "monthlyDownloads": 17929616
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 766089,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 4585244,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 17929616,
+      "trendScore24h": 766089,
+      "trendScore7d": 4585244,
+      "trendScore30d": 17929616,
+      "error": null
+    },
+    {
+      "name": "@react-navigation/native",
+      "npmUrl": "https://www.npmjs.com/package/@react-navigation/native",
+      "description": "React Native integration for React Navigation",
+      "latestVersion": "7.2.2",
+      "publishedAt": "2026-03-28T11:45:36.920Z",
+      "repositoryUrl": "https://github.com/react-navigation/react-navigation",
+      "linkedRepo": "react-navigation/react-navigation",
+      "homepage": "https://reactnavigation.org",
+      "keywords": [
+        "react-native",
+        "react-navigation",
+        "ios",
+        "android"
+      ],
+      "discovery": {
+        "queries": [
+          "react"
+        ],
+        "searchScore": 224.53688,
+        "finalScore": 224.53688,
+        "weeklyDownloads": 4172723,
+        "monthlyDownloads": 17043657
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 715595,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 4172723,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 17043657,
+      "trendScore24h": 715595,
+      "trendScore7d": 4172723,
+      "trendScore30d": 17043657,
+      "error": null
+    },
+    {
+      "name": "@expo/cli",
+      "npmUrl": "https://www.npmjs.com/package/@expo/cli",
+      "description": "The Expo CLI",
+      "latestVersion": "55.0.25",
+      "publishedAt": "2026-04-21T11:21:21.560Z",
+      "repositoryUrl": "https://github.com/expo/expo",
+      "linkedRepo": "expo/expo",
+      "homepage": "https://github.com/expo/expo/tree/main/packages/@expo/cli",
+      "keywords": [
+        "expo",
+        "cli"
+      ],
+      "discovery": {
+        "queries": [
+          "cli"
+        ],
+        "searchScore": 255.59166,
+        "finalScore": 255.59166,
+        "weeklyDownloads": 4154430,
+        "monthlyDownloads": 16739715
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 694006,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 4154430,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 16739715,
+      "trendScore24h": 694006,
+      "trendScore7d": 4154430,
+      "trendScore30d": 16739715,
+      "error": null
+    },
+    {
+      "name": "@sentry/vite-plugin",
+      "npmUrl": "https://www.npmjs.com/package/@sentry/vite-plugin",
+      "description": "Official Sentry Vite plugin",
+      "latestVersion": "5.2.0",
+      "publishedAt": "2026-04-08T08:55:21.782Z",
+      "repositoryUrl": "https://github.com/getsentry/sentry-javascript-bundler-plugins",
+      "linkedRepo": "getsentry/sentry-javascript-bundler-plugins",
+      "homepage": "https://github.com/getsentry/sentry-javascript-bundler-plugins/tree/main/packages/vite-plugin",
+      "keywords": [
+        "Sentry",
+        "Vite",
+        "bundler",
+        "plugin"
+      ],
+      "discovery": {
+        "queries": [
+          "vite"
+        ],
+        "searchScore": 367.22958,
+        "finalScore": 367.22958,
+        "weeklyDownloads": 3538774,
+        "monthlyDownloads": 13372507
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 662532,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 3538774,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 13372507,
+      "trendScore24h": 662532,
+      "trendScore7d": 3538774,
+      "trendScore30d": 13372507,
+      "error": null
+    },
+    {
+      "name": "react-freeze",
+      "npmUrl": "https://www.npmjs.com/package/react-freeze",
+      "description": "React Freeze",
+      "latestVersion": "1.0.4",
+      "publishedAt": "2024-02-28T22:44:42.518Z",
+      "repositoryUrl": "https://github.com/software-mansion/react-freeze",
+      "linkedRepo": "software-mansion/react-freeze",
+      "homepage": "https://github.com/software-mansion/react-freeze#readme",
+      "keywords": [
+        "react",
+        "freeze"
+      ],
+      "discovery": {
+        "queries": [
+          "react"
+        ],
+        "searchScore": 224.69963,
+        "finalScore": 224.69963,
+        "weeklyDownloads": 3901721,
+        "monthlyDownloads": 15638754
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 660600,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 3901721,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 15638754,
+      "trendScore24h": 660600,
+      "trendScore7d": 3901721,
+      "trendScore30d": 15638754,
+      "error": null
+    },
+    {
+      "name": "@next/swc-linux-arm64-gnu",
+      "npmUrl": "https://www.npmjs.com/package/@next/swc-linux-arm64-gnu",
+      "description": "This is the **linux-arm64-gnu** binary for `@next/swc`",
+      "latestVersion": "16.2.4",
+      "publishedAt": "2026-04-15T22:32:30.139Z",
+      "repositoryUrl": "https://github.com/vercel/next.js",
+      "linkedRepo": "vercel/next.js",
+      "homepage": "https://github.com/vercel/next.js#readme",
+      "keywords": [],
+      "discovery": {
+        "queries": [
+          "next"
+        ],
+        "searchScore": 244.20255,
+        "finalScore": 244.20255,
+        "weeklyDownloads": 3761848,
+        "monthlyDownloads": 15063003
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 644149,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 3761848,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 15063003,
+      "trendScore24h": 644149,
+      "trendScore7d": 3761848,
+      "trendScore30d": 15063003,
+      "error": null
+    },
+    {
+      "name": "@module-federation/cli",
+      "npmUrl": "https://www.npmjs.com/package/@module-federation/cli",
+      "description": "Module Federation CLI",
+      "latestVersion": "2.3.3",
+      "publishedAt": "2026-04-16T08:03:29.286Z",
+      "repositoryUrl": "https://github.com/module-federation/core",
+      "linkedRepo": "module-federation/core",
+      "homepage": "https://module-federation.io",
+      "keywords": [],
+      "discovery": {
+        "queries": [
+          "cli"
+        ],
+        "searchScore": 237.19572,
+        "finalScore": 237.19572,
+        "weeklyDownloads": 3461387,
+        "monthlyDownloads": 13641555
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 625897,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 3461387,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 13641555,
+      "trendScore24h": 625897,
+      "trendScore7d": 3461387,
+      "trendScore30d": 13641555,
+      "error": null
+    },
+    {
+      "name": "@swc/cli",
+      "npmUrl": "https://www.npmjs.com/package/@swc/cli",
+      "description": "CLI for the swc project",
+      "latestVersion": "0.8.1",
+      "publishedAt": "2026-04-01T01:27:35.047Z",
+      "repositoryUrl": "https://github.com/swc-project/pkgs",
+      "linkedRepo": "swc-project/pkgs",
+      "homepage": "https://github.com/swc-project/pkgs",
+      "keywords": [
+        "swc",
+        "cli",
+        "babel",
+        "es6",
+        "transpile",
+        "transpiler",
+        "compiler",
+        "javascript"
+      ],
+      "discovery": {
+        "queries": [
+          "cli"
+        ],
+        "searchScore": 240.3028,
+        "finalScore": 240.3028,
+        "weeklyDownloads": 3468415,
+        "monthlyDownloads": 13318703
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 613587,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 3468415,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 13318703,
+      "trendScore24h": 613587,
+      "trendScore7d": 3468415,
+      "trendScore30d": 13318703,
+      "error": null
+    },
+    {
+      "name": "@ai-sdk/google",
+      "npmUrl": "https://www.npmjs.com/package/@ai-sdk/google",
+      "description": "The **[Google Generative AI provider](https://ai-sdk.dev/providers/ai-sdk-providers/google-generative-ai)** for the [AI SDK](https://ai-sdk.dev/docs) contains language model support for the [Google Generative AI](https://ai.google/discover/generativeai/) ",
+      "latestVersion": "3.0.64",
+      "publishedAt": "2026-04-16T14:32:12.198Z",
+      "repositoryUrl": "https://github.com/vercel/ai",
+      "linkedRepo": "vercel/ai",
+      "homepage": "https://ai-sdk.dev/docs",
+      "keywords": [
+        "ai"
+      ],
+      "discovery": {
+        "queries": [
+          "ai"
+        ],
+        "searchScore": 325.74432,
+        "finalScore": 325.74432,
+        "weeklyDownloads": 3554389,
+        "monthlyDownloads": 13403094
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 594427,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 3554389,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 13403094,
+      "trendScore24h": 594427,
+      "trendScore7d": 3554389,
+      "trendScore30d": 13403094,
+      "error": null
+    },
+    {
+      "name": "@next/swc-linux-arm64-musl",
+      "npmUrl": "https://www.npmjs.com/package/@next/swc-linux-arm64-musl",
+      "description": "This is the **linux-arm64-musl** binary for `@next/swc`",
+      "latestVersion": "16.2.4",
+      "publishedAt": "2026-04-15T22:32:30.540Z",
+      "repositoryUrl": "https://github.com/vercel/next.js",
+      "linkedRepo": "vercel/next.js",
+      "homepage": "https://github.com/vercel/next.js#readme",
+      "keywords": [],
+      "discovery": {
+        "queries": [
+          "next"
+        ],
+        "searchScore": 242.0116,
+        "finalScore": 242.0116,
+        "weeklyDownloads": 3466590,
+        "monthlyDownloads": 14133561
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 593660,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 3466590,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 14133561,
+      "trendScore24h": 593660,
+      "trendScore7d": 3466590,
+      "trendScore30d": 14133561,
+      "error": null
+    },
+    {
+      "name": "@next/swc-darwin-arm64",
+      "npmUrl": "https://www.npmjs.com/package/@next/swc-darwin-arm64",
+      "description": "This is the **aarch64-apple-darwin** binary for `@next/swc`",
+      "latestVersion": "16.2.4",
+      "publishedAt": "2026-04-15T22:32:15.938Z",
+      "repositoryUrl": "https://github.com/vercel/next.js",
+      "linkedRepo": "vercel/next.js",
+      "homepage": "https://github.com/vercel/next.js#readme",
+      "keywords": [],
+      "discovery": {
+        "queries": [
+          "next"
+        ],
+        "searchScore": 244.47421,
+        "finalScore": 244.47421,
+        "weeklyDownloads": 3490189,
+        "monthlyDownloads": 14122447
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 591659,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 3490189,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 14122447,
+      "trendScore24h": 591659,
+      "trendScore7d": 3490189,
+      "trendScore30d": 14122447,
+      "error": null
+    },
+    {
+      "name": "@next/swc-win32-x64-msvc",
+      "npmUrl": "https://www.npmjs.com/package/@next/swc-win32-x64-msvc",
+      "description": "This is the **x86_64-pc-windows-msvc** binary for `@next/swc`",
+      "latestVersion": "16.2.4",
+      "publishedAt": "2026-04-15T22:33:00.544Z",
+      "repositoryUrl": "https://github.com/vercel/next.js",
+      "linkedRepo": "vercel/next.js",
+      "homepage": "https://github.com/vercel/next.js#readme",
+      "keywords": [],
+      "discovery": {
+        "queries": [
+          "next"
+        ],
+        "searchScore": 237.53592,
+        "finalScore": 237.53592,
+        "weeklyDownloads": 3396198,
+        "monthlyDownloads": 13979105
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 576258,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 3396198,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 13979105,
+      "trendScore24h": 576258,
+      "trendScore7d": 3396198,
+      "trendScore30d": 13979105,
+      "error": null
+    },
+    {
+      "name": "vite-plugin-dts",
+      "npmUrl": "https://www.npmjs.com/package/vite-plugin-dts",
+      "description": "<h1 align=\"center\">vite-plugin-dts</h1>",
+      "latestVersion": "4.5.4",
+      "publishedAt": "2025-05-15T06:20:27.521Z",
+      "repositoryUrl": "https://github.com/qmhc/vite-plugin-dts",
+      "linkedRepo": "qmhc/vite-plugin-dts",
+      "homepage": "https://github.com/qmhc/vite-plugin-dts#readme",
+      "keywords": [
+        "vite",
+        "vite-plugin",
+        "ts",
+        "dts",
+        "typescript",
+        "vue",
+        "tsc",
+        "vue-tsc",
+        "volar"
+      ],
+      "discovery": {
+        "queries": [
+          "vite"
+        ],
+        "searchScore": 339.9673,
+        "finalScore": 339.9673,
+        "weeklyDownloads": 2872525,
+        "monthlyDownloads": 11595967
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 508164,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 2872525,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 11595967,
+      "trendScore24h": 508164,
+      "trendScore7d": 2872525,
+      "trendScore30d": 11595967,
+      "error": null
+    },
+    {
+      "name": "vite-plugin-pwa",
+      "npmUrl": "https://www.npmjs.com/package/vite-plugin-pwa",
+      "description": "Zero-config PWA for Vite",
+      "latestVersion": "1.2.0",
+      "publishedAt": "2025-11-27T21:56:21.924Z",
+      "repositoryUrl": "https://github.com/vite-pwa/vite-plugin-pwa",
+      "linkedRepo": "vite-pwa/vite-plugin-pwa",
+      "homepage": "https://github.com/vite-pwa/vite-plugin-pwa#readme",
+      "keywords": [
+        "react",
+        "pwa",
+        "vue",
+        "vitepress",
+        "preact",
+        "svelte",
+        "sveltekit",
+        "workbox",
+        "solidjs",
+        "vite",
+        "vite-plugin"
+      ],
+      "discovery": {
+        "queries": [
+          "vite"
+        ],
+        "searchScore": 359.52002,
+        "finalScore": 359.52002,
+        "weeklyDownloads": 3027680,
+        "monthlyDownloads": 11060625
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 502575,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 3027680,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 11060625,
+      "trendScore24h": 502575,
+      "trendScore7d": 3027680,
+      "trendScore30d": 11060625,
+      "error": null
+    },
+    {
+      "name": "@next/swc-darwin-x64",
+      "npmUrl": "https://www.npmjs.com/package/@next/swc-darwin-x64",
+      "description": "This is the **x86_64-apple-darwin** binary for `@next/swc`",
+      "latestVersion": "16.2.4",
+      "publishedAt": "2026-04-15T22:32:17.432Z",
+      "repositoryUrl": "https://github.com/vercel/next.js",
+      "linkedRepo": "vercel/next.js",
+      "homepage": "https://github.com/vercel/next.js#readme",
+      "keywords": [],
+      "discovery": {
+        "queries": [
+          "next"
+        ],
+        "searchScore": 241.80223,
+        "finalScore": 241.80223,
+        "weeklyDownloads": 2886143,
+        "monthlyDownloads": 11975563
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 494866,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 2886143,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 11975563,
+      "trendScore24h": 494866,
+      "trendScore7d": 2886143,
+      "trendScore30d": 11975563,
+      "error": null
+    },
+    {
+      "name": "@opentelemetry/instrumentation-openai",
+      "npmUrl": "https://www.npmjs.com/package/@opentelemetry/instrumentation-openai",
+      "description": "OpenTelemetry instrumentation for the `openai` OpenAI client library",
+      "latestVersion": "0.13.0",
+      "publishedAt": "2026-04-17T14:41:53.955Z",
+      "repositoryUrl": "https://github.com/open-telemetry/opentelemetry-js-contrib",
+      "linkedRepo": "open-telemetry/opentelemetry-js-contrib",
+      "homepage": "https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/packages/instrumentation-openai#readme",
+      "keywords": [
+        "instrumentation",
+        "opentelemetry",
+        "observability",
+        "openai",
+        "llm",
+        "genai"
+      ],
+      "discovery": {
+        "queries": [
+          "openai"
+        ],
+        "searchScore": 506.0337,
+        "finalScore": 506.0337,
+        "weeklyDownloads": 2756226,
+        "monthlyDownloads": 10900959
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 491878,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 2756226,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 10900959,
+      "trendScore24h": 491878,
+      "trendScore7d": 2756226,
+      "trendScore30d": 10900959,
+      "error": null
+    },
+    {
+      "name": "@langchain/openai",
+      "npmUrl": "https://www.npmjs.com/package/@langchain/openai",
+      "description": "OpenAI integrations for LangChain.js",
+      "latestVersion": "1.4.4",
+      "publishedAt": "2026-04-10T15:11:01.633Z",
       "repositoryUrl": "https://github.com/langchain-ai/langchainjs",
       "linkedRepo": "langchain-ai/langchainjs",
-      "homepage": "https://github.com/langchain-ai/langchainjs/tree/main/langchain-core/",
-      "downloads": [
-        {
-          "day": "2026-03-22",
-          "downloads": 238367
-        },
-        {
-          "day": "2026-03-23",
-          "downloads": 580521
-        },
-        {
-          "day": "2026-03-24",
-          "downloads": 692955
-        },
-        {
-          "day": "2026-03-25",
-          "downloads": 709738
-        },
-        {
-          "day": "2026-03-26",
-          "downloads": 640735
-        },
-        {
-          "day": "2026-03-27",
-          "downloads": 587238
-        },
-        {
-          "day": "2026-03-28",
-          "downloads": 243965
-        },
-        {
-          "day": "2026-03-29",
-          "downloads": 251214
-        },
-        {
-          "day": "2026-03-30",
-          "downloads": 623450
-        },
-        {
-          "day": "2026-03-31",
-          "downloads": 661085
-        },
-        {
-          "day": "2026-04-01",
-          "downloads": 630008
-        },
-        {
-          "day": "2026-04-02",
-          "downloads": 596290
-        },
-        {
-          "day": "2026-04-03",
-          "downloads": 451679
-        },
-        {
-          "day": "2026-04-04",
-          "downloads": 245467
-        },
-        {
-          "day": "2026-04-05",
-          "downloads": 239926
-        },
-        {
-          "day": "2026-04-06",
-          "downloads": 523594
-        },
-        {
-          "day": "2026-04-07",
-          "downloads": 638729
-        },
-        {
-          "day": "2026-04-08",
-          "downloads": 654501
-        },
-        {
-          "day": "2026-04-09",
-          "downloads": 670902
-        },
-        {
-          "day": "2026-04-10",
-          "downloads": 594510
-        },
-        {
-          "day": "2026-04-11",
-          "downloads": 237697
-        },
-        {
-          "day": "2026-04-12",
-          "downloads": 254297
-        },
-        {
-          "day": "2026-04-13",
-          "downloads": 612058
-        },
-        {
-          "day": "2026-04-14",
-          "downloads": 659258
-        },
-        {
-          "day": "2026-04-15",
-          "downloads": 673423
-        },
-        {
-          "day": "2026-04-16",
-          "downloads": 672201
-        },
-        {
-          "day": "2026-04-17",
-          "downloads": 594135
-        },
-        {
-          "day": "2026-04-18",
-          "downloads": 252416
-        },
-        {
-          "day": "2026-04-19",
-          "downloads": 275452
-        },
-        {
-          "day": "2026-04-20",
-          "downloads": 629766
-        }
+      "homepage": "https://github.com/langchain-ai/langchainjs/tree/main/libs/providers/langchain-openai/",
+      "keywords": [
+        "llm",
+        "ai",
+        "gpt3",
+        "chain",
+        "prompt",
+        "prompt engineering",
+        "chatgpt",
+        "machine learning",
+        "ml",
+        "openai",
+        "embeddings",
+        "vectorstores"
       ],
-      "downloadsLastDay": 629766,
-      "downloads7d": 3756651,
-      "previous7d": 3662694,
-      "downloads30d": 15335577,
-      "delta7d": 93957,
-      "deltaPct7d": 2.6,
-      "trendScore": 28344462,
+      "discovery": {
+        "queries": [
+          "openai"
+        ],
+        "searchScore": 499.80344,
+        "finalScore": 499.80344,
+        "weeklyDownloads": 2823249,
+        "monthlyDownloads": 11561098
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 470016,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 2823249,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 11561098,
+      "trendScore24h": 470016,
+      "trendScore7d": 2823249,
+      "trendScore30d": 11561098,
       "error": null
     },
     {
-      "name": "langchain",
+      "name": "@google/generative-ai",
+      "npmUrl": "https://www.npmjs.com/package/@google/generative-ai",
+      "description": "Google AI JavaScript SDK",
+      "latestVersion": "0.24.1",
+      "publishedAt": "2025-04-29T17:48:21.897Z",
+      "repositoryUrl": "https://github.com/google/generative-ai-js",
+      "linkedRepo": "google/generative-ai-js",
+      "homepage": "https://github.com/google/generative-ai-js#readme",
+      "keywords": [],
+      "discovery": {
+        "queries": [
+          "ai"
+        ],
+        "searchScore": 304.40347,
+        "finalScore": 304.40347,
+        "weeklyDownloads": 2656508,
+        "monthlyDownloads": 10776422
+      },
       "status": "ok",
-      "npmUrl": "https://www.npmjs.com/package/langchain",
-      "description": "Typescript bindings for langchain",
-      "latestVersion": "1.3.3",
-      "publishedAt": "2026-04-15T00:22:00.084Z",
+      "downloads": [],
+      "downloads24h": 442934,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 2656508,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 10776422,
+      "trendScore24h": 442934,
+      "trendScore7d": 2656508,
+      "trendScore30d": 10776422,
+      "error": null
+    },
+    {
+      "name": "partial-json",
+      "npmUrl": "https://www.npmjs.com/package/partial-json",
+      "description": "Parse partial JSON generated by LLM",
+      "latestVersion": "0.1.7",
+      "publishedAt": "2024-05-14T12:18:04.850Z",
+      "repositoryUrl": "https://github.com/promplate/partial-json-parser-js",
+      "linkedRepo": "promplate/partial-json-parser-js",
+      "homepage": "https://promplate.dev/partial-json-parser",
+      "keywords": [
+        "JSON",
+        "parser",
+        "LLM",
+        "nlp"
+      ],
+      "discovery": {
+        "queries": [
+          "llm"
+        ],
+        "searchScore": 287.24677,
+        "finalScore": 287.24677,
+        "weeklyDownloads": 2207796,
+        "monthlyDownloads": 9352338
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 349096,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 2207796,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 9352338,
+      "trendScore24h": 349096,
+      "trendScore7d": 2207796,
+      "trendScore30d": 9352338,
+      "error": null
+    },
+    {
+      "name": "@playwright/mcp",
+      "npmUrl": "https://www.npmjs.com/package/@playwright/mcp",
+      "description": "Playwright Tools for MCP",
+      "latestVersion": "0.0.70",
+      "publishedAt": "2026-04-01T00:18:43.318Z",
+      "repositoryUrl": "https://github.com/microsoft/playwright-mcp",
+      "linkedRepo": "microsoft/playwright-mcp",
+      "homepage": "https://playwright.dev",
+      "keywords": [],
+      "discovery": {
+        "queries": [
+          "mcp"
+        ],
+        "searchScore": 296.35,
+        "finalScore": 296.35,
+        "weeklyDownloads": 2559044,
+        "monthlyDownloads": 11197277
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 322473,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 2559044,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 11197277,
+      "trendScore24h": 322473,
+      "trendScore7d": 2559044,
+      "trendScore30d": 11197277,
+      "error": null
+    },
+    {
+      "name": "@pm2/agent",
+      "npmUrl": "https://www.npmjs.com/package/@pm2/agent",
+      "description": "PM2.io Agent Daemon",
+      "latestVersion": "2.1.1",
+      "publishedAt": "2025-01-25T17:40:20.300Z",
+      "repositoryUrl": "https://github.com/keymetrics/pm2-io-agent",
+      "linkedRepo": "keymetrics/pm2-io-agent",
+      "homepage": "https://github.com/keymetrics/pm2-io-agent#readme",
+      "keywords": [
+        "keymetrics",
+        "agent",
+        "daemon",
+        "pm2"
+      ],
+      "discovery": {
+        "queries": [
+          "agent"
+        ],
+        "searchScore": 373.44513,
+        "finalScore": 373.44513,
+        "weeklyDownloads": 1781034,
+        "monthlyDownloads": 7431277
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 299382,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 1781034,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 7431277,
+      "trendScore24h": 299382,
+      "trendScore7d": 1781034,
+      "trendScore30d": 7431277,
+      "error": null
+    },
+    {
+      "name": "laravel-vite-plugin",
+      "npmUrl": "https://www.npmjs.com/package/laravel-vite-plugin",
+      "description": "Laravel plugin for Vite.",
+      "latestVersion": "3.0.1",
+      "publishedAt": "2026-04-01T15:00:30.918Z",
+      "repositoryUrl": "https://github.com/laravel/vite-plugin",
+      "linkedRepo": "laravel/vite-plugin",
+      "homepage": "https://github.com/laravel/vite-plugin",
+      "keywords": [
+        "laravel",
+        "vite",
+        "vite-plugin"
+      ],
+      "discovery": {
+        "queries": [
+          "vite"
+        ],
+        "searchScore": 346.7967,
+        "finalScore": 346.7967,
+        "weeklyDownloads": 1336490,
+        "monthlyDownloads": 5319275
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 232982,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 1336490,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 5319275,
+      "trendScore24h": 232982,
+      "trendScore7d": 1336490,
+      "trendScore30d": 5319275,
+      "error": null
+    },
+    {
+      "name": "postcss-cli",
+      "npmUrl": "https://www.npmjs.com/package/postcss-cli",
+      "description": "CLI for PostCSS",
+      "latestVersion": "11.0.1",
+      "publishedAt": "2025-03-12T17:40:04.232Z",
+      "repositoryUrl": "https://github.com/postcss/postcss-cli",
+      "linkedRepo": "postcss/postcss-cli",
+      "homepage": "https://github.com/postcss/postcss-cli#readme",
+      "keywords": [
+        "cli",
+        "postcss",
+        "postcss-runner"
+      ],
+      "discovery": {
+        "queries": [
+          "cli"
+        ],
+        "searchScore": 241.72148,
+        "finalScore": 241.72148,
+        "weeklyDownloads": 1298221,
+        "monthlyDownloads": 5273101
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 232478,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 1298221,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 5273101,
+      "trendScore24h": 232478,
+      "trendScore7d": 1298221,
+      "trendScore30d": 5273101,
+      "error": null
+    },
+    {
+      "name": "@newrelic/security-agent",
+      "npmUrl": "https://www.npmjs.com/package/@newrelic/security-agent",
+      "description": "New Relic Security Agent for Node.js",
+      "latestVersion": "3.0.3",
+      "publishedAt": "2026-04-08T04:05:27.331Z",
+      "repositoryUrl": "https://github.com/newrelic/csec-node-agent",
+      "linkedRepo": "newrelic/csec-node-agent",
+      "homepage": "https://github.com/newrelic/csec-node-agent#readme",
+      "keywords": [
+        "instrumentation",
+        "IAST",
+        "RASP",
+        "New Relic Security Agent",
+        "Node.js Application Security"
+      ],
+      "discovery": {
+        "queries": [
+          "agent"
+        ],
+        "searchScore": 330.38812,
+        "finalScore": 330.38812,
+        "weeklyDownloads": 1248349,
+        "monthlyDownloads": 4837755
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 232085,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 1248349,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 4837755,
+      "trendScore24h": 232085,
+      "trendScore7d": 1248349,
+      "trendScore30d": 4837755,
+      "error": null
+    },
+    {
+      "name": "@anthropic-ai/vertex-sdk",
+      "npmUrl": "https://www.npmjs.com/package/@anthropic-ai/vertex-sdk",
+      "description": "The official TypeScript library for the Anthropic Vertex API",
+      "latestVersion": "0.16.0",
+      "publishedAt": "2026-04-10T22:28:34.478Z",
+      "repositoryUrl": "https://github.com/anthropics/anthropic-sdk-typescript",
+      "linkedRepo": "anthropics/anthropic-sdk-typescript",
+      "homepage": null,
+      "keywords": [],
+      "discovery": {
+        "queries": [
+          "anthropic"
+        ],
+        "searchScore": 425.53836,
+        "finalScore": 425.53836,
+        "weeklyDownloads": 1378515,
+        "monthlyDownloads": 5651191
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 203848,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 1378515,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 5651191,
+      "trendScore24h": 203848,
+      "trendScore7d": 1378515,
+      "trendScore30d": 5651191,
+      "error": null
+    },
+    {
+      "name": "@postman/tunnel-agent",
+      "npmUrl": "https://www.npmjs.com/package/@postman/tunnel-agent",
+      "description": "HTTP proxy tunneling agent.",
+      "latestVersion": "0.6.8",
+      "publishedAt": "2025-12-11T14:28:47.409Z",
+      "repositoryUrl": "https://github.com/postmanlabs/tunnel-agent",
+      "linkedRepo": "postmanlabs/tunnel-agent",
+      "homepage": "https://github.com/postmanlabs/tunnel-agent#readme",
+      "keywords": [],
+      "discovery": {
+        "queries": [
+          "agent"
+        ],
+        "searchScore": 325.54147,
+        "finalScore": 325.54147,
+        "weeklyDownloads": 1155697,
+        "monthlyDownloads": 4763839
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 200464,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 1155697,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 4763839,
+      "trendScore24h": 200464,
+      "trendScore7d": 1155697,
+      "trendScore30d": 4763839,
+      "error": null
+    },
+    {
+      "name": "@ai-sdk/xai",
+      "npmUrl": "https://www.npmjs.com/package/@ai-sdk/xai",
+      "description": "The **[xAI Grok provider](https://ai-sdk.dev/providers/ai-sdk-providers/xai)** for the [AI SDK](https://ai-sdk.dev/docs) contains language model support for the xAI chat and completion APIs.",
+      "latestVersion": "3.0.83",
+      "publishedAt": "2026-04-15T21:21:39.693Z",
+      "repositoryUrl": "https://github.com/vercel/ai",
+      "linkedRepo": "vercel/ai",
+      "homepage": "https://ai-sdk.dev/docs",
+      "keywords": [
+        "ai"
+      ],
+      "discovery": {
+        "queries": [
+          "ai"
+        ],
+        "searchScore": 296.5234,
+        "finalScore": 296.5234,
+        "weeklyDownloads": 1193361,
+        "monthlyDownloads": 4526331
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 189161,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 1193361,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 4526331,
+      "trendScore24h": 189161,
+      "trendScore7d": 1193361,
+      "trendScore30d": 4526331,
+      "error": null
+    },
+    {
+      "name": "@ai-sdk/azure",
+      "npmUrl": "https://www.npmjs.com/package/@ai-sdk/azure",
+      "description": "The **[Azure provider](https://ai-sdk.dev/providers/ai-sdk-providers/azure)** for the [AI SDK](https://ai-sdk.dev/docs) contains language model support for the Azure OpenAI API.",
+      "latestVersion": "3.0.54",
+      "publishedAt": "2026-04-14T18:07:03.515Z",
+      "repositoryUrl": "https://github.com/vercel/ai",
+      "linkedRepo": "vercel/ai",
+      "homepage": "https://ai-sdk.dev/docs",
+      "keywords": [
+        "ai"
+      ],
+      "discovery": {
+        "queries": [
+          "ai"
+        ],
+        "searchScore": 296.8428,
+        "finalScore": 296.8428,
+        "weeklyDownloads": 1053769,
+        "monthlyDownloads": 4135698
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 173064,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 1053769,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 4135698,
+      "trendScore24h": 173064,
+      "trendScore7d": 1053769,
+      "trendScore30d": 4135698,
+      "error": null
+    },
+    {
+      "name": "sequelize-cli",
+      "npmUrl": "https://www.npmjs.com/package/sequelize-cli",
+      "description": "The Sequelize CLI",
+      "latestVersion": "6.6.5",
+      "publishedAt": "2026-01-05T19:50:57.844Z",
+      "repositoryUrl": "https://github.com/sequelize/cli",
+      "linkedRepo": "sequelize/cli",
+      "homepage": "https://github.com/sequelize/cli",
+      "keywords": [
+        "sequelize",
+        "cli"
+      ],
+      "discovery": {
+        "queries": [
+          "cli"
+        ],
+        "searchScore": 240.19391,
+        "finalScore": 240.19391,
+        "weeklyDownloads": 970997,
+        "monthlyDownloads": 4262329
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 163904,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 970997,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 4262329,
+      "trendScore24h": 163904,
+      "trendScore7d": 970997,
+      "trendScore30d": 4262329,
+      "error": null
+    },
+    {
+      "name": "cli",
+      "npmUrl": "https://www.npmjs.com/package/cli",
+      "description": "A tool for rapidly building command line apps",
+      "latestVersion": "1.0.1",
+      "publishedAt": "2016-10-23T03:58:59.396Z",
+      "repositoryUrl": "https://github.com/node-js-libs/cli",
+      "linkedRepo": "node-js-libs/cli",
+      "homepage": "http://github.com/node-js-libs/cli",
+      "keywords": [
+        "cli",
+        "command line",
+        "opts",
+        "parseopt",
+        "opt",
+        "args",
+        "console",
+        "argsparse",
+        "optparse",
+        "autocomplete",
+        "command",
+        "autocompletion"
+      ],
+      "discovery": {
+        "queries": [
+          "cli"
+        ],
+        "searchScore": 1713.8923,
+        "finalScore": 1713.8923,
+        "weeklyDownloads": 974722,
+        "monthlyDownloads": 4032333
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 162031,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 974722,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 4032333,
+      "trendScore24h": 162031,
+      "trendScore7d": 974722,
+      "trendScore30d": 4032333,
+      "error": null
+    },
+    {
+      "name": "vite-plugin-istanbul",
+      "npmUrl": "https://www.npmjs.com/package/vite-plugin-istanbul",
+      "description": "vite-plugin-istanbul ==========================",
+      "latestVersion": "8.0.0",
+      "publishedAt": "2026-03-10T13:40:12.093Z",
+      "repositoryUrl": "https://github.com/iFaxity/vite-plugin-istanbul",
+      "linkedRepo": "iFaxity/vite-plugin-istanbul",
+      "homepage": "https://github.com/iFaxity/vite-plugin-istanbul",
+      "keywords": [
+        "vite",
+        "babel",
+        "plugin",
+        "istanbul",
+        "nyc"
+      ],
+      "discovery": {
+        "queries": [
+          "vite"
+        ],
+        "searchScore": 348.11798,
+        "finalScore": 348.11798,
+        "weeklyDownloads": 847708,
+        "monthlyDownloads": 3495240
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 156167,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 847708,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 3495240,
+      "trendScore24h": 156167,
+      "trendScore7d": 847708,
+      "trendScore30d": 3495240,
+      "error": null
+    },
+    {
+      "name": "chrome-devtools-mcp",
+      "npmUrl": "https://www.npmjs.com/package/chrome-devtools-mcp",
+      "description": "MCP server for Chrome DevTools",
+      "latestVersion": "0.21.0",
+      "publishedAt": "2026-04-01T08:44:01.631Z",
+      "repositoryUrl": "https://github.com/ChromeDevTools/chrome-devtools-mcp",
+      "linkedRepo": "ChromeDevTools/chrome-devtools-mcp",
+      "homepage": "https://github.com/ChromeDevTools/chrome-devtools-mcp#readme",
+      "keywords": [],
+      "discovery": {
+        "queries": [
+          "mcp"
+        ],
+        "searchScore": 254.97913,
+        "finalScore": 254.97913,
+        "weeklyDownloads": 698110,
+        "monthlyDownloads": 2304446
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 146298,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 698110,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 2304446,
+      "trendScore24h": 146298,
+      "trendScore7d": 698110,
+      "trendScore30d": 2304446,
+      "error": null
+    },
+    {
+      "name": "mcp-proxy",
+      "npmUrl": "https://www.npmjs.com/package/mcp-proxy",
+      "description": "A TypeScript SSE proxy for MCP servers that use stdio transport.",
+      "latestVersion": "6.4.6",
+      "publishedAt": "2026-04-13T01:51:08.648Z",
+      "repositoryUrl": "https://github.com/punkpeye/mcp-proxy",
+      "linkedRepo": "punkpeye/mcp-proxy",
+      "homepage": "https://glama.ai/mcp",
+      "keywords": [
+        "MCP",
+        "SSE",
+        "proxy"
+      ],
+      "discovery": {
+        "queries": [
+          "mcp"
+        ],
+        "searchScore": 233.83336,
+        "finalScore": 233.83336,
+        "weeklyDownloads": 617138,
+        "monthlyDownloads": 1661298
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 142518,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 617138,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 1661298,
+      "trendScore24h": 142518,
+      "trendScore7d": 617138,
+      "trendScore30d": 1661298,
+      "error": null
+    },
+    {
+      "name": "@langchain/anthropic",
+      "npmUrl": "https://www.npmjs.com/package/@langchain/anthropic",
+      "description": "Anthropic integrations for LangChain.js",
+      "latestVersion": "1.3.26",
+      "publishedAt": "2026-03-31T01:10:39.456Z",
       "repositoryUrl": "https://github.com/langchain-ai/langchainjs",
       "linkedRepo": "langchain-ai/langchainjs",
-      "homepage": "https://github.com/langchain-ai/langchainjs/tree/main/libs/langchain/",
-      "downloads": [
-        {
-          "day": "2026-03-22",
-          "downloads": 142747
-        },
-        {
-          "day": "2026-03-23",
-          "downloads": 363474
-        },
-        {
-          "day": "2026-03-24",
-          "downloads": 472906
-        },
-        {
-          "day": "2026-03-25",
-          "downloads": 441264
-        },
-        {
-          "day": "2026-03-26",
-          "downloads": 406953
-        },
-        {
-          "day": "2026-03-27",
-          "downloads": 380785
-        },
-        {
-          "day": "2026-03-28",
-          "downloads": 160399
-        },
-        {
-          "day": "2026-03-29",
-          "downloads": 164381
-        },
-        {
-          "day": "2026-03-30",
-          "downloads": 403472
-        },
-        {
-          "day": "2026-03-31",
-          "downloads": 420481
-        },
-        {
-          "day": "2026-04-01",
-          "downloads": 390602
-        },
-        {
-          "day": "2026-04-02",
-          "downloads": 359349
-        },
-        {
-          "day": "2026-04-03",
-          "downloads": 263028
-        },
-        {
-          "day": "2026-04-04",
-          "downloads": 150365
-        },
-        {
-          "day": "2026-04-05",
-          "downloads": 148954
-        },
-        {
-          "day": "2026-04-06",
-          "downloads": 319759
-        },
-        {
-          "day": "2026-04-07",
-          "downloads": 381497
-        },
-        {
-          "day": "2026-04-08",
-          "downloads": 391932
-        },
-        {
-          "day": "2026-04-09",
-          "downloads": 400883
-        },
-        {
-          "day": "2026-04-10",
-          "downloads": 353400
-        },
-        {
-          "day": "2026-04-11",
-          "downloads": 133737
-        },
-        {
-          "day": "2026-04-12",
-          "downloads": 152897
-        },
-        {
-          "day": "2026-04-13",
-          "downloads": 368778
-        },
-        {
-          "day": "2026-04-14",
-          "downloads": 392319
-        },
-        {
-          "day": "2026-04-15",
-          "downloads": 395386
-        },
-        {
-          "day": "2026-04-16",
-          "downloads": 381206
-        },
-        {
-          "day": "2026-04-17",
-          "downloads": 337791
-        },
-        {
-          "day": "2026-04-18",
-          "downloads": 141200
-        },
-        {
-          "day": "2026-04-19",
-          "downloads": 159901
-        },
-        {
-          "day": "2026-04-20",
-          "downloads": 359126
-        }
+      "homepage": "https://github.com/langchain-ai/langchainjs/tree/main/libs/providers/langchain-anthropic/",
+      "keywords": [
+        "llm",
+        "ai",
+        "gpt3",
+        "chain",
+        "prompt",
+        "prompt engineering",
+        "chatgpt",
+        "machine learning",
+        "ml",
+        "anthropic",
+        "embeddings",
+        "vectorstores"
       ],
-      "downloadsLastDay": 359126,
-      "downloads7d": 2166929,
-      "previous7d": 2183124,
-      "downloads30d": 9338972,
-      "delta7d": -16195,
-      "deltaPct7d": -0.7,
-      "trendScore": 15104144,
+      "discovery": {
+        "queries": [
+          "anthropic"
+        ],
+        "searchScore": 519.1192,
+        "finalScore": 519.1192,
+        "weeklyDownloads": 661309,
+        "monthlyDownloads": 2720577
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 116612,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 661309,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 2720577,
+      "trendScore24h": 116612,
+      "trendScore7d": 661309,
+      "trendScore30d": 2720577,
+      "error": null
+    },
+    {
+      "name": "@openai/agents",
+      "npmUrl": "https://www.npmjs.com/package/@openai/agents",
+      "description": "The OpenAI Agents SDK is a lightweight yet powerful framework for building multi-agent workflows.",
+      "latestVersion": "0.8.5",
+      "publishedAt": "2026-04-21T01:59:51.265Z",
+      "repositoryUrl": "https://github.com/openai/openai-agents-js",
+      "linkedRepo": "openai/openai-agents-js",
+      "homepage": "https://openai.github.io/openai-agents-js/",
+      "keywords": [
+        "openai",
+        "agents",
+        "ai",
+        "agentic"
+      ],
+      "discovery": {
+        "queries": [
+          "openai"
+        ],
+        "searchScore": 365.05115,
+        "finalScore": 365.05115,
+        "weeklyDownloads": 545397,
+        "monthlyDownloads": 2079352
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 100729,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 545397,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 2079352,
+      "trendScore24h": 100729,
+      "trendScore7d": 545397,
+      "trendScore30d": 2079352,
+      "error": null
+    },
+    {
+      "name": "@openai/agents-openai",
+      "npmUrl": "https://www.npmjs.com/package/@openai/agents-openai",
+      "description": "The OpenAI Agents SDK is a lightweight yet powerful framework for building multi-agent workflows.",
+      "latestVersion": "0.8.5",
+      "publishedAt": "2026-04-21T01:59:43.849Z",
+      "repositoryUrl": "https://github.com/openai/openai-agents-js",
+      "linkedRepo": "openai/openai-agents-js",
+      "homepage": "https://openai.github.io/openai-agents-js/",
+      "keywords": [
+        "openai",
+        "agents",
+        "ai",
+        "agentic"
+      ],
+      "discovery": {
+        "queries": [
+          "openai"
+        ],
+        "searchScore": 366.61017,
+        "finalScore": 366.61017,
+        "weeklyDownloads": 538639,
+        "monthlyDownloads": 2065481
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 99377,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 538639,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 2065481,
+      "trendScore24h": 99377,
+      "trendScore7d": 538639,
+      "trendScore30d": 2065481,
+      "error": null
+    },
+    {
+      "name": "@traceloop/instrumentation-anthropic",
+      "npmUrl": "https://www.npmjs.com/package/@traceloop/instrumentation-anthropic",
+      "description": "Anthropic Instrumentaion",
+      "latestVersion": "0.26.0",
+      "publishedAt": "2026-04-16T11:45:46.743Z",
+      "repositoryUrl": "https://github.com/traceloop/openllmetry-js",
+      "linkedRepo": "traceloop/openllmetry-js",
+      "homepage": "https://github.com/traceloop/openllmetry-js/tree/main/packages/instrumentation-anthropic",
+      "keywords": [
+        "opentelemetry",
+        "nodejs",
+        "tracing",
+        "openai",
+        "anthropic"
+      ],
+      "discovery": {
+        "queries": [
+          "anthropic"
+        ],
+        "searchScore": 557.5391,
+        "finalScore": 557.5391,
+        "weeklyDownloads": 532794,
+        "monthlyDownloads": 2008647
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 89941,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 532794,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 2008647,
+      "trendScore24h": 89941,
+      "trendScore7d": 532794,
+      "trendScore30d": 2008647,
+      "error": null
+    },
+    {
+      "name": "@stdlib/utils-next-tick",
+      "npmUrl": "https://www.npmjs.com/package/@stdlib/utils-next-tick",
+      "description": "Add a callback to the next tick queue.",
+      "latestVersion": "0.2.3",
+      "publishedAt": "2026-02-01T05:10:17.502Z",
+      "repositoryUrl": "https://github.com/stdlib-js/utils-next-tick",
+      "linkedRepo": "stdlib-js/utils-next-tick",
+      "homepage": "https://stdlib.io",
+      "keywords": [
+        "stdlib",
+        "stdutils",
+        "stdutil",
+        "utils",
+        "util",
+        "utilities",
+        "utility",
+        "process",
+        "nexttick",
+        "next",
+        "tick",
+        "settimeout"
+      ],
+      "discovery": {
+        "queries": [
+          "next"
+        ],
+        "searchScore": 241.79694,
+        "finalScore": 241.79694,
+        "weeklyDownloads": 538062,
+        "monthlyDownloads": 2033691
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 88939,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 538062,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 2033691,
+      "trendScore24h": 88939,
+      "trendScore7d": 538062,
+      "trendScore30d": 2033691,
+      "error": null
+    },
+    {
+      "name": "@upstash/context7-mcp",
+      "npmUrl": "https://www.npmjs.com/package/@upstash/context7-mcp",
+      "description": "MCP server for Context7",
+      "latestVersion": "2.1.8",
+      "publishedAt": "2026-04-13T00:21:06.456Z",
+      "repositoryUrl": "https://github.com/upstash/context7",
+      "linkedRepo": "upstash/context7",
+      "homepage": "https://github.com/upstash/context7#readme",
+      "keywords": [
+        "modelcontextprotocol",
+        "mcp",
+        "context7",
+        "vibe-coding",
+        "developer tools",
+        "documentation",
+        "context"
+      ],
+      "discovery": {
+        "queries": [
+          "mcp"
+        ],
+        "searchScore": 283.99866,
+        "finalScore": 283.99866,
+        "weeklyDownloads": 665874,
+        "monthlyDownloads": 3374514
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 85006,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 665874,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
+      "downloads30d": 3374514,
+      "trendScore24h": 85006,
+      "trendScore7d": 665874,
+      "trendScore30d": 3374514,
       "error": null
     },
     {
       "name": "ollama",
-      "status": "ok",
       "npmUrl": "https://www.npmjs.com/package/ollama",
       "description": "Ollama Javascript library",
       "latestVersion": "0.6.3",
@@ -1293,216 +3107,149 @@
       "repositoryUrl": "https://github.com/ollama/ollama-js",
       "linkedRepo": "ollama/ollama-js",
       "homepage": "https://github.com/ollama/ollama-js",
-      "downloads": [
-        {
-          "day": "2026-03-22",
-          "downloads": 40280
-        },
-        {
-          "day": "2026-03-23",
-          "downloads": 71862
-        },
-        {
-          "day": "2026-03-24",
-          "downloads": 74929
-        },
-        {
-          "day": "2026-03-25",
-          "downloads": 73566
-        },
-        {
-          "day": "2026-03-26",
-          "downloads": 78522
-        },
-        {
-          "day": "2026-03-27",
-          "downloads": 73859
-        },
-        {
-          "day": "2026-03-28",
-          "downloads": 56439
-        },
-        {
-          "day": "2026-03-29",
-          "downloads": 41853
-        },
-        {
-          "day": "2026-03-30",
-          "downloads": 68094
-        },
-        {
-          "day": "2026-03-31",
-          "downloads": 73335
-        },
-        {
-          "day": "2026-04-01",
-          "downloads": 74513
-        },
-        {
-          "day": "2026-04-02",
-          "downloads": 73334
-        },
-        {
-          "day": "2026-04-03",
-          "downloads": 62947
-        },
-        {
-          "day": "2026-04-04",
-          "downloads": 46468
-        },
-        {
-          "day": "2026-04-05",
-          "downloads": 43319
-        },
-        {
-          "day": "2026-04-06",
-          "downloads": 62476
-        },
-        {
-          "day": "2026-04-07",
-          "downloads": 74966
-        },
-        {
-          "day": "2026-04-08",
-          "downloads": 76397
-        },
-        {
-          "day": "2026-04-09",
-          "downloads": 79656
-        },
-        {
-          "day": "2026-04-10",
-          "downloads": 74054
-        },
-        {
-          "day": "2026-04-11",
-          "downloads": 44034
-        },
-        {
-          "day": "2026-04-12",
-          "downloads": 46929
-        },
-        {
-          "day": "2026-04-13",
-          "downloads": 75109
-        },
-        {
-          "day": "2026-04-14",
-          "downloads": 72467
-        },
-        {
-          "day": "2026-04-15",
-          "downloads": 75007
-        },
-        {
-          "day": "2026-04-16",
-          "downloads": 80886
-        },
-        {
-          "day": "2026-04-17",
-          "downloads": 69848
-        },
-        {
-          "day": "2026-04-18",
-          "downloads": 40116
-        },
-        {
-          "day": "2026-04-19",
-          "downloads": 46076
-        },
-        {
-          "day": "2026-04-20",
-          "downloads": 74404
-        }
-      ],
-      "downloadsLastDay": 74404,
+      "keywords": [],
+      "discovery": {
+        "queries": [
+          "ollama"
+        ],
+        "searchScore": 2119.5112,
+        "finalScore": 2119.5112,
+        "weeklyDownloads": 458804,
+        "monthlyDownloads": 1945745
+      },
+      "status": "ok",
+      "downloads": [],
+      "downloads24h": 74404,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
       "downloads7d": 458804,
-      "previous7d": 471145,
+      "previous7d": 0,
+      "delta7d": 0,
+      "deltaPct7d": 0,
       "downloads30d": 1945745,
-      "delta7d": -12341,
-      "deltaPct7d": -2.6,
-      "trendScore": 2885459,
+      "trendScore24h": 74404,
+      "trendScore7d": 458804,
+      "trendScore30d": 1945745,
       "error": null
     },
     {
-      "name": "@trendingrepo/cli",
-      "status": "missing",
-      "npmUrl": "https://www.npmjs.com/package/@trendingrepo/cli",
-      "description": null,
-      "latestVersion": null,
-      "publishedAt": null,
-      "repositoryUrl": null,
-      "linkedRepo": null,
-      "homepage": null,
+      "name": "@bytecodealliance/componentize-js",
+      "npmUrl": "https://www.npmjs.com/package/@bytecodealliance/componentize-js",
+      "description": "ESM -> WebAssembly Component creator, via a SpiderMonkey JS engine embedding",
+      "latestVersion": "0.20.0",
+      "publishedAt": "2026-04-14T07:04:38.645Z",
+      "repositoryUrl": "https://github.com/bytecodealliance/ComponentizeJS",
+      "linkedRepo": "bytecodealliance/ComponentizeJS",
+      "homepage": "https://github.com/bytecodealliance/componentize-js#readme",
+      "keywords": [],
+      "discovery": {
+        "queries": [
+          "embedding"
+        ],
+        "searchScore": 277.32904,
+        "finalScore": 277.32904,
+        "weeklyDownloads": 243577,
+        "monthlyDownloads": 1151158
+      },
+      "status": "ok",
       "downloads": [],
-      "downloadsLastDay": 0,
-      "downloads7d": 0,
+      "downloads24h": 67949,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 243577,
       "previous7d": 0,
-      "downloads30d": 0,
       "delta7d": 0,
       "deltaPct7d": 0,
-      "trendScore": 0,
-      "error": "not published on npm"
+      "downloads30d": 1151158,
+      "trendScore24h": 67949,
+      "trendScore7d": 243577,
+      "trendScore30d": 1151158,
+      "error": null
     },
     {
-      "name": "@trendingrepo/sdk",
-      "status": "missing",
-      "npmUrl": "https://www.npmjs.com/package/@trendingrepo/sdk",
-      "description": null,
-      "latestVersion": null,
-      "publishedAt": null,
-      "repositoryUrl": null,
-      "linkedRepo": null,
+      "name": "@anthropic-ai/bedrock-sdk",
+      "npmUrl": "https://www.npmjs.com/package/@anthropic-ai/bedrock-sdk",
+      "description": "The official TypeScript library for the Anthropic Bedrock API",
+      "latestVersion": "0.28.1",
+      "publishedAt": "2026-04-08T19:53:01.292Z",
+      "repositoryUrl": "https://github.com/anthropics/anthropic-sdk-typescript",
+      "linkedRepo": "anthropics/anthropic-sdk-typescript",
       "homepage": null,
+      "keywords": [],
+      "discovery": {
+        "queries": [
+          "anthropic"
+        ],
+        "searchScore": 383.9055,
+        "finalScore": 383.9055,
+        "weeklyDownloads": 338484,
+        "monthlyDownloads": 1421031
+      },
+      "status": "ok",
       "downloads": [],
-      "downloadsLastDay": 0,
-      "downloads7d": 0,
+      "downloads24h": 58510,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 338484,
       "previous7d": 0,
-      "downloads30d": 0,
       "delta7d": 0,
       "deltaPct7d": 0,
-      "trendScore": 0,
-      "error": "not published on npm"
+      "downloads30d": 1421031,
+      "trendScore24h": 58510,
+      "trendScore7d": 338484,
+      "trendScore30d": 1421031,
+      "error": null
     },
     {
-      "name": "@trendingrepo/widget",
-      "status": "missing",
-      "npmUrl": "https://www.npmjs.com/package/@trendingrepo/widget",
-      "description": null,
-      "latestVersion": null,
-      "publishedAt": null,
-      "repositoryUrl": null,
-      "linkedRepo": null,
-      "homepage": null,
+      "name": "telecom-mas-agent",
+      "npmUrl": "https://www.npmjs.com/package/telecom-mas-agent",
+      "description": "A conversational AI-driven telecom multi-agent system for managing call balances, push notifications, marketing, targeting, and sales.",
+      "latestVersion": "1.0.12",
+      "publishedAt": "2025-12-09T03:02:18.773Z",
+      "repositoryUrl": "https://github.com/darshanbmehta/telecom-mas-agent",
+      "linkedRepo": "darshanbmehta/telecom-mas-agent",
+      "homepage": "https://github.com/darshanbmehta/telecom-mas-agent#readme",
+      "keywords": [
+        "telecom",
+        "agent",
+        "multi-agent",
+        "conversational-ai",
+        "sms",
+        "balance",
+        "notifications",
+        "marketing",
+        "targeting",
+        "sales",
+        "telecommunications",
+        "messaging"
+      ],
+      "discovery": {
+        "queries": [
+          "agent"
+        ],
+        "searchScore": 326.02136,
+        "finalScore": 326.02136,
+        "weeklyDownloads": 101103290,
+        "monthlyDownloads": 187111660
+      },
+      "status": "ok",
       "downloads": [],
-      "downloadsLastDay": 0,
-      "downloads7d": 0,
+      "downloads24h": 12,
+      "previous24h": 0,
+      "delta24h": 0,
+      "deltaPct24h": 0,
+      "downloads7d": 101103290,
       "previous7d": 0,
-      "downloads30d": 0,
       "delta7d": 0,
       "deltaPct7d": 0,
-      "trendScore": 0,
-      "error": "not published on npm"
-    },
-    {
-      "name": "trendingrepo",
-      "status": "missing",
-      "npmUrl": "https://www.npmjs.com/package/trendingrepo",
-      "description": null,
-      "latestVersion": null,
-      "publishedAt": null,
-      "repositoryUrl": null,
-      "linkedRepo": null,
-      "homepage": null,
-      "downloads": [],
-      "downloadsLastDay": 0,
-      "downloads7d": 0,
-      "previous7d": 0,
-      "downloads30d": 0,
-      "delta7d": 0,
-      "deltaPct7d": 0,
-      "trendScore": 0,
-      "error": "not published on npm"
+      "downloads30d": 187111660,
+      "trendScore24h": 12,
+      "trendScore7d": 101103290,
+      "trendScore30d": 187111660,
+      "error": null
     }
   ]
 }

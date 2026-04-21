@@ -1,52 +1,54 @@
 {
-  "fetchedAt": "2026-04-21T03:35:51.210Z",
+  "fetchedAt": "2026-04-21T10:48:32.614Z",
   "windowDays": 7,
-  "scannedPosts": 99,
+  "scannedPosts": 300,
   "searchQuery": "github.com",
-  "pagesFetched": 1,
+  "pagesFetched": 3,
   "mentions": {
-    "niri-wm/niri": {
+    "phuryn/claude-usage": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:viijgyhjw7uj7ofvgtijr6ur/app.bsky.feed.post/3mjy25hilsc2m",
-        "cid": "bafyreib72yznvq5wffazqvgbuv24wfa6sefssoyxvyplkzetpmz2c5l26m",
-        "bskyUrl": "https://bsky.app/profile/dev-nulled.bsky.social/post/3mjy25hilsc2m",
-        "text": "I’ll leave this here…. github.com/niri-wm/niri",
+        "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mjynpsvnjg2p",
+        "cid": "bafyreidfchsubghhew7wvje55jb3sm23tsvrcmzrqojvfhk4aproxqat3u",
+        "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mjynpsvnjg2p",
+        "text": "Un dashboard local pour visualiser sa consommation de tokens Claude Code — modèles, coûts estimés, historique de sessions. https://github.com/phuryn/claude-usage",
         "author": {
-          "handle": "dev-nulled.bsky.social"
+          "handle": "camilleroux.com",
+          "displayName": "Camille Roux"
         },
-        "likeCount": 0,
+        "likeCount": 2,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-04-21T03:29:45.781Z",
-        "hoursSincePosted": 0.5
+        "createdAt": "2026-04-21T11:20:02+02:00",
+        "hoursSincePosted": 1.48
       },
       "posts": [
         {
-          "uri": "at://did:plc:viijgyhjw7uj7ofvgtijr6ur/app.bsky.feed.post/3mjy25hilsc2m",
-          "cid": "bafyreib72yznvq5wffazqvgbuv24wfa6sefssoyxvyplkzetpmz2c5l26m",
-          "bskyUrl": "https://bsky.app/profile/dev-nulled.bsky.social/post/3mjy25hilsc2m",
-          "text": "I’ll leave this here…. github.com/niri-wm/niri",
+          "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mjynpsvnjg2p",
+          "cid": "bafyreidfchsubghhew7wvje55jb3sm23tsvrcmzrqojvfhk4aproxqat3u",
+          "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mjynpsvnjg2p",
+          "text": "Un dashboard local pour visualiser sa consommation de tokens Claude Code — modèles, coûts estimés, historique de sessions. https://github.com/phuryn/claude-usage",
           "author": {
-            "handle": "dev-nulled.bsky.social"
+            "handle": "camilleroux.com",
+            "displayName": "Camille Roux"
           },
-          "likeCount": 0,
+          "likeCount": 2,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-04-21T03:29:45.781Z",
-          "createdUtc": 1776742185,
-          "ageHours": 0.5,
-          "trendingScore": 0,
+          "createdAt": "2026-04-21T11:20:02+02:00",
+          "createdUtc": 1776763202,
+          "ageHours": 1.48,
+          "trendingScore": 2,
           "content_tags": [
             "has-github-repo"
           ],
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "niri-wm/niri",
+              "fullName": "phuryn/claude-usage",
               "matchType": "url",
               "confidence": 1
             }
@@ -54,51 +56,102 @@
         }
       ]
     },
-    "bytedance/deer-flow": {
+    "matthart1983/netwatch": {
       "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "likesSum7d": 8,
+      "repostsSum7d": 1,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:yks2jtk5na244d6s3yje2gh5/app.bsky.feed.post/3mjxthlqc7s2m",
-        "cid": "bafyreigv4sul3fd6han5bdkbevaev4fg7uxn6v7566ftk4gnojei77c4sm",
-        "bskyUrl": "https://bsky.app/profile/zarlez.com/post/3mjxthlqc7s2m",
-        "text": "Anyone using DeerFlow? I'd love to hear your experiences. github.com/bytedance/de...",
+        "uri": "at://did:plc:of2s7m5juw4jmb3hwmqr7ruz/app.bsky.feed.post/3mjyksq7eh222",
+        "cid": "bafyreid5lpue34lc2zc4usbwxjxcfz2ekuou7sjf6mtz6vgmip6k52qpgi",
+        "bskyUrl": "https://bsky.app/profile/orhun.dev/post/3mjyksq7eh222",
+        "text": "Another reason to love TUIs 😍 🌐 NetWatch — Real-time network diagnostics in your terminal 💯 Interfaces, connections, packet capture & more ✈️ Built-in flight recorder for capturing incidents 🦀 Written in Rust & built w/ @ratatui.rs ⭐ GitHub: github.com/matthart1983... #rustlang #ratatui #tui",
         "author": {
-          "handle": "zarlez.com",
-          "displayName": "Avin Zarlez"
+          "handle": "orhun.dev",
+          "displayName": "Orhun Parmaksız"
         },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-21T01:30:07.671Z",
-        "hoursSincePosted": 2.1
+        "likeCount": 8,
+        "repostCount": 1,
+        "replyCount": 1,
+        "createdAt": "2026-04-21T08:27:59.427Z",
+        "hoursSincePosted": 2.34
       },
       "posts": [
         {
-          "uri": "at://did:plc:yks2jtk5na244d6s3yje2gh5/app.bsky.feed.post/3mjxthlqc7s2m",
-          "cid": "bafyreigv4sul3fd6han5bdkbevaev4fg7uxn6v7566ftk4gnojei77c4sm",
-          "bskyUrl": "https://bsky.app/profile/zarlez.com/post/3mjxthlqc7s2m",
-          "text": "Anyone using DeerFlow? I'd love to hear your experiences. github.com/bytedance/de...",
+          "uri": "at://did:plc:of2s7m5juw4jmb3hwmqr7ruz/app.bsky.feed.post/3mjyksq7eh222",
+          "cid": "bafyreid5lpue34lc2zc4usbwxjxcfz2ekuou7sjf6mtz6vgmip6k52qpgi",
+          "bskyUrl": "https://bsky.app/profile/orhun.dev/post/3mjyksq7eh222",
+          "text": "Another reason to love TUIs 😍 🌐 NetWatch — Real-time network diagnostics in your terminal 💯 Interfaces, connections, packet capture & more ✈️ Built-in flight recorder for capturing incidents 🦀 Written in Rust & built w/ @ratatui.rs ⭐ GitHub: github.com/matthart1983... #rustlang #ratatui #tui",
           "author": {
-            "handle": "zarlez.com",
-            "displayName": "Avin Zarlez"
+            "handle": "orhun.dev",
+            "displayName": "Orhun Parmaksız"
           },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-21T01:30:07.671Z",
-          "createdUtc": 1776735007,
-          "ageHours": 2.1,
-          "trendingScore": 0,
+          "likeCount": 8,
+          "repostCount": 1,
+          "replyCount": 1,
+          "createdAt": "2026-04-21T08:27:59.427Z",
+          "createdUtc": 1776760079,
+          "ageHours": 2.34,
+          "trendingScore": 10.5,
           "content_tags": [
-            "has-github-repo",
-            "is-question"
+            "has-github-repo"
           ],
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "bytedance/deer-flow",
+              "fullName": "matthart1983/netwatch",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "Tencent-Hunyuan/HY-World-2.0": {
+      "count7d": 1,
+      "likesSum7d": 2,
+      "repostsSum7d": 1,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:kxlkxipo2lid6pqmajvsxpxx/app.bsky.feed.post/3mjyevfwrhc2b",
+        "cid": "bafyreiernhhasxxnt6essncu4jlf6hv2yaowwypw5oyi7e6quzu6avau3y",
+        "bskyUrl": "https://bsky.app/profile/hydroxide.dev/post/3mjyevfwrhc2b",
+        "text": "Tencent released Hunyuan World 2.0 last week (text->image->3D mesh world and images->video->3DGS). Still very much a curiosity rather than a production-grade tool, but I like the fact that it's open weights and (apparently) runnable on local consumer hardware. github.com/Tencent-Huny...",
+        "author": {
+          "handle": "hydroxide.dev",
+          "displayName": "Nick Fisher"
+        },
+        "likeCount": 2,
+        "repostCount": 1,
+        "replyCount": 0,
+        "createdAt": "2026-04-21T06:42:06.872Z",
+        "hoursSincePosted": 4.11
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:kxlkxipo2lid6pqmajvsxpxx/app.bsky.feed.post/3mjyevfwrhc2b",
+          "cid": "bafyreiernhhasxxnt6essncu4jlf6hv2yaowwypw5oyi7e6quzu6avau3y",
+          "bskyUrl": "https://bsky.app/profile/hydroxide.dev/post/3mjyevfwrhc2b",
+          "text": "Tencent released Hunyuan World 2.0 last week (text->image->3D mesh world and images->video->3DGS). Still very much a curiosity rather than a production-grade tool, but I like the fact that it's open weights and (apparently) runnable on local consumer hardware. github.com/Tencent-Huny...",
+          "author": {
+            "handle": "hydroxide.dev",
+            "displayName": "Nick Fisher"
+          },
+          "likeCount": 2,
+          "repostCount": 1,
+          "replyCount": 0,
+          "createdAt": "2026-04-21T06:42:06.872Z",
+          "createdUtc": 1776753726,
+          "ageHours": 4.11,
+          "trendingScore": 4,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "Tencent-Hunyuan/HY-World-2.0",
               "matchType": "url",
               "confidence": 1
             }
@@ -109,14 +162,19 @@
   },
   "leaderboard": [
     {
-      "fullName": "bytedance/deer-flow",
+      "fullName": "matthart1983/netwatch",
       "count7d": 1,
-      "likesSum7d": 0
+      "likesSum7d": 8
     },
     {
-      "fullName": "niri-wm/niri",
+      "fullName": "phuryn/claude-usage",
       "count7d": 1,
-      "likesSum7d": 0
+      "likesSum7d": 2
+    },
+    {
+      "fullName": "Tencent-Hunyuan/HY-World-2.0",
+      "count7d": 1,
+      "likesSum7d": 2
     }
   ]
 }

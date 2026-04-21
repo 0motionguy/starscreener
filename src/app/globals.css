@@ -435,7 +435,10 @@ body::before {
 
 .app-main {
   min-width: 0;
-  padding-bottom: 80px;
+  /* 80px MobileNav height + iOS safe-area inset so content doesn't
+     tuck under the home indicator on iPhones. On Android + desktop
+     the inset resolves to 0, so this is a no-op there. */
+  padding-bottom: max(80px, calc(80px + env(safe-area-inset-bottom)));
 }
 
 @media (min-width: 768px) {

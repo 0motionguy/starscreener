@@ -2,7 +2,7 @@ name: Refresh ProductHunt launches
 
 on:
   schedule:
-    - cron: "0 8 * * *"  # 8am UTC daily — after most PH daily rankings settle
+    - cron: "0 11,15,19,23 * * *"  # refresh throughout the PH day so votes/comments don't freeze from the early snapshot
   workflow_dispatch:
 
 permissions:

@@ -1,201 +1,46 @@
 {
-  "fetchedAt": "2026-04-21T14:10:27.758Z",
+  "fetchedAt": "2026-04-21T15:44:18.235Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
-    "github/gh-aw": {
+    "compozy/compozy": {
       "count7d": 1,
-      "likesSum7d": 2,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:2togtlv5cbmsafxj47rg4aly/app.bsky.feed.post/3mjz5b7or422w",
-        "cid": "bafyreigcwlvjb5jhw3kfq7y4eayvo4bciyb2cr2sxwpwkcqt63gg4zgqfu",
-        "bskyUrl": "https://bsky.app/profile/theletterf.bsky.social/post/3mjz5b7or422w",
-        "text": "I'm so bleeding edge that I'm trying stuff that apparently hasn't been tested yet and doesn't work. github.com/github/gh-aw...",
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mjzcvodirh2t",
+        "cid": "bafyreifvnycjrixvelt7uihspi74qii2io3mtr4bwyxv6stbnl2njfp7l4",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mjzcvodirh2t",
+        "text": "https://github.com/compozy/compozy",
         "author": {
-          "handle": "theletterf.bsky.social",
-          "displayName": "Fabrizio Ferri-Benedetti"
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
         },
-        "likeCount": 2,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-04-21T13:58:12.776Z",
+        "createdAt": "2026-04-21T15:39:07Z",
         "hoursSincePosted": 0.5
       },
       "posts": [
         {
-          "uri": "at://did:plc:2togtlv5cbmsafxj47rg4aly/app.bsky.feed.post/3mjz5b7or422w",
-          "cid": "bafyreigcwlvjb5jhw3kfq7y4eayvo4bciyb2cr2sxwpwkcqt63gg4zgqfu",
-          "bskyUrl": "https://bsky.app/profile/theletterf.bsky.social/post/3mjz5b7or422w",
-          "text": "I'm so bleeding edge that I'm trying stuff that apparently hasn't been tested yet and doesn't work. github.com/github/gh-aw...",
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mjzcvodirh2t",
+          "cid": "bafyreifvnycjrixvelt7uihspi74qii2io3mtr4bwyxv6stbnl2njfp7l4",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mjzcvodirh2t",
+          "text": "https://github.com/compozy/compozy",
           "author": {
-            "handle": "theletterf.bsky.social",
-            "displayName": "Fabrizio Ferri-Benedetti"
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
           },
-          "likeCount": 2,
+          "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-04-21T13:58:12.776Z",
-          "createdUtc": 1776779892,
+          "createdAt": "2026-04-21T15:39:07Z",
+          "createdUtc": 1776785947,
           "ageHours": 0.5,
-          "trendingScore": 2,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "github/gh-aw",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "edwardkim/rhwp": {
-      "count7d": 1,
-      "likesSum7d": 3,
-      "repostsSum7d": 12,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:4rbcfuuvcmkm3seadmhpatmz/app.bsky.feed.post/3mjyytol3ms22",
-        "cid": "bafyreiewggeslpvxfyxb46kpgzdxd4zbkavfcxsg4xh2wvlimxwboefeju",
-        "bskyUrl": "https://bsky.app/profile/perillamint.pds.witchcraft.systems/post/3mjyytol3ms22",
-        "text": "아 그리고 여담: ISO/IEC 29500 (OOXML, docx pptx 같은 것들) 스펙에 맞는 문서가 MS 워드에서 깨진다? 그건 MS 워드가 틀린겁니다. KS X 6101 (OWPML, HWPX) 에 맞는 문서가 hnc.exe 에서 깨진다? 이건 한컴이 틀린겁니다 github.com/edwardkim/rh... 이 이슈에서 한컴대로 해야지 왜 한컴이 틀렸다고 하느냐 하는 사람이 타임라인에 보이던데 네 이건 한컴이 KS X 6101 을 준수하는데 실패한 틀린 구현인 거지 rhwp 가 아집부리는 게 아니죠",
-        "author": {
-          "handle": "perillamint.pds.witchcraft.systems",
-          "displayName": "perillamint 🏳️‍⚧️"
-        },
-        "likeCount": 3,
-        "repostCount": 12,
-        "replyCount": 1,
-        "createdAt": "2026-04-21T12:39:03.654Z",
-        "hoursSincePosted": 1.52
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:4rbcfuuvcmkm3seadmhpatmz/app.bsky.feed.post/3mjyytol3ms22",
-          "cid": "bafyreiewggeslpvxfyxb46kpgzdxd4zbkavfcxsg4xh2wvlimxwboefeju",
-          "bskyUrl": "https://bsky.app/profile/perillamint.pds.witchcraft.systems/post/3mjyytol3ms22",
-          "text": "아 그리고 여담: ISO/IEC 29500 (OOXML, docx pptx 같은 것들) 스펙에 맞는 문서가 MS 워드에서 깨진다? 그건 MS 워드가 틀린겁니다. KS X 6101 (OWPML, HWPX) 에 맞는 문서가 hnc.exe 에서 깨진다? 이건 한컴이 틀린겁니다 github.com/edwardkim/rh... 이 이슈에서 한컴대로 해야지 왜 한컴이 틀렸다고 하느냐 하는 사람이 타임라인에 보이던데 네 이건 한컴이 KS X 6101 을 준수하는데 실패한 틀린 구현인 거지 rhwp 가 아집부리는 게 아니죠",
-          "author": {
-            "handle": "perillamint.pds.witchcraft.systems",
-            "displayName": "perillamint 🏳️‍⚧️"
-          },
-          "likeCount": 3,
-          "repostCount": 12,
-          "replyCount": 1,
-          "createdAt": "2026-04-21T12:39:03.654Z",
-          "createdUtc": 1776775143,
-          "ageHours": 1.52,
-          "trendingScore": 27.5,
-          "content_tags": [
-            "has-github-repo",
-            "is-question"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "edwardkim/rhwp",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "openai/openai-agents-python": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:n6zzgg5g4qwn4kwwvxs6xjn3/app.bsky.feed.post/3mjyxu2galw2t",
-        "cid": "bafyreih2jqjdjzcmhskbzkdhis2vdvalzvkrec3qyt3zxctgd43k4y7qzq",
-        "bskyUrl": "https://bsky.app/profile/technews4869.bsky.social/post/3mjyxu2galw2t",
-        "text": "github.com/openai/openai-a... GitHub - openai/openai-agents-python: A lightweight, powerful framework for multi-agent workflows",
-        "author": {
-          "handle": "technews4869.bsky.social",
-          "displayName": "technews4869"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-21T12:21:21.489Z",
-        "hoursSincePosted": 1.82
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:n6zzgg5g4qwn4kwwvxs6xjn3/app.bsky.feed.post/3mjyxu2galw2t",
-          "cid": "bafyreih2jqjdjzcmhskbzkdhis2vdvalzvkrec3qyt3zxctgd43k4y7qzq",
-          "bskyUrl": "https://bsky.app/profile/technews4869.bsky.social/post/3mjyxu2galw2t",
-          "text": "github.com/openai/openai-a... GitHub - openai/openai-agents-python: A lightweight, powerful framework for multi-agent workflows",
-          "author": {
-            "handle": "technews4869.bsky.social",
-            "displayName": "technews4869"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-21T12:21:21.489Z",
-          "createdUtc": 1776774081,
-          "ageHours": 1.82,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo",
-            "has-agent"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "openai/openai-agents-python",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "cjpais/Handy": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mjyw56rige2s",
-        "cid": "bafyreihofvosjmhz4jkvxehan4qltzxgsh2p6alsu4qlo6o4rpolsxntlm",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mjyw56rige2s",
-        "text": "https://github.com/cjpais/Handy",
-        "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-21T11:50:41Z",
-        "hoursSincePosted": 2.33
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mjyw56rige2s",
-          "cid": "bafyreihofvosjmhz4jkvxehan4qltzxgsh2p6alsu4qlo6o4rpolsxntlm",
-          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mjyw56rige2s",
-          "text": "https://github.com/cjpais/Handy",
-          "author": {
-            "handle": "tom-doerr.bsky.social",
-            "displayName": "Tom Dörr "
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-21T11:50:41Z",
-          "createdUtc": 1776772241,
-          "ageHours": 2.33,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -203,313 +48,7 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "cjpais/Handy",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "Polymarket/rs-clob-client": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mjyvq4hfab24",
-        "cid": "bafyreid2y4bw7tfwpdlwigus5l3auxewmzyam7vvq23xm5c5od5jcbxhje",
-        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mjyvq4hfab24",
-        "text": "Polymarket / rs-clob-client: Polymarket Rust CLOB Client ★676 https://github.com/Polymarket/rs-clob-client",
-        "author": {
-          "handle": "rusttrending.bsky.social",
-          "displayName": "RustTrending"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-21T11:43:22.673382Z",
-        "hoursSincePosted": 2.45
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mjyvq4hfab24",
-          "cid": "bafyreid2y4bw7tfwpdlwigus5l3auxewmzyam7vvq23xm5c5od5jcbxhje",
-          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mjyvq4hfab24",
-          "text": "Polymarket / rs-clob-client: Polymarket Rust CLOB Client ★676 https://github.com/Polymarket/rs-clob-client",
-          "author": {
-            "handle": "rusttrending.bsky.social",
-            "displayName": "RustTrending"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-21T11:43:22.673382Z",
-          "createdUtc": 1776771802,
-          "ageHours": 2.45,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "Polymarket/rs-clob-client",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "tahayvr/omarchist": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mjyvhomqcz24",
-        "cid": "bafyreigv4bd7g3ns4izkyhhhu6ak7hb64bpkmak3bbxgcygmsgcn4yawza",
-        "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mjyvhomqcz24",
-        "text": "Omarchy Linuxのテーマ作成やシステム設定をGUIで管理できるRust製のツールっぽい 直感的な操作でデスクトップ環境をカスタマイズしたいときに便利そう yug1224 starred tahayvr/omarchist https://github.com/tahayvr/omarchist",
-        "author": {
-          "handle": "yug1224.com",
-          "displayName": "ぷーじ"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-21T11:38:39.354Z",
-        "hoursSincePosted": 2.53
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mjyvhomqcz24",
-          "cid": "bafyreigv4bd7g3ns4izkyhhhu6ak7hb64bpkmak3bbxgcygmsgcn4yawza",
-          "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mjyvhomqcz24",
-          "text": "Omarchy Linuxのテーマ作成やシステム設定をGUIで管理できるRust製のツールっぽい 直感的な操作でデスクトップ環境をカスタマイズしたいときに便利そう yug1224 starred tahayvr/omarchist https://github.com/tahayvr/omarchist",
-          "author": {
-            "handle": "yug1224.com",
-            "displayName": "ぷーじ"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-21T11:38:39.354Z",
-          "createdUtc": 1776771519,
-          "ageHours": 2.53,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "tahayvr/omarchist",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "vercel-labs/skills": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:japxn32izumctww4fytbiutb/app.bsky.feed.post/3mjyvd6whik25",
-        "cid": "bafyreibm2tk4w3tw55kdaku2n564cu46cfq7d66fdytt2sublqtxfzyvae",
-        "bskyUrl": "https://bsky.app/profile/radiosuperb.bsky.social/post/3mjyvd6whik25",
-        "text": "github.com/vercel-labs/...",
-        "author": {
-          "handle": "radiosuperb.bsky.social",
-          "displayName": "Marc ON4AAX #HAMR #DX #ax25 #MultiLingual #TheOutpost #TSF"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-21T11:36:09.154Z",
-        "hoursSincePosted": 2.57
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:japxn32izumctww4fytbiutb/app.bsky.feed.post/3mjyvd6whik25",
-          "cid": "bafyreibm2tk4w3tw55kdaku2n564cu46cfq7d66fdytt2sublqtxfzyvae",
-          "bskyUrl": "https://bsky.app/profile/radiosuperb.bsky.social/post/3mjyvd6whik25",
-          "text": "github.com/vercel-labs/...",
-          "author": {
-            "handle": "radiosuperb.bsky.social",
-            "displayName": "Marc ON4AAX #HAMR #DX #ax25 #MultiLingual #TheOutpost #TSF"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-21T11:36:09.154Z",
-          "createdUtc": 1776771369,
-          "ageHours": 2.57,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "vercel-labs/skills",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "elder-plinius/OBLITERATUS": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mjyvbwmrey2t",
-        "cid": "bafyreieh6hjk3rtlc6gsqh4spjqj53c2pucovcnpsfsxjch53wlt7wbuve",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mjyvbwmrey2t",
-        "text": "https://github.com/elder-plinius/OBLITERATUS",
-        "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-21T11:35:26Z",
-        "hoursSincePosted": 2.58
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mjyvbwmrey2t",
-          "cid": "bafyreieh6hjk3rtlc6gsqh4spjqj53c2pucovcnpsfsxjch53wlt7wbuve",
-          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mjyvbwmrey2t",
-          "text": "https://github.com/elder-plinius/OBLITERATUS",
-          "author": {
-            "handle": "tom-doerr.bsky.social",
-            "displayName": "Tom Dörr "
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-21T11:35:26Z",
-          "createdUtc": 1776771326,
-          "ageHours": 2.58,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "elder-plinius/OBLITERATUS",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "AMAP-ML/SkillClaw": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mjyuglyces2o",
-        "cid": "bafyreif5r7nmee2dvcfvvqzzitltzka2gier2qanylpsk2a257xeqeuy2u",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mjyuglyces2o",
-        "text": "https://github.com/AMAP-ML/SkillClaw",
-        "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-21T11:20:09Z",
-        "hoursSincePosted": 2.84
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mjyuglyces2o",
-          "cid": "bafyreif5r7nmee2dvcfvvqzzitltzka2gier2qanylpsk2a257xeqeuy2u",
-          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mjyuglyces2o",
-          "text": "https://github.com/AMAP-ML/SkillClaw",
-          "author": {
-            "handle": "tom-doerr.bsky.social",
-            "displayName": "Tom Dörr "
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-21T11:20:09Z",
-          "createdUtc": 1776770409,
-          "ageHours": 2.84,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "AMAP-ML/SkillClaw",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "MemPalace/mempalace": {
-      "count7d": 1,
-      "likesSum7d": 2,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:g5jk7uwtzvmcwwrrfuywlsim/app.bsky.feed.post/3mjyu34fix22d",
-        "cid": "bafyreihtbgjqiosa5hbwnjsfpahb5pxcb4mavowlgrcs5vnxiz3rkktsc4",
-        "bskyUrl": "https://bsky.app/profile/fdoemges.bsky.social/post/3mjyu34fix22d",
-        "text": "Guck Dir dazu mal MemPalace an, entworfen von der Schauspielerin Milla Jovovich (die muss sich viel Texte merken, kennt sich aus) da ist viel davon berücksichtigt was Du hier aufzählst: github.com/MemPalace/me...",
-        "author": {
-          "handle": "fdoemges.bsky.social",
-          "displayName": "Florentine Dömges"
-        },
-        "likeCount": 2,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-21T11:13:44.325Z",
-        "hoursSincePosted": 2.95
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:g5jk7uwtzvmcwwrrfuywlsim/app.bsky.feed.post/3mjyu34fix22d",
-          "cid": "bafyreihtbgjqiosa5hbwnjsfpahb5pxcb4mavowlgrcs5vnxiz3rkktsc4",
-          "bskyUrl": "https://bsky.app/profile/fdoemges.bsky.social/post/3mjyu34fix22d",
-          "text": "Guck Dir dazu mal MemPalace an, entworfen von der Schauspielerin Milla Jovovich (die muss sich viel Texte merken, kennt sich aus) da ist viel davon berücksichtigt was Du hier aufzählst: github.com/MemPalace/me...",
-          "author": {
-            "handle": "fdoemges.bsky.social",
-            "displayName": "Florentine Dömges"
-          },
-          "likeCount": 2,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-21T11:13:44.325Z",
-          "createdUtc": 1776770024,
-          "ageHours": 2.95,
-          "trendingScore": 2,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "MemPalace/mempalace",
+              "fullName": "compozy/compozy",
               "matchType": "url",
               "confidence": 1
             }
@@ -520,52 +59,7 @@
   },
   "leaderboard": [
     {
-      "fullName": "edwardkim/rhwp",
-      "count7d": 1,
-      "likesSum7d": 3
-    },
-    {
-      "fullName": "github/gh-aw",
-      "count7d": 1,
-      "likesSum7d": 2
-    },
-    {
-      "fullName": "MemPalace/mempalace",
-      "count7d": 1,
-      "likesSum7d": 2
-    },
-    {
-      "fullName": "vercel-labs/skills",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "AMAP-ML/SkillClaw",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "cjpais/Handy",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "elder-plinius/OBLITERATUS",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "openai/openai-agents-python",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "Polymarket/rs-clob-client",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "tahayvr/omarchist",
+      "fullName": "compozy/compozy",
       "count7d": 1,
       "likesSum7d": 0
     }

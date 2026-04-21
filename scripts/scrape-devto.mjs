@@ -1,10 +1,10 @@
 #!/usr/bin/env node
-// Scrape dev.to for tutorial/writeup mentions of tracked repos + AI-tag
+// Scrape dev.to for tutorial/writeup mentions of tracked repos + AI/dev
 // trending articles.
 //
 // Two passes, single run:
-//   1. Discovery — 9 list calls (top + 8 AI-adjacent tags), dedupe by id,
-//      ~300-400 unique articles in the 7-day window.
+//   1. Discovery — curated popularity/state/tag slices (global top, rising,
+//      fresh, plus AI/dev tags), dedupe by id.
 //   2. Body scan — fetch /articles/{id} for each unique id to grab
 //      body_markdown. Tutorial posts hide github.com URLs in setup steps,
 //      so list-payload `description` (140-char excerpt) misses ~60-70%.
@@ -30,6 +30,12 @@ import {
   sleep,
   DEVTO_PAUSE_MS,
 } from "./_devto-shared.mjs";
+import {
+  DEVTO_DISCOVERY_SLICES,
+  DEVTO_PRIORITY_TAGS,
+  SOURCE_DISCOVERY_VERSION,
+} from "./_source-watchers.mjs";
+import { recentRepoRows } from "./_tracked-repos.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
@@ -46,18 +52,6 @@ const WINDOW_DAYS = 7;
 const PER_PAGE = 100;
 const TRENDING_KEEP = 100; // top N for trending file (separate loader)
 const DESCRIPTION_TRUNCATE = 280;
-
-const TAGS = [
-  null, // top-of-the-week, no tag filter
-  "ai",
-  "claude",
-  "llm",
-  "agents",
-  "mcp",
-  "langchain",
-  "rag",
-  "opensource",
-];
 
 const REPO_URL_RE =
   /github\.com\/([A-Za-z0-9][A-Za-z0-9._-]*)\/([A-Za-z0-9][A-Za-z0-9._-]*)/g;
@@ -177,7 +171,8 @@ async function loadTrackedRepos() {
   try {
     const raw = await readFile(RECENT_IN, "utf8");
     const recent = JSON.parse(raw);
-    for (const row of recent.rows ?? recent ?? []) {
+    const rows = recentRepoRows(recent);
+    for (const row of rows) {
       const full = row.repo_name || row.fullName || row.full_name;
       if (!full || typeof full !== "string" || !full.includes("/")) continue;
       const lower = full.toLowerCase();
@@ -266,16 +261,23 @@ async function main() {
   const fetchedAt = new Date().toISOString();
   const nowMs = Date.now();
 
-  // --------- Pass 1: discovery (9 list calls, dedupe by id) ---------
+  // --------- Pass 1: discovery (registry-driven slices, dedupe by id) ---------
   const byId = new Map();
-  for (const tag of TAGS) {
-    const label = tag ?? "<top>";
+  const sliceCounts = {};
+  for (const slice of DEVTO_DISCOVERY_SLICES) {
+    const label = slice.label;
     try {
-      const list = await fetchArticleList({ tag, top: WINDOW_DAYS, perPage: PER_PAGE });
+      const list = await fetchArticleList({
+        tag: slice.tag,
+        top: slice.top,
+        state: slice.state,
+        perPage: PER_PAGE,
+      });
       for (const a of list) {
         if (!a || typeof a.id !== "number") continue;
         if (!byId.has(a.id)) byId.set(a.id, a);
       }
+      sliceCounts[slice.id] = list.length;
       log(`  list(${label}): ${list.length} (cumulative unique: ${byId.size})`);
     } catch (err) {
       log(`  list(${label}) FAILED: ${err.message}`);
@@ -391,17 +393,25 @@ async function main() {
   // --------- Write ---------
   const mentionsPayload = {
     fetchedAt,
+    discoveryVersion: SOURCE_DISCOVERY_VERSION,
     windowDays: WINDOW_DAYS,
     scannedArticles: normalized.length,
     bodyFetchMode,
+    priorityTags: DEVTO_PRIORITY_TAGS,
+    discoverySlices: DEVTO_DISCOVERY_SLICES,
+    sliceCounts,
     mentions,
     leaderboard,
   };
   const trendingPayload = {
     fetchedAt,
+    discoveryVersion: SOURCE_DISCOVERY_VERSION,
     windowDays: WINDOW_DAYS,
     scannedArticles: normalized.length,
     bodyFetchMode,
+    priorityTags: DEVTO_PRIORITY_TAGS,
+    discoverySlices: DEVTO_DISCOVERY_SLICES,
+    sliceCounts,
     articles: trendingArticles,
   };
 
@@ -413,7 +423,10 @@ async function main() {
   log(`wrote ${MENTIONS_OUT}`);
   log(`  repos with mentions: ${Object.keys(mentions).length} (${leaderboard.length} leaderboard rows)`);
   log(`wrote ${TRENDING_OUT}`);
-  log(`  trending articles: ${trendingArticles.length} (mode: ${bodyFetchMode})`);
+  log(
+    `  trending articles: ${trendingArticles.length} ` +
+      `(mode: ${bodyFetchMode}, slices: ${DEVTO_DISCOVERY_SLICES.length}, tags: ${DEVTO_PRIORITY_TAGS.length})`,
+  );
 }
 
 // Direct-run guard: must require argv[1] to be a non-empty path. The naive

@@ -1,0 +1,46 @@
+name: Refresh Reddit baselines
+
+on:
+  schedule:
+    - cron: "17 3 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: reddit-baselines-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Compute Reddit baselines
+        run: node scripts/compute-reddit-baselines.mjs
+
+      - name: Refresh Reddit mentions with fresh baselines
+        run: node scripts/scrape-reddit.mjs
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "starscreener-bot"
+          git config user.email "bot@starscreener.local"
+          git add data/reddit-baselines.json data/reddit-mentions.json
+          if git diff --quiet --staged; then
+            echo "no changes - skipping commit"
+            exit 0
+          fi
+          TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          git commit -m "chore(data): refresh reddit baselines ${TS}"
+          git push

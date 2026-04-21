@@ -1,18 +1,21 @@
 #!/usr/bin/env node
-// Scrape Bluesky (AT Protocol) for repo mentions + AI-keyword trending posts.
+// Scrape Bluesky (AT Protocol) for repo mentions + AI topic-family trending.
 //
 // Two passes, one authenticated session:
 //   1. Repo-mentions pass — searchPosts(q="github.com", sort=latest) up to
 //      3 pages × 100 posts. Every github.com/<owner>/<repo> hit gets
 //      matched against tracked repos (union of trending.json +
 //      recent-repos.json) and bucketed by fullName.
-//   2. Keyword-trending pass — for each of 5 AI keywords, searchPosts
-//      (sort=top, limit=50). Deduped by at:// URI across keywords and
-//      scored by likes + 2×reposts + 0.5×replies.
+//   2. Topic-trending pass — run a curated set of AI-dev query families
+//      (agents, LLMs, coding agents, MCP, RAG, workflow, prompts/memory,
+//      skills, open source AI) through searchPosts(sort=top, limit=50).
+//      Deduped by at:// URI across queries and scored by likes + 2×reposts
+//      + 0.5×replies.
 //
 // Output (dual-write, single pass):
 //   - data/bluesky-mentions.json  — per-repo mention buckets, last 7d
-//   - data/bluesky-trending.json  — top-engagement posts per AI keyword
+//   - data/bluesky-trending.json  — top-engagement posts across AI query
+//                                   families + per-family metadata
 //
 // Auth: BLUESKY_HANDLE + BLUESKY_APP_PASSWORD from env. Session is fresh
 // each run — access JWT lives ~2h so refresh complexity is unnecessary
@@ -32,6 +35,12 @@ import {
   BlueskyRateLimitError,
 } from "./_bluesky-shared.mjs";
 import { classifyPost } from "./classify-post.mjs";
+import {
+  BLUESKY_QUERY_FAMILIES,
+  BLUESKY_TRENDING_QUERIES,
+  SOURCE_DISCOVERY_VERSION,
+} from "./_source-watchers.mjs";
+import { recentRepoRows } from "./_tracked-repos.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
@@ -51,16 +60,10 @@ const REPO_QUERY = "github.com";
 const REPO_MAX_PAGES = 3;
 const REPO_PAGE_LIMIT = 100;
 
-// Five AI keywords, single page each. Keywords are the primary trending
-// signal axis — we store one merged list sorted by engagement.
-const TRENDING_KEYWORDS = [
-  "AI agent",
-  "LLM",
-  "claude code",
-  "MCP server",
-  "open source AI",
-];
-const KEYWORD_LIMIT = 50;
+// Curated query slices. Bluesky behaves more like search/feed/list territory
+// than subreddit-style channels, so coverage lives in query families rather
+// than one monolithic keyword list.
+const QUERY_LIMIT = 50;
 
 const POST_TEXT_MAX_CHARS = 500;
 
@@ -100,8 +103,8 @@ function log(msg) {
 
 export function normalizeFullName(owner, name) {
   let clean = `${owner}/${name}`.toLowerCase();
-  clean = clean.replace(/\.git$/i, "");
   clean = clean.replace(/[.,;:!?)\]}]+$/, "");
+  clean = clean.replace(/\.git$/i, "");
   return clean;
 }
 
@@ -160,7 +163,8 @@ async function loadTrackedRepos() {
   try {
     const raw = await readFile(RECENT_IN, "utf8");
     const recent = JSON.parse(raw);
-    for (const row of recent.rows ?? recent ?? []) {
+    const rows = recentRepoRows(recent);
+    for (const row of rows) {
       const full = row.repo_name || row.fullName || row.full_name;
       if (!full || typeof full !== "string" || !full.includes("/")) continue;
       const lower = full.toLowerCase();
@@ -316,34 +320,43 @@ async function main() {
       `limit=${mentionsRateLimit?.limit ?? "?"})`,
   );
 
-  // --------- Keyword-trending pass ---------
+  // --------- Topic-trending pass ---------
   const trendingByUri = new Map();
-  const keywordCounts = {};
-  for (const keyword of TRENDING_KEYWORDS) {
+  const keywordCounts = Object.fromEntries(
+    BLUESKY_QUERY_FAMILIES.map((family) => [family.label, 0]),
+  );
+  const queryCounts = {};
+  for (const queryDef of BLUESKY_TRENDING_QUERIES) {
+    const { familyId, familyLabel, query } = queryDef;
     try {
-      log(`searching "${keyword}" (sort=top, limit=${KEYWORD_LIMIT})…`);
+      log(`searching [${familyLabel}] ${query} (sort=top, limit=${QUERY_LIMIT})…`);
       const res = await searchPostsAllPages({
         accessJwt: session.accessJwt,
-        q: keyword,
+        q: query,
         sort: "top",
-        limit: KEYWORD_LIMIT,
+        limit: QUERY_LIMIT,
         maxPages: 1,
       });
       log(
         `  ${res.posts.length} posts ` +
           `(rl remaining=${res.lastRateLimit?.remaining ?? "?"})`,
       );
-      keywordCounts[keyword] = res.posts.length;
+      queryCounts[query] = res.posts.length;
+      keywordCounts[familyLabel] =
+        (keywordCounts[familyLabel] ?? 0) + res.posts.length;
       for (const raw of res.posts) {
         const n = normalizePost(raw, tracked, nowSec);
         if (!n) continue;
         if (trendingByUri.has(n.uri)) continue;
-        n.matchedKeyword = keyword;
+        n.matchedKeyword = familyLabel;
+        n.matchedQuery = query;
+        n.matchedTopicId = familyId;
+        n.matchedTopicLabel = familyLabel;
         trendingByUri.set(n.uri, n);
       }
     } catch (err) {
       if (err instanceof BlueskyRateLimitError) {
-        log(`  rate-limited on "${keyword}" — stopping keyword loop early`);
+        log(`  rate-limited on "${query}" — stopping query loop early`);
         break;
       }
       throw err;
@@ -445,8 +458,12 @@ async function main() {
   };
   const trendingPayload = {
     fetchedAt,
-    keywords: TRENDING_KEYWORDS,
+    discoveryVersion: SOURCE_DISCOVERY_VERSION,
+    keywords: BLUESKY_QUERY_FAMILIES.map((family) => family.label),
     keywordCounts,
+    queries: BLUESKY_TRENDING_QUERIES.map((item) => item.query),
+    queryCounts,
+    queryFamilies: BLUESKY_QUERY_FAMILIES,
     scannedPosts: Array.from(trendingByUri.values()).length,
     posts: trendingMerged,
   };
@@ -467,7 +484,10 @@ async function main() {
   log(`wrote ${MENTIONS_OUT}`);
   log(`  repos with mentions: ${Object.keys(mentions).length} (${leaderboard.length} leaderboard rows)`);
   log(`wrote ${TRENDING_OUT}`);
-  log(`  trending posts: ${trendingMerged.length} across ${Object.keys(keywordCounts).length} keywords`);
+  log(
+    `  trending posts: ${trendingMerged.length} across ` +
+      `${BLUESKY_TRENDING_QUERIES.length} queries / ${BLUESKY_QUERY_FAMILIES.length} topic families`,
+  );
 
   if (rawMentionPosts.length === 0 && trendingByUri.size === 0) {
     throw new Error(
@@ -476,10 +496,10 @@ async function main() {
   }
 }
 
-// Only run main() when invoked as a script; tests import the helpers.
-const isDirectRun =
-  import.meta.url === `file://${process.argv[1]}` ||
-  import.meta.url.endsWith(process.argv[1]?.replace(/\\/g, "/") ?? "");
+const invokedPath = process.argv[1] ? resolve(process.argv[1]) : null;
+const isDirectRun = invokedPath
+  ? fileURLToPath(import.meta.url) === invokedPath
+  : false;
 
 if (isDirectRun) {
   main().catch((err) => {

@@ -11,6 +11,8 @@
 // Throttle: 5 req/sec sustained. dev.to documents ~30 req/sec ceiling,
 // but staying conservative keeps us well clear of any per-IP soft limit.
 
+import { fetchJsonWithRetry } from "./_fetch-json.mjs";
+
 export const USER_AGENT =
   "StarScreener/0.1 (+https://github.com/0motionguy/starscreener; daily-devto-scrape)";
 
@@ -31,28 +33,38 @@ function buildHeaders() {
 }
 
 async function fetchJson(url) {
-  const res = await fetch(url, { headers: buildHeaders() });
-  if (!res.ok) {
-    const err = new Error(`HTTP ${res.status} ${res.statusText} — ${url}`);
-    err.status = res.status;
-    throw err;
-  }
-  return res.json();
+  return fetchJsonWithRetry(url, {
+    headers: buildHeaders(),
+    attempts: 3,
+    retryDelayMs: 500,
+    timeoutMs: 15_000,
+  });
 }
 
 /**
- * GET /articles with optional tag + top window. Returns the array as-is
- * (each article has summary fields + tag_list, but NOT body_markdown).
+ * GET /articles with optional tag, popularity window, or state slice.
+ * Returns the array as-is (each article has summary fields + tag_list,
+ * but NOT body_markdown).
  */
-export async function fetchArticleList({ tag, top = 7, perPage = 100 }) {
+export async function fetchArticleList({
+  tag,
+  top,
+  state,
+  perPage = 100,
+}) {
   const params = new URLSearchParams();
   if (tag) params.set("tag", tag);
-  params.set("top", String(top));
+  if (top !== undefined && top !== null) {
+    params.set("top", String(top));
+  }
+  if (state) params.set("state", state);
   params.set("per_page", String(perPage));
   const url = `${DEVTO_BASE}/articles?${params.toString()}`;
   const body = await fetchJson(url);
   if (!Array.isArray(body)) {
-    throw new Error(`articles list: expected array (tag=${tag ?? "none"})`);
+    throw new Error(
+      `articles list: expected array (tag=${tag ?? "none"}, state=${state ?? "none"}, top=${top ?? "none"})`,
+    );
   }
   return body;
 }

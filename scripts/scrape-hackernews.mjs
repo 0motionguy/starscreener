@@ -27,6 +27,7 @@ import {
   searchAlgoliaStories,
 } from "./_hn-shared.mjs";
 import { classifyPost } from "./classify-post.mjs";
+import { recentRepoRows } from "./_tracked-repos.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
@@ -179,7 +180,8 @@ async function loadTrackedRepos() {
   try {
     const raw = await readFile(RECENT_IN, "utf8");
     const recent = JSON.parse(raw);
-    for (const row of recent.rows ?? recent ?? []) {
+    const rows = recentRepoRows(recent);
+    for (const row of rows) {
       const full = row.repo_name || row.fullName || row.full_name;
       if (!full || typeof full !== "string" || !full.includes("/")) continue;
       const lower = full.toLowerCase();
@@ -486,10 +488,10 @@ async function main() {
   }
 }
 
-// Only run main() when invoked as a script; tests import the helpers.
-const isDirectRun =
-  import.meta.url === `file://${process.argv[1]}` ||
-  import.meta.url.endsWith(process.argv[1]?.replace(/\\/g, "/") ?? "");
+const invokedPath = process.argv[1] ? resolve(process.argv[1]) : null;
+const isDirectRun = invokedPath
+  ? fileURLToPath(import.meta.url) === invokedPath
+  : false;
 
 if (isDirectRun) {
   main().catch((err) => {

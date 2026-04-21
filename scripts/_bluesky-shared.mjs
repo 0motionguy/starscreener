@@ -9,6 +9,8 @@
 //
 // Zero npm deps: pure fetch + URLSearchParams.
 
+import { fetchWithTimeout } from "./_fetch-json.mjs";
+
 export const USER_AGENT =
   "StarScreener/0.1 (+https://github.com/0motionguy/starscreener; bluesky-scraper)";
 
@@ -55,7 +57,7 @@ function readRateLimit(res) {
  * yesterday's good data with a half-scrape.
  */
 export async function createSession(identifier, password) {
-  const res = await fetch(`${AT_PDS}/xrpc/com.atproto.server.createSession`, {
+  const res = await fetchWithTimeout(`${AT_PDS}/xrpc/com.atproto.server.createSession`, {
     method: "POST",
     headers: {
       "content-type": "application/json",
@@ -63,6 +65,7 @@ export async function createSession(identifier, password) {
       accept: "application/json",
     },
     body: JSON.stringify({ identifier, password }),
+    timeoutMs: 15_000,
   });
   if (!res.ok) {
     const body = await readSafe(res);
@@ -93,7 +96,7 @@ export async function searchPostsPage({
     limit: String(limit),
   });
   if (cursor) params.set("cursor", cursor);
-  const res = await fetch(
+  const res = await fetchWithTimeout(
     `${AT_PDS}/xrpc/app.bsky.feed.searchPosts?${params}`,
     {
       headers: {
@@ -101,6 +104,7 @@ export async function searchPostsPage({
         "user-agent": USER_AGENT,
         accept: "application/json",
       },
+      timeoutMs: 15_000,
     },
   );
   const rateLimit = readRateLimit(res);

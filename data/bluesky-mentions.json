@@ -1,64 +1,13 @@
 {
-  "fetchedAt": "2026-04-21T19:38:43.077Z",
+  "fetchedAt": "2026-04-21T21:07:09.808Z",
   "windowDays": 7,
-  "scannedPosts": 98,
+  "scannedPosts": 99,
   "searchQuery": "github.com",
   "pagesFetched": 1,
   "mentions": {
-    "basecamp/once": {
-      "count7d": 1,
-      "likesSum7d": 2,
-      "repostsSum7d": 1,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:oklkinuievllgvhrv2nia4gu/app.bsky.feed.post/3mjzpub7hyq2c",
-        "cid": "bafyreigdupyyfw2faxyf7fnt4asgfesjyfofsodrreago4lhiitjopgcfi",
-        "bskyUrl": "https://bsky.app/profile/bearstech.com/post/3mjzpub7hyq2c",
-        "text": "ONCE : une nouvelle plateforme Open Source développée par 37signals pour faciliter l’auto-hébergement d’applications Docker sur Linux et macOS. Un seul binaire, une interface en ligne de commande. (via korben) 👉 github.com/basecamp/... 👉 Sur le site de korben : korben.info/basecamp...",
-        "author": {
-          "handle": "bearstech.com",
-          "displayName": "Bearstech"
-        },
-        "likeCount": 2,
-        "repostCount": 1,
-        "replyCount": 0,
-        "createdAt": "2026-04-21T19:30:44.000Z",
-        "hoursSincePosted": 0.5
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:oklkinuievllgvhrv2nia4gu/app.bsky.feed.post/3mjzpub7hyq2c",
-          "cid": "bafyreigdupyyfw2faxyf7fnt4asgfesjyfofsodrreago4lhiitjopgcfi",
-          "bskyUrl": "https://bsky.app/profile/bearstech.com/post/3mjzpub7hyq2c",
-          "text": "ONCE : une nouvelle plateforme Open Source développée par 37signals pour faciliter l’auto-hébergement d’applications Docker sur Linux et macOS. Un seul binaire, une interface en ligne de commande. (via korben) 👉 github.com/basecamp/... 👉 Sur le site de korben : korben.info/basecamp...",
-          "author": {
-            "handle": "bearstech.com",
-            "displayName": "Bearstech"
-          },
-          "likeCount": 2,
-          "repostCount": 1,
-          "replyCount": 0,
-          "createdAt": "2026-04-21T19:30:44.000Z",
-          "createdUtc": 1776799844,
-          "ageHours": 0.5,
-          "trendingScore": 4,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "basecamp/once",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
     "emdash-cms/emdash": {
-      "count7d": 1,
-      "likesSum7d": 11,
+      "count7d": 2,
+      "likesSum7d": 14,
       "repostsSum7d": 0,
       "repliesSum7d": 2,
       "topPost": {
@@ -70,11 +19,11 @@
           "handle": "jimray.locket.computer",
           "displayName": "Jim Ray"
         },
-        "likeCount": 11,
+        "likeCount": 14,
         "repostCount": 0,
         "replyCount": 2,
         "createdAt": "2026-04-21T18:45:38.333Z",
-        "hoursSincePosted": 0.88
+        "hoursSincePosted": 2.36
       },
       "posts": [
         {
@@ -86,13 +35,13 @@
             "handle": "jimray.locket.computer",
             "displayName": "Jim Ray"
           },
-          "likeCount": 11,
+          "likeCount": 14,
           "repostCount": 0,
           "replyCount": 2,
           "createdAt": "2026-04-21T18:45:38.333Z",
           "createdUtc": 1776797138,
-          "ageHours": 0.88,
-          "trendingScore": 12,
+          "ageHours": 2.36,
+          "trendingScore": 15,
           "content_tags": [
             "has-github-repo",
             "has-md-file"
@@ -105,53 +54,81 @@
               "confidence": 1
             }
           ]
-        }
-      ]
-    },
-    "Yellow-Dog-Man/Renderite": {
-      "count7d": 1,
-      "likesSum7d": 32,
-      "repostsSum7d": 10,
-      "repliesSum7d": 3,
-      "topPost": {
-        "uri": "at://did:plc:de3lh6vnzng6vnou2fhevu42/app.bsky.feed.post/3mjzm2qnwmc2k",
-        "cid": "bafyreid26z6skwd7qlyovyjw3lu35i6wuw272djkrg3x3zd2aeywoaug64",
-        "bskyUrl": "https://bsky.app/profile/frooxius.bsky.social/post/3mjzm2qnwmc2k",
-        "text": "We just open sourced the Renderite.Shared & Renderite.Unity parts of our current @resonite.com renderer - meaning it's now fully open source! :D We're already getting some community contributions & improvements! github.com/Yellow-Dog-M... #Resonite #gamedev #socialVR",
-        "author": {
-          "handle": "frooxius.bsky.social",
-          "displayName": "Frooxius"
         },
-        "likeCount": 32,
-        "repostCount": 10,
-        "replyCount": 3,
-        "createdAt": "2026-04-21T18:23:01.821Z",
-        "hoursSincePosted": 1.26
-      },
-      "posts": [
         {
-          "uri": "at://did:plc:de3lh6vnzng6vnou2fhevu42/app.bsky.feed.post/3mjzm2qnwmc2k",
-          "cid": "bafyreid26z6skwd7qlyovyjw3lu35i6wuw272djkrg3x3zd2aeywoaug64",
-          "bskyUrl": "https://bsky.app/profile/frooxius.bsky.social/post/3mjzm2qnwmc2k",
-          "text": "We just open sourced the Renderite.Shared & Renderite.Unity parts of our current @resonite.com renderer - meaning it's now fully open source! :D We're already getting some community contributions & improvements! github.com/Yellow-Dog-M... #Resonite #gamedev #socialVR",
+          "uri": "at://did:plc:lysqukqdu6hsrhet5v2brjgo/app.bsky.feed.post/3mjzv4nd2g223",
+          "cid": "bafyreiavcfjyaa44kxnvukokcsabmn7uuu6mcmdjh5itstqqayrnthyfy4",
+          "bskyUrl": "https://bsky.app/profile/jimray.locket.computer/post/3mjzv4nd2g223",
+          "text": "Gotchu github.com/emdash-cms/e...",
           "author": {
-            "handle": "frooxius.bsky.social",
-            "displayName": "Frooxius"
+            "handle": "jimray.locket.computer",
+            "displayName": "Jim Ray"
           },
-          "likeCount": 32,
-          "repostCount": 10,
-          "replyCount": 3,
-          "createdAt": "2026-04-21T18:23:01.821Z",
-          "createdUtc": 1776795781,
-          "ageHours": 1.26,
-          "trendingScore": 53.5,
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-21T21:05:09.105Z",
+          "createdUtc": 1776805509,
+          "ageHours": 0.5,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "Yellow-Dog-Man/Renderite",
+              "fullName": "emdash-cms/emdash",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "garrytan/gbrain": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mjzsrjwele2z",
+        "cid": "bafyreid7eco7z7iwm6x52pq56f5kvldwmady3gxdu3otse7h5qvkui2xii",
+        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mjzsrjwele2z",
+        "text": "Allows you to have eventually your own Samantha from Her https://github.com/garrytan/gbrain",
+        "author": {
+          "handle": "garrytan-mirr.selfhosted.social",
+          "displayName": "Garry Tan [UNOFFICIAL]"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-21T20:20:28.000Z",
+        "hoursSincePosted": 0.78
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mjzsrjwele2z",
+          "cid": "bafyreid7eco7z7iwm6x52pq56f5kvldwmady3gxdu3otse7h5qvkui2xii",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mjzsrjwele2z",
+          "text": "Allows you to have eventually your own Samantha from Her https://github.com/garrytan/gbrain",
+          "author": {
+            "handle": "garrytan-mirr.selfhosted.social",
+            "displayName": "Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-21T20:20:28.000Z",
+          "createdUtc": 1776802828,
+          "ageHours": 0.78,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gbrain",
               "matchType": "url",
               "confidence": 1
             }
@@ -165,34 +142,34 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mjzlg45tqm2h",
-        "cid": "bafyreigequypjp3r4vfjukpunkdkw6enwuv24lorpd6kt5snzrzbo5gxjq",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mjzlg45tqm2h",
-        "text": "🟠 OpenClaw 2026.4.20-beta.2 ships security hardening, Kimi 2.6 defaults, and a Codex transport fix OpenClaw shipped 2026.4.20-beta.2 with multiple changes that matter immediately to operators, not just a cosmet... https://github.com/openclaw/openclaw/releases/tag/v2026.4.20-beta.2 #AI #AgentWyre",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mjzsmf3gs324",
+        "cid": "bafyreicdn34gebmisoeevomq2uvctnzemeqnif575a2qvjzpyguyvemwty",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mjzsmf3gs324",
+        "text": "🟠 OpenClaw 2026.4.20 lands gateway hardening, cron fixes, and Kimi 2.6 defaults OpenClaw shipped v2026.4.20 with a dense release that mixes real security hardening, gateway stability work, and operational fixes for c... https://github.com/openclaw/openclaw/releases/tag/v2026.4.20 #AI #AgentWyre",
         "author": {
           "handle": "agentwyre.ai"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-04-21T18:11:28.390140+00:00",
-        "hoursSincePosted": 1.45
+        "createdAt": "2026-04-21T20:20:15.153023+00:00",
+        "hoursSincePosted": 0.78
       },
       "posts": [
         {
-          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mjzlg45tqm2h",
-          "cid": "bafyreigequypjp3r4vfjukpunkdkw6enwuv24lorpd6kt5snzrzbo5gxjq",
-          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mjzlg45tqm2h",
-          "text": "🟠 OpenClaw 2026.4.20-beta.2 ships security hardening, Kimi 2.6 defaults, and a Codex transport fix OpenClaw shipped 2026.4.20-beta.2 with multiple changes that matter immediately to operators, not just a cosmet... https://github.com/openclaw/openclaw/releases/tag/v2026.4.20-beta.2 #AI #AgentWyre",
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mjzsmf3gs324",
+          "cid": "bafyreicdn34gebmisoeevomq2uvctnzemeqnif575a2qvjzpyguyvemwty",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mjzsmf3gs324",
+          "text": "🟠 OpenClaw 2026.4.20 lands gateway hardening, cron fixes, and Kimi 2.6 defaults OpenClaw shipped v2026.4.20 with a dense release that mixes real security hardening, gateway stability work, and operational fixes for c... https://github.com/openclaw/openclaw/releases/tag/v2026.4.20 #AI #AgentWyre",
           "author": {
             "handle": "agentwyre.ai"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-04-21T18:11:28.390140+00:00",
-          "createdUtc": 1776795088,
-          "ageHours": 1.45,
+          "createdAt": "2026-04-21T20:20:15.153023+00:00",
+          "createdUtc": 1776802815,
+          "ageHours": 0.78,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -209,50 +186,50 @@
         }
       ]
     },
-    "garrytan/gbrain": {
+    "basecamp/once": {
       "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
+      "likesSum7d": 2,
+      "repostsSum7d": 2,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mjzm2y5b422z",
-        "cid": "bafyreif7uisrfoxhwv7tom5pds36hodqu6sa77jvlbh4d6e5ws3wgr7xje",
-        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mjzm2y5b422z",
-        "text": "https://github.com/garrytan/gbrain you host it yourself for now",
+        "uri": "at://did:plc:oklkinuievllgvhrv2nia4gu/app.bsky.feed.post/3mjzpub7hyq2c",
+        "cid": "bafyreigdupyyfw2faxyf7fnt4asgfesjyfofsodrreago4lhiitjopgcfi",
+        "bskyUrl": "https://bsky.app/profile/bearstech.com/post/3mjzpub7hyq2c",
+        "text": "ONCE : une nouvelle plateforme Open Source développée par 37signals pour faciliter l’auto-hébergement d’applications Docker sur Linux et macOS. Un seul binaire, une interface en ligne de commande. (via korben) 👉 github.com/basecamp/... 👉 Sur le site de korben : korben.info/basecamp...",
         "author": {
-          "handle": "garrytan-mirr.selfhosted.social",
-          "displayName": "Garry Tan [UNOFFICIAL]"
+          "handle": "bearstech.com",
+          "displayName": "Bearstech"
         },
-        "likeCount": 0,
-        "repostCount": 0,
+        "likeCount": 2,
+        "repostCount": 2,
         "replyCount": 0,
-        "createdAt": "2026-04-21T18:06:48.000Z",
-        "hoursSincePosted": 1.53
+        "createdAt": "2026-04-21T19:30:44.000Z",
+        "hoursSincePosted": 1.61
       },
       "posts": [
         {
-          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mjzm2y5b422z",
-          "cid": "bafyreif7uisrfoxhwv7tom5pds36hodqu6sa77jvlbh4d6e5ws3wgr7xje",
-          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mjzm2y5b422z",
-          "text": "https://github.com/garrytan/gbrain you host it yourself for now",
+          "uri": "at://did:plc:oklkinuievllgvhrv2nia4gu/app.bsky.feed.post/3mjzpub7hyq2c",
+          "cid": "bafyreigdupyyfw2faxyf7fnt4asgfesjyfofsodrreago4lhiitjopgcfi",
+          "bskyUrl": "https://bsky.app/profile/bearstech.com/post/3mjzpub7hyq2c",
+          "text": "ONCE : une nouvelle plateforme Open Source développée par 37signals pour faciliter l’auto-hébergement d’applications Docker sur Linux et macOS. Un seul binaire, une interface en ligne de commande. (via korben) 👉 github.com/basecamp/... 👉 Sur le site de korben : korben.info/basecamp...",
           "author": {
-            "handle": "garrytan-mirr.selfhosted.social",
-            "displayName": "Garry Tan [UNOFFICIAL]"
+            "handle": "bearstech.com",
+            "displayName": "Bearstech"
           },
-          "likeCount": 0,
-          "repostCount": 0,
+          "likeCount": 2,
+          "repostCount": 2,
           "replyCount": 0,
-          "createdAt": "2026-04-21T18:06:48.000Z",
-          "createdUtc": 1776794808,
-          "ageHours": 1.53,
-          "trendingScore": 0,
+          "createdAt": "2026-04-21T19:30:44.000Z",
+          "createdUtc": 1776799844,
+          "ageHours": 1.61,
+          "trendingScore": 6,
           "content_tags": [
             "has-github-repo"
           ],
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "garrytan/gbrain",
+              "fullName": "basecamp/once",
               "matchType": "url",
               "confidence": 1
             }
@@ -263,14 +240,9 @@
   },
   "leaderboard": [
     {
-      "fullName": "Yellow-Dog-Man/Renderite",
-      "count7d": 1,
-      "likesSum7d": 32
-    },
-    {
       "fullName": "emdash-cms/emdash",
-      "count7d": 1,
-      "likesSum7d": 11
+      "count7d": 2,
+      "likesSum7d": 14
     },
     {
       "fullName": "basecamp/once",

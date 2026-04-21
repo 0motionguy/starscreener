@@ -1,14 +1,65 @@
 {
-  "fetchedAt": "2026-04-21T13:12:34.741Z",
+  "fetchedAt": "2026-04-21T14:10:27.758Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
-    "edwardkim/rhwp": {
+    "github/gh-aw": {
       "count7d": 1,
       "likesSum7d": 2,
-      "repostsSum7d": 2,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:2togtlv5cbmsafxj47rg4aly/app.bsky.feed.post/3mjz5b7or422w",
+        "cid": "bafyreigcwlvjb5jhw3kfq7y4eayvo4bciyb2cr2sxwpwkcqt63gg4zgqfu",
+        "bskyUrl": "https://bsky.app/profile/theletterf.bsky.social/post/3mjz5b7or422w",
+        "text": "I'm so bleeding edge that I'm trying stuff that apparently hasn't been tested yet and doesn't work. github.com/github/gh-aw...",
+        "author": {
+          "handle": "theletterf.bsky.social",
+          "displayName": "Fabrizio Ferri-Benedetti"
+        },
+        "likeCount": 2,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-21T13:58:12.776Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:2togtlv5cbmsafxj47rg4aly/app.bsky.feed.post/3mjz5b7or422w",
+          "cid": "bafyreigcwlvjb5jhw3kfq7y4eayvo4bciyb2cr2sxwpwkcqt63gg4zgqfu",
+          "bskyUrl": "https://bsky.app/profile/theletterf.bsky.social/post/3mjz5b7or422w",
+          "text": "I'm so bleeding edge that I'm trying stuff that apparently hasn't been tested yet and doesn't work. github.com/github/gh-aw...",
+          "author": {
+            "handle": "theletterf.bsky.social",
+            "displayName": "Fabrizio Ferri-Benedetti"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-21T13:58:12.776Z",
+          "createdUtc": 1776779892,
+          "ageHours": 0.5,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "github/gh-aw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "edwardkim/rhwp": {
+      "count7d": 1,
+      "likesSum7d": 3,
+      "repostsSum7d": 12,
       "repliesSum7d": 1,
       "topPost": {
         "uri": "at://did:plc:4rbcfuuvcmkm3seadmhpatmz/app.bsky.feed.post/3mjyytol3ms22",
@@ -19,11 +70,11 @@
           "handle": "perillamint.pds.witchcraft.systems",
           "displayName": "perillamint 🏳️‍⚧️"
         },
-        "likeCount": 2,
-        "repostCount": 2,
+        "likeCount": 3,
+        "repostCount": 12,
         "replyCount": 1,
         "createdAt": "2026-04-21T12:39:03.654Z",
-        "hoursSincePosted": 0.56
+        "hoursSincePosted": 1.52
       },
       "posts": [
         {
@@ -35,13 +86,13 @@
             "handle": "perillamint.pds.witchcraft.systems",
             "displayName": "perillamint 🏳️‍⚧️"
           },
-          "likeCount": 2,
-          "repostCount": 2,
+          "likeCount": 3,
+          "repostCount": 12,
           "replyCount": 1,
           "createdAt": "2026-04-21T12:39:03.654Z",
           "createdUtc": 1776775143,
-          "ageHours": 0.56,
-          "trendingScore": 6.5,
+          "ageHours": 1.52,
+          "trendingScore": 27.5,
           "content_tags": [
             "has-github-repo",
             "is-question"
@@ -75,7 +126,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-21T12:21:21.489Z",
-        "hoursSincePosted": 0.85
+        "hoursSincePosted": 1.82
       },
       "posts": [
         {
@@ -92,7 +143,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-21T12:21:21.489Z",
           "createdUtc": 1776774081,
-          "ageHours": 0.85,
+          "ageHours": 1.82,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -127,7 +178,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-21T11:50:41Z",
-        "hoursSincePosted": 1.36
+        "hoursSincePosted": 2.33
       },
       "posts": [
         {
@@ -144,7 +195,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-21T11:50:41Z",
           "createdUtc": 1776772241,
-          "ageHours": 1.36,
+          "ageHours": 2.33,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -178,7 +229,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-21T11:43:22.673382Z",
-        "hoursSincePosted": 1.49
+        "hoursSincePosted": 2.45
       },
       "posts": [
         {
@@ -195,7 +246,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-21T11:43:22.673382Z",
           "createdUtc": 1776771802,
-          "ageHours": 1.49,
+          "ageHours": 2.45,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -229,7 +280,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-21T11:38:39.354Z",
-        "hoursSincePosted": 1.57
+        "hoursSincePosted": 2.53
       },
       "posts": [
         {
@@ -246,7 +297,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-21T11:38:39.354Z",
           "createdUtc": 1776771519,
-          "ageHours": 1.57,
+          "ageHours": 2.53,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -280,7 +331,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-21T11:36:09.154Z",
-        "hoursSincePosted": 1.61
+        "hoursSincePosted": 2.57
       },
       "posts": [
         {
@@ -297,7 +348,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-21T11:36:09.154Z",
           "createdUtc": 1776771369,
-          "ageHours": 1.61,
+          "ageHours": 2.57,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -331,7 +382,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-21T11:35:26Z",
-        "hoursSincePosted": 1.62
+        "hoursSincePosted": 2.58
       },
       "posts": [
         {
@@ -348,7 +399,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-21T11:35:26Z",
           "createdUtc": 1776771326,
-          "ageHours": 1.62,
+          "ageHours": 2.58,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -382,7 +433,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-21T11:20:09Z",
-        "hoursSincePosted": 1.87
+        "hoursSincePosted": 2.84
       },
       "posts": [
         {
@@ -399,7 +450,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-21T11:20:09Z",
           "createdUtc": 1776770409,
-          "ageHours": 1.87,
+          "ageHours": 2.84,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -433,7 +484,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-21T11:13:44.325Z",
-        "hoursSincePosted": 1.98
+        "hoursSincePosted": 2.95
       },
       "posts": [
         {
@@ -450,7 +501,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-21T11:13:44.325Z",
           "createdUtc": 1776770024,
-          "ageHours": 1.98,
+          "ageHours": 2.95,
           "trendingScore": 2,
           "content_tags": [
             "has-github-repo"
@@ -465,128 +516,21 @@
           ]
         }
       ]
-    },
-    "phuryn/claude-usage": {
-      "count7d": 1,
-      "likesSum7d": 2,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mjynpsvnjg2p",
-        "cid": "bafyreidfchsubghhew7wvje55jb3sm23tsvrcmzrqojvfhk4aproxqat3u",
-        "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mjynpsvnjg2p",
-        "text": "Un dashboard local pour visualiser sa consommation de tokens Claude Code — modèles, coûts estimés, historique de sessions. https://github.com/phuryn/claude-usage",
-        "author": {
-          "handle": "camilleroux.com",
-          "displayName": "Camille Roux"
-        },
-        "likeCount": 2,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-21T11:20:02+02:00",
-        "hoursSincePosted": 3.88
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mjynpsvnjg2p",
-          "cid": "bafyreidfchsubghhew7wvje55jb3sm23tsvrcmzrqojvfhk4aproxqat3u",
-          "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mjynpsvnjg2p",
-          "text": "Un dashboard local pour visualiser sa consommation de tokens Claude Code — modèles, coûts estimés, historique de sessions. https://github.com/phuryn/claude-usage",
-          "author": {
-            "handle": "camilleroux.com",
-            "displayName": "Camille Roux"
-          },
-          "likeCount": 2,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-21T11:20:02+02:00",
-          "createdUtc": 1776763202,
-          "ageHours": 3.88,
-          "trendingScore": 2,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "phuryn/claude-usage",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "matthart1983/netwatch": {
-      "count7d": 1,
-      "likesSum7d": 15,
-      "repostsSum7d": 1,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:of2s7m5juw4jmb3hwmqr7ruz/app.bsky.feed.post/3mjyksq7eh222",
-        "cid": "bafyreid5lpue34lc2zc4usbwxjxcfz2ekuou7sjf6mtz6vgmip6k52qpgi",
-        "bskyUrl": "https://bsky.app/profile/orhun.dev/post/3mjyksq7eh222",
-        "text": "Another reason to love TUIs 😍 🌐 NetWatch — Real-time network diagnostics in your terminal 💯 Interfaces, connections, packet capture & more ✈️ Built-in flight recorder for capturing incidents 🦀 Written in Rust & built w/ @ratatui.rs ⭐ GitHub: github.com/matthart1983... #rustlang #ratatui #tui",
-        "author": {
-          "handle": "orhun.dev",
-          "displayName": "Orhun Parmaksız"
-        },
-        "likeCount": 15,
-        "repostCount": 1,
-        "replyCount": 1,
-        "createdAt": "2026-04-21T08:27:59.427Z",
-        "hoursSincePosted": 4.74
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:of2s7m5juw4jmb3hwmqr7ruz/app.bsky.feed.post/3mjyksq7eh222",
-          "cid": "bafyreid5lpue34lc2zc4usbwxjxcfz2ekuou7sjf6mtz6vgmip6k52qpgi",
-          "bskyUrl": "https://bsky.app/profile/orhun.dev/post/3mjyksq7eh222",
-          "text": "Another reason to love TUIs 😍 🌐 NetWatch — Real-time network diagnostics in your terminal 💯 Interfaces, connections, packet capture & more ✈️ Built-in flight recorder for capturing incidents 🦀 Written in Rust & built w/ @ratatui.rs ⭐ GitHub: github.com/matthart1983... #rustlang #ratatui #tui",
-          "author": {
-            "handle": "orhun.dev",
-            "displayName": "Orhun Parmaksız"
-          },
-          "likeCount": 15,
-          "repostCount": 1,
-          "replyCount": 1,
-          "createdAt": "2026-04-21T08:27:59.427Z",
-          "createdUtc": 1776760079,
-          "ageHours": 4.74,
-          "trendingScore": 17.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "matthart1983/netwatch",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "matthart1983/netwatch",
+      "fullName": "edwardkim/rhwp",
       "count7d": 1,
-      "likesSum7d": 15
+      "likesSum7d": 3
     },
     {
-      "fullName": "edwardkim/rhwp",
+      "fullName": "github/gh-aw",
       "count7d": 1,
       "likesSum7d": 2
     },
     {
       "fullName": "MemPalace/mempalace",
-      "count7d": 1,
-      "likesSum7d": 2
-    },
-    {
-      "fullName": "phuryn/claude-usage",
       "count7d": 1,
       "likesSum7d": 2
     },

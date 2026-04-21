@@ -10,13 +10,12 @@
 
 import type { ReactNode } from "react";
 import { createElement } from "react";
-import { ArrowLeftRight, Bookmark, GitFork, Star, Users, Zap } from "lucide-react";
+import { ArrowLeftRight, Bookmark, GitFork, Star, Zap } from "lucide-react";
 
 import { MomentumBadge } from "@/components/shared/MomentumBadge";
 import { RankBadge } from "@/components/shared/RankBadge";
 import { Sparkline } from "@/components/shared/Sparkline";
 import { HnBadge } from "@/components/hackernews/HnBadge";
-import { ChannelDots } from "@/components/cross-signal/ChannelDots";
 import { getHnMentions } from "@/lib/hackernews";
 import { BskyBadge } from "@/components/bluesky/BskyBadge";
 import { getBlueskyMentions } from "@/lib/bluesky";
@@ -305,7 +304,7 @@ export const COLUMNS: Column[] = [
             // Language pill intentionally omitted — per-user feedback the
             // coding language adds noise to the terminal row. Available via
             // column picker if users want it back.
-            // Forks + contributors inline — always visible, Dexscreener-density.
+            // Forks inline — always visible, Dexscreener-density.
             createElement(
               "span",
               {
@@ -320,20 +319,12 @@ export const COLUMNS: Column[] = [
               }),
               formatNumber(repo.forks),
             ),
-            createElement(
-              "span",
-              {
-                className:
-                  "inline-flex shrink-0 items-center gap-0.5 font-mono text-[10px] text-text-tertiary tabular-nums",
-                title: `${repo.contributors} contributors`,
-              },
-              createElement(Users, {
-                size: 10,
-                className: "text-text-tertiary",
-                "aria-hidden": true,
-              }),
-              formatNumber(repo.contributors),
-            ),
+            // Contributors inline count dropped: OSSInsight caps
+            // `contributor_logins` at 5, so ~48% of repos render as a
+            // flat "5" that reads as a bug (every row identical). Real
+            // contributor counts need a GitHub REST enrichment pass;
+            // until then, the dedicated Contributors column remains
+            // available via the column picker for anyone who wants it.
             // HN mention badge — renders null when the repo has no mentions,
             // so quiet repos stay visually clean. Loaded eagerly per row;
             // the mentions JSON is ~52KB and already in the bundle.
@@ -357,14 +348,12 @@ export const COLUMNS: Column[] = [
               mention: repo.devto ?? null,
               size: "sm",
             }),
-            // 5-channel cross-signal indicator. hideWhenEmpty so quiet
-            // repos don't show four empty dots — we only highlight rows
-            // where at least one channel is firing.
-            createElement(ChannelDots, {
-              repo,
-              hideWhenEmpty: true,
-              size: "sm",
-            }),
+            // ChannelDots removed from the row — the per-source badges
+            // (HN-Y / dev.to / Bluesky / ProductHunt) already communicate
+            // which channels are firing and by how much, making the 5-dot
+            // strip redundant noise. The dots still render on /breakouts
+            // and /compare where the channel-firing state is the primary
+            // signal of the surface.
           ),
           spacious && repo.description
             ? createElement(

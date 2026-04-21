@@ -31,13 +31,16 @@ import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 
 import { RepoDetailHeader } from "@/components/repo-detail/RepoDetailHeader";
 import { RepoDetailStats } from "@/components/repo-detail/RepoDetailStats";
+import { RepoDetailStatsStrip } from "@/components/repo-detail/RepoDetailStatsStrip";
+import { RepoDetailChart } from "@/components/repo-detail/RepoDetailChart";
+import { buildMentionMarkers } from "@/components/repo-detail/MentionMarkers";
 import { CrossSignalBreakdown } from "@/components/repo-detail/CrossSignalBreakdown";
 import {
   RecentMentionsFeed,
   type MentionItem,
 } from "@/components/repo-detail/RecentMentionsFeed";
 import { RepoActionRow } from "@/components/repo-detail/RepoActionRow";
-import { RepoChart } from "@/components/detail/RepoChart";
+import { MaintainerCard } from "@/components/repo-detail/MaintainerCard";
 
 // force-dynamic: the page aggregates per-source mention JSON at request
 // time and has ~thousands of possible (owner, name) tuples. Static
@@ -226,6 +229,10 @@ export default async function RepoDetailPage({ params }: PageProps) {
   }
 
   const mentions = buildMentions(repo.fullName);
+  // Cross-channel marker dots for the Stars chart — pre-built server-side
+  // so the client RepoDetailChart bundle stays free of every per-source
+  // mentions JSON.
+  const markers = buildMentionMarkers(repo.fullName, 30);
   const lastRefresh = getRelativeTime(new Date().toISOString());
 
   // SoftwareSourceCode JSON-LD — kept identical to the previous version so
@@ -310,10 +317,27 @@ export default async function RepoDetailPage({ params }: PageProps) {
           to match /breakouts and the rest of the modernized surfaces. */}
       <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6">
-          <RepoDetailHeader repo={repo} />
+          {/* Header + Maintainer card sit side-by-side on lg+, stack on mobile.
+              Maintainer card lives in a right rail (~280px) so the header
+              keeps room to breathe, and the action row + stats below run
+              full width as before. */}
+          <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_280px] gap-4">
+            <RepoDetailHeader repo={repo} />
+            <MaintainerCard
+              owner={repo.owner}
+              fallbackAvatarUrl={repo.ownerAvatarUrl}
+            />
+          </div>
           <RepoActionRow repo={repo} />
+          {/*
+            Tiered chart area: 3 mini-cards (hero metrics) → big Stars chart
+            with cross-channel mention markers → secondary stats grid below.
+            Splitting Stars/Forks/Contributors out of a shared linear axis
+            fixes the old "forks look flat, contributors invisible" issue.
+          */}
+          <RepoDetailStatsStrip repo={repo} />
+          <RepoDetailChart repo={repo} markers={markers} />
           <RepoDetailStats repo={repo} />
-          <RepoChart repo={repo} />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <CrossSignalBreakdown repo={repo} />
             <RecentMentionsFeed mentions={mentions} />

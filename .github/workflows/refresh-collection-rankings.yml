@@ -40,4 +40,5 @@ jobs:
           fi
           TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
           git commit -m "chore(data): refresh collection rankings ${TS}"
+          git pull --rebase origin main
           git push

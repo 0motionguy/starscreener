@@ -1,5 +1,5 @@
 {
-  "lastFetchedAt": "2026-04-21T21:55:37.351Z",
+  "lastFetchedAt": "2026-04-21T22:53:56.116Z",
   "scannedSubreddits": [
     "ClaudeAI",
     "ChatGPT",
@@ -48,8 +48,8 @@
     "nocode"
   ],
   "windowDays": 7,
-  "totalPosts": 3427,
-  "prunedOldPosts": 7,
+  "totalPosts": 3423,
+  "prunedOldPosts": 4,
   "prunedOverflowPosts": 0,
   "posts": [
     {
@@ -6324,30 +6324,6 @@
       "value_score": 0,
       "selftext": "&gt;*Hesai's new chip achieves a pixel-level native fusion of color perception and distance measurement at the underlying hardware level. This technology does not require complex post-stitching of independent camera images and LiDAR data; the sensor can directly generate a color 3D point cloud model with native color information.* https://preview.redd.it/w3pqs3sofvvg1.png?width=2374&amp;format=png&amp;auto=webp&amp;s=f8c864e570d8c4b6c5702443541a87b45a92e38e &gt;*Hesai announced that its next-gen",
       "linkedRepos": []
-    },
-    {
-      "id": "1slnt5e",
-      "subreddit": "singularity",
-      "title": "The Human Baseline for ARC-AGI-3 has been updated",
-      "url": "https://i.redd.it/lk8rxv24g8vg1.png",
-      "permalink": "https://www.reddit.com/r/singularity/comments/1slnt5e/the_human_baseline_for_arcagi3_has_been_updated/",
-      "score": 558,
-      "numComments": 147,
-      "createdUtc": 1776205914,
-      "author": "exordin26",
-      "repoFullName": null,
-      "baselineRatio": 3.12,
-      "baselineTier": "above-average",
-      "baselineConfidence": "high",
-      "ageHours": 137.6,
-      "velocity": 4.01,
-      "trendingScore": 34.3,
-      "selftext": "",
-      "linkedRepos": [],
-      "content_tags": [
-        "is-meme"
-      ],
-      "value_score": -1
     },
     {
       "id": "1spgdce",
@@ -32446,28 +32422,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1slmxq6",
-      "subreddit": "AIToolTesting",
-      "title": "I tested every AI video tool for frame-level consistency across 500 generations. The results are not what the community assumes.",
-      "url": "https://www.reddit.com/r/AIToolTesting/comments/1slmxq6/i_tested_every_ai_video_tool_for_framelevel/",
-      "permalink": "https://www.reddit.com/r/AIToolTesting/comments/1slmxq6/i_tested_every_ai_video_tool_for_framelevel/",
-      "score": 8,
-      "numComments": 4,
-      "createdUtc": 1776203862,
-      "author": "siddomaxx",
-      "repoFullName": null,
-      "baselineRatio": 1.75,
-      "baselineTier": "normal",
-      "baselineConfidence": "medium",
-      "ageHours": 138.18,
-      "velocity": 0.05,
-      "trendingScore": 0.07,
-      "selftext": "Frame-level consistency across multiple generations is the metric that matters most for any AI video production application where a subject needs to appear in more than one shot. It is also the metric that almost no public evaluation covers because most reviews are based on a handful of impressive single generations. I want to share the findings from a structured 500-generation test I ran over twelve weeks specifically measuring this metric across the major tools in the market. The test design i",
-      "linkedRepos": [],
-      "content_tags": [],
-      "value_score": 0
-    },
-    {
       "id": "1smyfdm",
       "subreddit": "AIToolTesting",
       "title": "7M tokens, and it's citing it correctly. You should check out Moss",
@@ -36885,30 +36839,6 @@
       "content_tags": [],
       "value_score": 0,
       "selftext": "Hi! I do have a problem with this sitemap. I am completely ignorant about SEO. My website runs on lovable, and I am using LovableHTML to render everything. However, my sitemap has been stuck in \"impossible to retrieve\" for so long. Can anyone help me? Dani,",
-      "linkedRepos": []
-    },
-    {
-      "id": "1slnfqw",
-      "subreddit": "SEO",
-      "title": "Fixed indexing issues on my programmatic pages — sitemap resubmitted 2 weeks ago, still no re-indexing. What else can I do to signal Google?",
-      "url": "https://www.reddit.com/r/SEO/comments/1slnfqw/fixed_indexing_issues_on_my_programmatic_pages/",
-      "permalink": "https://www.reddit.com/r/SEO/comments/1slnfqw/fixed_indexing_issues_on_my_programmatic_pages/",
-      "score": 5,
-      "numComments": 21,
-      "createdUtc": 1776205018,
-      "author": "Adametter",
-      "repoFullName": null,
-      "baselineRatio": 1,
-      "baselineTier": "normal",
-      "baselineConfidence": "high",
-      "ageHours": 137.9,
-      "velocity": 0.04,
-      "trendingScore": 0.03,
-      "content_tags": [
-        "is-question"
-      ],
-      "value_score": 0,
-      "selftext": "My site has a large set of programmatic pages that stopped getting indexed due to a glitch. I've since resolved the underlying issue, and all the pages are now working correctly. Here's what I've already done: * Regenerated the sitemap * Submitted it via Google Search Console It's been about two weeks and there's been no noticeable change in indexing status. What additional steps can I take to send Google a stronger signal that these pages are updated and ready to be re-crawled? Has anyone dealt",
       "linkedRepos": []
     },
     {
@@ -75491,28 +75421,6 @@
       "content_tags": [],
       "value_score": 0,
       "selftext": "For folks working on RAG pipelines — it's tax time, so I whipped up a tax doc assistant with our new Ragie skill. A practical walkthrough over a realistic document mix. Built it over W-2s, 1099s, IRS publications, and receipts. Two patterns I want to highlight: 1. Tagging docs at ingestion time with metadata (type + year) so retrieval can be scoped. \"Am I eligible for the home office deduction?\" only hits IRS publications, not your W-2s. 2. Rerank after hybrid search — standard advice but worth ",
-      "linkedRepos": []
-    },
-    {
-      "id": "1slo9fz",
-      "subreddit": "LangChain",
-      "title": "AI is getting smarter. Catching Its Mistakes Is Getting Harder",
-      "url": "https://www.wsj.com/tech/ai/ai-is-getting-smarter-catching-its-mistakes-is-getting-harder-85612936",
-      "permalink": "https://www.reddit.com/r/LangChain/comments/1slo9fz/ai_is_getting_smarter_catching_its_mistakes_is/",
-      "score": 0,
-      "numComments": 0,
-      "createdUtc": 1776207024,
-      "author": "pvatokahu",
-      "repoFullName": null,
-      "baselineRatio": 0,
-      "baselineTier": "below-average",
-      "baselineConfidence": "high",
-      "ageHours": 137.32,
-      "velocity": 0,
-      "trendingScore": 0,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "",
       "linkedRepos": []
     },
     {

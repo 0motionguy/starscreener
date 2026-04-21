@@ -1,46 +1,61 @@
 {
-  "fetchedAt": "2026-04-21T12:16:32.123Z",
+  "fetchedAt": "2026-04-21T14:17:15.003Z",
   "windowDays": 7,
-  "scannedAlgoliaHits": 820,
+  "scannedAlgoliaHits": 821,
   "scannedFirebaseItems": 500,
   "mentions": {
-    "anthropics/claude-code": {
-      "count7d": 4,
-      "scoreSum7d": 9,
+    "cosmicstack-labs/mercury-agent": {
+      "count7d": 1,
+      "scoreSum7d": 2,
       "topStory": {
-        "id": 47765401,
-        "title": "Claude Code hitting ~50% usage after 1–2 prompts (Pro user)",
-        "score": 4,
-        "url": "https://github.com/anthropics/claude-code/issues/47587",
-        "hoursSincePosted": 166.8
+        "id": 47847591,
+        "title": "Mercury: I found an AI agent that refuses to do things",
+        "score": 2,
+        "url": "https://github.com/cosmicstack-labs/mercury-agent",
+        "hoursSincePosted": 2.24
       },
       "everHitFrontPage": false,
       "stories": [
         {
-          "id": 47765401,
-          "title": "Claude Code hitting ~50% usage after 1–2 prompts (Pro user)",
-          "url": "https://github.com/anthropics/claude-code/issues/47587",
-          "by": "kundi",
-          "score": 4,
+          "id": 47847591,
+          "title": "Mercury: I found an AI agent that refuses to do things",
+          "url": "https://github.com/cosmicstack-labs/mercury-agent",
+          "by": "hotheadhacker",
+          "score": 2,
           "descendants": 0,
-          "createdUtc": 1776173329,
-          "ageHours": 166.8,
-          "velocity": 0.02,
-          "trendingScore": 0.01,
+          "createdUtc": 1776772971,
+          "ageHours": 2.24,
+          "velocity": 0.89,
+          "trendingScore": 0.27,
           "everHitFrontPage": false,
           "content_tags": [
-            "has-github-repo"
+            "has-github-repo",
+            "has-agent"
           ],
-          "value_score": 1,
+          "value_score": 2,
           "storyText": "",
           "linkedRepos": [
             {
-              "fullName": "anthropics/claude-code",
+              "fullName": "cosmicstack-labs/mercury-agent",
               "matchType": "url",
               "confidence": 1
             }
           ]
-        },
+        }
+      ]
+    },
+    "anthropics/claude-code": {
+      "count7d": 3,
+      "scoreSum7d": 5,
+      "topStory": {
+        "id": 47844358,
+        "title": "Sonnet 4.6 model could mistakenly use wrong model for OpenAI",
+        "score": 2,
+        "url": "https://github.com/anthropics/claude-code/issues/51417",
+        "hoursSincePosted": 10.29
+      },
+      "everHitFrontPage": false,
+      "stories": [
         {
           "id": 47844358,
           "title": "Sonnet 4.6 model could mistakenly use wrong model for OpenAI",
@@ -49,9 +64,9 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776743980,
-          "ageHours": 8.28,
-          "velocity": 0.24,
-          "trendingScore": 0.07,
+          "ageHours": 10.29,
+          "velocity": 0.19,
+          "trendingScore": 0.06,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -74,7 +89,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776226902,
-          "ageHours": 151.91,
+          "ageHours": 153.93,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -99,7 +114,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1776246466,
-          "ageHours": 146.48,
+          "ageHours": 148.49,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -126,7 +141,7 @@
         "title": "GitNexus: Client-side knowledge graph creator that runs in the browser",
         "score": 3,
         "url": "https://github.com/abhigyanpatwari/GitNexus",
-        "hoursSincePosted": 29.36
+        "hoursSincePosted": 31.37
       },
       "everHitFrontPage": false,
       "stories": [
@@ -138,7 +153,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1776668095,
-          "ageHours": 29.36,
+          "ageHours": 31.37,
           "velocity": 0.1,
           "trendingScore": 0.05,
           "everHitFrontPage": false,
@@ -165,7 +180,7 @@
         "title": "Show HN: Auto-generated titles and colors for parallel Claude Code sessions",
         "score": 2,
         "url": "https://github.com/jbarbier/which-claude-code",
-        "hoursSincePosted": 13.38
+        "hoursSincePosted": 15.4
       },
       "everHitFrontPage": false,
       "stories": [
@@ -177,9 +192,9 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776725610,
-          "ageHours": 13.38,
-          "velocity": 0.15,
-          "trendingScore": 0.05,
+          "ageHours": 15.4,
+          "velocity": 0.13,
+          "trendingScore": 0.04,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -205,7 +220,7 @@
         "title": "Clearwing: Produce similar results as Anthropic Glasswing (Mythos)",
         "score": 3,
         "url": "https://github.com/Lazarus-AI/clearwing",
-        "hoursSincePosted": 45.78
+        "hoursSincePosted": 47.79
       },
       "everHitFrontPage": false,
       "stories": [
@@ -217,9 +232,9 @@
           "score": 3,
           "descendants": 1,
           "createdUtc": 1776608991,
-          "ageHours": 45.78,
-          "velocity": 0.07,
-          "trendingScore": 0.04,
+          "ageHours": 47.79,
+          "velocity": 0.06,
+          "trendingScore": 0.03,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -244,7 +259,7 @@
         "title": "DensePose turns commodity WiFi signals into real-time human pose estimation",
         "score": 2,
         "url": "https://github.com/ruvnet/RuView",
-        "hoursSincePosted": 18.77
+        "hoursSincePosted": 20.78
       },
       "everHitFrontPage": false,
       "stories": [
@@ -256,9 +271,9 @@
           "score": 2,
           "descendants": 1,
           "createdUtc": 1776706217,
-          "ageHours": 18.77,
-          "velocity": 0.11,
-          "trendingScore": 0.04,
+          "ageHours": 20.78,
+          "velocity": 0.1,
+          "trendingScore": 0.03,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -283,7 +298,7 @@
         "title": "Fincept Terminal",
         "score": 2,
         "url": "https://github.com/Fincept-Corporation/FinceptTerminal",
-        "hoursSincePosted": 18.78
+        "hoursSincePosted": 20.79
       },
       "everHitFrontPage": false,
       "stories": [
@@ -295,8 +310,8 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776706191,
-          "ageHours": 18.78,
-          "velocity": 0.11,
+          "ageHours": 20.79,
+          "velocity": 0.1,
           "trendingScore": 0.03,
           "everHitFrontPage": false,
           "content_tags": [
@@ -322,7 +337,7 @@
         "title": "Off Grid: mobile AI with GUFF files or an API endpoint",
         "score": 2,
         "url": "https://github.com/alichherawalla/off-grid-mobile-ai",
-        "hoursSincePosted": 29.87
+        "hoursSincePosted": 31.89
       },
       "everHitFrontPage": false,
       "stories": [
@@ -334,8 +349,8 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776666246,
-          "ageHours": 29.87,
-          "velocity": 0.07,
+          "ageHours": 31.89,
+          "velocity": 0.06,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
           "content_tags": [
@@ -361,7 +376,7 @@
         "title": "Show HN: Trained a 12M transformer on an ML framework we built from scratch",
         "score": 2,
         "url": "https://github.com/mni-ml/framework",
-        "hoursSincePosted": 64.98
+        "hoursSincePosted": 66.99
       },
       "everHitFrontPage": false,
       "stories": [
@@ -371,9 +386,9 @@
           "url": "https://github.com/mni-ml/framework",
           "by": "caliandbust",
           "score": 2,
-          "descendants": 1,
+          "descendants": 2,
           "createdUtc": 1776539859,
-          "ageHours": 64.98,
+          "ageHours": 66.99,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -401,7 +416,7 @@
         "title": "Design.md",
         "score": 2,
         "url": "https://github.com/VoltAgent/awesome-design-md",
-        "hoursSincePosted": 54.56
+        "hoursSincePosted": 56.57
       },
       "everHitFrontPage": false,
       "stories": [
@@ -413,7 +428,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776577393,
-          "ageHours": 54.56,
+          "ageHours": 56.57,
           "velocity": 0.04,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -440,7 +455,7 @@
         "title": "Show HN: Understand Anything – Graphs that teach > graphs that impress",
         "score": 1,
         "url": "https://github.com/Lum1104/Understand-Anything",
-        "hoursSincePosted": 52.3
+        "hoursSincePosted": 54.32
       },
       "everHitFrontPage": false,
       "stories": [
@@ -452,7 +467,7 @@
           "score": 1,
           "descendants": 3,
           "createdUtc": 1776585499,
-          "ageHours": 52.3,
+          "ageHours": 54.32,
           "velocity": 0.02,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -472,46 +487,6 @@
         }
       ]
     },
-    "cosmicstack-labs/mercury-agent": {
-      "count7d": 1,
-      "scoreSum7d": 1,
-      "topStory": {
-        "id": 47847591,
-        "title": "Mercury: I found an AI agent that refuses to do things",
-        "score": 1,
-        "url": "https://github.com/cosmicstack-labs/mercury-agent",
-        "hoursSincePosted": 0.5
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 47847591,
-          "title": "Mercury: I found an AI agent that refuses to do things",
-          "url": "https://github.com/cosmicstack-labs/mercury-agent",
-          "by": "hotheadhacker",
-          "score": 1,
-          "descendants": 0,
-          "createdUtc": 1776772971,
-          "ageHours": 0.5,
-          "velocity": 2,
-          "trendingScore": 0,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo",
-            "has-agent"
-          ],
-          "value_score": 2,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "cosmicstack-labs/mercury-agent",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
     "posit-dev/ggsql": {
       "count7d": 1,
       "scoreSum7d": 1,
@@ -520,7 +495,7 @@
         "title": "Ggsql: A SQL extension for declarative data visualisation based on the Grammar O",
         "score": 1,
         "url": "https://github.com/posit-dev/ggsql",
-        "hoursSincePosted": 0.57
+        "hoursSincePosted": 2.59
       },
       "everHitFrontPage": false,
       "stories": [
@@ -532,8 +507,8 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1776771724,
-          "ageHours": 0.57,
-          "velocity": 1.74,
+          "ageHours": 2.59,
+          "velocity": 0.39,
           "trendingScore": 0,
           "everHitFrontPage": false,
           "content_tags": [
@@ -559,7 +534,7 @@
         "title": "Voicebox – The open-source voice synthesis studio",
         "score": 1,
         "url": "https://github.com/jamiepine/voicebox",
-        "hoursSincePosted": 28.52
+        "hoursSincePosted": 30.54
       },
       "everHitFrontPage": false,
       "stories": [
@@ -571,8 +546,8 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1776671103,
-          "ageHours": 28.52,
-          "velocity": 0.04,
+          "ageHours": 30.54,
+          "velocity": 0.03,
           "trendingScore": 0,
           "everHitFrontPage": false,
           "content_tags": [
@@ -592,13 +567,13 @@
     },
     "smol-machines/smolvm": {
       "count7d": 1,
-      "scoreSum7d": 491,
+      "scoreSum7d": 492,
       "topStory": {
         "id": 47808268,
         "title": "Show HN: Smol machines – subsecond coldstart, portable virtual machines",
-        "score": 491,
+        "score": 492,
         "url": "https://github.com/smol-machines/smolvm",
-        "hoursSincePosted": 90.96
+        "hoursSincePosted": 92.97
       },
       "everHitFrontPage": false,
       "stories": [
@@ -607,12 +582,12 @@
           "title": "Show HN: Smol machines – subsecond coldstart, portable virtual machines",
           "url": "https://github.com/smol-machines/smolvm",
           "by": "binsquare",
-          "score": 491,
+          "score": 492,
           "descendants": 147,
           "createdUtc": 1776446338,
-          "ageHours": 90.96,
-          "velocity": 5.4,
-          "trendingScore": 228.15,
+          "ageHours": 92.97,
+          "velocity": 5.29,
+          "trendingScore": 223.58,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -638,7 +613,7 @@
         "title": "Does Gas Town 'steal' usage from users' LLM credits to improve itself?",
         "score": 253,
         "url": "https://github.com/gastownhall/gastown/issues/3649",
-        "hoursSincePosted": 135.45
+        "hoursSincePosted": 137.46
       },
       "everHitFrontPage": false,
       "stories": [
@@ -650,9 +625,9 @@
           "score": 253,
           "descendants": 127,
           "createdUtc": 1776286188,
-          "ageHours": 135.45,
-          "velocity": 1.87,
-          "trendingScore": 61.57,
+          "ageHours": 137.46,
+          "velocity": 1.84,
+          "trendingScore": 60.58,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -678,7 +653,7 @@
         "title": "Wacli – WhatsApp CLI",
         "score": 246,
         "url": "https://github.com/steipete/wacli",
-        "hoursSincePosted": 149.2
+        "hoursSincePosted": 151.21
       },
       "everHitFrontPage": false,
       "stories": [
@@ -690,9 +665,9 @@
           "score": 246,
           "descendants": 157,
           "createdUtc": 1776236685,
-          "ageHours": 149.2,
-          "velocity": 1.65,
-          "trendingScore": 65.88,
+          "ageHours": 151.21,
+          "velocity": 1.63,
+          "trendingScore": 65.08,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -717,7 +692,7 @@
         "title": "Show HN: LangAlpha – what if Claude Code was built for Wall Street?",
         "score": 148,
         "url": "https://github.com/ginlix-ai/langalpha",
-        "hoursSincePosted": 165.46
+        "hoursSincePosted": 167.47
       },
       "everHitFrontPage": false,
       "stories": [
@@ -729,9 +704,9 @@
           "score": 148,
           "descendants": 55,
           "createdUtc": 1776178126,
-          "ageHours": 165.46,
-          "velocity": 0.89,
-          "trendingScore": 12.55,
+          "ageHours": 167.47,
+          "velocity": 0.88,
+          "trendingScore": 12.41,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -759,7 +734,7 @@
         "title": "Show HN: Omi – watches your screen, hears conversations, tells you what to do",
         "score": 19,
         "url": "https://github.com/BasedHardware/omi",
-        "hoursSincePosted": 135.64
+        "hoursSincePosted": 137.65
       },
       "everHitFrontPage": false,
       "stories": [
@@ -771,7 +746,7 @@
           "score": 19,
           "descendants": 13,
           "createdUtc": 1776285501,
-          "ageHours": 135.64,
+          "ageHours": 137.65,
           "velocity": 0.14,
           "trendingScore": 0.41,
           "everHitFrontPage": false,
@@ -799,7 +774,7 @@
         "title": "AgentFM – A single Go binary that turns idle GPUs into a P2P AI grid",
         "score": 19,
         "url": "https://github.com/Agent-FM/agentfm-core",
-        "hoursSincePosted": 159.85
+        "hoursSincePosted": 161.86
       },
       "everHitFrontPage": false,
       "stories": [
@@ -811,7 +786,7 @@
           "score": 19,
           "descendants": 4,
           "createdUtc": 1776198335,
-          "ageHours": 159.85,
+          "ageHours": 161.86,
           "velocity": 0.12,
           "trendingScore": 0.21,
           "everHitFrontPage": false,
@@ -836,7 +811,7 @@
           "score": 4,
           "descendants": 3,
           "createdUtc": 1776379233,
-          "ageHours": 109.6,
+          "ageHours": 111.61,
           "velocity": 0.04,
           "trendingScore": 0.03,
           "everHitFrontPage": false,
@@ -862,7 +837,7 @@
           "score": 2,
           "descendants": 1,
           "createdUtc": 1776449784,
-          "ageHours": 90,
+          "ageHours": 92.01,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -889,7 +864,7 @@
         "title": "Show HN: React Email 6.0 – An open-source email editor you can embed in your app",
         "score": 9,
         "url": "https://github.com/resend/react-email",
-        "hoursSincePosted": 93.94
+        "hoursSincePosted": 95.95
       },
       "everHitFrontPage": false,
       "stories": [
@@ -901,9 +876,9 @@
           "score": 9,
           "descendants": 0,
           "createdUtc": 1776435606,
-          "ageHours": 93.94,
-          "velocity": 0.1,
-          "trendingScore": 0.1,
+          "ageHours": 95.95,
+          "velocity": 0.09,
+          "trendingScore": 0.09,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -929,7 +904,7 @@
         "title": "Hy-World 2.0: Model for Reconstructing, Generating, and Simulating 3D Worlds",
         "score": 8,
         "url": "https://github.com/Tencent-Hunyuan/HY-World-2.0",
-        "hoursSincePosted": 114.28
+        "hoursSincePosted": 116.29
       },
       "everHitFrontPage": false,
       "stories": [
@@ -941,7 +916,7 @@
           "score": 8,
           "descendants": 0,
           "createdUtc": 1776362386,
-          "ageHours": 114.28,
+          "ageHours": 116.29,
           "velocity": 0.07,
           "trendingScore": 0.06,
           "everHitFrontPage": false,
@@ -968,7 +943,7 @@
         "title": "Qwen OAuth Free tier will be discontinued on 2026-04-15",
         "score": 4,
         "url": "https://github.com/QwenLM/qwen-code/pull/3207",
-        "hoursSincePosted": 150.4
+        "hoursSincePosted": 152.41
       },
       "everHitFrontPage": false,
       "stories": [
@@ -980,7 +955,7 @@
           "score": 4,
           "descendants": 1,
           "createdUtc": 1776232342,
-          "ageHours": 150.4,
+          "ageHours": 152.41,
           "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -1007,7 +982,7 @@
         "title": "OpenAI Codex Compaction Failing",
         "score": 4,
         "url": "https://github.com/openai/codex/issues/17809",
-        "hoursSincePosted": 162.56
+        "hoursSincePosted": 164.57
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1019,7 +994,7 @@
           "score": 4,
           "descendants": 1,
           "createdUtc": 1776188570,
-          "ageHours": 162.56,
+          "ageHours": 164.57,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1046,7 +1021,7 @@
         "title": "Anubis weighs the soul of incoming HTTP requests to stop AI crawlers",
         "score": 4,
         "url": "https://github.com/TecharoHQ/anubis",
-        "hoursSincePosted": 109.59
+        "hoursSincePosted": 111.6
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1058,7 +1033,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1776379279,
-          "ageHours": 109.59,
+          "ageHours": 111.6,
           "velocity": 0.04,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -1085,7 +1060,7 @@
         "title": "Mesh LLM",
         "score": 4,
         "url": "https://github.com/Mesh-LLM/mesh-llm",
-        "hoursSincePosted": 129.34
+        "hoursSincePosted": 131.36
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1097,7 +1072,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1776308156,
-          "ageHours": 129.34,
+          "ageHours": 131.36,
           "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -1124,7 +1099,7 @@
         "title": "Show HN: Bitterbot – A local-first P2P agent mesh with skill trading",
         "score": 3,
         "url": "https://github.com/Bitterbot-AI/bitterbot-desktop",
-        "hoursSincePosted": 165.09
+        "hoursSincePosted": 167.11
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1136,7 +1111,7 @@
           "score": 3,
           "descendants": 1,
           "createdUtc": 1776179454,
-          "ageHours": 165.09,
+          "ageHours": 167.11,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1165,7 +1140,7 @@
         "title": "Worldmonitor: Real-time global intelligence dashboard",
         "score": 3,
         "url": "https://github.com/koala73/worldmonitor",
-        "hoursSincePosted": 87.22
+        "hoursSincePosted": 89.23
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1177,7 +1152,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1776459805,
-          "ageHours": 87.22,
+          "ageHours": 89.23,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1204,7 +1179,7 @@
         "title": "Open Multi-Agent Interactive Classroom",
         "score": 3,
         "url": "https://github.com/THU-MAIC/OpenMAIC",
-        "hoursSincePosted": 146.95
+        "hoursSincePosted": 148.96
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1216,7 +1191,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1776244782,
-          "ageHours": 146.95,
+          "ageHours": 148.96,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1244,7 +1219,7 @@
         "title": "Caveman – why use many token when few do trick",
         "score": 2,
         "url": "https://github.com/JuliusBrussee/caveman/blob/main/README.md",
-        "hoursSincePosted": 117.01
+        "hoursSincePosted": 119.02
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1256,7 +1231,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776352549,
-          "ageHours": 117.01,
+          "ageHours": 119.02,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1284,7 +1259,7 @@
         "title": "Show HN: Multi-Agent Orchestration on Top of Vercel AI SDK (TypeScript, Next.js)",
         "score": 2,
         "url": "https://github.com/JackChen-me/open-multi-agent/tree/main/examples/with-vercel-ai-sdk",
-        "hoursSincePosted": 138.4
+        "hoursSincePosted": 140.41
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1296,7 +1271,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776275551,
-          "ageHours": 138.4,
+          "ageHours": 140.41,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1325,7 +1300,7 @@
         "title": "Connect iMessage to your Claude Code assistant",
         "score": 2,
         "url": "https://github.com/anthropics/claude-plugins-official/tree/main/external_plugins/imessage",
-        "hoursSincePosted": 158.95
+        "hoursSincePosted": 160.96
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1337,7 +1312,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776201590,
-          "ageHours": 158.95,
+          "ageHours": 160.96,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1364,7 +1339,7 @@
         "title": "Dexter: A fast, full-featured Elixir LSP optimized for large Elixir codebases",
         "score": 2,
         "url": "https://github.com/remoteoss/dexter",
-        "hoursSincePosted": 160.24
+        "hoursSincePosted": 162.25
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1376,7 +1351,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776196937,
-          "ageHours": 160.24,
+          "ageHours": 162.25,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1395,46 +1370,6 @@
         }
       ]
     },
-    "forrestchang/andrej-karpathy-skills": {
-      "count7d": 1,
-      "scoreSum7d": 2,
-      "topStory": {
-        "id": 47765204,
-        "title": "Why arent Karpathy's LLM coding principles Claude Code defaults?",
-        "score": 2,
-        "url": "https://github.com/forrestchang/andrej-karpathy-skills/issues/65",
-        "hoursSincePosted": 167.1
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 47765204,
-          "title": "Why arent Karpathy's LLM coding principles Claude Code defaults?",
-          "url": "https://github.com/forrestchang/andrej-karpathy-skills/issues/65",
-          "by": "bpolovko",
-          "score": 2,
-          "descendants": 0,
-          "createdUtc": 1776172231,
-          "ageHours": 167.1,
-          "velocity": 0.01,
-          "trendingScore": 0,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo",
-            "is-question"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "forrestchang/andrej-karpathy-skills",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
     "bytedance/deer-flow": {
       "count7d": 1,
       "scoreSum7d": 1,
@@ -1443,7 +1378,7 @@
         "title": "An open-source long-horizon SuperAgent harness that researches,codes and creates",
         "score": 1,
         "url": "https://github.com/bytedance/deer-flow",
-        "hoursSincePosted": 74.45
+        "hoursSincePosted": 76.47
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1455,7 +1390,7 @@
           "score": 1,
           "descendants": 1,
           "createdUtc": 1776505757,
-          "ageHours": 74.45,
+          "ageHours": 76.47,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1482,7 +1417,7 @@
         "title": "Show HN: Markplane – Project management in your repo, built for AI collaboration",
         "score": 1,
         "url": "https://github.com/zerowand01/markplane",
-        "hoursSincePosted": 145.72
+        "hoursSincePosted": 147.74
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1494,7 +1429,7 @@
           "score": 1,
           "descendants": 1,
           "createdUtc": 1776249185,
-          "ageHours": 145.72,
+          "ageHours": 147.74,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1522,7 +1457,7 @@
         "title": "Private decentralized inference on consumer hardware [pdf]",
         "score": 1,
         "url": "https://github.com/Layr-Labs/d-inference/blob/master/papers/dginf-private-inference.pdf",
-        "hoursSincePosted": 127.92
+        "hoursSincePosted": 129.93
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1534,7 +1469,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1776313292,
-          "ageHours": 127.92,
+          "ageHours": 129.93,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1561,7 +1496,7 @@
         "title": "GBrain – system to make your AI agent better reflect you",
         "score": 1,
         "url": "https://github.com/garrytan/gbrain",
-        "hoursSincePosted": 147.79
+        "hoursSincePosted": 149.81
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1573,7 +1508,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1776241733,
-          "ageHours": 147.79,
+          "ageHours": 149.81,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1601,7 +1536,7 @@
         "title": "An open source template for building cloud agents",
         "score": 1,
         "url": "https://github.com/vercel-labs/open-agents",
-        "hoursSincePosted": 153.31
+        "hoursSincePosted": 155.32
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1613,7 +1548,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1776221887,
-          "ageHours": 153.31,
+          "ageHours": 155.32,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1640,7 +1575,7 @@
         "title": "MemPalace",
         "score": 1,
         "url": "https://github.com/MemPalace/mempalace",
-        "hoursSincePosted": 162.18
+        "hoursSincePosted": 164.19
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1652,7 +1587,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1776189942,
-          "ageHours": 162.18,
+          "ageHours": 164.19,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1676,7 +1611,7 @@
     {
       "fullName": "smol-machines/smolvm",
       "count7d": 1,
-      "scoreSum7d": 491
+      "scoreSum7d": 492
     },
     {
       "fullName": "gastownhall/gastown",
@@ -1704,11 +1639,6 @@
       "scoreSum7d": 19
     },
     {
-      "fullName": "anthropics/claude-code",
-      "count7d": 4,
-      "scoreSum7d": 9
-    },
-    {
       "fullName": "resend/react-email",
       "count7d": 1,
       "scoreSum7d": 9
@@ -1717,6 +1647,11 @@
       "fullName": "Tencent-Hunyuan/HY-World-2.0",
       "count7d": 1,
       "scoreSum7d": 8
+    },
+    {
+      "fullName": "anthropics/claude-code",
+      "count7d": 3,
+      "scoreSum7d": 5
     },
     {
       "fullName": "Mesh-LLM/mesh-llm",
@@ -1774,12 +1709,12 @@
       "scoreSum7d": 2
     },
     {
-      "fullName": "Fincept-Corporation/FinceptTerminal",
+      "fullName": "cosmicstack-labs/mercury-agent",
       "count7d": 1,
       "scoreSum7d": 2
     },
     {
-      "fullName": "forrestchang/andrej-karpathy-skills",
+      "fullName": "Fincept-Corporation/FinceptTerminal",
       "count7d": 1,
       "scoreSum7d": 2
     },
@@ -1820,11 +1755,6 @@
     },
     {
       "fullName": "bytedance/deer-flow",
-      "count7d": 1,
-      "scoreSum7d": 1
-    },
-    {
-      "fullName": "cosmicstack-labs/mercury-agent",
       "count7d": 1,
       "scoreSum7d": 1
     },

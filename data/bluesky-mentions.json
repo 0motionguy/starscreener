@@ -1,10 +1,114 @@
 {
-  "fetchedAt": "2026-04-21T12:10:13.259Z",
+  "fetchedAt": "2026-04-21T13:12:34.741Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
+    "edwardkim/rhwp": {
+      "count7d": 1,
+      "likesSum7d": 2,
+      "repostsSum7d": 2,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:4rbcfuuvcmkm3seadmhpatmz/app.bsky.feed.post/3mjyytol3ms22",
+        "cid": "bafyreiewggeslpvxfyxb46kpgzdxd4zbkavfcxsg4xh2wvlimxwboefeju",
+        "bskyUrl": "https://bsky.app/profile/perillamint.pds.witchcraft.systems/post/3mjyytol3ms22",
+        "text": "아 그리고 여담: ISO/IEC 29500 (OOXML, docx pptx 같은 것들) 스펙에 맞는 문서가 MS 워드에서 깨진다? 그건 MS 워드가 틀린겁니다. KS X 6101 (OWPML, HWPX) 에 맞는 문서가 hnc.exe 에서 깨진다? 이건 한컴이 틀린겁니다 github.com/edwardkim/rh... 이 이슈에서 한컴대로 해야지 왜 한컴이 틀렸다고 하느냐 하는 사람이 타임라인에 보이던데 네 이건 한컴이 KS X 6101 을 준수하는데 실패한 틀린 구현인 거지 rhwp 가 아집부리는 게 아니죠",
+        "author": {
+          "handle": "perillamint.pds.witchcraft.systems",
+          "displayName": "perillamint 🏳️‍⚧️"
+        },
+        "likeCount": 2,
+        "repostCount": 2,
+        "replyCount": 1,
+        "createdAt": "2026-04-21T12:39:03.654Z",
+        "hoursSincePosted": 0.56
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:4rbcfuuvcmkm3seadmhpatmz/app.bsky.feed.post/3mjyytol3ms22",
+          "cid": "bafyreiewggeslpvxfyxb46kpgzdxd4zbkavfcxsg4xh2wvlimxwboefeju",
+          "bskyUrl": "https://bsky.app/profile/perillamint.pds.witchcraft.systems/post/3mjyytol3ms22",
+          "text": "아 그리고 여담: ISO/IEC 29500 (OOXML, docx pptx 같은 것들) 스펙에 맞는 문서가 MS 워드에서 깨진다? 그건 MS 워드가 틀린겁니다. KS X 6101 (OWPML, HWPX) 에 맞는 문서가 hnc.exe 에서 깨진다? 이건 한컴이 틀린겁니다 github.com/edwardkim/rh... 이 이슈에서 한컴대로 해야지 왜 한컴이 틀렸다고 하느냐 하는 사람이 타임라인에 보이던데 네 이건 한컴이 KS X 6101 을 준수하는데 실패한 틀린 구현인 거지 rhwp 가 아집부리는 게 아니죠",
+          "author": {
+            "handle": "perillamint.pds.witchcraft.systems",
+            "displayName": "perillamint 🏳️‍⚧️"
+          },
+          "likeCount": 2,
+          "repostCount": 2,
+          "replyCount": 1,
+          "createdAt": "2026-04-21T12:39:03.654Z",
+          "createdUtc": 1776775143,
+          "ageHours": 0.56,
+          "trendingScore": 6.5,
+          "content_tags": [
+            "has-github-repo",
+            "is-question"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "edwardkim/rhwp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "openai/openai-agents-python": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:n6zzgg5g4qwn4kwwvxs6xjn3/app.bsky.feed.post/3mjyxu2galw2t",
+        "cid": "bafyreih2jqjdjzcmhskbzkdhis2vdvalzvkrec3qyt3zxctgd43k4y7qzq",
+        "bskyUrl": "https://bsky.app/profile/technews4869.bsky.social/post/3mjyxu2galw2t",
+        "text": "github.com/openai/openai-a... GitHub - openai/openai-agents-python: A lightweight, powerful framework for multi-agent workflows",
+        "author": {
+          "handle": "technews4869.bsky.social",
+          "displayName": "technews4869"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-21T12:21:21.489Z",
+        "hoursSincePosted": 0.85
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:n6zzgg5g4qwn4kwwvxs6xjn3/app.bsky.feed.post/3mjyxu2galw2t",
+          "cid": "bafyreih2jqjdjzcmhskbzkdhis2vdvalzvkrec3qyt3zxctgd43k4y7qzq",
+          "bskyUrl": "https://bsky.app/profile/technews4869.bsky.social/post/3mjyxu2galw2t",
+          "text": "github.com/openai/openai-a... GitHub - openai/openai-agents-python: A lightweight, powerful framework for multi-agent workflows",
+          "author": {
+            "handle": "technews4869.bsky.social",
+            "displayName": "technews4869"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-21T12:21:21.489Z",
+          "createdUtc": 1776774081,
+          "ageHours": 0.85,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openai/openai-agents-python",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "cjpais/Handy": {
       "count7d": 1,
       "likesSum7d": 0,
@@ -23,7 +127,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-21T11:50:41Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.36
       },
       "posts": [
         {
@@ -40,7 +144,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-21T11:50:41Z",
           "createdUtc": 1776772241,
-          "ageHours": 0.5,
+          "ageHours": 1.36,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -74,7 +178,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-21T11:43:22.673382Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.49
       },
       "posts": [
         {
@@ -91,7 +195,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-21T11:43:22.673382Z",
           "createdUtc": 1776771802,
-          "ageHours": 0.5,
+          "ageHours": 1.49,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -125,7 +229,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-21T11:38:39.354Z",
-        "hoursSincePosted": 0.53
+        "hoursSincePosted": 1.57
       },
       "posts": [
         {
@@ -142,7 +246,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-21T11:38:39.354Z",
           "createdUtc": 1776771519,
-          "ageHours": 0.53,
+          "ageHours": 1.57,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -176,7 +280,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-21T11:36:09.154Z",
-        "hoursSincePosted": 0.57
+        "hoursSincePosted": 1.61
       },
       "posts": [
         {
@@ -193,7 +297,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-21T11:36:09.154Z",
           "createdUtc": 1776771369,
-          "ageHours": 0.57,
+          "ageHours": 1.61,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -227,7 +331,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-21T11:35:26Z",
-        "hoursSincePosted": 0.58
+        "hoursSincePosted": 1.62
       },
       "posts": [
         {
@@ -244,7 +348,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-21T11:35:26Z",
           "createdUtc": 1776771326,
-          "ageHours": 0.58,
+          "ageHours": 1.62,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -278,7 +382,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-21T11:20:09Z",
-        "hoursSincePosted": 0.83
+        "hoursSincePosted": 1.87
       },
       "posts": [
         {
@@ -295,7 +399,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-21T11:20:09Z",
           "createdUtc": 1776770409,
-          "ageHours": 0.83,
+          "ageHours": 1.87,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -313,7 +417,7 @@
     },
     "MemPalace/mempalace": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -325,11 +429,11 @@
           "handle": "fdoemges.bsky.social",
           "displayName": "Florentine Dömges"
         },
-        "likeCount": 1,
+        "likeCount": 2,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-21T11:13:44.325Z",
-        "hoursSincePosted": 0.94
+        "hoursSincePosted": 1.98
       },
       "posts": [
         {
@@ -341,13 +445,13 @@
             "handle": "fdoemges.bsky.social",
             "displayName": "Florentine Dömges"
           },
-          "likeCount": 1,
+          "likeCount": 2,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-04-21T11:13:44.325Z",
           "createdUtc": 1776770024,
-          "ageHours": 0.94,
-          "trendingScore": 1,
+          "ageHours": 1.98,
+          "trendingScore": 2,
           "content_tags": [
             "has-github-repo"
           ],
@@ -380,7 +484,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-21T11:20:02+02:00",
-        "hoursSincePosted": 2.84
+        "hoursSincePosted": 3.88
       },
       "posts": [
         {
@@ -397,7 +501,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-21T11:20:02+02:00",
           "createdUtc": 1776763202,
-          "ageHours": 2.84,
+          "ageHours": 3.88,
           "trendingScore": 2,
           "content_tags": [
             "has-github-repo"
@@ -431,7 +535,7 @@
         "repostCount": 1,
         "replyCount": 1,
         "createdAt": "2026-04-21T08:27:59.427Z",
-        "hoursSincePosted": 3.7
+        "hoursSincePosted": 4.74
       },
       "posts": [
         {
@@ -448,7 +552,7 @@
           "replyCount": 1,
           "createdAt": "2026-04-21T08:27:59.427Z",
           "createdUtc": 1776760079,
-          "ageHours": 3.7,
+          "ageHours": 4.74,
           "trendingScore": 17.5,
           "content_tags": [
             "has-github-repo"
@@ -472,14 +576,19 @@
       "likesSum7d": 15
     },
     {
-      "fullName": "phuryn/claude-usage",
+      "fullName": "edwardkim/rhwp",
       "count7d": 1,
       "likesSum7d": 2
     },
     {
       "fullName": "MemPalace/mempalace",
       "count7d": 1,
-      "likesSum7d": 1
+      "likesSum7d": 2
+    },
+    {
+      "fullName": "phuryn/claude-usage",
+      "count7d": 1,
+      "likesSum7d": 2
     },
     {
       "fullName": "vercel-labs/skills",
@@ -498,6 +607,11 @@
     },
     {
       "fullName": "elder-plinius/OBLITERATUS",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "openai/openai-agents-python",
       "count7d": 1,
       "likesSum7d": 0
     },

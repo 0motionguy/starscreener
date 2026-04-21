@@ -27,16 +27,24 @@ jobs:
           node-version: "20"
 
       - name: Compute Reddit baselines
+        env:
+          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+          REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
         run: node scripts/compute-reddit-baselines.mjs
 
       - name: Refresh Reddit mentions with fresh baselines
+        env:
+          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+          REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
         run: node scripts/scrape-reddit.mjs
 
       - name: Commit if changed
         run: |
           git config user.name  "starscreener-bot"
           git config user.email "bot@starscreener.local"
-          git add data/reddit-baselines.json data/reddit-mentions.json
+          git add data/reddit-baselines.json data/reddit-mentions.json data/reddit-all-posts.json
           if git diff --quiet --staged; then
             echo "no changes - skipping commit"
             exit 0

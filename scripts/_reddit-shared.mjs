@@ -1,23 +1,116 @@
 // Shared config for all Reddit scrapers (scrape-reddit, compute-reddit-baselines).
 // Single source of truth so the sub list, UA, and fetch helper stay in sync.
 //
-// Reddit's public JSON endpoints require a descriptive User-Agent per their
-// API policy — browser-default UAs get rate-limited aggressively. In
-// practice, anonymous limits are closer to ~15 req/min than the old 60/min
-// folklore, so the shared pause stays at 5s/request (~12 req/min).
+// Default mode is Reddit's public JSON. When REDDIT_CLIENT_ID is present we
+// upgrade transparently to OAuth and hit oauth.reddit.com instead. That keeps
+// the scraper working when anonymous GH Actions traffic starts getting 403s.
 
 import { fetchJsonWithRetry } from "./_fetch-json.mjs";
 
-export const USER_AGENT =
-  "StarScreener/0.1 (+https://github.com/0motionguy/starscreener; local-dev-scrape)";
+const DEFAULT_USER_AGENT =
+  "StarScreener/0.1 (+https://github.com/0motionguy/starscreener; reddit-scrape)";
+const PUBLIC_REDDIT_ORIGIN = "https://www.reddit.com";
+const TOKEN_URL = `${PUBLIC_REDDIT_ORIGIN}/api/v1/access_token`;
+
+let oauthTokenCache = null;
+
+function readEnv(name) {
+  const value = process.env[name];
+  return typeof value === "string" ? value.trim() : "";
+}
+
+export function getRedditUserAgent() {
+  return readEnv("REDDIT_USER_AGENT") || DEFAULT_USER_AGENT;
+}
+
+export function hasRedditOAuthCreds() {
+  return readEnv("REDDIT_CLIENT_ID").length > 0;
+}
+
+export function getRedditAuthMode() {
+  return hasRedditOAuthCreds() ? "oauth" : "public-json";
+}
+
+export function resolveRedditApiUrl(url) {
+  if (!hasRedditOAuthCreds()) return url;
+  const resolved = new URL(url);
+  if (resolved.origin === PUBLIC_REDDIT_ORIGIN) {
+    resolved.protocol = "https:";
+    resolved.host = "oauth.reddit.com";
+  }
+  return resolved.toString();
+}
+
+function getOAuthCacheKey() {
+  const clientId = readEnv("REDDIT_CLIENT_ID");
+  const clientSecret = process.env.REDDIT_CLIENT_SECRET ?? "";
+  return `${clientId}:${clientSecret}`;
+}
+
+async function getRedditAccessToken(fetchImpl = fetch) {
+  if (!hasRedditOAuthCreds()) return null;
+
+  const cacheKey = getOAuthCacheKey();
+  const now = Date.now();
+  if (
+    oauthTokenCache &&
+    oauthTokenCache.cacheKey === cacheKey &&
+    oauthTokenCache.expiresAtMs > now + 60_000
+  ) {
+    return oauthTokenCache.accessToken;
+  }
+
+  const clientId = readEnv("REDDIT_CLIENT_ID");
+  const clientSecret = process.env.REDDIT_CLIENT_SECRET ?? "";
+  const basicAuth = Buffer.from(`${clientId}:${clientSecret}`, "utf8").toString(
+    "base64",
+  );
+  const tokenBody = new URLSearchParams({
+    grant_type: "client_credentials",
+  }).toString();
+
+  const token = await fetchJsonWithRetry(TOKEN_URL, {
+    method: "POST",
+    headers: {
+      Authorization: `Basic ${basicAuth}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+      Accept: "application/json",
+      "User-Agent": getRedditUserAgent(),
+    },
+    body: tokenBody,
+    attempts: 2,
+    retryDelayMs: 1000,
+    timeoutMs: 15_000,
+    fetchImpl,
+  });
+
+  if (!token?.access_token || typeof token.access_token !== "string") {
+    throw new Error("reddit oauth token response missing access_token");
+  }
+
+  const expiresInSec =
+    Number.isFinite(token.expires_in) && token.expires_in > 0
+      ? token.expires_in
+      : 3600;
+  oauthTokenCache = {
+    cacheKey,
+    accessToken: token.access_token,
+    expiresAtMs: now + expiresInSec * 1000,
+  };
+  return oauthTokenCache.accessToken;
+}
+
+export function resetRedditAuthCacheForTests() {
+  oauthTokenCache = null;
+}
 
 export const REQUEST_PAUSE_MS = 5000;
 
 // Subreddit list mirrors agnt.newsroom's reddit_ai_core + reddit_ai_extended
 // watchers (config/watchers.yaml). Two tiers:
 //   - core: highest signal density for AI dev tooling (14)
-//   - extended: broader ecosystem — coding, frameworks, automation (31)
-// Note: r/ArtificialInteligence is intentionally misspelled (single 'l') —
+//   - extended: broader ecosystem - coding, frameworks, automation (31)
+// Note: r/ArtificialInteligence is intentionally misspelled (single 'l') -
 // that's the actual subreddit URL; the correctly-spelled version is a
 // squat with 1k members.
 export const SUBREDDITS = [
@@ -77,16 +170,23 @@ export const SUBREDDITS = [
   "nocode",
 ];
 
-export const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+export const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-export async function fetchRedditJson(url) {
-  return fetchJsonWithRetry(url, {
-    headers: {
-      "User-Agent": USER_AGENT,
-      Accept: "application/json",
-    },
+export async function fetchRedditJson(url, { fetchImpl = fetch } = {}) {
+  const headers = {
+    "User-Agent": getRedditUserAgent(),
+    Accept: "application/json",
+  };
+
+  if (hasRedditOAuthCreds()) {
+    headers.Authorization = `Bearer ${await getRedditAccessToken(fetchImpl)}`;
+  }
+
+  return fetchJsonWithRetry(resolveRedditApiUrl(url), {
+    headers,
     attempts: 2,
     retryDelayMs: 1000,
     timeoutMs: 15_000,
+    fetchImpl,
   });
 }

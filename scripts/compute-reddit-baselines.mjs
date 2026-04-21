@@ -25,6 +25,7 @@ import {
   SUBREDDITS,
   sleep,
   fetchRedditJson,
+  getRedditAuthMode,
 } from "./_reddit-shared.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -222,6 +223,7 @@ function computeSubBaseline(posts) {
 async function main() {
   const cutoffUtc = Math.floor(Date.now() / 1000) - WINDOW_SECONDS;
   const existing = await loadExistingBaselines();
+  log(`auth mode: ${getRedditAuthMode()}`);
   // Carry forward prior-run results; this pass only touches subs missing
   // or errored last time.
   const baselines = { ...existing.baselines };

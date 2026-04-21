@@ -33,6 +33,7 @@ import {
   REQUEST_PAUSE_MS,
   sleep,
   fetchRedditJson,
+  getRedditAuthMode,
 } from "./_reddit-shared.mjs";
 import { classifyPost, ensurePostClassification } from "./classify-post.mjs";
 import { recentRepoRows } from "./_tracked-repos.mjs";
@@ -337,6 +338,7 @@ async function main() {
   const { computedAt: baselinesComputedAt, baselines } = await loadBaselines();
   const baselineCount = Object.keys(baselines).length;
   log(`tracked repos: ${tracked.size}`);
+  log(`auth mode: ${getRedditAuthMode()}`);
   log(
     baselineCount === 0
       ? `baselines: cold (run \`npm run compute:reddit-baselines\` for per-sub normalization)`

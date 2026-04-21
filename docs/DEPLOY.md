@@ -44,6 +44,15 @@ ProductHunt ingestion is GitHub Actions-only. Add a repository secret named
 `PRODUCTHUNT_TOKEN` for `.github/workflows/scrape-producthunt.yml`; Vercel and
 Railway do not need it unless you run `npm run scrape:ph` directly there.
 
+Bluesky ingestion is GitHub Actions-only too. Add `BLUESKY_HANDLE` and
+`BLUESKY_APP_PASSWORD` repository secrets for
+`.github/workflows/scrape-bluesky.yml`.
+
+Reddit can run anonymously, but production is more reliable with OAuth.
+Add `REDDIT_CLIENT_ID`, `REDDIT_CLIENT_SECRET`, and optionally
+`REDDIT_USER_AGENT` as repository secrets so the Reddit scrapers can use
+`oauth.reddit.com` in GitHub Actions instead of the public JSON endpoints.
+
 ---
 
 ## Vercel deploy
@@ -130,10 +139,14 @@ Secrets are NEVER committed. Paste these once in each dashboard:
 ### Vercel (https://vercel.com/kermits-projects-6330acd4/starscreener/settings/environment-variables)
 - `GITHUB_TOKEN` — GitHub PAT
 - `CRON_SECRET` — already set via CLI. Rotate via dashboard if leaked.
+- `BLUESKY_HANDLE` / `BLUESKY_APP_PASSWORD` — only if you want runtime/local parity for Bluesky scraping outside GitHub Actions
+- `REDDIT_CLIENT_ID` / `REDDIT_CLIENT_SECRET` / `REDDIT_USER_AGENT` — only if you run Reddit scrapers outside GitHub Actions
 
 ### Railway (project → starscreener service → Variables)
 - `GITHUB_TOKEN` — same GitHub PAT
 - `CRON_SECRET` — already set
+- `BLUESKY_HANDLE` / `BLUESKY_APP_PASSWORD` — only if you run Bluesky scraping there
+- `REDDIT_CLIENT_ID` / `REDDIT_CLIENT_SECRET` / `REDDIT_USER_AGENT` — only if you run Reddit scraping there
 
 Both deploys must share the same `CRON_SECRET` so authenticated admin
 requests work against either host.

@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-04-21T06:23:45.412Z",
+  "fetchedAt": "2026-04-20T16:05:38.796Z",
   "cold": false,
   "scannedSubreddits": [
     "ClaudeAI",
@@ -50,62 +50,6 @@
   ],
   "scannedPostsTotal": 4500,
   "mentions": {
-    "thedotmack/claude-mem": {
-      "count7d": 1,
-      "upvotes7d": 1,
-      "posts": [
-        {
-          "id": "1srdpn8",
-          "subreddit": "ClaudeAI",
-          "title": "Need an alternative to thedotmack/claude-mem. Current state of the plugin is beyond unusable.",
-          "url": "https://www.reddit.com/r/ClaudeAI/comments/1srdpn8/need_an_alternative_to_thedotmackclaudemem/",
-          "permalink": "https://www.reddit.com/r/ClaudeAI/comments/1srdpn8/need_an_alternative_to_thedotmackclaudemem/",
-          "score": 1,
-          "numComments": 6,
-          "createdUtc": 1776746873,
-          "author": "xii",
-          "repoFullName": "thedotmack/claude-mem",
-          "baselineRatio": null,
-          "baselineTier": "no-baseline",
-          "baselineConfidence": null,
-          "ageHours": 1.6,
-          "velocity": 0.63,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1
-        }
-      ]
-    },
-    "Gitlawb/openclaude": {
-      "count7d": 1,
-      "upvotes7d": 0,
-      "posts": [
-        {
-          "id": "1sr8dpx",
-          "subreddit": "LocalLLaMA",
-          "title": "openclaude does not run on arch",
-          "url": "https://www.reddit.com/r/LocalLLaMA/comments/1sr8dpx/openclaude_does_not_run_on_arch/",
-          "permalink": "https://www.reddit.com/r/LocalLLaMA/comments/1sr8dpx/openclaude_does_not_run_on_arch/",
-          "score": 0,
-          "numComments": 2,
-          "createdUtc": 1776732046,
-          "author": "Alexercer",
-          "repoFullName": "Gitlawb/openclaude",
-          "baselineRatio": null,
-          "baselineTier": "no-baseline",
-          "baselineConfidence": null,
-          "ageHours": 5.72,
-          "velocity": 0,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1
-        }
-      ]
-    },
     "NousResearch/hermes-agent": {
       "count7d": 1,
       "upvotes7d": 0,
@@ -121,10 +65,10 @@
           "createdUtc": 1776686925,
           "author": "ZestycloseTie1793",
           "repoFullName": "NousResearch/hermes-agent",
-          "baselineRatio": null,
-          "baselineTier": "no-baseline",
-          "baselineConfidence": null,
-          "ageHours": 18.26,
+          "baselineRatio": 0,
+          "baselineTier": "below-average",
+          "baselineConfidence": "high",
+          "ageHours": 3.95,
           "velocity": 0,
           "trendingScore": 0,
           "content_tags": [
@@ -149,10 +93,10 @@
           "createdUtc": 1776296327,
           "author": "stosssik",
           "repoFullName": "mnfst/manifest",
-          "baselineRatio": null,
-          "baselineTier": "no-baseline",
-          "baselineConfidence": null,
-          "ageHours": 126.76,
+          "baselineRatio": 0,
+          "baselineTier": "below-average",
+          "baselineConfidence": "medium",
+          "ageHours": 112.46,
           "velocity": 0,
           "trendingScore": 0,
           "content_tags": [
@@ -164,68 +108,33 @@
         }
       ]
     },
-    "anthropics/claude-code": {
-      "count7d": 1,
-      "upvotes7d": 7,
+    "QwenLM/qwen-code": {
+      "count7d": 2,
+      "upvotes7d": 3,
       "posts": [
         {
-          "id": "1sr6ohd",
-          "subreddit": "ClaudeCode",
-          "title": "The new code agent harness is too restrictive",
-          "url": "https://www.reddit.com/r/ClaudeCode/comments/1sr6ohd/the_new_code_agent_harness_is_too_restrictive/",
-          "permalink": "https://www.reddit.com/r/ClaudeCode/comments/1sr6ohd/the_new_code_agent_harness_is_too_restrictive/",
-          "score": 7,
-          "numComments": 13,
-          "createdUtc": 1776727710,
-          "author": "proxiblue",
-          "repoFullName": "anthropics/claude-code",
-          "baselineRatio": null,
-          "baselineTier": "no-baseline",
-          "baselineConfidence": null,
-          "ageHours": 6.95,
-          "velocity": 1.01,
-          "trendingScore": 0.85,
-          "content_tags": [
-            "has-tutorial",
-            "is-announcement"
-          ],
-          "value_score": 2
-        }
-      ]
-    },
-    "dpaul0501/panini": {
-      "count7d": 1,
-      "upvotes7d": 1,
-      "posts": [
-        {
-          "id": "1sqiqut",
-          "subreddit": "aiagents",
-          "title": "2,400-Year-Old Language Logic vs Modern AI Agents (And It Actually Works)",
-          "url": "https://www.reddit.com/r/aiagents/comments/1sqiqut/2400yearold_language_logic_vs_modern_ai_agents/",
-          "permalink": "https://www.reddit.com/r/aiagents/comments/1sqiqut/2400yearold_language_logic_vs_modern_ai_agents/",
-          "score": 1,
-          "numComments": 0,
-          "createdUtc": 1776671575,
-          "author": "Nice_Interaction555",
-          "repoFullName": "dpaul0501/panini",
-          "baselineRatio": null,
-          "baselineTier": "no-baseline",
-          "baselineConfidence": null,
-          "ageHours": 22.54,
-          "velocity": 0.04,
-          "trendingScore": 0,
+          "id": "1sn9j5c",
+          "subreddit": "LLMDevs",
+          "title": "Qwen OAuth free tier is gone as of yesterday : what's everyone switching to?",
+          "url": "https://github.com/QwenLM/qwen-code/issues/3203",
+          "permalink": "https://www.reddit.com/r/LLMDevs/comments/1sn9j5c/qwen_oauth_free_tier_is_gone_as_of_yesterday/",
+          "score": 2,
+          "numComments": 6,
+          "createdUtc": 1776358919,
+          "author": "ritzkew",
+          "repoFullName": "QwenLM/qwen-code",
+          "baselineRatio": 1,
+          "baselineTier": "normal",
+          "baselineConfidence": "high",
+          "ageHours": 95.08,
+          "velocity": 0.02,
+          "trendingScore": 0.01,
           "content_tags": [
             "has-github-repo",
-            "has-agent"
+            "is-question"
           ],
-          "value_score": 2
-        }
-      ]
-    },
-    "QwenLM/qwen-code": {
-      "count7d": 1,
-      "upvotes7d": 1,
-      "posts": [
+          "value_score": 1
+        },
         {
           "id": "1sn61ya",
           "subreddit": "aiagents",
@@ -237,10 +146,10 @@
           "createdUtc": 1776351610,
           "author": "KlausWalz",
           "repoFullName": "QwenLM/qwen-code",
-          "baselineRatio": null,
-          "baselineTier": "no-baseline",
-          "baselineConfidence": null,
-          "ageHours": 111.42,
+          "baselineRatio": 0.5,
+          "baselineTier": "below-average",
+          "baselineConfidence": "high",
+          "ageHours": 97.12,
           "velocity": 0.01,
           "trendingScore": 0,
           "content_tags": [
@@ -265,11 +174,11 @@
           "createdUtc": 1776593451,
           "author": "shanraisshan",
           "repoFullName": "shanraisshan/claude-code-best-practice",
-          "baselineRatio": null,
-          "baselineTier": "no-baseline",
-          "baselineConfidence": null,
-          "ageHours": 44.24,
-          "velocity": 0.05,
+          "baselineRatio": 1,
+          "baselineTier": "normal",
+          "baselineConfidence": "high",
+          "ageHours": 29.94,
+          "velocity": 0.07,
           "trendingScore": 0.02,
           "content_tags": [
             "has-github-repo",
@@ -283,7 +192,7 @@
     },
     "chrishayuk/larql": {
       "count7d": 1,
-      "upvotes7d": 69,
+      "upvotes7d": 66,
       "posts": [
         {
           "id": "1slmfmw",
@@ -291,17 +200,17 @@
           "title": "You can decompose models into a graph database [N]",
           "url": "https://www.reddit.com/r/MachineLearning/comments/1slmfmw/you_can_decompose_models_into_a_graph_database_n/",
           "permalink": "https://www.reddit.com/r/MachineLearning/comments/1slmfmw/you_can_decompose_models_into_a_graph_database_n/",
-          "score": 69,
+          "score": 66,
           "numComments": 28,
           "createdUtc": 1776202699,
           "author": "Educational_Win_2982",
           "repoFullName": "chrishayuk/larql",
-          "baselineRatio": null,
-          "baselineTier": "no-baseline",
-          "baselineConfidence": null,
-          "ageHours": 152.79,
-          "velocity": 0.45,
-          "trendingScore": 0.83,
+          "baselineRatio": 5.5,
+          "baselineTier": "above-average",
+          "baselineConfidence": "high",
+          "ageHours": 138.49,
+          "velocity": 0.48,
+          "trendingScore": 4.8,
           "content_tags": [
             "has-github-repo"
           ],
@@ -309,131 +218,27 @@
         }
       ]
     },
-    "ChuprinaDaria/Vibecode-Cleaner-Fartrun": {
+    "rorkai/App-Store-Connect-CLI": {
       "count7d": 1,
-      "upvotes7d": 1,
+      "upvotes7d": 38,
       "posts": [
         {
-          "id": "1srf4el",
+          "id": "1sqqh7b",
           "subreddit": "vibecoding",
-          "title": "I built a free local scanner that cleans up your vibe-coded projects — no tokens, no cloud, just a health report you paste to Claude. Also it farts at you.",
-          "url": "https://github.com/ChuprinaDaria/Vibecode-Cleaner-Fartrun",
-          "permalink": "https://www.reddit.com/r/vibecoding/comments/1srf4el/i_built_a_free_local_scanner_that_cleans_up_your/",
-          "score": 1,
-          "numComments": 1,
-          "createdUtc": 1776751326,
-          "author": "Illustrious_Grass534",
-          "repoFullName": "ChuprinaDaria/Vibecode-Cleaner-Fartrun",
-          "baselineRatio": null,
-          "baselineTier": "no-baseline",
-          "baselineConfidence": null,
-          "ageHours": 0.5,
-          "velocity": 2,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1
-        }
-      ]
-    },
-    "anthropics/skills": {
-      "count7d": 1,
-      "upvotes7d": 80,
-      "posts": [
-        {
-          "id": "1sqy2ay",
-          "subreddit": "vibecoding",
-          "title": "AMA: I'm Louise Macfadyen, author of Designing AI Interfaces and former Google and Microsoft product designer.  Ask me anything!",
-          "url": "https://www.reddit.com/r/vibecoding/comments/1sqy2ay/ama_im_louise_macfadyen_author_of_designing_ai/",
-          "permalink": "https://www.reddit.com/r/vibecoding/comments/1sqy2ay/ama_im_louise_macfadyen_author_of_designing_ai/",
-          "score": 80,
-          "numComments": 39,
-          "createdUtc": 1776709764,
-          "author": "interface_dot_env",
-          "repoFullName": "anthropics/skills",
-          "baselineRatio": null,
-          "baselineTier": "no-baseline",
-          "baselineConfidence": null,
-          "ageHours": 11.94,
-          "velocity": 6.7,
-          "trendingScore": 12.75,
-          "content_tags": [],
-          "value_score": 0
-        }
-      ]
-    },
-    "p-e-w/heretic": {
-      "count7d": 1,
-      "upvotes7d": 15,
-      "posts": [
-        {
-          "id": "1sqzmd4",
-          "subreddit": "LocalLLM",
-          "title": "Abliterlitics: Benchmark and Tensor Analysis Comparing Qwen 3/3.5 with HauhauCS / Heretic / Huihui models",
-          "url": "https://www.reddit.com/r/LocalLLM/comments/1sqzmd4/abliterlitics_benchmark_and_tensor_analysis/",
-          "permalink": "https://www.reddit.com/r/LocalLLM/comments/1sqzmd4/abliterlitics_benchmark_and_tensor_analysis/",
-          "score": 15,
-          "numComments": 6,
-          "createdUtc": 1776712581,
-          "author": "nathandreamfast",
-          "repoFullName": "p-e-w/heretic",
-          "baselineRatio": null,
-          "baselineTier": "no-baseline",
-          "baselineConfidence": null,
-          "ageHours": 11.18,
-          "velocity": 1.34,
-          "trendingScore": 1.58,
-          "content_tags": [
-            "is-announcement"
-          ],
-          "value_score": 1
-        }
-      ]
-    },
-    "orneryd/NornicDB": {
-      "count7d": 2,
-      "upvotes7d": 1,
-      "posts": [
-        {
-          "id": "1sr9bkc",
-          "subreddit": "Rag",
-          "title": "Ebbinggaus is insufficient according to April 2026 research",
-          "url": "https://www.reddit.com/r/Rag/comments/1sr9bkc/ebbinggaus_is_insufficient_according_to_april/",
-          "permalink": "https://www.reddit.com/r/Rag/comments/1sr9bkc/ebbinggaus_is_insufficient_according_to_april/",
-          "score": 1,
-          "numComments": 0,
-          "createdUtc": 1776734526,
-          "author": "Dense_Gate_5193",
-          "repoFullName": "orneryd/NornicDB",
-          "baselineRatio": null,
-          "baselineTier": "no-baseline",
-          "baselineConfidence": null,
-          "ageHours": 5.1,
-          "velocity": 0.2,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1
-        },
-        {
-          "id": "1smibsh",
-          "subreddit": "Rag",
-          "title": "NornicDB - v1.0.41 adds graph visualizer",
-          "url": "https://www.reddit.com/r/Rag/comments/1smibsh/nornicdb_v1041_adds_graph_visualizer/",
-          "permalink": "https://www.reddit.com/r/Rag/comments/1smibsh/nornicdb_v1041_adds_graph_visualizer/",
-          "score": 0,
-          "numComments": 0,
-          "createdUtc": 1776285743,
-          "author": "Dense_Gate_5193",
-          "repoFullName": "orneryd/NornicDB",
-          "baselineRatio": null,
-          "baselineTier": "no-baseline",
-          "baselineConfidence": null,
-          "ageHours": 129.76,
-          "velocity": 0,
-          "trendingScore": 0,
+          "title": "WE Built 3 IOS Apps with the Exact Same Skills &amp; framework &amp; Made around $7k+.",
+          "url": "https://www.reddit.com/r/vibecoding/comments/1sqqh7b/we_built_3_ios_apps_with_the_exact_same_skills/",
+          "permalink": "https://www.reddit.com/r/vibecoding/comments/1sqqh7b/we_built_3_ios_apps_with_the_exact_same_skills/",
+          "score": 38,
+          "numComments": 16,
+          "createdUtc": 1776694212,
+          "author": "HuckleberryEntire699",
+          "repoFullName": "rorkai/App-Store-Connect-CLI",
+          "baselineRatio": 38,
+          "baselineTier": "breakout",
+          "baselineConfidence": "high",
+          "ageHours": 1.96,
+          "velocity": 19.36,
+          "trendingScore": 1162.22,
           "content_tags": [
             "has-github-repo"
           ],
@@ -456,18 +261,46 @@
           "createdUtc": 1776497980,
           "author": "Express-Passion4896",
           "repoFullName": "volcengine/OpenViking",
-          "baselineRatio": null,
-          "baselineTier": "no-baseline",
-          "baselineConfidence": null,
-          "ageHours": 70.81,
-          "velocity": 0.04,
-          "trendingScore": 0.02,
+          "baselineRatio": 0.6,
+          "baselineTier": "below-average",
+          "baselineConfidence": "high",
+          "ageHours": 56.52,
+          "velocity": 0.05,
+          "trendingScore": 0.01,
           "content_tags": [
             "has-github-repo",
             "has-agent",
             "is-announcement"
           ],
           "value_score": 3
+        }
+      ]
+    },
+    "orneryd/NornicDB": {
+      "count7d": 1,
+      "upvotes7d": 0,
+      "posts": [
+        {
+          "id": "1smibsh",
+          "subreddit": "Rag",
+          "title": "NornicDB - v1.0.41 adds graph visualizer",
+          "url": "https://www.reddit.com/r/Rag/comments/1smibsh/nornicdb_v1041_adds_graph_visualizer/",
+          "permalink": "https://www.reddit.com/r/Rag/comments/1smibsh/nornicdb_v1041_adds_graph_visualizer/",
+          "score": 0,
+          "numComments": 0,
+          "createdUtc": 1776285743,
+          "author": "Dense_Gate_5193",
+          "repoFullName": "orneryd/NornicDB",
+          "baselineRatio": 0,
+          "baselineTier": "below-average",
+          "baselineConfidence": "high",
+          "ageHours": 115.48,
+          "velocity": 0,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1
         }
       ]
     },
@@ -486,10 +319,10 @@
           "createdUtc": 1776265012,
           "author": "Least-Tangerine-8402",
           "repoFullName": "JuliusBrussee/caveman",
-          "baselineRatio": null,
-          "baselineTier": "no-baseline",
-          "baselineConfidence": null,
-          "ageHours": 135.53,
+          "baselineRatio": 0.5,
+          "baselineTier": "below-average",
+          "baselineConfidence": "high",
+          "ageHours": 121.25,
           "velocity": 0.01,
           "trendingScore": 0,
           "content_tags": [
@@ -502,157 +335,26 @@
   },
   "allPosts": [
     {
-      "id": "1srf4el",
+      "id": "1sqqh7b",
       "subreddit": "vibecoding",
-      "title": "I built a free local scanner that cleans up your vibe-coded projects — no tokens, no cloud, just a health report you paste to Claude. Also it farts at you.",
-      "url": "https://github.com/ChuprinaDaria/Vibecode-Cleaner-Fartrun",
-      "permalink": "https://www.reddit.com/r/vibecoding/comments/1srf4el/i_built_a_free_local_scanner_that_cleans_up_your/",
-      "score": 1,
-      "numComments": 1,
-      "createdUtc": 1776751326,
-      "author": "Illustrious_Grass534",
-      "repoFullName": "ChuprinaDaria/Vibecode-Cleaner-Fartrun",
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 0.5,
-      "velocity": 2,
-      "trendingScore": 0,
+      "title": "WE Built 3 IOS Apps with the Exact Same Skills &amp; framework &amp; Made around $7k+.",
+      "url": "https://www.reddit.com/r/vibecoding/comments/1sqqh7b/we_built_3_ios_apps_with_the_exact_same_skills/",
+      "permalink": "https://www.reddit.com/r/vibecoding/comments/1sqqh7b/we_built_3_ios_apps_with_the_exact_same_skills/",
+      "score": 38,
+      "numComments": 16,
+      "createdUtc": 1776694212,
+      "author": "HuckleberryEntire699",
+      "repoFullName": "rorkai/App-Store-Connect-CLI",
+      "baselineRatio": 38,
+      "baselineTier": "breakout",
+      "baselineConfidence": "high",
+      "ageHours": 1.96,
+      "velocity": 19.36,
+      "trendingScore": 1162.22,
       "content_tags": [
         "has-github-repo"
       ],
       "value_score": 1
-    },
-    {
-      "id": "1srdpn8",
-      "subreddit": "ClaudeAI",
-      "title": "Need an alternative to thedotmack/claude-mem. Current state of the plugin is beyond unusable.",
-      "url": "https://www.reddit.com/r/ClaudeAI/comments/1srdpn8/need_an_alternative_to_thedotmackclaudemem/",
-      "permalink": "https://www.reddit.com/r/ClaudeAI/comments/1srdpn8/need_an_alternative_to_thedotmackclaudemem/",
-      "score": 1,
-      "numComments": 6,
-      "createdUtc": 1776746873,
-      "author": "xii",
-      "repoFullName": "thedotmack/claude-mem",
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 1.6,
-      "velocity": 0.63,
-      "trendingScore": 0,
-      "content_tags": [
-        "has-github-repo"
-      ],
-      "value_score": 1
-    },
-    {
-      "id": "1sr9bkc",
-      "subreddit": "Rag",
-      "title": "Ebbinggaus is insufficient according to April 2026 research",
-      "url": "https://www.reddit.com/r/Rag/comments/1sr9bkc/ebbinggaus_is_insufficient_according_to_april/",
-      "permalink": "https://www.reddit.com/r/Rag/comments/1sr9bkc/ebbinggaus_is_insufficient_according_to_april/",
-      "score": 1,
-      "numComments": 0,
-      "createdUtc": 1776734526,
-      "author": "Dense_Gate_5193",
-      "repoFullName": "orneryd/NornicDB",
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 5.1,
-      "velocity": 0.2,
-      "trendingScore": 0,
-      "content_tags": [
-        "has-github-repo"
-      ],
-      "value_score": 1
-    },
-    {
-      "id": "1sr8dpx",
-      "subreddit": "LocalLLaMA",
-      "title": "openclaude does not run on arch",
-      "url": "https://www.reddit.com/r/LocalLLaMA/comments/1sr8dpx/openclaude_does_not_run_on_arch/",
-      "permalink": "https://www.reddit.com/r/LocalLLaMA/comments/1sr8dpx/openclaude_does_not_run_on_arch/",
-      "score": 0,
-      "numComments": 2,
-      "createdUtc": 1776732046,
-      "author": "Alexercer",
-      "repoFullName": "Gitlawb/openclaude",
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 5.72,
-      "velocity": 0,
-      "trendingScore": 0,
-      "content_tags": [
-        "has-github-repo"
-      ],
-      "value_score": 1
-    },
-    {
-      "id": "1sr6ohd",
-      "subreddit": "ClaudeCode",
-      "title": "The new code agent harness is too restrictive",
-      "url": "https://www.reddit.com/r/ClaudeCode/comments/1sr6ohd/the_new_code_agent_harness_is_too_restrictive/",
-      "permalink": "https://www.reddit.com/r/ClaudeCode/comments/1sr6ohd/the_new_code_agent_harness_is_too_restrictive/",
-      "score": 7,
-      "numComments": 13,
-      "createdUtc": 1776727710,
-      "author": "proxiblue",
-      "repoFullName": "anthropics/claude-code",
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 6.95,
-      "velocity": 1.01,
-      "trendingScore": 0.85,
-      "content_tags": [
-        "has-tutorial",
-        "is-announcement"
-      ],
-      "value_score": 2
-    },
-    {
-      "id": "1sqzmd4",
-      "subreddit": "LocalLLM",
-      "title": "Abliterlitics: Benchmark and Tensor Analysis Comparing Qwen 3/3.5 with HauhauCS / Heretic / Huihui models",
-      "url": "https://www.reddit.com/r/LocalLLM/comments/1sqzmd4/abliterlitics_benchmark_and_tensor_analysis/",
-      "permalink": "https://www.reddit.com/r/LocalLLM/comments/1sqzmd4/abliterlitics_benchmark_and_tensor_analysis/",
-      "score": 15,
-      "numComments": 6,
-      "createdUtc": 1776712581,
-      "author": "nathandreamfast",
-      "repoFullName": "p-e-w/heretic",
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 11.18,
-      "velocity": 1.34,
-      "trendingScore": 1.58,
-      "content_tags": [
-        "is-announcement"
-      ],
-      "value_score": 1
-    },
-    {
-      "id": "1sqy2ay",
-      "subreddit": "vibecoding",
-      "title": "AMA: I'm Louise Macfadyen, author of Designing AI Interfaces and former Google and Microsoft product designer.  Ask me anything!",
-      "url": "https://www.reddit.com/r/vibecoding/comments/1sqy2ay/ama_im_louise_macfadyen_author_of_designing_ai/",
-      "permalink": "https://www.reddit.com/r/vibecoding/comments/1sqy2ay/ama_im_louise_macfadyen_author_of_designing_ai/",
-      "score": 80,
-      "numComments": 39,
-      "createdUtc": 1776709764,
-      "author": "interface_dot_env",
-      "repoFullName": "anthropics/skills",
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 11.94,
-      "velocity": 6.7,
-      "trendingScore": 12.75,
-      "content_tags": [],
-      "value_score": 0
     },
     {
       "id": "1sqnf91",
@@ -665,39 +367,16 @@
       "createdUtc": 1776686925,
       "author": "ZestycloseTie1793",
       "repoFullName": "NousResearch/hermes-agent",
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 18.26,
+      "baselineRatio": 0,
+      "baselineTier": "below-average",
+      "baselineConfidence": "high",
+      "ageHours": 3.95,
       "velocity": 0,
       "trendingScore": 0,
       "content_tags": [
         "is-question"
       ],
       "value_score": 0
-    },
-    {
-      "id": "1sqiqut",
-      "subreddit": "aiagents",
-      "title": "2,400-Year-Old Language Logic vs Modern AI Agents (And It Actually Works)",
-      "url": "https://www.reddit.com/r/aiagents/comments/1sqiqut/2400yearold_language_logic_vs_modern_ai_agents/",
-      "permalink": "https://www.reddit.com/r/aiagents/comments/1sqiqut/2400yearold_language_logic_vs_modern_ai_agents/",
-      "score": 1,
-      "numComments": 0,
-      "createdUtc": 1776671575,
-      "author": "Nice_Interaction555",
-      "repoFullName": "dpaul0501/panini",
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 22.54,
-      "velocity": 0.04,
-      "trendingScore": 0,
-      "content_tags": [
-        "has-github-repo",
-        "has-agent"
-      ],
-      "value_score": 2
     },
     {
       "id": "1spozze",
@@ -710,11 +389,11 @@
       "createdUtc": 1776593451,
       "author": "shanraisshan",
       "repoFullName": "shanraisshan/claude-code-best-practice",
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 44.24,
-      "velocity": 0.05,
+      "baselineRatio": 1,
+      "baselineTier": "normal",
+      "baselineConfidence": "high",
+      "ageHours": 29.94,
+      "velocity": 0.07,
       "trendingScore": 0.02,
       "content_tags": [
         "has-github-repo",
@@ -735,18 +414,41 @@
       "createdUtc": 1776497980,
       "author": "Express-Passion4896",
       "repoFullName": "volcengine/OpenViking",
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 70.81,
-      "velocity": 0.04,
-      "trendingScore": 0.02,
+      "baselineRatio": 0.6,
+      "baselineTier": "below-average",
+      "baselineConfidence": "high",
+      "ageHours": 56.52,
+      "velocity": 0.05,
+      "trendingScore": 0.01,
       "content_tags": [
         "has-github-repo",
         "has-agent",
         "is-announcement"
       ],
       "value_score": 3
+    },
+    {
+      "id": "1sn9j5c",
+      "subreddit": "LLMDevs",
+      "title": "Qwen OAuth free tier is gone as of yesterday : what's everyone switching to?",
+      "url": "https://github.com/QwenLM/qwen-code/issues/3203",
+      "permalink": "https://www.reddit.com/r/LLMDevs/comments/1sn9j5c/qwen_oauth_free_tier_is_gone_as_of_yesterday/",
+      "score": 2,
+      "numComments": 6,
+      "createdUtc": 1776358919,
+      "author": "ritzkew",
+      "repoFullName": "QwenLM/qwen-code",
+      "baselineRatio": 1,
+      "baselineTier": "normal",
+      "baselineConfidence": "high",
+      "ageHours": 95.08,
+      "velocity": 0.02,
+      "trendingScore": 0.01,
+      "content_tags": [
+        "has-github-repo",
+        "is-question"
+      ],
+      "value_score": 1
     },
     {
       "id": "1sn61ya",
@@ -759,10 +461,10 @@
       "createdUtc": 1776351610,
       "author": "KlausWalz",
       "repoFullName": "QwenLM/qwen-code",
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 111.42,
+      "baselineRatio": 0.5,
+      "baselineTier": "below-average",
+      "baselineConfidence": "high",
+      "ageHours": 97.12,
       "velocity": 0.01,
       "trendingScore": 0,
       "content_tags": [
@@ -781,10 +483,10 @@
       "createdUtc": 1776296327,
       "author": "stosssik",
       "repoFullName": "mnfst/manifest",
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 126.76,
+      "baselineRatio": 0,
+      "baselineTier": "below-average",
+      "baselineConfidence": "medium",
+      "ageHours": 112.46,
       "velocity": 0,
       "trendingScore": 0,
       "content_tags": [
@@ -805,10 +507,10 @@
       "createdUtc": 1776285743,
       "author": "Dense_Gate_5193",
       "repoFullName": "orneryd/NornicDB",
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 129.76,
+      "baselineRatio": 0,
+      "baselineTier": "below-average",
+      "baselineConfidence": "high",
+      "ageHours": 115.48,
       "velocity": 0,
       "trendingScore": 0,
       "content_tags": [
@@ -827,10 +529,10 @@
       "createdUtc": 1776265012,
       "author": "Least-Tangerine-8402",
       "repoFullName": "JuliusBrussee/caveman",
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 135.53,
+      "baselineRatio": 0.5,
+      "baselineTier": "below-average",
+      "baselineConfidence": "high",
+      "ageHours": 121.25,
       "velocity": 0.01,
       "trendingScore": 0,
       "content_tags": [
@@ -844,17 +546,17 @@
       "title": "You can decompose models into a graph database [N]",
       "url": "https://www.reddit.com/r/MachineLearning/comments/1slmfmw/you_can_decompose_models_into_a_graph_database_n/",
       "permalink": "https://www.reddit.com/r/MachineLearning/comments/1slmfmw/you_can_decompose_models_into_a_graph_database_n/",
-      "score": 69,
+      "score": 66,
       "numComments": 28,
       "createdUtc": 1776202699,
       "author": "Educational_Win_2982",
       "repoFullName": "chrishayuk/larql",
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 152.79,
-      "velocity": 0.45,
-      "trendingScore": 0.83,
+      "baselineRatio": 5.5,
+      "baselineTier": "above-average",
+      "baselineConfidence": "high",
+      "ageHours": 138.49,
+      "velocity": 0.48,
+      "trendingScore": 4.8,
       "content_tags": [
         "has-github-repo"
       ],
@@ -863,69 +565,26 @@
   ],
   "topPosts": [
     {
-      "id": "1sqy2ay",
+      "id": "1sqqh7b",
       "subreddit": "vibecoding",
-      "title": "AMA: I'm Louise Macfadyen, author of Designing AI Interfaces and former Google and Microsoft product designer.  Ask me anything!",
-      "url": "https://www.reddit.com/r/vibecoding/comments/1sqy2ay/ama_im_louise_macfadyen_author_of_designing_ai/",
-      "permalink": "https://www.reddit.com/r/vibecoding/comments/1sqy2ay/ama_im_louise_macfadyen_author_of_designing_ai/",
-      "score": 80,
-      "numComments": 39,
-      "createdUtc": 1776709764,
-      "author": "interface_dot_env",
-      "repoFullName": "anthropics/skills",
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 11.94,
-      "velocity": 6.7,
-      "trendingScore": 12.75,
-      "content_tags": [],
-      "value_score": 0
-    },
-    {
-      "id": "1sqzmd4",
-      "subreddit": "LocalLLM",
-      "title": "Abliterlitics: Benchmark and Tensor Analysis Comparing Qwen 3/3.5 with HauhauCS / Heretic / Huihui models",
-      "url": "https://www.reddit.com/r/LocalLLM/comments/1sqzmd4/abliterlitics_benchmark_and_tensor_analysis/",
-      "permalink": "https://www.reddit.com/r/LocalLLM/comments/1sqzmd4/abliterlitics_benchmark_and_tensor_analysis/",
-      "score": 15,
-      "numComments": 6,
-      "createdUtc": 1776712581,
-      "author": "nathandreamfast",
-      "repoFullName": "p-e-w/heretic",
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 11.18,
-      "velocity": 1.34,
-      "trendingScore": 1.58,
+      "title": "WE Built 3 IOS Apps with the Exact Same Skills &amp; framework &amp; Made around $7k+.",
+      "url": "https://www.reddit.com/r/vibecoding/comments/1sqqh7b/we_built_3_ios_apps_with_the_exact_same_skills/",
+      "permalink": "https://www.reddit.com/r/vibecoding/comments/1sqqh7b/we_built_3_ios_apps_with_the_exact_same_skills/",
+      "score": 38,
+      "numComments": 16,
+      "createdUtc": 1776694212,
+      "author": "HuckleberryEntire699",
+      "repoFullName": "rorkai/App-Store-Connect-CLI",
+      "baselineRatio": 38,
+      "baselineTier": "breakout",
+      "baselineConfidence": "high",
+      "ageHours": 1.96,
+      "velocity": 19.36,
+      "trendingScore": 1162.22,
       "content_tags": [
-        "is-announcement"
+        "has-github-repo"
       ],
       "value_score": 1
-    },
-    {
-      "id": "1sr6ohd",
-      "subreddit": "ClaudeCode",
-      "title": "The new code agent harness is too restrictive",
-      "url": "https://www.reddit.com/r/ClaudeCode/comments/1sr6ohd/the_new_code_agent_harness_is_too_restrictive/",
-      "permalink": "https://www.reddit.com/r/ClaudeCode/comments/1sr6ohd/the_new_code_agent_harness_is_too_restrictive/",
-      "score": 7,
-      "numComments": 13,
-      "createdUtc": 1776727710,
-      "author": "proxiblue",
-      "repoFullName": "anthropics/claude-code",
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 6.95,
-      "velocity": 1.01,
-      "trendingScore": 0.85,
-      "content_tags": [
-        "has-tutorial",
-        "is-announcement"
-      ],
-      "value_score": 2
     },
     {
       "id": "1slmfmw",
@@ -933,17 +592,17 @@
       "title": "You can decompose models into a graph database [N]",
       "url": "https://www.reddit.com/r/MachineLearning/comments/1slmfmw/you_can_decompose_models_into_a_graph_database_n/",
       "permalink": "https://www.reddit.com/r/MachineLearning/comments/1slmfmw/you_can_decompose_models_into_a_graph_database_n/",
-      "score": 69,
+      "score": 66,
       "numComments": 28,
       "createdUtc": 1776202699,
       "author": "Educational_Win_2982",
       "repoFullName": "chrishayuk/larql",
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 152.79,
-      "velocity": 0.45,
-      "trendingScore": 0.83,
+      "baselineRatio": 5.5,
+      "baselineTier": "above-average",
+      "baselineConfidence": "high",
+      "ageHours": 138.49,
+      "velocity": 0.48,
+      "trendingScore": 4.8,
       "content_tags": [
         "has-github-repo"
       ],
@@ -960,11 +619,11 @@
       "createdUtc": 1776593451,
       "author": "shanraisshan",
       "repoFullName": "shanraisshan/claude-code-best-practice",
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 44.24,
-      "velocity": 0.05,
+      "baselineRatio": 1,
+      "baselineTier": "normal",
+      "baselineConfidence": "high",
+      "ageHours": 29.94,
+      "velocity": 0.07,
       "trendingScore": 0.02,
       "content_tags": [
         "has-github-repo",
@@ -973,6 +632,29 @@
         "is-meme"
       ],
       "value_score": 2
+    },
+    {
+      "id": "1sn9j5c",
+      "subreddit": "LLMDevs",
+      "title": "Qwen OAuth free tier is gone as of yesterday : what's everyone switching to?",
+      "url": "https://github.com/QwenLM/qwen-code/issues/3203",
+      "permalink": "https://www.reddit.com/r/LLMDevs/comments/1sn9j5c/qwen_oauth_free_tier_is_gone_as_of_yesterday/",
+      "score": 2,
+      "numComments": 6,
+      "createdUtc": 1776358919,
+      "author": "ritzkew",
+      "repoFullName": "QwenLM/qwen-code",
+      "baselineRatio": 1,
+      "baselineTier": "normal",
+      "baselineConfidence": "high",
+      "ageHours": 95.08,
+      "velocity": 0.02,
+      "trendingScore": 0.01,
+      "content_tags": [
+        "has-github-repo",
+        "is-question"
+      ],
+      "value_score": 1
     },
     {
       "id": "1sor4rb",
@@ -985,62 +667,18 @@
       "createdUtc": 1776497980,
       "author": "Express-Passion4896",
       "repoFullName": "volcengine/OpenViking",
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 70.81,
-      "velocity": 0.04,
-      "trendingScore": 0.02,
+      "baselineRatio": 0.6,
+      "baselineTier": "below-average",
+      "baselineConfidence": "high",
+      "ageHours": 56.52,
+      "velocity": 0.05,
+      "trendingScore": 0.01,
       "content_tags": [
         "has-github-repo",
         "has-agent",
         "is-announcement"
       ],
       "value_score": 3
-    },
-    {
-      "id": "1srdpn8",
-      "subreddit": "ClaudeAI",
-      "title": "Need an alternative to thedotmack/claude-mem. Current state of the plugin is beyond unusable.",
-      "url": "https://www.reddit.com/r/ClaudeAI/comments/1srdpn8/need_an_alternative_to_thedotmackclaudemem/",
-      "permalink": "https://www.reddit.com/r/ClaudeAI/comments/1srdpn8/need_an_alternative_to_thedotmackclaudemem/",
-      "score": 1,
-      "numComments": 6,
-      "createdUtc": 1776746873,
-      "author": "xii",
-      "repoFullName": "thedotmack/claude-mem",
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 1.6,
-      "velocity": 0.63,
-      "trendingScore": 0,
-      "content_tags": [
-        "has-github-repo"
-      ],
-      "value_score": 1
-    },
-    {
-      "id": "1sr8dpx",
-      "subreddit": "LocalLLaMA",
-      "title": "openclaude does not run on arch",
-      "url": "https://www.reddit.com/r/LocalLLaMA/comments/1sr8dpx/openclaude_does_not_run_on_arch/",
-      "permalink": "https://www.reddit.com/r/LocalLLaMA/comments/1sr8dpx/openclaude_does_not_run_on_arch/",
-      "score": 0,
-      "numComments": 2,
-      "createdUtc": 1776732046,
-      "author": "Alexercer",
-      "repoFullName": "Gitlawb/openclaude",
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 5.72,
-      "velocity": 0,
-      "trendingScore": 0,
-      "content_tags": [
-        "has-github-repo"
-      ],
-      "value_score": 1
     },
     {
       "id": "1sqnf91",
@@ -1053,10 +691,10 @@
       "createdUtc": 1776686925,
       "author": "ZestycloseTie1793",
       "repoFullName": "NousResearch/hermes-agent",
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 18.26,
+      "baselineRatio": 0,
+      "baselineTier": "below-average",
+      "baselineConfidence": "high",
+      "ageHours": 3.95,
       "velocity": 0,
       "trendingScore": 0,
       "content_tags": [
@@ -1075,10 +713,10 @@
       "createdUtc": 1776296327,
       "author": "stosssik",
       "repoFullName": "mnfst/manifest",
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 126.76,
+      "baselineRatio": 0,
+      "baselineTier": "below-average",
+      "baselineConfidence": "medium",
+      "ageHours": 112.46,
       "velocity": 0,
       "trendingScore": 0,
       "content_tags": [
@@ -1087,29 +725,6 @@
         "is-meme"
       ],
       "value_score": 1
-    },
-    {
-      "id": "1sqiqut",
-      "subreddit": "aiagents",
-      "title": "2,400-Year-Old Language Logic vs Modern AI Agents (And It Actually Works)",
-      "url": "https://www.reddit.com/r/aiagents/comments/1sqiqut/2400yearold_language_logic_vs_modern_ai_agents/",
-      "permalink": "https://www.reddit.com/r/aiagents/comments/1sqiqut/2400yearold_language_logic_vs_modern_ai_agents/",
-      "score": 1,
-      "numComments": 0,
-      "createdUtc": 1776671575,
-      "author": "Nice_Interaction555",
-      "repoFullName": "dpaul0501/panini",
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 22.54,
-      "velocity": 0.04,
-      "trendingScore": 0,
-      "content_tags": [
-        "has-github-repo",
-        "has-agent"
-      ],
-      "value_score": 2
     },
     {
       "id": "1sn61ya",
@@ -1122,55 +737,11 @@
       "createdUtc": 1776351610,
       "author": "KlausWalz",
       "repoFullName": "QwenLM/qwen-code",
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 111.42,
+      "baselineRatio": 0.5,
+      "baselineTier": "below-average",
+      "baselineConfidence": "high",
+      "ageHours": 97.12,
       "velocity": 0.01,
-      "trendingScore": 0,
-      "content_tags": [
-        "has-github-repo"
-      ],
-      "value_score": 1
-    },
-    {
-      "id": "1srf4el",
-      "subreddit": "vibecoding",
-      "title": "I built a free local scanner that cleans up your vibe-coded projects — no tokens, no cloud, just a health report you paste to Claude. Also it farts at you.",
-      "url": "https://github.com/ChuprinaDaria/Vibecode-Cleaner-Fartrun",
-      "permalink": "https://www.reddit.com/r/vibecoding/comments/1srf4el/i_built_a_free_local_scanner_that_cleans_up_your/",
-      "score": 1,
-      "numComments": 1,
-      "createdUtc": 1776751326,
-      "author": "Illustrious_Grass534",
-      "repoFullName": "ChuprinaDaria/Vibecode-Cleaner-Fartrun",
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 0.5,
-      "velocity": 2,
-      "trendingScore": 0,
-      "content_tags": [
-        "has-github-repo"
-      ],
-      "value_score": 1
-    },
-    {
-      "id": "1sr9bkc",
-      "subreddit": "Rag",
-      "title": "Ebbinggaus is insufficient according to April 2026 research",
-      "url": "https://www.reddit.com/r/Rag/comments/1sr9bkc/ebbinggaus_is_insufficient_according_to_april/",
-      "permalink": "https://www.reddit.com/r/Rag/comments/1sr9bkc/ebbinggaus_is_insufficient_according_to_april/",
-      "score": 1,
-      "numComments": 0,
-      "createdUtc": 1776734526,
-      "author": "Dense_Gate_5193",
-      "repoFullName": "orneryd/NornicDB",
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 5.1,
-      "velocity": 0.2,
       "trendingScore": 0,
       "content_tags": [
         "has-github-repo"
@@ -1188,10 +759,10 @@
       "createdUtc": 1776285743,
       "author": "Dense_Gate_5193",
       "repoFullName": "orneryd/NornicDB",
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 129.76,
+      "baselineRatio": 0,
+      "baselineTier": "below-average",
+      "baselineConfidence": "high",
+      "ageHours": 115.48,
       "velocity": 0,
       "trendingScore": 0,
       "content_tags": [
@@ -1210,10 +781,10 @@
       "createdUtc": 1776265012,
       "author": "Least-Tangerine-8402",
       "repoFullName": "JuliusBrussee/caveman",
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 135.53,
+      "baselineRatio": 0.5,
+      "baselineTier": "below-average",
+      "baselineConfidence": "high",
+      "ageHours": 121.25,
       "velocity": 0.01,
       "trendingScore": 0,
       "content_tags": [
@@ -1224,24 +795,19 @@
   ],
   "leaderboard": [
     {
-      "fullName": "anthropics/skills",
-      "count7d": 1,
-      "upvotes7d": 80
-    },
-    {
       "fullName": "chrishayuk/larql",
       "count7d": 1,
-      "upvotes7d": 69
+      "upvotes7d": 66
     },
     {
-      "fullName": "p-e-w/heretic",
+      "fullName": "rorkai/App-Store-Connect-CLI",
       "count7d": 1,
-      "upvotes7d": 15
+      "upvotes7d": 38
     },
     {
-      "fullName": "anthropics/claude-code",
-      "count7d": 1,
-      "upvotes7d": 7
+      "fullName": "QwenLM/qwen-code",
+      "count7d": 2,
+      "upvotes7d": 3
     },
     {
       "fullName": "volcengine/OpenViking",
@@ -1254,39 +820,9 @@
       "upvotes7d": 2
     },
     {
-      "fullName": "orneryd/NornicDB",
-      "count7d": 2,
-      "upvotes7d": 1
-    },
-    {
-      "fullName": "ChuprinaDaria/Vibecode-Cleaner-Fartrun",
-      "count7d": 1,
-      "upvotes7d": 1
-    },
-    {
-      "fullName": "dpaul0501/panini",
-      "count7d": 1,
-      "upvotes7d": 1
-    },
-    {
       "fullName": "JuliusBrussee/caveman",
       "count7d": 1,
       "upvotes7d": 1
-    },
-    {
-      "fullName": "QwenLM/qwen-code",
-      "count7d": 1,
-      "upvotes7d": 1
-    },
-    {
-      "fullName": "thedotmack/claude-mem",
-      "count7d": 1,
-      "upvotes7d": 1
-    },
-    {
-      "fullName": "Gitlawb/openclaude",
-      "count7d": 1,
-      "upvotes7d": 0
     },
     {
       "fullName": "mnfst/manifest",
@@ -1295,6 +831,11 @@
     },
     {
       "fullName": "NousResearch/hermes-agent",
+      "count7d": 1,
+      "upvotes7d": 0
+    },
+    {
+      "fullName": "orneryd/NornicDB",
       "count7d": 1,
       "upvotes7d": 0
     }

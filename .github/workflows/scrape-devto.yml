@@ -1,0 +1,45 @@
+name: Refresh dev.to signals
+
+on:
+  schedule:
+    - cron: "30 8 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: devto-refresh
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Refresh dev.to mentions + AI-tag trending
+        env:
+          DEVTO_API_KEY: ${{ secrets.DEVTO_API_KEY }}
+        run: node scripts/scrape-devto.mjs
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "starscreener-bot"
+          git config user.email "bot@starscreener.local"
+          git add data/devto-mentions.json data/devto-trending.json
+          if git diff --quiet --staged; then
+            echo "no changes - skipping commit"
+            exit 0
+          fi
+          TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          git commit -m "chore(data): refresh dev.to signals ${TS}"
+          git push

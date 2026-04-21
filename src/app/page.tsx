@@ -10,6 +10,8 @@ import type { Metadata } from "next";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { TerminalLayout } from "@/components/terminal/TerminalLayout";
 import { BubbleMap } from "@/components/terminal/BubbleMap";
+import { CrossSignalBreakouts } from "@/components/cross-signal/CrossSignalBreakouts";
+import { RecentLaunches } from "@/components/producthunt/RecentLaunches";
 
 // ISR: data/*.json only changes when the GHA scrape commits new trending
 // data, so serving the homepage from a 30-minute edge cache is safe. Drops
@@ -32,7 +34,13 @@ export default async function HomePage() {
       filterBarVariant="full"
       showFeatured
       featuredCount={8}
-      heading={<BubbleMap repos={repos} limit={220} />}
+      heading={
+        <>
+          <BubbleMap repos={repos} limit={220} />
+          <RecentLaunches />
+          <CrossSignalBreakouts repos={repos} />
+        </>
+      }
     />
   );
 }

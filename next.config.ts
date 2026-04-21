@@ -13,6 +13,18 @@ const nextConfig: NextConfig = {
   // output: "standalone",
   poweredByHeader: false,
   compress: true,
+  // 308-redirect the pre-launch Vercel URL to the canonical domain so
+  // inbound links from before the rename land on trendingrepo.com.
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "starscreener.vercel.app" }],
+        destination: "https://trendingrepo.com/:path*",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

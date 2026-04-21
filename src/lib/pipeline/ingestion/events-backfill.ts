@@ -117,7 +117,7 @@ export async function backfillFromEvents(
           Accept: "application/vnd.github+json",
           Authorization: `Bearer ${token}`,
           "X-GitHub-Api-Version": "2022-11-28",
-          "User-Agent": "StarScreener",
+          "User-Agent": "TrendingRepo",
         },
         signal,
       });

@@ -1,4 +1,4 @@
-// StarScreener — Breakout alert email template (P0.1)
+// TrendingRepo — Breakout alert email template (P0.1)
 //
 // Pure function: AlertEvent + Repo → { subject, html, text }.
 // No Resend SDK touch — delegate sending to resend-client.ts.
@@ -70,7 +70,7 @@ export function renderBreakoutAlert(
 <body style="margin:0;padding:24px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#151419;color:#e8e6df;">
   <div style="max-width:560px;margin:0 auto;background:#1c1b20;border:1px solid #2d2c33;border-radius:12px;padding:24px;">
     <div style="font-size:12px;letter-spacing:0.08em;color:#8a8892;text-transform:uppercase;margin-bottom:8px;">
-      StarScreener Alert · ${escapeHtml(event.trigger)}
+      TrendingRepo Alert · ${escapeHtml(event.trigger)}
     </div>
     <h1 style="margin:0 0 8px 0;font-size:24px;color:#5eff80;font-family:'JetBrains Mono',monospace;">
       ${escapeHtml(repo.fullName)}
@@ -99,7 +99,7 @@ export function renderBreakoutAlert(
       </tr>
     </table>
     <div style="margin-top:20px;">
-      <a href="${detailLink}" style="display:inline-block;padding:10px 16px;background:#5eff80;color:#151419;text-decoration:none;border-radius:8px;font-weight:600;font-size:14px;">Open in StarScreener →</a>
+      <a href="${detailLink}" style="display:inline-block;padding:10px 16px;background:#5eff80;color:#151419;text-decoration:none;border-radius:8px;font-weight:600;font-size:14px;">Open in TrendingRepo →</a>
       <a href="${repoLink}" style="display:inline-block;padding:10px 16px;margin-left:8px;background:transparent;color:#e8e6df;border:1px solid #2d2c33;text-decoration:none;border-radius:8px;font-size:14px;">View on GitHub</a>
     </div>
     <hr style="border:none;border-top:1px solid #2d2c33;margin:24px 0;">
@@ -111,7 +111,7 @@ export function renderBreakoutAlert(
 </html>`;
 
   const text = [
-    `StarScreener Alert — ${event.trigger.replace(/_/g, " ")}`,
+    `TrendingRepo Alert — ${event.trigger.replace(/_/g, " ")}`,
     ``,
     `${repo.fullName}`,
     repo.description ? repo.description.slice(0, 240) : "",

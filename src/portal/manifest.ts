@@ -25,7 +25,7 @@ export interface PortalManifest {
 }
 
 const BRIEF =
-  "Star Screener indexes trending GitHub repos and surfaces breakouts, quiet-killers, and maintainer activity. Call top_gainers to see what's rising, search_repos to find specific projects, and maintainer_profile to aggregate a GitHub handle's owned repos across the index.";
+  "TrendingRepo indexes trending GitHub repos and surfaces breakouts, quiet-killers, and maintainer activity. Call top_gainers to see what's rising, search_repos to find specific projects, and maintainer_profile to aggregate a GitHub handle's owned repos across the index.";
 
 /**
  * Build the manifest. Pass an absolute public base URL in production (e.g.
@@ -48,7 +48,7 @@ export function buildManifest(baseUrl?: string): PortalManifest {
 
   return {
     portal_version: "0.1",
-    name: "Star Screener",
+    name: "TrendingRepo",
     brief: BRIEF,
     tools,
     call_endpoint: callEndpoint,

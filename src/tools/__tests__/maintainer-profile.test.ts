@@ -75,7 +75,7 @@ test("maintainer_profile aggregates owned repos", () => {
     ],
   );
 
-  assert.ok(out.scope_note.includes("Star Screener index"));
+  assert.ok(out.scope_note.includes("TrendingRepo index"));
 });
 
 test("maintainer_profile is case-insensitive on owner match", () => {

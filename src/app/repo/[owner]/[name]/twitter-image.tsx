@@ -1,4 +1,4 @@
-// StarScreener — Repo detail Twitter card image.
+// TrendingRepo — Repo detail Twitter card image.
 //
 // 1200×600 (2:1) variant of the repo OG card for Twitter/X's summary_large_image.
 // Reuses the pipeline data + color palette so Twitter previews feel identical
@@ -12,7 +12,7 @@ import { OG_COLORS } from "@/lib/seo";
 import { StarMark } from "@/lib/og-primitives";
 
 export const runtime = "nodejs";
-export const alt = "StarScreener — Repo momentum card";
+export const alt = "TrendingRepo — Repo momentum card";
 export const size = { width: 1200, height: 600 };
 export const contentType = "image/png";
 
@@ -58,7 +58,7 @@ export default async function RepoTwitterImage({ params }: RouteParams) {
             }}
           >
             <StarMark size={44} color={OG_COLORS.brand} />
-            <span>StarScreener</span>
+            <span>TrendingRepo</span>
           </div>
           <div
             style={{
@@ -269,7 +269,7 @@ export default async function RepoTwitterImage({ params }: RouteParams) {
               letterSpacing: 0.5,
             }}
           >
-            starscreener.dev/repo/{repo.owner}/{repo.name}
+            trendingrepo.com/repo/{repo.owner}/{repo.name}
           </div>
         </div>
 

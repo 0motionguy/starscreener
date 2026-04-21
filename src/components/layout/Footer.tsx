@@ -28,7 +28,7 @@ export function Footer() {
       <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
         <p className="text-xs text-text-muted">
           <span className="font-mono font-medium text-text-tertiary">
-            StarScreener
+            TrendingRepo
           </span>{" "}
           by{" "}
           <a

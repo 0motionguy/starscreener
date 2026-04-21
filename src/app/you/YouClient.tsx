@@ -50,7 +50,7 @@ export default function YouClient() {
           Your signal.
         </h1>
         <p className="text-text-secondary text-md max-w-2xl leading-relaxed">
-          No account. No tracking. StarScreener keeps your watchlist and
+          No account. No tracking. TrendingRepo keeps your watchlist and
           shortlist in your browser — portable when you&apos;re ready,
           invisible when you&apos;re not.
         </p>

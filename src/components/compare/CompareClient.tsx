@@ -116,7 +116,7 @@ export function CompareClient() {
   const [hasHydrated, setHasHydrated] = useState(false);
 
   useEffect(() => {
-    document.title = "Compare Repos - StarScreener";
+    document.title = "Compare Repos - TrendingRepo";
   }, []);
 
   // --- Zustand persist gate ------------------------------------------

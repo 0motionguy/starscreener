@@ -36,7 +36,7 @@ export function Header() {
         <Link
           href={ROUTES.HOME}
           className="flex items-center gap-2.5 group"
-          aria-label="StarScreener home"
+          aria-label="TrendingRepo home"
         >
           <span
             className="live-dot live-dot-brand"
@@ -44,13 +44,13 @@ export function Header() {
           />
           <span className="flex flex-col leading-none">
             <span className="font-display font-bold text-lg tracking-tight text-text-primary leading-none">
-              Star<span className="text-brand">Screener</span>
+              Trending<span className="text-brand">Repo</span>
             </span>
             <span
               className="hidden sm:inline font-mono text-[9px] uppercase tracking-[0.14em] text-text-tertiary leading-none mt-0.5"
               aria-hidden="true"
             >
-              AI trending · every surface
+              The trend map for open source
             </span>
           </span>
         </Link>

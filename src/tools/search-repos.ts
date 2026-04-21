@@ -86,4 +86,4 @@ export const SEARCH_REPOS_INPUT_SCHEMA = {
 } as const;
 
 export const SEARCH_REPOS_DESCRIPTION =
-  "Full-text search over Star Screener's indexed repos. Matches fullName, description, and topics. Results sorted by momentum score desc.";
+  "Full-text search over TrendingRepo's indexed repos. Matches fullName, description, and topics. Results sorted by momentum score desc.";

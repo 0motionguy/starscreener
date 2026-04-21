@@ -35,7 +35,7 @@ const NITTER_MIRRORS: string[] = [
   "nitter.tiekoetter.com",
 ];
 
-const USER_AGENT = "StarScreener/1.0 (+https://starscreener.dev)";
+const USER_AGENT = "TrendingRepo/1.0 (+https://trendingrepo.com)";
 const PROBE_TIMEOUT_MS = 3000;
 const FETCH_TIMEOUT_MS = 5000;
 const RATE_LIMIT_MS = 10_000;

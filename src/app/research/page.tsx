@@ -12,9 +12,9 @@ import { Microscope } from "lucide-react";
 export const dynamic = "force-static";
 
 export const metadata: Metadata = {
-  title: "Research — StarScreener",
+  title: "Research — TrendingRepo",
   description:
-    "Research-paper signal coming to StarScreener. arXiv + Papers With Code + HuggingFace trends.",
+    "Research-paper signal coming to TrendingRepo. arXiv + Papers With Code + HuggingFace trends.",
 };
 
 export default function ResearchPage() {

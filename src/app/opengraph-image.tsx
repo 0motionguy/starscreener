@@ -1,4 +1,4 @@
-// StarScreener — Homepage OG image
+// TrendingRepo — Homepage OG image
 //
 // 1200×630 card advertising the terminal. Renders the wordmark, tagline, a
 // 3×2 grid of the top six repos by momentum, and a live-stats strip. Uses
@@ -12,7 +12,7 @@ import { OG_COLORS } from "@/lib/seo";
 import { Dot, StarMark } from "@/lib/og-primitives";
 
 export const runtime = "nodejs";
-export const alt = "StarScreener — AI Trending Terminal";
+export const alt = "TrendingRepo — The trend map for open source";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -52,7 +52,7 @@ export default async function HomeOGImage() {
           }}
         >
           <StarMark size={72} color={OG_COLORS.brand} />
-          <span style={{ color: OG_COLORS.textPrimary }}>StarScreener</span>
+          <span style={{ color: OG_COLORS.textPrimary }}>TrendingRepo</span>
         </div>
 
         {/* Headline */}

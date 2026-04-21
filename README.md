@@ -1,8 +1,8 @@
 <div align="center">
 
-# StarScreener
+# TrendingRepo
 
-**The live GitHub trend terminal. Dexscreener for open source.**
+**The trend map for open source.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-22c55e.svg?style=for-the-badge)](./LICENSE)
 [![Next.js 15](https://img.shields.io/badge/Next.js-15-000000.svg?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org)
@@ -10,11 +10,11 @@
 [![Portal v0.1](https://img.shields.io/badge/Portal-v0.1-f56e0f.svg?style=for-the-badge)](https://visitportal.dev)
 [![MCP](https://img.shields.io/badge/MCP-ready-a855f7.svg?style=for-the-badge)](https://modelcontextprotocol.io)
 
-[**Live demo**](https://starscreener.vercel.app)  ·  [**Portal manifest**](https://starscreener.vercel.app/portal)  ·  [**API docs**](https://starscreener.vercel.app/portal/docs)  ·  [**CLI**](https://starscreener.vercel.app/cli)  ·  [**@0motionguy**](https://x.com/0motionguy)
+[**Live**](https://trendingrepo.com)  ·  [**Portal manifest**](https://trendingrepo.com/portal)  ·  [**API docs**](https://trendingrepo.com/portal/docs)  ·  [**CLI**](https://trendingrepo.com/cli)  ·  [**@0motionguy**](https://x.com/0motionguy)
 
 <br />
 
-[![StarScreener — live homepage](https://starscreener.vercel.app/opengraph-image)](https://starscreener.vercel.app)
+[![TrendingRepo — live homepage](https://trendingrepo.com/opengraph-image)](https://trendingrepo.com)
 
 </div>
 
@@ -24,16 +24,16 @@ Every image below is served live from the deployed app — click through to the 
 
 | Surface | Live preview |
 |---|---|
-| Homepage (terminal + bubble map) | [starscreener.vercel.app](https://starscreener.vercel.app)  ·  [OG card](https://starscreener.vercel.app/opengraph-image) |
-| Compare deep-dive | [/compare](https://starscreener.vercel.app/compare)  ·  [OG card](https://starscreener.vercel.app/compare/opengraph-image) |
-| Repo detail | [NawfalMotii79/PLFM_RADAR](https://starscreener.vercel.app/repo/NawfalMotii79/PLFM_RADAR)  ·  [OG card](https://starscreener.vercel.app/repo/NawfalMotii79/PLFM_RADAR/opengraph-image) |
-| Category page | [/categories/ai-agents](https://starscreener.vercel.app/categories/ai-agents) |
-| Portal docs | [/portal/docs](https://starscreener.vercel.app/portal/docs) |
-| CLI page | [/cli](https://starscreener.vercel.app/cli) |
+| Homepage (terminal + bubble map) | [trendingrepo.com](https://trendingrepo.com)  ·  [OG card](https://trendingrepo.com/opengraph-image) |
+| Compare deep-dive | [/compare](https://trendingrepo.com/compare)  ·  [OG card](https://trendingrepo.com/compare/opengraph-image) |
+| Repo detail | [NawfalMotii79/PLFM_RADAR](https://trendingrepo.com/repo/NawfalMotii79/PLFM_RADAR)  ·  [OG card](https://trendingrepo.com/repo/NawfalMotii79/PLFM_RADAR/opengraph-image) |
+| Category page | [/categories/ai-agents](https://trendingrepo.com/categories/ai-agents) |
+| Portal docs | [/portal/docs](https://trendingrepo.com/portal/docs) |
+| CLI page | [/cli](https://trendingrepo.com/cli) |
 
 ---
 
-StarScreener ingests GitHub trending data every 20 min, scores momentum + breakout velocity, and surfaces the movers through four parallel surfaces: a **Dexscreener-style web terminal**, a **zero-dependency CLI**, an **MCP server** for Claude / any agent, and a **Portal v0.1** endpoint so any LLM can query trending repos with a single manifest fetch.
+TrendingRepo ingests GitHub, Reddit, Hacker News, ProductHunt, Bluesky, and dev.to signals every 20 min, scores momentum + breakout velocity across the stack, and surfaces the movers through four parallel surfaces: a **web terminal** with a bubble map, a **zero-dependency CLI**, an **MCP server** for Claude / any agent, and a **Portal v0.1** endpoint so any LLM can query trending repos with a single manifest fetch.
 
 One data pipeline. Four consumers. No mocks — every number is anchored in a live source or a committed snapshot, so the numbers you see are the numbers your agent queries.
 

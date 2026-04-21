@@ -1,4 +1,4 @@
-// StarScreener — Category detail OG image
+// TrendingRepo — Category detail OG image
 //
 // Shares the Dark Void/Liquid Lava palette with the repo detail card. Shows
 // the category name, the top 3 movers inside it, and an average-momentum
@@ -11,7 +11,7 @@ import { OG_COLORS } from "@/lib/seo";
 import { StarMark } from "@/lib/og-primitives";
 
 export const runtime = "nodejs";
-export const alt = "StarScreener — Category momentum card";
+export const alt = "TrendingRepo — Category momentum card";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -51,7 +51,7 @@ export default async function CategoryOGImage({ params }: RouteParams) {
             }}
           >
             <StarMark size={44} color={OG_COLORS.brand} />
-            <span>StarScreener</span>
+            <span>TrendingRepo</span>
           </div>
           <div style={{ display: "flex", fontSize: 56, fontWeight: 700 }}>
             Category not found
@@ -97,7 +97,7 @@ export default async function CategoryOGImage({ params }: RouteParams) {
           }}
         >
           <StarMark size={28} color={OG_COLORS.brand} />
-          <span style={{ color: OG_COLORS.textPrimary }}>StarScreener</span>
+          <span style={{ color: OG_COLORS.textPrimary }}>TrendingRepo</span>
         </div>
 
         {/* Category name huge */}

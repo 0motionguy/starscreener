@@ -128,7 +128,7 @@ export function RecentLaunches({
                         href={`/repo/${trackedRepo.owner}/${trackedRepo.name}`}
                         className="font-mono text-[10px] text-functional hover:text-functional/80 transition-colors"
                       >
-                        View repo on StarScreener →
+                        View repo on TrendingRepo →
                       </Link>
                     ) : l.githubUrl ? (
                       <a

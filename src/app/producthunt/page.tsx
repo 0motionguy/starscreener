@@ -41,7 +41,7 @@ function parseTab(raw: string | string[] | undefined): PhTab {
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "StarScreener — ProductHunt Launches",
+  title: "TrendingRepo — ProductHunt Launches",
   description:
     "Daily ProductHunt launches scored by votes/comments, cross-linked to GitHub repos when the maker mentions one.",
 };
@@ -120,7 +120,7 @@ export default async function ProductHuntPage({
             <code className="text-text-primary">commentsCount</code>. Each launch
             is cross-linked to its GitHub repo when the maker mentions one in
             the description, so an OSS launch can be traced back to its tracked
-            star momentum here on StarScreener.
+            star momentum here on TrendingRepo.
           </p>
         </header>
 

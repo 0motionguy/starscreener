@@ -193,7 +193,7 @@ export function evaluateDailyDigest(
     fired: true,
     value: 0,
     title: "Daily digest ready",
-    body: "Your daily StarScreener digest is ready.",
+    body: "Your daily TrendingRepo digest is ready.",
   };
 }
 
@@ -210,7 +210,7 @@ export function evaluateWeeklyDigest(
     fired: true,
     value: 0,
     title: "Weekly digest ready",
-    body: "Your weekly StarScreener digest is ready.",
+    body: "Your weekly TrendingRepo digest is ready.",
   };
 }
 

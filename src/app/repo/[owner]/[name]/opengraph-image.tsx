@@ -1,4 +1,4 @@
-// StarScreener — Repo detail OG image
+// TrendingRepo — Repo detail OG image
 //
 // 1200×630 dynamic share card for a single repo. Pulls data via the pipeline
 // facade, falls back to a "repo not found" card if the identifier is stale.
@@ -18,7 +18,7 @@ import { OG_COLORS } from "@/lib/seo";
 import { StarMark } from "@/lib/og-primitives";
 
 export const runtime = "nodejs";
-export const alt = "StarScreener — Repo momentum card";
+export const alt = "TrendingRepo — Repo momentum card";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -64,7 +64,7 @@ export default async function RepoOGImage({ params }: RouteParams) {
             }}
           >
             <StarMark size={44} color={OG_COLORS.brand} />
-            <span>StarScreener</span>
+            <span>TrendingRepo</span>
           </div>
           <div
             style={{
@@ -280,7 +280,7 @@ export default async function RepoOGImage({ params }: RouteParams) {
               letterSpacing: 0.5,
             }}
           >
-            starscreener.dev/repo/{repo.owner}/{repo.name}
+            trendingrepo.com/repo/{repo.owner}/{repo.name}
           </div>
         </div>
 

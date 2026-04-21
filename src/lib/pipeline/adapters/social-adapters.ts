@@ -17,8 +17,8 @@ import type { RepoMention, SocialAdapter } from "../types";
 // Shared helpers
 // ---------------------------------------------------------------------------
 
-const USER_AGENT = "StarScreener/1.0 (+https://starscreener.dev)";
-const REDDIT_USER_AGENT = "StarScreener/1.0 (by /u/starscreener)";
+const USER_AGENT = "TrendingRepo/1.0 (+https://trendingrepo.com)";
+const REDDIT_USER_AGENT = "TrendingRepo/1.0 (by /u/trendingrepo)";
 const FETCH_TIMEOUT_MS = 5000;
 
 /**

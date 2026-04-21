@@ -21,7 +21,7 @@ import { AlertConfig } from "@/components/watchlist/AlertConfig";
 
 export default function WatchlistPage() {
   useEffect(() => {
-    document.title = "Watchlist — StarScreener";
+    document.title = "Watchlist — TrendingRepo";
   }, []);
 
   const watchlist = useWatchlistStore((s) => s.repos);

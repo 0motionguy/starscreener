@@ -352,7 +352,7 @@ async function cmdCategories(args) {
 
 function cmdHelp() {
   const text = `
-StarScreener CLI (ss) v${CLI_VERSION}
+TrendingRepo CLI (ss) v${CLI_VERSION}
 API: ${BASE_URL}    (override with STARSCREENER_API_URL)
 
 USAGE

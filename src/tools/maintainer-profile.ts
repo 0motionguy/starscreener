@@ -1,7 +1,7 @@
 // StarScreener — `maintainer_profile` agent tool.
 //
 // Minimal-viable compose over the in-memory repo index: for a given GitHub
-// handle, return the repos Star Screener knows about that this handle
+// handle, return the repos TrendingRepo knows about that this handle
 // owns, aggregated. Honest NOT_FOUND when the handle has zero owned repos
 // in the index. No live GitHub calls — keeps latency under the p95 budget
 // and avoids extra rate-limit pressure.
@@ -66,7 +66,7 @@ export function maintainerProfile(raw: unknown): MaintainerProfileMinimal {
 
   if (owned.length === 0) {
     throw new NotFoundError(
-      `No repos owned by '${handle}' in the Star Screener index`,
+      `No repos owned by '${handle}' in the TrendingRepo index`,
     );
   }
 
@@ -92,7 +92,7 @@ export function maintainerProfile(raw: unknown): MaintainerProfileMinimal {
     category_ids: categoryIds,
     top_repos: topRepos,
     scope_note:
-      "Derived only from repos in the Star Screener index where owner matches the handle. Cross-repo contributor activity is out of scope for v0.1 and may appear in v0.2 as MaintainerProfileFull.",
+      "Derived only from repos in the TrendingRepo index where owner matches the handle. Cross-repo contributor activity is out of scope for v0.1 and may appear in v0.2 as MaintainerProfileFull.",
   };
 }
 
@@ -120,4 +120,4 @@ export const MAINTAINER_PROFILE_INPUT_SCHEMA = {
 } as const;
 
 export const MAINTAINER_PROFILE_DESCRIPTION =
-  "Aggregate profile for a GitHub handle, composed from repos Star Screener already tracks where owner == handle. Returns total stars, weekly velocity, languages, and top-momentum repos. NOT_FOUND when the handle has no owned repos in the index. Does not make live GitHub API calls.";
+  "Aggregate profile for a GitHub handle, composed from repos TrendingRepo already tracks where owner == handle. Returns total stars, weekly velocity, languages, and top-momentum repos. NOT_FOUND when the handle has no owned repos in the index. Does not make live GitHub API calls.";

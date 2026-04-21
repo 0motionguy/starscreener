@@ -1,4 +1,4 @@
-// StarScreener - /portal/docs
+// TrendingRepo - /portal/docs
 //
 // UI front-door for the Portal v0.1 MCP/REST integration. Lives at
 // /portal/docs because the API route (/portal) is already owned by
@@ -13,9 +13,9 @@ import type { Metadata } from "next";
 import PortalDocsClient, { type PortalDocsTool } from "./PortalDocsClient";
 
 export const metadata: Metadata = {
-  title: "MCP Portal - StarScreener",
+  title: "MCP Portal - TrendingRepo",
   description:
-    "Plug StarScreener's AI-repo trending index into any agent - Claude MCP, REST/JSON-RPC, no auth required.",
+    "Plug TrendingRepo's AI-repo trending index into any agent - Claude MCP, REST/JSON-RPC, no auth required.",
 };
 
 // Hard-coded tool metadata so the client bundle doesn't transitively

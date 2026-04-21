@@ -1,4 +1,4 @@
-// StarScreener — /you profile landing.
+// TrendingRepo — /you profile landing.
 //
 // Zero-auth personal signal panel. Pulls local-only state (watchlist +
 // compare + filters) out of zustand and renders a compact "what you've
@@ -13,9 +13,9 @@ import type { Metadata } from "next";
 import YouClient from "./YouClient";
 
 export const metadata: Metadata = {
-  title: "Your signal — StarScreener",
+  title: "Your signal — TrendingRepo",
   description:
-    "Personal watchlist, compare shortlist, and saved filter summary. No account required — StarScreener keeps your signal local.",
+    "Personal watchlist, compare shortlist, and saved filter summary. No account required — TrendingRepo keeps your signal local.",
 };
 
 export default function YouPage() {

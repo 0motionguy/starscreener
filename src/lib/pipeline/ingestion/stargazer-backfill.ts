@@ -98,7 +98,7 @@ export async function backfillStargazerHistory(
         Accept: "application/vnd.github.star+json",
         Authorization: `Bearer ${token}`,
         "X-GitHub-Api-Version": "2022-11-28",
-        "User-Agent": "StarScreener",
+        "User-Agent": "TrendingRepo",
       },
     });
     const link = probe.headers.get("link");
@@ -156,7 +156,7 @@ export async function backfillStargazerHistory(
         Accept: "application/vnd.github.star+json",
         Authorization: `Bearer ${token}`,
         "X-GitHub-Api-Version": "2022-11-28",
-        "User-Agent": "StarScreener",
+        "User-Agent": "TrendingRepo",
       },
     });
 

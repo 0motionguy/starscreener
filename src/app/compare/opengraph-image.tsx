@@ -1,4 +1,4 @@
-// StarScreener — Compare page OG image
+// TrendingRepo — Compare page OG image
 //
 // 1200×630 share card for /compare?ids=a,b,c.
 //
@@ -23,7 +23,7 @@ import { StarMark } from "@/lib/og-primitives";
 import type { Repo } from "@/lib/types";
 
 export const runtime = "nodejs";
-export const alt = "StarScreener — Compare repos momentum card";
+export const alt = "TrendingRepo — Compare repos momentum card";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -119,7 +119,7 @@ export default async function CompareOGImage() {
             }}
           >
             <StarMark size={44} color={OG_COLORS.brand} />
-            <span>StarScreener</span>
+            <span>TrendingRepo</span>
           </div>
           <div
             style={{
@@ -203,7 +203,7 @@ export default async function CompareOGImage() {
             }}
           >
             <StarMark size={28} color={OG_COLORS.brand} />
-            <span style={{ color: OG_COLORS.textPrimary }}>StarScreener</span>
+            <span style={{ color: OG_COLORS.textPrimary }}>TrendingRepo</span>
           </div>
           <div
             style={{
@@ -319,7 +319,7 @@ export default async function CompareOGImage() {
             letterSpacing: 0.5,
           }}
         >
-          <span>starscreener.dev/compare</span>
+          <span>trendingrepo.com/compare</span>
           <span style={{ display: "flex", color: OG_COLORS.textMuted }}>
             {repos.map((r) => r.fullName).join(" · ")}
           </span>

@@ -86,5 +86,5 @@ export function buildBrowserAlertTitle(
 }
 
 export function buildBrowserAlertBody(event: AlertEvent): string {
-  return event.body?.trim() || "Open StarScreener for alert details.";
+  return event.body?.trim() || "Open TrendingRepo for alert details.";
 }

@@ -17,7 +17,7 @@ const FETCH_TIMEOUT_MS = 10_000;
 const BASE_HEADERS: Record<string, string> = {
   Accept: "application/vnd.github+json",
   "X-GitHub-Api-Version": "2022-11-28",
-  "User-Agent": "StarScreener",
+  "User-Agent": "TrendingRepo",
 };
 
 /**

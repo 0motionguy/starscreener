@@ -1,4 +1,4 @@
-// StarScreener — /cli docs
+// TrendingRepo — /cli docs
 //
 // Static docs page for the `ss` CLI (bin/ss.mjs). Lists the real command
 // set extracted from the binary so drift against the help text is
@@ -9,9 +9,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "CLI — StarScreener",
+  title: "CLI — TrendingRepo",
   description:
-    "Zero-dependency terminal client for StarScreener. Tail trending, tail the live stream, pipe JSON through jq — AI-repo trending without opening a browser.",
+    "Zero-dependency terminal client for TrendingRepo. Tail trending, tail the live stream, pipe JSON through jq — AI-repo trending without opening a browser.",
 };
 
 interface CliCommand {
@@ -76,7 +76,7 @@ npm run cli:dev -- trending --window=24h --limit=10
 STARSCREENER_API_URL=${LIVE_BASE} node bin/ss.mjs trending`;
 
 const PORTAL_CLI = `# Spec-native Portal v0.1 visitor CLI — works against /portal
-# on any provider that publishes a manifest, not just StarScreener.
+# on any provider that publishes a manifest, not just TrendingRepo.
 npx @visitportal/visit ${LIVE_BASE}/portal top_gainers --limit=5`;
 
 const TRANSCRIPT = `$ ss trending --window=24h --limit=5

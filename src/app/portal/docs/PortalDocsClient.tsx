@@ -28,7 +28,7 @@ const LIVE_BASE = "https://starscreener.vercel.app";
 const VISIT_CLI = `# Portal visitor CLI (spec-native, works against any /portal endpoint)
 npx @visitportal/visit ${LIVE_BASE}/portal top_gainers --limit=10`;
 
-const MCP_INSTALL = `# Claude Code — register StarScreener as an HTTP MCP bridge
+const MCP_INSTALL = `# Claude Code — register TrendingRepo as an HTTP MCP bridge
 # via the Portal adapter. No local checkout required.
 claude mcp add starscreener \\
   --transport http \\
@@ -53,7 +53,7 @@ export default function PortalDocsClient({
       <header className="mb-8">
         <span className="label-micro">MCP Portal · v0.1</span>
         <h1 className="font-display text-4xl sm:text-5xl mt-2 mb-3">
-          Plug StarScreener into any agent.
+          Plug TrendingRepo into any agent.
         </h1>
         <p className="text-text-secondary text-md max-w-2xl leading-relaxed">
           Point your Claude, OpenAI, or custom LLM at our read-only tool

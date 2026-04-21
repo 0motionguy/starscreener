@@ -58,5 +58,5 @@ test("browser alert text falls back cleanly when repo/body are missing", () => {
   assert.equal(titled, "openai/openai-agents-python · +250 stars in 24h");
 
   const fallbackBody = buildBrowserAlertBody(mockAlert({ body: "" }));
-  assert.equal(fallbackBody, "Open StarScreener for alert details.");
+  assert.equal(fallbackBody, "Open TrendingRepo for alert details.");
 });

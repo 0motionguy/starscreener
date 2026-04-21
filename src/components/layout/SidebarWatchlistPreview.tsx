@@ -33,6 +33,15 @@ export interface SidebarWatchlistPreviewRepo {
   stars: number;
   starsDelta24h: number;
   starsDelta24hMissing?: boolean;
+  /** Precomputed per-channel firing state for ChannelDots. Absent on
+   * legacy callers; ChannelDots renders all-off (or null with hideWhenEmpty). */
+  channelStatus?: {
+    github: boolean;
+    reddit: boolean;
+    hn: boolean;
+    bluesky: boolean;
+    devto: boolean;
+  };
 }
 
 export interface SidebarWatchlistPreviewProps {
@@ -98,10 +107,7 @@ export function SidebarWatchlistPreview({
                 {repo.fullName}
               </span>
               <ChannelDots
-                repo={{
-                  fullName: repo.fullName,
-                  movementStatus: repo.movementStatus ?? "stable",
-                }}
+                status={repo.channelStatus ?? null}
                 hideWhenEmpty
                 size="sm"
               />

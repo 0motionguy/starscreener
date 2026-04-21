@@ -170,6 +170,16 @@ export function attachCrossSignal(
       ...repo,
       crossSignalScore: Math.round(score * 100) / 100,
       channelsFiring: firing,
+      // Precomputed per-channel state so the client-side ChannelDots
+      // component never needs to import this module — avoids pulling the
+      // per-source mention JSONs into the client bundle (finding #3).
+      channelStatus: {
+        github: gh > 0,
+        reddit: rd > 0,
+        hn: hn > 0,
+        bluesky: bs > 0,
+        devto: dv > 0,
+      },
       bluesky: bskyRollup,
       devto: devtoRollup,
     };

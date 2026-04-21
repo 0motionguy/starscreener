@@ -3,52 +3,77 @@
 // ChannelDots — five small inline dots representing GitHub / Reddit / HN /
 // Bluesky / dev.to channel state. Filled = component > 0; outlined = inactive.
 //
-// Self-contained type so this can render anywhere a Repo is in scope
-// without forcing an import of src/lib/pipeline/cross-signal.ts (the
-// channel status is already on the Repo via channelsFiring; the per-
-// channel breakdown for tooltip text is computed lazily by the lib
-// at the consumer's site).
+// PREVIOUSLY this component imported getChannelStatus from
+// @/lib/pipeline/cross-signal, which transitively pulled every per-source
+// mention JSON (reddit + HN + bsky + devto = MB of data) into the CLIENT
+// bundle. Sprint 1 audit flagged that as finding #3. Now the component
+// accepts a precomputed `status` prop (or reads it from `repo.channelStatus`
+// attached server-side by attachCrossSignal). No server-only imports;
+// bundle stays thin.
+//
+// Self-contained type so surfaces that pass only a {fullName, channelStatus}
+// subset (sidebar watchlist row etc.) keep working without constructing
+// a full Repo.
 
-import {
-  getChannelStatus,
-  type ChannelStatusTarget,
-} from "@/lib/pipeline/cross-signal";
+interface ChannelStatus {
+  github: boolean;
+  reddit: boolean;
+  hn: boolean;
+  bluesky: boolean;
+  devto: boolean;
+}
 
 interface ChannelDotsProps {
-  /** Full Repo or any object carrying `fullName` + `movementStatus`. */
-  repo: ChannelStatusTarget;
+  /**
+   * Source of truth for per-channel state. Three accepted shapes:
+   *   - a Repo-like object carrying `channelStatus` on itself
+   *   - a Repo without `channelStatus` yet (renders all-off, or null when
+   *     hideWhenEmpty=true)
+   *   - an explicit `status` prop (precomputed elsewhere)
+   */
+  repo?: { channelStatus?: ChannelStatus };
+  status?: ChannelStatus | null;
   /** Render `null` when no channel is firing. Default: false (show empty dots). */
   hideWhenEmpty?: boolean;
   size?: "sm" | "md";
 }
 
 const CHANNEL_COLORS = {
-  github: "#22c55e",  // green-500 — matches accent-green in repo cards
-  reddit: "#ff4500",  // canonical Reddit orange
-  hn: "#ff6600",      // canonical HN orange
-  bluesky: "#0085FF", // Bluesky blue
-  devto: "#0a0a0a",   // dev.to brand black
+  github: "#22c55e",
+  reddit: "#ff4500",
+  hn: "#ff6600",
+  bluesky: "#0085FF",
+  devto: "#0a0a0a",
 };
 
-function buildTooltip(
-  status: ReturnType<typeof getChannelStatus>,
-  firing: number,
-): string {
-  const labels: string[] = [];
-  labels.push(`GitHub: ${status.github ? "active" : "—"}`);
-  labels.push(`Reddit: ${status.reddit ? "active" : "—"}`);
-  labels.push(`HN: ${status.hn ? "active" : "—"}`);
-  labels.push(`Bluesky: ${status.bluesky ? "active" : "—"}`);
-  labels.push(`dev.to: ${status.devto ? "active" : "—"}`);
-  return `${firing}/5 channels firing\n${labels.join(" · ")}`;
+function buildTooltip(status: ChannelStatus, firing: number): string {
+  const parts = [
+    `GitHub: ${status.github ? "active" : "—"}`,
+    `Reddit: ${status.reddit ? "active" : "—"}`,
+    `HN: ${status.hn ? "active" : "—"}`,
+    `Bluesky: ${status.bluesky ? "active" : "—"}`,
+    `dev.to: ${status.devto ? "active" : "—"}`,
+  ];
+  return `${firing}/5 channels firing\n${parts.join(" · ")}`;
 }
 
-export function ChannelDots({
-  repo,
-  hideWhenEmpty = false,
-  size = "sm",
-}: ChannelDotsProps) {
-  const status = getChannelStatus(repo);
+const ZERO_STATUS: ChannelStatus = {
+  github: false,
+  reddit: false,
+  hn: false,
+  bluesky: false,
+  devto: false,
+};
+
+function resolveStatus(props: ChannelDotsProps): ChannelStatus {
+  if (props.status) return props.status;
+  if (props.repo?.channelStatus) return props.repo.channelStatus;
+  return ZERO_STATUS;
+}
+
+export function ChannelDots(props: ChannelDotsProps) {
+  const { hideWhenEmpty = false, size = "sm" } = props;
+  const status = resolveStatus(props);
   const firing =
     (status.github ? 1 : 0) +
     (status.reddit ? 1 : 0) +

@@ -95,10 +95,24 @@ export interface Repo {
   crossSignalScore?: number;
 
   /**
-   * Number of cross-signal channels firing (component > 0). Range: 0-4.
-   * Drives the 4-dot indicator and the "Cross-Signal Breakouts" filter.
+   * Number of cross-signal channels firing (component > 0). Range: 0-5.
+   * Drives the 5-dot indicator and the "Cross-Signal Breakouts" filter.
    */
   channelsFiring?: number;
+
+  /**
+   * Per-channel firing state. Precomputed server-side in attachCrossSignal
+   * so the ChannelDots client component doesn't have to import the
+   * cross-signal module (which transitively pulls every per-source
+   * mentions JSON into the client bundle — see Sprint 1 finding #3).
+   */
+  channelStatus?: {
+    github: boolean;
+    reddit: boolean;
+    hn: boolean;
+    bluesky: boolean;
+    devto: boolean;
+  };
 
   /**
    * Bluesky mention rollup attached during derived-repos assembly. null

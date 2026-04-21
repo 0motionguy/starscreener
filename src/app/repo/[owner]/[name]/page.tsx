@@ -1,29 +1,51 @@
+// /repo/[owner]/[name] — modernized repo detail page.
+//
+// Mostly a server component that composes:
+//   1. RepoDetailHeader  — identity + badges + cross-signal score callout
+//   2. RepoActionRow     — Watch / Compare / open on GitHub (client)
+//   3. RepoDetailStats   — 6-up stats grid
+//   4. RepoChart         — preserved star-history chart (client, recharts)
+//   5. CrossSignalBreakdown — 5 horizontal channel bars
+//   6. RecentMentionsFeed   — tabbed mention feed (All · per-source) (client)
+//
+// Replaces the old detail/* component set in spirit; the legacy components
+// remain on disk under src/components/detail/ but are no longer wired in.
+//
+// Mentions are aggregated server-side from the static per-source JSON
+// (data/{reddit,hackernews,bluesky,devto,producthunt}-*.json) so the
+// client bundle stays free of mention payloads.
+
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { Flame, TrendingUp, Zap } from "lucide-react";
 
-export const dynamic = "force-dynamic";
-import { getDefaultSocialAdapters } from "@/lib/pipeline/adapters/social-adapters";
-import {
-  NitterAdapter,
-  TWITTER_AVAILABLE,
-} from "@/lib/pipeline/adapters/nitter-adapter";
-import {
-  buildDerivedWhyMoving,
-  getDerivedRelatedRepos,
-} from "@/lib/derived-insights";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
-import type { SocialMention } from "@/lib/types";
-import type { RepoMention } from "@/lib/pipeline/types";
+import { getRedditMentions } from "@/lib/reddit";
+import { getHnMentions } from "@/lib/hackernews";
+import { getBlueskyMentions, bskyPostHref } from "@/lib/bluesky";
+import { getDevtoMentions } from "@/lib/devto";
+import { getLaunchForRepo } from "@/lib/producthunt";
 import { formatNumber, getRelativeTime } from "@/lib/utils";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
-import { RepoHeader } from "@/components/detail/RepoHeader";
-import { RepoActions } from "@/components/detail/RepoActions";
+
+import { RepoDetailHeader } from "@/components/repo-detail/RepoDetailHeader";
+import { RepoDetailStats } from "@/components/repo-detail/RepoDetailStats";
+import { CrossSignalBreakdown } from "@/components/repo-detail/CrossSignalBreakdown";
+import {
+  RecentMentionsFeed,
+  type MentionItem,
+} from "@/components/repo-detail/RecentMentionsFeed";
+import { RepoActionRow } from "@/components/repo-detail/RepoActionRow";
 import { RepoChart } from "@/components/detail/RepoChart";
-import { WhyMoving as WhyMovingSection } from "@/components/detail/WhyMoving";
-import { SocialMentions } from "@/components/detail/SocialMentions";
-import { RelatedRepos } from "@/components/detail/RelatedRepos";
+
+// force-dynamic: the page aggregates per-source mention JSON at request
+// time and has ~thousands of possible (owner, name) tuples. Static
+// prerender of all of them blows the build-time chunk graph (Sprint 1
+// audit finding #2: ./<N>.js module-not-found). On-demand rendering is
+// fast enough — each request reads committed JSON + runs a small compose
+// — and matches the pre-rewrite behavior.
+export const dynamic = "force-dynamic";
 
 const SLUG_PART_PATTERN = /^[A-Za-z0-9._-]+$/;
 
@@ -95,6 +117,102 @@ export async function generateMetadata({
   };
 }
 
+/**
+ * Build a normalized mention list from every per-source loader. Returns
+ * the merged list sorted by recency desc; the client tab component then
+ * filters by source on demand.
+ */
+function buildMentions(fullName: string): MentionItem[] {
+  const out: MentionItem[] = [];
+
+  // Reddit — top 5 by score, but enriched posts have createdUtc which we
+  // convert to ISO. The list is then re-sorted client-side anyway.
+  const reddit = getRedditMentions(fullName);
+  if (reddit) {
+    for (const p of reddit.posts.slice(0, 10)) {
+      out.push({
+        id: `reddit-${p.id}`,
+        source: "reddit",
+        title: p.title,
+        author: `u/${p.author} · r/${p.subreddit}`,
+        score: p.score,
+        secondary: { label: "comments", value: p.numComments },
+        url: `https://reddit.com${p.permalink}`,
+        createdAt: new Date(p.createdUtc * 1000).toISOString(),
+      });
+    }
+  }
+
+  // HackerNews
+  const hn = getHnMentions(fullName);
+  if (hn) {
+    for (const s of hn.stories.slice(0, 10)) {
+      out.push({
+        id: `hn-${s.id}`,
+        source: "hn",
+        title: s.title,
+        author: s.by,
+        score: s.score,
+        secondary: { label: "comments", value: s.descendants },
+        url: `https://news.ycombinator.com/item?id=${s.id}`,
+        createdAt: new Date(s.createdUtc * 1000).toISOString(),
+      });
+    }
+  }
+
+  // Bluesky
+  const bsky = getBlueskyMentions(fullName);
+  if (bsky) {
+    for (const p of bsky.posts.slice(0, 10)) {
+      const handle = p.author?.handle ?? "unknown";
+      out.push({
+        id: `bsky-${p.uri}`,
+        source: "bluesky",
+        title: p.text,
+        author: `@${handle}`,
+        score: p.likeCount,
+        secondary: { label: "reposts", value: p.repostCount },
+        url: p.bskyUrl || bskyPostHref(p.uri, handle),
+        createdAt: p.createdAt,
+      });
+    }
+  }
+
+  // dev.to
+  const devto = getDevtoMentions(fullName);
+  if (devto) {
+    for (const a of devto.articles.slice(0, 10)) {
+      out.push({
+        id: `devto-${a.id}`,
+        source: "devto",
+        title: a.title,
+        author: `@${a.author?.username ?? "anon"}`,
+        score: a.reactionsCount,
+        secondary: { label: "comments", value: a.commentsCount },
+        url: a.url,
+        createdAt: a.publishedAt,
+      });
+    }
+  }
+
+  // ProductHunt — at most one tracked launch per repo by design.
+  const ph = getLaunchForRepo(fullName);
+  if (ph) {
+    out.push({
+      id: `ph-${ph.id}`,
+      source: "ph",
+      title: `${ph.name} — ${ph.tagline}`,
+      author: ph.makers?.[0] ? `@${ph.makers[0].username}` : "—",
+      score: ph.votesCount,
+      secondary: { label: "comments", value: ph.commentsCount },
+      url: ph.url,
+      createdAt: ph.createdAt,
+    });
+  }
+
+  return out.sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
+}
+
 export default async function RepoDetailPage({ params }: PageProps) {
   const { owner, name } = await params;
 
@@ -107,48 +225,11 @@ export default async function RepoDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  // Fetch mentions live from the social adapters. Each adapter swallows its
-  // own errors and returns []; we wrap the whole fan-out in try/catch so a
-  // completely offline environment still renders the page.
-  let mentions: SocialMention[] = [];
-  try {
-    const adapters = getDefaultSocialAdapters();
-    if (TWITTER_AVAILABLE) {
-      adapters.push(new NitterAdapter());
-    }
-    const results = await Promise.all(
-      adapters.map((a) => a.fetchMentionsForRepo(repo.fullName)),
-    );
-    const repoMentions: RepoMention[] = results.flat();
-    // Narrow the pipeline RepoMention shape down to the SocialMention the
-    // UI expects. Both fields are stable; we just drop the pipeline-only
-    // columns (authorFollowers, reach, discoveredAt, isInfluencer).
-    mentions = repoMentions.map((m) => ({
-      id: m.id,
-      repoId: m.repoId,
-      platform: m.platform,
-      author: m.author,
-      content: m.content,
-      url: m.url,
-      sentiment: m.sentiment,
-      engagement: m.engagement,
-      postedAt: m.postedAt,
-    }));
-    // Newest first so the UI's natural rendering order matches recency.
-    mentions.sort((a, b) => (a.postedAt < b.postedAt ? 1 : -1));
-  } catch (err) {
-    console.error(
-      `[repo-page] social fetch for ${repo.fullName} failed`,
-      err,
-    );
-    mentions = [];
-  }
-
-  const whyMoving = buildDerivedWhyMoving(repo);
-  const related = getDerivedRelatedRepos(repo, 6);
-
+  const mentions = buildMentions(repo.fullName);
   const lastRefresh = getRelativeTime(new Date().toISOString());
 
+  // SoftwareSourceCode JSON-LD — kept identical to the previous version so
+  // search engines see no schema regression on the URL.
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "SoftwareSourceCode",
@@ -174,30 +255,31 @@ export default async function RepoDetailPage({ params }: PageProps) {
 
   return (
     <>
-      {/* Structured data — SoftwareSourceCode schema so search engines
-          surface the repo as a first-class object. */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      {/* Top strip — matches terminal pages. Sticky so breadcrumb stays
-          visible while scrolling through a long detail page. */}
+
+      {/* Sticky breadcrumb strip — unchanged behavior, terminal tone. */}
       <div className="sticky top-14 z-30 bg-bg-primary/90 backdrop-blur-md border-b border-border-primary">
-        <div className="max-w-full mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4 flex-wrap">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4 flex-wrap">
           <nav
             aria-label="Breadcrumb"
-            className="flex items-center gap-1.5 text-xs text-text-tertiary"
+            className="flex items-center gap-1.5 font-mono text-xs text-text-tertiary"
           >
-            <Link href="/" className="hover:text-text-primary transition-colors">
+            <Link
+              href="/"
+              className="hover:text-text-primary transition-colors"
+            >
               Home
             </Link>
             <span aria-hidden>›</span>
-            <span className="text-text-primary font-medium">
+            <span className="text-text-primary font-medium truncate max-w-[260px] sm:max-w-none">
               {repo.fullName}
             </span>
           </nav>
           <div className="flex items-center gap-3 font-mono text-xs tabular-nums">
-            <span className="inline-flex items-center gap-1.5 text-text-tertiary">
+            <span className="hidden sm:inline-flex items-center gap-1.5 text-text-tertiary">
               <TrendingUp size={12} aria-hidden />
               <span>Rank:</span>
               <span className="text-text-primary">#{repo.rank}</span>
@@ -210,30 +292,33 @@ export default async function RepoDetailPage({ params }: PageProps) {
             <span className="inline-flex items-center gap-1.5">
               <Zap size={12} className="text-warning" aria-hidden />
               <span className="text-text-tertiary">24h:</span>
-              <span className={repo.starsDelta24h >= 0 ? "text-up" : "text-down"}>
+              <span
+                className={repo.starsDelta24h >= 0 ? "text-up" : "text-down"}
+              >
                 {repo.starsDelta24h >= 0 ? "+" : ""}
                 {formatNumber(repo.starsDelta24h)} ★
               </span>
             </span>
-            <span className="text-text-tertiary hidden sm:inline">
-              · updated {lastRefresh}
+            <span className="hidden md:inline text-text-tertiary">
+              · refreshed {lastRefresh}
             </span>
           </div>
         </div>
       </div>
 
-      {/* Content — constrained to max-w-5xl so the page stays within the
-          terminal window instead of sprawling full-width. */}
-      <main className="max-w-5xl mx-auto py-6 px-4 sm:px-6 space-y-6">
-        <RepoHeader repo={repo} />
-        <RepoActions repo={repo} />
-        <RepoChart repo={repo} />
-        <WhyMovingSection whyMoving={whyMoving} />
-        <SocialMentions
-          mentions={mentions}
-          twitterAvailable={TWITTER_AVAILABLE}
-        />
-        <RelatedRepos repos={related} />
+      {/* Page body — terminal-tone, monospace baseline, 1400px container
+          to match /breakouts and the rest of the modernized surfaces. */}
+      <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6">
+          <RepoDetailHeader repo={repo} />
+          <RepoActionRow repo={repo} />
+          <RepoDetailStats repo={repo} />
+          <RepoChart repo={repo} />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <CrossSignalBreakdown repo={repo} />
+            <RecentMentionsFeed mentions={mentions} />
+          </div>
+        </div>
       </main>
     </>
   );

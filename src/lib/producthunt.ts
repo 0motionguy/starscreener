@@ -34,8 +34,15 @@ export interface ProductHuntFile {
 const file = phData as unknown as ProductHuntFile;
 
 export const producthuntFetchedAt: string = file.lastFetchedAt;
+
+// "Cold" means the scraper has NEVER run — no lastFetchedAt committed yet.
+// A successful run that returns zero launches (off-day for AI launches)
+// is still fresh data; we must not treat it as cold or /api/health will
+// suppress stale-alert gating and we lose visibility when the scraper
+// silently fails. Previously this also gated on `launches.length === 0`
+// which conflated "no data ever" with "quiet day" — fixed here.
 export const producthuntCold: boolean =
-  !file.lastFetchedAt || !Array.isArray(file.launches) || file.launches.length === 0;
+  !file.lastFetchedAt || !Array.isArray(file.launches);
 
 // Pre-compute lookup: lowercased fullName -> best (highest-voted) launch.
 // A single tracked repo could in theory have two launches in the 7d window

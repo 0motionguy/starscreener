@@ -7,6 +7,7 @@ import { ROUTES } from "@/lib/constants";
 import { SearchBar } from "@/components/shared/SearchBar";
 import { ThemeToggle } from "@/components/shared/ThemeToggle";
 import { HamburgerButton } from "@/components/layout/HamburgerButton";
+import { FreshBadge } from "@/components/layout/FreshBadge";
 
 /**
  * Header — 56px sticky top bar.
@@ -38,10 +39,6 @@ export function Header() {
           className="flex items-center gap-2.5 group"
           aria-label="TrendingRepo home"
         >
-          <span
-            className="live-dot live-dot-brand"
-            aria-hidden="true"
-          />
           <span className="flex flex-col leading-none">
             <span className="font-display font-bold text-lg tracking-tight text-text-primary leading-none">
               Trending<span className="text-brand">Repo</span>
@@ -61,15 +58,18 @@ export function Header() {
         <SearchBar placeholder="Search repos..." fullWidth />
       </div>
 
-      {/* Right: Theme toggle */}
+      {/* Right: FreshBadge + Submit + Theme toggle */}
       <div className="flex items-center gap-1 md:gap-2 shrink-0">
+        <FreshBadge />
         <Link
           href={ROUTES.SUBMIT}
           className={cn(
             "inline-flex h-9 items-center gap-2 rounded-card",
-            "border border-border-primary bg-bg-secondary px-3",
-            "text-sm font-medium text-text-secondary transition-colors",
-            "hover:text-text-primary",
+            // Outlined brand-orange CTA — distinct from the mid-gray
+            // SearchBar so it reads as the primary user action.
+            "border border-brand/60 bg-transparent px-3",
+            "text-sm font-medium text-brand transition-colors",
+            "hover:bg-brand hover:text-black hover:border-brand",
           )}
           aria-label="Drop your repo"
         >

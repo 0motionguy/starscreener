@@ -1,10 +1,112 @@
 {
-  "fetchedAt": "2026-04-21T15:44:18.235Z",
+  "fetchedAt": "2026-04-21T17:17:38.792Z",
   "windowDays": 7,
-  "scannedPosts": 300,
+  "scannedPosts": 99,
   "searchQuery": "github.com",
-  "pagesFetched": 3,
+  "pagesFetched": 1,
   "mentions": {
+    "Donchitos/Claude-Code-Game-Studios": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mjzgd47fpa22",
+        "cid": "bafyreiap3rz5yakwfcqd4pbepsuk5rfcisizqn25jbmedfa4fnlq3ue5c4",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mjzgd47fpa22",
+        "text": "https://github.com/Donchitos/Claude-Code-Game-Studios",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-21T16:40:19Z",
+        "hoursSincePosted": 0.62
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mjzgd47fpa22",
+          "cid": "bafyreiap3rz5yakwfcqd4pbepsuk5rfcisizqn25jbmedfa4fnlq3ue5c4",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mjzgd47fpa22",
+          "text": "https://github.com/Donchitos/Claude-Code-Game-Studios",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-21T16:40:19Z",
+          "createdUtc": 1776789619,
+          "ageHours": 0.62,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Donchitos/Claude-Code-Game-Studios",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "resend/react-email": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:kvle2en7cfxritycs4hzm43x/app.bsky.feed.post/3mjzeagzpyh2e",
+        "cid": "bafyreihjwgrelgwrggkzzkoecskeevqso6rkhwuwmkryptv6kwk7hbteee",
+        "bskyUrl": "https://bsky.app/profile/josusanz.bsky.social/post/3mjzeagzpyh2e",
+        "text": "Además, con IA puedes generar los componentes de email en segundos. React como lenguaje común lo hace mucho más predecible que pedirle a un LLM que escriba table dentro de table. github.com/resend/reac...",
+        "author": {
+          "handle": "josusanz.bsky.social",
+          "displayName": "Josu Sanz"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-21T16:03:02.908743Z",
+        "hoursSincePosted": 1.24
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:kvle2en7cfxritycs4hzm43x/app.bsky.feed.post/3mjzeagzpyh2e",
+          "cid": "bafyreihjwgrelgwrggkzzkoecskeevqso6rkhwuwmkryptv6kwk7hbteee",
+          "bskyUrl": "https://bsky.app/profile/josusanz.bsky.social/post/3mjzeagzpyh2e",
+          "text": "Además, con IA puedes generar los componentes de email en segundos. React como lenguaje común lo hace mucho más predecible que pedirle a un LLM que escriba table dentro de table. github.com/resend/reac...",
+          "author": {
+            "handle": "josusanz.bsky.social",
+            "displayName": "Josu Sanz"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-21T16:03:02.908743Z",
+          "createdUtc": 1776787382,
+          "ageHours": 1.24,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "resend/react-email",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "compozy/compozy": {
       "count7d": 1,
       "likesSum7d": 0,
@@ -23,7 +125,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-21T15:39:07Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.64
       },
       "posts": [
         {
@@ -40,7 +142,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-21T15:39:07Z",
           "createdUtc": 1776785947,
-          "ageHours": 0.5,
+          "ageHours": 1.64,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -59,7 +161,17 @@
   },
   "leaderboard": [
     {
+      "fullName": "Donchitos/Claude-Code-Game-Studios",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
       "fullName": "compozy/compozy",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "resend/react-email",
       "count7d": 1,
       "likesSum7d": 0
     }

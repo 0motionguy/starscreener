@@ -1,5 +1,5 @@
 {
-  "lastFetchedAt": "2026-04-21T15:49:06.135Z",
+  "lastFetchedAt": "2026-04-21T17:14:18.444Z",
   "scannedSubreddits": [
     "ClaudeAI",
     "ChatGPT",
@@ -48,8 +48,8 @@
     "nocode"
   ],
   "windowDays": 7,
-  "totalPosts": 3491,
-  "prunedOldPosts": 22,
+  "totalPosts": 3481,
+  "prunedOldPosts": 10,
   "prunedOverflowPosts": 0,
   "posts": [
     {
@@ -18746,31 +18746,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1slefko",
-      "subreddit": "WritingWithAI",
-      "title": "Has Sonnet 4.5 dumbed down recently?",
-      "url": "https://www.reddit.com/r/WritingWithAI/comments/1slefko/has_sonnet_45_dumbed_down_recently/",
-      "permalink": "https://www.reddit.com/r/WritingWithAI/comments/1slefko/has_sonnet_45_dumbed_down_recently/",
-      "score": 16,
-      "numComments": 29,
-      "createdUtc": 1776185651,
-      "author": "FlatKaleidoscope5403",
-      "repoFullName": null,
-      "baselineRatio": 5.33,
-      "baselineTier": "above-average",
-      "baselineConfidence": "high",
-      "ageHours": 143.29,
-      "velocity": 0.11,
-      "trendingScore": 0.71,
-      "content_tags": [
-        "is-question",
-        "is-announcement"
-      ],
-      "value_score": 1,
-      "selftext": "I use it for creative writing purposes only and I've noticed a recent decline in quality by a land slide. It's hallucinating and ignoring context fully even when I specifically say it to concentrate. I used extended even and still the same problem. All dialogues and emotions fall completely flat and it's really bad for a story. Is it just me?",
-      "linkedRepos": []
-    },
-    {
       "id": "1sqrsoq",
       "subreddit": "Rag",
       "title": "Dynamic Hybrid Beats Dense and Fixed Hybrid",
@@ -25427,30 +25402,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1slcnn3",
-      "subreddit": "n8n",
-      "title": "n8n workflow: Google Sheets → GPT-4 → JSON2Video → YouTube auto-upload (Top 10 faceless videos)",
-      "url": "https://www.reddit.com/r/n8n/comments/1slcnn3/n8n_workflow_google_sheets_gpt4_json2video/",
-      "permalink": "https://www.reddit.com/r/n8n/comments/1slcnn3/n8n_workflow_google_sheets_gpt4_json2video/",
-      "score": 11,
-      "numComments": 9,
-      "createdUtc": 1776181913,
-      "author": "Grewup01",
-      "repoFullName": null,
-      "baselineRatio": 3.33,
-      "baselineTier": "above-average",
-      "baselineConfidence": "high",
-      "ageHours": 144.29,
-      "velocity": 0.07,
-      "trendingScore": 0.23,
-      "content_tags": [
-        "has-github-repo"
-      ],
-      "value_score": 1,
-      "selftext": "Built this to auto-create and upload faceless \"Top 10\" YouTube videos from a Google Sheet. Add a topic → set status to \"to-do\" → trigger workflow → finished video is on YouTube in \\~15 minutes. Workflow JSON (GitHub Gist): Architecture: Google Sheets → Intro/Outro Agent → Rankings Agent → Video Render → Status polling loop → Download MP4 → YouTube upload → Update Sheet NODE BREAKDOWN: Node 1 — Google Sheets Filter: Creation Status = \"to-do\" Limit: 1 (prevents batch overload) Uses structured outp",
-      "linkedRepos": []
-    },
-    {
       "id": "1sookz3",
       "subreddit": "LangChain",
       "title": "I built a \"Temporal Decay\" scoring API for RAG to fix context rot. Running a 48h stress test (Free API keys).",
@@ -26478,28 +26429,6 @@
       "value_score": -1,
       "selftext": "",
       "linkedRepos": []
-    },
-    {
-      "id": "1slcuzj",
-      "subreddit": "singularity",
-      "title": "The To Do List with Spot | Boston Dynamics",
-      "url": "https://youtu.be/LP4-c5AK30g?si=TSWlMmr0FhXSRhDo",
-      "permalink": "https://www.reddit.com/r/singularity/comments/1slcuzj/the_to_do_list_with_spot_boston_dynamics/",
-      "score": 55,
-      "numComments": 25,
-      "createdUtc": 1776182335,
-      "author": "JackieRobinsonStamps",
-      "repoFullName": null,
-      "baselineRatio": 0.3,
-      "baselineTier": "below-average",
-      "baselineConfidence": "high",
-      "ageHours": 144.15,
-      "velocity": 0.37,
-      "trendingScore": 0.19,
-      "selftext": "",
-      "linkedRepos": [],
-      "content_tags": [],
-      "value_score": 0
     },
     {
       "id": "1sqoh6b",
@@ -34048,30 +33977,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1slcp6g",
-      "subreddit": "SEO",
-      "title": "Did anyone else notice that Google has removed the “Net Worth” section from all individual Knowledge Panels recently?",
-      "url": "https://www.reddit.com/r/SEO/comments/1slcp6g/did_anyone_else_notice_that_google_has_removed/",
-      "permalink": "https://www.reddit.com/r/SEO/comments/1slcp6g/did_anyone_else_notice_that_google_has_removed/",
-      "score": 9,
-      "numComments": 8,
-      "createdUtc": 1776182001,
-      "author": "Ill-Search-6931",
-      "repoFullName": null,
-      "baselineRatio": 1.4,
-      "baselineTier": "normal",
-      "baselineConfidence": "high",
-      "ageHours": 144.3,
-      "velocity": 0.05,
-      "trendingScore": 0.06,
-      "content_tags": [
-        "is-question"
-      ],
-      "value_score": 0,
-      "selftext": "",
-      "linkedRepos": []
-    },
-    {
       "id": "1sqgfmv",
       "subreddit": "aiagents",
       "title": "We need to talk about the \"Agentic Economy\" and the death of traditional ways.",
@@ -34980,28 +34885,6 @@
       "content_tags": [],
       "value_score": 0,
       "selftext": "Hi, I'm looking to use more Mistral to replace my Claude usage however, when I use Mistral (devstral) for agentic task, there is always some crash. I know that there is Mistral Code that exists but only available for enterprise. Maybe it works better with it ? When Mistral Code will turn publicly available ? Thank you",
-      "linkedRepos": []
-    },
-    {
-      "id": "1slep2n",
-      "subreddit": "MistralAI",
-      "title": "Its being now 12h, how long should I wait? :D",
-      "url": "https://www.reddit.com/r/MistralAI/comments/1slep2n/its_being_now_12h_how_long_should_i_wait_d/",
-      "permalink": "https://www.reddit.com/r/MistralAI/comments/1slep2n/its_being_now_12h_how_long_should_i_wait_d/",
-      "score": 9,
-      "numComments": 11,
-      "createdUtc": 1776186191,
-      "author": "Radi1229",
-      "repoFullName": null,
-      "baselineRatio": 0.9,
-      "baselineTier": "below-average",
-      "baselineConfidence": "medium",
-      "ageHours": 143.06,
-      "velocity": 0.06,
-      "trendingScore": 0.05,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "https://preview.redd.it/492y92ogt6vg1.png?width=1744&amp;format=png&amp;auto=webp&amp;s=bc4f8ce6f69c71781619c87feed35b60b2ac7b58",
       "linkedRepos": []
     },
     {
@@ -39276,28 +39159,6 @@
       "value_score": 1
     },
     {
-      "id": "1sldigc",
-      "subreddit": "n8n",
-      "title": "Looking for a workflow for personal use.",
-      "url": "https://www.reddit.com/r/n8n/comments/1sldigc/looking_for_a_workflow_for_personal_use/",
-      "permalink": "https://www.reddit.com/r/n8n/comments/1sldigc/looking_for_a_workflow_for_personal_use/",
-      "score": 4,
-      "numComments": 12,
-      "createdUtc": 1776183707,
-      "author": "AWolfLover",
-      "repoFullName": null,
-      "baselineRatio": 1.33,
-      "baselineTier": "normal",
-      "baselineConfidence": "high",
-      "ageHours": 143.79,
-      "velocity": 0.03,
-      "trendingScore": 0.02,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "I am looking for workflow or workflows that can do what something similar to what is described here . I am looking for references to study so that I can create something that suits me and my style.",
-      "linkedRepos": []
-    },
-    {
       "id": "1snpp9z",
       "subreddit": "n8n",
       "title": "n8n project topic",
@@ -43520,30 +43381,6 @@
       ],
       "value_score": 2,
       "selftext": "honestly i was drowning in project emails and invoices. found this app accio work that lives on my desktop. it’s an AI agent that can actually do stuff in my browser and files. i just tell it to organize my downloads and draft replies in gmail. it’s still a bit buggy with some sites and you have to be specific with instructions, but man, it saved me like 2 hours of clicking today. it’s like having a tiny assistant sitting in my terminal. i can finally focus on my actual work instead of just mana",
-      "linkedRepos": []
-    },
-    {
-      "id": "1slcpz1",
-      "subreddit": "ChatGPTCoding",
-      "title": "And it's ChatGPT goes to total poop o'clock... in the UK anyone else noticing this at past 3pm !?",
-      "url": "https://www.reddit.com/r/ChatGPTCoding/comments/1slcpz1/and_its_chatgpt_goes_to_total_poop_oclock_in_the/",
-      "permalink": "https://www.reddit.com/r/ChatGPTCoding/comments/1slcpz1/and_its_chatgpt_goes_to_total_poop_oclock_in_the/",
-      "score": 5,
-      "numComments": 7,
-      "createdUtc": 1776182047,
-      "author": "TheCientista",
-      "repoFullName": null,
-      "baselineRatio": 0.42,
-      "baselineTier": "below-average",
-      "baselineConfidence": "low",
-      "ageHours": 144.23,
-      "velocity": 0.03,
-      "trendingScore": 0.01,
-      "content_tags": [
-        "is-question"
-      ],
-      "value_score": 0,
-      "selftext": "https://preview.redd.it/yvxwbghjg6vg1.png?width=432&amp;format=png&amp;auto=webp&amp;s=cbffbbd7cf947604674888e6c838ec160eaba586 I suspect a culprit... hits like clockwork. Everything's being going swimmingly, America wakes up. I may as well go to bed",
       "linkedRepos": []
     },
     {
@@ -62592,28 +62429,6 @@
       ]
     },
     {
-      "id": "1slemsa",
-      "subreddit": "MistralAI",
-      "title": "OCR API not working",
-      "url": "https://www.reddit.com/r/MistralAI/comments/1slemsa/ocr_api_not_working/",
-      "permalink": "https://www.reddit.com/r/MistralAI/comments/1slemsa/ocr_api_not_working/",
-      "score": 3,
-      "numComments": 5,
-      "createdUtc": 1776186063,
-      "author": "Pau4Serra",
-      "repoFullName": null,
-      "baselineRatio": 0.3,
-      "baselineTier": "below-average",
-      "baselineConfidence": "medium",
-      "ageHours": 143.09,
-      "velocity": 0.02,
-      "trendingScore": 0,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "Has anybody else experienced this issue? When trying to use the OCR via API to extract data from a PDF file it gets stuck in \"QUEUED\" for a really long time, sometimes even hours. Any solution?",
-      "linkedRepos": []
-    },
-    {
       "id": "1sqqzrn",
       "subreddit": "deeplearning",
       "title": "Found an interesting 'ghost' filter online.",
@@ -74137,28 +73952,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1sletsw",
-      "subreddit": "WritingWithAI",
-      "title": "Creative non-fiction prompts request",
-      "url": "https://www.reddit.com/r/WritingWithAI/comments/1sletsw/creative_nonfiction_prompts_request/",
-      "permalink": "https://www.reddit.com/r/WritingWithAI/comments/1sletsw/creative_nonfiction_prompts_request/",
-      "score": 2,
-      "numComments": 2,
-      "createdUtc": 1776186471,
-      "author": "coinmancometh",
-      "repoFullName": null,
-      "baselineRatio": 0.67,
-      "baselineTier": "below-average",
-      "baselineConfidence": "high",
-      "ageHours": 143.06,
-      "velocity": 0.01,
-      "trendingScore": 0,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "Anyone know a place for good prompts for creative non-fiction. Sort of like the type of books by Erik Larson. its history but its laser focused on one event and one or two historical figures and written in gripping journalistic prose. Or is there a \"guru\" with a YouTube channel that specifically covers this instead of fiction? not looking for a tool. Just looking to be pointed in the right direction.",
-      "linkedRepos": []
-    },
-    {
       "id": "1sovoza",
       "subreddit": "SEO",
       "title": "Local AI SEO Startup - Should I? Seems Like Yes, But Google Say Lots of Competition",
@@ -81277,28 +81070,6 @@
       "content_tags": [],
       "value_score": 0,
       "selftext": "",
-      "linkedRepos": []
-    },
-    {
-      "id": "1slcsd7",
-      "subreddit": "AiBuilders",
-      "title": "Ethical A.i",
-      "url": "https://gofund.me/332fd8935",
-      "permalink": "https://www.reddit.com/r/AiBuilders/comments/1slcsd7/ethical_ai/",
-      "score": 1,
-      "numComments": 0,
-      "createdUtc": 1776182180,
-      "author": "ZealousMirror",
-      "repoFullName": null,
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 144.21,
-      "velocity": 0.01,
-      "trendingScore": 0,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "Seeking partnerships &amp; investors.",
       "linkedRepos": []
     },
     {

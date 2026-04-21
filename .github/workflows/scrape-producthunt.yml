@@ -1,0 +1,45 @@
+name: Refresh ProductHunt launches
+
+on:
+  schedule:
+    - cron: "0 8 * * *"  # 8am UTC daily — after most PH daily rankings settle
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-ph-refresh
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Scrape ProductHunt
+        env:
+          PRODUCTHUNT_TOKEN: ${{ secrets.PRODUCTHUNT_TOKEN }}
+        run: node scripts/scrape-producthunt.mjs
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "starscreener-bot"
+          git config user.email "bot@starscreener.local"
+          git add data/producthunt-launches.json
+          if git diff --quiet --staged; then
+            echo "no changes - skipping commit"
+            exit 0
+          fi
+          TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          git commit -m "chore(data): refresh ProductHunt launches ${TS}"
+          git push

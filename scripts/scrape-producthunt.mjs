@@ -1,0 +1,321 @@
+#!/usr/bin/env node
+// Scrape ProductHunt for AI-adjacent product launches (last 7d).
+//
+// Strategy:
+//   1. Fan out 4 topic queries (artificial-intelligence, developer-tools,
+//      saas, productivity) ordered by RANKING, postedAfter = now-7d.
+//   2. Follow with one broad RANKING query (no topic filter) — catches
+//      launches that ship without PH's AI tag but clearly are (MCP servers,
+//      Claude skills, agent frameworks).
+//   3. Dedupe by post ID, normalize, and apply the keyword filter so non-AI
+//      productivity/SaaS launches drop out.
+//   4. Extract github.com/<owner>/<repo> from website+description; match
+//      against the tracked-repo set (same loader as scrape-hackernews.mjs)
+//      so launches for tracked repos get linked.
+//
+// Auth: PRODUCTHUNT_TOKEN env var (required).
+// Rate limit: ~5 calls per daily run, well under 100/hr cap.
+
+import { writeFile, mkdir, readFile } from "node:fs/promises";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+import {
+  phGraphQL,
+  TOPICS,
+  hasAiKeyword,
+  extractGithubLink,
+  daysBetween,
+  sleep,
+} from "./_ph-shared.mjs";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const DATA_DIR = resolve(__dirname, "..", "data");
+const TRENDING_IN = resolve(DATA_DIR, "trending.json");
+const RECENT_IN = resolve(DATA_DIR, "recent-repos.json");
+const OUT_PATH = resolve(DATA_DIR, "producthunt-launches.json");
+
+const WINDOW_DAYS = 7;
+const POSTS_PER_TOPIC = 50;
+const BROAD_POSTS = 50;
+const POLITE_PAUSE_MS = 1000;
+
+// Topics whose presence alone qualifies a launch as AI-adjacent (no keyword
+// check needed). Everything else falls through to hasAiKeyword.
+const AI_TOPIC_SLUGS = new Set([
+  "artificial-intelligence",
+  "chatbots",
+  "developer-tools",
+]);
+
+const POSTS_QUERY = `
+  query TopicPosts($topic: String!, $first: Int!, $postedAfter: DateTime) {
+    posts(first: $first, order: RANKING, topic: $topic, postedAfter: $postedAfter) {
+      edges {
+        node {
+          id
+          name
+          tagline
+          description
+          url
+          votesCount
+          commentsCount
+          createdAt
+          website
+          thumbnail { url }
+          topics(first: 8) { edges { node { slug name } } }
+          makers { name username }
+        }
+      }
+    }
+  }
+`;
+
+const BROAD_QUERY = `
+  query BroadPosts($first: Int!, $postedAfter: DateTime) {
+    posts(first: $first, order: RANKING, postedAfter: $postedAfter) {
+      edges {
+        node {
+          id
+          name
+          tagline
+          description
+          url
+          votesCount
+          commentsCount
+          createdAt
+          website
+          thumbnail { url }
+          topics(first: 8) { edges { node { slug name } } }
+          makers { name username }
+        }
+      }
+    }
+  }
+`;
+
+function log(msg) {
+  process.stdout.write(`${msg}\n`);
+}
+
+async function loadTrackedRepos() {
+  // Matches scrape-hackernews.mjs::loadTrackedRepos. We only care about
+  // the Map<lowercaseFullName, canonicalFullName> — github-link matching
+  // only needs lowercase keys.
+  const tracked = new Map();
+  try {
+    const raw = await readFile(TRENDING_IN, "utf8");
+    const trending = JSON.parse(raw);
+    for (const langMap of Object.values(trending.buckets ?? {})) {
+      for (const rows of Object.values(langMap)) {
+        for (const row of rows ?? []) {
+          const full = String(row.repo_name ?? "");
+          if (!full.includes("/")) continue;
+          const lower = full.toLowerCase();
+          if (!tracked.has(lower)) tracked.set(lower, full);
+        }
+      }
+    }
+  } catch (err) {
+    log(`warn: trending.json read failed — ${err.message}`);
+  }
+  try {
+    const raw = await readFile(RECENT_IN, "utf8");
+    const recent = JSON.parse(raw);
+    for (const row of recent.rows ?? recent ?? []) {
+      const full = row.repo_name || row.fullName || row.full_name;
+      if (!full || typeof full !== "string" || !full.includes("/")) continue;
+      const lower = full.toLowerCase();
+      if (!tracked.has(lower)) tracked.set(lower, full);
+    }
+  } catch {
+    // recent-repos.json is optional.
+  }
+  return tracked;
+}
+
+export function normalizePost(node, tracked) {
+  if (!node || typeof node !== "object") return null;
+  if (!node.id || !node.createdAt) return null;
+
+  const topics = (node.topics?.edges ?? [])
+    .map((e) => e.node?.slug)
+    .filter((s) => typeof s === "string" && s.length > 0);
+
+  const makers = (Array.isArray(node.makers) ? node.makers : [])
+    .map((m) => ({
+      name: String(m?.name ?? ""),
+      username: String(m?.username ?? ""),
+    }))
+    .filter((m) => m.name || m.username);
+
+  const scanBlob = `${node.website ?? ""}\n${node.description ?? ""}`;
+  const ghMatch = extractGithubLink(scanBlob);
+  let linkedRepo = null;
+  if (ghMatch) {
+    const lower = ghMatch.fullName.toLowerCase();
+    if (tracked.has(lower)) linkedRepo = lower;
+  }
+
+  return {
+    id: String(node.id),
+    name: String(node.name ?? ""),
+    tagline: String(node.tagline ?? ""),
+    description: String(node.description ?? "").slice(0, 1000),
+    url: String(node.url ?? ""),
+    website: node.website ? String(node.website) : null,
+    votesCount: Number.isFinite(node.votesCount) ? Number(node.votesCount) : 0,
+    commentsCount: Number.isFinite(node.commentsCount)
+      ? Number(node.commentsCount)
+      : 0,
+    createdAt: String(node.createdAt),
+    thumbnail: node.thumbnail?.url ? String(node.thumbnail.url) : null,
+    topics,
+    makers,
+    githubUrl: ghMatch?.url ?? null,
+    linkedRepo,
+    daysSinceLaunch: daysBetween(node.createdAt),
+  };
+}
+
+export function isAiAdjacent(launch) {
+  if (!launch) return false;
+  if (Array.isArray(launch.topics) && launch.topics.some((t) => AI_TOPIC_SLUGS.has(t))) {
+    return true;
+  }
+  const blob = [
+    launch.name ?? "",
+    launch.tagline ?? "",
+    launch.description ?? "",
+    ...(Array.isArray(launch.topics) ? launch.topics : []),
+  ].join(" ");
+  return hasAiKeyword(blob);
+}
+
+async function fetchTopicPosts(token, topic, postedAfter) {
+  const data = await phGraphQL(
+    POSTS_QUERY,
+    { topic, first: POSTS_PER_TOPIC, postedAfter },
+    { token },
+  );
+  return (data?.posts?.edges ?? []).map((e) => e.node).filter(Boolean);
+}
+
+async function fetchBroadPosts(token, postedAfter) {
+  const data = await phGraphQL(
+    BROAD_QUERY,
+    { first: BROAD_POSTS, postedAfter },
+    { token },
+  );
+  return (data?.posts?.edges ?? []).map((e) => e.node).filter(Boolean);
+}
+
+async function main() {
+  const token = process.env.PRODUCTHUNT_TOKEN;
+  if (!token) {
+    throw new Error(
+      "PRODUCTHUNT_TOKEN not set — see https://www.producthunt.com/v2/oauth/applications",
+    );
+  }
+
+  const tracked = await loadTrackedRepos();
+  log(`tracked repos: ${tracked.size}`);
+
+  const postedAfter = new Date(
+    Date.now() - WINDOW_DAYS * 86_400_000,
+  ).toISOString();
+  log(`postedAfter: ${postedAfter}`);
+
+  const allNodes = new Map();
+  let queryErrors = 0;
+
+  for (const topic of TOPICS) {
+    try {
+      const nodes = await fetchTopicPosts(token, topic, postedAfter);
+      for (const n of nodes) {
+        if (n?.id && !allNodes.has(n.id)) allNodes.set(n.id, n);
+      }
+      log(
+        `topic "${topic}": ${nodes.length} posts (cumulative ${allNodes.size} unique)`,
+      );
+    } catch (err) {
+      queryErrors += 1;
+      log(`warn: topic "${topic}" failed — ${err.message}`);
+    }
+    await sleep(POLITE_PAUSE_MS);
+  }
+
+  try {
+    const broad = await fetchBroadPosts(token, postedAfter);
+    for (const n of broad) {
+      if (n?.id && !allNodes.has(n.id)) allNodes.set(n.id, n);
+    }
+    log(
+      `broad RANKING: ${broad.length} posts (cumulative ${allNodes.size} unique)`,
+    );
+  } catch (err) {
+    queryErrors += 1;
+    log(`warn: broad query failed — ${err.message}`);
+  }
+
+  if (allNodes.size === 0) {
+    if (queryErrors >= TOPICS.length + 1) {
+      throw new Error("all PH queries failed — check token / network");
+    }
+    log("warn: zero posts returned (API responded but returned nothing)");
+  }
+
+  // NOTE: PH's `website` field arrives as a producthunt.com/r/<code> tracking
+  // redirect. We tried resolving redirects to get real URLs but PH's edge
+  // returns 403 to Node's fetch/https (TLS/Cloudflare fingerprinting — curl
+  // works, Node doesn't). Resolution would add complexity + an external
+  // fetch dependency with no reliable signal. githubUrl extraction is
+  // therefore opportunistic: it hits only when the description text contains
+  // a direct github.com/owner/repo URL. linkedRepo stays null for most
+  // launches — expected per mission spec ("most tracked repos won't have PH
+  // launches").
+
+  const launches = [];
+  for (const n of allNodes.values()) {
+    const norm = normalizePost(n, tracked);
+    if (!norm) continue;
+    if (!isAiAdjacent(norm)) continue;
+    launches.push(norm);
+  }
+
+  launches.sort((a, b) => {
+    if (b.votesCount !== a.votesCount) return b.votesCount - a.votesCount;
+    return b.createdAt.localeCompare(a.createdAt);
+  });
+
+  const payload = {
+    lastFetchedAt: new Date().toISOString(),
+    windowDays: WINDOW_DAYS,
+    launches,
+  };
+
+  await mkdir(DATA_DIR, { recursive: true });
+  await writeFile(OUT_PATH, JSON.stringify(payload, null, 2) + "\n", "utf8");
+
+  const linkedCount = launches.filter((l) => l.linkedRepo).length;
+  const top3 = launches
+    .slice(0, 3)
+    .map((l) => `${l.name} (${l.votesCount})`)
+    .join(", ");
+  log("");
+  log(`wrote ${OUT_PATH}`);
+  log(
+    `  launches kept: ${launches.length} (${linkedCount} linked to tracked repos)`,
+  );
+  log(`  top: ${top3 || "(none)"}`);
+}
+
+const isDirectRun =
+  import.meta.url === `file://${process.argv[1]}` ||
+  import.meta.url.endsWith(process.argv[1]?.replace(/\\/g, "/") ?? "");
+
+if (isDirectRun) {
+  main().catch((err) => {
+    console.error("scrape-producthunt failed:", err.message ?? err);
+    process.exit(1);
+  });
+}

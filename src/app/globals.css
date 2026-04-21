@@ -400,10 +400,15 @@ body::before {
   background-size: auto, auto, 40px 40px, 40px 40px;
 }
 
-/* Content sits above the ambient canvas. */
-body > * {
-  position: relative;
-  z-index: 1;
+/* Content sits above the ambient canvas. Wrapped in `@layer base` so
+   Tailwind's `utilities` layer (e.g. `.sticky`, `.fixed`) still wins for
+   children that opt into positioning utilities — unlayered CSS would
+   otherwise beat layered utilities regardless of specificity. */
+@layer base {
+  body > * {
+    position: relative;
+    z-index: 1;
+  }
 }
 
 /* ---------------------------------------------------------------------------

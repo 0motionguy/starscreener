@@ -10,8 +10,6 @@ import type { Metadata } from "next";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { TerminalLayout } from "@/components/terminal/TerminalLayout";
 import { BubbleMap } from "@/components/terminal/BubbleMap";
-import { CrossSignalBreakouts } from "@/components/cross-signal/CrossSignalBreakouts";
-import { RecentLaunches } from "@/components/producthunt/RecentLaunches";
 
 // ISR: data/*.json only changes when the GHA scrape commits new trending
 // data, so serving the homepage from a 30-minute edge cache is safe. Drops
@@ -36,9 +34,12 @@ export default async function HomePage() {
       featuredCount={8}
       heading={
         <>
-          <BubbleMap repos={repos} limit={220} />
-          <RecentLaunches />
-          <CrossSignalBreakouts repos={repos} />
+          {/* BubbleMap is illegible on phones (~108px tall in viewBox 1200x360
+              — bubble labels collapse to dots). Hide on <md and let the
+              terminal cards drive the mobile narrative. */}
+          <div className="hidden md:block">
+            <BubbleMap repos={repos} limit={220} />
+          </div>
         </>
       }
     />

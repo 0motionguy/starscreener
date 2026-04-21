@@ -79,13 +79,13 @@ export function CrossSignalBreakouts({
             <li key={repo.id}>
               <Link
                 href={`/repo/${repo.owner}/${repo.name}`}
-                className="grid grid-cols-[20px_auto_1fr_auto_auto_auto] gap-2 items-center px-4 h-10 hover:bg-bg-card-hover transition-colors"
+                className="grid grid-cols-[20px_auto_1fr_auto] md:grid-cols-[20px_auto_1fr_auto_auto_auto] gap-2 items-center px-3 md:px-4 min-h-[44px] md:h-10 hover:bg-bg-card-hover transition-colors"
               >
                 <span className="font-mono text-[10px] text-text-tertiary tabular-nums">
                   {i + 1}
                 </span>
                 <ChannelDots repo={repo} size="md" />
-                <span className="text-[12px] text-text-primary truncate font-medium inline-flex items-center gap-2">
+                <span className="text-[12px] text-text-primary truncate font-medium inline-flex items-center gap-2 min-w-0">
                   {hotLaunch ? (
                     <span
                       className="shrink-0 rounded-sm bg-brand/15 text-brand font-mono text-[9px] px-1 py-px uppercase tracking-wider"
@@ -96,8 +96,10 @@ export function CrossSignalBreakouts({
                   ) : null}
                   <span className="truncate">{repo.fullName}</span>
                 </span>
-                <HnBadge mention={hnMention} size="sm" />
-                <span className="inline-flex items-center gap-1 font-mono text-[11px] text-text-secondary tabular-nums">
+                {/* HN badge + stars hidden on mobile to keep rows from
+                    overflowing. The 24h delta is the load-bearing signal. */}
+                <span className="hidden md:inline-flex"><HnBadge mention={hnMention} size="sm" /></span>
+                <span className="hidden md:inline-flex items-center gap-1 font-mono text-[11px] text-text-secondary tabular-nums">
                   <Star size={11} className="text-warning shrink-0" fill="currentColor" />
                   {formatNumber(repo.stars)}
                 </span>

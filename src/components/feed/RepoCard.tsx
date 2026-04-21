@@ -67,7 +67,7 @@ export function RepoCard({ repo, index = 0, showRank = false }: RepoCardProps) {
       {/* Row 3: Stars | Delta | Sparkline | Momentum */}
       <div className="mt-2.5 flex items-center gap-3">
         <span className="inline-flex items-center gap-1 font-mono text-xs text-text-secondary shrink-0">
-          <Star size={12} className="text-accent-amber" />
+          <Star size={12} className="text-warning" />
           {formatNumber(repo.stars)}
         </span>
 

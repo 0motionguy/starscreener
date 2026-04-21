@@ -9,13 +9,18 @@
 import { usePathname, useRouter } from "next/navigation";
 import {
   Bookmark,
+  Cloud,
+  FileText,
+  Flame,
   GitCompareArrows,
   Layers,
-  LineChart,
   MessageSquare,
-  Microscope,
   Newspaper,
   Radar,
+  Rocket,
+  Sparkles,
+  TrendingUp,
+  Trophy,
   X,
 } from "lucide-react";
 import type { CategoryStats } from "@/lib/pipeline/queries/aggregate";
@@ -50,6 +55,7 @@ function byCategoryId(stats: CategoryStats[]): Map<string, CategoryStats> {
 
 export function SidebarContent({
   categoryStats,
+  metaCounts,
   availableLanguages,
   watchlistPreview,
   onClose,
@@ -58,25 +64,47 @@ export function SidebarContent({
   const pathname = usePathname() ?? "/";
   const activeCategory = useFilterStore((s) => s.category);
   const activeMetaFilter = useFilterStore((s) => s.activeMetaFilter);
+  const activeTab = useFilterStore((s) => s.activeTab);
+  const timeRange = useFilterStore((s) => s.timeRange);
   const setActiveMetaFilter = useFilterStore((s) => s.setActiveMetaFilter);
   const setActiveTab = useFilterStore((s) => s.setActiveTab);
+  const setTimeRange = useFilterStore((s) => s.setTimeRange);
 
   const watchCount = useWatchlistStore((s) => s.repos.length);
   const compareCount = useCompareStore((s) => s.repos.length);
 
   const statsByCategory = byCategoryId(categoryStats);
 
-  // Navigate to the homepage Repos terminal, clearing any meta-filter that
-  // an earlier session left set in the filter store. Used by the "Repos"
-  // entry in the new TERMINALS section.
-  function goToReposTerminal() {
-    setActiveMetaFilter(null);
-    setActiveTab("trending");
+  // Repos terminal: the homepage `/` with a meta-filter applied. The four
+  // entries (Trending / Breakouts / New Repos / Hot This Week) all route
+  // to `/` and twist the filter store; only the active highlight differs.
+  function goToReposTerminal(
+    filter: "breakouts" | "new" | "hot" | null,
+  ) {
+    if (filter === "hot") {
+      // "Hot This Week" — `hot` movementStatus count is empty during
+      // delta warm-up; route to top 7-day gainers tab instead. Same user
+      // intent ("what's actually trending this week") with real data.
+      setActiveMetaFilter(null);
+      setActiveTab("gainers");
+      setTimeRange("7d");
+    } else if (filter) {
+      setActiveMetaFilter(filter);
+    } else {
+      setActiveMetaFilter(null);
+      setActiveTab("trending");
+    }
     if (pathname !== "/") {
       router.push("/");
     }
     onClose?.();
   }
+
+  const hotThisWeekActive =
+    pathname === "/" &&
+    activeMetaFilter === null &&
+    activeTab === "gainers" &&
+    timeRange === "7d";
 
   return (
     <div className="flex flex-col h-full">
@@ -88,7 +116,7 @@ export function SidebarContent({
             type="button"
             onClick={onClose}
             aria-label="Close menu"
-            className="w-8 h-8 flex items-center justify-center rounded-button hover:bg-bg-card-hover text-text-secondary hover:text-text-primary"
+            className="w-10 h-10 flex items-center justify-center rounded-button hover:bg-bg-card-hover text-text-secondary hover:text-text-primary"
           >
             <X className="w-4 h-4" />
           </button>
@@ -97,43 +125,101 @@ export function SidebarContent({
 
       {/* Scrollable body ------------------------------------------------- */}
       <div className="flex-1 overflow-y-auto scrollbar-hide">
-        {/* TERMINALS — per-source feeds ------------------------------- */}
-        <SidebarSection id="terminals" label="Terminals">
+        {/* REPOS TERMINAL — GitHub trending, the anchor product -------- */}
+        <SidebarSection id="repos-terminal" label="Repos Terminal">
           <SidebarNavItem
-            onClick={goToReposTerminal}
-            icon={LineChart}
-            label="Repos"
-            active={pathname === "/" && activeMetaFilter === null}
+            onClick={() => goToReposTerminal(null)}
+            icon={TrendingUp}
+            label="Trending"
+            active={
+              pathname === "/" &&
+              activeMetaFilter === null &&
+              !hotThisWeekActive
+            }
+          />
+          <SidebarNavItem
+            onClick={() => goToReposTerminal("breakouts")}
+            icon={Rocket}
+            label="Breakouts"
+            badge={metaCounts.breakouts}
+            active={pathname === "/" && activeMetaFilter === "breakouts"}
+          />
+          <SidebarNavItem
+            onClick={() => goToReposTerminal("new")}
+            icon={Sparkles}
+            label="New Repos"
+            badge={metaCounts.new}
+            active={pathname === "/" && activeMetaFilter === "new"}
+          />
+          <SidebarNavItem
+            onClick={() => goToReposTerminal("hot")}
+            icon={Flame}
+            label="Hot This Week"
+            badge={metaCounts.hot}
+            active={hotThisWeekActive}
+          />
+          <SidebarNavItem
+            href="/search?sort=stars-total&limit=100"
+            icon={Trophy}
+            label="Top 100"
+            active={pathname === "/search"}
+          />
+        </SidebarSection>
+
+        {/* REDDIT TERMINAL — community discussion + cross-signal ------- */}
+        <SidebarSection id="reddit-terminal" label="Reddit Terminal">
+          <SidebarNavItem
+            href="/reddit"
+            icon={MessageSquare}
+            label="Repo Signal"
+            active={pathname === "/reddit"}
           />
           <SidebarNavItem
             href="/reddit/trending"
-            icon={MessageSquare}
-            label="Reddit"
-            active={
-              pathname === "/reddit" ||
-              pathname.startsWith("/reddit/")
-            }
+            icon={TrendingUp}
+            label="All Trending"
+            active={pathname === "/reddit/trending"}
           />
+        </SidebarSection>
+
+        {/* NEWS TERMINAL — dev media firehose ------------------------- */}
+        <SidebarSection id="news-terminal" label="News Terminal">
           <SidebarNavItem
-            href="/news?tab=hn"
+            href="/hackernews/trending"
             icon={Newspaper}
-            label="News"
+            label="HackerNews"
             active={
-              pathname === "/news" ||
-              pathname.startsWith("/news/") ||
-              // Legacy per-source routes still live; highlight the News
-              // entry when the user lands on any of them so the sidebar
-              // stays honest about where they are.
-              pathname.startsWith("/hackernews") ||
-              pathname.startsWith("/bluesky")
+              pathname === "/hackernews" ||
+              pathname.startsWith("/hackernews/") ||
+              (pathname === "/news" /* default tab */)
             }
           />
           <SidebarNavItem
-            href="/research"
-            icon={Microscope}
-            label="Research"
-            badge="soon"
-            active={pathname === "/research"}
+            href="/producthunt"
+            icon={Rocket}
+            label="ProductHunt"
+            active={
+              pathname === "/producthunt" ||
+              pathname.startsWith("/producthunt/")
+            }
+          />
+          <SidebarNavItem
+            href="/bluesky/trending"
+            icon={Cloud}
+            label="Bluesky"
+            active={
+              pathname === "/bluesky" ||
+              pathname.startsWith("/bluesky/")
+            }
+          />
+          <SidebarNavItem
+            href="/devto"
+            icon={FileText}
+            label="Dev.to"
+            active={
+              pathname === "/devto" ||
+              pathname.startsWith("/devto/")
+            }
           />
         </SidebarSection>
 

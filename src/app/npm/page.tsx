@@ -7,7 +7,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
-  deltaPctForNpmWindow,
   downloadsForNpmWindow,
   getNpmPackagesFile,
   getTopNpmPackages,
@@ -60,12 +59,6 @@ function formatCompact(n: number): string {
     notation: "compact",
     maximumFractionDigits: n >= 1_000_000 ? 1 : 0,
   }).format(n);
-}
-
-function formatDeltaPct(n: number | null): string {
-  if (n === null || !Number.isFinite(n)) return "-";
-  const sign = n > 0 ? "+" : "";
-  return `${sign}${n.toFixed(Math.abs(n) >= 10 ? 0 : 1)}%`;
 }
 
 export default async function NpmPage({ searchParams }: NpmPageProps) {
@@ -176,14 +169,13 @@ function PackageFeed({
 }) {
   return (
     <section className="border border-border-primary rounded-md bg-bg-secondary overflow-hidden">
-      <div className="hidden md:grid grid-cols-[40px_minmax(0,1.3fr)_minmax(0,1fr)_100px_100px_100px_86px_110px] gap-3 items-center px-3 h-9 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
+      <div className="hidden md:grid grid-cols-[40px_minmax(0,1.3fr)_minmax(0,1fr)_100px_100px_100px_110px] gap-3 items-center px-3 h-9 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
         <div>#</div>
         <div>PACKAGE</div>
         <div>REPO</div>
         <div className="text-right">24H</div>
         <div className="text-right">7D</div>
         <div className="text-right">30D</div>
-        <div className="text-right">DELTA</div>
         <div>VERSION</div>
       </div>
       <div className="grid md:hidden grid-cols-[32px_1fr_86px] gap-2 items-center px-3 h-9 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
@@ -198,14 +190,13 @@ function PackageFeed({
             key={pkg.name}
             className="border-b border-border-primary/40 last:border-b-0"
           >
-            <div className="hidden md:grid grid-cols-[40px_minmax(0,1.3fr)_minmax(0,1fr)_100px_100px_100px_86px_110px] gap-3 items-center px-3 py-2 min-h-[58px] hover:bg-bg-card-hover transition-colors">
+            <div className="hidden md:grid grid-cols-[40px_minmax(0,1.3fr)_minmax(0,1fr)_100px_100px_100px_110px] gap-3 items-center px-3 py-2 min-h-[58px] hover:bg-bg-card-hover transition-colors">
               <Rank index={i} />
               <PackageIdentity pkg={pkg} />
               <RepoLink pkg={pkg} />
               <Metric value={pkg.downloads24h} active={activeWindow === "24h"} />
               <Metric value={pkg.downloads7d} active={activeWindow === "7d"} />
               <Metric value={pkg.downloads30d} active={activeWindow === "30d"} />
-              <Delta value={deltaPctForNpmWindow(pkg, activeWindow)} />
               <VersionPill pkg={pkg} />
             </div>
 
@@ -215,7 +206,6 @@ function PackageFeed({
                 <PackageIdentity pkg={pkg} />
                 <div className="mt-1 flex items-center gap-2">
                   <VersionPill pkg={pkg} />
-                  <Delta value={deltaPctForNpmWindow(pkg, activeWindow)} />
                 </div>
               </div>
               <Metric value={downloadsForNpmWindow(pkg, activeWindow)} active />
@@ -289,20 +279,6 @@ function Metric({ value, active = false }: { value: number; active?: boolean }) 
       }`}
     >
       {formatCompact(value)}
-    </div>
-  );
-}
-
-function Delta({ value }: { value: number | null }) {
-  const up = value !== null && value > 0;
-  const flat = value === null || Math.abs(value) < 0.1;
-  return (
-    <div
-      className={`text-right text-xs tabular-nums ${
-        flat ? "text-text-tertiary" : up ? "text-accent-green" : "text-red-400"
-      }`}
-    >
-      {formatDeltaPct(value)}
     </div>
   );
 }

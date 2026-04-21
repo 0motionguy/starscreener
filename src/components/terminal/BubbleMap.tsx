@@ -184,12 +184,27 @@ export function BubbleMap({ repos, limit = 220 }: BubbleMapProps) {
     "30d": seedsForWindow(repos, "30d", limit),
   };
 
-  // If every window is empty, don't render the section at all.
+  // If every window is empty, render a minimal "warming up" placeholder
+  // instead of returning null — collapsing the whole section is worse
+  // UX because the page jumps and users can't tell if the feature exists.
   const hasAny =
     windows["24h"].length > 0 ||
     windows["7d"].length > 0 ||
     windows["30d"].length > 0;
-  if (!hasAny) return null;
+  if (!hasAny) {
+    return (
+      <div
+        className="w-full rounded-card border border-border-primary bg-bg-secondary/40 flex items-center justify-center text-text-tertiary font-mono text-xs uppercase tracking-wider"
+        style={{ height: MAP_HEIGHT }}
+        aria-label="Bubble map warming up"
+      >
+        <span className="inline-flex items-center gap-2">
+          <span className="inline-block h-1.5 w-1.5 rounded-full bg-brand animate-pulse" />
+          Warming up the firehose…
+        </span>
+      </div>
+    );
+  }
 
   return (
     <BubbleMapCanvas

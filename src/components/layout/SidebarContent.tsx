@@ -155,7 +155,6 @@ export function SidebarContent({
             onClick={() => goToReposTerminal("hot")}
             icon={Flame}
             label="Hot This Week"
-            badge={metaCounts.hot}
             active={hotThisWeekActive}
           />
           <SidebarNavItem
@@ -166,24 +165,17 @@ export function SidebarContent({
           />
         </SidebarSection>
 
-        {/* REDDIT TERMINAL — community discussion + cross-signal ------- */}
-        <SidebarSection id="reddit-terminal" label="Reddit Terminal">
-          <SidebarNavItem
-            href="/reddit"
-            icon={MessageSquare}
-            label="Repo Signal"
-            active={pathname === "/reddit"}
-          />
-          <SidebarNavItem
-            href="/reddit/trending"
-            icon={TrendingUp}
-            label="All Trending"
-            active={pathname === "/reddit/trending"}
-          />
-        </SidebarSection>
-
         {/* NEWS TERMINAL — dev media firehose ------------------------- */}
         <SidebarSection id="news-terminal" label="News Terminal">
+          <SidebarNavItem
+            href="/reddit/trending"
+            icon={MessageSquare}
+            label="Reddit"
+            active={
+              pathname === "/reddit" ||
+              pathname.startsWith("/reddit/")
+            }
+          />
           <SidebarNavItem
             href="/hackernews/trending"
             icon={Newspaper}

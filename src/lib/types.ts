@@ -11,7 +11,12 @@ export type MovementStatus =
 
 export type TimeRange = "24h" | "7d" | "30d";
 
-export type SortBy = "momentum" | "stars-today" | "stars-total" | "newest";
+export type SortBy =
+  | "momentum"
+  | "stars-today"
+  | "stars-total"
+  | "newest"
+  | "cross-signal";
 
 export type SocialPlatform =
   | "twitter"
@@ -80,6 +85,41 @@ export interface Repo {
 
   /** OSS Insight collection labels carried by the trending feed. */
   collectionNames?: string[];
+
+  /**
+   * Four-channel cross-signal score. Sum of github + reddit + HN + Bluesky
+   * components, each 0-1 normalized. Range: 0-4.0. Higher = repo firing
+   * across more channels with stronger signal. Computed at derived-repos
+   * assembly time, after movement classification + scoring.
+   */
+  crossSignalScore?: number;
+
+  /**
+   * Number of cross-signal channels firing (component > 0). Range: 0-4.
+   * Drives the 4-dot indicator and the "Cross-Signal Breakouts" filter.
+   */
+  channelsFiring?: number;
+
+  /**
+   * Bluesky mention rollup attached during derived-repos assembly. null
+   * when the repo has no mentions in the last 7d (quiet), the rollup
+   * otherwise. Kept minimal on the Repo so the homepage bundle doesn't
+   * carry every matched post — the full list stays in
+   * data/bluesky-mentions.json for the badge tooltip fetch.
+   */
+  bluesky?: {
+    mentions7d: number;
+    likes7d: number;
+    reposts7d: number;
+    topPost?: {
+      uri: string;
+      bskyUrl: string;
+      text: string;
+      likes: number;
+      reposts: number;
+      author: { handle: string; displayName?: string };
+    };
+  } | null;
 }
 
 export interface Category {

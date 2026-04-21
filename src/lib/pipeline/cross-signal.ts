@@ -1,0 +1,179 @@
+// Four-channel cross-signal fusion.
+//
+// Combines GitHub momentum classification + Reddit 48h trending velocity +
+// HN front-page presence + Bluesky mentions into a single score per repo.
+// The premise: any one channel can be noise (a github star spike, a viral
+// reddit post, a Show HN flash, a trending-on-bsky post). Two channels lit
+// at once = signal. Three or four = a real breakout.
+//
+// Formula:
+//   github  = movementStatus ∈ {breakout: 1.0, hot: 0.7, rising: 0.4, *: 0}
+//   reddit  = min-max normalized sum of post.trendingScore over last 48h,
+//             across the full repo corpus (so the top-velocity repo gets
+//             1.0 and quiet repos get a fraction)
+//   hn      = HN.everHitFrontPage ? 1.0
+//             : HN.count7d >= 3   ? 0.7
+//             : HN.count7d >= 1   ? 0.4
+//             : 0
+//   bluesky = BSKY.count7d >= 5   ? 1.0
+//             : BSKY.count7d >= 2 ? 0.7
+//             : BSKY.count7d >= 1 ? 0.4
+//             : 0
+//   crossSignalScore = github + reddit + hn + bluesky   (range 0..4)
+//   channelsFiring   = count of components > 0          (range 0..4)
+//
+// Two-pass: the reddit normalizer needs to see every repo's raw score
+// before it can divide by the corpus max, so we compute raw scores in
+// pass 1 and emit normalized output in pass 2.
+//
+// Edge case (cold start): when no repo has any reddit signal, maxReddit
+// is 0. Don't divide by zero — emit 0 for every reddit_component instead.
+
+import type { MovementStatus, Repo } from "../types";
+import { getRedditMentions } from "../reddit";
+import { getHnMentions } from "../hackernews";
+import { getBlueskyMentions } from "../bluesky";
+
+const REDDIT_WINDOW_MS = 48 * 60 * 60 * 1000;
+
+function githubComponent(status: MovementStatus | undefined): number {
+  if (status === "breakout") return 1.0;
+  if (status === "hot") return 0.7;
+  if (status === "rising") return 0.4;
+  return 0;
+}
+
+function redditRawScore(fullName: string, nowMs: number): number {
+  const m = getRedditMentions(fullName);
+  if (!m) return 0;
+  const cutoffSec = (nowMs - REDDIT_WINDOW_MS) / 1000;
+  let sum = 0;
+  for (const post of m.posts) {
+    if (post.createdUtc < cutoffSec) continue;
+    sum += post.trendingScore ?? 0;
+  }
+  return sum;
+}
+
+function hnComponent(fullName: string): number {
+  const m = getHnMentions(fullName);
+  if (!m) return 0;
+  if (m.everHitFrontPage) return 1.0;
+  if (m.count7d >= 3) return 0.7;
+  if (m.count7d >= 1) return 0.4;
+  return 0;
+}
+
+function blueskyComponent(fullName: string): number {
+  const m = getBlueskyMentions(fullName);
+  if (!m) return 0;
+  if (m.count7d >= 5) return 1.0;
+  if (m.count7d >= 2) return 0.7;
+  if (m.count7d >= 1) return 0.4;
+  return 0;
+}
+
+/**
+ * Attach `crossSignalScore`, `channelsFiring`, and the `bluesky` rollup
+ * to every repo.
+ *
+ * Two-pass internally: first compute raw reddit scores across the corpus
+ * to find `maxReddit`, then normalize and fuse. Pure function over Repo[]
+ * — safe to call from server-only code paths (consumes the lib/reddit +
+ * lib/hackernews + lib/bluesky mentions JSON, which are already in the
+ * build artifact).
+ *
+ * Exported for use by `getDerivedRepos()` and tests.
+ */
+export function attachCrossSignal(
+  repos: Repo[],
+  nowMs: number = Date.now(),
+): Repo[] {
+  const redditRaw = repos.map((r) => redditRawScore(r.fullName, nowMs));
+  const maxReddit = Math.max(0, ...redditRaw);
+
+  return repos.map((repo, i) => {
+    const gh = githubComponent(repo.movementStatus);
+    const rd = maxReddit > 0 ? redditRaw[i] / maxReddit : 0;
+    const hn = hnComponent(repo.fullName);
+    const bs = blueskyComponent(repo.fullName);
+    const score = gh + rd + hn + bs;
+    const firing =
+      (gh > 0 ? 1 : 0) +
+      (rd > 0 ? 1 : 0) +
+      (hn > 0 ? 1 : 0) +
+      (bs > 0 ? 1 : 0);
+
+    const bskyMention = getBlueskyMentions(repo.fullName);
+    const bskyRollup = bskyMention
+      ? {
+          mentions7d: bskyMention.count7d,
+          likes7d: bskyMention.likesSum7d,
+          reposts7d: bskyMention.repostsSum7d,
+          topPost: bskyMention.topPost
+            ? {
+                uri: bskyMention.topPost.uri,
+                bskyUrl: bskyMention.topPost.bskyUrl,
+                text: bskyMention.topPost.text,
+                likes: bskyMention.topPost.likeCount,
+                reposts: bskyMention.topPost.repostCount,
+                author: bskyMention.topPost.author,
+              }
+            : undefined,
+        }
+      : null;
+
+    return {
+      ...repo,
+      crossSignalScore: Math.round(score * 100) / 100,
+      channelsFiring: firing,
+      bluesky: bskyRollup,
+    };
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Channel-level helpers (UI consumers — Cross-Signal Breakouts section,
+// 4-dot indicator). Kept colocated so the same source of truth defines
+// "what does each dot mean" across scoring + display.
+// ---------------------------------------------------------------------------
+
+export interface ChannelStatus {
+  github: boolean;
+  reddit: boolean;
+  hn: boolean;
+  bluesky: boolean;
+}
+
+/** Minimal shape getChannelStatus needs — accepts a full Repo or any object
+ * carrying just `fullName` + `movementStatus`. Lets sidebar/watchlist row
+ * surfaces (SidebarWatchlistPreviewRepo etc.) call without constructing a
+ * full Repo. */
+export type ChannelStatusTarget = Pick<Repo, "fullName"> & {
+  movementStatus: MovementStatus | undefined;
+};
+
+/**
+ * Recompute per-channel boolean state for display. Used by the 4-dot
+ * indicator. Mirrors the formula above so the indicator never disagrees
+ * with the score (e.g. dots showing 2 lit but score implying 1).
+ */
+export function getChannelStatus(
+  target: ChannelStatusTarget,
+  nowMs: number = Date.now(),
+): ChannelStatus {
+  return {
+    github: githubComponent(target.movementStatus) > 0,
+    reddit: redditRawScore(target.fullName, nowMs) > 0,
+    hn: hnComponent(target.fullName) > 0,
+    bluesky: blueskyComponent(target.fullName) > 0,
+  };
+}
+
+// Re-exported for unit tests that want to verify individual components.
+export const __test = {
+  githubComponent,
+  redditRawScore,
+  hnComponent,
+  blueskyComponent,
+};

@@ -34,6 +34,7 @@ import {
   classifyBatch,
   deriveTags,
 } from "./pipeline/classification/classifier";
+import { attachCrossSignal } from "./pipeline/cross-signal";
 
 let _cache: Repo[] | null = null;
 let _byFullName: Map<string, Repo> | null = null;
@@ -485,6 +486,14 @@ export function getDerivedRepos(): Repo[] {
     momentumScore: scores[i].overall,
     movementStatus: scores[i].movementStatus,
   }));
+
+  // 3.5 Four-channel cross-signal fusion (GitHub + Reddit + HN + Bluesky).
+  // Two-pass internally so the reddit component is min-max normalized
+  // across the full corpus. Must run after scoreBatch — the github
+  // component reads movementStatus. Also attaches the per-repo
+  // `bluesky` rollup so surfaces can render the BskyBadge without
+  // re-querying the mentions JSON.
+  repos = attachCrossSignal(repos);
 
   // 4. Rank by momentum desc, tracking per-category position.
   const sorted = [...repos].sort((a, b) => b.momentumScore - a.momentumScore);

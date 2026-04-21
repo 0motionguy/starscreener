@@ -34,6 +34,8 @@ import {
   getRepoMetadataSourceCount,
   repoMetadataFetchedAt,
 } from "@/lib/repo-metadata";
+import { redditFetchedAt, redditCold } from "@/lib/reddit";
+import { blueskyFetchedAt, blueskyCold } from "@/lib/bluesky";
 
 // 2 hours ≈ 2× hourly GHA cadence. Stale past this means at least one tick
 // has missed; operator should be paged.
@@ -54,6 +56,10 @@ interface HealthBody {
   recentReposFetchedAt: string | null;
   repoMetadataFetchedAt: string | null;
   collectionRankingsFetchedAt: string | null;
+  redditFetchedAt: string | null;
+  redditCold: boolean;
+  blueskyFetchedAt: string | null;
+  blueskyCold: boolean;
   ageSeconds: {
     scraper: number | null;
     deltas: number | null;
@@ -61,6 +67,8 @@ interface HealthBody {
     recentRepos: number | null;
     repoMetadata: number | null;
     collectionRankings: number | null;
+    reddit: number | null;
+    bluesky: number | null;
   };
   thresholdSeconds: {
     fastData: number;
@@ -73,6 +81,8 @@ interface HealthBody {
     recentRepos: boolean;
     repoMetadata: boolean;
     collectionRankings: boolean;
+    reddit: boolean;
+    bluesky: boolean;
   };
   coveragePct: number;
   /** 'full' = real deltas, 'partial' = cold-start, 'cold' = no data yet. */
@@ -103,6 +113,8 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
     const recentReposAge = ageMs(recentReposFetchedAt);
     const repoMetadataAge = ageMs(repoMetadataFetchedAt);
     const collectionRankingsAge = ageMs(collectionRankingsFetchedAt);
+    const redditAge = ageMs(redditFetchedAt);
+    const blueskyAge = ageMs(blueskyFetchedAt);
 
     const scraperStale =
       scraperAge === null || scraperAge > FAST_DATA_STALE_THRESHOLD_MS;
@@ -119,13 +131,23 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
     const collectionRankingsStale =
       collectionRankingsAge === null ||
       collectionRankingsAge > RANKINGS_STALE_THRESHOLD_MS;
+    // Reddit cold state (never scraped) is NOT stale for gate purposes. Once
+    // data lands, the same 2h threshold applies.
+    const redditStale = !redditCold &&
+      (redditAge === null || redditAge > FAST_DATA_STALE_THRESHOLD_MS);
+    // Same contract for Bluesky: cold (epoch-zero stub) is not stale —
+    // only a committed scrape that's then fallen behind counts.
+    const blueskyStale = !blueskyCold &&
+      (blueskyAge === null || blueskyAge > FAST_DATA_STALE_THRESHOLD_MS);
     const anyStale =
       scraperStale ||
       deltasStale ||
       hotCollectionsStale ||
       recentReposStale ||
       repoMetadataStale ||
-      collectionRankingsStale;
+      collectionRankingsStale ||
+      redditStale ||
+      blueskyStale;
 
     const coverage = deltasCoveragePct();
     const coverageLow = coverage < COVERAGE_WARN_PCT;
@@ -140,6 +162,10 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
       recentReposFetchedAt,
       repoMetadataFetchedAt,
       collectionRankingsFetchedAt,
+      redditFetchedAt: redditCold ? null : (redditFetchedAt ?? null),
+      redditCold,
+      blueskyFetchedAt: blueskyCold ? null : (blueskyFetchedAt ?? null),
+      blueskyCold,
       ageSeconds: {
         scraper: scraperAge === null ? null : Math.floor(scraperAge / 1000),
         deltas: deltasAge === null ? null : Math.floor(deltasAge / 1000),
@@ -151,6 +177,10 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
           repoMetadataAge === null ? null : Math.floor(repoMetadataAge / 1000),
         collectionRankings:
           collectionRankingsAge === null ? null : Math.floor(collectionRankingsAge / 1000),
+        reddit:
+          redditCold || redditAge === null ? null : Math.floor(redditAge / 1000),
+        bluesky:
+          blueskyCold || blueskyAge === null ? null : Math.floor(blueskyAge / 1000),
       },
       thresholdSeconds: {
         fastData: FAST_DATA_STALE_THRESHOLD_MS / 1000,
@@ -163,6 +193,8 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
         recentRepos: recentReposStale,
         repoMetadata: repoMetadataStale,
         collectionRankings: collectionRankingsStale,
+        reddit: redditStale,
+        bluesky: blueskyStale,
       },
       coveragePct: Math.round(coverage * 10) / 10,
       coverageQuality: quality,
@@ -193,6 +225,10 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
         recentReposFetchedAt,
         repoMetadataFetchedAt,
         collectionRankingsFetchedAt,
+        redditFetchedAt: null,
+        redditCold: true,
+        blueskyFetchedAt: null,
+        blueskyCold: true,
         ageSeconds: {
           scraper: null,
           deltas: null,
@@ -200,6 +236,8 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
           recentRepos: null,
           repoMetadata: null,
           collectionRankings: null,
+          reddit: null,
+          bluesky: null,
         },
         thresholdSeconds: {
           fastData: FAST_DATA_STALE_THRESHOLD_MS / 1000,
@@ -212,6 +250,8 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
           recentRepos: true,
           repoMetadata: true,
           collectionRankings: true,
+          reddit: false,
+          bluesky: false,
         },
         coveragePct: 0,
         coverageQuality: "cold" as DeltaCoverageQuality,

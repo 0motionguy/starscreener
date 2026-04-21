@@ -18,6 +18,15 @@ test("normalizeFullName: lowercases and strips .git + trailing punctuation", () 
   assert.equal(normalizeFullName("a", "b)."), "a/b");
 });
 
+test("normalizeFullName: strips .git AND trailing punctuation regardless of order", () => {
+  // Regression for Sprint review finding #2 — ".git" followed by trailing
+  // punctuation (".git." or ".git,") used to leave the .git intact.
+  assert.equal(normalizeFullName("foo", "bar.git."), "foo/bar");
+  assert.equal(normalizeFullName("foo", "bar.git,"), "foo/bar");
+  assert.equal(normalizeFullName("foo", "bar.git)."), "foo/bar");
+  assert.equal(normalizeFullName("foo", "bar.git;"), "foo/bar");
+});
+
 test("extractRepoMentions: finds github links in markdown body", () => {
   const body = `## Setup
 

@@ -93,9 +93,17 @@ function log(msg) {
 }
 
 export function normalizeFullName(owner, name) {
+  // Strip ".git" suffix and trailing punctuation in a fixed-point loop
+  // so inputs like "bar.git." (a `.git` URL followed by sentence punctuation)
+  // collapse all the way down to "bar". Single-pass strip-then-strip leaves
+  // the wrong order — see Sprint review finding #2.
   let clean = `${owner}/${name}`.toLowerCase();
-  clean = clean.replace(/\.git$/i, "");
-  clean = clean.replace(/[.,;:!?)\]}]+$/, "");
+  let prev;
+  do {
+    prev = clean;
+    clean = clean.replace(/\.git$/i, "");
+    clean = clean.replace(/[.,;:!?)\]}]+$/, "");
+  } while (clean !== prev);
   return clean;
 }
 
@@ -408,9 +416,15 @@ async function main() {
   log(`  trending articles: ${trendingArticles.length} (mode: ${bodyFetchMode})`);
 }
 
+// Direct-run guard: must require argv[1] to be a non-empty path. The naive
+// `endsWith(argv[1] ?? "")` returns true on `endsWith("")` so importing
+// the module via `node --input-type=module` (no argv[1]) auto-runs main().
+// Sprint review finding #1.
+const argv1 = process.argv[1];
 const isDirectRun =
-  import.meta.url === `file://${process.argv[1]}` ||
-  import.meta.url.endsWith(process.argv[1]?.replace(/\\/g, "/") ?? "");
+  Boolean(argv1) &&
+  (import.meta.url === `file://${argv1}` ||
+    import.meta.url.endsWith(argv1.replace(/\\/g, "/")));
 
 if (isDirectRun) {
   main().catch((err) => {

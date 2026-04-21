@@ -118,13 +118,12 @@ const CLICK_DRAG_THRESHOLD = 5;
 const LEGEND_GREEN = "#22c55e";
 const LEGEND_ORANGE = "#ff4500";
 
-// Only the top N bubbles by radius show a label in the idle state. The rest
-// stay clean until the user hovers them — at which point the rich tooltip
-// surfaces the full name + every metric.
-const TOP_LABELED_COUNT = 15;
-// Inside-bubble names are truncated tighter so they don't blow past the
-// circle on smaller bubbles.
-const INSIDE_NAME_MAX_CHARS = 12;
+// Every rendered bubble gets an identity label — unlabeled grey circles
+// read as "broken data" rather than "quiet subreddit". Small bubbles use
+// the outside-connector strategy; large ones render name + value inside.
+// Inside-bubble names widen to 16 chars so r/MachineLearning, r/PromptEng..,
+// r/GoogleGemin.. etc. don't get truncated mid-common-word.
+const INSIDE_NAME_MAX_CHARS = 16;
 
 export function SubredditMindshareCanvas({
   windows,
@@ -526,10 +525,14 @@ export function SubredditMindshareCanvas({
   const OUTSIDE_PAD = 6;
   const OUTSIDE_NAME_H = 12;
 
-  const labeledIds = useMemo(() => {
-    const sorted = [...seeds].sort((a, b) => b.r - a.r);
-    return new Set(sorted.slice(0, TOP_LABELED_COUNT).map((s) => s.id));
-  }, [seeds]);
+  // Previously gated on top-N by radius, which left smaller bubbles as
+  // anonymous grey circles. Label every seed so the map reads as data,
+  // not decoration. The inside/outside strategy below still decides
+  // WHERE the label goes based on bubble size.
+  const labeledIds = useMemo(
+    () => new Set(seeds.map((s) => s.id)),
+    [seeds],
+  );
 
   type OutsidePos = {
     cx: number;

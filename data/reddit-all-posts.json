@@ -1,5 +1,5 @@
 {
-  "lastFetchedAt": "2026-04-21T22:53:56.116Z",
+  "lastFetchedAt": "2026-04-21T23:48:46.164Z",
   "scannedSubreddits": [
     "ClaudeAI",
     "ChatGPT",
@@ -48,7 +48,7 @@
     "nocode"
   ],
   "windowDays": 7,
-  "totalPosts": 3423,
+  "totalPosts": 3419,
   "prunedOldPosts": 4,
   "prunedOverflowPosts": 0,
   "posts": [
@@ -30098,30 +30098,6 @@
       ],
       "value_score": 0,
       "selftext": "Hey everyone! any updates on when we’ll be able to add images (image input) in Mistral vibe? This feature would be a game-changer for a lot of use cases. Has the team shared a timeline or roadmap for this? Or is there a workaround in the meantime?",
-      "linkedRepos": []
-    },
-    {
-      "id": "1sloo7o",
-      "subreddit": "ChatGPTPromptGenius",
-      "title": "How to manage &amp; share AI portfolio such as skills/agents/artifacts (for non-coders)?",
-      "url": "https://www.reddit.com/r/ChatGPTPromptGenius/comments/1sloo7o/how_to_manage_share_ai_portfolio_such_as/",
-      "permalink": "https://www.reddit.com/r/ChatGPTPromptGenius/comments/1sloo7o/how_to_manage_share_ai_portfolio_such_as/",
-      "score": 10,
-      "numComments": 4,
-      "createdUtc": 1776208031,
-      "author": "vik_s1231",
-      "repoFullName": null,
-      "baselineRatio": 1.5,
-      "baselineTier": "normal",
-      "baselineConfidence": "medium",
-      "ageHours": 137.02,
-      "velocity": 0.07,
-      "trendingScore": 0.1,
-      "content_tags": [
-        "is-question"
-      ],
-      "value_score": 0,
-      "selftext": "I been building some AI workflows/agents (non-technical such as design and product cases) and realized I don’t really have a good way to showcase and share them anywhere.GitHub feels too code-heavy, and random posts don’t really capture the impact. How are you guys showcasing your AI work especially to recruiters and hiring manager?",
       "linkedRepos": []
     },
     {
@@ -72031,28 +72007,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1slpfsx",
-      "subreddit": "LLM",
-      "title": "Tired of re-explaining my codebase to Claude  every session, so I built a memory layer for it",
-      "url": "https://www.reddit.com/r/LLM/comments/1slpfsx/tired_of_reexplaining_my_codebase_to_claude_every/",
-      "permalink": "https://www.reddit.com/r/LLM/comments/1slpfsx/tired_of_reexplaining_my_codebase_to_claude_every/",
-      "score": 3,
-      "numComments": 4,
-      "createdUtc": 1776209969,
-      "author": "Nonantiy",
-      "repoFullName": null,
-      "baselineRatio": 1,
-      "baselineTier": "normal",
-      "baselineConfidence": "high",
-      "ageHours": 136.54,
-      "velocity": 0.01,
-      "trendingScore": 0,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "Every new Claude Code session I'd end up re-explaining the architecture, re-debugging the same weird errors, re-teaching the same patterns. After the tenth time I snapped and started building something. It's called Alaz. Single Rust binary that hooks into session start and session end. When a session ends it parses the transcript and pulls out patterns, episodes, procedures, facts, and what went wrong. When a new session starts it injects the relevant stuff back as context — what's currently bro",
-      "linkedRepos": []
-    },
-    {
       "id": "1spg5r3",
       "subreddit": "LLM",
       "title": "A suggestion and two questions about LLM",
@@ -75642,30 +75596,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1sloegg",
-      "subreddit": "Rag",
-      "title": "Anyone spending $800+/mo on LLMs and still can’t explain where the tokens are going?",
-      "url": "https://www.reddit.com/r/Rag/comments/1sloegg/anyone_spending_800mo_on_llms_and_still_cant/",
-      "permalink": "https://www.reddit.com/r/Rag/comments/1sloegg/anyone_spending_800mo_on_llms_and_still_cant/",
-      "score": 1,
-      "numComments": 1,
-      "createdUtc": 1776207370,
-      "author": "U30M",
-      "repoFullName": null,
-      "baselineRatio": 0.2,
-      "baselineTier": "below-average",
-      "baselineConfidence": "high",
-      "ageHours": 137.25,
-      "velocity": 0.01,
-      "trendingScore": 0,
-      "content_tags": [
-        "is-question"
-      ],
-      "value_score": 0,
-      "selftext": "I’m building a routing + governance layer for teams running agent workflows in production. Once you get beyond “single prompt -&gt; single response”, costs get weird fast: \\- tools calling tools / agents calling agents \\- retries + long contexts + verbose reasoning \\- multiple providers/model families \\- outages/rate-limits causing fallback logic \\- nobody can answer “where did the tokens go?” without spelunking logs What we’re experimenting with: \\- one API entrypoint that can route across mult",
-      "linkedRepos": []
-    },
-    {
       "id": "1sqj1w6",
       "subreddit": "automation",
       "title": "Can we be honest about how much \"AI runs my business\" actually means human babysits AI all day",
@@ -78545,28 +78475,6 @@
       ],
       "value_score": -1,
       "selftext": "So the smartest AI keeps changing. I tend to go with the one backed by the most money... they usually have the smartest AI. I’m currently using Gemini for life advice and personal growth help. Is there any way to improve Gemini’s reasoning so it gives more accurate answers??? im using it on perplexcity pro version. Also, it sometimes forgets our long conversation threads.. that’s quite annoying. so the output suffers because of that.. Is there any way to prevent that and make it remember what we",
-      "linkedRepos": []
-    },
-    {
-      "id": "1slocwv",
-      "subreddit": "perplexity_ai",
-      "title": "Connected Perplexity Computer to Public's trading API- full setup walkthrough",
-      "url": "/r/ai_trading/comments/1sloaky/connected_perplexity_computer_to_publics_trading/",
-      "permalink": "https://www.reddit.com/r/perplexity_ai/comments/1slocwv/connected_perplexity_computer_to_publics_trading/",
-      "score": 0,
-      "numComments": 1,
-      "createdUtc": 1776207263,
-      "author": "BuildwithPublic",
-      "repoFullName": null,
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 137.2,
-      "velocity": 0,
-      "trendingScore": 0,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "",
       "linkedRepos": []
     },
     {

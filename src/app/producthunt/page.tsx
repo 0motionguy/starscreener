@@ -193,10 +193,11 @@ function LaunchFeed({ launches }: { launches: Launch[] }) {
   return (
     <section className="border border-border-primary rounded-md bg-bg-secondary overflow-hidden">
       {/* Header row — desktop columns. Mobile hides thumbnail + comments. */}
-      <div className="hidden md:grid grid-cols-[40px_60px_1fr_80px_60px_80px] gap-3 items-center px-3 h-9 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
+      <div className="hidden md:grid grid-cols-[40px_60px_minmax(0,1fr)_72px_80px_60px_80px] gap-3 items-center px-3 h-9 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
         <div>#</div>
         <div></div>
         <div>NAME · TAGLINE</div>
+        <div className="text-center">LINKS</div>
         <div className="text-right">VOTES</div>
         <div className="text-right">CMTS</div>
         <div className="text-right">POSTED</div>
@@ -218,7 +219,7 @@ function LaunchFeed({ launches }: { launches: Launch[] }) {
               className="border-b border-border-primary/40 last:border-b-0"
             >
               {/* Desktop layout */}
-              <div className="hidden md:grid grid-cols-[40px_60px_1fr_80px_60px_80px] gap-3 items-center px-3 h-12 hover:bg-bg-card-hover transition-colors">
+              <div className="hidden md:grid grid-cols-[40px_60px_minmax(0,1fr)_72px_80px_60px_80px] gap-3 items-center px-3 py-2 min-h-[56px] hover:bg-bg-card-hover transition-colors">
                 <div
                   className="text-xs tabular-nums font-semibold"
                   style={{ color: rank <= 10 ? PH_RED : undefined }}
@@ -230,6 +231,9 @@ function LaunchFeed({ launches }: { launches: Launch[] }) {
                 </div>
                 <div className="min-w-0">
                   <NameTagline launch={l} />
+                </div>
+                <div className="flex items-center justify-center">
+                  <LaunchLinkIcons launch={l} />
                 </div>
                 <div
                   className="text-right text-xs tabular-nums inline-flex items-center justify-end gap-1"
@@ -248,7 +252,7 @@ function LaunchFeed({ launches }: { launches: Launch[] }) {
               </div>
 
               {/* Mobile layout — hides thumbnail + comments per spec */}
-              <div className="grid md:hidden grid-cols-[32px_1fr_60px_70px] gap-2 items-center px-3 h-12 hover:bg-bg-card-hover transition-colors">
+              <div className="grid md:hidden grid-cols-[32px_1fr_60px_70px] gap-2 items-center px-3 py-2 min-h-[56px] hover:bg-bg-card-hover transition-colors">
                 <div
                   className="text-xs tabular-nums font-semibold"
                   style={{ color: rank <= 10 ? PH_RED : undefined }}
@@ -257,6 +261,7 @@ function LaunchFeed({ launches }: { launches: Launch[] }) {
                 </div>
                 <div className="min-w-0">
                   <NameTagline launch={l} />
+                  <LaunchLinkIcons launch={l} className="mt-1" />
                 </div>
                 <div
                   className="text-right text-xs tabular-nums inline-flex items-center justify-end gap-1"
@@ -340,13 +345,12 @@ function NameTagline({ launch }: { launch: Launch }) {
           {launch.tagline}
         </p>
       </a>
-      <LaunchLinkIcons launch={launch} className="mt-1" />
       {launch.githubUrl ? (
         <a
           href={launch.githubUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-0.5 inline-flex items-center gap-1 text-[10px] font-mono text-text-tertiary hover:text-functional transition-colors"
+          className="hidden mt-0.5 inline-flex items-center gap-1 text-[10px] font-mono text-text-tertiary hover:text-functional transition-colors"
           title={
             stars !== undefined
               ? `${launch.githubUrl.replace(/^https?:\/\/github\.com\//, "")} · ${stars.toLocaleString()}★`

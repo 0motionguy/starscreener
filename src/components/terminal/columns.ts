@@ -21,6 +21,7 @@ import { getHnMentions } from "@/lib/hackernews";
 import { BskyBadge } from "@/components/bluesky/BskyBadge";
 import { getBlueskyMentions } from "@/lib/bluesky";
 import { PhBadge } from "@/components/producthunt/PhBadge";
+import { DevtoBadge } from "@/components/devto/DevtoBadge";
 import { getLaunchForRepo } from "@/lib/producthunt";
 import type { ColumnId, Repo } from "@/lib/types";
 
@@ -350,7 +351,13 @@ export const COLUMNS: Column[] = [
               launch: getLaunchForRepo(repo.fullName),
               size: "sm",
             }),
-            // 4-channel cross-signal indicator. hideWhenEmpty so quiet
+            // dev.to tutorial badge — renders null unless a tracked-repo
+            // article was published in the last 7d (sparser than HN).
+            createElement(DevtoBadge, {
+              mention: repo.devto ?? null,
+              size: "sm",
+            }),
+            // 5-channel cross-signal indicator. hideWhenEmpty so quiet
             // repos don't show four empty dots — we only highlight rows
             // where at least one channel is firing.
             createElement(ChannelDots, {

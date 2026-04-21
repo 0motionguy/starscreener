@@ -9,13 +9,14 @@
 import { usePathname, useRouter } from "next/navigation";
 import {
   Bookmark,
-  Flame,
+  Cloud,
   GitCompareArrows,
   Layers,
-  Rocket,
-  Sparkles,
-  TrendingUp,
-  Trophy,
+  LineChart,
+  MessageSquare,
+  Microscope,
+  Newspaper,
+  Radar,
   X,
 } from "lucide-react";
 import type { CategoryStats } from "@/lib/pipeline/queries/aggregate";
@@ -50,7 +51,6 @@ function byCategoryId(stats: CategoryStats[]): Map<string, CategoryStats> {
 
 export function SidebarContent({
   categoryStats,
-  metaCounts,
   availableLanguages,
   watchlistPreview,
   onClose,
@@ -59,42 +59,25 @@ export function SidebarContent({
   const pathname = usePathname() ?? "/";
   const activeCategory = useFilterStore((s) => s.category);
   const activeMetaFilter = useFilterStore((s) => s.activeMetaFilter);
-  const activeTab = useFilterStore((s) => s.activeTab);
-  const timeRange = useFilterStore((s) => s.timeRange);
   const setActiveMetaFilter = useFilterStore((s) => s.setActiveMetaFilter);
   const setActiveTab = useFilterStore((s) => s.setActiveTab);
-  const setTimeRange = useFilterStore((s) => s.setTimeRange);
 
   const watchCount = useWatchlistStore((s) => s.repos.length);
   const compareCount = useCompareStore((s) => s.repos.length);
 
   const statsByCategory = byCategoryId(categoryStats);
 
-  function goToTerminal(filter: "breakouts" | "new" | "quiet-killers" | "hot" | null) {
-    if (filter === "hot") {
-      // "Hot This Week" — the hot movementStatus count is empty during delta
-      // warm-up, so route to top 7-day gainers instead. Same user intent
-      // ("what's actually trending this week") with real data behind it.
-      setActiveMetaFilter(null);
-      setActiveTab("gainers");
-      setTimeRange("7d");
-    } else if (filter) {
-      setActiveMetaFilter(filter);
-    } else {
-      setActiveMetaFilter(null);
-      setActiveTab("trending");
-    }
+  // Navigate to the homepage Repos terminal, clearing any meta-filter that
+  // an earlier session left set in the filter store. Used by the "Repos"
+  // entry in the new TERMINALS section.
+  function goToReposTerminal() {
+    setActiveMetaFilter(null);
+    setActiveTab("trending");
     if (pathname !== "/") {
       router.push("/");
     }
     onClose?.();
   }
-
-  const hotThisWeekActive =
-    pathname === "/" &&
-    activeMetaFilter === null &&
-    activeTab === "gainers" &&
-    timeRange === "7d";
 
   return (
     <div className="flex flex-col h-full">
@@ -115,45 +98,58 @@ export function SidebarContent({
 
       {/* Scrollable body ------------------------------------------------- */}
       <div className="flex-1 overflow-y-auto scrollbar-hide">
-        {/* TERMINAL ---------------------------------------------------- */}
-        <SidebarSection id="terminal" label="Terminal">
+        {/* TERMINALS — per-source feeds ------------------------------- */}
+        <SidebarSection id="terminals" label="Terminals">
           <SidebarNavItem
-            onClick={() => goToTerminal(null)}
-            icon={TrendingUp}
-            label="Trending"
+            onClick={goToReposTerminal}
+            icon={LineChart}
+            label="Repos"
             active={pathname === "/" && activeMetaFilter === null}
           />
           <SidebarNavItem
-            onClick={() => goToTerminal("breakouts")}
-            icon={Rocket}
-            label="Breakouts"
-            badge={metaCounts.breakouts}
-            active={pathname === "/" && activeMetaFilter === "breakouts"}
+            href="/reddit/trending"
+            icon={MessageSquare}
+            label="Reddit"
+            active={
+              pathname === "/reddit" ||
+              pathname.startsWith("/reddit/")
+            }
           />
           <SidebarNavItem
-            onClick={() => goToTerminal("new")}
-            icon={Sparkles}
-            label="New Repos"
-            badge={metaCounts.new}
-            active={pathname === "/" && activeMetaFilter === "new"}
+            href="/hackernews/trending"
+            icon={Newspaper}
+            label="HackerNews"
+            active={
+              pathname === "/hackernews" ||
+              pathname.startsWith("/hackernews/")
+            }
           />
           <SidebarNavItem
-            onClick={() => goToTerminal("hot")}
-            icon={Flame}
-            label="Hot This Week"
-            badge={metaCounts.hot}
-            active={hotThisWeekActive}
+            href="/bluesky/trending"
+            icon={Cloud}
+            label="Bluesky"
+            active={
+              pathname === "/bluesky" ||
+              pathname.startsWith("/bluesky/")
+            }
           />
           <SidebarNavItem
-            href="/search?sort=stars-total&limit=100"
-            icon={Trophy}
-            label="Top 100"
-            active={pathname === "/search"}
+            href="/research"
+            icon={Microscope}
+            label="Research"
+            badge="soon"
+            active={pathname === "/research"}
           />
         </SidebarSection>
 
-        {/* MY LIST ----------------------------------------------------- */}
-        <SidebarSection id="mylist" label="My List">
+        {/* LENSES — ways to view the corpus --------------------------- */}
+        <SidebarSection id="lenses" label="Lenses">
+          <SidebarNavItem
+            href="/breakouts"
+            icon={Radar}
+            label="Cross-Signal Breakouts"
+            active={pathname === "/breakouts"}
+          />
           <SidebarNavItem
             href="/watchlist"
             icon={Bookmark}
@@ -170,7 +166,7 @@ export function SidebarContent({
           />
         </SidebarSection>
 
-        {/* CURATED ----------------------------------------------------- */}
+        {/* CURATED — pre-grouped views -------------------------------- */}
         <SidebarSection id="curated" label="Curated">
           <SidebarNavItem
             href="/collections"

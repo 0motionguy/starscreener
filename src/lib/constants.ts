@@ -152,6 +152,10 @@ export const ROUTES = {
   WATCHLIST: "/watchlist",
     SEARCH: "/search",
     SUBMIT: "/submit",
+    REDDIT: "/reddit",
+    REDDIT_TRENDING: "/reddit/trending",
+    BLUESKY: "/bluesky",
+    BLUESKY_TRENDING: "/bluesky/trending",
 } as const;
 
 // ---------------------------------------------------------------------------

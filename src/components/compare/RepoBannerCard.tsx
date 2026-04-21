@@ -17,6 +17,7 @@ import { BskyBadge } from "@/components/bluesky/BskyBadge";
 import { getBlueskyMentions } from "@/lib/bluesky";
 import { PhBadge } from "@/components/producthunt/PhBadge";
 import { getLaunchForRepo } from "@/lib/producthunt";
+import { DevtoBadge } from "@/components/devto/DevtoBadge";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 
 interface RepoBannerCardProps {
@@ -109,6 +110,7 @@ export function RepoBannerCard({
             <HnBadge mention={hnMention} size="md" />
             <BskyBadge mention={bskyMention} size="md" />
             <PhBadge launch={phLaunch} size="md" />
+            <DevtoBadge mention={derivedRepo?.devto ?? null} size="md" />
             {derivedRepo && (
               <ChannelDots repo={derivedRepo} hideWhenEmpty size="md" />
             )}

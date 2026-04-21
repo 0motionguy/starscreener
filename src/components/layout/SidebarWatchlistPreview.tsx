@@ -18,6 +18,8 @@ import { BskyBadge } from "@/components/bluesky/BskyBadge";
 import { getBlueskyMentions } from "@/lib/bluesky";
 import { PhBadge } from "@/components/producthunt/PhBadge";
 import { getLaunchForRepo } from "@/lib/producthunt";
+import { DevtoBadge } from "@/components/devto/DevtoBadge";
+import { getDevtoBadgeRollup } from "@/lib/devto";
 
 export interface SidebarWatchlistPreviewRepo {
   id: string;
@@ -106,6 +108,7 @@ export function SidebarWatchlistPreview({
               <HnBadge mention={getHnMentions(repo.fullName)} size="sm" />
               <BskyBadge mention={getBlueskyMentions(repo.fullName)} size="sm" />
               <PhBadge launch={getLaunchForRepo(repo.fullName)} size="sm" />
+              <DevtoBadge mention={getDevtoBadgeRollup(repo.fullName)} size="sm" />
             </div>
             <span
               className={cn(

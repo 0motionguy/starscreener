@@ -33,6 +33,7 @@ import type { MovementStatus, Repo } from "../types";
 import { getRedditMentions } from "../reddit";
 import { getHnMentions } from "../hackernews";
 import { getBlueskyMentions } from "../bluesky";
+import { getDevtoMentions } from "../devto";
 
 const REDDIT_WINDOW_MS = 48 * 60 * 60 * 1000;
 
@@ -123,11 +124,32 @@ export function attachCrossSignal(
         }
       : null;
 
+    const devtoMention = getDevtoMentions(repo.fullName);
+    const devtoRollup = devtoMention
+      ? {
+          mentions7d: devtoMention.count7d,
+          reactions7d: devtoMention.reactionsSum7d,
+          comments7d: devtoMention.commentsSum7d,
+          topArticle: devtoMention.topArticle
+            ? {
+                id: devtoMention.topArticle.id,
+                title: devtoMention.topArticle.title,
+                url: devtoMention.topArticle.url,
+                author: devtoMention.topArticle.author,
+                reactions: devtoMention.topArticle.reactions,
+                comments: devtoMention.topArticle.comments,
+                readingTime: devtoMention.topArticle.readingTime,
+              }
+            : undefined,
+        }
+      : null;
+
     return {
       ...repo,
       crossSignalScore: Math.round(score * 100) / 100,
       channelsFiring: firing,
       bluesky: bskyRollup,
+      devto: devtoRollup,
     };
   });
 }

@@ -122,6 +122,28 @@ export interface Repo {
   } | null;
 
   /**
+   * dev.to writeup rollup. null when no tracked-repo article in last 7d.
+   * Sparse by design — most repos won't have a tutorial written about
+   * them in any given week. Mirrors the bluesky rollup shape: minimal
+   * top-article ref so the homepage bundle doesn't carry every article
+   * (full list stays in data/devto-mentions.json).
+   */
+  devto?: {
+    mentions7d: number;
+    reactions7d: number;
+    comments7d: number;
+    topArticle?: {
+      id: number;
+      title: string;
+      url: string;
+      author: string;
+      reactions: number;
+      comments: number;
+      readingTime: number;
+    };
+  } | null;
+
+  /**
    * ProductHunt launch match — set only when a tracked repo has a recent PH
    * launch (last 7d) whose website/description links to github.com/<repo>.
    * Null/undefined for most repos (sparse by design). Drives the PhBadge on

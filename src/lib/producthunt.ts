@@ -14,12 +14,18 @@ export interface Launch {
   description: string;
   url: string;
   website: string | null;
+  xUrl?: string | null;
   votesCount: number;
   commentsCount: number;
   createdAt: string;
   thumbnail: string | null;
   topics: string[];
-  makers: { name: string; username: string }[];
+  makers: {
+    name: string;
+    username: string;
+    twitterUsername?: string | null;
+    websiteUrl?: string | null;
+  }[];
   githubUrl: string | null;
   linkedRepo: string | null;
   daysSinceLaunch: number;

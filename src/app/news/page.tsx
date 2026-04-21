@@ -40,6 +40,7 @@ import {
   getPhFile,
   type Launch,
 } from "@/lib/producthunt";
+import { LaunchLinkIcons } from "@/components/producthunt/LaunchLinkIcons";
 
 export const dynamic = "force-static";
 
@@ -771,6 +772,7 @@ function ProductHuntTabBody({ launches }: { launches: Launch[] }) {
                       <span className="text-text-tertiary"> · {l.tagline}</span>
                     ) : null}
                   </a>
+                  <LaunchLinkIcons launch={l} />
                   <span className="sm:hidden text-[10px] text-text-tertiary tabular-nums">
                     {`${l.commentsCount.toLocaleString()} cmts · ${l.daysSinceLaunch}d · ${launchDate}`}
                   </span>

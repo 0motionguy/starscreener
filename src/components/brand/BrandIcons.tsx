@@ -101,6 +101,18 @@ export function GithubIcon({ size = 16, className, monochrome }: IconProps) {
  * for MCP; we use a clean geometric tri-node graph (model · context · proto)
  * with thicker strokes so it reads at chip scale. Color: currentColor.
  */
+export function XIcon({ size = 16, className, monochrome }: IconProps) {
+  const fill = monochrome ? "currentColor" : "#000000";
+  return (
+    <svg {...svgRoot(size, className)}>
+      <path
+        fill={fill}
+        d="M18.901 1.153h3.68l-8.04 9.19L24 22.847h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932zM17.61 20.644h2.039L6.486 3.24H4.298z"
+      />
+    </svg>
+  );
+}
+
 export function McpIcon({ size = 16, className }: IconProps) {
   return (
     <svg {...svgRoot(size, className)}>

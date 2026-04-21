@@ -329,6 +329,10 @@ async function main() {
               if (tracked.has(lower)) l.linkedRepo = lower;
             }
           }
+          if (!l.xUrl) {
+            const x = extractXLink(resolved);
+            if (x) l.xUrl = x;
+          }
         }
       }),
     );
@@ -337,6 +341,36 @@ async function main() {
     log("warn: curl unavailable — redirect resolution skipped for some launches");
   }
   log(`resolved ${resolvedCount}/${launches.length} PH redirects via curl`);
+
+  // Discover launch-site links when the PH payload does not expose them.
+  let discoveredGithubCount = 0;
+  let discoveredXCount = 0;
+  const DISCOVER_BATCH = 6;
+  for (let i = 0; i < launches.length; i += DISCOVER_BATCH) {
+    const batch = launches.slice(i, i + DISCOVER_BATCH);
+    await Promise.all(
+      batch.map(async (l) => {
+        if (!l.website) return;
+        if (l.githubUrl && l.xUrl) return;
+        const discovered = await discoverLinkedUrls(l.website);
+        if (!l.githubUrl && discovered.githubUrl) {
+          l.githubUrl = discovered.githubUrl;
+          discoveredGithubCount += 1;
+          const lower = discovered.githubUrl
+            .replace(/^https?:\/\/github\.com\//, "")
+            .toLowerCase();
+          if (tracked.has(lower)) l.linkedRepo = lower;
+        }
+        if (!l.xUrl && discovered.xUrl) {
+          l.xUrl = discovered.xUrl;
+          discoveredXCount += 1;
+        }
+      }),
+    );
+  }
+  log(
+    `discovered links from launch websites: ${discoveredGithubCount} github, ${discoveredXCount} x`,
+  );
 
   // ---- GitHub enrichment ------------------------------------------------
   // For each launch with a github.com URL, fetch metadata + README and
@@ -381,12 +415,14 @@ async function main() {
   const aiCount = launches.filter((l) => l.aiAdjacent).length;
   const linkedCount = launches.filter((l) => l.linkedRepo).length;
   const withGhCount = launches.filter((l) => l.githubUrl).length;
+  const withXCount = launches.filter((l) => l.xUrl).length;
   const top3 = launches
     .slice(0, 3)
     .map((l) => `${l.name} (${l.votesCount})`)
     .join(", ");
   log("");
   log(`wrote ${OUT_PATH}`);
+  log(`  x links found: ${withXCount}`);
   log(
     `  launches kept: ${launches.length} (${aiCount} AI-adjacent · ${withGhCount} with github · ${linkedCount} linked to tracked repos · ${enrichedCount} enriched)`,
   );

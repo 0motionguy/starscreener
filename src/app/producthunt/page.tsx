@@ -12,6 +12,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { MessageSquare, ChevronUp } from "lucide-react";
+import { LaunchLinkIcons } from "@/components/producthunt/LaunchLinkIcons";
 import {
   getAiLaunches,
   getRecentLaunches,
@@ -339,6 +340,7 @@ function NameTagline({ launch }: { launch: Launch }) {
           {launch.tagline}
         </p>
       </a>
+      <LaunchLinkIcons launch={launch} className="mt-1" />
       {launch.githubUrl ? (
         <a
           href={launch.githubUrl}

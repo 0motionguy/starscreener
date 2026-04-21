@@ -6,7 +6,11 @@ import { fileURLToPath } from "node:url";
 import { normalizePost, isAiAdjacent } from "../scrape-producthunt.mjs";
 import {
   extractGithubLink,
+  extractLinkedUrls,
+  extractXLink,
   hasAiKeyword,
+  normalizeGithubUrl,
+  normalizeXUrl,
   daysBetween,
 } from "../_ph-shared.mjs";
 
@@ -59,6 +63,42 @@ test("extractGithubLink: returns null when no URL present", () => {
   assert.equal(extractGithubLink("just a product website"), null);
   assert.equal(extractGithubLink(""), null);
   assert.equal(extractGithubLink(null), null);
+});
+
+test("normalizeGithubUrl: canonicalizes repo links", () => {
+  assert.equal(
+    normalizeGithubUrl("https://github.com/openai/gym/tree/main"),
+    "https://github.com/openai/gym",
+  );
+  assert.equal(normalizeGithubUrl("https://github.com/trending/rust"), null);
+});
+
+test("normalizeXUrl: canonicalizes twitter and x profile links", () => {
+  assert.equal(
+    normalizeXUrl("https://twitter.com/openai/status/12345?t=1"),
+    "https://x.com/openai/status/12345",
+  );
+  assert.equal(normalizeXUrl("https://www.x.com/openai/"), "https://x.com/openai");
+  assert.equal(normalizeXUrl("https://x.com/home"), null);
+});
+
+test("extractXLink: finds an x/twitter URL in a text blob", () => {
+  assert.equal(
+    extractXLink("follow along at https://twitter.com/acme/status/99"),
+    "https://x.com/acme/status/99",
+  );
+  assert.equal(extractXLink("no social links here"), null);
+});
+
+test("extractLinkedUrls: finds github + x links in html", () => {
+  const links = extractLinkedUrls(
+    '<a href="https://github.com/foo/bar">Repo</a><a href="https://x.com/foo">X</a>',
+    "https://example.com",
+  );
+  assert.deepEqual(links, {
+    githubUrl: "https://github.com/foo/bar",
+    xUrl: "https://x.com/foo",
+  });
 });
 
 // ---------------------------------------------------------------------------
@@ -124,7 +164,9 @@ test("normalizePost: shapes a valid PH post node", () => {
         { node: { slug: "artificial-intelligence", name: "AI" } },
       ],
     },
-    makers: [{ name: "Alice", username: "alice" }],
+    makers: [
+      { name: "Alice", username: "alice", twitterUsername: "alice_ai" },
+    ],
   };
   const launch = normalizePost(node, tracked);
   assert.equal(launch.id, "1234");
@@ -132,6 +174,7 @@ test("normalizePost: shapes a valid PH post node", () => {
   assert.equal(launch.votesCount, 230);
   assert.equal(launch.linkedRepo, "openai/gym");
   assert.equal(launch.githubUrl, "https://github.com/openai/gym");
+  assert.equal(launch.xUrl, "https://x.com/alice_ai");
   assert.deepEqual(launch.topics, ["developer-tools", "artificial-intelligence"]);
   assert.equal(launch.makers[0].username, "alice");
   assert.equal(launch.daysSinceLaunch, 2);
@@ -171,6 +214,7 @@ test("normalizePost: empty website+description yields null githubUrl", () => {
   };
   const launch = normalizePost(node, new Map());
   assert.equal(launch.githubUrl, null);
+  assert.equal(launch.xUrl, null);
   assert.equal(launch.linkedRepo, null);
 });
 

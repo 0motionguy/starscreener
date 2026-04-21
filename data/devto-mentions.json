@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-04-21T06:02:23.676Z",
+  "fetchedAt": "2026-04-21T09:57:54.011Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1362,
+  "scannedArticles": 1372,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -179,7 +179,7 @@
   ],
   "sliceCounts": {
     "global-top-7d": 100,
-    "global-rising": 9,
+    "global-rising": 11,
     "global-fresh": 100,
     "tag-ai-top-7d": 100,
     "tag-artificialintelligence-top-7d": 0,
@@ -206,7 +206,7 @@
   },
   "mentions": {
     "NousResearch/hermes-agent": {
-      "count7d": 3,
+      "count7d": 4,
       "reactionsSum7d": 40,
       "commentsSum7d": 6,
       "topArticle": {
@@ -216,7 +216,7 @@
         "author": "joestrout",
         "reactions": 33,
         "comments": 5,
-        "hoursSincePosted": 107.8,
+        "hoursSincePosted": 111.7,
         "readingTime": 8
       },
       "articles": [
@@ -240,7 +240,7 @@
             "agents",
             "programming"
           ],
-          "trendingScore": 0.7,
+          "trendingScore": 0.67,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -274,6 +274,34 @@
               "fullName": "openclaw/openclaw",
               "location": "tag"
             },
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3529723,
+          "title": "Hermes Agent Review: Self-Improving Open-Source AI Agent",
+          "description": "Nous Research's Hermes Agent hit 95K GitHub stars in 7 weeks. Full review: self-improving skills, three-layer memory, setup guide, and pricing.",
+          "url": "https://dev.to/jangwook_kim_e31e7291ad98/hermes-agent-review-self-improving-open-source-ai-agent-3kk3",
+          "author": {
+            "username": "jangwook_kim_e31e7291ad98",
+            "name": "Jangwook Kim",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1909290%2F60a8c15f-b2b5-4189-8578-78b8ab78900b.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 10,
+          "publishedAt": "2026-04-21T04:22:10Z",
+          "tags": [
+            "hermesagent",
+            "nousresearch",
+            "aiagents",
+            "opensource"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
               "location": "body"
@@ -321,7 +349,7 @@
         "author": "nfrankel",
         "reactions": 9,
         "comments": 0,
-        "hoursSincePosted": 117,
+        "hoursSincePosted": 120.9,
         "readingTime": 6
       },
       "articles": [
@@ -366,7 +394,7 @@
         "author": "whtsky",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 135.9,
+        "hoursSincePosted": 139.8,
         "readingTime": 2
       },
       "articles": [
@@ -400,108 +428,77 @@
         }
       ]
     },
-    "anthropics/claude-plugins-official": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
+    "aquasecurity/trivy": {
+      "count7d": 2,
+      "reactionsSum7d": 2,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3528970,
-        "title": "Your Claude Plugin Marketplace Needs More Than a Git Repo",
-        "url": "https://dev.to/michaeltuszynski/your-claude-plugin-marketplace-needs-more-than-a-git-repo-5631",
-        "author": "michaeltuszynski",
-        "reactions": 0,
+        "id": 3504582,
+        "title": "LiteLLM Hit by Credential-Stealing Supply Chain Attack: Complete Technical Breakdown",
+        "url": "https://dev.to/precogs_ai/litellm-hit-by-credential-stealing-supply-chain-attack-complete-technical-breakdown-4550",
+        "author": "natasha_joshi_",
+        "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 6.2,
-        "readingTime": 4
+        "hoursSincePosted": 142.7,
+        "readingTime": 22
       },
       "articles": [
         {
-          "id": 3528970,
-          "title": "Your Claude Plugin Marketplace Needs More Than a Git Repo",
-          "description": "Your Claude Plugin Marketplace Needs More Than a Git Repo   Anthropic's official plugin...",
-          "url": "https://dev.to/michaeltuszynski/your-claude-plugin-marketplace-needs-more-than-a-git-repo-5631",
+          "id": 3504582,
+          "title": "LiteLLM Hit by Credential-Stealing Supply Chain Attack: Complete Technical Breakdown",
+          "description": "What Happened: The Attack at a Glance   On March 24, 2026, two versions of LiteLLM — the...",
+          "url": "https://dev.to/precogs_ai/litellm-hit-by-credential-stealing-supply-chain-attack-complete-technical-breakdown-4550",
           "author": {
-            "username": "michaeltuszynski",
-            "name": "Michael Tuszynski",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1447774%2Fa99eea93-7845-4764-9fce-b1755bcfa456.png"
+            "username": "natasha_joshi_",
+            "name": "Natasha Joshi",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3852907%2Fdf88ea81-9f38-4628-9632-a7030e1342ae.png"
           },
-          "reactionsCount": 0,
+          "reactionsCount": 2,
           "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-04-20T23:48:03Z",
+          "readingTime": 22,
+          "publishedAt": "2026-04-15T11:15:42Z",
           "tags": [
-            "claudecode",
-            "platformengineering",
-            "ai",
-            "enterpriseai"
+            "scm",
+            "mcp",
+            "programming",
+            "codesecurity"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "anthropics/claude-plugins-official",
+              "fullName": "BerriAI/litellm",
               "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "code-yeongyu/oh-my-openagent": {
-      "count7d": 2,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3529111,
-        "title": "10 Hidden Uses of Claude Code You Probably Didn't Know in 2026 🔥",
-        "url": "https://dev.to/_cbd692d476c5faf3b61bcf/10-hidden-uses-of-claude-code-you-probably-didnt-know-in-2026-1idj",
-        "author": "_cbd692d476c5faf3b61bcf",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 4.9,
-        "readingTime": 8
-      },
-      "articles": [
-        {
-          "id": 3529111,
-          "title": "10 Hidden Uses of Claude Code You Probably Didn't Know in 2026 🔥",
-          "description": "10 Hidden Uses of Claude Code You Probably Didn't Know in 2026 🔥   AI coding assistants have...",
-          "url": "https://dev.to/_cbd692d476c5faf3b61bcf/10-hidden-uses-of-claude-code-you-probably-didnt-know-in-2026-1idj",
-          "author": {
-            "username": "_cbd692d476c5faf3b61bcf",
-            "name": "韩",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3887968%2F282c87b1-7364-49c1-bfdb-fbfab6c1f3bc.jpeg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 8,
-          "publishedAt": "2026-04-21T01:11:15Z",
-          "tags": [],
-          "trendingScore": 0,
-          "linkedRepos": [
+            },
             {
-              "fullName": "code-yeongyu/oh-my-openagent",
+              "fullName": "aquasecurity/trivy",
               "location": "body"
             }
           ]
         },
         {
-          "id": 3529112,
-          "title": "Claude Code根本不是代码编辑器，它是一套被你严重低估的AI开发操作系统",
-          "description": "Claude Code 根本不是代码编辑器，它是一套被你严重低估的 AI 开发操作系统   你以为 Claude Code 只是另一个 AI...",
-          "url": "https://dev.to/_cbd692d476c5faf3b61bcf/claude-codegen-ben-bu-shi-dai-ma-bian-ji-qi-ta-shi-tao-bei-ni-yan-zhong-di-gu-de-aikai-fa-cao-zuo-xi-tong-2i6d",
+          "id": 3529602,
+          "title": "Hackers Love Lazy Developers — 19 Security Mistakes You’re Making Right Now",
+          "description": "Security Handbook for Developers      \"Hackers don't break in — they walk through the door...",
+          "url": "https://dev.to/anhthii/hackers-love-lazy-developers-19-security-mistakes-youre-making-right-now-17aj",
           "author": {
-            "username": "_cbd692d476c5faf3b61bcf",
-            "name": "韩",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3887968%2F282c87b1-7364-49c1-bfdb-fbfab6c1f3bc.jpeg"
+            "username": "anhthii",
+            "name": "Thi Nguyen (T)",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F800657%2F40146602-2474-4f0f-a742-19e340bea168.jpg"
           },
           "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-04-21T01:11:16Z",
-          "tags": [],
+          "readingTime": 13,
+          "publishedAt": "2026-04-21T03:42:00Z",
+          "tags": [
+            "security",
+            "devops",
+            "webdev",
+            "opensource"
+          ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "code-yeongyu/oh-my-openagent",
+              "fullName": "aquasecurity/trivy",
               "location": "body"
             }
           ]
@@ -519,7 +516,7 @@
         "author": "sefaertunc",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 105.4,
+        "hoursSincePosted": 109.3,
         "readingTime": 2
       },
       "articles": [
@@ -568,7 +565,7 @@
         "author": "sefaertunc",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 105.4,
+        "hoursSincePosted": 109.3,
         "readingTime": 2
       },
       "articles": [
@@ -617,7 +614,7 @@
         "author": "colonistone_34",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 141.7,
+        "hoursSincePosted": 145.6,
         "readingTime": 7
       },
       "articles": [
@@ -662,7 +659,7 @@
         "author": "094459",
         "reactions": 4,
         "comments": 0,
-        "hoursSincePosted": 12.8,
+        "hoursSincePosted": 16.7,
         "readingTime": 9
       },
       "articles": [
@@ -686,7 +683,7 @@
             "programming",
             "resources"
           ],
-          "trendingScore": 0.19,
+          "trendingScore": 0.14,
           "linkedRepos": [
             {
               "fullName": "addyosmani/agent-skills",
@@ -711,7 +708,7 @@
         "author": "094459",
         "reactions": 4,
         "comments": 0,
-        "hoursSincePosted": 12.8,
+        "hoursSincePosted": 16.7,
         "readingTime": 9
       },
       "articles": [
@@ -735,7 +732,7 @@
             "programming",
             "resources"
           ],
-          "trendingScore": 0.19,
+          "trendingScore": 0.14,
           "linkedRepos": [
             {
               "fullName": "addyosmani/agent-skills",
@@ -760,7 +757,7 @@
         "author": "haowen_huang",
         "reactions": 7,
         "comments": 0,
-        "hoursSincePosted": 121.9,
+        "hoursSincePosted": 125.8,
         "readingTime": 9
       },
       "articles": [
@@ -893,7 +890,7 @@
         "author": "truongpx396",
         "reactions": 5,
         "comments": 0,
-        "hoursSincePosted": 141.3,
+        "hoursSincePosted": 145.2,
         "readingTime": 20
       },
       "articles": [
@@ -942,7 +939,7 @@
         "author": "truongpx396",
         "reactions": 5,
         "comments": 0,
-        "hoursSincePosted": 141.3,
+        "hoursSincePosted": 145.2,
         "readingTime": 20
       },
       "articles": [
@@ -991,7 +988,7 @@
         "author": "creatman",
         "reactions": 2,
         "comments": 1,
-        "hoursSincePosted": 81.5,
+        "hoursSincePosted": 85.4,
         "readingTime": 5
       },
       "articles": [
@@ -1036,7 +1033,7 @@
         "author": "rbah31",
         "reactions": 1,
         "comments": 3,
-        "hoursSincePosted": 160.8,
+        "hoursSincePosted": 164.7,
         "readingTime": 4
       },
       "articles": [
@@ -1070,6 +1067,51 @@
         }
       ]
     },
+    "anthropics/claude-plugins-official": {
+      "count7d": 1,
+      "reactionsSum7d": 1,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3528970,
+        "title": "Your Claude Plugin Marketplace Needs More Than a Git Repo",
+        "url": "https://dev.to/michaeltuszynski/your-claude-plugin-marketplace-needs-more-than-a-git-repo-5631",
+        "author": "michaeltuszynski",
+        "reactions": 1,
+        "comments": 0,
+        "hoursSincePosted": 10.2,
+        "readingTime": 4
+      },
+      "articles": [
+        {
+          "id": 3528970,
+          "title": "Your Claude Plugin Marketplace Needs More Than a Git Repo",
+          "description": "Your Claude Plugin Marketplace Needs More Than a Git Repo   Anthropic's official plugin...",
+          "url": "https://dev.to/michaeltuszynski/your-claude-plugin-marketplace-needs-more-than-a-git-repo-5631",
+          "author": {
+            "username": "michaeltuszynski",
+            "name": "Michael Tuszynski",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1447774%2Fa99eea93-7845-4764-9fce-b1755bcfa456.png"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-04-20T23:48:03Z",
+          "tags": [
+            "claudecode",
+            "platformengineering",
+            "ai",
+            "enterpriseai"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "thedotmack/claude-mem": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -1081,7 +1123,7 @@
         "author": "kanta13jp1",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 105.7,
+        "hoursSincePosted": 109.6,
         "readingTime": 3
       },
       "articles": [
@@ -1126,7 +1168,7 @@
         "author": "_53fb7c03dd741a6124e4e",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 139,
+        "hoursSincePosted": 142.9,
         "readingTime": 5
       },
       "articles": [
@@ -1197,7 +1239,7 @@
         "author": "fisher_shenfisher_1c32",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 17.3,
+        "hoursSincePosted": 21.3,
         "readingTime": 7
       },
       "articles": [
@@ -1230,34 +1272,6 @@
           ]
         },
         {
-          "id": 3511198,
-          "title": "Field Notes from a Solo Builder — Shipping the Beloved Claude Code Buddy Into the Wild - Part I",
-          "description": "Last Thursday afternoon, I watched my community grieve.  Anthropic had deprecated /buddy — that...",
-          "url": "https://dev.to/fiorastudio/field-notes-from-a-solo-builder-shipping-the-beloved-claude-code-buddy-into-the-wild-part-i-3lpa",
-          "author": {
-            "username": "fiorastudio",
-            "name": "Steven Jieli Wu",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3877709%2F7d94f11b-d7c8-42d7-832e-52ba102468db.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-04-16T15:27:08Z",
-          "tags": [
-            "claudecode",
-            "ai",
-            "opensource",
-            "aipet"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            }
-          ]
-        },
-        {
           "id": 3511508,
           "title": "ctxwatch — I Built the Missing Context-Saturation Daemon for Claude Code in 4 Hours",
           "description": "Six tools measure whether your Claude Code wallet is empty. Zero measure whether your brain is full. 600 lines of stdlib Python closing that gap.",
@@ -1276,6 +1290,34 @@
             "ai",
             "python",
             "cli"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3511198,
+          "title": "Field Notes from a Solo Builder — Shipping the Beloved Claude Code Buddy Into the Wild - Part I",
+          "description": "Last Thursday afternoon, I watched my community grieve.  Anthropic had deprecated /buddy — that...",
+          "url": "https://dev.to/fiorastudio/field-notes-from-a-solo-builder-shipping-the-beloved-claude-code-buddy-into-the-wild-part-i-3lpa",
+          "author": {
+            "username": "fiorastudio",
+            "name": "Steven Jieli Wu",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3877709%2F7d94f11b-d7c8-42d7-832e-52ba102468db.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-04-16T15:27:08Z",
+          "tags": [
+            "claudecode",
+            "ai",
+            "opensource",
+            "aipet"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -1371,6 +1413,79 @@
         }
       ]
     },
+    "openai/codex-plugin-cc": {
+      "count7d": 2,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3502004,
+        "title": "I ported codex-plugin-cc to Gemini CLI — here's how ACP replaces App Server Protocol",
+        "url": "https://dev.to/sakibsadmanshajib/i-ported-codex-plugin-cc-to-gemini-cli-heres-how-acp-replaces-app-server-protocol-10cp",
+        "author": "sakibsadmanshajib",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 155.2,
+        "readingTime": 9
+      },
+      "articles": [
+        {
+          "id": 3502004,
+          "title": "I ported codex-plugin-cc to Gemini CLI — here's how ACP replaces App Server Protocol",
+          "description": "How I adapted OpenAI's codex-plugin-cc to work with Gemini CLI's Agent Client Protocol, and what I learned about the protocol differences along the way.",
+          "url": "https://dev.to/sakibsadmanshajib/i-ported-codex-plugin-cc-to-gemini-cli-heres-how-acp-replaces-app-server-protocol-10cp",
+          "author": {
+            "username": "sakibsadmanshajib",
+            "name": "Sakib Sadman Shajib",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3879387%2F98932a25-7199-4f36-8d13-391d898b4c9f.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 9,
+          "publishedAt": "2026-04-14T22:47:36Z",
+          "tags": [
+            "cli",
+            "gemini",
+            "claudecode",
+            "showdev"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "openai/codex-plugin-cc",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3513176,
+          "title": "Three Ways to Call Codex from Claude Code — A Practical Breakdown",
+          "description": "Note: A breakdown of the three methods for calling OpenAI Codex from within a Claude Code session —...",
+          "url": "https://dev.to/bokuno_log/three-ways-to-call-codex-from-claude-code-a-practical-breakdown-d8n",
+          "author": {
+            "username": "bokuno_log",
+            "name": "naoki_JPN",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3849123%2Fb9f651cc-b700-4b86-abdc-5048c5a502d7.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-04-17T01:54:38Z",
+          "tags": [
+            "claudecode",
+            "codex",
+            "openai",
+            "ai"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "openai/codex-plugin-cc",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "zilliztech/claude-context": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -1382,7 +1497,7 @@
         "author": "ramunarasinga-11",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 14.5,
+        "hoursSincePosted": 18.5,
         "readingTime": 3
       },
       "articles": [
@@ -1427,7 +1542,7 @@
         "author": "chen115y",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 100,
+        "hoursSincePosted": 103.9,
         "readingTime": 13
       },
       "articles": [
@@ -1472,7 +1587,7 @@
         "author": "maiobarbero",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 142.7,
+        "hoursSincePosted": 146.7,
         "readingTime": 6
       },
       "articles": [
@@ -1549,7 +1664,7 @@
         "author": "ganmahmud",
         "reactions": 4,
         "comments": 0,
-        "hoursSincePosted": 95.5,
+        "hoursSincePosted": 99.4,
         "readingTime": 5
       },
       "articles": [
@@ -1573,7 +1688,7 @@
             "ai",
             "programming"
           ],
-          "trendingScore": 0.03,
+          "trendingScore": 0.02,
           "linkedRepos": [
             {
               "fullName": "JuliusBrussee/caveman",
@@ -1615,53 +1730,8 @@
         }
       ]
     },
-    "openai/codex-plugin-cc": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3513176,
-        "title": "Three Ways to Call Codex from Claude Code — A Practical Breakdown",
-        "url": "https://dev.to/bokuno_log/three-ways-to-call-codex-from-claude-code-a-practical-breakdown-d8n",
-        "author": "bokuno_log",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 100.1,
-        "readingTime": 3
-      },
-      "articles": [
-        {
-          "id": 3513176,
-          "title": "Three Ways to Call Codex from Claude Code — A Practical Breakdown",
-          "description": "Note: A breakdown of the three methods for calling OpenAI Codex from within a Claude Code session —...",
-          "url": "https://dev.to/bokuno_log/three-ways-to-call-codex-from-claude-code-a-practical-breakdown-d8n",
-          "author": {
-            "username": "bokuno_log",
-            "name": "naoki_JPN",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3849123%2Fb9f651cc-b700-4b86-abdc-5048c5a502d7.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-04-17T01:54:38Z",
-          "tags": [
-            "claudecode",
-            "codex",
-            "openai",
-            "ai"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "openai/codex-plugin-cc",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "BerriAI/litellm": {
-      "count7d": 3,
+      "count7d": 4,
       "reactionsSum7d": 2,
       "commentsSum7d": 0,
       "topArticle": {
@@ -1671,7 +1741,7 @@
         "author": "natasha_joshi_",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 138.8,
+        "hoursSincePosted": 142.7,
         "readingTime": 22
       },
       "articles": [
@@ -1770,6 +1840,34 @@
               "location": "body"
             }
           ]
+        },
+        {
+          "id": 3518948,
+          "title": "This Week in AI (April 14–20, 2026): The Stories That Actually Mattered",
+          "description": "Five stories this week. Three changes to your roadmap. Two will be cited in postmortems next year. None of them is a new model benchmark.",
+          "url": "https://dev.to/gabrielanhaia/this-week-in-ai-april-14-20-2026-the-stories-that-actually-mattered-2pj9",
+          "author": {
+            "username": "gabrielanhaia",
+            "name": "Gabriel Anhaia",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F425693%2Fb4e58b6f-fdb0-4d1d-b333-87582f0b663d.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 7,
+          "publishedAt": "2026-04-18T09:56:22Z",
+          "tags": [
+            "ai",
+            "llm",
+            "news",
+            "webdev"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "BerriAI/litellm",
+              "location": "body"
+            }
+          ]
         }
       ]
     },
@@ -1784,7 +1882,7 @@
         "author": "gabrielanhaia",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 67.8,
+        "hoursSincePosted": 71.7,
         "readingTime": 8
       },
       "articles": [
@@ -1837,7 +1935,7 @@
         "author": "gabrielanhaia",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 67.8,
+        "hoursSincePosted": 71.7,
         "readingTime": 8
       },
       "articles": [
@@ -1890,7 +1988,7 @@
         "author": "cpremus",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 133.1,
+        "hoursSincePosted": 137.1,
         "readingTime": 8
       },
       "articles": [
@@ -1924,6 +2022,51 @@
         }
       ]
     },
+    "MemPalace/mempalace": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3530472,
+        "title": "One Open Source Project a Day (No.44): MemPalace - The AI Memory System Built by the Star of Resident Evil",
+        "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no44-mempalace-the-ai-memory-system-built-by-the-star-of-2ceo",
+        "author": "wonderlab",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 2.6,
+        "readingTime": 8
+      },
+      "articles": [
+        {
+          "id": 3530472,
+          "title": "One Open Source Project a Day (No.44): MemPalace - The AI Memory System Built by the Star of Resident Evil",
+          "description": "Introduction    \"She survived T-virus mutants on screen. Now she's fixing AI amnesia in real...",
+          "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no44-mempalace-the-ai-memory-system-built-by-the-star-of-2ceo",
+          "author": {
+            "username": "wonderlab",
+            "name": "WonderLab",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 8,
+          "publishedAt": "2026-04-21T07:19:06Z",
+          "tags": [
+            "ai",
+            "opensource",
+            "agents",
+            "mcp"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "MemPalace/mempalace",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "karpathy/autoresearch": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -1935,7 +2078,7 @@
         "author": "yigitaunal",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 159.6,
+        "hoursSincePosted": 163.6,
         "readingTime": 16
       },
       "articles": [
@@ -1984,7 +2127,7 @@
         "author": "yigitaunal",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 159.6,
+        "hoursSincePosted": 163.6,
         "readingTime": 16
       },
       "articles": [
@@ -2022,55 +2165,6 @@
         }
       ]
     },
-    "aquasecurity/trivy": {
-      "count7d": 1,
-      "reactionsSum7d": 2,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3504582,
-        "title": "LiteLLM Hit by Credential-Stealing Supply Chain Attack: Complete Technical Breakdown",
-        "url": "https://dev.to/precogs_ai/litellm-hit-by-credential-stealing-supply-chain-attack-complete-technical-breakdown-4550",
-        "author": "natasha_joshi_",
-        "reactions": 2,
-        "comments": 0,
-        "hoursSincePosted": 138.8,
-        "readingTime": 22
-      },
-      "articles": [
-        {
-          "id": 3504582,
-          "title": "LiteLLM Hit by Credential-Stealing Supply Chain Attack: Complete Technical Breakdown",
-          "description": "What Happened: The Attack at a Glance   On March 24, 2026, two versions of LiteLLM — the...",
-          "url": "https://dev.to/precogs_ai/litellm-hit-by-credential-stealing-supply-chain-attack-complete-technical-breakdown-4550",
-          "author": {
-            "username": "natasha_joshi_",
-            "name": "Natasha Joshi",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3852907%2Fdf88ea81-9f38-4628-9632-a7030e1342ae.png"
-          },
-          "reactionsCount": 2,
-          "commentsCount": 0,
-          "readingTime": 22,
-          "publishedAt": "2026-04-15T11:15:42Z",
-          "tags": [
-            "scm",
-            "mcp",
-            "programming",
-            "codesecurity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "BerriAI/litellm",
-              "location": "body"
-            },
-            {
-              "fullName": "aquasecurity/trivy",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "kenforthewin/atomic": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -2082,7 +2176,7 @@
         "author": "kenforthewin",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 161.6,
+        "hoursSincePosted": 165.5,
         "readingTime": 5
       },
       "articles": [
@@ -2126,7 +2220,7 @@
         "author": "wonderlab",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 52.4,
+        "hoursSincePosted": 56.3,
         "readingTime": 2
       },
       "articles": [
@@ -2171,7 +2265,7 @@
         "author": "thegdsks",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 145.1,
+        "hoursSincePosted": 149,
         "readingTime": 5
       },
       "articles": [
@@ -2216,7 +2310,7 @@
         "author": "wonderlab",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 142.1,
+        "hoursSincePosted": 146.1,
         "readingTime": 9
       },
       "articles": [
@@ -2265,7 +2359,7 @@
         "author": "wonderlab",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 142.1,
+        "hoursSincePosted": 146.1,
         "readingTime": 9
       },
       "articles": [
@@ -2314,7 +2408,7 @@
         "author": "torukmakto2992",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 116.2,
+        "hoursSincePosted": 120.1,
         "readingTime": 3
       },
       "articles": [
@@ -2359,7 +2453,7 @@
         "author": "davideimola",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 102,
+        "hoursSincePosted": 106,
         "readingTime": 7
       },
       "articles": [
@@ -2408,7 +2502,7 @@
         "author": "_f778ab02395c460a9a6d0",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 163.9,
+        "hoursSincePosted": 167.8,
         "readingTime": 1
       },
       "articles": [
@@ -2457,7 +2551,7 @@
         "author": "_46ea277e677b888e0cd13",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 3.6,
+        "hoursSincePosted": 7.5,
         "readingTime": 6
       },
       "articles": [
@@ -2502,7 +2596,7 @@
         "author": "soulentheo",
         "reactions": 1,
         "comments": 1,
-        "hoursSincePosted": 137.7,
+        "hoursSincePosted": 141.7,
         "readingTime": 5
       },
       "articles": [
@@ -2559,7 +2653,7 @@
         "author": "soulentheo",
         "reactions": 1,
         "comments": 1,
-        "hoursSincePosted": 137.7,
+        "hoursSincePosted": 141.7,
         "readingTime": 5
       },
       "articles": [
@@ -2616,7 +2710,7 @@
         "author": "soulentheo",
         "reactions": 1,
         "comments": 1,
-        "hoursSincePosted": 137.7,
+        "hoursSincePosted": 141.7,
         "readingTime": 5
       },
       "articles": [
@@ -2663,20 +2757,48 @@
       ]
     },
     "router-for-me/CLIProxyAPI": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
+      "count7d": 2,
+      "reactionsSum7d": 4,
       "commentsSum7d": 1,
       "topArticle": {
-        "id": 3504830,
-        "title": "Every AI Coding CLI in 2026: The Complete Map (30+ Tools Compared)",
-        "url": "https://dev.to/soulentheo/every-ai-coding-cli-in-2026-the-complete-map-30-tools-compared-4gob",
+        "id": 3504835,
+        "title": "Running AI Coding Agents for Free: The Open Source & Local Setup Guide (2026)",
+        "url": "https://dev.to/soulentheo/running-ai-coding-agents-for-free-the-open-source-local-setup-guide-2026-30h9",
         "author": "soulentheo",
-        "reactions": 1,
-        "comments": 1,
-        "hoursSincePosted": 137.7,
-        "readingTime": 5
+        "reactions": 3,
+        "comments": 0,
+        "hoursSincePosted": 135.6,
+        "readingTime": 4
       },
       "articles": [
+        {
+          "id": 3504835,
+          "title": "Running AI Coding Agents for Free: The Open Source & Local Setup Guide (2026)",
+          "description": "Part 2 of the AI Coding Tools Deep Dive. Part 1 mapped every tool. This one shows you how to run...",
+          "url": "https://dev.to/soulentheo/running-ai-coding-agents-for-free-the-open-source-local-setup-guide-2026-30h9",
+          "author": {
+            "username": "soulentheo",
+            "name": "David Van Assche (S.L)",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3511013%2F0730c08e-cba7-492f-b16c-fe3921a41036.png"
+          },
+          "reactionsCount": 3,
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-04-15T18:24:44Z",
+          "tags": [
+            "ai",
+            "tutorial",
+            "opensource",
+            "beginners"
+          ],
+          "trendingScore": 0.01,
+          "linkedRepos": [
+            {
+              "fullName": "router-for-me/CLIProxyAPI",
+              "location": "body"
+            }
+          ]
+        },
         {
           "id": 3504830,
           "title": "Every AI Coding CLI in 2026: The Complete Map (30+ Tools Compared)",
@@ -2723,7 +2845,7 @@
   "leaderboard": [
     {
       "fullName": "NousResearch/hermes-agent",
-      "count7d": 3,
+      "count7d": 4,
       "reactionsSum7d": 40
     },
     {
@@ -2762,6 +2884,11 @@
       "reactionsSum7d": 4
     },
     {
+      "fullName": "router-for-me/CLIProxyAPI",
+      "count7d": 2,
+      "reactionsSum7d": 4
+    },
+    {
       "fullName": "addyosmani/agent-skills",
       "count7d": 1,
       "reactionsSum7d": 4
@@ -2773,12 +2900,12 @@
     },
     {
       "fullName": "BerriAI/litellm",
-      "count7d": 3,
+      "count7d": 4,
       "reactionsSum7d": 2
     },
     {
       "fullName": "aquasecurity/trivy",
-      "count7d": 1,
+      "count7d": 2,
       "reactionsSum7d": 2
     },
     {
@@ -2789,6 +2916,11 @@
     {
       "fullName": "anthropics/claude-code",
       "count7d": 6,
+      "reactionsSum7d": 1
+    },
+    {
+      "fullName": "anthropics/claude-plugins-official",
+      "count7d": 1,
       "reactionsSum7d": 1
     },
     {
@@ -2812,22 +2944,17 @@
       "reactionsSum7d": 1
     },
     {
-      "fullName": "router-for-me/CLIProxyAPI",
-      "count7d": 1,
-      "reactionsSum7d": 1
-    },
-    {
       "fullName": "ryoppippi/ccusage",
       "count7d": 1,
       "reactionsSum7d": 1
     },
     {
-      "fullName": "code-yeongyu/oh-my-openagent",
+      "fullName": "mattpocock/skills",
       "count7d": 2,
       "reactionsSum7d": 0
     },
     {
-      "fullName": "mattpocock/skills",
+      "fullName": "openai/codex-plugin-cc",
       "count7d": 2,
       "reactionsSum7d": 0
     },
@@ -2843,11 +2970,6 @@
     },
     {
       "fullName": "AgentSeal/codeburn",
-      "count7d": 1,
-      "reactionsSum7d": 0
-    },
-    {
-      "fullName": "anthropics/claude-plugins-official",
       "count7d": 1,
       "reactionsSum7d": 0
     },
@@ -2907,7 +3029,7 @@
       "reactionsSum7d": 0
     },
     {
-      "fullName": "openai/codex-plugin-cc",
+      "fullName": "MemPalace/mempalace",
       "count7d": 1,
       "reactionsSum7d": 0
     },

@@ -1,13 +1,167 @@
 {
-  "fetchedAt": "2026-04-21T21:07:09.808Z",
+  "fetchedAt": "2026-04-21T23:00:23.087Z",
   "windowDays": 7,
-  "scannedPosts": 99,
+  "scannedPosts": 299,
   "searchQuery": "github.com",
-  "pagesFetched": 1,
+  "pagesFetched": 3,
   "mentions": {
+    "tailscale/tailscale-rs": {
+      "count7d": 1,
+      "likesSum7d": 18,
+      "repostsSum7d": 1,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:4ur3d5pr3dlqyod4jtqn5c34/app.bsky.feed.post/3mjzxeu3lys26",
+        "cid": "bafyreieacguhtzyflnxsnw6qlap5tj5xhqteznmrzrpwwc6g2wuqkbyb6i",
+        "bskyUrl": "https://bsky.app/profile/ncameron.org/post/3mjzxeu3lys26",
+        "text": "🎉🎉 I've been working with the folk at Tailscale on their new #rust-lang library. Last week it was officially announced (tailscale.com/blog/tailsca...) along with open-sourcing the code (github.com/tailscale/ta...).",
+        "author": {
+          "handle": "ncameron.org",
+          "displayName": "nrc"
+        },
+        "likeCount": 18,
+        "repostCount": 1,
+        "replyCount": 1,
+        "createdAt": "2026-04-21T21:45:32.118Z",
+        "hoursSincePosted": 1.25
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:4ur3d5pr3dlqyod4jtqn5c34/app.bsky.feed.post/3mjzxeu3lys26",
+          "cid": "bafyreieacguhtzyflnxsnw6qlap5tj5xhqteznmrzrpwwc6g2wuqkbyb6i",
+          "bskyUrl": "https://bsky.app/profile/ncameron.org/post/3mjzxeu3lys26",
+          "text": "🎉🎉 I've been working with the folk at Tailscale on their new #rust-lang library. Last week it was officially announced (tailscale.com/blog/tailsca...) along with open-sourcing the code (github.com/tailscale/ta...).",
+          "author": {
+            "handle": "ncameron.org",
+            "displayName": "nrc"
+          },
+          "likeCount": 18,
+          "repostCount": 1,
+          "replyCount": 1,
+          "createdAt": "2026-04-21T21:45:32.118Z",
+          "createdUtc": 1776807932,
+          "ageHours": 1.25,
+          "trendingScore": 20.5,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "tailscale/tailscale-rs",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "jj-vcs/jj": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:m765mh5pnptiaovtldwwepb6/app.bsky.feed.post/3mjzvocad322f",
+        "cid": "bafyreihmpnkq4sghs4jl26qrbxoyu3tkowouozsjnu3zgvccrfmatxb4fy",
+        "bskyUrl": "https://bsky.app/profile/jonchurch.com/post/3mjzvocad322f",
+        "text": "are you seeing references to “jj”? Bc that would be github.com/jj-vcs/jj",
+        "author": {
+          "handle": "jonchurch.com",
+          "displayName": "jonchurch"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-04-21T21:15:01.460Z",
+        "hoursSincePosted": 1.76
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:m765mh5pnptiaovtldwwepb6/app.bsky.feed.post/3mjzvocad322f",
+          "cid": "bafyreihmpnkq4sghs4jl26qrbxoyu3tkowouozsjnu3zgvccrfmatxb4fy",
+          "bskyUrl": "https://bsky.app/profile/jonchurch.com/post/3mjzvocad322f",
+          "text": "are you seeing references to “jj”? Bc that would be github.com/jj-vcs/jj",
+          "author": {
+            "handle": "jonchurch.com",
+            "displayName": "jonchurch"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-04-21T21:15:01.460Z",
+          "createdUtc": 1776806101,
+          "ageHours": 1.76,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "jj-vcs/jj",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "getpaseo/paseo": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mjzvnvxvrb2g",
+        "cid": "bafyreidbiljwrtkwrwiilftu4jlx4skagfqctky3kw3pzvxmunfmx4w4em",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mjzvnvxvrb2g",
+        "text": "https://github.com/getpaseo/paseo",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-21T21:14:48Z",
+        "hoursSincePosted": 1.76
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mjzvnvxvrb2g",
+          "cid": "bafyreidbiljwrtkwrwiilftu4jlx4skagfqctky3kw3pzvxmunfmx4w4em",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mjzvnvxvrb2g",
+          "text": "https://github.com/getpaseo/paseo",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-21T21:14:48Z",
+          "createdUtc": 1776806088,
+          "ageHours": 1.76,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "getpaseo/paseo",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "emdash-cms/emdash": {
       "count7d": 2,
-      "likesSum7d": 14,
+      "likesSum7d": 18,
       "repostsSum7d": 0,
       "repliesSum7d": 2,
       "topPost": {
@@ -19,11 +173,11 @@
           "handle": "jimray.locket.computer",
           "displayName": "Jim Ray"
         },
-        "likeCount": 14,
+        "likeCount": 18,
         "repostCount": 0,
         "replyCount": 2,
         "createdAt": "2026-04-21T18:45:38.333Z",
-        "hoursSincePosted": 2.36
+        "hoursSincePosted": 4.25
       },
       "posts": [
         {
@@ -35,13 +189,13 @@
             "handle": "jimray.locket.computer",
             "displayName": "Jim Ray"
           },
-          "likeCount": 14,
+          "likeCount": 18,
           "repostCount": 0,
           "replyCount": 2,
           "createdAt": "2026-04-21T18:45:38.333Z",
           "createdUtc": 1776797138,
-          "ageHours": 2.36,
-          "trendingScore": 15,
+          "ageHours": 4.25,
+          "trendingScore": 19,
           "content_tags": [
             "has-github-repo",
             "has-md-file"
@@ -69,7 +223,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-21T21:05:09.105Z",
           "createdUtc": 1776805509,
-          "ageHours": 0.5,
+          "ageHours": 1.92,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -103,7 +257,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-21T20:20:28.000Z",
-        "hoursSincePosted": 0.78
+        "hoursSincePosted": 2.67
       },
       "posts": [
         {
@@ -120,7 +274,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-21T20:20:28.000Z",
           "createdUtc": 1776802828,
-          "ageHours": 0.78,
+          "ageHours": 2.67,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -153,7 +307,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-21T20:20:15.153023+00:00",
-        "hoursSincePosted": 0.78
+        "hoursSincePosted": 2.67
       },
       "posts": [
         {
@@ -169,7 +323,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-21T20:20:15.153023+00:00",
           "createdUtc": 1776802815,
-          "ageHours": 0.78,
+          "ageHours": 2.67,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -188,7 +342,7 @@
     },
     "basecamp/once": {
       "count7d": 1,
-      "likesSum7d": 2,
+      "likesSum7d": 3,
       "repostsSum7d": 2,
       "repliesSum7d": 0,
       "topPost": {
@@ -200,11 +354,11 @@
           "handle": "bearstech.com",
           "displayName": "Bearstech"
         },
-        "likeCount": 2,
+        "likeCount": 3,
         "repostCount": 2,
         "replyCount": 0,
         "createdAt": "2026-04-21T19:30:44.000Z",
-        "hoursSincePosted": 1.61
+        "hoursSincePosted": 3.49
       },
       "posts": [
         {
@@ -216,13 +370,13 @@
             "handle": "bearstech.com",
             "displayName": "Bearstech"
           },
-          "likeCount": 2,
+          "likeCount": 3,
           "repostCount": 2,
           "replyCount": 0,
           "createdAt": "2026-04-21T19:30:44.000Z",
           "createdUtc": 1776799844,
-          "ageHours": 1.61,
-          "trendingScore": 6,
+          "ageHours": 3.49,
+          "trendingScore": 7,
           "content_tags": [
             "has-github-repo"
           ],
@@ -236,21 +390,92 @@
           ]
         }
       ]
+    },
+    "Yellow-Dog-Man/Renderite": {
+      "count7d": 1,
+      "likesSum7d": 51,
+      "repostsSum7d": 18,
+      "repliesSum7d": 3,
+      "topPost": {
+        "uri": "at://did:plc:de3lh6vnzng6vnou2fhevu42/app.bsky.feed.post/3mjzm2qnwmc2k",
+        "cid": "bafyreid26z6skwd7qlyovyjw3lu35i6wuw272djkrg3x3zd2aeywoaug64",
+        "bskyUrl": "https://bsky.app/profile/frooxius.bsky.social/post/3mjzm2qnwmc2k",
+        "text": "We just open sourced the Renderite.Shared & Renderite.Unity parts of our current @resonite.com renderer - meaning it's now fully open source! :D We're already getting some community contributions & improvements! github.com/Yellow-Dog-M... #Resonite #gamedev #socialVR",
+        "author": {
+          "handle": "frooxius.bsky.social",
+          "displayName": "Frooxius"
+        },
+        "likeCount": 51,
+        "repostCount": 18,
+        "replyCount": 3,
+        "createdAt": "2026-04-21T18:23:01.821Z",
+        "hoursSincePosted": 4.62
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:de3lh6vnzng6vnou2fhevu42/app.bsky.feed.post/3mjzm2qnwmc2k",
+          "cid": "bafyreid26z6skwd7qlyovyjw3lu35i6wuw272djkrg3x3zd2aeywoaug64",
+          "bskyUrl": "https://bsky.app/profile/frooxius.bsky.social/post/3mjzm2qnwmc2k",
+          "text": "We just open sourced the Renderite.Shared & Renderite.Unity parts of our current @resonite.com renderer - meaning it's now fully open source! :D We're already getting some community contributions & improvements! github.com/Yellow-Dog-M... #Resonite #gamedev #socialVR",
+          "author": {
+            "handle": "frooxius.bsky.social",
+            "displayName": "Frooxius"
+          },
+          "likeCount": 51,
+          "repostCount": 18,
+          "replyCount": 3,
+          "createdAt": "2026-04-21T18:23:01.821Z",
+          "createdUtc": 1776795781,
+          "ageHours": 4.62,
+          "trendingScore": 88.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Yellow-Dog-Man/Renderite",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
+      "fullName": "Yellow-Dog-Man/Renderite",
+      "count7d": 1,
+      "likesSum7d": 51
+    },
+    {
       "fullName": "emdash-cms/emdash",
       "count7d": 2,
-      "likesSum7d": 14
+      "likesSum7d": 18
+    },
+    {
+      "fullName": "tailscale/tailscale-rs",
+      "count7d": 1,
+      "likesSum7d": 18
     },
     {
       "fullName": "basecamp/once",
       "count7d": 1,
-      "likesSum7d": 2
+      "likesSum7d": 3
+    },
+    {
+      "fullName": "jj-vcs/jj",
+      "count7d": 1,
+      "likesSum7d": 1
     },
     {
       "fullName": "garrytan/gbrain",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "getpaseo/paseo",
       "count7d": 1,
       "likesSum7d": 0
     },

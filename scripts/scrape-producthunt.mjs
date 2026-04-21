@@ -25,8 +25,11 @@ import {
   hasAiKeyword,
   extractGithubLink,
   daysBetween,
+  resolveRedirect,
+  enrichWithGithub,
   sleep,
 } from "./_ph-shared.mjs";
+import { recentRepoRows } from "./_tracked-repos.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
@@ -44,7 +47,6 @@ const POLITE_PAUSE_MS = 1000;
 const AI_TOPIC_SLUGS = new Set([
   "artificial-intelligence",
   "chatbots",
-  "developer-tools",
 ]);
 
 const POSTS_QUERY = `
@@ -121,7 +123,8 @@ async function loadTrackedRepos() {
   try {
     const raw = await readFile(RECENT_IN, "utf8");
     const recent = JSON.parse(raw);
-    for (const row of recent.rows ?? recent ?? []) {
+    const rows = recentRepoRows(recent);
+    for (const row of rows) {
       const full = row.repo_name || row.fullName || row.full_name;
       if (!full || typeof full !== "string" || !full.includes("/")) continue;
       const lower = full.toLowerCase();
@@ -264,25 +267,86 @@ async function main() {
     log("warn: zero posts returned (API responded but returned nothing)");
   }
 
-  // NOTE: PH's `website` field arrives as a producthunt.com/r/<code> tracking
-  // redirect. We tried resolving redirects to get real URLs but PH's edge
-  // returns 403 to Node's fetch/https (TLS/Cloudflare fingerprinting — curl
-  // works, Node doesn't). Resolution would add complexity + an external
-  // fetch dependency with no reliable signal. githubUrl extraction is
-  // therefore opportunistic: it hits only when the description text contains
-  // a direct github.com/owner/repo URL. linkedRepo stays null for most
-  // launches — expected per mission spec ("most tracked repos won't have PH
-  // launches").
-
+  // Normalize everything — NO AI pre-filter. We store all launches with an
+  // aiAdjacent flag so the UI can serve both tabs ("AI Launches" filtered,
+  // "All Launches" unfiltered) off a single committed JSON file.
   const launches = [];
   for (const n of allNodes.values()) {
     const norm = normalizePost(n, tracked);
     if (!norm) continue;
-    if (!isAiAdjacent(norm)) continue;
+    norm.aiAdjacent = isAiAdjacent(norm);
     launches.push(norm);
   }
 
+  // ---- Redirect resolution (curl subprocess) -----------------------------
+  // PH's `website` field is a producthunt.com/r/<code> tracking redirect
+  // that Cloudflare rejects for Node's fetch but accepts for curl. We
+  // resolve each to its real URL, which is where github.com/<owner>/<repo>
+  // usually lives for OSS launches. Fallback is quiet: if curl isn't on
+  // PATH (some Windows dev setups) we log once and skip. GHA Ubuntu always
+  // has curl.
+  let resolvedCount = 0;
+  let curlSkipped = false;
+  const RESOLVE_BATCH = 6;
+  for (let i = 0; i < launches.length; i += RESOLVE_BATCH) {
+    const batch = launches.slice(i, i + RESOLVE_BATCH);
+    await Promise.all(
+      batch.map(async (l) => {
+        if (!l.website) return;
+        if (!l.website.includes("producthunt.com/r/")) return;
+        const resolved = await resolveRedirect(l.website);
+        if (resolved === null) {
+          curlSkipped = true;
+          return;
+        }
+        if (resolved !== l.website) {
+          l.website = resolved;
+          resolvedCount += 1;
+          // Re-scan for github.com now that we have the real URL.
+          if (!l.githubUrl) {
+            const gh = extractGithubLink(resolved);
+            if (gh) {
+              l.githubUrl = gh.url;
+              const lower = gh.fullName.toLowerCase();
+              if (tracked.has(lower)) l.linkedRepo = lower;
+            }
+          }
+        }
+      }),
+    );
+  }
+  if (curlSkipped) {
+    log("warn: curl unavailable — redirect resolution skipped for some launches");
+  }
+  log(`resolved ${resolvedCount}/${launches.length} PH redirects via curl`);
+
+  // ---- GitHub enrichment ------------------------------------------------
+  // For each launch with a github.com URL, fetch metadata + README and
+  // derive tags (mcp / claude-skill / agent / llm / rag / …). Runs
+  // sequentially to keep memory flat; GitHub permits 5000 req/hr auth'd
+  // which is >>100x what we need.
+  const ghToken = process.env.GITHUB_TOKEN ?? null;
+  let enrichedCount = 0;
+  for (const l of launches) {
+    if (!l.githubUrl) continue;
+    const full = l.githubUrl.replace(/^https?:\/\/github\.com\//, "");
+    const info = await enrichWithGithub(full, { token: ghToken });
+    if (!info) continue;
+    l.githubRepo = {
+      stars: info.stars,
+      topics: info.topics,
+      readmeSnippet: info.readmeSnippet,
+    };
+    l.tags = info.tags;
+    enrichedCount += 1;
+  }
+  log(`enriched ${enrichedCount} launches via GitHub API`);
+
+  // Stable sort order: AI-first within vote rank, then votes desc, then
+  // recency. The /producthunt "AI" tab filters on aiAdjacent; "All" sees
+  // everything in this same order.
   launches.sort((a, b) => {
+    if (a.aiAdjacent !== b.aiAdjacent) return a.aiAdjacent ? -1 : 1;
     if (b.votesCount !== a.votesCount) return b.votesCount - a.votesCount;
     return b.createdAt.localeCompare(a.createdAt);
   });
@@ -296,7 +360,9 @@ async function main() {
   await mkdir(DATA_DIR, { recursive: true });
   await writeFile(OUT_PATH, JSON.stringify(payload, null, 2) + "\n", "utf8");
 
+  const aiCount = launches.filter((l) => l.aiAdjacent).length;
   const linkedCount = launches.filter((l) => l.linkedRepo).length;
+  const withGhCount = launches.filter((l) => l.githubUrl).length;
   const top3 = launches
     .slice(0, 3)
     .map((l) => `${l.name} (${l.votesCount})`)
@@ -304,14 +370,15 @@ async function main() {
   log("");
   log(`wrote ${OUT_PATH}`);
   log(
-    `  launches kept: ${launches.length} (${linkedCount} linked to tracked repos)`,
+    `  launches kept: ${launches.length} (${aiCount} AI-adjacent · ${withGhCount} with github · ${linkedCount} linked to tracked repos · ${enrichedCount} enriched)`,
   );
   log(`  top: ${top3 || "(none)"}`);
 }
 
-const isDirectRun =
-  import.meta.url === `file://${process.argv[1]}` ||
-  import.meta.url.endsWith(process.argv[1]?.replace(/\\/g, "/") ?? "");
+const invokedPath = process.argv[1] ? resolve(process.argv[1]) : null;
+const isDirectRun = invokedPath
+  ? fileURLToPath(import.meta.url) === invokedPath
+  : false;
 
 if (isDirectRun) {
   main().catch((err) => {

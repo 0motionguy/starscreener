@@ -23,6 +23,23 @@ export interface Launch {
   githubUrl: string | null;
   linkedRepo: string | null;
   daysSinceLaunch: number;
+  /** Set by the scraper: true when the launch is AI-adjacent (topic or
+   * keyword match). Drives the /producthunt?tab=ai view. All launches are
+   * stored; the UI filters. */
+  aiAdjacent?: boolean;
+  /** Keyword tags derived server-side from GitHub topics + README snippet.
+   * Examples: ['mcp','agent','llm','rag','claude-skill']. Empty when no
+   * github repo could be resolved. */
+  tags?: string[];
+  /** GitHub enrichment payload — populated only when the scraper resolved
+   * a github.com URL for this launch and successfully fetched the repo.
+   * Lets the detail row show stars + topics + README snippet alongside
+   * the PH vote count. */
+  githubRepo?: {
+    stars: number;
+    topics: string[];
+    readmeSnippet: string;
+  };
 }
 
 export interface ProductHuntFile {
@@ -67,6 +84,25 @@ export function getRecentLaunches(days = 7, limit?: number): Launch[] {
   const filtered = (file.launches ?? []).filter(
     (l) => l.daysSinceLaunch <= days,
   );
+  return typeof limit === "number" ? filtered.slice(0, limit) : filtered;
+}
+
+/**
+ * AI-adjacent subset — launches whose topic/tagline/description matched
+ * the scraper's keyword filter. Drives the /producthunt?tab=ai view and
+ * the homepage Recent Launches section.
+ *
+ * Falls back to the full set for payloads predating the aiAdjacent flag.
+ * That keeps the loader usable against older JSON during rollout.
+ */
+export function getAiLaunches(days = 7, limit?: number): Launch[] {
+  const all = file.launches ?? [];
+  const hasFlag = all.some((l) => l.aiAdjacent !== undefined);
+  const filtered = all.filter((l) => {
+    if (l.daysSinceLaunch > days) return false;
+    if (hasFlag) return l.aiAdjacent === true;
+    return true;
+  });
   return typeof limit === "number" ? filtered.slice(0, limit) : filtered;
 }
 

@@ -8,7 +8,7 @@
 // StarScreener when the launch links to a tracked repo.
 
 import Link from "next/link";
-import { getRecentLaunches, producthuntCold } from "@/lib/producthunt";
+import { getAiLaunches, producthuntCold } from "@/lib/producthunt";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 
 interface RecentLaunchesProps {
@@ -29,7 +29,9 @@ export function RecentLaunches({
   days = 7,
 }: RecentLaunchesProps = {}) {
   if (producthuntCold) return null;
-  const launches = getRecentLaunches(days, limit);
+  // Homepage section is the AI-adjacent stream specifically — the broader
+  // "all launches" view lives at /producthunt?tab=all.
+  const launches = getAiLaunches(days, limit);
   if (launches.length === 0) return null;
 
   return (

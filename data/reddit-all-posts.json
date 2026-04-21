@@ -1,5 +1,5 @@
 {
-  "lastFetchedAt": "2026-04-21T17:14:18.444Z",
+  "lastFetchedAt": "2026-04-21T18:37:41.708Z",
   "scannedSubreddits": [
     "ClaudeAI",
     "ChatGPT",
@@ -48,8 +48,8 @@
     "nocode"
   ],
   "windowDays": 7,
-  "totalPosts": 3481,
-  "prunedOldPosts": 10,
+  "totalPosts": 3461,
+  "prunedOldPosts": 20,
   "prunedOverflowPosts": 0,
   "posts": [
     {
@@ -4450,30 +4450,6 @@
       "value_score": 0
     },
     {
-      "id": "1slh72j",
-      "subreddit": "singularity",
-      "title": "Anthropic is set to release Claude Opus 4.7 and a new AI design tool as early as this week",
-      "url": "https://www.theinformation.com/briefings/exclusive-anthropic-preps-opus-4-7-model-ai-design-tool",
-      "permalink": "https://www.reddit.com/r/singularity/comments/1slh72j/anthropic_is_set_to_release_claude_opus_47_and_a/",
-      "score": 894,
-      "numComments": 124,
-      "createdUtc": 1776191407,
-      "author": "Outside-Iron-8242",
-      "repoFullName": null,
-      "baselineRatio": 5.03,
-      "baselineTier": "above-average",
-      "baselineConfidence": "high",
-      "ageHours": 141.63,
-      "velocity": 6.28,
-      "trendingScore": 93.17,
-      "selftext": "",
-      "linkedRepos": [],
-      "content_tags": [
-        "is-news"
-      ],
-      "value_score": 1
-    },
-    {
       "id": "1smtxtf",
       "subreddit": "LLM",
       "title": "Anthropic is using \"Persona Identities\" a Peter Thiel \"backed\" company for Identity verification on Claude.",
@@ -5152,30 +5128,6 @@
       "content_tags": [],
       "value_score": 0,
       "selftext": "For the community, it’s probably no secret at all that an AI here and there reacts quite \"human-like\" (after all, it’s trained on human text), yet it’s still endlessly fascinating to see where that sometimes leads. After all, that’s ultimately the secret of good prompt engineering: finding the right interface between human and machine. I ran an experiment where I used six social moves - identity redefinition, authority signaling, forced reasoning inside a closed frame, consistency exploitation, ",
-      "linkedRepos": []
-    },
-    {
-      "id": "1slgtvu",
-      "subreddit": "n8n",
-      "title": "This program is so great.",
-      "url": "https://i.redd.it/kke35bws57vg1.png",
-      "permalink": "https://www.reddit.com/r/n8n/comments/1slgtvu/this_program_is_so_great/",
-      "score": 111,
-      "numComments": 8,
-      "createdUtc": 1776190640,
-      "author": "Arzuparreta",
-      "repoFullName": null,
-      "baselineRatio": 37,
-      "baselineTier": "breakout",
-      "baselineConfidence": "high",
-      "ageHours": 141.87,
-      "velocity": 0.78,
-      "trendingScore": 59.03,
-      "content_tags": [
-        "is-meme"
-      ],
-      "value_score": -1,
-      "selftext": "I'm a newbie, I got to this program 2 days ago and it's giving meaning to my life. I'ts so fun I cannot stop. I think I could live creating stupid telegram bots all day. I'm doing very simple stuff and experimenting with logic right now. What do you guys build with this?",
       "linkedRepos": []
     },
     {
@@ -15650,31 +15602,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1slfele",
-      "subreddit": "singularity",
-      "title": "New chart: Cost per Puzzle vs Performance on the Extended NYT Connections Benchmark",
-      "url": "https://i.redd.it/lew8jeeqx6vg1.png",
-      "permalink": "https://www.reddit.com/r/singularity/comments/1slfele/new_chart_cost_per_puzzle_vs_performance_on_the/",
-      "score": 132,
-      "numComments": 11,
-      "createdUtc": 1776187685,
-      "author": "zero0_one1",
-      "repoFullName": null,
-      "baselineRatio": 0.73,
-      "baselineTier": "below-average",
-      "baselineConfidence": "high",
-      "ageHours": 142.66,
-      "velocity": 0.91,
-      "trendingScore": 1.4,
-      "content_tags": [
-        "has-github-repo",
-        "is-meme"
-      ],
-      "value_score": 0,
-      "selftext": "More info about the benchmark:",
-      "linkedRepos": []
-    },
-    {
       "id": "1snrubg",
       "subreddit": "Rag",
       "title": "RAG retrieves. A compiled knowledge base compounds. That feels like a much bigger difference than people admit.",
@@ -17391,28 +17318,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1slgs73",
-      "subreddit": "n8n",
-      "title": "I thought I understood n8n's IF node - I didn't",
-      "url": "https://www.reddit.com/r/n8n/comments/1slgs73/i_thought_i_understood_n8ns_if_node_i_didnt/",
-      "permalink": "https://www.reddit.com/r/n8n/comments/1slgs73/i_thought_i_understood_n8ns_if_node_i_didnt/",
-      "score": 18,
-      "numComments": 7,
-      "createdUtc": 1776190538,
-      "author": "Professional_Ebb1870",
-      "repoFullName": null,
-      "baselineRatio": 6,
-      "baselineTier": "above-average",
-      "baselineConfidence": "high",
-      "ageHours": 141.9,
-      "velocity": 0.13,
-      "trendingScore": 0.98,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "spent the first year using it assuming it worked like any other conditional: if the condition is true, go right. if false, go left but n8n's IF node has a specific behavior with empty and missing data that trips everyone up an expression like \\`{{ $json.status === \"active\" }}\\` will throw an error and fail the branch entirely when \\`status\\` doesn't exist in the data — even though logically you'd expect it to just return false and route to the else branch the node doesn't treat \"missing field\" a",
-      "linkedRepos": []
-    },
-    {
       "id": "1sm6s16",
       "subreddit": "n8n",
       "title": "Using N8N to update Excel / Sheets",
@@ -17550,30 +17455,6 @@
       "content_tags": [],
       "value_score": 0,
       "selftext": "I've found a bunch of listings on eBay, for NVidia Spark DGX machines going for crazy low prices (under US$2K). These are 100% scams. Several listings have identical photosets but from different (and brand new) accounts, and they all ship from continental Europe. The sellers also have 5090s for \\~$1.5k, and one account strangely had black balaclavas for sale (I nearly fell off my chair laughing, it's almost too comical to not be some elaborate prank). I know most folks \"in the know\" about this k",
-      "linkedRepos": []
-    },
-    {
-      "id": "1slgzwb",
-      "subreddit": "DeepSeek",
-      "title": "I use DeepSeek from this Windows 1998 style app",
-      "url": "https://v.redd.it/nvd80rkd77vg1",
-      "permalink": "https://www.reddit.com/r/DeepSeek/comments/1slgzwb/i_use_deepseek_from_this_windows_1998_style_app/",
-      "score": 31,
-      "numComments": 4,
-      "createdUtc": 1776190979,
-      "author": "SoftSuccessful1414",
-      "repoFullName": null,
-      "baselineRatio": 3.22,
-      "baselineTier": "above-average",
-      "baselineConfidence": "high",
-      "ageHours": 141.72,
-      "velocity": 0.2,
-      "trendingScore": 0.94,
-      "content_tags": [
-        "is-meme"
-      ],
-      "value_score": -1,
-      "selftext": "I tried something a little ridiculous the other night. I sent AI back in time. Not way back in history. Just 1998. The year my childhood computer basically ran my life. Beige tower, chunky CRT monitor, and that dial-up noise that took over the whole house. I gave it one rule: “You’re on Windows 98. No cloud. No Wi-Fi. No modern anything. Just floppy disks and the Start menu.” And somehow it leaned all the way in. It started acting like it was stuck in my old bedroom: • Writing fake BIOS boot scr",
       "linkedRepos": []
     },
     {
@@ -21095,31 +20976,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1slf7pg",
-      "subreddit": "MachineLearning",
-      "title": "ClawBench: Can AI Agents Complete Everyday Online Tasks? 153 tasks, 144 live websites, best model at 33.3% [R]",
-      "url": "https://www.reddit.com/r/MachineLearning/comments/1slf7pg/clawbench_can_ai_agents_complete_everyday_online/",
-      "permalink": "https://www.reddit.com/r/MachineLearning/comments/1slf7pg/clawbench_can_ai_agents_complete_everyday_online/",
-      "score": 26,
-      "numComments": 10,
-      "createdUtc": 1776187273,
-      "author": "Extreme_Play_8554",
-      "repoFullName": null,
-      "baselineRatio": 2,
-      "baselineTier": "normal",
-      "baselineConfidence": "high",
-      "ageHours": 142.77,
-      "velocity": 0.17,
-      "trendingScore": 0.47,
-      "selftext": "We introduce **ClawBench**, a benchmark that evaluates AI browser agents on **153 real-world everyday tasks** across **144 live websites**. Unlike synthetic benchmarks, ClawBench tests agents on actual production platforms. **Key findings:** * The best model (**Claude Sonnet 4.6**) achieves only **33.3%** success rate * **GLM-5** (Zhipu AI) comes second at **24.2%** — surprisingly strong for a text-only model * Finance and Academic tasks are easier (50% for the best model); Travel and Dev tasks ",
-      "linkedRepos": [],
-      "content_tags": [
-        "has-agent",
-        "is-announcement"
-      ],
-      "value_score": 2
-    },
-    {
       "id": "1sq5mvn",
       "subreddit": "aiagents",
       "title": "Most OpenClaw cost problems are routing problems, not model problems",
@@ -21856,28 +21712,6 @@
       "value_score": 0,
       "selftext": "ASML just raised its 2026 revenue forecast. Its another strong sign that the AI boom is really happening. For people who don't follow semiconductors closely ASML is basically the company that makes the machines needed to produce chips. Without ASML there would be no cutting-edge chips. Whats interesting here is why they're raising forecasts. Here are the reasons: \\* Exploding demand for AI infrastructure \\* investments in data centers all over the world \\* Chipmakers rushing to make more advance",
       "linkedRepos": []
-    },
-    {
-      "id": "1slgh8a",
-      "subreddit": "SEO",
-      "title": "Keyword research is confusing me more than helping (beginner here)",
-      "url": "https://www.reddit.com/r/SEO/comments/1slgh8a/keyword_research_is_confusing_me_more_than/",
-      "permalink": "https://www.reddit.com/r/SEO/comments/1slgh8a/keyword_research_is_confusing_me_more_than/",
-      "score": 18,
-      "numComments": 19,
-      "createdUtc": 1776189911,
-      "author": "Hour_Ad_3042",
-      "repoFullName": null,
-      "baselineRatio": 3.2,
-      "baselineTier": "above-average",
-      "baselineConfidence": "high",
-      "ageHours": 142.1,
-      "velocity": 0.11,
-      "trendingScore": 0.42,
-      "selftext": "Hey guys, I’ve started learning SEO and trying keyword research, but I feel stuck. I can find seed keywords and check volume in GKP, Semrush but after that everything gets messy. Main doubts: 1. How do you go from seed keywords → proper keyword list? 2. How do you know which keywords to keep or drop? 3. How do you even validate seed keywords? 4. What’s the actual step-by-step process (practically)? 5. How do you do keyword clustering properly? 6. How do you know you’re on the right track? 7. How",
-      "linkedRepos": [],
-      "content_tags": [],
-      "value_score": 0
     },
     {
       "id": "1spro5f",
@@ -25446,31 +25280,6 @@
       "value_score": 0
     },
     {
-      "id": "1slgbg5",
-      "subreddit": "machinelearningnews",
-      "title": "TinyFish Launches Full Web Infrastructure Platform for AI Agents — Search, Fetch, Browser, and Agent Under One API Key",
-      "url": "https://www.marktechpost.com/2026/04/14/tinyfish-launches-full-web-infrastructure-platform-for-ai-agents-search-fetch-browser-and-agent-under-one-api-key/",
-      "permalink": "https://www.reddit.com/r/machinelearningnews/comments/1slgbg5/tinyfish_launches_full_web_infrastructure/",
-      "score": 24,
-      "numComments": 0,
-      "createdUtc": 1776189594,
-      "author": "ai-lover",
-      "repoFullName": null,
-      "baselineRatio": 1,
-      "baselineTier": "normal",
-      "baselineConfidence": "medium",
-      "ageHours": 142.19,
-      "velocity": 0.17,
-      "trendingScore": 0.23,
-      "content_tags": [
-        "has-skill",
-        "has-agent"
-      ],
-      "value_score": 2,
-      "selftext": "TinyFish just shipped four products under one API key: Web Search, Web Fetch, Web Browser, and Web Agent. Each one addresses a specific failure point in AI web automation: — Web Search returns structured JSON via a custom Chromium engine at \\~488ms P50. Competitors average 2,800ms+. — Web Fetch renders the full page in a real browser, strips everything irrelevant, and returns clean Markdown or JSON. Native fetch tools in most coding agents dump the entire page — CSS, ads, navigation — straight i",
-      "linkedRepos": []
-    },
-    {
       "id": "1sp7vex",
       "subreddit": "OpenAI",
       "title": "OpenAI introduced GPT-Rosalind a specialized AI tool designed for life sciences research",
@@ -27782,28 +27591,6 @@
       "content_tags": [],
       "value_score": 0,
       "selftext": "xAI released Grok 4.3 Beta today (SuperGrok + Premium+). That makes three heavyweight frontier models shipping in the same window, and the \"which one is best?\" question is back on every timeline.",
-      "linkedRepos": []
-    },
-    {
-      "id": "1slgyws",
-      "subreddit": "MistralAI",
-      "title": "Using Mistral locally made things faster… but consistency is still the hard part",
-      "url": "https://www.reddit.com/r/MistralAI/comments/1slgyws/using_mistral_locally_made_things_faster_but/",
-      "permalink": "https://www.reddit.com/r/MistralAI/comments/1slgyws/using_mistral_locally_made_things_faster_but/",
-      "score": 14,
-      "numComments": 0,
-      "createdUtc": 1776190921,
-      "author": "StatusPhilosopher258",
-      "repoFullName": null,
-      "baselineRatio": 1.4,
-      "baselineTier": "normal",
-      "baselineConfidence": "medium",
-      "ageHours": 141.74,
-      "velocity": 0.1,
-      "trendingScore": 0.16,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "I’ve been experimenting with Mistral models locally for coding and small workflows, and the speed and control is honestly great. No latency issues, more flexibility, and easier to integrate into custom setups. But even with that, I kept running into a similar problem: consistency across iterations. * outputs would vary for similar tasks * small differences would add up over time * I still had to guide things carefully It made me realize the limitation wasn’t really the model it was how I was str",
       "linkedRepos": []
     },
     {
@@ -35002,28 +34789,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1slfh1m",
-      "subreddit": "DeepSeek",
-      "title": "DeepSeek “expert” option",
-      "url": "https://www.reddit.com/r/DeepSeek/comments/1slfh1m/deepseek_expert_option/",
-      "permalink": "https://www.reddit.com/r/DeepSeek/comments/1slfh1m/deepseek_expert_option/",
-      "score": 9,
-      "numComments": 9,
-      "createdUtc": 1776187824,
-      "author": "Distinct_Annual_9136",
-      "repoFullName": null,
-      "baselineRatio": 0.89,
-      "baselineTier": "below-average",
-      "baselineConfidence": "high",
-      "ageHours": 142.6,
-      "velocity": 0.06,
-      "trendingScore": 0.05,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "What is the difference between Think and Expert? Just another layer of thinking?",
-      "linkedRepos": []
-    },
-    {
       "id": "1sngur9",
       "subreddit": "LLMDevs",
       "title": "Anyone working on TTS/ASR for low-resource African or Cushitic languages?",
@@ -36423,30 +36188,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1slfpsm",
-      "subreddit": "LangChain",
-      "title": "What’s Your Approach to Chunking in RAG Pipelines?",
-      "url": "https://www.reddit.com/r/LangChain/comments/1slfpsm/whats_your_approach_to_chunking_in_rag_pipelines/",
-      "permalink": "https://www.reddit.com/r/LangChain/comments/1slfpsm/whats_your_approach_to_chunking_in_rag_pipelines/",
-      "score": 5,
-      "numComments": 17,
-      "createdUtc": 1776188333,
-      "author": "CapitalShake3085",
-      "repoFullName": null,
-      "baselineRatio": 2,
-      "baselineTier": "normal",
-      "baselineConfidence": "high",
-      "ageHours": 142.51,
-      "velocity": 0.03,
-      "trendingScore": 0.04,
-      "selftext": "Hi everyone, I’m curious about how you handle chunking in your RAG setups. Do you tend to apply a uniform strategy across all documents, or do you tailor the chunking approach depending on the document type or structure?",
-      "linkedRepos": [],
-      "content_tags": [
-        "is-question"
-      ],
-      "value_score": 0
-    },
-    {
       "id": "1sq2gzr",
       "subreddit": "Rag",
       "title": "Best python library for processing complex pptx for RAG",
@@ -37311,28 +37052,6 @@
         "is-question"
       ],
       "value_score": 0
-    },
-    {
-      "id": "1slfbwu",
-      "subreddit": "DeepSeek",
-      "title": "will he ever stop",
-      "url": "https://www.reddit.com/r/DeepSeek/comments/1slfbwu/will_he_ever_stop/",
-      "permalink": "https://www.reddit.com/r/DeepSeek/comments/1slfbwu/will_he_ever_stop/",
-      "score": 7,
-      "numComments": 3,
-      "createdUtc": 1776187526,
-      "author": "wtfw231q312",
-      "repoFullName": null,
-      "baselineRatio": 0.78,
-      "baselineTier": "below-average",
-      "baselineConfidence": "high",
-      "ageHours": 142.68,
-      "velocity": 0.05,
-      "trendingScore": 0.03,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "https://preview.redd.it/spizqqp8x6vg1.png?width=340&amp;format=png&amp;auto=webp&amp;s=7c0e6f2b22d924d55e32f662fe64ab0470d81875",
-      "linkedRepos": []
     },
     {
       "id": "1sobyuh",
@@ -39292,31 +39011,6 @@
       "content_tags": [],
       "value_score": 0,
       "selftext": "Hey everyone, I asked an AI to create and manage a fictional world via a prompt. Four days later, while playing for fun, I realized it had generated hundreds of pages of narrative. I had the data analyzed by Deepseek. Here is the exhaustive extraction. **DIMENSION 1: GEOPOLITICS, ECOLOGY, AND GLOBAL ECONOMY** **1.1 Exhaustive Cartography** |Location|Empire/Region|Type|Status|Sensory Ambiance| |:-|:-|:-|:-|:-| || |Aethelgard|World|World|Active, fragile peace|\"medieval-fantasy world without gods o",
-      "linkedRepos": []
-    },
-    {
-      "id": "1slfuyz",
-      "subreddit": "WritingWithAI",
-      "title": "A diagnostic prompt to identify specific \"telling\" vs. \"showing\" in your prose",
-      "url": "https://www.reddit.com/r/WritingWithAI/comments/1slfuyz/a_diagnostic_prompt_to_identify_specific_telling/",
-      "permalink": "https://www.reddit.com/r/WritingWithAI/comments/1slfuyz/a_diagnostic_prompt_to_identify_specific_telling/",
-      "score": 4,
-      "numComments": 16,
-      "createdUtc": 1776188634,
-      "author": "GelliusAI",
-      "repoFullName": null,
-      "baselineRatio": 1.33,
-      "baselineTier": "normal",
-      "baselineConfidence": "high",
-      "ageHours": 142.46,
-      "velocity": 0.03,
-      "trendingScore": 0.02,
-      "content_tags": [
-        "has-code-block",
-        "has-prompt"
-      ],
-      "value_score": 2,
-      "selftext": "Most writers know the rule. This prompt shows you where your text is still telling instead of showing. Avoids generic advice by focusing exclusively on your specific passage. It also respects narrative perspective: A first-person narrator who interprets is not automatically telling. It works directly on your text and delivers three things: **1. What is already working.** **2. Where the text is still reporting instead of showing.** **3. Which passages can be shifted from tell to show with minimal",
       "linkedRepos": []
     },
     {
@@ -41393,30 +41087,6 @@
       "value_score": 0,
       "selftext": "I'm a new researcher (undergrad) who's interested in IR. I've been looking at conferences to submit my work at, and while conferences like SIGIR, ECIR, etc. exist, I wanted so find good conferences a band or two lower that's not as competitive. That's when I came across SIGIR-AP, which seems to be backed by SIGIR but is super young (if it happens this year, it will be its 4th edition). Is this a good conference? What other conferences can I target that's not super competitive?",
       "linkedRepos": []
-    },
-    {
-      "id": "1slfdx5",
-      "subreddit": "LLM",
-      "title": "Karpathy’s LLM Wikis : Personal Second Brain or Team Shared Brain?",
-      "url": "https://www.reddit.com/r/LLM/comments/1slfdx5/karpathys_llm_wikis_personal_second_brain_or_team/",
-      "permalink": "https://www.reddit.com/r/LLM/comments/1slfdx5/karpathys_llm_wikis_personal_second_brain_or_team/",
-      "score": 5,
-      "numComments": 3,
-      "createdUtc": 1776187645,
-      "author": "sage_of_stardust",
-      "repoFullName": null,
-      "baselineRatio": 1.5,
-      "baselineTier": "normal",
-      "baselineConfidence": "high",
-      "ageHours": 142.74,
-      "velocity": 0.02,
-      "trendingScore": 0.01,
-      "selftext": "Do you feel it is a second brain (for you and your agents) or a shared brain (for teams + agents)? **\"Second Brain\" camp,** viz Obsidian + LLM feels more like beast mode for personal productivity, classical for individual throughput. **\"Shared Brain\" camp**, a different beast. When wikis are consumed by many people + their agents, authorship is asymmetric, one person’s clarity powers thousands of individual + agent combinations using same wikis. I tried both. Wrote 700+ wikis for an e-grocery te",
-      "linkedRepos": [],
-      "content_tags": [
-        "is-question"
-      ],
-      "value_score": 0
     },
     {
       "id": "1snehyn",
@@ -73310,28 +72980,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1slh9lb",
-      "subreddit": "LLM",
-      "title": "I built a tool that turns repeated file reads into 13-token references. My AI Coding sessions now use 86% fewer tokens on file-heavy tasks based on mathematics and research. [P]",
-      "url": "https://www.reddit.com/r/LLM/comments/1slh9lb/i_built_a_tool_that_turns_repeated_file_reads/",
-      "permalink": "https://www.reddit.com/r/LLM/comments/1slh9lb/i_built_a_tool_that_turns_repeated_file_reads/",
-      "score": 2,
-      "numComments": 1,
-      "createdUtc": 1776191552,
-      "author": "Due_Anything4678",
-      "repoFullName": null,
-      "baselineRatio": 1,
-      "baselineTier": "normal",
-      "baselineConfidence": "high",
-      "ageHours": 141.65,
-      "velocity": 0.01,
-      "trendingScore": 0,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "I got tired of watching Claude Code re-read the same files over and over. A 2,000-token file read 5 times = 10,000 tokens gone. So I built `sqz`. The key insight: most token waste isn't from verbose content - it's from repetition. `sqz` keeps a SHA-256 content cache. First read compresses normally. Every subsequent read of the same file returns a 13-token inline reference instead of the full content. The LLM still understands it. Real numbers from my sessions: `File read 5x: 10,000 tokens → 1,40",
-      "linkedRepos": []
-    },
-    {
       "id": "1sqs6wb",
       "subreddit": "LLM",
       "title": "The memory architecture gap between general LLMs and purpose-built companion systems",
@@ -74357,54 +74005,6 @@
       "content_tags": [],
       "value_score": 0,
       "selftext": "Anyone else find it very strange that every day you always get the same number of clicks?",
-      "linkedRepos": []
-    },
-    {
-      "id": "1slg2xk",
-      "subreddit": "SEO",
-      "title": "Estimating AI Traffic?",
-      "url": "https://www.reddit.com/r/SEO/comments/1slg2xk/estimating_ai_traffic/",
-      "permalink": "https://www.reddit.com/r/SEO/comments/1slg2xk/estimating_ai_traffic/",
-      "score": 0,
-      "numComments": 11,
-      "createdUtc": 1776189093,
-      "author": "theflatlanderz",
-      "repoFullName": null,
-      "baselineRatio": 0,
-      "baselineTier": "below-average",
-      "baselineConfidence": "high",
-      "ageHours": 142.33,
-      "velocity": 0,
-      "trendingScore": 0,
-      "content_tags": [
-        "is-question"
-      ],
-      "value_score": 0,
-      "selftext": "Can someone help me understand in laymen terms how companies estimate prompt traffic and AI traffic to competitor websites? I don't understand how these 3rd party tools could be accurate without having direct access to the data in the tool, but my understanding is that they don't.",
-      "linkedRepos": []
-    },
-    {
-      "id": "1slg0ik",
-      "subreddit": "SEO",
-      "title": "Why are my pages are showing these 5-star ratings? They're not product pages.",
-      "url": "https://www.reddit.com/r/SEO/comments/1slg0ik/why_are_my_pages_are_showing_these_5star_ratings/",
-      "permalink": "https://www.reddit.com/r/SEO/comments/1slg0ik/why_are_my_pages_are_showing_these_5star_ratings/",
-      "score": 1,
-      "numComments": 9,
-      "createdUtc": 1776188956,
-      "author": "saudtf",
-      "repoFullName": null,
-      "baselineRatio": 0.2,
-      "baselineTier": "below-average",
-      "baselineConfidence": "high",
-      "ageHours": 142.37,
-      "velocity": 0.01,
-      "trendingScore": 0,
-      "content_tags": [
-        "is-question"
-      ],
-      "value_score": 0,
-      "selftext": "Some of the pages on my website are showing up on Google as listings, with a 5-star rating based on 1 review. Like this: ⭐⭐⭐⭐⭐ (1) They're not product pages. They are informational pages that also serve as landing pages for my ads. None of these pages has a place to give ratings or reviews. Images are not allowed, otherwise I'd post a screenshot. A designer I work with says he's removed the \"code\" that causes this, but the rating is not going anywhere. Why is this happening? What's the fix? Than",
       "linkedRepos": []
     },
     {
@@ -79827,52 +79427,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1slg24c",
-      "subreddit": "perplexity_ai",
-      "title": "Perplexity keeps switching me to Sonar even when I select another model – what’s going on?",
-      "url": "https://www.reddit.com/r/perplexity_ai/comments/1slg24c/perplexity_keeps_switching_me_to_sonar_even_when/",
-      "permalink": "https://www.reddit.com/r/perplexity_ai/comments/1slg24c/perplexity_keeps_switching_me_to_sonar_even_when/",
-      "score": 0,
-      "numComments": 1,
-      "createdUtc": 1776189044,
-      "author": "AmmiraglioBenbow",
-      "repoFullName": null,
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 142.26,
-      "velocity": 0,
-      "trendingScore": 0,
-      "content_tags": [
-        "is-question"
-      ],
-      "value_score": 0,
-      "selftext": "I’m a Pro user and have noticed a strange issue over the past few days: no matter which model I select, Perplexity always redirects my queries to Sonar. It feels like yet another trick from Perplexity aimed at Pro users. Has anyone else experienced this?",
-      "linkedRepos": []
-    },
-    {
-      "id": "1slfdqk",
-      "subreddit": "perplexity_ai",
-      "title": "Perplexity is great for research… but I needed a better way to turn answers into action",
-      "url": "https://www.reddit.com/r/perplexity_ai/comments/1slfdqk/perplexity_is_great_for_research_but_i_needed_a/",
-      "permalink": "https://www.reddit.com/r/perplexity_ai/comments/1slfdqk/perplexity_is_great_for_research_but_i_needed_a/",
-      "score": 2,
-      "numComments": 3,
-      "createdUtc": 1776187635,
-      "author": "StatusPhilosopher258",
-      "repoFullName": null,
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 142.65,
-      "velocity": 0.01,
-      "trendingScore": 0,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "I’ve been using Perplexity a lot lately, and honestly, it’s one of the best tools I’ve found for quickly exploring ideas, comparing options, and getting a solid overview before diving in. What I kept running into, though, was this gap between finding information and actually doing something with it. I could get a great answer, but then I still had to: * organize the important bits * break the idea into next steps * keep track of what I’d already decided That’s where things started getting messy.",
-      "linkedRepos": []
-    },
-    {
       "id": "1sqtmtq",
       "subreddit": "perplexity_ai",
       "title": "I let Computer ship and break a production site this weekend - lessons learned",
@@ -81046,28 +80600,6 @@
       "content_tags": [
         "is-question"
       ],
-      "value_score": 0,
-      "selftext": "",
-      "linkedRepos": []
-    },
-    {
-      "id": "1slf6qj",
-      "subreddit": "AiBuilders",
-      "title": "I benchmarked two coding agents (same model) and one is ~10x cheaper for the same output",
-      "url": "/r/WOZCODE/comments/1slf6fv/i_benchmarked_two_coding_agents_same_model_and/",
-      "permalink": "https://www.reddit.com/r/AiBuilders/comments/1slf6qj/i_benchmarked_two_coding_agents_same_model_and/",
-      "score": 1,
-      "numComments": 0,
-      "createdUtc": 1776187220,
-      "author": "ChampionshipNo2815",
-      "repoFullName": null,
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 142.81,
-      "velocity": 0.01,
-      "trendingScore": 0,
-      "content_tags": [],
       "value_score": 0,
       "selftext": "",
       "linkedRepos": []

@@ -9,6 +9,11 @@ import { DeltaBadge } from "@/components/shared/DeltaBadge";
 import { CategoryPill } from "@/components/shared/CategoryPill";
 import { MomentumBadge } from "@/components/shared/MomentumBadge";
 import { RankBadge } from "@/components/shared/RankBadge";
+import { HnBadge } from "@/components/hackernews/HnBadge";
+import { ChannelDots } from "@/components/cross-signal/ChannelDots";
+import { getHnMentions } from "@/lib/hackernews";
+import { BskyBadge } from "@/components/bluesky/BskyBadge";
+import { getBlueskyMentions } from "@/lib/bluesky";
 
 interface RepoCardProps {
   repo: Repo;
@@ -33,7 +38,7 @@ export function RepoCard({ repo, index = 0, showRank = false }: RepoCardProps) {
       )}
       style={{ animationDelay: `${index * 50}ms` }}
     >
-      {/* Row 1: Rank + Name + Category */}
+      {/* Row 1: Rank + Name + HN badge + Category */}
       <div className="flex items-center gap-2 min-w-0">
         {showRank && (
           <RankBadge rank={repo.rank} size="sm" className="shrink-0" />
@@ -41,6 +46,9 @@ export function RepoCard({ repo, index = 0, showRank = false }: RepoCardProps) {
         <span className="font-semibold text-text-primary truncate text-sm">
           {repo.fullName}
         </span>
+        <ChannelDots repo={repo} hideWhenEmpty size="sm" />
+        <HnBadge mention={getHnMentions(repo.fullName)} size="sm" />
+        <BskyBadge mention={getBlueskyMentions(repo.fullName)} size="sm" />
         <div className="ml-auto shrink-0">
           <CategoryPill categoryId={repo.categoryId} size="sm" />
         </div>

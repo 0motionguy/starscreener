@@ -9,7 +9,13 @@
  */
 import Link from "next/link";
 import { EyeOff } from "lucide-react";
+import type { MovementStatus } from "@/lib/types";
 import { cn, formatNumber } from "@/lib/utils";
+import { HnBadge } from "@/components/hackernews/HnBadge";
+import { ChannelDots } from "@/components/cross-signal/ChannelDots";
+import { getHnMentions } from "@/lib/hackernews";
+import { BskyBadge } from "@/components/bluesky/BskyBadge";
+import { getBlueskyMentions } from "@/lib/bluesky";
 
 export interface SidebarWatchlistPreviewRepo {
   id: string;
@@ -18,6 +24,7 @@ export interface SidebarWatchlistPreviewRepo {
   name: string;
   ownerAvatarUrl: string;
   momentumScore: number;
+  movementStatus?: MovementStatus;
   sparklineData: number[];
   stars: number;
   starsDelta24h: number;
@@ -82,9 +89,21 @@ export function SidebarWatchlistPreview({
               loading="lazy"
               className="size-5 shrink-0 rounded-full border border-border-primary bg-bg-tertiary"
             />
-            <span className="text-[12px] text-text-secondary truncate">
-              {repo.fullName}
-            </span>
+            <div className="flex items-center gap-1.5 min-w-0">
+              <span className="text-[12px] text-text-secondary truncate">
+                {repo.fullName}
+              </span>
+              <ChannelDots
+                repo={{
+                  fullName: repo.fullName,
+                  movementStatus: repo.movementStatus ?? "stable",
+                }}
+                hideWhenEmpty
+                size="sm"
+              />
+              <HnBadge mention={getHnMentions(repo.fullName)} size="sm" />
+              <BskyBadge mention={getBlueskyMentions(repo.fullName)} size="sm" />
+            </div>
             <span
               className={cn(
                 "text-[10px] font-mono tabular-nums whitespace-nowrap",

@@ -15,6 +15,11 @@ import { ArrowLeftRight, Bookmark, GitFork, Star, Users, Zap } from "lucide-reac
 import { MomentumBadge } from "@/components/shared/MomentumBadge";
 import { RankBadge } from "@/components/shared/RankBadge";
 import { Sparkline } from "@/components/shared/Sparkline";
+import { HnBadge } from "@/components/hackernews/HnBadge";
+import { ChannelDots } from "@/components/cross-signal/ChannelDots";
+import { getHnMentions } from "@/lib/hackernews";
+import { BskyBadge } from "@/components/bluesky/BskyBadge";
+import { getBlueskyMentions } from "@/lib/bluesky";
 import type { ColumnId, Repo } from "@/lib/types";
 
 // Inlined instead of imported from @/lib/collections to keep node:fs out
@@ -326,6 +331,25 @@ export const COLUMNS: Column[] = [
               }),
               formatNumber(repo.contributors),
             ),
+            // HN mention badge — renders null when the repo has no mentions,
+            // so quiet repos stay visually clean. Loaded eagerly per row;
+            // the mentions JSON is ~52KB and already in the bundle.
+            createElement(HnBadge, {
+              mention: getHnMentions(repo.fullName),
+              size: "sm",
+            }),
+            createElement(BskyBadge, {
+              mention: getBlueskyMentions(repo.fullName),
+              size: "sm",
+            }),
+            // 4-channel cross-signal indicator. hideWhenEmpty so quiet
+            // repos don't show four empty dots — we only highlight rows
+            // where at least one channel is firing.
+            createElement(ChannelDots, {
+              repo,
+              hideWhenEmpty: true,
+              size: "sm",
+            }),
           ),
           spacious && repo.description
             ? createElement(

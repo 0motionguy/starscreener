@@ -3,7 +3,7 @@ import type { Repo } from "@/lib/types";
 import { READ_CACHE_HEADERS } from "@/lib/api/cache";
 import { getDerivedRepos } from "@/lib/derived-repos";
 
-type SearchSort = "momentum" | "stars-today" | "stars-total";
+type SearchSort = "momentum" | "stars-today" | "stars-total" | "cross-signal";
 
 function sortResults(repos: Repo[], sort: SearchSort): Repo[] {
   const sorted = [...repos];
@@ -16,6 +16,15 @@ function sortResults(repos: Repo[], sort: SearchSort): Repo[] {
       break;
     case "stars-total":
       sorted.sort((a, b) => b.stars - a.stars);
+      break;
+    case "cross-signal":
+      // Cross-signal sort: total score desc, channels-firing as tiebreaker
+      // (a 1.5 score with 3 dots lit beats a 1.5 score with 2 dots lit).
+      sorted.sort((a, b) => {
+        const ds = (b.crossSignalScore ?? 0) - (a.crossSignalScore ?? 0);
+        if (ds !== 0) return ds;
+        return (b.channelsFiring ?? 0) - (a.channelsFiring ?? 0);
+      });
       break;
   }
   return sorted;
@@ -43,7 +52,12 @@ export async function GET(request: NextRequest) {
 
   // Validate sort — strict: unknown sort returns 400 rather than silently
   // defaulting (surface typos instead of masking them).
-  const validSorts: SearchSort[] = ["momentum", "stars-today", "stars-total"];
+  const validSorts: SearchSort[] = [
+    "momentum",
+    "stars-today",
+    "stars-total",
+    "cross-signal",
+  ];
   if (!validSorts.includes(sortParam)) {
     return NextResponse.json(
       { error: `Invalid sort: ${sortParam}`, valid: validSorts },

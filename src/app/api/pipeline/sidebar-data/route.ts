@@ -24,7 +24,7 @@ import {
   getDerivedMetaCounts,
 } from "@/lib/derived-insights";
 import { getDerivedRepos } from "@/lib/derived-repos";
-import type { MetaCounts } from "@/lib/types";
+import type { MetaCounts, MovementStatus } from "@/lib/types";
 import type { CategoryStats } from "@/lib/pipeline/queries/aggregate";
 
 export interface SidebarDataRepo {
@@ -34,6 +34,7 @@ export interface SidebarDataRepo {
   name: string;
   ownerAvatarUrl: string;
   momentumScore: number;
+  movementStatus: MovementStatus;
   sparklineData: number[];
   stars: number;
   starsDelta24h: number;
@@ -69,6 +70,7 @@ export async function GET(
         name: r.name,
         ownerAvatarUrl: r.ownerAvatarUrl,
         momentumScore: r.momentumScore,
+        movementStatus: r.movementStatus,
         sparklineData: r.sparklineData,
         stars: r.stars,
         starsDelta24h: r.starsDelta24h,

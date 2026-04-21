@@ -87,10 +87,10 @@ export interface Repo {
   collectionNames?: string[];
 
   /**
-   * Four-channel cross-signal score. Sum of github + reddit + HN + Bluesky
-   * components, each 0-1 normalized. Range: 0-4.0. Higher = repo firing
-   * across more channels with stronger signal. Computed at derived-repos
-   * assembly time, after movement classification + scoring.
+   * Five-channel cross-signal score. Sum of github + reddit + HN + Bluesky
+   * + dev.to components, each 0-1 normalized. Range: 0-5.0. Higher = repo
+   * firing across more channels with stronger signal. Computed at
+   * derived-repos assembly time, after movement classification + scoring.
    */
   crossSignalScore?: number;
 

@@ -32,6 +32,7 @@ import {
   devtoArticleHref,
   getDevtoFile,
   getDevtoLeaderboard,
+  devtoCold,
   type DevtoTopArticleRef,
 } from "@/lib/devto";
 import {
@@ -49,7 +50,6 @@ export const dynamic = "force-static";
 const HN_ORANGE = "#ff6600";
 const BSKY_BLUE = "#0085FF";
 const PH_RED = "#DA552F";
-const LOBSTERS_RED = "#AC130D";
 
 type TabId = "hackernews" | "bluesky" | "devto" | "producthunt" | "lobsters";
 
@@ -138,7 +138,7 @@ export default async function NewsPage({
 
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
-      <div className="max-w-[1400px] mx-auto px-6 py-8">
+      <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
         {/* Header */}
         <header className="mb-6 border-b border-border-primary pb-6">
           <div className="flex items-baseline gap-3 flex-wrap">
@@ -157,8 +157,11 @@ export default async function NewsPage({
           </p>
         </header>
 
-        {/* Tab strip */}
-        <nav className="mb-6 flex items-center gap-1 flex-wrap border-b border-border-primary">
+        {/* Tab strip — horizontally scrollable on mobile so all 5 tabs
+            stay reachable without wrapping into stacked rows. */}
+        <nav
+          className="mb-6 flex items-center gap-1 flex-nowrap md:flex-wrap overflow-x-auto md:overflow-visible scrollbar-hide border-b border-border-primary"
+        >
           {TAB_ORDER.map((tab) => {
             const isActive = tab === activeTab;
             const href = tab === "hackernews" ? "/news" : `/news?tab=${tab}`;
@@ -172,7 +175,7 @@ export default async function NewsPage({
               <Link
                 key={tab}
                 href={href}
-                className={`inline-flex items-center gap-2 px-3 py-2 text-xs uppercase tracking-wider transition-colors ${labelClass} ${borderClass}`}
+                className={`inline-flex items-center gap-2 px-3 min-h-[40px] text-xs uppercase tracking-wider transition-colors shrink-0 ${labelClass} ${borderClass}`}
               >
                 <span>{TAB_LABELS[tab]}</span>
                 <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded text-[10px] tabular-nums bg-bg-secondary border border-border-primary text-text-tertiary">
@@ -335,7 +338,7 @@ function HackerNewsTabBody({ stories }: { stories: HnStory[] }) {
       </section>
 
       <ListShell>
-        <div className="grid grid-cols-[40px_1fr_60px_60px_60px_80px] gap-3 items-center px-3 h-9 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
+        <div className="hidden sm:grid grid-cols-[40px_1fr_60px_60px_60px_80px] gap-3 items-center px-3 h-9 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
           <div>#</div>
           <div>TITLE</div>
           <div className="text-right">FP</div>
@@ -349,7 +352,7 @@ function HackerNewsTabBody({ stories }: { stories: HnStory[] }) {
             return (
               <li
                 key={s.id}
-                className="grid grid-cols-[40px_1fr_60px_60px_60px_80px] gap-3 items-center px-3 h-10 hover:bg-bg-card-hover transition-colors border-b border-border-primary/40 last:border-b-0"
+                className="grid grid-cols-[28px_1fr_auto] sm:grid-cols-[40px_1fr_60px_60px_60px_80px] gap-3 items-center px-3 min-h-[44px] sm:h-10 py-2 sm:py-0 hover:bg-bg-card-hover transition-colors border-b border-border-primary/40 last:border-b-0"
               >
                 <div className="text-text-tertiary text-xs tabular-nums">
                   {i + 1}
@@ -364,8 +367,16 @@ function HackerNewsTabBody({ stories }: { stories: HnStory[] }) {
                   >
                     {s.title}
                   </a>
+                  {/* Mobile-only secondary line: comments + age (the columns
+                      we hide on small screens). Keeps the signal without
+                      forcing a 6-col grid into a 360px viewport. */}
+                  <div className="sm:hidden mt-0.5 flex items-center gap-2 text-[10px] text-text-tertiary tabular-nums">
+                    <span>{s.descendants.toLocaleString()} cmts</span>
+                    <span>·</span>
+                    <span>{formatAgeHours(s.ageHours)}</span>
+                  </div>
                 </div>
-                <div className="text-right">
+                <div className="hidden sm:block text-right">
                   {s.everHitFrontPage ? (
                     <span
                       className="inline-flex items-center justify-center text-[8px] font-bold w-3.5 h-3.5 rounded-sm text-white"
@@ -384,10 +395,10 @@ function HackerNewsTabBody({ stories }: { stories: HnStory[] }) {
                 >
                   {s.score.toLocaleString()}
                 </div>
-                <div className="text-right text-xs tabular-nums text-text-secondary">
+                <div className="hidden sm:block text-right text-xs tabular-nums text-text-secondary">
                   {s.descendants.toLocaleString()}
                 </div>
-                <div className="text-right text-xs tabular-nums text-text-tertiary">
+                <div className="hidden sm:block text-right text-xs tabular-nums text-text-tertiary">
                   {formatAgeHours(s.ageHours)}
                 </div>
               </li>
@@ -408,6 +419,9 @@ function HackerNewsTabBody({ stories }: { stories: HnStory[] }) {
 function BlueskyTabBody({ posts }: { posts: BskyPost[] }) {
   const trendingFile = getBlueskyTrendingFile();
   const reposLinked = getBlueskyLeaderboard().length;
+  const familyCount =
+    trendingFile.queryFamilies?.length ?? trendingFile.keywords.length;
+  const queryCount = trendingFile.queries?.length ?? trendingFile.keywords.length;
   const cold = blueskyCold || trendingFile.posts.length === 0;
 
   if (cold) {
@@ -444,7 +458,7 @@ function BlueskyTabBody({ posts }: { posts: BskyPost[] }) {
         <StatTile
           label="POSTS TRACKED"
           value={trendingFile.posts.length.toLocaleString()}
-          hint={`${trendingFile.keywords.length} keywords`}
+          hint={`${queryCount} queries / ${familyCount} families`}
         />
         <StatTile
           label="REPOS LINKED"
@@ -452,14 +466,14 @@ function BlueskyTabBody({ posts }: { posts: BskyPost[] }) {
           hint="github mentions 7d"
         />
         <StatTile
-          label="SCANNED"
-          value={trendingFile.scannedPosts.toLocaleString()}
-          hint="raw posts swept"
+          label="TOPIC FAMILIES"
+          value={familyCount.toLocaleString()}
+          hint={trendingFile.keywords.slice(0, 3).join(" · ")}
         />
       </section>
 
       <ListShell>
-        <div className="grid grid-cols-[40px_1fr_60px_60px_60px_80px] gap-3 items-center px-3 h-9 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
+        <div className="hidden sm:grid grid-cols-[40px_1fr_60px_60px_60px_80px] gap-3 items-center px-3 h-9 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
           <div>#</div>
           <div>POST · AUTHOR</div>
           <div className="text-right">♥</div>
@@ -474,12 +488,12 @@ function BlueskyTabBody({ posts }: { posts: BskyPost[] }) {
             return (
               <li
                 key={p.uri}
-                className="grid grid-cols-[40px_1fr_60px_60px_60px_80px] gap-3 items-center px-3 h-10 hover:bg-bg-card-hover transition-colors border-b border-border-primary/40 last:border-b-0"
+                className="grid grid-cols-[28px_1fr_auto] sm:grid-cols-[40px_1fr_60px_60px_60px_80px] gap-3 items-center px-3 min-h-[44px] sm:h-10 py-2 sm:py-0 hover:bg-bg-card-hover transition-colors border-b border-border-primary/40 last:border-b-0"
               >
                 <div className="text-text-tertiary text-xs tabular-nums">
                   {i + 1}
                 </div>
-                <div className="min-w-0 flex items-center gap-2">
+                <div className="min-w-0 flex flex-col sm:flex-row sm:items-center gap-y-0.5 sm:gap-x-2">
                   <a
                     href={bskyPostHref(p.uri, p.author.handle)}
                     target="_blank"
@@ -490,7 +504,7 @@ function BlueskyTabBody({ posts }: { posts: BskyPost[] }) {
                     {snippet}
                   </a>
                   <span
-                    className="shrink-0 text-[10px] text-text-tertiary"
+                    className="shrink-0 text-[10px] text-text-tertiary truncate"
                     title={
                       p.author.displayName
                         ? `${p.author.displayName} (@${p.author.handle})`
@@ -498,6 +512,7 @@ function BlueskyTabBody({ posts }: { posts: BskyPost[] }) {
                     }
                   >
                     @{p.author.handle}
+                    <span className="sm:hidden">{` · ${p.repostCount.toLocaleString()} ⟲ · ${p.replyCount.toLocaleString()} cmts · ${formatAgeHours(p.ageHours)}`}</span>
                   </span>
                 </div>
                 <div
@@ -506,13 +521,13 @@ function BlueskyTabBody({ posts }: { posts: BskyPost[] }) {
                 >
                   {p.likeCount.toLocaleString()}
                 </div>
-                <div className="text-right text-xs tabular-nums text-text-secondary">
+                <div className="hidden sm:block text-right text-xs tabular-nums text-text-secondary">
                   {p.repostCount.toLocaleString()}
                 </div>
-                <div className="text-right text-xs tabular-nums text-text-secondary">
+                <div className="hidden sm:block text-right text-xs tabular-nums text-text-secondary">
                   {p.replyCount.toLocaleString()}
                 </div>
-                <div className="text-right text-xs tabular-nums text-text-tertiary">
+                <div className="hidden sm:block text-right text-xs tabular-nums text-text-tertiary">
                   {formatAgeHours(p.ageHours)}
                 </div>
               </li>
@@ -533,6 +548,8 @@ function BlueskyTabBody({ posts }: { posts: BskyPost[] }) {
 function DevtoTabBody() {
   const file = getDevtoFile();
   const leaderboard = getDevtoLeaderboard();
+  const sliceCount = file.discoverySlices?.length ?? 0;
+  const tagCount = file.priorityTags?.length ?? 0;
 
   // Build a top-10 of articles by walking the leaderboard and pulling each
   // repo's topArticle. Skip entries that don't have one. This avoids the
@@ -549,9 +566,13 @@ function DevtoTabBody() {
 
   const articlesScanned = file.scannedArticles;
   const reposLinked = leaderboard.length;
-  const cold = reposLinked === 0;
 
-  if (cold) {
+  // Cold = scraper has never produced real data (epoch-zero stub or zero
+  // scanned articles). A successful scrape with `articles > 0` but no
+  // tracked-repo links is NOT cold — that's a normal "quiet week" state
+  // and the tab should render its empty-leaderboard view, not the cold
+  // bootstrap CTA. Sprint review finding #3.
+  if (devtoCold) {
     return (
       <ColdCard
         title="// dev.to cold"
@@ -587,14 +608,18 @@ function DevtoTabBody() {
           hint="github mentions 7d"
         />
         <StatTile
-          label="BODY MODE"
-          value={file.bodyFetchMode}
-          hint="article body fetch strategy"
+          label="DISCOVERY"
+          value={sliceCount.toLocaleString()}
+          hint={
+            sliceCount > 0
+              ? `${tagCount} tags + rising/fresh`
+              : "registry-driven slices"
+          }
         />
       </section>
 
       <ListShell>
-        <div className="grid grid-cols-[40px_1fr_60px_60px_60px_80px] gap-3 items-center px-3 h-9 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
+        <div className="hidden sm:grid grid-cols-[40px_1fr_60px_60px_60px_80px] gap-3 items-center px-3 h-9 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
           <div>#</div>
           <div>TITLE · AUTHOR</div>
           <div className="text-right">REACT</div>
@@ -606,12 +631,12 @@ function DevtoTabBody() {
           {rows.map(({ repo, article }, i) => (
             <li
               key={`${repo}-${article.id}`}
-              className="grid grid-cols-[40px_1fr_60px_60px_60px_80px] gap-3 items-center px-3 h-10 hover:bg-bg-card-hover transition-colors border-b border-border-primary/40 last:border-b-0"
+              className="grid grid-cols-[28px_1fr_auto] sm:grid-cols-[40px_1fr_60px_60px_60px_80px] gap-3 items-center px-3 min-h-[44px] sm:h-10 py-2 sm:py-0 hover:bg-bg-card-hover transition-colors border-b border-border-primary/40 last:border-b-0"
             >
               <div className="text-text-tertiary text-xs tabular-nums">
                 {i + 1}
               </div>
-              <div className="min-w-0 flex items-center gap-2">
+              <div className="min-w-0 flex flex-col sm:flex-row sm:items-center gap-y-0.5 sm:gap-x-2">
                 <a
                   href={devtoArticleHref(article.url)}
                   target="_blank"
@@ -622,22 +647,23 @@ function DevtoTabBody() {
                   {article.title}
                 </a>
                 <span
-                  className="shrink-0 text-[10px] text-text-tertiary"
+                  className="shrink-0 text-[10px] text-text-tertiary truncate"
                   title={article.author}
                 >
                   @{article.author}
+                  <span className="sm:hidden">{` · ${article.comments.toLocaleString()} cmts · ${article.readingTime}m · ${formatAgeHours(article.hoursSincePosted)}`}</span>
                 </span>
               </div>
               <div className="text-right text-xs tabular-nums text-text-secondary">
                 {article.reactions.toLocaleString()}
               </div>
-              <div className="text-right text-xs tabular-nums text-text-secondary">
+              <div className="hidden sm:block text-right text-xs tabular-nums text-text-secondary">
                 {article.comments.toLocaleString()}
               </div>
-              <div className="text-right text-xs tabular-nums text-text-tertiary">
+              <div className="hidden sm:block text-right text-xs tabular-nums text-text-tertiary">
                 {`${article.readingTime}m`}
               </div>
-              <div className="text-right text-xs tabular-nums text-text-tertiary">
+              <div className="hidden sm:block text-right text-xs tabular-nums text-text-tertiary">
                 {formatAgeHours(article.hoursSincePosted)}
               </div>
             </li>
@@ -657,7 +683,7 @@ function DevtoTabBody() {
 function ProductHuntTabBody({ launches }: { launches: Launch[] }) {
   const file = getPhFile();
   const allLaunches = file.launches ?? [];
-  const cold = allLaunches.length === 0;
+  const cold = !file.lastFetchedAt || !Array.isArray(file.launches);
 
   if (cold) {
     return (
@@ -707,8 +733,9 @@ function ProductHuntTabBody({ launches }: { launches: Launch[] }) {
         />
       </section>
 
-      <ListShell>
-        <div className="grid grid-cols-[40px_1fr_60px_60px_60px_80px] gap-3 items-center px-3 h-9 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
+      {launches.length > 0 ? (
+        <ListShell>
+          <div className="hidden sm:grid grid-cols-[40px_1fr_60px_60px_60px_80px] gap-3 items-center px-3 h-9 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
           <div>#</div>
           <div>NAME · TAGLINE</div>
           <div className="text-right">VOTES</div>
@@ -726,12 +753,12 @@ function ProductHuntTabBody({ launches }: { launches: Launch[] }) {
             return (
               <li
                 key={l.id}
-                className="grid grid-cols-[40px_1fr_60px_60px_60px_80px] gap-3 items-center px-3 h-10 hover:bg-bg-card-hover transition-colors border-b border-border-primary/40 last:border-b-0"
+                className="grid grid-cols-[28px_1fr_auto] sm:grid-cols-[40px_1fr_60px_60px_60px_80px] gap-3 items-center px-3 min-h-[44px] sm:h-10 py-2 sm:py-0 hover:bg-bg-card-hover transition-colors border-b border-border-primary/40 last:border-b-0"
               >
                 <div className="text-text-tertiary text-xs tabular-nums">
                   {i + 1}
                 </div>
-                <div className="min-w-0 flex items-center gap-2">
+                <div className="min-w-0 flex flex-col sm:flex-row sm:items-center gap-y-0.5 sm:gap-x-2">
                   <a
                     href={l.url}
                     target="_blank"
@@ -744,6 +771,9 @@ function ProductHuntTabBody({ launches }: { launches: Launch[] }) {
                       <span className="text-text-tertiary"> · {l.tagline}</span>
                     ) : null}
                   </a>
+                  <span className="sm:hidden text-[10px] text-text-tertiary tabular-nums">
+                    {`${l.commentsCount.toLocaleString()} cmts · ${l.daysSinceLaunch}d · ${launchDate}`}
+                  </span>
                 </div>
                 <div
                   className="text-right text-xs tabular-nums"
@@ -751,29 +781,34 @@ function ProductHuntTabBody({ launches }: { launches: Launch[] }) {
                 >
                   {l.votesCount.toLocaleString()}
                 </div>
-                <div className="text-right text-xs tabular-nums text-text-secondary">
+                <div className="hidden sm:block text-right text-xs tabular-nums text-text-secondary">
                   {l.commentsCount.toLocaleString()}
                 </div>
-                <div className="text-right text-xs tabular-nums text-text-tertiary">
+                <div className="hidden sm:block text-right text-xs tabular-nums text-text-tertiary">
                   {`${l.daysSinceLaunch}d`}
                 </div>
-                <div className="text-right text-xs tabular-nums text-text-tertiary">
+                <div className="hidden sm:block text-right text-xs tabular-nums text-text-tertiary">
                   {launchDate}
                 </div>
               </li>
             );
           })}
         </ul>
-      </ListShell>
+        </ListShell>
+      ) : (
+        <ColdCard
+          title="// no producthunt matches"
+          body={
+            <>
+              The ProductHunt scrape completed, but no launches matched the
+              current AI-adjacent 7-day filter.
+            </>
+          }
+          accent={PH_RED}
+        />
+      )}
 
-      <div className="mt-4 text-right">
-        <Link
-          href="/producthunt"
-          className="text-[11px] font-mono uppercase tracking-wider text-text-tertiary hover:text-brand transition-colors"
-        >
-          Full launches view (/producthunt) →
-        </Link>
-      </div>
+      <FullViewLink href="/producthunt" label="View full" />
     </>
   );
 }
@@ -784,11 +819,8 @@ function ProductHuntTabBody({ launches }: { launches: Launch[] }) {
 
 function LobstersTabBody() {
   return (
-    <section className="rounded-md border border-dashed border-border-primary bg-bg-secondary/40 p-8">
-      <h2
-        className="text-lg font-bold uppercase tracking-wider"
-        style={{ color: LOBSTERS_RED }}
-      >
+    <section className="border border-dashed border-border-primary rounded-md p-8 bg-bg-secondary/40">
+      <h2 className="text-lg font-bold uppercase tracking-wider text-accent-green">
         {"// lobsters coming soon"}
       </h2>
       <p className="mt-3 text-sm text-text-secondary max-w-xl">

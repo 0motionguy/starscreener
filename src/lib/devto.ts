@@ -87,6 +87,15 @@ const mentionsFile = devtoMentionsData as unknown as DevtoMentionsFile;
 export const devtoFetchedAt: string = mentionsFile.fetchedAt;
 export const devtoBodyFetchMode: DevtoBodyFetchMode = mentionsFile.bodyFetchMode;
 
+// "Cold" = scraper has never produced real data yet (epoch-zero stub
+// committed at repo init or zero scanned articles). Health endpoint
+// suppresses the freshness gate while cold; once a real run lands the
+// daily-cron staleness threshold kicks in.
+export const devtoCold: boolean =
+  !mentionsFile.fetchedAt ||
+  mentionsFile.fetchedAt.startsWith("1970-") ||
+  mentionsFile.scannedArticles === 0;
+
 const mentionsByLowerName: Map<string, DevtoRepoMention> = (() => {
   const map = new Map<string, DevtoRepoMention>();
   for (const [fullName, mention] of Object.entries(mentionsFile.mentions)) {

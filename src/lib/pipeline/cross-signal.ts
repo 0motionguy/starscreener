@@ -1,10 +1,12 @@
-// Four-channel cross-signal fusion.
+// Five-channel cross-signal fusion.
 //
 // Combines GitHub momentum classification + Reddit 48h trending velocity +
-// HN front-page presence + Bluesky mentions into a single score per repo.
-// The premise: any one channel can be noise (a github star spike, a viral
-// reddit post, a Show HN flash, a trending-on-bsky post). Two channels lit
-// at once = signal. Three or four = a real breakout.
+// HN front-page presence + Bluesky mentions + dev.to tutorials/writeups
+// into a single score per repo. The premise: any one channel can be noise
+// (a github star spike, a viral reddit post, a Show HN flash, a trending
+// bsky post, a tutorial pumped by one author). Two channels lit at once =
+// signal. Three or more = a real breakout. A 5/5 firing repo is rare and
+// indicates the repo broke out across every social surface we track.
 //
 // Formula:
 //   github  = movementStatus ∈ {breakout: 1.0, hot: 0.7, rising: 0.4, *: 0}
@@ -19,8 +21,17 @@
 //             : BSKY.count7d >= 2 ? 0.7
 //             : BSKY.count7d >= 1 ? 0.4
 //             : 0
-//   crossSignalScore = github + reddit + hn + bluesky   (range 0..4)
-//   channelsFiring   = count of components > 0          (range 0..4)
+//   devto   = DEVTO.count7d >= 3  ? 1.0
+//             : DEVTO.count7d >= 2 ? 0.7
+//             : DEVTO.count7d >= 1 ? 0.4
+//             : 0
+//   crossSignalScore = github + reddit + hn + bluesky + devto   (range 0..5)
+//   channelsFiring   = count of components > 0                  (range 0..5)
+//
+// Why dev.to thresholds are tighter than Bluesky's: dev.to publishes
+// ~50-200 articles per AI tag per week vs. thousands of bsky posts on
+// the same keywords. A single dev.to writeup is therefore worth more
+// signal per unit, so we cap "saturation" at 3 mentions instead of 5.
 //
 // Two-pass: the reddit normalizer needs to see every repo's raw score
 // before it can divide by the corpus max, so we compute raw scores in
@@ -74,6 +85,15 @@ function blueskyComponent(fullName: string): number {
   return 0;
 }
 
+function devtoComponent(fullName: string): number {
+  const m = getDevtoMentions(fullName);
+  if (!m) return 0;
+  if (m.count7d >= 3) return 1.0;
+  if (m.count7d >= 2) return 0.7;
+  if (m.count7d >= 1) return 0.4;
+  return 0;
+}
+
 /**
  * Attach `crossSignalScore`, `channelsFiring`, and the `bluesky` rollup
  * to every repo.
@@ -98,12 +118,14 @@ export function attachCrossSignal(
     const rd = maxReddit > 0 ? redditRaw[i] / maxReddit : 0;
     const hn = hnComponent(repo.fullName);
     const bs = blueskyComponent(repo.fullName);
-    const score = gh + rd + hn + bs;
+    const dv = devtoComponent(repo.fullName);
+    const score = gh + rd + hn + bs + dv;
     const firing =
       (gh > 0 ? 1 : 0) +
       (rd > 0 ? 1 : 0) +
       (hn > 0 ? 1 : 0) +
-      (bs > 0 ? 1 : 0);
+      (bs > 0 ? 1 : 0) +
+      (dv > 0 ? 1 : 0);
 
     const bskyMention = getBlueskyMentions(repo.fullName);
     const bskyRollup = bskyMention
@@ -165,6 +187,7 @@ export interface ChannelStatus {
   reddit: boolean;
   hn: boolean;
   bluesky: boolean;
+  devto: boolean;
 }
 
 /** Minimal shape getChannelStatus needs — accepts a full Repo or any object
@@ -176,7 +199,7 @@ export type ChannelStatusTarget = Pick<Repo, "fullName"> & {
 };
 
 /**
- * Recompute per-channel boolean state for display. Used by the 4-dot
+ * Recompute per-channel boolean state for display. Used by the 5-dot
  * indicator. Mirrors the formula above so the indicator never disagrees
  * with the score (e.g. dots showing 2 lit but score implying 1).
  */
@@ -189,6 +212,7 @@ export function getChannelStatus(
     reddit: redditRawScore(target.fullName, nowMs) > 0,
     hn: hnComponent(target.fullName) > 0,
     bluesky: blueskyComponent(target.fullName) > 0,
+    devto: devtoComponent(target.fullName) > 0,
   };
 }
 
@@ -198,4 +222,5 @@ export const __test = {
   redditRawScore,
   hnComponent,
   blueskyComponent,
+  devtoComponent,
 };

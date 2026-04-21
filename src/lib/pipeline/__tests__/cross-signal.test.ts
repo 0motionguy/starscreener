@@ -4,7 +4,7 @@ import assert from "node:assert/strict";
 import type { Repo } from "../../types";
 import { attachCrossSignal, getChannelStatus, __test } from "../cross-signal";
 
-const { githubComponent, hnComponent, blueskyComponent } = __test;
+const { githubComponent, hnComponent, blueskyComponent, devtoComponent } = __test;
 
 // Minimal Repo factory — only the fields cross-signal touches need to be
 // real. Everything else gets dummy values that satisfy the type.
@@ -75,6 +75,22 @@ test("hnComponent: returns 0 for an unknown repo", () => {
 
 test("blueskyComponent: returns 0 for an unknown repo", () => {
   assert.equal(blueskyComponent("definitely/not-a-real-repo-bsky-123"), 0);
+});
+
+// ---------------------------------------------------------------------------
+// devtoComponent: tiered by count7d
+// ---------------------------------------------------------------------------
+
+test("devtoComponent: returns 0 for an unknown repo", () => {
+  assert.equal(devtoComponent("definitely/not-a-real-repo-devto-123"), 0);
+});
+
+test("devtoComponent: real repo with mentions ≥1 lights at least 0.4", () => {
+  // Pulled from live data: NousResearch/hermes-agent had count7d=3 on the
+  // first scraper run. If the data file rotates and this repo loses
+  // mentions later, swap for whichever leaderboard top-row currently exists.
+  const score = devtoComponent("NousResearch/hermes-agent");
+  assert.ok(score >= 0.4, `expected dev.to signal, got ${score}`);
 });
 
 // ---------------------------------------------------------------------------
@@ -156,6 +172,7 @@ test("getChannelStatus: stable + unknown repo lights nothing", () => {
     reddit: false,
     hn: false,
     bluesky: false,
+    devto: false,
   });
 });
 
@@ -169,9 +186,10 @@ test("getChannelStatus: hot status lights github", () => {
   assert.equal(status.reddit, false);
   assert.equal(status.hn, false);
   assert.equal(status.bluesky, false);
+  assert.equal(status.devto, false);
 });
 
-test("attachCrossSignal: score + firing range is 0-4 (four channels)", () => {
+test("attachCrossSignal: score + firing range is 0-5 (five channels)", () => {
   const repos = [
     makeRepo({
       fullName: "ghost/repo-breakout",
@@ -180,12 +198,12 @@ test("attachCrossSignal: score + firing range is 0-4 (four channels)", () => {
   ];
   const out = attachCrossSignal(repos);
   assert.ok(
-    (out[0].crossSignalScore ?? 0) <= 4.0,
-    `score must be in 0..4, got ${out[0].crossSignalScore}`,
+    (out[0].crossSignalScore ?? 0) <= 5.0,
+    `score must be in 0..5, got ${out[0].crossSignalScore}`,
   );
   assert.ok(
-    (out[0].channelsFiring ?? 0) <= 4,
-    `firing count must be in 0..4, got ${out[0].channelsFiring}`,
+    (out[0].channelsFiring ?? 0) <= 5,
+    `firing count must be in 0..5, got ${out[0].channelsFiring}`,
   );
 });
 

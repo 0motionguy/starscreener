@@ -1,7 +1,7 @@
 "use client";
 
-// ChannelDots — four small inline dots representing GitHub / Reddit / HN /
-// Bluesky channel state. Filled = component > 0; outlined = inactive.
+// ChannelDots — five small inline dots representing GitHub / Reddit / HN /
+// Bluesky / dev.to channel state. Filled = component > 0; outlined = inactive.
 //
 // Self-contained type so this can render anywhere a Repo is in scope
 // without forcing an import of src/lib/pipeline/cross-signal.ts (the
@@ -27,6 +27,7 @@ const CHANNEL_COLORS = {
   reddit: "#ff4500",  // canonical Reddit orange
   hn: "#ff6600",      // canonical HN orange
   bluesky: "#0085FF", // Bluesky blue
+  devto: "#0a0a0a",   // dev.to brand black
 };
 
 function buildTooltip(
@@ -38,7 +39,8 @@ function buildTooltip(
   labels.push(`Reddit: ${status.reddit ? "active" : "—"}`);
   labels.push(`HN: ${status.hn ? "active" : "—"}`);
   labels.push(`Bluesky: ${status.bluesky ? "active" : "—"}`);
-  return `${firing}/4 channels firing\n${labels.join(" · ")}`;
+  labels.push(`dev.to: ${status.devto ? "active" : "—"}`);
+  return `${firing}/5 channels firing\n${labels.join(" · ")}`;
 }
 
 export function ChannelDots({
@@ -51,7 +53,8 @@ export function ChannelDots({
     (status.github ? 1 : 0) +
     (status.reddit ? 1 : 0) +
     (status.hn ? 1 : 0) +
-    (status.bluesky ? 1 : 0);
+    (status.bluesky ? 1 : 0) +
+    (status.devto ? 1 : 0);
   if (firing === 0 && hideWhenEmpty) return null;
 
   const dotSize = size === "md" ? "w-2 h-2" : "w-1.5 h-1.5";
@@ -73,12 +76,13 @@ export function ChannelDots({
     <span
       className={`inline-flex items-center ${gap} shrink-0`}
       title={buildTooltip(status, firing)}
-      aria-label={`${firing} of 4 cross-signal channels firing`}
+      aria-label={`${firing} of 5 cross-signal channels firing`}
     >
       {dot(status.github, CHANNEL_COLORS.github)}
       {dot(status.reddit, CHANNEL_COLORS.reddit)}
       {dot(status.hn, CHANNEL_COLORS.hn)}
       {dot(status.bluesky, CHANNEL_COLORS.bluesky)}
+      {dot(status.devto, CHANNEL_COLORS.devto)}
     </span>
   );
 }

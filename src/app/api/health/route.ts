@@ -37,6 +37,7 @@ import {
 import { redditFetchedAt, redditCold } from "@/lib/reddit";
 import { blueskyFetchedAt, blueskyCold } from "@/lib/bluesky";
 import { producthuntFetchedAt, producthuntCold } from "@/lib/producthunt";
+import { devtoFetchedAt, devtoCold } from "@/lib/devto";
 
 // 2 hours ≈ 2× hourly GHA cadence. Stale past this means at least one tick
 // has missed; operator should be paged.
@@ -45,6 +46,8 @@ const RANKINGS_STALE_THRESHOLD_MS = 12 * 60 * 60 * 1000;
 // ProductHunt runs DAILY (not hourly) per its 100 req/hr rate limit. 26h
 // gives the daily cron 2h of slack before we flag as stale.
 const PRODUCTHUNT_STALE_THRESHOLD_MS = 26 * 60 * 60 * 1000;
+// dev.to runs DAILY too (lower-velocity source). Same 26h slack window.
+const DEVTO_STALE_THRESHOLD_MS = 26 * 60 * 60 * 1000;
 
 // Below this percent of repos having ≥1 non-null delta, the endpoint emits
 // a warning field. Expected during the first 30 days of accumulation.
@@ -66,6 +69,8 @@ interface HealthBody {
   blueskyCold: boolean;
   producthuntFetchedAt: string | null;
   producthuntCold: boolean;
+  devtoFetchedAt: string | null;
+  devtoCold: boolean;
   ageSeconds: {
     scraper: number | null;
     deltas: number | null;
@@ -76,11 +81,13 @@ interface HealthBody {
     reddit: number | null;
     bluesky: number | null;
     producthunt: number | null;
+    devto: number | null;
   };
   thresholdSeconds: {
     fastData: number;
     collectionRankings: number;
     producthunt: number;
+    devto: number;
   };
   stale: {
     scraper: boolean;
@@ -92,6 +99,7 @@ interface HealthBody {
     reddit: boolean;
     bluesky: boolean;
     producthunt: boolean;
+    devto: boolean;
   };
   coveragePct: number;
   /** 'full' = real deltas, 'partial' = cold-start, 'cold' = no data yet. */
@@ -125,6 +133,7 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
     const redditAge = ageMs(redditFetchedAt);
     const blueskyAge = ageMs(blueskyFetchedAt);
     const producthuntAge = ageMs(producthuntFetchedAt);
+    const devtoAge = ageMs(devtoFetchedAt);
 
     const scraperStale =
       scraperAge === null || scraperAge > FAST_DATA_STALE_THRESHOLD_MS;
@@ -154,6 +163,9 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
     const producthuntStale = !producthuntCold &&
       (producthuntAge === null ||
         producthuntAge > PRODUCTHUNT_STALE_THRESHOLD_MS);
+    // dev.to runs daily — same contract as ProductHunt.
+    const devtoStale = !devtoCold &&
+      (devtoAge === null || devtoAge > DEVTO_STALE_THRESHOLD_MS);
     const anyStale =
       scraperStale ||
       deltasStale ||
@@ -163,7 +175,8 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
       collectionRankingsStale ||
       redditStale ||
       blueskyStale ||
-      producthuntStale;
+      producthuntStale ||
+      devtoStale;
 
     const coverage = deltasCoveragePct();
     const coverageLow = coverage < COVERAGE_WARN_PCT;
@@ -186,6 +199,8 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
         ? null
         : (producthuntFetchedAt ?? null),
       producthuntCold,
+      devtoFetchedAt: devtoCold ? null : (devtoFetchedAt ?? null),
+      devtoCold,
       ageSeconds: {
         scraper: scraperAge === null ? null : Math.floor(scraperAge / 1000),
         deltas: deltasAge === null ? null : Math.floor(deltasAge / 1000),
@@ -205,11 +220,14 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
           producthuntCold || producthuntAge === null
             ? null
             : Math.floor(producthuntAge / 1000),
+        devto:
+          devtoCold || devtoAge === null ? null : Math.floor(devtoAge / 1000),
       },
       thresholdSeconds: {
         fastData: FAST_DATA_STALE_THRESHOLD_MS / 1000,
         collectionRankings: RANKINGS_STALE_THRESHOLD_MS / 1000,
         producthunt: PRODUCTHUNT_STALE_THRESHOLD_MS / 1000,
+        devto: DEVTO_STALE_THRESHOLD_MS / 1000,
       },
       stale: {
         scraper: scraperStale,
@@ -221,6 +239,7 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
         reddit: redditStale,
         bluesky: blueskyStale,
         producthunt: producthuntStale,
+        devto: devtoStale,
       },
       coveragePct: Math.round(coverage * 10) / 10,
       coverageQuality: quality,
@@ -257,6 +276,8 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
         blueskyCold: true,
         producthuntFetchedAt: null,
         producthuntCold: true,
+        devtoFetchedAt: null,
+        devtoCold: true,
         ageSeconds: {
           scraper: null,
           deltas: null,
@@ -267,11 +288,13 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
           reddit: null,
           bluesky: null,
           producthunt: null,
+          devto: null,
         },
         thresholdSeconds: {
           fastData: FAST_DATA_STALE_THRESHOLD_MS / 1000,
           collectionRankings: RANKINGS_STALE_THRESHOLD_MS / 1000,
           producthunt: PRODUCTHUNT_STALE_THRESHOLD_MS / 1000,
+          devto: DEVTO_STALE_THRESHOLD_MS / 1000,
         },
         stale: {
           scraper: true,
@@ -283,6 +306,7 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
           reddit: false,
           bluesky: false,
           producthunt: false,
+          devto: false,
         },
         coveragePct: 0,
         coverageQuality: "cold" as DeltaCoverageQuality,

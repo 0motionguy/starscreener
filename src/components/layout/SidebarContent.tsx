@@ -9,7 +9,6 @@
 import { usePathname, useRouter } from "next/navigation";
 import {
   Bookmark,
-  Cloud,
   GitCompareArrows,
   Layers,
   LineChart,
@@ -116,21 +115,17 @@ export function SidebarContent({
             }
           />
           <SidebarNavItem
-            href="/hackernews/trending"
+            href="/news?tab=hn"
             icon={Newspaper}
-            label="HackerNews"
+            label="News"
             active={
-              pathname === "/hackernews" ||
-              pathname.startsWith("/hackernews/")
-            }
-          />
-          <SidebarNavItem
-            href="/bluesky/trending"
-            icon={Cloud}
-            label="Bluesky"
-            active={
-              pathname === "/bluesky" ||
-              pathname.startsWith("/bluesky/")
+              pathname === "/news" ||
+              pathname.startsWith("/news/") ||
+              // Legacy per-source routes still live; highlight the News
+              // entry when the user lands on any of them so the sidebar
+              // stays honest about where they are.
+              pathname.startsWith("/hackernews") ||
+              pathname.startsWith("/bluesky")
             }
           />
           <SidebarNavItem

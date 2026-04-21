@@ -1,10 +1,367 @@
 {
-  "fetchedAt": "2026-04-21T10:48:32.614Z",
+  "fetchedAt": "2026-04-21T12:10:13.259Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
+    "cjpais/Handy": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mjyw56rige2s",
+        "cid": "bafyreihofvosjmhz4jkvxehan4qltzxgsh2p6alsu4qlo6o4rpolsxntlm",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mjyw56rige2s",
+        "text": "https://github.com/cjpais/Handy",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-21T11:50:41Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mjyw56rige2s",
+          "cid": "bafyreihofvosjmhz4jkvxehan4qltzxgsh2p6alsu4qlo6o4rpolsxntlm",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mjyw56rige2s",
+          "text": "https://github.com/cjpais/Handy",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-21T11:50:41Z",
+          "createdUtc": 1776772241,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "cjpais/Handy",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "Polymarket/rs-clob-client": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mjyvq4hfab24",
+        "cid": "bafyreid2y4bw7tfwpdlwigus5l3auxewmzyam7vvq23xm5c5od5jcbxhje",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mjyvq4hfab24",
+        "text": "Polymarket / rs-clob-client: Polymarket Rust CLOB Client ★676 https://github.com/Polymarket/rs-clob-client",
+        "author": {
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-21T11:43:22.673382Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mjyvq4hfab24",
+          "cid": "bafyreid2y4bw7tfwpdlwigus5l3auxewmzyam7vvq23xm5c5od5jcbxhje",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mjyvq4hfab24",
+          "text": "Polymarket / rs-clob-client: Polymarket Rust CLOB Client ★676 https://github.com/Polymarket/rs-clob-client",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-21T11:43:22.673382Z",
+          "createdUtc": 1776771802,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Polymarket/rs-clob-client",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "tahayvr/omarchist": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mjyvhomqcz24",
+        "cid": "bafyreigv4bd7g3ns4izkyhhhu6ak7hb64bpkmak3bbxgcygmsgcn4yawza",
+        "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mjyvhomqcz24",
+        "text": "Omarchy Linuxのテーマ作成やシステム設定をGUIで管理できるRust製のツールっぽい 直感的な操作でデスクトップ環境をカスタマイズしたいときに便利そう yug1224 starred tahayvr/omarchist https://github.com/tahayvr/omarchist",
+        "author": {
+          "handle": "yug1224.com",
+          "displayName": "ぷーじ"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-21T11:38:39.354Z",
+        "hoursSincePosted": 0.53
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mjyvhomqcz24",
+          "cid": "bafyreigv4bd7g3ns4izkyhhhu6ak7hb64bpkmak3bbxgcygmsgcn4yawza",
+          "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mjyvhomqcz24",
+          "text": "Omarchy Linuxのテーマ作成やシステム設定をGUIで管理できるRust製のツールっぽい 直感的な操作でデスクトップ環境をカスタマイズしたいときに便利そう yug1224 starred tahayvr/omarchist https://github.com/tahayvr/omarchist",
+          "author": {
+            "handle": "yug1224.com",
+            "displayName": "ぷーじ"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-21T11:38:39.354Z",
+          "createdUtc": 1776771519,
+          "ageHours": 0.53,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "tahayvr/omarchist",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "vercel-labs/skills": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:japxn32izumctww4fytbiutb/app.bsky.feed.post/3mjyvd6whik25",
+        "cid": "bafyreibm2tk4w3tw55kdaku2n564cu46cfq7d66fdytt2sublqtxfzyvae",
+        "bskyUrl": "https://bsky.app/profile/radiosuperb.bsky.social/post/3mjyvd6whik25",
+        "text": "github.com/vercel-labs/...",
+        "author": {
+          "handle": "radiosuperb.bsky.social",
+          "displayName": "Marc ON4AAX #HAMR #DX #ax25 #MultiLingual #TheOutpost #TSF"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-21T11:36:09.154Z",
+        "hoursSincePosted": 0.57
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:japxn32izumctww4fytbiutb/app.bsky.feed.post/3mjyvd6whik25",
+          "cid": "bafyreibm2tk4w3tw55kdaku2n564cu46cfq7d66fdytt2sublqtxfzyvae",
+          "bskyUrl": "https://bsky.app/profile/radiosuperb.bsky.social/post/3mjyvd6whik25",
+          "text": "github.com/vercel-labs/...",
+          "author": {
+            "handle": "radiosuperb.bsky.social",
+            "displayName": "Marc ON4AAX #HAMR #DX #ax25 #MultiLingual #TheOutpost #TSF"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-21T11:36:09.154Z",
+          "createdUtc": 1776771369,
+          "ageHours": 0.57,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "vercel-labs/skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "elder-plinius/OBLITERATUS": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mjyvbwmrey2t",
+        "cid": "bafyreieh6hjk3rtlc6gsqh4spjqj53c2pucovcnpsfsxjch53wlt7wbuve",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mjyvbwmrey2t",
+        "text": "https://github.com/elder-plinius/OBLITERATUS",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-21T11:35:26Z",
+        "hoursSincePosted": 0.58
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mjyvbwmrey2t",
+          "cid": "bafyreieh6hjk3rtlc6gsqh4spjqj53c2pucovcnpsfsxjch53wlt7wbuve",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mjyvbwmrey2t",
+          "text": "https://github.com/elder-plinius/OBLITERATUS",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-21T11:35:26Z",
+          "createdUtc": 1776771326,
+          "ageHours": 0.58,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "elder-plinius/OBLITERATUS",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "AMAP-ML/SkillClaw": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mjyuglyces2o",
+        "cid": "bafyreif5r7nmee2dvcfvvqzzitltzka2gier2qanylpsk2a257xeqeuy2u",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mjyuglyces2o",
+        "text": "https://github.com/AMAP-ML/SkillClaw",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-21T11:20:09Z",
+        "hoursSincePosted": 0.83
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mjyuglyces2o",
+          "cid": "bafyreif5r7nmee2dvcfvvqzzitltzka2gier2qanylpsk2a257xeqeuy2u",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mjyuglyces2o",
+          "text": "https://github.com/AMAP-ML/SkillClaw",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-21T11:20:09Z",
+          "createdUtc": 1776770409,
+          "ageHours": 0.83,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "AMAP-ML/SkillClaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "MemPalace/mempalace": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:g5jk7uwtzvmcwwrrfuywlsim/app.bsky.feed.post/3mjyu34fix22d",
+        "cid": "bafyreihtbgjqiosa5hbwnjsfpahb5pxcb4mavowlgrcs5vnxiz3rkktsc4",
+        "bskyUrl": "https://bsky.app/profile/fdoemges.bsky.social/post/3mjyu34fix22d",
+        "text": "Guck Dir dazu mal MemPalace an, entworfen von der Schauspielerin Milla Jovovich (die muss sich viel Texte merken, kennt sich aus) da ist viel davon berücksichtigt was Du hier aufzählst: github.com/MemPalace/me...",
+        "author": {
+          "handle": "fdoemges.bsky.social",
+          "displayName": "Florentine Dömges"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-21T11:13:44.325Z",
+        "hoursSincePosted": 0.94
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:g5jk7uwtzvmcwwrrfuywlsim/app.bsky.feed.post/3mjyu34fix22d",
+          "cid": "bafyreihtbgjqiosa5hbwnjsfpahb5pxcb4mavowlgrcs5vnxiz3rkktsc4",
+          "bskyUrl": "https://bsky.app/profile/fdoemges.bsky.social/post/3mjyu34fix22d",
+          "text": "Guck Dir dazu mal MemPalace an, entworfen von der Schauspielerin Milla Jovovich (die muss sich viel Texte merken, kennt sich aus) da ist viel davon berücksichtigt was Du hier aufzählst: github.com/MemPalace/me...",
+          "author": {
+            "handle": "fdoemges.bsky.social",
+            "displayName": "Florentine Dömges"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-21T11:13:44.325Z",
+          "createdUtc": 1776770024,
+          "ageHours": 0.94,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "MemPalace/mempalace",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "phuryn/claude-usage": {
       "count7d": 1,
       "likesSum7d": 2,
@@ -23,7 +380,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-21T11:20:02+02:00",
-        "hoursSincePosted": 1.48
+        "hoursSincePosted": 2.84
       },
       "posts": [
         {
@@ -40,7 +397,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-21T11:20:02+02:00",
           "createdUtc": 1776763202,
-          "ageHours": 1.48,
+          "ageHours": 2.84,
           "trendingScore": 2,
           "content_tags": [
             "has-github-repo"
@@ -58,7 +415,7 @@
     },
     "matthart1983/netwatch": {
       "count7d": 1,
-      "likesSum7d": 8,
+      "likesSum7d": 15,
       "repostsSum7d": 1,
       "repliesSum7d": 1,
       "topPost": {
@@ -70,11 +427,11 @@
           "handle": "orhun.dev",
           "displayName": "Orhun Parmaksız"
         },
-        "likeCount": 8,
+        "likeCount": 15,
         "repostCount": 1,
         "replyCount": 1,
         "createdAt": "2026-04-21T08:27:59.427Z",
-        "hoursSincePosted": 2.34
+        "hoursSincePosted": 3.7
       },
       "posts": [
         {
@@ -86,13 +443,13 @@
             "handle": "orhun.dev",
             "displayName": "Orhun Parmaksız"
           },
-          "likeCount": 8,
+          "likeCount": 15,
           "repostCount": 1,
           "replyCount": 1,
           "createdAt": "2026-04-21T08:27:59.427Z",
           "createdUtc": 1776760079,
-          "ageHours": 2.34,
-          "trendingScore": 10.5,
+          "ageHours": 3.7,
+          "trendingScore": 17.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -106,65 +463,13 @@
           ]
         }
       ]
-    },
-    "Tencent-Hunyuan/HY-World-2.0": {
-      "count7d": 1,
-      "likesSum7d": 2,
-      "repostsSum7d": 1,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:kxlkxipo2lid6pqmajvsxpxx/app.bsky.feed.post/3mjyevfwrhc2b",
-        "cid": "bafyreiernhhasxxnt6essncu4jlf6hv2yaowwypw5oyi7e6quzu6avau3y",
-        "bskyUrl": "https://bsky.app/profile/hydroxide.dev/post/3mjyevfwrhc2b",
-        "text": "Tencent released Hunyuan World 2.0 last week (text->image->3D mesh world and images->video->3DGS). Still very much a curiosity rather than a production-grade tool, but I like the fact that it's open weights and (apparently) runnable on local consumer hardware. github.com/Tencent-Huny...",
-        "author": {
-          "handle": "hydroxide.dev",
-          "displayName": "Nick Fisher"
-        },
-        "likeCount": 2,
-        "repostCount": 1,
-        "replyCount": 0,
-        "createdAt": "2026-04-21T06:42:06.872Z",
-        "hoursSincePosted": 4.11
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:kxlkxipo2lid6pqmajvsxpxx/app.bsky.feed.post/3mjyevfwrhc2b",
-          "cid": "bafyreiernhhasxxnt6essncu4jlf6hv2yaowwypw5oyi7e6quzu6avau3y",
-          "bskyUrl": "https://bsky.app/profile/hydroxide.dev/post/3mjyevfwrhc2b",
-          "text": "Tencent released Hunyuan World 2.0 last week (text->image->3D mesh world and images->video->3DGS). Still very much a curiosity rather than a production-grade tool, but I like the fact that it's open weights and (apparently) runnable on local consumer hardware. github.com/Tencent-Huny...",
-          "author": {
-            "handle": "hydroxide.dev",
-            "displayName": "Nick Fisher"
-          },
-          "likeCount": 2,
-          "repostCount": 1,
-          "replyCount": 0,
-          "createdAt": "2026-04-21T06:42:06.872Z",
-          "createdUtc": 1776753726,
-          "ageHours": 4.11,
-          "trendingScore": 4,
-          "content_tags": [
-            "has-github-repo",
-            "is-announcement"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "Tencent-Hunyuan/HY-World-2.0",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
     }
   },
   "leaderboard": [
     {
       "fullName": "matthart1983/netwatch",
       "count7d": 1,
-      "likesSum7d": 8
+      "likesSum7d": 15
     },
     {
       "fullName": "phuryn/claude-usage",
@@ -172,9 +477,39 @@
       "likesSum7d": 2
     },
     {
-      "fullName": "Tencent-Hunyuan/HY-World-2.0",
+      "fullName": "MemPalace/mempalace",
       "count7d": 1,
-      "likesSum7d": 2
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "vercel-labs/skills",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "AMAP-ML/SkillClaw",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "cjpais/Handy",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "elder-plinius/OBLITERATUS",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "Polymarket/rs-clob-client",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "tahayvr/omarchist",
+      "count7d": 1,
+      "likesSum7d": 0
     }
   ]
 }

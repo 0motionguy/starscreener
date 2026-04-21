@@ -62,6 +62,8 @@ export default function DevtoPage() {
 
   const totalArticles = trendingFile.articles.length;
   const reposLinked = leaderboard.length;
+  const sliceCount = trendingFile.discoverySlices?.length ?? 0;
+  const tagCount = trendingFile.priorityTags?.length ?? 0;
   const cold = totalArticles === 0 && reposLinked === 0;
 
   return (
@@ -80,10 +82,11 @@ export default function DevtoPage() {
           <p className="mt-2 text-sm text-text-secondary max-w-3xl">
             Top dev.to articles scraped via the public dev.to API and ranked by
             a velocity score that blends reactions, comments, and post age.
-            Article bodies are scanned for GitHub links so each piece is
-            cross-referenced back to the tracked repo set — useful for spotting
-            which projects are getting written-up in tutorial form, not just
-            starred.
+            Discovery now combines global popularity slices plus curated AI/dev
+            tag slices ({tagCount} tags, {sliceCount} total slices). Article
+            bodies are scanned for GitHub links so each piece is cross-referenced
+            back to the tracked repo set — useful for spotting which projects
+            are getting written-up in tutorial form, not just starred.
           </p>
         </header>
 
@@ -116,9 +119,13 @@ export default function DevtoPage() {
                 hint="github mentions in body/tags"
               />
               <StatTile
-                label="BODY MODE"
-                value={devtoBodyFetchMode}
-                hint="article body fetch strategy"
+                label="DISCOVERY"
+                value={sliceCount.toLocaleString()}
+                hint={
+                  sliceCount > 0
+                    ? `${tagCount} tags + rising/fresh + top`
+                    : devtoBodyFetchMode
+                }
               />
             </section>
 

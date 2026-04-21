@@ -1,9 +1,10 @@
 // /bluesky/trending — engagement-ranked Bluesky feed.
 //
 // Mirrors /hackernews/trending's rhythm: header strip, 4 stat tiles,
-// list below. v1 shows the top 50 posts merged across 5 AI keywords,
-// scored by likes + 2*reposts + 0.5*replies. Any post that linked to
-// a tracked github.com repo surfaces a clickable pill.
+// list below. Shows the top 50 posts merged across curated AI query
+// families (agents, LLMs, coding agents, MCP, workflow, etc.), scored
+// by likes + 2*reposts + 0.5*replies. Any post that linked to a tracked
+// github.com repo surfaces a clickable pill.
 
 import {
   BLUESKY_TRENDING_KEYWORDS,
@@ -45,6 +46,8 @@ export default function BlueskyTrendingPage() {
   const posts = getBlueskyTopPosts(50);
   const allPosts = trendingFile.posts;
   const reposLinked = getBlueskyLeaderboard().length;
+  const familyCount = trendingFile.queryFamilies?.length ?? BLUESKY_TRENDING_KEYWORDS.length;
+  const queryCount = trendingFile.queries?.length ?? BLUESKY_TRENDING_KEYWORDS.length;
   const cold = blueskyCold || allPosts.length === 0;
 
   return (
@@ -57,13 +60,15 @@ export default function BlueskyTrendingPage() {
               BLUESKY / ALL TRENDING
             </h1>
             <span className="text-xs text-text-tertiary">
-              {"// AT Protocol · 5 AI keywords · engagement-ranked"}
+              {"// AT Protocol · AI query families · engagement-ranked"}
             </span>
           </div>
           <p className="mt-2 text-sm text-text-secondary max-w-2xl">
-            Top posts from Bluesky searchPosts, deduped across five AI
-            keywords ({BLUESKY_TRENDING_KEYWORDS.map((k) => `"${k}"`).join(", ")})
-            and a parallel <code className="text-text-primary">github.com</code>{" "}
+            Top posts from Bluesky{" "}
+            <code className="text-text-primary">searchPosts</code>, deduped
+            across {queryCount} curated query slices in {familyCount} AI topic
+            families ({BLUESKY_TRENDING_KEYWORDS.map((k) => `"${k}"`).join(", ")})
+            plus a parallel <code className="text-text-primary">github.com</code>{" "}
             sweep that surfaces posts mentioning tracked repos. Score:{" "}
             <code className="text-text-primary">likes + 2·reposts + 0.5·replies</code>.
           </p>
@@ -86,11 +91,11 @@ export default function BlueskyTrendingPage() {
               <StatTile
                 label="POSTS TRACKED"
                 value={allPosts.length.toLocaleString()}
-                hint={`across ${BLUESKY_TRENDING_KEYWORDS.length} keywords`}
+                hint={`${queryCount} queries across ${familyCount} families`}
               />
               <StatTile
-                label="KEYWORDS"
-                value={BLUESKY_TRENDING_KEYWORDS.length.toLocaleString()}
+                label="TOPIC FAMILIES"
+                value={familyCount.toLocaleString()}
                 hint={BLUESKY_TRENDING_KEYWORDS.slice(0, 3).join(" · ")}
               />
               <StatTile
@@ -117,6 +122,7 @@ export default function BlueskyTrendingPage() {
                   const snippet =
                     p.text.length > 140 ? `${p.text.slice(0, 140)}…` : p.text;
                   const isHighSignal = p.likeCount >= 50 || p.repostCount >= 5;
+                  const topicLabel = p.matchedTopicLabel ?? p.matchedKeyword;
                   return (
                     <li
                       key={p.uri}
@@ -158,7 +164,7 @@ export default function BlueskyTrendingPage() {
                         </div>
                       </div>
                       <div>
-                        {p.matchedKeyword ? (
+                        {topicLabel ? (
                           <span
                             className="inline-flex items-center text-[10px] px-1.5 py-0.5 rounded border font-mono"
                             style={{
@@ -166,9 +172,13 @@ export default function BlueskyTrendingPage() {
                               borderColor: `${BSKY_BLUE}4D`,
                               backgroundColor: `${BSKY_BLUE}0D`,
                             }}
-                            title={`Matched keyword: ${p.matchedKeyword}`}
+                            title={
+                              p.matchedQuery
+                                ? `Matched topic: ${topicLabel} · query: ${p.matchedQuery}`
+                                : `Matched topic: ${topicLabel}`
+                            }
                           >
-                            {p.matchedKeyword}
+                            {topicLabel}
                           </span>
                         ) : (
                           <span className="text-text-tertiary text-[10px]">—</span>

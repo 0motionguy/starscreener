@@ -1,7 +1,7 @@
 // Bluesky loader — trending side.
 //
-// Reads data/bluesky-trending.json (top AI-keyword posts across 5
-// keywords, engagement-scored).
+// Reads data/bluesky-trending.json (top AI-topic posts across curated
+// query families, engagement-scored).
 //
 // Split from src/lib/bluesky.ts so client components that only need
 // per-repo mention badges don't pull the (larger) trending JSON into
@@ -63,9 +63,9 @@ export function getBlueskyTopPosts(
 }
 
 /**
- * Filter trending posts to a single keyword bucket (the keyword that
+ * Filter trending posts to a single bucket (the topic-family label that
  * surfaced the post on its originating searchPosts call). Useful for the
- * future /bluesky/<keyword> breakdown view.
+ * future /bluesky/<topic> breakdown view.
  */
 export function getBlueskyPostsByKeyword(
   keyword: string,

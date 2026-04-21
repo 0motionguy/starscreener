@@ -1,11 +1,34 @@
 import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
+import { dirname, resolve } from "node:path";
 import { test } from "node:test";
+import { fileURLToPath } from "node:url";
 import { normalizePost, isAiAdjacent } from "../scrape-producthunt.mjs";
 import {
   extractGithubLink,
   hasAiKeyword,
   daysBetween,
 } from "../_ph-shared.mjs";
+
+const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
+
+test("importing scrape-producthunt as a module does not run the scraper", () => {
+  const res = spawnSync(
+    process.execPath,
+    [
+      "--input-type=module",
+      "-e",
+      "import './scripts/scrape-producthunt.mjs'; console.log('imported');",
+    ],
+    {
+      cwd: REPO_ROOT,
+      env: { ...process.env, PRODUCTHUNT_TOKEN: "" },
+      encoding: "utf8",
+    },
+  );
+  assert.equal(res.status, 0, res.stderr);
+  assert.match(res.stdout, /imported/);
+});
 
 // ---------------------------------------------------------------------------
 // extractGithubLink
@@ -162,6 +185,18 @@ test("isAiAdjacent: 'artificial-intelligence' topic qualifies outright", () => {
       tagline: "",
       description: "",
       topics: ["artificial-intelligence"],
+      makers: [],
+    }),
+  );
+});
+
+test("isAiAdjacent: broad developer-tools topic still needs an AI keyword", () => {
+  assert.ok(
+    !isAiAdjacent({
+      name: "Build Log Viewer",
+      tagline: "Debug production deploys",
+      description: "A dashboard for logs and release notes",
+      topics: ["developer-tools"],
       makers: [],
     }),
   );

@@ -56,15 +56,19 @@ export function DevtoBadge({ mention, size = "sm" }: DevtoBadgeProps) {
     (mention.topArticle?.reactions ?? 0) >= 50 || mention.mentions7d >= 3;
   const fillClass = isHighSignal ? "bg-black/10 dark:bg-white/10" : "";
 
+  // <button> not <a> — these badges live inside parent <Link> rows.
+  // Nested <a> is invalid HTML and breaks Next hydration.
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      onClick={(e) => e.stopPropagation()}
+    <button
+      type="button"
+      onClick={(e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        window.open(href, "_blank", "noopener,noreferrer");
+      }}
       title={buildTooltip(mention)}
       aria-label={`${mention.mentions7d} dev.to tutorials${mention.topArticle ? `, top by @${mention.topArticle.author}` : ""}`}
-      className={`inline-flex items-center gap-1 rounded-md text-[10px] font-mono border transition-colors text-[#0a0a0a] dark:text-white border-[#0a0a0a]/30 dark:border-white/30 ${sizeClasses} ${fillClass}`}
+      className={`inline-flex items-center gap-1 rounded-md text-[10px] font-mono border transition-colors cursor-pointer text-[#0a0a0a] dark:text-white border-[#0a0a0a]/30 dark:border-white/30 ${sizeClasses} ${fillClass}`}
     >
       <span
         className="text-white dark:text-[#0a0a0a] text-[7px] font-extrabold w-3 h-3 leading-none rounded-sm flex items-center justify-center bg-[#0a0a0a] dark:bg-white"
@@ -73,7 +77,7 @@ export function DevtoBadge({ mention, size = "sm" }: DevtoBadgeProps) {
         DEV
       </span>
       {mention.mentions7d}
-    </a>
+    </button>
   );
 }
 

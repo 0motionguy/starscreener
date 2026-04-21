@@ -1,18 +1,29 @@
 // dev.to loader — trending side.
 //
 // Reads data/devto-trending.json (top-100 articles by velocity score,
-// last 7d). Split from src/lib/devto.ts so client components that only
-// need per-repo mention badges don't pull this larger trending JSON
-// into their bundle. The future /news dev.to tab imports from here.
+// last 7d, discovered via registry-driven popularity/state/tag slices).
+// Split from src/lib/devto.ts so client components that only need
+// per-repo mention badges don't pull this larger trending JSON into
+// their bundle. The future /news dev.to tab imports from here.
 
 import devtoTrendingData from "../../data/devto-trending.json";
 import type { DevtoArticle, DevtoBodyFetchMode } from "./devto";
 
 export interface DevtoTrendingFile {
   fetchedAt: string;
+  discoveryVersion?: string;
   windowDays: number;
   scannedArticles: number;
   bodyFetchMode: DevtoBodyFetchMode;
+  priorityTags?: string[];
+  discoverySlices?: Array<{
+    id: string;
+    label: string;
+    tag?: string;
+    top?: number;
+    state?: "fresh" | "rising" | "all";
+  }>;
+  sliceCounts?: Record<string, number>;
   articles: DevtoArticle[];
 }
 

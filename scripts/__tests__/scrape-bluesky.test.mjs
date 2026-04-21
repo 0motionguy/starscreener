@@ -1,5 +1,8 @@
 import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
+import { dirname, resolve } from "node:path";
 import { test } from "node:test";
+import { fileURLToPath } from "node:url";
 import {
   normalizeFullName,
   extractRepoMentions,
@@ -14,6 +17,27 @@ import {
   collectPostUrls,
 } from "../_bluesky-shared.mjs";
 
+const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
+
+test("importing scrape-bluesky as a module does not run the scraper", () => {
+  const res = spawnSync(
+    process.execPath,
+    [
+      "--input-type=module",
+      "-e",
+      "import './scripts/scrape-bluesky.mjs'; console.log('imported');",
+    ],
+    {
+      cwd: REPO_ROOT,
+      env: { ...process.env, BLUESKY_HANDLE: "", BLUESKY_APP_PASSWORD: "" },
+      encoding: "utf8",
+      timeout: 3000,
+    },
+  );
+  assert.equal(res.status, 0, res.stderr);
+  assert.match(res.stdout, /imported/);
+});
+
 // ---------------------------------------------------------------------------
 // normalizeFullName + extractRepoMentions (parity with HN helper contract)
 // ---------------------------------------------------------------------------
@@ -21,6 +45,7 @@ import {
 test("normalizeFullName: lowercases and strips .git + trailing punctuation", () => {
   assert.equal(normalizeFullName("OpenAI", "Gym"), "openai/gym");
   assert.equal(normalizeFullName("foo", "bar.git"), "foo/bar");
+  assert.equal(normalizeFullName("foo", "bar.git."), "foo/bar");
   assert.equal(normalizeFullName("a", "b,"), "a/b");
   assert.equal(normalizeFullName("a", "b)."), "a/b");
 });

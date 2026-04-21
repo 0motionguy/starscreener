@@ -41,15 +41,19 @@ export function PhBadge({ launch, size = "sm" }: PhBadgeProps) {
   const isHighSignal = launch.votesCount >= 200;
   const fillBg = isHighSignal ? `${PH_ORANGE}1A` : "transparent";
 
+  // <button> not <a> — these badges live inside parent <Link> rows.
+  // Nested <a> is invalid HTML and breaks Next hydration.
   return (
-    <a
-      href={launch.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      onClick={(e) => e.stopPropagation()}
+    <button
+      type="button"
+      onClick={(e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        window.open(launch.url, "_blank", "noopener,noreferrer");
+      }}
       title={buildTooltip(launch)}
       aria-label={`Launched on ProductHunt — ${launch.votesCount} votes, ${formatAge(launch.daysSinceLaunch)}`}
-      className={`inline-flex items-center gap-1 rounded-md font-mono text-[10px] border transition-colors ${sizeClasses}`}
+      className={`inline-flex items-center gap-1 rounded-md font-mono text-[10px] border transition-colors cursor-pointer ${sizeClasses}`}
       style={{
         color: PH_ORANGE,
         borderColor: `${PH_ORANGE}4D`,
@@ -65,7 +69,7 @@ export function PhBadge({ launch, size = "sm" }: PhBadgeProps) {
       </span>
       <span aria-hidden>▲</span>
       {launch.votesCount}
-    </a>
+    </button>
   );
 }
 

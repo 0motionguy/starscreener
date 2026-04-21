@@ -59,15 +59,20 @@ export function BskyBadge({ mention, size = "sm" }: BskyBadgeProps) {
     (mention.topPost?.likeCount ?? 0) >= 50 || mention.repostsSum7d >= 5;
   const fillClass = isHighSignal ? "bg-[#0085FF]/10" : "";
 
+  // <button> not <a> — these badges live inside parent <Link> rows
+  // (CrossSignalBreakouts, RepoCard, sidebar, terminal). Nested <a> is
+  // invalid HTML and breaks Next hydration.
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      onClick={(e) => e.stopPropagation()}
+    <button
+      type="button"
+      onClick={(e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        window.open(href, "_blank", "noopener,noreferrer");
+      }}
       title={buildTooltip(mention)}
       aria-label={`${mention.count7d} Bluesky mentions${mention.topPost ? `, top by @${mention.topPost.author.handle}` : ""}`}
-      className={`inline-flex items-center gap-1 rounded-md text-[10px] font-mono border transition-colors ${sizeClasses} ${fillClass}`}
+      className={`inline-flex items-center gap-1 rounded-md text-[10px] font-mono border transition-colors cursor-pointer ${sizeClasses} ${fillClass}`}
       style={{
         color: BSKY_BLUE,
         borderColor: `${BSKY_BLUE}4D`,
@@ -81,7 +86,7 @@ export function BskyBadge({ mention, size = "sm" }: BskyBadgeProps) {
         B
       </span>
       {mention.count7d}
-    </a>
+    </button>
   );
 }
 

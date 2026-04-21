@@ -17,14 +17,11 @@ test("getPhFile: returns a shaped payload with lastFetchedAt + launches array", 
   assert.ok(Array.isArray(file.launches));
 });
 
-test("producthuntFetchedAt is non-empty when launches exist", () => {
+test("producthuntCold only means missing scrape metadata, not an empty result set", () => {
   const file = getPhFile();
-  if (file.launches.length > 0) {
-    assert.ok(producthuntFetchedAt);
-    assert.equal(producthuntCold, false);
-  } else {
-    assert.equal(producthuntCold, true);
-  }
+  const expectedCold = !file.lastFetchedAt || !Array.isArray(file.launches);
+  assert.equal(producthuntCold, expectedCold);
+  if (!expectedCold) assert.ok(producthuntFetchedAt);
 });
 
 test("getLaunchForRepo: returns null for unknown repo", () => {

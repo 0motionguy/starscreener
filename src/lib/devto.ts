@@ -71,9 +71,19 @@ export type DevtoBodyFetchMode = "full" | "partial" | "description-only";
 
 export interface DevtoMentionsFile {
   fetchedAt: string;
+  discoveryVersion?: string;
   windowDays: number;
   scannedArticles: number;
   bodyFetchMode: DevtoBodyFetchMode;
+  priorityTags?: string[];
+  discoverySlices?: Array<{
+    id: string;
+    label: string;
+    tag?: string;
+    top?: number;
+    state?: "fresh" | "rising" | "all";
+  }>;
+  sliceCounts?: Record<string, number>;
   mentions: Record<string, DevtoRepoMention>;
   leaderboard: DevtoLeaderboardEntry[];
 }

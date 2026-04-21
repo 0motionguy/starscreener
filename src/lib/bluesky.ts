@@ -41,6 +41,9 @@ export interface BskyPost {
   ageHours?: number;
   trendingScore?: number;
   matchedKeyword?: string;
+  matchedQuery?: string;
+  matchedTopicId?: string;
+  matchedTopicLabel?: string;
   content_tags?: string[];
   value_score?: number;
   linkedRepos?: BskyLinkedRepo[];
@@ -86,8 +89,16 @@ export interface BskyMentionsFile {
 
 export interface BskyTrendingFile {
   fetchedAt: string;
+  discoveryVersion?: string;
   keywords: string[];
   keywordCounts: Record<string, number>;
+  queries?: string[];
+  queryCounts?: Record<string, number>;
+  queryFamilies?: Array<{
+    id: string;
+    label: string;
+    queries: string[];
+  }>;
   scannedPosts: number;
   posts: BskyPost[];
 }

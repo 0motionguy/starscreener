@@ -167,7 +167,7 @@ function TooltipBody({ data }: { data: BubbleTooltipData }) {
 
       {/* Footer hint */}
       <div className="text-text-muted text-[10px] uppercase tracking-wider pt-1.5 border-t border-border-primary/60">
-        // click bubble to filter feed
+        {"// click bubble to filter feed"}
       </div>
     </>
   );

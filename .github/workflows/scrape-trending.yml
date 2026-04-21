@@ -34,6 +34,16 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         run: node scripts/discover-recent-repos.mjs
 
+      - name: Refresh Reddit mentions
+        run: node scripts/scrape-reddit.mjs
+
+      - name: Refresh HackerNews trending + repo mentions
+        # Firebase + Algolia public endpoints — no auth needed. Writes
+        # data/hackernews-trending.json + data/hackernews-repo-mentions.json.
+        # Wired into the fast-refresh loop so HN mentions feed cross-signal
+        # on the same hourly cadence as Reddit (Sprint 1 finding #1).
+        run: node scripts/scrape-hackernews.mjs
+
       - name: Refresh GitHub repo metadata
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -46,7 +56,7 @@ jobs:
         run: |
           git config user.name  "starscreener-bot"
           git config user.email "bot@starscreener.local"
-          git add data/trending.json data/deltas.json data/hot-collections.json data/recent-repos.json data/repo-metadata.json
+          git add data/trending.json data/deltas.json data/hot-collections.json data/recent-repos.json data/repo-metadata.json data/reddit-mentions.json data/hackernews-trending.json data/hackernews-repo-mentions.json
           if git diff --quiet --staged; then
             echo "no changes - skipping commit"
             exit 0

@@ -36,6 +36,7 @@ import {
 } from "@/lib/repo-metadata";
 import { redditFetchedAt, redditCold } from "@/lib/reddit";
 import { blueskyFetchedAt, blueskyCold } from "@/lib/bluesky";
+import { hnFetchedAt, hnCold } from "@/lib/hackernews";
 import { producthuntFetchedAt, producthuntCold } from "@/lib/producthunt";
 import { devtoFetchedAt, devtoCold } from "@/lib/devto";
 
@@ -67,6 +68,8 @@ interface HealthBody {
   redditCold: boolean;
   blueskyFetchedAt: string | null;
   blueskyCold: boolean;
+  hnFetchedAt: string | null;
+  hnCold: boolean;
   producthuntFetchedAt: string | null;
   producthuntCold: boolean;
   devtoFetchedAt: string | null;
@@ -80,6 +83,7 @@ interface HealthBody {
     collectionRankings: number | null;
     reddit: number | null;
     bluesky: number | null;
+    hn: number | null;
     producthunt: number | null;
     devto: number | null;
   };
@@ -98,6 +102,7 @@ interface HealthBody {
     collectionRankings: boolean;
     reddit: boolean;
     bluesky: boolean;
+    hn: boolean;
     producthunt: boolean;
     devto: boolean;
   };
@@ -132,6 +137,7 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
     const collectionRankingsAge = ageMs(collectionRankingsFetchedAt);
     const redditAge = ageMs(redditFetchedAt);
     const blueskyAge = ageMs(blueskyFetchedAt);
+    const hnAge = ageMs(hnFetchedAt);
     const producthuntAge = ageMs(producthuntFetchedAt);
     const devtoAge = ageMs(devtoFetchedAt);
 
@@ -158,6 +164,11 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
     // only a committed scrape that's then fallen behind counts.
     const blueskyStale = !blueskyCold &&
       (blueskyAge === null || blueskyAge > FAST_DATA_STALE_THRESHOLD_MS);
+    // HN runs on the hourly fast-refresh workflow alongside Reddit/Bluesky.
+    // Cold = no data file yet; once a scrape lands, the 2h fast threshold
+    // applies. Sprint 1 finding #1.
+    const hnStale = !hnCold &&
+      (hnAge === null || hnAge > FAST_DATA_STALE_THRESHOLD_MS);
     // ProductHunt runs daily. Cold (never scraped) isn't stale; once data
     // lands, the 26h threshold kicks in.
     const producthuntStale = !producthuntCold &&
@@ -175,6 +186,7 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
       collectionRankingsStale ||
       redditStale ||
       blueskyStale ||
+      hnStale ||
       producthuntStale ||
       devtoStale;
 
@@ -195,6 +207,8 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
       redditCold,
       blueskyFetchedAt: blueskyCold ? null : (blueskyFetchedAt ?? null),
       blueskyCold,
+      hnFetchedAt: hnCold ? null : (hnFetchedAt ?? null),
+      hnCold,
       producthuntFetchedAt: producthuntCold
         ? null
         : (producthuntFetchedAt ?? null),
@@ -216,6 +230,8 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
           redditCold || redditAge === null ? null : Math.floor(redditAge / 1000),
         bluesky:
           blueskyCold || blueskyAge === null ? null : Math.floor(blueskyAge / 1000),
+        hn:
+          hnCold || hnAge === null ? null : Math.floor(hnAge / 1000),
         producthunt:
           producthuntCold || producthuntAge === null
             ? null
@@ -238,6 +254,7 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
         collectionRankings: collectionRankingsStale,
         reddit: redditStale,
         bluesky: blueskyStale,
+        hn: hnStale,
         producthunt: producthuntStale,
         devto: devtoStale,
       },
@@ -274,6 +291,8 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
         redditCold: true,
         blueskyFetchedAt: null,
         blueskyCold: true,
+        hnFetchedAt: null,
+        hnCold: true,
         producthuntFetchedAt: null,
         producthuntCold: true,
         devtoFetchedAt: null,
@@ -287,6 +306,7 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
           collectionRankings: null,
           reddit: null,
           bluesky: null,
+          hn: null,
           producthunt: null,
           devto: null,
         },
@@ -305,6 +325,7 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
           collectionRankings: true,
           reddit: false,
           bluesky: false,
+          hn: false,
           producthunt: false,
           devto: false,
         },

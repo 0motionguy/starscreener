@@ -13,10 +13,18 @@ const nextConfig: NextConfig = {
   // output: "standalone",
   poweredByHeader: false,
   compress: true,
-  // 308-redirect the pre-launch Vercel URL to the canonical domain so
-  // inbound links from before the rename land on trendingrepo.com.
+  // Canonical host = apex (trendingrepo.com). Every other host attached to
+  // this project 308s to the apex so Google + shared links consolidate on
+  // one URL. The redirect ships with the build, so there's no DNS/dashboard
+  // coupling — if we add a host, add it here.
   async redirects() {
     return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.trendingrepo.com" }],
+        destination: "https://trendingrepo.com/:path*",
+        permanent: true,
+      },
       {
         source: "/:path*",
         has: [{ type: "host", value: "starscreener.vercel.app" }],

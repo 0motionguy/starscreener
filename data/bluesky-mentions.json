@@ -1,13 +1,141 @@
 {
-  "fetchedAt": "2026-04-21T23:00:23.087Z",
+  "fetchedAt": "2026-04-21T23:52:34.830Z",
   "windowDays": 7,
   "scannedPosts": 299,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
+    "ggml-org/llama.cpp": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mk24jrssgy2x",
+        "cid": "bafyreigepu6t4ewprb6aavblw352bfpnd5ruc4sdnkkkdsaock6zflezzi",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mk24jrssgy2x",
+        "text": "🟠 llama.cpp b8873 lands OpenVINO NPU optimizations and lower-memory local inference llama.cpp b8873 adds a substantial OpenVINO backend update with thread-safety fixes, NPU optimizations, direct i4/i8 symmetric quant... https://github.com/ggml-org/llama.cpp/releases/tag/b8873 #AI #AgentWyre",
+        "author": {
+          "handle": "agentwyre.ai"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-21T23:17:45.487688+00:00",
+        "hoursSincePosted": 0.58
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mk24jrssgy2x",
+          "cid": "bafyreigepu6t4ewprb6aavblw352bfpnd5ruc4sdnkkkdsaock6zflezzi",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mk24jrssgy2x",
+          "text": "🟠 llama.cpp b8873 lands OpenVINO NPU optimizations and lower-memory local inference llama.cpp b8873 adds a substantial OpenVINO backend update with thread-safety fixes, NPU optimizations, direct i4/i8 symmetric quant... https://github.com/ggml-org/llama.cpp/releases/tag/b8873 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-21T23:17:45.487688+00:00",
+          "createdUtc": 1776813465,
+          "ageHours": 0.58,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ggml-org/llama.cpp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "supermemoryai/supermemory": {
+      "count7d": 2,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:o2emdvvgo6ov7r4gpljdordf/app.bsky.feed.post/3mk23t3bqiq2v",
+        "cid": "bafyreihqtihps22lj7vszugqijmdrrkmcgpzxilnzcqr5iil7m5gz5mysi",
+        "bskyUrl": "https://bsky.app/profile/hatena-bookmark.bsky.social/post/3mk23t3bqiq2v",
+        "text": "#🔖テクノロジー GitHub - supermemoryai/supermemory: Memory engine and app that is extremely fast, scalable. The Memory API for the AI era. State-of-the-art memory and context engine for AI. Docs · Quickstart · Dashboard · Discord Supermemory is the memory and https://github.com/supermemoryai/supermemory",
+        "author": {
+          "handle": "hatena-bookmark.bsky.social",
+          "displayName": "はてなブックマーク 人気エントリー"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-21T23:05:04.141129+00:00",
+        "hoursSincePosted": 0.79
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:o2emdvvgo6ov7r4gpljdordf/app.bsky.feed.post/3mk23t3bqiq2v",
+          "cid": "bafyreihqtihps22lj7vszugqijmdrrkmcgpzxilnzcqr5iil7m5gz5mysi",
+          "bskyUrl": "https://bsky.app/profile/hatena-bookmark.bsky.social/post/3mk23t3bqiq2v",
+          "text": "#🔖テクノロジー GitHub - supermemoryai/supermemory: Memory engine and app that is extremely fast, scalable. The Memory API for the AI era. State-of-the-art memory and context engine for AI. Docs · Quickstart · Dashboard · Discord Supermemory is the memory and https://github.com/supermemoryai/supermemory",
+          "author": {
+            "handle": "hatena-bookmark.bsky.social",
+            "displayName": "はてなブックマーク 人気エントリー"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-21T23:05:04.141129+00:00",
+          "createdUtc": 1776812704,
+          "ageHours": 0.79,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "supermemoryai/supermemory",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3mk24dtqu532r",
+          "cid": "bafyreiewqbdvdiqfgxf3hwh4tygw6fsxlsamfuhjynndgi55tnca4dtfq4",
+          "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3mk24dtqu532r",
+          "text": "GitHub - supermemoryai/supermemory: Memory engine and app that is extremely fast, scalable. The Memory API for the AI era. https://github.com/supermemoryai/supermemory",
+          "author": {
+            "handle": "tech-trending.bsky.social",
+            "displayName": "Tech Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-21T23:14:26.873Z",
+          "createdUtc": 1776813266,
+          "ageHours": 0.64,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "supermemoryai/supermemory",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "tailscale/tailscale-rs": {
       "count7d": 1,
-      "likesSum7d": 18,
+      "likesSum7d": 22,
       "repostsSum7d": 1,
       "repliesSum7d": 1,
       "topPost": {
@@ -19,11 +147,11 @@
           "handle": "ncameron.org",
           "displayName": "nrc"
         },
-        "likeCount": 18,
+        "likeCount": 22,
         "repostCount": 1,
         "replyCount": 1,
         "createdAt": "2026-04-21T21:45:32.118Z",
-        "hoursSincePosted": 1.25
+        "hoursSincePosted": 2.12
       },
       "posts": [
         {
@@ -35,13 +163,13 @@
             "handle": "ncameron.org",
             "displayName": "nrc"
           },
-          "likeCount": 18,
+          "likeCount": 22,
           "repostCount": 1,
           "replyCount": 1,
           "createdAt": "2026-04-21T21:45:32.118Z",
           "createdUtc": 1776807932,
-          "ageHours": 1.25,
-          "trendingScore": 20.5,
+          "ageHours": 2.12,
+          "trendingScore": 24.5,
           "content_tags": [
             "has-github-repo",
             "is-announcement"
@@ -75,7 +203,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-04-21T21:15:01.460Z",
-        "hoursSincePosted": 1.76
+        "hoursSincePosted": 2.63
       },
       "posts": [
         {
@@ -92,7 +220,7 @@
           "replyCount": 1,
           "createdAt": "2026-04-21T21:15:01.460Z",
           "createdUtc": 1776806101,
-          "ageHours": 1.76,
+          "ageHours": 2.63,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -126,7 +254,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-21T21:14:48Z",
-        "hoursSincePosted": 1.76
+        "hoursSincePosted": 2.63
       },
       "posts": [
         {
@@ -143,7 +271,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-21T21:14:48Z",
           "createdUtc": 1776806088,
-          "ageHours": 1.76,
+          "ageHours": 2.63,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -161,7 +289,7 @@
     },
     "emdash-cms/emdash": {
       "count7d": 2,
-      "likesSum7d": 18,
+      "likesSum7d": 20,
       "repostsSum7d": 0,
       "repliesSum7d": 2,
       "topPost": {
@@ -173,11 +301,11 @@
           "handle": "jimray.locket.computer",
           "displayName": "Jim Ray"
         },
-        "likeCount": 18,
+        "likeCount": 20,
         "repostCount": 0,
         "replyCount": 2,
         "createdAt": "2026-04-21T18:45:38.333Z",
-        "hoursSincePosted": 4.25
+        "hoursSincePosted": 5.12
       },
       "posts": [
         {
@@ -189,13 +317,13 @@
             "handle": "jimray.locket.computer",
             "displayName": "Jim Ray"
           },
-          "likeCount": 18,
+          "likeCount": 20,
           "repostCount": 0,
           "replyCount": 2,
           "createdAt": "2026-04-21T18:45:38.333Z",
           "createdUtc": 1776797138,
-          "ageHours": 4.25,
-          "trendingScore": 19,
+          "ageHours": 5.12,
+          "trendingScore": 21,
           "content_tags": [
             "has-github-repo",
             "has-md-file"
@@ -223,7 +351,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-21T21:05:09.105Z",
           "createdUtc": 1776805509,
-          "ageHours": 1.92,
+          "ageHours": 2.79,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -257,7 +385,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-21T20:20:28.000Z",
-        "hoursSincePosted": 2.67
+        "hoursSincePosted": 3.54
       },
       "posts": [
         {
@@ -274,7 +402,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-21T20:20:28.000Z",
           "createdUtc": 1776802828,
-          "ageHours": 2.67,
+          "ageHours": 3.54,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -307,7 +435,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-21T20:20:15.153023+00:00",
-        "hoursSincePosted": 2.67
+        "hoursSincePosted": 3.54
       },
       "posts": [
         {
@@ -323,7 +451,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-21T20:20:15.153023+00:00",
           "createdUtc": 1776802815,
-          "ageHours": 2.67,
+          "ageHours": 3.54,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -358,7 +486,7 @@
         "repostCount": 2,
         "replyCount": 0,
         "createdAt": "2026-04-21T19:30:44.000Z",
-        "hoursSincePosted": 3.49
+        "hoursSincePosted": 4.36
       },
       "posts": [
         {
@@ -375,7 +503,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-21T19:30:44.000Z",
           "createdUtc": 1776799844,
-          "ageHours": 3.49,
+          "ageHours": 4.36,
           "trendingScore": 7,
           "content_tags": [
             "has-github-repo"
@@ -393,8 +521,8 @@
     },
     "Yellow-Dog-Man/Renderite": {
       "count7d": 1,
-      "likesSum7d": 51,
-      "repostsSum7d": 18,
+      "likesSum7d": 52,
+      "repostsSum7d": 19,
       "repliesSum7d": 3,
       "topPost": {
         "uri": "at://did:plc:de3lh6vnzng6vnou2fhevu42/app.bsky.feed.post/3mjzm2qnwmc2k",
@@ -405,11 +533,11 @@
           "handle": "frooxius.bsky.social",
           "displayName": "Frooxius"
         },
-        "likeCount": 51,
-        "repostCount": 18,
+        "likeCount": 52,
+        "repostCount": 19,
         "replyCount": 3,
         "createdAt": "2026-04-21T18:23:01.821Z",
-        "hoursSincePosted": 4.62
+        "hoursSincePosted": 5.49
       },
       "posts": [
         {
@@ -421,13 +549,13 @@
             "handle": "frooxius.bsky.social",
             "displayName": "Frooxius"
           },
-          "likeCount": 51,
-          "repostCount": 18,
+          "likeCount": 52,
+          "repostCount": 19,
           "replyCount": 3,
           "createdAt": "2026-04-21T18:23:01.821Z",
           "createdUtc": 1776795781,
-          "ageHours": 4.62,
-          "trendingScore": 88.5,
+          "ageHours": 5.49,
+          "trendingScore": 91.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -447,22 +575,27 @@
     {
       "fullName": "Yellow-Dog-Man/Renderite",
       "count7d": 1,
-      "likesSum7d": 51
-    },
-    {
-      "fullName": "emdash-cms/emdash",
-      "count7d": 2,
-      "likesSum7d": 18
+      "likesSum7d": 52
     },
     {
       "fullName": "tailscale/tailscale-rs",
       "count7d": 1,
-      "likesSum7d": 18
+      "likesSum7d": 22
+    },
+    {
+      "fullName": "emdash-cms/emdash",
+      "count7d": 2,
+      "likesSum7d": 20
     },
     {
       "fullName": "basecamp/once",
       "count7d": 1,
       "likesSum7d": 3
+    },
+    {
+      "fullName": "supermemoryai/supermemory",
+      "count7d": 2,
+      "likesSum7d": 1
     },
     {
       "fullName": "jj-vcs/jj",
@@ -476,6 +609,11 @@
     },
     {
       "fullName": "getpaseo/paseo",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "ggml-org/llama.cpp",
       "count7d": 1,
       "likesSum7d": 0
     },

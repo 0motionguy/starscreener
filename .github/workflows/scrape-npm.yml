@@ -1,0 +1,44 @@
+name: Refresh npm package telemetry
+
+on:
+  schedule:
+    - cron: "17 9 * * *" # daily; npm download stats lag by 24-48h
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: npm-refresh
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Scrape npm packages
+        run: node scripts/scrape-npm.mjs
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "starscreener-bot"
+          git config user.email "bot@starscreener.local"
+          git add data/npm-packages.json
+          if git diff --quiet --staged; then
+            echo "no changes - skipping commit"
+            exit 0
+          fi
+          TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          git commit -m "chore(data): refresh npm package telemetry ${TS}"
+          git pull --rebase origin main
+          git push

@@ -12,6 +12,7 @@ import {
   Flame,
   GitCompareArrows,
   Layers,
+  Package,
   Radar,
   Rocket,
   Sparkles,
@@ -253,7 +254,17 @@ export function SidebarContent({
           />
         </SidebarSection>
 
-        {/* LENSES — ways to view the corpus --------------------------- */}
+        {/* NPM TERMINAL - package registry adoption telemetry ---------- */}
+        <SidebarSection id="npm-terminal" label="NPM Terminal">
+          <SidebarNavItem
+            href="/npm"
+            icon={Package}
+            label="Packages"
+            active={pathname === "/npm" || pathname.startsWith("/npm/")}
+          />
+        </SidebarSection>
+
+        {/* LENSES - ways to view the corpus --------------------------- */}
         <SidebarSection id="lenses" label="Lenses">
           <SidebarNavItem
             href="/breakouts"

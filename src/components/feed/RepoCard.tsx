@@ -17,6 +17,8 @@ import { getBlueskyMentions } from "@/lib/bluesky";
 import { PhBadge } from "@/components/producthunt/PhBadge";
 import { getLaunchForRepo } from "@/lib/producthunt";
 import { DevtoBadge } from "@/components/devto/DevtoBadge";
+import { NpmBadge } from "@/components/npm/NpmBadge";
+import { getNpmPackagesForRepo } from "@/lib/npm";
 
 interface RepoCardProps {
   repo: Repo;
@@ -54,6 +56,7 @@ export function RepoCard({ repo, index = 0, showRank = false }: RepoCardProps) {
         <BskyBadge mention={getBlueskyMentions(repo.fullName)} size="sm" />
         <PhBadge launch={getLaunchForRepo(repo.fullName)} size="sm" />
         <DevtoBadge mention={repo.devto ?? null} size="sm" />
+        <NpmBadge packages={getNpmPackagesForRepo(repo.fullName)} size="sm" />
         <div className="ml-auto shrink-0">
           <CategoryPill categoryId={repo.categoryId} size="sm" />
         </div>

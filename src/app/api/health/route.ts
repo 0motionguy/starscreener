@@ -40,6 +40,7 @@ import { hnFetchedAt, hnCold } from "@/lib/hackernews";
 import { producthuntFetchedAt, producthuntCold } from "@/lib/producthunt";
 import { devtoFetchedAt, devtoCold } from "@/lib/devto";
 import { lobstersFetchedAt, lobstersCold } from "@/lib/lobsters";
+import { npmFetchedAt, npmCold } from "@/lib/npm";
 
 // 2 hours ≈ 2× hourly GHA cadence. Stale past this means at least one tick
 // has missed; operator should be paged.
@@ -50,6 +51,9 @@ const RANKINGS_STALE_THRESHOLD_MS = 12 * 60 * 60 * 1000;
 const PRODUCTHUNT_STALE_THRESHOLD_MS = 26 * 60 * 60 * 1000;
 // dev.to runs DAILY too (lower-velocity source). Same 26h slack window.
 const DEVTO_STALE_THRESHOLD_MS = 26 * 60 * 60 * 1000;
+// npm download stats lag 24-48h. The scrape itself is daily, so a 50h
+// gate catches a stuck workflow without paging on npm's own reporting lag.
+const NPM_STALE_THRESHOLD_MS = 50 * 60 * 60 * 1000;
 
 // Below this percent of repos having ≥1 non-null delta, the endpoint emits
 // a warning field. Expected during the first 30 days of accumulation.
@@ -77,6 +81,8 @@ interface HealthBody {
   devtoCold: boolean;
   lobstersFetchedAt: string | null;
   lobstersCold: boolean;
+  npmFetchedAt: string | null;
+  npmCold: boolean;
   ageSeconds: {
     scraper: number | null;
     deltas: number | null;
@@ -90,12 +96,14 @@ interface HealthBody {
     producthunt: number | null;
     devto: number | null;
     lobsters: number | null;
+    npm: number | null;
   };
   thresholdSeconds: {
     fastData: number;
     collectionRankings: number;
     producthunt: number;
     devto: number;
+    npm: number;
   };
   stale: {
     scraper: boolean;
@@ -110,6 +118,7 @@ interface HealthBody {
     producthunt: boolean;
     devto: boolean;
     lobsters: boolean;
+    npm: boolean;
   };
   coveragePct: number;
   /** 'full' = real deltas, 'partial' = cold-start, 'cold' = no data yet. */
@@ -146,6 +155,7 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
     const producthuntAge = ageMs(producthuntFetchedAt);
     const devtoAge = ageMs(devtoFetchedAt);
     const lobstersAge = ageMs(lobstersFetchedAt);
+    const npmAge = ageMs(npmFetchedAt);
 
     const scraperStale =
       scraperAge === null || scraperAge > FAST_DATA_STALE_THRESHOLD_MS;
@@ -187,6 +197,8 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
     // once a scrape has landed. Cold = never committed.
     const lobstersStale = !lobstersCold &&
       (lobstersAge === null || lobstersAge > FAST_DATA_STALE_THRESHOLD_MS);
+    const npmStale = !npmCold &&
+      (npmAge === null || npmAge > NPM_STALE_THRESHOLD_MS);
     const anyStale =
       scraperStale ||
       deltasStale ||
@@ -199,7 +211,8 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
       hnStale ||
       producthuntStale ||
       devtoStale ||
-      lobstersStale;
+      lobstersStale ||
+      npmStale;
 
     const coverage = deltasCoveragePct();
     const coverageLow = coverage < COVERAGE_WARN_PCT;
@@ -228,6 +241,8 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
       devtoCold,
       lobstersFetchedAt: lobstersCold ? null : (lobstersFetchedAt ?? null),
       lobstersCold,
+      npmFetchedAt: npmCold ? null : (npmFetchedAt ?? null),
+      npmCold,
       ageSeconds: {
         scraper: scraperAge === null ? null : Math.floor(scraperAge / 1000),
         deltas: deltasAge === null ? null : Math.floor(deltasAge / 1000),
@@ -255,12 +270,15 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
           lobstersCold || lobstersAge === null
             ? null
             : Math.floor(lobstersAge / 1000),
+        npm:
+          npmCold || npmAge === null ? null : Math.floor(npmAge / 1000),
       },
       thresholdSeconds: {
         fastData: FAST_DATA_STALE_THRESHOLD_MS / 1000,
         collectionRankings: RANKINGS_STALE_THRESHOLD_MS / 1000,
         producthunt: PRODUCTHUNT_STALE_THRESHOLD_MS / 1000,
         devto: DEVTO_STALE_THRESHOLD_MS / 1000,
+        npm: NPM_STALE_THRESHOLD_MS / 1000,
       },
       stale: {
         scraper: scraperStale,
@@ -275,6 +293,7 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
         producthunt: producthuntStale,
         devto: devtoStale,
         lobsters: lobstersStale,
+        npm: npmStale,
       },
       coveragePct: Math.round(coverage * 10) / 10,
       coverageQuality: quality,
@@ -317,6 +336,8 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
         devtoCold: true,
         lobstersFetchedAt: null,
         lobstersCold: true,
+        npmFetchedAt: null,
+        npmCold: true,
         ageSeconds: {
           scraper: null,
           deltas: null,
@@ -330,12 +351,14 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
           producthunt: null,
           devto: null,
           lobsters: null,
+          npm: null,
         },
         thresholdSeconds: {
           fastData: FAST_DATA_STALE_THRESHOLD_MS / 1000,
           collectionRankings: RANKINGS_STALE_THRESHOLD_MS / 1000,
           producthunt: PRODUCTHUNT_STALE_THRESHOLD_MS / 1000,
           devto: DEVTO_STALE_THRESHOLD_MS / 1000,
+          npm: NPM_STALE_THRESHOLD_MS / 1000,
         },
         stale: {
           scraper: true,
@@ -350,6 +373,7 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
           producthunt: false,
           devto: false,
           lobsters: false,
+          npm: false,
         },
         coveragePct: 0,
         coverageQuality: "cold" as DeltaCoverageQuality,

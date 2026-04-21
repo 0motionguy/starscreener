@@ -9,13 +9,24 @@
  * inset-left rail in the functional accent color.
  */
 import Link from "next/link";
-import type { LucideIcon } from "lucide-react";
+import type { ComponentType } from "react";
 import { cn } from "@/lib/utils";
+
+/**
+ * Any React icon component that accepts `className` + optional `size`.
+ * Wide enough to cover Lucide icons (stroke-based) AND the BrandIcons
+ * family (fill-based SVGs with `currentColor` in monochrome mode), so
+ * sidebar rows can mix the two without an adapter layer.
+ */
+export type SidebarIconComponent = ComponentType<{
+  className?: string;
+  size?: number;
+}>;
 
 export interface SidebarNavItemProps {
   href?: string;
   onClick?: () => void;
-  icon: LucideIcon;
+  icon: SidebarIconComponent;
   label: string;
   badge?: string | number;
   badgeVariant?: "default" | "accent" | "danger";
@@ -85,7 +96,6 @@ export function SidebarNavItem({
           "w-4 h-4 shrink-0",
           active ? "text-functional" : "text-text-tertiary",
         )}
-        strokeWidth={2}
       />
       <span className="flex-1 truncate text-left">{label}</span>
       {badge !== undefined && badge !== null && badge !== "" && (

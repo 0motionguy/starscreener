@@ -178,6 +178,191 @@ export function extractGithubLink(text) {
   return null;
 }
 
+const X_HOSTS = new Set([
+  "x.com",
+  "www.x.com",
+  "twitter.com",
+  "www.twitter.com",
+  "mobile.twitter.com",
+  "mobile.x.com",
+]);
+
+const RESERVED_X_PATHS = new Set([
+  "home",
+  "search",
+  "explore",
+  "hashtag",
+  "i",
+  "intent",
+  "share",
+  "compose",
+  "messages",
+  "notifications",
+  "settings",
+  "login",
+]);
+
+const URL_ATTR_RE = /\b(?:href|content)\s*=\s*["']([^"'#][^"']*)["']/gi;
+const ABSOLUTE_URL_RE = /https?:\/\/[^\s"'<>`\\]+/gi;
+const DISCOVER_TIMEOUT_MS = 8000;
+const DISCOVER_HTML_LIMIT = 250_000;
+
+function stripTrailingPunctuation(value) {
+  return String(value ?? "").replace(/[),.;:!?]+$/, "");
+}
+
+export function normalizeGithubUrl(raw) {
+  if (!raw || typeof raw !== "string") return null;
+  let parsed;
+  try {
+    parsed = new URL(raw);
+  } catch {
+    return null;
+  }
+
+  const host = parsed.hostname.toLowerCase();
+  if (host !== "github.com" && host !== "www.github.com") return null;
+
+  const segments = parsed.pathname
+    .split("/")
+    .map((segment) => segment.trim())
+    .filter(Boolean);
+  if (segments.length < 2) return null;
+
+  const owner = segments[0] ?? "";
+  const repo = stripTrailingPunctuation(segments[1] ?? "").replace(/\.git$/i, "");
+  if (!owner || !repo) return null;
+  if (RESERVED_GITHUB_OWNERS.has(owner.toLowerCase())) return null;
+
+  return `https://github.com/${owner}/${repo}`;
+}
+
+export function normalizeXUrl(raw) {
+  if (!raw || typeof raw !== "string") return null;
+  let parsed;
+  try {
+    parsed = new URL(raw);
+  } catch {
+    return null;
+  }
+
+  const host = parsed.hostname.toLowerCase();
+  if (!X_HOSTS.has(host)) return null;
+
+  const segments = parsed.pathname
+    .split("/")
+    .map((segment) => segment.trim())
+    .filter(Boolean);
+  if (segments.length < 1) return null;
+
+  const handle = (segments[0] ?? "").replace(/^@+/, "");
+  if (!handle) return null;
+  if (RESERVED_X_PATHS.has(handle.toLowerCase())) return null;
+
+  if ((segments[1] ?? "").toLowerCase() === "status" && segments[2]) {
+    const statusId = stripTrailingPunctuation(segments[2]);
+    if (!statusId) return null;
+    return `https://x.com/${handle}/status/${statusId}`;
+  }
+
+  return `https://x.com/${handle}`;
+}
+
+export function extractXLink(text) {
+  if (!text || typeof text !== "string") return null;
+  const scan = text.replace(/\\\//g, "/");
+  ABSOLUTE_URL_RE.lastIndex = 0;
+  let match;
+  while ((match = ABSOLUTE_URL_RE.exec(scan)) !== null) {
+    const candidate = stripTrailingPunctuation(match[0] ?? "");
+    const normalized = normalizeXUrl(candidate);
+    if (normalized) return normalized;
+  }
+  return null;
+}
+
+export function extractLinkedUrls(text, baseUrl) {
+  const sources = [];
+  if (typeof baseUrl === "string" && baseUrl) sources.push(baseUrl);
+  if (typeof text === "string" && text) sources.push(text.replace(/\\\//g, "/"));
+
+  let githubUrl = null;
+  let xUrl = null;
+
+  const accept = (raw) => {
+    if (!raw || typeof raw !== "string") return;
+    let candidate = stripTrailingPunctuation(raw.trim());
+    if (!candidate) return;
+    if (baseUrl) {
+      try {
+        candidate = new URL(candidate, baseUrl).toString();
+      } catch {
+        return;
+      }
+    }
+    if (!githubUrl) githubUrl = normalizeGithubUrl(candidate);
+    if (!xUrl) xUrl = normalizeXUrl(candidate);
+  };
+
+  for (const source of sources) {
+    URL_ATTR_RE.lastIndex = 0;
+    let attr;
+    while ((attr = URL_ATTR_RE.exec(source)) !== null) {
+      accept(attr[1] ?? "");
+      if (githubUrl && xUrl) return { githubUrl, xUrl };
+    }
+
+    ABSOLUTE_URL_RE.lastIndex = 0;
+    let absolute;
+    while ((absolute = ABSOLUTE_URL_RE.exec(source)) !== null) {
+      accept(absolute[0] ?? "");
+      if (githubUrl && xUrl) return { githubUrl, xUrl };
+    }
+  }
+
+  return { githubUrl, xUrl };
+}
+
+export async function discoverLinkedUrls(url) {
+  if (!url || typeof url !== "string") {
+    return { githubUrl: null, xUrl: null };
+  }
+
+  const direct = extractLinkedUrls(url, url);
+  if (direct.githubUrl || direct.xUrl) return direct;
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), DISCOVER_TIMEOUT_MS);
+  try {
+    const res = await fetch(url, {
+      method: "GET",
+      redirect: "follow",
+      headers: {
+        Accept: "text/html,application/xhtml+xml;q=0.9,*/*;q=0.1",
+        "User-Agent": BROWSER_UA,
+      },
+      signal: controller.signal,
+    });
+    const finalUrl = res.url || url;
+    const links = extractLinkedUrls(finalUrl, finalUrl);
+    const contentType = (res.headers.get("content-type") ?? "").toLowerCase();
+    if (!contentType.includes("text/html") && !contentType.includes("application/xhtml+xml")) {
+      return links;
+    }
+
+    const html = await res.text();
+    const merged = extractLinkedUrls(html.slice(0, DISCOVER_HTML_LIMIT), finalUrl);
+    return {
+      githubUrl: links.githubUrl ?? merged.githubUrl,
+      xUrl: links.xUrl ?? merged.xUrl,
+    };
+  } catch {
+    return { githubUrl: null, xUrl: null };
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 export function daysBetween(isoA, isoB) {
   const a = new Date(isoA).getTime();
   const b = new Date(isoB ?? new Date().toISOString()).getTime();

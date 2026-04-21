@@ -9,13 +9,9 @@
 import { usePathname, useRouter } from "next/navigation";
 import {
   Bookmark,
-  Cloud,
-  FileText,
   Flame,
   GitCompareArrows,
   Layers,
-  MessageSquare,
-  Newspaper,
   Radar,
   Rocket,
   Sparkles,
@@ -23,6 +19,14 @@ import {
   Trophy,
   X,
 } from "lucide-react";
+import {
+  RedditIcon,
+  HackerNewsIcon,
+  BlueskyIcon,
+  DevtoIcon,
+  ProductHuntIcon,
+} from "@/components/brand/BrandIcons";
+import type { SidebarIconComponent } from "./SidebarNavItem";
 import type { CategoryStats } from "@/lib/pipeline/queries/aggregate";
 import type { MetaCounts } from "@/lib/types";
 import { CATEGORIES } from "@/lib/constants";
@@ -37,6 +41,27 @@ import {
   type SidebarWatchlistPreviewRepo,
 } from "./SidebarWatchlistPreview";
 import { SidebarFooter } from "./SidebarFooter";
+
+// Monochrome wrappers — use the REAL brand glyph (Snoo / HN-Y / butterfly
+// / PH-cat / dev.to) but force `monochrome` so the fill inherits the
+// sidebar's grey text-tertiary (or active functional-green). Delivers
+// instant source recognition without the logos screaming their canonical
+// color through the chrome.
+const RedditSidebarIcon: SidebarIconComponent = (p) => (
+  <RedditIcon {...p} monochrome />
+);
+const HackerNewsSidebarIcon: SidebarIconComponent = (p) => (
+  <HackerNewsIcon {...p} monochrome />
+);
+const BlueskySidebarIcon: SidebarIconComponent = (p) => (
+  <BlueskyIcon {...p} monochrome />
+);
+const DevtoSidebarIcon: SidebarIconComponent = (p) => (
+  <DevtoIcon {...p} monochrome />
+);
+const ProductHuntSidebarIcon: SidebarIconComponent = (p) => (
+  <ProductHuntIcon {...p} monochrome />
+);
 
 export interface SidebarContentProps {
   categoryStats: CategoryStats[];
@@ -169,7 +194,7 @@ export function SidebarContent({
         <SidebarSection id="news-terminal" label="News Terminal">
           <SidebarNavItem
             href="/reddit/trending"
-            icon={MessageSquare}
+            icon={RedditSidebarIcon}
             label="Reddit"
             active={
               pathname === "/reddit" ||
@@ -178,7 +203,7 @@ export function SidebarContent({
           />
           <SidebarNavItem
             href="/hackernews/trending"
-            icon={Newspaper}
+            icon={HackerNewsSidebarIcon}
             label="HackerNews"
             active={
               pathname === "/hackernews" ||
@@ -188,7 +213,7 @@ export function SidebarContent({
           />
           <SidebarNavItem
             href="/producthunt"
-            icon={Rocket}
+            icon={ProductHuntSidebarIcon}
             label="ProductHunt"
             active={
               pathname === "/producthunt" ||
@@ -197,7 +222,7 @@ export function SidebarContent({
           />
           <SidebarNavItem
             href="/bluesky/trending"
-            icon={Cloud}
+            icon={BlueskySidebarIcon}
             label="Bluesky"
             active={
               pathname === "/bluesky" ||
@@ -206,7 +231,7 @@ export function SidebarContent({
           />
           <SidebarNavItem
             href="/devto"
-            icon={FileText}
+            icon={DevtoSidebarIcon}
             label="Dev.to"
             active={
               pathname === "/devto" ||

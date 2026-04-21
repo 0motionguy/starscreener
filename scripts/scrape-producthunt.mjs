@@ -24,8 +24,10 @@ import {
   TOPICS,
   hasAiKeyword,
   extractGithubLink,
+  extractXLink,
   daysBetween,
   resolveRedirect,
+  discoverLinkedUrls,
   enrichWithGithub,
   sleep,
 } from "./_ph-shared.mjs";
@@ -65,7 +67,7 @@ const POSTS_QUERY = `
           website
           thumbnail { url }
           topics(first: 8) { edges { node { slug name } } }
-          makers { name username }
+          makers { name username twitterUsername websiteUrl }
         }
       }
     }
@@ -88,7 +90,7 @@ const BROAD_QUERY = `
           website
           thumbnail { url }
           topics(first: 8) { edges { node { slug name } } }
-          makers { name username }
+          makers { name username twitterUsername websiteUrl }
         }
       }
     }
@@ -148,11 +150,26 @@ export function normalizePost(node, tracked) {
     .map((m) => ({
       name: String(m?.name ?? ""),
       username: String(m?.username ?? ""),
+      twitterUsername: m?.twitterUsername ? String(m.twitterUsername) : null,
+      websiteUrl: m?.websiteUrl ? String(m.websiteUrl) : null,
     }))
-    .filter((m) => m.name || m.username);
+    .filter((m) => m.name || m.username || m.twitterUsername || m.websiteUrl);
 
-  const scanBlob = `${node.website ?? ""}\n${node.description ?? ""}`;
+  const makerXUrl = (() => {
+    const twitterUsername =
+      makers.find((m) => m.twitterUsername)?.twitterUsername ?? null;
+    if (!twitterUsername) return null;
+    const handle = String(twitterUsername).replace(/^@+/, "").trim();
+    return handle ? `https://x.com/${handle}` : null;
+  })();
+
+  const scanBlob = [
+    node.website ?? "",
+    node.description ?? "",
+    ...makers.map((m) => m.websiteUrl ?? ""),
+  ].join("\n");
   const ghMatch = extractGithubLink(scanBlob);
+  const xUrl = extractXLink(scanBlob) ?? makerXUrl;
   let linkedRepo = null;
   if (ghMatch) {
     const lower = ghMatch.fullName.toLowerCase();
@@ -175,6 +192,7 @@ export function normalizePost(node, tracked) {
     topics,
     makers,
     githubUrl: ghMatch?.url ?? null,
+    xUrl,
     linkedRepo,
     daysSinceLaunch: daysBetween(node.createdAt),
   };

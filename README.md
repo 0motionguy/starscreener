@@ -232,6 +232,7 @@ npm run build            # production build
 
 # Data refresh (local parity with GHA)
 npm run scrape
+npm run scrape:ph         # requires PRODUCTHUNT_TOKEN
 npm run fetch:metadata
 npm run compute-deltas
 
@@ -243,7 +244,7 @@ npm run portal:conformance
 
 Vercel. Root-level `next.config.ts` is prod-safe (no turbopack, no experimental flags). The homepage, categories, and collections pages build as static (`○`) with `revalidate = 1800` — so every edge request hits cache and the pipeline only recomputes when data changes on main.
 
-Required env: `GITHUB_TOKEN` (for scraping + compare API), `CRON_SECRET` (guards `/api/pipeline/*` admin routes). See [`.env.example`](./.env.example).
+Required env: `GITHUB_TOKEN` (for scraping + compare API), `CRON_SECRET` (guards `/api/pipeline/*` admin routes). ProductHunt refreshes also require a GitHub Actions secret named `PRODUCTHUNT_TOKEN` for `.github/workflows/scrape-producthunt.yml`, or the same variable in `.env.local` for `npm run scrape:ph`. See [`.env.example`](./.env.example).
 
 ## Credits
 

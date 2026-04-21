@@ -80,6 +80,9 @@ Committed JSON under `data/`:
   language; see `TrendingFile` in `src/lib/trending.ts`.
 - `data/deltas.json` — per-repo delta entries + per-window pick metadata;
   see `DeltasJson` in `src/lib/trending.ts`.
+- `data/producthunt-launches.json` - daily ProductHunt launches from
+  `.github/workflows/scrape-producthunt.yml`; requires the repository secret
+  `PRODUCTHUNT_TOKEN`.
 
 No database, no pipeline state, no `.data/` directory on prod.
 
@@ -110,6 +113,7 @@ No database, no pipeline state, no `.data/` directory on prod.
 ```bash
 node scripts/scrape-trending.mjs
 node scripts/compute-deltas.mjs
+PRODUCTHUNT_TOKEN=... node scripts/scrape-producthunt.mjs
 ```
 
 Idempotent and safe to run anytime. `GITHUB_TOKEN` only matters for the

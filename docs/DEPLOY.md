@@ -40,6 +40,10 @@ Without it, the ingestion layer falls back to mock data.
 > `POST /api/pipeline/ingest` path and for local dev against real GitHub.
 > Leaving it unset on Vercel is fine for the default flow.
 
+ProductHunt ingestion is GitHub Actions-only. Add a repository secret named
+`PRODUCTHUNT_TOKEN` for `.github/workflows/scrape-producthunt.yml`; Vercel and
+Railway do not need it unless you run `npm run scrape:ph` directly there.
+
 ---
 
 ## Vercel deploy

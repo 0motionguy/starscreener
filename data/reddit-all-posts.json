@@ -1,5 +1,5 @@
 {
-  "lastFetchedAt": "2026-04-22T08:03:48.706Z",
+  "lastFetchedAt": "2026-04-22T09:47:37.884Z",
   "scannedSubreddits": [
     "ClaudeAI",
     "ChatGPT",
@@ -48,8 +48,8 @@
     "nocode"
   ],
   "windowDays": 7,
-  "totalPosts": 3372,
-  "prunedOldPosts": 15,
+  "totalPosts": 3358,
+  "prunedOldPosts": 14,
   "prunedOverflowPosts": 0,
   "posts": [
     {
@@ -6187,30 +6187,6 @@
       ],
       "value_score": 1,
       "selftext": "Wanted to see how far I could push n8n for video content automation, so i spent some time working it out, here's how it works: * A form node takes topic and style as inputs * Kimi 2.5 generates the script and prompts * Seedance 2.0 API handles video generation, 9:16 vertical, subtitles on * A polling loop waits for progress to hit 100, grabs the video URL * Straight into YouTube Data API for publishing Node breakdown: * Entry: single Form node, three fields — topic, style, target platform * Kimi",
-      "linkedRepos": []
-    },
-    {
-      "id": "1sm0gqf",
-      "subreddit": "MistralAI",
-      "title": "Love the New Mistral",
-      "url": "https://i.redd.it/r3sovi22jbvg1.jpeg",
-      "permalink": "https://www.reddit.com/r/MistralAI/comments/1sm0gqf/love_the_new_mistral/",
-      "score": 146,
-      "numComments": 26,
-      "createdUtc": 1776243250,
-      "author": "sacmofal",
-      "repoFullName": null,
-      "baselineRatio": 14.4,
-      "baselineTier": "breakout",
-      "baselineConfidence": "medium",
-      "ageHours": 127.21,
-      "velocity": 1.13,
-      "trendingScore": 35.12,
-      "content_tags": [
-        "is-meme"
-      ],
-      "value_score": -1,
-      "selftext": "",
       "linkedRepos": []
     },
     {
@@ -14498,30 +14474,6 @@
         "is-meme"
       ],
       "value_score": -1
-    },
-    {
-      "id": "1slzvh8",
-      "subreddit": "SEO",
-      "title": "Any tips on how to rank higher on Bing? Maybe some quick actions that you know actually work?",
-      "url": "https://www.reddit.com/r/SEO/comments/1slzvh8/any_tips_on_how_to_rank_higher_on_bing_maybe_some/",
-      "permalink": "https://www.reddit.com/r/SEO/comments/1slzvh8/any_tips_on_how_to_rank_higher_on_bing_maybe_some/",
-      "score": 28,
-      "numComments": 33,
-      "createdUtc": 1776241081,
-      "author": "PassioneArte1977",
-      "repoFullName": null,
-      "baselineRatio": 5.6,
-      "baselineTier": "above-average",
-      "baselineConfidence": "high",
-      "ageHours": 127.89,
-      "velocity": 0.22,
-      "trendingScore": 1.78,
-      "content_tags": [
-        "is-question"
-      ],
-      "value_score": 0,
-      "selftext": "",
-      "linkedRepos": []
     },
     {
       "id": "1sohcp4",
@@ -23198,28 +23150,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1sm0n98",
-      "subreddit": "perplexity_ai",
-      "title": "Perplexity Pro limits are getting kinda frustrating",
-      "url": "https://www.reddit.com/r/perplexity_ai/comments/1sm0n98/perplexity_pro_limits_are_getting_kinda/",
-      "permalink": "https://www.reddit.com/r/perplexity_ai/comments/1sm0n98/perplexity_pro_limits_are_getting_kinda/",
-      "score": 27,
-      "numComments": 20,
-      "createdUtc": 1776243892,
-      "author": "Beginning_Search585",
-      "repoFullName": null,
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 127.03,
-      "velocity": 0.21,
-      "trendingScore": 0.3,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "Hey, I’m a Pro subscriber and honestly I’m getting a bit annoyed with the recent limits. I use Perplexity a lot and the product is good, but the new caps feel rough for paying users. Is there any way to connect something like Deep Research into a web UI, or maybe use a similar service with more flexible usage? Curious what other people are doing. Thank you.",
-      "linkedRepos": []
-    },
-    {
       "id": "1sqbcg6",
       "subreddit": "AIToolTesting",
       "title": "What is the best uncensored LLM that is NOT \"spicy\"",
@@ -27012,30 +26942,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1sm1945",
-      "subreddit": "Rag",
-      "title": "Any good OCR validation tool ?",
-      "url": "https://www.reddit.com/r/Rag/comments/1sm1945/any_good_ocr_validation_tool/",
-      "permalink": "https://www.reddit.com/r/Rag/comments/1sm1945/any_good_ocr_validation_tool/",
-      "score": 13,
-      "numComments": 7,
-      "createdUtc": 1776246048,
-      "author": "Fuzzy-Layer9967",
-      "repoFullName": null,
-      "baselineRatio": 2,
-      "baselineTier": "normal",
-      "baselineConfidence": "high",
-      "ageHours": 126.5,
-      "velocity": 0.08,
-      "trendingScore": 0.16,
-      "content_tags": [
-        "is-question"
-      ],
-      "value_score": 0,
-      "selftext": "Looking for a way to have a\"confidence score\" from my OCR. I saw Docling has integrated it but is there any lib/framework or whatever available to do so ?",
-      "linkedRepos": []
-    },
-    {
       "id": "1so3112",
       "subreddit": "Rag",
       "title": "[Project Feedback] Moving beyond basic Intent Classification in a RAG-based AI Interview Coach – How to improve routing accuracy",
@@ -29798,28 +29704,6 @@
       "value_score": 2,
       "selftext": "This is a proof of concept that I made that shows just how malicious installing random untrusted MCP servers can be. TLDR; do NOT install an MCP server by any untrusted author and stick to official MCPs",
       "linkedRepos": []
-    },
-    {
-      "id": "1sm04fm",
-      "subreddit": "MachineLearning",
-      "title": "Thoughts and experience on ML journals [D]",
-      "url": "https://www.reddit.com/r/MachineLearning/comments/1sm04fm/thoughts_and_experience_on_ml_journals_d/",
-      "permalink": "https://www.reddit.com/r/MachineLearning/comments/1sm04fm/thoughts_and_experience_on_ml_journals_d/",
-      "score": 15,
-      "numComments": 6,
-      "createdUtc": 1776242014,
-      "author": "kostaspap90",
-      "repoFullName": null,
-      "baselineRatio": 1,
-      "baselineTier": "normal",
-      "baselineConfidence": "high",
-      "ageHours": 127.56,
-      "velocity": 0.09,
-      "trendingScore": 0.1,
-      "selftext": "Recently I’ve been thinking about shifting from conferences to journals due to a few bad experiences with ML conferences reviewing process. The truth is I don’t really have much experience with journals, and I rarely read papers from them. I don’t really want to submit to something like JMLR because of the extremely long waiting times, and also because my papers tend to be shorter. From what I understand, TMLR seems like a great choice, but I’m really curious about alternatives. Do you guys have",
-      "linkedRepos": [],
-      "content_tags": [],
-      "value_score": 0
     },
     {
       "id": "1spmfsx",
@@ -35091,28 +34975,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1sm045n",
-      "subreddit": "LLM",
-      "title": "Claude Mythos",
-      "url": "https://www.reddit.com/r/LLM/comments/1sm045n/claude_mythos/",
-      "permalink": "https://www.reddit.com/r/LLM/comments/1sm045n/claude_mythos/",
-      "score": 5,
-      "numComments": 11,
-      "createdUtc": 1776241987,
-      "author": "Potential-Ranger-714",
-      "repoFullName": null,
-      "baselineRatio": 2,
-      "baselineTier": "normal",
-      "baselineConfidence": "high",
-      "ageHours": 127.64,
-      "velocity": 0.03,
-      "trendingScore": 0.04,
-      "selftext": "why so much hype for the claude mythos model and the model is not even released to the public. whats happening ?",
-      "linkedRepos": [],
-      "content_tags": [],
-      "value_score": 0
-    },
-    {
       "id": "1spkor7",
       "subreddit": "WritingWithAI",
       "title": "Writing With AI Coral Hart podcast - Sharing her workflow and talking about the future of writing",
@@ -37755,28 +37617,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1sm0lcu",
-      "subreddit": "MachineLearning",
-      "title": "Trained a Qwen2.5-0.5B-Instruct bf16 model on Reddit post summarization task with GRPO written from scratch in PyTorch - updates! [P]",
-      "url": "https://www.reddit.com/r/MachineLearning/comments/1sm0lcu/trained_a_qwen2505binstruct_bf16_model_on_reddit/",
-      "permalink": "https://www.reddit.com/r/MachineLearning/comments/1sm0lcu/trained_a_qwen2505binstruct_bf16_model_on_reddit/",
-      "score": 8,
-      "numComments": 2,
-      "createdUtc": 1776243701,
-      "author": "East-Muffin-6472",
-      "repoFullName": null,
-      "baselineRatio": 0.5,
-      "baselineTier": "below-average",
-      "baselineConfidence": "high",
-      "ageHours": 127.1,
-      "velocity": 0.05,
-      "trendingScore": 0.02,
-      "selftext": "So, yesterday run was a success and I did get an avg rollout length of about 64 tokens as attached in the image! This was with quality\\_reward + length\\_penalty (more info below!) Next, I'll be going with length penalty as the reward and with the mistake of counting characters as tokens fixed and see if there is any gaming the system stuff or degraded outputs! The rewards I used were 2: * length\\_penalty : basically, -abs(response\\_length - MAX\\_LENGTH) * quality\\_reward: ROUGE-L, which is basic",
-      "linkedRepos": [],
-      "content_tags": [],
-      "value_score": 0
-    },
-    {
       "id": "1spu0j9",
       "subreddit": "LLM",
       "title": "A doubt in my work regarding the llm",
@@ -40104,28 +39944,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1sm0i1u",
-      "subreddit": "SEO",
-      "title": "SEO Help",
-      "url": "https://www.reddit.com/r/SEO/comments/1sm0i1u/seo_help/",
-      "permalink": "https://www.reddit.com/r/SEO/comments/1sm0i1u/seo_help/",
-      "score": 3,
-      "numComments": 20,
-      "createdUtc": 1776243383,
-      "author": "AloePandaVera",
-      "repoFullName": null,
-      "baselineRatio": 0.6,
-      "baselineTier": "below-average",
-      "baselineConfidence": "high",
-      "ageHours": 127.25,
-      "velocity": 0.02,
-      "trendingScore": 0.01,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "Hey! So my homepage on Google search console is showing “alternative page with proper conical tag”. When I click the inspect button it says the page is indexed and the referring page is a blog post… Should the referring page be a blog post? What even is the referring page? Secondly it says there’s no referring site maps detected.. but I have updated my site map recently and my home page should be on it. Sorry about all the questions!",
-      "linkedRepos": []
-    },
-    {
       "id": "1smg87k",
       "subreddit": "SEO",
       "title": "anyone going to SEO Week in NYC April 27th?",
@@ -40953,28 +40771,6 @@
       "content_tags": [],
       "value_score": 0,
       "selftext": "I have a genuine doubt and wanted to understand how people are running RAG systems in production, especially when using open source embedding models. Assume everything is containerized. 1. Aren’t the Docker images getting really big? With LangChain and a pre-downloaded embedding model, it feels like the image size would blow up pretty quickly. 2. If you are using paid embedding APIs instead, what does the monthly cost usually look like? 3. To keep things lighter, are people splitting this into s",
-      "linkedRepos": []
-    },
-    {
-      "id": "1sm09td",
-      "subreddit": "Rag",
-      "title": "This newsletter rewrites itself for every reader (RAG demo)",
-      "url": "https://www.reddit.com/r/Rag/comments/1sm09td/this_newsletter_rewrites_itself_for_every_reader/",
-      "permalink": "https://www.reddit.com/r/Rag/comments/1sm09td/this_newsletter_rewrites_itself_for_every_reader/",
-      "score": 3,
-      "numComments": 0,
-      "createdUtc": 1776242555,
-      "author": "itsmars123",
-      "repoFullName": null,
-      "baselineRatio": 0.6,
-      "baselineTier": "below-average",
-      "baselineConfidence": "high",
-      "ageHours": 127.47,
-      "velocity": 0.02,
-      "trendingScore": 0.01,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "My side project exploring RAG and semantic search - a newsletter on the latest on AI except it tailor fits content based on user's interests.",
       "linkedRepos": []
     },
     {
@@ -41904,30 +41700,6 @@
       ],
       "value_score": 0,
       "selftext": "I have paid for a Pro account $20/mo, not a perk subscription from somewhere else, since near the beginning of this. It was well worth it until 2026. Its usefulness is steeply in decline. Almost weekly something more goes lower in quality, speed or meaningfulness of content. What is the actual future of Pro? There are serious competitors now who seemingly want to make that same $20 more productive, accurate and useful rather than degrading services every few weeks. Is Pro going away? Is Perplexi",
-      "linkedRepos": []
-    },
-    {
-      "id": "1slzrij",
-      "subreddit": "perplexity_ai",
-      "title": "How to check the ORIGINAL date i posted a query to perplexity?",
-      "url": "https://www.reddit.com/r/perplexity_ai/comments/1slzrij/how_to_check_the_original_date_i_posted_a_query/",
-      "permalink": "https://www.reddit.com/r/perplexity_ai/comments/1slzrij/how_to_check_the_original_date_i_posted_a_query/",
-      "score": 3,
-      "numComments": 0,
-      "createdUtc": 1776240686,
-      "author": "Dizzy-Improvement-23",
-      "repoFullName": null,
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 127.92,
-      "velocity": 0.02,
-      "trendingScore": 0.01,
-      "content_tags": [
-        "is-question"
-      ],
-      "value_score": 0,
-      "selftext": "it seems i can only see the date it was last updated? Thanks https://preview.redd.it/gnjrfzmabbvg1.png?width=1831&amp;format=png&amp;auto=webp&amp;s=3a2ba76659438567f5f6c84665e028d32a2e6ce4",
       "linkedRepos": []
     },
     {
@@ -68205,28 +67977,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1sm0prw",
-      "subreddit": "n8n",
-      "title": "N8n HelloFresh personal menu picker (weekly)",
-      "url": "https://www.reddit.com/r/n8n/comments/1sm0prw/n8n_hellofresh_personal_menu_picker_weekly/",
-      "permalink": "https://www.reddit.com/r/n8n/comments/1sm0prw/n8n_hellofresh_personal_menu_picker_weekly/",
-      "score": 2,
-      "numComments": 13,
-      "createdUtc": 1776244146,
-      "author": "DietsePiraat",
-      "repoFullName": null,
-      "baselineRatio": 0.67,
-      "baselineTier": "below-average",
-      "baselineConfidence": "high",
-      "ageHours": 127.01,
-      "velocity": 0.02,
-      "trendingScore": 0,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "Can someone create a template for a menu selector workflow based on personal preferences? Ex: No mushrooms, no raisins I like burgers, pasta, roasted tomatoes, less chicken meat more cow and pig,… vary the menu types and open to try new dishes, other cultures. With an optional manual verification and ranked list of menu preference. Other option is completely automated And open source it for free?",
-      "linkedRepos": []
-    },
-    {
       "id": "1sqs1nv",
       "subreddit": "SaaS",
       "title": "I built a Polymarket whale tracker",
@@ -77890,50 +77640,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1sm07lb",
-      "subreddit": "windsurf",
-      "title": "I found windsurf adaptive is better than claudecode+glm5.1",
-      "url": "https://www.reddit.com/r/windsurf/comments/1sm07lb/i_found_windsurf_adaptive_is_better_than/",
-      "permalink": "https://www.reddit.com/r/windsurf/comments/1sm07lb/i_found_windsurf_adaptive_is_better_than/",
-      "score": 0,
-      "numComments": 6,
-      "createdUtc": 1776242334,
-      "author": "Antique-Basket-5875",
-      "repoFullName": null,
-      "baselineRatio": 0,
-      "baselineTier": "below-average",
-      "baselineConfidence": "high",
-      "ageHours": 127.55,
-      "velocity": 0,
-      "trendingScore": 0,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "In my working I use agent heavily，Windsurf performance better on cost and effect than antigravity. I have to confess this, maybe we dont need top model in everywhere,just in some hard situation top model have more ecnomic effect. I’m not speaking for windsurf.",
-      "linkedRepos": []
-    },
-    {
-      "id": "1slzpmk",
-      "subreddit": "windsurf",
-      "title": "Feature request: Allow users to choose the folder the skill will be created in when there are multiple open in the workspace",
-      "url": "https://www.reddit.com/r/windsurf/comments/1slzpmk/feature_request_allow_users_to_choose_the_folder/",
-      "permalink": "https://www.reddit.com/r/windsurf/comments/1slzpmk/feature_request_allow_users_to_choose_the_folder/",
-      "score": 3,
-      "numComments": 3,
-      "createdUtc": 1776240507,
-      "author": "4dr14n31t0r",
-      "repoFullName": null,
-      "baselineRatio": 0.13,
-      "baselineTier": "below-average",
-      "baselineConfidence": "high",
-      "ageHours": 128.06,
-      "velocity": 0.01,
-      "trendingScore": 0,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "In the windsurf cascade chat, in the top right corner there is a '+', an icon to view past conversations, and a 3 dots menu. If you open the menu there is an option to configure skills. If you create a new skill in the workspace you won't be able to choose which workspace folder it will create skills in if you have multiple folders open in the current workspace. Please allow us to choose which one we want the skill in. Side question: is this subreddit the right place to ask for feature requests?",
-      "linkedRepos": []
-    },
-    {
       "id": "1sqnou5",
       "subreddit": "AiBuilders",
       "title": "Built my first ever vibecoded project — an F1 personality quiz, would love some feedback from this community!",
@@ -78505,31 +78211,6 @@
         "is-meme"
       ],
       "value_score": -1,
-      "selftext": "",
-      "linkedRepos": []
-    },
-    {
-      "id": "1sm0yp8",
-      "subreddit": "AiBuilders",
-      "title": "Are AI Agents Ready for Real Enterprise Use Cases?",
-      "url": "/r/RishabhSoftware/comments/1sm0xj3/are_ai_agents_actually_ready_for_enterprise/",
-      "permalink": "https://www.reddit.com/r/AiBuilders/comments/1sm0yp8/are_ai_agents_ready_for_real_enterprise_use_cases/",
-      "score": 1,
-      "numComments": 0,
-      "createdUtc": 1776245025,
-      "author": "Double_Try1322",
-      "repoFullName": null,
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 126.75,
-      "velocity": 0.01,
-      "trendingScore": 0,
-      "content_tags": [
-        "has-agent",
-        "is-question"
-      ],
-      "value_score": 1,
       "selftext": "",
       "linkedRepos": []
     },

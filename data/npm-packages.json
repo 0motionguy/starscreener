@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-04-22T03:38:34.095Z",
+  "fetchedAt": "2026-04-22T10:43:14.462Z",
   "source": "npm",
   "sourceUrl": "https://api.npmjs.org/downloads/",
   "registrySearchUrl": "https://registry.npmjs.org/-/v1/search",
@@ -35,7 +35,7 @@
       "vite",
       "cli"
     ],
-    "candidatesFound": 118,
+    "candidatesFound": 117,
     "failures": []
   },
   "counts": {
@@ -66,7 +66,6 @@
       "vite-tsconfig-paths",
       "vite-node",
       "@next/swc-win32-arm64-msvc",
-      "@opentelemetry/instrumentation-openai",
       "@next/swc-darwin-x64",
       "@ai-sdk/anthropic",
       "@next/swc-linux-arm64-musl",
@@ -79,6 +78,7 @@
       "@next/swc-darwin-arm64",
       "vite",
       "@ai-sdk/openai",
+      "@next/swc-win32-x64-msvc",
       "@ai-sdk/google",
       "react-router",
       "@firebase/ai",
@@ -123,7 +123,6 @@
       "@firebase/ai",
       "@sentry/vite-plugin",
       "@aws-sdk/util-user-agent-browser",
-      "@opentelemetry/instrumentation-openai",
       "@aws-sdk/middleware-user-agent",
       "@storybook/builder-vite",
       "@aws-sdk/util-user-agent-node",
@@ -141,6 +140,7 @@
       "@next/swc-linux-arm64-musl",
       "@langchain/openai",
       "universal-user-agent",
+      "@next/swc-win32-x64-msvc",
       "cli-cursor",
       "tunnel-agent",
       "cli-table",
@@ -162,7 +162,6 @@
       "@types/react",
       "@next/swc-linux-x64-musl",
       "react-is",
-      "@opentelemetry/instrumentation-openai",
       "@firebase/ai",
       "@npmcli/agent",
       "@next/swc-linux-x64-gnu",
@@ -185,6 +184,7 @@
       "@angular-devkit/schematics-cli",
       "@langchain/openai",
       "vite-node",
+      "@next/swc-win32-x64-msvc",
       "@swc/cli",
       "@next/swc-darwin-arm64",
       "@next/swc-linux-arm64-gnu",
@@ -225,10 +225,10 @@
         "queries": [
           "cli"
         ],
-        "searchScore": 258.49396,
-        "finalScore": 258.49396,
-        "weeklyDownloads": 4744782,
-        "monthlyDownloads": 19031572
+        "searchScore": 258.92816,
+        "finalScore": 258.92816,
+        "weeklyDownloads": 4762509,
+        "monthlyDownloads": 19646463
       },
       "status": "ok",
       "downloads": [
@@ -512,10 +512,10 @@
         "queries": [
           "vite"
         ],
-        "searchScore": 351.35867,
-        "finalScore": 351.35867,
-        "weeklyDownloads": 8928979,
-        "monthlyDownloads": 33841986
+        "searchScore": 351.3808,
+        "finalScore": 351.3808,
+        "weeklyDownloads": 8937612,
+        "monthlyDownloads": 35133915
       },
       "status": "ok",
       "downloads": [
@@ -798,10 +798,10 @@
         "queries": [
           "cli"
         ],
-        "searchScore": 265.3166,
-        "finalScore": 265.3166,
-        "weeklyDownloads": 11419586,
-        "monthlyDownloads": 47679099
+        "searchScore": 265.79755,
+        "finalScore": 265.79755,
+        "weeklyDownloads": 11487854,
+        "monthlyDownloads": 49072648
       },
       "status": "ok",
       "downloads": [
@@ -1086,10 +1086,10 @@
         "queries": [
           "cli"
         ],
-        "searchScore": 239.54605,
-        "finalScore": 239.54605,
-        "weeklyDownloads": 3468415,
-        "monthlyDownloads": 13318703
+        "searchScore": 245.67476,
+        "finalScore": 245.67476,
+        "weeklyDownloads": 3451587,
+        "monthlyDownloads": 14273424
       },
       "status": "ok",
       "downloads": [
@@ -1370,10 +1370,10 @@
         "queries": [
           "vite"
         ],
-        "searchScore": 367.16895,
-        "finalScore": 367.16895,
-        "weeklyDownloads": 3538774,
-        "monthlyDownloads": 13372507
+        "searchScore": 373.15735,
+        "finalScore": 373.15735,
+        "weeklyDownloads": 3584647,
+        "monthlyDownloads": 14429112
       },
       "status": "ok",
       "downloads": [
@@ -1649,10 +1649,10 @@
         "queries": [
           "agent"
         ],
-        "searchScore": 334.78043,
-        "finalScore": 334.78043,
-        "weeklyDownloads": 56292036,
-        "monthlyDownloads": 218955166
+        "searchScore": 333.2439,
+        "finalScore": 333.2439,
+        "weeklyDownloads": 56302791,
+        "monthlyDownloads": 225860448
       },
       "status": "ok",
       "downloads": [
@@ -1941,10 +1941,10 @@
         "queries": [
           "cli"
         ],
-        "searchScore": 294.00287,
-        "finalScore": 294.00287,
-        "weeklyDownloads": 89119060,
-        "monthlyDownloads": 370565790
+        "searchScore": 300.37375,
+        "finalScore": 300.37375,
+        "weeklyDownloads": 89305565,
+        "monthlyDownloads": 381050689
       },
       "status": "ok",
       "downloads": [
@@ -2220,8 +2220,8 @@
         "queries": [
           "agent"
         ],
-        "searchScore": 330.08893,
-        "finalScore": 330.08893,
+        "searchScore": 327.87704,
+        "finalScore": 327.87704,
         "weeklyDownloads": 58809868,
         "monthlyDownloads": 238156075
       },
@@ -2499,8 +2499,8 @@
         "queries": [
           "agent"
         ],
-        "searchScore": 311.9634,
-        "finalScore": 311.9634,
+        "searchScore": 310.0163,
+        "finalScore": 310.0163,
         "weeklyDownloads": 59038093,
         "monthlyDownloads": 238989055
       },
@@ -2778,10 +2778,10 @@
         "queries": [
           "agent"
         ],
-        "searchScore": 364.3081,
-        "finalScore": 364.3081,
-        "weeklyDownloads": 24558845,
-        "monthlyDownloads": 90162158
+        "searchScore": 362.7239,
+        "finalScore": 362.7239,
+        "weeklyDownloads": 24830198,
+        "monthlyDownloads": 93068910
       },
       "status": "ok",
       "downloads": [
@@ -3061,10 +3061,10 @@
         "queries": [
           "cli"
         ],
-        "searchScore": 237.69405,
-        "finalScore": 237.69405,
-        "weeklyDownloads": 4056863,
-        "monthlyDownloads": 17225044
+        "searchScore": 238.31808,
+        "finalScore": 238.31808,
+        "weeklyDownloads": 4090585,
+        "monthlyDownloads": 17723523
       },
       "status": "ok",
       "downloads": [
@@ -3340,10 +3340,10 @@
         "queries": [
           "agent"
         ],
-        "searchScore": 355.3624,
-        "finalScore": 355.3624,
-        "weeklyDownloads": 27042737,
-        "monthlyDownloads": 117453305
+        "searchScore": 353.34436,
+        "finalScore": 353.34436,
+        "weeklyDownloads": 27091683,
+        "monthlyDownloads": 122583307
       },
       "status": "ok",
       "downloads": [
@@ -3631,10 +3631,10 @@
         "queries": [
           "cli"
         ],
-        "searchScore": 244.90547,
-        "finalScore": 244.90547,
-        "weeklyDownloads": 5447483,
-        "monthlyDownloads": 20763183
+        "searchScore": 250.567,
+        "finalScore": 250.567,
+        "weeklyDownloads": 5486891,
+        "monthlyDownloads": 21470304
       },
       "status": "ok",
       "downloads": [
@@ -3912,9 +3912,9 @@
         "queries": [
           "react"
         ],
-        "searchScore": 255.64375,
-        "finalScore": 255.64375,
-        "weeklyDownloads": 280519786,
+        "searchScore": 255.21736,
+        "finalScore": 255.21736,
+        "weeklyDownloads": 281147589,
         "monthlyDownloads": 1094187365
       },
       "status": "ok",
@@ -4191,10 +4191,10 @@
         "queries": [
           "agent"
         ],
-        "searchScore": 346.83133,
-        "finalScore": 346.83133,
-        "weeklyDownloads": 33539114,
-        "monthlyDownloads": 141644153
+        "searchScore": 344.8322,
+        "finalScore": 344.8322,
+        "weeklyDownloads": 33594037,
+        "monthlyDownloads": 144803686
       },
       "status": "ok",
       "downloads": [
@@ -4470,10 +4470,10 @@
         "queries": [
           "next"
         ],
-        "searchScore": 238.11009,
-        "finalScore": 238.11009,
-        "weeklyDownloads": 3761848,
-        "monthlyDownloads": 15063003
+        "searchScore": 239.42194,
+        "finalScore": 239.42194,
+        "weeklyDownloads": 3772720,
+        "monthlyDownloads": 15453161
       },
       "status": "ok",
       "downloads": [
@@ -4754,10 +4754,10 @@
         "queries": [
           "vite"
         ],
-        "searchScore": 389.245,
-        "finalScore": 389.245,
-        "weeklyDownloads": 12979335,
-        "monthlyDownloads": 42813834
+        "searchScore": 390.7809,
+        "finalScore": 390.7809,
+        "weeklyDownloads": 14117746,
+        "monthlyDownloads": 47144255
       },
       "status": "ok",
       "downloads": [
@@ -5033,8 +5033,8 @@
         "queries": [
           "vite"
         ],
-        "searchScore": 424.75693,
-        "finalScore": 424.75693,
+        "searchScore": 428.3457,
+        "finalScore": 428.3457,
         "weeklyDownloads": 31512015,
         "monthlyDownloads": 120981002
       },
@@ -5312,8 +5312,8 @@
         "queries": [
           "next"
         ],
-        "searchScore": 236.26059,
-        "finalScore": 236.26059,
+        "searchScore": 236.83252,
+        "finalScore": 236.83252,
         "weeklyDownloads": 2754445,
         "monthlyDownloads": 11459173
       },
@@ -5578,292 +5578,6 @@
       "error": null
     },
     {
-      "name": "@opentelemetry/instrumentation-openai",
-      "npmUrl": "https://www.npmjs.com/package/@opentelemetry/instrumentation-openai",
-      "description": "OpenTelemetry instrumentation for the `openai` OpenAI client library",
-      "latestVersion": "0.13.0",
-      "publishedAt": "2026-04-17T14:41:53.955Z",
-      "repositoryUrl": "https://github.com/open-telemetry/opentelemetry-js-contrib",
-      "linkedRepo": "open-telemetry/opentelemetry-js-contrib",
-      "homepage": "https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/packages/instrumentation-openai#readme",
-      "keywords": [
-        "instrumentation",
-        "opentelemetry",
-        "observability",
-        "openai",
-        "llm",
-        "genai"
-      ],
-      "discovery": {
-        "queries": [
-          "openai"
-        ],
-        "searchScore": 530.053,
-        "finalScore": 530.053,
-        "weeklyDownloads": 2756226,
-        "monthlyDownloads": 10900959
-      },
-      "status": "ok",
-      "downloads": [
-        {
-          "day": "2026-02-20",
-          "downloads": 228767
-        },
-        {
-          "day": "2026-02-21",
-          "downloads": 100232
-        },
-        {
-          "day": "2026-02-22",
-          "downloads": 98627
-        },
-        {
-          "day": "2026-02-23",
-          "downloads": 259543
-        },
-        {
-          "day": "2026-02-24",
-          "downloads": 292273
-        },
-        {
-          "day": "2026-02-25",
-          "downloads": 314686
-        },
-        {
-          "day": "2026-02-26",
-          "downloads": 319026
-        },
-        {
-          "day": "2026-02-27",
-          "downloads": 277353
-        },
-        {
-          "day": "2026-02-28",
-          "downloads": 147295
-        },
-        {
-          "day": "2026-03-01",
-          "downloads": 165402
-        },
-        {
-          "day": "2026-03-02",
-          "downloads": 348141
-        },
-        {
-          "day": "2026-03-03",
-          "downloads": 345216
-        },
-        {
-          "day": "2026-03-04",
-          "downloads": 359050
-        },
-        {
-          "day": "2026-03-05",
-          "downloads": 365166
-        },
-        {
-          "day": "2026-03-06",
-          "downloads": 355122
-        },
-        {
-          "day": "2026-03-07",
-          "downloads": 183195
-        },
-        {
-          "day": "2026-03-08",
-          "downloads": 166472
-        },
-        {
-          "day": "2026-03-09",
-          "downloads": 353291
-        },
-        {
-          "day": "2026-03-10",
-          "downloads": 393115
-        },
-        {
-          "day": "2026-03-11",
-          "downloads": 396764
-        },
-        {
-          "day": "2026-03-12",
-          "downloads": 380848
-        },
-        {
-          "day": "2026-03-13",
-          "downloads": 368577
-        },
-        {
-          "day": "2026-03-14",
-          "downloads": 164524
-        },
-        {
-          "day": "2026-03-15",
-          "downloads": 165076
-        },
-        {
-          "day": "2026-03-16",
-          "downloads": 388409
-        },
-        {
-          "day": "2026-03-17",
-          "downloads": 411642
-        },
-        {
-          "day": "2026-03-18",
-          "downloads": 413933
-        },
-        {
-          "day": "2026-03-19",
-          "downloads": 380000
-        },
-        {
-          "day": "2026-03-20",
-          "downloads": 357080
-        },
-        {
-          "day": "2026-03-21",
-          "downloads": 149709
-        },
-        {
-          "day": "2026-03-22",
-          "downloads": 157042
-        },
-        {
-          "day": "2026-03-23",
-          "downloads": 386970
-        },
-        {
-          "day": "2026-03-24",
-          "downloads": 426116
-        },
-        {
-          "day": "2026-03-25",
-          "downloads": 414933
-        },
-        {
-          "day": "2026-03-26",
-          "downloads": 412233
-        },
-        {
-          "day": "2026-03-27",
-          "downloads": 400648
-        },
-        {
-          "day": "2026-03-28",
-          "downloads": 192949
-        },
-        {
-          "day": "2026-03-29",
-          "downloads": 177415
-        },
-        {
-          "day": "2026-03-30",
-          "downloads": 449217
-        },
-        {
-          "day": "2026-03-31",
-          "downloads": 463905
-        },
-        {
-          "day": "2026-04-01",
-          "downloads": 472299
-        },
-        {
-          "day": "2026-04-02",
-          "downloads": 464250
-        },
-        {
-          "day": "2026-04-03",
-          "downloads": 334774
-        },
-        {
-          "day": "2026-04-04",
-          "downloads": 208705
-        },
-        {
-          "day": "2026-04-05",
-          "downloads": 176318
-        },
-        {
-          "day": "2026-04-06",
-          "downloads": 369375
-        },
-        {
-          "day": "2026-04-07",
-          "downloads": 441897
-        },
-        {
-          "day": "2026-04-08",
-          "downloads": 464006
-        },
-        {
-          "day": "2026-04-09",
-          "downloads": 470666
-        },
-        {
-          "day": "2026-04-10",
-          "downloads": 440019
-        },
-        {
-          "day": "2026-04-11",
-          "downloads": 181479
-        },
-        {
-          "day": "2026-04-12",
-          "downloads": 188066
-        },
-        {
-          "day": "2026-04-13",
-          "downloads": 451451
-        },
-        {
-          "day": "2026-04-14",
-          "downloads": 493776
-        },
-        {
-          "day": "2026-04-15",
-          "downloads": 478794
-        },
-        {
-          "day": "2026-04-16",
-          "downloads": 474097
-        },
-        {
-          "day": "2026-04-17",
-          "downloads": 436234
-        },
-        {
-          "day": "2026-04-18",
-          "downloads": 184925
-        },
-        {
-          "day": "2026-04-19",
-          "downloads": 196522
-        },
-        {
-          "day": "2026-04-20",
-          "downloads": 491878
-        }
-      ],
-      "downloads24h": 491878,
-      "previous24h": 196522,
-      "delta24h": 295356,
-      "deltaPct24h": 150.3,
-      "downloads7d": 2756226,
-      "previous7d": 2637584,
-      "delta7d": 118642,
-      "deltaPct7d": 4.5,
-      "downloads30d": 10900959,
-      "previous30d": 8648534,
-      "delta30d": 2252425,
-      "deltaPct30d": 26,
-      "trendScore24h": 992,
-      "trendScore7d": 156,
-      "trendScore30d": 342,
-      "error": null
-    },
-    {
       "name": "@next/swc-darwin-x64",
       "npmUrl": "https://www.npmjs.com/package/@next/swc-darwin-x64",
       "description": "This is the **x86_64-apple-darwin** binary for `@next/swc`",
@@ -5877,9 +5591,9 @@
         "queries": [
           "next"
         ],
-        "searchScore": 242.68175,
-        "finalScore": 242.68175,
-        "weeklyDownloads": 2886143,
+        "searchScore": 243.59683,
+        "finalScore": 243.59683,
+        "weeklyDownloads": 2894500,
         "monthlyDownloads": 11975563
       },
       "status": "ok",
@@ -6159,10 +5873,10 @@
           "ai",
           "anthropic"
         ],
-        "searchScore": 487.24936,
-        "finalScore": 487.24936,
-        "weeklyDownloads": 4920151,
-        "monthlyDownloads": 18081261
+        "searchScore": 517.2193,
+        "finalScore": 517.2193,
+        "weeklyDownloads": 4959374,
+        "monthlyDownloads": 18650372
       },
       "status": "ok",
       "downloads": [
@@ -6438,10 +6152,10 @@
         "queries": [
           "next"
         ],
-        "searchScore": 242.40118,
-        "finalScore": 242.40118,
-        "weeklyDownloads": 3466590,
-        "monthlyDownloads": 14133561
+        "searchScore": 236.45494,
+        "finalScore": 236.45494,
+        "weeklyDownloads": 3476381,
+        "monthlyDownloads": 14479747
       },
       "status": "ok",
       "downloads": [
@@ -6730,8 +6444,8 @@
         "queries": [
           "ai"
         ],
-        "searchScore": 2083.8062,
-        "finalScore": 2083.8062,
+        "searchScore": 2086.3672,
+        "finalScore": 2086.3672,
         "weeklyDownloads": 11639323,
         "monthlyDownloads": 45317657
       },
@@ -7022,10 +6736,10 @@
         "queries": [
           "openai"
         ],
-        "searchScore": 498.19934,
-        "finalScore": 498.19934,
-        "weeklyDownloads": 2823249,
-        "monthlyDownloads": 11561098
+        "searchScore": 498.32352,
+        "finalScore": 498.32352,
+        "weeklyDownloads": 2816151,
+        "monthlyDownloads": 11872531
       },
       "status": "ok",
       "downloads": [
@@ -7304,10 +7018,10 @@
         "queries": [
           "ai"
         ],
-        "searchScore": 305.5095,
-        "finalScore": 305.5095,
-        "weeklyDownloads": 5139658,
-        "monthlyDownloads": 19979339
+        "searchScore": 330.15808,
+        "finalScore": 330.15808,
+        "weeklyDownloads": 5177483,
+        "monthlyDownloads": 20523942
       },
       "status": "ok",
       "downloads": [
@@ -7587,10 +7301,10 @@
         "queries": [
           "react"
         ],
-        "searchScore": 227.12198,
-        "finalScore": 227.12198,
-        "weeklyDownloads": 24799493,
-        "monthlyDownloads": 96396213
+        "searchScore": 227.07564,
+        "finalScore": 227.07564,
+        "weeklyDownloads": 25243742,
+        "monthlyDownloads": 99079296
       },
       "status": "ok",
       "downloads": [
@@ -7868,10 +7582,10 @@
         "queries": [
           "ai"
         ],
-        "searchScore": 338.68033,
-        "finalScore": 338.68033,
-        "weeklyDownloads": 9804133,
-        "monthlyDownloads": 36496594
+        "searchScore": 338.0646,
+        "finalScore": 338.0646,
+        "weeklyDownloads": 9881700,
+        "monthlyDownloads": 37553356
       },
       "status": "ok",
       "downloads": [
@@ -8147,10 +7861,10 @@
         "queries": [
           "openai"
         ],
-        "searchScore": 2476.859,
-        "finalScore": 2476.859,
-        "weeklyDownloads": 17936570,
-        "monthlyDownloads": 69653618
+        "searchScore": 2404.3704,
+        "finalScore": 2404.3704,
+        "weeklyDownloads": 17993119,
+        "monthlyDownloads": 71415506
       },
       "status": "ok",
       "downloads": [
@@ -8426,10 +8140,10 @@
         "queries": [
           "next"
         ],
-        "searchScore": 244.88983,
-        "finalScore": 244.88983,
-        "weeklyDownloads": 3490189,
-        "monthlyDownloads": 14122447
+        "searchScore": 246.30914,
+        "finalScore": 246.30914,
+        "weeklyDownloads": 3494289,
+        "monthlyDownloads": 14440896
       },
       "status": "ok",
       "downloads": [
@@ -8712,10 +8426,10 @@
         "queries": [
           "vite"
         ],
-        "searchScore": 2260.7573,
-        "finalScore": 2260.7573,
+        "searchScore": 2267.1501,
+        "finalScore": 2267.1501,
         "weeklyDownloads": 108377244,
-        "monthlyDownloads": 390872847
+        "monthlyDownloads": 403297269
       },
       "status": "ok",
       "downloads": [
@@ -8994,10 +8708,10 @@
           "ai",
           "openai"
         ],
-        "searchScore": 459.95032,
-        "finalScore": 459.95032,
-        "weeklyDownloads": 5521967,
-        "monthlyDownloads": 20888213
+        "searchScore": 459.0398,
+        "finalScore": 459.0398,
+        "weeklyDownloads": 5518611,
+        "monthlyDownloads": 21442972
       },
       "status": "ok",
       "downloads": [
@@ -9260,6 +8974,285 @@
       "error": null
     },
     {
+      "name": "@next/swc-win32-x64-msvc",
+      "npmUrl": "https://www.npmjs.com/package/@next/swc-win32-x64-msvc",
+      "description": "This is the **x86_64-pc-windows-msvc** binary for `@next/swc`",
+      "latestVersion": "16.2.4",
+      "publishedAt": "2026-04-15T22:33:00.544Z",
+      "repositoryUrl": "https://github.com/vercel/next.js",
+      "linkedRepo": "vercel/next.js",
+      "homepage": "https://github.com/vercel/next.js#readme",
+      "keywords": [],
+      "discovery": {
+        "queries": [
+          "next"
+        ],
+        "searchScore": 232.90941,
+        "finalScore": 232.90941,
+        "weeklyDownloads": 3404279,
+        "monthlyDownloads": 14282089
+      },
+      "status": "ok",
+      "downloads": [
+        {
+          "day": "2026-02-20",
+          "downloads": 398017
+        },
+        {
+          "day": "2026-02-21",
+          "downloads": 190722
+        },
+        {
+          "day": "2026-02-22",
+          "downloads": 185151
+        },
+        {
+          "day": "2026-02-23",
+          "downloads": 423745
+        },
+        {
+          "day": "2026-02-24",
+          "downloads": 474320
+        },
+        {
+          "day": "2026-02-25",
+          "downloads": 486508
+        },
+        {
+          "day": "2026-02-26",
+          "downloads": 509230
+        },
+        {
+          "day": "2026-02-27",
+          "downloads": 451523
+        },
+        {
+          "day": "2026-02-28",
+          "downloads": 269592
+        },
+        {
+          "day": "2026-03-01",
+          "downloads": 248233
+        },
+        {
+          "day": "2026-03-02",
+          "downloads": 518895
+        },
+        {
+          "day": "2026-03-03",
+          "downloads": 502972
+        },
+        {
+          "day": "2026-03-04",
+          "downloads": 542448
+        },
+        {
+          "day": "2026-03-05",
+          "downloads": 550879
+        },
+        {
+          "day": "2026-03-06",
+          "downloads": 514782
+        },
+        {
+          "day": "2026-03-07",
+          "downloads": 280565
+        },
+        {
+          "day": "2026-03-08",
+          "downloads": 247976
+        },
+        {
+          "day": "2026-03-09",
+          "downloads": 513712
+        },
+        {
+          "day": "2026-03-10",
+          "downloads": 562029
+        },
+        {
+          "day": "2026-03-11",
+          "downloads": 533295
+        },
+        {
+          "day": "2026-03-12",
+          "downloads": 528696
+        },
+        {
+          "day": "2026-03-13",
+          "downloads": 500707
+        },
+        {
+          "day": "2026-03-14",
+          "downloads": 271524
+        },
+        {
+          "day": "2026-03-15",
+          "downloads": 259693
+        },
+        {
+          "day": "2026-03-16",
+          "downloads": 533708
+        },
+        {
+          "day": "2026-03-17",
+          "downloads": 591872
+        },
+        {
+          "day": "2026-03-18",
+          "downloads": 590183
+        },
+        {
+          "day": "2026-03-19",
+          "downloads": 576121
+        },
+        {
+          "day": "2026-03-20",
+          "downloads": 515160
+        },
+        {
+          "day": "2026-03-21",
+          "downloads": 273274
+        },
+        {
+          "day": "2026-03-22",
+          "downloads": 250700
+        },
+        {
+          "day": "2026-03-23",
+          "downloads": 556721
+        },
+        {
+          "day": "2026-03-24",
+          "downloads": 585185
+        },
+        {
+          "day": "2026-03-25",
+          "downloads": 569387
+        },
+        {
+          "day": "2026-03-26",
+          "downloads": 574867
+        },
+        {
+          "day": "2026-03-27",
+          "downloads": 547337
+        },
+        {
+          "day": "2026-03-28",
+          "downloads": 265917
+        },
+        {
+          "day": "2026-03-29",
+          "downloads": 257511
+        },
+        {
+          "day": "2026-03-30",
+          "downloads": 559650
+        },
+        {
+          "day": "2026-03-31",
+          "downloads": 573475
+        },
+        {
+          "day": "2026-04-01",
+          "downloads": 591276
+        },
+        {
+          "day": "2026-04-02",
+          "downloads": 560172
+        },
+        {
+          "day": "2026-04-03",
+          "downloads": 448707
+        },
+        {
+          "day": "2026-04-04",
+          "downloads": 292644
+        },
+        {
+          "day": "2026-04-05",
+          "downloads": 266263
+        },
+        {
+          "day": "2026-04-06",
+          "downloads": 552867
+        },
+        {
+          "day": "2026-04-07",
+          "downloads": 578455
+        },
+        {
+          "day": "2026-04-08",
+          "downloads": 594282
+        },
+        {
+          "day": "2026-04-09",
+          "downloads": 600228
+        },
+        {
+          "day": "2026-04-10",
+          "downloads": 551521
+        },
+        {
+          "day": "2026-04-11",
+          "downloads": 272117
+        },
+        {
+          "day": "2026-04-12",
+          "downloads": 260351
+        },
+        {
+          "day": "2026-04-13",
+          "downloads": 568177
+        },
+        {
+          "day": "2026-04-14",
+          "downloads": 600281
+        },
+        {
+          "day": "2026-04-15",
+          "downloads": 581282
+        },
+        {
+          "day": "2026-04-16",
+          "downloads": 596789
+        },
+        {
+          "day": "2026-04-17",
+          "downloads": 534244
+        },
+        {
+          "day": "2026-04-18",
+          "downloads": 257499
+        },
+        {
+          "day": "2026-04-19",
+          "downloads": 257926
+        },
+        {
+          "day": "2026-04-20",
+          "downloads": 576258
+        }
+      ],
+      "downloads24h": 576258,
+      "previous24h": 257926,
+      "delta24h": 318332,
+      "deltaPct24h": 123.4,
+      "downloads7d": 3404279,
+      "previous7d": 3425131,
+      "delta7d": -20852,
+      "deltaPct7d": -0.6,
+      "downloads30d": 14282089,
+      "previous30d": 13045532,
+      "delta30d": 1236557,
+      "deltaPct30d": 9.5,
+      "trendScore24h": 849,
+      "trendScore7d": 0,
+      "trendScore30d": 220,
+      "error": null
+    },
+    {
       "name": "@ai-sdk/google",
       "npmUrl": "https://www.npmjs.com/package/@ai-sdk/google",
       "description": "The **[Google Generative AI provider](https://ai-sdk.dev/providers/ai-sdk-providers/google-generative-ai)** for the [AI SDK](https://ai-sdk.dev/docs) contains language model support for the [Google Generative AI](https://ai.google/discover/generativeai/) ",
@@ -9275,10 +9268,10 @@
         "queries": [
           "ai"
         ],
-        "searchScore": 337.62158,
-        "finalScore": 337.62158,
-        "weeklyDownloads": 3554389,
-        "monthlyDownloads": 13403094
+        "searchScore": 362.2507,
+        "finalScore": 362.2507,
+        "weeklyDownloads": 3605205,
+        "monthlyDownloads": 14241973
       },
       "status": "ok",
       "downloads": [
@@ -9561,8 +9554,8 @@
         "queries": [
           "react"
         ],
-        "searchScore": 240.61456,
-        "finalScore": 240.61456,
+        "searchScore": 240.19603,
+        "finalScore": 240.19603,
         "weeklyDownloads": 54190697,
         "monthlyDownloads": 197209993
       },
@@ -9840,8 +9833,8 @@
         "queries": [
           "ai"
         ],
-        "searchScore": 318.36185,
-        "finalScore": 318.36185,
+        "searchScore": 340.38388,
+        "finalScore": 340.38388,
         "weeklyDownloads": 4585244,
         "monthlyDownloads": 17929616
       },
@@ -10119,10 +10112,10 @@
         "queries": [
           "react"
         ],
-        "searchScore": 227.5022,
-        "finalScore": 227.5022,
-        "weeklyDownloads": 110949168,
-        "monthlyDownloads": 435525545
+        "searchScore": 227.7547,
+        "finalScore": 227.7547,
+        "weeklyDownloads": 112186524,
+        "monthlyDownloads": 444837757
       },
       "status": "ok",
       "downloads": [
@@ -10403,10 +10396,10 @@
         "queries": [
           "react"
         ],
-        "searchScore": 223.84035,
-        "finalScore": 223.84035,
-        "weeklyDownloads": 4172723,
-        "monthlyDownloads": 17043657
+        "searchScore": 223.66231,
+        "finalScore": 223.66231,
+        "weeklyDownloads": 4219143,
+        "monthlyDownloads": 17411577
       },
       "status": "ok",
       "downloads": [
@@ -10682,10 +10675,10 @@
         "queries": [
           "anthropic"
         ],
-        "searchScore": 532.4162,
-        "finalScore": 532.4162,
-        "weeklyDownloads": 14792212,
-        "monthlyDownloads": 52655890
+        "searchScore": 533.0582,
+        "finalScore": 533.0582,
+        "weeklyDownloads": 14850335,
+        "monthlyDownloads": 54157539
       },
       "status": "ok",
       "downloads": [
@@ -10964,10 +10957,10 @@
         "queries": [
           "react"
         ],
-        "searchScore": 224.05226,
-        "finalScore": 224.05226,
-        "weeklyDownloads": 3901721,
-        "monthlyDownloads": 15638754
+        "searchScore": 223.93788,
+        "finalScore": 223.93788,
+        "weeklyDownloads": 3942461,
+        "monthlyDownloads": 16035081
       },
       "status": "ok",
       "downloads": [
@@ -11248,8 +11241,8 @@
         "queries": [
           "react"
         ],
-        "searchScore": 224.40298,
-        "finalScore": 224.40298,
+        "searchScore": 224.0572,
+        "finalScore": 224.0572,
         "weeklyDownloads": 79154113,
         "monthlyDownloads": 308327559
       },
@@ -11529,8 +11522,8 @@
         "queries": [
           "react"
         ],
-        "searchScore": 2175.242,
-        "finalScore": 2175.242,
+        "searchScore": 2252.1802,
+        "finalScore": 2252.1802,
         "weeklyDownloads": 126813503,
         "monthlyDownloads": 505903135
       },
@@ -11810,8 +11803,8 @@
         "queries": [
           "react"
         ],
-        "searchScore": 231.02226,
-        "finalScore": 231.02226,
+        "searchScore": 230.60896,
+        "finalScore": 230.60896,
         "weeklyDownloads": 119439386,
         "monthlyDownloads": 479199718
       },
@@ -12079,8 +12072,8 @@
       "name": "@expo/cli",
       "npmUrl": "https://www.npmjs.com/package/@expo/cli",
       "description": "The Expo CLI",
-      "latestVersion": "55.0.25",
-      "publishedAt": "2026-04-21T11:21:21.560Z",
+      "latestVersion": "55.0.26",
+      "publishedAt": "2026-04-22T02:44:54.881Z",
       "repositoryUrl": "https://github.com/expo/expo",
       "linkedRepo": "expo/expo",
       "homepage": "https://github.com/expo/expo/tree/main/packages/@expo/cli",
@@ -12092,8 +12085,8 @@
         "queries": [
           "cli"
         ],
-        "searchScore": 254.93974,
-        "finalScore": 254.93974,
+        "searchScore": 254.97256,
+        "finalScore": 254.97256,
         "weeklyDownloads": 4154430,
         "monthlyDownloads": 16739715
       },
@@ -12382,10 +12375,10 @@
         "queries": [
           "next"
         ],
-        "searchScore": 2044.3943,
-        "finalScore": 2044.3943,
-        "weeklyDownloads": 34757357,
-        "monthlyDownloads": 166262508
+        "searchScore": 2166.255,
+        "finalScore": 2166.255,
+        "weeklyDownloads": 35081112,
+        "monthlyDownloads": 166806314
       },
       "status": "ok",
       "downloads": [
@@ -12661,10 +12654,10 @@
         "queries": [
           "next"
         ],
-        "searchScore": 266.93707,
-        "finalScore": 266.93707,
-        "weeklyDownloads": 31131275,
-        "monthlyDownloads": 151856466
+        "searchScore": 268.1591,
+        "finalScore": 268.1591,
+        "weeklyDownloads": 31503162,
+        "monthlyDownloads": 152165618
       },
       "status": "ok",
       "downloads": [
@@ -12945,10 +12938,10 @@
         "queries": [
           "react"
         ],
-        "searchScore": 239.50888,
-        "finalScore": 239.50888,
-        "weeklyDownloads": 34467057,
-        "monthlyDownloads": 107582439
+        "searchScore": 240.10138,
+        "finalScore": 240.10138,
+        "weeklyDownloads": 34507415,
+        "monthlyDownloads": 112448586
       },
       "status": "ok",
       "downloads": [
@@ -13224,10 +13217,10 @@
         "queries": [
           "next"
         ],
-        "searchScore": 277.25964,
-        "finalScore": 277.25964,
-        "weeklyDownloads": 24718998,
-        "monthlyDownloads": 125942129
+        "searchScore": 277.44565,
+        "finalScore": 277.44565,
+        "weeklyDownloads": 25127572,
+        "monthlyDownloads": 125635823
       },
       "status": "ok",
       "downloads": [
@@ -13515,10 +13508,10 @@
         "queries": [
           "vite"
         ],
-        "searchScore": 357.1276,
-        "finalScore": 357.1276,
-        "weeklyDownloads": 3027680,
-        "monthlyDownloads": 11060625
+        "searchScore": 356.81485,
+        "finalScore": 356.81485,
+        "weeklyDownloads": 3069965,
+        "monthlyDownloads": 11312915
       },
       "status": "ok",
       "downloads": [
@@ -13794,10 +13787,10 @@
         "queries": [
           "mcp"
         ],
-        "searchScore": 293.7231,
-        "finalScore": 293.7231,
-        "weeklyDownloads": 2559044,
-        "monthlyDownloads": 11197277
+        "searchScore": 293.40375,
+        "finalScore": 293.40375,
+        "weeklyDownloads": 2474949,
+        "monthlyDownloads": 11314805
       },
       "status": "ok",
       "downloads": [
@@ -14086,8 +14079,8 @@
         "queries": [
           "agent"
         ],
-        "searchScore": 321.78442,
-        "finalScore": 321.78442,
+        "searchScore": 319.70923,
+        "finalScore": 319.70923,
         "weeklyDownloads": 101103290,
         "monthlyDownloads": 187111660
       },

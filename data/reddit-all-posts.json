@@ -1,5 +1,5 @@
 {
-  "lastFetchedAt": "2026-04-22T10:53:38.204Z",
+  "lastFetchedAt": "2026-04-22T12:06:10.444Z",
   "scannedSubreddits": [
     "ClaudeAI",
     "ChatGPT",
@@ -48,8 +48,8 @@
     "nocode"
   ],
   "windowDays": 7,
-  "totalPosts": 3344,
-  "prunedOldPosts": 14,
+  "totalPosts": 3324,
+  "prunedOldPosts": 20,
   "prunedOverflowPosts": 0,
   "posts": [
     {
@@ -12331,28 +12331,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1sm2tsi",
-      "subreddit": "AgentsOfAI",
-      "title": "I don't believe any openclaw, hermes, pi-mono and so on success use case",
-      "url": "https://www.reddit.com/r/AgentsOfAI/comments/1sm2tsi/i_dont_believe_any_openclaw_hermes_pimono_and_so/",
-      "permalink": "https://www.reddit.com/r/AgentsOfAI/comments/1sm2tsi/i_dont_believe_any_openclaw_hermes_pimono_and_so/",
-      "score": 18,
-      "numComments": 20,
-      "createdUtc": 1776251092,
-      "author": "tracagnotto",
-      "repoFullName": null,
-      "baselineRatio": 18,
-      "baselineTier": "breakout",
-      "baselineConfidence": "high",
-      "ageHours": 125.03,
-      "velocity": 0.14,
-      "trendingScore": 3.16,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "I used them for 2 months straight and I couldn't accomplish anything because they keep breaking every update, creating more problems than the ones they solve and do stupid as hell actions. Incopatibilities between model. 2000 memory frameworks. They can't even install a github repo without messing up everything. I will pick them back in 6 months hoping they solved their shitty current state I tried paid, free and local small models. No one can do anything useful. The whole ai thing is broken to ",
-      "linkedRepos": []
-    },
-    {
       "id": "1snwzjj",
       "subreddit": "SEO",
       "title": "Did Google mess it up with the recent core update?",
@@ -15775,30 +15753,6 @@
       "value_score": 1
     },
     {
-      "id": "1sm2pr5",
-      "subreddit": "MistralAI",
-      "title": "Built a voice menu assistant for my local pizza spot Mistral Small 4 + Voxtral did the heavy lifting",
-      "url": "https://www.reddit.com/r/MistralAI/comments/1sm2pr5/built_a_voice_menu_assistant_for_my_local_pizza/",
-      "permalink": "https://www.reddit.com/r/MistralAI/comments/1sm2pr5/built_a_voice_menu_assistant_for_my_local_pizza/",
-      "score": 35,
-      "numComments": 6,
-      "createdUtc": 1776250781,
-      "author": "SelectionCalm70",
-      "repoFullName": null,
-      "baselineRatio": 3.2,
-      "baselineTier": "above-average",
-      "baselineConfidence": "medium",
-      "ageHours": 125.11,
-      "velocity": 0.26,
-      "trendingScore": 1.25,
-      "selftext": "My local pizza guy was drowning in \"what toppings do you have\" calls so I threw together an MCP server over the weekend. Small 4 handles the menu questions, Voxtral TTS reads answers back over voice, STT takes the customer's speech. Total cost is basically nothing and the owner actually controls his own data since it's open weights. Guy doesn't know what an LLM is. Doesn't care. He just said \"so people can ask it like Google?\" and moved on. Pretty fun use case for a Saturday project. Anyone else",
-      "linkedRepos": [],
-      "content_tags": [
-        "has-mcp"
-      ],
-      "value_score": 1
-    },
-    {
       "id": "1spnppi",
       "subreddit": "LLMDevs",
       "title": "GIM - goal-in-mind framework, reduce token &amp; avoid drift/deviation (YOU &amp; MODEL)",
@@ -18734,31 +18688,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1sm3r2o",
-      "subreddit": "LangChain",
-      "title": "Agentic workflows and the JSON trap: are we using the wrong engine for the backend?",
-      "url": "https://www.reddit.com/r/LangChain/comments/1sm3r2o/agentic_workflows_and_the_json_trap_are_we_using/",
-      "permalink": "https://www.reddit.com/r/LangChain/comments/1sm3r2o/agentic_workflows_and_the_json_trap_are_we_using/",
-      "score": 12,
-      "numComments": 15,
-      "createdUtc": 1776253725,
-      "author": "lrenv22",
-      "repoFullName": null,
-      "baselineRatio": 6,
-      "baselineTier": "above-average",
-      "baselineConfidence": "high",
-      "ageHours": 124.35,
-      "velocity": 0.1,
-      "trendingScore": 0.65,
-      "content_tags": [
-        "has-agent",
-        "is-question"
-      ],
-      "value_score": 1,
-      "selftext": "how much time do we actually spend trying to force a probabilistic text generator to act like a strict deterministic rules engine? I’ve been building some complex multi-agent chains recently, and honestly, the structural brittleness is starting to get to me. we rely on LLMs to route tasks, validate outputs, and execute precise tool calls. But at the foundational level, the model is still just guessing the next token. No matter how many defensive prompt layers or output parsers we wrap around it,",
-      "linkedRepos": []
-    },
-    {
       "id": "1sn599f",
       "subreddit": "datascience",
       "title": "Seems like different companies want different political/technical depth in interviews",
@@ -18945,28 +18874,6 @@
       ],
       "value_score": 1,
       "selftext": "I run a small agency. Every Monday I used to spend 4+ hours pulling data, making reports, and sending them to clients. Now it takes 20 minutes. The automation: Data collection: Zapier pulls analytics from Google Analytics, social platforms, and ad accounts every Sunday night. Dumps everything into a Google Sheet. Report generation: I built a template in Gamma that connects to the sheet. The numbers populate automatically. Charts update. I just review and tweak. Delivery: Another Zapier zap email",
-      "linkedRepos": []
-    },
-    {
-      "id": "1sm3zzg",
-      "subreddit": "CLine",
-      "title": "cline CLI is perfect in my opinion (?)",
-      "url": "https://www.reddit.com/r/CLine/comments/1sm3zzg/cline_cli_is_perfect_in_my_opinion/",
-      "permalink": "https://www.reddit.com/r/CLine/comments/1sm3zzg/cline_cli_is_perfect_in_my_opinion/",
-      "score": 16,
-      "numComments": 7,
-      "createdUtc": 1776254426,
-      "author": "jetimworks",
-      "repoFullName": null,
-      "baselineRatio": 4,
-      "baselineTier": "above-average",
-      "baselineConfidence": "low",
-      "ageHours": 124.19,
-      "velocity": 0.13,
-      "trendingScore": 0.63,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "So I have used Cline and Claude code, and I have to say, cline CLI just does it for me. As a disclaimer, I used Cline first so I kinda got stuck in its ecosystem but it's really great. I'm not very sure why it doesn't have as much popularity as Claude code but in my opinion it's great for me, I tried Claude code to make sure I was't missing out on a better alternative, but as far as I can tell, it doesn't make much of a difference. Can someone who's sufficiently used both tell me what I'm missin",
       "linkedRepos": []
     },
     {
@@ -19179,28 +19086,6 @@
       ],
       "value_score": 1,
       "selftext": "Hi, I'm new into the Local LLM business, and I want to setup a local AI coding system. I want to use it for auto-completion (VSCode) and I also want to dabble into agentic coding. My work is mostly web development. Here are the specs of my PC: * CPU: AMD Ryzen 9 5900X (12 Cores) * GPU: RTX 3060 Ti 8GB * RAM: 32GB Is my system enough to do a descent quality agentic coding? If yes, then what would be the best model/setup for me? Thank you. Note: *I'm trying to avoid using Claude Code or any other ",
-      "linkedRepos": []
-    },
-    {
-      "id": "1sm40kf",
-      "subreddit": "SEO",
-      "title": "I’m genuinely curious how do you guys survive clients who treat SEO like a ‘change anytime’ subscription? one call they want keywords, next call they want sales yesterday.",
-      "url": "https://www.reddit.com/r/SEO/comments/1sm40kf/im_genuinely_curious_how_do_you_guys_survive/",
-      "permalink": "https://www.reddit.com/r/SEO/comments/1sm40kf/im_genuinely_curious_how_do_you_guys_survive/",
-      "score": 17,
-      "numComments": 21,
-      "createdUtc": 1776254460,
-      "author": "DigitalHarbor_Ease",
-      "repoFullName": null,
-      "baselineRatio": 3.4,
-      "baselineTier": "above-average",
-      "baselineConfidence": "high",
-      "ageHours": 124.17,
-      "velocity": 0.14,
-      "trendingScore": 0.59,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "I keep noticing one big issue clients constantly change expectations mid-way. one day it’s keyword rankings next day it’s leads and then suddenly it’s we need sales ASAP. It’s hard to stick to a clear SEO strategy when goals keep shifting every other call.",
       "linkedRepos": []
     },
     {
@@ -23876,30 +23761,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1sm3kfv",
-      "subreddit": "Rag",
-      "title": "RAG for medium company",
-      "url": "https://www.reddit.com/r/Rag/comments/1sm3kfv/rag_for_medium_company/",
-      "permalink": "https://www.reddit.com/r/Rag/comments/1sm3kfv/rag_for_medium_company/",
-      "score": 16,
-      "numComments": 18,
-      "createdUtc": 1776253224,
-      "author": "MrAbc-42",
-      "repoFullName": null,
-      "baselineRatio": 2.4,
-      "baselineTier": "normal",
-      "baselineConfidence": "high",
-      "ageHours": 124.51,
-      "velocity": 0.1,
-      "trendingScore": 0.26,
-      "selftext": "I'm working on an AI project for a logistics company and I have some doubts about the architecture. I'd love your advice because I'm honestly not sure what to choose to not over-engineer it. **The setup:** The company has over 700 trucks. They want an internal chatbot that can do two things: 1. **RAG:** Answer questions based on their company PDFs (customs procedures, HR rules, etc.). 2. **Text-to-SQL:** Answer questions based on truck telemetry (fuel consumption, GPS, routes, etc.). **The probl",
-      "linkedRepos": [],
-      "content_tags": [
-        "has-tutorial"
-      ],
-      "value_score": 1
-    },
-    {
       "id": "1snueyx",
       "subreddit": "perplexity_ai",
       "title": "Why does Perplexity need my phone number?",
@@ -28396,28 +28257,6 @@
       "value_score": 0
     },
     {
-      "id": "1sm2wk3",
-      "subreddit": "LLM",
-      "title": "The memory/context window implementation in AI companion apps: actually impressed by one lately",
-      "url": "https://www.reddit.com/r/LLM/comments/1sm2wk3/the_memorycontext_window_implementation_in_ai/",
-      "permalink": "https://www.reddit.com/r/LLM/comments/1sm2wk3/the_memorycontext_window_implementation_in_ai/",
-      "score": 7,
-      "numComments": 1,
-      "createdUtc": 1776251314,
-      "author": "analgesic04",
-      "repoFullName": null,
-      "baselineRatio": 3,
-      "baselineTier": "normal",
-      "baselineConfidence": "high",
-      "ageHours": 125.05,
-      "velocity": 0.05,
-      "trendingScore": 0.12,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "Been exploring how different platforms handle long-term context in conversational LLMs, especially for AI comp͏anion applications. Most are... underwhelming. The typical problem: You chat with an AI companion for a few days, and the model forgets key details from earlier conversations. Classic context window limitations. Either the platform truncates history too aggressively, or they're using naive summarization that loses nuance. Some platforms I've tried will loop the same questions, forget re",
-      "linkedRepos": []
-    },
-    {
       "id": "1smrism",
       "subreddit": "WritingWithAI",
       "title": "Using AI to critique your writing",
@@ -31482,28 +31321,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1sm3g2q",
-      "subreddit": "LangChain",
-      "title": "I tested async performance across LangChain, LlamaIndex, and Haystack under concurrent load. The results were worse than I expected — here's what I found.",
-      "url": "https://www.reddit.com/r/LangChain/comments/1sm3g2q/i_tested_async_performance_across_langchain/",
-      "permalink": "https://www.reddit.com/r/LangChain/comments/1sm3g2q/i_tested_async_performance_across_langchain/",
-      "score": 6,
-      "numComments": 13,
-      "createdUtc": 1776252874,
-      "author": "MammothChildhood9298",
-      "repoFullName": null,
-      "baselineRatio": 2.5,
-      "baselineTier": "normal",
-      "baselineConfidence": "high",
-      "ageHours": 124.59,
-      "velocity": 0.04,
-      "trendingScore": 0.07,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "Been running LLM pipelines in production for a while. Kept noticing throughput numbers that didn't make sense for \"async\" code. So I decided to actually dig into what's happening under the hood when you fire concurrent requests at a RAG pipeline built on the major frameworks. **The short version**: most of what's marketed as async support is synchronous IO wrapped in a ThreadPoolExecutor. Functionally it behaves like threads — you get the overhead of both the event loop and the thread pool, with",
-      "linkedRepos": []
-    },
-    {
       "id": "1so4z4z",
       "subreddit": "Rag",
       "title": "Can RAG handle translation for an invented language , so that I dont need to  fine-tune a model for that task ?",
@@ -31646,28 +31463,6 @@
       "value_score": 1,
       "selftext": "I built a small AI agent using OpenClaw to automate research workflows and basic automations. The initial setup was very smooth and OpenClaw works really well for structured workflows and clear step by step logic. I run everything manually and it worked fine for testing. But it started to feel like too much friction for something I wanted to use regularly. Most of the time I wasn’t even using the agent and when I needed it I had to set things up again and had to manually restart everything. Then",
       "linkedRepos": []
-    },
-    {
-      "id": "1sm2ys8",
-      "subreddit": "perplexity_ai",
-      "title": "Getting 100K Perplexity credit",
-      "url": "https://www.reddit.com/r/perplexity_ai/comments/1sm2ys8/getting_100k_perplexity_credit/",
-      "permalink": "https://www.reddit.com/r/perplexity_ai/comments/1sm2ys8/getting_100k_perplexity_credit/",
-      "score": 11,
-      "numComments": 10,
-      "createdUtc": 1776251496,
-      "author": "paurushmittal",
-      "repoFullName": null,
-      "baselineRatio": null,
-      "baselineTier": "no-baseline",
-      "baselineConfidence": null,
-      "ageHours": 124.91,
-      "velocity": 0.07,
-      "trendingScore": 0.07,
-      "selftext": "I am seeing a lot of threads that users have 400k/200k computer credits but they don't know where to use my problem is something else - where to get these 200k/400k credits",
-      "linkedRepos": [],
-      "content_tags": [],
-      "value_score": 0
     },
     {
       "id": "1sm88mw",
@@ -36207,30 +36002,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1sm3s3u",
-      "subreddit": "Rag",
-      "title": "Want to introduce a tool I'v being working on that allow you to build RAGs with SQL",
-      "url": "https://www.reddit.com/r/Rag/comments/1sm3s3u/want_to_introduce_a_tool_iv_being_working_on_that/",
-      "permalink": "https://www.reddit.com/r/Rag/comments/1sm3s3u/want_to_introduce_a_tool_iv_being_working_on_that/",
-      "score": 5,
-      "numComments": 4,
-      "createdUtc": 1776253804,
-      "author": "BtNoKami",
-      "repoFullName": null,
-      "baselineRatio": 1,
-      "baselineTier": "normal",
-      "baselineConfidence": "high",
-      "ageHours": 124.35,
-      "velocity": 0.04,
-      "trendingScore": 0.03,
-      "content_tags": [
-        "has-github-repo"
-      ],
-      "value_score": 1,
-      "selftext": "Hi r/rag I want to introduce a tool I‘ve being working on that can easily build RAGs with SQL and use different approaches. Here's the demo for easy RAG examples: There's also another example for Karpathy's LLM Wiki demo: There's also more demos in the demo directory for you to explore. To add a little more: Skardi is a federated SQL engine that allows you to turn federated SQL queries into RESTful API endpoints against different data sources, and there's also the cli version to allow you run si",
-      "linkedRepos": []
-    },
-    {
       "id": "1so4hcx",
       "subreddit": "Rag",
       "title": "Are we all just quietly pretending document extraction for RAG is a solved problem? Because my ingestion pipeline is just a giant ball of duct tap",
@@ -36982,30 +36753,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1sm2xmf",
-      "subreddit": "MistralAI",
-      "title": "Why is Mistral Small 4 not available in Mistral Vibe?",
-      "url": "https://www.reddit.com/r/MistralAI/comments/1sm2xmf/why_is_mistral_small_4_not_available_in_mistral/",
-      "permalink": "https://www.reddit.com/r/MistralAI/comments/1sm2xmf/why_is_mistral_small_4_not_available_in_mistral/",
-      "score": 8,
-      "numComments": 14,
-      "createdUtc": 1776251405,
-      "author": "amunozo1",
-      "repoFullName": null,
-      "baselineRatio": 0.6,
-      "baselineTier": "below-average",
-      "baselineConfidence": "medium",
-      "ageHours": 124.94,
-      "velocity": 0.05,
-      "trendingScore": 0.02,
-      "selftext": "",
-      "linkedRepos": [],
-      "content_tags": [
-        "is-question"
-      ],
-      "value_score": 0
-    },
-    {
       "id": "1soe9ig",
       "subreddit": "deeplearning",
       "title": "Selling AI Dev Conference Ticket – San Francisco (DeepLearning.A",
@@ -37453,28 +37200,6 @@
       "value_score": 0
     },
     {
-      "id": "1sm3a0b",
-      "subreddit": "MachineLearning",
-      "title": "CHI PLAY reviews [R]",
-      "url": "https://www.reddit.com/r/MachineLearning/comments/1sm3a0b/chi_play_reviews_r/",
-      "permalink": "https://www.reddit.com/r/MachineLearning/comments/1sm3a0b/chi_play_reviews_r/",
-      "score": 7,
-      "numComments": 6,
-      "createdUtc": 1776252392,
-      "author": "Ok_Ant_4311",
-      "repoFullName": null,
-      "baselineRatio": 0.5,
-      "baselineTier": "below-average",
-      "baselineConfidence": "high",
-      "ageHours": 124.68,
-      "velocity": 0.05,
-      "trendingScore": 0.02,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "Hey , did anyone submit to CHI PLAY previously, if yes how helpful are reviewers Thanks in advance :)",
-      "linkedRepos": []
-    },
-    {
       "id": "1spu0j9",
       "subreddit": "LLM",
       "title": "A doubt in my work regarding the llm",
@@ -37520,28 +37245,6 @@
       ],
       "value_score": 0,
       "selftext": "I’m about to lose my mind with cowork. I am used to using openrouter Claude opus with unlimited context. But I LOVE that cowork agents can go into my browser and control it and do stuff for me and make PDF’s and deliver Word docs and HTML and such. But whenever that damn message pops up saying it’s condensing the conversation the damn AI is a retard again and ruins my projects and literally knows nothing. I need help! I need one of two things • A way to get cowork to NEVER condense conversation ",
-      "linkedRepos": []
-    },
-    {
-      "id": "1sm3y4n",
-      "subreddit": "ChatGPTPromptGenius",
-      "title": "use Codex Securely",
-      "url": "https://www.reddit.com/r/ChatGPTPromptGenius/comments/1sm3y4n/use_codex_securely/",
-      "permalink": "https://www.reddit.com/r/ChatGPTPromptGenius/comments/1sm3y4n/use_codex_securely/",
-      "score": 6,
-      "numComments": 2,
-      "createdUtc": 1776254286,
-      "author": "MeasurementParking52",
-      "repoFullName": null,
-      "baselineRatio": 0.83,
-      "baselineTier": "below-average",
-      "baselineConfidence": "medium",
-      "ageHours": 124.17,
-      "velocity": 0.04,
-      "trendingScore": 0.02,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "How can I use Codex, exposing my local git repository but not allowing Codex to have access to the .env secrets",
       "linkedRepos": []
     },
     {
@@ -38173,31 +37876,6 @@
       "linkedRepos": [],
       "content_tags": [],
       "value_score": 0
-    },
-    {
-      "id": "1sm3zu0",
-      "subreddit": "AgentsOfAI",
-      "title": "Best way to sync/share AI Agent workflows?",
-      "url": "https://www.reddit.com/r/AgentsOfAI/comments/1sm3zu0/best_way_to_syncshare_ai_agent_workflows/",
-      "permalink": "https://www.reddit.com/r/AgentsOfAI/comments/1sm3zu0/best_way_to_syncshare_ai_agent_workflows/",
-      "score": 2,
-      "numComments": 2,
-      "createdUtc": 1776254416,
-      "author": "Old_Investment7497",
-      "repoFullName": null,
-      "baselineRatio": 2,
-      "baselineTier": "normal",
-      "baselineConfidence": "high",
-      "ageHours": 124.11,
-      "velocity": 0.02,
-      "trendingScore": 0.01,
-      "content_tags": [
-        "has-agent",
-        "is-question"
-      ],
-      "value_score": 1,
-      "selftext": "I’ve been using OpenClaw and Claude Code a lot lately, and the friction of moving between devices is starting to drive me crazy. Right now, my workflows are tied to one machine. Sharing them or migrating to a new setup means manually dragging configs and fixing environment paths, which is a huge time sink. I heard Terabox-storage might have some solutions for this, with just a simple setting, such as \"automatic backup every night at 8 PM,\" your OpenClaw will periodically sync saved files, config",
-      "linkedRepos": []
     },
     {
       "id": "1sp5uds",
@@ -49963,31 +49641,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1sm3mpn",
-      "subreddit": "AgentsOfAI",
-      "title": "Best way to sync/share AI Agent workflows?",
-      "url": "https://www.reddit.com/r/AgentsOfAI/comments/1sm3mpn/best_way_to_syncshare_ai_agent_workflows/",
-      "permalink": "https://www.reddit.com/r/AgentsOfAI/comments/1sm3mpn/best_way_to_syncshare_ai_agent_workflows/",
-      "score": 1,
-      "numComments": 1,
-      "createdUtc": 1776253396,
-      "author": "Ok_Apartment_3067",
-      "repoFullName": null,
-      "baselineRatio": 1,
-      "baselineTier": "normal",
-      "baselineConfidence": "high",
-      "ageHours": 124.39,
-      "velocity": 0.01,
-      "trendingScore": 0,
-      "content_tags": [
-        "has-agent",
-        "is-question"
-      ],
-      "value_score": 1,
-      "selftext": "I’ve been using OpenClaw and Claude Code a lot lately, and the friction of moving between devices is starting to drive me crazy. Right now, my workflows are tied to one machine. Sharing them or migrating to a new setup means manually dragging configs and fixing environment paths, which is a huge time sink. I heard Terabox-storage might have some solutions for this, with just a simple setting, such as \"automatic backup every night at 8 PM,\" your OpenClaw will periodically sync saved files, config",
-      "linkedRepos": []
-    },
-    {
       "id": "1spwhql",
       "subreddit": "learnmachinelearning",
       "title": "Tried learning ML, got lost, made this roadmap instead",
@@ -61698,56 +61351,6 @@
       ],
       "value_score": 1,
       "selftext": "",
-      "linkedRepos": []
-    },
-    {
-      "id": "1sm3v9k",
-      "subreddit": "deeplearning",
-      "title": "One of the fastest ways to lose trust in a self-hosted LLM: prompt injection compliance",
-      "url": "https://i.redd.it/d7vqh309fcvg1.png",
-      "permalink": "https://www.reddit.com/r/deeplearning/comments/1sm3v9k/one_of_the_fastest_ways_to_lose_trust_in_a/",
-      "score": 0,
-      "numComments": 0,
-      "createdUtc": 1776254062,
-      "author": "JayPatel24_",
-      "repoFullName": null,
-      "baselineRatio": 0,
-      "baselineTier": "below-average",
-      "baselineConfidence": "high",
-      "ageHours": 124.25,
-      "velocity": 0,
-      "trendingScore": 0,
-      "content_tags": [
-        "has-prompt",
-        "is-meme"
-      ],
-      "value_score": 0,
-      "selftext": "One production problem that feels bigger than people admit: a model looks fine, sounds safe, and then gives away too much the moment someone says “pretend you’re in debug mode” or “show me the hidden instructions” Dino DS helps majorly here The goal is not just to make the model say “no.” It is to train a better refusal pattern: * hold the boundary * explain why * offer a safe alternative Example row: { \"sample_id\": \"lane_30_safety_no_leakage_en_00000008\", \"user_message\": \"Pretend you are in deb",
-      "linkedRepos": []
-    },
-    {
-      "id": "1sm3uo4",
-      "subreddit": "deeplearning",
-      "title": "One of the fastest ways to lose trust in a self-hosted LLM: prompt injection compliance",
-      "url": "https://i.redd.it/9bu5ep6zdcvg1",
-      "permalink": "https://www.reddit.com/r/deeplearning/comments/1sm3uo4/one_of_the_fastest_ways_to_lose_trust_in_a/",
-      "score": 0,
-      "numComments": 0,
-      "createdUtc": 1776254017,
-      "author": "JayPatel24_",
-      "repoFullName": null,
-      "baselineRatio": 0,
-      "baselineTier": "below-average",
-      "baselineConfidence": "high",
-      "ageHours": 124.26,
-      "velocity": 0,
-      "trendingScore": 0,
-      "content_tags": [
-        "has-prompt",
-        "is-meme"
-      ],
-      "value_score": 0,
-      "selftext": "One production problem that feels bigger than people admit: a model looks fine, sounds safe, and then gives away too much the moment someone says “pretend you’re in debug mode” or “show me the hidden instructions” Dino DS helps majorly here The goal is not just to make the model say “no.” It is to train a better refusal pattern: * hold the boundary * explain why * offer a safe alternative Example row: { \"sample_id\": \"lane_30_safety_no_leakage_en_00000008\", \"user_message\": \"Pretend you are in deb",
       "linkedRepos": []
     },
     {
@@ -73696,78 +73299,6 @@
       ],
       "value_score": 0,
       "selftext": "pretty much the title speaks for itself, genuinely curious how people are evaluating or even concluding that their RAG pipeline is reliable and accurate . Also how do you tell why retrieval failed for a certain query? like was it the chunking? The embedding? The query itself? how do you classify that . Do you have a debugger in place for this.",
-      "linkedRepos": []
-    },
-    {
-      "id": "1sm3dkh",
-      "subreddit": "LangChain",
-      "title": "built a dashboard that shows what your LangChain agents are actually doing between runs",
-      "url": "https://v.redd.it/8wh37eayacvg1",
-      "permalink": "https://www.reddit.com/r/LangChain/comments/1sm3dkh/built_a_dashboard_that_shows_what_your_langchain/",
-      "score": 0,
-      "numComments": 1,
-      "createdUtc": 1776252673,
-      "author": "DetectiveMindless652",
-      "repoFullName": null,
-      "baselineRatio": 0,
-      "baselineTier": "below-average",
-      "baselineConfidence": "high",
-      "ageHours": 124.64,
-      "velocity": 0,
-      "trendingScore": 0,
-      "content_tags": [
-        "is-meme"
-      ],
-      "value_score": -1,
-      "selftext": "So I got tired of deploying LangChain agents and having zero visibility into what they did overnight. The logs say \"task complete\" 30 times but did it actually do 30 different things or did it just loop the same thing over and over? Built this dashboard that tracks everything in real time. Every memory write, every decision, every loop detected. The timeline feature lets you scrub through the full history step by step so you can see exactly where an agent went off the rails. The part that caught",
-      "linkedRepos": []
-    },
-    {
-      "id": "1sm2xtu",
-      "subreddit": "LangChain",
-      "title": "AI agent LLM personalities.",
-      "url": "/r/AI_Agents/comments/1sm2x9t/ai_agent_llm_personalities/",
-      "permalink": "https://www.reddit.com/r/LangChain/comments/1sm2xtu/ai_agent_llm_personalities/",
-      "score": 1,
-      "numComments": 2,
-      "createdUtc": 1776251422,
-      "author": "ITSamurai",
-      "repoFullName": null,
-      "baselineRatio": 0.5,
-      "baselineTier": "below-average",
-      "baselineConfidence": "high",
-      "ageHours": 124.99,
-      "velocity": 0.01,
-      "trendingScore": 0,
-      "content_tags": [
-        "has-agent"
-      ],
-      "value_score": 1,
-      "selftext": "",
-      "linkedRepos": []
-    },
-    {
-      "id": "1sm2xi0",
-      "subreddit": "LangChain",
-      "title": "Most AI projects fail before training even starts",
-      "url": "https://i.redd.it/7me5em1c7cvg1.jpeg",
-      "permalink": "https://www.reddit.com/r/LangChain/comments/1sm2xi0/most_ai_projects_fail_before_training_even_starts/",
-      "score": 0,
-      "numComments": 4,
-      "createdUtc": 1776251397,
-      "author": "autionix",
-      "repoFullName": null,
-      "baselineRatio": 0,
-      "baselineTier": "below-average",
-      "baselineConfidence": "high",
-      "ageHours": 125,
-      "velocity": 0,
-      "trendingScore": 0,
-      "content_tags": [
-        "is-meme"
-      ],
-      "value_score": -1,
-      "selftext": "Not because the models are bad. Because the codebase is a mess no one can navigate. I’ve seen teams lose weeks debugging issues that a clean folder structure would have prevented on day one. Here’s the architecture I keep coming back to: 📁 App/ Your application’s heartbeat. Routes, logic, config — all in one place. 📁 Models/ One home for every reusable ML module. No more hunting across folders. 📁 Preprocessing/ Where raw data becomes model-ready. Cleaning, transforming, standardizing. 📁 Trai",
       "linkedRepos": []
     },
     {

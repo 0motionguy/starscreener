@@ -1,10 +1,164 @@
 {
-  "fetchedAt": "2026-04-22T11:33:18.056Z",
+  "fetchedAt": "2026-04-22T14:11:05.571Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
+    "rtk-ai/rtk": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:nfnpo7udwhsx6idsmvf6tund/app.bsky.feed.post/3mk3lejvep22n",
+        "cid": "bafyreifb5mqztdq53xfg4bff5bxappmgawek7t46q7ka23s2khmng7ycaa",
+        "bskyUrl": "https://bsky.app/profile/reinaldorauch.dev.br/post/3mk3lejvep22n",
+        "text": "da uma olhada no rtk, pode ajudar um pouco: github.com/rtk-ai/rtk",
+        "author": {
+          "handle": "reinaldorauch.dev.br",
+          "displayName": "Reinaldo A. C. Rauch"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-04-22T13:15:56.005Z",
+        "hoursSincePosted": 0.92
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:nfnpo7udwhsx6idsmvf6tund/app.bsky.feed.post/3mk3lejvep22n",
+          "cid": "bafyreifb5mqztdq53xfg4bff5bxappmgawek7t46q7ka23s2khmng7ycaa",
+          "bskyUrl": "https://bsky.app/profile/reinaldorauch.dev.br/post/3mk3lejvep22n",
+          "text": "da uma olhada no rtk, pode ajudar um pouco: github.com/rtk-ai/rtk",
+          "author": {
+            "handle": "reinaldorauch.dev.br",
+            "displayName": "Reinaldo A. C. Rauch"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-04-22T13:15:56.005Z",
+          "createdUtc": 1776863756,
+          "ageHours": 0.92,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "rtk-ai/rtk",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "NousResearch/hermes-agent": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:uwdw4rthvdkclv7n2skldjnm/app.bsky.feed.post/3mk3kjpkhvh2v",
+        "cid": "bafyreic5lymj3bvl2ktkkvk37an2yfkywrq3yabgaaszpmayhu5jtgo3xm",
+        "bskyUrl": "https://bsky.app/profile/jeremymorgan.com/post/3mk3kjpkhvh2v",
+        "text": "Most agent frameworks are prompt templating with tool calling. Hermes takes a different bet: accumulate capability from execution traces, abstract completed workflows into reusable skills, then export the traces as fine-tuning data. github.com/NousResearch...",
+        "author": {
+          "handle": "jeremymorgan.com",
+          "displayName": "Jeremy Morgan"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-04-22T13:00:55.039Z",
+        "hoursSincePosted": 1.17
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:uwdw4rthvdkclv7n2skldjnm/app.bsky.feed.post/3mk3kjpkhvh2v",
+          "cid": "bafyreic5lymj3bvl2ktkkvk37an2yfkywrq3yabgaaszpmayhu5jtgo3xm",
+          "bskyUrl": "https://bsky.app/profile/jeremymorgan.com/post/3mk3kjpkhvh2v",
+          "text": "Most agent frameworks are prompt templating with tool calling. Hermes takes a different bet: accumulate capability from execution traces, abstract completed workflows into reusable skills, then export the traces as fine-tuning data. github.com/NousResearch...",
+          "author": {
+            "handle": "jeremymorgan.com",
+            "displayName": "Jeremy Morgan"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-04-22T13:00:55.039Z",
+          "createdUtc": 1776862855,
+          "ageHours": 1.17,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "steipete/wacli": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mk3jeecqbw2x",
+        "cid": "bafyreiduwprcvhgbj37bce3u5vjczalllzpm5by2s2mbvjsx6gvyfnhldm",
+        "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mk3jeecqbw2x",
+        "text": "`wacli` — un CLI pour WhatsApp : sync locale de l'historique, recherche offline, envoi de messages et gestion des groupes. Construit sur `whatsmeow`, installable via Homebrew. https://github.com/steipete/wacli/",
+        "author": {
+          "handle": "camilleroux.com",
+          "displayName": "Camille Roux"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-22T14:40:02+02:00",
+        "hoursSincePosted": 1.52
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mk3jeecqbw2x",
+          "cid": "bafyreiduwprcvhgbj37bce3u5vjczalllzpm5by2s2mbvjsx6gvyfnhldm",
+          "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mk3jeecqbw2x",
+          "text": "`wacli` — un CLI pour WhatsApp : sync locale de l'historique, recherche offline, envoi de messages et gestion des groupes. Construit sur `whatsmeow`, installable via Homebrew. https://github.com/steipete/wacli/",
+          "author": {
+            "handle": "camilleroux.com",
+            "displayName": "Camille Roux"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-22T14:40:02+02:00",
+          "createdUtc": 1776861602,
+          "ageHours": 1.52,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "steipete/wacli",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "midudev/autoskills": {
       "count7d": 1,
       "likesSum7d": 0,
@@ -23,7 +177,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-22T11:12:41.208Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 2.97
       },
       "posts": [
         {
@@ -40,7 +194,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-22T11:12:41.208Z",
           "createdUtc": 1776856361,
-          "ageHours": 0.5,
+          "ageHours": 2.97,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -74,7 +228,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-22T10:30:16.256Z",
-        "hoursSincePosted": 1.05
+        "hoursSincePosted": 3.68
       },
       "posts": [
         {
@@ -91,7 +245,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-22T10:30:16.256Z",
           "createdUtc": 1776853816,
-          "ageHours": 1.05,
+          "ageHours": 3.68,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -107,344 +261,18 @@
           ]
         }
       ]
-    },
-    "GyulyVGC/sniffnet": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mk36hrarno2t",
-        "cid": "bafyreic6zeax6jf2t3dbdp7czl2dfialn6mbpnpmxapgthjlrfwhev5tiu",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mk36hrarno2t",
-        "text": "https://github.com/GyulyVGC/sniffnet",
-        "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-22T09:25:05Z",
-        "hoursSincePosted": 2.14
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mk36hrarno2t",
-          "cid": "bafyreic6zeax6jf2t3dbdp7czl2dfialn6mbpnpmxapgthjlrfwhev5tiu",
-          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mk36hrarno2t",
-          "text": "https://github.com/GyulyVGC/sniffnet",
-          "author": {
-            "handle": "tom-doerr.bsky.social",
-            "displayName": "Tom Dörr "
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-22T09:25:05Z",
-          "createdUtc": 1776849905,
-          "ageHours": 2.14,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "GyulyVGC/sniffnet",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "vyfor/rattles": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mk366qck4q2k",
-        "cid": "bafyreiadk7sksaosc3gh4jvl64uwkznoj6a746vtvjhc5j7lt5ryizcaw4",
-        "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mk366qck4q2k",
-        "text": "`rattles` — une bibliothèque de spinners terminaux pour Rust, sans dépendance, compatible `no_std` https://github.com/vyfor/rattles",
-        "author": {
-          "handle": "camilleroux.com",
-          "displayName": "Camille Roux"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-22T11:20:02+02:00",
-        "hoursSincePosted": 2.22
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mk366qck4q2k",
-          "cid": "bafyreiadk7sksaosc3gh4jvl64uwkznoj6a746vtvjhc5j7lt5ryizcaw4",
-          "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mk366qck4q2k",
-          "text": "`rattles` — une bibliothèque de spinners terminaux pour Rust, sans dépendance, compatible `no_std` https://github.com/vyfor/rattles",
-          "author": {
-            "handle": "camilleroux.com",
-            "displayName": "Camille Roux"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-22T11:20:02+02:00",
-          "createdUtc": 1776849602,
-          "ageHours": 2.22,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "vyfor/rattles",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "davila7/claude-code-templates": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:e5hwrginobgjo6tozltj4utw/app.bsky.feed.post/3mk35qi5des2i",
-        "cid": "bafyreictstwwfx7jmfq2ykumzqpy4xxopqvqgwkernzyibkfvlo46rn46q",
-        "bskyUrl": "https://bsky.app/profile/sigmanor.net/post/3mk35qi5des2i",
-        "text": "https://github.com/davila7/claude-code-templates",
-        "author": {
-          "handle": "sigmanor.net",
-          "displayName": "Github Repositories"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-22T09:12:04.350027725Z",
-        "hoursSincePosted": 2.35
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:e5hwrginobgjo6tozltj4utw/app.bsky.feed.post/3mk35qi5des2i",
-          "cid": "bafyreictstwwfx7jmfq2ykumzqpy4xxopqvqgwkernzyibkfvlo46rn46q",
-          "bskyUrl": "https://bsky.app/profile/sigmanor.net/post/3mk35qi5des2i",
-          "text": "https://github.com/davila7/claude-code-templates",
-          "author": {
-            "handle": "sigmanor.net",
-            "displayName": "Github Repositories"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-22T09:12:04.350027725Z",
-          "createdUtc": 1776849124,
-          "ageHours": 2.35,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "davila7/claude-code-templates",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "aloshdenny/reverse-SynthID": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:wujrlsaabrzv4akpretueiqh/app.bsky.feed.post/3mk34fquszc2m",
-        "cid": "bafyreiawy3xiihdphrpnj6id3cfu2fbauycvsizvlczw5oftxsnf27xqbe",
-        "bskyUrl": "https://bsky.app/profile/maoguofang.bsky.social/post/3mk34fquszc2m",
-        "text": "据称有人逆向了谷歌 Gemini 的 SynthID （初衷用来鉴别内容是否是AI生成的东东） 也就是说，SynthID 不再是可靠判断 AI 生成的方式 一张由 Gemini 生成的图片可以在移除 SynthID 会被判断为非由 Gemini 生成 更可怕的是一张真实的图片可被加入 SynthID 被判断成 AI 生成 github.com/aloshdenny/r...",
-        "author": {
-          "handle": "maoguofang.bsky.social",
-          "displayName": "猫国防"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-22T08:48:10.754Z",
-        "hoursSincePosted": 2.75
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:wujrlsaabrzv4akpretueiqh/app.bsky.feed.post/3mk34fquszc2m",
-          "cid": "bafyreiawy3xiihdphrpnj6id3cfu2fbauycvsizvlczw5oftxsnf27xqbe",
-          "bskyUrl": "https://bsky.app/profile/maoguofang.bsky.social/post/3mk34fquszc2m",
-          "text": "据称有人逆向了谷歌 Gemini 的 SynthID （初衷用来鉴别内容是否是AI生成的东东） 也就是说，SynthID 不再是可靠判断 AI 生成的方式 一张由 Gemini 生成的图片可以在移除 SynthID 会被判断为非由 Gemini 生成 更可怕的是一张真实的图片可被加入 SynthID 被判断成 AI 生成 github.com/aloshdenny/r...",
-          "author": {
-            "handle": "maoguofang.bsky.social",
-            "displayName": "猫国防"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-22T08:48:10.754Z",
-          "createdUtc": 1776847690,
-          "ageHours": 2.75,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "aloshdenny/reverse-SynthID",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "gitroomhq/postiz-app": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mk2ylwlxpj2j",
-        "cid": "bafyreiexmaslfq4p43hnradthevr4pepvvqb6viud5xavicygd5h4nj6qe",
-        "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mk2ylwlxpj2j",
-        "text": "Postiz, alternative open source à Buffer pour le scheduling sur les réseaux sociaux — Buffer facture 6 $ par canal par mois. Auto-hébergeable, licence AGPL, IA intégrée, support LinkedIn, Bluesky, Mastodon, TikTok et bien d'autres. https://github.com/gitroomhq/postiz-app",
-        "author": {
-          "handle": "camilleroux.com",
-          "displayName": "Camille Roux"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-22T09:40:02+02:00",
-        "hoursSincePosted": 3.89
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mk2ylwlxpj2j",
-          "cid": "bafyreiexmaslfq4p43hnradthevr4pepvvqb6viud5xavicygd5h4nj6qe",
-          "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mk2ylwlxpj2j",
-          "text": "Postiz, alternative open source à Buffer pour le scheduling sur les réseaux sociaux — Buffer facture 6 $ par canal par mois. Auto-hébergeable, licence AGPL, IA intégrée, support LinkedIn, Bluesky, Mastodon, TikTok et bien d'autres. https://github.com/gitroomhq/postiz-app",
-          "author": {
-            "handle": "camilleroux.com",
-            "displayName": "Camille Roux"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-22T09:40:02+02:00",
-          "createdUtc": 1776843602,
-          "ageHours": 3.89,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "gitroomhq/postiz-app",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "forrestchang/andrej-karpathy-skills": {
-      "count7d": 1,
-      "likesSum7d": 2,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:d3p4jzrm5dpz2gdhzd5sxwwa/app.bsky.feed.post/3mk2xx3m4j626",
-        "cid": "bafyreigt6bqvbb64aiz366x46cm6dny3al4uxdvjv4tifx2j6tle3i2qdy",
-        "bskyUrl": "https://bsky.app/profile/alexiskirke.bsky.social/post/3mk2xx3m4j626",
-        "text": "I discovered this standout GitHub repo about improving Claude Code reliability using clear guidelines based on LLM coding pitfalls. See link below. #LLM #AI #GitHub #Coding #Claude https://github.com/forrestchang/andrej-karpathy-skills",
-        "author": {
-          "handle": "alexiskirke.bsky.social",
-          "displayName": "Alexis Kirke"
-        },
-        "likeCount": 2,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-22T07:28:23.614103+00:00",
-        "hoursSincePosted": 4.08
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:d3p4jzrm5dpz2gdhzd5sxwwa/app.bsky.feed.post/3mk2xx3m4j626",
-          "cid": "bafyreigt6bqvbb64aiz366x46cm6dny3al4uxdvjv4tifx2j6tle3i2qdy",
-          "bskyUrl": "https://bsky.app/profile/alexiskirke.bsky.social/post/3mk2xx3m4j626",
-          "text": "I discovered this standout GitHub repo about improving Claude Code reliability using clear guidelines based on LLM coding pitfalls. See link below. #LLM #AI #GitHub #Coding #Claude https://github.com/forrestchang/andrej-karpathy-skills",
-          "author": {
-            "handle": "alexiskirke.bsky.social",
-            "displayName": "Alexis Kirke"
-          },
-          "likeCount": 2,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-22T07:28:23.614103+00:00",
-          "createdUtc": 1776842903,
-          "ageHours": 4.08,
-          "trendingScore": 2,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "forrestchang/andrej-karpathy-skills",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "forrestchang/andrej-karpathy-skills",
-      "count7d": 1,
-      "likesSum7d": 2
-    },
-    {
-      "fullName": "vyfor/rattles",
+      "fullName": "NousResearch/hermes-agent",
       "count7d": 1,
       "likesSum7d": 1
     },
     {
-      "fullName": "aloshdenny/reverse-SynthID",
+      "fullName": "rtk-ai/rtk",
       "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "davila7/claude-code-templates",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "gitroomhq/postiz-app",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "GyulyVGC/sniffnet",
-      "count7d": 1,
-      "likesSum7d": 0
+      "likesSum7d": 1
     },
     {
       "fullName": "midudev/autoskills",
@@ -453,6 +281,11 @@
     },
     {
       "fullName": "NVIDIA/OpenShell",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "steipete/wacli",
       "count7d": 1,
       "likesSum7d": 0
     }

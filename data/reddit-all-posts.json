@@ -1,5 +1,5 @@
 {
-  "lastFetchedAt": "2026-04-22T03:36:35.548Z",
+  "lastFetchedAt": "2026-04-22T05:52:48.151Z",
   "scannedSubreddits": [
     "ClaudeAI",
     "ChatGPT",
@@ -48,8 +48,8 @@
     "nocode"
   ],
   "windowDays": 7,
-  "totalPosts": 3398,
-  "prunedOldPosts": 21,
+  "totalPosts": 3387,
+  "prunedOldPosts": 11,
   "prunedOverflowPosts": 0,
   "posts": [
     {
@@ -16783,28 +16783,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1slwg5f",
-      "subreddit": "DeepSeek",
-      "title": "RP with DeepSeek",
-      "url": "https://www.reddit.com/r/DeepSeek/comments/1slwg5f/rp_with_deepseek/",
-      "permalink": "https://www.reddit.com/r/DeepSeek/comments/1slwg5f/rp_with_deepseek/",
-      "score": 33,
-      "numComments": 21,
-      "createdUtc": 1776229352,
-      "author": "bunniax",
-      "repoFullName": null,
-      "baselineRatio": 3.22,
-      "baselineTier": "above-average",
-      "baselineConfidence": "high",
-      "ageHours": 131.06,
-      "velocity": 0.22,
-      "trendingScore": 1.04,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "Hi, I’ve read that some people here do text RP with DeepSeek, and I do too. I prefer it because I don’t like group RPs, and I enjoy having complete freedom over what I write. Anyway, my question is: how do you usually play with it? I have a habit of generating a lot of alternative responses to one of its replies, which kind of sucks. Then I can’t decide which one to respond to, and the story doesn’t move forward… EDIT: I love DeepSeek’s writing. It’s very creative and doesn’t just write things t",
-      "linkedRepos": []
-    },
-    {
       "id": "1smoa25",
       "subreddit": "nocode",
       "title": "Best resources for learning ios app development from scratch?",
@@ -31970,31 +31948,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1slw913",
-      "subreddit": "LangChain",
-      "title": "Agent retry storms are coming for everyone's APIs and No Library will save you",
-      "url": "https://www.reddit.com/r/LangChain/comments/1slw913/agent_retry_storms_are_coming_for_everyones_apis/",
-      "permalink": "https://www.reddit.com/r/LangChain/comments/1slw913/agent_retry_storms_are_coming_for_everyones_apis/",
-      "score": 5,
-      "numComments": 17,
-      "createdUtc": 1776228728,
-      "author": "Accomplished-Sun4223",
-      "repoFullName": null,
-      "baselineRatio": 2.5,
-      "baselineTier": "normal",
-      "baselineConfidence": "high",
-      "ageHours": 131.29,
-      "velocity": 0.04,
-      "trendingScore": 0.07,
-      "content_tags": [
-        "has-agent",
-        "has-tutorial"
-      ],
-      "value_score": 2,
-      "selftext": "If you’re running LangChain or LangGraph agents in production, I want to ask a real question: how are you handling retries against external APIs when you scale past a handful of workers? Because here’s what’s about to break. he agent math nobody talks about Your agent workflow makes 50 API calls — LLM providers, tools, data sources. At 5 workers, exponential backoff handles the occasional 429. Fine. At 100 workers running autonomous agent workflows? One provider has a partial outage — not down, ",
-      "linkedRepos": []
-    },
-    {
       "id": "1so4z4z",
       "subreddit": "Rag",
       "title": "Can RAG handle translation for an invented language , so that I dont need to  fine-tune a model for that task ?",
@@ -32203,31 +32156,6 @@
       "linkedRepos": [],
       "content_tags": [],
       "value_score": 0
-    },
-    {
-      "id": "1slv6pi",
-      "subreddit": "CLine",
-      "title": "Cline with Ollama on a RTX4090 (24GRAM) and i9 with 64 GRAM",
-      "url": "https://www.reddit.com/r/CLine/comments/1slv6pi/cline_with_ollama_on_a_rtx4090_24gram_and_i9_with/",
-      "permalink": "https://www.reddit.com/r/CLine/comments/1slv6pi/cline_with_ollama_on_a_rtx4090_24gram_and_i9_with/",
-      "score": 8,
-      "numComments": 5,
-      "createdUtc": 1776225508,
-      "author": "mans-987",
-      "repoFullName": null,
-      "baselineRatio": 1.75,
-      "baselineTier": "normal",
-      "baselineConfidence": "low",
-      "ageHours": 132.22,
-      "velocity": 0.05,
-      "trendingScore": 0.07,
-      "content_tags": [
-        "has-code-block",
-        "has-prompt"
-      ],
-      "value_score": 2,
-      "selftext": "I installed ollama on a Linux system (RTX 4090, 24 GB RAM, and i9, 64 GB RAM) and used it from Windows via VS Code and Cline. I set up the Cline model to \"Gemma 4:26b\" and asked to do a simple development, but it failed and got stuck in a loop for nearly half an hour. What is the best setup for my hardware configuration? How should I set the features? Should I set the Compact System Prompt or not? I want a system that lets me upload a GUI screenshot and have it fixed for me in Visual Studio Code",
-      "linkedRepos": []
     },
     {
       "id": "1smyfdm",
@@ -36134,30 +36062,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1slw1ke",
-      "subreddit": "deeplearning",
-      "title": "[Open Source] A fast, modular library for Multi-Agent Debate (MAD) research",
-      "url": "https://www.reddit.com/r/deeplearning/comments/1slw1ke/open_source_a_fast_modular_library_for_multiagent/",
-      "permalink": "https://www.reddit.com/r/deeplearning/comments/1slw1ke/open_source_a_fast_modular_library_for_multiagent/",
-      "score": 3,
-      "numComments": 0,
-      "createdUtc": 1776228079,
-      "author": "Impressive-Basil9657",
-      "repoFullName": null,
-      "baselineRatio": 3,
-      "baselineTier": "normal",
-      "baselineConfidence": "high",
-      "ageHours": 131.46,
-      "velocity": 0.02,
-      "trendingScore": 0.03,
-      "content_tags": [
-        "has-agent"
-      ],
-      "value_score": 1,
-      "selftext": "Multi-Agent Debate (MAD) is promising for improving LLM reasoning. One of the biggest issues with MAD is that it’s usually slow and expensive to run. We built the **DAR Library** to help with this by using **vLLM and native batched inference**, which runs **up to 100x faster** than existing implementations in our tests. **What makes it useful for research:** * **Efficiency:** It runs fast and supports filtering techniques to reduce communication volume. * **Ready-to-use Baselines:** It ships wit",
-      "linkedRepos": []
-    },
-    {
       "id": "1sq5vel",
       "subreddit": "grok",
       "title": "What’s the time limit",
@@ -40058,30 +39962,6 @@
       "value_score": 0,
       "selftext": "Hi, I want to get into automation but don’t know where to start. What apps are best, where’s the best place to learn, how have you used automation personally and commercially? Are you guys paying for all this software or can it be free? I am a student and looking to broaden my horizons and learn something useful. TIA",
       "linkedRepos": []
-    },
-    {
-      "id": "1slwuwk",
-      "subreddit": "n8n",
-      "title": "How to deploy ?",
-      "url": "https://www.reddit.com/r/n8n/comments/1slwuwk/how_to_deploy/",
-      "permalink": "https://www.reddit.com/r/n8n/comments/1slwuwk/how_to_deploy/",
-      "score": 5,
-      "numComments": 16,
-      "createdUtc": 1776230669,
-      "author": "madforminecraft",
-      "repoFullName": null,
-      "baselineRatio": 1,
-      "baselineTier": "normal",
-      "baselineConfidence": "high",
-      "ageHours": 130.75,
-      "velocity": 0.02,
-      "trendingScore": 0.01,
-      "selftext": "I just made an automated outreach system for my client, and I'm confused on how to deploy the agent coz if you want to send an e-mail it requires you to be signed in from that account on the device and I doubt that the client will agree to giving us access to their account, how should I handle this situation ??",
-      "linkedRepos": [],
-      "content_tags": [
-        "is-question"
-      ],
-      "value_score": 0
     },
     {
       "id": "1sn4bfh",
@@ -50869,52 +50749,6 @@
       ],
       "value_score": 0,
       "selftext": "I made this web app to make it very easy (and cheap) to create a poll and get MULTIPLE AI agents to mimic human audience opinions based on their background and demographic.",
-      "linkedRepos": []
-    },
-    {
-      "id": "1slxadt",
-      "subreddit": "AgentsOfAI",
-      "title": "please Review voice agent",
-      "url": "https://v.redd.it/0g2rvasrlavg1",
-      "permalink": "https://www.reddit.com/r/AgentsOfAI/comments/1slxadt/please_review_voice_agent/",
-      "score": 0,
-      "numComments": 1,
-      "createdUtc": 1776232081,
-      "author": "fragxtitan_07",
-      "repoFullName": null,
-      "baselineRatio": 0,
-      "baselineTier": "below-average",
-      "baselineConfidence": "high",
-      "ageHours": 130.31,
-      "velocity": 0,
-      "trendingScore": 0,
-      "content_tags": [
-        "is-meme"
-      ],
-      "value_score": -1,
-      "selftext": "open to feedback voice agent",
-      "linkedRepos": []
-    },
-    {
-      "id": "1slwge4",
-      "subreddit": "AgentsOfAI",
-      "title": "Questions to ask your future tech partner before building AI in healthcare",
-      "url": "https://www.reddit.com/r/AgentsOfAI/comments/1slwge4/questions_to_ask_your_future_tech_partner_before/",
-      "permalink": "https://www.reddit.com/r/AgentsOfAI/comments/1slwge4/questions_to_ask_your_future_tech_partner_before/",
-      "score": 1,
-      "numComments": 1,
-      "createdUtc": 1776229375,
-      "author": "Apoorva_Biz4Group",
-      "repoFullName": null,
-      "baselineRatio": 1,
-      "baselineTier": "normal",
-      "baselineConfidence": "high",
-      "ageHours": 131.07,
-      "velocity": 0.01,
-      "trendingScore": 0,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "How will you approach data privacy and compliance (HIPAA, etc.)? What kind of healthcare data do you need from us? How will you handle messy or unstructured data? Should we build from scratch, use existing models, or APIs? How will this integrate with our existing systems (EHR/EMR)? How do you ensure model accuracy and reliability? How will clinicians or end users interact with this? What does the MVP look like and how fast can we launch it? What are the biggest risks you see in this project? Ho",
       "linkedRepos": []
     },
     {
@@ -62725,28 +62559,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1slvji3",
-      "subreddit": "deeplearning",
-      "title": "Our paper shows a very large reduction in AI hallucination using a different approach",
-      "url": "https://www.reddit.com/r/deeplearning/comments/1slvji3/our_paper_shows_a_very_large_reduction_in_ai/",
-      "permalink": "https://www.reddit.com/r/deeplearning/comments/1slvji3/our_paper_shows_a_very_large_reduction_in_ai/",
-      "score": 0,
-      "numComments": 7,
-      "createdUtc": 1776226547,
-      "author": "99TimesAround",
-      "repoFullName": null,
-      "baselineRatio": 0,
-      "baselineTier": "below-average",
-      "baselineConfidence": "high",
-      "ageHours": 131.89,
-      "velocity": 0,
-      "trendingScore": 0,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "Most AI systems today will confidently give incorrect answers, which makes them hard to use in real-world settings, especially in heavily regulated industries like law and finance We’ve been working on a different approach. Instead of trying to make the model “smarter,” we control when it’s allowed to answer. If it can’t support the answer, it refuses. We decided to focus on integrity rather than capability. This is a model-agnostic layer which can be added to any LLM In our benchmark: 1) halluc",
-      "linkedRepos": []
-    },
-    {
       "id": "1sqe4l4",
       "subreddit": "grok",
       "title": "Grok lying to me—AGAIN🗿",
@@ -72412,54 +72224,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1slx928",
-      "subreddit": "WritingWithAI",
-      "title": "Using AI and how to maintain story consistency and keep the content of the prompt",
-      "url": "https://www.reddit.com/r/WritingWithAI/comments/1slx928/using_ai_and_how_to_maintain_story_consistency/",
-      "permalink": "https://www.reddit.com/r/WritingWithAI/comments/1slx928/using_ai_and_how_to_maintain_story_consistency/",
-      "score": 1,
-      "numComments": 12,
-      "createdUtc": 1776231958,
-      "author": "DirectLake9707",
-      "repoFullName": null,
-      "baselineRatio": 0.33,
-      "baselineTier": "below-average",
-      "baselineConfidence": "high",
-      "ageHours": 130.42,
-      "velocity": 0.01,
-      "trendingScore": 0,
-      "content_tags": [
-        "has-prompt"
-      ],
-      "value_score": 1,
-      "selftext": "I’ve been trying to write stories with AI, but I also don’t want to pay anything. I write chapter by chapter. I come up with an outline for the chapter and input it into the AI writer. For the AI I use, each chapter of my story is around 5,000 words long. But I’ve started to notice once the length exceeds 20 chapters, the story outline for each prompt is being followed less and less. The chapters events begin to happen out of order. But when I try to compress the prompt, the story turns out in p",
-      "linkedRepos": []
-    },
-    {
-      "id": "1slwete",
-      "subreddit": "WritingWithAI",
-      "title": "Estoy empezando a escribir una novela y este es un borrador, que piensan?",
-      "url": "https://www.reddit.com/r/WritingWithAI/comments/1slwete/estoy_empezando_a_escribir_una_novela_y_este_es/",
-      "permalink": "https://www.reddit.com/r/WritingWithAI/comments/1slwete/estoy_empezando_a_escribir_una_novela_y_este_es/",
-      "score": 0,
-      "numComments": 2,
-      "createdUtc": 1776229237,
-      "author": "tenebros_cris95",
-      "repoFullName": null,
-      "baselineRatio": 0,
-      "baselineTier": "below-average",
-      "baselineConfidence": "high",
-      "ageHours": 131.18,
-      "velocity": 0,
-      "trendingScore": 0,
-      "content_tags": [
-        "is-question"
-      ],
-      "value_score": 0,
-      "selftext": "No es sencillo traducir a la lógica ordinaria la naturaleza escurridiza de las bendiciones divinas, esos dones que, se dice, fluyen por las venas de la herencia. ¿Cómo explicar lo sobrenatural a quien solo conoce el mundo tangible? Y, sin embargo, aquí me encuentro, con la imperiosa necesidad de seguir tendiendo una mano a aquellos que ya no comparten nuestro espacio vital. Pero, ¿cómo hacerlo sin un guía, sin alguien que me enseñe a navegar estas aguas turbulentas, a evitar que mi alma se vea c",
-      "linkedRepos": []
-    },
-    {
       "id": "1sovoza",
       "subreddit": "SEO",
       "title": "Local AI SEO Startup - Should I? Seems Like Yes, But Google Say Lots of Competition",
@@ -72820,30 +72584,6 @@
         "is-question"
       ],
       "value_score": 0
-    },
-    {
-      "id": "1slvtyb",
-      "subreddit": "SEO",
-      "title": "Do duplicate stock images or AI-generated images with SynthID affect SEO rankings?",
-      "url": "https://www.reddit.com/r/SEO/comments/1slvtyb/do_duplicate_stock_images_or_aigenerated_images/",
-      "permalink": "https://www.reddit.com/r/SEO/comments/1slvtyb/do_duplicate_stock_images_or_aigenerated_images/",
-      "score": 2,
-      "numComments": 18,
-      "createdUtc": 1776227425,
-      "author": "0_2_Hero",
-      "repoFullName": null,
-      "baselineRatio": 0.4,
-      "baselineTier": "below-average",
-      "baselineConfidence": "high",
-      "ageHours": 131.68,
-      "velocity": 0.02,
-      "trendingScore": 0,
-      "content_tags": [
-        "is-question"
-      ],
-      "value_score": 0,
-      "selftext": "If a website uses stock images, and Google Lens can find that same image on thousands or even millions of other websites, does that have any effect on the rankings of the site using it? On the other side, if a website uses an AI-generated image made with Nano Banana, and that image includes SynthID (Google invisible AI generated watermark), does that have any effect on rankings? I’m mainly asking about normal organic rankings for the page or site, not just Google Images. Has anyone seen evidence",
-      "linkedRepos": []
     },
     {
       "id": "1sqowwf",

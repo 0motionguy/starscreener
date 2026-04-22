@@ -1,18 +1,18 @@
 {
-  "fetchedAt": "2026-04-22T12:09:58.864Z",
+  "fetchedAt": "2026-04-22T14:09:46.802Z",
   "windowDays": 7,
-  "scannedAlgoliaHits": 778,
+  "scannedAlgoliaHits": 780,
   "scannedFirebaseItems": 500,
   "mentions": {
     "ENTERPILOT/GoModel": {
       "count7d": 1,
-      "scoreSum7d": 180,
+      "scoreSum7d": 186,
       "topStory": {
         "id": 47849097,
         "title": "Show HN: GoModel – an open-source AI gateway in Go",
-        "score": 180,
+        "score": 186,
         "url": "https://github.com/ENTERPILOT/GOModel/",
-        "hoursSincePosted": 21.97
+        "hoursSincePosted": 23.96
       },
       "everHitFrontPage": false,
       "stories": [
@@ -21,12 +21,12 @@
           "title": "Show HN: GoModel – an open-source AI gateway in Go",
           "url": "https://github.com/ENTERPILOT/GOModel/",
           "by": "santiago-pl",
-          "score": 180,
-          "descendants": 69,
+          "score": 186,
+          "descendants": 70,
           "createdUtc": 1776780713,
-          "ageHours": 21.97,
-          "velocity": 8.19,
-          "trendingScore": 145.92,
+          "ageHours": 23.96,
+          "velocity": 7.76,
+          "trendingScore": 140.89,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -44,6 +44,152 @@
         }
       ]
     },
+    "TencentCloud/CubeSandbox": {
+      "count7d": 2,
+      "scoreSum7d": 6,
+      "topStory": {
+        "id": 47863430,
+        "title": "Show HN: We built a <60ms, open-source alternative to E2B using RustVMM and KVM",
+        "score": 3,
+        "url": "https://github.com/TencentCloud/CubeSandbox",
+        "hoursSincePosted": 0.55
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 47863430,
+          "title": "Show HN: We built a <60ms, open-source alternative to E2B using RustVMM and KVM",
+          "url": "https://github.com/TencentCloud/CubeSandbox",
+          "by": "yukunqiu",
+          "score": 3,
+          "descendants": 0,
+          "createdUtc": 1776864992,
+          "ageHours": 0.55,
+          "velocity": 5.42,
+          "trendingScore": 2.59,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent",
+            "is-show-hn"
+          ],
+          "value_score": 4,
+          "storyText": "Over the past few months, as we scaled our internal AI Agents, we hit a dead end: Running LLM-generated arbitrary code in Docker is basically running naked on security due to container escape risks. But using full traditional VMs takes minutes to boot and eats too much memory to support high-density concurrency. We loved the developer experience of SaaS sandboxes on the market, but they are closed-source, expensive, and have too high a barrier to entry for self-hosting. So, our team decided to b",
+          "linkedRepos": [
+            {
+              "fullName": "TencentCloud/CubeSandbox",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "id": 47848628,
+          "title": "CubeSandbox by Tencent",
+          "url": "https://github.com/TencentCloud/CubeSandbox/",
+          "by": "handfuloflight",
+          "score": 3,
+          "descendants": 0,
+          "createdUtc": 1776778570,
+          "ageHours": 24.56,
+          "velocity": 0.12,
+          "trendingScore": 0.06,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "TencentCloud/CubeSandbox",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "Screenata/open-chronicle": {
+      "count7d": 1,
+      "scoreSum7d": 5,
+      "topStory": {
+        "id": 47858398,
+        "title": "Show HN: Open Chronicle – Local Screen Memory for Claude Code and Codex CLI",
+        "score": 5,
+        "url": "https://github.com/Screenata/open-chronicle",
+        "hoursSincePosted": 11.06
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 47858398,
+          "title": "Show HN: Open Chronicle – Local Screen Memory for Claude Code and Codex CLI",
+          "url": "https://github.com/Screenata/open-chronicle",
+          "by": "taoh",
+          "score": 5,
+          "descendants": 1,
+          "createdUtc": 1776827175,
+          "ageHours": 11.06,
+          "velocity": 0.45,
+          "trendingScore": 0.35,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo",
+            "is-show-hn"
+          ],
+          "value_score": 3,
+          "storyText": "I built an open source version of OpenAI Chronicle. Some design decisions I made: 1. Local first: OCR uses Apple Vision, summarization supports local AI providers via Vercel AI SDK. Nothing leaves your computer. 2. Multiple Provider: exposes MCP so any coding agents can use it. 3. Swift menubar app: efficient, low-footprint 4. Blacklist apps: password managers, messaging apps (Slack, WhatsApp, Messenger), mail clients are on default blocklist. Current Limitations: 1. Mac only. Mac-first is a fea",
+          "linkedRepos": [
+            {
+              "fullName": "Screenata/open-chronicle",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "saadnvd1/hydra": {
+      "count7d": 1,
+      "scoreSum7d": 6,
+      "topStory": {
+        "id": 47851935,
+        "title": "Show HN: Hydra – Never stop coding when your AI CLI hits a rate limit",
+        "score": 6,
+        "url": "https://github.com/saadnvd1/hydra",
+        "hoursSincePosted": 20.51
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 47851935,
+          "title": "Show HN: Hydra – Never stop coding when your AI CLI hits a rate limit",
+          "url": "https://github.com/saadnvd1/hydra",
+          "by": "saadn92",
+          "score": 6,
+          "descendants": 1,
+          "createdUtc": 1776793158,
+          "ageHours": 20.51,
+          "velocity": 0.29,
+          "trendingScore": 0.25,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo",
+            "is-show-hn"
+          ],
+          "value_score": 3,
+          "storyText": "I built Hydra because I kept losing my flow when Claude Code hit usage limits mid-task. I would copy context, open another tool, and then re-explain everything. This would be super annoying for me. Hydra wraps your AI coding CLIs (Claude Code, Codex, OpenCode, Pi, or any terminal-based tool) in a single command. It monitors terminal output for rate limit patterns, and when one provider runs out, you switch to another with one keypress. Your conversation history, git diff, and recent commits are ",
+          "linkedRepos": [
+            {
+              "fullName": "saadnvd1/hydra",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "ruvnet/RuView": {
       "count7d": 2,
       "scoreSum7d": 4,
@@ -52,7 +198,7 @@
         "title": "Π RuView: turn WiFi into realtime human detection,vitals monitoring, and more",
         "score": 2,
         "url": "https://github.com/ruvnet/RuView",
-        "hoursSincePosted": 1.24
+        "hoursSincePosted": 3.23
       },
       "everHitFrontPage": false,
       "stories": [
@@ -64,9 +210,9 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776855347,
-          "ageHours": 1.24,
-          "velocity": 1.62,
-          "trendingScore": 0.49,
+          "ageHours": 3.23,
+          "velocity": 0.62,
+          "trendingScore": 0.19,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -89,9 +235,9 @@
           "score": 2,
           "descendants": 1,
           "createdUtc": 1776706217,
-          "ageHours": 42.66,
-          "velocity": 0.05,
-          "trendingScore": 0.02,
+          "ageHours": 44.66,
+          "velocity": 0.04,
+          "trendingScore": 0.01,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -108,39 +254,38 @@
         }
       ]
     },
-    "Screenata/open-chronicle": {
+    "samber/awesome-user-research": {
       "count7d": 1,
-      "scoreSum7d": 4,
+      "scoreSum7d": 2,
       "topStory": {
-        "id": 47858398,
-        "title": "Show HN: Open Chronicle – Local Screen Memory for Claude Code and Codex CLI",
-        "score": 4,
-        "url": "https://github.com/Screenata/open-chronicle",
-        "hoursSincePosted": 9.06
+        "id": 47861362,
+        "title": "UX Research Tooling Landscape",
+        "score": 2,
+        "url": "https://github.com/samber/awesome-user-research",
+        "hoursSincePosted": 4.05
       },
       "everHitFrontPage": false,
       "stories": [
         {
-          "id": 47858398,
-          "title": "Show HN: Open Chronicle – Local Screen Memory for Claude Code and Codex CLI",
-          "url": "https://github.com/Screenata/open-chronicle",
-          "by": "taoh",
-          "score": 4,
-          "descendants": 1,
-          "createdUtc": 1776827175,
-          "ageHours": 9.06,
-          "velocity": 0.44,
-          "trendingScore": 0.29,
+          "id": 47861362,
+          "title": "UX Research Tooling Landscape",
+          "url": "https://github.com/samber/awesome-user-research",
+          "by": "samber",
+          "score": 2,
+          "descendants": 0,
+          "createdUtc": 1776852419,
+          "ageHours": 4.05,
+          "velocity": 0.49,
+          "trendingScore": 0.15,
           "everHitFrontPage": false,
           "content_tags": [
-            "has-github-repo",
-            "is-show-hn"
+            "has-github-repo"
           ],
-          "value_score": 3,
-          "storyText": "I built an open source version of OpenAI Chronicle. Some design decisions I made: 1. Local first: OCR uses Apple Vision, summarization supports local AI providers via Vercel AI SDK. Nothing leaves your computer. 2. Multiple Provider: exposes MCP so any coding agents can use it. 3. Swift menubar app: efficient, low-footprint 4. Blacklist apps: password managers, messaging apps (Slack, WhatsApp, Messenger), mail clients are on default blocklist. Current Limitations: 1. Mac only. Mac-first is a fea",
+          "value_score": 1,
+          "storyText": "",
           "linkedRepos": [
             {
-              "fullName": "Screenata/open-chronicle",
+              "fullName": "samber/awesome-user-research",
               "matchType": "url",
               "confidence": 1
             }
@@ -156,7 +301,7 @@
         "title": "Show HN: Tesseron – an API for AI agents, defined by the app developer",
         "score": 2,
         "url": "https://github.com/BrainBlend-AI/tesseron",
-        "hoursSincePosted": 3.18
+        "hoursSincePosted": 5.18
       },
       "everHitFrontPage": false,
       "stories": [
@@ -168,9 +313,9 @@
           "score": 2,
           "descendants": 1,
           "createdUtc": 1776848348,
-          "ageHours": 3.18,
-          "velocity": 0.63,
-          "trendingScore": 0.21,
+          "ageHours": 5.18,
+          "velocity": 0.39,
+          "trendingScore": 0.13,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -189,45 +334,6 @@
         }
       ]
     },
-    "TencentCloud/CubeSandbox": {
-      "count7d": 1,
-      "scoreSum7d": 3,
-      "topStory": {
-        "id": 47848628,
-        "title": "CubeSandbox by Tencent",
-        "score": 3,
-        "url": "https://github.com/TencentCloud/CubeSandbox/",
-        "hoursSincePosted": 22.56
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 47848628,
-          "title": "CubeSandbox by Tencent",
-          "url": "https://github.com/TencentCloud/CubeSandbox/",
-          "by": "handfuloflight",
-          "score": 3,
-          "descendants": 0,
-          "createdUtc": 1776778570,
-          "ageHours": 22.56,
-          "velocity": 0.13,
-          "trendingScore": 0.06,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "TencentCloud/CubeSandbox",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
     "calfonso/rusternetes": {
       "count7d": 1,
       "scoreSum7d": 3,
@@ -236,7 +342,7 @@
         "title": "Rusternetes: A ground-up reimplementation of Kubernetes in Rust",
         "score": 3,
         "url": "https://github.com/calfonso/rusternetes",
-        "hoursSincePosted": 39.65
+        "hoursSincePosted": 41.64
       },
       "everHitFrontPage": false,
       "stories": [
@@ -248,9 +354,9 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1776717068,
-          "ageHours": 39.65,
-          "velocity": 0.08,
-          "trendingScore": 0.04,
+          "ageHours": 41.64,
+          "velocity": 0.07,
+          "trendingScore": 0.03,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -267,45 +373,6 @@
         }
       ]
     },
-    "abhigyanpatwari/GitNexus": {
-      "count7d": 1,
-      "scoreSum7d": 3,
-      "topStory": {
-        "id": 47831132,
-        "title": "GitNexus: Client-side knowledge graph creator that runs in the browser",
-        "score": 3,
-        "url": "https://github.com/abhigyanpatwari/GitNexus",
-        "hoursSincePosted": 53.25
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 47831132,
-          "title": "GitNexus: Client-side knowledge graph creator that runs in the browser",
-          "url": "https://github.com/abhigyanpatwari/GitNexus",
-          "by": "saikatsg",
-          "score": 3,
-          "descendants": 0,
-          "createdUtc": 1776668095,
-          "ageHours": 53.25,
-          "velocity": 0.06,
-          "trendingScore": 0.03,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "abhigyanpatwari/GitNexus",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
     "NVIDIA/OpenShell": {
       "count7d": 1,
       "scoreSum7d": 2,
@@ -314,7 +381,7 @@
         "title": "Nvidia OpenShell: safe, private runtime for autonomous AI agents",
         "score": 2,
         "url": "https://github.com/nvidia/openshell",
-        "hoursSincePosted": 19.7
+        "hoursSincePosted": 21.7
       },
       "everHitFrontPage": false,
       "stories": [
@@ -326,8 +393,8 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776788877,
-          "ageHours": 19.7,
-          "velocity": 0.1,
+          "ageHours": 21.7,
+          "velocity": 0.09,
           "trendingScore": 0.03,
           "everHitFrontPage": false,
           "content_tags": [
@@ -354,7 +421,7 @@
         "title": "Clearwing: Produce similar results as Anthropic Glasswing (Mythos)",
         "score": 3,
         "url": "https://github.com/Lazarus-AI/clearwing",
-        "hoursSincePosted": 69.67
+        "hoursSincePosted": 71.67
       },
       "everHitFrontPage": false,
       "stories": [
@@ -366,7 +433,7 @@
           "score": 3,
           "descendants": 1,
           "createdUtc": 1776608991,
-          "ageHours": 69.67,
+          "ageHours": 71.67,
           "velocity": 0.04,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -385,6 +452,45 @@
         }
       ]
     },
+    "abhigyanpatwari/GitNexus": {
+      "count7d": 1,
+      "scoreSum7d": 3,
+      "topStory": {
+        "id": 47831132,
+        "title": "GitNexus: Client-side knowledge graph creator that runs in the browser",
+        "score": 3,
+        "url": "https://github.com/abhigyanpatwari/GitNexus",
+        "hoursSincePosted": 55.25
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 47831132,
+          "title": "GitNexus: Client-side knowledge graph creator that runs in the browser",
+          "url": "https://github.com/abhigyanpatwari/GitNexus",
+          "by": "saikatsg",
+          "score": 3,
+          "descendants": 0,
+          "createdUtc": 1776668095,
+          "ageHours": 55.25,
+          "velocity": 0.05,
+          "trendingScore": 0.02,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "abhigyanpatwari/GitNexus",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "posit-dev/ggsql": {
       "count7d": 1,
       "scoreSum7d": 2,
@@ -393,7 +499,7 @@
         "title": "Ggsql: A SQL extension for declarative data visualisation based on the Grammar O",
         "score": 2,
         "url": "https://github.com/posit-dev/ggsql",
-        "hoursSincePosted": 24.47
+        "hoursSincePosted": 26.46
       },
       "everHitFrontPage": false,
       "stories": [
@@ -405,7 +511,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776771724,
-          "ageHours": 24.47,
+          "ageHours": 26.46,
           "velocity": 0.08,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -432,7 +538,7 @@
         "title": "Sonnet 4.6 model could mistakenly use wrong model for OpenAI",
         "score": 2,
         "url": "https://github.com/anthropics/claude-code/issues/51417",
-        "hoursSincePosted": 32.17
+        "hoursSincePosted": 34.17
       },
       "everHitFrontPage": false,
       "stories": [
@@ -444,7 +550,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776743980,
-          "ageHours": 32.17,
+          "ageHours": 34.17,
           "velocity": 0.06,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -471,7 +577,7 @@
         "title": "Fincept Terminal",
         "score": 2,
         "url": "https://github.com/Fincept-Corporation/FinceptTerminal",
-        "hoursSincePosted": 42.67
+        "hoursSincePosted": 44.67
       },
       "everHitFrontPage": false,
       "stories": [
@@ -483,9 +589,9 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776706191,
-          "ageHours": 42.67,
-          "velocity": 0.05,
-          "trendingScore": 0.02,
+          "ageHours": 44.67,
+          "velocity": 0.04,
+          "trendingScore": 0.01,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -510,7 +616,7 @@
         "title": "Show HN: Agent harness that turns errors into shared genes",
         "score": 1,
         "url": "https://github.com/Prismer-AI/PrismerCloud",
-        "hoursSincePosted": 9.12
+        "hoursSincePosted": 11.12
       },
       "everHitFrontPage": false,
       "stories": [
@@ -522,8 +628,8 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1776826968,
-          "ageHours": 9.12,
-          "velocity": 0.11,
+          "ageHours": 11.12,
+          "velocity": 0.09,
           "trendingScore": 0,
           "everHitFrontPage": false,
           "content_tags": [
@@ -550,7 +656,7 @@
         "title": "Show HN: Real-time visualization of Claude Code agent orchestration",
         "score": 1,
         "url": "https://github.com/patoles/agent-flow",
-        "hoursSincePosted": 34.07
+        "hoursSincePosted": 36.07
       },
       "everHitFrontPage": false,
       "stories": [
@@ -562,7 +668,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1776737134,
-          "ageHours": 34.07,
+          "ageHours": 36.07,
           "velocity": 0.03,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -590,7 +696,7 @@
         "title": "Voicebox – The open-source voice synthesis studio",
         "score": 1,
         "url": "https://github.com/jamiepine/voicebox",
-        "hoursSincePosted": 52.42
+        "hoursSincePosted": 54.41
       },
       "everHitFrontPage": false,
       "stories": [
@@ -602,7 +708,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1776671103,
-          "ageHours": 52.42,
+          "ageHours": 54.41,
           "velocity": 0.02,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -629,7 +735,7 @@
         "title": "Show HN: Trained a 12M transformer on an ML framework we built from scratch",
         "score": 2,
         "url": "https://github.com/mni-ml/framework",
-        "hoursSincePosted": 88.87
+        "hoursSincePosted": 90.87
       },
       "everHitFrontPage": false,
       "stories": [
@@ -641,7 +747,7 @@
           "score": 2,
           "descendants": 2,
           "createdUtc": 1776539859,
-          "ageHours": 88.87,
+          "ageHours": 90.87,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -669,7 +775,7 @@
         "title": "Show HN: Smol machines – subsecond coldstart, portable virtual machines",
         "score": 494,
         "url": "https://github.com/smol-machines/smolvm",
-        "hoursSincePosted": 114.85
+        "hoursSincePosted": 116.85
       },
       "everHitFrontPage": false,
       "stories": [
@@ -681,9 +787,9 @@
           "score": 494,
           "descendants": 147,
           "createdUtc": 1776446338,
-          "ageHours": 114.85,
-          "velocity": 4.3,
-          "trendingScore": 181.85,
+          "ageHours": 116.85,
+          "velocity": 4.23,
+          "trendingScore": 178.89,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -709,7 +815,7 @@
         "title": "Does Gas Town 'steal' usage from users' LLM credits to improve itself?",
         "score": 253,
         "url": "https://github.com/gastownhall/gastown/issues/3649",
-        "hoursSincePosted": 159.34
+        "hoursSincePosted": 161.33
       },
       "everHitFrontPage": false,
       "stories": [
@@ -721,9 +827,9 @@
           "score": 253,
           "descendants": 127,
           "createdUtc": 1776286188,
-          "ageHours": 159.34,
-          "velocity": 1.59,
-          "trendingScore": 52.35,
+          "ageHours": 161.33,
+          "velocity": 1.57,
+          "trendingScore": 51.69,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -749,7 +855,7 @@
         "title": "Show HN: MDV – a Markdown superset for docs, dashboards, and slides with data",
         "score": 149,
         "url": "https://github.com/drasimwagan/mdv",
-        "hoursSincePosted": 92.76
+        "hoursSincePosted": 94.75
       },
       "everHitFrontPage": false,
       "stories": [
@@ -761,9 +867,9 @@
           "score": 149,
           "descendants": 53,
           "createdUtc": 1776525879,
-          "ageHours": 92.76,
-          "velocity": 1.61,
-          "trendingScore": 22.04,
+          "ageHours": 94.75,
+          "velocity": 1.57,
+          "trendingScore": 21.49,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -789,7 +895,7 @@
         "title": "Show HN: Omi – watches your screen, hears conversations, tells you what to do",
         "score": 19,
         "url": "https://github.com/BasedHardware/omi",
-        "hoursSincePosted": 159.53
+        "hoursSincePosted": 161.52
       },
       "everHitFrontPage": false,
       "stories": [
@@ -801,7 +907,7 @@
           "score": 19,
           "descendants": 13,
           "createdUtc": 1776285501,
-          "ageHours": 159.53,
+          "ageHours": 161.52,
           "velocity": 0.12,
           "trendingScore": 0.35,
           "everHitFrontPage": false,
@@ -829,7 +935,7 @@
         "title": "Show HN: React Email 6.0 – An open-source email editor you can embed in your app",
         "score": 10,
         "url": "https://github.com/resend/react-email",
-        "hoursSincePosted": 117.83
+        "hoursSincePosted": 119.83
       },
       "everHitFrontPage": false,
       "stories": [
@@ -841,7 +947,7 @@
           "score": 10,
           "descendants": 0,
           "createdUtc": 1776435606,
-          "ageHours": 117.83,
+          "ageHours": 119.83,
           "velocity": 0.08,
           "trendingScore": 0.08,
           "everHitFrontPage": false,
@@ -869,7 +975,7 @@
         "title": "Hy-World 2.0: Model for Reconstructing, Generating, and Simulating 3D Worlds",
         "score": 8,
         "url": "https://github.com/Tencent-Hunyuan/HY-World-2.0",
-        "hoursSincePosted": 138.17
+        "hoursSincePosted": 140.17
       },
       "everHitFrontPage": false,
       "stories": [
@@ -881,7 +987,7 @@
           "score": 8,
           "descendants": 0,
           "createdUtc": 1776362386,
-          "ageHours": 138.17,
+          "ageHours": 140.17,
           "velocity": 0.06,
           "trendingScore": 0.05,
           "everHitFrontPage": false,
@@ -908,7 +1014,7 @@
         "title": "Show HN: Rebuilt SETI Home but for AI",
         "score": 4,
         "url": "https://github.com/Agent-FM/agentfm-core",
-        "hoursSincePosted": 133.49
+        "hoursSincePosted": 135.49
       },
       "everHitFrontPage": false,
       "stories": [
@@ -920,7 +1026,7 @@
           "score": 4,
           "descendants": 3,
           "createdUtc": 1776379233,
-          "ageHours": 133.49,
+          "ageHours": 135.49,
           "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -946,7 +1052,7 @@
           "score": 2,
           "descendants": 1,
           "createdUtc": 1776449784,
-          "ageHours": 113.89,
+          "ageHours": 115.89,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -973,7 +1079,7 @@
         "title": "Anubis weighs the soul of incoming HTTP requests to stop AI crawlers",
         "score": 4,
         "url": "https://github.com/TecharoHQ/anubis",
-        "hoursSincePosted": 133.48
+        "hoursSincePosted": 135.47
       },
       "everHitFrontPage": false,
       "stories": [
@@ -985,7 +1091,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1776379279,
-          "ageHours": 133.48,
+          "ageHours": 135.47,
           "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -1012,7 +1118,7 @@
         "title": "Mesh LLM",
         "score": 4,
         "url": "https://github.com/Mesh-LLM/mesh-llm",
-        "hoursSincePosted": 153.23
+        "hoursSincePosted": 155.23
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1024,7 +1130,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1776308156,
-          "ageHours": 153.23,
+          "ageHours": 155.23,
           "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -1051,7 +1157,7 @@
         "title": "Worldmonitor: Real-time global intelligence dashboard",
         "score": 3,
         "url": "https://github.com/koala73/worldmonitor",
-        "hoursSincePosted": 111.11
+        "hoursSincePosted": 113.11
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1063,7 +1169,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1776459805,
-          "ageHours": 111.11,
+          "ageHours": 113.11,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1090,7 +1196,7 @@
         "title": "Design.md",
         "score": 2,
         "url": "https://github.com/VoltAgent/awesome-design-md",
-        "hoursSincePosted": 78.45
+        "hoursSincePosted": 80.44
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1102,8 +1208,8 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776577393,
-          "ageHours": 78.45,
-          "velocity": 0.03,
+          "ageHours": 80.44,
+          "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
           "content_tags": [
@@ -1129,7 +1235,7 @@
         "title": "Caveman – why use many token when few do trick",
         "score": 2,
         "url": "https://github.com/JuliusBrussee/caveman/blob/main/README.md",
-        "hoursSincePosted": 140.9
+        "hoursSincePosted": 142.9
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1141,7 +1247,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776352549,
-          "ageHours": 140.9,
+          "ageHours": 142.9,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1169,7 +1275,7 @@
         "title": "Show HN: Multi-Agent Orchestration on Top of Vercel AI SDK (TypeScript, Next.js)",
         "score": 2,
         "url": "https://github.com/JackChen-me/open-multi-agent/tree/main/examples/with-vercel-ai-sdk",
-        "hoursSincePosted": 162.29
+        "hoursSincePosted": 164.29
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1181,7 +1287,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776275551,
-          "ageHours": 162.29,
+          "ageHours": 164.29,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1210,7 +1316,7 @@
         "title": "Show HN: Understand Anything – Graphs that teach > graphs that impress",
         "score": 1,
         "url": "https://github.com/Lum1104/Understand-Anything",
-        "hoursSincePosted": 76.19
+        "hoursSincePosted": 78.19
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1222,7 +1328,7 @@
           "score": 1,
           "descendants": 3,
           "createdUtc": 1776585499,
-          "ageHours": 76.19,
+          "ageHours": 78.19,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1250,7 +1356,7 @@
         "title": "An open-source long-horizon SuperAgent harness that researches,codes and creates",
         "score": 1,
         "url": "https://github.com/bytedance/deer-flow",
-        "hoursSincePosted": 98.34
+        "hoursSincePosted": 100.34
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1262,7 +1368,7 @@
           "score": 1,
           "descendants": 1,
           "createdUtc": 1776505757,
-          "ageHours": 98.34,
+          "ageHours": 100.34,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1289,7 +1395,7 @@
         "title": "Who Tried Hermes Agent?",
         "score": 1,
         "url": "https://github.com/aipoch/medical-research-skills",
-        "hoursSincePosted": 150.31
+        "hoursSincePosted": 152.31
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1301,7 +1407,7 @@
           "score": 1,
           "descendants": 1,
           "createdUtc": 1776318688,
-          "ageHours": 150.31,
+          "ageHours": 152.31,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1336,7 +1442,7 @@
     {
       "fullName": "ENTERPILOT/GoModel",
       "count7d": 1,
-      "scoreSum7d": 180
+      "scoreSum7d": 186
     },
     {
       "fullName": "drasimwagan/mdv",
@@ -1364,17 +1470,27 @@
       "scoreSum7d": 6
     },
     {
+      "fullName": "TencentCloud/CubeSandbox",
+      "count7d": 2,
+      "scoreSum7d": 6
+    },
+    {
+      "fullName": "saadnvd1/hydra",
+      "count7d": 1,
+      "scoreSum7d": 6
+    },
+    {
+      "fullName": "Screenata/open-chronicle",
+      "count7d": 1,
+      "scoreSum7d": 5
+    },
+    {
       "fullName": "ruvnet/RuView",
       "count7d": 2,
       "scoreSum7d": 4
     },
     {
       "fullName": "Mesh-LLM/mesh-llm",
-      "count7d": 1,
-      "scoreSum7d": 4
-    },
-    {
-      "fullName": "Screenata/open-chronicle",
       "count7d": 1,
       "scoreSum7d": 4
     },
@@ -1400,11 +1516,6 @@
     },
     {
       "fullName": "Lazarus-AI/clearwing",
-      "count7d": 1,
-      "scoreSum7d": 3
-    },
-    {
-      "fullName": "TencentCloud/CubeSandbox",
       "count7d": 1,
       "scoreSum7d": 3
     },
@@ -1445,6 +1556,11 @@
     },
     {
       "fullName": "posit-dev/ggsql",
+      "count7d": 1,
+      "scoreSum7d": 2
+    },
+    {
+      "fullName": "samber/awesome-user-research",
       "count7d": 1,
       "scoreSum7d": 2
     },

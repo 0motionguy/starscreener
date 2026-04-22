@@ -1,13 +1,116 @@
 {
-  "fetchedAt": "2026-04-22T19:43:00.465Z",
+  "fetchedAt": "2026-04-22T21:10:56.669Z",
   "windowDays": 7,
-  "scannedPosts": 199,
+  "scannedPosts": 299,
   "searchQuery": "github.com",
-  "pagesFetched": 2,
+  "pagesFetched": 3,
   "mentions": {
+    "ggml-org/llama.cpp": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:4cb4ap6dfrm2cgfw64dpuwha/app.bsky.feed.post/3mk4d4hb7ys2v",
+        "cid": "bafyreihvjbqu3sgrhhrjnqdn3cnhegl2qf46mkz2twgrccewxfmyjcwnji",
+        "bskyUrl": "https://bsky.app/profile/barredspirals.comint.su/post/3mk4d4hb7ys2v",
+        "text": "huh. okay it looks like you're right about qwen3.6? json is a common tool call format for other models tho, see github.com/ggml-org/lla...",
+        "author": {
+          "handle": "barredspirals.comint.su",
+          "displayName": "lexi"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-22T20:20:54.616Z",
+        "hoursSincePosted": 0.83
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:4cb4ap6dfrm2cgfw64dpuwha/app.bsky.feed.post/3mk4d4hb7ys2v",
+          "cid": "bafyreihvjbqu3sgrhhrjnqdn3cnhegl2qf46mkz2twgrccewxfmyjcwnji",
+          "bskyUrl": "https://bsky.app/profile/barredspirals.comint.su/post/3mk4d4hb7ys2v",
+          "text": "huh. okay it looks like you're right about qwen3.6? json is a common tool call format for other models tho, see github.com/ggml-org/lla...",
+          "author": {
+            "handle": "barredspirals.comint.su",
+            "displayName": "lexi"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-22T20:20:54.616Z",
+          "createdUtc": 1776889254,
+          "ageHours": 0.83,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "ggml-org/llama.cpp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "matthart1983/netwatch": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mk4b4o7ve72x",
+        "cid": "bafyreibmu3n3kqcd5c3iuq6f4e7axiwovztiswwnt665qofopi4mt52vqi",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mk4b4o7ve72x",
+        "text": "matthart1983 / netwatch: Real-time network diagnostics in your terminal. One command, zero config, instant visibility. ★1287 https://github.com/matthart1983/netwatch",
+        "author": {
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-22T19:45:14.326273Z",
+        "hoursSincePosted": 1.43
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mk4b4o7ve72x",
+          "cid": "bafyreibmu3n3kqcd5c3iuq6f4e7axiwovztiswwnt665qofopi4mt52vqi",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mk4b4o7ve72x",
+          "text": "matthart1983 / netwatch: Real-time network diagnostics in your terminal. One command, zero config, instant visibility. ★1287 https://github.com/matthart1983/netwatch",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-22T19:45:14.326273Z",
+          "createdUtc": 1776887114,
+          "ageHours": 1.43,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "matthart1983/netwatch",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "jj-vcs/jj": {
       "count7d": 1,
-      "likesSum7d": 2,
+      "likesSum7d": 4,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -19,11 +122,11 @@
           "handle": "jmuk.org",
           "displayName": "Jun Mukai"
         },
-        "likeCount": 2,
+        "likeCount": 4,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-22T18:46:24.576Z",
-        "hoursSincePosted": 0.94
+        "hoursSincePosted": 2.41
       },
       "posts": [
         {
@@ -35,13 +138,13 @@
             "handle": "jmuk.org",
             "displayName": "Jun Mukai"
           },
-          "likeCount": 2,
+          "likeCount": 4,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-04-22T18:46:24.576Z",
           "createdUtc": 1776883584,
-          "ageHours": 0.94,
-          "trendingScore": 2,
+          "ageHours": 2.41,
+          "trendingScore": 4,
           "content_tags": [
             "has-github-repo"
           ],
@@ -74,7 +177,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-22T18:44:32.739Z",
-        "hoursSincePosted": 0.97
+        "hoursSincePosted": 2.44
       },
       "posts": [
         {
@@ -91,7 +194,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-22T18:44:32.739Z",
           "createdUtc": 1776883472,
-          "ageHours": 0.97,
+          "ageHours": 2.44,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -125,7 +228,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-22T18:24:39Z",
-        "hoursSincePosted": 1.31
+        "hoursSincePosted": 2.77
       },
       "posts": [
         {
@@ -142,7 +245,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-22T18:24:39Z",
           "createdUtc": 1776882279,
-          "ageHours": 1.31,
+          "ageHours": 2.77,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -176,7 +279,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-22T18:00:23.309Z",
-        "hoursSincePosted": 1.71
+        "hoursSincePosted": 3.18
       },
       "posts": [
         {
@@ -193,7 +296,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-22T18:00:23.309Z",
           "createdUtc": 1776880823,
-          "ageHours": 1.71,
+          "ageHours": 3.18,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -227,7 +330,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-22T17:44:54.806Z",
-        "hoursSincePosted": 1.97
+        "hoursSincePosted": 3.43
       },
       "posts": [
         {
@@ -244,7 +347,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-22T17:44:54.806Z",
           "createdUtc": 1776879894,
-          "ageHours": 1.97,
+          "ageHours": 3.43,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -262,9 +365,9 @@
     },
     "avivash/at-search": {
       "count7d": 1,
-      "likesSum7d": 2,
+      "likesSum7d": 8,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
         "uri": "at://did:plc:vsnj4aaxyatiht4spdht2q2t/app.bsky.feed.post/3mk3zhd22ck24",
         "cid": "bafyreiaqduh4jeih3dgxbebed5yweekedeuko25jhni4djcq3lqzv2aeea",
@@ -274,11 +377,11 @@
           "handle": "hamburgerz.bsky.social",
           "displayName": "Andy"
         },
-        "likeCount": 2,
+        "likeCount": 8,
         "repostCount": 0,
-        "replyCount": 0,
+        "replyCount": 1,
         "createdAt": "2026-04-22T17:28:01.867Z",
-        "hoursSincePosted": 2.25
+        "hoursSincePosted": 3.72
       },
       "posts": [
         {
@@ -290,13 +393,13 @@
             "handle": "hamburgerz.bsky.social",
             "displayName": "Andy"
           },
-          "likeCount": 2,
+          "likeCount": 8,
           "repostCount": 0,
-          "replyCount": 0,
+          "replyCount": 1,
           "createdAt": "2026-04-22T17:28:01.867Z",
           "createdUtc": 1776878881,
-          "ageHours": 2.25,
-          "trendingScore": 2,
+          "ageHours": 3.72,
+          "trendingScore": 8.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -316,12 +419,17 @@
     {
       "fullName": "avivash/at-search",
       "count7d": 1,
-      "likesSum7d": 2
+      "likesSum7d": 8
     },
     {
       "fullName": "jj-vcs/jj",
       "count7d": 1,
-      "likesSum7d": 2
+      "likesSum7d": 4
+    },
+    {
+      "fullName": "ggml-org/llama.cpp",
+      "count7d": 1,
+      "likesSum7d": 1
     },
     {
       "fullName": "pascalorg/editor",
@@ -335,6 +443,11 @@
     },
     {
       "fullName": "louis-e/arnis",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "matthart1983/netwatch",
       "count7d": 1,
       "likesSum7d": 0
     },

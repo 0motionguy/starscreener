@@ -1,47 +1,73 @@
 {
-  "fetchedAt": "2026-04-22T14:11:05.571Z",
+  "fetchedAt": "2026-04-22T15:42:12.115Z",
   "windowDays": 7,
-  "scannedPosts": 300,
+  "scannedPosts": 99,
   "searchQuery": "github.com",
-  "pagesFetched": 3,
+  "pagesFetched": 1,
   "mentions": {
-    "rtk-ai/rtk": {
-      "count7d": 1,
-      "likesSum7d": 1,
+    "JuliusBrussee/caveman": {
+      "count7d": 2,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:nfnpo7udwhsx6idsmvf6tund/app.bsky.feed.post/3mk3lejvep22n",
-        "cid": "bafyreifb5mqztdq53xfg4bff5bxappmgawek7t46q7ka23s2khmng7ycaa",
-        "bskyUrl": "https://bsky.app/profile/reinaldorauch.dev.br/post/3mk3lejvep22n",
-        "text": "da uma olhada no rtk, pode ajudar um pouco: github.com/rtk-ai/rtk",
+        "uri": "at://did:plc:fc3p4gdphlj3s4nks6kif3zp/app.bsky.feed.post/3mk3tiw6gj22w",
+        "cid": "bafyreibitl64ormjmxy7te2cnl6hrt6cninsgpwlbwmln3yqkl4ihpjvly",
+        "bskyUrl": "https://bsky.app/profile/theloveblowe.bsky.social/post/3mk3tiw6gj22w",
+        "text": "Reading about the 文言文 (Wenyan) Mode from this Claude caveman skill github.com/juliusbrusse...",
         "author": {
-          "handle": "reinaldorauch.dev.br",
-          "displayName": "Reinaldo A. C. Rauch"
+          "handle": "theloveblowe.bsky.social"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-04-22T13:15:56.005Z",
-        "hoursSincePosted": 0.92
+        "replyCount": 0,
+        "createdAt": "2026-04-22T15:41:33.034Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
-          "uri": "at://did:plc:nfnpo7udwhsx6idsmvf6tund/app.bsky.feed.post/3mk3lejvep22n",
-          "cid": "bafyreifb5mqztdq53xfg4bff5bxappmgawek7t46q7ka23s2khmng7ycaa",
-          "bskyUrl": "https://bsky.app/profile/reinaldorauch.dev.br/post/3mk3lejvep22n",
-          "text": "da uma olhada no rtk, pode ajudar um pouco: github.com/rtk-ai/rtk",
+          "uri": "at://did:plc:fc3p4gdphlj3s4nks6kif3zp/app.bsky.feed.post/3mk3tiw6gj22w",
+          "cid": "bafyreibitl64ormjmxy7te2cnl6hrt6cninsgpwlbwmln3yqkl4ihpjvly",
+          "bskyUrl": "https://bsky.app/profile/theloveblowe.bsky.social/post/3mk3tiw6gj22w",
+          "text": "Reading about the 文言文 (Wenyan) Mode from this Claude caveman skill github.com/juliusbrusse...",
           "author": {
-            "handle": "reinaldorauch.dev.br",
-            "displayName": "Reinaldo A. C. Rauch"
+            "handle": "theloveblowe.bsky.social"
           },
-          "likeCount": 1,
+          "likeCount": 0,
           "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-04-22T13:15:56.005Z",
-          "createdUtc": 1776863756,
-          "ageHours": 0.92,
-          "trendingScore": 1.5,
+          "replyCount": 0,
+          "createdAt": "2026-04-22T15:41:33.034Z",
+          "createdUtc": 1776872493,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "JuliusBrussee/caveman",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:2pbcv2hgynjwwxnpu633n23w/app.bsky.feed.post/3mk3r7e4hpj2h",
+          "cid": "bafyreigphgxlf7w7xafut67rdewebpqp6hm55f2xv75wrgd642o427l56y",
+          "bskyUrl": "https://bsky.app/profile/jordbastin.bsky.social/post/3mk3r7e4hpj2h",
+          "text": "~80% tokens économisés sur mes sessions AI : 🪓 rtk compresse les commandes (-90%) 🪨 caveman compresse les réponses (-75%) Moins de fluff, même précision, facture divisée. → github.com/rtk-ai/rtk → github.com/JuliusBruss...",
+          "author": {
+            "handle": "jordbastin.bsky.social",
+            "displayName": "Jordan Bastin 🇫🇷"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-22T15:00:24.567616Z",
+          "createdUtc": 1776870024,
+          "ageHours": 0.7,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -51,56 +77,9 @@
               "fullName": "rtk-ai/rtk",
               "matchType": "url",
               "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "NousResearch/hermes-agent": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:uwdw4rthvdkclv7n2skldjnm/app.bsky.feed.post/3mk3kjpkhvh2v",
-        "cid": "bafyreic5lymj3bvl2ktkkvk37an2yfkywrq3yabgaaszpmayhu5jtgo3xm",
-        "bskyUrl": "https://bsky.app/profile/jeremymorgan.com/post/3mk3kjpkhvh2v",
-        "text": "Most agent frameworks are prompt templating with tool calling. Hermes takes a different bet: accumulate capability from execution traces, abstract completed workflows into reusable skills, then export the traces as fine-tuning data. github.com/NousResearch...",
-        "author": {
-          "handle": "jeremymorgan.com",
-          "displayName": "Jeremy Morgan"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-04-22T13:00:55.039Z",
-        "hoursSincePosted": 1.17
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:uwdw4rthvdkclv7n2skldjnm/app.bsky.feed.post/3mk3kjpkhvh2v",
-          "cid": "bafyreic5lymj3bvl2ktkkvk37an2yfkywrq3yabgaaszpmayhu5jtgo3xm",
-          "bskyUrl": "https://bsky.app/profile/jeremymorgan.com/post/3mk3kjpkhvh2v",
-          "text": "Most agent frameworks are prompt templating with tool calling. Hermes takes a different bet: accumulate capability from execution traces, abstract completed workflows into reusable skills, then export the traces as fine-tuning data. github.com/NousResearch...",
-          "author": {
-            "handle": "jeremymorgan.com",
-            "displayName": "Jeremy Morgan"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-04-22T13:00:55.039Z",
-          "createdUtc": 1776862855,
-          "ageHours": 1.17,
-          "trendingScore": 1.5,
-          "content_tags": [
-            "has-github-repo",
-            "has-agent"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
+            },
             {
-              "fullName": "NousResearch/hermes-agent",
+              "fullName": "JuliusBrussee/caveman",
               "matchType": "url",
               "confidence": 1
             }
@@ -108,42 +87,42 @@
         }
       ]
     },
-    "steipete/wacli": {
+    "databasus/databasus": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mk3jeecqbw2x",
-        "cid": "bafyreiduwprcvhgbj37bce3u5vjczalllzpm5by2s2mbvjsx6gvyfnhldm",
-        "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mk3jeecqbw2x",
-        "text": "`wacli` — un CLI pour WhatsApp : sync locale de l'historique, recherche offline, envoi de messages et gestion des groupes. Construit sur `whatsmeow`, installable via Homebrew. https://github.com/steipete/wacli/",
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mk3stcrfv72g",
+        "cid": "bafyreibiw2qz2hdq3rtai3jib7nq64wvpvodm4vhcdx6k2ee27ck6wibby",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mk3stcrfv72g",
+        "text": "https://github.com/databasus/databasus",
         "author": {
-          "handle": "camilleroux.com",
-          "displayName": "Camille Roux"
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-04-22T14:40:02+02:00",
-        "hoursSincePosted": 1.52
+        "createdAt": "2026-04-22T15:29:27Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
-          "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mk3jeecqbw2x",
-          "cid": "bafyreiduwprcvhgbj37bce3u5vjczalllzpm5by2s2mbvjsx6gvyfnhldm",
-          "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mk3jeecqbw2x",
-          "text": "`wacli` — un CLI pour WhatsApp : sync locale de l'historique, recherche offline, envoi de messages et gestion des groupes. Construit sur `whatsmeow`, installable via Homebrew. https://github.com/steipete/wacli/",
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mk3stcrfv72g",
+          "cid": "bafyreibiw2qz2hdq3rtai3jib7nq64wvpvodm4vhcdx6k2ee27ck6wibby",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mk3stcrfv72g",
+          "text": "https://github.com/databasus/databasus",
           "author": {
-            "handle": "camilleroux.com",
-            "displayName": "Camille Roux"
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-04-22T14:40:02+02:00",
-          "createdUtc": 1776861602,
-          "ageHours": 1.52,
+          "createdAt": "2026-04-22T15:29:27Z",
+          "createdUtc": 1776871767,
+          "ageHours": 0.5,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -151,7 +130,7 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "steipete/wacli",
+              "fullName": "databasus/databasus",
               "matchType": "url",
               "confidence": 1
             }
@@ -159,42 +138,42 @@
         }
       ]
     },
-    "midudev/autoskills": {
+    "rtk-ai/rtk": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mk3ei66ocw2h",
-        "cid": "bafyreicvwgkjcn4vzsgiobutklwbkinkjj6mxnyxobownspukhso5xm6n4",
-        "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mk3ei66ocw2h",
-        "text": "プロジェクトをスキャンして最適なAIエージェントのスキルを自動設定してくれるツールっぽい コマンド一つで環境に応じたエージェント構築が捗りそうで試したい yug1224 starred midudev/autoskills https://github.com/midudev/autoskills",
+        "uri": "at://did:plc:2pbcv2hgynjwwxnpu633n23w/app.bsky.feed.post/3mk3r7e4hpj2h",
+        "cid": "bafyreigphgxlf7w7xafut67rdewebpqp6hm55f2xv75wrgd642o427l56y",
+        "bskyUrl": "https://bsky.app/profile/jordbastin.bsky.social/post/3mk3r7e4hpj2h",
+        "text": "~80% tokens économisés sur mes sessions AI : 🪓 rtk compresse les commandes (-90%) 🪨 caveman compresse les réponses (-75%) Moins de fluff, même précision, facture divisée. → github.com/rtk-ai/rtk → github.com/JuliusBruss...",
         "author": {
-          "handle": "yug1224.com",
-          "displayName": "ぷーじ"
+          "handle": "jordbastin.bsky.social",
+          "displayName": "Jordan Bastin 🇫🇷"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-04-22T11:12:41.208Z",
-        "hoursSincePosted": 2.97
+        "createdAt": "2026-04-22T15:00:24.567616Z",
+        "hoursSincePosted": 0.7
       },
       "posts": [
         {
-          "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mk3ei66ocw2h",
-          "cid": "bafyreicvwgkjcn4vzsgiobutklwbkinkjj6mxnyxobownspukhso5xm6n4",
-          "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mk3ei66ocw2h",
-          "text": "プロジェクトをスキャンして最適なAIエージェントのスキルを自動設定してくれるツールっぽい コマンド一つで環境に応じたエージェント構築が捗りそうで試したい yug1224 starred midudev/autoskills https://github.com/midudev/autoskills",
+          "uri": "at://did:plc:2pbcv2hgynjwwxnpu633n23w/app.bsky.feed.post/3mk3r7e4hpj2h",
+          "cid": "bafyreigphgxlf7w7xafut67rdewebpqp6hm55f2xv75wrgd642o427l56y",
+          "bskyUrl": "https://bsky.app/profile/jordbastin.bsky.social/post/3mk3r7e4hpj2h",
+          "text": "~80% tokens économisés sur mes sessions AI : 🪓 rtk compresse les commandes (-90%) 🪨 caveman compresse les réponses (-75%) Moins de fluff, même précision, facture divisée. → github.com/rtk-ai/rtk → github.com/JuliusBruss...",
           "author": {
-            "handle": "yug1224.com",
-            "displayName": "ぷーじ"
+            "handle": "jordbastin.bsky.social",
+            "displayName": "Jordan Bastin 🇫🇷"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-04-22T11:12:41.208Z",
-          "createdUtc": 1776856361,
-          "ageHours": 2.97,
+          "createdAt": "2026-04-22T15:00:24.567616Z",
+          "createdUtc": 1776870024,
+          "ageHours": 0.7,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -202,59 +181,12 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "midudev/autoskills",
+              "fullName": "rtk-ai/rtk",
               "matchType": "url",
               "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "NVIDIA/OpenShell": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:srmltlrjqfr7mbfdejuxrbss/app.bsky.feed.post/3mk3c4drdzm2g",
-        "cid": "bafyreifrmfpxakjgwavj47juf7w7yppxfpjiiamlkihqxlptelau37tye4",
-        "bskyUrl": "https://bsky.app/profile/jelloeater.bsky.social/post/3mk3c4drdzm2g",
-        "text": "NVIDIA/OpenShell: OpenShell is the safe, private runtime for autonomous AI agents. github.com/NVIDIA/OpenS...",
-        "author": {
-          "handle": "jelloeater.bsky.social",
-          "displayName": "Jelloeater"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-22T10:30:16.256Z",
-        "hoursSincePosted": 3.68
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:srmltlrjqfr7mbfdejuxrbss/app.bsky.feed.post/3mk3c4drdzm2g",
-          "cid": "bafyreifrmfpxakjgwavj47juf7w7yppxfpjiiamlkihqxlptelau37tye4",
-          "bskyUrl": "https://bsky.app/profile/jelloeater.bsky.social/post/3mk3c4drdzm2g",
-          "text": "NVIDIA/OpenShell: OpenShell is the safe, private runtime for autonomous AI agents. github.com/NVIDIA/OpenS...",
-          "author": {
-            "handle": "jelloeater.bsky.social",
-            "displayName": "Jelloeater"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-22T10:30:16.256Z",
-          "createdUtc": 1776853816,
-          "ageHours": 3.68,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo",
-            "has-agent"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
+            },
             {
-              "fullName": "NVIDIA/OpenShell",
+              "fullName": "JuliusBrussee/caveman",
               "matchType": "url",
               "confidence": 1
             }
@@ -265,27 +197,17 @@
   },
   "leaderboard": [
     {
-      "fullName": "NousResearch/hermes-agent",
+      "fullName": "JuliusBrussee/caveman",
+      "count7d": 2,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "databasus/databasus",
       "count7d": 1,
-      "likesSum7d": 1
+      "likesSum7d": 0
     },
     {
       "fullName": "rtk-ai/rtk",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "midudev/autoskills",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "NVIDIA/OpenShell",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "steipete/wacli",
       "count7d": 1,
       "likesSum7d": 0
     }

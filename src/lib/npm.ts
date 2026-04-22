@@ -28,6 +28,8 @@ export interface NpmPackageRow {
     queries: string[];
     searchScore: number;
     finalScore: number;
+    weeklyDownloads?: number;
+    monthlyDownloads?: number;
   };
   downloads: NpmDownloadDay[];
   downloads24h: number;
@@ -39,6 +41,9 @@ export interface NpmPackageRow {
   delta7d: number;
   deltaPct7d: number;
   downloads30d: number;
+  previous30d: number;
+  delta30d: number;
+  deltaPct30d: number;
   trendScore24h: number;
   trendScore7d: number;
   trendScore30d: number;
@@ -60,7 +65,8 @@ export interface NpmPackagesFile {
     searchSize: number;
     topLimit: number;
     candidateLimit?: number;
-    downloadBulkSize?: number;
+    downloadRangeDelayMs?: number;
+    downloadLagDays?: number;
     queries: string[];
     candidatesFound: number;
     failures: Array<{ query?: string; package?: string; error: string }>;
@@ -109,9 +115,15 @@ export function deltaPctForNpmWindow(
   pkg: NpmPackageRow,
   window: NpmWindow,
 ): number | null {
-  if (window === "24h") return pkg.deltaPct24h;
-  if (window === "7d") return pkg.deltaPct7d;
-  return null;
+  if (window === "24h") return pkg.deltaPct24h ?? null;
+  if (window === "7d") return pkg.deltaPct7d ?? null;
+  return pkg.deltaPct30d ?? null;
+}
+
+export function deltaForNpmWindow(pkg: NpmPackageRow, window: NpmWindow): number {
+  if (window === "24h") return pkg.delta24h ?? 0;
+  if (window === "7d") return pkg.delta7d ?? 0;
+  return pkg.delta30d ?? 0;
 }
 
 export function getTopNpmPackages(
@@ -121,6 +133,12 @@ export function getTopNpmPackages(
   const sorted = getNpmPackages().slice().sort((a, b) => {
     const byMetric = metricForNpmWindow(b, window) - metricForNpmWindow(a, window);
     if (byMetric !== 0) return byMetric;
+    const byPct =
+      (deltaPctForNpmWindow(b, window) ?? 0) -
+      (deltaPctForNpmWindow(a, window) ?? 0);
+    if (byPct !== 0) return byPct;
+    const byDelta = deltaForNpmWindow(b, window) - deltaForNpmWindow(a, window);
+    if (byDelta !== 0) return byDelta;
     const byDownloads = b.downloads30d - a.downloads30d;
     if (byDownloads !== 0) return byDownloads;
     return a.name.localeCompare(b.name);

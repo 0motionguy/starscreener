@@ -50,6 +50,7 @@
     "scrape:bsky": "node scripts/scrape-bluesky.mjs",
     "scrape:ph": "node scripts/scrape-producthunt.mjs",
     "scrape:devto": "node scripts/scrape-devto.mjs",
+    "scrape:lobsters": "node scripts/scrape-lobsters.mjs",
     "scrape:npm": "node scripts/scrape-npm.mjs",
     "compute:reddit-baselines": "node scripts/compute-reddit-baselines.mjs",
     "discover:recent": "node scripts/discover-recent-repos.mjs",

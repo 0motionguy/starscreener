@@ -118,3 +118,9 @@ export function getLobstersLeaderboard(): LobstersLeaderboardEntry[] {
 export function lobstersStoryHref(shortId: string): string {
   return `https://lobste.rs/s/${shortId}`;
 }
+
+export function repoFullNameToHref(fullName: string): string {
+  const [owner, name] = fullName.split("/", 2);
+  if (!owner || !name) return "/repo";
+  return `/repo/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`;
+}

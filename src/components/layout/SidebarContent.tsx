@@ -6,6 +6,7 @@
  * two mounts is the mobile-only header strip (logo + close button) which
  * appears when `onClose` is provided by the drawer.
  */
+import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import {
   Bookmark,
@@ -92,6 +93,7 @@ export function SidebarContent({
 }: SidebarContentProps) {
   const router = useRouter();
   const pathname = usePathname() ?? "/";
+  const [newsTab, setNewsTab] = useState<string | null>(null);
   const activeCategory = useFilterStore((s) => s.category);
   const activeMetaFilter = useFilterStore((s) => s.activeMetaFilter);
   const activeTab = useFilterStore((s) => s.activeTab);
@@ -104,6 +106,10 @@ export function SidebarContent({
   const compareCount = useCompareStore((s) => s.repos.length);
 
   const statsByCategory = byCategoryId(categoryStats);
+
+  useEffect(() => {
+    setNewsTab(new URLSearchParams(window.location.search).get("tab"));
+  }, [pathname]);
 
   // Repos terminal: the homepage `/` with a meta-filter applied. The four
   // entries (Trending / Breakouts / New Repos / Hot This Week) all route
@@ -213,7 +219,7 @@ export function SidebarContent({
             active={
               pathname === "/hackernews" ||
               pathname.startsWith("/hackernews/") ||
-              (pathname === "/news" /* default tab */)
+              (pathname === "/news" && (!newsTab || newsTab === "hackernews"))
             }
           />
           <SidebarNavItem
@@ -222,7 +228,8 @@ export function SidebarContent({
             label="ProductHunt"
             active={
               pathname === "/producthunt" ||
-              pathname.startsWith("/producthunt/")
+              pathname.startsWith("/producthunt/") ||
+              (pathname === "/news" && newsTab === "producthunt")
             }
           />
           <SidebarNavItem
@@ -231,7 +238,8 @@ export function SidebarContent({
             label="Bluesky"
             active={
               pathname === "/bluesky" ||
-              pathname.startsWith("/bluesky/")
+              pathname.startsWith("/bluesky/") ||
+              (pathname === "/news" && newsTab === "bluesky")
             }
           />
           <SidebarNavItem
@@ -240,16 +248,18 @@ export function SidebarContent({
             label="Dev.to"
             active={
               pathname === "/devto" ||
-              pathname.startsWith("/devto/")
+              pathname.startsWith("/devto/") ||
+              (pathname === "/news" && newsTab === "devto")
             }
           />
           <SidebarNavItem
-            href="/news?tab=lobsters"
+            href="/lobsters"
             icon={LobstersSidebarIcon}
             label="Lobsters"
             active={
               pathname === "/lobsters" ||
-              (pathname.startsWith("/news") && /tab=lobsters/.test(pathname + "?"))
+              pathname.startsWith("/lobsters/") ||
+              (pathname === "/news" && newsTab === "lobsters")
             }
           />
         </SidebarSection>

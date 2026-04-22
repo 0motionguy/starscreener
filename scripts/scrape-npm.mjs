@@ -6,8 +6,11 @@
 // feed. So this job does the honest version:
 //   1. Discover candidates from npm registry search queries.
 //   2. Keep only packages whose npm metadata links to a GitHub repo.
-//   3. Fetch bulk point download counts for last-day/week/month.
-//   4. Rank the repo-linked packages for 24h, 7d, and 30d views.
+//   3. Fetch daily download ranges for candidate packages.
+//   4. Rank by movement vs the previous equivalent window:
+//      - 24h = latest day vs previous day
+//      - 7d  = latest 7 days vs previous 7 days
+//      - 30d = latest 30 days vs previous 30 days
 //
 // Output:
 //   - data/npm-packages.json
@@ -42,11 +45,6 @@ export const DEFAULT_NPM_DISCOVERY_QUERIES = [
   "cli",
 ];
 
-const DOWNLOAD_PERIODS = {
-  "24h": "last-day",
-  "7d": "last-week",
-  "30d": "last-month",
-};
 const USER_AGENT = "TrendingRepo/1.0 (+https://trendingrepo.com)";
 const SEARCH_SIZE = Math.max(
   1,
@@ -54,24 +52,25 @@ const SEARCH_SIZE = Math.max(
 );
 const CANDIDATE_LIMIT = Math.max(
   1,
-  Math.min(250, Number.parseInt(process.env.NPM_CANDIDATE_LIMIT ?? "80", 10) || 80),
+  Math.min(250, Number.parseInt(process.env.NPM_CANDIDATE_LIMIT ?? "50", 10) || 50),
 );
 const TOP_LIMIT = Math.max(
   1,
   Math.min(250, Number.parseInt(process.env.NPM_TOP_LIMIT ?? "75", 10) || 75),
 );
-const DOWNLOAD_BULK_SIZE = Math.max(
-  1,
-  Math.min(128, Number.parseInt(process.env.NPM_DOWNLOAD_BULK_SIZE ?? "100", 10) || 100),
-);
 const SEARCH_DELAY_MS = Math.max(
   0,
   Number.parseInt(process.env.NPM_SEARCH_DELAY_MS ?? "750", 10) || 0,
 );
-const SCOPED_DOWNLOAD_DELAY_MS = Math.max(
+const DOWNLOAD_RANGE_DELAY_MS = Math.max(
   0,
-  Number.parseInt(process.env.NPM_SCOPED_DOWNLOAD_DELAY_MS ?? "250", 10) || 0,
+  Number.parseInt(process.env.NPM_DOWNLOAD_RANGE_DELAY_MS ?? "650", 10) || 0,
 );
+const DOWNLOAD_LAG_DAYS = Math.max(
+  1,
+  Math.min(7, Number.parseInt(process.env.NPM_DOWNLOAD_LAG_DAYS ?? "2", 10) || 2),
+);
+const RANGE_DAYS = 60;
 
 export function parseDiscoveryQueries(raw) {
   const source =
@@ -141,8 +140,30 @@ function sumDownloads(days) {
   );
 }
 
+function pctDelta(current, previous) {
+  if (previous > 0) return ((current - previous) / previous) * 100;
+  return current > 0 ? 100 : 0;
+}
+
+function roundPct(value) {
+  return Math.round(value * 10) / 10;
+}
+
+function computeMoverScore(current, previous) {
+  const delta = current - previous;
+  if (current <= 0 || delta <= 0) return 0;
+  const cappedPct = Math.min(500, Math.max(0, pctDelta(current, previous)));
+  const volumeWeight = Math.log10(current + 10);
+  const deltaWeight = Math.log10(delta + 10);
+  return Math.round(cappedPct * volumeWeight + deltaWeight * 25);
+}
+
 export function computeDownloadStats(downloads) {
-  const days = Array.isArray(downloads) ? downloads.slice() : [];
+  const days = Array.isArray(downloads)
+    ? downloads
+        .slice()
+        .sort((a, b) => String(a?.day ?? "").localeCompare(String(b?.day ?? "")))
+    : [];
   const downloads24h =
     days.length > 0 ? Math.max(0, Number(days.at(-1)?.downloads) || 0) : 0;
   const previous24h =
@@ -150,60 +171,32 @@ export function computeDownloadStats(downloads) {
   const downloads7d = sumDownloads(days.slice(-7));
   const previous7d = sumDownloads(days.slice(-14, -7));
   const downloads30d = sumDownloads(days.slice(-30));
+  const previous30d = sumDownloads(days.slice(-60, -30));
 
   const delta24h = downloads24h - previous24h;
   const delta7d = downloads7d - previous7d;
-  const deltaPct24h =
-    previous24h > 0
-      ? (delta24h / previous24h) * 100
-      : downloads24h > 0
-        ? 100
-        : 0;
-  const deltaPct7d =
-    previous7d > 0
-      ? (delta7d / previous7d) * 100
-      : downloads7d > 0
-        ? 100
-        : 0;
+  const delta30d = downloads30d - previous30d;
+  const deltaPct24h = pctDelta(downloads24h, previous24h);
+  const deltaPct7d = pctDelta(downloads7d, previous7d);
+  const deltaPct30d = pctDelta(downloads30d, previous30d);
 
   return {
     downloads24h,
     previous24h,
     delta24h,
-    deltaPct24h: Math.round(deltaPct24h * 10) / 10,
+    deltaPct24h: roundPct(deltaPct24h),
     downloads7d,
     previous7d,
     delta7d,
-    deltaPct7d: Math.round(deltaPct7d * 10) / 10,
+    deltaPct7d: roundPct(deltaPct7d),
     downloads30d,
-    trendScore24h: computeTrendScore(downloads24h, delta24h, downloads30d),
-    trendScore7d: computeTrendScore(downloads7d, delta7d, downloads30d),
-    trendScore30d: downloads30d,
+    previous30d,
+    delta30d,
+    deltaPct30d: roundPct(deltaPct30d),
+    trendScore24h: computeMoverScore(downloads24h, previous24h),
+    trendScore7d: computeMoverScore(downloads7d, previous7d),
+    trendScore30d: computeMoverScore(downloads30d, previous30d),
   };
-}
-
-export function computePointStats({ downloads24h = 0, downloads7d = 0, downloads30d = 0 }) {
-  return {
-    downloads24h,
-    previous24h: 0,
-    delta24h: 0,
-    deltaPct24h: 0,
-    downloads7d,
-    previous7d: 0,
-    delta7d: 0,
-    deltaPct7d: 0,
-    downloads30d,
-    trendScore24h: downloads24h,
-    trendScore7d: downloads7d,
-    trendScore30d: downloads30d,
-  };
-}
-
-function computeTrendScore(downloads, delta, downloads30d) {
-  return Math.round(
-    (downloads + Math.max(0, delta) * 2) *
-      Math.max(1, Math.log10(downloads30d + 10)),
-  );
 }
 
 export function metricForWindow(row, window) {
@@ -216,10 +209,26 @@ export function sortByWindow(rows, window) {
   return rows.slice().sort((a, b) => {
     const byMetric = metricForWindow(b, window) - metricForWindow(a, window);
     if (byMetric !== 0) return byMetric;
+    const byPct = deltaPctForWindow(b, window) - deltaPctForWindow(a, window);
+    if (byPct !== 0) return byPct;
+    const byDelta = deltaForWindow(b, window) - deltaForWindow(a, window);
+    if (byDelta !== 0) return byDelta;
     const byDownloads = (b.downloads30d ?? 0) - (a.downloads30d ?? 0);
     if (byDownloads !== 0) return byDownloads;
     return a.name.localeCompare(b.name);
   });
+}
+
+export function deltaForWindow(row, window) {
+  if (window === "24h") return row.delta24h ?? 0;
+  if (window === "7d") return row.delta7d ?? 0;
+  return row.delta30d ?? 0;
+}
+
+export function deltaPctForWindow(row, window) {
+  if (window === "24h") return row.deltaPct24h ?? 0;
+  if (window === "7d") return row.deltaPct7d ?? 0;
+  return row.deltaPct30d ?? 0;
 }
 
 export function normalizeSearchObject(object, query) {
@@ -293,7 +302,8 @@ async function fetchSearchResults(query, fetchImpl = fetch) {
 
   return fetchJsonWithRetry(url.toString(), {
     fetchImpl,
-    attempts: 2,
+    attempts: 4,
+    retryDelayMs: 5_000,
     timeoutMs: 20_000,
     headers: { "User-Agent": USER_AGENT },
   });
@@ -332,30 +342,57 @@ export async function discoverCandidates({ queries, fetchImpl = fetch, log = () 
   };
 }
 
-function chunk(items, size) {
-  const chunks = [];
-  for (let offset = 0; offset < items.length; offset += size) {
-    chunks.push(items.slice(offset, offset + size));
-  }
-  return chunks;
+function utcDateOnly(date) {
+  return new Date(
+    Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()),
+  );
 }
 
-function normalizePointPayload(payload) {
-  const map = new Map();
-  if (typeof payload?.package === "string") {
-    map.set(payload.package.toLowerCase(), Math.max(0, Number(payload.downloads) || 0));
-    return map;
-  }
-
-  for (const [name, value] of Object.entries(payload ?? {})) {
-    map.set(name.toLowerCase(), Math.max(0, Number(value?.downloads) || 0));
-  }
-  return map;
+function addUtcDays(date, days) {
+  const next = new Date(date);
+  next.setUTCDate(next.getUTCDate() + days);
+  return next;
 }
 
-async function fetchBulkDownloadPoints(names, period, fetchImpl = fetch) {
-  const encodedNames = names.map(encodePackageName).join(",");
-  const url = `https://api.npmjs.org/downloads/point/${period}/${encodedNames}`;
+function formatDateKey(date) {
+  return date.toISOString().slice(0, 10);
+}
+
+export function resolveDownloadRange({
+  days = RANGE_DAYS,
+  now = new Date(),
+  endDate = process.env.NPM_DOWNLOAD_END_DATE,
+  lagDays = DOWNLOAD_LAG_DAYS,
+} = {}) {
+  const safeDays = Math.max(1, Number.parseInt(String(days), 10) || RANGE_DAYS);
+  const safeLagDays = Math.max(0, Number.parseInt(String(lagDays), 10) || 0);
+  const end =
+    typeof endDate === "string" && /^\d{4}-\d{2}-\d{2}$/.test(endDate)
+      ? new Date(`${endDate}T00:00:00.000Z`)
+      : addUtcDays(utcDateOnly(now), -safeLagDays);
+  const start = addUtcDays(end, -(safeDays - 1));
+  return {
+    start: formatDateKey(start),
+    end: formatDateKey(end),
+    days: safeDays,
+  };
+}
+
+export function normalizeRangePayload(payload) {
+  const rows = Array.isArray(payload?.downloads) ? payload.downloads : [];
+  return rows
+    .map((row) => ({
+      day: typeof row?.day === "string" ? row.day.slice(0, 10) : "",
+      downloads: Math.max(0, Number(row?.downloads) || 0),
+    }))
+    .filter((row) => /^\d{4}-\d{2}-\d{2}$/.test(row.day))
+    .sort((a, b) => a.day.localeCompare(b.day));
+}
+
+async function fetchPackageDownloadRange(name, range, fetchImpl = fetch) {
+  const url =
+    `https://api.npmjs.org/downloads/range/${range.start}:${range.end}/` +
+    encodePackageName(name);
   try {
     const payload = await fetchJsonWithRetry(url, {
       fetchImpl,
@@ -364,81 +401,50 @@ async function fetchBulkDownloadPoints(names, period, fetchImpl = fetch) {
       timeoutMs: 30_000,
       headers: { "User-Agent": USER_AGENT },
     });
-    return normalizePointPayload(payload);
+    return normalizeRangePayload(payload);
   } catch (err) {
-    if (err instanceof HttpStatusError && err.status === 404) return new Map();
-    throw err;
-  }
-}
-
-async function fetchSingleDownloadPoint(name, period, fetchImpl = fetch) {
-  const url = `https://api.npmjs.org/downloads/point/${period}/${encodePackageName(name)}`;
-  try {
-    const payload = await fetchJsonWithRetry(url, {
-      fetchImpl,
-      attempts: 3,
-      retryDelayMs: 5_000,
-      timeoutMs: 30_000,
-      headers: { "User-Agent": USER_AGENT },
-    });
-    return Math.max(0, Number(payload?.downloads) || 0);
-  } catch (err) {
-    if (err instanceof HttpStatusError && err.status === 404) return 0;
+    if (err instanceof HttpStatusError && err.status === 404) return [];
     throw err;
   }
 }
 
 export async function fetchDownloadMatrix(candidates, { fetchImpl = fetch, log = () => {} } = {}) {
-  const period = DOWNLOAD_PERIODS["24h"];
-  const matrix = new Map(
-    candidates.map((candidate) => [
-      candidate.name.toLowerCase(),
-      {
-        downloads24h: 0,
-        downloads7d: Math.max(0, Number(candidate.discovery?.weeklyDownloads) || 0),
-        downloads30d: Math.max(0, Number(candidate.discovery?.monthlyDownloads) || 0),
-      },
-    ]),
-  );
-  const names = candidates.map((candidate) => candidate.name);
-
-  const unscoped = names.filter((name) => !name.startsWith("@"));
-  const scoped = names.filter((name) => name.startsWith("@"));
-
+  const range = resolveDownloadRange();
+  const matrix = new Map();
+  const failures = [];
   let fetched = 0;
-  for (const group of chunk(unscoped, DOWNLOAD_BULK_SIZE)) {
-    try {
-      const points = await fetchBulkDownloadPoints(group, period, fetchImpl);
-      for (const name of group) {
-        const row = matrix.get(name.toLowerCase());
-        if (!row) continue;
-        const value = points.get(name.toLowerCase()) ?? 0;
-        row.downloads24h = value;
-        fetched += 1;
-      }
-    } catch (err) {
-      const message = err instanceof Error ? err.message : String(err);
-      log(`  downloads ${period} bulk failed for ${group.length} packages: ${message}`);
-    }
-  }
 
-  for (const name of scoped) {
+  for (const [index, candidate] of candidates.entries()) {
+    const key = candidate.name.toLowerCase();
     try {
-      const row = matrix.get(name.toLowerCase());
-      if (row) row.downloads24h = await fetchSingleDownloadPoint(name, period, fetchImpl);
+      const downloads = await fetchPackageDownloadRange(candidate.name, range, fetchImpl);
+      matrix.set(key, {
+        downloads,
+        ...computeDownloadStats(downloads),
+        error: null,
+      });
       fetched += 1;
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
-      log(`  downloads ${period} failed for ${name}: ${message}`);
+      failures.push({ package: candidate.name, error: message });
+      matrix.set(key, {
+        downloads: [],
+        ...computeDownloadStats([]),
+        error: message,
+      });
+      log(`  downloads range failed for ${candidate.name}: ${message}`);
     }
-    if (SCOPED_DOWNLOAD_DELAY_MS > 0) await sleep(SCOPED_DOWNLOAD_DELAY_MS);
+
+    if (DOWNLOAD_RANGE_DELAY_MS > 0 && index < candidates.length - 1) {
+      await sleep(DOWNLOAD_RANGE_DELAY_MS);
+    }
   }
 
   log(
-    `  downloads ${period} -> ${fetched} packages ` +
-      `(${unscoped.length} bulk-safe, ${scoped.length} scoped singles)`,
+    `  downloads range ${range.start}:${range.end} -> ` +
+      `${fetched}/${candidates.length} packages`,
   );
-  return matrix;
+  return { matrix, range, failures };
 }
 
 export async function main({ log = console.log, fetchImpl = fetch } = {}) {
@@ -466,28 +472,32 @@ export async function main({ log = console.log, fetchImpl = fetch } = {}) {
     .slice(0, CANDIDATE_LIMIT);
 
   log(
-    `fetching bulk download points for ${candidatesForDownloads.length} ` +
+    `fetching daily download ranges for ${candidatesForDownloads.length} ` +
       `of ${candidates.length} repo-linked candidates`,
   );
   let matrix;
+  let range;
   try {
-    matrix = await fetchDownloadMatrix(candidatesForDownloads, { fetchImpl, log });
+    const downloadResult = await fetchDownloadMatrix(candidatesForDownloads, {
+      fetchImpl,
+      log,
+    });
+    matrix = downloadResult.matrix;
+    range = downloadResult.range;
+    failures.push(...downloadResult.failures);
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
-    failures.push({ package: "*bulk-downloads*", error: message });
+    failures.push({ package: "*download-ranges*", error: message });
     throw err;
   }
 
   const hydrated = candidatesForDownloads
     .map((candidate) => {
-      const points = matrix.get(candidate.name.toLowerCase());
-      const stats = computePointStats(points ?? {});
+      const fetched = matrix.get(candidate.name.toLowerCase());
       return {
         ...candidate,
         status: "ok",
-        downloads: [],
-        ...stats,
-        error: null,
+        ...(fetched ?? { downloads: [], ...computeDownloadStats([]), error: null }),
       };
     })
     .filter((row) => row.downloads30d > 0);
@@ -516,17 +526,18 @@ export async function main({ log = console.log, fetchImpl = fetch } = {}) {
     source: "npm",
     sourceUrl: "https://api.npmjs.org/downloads/",
     registrySearchUrl: "https://registry.npmjs.org/-/v1/search",
-    windowDays: 30,
+    windowDays: RANGE_DAYS,
     windows: WINDOWS,
     activeWindowDefault: "24h",
-    downloadRange: "point:last-day,last-week,last-month",
-    lagHint: "npm public download stats usually lag by 24-48 hours",
+    downloadRange: `range:${range.start}:${range.end}`,
+    lagHint: "npm public download stats usually lag by 24-48 hours; the default range ends two days back",
     discovery: {
       mode: "registry-search-with-github-repo-filter",
       searchSize: SEARCH_SIZE,
       topLimit: TOP_LIMIT,
       candidateLimit: CANDIDATE_LIMIT,
-      downloadBulkSize: DOWNLOAD_BULK_SIZE,
+      downloadRangeDelayMs: DOWNLOAD_RANGE_DELAY_MS,
+      downloadLagDays: DOWNLOAD_LAG_DAYS,
       queries,
       candidatesFound: candidates.length,
       failures,

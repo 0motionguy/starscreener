@@ -40,9 +40,21 @@ import {
   getPhFile,
   type Launch,
 } from "@/lib/producthunt";
+import {
+  getLobstersTopStories,
+  getLobstersTrendingFile,
+} from "@/lib/lobsters-trending";
+import {
+  getLobstersLeaderboard,
+  lobstersStoryHref,
+  repoFullNameToHref,
+  type LobstersStory,
+} from "@/lib/lobsters";
 import { LaunchLinkIcons } from "@/components/producthunt/LaunchLinkIcons";
 
-export const dynamic = "force-static";
+// Query-string tabs must render per request; otherwise a static build can
+// serve the default HackerNews tab for every /news?tab=... URL.
+export const dynamic = "force-dynamic";
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -128,13 +140,14 @@ export default async function NewsPage({
   const bskyPostsTop = getBlueskyTopPosts(10);
   const devtoLeaderboard = getDevtoLeaderboard();
   const phLaunchesTop = getRecentLaunches(7, 10);
+  const lobstersStoriesTop = getLobstersTopStories(10);
 
   const tabCounts: Record<TabId, number> = {
     hackernews: hnStoriesTop.length,
     bluesky: bskyPostsTop.length,
     devto: Math.min(devtoLeaderboard.length, 10),
     producthunt: phLaunchesTop.length,
-    lobsters: 0,
+    lobsters: lobstersStoriesTop.length,
   };
 
   return (
@@ -198,7 +211,9 @@ export default async function NewsPage({
         {activeTab === "producthunt" ? (
           <ProductHuntTabBody launches={phLaunchesTop} />
         ) : null}
-        {activeTab === "lobsters" ? <LobstersTabBody /> : null}
+        {activeTab === "lobsters" ? (
+          <LobstersTabBody stories={lobstersStoriesTop} />
+        ) : null}
       </div>
     </main>
   );
@@ -816,25 +831,126 @@ function ProductHuntTabBody({ launches }: { launches: Launch[] }) {
 }
 
 // ---------------------------------------------------------------------------
-// Lobsters stub
+// Lobsters tab
 // ---------------------------------------------------------------------------
 
-function LobstersTabBody() {
+function LobstersTabBody({ stories }: { stories: LobstersStory[] }) {
+  const file = getLobstersTrendingFile();
+  const allStories = file.stories ?? [];
+  const linkedStories = allStories.filter(
+    (story) => (story.linkedRepos?.length ?? 0) > 0,
+  ).length;
+  const reposLinked = getLobstersLeaderboard().length;
+  const cold = allStories.length === 0;
+
+  if (cold) {
+    return (
+      <ColdCard
+        title="// lobsters cold"
+        body={
+          <>
+            No Lobsters data yet. Run{" "}
+            <code className="text-text-primary">npm run scrape:lobsters</code>{" "}
+            locally to populate{" "}
+            <code className="text-text-primary">
+              data/lobsters-trending.json
+            </code>
+            .
+          </>
+        }
+        accent="#ac130d"
+      />
+    );
+  }
+
   return (
-    <section className="border border-dashed border-border-primary rounded-md p-8 bg-bg-secondary/40">
-      <h2 className="text-lg font-bold uppercase tracking-wider text-accent-green">
-        {"// lobsters coming soon"}
-      </h2>
-      <p className="mt-3 text-sm text-text-secondary max-w-xl">
-        Lobsters integration coming soon. Will pull from{" "}
-        <code className="text-text-primary">lobste.rs/hottest.json</code> with
-        the same velocity scoring as the HackerNews adapter — points/hour
-        weighted by log10(score), deduped on URL canonicalization, joined
-        against the tracked-repo set for sidebar badges.
-      </p>
-      <div className="mt-6 pt-6 border-t border-border-primary/50 text-xs text-text-tertiary">
-        {"// no ETA — lands after the dev.to + ProductHunt mention surfaces stabilize"}
-      </div>
-    </section>
+    <>
+      <section className="mb-6 grid grid-cols-2 md:grid-cols-4 gap-3">
+        <StatTile
+          label="LAST SCRAPE"
+          value={formatRelative(file.fetchedAt)}
+          hint="lobsters"
+        />
+        <StatTile
+          label="STORIES TRACKED"
+          value={allStories.length.toLocaleString()}
+          hint={`${file.windowHours}h window`}
+        />
+        <StatTile
+          label="GITHUB STORIES"
+          value={linkedStories.toLocaleString()}
+          hint="tracked repo links"
+        />
+        <StatTile
+          label="REPOS LINKED"
+          value={reposLinked.toLocaleString()}
+          hint="mentions 7d"
+        />
+      </section>
+
+      <ListShell>
+        <div className="hidden sm:grid grid-cols-[40px_1fr_60px_60px_80px] gap-3 items-center px-3 h-9 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
+          <div>#</div>
+          <div>TITLE</div>
+          <div className="text-right">SCORE</div>
+          <div className="text-right">CMTS</div>
+          <div className="text-right">AGE</div>
+        </div>
+        <ul>
+          {stories.map((s, i) => {
+            const linkedRepo = s.linkedRepos?.[0]?.fullName;
+            const href = s.commentsUrl || lobstersStoryHref(s.shortId);
+            const isHigh = s.score >= 25;
+            return (
+              <li
+                key={s.shortId}
+                className="grid grid-cols-[28px_1fr_auto] sm:grid-cols-[40px_1fr_60px_60px_80px] gap-3 items-center px-3 min-h-[44px] sm:h-10 py-2 sm:py-0 hover:bg-bg-card-hover transition-colors border-b border-border-primary/40 last:border-b-0"
+              >
+                <div className="text-text-tertiary text-xs tabular-nums">
+                  {i + 1}
+                </div>
+                <div className="min-w-0 flex flex-col sm:flex-row sm:items-center gap-y-0.5 sm:gap-x-2">
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-text-primary hover:text-accent-green truncate"
+                    title={s.title}
+                  >
+                    {s.title}
+                  </a>
+                  {linkedRepo ? (
+                    <Link
+                      href={repoFullNameToHref(linkedRepo)}
+                      className="shrink-0 text-[10px] px-1.5 py-0.5 rounded border border-border-primary text-text-tertiary hover:text-accent-green hover:border-accent-green/50 transition-colors"
+                      title={`Linked repo: ${linkedRepo}`}
+                    >
+                      {linkedRepo}
+                    </Link>
+                  ) : null}
+                  <span className="sm:hidden text-[10px] text-text-tertiary tabular-nums">
+                    {`${s.commentCount.toLocaleString()} cmts · ${formatAgeHours(s.ageHours)}`}
+                  </span>
+                </div>
+                <div
+                  className="text-right text-xs tabular-nums"
+                  style={isHigh ? { color: "#ac130d" } : undefined}
+                >
+                  {s.score.toLocaleString()}
+                </div>
+                <div className="hidden sm:block text-right text-xs tabular-nums text-text-secondary">
+                  {s.commentCount.toLocaleString()}
+                </div>
+                <div className="hidden sm:block text-right text-xs tabular-nums text-text-tertiary">
+                  {formatAgeHours(s.ageHours)}
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      </ListShell>
+
+      <FullViewLink href="/lobsters" label="View full" />
+    </>
   );
 }

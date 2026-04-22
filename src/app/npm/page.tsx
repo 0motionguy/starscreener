@@ -1,4 +1,4 @@
-// /npm - top repo-linked npm packages by download velocity.
+// /npm - top repo-linked npm packages by download movement.
 //
 // npm is its own terminal because it is registry adoption telemetry, not a
 // news/social mention source. The scraper discovers package candidates,
@@ -7,6 +7,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
+  deltaForNpmWindow,
+  deltaPctForNpmWindow,
   downloadsForNpmWindow,
   getNpmPackagesFile,
   getTopNpmPackages,
@@ -26,7 +28,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "TrendingRepo - NPM Trending Packages",
   description:
-    "Top npm packages over 24h, 7d, and 30d windows, filtered to packages with GitHub repositories attached.",
+    "Top npm package movement over 24h, 7d, and 30d windows, filtered to packages with GitHub repositories attached.",
 };
 
 interface NpmPageProps {
@@ -61,6 +63,21 @@ function formatCompact(n: number): string {
   }).format(n);
 }
 
+function formatSignedCompact(n: number): string {
+  const formatted = formatCompact(Math.abs(n));
+  if (n > 0) return `+${formatted}`;
+  if (n < 0) return `-${formatted}`;
+  return "0";
+}
+
+function formatDeltaPct(n: number | null | undefined): string {
+  const value = Number(n) || 0;
+  const formatted = `${Math.abs(value).toFixed(1)}%`;
+  if (value > 0) return `+${formatted}`;
+  if (value < 0) return `-${formatted}`;
+  return "0.0%";
+}
+
 export default async function NpmPage({ searchParams }: NpmPageProps) {
   const { range } = await searchParams;
   const activeWindow = parseWindow(range);
@@ -78,14 +95,14 @@ export default async function NpmPage({ searchParams }: NpmPageProps) {
               NPM / TOP PACKAGES
             </h1>
             <span className="text-xs text-text-tertiary">
-              {"// 24h / 7d / 30d repo-linked package velocity"}
+              {"// 24h / 7d / 30d repo-linked package movement"}
             </span>
           </div>
           <p className="mt-2 text-sm text-text-secondary max-w-3xl">
             Top npm packages are discovered through npm registry search, then
             filtered to packages with a GitHub repository attached. The table
-            ranks public download velocity over the selected window; npm stats
-            usually lag by 24-48 hours.
+            ranks public download movement against the previous equivalent
+            window; npm stats usually lag by 24-48 hours.
           </p>
         </header>
 
@@ -109,9 +126,13 @@ export default async function NpmPage({ searchParams }: NpmPageProps) {
                 }
               />
               <StatTile
-                label={`TOP ${activeWindow.toUpperCase()}`}
-                value={top ? formatCompact(downloadsForNpmWindow(top, activeWindow)) : "0"}
-                hint={top?.name}
+                label={`TOP ${activeWindow.toUpperCase()} MOVE`}
+                value={top ? formatDeltaPct(deltaPctForNpmWindow(top, activeWindow)) : "0.0%"}
+                hint={
+                  top
+                    ? `${top.name} - ${formatSignedCompact(deltaForNpmWindow(top, activeWindow))}`
+                    : undefined
+                }
               />
               <StatTile
                 label="REPOS LINKED"
@@ -173,15 +194,15 @@ function PackageFeed({
         <div>#</div>
         <div>PACKAGE</div>
         <div>REPO</div>
-        <div className="text-right">24H</div>
-        <div className="text-right">7D</div>
-        <div className="text-right">30D</div>
+        <div className="text-right">24H MOVE</div>
+        <div className="text-right">7D MOVE</div>
+        <div className="text-right">30D MOVE</div>
         <div>VERSION</div>
       </div>
       <div className="grid md:hidden grid-cols-[32px_1fr_86px] gap-2 items-center px-3 h-9 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
         <div>#</div>
         <div>PACKAGE</div>
-        <div className="text-right">{activeWindow.toUpperCase()}</div>
+        <div className="text-right">{activeWindow.toUpperCase()} MOVE</div>
       </div>
 
       <ul>
@@ -194,9 +215,24 @@ function PackageFeed({
               <Rank index={i} />
               <PackageIdentity pkg={pkg} />
               <RepoLink pkg={pkg} />
-              <Metric value={pkg.downloads24h} active={activeWindow === "24h"} />
-              <Metric value={pkg.downloads7d} active={activeWindow === "7d"} />
-              <Metric value={pkg.downloads30d} active={activeWindow === "30d"} />
+              <Metric
+                current={pkg.downloads24h}
+                delta={pkg.delta24h}
+                deltaPct={pkg.deltaPct24h}
+                active={activeWindow === "24h"}
+              />
+              <Metric
+                current={pkg.downloads7d}
+                delta={pkg.delta7d}
+                deltaPct={pkg.deltaPct7d}
+                active={activeWindow === "7d"}
+              />
+              <Metric
+                current={pkg.downloads30d}
+                delta={pkg.delta30d}
+                deltaPct={pkg.deltaPct30d}
+                active={activeWindow === "30d"}
+              />
               <VersionPill pkg={pkg} />
             </div>
 
@@ -208,7 +244,12 @@ function PackageFeed({
                   <VersionPill pkg={pkg} />
                 </div>
               </div>
-              <Metric value={downloadsForNpmWindow(pkg, activeWindow)} active />
+              <Metric
+                current={downloadsForNpmWindow(pkg, activeWindow)}
+                delta={deltaForNpmWindow(pkg, activeWindow)}
+                deltaPct={deltaPctForNpmWindow(pkg, activeWindow)}
+                active
+              />
             </div>
           </li>
         ))}
@@ -271,14 +312,51 @@ function RepoLink({ pkg }: { pkg: NpmPackageRow }) {
   );
 }
 
-function Metric({ value, active = false }: { value: number; active?: boolean }) {
+function Metric({
+  current,
+  delta,
+  deltaPct,
+  active = false,
+}: {
+  current: number;
+  delta: number;
+  deltaPct?: number | null;
+  active?: boolean;
+}) {
+  const pct = Number(deltaPct) || 0;
   return (
     <div
       className={`text-right text-xs tabular-nums ${
         active ? "text-text-primary font-semibold" : "text-text-secondary"
       }`}
     >
-      {formatCompact(value)}
+      <div
+        className={
+          delta > 0
+            ? "text-accent-green"
+            : delta < 0
+              ? "text-accent-red"
+              : undefined
+        }
+      >
+        {formatSignedCompact(delta)}
+      </div>
+      <div className="mt-0.5 text-[10px] font-normal text-text-tertiary">
+        {formatCompact(current)} dl
+      </div>
+      {typeof deltaPct === "number" ? (
+        <div
+          className={`mt-0.5 text-[10px] font-normal ${
+            pct > 0
+              ? "text-accent-green"
+              : pct < 0
+                ? "text-accent-red"
+                : "text-text-tertiary"
+          }`}
+        >
+          {formatDeltaPct(pct)}
+        </div>
+      ) : null}
     </div>
   );
 }

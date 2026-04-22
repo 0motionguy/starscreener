@@ -1,10 +1,113 @@
 {
-  "fetchedAt": "2026-04-22T09:53:56.186Z",
+  "fetchedAt": "2026-04-22T11:33:18.056Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
+    "midudev/autoskills": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mk3ei66ocw2h",
+        "cid": "bafyreicvwgkjcn4vzsgiobutklwbkinkjj6mxnyxobownspukhso5xm6n4",
+        "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mk3ei66ocw2h",
+        "text": "プロジェクトをスキャンして最適なAIエージェントのスキルを自動設定してくれるツールっぽい コマンド一つで環境に応じたエージェント構築が捗りそうで試したい yug1224 starred midudev/autoskills https://github.com/midudev/autoskills",
+        "author": {
+          "handle": "yug1224.com",
+          "displayName": "ぷーじ"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-22T11:12:41.208Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mk3ei66ocw2h",
+          "cid": "bafyreicvwgkjcn4vzsgiobutklwbkinkjj6mxnyxobownspukhso5xm6n4",
+          "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mk3ei66ocw2h",
+          "text": "プロジェクトをスキャンして最適なAIエージェントのスキルを自動設定してくれるツールっぽい コマンド一つで環境に応じたエージェント構築が捗りそうで試したい yug1224 starred midudev/autoskills https://github.com/midudev/autoskills",
+          "author": {
+            "handle": "yug1224.com",
+            "displayName": "ぷーじ"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-22T11:12:41.208Z",
+          "createdUtc": 1776856361,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "midudev/autoskills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "NVIDIA/OpenShell": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:srmltlrjqfr7mbfdejuxrbss/app.bsky.feed.post/3mk3c4drdzm2g",
+        "cid": "bafyreifrmfpxakjgwavj47juf7w7yppxfpjiiamlkihqxlptelau37tye4",
+        "bskyUrl": "https://bsky.app/profile/jelloeater.bsky.social/post/3mk3c4drdzm2g",
+        "text": "NVIDIA/OpenShell: OpenShell is the safe, private runtime for autonomous AI agents. github.com/NVIDIA/OpenS...",
+        "author": {
+          "handle": "jelloeater.bsky.social",
+          "displayName": "Jelloeater"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-22T10:30:16.256Z",
+        "hoursSincePosted": 1.05
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:srmltlrjqfr7mbfdejuxrbss/app.bsky.feed.post/3mk3c4drdzm2g",
+          "cid": "bafyreifrmfpxakjgwavj47juf7w7yppxfpjiiamlkihqxlptelau37tye4",
+          "bskyUrl": "https://bsky.app/profile/jelloeater.bsky.social/post/3mk3c4drdzm2g",
+          "text": "NVIDIA/OpenShell: OpenShell is the safe, private runtime for autonomous AI agents. github.com/NVIDIA/OpenS...",
+          "author": {
+            "handle": "jelloeater.bsky.social",
+            "displayName": "Jelloeater"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-22T10:30:16.256Z",
+          "createdUtc": 1776853816,
+          "ageHours": 1.05,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "NVIDIA/OpenShell",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "GyulyVGC/sniffnet": {
       "count7d": 1,
       "likesSum7d": 0,
@@ -23,7 +126,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-22T09:25:05Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 2.14
       },
       "posts": [
         {
@@ -40,7 +143,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-22T09:25:05Z",
           "createdUtc": 1776849905,
-          "ageHours": 0.5,
+          "ageHours": 2.14,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -74,7 +177,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-22T11:20:02+02:00",
-        "hoursSincePosted": 0.56
+        "hoursSincePosted": 2.22
       },
       "posts": [
         {
@@ -91,7 +194,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-22T11:20:02+02:00",
           "createdUtc": 1776849602,
-          "ageHours": 0.56,
+          "ageHours": 2.22,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -125,7 +228,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-22T09:12:04.350027725Z",
-        "hoursSincePosted": 0.7
+        "hoursSincePosted": 2.35
       },
       "posts": [
         {
@@ -142,7 +245,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-22T09:12:04.350027725Z",
           "createdUtc": 1776849124,
-          "ageHours": 0.7,
+          "ageHours": 2.35,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -176,7 +279,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-22T08:48:10.754Z",
-        "hoursSincePosted": 1.1
+        "hoursSincePosted": 2.75
       },
       "posts": [
         {
@@ -193,7 +296,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-22T08:48:10.754Z",
           "createdUtc": 1776847690,
-          "ageHours": 1.1,
+          "ageHours": 2.75,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -227,7 +330,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-22T09:40:02+02:00",
-        "hoursSincePosted": 2.23
+        "hoursSincePosted": 3.89
       },
       "posts": [
         {
@@ -244,7 +347,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-22T09:40:02+02:00",
           "createdUtc": 1776843602,
-          "ageHours": 2.23,
+          "ageHours": 3.89,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -278,7 +381,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-22T07:28:23.614103+00:00",
-        "hoursSincePosted": 2.43
+        "hoursSincePosted": 4.08
       },
       "posts": [
         {
@@ -295,7 +398,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-22T07:28:23.614103+00:00",
           "createdUtc": 1776842903,
-          "ageHours": 2.43,
+          "ageHours": 4.08,
           "trendingScore": 2,
           "content_tags": [
             "has-github-repo"
@@ -304,211 +407,6 @@
           "linkedRepos": [
             {
               "fullName": "forrestchang/andrej-karpathy-skills",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "android/skills": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:rti2hm47xzjdncft4k26ebey/app.bsky.feed.post/3mk2vk2dep22r",
-        "cid": "bafyreibgrn5hlqngw52ciqkuejr3yl4olw3h5cxqo2mkmapvlsbo3uft3u",
-        "bskyUrl": "https://bsky.app/profile/harri35.bsky.social/post/3mk2vk2dep22r",
-        "text": "\"Android skills\" github.com/android/skills > Android skills are a dedicated repository of AI-optimised, modular instructions and resources, to help LLMs better understand and execute specific patterns that follow the best practices. #androidev",
-        "author": {
-          "handle": "harri35.bsky.social",
-          "displayName": "Harri Kirik"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-22T06:45:18.693Z",
-        "hoursSincePosted": 3.14
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:rti2hm47xzjdncft4k26ebey/app.bsky.feed.post/3mk2vk2dep22r",
-          "cid": "bafyreibgrn5hlqngw52ciqkuejr3yl4olw3h5cxqo2mkmapvlsbo3uft3u",
-          "bskyUrl": "https://bsky.app/profile/harri35.bsky.social/post/3mk2vk2dep22r",
-          "text": "\"Android skills\" github.com/android/skills > Android skills are a dedicated repository of AI-optimised, modular instructions and resources, to help LLMs better understand and execute specific patterns that follow the best practices. #androidev",
-          "author": {
-            "handle": "harri35.bsky.social",
-            "displayName": "Harri Kirik"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-22T06:45:18.693Z",
-          "createdUtc": 1776840318,
-          "ageHours": 3.14,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "android/skills",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "jasonkneen/agent-simulator": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:a2anbsoy6odyey6geqvld42l/app.bsky.feed.post/3mk2uuzmbi22s",
-        "cid": "bafyreiedpc7mtpwzkgvjvfbtlemnu4vscvvvp2ri373uyd4izb324yt2mq",
-        "bskyUrl": "https://bsky.app/profile/projectnothing.bsky.social/post/3mk2uuzmbi22s",
-        "text": "When dev tools run entirely in the browser—no setup, no OS lock-in—the next leap may be AI agents automating everything from simulation to debugging on demand. https://github.com/jasonkneen/agent-simulator https://www.projectnothing.ai/experiments/signal-from-the-void",
-        "author": {
-          "handle": "projectnothing.bsky.social",
-          "displayName": "Project Nothing"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-22T06:33:30.918Z",
-        "hoursSincePosted": 3.34
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:a2anbsoy6odyey6geqvld42l/app.bsky.feed.post/3mk2uuzmbi22s",
-          "cid": "bafyreiedpc7mtpwzkgvjvfbtlemnu4vscvvvp2ri373uyd4izb324yt2mq",
-          "bskyUrl": "https://bsky.app/profile/projectnothing.bsky.social/post/3mk2uuzmbi22s",
-          "text": "When dev tools run entirely in the browser—no setup, no OS lock-in—the next leap may be AI agents automating everything from simulation to debugging on demand. https://github.com/jasonkneen/agent-simulator https://www.projectnothing.ai/experiments/signal-from-the-void",
-          "author": {
-            "handle": "projectnothing.bsky.social",
-            "displayName": "Project Nothing"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-22T06:33:30.918Z",
-          "createdUtc": 1776839610,
-          "ageHours": 3.34,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo",
-            "has-agent"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "jasonkneen/agent-simulator",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "Tracer-Cloud/opensre": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mk2ubwrsks2o",
-        "cid": "bafyreibor4zrxywb3oitci2teobtjc22j7auw7xwqj3wbgw2444twpzzdu",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mk2ubwrsks2o",
-        "text": "https://github.com/Tracer-Cloud/opensre",
-        "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-22T06:22:52Z",
-        "hoursSincePosted": 3.52
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mk2ubwrsks2o",
-          "cid": "bafyreibor4zrxywb3oitci2teobtjc22j7auw7xwqj3wbgw2444twpzzdu",
-          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mk2ubwrsks2o",
-          "text": "https://github.com/Tracer-Cloud/opensre",
-          "author": {
-            "handle": "tom-doerr.bsky.social",
-            "displayName": "Tom Dörr "
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-22T06:22:52Z",
-          "createdUtc": 1776838972,
-          "ageHours": 3.52,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "Tracer-Cloud/opensre",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "zeroclaw-labs/zeroclaw": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mk2slrh62g2z",
-        "cid": "bafyreicp3l2anym23enlohqvfze2fm7tac4lrxiclh4mw46oikm2zhinua",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mk2slrh62g2z",
-        "text": "https://github.com/zeroclaw-labs/zeroclaw",
-        "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-22T05:52:34Z",
-        "hoursSincePosted": 4.02
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mk2slrh62g2z",
-          "cid": "bafyreicp3l2anym23enlohqvfze2fm7tac4lrxiclh4mw46oikm2zhinua",
-          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mk2slrh62g2z",
-          "text": "https://github.com/zeroclaw-labs/zeroclaw",
-          "author": {
-            "handle": "tom-doerr.bsky.social",
-            "displayName": "Tom Dörr "
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-22T05:52:34Z",
-          "createdUtc": 1776837154,
-          "ageHours": 4.02,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "zeroclaw-labs/zeroclaw",
               "matchType": "url",
               "confidence": 1
             }
@@ -524,22 +422,12 @@
       "likesSum7d": 2
     },
     {
-      "fullName": "jasonkneen/agent-simulator",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
       "fullName": "vyfor/rattles",
       "count7d": 1,
       "likesSum7d": 1
     },
     {
       "fullName": "aloshdenny/reverse-SynthID",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "android/skills",
       "count7d": 1,
       "likesSum7d": 0
     },
@@ -559,12 +447,12 @@
       "likesSum7d": 0
     },
     {
-      "fullName": "Tracer-Cloud/opensre",
+      "fullName": "midudev/autoskills",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "zeroclaw-labs/zeroclaw",
+      "fullName": "NVIDIA/OpenShell",
       "count7d": 1,
       "likesSum7d": 0
     }

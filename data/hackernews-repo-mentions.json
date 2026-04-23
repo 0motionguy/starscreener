@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-04-23T17:52:09.774Z",
+  "fetchedAt": "2026-04-23T19:37:43.902Z",
   "windowDays": 7,
-  "scannedAlgoliaHits": 742,
+  "scannedAlgoliaHits": 741,
   "scannedFirebaseItems": 500,
   "mentions": {
     "ENTERPILOT/GoModel": {
@@ -12,7 +12,7 @@
         "title": "Show HN: GoModel – an open-source AI gateway in Go",
         "score": 205,
         "url": "https://github.com/ENTERPILOT/GOModel/",
-        "hoursSincePosted": 51.67
+        "hoursSincePosted": 53.43
       },
       "everHitFrontPage": false,
       "stories": [
@@ -24,9 +24,9 @@
           "score": 205,
           "descendants": 74,
           "createdUtc": 1776780713,
-          "ageHours": 51.67,
-          "velocity": 3.97,
-          "trendingScore": 77.09,
+          "ageHours": 53.43,
+          "velocity": 3.84,
+          "trendingScore": 74.57,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -44,55 +44,15 @@
         }
       ]
     },
-    "NV404/gova": {
-      "count7d": 1,
-      "scoreSum7d": 3,
-      "topStory": {
-        "id": 47876026,
-        "title": "Show HN: Gova, a declarative GUI framework for Go",
-        "score": 3,
-        "url": "https://github.com/NV404/gova",
-        "hoursSincePosted": 3.6
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 47876026,
-          "title": "Show HN: Gova, a declarative GUI framework for Go",
-          "url": "https://github.com/NV404/gova",
-          "by": "vaibhavacharya_",
-          "score": 3,
-          "descendants": 0,
-          "createdUtc": 1776953755,
-          "ageHours": 3.6,
-          "velocity": 0.83,
-          "trendingScore": 0.4,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo",
-            "is-show-hn"
-          ],
-          "value_score": 3,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "NV404/gova",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
     "TencentCloud/CubeSandbox": {
-      "count7d": 3,
-      "scoreSum7d": 11,
+      "count7d": 4,
+      "scoreSum7d": 15,
       "topStory": {
         "id": 47863430,
         "title": "Show HN: We built a <60ms, open-source alternative to E2B using RustVMM and KVM",
-        "score": 6,
+        "score": 7,
         "url": "https://github.com/TencentCloud/CubeSandbox",
-        "hoursSincePosted": 28.26
+        "hoursSincePosted": 30.02
       },
       "everHitFrontPage": false,
       "stories": [
@@ -101,12 +61,12 @@
           "title": "Show HN: We built a <60ms, open-source alternative to E2B using RustVMM and KVM",
           "url": "https://github.com/TencentCloud/CubeSandbox",
           "by": "yukunqiu",
-          "score": 6,
+          "score": 7,
           "descendants": 2,
           "createdUtc": 1776864992,
-          "ageHours": 28.26,
-          "velocity": 0.21,
-          "trendingScore": 0.2,
+          "ageHours": 30.02,
+          "velocity": 0.23,
+          "trendingScore": 0.23,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -124,6 +84,32 @@
           ]
         },
         {
+          "id": 47879216,
+          "title": "CubeSandbox: Instant, Concurrent, Secure and Lightweight Sandbox for AI Agents",
+          "url": "https://github.com/TencentCloud/CubeSandbox",
+          "by": "maxloh",
+          "score": 3,
+          "descendants": 0,
+          "createdUtc": 1776967784,
+          "ageHours": 1.47,
+          "velocity": 2.05,
+          "trendingScore": 0.98,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "TencentCloud/CubeSandbox",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
           "id": 47848628,
           "title": "CubeSandbox by Tencent",
           "url": "https://github.com/TencentCloud/CubeSandbox/",
@@ -131,7 +117,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1776778570,
-          "ageHours": 52.27,
+          "ageHours": 54.03,
           "velocity": 0.06,
           "trendingScore": 0.03,
           "everHitFrontPage": false,
@@ -156,9 +142,9 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776904955,
-          "ageHours": 17.16,
-          "velocity": 0.12,
-          "trendingScore": 0.04,
+          "ageHours": 18.92,
+          "velocity": 0.11,
+          "trendingScore": 0.03,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -176,6 +162,46 @@
         }
       ]
     },
+    "NV404/gova": {
+      "count7d": 1,
+      "scoreSum7d": 3,
+      "topStory": {
+        "id": 47876026,
+        "title": "Show HN: Gova, a declarative GUI framework for Go",
+        "score": 3,
+        "url": "https://github.com/NV404/gova",
+        "hoursSincePosted": 5.36
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 47876026,
+          "title": "Show HN: Gova, a declarative GUI framework for Go",
+          "url": "https://github.com/NV404/gova",
+          "by": "vaibhavacharya_",
+          "score": 3,
+          "descendants": 0,
+          "createdUtc": 1776953755,
+          "ageHours": 5.36,
+          "velocity": 0.56,
+          "trendingScore": 0.27,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo",
+            "is-show-hn"
+          ],
+          "value_score": 3,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "NV404/gova",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "tinyhumansai/openhuman": {
       "count7d": 1,
       "scoreSum7d": 2,
@@ -184,7 +210,7 @@
         "title": "Show HN: OpenHuman, an AI agent with a subconscious loop",
         "score": 2,
         "url": "https://github.com/tinyhumansai/openhuman",
-        "hoursSincePosted": 3.39
+        "hoursSincePosted": 5.14
       },
       "everHitFrontPage": false,
       "stories": [
@@ -196,9 +222,9 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776954543,
-          "ageHours": 3.39,
-          "velocity": 0.59,
-          "trendingScore": 0.18,
+          "ageHours": 5.14,
+          "velocity": 0.39,
+          "trendingScore": 0.12,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -225,7 +251,7 @@
         "title": "Twenty: The open alternative to Salesforce, designed for AI",
         "score": 4,
         "url": "https://github.com/twentyhq/twenty",
-        "hoursSincePosted": 22.58
+        "hoursSincePosted": 24.34
       },
       "everHitFrontPage": false,
       "stories": [
@@ -237,9 +263,9 @@
           "score": 4,
           "descendants": 1,
           "createdUtc": 1776885448,
-          "ageHours": 22.58,
-          "velocity": 0.18,
-          "trendingScore": 0.12,
+          "ageHours": 24.34,
+          "velocity": 0.16,
+          "trendingScore": 0.11,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -264,7 +290,7 @@
         "title": "I moved my AI's memory into a local database (better than folders and .md)",
         "score": 4,
         "url": "https://github.com/bradwmorris/ra-h_os/",
-        "hoursSincePosted": 54.92
+        "hoursSincePosted": 56.68
       },
       "everHitFrontPage": false,
       "stories": [
@@ -276,7 +302,7 @@
           "score": 4,
           "descendants": 1,
           "createdUtc": 1776769023,
-          "ageHours": 54.92,
+          "ageHours": 56.68,
           "velocity": 0.07,
           "trendingScore": 0.05,
           "everHitFrontPage": false,
@@ -303,7 +329,7 @@
         "title": "Show HN: Vibeyard – An open-source IDE for managing AI coding agents",
         "score": 2,
         "url": "https://github.com/elirantutia/vibeyard",
-        "hoursSincePosted": 11.31
+        "hoursSincePosted": 13.07
       },
       "everHitFrontPage": false,
       "stories": [
@@ -315,8 +341,8 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776926020,
-          "ageHours": 11.31,
-          "velocity": 0.18,
+          "ageHours": 13.07,
+          "velocity": 0.15,
           "trendingScore": 0.05,
           "everHitFrontPage": false,
           "content_tags": [
@@ -343,7 +369,7 @@
         "title": "Rusternetes: A ground-up reimplementation of Kubernetes in Rust",
         "score": 3,
         "url": "https://github.com/calfonso/rusternetes",
-        "hoursSincePosted": 69.35
+        "hoursSincePosted": 71.11
       },
       "everHitFrontPage": false,
       "stories": [
@@ -355,7 +381,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1776717068,
-          "ageHours": 69.35,
+          "ageHours": 71.11,
           "velocity": 0.04,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -382,7 +408,7 @@
         "title": "TaxHacker – Self-hosted AI accounting app",
         "score": 2,
         "url": "https://github.com/vas3k/TaxHacker",
-        "hoursSincePosted": 27.1
+        "hoursSincePosted": 28.86
       },
       "everHitFrontPage": false,
       "stories": [
@@ -394,7 +420,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776869153,
-          "ageHours": 27.1,
+          "ageHours": 28.86,
           "velocity": 0.07,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -421,7 +447,7 @@
         "title": "Π RuView: turn WiFi into realtime human detection,vitals monitoring, and more",
         "score": 2,
         "url": "https://github.com/ruvnet/RuView",
-        "hoursSincePosted": 30.94
+        "hoursSincePosted": 32.7
       },
       "everHitFrontPage": false,
       "stories": [
@@ -433,7 +459,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776855347,
-          "ageHours": 30.94,
+          "ageHours": 32.7,
           "velocity": 0.06,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -458,7 +484,7 @@
           "score": 2,
           "descendants": 1,
           "createdUtc": 1776706217,
-          "ageHours": 72.36,
+          "ageHours": 74.12,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -485,7 +511,7 @@
         "title": "Nvidia OpenShell: safe, private runtime for autonomous AI agents",
         "score": 2,
         "url": "https://github.com/nvidia/openshell",
-        "hoursSincePosted": 49.4
+        "hoursSincePosted": 51.16
       },
       "everHitFrontPage": false,
       "stories": [
@@ -497,7 +523,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776788877,
-          "ageHours": 49.4,
+          "ageHours": 51.16,
           "velocity": 0.04,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -525,7 +551,7 @@
         "title": "Ggsql: A SQL extension for declarative data visualisation based on the Grammar O",
         "score": 2,
         "url": "https://github.com/posit-dev/ggsql",
-        "hoursSincePosted": 54.17
+        "hoursSincePosted": 55.93
       },
       "everHitFrontPage": false,
       "stories": [
@@ -537,7 +563,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776771724,
-          "ageHours": 54.17,
+          "ageHours": 55.93,
           "velocity": 0.04,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -564,7 +590,7 @@
         "title": "Sonnet 4.6 model could mistakenly use wrong model for OpenAI",
         "score": 2,
         "url": "https://github.com/anthropics/claude-code/issues/51417",
-        "hoursSincePosted": 61.87
+        "hoursSincePosted": 63.63
       },
       "everHitFrontPage": false,
       "stories": [
@@ -576,7 +602,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776743980,
-          "ageHours": 61.87,
+          "ageHours": 63.63,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -603,7 +629,7 @@
         "title": "Asset Harvester",
         "score": 1,
         "url": "https://github.com/NVIDIA/asset-harvester",
-        "hoursSincePosted": 11.73
+        "hoursSincePosted": 13.49
       },
       "everHitFrontPage": false,
       "stories": [
@@ -615,8 +641,8 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1776924515,
-          "ageHours": 11.73,
-          "velocity": 0.09,
+          "ageHours": 13.49,
+          "velocity": 0.07,
           "trendingScore": 0,
           "everHitFrontPage": false,
           "content_tags": [
@@ -642,7 +668,7 @@
         "title": "Show HN: Agent harness that turns errors into shared genes",
         "score": 1,
         "url": "https://github.com/Prismer-AI/PrismerCloud",
-        "hoursSincePosted": 38.82
+        "hoursSincePosted": 40.58
       },
       "everHitFrontPage": false,
       "stories": [
@@ -654,8 +680,8 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1776826968,
-          "ageHours": 38.82,
-          "velocity": 0.03,
+          "ageHours": 40.58,
+          "velocity": 0.02,
           "trendingScore": 0,
           "everHitFrontPage": false,
           "content_tags": [
@@ -682,7 +708,7 @@
         "title": "Show HN: Trained a 12M transformer on an ML framework we built from scratch",
         "score": 2,
         "url": "https://github.com/mni-ml/framework",
-        "hoursSincePosted": 118.58
+        "hoursSincePosted": 120.33
       },
       "everHitFrontPage": false,
       "stories": [
@@ -694,7 +720,7 @@
           "score": 2,
           "descendants": 2,
           "createdUtc": 1776539859,
-          "ageHours": 118.58,
+          "ageHours": 120.33,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -722,7 +748,7 @@
         "title": "Show HN: Smol machines – subsecond coldstart, portable virtual machines",
         "score": 495,
         "url": "https://github.com/smol-machines/smolvm",
-        "hoursSincePosted": 144.55
+        "hoursSincePosted": 146.31
       },
       "everHitFrontPage": false,
       "stories": [
@@ -734,9 +760,9 @@
           "score": 495,
           "descendants": 150,
           "createdUtc": 1776446338,
-          "ageHours": 144.55,
-          "velocity": 3.42,
-          "trendingScore": 147.45,
+          "ageHours": 146.31,
+          "velocity": 3.38,
+          "trendingScore": 145.72,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -762,7 +788,7 @@
         "title": "Show HN: MDV – a Markdown superset for docs, dashboards, and slides with data",
         "score": 151,
         "url": "https://github.com/drasimwagan/mdv",
-        "hoursSincePosted": 122.46
+        "hoursSincePosted": 124.22
       },
       "everHitFrontPage": false,
       "stories": [
@@ -772,11 +798,11 @@
           "url": "https://github.com/drasimwagan/mdv",
           "by": "drasim",
           "score": 151,
-          "descendants": 54,
+          "descendants": 55,
           "createdUtc": 1776525879,
-          "ageHours": 122.46,
-          "velocity": 1.23,
-          "trendingScore": 17.15,
+          "ageHours": 124.22,
+          "velocity": 1.22,
+          "trendingScore": 17.28,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -794,45 +820,6 @@
         }
       ]
     },
-    "Tencent-Hunyuan/HY-World-2.0": {
-      "count7d": 1,
-      "scoreSum7d": 8,
-      "topStory": {
-        "id": 47797155,
-        "title": "Hy-World 2.0: Model for Reconstructing, Generating, and Simulating 3D Worlds",
-        "score": 8,
-        "url": "https://github.com/Tencent-Hunyuan/HY-World-2.0",
-        "hoursSincePosted": 167.87
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 47797155,
-          "title": "Hy-World 2.0: Model for Reconstructing, Generating, and Simulating 3D Worlds",
-          "url": "https://github.com/Tencent-Hunyuan/HY-World-2.0",
-          "by": "SXX",
-          "score": 8,
-          "descendants": 0,
-          "createdUtc": 1776362386,
-          "ageHours": 167.87,
-          "velocity": 0.05,
-          "trendingScore": 0.05,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "Tencent-Hunyuan/HY-World-2.0",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
     "Agent-FM/agentfm-core": {
       "count7d": 2,
       "scoreSum7d": 6,
@@ -841,7 +828,7 @@
         "title": "Show HN: Rebuilt SETI Home but for AI",
         "score": 4,
         "url": "https://github.com/Agent-FM/agentfm-core",
-        "hoursSincePosted": 163.19
+        "hoursSincePosted": 164.95
       },
       "everHitFrontPage": false,
       "stories": [
@@ -853,7 +840,7 @@
           "score": 4,
           "descendants": 3,
           "createdUtc": 1776379233,
-          "ageHours": 163.19,
+          "ageHours": 164.95,
           "velocity": 0.02,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -879,7 +866,7 @@
           "score": 2,
           "descendants": 1,
           "createdUtc": 1776449784,
-          "ageHours": 143.6,
+          "ageHours": 145.36,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -906,7 +893,7 @@
         "title": "Anubis weighs the soul of incoming HTTP requests to stop AI crawlers",
         "score": 4,
         "url": "https://github.com/TecharoHQ/anubis",
-        "hoursSincePosted": 163.18
+        "hoursSincePosted": 164.94
       },
       "everHitFrontPage": false,
       "stories": [
@@ -918,7 +905,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1776379279,
-          "ageHours": 163.18,
+          "ageHours": 164.94,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -945,7 +932,7 @@
         "title": "Clearwing: Produce similar results as Anthropic Glasswing (Mythos)",
         "score": 3,
         "url": "https://github.com/Lazarus-AI/clearwing",
-        "hoursSincePosted": 99.37
+        "hoursSincePosted": 101.13
       },
       "everHitFrontPage": false,
       "stories": [
@@ -957,7 +944,7 @@
           "score": 3,
           "descendants": 1,
           "createdUtc": 1776608991,
-          "ageHours": 99.37,
+          "ageHours": 101.13,
           "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -984,7 +971,7 @@
         "title": "GitNexus: Client-side knowledge graph creator that runs in the browser",
         "score": 3,
         "url": "https://github.com/abhigyanpatwari/GitNexus",
-        "hoursSincePosted": 82.95
+        "hoursSincePosted": 84.71
       },
       "everHitFrontPage": false,
       "stories": [
@@ -996,7 +983,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1776668095,
-          "ageHours": 82.95,
+          "ageHours": 84.71,
           "velocity": 0.04,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -1023,7 +1010,7 @@
         "title": "RustNet – A cross-platform network monitoring tool",
         "score": 3,
         "url": "https://github.com/domcyrus/rustnet",
-        "hoursSincePosted": 93.25
+        "hoursSincePosted": 95.01
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1035,7 +1022,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1776631015,
-          "ageHours": 93.25,
+          "ageHours": 95.01,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1062,7 +1049,7 @@
         "title": "Worldmonitor: Real-time global intelligence dashboard",
         "score": 3,
         "url": "https://github.com/koala73/worldmonitor",
-        "hoursSincePosted": 140.81
+        "hoursSincePosted": 142.57
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1074,7 +1061,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1776459805,
-          "ageHours": 140.81,
+          "ageHours": 142.57,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1101,7 +1088,7 @@
         "title": "Fincept Terminal",
         "score": 2,
         "url": "https://github.com/Fincept-Corporation/FinceptTerminal",
-        "hoursSincePosted": 72.37
+        "hoursSincePosted": 74.13
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1113,7 +1100,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776706191,
-          "ageHours": 72.37,
+          "ageHours": 74.13,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1140,7 +1127,7 @@
         "title": "Design.md",
         "score": 2,
         "url": "https://github.com/VoltAgent/awesome-design-md",
-        "hoursSincePosted": 108.15
+        "hoursSincePosted": 109.91
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1152,7 +1139,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776577393,
-          "ageHours": 108.15,
+          "ageHours": 109.91,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1179,7 +1166,7 @@
         "title": "Show HN: Understand Anything – Graphs that teach > graphs that impress",
         "score": 1,
         "url": "https://github.com/Lum1104/Understand-Anything",
-        "hoursSincePosted": 105.9
+        "hoursSincePosted": 107.66
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1191,7 +1178,7 @@
           "score": 1,
           "descendants": 3,
           "createdUtc": 1776585499,
-          "ageHours": 105.9,
+          "ageHours": 107.66,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1219,7 +1206,7 @@
         "title": "An open-source long-horizon SuperAgent harness that researches,codes and creates",
         "score": 1,
         "url": "https://github.com/bytedance/deer-flow",
-        "hoursSincePosted": 128.05
+        "hoursSincePosted": 129.81
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1231,7 +1218,7 @@
           "score": 1,
           "descendants": 1,
           "createdUtc": 1776505757,
-          "ageHours": 128.05,
+          "ageHours": 129.81,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1258,7 +1245,7 @@
         "title": "Voicebox – The open-source voice synthesis studio",
         "score": 1,
         "url": "https://github.com/jamiepine/voicebox",
-        "hoursSincePosted": 82.12
+        "hoursSincePosted": 83.88
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1270,7 +1257,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1776671103,
-          "ageHours": 82.12,
+          "ageHours": 83.88,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1308,13 +1295,8 @@
     },
     {
       "fullName": "TencentCloud/CubeSandbox",
-      "count7d": 3,
-      "scoreSum7d": 11
-    },
-    {
-      "fullName": "Tencent-Hunyuan/HY-World-2.0",
-      "count7d": 1,
-      "scoreSum7d": 8
+      "count7d": 4,
+      "scoreSum7d": 15
     },
     {
       "fullName": "Agent-FM/agentfm-core",

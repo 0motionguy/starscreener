@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-04-23T16:10:46.020Z",
+  "generatedAt": "2026-04-23T17:48:30.884Z",
   "version": 1,
   "selection": {
     "source": "incremental",
     "limit": 50,
     "maxScans": 5,
     "scanned": 3,
-    "queued": 24,
-    "noWebsite": 23,
+    "queued": 22,
+    "noWebsite": 25,
     "failed": 0
   },
   "profiles": [
@@ -18,7 +18,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T16:08:44.502Z",
+      "lastProfiledAt": "2026-04-23T17:46:02.750Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/forrestchang/andrej-karpathy-skills",
@@ -36,7 +36,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T16:08:44.934Z",
+      "lastProfiledAt": "2026-04-23T17:46:03.184Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/Alishahryar1/free-claude-code",
@@ -54,7 +54,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T16:08:45.380Z",
+      "lastProfiledAt": "2026-04-23T17:46:03.704Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/elder-plinius/CL4R1T4S",
@@ -1749,7 +1749,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T16:08:45.853Z",
+      "lastProfiledAt": "2026-04-23T17:46:04.169Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/zilliztech/claude-context",
@@ -3386,7 +3386,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T16:08:46.284Z",
+      "lastProfiledAt": "2026-04-23T17:46:04.590Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/addyosmani/agent-skills",
@@ -7499,17 +7499,812 @@
       "selectedFrom": "incremental",
       "websiteUrl": "https://docs.cubesandbox.ai/",
       "websiteSource": "github_homepage",
-      "status": "rate_limited",
-      "lastProfiledAt": "2026-04-23T16:10:36.547Z",
-      "nextScanAfter": null,
+      "status": "scanned",
+      "lastProfiledAt": "2026-04-23T17:46:04.599Z",
+      "nextScanAfter": "2026-04-30T17:46:48.823Z",
       "surfaces": {
         "githubUrl": "https://github.com/TencentCloud/CubeSandbox",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
       },
-      "aisoScan": null,
-      "error": "HTTP 429 Too Many Requests - https://aiso.tools/api/scan - {\"error\":\"rate_limited_ip\",\"retryAfterSeconds\":86291}"
+      "aisoScan": {
+        "scanId": "a297b60a-9e41-4ed3-8e90-e30283f8c87d",
+        "url": "https://docs.cubesandbox.ai/",
+        "projectName": null,
+        "projectUrl": null,
+        "source": "web",
+        "status": "completed",
+        "score": 23,
+        "tier": "invisible",
+        "runtimeVisibility": null,
+        "scanDurationMs": 35079,
+        "completedAt": "2026-04-23T17:46:45.077+00:00",
+        "resultUrl": "https://aiso.tools/scan/a297b60a-9e41-4ed3-8e90-e30283f8c87d",
+        "dimensions": [
+          {
+            "key": "structure",
+            "label": "Content Structure",
+            "weight": 20,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "heading_ok": false,
+              "faq_present": false,
+              "answer_first": false,
+              "heading_issue": "Some H2 topics are too short (<3 words)",
+              "definition_lead": false,
+              "main_text_tokens": 17
+            }
+          },
+          {
+            "key": "citations",
+            "label": "Citation Density",
+            "weight": 20,
+            "score": 10,
+            "status": "warn",
+            "issuesCount": 2,
+            "details": {
+              "word_count": 224,
+              "stats_count": 1,
+              "external_links": 2,
+              "authoritative_links": 0,
+              "stats_density_per_500w": 2.23,
+              "citations_density_per_500w": 0
+            }
+          },
+          {
+            "key": "crawler",
+            "label": "Crawler Access",
+            "weight": 15,
+            "score": 7,
+            "status": "warn",
+            "issuesCount": 1,
+            "details": {
+              "allowed_bots": 14,
+              "blocked_bots": 0,
+              "robots_present": false,
+              "cloudflare_suspected": false,
+              "gptbot_homepage_blocked": false
+            }
+          },
+          {
+            "key": "schema",
+            "label": "Schema Markup",
+            "weight": 15,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 3,
+            "details": {
+              "coverage": {
+                "person": 0,
+                "article": 0,
+                "faqPage": 0,
+                "website": 0,
+                "breadcrumb": 0,
+                "organization": 0
+              },
+              "meta_tags": {
+                "title": true,
+                "robots": false,
+                "canonical": false,
+                "open_graph": false,
+                "description": true,
+                "twitter_card": false
+              },
+              "page_family": "article",
+              "blocks_found": 0,
+              "nodes_parsed": 0,
+              "present_types": [],
+              "page_family_missing": [
+                "Article/BlogPosting/TechArticle",
+                "BreadcrumbList",
+                "Person"
+              ],
+              "page_family_expected": [
+                "Article/BlogPosting/TechArticle",
+                "BreadcrumbList",
+                "Person"
+              ],
+              "page_family_strength": 0
+            }
+          },
+          {
+            "key": "entity",
+            "label": "Entity Clarity",
+            "weight": 10,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "byline": false,
+              "founder_in_ld": false,
+              "about_reachable": false,
+              "self_identification": false
+            }
+          },
+          {
+            "key": "agent_readiness",
+            "label": "Agent Readiness",
+            "weight": 10,
+            "score": 2,
+            "status": "fail",
+            "issuesCount": 8,
+            "details": {
+              "probes": [],
+              "detected": {
+                "api": false,
+                "cli": false,
+                "mcp": false,
+                "x402": false,
+                "portal": false,
+                "webmcp": false,
+                "agent_skills": false,
+                "agent_discovery": false,
+                "agent_navigation": true,
+                "integration_safety": true
+              },
+              "checked_paths": [
+                "/openapi.json",
+                "/swagger.json",
+                "/api/openapi.json",
+                "/api/docs",
+                "/docs/api",
+                "/developers",
+                "/mcp",
+                "/docs/mcp",
+                "/.well-known/mcp.json",
+                "/docs/cli",
+                "/cli",
+                "/install",
+                "/webmcp",
+                "/docs/webmcp",
+                "/.well-known/webmcp.json",
+                "/portal",
+                "/portal.json",
+                "/.well-known/portal.json",
+                "/docs/portal",
+                "/.well-known/x402.json",
+                "/docs/x402",
+                "/docs/payments",
+                "/api/x402",
+                "/llms.txt",
+                "/llms-full.txt",
+                "/.well-known/ai-plugin.json",
+                "/.well-known/agent.json",
+                "/agents.json",
+                "/.well-known/agent-skills.json",
+                "/.well-known/agents.json",
+                "/agent-skills.json",
+                "/actions.json",
+                "/tools.json",
+                "/skills",
+                "/agent-skills",
+                "/docs/skills",
+                "/docs/agents",
+                "/sitemap.xml",
+                "/sitemap_index.xml",
+                "/docs",
+                "/help",
+                "/search",
+                "/docs/auth",
+                "/docs/webhooks",
+                "/docs/rate-limits",
+                "/status"
+              ]
+            }
+          },
+          {
+            "key": "llmstxt",
+            "label": "llms.txt",
+            "weight": 10,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "has_h1": false,
+              "broken_links": [],
+              "links_broken": 0,
+              "links_sampled": 0,
+              "llms_txt_present": false,
+              "llms_full_txt_present": false
+            }
+          },
+          {
+            "key": "freshness",
+            "label": "Freshness",
+            "weight": 5,
+            "score": 5,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "source": "last_modified_header",
+              "days_since": 0,
+              "updated_iso": "2026-04-23T03:33:32.000Z"
+            }
+          },
+          {
+            "key": "offsite",
+            "label": "Off-site Authority (proxy)",
+            "weight": 5,
+            "score": 1,
+            "status": "fail",
+            "issuesCount": 0,
+            "details": {
+              "platforms_detected": [
+                "github"
+              ],
+              "header_footer_links": 3
+            }
+          },
+          {
+            "key": "template_coverage",
+            "label": "Template Coverage",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "mode": "homepage",
+              "non_scoring": true,
+              "homepage_only": true,
+              "pages_scanned": 1,
+              "sampled_pages": 0,
+              "page_templates": [
+                {
+                  "url": "https://docs.cubesandbox.ai/",
+                  "template": "homepage",
+                  "text_chars": 6716
+                }
+              ],
+              "unique_templates": [
+                "homepage"
+              ]
+            }
+          },
+          {
+            "key": "platform_profiles",
+            "label": "Platform Profiles",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "profiles": {
+                "claude": 25,
+                "chatgpt": 25,
+                "google_ai": 30,
+                "perplexity": 43
+              },
+              "non_scoring": true
+            }
+          },
+          {
+            "key": "prompt_injection",
+            "label": "Prompt Injection",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "findings": [],
+              "non_scoring": true,
+              "pages_scanned": 1
+            }
+          },
+          {
+            "key": "web_verification",
+            "label": "Web Verification",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "consensus": {
+                "fetch_ok": 2,
+                "search_ok": 2,
+                "fetch_total": 2,
+                "verified_by": 4,
+                "search_total": 2,
+                "search_matched": 2,
+                "content_agreement": "multi_fetch",
+                "measured_providers": 4
+              },
+              "providers": [
+                {
+                  "ok": true,
+                  "kind": "fetch",
+                  "title": "Cube Sandbox",
+                  "status": 200,
+                  "finalUrl": "https://docs.cubesandbox.ai/",
+                  "provider": "http",
+                  "latencyMs": 218,
+                  "textChars": 6716,
+                  "description": "Production-grade, multi-component security sandbox system for serverless computing."
+                },
+                {
+                  "ok": true,
+                  "kind": "fetch",
+                  "title": "Cube Sandbox",
+                  "status": 200,
+                  "finalUrl": "https://docs.cubesandbox.ai/",
+                  "provider": "tinyfish_fetch",
+                  "latencyMs": 2494.1757420019712,
+                  "textChars": 160,
+                  "description": "Production-grade, multi-component security sandbox system for serverless computing."
+                },
+                {
+                  "ok": true,
+                  "kind": "search",
+                  "query": "site:docs.cubesandbox.ai docs",
+                  "status": 200,
+                  "results": [
+                    {
+                      "url": "https://docs.cubesandbox.ai/",
+                      "title": "Cube Sandbox",
+                      "snippet": "Cube SandboxEmpowering your AI Agents. Instant, Concurrent, Secure & Lightweight Sandbox for AI Agents. Quick Start. ⚡ Ultra-fast Startup.",
+                      "position": 1,
+                      "siteName": "docs.cubesandbox.ai"
+                    },
+                    {
+                      "url": "http://docs.cubesandbox.ai/architecture/overview.html",
+                      "title": "Architecture Overview | Cube Sandbox",
+                      "snippet": "Production-grade, multi-component security sandbox system for serverless computing.",
+                      "position": 2,
+                      "siteName": "docs.cubesandbox.ai"
+                    },
+                    {
+                      "url": "http://docs.cubesandbox.ai/guide/quickstart",
+                      "title": "Quick Start | Cube Sandbox",
+                      "snippet": "Quick Start ​. Get a fully functional Cube Sandbox running in three steps — no source build required. Prerequisites ​. A bare-metal Linux server (x86_64) ...",
+                      "position": 3,
+                      "siteName": "docs.cubesandbox.ai"
+                    },
+                    {
+                      "url": "https://docs.cubesandbox.ai/guide/introduction.html",
+                      "title": "Introduction | Cube Sandbox",
+                      "snippet": "Welcome to the Cube Security Sandbox documentation. Cube Sandbox is a production-grade, multi-component security sandbox system designed for serverless ...",
+                      "position": 4,
+                      "siteName": "docs.cubesandbox.ai"
+                    },
+                    {
+                      "url": "http://docs.cubesandbox.ai/guide/templates",
+                      "title": "Templates Overview | Cube Sandbox",
+                      "snippet": "A Template is the base image and configuration snapshot used to create Cube-Sandbox instances. This page covers the concept and lifecycle of templates. To ...",
+                      "position": 5,
+                      "siteName": "docs.cubesandbox.ai"
+                    }
+                  ],
+                  "provider": "tinyfish_search",
+                  "totalResults": 10,
+                  "topMatchPosition": 1
+                },
+                {
+                  "ok": true,
+                  "kind": "search",
+                  "query": "site:docs.cubesandbox.ai docs",
+                  "status": 200,
+                  "results": [
+                    {
+                      "url": "https://docs.cubesandbox.ai/",
+                      "title": "Cube Sandbox",
+                      "snippet": "Production-grade, multi-component security sandbox system for serverless computing.",
+                      "position": 1,
+                      "siteName": "Cubesandbox"
+                    },
+                    {
+                      "url": "http://docs.cubesandbox.ai/guide/quickstart",
+                      "title": "Quick Start | Cube Sandbox",
+                      "snippet": "MySQL and Redis managed via Docker Compose · CubeProxy with TLS (mkcert) and CoreDNS for cube.app domain routing · After installation completes, the installer symlinks cubemastercl",
+                      "position": 2,
+                      "siteName": "Cubesandbox"
+                    }
+                  ],
+                  "provider": "brave_search",
+                  "totalResults": 2,
+                  "topMatchPosition": 1
+                }
+              ],
+              "non_scoring": true,
+              "configured_providers": [
+                "http",
+                "tinyfish_fetch",
+                "tinyfish_search",
+                "brave_search"
+              ]
+            }
+          },
+          {
+            "key": "content_decay",
+            "label": "Content Decay",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 1,
+            "details": {
+              "non_scoring": true,
+              "pages_scanned": 1,
+              "volatile_pages": 1,
+              "evergreen_score": 9.5,
+              "stale_year_pages": 0,
+              "updated_signal_pages": 0
+            }
+          },
+          {
+            "key": "negative_signals",
+            "label": "Negative Signals",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "flags": [
+                {
+                  "key": "cta_overload",
+                  "count": 0,
+                  "label": "CTA overload"
+                },
+                {
+                  "key": "intrusive_overlay",
+                  "count": 0,
+                  "label": "Intrusive overlay patterns"
+                },
+                {
+                  "key": "thin_pages",
+                  "count": 0,
+                  "label": "Thin pages"
+                },
+                {
+                  "key": "missing_author_signals",
+                  "count": 0,
+                  "label": "Missing author signals"
+                },
+                {
+                  "key": "boilerplate_heavy",
+                  "count": 0,
+                  "label": "Boilerplate-heavy pages"
+                }
+              ],
+              "non_scoring": true,
+              "pages_scanned": 1,
+              "sampled_pages": [
+                {
+                  "url": "https://docs.cubesandbox.ai/",
+                  "template": "homepage",
+                  "text_chars": 6716,
+                  "has_canonical": false
+                }
+              ]
+            }
+          },
+          {
+            "key": "trust_stack",
+            "label": "Trust Stack",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "grade": "F",
+              "layers": {
+                "safety": 22,
+                "identity": 17,
+                "authority": 35,
+                "technical": 34,
+                "consistency": 63
+              },
+              "overall": 34,
+              "non_scoring": true
+            }
+          },
+          {
+            "key": "content_gaps",
+            "label": "Content Gap Opportunities",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 2,
+            "details": {
+              "non_scoring": true,
+              "missing_faqs": [
+                "What is AI agent tooling?",
+                "How does Docs work?",
+                "How much does Docs cost?",
+                "What makes Docs different?"
+              ],
+              "pages_checked": 1,
+              "missing_entities": [
+                {
+                  "entity": "company description",
+                  "reason": "No about or company page found in sampled pages.",
+                  "entity_type": "brand",
+                  "where_expected": "about or company page"
+                },
+                {
+                  "entity": "team/founders",
+                  "reason": "No team or founder page found in sampled pages.",
+                  "entity_type": "person",
+                  "where_expected": "team or founder page"
+                },
+                {
+                  "entity": "pricing information",
+                  "reason": "No pricing page found in sampled pages.",
+                  "entity_type": "product",
+                  "where_expected": "pricing page"
+                },
+                {
+                  "entity": "technical documentation",
+                  "reason": "No docs or API page found in sampled pages.",
+                  "entity_type": "product",
+                  "where_expected": "docs or API page"
+                }
+              ],
+              "missing_comparisons": [
+                "Docs vs top competitor",
+                "Docs vs alternative tools",
+                "Best AI Agent Tooling tools compared"
+              ],
+              "missing_content_types": [
+                {
+                  "type": "faq",
+                  "impact": "high",
+                  "reason": "No dedicated FAQ surface found for question-style retrieval.",
+                  "suggested_title": "Frequently Asked Questions about AI Agent Tooling"
+                },
+                {
+                  "type": "glossary",
+                  "impact": "high",
+                  "reason": "No glossary or definition hub found for entity and term authority.",
+                  "suggested_title": "AI Agent Tooling Glossary: Key Terms Explained"
+                },
+                {
+                  "type": "comparison",
+                  "impact": "medium",
+                  "reason": "No comparison surface found for high-intent evaluation queries.",
+                  "suggested_title": "Docs vs Alternatives: Detailed Comparison"
+                },
+                {
+                  "type": "guide",
+                  "impact": "medium",
+                  "reason": "No guide or how-to surface found for procedural extraction.",
+                  "suggested_title": "Complete Guide to AI Agent Tooling"
+                },
+                {
+                  "type": "case_study",
+                  "impact": "medium",
+                  "reason": "No case-study or customer-proof surface found.",
+                  "suggested_title": "Docs Case Study: Real Results from AI Agent Tooling"
+                },
+                {
+                  "type": "benchmark",
+                  "impact": "medium",
+                  "reason": "No benchmark, research, or proprietary-data surface found.",
+                  "suggested_title": "AI Agent Tooling Benchmarks: Performance Data"
+                }
+              ],
+              "missing_ecosystem_pages": [
+                "Docs integrations and ecosystem",
+                "How Docs works with popular tools"
+              ]
+            }
+          }
+        ],
+        "issues": [
+          {
+            "severity": "critical",
+            "title": "No valid Organization JSON-LD",
+            "fix": "Add <script type='application/ld+json'> with @type:Organization including name, url, logo, and sameAs (≥3 social profiles).",
+            "dimensionKey": "schema"
+          },
+          {
+            "severity": "critical",
+            "title": "No /llms.txt file found",
+            "fix": "Publish /llms.txt at the site root with '# <Project>' + a short summary + H2 sections linking to canonical doc URLs.",
+            "dimensionKey": "llmstxt"
+          },
+          {
+            "severity": "high",
+            "title": "No robots.txt found",
+            "fix": "Publish a /robots.txt that explicitly allows GPTBot, ClaudeBot, PerplexityBot, Google-Extended and other AI crawlers.",
+            "dimensionKey": "crawler"
+          },
+          {
+            "severity": "high",
+            "title": "External links exist but none hit the authoritative allowlist",
+            "fix": "Cite at least one .edu/.gov, Wikipedia, IETF/W3C spec, or tier-1 publication near your flagship claims.",
+            "dimensionKey": "citations"
+          },
+          {
+            "severity": "high",
+            "title": "No API or OpenAPI entrypoint detected",
+            "fix": "Expose a public API reference or OpenAPI document at /docs/api, /openapi.json, or an equivalent developer URL so agents can understand callable surfaces.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "high",
+            "title": "No FAQ section detected",
+            "fix": "Add a FAQ block with ≥5 question/answer pairs using <details>/<summary> or <h3>+<p> patterns. Also mark it up with FAQPage JSON-LD.",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "high",
+            "title": "No definition-lead opener in the first 150 tokens",
+            "fix": "Open the homepage with '<Brand> is a <category> that <differentiator>' — this is the single biggest lever for AI citability.",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "high",
+            "title": "Statistical claims are unsourced",
+            "fix": "Every % / 'X customers' / stat deserves an inline citation link to the origin study or publication.",
+            "dimensionKey": "citations"
+          },
+          {
+            "severity": "low",
+            "title": "Claude readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive claude citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Template coverage is limited in homepage-only scans",
+            "fix": "Run Template Audit, Full Site, or Deep Investigation mode to compare key templates across the site.",
+            "dimensionKey": "template_coverage"
+          },
+          {
+            "severity": "low",
+            "title": "4 entity page gaps detected",
+            "fix": "Add explicit entity surfaces: about or company page, team or founder page, pricing page, docs or API page.",
+            "dimensionKey": "content_gaps"
+          },
+          {
+            "severity": "low",
+            "title": "No x402 payment support detected",
+            "fix": "If paid agent/API access is supported, document x402 payment flow, supported networks/tokens, payment headers, and facilitator behavior.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "Volatile content lacks update signals",
+            "fix": "Pages about prices, versions, launches, or changing data should expose a clear last-updated date and refresh cadence.",
+            "dimensionKey": "content_decay"
+          },
+          {
+            "severity": "low",
+            "title": "Technical trust layer is weak",
+            "fix": "Strengthen the technical layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Identity trust layer is weak",
+            "fix": "Strengthen the identity layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Authority trust layer is weak",
+            "fix": "Strengthen the authority layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Safety trust layer is weak",
+            "fix": "Strengthen the safety layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Chatgpt readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive chatgpt citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Perplexity readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive perplexity citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Google ai readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive google_ai citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Core meta tags are incomplete",
+            "fix": "Add a unique <title>, meta description, and canonical URL. Add Open Graph/Twitter tags for share and citation previews.",
+            "dimensionKey": "schema"
+          },
+          {
+            "severity": "low",
+            "title": "No named author or byline visible",
+            "fix": "If the homepage surfaces editorial content, include an author byline (Person JSON-LD or 'By <Name>').",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "low",
+            "title": "Organization JSON-LD missing founder",
+            "fix": "Add 'founder': [{ @type: Person, name: ... }] to the Organization schema.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "low",
+            "title": "No CLI or command-line workflow detected",
+            "fix": "Add CLI install/use docs when your product can be operated from CI, terminals, or coding agents. Include copy-paste commands and JSON output examples.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "No WebMCP access signal detected",
+            "fix": "If the site supports browser-native agent access, publish a WebMCP endpoint or discovery document and link it from developer docs and llms.txt.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "No Portal visit layer detected",
+            "fix": "If the service supports temporary agent visits, publish a Portal manifest at /portal with tool metadata and a call endpoint, then link it from docs and llms.txt.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "medium",
+            "title": "Article content has no Article/BlogPosting schema",
+            "fix": "Emit Article JSON-LD with headline, author, datePublished, dateModified.",
+            "dimensionKey": "schema"
+          },
+          {
+            "severity": "medium",
+            "title": "2 high-impact content gaps detected",
+            "fix": "Prioritize: Frequently Asked Questions about AI Agent Tooling; AI Agent Tooling Glossary: Key Terms Explained.",
+            "dimensionKey": "content_gaps"
+          },
+          {
+            "severity": "medium",
+            "title": "Some H2 topics are too short (<3 words)",
+            "fix": "Use exactly one H1, ensure the first H2 precedes any H3, and give every H2 a clear topic label (3+ words).",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "medium",
+            "title": "No clear self-identification in the opening paragraph",
+            "fix": "Open with 'We are ...' / 'Our mission is ...' / 'This is ...' — AI models need explicit entity framing.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "medium",
+            "title": "No agent discovery file detected",
+            "fix": "Publish /llms.txt and, when relevant, a .well-known agent/plugin manifest that points agents at docs, APIs, MCP endpoints, and support policies.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "medium",
+            "title": "No /about or /team page with credentials",
+            "fix": "Publish an About page listing founders, team, and credentials. AI engines heavily weight provenance.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "medium",
+            "title": "No agent skills or action manifest detected",
+            "fix": "Document the skills, actions, tools, or capabilities agents can use. Include names, input schemas, output shapes, auth requirements, and whether each action is read-only or writes data.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "medium",
+            "title": "No 2–4 sentence summary paragraph above the fold",
+            "fix": "Add a 2–4 sentence paragraph immediately after the H1 summarising what the product is and who it serves.",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "medium",
+            "title": "No MCP entrypoint detected",
+            "fix": "Publish an MCP endpoint or setup guide, then link it from the homepage or llms.txt. Agents should be able to discover tool access without reading human-only docs.",
+            "dimensionKey": "agent_readiness"
+          }
+        ],
+        "promptTests": []
+      },
+      "error": null
     },
     {
       "fullName": "farion1231/cc-switch",
@@ -7518,7 +8313,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T16:10:37.596Z",
+      "lastProfiledAt": "2026-04-23T17:46:49.306Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/farion1231/cc-switch",
@@ -7535,16 +8330,828 @@
       "selectedFrom": "incremental",
       "websiteUrl": "https://youmind.com/gpt-image-2-prompts",
       "websiteSource": "github_homepage",
-      "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T16:10:37.600Z",
-      "nextScanAfter": null,
+      "status": "scanned",
+      "lastProfiledAt": "2026-04-23T17:46:49.310Z",
+      "nextScanAfter": "2026-04-30T17:47:41.627Z",
       "surfaces": {
         "githubUrl": "https://github.com/YouMind-OpenLab/awesome-gpt-image-2",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
       },
-      "aisoScan": null,
+      "aisoScan": {
+        "scanId": "b082d1d2-0fdc-4db5-adf8-a0eb111a4e57",
+        "url": "https://youmind.com/gpt-image-2-prompts",
+        "projectName": null,
+        "projectUrl": null,
+        "source": "web",
+        "status": "completed",
+        "score": 31,
+        "tier": "invisible",
+        "runtimeVisibility": null,
+        "scanDurationMs": 47502,
+        "completedAt": "2026-04-23T17:47:37.638+00:00",
+        "resultUrl": "https://aiso.tools/scan/b082d1d2-0fdc-4db5-adf8-a0eb111a4e57",
+        "dimensions": [
+          {
+            "key": "structure",
+            "label": "Content Structure",
+            "weight": 20,
+            "score": 5,
+            "status": "fail",
+            "issuesCount": 3,
+            "details": {
+              "heading_ok": false,
+              "faq_present": true,
+              "answer_first": false,
+              "heading_issue": "Found 0 H1 elements (expected exactly 1)",
+              "definition_lead": false,
+              "main_text_tokens": 7161
+            }
+          },
+          {
+            "key": "citations",
+            "label": "Citation Density",
+            "weight": 20,
+            "score": 10,
+            "status": "warn",
+            "issuesCount": 0,
+            "details": {
+              "word_count": 31919,
+              "stats_count": 229,
+              "external_links": 22,
+              "authoritative_links": 1,
+              "stats_density_per_500w": 3.59,
+              "citations_density_per_500w": 0.02
+            }
+          },
+          {
+            "key": "crawler",
+            "label": "Crawler Access",
+            "weight": 15,
+            "score": 15,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "allowed_bots": 14,
+              "blocked_bots": 0,
+              "robots_present": true,
+              "cloudflare_suspected": false,
+              "gptbot_homepage_blocked": false
+            }
+          },
+          {
+            "key": "schema",
+            "label": "Schema Markup",
+            "weight": 15,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 2,
+            "details": {
+              "coverage": {
+                "person": 0,
+                "article": 0,
+                "faqPage": 0,
+                "website": 0,
+                "breadcrumb": 0,
+                "organization": 0
+              },
+              "meta_tags": {
+                "title": true,
+                "robots": false,
+                "canonical": true,
+                "open_graph": true,
+                "description": true,
+                "twitter_card": true
+              },
+              "page_family": "homepage",
+              "blocks_found": 0,
+              "nodes_parsed": 0,
+              "present_types": [],
+              "page_family_missing": [
+                "Organization",
+                "WebSite",
+                "FAQPage"
+              ],
+              "page_family_expected": [
+                "Organization",
+                "WebSite",
+                "FAQPage"
+              ],
+              "page_family_strength": 0
+            }
+          },
+          {
+            "key": "llmstxt",
+            "label": "llms.txt",
+            "weight": 10,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "has_h1": false,
+              "broken_links": [],
+              "links_broken": 0,
+              "links_sampled": 0,
+              "llms_txt_present": false,
+              "llms_full_txt_present": false
+            }
+          },
+          {
+            "key": "entity",
+            "label": "Entity Clarity",
+            "weight": 10,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "byline": false,
+              "founder_in_ld": false,
+              "about_reachable": false,
+              "self_identification": false
+            }
+          },
+          {
+            "key": "agent_readiness",
+            "label": "Agent Readiness",
+            "weight": 10,
+            "score": 3,
+            "status": "fail",
+            "issuesCount": 7,
+            "details": {
+              "probes": [
+                {
+                  "ok": true,
+                  "key": "agent_skills",
+                  "url": "https://youmind.com/skills",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "agent_navigation",
+                  "url": "https://youmind.com/sitemap.xml",
+                  "status": 200
+                }
+              ],
+              "detected": {
+                "api": false,
+                "cli": false,
+                "mcp": false,
+                "x402": false,
+                "portal": false,
+                "webmcp": false,
+                "agent_skills": true,
+                "agent_discovery": false,
+                "agent_navigation": true,
+                "integration_safety": true
+              },
+              "checked_paths": [
+                "/openapi.json",
+                "/swagger.json",
+                "/api/openapi.json",
+                "/api/docs",
+                "/docs/api",
+                "/developers",
+                "/mcp",
+                "/docs/mcp",
+                "/.well-known/mcp.json",
+                "/docs/cli",
+                "/cli",
+                "/install",
+                "/webmcp",
+                "/docs/webmcp",
+                "/.well-known/webmcp.json",
+                "/portal",
+                "/portal.json",
+                "/.well-known/portal.json",
+                "/docs/portal",
+                "/.well-known/x402.json",
+                "/docs/x402",
+                "/docs/payments",
+                "/api/x402",
+                "/llms.txt",
+                "/llms-full.txt",
+                "/.well-known/ai-plugin.json",
+                "/.well-known/agent.json",
+                "/agents.json",
+                "/.well-known/agent-skills.json",
+                "/.well-known/agents.json",
+                "/agent-skills.json",
+                "/actions.json",
+                "/tools.json",
+                "/skills",
+                "/agent-skills",
+                "/docs/skills",
+                "/docs/agents",
+                "/sitemap.xml",
+                "/sitemap_index.xml",
+                "/docs",
+                "/help",
+                "/search",
+                "/docs/auth",
+                "/docs/webhooks",
+                "/docs/rate-limits",
+                "/status"
+              ]
+            }
+          },
+          {
+            "key": "offsite",
+            "label": "Off-site Authority (proxy)",
+            "weight": 5,
+            "score": 1,
+            "status": "fail",
+            "issuesCount": 0,
+            "details": {
+              "platforms_detected": [
+                "github"
+              ],
+              "header_footer_links": 2
+            }
+          },
+          {
+            "key": "freshness",
+            "label": "Freshness",
+            "weight": 5,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "source": null,
+              "days_since": null,
+              "updated_iso": null
+            }
+          },
+          {
+            "key": "trust_stack",
+            "label": "Trust Stack",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 5,
+            "details": {
+              "grade": "F",
+              "layers": {
+                "safety": 50,
+                "identity": 20,
+                "authority": 35,
+                "technical": 48,
+                "consistency": 38
+              },
+              "overall": 38,
+              "non_scoring": true
+            }
+          },
+          {
+            "key": "content_gaps",
+            "label": "Content Gap Opportunities",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 2,
+            "details": {
+              "non_scoring": true,
+              "missing_faqs": [
+                "What is AI agent tooling?",
+                "How does Youmind work?",
+                "How much does Youmind cost?",
+                "What makes Youmind different?"
+              ],
+              "pages_checked": 1,
+              "missing_entities": [
+                {
+                  "entity": "company description",
+                  "reason": "No about or company page found in sampled pages.",
+                  "entity_type": "brand",
+                  "where_expected": "about or company page"
+                },
+                {
+                  "entity": "team/founders",
+                  "reason": "No team or founder page found in sampled pages.",
+                  "entity_type": "person",
+                  "where_expected": "team or founder page"
+                },
+                {
+                  "entity": "pricing information",
+                  "reason": "No pricing page found in sampled pages.",
+                  "entity_type": "product",
+                  "where_expected": "pricing page"
+                },
+                {
+                  "entity": "technical documentation",
+                  "reason": "No docs or API page found in sampled pages.",
+                  "entity_type": "product",
+                  "where_expected": "docs or API page"
+                }
+              ],
+              "missing_comparisons": [
+                "Youmind vs top competitor",
+                "Youmind vs alternative tools",
+                "Best AI Agent Tooling tools compared"
+              ],
+              "missing_content_types": [
+                {
+                  "type": "faq",
+                  "impact": "high",
+                  "reason": "No dedicated FAQ surface found for question-style retrieval.",
+                  "suggested_title": "Frequently Asked Questions about AI Agent Tooling"
+                },
+                {
+                  "type": "glossary",
+                  "impact": "high",
+                  "reason": "No glossary or definition hub found for entity and term authority.",
+                  "suggested_title": "AI Agent Tooling Glossary: Key Terms Explained"
+                },
+                {
+                  "type": "comparison",
+                  "impact": "medium",
+                  "reason": "No comparison surface found for high-intent evaluation queries.",
+                  "suggested_title": "Youmind vs Alternatives: Detailed Comparison"
+                },
+                {
+                  "type": "guide",
+                  "impact": "medium",
+                  "reason": "No guide or how-to surface found for procedural extraction.",
+                  "suggested_title": "Complete Guide to AI Agent Tooling"
+                },
+                {
+                  "type": "case_study",
+                  "impact": "medium",
+                  "reason": "No case-study or customer-proof surface found.",
+                  "suggested_title": "Youmind Case Study: Real Results from AI Agent Tooling"
+                },
+                {
+                  "type": "benchmark",
+                  "impact": "medium",
+                  "reason": "No benchmark, research, or proprietary-data surface found.",
+                  "suggested_title": "AI Agent Tooling Benchmarks: Performance Data"
+                }
+              ],
+              "missing_ecosystem_pages": [
+                "Youmind integrations and ecosystem",
+                "How Youmind works with popular tools"
+              ]
+            }
+          },
+          {
+            "key": "negative_signals",
+            "label": "Negative Signals",
+            "weight": 0,
+            "score": 0,
+            "status": "warn",
+            "issuesCount": 1,
+            "details": {
+              "flags": [
+                {
+                  "key": "cta_overload",
+                  "count": 0,
+                  "label": "CTA overload"
+                },
+                {
+                  "key": "intrusive_overlay",
+                  "count": 1,
+                  "label": "Intrusive overlay patterns"
+                },
+                {
+                  "key": "thin_pages",
+                  "count": 0,
+                  "label": "Thin pages"
+                },
+                {
+                  "key": "missing_author_signals",
+                  "count": 0,
+                  "label": "Missing author signals"
+                },
+                {
+                  "key": "boilerplate_heavy",
+                  "count": 1,
+                  "label": "Boilerplate-heavy pages"
+                }
+              ],
+              "non_scoring": true,
+              "pages_scanned": 1,
+              "sampled_pages": [
+                {
+                  "url": "https://youmind.com/gpt-image-2-prompts",
+                  "template": "homepage",
+                  "text_chars": 388578,
+                  "has_canonical": true
+                }
+              ]
+            }
+          },
+          {
+            "key": "content_decay",
+            "label": "Content Decay",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 1,
+            "details": {
+              "non_scoring": true,
+              "pages_scanned": 1,
+              "volatile_pages": 1,
+              "evergreen_score": 9.5,
+              "stale_year_pages": 0,
+              "updated_signal_pages": 0
+            }
+          },
+          {
+            "key": "platform_profiles",
+            "label": "Platform Profiles",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "profiles": {
+                "claude": 32,
+                "chatgpt": 36,
+                "google_ai": 23,
+                "perplexity": 44
+              },
+              "non_scoring": true
+            }
+          },
+          {
+            "key": "template_coverage",
+            "label": "Template Coverage",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "mode": "homepage",
+              "non_scoring": true,
+              "homepage_only": true,
+              "pages_scanned": 1,
+              "sampled_pages": 0,
+              "page_templates": [
+                {
+                  "url": "https://youmind.com/gpt-image-2-prompts",
+                  "template": "homepage",
+                  "text_chars": 388578
+                }
+              ],
+              "unique_templates": [
+                "homepage"
+              ]
+            }
+          },
+          {
+            "key": "prompt_injection",
+            "label": "Prompt Injection",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "findings": [],
+              "non_scoring": true,
+              "pages_scanned": 1
+            }
+          },
+          {
+            "key": "web_verification",
+            "label": "Web Verification",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "consensus": {
+                "fetch_ok": 1,
+                "search_ok": 2,
+                "fetch_total": 2,
+                "verified_by": 3,
+                "search_total": 2,
+                "search_matched": 2,
+                "content_agreement": "single_fetch",
+                "measured_providers": 4
+              },
+              "providers": [
+                {
+                  "ok": true,
+                  "kind": "fetch",
+                  "title": "GPT Image 2 Prompts - Pixel-Perfect Text & Commercial-Ready AI Image Generation - YouMind",
+                  "status": 200,
+                  "finalUrl": "https://youmind.com/gpt-image-2-prompts",
+                  "provider": "http",
+                  "latencyMs": 3053,
+                  "textChars": 388578,
+                  "description": "Discover curated prompts for GPT Image 2 - OpenAI's next-gen image model with pixel-perfect text rendering, flawless consistency, and commercial-grade illustrations."
+                },
+                {
+                  "ok": false,
+                  "kind": "fetch",
+                  "error": "tinyfish_timeout",
+                  "title": null,
+                  "status": 0,
+                  "finalUrl": null,
+                  "provider": "tinyfish_fetch",
+                  "latencyMs": 12003,
+                  "textChars": 0,
+                  "description": null
+                },
+                {
+                  "ok": true,
+                  "kind": "search",
+                  "query": "site:youmind.com youmind",
+                  "status": 200,
+                  "results": [
+                    {
+                      "url": "https://youmind.com/",
+                      "title": "YouMind - AI Creation Agent",
+                      "snippet": "YouMind is an innovative creation agent that harnesses the power of generative AI to transform diverse materials into inspired creations.",
+                      "position": 1,
+                      "siteName": "youmind.com"
+                    },
+                    {
+                      "url": "https://youmind.com/nano-banana-pro-prompts",
+                      "title": "The world's largest free Nano Banana Pro prompt library ... - YouMind",
+                      "snippet": "A highly detailed prompt for creating a photorealistic tropical portrait featuring specific facial features, makeup style, and swimwear using Nano Banana.",
+                      "position": 2,
+                      "siteName": "youmind.com"
+                    },
+                    {
+                      "url": "https://youmind.com/sign-in",
+                      "title": "AI Creation Agent - YouMind",
+                      "snippet": "YouMind is an innovative creation agent that harnesses the power of generative AI to transform diverse materials into inspired creations.",
+                      "position": 3,
+                      "siteName": "youmind.com"
+                    },
+                    {
+                      "url": "https://youmind.com/use-cases",
+                      "title": "Use cases - YouMind",
+                      "snippet": "Useful, but shallow. YouMind is different. It turns curiosity into creation. We designed it so your learning, thinking, and creating in one continuous flow.",
+                      "position": 4,
+                      "siteName": "youmind.com"
+                    },
+                    {
+                      "url": "https://youmind.com/pricing",
+                      "title": "YouMind Pricing",
+                      "snippet": "YouMind is the reimagined AI writing tool that meets you where you think. Transform your scattered ideas into complete, polished writing.",
+                      "position": 5,
+                      "siteName": "youmind.com"
+                    }
+                  ],
+                  "provider": "tinyfish_search",
+                  "totalResults": 10,
+                  "topMatchPosition": 1
+                },
+                {
+                  "ok": true,
+                  "kind": "search",
+                  "query": "site:youmind.com youmind",
+                  "status": 200,
+                  "results": [
+                    {
+                      "url": "https://youmind.com/",
+                      "title": "YouMind - AI Creation Agent",
+                      "snippet": "YouMind is <strong>an innovative creation agent that harnesses the power of generative AI to transform diverse materials into inspired creations</strong>.",
+                      "position": 1,
+                      "siteName": "YouMind"
+                    },
+                    {
+                      "url": "https://youmind.com/nano-banana-pro-prompts",
+                      "title": "The world's largest free Nano Banana Pro prompt library, continuously updated - YouMind",
+                      "snippet": "Discover a curated collection of high-quality prompts for Nano Banana Pro AI image generation. Generate stunning images directly in YouMind.",
+                      "position": 2,
+                      "siteName": "Youmind"
+                    },
+                    {
+                      "url": "https://youmind.com/blog/a-little-story-behind-youmind",
+                      "title": "A Little Story Behind YouMind - YouMind Blog",
+                      "snippet": "You might learn more from writing one paragraph than from reading ten articles. That’s the philosophy behind YouMind: <strong>to build a tool that helps you fall in love with writi",
+                      "position": 3,
+                      "siteName": "YouMind"
+                    },
+                    {
+                      "url": "https://youmind.com/updates/officially-introducing-ai-write-and-new-board",
+                      "title": "Launching YouMind 0.3: Officially Introducing AI Write and New Board - YouMind Updates",
+                      "snippet": "Concurrently, YouMind&#x27;s unique version comparison feature will allow you to witness firsthand the remarkable synergy and boundless possibilities of human-AI co-creation. Secon",
+                      "position": 4,
+                      "siteName": "YouMind"
+                    },
+                    {
+                      "url": "https://youmind.com/gpt-image-2-prompts",
+                      "title": "GPT Image 2 Prompts - Pixel-Perfect Text & Commercial-Ready AI Image Generation - YouMind",
+                      "snippet": "Discover curated prompts for GPT Image 2 - OpenAI&#x27;s next-gen image model with pixel-perfect text rendering, flawless consistency, and commercial-grade illustrations.",
+                      "position": 5,
+                      "siteName": "Youmind"
+                    }
+                  ],
+                  "provider": "brave_search",
+                  "totalResults": 10,
+                  "topMatchPosition": 1
+                }
+              ],
+              "non_scoring": true,
+              "configured_providers": [
+                "http",
+                "tinyfish_fetch",
+                "tinyfish_search",
+                "brave_search"
+              ]
+            }
+          }
+        ],
+        "issues": [
+          {
+            "severity": "critical",
+            "title": "No /llms.txt file found",
+            "fix": "Publish /llms.txt at the site root with '# <Project>' + a short summary + H2 sections linking to canonical doc URLs.",
+            "dimensionKey": "llmstxt"
+          },
+          {
+            "severity": "critical",
+            "title": "No valid Organization JSON-LD",
+            "fix": "Add <script type='application/ld+json'> with @type:Organization including name, url, logo, and sameAs (≥3 social profiles).",
+            "dimensionKey": "schema"
+          },
+          {
+            "severity": "high",
+            "title": "FAQ section exists but is not marked up as FAQPage JSON-LD",
+            "fix": "Wrap the FAQ with a FAQPage JSON-LD block so AI engines can lift the Q/A pairs verbatim.",
+            "dimensionKey": "schema"
+          },
+          {
+            "severity": "high",
+            "title": "No definition-lead opener in the first 150 tokens",
+            "fix": "Open the homepage with '<Brand> is a <category> that <differentiator>' — this is the single biggest lever for AI citability.",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "high",
+            "title": "No API or OpenAPI entrypoint detected",
+            "fix": "Expose a public API reference or OpenAPI document at /docs/api, /openapi.json, or an equivalent developer URL so agents can understand callable surfaces.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "Template coverage is limited in homepage-only scans",
+            "fix": "Run Template Audit, Full Site, or Deep Investigation mode to compare key templates across the site.",
+            "dimensionKey": "template_coverage"
+          },
+          {
+            "severity": "low",
+            "title": "No WebMCP access signal detected",
+            "fix": "If the site supports browser-native agent access, publish a WebMCP endpoint or discovery document and link it from developer docs and llms.txt.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "Identity trust layer is weak",
+            "fix": "Strengthen the identity layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Google ai readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive google_ai citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Claude readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive claude citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Organization JSON-LD missing founder",
+            "fix": "Add 'founder': [{ @type: Person, name: ... }] to the Organization schema.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "low",
+            "title": "No x402 payment support detected",
+            "fix": "If paid agent/API access is supported, document x402 payment flow, supported networks/tokens, payment headers, and facilitator behavior.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "Safety trust layer is weak",
+            "fix": "Strengthen the safety layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Perplexity readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive perplexity citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "4 entity page gaps detected",
+            "fix": "Add explicit entity surfaces: about or company page, team or founder page, pricing page, docs or API page.",
+            "dimensionKey": "content_gaps"
+          },
+          {
+            "severity": "low",
+            "title": "No named author or byline visible",
+            "fix": "If the homepage surfaces editorial content, include an author byline (Person JSON-LD or 'By <Name>').",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "low",
+            "title": "No CLI or command-line workflow detected",
+            "fix": "Add CLI install/use docs when your product can be operated from CI, terminals, or coding agents. Include copy-paste commands and JSON output examples.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "Technical trust layer is weak",
+            "fix": "Strengthen the technical layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Consistency trust layer is weak",
+            "fix": "Strengthen the consistency layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "No Portal visit layer detected",
+            "fix": "If the service supports temporary agent visits, publish a Portal manifest at /portal with tool metadata and a call endpoint, then link it from docs and llms.txt.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "Volatile content lacks update signals",
+            "fix": "Pages about prices, versions, launches, or changing data should expose a clear last-updated date and refresh cadence.",
+            "dimensionKey": "content_decay"
+          },
+          {
+            "severity": "low",
+            "title": "Authority trust layer is weak",
+            "fix": "Strengthen the authority layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Chatgpt readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive chatgpt citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "medium",
+            "title": "No /about or /team page with credentials",
+            "fix": "Publish an About page listing founders, team, and credentials. AI engines heavily weight provenance.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "medium",
+            "title": "Found 0 H1 elements (expected exactly 1)",
+            "fix": "Use exactly one H1, ensure the first H2 precedes any H3, and give every H2 a clear topic label (3+ words).",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "medium",
+            "title": "Popup or overlay patterns may suppress clean extraction",
+            "fix": "Delay or remove modal and overlay patterns on indexable pages, especially above-the-fold newsletter or signup gates.",
+            "dimensionKey": "negative_signals"
+          },
+          {
+            "severity": "medium",
+            "title": "No MCP entrypoint detected",
+            "fix": "Publish an MCP endpoint or setup guide, then link it from the homepage or llms.txt. Agents should be able to discover tool access without reading human-only docs.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "medium",
+            "title": "No agent discovery file detected",
+            "fix": "Publish /llms.txt and, when relevant, a .well-known agent/plugin manifest that points agents at docs, APIs, MCP endpoints, and support policies.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "medium",
+            "title": "No 2–4 sentence summary paragraph above the fold",
+            "fix": "Add a 2–4 sentence paragraph immediately after the H1 summarising what the product is and who it serves.",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "medium",
+            "title": "2 high-impact content gaps detected",
+            "fix": "Prioritize: Frequently Asked Questions about AI Agent Tooling; AI Agent Tooling Glossary: Key Terms Explained.",
+            "dimensionKey": "content_gaps"
+          },
+          {
+            "severity": "medium",
+            "title": "No last-updated signal on homepage",
+            "fix": "Add <time datetime='YYYY-MM-DD'>Updated ...</time> or article:modified_time meta, or expose dateModified in Article JSON-LD.",
+            "dimensionKey": "freshness"
+          },
+          {
+            "severity": "medium",
+            "title": "No clear self-identification in the opening paragraph",
+            "fix": "Open with 'We are ...' / 'Our mission is ...' / 'This is ...' — AI models need explicit entity framing.",
+            "dimensionKey": "entity"
+          }
+        ],
+        "promptTests": []
+      },
       "error": null
     },
     {
@@ -7553,16 +9160,830 @@
       "selectedFrom": "incremental",
       "websiteUrl": "https://skills.sh/",
       "websiteSource": "github_homepage",
-      "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T16:10:37.603Z",
-      "nextScanAfter": null,
+      "status": "scanned",
+      "lastProfiledAt": "2026-04-23T17:47:41.635Z",
+      "nextScanAfter": "2026-04-30T17:48:21.904Z",
       "surfaces": {
         "githubUrl": "https://github.com/vercel-labs/skills",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
       },
-      "aisoScan": null,
+      "aisoScan": {
+        "scanId": "07b328db-7bfb-4ab8-878a-889030ea174b",
+        "url": "https://skills.sh/",
+        "projectName": null,
+        "projectUrl": null,
+        "source": "web",
+        "status": "completed",
+        "score": 34,
+        "tier": "invisible",
+        "runtimeVisibility": null,
+        "scanDurationMs": 34809,
+        "completedAt": "2026-04-23T17:48:18.227+00:00",
+        "resultUrl": "https://aiso.tools/scan/07b328db-7bfb-4ab8-878a-889030ea174b",
+        "dimensions": [
+          {
+            "key": "citations",
+            "label": "Citation Density",
+            "weight": 20,
+            "score": 10,
+            "status": "warn",
+            "issuesCount": 2,
+            "details": {
+              "word_count": 291,
+              "stats_count": 18,
+              "external_links": 20,
+              "authoritative_links": 0,
+              "stats_density_per_500w": 30.93,
+              "citations_density_per_500w": 0
+            }
+          },
+          {
+            "key": "structure",
+            "label": "Content Structure",
+            "weight": 20,
+            "score": 5,
+            "status": "fail",
+            "issuesCount": 3,
+            "details": {
+              "heading_ok": false,
+              "faq_present": true,
+              "answer_first": false,
+              "heading_issue": "Some H2 topics are too short (<3 words)",
+              "definition_lead": false,
+              "main_text_tokens": 45
+            }
+          },
+          {
+            "key": "crawler",
+            "label": "Crawler Access",
+            "weight": 15,
+            "score": 15,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "allowed_bots": 14,
+              "blocked_bots": 0,
+              "robots_present": true,
+              "cloudflare_suspected": false,
+              "gptbot_homepage_blocked": false
+            }
+          },
+          {
+            "key": "schema",
+            "label": "Schema Markup",
+            "weight": 15,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 2,
+            "details": {
+              "coverage": {
+                "person": 0,
+                "article": 0,
+                "faqPage": 0,
+                "website": 0,
+                "breadcrumb": 0,
+                "organization": 0
+              },
+              "meta_tags": {
+                "title": true,
+                "robots": false,
+                "canonical": true,
+                "open_graph": true,
+                "description": true,
+                "twitter_card": true
+              },
+              "page_family": "docs",
+              "blocks_found": 0,
+              "nodes_parsed": 0,
+              "present_types": [],
+              "page_family_missing": [
+                "TechArticle/Article",
+                "BreadcrumbList",
+                "Organization/WebSite"
+              ],
+              "page_family_expected": [
+                "TechArticle/Article",
+                "BreadcrumbList",
+                "Organization/WebSite"
+              ],
+              "page_family_strength": 0
+            }
+          },
+          {
+            "key": "entity",
+            "label": "Entity Clarity",
+            "weight": 10,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "byline": false,
+              "founder_in_ld": false,
+              "about_reachable": false,
+              "self_identification": false
+            }
+          },
+          {
+            "key": "llmstxt",
+            "label": "llms.txt",
+            "weight": 10,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "has_h1": false,
+              "broken_links": [],
+              "links_broken": 0,
+              "links_sampled": 0,
+              "llms_txt_present": false,
+              "llms_full_txt_present": false
+            }
+          },
+          {
+            "key": "agent_readiness",
+            "label": "Agent Readiness",
+            "weight": 10,
+            "score": 7.2,
+            "status": "warn",
+            "issuesCount": 3,
+            "details": {
+              "probes": [
+                {
+                  "ok": true,
+                  "key": "api",
+                  "url": "https://skills.sh/docs/api",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "cli",
+                  "url": "https://skills.sh/docs/cli",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "agent_navigation",
+                  "url": "https://skills.sh/sitemap.xml",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "agent_navigation",
+                  "url": "https://skills.sh/docs",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "agent_navigation",
+                  "url": "https://skills.sh/search",
+                  "status": 200
+                }
+              ],
+              "detected": {
+                "api": true,
+                "cli": true,
+                "mcp": true,
+                "x402": false,
+                "portal": false,
+                "webmcp": false,
+                "agent_skills": true,
+                "agent_discovery": true,
+                "agent_navigation": true,
+                "integration_safety": true
+              },
+              "checked_paths": [
+                "/openapi.json",
+                "/swagger.json",
+                "/api/openapi.json",
+                "/api/docs",
+                "/docs/api",
+                "/developers",
+                "/mcp",
+                "/docs/mcp",
+                "/.well-known/mcp.json",
+                "/docs/cli",
+                "/cli",
+                "/install",
+                "/webmcp",
+                "/docs/webmcp",
+                "/.well-known/webmcp.json",
+                "/portal",
+                "/portal.json",
+                "/.well-known/portal.json",
+                "/docs/portal",
+                "/.well-known/x402.json",
+                "/docs/x402",
+                "/docs/payments",
+                "/api/x402",
+                "/llms.txt",
+                "/llms-full.txt",
+                "/.well-known/ai-plugin.json",
+                "/.well-known/agent.json",
+                "/agents.json",
+                "/.well-known/agent-skills.json",
+                "/.well-known/agents.json",
+                "/agent-skills.json",
+                "/actions.json",
+                "/tools.json",
+                "/skills",
+                "/agent-skills",
+                "/docs/skills",
+                "/docs/agents",
+                "/sitemap.xml",
+                "/sitemap_index.xml",
+                "/docs",
+                "/help",
+                "/search",
+                "/docs/auth",
+                "/docs/webhooks",
+                "/docs/rate-limits",
+                "/status"
+              ]
+            }
+          },
+          {
+            "key": "offsite",
+            "label": "Off-site Authority (proxy)",
+            "weight": 5,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "platforms_detected": [],
+              "header_footer_links": 1
+            }
+          },
+          {
+            "key": "freshness",
+            "label": "Freshness",
+            "weight": 5,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "source": null,
+              "days_since": null,
+              "updated_iso": null
+            }
+          },
+          {
+            "key": "template_coverage",
+            "label": "Template Coverage",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "mode": "homepage",
+              "non_scoring": true,
+              "homepage_only": true,
+              "pages_scanned": 1,
+              "sampled_pages": 0,
+              "page_templates": [
+                {
+                  "url": "https://skills.sh/",
+                  "template": "homepage",
+                  "text_chars": 99149
+                }
+              ],
+              "unique_templates": [
+                "homepage"
+              ]
+            }
+          },
+          {
+            "key": "content_decay",
+            "label": "Content Decay",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 1,
+            "details": {
+              "non_scoring": true,
+              "pages_scanned": 1,
+              "volatile_pages": 1,
+              "evergreen_score": 9.5,
+              "stale_year_pages": 0,
+              "updated_signal_pages": 0
+            }
+          },
+          {
+            "key": "web_verification",
+            "label": "Web Verification",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "consensus": {
+                "fetch_ok": 2,
+                "search_ok": 2,
+                "fetch_total": 2,
+                "verified_by": 4,
+                "search_total": 2,
+                "search_matched": 2,
+                "content_agreement": "multi_fetch",
+                "measured_providers": 4
+              },
+              "providers": [
+                {
+                  "ok": true,
+                  "kind": "fetch",
+                  "title": "The Agent Skills Directory",
+                  "status": 200,
+                  "finalUrl": "https://skills.sh/",
+                  "provider": "http",
+                  "latencyMs": 98,
+                  "textChars": 99149,
+                  "description": "Discover and install skills for AI agents."
+                },
+                {
+                  "ok": true,
+                  "kind": "fetch",
+                  "title": "The Agent Skills Directory",
+                  "status": 200,
+                  "finalUrl": "https://skills.sh/",
+                  "provider": "tinyfish_fetch",
+                  "latencyMs": 5975.062610988971,
+                  "textChars": 907,
+                  "description": "Discover and install skills for AI agents."
+                },
+                {
+                  "ok": true,
+                  "kind": "search",
+                  "query": "site:skills.sh skills",
+                  "status": 200,
+                  "results": [
+                    {
+                      "url": "https://skills.sh/",
+                      "title": "The Agent Skills Directory",
+                      "snippet": "Skills are reusable capabilities for AI agents. Install them with a single command to enhance your agents with access to procedural knowledge.",
+                      "position": 1,
+                      "siteName": "skills.sh"
+                    },
+                    {
+                      "url": "https://skills.sh/streamlit/agent-skills/developing-with-streamlit",
+                      "title": "developing-with-streamlit by streamlit/agent-skills - Skills.sh",
+                      "snippet": "A collection of skills for building production-grade Streamlit apps. Each skill focuses on a specific aspect of Streamlit development. When to activate.",
+                      "position": 2,
+                      "siteName": "skills.sh"
+                    },
+                    {
+                      "url": "https://skills.sh/dkyazzentwatwa/chatgpt-skills/crypto-ta-analyzer",
+                      "title": "crypto-ta-analyzer by dkyazzentwatwa/chatgpt-skills",
+                      "snippet": "Multi-indicator technical analysis system that generates high-confidence trading signals by combining 29+ proven algorithms. Features divergence detection, ...",
+                      "position": 3,
+                      "siteName": "skills.sh"
+                    },
+                    {
+                      "url": "https://skills.sh/jwynia/agent-skills/belief-systems",
+                      "title": "belief-systems by jwynia/agent-skills - The Agent Skills Directory",
+                      "snippet": "You help writers create authentic religious and belief systems for fictional worlds by applying the ten core principles that govern how real belief systems form ...",
+                      "position": 4,
+                      "siteName": "skills.sh"
+                    }
+                  ],
+                  "provider": "tinyfish_search",
+                  "totalResults": 4,
+                  "topMatchPosition": 1
+                },
+                {
+                  "ok": true,
+                  "kind": "search",
+                  "query": "site:skills.sh skills",
+                  "status": 200,
+                  "results": [
+                    {
+                      "url": "https://skills.sh/vercel-labs/skills/find-skills",
+                      "title": "find-skills by vercel-labs/skills",
+                      "snippet": "Skills are <strong>modular packages that extend agent capabilities with specialized knowledge, workflows, and tools</strong>.",
+                      "position": 1,
+                      "siteName": "Skills"
+                    },
+                    {
+                      "url": "https://skills.sh/anthropics/skills/skill-creator",
+                      "title": "skill-creator by anthropics/skills",
+                      "snippet": "Create, test, and iteratively improve AI agent <strong>skills</strong> with structured evaluation and benchmarking.",
+                      "position": 2,
+                      "siteName": "Skills"
+                    },
+                    {
+                      "url": "https://skills.sh/",
+                      "title": "The Agent Skills Directory",
+                      "snippet": "Discover and install <strong>skills</strong> for AI agents.",
+                      "position": 3,
+                      "siteName": "Skills"
+                    },
+                    {
+                      "url": "https://skills.sh/trending",
+                      "title": "The Open Agent Skills Ecosystem",
+                      "snippet": "Skills are reusable capabilities for AI agents.",
+                      "position": 4,
+                      "siteName": "Skills"
+                    },
+                    {
+                      "url": "https://skills.sh/vercel-labs/agent-browser/agent-browser",
+                      "title": "agent-browser by vercel-labs/agent-browser",
+                      "snippet": "agent-browser <strong>skills</strong> get electron # Electron desktop apps (VS Code, Slack, Discord, Figma, ...) agent-browser <strong>skills</strong> get slack # Slack workspace a",
+                      "position": 5,
+                      "siteName": "Skills"
+                    }
+                  ],
+                  "provider": "brave_search",
+                  "totalResults": 10,
+                  "topMatchPosition": 1
+                }
+              ],
+              "non_scoring": true,
+              "configured_providers": [
+                "http",
+                "tinyfish_fetch",
+                "tinyfish_search",
+                "brave_search"
+              ]
+            }
+          },
+          {
+            "key": "platform_profiles",
+            "label": "Platform Profiles",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "profiles": {
+                "claude": 43,
+                "chatgpt": 36,
+                "google_ai": 23,
+                "perplexity": 44
+              },
+              "non_scoring": true
+            }
+          },
+          {
+            "key": "content_gaps",
+            "label": "Content Gap Opportunities",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 2,
+            "details": {
+              "non_scoring": true,
+              "missing_faqs": [
+                "What is AI agent tooling?",
+                "How does Skills work?",
+                "How much does Skills cost?",
+                "What makes Skills different?"
+              ],
+              "pages_checked": 1,
+              "missing_entities": [
+                {
+                  "entity": "company description",
+                  "reason": "No about or company page found in sampled pages.",
+                  "entity_type": "brand",
+                  "where_expected": "about or company page"
+                },
+                {
+                  "entity": "team/founders",
+                  "reason": "No team or founder page found in sampled pages.",
+                  "entity_type": "person",
+                  "where_expected": "team or founder page"
+                },
+                {
+                  "entity": "pricing information",
+                  "reason": "No pricing page found in sampled pages.",
+                  "entity_type": "product",
+                  "where_expected": "pricing page"
+                },
+                {
+                  "entity": "technical documentation",
+                  "reason": "No docs or API page found in sampled pages.",
+                  "entity_type": "product",
+                  "where_expected": "docs or API page"
+                }
+              ],
+              "missing_comparisons": [
+                "Skills vs top competitor",
+                "Skills vs alternative tools",
+                "Best AI Agent Tooling tools compared"
+              ],
+              "missing_content_types": [
+                {
+                  "type": "faq",
+                  "impact": "high",
+                  "reason": "No dedicated FAQ surface found for question-style retrieval.",
+                  "suggested_title": "Frequently Asked Questions about AI Agent Tooling"
+                },
+                {
+                  "type": "glossary",
+                  "impact": "high",
+                  "reason": "No glossary or definition hub found for entity and term authority.",
+                  "suggested_title": "AI Agent Tooling Glossary: Key Terms Explained"
+                },
+                {
+                  "type": "comparison",
+                  "impact": "medium",
+                  "reason": "No comparison surface found for high-intent evaluation queries.",
+                  "suggested_title": "Skills vs Alternatives: Detailed Comparison"
+                },
+                {
+                  "type": "guide",
+                  "impact": "medium",
+                  "reason": "No guide or how-to surface found for procedural extraction.",
+                  "suggested_title": "Complete Guide to AI Agent Tooling"
+                },
+                {
+                  "type": "case_study",
+                  "impact": "medium",
+                  "reason": "No case-study or customer-proof surface found.",
+                  "suggested_title": "Skills Case Study: Real Results from AI Agent Tooling"
+                },
+                {
+                  "type": "benchmark",
+                  "impact": "medium",
+                  "reason": "No benchmark, research, or proprietary-data surface found.",
+                  "suggested_title": "AI Agent Tooling Benchmarks: Performance Data"
+                }
+              ],
+              "missing_ecosystem_pages": [
+                "Skills integrations and ecosystem",
+                "How Skills works with popular tools"
+              ]
+            }
+          },
+          {
+            "key": "prompt_injection",
+            "label": "Prompt Injection",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "findings": [],
+              "non_scoring": true,
+              "pages_scanned": 1
+            }
+          },
+          {
+            "key": "negative_signals",
+            "label": "Negative Signals",
+            "weight": 0,
+            "score": 0,
+            "status": "warn",
+            "issuesCount": 1,
+            "details": {
+              "flags": [
+                {
+                  "key": "cta_overload",
+                  "count": 0,
+                  "label": "CTA overload"
+                },
+                {
+                  "key": "intrusive_overlay",
+                  "count": 1,
+                  "label": "Intrusive overlay patterns"
+                },
+                {
+                  "key": "thin_pages",
+                  "count": 0,
+                  "label": "Thin pages"
+                },
+                {
+                  "key": "missing_author_signals",
+                  "count": 0,
+                  "label": "Missing author signals"
+                },
+                {
+                  "key": "boilerplate_heavy",
+                  "count": 0,
+                  "label": "Boilerplate-heavy pages"
+                }
+              ],
+              "non_scoring": true,
+              "pages_scanned": 1,
+              "sampled_pages": [
+                {
+                  "url": "https://skills.sh/",
+                  "template": "homepage",
+                  "text_chars": 99149,
+                  "has_canonical": true
+                }
+              ]
+            }
+          },
+          {
+            "key": "trust_stack",
+            "label": "Trust Stack",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 5,
+            "details": {
+              "grade": "F",
+              "layers": {
+                "safety": 50,
+                "identity": 34,
+                "authority": 25,
+                "technical": 48,
+                "consistency": 38
+              },
+              "overall": 39,
+              "non_scoring": true
+            }
+          }
+        ],
+        "issues": [
+          {
+            "severity": "critical",
+            "title": "No /llms.txt file found",
+            "fix": "Publish /llms.txt at the site root with '# <Project>' + a short summary + H2 sections linking to canonical doc URLs.",
+            "dimensionKey": "llmstxt"
+          },
+          {
+            "severity": "critical",
+            "title": "No valid Organization JSON-LD",
+            "fix": "Add <script type='application/ld+json'> with @type:Organization including name, url, logo, and sameAs (≥3 social profiles).",
+            "dimensionKey": "schema"
+          },
+          {
+            "severity": "high",
+            "title": "FAQ section exists but is not marked up as FAQPage JSON-LD",
+            "fix": "Wrap the FAQ with a FAQPage JSON-LD block so AI engines can lift the Q/A pairs verbatim.",
+            "dimensionKey": "schema"
+          },
+          {
+            "severity": "high",
+            "title": "External links exist but none hit the authoritative allowlist",
+            "fix": "Cite at least one .edu/.gov, Wikipedia, IETF/W3C spec, or tier-1 publication near your flagship claims.",
+            "dimensionKey": "citations"
+          },
+          {
+            "severity": "high",
+            "title": "No definition-lead opener in the first 150 tokens",
+            "fix": "Open the homepage with '<Brand> is a <category> that <differentiator>' — this is the single biggest lever for AI citability.",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "high",
+            "title": "Statistical claims are unsourced",
+            "fix": "Every % / 'X customers' / stat deserves an inline citation link to the origin study or publication.",
+            "dimensionKey": "citations"
+          },
+          {
+            "severity": "low",
+            "title": "Template coverage is limited in homepage-only scans",
+            "fix": "Run Template Audit, Full Site, or Deep Investigation mode to compare key templates across the site.",
+            "dimensionKey": "template_coverage"
+          },
+          {
+            "severity": "low",
+            "title": "4 entity page gaps detected",
+            "fix": "Add explicit entity surfaces: about or company page, team or founder page, pricing page, docs or API page.",
+            "dimensionKey": "content_gaps"
+          },
+          {
+            "severity": "low",
+            "title": "Organization JSON-LD missing founder",
+            "fix": "Add 'founder': [{ @type: Person, name: ... }] to the Organization schema.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "low",
+            "title": "No WebMCP access signal detected",
+            "fix": "If the site supports browser-native agent access, publish a WebMCP endpoint or discovery document and link it from developer docs and llms.txt.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "Volatile content lacks update signals",
+            "fix": "Pages about prices, versions, launches, or changing data should expose a clear last-updated date and refresh cadence.",
+            "dimensionKey": "content_decay"
+          },
+          {
+            "severity": "low",
+            "title": "Authority trust layer is weak",
+            "fix": "Strengthen the authority layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Chatgpt readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive chatgpt citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Claude readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive claude citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Perplexity readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive perplexity citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "No named author or byline visible",
+            "fix": "If the homepage surfaces editorial content, include an author byline (Person JSON-LD or 'By <Name>').",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "low",
+            "title": "No social/authority footprint linked from header or footer",
+            "fix": "Add links to Wikipedia, LinkedIn company page, YouTube channel, or GitHub org so AI engines can cross-reference authority.",
+            "dimensionKey": "offsite"
+          },
+          {
+            "severity": "low",
+            "title": "No x402 payment support detected",
+            "fix": "If paid agent/API access is supported, document x402 payment flow, supported networks/tokens, payment headers, and facilitator behavior.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "Technical trust layer is weak",
+            "fix": "Strengthen the technical layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Consistency trust layer is weak",
+            "fix": "Strengthen the consistency layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Identity trust layer is weak",
+            "fix": "Strengthen the identity layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Google ai readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive google_ai citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "No Portal visit layer detected",
+            "fix": "If the service supports temporary agent visits, publish a Portal manifest at /portal with tool metadata and a call endpoint, then link it from docs and llms.txt.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "Safety trust layer is weak",
+            "fix": "Strengthen the safety layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "medium",
+            "title": "No 2–4 sentence summary paragraph above the fold",
+            "fix": "Add a 2–4 sentence paragraph immediately after the H1 summarising what the product is and who it serves.",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "medium",
+            "title": "2 high-impact content gaps detected",
+            "fix": "Prioritize: Frequently Asked Questions about AI Agent Tooling; AI Agent Tooling Glossary: Key Terms Explained.",
+            "dimensionKey": "content_gaps"
+          },
+          {
+            "severity": "medium",
+            "title": "No clear self-identification in the opening paragraph",
+            "fix": "Open with 'We are ...' / 'Our mission is ...' / 'This is ...' — AI models need explicit entity framing.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "medium",
+            "title": "No last-updated signal on homepage",
+            "fix": "Add <time datetime='YYYY-MM-DD'>Updated ...</time> or article:modified_time meta, or expose dateModified in Article JSON-LD.",
+            "dimensionKey": "freshness"
+          },
+          {
+            "severity": "medium",
+            "title": "No /about or /team page with credentials",
+            "fix": "Publish an About page listing founders, team, and credentials. AI engines heavily weight provenance.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "medium",
+            "title": "Some H2 topics are too short (<3 words)",
+            "fix": "Use exactly one H1, ensure the first H2 precedes any H3, and give every H2 a clear topic label (3+ words).",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "medium",
+            "title": "Popup or overlay patterns may suppress clean extraction",
+            "fix": "Delay or remove modal and overlay patterns on indexable pages, especially above-the-fold newsletter or signup gates.",
+            "dimensionKey": "negative_signals"
+          }
+        ],
+        "promptTests": []
+      },
       "error": null
     },
     {
@@ -7571,8 +9992,8 @@
       "selectedFrom": "incremental",
       "websiteUrl": "http://arxiv.org/abs/2510.12323",
       "websiteSource": "github_homepage",
-      "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T16:10:37.606Z",
+      "status": "rate_limited",
+      "lastProfiledAt": "2026-04-23T17:48:21.909Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/HKUDS/RAG-Anything",
@@ -7581,7 +10002,7 @@
         "productHuntLaunchId": null
       },
       "aisoScan": null,
-      "error": null
+      "error": "HTTP 429 Too Many Requests - https://aiso.tools/api/scan - {\"error\":\"rate_limited_ip\",\"retryAfterSeconds\":86266}"
     },
     {
       "fullName": "nesquena/hermes-webui",
@@ -7590,7 +10011,7 @@
       "websiteUrl": "https://get-hermes.ai/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T16:10:37.609Z",
+      "lastProfiledAt": "2026-04-23T17:48:22.367Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/nesquena/hermes-webui",
@@ -7608,7 +10029,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T16:10:38.098Z",
+      "lastProfiledAt": "2026-04-23T17:48:22.829Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/badlogic/pi-mono",
@@ -7626,7 +10047,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T16:10:38.579Z",
+      "lastProfiledAt": "2026-04-23T17:48:23.269Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/iamzhihuix/skills-manage",
@@ -7644,7 +10065,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T16:10:39.064Z",
+      "lastProfiledAt": "2026-04-23T17:48:23.691Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/shiyu-coder/Kronos",
@@ -7662,7 +10083,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T16:10:39.542Z",
+      "lastProfiledAt": "2026-04-23T17:48:24.190Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/Gitlawb/openclaude",
@@ -7680,7 +10101,7 @@
       "websiteUrl": "https://hello-agents.datawhale.cc/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T16:10:39.545Z",
+      "lastProfiledAt": "2026-04-23T17:48:24.194Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/datawhalechina/hello-agents",
@@ -7698,7 +10119,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T16:10:40.026Z",
+      "lastProfiledAt": "2026-04-23T17:48:24.609Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/garrytan/gbrain",
@@ -7716,7 +10137,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T16:10:40.464Z",
+      "lastProfiledAt": "2026-04-23T17:48:25.027Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/Donchitos/Claude-Code-Game-Studios",
@@ -7734,7 +10155,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T16:10:41.007Z",
+      "lastProfiledAt": "2026-04-23T17:48:25.522Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/NawfalMotii79/PLFM_RADAR",
@@ -7752,7 +10173,7 @@
       "websiteUrl": "https://cognitum.one/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T16:10:41.011Z",
+      "lastProfiledAt": "2026-04-23T17:48:25.526Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/ruvnet/RuView",
@@ -7770,7 +10191,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T16:10:41.540Z",
+      "lastProfiledAt": "2026-04-23T17:48:25.965Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/chatfire-AI/huobao-drama",
@@ -7788,7 +10209,7 @@
       "websiteUrl": "https://voicebox.sh/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T16:10:41.544Z",
+      "lastProfiledAt": "2026-04-23T17:48:25.968Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/jamiepine/voicebox",
@@ -7806,7 +10227,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T16:10:42.079Z",
+      "lastProfiledAt": "2026-04-23T17:48:26.375Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/lsdefine/GenericAgent",
@@ -7824,7 +10245,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T16:10:42.571Z",
+      "lastProfiledAt": "2026-04-23T17:48:26.854Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/alchaincyf/nuwa-skill",
@@ -7842,7 +10263,7 @@
       "websiteUrl": "https://career-ops.org/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T16:10:42.574Z",
+      "lastProfiledAt": "2026-04-23T17:48:26.858Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/santifer/career-ops",
@@ -7860,7 +10281,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T16:10:43.038Z",
+      "lastProfiledAt": "2026-04-23T17:48:27.285Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/Wei-Shaw/sub2api",
@@ -7878,7 +10299,7 @@
       "websiteUrl": "https://pierre.computer/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T16:10:43.041Z",
+      "lastProfiledAt": "2026-04-23T17:48:27.289Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/pierrecomputer/pierre",
@@ -7896,7 +10317,7 @@
       "websiteUrl": "https://langfuse.com/docs",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T16:10:43.045Z",
+      "lastProfiledAt": "2026-04-23T17:48:27.292Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/langfuse/langfuse",
@@ -7914,7 +10335,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T16:10:43.572Z",
+      "lastProfiledAt": "2026-04-23T17:48:27.699Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/jnMetaCode/agency-agents-zh",
@@ -7932,7 +10353,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T16:10:44.089Z",
+      "lastProfiledAt": "2026-04-23T17:48:28.168Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/router-for-me/CLIProxyAPI",
@@ -7950,7 +10371,7 @@
       "websiteUrl": "https://tasteskill.dev/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T16:10:44.092Z",
+      "lastProfiledAt": "2026-04-23T17:48:28.172Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/Leonxlnx/taste-skill",
@@ -7968,7 +10389,7 @@
       "websiteUrl": "https://learn.shareai.run/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T16:10:44.095Z",
+      "lastProfiledAt": "2026-04-23T17:48:28.175Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/shareAI-lab/learn-claude-code",
@@ -7986,7 +10407,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T16:10:44.537Z",
+      "lastProfiledAt": "2026-04-23T17:48:28.633Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/mvanhorn/last30days-skill",
@@ -8004,7 +10425,7 @@
       "websiteUrl": "https://hugohe3.github.io/ppt-master/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T16:10:44.540Z",
+      "lastProfiledAt": "2026-04-23T17:48:28.637Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/hugohe3/ppt-master",
@@ -8022,7 +10443,7 @@
       "websiteUrl": "https://autoskills.sh/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T16:10:44.544Z",
+      "lastProfiledAt": "2026-04-23T17:48:28.641Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/midudev/autoskills",
@@ -8040,7 +10461,7 @@
       "websiteUrl": "http://mempalaceofficial.com/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T16:10:44.547Z",
+      "lastProfiledAt": "2026-04-23T17:48:28.643Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/MemPalace/mempalace",
@@ -8058,7 +10479,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T16:10:45.064Z",
+      "lastProfiledAt": "2026-04-23T17:48:29.112Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/VoltAgent/awesome-claude-design",
@@ -8076,7 +10497,7 @@
       "websiteUrl": "https://code-review-graph.com/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T16:10:45.066Z",
+      "lastProfiledAt": "2026-04-23T17:48:29.116Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/tirth8205/code-review-graph",
@@ -8094,7 +10515,7 @@
       "websiteUrl": "https://openspec.dev/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T16:10:45.069Z",
+      "lastProfiledAt": "2026-04-23T17:48:29.119Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/Fission-AI/OpenSpec",
@@ -8112,7 +10533,7 @@
       "websiteUrl": "https://claudecode-haha.relakkesyang.org/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T16:10:45.072Z",
+      "lastProfiledAt": "2026-04-23T17:48:29.122Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/NanmiCoder/cc-haha",
@@ -8130,7 +10551,7 @@
       "websiteUrl": "https://open-metadata.org/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T16:10:45.075Z",
+      "lastProfiledAt": "2026-04-23T17:48:29.125Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/open-metadata/OpenMetadata",
@@ -8148,7 +10569,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T16:10:45.531Z",
+      "lastProfiledAt": "2026-04-23T17:48:29.527Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/ZhuLinsen/daily_stock_analysis",
@@ -8166,7 +10587,7 @@
       "websiteUrl": "https://officialskills.sh/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T16:10:45.534Z",
+      "lastProfiledAt": "2026-04-23T17:48:29.531Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/VoltAgent/awesome-agent-skills",
@@ -8184,7 +10605,7 @@
       "websiteUrl": "https://marketing-skills.com/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T16:10:45.536Z",
+      "lastProfiledAt": "2026-04-23T17:48:29.534Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/coreyhaines31/marketingskills",
@@ -8202,7 +10623,7 @@
       "websiteUrl": "https://kumo-ui.com/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T16:10:45.538Z",
+      "lastProfiledAt": "2026-04-23T17:48:29.537Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/cloudflare/kumo",
@@ -8220,7 +10641,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T16:10:46.015Z",
+      "lastProfiledAt": "2026-04-23T17:48:30.014Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/HKUDS/DeepTutor",
@@ -8238,10 +10659,64 @@
       "websiteUrl": "https://linkedin.com/in/shanraisshan",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T16:10:46.017Z",
+      "lastProfiledAt": "2026-04-23T17:48:30.018Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/shanraisshan/claude-code-best-practice",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "edwardkim/rhwp",
+      "rank": 57,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-23T17:48:30.422Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/edwardkim/rhwp",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "OpenBMB/VoxCPM",
+      "rank": 58,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://voxcpm.com/",
+      "websiteSource": "github_homepage",
+      "status": "scan_pending",
+      "lastProfiledAt": "2026-04-23T17:48:30.425Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/OpenBMB/VoxCPM",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "kepano/obsidian-skills",
+      "rank": 59,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-23T17:48:30.880Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/kepano/obsidian-skills",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null

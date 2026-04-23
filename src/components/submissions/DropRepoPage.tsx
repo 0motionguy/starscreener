@@ -14,9 +14,22 @@ import { ROUTES } from "@/lib/constants";
 
 interface QueueSummary {
   pending: number;
+  queued: number;
+  scanning: number;
+  listed: number;
+  failed: number;
   boosted: number;
   latestSubmittedAt: string | null;
 }
+
+type SubmissionStatus =
+  | "pending"
+  | "queued"
+  | "scanning"
+  | "ingested"
+  | "matched"
+  | "listed"
+  | "scan_failed";
 
 interface PublicRepoSubmission {
   id: string;
@@ -25,8 +38,13 @@ interface PublicRepoSubmission {
   whyNow: string | null;
   shareUrl: string | null;
   boostedByShare: boolean;
-  status: "pending";
+  status: SubmissionStatus;
   submittedAt: string;
+  intakeTriggeredAt: string | null;
+  lastScanAt: string | null;
+  lastScanError: string | null;
+  matchesFound: number;
+  repoPath: string | null;
 }
 
 interface SubmissionResult {
@@ -48,6 +66,7 @@ interface RepoSubmissionsListResponse {
 interface RepoSubmissionsCreateResponse {
   ok: true;
   result: SubmissionResult;
+  intakeTriggered: boolean;
 }
 
 interface RepoSubmissionsErrorResponse {
@@ -57,9 +76,40 @@ interface RepoSubmissionsErrorResponse {
 
 const EMPTY_QUEUE: QueueSummary = {
   pending: 0,
+  queued: 0,
+  scanning: 0,
+  listed: 0,
+  failed: 0,
   boosted: 0,
   latestSubmittedAt: null,
 };
+
+const ACTIVE_STATUSES = new Set<SubmissionStatus>([
+  "pending",
+  "queued",
+  "scanning",
+  "ingested",
+  "matched",
+]);
+
+function statusLabel(status: SubmissionStatus): string {
+  switch (status) {
+    case "pending":
+      return "Pending";
+    case "queued":
+      return "Queued";
+    case "scanning":
+      return "Scanning";
+    case "ingested":
+      return "Ingested";
+    case "matched":
+      return "Matched";
+    case "listed":
+      return "Listed";
+    case "scan_failed":
+      return "Failed";
+  }
+}
 
 export function DropRepoPage() {
   const [repo, setRepo] = useState("");
@@ -96,6 +146,17 @@ export function DropRepoPage() {
   useEffect(() => {
     void loadQueue();
   }, []);
+
+  useEffect(() => {
+    if (!submissions.some((submission) => ACTIVE_STATUSES.has(submission.status))) {
+      return;
+    }
+
+    const timer = window.setInterval(() => {
+      void loadQueue();
+    }, 3500);
+    return () => window.clearInterval(timer);
+  }, [submissions]);
 
   const queueLabel = useMemo(() => {
     if (loading) return "Loading queue";
@@ -260,8 +321,8 @@ export function DropRepoPage() {
                     Added to queue: {result.submission.fullName}
                   </p>
                   <p className="text-sm text-text-secondary">
-                    Queue now has {result.queue.pending} pending submissions.
-                    Boosted submissions are reviewed first.
+                    Intake is triggered automatically in dev/admin mode. Queue
+                    now has {result.queue.pending} active submissions.
                   </p>
                 </div>
               )}
@@ -305,8 +366,20 @@ export function DropRepoPage() {
             </div>
             <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
               <MetricCard
-                label="Pending"
+                label="Active"
                 value={loading ? "..." : String(queue.pending)}
+              />
+              <MetricCard
+                label="Scanning"
+                value={loading ? "..." : String(queue.scanning)}
+              />
+              <MetricCard
+                label="Listed"
+                value={loading ? "..." : String(queue.listed)}
+              />
+              <MetricCard
+                label="Failed"
+                value={loading ? "..." : String(queue.failed)}
               />
               <MetricCard
                 label="Boosted by share"
@@ -342,22 +415,37 @@ export function DropRepoPage() {
                 >
                   <div className="flex items-center justify-between gap-3">
                     <a
-                      href={submission.repoUrl}
-                      target="_blank"
-                      rel="noreferrer"
+                      href={submission.repoPath ?? submission.repoUrl}
+                      target={submission.repoPath ? undefined : "_blank"}
+                      rel={submission.repoPath ? undefined : "noreferrer"}
                       className="text-sm font-medium text-text-primary hover:text-brand"
                     >
                       {submission.fullName}
                     </a>
-                    {submission.boostedByShare && (
-                      <span className="rounded-full bg-brand/10 px-2 py-1 text-[11px] font-mono uppercase tracking-[0.12em] text-brand">
-                        boosted
+                    <div className="flex shrink-0 items-center gap-2">
+                      <span className="rounded-full bg-bg-card px-2 py-1 text-[11px] font-mono uppercase tracking-[0.12em] text-text-tertiary">
+                        {statusLabel(submission.status)}
                       </span>
-                    )}
+                      {submission.boostedByShare && (
+                        <span className="rounded-full bg-brand/10 px-2 py-1 text-[11px] font-mono uppercase tracking-[0.12em] text-brand">
+                          boosted
+                        </span>
+                      )}
+                    </div>
                   </div>
                   {submission.whyNow && (
                     <p className="mt-2 text-sm leading-6 text-text-secondary">
                       {submission.whyNow}
+                    </p>
+                  )}
+                  {submission.matchesFound > 0 && (
+                    <p className="mt-2 text-xs font-mono uppercase tracking-[0.12em] text-text-tertiary">
+                      {submission.matchesFound} source matches found
+                    </p>
+                  )}
+                  {submission.lastScanError && (
+                    <p className="mt-2 text-xs leading-5 text-down">
+                      {submission.lastScanError}
                     </p>
                   )}
                 </div>

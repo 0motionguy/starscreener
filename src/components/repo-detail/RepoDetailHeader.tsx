@@ -31,14 +31,20 @@ import { getHnMentions } from "@/lib/hackernews";
 import { getBlueskyMentions } from "@/lib/bluesky";
 import { getLaunchForRepo } from "@/lib/producthunt";
 import { getRepoMetadata } from "@/lib/repo-metadata";
+import type { TwitterRepoRowBadge } from "@/lib/twitter/types";
+import { XSignalBadge } from "@/components/twitter/XSignalBadge";
 
 interface RepoDetailHeaderProps {
   repo: Repo;
+  twitterBadge?: TwitterRepoRowBadge | null;
 }
 
 const MAX_TOPICS = 6;
 
-export function RepoDetailHeader({ repo }: RepoDetailHeaderProps): JSX.Element {
+export function RepoDetailHeader({
+  repo,
+  twitterBadge = null,
+}: RepoDetailHeaderProps): JSX.Element {
   const meta = getRepoMetadata(repo.fullName);
   const hnMention = getHnMentions(repo.fullName);
   const bskyMention = getBlueskyMentions(repo.fullName);
@@ -139,6 +145,7 @@ export function RepoDetailHeader({ repo }: RepoDetailHeaderProps): JSX.Element {
           <BskyBadge mention={bskyMention} size="md" />
           <DevtoBadge mention={devtoMention} size="md" />
           <PhBadge launch={phLaunch} size="md" />
+          <XSignalBadge badge={twitterBadge} />
           <ChannelDots repo={repo} size="md" hideWhenEmpty={false} />
         </div>
 

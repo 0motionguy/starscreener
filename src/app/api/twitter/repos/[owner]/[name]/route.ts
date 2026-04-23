@@ -1,0 +1,47 @@
+import { NextRequest, NextResponse } from "next/server";
+import { getTwitterRepoPanel } from "@/lib/twitter/service";
+import { READ_CACHE_HEADERS } from "@/lib/api/cache";
+import { checkRateLimit } from "@/lib/api/rate-limit";
+
+const SLUG_PART_PATTERN = /^[A-Za-z0-9._-]+$/;
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ owner: string; name: string }> },
+): Promise<NextResponse> {
+  const rateLimit = checkRateLimit(request, { windowMs: 60_000, maxRequests: 60 });
+  if (!rateLimit.allowed) {
+    return NextResponse.json(
+      { error: "rate limit exceeded" },
+      {
+        status: 429,
+        headers: {
+          "X-RateLimit-Limit": "60",
+          "X-RateLimit-Remaining": "0",
+          "X-RateLimit-Reset": String(Math.ceil(rateLimit.resetAt / 1000)),
+        },
+      },
+    );
+  }
+
+  const { owner, name } = await params;
+  if (!SLUG_PART_PATTERN.test(owner) || !SLUG_PART_PATTERN.test(name)) {
+    return NextResponse.json({ error: "Invalid repo slug" }, { status: 400 });
+  }
+
+  const panel = await getTwitterRepoPanel(`${owner}/${name}`);
+  if (!panel) {
+    return NextResponse.json(
+      { error: "Twitter signal not found for repo" },
+      { status: 404 },
+    );
+  }
+
+  return NextResponse.json(panel, {
+    headers: {
+      ...READ_CACHE_HEADERS,
+      "X-RateLimit-Limit": "60",
+      "X-RateLimit-Remaining": String(rateLimit.remaining),
+    },
+  });
+}

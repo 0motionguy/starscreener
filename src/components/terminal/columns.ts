@@ -10,20 +10,12 @@
 
 import type { ReactNode } from "react";
 import { createElement } from "react";
-import { ArrowLeftRight, Bookmark, GitFork, Star, Zap } from "lucide-react";
+import { ArrowLeftRight, Bookmark, Star, Zap } from "lucide-react";
 
 import { MomentumBadge } from "@/components/shared/MomentumBadge";
 import { RankBadge } from "@/components/shared/RankBadge";
 import { Sparkline } from "@/components/shared/Sparkline";
-import { HnBadge } from "@/components/hackernews/HnBadge";
-import { getHnMentions } from "@/lib/hackernews";
-import { BskyBadge } from "@/components/bluesky/BskyBadge";
-import { getBlueskyMentions } from "@/lib/bluesky";
-import { PhBadge } from "@/components/producthunt/PhBadge";
-import { DevtoBadge } from "@/components/devto/DevtoBadge";
-import { LobstersBadge } from "@/components/lobsters/LobstersBadge";
-import { getLaunchForRepo } from "@/lib/producthunt";
-import { getLobstersMentions } from "@/lib/lobsters";
+import { RepoMentionBadges } from "@/components/repo-signals/RepoMentionBadges";
 import type { ColumnId, Repo } from "@/lib/types";
 
 // Inlined instead of imported from @/lib/collections to keep node:fs out
@@ -306,60 +298,20 @@ export const COLUMNS: Column[] = [
             // Language pill intentionally omitted — per-user feedback the
             // coding language adds noise to the terminal row. Available via
             // column picker if users want it back.
-            // Forks inline — always visible, Dexscreener-density.
-            createElement(
-              "span",
-              {
-                className:
-                  "inline-flex shrink-0 items-center gap-0.5 font-mono text-[10px] text-text-tertiary tabular-nums",
-                title: `${repo.forks} forks`,
-              },
-              createElement(GitFork, {
-                size: 10,
-                className: "text-text-tertiary",
-                "aria-hidden": true,
-              }),
-              formatNumber(repo.forks),
-            ),
+            createElement(RepoMentionBadges, {
+              repo,
+              size: "sm",
+              includeLongTail: true,
+            }),
             // Contributors inline count dropped: OSSInsight caps
             // `contributor_logins` at 5, so ~48% of repos render as a
             // flat "5" that reads as a bug (every row identical). Real
             // contributor counts need a GitHub REST enrichment pass;
             // until then, the dedicated Contributors column remains
             // available via the column picker for anyone who wants it.
-            // HN mention badge — renders null when the repo has no mentions,
-            // so quiet repos stay visually clean. Loaded eagerly per row;
-            // the mentions JSON is ~52KB and already in the bundle.
-            createElement(HnBadge, {
-              mention: getHnMentions(repo.fullName),
-              size: "sm",
-            }),
-            createElement(BskyBadge, {
-              mention: getBlueskyMentions(repo.fullName),
-              size: "sm",
-            }),
-            // ProductHunt launch badge — renders null unless this repo has a
-            // matched PH launch in the last 7d (sparse by design).
-            createElement(PhBadge, {
-              launch: getLaunchForRepo(repo.fullName),
-              size: "sm",
-            }),
-            // dev.to tutorial badge — renders null unless a tracked-repo
-            // article was published in the last 7d (sparser than HN).
-            createElement(DevtoBadge, {
-              mention: repo.devto ?? null,
-              size: "sm",
-            }),
-            // Lobsters mention badge — renders null when the repo has no
-            // lobste.rs mention in the last 7d. Lobsters is low-volume
-            // and high-signal, so when this chip lights up it matters.
-            createElement(LobstersBadge, {
-              mention: getLobstersMentions(repo.fullName),
-              size: "sm",
-            }),
-            // ChannelDots removed from the row — the per-source badges
-            // (HN-Y / dev.to / Bluesky / ProductHunt) already communicate
-            // which channels are firing and by how much, making the 5-dot
+            // ChannelDots removed from the row — the ordered per-source
+            // badges (X / Reddit / HN / dev.to / Bluesky / long-tail)
+            // already communicate which channels are firing and by how much, making the 5-dot
             // strip redundant noise. The dots still render on /breakouts
             // and /compare where the channel-firing state is the primary
             // signal of the surface.

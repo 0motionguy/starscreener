@@ -16,6 +16,11 @@
 //                                            excluded — matches HN scraper)
 //   daysBetween(isoA, isoB?)               — non-negative integer days
 
+import {
+  extractFirstGithubRepoLink,
+  normalizeGithubRepoUrl,
+} from "./_github-repo-links.mjs";
+
 export const USER_AGENT =
   "StarScreener/0.1 (+https://github.com/0motionguy/starscreener)";
 export const PH_GRAPHQL_URL = "https://api.producthunt.com/v2/api/graphql";
@@ -130,52 +135,8 @@ export async function phGraphQL(query, variables, { token } = {}) {
   throw lastErr ?? new Error("PH GraphQL: unknown failure");
 }
 
-// Regex + reserved-owner list mirror scrape-hackernews.mjs so a URL parsed
-// by either scraper resolves to the same canonical fullName.
-const GH_URL_RE =
-  /https?:\/\/(?:www\.)?github\.com\/([A-Za-z0-9][A-Za-z0-9._-]*)\/([A-Za-z0-9][A-Za-z0-9._-]*)/g;
-
-const RESERVED_GITHUB_OWNERS = new Set([
-  "orgs",
-  "settings",
-  "about",
-  "features",
-  "pricing",
-  "marketplace",
-  "collections",
-  "trending",
-  "topics",
-  "search",
-  "login",
-  "join",
-  "sponsors",
-  "enterprise",
-  "customer-stories",
-  "readme",
-  "apps",
-  "notifications",
-]);
-
 export function extractGithubLink(text) {
-  if (!text || typeof text !== "string") return null;
-  GH_URL_RE.lastIndex = 0;
-  let m;
-  while ((m = GH_URL_RE.exec(text)) !== null) {
-    const owner = m[1];
-    // Order matters: strip trailing punctuation BEFORE `.git`. The capture
-    // group allows `.` so "bar.git." arrives intact; stripping punctuation
-    // first leaves "bar.git", then the .git-strip yields "bar".
-    const name = m[2]
-      .replace(/[.,;:!?)\]}]+$/, "")
-      .replace(/\.git$/i, "");
-    if (!owner || !name) continue;
-    if (RESERVED_GITHUB_OWNERS.has(owner.toLowerCase())) continue;
-    return {
-      url: `https://github.com/${owner}/${name}`,
-      fullName: `${owner}/${name}`,
-    };
-  }
-  return null;
+  return extractFirstGithubRepoLink(text);
 }
 
 const X_HOSTS = new Set([
@@ -212,29 +173,7 @@ function stripTrailingPunctuation(value) {
 }
 
 export function normalizeGithubUrl(raw) {
-  if (!raw || typeof raw !== "string") return null;
-  let parsed;
-  try {
-    parsed = new URL(raw);
-  } catch {
-    return null;
-  }
-
-  const host = parsed.hostname.toLowerCase();
-  if (host !== "github.com" && host !== "www.github.com") return null;
-
-  const segments = parsed.pathname
-    .split("/")
-    .map((segment) => segment.trim())
-    .filter(Boolean);
-  if (segments.length < 2) return null;
-
-  const owner = segments[0] ?? "";
-  const repo = stripTrailingPunctuation(segments[1] ?? "").replace(/\.git$/i, "");
-  if (!owner || !repo) return null;
-  if (RESERVED_GITHUB_OWNERS.has(owner.toLowerCase())) return null;
-
-  return `https://github.com/${owner}/${repo}`;
+  return normalizeGithubRepoUrl(raw);
 }
 
 export function normalizeXUrl(raw) {

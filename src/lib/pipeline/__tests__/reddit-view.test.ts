@@ -5,6 +5,7 @@ import type { RedditMentionsFile, RedditPost } from "../../reddit";
 import {
   buildRedditStats,
   buildGlobalRedditPosts,
+  redditPostHref,
   repoFullNameToHref,
 } from "../../reddit";
 
@@ -46,6 +47,24 @@ test("repoFullNameToHref builds the canonical repo route", () => {
   assert.equal(
     repoFullNameToHref("anthropics/claude-code"),
     "/repo/anthropics/claude-code",
+  );
+});
+
+test("redditPostHref preserves absolute permalinks and absolutizes relative ones", () => {
+  assert.equal(
+    redditPostHref(
+      "https://www.reddit.com/r/ClaudeAI/comments/123/test/",
+      "https://example.com",
+    ),
+    "https://www.reddit.com/r/ClaudeAI/comments/123/test/",
+  );
+  assert.equal(
+    redditPostHref("/r/ClaudeAI/comments/123/test/", "https://example.com"),
+    "https://www.reddit.com/r/ClaudeAI/comments/123/test/",
+  );
+  assert.equal(
+    redditPostHref("", "https://example.com"),
+    "https://example.com",
   );
 });
 

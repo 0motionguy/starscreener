@@ -1,0 +1,381 @@
+"use client";
+
+import { useState } from "react";
+import type { FundingSignal } from "@/lib/funding/types";
+
+interface FundingCardProps {
+  signal: FundingSignal;
+}
+
+// ---------------------------------------------------------------------------
+// Known VC → domain map for investor logos
+// ---------------------------------------------------------------------------
+
+const VC_DOMAINS: Record<string, string> = {
+  "a16z": "a16z.com",
+  "andreessen horowitz": "a16z.com",
+  "sequoia": "sequoiacap.com",
+  "sequoia capital": "sequoiacap.com",
+  "benchmark": "benchmark.com",
+  "greylock": "greylock.com",
+  "accel": "accel.com",
+  "index ventures": "indexventures.com",
+  "bessemer": "bvp.com",
+  "khosla ventures": "khoslaventures.com",
+  "first round": "firstround.com",
+  "neo": "neo.com",
+  "dcm": "dcm.com",
+  "ivp": "ivp.com",
+  "thrive capital": "thrivecap.com",
+  "tiger global": "tigerglobal.com",
+  "softbank": "softbank.jp",
+  "founders fund": "foundersfund.com",
+  "8vc": "8vc.com",
+  "lux capital": "luxcapital.com",
+  "general catalyst": "generalcatalyst.com",
+  "bain capital": "baincapital.com",
+  "insight partners": "insightpartners.com",
+  "lightspeed": "lsvp.com",
+  "menlo ventures": "menlo.vc",
+  "mayfield": "mayfield.com",
+  "kleiner perkins": "kpcb.com",
+  "y combinator": "ycombinator.com",
+  "yc": "ycombinator.com",
+  "techstars": "techstars.com",
+  "google ventures": "gv.com",
+  "gv": "gv.com",
+  "nvidia": "nvidia.com",
+  "valor equity partners": "valor.com",
+  "valor": "valor.com",
+  "fidelity": "fidelity.com",
+  "coatue": "coatue.com",
+  "dragoneer": "dragoneer.com",
+  "redpoint": "redpoint.com",
+  "true ventures": "trueventures.com",
+  "slow ventures": "slow.co",
+  "homebrew": "homebrew.co",
+  "sv angel": "svangel.com",
+  "greenoaks": "greenoaks.com",
+  "magnetar": "magnetar.com",
+  "spark capital": "sparkcapital.com",
+  "type1 ventures": "type1.vc",
+  "blackrock": "blackrock.com",
+  "nat friedman": "nat.org",
+  "jeff bezos": "bezosexpeditions.com",
+};
+
+function getVcDomain(name: string): string | null {
+  const lower = name.toLowerCase().trim();
+  if (VC_DOMAINS[lower]) return VC_DOMAINS[lower];
+  const words = lower.split(/\s+/);
+  for (let i = words.length; i > 0; i--) {
+    const key = words.slice(0, i).join(" ");
+    if (VC_DOMAINS[key]) return VC_DOMAINS[key];
+  }
+  return null;
+}
+
+// ---------------------------------------------------------------------------
+// Logo / initials avatar (deterministic colors)
+// ---------------------------------------------------------------------------
+
+const LOGO_TONES = [
+  { bg: "rgba(59, 130, 246, 0.2)", border: "rgba(59, 130, 246, 0.5)", text: "#60a5fa" },   // blue
+  { bg: "rgba(16, 185, 129, 0.2)", border: "rgba(16, 185, 129, 0.5)", text: "#34d399" },   // emerald
+  { bg: "rgba(244, 114, 182, 0.2)", border: "rgba(244, 114, 182, 0.5)", text: "#f472b6" },  // pink
+  { bg: "rgba(251, 191, 36, 0.2)", border: "rgba(251, 191, 36, 0.5)", text: "#fbbf24" },   // amber
+  { bg: "rgba(168, 85, 247, 0.2)", border: "rgba(168, 85, 247, 0.5)", text: "#a78bfa" },   // violet
+  { bg: "rgba(239, 68, 68, 0.2)", border: "rgba(239, 68, 68, 0.5)", text: "#f87171" },     // red
+  { bg: "rgba(6, 182, 212, 0.2)", border: "rgba(6, 182, 212, 0.5)", text: "#22d3ee" },     // cyan
+  { bg: "rgba(249, 115, 22, 0.2)", border: "rgba(249, 115, 22, 0.5)", text: "#fb923c" },   // orange
+];
+
+function getLogoTone(name: string) {
+  let hash = 0;
+  for (const char of name) {
+    hash = (hash * 33 + char.charCodeAt(0)) >>> 0;
+  }
+  return LOGO_TONES[hash % LOGO_TONES.length];
+}
+
+function getGradient(name: string) {
+  const gradients = [
+    "linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)",
+    "linear-gradient(135deg, #10b981 0%, #047857 100%)",
+    "linear-gradient(135deg, #f472b6 0%, #db2777 100%)",
+    "linear-gradient(135deg, #f59e0b 0%, #b45309 100%)",
+    "linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%)",
+    "linear-gradient(135deg, #ef4444 0%, #b91c1c 100%)",
+    "linear-gradient(135deg, #06b6d4 0%, #0e7490 100%)",
+    "linear-gradient(135deg, #f97316 0%, #c2410c 100%)",
+  ];
+  let hash = 0;
+  for (const char of name) {
+    hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
+  }
+  return gradients[hash % gradients.length];
+}
+
+function getInitials(name: string): string {
+  const words = name.trim().split(/\s+/);
+  if (words.length === 1) return words[0].slice(0, 2).toUpperCase();
+  return (words[0][0] + words[words.length - 1][0]).toUpperCase();
+}
+
+/** Try to load a Clearbit logo; fall back to colored initials on error. */
+function CompanyLogo({
+  name,
+  logoUrl,
+  size = 48,
+}: {
+  name: string;
+  logoUrl: string | null | undefined;
+  size?: number;
+}) {
+  const [failed, setFailed] = useState(false);
+  const tone = getLogoTone(name);
+  const initials = getInitials(name);
+
+  if (logoUrl && !failed) {
+    return (
+      <div
+        className="shrink-0 rounded-lg overflow-hidden border border-border-primary/50"
+        style={{ width: size, height: size }}
+      >
+        <img
+          src={logoUrl}
+          alt={name}
+          width={size}
+          height={size}
+          className="w-full h-full object-cover"
+          onError={() => setFailed(true)}
+          loading="lazy"
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className="shrink-0 rounded-lg flex items-center justify-center text-sm font-bold text-white shadow-sm"
+      style={{
+        width: size,
+        height: size,
+        background: getGradient(name),
+      }}
+    >
+      {initials}
+    </div>
+  );
+}
+
+/** Small investor logo / initials pill. */
+function InvestorBadge({ name }: { name: string }) {
+  const [failed, setFailed] = useState(false);
+  const domain = getVcDomain(name);
+  const logoUrl = domain ? `https://logo.clearbit.com/${domain}` : null;
+
+  return (
+    <span className="inline-flex items-center gap-1.5 rounded-full border border-border-primary bg-bg-tertiary px-2.5 py-1 text-xs text-text-secondary">
+      {logoUrl && !failed ? (
+        <img
+          src={logoUrl}
+          alt=""
+          width={16}
+          height={16}
+          className="rounded-full object-cover"
+          onError={() => setFailed(true)}
+          loading="lazy"
+        />
+      ) : (
+        <span
+          className="w-4 h-4 rounded-full flex items-center justify-center text-[8px] font-bold text-white"
+          style={{
+            background: getGradient(name),
+          }}
+        >
+          {name.slice(0, 1).toUpperCase()}
+        </span>
+      )}
+      {name}
+    </span>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Round type badge
+// ---------------------------------------------------------------------------
+
+function roundTypeLabel(type: string): string {
+  const labels: Record<string, string> = {
+    "pre-seed": "Pre-Seed",
+    seed: "Seed",
+    "series-a": "Series A",
+    "series-b": "Series B",
+    "series-c": "Series C",
+    "series-d-plus": "Series D+",
+    growth: "Growth",
+    ipo: "IPO",
+    acquisition: "Acquisition",
+    undisclosed: "Undisclosed",
+  };
+  return labels[type] ?? type;
+}
+
+// ---------------------------------------------------------------------------
+// Relative time
+// ---------------------------------------------------------------------------
+
+function formatRelative(iso: string): string {
+  const t = new Date(iso).getTime();
+  if (!Number.isFinite(t)) return "";
+  const diff = Date.now() - t;
+  if (diff < 60_000) return "just now";
+  const mins = Math.floor(diff / 60_000);
+  if (mins < 60) return `${mins}m ago`;
+  const hours = Math.floor(mins / 60);
+  if (hours < 24) return `${hours}h ago`;
+  const days = Math.floor(hours / 24);
+  return `${days}d ago`;
+}
+
+// ---------------------------------------------------------------------------
+// Card
+// ---------------------------------------------------------------------------
+
+export function FundingCard({ signal }: FundingCardProps) {
+  const ext = signal.extracted;
+  const hasExtraction = ext !== null;
+  const companyName = hasExtraction ? ext.companyName : signal.headline.slice(0, 60);
+
+  // Prefer enriched investors; fall back to plain strings; always show at least something
+  let investors = hasExtraction
+    ? ext.investorsEnriched.length > 0
+      ? ext.investorsEnriched.map((i) => i.name)
+      : ext.investors
+    : [];
+  if (investors.length === 0) {
+    investors = ["Undisclosed"];
+  }
+
+  return (
+    <article className="border border-border-primary rounded-lg bg-bg-secondary overflow-hidden hover:border-brand/30 transition-colors">
+      {/* Top row: Logo + Company | Raised Amount */}
+      <div className="px-5 pt-5 pb-4 flex items-center gap-4">
+        {/* Left: Logo + Company */}
+        <div className="flex items-center gap-3 min-w-0 flex-1">
+          <CompanyLogo name={companyName} logoUrl={ext?.companyLogoUrl} />
+          <div className="min-w-0">
+            <div className="text-sm font-bold text-text-primary truncate">
+              {companyName}
+            </div>
+            {hasExtraction && ext.companyWebsite && (
+              <a
+                href={ext.companyWebsite}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[11px] text-text-tertiary hover:text-brand transition-colors truncate block"
+              >
+                {ext.companyWebsite.replace(/^https?:\/\//, "")}
+              </a>
+            )}
+          </div>
+        </div>
+
+        {/* Right: Raised Amount */}
+        {hasExtraction && ext.amount !== null ? (
+          <div className="shrink-0 text-right">
+            <div className="text-[10px] uppercase tracking-wider text-text-tertiary">
+              Raised
+            </div>
+            <div className="text-2xl font-black text-brand leading-tight">
+              {ext.amountDisplay}
+            </div>
+            <div className="mt-0.5">
+              <span className="inline-flex items-center rounded border px-1.5 py-px text-[10px] uppercase tracking-wider border-border-primary text-text-tertiary">
+                {roundTypeLabel(ext.roundType)}
+              </span>
+            </div>
+          </div>
+        ) : (
+          <div className="shrink-0 text-right">
+            <div className="text-[10px] uppercase tracking-wider text-text-tertiary">
+              Raised
+            </div>
+            <div className="text-lg font-bold text-text-tertiary">—</div>
+          </div>
+        )}
+      </div>
+
+      {/* Description */}
+      <div className="px-5 pb-3">
+        <p className="text-xs text-text-secondary line-clamp-2">
+          {signal.description || signal.headline}
+        </p>
+      </div>
+
+      {/* Investors row */}
+      {investors.length > 0 && (
+        <div className="px-5 pb-3">
+          <div className="flex items-center gap-2 text-[10px] uppercase tracking-wider text-text-tertiary mb-2">
+            <span>Investors</span>
+            <span className="flex-1 h-px bg-border-primary/40" />
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {investors.map((investor, i) => (
+              <InvestorBadge key={`${investor}-${i}`} name={investor} />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Tags */}
+      {signal.tags.length > 0 && (
+        <div className="px-5 pb-3">
+          <div className="flex flex-wrap gap-1">
+            {signal.tags.map((tag) => (
+              <span
+                key={tag}
+                className="text-[9px] font-mono uppercase tracking-wider rounded-sm px-1 py-px bg-brand/15 text-brand"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Footer: source + time */}
+      <div className="px-5 py-3 border-t border-border-primary/40 flex items-center justify-between gap-2">
+        <a
+          href={signal.sourceUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-[11px] text-text-tertiary hover:text-brand transition-colors truncate"
+          title={signal.sourceUrl}
+        >
+          → {signal.sourceUrl.replace(/^https?:\/\//, "").split("/")[0]}
+        </a>
+        <div className="flex items-center gap-2 shrink-0">
+          {hasExtraction && (
+            <span
+              className={`text-[10px] ${
+                ext.confidence === "high"
+                  ? "text-emerald-400"
+                  : ext.confidence === "medium"
+                    ? "text-amber-400"
+                    : "text-text-tertiary"
+              }`}
+              title={`Extraction confidence: ${ext.confidence}`}
+            >
+              {ext.confidence === "high" ? "●" : ext.confidence === "medium" ? "◐" : "○"}
+            </span>
+          )}
+          <span className="text-[10px] text-text-tertiary tabular-nums">
+            {formatRelative(signal.publishedAt)}
+          </span>
+        </div>
+      </div>
+    </article>
+  );
+}

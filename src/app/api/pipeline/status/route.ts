@@ -26,15 +26,21 @@ import {
   getRepoMetadataSourceCount,
   repoMetadataFetchedAt,
 } from "@/lib/repo-metadata";
+import {
+  FAST_DATA_STALE_THRESHOLD_MS,
+  getDegradedScannerSources,
+  getScannerSourceHealth,
+  type ScannerSourceHealth,
+} from "@/lib/source-health";
 import { getDerivedRepoCount, getDerivedRepos } from "@/lib/derived-repos";
 
-const FAST_DATA_STALE_THRESHOLD_MS = 2 * 60 * 60 * 1000;
 const RANKINGS_STALE_THRESHOLD_MS = 12 * 60 * 60 * 1000;
 
 export interface PipelineStatusResponse {
   seeded: boolean;
   healthy: boolean;
   healthStatus: "ok" | "stale" | "empty";
+  sourceStatus?: "ok" | "degraded";
   ageSeconds: number | null;
   repoCount: number;
   snapshotCount: number;
@@ -61,6 +67,8 @@ export interface PipelineStatusResponse {
     coveragePct: number;
     failureCount: number;
   };
+  degradedSources?: string[];
+  sources?: ScannerSourceHealth[];
   rateLimitRemaining: number | null;
   stats: {
     totalRepos: number;
@@ -84,6 +92,9 @@ export async function GET(): Promise<NextResponse<PipelineStatusResponse | { err
 
     const repos = repoStore.getAll();
     const snapshotCount = snapshotStore.totalCount();
+    const sources = getScannerSourceHealth();
+    const degradedSources = getDegradedScannerSources().map((source) => source.id);
+    const sourceStale = sources.some((source) => source.stale);
 
     let rateLimitRemaining: number | null = null;
     try {
@@ -126,7 +137,8 @@ export async function GET(): Promise<NextResponse<PipelineStatusResponse | { err
         hotCollectionsStale ||
         recentReposStale ||
         repoMetadataStale ||
-        collectionRankingsStale
+        collectionRankingsStale ||
+        sourceStale
       );
     const healthStatus: "ok" | "stale" | "empty" = isEmpty
       ? "empty"
@@ -150,6 +162,7 @@ export async function GET(): Promise<NextResponse<PipelineStatusResponse | { err
       seeded: repos.length > 0,
       healthy,
       healthStatus,
+      sourceStatus: degradedSources.length > 0 ? "degraded" : "ok",
       ageSeconds: worstAgeMs === null ? null : Math.floor(worstAgeMs / 1000),
       repoCount: repos.length,
       snapshotCount,
@@ -176,6 +189,8 @@ export async function GET(): Promise<NextResponse<PipelineStatusResponse | { err
         coveragePct: Math.round(getRepoMetadataCoveragePct() * 10) / 10,
         failureCount: getRepoMetadataFailures().length,
       },
+      degradedSources,
+      sources,
       rateLimitRemaining,
       stats: {
         totalRepos: getDerivedRepoCount(),

@@ -13,6 +13,19 @@ const PUBLIC_REDDIT_ORIGIN = "https://www.reddit.com";
 const TOKEN_URL = `${PUBLIC_REDDIT_ORIGIN}/api/v1/access_token`;
 
 let oauthTokenCache = null;
+let fetchRuntime = createFetchRuntime();
+
+function createFetchRuntime() {
+  return {
+    preferredMode: null,
+    activeMode: null,
+    fallbackUsed: false,
+    oauthFailures: 0,
+    oauthRequests: 0,
+    publicRequests: 0,
+    lastOauthError: null,
+  };
+}
 
 function readEnv(name) {
   const value = process.env[name];
@@ -102,6 +115,11 @@ async function getRedditAccessToken(fetchImpl = fetch) {
 
 export function resetRedditAuthCacheForTests() {
   oauthTokenCache = null;
+  fetchRuntime = createFetchRuntime();
+}
+
+export function getRedditFetchRuntime() {
+  return { ...fetchRuntime };
 }
 
 export const REQUEST_PAUSE_MS = 5000;
@@ -173,20 +191,68 @@ export const SUBREDDITS = [
 export const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export async function fetchRedditJson(url, { fetchImpl = fetch } = {}) {
-  const headers = {
-    "User-Agent": getRedditUserAgent(),
+  const userAgent = getRedditUserAgent();
+  const publicHeaders = {
+    "User-Agent": userAgent,
     Accept: "application/json",
   };
 
-  if (hasRedditOAuthCreds()) {
-    headers.Authorization = `Bearer ${await getRedditAccessToken(fetchImpl)}`;
+  fetchRuntime.preferredMode = hasRedditOAuthCreds() ? "oauth" : "public-json";
+
+  if (!hasRedditOAuthCreds()) {
+    fetchRuntime.activeMode = "public-json";
+    fetchRuntime.publicRequests += 1;
+    return fetchJsonWithRetry(url, {
+      headers: publicHeaders,
+      attempts: 2,
+      retryDelayMs: 1000,
+      timeoutMs: 15_000,
+      fetchImpl,
+    });
   }
 
-  return fetchJsonWithRetry(resolveRedditApiUrl(url), {
-    headers,
-    attempts: 2,
-    retryDelayMs: 1000,
-    timeoutMs: 15_000,
-    fetchImpl,
-  });
+  try {
+    const accessToken = await getRedditAccessToken(fetchImpl);
+    fetchRuntime.activeMode = "oauth";
+    fetchRuntime.oauthRequests += 1;
+    return await fetchJsonWithRetry(resolveRedditApiUrl(url), {
+      headers: {
+        ...publicHeaders,
+        Authorization: `Bearer ${accessToken}`,
+      },
+      attempts: 2,
+      retryDelayMs: 1000,
+      timeoutMs: 15_000,
+      fetchImpl,
+    });
+  } catch (err) {
+    const status = typeof err?.status === "number" ? err.status : null;
+    const fallbackAllowed =
+      status === null ||
+      status === 401 ||
+      status === 403 ||
+      status === 408 ||
+      status === 429 ||
+      status === 500 ||
+      status === 502 ||
+      status === 503 ||
+      status === 504;
+
+    fetchRuntime.oauthFailures += 1;
+    fetchRuntime.lastOauthError =
+      err instanceof Error ? err.message : String(err);
+
+    if (!fallbackAllowed) throw err;
+
+    fetchRuntime.fallbackUsed = true;
+    fetchRuntime.activeMode = "public-json";
+    fetchRuntime.publicRequests += 1;
+    return fetchJsonWithRetry(url, {
+      headers: publicHeaders,
+      attempts: 2,
+      retryDelayMs: 1000,
+      timeoutMs: 15_000,
+      fetchImpl,
+    });
+  }
 }

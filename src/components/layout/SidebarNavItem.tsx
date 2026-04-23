@@ -31,6 +31,7 @@ export interface SidebarNavItemProps {
   badge?: string | number;
   badgeVariant?: "default" | "accent" | "danger";
   active?: boolean;
+  disabled?: boolean;
   /** Optional override — paints a different inset-left rail color. */
   accentColor?: string;
   className?: string;
@@ -69,23 +70,27 @@ export function SidebarNavItem({
   badge,
   badgeVariant = "default",
   active = false,
+  disabled = false,
   accentColor,
   className,
 }: SidebarNavItemProps) {
+  const isActive = active && !disabled;
   const baseClass = cn(
     "relative w-full h-9 flex items-center gap-2.5 pl-3 pr-2",
     "text-[13px] font-medium",
     "transition-colors duration-150",
-    active
+    disabled
+      ? "cursor-not-allowed text-text-tertiary/55 opacity-65"
+      : isActive
       ? "bg-functional-subtle text-functional"
       : "text-text-secondary hover:bg-bg-card-hover",
     className,
   );
 
   const activeStyle =
-    active && accentColor
+    isActive && accentColor
       ? { boxShadow: `inset 2px 0 0 ${accentColor}` }
-      : active
+      : isActive
         ? { boxShadow: "inset 2px 0 0 var(--color-functional)" }
         : undefined;
 
@@ -94,7 +99,11 @@ export function SidebarNavItem({
       <Icon
         className={cn(
           "w-4 h-4 shrink-0",
-          active ? "text-functional" : "text-text-tertiary",
+          disabled
+            ? "text-text-tertiary/55"
+            : isActive
+              ? "text-functional"
+              : "text-text-tertiary",
         )}
       />
       <span className="flex-1 truncate text-left">{label}</span>
@@ -103,6 +112,14 @@ export function SidebarNavItem({
       )}
     </>
   );
+
+  if (disabled) {
+    return (
+      <div aria-disabled="true" className={baseClass} style={activeStyle}>
+        {content}
+      </div>
+    );
+  }
 
   if (href) {
     return (

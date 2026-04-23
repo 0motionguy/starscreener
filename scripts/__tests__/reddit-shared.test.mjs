@@ -3,6 +3,7 @@ import { test } from "node:test";
 import {
   fetchRedditJson,
   getRedditAuthMode,
+  getRedditFetchRuntime,
   getRedditUserAgent,
   hasRedditOAuthCreds,
   resetRedditAuthCacheForTests,
@@ -158,6 +159,76 @@ test("reddit shared: fetchRedditJson gets and caches oauth bearer token", async 
         calls.filter((call) => call.url === "https://oauth.reddit.com/r/OpenAI/new.json?limit=3").length,
         2,
       );
+      assert.deepEqual(getRedditFetchRuntime(), {
+        preferredMode: "oauth",
+        activeMode: "oauth",
+        fallbackUsed: false,
+        oauthFailures: 0,
+        oauthRequests: 2,
+        publicRequests: 0,
+        lastOauthError: null,
+      });
+    },
+  );
+});
+
+test("reddit shared: falls back to public JSON when oauth path fails", async () => {
+  await withEnv(
+    {
+      REDDIT_CLIENT_ID: "client-id",
+      REDDIT_CLIENT_SECRET: "client-secret",
+      REDDIT_USER_AGENT: "StarScreener/Test",
+    },
+    async () => {
+      const calls = [];
+      const body = await fetchRedditJson(
+        "https://www.reddit.com/r/OpenAI/new.json?limit=3",
+        {
+          fetchImpl: async (url, init) => {
+            calls.push({ url, init });
+            if (url === "https://www.reddit.com/api/v1/access_token") {
+              return Response.json({
+                access_token: "oauth-token",
+                token_type: "bearer",
+                expires_in: 3600,
+              });
+            }
+            if (url === "https://oauth.reddit.com/r/OpenAI/new.json?limit=3") {
+              return new Response("forbidden", {
+                status: 403,
+                statusText: "Forbidden",
+              });
+            }
+            assert.equal(
+              url,
+              "https://www.reddit.com/r/OpenAI/new.json?limit=3",
+            );
+            assert.equal(init.headers.Authorization, undefined);
+            return Response.json({ data: { children: [{ id: "public-hit" }] } });
+          },
+        },
+      );
+
+      assert.deepEqual(body, { data: { children: [{ id: "public-hit" }] } });
+      assert.equal(calls.length, 3);
+      assert.equal(
+        calls[1].url,
+        "https://oauth.reddit.com/r/OpenAI/new.json?limit=3",
+      );
+      assert.equal(
+        calls[2].url,
+        "https://www.reddit.com/r/OpenAI/new.json?limit=3",
+      );
+      assert.deepEqual(getRedditFetchRuntime(), {
+        preferredMode: "oauth",
+        activeMode: "public-json",
+        fallbackUsed: true,
+        oauthFailures: 1,
+        oauthRequests: 1,
+        publicRequests: 1,
+        lastOauthError:
+          "HTTP 403 Forbidden - https://oauth.reddit.com/r/OpenAI/new.json?limit=3 - forbidden",
+      });
     },
   );
 });

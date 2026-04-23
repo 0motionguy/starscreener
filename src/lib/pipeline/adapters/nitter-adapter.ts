@@ -5,7 +5,7 @@
 // open-source alternative front-end that mirrors Twitter content and still
 // exposes RSS for searches. We probe a handful of public mirrors on module
 // load; the first reachable one wins and is cached. If none respond, the
-// adapter returns `[]` for every call and `TWITTER_AVAILABLE` stays false so
+// adapter returns `[]` for every call and `isTwitterAvailable()` stays false so
 // the UI can hide the Twitter section entirely (cleanest UX — no error text).
 //
 // Probe results (as of 2026-04-17, verified first run):
@@ -46,11 +46,15 @@ const RATE_LIMIT_MS = 10_000;
  */
 let nitterHost: string | null = null;
 
+let _twitterAvailable = false;
+
 /**
- * Exported boolean the UI checks to decide whether to render the Twitter tab.
- * Stays `false` until the probe confirms at least one working mirror.
+ * Returns whether at least one Nitter mirror is reachable.
+ * The UI uses this to decide whether to render the Twitter tab.
  */
-export let TWITTER_AVAILABLE: boolean = false;
+export function isTwitterAvailable(): boolean {
+  return _twitterAvailable;
+}
 
 /**
  * In-flight probe promise — prevents racing callers from launching the same
@@ -114,17 +118,16 @@ async function ensureProbed(): Promise<void> {
     for (const host of NITTER_MIRRORS) {
       // Serial probe keeps load predictable and gives us a deterministic
       // winner order (cheap / preferred first).
-      // eslint-disable-next-line no-await-in-loop
       const ok = await probeMirror(host);
       if (ok) {
         nitterHost = host;
-        TWITTER_AVAILABLE = true;
+        _twitterAvailable = true;
         console.log(`[social:nitter] using mirror ${host}`);
         return;
       }
     }
     nitterHost = null;
-    TWITTER_AVAILABLE = false;
+    _twitterAvailable = false;
     console.warn(
       `[social:nitter] no working mirror found (tried ${NITTER_MIRRORS.join(", ")})`,
     );
@@ -132,7 +135,7 @@ async function ensureProbed(): Promise<void> {
   await probePromise;
 }
 
-// Kick the probe on module load so TWITTER_AVAILABLE has a chance to flip
+// Kick the probe on module load so isTwitterAvailable() has a chance to flip
 // before the first render. Fire-and-forget — errors are swallowed by the
 // probe itself.
 void ensureProbed();
@@ -178,10 +181,12 @@ function unwrapCdata(s: string): string {
 }
 
 function extractTag(block: string, tag: string): string | null {
+  // Defensive: limit block size to avoid catastrophic backtracking on malformed XML.
+  const safeBlock = block.length > 50_000 ? block.slice(0, 50_000) : block;
   // Support optional namespace on tag (e.g. dc:creator) by escaping.
   const esc = tag.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const re = new RegExp(`<${esc}(?:\\s[^>]*)?>([\\s\\S]*?)<\\/${esc}>`, "i");
-  const m = block.match(re);
+  const m = safeBlock.match(re);
   if (!m) return null;
   return decodeEntities(unwrapCdata(m[1])).trim();
 }
@@ -266,12 +271,16 @@ export class NitterAdapter implements SocialAdapter {
         const idMatch = item.link.match(/status\/(\d+)/);
         const id = idMatch ? `tw-${idMatch[1]}` : `tw-${postedMs}-${author}`;
 
-        // Prefer the canonical twitter.com link over the mirror link so
+        // Prefer the canonical x.com link over the mirror link so
         // clicks go to the real post (users expect that).
-        const canonical = item.link.replace(
-          /^https:\/\/[^/]+/i,
-          "https://twitter.com",
-        );
+        let canonical: string;
+        try {
+          const url = new URL(item.link);
+          url.hostname = "x.com";
+          canonical = url.toString();
+        } catch {
+          canonical = item.link;
+        }
 
         out.push({
           id,

@@ -26,6 +26,7 @@ export function RepoHeader({ repo }: RepoHeaderProps) {
           alt={repo.owner}
           width={32}
           height={32}
+          unoptimized
           className="rounded-full shrink-0 mt-1"
         />
         <div className="min-w-0 flex-1">

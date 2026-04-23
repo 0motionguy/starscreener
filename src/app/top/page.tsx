@@ -46,6 +46,7 @@ export default async function TopPage() {
       filterBarVariant="search"
       showFeatured={false}
       heading={heading}
+      sortOverride={{ column: "stars", direction: "desc" }}
     />
   );
 }

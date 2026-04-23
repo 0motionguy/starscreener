@@ -40,8 +40,13 @@ export function Header() {
           aria-label="TrendingRepo home"
         >
           <span className="flex flex-col leading-none">
-            <span className="font-display font-bold text-lg tracking-tight text-text-primary leading-none">
-              Trending<span className="text-brand">Repo</span>
+            <span className="inline-flex items-center gap-2 font-display font-bold text-lg tracking-tight text-text-primary leading-none">
+              <span>
+                Trending<span className="text-brand">Repo</span>
+              </span>
+              <span className="rounded-sm border border-brand/45 bg-brand/10 px-1.5 py-0.5 font-mono text-[9px] font-bold uppercase leading-none text-brand">
+                BETA
+              </span>
             </span>
             <span
               className="hidden sm:inline font-mono text-[9px] uppercase tracking-[0.14em] text-text-tertiary leading-none mt-0.5"

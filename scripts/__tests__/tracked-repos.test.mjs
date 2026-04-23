@@ -19,12 +19,18 @@ test("collectTrackedRepos: reads recent-repos items shape", () => {
     ],
   };
 
-  const tracked = collectTrackedRepos({ trending, recent });
+  const manual = {
+    fetchedAt: "2026-04-22T00:00:00.000Z",
+    items: [{ fullName: "Manual/Drop" }],
+  };
+
+  const tracked = collectTrackedRepos({ trending, recent, manual });
 
   assert.equal(tracked.get("trend/repo"), "Trend/Repo");
   assert.equal(tracked.get("acme/fresh-launch"), "Acme/Fresh-Launch");
   assert.equal(tracked.get("legacy/rowname"), "Legacy/RowName");
   assert.equal(tracked.get("legacy/snakename"), "Legacy/SnakeName");
+  assert.equal(tracked.get("manual/drop"), "Manual/Drop");
 });
 
 test("collectTrackedRepos: preserves first canonical casing for duplicates", () => {

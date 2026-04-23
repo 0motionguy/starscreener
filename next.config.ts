@@ -6,6 +6,9 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "avatars.githubusercontent.com" },
       { protocol: "https", hostname: "github.com" },
       { protocol: "https", hostname: "opengraph.githubassets.com" },
+      { protocol: "https", hostname: "pbs.twimg.com" },
+      { protocol: "https", hostname: "abs.twimg.com" },
+      { protocol: "https", hostname: "unavatar.io" },
     ],
   },
   // Uncomment for Docker/Railway/Fly deployments that need a self-contained

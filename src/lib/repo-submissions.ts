@@ -4,6 +4,7 @@ import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import {
   appendJsonlFile,
   readJsonlFile,
+  writeJsonlFile,
 } from "@/lib/pipeline/storage/file-persistence";
 
 export const REPO_SUBMISSIONS_FILE = "repo-submissions.jsonl";
@@ -12,7 +13,14 @@ const MAX_REASON_LENGTH = 600;
 const MAX_CONTACT_LENGTH = 160;
 const MAX_SHARE_URL_LENGTH = 300;
 
-export type RepoSubmissionStatus = "pending";
+export type RepoSubmissionStatus =
+  | "pending"
+  | "queued"
+  | "scanning"
+  | "ingested"
+  | "matched"
+  | "listed"
+  | "scan_failed";
 
 export interface RepoSubmissionInput {
   repo: string;
@@ -33,6 +41,11 @@ export interface RepoSubmissionRecord {
   source: "web";
   status: RepoSubmissionStatus;
   submittedAt: string;
+  intakeTriggeredAt?: string | null;
+  lastScanAt?: string | null;
+  lastScanError?: string | null;
+  matchesFound?: number;
+  repoPath?: string | null;
 }
 
 export interface PublicRepoSubmission {
@@ -44,10 +57,19 @@ export interface PublicRepoSubmission {
   boostedByShare: boolean;
   status: RepoSubmissionStatus;
   submittedAt: string;
+  intakeTriggeredAt: string | null;
+  lastScanAt: string | null;
+  lastScanError: string | null;
+  matchesFound: number;
+  repoPath: string | null;
 }
 
 export interface RepoSubmissionQueueSummary {
   pending: number;
+  queued: number;
+  scanning: number;
+  listed: number;
+  failed: number;
   boosted: number;
   latestSubmittedAt: string | null;
 }
@@ -283,6 +305,11 @@ export function toPublicRepoSubmission(
     boostedByShare: record.boostedByShare,
     status: record.status,
     submittedAt: record.submittedAt,
+    intakeTriggeredAt: record.intakeTriggeredAt ?? null,
+    lastScanAt: record.lastScanAt ?? null,
+    lastScanError: record.lastScanError ?? null,
+    matchesFound: record.matchesFound ?? 0,
+    repoPath: record.repoPath ?? null,
   };
 }
 
@@ -296,16 +323,65 @@ export async function listRepoSubmissions(): Promise<RepoSubmissionRecord[]> {
 export function summarizeRepoSubmissionQueue(
   records: RepoSubmissionRecord[],
 ): RepoSubmissionQueueSummary {
-  const pending = records.filter((record) => record.status === "pending");
+  const active = records.filter(
+    (record) =>
+      record.status === "pending" ||
+      record.status === "queued" ||
+      record.status === "scanning" ||
+      record.status === "ingested" ||
+      record.status === "matched",
+  );
   const latestSubmittedAt =
-    pending
+    active
       .map((record) => record.submittedAt)
       .sort((a, b) => Date.parse(b) - Date.parse(a))[0] ?? null;
   return {
-    pending: pending.length,
-    boosted: pending.filter((record) => record.boostedByShare).length,
+    pending: active.length,
+    queued: records.filter((record) => record.status === "queued").length,
+    scanning: records.filter((record) => record.status === "scanning").length,
+    listed: records.filter((record) => record.status === "listed").length,
+    failed: records.filter((record) => record.status === "scan_failed").length,
+    boosted: active.filter((record) => record.boostedByShare).length,
     latestSubmittedAt,
   };
+}
+
+export async function getRepoSubmissionById(
+  id: string,
+): Promise<RepoSubmissionRecord | null> {
+  const records = await listRepoSubmissions();
+  return records.find((record) => record.id === id) ?? null;
+}
+
+export async function updateRepoSubmissionRecord(
+  id: string,
+  patch: Partial<
+    Pick<
+      RepoSubmissionRecord,
+      | "status"
+      | "intakeTriggeredAt"
+      | "lastScanAt"
+      | "lastScanError"
+      | "matchesFound"
+      | "repoPath"
+    >
+  >,
+): Promise<RepoSubmissionRecord> {
+  const records = await listRepoSubmissions();
+  const index = records.findIndex((record) => record.id === id);
+  if (index === -1) {
+    throw new Error(`repo submission not found: ${id}`);
+  }
+
+  const updated: RepoSubmissionRecord = {
+    ...records[index],
+    ...patch,
+  };
+  const next = [...records];
+  next[index] = updated;
+  next.sort((a, b) => Date.parse(a.submittedAt) - Date.parse(b.submittedAt));
+  await writeJsonlFile(REPO_SUBMISSIONS_FILE, next);
+  return updated;
 }
 
 export async function submitRepoToQueue(
@@ -356,6 +432,11 @@ export async function submitRepoToQueue(
     source: "web",
     status: "pending",
     submittedAt: new Date().toISOString(),
+    intakeTriggeredAt: null,
+    lastScanAt: null,
+    lastScanError: null,
+    matchesFound: 0,
+    repoPath: null,
   };
 
   await appendJsonlFile(REPO_SUBMISSIONS_FILE, submission);

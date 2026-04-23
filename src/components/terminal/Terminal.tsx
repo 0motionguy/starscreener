@@ -52,6 +52,7 @@ interface TerminalProps {
   rowActions?: ("remove" | "compare" | "watch")[];
   className?: string;
   virtualized?: boolean;
+  sortOverride?: { column: ColumnId; direction: SortDirection };
 }
 
 // Tailwind-aligned min widths (px). Matches default Tailwind v4 screens.
@@ -96,6 +97,7 @@ export function Terminal({
   emptyCta,
   className,
   virtualized = false,
+  sortOverride,
 }: TerminalProps) {
   const router = useRouter();
 
@@ -118,12 +120,12 @@ export function Terminal({
   const isMobile = windowWidth < 768;
 
   // Track: effective sort state tri-state (column + direction) for header UI.
-  const effectiveSortColumn: ColumnId | null = getEffectiveSortColumn(
-    sortColumn,
-    activeTab,
-    timeRange,
-  );
-  const effectiveSortDirection: SortDirection | null = sortDirection;
+  const effectiveSortColumn: ColumnId | null = sortOverride
+    ? sortOverride.column
+    : getEffectiveSortColumn(sortColumn, activeTab, timeRange);
+  const effectiveSortDirection: SortDirection | null = sortOverride
+    ? sortOverride.direction
+    : sortDirection;
 
   // Breakpoint-aware column visibility
   const visibleColumns: Column[] = useMemo(() => {
@@ -164,6 +166,7 @@ export function Terminal({
 
   const onSort = useCallback(
     (id: ColumnId) => {
+      if (sortOverride) return;
       const col = COLUMNS_BY_ID[id];
       if (!col || !col.sortable) return;
 
@@ -178,7 +181,7 @@ export function Terminal({
         setSort("momentum", "desc");
       }
     },
-    [effectiveSortColumn, effectiveSortDirection, setSort],
+    [effectiveSortColumn, effectiveSortDirection, setSort, sortOverride],
   );
 
   // Navigate shortcut for Enter
@@ -408,6 +411,7 @@ export function Terminal({
             sortDirection={effectiveSortDirection}
             onSort={onSort}
             onOpenColumnPicker={openColumnPicker}
+            disableSort={Boolean(sortOverride)}
           />
           <tbody>
             {repos.slice(0, effectiveLimit).map((repo, i) => (

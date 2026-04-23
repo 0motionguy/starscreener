@@ -15,6 +15,7 @@ import type {
   IngestResult,
   RepoReason,
   RepoScore,
+  SocialAdapter,
 } from "./types";
 import {
   alertEventStore,
@@ -442,6 +443,8 @@ function recomputeRepo(repoId: string): RecomputeSummary {
 export interface IngestFacadeOptions {
   /** Override the default GitHub adapter (e.g., mock vs real). */
   githubAdapter?: ReturnType<typeof createGitHubAdapter>;
+  /** Optional targeted social sweep to run after GitHub metadata lands. */
+  socialAdapters?: SocialAdapter[];
 }
 
 async function ingestRepoFacade(
@@ -453,6 +456,7 @@ async function ingestRepoFacade(
     repoStore,
     snapshotStore,
     mentionStore,
+    socialAdapters: opts.socialAdapters,
   });
 }
 
@@ -465,6 +469,7 @@ async function ingestBatchFacade(
     repoStore,
     snapshotStore,
     mentionStore,
+    socialAdapters: opts.socialAdapters,
   });
 }
 

@@ -9,14 +9,7 @@ import { DeltaBadge } from "@/components/shared/DeltaBadge";
 import { CategoryPill } from "@/components/shared/CategoryPill";
 import { MomentumBadge } from "@/components/shared/MomentumBadge";
 import { RankBadge } from "@/components/shared/RankBadge";
-import { HnBadge } from "@/components/hackernews/HnBadge";
-import { ChannelDots } from "@/components/cross-signal/ChannelDots";
-import { getHnMentions } from "@/lib/hackernews";
-import { BskyBadge } from "@/components/bluesky/BskyBadge";
-import { getBlueskyMentions } from "@/lib/bluesky";
-import { PhBadge } from "@/components/producthunt/PhBadge";
-import { getLaunchForRepo } from "@/lib/producthunt";
-import { DevtoBadge } from "@/components/devto/DevtoBadge";
+import { RepoMentionBadges } from "@/components/repo-signals/RepoMentionBadges";
 import { NpmBadge } from "@/components/npm/NpmBadge";
 import { getNpmPackagesForRepo } from "@/lib/npm";
 
@@ -51,11 +44,7 @@ export function RepoCard({ repo, index = 0, showRank = false }: RepoCardProps) {
         <span className="font-semibold text-text-primary truncate text-sm">
           {repo.fullName}
         </span>
-        <ChannelDots repo={repo} hideWhenEmpty size="sm" />
-        <HnBadge mention={getHnMentions(repo.fullName)} size="sm" />
-        <BskyBadge mention={getBlueskyMentions(repo.fullName)} size="sm" />
-        <PhBadge launch={getLaunchForRepo(repo.fullName)} size="sm" />
-        <DevtoBadge mention={repo.devto ?? null} size="sm" />
+        <RepoMentionBadges repo={repo} size="sm" includeLongTail />
         <NpmBadge packages={getNpmPackagesForRepo(repo.fullName)} size="sm" />
         <div className="ml-auto shrink-0">
           <CategoryPill categoryId={repo.categoryId} size="sm" />

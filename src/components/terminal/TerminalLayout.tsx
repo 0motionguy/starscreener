@@ -7,7 +7,12 @@
 // out of the client bundle.
 
 import type { ReactNode } from "react";
-import type { FilterBarVariant, Repo } from "@/lib/types";
+import type {
+  ColumnId,
+  FilterBarVariant,
+  Repo,
+  SortDirection,
+} from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { FilterBar } from "./FilterBar";
 import { TerminalBody } from "./TerminalBody";
@@ -29,6 +34,8 @@ export interface TerminalLayoutProps {
   emptyState?: ReactNode;
   /** Extra per-row action affordances plumbed into Terminal rows. */
   rowActions?: Array<"remove" | "compare" | "watch">;
+  /** Fixed sort for canonical lists that should not follow global store sort. */
+  sortOverride?: { column: ColumnId; direction: SortDirection };
   /** Optional wrapper class. */
   className?: string;
 }
@@ -43,6 +50,7 @@ export function TerminalLayout(props: TerminalLayoutProps) {
     heading,
     emptyState,
     rowActions,
+    sortOverride,
     className,
   } = props;
 
@@ -57,6 +65,7 @@ export function TerminalLayout(props: TerminalLayoutProps) {
         featuredTitle={featuredTitle}
         emptyState={emptyState}
         rowActions={rowActions}
+        sortOverride={sortOverride}
       />
     </div>
   );

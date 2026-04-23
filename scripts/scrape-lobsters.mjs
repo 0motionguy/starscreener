@@ -34,6 +34,7 @@ import { writeFile, mkdir } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { fetchJsonWithRetry } from "./_fetch-json.mjs";
+import { extractGithubRepoFullNames } from "./_github-repo-links.mjs";
 import { loadTrackedReposFromFiles } from "./_tracked-repos.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -50,17 +51,6 @@ const TRENDING_WINDOW_SECONDS = TRENDING_WINDOW_HOURS * 60 * 60;
 const MENTIONS_WINDOW_SECONDS = MENTIONS_WINDOW_DAYS * 24 * 60 * 60;
 const NEWEST_PAGES = 3;
 const PER_REQUEST_DELAY_MS = 400;
-
-const REPO_URL_RE = /github\.com\/([A-Za-z0-9][A-Za-z0-9._-]*)\/([A-Za-z0-9][A-Za-z0-9._-]*)/g;
-
-// Same reserved-owner list used by the HN + Reddit scrapers so github.com/orgs/x
-// or /settings don't get parsed as repo mentions.
-const RESERVED_GITHUB_OWNERS = new Set([
-  "orgs", "settings", "about", "features", "pricing", "marketplace",
-  "collections", "trending", "topics", "search", "login", "join",
-  "sponsors", "enterprise", "customer-stories", "readme", "apps",
-  "notifications",
-]);
 
 function log(msg) {
   console.log(`[lobsters] ${msg}`);
@@ -131,18 +121,8 @@ function normalizeStory(raw, tracked, nowSec) {
 }
 
 function extractRepoMentions(text, tracked) {
-  const out = new Set();
-  REPO_URL_RE.lastIndex = 0;
-  let m;
-  while ((m = REPO_URL_RE.exec(text)) !== null) {
-    const owner = m[1];
-    const name = m[2].replace(/\.git$/i, "").replace(/[.,;!?)\]]+$/, "");
-    if (!owner || !name) continue;
-    if (RESERVED_GITHUB_OWNERS.has(owner.toLowerCase())) continue;
-    const lower = `${owner}/${name}`.toLowerCase();
-    if (tracked.has(lower)) out.add(lower);
-  }
-  return Array.from(out, (lower) => ({
+  const hits = extractGithubRepoFullNames(text, tracked);
+  return Array.from(hits, (lower) => ({
     fullName: tracked.get(lower) ?? lower,
     matchType: "url",
     confidence: 1.0,

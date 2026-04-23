@@ -1,28 +1,22 @@
-// /reddit — Reddit signal view.
+// /reddit - Reddit signal view.
 //
-// Reads data/reddit-mentions.json via src/lib/reddit.ts and renders:
-//   - header strip with freshness + scan totals
-//   - onboarding hint when cold (no data yet)
-//   - top-posts feed (scored + linked to reddit + to repo)
-//   - repo leaderboard (which tracked repos got the most Reddit buzz)
-//
-// Not client-side; this is a pure server component so the JSON import is
-// bundled at build time — same pattern as trending/deltas pages.
+// Reads the latest data/reddit-mentions.json on each request so local
+// scraper runs show up without restarting Next.js.
 
 import { Suspense } from "react";
 import Link from "next/link";
+
+import { getBreakoutCountLast24h, repoFullNameToHref } from "@/lib/reddit";
 import {
   getAllRedditPosts,
-  redditCold,
-  redditFetchedAt,
+  getRedditFetchedAt,
   getRedditStats,
   getRedditSubreddits,
-  getBreakoutCountLast24h,
-  repoFullNameToHref,
-} from "@/lib/reddit";
+  isRedditCold,
+} from "@/lib/reddit-data";
 import { RedditTabsClient } from "@/components/reddit/RedditTabsClient";
 
-export const dynamic = "force-static";
+export const dynamic = "force-dynamic";
 
 function formatRelative(iso: string): string {
   const t = new Date(iso).getTime();
@@ -38,6 +32,8 @@ function formatRelative(iso: string): string {
 }
 
 export default function RedditPage() {
+  const redditFetchedAt = getRedditFetchedAt();
+  const redditCold = isRedditCold();
   const stats = getRedditStats();
   const allPosts = getAllRedditPosts();
   const subreddits = getRedditSubreddits();
@@ -46,7 +42,6 @@ export default function RedditPage() {
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
       <div className="max-w-[1400px] mx-auto px-6 py-8">
-        {/* Header */}
         <header className="mb-8 border-b border-border-primary pb-6">
           <div className="flex items-baseline gap-3">
             <h1 className="text-2xl font-bold uppercase tracking-wider">
@@ -64,12 +59,22 @@ export default function RedditPage() {
           </p>
         </header>
 
-        {/* Status strip */}
         <section className="mb-6 grid grid-cols-2 md:grid-cols-4 gap-3">
           <StatTile
             label="LAST SCRAPE"
-            value={redditCold ? "—" : formatRelative(redditFetchedAt)}
-            hint={redditCold ? "run scraper" : new Date(redditFetchedAt).toISOString().slice(0, 16).replace("T", " ")}
+            value={
+              redditCold || !redditFetchedAt
+                ? "—"
+                : formatRelative(redditFetchedAt)
+            }
+            hint={
+              redditCold || !redditFetchedAt
+                ? "run scraper"
+                : new Date(redditFetchedAt)
+                    .toISOString()
+                    .slice(0, 16)
+                    .replace("T", " ")
+            }
           />
           <StatTile
             label="REPOS HIT"
@@ -86,7 +91,7 @@ export default function RedditPage() {
             value={String(breakouts24h)}
             hint={
               breakouts24h > 0
-                ? "posts ≥10× sub baseline"
+                ? "posts >=10x sub baseline"
                 : stats.topRepos[0]
                   ? `top: ${stats.topRepos[0].fullName.split("/")[1]}`
                   : "no data yet"
@@ -94,7 +99,6 @@ export default function RedditPage() {
           />
         </section>
 
-        {/* Cold onboarding */}
         {redditCold ? (
           <ColdStart subreddits={subreddits} />
         ) : (
@@ -109,10 +113,6 @@ export default function RedditPage() {
     </main>
   );
 }
-
-// ---------------------------------------------------------------------------
-// Components
-// ---------------------------------------------------------------------------
 
 function StatTile({
   label,
@@ -146,10 +146,9 @@ function ColdStart({ subreddits }: { subreddits: string[] }) {
           {"// no data yet"}
         </h2>
         <p className="mt-3 text-sm text-text-secondary leading-relaxed">
-          The Reddit scraper hasn&apos;t run yet. It uses Reddit&apos;s public
-          JSON endpoints (no OAuth, no app registration required) and scans the
-          most recent 100 posts from each subreddit below for GitHub repo
-          mentions.
+          The Reddit scraper has not run yet. It uses Reddit&apos;s public JSON
+          endpoints (no OAuth, no app registration required) and scans the most
+          recent 100 posts from each subreddit below for GitHub repo mentions.
         </p>
 
         <div className="mt-6 rounded border border-border-primary bg-bg-primary p-4">
@@ -162,8 +161,8 @@ function ColdStart({ subreddits }: { subreddits: string[] }) {
 npm run scrape:reddit`}
           </pre>
           <p className="mt-3 text-[11px] text-text-tertiary">
-            Takes about 4 minutes ({subreddits.length} subs × 5s pause each),
-            plus request time. Writes data/reddit-mentions.json. Refresh this
+            Takes about 4 minutes ({subreddits.length} subs x 5s pause each),
+            plus request time. Writes `data/reddit-mentions.json`. Refresh this
             page after.
           </p>
         </div>
@@ -173,15 +172,15 @@ npm run scrape:reddit`}
             subreddits scanned ({subreddits.length})
           </div>
           <div className="flex flex-wrap gap-1.5">
-            {subreddits.map((s) => (
+            {subreddits.map((subreddit) => (
               <a
-                key={s}
-                href={`https://www.reddit.com/r/${s}/new/`}
+                key={subreddit}
+                href={`https://www.reddit.com/r/${subreddit}/new/`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[11px] px-2 py-1 rounded border border-border-primary text-text-secondary hover:text-brand hover:border-brand transition-colors"
               >
-                r/{s}
+                r/{subreddit}
               </a>
             ))}
           </div>
@@ -201,7 +200,7 @@ npm run scrape:reddit`}
 function FeedSkeleton() {
   return (
     <div className="border border-border-primary rounded-md p-6 bg-bg-secondary/40 text-sm text-text-tertiary">
-      Loading feed…
+      Loading feed...
     </div>
   );
 }
@@ -218,25 +217,25 @@ function Leaderboard({
         {"// repo leaderboard"}
       </h2>
       <ol className="space-y-1.5">
-        {repos.map((r, i) => (
+        {repos.map((repo, index) => (
           <li
-            key={r.fullName}
+            key={repo.fullName}
             className="border border-border-primary rounded-md px-3 py-2 bg-bg-secondary hover:border-brand transition-colors"
           >
             <Link
-              href={repoFullNameToHref(r.fullName)}
+              href={repoFullNameToHref(repo.fullName)}
               className="flex items-center justify-between gap-2 text-xs"
             >
               <span className="flex items-center gap-2 min-w-0">
                 <span className="text-text-tertiary tabular-nums w-5 text-right">
-                  {i + 1}
+                  {index + 1}
                 </span>
                 <span className="text-text-primary truncate">
-                  {r.fullName}
+                  {repo.fullName}
                 </span>
               </span>
               <span className="flex-shrink-0 text-text-tertiary tabular-nums">
-                {r.upvotes7d}↑ · {r.count7d}×
+                {repo.upvotes7d}↑ · {repo.count7d}x
               </span>
             </Link>
           </li>

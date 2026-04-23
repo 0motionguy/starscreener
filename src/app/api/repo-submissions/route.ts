@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
+import { verifyCronAuth } from "@/lib/api/auth";
+import { runRepoIntakeForSubmission } from "@/lib/repo-intake";
 import {
   listRepoSubmissions,
   submitRepoToQueue,
@@ -20,6 +22,7 @@ interface RepoSubmissionsListResponse {
 interface RepoSubmissionsCreateResponse {
   ok: true;
   result: RepoSubmissionResult;
+  intakeTriggered: boolean;
 }
 
 interface RepoSubmissionsErrorResponse {
@@ -71,7 +74,26 @@ export async function POST(
 
   try {
     const result = await submitRepoToQueue(parsed.value);
-    return NextResponse.json({ ok: true, result });
+    const canTriggerIntake =
+      process.env.NODE_ENV !== "production" ||
+      verifyCronAuth(request).kind === "ok";
+    const autoTriggerEnabled =
+      process.env.STARSCREENER_AUTO_INTAKE !== "false";
+    const triggerableSubmission =
+      result.kind === "created" ||
+      (result.kind === "duplicate" &&
+        (result.submission.status === "pending" ||
+          result.submission.status === "scan_failed"));
+
+    const intakeTriggered =
+      Boolean(triggerableSubmission && canTriggerIntake && autoTriggerEnabled);
+    if (intakeTriggered && result.kind !== "already_tracked") {
+      void runRepoIntakeForSubmission(result.submission.id).catch((err) => {
+        console.error("[repo-intake] background trigger failed", err);
+      });
+    }
+
+    return NextResponse.json({ ok: true, result, intakeTriggered });
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     const status = message.includes("repo must be") ? 400 : 500;

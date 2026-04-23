@@ -26,7 +26,7 @@ import {
 import { ContentTagIcons } from "@/components/reddit/ContentTagIcons";
 import { LetterAvatar } from "@/components/shared/LetterAvatar";
 import type { RedditAllPost } from "@/lib/reddit-all";
-import { repoFullNameToHref } from "@/lib/reddit";
+import { redditPostHref, repoFullNameToHref } from "@/lib/reddit";
 import { cn, formatNumber } from "@/lib/utils";
 
 export type TrendingTab = "trending-now" | "hot-7d" | "by-subreddit";
@@ -435,17 +435,8 @@ export function AllTrendingTabs({ posts }: { posts: RedditAllPost[] }) {
 // Row + grouped view
 // ---------------------------------------------------------------------------
 
-// Build the absolute permalink for an external Reddit link. The `permalink`
-// field on RedditPost is the Reddit-relative path (e.g. "/r/sub/comments/...").
-// `url` may already be absolute (image host, crosspost), so prefer permalink
-// when present and absolutize it.
 function postHref(p: RedditAllPost): string {
-  if (p.permalink) {
-    return p.permalink.startsWith("http")
-      ? p.permalink
-      : `https://reddit.com${p.permalink}`;
-  }
-  return p.url;
+  return redditPostHref(p.permalink, p.url);
 }
 
 interface PostRowProps {

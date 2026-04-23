@@ -59,7 +59,7 @@ export function FreshBadge() {
 
     const tick = async () => {
       try {
-        const res = await fetch("/api/health", { cache: "no-store" });
+        const res = await fetch("/api/health?soft=1", { cache: "no-store" });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const json = (await res.json()) as HealthSnapshot;
         if (!cancelled) setSnap(json);

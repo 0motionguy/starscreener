@@ -1,14 +1,8 @@
-// Reddit mentions loader.
+// Reddit shared types + helpers.
 //
-// Reads data/reddit-mentions.json (produced by scripts/scrape-reddit.mjs)
-// and exposes a typed surface for the /reddit page.
-//
-// The on-disk format is append-only across phases: newer scrapes may include
-// `allPosts` + `leaderboard`, while older files may only have `topPosts` and
-// per-repo mention buckets. This loader normalizes legacy files so the UI
-// still has velocity fields, baseline labels, and a full deduped feed.
-
-import redditData from "../../data/reddit-mentions.json";
+// Pure module only: safe to import from client components. Server-side file
+// loading lives in src/lib/reddit-data.ts so local scrapes can refresh data
+// without forcing a Next.js restart.
 
 import type {
   BaselineConfidence,
@@ -82,9 +76,9 @@ export function getPostsByTab(
   tab: RedditTab,
   nowMs: number = Date.now(),
 ): RedditPost[] {
-  const HOUR = 60 * 60 * 1000;
-  const cutoff24h = nowMs - 24 * HOUR;
-  const cutoff7d = nowMs - 7 * 24 * HOUR;
+  const hourMs = 60 * 60 * 1000;
+  const cutoff24h = nowMs - 24 * hourMs;
+  const cutoff7d = nowMs - 7 * 24 * hourMs;
 
   const withinMs = (p: RedditPost, cutoff: number) =>
     p.createdUtc * 1000 >= cutoff;
@@ -94,23 +88,18 @@ export function getPostsByTab(
       return posts
         .filter((p) => withinMs(p, cutoff24h))
         .slice()
-        .sort(
-          (a, b) => (b.trendingScore ?? 0) - (a.trendingScore ?? 0),
-        );
+        .sort((a, b) => (b.trendingScore ?? 0) - (a.trendingScore ?? 0));
     case "hot-7d":
       return posts
         .filter((p) => withinMs(p, cutoff7d))
         .slice()
         .sort((a, b) => {
-          // baseline_ratio × upvotes — reach × normalized quality
           const av = (a.baselineRatio ?? 1) * a.score;
           const bv = (b.baselineRatio ?? 1) * b.score;
           return bv - av;
         });
     case "all-mentions":
-      return posts
-        .slice()
-        .sort((a, b) => b.score - a.score);
+      return posts.slice().sort((a, b) => b.score - a.score);
   }
 }
 
@@ -123,13 +112,13 @@ export function getBreakoutCountLast24h(
   nowMs: number = Date.now(),
 ): number {
   const cutoff = nowMs - 24 * 60 * 60 * 1000;
-  let n = 0;
-  for (const p of posts) {
-    if (p.baselineTier !== "breakout") continue;
-    if (p.createdUtc * 1000 < cutoff) continue;
-    n += 1;
+  let count = 0;
+  for (const post of posts) {
+    if (post.baselineTier !== "breakout") continue;
+    if (post.createdUtc * 1000 < cutoff) continue;
+    count += 1;
   }
-  return n;
+  return count;
 }
 
 export interface RedditRepoMention {
@@ -147,6 +136,14 @@ export interface RedditLeaderboardEntry {
 export interface RedditMentionsFile {
   fetchedAt: string;
   cold: boolean;
+  authMode?: "oauth" | "public-json";
+  effectiveFetchMode?: "oauth" | "public-json";
+  fallbackUsed?: boolean;
+  oauthFailures?: number;
+  successfulSubreddits?: number;
+  failedSubreddits?: number;
+  oauthRequests?: number;
+  publicRequests?: number;
   scannedSubreddits: string[];
   scannedPostsTotal: number;
   mentions: Record<string, RedditRepoMention>;
@@ -154,11 +151,6 @@ export interface RedditMentionsFile {
   allPosts?: RedditPost[];
   leaderboard?: RedditLeaderboardEntry[];
 }
-
-const data = redditData as unknown as RedditMentionsFile;
-
-export const redditFetchedAt: string = data.fetchedAt;
-export const redditCold: boolean = data.cold === true;
 
 function round2(n: number): number {
   return Math.round(n * 100) / 100;
@@ -181,9 +173,7 @@ function computeVelocityMetrics(
   };
 }
 
-function resolveBaseline(
-  post: RedditPost,
-): BaselineRatioResult {
+function resolveBaseline(post: RedditPost): BaselineRatioResult {
   if (post.baselineTier !== undefined) {
     return {
       ratio: post.baselineRatio ?? null,
@@ -203,7 +193,11 @@ export function hydrateRedditPost(
   const effectiveRatio = (post.baselineRatio ?? baseline.ratio) ?? 1.0;
   const trendingScore =
     post.trendingScore ??
-    round2((computed.velocity ?? 0) * effectiveRatio * Math.log10(Math.max(1, post.score)));
+    round2(
+      (computed.velocity ?? 0) *
+        effectiveRatio *
+        Math.log10(Math.max(1, post.score)),
+    );
 
   return {
     ...post,
@@ -252,18 +246,14 @@ export function buildGlobalRedditPosts(
 function sortLeaderboard(
   rows: RedditLeaderboardEntry[],
 ): RedditLeaderboardEntry[] {
-  return rows
-    .slice()
-    .sort((a, b) => {
-      if (b.upvotes7d !== a.upvotes7d) return b.upvotes7d - a.upvotes7d;
-      if (b.count7d !== a.count7d) return b.count7d - a.count7d;
-      return a.fullName.localeCompare(b.fullName);
-    });
+  return rows.slice().sort((a, b) => {
+    if (b.upvotes7d !== a.upvotes7d) return b.upvotes7d - a.upvotes7d;
+    if (b.count7d !== a.count7d) return b.count7d - a.count7d;
+    return a.fullName.localeCompare(b.fullName);
+  });
 }
 
-function buildLeaderboardFromPosts(
-  posts: RedditPost[],
-): RedditLeaderboardEntry[] {
+function buildLeaderboardFromPosts(posts: RedditPost[]): RedditLeaderboardEntry[] {
   const grouped = new Map<string, RedditLeaderboardEntry>();
   for (const post of posts) {
     if (!post.repoFullName) continue;
@@ -277,6 +267,14 @@ function buildLeaderboardFromPosts(
     grouped.set(post.repoFullName, row);
   }
   return sortLeaderboard(Array.from(grouped.values()));
+}
+
+export interface RedditStats {
+  totalMentions: number;
+  reposWithMentions: number;
+  subredditsScanned: number;
+  postsScanned: number;
+  topRepos: RedditLeaderboardEntry[];
 }
 
 export function buildRedditStats(
@@ -305,50 +303,17 @@ export function repoFullNameToHref(fullName: string): string {
   return `/repo/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`;
 }
 
-export function getRedditFile(): RedditMentionsFile {
-  return data;
-}
-
-export function getRedditMentions(fullName: string): RedditRepoMention | null {
-  const entry = data.mentions[fullName];
-  return entry ?? null;
-}
-
-export function getAllRedditMentions(): Record<string, RedditRepoMention> {
-  return data.mentions;
-}
-
-export function getAllRedditPosts(nowMs: number = Date.now()): RedditPost[] {
-  return buildGlobalRedditPosts(data, nowMs);
-}
-
-export function getRedditTopPosts(
-  limit = 50,
-  nowMs: number = Date.now(),
-): RedditPost[] {
-  const posts = buildGlobalRedditPosts(data, nowMs)
-    .slice()
-    .sort((a, b) => {
-      const delta = (b.trendingScore ?? 0) - (a.trendingScore ?? 0);
-      if (delta !== 0) return delta;
-      return b.score - a.score;
-    });
-  if (posts.length <= limit) return posts;
-  return posts.slice(0, limit);
-}
-
-export function getRedditSubreddits(): string[] {
-  return data.scannedSubreddits;
-}
-
-export interface RedditStats {
-  totalMentions: number;
-  reposWithMentions: number;
-  subredditsScanned: number;
-  postsScanned: number;
-  topRepos: RedditLeaderboardEntry[];
-}
-
-export function getRedditStats(): RedditStats {
-  return buildRedditStats(data);
+export function redditPostHref(
+  permalink?: string | null,
+  fallbackUrl?: string | null,
+): string {
+  const cleanPermalink = typeof permalink === "string" ? permalink.trim() : "";
+  if (cleanPermalink) {
+    if (/^https?:\/\//i.test(cleanPermalink)) return cleanPermalink;
+    const path = cleanPermalink.startsWith("/")
+      ? cleanPermalink
+      : `/${cleanPermalink}`;
+    return `https://www.reddit.com${path}`;
+  }
+  return typeof fallbackUrl === "string" ? fallbackUrl.trim() : "";
 }

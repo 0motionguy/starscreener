@@ -12,6 +12,7 @@ import {
   REDDIT_TAB_IDS,
   REDDIT_TAB_LABELS,
   getPostsByTab,
+  redditPostHref,
   repoFullNameToHref,
   type RedditPost,
   type RedditTab,
@@ -146,7 +147,7 @@ export function RedditTabsClient({ posts }: { posts: RedditPost[] }) {
                     ) : null}
                   </div>
                   <a
-                    href={p.permalink || p.url}
+                    href={redditPostHref(p.permalink, p.url)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-sm text-text-primary hover:text-brand line-clamp-2"

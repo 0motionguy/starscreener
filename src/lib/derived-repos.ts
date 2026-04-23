@@ -20,6 +20,10 @@ import {
   getRecentRepos,
 } from "./recent-repos";
 import {
+  getManualReposDataVersion,
+  listManualRepoRowsSync,
+} from "./manual-repos";
+import {
   assembleRepoFromTrending,
   getDeltas,
   getTrending,
@@ -36,8 +40,14 @@ import {
 } from "./pipeline/classification/classifier";
 import { attachCrossSignal } from "./pipeline/cross-signal";
 import { getLaunchForRepo } from "./producthunt";
+import { getRedditDataVersion } from "./reddit-data";
+import {
+  getTwitterSignalSync,
+  getTwitterSignalsDataVersion,
+} from "./twitter/signal-data";
 
 let _cache: Repo[] | null = null;
+let _cacheKey: string | null = null;
 let _byFullName: Map<string, Repo> | null = null;
 let _byId: Map<string, Repo> | null = null;
 
@@ -305,7 +315,10 @@ function baseRepoFromTrending(
  * call.
  */
 export function getDerivedRepos(): Repo[] {
-  if (_cache) return _cache;
+  const cacheKey = `${getRedditDataVersion()}:${getManualReposDataVersion()}:${getTwitterSignalsDataVersion()}`;
+  if (_cache && _cacheKey === cacheKey) return _cache;
+  _byFullName = null;
+  _byId = null;
 
   const aggregates = buildTrendingAggregates();
   const deltas = getDeltas();
@@ -435,7 +448,11 @@ export function getDerivedRepos(): Repo[] {
   const seenFullNames = new Set(
     repos.map((repo) => repo.fullName.toLowerCase()),
   );
-  for (const row of getRecentRepos()) {
+  const supplementalRows = [
+    ...getRecentRepos(),
+    ...listManualRepoRowsSync(),
+  ];
+  for (const row of supplementalRows) {
     const normalized = row.fullName.toLowerCase();
     if (seenFullNames.has(normalized)) continue;
     const metadata = getRepoMetadata(row.fullName);
@@ -496,7 +513,31 @@ export function getDerivedRepos(): Repo[] {
   // re-querying the mentions JSON.
   repos = attachCrossSignal(repos);
 
-  // 3.6 Attach ProductHunt launch for tracked repos that have a recent (7d)
+  // 3.6 Attach the latest Twitter/X row rollup from .data/twitter-repo-signals.
+  // This keeps the client terminal free of server-only storage imports while
+  // letting rows render the same X mention counts as /twitter.
+  repos = repos.map((r) => {
+    const signal = getTwitterSignalSync(r.fullName);
+    if (!signal) {
+      return {
+        ...r,
+        twitter: null,
+      };
+    }
+    return {
+      ...r,
+      twitter: {
+        mentionCount24h: signal.metrics.mentionCount24h,
+        uniqueAuthors24h: signal.metrics.uniqueAuthors24h,
+        finalTwitterScore: signal.score.finalTwitterScore,
+        badgeState: signal.badge.state,
+        topPostUrl: signal.metrics.topPostUrl,
+        lastScannedAt: signal.updatedAt,
+      },
+    };
+  });
+
+  // 3.7 Attach ProductHunt launch for tracked repos that have a recent (7d)
   // PH match. Sparse by design — only repos whose github.com URL appeared
   // in a PH launch's website/description get this field set. Most repos
   // keep producthunt = undefined. Used by PhBadge and the "Hot launch"
@@ -534,16 +575,19 @@ export function getDerivedRepos(): Repo[] {
   }
 
   _cache = sorted;
+  _cacheKey = cacheKey;
   return sorted;
 }
 
 /** Case-insensitive lookup by `owner/name`. */
 export function getDerivedRepoByFullName(fullName: string): Repo | null {
   if (!_byFullName) {
-    _byFullName = new Map();
-    for (const r of getDerivedRepos()) {
-      _byFullName.set(r.fullName.toLowerCase(), r);
+    const repos = getDerivedRepos();
+    const byFullName = new Map<string, Repo>();
+    for (const r of repos) {
+      byFullName.set(r.fullName.toLowerCase(), r);
     }
+    _byFullName = byFullName;
   }
   return _byFullName.get(fullName.toLowerCase()) ?? null;
 }
@@ -551,10 +595,12 @@ export function getDerivedRepoByFullName(fullName: string): Repo | null {
 /** Lookup by slug id (e.g. `vercel--next-js`). */
 export function getDerivedRepoById(id: string): Repo | null {
   if (!_byId) {
-    _byId = new Map();
-    for (const r of getDerivedRepos()) {
-      _byId.set(r.id, r);
+    const repos = getDerivedRepos();
+    const byId = new Map<string, Repo>();
+    for (const r of repos) {
+      byId.set(r.id, r);
     }
+    _byId = byId;
   }
   return _byId.get(id) ?? null;
 }
@@ -567,6 +613,7 @@ export function getDerivedRepoCount(): number {
 // Test-only cache reset.
 export function __resetDerivedReposCache(): void {
   _cache = null;
+  _cacheKey = null;
   _byFullName = null;
   _byId = null;
 }

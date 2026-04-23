@@ -9,8 +9,8 @@
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import {
+  Bot,
   Bookmark,
-  Flame,
   GitCompareArrows,
   Layers,
   Package,
@@ -20,11 +20,13 @@ import {
   TrendingUp,
   Trophy,
   X,
+  DollarSign,
 } from "lucide-react";
 import {
   RedditIcon,
   HackerNewsIcon,
   BlueskyIcon,
+  XIcon,
   DevtoIcon,
   ProductHuntIcon,
   LobstersIcon,
@@ -59,6 +61,7 @@ const HackerNewsSidebarIcon: SidebarIconComponent = (p) => (
 const BlueskySidebarIcon: SidebarIconComponent = (p) => (
   <BlueskyIcon {...p} monochrome />
 );
+const XSidebarIcon: SidebarIconComponent = (p) => <XIcon {...p} monochrome />;
 const DevtoSidebarIcon: SidebarIconComponent = (p) => (
   <DevtoIcon {...p} monochrome />
 );
@@ -96,10 +99,11 @@ export function SidebarContent({
   const [newsTab, setNewsTab] = useState<string | null>(null);
   const activeCategory = useFilterStore((s) => s.category);
   const activeMetaFilter = useFilterStore((s) => s.activeMetaFilter);
-  const activeTab = useFilterStore((s) => s.activeTab);
-  const timeRange = useFilterStore((s) => s.timeRange);
+  const setCategory = useFilterStore((s) => s.setCategory);
   const setActiveMetaFilter = useFilterStore((s) => s.setActiveMetaFilter);
+  const setActiveTag = useFilterStore((s) => s.setActiveTag);
   const setActiveTab = useFilterStore((s) => s.setActiveTab);
+  const setSort = useFilterStore((s) => s.setSort);
   const setTimeRange = useFilterStore((s) => s.setTimeRange);
 
   const watchCount = useWatchlistStore((s) => s.repos.length);
@@ -111,20 +115,13 @@ export function SidebarContent({
     setNewsTab(new URLSearchParams(window.location.search).get("tab"));
   }, [pathname]);
 
-  // Repos terminal: the homepage `/` with a meta-filter applied. The four
-  // entries (Trending / Breakouts / New Repos / Hot This Week) all route
-  // to `/` and twist the filter store; only the active highlight differs.
-  function goToReposTerminal(
-    filter: "breakouts" | "new" | "hot" | null,
-  ) {
-    if (filter === "hot") {
-      // "Hot This Week" — `hot` movementStatus count is empty during
-      // delta warm-up; route to top 7-day gainers tab instead. Same user
-      // intent ("what's actually trending this week") with real data.
-      setActiveMetaFilter(null);
-      setActiveTab("gainers");
-      setTimeRange("7d");
-    } else if (filter) {
+  // Repos terminal: the homepage `/` with a meta-filter applied. Trending,
+  // Breakouts, and New Repos all route back to `/`; Agent Repos is a
+  // dedicated fixed-ranking page.
+  function goToReposTerminal(filter: "breakouts" | "new" | null) {
+    setCategory(null);
+    setActiveTag(null);
+    if (filter) {
       setActiveMetaFilter(filter);
     } else {
       setActiveMetaFilter(null);
@@ -136,18 +133,30 @@ export function SidebarContent({
     onClose?.();
   }
 
-  const hotThisWeekActive =
-    pathname === "/" &&
-    activeMetaFilter === null &&
-    activeTab === "gainers" &&
-    timeRange === "7d";
+  function goToAgentRepos() {
+    setCategory(null);
+    setActiveTag(null);
+    setActiveMetaFilter(null);
+    setActiveTab("trending");
+    setTimeRange("7d");
+    setSort("stars", "desc");
+    if (pathname !== "/agent-repos") {
+      router.push("/agent-repos");
+    }
+    onClose?.();
+  }
 
   return (
     <div className="flex flex-col h-full">
       {/* Mobile-only header strip ---------------------------------------- */}
       {onClose && (
         <div className="md:hidden flex items-center justify-between p-3 border-b border-border-primary shrink-0">
-          <span className="font-display text-lg">{APP_NAME}</span>
+          <span className="inline-flex items-center gap-2 font-display text-lg">
+            {APP_NAME}
+            <span className="rounded-sm border border-brand/45 bg-brand/10 px-1.5 py-0.5 font-mono text-[9px] font-bold uppercase leading-none text-brand">
+              BETA
+            </span>
+          </span>
           <button
             type="button"
             onClick={onClose}
@@ -167,11 +176,7 @@ export function SidebarContent({
             onClick={() => goToReposTerminal(null)}
             icon={TrendingUp}
             label="Trending"
-            active={
-              pathname === "/" &&
-              activeMetaFilter === null &&
-              !hotThisWeekActive
-            }
+            active={pathname === "/" && activeMetaFilter === null}
           />
           <SidebarNavItem
             onClick={() => goToReposTerminal("breakouts")}
@@ -188,10 +193,10 @@ export function SidebarContent({
             active={pathname === "/" && activeMetaFilter === "new"}
           />
           <SidebarNavItem
-            onClick={() => goToReposTerminal("hot")}
-            icon={Flame}
-            label="Hot This Week"
-            active={hotThisWeekActive}
+            onClick={goToAgentRepos}
+            icon={Bot}
+            label="Agent Repos"
+            active={pathname === "/agent-repos"}
           />
           <SidebarNavItem
             href="/search?sort=stars-total&limit=100"
@@ -203,6 +208,12 @@ export function SidebarContent({
 
         {/* NEWS TERMINAL — dev media firehose ------------------------- */}
         <SidebarSection id="news-terminal" label="News Terminal">
+          <SidebarNavItem
+            href="/twitter"
+            icon={XSidebarIcon}
+            label="X / Twitter"
+            active={pathname === "/twitter"}
+          />
           <SidebarNavItem
             href="/reddit/trending"
             icon={RedditSidebarIcon}
@@ -261,6 +272,22 @@ export function SidebarContent({
               pathname.startsWith("/lobsters/") ||
               (pathname === "/news" && newsTab === "lobsters")
             }
+          />
+        </SidebarSection>
+
+        {/* FUNDING TERMINAL — startup rounds & events ----------------- */}
+        <SidebarSection id="funding-terminal" label="Funding Terminal">
+          <SidebarNavItem
+            href="/funding"
+            icon={DollarSign}
+            label="Funding Radar"
+            active={pathname === "/funding" || pathname.startsWith("/funding/")}
+          />
+          <SidebarNavItem
+            icon={Trophy}
+            label="Hackathons"
+            badge="Soon"
+            disabled
           />
         </SidebarSection>
 

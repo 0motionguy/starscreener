@@ -35,7 +35,14 @@ import {
   DEVTO_PRIORITY_TAGS,
   SOURCE_DISCOVERY_VERSION,
 } from "./_source-watchers.mjs";
-import { recentRepoRows } from "./_tracked-repos.mjs";
+import {
+  loadTrackedReposFromFiles,
+  recentRepoRows,
+} from "./_tracked-repos.mjs";
+import {
+  extractGithubRepoFullNames,
+  normalizeGithubFullName,
+} from "./_github-repo-links.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
@@ -53,31 +60,6 @@ const PER_PAGE = 100;
 const TRENDING_KEEP = 100; // top N for trending file (separate loader)
 const DESCRIPTION_TRUNCATE = 280;
 
-const REPO_URL_RE =
-  /github\.com\/([A-Za-z0-9][A-Za-z0-9._-]*)\/([A-Za-z0-9][A-Za-z0-9._-]*)/g;
-
-// Same reserved-owner list as Reddit / HN / Bluesky scrapers.
-const RESERVED_GITHUB_OWNERS = new Set([
-  "orgs",
-  "settings",
-  "about",
-  "features",
-  "pricing",
-  "marketplace",
-  "collections",
-  "trending",
-  "topics",
-  "search",
-  "login",
-  "join",
-  "sponsors",
-  "enterprise",
-  "customer-stories",
-  "readme",
-  "apps",
-  "notifications",
-]);
-
 // ---------------------------------------------------------------------------
 // Helpers (exported for tests)
 // ---------------------------------------------------------------------------
@@ -87,32 +69,11 @@ function log(msg) {
 }
 
 export function normalizeFullName(owner, name) {
-  // Strip ".git" suffix and trailing punctuation in a fixed-point loop
-  // so inputs like "bar.git." (a `.git` URL followed by sentence punctuation)
-  // collapse all the way down to "bar". Single-pass strip-then-strip leaves
-  // the wrong order — see Sprint review finding #2.
-  let clean = `${owner}/${name}`.toLowerCase();
-  let prev;
-  do {
-    prev = clean;
-    clean = clean.replace(/\.git$/i, "");
-    clean = clean.replace(/[.,;:!?)\]}]+$/, "");
-  } while (clean !== prev);
-  return clean;
+  return normalizeGithubFullName(owner, name);
 }
 
 export function extractRepoMentions(text, trackedLower) {
-  const hits = new Set();
-  REPO_URL_RE.lastIndex = 0;
-  let match;
-  while ((match = REPO_URL_RE.exec(text)) !== null) {
-    const full = normalizeFullName(match[1], match[2]);
-    const [owner] = full.split("/");
-    if (!owner || RESERVED_GITHUB_OWNERS.has(owner)) continue;
-    if (trackedLower && !trackedLower.has(full)) continue;
-    hits.add(full);
-  }
-  return hits;
+  return extractGithubRepoFullNames(text, trackedLower);
 }
 
 export function computeTrendingScore(reactions, comments, publishedAtIso, nowMs = Date.now()) {
@@ -180,6 +141,15 @@ async function loadTrackedRepos() {
     }
   } catch {
     // recent-repos.json is optional.
+  }
+  for (const [lower, full] of (
+    await loadTrackedReposFromFiles({
+      trendingPath: TRENDING_IN,
+      recentPath: RECENT_IN,
+      log,
+    })
+  ).entries()) {
+    if (!tracked.has(lower)) tracked.set(lower, full);
   }
   return tracked;
 }

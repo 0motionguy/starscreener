@@ -27,7 +27,14 @@ import {
   searchAlgoliaStories,
 } from "./_hn-shared.mjs";
 import { classifyPost } from "./classify-post.mjs";
-import { recentRepoRows } from "./_tracked-repos.mjs";
+import {
+  loadTrackedReposFromFiles,
+  recentRepoRows,
+} from "./_tracked-repos.mjs";
+import {
+  extractGithubRepoFullNames,
+  normalizeGithubFullName,
+} from "./_github-repo-links.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
@@ -53,31 +60,6 @@ const TOPSTORIES_FETCH_CAP = 500;
 const FRONT_PAGE_CUTOFF = 30;
 const STORY_TEXT_MAX_CHARS = 500;
 
-const REPO_URL_RE = /github\.com\/([A-Za-z0-9][A-Za-z0-9._-]*)\/([A-Za-z0-9][A-Za-z0-9._-]*)/g;
-
-// Reuses the Reddit scraper's reserved-owner list so parsed matches like
-// github.com/orgs/foo or /settings don't turn into false-positive repos.
-const RESERVED_GITHUB_OWNERS = new Set([
-  "orgs",
-  "settings",
-  "about",
-  "features",
-  "pricing",
-  "marketplace",
-  "collections",
-  "trending",
-  "topics",
-  "search",
-  "login",
-  "join",
-  "sponsors",
-  "enterprise",
-  "customer-stories",
-  "readme",
-  "apps",
-  "notifications",
-]);
-
 // ---------------------------------------------------------------------------
 // Helpers (exported for tests)
 // ---------------------------------------------------------------------------
@@ -87,33 +69,14 @@ function log(msg) {
 }
 
 export function normalizeFullName(owner, name) {
-  let clean = `${owner}/${name}`.toLowerCase();
-  // Order matters: strip trailing punctuation BEFORE `.git`. The URL regex
-  // capture allows '.' so "bar.git." arrives intact; stripping punctuation
-  // first leaves "bar.git", then the .git-strip yields "bar". The previous
-  // order produced "bar.git" for "bar.git." (.git-strip fails because of
-  // trailing '.'). See Sprint 1 audit finding #6; matches the fix already
-  // shipped in scripts/_ph-shared.mjs.
-  clean = clean.replace(/[.,;:!?)\]}]+$/, "");
-  clean = clean.replace(/\.git$/i, "");
-  return clean;
+  return normalizeGithubFullName(owner, name);
 }
 
 export function extractRepoMentions(text, trackedLower) {
   // Scan any text blob for github.com/<owner>/<repo> hits, returning
   // lowercase canonical fullNames restricted to the `trackedLower` set.
   // If `trackedLower` is null/undefined, returns ALL parsed hits.
-  const hits = new Set();
-  REPO_URL_RE.lastIndex = 0;
-  let match;
-  while ((match = REPO_URL_RE.exec(text)) !== null) {
-    const full = normalizeFullName(match[1], match[2]);
-    const [owner] = full.split("/");
-    if (!owner || RESERVED_GITHUB_OWNERS.has(owner)) continue;
-    if (trackedLower && !trackedLower.has(full)) continue;
-    hits.add(full);
-  }
-  return hits;
+  return extractGithubRepoFullNames(text, trackedLower);
 }
 
 export function computeVelocityFields(score, createdUtc, nowSec = Math.floor(Date.now() / 1000)) {
@@ -189,6 +152,15 @@ async function loadTrackedRepos() {
     }
   } catch {
     // recent-repos.json is optional for the HN scraper.
+  }
+  for (const [lower, full] of (
+    await loadTrackedReposFromFiles({
+      trendingPath: TRENDING_IN,
+      recentPath: RECENT_IN,
+      log,
+    })
+  ).entries()) {
+    if (!tracked.has(lower)) tracked.set(lower, full);
   }
   return tracked;
 }

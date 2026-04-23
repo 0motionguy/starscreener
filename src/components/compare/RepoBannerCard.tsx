@@ -11,14 +11,11 @@ import type { CompareRepoBundle } from "@/lib/github-compare";
 import { formatNumber, getRelativeTime } from "@/lib/utils";
 import { StatIcon } from "./StatIcon";
 import { HnBadge } from "@/components/hackernews/HnBadge";
-import { ChannelDots } from "@/components/cross-signal/ChannelDots";
 import { getHnMentions } from "@/lib/hackernews";
 import { BskyBadge } from "@/components/bluesky/BskyBadge";
 import { getBlueskyMentions } from "@/lib/bluesky";
 import { PhBadge } from "@/components/producthunt/PhBadge";
 import { getLaunchForRepo } from "@/lib/producthunt";
-import { DevtoBadge } from "@/components/devto/DevtoBadge";
-import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 
 interface RepoBannerCardProps {
   bundle: CompareRepoBundle;
@@ -63,11 +60,6 @@ export function RepoBannerCard({
   const hnMention = getHnMentions(bundle.fullName);
   const bskyMention = getBlueskyMentions(bundle.fullName);
   const phLaunch = getLaunchForRepo(bundle.fullName);
-  // Pull the derived Repo so ChannelDots can compute channel state.
-  // null when the repo isn't in the trending corpus — channel dots
-  // stay hidden, hnMention badge can still render.
-  const derivedRepo = getDerivedRepoByFullName(bundle.fullName);
-
   return (
     <div
       className="relative overflow-hidden rounded-card border border-border-primary bg-bg-card p-4 shadow-card"
@@ -110,10 +102,6 @@ export function RepoBannerCard({
             <HnBadge mention={hnMention} size="md" />
             <BskyBadge mention={bskyMention} size="md" />
             <PhBadge launch={phLaunch} size="md" />
-            <DevtoBadge mention={derivedRepo?.devto ?? null} size="md" />
-            {derivedRepo && (
-              <ChannelDots repo={derivedRepo} hideWhenEmpty size="md" />
-            )}
           </div>
         </div>
       </div>

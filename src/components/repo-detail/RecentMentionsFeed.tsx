@@ -13,68 +13,24 @@
 import { useMemo, useState } from "react";
 import { ExternalLink } from "lucide-react";
 import { getRelativeTime } from "@/lib/utils";
-
-export type MentionSource = "reddit" | "hn" | "bluesky" | "devto" | "ph";
-
-export interface MentionItem {
-  /** Unique enough across the merged feed. Source + native id. */
-  id: string;
-  source: MentionSource;
-  title: string;
-  /** "@handle" or "u/name" or just the username — caller pre-formats. */
-  author: string;
-  /** Score / likes / votes — whichever the source canonically uses. */
-  score: number;
-  /** Optional secondary metric: comments / reposts / reactions. */
-  secondary?: { label: string; value: number };
-  url: string;
-  /** ISO 8601 — used for both display and sort order. */
-  createdAt: string;
-}
+import {
+  MENTION_SOURCE_BADGE_TEXT,
+  MENTION_SOURCE_COLORS,
+  MENTION_SOURCE_LABELS,
+  MENTION_SOURCE_SHORT_LABEL,
+  MENTION_TAB_LABELS,
+  MENTION_TABS,
+  type MentionItem,
+  type MentionSource,
+  type MentionTab,
+} from "./MentionMeta";
 
 interface RecentMentionsFeedProps {
   mentions: MentionItem[];
 }
 
-type TabKey = "all" | MentionSource;
-
-const TAB_LABELS: Record<TabKey, string> = {
-  all: "All",
-  reddit: "Reddit",
-  hn: "HackerNews",
-  bluesky: "Bluesky",
-  devto: "dev.to",
-  ph: "ProductHunt",
-};
-
-const SOURCE_COLORS: Record<MentionSource, string> = {
-  reddit: "#ff4500",
-  hn: "#ff6600",
-  bluesky: "#0085FF",
-  devto: "#0a0a0a",
-  ph: "#DA552F",
-};
-
-const SOURCE_BADGE_TEXT: Record<MentionSource, string> = {
-  reddit: "R",
-  hn: "Y",
-  bluesky: "B",
-  devto: "DEV",
-  ph: "P",
-};
-
-const SOURCE_LABEL: Record<MentionSource, string> = {
-  reddit: "reddit",
-  hn: "hn",
-  bluesky: "bsky",
-  devto: "dev.to",
-  ph: "ph",
-};
-
-const PER_TAB_LIMIT = 5;
-
 export function RecentMentionsFeed({ mentions }: RecentMentionsFeedProps) {
-  const [tab, setTab] = useState<TabKey>("all");
+  const [tab, setTab] = useState<MentionTab>("all");
 
   // Build per-source counts + visible list memoized so tab clicks don't
   // walk the full mention array each time.
@@ -93,29 +49,24 @@ export function RecentMentionsFeed({ mentions }: RecentMentionsFeedProps) {
   const visible = useMemo(() => {
     const filtered =
       tab === "all" ? mentions : mentions.filter((m) => m.source === tab);
-    // Newest first across the merged + per-source views, then cap.
-    return filtered
-      .slice()
-      .sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1))
-      .slice(0, tab === "all" ? PER_TAB_LIMIT * 2 : PER_TAB_LIMIT);
+    // Newest first across the merged + per-source views.
+    return filtered.slice().sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
   }, [mentions, tab]);
 
   const totalCount = mentions.length;
 
-  const tabs: TabKey[] = ["all", "reddit", "hn", "bluesky", "devto", "ph"];
-
   return (
     <section
-      aria-label="Recent mentions"
+      aria-label="All mentions"
       className="rounded-card border border-border-primary bg-bg-card p-4 shadow-card"
     >
       <header className="flex items-baseline justify-between gap-3 mb-3 flex-wrap">
         <h2 className="font-mono text-[11px] uppercase tracking-wider text-text-secondary">
-          Recent mentions
-          <span className="ml-2 text-text-tertiary">{"// last 7 days"}</span>
+          All mentions
+          <span className="ml-2 text-text-tertiary">{"// evidence feed"}</span>
         </h2>
         <span className="font-mono text-[11px] text-text-tertiary tabular-nums">
-          {totalCount} total
+          {visible.length} shown / {totalCount} total
         </span>
       </header>
 
@@ -123,7 +74,7 @@ export function RecentMentionsFeed({ mentions }: RecentMentionsFeedProps) {
           mid-label. Touch targets ≥ 36px high which keeps the row reachable
           on mobile without dwarfing the surrounding content. */}
       <div className="flex gap-1 overflow-x-auto bg-bg-secondary rounded-badge p-0.5 -mx-1 px-1 scrollbar-hide">
-        {tabs.map((key) => {
+        {MENTION_TABS.map((key) => {
           const active = key === tab;
           const count =
             key === "all" ? totalCount : counts[key as MentionSource];
@@ -143,7 +94,7 @@ export function RecentMentionsFeed({ mentions }: RecentMentionsFeedProps) {
                     : "text-text-tertiary hover:text-text-secondary"
               }`}
             >
-              {TAB_LABELS[key]}
+              {MENTION_TAB_LABELS[key]}
               <span className="tabular-nums opacity-60">{count}</span>
             </button>
           );
@@ -183,7 +134,7 @@ export function RecentMentionsFeed({ mentions }: RecentMentionsFeedProps) {
                       <span className="text-text-secondary">
                         {m.score.toLocaleString()}
                       </span>{" "}
-                      pts
+                      {m.scoreLabel ?? "pts"}
                     </span>
                     {m.secondary && (
                       <span className="tabular-nums">
@@ -194,8 +145,13 @@ export function RecentMentionsFeed({ mentions }: RecentMentionsFeedProps) {
                       </span>
                     )}
                     <span>{getRelativeTime(m.createdAt)}</span>
+                    {m.matchReason && (
+                      <span className="hidden md:inline text-text-tertiary/80">
+                        matched: {m.matchReason}
+                      </span>
+                    )}
                     <span className="ml-auto inline-flex items-center gap-1 text-text-tertiary uppercase tracking-wider">
-                      {SOURCE_LABEL[m.source]}
+                      {MENTION_SOURCE_SHORT_LABEL[m.source]}
                       <ExternalLink size={10} aria-hidden />
                     </span>
                   </div>
@@ -210,15 +166,15 @@ export function RecentMentionsFeed({ mentions }: RecentMentionsFeedProps) {
 }
 
 function SourceBadge({ source }: { source: MentionSource }) {
-  const color = SOURCE_COLORS[source];
+  const color = MENTION_SOURCE_COLORS[source];
   return (
     <span
       className="mt-0.5 shrink-0 size-6 rounded-md inline-flex items-center justify-center font-bold text-white text-[10px]"
       style={{ backgroundColor: color }}
-      aria-label={SOURCE_LABEL[source]}
-      title={SOURCE_LABEL[source]}
+      aria-label={MENTION_SOURCE_LABELS[source]}
+      title={MENTION_SOURCE_LABELS[source]}
     >
-      {SOURCE_BADGE_TEXT[source]}
+      {MENTION_SOURCE_BADGE_TEXT[source]}
     </span>
   );
 }

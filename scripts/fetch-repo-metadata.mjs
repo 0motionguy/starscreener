@@ -12,6 +12,8 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
 const TRENDING_FILE = resolve(ROOT, "data", "trending.json");
 const RECENT_REPOS_FILE = resolve(ROOT, "data", "recent-repos.json");
+const MANUAL_REPOS_FILE = resolve(ROOT, "data", "manual-repos.json");
+const RUNTIME_MANUAL_REPOS_FILE = resolve(ROOT, ".data", "manual-repos.jsonl");
 const OUT_FILE = resolve(ROOT, "data", "repo-metadata.json");
 
 const GRAPHQL_URL = "https://api.github.com/graphql";
@@ -30,6 +32,20 @@ async function readJson(file, fallback) {
   }
 }
 
+async function readJsonl(file) {
+  try {
+    const raw = await readFile(file, "utf8");
+    return raw
+      .split(/\r?\n/)
+      .map((line) => line.trim())
+      .filter(Boolean)
+      .map((line) => JSON.parse(line));
+  } catch (err) {
+    if (err && err.code === "ENOENT") return [];
+    throw err;
+  }
+}
+
 function addFullName(out, raw) {
   const fullName = String(raw ?? "").trim();
   if (!fullName || !fullName.includes("/")) return;
@@ -38,7 +54,7 @@ function addFullName(out, raw) {
   out.set(fullName.toLowerCase(), fullName);
 }
 
-function collectFullNames(trending, recentRepos) {
+function collectFullNames(trending, recentRepos, manualRepos, runtimeManualRepos) {
   const names = new Map();
 
   for (const periodBuckets of Object.values(trending?.buckets ?? {})) {
@@ -49,6 +65,14 @@ function collectFullNames(trending, recentRepos) {
   }
 
   for (const row of recentRepos?.items ?? []) {
+    addFullName(names, row?.fullName);
+  }
+
+  for (const row of manualRepos?.items ?? []) {
+    addFullName(names, row?.fullName);
+  }
+
+  for (const row of runtimeManualRepos ?? []) {
     addFullName(names, row?.fullName);
   }
 
@@ -94,6 +118,7 @@ function buildBatchQuery(batch) {
         }
         description
         url
+        homepageUrl
         primaryLanguage {
           name
         }
@@ -169,6 +194,7 @@ function normalizeRepo(node, requestedFullName, fetchedAt) {
     ownerAvatarUrl: node.owner?.avatarUrl ?? "",
     description: node.description ?? "",
     url: node.url ?? `https://github.com/${requestedFullName}`,
+    homepageUrl: node.homepageUrl || null,
     language: node.primaryLanguage?.name ?? null,
     topics,
     stars: node.stargazerCount ?? 0,
@@ -191,14 +217,22 @@ async function main() {
     throw new Error("GITHUB_TOKEN is required to refresh data/repo-metadata.json");
   }
 
-  const [trending, recentRepos, previous] = await Promise.all([
-    readJson(TRENDING_FILE, {}),
-    readJson(RECENT_REPOS_FILE, {}),
-    readJson(OUT_FILE, { fetchedAt: null, items: [], failures: [] }),
-  ]);
+  const [trending, recentRepos, manualRepos, runtimeManualRepos, previous] =
+    await Promise.all([
+      readJson(TRENDING_FILE, {}),
+      readJson(RECENT_REPOS_FILE, {}),
+      readJson(MANUAL_REPOS_FILE, { fetchedAt: null, items: [] }),
+      readJsonl(RUNTIME_MANUAL_REPOS_FILE),
+      readJson(OUT_FILE, { fetchedAt: null, items: [], failures: [] }),
+    ]);
   const previousByName = buildPreviousIndex(previous);
   const fetchedAt = new Date().toISOString();
-  const fullNames = collectFullNames(trending, recentRepos);
+  const fullNames = collectFullNames(
+    trending,
+    recentRepos,
+    manualRepos,
+    runtimeManualRepos,
+  );
   const itemsByName = new Map();
   const failures = [];
 

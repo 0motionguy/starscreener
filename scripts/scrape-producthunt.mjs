@@ -19,6 +19,7 @@
 import { writeFile, mkdir, readFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import "./_load-env.mjs";
 import {
   phGraphQL,
   TOPICS,
@@ -31,7 +32,10 @@ import {
   enrichWithGithub,
   sleep,
 } from "./_ph-shared.mjs";
-import { recentRepoRows } from "./_tracked-repos.mjs";
+import {
+  loadTrackedReposFromFiles,
+  recentRepoRows,
+} from "./_tracked-repos.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
@@ -134,6 +138,15 @@ async function loadTrackedRepos() {
     }
   } catch {
     // recent-repos.json is optional.
+  }
+  for (const [lower, full] of (
+    await loadTrackedReposFromFiles({
+      trendingPath: TRENDING_IN,
+      recentPath: RECENT_IN,
+      log,
+    })
+  ).entries()) {
+    if (!tracked.has(lower)) tracked.set(lower, full);
   }
   return tracked;
 }

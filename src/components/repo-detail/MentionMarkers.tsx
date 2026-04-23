@@ -1,29 +1,14 @@
 // Cross-channel mention markers for the repo detail Stars chart.
-//
-// Aggregates HN / Reddit / Bluesky / Dev.to / ProductHunt mentions of a
-// single repo into a flat MentionMarker[] keyed by epoch ms. Each marker
-// carries the platform tone, a display label, the source URL, and the
-// minimal metadata the chart tooltip renders.
-//
-// Pure data-shaping module — no React. The marker layer itself renders
-// inside RepoDetailChart using recharts <Scatter> series so hover sync
-// stays inside the same chart context as the area path.
-//
-// Server-readable (no "use client") so the page route can pre-compute
-// the markers and ship a slim props shape to the client chart.
-//
-// Marker placement rule: each marker's xValue is the epoch ms of the
-// underlying post/launch timestamp; the chart maps this to the same
-// 30-day numeric x scale the Stars area uses (also keyed in epoch ms).
 
 import {
   getHnMentions,
   type HnStory,
 } from "@/lib/hackernews";
 import {
-  getRedditMentions,
   type RedditPost,
+  redditPostHref,
 } from "@/lib/reddit";
+import { getRedditMentions } from "@/lib/reddit-data";
 import {
   getBlueskyMentions,
   type BskyPost,
@@ -36,117 +21,78 @@ import {
   getLaunchForRepo,
   type Launch,
 } from "@/lib/producthunt";
+import {
+  MENTION_PLATFORM_COLORS,
+  MENTION_PLATFORM_LABELS,
+  type MentionMarker,
+  type MentionPlatform,
+} from "./MentionMarkerMeta";
 
-export type MentionPlatform = "hn" | "reddit" | "bluesky" | "devto" | "ph";
-
-export interface MentionMarker {
-  /** Stable key (`<platform>-<id>`). Used as React key + Scatter dataKey. */
-  id: string;
-  platform: MentionPlatform;
-  /** Display name shown in the tooltip and aria label. */
-  platformLabel: string;
-  /** Marker fill color. */
-  color: string;
-  /** Optional border (used to keep the dark dev.to dot visible on dark bg). */
-  stroke?: string;
-  /** Epoch ms — placed on the X axis. */
-  xValue: number;
-  /** Post title or product name. */
-  title: string;
-  /** Author / handle / maker. */
-  author: string;
-  /** Score-style metric for tooltip (likes, upvotes, reactions, etc.). */
-  score: number;
-  scoreLabel: string;
-  /** Outbound source URL. Always opened in new tab via the chart click handler. */
-  url: string;
-}
-
-const PLATFORM_LABEL: Record<MentionPlatform, string> = {
-  hn: "Hacker News",
-  reddit: "Reddit",
-  bluesky: "Bluesky",
-  devto: "dev.to",
-  ph: "ProductHunt",
-};
-
-const PLATFORM_COLOR: Record<MentionPlatform, string> = {
-  hn: "#ff6600",
-  reddit: "#ff4500",
-  bluesky: "#0085FF",
-  devto: "#0a0a0a",
-  ph: "#DA552F",
-};
-
-function fromHnStory(s: HnStory): MentionMarker {
+function fromHnStory(story: HnStory): MentionMarker {
   return {
-    id: `hn-${s.id}`,
+    id: `hn-${story.id}`,
     platform: "hn",
-    platformLabel: PLATFORM_LABEL.hn,
-    color: PLATFORM_COLOR.hn,
-    xValue: s.createdUtc * 1000,
-    title: s.title,
-    author: s.by,
-    score: s.score,
+    platformLabel: MENTION_PLATFORM_LABELS.hn,
+    color: MENTION_PLATFORM_COLORS.hn,
+    xValue: story.createdUtc * 1000,
+    title: story.title,
+    author: story.by,
+    score: story.score,
     scoreLabel: "points",
-    url: `https://news.ycombinator.com/item?id=${s.id}`,
+    url: `https://news.ycombinator.com/item?id=${story.id}`,
   };
 }
 
-function fromRedditPost(p: RedditPost): MentionMarker {
+function fromRedditPost(post: RedditPost): MentionMarker {
   return {
-    id: `reddit-${p.id}`,
+    id: `reddit-${post.id}`,
     platform: "reddit",
-    platformLabel: PLATFORM_LABEL.reddit,
-    color: PLATFORM_COLOR.reddit,
-    xValue: p.createdUtc * 1000,
-    title: p.title,
-    author: `u/${p.author} · r/${p.subreddit}`,
-    score: p.score,
+    platformLabel: MENTION_PLATFORM_LABELS.reddit,
+    color: MENTION_PLATFORM_COLORS.reddit,
+    xValue: post.createdUtc * 1000,
+    title: post.title,
+    author: `u/${post.author} · r/${post.subreddit}`,
+    score: post.score,
     scoreLabel: "upvotes",
-    url: `https://reddit.com${p.permalink}`,
+    url: redditPostHref(post.permalink, post.url),
   };
 }
 
-function fromBskyPost(p: BskyPost): MentionMarker {
-  const handle = p.author?.handle ?? "unknown";
-  // BskyPost.createdAt is ISO; fall back to createdUtc if parse fails.
-  const ts = Date.parse(p.createdAt);
-  const xValue = Number.isFinite(ts)
-    ? ts
-    : (p.createdUtc ?? 0) * 1000;
+function fromBskyPost(post: BskyPost): MentionMarker {
+  const handle = post.author?.handle ?? "unknown";
+  const parsed = Date.parse(post.createdAt);
+  const xValue = Number.isFinite(parsed) ? parsed : (post.createdUtc ?? 0) * 1000;
   return {
-    id: `bsky-${p.uri}`,
+    id: `bsky-${post.uri}`,
     platform: "bluesky",
-    platformLabel: PLATFORM_LABEL.bluesky,
-    color: PLATFORM_COLOR.bluesky,
+    platformLabel: MENTION_PLATFORM_LABELS.bluesky,
+    color: MENTION_PLATFORM_COLORS.bluesky,
     xValue,
-    title: p.text,
+    title: post.text,
     author: `@${handle}`,
-    score: p.likeCount,
+    score: post.likeCount,
     scoreLabel: "likes",
-    url: p.bskyUrl,
+    url: post.bskyUrl,
   };
 }
 
-function fromDevtoArticle(a: DevtoArticle): MentionMarker {
+function fromDevtoArticle(article: DevtoArticle): MentionMarker {
   return {
-    id: `devto-${a.id}`,
+    id: `devto-${article.id}`,
     platform: "devto",
-    platformLabel: PLATFORM_LABEL.devto,
-    color: PLATFORM_COLOR.devto,
+    platformLabel: MENTION_PLATFORM_LABELS.devto,
+    color: MENTION_PLATFORM_COLORS.devto,
     stroke: "#ffffff",
-    xValue: Date.parse(a.publishedAt),
-    title: a.title,
-    author: `@${a.author?.username ?? "anon"}`,
-    score: a.reactionsCount,
+    xValue: Date.parse(article.publishedAt),
+    title: article.title,
+    author: `@${article.author?.username ?? "anon"}`,
+    score: article.reactionsCount,
     scoreLabel: "reactions",
-    url: a.url,
+    url: article.url,
   };
 }
 
 function fromPhLaunch(launch: Launch): MentionMarker {
-  // launch.createdAt is ISO; daysSinceLaunch is a fallback.
   const parsed = Date.parse(launch.createdAt);
   const xValue = Number.isFinite(parsed)
     ? parsed
@@ -154,8 +100,8 @@ function fromPhLaunch(launch: Launch): MentionMarker {
   return {
     id: `ph-${launch.id}`,
     platform: "ph",
-    platformLabel: PLATFORM_LABEL.ph,
-    color: PLATFORM_COLOR.ph,
+    platformLabel: MENTION_PLATFORM_LABELS.ph,
+    color: MENTION_PLATFORM_COLORS.ph,
     xValue,
     title: `${launch.name} — ${launch.tagline}`,
     author: launch.makers?.[0]?.username
@@ -167,11 +113,6 @@ function fromPhLaunch(launch: Launch): MentionMarker {
   };
 }
 
-/**
- * Aggregate every cross-channel mention of `fullName` into a flat marker
- * list, sorted ascending by timestamp. Filters to the trailing `windowDays`
- * window so markers always line up inside the chart's visible x-domain.
- */
 export function buildMentionMarkers(
   fullName: string,
   windowDays = 30,
@@ -180,40 +121,33 @@ export function buildMentionMarkers(
   const cutoff = Date.now() - windowDays * 86_400_000;
 
   const hn = getHnMentions(fullName);
-  if (hn) for (const s of hn.stories) out.push(fromHnStory(s));
+  if (hn) for (const story of hn.stories) out.push(fromHnStory(story));
 
   const reddit = getRedditMentions(fullName);
-  if (reddit) for (const p of reddit.posts) out.push(fromRedditPost(p));
+  if (reddit) for (const post of reddit.posts) out.push(fromRedditPost(post));
 
-  const bsky = getBlueskyMentions(fullName);
-  if (bsky) for (const p of bsky.posts) out.push(fromBskyPost(p));
+  const bluesky = getBlueskyMentions(fullName);
+  if (bluesky) for (const post of bluesky.posts) out.push(fromBskyPost(post));
 
   const devto = getDevtoMentions(fullName);
-  if (devto) for (const a of devto.articles) out.push(fromDevtoArticle(a));
+  if (devto) for (const article of devto.articles) out.push(fromDevtoArticle(article));
 
-  const ph = getLaunchForRepo(fullName);
-  if (ph) out.push(fromPhLaunch(ph));
+  const launch = getLaunchForRepo(fullName);
+  if (launch) out.push(fromPhLaunch(launch));
 
   return out
-    .filter((m) => Number.isFinite(m.xValue) && m.xValue >= cutoff)
+    .filter((marker) => Number.isFinite(marker.xValue) && marker.xValue >= cutoff)
     .sort((a, b) => a.xValue - b.xValue);
 }
 
-/**
- * Group markers by platform — used by the chart to drive one Scatter
- * series per platform with its own color/shape.
- */
 export function groupMarkersByPlatform(
   markers: MentionMarker[],
 ): Map<MentionPlatform, MentionMarker[]> {
   const out = new Map<MentionPlatform, MentionMarker[]>();
-  for (const m of markers) {
-    const arr = out.get(m.platform);
-    if (arr) arr.push(m);
-    else out.set(m.platform, [m]);
+  for (const marker of markers) {
+    const bucket = out.get(marker.platform);
+    if (bucket) bucket.push(marker);
+    else out.set(marker.platform, [marker]);
   }
   return out;
 }
-
-export const MENTION_PLATFORM_LABELS = PLATFORM_LABEL;
-export const MENTION_PLATFORM_COLORS = PLATFORM_COLOR;

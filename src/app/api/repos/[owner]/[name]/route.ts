@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getDefaultSocialAdapters } from "@/lib/pipeline/adapters/social-adapters";
 import {
   NitterAdapter,
-  TWITTER_AVAILABLE,
+  isTwitterAvailable,
 } from "@/lib/pipeline/adapters/nitter-adapter";
 import {
   buildDerivedWhyMoving,
@@ -12,6 +12,7 @@ import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import type { SocialMention } from "@/lib/types";
 import type { RepoMention } from "@/lib/pipeline/types";
 import { READ_CACHE_HEADERS } from "@/lib/api/cache";
+import { getTwitterRepoPanel } from "@/lib/twitter/service";
 
 const SLUG_PART_PATTERN = /^[A-Za-z0-9._-]+$/;
 
@@ -57,7 +58,7 @@ export async function GET(
   let mentions: SocialMention[] = [];
   try {
     const adapters = getDefaultSocialAdapters();
-    if (TWITTER_AVAILABLE) {
+    if (isTwitterAvailable()) {
       adapters.push(new NitterAdapter());
     }
     const results = await Promise.all(
@@ -75,6 +76,7 @@ export async function GET(
 
   const whyMoving = buildDerivedWhyMoving(repo);
   const relatedRepos = getDerivedRelatedRepos(repo, 6);
+  const twitterSignal = await getTwitterRepoPanel(repo.fullName);
 
   return NextResponse.json(
     {
@@ -84,9 +86,10 @@ export async function GET(
       reasons: null,
       social: [],
       mentions,
+      twitterSignal,
       whyMoving,
       relatedRepos,
-      twitterAvailable: TWITTER_AVAILABLE,
+      twitterAvailable: isTwitterAvailable(),
     },
     { headers: READ_CACHE_HEADERS },
   );

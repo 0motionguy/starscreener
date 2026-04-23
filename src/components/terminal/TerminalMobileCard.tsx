@@ -39,6 +39,7 @@ import { DeltaBadge } from "@/components/shared/DeltaBadge";
 import { MomentumBadge } from "@/components/shared/MomentumBadge";
 import { RankBadge } from "@/components/shared/RankBadge";
 import { Sparkline } from "@/components/shared/Sparkline";
+import { RepoMentionBadges } from "@/components/repo-signals/RepoMentionBadges";
 
 interface TerminalMobileCardProps {
   repo: Repo;
@@ -109,6 +110,12 @@ export function TerminalMobileCard({
         <span className="min-w-0 flex-1 basis-[60%] truncate text-[13px] font-semibold text-text-primary">
           {repo.fullName}
         </span>
+        <RepoMentionBadges
+          repo={repo}
+          size="sm"
+          includeLongTail={false}
+          className="max-w-full overflow-hidden"
+        />
         <div className="flex items-center gap-2 ml-auto">
           <MomentumBadge score={repo.momentumScore} size="sm" />
           <CategoryPill categoryId={repo.categoryId} size="sm" />

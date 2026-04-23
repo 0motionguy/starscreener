@@ -249,6 +249,140 @@ export const mentionAggregates: TableDescriptor = {
   ],
 };
 
+/** Latest Twitter/X signal per repo. */
+export const twitterRepoSignals: TableDescriptor = {
+  name: "twitter_repo_signals",
+  columns: [
+    { name: "repo_id", type: "text", primaryKey: true, references: "repos.id" },
+    { name: "github_full_name", type: "text", notNull: true },
+    { name: "github_url", type: "text", notNull: true },
+    { name: "repo_name", type: "text", notNull: true },
+    { name: "owner_name", type: "text", notNull: true },
+    { name: "latest_scan_id", type: "text", notNull: true, unique: true },
+    { name: "latest_scan_status", type: "text", notNull: true },
+    { name: "updated_at", type: "timestamp", notNull: true },
+    { name: "metrics", type: "jsonb", notNull: true },
+    { name: "score", type: "jsonb", notNull: true },
+    { name: "badge", type: "jsonb", notNull: true },
+    { name: "row_badge", type: "jsonb", notNull: true },
+    { name: "top_posts", type: "jsonb", notNull: true },
+  ],
+  indices: [
+    { name: "twitter_repo_signals_score_idx", columns: ["updated_at"] },
+    { name: "twitter_repo_signals_full_name_idx", columns: ["github_full_name"] },
+  ],
+};
+
+/** One OpenClaw Twitter scan per scan id. */
+export const twitterScans: TableDescriptor = {
+  name: "twitter_scans",
+  columns: [
+    { name: "scan_id", type: "text", primaryKey: true },
+    { name: "version", type: "text", notNull: true },
+    { name: "repo_id", type: "text", notNull: true, references: "repos.id" },
+    { name: "github_full_name", type: "text", notNull: true },
+    { name: "scan_status", type: "text", notNull: true },
+    { name: "scan_triggered_by", type: "text", notNull: true },
+    { name: "scan_window_hours", type: "integer", notNull: true },
+    { name: "started_at", type: "timestamp", notNull: true },
+    { name: "completed_at", type: "timestamp", notNull: true },
+    { name: "ingested_at", type: "timestamp", notNull: true },
+    { name: "metrics", type: "jsonb", notNull: true },
+    { name: "score", type: "jsonb", notNull: true },
+    { name: "badge", type: "jsonb", notNull: true },
+  ],
+  indices: [
+    { name: "twitter_scans_repo_completed_idx", columns: ["repo_id", "completed_at"] },
+  ],
+};
+
+/** Query bundle used for a single Twitter scan. */
+export const twitterScanQueries: TableDescriptor = {
+  name: "twitter_scan_queries",
+  columns: [
+    { name: "id", type: "text", primaryKey: true },
+    { name: "scan_id", type: "text", notNull: true, references: "twitter_scans.scan_id" },
+    { name: "repo_id", type: "text", notNull: true, references: "repos.id" },
+    { name: "query_text", type: "text", notNull: true },
+    { name: "query_type", type: "text", notNull: true },
+    { name: "tier", type: "integer", notNull: true },
+    { name: "confidence_weight", type: "real", notNull: true },
+    { name: "enabled", type: "boolean", notNull: true },
+    { name: "rationale", type: "text", notNull: true },
+  ],
+  indices: [
+    { name: "twitter_scan_queries_scan_idx", columns: ["scan_id"] },
+    { name: "twitter_scan_queries_repo_idx", columns: ["repo_id"] },
+  ],
+};
+
+/** Matched Twitter/X posts retained as evidence for review. */
+export const twitterScanPosts: TableDescriptor = {
+  name: "twitter_scan_posts",
+  columns: [
+    { name: "id", type: "text", primaryKey: true },
+    { name: "scan_id", type: "text", notNull: true, references: "twitter_scans.scan_id" },
+    { name: "repo_id", type: "text", notNull: true, references: "repos.id" },
+    { name: "post_id", type: "text", notNull: true },
+    { name: "post_url", type: "text", notNull: true },
+    { name: "canonical_post_id", type: "text" },
+    { name: "author_handle", type: "text", notNull: true },
+    { name: "author_id", type: "text" },
+    { name: "posted_at", type: "timestamp", notNull: true },
+    { name: "text", type: "text", notNull: true },
+    { name: "likes", type: "integer", notNull: true },
+    { name: "reposts", type: "integer", notNull: true },
+    { name: "replies", type: "integer", notNull: true },
+    { name: "quotes", type: "integer", notNull: true },
+    { name: "author_followers", type: "integer" },
+    { name: "is_repost", type: "boolean", notNull: true },
+    { name: "matched_by", type: "text", notNull: true },
+    { name: "confidence", type: "text", notNull: true },
+    { name: "matched_terms", type: "jsonb", notNull: true },
+    { name: "why_matched", type: "text", notNull: true },
+    { name: "supporting_context", type: "jsonb", notNull: true },
+    { name: "source_query", type: "text", notNull: true },
+    { name: "source_query_type", type: "text", notNull: true },
+  ],
+  indices: [
+    { name: "twitter_scan_posts_scan_idx", columns: ["scan_id"] },
+    { name: "twitter_scan_posts_repo_posted_idx", columns: ["repo_id", "posted_at"] },
+    { name: "twitter_scan_posts_post_id_idx", columns: ["post_id"] },
+  ],
+};
+
+/** Append-safe audit log for internal Twitter/X ingestions. */
+export const twitterIngestions: TableDescriptor = {
+  name: "twitter_ingestions",
+  columns: [
+    { name: "ingestion_id", type: "text", primaryKey: true },
+    { name: "version", type: "text", notNull: true },
+    { name: "source", type: "text", notNull: true },
+    { name: "scan_id", type: "text", notNull: true, references: "twitter_scans.scan_id", unique: true },
+    { name: "repo_id", type: "text", notNull: true, references: "repos.id" },
+    { name: "github_full_name", type: "text", notNull: true },
+    { name: "authenticated_principal", type: "text", notNull: true },
+    { name: "agent_name", type: "text", notNull: true },
+    { name: "agent_version", type: "text", notNull: true },
+    { name: "agent_run_id", type: "text", notNull: true },
+    { name: "payload_hash", type: "text", notNull: true },
+    { name: "scan_status", type: "text", notNull: true },
+    { name: "summary_promoted", type: "boolean", notNull: true },
+    { name: "queries_stored", type: "integer", notNull: true },
+    { name: "posts_received", type: "integer", notNull: true },
+    { name: "posts_accepted", type: "integer", notNull: true },
+    { name: "posts_rejected", type: "integer", notNull: true },
+    { name: "posts_inserted", type: "integer", notNull: true },
+    { name: "posts_updated", type: "integer", notNull: true },
+    { name: "computed", type: "jsonb", notNull: true },
+    { name: "created_at", type: "timestamp", notNull: true },
+  ],
+  indices: [
+    { name: "twitter_ingestions_repo_idx", columns: ["repo_id", "created_at"] },
+    { name: "twitter_ingestions_scan_idx", columns: ["scan_id"] },
+  ],
+};
+
 /** User-configured alert rules. */
 export const alertRules: TableDescriptor = {
   name: "alert_rules",
@@ -343,6 +477,62 @@ export const watchlist: TableDescriptor = {
  * (parent tables before their children) and for the one-shot JSONL-to-SQL
  * migration script documented in `docs/DATABASE.md`.
  */
+/** Funding signals — raw + extracted startup funding rounds. */
+export const fundingRounds: TableDescriptor = {
+  name: "funding_rounds",
+  columns: [
+    { name: "id", type: "text", primaryKey: true },
+    { name: "company_name", type: "text", notNull: true },
+    { name: "company_website", type: "text" },
+    { name: "company_logo_url", type: "text" },
+    { name: "amount", type: "bigint" },
+    { name: "amount_display", type: "text", notNull: true },
+    { name: "currency", type: "text", notNull: true },
+    { name: "round_type", type: "text", notNull: true },
+    { name: "investors", type: "jsonb", notNull: true },
+    { name: "description", type: "text", notNull: true },
+    { name: "tags", type: "jsonb", notNull: true },
+    { name: "source_url", type: "text", notNull: true },
+    { name: "source_platform", type: "text", notNull: true },
+    { name: "announced_at", type: "timestamp", notNull: true },
+    { name: "discovered_at", type: "timestamp", notNull: true },
+    { name: "confidence", type: "text", notNull: true },
+    { name: "reviewed", type: "boolean", notNull: true },
+  ],
+  indices: [
+    { name: "funding_rounds_announced_idx", columns: ["announced_at"] },
+    { name: "funding_rounds_platform_idx", columns: ["source_platform"] },
+    { name: "funding_rounds_type_idx", columns: ["round_type"] },
+  ],
+};
+
+/** Hackathon and accelerator events. */
+export const hackathonEvents: TableDescriptor = {
+  name: "hackathon_events",
+  columns: [
+    { name: "id", type: "text", primaryKey: true },
+    { name: "name", type: "text", notNull: true },
+    { name: "organizer", type: "text", notNull: true },
+    { name: "description", type: "text", notNull: true },
+    { name: "website", type: "text", notNull: true },
+    { name: "prizes_display", type: "text" },
+    { name: "start_date", type: "timestamp", notNull: true },
+    { name: "end_date", type: "timestamp", notNull: true },
+    { name: "deadline_date", type: "timestamp" },
+    { name: "location", type: "text", notNull: true },
+    { name: "city", type: "text" },
+    { name: "country", type: "text" },
+    { name: "tags", type: "jsonb", notNull: true },
+    { name: "source_platform", type: "text", notNull: true },
+    { name: "source_url", type: "text", notNull: true },
+    { name: "discovered_at", type: "timestamp", notNull: true },
+  ],
+  indices: [
+    { name: "hackathon_events_start_idx", columns: ["start_date"] },
+    { name: "hackathon_events_deadline_idx", columns: ["deadline_date"] },
+  ],
+};
+
 export const schema: TableDescriptor[] = [
   repos,
   snapshots,
@@ -351,6 +541,13 @@ export const schema: TableDescriptor[] = [
   reasons,
   mentions,
   mentionAggregates,
+  twitterRepoSignals,
+  twitterScans,
+  twitterScanQueries,
+  twitterScanPosts,
+  twitterIngestions,
+  fundingRounds,
+  hackathonEvents,
   users,
   alertRules,
   alertEvents,

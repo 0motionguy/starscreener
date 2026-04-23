@@ -27,6 +27,7 @@
 import { writeFile, mkdir, readFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import "./_load-env.mjs";
 import {
   createSession,
   searchPostsAllPages,
@@ -40,7 +41,14 @@ import {
   BLUESKY_TRENDING_QUERIES,
   SOURCE_DISCOVERY_VERSION,
 } from "./_source-watchers.mjs";
-import { recentRepoRows } from "./_tracked-repos.mjs";
+import {
+  loadTrackedReposFromFiles,
+  recentRepoRows,
+} from "./_tracked-repos.mjs";
+import {
+  extractGithubRepoFullNames,
+  normalizeGithubFullName,
+} from "./_github-repo-links.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
@@ -67,32 +75,6 @@ const QUERY_LIMIT = 50;
 
 const POST_TEXT_MAX_CHARS = 500;
 
-const REPO_URL_RE =
-  /github\.com\/([A-Za-z0-9][A-Za-z0-9._-]*)\/([A-Za-z0-9][A-Za-z0-9._-]*)/g;
-
-// Same reserved-owner list as Reddit + HN so /orgs/, /settings/, etc. don't
-// become false-positive repos.
-const RESERVED_GITHUB_OWNERS = new Set([
-  "orgs",
-  "settings",
-  "about",
-  "features",
-  "pricing",
-  "marketplace",
-  "collections",
-  "trending",
-  "topics",
-  "search",
-  "login",
-  "join",
-  "sponsors",
-  "enterprise",
-  "customer-stories",
-  "readme",
-  "apps",
-  "notifications",
-]);
-
 // ---------------------------------------------------------------------------
 // Helpers (exported for tests)
 // ---------------------------------------------------------------------------
@@ -102,24 +84,11 @@ function log(msg) {
 }
 
 export function normalizeFullName(owner, name) {
-  let clean = `${owner}/${name}`.toLowerCase();
-  clean = clean.replace(/[.,;:!?)\]}]+$/, "");
-  clean = clean.replace(/\.git$/i, "");
-  return clean;
+  return normalizeGithubFullName(owner, name);
 }
 
 export function extractRepoMentions(text, trackedLower) {
-  const hits = new Set();
-  REPO_URL_RE.lastIndex = 0;
-  let match;
-  while ((match = REPO_URL_RE.exec(text)) !== null) {
-    const full = normalizeFullName(match[1], match[2]);
-    const [owner] = full.split("/");
-    if (!owner || RESERVED_GITHUB_OWNERS.has(owner)) continue;
-    if (trackedLower && !trackedLower.has(full)) continue;
-    hits.add(full);
-  }
-  return hits;
+  return extractGithubRepoFullNames(text, trackedLower);
 }
 
 /**
@@ -172,6 +141,15 @@ async function loadTrackedRepos() {
     }
   } catch {
     // recent-repos.json is optional.
+  }
+  for (const [lower, full] of (
+    await loadTrackedReposFromFiles({
+      trendingPath: TRENDING_IN,
+      recentPath: RECENT_IN,
+      log,
+    })
+  ).entries()) {
+    if (!tracked.has(lower)) tracked.set(lower, full);
   }
   return tracked;
 }

@@ -8,8 +8,9 @@
 // and hands the repos down to this client component so node:fs imports
 // stay off the client bundle.
 
-import type { ReactNode } from "react";
-import type { Repo } from "@/lib/types";
+import { useMemo, type ReactNode } from "react";
+import type { ColumnId, Repo, SortDirection } from "@/lib/types";
+import { sortReposByColumn } from "@/lib/filters";
 import { useFilteredRepos } from "@/lib/hooks/useFilteredRepos";
 import { useSortedRepos } from "@/lib/hooks/useSortedRepos";
 import { FeaturedCards } from "./FeaturedCards";
@@ -23,12 +24,30 @@ export interface TerminalBodyProps {
   featuredTitle?: string;
   emptyState?: ReactNode;
   rowActions?: Array<"remove" | "compare" | "watch">;
+  sortOverride?: { column: ColumnId; direction: SortDirection };
 }
 
 export function TerminalBody(props: TerminalBodyProps) {
-  const { repos, showFeatured, featuredCount, featuredTitle, emptyState, rowActions } = props;
+  const {
+    repos,
+    showFeatured,
+    featuredCount,
+    featuredTitle,
+    emptyState,
+    rowActions,
+    sortOverride,
+  } = props;
   const filtered = useFilteredRepos(repos);
-  const sorted = useSortedRepos(filtered);
+  const sortedFromStore = useSortedRepos(filtered);
+  const sortedWithOverride = useMemo(() => {
+    if (!sortOverride) return filtered;
+    return sortReposByColumn(
+      filtered,
+      sortOverride.column,
+      sortOverride.direction,
+    );
+  }, [filtered, sortOverride]);
+  const sorted = sortOverride ? sortedWithOverride : sortedFromStore;
 
   return (
     <>
@@ -47,7 +66,11 @@ export function TerminalBody(props: TerminalBodyProps) {
             />
           )
         ) : (
-          <Terminal repos={sorted} rowActions={rowActions} />
+          <Terminal
+            repos={sorted}
+            rowActions={rowActions}
+            sortOverride={sortOverride}
+          />
         )}
       </div>
     </>

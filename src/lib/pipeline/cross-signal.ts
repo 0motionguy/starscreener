@@ -41,7 +41,7 @@
 // is 0. Don't divide by zero — emit 0 for every reddit_component instead.
 
 import type { MovementStatus, Repo } from "../types";
-import { getRedditMentions } from "../reddit";
+import { getRedditMentions } from "../reddit-data";
 import { getHnMentions } from "../hackernews";
 import { getBlueskyMentions } from "../bluesky";
 import { getDevtoMentions } from "../devto";
@@ -114,6 +114,7 @@ export function attachCrossSignal(
   const maxReddit = Math.max(0, ...redditRaw);
 
   return repos.map((repo, i) => {
+    const redditMention = getRedditMentions(repo.fullName);
     const gh = githubComponent(repo.movementStatus);
     const rd = maxReddit > 0 ? redditRaw[i] / maxReddit : 0;
     const hn = hnComponent(repo.fullName);
@@ -166,6 +167,35 @@ export function attachCrossSignal(
         }
       : null;
 
+    const redditTopPost = redditMention?.posts
+      .slice()
+      .sort((a, b) => {
+        const scoreDelta = (b.trendingScore ?? 0) - (a.trendingScore ?? 0);
+        if (scoreDelta !== 0) return scoreDelta;
+        return b.score - a.score;
+      })[0];
+    const redditRollup = redditMention
+      ? {
+          mentions7d: redditMention.count7d,
+          upvotes7d: redditMention.upvotes7d,
+          comments7d: redditMention.posts.reduce(
+            (sum, post) => sum + Math.max(0, post.numComments ?? 0),
+            0,
+          ),
+          topPost: redditTopPost
+            ? {
+                id: redditTopPost.id,
+                title: redditTopPost.title,
+                subreddit: redditTopPost.subreddit,
+                permalink: redditTopPost.permalink,
+                url: redditTopPost.url,
+                score: redditTopPost.score,
+                comments: redditTopPost.numComments,
+              }
+            : undefined,
+        }
+      : null;
+
     return {
       ...repo,
       crossSignalScore: Math.round(score * 100) / 100,
@@ -180,6 +210,7 @@ export function attachCrossSignal(
         bluesky: bs > 0,
         devto: dv > 0,
       },
+      reddit: redditRollup,
       bluesky: bskyRollup,
       devto: devtoRollup,
     };

@@ -40,8 +40,12 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# runtime data (no longer used in prod; kept ignored for local dev scratch)
-/.data/
+# runtime data (kept ignored except production Twitter signal snapshots)
+/.data/*
+!/.data/
+!/.data/twitter-repo-signals.jsonl
+!/.data/twitter-scans.jsonl
+!/.data/twitter-ingestion-audit.jsonl
 
 # local Claude Code workspace (agent prompts, skills, settings)
 /.claude/
@@ -49,6 +53,7 @@ next-env.d.ts
 # mcp workspace build artifacts + installed deps
 /mcp/node_modules/
 /mcp/dist/
+.next-dev-*.log
 .next-dev-debug.*.log
 
 

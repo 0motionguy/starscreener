@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-04-23T10:04:05.452Z",
+  "fetchedAt": "2026-04-23T07:11:14.628Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1299,
+  "scannedArticles": 1296,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -179,7 +179,7 @@
   ],
   "sliceCounts": {
     "global-top-7d": 100,
-    "global-rising": 14,
+    "global-rising": 16,
     "global-fresh": 100,
     "tag-ai-top-7d": 100,
     "tag-artificialintelligence-top-7d": 0,
@@ -216,7 +216,7 @@
         "author": "joestrout",
         "reactions": 34,
         "comments": 8,
-        "hoursSincePosted": 159.8,
+        "hoursSincePosted": 157,
         "readingTime": 8
       },
       "articles": [
@@ -240,7 +240,7 @@
             "agents",
             "programming"
           ],
-          "trendingScore": 0.59,
+          "trendingScore": 0.6,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -261,7 +261,7 @@
         "author": "francistrdev",
         "reactions": 53,
         "comments": 8,
-        "hoursSincePosted": 34.5,
+        "hoursSincePosted": 31.6,
         "readingTime": 8
       },
       "articles": [
@@ -285,7 +285,7 @@
             "discuss",
             "ai"
           ],
-          "trendingScore": 4.77,
+          "trendingScore": 5.21,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
@@ -416,7 +416,7 @@
         "author": "lovestaco",
         "reactions": 20,
         "comments": 1,
-        "hoursSincePosted": 29.4,
+        "hoursSincePosted": 26.5,
         "readingTime": 4
       },
       "articles": [
@@ -440,7 +440,7 @@
             "database",
             "architecture"
           ],
-          "trendingScore": 0.97,
+          "trendingScore": 1.08,
           "linkedRepos": [
             {
               "fullName": "HexmosTech/git-lrc",
@@ -450,286 +450,46 @@
         }
       ]
     },
-    "farion1231/cc-switch": {
+    "gitbutlerapp/gitbutler": {
       "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
+      "reactionsSum7d": 19,
+      "commentsSum7d": 1,
       "topArticle": {
-        "id": 3538800,
-        "title": "Claude Code Agentic Stack: cc-switch & claude-context MCP",
-        "url": "https://dev.to/max_quimby/claude-code-agentic-stack-cc-switch-claude-context-mcp-1dg2",
-        "author": "max_quimby",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 6.5,
+        "id": 3510131,
+        "title": "We ditched worktrees for Claude Code. Here's what we use instead",
+        "url": "https://dev.to/maverickdotdev/we-ditched-worktrees-for-claude-code-heres-what-we-use-instead-5b22",
+        "author": "maverickdotdev",
+        "reactions": 19,
+        "comments": 1,
+        "hoursSincePosted": 163.7,
         "readingTime": 9
       },
       "articles": [
         {
-          "id": 3538800,
-          "title": "Claude Code Agentic Stack: cc-switch & claude-context MCP",
-          "description": "Set up the full 2026 agentic developer stack with Claude Code, cc-switch CLI manager, and claude-context semantic code search MCP. Step-by-step guide.",
-          "url": "https://dev.to/max_quimby/claude-code-agentic-stack-cc-switch-claude-context-mcp-1dg2",
+          "id": 3510131,
+          "title": "We ditched worktrees for Claude Code. Here's what we use instead",
+          "description": "Everyone's running multiple Claude Code agents in parallel now. The standard advice is \"use git...",
+          "url": "https://dev.to/maverickdotdev/we-ditched-worktrees-for-claude-code-heres-what-we-use-instead-5b22",
           "author": {
-            "username": "max_quimby",
-            "name": "Max Quimby",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+            "username": "maverickdotdev",
+            "name": "Eric Allam",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F789527%2F8d63897e-a823-466b-a02b-661eddaadcb1.png"
           },
-          "reactionsCount": 0,
-          "commentsCount": 0,
+          "reactionsCount": 19,
+          "commentsCount": 1,
           "readingTime": 9,
-          "publishedAt": "2026-04-23T03:36:41Z",
+          "publishedAt": "2026-04-16T11:29:00Z",
           "tags": [
-            "claudecode",
-            "mcp",
-            "devtools",
-            "ai"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "farion1231/cc-switch",
-              "location": "body"
-            },
-            {
-              "fullName": "zilliztech/claude-context",
-              "location": "body"
-            },
-            {
-              "fullName": "shanraisshan/claude-code-best-practice",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "zilliztech/claude-context": {
-      "count7d": 2,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3538800,
-        "title": "Claude Code Agentic Stack: cc-switch & claude-context MCP",
-        "url": "https://dev.to/max_quimby/claude-code-agentic-stack-cc-switch-claude-context-mcp-1dg2",
-        "author": "max_quimby",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 6.5,
-        "readingTime": 9
-      },
-      "articles": [
-        {
-          "id": 3538800,
-          "title": "Claude Code Agentic Stack: cc-switch & claude-context MCP",
-          "description": "Set up the full 2026 agentic developer stack with Claude Code, cc-switch CLI manager, and claude-context semantic code search MCP. Step-by-step guide.",
-          "url": "https://dev.to/max_quimby/claude-code-agentic-stack-cc-switch-claude-context-mcp-1dg2",
-          "author": {
-            "username": "max_quimby",
-            "name": "Max Quimby",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 9,
-          "publishedAt": "2026-04-23T03:36:41Z",
-          "tags": [
-            "claudecode",
-            "mcp",
-            "devtools",
-            "ai"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "farion1231/cc-switch",
-              "location": "body"
-            },
-            {
-              "fullName": "zilliztech/claude-context",
-              "location": "body"
-            },
-            {
-              "fullName": "shanraisshan/claude-code-best-practice",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3527638,
-          "title": "AstCodeSplitter in claude-context codebase.",
-          "description": "In this article, we review AstCodeSplitter class in claude-context codebase. You will learn:   What...",
-          "url": "https://dev.to/ramunarasinga-11/astcodesplitter-in-claude-context-codebase-33id",
-          "author": {
-            "username": "ramunarasinga-11",
-            "name": "Ramu Narasinga",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F392818%2Fcc9dbd66-5cc2-4591-8c1c-6c650a374161.jpeg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-04-20T15:30:00Z",
-          "tags": [
-            "opensource",
-            "ast",
-            "treesitter",
-            "claude"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "zilliztech/claude-context",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "shanraisshan/claude-code-best-practice": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3538800,
-        "title": "Claude Code Agentic Stack: cc-switch & claude-context MCP",
-        "url": "https://dev.to/max_quimby/claude-code-agentic-stack-cc-switch-claude-context-mcp-1dg2",
-        "author": "max_quimby",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 6.5,
-        "readingTime": 9
-      },
-      "articles": [
-        {
-          "id": 3538800,
-          "title": "Claude Code Agentic Stack: cc-switch & claude-context MCP",
-          "description": "Set up the full 2026 agentic developer stack with Claude Code, cc-switch CLI manager, and claude-context semantic code search MCP. Step-by-step guide.",
-          "url": "https://dev.to/max_quimby/claude-code-agentic-stack-cc-switch-claude-context-mcp-1dg2",
-          "author": {
-            "username": "max_quimby",
-            "name": "Max Quimby",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 9,
-          "publishedAt": "2026-04-23T03:36:41Z",
-          "tags": [
-            "claudecode",
-            "mcp",
-            "devtools",
-            "ai"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "farion1231/cc-switch",
-              "location": "body"
-            },
-            {
-              "fullName": "zilliztech/claude-context",
-              "location": "body"
-            },
-            {
-              "fullName": "shanraisshan/claude-code-best-practice",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "tobi/qmd": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3480337,
-        "title": "How to Build Karpathy's LLM Wiki: The Complete Guide to AI-Maintained Knowledge Bases",
-        "url": "https://dev.to/starmorph/how-to-build-karpathys-llm-wiki-the-complete-guide-to-ai-maintained-knowledge-bases-3dk3",
-        "author": "starmorph",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 6.1,
-        "readingTime": 14
-      },
-      "articles": [
-        {
-          "id": 3480337,
-          "title": "How to Build Karpathy's LLM Wiki: The Complete Guide to AI-Maintained Knowledge Bases",
-          "description": "TL;DR: Andrej Karpathy's LLM Wiki is a pattern — not a product — where an LLM agent builds and...",
-          "url": "https://dev.to/starmorph/how-to-build-karpathys-llm-wiki-the-complete-guide-to-ai-maintained-knowledge-bases-3dk3",
-          "author": {
-            "username": "starmorph",
-            "name": "Starmorph AI",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1014851%2F7f9a4f5d-a5b0-47cf-863c-293fee11baa0.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 14,
-          "publishedAt": "2026-04-23T03:55:39Z",
-          "tags": [
-            "llmwiki",
-            "knowledgebase",
+            "claude",
             "ai",
-            "productivity"
+            "programming",
+            "github"
           ],
-          "trendingScore": 0,
+          "trendingScore": 0.16,
           "linkedRepos": [
             {
-              "fullName": "tobi/qmd",
+              "fullName": "gitbutlerapp/gitbutler",
               "location": "body"
-            },
-            {
-              "fullName": "lucasastorian/llmwiki",
-              "location": "tag"
-            }
-          ]
-        }
-      ]
-    },
-    "lucasastorian/llmwiki": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3480337,
-        "title": "How to Build Karpathy's LLM Wiki: The Complete Guide to AI-Maintained Knowledge Bases",
-        "url": "https://dev.to/starmorph/how-to-build-karpathys-llm-wiki-the-complete-guide-to-ai-maintained-knowledge-bases-3dk3",
-        "author": "starmorph",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 6.1,
-        "readingTime": 14
-      },
-      "articles": [
-        {
-          "id": 3480337,
-          "title": "How to Build Karpathy's LLM Wiki: The Complete Guide to AI-Maintained Knowledge Bases",
-          "description": "TL;DR: Andrej Karpathy's LLM Wiki is a pattern — not a product — where an LLM agent builds and...",
-          "url": "https://dev.to/starmorph/how-to-build-karpathys-llm-wiki-the-complete-guide-to-ai-maintained-knowledge-bases-3dk3",
-          "author": {
-            "username": "starmorph",
-            "name": "Starmorph AI",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1014851%2F7f9a4f5d-a5b0-47cf-863c-293fee11baa0.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 14,
-          "publishedAt": "2026-04-23T03:55:39Z",
-          "tags": [
-            "llmwiki",
-            "knowledgebase",
-            "ai",
-            "productivity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "tobi/qmd",
-              "location": "body"
-            },
-            {
-              "fullName": "lucasastorian/llmwiki",
-              "location": "tag"
             }
           ]
         }
@@ -737,16 +497,16 @@
     },
     "forrestchang/andrej-karpathy-skills": {
       "count7d": 2,
-      "reactionsSum7d": 1,
+      "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
         "id": 3538865,
         "title": "Ten CLAUDE.md rules for Claude Code - four edit-time, six runtime",
         "url": "https://dev.to/reneza/ten-claudemd-rules-for-claude-code-four-edit-time-six-runtime-210g",
         "author": "reneza",
-        "reactions": 1,
+        "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 6,
+        "hoursSincePosted": 3.1,
         "readingTime": 3
       },
       "articles": [
@@ -758,9 +518,9 @@
           "author": {
             "username": "reneza",
             "name": "Rene Zander",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1138713%2Fa7d8635c-22db-4dec-b156-1fb07de64a8d.jpeg"
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1138713%2F4c71b271-0320-4d6b-92a9-12e3225b72e5.jpeg"
           },
-          "reactionsCount": 1,
+          "reactionsCount": 0,
           "commentsCount": 0,
           "readingTime": 3,
           "publishedAt": "2026-04-23T04:06:42Z",
@@ -812,96 +572,6 @@
         }
       ]
     },
-    "ggml-org/llama.cpp": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3538895,
-        "title": "Gemma 4 VLA chạy cục bộ trên Jetson Orin Nano 8GB",
-        "url": "https://dev.to/david_chan_1994/gemma-4-vla-chay-cuc-bo-tren-jetson-orin-nano-8gb-1ng0",
-        "author": "david_chan_1994",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 5.9,
-        "readingTime": 20
-      },
-      "articles": [
-        {
-          "id": 3538895,
-          "title": "Gemma 4 VLA chạy cục bộ trên Jetson Orin Nano 8GB",
-          "description": "Tổng quan hệ thống, tối ưu và cách triển khai   Chạy một mô hình Vision-Language-Action...",
-          "url": "https://dev.to/david_chan_1994/gemma-4-vla-chay-cuc-bo-tren-jetson-orin-nano-8gb-1ng0",
-          "author": {
-            "username": "david_chan_1994",
-            "name": "David Chan",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3848717%2Fa1478b9c-a211-4b5a-be15-389083ff5b42.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 20,
-          "publishedAt": "2026-04-23T04:13:03Z",
-          "tags": [
-            "ai",
-            "google",
-            "iot",
-            "llm"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "ggml-org/llama.cpp",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "gitbutlerapp/gitbutler": {
-      "count7d": 1,
-      "reactionsSum7d": 19,
-      "commentsSum7d": 1,
-      "topArticle": {
-        "id": 3510131,
-        "title": "We ditched worktrees for Claude Code. Here's what we use instead",
-        "url": "https://dev.to/maverickdotdev/we-ditched-worktrees-for-claude-code-heres-what-we-use-instead-5b22",
-        "author": "maverickdotdev",
-        "reactions": 19,
-        "comments": 1,
-        "hoursSincePosted": 166.6,
-        "readingTime": 9
-      },
-      "articles": [
-        {
-          "id": 3510131,
-          "title": "We ditched worktrees for Claude Code. Here's what we use instead",
-          "description": "Everyone's running multiple Claude Code agents in parallel now. The standard advice is \"use git...",
-          "url": "https://dev.to/maverickdotdev/we-ditched-worktrees-for-claude-code-heres-what-we-use-instead-5b22",
-          "author": {
-            "username": "maverickdotdev",
-            "name": "Eric Allam",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F789527%2F8d63897e-a823-466b-a02b-661eddaadcb1.png"
-          },
-          "reactionsCount": 19,
-          "commentsCount": 1,
-          "readingTime": 9,
-          "publishedAt": "2026-04-16T11:29:00Z",
-          "tags": [
-            "claude",
-            "ai",
-            "programming",
-            "github"
-          ],
-          "trendingScore": 0.16,
-          "linkedRepos": [
-            {
-              "fullName": "gitbutlerapp/gitbutler",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "affaan-m/everything-claude-code": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -913,7 +583,7 @@
         "author": "sefaertunc",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 157.4,
+        "hoursSincePosted": 154.5,
         "readingTime": 2
       },
       "articles": [
@@ -962,7 +632,7 @@
         "author": "gounthar",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 26.4,
+        "hoursSincePosted": 23.5,
         "readingTime": 9
       },
       "articles": [
@@ -1007,7 +677,7 @@
         "author": "creatman",
         "reactions": 2,
         "comments": 1,
-        "hoursSincePosted": 133.5,
+        "hoursSincePosted": 130.6,
         "readingTime": 5
       },
       "articles": [
@@ -1031,7 +701,7 @@
             "agents",
             "productivity"
           ],
-          "trendingScore": 0,
+          "trendingScore": 0.01,
           "linkedRepos": [
             {
               "fullName": "safishamsi/graphify",
@@ -1052,7 +722,7 @@
         "author": "wonderlab",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 50.7,
+        "hoursSincePosted": 47.9,
         "readingTime": 8
       },
       "articles": [
@@ -1097,7 +767,7 @@
         "author": "michaeltuszynski",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 58.3,
+        "hoursSincePosted": 55.4,
         "readingTime": 4
       },
       "articles": [
@@ -1142,7 +812,7 @@
         "author": "kanta13jp1",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 157.7,
+        "hoursSincePosted": 154.8,
         "readingTime": 3
       },
       "articles": [
@@ -1213,7 +883,7 @@
       ]
     },
     "anthropics/claude-code": {
-      "count7d": 5,
+      "count7d": 4,
       "reactionsSum7d": 1,
       "commentsSum7d": 0,
       "topArticle": {
@@ -1223,7 +893,7 @@
         "author": "fisher_shenfisher_1c32",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 69.4,
+        "hoursSincePosted": 66.5,
         "readingTime": 7
       },
       "articles": [
@@ -1338,31 +1008,84 @@
               "location": "body"
             }
           ]
-        },
+        }
+      ]
+    },
+    "zilliztech/claude-context": {
+      "count7d": 2,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3527638,
+        "title": "AstCodeSplitter in claude-context codebase.",
+        "url": "https://dev.to/ramunarasinga-11/astcodesplitter-in-claude-context-codebase-33id",
+        "author": "ramunarasinga-11",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 63.7,
+        "readingTime": 3
+      },
+      "articles": [
         {
-          "id": 3519038,
-          "title": "The 7 Most Expensive LLM Production Incidents of 2025–2026 (Each One Had a Fixable Signal Nobody Watched)",
-          "description": "Seven real LLM outages with dollar figures attached. For each: the signal that would have caught it hours earlier, and why no dashboard surfaced it.",
-          "url": "https://dev.to/gabrielanhaia/the-7-most-expensive-llm-production-incidents-of-2025-2026-each-one-had-a-fixable-signal-nobody-1hkm",
+          "id": 3527638,
+          "title": "AstCodeSplitter in claude-context codebase.",
+          "description": "In this article, we review AstCodeSplitter class in claude-context codebase. You will learn:   What...",
+          "url": "https://dev.to/ramunarasinga-11/astcodesplitter-in-claude-context-codebase-33id",
           "author": {
-            "username": "gabrielanhaia",
-            "name": "Gabriel Anhaia",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F425693%2Fb4e58b6f-fdb0-4d1d-b333-87582f0b663d.jpeg"
+            "username": "ramunarasinga-11",
+            "name": "Ramu Narasinga",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F392818%2Fcc9dbd66-5cc2-4591-8c1c-6c650a374161.jpeg"
           },
           "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 11,
-          "publishedAt": "2026-04-18T10:14:32Z",
+          "readingTime": 3,
+          "publishedAt": "2026-04-20T15:30:00Z",
           "tags": [
-            "ai",
-            "observability",
-            "llm",
-            "devops"
+            "opensource",
+            "ast",
+            "treesitter",
+            "claude"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "anthropics/claude-code",
+              "fullName": "zilliztech/claude-context",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3538800,
+          "title": "Claude Code Agentic Stack: cc-switch & claude-context MCP",
+          "description": "Set up the full 2026 agentic developer stack with Claude Code, cc-switch CLI manager, and claude-context semantic code search MCP. Step-by-step guide.",
+          "url": "https://dev.to/max_quimby/claude-code-agentic-stack-cc-switch-claude-context-mcp-1dg2",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 9,
+          "publishedAt": "2026-04-23T03:36:41Z",
+          "tags": [
+            "claudecode",
+            "mcp",
+            "devtools",
+            "ai"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "farion1231/cc-switch",
+              "location": "body"
+            },
+            {
+              "fullName": "zilliztech/claude-context",
+              "location": "body"
+            },
+            {
+              "fullName": "shanraisshan/claude-code-best-practice",
               "location": "body"
             }
           ]
@@ -1380,7 +1103,7 @@
         "author": "hyhmrright",
         "reactions": 1,
         "comments": 1,
-        "hoursSincePosted": 43.2,
+        "hoursSincePosted": 40.3,
         "readingTime": 3
       },
       "articles": [
@@ -1425,7 +1148,7 @@
         "author": "_cbd692d476c5faf3b61bcf",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 48.5,
+        "hoursSincePosted": 45.6,
         "readingTime": 3
       },
       "articles": [
@@ -1478,7 +1201,7 @@
         "author": "_cbd692d476c5faf3b61bcf",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 48.5,
+        "hoursSincePosted": 45.6,
         "readingTime": 3
       },
       "articles": [
@@ -1531,7 +1254,7 @@
         "author": "ganmahmud",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 147.5,
+        "hoursSincePosted": 144.6,
         "readingTime": 5
       },
       "articles": [
@@ -1576,7 +1299,7 @@
         "author": "bokuno_log",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 152.2,
+        "hoursSincePosted": 149.3,
         "readingTime": 3
       },
       "articles": [
@@ -1621,7 +1344,7 @@
         "author": "gabrielanhaia",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 119.8,
+        "hoursSincePosted": 116.9,
         "readingTime": 8
       },
       "articles": [
@@ -1730,7 +1453,7 @@
         "author": "gabrielanhaia",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 119.8,
+        "hoursSincePosted": 116.9,
         "readingTime": 8
       },
       "articles": [
@@ -1783,7 +1506,7 @@
         "author": "gabrielanhaia",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 119.8,
+        "hoursSincePosted": 116.9,
         "readingTime": 8
       },
       "articles": [
@@ -1836,7 +1559,7 @@
         "author": "kenimo49",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 45.1,
+        "hoursSincePosted": 42.2,
         "readingTime": 7
       },
       "articles": [
@@ -1870,51 +1593,6 @@
         }
       ]
     },
-    "garrytan/gbrain": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3540010,
-        "title": "One Open Source Project a Day (No.46): The Y Combinator CEO Wrote His Own AI Brain and Open-Sourced It",
-        "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no46-the-y-combinator-ceo-wrote-his-own-ai-brain-and-open-sourced-2ib5",
-        "author": "wonderlab",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 2.2,
-        "readingTime": 7
-      },
-      "articles": [
-        {
-          "id": 3540010,
-          "title": "One Open Source Project a Day (No.46): The Y Combinator CEO Wrote His Own AI Brain and Open-Sourced It",
-          "description": "Introduction    \"This isn't an experiment. This is the production system I actually...",
-          "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no46-the-y-combinator-ceo-wrote-his-own-ai-brain-and-open-sourced-2ib5",
-          "author": {
-            "username": "wonderlab",
-            "name": "WonderLab",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-04-23T07:51:07Z",
-          "tags": [
-            "opensource",
-            "ai",
-            "mcp",
-            "yc"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "garrytan/gbrain",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "FujiwaraChoki/MoneyPrinterV2": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -1926,7 +1604,7 @@
         "author": "wonderlab",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 104.4,
+        "hoursSincePosted": 101.5,
         "readingTime": 2
       },
       "articles": [
@@ -1971,7 +1649,7 @@
         "author": "sourcier",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 24.9,
+        "hoursSincePosted": 22,
         "readingTime": 5
       },
       "articles": [
@@ -2004,51 +1682,6 @@
         }
       ]
     },
-    "atuinsh/atuin": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3531949,
-        "title": "Guia de Configuração: Zsh, Oh My Zsh e Atuin",
-        "url": "https://dev.to/higorae/guia-de-configuracao-zsh-oh-my-zsh-e-atuin-3eeb",
-        "author": "higorae",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 45.6,
-        "readingTime": 4
-      },
-      "articles": [
-        {
-          "id": 3531949,
-          "title": "Guia de Configuração: Zsh, Oh My Zsh e Atuin",
-          "description": "Aqui está um tutorial completo sobre como instalar o Oh My Zsh (junto com os plugins mais populares)...",
-          "url": "https://dev.to/higorae/guia-de-configuracao-zsh-oh-my-zsh-e-atuin-3eeb",
-          "author": {
-            "username": "higorae",
-            "name": "Higor Morais",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F369030%2F276e7c7f-c8ba-4cf6-b03e-82d9439e9d7e.jpeg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-04-21T12:25:38Z",
-          "tags": [
-            "automation",
-            "cli",
-            "tooling",
-            "tutorial"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "atuinsh/atuin",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "HKUDS/CLI-Anything": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -2060,7 +1693,7 @@
         "author": "recca0120",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 38.3,
+        "hoursSincePosted": 35.4,
         "readingTime": 6
       },
       "articles": [
@@ -2094,6 +1727,51 @@
         }
       ]
     },
+    "atuinsh/atuin": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3531949,
+        "title": "Guia de Configuração: Zsh, Oh My Zsh e Atuin",
+        "url": "https://dev.to/higorae/guia-de-configuracao-zsh-oh-my-zsh-e-atuin-3eeb",
+        "author": "higorae",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 42.8,
+        "readingTime": 4
+      },
+      "articles": [
+        {
+          "id": 3531949,
+          "title": "Guia de Configuração: Zsh, Oh My Zsh e Atuin",
+          "description": "Aqui está um tutorial completo sobre como instalar o Oh My Zsh (junto com os plugins mais populares)...",
+          "url": "https://dev.to/higorae/guia-de-configuracao-zsh-oh-my-zsh-e-atuin-3eeb",
+          "author": {
+            "username": "higorae",
+            "name": "Higor Morais",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F369030%2F276e7c7f-c8ba-4cf6-b03e-82d9439e9d7e.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-04-21T12:25:38Z",
+          "tags": [
+            "automation",
+            "cli",
+            "tooling",
+            "tutorial"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "atuinsh/atuin",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "googleworkspace/cli": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -2105,7 +1783,7 @@
         "author": "drorata",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 27.6,
+        "hoursSincePosted": 24.8,
         "readingTime": 1
       },
       "articles": [
@@ -2150,7 +1828,7 @@
         "author": "davideimola",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 154.1,
+        "hoursSincePosted": 151.2,
         "readingTime": 7
       },
       "articles": [
@@ -2199,7 +1877,7 @@
         "author": "davideimola",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 154.1,
+        "hoursSincePosted": 151.2,
         "readingTime": 7
       },
       "articles": [
@@ -2248,7 +1926,7 @@
         "author": "_46ea277e677b888e0cd13",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 55.6,
+        "hoursSincePosted": 52.8,
         "readingTime": 6
       },
       "articles": [
@@ -2293,7 +1971,7 @@
         "author": "alexmikhalev",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 163.1,
+        "hoursSincePosted": 160.2,
         "readingTime": 4
       },
       "articles": [
@@ -2321,6 +1999,112 @@
           "linkedRepos": [
             {
               "fullName": "Dicklesworthstone/destructive_command_guard",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "farion1231/cc-switch": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3538800,
+        "title": "Claude Code Agentic Stack: cc-switch & claude-context MCP",
+        "url": "https://dev.to/max_quimby/claude-code-agentic-stack-cc-switch-claude-context-mcp-1dg2",
+        "author": "max_quimby",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 3.6,
+        "readingTime": 9
+      },
+      "articles": [
+        {
+          "id": 3538800,
+          "title": "Claude Code Agentic Stack: cc-switch & claude-context MCP",
+          "description": "Set up the full 2026 agentic developer stack with Claude Code, cc-switch CLI manager, and claude-context semantic code search MCP. Step-by-step guide.",
+          "url": "https://dev.to/max_quimby/claude-code-agentic-stack-cc-switch-claude-context-mcp-1dg2",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 9,
+          "publishedAt": "2026-04-23T03:36:41Z",
+          "tags": [
+            "claudecode",
+            "mcp",
+            "devtools",
+            "ai"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "farion1231/cc-switch",
+              "location": "body"
+            },
+            {
+              "fullName": "zilliztech/claude-context",
+              "location": "body"
+            },
+            {
+              "fullName": "shanraisshan/claude-code-best-practice",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "shanraisshan/claude-code-best-practice": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3538800,
+        "title": "Claude Code Agentic Stack: cc-switch & claude-context MCP",
+        "url": "https://dev.to/max_quimby/claude-code-agentic-stack-cc-switch-claude-context-mcp-1dg2",
+        "author": "max_quimby",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 3.6,
+        "readingTime": 9
+      },
+      "articles": [
+        {
+          "id": 3538800,
+          "title": "Claude Code Agentic Stack: cc-switch & claude-context MCP",
+          "description": "Set up the full 2026 agentic developer stack with Claude Code, cc-switch CLI manager, and claude-context semantic code search MCP. Step-by-step guide.",
+          "url": "https://dev.to/max_quimby/claude-code-agentic-stack-cc-switch-claude-context-mcp-1dg2",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 9,
+          "publishedAt": "2026-04-23T03:36:41Z",
+          "tags": [
+            "claudecode",
+            "mcp",
+            "devtools",
+            "ai"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "farion1231/cc-switch",
+              "location": "body"
+            },
+            {
+              "fullName": "zilliztech/claude-context",
+              "location": "body"
+            },
+            {
+              "fullName": "shanraisshan/claude-code-best-practice",
               "location": "body"
             }
           ]
@@ -2361,12 +2145,7 @@
     },
     {
       "fullName": "anthropics/claude-code",
-      "count7d": 5,
-      "reactionsSum7d": 1
-    },
-    {
-      "fullName": "forrestchang/andrej-karpathy-skills",
-      "count7d": 2,
+      "count7d": 4,
       "reactionsSum7d": 1
     },
     {
@@ -2382,6 +2161,11 @@
     {
       "fullName": "BerriAI/litellm",
       "count7d": 3,
+      "reactionsSum7d": 0
+    },
+    {
+      "fullName": "forrestchang/andrej-karpathy-skills",
+      "count7d": 2,
       "reactionsSum7d": 0
     },
     {
@@ -2435,16 +2219,6 @@
       "reactionsSum7d": 0
     },
     {
-      "fullName": "garrytan/gbrain",
-      "count7d": 1,
-      "reactionsSum7d": 0
-    },
-    {
-      "fullName": "ggml-org/llama.cpp",
-      "count7d": 1,
-      "reactionsSum7d": 0
-    },
-    {
       "fullName": "github/awesome-copilot",
       "count7d": 1,
       "reactionsSum7d": 0
@@ -2461,11 +2235,6 @@
     },
     {
       "fullName": "HKUDS/CLI-Anything",
-      "count7d": 1,
-      "reactionsSum7d": 0
-    },
-    {
-      "fullName": "lucasastorian/llmwiki",
       "count7d": 1,
       "reactionsSum7d": 0
     },
@@ -2501,11 +2270,6 @@
     },
     {
       "fullName": "snarktank/ralph",
-      "count7d": 1,
-      "reactionsSum7d": 0
-    },
-    {
-      "fullName": "tobi/qmd",
       "count7d": 1,
       "reactionsSum7d": 0
     },

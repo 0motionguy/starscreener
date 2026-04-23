@@ -8,6 +8,7 @@ export interface RepoMetadata {
   ownerAvatarUrl: string;
   description: string;
   url: string;
+  homepageUrl?: string | null;
   language: string | null;
   topics: string[];
   stars: number;
@@ -54,6 +55,10 @@ function byFullName(): Map<string, RepoMetadata> {
 
 export function getRepoMetadata(fullName: string): RepoMetadata | null {
   return byFullName().get(fullName.toLowerCase()) ?? null;
+}
+
+export function listRepoMetadata(): RepoMetadata[] {
+  return data.items ?? [];
 }
 
 export function getRepoMetadataCount(): number {

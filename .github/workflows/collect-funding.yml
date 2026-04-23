@@ -1,0 +1,33 @@
+name: Collect Funding Signals
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+    inputs:
+      sources:
+        description: 'Comma-separated source list (techcrunch,venturebeat,sifted)'
+        default: 'techcrunch,venturebeat,sifted'
+      dry_run:
+        description: 'Dry run'
+        default: 'false'
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci
+      - run: npm run scrape:funding -- --sources ${{ github.event.inputs.sources || 'techcrunch,venturebeat,sifted' }} --enrich ${{ github.event.inputs.dry_run == 'true' && '--output .tmp/funding-preview.json' || '' }}
+      - if: github.event.inputs.dry_run != 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/funding-news.json
+          git diff --cached --quiet || (git commit -m "chore: auto-update funding signals [skip ci]" && git push)
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: funding-scraper-logs
+          path: .tmp/

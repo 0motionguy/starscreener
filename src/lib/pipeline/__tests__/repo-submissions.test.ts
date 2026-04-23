@@ -81,6 +81,10 @@ test("summarizeRepoSubmissionQueue counts pending and boosted rows", () => {
 
   assert.deepEqual(summarizeRepoSubmissionQueue(records), {
     pending: 2,
+    queued: 0,
+    scanning: 0,
+    listed: 0,
+    failed: 0,
     boosted: 1,
     latestSubmittedAt: "2026-04-20T09:00:00.000Z",
   });

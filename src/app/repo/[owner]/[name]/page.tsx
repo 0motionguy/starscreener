@@ -3,10 +3,10 @@
 // Mostly a server component that composes:
 //   1. RepoDetailHeader  — identity + badges + cross-signal score callout
 //   2. RepoActionRow     — Watch / Compare / open on GitHub (client)
-//   3. RepoDetailStats   — 6-up stats grid
-//   4. RepoChart         — preserved star-history chart (client, recharts)
-//   5. CrossSignalBreakdown — 5 horizontal channel bars
-//   6. RecentMentionsFeed   — tabbed mention feed (All · per-source) (client)
+//   3. RepoSignalSnapshot — compact intelligence metrics
+//   4. ProjectSurfaceMap / CrossSignalBreakdown — entity + signal surfaces
+//   5. RecentMentionsFeed — full evidence feed above diagnostics
+//   6. RepoDetailChart — compact trend with cross-channel mention dots
 //
 // Replaces the old detail/* component set in spirit; the legacy components
 // remain on disk under src/components/detail/ but are no longer wired in.
@@ -21,11 +21,13 @@ import type { Metadata } from "next";
 import { Flame, TrendingUp, Zap } from "lucide-react";
 
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
-import { getRedditMentions } from "@/lib/reddit";
+import { redditPostHref } from "@/lib/reddit";
+import { getRedditMentions } from "@/lib/reddit-data";
 import { getHnMentions } from "@/lib/hackernews";
 import { getBlueskyMentions, bskyPostHref } from "@/lib/bluesky";
 import { getDevtoMentions } from "@/lib/devto";
 import { getLaunchForRepo } from "@/lib/producthunt";
+import { getNpmPackagesForRepo } from "@/lib/npm";
 import { formatNumber, getRelativeTime } from "@/lib/utils";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 
@@ -35,12 +37,15 @@ import { RepoDetailStatsStrip } from "@/components/repo-detail/RepoDetailStatsSt
 import { RepoDetailChart } from "@/components/repo-detail/RepoDetailChart";
 import { buildMentionMarkers } from "@/components/repo-detail/MentionMarkers";
 import { CrossSignalBreakdown } from "@/components/repo-detail/CrossSignalBreakdown";
-import {
-  RecentMentionsFeed,
-  type MentionItem,
-} from "@/components/repo-detail/RecentMentionsFeed";
+import { RecentMentionsFeed } from "@/components/repo-detail/RecentMentionsFeed";
+import type { MentionItem } from "@/components/repo-detail/MentionMeta";
+import { RepoSignalSnapshot } from "@/components/repo-detail/RepoSignalSnapshot";
+import { ProjectSurfaceMap } from "@/components/repo-detail/ProjectSurfaceMap";
+import { NpmAdoptionPanel } from "@/components/repo-detail/NpmAdoptionPanel";
 import { RepoActionRow } from "@/components/repo-detail/RepoActionRow";
 import { MaintainerCard } from "@/components/repo-detail/MaintainerCard";
+import { getTwitterRepoPanel } from "@/lib/twitter/service";
+import { TwitterSignalPanel } from "@/components/twitter/TwitterSignalPanel";
 
 // force-dynamic: the page aggregates per-source mention JSON at request
 // time and has ~thousands of possible (owner, name) tuples. Static
@@ -132,16 +137,18 @@ function buildMentions(fullName: string): MentionItem[] {
   // convert to ISO. The list is then re-sorted client-side anyway.
   const reddit = getRedditMentions(fullName);
   if (reddit) {
-    for (const p of reddit.posts.slice(0, 10)) {
+    for (const p of reddit.posts.slice(0, 50)) {
       out.push({
         id: `reddit-${p.id}`,
         source: "reddit",
         title: p.title,
         author: `u/${p.author} · r/${p.subreddit}`,
         score: p.score,
+        scoreLabel: "upvotes",
         secondary: { label: "comments", value: p.numComments },
-        url: `https://reddit.com${p.permalink}`,
+        url: redditPostHref(p.permalink, p.url),
         createdAt: new Date(p.createdUtc * 1000).toISOString(),
+        matchReason: "repo identity",
       });
     }
   }
@@ -149,16 +156,18 @@ function buildMentions(fullName: string): MentionItem[] {
   // HackerNews
   const hn = getHnMentions(fullName);
   if (hn) {
-    for (const s of hn.stories.slice(0, 10)) {
+    for (const s of hn.stories.slice(0, 50)) {
       out.push({
         id: `hn-${s.id}`,
         source: "hn",
         title: s.title,
         author: s.by,
         score: s.score,
+        scoreLabel: "points",
         secondary: { label: "comments", value: s.descendants },
         url: `https://news.ycombinator.com/item?id=${s.id}`,
         createdAt: new Date(s.createdUtc * 1000).toISOString(),
+        matchReason: "repo identity",
       });
     }
   }
@@ -166,7 +175,7 @@ function buildMentions(fullName: string): MentionItem[] {
   // Bluesky
   const bsky = getBlueskyMentions(fullName);
   if (bsky) {
-    for (const p of bsky.posts.slice(0, 10)) {
+    for (const p of bsky.posts.slice(0, 50)) {
       const handle = p.author?.handle ?? "unknown";
       out.push({
         id: `bsky-${p.uri}`,
@@ -174,9 +183,11 @@ function buildMentions(fullName: string): MentionItem[] {
         title: p.text,
         author: `@${handle}`,
         score: p.likeCount,
+        scoreLabel: "likes",
         secondary: { label: "reposts", value: p.repostCount },
         url: p.bskyUrl || bskyPostHref(p.uri, handle),
         createdAt: p.createdAt,
+        matchReason: "repo identity",
       });
     }
   }
@@ -184,16 +195,18 @@ function buildMentions(fullName: string): MentionItem[] {
   // dev.to
   const devto = getDevtoMentions(fullName);
   if (devto) {
-    for (const a of devto.articles.slice(0, 10)) {
+    for (const a of devto.articles.slice(0, 50)) {
       out.push({
         id: `devto-${a.id}`,
         source: "devto",
         title: a.title,
         author: `@${a.author?.username ?? "anon"}`,
         score: a.reactionsCount,
+        scoreLabel: "reactions",
         secondary: { label: "comments", value: a.commentsCount },
         url: a.url,
         createdAt: a.publishedAt,
+        matchReason: "repo identity",
       });
     }
   }
@@ -207,9 +220,11 @@ function buildMentions(fullName: string): MentionItem[] {
       title: `${ph.name} — ${ph.tagline}`,
       author: ph.makers?.[0] ? `@${ph.makers[0].username}` : "—",
       score: ph.votesCount,
+      scoreLabel: "votes",
       secondary: { label: "comments", value: ph.commentsCount },
       url: ph.url,
       createdAt: ph.createdAt,
+      matchReason: "linked repo",
     });
   }
 
@@ -229,6 +244,9 @@ export default async function RepoDetailPage({ params }: PageProps) {
   }
 
   const mentions = buildMentions(repo.fullName);
+  const twitterPanel = await getTwitterRepoPanel(repo.fullName);
+  const npmPackages = getNpmPackagesForRepo(repo.fullName);
+  const productHuntLaunch = getLaunchForRepo(repo.fullName);
   // Cross-channel marker dots for the Stars chart — pre-built server-side
   // so the client RepoDetailChart bundle stays free of every per-source
   // mentions JSON.
@@ -322,7 +340,10 @@ export default async function RepoDetailPage({ params }: PageProps) {
               keeps room to breathe, and the action row + stats below run
               full width as before. */}
           <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_280px] gap-4">
-            <RepoDetailHeader repo={repo} />
+            <RepoDetailHeader
+              repo={repo}
+              twitterBadge={twitterPanel?.rowBadge ?? null}
+            />
             <MaintainerCard
               owner={repo.owner}
               fallbackAvatarUrl={repo.ownerAvatarUrl}
@@ -330,18 +351,35 @@ export default async function RepoDetailPage({ params }: PageProps) {
           </div>
           <RepoActionRow repo={repo} />
           {/*
-            Tiered chart area: 3 mini-cards (hero metrics) → big Stars chart
-            with cross-channel mention markers → secondary stats grid below.
-            Splitting Stars/Forks/Contributors out of a shared linear axis
-            fixes the old "forks look flat, contributors invisible" issue.
+            Signal-first layout: metrics and evidence first; mentions stay as
+            dots on the chart, with the full mention feed above diagnostics.
           */}
-          <RepoDetailStatsStrip repo={repo} />
-          <RepoDetailChart repo={repo} markers={markers} />
-          <RepoDetailStats repo={repo} />
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <CrossSignalBreakdown repo={repo} />
-            <RecentMentionsFeed mentions={mentions} />
+          <RepoSignalSnapshot
+            repo={repo}
+            mentions={mentions}
+            npmPackages={npmPackages}
+            productHuntLaunch={productHuntLaunch}
+          />
+
+          <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_420px] gap-6">
+            <RepoDetailStatsStrip repo={repo} />
+            <RepoDetailStats repo={repo} />
           </div>
+
+          <NpmAdoptionPanel packages={npmPackages} />
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <ProjectSurfaceMap
+              repo={repo}
+              npmPackages={npmPackages}
+              productHuntLaunch={productHuntLaunch}
+            />
+            <CrossSignalBreakdown repo={repo} />
+          </div>
+
+          <RecentMentionsFeed mentions={mentions} />
+          <RepoDetailChart repo={repo} markers={markers} />
+          {twitterPanel ? <TwitterSignalPanel panel={twitterPanel} /> : null}
         </div>
       </main>
     </>

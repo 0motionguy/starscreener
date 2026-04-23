@@ -5,6 +5,7 @@
 // velocity and registry metadata, then link back to GitHub repos.
 
 import npmData from "../../data/npm-packages.json";
+import npmManualData from "../../data/npm-manual-packages.json";
 
 export type NpmWindow = "24h" | "7d" | "30d";
 
@@ -83,6 +84,7 @@ export interface NpmPackagesFile {
 }
 
 const file = npmData as unknown as NpmPackagesFile;
+const manualFile = npmManualData as unknown as Pick<NpmPackagesFile, "packages">;
 
 export const npmFetchedAt: string = file.fetchedAt ?? "";
 export const npmCold: boolean =
@@ -93,7 +95,14 @@ export function getNpmPackagesFile(): NpmPackagesFile {
 }
 
 export function getNpmPackages(): NpmPackageRow[] {
-  return file.packages ?? [];
+  const byName = new Map<string, NpmPackageRow>();
+  for (const pkg of file.packages ?? []) {
+    byName.set(pkg.name.toLowerCase(), pkg);
+  }
+  for (const pkg of manualFile.packages ?? []) {
+    byName.set(pkg.name.toLowerCase(), pkg);
+  }
+  return Array.from(byName.values());
 }
 
 export function metricForNpmWindow(pkg: NpmPackageRow, window: NpmWindow): number {

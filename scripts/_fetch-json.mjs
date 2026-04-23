@@ -13,6 +13,26 @@ export class HttpStatusError extends Error {
 
 export const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+export function parseRetryAfterMs(value, nowMs = Date.now()) {
+  if (typeof value !== "string" || value.trim() === "") return null;
+  const trimmed = value.trim();
+  const seconds = Number.parseFloat(trimmed);
+  if (Number.isFinite(seconds) && seconds >= 0) {
+    return Math.ceil(seconds * 1000);
+  }
+  const dateMs = Date.parse(trimmed);
+  if (!Number.isFinite(dateMs)) return null;
+  return Math.max(0, dateMs - nowMs);
+}
+
+function retryDelayFor({ response, attempt, retryDelayMs }) {
+  const retryAfterMs = response
+    ? parseRetryAfterMs(response.headers.get("retry-after"))
+    : null;
+  const scheduledDelayMs = retryDelayMs * attempt;
+  return Math.max(scheduledDelayMs, retryAfterMs ?? 0);
+}
+
 export async function fetchWithTimeout(
   url,
   { fetchImpl = fetch, timeoutMs = 15_000, ...init } = {},
@@ -55,7 +75,7 @@ export async function fetchJsonWithRetry(
         const err = new HttpStatusError(res, url, text);
         if (retryStatuses.has(res.status) && attempt < attempts) {
           lastErr = err;
-          await sleep(retryDelayMs * attempt);
+          await sleep(retryDelayFor({ response: res, attempt, retryDelayMs }));
           continue;
         }
         throw err;
@@ -68,7 +88,7 @@ export async function fetchJsonWithRetry(
         throw err;
       }
       if (attempt < attempts) {
-        await sleep(retryDelayMs * attempt);
+        await sleep(retryDelayFor({ attempt, retryDelayMs }));
         continue;
       }
       throw err;

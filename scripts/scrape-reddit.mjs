@@ -7,14 +7,10 @@
 // run instead of O(repos × subs) — the difference between 11 requests
 // and thousands.
 //
-// Auth: uses Reddit's public JSON endpoints. No OAuth, no app registration,
-// no client_id required. Reddit gates public JSON only via the User-Agent
-// header ("must be descriptive and not a browser default") and soft rate
-// limits (~60 req/min anonymous). We stay far under that budget.
-//
-// If the public endpoint ever starts 429'ing or 403'ing, upgrade to OAuth
-// via REDDIT_CLIENT_ID / REDDIT_CLIENT_SECRET (installed-client grant,
-// device_id only, no user password). Hook is TODO at the fetch site.
+// Auth: prefers Reddit OAuth when REDDIT_CLIENT_ID is present, then falls
+// back to the public JSON host if the OAuth path fails. That keeps the
+// source alive when Reddit changes auth behavior or a secret breaks, while
+// still preferring the more reliable authenticated path in production.
 //
 // Output (dual-write, single pass):
 //   - data/reddit-mentions.json — repo-linked posts only (/reddit page)
@@ -28,20 +24,32 @@
 import { writeFile, mkdir, readFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import "./_load-env.mjs";
 import {
   SUBREDDITS,
   REQUEST_PAUSE_MS,
   sleep,
   fetchRedditJson,
+  getRedditFetchRuntime,
   getRedditAuthMode,
 } from "./_reddit-shared.mjs";
 import { classifyPost, ensurePostClassification } from "./classify-post.mjs";
-import { recentRepoRows } from "./_tracked-repos.mjs";
+import {
+  loadTrackedReposFromFiles,
+  recentRepoRows,
+} from "./_tracked-repos.mjs";
+import {
+  extractGithubRepoFullNames,
+  normalizeGithubFullName,
+} from "./_github-repo-links.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
 const TRENDING_IN = resolve(DATA_DIR, "trending.json");
 const RECENT_IN = resolve(DATA_DIR, "recent-repos.json");
+const REPO_METADATA_IN = resolve(DATA_DIR, "repo-metadata.json");
+const NPM_PACKAGES_IN = resolve(DATA_DIR, "npm-packages.json");
+const NPM_MANUAL_PACKAGES_IN = resolve(DATA_DIR, "npm-manual-packages.json");
 const BASELINES_IN = resolve(DATA_DIR, "reddit-baselines.json");
 const OUT = resolve(DATA_DIR, "reddit-mentions.json");
 const ALL_POSTS_OUT = resolve(DATA_DIR, "reddit-all-posts.json");
@@ -59,7 +67,81 @@ const RATE_LIMIT_BACKOFF_MS = 65000;
 const ALL_POSTS_TOP_K_PER_SUB = 100;
 const SELFTEXT_MAX_CHARS = 500;
 
-const REPO_URL_RE = /github\.com\/([A-Za-z0-9][A-Za-z0-9._-]*)\/([A-Za-z0-9][A-Za-z0-9._-]*)/g;
+const IDENTIFIER_SPLIT_RE = /([a-z0-9])([A-Z])/g;
+const GENERIC_TERMS = new Set([
+  "ai",
+  "agent",
+  "agents",
+  "app",
+  "apps",
+  "api",
+  "assistant",
+  "assistants",
+  "awesome",
+  "bot",
+  "career",
+  "careers",
+  "chat",
+  "cli",
+  "client",
+  "code",
+  "content",
+  "core",
+  "context",
+  "contexts",
+  "data",
+  "docs",
+  "engine",
+  "framework",
+  "flow",
+  "flows",
+  "gallery",
+  "kit",
+  "lib",
+  "library",
+  "llm",
+  "llms",
+  "local",
+  "manifest",
+  "memory",
+  "model",
+  "models",
+  "mode",
+  "modes",
+  "plugin",
+  "prompt",
+  "prompts",
+  "project",
+  "repo",
+  "sdk",
+  "server",
+  "service",
+  "skill",
+  "skills",
+  "tool",
+  "tools",
+  "ui",
+  "usage",
+  "utils",
+  "voice",
+  "web",
+  "wiki",
+]);
+const MATCH_TYPE_PRIORITY = {
+  url: 5,
+  repo_slug: 4,
+  package_name: 4,
+  homepage_domain: 4,
+  repo_name: 3,
+  project_name: 3,
+  owner_context: 2,
+};
+const ALLOWED_SINGLE_DISTINCTIVE_PROJECT_NAMES = new Set([
+  "claude code",
+  "hermes agent",
+  "kimi cli",
+  "qwen code",
+]);
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -67,6 +149,115 @@ const REPO_URL_RE = /github\.com\/([A-Za-z0-9][A-Za-z0-9._-]*)\/([A-Za-z0-9][A-Z
 
 function log(msg) {
   process.stdout.write(`${msg}\n`);
+}
+
+function splitIdentifier(value) {
+  return String(value ?? "")
+    .replace(IDENTIFIER_SPLIT_RE, "$1 $2")
+    .replace(/[@_.:/-]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function normalizeTerm(value) {
+  return splitIdentifier(value).toLowerCase();
+}
+
+export function humanizeRepoName(repoName) {
+  return splitIdentifier(repoName)
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
+export function isDistinctivePhrase(value) {
+  const normalized = normalizeTerm(value);
+  if (normalized.length < 4) return false;
+  const tokens = normalized.split(" ").filter(Boolean);
+  if (tokens.length === 0) return false;
+  const distinctiveTokens = tokens.filter(
+    (token) => token.length >= 4 && !GENERIC_TERMS.has(token),
+  );
+  return distinctiveTokens.length > 0;
+}
+
+function distinctiveTokenCount(value) {
+  return normalizeTerm(value)
+    .split(" ")
+    .filter((token) => token.length >= 4 && !GENERIC_TERMS.has(token)).length;
+}
+
+function isSafeProjectPhrase(value) {
+  const normalized = normalizeAliasKey(value);
+  const tokens = normalized.split(" ").filter(Boolean);
+  if (tokens.length < 2) return false;
+  if (distinctiveTokenCount(value) >= 2) return true;
+  return ALLOWED_SINGLE_DISTINCTIVE_PROJECT_NAMES.has(normalized);
+}
+
+function normalizeAliasKey(value) {
+  return normalizeTerm(value).replace(/\s+/g, " ");
+}
+
+function escapeRegex(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function buildLooseBoundaryRegex(value) {
+  return new RegExp(
+    `(^|[^a-z0-9])${escapeRegex(String(value).toLowerCase())}(?=$|[^a-z0-9])`,
+    "i",
+  );
+}
+
+function buildPhraseRegex(value) {
+  const tokens = normalizeTerm(value).split(" ").filter(Boolean);
+  if (tokens.length === 0) return null;
+  return new RegExp(
+    `(^|[^a-z0-9])${tokens.map((token) => escapeRegex(token)).join("\\s+")}(?=$|[^a-z0-9])`,
+    "i",
+  );
+}
+
+function normalizeHostname(value) {
+  const raw = String(value ?? "").trim();
+  if (!raw) return null;
+  try {
+    const url = new URL(/^https?:\/\//i.test(raw) ? raw : `https://${raw}`);
+    const host = url.hostname.toLowerCase().replace(/^www\./, "");
+    if (!host || host === "github.com" || host.endsWith(".github.com")) {
+      return null;
+    }
+    return host;
+  } catch {
+    return null;
+  }
+}
+
+function buildDomainRegex(hostname) {
+  const escaped = escapeRegex(String(hostname).toLowerCase());
+  return new RegExp(
+    `(^|[^a-z0-9])(?:https?:\\/\\/)?(?:www\\.)?${escaped}(?=$|[\\/:?&#\\s])`,
+    "i",
+  );
+}
+
+function buildOwnerContextRegex(ownerToken, repoToken, reverse = false) {
+  const left = escapeRegex(String(reverse ? repoToken : ownerToken).toLowerCase());
+  const right = escapeRegex(String(reverse ? ownerToken : repoToken).toLowerCase());
+  return new RegExp(
+    `(^|[^a-z0-9])${left}(?:\\s+[a-z0-9][a-z0-9+._-]{1,20}){0,2}\\s+${right}(?=$|[^a-z0-9])`,
+    "i",
+  );
+}
+
+function matchComparator(a, b) {
+  if (b.confidence !== a.confidence) return b.confidence - a.confidence;
+  const aPriority = MATCH_TYPE_PRIORITY[a.matchType] ?? 0;
+  const bPriority = MATCH_TYPE_PRIORITY[b.matchType] ?? 0;
+  if (bPriority !== aPriority) return bPriority - aPriority;
+  return a.fullName.localeCompare(b.fullName);
 }
 
 function classifyTier(ratio) {
@@ -121,6 +312,44 @@ async function loadBaselines() {
   }
 }
 
+async function loadRepoMetadataByFullName() {
+  try {
+    const raw = await readFile(REPO_METADATA_IN, "utf8");
+    const parsed = JSON.parse(raw);
+    const byFullName = new Map();
+    for (const item of parsed.items ?? []) {
+      const fullName = String(item?.fullName ?? "").trim();
+      if (!fullName.includes("/")) continue;
+      byFullName.set(fullName.toLowerCase(), item);
+    }
+    return byFullName;
+  } catch {
+    return new Map();
+  }
+}
+
+async function loadNpmPackagesByRepo() {
+  const byRepo = new Map();
+  for (const inputPath of [NPM_PACKAGES_IN, NPM_MANUAL_PACKAGES_IN]) {
+    try {
+      const raw = await readFile(inputPath, "utf8");
+      const parsed = JSON.parse(raw);
+      const rows = Array.isArray(parsed?.packages) ? parsed.packages : [];
+      for (const row of rows) {
+        const linkedRepo = String(row?.linkedRepo ?? "").trim();
+        if (!linkedRepo.includes("/")) continue;
+        const key = linkedRepo.toLowerCase();
+        const bucket = byRepo.get(key) ?? [];
+        bucket.push(row);
+        byRepo.set(key, bucket);
+      }
+    } catch {
+      // npm package snapshots are optional in first-run local dev.
+    }
+  }
+  return byRepo;
+}
+
 async function loadExistingAllPosts() {
   // Returns an array of previously-scored posts from prior runs, or an
   // empty array on first run / corrupt file. Corrupt files are logged and
@@ -152,7 +381,7 @@ function stripSelftext(raw) {
     .slice(0, SELFTEXT_MAX_CHARS);
 }
 
-function mergeAllPosts(existing, thisRun, cutoffSec) {
+export function mergeAllPosts(existing, thisRun, cutoffSec) {
   // Union by post ID. On collision, keep the entry with higher score
   // (upvote trajectory matters for detecting late-breaking viral posts)
   // but always use this-run's velocity/trendingScore/ageHours since
@@ -174,6 +403,13 @@ function mergeAllPosts(existing, thisRun, cutoffSec) {
       // fields so the post's velocity decays naturally as it ages.
       byId.set(p.id, {
         ...prev,
+        repoFullName: p.repoFullName,
+        linkedRepos: p.linkedRepos,
+        selftext: p.selftext,
+        title: p.title,
+        url: p.url,
+        permalink: p.permalink,
+        numComments: Math.max(prev.numComments ?? 0, p.numComments ?? 0),
         ageHours: p.ageHours,
         velocity: p.velocity,
         trendingScore: p.trendingScore,
@@ -218,13 +454,36 @@ function mergeAllPosts(existing, thisRun, cutoffSec) {
   };
 }
 
-function normalizeFullName(owner, name) {
-  // Strip trailing punctuation that shows up when users paste links in
-  // markdown ("https://github.com/foo/bar."). Also drop .git suffix.
-  let clean = `${owner}/${name}`.toLowerCase();
-  clean = clean.replace(/\.git$/i, "");
-  clean = clean.replace(/[.,;:!?)\]}]+$/, "");
-  return clean;
+export function scrubStaleProjectNameLinks(posts, aliasMatchers) {
+  const currentProjectNameRepos = new Set(
+    aliasMatchers
+      .filter((matcher) => matcher.matchType === "project_name")
+      .map((matcher) => matcher.fullName.toLowerCase()),
+  );
+
+  return posts.map((post) => {
+    if (!Array.isArray(post?.linkedRepos) || post.linkedRepos.length === 0) {
+      return post;
+    }
+
+    const linkedRepos = post.linkedRepos.filter((match) => {
+      if (match?.matchType !== "project_name") return true;
+      return currentProjectNameRepos.has(
+        String(match.fullName ?? "").toLowerCase(),
+      );
+    });
+
+    if (linkedRepos.length === post.linkedRepos.length) return post;
+    return {
+      ...post,
+      repoFullName: linkedRepos[0]?.fullName,
+      linkedRepos,
+    };
+  });
+}
+
+export function normalizeFullName(owner, name) {
+  return normalizeGithubFullName(owner, name);
 }
 
 async function loadTrackedRepos() {
@@ -262,7 +521,182 @@ async function loadTrackedRepos() {
   } catch {
     // recent-repos.json is optional for the Reddit scraper.
   }
+  for (const [lower, full] of (
+    await loadTrackedReposFromFiles({
+      trendingPath: TRENDING_IN,
+      recentPath: RECENT_IN,
+      log,
+    })
+  ).entries()) {
+    if (!tracked.has(lower)) tracked.set(lower, full);
+  }
   return tracked;
+}
+
+function buildOwnerContextTokens(owner) {
+  const normalized = normalizeTerm(owner);
+  if (!normalized) return [];
+  const tokens = normalized.split(" ").filter(Boolean);
+  const out = new Set();
+  const collapsed = normalized.replace(/\s+/g, "");
+  if (collapsed.length >= 4 && !GENERIC_TERMS.has(collapsed)) out.add(collapsed);
+  const first = tokens[0];
+  if (first && first.length >= 4 && !GENERIC_TERMS.has(first)) out.add(first);
+  return Array.from(out);
+}
+
+function addAliasCandidate(out, fullName, matchType, alias, confidence, extra = {}) {
+  const rawAlias = String(alias ?? "").trim();
+  if (!rawAlias) return;
+  out.push({
+    fullName,
+    matchType,
+    alias: rawAlias,
+    confidence,
+    ...extra,
+  });
+}
+
+function buildAliasCandidatesForRepo(fullName, metadata, npmRows) {
+  const [owner, fallbackRepoName] = fullName.split("/", 2);
+  const repoName = String(metadata?.name ?? fallbackRepoName ?? "").trim();
+  const candidates = [];
+
+  addAliasCandidate(candidates, fullName, "repo_slug", fullName, 0.98);
+
+  const repoNameDistinctive = isDistinctivePhrase(repoName);
+  const repoNameHasStrongShape = /[-_.]/.test(repoName) || /\d/.test(repoName);
+  if (repoNameDistinctive && repoNameHasStrongShape) {
+    addAliasCandidate(candidates, fullName, "repo_name", repoName, 0.95);
+  }
+
+  const humanizedRepo = humanizeRepoName(repoName);
+  const humanizedTokens = normalizeTerm(humanizedRepo).split(" ").filter(Boolean);
+  if (
+    humanizedTokens.length >= 2 &&
+    isDistinctivePhrase(humanizedRepo) &&
+    isSafeProjectPhrase(humanizedRepo)
+  ) {
+    addAliasCandidate(candidates, fullName, "project_name", humanizedRepo, 0.93);
+  } else if (repoNameDistinctive && humanizedTokens.length === 1) {
+    const repoToken = humanizedTokens[0];
+    const ownerTokens = buildOwnerContextTokens(owner).filter(
+      (token) => token !== repoToken,
+    );
+    if (ownerTokens.length > 0) {
+      addAliasCandidate(
+        candidates,
+        fullName,
+        "owner_context",
+        repoToken,
+        0.9,
+        { ownerTokens },
+      );
+    }
+  }
+
+  for (const row of npmRows ?? []) {
+    const packageName = String(row?.name ?? "").trim();
+    if (!packageName) continue;
+    addAliasCandidate(candidates, fullName, "package_name", packageName, 0.97);
+    const homepageHost = normalizeHostname(row?.homepage);
+    if (homepageHost) {
+      addAliasCandidate(
+        candidates,
+        fullName,
+        "homepage_domain",
+        homepageHost,
+        0.94,
+      );
+    }
+  }
+
+  const homepageHost = normalizeHostname(metadata?.homepageUrl);
+  if (homepageHost) {
+    addAliasCandidate(candidates, fullName, "homepage_domain", homepageHost, 0.94);
+  }
+
+  return candidates;
+}
+
+function createAliasMatcher(candidate) {
+  if (candidate.matchType === "homepage_domain") {
+    return {
+      ...candidate,
+      regex: buildDomainRegex(candidate.alias),
+    };
+  }
+  if (candidate.matchType === "project_name") {
+    return {
+      ...candidate,
+      regex: buildPhraseRegex(candidate.alias),
+    };
+  }
+  if (candidate.matchType === "owner_context") {
+    return {
+      ...candidate,
+      contextRegexes: (candidate.ownerTokens ?? []).flatMap((token) => [
+        buildOwnerContextRegex(token, candidate.alias, false),
+        buildOwnerContextRegex(token, candidate.alias, true),
+      ]),
+    };
+  }
+  return {
+    ...candidate,
+    regex: buildLooseBoundaryRegex(candidate.alias),
+  };
+}
+
+export function buildRepoAliasMatchers(
+  tracked,
+  metadataByFullName = new Map(),
+  npmPackagesByRepo = new Map(),
+) {
+  const buckets = new Map();
+
+  for (const [lowerFullName, canonicalFullName] of tracked.entries()) {
+    const metadata = metadataByFullName.get(lowerFullName) ?? null;
+    const npmRows = npmPackagesByRepo.get(lowerFullName) ?? [];
+    const candidates = buildAliasCandidatesForRepo(
+      canonicalFullName,
+      metadata,
+      npmRows,
+    );
+    for (const candidate of candidates) {
+      const key =
+        candidate.matchType === "owner_context"
+          ? `${candidate.matchType}:${normalizeAliasKey(candidate.alias)}:${(candidate.ownerTokens ?? []).map((token) => normalizeAliasKey(token)).sort().join("|")}`
+          : `${candidate.matchType}:${normalizeAliasKey(candidate.alias)}`;
+      const bucket = buckets.get(key) ?? [];
+      bucket.push(candidate);
+      buckets.set(key, bucket);
+    }
+  }
+
+  const matchers = [];
+  for (const bucket of buckets.values()) {
+    const uniqueRepos = new Set(bucket.map((entry) => entry.fullName.toLowerCase()));
+    if (uniqueRepos.size !== 1) continue;
+    bucket.sort((a, b) => b.confidence - a.confidence);
+    const matcher = createAliasMatcher(bucket[0]);
+    if (
+      (matcher.matchType === "owner_context" &&
+        matcher.contextRegexes.length === 0) ||
+      (matcher.matchType !== "owner_context" && !matcher.regex)
+    ) {
+      continue;
+    }
+    matchers.push(matcher);
+  }
+
+  matchers.sort((a, b) => {
+    if (b.confidence !== a.confidence) return b.confidence - a.confidence;
+    const aPriority = MATCH_TYPE_PRIORITY[a.matchType] ?? 0;
+    const bPriority = MATCH_TYPE_PRIORITY[b.matchType] ?? 0;
+    if (bPriority !== aPriority) return bPriority - aPriority;
+    return a.alias.localeCompare(b.alias);
+  });
+  return matchers;
 }
 
 async function fetchSubredditNew(sub) {
@@ -286,43 +720,42 @@ async function fetchSubredditNew(sub) {
   return [];
 }
 
-function extractRepoMentions(post, trackedLower) {
+export function extractRepoMentions(post, trackedLower, aliasMatchers = []) {
   // Scan title, url, and selftext. Dedupe per-post so a link pasted in both
-  // title and body still counts as one mention for that post.
-  const hits = new Set();
+  // title and body still counts as one mention for that post. Alias matchers
+  // extend beyond raw GitHub URLs but are kept exact + repo-unique only.
+  const hits = new Map();
+  const remember = (fullName, matchType, confidence) => {
+    const canonical =
+      trackedLower instanceof Map
+        ? trackedLower.get(fullName)
+        : trackedLower.has(fullName)
+          ? fullName
+          : null;
+    if (!canonical) return;
+    const key = canonical.toLowerCase();
+    const existing = hits.get(key);
+    if (!existing || confidence > existing.confidence) {
+      hits.set(key, { fullName: canonical, matchType, confidence });
+    }
+  };
   const text = `${post.title ?? ""}\n${post.url ?? ""}\n${post.selftext ?? ""}`;
-  let match;
-  REPO_URL_RE.lastIndex = 0;
-  while ((match = REPO_URL_RE.exec(text)) !== null) {
-    const full = normalizeFullName(match[1], match[2]);
-    // Ignore obvious non-repo paths like github.com/orgs/foo or /settings.
-    const [owner] = full.split("/");
-    if (!owner || RESERVED_GITHUB_OWNERS.has(owner)) continue;
-    if (trackedLower.has(full)) hits.add(full);
+  for (const full of extractGithubRepoFullNames(text, trackedLower)) {
+    remember(full, "url", 1.0);
+  }
+
+  const lowered = text.toLowerCase();
+  for (const matcher of aliasMatchers) {
+    if (matcher.matchType === "owner_context") {
+      if (!matcher.contextRegexes.some((regex) => regex.test(lowered))) continue;
+      remember(matcher.fullName.toLowerCase(), matcher.matchType, matcher.confidence);
+      continue;
+    }
+    if (!matcher.regex.test(lowered)) continue;
+    remember(matcher.fullName.toLowerCase(), matcher.matchType, matcher.confidence);
   }
   return hits;
 }
-
-const RESERVED_GITHUB_OWNERS = new Set([
-  "orgs",
-  "settings",
-  "about",
-  "features",
-  "pricing",
-  "marketplace",
-  "collections",
-  "trending",
-  "topics",
-  "search",
-  "login",
-  "join",
-  "sponsors",
-  "enterprise",
-  "customer-stories",
-  "readme",
-  "apps",
-  "notifications",
-]);
 
 // ---------------------------------------------------------------------------
 // Main
@@ -335,9 +768,17 @@ async function main() {
       "no tracked repos found (data/trending.json missing or empty) — run `npm run scrape` first",
     );
   }
+  const metadataByFullName = await loadRepoMetadataByFullName();
+  const npmPackagesByRepo = await loadNpmPackagesByRepo();
+  const aliasMatchers = buildRepoAliasMatchers(
+    tracked,
+    metadataByFullName,
+    npmPackagesByRepo,
+  );
   const { computedAt: baselinesComputedAt, baselines } = await loadBaselines();
   const baselineCount = Object.keys(baselines).length;
   log(`tracked repos: ${tracked.size}`);
+  log(`repo alias matchers: ${aliasMatchers.length}`);
   log(`auth mode: ${getRedditAuthMode()}`);
   log(
     baselineCount === 0
@@ -370,8 +811,10 @@ async function main() {
         const rawUrl = String(p.url ?? "");
         // Compute every scored-post field up-front; the mentions path
         // reuses the same normalized shape but only on posts with hits.
-        const hits = extractRepoMentions(p, tracked);
-        const canonicalHits = Array.from(hits, (h) => tracked.get(h) ?? h);
+        const hits = Array.from(
+          extractRepoMentions(p, tracked, aliasMatchers).values(),
+        ).sort(matchComparator);
+        const canonicalHits = hits.map((hit) => hit.fullName);
         // Primary repo = first matched. When multiple repos are mentioned,
         // the feed card links to the first; per-repo mentions keep full
         // cross-references via the mentions map.
@@ -435,15 +878,15 @@ async function main() {
         const flatPost = {
           ...normalized,
           selftext: stripSelftext(rawSelftext),
-          linkedRepos: canonicalHits.map((fullName) => ({
-            fullName,
-            matchType: "url",
-            confidence: 1.0,
+          linkedRepos: hits.map((hit) => ({
+            fullName: hit.fullName,
+            matchType: hit.matchType,
+            confidence: hit.confidence,
           })),
         };
         allPostsFlat.push(flatPost);
 
-        if (hits.size === 0) continue;
+        if (hits.length === 0) continue;
         for (const canonical of canonicalHits) {
           let bucket = mentions.get(canonical);
           if (!bucket) {
@@ -529,6 +972,15 @@ async function main() {
   const payload = {
     fetchedAt,
     cold: mentions.size === 0,
+    authMode: getRedditAuthMode(),
+    effectiveFetchMode:
+      getRedditFetchRuntime().activeMode ?? getRedditAuthMode(),
+    fallbackUsed: getRedditFetchRuntime().fallbackUsed,
+    oauthFailures: getRedditFetchRuntime().oauthFailures,
+    successfulSubreddits: SUBREDDITS.length - errors,
+    failedSubreddits: errors,
+    oauthRequests: getRedditFetchRuntime().oauthRequests,
+    publicRequests: getRedditFetchRuntime().publicRequests,
     scannedSubreddits: SUBREDDITS,
     scannedPostsTotal: scannedTotal,
     mentions: mentionsOut,
@@ -541,7 +993,10 @@ async function main() {
   await writeFile(OUT, JSON.stringify(payload, null, 2) + "\n", "utf8");
 
   // ---- all-posts merge + write ----
-  const existingAllPosts = await loadExistingAllPosts();
+  const existingAllPosts = scrubStaleProjectNameLinks(
+    await loadExistingAllPosts(),
+    aliasMatchers,
+  );
   const { posts: mergedAllPosts, prunedOverflow } = mergeAllPosts(
     existingAllPosts,
     allPostsFlat,
@@ -587,7 +1042,12 @@ async function main() {
   }
 }
 
-main().catch((err) => {
-  console.error("scrape-reddit failed:", err.message ?? err);
-  process.exit(1);
-});
+const invokedPath = process.argv[1] ? resolve(process.argv[1]) : null;
+const modulePath = fileURLToPath(import.meta.url);
+
+if (invokedPath && resolve(invokedPath) === resolve(modulePath)) {
+  main().catch((err) => {
+    console.error("scrape-reddit failed:", err.message ?? err);
+    process.exit(1);
+  });
+}

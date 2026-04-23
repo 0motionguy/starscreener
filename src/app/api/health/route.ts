@@ -1,68 +1,51 @@
 // GET /api/health
 //
-// Freshness-gated health endpoint for external uptime monitors
-// (UptimeRobot, BetterStack, etc.). Returns 503 when EITHER the OSS
-// Insight scrape OR the git-history delta computation is stale.
-//
-// Phase 3: the snapshot pipeline's `lastRefreshAt` is no longer consulted
-// — it's ephemeral on Vercel Lambdas and meaningless across invocations.
-// Both freshness signals here ride committed JSON (data/trending.json and
-// data/deltas.json) so every Lambda sees the same view.
-//
-// Distinct from /api/pipeline/status, which reports per-pipeline stats
-// on top of the same freshness gate.
+// Freshness-gated health endpoint for external uptime monitors. The hard
+// gate stays on committed JSON timestamps, while per-source diagnostics now
+// expose "degraded but still serving" states so empty-looking feeds are
+// easier to diagnose before they become stale.
 
 import { NextResponse } from "next/server";
-import {
-  lastFetchedAt,
-  deltasComputedAt,
-  deltasCoveragePct,
-  deltasCoverageQuality,
-  type DeltaCoverageQuality,
-} from "@/lib/trending";
-import { hotCollectionsFetchedAt } from "@/lib/hot-collections";
+import type { NextRequest } from "next/server";
 import {
   collectionRankingsFetchedAt,
   getCollectionRankingsCoverage,
   type CollectionRankingsCoverage,
 } from "@/lib/collection-rankings";
-import { recentReposFetchedAt } from "@/lib/recent-repos";
+import { hotCollectionsFetchedAt } from "@/lib/hot-collections";
 import {
-  getRepoMetadataCoveragePct,
   getRepoMetadataCount,
+  getRepoMetadataCoveragePct,
   getRepoMetadataFailures,
   getRepoMetadataSourceCount,
   repoMetadataFetchedAt,
 } from "@/lib/repo-metadata";
-import { redditFetchedAt, redditCold } from "@/lib/reddit";
-import { blueskyFetchedAt, blueskyCold } from "@/lib/bluesky";
-import { hnFetchedAt, hnCold } from "@/lib/hackernews";
-import { producthuntFetchedAt, producthuntCold } from "@/lib/producthunt";
-import { devtoFetchedAt, devtoCold } from "@/lib/devto";
-import { lobstersFetchedAt, lobstersCold } from "@/lib/lobsters";
-import { npmFetchedAt, npmCold } from "@/lib/npm";
+import { recentReposFetchedAt } from "@/lib/recent-repos";
+import {
+  DEVTO_STALE_THRESHOLD_MS,
+  FAST_DATA_STALE_THRESHOLD_MS,
+  NPM_STALE_THRESHOLD_MS,
+  PRODUCTHUNT_STALE_THRESHOLD_MS,
+  getDegradedScannerSources,
+  getScannerSourceHealth,
+  type ScannerSourceHealth,
+} from "@/lib/source-health";
+import {
+  deltasComputedAt,
+  deltasCoveragePct,
+  deltasCoverageQuality,
+  lastFetchedAt,
+  type DeltaCoverageQuality,
+} from "@/lib/trending";
 
-// 2 hours ≈ 2× hourly GHA cadence. Stale past this means at least one tick
-// has missed; operator should be paged.
-const FAST_DATA_STALE_THRESHOLD_MS = 2 * 60 * 60 * 1000;
 const RANKINGS_STALE_THRESHOLD_MS = 12 * 60 * 60 * 1000;
-// ProductHunt runs DAILY (not hourly) per its 100 req/hr rate limit. 26h
-// gives the daily cron 2h of slack before we flag as stale.
-const PRODUCTHUNT_STALE_THRESHOLD_MS = 26 * 60 * 60 * 1000;
-// dev.to runs DAILY too (lower-velocity source). Same 26h slack window.
-const DEVTO_STALE_THRESHOLD_MS = 26 * 60 * 60 * 1000;
-// npm download stats lag 24-48h. The scrape itself is daily, so a 50h
-// gate catches a stuck workflow without paging on npm's own reporting lag.
-const NPM_STALE_THRESHOLD_MS = 50 * 60 * 60 * 1000;
-
-// Below this percent of repos having ≥1 non-null delta, the endpoint emits
-// a warning field. Expected during the first 30 days of accumulation.
 const COVERAGE_WARN_PCT = 50;
 
 type HealthStatus = "ok" | "stale" | "error";
 
 interface HealthBody {
   status: HealthStatus;
+  sourceStatus?: "ok" | "degraded";
   lastFetchedAt: string | null;
   computedAt: string | null;
   hotCollectionsFetchedAt: string | null;
@@ -121,7 +104,6 @@ interface HealthBody {
     npm: boolean;
   };
   coveragePct: number;
-  /** 'full' = real deltas, 'partial' = cold-start, 'cold' = no data yet. */
   coverageQuality: DeltaCoverageQuality;
   collectionCoverage: CollectionRankingsCoverage;
   repoMetadata: {
@@ -130,32 +112,41 @@ interface HealthBody {
     coveragePct: number;
     failureCount: number;
   };
+  degradedSources?: string[];
+  sources?: ScannerSourceHealth[];
   warning?: string;
   error?: string;
 }
 
 function ageMs(iso: string | null): number | null {
   if (!iso) return null;
-  const t = new Date(iso).getTime();
-  if (Number.isNaN(t)) return null;
-  return Date.now() - t;
+  const ts = Date.parse(iso);
+  if (!Number.isFinite(ts)) return null;
+  return Date.now() - ts;
 }
 
-export async function GET(): Promise<NextResponse<HealthBody>> {
+export async function GET(request: NextRequest): Promise<NextResponse<HealthBody>> {
   try {
+    const soft = request.nextUrl.searchParams.get("soft") === "1";
+    const sources = getScannerSourceHealth();
+    const degradedSources = getDegradedScannerSources().map((source) => source.id);
+    const sourceById = new Map<ScannerSourceHealth["id"], ScannerSourceHealth>(
+      sources.map((source) => [source.id, source]),
+    );
+    const reddit = sourceById.get("reddit");
+    const bluesky = sourceById.get("bluesky");
+    const hn = sourceById.get("hackernews");
+    const producthunt = sourceById.get("producthunt");
+    const devto = sourceById.get("devto");
+    const lobsters = sourceById.get("lobsters");
+    const npm = sourceById.get("npm");
+
     const scraperAge = ageMs(lastFetchedAt);
     const deltasAge = ageMs(deltasComputedAt);
     const hotCollectionsAge = ageMs(hotCollectionsFetchedAt);
     const recentReposAge = ageMs(recentReposFetchedAt);
     const repoMetadataAge = ageMs(repoMetadataFetchedAt);
     const collectionRankingsAge = ageMs(collectionRankingsFetchedAt);
-    const redditAge = ageMs(redditFetchedAt);
-    const blueskyAge = ageMs(blueskyFetchedAt);
-    const hnAge = ageMs(hnFetchedAt);
-    const producthuntAge = ageMs(producthuntFetchedAt);
-    const devtoAge = ageMs(devtoFetchedAt);
-    const lobstersAge = ageMs(lobstersFetchedAt);
-    const npmAge = ageMs(npmFetchedAt);
 
     const scraperStale =
       scraperAge === null || scraperAge > FAST_DATA_STALE_THRESHOLD_MS;
@@ -172,33 +163,7 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
     const collectionRankingsStale =
       collectionRankingsAge === null ||
       collectionRankingsAge > RANKINGS_STALE_THRESHOLD_MS;
-    // Reddit cold state (never scraped) is NOT stale for gate purposes. Once
-    // data lands, the same 2h threshold applies.
-    const redditStale = !redditCold &&
-      (redditAge === null || redditAge > FAST_DATA_STALE_THRESHOLD_MS);
-    // Same contract for Bluesky: cold (epoch-zero stub) is not stale —
-    // only a committed scrape that's then fallen behind counts.
-    const blueskyStale = !blueskyCold &&
-      (blueskyAge === null || blueskyAge > FAST_DATA_STALE_THRESHOLD_MS);
-    // HN runs on the hourly fast-refresh workflow alongside Reddit/Bluesky.
-    // Cold = no data file yet; once a scrape lands, the 2h fast threshold
-    // applies. Sprint 1 finding #1.
-    const hnStale = !hnCold &&
-      (hnAge === null || hnAge > FAST_DATA_STALE_THRESHOLD_MS);
-    // ProductHunt runs daily. Cold (never scraped) isn't stale; once data
-    // lands, the 26h threshold kicks in.
-    const producthuntStale = !producthuntCold &&
-      (producthuntAge === null ||
-        producthuntAge > PRODUCTHUNT_STALE_THRESHOLD_MS);
-    // dev.to runs daily — same contract as ProductHunt.
-    const devtoStale = !devtoCold &&
-      (devtoAge === null || devtoAge > DEVTO_STALE_THRESHOLD_MS);
-    // Lobsters runs hourly (:37). Same 2h fast threshold as Reddit/HN/Bluesky
-    // once a scrape has landed. Cold = never committed.
-    const lobstersStale = !lobstersCold &&
-      (lobstersAge === null || lobstersAge > FAST_DATA_STALE_THRESHOLD_MS);
-    const npmStale = !npmCold &&
-      (npmAge === null || npmAge > NPM_STALE_THRESHOLD_MS);
+
     const anyStale =
       scraperStale ||
       deltasStale ||
@@ -206,13 +171,13 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
       recentReposStale ||
       repoMetadataStale ||
       collectionRankingsStale ||
-      redditStale ||
-      blueskyStale ||
-      hnStale ||
-      producthuntStale ||
-      devtoStale ||
-      lobstersStale ||
-      npmStale;
+      (reddit?.stale ?? false) ||
+      (bluesky?.stale ?? false) ||
+      (hn?.stale ?? false) ||
+      (producthunt?.stale ?? false) ||
+      (devto?.stale ?? false) ||
+      (lobsters?.stale ?? false) ||
+      (npm?.stale ?? false);
 
     const coverage = deltasCoveragePct();
     const coverageLow = coverage < COVERAGE_WARN_PCT;
@@ -221,57 +186,49 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
 
     const body: HealthBody = {
       status: anyStale ? "stale" : "ok",
+      sourceStatus: degradedSources.length > 0 ? "degraded" : "ok",
       lastFetchedAt: lastFetchedAt ?? null,
       computedAt: deltasComputedAt ?? null,
       hotCollectionsFetchedAt: hotCollectionsFetchedAt ?? null,
       recentReposFetchedAt,
       repoMetadataFetchedAt,
       collectionRankingsFetchedAt,
-      redditFetchedAt: redditCold ? null : (redditFetchedAt ?? null),
-      redditCold,
-      blueskyFetchedAt: blueskyCold ? null : (blueskyFetchedAt ?? null),
-      blueskyCold,
-      hnFetchedAt: hnCold ? null : (hnFetchedAt ?? null),
-      hnCold,
-      producthuntFetchedAt: producthuntCold
-        ? null
-        : (producthuntFetchedAt ?? null),
-      producthuntCold,
-      devtoFetchedAt: devtoCold ? null : (devtoFetchedAt ?? null),
-      devtoCold,
-      lobstersFetchedAt: lobstersCold ? null : (lobstersFetchedAt ?? null),
-      lobstersCold,
-      npmFetchedAt: npmCold ? null : (npmFetchedAt ?? null),
-      npmCold,
+      redditFetchedAt: reddit?.fetchedAt ?? null,
+      redditCold: reddit?.cold ?? true,
+      blueskyFetchedAt: bluesky?.fetchedAt ?? null,
+      blueskyCold: bluesky?.cold ?? true,
+      hnFetchedAt: hn?.fetchedAt ?? null,
+      hnCold: hn?.cold ?? true,
+      producthuntFetchedAt: producthunt?.fetchedAt ?? null,
+      producthuntCold: producthunt?.cold ?? true,
+      devtoFetchedAt: devto?.fetchedAt ?? null,
+      devtoCold: devto?.cold ?? true,
+      lobstersFetchedAt: lobsters?.fetchedAt ?? null,
+      lobstersCold: lobsters?.cold ?? true,
+      npmFetchedAt: npm?.fetchedAt ?? null,
+      npmCold: npm?.cold ?? true,
       ageSeconds: {
         scraper: scraperAge === null ? null : Math.floor(scraperAge / 1000),
         deltas: deltasAge === null ? null : Math.floor(deltasAge / 1000),
         hotCollections:
-          hotCollectionsAge === null ? null : Math.floor(hotCollectionsAge / 1000),
+          hotCollectionsAge === null
+            ? null
+            : Math.floor(hotCollectionsAge / 1000),
         recentRepos:
           recentReposAge === null ? null : Math.floor(recentReposAge / 1000),
         repoMetadata:
           repoMetadataAge === null ? null : Math.floor(repoMetadataAge / 1000),
         collectionRankings:
-          collectionRankingsAge === null ? null : Math.floor(collectionRankingsAge / 1000),
-        reddit:
-          redditCold || redditAge === null ? null : Math.floor(redditAge / 1000),
-        bluesky:
-          blueskyCold || blueskyAge === null ? null : Math.floor(blueskyAge / 1000),
-        hn:
-          hnCold || hnAge === null ? null : Math.floor(hnAge / 1000),
-        producthunt:
-          producthuntCold || producthuntAge === null
+          collectionRankingsAge === null
             ? null
-            : Math.floor(producthuntAge / 1000),
-        devto:
-          devtoCold || devtoAge === null ? null : Math.floor(devtoAge / 1000),
-        lobsters:
-          lobstersCold || lobstersAge === null
-            ? null
-            : Math.floor(lobstersAge / 1000),
-        npm:
-          npmCold || npmAge === null ? null : Math.floor(npmAge / 1000),
+            : Math.floor(collectionRankingsAge / 1000),
+        reddit: reddit?.ageSeconds ?? null,
+        bluesky: bluesky?.ageSeconds ?? null,
+        hn: hn?.ageSeconds ?? null,
+        producthunt: producthunt?.ageSeconds ?? null,
+        devto: devto?.ageSeconds ?? null,
+        lobsters: lobsters?.ageSeconds ?? null,
+        npm: npm?.ageSeconds ?? null,
       },
       thresholdSeconds: {
         fastData: FAST_DATA_STALE_THRESHOLD_MS / 1000,
@@ -287,13 +244,13 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
         recentRepos: recentReposStale,
         repoMetadata: repoMetadataStale,
         collectionRankings: collectionRankingsStale,
-        reddit: redditStale,
-        bluesky: blueskyStale,
-        hn: hnStale,
-        producthunt: producthuntStale,
-        devto: devtoStale,
-        lobsters: lobstersStale,
-        npm: npmStale,
+        reddit: reddit?.stale ?? false,
+        bluesky: bluesky?.stale ?? false,
+        hn: hn?.stale ?? false,
+        producthunt: producthunt?.stale ?? false,
+        devto: devto?.stale ?? false,
+        lobsters: lobsters?.stale ?? false,
+        npm: npm?.stale ?? false,
       },
       coveragePct: Math.round(coverage * 10) / 10,
       coverageQuality: quality,
@@ -304,20 +261,28 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
         coveragePct: Math.round(getRepoMetadataCoveragePct() * 10) / 10,
         failureCount: getRepoMetadataFailures().length,
       },
+      degradedSources,
+      sources,
     };
 
     if (!anyStale && quality === "partial") {
-      body.warning = `coverageQuality=partial — cold-start fallback in use; real 24h/7d/30d windows will populate as history matures`;
+      body.warning =
+        "coverageQuality=partial - cold-start fallback in use; real 24h/7d/30d windows will populate as history matures";
+    } else if (!anyStale && degradedSources.length > 0) {
+      body.warning =
+        `degraded sources: ${degradedSources.join(", ")} - freshness is live but one or more scanners are below expected quality`;
     } else if (!anyStale && coverageLow) {
-      body.warning = `delta coverage ${body.coveragePct}% < ${COVERAGE_WARN_PCT}% — expected during 30-day cold-start window`;
+      body.warning =
+        `delta coverage ${body.coveragePct}% < ${COVERAGE_WARN_PCT}% - expected during 30-day cold-start window`;
     }
 
-    return NextResponse.json(body, { status: anyStale ? 503 : 200 });
+    return NextResponse.json(body, { status: anyStale && !soft ? 503 : 200 });
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     return NextResponse.json(
       {
         status: "error",
+        sourceStatus: "degraded",
         lastFetchedAt: lastFetchedAt ?? null,
         computedAt: deltasComputedAt ?? null,
         hotCollectionsFetchedAt: hotCollectionsFetchedAt ?? null,
@@ -389,6 +354,8 @@ export async function GET(): Promise<NextResponse<HealthBody>> {
           coveragePct: 0,
           failureCount: 0,
         },
+        degradedSources: [],
+        sources: [],
         error: message,
       },
       { status: 503 },

@@ -75,6 +75,39 @@ export interface Repo {
   socialBuzzScore: number; // 0-100
   mentionCount24h: number;
 
+  /**
+   * Twitter/X rollup attached from the persisted Twitter signal store.
+   * Null when the repo has no retained X scan with accepted mentions.
+   */
+  twitter?: {
+    mentionCount24h: number;
+    uniqueAuthors24h: number;
+    finalTwitterScore: number;
+    badgeState: "none" | "x" | "x_fire";
+    topPostUrl: string | null;
+    lastScannedAt: string;
+  } | null;
+
+  /**
+   * Reddit mention rollup attached during derived-repos assembly. The full
+   * post list stays in data/reddit-mentions.json; rows only need the count,
+   * engagement totals, and a top-post link.
+   */
+  reddit?: {
+    mentions7d: number;
+    upvotes7d: number;
+    comments7d: number;
+    topPost?: {
+      id: string;
+      title: string;
+      subreddit: string;
+      permalink: string;
+      url: string;
+      score: number;
+      comments: number;
+    };
+  } | null;
+
   /** Set by /api/pipeline/cleanup when GitHub reports the repo archived/disabled. */
   archived?: boolean;
   /** Set by /api/pipeline/cleanup when the upstream fetch returns 404. */

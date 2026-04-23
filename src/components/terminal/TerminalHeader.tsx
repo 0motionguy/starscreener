@@ -31,6 +31,7 @@ interface TerminalHeaderProps {
   sortDirection: SortDirection | null;
   onSort: (id: ColumnId) => void;
   onOpenColumnPicker: () => void;
+  disableSort?: boolean;
 }
 
 function alignClass(a: Column["align"]): string {
@@ -50,6 +51,7 @@ export function TerminalHeader({
   sortDirection,
   onSort,
   onOpenColumnPicker,
+  disableSort = false,
 }: TerminalHeaderProps) {
   const density = useFilterStore((s) => s.density);
   const setDensity = useFilterStore((s) => s.setDensity);
@@ -71,7 +73,21 @@ export function TerminalHeader({
               ? { width: col.width, minWidth: col.width }
               : { minWidth: 240 };
 
-          const content = col.sortable ? (
+          const sortGlyph = isActive ? (
+            sortDirection === "asc" ? (
+              <ChevronUp size={11} strokeWidth={2.5} className="shrink-0" />
+            ) : (
+              <ChevronDown size={11} strokeWidth={2.5} className="shrink-0" />
+            )
+          ) : col.sortable && !disableSort ? (
+            <ArrowUpDown
+              size={10}
+              strokeWidth={2}
+              className="shrink-0 opacity-40"
+            />
+          ) : null;
+
+          const content = col.sortable && !disableSort ? (
             <button
               type="button"
               onClick={() => onSort(col.id)}
@@ -83,33 +99,19 @@ export function TerminalHeader({
               )}
             >
               <span className="truncate">{col.label}</span>
-              {isActive ? (
-                sortDirection === "asc" ? (
-                  <ChevronUp size={11} strokeWidth={2.5} className="shrink-0" />
-                ) : (
-                  <ChevronDown
-                    size={11}
-                    strokeWidth={2.5}
-                    className="shrink-0"
-                  />
-                )
-              ) : (
-                <ArrowUpDown
-                  size={10}
-                  strokeWidth={2}
-                  className="shrink-0 opacity-40"
-                />
-              )}
+              {sortGlyph}
             </button>
           ) : (
             <span
               className={cn(
-                "label-micro block px-2 py-2",
+                "label-micro inline-flex w-full items-center gap-1 px-2 py-2",
                 alignClass(col.align),
+                isActive && "text-functional",
               )}
               title={col.description ?? col.label}
             >
-              {col.label}
+              <span className="truncate">{col.label}</span>
+              {sortGlyph}
             </span>
           );
 

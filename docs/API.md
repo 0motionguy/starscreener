@@ -105,6 +105,221 @@ curl "$HOST/api/search?q=ollama"
 
 ---
 
+## Twitter / X
+
+### `GET /api/twitter/leaderboard`
+
+Most-talked-about-on-X leaderboard for the last 24h.
+
+```bash
+curl "$HOST/api/twitter/leaderboard?limit=25"
+```
+
+Returns:
+
+- `rows[]` with `repoName`, `githubFullName`, `mentionCount24h`,
+  `uniqueAuthors24h`, `totalLikes24h`, `totalReposts24h`,
+  `finalTwitterScore`, `badgeState`, `topPostUrl`
+- `stats` overview for the page header
+
+### `GET /api/twitter/repos/[owner]/[name]`
+
+UI-ready Twitter/X panel payload for a single repo.
+
+```bash
+curl "$HOST/api/twitter/repos/anthropic/claude-code"
+```
+
+Returns:
+
+- `rowBadge`
+- `summary`
+- `confidenceSummary`
+- `topPosts`
+
+### Local collector
+
+The existing Twitter page and repo panel are populated by the same canonical
+ingest contract below. To collect low-cost findings locally and write directly
+to the JSONL Twitter store:
+
+```bash
+npm run collect:twitter
+```
+
+Preview without writing:
+
+```bash
+npm run collect:twitter:dry
+```
+
+If a local or deployed app is already running and you want the `/twitter`
+page to update immediately through the same process:
+
+```bash
+npm run collect:twitter:api
+```
+
+Default collector settings:
+
+- provider: `nitter`
+- mode: `direct`
+- candidate source: local `getTwitterScanCandidates()`
+- output target: `ingestTwitterAgentFindings()` plus JSONL flush
+- display target: `/twitter` and `/repo/[owner]/[name]`
+- targeted refresh: pass `--repo owner/name` or set `TWITTER_COLLECTOR_REPOS`
+- empty-source scans are skipped unless `--ingest-empty` is passed
+
+Use API mode for a deployed app:
+
+```bash
+npm run collect:twitter -- \
+  --mode api \
+  --base-url "$HOST" \
+  --token "$INTERNAL_AGENT_TOKEN"
+```
+
+### `GET /api/internal/signals/twitter/v1/candidates`
+
+Authenticated internal route for OpenClaw to fetch repos TrendingRepo already knows about.
+
+**Auth:** `Authorization: Bearer <internal-agent-token>`
+
+Query:
+
+- `limit`: integer `1..100`, default `50`
+
+Response:
+
+```json
+{
+  "ok": true,
+  "version": "v1",
+  "source": "twitter",
+  "generatedAt": "2026-04-22T13:30:00.000Z",
+  "count": 50,
+  "candidates": [
+    {
+      "priorityRank": 1,
+      "priorityScore": 236.4,
+      "priorityReason": "known TrendingRepo repo; no X scan yet",
+      "lastScannedAt": null,
+      "repo": {
+        "repoId": "anthropic--claude-code",
+        "githubFullName": "anthropic/claude-code",
+        "githubUrl": "https://github.com/anthropic/claude-code",
+        "repoName": "claude-code",
+        "ownerName": "anthropic"
+      }
+    }
+  ]
+}
+```
+
+### `POST /api/internal/signals/twitter/v1/ingest`
+
+Canonical internal ingestion endpoint for OpenClaw Twitter/X scans.
+
+**Auth:** `Authorization: Bearer <internal-agent-token>`
+
+- preferred env: `INTERNAL_AGENT_TOKENS_JSON`
+- fallback for legacy internal callers: `$CRON_SECRET`
+
+```bash
+curl -X POST "$HOST/api/internal/signals/twitter/v1/ingest" \
+  -H "Authorization: Bearer $INTERNAL_AGENT_TOKEN" \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "version":"v1",
+    "source":"twitter",
+    "agent":{
+      "name":"openclaw-twitter-scan-agent",
+      "version":"1.0.0",
+      "runId":"run_2026_04_22_abc123"
+    },
+    "repo":{
+      "repoId":"anthropic--claude-code",
+      "githubFullName":"anthropic/claude-code",
+      "githubUrl":"https://github.com/anthropic/claude-code",
+      "repoName":"claude-code",
+      "ownerName":"anthropic",
+      "homepageUrl":"https://claude.ai/code",
+      "docsUrl":"https://docs.anthropic.com/claude-code"
+    },
+    "scan":{
+      "scanId":"twscan_2026_04_22_abc123",
+      "scanType":"targeted_repo_scan",
+      "triggeredBy":"trending_pipeline",
+      "windowHours":24,
+      "startedAt":"2026-04-22T11:55:00.000Z",
+      "completedAt":"2026-04-22T12:00:00.000Z",
+      "status":"completed"
+    },
+    "queries":[
+      {
+        "queryText":"anthropic/claude-code",
+        "queryType":"repo_slug",
+        "tier":1,
+        "confidenceWeight":1,
+        "enabled":true,
+        "matchCount":17
+      }
+    ],
+    "posts":[
+      {
+        "postId":"189123456789",
+        "postUrl":"https://x.com/example/status/189123456789",
+        "authorHandle":"example",
+        "authorAvatarUrl":"https://pbs.twimg.com/profile_images/123/example_normal.jpg",
+        "postedAt":"2026-04-22T10:14:00.000Z",
+        "text":"Claude Code is insanely good...",
+        "likes":840,
+        "reposts":230,
+        "replies":39,
+        "quotes":11,
+        "matchedBy":"repo_slug",
+        "confidence":"high",
+        "matchedTerms":["anthropic/claude-code","Claude Code"],
+        "whyMatched":"Contains exact repo slug and product phrase",
+        "sourceQuery":"anthropic/claude-code",
+        "sourceQueryType":"repo_slug"
+      }
+    ],
+    "rawSummary":{
+      "candidatePostsSeen":91,
+      "acceptedPosts":1,
+      "rejectedPosts":90
+    }
+  }'
+```
+
+Idempotency key: `scan.scanId`.
+
+Response fields:
+
+- `ingestionId`
+- `idempotentReplay`
+- `counts.postsReceived / postsAccepted / postsRejected / postsInserted / postsUpdated`
+- canonical `computed` metrics, score, badge, and top post URL
+
+### `POST /api/internal/twitter/v1/findings`
+
+Legacy compatibility endpoint.
+
+- accepts the older compact findings payload
+- authenticated with `Authorization: Bearer $CRON_SECRET`
+- internally adapts to the canonical ingest service
+- response includes `deprecated: true`
+
+### `GET /api/internal/twitter/v1/review/[owner]/[name]`
+
+Authenticated admin/review payload for the latest Twitter scan:
+
+- `panel`
+- `latestScan` with raw queries and matched posts
+
+---
+
 ## Pipeline
 
 ### `GET /api/pipeline/status`
@@ -357,6 +572,131 @@ curl -X POST "$HOST/api/pipeline/rebuild" \
 **Rate-limit guard:** the loop aborts mid-run when `rateLimitRemaining < 200` (hardcoded threshold, no env override) so scheduled crons retain headroom. `aborted: true` in the response signals an early break.
 
 **Side effects:** mutates `snapshotStore` per repo via stargazer or events-API path. Triggers `pipeline.recomputeAll()` at the end unless `skipRecompute: true`.
+
+### `GET/POST /api/pipeline/profiles/enrich`
+
+Repo-profile enrichment control plane. Drives the durable “round profile” flow:
+
+- resolve repo website/docs/npm/ProductHunt surfaces
+- persist per-repo profile state into `data/repo-profiles.json`
+- queue or complete AISO scans without doing that work on page load
+
+**Auth:** shared `verifyCronAuth` (tri-state). `maxDuration: 300s`.
+
+**GET**
+
+Returns the current persisted profile summary.
+
+```bash
+curl "$HOST/api/pipeline/profiles/enrich" \
+  -H "Authorization: Bearer $CRON_SECRET"
+```
+
+**GET response**
+
+```json
+{
+  "ok": true,
+  "mode": "status",
+  "generatedAt": "2026-04-22T15:40:12.000Z",
+  "selection": {
+    "source": "incremental",
+    "limit": 50,
+    "maxScans": 10,
+    "scanned": 12,
+    "queued": 31,
+    "noWebsite": 7,
+    "failed": 1
+  },
+  "counts": {
+    "total": 51,
+    "scanned": 12,
+    "queued": 31,
+    "noWebsite": 7,
+    "failed": 1
+  },
+  "recent": [
+    {
+      "fullName": "NousResearch/hermes-agent",
+      "rank": 3,
+      "status": "scanned",
+      "websiteUrl": "https://hermes-agent.nousresearch.com/",
+      "lastProfiledAt": "2026-04-22T15:40:10.000Z"
+    }
+  ]
+}
+```
+
+**POST**
+
+Runs the enrichment script in one of three modes:
+
+- `top` — prioritize current hottest repos
+- `catchup` — backfill the broader repo set
+- `incremental` — only repos that are new, pending, failed, or due for re-scan
+
+**Body (optional JSON)**
+
+| Field | Type | Default | Notes |
+|-------|------|---------|-------|
+| `mode` | string | `incremental` | One of `top`, `catchup`, `incremental` |
+| `limit` | number | mode-dependent | Max candidates to inspect this run |
+| `maxScans` | number | mode-dependent | Max new AISO scan submissions this run |
+| `includeRepos` | string[] | none | Force specific repos into the run |
+| `scanIdOverrides` | object | none | Map of `owner/repo -> existing AISO scan id` |
+| `aisoBaseUrl` | string | auto | Override scanner base URL, e.g. local dev |
+
+```bash
+curl -X POST "$HOST/api/pipeline/profiles/enrich" \
+  -H "Authorization: Bearer $CRON_SECRET" \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "mode":"incremental",
+    "limit":50,
+    "maxScans":10
+  }'
+```
+
+**POST response**
+
+```json
+{
+  "ok": true,
+  "mode": "incremental",
+  "durationMs": 14211,
+  "exitCode": 0,
+  "stdout": [
+    "repo profiles: mode=incremental candidates=5 maxScans=0 aiso=https://aiso.tools",
+    "scan_pending: owner/repo -> https://example.com/"
+  ],
+  "stderr": [],
+  "generatedAt": "2026-04-22T15:45:12.000Z",
+  "selection": {
+    "source": "incremental",
+    "limit": 50,
+    "maxScans": 10,
+    "scanned": 12,
+    "queued": 31,
+    "noWebsite": 7,
+    "failed": 1
+  },
+  "counts": {
+    "total": 51,
+    "scanned": 12,
+    "queued": 31,
+    "noWebsite": 7,
+    "failed": 1
+  }
+}
+```
+
+**CLI equivalents**
+
+```bash
+npm run enrich:profiles:top
+npm run enrich:profiles:catchup
+npm run enrich:profiles:incremental
+```
 
 ---
 

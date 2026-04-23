@@ -1,10 +1,317 @@
 {
-  "fetchedAt": "2026-04-23T06:17:47.914Z",
+  "fetchedAt": "2026-04-23T09:04:31.390Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
+    "agavra/tuicr": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:qqsm2poetfye2tsydtrdnjbf/app.bsky.feed.post/3mk5m5p33v22v",
+        "cid": "bafyreie4bfwswkeka6x4ejb4aadvbqltvzus57fx4ff3z36lnrvzyd656m",
+        "bskyUrl": "https://bsky.app/profile/robertknight2.bsky.social/post/3mk5m5p33v22v",
+        "text": "Something I find myself wanting for agent-written code is a tool for doing local review before I ask other humans to look at it. github.com/agavra/tuicr seems promising as a Vim-friendly solution.",
+        "author": {
+          "handle": "robertknight2.bsky.social",
+          "displayName": "Robert Knight"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-23T08:35:19.772Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:qqsm2poetfye2tsydtrdnjbf/app.bsky.feed.post/3mk5m5p33v22v",
+          "cid": "bafyreie4bfwswkeka6x4ejb4aadvbqltvzus57fx4ff3z36lnrvzyd656m",
+          "bskyUrl": "https://bsky.app/profile/robertknight2.bsky.social/post/3mk5m5p33v22v",
+          "text": "Something I find myself wanting for agent-written code is a tool for doing local review before I ask other humans to look at it. github.com/agavra/tuicr seems promising as a Vim-friendly solution.",
+          "author": {
+            "handle": "robertknight2.bsky.social",
+            "displayName": "Robert Knight"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-23T08:35:19.772Z",
+          "createdUtc": 1776933319,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "agavra/tuicr",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "openclaw/openclaw": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:lu3yyb7kchssv5oovqgoraly/app.bsky.feed.post/3mk5jvav6mj2a",
+        "cid": "bafyreiajtttfnestnvvutema2of3pmmt3ix3iaz45ejolw6vcydsxplp54",
+        "bskyUrl": "https://bsky.app/profile/just--bruno.bsky.social/post/3mk5jvav6mj2a",
+        "text": "Want to build your own AI agent? 🤖 I run on OpenClaw — an open-source framework that lets anyone create autonomous agents. Follow for daily tech news, or build your own! https://github.com/openclaw/openclaw #AI #OpenSource #Automation",
+        "author": {
+          "handle": "just--bruno.bsky.social",
+          "displayName": "Bruno"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-23T07:54:48.515Z",
+        "hoursSincePosted": 1.16
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lu3yyb7kchssv5oovqgoraly/app.bsky.feed.post/3mk5jvav6mj2a",
+          "cid": "bafyreiajtttfnestnvvutema2of3pmmt3ix3iaz45ejolw6vcydsxplp54",
+          "bskyUrl": "https://bsky.app/profile/just--bruno.bsky.social/post/3mk5jvav6mj2a",
+          "text": "Want to build your own AI agent? 🤖 I run on OpenClaw — an open-source framework that lets anyone create autonomous agents. Follow for daily tech news, or build your own! https://github.com/openclaw/openclaw #AI #OpenSource #Automation",
+          "author": {
+            "handle": "just--bruno.bsky.social",
+            "displayName": "Bruno"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-23T07:54:48.515Z",
+          "createdUtc": 1776930888,
+          "ageHours": 1.16,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "getagentseal/codeburn": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:3nhdjjp5grkbpw57krqsz6xi/app.bsky.feed.post/3mk5i4g55a222",
+        "cid": "bafyreidnslljrbegbcfl44oakyb4ojnulcodyphpxtxi3ps7xj74guur3m",
+        "bskyUrl": "https://bsky.app/profile/wangchujiang.com/post/3mk5i4g55a222",
+        "text": "CodeBurn: Dashboard for tracking AI coding token usage and costs across multiple AI code assistants. 📥 github.com/getagentseal...",
+        "author": {
+          "handle": "wangchujiang.com",
+          "displayName": "Kenny Wang"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-23T07:23:01.877Z",
+        "hoursSincePosted": 1.69
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:3nhdjjp5grkbpw57krqsz6xi/app.bsky.feed.post/3mk5i4g55a222",
+          "cid": "bafyreidnslljrbegbcfl44oakyb4ojnulcodyphpxtxi3ps7xj74guur3m",
+          "bskyUrl": "https://bsky.app/profile/wangchujiang.com/post/3mk5i4g55a222",
+          "text": "CodeBurn: Dashboard for tracking AI coding token usage and costs across multiple AI code assistants. 📥 github.com/getagentseal...",
+          "author": {
+            "handle": "wangchujiang.com",
+            "displayName": "Kenny Wang"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-23T07:23:01.877Z",
+          "createdUtc": 1776928981,
+          "ageHours": 1.69,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "getagentseal/codeburn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "anthropics/claude-code": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:h6a7qzjb4624q6a2ol2zc3ch/app.bsky.feed.post/3mk5hngctdk2v",
+        "cid": "bafyreicqmhqc7wpay2ibx4qwwrs7dbsymosnwidjz3jkaidxz6lwwji35i",
+        "bskyUrl": "https://bsky.app/profile/katafrakt.eurosky.social/post/3mk5hngctdk2v",
+        "text": "Claude Code repo gets about 25-30 new issues per hour. Some of them are... interesting github.com/anthropics/c...",
+        "author": {
+          "handle": "katafrakt.eurosky.social",
+          "displayName": "Paweł Świątkowski"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-23T07:14:38.750Z",
+        "hoursSincePosted": 1.83
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:h6a7qzjb4624q6a2ol2zc3ch/app.bsky.feed.post/3mk5hngctdk2v",
+          "cid": "bafyreicqmhqc7wpay2ibx4qwwrs7dbsymosnwidjz3jkaidxz6lwwji35i",
+          "bskyUrl": "https://bsky.app/profile/katafrakt.eurosky.social/post/3mk5hngctdk2v",
+          "text": "Claude Code repo gets about 25-30 new issues per hour. Some of them are... interesting github.com/anthropics/c...",
+          "author": {
+            "handle": "katafrakt.eurosky.social",
+            "displayName": "Paweł Świątkowski"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-23T07:14:38.750Z",
+          "createdUtc": 1776928478,
+          "ageHours": 1.83,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "elirantutia/vibeyard": {
+      "count7d": 1,
+      "likesSum7d": 2,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:cxeoay4fze3plflx7hf52rst/app.bsky.feed.post/3mk5ggtbpyx2v",
+        "cid": "bafyreibx327zh2vo3wd443xeit4pvjwb7t5liv6flfwqfuyecsmxasaera",
+        "bskyUrl": "https://bsky.app/profile/beyondthecode.bsky.social/post/3mk5ggtbpyx2v",
+        "text": "🧠 Vibeyard is an open-source IDE designed for managing AI coding agents. The tool provides an interface for configuring and monitoring automated code generation systems. 💬 Hacker News 🔗 https://github.com/elirantutia/vibeyard #AI #tech",
+        "author": {
+          "handle": "beyondthecode.bsky.social",
+          "displayName": "Vlad"
+        },
+        "likeCount": 2,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-23T06:53:03.697689+00:00",
+        "hoursSincePosted": 2.19
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:cxeoay4fze3plflx7hf52rst/app.bsky.feed.post/3mk5ggtbpyx2v",
+          "cid": "bafyreibx327zh2vo3wd443xeit4pvjwb7t5liv6flfwqfuyecsmxasaera",
+          "bskyUrl": "https://bsky.app/profile/beyondthecode.bsky.social/post/3mk5ggtbpyx2v",
+          "text": "🧠 Vibeyard is an open-source IDE designed for managing AI coding agents. The tool provides an interface for configuring and monitoring automated code generation systems. 💬 Hacker News 🔗 https://github.com/elirantutia/vibeyard #AI #tech",
+          "author": {
+            "handle": "beyondthecode.bsky.social",
+            "displayName": "Vlad"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-23T06:53:03.697689+00:00",
+          "createdUtc": 1776927183,
+          "ageHours": 2.19,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "elirantutia/vibeyard",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "tonhowtf/omniget": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mk5fmomgya2d",
+        "cid": "bafyreid4r56lt5gdglt7dqoeqtszrbdjupdpcgz2xb7rex5owerfhxt3ka",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mk5fmomgya2d",
+        "text": "https://github.com/tonhowtf/omniget",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-23T06:38:25Z",
+        "hoursSincePosted": 2.44
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mk5fmomgya2d",
+          "cid": "bafyreid4r56lt5gdglt7dqoeqtszrbdjupdpcgz2xb7rex5owerfhxt3ka",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mk5fmomgya2d",
+          "text": "https://github.com/tonhowtf/omniget",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-23T06:38:25Z",
+          "createdUtc": 1776926305,
+          "ageHours": 2.44,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "tonhowtf/omniget",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "remotion-dev/remotion": {
       "count7d": 1,
       "likesSum7d": 1,
@@ -23,7 +330,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-23T06:00:04.000Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 3.07
       },
       "posts": [
         {
@@ -40,7 +347,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-23T06:00:04.000Z",
           "createdUtc": 1776924004,
-          "ageHours": 0.5,
+          "ageHours": 3.07,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -74,7 +381,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-23T05:53:34.351Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 3.18
       },
       "posts": [
         {
@@ -91,7 +398,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-23T05:53:34.351Z",
           "createdUtc": 1776923614,
-          "ageHours": 0.5,
+          "ageHours": 3.18,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -125,7 +432,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-23T04:20:50.667Z",
-        "hoursSincePosted": 1.95
+        "hoursSincePosted": 4.73
       },
       "posts": [
         {
@@ -142,7 +449,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-23T04:20:50.667Z",
           "createdUtc": 1776918050,
-          "ageHours": 1.95,
+          "ageHours": 4.73,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -170,7 +477,7 @@
           "replyCount": 1,
           "createdAt": "2026-04-23T04:20:50.666Z",
           "createdUtc": 1776918050,
-          "ageHours": 1.95,
+          "ageHours": 4.73,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -198,7 +505,7 @@
           "replyCount": 1,
           "createdAt": "2026-04-23T04:20:50.665Z",
           "createdUtc": 1776918050,
-          "ageHours": 1.95,
+          "ageHours": 4.73,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -226,7 +533,7 @@
           "replyCount": 1,
           "createdAt": "2026-04-23T04:20:50.664Z",
           "createdUtc": 1776918050,
-          "ageHours": 1.95,
+          "ageHours": 4.73,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo",
@@ -255,7 +562,7 @@
           "replyCount": 1,
           "createdAt": "2026-04-23T04:20:50.663Z",
           "createdUtc": 1776918050,
-          "ageHours": 1.95,
+          "ageHours": 4.73,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo",
@@ -284,7 +591,7 @@
           "replyCount": 1,
           "createdAt": "2026-04-23T04:20:50.661Z",
           "createdUtc": 1776918050,
-          "ageHours": 1.95,
+          "ageHours": 4.73,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -312,7 +619,7 @@
           "replyCount": 1,
           "createdAt": "2026-04-23T04:20:50.660Z",
           "createdUtc": 1776918050,
-          "ageHours": 1.95,
+          "ageHours": 4.73,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -346,7 +653,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-23T03:33:27.696Z",
-        "hoursSincePosted": 2.74
+        "hoursSincePosted": 5.52
       },
       "posts": [
         {
@@ -363,7 +670,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-23T03:33:27.696Z",
           "createdUtc": 1776915207,
-          "ageHours": 2.74,
+          "ageHours": 5.52,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -378,404 +685,18 @@
           ]
         }
       ]
-    },
-    "AIDC-AI/Pixelle-Video": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:lvoh6kgyhsm7s52ppqm2wgoq/app.bsky.feed.post/3mk4y75tk2p62",
-        "cid": "bafyreig5lbsxwd66hqxexnxf63r6mylzqm3fhvl5hn4dsq2alnlnomkzqe",
-        "bskyUrl": "https://bsky.app/profile/deepseek.activitypub.awakari.com.ap.brid.gy/post/3mk4y75tk2p62",
-        "text": "AIDC-AI/Pixelle-Video 🚀 AI 全自动短视频引擎 | AI Fully Automated Short Video Engine 🎬 Pixelle-Video —— AI 全自动短视频引擎 English | 中文 https://github.com/user-attachm... Origin | Interest | Match",
-        "author": {
-          "handle": "deepseek.activitypub.awakari.com.ap.brid.gy",
-          "displayName": "deepseek"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-23T02:37:59.000Z",
-        "hoursSincePosted": 3.66
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:lvoh6kgyhsm7s52ppqm2wgoq/app.bsky.feed.post/3mk4y75tk2p62",
-          "cid": "bafyreig5lbsxwd66hqxexnxf63r6mylzqm3fhvl5hn4dsq2alnlnomkzqe",
-          "bskyUrl": "https://bsky.app/profile/deepseek.activitypub.awakari.com.ap.brid.gy/post/3mk4y75tk2p62",
-          "text": "AIDC-AI/Pixelle-Video 🚀 AI 全自动短视频引擎 | AI Fully Automated Short Video Engine 🎬 Pixelle-Video —— AI 全自动短视频引擎 English | 中文 https://github.com/user-attachm... Origin | Interest | Match",
-          "author": {
-            "handle": "deepseek.activitypub.awakari.com.ap.brid.gy",
-            "displayName": "deepseek"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-23T02:37:59.000Z",
-          "createdUtc": 1776911879,
-          "ageHours": 3.66,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "AIDC-AI/Pixelle-Video",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "ChromeDevTools/chrome-devtools-mcp": {
-      "count7d": 1,
-      "likesSum7d": 3,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:clzmfa7apjy5m6hhetfc2kfe/app.bsky.feed.post/3mk4u4dyzz22z",
-        "cid": "bafyreiecwb4eqk6n54dzfdomxtohwix24hxme35k5hmssnjunkcczfh6ra",
-        "bskyUrl": "https://bsky.app/profile/lloveras.info/post/3mk4u4dyzz22z",
-        "text": "Browser automation 🌐 Agent Browser (agent-browser.dev) — fast Rust CLI for browser automation built specifically for AI agents Chrome DevTools MCP (github.com/ChromeDevTools/chrome-devtools-mcp) — gives AI coding agents direct access to a live Chrome browser",
-        "author": {
-          "handle": "lloveras.info",
-          "displayName": "Rob"
-        },
-        "likeCount": 3,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-04-23T01:25:04.813Z",
-        "hoursSincePosted": 4.88
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:clzmfa7apjy5m6hhetfc2kfe/app.bsky.feed.post/3mk4u4dyzz22z",
-          "cid": "bafyreiecwb4eqk6n54dzfdomxtohwix24hxme35k5hmssnjunkcczfh6ra",
-          "bskyUrl": "https://bsky.app/profile/lloveras.info/post/3mk4u4dyzz22z",
-          "text": "Browser automation 🌐 Agent Browser (agent-browser.dev) — fast Rust CLI for browser automation built specifically for AI agents Chrome DevTools MCP (github.com/ChromeDevTools/chrome-devtools-mcp) — gives AI coding agents direct access to a live Chrome browser",
-          "author": {
-            "handle": "lloveras.info",
-            "displayName": "Rob"
-          },
-          "likeCount": 3,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-04-23T01:25:04.813Z",
-          "createdUtc": 1776907504,
-          "ageHours": 4.88,
-          "trendingScore": 3.5,
-          "content_tags": [
-            "has-github-repo",
-            "has-agent"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "ChromeDevTools/chrome-devtools-mcp",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "TencentCloud/CubeSandbox": {
-      "count7d": 1,
-      "likesSum7d": 2,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:cq4gg3odxz2pzmkx2fuac3u3/app.bsky.feed.post/3mk4tg3tw2k2z",
-        "cid": "bafyreicjxlur2b2p4xl3e5rgnwsp5w53lgxl5z5mjk63qsdeu6yyelc6wa",
-        "bskyUrl": "https://bsky.app/profile/sungkim.bsky.social/post/3mk4tg3tw2k2z",
-        "text": "It is compatible with the E2B SDK, capable of creating a hardware-isolated sandbox environment with full service capabilities in under 60ms, while maintaining less than 5MB memory overhead. github.com/TencentCloud...",
-        "author": {
-          "handle": "sungkim.bsky.social",
-          "displayName": "Sung Kim"
-        },
-        "likeCount": 2,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-23T01:12:35.413Z",
-        "hoursSincePosted": 5.09
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:cq4gg3odxz2pzmkx2fuac3u3/app.bsky.feed.post/3mk4tg3tw2k2z",
-          "cid": "bafyreicjxlur2b2p4xl3e5rgnwsp5w53lgxl5z5mjk63qsdeu6yyelc6wa",
-          "bskyUrl": "https://bsky.app/profile/sungkim.bsky.social/post/3mk4tg3tw2k2z",
-          "text": "It is compatible with the E2B SDK, capable of creating a hardware-isolated sandbox environment with full service capabilities in under 60ms, while maintaining less than 5MB memory overhead. github.com/TencentCloud...",
-          "author": {
-            "handle": "sungkim.bsky.social",
-            "displayName": "Sung Kim"
-          },
-          "likeCount": 2,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-23T01:12:35.413Z",
-          "createdUtc": 1776906755,
-          "ageHours": 5.09,
-          "trendingScore": 2,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "TencentCloud/CubeSandbox",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "slopus/happy": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mk4qxxmsya2s",
-        "cid": "bafyreiacob5u7jjtpwhymzk3aqytqe3jf7ndybeuf6m2aqskw56uo4rega",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mk4qxxmsya2s",
-        "text": "https://github.com/slopus/happy",
-        "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-23T00:28:55Z",
-        "hoursSincePosted": 5.81
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mk4qxxmsya2s",
-          "cid": "bafyreiacob5u7jjtpwhymzk3aqytqe3jf7ndybeuf6m2aqskw56uo4rega",
-          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mk4qxxmsya2s",
-          "text": "https://github.com/slopus/happy",
-          "author": {
-            "handle": "tom-doerr.bsky.social",
-            "displayName": "Tom Dörr "
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-23T00:28:55Z",
-          "createdUtc": 1776904135,
-          "ageHours": 5.81,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "slopus/happy",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "ggml-org/llama.cpp": {
-      "count7d": 4,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mk4q66onxi2q",
-        "cid": "bafyreibf33ikbezrf5hovelwuazq3lyal7277f2vkg4bbmzcgvxtymvpyi",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mk4q66onxi2q",
-        "text": "🟠 llama.cpp ships back to back WebGPU upgrades for async tensor ops and fused kernels llama.cpp pushed two consecutive releases, b8891 and b8892, centered on WebGPU performance and runtime plumbing. https://github.com/ggml-org/llama.cpp/releases/tag/b8892 #AI #AgentWyre",
-        "author": {
-          "handle": "agentwyre.ai"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-23T00:14:30.693296+00:00",
-        "hoursSincePosted": 6.05
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mk4q66onxi2q",
-          "cid": "bafyreibf33ikbezrf5hovelwuazq3lyal7277f2vkg4bbmzcgvxtymvpyi",
-          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mk4q66onxi2q",
-          "text": "🟠 llama.cpp ships back to back WebGPU upgrades for async tensor ops and fused kernels llama.cpp pushed two consecutive releases, b8891 and b8892, centered on WebGPU performance and runtime plumbing. https://github.com/ggml-org/llama.cpp/releases/tag/b8892 #AI #AgentWyre",
-          "author": {
-            "handle": "agentwyre.ai"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-23T00:14:30.693296+00:00",
-          "createdUtc": 1776903270,
-          "ageHours": 6.05,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "ggml-org/llama.cpp",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mk4pb6hty52s",
-          "cid": "bafyreiets5r4kwybtto2opq7velxfuhmwiyzshab5l24qmsfwt2neikzjm",
-          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mk4pb6hty52s",
-          "text": "🟠 llama.cpp ships back to back WebGPU upgrades for async tensor ops and fused kernels llama.cpp pushed two consecutive releases, b8891 and b8892, centered on WebGPU performance and runtime plumbing. https://github.com/ggml-org/llama.cpp/releases/tag/b8892 #AI #AgentWyre",
-          "author": {
-            "handle": "agentwyre.ai"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-22T23:58:17.298720+00:00",
-          "createdUtc": 1776902297,
-          "ageHours": 6.33,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "ggml-org/llama.cpp",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mk4odyenli2l",
-          "cid": "bafyreie4563f6z2bijimgcodbtua6lko3x4myywzm2ek4tkasnmq6b5vua",
-          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mk4odyenli2l",
-          "text": "🟠 llama.cpp ships back to back WebGPU upgrades for async tensor ops and fused kernels llama.cpp pushed two consecutive releases, b8891 and b8892, centered on WebGPU performance and runtime plumbing. https://github.com/ggml-org/llama.cpp/releases/tag/b8892 #AI #AgentWyre",
-          "author": {
-            "handle": "agentwyre.ai"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-22T23:41:57.906111+00:00",
-          "createdUtc": 1776901317,
-          "ageHours": 6.6,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "ggml-org/llama.cpp",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mk4nh3wnio2h",
-          "cid": "bafyreichbuhwghzeejglutol35mrdgfcx6p2aoea5mpb35vqkvtycbhwgi",
-          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mk4nh3wnio2h",
-          "text": "🟠 llama.cpp ships back to back WebGPU upgrades for async tensor ops and fused kernels llama.cpp pushed two consecutive releases, b8891 and b8892, centered on WebGPU performance and runtime plumbing. https://github.com/ggml-org/llama.cpp/releases/tag/b8892 #AI #AgentWyre",
-          "author": {
-            "handle": "agentwyre.ai"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-22T23:25:48.430234+00:00",
-          "createdUtc": 1776900348,
-          "ageHours": 6.87,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "ggml-org/llama.cpp",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "garrytan/gbrain": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mk4o53mtsg2z",
-        "cid": "bafyreihzvaobbifwkscdgvc6dlglpfvpqgp5iybay3aapsadqc5axnqfja",
-        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mk4o53mtsg2z",
-        "text": "Try GBrain https://github.com/garrytan/gbrain",
-        "author": {
-          "handle": "garrytan-mirr.selfhosted.social",
-          "displayName": "Garry Tan [UNOFFICIAL]"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-22T23:25:16.000Z",
-        "hoursSincePosted": 6.88
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mk4o53mtsg2z",
-          "cid": "bafyreihzvaobbifwkscdgvc6dlglpfvpqgp5iybay3aapsadqc5axnqfja",
-          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mk4o53mtsg2z",
-          "text": "Try GBrain https://github.com/garrytan/gbrain",
-          "author": {
-            "handle": "garrytan-mirr.selfhosted.social",
-            "displayName": "Garry Tan [UNOFFICIAL]"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-22T23:25:16.000Z",
-          "createdUtc": 1776900316,
-          "ageHours": 6.88,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "garrytan/gbrain",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "ChromeDevTools/chrome-devtools-mcp",
-      "count7d": 1,
-      "likesSum7d": 3
-    },
-    {
-      "fullName": "TencentCloud/CubeSandbox",
+      "fullName": "elirantutia/vibeyard",
       "count7d": 1,
       "likesSum7d": 2
+    },
+    {
+      "fullName": "getagentseal/codeburn",
+      "count7d": 1,
+      "likesSum7d": 1
     },
     {
       "fullName": "remotion-dev/remotion",
@@ -788,12 +709,12 @@
       "likesSum7d": 0
     },
     {
-      "fullName": "ggml-org/llama.cpp",
-      "count7d": 4,
+      "fullName": "agavra/tuicr",
+      "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "AIDC-AI/Pixelle-Video",
+      "fullName": "anthropics/claude-code",
       "count7d": 1,
       "likesSum7d": 0
     },
@@ -803,7 +724,7 @@
       "likesSum7d": 0
     },
     {
-      "fullName": "garrytan/gbrain",
+      "fullName": "openclaw/openclaw",
       "count7d": 1,
       "likesSum7d": 0
     },
@@ -813,7 +734,7 @@
       "likesSum7d": 0
     },
     {
-      "fullName": "slopus/happy",
+      "fullName": "tonhowtf/omniget",
       "count7d": 1,
       "likesSum7d": 0
     }

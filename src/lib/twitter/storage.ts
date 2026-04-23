@@ -1,9 +1,13 @@
+import { promises as fs } from "node:fs";
+import path from "node:path";
+
 import type {
   TwitterIngestionAuditLog,
   TwitterRepoSignal,
   TwitterScanRecord,
 } from "./types";
 import {
+  currentDataDir,
   ensureDataDir,
   isPersistenceEnabled,
   readJsonlFile,
@@ -24,6 +28,60 @@ const MAX_SCAN_AGE_MS = 30 * 24 * 60 * 60 * 1000;
 const MAX_AUDIT_LOGS = 1_000;
 const MAX_AUDIT_LOG_AGE_MS = 30 * 24 * 60 * 60 * 1000;
 const PERSIST_DEBOUNCE_MS = 2_000;
+const BUNDLED_TWITTER_DATA_DIR = path.join(process.cwd(), ".data");
+
+function isEnoent(err: unknown): boolean {
+  return (
+    typeof err === "object" &&
+    err !== null &&
+    "code" in err &&
+    (err as { code?: unknown }).code === "ENOENT"
+  );
+}
+
+async function readBundledTwitterJsonlFile<T>(filename: string): Promise<T[]> {
+  if (path.resolve(currentDataDir()) === path.resolve(BUNDLED_TWITTER_DATA_DIR)) {
+    return [];
+  }
+
+  const filePath = path.join(BUNDLED_TWITTER_DATA_DIR, filename);
+  let raw: string;
+  try {
+    raw = await fs.readFile(filePath, "utf8");
+  } catch (err) {
+    if (isEnoent(err)) return [];
+    throw err;
+  }
+
+  const out: T[] = [];
+  const lines = raw.split(/\r?\n/);
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    if (!line) continue;
+    try {
+      out.push(JSON.parse(line) as T);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      console.warn(
+        `[twitter:storage] skipping malformed bundled JSONL line ${i + 1} in ${filename}: ${message}`,
+      );
+    }
+  }
+  return out;
+}
+
+async function readTwitterJsonlFile<T>(filename: string): Promise<T[]> {
+  const records = await readJsonlFile<T>(filename);
+  if (records.length > 0) return records;
+
+  const bundledRecords = await readBundledTwitterJsonlFile<T>(filename);
+  if (bundledRecords.length > 0) {
+    console.info(
+      `[twitter:storage] hydrated ${bundledRecords.length} ${filename} records from bundled snapshot`,
+    );
+  }
+  return bundledRecords;
+}
 
 class InMemoryTwitterStore {
   private repoSignals = new Map<string, TwitterRepoSignal>();
@@ -153,17 +211,17 @@ class InMemoryTwitterStore {
     this.auditLogs.clear();
 
     const [repoSignals, scans, auditLogs] = await Promise.all([
-      readJsonlFile<TwitterRepoSignal>(TWITTER_FILES.repoSignals).catch(
+      readTwitterJsonlFile<TwitterRepoSignal>(TWITTER_FILES.repoSignals).catch(
         (err) => {
           console.error("[twitter:storage] failed to hydrate repo signals:", err);
           return [];
         },
       ),
-      readJsonlFile<TwitterScanRecord>(TWITTER_FILES.scans).catch((err) => {
+      readTwitterJsonlFile<TwitterScanRecord>(TWITTER_FILES.scans).catch((err) => {
         console.error("[twitter:storage] failed to hydrate scans:", err);
         return [];
       }),
-      readJsonlFile<TwitterIngestionAuditLog>(TWITTER_FILES.auditLogs).catch(
+      readTwitterJsonlFile<TwitterIngestionAuditLog>(TWITTER_FILES.auditLogs).catch(
         (err) => {
           console.error("[twitter:storage] failed to hydrate audit logs:", err);
           return [];

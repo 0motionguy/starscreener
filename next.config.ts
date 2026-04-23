@@ -14,6 +14,9 @@ const nextConfig: NextConfig = {
   // Uncomment for Docker/Railway/Fly deployments that need a self-contained
   // server bundle. Vercel does not require this.
   // output: "standalone",
+  outputFileTracingIncludes: {
+    "/*": ["./.data/twitter-*.jsonl"],
+  },
   poweredByHeader: false,
   compress: true,
   // Canonical host = apex (trendingrepo.com). Every other host attached to

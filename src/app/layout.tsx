@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Analytics } from "@vercel/analytics/next";
 // Trimmed from 4 fonts to 3: Instrument Serif (--font-editorial) was
 // defined but not referenced anywhere in src/components or src/app.
 // Dropping it saves ~30 KB of font payload + one <link rel="preload">.
@@ -162,6 +163,7 @@ export default function RootLayout({
             />
           </StoreProvider>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );

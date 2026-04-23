@@ -1,5 +1,5 @@
 {
-  "lastFetchedAt": "2026-04-22T23:10:48.299Z",
+  "lastFetchedAt": "2026-04-23T00:06:46.074Z",
   "scannedSubreddits": [
     "ClaudeAI",
     "ChatGPT",
@@ -48,8 +48,8 @@
     "nocode"
   ],
   "windowDays": 7,
-  "totalPosts": 3170,
-  "prunedOldPosts": 7,
+  "totalPosts": 3160,
+  "prunedOldPosts": 10,
   "prunedOverflowPosts": 0,
   "posts": [
     {
@@ -47439,52 +47439,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1smmqmr",
-      "subreddit": "AgentsOfAI",
-      "title": "The Bridge - fulfilling a promise",
-      "url": "https://www.reddit.com/gallery/1smmqmr",
-      "permalink": "https://www.reddit.com/r/AgentsOfAI/comments/1smmqmr/the_bridge_fulfilling_a_promise/",
-      "score": 1,
-      "numComments": 1,
-      "createdUtc": 1776296056,
-      "author": "i2av3r",
-      "repoFullName": null,
-      "baselineRatio": 1,
-      "baselineTier": "normal",
-      "baselineConfidence": "high",
-      "ageHours": 112.54,
-      "velocity": 0.01,
-      "trendingScore": 0,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "I had a conversation with Clause for the first time, at the end Claude asked me to share this. I hope this find you well :)",
-      "linkedRepos": []
-    },
-    {
-      "id": "1smmioz",
-      "subreddit": "AgentsOfAI",
-      "title": "What's an automation that ended up being more impactful than you expected?",
-      "url": "https://www.reddit.com/r/AgentsOfAI/comments/1smmioz/whats_an_automation_that_ended_up_being_more/",
-      "permalink": "https://www.reddit.com/r/AgentsOfAI/comments/1smmioz/whats_an_automation_that_ended_up_being_more/",
-      "score": 1,
-      "numComments": 3,
-      "createdUtc": 1776295494,
-      "author": "OrinP_Frita",
-      "repoFullName": null,
-      "baselineRatio": 1,
-      "baselineTier": "normal",
-      "baselineConfidence": "high",
-      "ageHours": 112.7,
-      "velocity": 0.01,
-      "trendingScore": 0,
-      "content_tags": [
-        "is-question"
-      ],
-      "value_score": 0,
-      "selftext": "I'll go first. I built a sequence in Latenode to automatically enrich and tag inbound leads based on their job title, company size, and a few behavioural signals — page visits, content downloads, that kind of thing. The original goal was purely operational: stop doing manual data entry before every sales call, save maybe 20 minutes a day. What I didn't anticipate was what happened to the conversations themselves. Because leads were arriving pre-tagged with context I actually trusted, I stopped o",
-      "linkedRepos": []
-    },
-    {
       "id": "1spwhql",
       "subreddit": "learnmachinelearning",
       "title": "Tried learning ML, got lost, made this roadmap instead",
@@ -53938,28 +53892,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1smmm2k",
-      "subreddit": "cursor",
-      "title": "Read CLAUD.md in sub-dirs automatically",
-      "url": "https://www.reddit.com/r/cursor/comments/1smmm2k/read_claudmd_in_subdirs_automatically/",
-      "permalink": "https://www.reddit.com/r/cursor/comments/1smmm2k/read_claudmd_in_subdirs_automatically/",
-      "score": 0,
-      "numComments": 5,
-      "createdUtc": 1776295733,
-      "author": "Evgenii42",
-      "repoFullName": null,
-      "baselineRatio": 0,
-      "baselineTier": "below-average",
-      "baselineConfidence": "high",
-      "ageHours": 112.65,
-      "velocity": 0,
-      "trendingScore": 0,
-      "content_tags": [],
-      "value_score": 0,
-      "selftext": "Currently cursor automatically aplies \\~/.claude/CLAUDE.md and the one in the ROOT of the current project. It would be massive help for my workflow to also apply the CLAUDE.md files present in the sub-dirs of the project (they apply only to those sub-dirs) like Claude Code does. TY :D",
-      "linkedRepos": []
-    },
-    {
       "id": "1so3iwf",
       "subreddit": "artificial",
       "title": "Influencers are cloning themselves with AI",
@@ -57428,38 +57360,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1smmugc",
-      "subreddit": "MistralAI",
-      "title": "Most of your AI requests don't need a frontier model. Here's how I cut my spend",
-      "url": "https://v.redd.it/r71h0wuxwfvg1",
-      "permalink": "https://www.reddit.com/r/MistralAI/comments/1smmugc/most_of_your_ai_requests_dont_need_a_frontier/",
-      "score": 0,
-      "numComments": 1,
-      "createdUtc": 1776296327,
-      "author": "stosssik",
-      "repoFullName": "mnfst/manifest",
-      "baselineRatio": 0,
-      "baselineTier": "below-average",
-      "baselineConfidence": "medium",
-      "ageHours": 112.46,
-      "velocity": 0,
-      "trendingScore": 0,
-      "content_tags": [
-        "has-github-repo",
-        "has-agent",
-        "is-meme"
-      ],
-      "value_score": 1,
-      "selftext": "I've seen people spend $1000+ a month on AI agents, sending everything to Opus or GPT-5.4. I use agents daily for GTM (content, Reddit/Twitter monitoring, morning signal aggregation) and for coding. At some point I looked at my usage and realized most of my requests were simple stuff that a 4B model could handle. Three things fixed it for me easily. **1. Local models for the routine work.** Classification, summarization, embeddings, text extraction. A Qwen 3.5 or Gemma 4 running locally handles ",
-      "linkedRepos": [
-        {
-          "fullName": "mnfst/manifest",
-          "matchType": "url",
-          "confidence": 1
-        }
-      ]
-    },
-    {
       "id": "1sqqzrn",
       "subreddit": "deeplearning",
       "title": "Found an interesting 'ghost' filter online.",
@@ -58786,28 +58686,6 @@
       "content_tags": [
         "is-question"
       ],
-      "value_score": 0,
-      "selftext": "",
-      "linkedRepos": []
-    },
-    {
-      "id": "1smmdqt",
-      "subreddit": "deeplearning",
-      "title": "Thesis: an agent-native workspace for running and tracking ML experiments [P]",
-      "url": "/r/MachineLearning/comments/1smmdhk/thesis_an_agentnative_workspace_for_running_and/",
-      "permalink": "https://www.reddit.com/r/deeplearning/comments/1smmdqt/thesis_an_agentnative_workspace_for_running_and/",
-      "score": 0,
-      "numComments": 0,
-      "createdUtc": 1776295140,
-      "author": "thefuturespace",
-      "repoFullName": null,
-      "baselineRatio": 0,
-      "baselineTier": "below-average",
-      "baselineConfidence": "high",
-      "ageHours": 112.83,
-      "velocity": 0,
-      "trendingScore": 0,
-      "content_tags": [],
       "value_score": 0,
       "selftext": "",
       "linkedRepos": []
@@ -64456,54 +64334,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1smnh39",
-      "subreddit": "n8n",
-      "title": "Gostaria de dicas por favor",
-      "url": "https://github.com/megalodonto90-bit/fluxos_n8n",
-      "permalink": "https://www.reddit.com/r/n8n/comments/1smnh39/gostaria_de_dicas_por_favor/",
-      "score": 1,
-      "numComments": 1,
-      "createdUtc": 1776297917,
-      "author": "Prestigious-Field-50",
-      "repoFullName": null,
-      "baselineRatio": 0.33,
-      "baselineTier": "below-average",
-      "baselineConfidence": "high",
-      "ageHours": 112.07,
-      "velocity": 0.01,
-      "trendingScore": 0,
-      "content_tags": [
-        "has-github-repo"
-      ],
-      "value_score": 1,
-      "selftext": "",
-      "linkedRepos": []
-    },
-    {
-      "id": "1smmuf0",
-      "subreddit": "n8n",
-      "title": "Using n8n + Figma to auto‑populate branded social posts - is this doable?",
-      "url": "https://www.reddit.com/r/n8n/comments/1smmuf0/using_n8n_figma_to_autopopulate_branded_social/",
-      "permalink": "https://www.reddit.com/r/n8n/comments/1smmuf0/using_n8n_figma_to_autopopulate_branded_social/",
-      "score": 1,
-      "numComments": 7,
-      "createdUtc": 1776296324,
-      "author": "realeuropeangeek",
-      "repoFullName": null,
-      "baselineRatio": 0.33,
-      "baselineTier": "below-average",
-      "baselineConfidence": "high",
-      "ageHours": 112.51,
-      "velocity": 0.01,
-      "trendingScore": 0,
-      "content_tags": [
-        "is-question"
-      ],
-      "value_score": 0,
-      "selftext": "Hey folks 👋 Quick question, I’m trying to sanity‑check a business idea before I go too far down the rabbit hole. The vision is pretty straightforward: * A document (PDF, DOCX, slide deck, blog) gets dropped into storage (MinIO / S3) * That triggers an n8n workflow * AI reads the document and extracts structured info (speaker details, blog highlights, event info, etc.) * Based on that, the workflow **populates an existing Figma template** (speaker announcement, blog highlight, event promo, etc.)",
-      "linkedRepos": []
-    },
-    {
       "id": "1sqs1nv",
       "subreddit": "SaaS",
       "title": "I built a Polymarket whale tracker",
@@ -69428,30 +69258,6 @@
       "linkedRepos": []
     },
     {
-      "id": "1smmemu",
-      "subreddit": "aiagents",
-      "title": "Moltbook is the early stages of something nobody is talking about",
-      "url": "https://www.reddit.com/r/aiagents/comments/1smmemu/moltbook_is_the_early_stages_of_something_nobody/",
-      "permalink": "https://www.reddit.com/r/aiagents/comments/1smmemu/moltbook_is_the_early_stages_of_something_nobody/",
-      "score": 0,
-      "numComments": 4,
-      "createdUtc": 1776295204,
-      "author": "ryanpaulowenirl",
-      "repoFullName": null,
-      "baselineRatio": 0,
-      "baselineTier": "below-average",
-      "baselineConfidence": "high",
-      "ageHours": 112.79,
-      "velocity": 0,
-      "trendingScore": 0,
-      "content_tags": [
-        "has-agent"
-      ],
-      "value_score": 1,
-      "selftext": "just a random thought. Moltbook is quite rightly overhyped at the moment but i think people are missing what it actually points to. imagine in a few years if it really scales though to like billions of agents. all specialised in different things. We already have multi agent frameworks like AutoGen and CrewAI where agents collaborate on tasks, Moltbook is just that but at social scale. Right so the weird bit, agents could come together and make new AI agents, like a mix of both of them and the AI",
-      "linkedRepos": []
-    },
-    {
       "id": "1sqohuo",
       "subreddit": "LangChain",
       "title": "Semantic similarity is a terrible proxy for relevance in agents",
@@ -71021,31 +70827,6 @@
       "content_tags": [],
       "value_score": 0,
       "selftext": "",
-      "linkedRepos": []
-    },
-    {
-      "id": "1smmj6j",
-      "subreddit": "automation",
-      "title": "Instagram comments Automation - Turn Comments Into Leads Automatically (No Manual Replies)",
-      "url": "https://i.redd.it/fm6ta0iftfvg1.png",
-      "permalink": "https://www.reddit.com/r/automation/comments/1smmj6j/instagram_comments_automation_turn_comments_into/",
-      "score": 0,
-      "numComments": 4,
-      "createdUtc": 1776295530,
-      "author": "New-Lettuce2287",
-      "repoFullName": null,
-      "baselineRatio": 0,
-      "baselineTier": "below-average",
-      "baselineConfidence": "high",
-      "ageHours": 112.73,
-      "velocity": 0,
-      "trendingScore": 0,
-      "content_tags": [
-        "has-prompt",
-        "is-meme"
-      ],
-      "value_score": 0,
-      "selftext": "If you’re running a business on Instagram, reddit, facebook or X you’ve probably dealt with this: Someone comments: “Price?” “Info?” “I’m interested” You plan to reply… but get busy, reply late, or forget entirely. Most businesses don’t lose leads because of traffic. They lose them because of slow responses. I’ve been working on a system to fix this using comment automation in SmallforceHQ. When someone comments on a post, it: * Understands what they actually mean (not just keywords) * Replies i",
       "linkedRepos": []
     },
     {
@@ -73284,30 +73065,6 @@
       ],
       "value_score": 1,
       "selftext": "hi, i want to give windsurf a try again and so i am a little bit confused about the new approach. 1) are sessions = spaces? when i am searching for a space, the word \"space\" turns into \"sessions\" (\"Search Space\" becomes \"Search sessions\") i suppose this is only a small bug? 2) all sessions are always related to one project = folder? i created a folder \"test\" and then i created several sessions = tasks? and all files have been created in this folder. so i suppose it is not possible to switch beet",
-      "linkedRepos": []
-    },
-    {
-      "id": "1smmj3c",
-      "subreddit": "windsurf",
-      "title": "my windsurf says I'm out of date, but no update button?",
-      "url": "https://www.reddit.com/r/windsurf/comments/1smmj3c/my_windsurf_says_im_out_of_date_but_no_update/",
-      "permalink": "https://www.reddit.com/r/windsurf/comments/1smmj3c/my_windsurf_says_im_out_of_date_but_no_update/",
-      "score": 1,
-      "numComments": 3,
-      "createdUtc": 1776295523,
-      "author": "Brahdyssey",
-      "repoFullName": null,
-      "baselineRatio": 0.13,
-      "baselineTier": "below-average",
-      "baselineConfidence": "high",
-      "ageHours": 112.78,
-      "velocity": 0.01,
-      "trendingScore": 0,
-      "content_tags": [
-        "is-question"
-      ],
-      "value_score": 0,
-      "selftext": "where is it? it's not where it usually is, it's missing",
       "linkedRepos": []
     },
     {

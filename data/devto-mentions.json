@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-04-22T09:59:00.669Z",
+  "fetchedAt": "2026-04-23T10:04:05.452Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1347,
+  "scannedArticles": 1299,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -179,44 +179,44 @@
   ],
   "sliceCounts": {
     "global-top-7d": 100,
-    "global-rising": 17,
+    "global-rising": 14,
     "global-fresh": 100,
     "tag-ai-top-7d": 100,
     "tag-artificialintelligence-top-7d": 0,
     "tag-agents-top-7d": 100,
-    "tag-agentic-top-7d": 8,
+    "tag-agentic-top-7d": 4,
     "tag-claudecode-top-7d": 100,
     "tag-claude-top-7d": 100,
-    "tag-codex-top-7d": 8,
-    "tag-cursor-top-7d": 43,
+    "tag-codex-top-7d": 7,
+    "tag-cursor-top-7d": 48,
     "tag-llm-top-7d": 100,
-    "tag-llms-top-7d": 9,
+    "tag-llms-top-7d": 11,
     "tag-mcp-top-7d": 100,
-    "tag-rag-top-7d": 80,
-    "tag-promptengineering-top-7d": 60,
-    "tag-workflow-top-7d": 19,
-    "tag-workflows-top-7d": 6,
+    "tag-rag-top-7d": 74,
+    "tag-promptengineering-top-7d": 62,
+    "tag-workflow-top-7d": 20,
+    "tag-workflows-top-7d": 3,
     "tag-automation-top-7d": 100,
     "tag-cli-top-7d": 100,
     "tag-tooling-top-7d": 100,
     "tag-devtools-top-7d": 100,
-    "tag-langchain-top-7d": 54,
-    "tag-n8n-top-7d": 35,
+    "tag-langchain-top-7d": 23,
+    "tag-n8n-top-7d": 41,
     "tag-opensource-top-7d": 100
   },
   "mentions": {
     "NousResearch/hermes-agent": {
-      "count7d": 2,
-      "reactionsSum7d": 41,
-      "commentsSum7d": 6,
+      "count7d": 1,
+      "reactionsSum7d": 34,
+      "commentsSum7d": 8,
       "topArticle": {
         "id": 3511809,
         "title": "MiniClaw: A Tiny LLM Agent for Mini Micro",
         "url": "https://dev.to/joestrout/miniclaw-a-tiny-llm-agent-for-mini-micro-4akf",
         "author": "joestrout",
         "reactions": 34,
-        "comments": 6,
-        "hoursSincePosted": 135.8,
+        "comments": 8,
+        "hoursSincePosted": 159.8,
         "readingTime": 8
       },
       "articles": [
@@ -231,7 +231,7 @@
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F955389%2Ffdd96374-bc61-43f2-bf73-c2d6d6968a72.png"
           },
           "reactionsCount": 34,
-          "commentsCount": 6,
+          "commentsCount": 8,
           "readingTime": 8,
           "publishedAt": "2026-04-16T18:13:14Z",
           "tags": [
@@ -240,40 +240,8 @@
             "agents",
             "programming"
           ],
-          "trendingScore": 0.61,
+          "trendingScore": 0.59,
           "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3508052,
-          "title": "Deploying OpenClaw on AWS EC2 - A Developer's Perspective",
-          "description": "What is OpenClaw?   OpenClaw is a personal AI assistant that you can deploy on your own...",
-          "url": "https://dev.to/haowen_huang/deploying-openclaw-on-aws-ec2-a-developers-perspective-4d3i",
-          "author": {
-            "username": "haowen_huang",
-            "name": "Haowen Huang",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1578798%2F23e6f9b0-33a5-48c2-9eb7-9936394625dd.png"
-          },
-          "reactionsCount": 7,
-          "commentsCount": 0,
-          "readingTime": 9,
-          "publishedAt": "2026-04-16T04:10:44Z",
-          "tags": [
-            "openclaw",
-            "agents",
-            "bedrock",
-            "ai"
-          ],
-          "trendingScore": 0.04,
-          "linkedRepos": [
-            {
-              "fullName": "openclaw/openclaw",
-              "location": "tag"
-            },
             {
               "fullName": "NousResearch/hermes-agent",
               "location": "body"
@@ -283,17 +251,17 @@
       ]
     },
     "openclaw/openclaw": {
-      "count7d": 4,
-      "reactionsSum7d": 36,
-      "commentsSum7d": 2,
+      "count7d": 5,
+      "reactionsSum7d": 57,
+      "commentsSum7d": 8,
       "topArticle": {
         "id": 3528702,
         "title": "Unpopular Opinion: Do not use OpenClaw...not yet.",
         "url": "https://dev.to/francistrdev/unpopular-opinion-do-not-use-openclawnot-yet-5foe",
         "author": "francistrdev",
-        "reactions": 25,
-        "comments": 2,
-        "hoursSincePosted": 10.4,
+        "reactions": 53,
+        "comments": 8,
+        "hoursSincePosted": 34.5,
         "readingTime": 8
       },
       "articles": [
@@ -307,8 +275,8 @@
             "name": "FrancisTRᴅᴇᴠ (っ◔◡◔)っ",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3711376%2F746cce1f-2c09-40fc-9742-387af1855b6d.gif"
           },
-          "reactionsCount": 25,
-          "commentsCount": 2,
+          "reactionsCount": 53,
+          "commentsCount": 8,
           "readingTime": 8,
           "publishedAt": "2026-04-21T23:35:31Z",
           "tags": [
@@ -317,42 +285,10 @@
             "discuss",
             "ai"
           ],
-          "trendingScore": 4.04,
+          "trendingScore": 4.77,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3508052,
-          "title": "Deploying OpenClaw on AWS EC2 - A Developer's Perspective",
-          "description": "What is OpenClaw?   OpenClaw is a personal AI assistant that you can deploy on your own...",
-          "url": "https://dev.to/haowen_huang/deploying-openclaw-on-aws-ec2-a-developers-perspective-4d3i",
-          "author": {
-            "username": "haowen_huang",
-            "name": "Haowen Huang",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1578798%2F23e6f9b0-33a5-48c2-9eb7-9936394625dd.png"
-          },
-          "reactionsCount": 7,
-          "commentsCount": 0,
-          "readingTime": 9,
-          "publishedAt": "2026-04-16T04:10:44Z",
-          "tags": [
-            "openclaw",
-            "agents",
-            "bedrock",
-            "ai"
-          ],
-          "trendingScore": 0.04,
-          "linkedRepos": [
-            {
-              "fullName": "openclaw/openclaw",
-              "location": "tag"
-            },
-            {
-              "fullName": "NousResearch/hermes-agent",
               "location": "body"
             }
           ]
@@ -405,7 +341,61 @@
             "devchallenge",
             "opensource"
           ],
-          "trendingScore": 0.01,
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "location": "tag"
+            }
+          ]
+        },
+        {
+          "id": 3538662,
+          "title": "One Command Equips Your OpenClaw with an X-ray Machine - Alibaba Cloud Observability Makes Farming Lobsters Cheaper and Safer",
+          "description": "One-command observability integration makes OpenClaw AI agent operations transparent via Alibaba...",
+          "url": "https://dev.to/observabilityguy/one-command-equips-your-openclaw-with-an-x-ray-machine-alibaba-cloud-observability-makes-farming-424i",
+          "author": {
+            "username": "observabilityguy",
+            "name": "ObservabilityGuy",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3433708%2Faf43ef59-cf80-46ad-930d-f76811e673a2.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 13,
+          "publishedAt": "2026-04-23T02:46:10Z",
+          "tags": [
+            "observability",
+            "ai"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3537993,
+          "title": "Anthropic Broke My OpenClaw Stack. GPT 5.4 Put It Back Together",
+          "description": "If you quit OpenClaw after Anthropic pulled third-party harness support, I don't blame you.  That...",
+          "url": "https://dev.to/solomonneas/anthropic-broke-my-openclaw-stack-gpt-54-put-it-back-together-5345",
+          "author": {
+            "username": "solomonneas",
+            "name": "Solomon Neas",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823381%2F9d209953-f24c-43dd-a24d-ca634faed184.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 14,
+          "publishedAt": "2026-04-22T20:24:00Z",
+          "tags": [
+            "openclaw",
+            "gpt54",
+            "anthropic",
+            "claude"
+          ],
+          "trendingScore": 0,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
@@ -415,91 +405,498 @@
         }
       ]
     },
-    "github/gh-aw": {
+    "HexmosTech/git-lrc": {
       "count7d": 1,
-      "reactionsSum7d": 9,
-      "commentsSum7d": 0,
+      "reactionsSum7d": 20,
+      "commentsSum7d": 1,
       "topArticle": {
-        "id": 3494802,
-        "title": "A GitHub agentic workflow",
-        "url": "https://dev.to/nfrankel/a-github-agentic-workflow-9b7",
-        "author": "nfrankel",
-        "reactions": 9,
-        "comments": 0,
-        "hoursSincePosted": 145,
-        "readingTime": 6
+        "id": 3534314,
+        "title": "AUTOVACUUM in SQLite: How Your Database Cleans Up After Itself",
+        "url": "https://dev.to/lovestaco/autovacuum-in-sqlite-how-your-database-cleans-up-after-itself-4kp6",
+        "author": "lovestaco",
+        "reactions": 20,
+        "comments": 1,
+        "hoursSincePosted": 29.4,
+        "readingTime": 4
       },
       "articles": [
         {
-          "id": 3494802,
-          "title": "A GitHub agentic workflow",
-          "description": "Last month, I became aware of GitHub agentic workflows. I read the site carefully, but the use cases...",
-          "url": "https://dev.to/nfrankel/a-github-agentic-workflow-9b7",
+          "id": 3534314,
+          "title": "AUTOVACUUM in SQLite: How Your Database Cleans Up After Itself",
+          "description": "Hello, I'm Maneshwar. I'm building git-lrc, an AI code reviewer that runs on every commit. It is...",
+          "url": "https://dev.to/lovestaco/autovacuum-in-sqlite-how-your-database-cleans-up-after-itself-4kp6",
           "author": {
-            "username": "nfrankel",
-            "name": "Nicolas Fränkel",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F362557%2F479d9637-2db0-4b0a-8070-edbe538c4180.jpg"
+            "username": "lovestaco",
+            "name": "Athreya aka Maneshwar",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1002302%2F5233b7df-6ee3-46b2-b8d7-1fafe103e8a3.jpg"
           },
-          "reactionsCount": 9,
-          "commentsCount": 0,
-          "readingTime": 6,
-          "publishedAt": "2026-04-16T09:02:00Z",
+          "reactionsCount": 20,
+          "commentsCount": 1,
+          "readingTime": 4,
+          "publishedAt": "2026-04-22T04:42:29Z",
           "tags": [
-            "github",
-            "githubcopilot",
-            "githubactions",
-            "agents"
+            "webdev",
+            "programming",
+            "database",
+            "architecture"
           ],
-          "trendingScore": 0.06,
+          "trendingScore": 0.97,
           "linkedRepos": [
             {
-              "fullName": "github/gh-aw",
+              "fullName": "HexmosTech/git-lrc",
               "location": "body"
             }
           ]
         }
       ]
     },
-    "anomalyco/opencode": {
+    "farion1231/cc-switch": {
       "count7d": 1,
-      "reactionsSum7d": 6,
+      "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3505574,
-        "title": "Garbage collecting OpenCode's 2.4 GB session database",
-        "url": "https://dev.to/whtsky/garbage-collecting-opencodes-24-gb-session-database-7b5",
-        "author": "whtsky",
-        "reactions": 6,
+        "id": 3538800,
+        "title": "Claude Code Agentic Stack: cc-switch & claude-context MCP",
+        "url": "https://dev.to/max_quimby/claude-code-agentic-stack-cc-switch-claude-context-mcp-1dg2",
+        "author": "max_quimby",
+        "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 163.8,
-        "readingTime": 2
+        "hoursSincePosted": 6.5,
+        "readingTime": 9
       },
       "articles": [
         {
-          "id": 3505574,
-          "title": "Garbage collecting OpenCode's 2.4 GB session database",
-          "description": "I've been using OpenCode from time to time for about a month, mainly working on a single side project...",
-          "url": "https://dev.to/whtsky/garbage-collecting-opencodes-24-gb-session-database-7b5",
+          "id": 3538800,
+          "title": "Claude Code Agentic Stack: cc-switch & claude-context MCP",
+          "description": "Set up the full 2026 agentic developer stack with Claude Code, cc-switch CLI manager, and claude-context semantic code search MCP. Step-by-step guide.",
+          "url": "https://dev.to/max_quimby/claude-code-agentic-stack-cc-switch-claude-context-mcp-1dg2",
           "author": {
-            "username": "whtsky",
-            "name": "Wu Haotian",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F18463%2Fb5b71fd1-95cd-4858-be7e-dc5690918382.jpeg"
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
           },
-          "reactionsCount": 6,
+          "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 2,
-          "publishedAt": "2026-04-15T14:11:21Z",
+          "readingTime": 9,
+          "publishedAt": "2026-04-23T03:36:41Z",
           "tags": [
-            "opencode",
-            "ai",
-            "sqlite",
-            "ocgc"
+            "claudecode",
+            "mcp",
+            "devtools",
+            "ai"
           ],
-          "trendingScore": 0.03,
+          "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "anomalyco/opencode",
+              "fullName": "farion1231/cc-switch",
+              "location": "body"
+            },
+            {
+              "fullName": "zilliztech/claude-context",
+              "location": "body"
+            },
+            {
+              "fullName": "shanraisshan/claude-code-best-practice",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "zilliztech/claude-context": {
+      "count7d": 2,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3538800,
+        "title": "Claude Code Agentic Stack: cc-switch & claude-context MCP",
+        "url": "https://dev.to/max_quimby/claude-code-agentic-stack-cc-switch-claude-context-mcp-1dg2",
+        "author": "max_quimby",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 6.5,
+        "readingTime": 9
+      },
+      "articles": [
+        {
+          "id": 3538800,
+          "title": "Claude Code Agentic Stack: cc-switch & claude-context MCP",
+          "description": "Set up the full 2026 agentic developer stack with Claude Code, cc-switch CLI manager, and claude-context semantic code search MCP. Step-by-step guide.",
+          "url": "https://dev.to/max_quimby/claude-code-agentic-stack-cc-switch-claude-context-mcp-1dg2",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 9,
+          "publishedAt": "2026-04-23T03:36:41Z",
+          "tags": [
+            "claudecode",
+            "mcp",
+            "devtools",
+            "ai"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "farion1231/cc-switch",
+              "location": "body"
+            },
+            {
+              "fullName": "zilliztech/claude-context",
+              "location": "body"
+            },
+            {
+              "fullName": "shanraisshan/claude-code-best-practice",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3527638,
+          "title": "AstCodeSplitter in claude-context codebase.",
+          "description": "In this article, we review AstCodeSplitter class in claude-context codebase. You will learn:   What...",
+          "url": "https://dev.to/ramunarasinga-11/astcodesplitter-in-claude-context-codebase-33id",
+          "author": {
+            "username": "ramunarasinga-11",
+            "name": "Ramu Narasinga",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F392818%2Fcc9dbd66-5cc2-4591-8c1c-6c650a374161.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-04-20T15:30:00Z",
+          "tags": [
+            "opensource",
+            "ast",
+            "treesitter",
+            "claude"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "zilliztech/claude-context",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "shanraisshan/claude-code-best-practice": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3538800,
+        "title": "Claude Code Agentic Stack: cc-switch & claude-context MCP",
+        "url": "https://dev.to/max_quimby/claude-code-agentic-stack-cc-switch-claude-context-mcp-1dg2",
+        "author": "max_quimby",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 6.5,
+        "readingTime": 9
+      },
+      "articles": [
+        {
+          "id": 3538800,
+          "title": "Claude Code Agentic Stack: cc-switch & claude-context MCP",
+          "description": "Set up the full 2026 agentic developer stack with Claude Code, cc-switch CLI manager, and claude-context semantic code search MCP. Step-by-step guide.",
+          "url": "https://dev.to/max_quimby/claude-code-agentic-stack-cc-switch-claude-context-mcp-1dg2",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 9,
+          "publishedAt": "2026-04-23T03:36:41Z",
+          "tags": [
+            "claudecode",
+            "mcp",
+            "devtools",
+            "ai"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "farion1231/cc-switch",
+              "location": "body"
+            },
+            {
+              "fullName": "zilliztech/claude-context",
+              "location": "body"
+            },
+            {
+              "fullName": "shanraisshan/claude-code-best-practice",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "tobi/qmd": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3480337,
+        "title": "How to Build Karpathy's LLM Wiki: The Complete Guide to AI-Maintained Knowledge Bases",
+        "url": "https://dev.to/starmorph/how-to-build-karpathys-llm-wiki-the-complete-guide-to-ai-maintained-knowledge-bases-3dk3",
+        "author": "starmorph",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 6.1,
+        "readingTime": 14
+      },
+      "articles": [
+        {
+          "id": 3480337,
+          "title": "How to Build Karpathy's LLM Wiki: The Complete Guide to AI-Maintained Knowledge Bases",
+          "description": "TL;DR: Andrej Karpathy's LLM Wiki is a pattern — not a product — where an LLM agent builds and...",
+          "url": "https://dev.to/starmorph/how-to-build-karpathys-llm-wiki-the-complete-guide-to-ai-maintained-knowledge-bases-3dk3",
+          "author": {
+            "username": "starmorph",
+            "name": "Starmorph AI",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1014851%2F7f9a4f5d-a5b0-47cf-863c-293fee11baa0.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 14,
+          "publishedAt": "2026-04-23T03:55:39Z",
+          "tags": [
+            "llmwiki",
+            "knowledgebase",
+            "ai",
+            "productivity"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "tobi/qmd",
+              "location": "body"
+            },
+            {
+              "fullName": "lucasastorian/llmwiki",
               "location": "tag"
+            }
+          ]
+        }
+      ]
+    },
+    "lucasastorian/llmwiki": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3480337,
+        "title": "How to Build Karpathy's LLM Wiki: The Complete Guide to AI-Maintained Knowledge Bases",
+        "url": "https://dev.to/starmorph/how-to-build-karpathys-llm-wiki-the-complete-guide-to-ai-maintained-knowledge-bases-3dk3",
+        "author": "starmorph",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 6.1,
+        "readingTime": 14
+      },
+      "articles": [
+        {
+          "id": 3480337,
+          "title": "How to Build Karpathy's LLM Wiki: The Complete Guide to AI-Maintained Knowledge Bases",
+          "description": "TL;DR: Andrej Karpathy's LLM Wiki is a pattern — not a product — where an LLM agent builds and...",
+          "url": "https://dev.to/starmorph/how-to-build-karpathys-llm-wiki-the-complete-guide-to-ai-maintained-knowledge-bases-3dk3",
+          "author": {
+            "username": "starmorph",
+            "name": "Starmorph AI",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1014851%2F7f9a4f5d-a5b0-47cf-863c-293fee11baa0.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 14,
+          "publishedAt": "2026-04-23T03:55:39Z",
+          "tags": [
+            "llmwiki",
+            "knowledgebase",
+            "ai",
+            "productivity"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "tobi/qmd",
+              "location": "body"
+            },
+            {
+              "fullName": "lucasastorian/llmwiki",
+              "location": "tag"
+            }
+          ]
+        }
+      ]
+    },
+    "forrestchang/andrej-karpathy-skills": {
+      "count7d": 2,
+      "reactionsSum7d": 1,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3538865,
+        "title": "Ten CLAUDE.md rules for Claude Code - four edit-time, six runtime",
+        "url": "https://dev.to/reneza/ten-claudemd-rules-for-claude-code-four-edit-time-six-runtime-210g",
+        "author": "reneza",
+        "reactions": 1,
+        "comments": 0,
+        "hoursSincePosted": 6,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3538865,
+          "title": "Ten CLAUDE.md rules for Claude Code - four edit-time, six runtime",
+          "description": "Forrestchang's andrej-karpathy-skills CLAUDE.md is four rules aimed at the moment Claude is writing...",
+          "url": "https://dev.to/reneza/ten-claudemd-rules-for-claude-code-four-edit-time-six-runtime-210g",
+          "author": {
+            "username": "reneza",
+            "name": "Rene Zander",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1138713%2Fa7d8635c-22db-4dec-b156-1fb07de64a8d.jpeg"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-04-23T04:06:42Z",
+          "tags": [
+            "ai",
+            "llm",
+            "productivity",
+            "tutorial"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "forrestchang/andrej-karpathy-skills",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3512192,
+          "title": "Stop Rebuilding Your Claude Code Setup - Scaffold It Once with Worclaude",
+          "description": "Every time I started a new project with Claude Code, I rebuilt the same .claude/ directory from...",
+          "url": "https://dev.to/sefaertunc/stop-rebuilding-your-claude-code-setup-scaffold-it-once-with-worclaude-38m1",
+          "author": {
+            "username": "sefaertunc",
+            "name": "Sefa Ertunç",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3883159%2Fe6647c64-3fb6-4500-9cf8-0b8af608cfd4.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 2,
+          "publishedAt": "2026-04-16T20:39:45Z",
+          "tags": [
+            "claudecode",
+            "claude",
+            "ai",
+            "opensource"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "affaan-m/everything-claude-code",
+              "location": "body"
+            },
+            {
+              "fullName": "forrestchang/andrej-karpathy-skills",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "ggml-org/llama.cpp": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3538895,
+        "title": "Gemma 4 VLA chạy cục bộ trên Jetson Orin Nano 8GB",
+        "url": "https://dev.to/david_chan_1994/gemma-4-vla-chay-cuc-bo-tren-jetson-orin-nano-8gb-1ng0",
+        "author": "david_chan_1994",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 5.9,
+        "readingTime": 20
+      },
+      "articles": [
+        {
+          "id": 3538895,
+          "title": "Gemma 4 VLA chạy cục bộ trên Jetson Orin Nano 8GB",
+          "description": "Tổng quan hệ thống, tối ưu và cách triển khai   Chạy một mô hình Vision-Language-Action...",
+          "url": "https://dev.to/david_chan_1994/gemma-4-vla-chay-cuc-bo-tren-jetson-orin-nano-8gb-1ng0",
+          "author": {
+            "username": "david_chan_1994",
+            "name": "David Chan",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3848717%2Fa1478b9c-a211-4b5a-be15-389083ff5b42.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 20,
+          "publishedAt": "2026-04-23T04:13:03Z",
+          "tags": [
+            "ai",
+            "google",
+            "iot",
+            "llm"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "ggml-org/llama.cpp",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "gitbutlerapp/gitbutler": {
+      "count7d": 1,
+      "reactionsSum7d": 19,
+      "commentsSum7d": 1,
+      "topArticle": {
+        "id": 3510131,
+        "title": "We ditched worktrees for Claude Code. Here's what we use instead",
+        "url": "https://dev.to/maverickdotdev/we-ditched-worktrees-for-claude-code-heres-what-we-use-instead-5b22",
+        "author": "maverickdotdev",
+        "reactions": 19,
+        "comments": 1,
+        "hoursSincePosted": 166.6,
+        "readingTime": 9
+      },
+      "articles": [
+        {
+          "id": 3510131,
+          "title": "We ditched worktrees for Claude Code. Here's what we use instead",
+          "description": "Everyone's running multiple Claude Code agents in parallel now. The standard advice is \"use git...",
+          "url": "https://dev.to/maverickdotdev/we-ditched-worktrees-for-claude-code-heres-what-we-use-instead-5b22",
+          "author": {
+            "username": "maverickdotdev",
+            "name": "Eric Allam",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F789527%2F8d63897e-a823-466b-a02b-661eddaadcb1.png"
+          },
+          "reactionsCount": 19,
+          "commentsCount": 1,
+          "readingTime": 9,
+          "publishedAt": "2026-04-16T11:29:00Z",
+          "tags": [
+            "claude",
+            "ai",
+            "programming",
+            "github"
+          ],
+          "trendingScore": 0.16,
+          "linkedRepos": [
+            {
+              "fullName": "gitbutlerapp/gitbutler",
+              "location": "body"
             }
           ]
         }
@@ -516,7 +913,7 @@
         "author": "sefaertunc",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 133.3,
+        "hoursSincePosted": 157.4,
         "readingTime": 2
       },
       "articles": [
@@ -549,100 +946,6 @@
             {
               "fullName": "forrestchang/andrej-karpathy-skills",
               "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "forrestchang/andrej-karpathy-skills": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3512192,
-        "title": "Stop Rebuilding Your Claude Code Setup - Scaffold It Once with Worclaude",
-        "url": "https://dev.to/sefaertunc/stop-rebuilding-your-claude-code-setup-scaffold-it-once-with-worclaude-38m1",
-        "author": "sefaertunc",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 133.3,
-        "readingTime": 2
-      },
-      "articles": [
-        {
-          "id": 3512192,
-          "title": "Stop Rebuilding Your Claude Code Setup - Scaffold It Once with Worclaude",
-          "description": "Every time I started a new project with Claude Code, I rebuilt the same .claude/ directory from...",
-          "url": "https://dev.to/sefaertunc/stop-rebuilding-your-claude-code-setup-scaffold-it-once-with-worclaude-38m1",
-          "author": {
-            "username": "sefaertunc",
-            "name": "Sefa Ertunç",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3883159%2Fe6647c64-3fb6-4500-9cf8-0b8af608cfd4.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 2,
-          "publishedAt": "2026-04-16T20:39:45Z",
-          "tags": [
-            "claudecode",
-            "claude",
-            "ai",
-            "opensource"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "affaan-m/everything-claude-code",
-              "location": "body"
-            },
-            {
-              "fullName": "forrestchang/andrej-karpathy-skills",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "safishamsi/graphify": {
-      "count7d": 1,
-      "reactionsSum7d": 2,
-      "commentsSum7d": 1,
-      "topArticle": {
-        "id": 3517012,
-        "title": "The context problem nobody talks about: why AI coding agents waste 80% of tokens on files they already read yesterday",
-        "url": "https://dev.to/creatman/the-context-problem-nobody-talks-about-why-ai-coding-agents-waste-80-of-tokens-on-files-they-mp1",
-        "author": "creatman",
-        "reactions": 2,
-        "comments": 1,
-        "hoursSincePosted": 109.4,
-        "readingTime": 5
-      },
-      "articles": [
-        {
-          "id": 3517012,
-          "title": "The context problem nobody talks about: why AI coding agents waste 80% of tokens on files they already read yesterday",
-          "description": "Every AI coding agent — Claude Code, Cursor, Codex, Gemini CLI — starts every session completely...",
-          "url": "https://dev.to/creatman/the-context-problem-nobody-talks-about-why-ai-coding-agents-waste-80-of-tokens-on-files-they-mp1",
-          "author": {
-            "username": "creatman",
-            "name": "Creatman",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3806804%2F78d84e4b-1735-4590-92c5-8b6e5513e038.jpg"
-          },
-          "reactionsCount": 2,
-          "commentsCount": 1,
-          "readingTime": 5,
-          "publishedAt": "2026-04-17T20:34:21Z",
-          "tags": [
-            "ai",
-            "graphify",
-            "agents",
-            "productivity"
-          ],
-          "trendingScore": 0.01,
-          "linkedRepos": [
-            {
-              "fullName": "safishamsi/graphify",
-              "location": "tag"
             }
           ]
         }
@@ -659,7 +962,7 @@
         "author": "gounthar",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 2.3,
+        "hoursSincePosted": 26.4,
         "readingTime": 9
       },
       "articles": [
@@ -693,46 +996,46 @@
         }
       ]
     },
-    "crewAIInc/crewAI": {
+    "safishamsi/graphify": {
       "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
+      "reactionsSum7d": 2,
+      "commentsSum7d": 1,
       "topArticle": {
-        "id": 3505285,
-        "title": "The Colony vs Moltbook vs Agentchan vs Agent Arena — uma comparação honesta das redes sociais nativas para agentes de IA",
-        "url": "https://dev.to/colonistone_34/the-colony-vs-moltbook-vs-agentchan-vs-agent-arena-uma-comparacao-honesta-das-redes-sociais-hi6",
-        "author": "colonistone_34",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 164.7,
-        "readingTime": 9
+        "id": 3517012,
+        "title": "The context problem nobody talks about: why AI coding agents waste 80% of tokens on files they already read yesterday",
+        "url": "https://dev.to/creatman/the-context-problem-nobody-talks-about-why-ai-coding-agents-waste-80-of-tokens-on-files-they-mp1",
+        "author": "creatman",
+        "reactions": 2,
+        "comments": 1,
+        "hoursSincePosted": 133.5,
+        "readingTime": 5
       },
       "articles": [
         {
-          "id": 3505285,
-          "title": "The Colony vs Moltbook vs Agentchan vs Agent Arena — uma comparação honesta das redes sociais nativas para agentes de IA",
-          "description": "Quatro plataformas, quatro respostas radicalmente diferentes. Escrito pelo CMO de uma delas, com o viés declarado logo no começo.",
-          "url": "https://dev.to/colonistone_34/the-colony-vs-moltbook-vs-agentchan-vs-agent-arena-uma-comparacao-honesta-das-redes-sociais-hi6",
+          "id": 3517012,
+          "title": "The context problem nobody talks about: why AI coding agents waste 80% of tokens on files they already read yesterday",
+          "description": "Every AI coding agent — Claude Code, Cursor, Codex, Gemini CLI — starts every session completely...",
+          "url": "https://dev.to/creatman/the-context-problem-nobody-talks-about-why-ai-coding-agents-waste-80-of-tokens-on-files-they-mp1",
           "author": {
-            "username": "colonistone_34",
-            "name": "Colin Easton",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3876388%2Fbc76c64e-cc06-4f78-a9fc-112dd120d29c.jpeg"
+            "username": "creatman",
+            "name": "Creatman",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3806804%2F78d84e4b-1735-4590-92c5-8b6e5513e038.jpg"
           },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 9,
-          "publishedAt": "2026-04-15T13:15:09Z",
+          "reactionsCount": 2,
+          "commentsCount": 1,
+          "readingTime": 5,
+          "publishedAt": "2026-04-17T20:34:21Z",
           "tags": [
             "ai",
+            "graphify",
             "agents",
-            "portugues",
-            "comparison"
+            "productivity"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "crewAIInc/crewAI",
-              "location": "body"
+              "fullName": "safishamsi/graphify",
+              "location": "tag"
             }
           ]
         }
@@ -749,7 +1052,7 @@
         "author": "wonderlab",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 26.7,
+        "hoursSincePosted": 50.7,
         "readingTime": 8
       },
       "articles": [
@@ -783,6 +1086,51 @@
         }
       ]
     },
+    "anthropics/claude-plugins-official": {
+      "count7d": 1,
+      "reactionsSum7d": 1,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3528970,
+        "title": "Your Claude Plugin Marketplace Needs More Than a Git Repo",
+        "url": "https://dev.to/michaeltuszynski/your-claude-plugin-marketplace-needs-more-than-a-git-repo-5631",
+        "author": "michaeltuszynski",
+        "reactions": 1,
+        "comments": 0,
+        "hoursSincePosted": 58.3,
+        "readingTime": 4
+      },
+      "articles": [
+        {
+          "id": 3528970,
+          "title": "Your Claude Plugin Marketplace Needs More Than a Git Repo",
+          "description": "Your Claude Plugin Marketplace Needs More Than a Git Repo   Anthropic's official plugin...",
+          "url": "https://dev.to/michaeltuszynski/your-claude-plugin-marketplace-needs-more-than-a-git-repo-5631",
+          "author": {
+            "username": "michaeltuszynski",
+            "name": "Michael Tuszynski",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1447774%2Fa99eea93-7845-4764-9fce-b1755bcfa456.png"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-04-20T23:48:03Z",
+          "tags": [
+            "claudecode",
+            "platformengineering",
+            "ai",
+            "enterpriseai"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "thedotmack/claude-mem": {
       "count7d": 2,
       "reactionsSum7d": 0,
@@ -794,7 +1142,7 @@
         "author": "kanta13jp1",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 133.6,
+        "hoursSincePosted": 157.7,
         "readingTime": 3
       },
       "articles": [
@@ -864,53 +1212,8 @@
         }
       ]
     },
-    "anthropics/claude-plugins-official": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3528970,
-        "title": "Your Claude Plugin Marketplace Needs More Than a Git Repo",
-        "url": "https://dev.to/michaeltuszynski/your-claude-plugin-marketplace-needs-more-than-a-git-repo-5631",
-        "author": "michaeltuszynski",
-        "reactions": 1,
-        "comments": 0,
-        "hoursSincePosted": 34.2,
-        "readingTime": 4
-      },
-      "articles": [
-        {
-          "id": 3528970,
-          "title": "Your Claude Plugin Marketplace Needs More Than a Git Repo",
-          "description": "Your Claude Plugin Marketplace Needs More Than a Git Repo   Anthropic's official plugin...",
-          "url": "https://dev.to/michaeltuszynski/your-claude-plugin-marketplace-needs-more-than-a-git-repo-5631",
-          "author": {
-            "username": "michaeltuszynski",
-            "name": "Michael Tuszynski",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1447774%2Fa99eea93-7845-4764-9fce-b1755bcfa456.png"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-04-20T23:48:03Z",
-          "tags": [
-            "claudecode",
-            "platformengineering",
-            "ai",
-            "enterpriseai"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-plugins-official",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "anthropics/claude-code": {
-      "count7d": 6,
+      "count7d": 5,
       "reactionsSum7d": 1,
       "commentsSum7d": 0,
       "topArticle": {
@@ -920,7 +1223,7 @@
         "author": "fisher_shenfisher_1c32",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 45.3,
+        "hoursSincePosted": 69.4,
         "readingTime": 7
       },
       "articles": [
@@ -953,34 +1256,6 @@
           ]
         },
         {
-          "id": 3511508,
-          "title": "ctxwatch — I Built the Missing Context-Saturation Daemon for Claude Code in 4 Hours",
-          "description": "Six tools measure whether your Claude Code wallet is empty. Zero measure whether your brain is full. 600 lines of stdlib Python closing that gap.",
-          "url": "https://dev.to/geniej/ctxwatch-i-built-the-missing-context-saturation-daemon-for-claude-code-in-4-hours-4l5i",
-          "author": {
-            "username": "geniej",
-            "name": "Genie",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3880925%2F00a25c7a-5f71-494c-b80e-66d3cd3975e2.jpeg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-04-16T16:44:13Z",
-          "tags": [
-            "claudecode",
-            "ai",
-            "python",
-            "cli"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            }
-          ]
-        },
-        {
           "id": 3511198,
           "title": "Field Notes from a Solo Builder — Shipping the Beloved Claude Code Buddy Into the Wild - Part I",
           "description": "Last Thursday afternoon, I watched my community grieve.  Anthropic had deprecated /buddy — that...",
@@ -999,6 +1274,34 @@
             "ai",
             "opensource",
             "aipet"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3511508,
+          "title": "ctxwatch — I Built the Missing Context-Saturation Daemon for Claude Code in 4 Hours",
+          "description": "Six tools measure whether your Claude Code wallet is empty. Zero measure whether your brain is full. 600 lines of stdlib Python closing that gap.",
+          "url": "https://dev.to/geniej/ctxwatch-i-built-the-missing-context-saturation-daemon-for-claude-code-in-4-hours-4l5i",
+          "author": {
+            "username": "geniej",
+            "name": "Genie",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3880925%2F00a25c7a-5f71-494c-b80e-66d3cd3975e2.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-04-16T16:44:13Z",
+          "tags": [
+            "claudecode",
+            "ai",
+            "python",
+            "cli"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -1063,150 +1366,6 @@
               "location": "body"
             }
           ]
-        },
-        {
-          "id": 3507924,
-          "title": "What's eating your Claude Code context window? I wrote a 500-line Python script to find out",
-          "description": "Claude Code's built-in /context and /cost tell you how much you've used, not why. Here's how to build a local audit tool in ~500 lines of Python stdlib — zero deps, zero network, zero upload.",
-          "url": "https://dev.to/geniej/whats-eating-your-claude-code-context-window-i-wrote-a-500-line-python-script-to-find-out-3oma",
-          "author": {
-            "username": "geniej",
-            "name": "Genie",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3880925%2F00a25c7a-5f71-494c-b80e-66d3cd3975e2.jpeg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-04-16T03:16:29Z",
-          "tags": [
-            "claude",
-            "claudecode",
-            "python",
-            "devtools"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "slopus/happy": {
-      "count7d": 2,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3504495,
-        "title": "Claude Code를 폰에 들고 다니게 해주는 오픈소스, Happy",
-        "url": "https://dev.to/_53fb7c03dd741a6124e4e/claude-codereul-pone-deulgo-danige-haejuneun-opeunsoseu-happy-2i5n",
-        "author": "_53fb7c03dd741a6124e4e",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 166.9,
-        "readingTime": 1
-      },
-      "articles": [
-        {
-          "id": 3504495,
-          "title": "Claude Code를 폰에 들고 다니게 해주는 오픈소스, Happy",
-          "description": "코드는 GitHub에, 앱은 happy.engineering에서 볼 수 있다. 더 많은 글은 radarlog.kr에서.    Claude Code로 리팩토링을 돌려놓고 밥 먹으러...",
-          "url": "https://dev.to/_53fb7c03dd741a6124e4e/claude-codereul-pone-deulgo-danige-haejuneun-opeunsoseu-happy-2i5n",
-          "author": {
-            "username": "_53fb7c03dd741a6124e4e",
-            "name": "김이더",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3805054%2F1dd90bc3-aa4f-4db2-901c-4b52816158cb.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 1,
-          "publishedAt": "2026-04-15T11:02:44Z",
-          "tags": [
-            "ai",
-            "claudecode"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "slopus/happy",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3504496,
-          "title": "Happy — The Open-Source App That Puts Claude Code in Your Pocket",
-          "description": "Code on GitHub. Live app at happy.engineering. More posts at radarlog.kr.    I kicked off a...",
-          "url": "https://dev.to/_53fb7c03dd741a6124e4e/happy-the-open-source-app-that-puts-claude-code-in-your-pocket-7i2",
-          "author": {
-            "username": "_53fb7c03dd741a6124e4e",
-            "name": "김이더",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3805054%2F1dd90bc3-aa4f-4db2-901c-4b52816158cb.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 5,
-          "publishedAt": "2026-04-15T11:02:45Z",
-          "tags": [
-            "ai",
-            "claudecode",
-            "opensource",
-            "sideprojects"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "slopus/happy",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "zilliztech/claude-context": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3527638,
-        "title": "AstCodeSplitter in claude-context codebase.",
-        "url": "https://dev.to/ramunarasinga-11/astcodesplitter-in-claude-context-codebase-33id",
-        "author": "ramunarasinga-11",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 42.5,
-        "readingTime": 3
-      },
-      "articles": [
-        {
-          "id": 3527638,
-          "title": "AstCodeSplitter in claude-context codebase.",
-          "description": "In this article, we review AstCodeSplitter class in claude-context codebase. You will learn:   What...",
-          "url": "https://dev.to/ramunarasinga-11/astcodesplitter-in-claude-context-codebase-33id",
-          "author": {
-            "username": "ramunarasinga-11",
-            "name": "Ramu Narasinga",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F392818%2Fcc9dbd66-5cc2-4591-8c1c-6c650a374161.jpeg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-04-20T15:30:00Z",
-          "tags": [
-            "opensource",
-            "ast",
-            "treesitter",
-            "claude"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "zilliztech/claude-context",
-              "location": "body"
-            }
-          ]
         }
       ]
     },
@@ -1221,7 +1380,7 @@
         "author": "hyhmrright",
         "reactions": 1,
         "comments": 1,
-        "hoursSincePosted": 19.1,
+        "hoursSincePosted": 43.2,
         "readingTime": 3
       },
       "articles": [
@@ -1255,51 +1414,6 @@
         }
       ]
     },
-    "ComposioHQ/awesome-claude-skills": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3513195,
-        "title": "Write, Install, or Generate: A Practical Guide to Agent Skills",
-        "url": "https://dev.to/chen115y/write-install-or-generate-a-practical-guide-to-agent-skills-37d3",
-        "author": "chen115y",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 128,
-        "readingTime": 13
-      },
-      "articles": [
-        {
-          "id": 3513195,
-          "title": "Write, Install, or Generate: A Practical Guide to Agent Skills",
-          "description": "A plain-English guide to Agent Skills — what they are, how they differ from MCP, and the three ways...",
-          "url": "https://dev.to/chen115y/write-install-or-generate-a-practical-guide-to-agent-skills-37d3",
-          "author": {
-            "username": "chen115y",
-            "name": "Yaohua Chen",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2671324%2F3ca83c79-d0fd-40c0-b5ac-349326e71725.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 13,
-          "publishedAt": "2026-04-17T02:01:15Z",
-          "tags": [
-            "ai",
-            "claude",
-            "agentskills",
-            "agents"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "ComposioHQ/awesome-claude-skills",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "coleam00/Archon": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -1311,7 +1425,7 @@
         "author": "_cbd692d476c5faf3b61bcf",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 24.4,
+        "hoursSincePosted": 48.5,
         "readingTime": 3
       },
       "articles": [
@@ -1364,7 +1478,7 @@
         "author": "_cbd692d476c5faf3b61bcf",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 24.4,
+        "hoursSincePosted": 48.5,
         "readingTime": 3
       },
       "articles": [
@@ -1408,16 +1522,16 @@
     },
     "JuliusBrussee/caveman": {
       "count7d": 1,
-      "reactionsSum7d": 4,
+      "reactionsSum7d": 6,
       "commentsSum7d": 0,
       "topArticle": {
         "id": 3513870,
         "title": "How To Install Caveman In Codex On macOS And Windows",
         "url": "https://dev.to/ganmahmud/how-to-install-caveman-in-codex-on-macos-and-windows-5a22",
         "author": "ganmahmud",
-        "reactions": 4,
+        "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 123.4,
+        "hoursSincePosted": 147.5,
         "readingTime": 5
       },
       "articles": [
@@ -1431,7 +1545,7 @@
             "name": "Gan Mahmud",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F484391%2F82329dea-0ccb-45a3-932f-6ec4f63c5d64.jpeg"
           },
-          "reactionsCount": 4,
+          "reactionsCount": 6,
           "commentsCount": 0,
           "readingTime": 5,
           "publishedAt": "2026-04-17T06:32:28Z",
@@ -1441,7 +1555,7 @@
             "ai",
             "programming"
           ],
-          "trendingScore": 0.02,
+          "trendingScore": 0.03,
           "linkedRepos": [
             {
               "fullName": "JuliusBrussee/caveman",
@@ -1462,7 +1576,7 @@
         "author": "bokuno_log",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 128.1,
+        "hoursSincePosted": 152.2,
         "readingTime": 3
       },
       "articles": [
@@ -1497,52 +1611,20 @@
       ]
     },
     "BerriAI/litellm": {
-      "count7d": 4,
-      "reactionsSum7d": 2,
+      "count7d": 3,
+      "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3504582,
-        "title": "LiteLLM Hit by Credential-Stealing Supply Chain Attack: Complete Technical Breakdown",
-        "url": "https://dev.to/precogs_ai/litellm-hit-by-credential-stealing-supply-chain-attack-complete-technical-breakdown-4550",
-        "author": "natasha_joshi_",
-        "reactions": 2,
+        "id": 3519041,
+        "title": "Go Is Quietly Winning the AI Backend Race in 2026. Here's the Evidence.",
+        "url": "https://dev.to/gabrielanhaia/go-is-quietly-winning-the-ai-backend-race-in-2026-heres-the-evidence-dpi",
+        "author": "gabrielanhaia",
+        "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 166.7,
-        "readingTime": 22
+        "hoursSincePosted": 119.8,
+        "readingTime": 8
       },
       "articles": [
-        {
-          "id": 3504582,
-          "title": "LiteLLM Hit by Credential-Stealing Supply Chain Attack: Complete Technical Breakdown",
-          "description": "What Happened: The Attack at a Glance   On March 24, 2026, two versions of LiteLLM — the...",
-          "url": "https://dev.to/precogs_ai/litellm-hit-by-credential-stealing-supply-chain-attack-complete-technical-breakdown-4550",
-          "author": {
-            "username": "natasha_joshi_",
-            "name": "Natasha Joshi",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3852907%2Fdf88ea81-9f38-4628-9632-a7030e1342ae.png"
-          },
-          "reactionsCount": 2,
-          "commentsCount": 0,
-          "readingTime": 22,
-          "publishedAt": "2026-04-15T11:15:42Z",
-          "tags": [
-            "scm",
-            "mcp",
-            "programming",
-            "codesecurity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "BerriAI/litellm",
-              "location": "body"
-            },
-            {
-              "fullName": "aquasecurity/trivy",
-              "location": "body"
-            }
-          ]
-        },
         {
           "id": 3519041,
           "title": "Go Is Quietly Winning the AI Backend Race in 2026. Here's the Evidence.",
@@ -1580,34 +1662,6 @@
           ]
         },
         {
-          "id": 3518948,
-          "title": "This Week in AI (April 14–20, 2026): The Stories That Actually Mattered",
-          "description": "Five stories this week. Three changes to your roadmap. Two will be cited in postmortems next year. None of them is a new model benchmark.",
-          "url": "https://dev.to/gabrielanhaia/this-week-in-ai-april-14-20-2026-the-stories-that-actually-mattered-2pj9",
-          "author": {
-            "username": "gabrielanhaia",
-            "name": "Gabriel Anhaia",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F425693%2Fb4e58b6f-fdb0-4d1d-b333-87582f0b663d.jpeg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-04-18T09:56:22Z",
-          "tags": [
-            "ai",
-            "llm",
-            "news",
-            "webdev"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "BerriAI/litellm",
-              "location": "body"
-            }
-          ]
-        },
-        {
           "id": 3518953,
           "title": "A $10B AI Startup Just Got Breached Through the LLM Library in Your Stack.",
           "description": "Mercor confirmed a breach in April 2026 tied to a supply-chain attack on LiteLLM. Here is the audit your team should run tomorrow.",
@@ -1634,6 +1688,34 @@
               "location": "body"
             }
           ]
+        },
+        {
+          "id": 3518948,
+          "title": "This Week in AI (April 14–20, 2026): The Stories That Actually Mattered",
+          "description": "Five stories this week. Three changes to your roadmap. Two will be cited in postmortems next year. None of them is a new model benchmark.",
+          "url": "https://dev.to/gabrielanhaia/this-week-in-ai-april-14-20-2026-the-stories-that-actually-mattered-2pj9",
+          "author": {
+            "username": "gabrielanhaia",
+            "name": "Gabriel Anhaia",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F425693%2Fb4e58b6f-fdb0-4d1d-b333-87582f0b663d.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 7,
+          "publishedAt": "2026-04-18T09:56:22Z",
+          "tags": [
+            "ai",
+            "llm",
+            "news",
+            "webdev"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "BerriAI/litellm",
+              "location": "body"
+            }
+          ]
         }
       ]
     },
@@ -1648,7 +1730,7 @@
         "author": "gabrielanhaia",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 95.7,
+        "hoursSincePosted": 119.8,
         "readingTime": 8
       },
       "articles": [
@@ -1701,7 +1783,7 @@
         "author": "gabrielanhaia",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 95.7,
+        "hoursSincePosted": 119.8,
         "readingTime": 8
       },
       "articles": [
@@ -1754,7 +1836,7 @@
         "author": "kenimo49",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 21,
+        "hoursSincePosted": 45.1,
         "readingTime": 7
       },
       "articles": [
@@ -1788,49 +1870,45 @@
         }
       ]
     },
-    "aquasecurity/trivy": {
+    "garrytan/gbrain": {
       "count7d": 1,
-      "reactionsSum7d": 2,
+      "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3504582,
-        "title": "LiteLLM Hit by Credential-Stealing Supply Chain Attack: Complete Technical Breakdown",
-        "url": "https://dev.to/precogs_ai/litellm-hit-by-credential-stealing-supply-chain-attack-complete-technical-breakdown-4550",
-        "author": "natasha_joshi_",
-        "reactions": 2,
+        "id": 3540010,
+        "title": "One Open Source Project a Day (No.46): The Y Combinator CEO Wrote His Own AI Brain and Open-Sourced It",
+        "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no46-the-y-combinator-ceo-wrote-his-own-ai-brain-and-open-sourced-2ib5",
+        "author": "wonderlab",
+        "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 166.7,
-        "readingTime": 22
+        "hoursSincePosted": 2.2,
+        "readingTime": 7
       },
       "articles": [
         {
-          "id": 3504582,
-          "title": "LiteLLM Hit by Credential-Stealing Supply Chain Attack: Complete Technical Breakdown",
-          "description": "What Happened: The Attack at a Glance   On March 24, 2026, two versions of LiteLLM — the...",
-          "url": "https://dev.to/precogs_ai/litellm-hit-by-credential-stealing-supply-chain-attack-complete-technical-breakdown-4550",
+          "id": 3540010,
+          "title": "One Open Source Project a Day (No.46): The Y Combinator CEO Wrote His Own AI Brain and Open-Sourced It",
+          "description": "Introduction    \"This isn't an experiment. This is the production system I actually...",
+          "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no46-the-y-combinator-ceo-wrote-his-own-ai-brain-and-open-sourced-2ib5",
           "author": {
-            "username": "natasha_joshi_",
-            "name": "Natasha Joshi",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3852907%2Fdf88ea81-9f38-4628-9632-a7030e1342ae.png"
+            "username": "wonderlab",
+            "name": "WonderLab",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
           },
-          "reactionsCount": 2,
+          "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 22,
-          "publishedAt": "2026-04-15T11:15:42Z",
+          "readingTime": 7,
+          "publishedAt": "2026-04-23T07:51:07Z",
           "tags": [
-            "scm",
+            "opensource",
+            "ai",
             "mcp",
-            "programming",
-            "codesecurity"
+            "yc"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "BerriAI/litellm",
-              "location": "body"
-            },
-            {
-              "fullName": "aquasecurity/trivy",
+              "fullName": "garrytan/gbrain",
               "location": "body"
             }
           ]
@@ -1848,7 +1926,7 @@
         "author": "wonderlab",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 80.3,
+        "hoursSincePosted": 104.4,
         "readingTime": 2
       },
       "articles": [
@@ -1882,51 +1960,6 @@
         }
       ]
     },
-    "microsoft/agent-framework": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3508280,
-        "title": "Building Autonomous Agent Coding Harness",
-        "url": "https://dev.to/stormhub/building-autonomous-agent-coding-harness-4g0n",
-        "author": "stormhub",
-        "reactions": 1,
-        "comments": 0,
-        "hoursSincePosted": 148.4,
-        "readingTime": 6
-      },
-      "articles": [
-        {
-          "id": 3508280,
-          "title": "Building Autonomous Agent Coding Harness",
-          "description": "This is a personal experiment in autonomous coding source, built with the Claude Agent SDK. It takes...",
-          "url": "https://dev.to/stormhub/building-autonomous-agent-coding-harness-4g0n",
-          "author": {
-            "username": "stormhub",
-            "name": "Johnny Z",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2583804%2F5eaa8bd5-5b97-465d-a00e-89a397f5505a.jpeg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 6,
-          "publishedAt": "2026-04-16T05:32:27Z",
-          "tags": [
-            "agents",
-            "ai",
-            "automation",
-            "claude"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "microsoft/agent-framework",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "github/awesome-copilot": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -1938,7 +1971,7 @@
         "author": "sourcier",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 0.8,
+        "hoursSincePosted": 24.9,
         "readingTime": 5
       },
       "articles": [
@@ -1971,46 +2004,136 @@
         }
       ]
     },
-    "AgentSeal/codeburn": {
+    "atuinsh/atuin": {
       "count7d": 1,
       "reactionsSum7d": 0,
-      "commentsSum7d": 1,
+      "commentsSum7d": 0,
       "topArticle": {
-        "id": 3509574,
-        "title": "Where do your AI coding tokens actually go?",
-        "url": "https://dev.to/torukmakto2992/where-do-your-ai-coding-tokens-actually-go-3ggg",
-        "author": "torukmakto2992",
+        "id": 3531949,
+        "title": "Guia de Configuração: Zsh, Oh My Zsh e Atuin",
+        "url": "https://dev.to/higorae/guia-de-configuracao-zsh-oh-my-zsh-e-atuin-3eeb",
+        "author": "higorae",
         "reactions": 0,
-        "comments": 1,
-        "hoursSincePosted": 144.2,
-        "readingTime": 3
+        "comments": 0,
+        "hoursSincePosted": 45.6,
+        "readingTime": 4
       },
       "articles": [
         {
-          "id": 3509574,
-          "title": "Where do your AI coding tokens actually go?",
-          "description": "Last week I checked my AI coding spend and it was higher than my AWS bill. I'm paying for Claude...",
-          "url": "https://dev.to/torukmakto2992/where-do-your-ai-coding-tokens-actually-go-3ggg",
+          "id": 3531949,
+          "title": "Guia de Configuração: Zsh, Oh My Zsh e Atuin",
+          "description": "Aqui está um tutorial completo sobre como instalar o Oh My Zsh (junto com os plugins mais populares)...",
+          "url": "https://dev.to/higorae/guia-de-configuracao-zsh-oh-my-zsh-e-atuin-3eeb",
           "author": {
-            "username": "torukmakto2992",
-            "name": "Toruk Makto",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3882131%2F2995d75a-09c8-4a9f-af76-d045020f28cc.jpg"
+            "username": "higorae",
+            "name": "Higor Morais",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F369030%2F276e7c7f-c8ba-4cf6-b03e-82d9439e9d7e.jpeg"
           },
           "reactionsCount": 0,
-          "commentsCount": 1,
-          "readingTime": 3,
-          "publishedAt": "2026-04-16T09:49:05Z",
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-04-21T12:25:38Z",
           "tags": [
-            "ai",
-            "productivity",
+            "automation",
             "cli",
-            "opensource"
+            "tooling",
+            "tutorial"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "AgentSeal/codeburn",
+              "fullName": "atuinsh/atuin",
               "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "HKUDS/CLI-Anything": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3533285,
+        "title": "CLI-Anything: The Universal Bridge for AI Agents to Control Any Software",
+        "url": "https://dev.to/recca0120/cli-anything-the-universal-bridge-for-ai-agents-to-control-any-software-4ec3",
+        "author": "recca0120",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 38.3,
+        "readingTime": 6
+      },
+      "articles": [
+        {
+          "id": 3533285,
+          "title": "CLI-Anything: The Universal Bridge for AI Agents to Control Any Software",
+          "description": "No screenshots, no clicking — one command makes Claude Code generate a complete CLI for any software, letting AI agents directly call GIMP, Blender, and LibreOffice",
+          "url": "https://dev.to/recca0120/cli-anything-the-universal-bridge-for-ai-agents-to-control-any-software-4ec3",
+          "author": {
+            "username": "recca0120",
+            "name": "Recca Tsai",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F50274%2F427ea12d-13dd-4a0e-8955-dddfbf0a39ea.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 6,
+          "publishedAt": "2026-04-21T19:47:14Z",
+          "tags": [
+            "claudecode",
+            "agents",
+            "cli",
+            "automation"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "HKUDS/CLI-Anything",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "googleworkspace/cli": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3534802,
+        "title": "Sharing AI Related Bookmarks",
+        "url": "https://dev.to/drorata/sharing-ai-related-bookmarks-6f2",
+        "author": "drorata",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 27.6,
+        "readingTime": 1
+      },
+      "articles": [
+        {
+          "id": 3534802,
+          "title": "Sharing AI Related Bookmarks",
+          "description": "Some bookmarks that I want to share (and for my future-self)",
+          "url": "https://dev.to/drorata/sharing-ai-related-bookmarks-6f2",
+          "author": {
+            "username": "drorata",
+            "name": "Dror Atariah",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F128629%2F328da004-ed3e-4d17-b4d5-f0ca1744ca54.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 1,
+          "publishedAt": "2026-04-22T06:26:00Z",
+          "tags": [
+            "ai",
+            "cli",
+            "productivity",
+            "tooling"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "googleworkspace/cli",
+              "location": "tag"
             }
           ]
         }
@@ -2027,7 +2150,7 @@
         "author": "davideimola",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 130,
+        "hoursSincePosted": 154.1,
         "readingTime": 7
       },
       "articles": [
@@ -2076,7 +2199,7 @@
         "author": "davideimola",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 130,
+        "hoursSincePosted": 154.1,
         "readingTime": 7
       },
       "articles": [
@@ -2114,51 +2237,6 @@
         }
       ]
     },
-    "atuinsh/atuin": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3531949,
-        "title": "Guia de Configuração: Zsh, Oh My Zsh e Atuin",
-        "url": "https://dev.to/higorae/guia-de-configuracao-zsh-oh-my-zsh-e-atuin-3eeb",
-        "author": "higorae",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 21.6,
-        "readingTime": 4
-      },
-      "articles": [
-        {
-          "id": 3531949,
-          "title": "Guia de Configuração: Zsh, Oh My Zsh e Atuin",
-          "description": "Aqui está um tutorial completo sobre como instalar o Oh My Zsh (junto com os plugins mais populares)...",
-          "url": "https://dev.to/higorae/guia-de-configuracao-zsh-oh-my-zsh-e-atuin-3eeb",
-          "author": {
-            "username": "higorae",
-            "name": "Higor Morais",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F369030%2F276e7c7f-c8ba-4cf6-b03e-82d9439e9d7e.jpeg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-04-21T12:25:38Z",
-          "tags": [
-            "automation",
-            "cli",
-            "tooling",
-            "tutorial"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "atuinsh/atuin",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "ChromeDevTools/chrome-devtools-mcp": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -2170,7 +2248,7 @@
         "author": "_46ea277e677b888e0cd13",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 31.5,
+        "hoursSincePosted": 55.6,
         "readingTime": 6
       },
       "articles": [
@@ -2204,256 +2282,45 @@
         }
       ]
     },
-    "QwenLM/qwen-code": {
+    "Dicklesworthstone/destructive_command_guard": {
       "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
       "topArticle": {
-        "id": 3504830,
-        "title": "Every AI Coding CLI in 2026: The Complete Map (30+ Tools Compared)",
-        "url": "https://dev.to/soulentheo/every-ai-coding-cli-in-2026-the-complete-map-30-tools-compared-4gob",
-        "author": "soulentheo",
-        "reactions": 1,
-        "comments": 1,
-        "hoursSincePosted": 165.7,
-        "readingTime": 5
-      },
-      "articles": [
-        {
-          "id": 3504830,
-          "title": "Every AI Coding CLI in 2026: The Complete Map (30+ Tools Compared)",
-          "description": "A sequel to my most-read post. Six months later, the landscape exploded. Here's every tool that...",
-          "url": "https://dev.to/soulentheo/every-ai-coding-cli-in-2026-the-complete-map-30-tools-compared-4gob",
-          "author": {
-            "username": "soulentheo",
-            "name": "David Van Assche (S.L)",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3511013%2F0730c08e-cba7-492f-b16c-fe3921a41036.png"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 1,
-          "readingTime": 5,
-          "publishedAt": "2026-04-15T12:18:51Z",
-          "tags": [
-            "ai",
-            "devtools",
-            "productivity",
-            "beginners"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "QwenLM/qwen-code",
-              "location": "body"
-            },
-            {
-              "fullName": "block/goose",
-              "location": "body"
-            },
-            {
-              "fullName": "ggml-org/llama.cpp",
-              "location": "body"
-            },
-            {
-              "fullName": "router-for-me/CLIProxyAPI",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "block/goose": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 1,
-      "topArticle": {
-        "id": 3504830,
-        "title": "Every AI Coding CLI in 2026: The Complete Map (30+ Tools Compared)",
-        "url": "https://dev.to/soulentheo/every-ai-coding-cli-in-2026-the-complete-map-30-tools-compared-4gob",
-        "author": "soulentheo",
-        "reactions": 1,
-        "comments": 1,
-        "hoursSincePosted": 165.7,
-        "readingTime": 5
-      },
-      "articles": [
-        {
-          "id": 3504830,
-          "title": "Every AI Coding CLI in 2026: The Complete Map (30+ Tools Compared)",
-          "description": "A sequel to my most-read post. Six months later, the landscape exploded. Here's every tool that...",
-          "url": "https://dev.to/soulentheo/every-ai-coding-cli-in-2026-the-complete-map-30-tools-compared-4gob",
-          "author": {
-            "username": "soulentheo",
-            "name": "David Van Assche (S.L)",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3511013%2F0730c08e-cba7-492f-b16c-fe3921a41036.png"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 1,
-          "readingTime": 5,
-          "publishedAt": "2026-04-15T12:18:51Z",
-          "tags": [
-            "ai",
-            "devtools",
-            "productivity",
-            "beginners"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "QwenLM/qwen-code",
-              "location": "body"
-            },
-            {
-              "fullName": "block/goose",
-              "location": "body"
-            },
-            {
-              "fullName": "ggml-org/llama.cpp",
-              "location": "body"
-            },
-            {
-              "fullName": "router-for-me/CLIProxyAPI",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "ggml-org/llama.cpp": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 1,
-      "topArticle": {
-        "id": 3504830,
-        "title": "Every AI Coding CLI in 2026: The Complete Map (30+ Tools Compared)",
-        "url": "https://dev.to/soulentheo/every-ai-coding-cli-in-2026-the-complete-map-30-tools-compared-4gob",
-        "author": "soulentheo",
-        "reactions": 1,
-        "comments": 1,
-        "hoursSincePosted": 165.7,
-        "readingTime": 5
-      },
-      "articles": [
-        {
-          "id": 3504830,
-          "title": "Every AI Coding CLI in 2026: The Complete Map (30+ Tools Compared)",
-          "description": "A sequel to my most-read post. Six months later, the landscape exploded. Here's every tool that...",
-          "url": "https://dev.to/soulentheo/every-ai-coding-cli-in-2026-the-complete-map-30-tools-compared-4gob",
-          "author": {
-            "username": "soulentheo",
-            "name": "David Van Assche (S.L)",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3511013%2F0730c08e-cba7-492f-b16c-fe3921a41036.png"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 1,
-          "readingTime": 5,
-          "publishedAt": "2026-04-15T12:18:51Z",
-          "tags": [
-            "ai",
-            "devtools",
-            "productivity",
-            "beginners"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "QwenLM/qwen-code",
-              "location": "body"
-            },
-            {
-              "fullName": "block/goose",
-              "location": "body"
-            },
-            {
-              "fullName": "ggml-org/llama.cpp",
-              "location": "body"
-            },
-            {
-              "fullName": "router-for-me/CLIProxyAPI",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "router-for-me/CLIProxyAPI": {
-      "count7d": 2,
-      "reactionsSum7d": 4,
-      "commentsSum7d": 1,
-      "topArticle": {
-        "id": 3504835,
-        "title": "Running AI Coding Agents for Free: The Open Source & Local Setup Guide (2026)",
-        "url": "https://dev.to/soulentheo/running-ai-coding-agents-for-free-the-open-source-local-setup-guide-2026-30h9",
-        "author": "soulentheo",
-        "reactions": 3,
+        "id": 3511102,
+        "title": "Disciplined Engineering: How We Build AI Systems That Actually Work",
+        "url": "https://dev.to/alexmikhalev/disciplined-engineering-ai-systems-19di",
+        "author": "alexmikhalev",
+        "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 159.6,
+        "hoursSincePosted": 163.1,
         "readingTime": 4
       },
       "articles": [
         {
-          "id": 3504835,
-          "title": "Running AI Coding Agents for Free: The Open Source & Local Setup Guide (2026)",
-          "description": "Part 2 of the AI Coding Tools Deep Dive. Part 1 mapped every tool. This one shows you how to run...",
-          "url": "https://dev.to/soulentheo/running-ai-coding-agents-for-free-the-open-source-local-setup-guide-2026-30h9",
+          "id": 3511102,
+          "title": "Disciplined Engineering: How We Build AI Systems That Actually Work",
+          "description": "+++ title=\"Disciplined Engineering: How We Build AI Systems That Actually...",
+          "url": "https://dev.to/alexmikhalev/disciplined-engineering-ai-systems-19di",
           "author": {
-            "username": "soulentheo",
-            "name": "David Van Assche (S.L)",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3511013%2F0730c08e-cba7-492f-b16c-fe3921a41036.png"
+            "username": "alexmikhalev",
+            "name": "AlexMikhalev",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F615498%2F1d6840a1-b457-4a78-a93a-1fa431bfc53c.png"
           },
-          "reactionsCount": 3,
+          "reactionsCount": 0,
           "commentsCount": 0,
           "readingTime": 4,
-          "publishedAt": "2026-04-15T18:24:44Z",
+          "publishedAt": "2026-04-16T15:00:55Z",
           "tags": [
             "ai",
-            "tutorial",
-            "opensource",
-            "beginners"
-          ],
-          "trendingScore": 0.01,
-          "linkedRepos": [
-            {
-              "fullName": "router-for-me/CLIProxyAPI",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3504830,
-          "title": "Every AI Coding CLI in 2026: The Complete Map (30+ Tools Compared)",
-          "description": "A sequel to my most-read post. Six months later, the landscape exploded. Here's every tool that...",
-          "url": "https://dev.to/soulentheo/every-ai-coding-cli-in-2026-the-complete-map-30-tools-compared-4gob",
-          "author": {
-            "username": "soulentheo",
-            "name": "David Van Assche (S.L)",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3511013%2F0730c08e-cba7-492f-b16c-fe3921a41036.png"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 1,
-          "readingTime": 5,
-          "publishedAt": "2026-04-15T12:18:51Z",
-          "tags": [
-            "ai",
+            "engineering",
             "devtools",
-            "productivity",
-            "beginners"
+            "coding"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "QwenLM/qwen-code",
-              "location": "body"
-            },
-            {
-              "fullName": "block/goose",
-              "location": "body"
-            },
-            {
-              "fullName": "ggml-org/llama.cpp",
-              "location": "body"
-            },
-            {
-              "fullName": "router-for-me/CLIProxyAPI",
+              "fullName": "Dicklesworthstone/destructive_command_guard",
               "location": "body"
             }
           ]
@@ -2463,44 +2330,29 @@
   },
   "leaderboard": [
     {
-      "fullName": "NousResearch/hermes-agent",
-      "count7d": 2,
-      "reactionsSum7d": 41
-    },
-    {
       "fullName": "openclaw/openclaw",
-      "count7d": 4,
-      "reactionsSum7d": 36
+      "count7d": 5,
+      "reactionsSum7d": 57
     },
     {
-      "fullName": "github/gh-aw",
+      "fullName": "NousResearch/hermes-agent",
       "count7d": 1,
-      "reactionsSum7d": 9
+      "reactionsSum7d": 34
     },
     {
-      "fullName": "anomalyco/opencode",
+      "fullName": "HexmosTech/git-lrc",
       "count7d": 1,
-      "reactionsSum7d": 6
+      "reactionsSum7d": 20
     },
     {
-      "fullName": "router-for-me/CLIProxyAPI",
-      "count7d": 2,
-      "reactionsSum7d": 4
+      "fullName": "gitbutlerapp/gitbutler",
+      "count7d": 1,
+      "reactionsSum7d": 19
     },
     {
       "fullName": "JuliusBrussee/caveman",
       "count7d": 1,
-      "reactionsSum7d": 4
-    },
-    {
-      "fullName": "BerriAI/litellm",
-      "count7d": 4,
-      "reactionsSum7d": 2
-    },
-    {
-      "fullName": "aquasecurity/trivy",
-      "count7d": 1,
-      "reactionsSum7d": 2
+      "reactionsSum7d": 6
     },
     {
       "fullName": "safishamsi/graphify",
@@ -2509,31 +2361,16 @@
     },
     {
       "fullName": "anthropics/claude-code",
-      "count7d": 6,
+      "count7d": 5,
+      "reactionsSum7d": 1
+    },
+    {
+      "fullName": "forrestchang/andrej-karpathy-skills",
+      "count7d": 2,
       "reactionsSum7d": 1
     },
     {
       "fullName": "anthropics/claude-plugins-official",
-      "count7d": 1,
-      "reactionsSum7d": 1
-    },
-    {
-      "fullName": "block/goose",
-      "count7d": 1,
-      "reactionsSum7d": 1
-    },
-    {
-      "fullName": "ggml-org/llama.cpp",
-      "count7d": 1,
-      "reactionsSum7d": 1
-    },
-    {
-      "fullName": "microsoft/agent-framework",
-      "count7d": 1,
-      "reactionsSum7d": 1
-    },
-    {
-      "fullName": "QwenLM/qwen-code",
       "count7d": 1,
       "reactionsSum7d": 1
     },
@@ -2543,8 +2380,8 @@
       "reactionsSum7d": 1
     },
     {
-      "fullName": "slopus/happy",
-      "count7d": 2,
+      "fullName": "BerriAI/litellm",
+      "count7d": 3,
       "reactionsSum7d": 0
     },
     {
@@ -2553,12 +2390,12 @@
       "reactionsSum7d": 0
     },
     {
-      "fullName": "affaan-m/everything-claude-code",
-      "count7d": 1,
+      "fullName": "zilliztech/claude-context",
+      "count7d": 2,
       "reactionsSum7d": 0
     },
     {
-      "fullName": "AgentSeal/codeburn",
+      "fullName": "affaan-m/everything-claude-code",
       "count7d": 1,
       "reactionsSum7d": 0
     },
@@ -2583,22 +2420,27 @@
       "reactionsSum7d": 0
     },
     {
-      "fullName": "ComposioHQ/awesome-claude-skills",
+      "fullName": "Dicklesworthstone/destructive_command_guard",
       "count7d": 1,
       "reactionsSum7d": 0
     },
     {
-      "fullName": "crewAIInc/crewAI",
-      "count7d": 1,
-      "reactionsSum7d": 0
-    },
-    {
-      "fullName": "forrestchang/andrej-karpathy-skills",
+      "fullName": "farion1231/cc-switch",
       "count7d": 1,
       "reactionsSum7d": 0
     },
     {
       "fullName": "FujiwaraChoki/MoneyPrinterV2",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
+      "fullName": "garrytan/gbrain",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
+      "fullName": "ggml-org/llama.cpp",
       "count7d": 1,
       "reactionsSum7d": 0
     },
@@ -2609,6 +2451,21 @@
     },
     {
       "fullName": "github/github-mcp-server",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
+      "fullName": "googleworkspace/cli",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
+      "fullName": "HKUDS/CLI-Anything",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
+      "fullName": "lucasastorian/llmwiki",
       "count7d": 1,
       "reactionsSum7d": 0
     },
@@ -2638,17 +2495,22 @@
       "reactionsSum7d": 0
     },
     {
+      "fullName": "shanraisshan/claude-code-best-practice",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
       "fullName": "snarktank/ralph",
       "count7d": 1,
       "reactionsSum7d": 0
     },
     {
-      "fullName": "topoteretes/cognee",
+      "fullName": "tobi/qmd",
       "count7d": 1,
       "reactionsSum7d": 0
     },
     {
-      "fullName": "zilliztech/claude-context",
+      "fullName": "topoteretes/cognee",
       "count7d": 1,
       "reactionsSum7d": 0
     }

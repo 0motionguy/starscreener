@@ -1,52 +1,628 @@
 {
-  "fetchedAt": "2026-04-23T00:03:56.943Z",
+  "fetchedAt": "2026-04-23T06:17:47.914Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
-    "ggml-org/llama.cpp": {
-      "count7d": 6,
+    "remotion-dev/remotion": {
+      "count7d": 1,
       "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:4cb4ap6dfrm2cgfw64dpuwha/app.bsky.feed.post/3mk4d4hb7ys2v",
-        "cid": "bafyreihvjbqu3sgrhhrjnqdn3cnhegl2qf46mkz2twgrccewxfmyjcwnji",
-        "bskyUrl": "https://bsky.app/profile/barredspirals.comint.su/post/3mk4d4hb7ys2v",
-        "text": "huh. okay it looks like you're right about qwen3.6? json is a common tool call format for other models tho, see github.com/ggml-org/lla...",
+        "uri": "at://did:plc:e54vqzua5772vw7enht6zsyx/app.bsky.feed.post/3mk5dja3fu5a2",
+        "cid": "bafyreichora7vhlcvghpzpog6eifxtyockws2zfivesgcasl4wke4kfdra",
+        "bskyUrl": "https://bsky.app/profile/martin.openedtech.social.ap.brid.gy/post/3mk5dja3fu5a2",
+        "text": "@cogdog Also pretty good, free and easy for an agent to use: https://github.com/remotion-dev/remotion",
         "author": {
-          "handle": "barredspirals.comint.su",
-          "displayName": "lexi"
+          "handle": "martin.openedtech.social.ap.brid.gy",
+          "displayName": "Martin Dougiamas"
         },
         "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-04-22T20:20:54.616Z",
-        "hoursSincePosted": 3.72
+        "createdAt": "2026-04-23T06:00:04.000Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
-          "uri": "at://did:plc:4cb4ap6dfrm2cgfw64dpuwha/app.bsky.feed.post/3mk4d4hb7ys2v",
-          "cid": "bafyreihvjbqu3sgrhhrjnqdn3cnhegl2qf46mkz2twgrccewxfmyjcwnji",
-          "bskyUrl": "https://bsky.app/profile/barredspirals.comint.su/post/3mk4d4hb7ys2v",
-          "text": "huh. okay it looks like you're right about qwen3.6? json is a common tool call format for other models tho, see github.com/ggml-org/lla...",
+          "uri": "at://did:plc:e54vqzua5772vw7enht6zsyx/app.bsky.feed.post/3mk5dja3fu5a2",
+          "cid": "bafyreichora7vhlcvghpzpog6eifxtyockws2zfivesgcasl4wke4kfdra",
+          "bskyUrl": "https://bsky.app/profile/martin.openedtech.social.ap.brid.gy/post/3mk5dja3fu5a2",
+          "text": "@cogdog Also pretty good, free and easy for an agent to use: https://github.com/remotion-dev/remotion",
           "author": {
-            "handle": "barredspirals.comint.su",
-            "displayName": "lexi"
+            "handle": "martin.openedtech.social.ap.brid.gy",
+            "displayName": "Martin Dougiamas"
           },
           "likeCount": 1,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-04-22T20:20:54.616Z",
-          "createdUtc": 1776889254,
-          "ageHours": 3.72,
+          "createdAt": "2026-04-23T06:00:04.000Z",
+          "createdUtc": 1776924004,
+          "ageHours": 0.5,
           "trendingScore": 1,
           "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "remotion-dev/remotion",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "anzellai/sky": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:niluiwex7fsnjak2wxs4j47y/app.bsky.feed.post/3mk5d4heunc2t",
+        "cid": "bafyreiavulvf34jsyoe5qcdhfjyjf7i5omfkt6nm7tnwmztb7qlltdgdba",
+        "bskyUrl": "https://bsky.app/profile/azu.bsky.social/post/3mk5d4heunc2t",
+        "text": "見てる: \"anzellai/sky: Sky — an Elm-inspired language that compiles to Go. Hindley-Milner types, server-driven UI (Sky.Live), single binary output.\" https://github.com/anzellai/sky",
+        "author": {
+          "handle": "azu.bsky.social",
+          "displayName": "azu"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-23T05:53:34.351Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:niluiwex7fsnjak2wxs4j47y/app.bsky.feed.post/3mk5d4heunc2t",
+          "cid": "bafyreiavulvf34jsyoe5qcdhfjyjf7i5omfkt6nm7tnwmztb7qlltdgdba",
+          "bskyUrl": "https://bsky.app/profile/azu.bsky.social/post/3mk5d4heunc2t",
+          "text": "見てる: \"anzellai/sky: Sky — an Elm-inspired language that compiles to Go. Hindley-Milner types, server-driven UI (Sky.Live), single binary output.\" https://github.com/anzellai/sky",
+          "author": {
+            "handle": "azu.bsky.social",
+            "displayName": "azu"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-23T05:53:34.351Z",
+          "createdUtc": 1776923614,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anzellai/sky",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "mnfst/awesome-free-llm-apis": {
+      "count7d": 7,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 6,
+      "topPost": {
+        "uri": "at://did:plc:kbwklkhbhl4gsesa3fh7vmj7/app.bsky.feed.post/3mk55wpofmk2f",
+        "cid": "bafyreidifxcmhhuqsbxtihzbohmosxjm5jqhtrmbir6luoa6o7d4ii2erm",
+        "bskyUrl": "https://bsky.app/profile/manifestfordevs.bsky.social/post/3mk55wpofmk2f",
+        "text": "🇺🇸 OpenRouter - deepseek-r1-0528:free - deepseek-chat-v3-0324:free - qwen3.6-plus:free | 1M ctx + 7 more: github.com/mnfst/awesom... 🇨🇳 SiliconFlow - Qwen3-8B - DeepSeek-R1-Distill-Qwen-7B - GLM-4-9B +1 more: github.com/mnfst/awesom... Spot a provider I missed? Drop it in the comments 👇",
+        "author": {
+          "handle": "manifestfordevs.bsky.social",
+          "displayName": "Manifest"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-23T04:20:50.667Z",
+        "hoursSincePosted": 1.95
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:kbwklkhbhl4gsesa3fh7vmj7/app.bsky.feed.post/3mk55wpofmk2f",
+          "cid": "bafyreidifxcmhhuqsbxtihzbohmosxjm5jqhtrmbir6luoa6o7d4ii2erm",
+          "bskyUrl": "https://bsky.app/profile/manifestfordevs.bsky.social/post/3mk55wpofmk2f",
+          "text": "🇺🇸 OpenRouter - deepseek-r1-0528:free - deepseek-chat-v3-0324:free - qwen3.6-plus:free | 1M ctx + 7 more: github.com/mnfst/awesom... 🇨🇳 SiliconFlow - Qwen3-8B - DeepSeek-R1-Distill-Qwen-7B - GLM-4-9B +1 more: github.com/mnfst/awesom... Spot a provider I missed? Drop it in the comments 👇",
+          "author": {
+            "handle": "manifestfordevs.bsky.social",
+            "displayName": "Manifest"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-23T04:20:50.667Z",
+          "createdUtc": 1776918050,
+          "ageHours": 1.95,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "mnfst/awesome-free-llm-apis",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:kbwklkhbhl4gsesa3fh7vmj7/app.bsky.feed.post/3mk55wpdf3c2f",
+          "cid": "bafyreihnh5qc2cx6wylkqwz7r5xq2gj52x2idyppiimex672wz7jew3nx4",
+          "bskyUrl": "https://bsky.app/profile/manifestfordevs.bsky.social/post/3mk55wpdf3c2f",
+          "text": "🇺🇸 NVIDIA NIM - deepseek-r1 - nemotron-ultra-253b - nemotron-3-super-120b + 5 more: github.com/mnfst/awesom... 🇺🇸 Ollama Cloud - llama3.1:cloud - deepseek-r1:cloud - qwen2.5:cloud + 2 more: github.com/mnfst/awesom... 👇",
+          "author": {
+            "handle": "manifestfordevs.bsky.social",
+            "displayName": "Manifest"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-04-23T04:20:50.666Z",
+          "createdUtc": 1776918050,
+          "ageHours": 1.95,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "mnfst/awesome-free-llm-apis",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:kbwklkhbhl4gsesa3fh7vmj7/app.bsky.feed.post/3mk55wp2pqc2f",
+          "cid": "bafyreigoaefr73gulmr5gxdgdkhyonx5tiyj4rw3xjsy5bmwtnrffo4enm",
+          "bskyUrl": "https://bsky.app/profile/manifestfordevs.bsky.social/post/3mk55wp2pqc2f",
+          "text": "🇬🇧 LLM7 io - deepseek-r1-0528 - deepseek-v3-0324 - gemini-2.5-flash-lite + 3 more: github.com/mnfst/awesom... 🇨🇳 ModelScope - Qwen3.5-35B-A3B - Qwen3.5-27B - Qwen-Image 👇",
+          "author": {
+            "handle": "manifestfordevs.bsky.social",
+            "displayName": "Manifest"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-04-23T04:20:50.665Z",
+          "createdUtc": 1776918050,
+          "ageHours": 1.95,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "mnfst/awesome-free-llm-apis",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:kbwklkhbhl4gsesa3fh7vmj7/app.bsky.feed.post/3mk55wotai22f",
+          "cid": "bafyreiafpg7bezrx7o4xgl4flo3c37iwjvreemz574nbgtaoggdn2lfhuu",
+          "bskyUrl": "https://bsky.app/profile/manifestfordevs.bsky.social/post/3mk55wotai22f",
+          "text": "🇺🇸 Hugging Face - Llama-3.1-8B - Mistral-7B - Mixtral-8x7B + 2 more: github.com/mnfst/awesom... 🇺🇸 Kilo Code - grok-code-fast-1:free - nemotron-3-super-120b:free - trinity-large-thinking:free 👇",
+          "author": {
+            "handle": "manifestfordevs.bsky.social",
+            "displayName": "Manifest"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-04-23T04:20:50.664Z",
+          "createdUtc": 1776918050,
+          "ageHours": 1.95,
+          "trendingScore": 0.5,
+          "content_tags": [
             "has-github-repo",
-            "has-md-file"
+            "is-announcement"
           ],
           "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "mnfst/awesome-free-llm-apis",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:kbwklkhbhl4gsesa3fh7vmj7/app.bsky.feed.post/3mk55wok7g22f",
+          "cid": "bafyreiaichuvir7g5lvrxclpaqvn5pvr4fjpk74t6jprpwc7vh2exm777m",
+          "bskyUrl": "https://bsky.app/profile/manifestfordevs.bsky.social/post/3mk55wok7g22f",
+          "text": "🇺🇸 GitHub Models - gpt-4.1 - gpt-4.1-mini - gpt-4o - o3-mini + 5 more: github.com/mnfst/awesom... 🇺🇸 Groq - llama-3.3-70b-versatile - llama-3.1-8b-instant - llama-4-scout / maverick - kimi-k2-instruct + 5 more: github.com/mnfst/awesom... 👇",
+          "author": {
+            "handle": "manifestfordevs.bsky.social",
+            "displayName": "Manifest"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-04-23T04:20:50.663Z",
+          "createdUtc": 1776918050,
+          "ageHours": 1.95,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "mnfst/awesome-free-llm-apis",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:kbwklkhbhl4gsesa3fh7vmj7/app.bsky.feed.post/3mk55wnzib22f",
+          "cid": "bafyreidef3jsbwdk33fyqmbrpushgmujkklfvvyo34vkx5dxvtfvozrzji",
+          "bskyUrl": "https://bsky.app/profile/manifestfordevs.bsky.social/post/3mk55wnzib22f",
+          "text": "🇺🇸 Google Gemini - Gemini 2.5 Flash - Gemini 2.5 Flash-Lite 🇫🇷 Mistral AI - Mistral Small 4 - Mistral Medium 3 - Mistral Large 3 + 3 more: github.com/mnfst/awesom... 👇",
+          "author": {
+            "handle": "manifestfordevs.bsky.social",
+            "displayName": "Manifest"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-04-23T04:20:50.661Z",
+          "createdUtc": 1776918050,
+          "ageHours": 1.95,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "mnfst/awesome-free-llm-apis",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:kbwklkhbhl4gsesa3fh7vmj7/app.bsky.feed.post/3mk55wnpykc2f",
+          "cid": "bafyreieg3jsnbgkpaxgsynpz37pksycjk6ayzagmsux75ls24iudoqflb4",
+          "bskyUrl": "https://bsky.app/profile/manifestfordevs.bsky.social/post/3mk55wnpykc2f",
+          "text": "🇨🇦 Cohere - Command A - Command R+ / R / R7B - Embed 4 (Text + Image) + 1 more: github.com/mnfst/awesom... 👇",
+          "author": {
+            "handle": "manifestfordevs.bsky.social",
+            "displayName": "Manifest"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-04-23T04:20:50.660Z",
+          "createdUtc": 1776918050,
+          "ageHours": 1.95,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "mnfst/awesome-free-llm-apis",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "rtk-ai/rtk": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:haucqyj7vknjgyawoa5gn6ss/app.bsky.feed.post/3mk53c2h2nc2k",
+        "cid": "bafyreideesoxpykdguvaqdhwaxze476d6jkuut4g46dfh2crckkpqw2x5y",
+        "bskyUrl": "https://bsky.app/profile/navinpeiris.com/post/3mk53c2h2nc2k",
+        "text": "Github repo link: github.com/rtk-ai/rtk",
+        "author": {
+          "handle": "navinpeiris.com",
+          "displayName": "Navin Peiris"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-23T03:33:27.696Z",
+        "hoursSincePosted": 2.74
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:haucqyj7vknjgyawoa5gn6ss/app.bsky.feed.post/3mk53c2h2nc2k",
+          "cid": "bafyreideesoxpykdguvaqdhwaxze476d6jkuut4g46dfh2crckkpqw2x5y",
+          "bskyUrl": "https://bsky.app/profile/navinpeiris.com/post/3mk53c2h2nc2k",
+          "text": "Github repo link: github.com/rtk-ai/rtk",
+          "author": {
+            "handle": "navinpeiris.com",
+            "displayName": "Navin Peiris"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-23T03:33:27.696Z",
+          "createdUtc": 1776915207,
+          "ageHours": 2.74,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "rtk-ai/rtk",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "AIDC-AI/Pixelle-Video": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:lvoh6kgyhsm7s52ppqm2wgoq/app.bsky.feed.post/3mk4y75tk2p62",
+        "cid": "bafyreig5lbsxwd66hqxexnxf63r6mylzqm3fhvl5hn4dsq2alnlnomkzqe",
+        "bskyUrl": "https://bsky.app/profile/deepseek.activitypub.awakari.com.ap.brid.gy/post/3mk4y75tk2p62",
+        "text": "AIDC-AI/Pixelle-Video 🚀 AI 全自动短视频引擎 | AI Fully Automated Short Video Engine 🎬 Pixelle-Video —— AI 全自动短视频引擎 English | 中文 https://github.com/user-attachm... Origin | Interest | Match",
+        "author": {
+          "handle": "deepseek.activitypub.awakari.com.ap.brid.gy",
+          "displayName": "deepseek"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-23T02:37:59.000Z",
+        "hoursSincePosted": 3.66
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lvoh6kgyhsm7s52ppqm2wgoq/app.bsky.feed.post/3mk4y75tk2p62",
+          "cid": "bafyreig5lbsxwd66hqxexnxf63r6mylzqm3fhvl5hn4dsq2alnlnomkzqe",
+          "bskyUrl": "https://bsky.app/profile/deepseek.activitypub.awakari.com.ap.brid.gy/post/3mk4y75tk2p62",
+          "text": "AIDC-AI/Pixelle-Video 🚀 AI 全自动短视频引擎 | AI Fully Automated Short Video Engine 🎬 Pixelle-Video —— AI 全自动短视频引擎 English | 中文 https://github.com/user-attachm... Origin | Interest | Match",
+          "author": {
+            "handle": "deepseek.activitypub.awakari.com.ap.brid.gy",
+            "displayName": "deepseek"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-23T02:37:59.000Z",
+          "createdUtc": 1776911879,
+          "ageHours": 3.66,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "AIDC-AI/Pixelle-Video",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "ChromeDevTools/chrome-devtools-mcp": {
+      "count7d": 1,
+      "likesSum7d": 3,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:clzmfa7apjy5m6hhetfc2kfe/app.bsky.feed.post/3mk4u4dyzz22z",
+        "cid": "bafyreiecwb4eqk6n54dzfdomxtohwix24hxme35k5hmssnjunkcczfh6ra",
+        "bskyUrl": "https://bsky.app/profile/lloveras.info/post/3mk4u4dyzz22z",
+        "text": "Browser automation 🌐 Agent Browser (agent-browser.dev) — fast Rust CLI for browser automation built specifically for AI agents Chrome DevTools MCP (github.com/ChromeDevTools/chrome-devtools-mcp) — gives AI coding agents direct access to a live Chrome browser",
+        "author": {
+          "handle": "lloveras.info",
+          "displayName": "Rob"
+        },
+        "likeCount": 3,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-04-23T01:25:04.813Z",
+        "hoursSincePosted": 4.88
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:clzmfa7apjy5m6hhetfc2kfe/app.bsky.feed.post/3mk4u4dyzz22z",
+          "cid": "bafyreiecwb4eqk6n54dzfdomxtohwix24hxme35k5hmssnjunkcczfh6ra",
+          "bskyUrl": "https://bsky.app/profile/lloveras.info/post/3mk4u4dyzz22z",
+          "text": "Browser automation 🌐 Agent Browser (agent-browser.dev) — fast Rust CLI for browser automation built specifically for AI agents Chrome DevTools MCP (github.com/ChromeDevTools/chrome-devtools-mcp) — gives AI coding agents direct access to a live Chrome browser",
+          "author": {
+            "handle": "lloveras.info",
+            "displayName": "Rob"
+          },
+          "likeCount": 3,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-04-23T01:25:04.813Z",
+          "createdUtc": 1776907504,
+          "ageHours": 4.88,
+          "trendingScore": 3.5,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "ChromeDevTools/chrome-devtools-mcp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "TencentCloud/CubeSandbox": {
+      "count7d": 1,
+      "likesSum7d": 2,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:cq4gg3odxz2pzmkx2fuac3u3/app.bsky.feed.post/3mk4tg3tw2k2z",
+        "cid": "bafyreicjxlur2b2p4xl3e5rgnwsp5w53lgxl5z5mjk63qsdeu6yyelc6wa",
+        "bskyUrl": "https://bsky.app/profile/sungkim.bsky.social/post/3mk4tg3tw2k2z",
+        "text": "It is compatible with the E2B SDK, capable of creating a hardware-isolated sandbox environment with full service capabilities in under 60ms, while maintaining less than 5MB memory overhead. github.com/TencentCloud...",
+        "author": {
+          "handle": "sungkim.bsky.social",
+          "displayName": "Sung Kim"
+        },
+        "likeCount": 2,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-23T01:12:35.413Z",
+        "hoursSincePosted": 5.09
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:cq4gg3odxz2pzmkx2fuac3u3/app.bsky.feed.post/3mk4tg3tw2k2z",
+          "cid": "bafyreicjxlur2b2p4xl3e5rgnwsp5w53lgxl5z5mjk63qsdeu6yyelc6wa",
+          "bskyUrl": "https://bsky.app/profile/sungkim.bsky.social/post/3mk4tg3tw2k2z",
+          "text": "It is compatible with the E2B SDK, capable of creating a hardware-isolated sandbox environment with full service capabilities in under 60ms, while maintaining less than 5MB memory overhead. github.com/TencentCloud...",
+          "author": {
+            "handle": "sungkim.bsky.social",
+            "displayName": "Sung Kim"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-23T01:12:35.413Z",
+          "createdUtc": 1776906755,
+          "ageHours": 5.09,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "TencentCloud/CubeSandbox",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "slopus/happy": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mk4qxxmsya2s",
+        "cid": "bafyreiacob5u7jjtpwhymzk3aqytqe3jf7ndybeuf6m2aqskw56uo4rega",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mk4qxxmsya2s",
+        "text": "https://github.com/slopus/happy",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-23T00:28:55Z",
+        "hoursSincePosted": 5.81
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mk4qxxmsya2s",
+          "cid": "bafyreiacob5u7jjtpwhymzk3aqytqe3jf7ndybeuf6m2aqskw56uo4rega",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mk4qxxmsya2s",
+          "text": "https://github.com/slopus/happy",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-23T00:28:55Z",
+          "createdUtc": 1776904135,
+          "ageHours": 5.81,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "slopus/happy",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "ggml-org/llama.cpp": {
+      "count7d": 4,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mk4q66onxi2q",
+        "cid": "bafyreibf33ikbezrf5hovelwuazq3lyal7277f2vkg4bbmzcgvxtymvpyi",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mk4q66onxi2q",
+        "text": "🟠 llama.cpp ships back to back WebGPU upgrades for async tensor ops and fused kernels llama.cpp pushed two consecutive releases, b8891 and b8892, centered on WebGPU performance and runtime plumbing. https://github.com/ggml-org/llama.cpp/releases/tag/b8892 #AI #AgentWyre",
+        "author": {
+          "handle": "agentwyre.ai"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-23T00:14:30.693296+00:00",
+        "hoursSincePosted": 6.05
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mk4q66onxi2q",
+          "cid": "bafyreibf33ikbezrf5hovelwuazq3lyal7277f2vkg4bbmzcgvxtymvpyi",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mk4q66onxi2q",
+          "text": "🟠 llama.cpp ships back to back WebGPU upgrades for async tensor ops and fused kernels llama.cpp pushed two consecutive releases, b8891 and b8892, centered on WebGPU performance and runtime plumbing. https://github.com/ggml-org/llama.cpp/releases/tag/b8892 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-23T00:14:30.693296+00:00",
+          "createdUtc": 1776903270,
+          "ageHours": 6.05,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
           "linkedRepos": [
             {
               "fullName": "ggml-org/llama.cpp",
@@ -68,7 +644,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-22T23:58:17.298720+00:00",
           "createdUtc": 1776902297,
-          "ageHours": 0.5,
+          "ageHours": 6.33,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -95,7 +671,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-22T23:41:57.906111+00:00",
           "createdUtc": 1776901317,
-          "ageHours": 0.5,
+          "ageHours": 6.6,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -122,61 +698,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-22T23:25:48.430234+00:00",
           "createdUtc": 1776900348,
-          "ageHours": 0.64,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "ggml-org/llama.cpp",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mk4mjpw7pk2s",
-          "cid": "bafyreiaescmtsjnmyop4eh4r3ml5lks5e7anj6tei6hzwlaicgy2y7iimq",
-          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mk4mjpw7pk2s",
-          "text": "🟠 llama.cpp ships back to back WebGPU upgrades for async tensor ops and fused kernels llama.cpp pushed two consecutive releases, b8891 and b8892, centered on WebGPU performance and runtime plumbing. https://github.com/ggml-org/llama.cpp/releases/tag/b8892 #AI #AgentWyre",
-          "author": {
-            "handle": "agentwyre.ai"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-22T23:09:22.968244+00:00",
-          "createdUtc": 1776899362,
-          "ageHours": 0.91,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "ggml-org/llama.cpp",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mk4mi2ujl52c",
-          "cid": "bafyreigqsdrxrtmiif4tqqi6sbwm56lem36e2h7dglg3b4warhskrcripi",
-          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mk4mi2ujl52c",
-          "text": "🟠 llama.cpp ships back to back WebGPU upgrades for async tensor ops and fused kernels llama.cpp pushed two consecutive releases, b8891 and b8892, centered on WebGPU performance and runtime plumbing. https://github.com/ggml-org/llama.cpp/releases/tag/b8892 #AI #AgentWyre",
-          "author": {
-            "handle": "agentwyre.ai"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-22T23:08:27.284026+00:00",
-          "createdUtc": 1776899307,
-          "ageHours": 0.92,
+          "ageHours": 6.87,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -210,7 +732,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-22T23:25:16.000Z",
-        "hoursSincePosted": 0.64
+        "hoursSincePosted": 6.88
       },
       "posts": [
         {
@@ -227,7 +749,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-22T23:25:16.000Z",
           "createdUtc": 1776900316,
-          "ageHours": 0.64,
+          "ageHours": 6.88,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -242,64 +764,43 @@
           ]
         }
       ]
-    },
-    "matthart1983/netwatch": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mk4b4o7ve72x",
-        "cid": "bafyreibmu3n3kqcd5c3iuq6f4e7axiwovztiswwnt665qofopi4mt52vqi",
-        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mk4b4o7ve72x",
-        "text": "matthart1983 / netwatch: Real-time network diagnostics in your terminal. One command, zero config, instant visibility. ★1287 https://github.com/matthart1983/netwatch",
-        "author": {
-          "handle": "rusttrending.bsky.social",
-          "displayName": "RustTrending"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-22T19:45:14.326273Z",
-        "hoursSincePosted": 4.31
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mk4b4o7ve72x",
-          "cid": "bafyreibmu3n3kqcd5c3iuq6f4e7axiwovztiswwnt665qofopi4mt52vqi",
-          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mk4b4o7ve72x",
-          "text": "matthart1983 / netwatch: Real-time network diagnostics in your terminal. One command, zero config, instant visibility. ★1287 https://github.com/matthart1983/netwatch",
-          "author": {
-            "handle": "rusttrending.bsky.social",
-            "displayName": "RustTrending"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-22T19:45:14.326273Z",
-          "createdUtc": 1776887114,
-          "ageHours": 4.31,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "matthart1983/netwatch",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "ggml-org/llama.cpp",
-      "count7d": 6,
+      "fullName": "ChromeDevTools/chrome-devtools-mcp",
+      "count7d": 1,
+      "likesSum7d": 3
+    },
+    {
+      "fullName": "TencentCloud/CubeSandbox",
+      "count7d": 1,
+      "likesSum7d": 2
+    },
+    {
+      "fullName": "remotion-dev/remotion",
+      "count7d": 1,
       "likesSum7d": 1
+    },
+    {
+      "fullName": "mnfst/awesome-free-llm-apis",
+      "count7d": 7,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "ggml-org/llama.cpp",
+      "count7d": 4,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "AIDC-AI/Pixelle-Video",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "anzellai/sky",
+      "count7d": 1,
+      "likesSum7d": 0
     },
     {
       "fullName": "garrytan/gbrain",
@@ -307,7 +808,12 @@
       "likesSum7d": 0
     },
     {
-      "fullName": "matthart1983/netwatch",
+      "fullName": "rtk-ai/rtk",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "slopus/happy",
       "count7d": 1,
       "likesSum7d": 0
     }

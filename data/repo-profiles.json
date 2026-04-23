@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-04-23T11:45:31.167Z",
+  "generatedAt": "2026-04-23T14:11:20.749Z",
   "version": 1,
   "selection": {
     "source": "incremental",
     "limit": 50,
     "maxScans": 5,
     "scanned": 3,
-    "queued": 26,
-    "noWebsite": 21,
+    "queued": 25,
+    "noWebsite": 22,
     "failed": 0
   },
   "profiles": [
@@ -18,7 +18,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T11:43:54.982Z",
+      "lastProfiledAt": "2026-04-23T14:09:27.912Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/forrestchang/andrej-karpathy-skills",
@@ -36,7 +36,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T11:43:55.381Z",
+      "lastProfiledAt": "2026-04-23T14:09:28.722Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/Alishahryar1/free-claude-code",
@@ -54,7 +54,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T11:43:55.777Z",
+      "lastProfiledAt": "2026-04-23T14:09:29.230Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/elder-plinius/CL4R1T4S",
@@ -1749,7 +1749,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T11:44:58.494Z",
+      "lastProfiledAt": "2026-04-23T14:09:29.776Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/zilliztech/claude-context",
@@ -2632,17 +2632,752 @@
       "selectedFrom": "incremental",
       "websiteUrl": "https://getcaveman.dev/",
       "websiteSource": "github_homepage",
-      "status": "rate_limited",
-      "lastProfiledAt": "2026-04-23T11:45:23.510Z",
-      "nextScanAfter": null,
+      "status": "scanned",
+      "lastProfiledAt": "2026-04-23T14:09:29.778Z",
+      "nextScanAfter": "2026-04-30T14:10:08.415Z",
       "surfaces": {
         "githubUrl": "https://github.com/JuliusBrussee/caveman",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
       },
-      "aisoScan": null,
-      "error": "HTTP 429 Too Many Requests - https://aiso.tools/api/scan - {\"error\":\"rate_limited_ip\",\"retryAfterSeconds\":86316}"
+      "aisoScan": {
+        "scanId": "32be327c-1c99-4618-a5d5-037be1e6bcbe",
+        "url": "https://getcaveman.dev/",
+        "projectName": null,
+        "projectUrl": null,
+        "source": "web",
+        "status": "completed",
+        "score": 37,
+        "tier": "invisible",
+        "runtimeVisibility": null,
+        "scanDurationMs": 29524,
+        "completedAt": "2026-04-23T14:10:04.273+00:00",
+        "resultUrl": "https://aiso.tools/scan/32be327c-1c99-4618-a5d5-037be1e6bcbe",
+        "dimensions": [
+          {
+            "key": "structure",
+            "label": "Content Structure",
+            "weight": 20,
+            "score": 15,
+            "status": "warn",
+            "issuesCount": 1,
+            "details": {
+              "heading_ok": true,
+              "faq_present": false,
+              "answer_first": true,
+              "heading_issue": null,
+              "definition_lead": true,
+              "main_text_tokens": 1573
+            }
+          },
+          {
+            "key": "citations",
+            "label": "Citation Density",
+            "weight": 20,
+            "score": 10,
+            "status": "warn",
+            "issuesCount": 2,
+            "details": {
+              "word_count": 1690,
+              "stats_count": 17,
+              "external_links": 8,
+              "authoritative_links": 0,
+              "stats_density_per_500w": 5.03,
+              "citations_density_per_500w": 0
+            }
+          },
+          {
+            "key": "crawler",
+            "label": "Crawler Access",
+            "weight": 15,
+            "score": 7,
+            "status": "warn",
+            "issuesCount": 1,
+            "details": {
+              "allowed_bots": 14,
+              "blocked_bots": 0,
+              "robots_present": false,
+              "cloudflare_suspected": false,
+              "gptbot_homepage_blocked": false
+            }
+          },
+          {
+            "key": "schema",
+            "label": "Schema Markup",
+            "weight": 15,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 3,
+            "details": {
+              "coverage": {
+                "person": 0,
+                "article": 0,
+                "faqPage": 0,
+                "website": 0,
+                "breadcrumb": 0,
+                "organization": 0
+              },
+              "meta_tags": {
+                "title": true,
+                "robots": false,
+                "canonical": false,
+                "open_graph": false,
+                "description": false,
+                "twitter_card": false
+              },
+              "page_family": "article",
+              "blocks_found": 0,
+              "nodes_parsed": 0,
+              "present_types": [],
+              "page_family_missing": [
+                "Article/BlogPosting/TechArticle",
+                "BreadcrumbList",
+                "Person"
+              ],
+              "page_family_expected": [
+                "Article/BlogPosting/TechArticle",
+                "BreadcrumbList",
+                "Person"
+              ],
+              "page_family_strength": 0
+            }
+          },
+          {
+            "key": "entity",
+            "label": "Entity Clarity",
+            "weight": 10,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "byline": false,
+              "founder_in_ld": false,
+              "about_reachable": false,
+              "self_identification": false
+            }
+          },
+          {
+            "key": "agent_readiness",
+            "label": "Agent Readiness",
+            "weight": 10,
+            "score": 3,
+            "status": "fail",
+            "issuesCount": 7,
+            "details": {
+              "probes": [],
+              "detected": {
+                "api": false,
+                "cli": true,
+                "mcp": true,
+                "x402": false,
+                "portal": false,
+                "webmcp": false,
+                "agent_skills": false,
+                "agent_discovery": false,
+                "agent_navigation": false,
+                "integration_safety": true
+              },
+              "checked_paths": [
+                "/openapi.json",
+                "/swagger.json",
+                "/api/openapi.json",
+                "/api/docs",
+                "/docs/api",
+                "/developers",
+                "/mcp",
+                "/docs/mcp",
+                "/.well-known/mcp.json",
+                "/docs/cli",
+                "/cli",
+                "/install",
+                "/webmcp",
+                "/docs/webmcp",
+                "/.well-known/webmcp.json",
+                "/portal",
+                "/portal.json",
+                "/.well-known/portal.json",
+                "/docs/portal",
+                "/.well-known/x402.json",
+                "/docs/x402",
+                "/docs/payments",
+                "/api/x402",
+                "/llms.txt",
+                "/llms-full.txt",
+                "/.well-known/ai-plugin.json",
+                "/.well-known/agent.json",
+                "/agents.json",
+                "/.well-known/agent-skills.json",
+                "/.well-known/agents.json",
+                "/agent-skills.json",
+                "/actions.json",
+                "/tools.json",
+                "/skills",
+                "/agent-skills",
+                "/docs/skills",
+                "/docs/agents",
+                "/sitemap.xml",
+                "/sitemap_index.xml",
+                "/docs",
+                "/help",
+                "/search",
+                "/docs/auth",
+                "/docs/webhooks",
+                "/docs/rate-limits",
+                "/status"
+              ]
+            }
+          },
+          {
+            "key": "llmstxt",
+            "label": "llms.txt",
+            "weight": 10,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "has_h1": false,
+              "broken_links": [],
+              "links_broken": 0,
+              "links_sampled": 0,
+              "llms_txt_present": false,
+              "llms_full_txt_present": false
+            }
+          },
+          {
+            "key": "freshness",
+            "label": "Freshness",
+            "weight": 5,
+            "score": 5,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "source": "last_modified_header",
+              "days_since": 1,
+              "updated_iso": "2026-04-21T20:36:41.000Z"
+            }
+          },
+          {
+            "key": "offsite",
+            "label": "Off-site Authority (proxy)",
+            "weight": 5,
+            "score": 1,
+            "status": "fail",
+            "issuesCount": 0,
+            "details": {
+              "platforms_detected": [
+                "github"
+              ],
+              "header_footer_links": 6
+            }
+          },
+          {
+            "key": "template_coverage",
+            "label": "Template Coverage",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "mode": "homepage",
+              "non_scoring": true,
+              "homepage_only": true,
+              "pages_scanned": 1,
+              "sampled_pages": 0,
+              "page_templates": [
+                {
+                  "url": "https://getcaveman.dev/",
+                  "template": "homepage",
+                  "text_chars": 10471
+                }
+              ],
+              "unique_templates": [
+                "homepage"
+              ]
+            }
+          },
+          {
+            "key": "content_decay",
+            "label": "Content Decay",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 1,
+            "details": {
+              "non_scoring": true,
+              "pages_scanned": 1,
+              "volatile_pages": 1,
+              "evergreen_score": 9.5,
+              "stale_year_pages": 0,
+              "updated_signal_pages": 0
+            }
+          },
+          {
+            "key": "web_verification",
+            "label": "Web Verification",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "consensus": {
+                "fetch_ok": 1,
+                "search_ok": 2,
+                "fetch_total": 2,
+                "verified_by": 2,
+                "search_total": 2,
+                "search_matched": 1,
+                "content_agreement": "single_fetch",
+                "measured_providers": 4
+              },
+              "providers": [
+                {
+                  "ok": true,
+                  "kind": "fetch",
+                  "title": "Caveman — the token-efficient stack for agent-native builders",
+                  "status": 200,
+                  "finalUrl": "https://getcaveman.dev/",
+                  "provider": "http",
+                  "latencyMs": 189,
+                  "textChars": 10471,
+                  "description": null
+                },
+                {
+                  "ok": false,
+                  "kind": "fetch",
+                  "error": "tinyfish_timeout",
+                  "title": null,
+                  "status": 0,
+                  "finalUrl": null,
+                  "provider": "tinyfish_fetch",
+                  "latencyMs": 12002,
+                  "textChars": 0,
+                  "description": null
+                },
+                {
+                  "ok": true,
+                  "kind": "search",
+                  "query": "site:getcaveman.dev getcaveman",
+                  "status": 200,
+                  "results": [],
+                  "provider": "tinyfish_search",
+                  "totalResults": 0,
+                  "topMatchPosition": null
+                },
+                {
+                  "ok": true,
+                  "kind": "search",
+                  "query": "site:getcaveman.dev getcaveman",
+                  "status": 200,
+                  "results": [
+                    {
+                      "url": "https://getcaveman.dev/",
+                      "title": "Caveman — the token-efficient stack for agent-native builders",
+                      "snippet": "Caveman is <strong>a three-part ecosystem for builders who treat tokens as a resource worth designing around</strong> — a compression primitive, a spec-driven workflow, and a codin",
+                      "position": 1,
+                      "siteName": "Getcaveman"
+                    }
+                  ],
+                  "provider": "brave_search",
+                  "totalResults": 1,
+                  "topMatchPosition": 1
+                }
+              ],
+              "non_scoring": true,
+              "configured_providers": [
+                "http",
+                "tinyfish_fetch",
+                "tinyfish_search",
+                "brave_search"
+              ]
+            }
+          },
+          {
+            "key": "prompt_injection",
+            "label": "Prompt Injection",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "findings": [],
+              "non_scoring": true,
+              "pages_scanned": 1
+            }
+          },
+          {
+            "key": "negative_signals",
+            "label": "Negative Signals",
+            "weight": 0,
+            "score": 0,
+            "status": "warn",
+            "issuesCount": 1,
+            "details": {
+              "flags": [
+                {
+                  "key": "cta_overload",
+                  "count": 0,
+                  "label": "CTA overload"
+                },
+                {
+                  "key": "intrusive_overlay",
+                  "count": 1,
+                  "label": "Intrusive overlay patterns"
+                },
+                {
+                  "key": "thin_pages",
+                  "count": 0,
+                  "label": "Thin pages"
+                },
+                {
+                  "key": "missing_author_signals",
+                  "count": 0,
+                  "label": "Missing author signals"
+                },
+                {
+                  "key": "boilerplate_heavy",
+                  "count": 0,
+                  "label": "Boilerplate-heavy pages"
+                }
+              ],
+              "non_scoring": true,
+              "pages_scanned": 1,
+              "sampled_pages": [
+                {
+                  "url": "https://getcaveman.dev/",
+                  "template": "homepage",
+                  "text_chars": 10471,
+                  "has_canonical": false
+                }
+              ]
+            }
+          },
+          {
+            "key": "trust_stack",
+            "label": "Trust Stack",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "grade": "D",
+              "layers": {
+                "safety": 32,
+                "identity": 20,
+                "authority": 35,
+                "technical": 34,
+                "consistency": 88
+              },
+              "overall": 42,
+              "non_scoring": true
+            }
+          },
+          {
+            "key": "platform_profiles",
+            "label": "Platform Profiles",
+            "weight": 0,
+            "score": 0,
+            "status": "warn",
+            "issuesCount": 4,
+            "details": {
+              "profiles": {
+                "claude": 42,
+                "chatgpt": 25,
+                "google_ai": 30,
+                "perplexity": 58
+              },
+              "non_scoring": true
+            }
+          },
+          {
+            "key": "content_gaps",
+            "label": "Content Gap Opportunities",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 2,
+            "details": {
+              "non_scoring": true,
+              "missing_faqs": [
+                "What is AI agent tooling?",
+                "How does Getcaveman work?",
+                "How much does Getcaveman cost?",
+                "What makes Getcaveman different?"
+              ],
+              "pages_checked": 1,
+              "missing_entities": [
+                {
+                  "entity": "company description",
+                  "reason": "No about or company page found in sampled pages.",
+                  "entity_type": "brand",
+                  "where_expected": "about or company page"
+                },
+                {
+                  "entity": "team/founders",
+                  "reason": "No team or founder page found in sampled pages.",
+                  "entity_type": "person",
+                  "where_expected": "team or founder page"
+                },
+                {
+                  "entity": "pricing information",
+                  "reason": "No pricing page found in sampled pages.",
+                  "entity_type": "product",
+                  "where_expected": "pricing page"
+                },
+                {
+                  "entity": "technical documentation",
+                  "reason": "No docs or API page found in sampled pages.",
+                  "entity_type": "product",
+                  "where_expected": "docs or API page"
+                }
+              ],
+              "missing_comparisons": [
+                "Getcaveman vs top competitor",
+                "Getcaveman vs alternative tools",
+                "Best AI Agent Tooling tools compared"
+              ],
+              "missing_content_types": [
+                {
+                  "type": "faq",
+                  "impact": "high",
+                  "reason": "No dedicated FAQ surface found for question-style retrieval.",
+                  "suggested_title": "Frequently Asked Questions about AI Agent Tooling"
+                },
+                {
+                  "type": "glossary",
+                  "impact": "high",
+                  "reason": "No glossary or definition hub found for entity and term authority.",
+                  "suggested_title": "AI Agent Tooling Glossary: Key Terms Explained"
+                },
+                {
+                  "type": "comparison",
+                  "impact": "medium",
+                  "reason": "No comparison surface found for high-intent evaluation queries.",
+                  "suggested_title": "Getcaveman vs Alternatives: Detailed Comparison"
+                },
+                {
+                  "type": "guide",
+                  "impact": "medium",
+                  "reason": "No guide or how-to surface found for procedural extraction.",
+                  "suggested_title": "Complete Guide to AI Agent Tooling"
+                },
+                {
+                  "type": "case_study",
+                  "impact": "medium",
+                  "reason": "No case-study or customer-proof surface found.",
+                  "suggested_title": "Getcaveman Case Study: Real Results from AI Agent Tooling"
+                },
+                {
+                  "type": "benchmark",
+                  "impact": "medium",
+                  "reason": "No benchmark, research, or proprietary-data surface found.",
+                  "suggested_title": "AI Agent Tooling Benchmarks: Performance Data"
+                }
+              ],
+              "missing_ecosystem_pages": [
+                "Getcaveman integrations and ecosystem",
+                "How Getcaveman works with popular tools"
+              ]
+            }
+          }
+        ],
+        "issues": [
+          {
+            "severity": "critical",
+            "title": "No /llms.txt file found",
+            "fix": "Publish /llms.txt at the site root with '# <Project>' + a short summary + H2 sections linking to canonical doc URLs.",
+            "dimensionKey": "llmstxt"
+          },
+          {
+            "severity": "critical",
+            "title": "No valid Organization JSON-LD",
+            "fix": "Add <script type='application/ld+json'> with @type:Organization including name, url, logo, and sameAs (≥3 social profiles).",
+            "dimensionKey": "schema"
+          },
+          {
+            "severity": "high",
+            "title": "No robots.txt found",
+            "fix": "Publish a /robots.txt that explicitly allows GPTBot, ClaudeBot, PerplexityBot, Google-Extended and other AI crawlers.",
+            "dimensionKey": "crawler"
+          },
+          {
+            "severity": "high",
+            "title": "Statistical claims are unsourced",
+            "fix": "Every % / 'X customers' / stat deserves an inline citation link to the origin study or publication.",
+            "dimensionKey": "citations"
+          },
+          {
+            "severity": "high",
+            "title": "No FAQ section detected",
+            "fix": "Add a FAQ block with ≥5 question/answer pairs using <details>/<summary> or <h3>+<p> patterns. Also mark it up with FAQPage JSON-LD.",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "high",
+            "title": "External links exist but none hit the authoritative allowlist",
+            "fix": "Cite at least one .edu/.gov, Wikipedia, IETF/W3C spec, or tier-1 publication near your flagship claims.",
+            "dimensionKey": "citations"
+          },
+          {
+            "severity": "high",
+            "title": "No API or OpenAPI entrypoint detected",
+            "fix": "Expose a public API reference or OpenAPI document at /docs/api, /openapi.json, or an equivalent developer URL so agents can understand callable surfaces.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "Chatgpt readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive chatgpt citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Template coverage is limited in homepage-only scans",
+            "fix": "Run Template Audit, Full Site, or Deep Investigation mode to compare key templates across the site.",
+            "dimensionKey": "template_coverage"
+          },
+          {
+            "severity": "low",
+            "title": "4 entity page gaps detected",
+            "fix": "Add explicit entity surfaces: about or company page, team or founder page, pricing page, docs or API page.",
+            "dimensionKey": "content_gaps"
+          },
+          {
+            "severity": "low",
+            "title": "Core meta tags are incomplete",
+            "fix": "Add a unique <title>, meta description, and canonical URL. Add Open Graph/Twitter tags for share and citation previews.",
+            "dimensionKey": "schema"
+          },
+          {
+            "severity": "low",
+            "title": "Technical trust layer is weak",
+            "fix": "Strengthen the technical layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Identity trust layer is weak",
+            "fix": "Strengthen the identity layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Perplexity readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive perplexity citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Authority trust layer is weak",
+            "fix": "Strengthen the authority layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Google ai readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive google_ai citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Claude readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive claude citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Safety trust layer is weak",
+            "fix": "Strengthen the safety layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "No named author or byline visible",
+            "fix": "If the homepage surfaces editorial content, include an author byline (Person JSON-LD or 'By <Name>').",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "low",
+            "title": "Organization JSON-LD missing founder",
+            "fix": "Add 'founder': [{ @type: Person, name: ... }] to the Organization schema.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "low",
+            "title": "No WebMCP access signal detected",
+            "fix": "If the site supports browser-native agent access, publish a WebMCP endpoint or discovery document and link it from developer docs and llms.txt.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "No Portal visit layer detected",
+            "fix": "If the service supports temporary agent visits, publish a Portal manifest at /portal with tool metadata and a call endpoint, then link it from docs and llms.txt.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "No x402 payment support detected",
+            "fix": "If paid agent/API access is supported, document x402 payment flow, supported networks/tokens, payment headers, and facilitator behavior.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "No clear agent navigation path detected",
+            "fix": "Expose a crawlable sitemap and stable navigation to docs, pricing, support, API references, and key task pages. Agents need predictable links, not only app-shell buttons.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "Volatile content lacks update signals",
+            "fix": "Pages about prices, versions, launches, or changing data should expose a clear last-updated date and refresh cadence.",
+            "dimensionKey": "content_decay"
+          },
+          {
+            "severity": "medium",
+            "title": "No clear self-identification in the opening paragraph",
+            "fix": "Open with 'We are ...' / 'Our mission is ...' / 'This is ...' — AI models need explicit entity framing.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "medium",
+            "title": "Popup or overlay patterns may suppress clean extraction",
+            "fix": "Delay or remove modal and overlay patterns on indexable pages, especially above-the-fold newsletter or signup gates.",
+            "dimensionKey": "negative_signals"
+          },
+          {
+            "severity": "medium",
+            "title": "No /about or /team page with credentials",
+            "fix": "Publish an About page listing founders, team, and credentials. AI engines heavily weight provenance.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "medium",
+            "title": "No agent discovery file detected",
+            "fix": "Publish /llms.txt and, when relevant, a .well-known agent/plugin manifest that points agents at docs, APIs, MCP endpoints, and support policies.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "medium",
+            "title": "Article content has no Article/BlogPosting schema",
+            "fix": "Emit Article JSON-LD with headline, author, datePublished, dateModified.",
+            "dimensionKey": "schema"
+          },
+          {
+            "severity": "medium",
+            "title": "No agent skills or action manifest detected",
+            "fix": "Document the skills, actions, tools, or capabilities agents can use. Include names, input schemas, output shapes, auth requirements, and whether each action is read-only or writes data.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "medium",
+            "title": "2 high-impact content gaps detected",
+            "fix": "Prioritize: Frequently Asked Questions about AI Agent Tooling; AI Agent Tooling Glossary: Key Terms Explained.",
+            "dimensionKey": "content_gaps"
+          }
+        ],
+        "promptTests": []
+      },
+      "error": null
     },
     {
       "fullName": "addyosmani/agent-skills",
@@ -2651,7 +3386,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T11:45:24.401Z",
+      "lastProfiledAt": "2026-04-23T14:10:09.023Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/addyosmani/agent-skills",
@@ -2668,16 +3403,789 @@
       "selectedFrom": "incremental",
       "websiteUrl": "https://www.rtk-ai.app/",
       "websiteSource": "github_homepage",
-      "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T11:45:24.403Z",
-      "nextScanAfter": null,
+      "status": "scanned",
+      "lastProfiledAt": "2026-04-23T14:10:09.026Z",
+      "nextScanAfter": "2026-04-30T14:10:39.288Z",
       "surfaces": {
         "githubUrl": "https://github.com/rtk-ai/rtk",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
       },
-      "aisoScan": null,
+      "aisoScan": {
+        "scanId": "52f00d2e-040d-476d-bbee-1b4bba545bc1",
+        "url": "https://www.rtk-ai.app/",
+        "projectName": null,
+        "projectUrl": null,
+        "source": "web",
+        "status": "completed",
+        "score": 35,
+        "tier": "invisible",
+        "runtimeVisibility": null,
+        "scanDurationMs": 25611,
+        "completedAt": "2026-04-23T14:10:35.784+00:00",
+        "resultUrl": "https://aiso.tools/scan/52f00d2e-040d-476d-bbee-1b4bba545bc1",
+        "dimensions": [
+          {
+            "key": "citations",
+            "label": "Citation Density",
+            "weight": 20,
+            "score": 10,
+            "status": "warn",
+            "issuesCount": 2,
+            "details": {
+              "word_count": 8325,
+              "stats_count": 293,
+              "external_links": 11,
+              "authoritative_links": 0,
+              "stats_density_per_500w": 17.6,
+              "citations_density_per_500w": 0
+            }
+          },
+          {
+            "key": "structure",
+            "label": "Content Structure",
+            "weight": 20,
+            "score": 5,
+            "status": "fail",
+            "issuesCount": 3,
+            "details": {
+              "heading_ok": false,
+              "faq_present": false,
+              "answer_first": true,
+              "heading_issue": "Some H2 topics are too short (<3 words)",
+              "definition_lead": false,
+              "main_text_tokens": 2821
+            }
+          },
+          {
+            "key": "crawler",
+            "label": "Crawler Access",
+            "weight": 15,
+            "score": 15,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "allowed_bots": 14,
+              "blocked_bots": 0,
+              "robots_present": true,
+              "cloudflare_suspected": false,
+              "gptbot_homepage_blocked": false
+            }
+          },
+          {
+            "key": "schema",
+            "label": "Schema Markup",
+            "weight": 15,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 2,
+            "details": {
+              "coverage": {
+                "person": 0,
+                "article": 0,
+                "faqPage": 0,
+                "website": 0,
+                "breadcrumb": 0,
+                "organization": 0
+              },
+              "meta_tags": {
+                "title": true,
+                "robots": true,
+                "canonical": true,
+                "open_graph": true,
+                "description": true,
+                "twitter_card": true
+              },
+              "page_family": "docs",
+              "blocks_found": 2,
+              "nodes_parsed": 2,
+              "present_types": [
+                "Organization",
+                "SoftwareApplication"
+              ],
+              "page_family_missing": [
+                "TechArticle/Article",
+                "BreadcrumbList"
+              ],
+              "page_family_expected": [
+                "TechArticle/Article",
+                "BreadcrumbList",
+                "Organization/WebSite"
+              ],
+              "page_family_strength": 33
+            }
+          },
+          {
+            "key": "entity",
+            "label": "Entity Clarity",
+            "weight": 10,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "byline": false,
+              "founder_in_ld": false,
+              "about_reachable": false,
+              "self_identification": false
+            }
+          },
+          {
+            "key": "agent_readiness",
+            "label": "Agent Readiness",
+            "weight": 10,
+            "score": 2.8,
+            "status": "fail",
+            "issuesCount": 7,
+            "details": {
+              "probes": [
+                {
+                  "ok": true,
+                  "key": "agent_navigation",
+                  "url": "https://www.rtk-ai.app/sitemap.xml",
+                  "status": 200
+                }
+              ],
+              "detected": {
+                "api": false,
+                "cli": true,
+                "mcp": false,
+                "x402": false,
+                "portal": false,
+                "webmcp": false,
+                "agent_skills": false,
+                "agent_discovery": false,
+                "agent_navigation": true,
+                "integration_safety": true
+              },
+              "checked_paths": [
+                "/openapi.json",
+                "/swagger.json",
+                "/api/openapi.json",
+                "/api/docs",
+                "/docs/api",
+                "/developers",
+                "/mcp",
+                "/docs/mcp",
+                "/.well-known/mcp.json",
+                "/docs/cli",
+                "/cli",
+                "/install",
+                "/webmcp",
+                "/docs/webmcp",
+                "/.well-known/webmcp.json",
+                "/portal",
+                "/portal.json",
+                "/.well-known/portal.json",
+                "/docs/portal",
+                "/.well-known/x402.json",
+                "/docs/x402",
+                "/docs/payments",
+                "/api/x402",
+                "/llms.txt",
+                "/llms-full.txt",
+                "/.well-known/ai-plugin.json",
+                "/.well-known/agent.json",
+                "/agents.json",
+                "/.well-known/agent-skills.json",
+                "/.well-known/agents.json",
+                "/agent-skills.json",
+                "/actions.json",
+                "/tools.json",
+                "/skills",
+                "/agent-skills",
+                "/docs/skills",
+                "/docs/agents",
+                "/sitemap.xml",
+                "/sitemap_index.xml",
+                "/docs",
+                "/help",
+                "/search",
+                "/docs/auth",
+                "/docs/webhooks",
+                "/docs/rate-limits",
+                "/status"
+              ]
+            }
+          },
+          {
+            "key": "llmstxt",
+            "label": "llms.txt",
+            "weight": 10,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "has_h1": false,
+              "broken_links": [],
+              "links_broken": 0,
+              "links_sampled": 0,
+              "llms_txt_present": false,
+              "llms_full_txt_present": false
+            }
+          },
+          {
+            "key": "freshness",
+            "label": "Freshness",
+            "weight": 5,
+            "score": 5,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "source": "last_modified_header",
+              "days_since": 9,
+              "updated_iso": "2026-04-13T15:23:56.000Z"
+            }
+          },
+          {
+            "key": "offsite",
+            "label": "Off-site Authority (proxy)",
+            "weight": 5,
+            "score": 1,
+            "status": "fail",
+            "issuesCount": 0,
+            "details": {
+              "platforms_detected": [
+                "github"
+              ],
+              "header_footer_links": 3
+            }
+          },
+          {
+            "key": "platform_profiles",
+            "label": "Platform Profiles",
+            "weight": 0,
+            "score": 0,
+            "status": "warn",
+            "issuesCount": 4,
+            "details": {
+              "profiles": {
+                "claude": 32,
+                "chatgpt": 36,
+                "google_ai": 38,
+                "perplexity": 59
+              },
+              "non_scoring": true
+            }
+          },
+          {
+            "key": "template_coverage",
+            "label": "Template Coverage",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "mode": "homepage",
+              "non_scoring": true,
+              "homepage_only": true,
+              "pages_scanned": 1,
+              "sampled_pages": 0,
+              "page_templates": [
+                {
+                  "url": "https://www.rtk-ai.app/",
+                  "template": "homepage",
+                  "text_chars": 88659
+                }
+              ],
+              "unique_templates": [
+                "homepage"
+              ]
+            }
+          },
+          {
+            "key": "content_decay",
+            "label": "Content Decay",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 1,
+            "details": {
+              "non_scoring": true,
+              "pages_scanned": 1,
+              "volatile_pages": 1,
+              "evergreen_score": 9.5,
+              "stale_year_pages": 0,
+              "updated_signal_pages": 0
+            }
+          },
+          {
+            "key": "content_gaps",
+            "label": "Content Gap Opportunities",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 2,
+            "details": {
+              "non_scoring": true,
+              "missing_faqs": [
+                "What is AI agent tooling?",
+                "How does Rtk Ai work?",
+                "How much does Rtk Ai cost?",
+                "What makes Rtk Ai different?"
+              ],
+              "pages_checked": 1,
+              "missing_entities": [
+                {
+                  "entity": "company description",
+                  "reason": "No about or company page found in sampled pages.",
+                  "entity_type": "brand",
+                  "where_expected": "about or company page"
+                },
+                {
+                  "entity": "team/founders",
+                  "reason": "No team or founder page found in sampled pages.",
+                  "entity_type": "person",
+                  "where_expected": "team or founder page"
+                },
+                {
+                  "entity": "pricing information",
+                  "reason": "No pricing page found in sampled pages.",
+                  "entity_type": "product",
+                  "where_expected": "pricing page"
+                },
+                {
+                  "entity": "technical documentation",
+                  "reason": "No docs or API page found in sampled pages.",
+                  "entity_type": "product",
+                  "where_expected": "docs or API page"
+                }
+              ],
+              "missing_comparisons": [
+                "Rtk Ai vs top competitor",
+                "Rtk Ai vs alternative tools",
+                "Best AI Agent Tooling tools compared"
+              ],
+              "missing_content_types": [
+                {
+                  "type": "faq",
+                  "impact": "high",
+                  "reason": "No dedicated FAQ surface found for question-style retrieval.",
+                  "suggested_title": "Frequently Asked Questions about AI Agent Tooling"
+                },
+                {
+                  "type": "glossary",
+                  "impact": "high",
+                  "reason": "No glossary or definition hub found for entity and term authority.",
+                  "suggested_title": "AI Agent Tooling Glossary: Key Terms Explained"
+                },
+                {
+                  "type": "comparison",
+                  "impact": "medium",
+                  "reason": "No comparison surface found for high-intent evaluation queries.",
+                  "suggested_title": "Rtk Ai vs Alternatives: Detailed Comparison"
+                },
+                {
+                  "type": "guide",
+                  "impact": "medium",
+                  "reason": "No guide or how-to surface found for procedural extraction.",
+                  "suggested_title": "Complete Guide to AI Agent Tooling"
+                },
+                {
+                  "type": "case_study",
+                  "impact": "medium",
+                  "reason": "No case-study or customer-proof surface found.",
+                  "suggested_title": "Rtk Ai Case Study: Real Results from AI Agent Tooling"
+                },
+                {
+                  "type": "benchmark",
+                  "impact": "medium",
+                  "reason": "No benchmark, research, or proprietary-data surface found.",
+                  "suggested_title": "AI Agent Tooling Benchmarks: Performance Data"
+                }
+              ],
+              "missing_ecosystem_pages": [
+                "Rtk Ai integrations and ecosystem",
+                "How Rtk Ai works with popular tools"
+              ]
+            }
+          },
+          {
+            "key": "prompt_injection",
+            "label": "Prompt Injection",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "findings": [],
+              "non_scoring": true,
+              "pages_scanned": 1
+            }
+          },
+          {
+            "key": "negative_signals",
+            "label": "Negative Signals",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "flags": [
+                {
+                  "key": "cta_overload",
+                  "count": 0,
+                  "label": "CTA overload"
+                },
+                {
+                  "key": "intrusive_overlay",
+                  "count": 0,
+                  "label": "Intrusive overlay patterns"
+                },
+                {
+                  "key": "thin_pages",
+                  "count": 0,
+                  "label": "Thin pages"
+                },
+                {
+                  "key": "missing_author_signals",
+                  "count": 0,
+                  "label": "Missing author signals"
+                },
+                {
+                  "key": "boilerplate_heavy",
+                  "count": 0,
+                  "label": "Boilerplate-heavy pages"
+                }
+              ],
+              "non_scoring": true,
+              "pages_scanned": 1,
+              "sampled_pages": [
+                {
+                  "url": "https://www.rtk-ai.app/",
+                  "template": "homepage",
+                  "text_chars": 88659,
+                  "has_canonical": true
+                }
+              ]
+            }
+          },
+          {
+            "key": "trust_stack",
+            "label": "Trust Stack",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "grade": "D",
+              "layers": {
+                "safety": 40,
+                "identity": 19,
+                "authority": 35,
+                "technical": 48,
+                "consistency": 72
+              },
+              "overall": 43,
+              "non_scoring": true
+            }
+          },
+          {
+            "key": "web_verification",
+            "label": "Web Verification",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "consensus": {
+                "fetch_ok": 2,
+                "search_ok": 2,
+                "fetch_total": 2,
+                "verified_by": 4,
+                "search_total": 2,
+                "search_matched": 2,
+                "content_agreement": "multi_fetch",
+                "measured_providers": 4
+              },
+              "providers": [
+                {
+                  "ok": true,
+                  "kind": "fetch",
+                  "title": "rtk — Make your AI coding agent smarter | CLI proxy",
+                  "status": 200,
+                  "finalUrl": "https://www.rtk-ai.app/",
+                  "provider": "http",
+                  "latencyMs": 412,
+                  "textChars": 88659,
+                  "description": "rtk compresses CLI output before it reaches your AI agent's context window. Better reasoning, longer sessions, lower costs. Works with Claude Code, Cursor, Gemini CLI, Aider, Codex, Windsurf, Cline."
+                },
+                {
+                  "ok": true,
+                  "kind": "fetch",
+                  "title": "rtk — Your AI coding agent deserves less CLI noise",
+                  "status": 200,
+                  "finalUrl": "https://www.rtk-ai.app/",
+                  "provider": "tinyfish_fetch",
+                  "latencyMs": 6589.734884997597,
+                  "textChars": 10196,
+                  "description": "CLI proxy that compresses command outputs for AI coding agents. 60-90% less context pollution. Open source, written in Rust."
+                },
+                {
+                  "ok": true,
+                  "kind": "search",
+                  "query": "site:rtk-ai.app rtk-ai",
+                  "status": 200,
+                  "results": [
+                    {
+                      "url": "https://www.rtk-ai.app/",
+                      "title": "rtk — Make your AI coding agent smarter | CLI proxy",
+                      "snippet": "rtk compresses CLI output before it reaches your AI agent's context window. Better reasoning, longer sessions, lower costs. Works with Claude Code, Cursor, ...",
+                      "position": 1,
+                      "siteName": "rtk-ai.app"
+                    },
+                    {
+                      "url": "https://www.rtk-ai.app/icm.html",
+                      "title": "ICM — The SQLite of AI Memory | rtk-ai",
+                      "snippet": "ICM is permanent memory for AI agents. Single binary, zero dependencies, MCP native. Episodic memories with temporal decay and semantic knowledge graphs.",
+                      "position": 2,
+                      "siteName": "rtk-ai.app"
+                    },
+                    {
+                      "url": "https://www.rtk-ai.app/vox.html",
+                      "title": "Vox — Give Claude Code a Voice | rtk-ai",
+                      "snippet": "Give Claude Code a voice. Hear when tasks finish, get spoken summaries, clone your own voice. Local-first TTS with 3 backends, zero API calls.Read more",
+                      "position": 3,
+                      "siteName": "rtk-ai.app"
+                    }
+                  ],
+                  "provider": "tinyfish_search",
+                  "totalResults": 3,
+                  "topMatchPosition": 1
+                },
+                {
+                  "ok": true,
+                  "kind": "search",
+                  "query": "site:rtk-ai.app rtk-ai",
+                  "status": 200,
+                  "results": [
+                    {
+                      "url": "https://www.rtk-ai.app/",
+                      "title": "rtk — Make your AI coding agent smarter | CLI proxy",
+                      "snippet": "[package] name = &quot;rtk&quot; version = &quot;0.13.1&quot; edition = &quot;2021&quot; authors = [&quot;Patrick Szymkowiak&quot;] description = &quot;<strong>Rust Token Killer</s",
+                      "position": 1,
+                      "siteName": "rtk"
+                    },
+                    {
+                      "url": "https://www.rtk-ai.app/vox.html",
+                      "title": "Vox — Give Claude Code a Voice | rtk-ai",
+                      "snippet": "Vox is a local-first TTS CLI for Claude Code. Hear when tasks finish, get spoken summaries, clone your own voice. 3 backends, cross-platform, written in Rust.",
+                      "position": 2,
+                      "siteName": "rtk"
+                    },
+                    {
+                      "url": "https://www.rtk-ai.app/icm.html",
+                      "title": "ICM — The SQLite of AI Memory | rtk-ai",
+                      "snippet": "ICM is permanent memory for AI agents. Single binary, zero dependencies, MCP native. Episodic memories with temporal decay and semantic knowledge graphs.",
+                      "position": 3,
+                      "siteName": "rtk"
+                    }
+                  ],
+                  "provider": "brave_search",
+                  "totalResults": 3,
+                  "topMatchPosition": 1
+                }
+              ],
+              "non_scoring": true,
+              "configured_providers": [
+                "http",
+                "tinyfish_fetch",
+                "tinyfish_search",
+                "brave_search"
+              ]
+            }
+          }
+        ],
+        "issues": [
+          {
+            "severity": "critical",
+            "title": "No /llms.txt file found",
+            "fix": "Publish /llms.txt at the site root with '# <Project>' + a short summary + H2 sections linking to canonical doc URLs.",
+            "dimensionKey": "llmstxt"
+          },
+          {
+            "severity": "critical",
+            "title": "No valid Organization JSON-LD",
+            "fix": "Add <script type='application/ld+json'> with @type:Organization including name, url, logo, and sameAs (≥3 social profiles).",
+            "dimensionKey": "schema"
+          },
+          {
+            "severity": "high",
+            "title": "Statistical claims are unsourced",
+            "fix": "Every % / 'X customers' / stat deserves an inline citation link to the origin study or publication.",
+            "dimensionKey": "citations"
+          },
+          {
+            "severity": "high",
+            "title": "No FAQ section detected",
+            "fix": "Add a FAQ block with ≥5 question/answer pairs using <details>/<summary> or <h3>+<p> patterns. Also mark it up with FAQPage JSON-LD.",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "high",
+            "title": "External links exist but none hit the authoritative allowlist",
+            "fix": "Cite at least one .edu/.gov, Wikipedia, IETF/W3C spec, or tier-1 publication near your flagship claims.",
+            "dimensionKey": "citations"
+          },
+          {
+            "severity": "high",
+            "title": "No definition-lead opener in the first 150 tokens",
+            "fix": "Open the homepage with '<Brand> is a <category> that <differentiator>' — this is the single biggest lever for AI citability.",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "high",
+            "title": "No API or OpenAPI entrypoint detected",
+            "fix": "Expose a public API reference or OpenAPI document at /docs/api, /openapi.json, or an equivalent developer URL so agents can understand callable surfaces.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "Claude readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive claude citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "4 entity page gaps detected",
+            "fix": "Add explicit entity surfaces: about or company page, team or founder page, pricing page, docs or API page.",
+            "dimensionKey": "content_gaps"
+          },
+          {
+            "severity": "low",
+            "title": "Weak JSON-LD for docs page family",
+            "fix": "Add page-family schema for TechArticle/Article, BreadcrumbList. Strong JSON-LD should match the page type, not just include generic Organization markup.",
+            "dimensionKey": "schema"
+          },
+          {
+            "severity": "low",
+            "title": "Identity trust layer is weak",
+            "fix": "Strengthen the identity layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Authority trust layer is weak",
+            "fix": "Strengthen the authority layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Safety trust layer is weak",
+            "fix": "Strengthen the safety layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Chatgpt readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive chatgpt citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Perplexity readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive perplexity citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Google ai readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive google_ai citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Template coverage is limited in homepage-only scans",
+            "fix": "Run Template Audit, Full Site, or Deep Investigation mode to compare key templates across the site.",
+            "dimensionKey": "template_coverage"
+          },
+          {
+            "severity": "low",
+            "title": "No named author or byline visible",
+            "fix": "If the homepage surfaces editorial content, include an author byline (Person JSON-LD or 'By <Name>').",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "low",
+            "title": "Organization JSON-LD missing founder",
+            "fix": "Add 'founder': [{ @type: Person, name: ... }] to the Organization schema.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "low",
+            "title": "No WebMCP access signal detected",
+            "fix": "If the site supports browser-native agent access, publish a WebMCP endpoint or discovery document and link it from developer docs and llms.txt.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "No Portal visit layer detected",
+            "fix": "If the service supports temporary agent visits, publish a Portal manifest at /portal with tool metadata and a call endpoint, then link it from docs and llms.txt.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "No x402 payment support detected",
+            "fix": "If paid agent/API access is supported, document x402 payment flow, supported networks/tokens, payment headers, and facilitator behavior.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "Volatile content lacks update signals",
+            "fix": "Pages about prices, versions, launches, or changing data should expose a clear last-updated date and refresh cadence.",
+            "dimensionKey": "content_decay"
+          },
+          {
+            "severity": "low",
+            "title": "Technical trust layer is weak",
+            "fix": "Strengthen the technical layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "medium",
+            "title": "Some H2 topics are too short (<3 words)",
+            "fix": "Use exactly one H1, ensure the first H2 precedes any H3, and give every H2 a clear topic label (3+ words).",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "medium",
+            "title": "No clear self-identification in the opening paragraph",
+            "fix": "Open with 'We are ...' / 'Our mission is ...' / 'This is ...' — AI models need explicit entity framing.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "medium",
+            "title": "No agent skills or action manifest detected",
+            "fix": "Document the skills, actions, tools, or capabilities agents can use. Include names, input schemas, output shapes, auth requirements, and whether each action is read-only or writes data.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "medium",
+            "title": "No /about or /team page with credentials",
+            "fix": "Publish an About page listing founders, team, and credentials. AI engines heavily weight provenance.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "medium",
+            "title": "No agent discovery file detected",
+            "fix": "Publish /llms.txt and, when relevant, a .well-known agent/plugin manifest that points agents at docs, APIs, MCP endpoints, and support policies.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "medium",
+            "title": "2 high-impact content gaps detected",
+            "fix": "Prioritize: Frequently Asked Questions about AI Agent Tooling; AI Agent Tooling Glossary: Key Terms Explained.",
+            "dimensionKey": "content_gaps"
+          },
+          {
+            "severity": "medium",
+            "title": "No MCP entrypoint detected",
+            "fix": "Publish an MCP endpoint or setup guide, then link it from the homepage or llms.txt. Agents should be able to discover tool access without reading human-only docs.",
+            "dimensionKey": "agent_readiness"
+          }
+        ],
+        "promptTests": []
+      },
       "error": null
     },
     {
@@ -2686,16 +4194,894 @@
       "selectedFrom": "incremental",
       "websiteUrl": "https://getdesign.md/",
       "websiteSource": "github_homepage",
-      "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T11:45:24.405Z",
-      "nextScanAfter": null,
+      "status": "scanned",
+      "lastProfiledAt": "2026-04-23T14:10:39.291Z",
+      "nextScanAfter": "2026-04-30T14:11:11.599Z",
       "surfaces": {
         "githubUrl": "https://github.com/VoltAgent/awesome-design-md",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
       },
-      "aisoScan": null,
+      "aisoScan": {
+        "scanId": "206577a9-caed-4d14-b5a9-ffd386f18f66",
+        "url": "https://getdesign.md/",
+        "projectName": null,
+        "projectUrl": null,
+        "source": "web",
+        "status": "completed",
+        "score": 23,
+        "tier": "invisible",
+        "runtimeVisibility": null,
+        "scanDurationMs": 25945,
+        "completedAt": "2026-04-23T14:11:07.588+00:00",
+        "resultUrl": "https://aiso.tools/scan/206577a9-caed-4d14-b5a9-ffd386f18f66",
+        "dimensions": [
+          {
+            "key": "structure",
+            "label": "Content Structure",
+            "weight": 20,
+            "score": 5,
+            "status": "fail",
+            "issuesCount": 3,
+            "details": {
+              "heading_ok": false,
+              "faq_present": false,
+              "answer_first": true,
+              "heading_issue": "H3 appears before first H2 (broken hierarchy)",
+              "definition_lead": false,
+              "main_text_tokens": 560
+            }
+          },
+          {
+            "key": "citations",
+            "label": "Citation Density",
+            "weight": 20,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 2,
+            "details": {
+              "word_count": 605,
+              "stats_count": 1,
+              "external_links": 2,
+              "authoritative_links": 0,
+              "stats_density_per_500w": 0.83,
+              "citations_density_per_500w": 0
+            }
+          },
+          {
+            "key": "schema",
+            "label": "Schema Markup",
+            "weight": 15,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 2,
+            "details": {
+              "coverage": {
+                "person": 0,
+                "article": 0,
+                "faqPage": 0,
+                "website": 0,
+                "breadcrumb": 0,
+                "organization": 0
+              },
+              "meta_tags": {
+                "title": true,
+                "robots": false,
+                "canonical": false,
+                "open_graph": true,
+                "description": true,
+                "twitter_card": true
+              },
+              "page_family": "homepage",
+              "blocks_found": 0,
+              "nodes_parsed": 0,
+              "present_types": [],
+              "page_family_missing": [
+                "Organization",
+                "WebSite",
+                "FAQPage"
+              ],
+              "page_family_expected": [
+                "Organization",
+                "WebSite",
+                "FAQPage"
+              ],
+              "page_family_strength": 0
+            }
+          },
+          {
+            "key": "crawler",
+            "label": "Crawler Access",
+            "weight": 15,
+            "score": 6,
+            "status": "warn",
+            "issuesCount": 1,
+            "details": {
+              "allowed_bots": 6,
+              "blocked_bots": 8,
+              "robots_present": true,
+              "cloudflare_suspected": false,
+              "gptbot_homepage_blocked": false
+            }
+          },
+          {
+            "key": "agent_readiness",
+            "label": "Agent Readiness",
+            "weight": 10,
+            "score": 9.2,
+            "status": "pass",
+            "issuesCount": 1,
+            "details": {
+              "probes": [
+                {
+                  "ok": true,
+                  "key": "api",
+                  "url": "https://getdesign.md/openapi.json",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "api",
+                  "url": "https://getdesign.md/swagger.json",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "api",
+                  "url": "https://getdesign.md/developers",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "mcp",
+                  "url": "https://getdesign.md/mcp",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "cli",
+                  "url": "https://getdesign.md/cli",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "cli",
+                  "url": "https://getdesign.md/install",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "webmcp",
+                  "url": "https://getdesign.md/webmcp",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "portal",
+                  "url": "https://getdesign.md/portal",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "portal",
+                  "url": "https://getdesign.md/portal.json",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "agent_discovery",
+                  "url": "https://getdesign.md/llms.txt",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "agent_discovery",
+                  "url": "https://getdesign.md/llms-full.txt",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "agent_discovery",
+                  "url": "https://getdesign.md/agents.json",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "agent_skills",
+                  "url": "https://getdesign.md/agent-skills.json",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "agent_skills",
+                  "url": "https://getdesign.md/actions.json",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "agent_skills",
+                  "url": "https://getdesign.md/tools.json",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "agent_skills",
+                  "url": "https://getdesign.md/skills",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "agent_skills",
+                  "url": "https://getdesign.md/agent-skills",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "agent_navigation",
+                  "url": "https://getdesign.md/sitemap.xml",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "agent_navigation",
+                  "url": "https://getdesign.md/sitemap_index.xml",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "agent_navigation",
+                  "url": "https://getdesign.md/docs",
+                  "status": 200
+                }
+              ],
+              "detected": {
+                "api": true,
+                "cli": true,
+                "mcp": true,
+                "x402": false,
+                "portal": true,
+                "webmcp": true,
+                "agent_skills": true,
+                "agent_discovery": true,
+                "agent_navigation": true,
+                "integration_safety": true
+              },
+              "checked_paths": [
+                "/openapi.json",
+                "/swagger.json",
+                "/api/openapi.json",
+                "/api/docs",
+                "/docs/api",
+                "/developers",
+                "/mcp",
+                "/docs/mcp",
+                "/.well-known/mcp.json",
+                "/docs/cli",
+                "/cli",
+                "/install",
+                "/webmcp",
+                "/docs/webmcp",
+                "/.well-known/webmcp.json",
+                "/portal",
+                "/portal.json",
+                "/.well-known/portal.json",
+                "/docs/portal",
+                "/.well-known/x402.json",
+                "/docs/x402",
+                "/docs/payments",
+                "/api/x402",
+                "/llms.txt",
+                "/llms-full.txt",
+                "/.well-known/ai-plugin.json",
+                "/.well-known/agent.json",
+                "/agents.json",
+                "/.well-known/agent-skills.json",
+                "/.well-known/agents.json",
+                "/agent-skills.json",
+                "/actions.json",
+                "/tools.json",
+                "/skills",
+                "/agent-skills",
+                "/docs/skills",
+                "/docs/agents",
+                "/sitemap.xml",
+                "/sitemap_index.xml",
+                "/docs",
+                "/help",
+                "/search",
+                "/docs/auth",
+                "/docs/webhooks",
+                "/docs/rate-limits",
+                "/status"
+              ]
+            }
+          },
+          {
+            "key": "llmstxt",
+            "label": "llms.txt",
+            "weight": 10,
+            "score": 2,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "has_h1": false,
+              "broken_links": [],
+              "links_broken": 0,
+              "links_sampled": 0,
+              "llms_txt_present": true,
+              "llms_full_txt_present": true
+            }
+          },
+          {
+            "key": "entity",
+            "label": "Entity Clarity",
+            "weight": 10,
+            "score": 2,
+            "status": "fail",
+            "issuesCount": 3,
+            "details": {
+              "byline": false,
+              "founder_in_ld": false,
+              "about_reachable": true,
+              "self_identification": false
+            }
+          },
+          {
+            "key": "offsite",
+            "label": "Off-site Authority (proxy)",
+            "weight": 5,
+            "score": 1,
+            "status": "fail",
+            "issuesCount": 0,
+            "details": {
+              "platforms_detected": [
+                "github"
+              ],
+              "header_footer_links": 2
+            }
+          },
+          {
+            "key": "freshness",
+            "label": "Freshness",
+            "weight": 5,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "source": null,
+              "days_since": null,
+              "updated_iso": null
+            }
+          },
+          {
+            "key": "negative_signals",
+            "label": "Negative Signals",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "flags": [
+                {
+                  "key": "cta_overload",
+                  "count": 0,
+                  "label": "CTA overload"
+                },
+                {
+                  "key": "intrusive_overlay",
+                  "count": 0,
+                  "label": "Intrusive overlay patterns"
+                },
+                {
+                  "key": "thin_pages",
+                  "count": 0,
+                  "label": "Thin pages"
+                },
+                {
+                  "key": "missing_author_signals",
+                  "count": 0,
+                  "label": "Missing author signals"
+                },
+                {
+                  "key": "boilerplate_heavy",
+                  "count": 0,
+                  "label": "Boilerplate-heavy pages"
+                }
+              ],
+              "non_scoring": true,
+              "pages_scanned": 1,
+              "sampled_pages": [
+                {
+                  "url": "https://getdesign.md/",
+                  "template": "homepage",
+                  "text_chars": 7768,
+                  "has_canonical": false
+                }
+              ]
+            }
+          },
+          {
+            "key": "trust_stack",
+            "label": "Trust Stack",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 5,
+            "details": {
+              "grade": "F",
+              "layers": {
+                "safety": 20,
+                "identity": 47,
+                "authority": 10,
+                "technical": 38,
+                "consistency": 38
+              },
+              "overall": 31,
+              "non_scoring": true
+            }
+          },
+          {
+            "key": "content_decay",
+            "label": "Content Decay",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 1,
+            "details": {
+              "non_scoring": true,
+              "pages_scanned": 1,
+              "volatile_pages": 1,
+              "evergreen_score": 9.5,
+              "stale_year_pages": 0,
+              "updated_signal_pages": 0
+            }
+          },
+          {
+            "key": "web_verification",
+            "label": "Web Verification",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "consensus": {
+                "fetch_ok": 1,
+                "search_ok": 2,
+                "fetch_total": 2,
+                "verified_by": 3,
+                "search_total": 2,
+                "search_matched": 2,
+                "content_agreement": "single_fetch",
+                "measured_providers": 4
+              },
+              "providers": [
+                {
+                  "ok": true,
+                  "kind": "fetch",
+                  "title": "getdesign.md — DESIGN.md collection for AI coding agentsLamborghiniCursorClaudeCursorClaudeLamborghiniPlayStationThe VergeWIREDBinanceBMWBugattiClaudeCursorFerrariKrakenLamborghiniMetaNikeRevolutShopifySpaceXSuperhumanTeslaWise",
+                  "status": 200,
+                  "finalUrl": "https://getdesign.md/",
+                  "provider": "http",
+                  "latencyMs": 343,
+                  "textChars": 7768,
+                  "description": "Browse design system inspirations from popular websites. Drop one into your project and let AI agents build matching UI."
+                },
+                {
+                  "ok": false,
+                  "kind": "fetch",
+                  "error": "tinyfish_timeout",
+                  "title": null,
+                  "status": 0,
+                  "finalUrl": null,
+                  "provider": "tinyfish_fetch",
+                  "latencyMs": 12003,
+                  "textChars": 0,
+                  "description": null
+                },
+                {
+                  "ok": true,
+                  "kind": "search",
+                  "query": "site:getdesign.md getdesign",
+                  "status": 200,
+                  "results": [
+                    {
+                      "url": "https://getdesign.md/",
+                      "title": "getdesign.md — DESIGN.md collection for AI coding agents",
+                      "snippet": "Browse design system inspirations from popular websites. Drop one into your project and let AI agents build matching UI.",
+                      "position": 1,
+                      "siteName": "getdesign.md"
+                    },
+                    {
+                      "url": "https://getdesign.md/about",
+                      "title": "About - getdesign.md",
+                      "snippet": "getdesign.md is a browsable collection of Design system inspirations from popular websites. Drop one into your project and let AI agents build matching UI.",
+                      "position": 2,
+                      "siteName": "getdesign.md"
+                    },
+                    {
+                      "url": "https://getdesign.md/what-is-design-md",
+                      "title": "What is DESIGN.md? - getdesign.md",
+                      "snippet": "DESIGN.md is a markdown file that describes a brand's visual language in a format AI coding agents can actually use. Learn the format, its 9 sections, ...",
+                      "position": 3,
+                      "siteName": "getdesign.md"
+                    },
+                    {
+                      "url": "https://getdesign.md/auth",
+                      "title": "Sign In | getdesign.md",
+                      "snippet": "Browse Design system inspirations from popular websites. Drop one into your project and let coding assistants. build matching UI.",
+                      "position": 4,
+                      "siteName": "getdesign.md"
+                    },
+                    {
+                      "url": "https://getdesign.md/apple/design-md",
+                      "title": "Design System Inspired by Apple - getdesign.md",
+                      "snippet": "Not an official Apple design system. A curated starting point for building apple-like UIs with your AI coding agent. Apple takes consumer electronics as its ...Read more",
+                      "position": 5,
+                      "siteName": "getdesign.md"
+                    }
+                  ],
+                  "provider": "tinyfish_search",
+                  "totalResults": 10,
+                  "topMatchPosition": 1
+                },
+                {
+                  "ok": true,
+                  "kind": "search",
+                  "query": "site:getdesign.md getdesign",
+                  "status": 200,
+                  "results": [
+                    {
+                      "url": "https://getdesign.md/",
+                      "title": "getdesign.md — DESIGN.md collection for AI coding agents",
+                      "snippet": "Browse design system inspirations from popular websites. Drop one into your project and let AI agents build matching UI.",
+                      "position": 1,
+                      "siteName": "Getdesign"
+                    },
+                    {
+                      "url": "https://getdesign.md/figma/design-md",
+                      "title": "Design System Inspired by Figma - getdesign.md",
+                      "snippet": "<strong>getdesign</strong>.mdRequest DESIGN.md · What is DESIGN.md?AboutStar... Sign in · Back to designs · Collaborative design tool. Vibrant multi-color, playful yet professional",
+                      "position": 2,
+                      "siteName": "Getdesign"
+                    },
+                    {
+                      "url": "https://getdesign.md/framer/design-md",
+                      "title": "Design System Inspired by Framer - getdesign.md",
+                      "snippet": "<strong>getdesign</strong>.mdRequest DESIGN.md · What is DESIGN.md?AboutStar... Sign in · Back to designs · Website builder. Bold black and blue, motion-first, design-forward. npx ",
+                      "position": 3,
+                      "siteName": "Getdesign"
+                    },
+                    {
+                      "url": "https://getdesign.md/nvidia/design-md",
+                      "title": "Design System Inspired by NVIDIA",
+                      "snippet": "<strong>getdesign</strong>.mdRequest DESIGN.md · What is DESIGN.md?AboutStar... Sign in · Back to designs · GPU computing. Green-black energy, technical power aesthetic. npx <stron",
+                      "position": 4,
+                      "siteName": "Getdesign"
+                    },
+                    {
+                      "url": "https://getdesign.md/request",
+                      "title": "getdesign.md — DESIGN.md collection for coding assistants.",
+                      "snippet": "<strong>Browse design system inspirations from popular websites</strong>. Drop one into your project and let coding assistants. build matching UI.",
+                      "position": 5,
+                      "siteName": "Getdesign"
+                    }
+                  ],
+                  "provider": "brave_search",
+                  "totalResults": 10,
+                  "topMatchPosition": 1
+                }
+              ],
+              "non_scoring": true,
+              "configured_providers": [
+                "http",
+                "tinyfish_fetch",
+                "tinyfish_search",
+                "brave_search"
+              ]
+            }
+          },
+          {
+            "key": "template_coverage",
+            "label": "Template Coverage",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "mode": "homepage",
+              "non_scoring": true,
+              "homepage_only": true,
+              "pages_scanned": 1,
+              "sampled_pages": 0,
+              "page_templates": [
+                {
+                  "url": "https://getdesign.md/",
+                  "template": "homepage",
+                  "text_chars": 7768
+                }
+              ],
+              "unique_templates": [
+                "homepage"
+              ]
+            }
+          },
+          {
+            "key": "platform_profiles",
+            "label": "Platform Profiles",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "profiles": {
+                "claude": 52,
+                "chatgpt": 18,
+                "google_ai": 18,
+                "perplexity": 19
+              },
+              "non_scoring": true
+            }
+          },
+          {
+            "key": "prompt_injection",
+            "label": "Prompt Injection",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "findings": [],
+              "non_scoring": true,
+              "pages_scanned": 1
+            }
+          },
+          {
+            "key": "content_gaps",
+            "label": "Content Gap Opportunities",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 2,
+            "details": {
+              "non_scoring": true,
+              "missing_faqs": [
+                "What is AI agent tooling?",
+                "How does Getdesign work?",
+                "How much does Getdesign cost?",
+                "What makes Getdesign different?"
+              ],
+              "pages_checked": 1,
+              "missing_entities": [
+                {
+                  "entity": "team/founders",
+                  "reason": "No team or founder page found in sampled pages.",
+                  "entity_type": "person",
+                  "where_expected": "team or founder page"
+                },
+                {
+                  "entity": "pricing information",
+                  "reason": "No pricing page found in sampled pages.",
+                  "entity_type": "product",
+                  "where_expected": "pricing page"
+                }
+              ],
+              "missing_comparisons": [
+                "Getdesign vs top competitor",
+                "Getdesign vs alternative tools",
+                "Best AI Agent Tooling tools compared"
+              ],
+              "missing_content_types": [
+                {
+                  "type": "faq",
+                  "impact": "high",
+                  "reason": "No dedicated FAQ surface found for question-style retrieval.",
+                  "suggested_title": "Frequently Asked Questions about AI Agent Tooling"
+                },
+                {
+                  "type": "glossary",
+                  "impact": "high",
+                  "reason": "No glossary or definition hub found for entity and term authority.",
+                  "suggested_title": "AI Agent Tooling Glossary: Key Terms Explained"
+                },
+                {
+                  "type": "comparison",
+                  "impact": "medium",
+                  "reason": "No comparison surface found for high-intent evaluation queries.",
+                  "suggested_title": "Getdesign vs Alternatives: Detailed Comparison"
+                },
+                {
+                  "type": "guide",
+                  "impact": "medium",
+                  "reason": "No guide or how-to surface found for procedural extraction.",
+                  "suggested_title": "Complete Guide to AI Agent Tooling"
+                },
+                {
+                  "type": "case_study",
+                  "impact": "medium",
+                  "reason": "No case-study or customer-proof surface found.",
+                  "suggested_title": "Getdesign Case Study: Real Results from AI Agent Tooling"
+                },
+                {
+                  "type": "benchmark",
+                  "impact": "medium",
+                  "reason": "No benchmark, research, or proprietary-data surface found.",
+                  "suggested_title": "AI Agent Tooling Benchmarks: Performance Data"
+                }
+              ],
+              "missing_ecosystem_pages": [
+                "Getdesign integrations and ecosystem",
+                "How Getdesign works with popular tools"
+              ]
+            }
+          }
+        ],
+        "issues": [
+          {
+            "severity": "critical",
+            "title": "No valid Organization JSON-LD",
+            "fix": "Add <script type='application/ld+json'> with @type:Organization including name, url, logo, and sameAs (≥3 social profiles).",
+            "dimensionKey": "schema"
+          },
+          {
+            "severity": "critical",
+            "title": "robots.txt blocks 8 AI bots",
+            "fix": "Allowlist AI crawlers in robots.txt. Start with GPTBot, ClaudeBot, PerplexityBot, Google-Extended.",
+            "dimensionKey": "crawler"
+          },
+          {
+            "severity": "high",
+            "title": "llms.txt missing H1 title",
+            "fix": "Start llms.txt with '# <Project name>' as the H1 — per llmstxt.org this is the only required field.",
+            "dimensionKey": "llmstxt"
+          },
+          {
+            "severity": "high",
+            "title": "No FAQ section detected",
+            "fix": "Add a FAQ block with ≥5 question/answer pairs using <details>/<summary> or <h3>+<p> patterns. Also mark it up with FAQPage JSON-LD.",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "high",
+            "title": "No definition-lead opener in the first 150 tokens",
+            "fix": "Open the homepage with '<Brand> is a <category> that <differentiator>' — this is the single biggest lever for AI citability.",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "high",
+            "title": "External links exist but none hit the authoritative allowlist",
+            "fix": "Cite at least one .edu/.gov, Wikipedia, IETF/W3C spec, or tier-1 publication near your flagship claims.",
+            "dimensionKey": "citations"
+          },
+          {
+            "severity": "high",
+            "title": "Statistical claims are unsourced",
+            "fix": "Every % / 'X customers' / stat deserves an inline citation link to the origin study or publication.",
+            "dimensionKey": "citations"
+          },
+          {
+            "severity": "low",
+            "title": "Identity trust layer is weak",
+            "fix": "Strengthen the identity layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Volatile content lacks update signals",
+            "fix": "Pages about prices, versions, launches, or changing data should expose a clear last-updated date and refresh cadence.",
+            "dimensionKey": "content_decay"
+          },
+          {
+            "severity": "low",
+            "title": "Safety trust layer is weak",
+            "fix": "Strengthen the safety layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "No named author or byline visible",
+            "fix": "If the homepage surfaces editorial content, include an author byline (Person JSON-LD or 'By <Name>').",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "low",
+            "title": "Chatgpt readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive chatgpt citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Authority trust layer is weak",
+            "fix": "Strengthen the authority layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Perplexity readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive perplexity citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Template coverage is limited in homepage-only scans",
+            "fix": "Run Template Audit, Full Site, or Deep Investigation mode to compare key templates across the site.",
+            "dimensionKey": "template_coverage"
+          },
+          {
+            "severity": "low",
+            "title": "2 entity page gaps detected",
+            "fix": "Add explicit entity surfaces: team or founder page, pricing page.",
+            "dimensionKey": "content_gaps"
+          },
+          {
+            "severity": "low",
+            "title": "Organization JSON-LD missing founder",
+            "fix": "Add 'founder': [{ @type: Person, name: ... }] to the Organization schema.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "low",
+            "title": "Technical trust layer is weak",
+            "fix": "Strengthen the technical layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Google ai readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive google_ai citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "No x402 payment support detected",
+            "fix": "If paid agent/API access is supported, document x402 payment flow, supported networks/tokens, payment headers, and facilitator behavior.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "Consistency trust layer is weak",
+            "fix": "Strengthen the consistency layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Claude readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive claude citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Core meta tags are incomplete",
+            "fix": "Add a unique <title>, meta description, and canonical URL. Add Open Graph/Twitter tags for share and citation previews.",
+            "dimensionKey": "schema"
+          },
+          {
+            "severity": "medium",
+            "title": "2 high-impact content gaps detected",
+            "fix": "Prioritize: Frequently Asked Questions about AI Agent Tooling; AI Agent Tooling Glossary: Key Terms Explained.",
+            "dimensionKey": "content_gaps"
+          },
+          {
+            "severity": "medium",
+            "title": "H3 appears before first H2 (broken hierarchy)",
+            "fix": "Use exactly one H1, ensure the first H2 precedes any H3, and give every H2 a clear topic label (3+ words).",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "medium",
+            "title": "No last-updated signal on homepage",
+            "fix": "Add <time datetime='YYYY-MM-DD'>Updated ...</time> or article:modified_time meta, or expose dateModified in Article JSON-LD.",
+            "dimensionKey": "freshness"
+          },
+          {
+            "severity": "medium",
+            "title": "No clear self-identification in the opening paragraph",
+            "fix": "Open with 'We are ...' / 'Our mission is ...' / 'This is ...' — AI models need explicit entity framing.",
+            "dimensionKey": "entity"
+          }
+        ],
+        "promptTests": []
+      },
       "error": null
     },
     {
@@ -2704,8 +5090,8 @@
       "selectedFrom": "incremental",
       "websiteUrl": "https://graphifylabs.ai/",
       "websiteSource": "github_homepage",
-      "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T11:45:24.407Z",
+      "status": "rate_limited",
+      "lastProfiledAt": "2026-04-23T14:11:11.602Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/safishamsi/graphify",
@@ -2714,7 +5100,7 @@
         "productHuntLaunchId": null
       },
       "aisoScan": null,
-      "error": null
+      "error": "HTTP 429 Too Many Requests - https://aiso.tools/api/scan - {\"error\":\"rate_limited_ip\",\"retryAfterSeconds\":86302}"
     },
     {
       "fullName": "multica-ai/multica",
@@ -2723,7 +5109,7 @@
       "websiteUrl": "https://multica.ai/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T11:45:24.410Z",
+      "lastProfiledAt": "2026-04-23T14:11:12.046Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/multica-ai/multica",
@@ -2759,7 +5145,7 @@
       "websiteUrl": "https://keygraph.io/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T11:45:24.411Z",
+      "lastProfiledAt": "2026-04-23T14:11:12.049Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/KeygraphHQ/shannon",
@@ -2777,7 +5163,7 @@
       "websiteUrl": "https://docs.cubesandbox.ai/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T11:45:24.412Z",
+      "lastProfiledAt": "2026-04-23T14:11:12.052Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/TencentCloud/CubeSandbox",
@@ -2795,7 +5181,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T11:45:24.829Z",
+      "lastProfiledAt": "2026-04-23T14:11:12.617Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/farion1231/cc-switch",
@@ -2813,7 +5199,7 @@
       "websiteUrl": "https://youmind.com/gpt-image-2-prompts",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T11:45:24.831Z",
+      "lastProfiledAt": "2026-04-23T14:11:12.620Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/YouMind-OpenLab/awesome-gpt-image-2",
@@ -2831,7 +5217,7 @@
       "websiteUrl": "https://skills.sh/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T11:45:24.832Z",
+      "lastProfiledAt": "2026-04-23T14:11:12.623Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/vercel-labs/skills",
@@ -2849,7 +5235,7 @@
       "websiteUrl": "http://arxiv.org/abs/2510.12323",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T11:45:24.834Z",
+      "lastProfiledAt": "2026-04-23T14:11:12.625Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/HKUDS/RAG-Anything",
@@ -2867,7 +5253,7 @@
       "websiteUrl": "https://get-hermes.ai/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T11:45:24.836Z",
+      "lastProfiledAt": "2026-04-23T14:11:12.628Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/nesquena/hermes-webui",
@@ -2885,7 +5271,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T11:45:25.262Z",
+      "lastProfiledAt": "2026-04-23T14:11:13.121Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/badlogic/pi-mono",
@@ -2903,7 +5289,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T11:45:25.668Z",
+      "lastProfiledAt": "2026-04-23T14:11:13.606Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/iamzhihuix/skills-manage",
@@ -2921,7 +5307,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T11:45:26.063Z",
+      "lastProfiledAt": "2026-04-23T14:11:14.125Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/shiyu-coder/Kronos",
@@ -2939,7 +5325,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T11:45:26.521Z",
+      "lastProfiledAt": "2026-04-23T14:11:14.696Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/Gitlawb/openclaude",
@@ -2957,7 +5343,7 @@
       "websiteUrl": "https://hello-agents.datawhale.cc/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T11:45:26.523Z",
+      "lastProfiledAt": "2026-04-23T14:11:14.699Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/datawhalechina/hello-agents",
@@ -2975,7 +5361,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T11:45:26.933Z",
+      "lastProfiledAt": "2026-04-23T14:11:15.165Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/garrytan/gbrain",
@@ -2993,7 +5379,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T11:45:27.381Z",
+      "lastProfiledAt": "2026-04-23T14:11:15.618Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/Donchitos/Claude-Code-Game-Studios",
@@ -3011,7 +5397,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T11:45:27.794Z",
+      "lastProfiledAt": "2026-04-23T14:11:16.118Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/NawfalMotii79/PLFM_RADAR",
@@ -3029,7 +5415,7 @@
       "websiteUrl": "https://cognitum.one/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T11:45:27.797Z",
+      "lastProfiledAt": "2026-04-23T14:11:16.120Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/ruvnet/RuView",
@@ -3047,7 +5433,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T11:45:28.214Z",
+      "lastProfiledAt": "2026-04-23T14:11:16.634Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/chatfire-AI/huobao-drama",
@@ -3065,7 +5451,7 @@
       "websiteUrl": "https://voicebox.sh/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T11:45:28.216Z",
+      "lastProfiledAt": "2026-04-23T14:11:16.638Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/jamiepine/voicebox",
@@ -3083,7 +5469,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T11:45:28.618Z",
+      "lastProfiledAt": "2026-04-23T14:11:17.130Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/lsdefine/GenericAgent",
@@ -3101,7 +5487,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T11:45:29.014Z",
+      "lastProfiledAt": "2026-04-23T14:11:17.628Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/alchaincyf/nuwa-skill",
@@ -3119,7 +5505,7 @@
       "websiteUrl": "https://career-ops.org/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T11:45:29.016Z",
+      "lastProfiledAt": "2026-04-23T14:11:17.631Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/santifer/career-ops",
@@ -3137,7 +5523,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T11:45:29.420Z",
+      "lastProfiledAt": "2026-04-23T14:11:18.102Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/Wei-Shaw/sub2api",
@@ -3155,7 +5541,7 @@
       "websiteUrl": "https://pierre.computer/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T11:45:29.422Z",
+      "lastProfiledAt": "2026-04-23T14:11:18.104Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/pierrecomputer/pierre",
@@ -3173,7 +5559,7 @@
       "websiteUrl": "https://langfuse.com/docs",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T11:45:29.423Z",
+      "lastProfiledAt": "2026-04-23T14:11:18.106Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/langfuse/langfuse",
@@ -3191,7 +5577,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T11:45:29.881Z",
+      "lastProfiledAt": "2026-04-23T14:11:18.574Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/jnMetaCode/agency-agents-zh",
@@ -3209,7 +5595,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T11:45:30.309Z",
+      "lastProfiledAt": "2026-04-23T14:11:19.079Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/router-for-me/CLIProxyAPI",
@@ -3227,7 +5613,7 @@
       "websiteUrl": "https://tasteskill.dev/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T11:45:30.311Z",
+      "lastProfiledAt": "2026-04-23T14:11:19.083Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/Leonxlnx/taste-skill",
@@ -3245,7 +5631,7 @@
       "websiteUrl": "https://learn.shareai.run/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T11:45:30.313Z",
+      "lastProfiledAt": "2026-04-23T14:11:19.084Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/shareAI-lab/learn-claude-code",
@@ -3263,7 +5649,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T11:45:30.735Z",
+      "lastProfiledAt": "2026-04-23T14:11:19.619Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/mvanhorn/last30days-skill",
@@ -3281,7 +5667,7 @@
       "websiteUrl": "https://hugohe3.github.io/ppt-master/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T11:45:30.737Z",
+      "lastProfiledAt": "2026-04-23T14:11:19.621Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/hugohe3/ppt-master",
@@ -3299,7 +5685,7 @@
       "websiteUrl": "https://autoskills.sh/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T11:45:30.739Z",
+      "lastProfiledAt": "2026-04-23T14:11:19.623Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/midudev/autoskills",
@@ -3317,7 +5703,7 @@
       "websiteUrl": "http://mempalaceofficial.com/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T11:45:30.740Z",
+      "lastProfiledAt": "2026-04-23T14:11:19.625Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/MemPalace/mempalace",
@@ -3335,7 +5721,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-23T11:45:31.160Z",
+      "lastProfiledAt": "2026-04-23T14:11:20.178Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/VoltAgent/awesome-claude-design",
@@ -3353,7 +5739,7 @@
       "websiteUrl": "https://code-review-graph.com/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T11:45:31.161Z",
+      "lastProfiledAt": "2026-04-23T14:11:20.180Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/tirth8205/code-review-graph",
@@ -3371,7 +5757,7 @@
       "websiteUrl": "https://openspec.dev/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T11:45:31.163Z",
+      "lastProfiledAt": "2026-04-23T14:11:20.182Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/Fission-AI/OpenSpec",
@@ -3389,7 +5775,7 @@
       "websiteUrl": "https://claudecode-haha.relakkesyang.org/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T11:45:31.165Z",
+      "lastProfiledAt": "2026-04-23T14:11:20.184Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/NanmiCoder/cc-haha",
@@ -3407,10 +5793,64 @@
       "websiteUrl": "https://open-metadata.org/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-23T11:45:31.166Z",
+      "lastProfiledAt": "2026-04-23T14:11:20.186Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/open-metadata/OpenMetadata",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "ZhuLinsen/daily_stock_analysis",
+      "rank": 51,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-23T14:11:20.742Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/ZhuLinsen/daily_stock_analysis",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "VoltAgent/awesome-agent-skills",
+      "rank": 52,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://officialskills.sh/",
+      "websiteSource": "github_homepage",
+      "status": "scan_pending",
+      "lastProfiledAt": "2026-04-23T14:11:20.745Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/VoltAgent/awesome-agent-skills",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "coreyhaines31/marketingskills",
+      "rank": 53,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://marketing-skills.com/",
+      "websiteSource": "github_homepage",
+      "status": "scan_pending",
+      "lastProfiledAt": "2026-04-23T14:11:20.747Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/coreyhaines31/marketingskills",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null

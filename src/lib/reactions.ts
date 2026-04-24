@@ -13,6 +13,11 @@
 // Identity: callers must pre-resolve userId via verifyUserAuth — this
 // module has no concept of authentication. Anonymous reactions are not
 // supported because the signal would be worthless.
+//
+// CLIENT BOUNDARY: this module pulls in node:fs via file-persistence and
+// node:crypto. Client components MUST import pure shapes from
+// `@/lib/reactions-shape` instead — never from here. The re-exports below
+// keep every server-side consumer on one import path.
 
 import { randomUUID } from "node:crypto";
 
@@ -21,63 +26,30 @@ import {
   readJsonlFile,
 } from "@/lib/pipeline/storage/file-persistence";
 
+export {
+  REACTION_TYPES,
+  HIGH_COMMITMENT_REACTIONS,
+  REACTION_OBJECT_TYPES,
+  emptyReactionCounts,
+  isReactionType,
+  isReactionObjectType,
+  type ReactionType,
+  type ReactionObjectType,
+  type ReactionRecord,
+  type ReactionCounts,
+  type UserReactionState,
+} from "@/lib/reactions-shape";
+import {
+  emptyReactionCounts,
+  isReactionType,
+  type ReactionCounts,
+  type ReactionObjectType,
+  type ReactionRecord,
+  type ReactionType,
+  type UserReactionState,
+} from "@/lib/reactions-shape";
+
 export const REACTIONS_FILE = "reactions.jsonl";
-
-// The four canonical reaction types. Adding a fifth requires touching:
-//   1. this set
-//   2. the buy/invest "high commitment" set below
-//   3. the UI button strip in <RepoReactions />
-//   4. the ranking weight constants in /api/reactions count consumers
-// Keep it intentionally small — every new type dilutes signal density.
-export const REACTION_TYPES = ["build", "use", "buy", "invest"] as const;
-export type ReactionType = (typeof REACTION_TYPES)[number];
-
-// "buy" and "invest" carry stronger commitment. Callers (the UI) are
-// expected to gate them behind a confirm modal; the storage layer does
-// not enforce — the rule is a UX one, not a data one.
-export const HIGH_COMMITMENT_REACTIONS: ReadonlySet<ReactionType> = new Set([
-  "buy",
-  "invest",
-]);
-
-// The only object kinds we accept today. "idea" is reserved for when the
-// idea entity ships — accepting it now would mean an unbounded surface.
-export const REACTION_OBJECT_TYPES = ["repo"] as const;
-export type ReactionObjectType = (typeof REACTION_OBJECT_TYPES)[number];
-
-export interface ReactionRecord {
-  id: string;
-  userId: string;
-  objectType: ReactionObjectType;
-  objectId: string;
-  reactionType: ReactionType;
-  createdAt: string; // ISO
-}
-
-export type ReactionCounts = Record<ReactionType, number>;
-
-/** Initial all-zero counts object. Exported so consumers don't open-code it. */
-export function emptyReactionCounts(): ReactionCounts {
-  const out = {} as ReactionCounts;
-  for (const type of REACTION_TYPES) out[type] = 0;
-  return out;
-}
-
-export function isReactionType(value: unknown): value is ReactionType {
-  return (
-    typeof value === "string" &&
-    (REACTION_TYPES as readonly string[]).includes(value)
-  );
-}
-
-export function isReactionObjectType(
-  value: unknown,
-): value is ReactionObjectType {
-  return (
-    typeof value === "string" &&
-    (REACTION_OBJECT_TYPES as readonly string[]).includes(value)
-  );
-}
 
 // All reactions (read-only). Sorted by createdAt asc so callers that
 // stream this don't need to re-sort. Counts code never iterates the whole
@@ -109,13 +81,6 @@ export function countReactions(records: ReactionRecord[]): ReactionCounts {
     }
   }
   return out;
-}
-
-export interface UserReactionState {
-  build: boolean;
-  use: boolean;
-  buy: boolean;
-  invest: boolean;
 }
 
 export function userReactionsFor(

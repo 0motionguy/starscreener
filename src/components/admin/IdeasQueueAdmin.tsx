@@ -1,0 +1,295 @@
+"use client";
+
+// Admin moderation UI for the /ideas queue. Mirrors RevenueQueueAdmin
+// in look + auth pattern (paste ADMIN_TOKEN, load, approve/reject).
+
+import Link from "next/link";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import {
+  CheckCircle2,
+  Lightbulb,
+  LoaderCircle,
+  RefreshCw,
+  ShieldAlert,
+  XCircle,
+} from "lucide-react";
+
+import type { IdeaRecord } from "@/lib/ideas";
+
+type Filter = "pending" | "published" | "rejected" | "all";
+
+export function IdeasQueueAdmin() {
+  const [secret, setSecret] = useState("");
+  const [savedSecret, setSavedSecret] = useState("");
+  const [ideas, setIdeas] = useState<IdeaRecord[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [filter, setFilter] = useState<Filter>("pending");
+  const [busyId, setBusyId] = useState<string | null>(null);
+
+  const filtered = useMemo(() => {
+    if (filter === "all") return ideas;
+    if (filter === "pending") {
+      return ideas.filter((i) => i.status === "pending_moderation");
+    }
+    return ideas.filter((i) => i.status === filter);
+  }, [ideas, filter]);
+
+  const pendingCount = useMemo(
+    () => ideas.filter((i) => i.status === "pending_moderation").length,
+    [ideas],
+  );
+
+  const loadQueue = useCallback(async (token: string) => {
+    if (!token) {
+      setError("Paste the ADMIN_TOKEN to load the queue");
+      return;
+    }
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/admin/ideas-queue", {
+        headers: { Authorization: `Bearer ${token}` },
+        cache: "no-store",
+      });
+      const payload = (await res.json()) as
+        | { ok: true; ideas: IdeaRecord[] }
+        | { ok: false; error: string; reason?: string };
+      if (!payload.ok) {
+        throw new Error(
+          "reason" in payload && payload.reason === "unauthorized"
+            ? "Unauthorized — check the token"
+            : payload.error ?? "request failed",
+        );
+      }
+      setIdeas(payload.ideas);
+      setSavedSecret(token);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  async function moderate(id: string, action: "approve" | "reject") {
+    if (!savedSecret) {
+      setError("Load the queue with a valid token first");
+      return;
+    }
+    setBusyId(id);
+    setError(null);
+    try {
+      const res = await fetch("/api/admin/ideas-queue", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${savedSecret}`,
+        },
+        body: JSON.stringify({ id, action }),
+      });
+      const payload = (await res.json()) as
+        | { ok: true; idea: IdeaRecord }
+        | { ok: false; error: string };
+      if (!payload.ok) throw new Error(payload.error ?? "request failed");
+      setIdeas((prev) =>
+        prev.map((row) => (row.id === id ? payload.idea : row)),
+      );
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setBusyId(null);
+    }
+  }
+
+  useEffect(() => {
+    if (savedSecret && ideas.length === 0 && !loading && !error) {
+      void loadQueue(savedSecret);
+    }
+  }, [savedSecret, ideas.length, loading, error, loadQueue]);
+
+  return (
+    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
+      <div className="max-w-[1100px] mx-auto px-4 md:px-6 py-6 md:py-8">
+        <header className="mb-6 border-b border-border-primary pb-6">
+          <div className="flex flex-wrap items-baseline gap-3">
+            <h1 className="text-2xl font-bold uppercase tracking-wider inline-flex items-center gap-2">
+              <ShieldAlert className="size-5 text-warning" aria-hidden />
+              Ideas Moderation Queue
+            </h1>
+            <span className="text-xs text-text-tertiary">
+              {"// approve or reject the first 5 posts per author"}
+            </span>
+          </div>
+          <p className="mt-2 max-w-2xl text-sm text-text-secondary">
+            Paste the <code>ADMIN_TOKEN</code> to load the queue. Approved
+            ideas appear publicly on <Link href="/ideas" className="underline">/ideas</Link>.
+            Once an author has 5 approved ideas, subsequent posts auto-publish.
+          </p>
+        </header>
+
+        <section className="mb-6 rounded-card border border-border-primary bg-bg-card p-4 shadow-card">
+          <label className="flex flex-col gap-2">
+            <span className="font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
+              ADMIN_TOKEN
+            </span>
+            <div className="flex flex-wrap gap-2">
+              <input
+                type="password"
+                value={secret}
+                onChange={(e) => setSecret(e.target.value)}
+                placeholder="Paste bearer token"
+                autoComplete="off"
+                className="min-w-[260px] flex-1 rounded-md border border-border-primary bg-bg-muted px-3 py-2 font-mono text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-1 focus:ring-brand"
+              />
+              <button
+                type="button"
+                onClick={() => void loadQueue(secret)}
+                disabled={loading}
+                className="inline-flex items-center gap-2 rounded-md border border-border-primary bg-bg-muted px-3 py-2 font-mono text-xs font-semibold uppercase tracking-wider text-text-primary hover:bg-bg-card-hover disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {loading ? (
+                  <LoaderCircle className="size-4 animate-spin" aria-hidden />
+                ) : (
+                  <RefreshCw className="size-4" aria-hidden />
+                )}
+                Load queue
+              </button>
+            </div>
+          </label>
+          {error ? (
+            <div className="mt-3 rounded-md border border-down/60 bg-down/5 px-3 py-2 text-sm text-down">
+              {error}
+            </div>
+          ) : null}
+        </section>
+
+        <section className="mb-4 flex flex-wrap items-center gap-2 text-xs">
+          {(["pending", "published", "rejected", "all"] as Filter[]).map((f) => (
+            <button
+              key={f}
+              type="button"
+              onClick={() => setFilter(f)}
+              className={
+                "rounded-md border px-3 py-1.5 font-mono text-xs uppercase tracking-wider transition " +
+                (f === filter
+                  ? "border-brand bg-brand/10 text-text-primary"
+                  : "border-border-primary bg-bg-muted text-text-secondary hover:text-text-primary")
+              }
+            >
+              {f}
+              {f === "pending" ? ` (${pendingCount})` : ""}
+            </button>
+          ))}
+        </section>
+
+        <section className="space-y-3">
+          {filtered.length === 0 ? (
+            <div className="rounded-card border border-dashed border-border-primary bg-bg-muted/40 px-4 py-6 text-sm text-text-tertiary">
+              Nothing to show in this filter.
+            </div>
+          ) : (
+            filtered.map((row) => (
+              <ModerationRow
+                key={row.id}
+                row={row}
+                busy={busyId === row.id}
+                onAction={(action) => moderate(row.id, action)}
+              />
+            ))
+          )}
+        </section>
+      </div>
+    </main>
+  );
+}
+
+function ModerationRow({
+  row,
+  busy,
+  onAction,
+}: {
+  row: IdeaRecord;
+  busy: boolean;
+  onAction: (action: "approve" | "reject") => void;
+}) {
+  const isPending = row.status === "pending_moderation";
+  return (
+    <article
+      className={
+        "rounded-card border p-4 shadow-card " +
+        (row.status === "published" || row.status === "shipped"
+          ? "border-up/50 bg-up/5"
+          : row.status === "rejected"
+            ? "border-down/50 bg-down/5"
+            : "border-border-primary bg-bg-card")
+      }
+    >
+      <header className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <div className="flex items-center gap-2">
+            <Lightbulb className="size-3.5 text-warning" aria-hidden />
+            <span className="font-mono text-xs text-text-tertiary">
+              @{row.authorHandle} · {new Date(row.createdAt).toISOString().slice(0, 16).replace("T", " ")}
+            </span>
+          </div>
+          <h3 className="mt-1 font-mono text-base font-semibold text-text-primary">
+            {row.title}
+          </h3>
+        </div>
+        <span
+          className={
+            "rounded-full border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider " +
+            (row.status === "published" || row.status === "shipped"
+              ? "border-up/60 bg-up/10 text-up"
+              : row.status === "rejected"
+                ? "border-down/60 bg-down/10 text-down"
+                : "border-border-primary bg-bg-muted text-text-secondary")
+          }
+        >
+          {row.status.replace("_", " ")}
+        </span>
+      </header>
+
+      <p className="mt-2 text-sm text-text-secondary">{row.pitch}</p>
+
+      {row.targetRepos.length > 0 ? (
+        <p className="mt-2 text-[11px] text-text-tertiary">
+          Targets: {row.targetRepos.join(", ")}
+        </p>
+      ) : null}
+
+      {isPending ? (
+        <footer className="mt-4 flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={() => onAction("approve")}
+            disabled={busy}
+            className="inline-flex items-center gap-1.5 rounded-md border border-up/60 bg-up/10 px-3 py-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-up hover:bg-up/20 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {busy ? (
+              <LoaderCircle className="size-3.5 animate-spin" aria-hidden />
+            ) : (
+              <CheckCircle2 className="size-3.5" aria-hidden />
+            )}
+            Approve
+          </button>
+          <button
+            type="button"
+            onClick={() => onAction("reject")}
+            disabled={busy}
+            className="inline-flex items-center gap-1.5 rounded-md border border-down/60 bg-down/10 px-3 py-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-down hover:bg-down/20 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {busy ? (
+              <LoaderCircle className="size-3.5 animate-spin" aria-hidden />
+            ) : (
+              <XCircle className="size-3.5" aria-hidden />
+            )}
+            Reject
+          </button>
+        </footer>
+      ) : null}
+    </article>
+  );
+}
+
+export default IdeasQueueAdmin;

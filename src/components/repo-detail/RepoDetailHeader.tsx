@@ -109,20 +109,24 @@ export function RepoDetailHeader({
           className="size-12 sm:size-14 shrink-0 rounded-full border border-border-primary object-cover"
         />
         <div className="flex-1 min-w-0">
-          <a
-            href={repo.url || `https://github.com/${repo.fullName}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            title={`Open ${repo.fullName} on GitHub`}
-            className="inline-flex items-center gap-1.5 font-display text-xl sm:text-2xl font-semibold text-text-primary hover:text-brand transition-colors max-w-full"
-          >
-            <span className="truncate">
-              {repo.owner}
-              <span className="text-text-tertiary">/</span>
-              <span className="font-bold">{repo.name}</span>
-            </span>
-            <ExternalLink size={14} className="shrink-0 text-text-tertiary" aria-hidden />
-          </a>
+          {/* Semantic h1 for SEO + a11y — one per page, names the primary
+              entity. Visual styling matches the pre-semantic anchor. */}
+          <h1 className="font-display text-xl sm:text-2xl font-semibold text-text-primary m-0 leading-tight">
+            <a
+              href={repo.url || `https://github.com/${repo.fullName}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={`Open ${repo.fullName} on GitHub`}
+              className="inline-flex items-center gap-1.5 hover:text-brand transition-colors max-w-full"
+            >
+              <span className="truncate">
+                {repo.owner}
+                <span className="text-text-tertiary">/</span>
+                <span className="font-bold">{repo.name}</span>
+              </span>
+              <ExternalLink size={14} className="shrink-0 text-text-tertiary" aria-hidden />
+            </a>
+          </h1>
 
           {/* Description */}
           {repo.description && (

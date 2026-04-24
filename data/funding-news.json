@@ -1,8 +1,226 @@
 {
-  "fetchedAt": "2026-04-23T09:16:49.223Z",
+  "fetchedAt": "2026-04-24T14:08:59.864Z",
   "source": "funding-news-scraper",
   "windowDays": 21,
   "signals": [
+    {
+      "id": "tech.eu-69a3dfbb",
+      "headline": "Aleph Alpha to be acquired by Cohere",
+      "description": "German AI startup Aleph Alpha is to be acquired by Canadian AI lab Cohere, creating a business that will position itself as a sovereign alternative to US AI labs. Cohere, founded in 2019 and valued at...",
+      "sourceUrl": "https://tech.eu/2026/04/24/aleph-alpha-to-be-acquired-by-cohere/",
+      "sourcePlatform": "techeu",
+      "publishedAt": "2026-04-24T09:55:00.000Z",
+      "discoveredAt": "2026-04-24T14:08:59.864Z",
+      "extracted": {
+        "companyName": "Aleph Alpha",
+        "companyWebsite": "https://aleph-alpha.com",
+        "companyLogoUrl": "https://logo.clearbit.com/aleph-alpha.com",
+        "amount": null,
+        "amountDisplay": "Undisclosed",
+        "currency": "USD",
+        "roundType": "acquisition",
+        "investors": [],
+        "investorsEnriched": [],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "tech.eu-d7cd2012",
+      "headline": "Verda raises $117M to scale AI cloud infrastructure built on clean Nordic power",
+      "description": "Helsinki-based AI infrastructure company Verda (formerly DataCrunch ) has raised $117 million in new funding. The round comprises equity funding led by Lifeline Ventures with participation from byFoun...",
+      "sourceUrl": "https://tech.eu/2026/04/24/verda-raises-117m-to-scale-ai-cloud-infrastructure-built-on-clean-nordic-power/",
+      "sourcePlatform": "techeu",
+      "publishedAt": "2026-04-24T08:05:05.000Z",
+      "discoveredAt": "2026-04-24T14:08:59.864Z",
+      "extracted": {
+        "companyName": "Verda",
+        "companyWebsite": "https://verda.com",
+        "companyLogoUrl": "https://logo.clearbit.com/verda.com",
+        "amount": 117000000,
+        "amountDisplay": "$117M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "Lifeline Ventures"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Lifeline Ventures",
+            "isKnown": false,
+            "confidence": "medium"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "sifted.eu-67fab2bb",
+      "headline": "Verda raises €100m to build European hyperscaler, plans to hire 100+ people and launch in new markets",
+      "description": "",
+      "sourceUrl": "https://sifted.eu/articles/verda-raises-e100m-to-build-european-hyperscaler/",
+      "sourcePlatform": "sifted",
+      "publishedAt": "2026-04-24T08:00:53.000Z",
+      "discoveredAt": "2026-04-24T14:08:59.864Z",
+      "extracted": {
+        "companyName": "Verda",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 100000000,
+        "amountDisplay": "$100M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "Lifeline Ventures"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Lifeline Ventures",
+            "isKnown": false,
+            "confidence": "medium"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai",
+        "europe"
+      ]
+    },
+    {
+      "id": "tech.eu-104811f6",
+      "headline": "Sofia-based Quillon raises $1.5M for audit-grade AI in accounting",
+      "description": "Quillon, an AI platform for technical accountingand financial reporting, today announced the close of $1.5 million in pre-seedfunding and its rebrand from Acclara AI. The round was led by 42CAP, withp...",
+      "sourceUrl": "https://tech.eu/2026/04/24/sofia-based-quillon-raises-15m-for-audit-grade-ai-in-accounting/",
+      "sourcePlatform": "techeu",
+      "publishedAt": "2026-04-24T07:13:29.000Z",
+      "discoveredAt": "2026-04-24T14:08:59.864Z",
+      "extracted": {
+        "companyName": "Sofia-based Quillon",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 1500000,
+        "amountDisplay": "$1.5M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [],
+        "investorsEnriched": [],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "techcrunch.com-39fa8006",
+      "headline": "Era raises $11M to build a software platform for AI gadgets",
+      "description": "Era thinks that we will see many form factors of AI hardware, including glasses, rings, and pendants.",
+      "sourceUrl": "https://techcrunch.com/2026/04/23/era-computer-raises-11m-to-build-a-software-platform-for-ai-gadgets/",
+      "sourcePlatform": "techcrunch",
+      "publishedAt": "2026-04-23T16:00:00.000Z",
+      "discoveredAt": "2026-04-24T14:08:59.864Z",
+      "extracted": {
+        "companyName": "Era",
+        "companyWebsite": "https://era.world",
+        "companyLogoUrl": "https://logo.clearbit.com/era.world",
+        "amount": 11000000,
+        "amountDisplay": "$11M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "Abstract Ventures",
+          "Topology Ventures"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Abstract Ventures",
+            "isKnown": false,
+            "confidence": "medium"
+          },
+          {
+            "name": "Topology Ventures",
+            "isKnown": false,
+            "confidence": "medium"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai",
+        "hardware"
+      ]
+    },
+    {
+      "id": "tech.eu-5e47f81d",
+      "headline": "TheStorage raises €3.6M to scale industrial thermal energy storage",
+      "description": "Cleantech companyTheStorage, which develops industrial thermal energy storage solutions, has closeda €3.6 million seed funding round. The round was led by Voima Ventures, withparticipation from existi...",
+      "sourceUrl": "https://tech.eu/2026/04/23/thestorage-raises-eur36m-to-scale-industrial-thermal-energy-storage/",
+      "sourcePlatform": "techeu",
+      "publishedAt": "2026-04-23T11:06:02.000Z",
+      "discoveredAt": "2026-04-24T14:08:59.864Z",
+      "extracted": {
+        "companyName": "TheStorage",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 3600000,
+        "amountDisplay": "$3.6M",
+        "currency": "USD",
+        "roundType": "seed",
+        "investors": [
+          "Voima Ventures"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Voima Ventures",
+            "isKnown": false,
+            "confidence": "medium"
+          }
+        ],
+        "confidence": "high"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "tech.eu-5b8904c6",
+      "headline": "Berlin-based VREY raises €3.3M to unlock shared-roof solar",
+      "description": "Berlin-based climatetech startup VREY has closed a €3.3million seed funding round led by Rubio Impact Ventures, with participationfrom High-Tech Gründerfonds (HTGF) and Kopa Ventures.The company enabl...",
+      "sourceUrl": "https://tech.eu/2026/04/23/berlin-based-vrey-raises-eur33m-to-unlock-shared-roof-solar/",
+      "sourcePlatform": "techeu",
+      "publishedAt": "2026-04-23T11:05:00.000Z",
+      "discoveredAt": "2026-04-24T14:08:59.864Z",
+      "extracted": {
+        "companyName": "Berlin-based VREY",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 3300000,
+        "amountDisplay": "$3.3M",
+        "currency": "USD",
+        "roundType": "seed",
+        "investors": [
+          "Rubio Impact Ventures"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Rubio Impact Ventures",
+            "isKnown": false,
+            "confidence": "medium"
+          }
+        ],
+        "confidence": "high"
+      },
+      "tags": [
+        "ai",
+        "climate",
+        "europe"
+      ]
+    },
     {
       "id": "tech.eu-98b03806",
       "headline": "Cloudsmith raises $72M Series C to secure the AI-era software supply chain",
@@ -10,7 +228,7 @@
       "sourceUrl": "https://tech.eu/2026/04/23/cloudsmith-raises-72m-series-c-to-secure-the-ai-era-software-supply-chain/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-23T08:00:00.000Z",
-      "discoveredAt": "2026-04-23T09:16:49.223Z",
+      "discoveredAt": "2026-04-24T14:08:59.864Z",
       "extracted": {
         "companyName": "Cloudsmith",
         "companyWebsite": null,
@@ -42,7 +260,7 @@
       "sourceUrl": "https://tech.eu/2026/04/23/wenite-secures-eur18-million-to-power-the-future-of-data-driven-hr/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-23T07:24:23.000Z",
-      "discoveredAt": "2026-04-23T09:16:49.223Z",
+      "discoveredAt": "2026-04-24T14:08:59.864Z",
       "extracted": {
         "companyName": "Wenite",
         "companyWebsite": "https://wenite.io",
@@ -61,13 +279,47 @@
       ]
     },
     {
+      "id": "tech.eu-377da22",
+      "headline": "UNIVITY raises €27M to build sovereign space connectivity for telecom operators",
+      "description": "Spacetech company UNIVITY today announced it has raised €27 million backed by Blast, Expansion, and the Deeptech 2030 fund, managed by Bpifrance on behalf of the French state as part of the France 203...",
+      "sourceUrl": "https://tech.eu/2026/04/23/univity-raises-eur27m-to-build-sovereign-space-connectivity-for-telecom-operators/",
+      "sourcePlatform": "techeu",
+      "publishedAt": "2026-04-23T06:00:00.000Z",
+      "discoveredAt": "2026-04-24T14:08:59.864Z",
+      "extracted": {
+        "companyName": "UNIVITY",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 27000000,
+        "amountDisplay": "$27M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "Blast"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Blast",
+            "isKnown": false,
+            "confidence": "medium"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai",
+        "europe",
+        "defense"
+      ]
+    },
+    {
       "id": "tech.eu-5d574628",
       "headline": "Decade Energy secures €22M to electrify logistics depots at scale",
       "description": "Decade Energy, a company building the power infrastructure at logistics depots, has secured €22 million in funding. The financing is led by Eiffel Investment Group and SET Ventures, along with existi...",
       "sourceUrl": "https://tech.eu/2026/04/23/decade-energy-secures-eur22m-to-electrify-logistics-depots-at-scale/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-23T06:00:00.000Z",
-      "discoveredAt": "2026-04-23T09:16:49.223Z",
+      "discoveredAt": "2026-04-24T14:08:59.864Z",
       "extracted": {
         "companyName": "Decade Energy",
         "companyWebsite": null,
@@ -97,47 +349,13 @@
       "tags": []
     },
     {
-      "id": "tech.eu-377da22",
-      "headline": "UNIVITY raises €27M to build sovereign space connectivity for telecom operators",
-      "description": "Spacetech company UNIVITY today announced it has raised €27 million backed by Blast, Expansion, and the Deeptech 2030 fund, managed by Bpifrance on behalf of the French state as part of the France 203...",
-      "sourceUrl": "https://tech.eu/2026/04/23/univity-raises-eur27m-to-build-sovereign-space-connectivity-for-telecom-operators/",
-      "sourcePlatform": "techeu",
-      "publishedAt": "2026-04-23T06:00:00.000Z",
-      "discoveredAt": "2026-04-23T09:16:49.223Z",
-      "extracted": {
-        "companyName": "UNIVITY",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 27000000,
-        "amountDisplay": "$27M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [
-          "Blast"
-        ],
-        "investorsEnriched": [
-          {
-            "name": "Blast",
-            "isKnown": false,
-            "confidence": "medium"
-          }
-        ],
-        "confidence": "medium"
-      },
-      "tags": [
-        "ai",
-        "europe",
-        "defense"
-      ]
-    },
-    {
       "id": "tech.eu-e6487830",
       "headline": "Nox Mobility raises €2M pre-seed to rethink Europe’s night trains",
       "description": "Nox Mobility has raised €2 million inpre-seed funding to develop a new generation of overnight trains. The round wasled by Berlin-based IBB Ventures, with participation from Italian investorTommaso Lu...",
       "sourceUrl": "https://tech.eu/2026/04/22/nox-mobility-raises-eur2m-pre-seed-to-rethink-europes-night-trains/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-22T09:00:00.000Z",
-      "discoveredAt": "2026-04-23T09:16:49.223Z",
+      "discoveredAt": "2026-04-24T14:08:59.864Z",
       "extracted": {
         "companyName": "Nox Mobility",
         "companyWebsite": "https://noxmobility.com",
@@ -162,7 +380,7 @@
       "sourceUrl": "https://tech.eu/2026/04/22/qmatter-secures-12m-to-tackle-quantum-scaling-challenges/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-22T08:00:00.000Z",
-      "discoveredAt": "2026-04-23T09:16:49.223Z",
+      "discoveredAt": "2026-04-24T14:08:59.864Z",
       "extracted": {
         "companyName": "QMatter",
         "companyWebsite": "https://qmatter.xyz",
@@ -180,173 +398,13 @@
       ]
     },
     {
-      "id": "tech.eu-5c37de84",
-      "headline": "ATMOS Space Cargo secures €25.7M Series A to expand Europe’s sovereign return-from-orbit capability",
-      "description": "ATMOS Space Cargo, a European company developing orbital transport and re-entry vehicles, has closed a €25.7 million Series A financing round. The funding will support an initial three-vehicle PHOENI...",
-      "sourceUrl": "https://tech.eu/2026/04/22/atmos-space-cargo-secures-eur257-million-to-expand-europes-sovereign-return-from-orbit-capability/",
-      "sourcePlatform": "techeu",
-      "publishedAt": "2026-04-22T04:00:00.000Z",
-      "discoveredAt": "2026-04-23T09:16:49.223Z",
-      "extracted": {
-        "companyName": "ATMOS Space Cargo",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 25700000,
-        "amountDisplay": "$25.7M",
-        "currency": "USD",
-        "roundType": "series-a",
-        "investors": [
-          "Balnord",
-          "OTB Ventures",
-          "Keen Defence"
-        ],
-        "investorsEnriched": [
-          {
-            "name": "Balnord",
-            "isKnown": false,
-            "confidence": "medium"
-          },
-          {
-            "name": "OTB Ventures",
-            "isKnown": false,
-            "confidence": "medium"
-          },
-          {
-            "name": "Keen Defence",
-            "isKnown": false,
-            "confidence": "medium"
-          }
-        ],
-        "confidence": "high"
-      },
-      "tags": [
-        "europe",
-        "defense"
-      ]
-    },
-    {
-      "id": "tech.eu-1dc0ba17",
-      "headline": "Alesi Surgical raises £7M to clear the air in operating theatres with next-gen smoke management tech",
-      "description": "Surgical tech company Alesi Surgical has raised £7 million in a funding round led by IW Capital and supported by existing shareholders, IP Group and Mercia Ventures to tackle the problem of surgical s...",
-      "sourceUrl": "https://tech.eu/2026/04/21/alesi-surgical-raises-ps7m-to-clear-the-air-in-operating-theatres-with-next-gen-smoke-management-tech/",
-      "sourcePlatform": "techeu",
-      "publishedAt": "2026-04-21T13:57:25.000Z",
-      "discoveredAt": "2026-04-23T09:16:49.223Z",
-      "extracted": {
-        "companyName": "Alesi Surgical",
-        "companyWebsite": "https://alesi-surgical.com",
-        "companyLogoUrl": "https://logo.clearbit.com/alesi-surgical.com",
-        "amount": 7000000,
-        "amountDisplay": "$7M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [
-          "IW Capital"
-        ],
-        "investorsEnriched": [
-          {
-            "name": "IW Capital",
-            "isKnown": false,
-            "confidence": "medium"
-          }
-        ],
-        "confidence": "medium"
-      },
-      "tags": [
-        "ai"
-      ]
-    },
-    {
-      "id": "tech.eu-9ef06351",
-      "headline": "OrangeQS extends seed round to €15M as it launches quantum chip testing partnership programme",
-      "description": "Quantum chip testing company Orange Quantum Systems (OrangeQS) has announced the second closing of its seed round, extending its funding to €15 million. This follows the first closing in summer 2025,...",
-      "sourceUrl": "https://tech.eu/2026/04/21/orangeqs-extends-seed-round-to-eur15m-as-it-launches-quantum-chip-testing-partnership-programme/",
-      "sourcePlatform": "techeu",
-      "publishedAt": "2026-04-21T07:00:00.000Z",
-      "discoveredAt": "2026-04-23T09:16:49.223Z",
-      "extracted": {
-        "companyName": "OrangeQS",
-        "companyWebsite": "https://orangeqs.com",
-        "companyLogoUrl": "https://logo.clearbit.com/orangeqs.com",
-        "amount": 15000000,
-        "amountDisplay": "$15M",
-        "currency": "USD",
-        "roundType": "seed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high"
-      },
-      "tags": [
-        "hardware"
-      ]
-    },
-    {
-      "id": "tech.eu-f2a9f353",
-      "headline": "Smart Robotics secures €10M Series A to expand AI robotic picking in Europe",
-      "description": "Smart Robotics, an embodied AI company focused onintralogistics automation, has closed a €10 million Series A funding round. Theround was led by Rotterdamse Havendraken, with participation from Innova...",
-      "sourceUrl": "https://tech.eu/2026/04/21/smart-robotics-secures-eur10m-series-a-to-expand-ai-robotic-picking-in-europe/",
-      "sourcePlatform": "techeu",
-      "publishedAt": "2026-04-21T07:00:00.000Z",
-      "discoveredAt": "2026-04-23T09:16:49.223Z",
-      "extracted": {
-        "companyName": "Smart Robotics",
-        "companyWebsite": "https://smart-robotics.io",
-        "companyLogoUrl": "https://logo.clearbit.com/smart-robotics.io",
-        "amount": 10000000,
-        "amountDisplay": "$10M",
-        "currency": "USD",
-        "roundType": "series-a",
-        "investors": [
-          "Rotterdamse Havendraken"
-        ],
-        "investorsEnriched": [
-          {
-            "name": "Rotterdamse Havendraken",
-            "isKnown": false,
-            "confidence": "medium"
-          }
-        ],
-        "confidence": "high"
-      },
-      "tags": [
-        "ai",
-        "europe",
-        "hardware"
-      ]
-    },
-    {
-      "id": "tech.eu-3bb67646",
-      "headline": "Zynt raises $500K pre-seed to drive signal-based B2B sales",
-      "description": "Polishstartup Zynt, which develops a signal intelligence platform for B2B sales, hasclosed a $500,000 pre-seed funding round. The company was founded by CezaryRaszel and Wojciech Ozimek and backed by ...",
-      "sourceUrl": "https://tech.eu/2026/04/21/zynt-raises-500k-pre-seed-to-drive-signal-based-b2b-sales/",
-      "sourcePlatform": "techeu",
-      "publishedAt": "2026-04-21T06:00:00.000Z",
-      "discoveredAt": "2026-04-23T09:16:49.223Z",
-      "extracted": {
-        "companyName": "Zynt",
-        "companyWebsite": "https://getzynt.com",
-        "companyLogoUrl": "https://logo.clearbit.com/getzynt.com",
-        "amount": 500000,
-        "amountDisplay": "$500K",
-        "currency": "USD",
-        "roundType": "pre-seed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high"
-      },
-      "tags": [
-        "ai",
-        "saas"
-      ]
-    },
-    {
       "id": "sifted.eu-834fa202",
       "headline": "Stripe alumni raise €7.5m for AI-powered fintech Seapoint",
       "description": "",
       "sourceUrl": "https://sifted.eu/articles/stripe-alumni-fintech-fundraise/",
       "sourcePlatform": "sifted",
       "publishedAt": "2026-04-21T05:00:21.000Z",
-      "discoveredAt": "2026-04-23T09:16:49.223Z",
+      "discoveredAt": "2026-04-24T14:08:59.864Z",
       "extracted": {
         "companyName": "Seapoint",
         "companyWebsite": "https://seapoint.com",
@@ -362,109 +420,6 @@
       "tags": [
         "ai",
         "fintech"
-      ]
-    },
-    {
-      "id": "sifted.eu-42130f64",
-      "headline": "Four-month-old Recursive Superintelligence raises $500m",
-      "description": "",
-      "sourceUrl": "https://sifted.eu/articles/recursive-superintelligence-500m/",
-      "sourcePlatform": "sifted",
-      "publishedAt": "2026-04-20T09:12:28.000Z",
-      "discoveredAt": "2026-04-23T09:16:49.223Z",
-      "extracted": {
-        "companyName": "Recursive Superintelligence",
-        "companyWebsite": "https://recursiveai.com",
-        "companyLogoUrl": "https://logo.clearbit.com/recursiveai.com",
-        "amount": 500000000,
-        "amountDisplay": "$500M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [
-          "Google Ventures"
-        ],
-        "investorsEnriched": [
-          {
-            "name": "Google Ventures",
-            "isKnown": true,
-            "confidence": "high"
-          }
-        ],
-        "confidence": "medium"
-      },
-      "tags": [
-        "ai"
-      ]
-    },
-    {
-      "id": "techcrunch.com-7bc46086",
-      "headline": "Sources: Cursor in talks to raise $2B+ at $50B valuation as enterprise growth surges",
-      "description": "Returning backers a16z and Thrive are expected to lead the round.",
-      "sourceUrl": "https://techcrunch.com/2026/04/17/sources-cursor-in-talks-to-raise-2b-at-50b-valuation-as-enterprise-growth-surges/",
-      "sourcePlatform": "techcrunch",
-      "publishedAt": "2026-04-17T19:17:26.000Z",
-      "discoveredAt": "2026-04-23T09:16:49.223Z",
-      "extracted": {
-        "companyName": "Cursor",
-        "companyWebsite": "https://cursor.com",
-        "companyLogoUrl": "https://github.com/getcursor.png",
-        "amount": 2000000000,
-        "amountDisplay": "$2B",
-        "currency": "USD",
-        "roundType": "growth",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high"
-      },
-      "tags": [
-        "ai",
-        "saas"
-      ]
-    },
-    {
-      "id": "techcrunch.com-ff26b42a",
-      "headline": "Loop raises $95M to build supply chain AI that predicts disruptions",
-      "description": "The San Francisco startup closed a Series C funding round led by Antonio Gracias' firm Valor, which is a major backer of xAI.",
-      "sourceUrl": "https://techcrunch.com/2026/04/17/loop-raises-95m-to-build-supply-chain-ai-that-predicts-disruptions/",
-      "sourcePlatform": "techcrunch",
-      "publishedAt": "2026-04-17T13:00:00.000Z",
-      "discoveredAt": "2026-04-23T09:16:49.223Z",
-      "extracted": {
-        "companyName": "Loop",
-        "companyWebsite": "https://loop.com",
-        "companyLogoUrl": "https://logo.clearbit.com/loop.com",
-        "amount": 95000000,
-        "amountDisplay": "$95M",
-        "currency": "USD",
-        "roundType": "series-c",
-        "investors": [
-          "Valor Equity Partners"
-        ],
-        "investorsEnriched": [
-          {
-            "name": "Valor Equity Partners",
-            "isKnown": true,
-            "confidence": "high"
-          }
-        ],
-        "confidence": "high"
-      },
-      "tags": [
-        "ai"
-      ]
-    },
-    {
-      "id": "sifted.eu-93796318",
-      "headline": "AI startups swallow half the funding across European tech",
-      "description": "",
-      "sourceUrl": "https://sifted.eu/articles/ai-startups-swallow-half-funding/",
-      "sourcePlatform": "sifted",
-      "publishedAt": "2026-04-17T05:00:08.000Z",
-      "discoveredAt": "2026-04-23T09:16:49.223Z",
-      "extracted": null,
-      "tags": [
-        "ai",
-        "europe"
       ]
     },
     {
@@ -511,7 +466,7 @@
         "saas",
         "devtools"
       ],
-      "discoveredAt": "2026-04-23T09:16:49.223Z"
+      "discoveredAt": "2026-04-24T14:08:59.864Z"
     },
     {
       "id": "seed-coreweave-series-c-2026",
@@ -557,7 +512,7 @@
         "hardware",
         "saas"
       ],
-      "discoveredAt": "2026-04-23T09:16:49.223Z"
+      "discoveredAt": "2026-04-24T14:08:59.864Z"
     },
     {
       "id": "seed-cognition-series-a-2026",
@@ -596,7 +551,7 @@
         "ai",
         "devtools"
       ],
-      "discoveredAt": "2026-04-23T09:16:49.223Z"
+      "discoveredAt": "2026-04-24T14:08:59.864Z"
     },
     {
       "id": "seed-anduril-series-f-2026",
@@ -641,7 +596,7 @@
         "defense",
         "ai"
       ],
-      "discoveredAt": "2026-04-23T09:16:49.223Z"
+      "discoveredAt": "2026-04-24T14:08:59.864Z"
     },
     {
       "id": "seed-sambanova-series-e-2026",
@@ -686,7 +641,7 @@
         "ai",
         "hardware"
       ],
-      "discoveredAt": "2026-04-23T09:16:49.223Z"
+      "discoveredAt": "2026-04-24T14:08:59.864Z"
     },
     {
       "id": "seed-poolside-series-a-2026",
@@ -725,7 +680,7 @@
         "ai",
         "devtools"
       ],
-      "discoveredAt": "2026-04-23T09:16:49.223Z"
+      "discoveredAt": "2026-04-24T14:08:59.864Z"
     },
     {
       "id": "seed-hebbia-series-b-2026",
@@ -764,7 +719,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-23T09:16:49.223Z"
+      "discoveredAt": "2026-04-24T14:08:59.864Z"
     },
     {
       "id": "seed-together-series-a-2026",
@@ -803,7 +758,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-23T09:16:49.223Z"
+      "discoveredAt": "2026-04-24T14:08:59.864Z"
     },
     {
       "id": "seed-sierra-series-b-2026",
@@ -842,7 +797,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-23T09:16:49.223Z"
+      "discoveredAt": "2026-04-24T14:08:59.864Z"
     },
     {
       "id": "seed-glean-series-d-2026",
@@ -881,7 +836,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-23T09:16:49.223Z"
+      "discoveredAt": "2026-04-24T14:08:59.864Z"
     },
     {
       "id": "seed-groq-series-d-2026",
@@ -920,7 +875,7 @@
         "ai",
         "hardware"
       ],
-      "discoveredAt": "2026-04-23T09:16:49.223Z"
+      "discoveredAt": "2026-04-24T14:08:59.864Z"
     },
     {
       "id": "seed-mistral-series-b-2026",
@@ -965,7 +920,7 @@
         "ai",
         "europe"
       ],
-      "discoveredAt": "2026-04-23T09:16:49.223Z"
+      "discoveredAt": "2026-04-24T14:08:59.864Z"
     },
     {
       "id": "seed-adept-series-b-2026",
@@ -1004,7 +959,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-23T09:16:49.223Z"
+      "discoveredAt": "2026-04-24T14:08:59.864Z"
     },
     {
       "id": "seed-elevenlabs-series-c-2026",
@@ -1048,7 +1003,7 @@
       "tags": [
         "ai"
       ],
-      "discoveredAt": "2026-04-23T09:16:49.223Z"
+      "discoveredAt": "2026-04-24T14:08:59.864Z"
     },
     {
       "id": "seed-scale-series-f-2026",
@@ -1093,7 +1048,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-23T09:16:49.223Z"
+      "discoveredAt": "2026-04-24T14:08:59.864Z"
     },
     {
       "id": "seed-perplexity-series-c-2026",
@@ -1138,7 +1093,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-23T09:16:49.223Z"
+      "discoveredAt": "2026-04-24T14:08:59.864Z"
     }
   ]
 }

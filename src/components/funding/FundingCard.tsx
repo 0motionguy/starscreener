@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { FundingSignal } from "@/lib/funding/types";
+import { logoFromDomain } from "@/lib/logo-url";
 
 interface FundingCardProps {
   signal: FundingSignal;
@@ -122,7 +123,12 @@ function getInitials(name: string): string {
   return (words[0][0] + words[words.length - 1][0]).toUpperCase();
 }
 
-/** Try to load a Clearbit logo; fall back to colored initials on error. */
+/**
+ * Try to load a favicon for the company's domain; fall back to colored
+ * initials on error. Accepts any of: a prebuilt logo URL (legacy Clearbit
+ * URLs in committed data still parse cleanly), a bare domain, or a full
+ * website URL — all resolve to Google's favicon service via logoFromDomain.
+ */
 function CompanyLogo({
   name,
   logoUrl,
@@ -133,21 +139,22 @@ function CompanyLogo({
   size?: number;
 }) {
   const [failed, setFailed] = useState(false);
-  const tone = getLogoTone(name);
+  const resolved = logoFromDomain(logoUrl, Math.max(size, 128));
   const initials = getInitials(name);
 
-  if (logoUrl && !failed) {
+  if (resolved && !failed) {
     return (
       <div
-        className="shrink-0 rounded-lg overflow-hidden border border-border-primary/50"
+        className="shrink-0 rounded-lg overflow-hidden border border-border-primary/50 bg-bg-muted"
         style={{ width: size, height: size }}
       >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={logoUrl}
+          src={resolved}
           alt={name}
           width={size}
           height={size}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-contain"
           onError={() => setFailed(true)}
           loading="lazy"
         />
@@ -173,17 +180,18 @@ function CompanyLogo({
 function InvestorBadge({ name }: { name: string }) {
   const [failed, setFailed] = useState(false);
   const domain = getVcDomain(name);
-  const logoUrl = domain ? `https://logo.clearbit.com/${domain}` : null;
+  const logoUrl = logoFromDomain(domain, 64);
 
   return (
     <span className="inline-flex items-center gap-1.5 rounded-full border border-border-primary bg-bg-tertiary px-2.5 py-1 text-xs text-text-secondary">
       {logoUrl && !failed ? (
+        // eslint-disable-next-line @next/next/no-img-element
         <img
           src={logoUrl}
           alt=""
           width={16}
           height={16}
-          className="rounded-full object-cover"
+          className="rounded-full object-contain bg-bg-muted"
           onError={() => setFailed(true)}
           loading="lazy"
         />

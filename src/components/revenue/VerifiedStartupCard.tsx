@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 
 import type { VerifiedStartup } from "@/lib/revenue-startups";
+import { logoFromDomain } from "@/lib/logo-url";
 import { formatNumber } from "@/lib/utils";
 
 interface VerifiedStartupCardProps {
@@ -110,10 +111,7 @@ export function VerifiedStartupCard({
         ? startup.customers
         : null;
   const visitors = startup.visitorsLast30Days;
-  const logoUrl = host ? `https://unavatar.io/${host}` : null;
-  const founderAvatarUrl = startup.xHandle
-    ? `https://unavatar.io/twitter/${startup.xHandle}`
-    : null;
+  const logoUrl = logoFromDomain(host, 128);
 
   return (
     <article className="group relative flex flex-col gap-3 rounded-card border border-border-primary bg-bg-card p-4 shadow-card transition hover:border-brand/40 hover:bg-bg-card-hover">
@@ -227,20 +225,11 @@ export function VerifiedStartupCard({
             href={`https://x.com/${startup.xHandle}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="ml-auto inline-flex items-center gap-1.5 text-text-tertiary hover:text-text-primary"
+            className="ml-auto inline-flex items-center gap-1 text-text-tertiary hover:text-text-primary"
             title={`Founder @${startup.xHandle}`}
           >
-            {founderAvatarUrl ? (
-              <Image
-                src={founderAvatarUrl}
-                alt=""
-                width={16}
-                height={16}
-                className="size-4 rounded-full bg-bg-muted"
-                unoptimized
-              />
-            ) : null}
             <span className="font-mono">@{startup.xHandle}</span>
+            <ArrowUpRight className="size-3" aria-hidden />
           </a>
         ) : null}
       </footer>

@@ -13,6 +13,8 @@
 import { useMemo, useState } from "react";
 import { ExternalLink } from "lucide-react";
 import { getRelativeTime } from "@/lib/utils";
+import type { FreshnessSnapshot } from "@/lib/source-health";
+import { FreshnessChips } from "./FreshnessChips";
 import {
   MENTION_SOURCE_BADGE_TEXT,
   MENTION_SOURCE_COLORS,
@@ -27,9 +29,16 @@ import {
 
 interface RecentMentionsFeedProps {
   mentions: MentionItem[];
+  /**
+   * Optional per-source scanner freshness. When provided, a chip row
+   * renders above the tab bar so users can see whether each channel was
+   * scanned minutes or days ago. Omitting it hides the row entirely so
+   * existing callers continue to render without change.
+   */
+  freshness?: FreshnessSnapshot;
 }
 
-export function RecentMentionsFeed({ mentions }: RecentMentionsFeedProps) {
+export function RecentMentionsFeed({ mentions, freshness }: RecentMentionsFeedProps) {
   const [tab, setTab] = useState<MentionTab>("all");
 
   // Build per-source counts + visible list memoized so tab clicks don't
@@ -41,6 +50,7 @@ export function RecentMentionsFeed({ mentions }: RecentMentionsFeedProps) {
       bluesky: 0,
       devto: 0,
       ph: 0,
+      twitter: 0,
     };
     for (const m of mentions) c[m.source] += 1;
     return c;
@@ -69,6 +79,16 @@ export function RecentMentionsFeed({ mentions }: RecentMentionsFeedProps) {
           {visible.length} shown / {totalCount} total
         </span>
       </header>
+
+      {/* Freshness chips — per-source "last scan" strip. Renders only when
+          a freshness snapshot is passed in, so existing callers stay
+          unaffected. Placed above the tab bar so the chips read as a
+          legend for the tabs directly below. */}
+      {freshness ? (
+        <div className="mb-2">
+          <FreshnessChips sources={freshness.sources} />
+        </div>
+      ) : null}
 
       {/* Tabs — horizontal scroll on narrow viewports so they don't wrap
           mid-label. Touch targets ≥ 36px high which keeps the row reachable

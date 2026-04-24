@@ -2,10 +2,22 @@ import type { JSX } from "react";
 import { Download, ExternalLink, Package, TrendingUp } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { NpmPackageRow } from "@/lib/npm";
+import type { DailyDownload } from "@/lib/npm-daily";
 import { cn, formatNumber, getRelativeTime } from "@/lib/utils";
 
 interface NpmAdoptionPanelProps {
   packages: NpmPackageRow[];
+  /**
+   * Optional 30-day daily-download series keyed by package name.
+   * Populated server-side from .data/npm-daily.jsonl; when absent the panel
+   * just skips the sparkline (graceful fallback for cold-boot / tests).
+   */
+  dailyDownloads?: Record<string, DailyDownload[]>;
+  /**
+   * Optional dependents counts keyed by package name. `null` means
+   * "known-unknown" (npm has no reliable public API) — don't render.
+   */
+  dependentsByPackage?: Record<string, number | null>;
 }
 
 type DownloadWindow = "24h" | "7d" | "30d";
@@ -79,8 +91,55 @@ function deltaClass(delta: number): string {
   return "text-text-tertiary";
 }
 
+/**
+ * Render a compact 30-day sparkline as an inline SVG polyline.
+ *
+ * Zero-width stroke / zero-only series render as a flat mid-line rather
+ * than a div-by-zero NaN. Color + dimensions stay in the terminal palette
+ * (text-text-tertiary, no new accent).
+ */
+function Sparkline({ series }: { series: DailyDownload[] }): JSX.Element | null {
+  if (series.length < 2) return null;
+  const width = 160;
+  const height = 36;
+  const pad = 2;
+  const values = series.map((point) => point.downloads);
+  const max = Math.max(...values);
+  const min = Math.min(...values);
+  const range = max - min || 1;
+  const stepX = (width - pad * 2) / (series.length - 1);
+  const points = series
+    .map((point, idx) => {
+      const x = pad + idx * stepX;
+      const y = height - pad - ((point.downloads - min) / range) * (height - pad * 2);
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    })
+    .join(" ");
+  return (
+    <svg
+      aria-hidden
+      width={width}
+      height={height}
+      viewBox={`0 0 ${width} ${height}`}
+      className="text-text-tertiary"
+      role="img"
+    >
+      <polyline
+        points={points}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.25"
+        strokeLinejoin="round"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 export function NpmAdoptionPanel({
   packages,
+  dailyDownloads,
+  dependentsByPackage,
 }: NpmAdoptionPanelProps): JSX.Element | null {
   if (packages.length === 0) return null;
 
@@ -97,6 +156,8 @@ export function NpmAdoptionPanel({
       return b.downloads24h - a.downloads24h;
     });
   const topPackage = rankedPackages[0];
+  const topSeries =
+    topPackage && dailyDownloads ? dailyDownloads[topPackage.name] ?? null : null;
 
   return (
     <section
@@ -171,27 +232,50 @@ export function NpmAdoptionPanel({
           </thead>
           <tbody className="divide-y divide-border-primary/50">
             {rankedPackages.slice(0, 5).map((pkg) => (
-              <PackageRow key={pkg.name} pkg={pkg} />
+              <PackageRow
+                key={pkg.name}
+                pkg={pkg}
+                dependents={dependentsByPackage?.[pkg.name] ?? null}
+              />
             ))}
           </tbody>
         </table>
       </div>
 
       {topPackage && (
-        <p className="mt-3 text-[11px] text-text-tertiary">
-          Leading package:{" "}
-          <span className="text-text-secondary">{topPackage.name}</span> with{" "}
-          <span className="font-mono text-text-primary tabular-nums">
-            {formatNumber(topPackage.downloads7d)}
-          </span>{" "}
-          downloads in 7d.
-        </p>
+        <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-text-tertiary">
+          <p className="flex items-center gap-1">
+            Leading package:{" "}
+            <span className="text-text-secondary">{topPackage.name}</span> with{" "}
+            <span className="font-mono text-text-primary tabular-nums">
+              {formatNumber(topPackage.downloads7d)}
+            </span>{" "}
+            downloads in 7d.
+          </p>
+          {topSeries && topSeries.length >= 2 && (
+            <span
+              className="inline-flex items-center gap-1"
+              title={`${topPackage.name} — last ${topSeries.length} days of downloads`}
+            >
+              <span className="font-mono text-[10px] uppercase tracking-wider">
+                30d
+              </span>
+              <Sparkline series={topSeries} />
+            </span>
+          )}
+        </div>
       )}
     </section>
   );
 }
 
-function PackageRow({ pkg }: { pkg: NpmPackageRow }) {
+function PackageRow({
+  pkg,
+  dependents,
+}: {
+  pkg: NpmPackageRow;
+  dependents: number | null;
+}) {
   return (
     <tr className="text-sm text-text-secondary">
       <td className="py-3 pr-3">
@@ -205,6 +289,14 @@ function PackageRow({ pkg }: { pkg: NpmPackageRow }) {
           <span className="truncate">{pkg.name}</span>
           <ExternalLink className="size-3 shrink-0 text-text-tertiary" />
         </a>
+        {dependents != null && dependents > 0 && (
+          <span
+            className="ml-1 font-mono text-[10px] text-text-tertiary tabular-nums"
+            title={`${formatNumber(dependents)} packages depend on ${pkg.name}`}
+          >
+            {"·"} {formatNumber(dependents)} deps
+          </span>
+        )}
         {pkg.description && (
           <p className="mt-0.5 max-w-[320px] truncate text-[11px] text-text-tertiary">
             {pkg.description}

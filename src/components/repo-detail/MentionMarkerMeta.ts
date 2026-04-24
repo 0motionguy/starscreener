@@ -1,4 +1,10 @@
-export type MentionPlatform = "hn" | "reddit" | "bluesky" | "devto" | "ph";
+export type MentionPlatform =
+  | "hn"
+  | "reddit"
+  | "bluesky"
+  | "devto"
+  | "ph"
+  | "twitter";
 
 export interface MentionMarker {
   id: string;
@@ -20,6 +26,7 @@ export const MENTION_PLATFORM_LABELS: Record<MentionPlatform, string> = {
   bluesky: "Bluesky",
   devto: "dev.to",
   ph: "ProductHunt",
+  twitter: "Twitter",
 };
 
 export const MENTION_PLATFORM_COLORS: Record<MentionPlatform, string> = {
@@ -28,4 +35,5 @@ export const MENTION_PLATFORM_COLORS: Record<MentionPlatform, string> = {
   bluesky: "#0085FF",
   devto: "#0a0a0a",
   ph: "#DA552F",
+  twitter: "#1d9bf0",
 };

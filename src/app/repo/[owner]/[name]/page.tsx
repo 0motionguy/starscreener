@@ -43,8 +43,14 @@ import { RepoSignalSnapshot } from "@/components/repo-detail/RepoSignalSnapshot"
 import { ProjectSurfaceMap } from "@/components/repo-detail/ProjectSurfaceMap";
 import { NpmAdoptionPanel } from "@/components/repo-detail/NpmAdoptionPanel";
 import { RepoActionRow } from "@/components/repo-detail/RepoActionRow";
+import { RepoReactions } from "@/components/reactions/RepoReactions";
+import {
+  countReactions,
+  listReactionsForObject,
+} from "@/lib/reactions";
 import { MaintainerCard } from "@/components/repo-detail/MaintainerCard";
 import { getTwitterRepoPanel } from "@/lib/twitter/service";
+import type { TwitterRepoPanel } from "@/lib/twitter/types";
 import { TwitterSignalPanel } from "@/components/twitter/TwitterSignalPanel";
 import {
   getRevenueOverlay,
@@ -52,6 +58,15 @@ import {
   getTrustmrrClaimOverlay,
 } from "@/lib/revenue-overlays";
 import { RepoRevenuePanel } from "@/components/repo-detail/RepoRevenuePanel";
+import { WhyTrending } from "@/components/repo-detail/WhyTrending";
+import { getRepoReasons } from "@/lib/repo-reasons";
+import { FundingPanel } from "@/components/repo-detail/FundingPanel";
+import { getFundingEventsForRepo } from "@/lib/funding/repo-events";
+import { getFreshnessSnapshot } from "@/lib/source-health";
+import { RelatedReposPanel } from "@/components/repo-detail/RelatedReposPanel";
+import { getRelatedReposFor } from "@/lib/repo-related";
+import { getDailyDownloadsForPackage } from "@/lib/npm-daily";
+import { getNpmDependentsCount } from "@/lib/npm-dependents";
 
 // force-dynamic: the page aggregates per-source mention JSON at request
 // time and has ~thousands of possible (owner, name) tuples. Static
@@ -136,7 +151,10 @@ export async function generateMetadata({
  * the merged list sorted by recency desc; the client tab component then
  * filters by source on demand.
  */
-function buildMentions(fullName: string): MentionItem[] {
+function buildMentions(
+  fullName: string,
+  twitterPanel: TwitterRepoPanel | null,
+): MentionItem[] {
   const out: MentionItem[] = [];
 
   // Reddit — top 5 by score, but enriched posts have createdUtc which we
@@ -234,6 +252,26 @@ function buildMentions(fullName: string): MentionItem[] {
     });
   }
 
+  // Twitter — per-post detail from the repo panel's topPosts preview list.
+  // Engagement is already rolled (likes + reposts + replies + quotes) by
+  // the scoring layer, so we surface it as the primary metric.
+  if (twitterPanel) {
+    for (const p of twitterPanel.topPosts.slice(0, 50)) {
+      const handle = p.authorHandle.replace(/^@+/, "");
+      out.push({
+        id: `twitter-${p.postId}`,
+        source: "twitter",
+        title: p.text,
+        author: `@${handle}`,
+        score: p.engagement,
+        scoreLabel: "engagement",
+        url: p.postUrl,
+        createdAt: p.postedAt,
+        matchReason: p.whyMatched || `twitter · ${p.matchedBy}`,
+      });
+    }
+  }
+
   return out.sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
 }
 
@@ -249,9 +287,22 @@ export default async function RepoDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  const mentions = buildMentions(repo.fullName);
   const twitterPanel = await getTwitterRepoPanel(repo.fullName);
+  const mentions = buildMentions(repo.fullName, twitterPanel);
+  const freshness = getFreshnessSnapshot();
+  const whyTrendingReasons = getRepoReasons(repo.fullName);
+  const fundingEvents = getFundingEventsForRepo(repo.fullName);
   const npmPackages = getNpmPackagesForRepo(repo.fullName);
+  // Per-package 30d daily downloads + dependents — both read from local
+  // JSONL/JSON snapshots produced by scripts/scrape-npm-daily.mjs. Absent
+  // packages render a sparkline of zeros and no dep badge; no network call.
+  const npmDailyDownloads: Record<string, { date: string; downloads: number }[]> = {};
+  const npmDependentsByPackage: Record<string, number | null> = {};
+  for (const pkg of npmPackages) {
+    npmDailyDownloads[pkg.name] = getDailyDownloadsForPackage(pkg.name);
+    npmDependentsByPackage[pkg.name] = getNpmDependentsCount(pkg.name);
+  }
+  const relatedRepos = getRelatedReposFor(repo.fullName);
   const productHuntLaunch = getLaunchForRepo(repo.fullName);
   // Verified overlay (from the TrustMRR catalog sync) and, separately, an
   // approved TrustMRR-link claim that has not yet been matched by the sync.
@@ -263,6 +314,12 @@ export default async function RepoDetailPage({ params }: PageProps) {
     ? null
     : getTrustmrrClaimOverlay(repo.fullName);
   const selfReportedOverlay = getSelfReportedOverlay(repo.fullName);
+  // Server-render the reaction counts so the strip below the action row
+  // shows real numbers on first paint instead of zeros + a spinner. The
+  // client component still re-fetches if a user takes any action.
+  const initialReactionCounts = countReactions(
+    await listReactionsForObject("repo", repo.fullName),
+  );
   // Cross-channel marker dots for the Stars chart — pre-built server-side
   // so the client RepoDetailChart bundle stays free of every per-source
   // mentions JSON.
@@ -366,10 +423,16 @@ export default async function RepoDetailPage({ params }: PageProps) {
             />
           </div>
           <RepoActionRow repo={repo} />
+          <RepoReactions
+            repoFullName={repo.fullName}
+            initialCounts={initialReactionCounts}
+          />
           {/*
-            Signal-first layout: metrics and evidence first; mentions stay as
-            dots on the chart, with the full mention feed above diagnostics.
+            Signal-first layout: "Why Trending" answers the user's first
+            question (why should I care?) above the quantitative snapshot.
+            Renders null when no reasons are available for this repo.
           */}
+          <WhyTrending reasons={whyTrendingReasons} />
           <RepoSignalSnapshot
             repo={repo}
             mentions={mentions}
@@ -382,13 +445,18 @@ export default async function RepoDetailPage({ params }: PageProps) {
             selfReported={selfReportedOverlay}
             trustmrrClaim={trustmrrClaimOverlay}
           />
+          <FundingPanel events={fundingEvents} />
 
           <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_420px] gap-6">
             <RepoDetailStatsStrip repo={repo} />
             <RepoDetailStats repo={repo} />
           </div>
 
-          <NpmAdoptionPanel packages={npmPackages} />
+          <NpmAdoptionPanel
+            packages={npmPackages}
+            dailyDownloads={npmDailyDownloads}
+            dependentsByPackage={npmDependentsByPackage}
+          />
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <ProjectSurfaceMap
@@ -399,7 +467,8 @@ export default async function RepoDetailPage({ params }: PageProps) {
             <CrossSignalBreakdown repo={repo} />
           </div>
 
-          <RecentMentionsFeed mentions={mentions} />
+          <RecentMentionsFeed mentions={mentions} freshness={freshness} />
+          <RelatedReposPanel items={relatedRepos} />
           <RepoDetailChart repo={repo} markers={markers} />
           {twitterPanel ? <TwitterSignalPanel panel={twitterPanel} /> : null}
         </div>

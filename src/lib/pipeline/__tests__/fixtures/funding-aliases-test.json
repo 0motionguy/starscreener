@@ -1,0 +1,29 @@
+{
+  "generatedAt": "2026-04-24T00:00:00.000Z",
+  "entries": [
+    {
+      "repoFullName": "huggingface/transformers",
+      "aliases": ["Hugging Face", "HuggingFace", "HF"],
+      "domains": ["huggingface.co"]
+    },
+    {
+      "repoFullName": "anthropics/claude-code",
+      "aliases": ["Anthropic", "Anthropic PBC"],
+      "domains": ["anthropic.com"]
+    },
+    {
+      "repoFullName": "malformed/no-arrays",
+      "aliases": "not-an-array",
+      "domains": 123
+    },
+    {
+      "repoFullName": "has-no-slash-sep",
+      "aliases": ["Bad"],
+      "domains": ["bad.com"]
+    },
+    {
+      "aliases": ["Missing RepoFullName"],
+      "domains": ["missing.com"]
+    }
+  ]
+}

@@ -1,4 +1,10 @@
-export type MentionSource = "reddit" | "hn" | "bluesky" | "devto" | "ph";
+export type MentionSource =
+  | "reddit"
+  | "hn"
+  | "bluesky"
+  | "devto"
+  | "ph"
+  | "twitter";
 
 export interface MentionItem {
   /** Unique enough across the merged feed. Source + native id. */
@@ -25,6 +31,7 @@ export const MENTION_TABS = [
   "reddit",
   "hn",
   "bluesky",
+  "twitter",
   "devto",
   "ph",
 ] as const;
@@ -37,6 +44,7 @@ export const MENTION_SOURCE_LABELS: Record<MentionSource, string> = {
   bluesky: "Bluesky",
   devto: "dev.to",
   ph: "ProductHunt",
+  twitter: "Twitter",
 };
 
 export const MENTION_TAB_LABELS: Record<MentionTab, string> = {
@@ -50,6 +58,7 @@ export const MENTION_SOURCE_COLORS: Record<MentionSource, string> = {
   bluesky: "#0085FF",
   devto: "#0a0a0a",
   ph: "#DA552F",
+  twitter: "#1d9bf0",
 };
 
 export const MENTION_SOURCE_BADGE_TEXT: Record<MentionSource, string> = {
@@ -58,6 +67,7 @@ export const MENTION_SOURCE_BADGE_TEXT: Record<MentionSource, string> = {
   bluesky: "B",
   devto: "DEV",
   ph: "P",
+  twitter: "X",
 };
 
 export const MENTION_SOURCE_SHORT_LABEL: Record<MentionSource, string> = {
@@ -66,4 +76,5 @@ export const MENTION_SOURCE_SHORT_LABEL: Record<MentionSource, string> = {
   bluesky: "bsky",
   devto: "dev.to",
   ph: "ph",
+  twitter: "x",
 };

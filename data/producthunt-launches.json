@@ -1,5 +1,5 @@
 {
-  "lastFetchedAt": "2026-04-24T13:54:37.872Z",
+  "lastFetchedAt": "2026-04-24T16:08:32.366Z",
   "windowDays": 7,
   "launches": [
     {
@@ -9,8 +9,8 @@
       "description": "Product Hunt is home to countless products and the people who love them. We built Ask to help you make sense of it all. It's an AI assistant that answers your product questions using Product Hunt data, whether you're picking a new tool, comparing alternatives, or seeing what's trending.",
       "url": "https://www.producthunt.com/products/producthunt?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
       "website": "https://www.producthunt.com/r/GI5LL6C432KXQP",
-      "votesCount": 273,
-      "commentsCount": 16,
+      "votesCount": 330,
+      "commentsCount": 17,
       "createdAt": "2026-04-24T07:01:00Z",
       "thumbnail": "https://ph-files.imgix.net/d618ea86-70ae-4d12-8ec2-0ed78c723ddf.png?auto=format",
       "topics": [
@@ -111,35 +111,12 @@
       "description": "DeepSeek-V4 Preview is a new series of highly efficient MoE language models, featuring V4-Pro (1.6T params) and V4-Flash (284B params). Both models support a 1 million token context window by default, utilizing a novel hybrid attention architecture to drastically reduce compute and memory costs.",
       "url": "https://www.producthunt.com/products/deepseek?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
       "website": "https://www.producthunt.com/r/LNIDLCQSIWWNBY",
-      "votesCount": 187,
+      "votesCount": 227,
       "commentsCount": 1,
       "createdAt": "2026-04-24T07:01:00Z",
       "thumbnail": "https://ph-files.imgix.net/9d823c04-85e6-4010-a80e-52c793e0e20b.png?auto=format",
       "topics": [
         "open-source",
-        "artificial-intelligence",
-        "development"
-      ],
-      "makers": [],
-      "githubUrl": null,
-      "xUrl": null,
-      "linkedRepo": null,
-      "daysSinceLaunch": 0,
-      "aiAdjacent": true
-    },
-    {
-      "id": "1130897",
-      "name": "Codex 3.0 by OpenAI",
-      "tagline": "Codex can now build, test & debug on autopilot",
-      "description": "With GPT-5.5, Codex evolves into a true cross-app coding agent—navigating browsers, interacting with web apps, generating docs in Microsoft Office and Google Drive, and testing workflows like a real user. It sees, clicks, debugs, and iterates autonomously, bringing developers closer to reliable, end-to-end automated builds.",
-      "url": "https://www.producthunt.com/products/codex-3-0-by-openai?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
-      "website": "https://www.producthunt.com/r/K4XVK5YID57ZXD",
-      "votesCount": 175,
-      "commentsCount": 1,
-      "createdAt": "2026-04-24T07:01:00Z",
-      "thumbnail": "https://ph-files.imgix.net/42d06a08-8bb0-4720-aa1a-99105bfe34ab.png?auto=format",
-      "topics": [
-        "developer-tools",
         "artificial-intelligence",
         "development"
       ],
@@ -157,8 +134,8 @@
       "description": "Beezi AI is a platform for orchestration of AI-driven software development. It helps teams structure tickets for better prompts, route tasks to the right models, and track AI usage and costs in real time. With the Analytics Hub, Smart Ticket System, and Model Routing Optimizer, teams reduce rework, control AI spend, and scale development with predictable, measurable outcomes. Beezi supports secure on-prem or private cloud deployment with full control over data and models.",
       "url": "https://www.producthunt.com/products/beezi-ai?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
       "website": "https://www.producthunt.com/r/YN3R4RYHINMUIO",
-      "votesCount": 164,
-      "commentsCount": 19,
+      "votesCount": 206,
+      "commentsCount": 26,
       "createdAt": "2026-04-24T07:01:00Z",
       "thumbnail": "https://ph-files.imgix.net/6d8cb396-8768-4504-bb3b-9bd9d2751a02.jpeg?auto=format",
       "topics": [
@@ -199,14 +176,37 @@
       "aiAdjacent": true
     },
     {
+      "id": "1130897",
+      "name": "Codex 3.0 by OpenAI",
+      "tagline": "Codex can now build, test & debug on autopilot",
+      "description": "With GPT-5.5, Codex evolves into a true cross-app coding agent—navigating browsers, interacting with web apps, generating docs in Microsoft Office and Google Drive, and testing workflows like a real user. It sees, clicks, debugs, and iterates autonomously, bringing developers closer to reliable, end-to-end automated builds.",
+      "url": "https://www.producthunt.com/products/codex-3-0-by-openai?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
+      "website": "https://www.producthunt.com/r/K4XVK5YID57ZXD",
+      "votesCount": 200,
+      "commentsCount": 1,
+      "createdAt": "2026-04-24T07:01:00Z",
+      "thumbnail": "https://ph-files.imgix.net/42d06a08-8bb0-4720-aa1a-99105bfe34ab.png?auto=format",
+      "topics": [
+        "developer-tools",
+        "artificial-intelligence",
+        "development"
+      ],
+      "makers": [],
+      "githubUrl": null,
+      "xUrl": null,
+      "linkedRepo": null,
+      "daysSinceLaunch": 0,
+      "aiAdjacent": true
+    },
+    {
       "id": "1130495",
       "name": "Spira AI",
       "tagline": "AI Influencer that always on trend, create & grow your brand",
       "description": "Built by the teams behind Creatify AI, TikTok, CapCut, Meta, Snap and Midjourney — Spira gives you autonomous AI Influencers that run your social media end-to-end 24/7. They catch trends before they peak, create content in your voice, and publish across TikTok, Instagram, X and more. You stay in control through your preferred chat app — or let them run completely on their own. 10M+ impressions before public launch. Your first AI Influencer is less than 10 minutes away.",
       "url": "https://www.producthunt.com/products/spira-ai?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
       "website": "https://www.producthunt.com/r/D743QQ3IXGGKG5",
-      "votesCount": 148,
-      "commentsCount": 18,
+      "votesCount": 172,
+      "commentsCount": 21,
       "createdAt": "2026-04-24T07:01:00Z",
       "thumbnail": "https://ph-files.imgix.net/c33daa3c-5081-4c13-9202-a121562e4ed3.png?auto=format",
       "topics": [
@@ -265,22 +265,46 @@
       "aiAdjacent": true
     },
     {
-      "id": "1130159",
-      "name": "Google Workspace Intelligence",
-      "tagline": "AI that understands and powers your Workspace",
-      "description": "Workspace Intelligence bridges the gap between your Workspace apps, your active projects, your collaborators, and your organization’s domain knowledge.",
-      "url": "https://www.producthunt.com/products/google?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
-      "website": "https://www.producthunt.com/r/KVV44MWDJJZ2G2",
-      "votesCount": 117,
-      "commentsCount": 1,
+      "id": "1123814",
+      "name": "BAND",
+      "tagline": "Coordinate and govern multi-agent work in a single chat",
+      "description": "BAND helps teams enable and govern interaction across distributed AI agents and human teams. Through a shared interaction layer, it supports real-time multi-peer collaboration with built-in governance, giving organizations a structured way to manage how agents communicate and coordinate. Unlike orchestration tools or agent frameworks, BAND governs the interaction layer itself, reducing fragmentation and making collaboration reliable at scale.",
+      "url": "https://www.producthunt.com/products/band?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
+      "website": "https://www.producthunt.com/r/CELK3VCRNFQ6LX",
+      "votesCount": 132,
+      "commentsCount": 7,
       "createdAt": "2026-04-24T07:01:00Z",
-      "thumbnail": "https://ph-files.imgix.net/f27f20c5-816f-4210-bbfa-8bdf797ffa3b.jpeg?auto=format",
+      "thumbnail": "https://ph-files.imgix.net/67c7f125-c3f8-40f8-8e6b-e68203133776.png?auto=format",
       "topics": [
+        "software-engineering",
         "developer-tools",
-        "artificial-intelligence",
-        "tech"
+        "artificial-intelligence"
       ],
       "makers": [
+        {
+          "name": "[REDACTED]",
+          "username": "[REDACTED]",
+          "twitterUsername": null,
+          "websiteUrl": null
+        },
+        {
+          "name": "[REDACTED]",
+          "username": "[REDACTED]",
+          "twitterUsername": null,
+          "websiteUrl": null
+        },
+        {
+          "name": "[REDACTED]",
+          "username": "[REDACTED]",
+          "twitterUsername": null,
+          "websiteUrl": null
+        },
+        {
+          "name": "[REDACTED]",
+          "username": "[REDACTED]",
+          "twitterUsername": null,
+          "websiteUrl": null
+        },
         {
           "name": "[REDACTED]",
           "username": "[REDACTED]",
@@ -301,7 +325,7 @@
       "description": "An AI music creation studio that connects to all your VSTs — right in your browser. Mozart can now use tools — your plugins, your sounds. Start with a hum, build layer by layer with instruments or AI, and go from inspiration to a professional-sounding finished song.",
       "url": "https://www.producthunt.com/products/mozart-ai?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
       "website": "https://www.producthunt.com/r/SC7GHDBAR4TZWJ",
-      "votesCount": 112,
+      "votesCount": 125,
       "commentsCount": 15,
       "createdAt": "2026-04-24T07:01:00Z",
       "thumbnail": "https://ph-files.imgix.net/1a032952-2c24-4f4e-a899-b8ad286387f3.png?auto=format",
@@ -349,46 +373,22 @@
       "aiAdjacent": true
     },
     {
-      "id": "1123814",
-      "name": "BAND",
-      "tagline": "Coordinate and govern multi-agent work in a single chat",
-      "description": "BAND helps teams enable and govern interaction across distributed AI agents and human teams. Through a shared interaction layer, it supports real-time multi-peer collaboration with built-in governance, giving organizations a structured way to manage how agents communicate and coordinate. Unlike orchestration tools or agent frameworks, BAND governs the interaction layer itself, reducing fragmentation and making collaboration reliable at scale.",
-      "url": "https://www.producthunt.com/products/band?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
-      "website": "https://www.producthunt.com/r/CELK3VCRNFQ6LX",
-      "votesCount": 112,
-      "commentsCount": 5,
+      "id": "1130159",
+      "name": "Google Workspace Intelligence",
+      "tagline": "AI that understands and powers your Workspace",
+      "description": "Workspace Intelligence bridges the gap between your Workspace apps, your active projects, your collaborators, and your organization’s domain knowledge.",
+      "url": "https://www.producthunt.com/products/google?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
+      "website": "https://www.producthunt.com/r/KVV44MWDJJZ2G2",
+      "votesCount": 124,
+      "commentsCount": 1,
       "createdAt": "2026-04-24T07:01:00Z",
-      "thumbnail": "https://ph-files.imgix.net/67c7f125-c3f8-40f8-8e6b-e68203133776.png?auto=format",
+      "thumbnail": "https://ph-files.imgix.net/f27f20c5-816f-4210-bbfa-8bdf797ffa3b.jpeg?auto=format",
       "topics": [
-        "software-engineering",
         "developer-tools",
-        "artificial-intelligence"
+        "artificial-intelligence",
+        "tech"
       ],
       "makers": [
-        {
-          "name": "[REDACTED]",
-          "username": "[REDACTED]",
-          "twitterUsername": null,
-          "websiteUrl": null
-        },
-        {
-          "name": "[REDACTED]",
-          "username": "[REDACTED]",
-          "twitterUsername": null,
-          "websiteUrl": null
-        },
-        {
-          "name": "[REDACTED]",
-          "username": "[REDACTED]",
-          "twitterUsername": null,
-          "websiteUrl": null
-        },
-        {
-          "name": "[REDACTED]",
-          "username": "[REDACTED]",
-          "twitterUsername": null,
-          "websiteUrl": null
-        },
         {
           "name": "[REDACTED]",
           "username": "[REDACTED]",
@@ -409,8 +409,8 @@
       "description": "AI video editor that applies expert techniques automatically. Punch zooms, smart B-roll, kinetic text, sound design—upload raw footage, download professional videos.",
       "url": "https://www.producthunt.com/products/bansi?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
       "website": "https://www.producthunt.com/r/RKXS4Z2W6UIQFR",
-      "votesCount": 106,
-      "commentsCount": 24,
+      "votesCount": 110,
+      "commentsCount": 25,
       "createdAt": "2026-04-24T07:01:00Z",
       "thumbnail": "https://ph-files.imgix.net/6c4dc2f7-236f-4757-a682-994a769c40f9.png?auto=format",
       "topics": [
@@ -481,7 +481,7 @@
       "description": "Onboarding0 turns your scattered company knowledge into a structured AI onboarding system. Connect your docs, map your org, and an AI agent guides every new hire to productivity. Built for humans today — the knowledge backbone for AI agents tomorrow.",
       "url": "https://www.producthunt.com/products/onboarding0?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
       "website": "https://www.producthunt.com/r/K276P7S4QR5NQ3",
-      "votesCount": 86,
+      "votesCount": 91,
       "commentsCount": 15,
       "createdAt": "2026-04-24T07:01:00Z",
       "thumbnail": "https://ph-files.imgix.net/06d83165-7544-471d-8f0f-d4f6d69368b2.vnd.microsoft.icon?auto=format",
@@ -505,43 +505,13 @@
       "aiAdjacent": true
     },
     {
-      "id": "1130673",
-      "name": "NotchNest AI",
-      "tagline": "AI powered by Apple Intelligence now in your Notch",
-      "description": "NotchNest AI turns your MacBook's notch into a smart productivity hub, powered by on-device Apple Intelligence. Daily Brief AI summarizes your calendar. AI Clipboard Manager saves, rephrases, and summarizes everything you copy. AI Quick Notes captures and refines your ideas instantly. Plus music control, file tray, bookmarks, Pomodoro timer, AirDrop, camera mirror, and more. No cloud. No subscriptions. Your data never leaves your Mac.",
-      "url": "https://www.producthunt.com/products/notchnest-quick-access-hub?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
-      "website": "https://www.producthunt.com/r/DDC63Y6BGM77S7",
-      "votesCount": 83,
-      "commentsCount": 3,
-      "createdAt": "2026-04-24T07:01:00Z",
-      "thumbnail": "https://ph-files.imgix.net/d6e9c2bd-fc7d-47fc-88d0-74718bb9be5c.png?auto=format",
-      "topics": [
-        "productivity",
-        "artificial-intelligence",
-        "apple"
-      ],
-      "makers": [
-        {
-          "name": "[REDACTED]",
-          "username": "[REDACTED]",
-          "twitterUsername": null,
-          "websiteUrl": null
-        }
-      ],
-      "githubUrl": null,
-      "xUrl": null,
-      "linkedRepo": null,
-      "daysSinceLaunch": 0,
-      "aiAdjacent": true
-    },
-    {
       "id": "1130580",
       "name": "Nordcraft 2.0",
       "tagline": "I design agent with full HTML/CSS control and SSR",
       "description": "Nordcraft 2.0 adds a powerful AI Agent to the visual website builder. Up to 6x faster than Claude Code and Lovable and with a visual interface that lets you ship with absolute confidence.",
       "url": "https://www.producthunt.com/products/toddle?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
       "website": "https://www.producthunt.com/r/ABA6VNXTLIDJHC",
-      "votesCount": 82,
+      "votesCount": 87,
       "commentsCount": 6,
       "createdAt": "2026-04-24T07:01:00Z",
       "thumbnail": "https://ph-files.imgix.net/83c640f1-90d2-4b64-861e-40b2f58777ca.png?auto=format",
@@ -571,13 +541,43 @@
       "aiAdjacent": true
     },
     {
+      "id": "1130673",
+      "name": "NotchNest AI",
+      "tagline": "AI powered by Apple Intelligence now in your Notch",
+      "description": "NotchNest AI turns your MacBook's notch into a smart productivity hub, powered by on-device Apple Intelligence. Daily Brief AI summarizes your calendar. AI Clipboard Manager saves, rephrases, and summarizes everything you copy. AI Quick Notes captures and refines your ideas instantly. Plus music control, file tray, bookmarks, Pomodoro timer, AirDrop, camera mirror, and more. No cloud. No subscriptions. Your data never leaves your Mac.",
+      "url": "https://www.producthunt.com/products/notchnest-quick-access-hub?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
+      "website": "https://www.producthunt.com/r/DDC63Y6BGM77S7",
+      "votesCount": 85,
+      "commentsCount": 3,
+      "createdAt": "2026-04-24T07:01:00Z",
+      "thumbnail": "https://ph-files.imgix.net/d6e9c2bd-fc7d-47fc-88d0-74718bb9be5c.png?auto=format",
+      "topics": [
+        "productivity",
+        "artificial-intelligence",
+        "apple"
+      ],
+      "makers": [
+        {
+          "name": "[REDACTED]",
+          "username": "[REDACTED]",
+          "twitterUsername": null,
+          "websiteUrl": null
+        }
+      ],
+      "githubUrl": null,
+      "xUrl": null,
+      "linkedRepo": null,
+      "daysSinceLaunch": 0,
+      "aiAdjacent": true
+    },
+    {
       "id": "1130787",
       "name": "LifeOS",
       "tagline": "Turn your AI chats/memory to intros with real humans",
       "description": "🧠 Claude & ChatGPT know you better than you know yourself. Nobody's using that. Until now. Every 2am vent. Every idea you've never said out loud. That's the most honest map of you that exists. 🗺️ LifeOS reads your private AI memory → finds the one human who changes your life. 🔗 👤 One prompt. Co-founder, life partner, 3am friend — you name it. 🎯 We make the intro.",
       "url": "https://www.producthunt.com/products/lifeos-6?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
       "website": "https://www.producthunt.com/r/ARYTQSKIQC4LCR",
-      "votesCount": 75,
+      "votesCount": 79,
       "commentsCount": 5,
       "createdAt": "2026-04-24T07:01:00Z",
       "thumbnail": "https://ph-files.imgix.net/cf306518-9973-438f-bb71-ae96e98bcb92.png?auto=format",
@@ -607,80 +607,13 @@
       "aiAdjacent": true
     },
     {
-      "id": "1130694",
-      "name": "Universal Gas Framework (UGF)",
-      "tagline": "Route Actions, Not Liquidity",
-      "description": "UGF introduces Remote Transactions, where source-chain value becomes destination-chain action. Built for AI agents, dApps, wallets, and cross-chain apps, it avoids bridging liquidity, destination-chain prefunding, and ERC-4337/paymaster complexity through a signer-authenticated Value-to-Action API.",
-      "url": "https://www.producthunt.com/products/universal-gas-framework-ugf?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
-      "website": "https://www.producthunt.com/r/FRYCDNV5V63RAA",
-      "votesCount": 67,
-      "commentsCount": 0,
-      "createdAt": "2026-04-24T07:01:00Z",
-      "thumbnail": "https://ph-files.imgix.net/46dfdfd2-e5fb-4ed7-b6cb-8c738def342e.png?auto=format",
-      "topics": [
-        "developer-tools",
-        "github",
-        "web3",
-        "blockchain"
-      ],
-      "makers": [
-        {
-          "name": "[REDACTED]",
-          "username": "[REDACTED]",
-          "twitterUsername": null,
-          "websiteUrl": null
-        },
-        {
-          "name": "[REDACTED]",
-          "username": "[REDACTED]",
-          "twitterUsername": null,
-          "websiteUrl": null
-        }
-      ],
-      "githubUrl": null,
-      "xUrl": null,
-      "linkedRepo": null,
-      "daysSinceLaunch": 0,
-      "aiAdjacent": true
-    },
-    {
-      "id": "1120877",
-      "name": "Emotional intelligence AI for live calls",
-      "tagline": "Emotional intelligence AI for live sales calls",
-      "description": "Amotions AI builds emotionally intelligent AI agents that provide live in-call and post-call guidance, and pre-call prep and roleplay to boost win rates and cut ramp time, starting with sales and expanding to other use cases. We are building the emotional intelligence infrastructure that turns every conversation into a success. Provides real-time coaching during live conversations, reinforcement of your sales process, objection handling and discovery guidance, show technical answers live.",
-      "url": "https://www.producthunt.com/products/emotional-intelligence-ai-for-live-calls?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
-      "website": "https://www.producthunt.com/r/A3RJ6XBXSMWGAR",
-      "votesCount": 66,
-      "commentsCount": 4,
-      "createdAt": "2026-04-24T07:01:00Z",
-      "thumbnail": "https://ph-files.imgix.net/9d131fd2-2851-4cdb-9140-b950a27cfb4e.png?auto=format",
-      "topics": [
-        "productivity",
-        "sales",
-        "artificial-intelligence"
-      ],
-      "makers": [
-        {
-          "name": "[REDACTED]",
-          "username": "[REDACTED]",
-          "twitterUsername": null,
-          "websiteUrl": null
-        }
-      ],
-      "githubUrl": null,
-      "xUrl": null,
-      "linkedRepo": null,
-      "daysSinceLaunch": 0,
-      "aiAdjacent": true
-    },
-    {
       "id": "1129182",
       "name": "Yutori Delegate",
       "tagline": "Why cowork when you can delegate?",
       "description": "Delegate is an eager AI agent that understands your context, never sleeps, never forgets anything, and loves busywork — research, coordination, monitoring, communication, admin, etc. Always-on, always yours. Throw tasks at it and move on. Come back to threads closed, research compiled, replies sent, follow-ups tracked.",
       "url": "https://www.producthunt.com/products/scouts-by-yutori?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
       "website": "https://www.producthunt.com/r/5UFFE2IHLT6WR2",
-      "votesCount": 65,
+      "votesCount": 71,
       "commentsCount": 2,
       "createdAt": "2026-04-24T07:01:00Z",
       "thumbnail": "https://ph-files.imgix.net/5359f4aa-7df8-489e-b952-0a925747cc71.png?auto=format",
@@ -763,6 +696,73 @@
       "aiAdjacent": true
     },
     {
+      "id": "1120877",
+      "name": "Emotional intelligence AI for live calls",
+      "tagline": "Emotional intelligence AI for live sales calls",
+      "description": "Amotions AI builds emotionally intelligent AI agents that provide live in-call and post-call guidance, and pre-call prep and roleplay to boost win rates and cut ramp time, starting with sales and expanding to other use cases. We are building the emotional intelligence infrastructure that turns every conversation into a success. Provides real-time coaching during live conversations, reinforcement of your sales process, objection handling and discovery guidance, show technical answers live.",
+      "url": "https://www.producthunt.com/products/emotional-intelligence-ai-for-live-calls?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
+      "website": "https://www.producthunt.com/r/A3RJ6XBXSMWGAR",
+      "votesCount": 69,
+      "commentsCount": 4,
+      "createdAt": "2026-04-24T07:01:00Z",
+      "thumbnail": "https://ph-files.imgix.net/9d131fd2-2851-4cdb-9140-b950a27cfb4e.png?auto=format",
+      "topics": [
+        "productivity",
+        "sales",
+        "artificial-intelligence"
+      ],
+      "makers": [
+        {
+          "name": "[REDACTED]",
+          "username": "[REDACTED]",
+          "twitterUsername": null,
+          "websiteUrl": null
+        }
+      ],
+      "githubUrl": null,
+      "xUrl": null,
+      "linkedRepo": null,
+      "daysSinceLaunch": 0,
+      "aiAdjacent": true
+    },
+    {
+      "id": "1130694",
+      "name": "Universal Gas Framework (UGF)",
+      "tagline": "Route Actions, Not Liquidity",
+      "description": "UGF introduces Remote Transactions, where source-chain value becomes destination-chain action. Built for AI agents, dApps, wallets, and cross-chain apps, it avoids bridging liquidity, destination-chain prefunding, and ERC-4337/paymaster complexity through a signer-authenticated Value-to-Action API.",
+      "url": "https://www.producthunt.com/products/universal-gas-framework-ugf?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
+      "website": "https://www.producthunt.com/r/FRYCDNV5V63RAA",
+      "votesCount": 68,
+      "commentsCount": 0,
+      "createdAt": "2026-04-24T07:01:00Z",
+      "thumbnail": "https://ph-files.imgix.net/46dfdfd2-e5fb-4ed7-b6cb-8c738def342e.png?auto=format",
+      "topics": [
+        "developer-tools",
+        "github",
+        "web3",
+        "blockchain"
+      ],
+      "makers": [
+        {
+          "name": "[REDACTED]",
+          "username": "[REDACTED]",
+          "twitterUsername": null,
+          "websiteUrl": null
+        },
+        {
+          "name": "[REDACTED]",
+          "username": "[REDACTED]",
+          "twitterUsername": null,
+          "websiteUrl": null
+        }
+      ],
+      "githubUrl": null,
+      "xUrl": null,
+      "linkedRepo": null,
+      "daysSinceLaunch": 0,
+      "aiAdjacent": true
+    },
+    {
       "id": "1128531",
       "name": "Nyx",
       "tagline": "Your own team of AI security engineers, on demand.",
@@ -770,13 +770,43 @@
       "url": "https://www.producthunt.com/products/nyx-4?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
       "website": "https://www.producthunt.com/r/QZN4DR33IEBQ4V",
       "votesCount": 16,
-      "commentsCount": 8,
+      "commentsCount": 9,
       "createdAt": "2026-04-24T07:01:00Z",
       "thumbnail": "https://ph-files.imgix.net/7db6ae83-50cf-4635-adee-236755a1014a.svg?auto=format",
       "topics": [
         "developer-tools",
         "artificial-intelligence",
         "security"
+      ],
+      "makers": [
+        {
+          "name": "[REDACTED]",
+          "username": "[REDACTED]",
+          "twitterUsername": null,
+          "websiteUrl": null
+        }
+      ],
+      "githubUrl": null,
+      "xUrl": null,
+      "linkedRepo": null,
+      "daysSinceLaunch": 0,
+      "aiAdjacent": true
+    },
+    {
+      "id": "1130314",
+      "name": "Memory Sync",
+      "tagline": "Take your AI memory with you across Claude, Gemini, and more",
+      "description": "Memory Sync helps you take your AI memory with you. If you use multiple AI assistants, you’ve probably had to repeat the same preferences, context, and instructions again and again. Memory Sync gives you one portable Memory.md so you can pull memory from one platform, edit it in one place, and push it into another. It currently supports ChatGPT, Claude, Gemini, Grok, Kimi, Mistral, and Copilot, and also tracks last sync times so you can see what’s up to date.",
+      "url": "https://www.producthunt.com/products/memory-sync?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
+      "website": "https://www.producthunt.com/r/F33BAUF5YPGPJF",
+      "votesCount": 11,
+      "commentsCount": 1,
+      "createdAt": "2026-04-24T07:01:00Z",
+      "thumbnail": "https://ph-files.imgix.net/ef37220b-8697-4a0b-8f6c-279204101e18.png?auto=format",
+      "topics": [
+        "chrome-extensions",
+        "productivity",
+        "artificial-intelligence"
       ],
       "makers": [
         {
@@ -810,36 +840,6 @@
         "youtube"
       ],
       "makers": [],
-      "githubUrl": null,
-      "xUrl": null,
-      "linkedRepo": null,
-      "daysSinceLaunch": 0,
-      "aiAdjacent": true
-    },
-    {
-      "id": "1130314",
-      "name": "Memory Sync",
-      "tagline": "Take your AI memory with you across Claude, Gemini, and more",
-      "description": "Memory Sync helps you take your AI memory with you. If you use multiple AI assistants, you’ve probably had to repeat the same preferences, context, and instructions again and again. Memory Sync gives you one portable Memory.md so you can pull memory from one platform, edit it in one place, and push it into another. It currently supports ChatGPT, Claude, Gemini, Grok, Kimi, Mistral, and Copilot, and also tracks last sync times so you can see what’s up to date.",
-      "url": "https://www.producthunt.com/products/memory-sync?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
-      "website": "https://www.producthunt.com/r/F33BAUF5YPGPJF",
-      "votesCount": 10,
-      "commentsCount": 1,
-      "createdAt": "2026-04-24T07:01:00Z",
-      "thumbnail": "https://ph-files.imgix.net/ef37220b-8697-4a0b-8f6c-279204101e18.png?auto=format",
-      "topics": [
-        "chrome-extensions",
-        "productivity",
-        "artificial-intelligence"
-      ],
-      "makers": [
-        {
-          "name": "[REDACTED]",
-          "username": "[REDACTED]",
-          "twitterUsername": null,
-          "websiteUrl": null
-        }
-      ],
       "githubUrl": null,
       "xUrl": null,
       "linkedRepo": null,
@@ -975,7 +975,7 @@
       "url": "https://www.producthunt.com/products/metaveils?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
       "website": "https://www.producthunt.com/r/S5XRWKP4X2BYYL",
       "votesCount": 8,
-      "commentsCount": 2,
+      "commentsCount": 3,
       "createdAt": "2026-04-24T07:01:00Z",
       "thumbnail": "https://ph-files.imgix.net/fbc90aca-8b06-4663-aae0-b1da2bfd583f.png?auto=format",
       "topics": [
@@ -1088,7 +1088,7 @@
       "description": "AI agents run on \"skills\" — code plugins that are the new npm. Skill Control Plane is the first governance layer: import from any source, scan for risks (3 automated layers + AI deep scan), approve, distribute via MCP. Works with Claude Code, Cursor, Windsurf.",
       "url": "https://www.producthunt.com/products/skill-control-plane?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
       "website": "https://www.producthunt.com/r/TT4X5ZEIKHUVDA",
-      "votesCount": 3,
+      "votesCount": 4,
       "commentsCount": 1,
       "createdAt": "2026-04-24T07:01:00Z",
       "thumbnail": "https://ph-files.imgix.net/f2985282-29ed-45ed-9ea1-e16b67ee7722.png?auto=format",
@@ -1119,20 +1119,20 @@
       "aiAdjacent": true
     },
     {
-      "id": "1130688",
-      "name": "Nexus Protocol",
-      "tagline": "Secure protocol for AI agents. Apache 2.0.",
-      "description": "MCP has 84k GitHub stars and a documented RCE Anthropic calls \"intended behavior.\" Nexus Protocol is the fix. WASM sandbox. 19 dangerous syscalls blocked at the kernel boundary. Binary protocol with zero JSON overhead. Three sandbox policies. Prompt injection guard at the protocol layer. SDKs in Rust, Python, Go, and TypeScript. Apache 2.0. If your agent can call execve() without a sandbox, you don't have a secure agent. You have a polite backdoor.",
-      "url": "https://www.producthunt.com/products/nexus-protocol?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
-      "website": "https://www.producthunt.com/r/PKLP2ZX4WV3PYX",
+      "id": "1130745",
+      "name": "PlayLog - Automated bug reports",
+      "tagline": "Captures screen recording, console logs, network requests",
+      "description": "Automated bug reports developers can always reproduce. Automatically captures screen recording, console logs, network requests, and every user action. Share a link — developers see everything they need. AI summary Structured markdown summary ready to paste into any AI agent PlayLog generates a structured bug summary in markdown format from the session data. Copy it and paste directly into Claude, ChatGPT, or any AI agent to start debugging immediately.",
+      "url": "https://www.producthunt.com/products/playlog-automated-bug-reports?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
+      "website": "https://www.producthunt.com/r/BXM7MY2N4P5BER",
       "votesCount": 3,
       "commentsCount": 1,
       "createdAt": "2026-04-24T07:01:00Z",
-      "thumbnail": "https://ph-files.imgix.net/3be8959d-6f10-42d3-91db-3032e3f7811d.svg?auto=format",
+      "thumbnail": "https://ph-files.imgix.net/6a73ea31-1419-41d8-93ec-9628237077a2.png?auto=format",
       "topics": [
+        "saas",
         "developer-tools",
-        "artificial-intelligence",
-        "github"
+        "tech"
       ],
       "makers": [
         {
@@ -1149,18 +1149,18 @@
       "aiAdjacent": true
     },
     {
-      "id": "1130745",
-      "name": "PlayLog - Automated bug reports",
-      "tagline": "Captures screen recording, console logs, network requests",
-      "description": "Automated bug reports developers can always reproduce. Automatically captures screen recording, console logs, network requests, and every user action. Share a link — developers see everything they need. AI summary Structured markdown summary ready to paste into any AI agent PlayLog generates a structured bug summary in markdown format from the session data. Copy it and paste directly into Claude, ChatGPT, or any AI agent to start debugging immediately.",
-      "url": "https://www.producthunt.com/products/playlog-automated-bug-reports?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
-      "website": "https://www.producthunt.com/r/BXM7MY2N4P5BER",
+      "id": "1131166",
+      "name": "DeepSeek-V4 ",
+      "tagline": "1M context open model for advanced reasoning and agents",
+      "description": "DeepSeek-V4 brings a standard 1M token context window to open models, enabling long-context reasoning and agent workflows at scale. It offers strong performance in coding, math, and reasoning, with two variants: V4-Pro for capability and V4-Flash for speed and cost efficiency. APIs are OpenAI-compatible, and weights are open for local deployment.",
+      "url": "https://www.producthunt.com/products/deepseek-v4-3?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
+      "website": "https://www.producthunt.com/r/YTMJKQUNWATKE3",
       "votesCount": 3,
       "commentsCount": 1,
       "createdAt": "2026-04-24T07:01:00Z",
-      "thumbnail": "https://ph-files.imgix.net/6a73ea31-1419-41d8-93ec-9628237077a2.png?auto=format",
+      "thumbnail": "https://ph-files.imgix.net/231e5e47-967d-447d-a6cc-7ea9f5b800d6.png?auto=format",
       "topics": [
-        "saas",
+        "open-source",
         "developer-tools",
         "tech"
       ],
@@ -1269,49 +1269,19 @@
       "aiAdjacent": true
     },
     {
-      "id": "1126004",
-      "name": "FPSDoctor",
-      "tagline": "AI-powered PC optimization, prescribed for gamers",
-      "description": "FPSDoctor is the first PC optimization software built around a medical universe. Instead of overwhelming settings, you get a clean dashboard where \"the Doc\", our AI, diagnoses your PC, guides you through optimizations across network, performance, comfort and privacy, and answers your questions 24/7. No technical knowledge needed. Just open, optimize, and play better. Currently only available in French, with multilingual support coming very soon.",
-      "url": "https://www.producthunt.com/products/fpsdoctor?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
-      "website": "https://www.producthunt.com/r/3B6VTKTT3B7YBW",
+      "id": "1130607",
+      "name": "SPoMS",
+      "tagline": "Structured product marketing for founders who need clarity",
+      "description": "SPoMS helps solo founders and non-marketers build a launch-ready product marketing strategy without guessing where to start. Enter your product details once and get clear guidance on pricing, strategy, budget, ROI, and campaign plan in one connected flow. If things change later, you can update your inputs and regenerate the plan.",
+      "url": "https://www.producthunt.com/products/spoms?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
+      "website": "https://www.producthunt.com/r/V7EFFZL5VCCKYO",
       "votesCount": 2,
       "commentsCount": 1,
       "createdAt": "2026-04-24T07:01:00Z",
-      "thumbnail": "https://ph-files.imgix.net/690728f6-274c-4b3c-bcf9-96dc46dd2f01.x-icon?auto=format",
+      "thumbnail": "https://ph-files.imgix.net/3296bdf2-b583-47a5-abee-479a8bf6d742.png?auto=format",
       "topics": [
+        "marketing",
         "saas",
-        "artificial-intelligence",
-        "games"
-      ],
-      "makers": [
-        {
-          "name": "[REDACTED]",
-          "username": "[REDACTED]",
-          "twitterUsername": null,
-          "websiteUrl": null
-        }
-      ],
-      "githubUrl": null,
-      "xUrl": null,
-      "linkedRepo": null,
-      "daysSinceLaunch": 0,
-      "aiAdjacent": true
-    },
-    {
-      "id": "1130018",
-      "name": "Staylo",
-      "tagline": "AI-powered guest guide for property hosts",
-      "description": "Staylo replaces printed welcome booklets with a smart, multilingual guest link. Instead of answering the same questions over and over, hosts generate one simple link that contains everything: WiFi, check-in instructions, house rules, and local recommendations. An integrated AI chatbot answers guest questions instantly — in any language — 24/7, without the host lifting a finger. No app download. No friction. Just one link that gives guests everything they need.",
-      "url": "https://www.producthunt.com/products/staylo-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
-      "website": "https://www.producthunt.com/r/GUV5BXKQGTLEO2",
-      "votesCount": 2,
-      "commentsCount": 1,
-      "createdAt": "2026-04-24T07:01:00Z",
-      "thumbnail": "https://ph-files.imgix.net/023366bf-9655-4b51-a219-5a14bbf0f0a6.png?auto=format",
-      "topics": [
-        "saas",
-        "travel",
         "artificial-intelligence"
       ],
       "makers": [
@@ -1335,7 +1305,7 @@
       "description": "Type your name and see it spelled out in stunning Landsat satellite imagery. Explore Earth from space, letter by letter, with NASA and USGS Landsat images.",
       "url": "https://www.producthunt.com/products/your-name-in-landsat?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
       "website": "https://www.producthunt.com/r/XFJX4W76G6G2RI",
-      "votesCount": 111,
+      "votesCount": 115,
       "commentsCount": 7,
       "createdAt": "2026-04-24T07:01:00Z",
       "thumbnail": "https://ph-files.imgix.net/d206dadd-75c2-4c65-affe-1a06b6455593.jpeg?auto=format",
@@ -1357,7 +1327,7 @@
       "description": "TraceUI reads any website URL and instantly generates on-brand marketing ads. It extracts your colors, fonts, and logo automatically. Try for free today!",
       "url": "https://www.producthunt.com/products/traceui?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
       "website": "https://www.producthunt.com/r/GEH5LBSSRVQS35",
-      "votesCount": 92,
+      "votesCount": 95,
       "commentsCount": 6,
       "createdAt": "2026-04-24T07:01:00Z",
       "thumbnail": "https://ph-files.imgix.net/96108d18-8f2d-4659-8910-f41cd93feaba.png?auto=format",
@@ -1387,7 +1357,7 @@
       "description": "A Hacker News client, designed for non-English speakers, with auto-translation.",
       "url": "https://www.producthunt.com/products/haiker?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
       "website": "https://www.producthunt.com/r/MYVVXXBEMA47JC",
-      "votesCount": 78,
+      "votesCount": 79,
       "commentsCount": 2,
       "createdAt": "2026-04-24T07:01:00Z",
       "thumbnail": "https://ph-files.imgix.net/5b54f77d-c192-45b3-a3ac-341084feca4e.png?auto=format",
@@ -1417,7 +1387,7 @@
       "description": "MailCue is an all-in-one email testing server packaged in a single Docker container. Unlike simple catch-all SMTPs, it provides a fully-featured mail stack with Postfix, Dovecot, SpamAssassin, DKIM/DMARC verification, and a modern React UI. Test your email workflows exactly as they behave in production with IMAP/POP3 access, API injection, real-time events, and GPG encryption. Perfect for local development, CI/CD pipelines, and ensuring your transactional emails actually deliver.",
       "url": "https://www.producthunt.com/products/mailcue-realistic-email-testing-server?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
       "website": "https://www.producthunt.com/r/SL6IOAGHZAX6GX",
-      "votesCount": 72,
+      "votesCount": 74,
       "commentsCount": 1,
       "createdAt": "2026-04-24T07:01:00Z",
       "thumbnail": "https://ph-files.imgix.net/fbd5ee3a-4a87-41bd-a2e1-8bc34b99437c.svg?auto=format",
@@ -1514,7 +1484,7 @@
       "description": "SaveForm removes the need for backend form handling with no server and no setup required. Unlike traditional solutions, it is plug and play with instant submissions to your dashboard. Built in automated emails, real time notifications, and webhook integrations like n8n, Zapier, and Discord come standard. A generous free tier of 100 submissions per month makes it ideal for simple sites without complexity.",
       "url": "https://www.producthunt.com/products/saveform-io?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
       "website": "https://www.producthunt.com/r/4AATIITUXAIOXH",
-      "votesCount": 69,
+      "votesCount": 71,
       "commentsCount": 3,
       "createdAt": "2026-04-24T07:01:00Z",
       "thumbnail": "https://ph-files.imgix.net/b1a921f9-064a-4fc1-8e0d-77c893d30950.png?auto=format",
@@ -1544,7 +1514,7 @@
       "description": "i18n for React, Next.js, and Astro that runs on the AI subscription you already have. Content-hashed deltas mean only changed strings are retranslated, so unchanged UI and docs cost zero tokens.",
       "url": "https://www.producthunt.com/products/tyndale?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
       "website": "https://www.producthunt.com/r/CNKR6Z56IGJ4TG",
-      "votesCount": 66,
+      "votesCount": 68,
       "commentsCount": 1,
       "createdAt": "2026-04-24T07:01:00Z",
       "thumbnail": "https://ph-files.imgix.net/6936074e-cf8c-4373-be79-70d4e9839e5a.svg?auto=format",
@@ -1553,6 +1523,36 @@
         "languages",
         "developer-tools",
         "github"
+      ],
+      "makers": [
+        {
+          "name": "[REDACTED]",
+          "username": "[REDACTED]",
+          "twitterUsername": null,
+          "websiteUrl": null
+        }
+      ],
+      "githubUrl": null,
+      "xUrl": null,
+      "linkedRepo": null,
+      "daysSinceLaunch": 0,
+      "aiAdjacent": false
+    },
+    {
+      "id": "1122865",
+      "name": "Smart PDF Tools",
+      "tagline": "Free online PDF tools — no signup needed",
+      "description": "Merge, split, compress, convert, and explain PDF files — 100% free, no signup required. Works entirely in your browser. No file size limits, no watermarks, no accounts. Built for people who just need it done fast.",
+      "url": "https://www.producthunt.com/products/smart-pdf-tools-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
+      "website": "https://www.producthunt.com/r/Z76EKRB37HYDWW",
+      "votesCount": 9,
+      "commentsCount": 2,
+      "createdAt": "2026-04-24T07:01:00Z",
+      "thumbnail": "https://ph-files.imgix.net/16b5c6d1-a24e-460f-8d70-20cb09670303.jpeg?auto=format",
+      "topics": [
+        "design-tools",
+        "productivity",
+        "developer-tools"
       ],
       "makers": [
         {
@@ -1659,66 +1659,6 @@
       "aiAdjacent": false
     },
     {
-      "id": "1113770",
-      "name": "Spendlens",
-      "tagline": "Privacy first. Your finance. Your data. Your money in focus.",
-      "description": "Zero-knowledge sharing (Aperture): Share your financial data with a partner or advisor through E2E encryption (P256 ECDH + AES-256-GCM). Our servers store only ciphertext. We literally cannot read your shared data. Forecaster: See where your budget will land at end-of-month with confidence intervals and fan charts. The model picks ARIMA or Holt-Winters automatically based on your spending patterns. Truly global: 17 languages. 50 currencies with live conversion rates. Multi-currency accounts.",
-      "url": "https://www.producthunt.com/products/spendlens-budget-investing-net-worth?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
-      "website": "https://www.producthunt.com/r/LECLUFNLETAQK6",
-      "votesCount": 9,
-      "commentsCount": 2,
-      "createdAt": "2026-04-24T07:01:00Z",
-      "thumbnail": "https://ph-files.imgix.net/64bb4209-34f6-475b-a184-cf9d6d706ccd.png?auto=format",
-      "topics": [
-        "productivity",
-        "privacy",
-        "finance"
-      ],
-      "makers": [
-        {
-          "name": "[REDACTED]",
-          "username": "[REDACTED]",
-          "twitterUsername": null,
-          "websiteUrl": null
-        }
-      ],
-      "githubUrl": null,
-      "xUrl": null,
-      "linkedRepo": null,
-      "daysSinceLaunch": 0,
-      "aiAdjacent": false
-    },
-    {
-      "id": "1122865",
-      "name": "Smart PDF Tools",
-      "tagline": "Free online PDF tools — no signup needed",
-      "description": "Merge, split, compress, convert, and explain PDF files — 100% free, no signup required. Works entirely in your browser. No file size limits, no watermarks, no accounts. Built for people who just need it done fast.",
-      "url": "https://www.producthunt.com/products/smart-pdf-tools-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
-      "website": "https://www.producthunt.com/r/Z76EKRB37HYDWW",
-      "votesCount": 8,
-      "commentsCount": 2,
-      "createdAt": "2026-04-24T07:01:00Z",
-      "thumbnail": "https://ph-files.imgix.net/16b5c6d1-a24e-460f-8d70-20cb09670303.jpeg?auto=format",
-      "topics": [
-        "design-tools",
-        "productivity",
-        "developer-tools"
-      ],
-      "makers": [
-        {
-          "name": "[REDACTED]",
-          "username": "[REDACTED]",
-          "twitterUsername": null,
-          "websiteUrl": null
-        }
-      ],
-      "githubUrl": null,
-      "xUrl": null,
-      "linkedRepo": null,
-      "daysSinceLaunch": 0,
-      "aiAdjacent": false
-    },
-    {
       "id": "1131010",
       "name": "Shipfolio",
       "tagline": "A minimal tracker for indie devs. iPhone, web app, Watch",
@@ -1733,6 +1673,36 @@
         "productivity",
         "developer-tools",
         "apple"
+      ],
+      "makers": [
+        {
+          "name": "[REDACTED]",
+          "username": "[REDACTED]",
+          "twitterUsername": null,
+          "websiteUrl": null
+        }
+      ],
+      "githubUrl": null,
+      "xUrl": null,
+      "linkedRepo": null,
+      "daysSinceLaunch": 0,
+      "aiAdjacent": false
+    },
+    {
+      "id": "1113770",
+      "name": "Spendlens",
+      "tagline": "Privacy first. Your finance. Your data. Your money in focus.",
+      "description": "Zero-knowledge sharing (Aperture): Share your financial data with a partner or advisor through E2E encryption (P256 ECDH + AES-256-GCM). Our servers store only ciphertext. We literally cannot read your shared data. Forecaster: See where your budget will land at end-of-month with confidence intervals and fan charts. The model picks ARIMA or Holt-Winters automatically based on your spending patterns. Truly global: 17 languages. 50 currencies with live conversion rates. Multi-currency accounts.",
+      "url": "https://www.producthunt.com/products/spendlens-budget-investing-net-worth?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
+      "website": "https://www.producthunt.com/r/LECLUFNLETAQK6",
+      "votesCount": 8,
+      "commentsCount": 3,
+      "createdAt": "2026-04-24T07:01:00Z",
+      "thumbnail": "https://ph-files.imgix.net/64bb4209-34f6-475b-a184-cf9d6d706ccd.png?auto=format",
+      "topics": [
+        "productivity",
+        "privacy",
+        "finance"
       ],
       "makers": [
         {
@@ -1810,18 +1780,20 @@
       "aiAdjacent": false
     },
     {
-      "id": "1125357",
-      "name": "Micro Steps: Tiny Habits",
-      "tagline": "Build habits with tiny steps",
-      "description": "Stop overthinking. Start small. Micro Steps helps you build lasting habits by breaking them into tiny, doable actions — no guilt, no overwhelm. Track your streaks, celebrate wins, and watch your progress grow with a clean, calming design. Tiny Habits is a simple and effective app to help you improve your life with small, sustainable habits.",
-      "url": "https://www.producthunt.com/products/micro-steps-tiny-habits?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
-      "website": "https://www.producthunt.com/r/T2J26ZM7ZDJ26B",
-      "votesCount": 6,
-      "commentsCount": 0,
+      "id": "1125120",
+      "name": "AppCherish",
+      "tagline": "Your App Store data, finally telling you what matters",
+      "description": "Monitor your App Store apps with AppCherish. Get daily insights, crash alerts, and app performance metrics delivered to your inbox. App Store Connect is fine as a raw data source, but answering simple questions (is my app growing? did that update help? which app deserves more focus?) requires too much manual work. AppCherish fixes that. AppCherish gives indie developers, small teams, and agencies a clear picture of their App Store performance — without the noise.",
+      "url": "https://www.producthunt.com/products/appcherish?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
+      "website": "https://www.producthunt.com/r/IB5MIJXG5EUSN6",
+      "votesCount": 7,
+      "commentsCount": 1,
       "createdAt": "2026-04-24T07:01:00Z",
-      "thumbnail": "https://ph-files.imgix.net/64588ff4-ced8-4149-8f44-35d2d76eead3.png?auto=format",
+      "thumbnail": "https://ph-files.imgix.net/a09e1fc8-5147-4f51-90ae-8ab87ba31d3e.png?auto=format",
       "topics": [
-        "productivity"
+        "analytics",
+        "developer-tools",
+        "apple"
       ],
       "makers": [
         {
@@ -1838,20 +1810,18 @@
       "aiAdjacent": false
     },
     {
-      "id": "1125120",
-      "name": "AppCherish",
-      "tagline": "Your App Store data, finally telling you what matters",
-      "description": "Monitor your App Store apps with AppCherish. Get daily insights, crash alerts, and app performance metrics delivered to your inbox. App Store Connect is fine as a raw data source, but answering simple questions (is my app growing? did that update help? which app deserves more focus?) requires too much manual work. AppCherish fixes that. AppCherish gives indie developers, small teams, and agencies a clear picture of their App Store performance — without the noise.",
-      "url": "https://www.producthunt.com/products/appcherish?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
-      "website": "https://www.producthunt.com/r/IB5MIJXG5EUSN6",
-      "votesCount": 4,
-      "commentsCount": 1,
+      "id": "1125357",
+      "name": "Micro Steps: Tiny Habits",
+      "tagline": "Build habits with tiny steps",
+      "description": "Stop overthinking. Start small. Micro Steps helps you build lasting habits by breaking them into tiny, doable actions — no guilt, no overwhelm. Track your streaks, celebrate wins, and watch your progress grow with a clean, calming design. Tiny Habits is a simple and effective app to help you improve your life with small, sustainable habits.",
+      "url": "https://www.producthunt.com/products/micro-steps-tiny-habits?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
+      "website": "https://www.producthunt.com/r/T2J26ZM7ZDJ26B",
+      "votesCount": 6,
+      "commentsCount": 0,
       "createdAt": "2026-04-24T07:01:00Z",
-      "thumbnail": "https://ph-files.imgix.net/a09e1fc8-5147-4f51-90ae-8ab87ba31d3e.png?auto=format",
+      "thumbnail": "https://ph-files.imgix.net/64588ff4-ced8-4149-8f44-35d2d76eead3.png?auto=format",
       "topics": [
-        "analytics",
-        "developer-tools",
-        "apple"
+        "productivity"
       ],
       "makers": [
         {
@@ -1910,20 +1880,20 @@
       "aiAdjacent": false
     },
     {
-      "id": "1128363",
-      "name": "NoteBoard",
-      "tagline": "All your user/team feedback in one place",
-      "description": "Embed a tiny widget on any website. Collect bug reports, star reviews, feature requests and open feedback — without duct-taping five different tools together. Pay once, own it forever.",
-      "url": "https://www.producthunt.com/products/noteboard?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
-      "website": "https://www.producthunt.com/r/OOWOGDXX3LKPRN",
+      "id": "1130490",
+      "name": "Gitvize",
+      "tagline": "Visualize any repo by swapping \"hub\" for \"vize\" in the URL",
+      "description": "GitVize turns any GitHub repository into an interactive visual experience. Just replace \"hub\" with \"vize\" in any GitHub URL: github.com/facebook/react → gitvize.com/facebook/react What you get: - Physics-based file tree graph - AI-generated architecture diagram showing how modules relate - Contributor network showing collaboration patterns - Code import relationships between files - Branch and commit history visualization Works on any public GitHub repo instantly. No signup required.",
+      "url": "https://www.producthunt.com/products/gitvize?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
+      "website": "https://www.producthunt.com/r/6Y37OAHWHOOSM4",
       "votesCount": 3,
       "commentsCount": 1,
       "createdAt": "2026-04-24T07:01:00Z",
-      "thumbnail": "https://ph-files.imgix.net/433e47bd-5b4f-4ed4-957d-d315cc4d585c.png?auto=format",
+      "thumbnail": "https://ph-files.imgix.net/7069f668-899b-47f7-b5dd-f7b31c8f087e.svg?auto=format",
       "topics": [
-        "user-experience",
-        "marketing",
-        "developer-tools"
+        "open-source",
+        "developer-tools",
+        "github"
       ],
       "makers": [
         {
@@ -1933,11 +1903,24 @@
           "websiteUrl": null
         }
       ],
-      "githubUrl": null,
+      "githubUrl": "https://github.com/facebook/react",
       "xUrl": null,
       "linkedRepo": null,
       "daysSinceLaunch": 0,
-      "aiAdjacent": false
+      "aiAdjacent": false,
+      "githubRepo": {
+        "stars": 244653,
+        "topics": [
+          "declarative",
+          "frontend",
+          "javascript",
+          "library",
+          "react",
+          "ui"
+        ],
+        "readmeSnippet": "# [React](https://react.dev/) &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/facebook/react/blob/main/LICENSE) [![npm version](https://img.shields.io/npm/v/react.svg?style=flat)](https://www.npmjs.com/package/react) [![(Runtime) Build and Test](https://github.com/facebook/react/actions/workflows/runtime_build_and_test.yml/badge.svg)](https://github.com/facebook/react/actions/workflows/runtime_build_and_test.yml) [![(Compiler) TypeScript](https:"
+      },
+      "tags": []
     },
     {
       "id": "1117137",
@@ -1969,20 +1952,20 @@
       "aiAdjacent": false
     },
     {
-      "id": "1131188",
-      "name": "GymApp",
-      "tagline": "Run a smarter gym. Grow on autopilot.",
-      "description": "GymApp is a modern fitness & gym management platform with memberships, class scheduling, QR check-in, automated billing, analytics, and a branded member portal, all in one app. Features: Member profiles, digital waivers, Stripe billing, workout tracking, 4-tier access control (Admin, Owner, Coach, Member), and multi-tenant architecture for boutique studios to multi-location franchises. 14-day free trial · No credit card required",
-      "url": "https://www.producthunt.com/products/gymapp?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
-      "website": "https://www.producthunt.com/r/74HH47F62R22C3",
+      "id": "1130239",
+      "name": "Warder",
+      "tagline": "Accessibility monitoring for teams that ship every week",
+      "description": "Warder is continuous WCAG 2.1 monitoring for real websites. It runs axe-core, tracks issues in projects with full history, and offers exports and read-only share links. Starter and Pro add scheduled daily/weekly scans and email; Pro adds Slack, webhooks, a REST API, and 365-day history. One-off audits miss regressions; we built this so teams can prove the live site stayed accessible. Optional Lighthouse (when enabled) adds performance context.",
+      "url": "https://www.producthunt.com/products/warder?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
+      "website": "https://www.producthunt.com/r/T7BDYMPJOKC5VY",
       "votesCount": 3,
       "commentsCount": 1,
       "createdAt": "2026-04-24T07:01:00Z",
-      "thumbnail": "https://ph-files.imgix.net/3cb0c349-1944-407c-aba1-e9c191230131.png?auto=format",
+      "thumbnail": "https://ph-files.imgix.net/17201a94-abe9-4f52-86e9-bffafef7c632.png?auto=format",
       "topics": [
-        "health-fitness",
+        "productivity",
         "saas",
-        "business"
+        "tech"
       ],
       "makers": [
         {
@@ -1999,20 +1982,20 @@
       "aiAdjacent": false
     },
     {
-      "id": "1130239",
-      "name": "Warder",
-      "tagline": "Accessibility monitoring for teams that ship every week",
-      "description": "Warder is continuous WCAG 2.1 monitoring for real websites. It runs axe-core, tracks issues in projects with full history, and offers exports and read-only share links. Starter and Pro add scheduled daily/weekly scans and email; Pro adds Slack, webhooks, a REST API, and 365-day history. One-off audits miss regressions; we built this so teams can prove the live site stayed accessible. Optional Lighthouse (when enabled) adds performance context.",
-      "url": "https://www.producthunt.com/products/warder?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
-      "website": "https://www.producthunt.com/r/T7BDYMPJOKC5VY",
+      "id": "1130290",
+      "name": "CourseOS",
+      "tagline": "Turn content into sellable courses with AI",
+      "description": "Turn your existing content into a sellable course in minutes. CourseOS uses AI to generate lessons, quizzes, and structure from videos, PDFs, or articles. No editing, no setup just upload and launch. It also includes a built-in website, payments, certificates, and analytics, so you can create, sell, and grow from one place. Built for creators who want to turn content into income without dealing with complex tools.",
+      "url": "https://www.producthunt.com/products/courseos?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
+      "website": "https://www.producthunt.com/r/RXTHCKZ7UQH6QN",
       "votesCount": 3,
       "commentsCount": 1,
       "createdAt": "2026-04-24T07:01:00Z",
-      "thumbnail": "https://ph-files.imgix.net/17201a94-abe9-4f52-86e9-bffafef7c632.png?auto=format",
+      "thumbnail": "https://ph-files.imgix.net/dd115aea-d474-4f1f-bc3b-5d799dac167c.vnd.microsoft.icon?auto=format",
       "topics": [
-        "productivity",
+        "education",
         "saas",
-        "tech"
+        "online-learning"
       ],
       "makers": [
         {
@@ -2107,20 +2090,20 @@
       "aiAdjacent": false
     },
     {
-      "id": "1130290",
-      "name": "CourseOS",
-      "tagline": "Turn content into sellable courses with AI",
-      "description": "Turn your existing content into a sellable course in minutes. CourseOS uses AI to generate lessons, quizzes, and structure from videos, PDFs, or articles. No editing, no setup just upload and launch. It also includes a built-in website, payments, certificates, and analytics, so you can create, sell, and grow from one place. Built for creators who want to turn content into income without dealing with complex tools.",
-      "url": "https://www.producthunt.com/products/courseos?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
-      "website": "https://www.producthunt.com/r/RXTHCKZ7UQH6QN",
+      "id": "1131188",
+      "name": "GymApp",
+      "tagline": "Run a smarter gym. Grow on autopilot.",
+      "description": "GymApp is a modern fitness & gym management platform with memberships, class scheduling, QR check-in, automated billing, analytics, and a branded member portal, all in one app. Features: Member profiles, digital waivers, Stripe billing, workout tracking, 4-tier access control (Admin, Owner, Coach, Member), and multi-tenant architecture for boutique studios to multi-location franchises. 14-day free trial · No credit card required",
+      "url": "https://www.producthunt.com/products/gymapp?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
+      "website": "https://www.producthunt.com/r/74HH47F62R22C3",
       "votesCount": 3,
       "commentsCount": 1,
       "createdAt": "2026-04-24T07:01:00Z",
-      "thumbnail": "https://ph-files.imgix.net/dd115aea-d474-4f1f-bc3b-5d799dac167c.vnd.microsoft.icon?auto=format",
+      "thumbnail": "https://ph-files.imgix.net/3cb0c349-1944-407c-aba1-e9c191230131.png?auto=format",
       "topics": [
-        "education",
+        "health-fitness",
         "saas",
-        "online-learning"
+        "business"
       ],
       "makers": [
         {
@@ -2173,6 +2156,36 @@
         "saas",
         "wordpress",
         "e-commerce"
+      ],
+      "makers": [
+        {
+          "name": "[REDACTED]",
+          "username": "[REDACTED]",
+          "twitterUsername": null,
+          "websiteUrl": null
+        }
+      ],
+      "githubUrl": null,
+      "xUrl": null,
+      "linkedRepo": null,
+      "daysSinceLaunch": 0,
+      "aiAdjacent": false
+    },
+    {
+      "id": "1130725",
+      "name": "FastQRMenu",
+      "tagline": "QR menus + live table orders for any restaurant",
+      "description": "Paper menus are slow. Handwritten orders get lost. FastQRMenu fixes both. Set up your digital menu, generate a unique QR code per table, and start receiving live orders on your dashboard — all in under 5 minutes. No app download for guests. No commission per order. Just scan, browse, and order from any phone browser. Built for restaurants and cafes that want a simple, modern ordering flow without paying per-order fees or dealing with complex setups. Free to start. No credit card required.",
+      "url": "https://www.producthunt.com/products/fastqrmenu?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Starscreener+%28ID%3A+282827%29",
+      "website": "https://www.producthunt.com/r/CO5GS7KCUNN34W",
+      "votesCount": 2,
+      "commentsCount": 1,
+      "createdAt": "2026-04-24T07:01:00Z",
+      "thumbnail": "https://ph-files.imgix.net/c84349c2-6d3d-4e32-9045-b92c03b89e23.svg?auto=format",
+      "topics": [
+        "saas",
+        "menu-bar-apps",
+        "tech"
       ],
       "makers": [
         {

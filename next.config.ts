@@ -1,6 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Next 15 bundler optimization: rewrite barrel imports so only the
+  // named exports actually used end up in the bundle. lucide-react alone
+  // exports ~1.5k icons via a barrel — without this, a naive build can
+  // ship hundreds of unused icon modules when any file imports even one
+  // icon from it. framer-motion + recharts also benefit.
+  experimental: {
+    optimizePackageImports: ["lucide-react", "framer-motion", "recharts"],
+  },
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "avatars.githubusercontent.com" },

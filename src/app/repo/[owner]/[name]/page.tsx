@@ -29,10 +29,11 @@ import { buildCanonicalRepoProfile } from "@/lib/api/repo-profile";
 import { RepoDetailHeader } from "@/components/repo-detail/RepoDetailHeader";
 import { RepoDetailStats } from "@/components/repo-detail/RepoDetailStats";
 import { RepoDetailStatsStrip } from "@/components/repo-detail/RepoDetailStatsStrip";
-import { RepoDetailChart } from "@/components/repo-detail/RepoDetailChart";
+import { RepoDetailChartLazy } from "@/components/repo-detail/RepoDetailChartLazy";
 import { buildMentionMarkers } from "@/components/repo-detail/MentionMarkers";
 import { CrossSignalBreakdown } from "@/components/repo-detail/CrossSignalBreakdown";
 import { RecentMentionsFeed } from "@/components/repo-detail/RecentMentionsFeed";
+import { CompletenessStrip } from "@/components/repo-detail/CompletenessStrip";
 import { toMentionItem } from "@/components/repo-detail/MentionMeta";
 import type { MentionItem } from "@/components/repo-detail/MentionMeta";
 import { RepoSignalSnapshot } from "@/components/repo-detail/RepoSignalSnapshot";
@@ -257,6 +258,15 @@ export default async function RepoDetailPage({ params }: PageProps) {
           to match /breakouts and the rest of the modernized surfaces. */}
       <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6">
+          {/* Completeness strip — audit finding #1 trust fix.
+              Answers "how much of this profile is actually populated?"
+              before the user scrolls through modules that might be empty
+              because the pipeline hasn't scanned that source yet vs because
+              nothing exists. */}
+          <CompletenessStrip
+            completeness={profile.completeness}
+            repoFullName={profile.repo.fullName}
+          />
           {/* Header + Maintainer card sit side-by-side on lg+, stack on mobile.
               Maintainer card lives in a right rail (~280px) so the header
               keeps room to breathe, and the action row + stats below run
@@ -323,12 +333,13 @@ export default async function RepoDetailPage({ params }: PageProps) {
           <RecentMentionsFeed
             mentions={mentions}
             freshness={profile.freshness}
+            scanState={profile.scanState}
             repoFullName={repo.fullName}
             initialCursor={profile.mentions.nextCursor}
           />
           <RelatedReposPanel items={profile.related} />
           <RelatedIdeasPanel items={profile.ideas} />
-          <RepoDetailChart repo={repo} markers={markers} />
+          <RepoDetailChartLazy repo={repo} markers={markers} />
           {profile.twitter ? <TwitterSignalPanel panel={profile.twitter} /> : null}
         </div>
       </main>

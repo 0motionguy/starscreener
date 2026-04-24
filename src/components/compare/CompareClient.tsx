@@ -22,6 +22,7 @@
 // still renders in error state — per-repo failures never block siblings.
 
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useEffect, useMemo, useState } from "react";
 import {
   CircleDot,
@@ -33,7 +34,6 @@ import {
 } from "lucide-react";
 import { useCompareStore } from "@/lib/store";
 import { CompareSelector } from "@/components/compare/CompareSelector";
-import { CompareChart } from "@/components/compare/CompareChart";
 import { RepoBannerCard } from "@/components/compare/RepoBannerCard";
 import { CompareHeatmap } from "@/components/compare/CompareHeatmap";
 import { LanguageBar } from "@/components/compare/LanguageBar";
@@ -47,6 +47,21 @@ import {
 import type { CompareRepoBundle } from "@/lib/github-compare";
 import type { Repo } from "@/lib/types";
 import { cn } from "@/lib/utils";
+
+// Recharts weighs ~100KB gzipped. The compare chart sits in section 4 of a
+// deep-dive page with several sections above the fold — defer loading its
+// bundle until the section is rendered client-side. ssr:false is safe here
+// because CompareClient is already "use client" and the chart is purely
+// visual (no SEO-relevant DOM).
+const CompareChart = dynamic(
+  () => import("@/components/compare/CompareChart").then((m) => m.CompareChart),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="skeleton-shimmer rounded-card h-[300px] w-full" />
+    ),
+  },
+);
 
 // Palette mirrors CompareChart's LINE_COLORS so banner accents, chart lines,
 // and heatmap series all line up slot-for-slot with the selector pills.
@@ -611,6 +626,9 @@ function PulseCard({ bundle, accent }: BundleWithAccent) {
           <img
             src={bundle.avatarUrl}
             alt=""
+            width={24}
+            height={24}
+            loading="lazy"
             className="size-6 rounded-full bg-bg-card-hover shrink-0"
           />
         ) : (
@@ -673,6 +691,9 @@ function RepoSubHeader({
           <img
             src={bundle.avatarUrl}
             alt=""
+            width={24}
+            height={24}
+            loading="lazy"
             className="size-6 rounded-full bg-bg-card-hover shrink-0"
           />
         ) : (

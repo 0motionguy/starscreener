@@ -49,6 +49,7 @@ jobs:
           INTERNAL_AGENT_TOKEN: ${{ secrets.INTERNAL_AGENT_TOKEN }}
           TWITTER_WEB_ACCOUNTS_JSON: ${{ secrets.TWITTER_WEB_ACCOUNTS_JSON }}
           TWITTER_GRAPHQL_SEARCH_QUERY_ID: ${{ vars.TWITTER_GRAPHQL_SEARCH_QUERY_ID }}
+          TWITTER_WEB_DEBUG: "1"
           TWITTER_COLLECTOR_RUN_ID: "gh-actions-${{ github.run_id }}-${{ github.run_attempt }}"
         run: npm run collect:twitter
 

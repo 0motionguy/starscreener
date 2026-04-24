@@ -578,7 +578,19 @@ export class TwitterWebProvider {
         };
       }
 
-      const body = await res.json().catch(() => ({}));
+      const rawText = await res.text();
+      let body: unknown;
+      try {
+        body = JSON.parse(rawText);
+      } catch {
+        if (process.env.TWITTER_WEB_DEBUG === "1") {
+          const ct = res.headers.get("content-type") || "-";
+          console.log(
+            `[twitter-web:debug] non-JSON response · status=${res.status} ct=${ct} · first 300: ${rawText.slice(0, 300).replace(/\s+/g, " ")}`,
+          );
+        }
+        body = {};
+      }
 
       // Twitter sometimes returns 200 with a GraphQL `errors` array.
       const errors = readPath<unknown[]>(body, ["errors"]);

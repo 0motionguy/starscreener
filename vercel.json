@@ -1,6 +1,5 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "_comment": "Vercel Cron registrations. Vercel Cron fires a GET (not POST) to each path in UTC and auto-injects `Authorization: Bearer <CRON_SECRET>` when the project env `CRON_SECRET` is set — which matches the bearer the GitHub Actions workflows pass in `.github/workflows/cron-*.yml`. Routes that only export POST have a GET alias that delegates to POST; `pipeline/ingest` keeps its existing GET usage-docs response and switches to ingest behavior only when `?cron=1` is present. Schedules here mirror the GitHub Actions cadence 1:1 — if you keep both schedulers live they will double-fire, and the in-process cooldown + per-file lock on each target handles concurrent requests safely. If you want a single primary, disable EITHER this `crons` block OR the matching `.github/workflows/cron-*.yml`. See README → `Scheduled jobs` for the recommendation.",
   "crons": [
     { "path": "/api/pipeline/ingest?cron=1", "schedule": "15 */2 * * *" },
     { "path": "/api/pipeline/persist",       "schedule": "30 */6 * * *" },

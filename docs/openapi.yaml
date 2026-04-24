@@ -1,0 +1,2235 @@
+# ---------------------------------------------------------------------------
+# StarScreener / TrendingRepo — public + auth-gated API surface.
+#
+# SYNC CONTRACT
+# -------------
+# This YAML is the source of truth. The Next.js route at
+# `src/app/api/openapi.json/route.ts` serves the JSON sibling
+# (`docs/openapi.json`) at `/api/openapi.json`. Whenever you edit this file,
+# regenerate the JSON with:
+#
+#   npx @redocly/cli bundle --ext json docs/openapi.yaml > docs/openapi.json
+#
+# or any yaml→json one-liner. Both files are committed so the server has no
+# runtime YAML dependency. Drift is caught by
+# `src/lib/pipeline/__tests__/openapi-route.test.ts`.
+#
+# SCOPE
+# -----
+# v1 of this spec covers:
+#   1. Profile canonical (v2 default, v1 back-compat) + evidence sub-endpoints
+#   2. Feed discovery (list, search, categories, collections, compare)
+#   3. Admin reads (health, pipeline/status, meta-counts, featured, sidebar)
+#   4. User writes (alerts, rules, revenue/repo submissions, session)
+#   5. Cron (Bearer CRON_SECRET) — listed with security scheme; shapes are
+#      intentionally minimal (operator-only surface).
+#
+# EXPLICITLY EXCLUDED in v1:
+#   - /api/internal/**   (internal-agent-only, separate contract)
+#   - /api/stream        (SSE — documented as existing, no payload schema)
+#   - /api/mcp/**        (does not exist; MCP lives at /portal and is
+#                         documented through the Portal manifest)
+# ---------------------------------------------------------------------------
+openapi: 3.1.0
+info:
+  title: StarScreener / TrendingRepo API
+  version: 2.0.0
+  summary: Trending-repo intelligence platform — canonical profile + discovery + alerts.
+  description: |
+    Public + authenticated REST surface for [TrendingRepo](https://trendingrepo.com)
+    (the StarScreener codebase). The canonical single-repo endpoint is
+    `GET /api/repos/{owner}/{name}?v=2`; it returns the full profile (score,
+    reasons, mentions, freshness, twitter, npm, ProductHunt, revenue, funding,
+    related, prediction, ideas) in one round-trip. Every other `/api/repos/*`
+    path returns a subset of the same data, optimised for a narrower caller.
+
+    **Auth summary.** Public reads have no auth. Write endpoints use one of:
+
+      - `Authorization: Bearer <CRON_SECRET>` — scheduled-job / operator routes
+      - `Authorization: Bearer <ADMIN_TOKEN>` — admin moderation surface
+      - `Authorization: Bearer <USER_TOKEN>` / `x-user-token: <USER_TOKEN>`
+        — per-user endpoints (alerts, rules, reactions, ideas)
+      - `Cookie: ss_user=<signed-session>` — HMAC-signed browser session
+        issued by `POST /api/auth/session`; same userId scope as USER_TOKEN
+  contact:
+    name: TrendingRepo
+    url: https://github.com/0motionguy/starscreener
+  license:
+    name: MIT
+    url: https://github.com/0motionguy/starscreener/blob/main/LICENSE
+
+servers:
+  - url: https://trendingrepo.com
+    description: Production
+  - url: https://starscreener.vercel.app
+    description: Vercel canonical
+  - url: http://localhost:3023
+    description: Local dev (`npm run dev`)
+
+# Default security for every operation = none (public read). Operations that
+# require auth override this with a per-operation `security:` block naming
+# one or more of the security schemes declared under `components`.
+security: []
+
+tags:
+  - name: Profile
+    description: Canonical per-repo profile + evidence sub-endpoints.
+  - name: Discovery
+    description: Listing, search, categories, collections, compare.
+  - name: Evidence
+    description: Mentions, freshness, AISO (AI-discoverability) surfaces.
+  - name: Auth
+    description: Session issue / probe for browser and CLI users.
+  - name: User
+    description: Per-user writes — alerts, rules, reactions, ideas.
+  - name: Submissions
+    description: Founder / community submission intake (revenue, repos).
+  - name: Admin
+    description: Moderation + operator reads (CRON_SECRET / ADMIN_TOKEN).
+  - name: Cron
+    description: Scheduled-job entry points (Bearer CRON_SECRET).
+  - name: Tools
+    description: Derived-data tools (revenue estimator, predictions).
+  - name: Realtime
+    description: Long-lived streams — documented but not schema'd in v1.
+
+# ===========================================================================
+# Security schemes
+# ===========================================================================
+components:
+  securitySchemes:
+    cronBearer:
+      type: http
+      scheme: bearer
+      description: |
+        `Authorization: Bearer <CRON_SECRET>` — used by scheduled jobs and
+        operator-driven data-pipeline endpoints (ingest, persist, recompute,
+        cleanup, rebuild, backfill-history, profiles/enrich).
+    adminBearer:
+      type: http
+      scheme: bearer
+      description: |
+        `Authorization: Bearer <ADMIN_TOKEN>` — browser-facing moderation UI.
+        Deliberately NOT interchangeable with `CRON_SECRET` (different blast
+        radius).
+    userBearer:
+      type: http
+      scheme: bearer
+      description: |
+        `Authorization: Bearer <USER_TOKEN>` or `x-user-token: <USER_TOKEN>`
+        — per-user endpoints. The `userId` is derived server-side from the
+        token; any client-supplied `userId` in body/query is ignored.
+    sessionCookie:
+      type: apiKey
+      in: cookie
+      name: ss_user
+      description: |
+        HMAC-SHA256 signed session cookie issued by `POST /api/auth/session`.
+        HttpOnly, SameSite=Lax, 30-day Max-Age. Accepted anywhere `userBearer`
+        is accepted.
+
+  # =========================================================================
+  # Reusable primitives
+  # =========================================================================
+  schemas:
+    Error:
+      type: object
+      required: [ok, error]
+      properties:
+        ok:
+          type: boolean
+          enum: [false]
+        error:
+          type: string
+        code:
+          type: string
+          description: Optional machine-readable code (e.g. `invalid_slug`, `repo_not_found`).
+        details:
+          type: array
+          items: { type: string }
+
+    Timestamp:
+      type: string
+      format: date-time
+      description: ISO-8601 timestamp (UTC).
+
+    FullName:
+      type: string
+      pattern: "^[A-Za-z0-9._-]+/[A-Za-z0-9._-]+$"
+      example: vercel/next.js
+
+    SlugPart:
+      type: string
+      pattern: "^[A-Za-z0-9._-]+$"
+
+    SocialPlatform:
+      type: string
+      enum: [reddit, hackernews, bluesky, twitter, devto, github]
+
+    Sentiment:
+      type: string
+      enum: [positive, negative, neutral]
+
+    MovementStatus:
+      type: string
+      enum: [hot, breakout, quiet_killer, steady, cooling, dormant]
+
+    TrendWindow:
+      type: string
+      enum: [today, week, month]
+
+    TimeRange:
+      type: string
+      enum: [24h, 7d, 30d]
+
+    # -----------------------------------------------------------------------
+    # Repo + score
+    # -----------------------------------------------------------------------
+    Repo:
+      type: object
+      description: |
+        Canonical Repo snapshot. Fields are a superset — some (sparklineData,
+        crossSignalScore, channelsFiring) are only populated after a
+        recompute pass.
+      required:
+        - id
+        - fullName
+        - owner
+        - name
+        - stars
+        - language
+        - momentumScore
+        - movementStatus
+      properties:
+        id: { type: string, example: vercel--next-js }
+        fullName: { $ref: "#/components/schemas/FullName" }
+        owner: { type: string }
+        name: { type: string }
+        ownerAvatarUrl: { type: string, format: uri }
+        description: { type: [string, "null"]}
+        url: { type: string, format: uri }
+        language: { type: [string, "null"]}
+        topics:
+          type: array
+          items: { type: string }
+        tags:
+          type: array
+          items: { type: string }
+        categoryId: { type: [string, "null"]}
+        stars: { type: integer, minimum: 0 }
+        forks: { type: integer, minimum: 0 }
+        contributors: { type: integer, minimum: 0 }
+        openIssues: { type: integer, minimum: 0 }
+        starsDelta24h: { type: integer }
+        starsDelta7d: { type: integer }
+        starsDelta30d: { type: integer }
+        starsDelta24hMissing: { type: boolean }
+        forksDelta7d: { type: integer }
+        contributorsDelta30d: { type: integer }
+        momentumScore: { type: number, minimum: 0, maximum: 100 }
+        movementStatus: { $ref: "#/components/schemas/MovementStatus" }
+        sparklineData:
+          type: array
+          items: { type: number }
+        rank: { type: integer }
+        crossSignalScore: { type: [number, "null"]}
+        channelsFiring: { type: [integer, "null"]}
+        mentionCount24h: { type: integer, minimum: 0 }
+        lastCommitAt: { $ref: "#/components/schemas/Timestamp" }
+        lastReleaseAt:
+          oneOf:
+            - { $ref: "#/components/schemas/Timestamp" }
+            - { type: "null" }
+        lastReleaseTag: { type: [string, "null"]}
+        createdAt: { $ref: "#/components/schemas/Timestamp" }
+        archived: { type: boolean }
+        deleted: { type: boolean }
+        collectionNames:
+          type: array
+          items: { type: string }
+
+    RepoScore:
+      type: object
+      description: Score bundle produced by the recompute pipeline.
+      properties:
+        repoId: { type: string }
+        total: { type: number }
+        components:
+          type: object
+          additionalProperties: { type: number }
+        computedAt: { $ref: "#/components/schemas/Timestamp" }
+
+    HumanReason:
+      type: object
+      description: Rendered "why-moving" explainer.
+      required: [label, text]
+      properties:
+        label: { type: string, example: BREAKOUT }
+        text: { type: string }
+        source: { type: [string, "null"]}
+        confidence: { type: [number, "null"]}
+
+    # -----------------------------------------------------------------------
+    # Mentions
+    # -----------------------------------------------------------------------
+    RepoMention:
+      type: object
+      required: [id, repoId, platform, author, content, url, postedAt]
+      properties:
+        id: { type: string }
+        repoId: { type: string }
+        platform: { $ref: "#/components/schemas/SocialPlatform" }
+        author: { type: string }
+        authorFollowers: { type: [integer, "null"]}
+        content: { type: string }
+        url: { type: string, format: uri }
+        sentiment: { $ref: "#/components/schemas/Sentiment" }
+        engagement:
+          type: object
+          properties:
+            likes: { type: integer }
+            reposts: { type: integer }
+            replies: { type: integer }
+            views: { type: integer }
+        postedAt: { $ref: "#/components/schemas/Timestamp" }
+        discoveredAt: { $ref: "#/components/schemas/Timestamp" }
+        isInfluencer: { type: boolean }
+        reach: { type: integer }
+
+    MentionsPage:
+      type: object
+      required: [ok, fetchedAt, repo, count, items]
+      properties:
+        ok: { type: boolean, enum: [true] }
+        fetchedAt: { $ref: "#/components/schemas/Timestamp" }
+        repo: { $ref: "#/components/schemas/FullName" }
+        count: { type: integer }
+        nextCursor:
+          type: [string, "null"]
+          description: Base64url-encoded `{postedAt,id}` for the next page.
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/RepoMention" }
+
+    # -----------------------------------------------------------------------
+    # Freshness
+    # -----------------------------------------------------------------------
+    FreshnessSource:
+      type: object
+      properties:
+        id: { type: string }
+        fetchedAt:
+          oneOf:
+            - { $ref: "#/components/schemas/Timestamp" }
+            - { type: "null" }
+        ageSeconds: { type: [integer, "null"]}
+        cold: { type: boolean }
+        stale: { type: boolean }
+
+    FreshnessSnapshot:
+      type: object
+      required: [fetchedAt, sources]
+      properties:
+        fetchedAt: { $ref: "#/components/schemas/Timestamp" }
+        sources:
+          type: array
+          items: { $ref: "#/components/schemas/FreshnessSource" }
+
+    # -----------------------------------------------------------------------
+    # Funding, revenue, npm, Product Hunt, Twitter
+    # -----------------------------------------------------------------------
+    FundingEvent:
+      type: object
+      properties:
+        id: { type: string }
+        fullName: { $ref: "#/components/schemas/FullName" }
+        round: { type: string }
+        amountUsd: { type: number }
+        announcedAt: { $ref: "#/components/schemas/Timestamp" }
+        investors:
+          type: array
+          items: { type: string }
+        source: { type: string }
+
+    RevenueOverlay:
+      type: object
+      description: |
+        Revenue overlay row. The `verified` tier comes from OSS-index-style
+        reporting; `selfReported` is founder-submitted post-moderation;
+        `trustmrrClaim` is a provisional claim backed by a trustMRR link.
+      properties:
+        fullName: { $ref: "#/components/schemas/FullName" }
+        tier:
+          type: string
+          enum: [verified, self_reported, trustmrr_claim]
+        mrrCents: { type: integer }
+        customers: { type: [integer, "null"]}
+        reportedAt: { $ref: "#/components/schemas/Timestamp" }
+        proofUrl: { type: [string, "null"], format: uri }
+        paymentProvider: { type: [string, "null"]}
+
+    NpmPackageRow:
+      type: object
+      properties:
+        name: { type: string }
+        downloads7d: { type: integer }
+        downloads30d: { type: integer }
+        lastPublishAt:
+          oneOf:
+            - { $ref: "#/components/schemas/Timestamp" }
+            - { type: "null" }
+
+    Launch:
+      type: object
+      description: ProductHunt launch record.
+      properties:
+        slug: { type: string }
+        title: { type: string }
+        tagline: { type: string }
+        votes: { type: integer }
+        launchedAt: { $ref: "#/components/schemas/Timestamp" }
+
+    TwitterRepoPanel:
+      type: object
+      description: |
+        Rollup of Twitter signals tied to a repo. Shape defined in
+        `src/lib/twitter/types.ts`.
+      additionalProperties: true
+
+    # -----------------------------------------------------------------------
+    # Related / predictions / ideas
+    # -----------------------------------------------------------------------
+    RelatedRepoItem:
+      type: object
+      properties:
+        fullName: { $ref: "#/components/schemas/FullName" }
+        sharedTopics:
+          type: array
+          items: { type: string }
+        similarityScore: { type: number }
+
+    PredictionItem:
+      type: object
+      properties:
+        id: { type: string }
+        fullName: { $ref: "#/components/schemas/FullName" }
+        horizonDays: { type: integer, enum: [7, 30, 90] }
+        p10: { type: integer }
+        p50: { type: integer }
+        p90: { type: integer }
+        modelVersion: { type: string }
+        createdAt: { $ref: "#/components/schemas/Timestamp" }
+        actualStarsAtHorizon:
+          type: [integer, "null"]
+        scoredAt:
+          oneOf:
+            - { $ref: "#/components/schemas/Timestamp" }
+            - { type: "null" }
+
+    IdeaItem:
+      type: object
+      properties:
+        id: { type: string }
+        title: { type: string }
+        body: { type: string }
+        authorHandle: { type: string }
+        targetRepoFullName: { $ref: "#/components/schemas/FullName" }
+        buildStatus:
+          type: string
+          enum: [open, building, shipped]
+        status:
+          type: string
+          enum: [published, shipped, archived, pending_moderation, rejected]
+        createdAt: { $ref: "#/components/schemas/Timestamp" }
+        publishedAt:
+          oneOf:
+            - { $ref: "#/components/schemas/Timestamp" }
+            - { type: "null" }
+
+    # -----------------------------------------------------------------------
+    # Canonical profile (the money shape)
+    # -----------------------------------------------------------------------
+    CanonicalRepoProfileMentions:
+      type: object
+      required: [recent, nextCursor, countsBySource]
+      properties:
+        recent:
+          type: array
+          items: { $ref: "#/components/schemas/RepoMention" }
+          description: Newest-first, capped at 50 rows.
+        nextCursor:
+          type: [string, "null"]
+        countsBySource:
+          type: object
+          additionalProperties: { type: integer, minimum: 0 }
+
+    CanonicalRepoProfileNpm:
+      type: object
+      required: [packages, dailyDownloads, dependents]
+      properties:
+        packages:
+          type: array
+          items: { $ref: "#/components/schemas/NpmPackageRow" }
+        dailyDownloads:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: object
+              properties:
+                date: { type: string, format: date }
+                downloads: { type: integer }
+        dependents:
+          type: object
+          additionalProperties:
+            type: [integer, "null"]
+
+    CanonicalRepoProfileRevenue:
+      type: object
+      required: [verified, selfReported, trustmrrClaim]
+      properties:
+        verified:
+          oneOf:
+            - { $ref: "#/components/schemas/RevenueOverlay" }
+            - { type: "null" }
+        selfReported:
+          oneOf:
+            - { $ref: "#/components/schemas/RevenueOverlay" }
+            - { type: "null" }
+        trustmrrClaim:
+          oneOf:
+            - { $ref: "#/components/schemas/RevenueOverlay" }
+            - { type: "null" }
+
+    CanonicalRepoProfile:
+      type: object
+      required:
+        - ok
+        - fetchedAt
+        - v
+        - repo
+        - mentions
+        - freshness
+        - npm
+        - revenue
+        - funding
+        - related
+      properties:
+        ok: { type: boolean, enum: [true] }
+        fetchedAt: { $ref: "#/components/schemas/Timestamp" }
+        v: { type: integer, enum: [2] }
+        repo: { $ref: "#/components/schemas/Repo" }
+        score:
+          oneOf:
+            - { $ref: "#/components/schemas/RepoScore" }
+            - { type: "null" }
+        reasons:
+          type: array
+          items: { $ref: "#/components/schemas/HumanReason" }
+        mentions: { $ref: "#/components/schemas/CanonicalRepoProfileMentions" }
+        freshness: { $ref: "#/components/schemas/FreshnessSnapshot" }
+        twitter:
+          oneOf:
+            - { $ref: "#/components/schemas/TwitterRepoPanel" }
+            - { type: "null" }
+        npm: { $ref: "#/components/schemas/CanonicalRepoProfileNpm" }
+        productHunt:
+          oneOf:
+            - { $ref: "#/components/schemas/Launch" }
+            - { type: "null" }
+        revenue: { $ref: "#/components/schemas/CanonicalRepoProfileRevenue" }
+        funding:
+          type: array
+          items: { $ref: "#/components/schemas/FundingEvent" }
+        related:
+          type: array
+          items: { $ref: "#/components/schemas/RelatedRepoItem" }
+        prediction:
+          oneOf:
+            - { $ref: "#/components/schemas/PredictionItem" }
+            - { type: "null" }
+        ideas:
+          type: array
+          items: { $ref: "#/components/schemas/IdeaItem" }
+
+    # v1 back-compat shape — kept byte-compatible with the pre-canonical route.
+    LegacyRepoProfileV1:
+      type: object
+      required: [repo, mentions]
+      properties:
+        repo: { $ref: "#/components/schemas/Repo" }
+        score: { type: "null" }
+        category: { type: "null" }
+        reasons: { type: "null" }
+        social:
+          type: array
+          items: { type: object }
+        mentions:
+          type: array
+          items: { $ref: "#/components/schemas/RepoMention" }
+        twitterSignal:
+          oneOf:
+            - { $ref: "#/components/schemas/TwitterRepoPanel" }
+            - { type: "null" }
+        whyMoving: { type: array, items: { type: object } }
+        relatedRepos:
+          type: array
+          items: { $ref: "#/components/schemas/RelatedRepoItem" }
+        twitterAvailable: { type: boolean }
+
+    # -----------------------------------------------------------------------
+    # Alerts
+    # -----------------------------------------------------------------------
+    AlertEvent:
+      type: object
+      required: [id, userId, trigger, createdAt]
+      properties:
+        id: { type: string }
+        userId: { type: string }
+        ruleId: { type: [string, "null"]}
+        trigger: { type: string }
+        repoId: { type: [string, "null"]}
+        categoryId: { type: [string, "null"]}
+        payload: { type: object, additionalProperties: true }
+        createdAt: { $ref: "#/components/schemas/Timestamp" }
+        readAt:
+          oneOf:
+            - { $ref: "#/components/schemas/Timestamp" }
+            - { type: "null" }
+
+    AlertRule:
+      type: object
+      required: [id, userId, trigger, threshold, enabled]
+      properties:
+        id: { type: string }
+        userId: { type: string }
+        trigger:
+          type: string
+          enum:
+            - star_spike
+            - new_release
+            - rank_jump
+            - discussion_spike
+            - momentum_threshold
+            - breakout_detected
+            - daily_digest
+            - weekly_digest
+        threshold: { type: number }
+        repoId: { type: [string, "null"]}
+        categoryId: { type: [string, "null"]}
+        cooldownMinutes: { type: [integer, "null"]}
+        enabled: { type: boolean }
+        createdAt: { $ref: "#/components/schemas/Timestamp" }
+
+    # -----------------------------------------------------------------------
+    # Categories / collections
+    # -----------------------------------------------------------------------
+    Category:
+      type: object
+      required: [id, name]
+      properties:
+        id: { type: string }
+        name: { type: string }
+        hue: { type: number }
+        repoCount: { type: integer }
+        avgMomentum: { type: number }
+        topMoverId: { type: [string, "null"]}
+
+    CollectionSummary:
+      type: object
+      properties:
+        id: { type: string }
+        slug: { type: string }
+        name: { type: string }
+        curatedRepoCount: { type: integer }
+        liveRepoCount: { type: integer }
+        hotRank: { type: [integer, "null"]}
+        hotRepoCount: { type: [integer, "null"]}
+        hotTopRepo: { type: [string, "null"]}
+        starsRankingCount: { type: integer }
+        issuesRankingCount: { type: integer }
+        topStarsRepo: { type: [string, "null"]}
+        topIssuesRepo: { type: [string, "null"]}
+
+    # -----------------------------------------------------------------------
+    # Featured cards + sidebar bundle
+    # -----------------------------------------------------------------------
+    FeaturedCard:
+      type: object
+      required: [label, labelDisplay, repo, reason]
+      properties:
+        label:
+          type: string
+          enum:
+            - NUMBER_ONE_TODAY
+            - BREAKOUT
+            - RANK_CLIMBER
+            - HN_FEATURED
+            - FRESH_RELEASE
+            - MOST_DISCUSSED
+            - QUIET_KILLER
+            - WATCHED_MOVING
+        labelDisplay: { type: string }
+        repo: { $ref: "#/components/schemas/Repo" }
+        reason: { type: string }
+        deltaPercent: { type: number }
+        rankDelta: { type: [integer, "null"]}
+        sparkline:
+          type: array
+          items: { type: number }
+
+    FeaturedResponse:
+      type: object
+      required: [cards, generatedAt]
+      properties:
+        cards:
+          type: array
+          items: { $ref: "#/components/schemas/FeaturedCard" }
+        generatedAt: { $ref: "#/components/schemas/Timestamp" }
+
+    MetaCounts:
+      type: object
+      properties:
+        hot: { type: integer }
+        breakouts: { type: integer }
+        quietKillers: { type: integer }
+        new: { type: integer }
+        discussed: { type: integer }
+        rankClimbers: { type: integer }
+        freshReleases: { type: integer }
+
+    SidebarDataRepo:
+      type: object
+      required: [id, fullName, owner, name]
+      properties:
+        id: { type: string }
+        fullName: { $ref: "#/components/schemas/FullName" }
+        owner: { type: string }
+        name: { type: string }
+        ownerAvatarUrl: { type: string, format: uri }
+        momentumScore: { type: number }
+        movementStatus: { $ref: "#/components/schemas/MovementStatus" }
+        sparklineData:
+          type: array
+          items: { type: number }
+        stars: { type: integer }
+        starsDelta24h: { type: integer }
+        starsDelta24hMissing: { type: boolean }
+
+    SidebarDataResponse:
+      type: object
+      required: [categoryStats, metaCounts, availableLanguages, reposById, unreadAlerts, generatedAt]
+      properties:
+        categoryStats:
+          type: array
+          items: { type: object, additionalProperties: true }
+        metaCounts: { $ref: "#/components/schemas/MetaCounts" }
+        availableLanguages:
+          type: array
+          items: { type: string }
+        reposById:
+          type: object
+          additionalProperties: { $ref: "#/components/schemas/SidebarDataRepo" }
+        unreadAlerts: { type: integer }
+        generatedAt: { $ref: "#/components/schemas/Timestamp" }
+
+    # -----------------------------------------------------------------------
+    # Submissions
+    # -----------------------------------------------------------------------
+    RevenueSubmissionInput:
+      type: object
+      required: [repo, mode]
+      properties:
+        repo:
+          type: string
+          description: Either a GitHub URL or `owner/name`.
+        mode:
+          type: string
+          enum: [self_reported, trustmrr_link]
+        mrrCents: { type: integer, minimum: 0 }
+        customers: { type: [integer, "null"]}
+        paymentProvider: { type: string }
+        proofUrl: { type: [string, "null"], format: uri}
+        trustmrrSlug: { type: string }
+        contact: { type: [string, "null"]}
+        notes: { type: [string, "null"]}
+
+    RepoSubmissionInput:
+      type: object
+      required: [repo]
+      properties:
+        repo:
+          type: string
+          description: Either a GitHub URL or `owner/name`.
+        notes: { type: [string, "null"]}
+        contact: { type: [string, "null"]}
+
+    # -----------------------------------------------------------------------
+    # Reactions + ideas
+    # -----------------------------------------------------------------------
+    ReactionCounts:
+      type: object
+      properties:
+        build: { type: integer }
+        use: { type: integer }
+        buy: { type: integer }
+        invest: { type: integer }
+
+    IdeaInput:
+      type: object
+      required: [title, body]
+      properties:
+        title: { type: string, maxLength: 140 }
+        body: { type: string, maxLength: 4000 }
+        targetRepoFullName: { $ref: "#/components/schemas/FullName" }
+
+  # =========================================================================
+  # Reusable parameters
+  # =========================================================================
+  parameters:
+    OwnerPath:
+      name: owner
+      in: path
+      required: true
+      schema: { $ref: "#/components/schemas/SlugPart" }
+    NamePath:
+      name: name
+      in: path
+      required: true
+      schema: { $ref: "#/components/schemas/SlugPart" }
+    LimitQuery:
+      name: limit
+      in: query
+      schema: { type: integer, minimum: 1, maximum: 200, default: 50 }
+    OffsetQuery:
+      name: offset
+      in: query
+      schema: { type: integer, minimum: 0, default: 0 }
+
+  responses:
+    BadRequest:
+      description: Invalid parameter or body.
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+    Unauthorized:
+      description: Missing or invalid credentials.
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+    RateLimited:
+      description: Too many requests.
+      headers:
+        Retry-After:
+          schema: { type: integer }
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+    ServerError:
+      description: Internal error.
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+
+# ===========================================================================
+# Paths
+# ===========================================================================
+paths:
+  # -------------------------------------------------------------------------
+  # Profile — canonical + evidence
+  # -------------------------------------------------------------------------
+  /api/repos/{owner}/{name}:
+    get:
+      tags: [Profile]
+      summary: Canonical repo profile (v2 default, v1 back-compat).
+      description: |
+        Default shape (`?v=2`) returns the full `CanonicalRepoProfile`:
+        every signal loader output stitched into a single response.
+
+        Pass `?v=1` for the pre-canonical legacy shape (kept byte-compatible
+        for MCP tools and CLI consumers pinned to the original contract).
+      operationId: getRepoProfile
+      parameters:
+        - $ref: "#/components/parameters/OwnerPath"
+        - $ref: "#/components/parameters/NamePath"
+        - name: v
+          in: query
+          schema: { type: integer, enum: [1, 2], default: 2 }
+      responses:
+        "200":
+          description: Full profile.
+          headers:
+            Cache-Control:
+              schema: { type: string }
+              example: public, s-maxage=30, stale-while-revalidate=60
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - { $ref: "#/components/schemas/CanonicalRepoProfile" }
+                  - { $ref: "#/components/schemas/LegacyRepoProfileV1" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "500": { $ref: "#/components/responses/ServerError" }
+
+  /api/repos/{owner}/{name}/mentions:
+    get:
+      tags: [Profile, Evidence]
+      summary: Paginated evidence feed for a single repo.
+      description: |
+        Cursor-paginated mentions over `(postedAt desc, id desc)`. Cursors are
+        opaque base64url JSON; the default slice returns 50 rows.
+      operationId: listRepoMentions
+      parameters:
+        - $ref: "#/components/parameters/OwnerPath"
+        - $ref: "#/components/parameters/NamePath"
+        - name: source
+          in: query
+          schema: { $ref: "#/components/schemas/SocialPlatform" }
+        - name: limit
+          in: query
+          schema: { type: integer, minimum: 1, maximum: 200, default: 50 }
+        - name: cursor
+          in: query
+          schema: { type: string }
+      responses:
+        "200":
+          description: Page of mentions.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MentionsPage" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "500": { $ref: "#/components/responses/ServerError" }
+
+  /api/repos/{owner}/{name}/freshness:
+    get:
+      tags: [Profile, Evidence]
+      summary: Per-source scanner freshness snapshot.
+      operationId: getRepoFreshness
+      parameters:
+        - $ref: "#/components/parameters/OwnerPath"
+        - $ref: "#/components/parameters/NamePath"
+      responses:
+        "200":
+          description: Freshness snapshot (global, not per-repo differentiated).
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ok, fetchedAt, sources]
+                properties:
+                  ok: { type: boolean, enum: [true] }
+                  fetchedAt: { $ref: "#/components/schemas/Timestamp" }
+                  sources:
+                    type: array
+                    items: { $ref: "#/components/schemas/FreshnessSource" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /api/repos/{owner}/{name}/aiso:
+    get:
+      tags: [Profile, Evidence]
+      summary: AISO scan status for a repo.
+      operationId: getAisoStatus
+      parameters:
+        - $ref: "#/components/parameters/OwnerPath"
+        - $ref: "#/components/parameters/NamePath"
+      responses:
+        "200":
+          description: Current scan status.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ok, status]
+                properties:
+                  ok: { type: boolean, enum: [true] }
+                  status:
+                    type: string
+                    enum: [scanned, queued, rate_limited, failed, none]
+                  score: { type: [number, "null"]}
+                  tier: { type: [string, "null"]}
+                  dimensions:
+                    type: array
+                    items: { type: object, additionalProperties: true }
+                  topDimensions:
+                    type: array
+                    items: { type: object, additionalProperties: true }
+                  lastScanAt:
+                    oneOf:
+                      - { $ref: "#/components/schemas/Timestamp" }
+                      - { type: "null" }
+                  signals:
+                    type: [object, "null"]
+                    additionalProperties: true
+                  engineCitations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        engine: { type: string }
+                        cited: { type: boolean }
+                        brandMentioned: { type: boolean }
+                        position: { type: [integer, "null"]}
+                  resultUrl: { type: [string, "null"], format: uri }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    post:
+      tags: [Profile, Evidence]
+      summary: Enqueue an AISO rescan for this repo.
+      description: |
+        Rate-limited to 1 request per 60s per IP. Appends a row to the
+        rescan queue (no inline scan work).
+      operationId: enqueueAisoRescan
+      parameters:
+        - $ref: "#/components/parameters/OwnerPath"
+        - $ref: "#/components/parameters/NamePath"
+      responses:
+        "200":
+          description: Queued.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ok, status, queuedAt]
+                properties:
+                  ok: { type: boolean, enum: [true] }
+                  status: { type: string, enum: [queued] }
+                  queuedAt: { $ref: "#/components/schemas/Timestamp" }
+                  queuePath: { type: string }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "429": { $ref: "#/components/responses/RateLimited" }
+        "500": { $ref: "#/components/responses/ServerError" }
+
+  # -------------------------------------------------------------------------
+  # Discovery
+  # -------------------------------------------------------------------------
+  /api/repos:
+    get:
+      tags: [Discovery]
+      summary: List / filter / sort tracked repos, or batch-resolve by id.
+      description: |
+        Two modes:
+          - **Batch id lookup**: `?ids=<id1>,<id2>,...` returns the matching
+            repos (missing ids silently dropped, order preserved).
+          - **Feed**: `?period=&filter=&category=&sort=&limit=&offset=&tag=`
+            returns the paginated, filtered, sorted feed.
+      operationId: listRepos
+      parameters:
+        - name: ids
+          in: query
+          schema: { type: string }
+          description: Comma-separated repo ids or `owner/name` slugs.
+        - name: period
+          in: query
+          schema: { $ref: "#/components/schemas/TrendWindow" }
+        - name: filter
+          in: query
+          schema:
+            type: string
+            enum: [all, breakouts, quiet-killers, hot, new-under-30d, under-1k-stars]
+        - name: category
+          in: query
+          schema: { type: string }
+        - name: sort
+          in: query
+          schema:
+            type: string
+            enum: [trending, momentum, stars-today, stars-total, newest]
+            default: trending
+        - name: tag
+          in: query
+          schema: { type: string, pattern: "^[a-z0-9-]+$" }
+        - name: limit
+          in: query
+          schema: { type: integer, minimum: 1, maximum: 100, default: 25 }
+        - name: offset
+          in: query
+          schema: { type: integer, minimum: 0, default: 0 }
+      responses:
+        "200":
+          description: Feed or batch result.
+          headers:
+            Cache-Control:
+              schema: { type: string }
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [repos, meta]
+                properties:
+                  repos:
+                    type: array
+                    items: { $ref: "#/components/schemas/Repo" }
+                  meta:
+                    type: object
+                    properties:
+                      total: { type: integer }
+                      limit: { type: integer }
+                      offset: { type: integer }
+                      period: { type: string }
+                      filter: { type: string }
+                      requested: { type: integer }
+                      missing:
+                        type: array
+                        items: { type: string }
+        "400": { $ref: "#/components/responses/BadRequest" }
+
+  /api/search:
+    get:
+      tags: [Discovery]
+      summary: Full-text repo search.
+      operationId: searchRepos
+      parameters:
+        - name: q
+          in: query
+          schema: { type: string }
+        - name: category
+          in: query
+          schema: { type: string }
+        - name: sort
+          in: query
+          schema:
+            type: string
+            enum: [momentum, stars-today, stars-total, cross-signal]
+            default: momentum
+        - name: limit
+          in: query
+          schema: { type: integer, minimum: 1, maximum: 100, default: 20 }
+      responses:
+        "200":
+          description: Search results.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [results, meta]
+                properties:
+                  results:
+                    type: array
+                    items: { $ref: "#/components/schemas/Repo" }
+                  meta:
+                    type: object
+                    properties:
+                      total: { type: integer }
+                      query: { type: string }
+                      limit: { type: integer }
+        "400": { $ref: "#/components/responses/BadRequest" }
+
+  /api/categories:
+    get:
+      tags: [Discovery]
+      summary: List categories with per-category stats.
+      operationId: listCategories
+      responses:
+        "200":
+          description: Categories + stats.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [categories]
+                properties:
+                  categories:
+                    type: array
+                    items: { $ref: "#/components/schemas/Category" }
+
+  /api/collections:
+    get:
+      tags: [Discovery]
+      summary: Curated collections overview.
+      operationId: listCollections
+      responses:
+        "200":
+          description: Collections list.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [collections, meta]
+                properties:
+                  meta:
+                    type: object
+                    additionalProperties: true
+                  coverage:
+                    type: object
+                    additionalProperties: true
+                  collections:
+                    type: array
+                    items: { $ref: "#/components/schemas/CollectionSummary" }
+
+  /api/collections/{slug}:
+    get:
+      tags: [Discovery]
+      summary: Single collection detail (rankings + coverage).
+      operationId: getCollection
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema: { type: string }
+        - name: limit
+          in: query
+          schema: { type: integer, minimum: 1, maximum: 100, default: 25 }
+      responses:
+        "200":
+          description: Collection detail.
+          content:
+            application/json:
+              schema: { type: object, additionalProperties: true }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /api/compare:
+    get:
+      tags: [Discovery]
+      summary: Side-by-side compare bundles (up to 4 repos).
+      operationId: compareRepos
+      parameters:
+        - name: repos
+          in: query
+          schema: { type: string }
+          description: Comma-separated `owner/name` list (max 4).
+        - name: ids
+          in: query
+          schema: { type: string }
+          description: Comma-separated repo ids (max 4). Takes precedence over `repos`.
+      responses:
+        "200":
+          description: Per-repo bundles.
+          headers:
+            Cache-Control:
+              schema: { type: string }
+              example: public, s-maxage=3600, stale-while-revalidate=21600
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [bundles, fetchedAt]
+                properties:
+                  fetchedAt: { $ref: "#/components/schemas/Timestamp" }
+                  bundles:
+                    type: array
+                    items: { type: object, additionalProperties: true }
+        "400": { $ref: "#/components/responses/BadRequest" }
+
+  # -------------------------------------------------------------------------
+  # Admin reads (public-ish)
+  # -------------------------------------------------------------------------
+  /api/health:
+    get:
+      tags: [Admin]
+      summary: Freshness-gated health probe.
+      description: |
+        503 when any fast-data source is stale (override with `?soft=1` for
+        diagnostic reads without triggering uptime-monitor failure states).
+      operationId: healthCheck
+      parameters:
+        - name: soft
+          in: query
+          schema: { type: string, enum: ["1"] }
+      # NB: soft already quoted as a string above — ensures yaml parses "1" as a string.
+      responses:
+        "200":
+          description: Healthy.
+          content:
+            application/json:
+              schema: { type: object, additionalProperties: true }
+        "503":
+          description: Stale or errored.
+          content:
+            application/json:
+              schema: { type: object, additionalProperties: true }
+
+  /api/health/portal:
+    get:
+      tags: [Admin]
+      summary: Portal manifest schema probe.
+      operationId: portalHealth
+      responses:
+        "200": { description: Valid. }
+        "503": { description: Invalid manifest. }
+
+  /api/health/cron-activity:
+    get:
+      tags: [Admin]
+      summary: In-memory cron ring buffer + summary.
+      operationId: cronActivity
+      parameters:
+        - name: limit
+          in: query
+          schema: { type: integer, minimum: 0, maximum: 500 }
+        - name: scope
+          in: query
+          schema: { type: string }
+        - name: since
+          in: query
+          schema: { $ref: "#/components/schemas/Timestamp" }
+        - name: window
+          in: query
+          schema: { type: integer, minimum: 60000, maximum: 86400000 }
+      responses:
+        "200":
+          description: Entries + summary.
+          content:
+            application/json:
+              schema: { type: object, additionalProperties: true }
+
+  /api/pipeline/status:
+    get:
+      tags: [Admin]
+      summary: Pipeline telemetry + freshness roll-up.
+      operationId: pipelineStatus
+      responses:
+        "200":
+          description: Healthy.
+          content:
+            application/json:
+              schema: { type: object, additionalProperties: true }
+        "503":
+          description: Stale / empty.
+          content:
+            application/json:
+              schema: { type: object, additionalProperties: true }
+
+  /api/pipeline/featured:
+    get:
+      tags: [Admin, Discovery]
+      summary: Hero "Featured" cards for the terminal homepage.
+      operationId: pipelineFeatured
+      parameters:
+        - name: limit
+          in: query
+          schema: { type: integer, minimum: 1, maximum: 20, default: 8 }
+        - name: watched
+          in: query
+          schema: { type: string }
+          description: Comma-separated repo ids.
+        - name: metaFilter
+          in: query
+          schema:
+            type: string
+            enum: [hot, breakouts, quiet-killers, new, discussed, rank-climbers, fresh-releases]
+        - name: tab
+          in: query
+          schema:
+            type: string
+            enum: [trending, gainers, new, watchlisted]
+            default: trending
+        - name: timeRange
+          in: query
+          schema: { $ref: "#/components/schemas/TimeRange" }
+      responses:
+        "200":
+          description: Featured cards.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/FeaturedResponse" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+
+  /api/pipeline/meta-counts:
+    get:
+      tags: [Admin, Discovery]
+      summary: 7-bar meta counters rolled across all tracked repos.
+      operationId: pipelineMetaCounts
+      responses:
+        "200":
+          description: Counts bundle.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [counts]
+                properties:
+                  counts: { $ref: "#/components/schemas/MetaCounts" }
+
+  /api/pipeline/sidebar-data:
+    get:
+      tags: [Admin, Discovery]
+      summary: Single-request bundle for the sidebar.
+      operationId: pipelineSidebarData
+      parameters:
+        - name: userId
+          in: query
+          schema: { type: string }
+          description: Optional — when provided, populates `unreadAlerts`.
+      responses:
+        "200":
+          description: Bundle.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SidebarDataResponse" }
+
+  /api/pipeline/freshness:
+    get:
+      tags: [Admin, Evidence]
+      summary: Per-source scanner freshness + degraded list.
+      operationId: pipelineFreshness
+      responses:
+        "200":
+          description: Freshness snapshot.
+          content:
+            application/json:
+              schema: { type: object, additionalProperties: true }
+
+  # -------------------------------------------------------------------------
+  # Auth
+  # -------------------------------------------------------------------------
+  /api/auth/session:
+    get:
+      tags: [Auth]
+      summary: Probe the current session.
+      description: |
+        Idempotent — never 401/503. Returns `{ ok: true, userId, issuedAt }`
+        on valid cookie / dev-fallback, `{ ok: false }` when no session.
+      operationId: sessionProbe
+      responses:
+        "200":
+          description: Session state (present OR absent).
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    required: [ok, userId, issuedAt]
+                    properties:
+                      ok: { type: boolean, enum: [true] }
+                      userId: { type: string }
+                      issuedAt: { type: integer }
+                  - type: object
+                    required: [ok]
+                    properties:
+                      ok: { type: boolean, enum: [false] }
+    post:
+      tags: [Auth]
+      summary: Issue / rotate an `ss_user` session cookie.
+      operationId: sessionIssue
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: When provided, the userId is HMAC-derived so the same email yields the same userId across devices.
+      responses:
+        "200":
+          description: Session issued.
+          headers:
+            Set-Cookie:
+              schema: { type: string }
+              description: '`ss_user=<token>; HttpOnly; SameSite=Lax; Max-Age=2592000`'
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ok, userId, issuedAt, kind]
+                properties:
+                  ok: { type: boolean, enum: [true] }
+                  userId: { type: string }
+                  issuedAt: { type: integer }
+                  kind:
+                    type: string
+                    enum: [cookie, dev-fallback]
+        "503":
+          description: '`SESSION_SECRET` unset in production.'
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Error" }
+
+  # -------------------------------------------------------------------------
+  # User writes — alerts, rules, reactions, ideas
+  # -------------------------------------------------------------------------
+  /api/pipeline/alerts:
+    get:
+      tags: [User]
+      summary: List alert events for the authenticated caller.
+      operationId: listAlerts
+      security:
+        - userBearer: []
+        - sessionCookie: []
+      parameters:
+        - name: unreadOnly
+          in: query
+          schema: { type: string, enum: ["true"] }
+      responses:
+        "200":
+          description: Events.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ok, events, unreadCount]
+                properties:
+                  ok: { type: boolean, enum: [true] }
+                  events:
+                    type: array
+                    items: { $ref: "#/components/schemas/AlertEvent" }
+                  unreadCount: { type: integer }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+    post:
+      tags: [User]
+      summary: Mark an alert event as read.
+      operationId: markAlertRead
+      security:
+        - userBearer: []
+        - sessionCookie: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [eventId]
+              properties:
+                eventId: { type: string }
+      responses:
+        "200":
+          description: Result.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ok]
+                properties:
+                  ok: { type: boolean }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /api/pipeline/alerts/rules:
+    get:
+      tags: [User]
+      summary: List alert rules for the authenticated caller.
+      operationId: listAlertRules
+      security:
+        - userBearer: []
+        - sessionCookie: []
+      responses:
+        "200":
+          description: Rules + suggestions.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ok, rules, suggestions]
+                properties:
+                  ok: { type: boolean, enum: [true] }
+                  rules:
+                    type: array
+                    items: { $ref: "#/components/schemas/AlertRule" }
+                  suggestions:
+                    type: array
+                    items: { type: object, additionalProperties: true }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+    post:
+      tags: [User]
+      summary: Create an alert rule.
+      operationId: createAlertRule
+      security:
+        - userBearer: []
+        - sessionCookie: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [trigger, threshold]
+              properties:
+                trigger:
+                  type: string
+                  enum:
+                    - star_spike
+                    - new_release
+                    - rank_jump
+                    - discussion_spike
+                    - momentum_threshold
+                    - breakout_detected
+                    - daily_digest
+                    - weekly_digest
+                threshold: { type: number }
+                repoId: { type: [string, "null"]}
+                categoryId: { type: [string, "null"]}
+                cooldownMinutes: { type: [integer, "null"]}
+                enabled: { type: boolean }
+      responses:
+        "200":
+          description: Rule created.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ok, rule]
+                properties:
+                  ok: { type: boolean, enum: [true] }
+                  rule: { $ref: "#/components/schemas/AlertRule" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+    delete:
+      tags: [User]
+      summary: Delete an alert rule (owner-only).
+      operationId: deleteAlertRule
+      security:
+        - userBearer: []
+        - sessionCookie: []
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Deleted.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: { ok: { type: boolean } }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /api/reactions:
+    get:
+      tags: [User]
+      summary: Public reaction counts for an object + caller state.
+      operationId: getReactions
+      parameters:
+        - name: objectType
+          in: query
+          required: true
+          schema: { type: string, enum: [repo, idea] }
+        - name: objectId
+          in: query
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Counts + caller state (`mine`=null when anonymous).
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ok, objectType, objectId, counts]
+                properties:
+                  ok: { type: boolean, enum: [true] }
+                  objectType: { type: string }
+                  objectId: { type: string }
+                  counts: { $ref: "#/components/schemas/ReactionCounts" }
+                  mine:
+                    oneOf:
+                      - { type: object, additionalProperties: true }
+                      - { type: "null" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+    post:
+      tags: [User]
+      summary: Toggle a reaction for the authenticated caller.
+      operationId: toggleReaction
+      security:
+        - userBearer: []
+        - sessionCookie: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [objectType, objectId, reactionType]
+              properties:
+                objectType: { type: string, enum: [repo, idea] }
+                objectId: { type: string }
+                reactionType: { type: string, enum: [build, use, buy, invest] }
+      responses:
+        "200":
+          description: Post-toggle counts + state.
+          content:
+            application/json:
+              schema: { type: object, additionalProperties: true }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+
+  /api/ideas:
+    get:
+      tags: [User, Discovery]
+      summary: List public ideas.
+      operationId: listIdeas
+      parameters:
+        - name: sort
+          in: query
+          schema: { type: string, enum: [hot, new, shipped], default: hot }
+        - name: limit
+          in: query
+          schema: { type: integer, minimum: 1, maximum: 50, default: 20 }
+        - name: offset
+          in: query
+          schema: { type: integer, minimum: 0, default: 0 }
+      responses:
+        "200":
+          description: Ideas list.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ok, ideas, sort, total]
+                properties:
+                  ok: { type: boolean, enum: [true] }
+                  sort: { type: string }
+                  total: { type: integer }
+                  ideas:
+                    type: array
+                    items: { $ref: "#/components/schemas/IdeaItem" }
+    post:
+      tags: [User]
+      summary: Create a new idea (first 5 land in moderation).
+      operationId: createIdea
+      security:
+        - userBearer: []
+        - sessionCookie: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/IdeaInput" }
+      responses:
+        "200":
+          description: Created / queued / duplicate.
+          content:
+            application/json:
+              schema: { type: object, additionalProperties: true }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+
+  /api/ideas/{id}:
+    get:
+      tags: [Discovery]
+      summary: Single idea detail (public).
+      operationId: getIdea
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Idea.
+          content:
+            application/json:
+              schema: { type: object, additionalProperties: true }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  # -------------------------------------------------------------------------
+  # Submissions
+  # -------------------------------------------------------------------------
+  /api/submissions/revenue:
+    get:
+      tags: [Submissions]
+      summary: List recent revenue submissions (public-safe fields only).
+      operationId: listRevenueSubmissions
+      responses:
+        "200":
+          description: Recent submissions.
+          content:
+            application/json:
+              schema: { type: object, additionalProperties: true }
+    post:
+      tags: [Submissions]
+      summary: Submit a revenue claim for moderation.
+      operationId: submitRevenue
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/RevenueSubmissionInput" }
+      responses:
+        "200":
+          description: Submission stored.
+          content:
+            application/json:
+              schema: { type: object, additionalProperties: true }
+        "400": { $ref: "#/components/responses/BadRequest" }
+
+  /api/repo-submissions:
+    get:
+      tags: [Submissions]
+      summary: List queued repo submissions + summary.
+      operationId: listRepoSubmissions
+      responses:
+        "200":
+          description: Queue + recent rows.
+          content:
+            application/json:
+              schema: { type: object, additionalProperties: true }
+    post:
+      tags: [Submissions]
+      summary: Submit a repo for intake.
+      operationId: submitRepo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/RepoSubmissionInput" }
+      responses:
+        "200":
+          description: Queued + maybe intake triggered.
+          content:
+            application/json:
+              schema: { type: object, additionalProperties: true }
+        "400": { $ref: "#/components/responses/BadRequest" }
+
+  # -------------------------------------------------------------------------
+  # Predictions / calibration / revenue-estimator / profile
+  # -------------------------------------------------------------------------
+  /api/predict:
+    get:
+      tags: [Tools]
+      summary: Prediction bands for a repo at one or more horizons.
+      operationId: predictRepo
+      parameters:
+        - name: repo
+          in: query
+          required: true
+          schema: { type: string }
+          description: '`owner/name` or a GitHub URL.'
+        - name: horizon
+          in: query
+          schema:
+            type: array
+            items: { type: integer, enum: [7, 30, 90] }
+          description: One or more (repeat the param, or comma-separated).
+      responses:
+        "200":
+          description: Prediction results.
+          content:
+            application/json:
+              schema: { type: object, additionalProperties: true }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /api/predict/calibration:
+    get:
+      tags: [Tools]
+      summary: Aggregated calibration stats per (modelVersion, horizon).
+      operationId: predictCalibration
+      responses:
+        "200":
+          description: Calibration summaries.
+          content:
+            application/json:
+              schema: { type: object, additionalProperties: true }
+        "500": { $ref: "#/components/responses/ServerError" }
+
+  /api/tools/revenue-estimate:
+    get:
+      tags: [Tools]
+      summary: MRR bucket estimate for a (category, starBand, phLaunched) triplet.
+      operationId: revenueEstimate
+      parameters:
+        - name: category
+          in: query
+          schema: { type: string }
+        - name: starBand
+          in: query
+          schema: { type: string }
+        - name: phLaunched
+          in: query
+          schema: { type: string, enum: ["true", "false"] }
+      responses:
+        "200":
+          description: Bucket estimate.
+          content:
+            application/json:
+              schema: { type: object, additionalProperties: true }
+
+  /api/profile/{handle}:
+    get:
+      tags: [Discovery]
+      summary: Public JSON user profile (mirrors /u/[handle]).
+      operationId: getUserProfile
+      parameters:
+        - name: handle
+          in: path
+          required: true
+          schema: { type: string, maxLength: 64 }
+      responses:
+        "200":
+          description: Profile.
+          content:
+            application/json:
+              schema: { type: object, additionalProperties: true }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "500": { $ref: "#/components/responses/ServerError" }
+
+  /api/twitter/leaderboard:
+    get:
+      tags: [Discovery]
+      summary: Twitter leaderboard (rate-limited).
+      operationId: twitterLeaderboard
+      parameters:
+        - name: mode
+          in: query
+          schema: { type: string, enum: [trending, global] }
+        - name: limit
+          in: query
+          schema: { type: integer, minimum: 1, maximum: 100, default: 25 }
+      responses:
+        "200":
+          description: Leaderboard + overview stats.
+          content:
+            application/json:
+              schema: { type: object, additionalProperties: true }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "429": { $ref: "#/components/responses/RateLimited" }
+
+  /api/twitter/repos/{owner}/{name}:
+    get:
+      tags: [Profile]
+      summary: Twitter panel for a single repo (rate-limited).
+      operationId: twitterRepo
+      parameters:
+        - $ref: "#/components/parameters/OwnerPath"
+        - $ref: "#/components/parameters/NamePath"
+      responses:
+        "200":
+          description: Twitter panel.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/TwitterRepoPanel" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "429": { $ref: "#/components/responses/RateLimited" }
+
+  # -------------------------------------------------------------------------
+  # Admin moderation
+  # -------------------------------------------------------------------------
+  /api/admin/ideas-queue:
+    get:
+      tags: [Admin]
+      summary: List every idea (pending + history).
+      operationId: adminListIdeas
+      security: [{ adminBearer: [] }]
+      responses:
+        "200":
+          description: Ideas.
+          content:
+            application/json:
+              schema: { type: object, additionalProperties: true }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "503": { description: "ADMIN_TOKEN unset." }
+    post:
+      tags: [Admin]
+      summary: Approve / reject an idea.
+      operationId: adminModerateIdea
+      security: [{ adminBearer: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [id, action]
+              properties:
+                id: { type: string }
+                action: { type: string, enum: [approve, reject] }
+                moderationNote: { type: string, maxLength: 400 }
+      responses:
+        "200":
+          description: Updated.
+          content:
+            application/json:
+              schema: { type: object, additionalProperties: true }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /api/admin/revenue-queue:
+    get:
+      tags: [Admin]
+      summary: List every revenue submission (pending + history).
+      operationId: adminListRevenue
+      security: [{ adminBearer: [] }]
+      responses:
+        "200":
+          description: Submissions.
+          content:
+            application/json:
+              schema: { type: object, additionalProperties: true }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+    post:
+      tags: [Admin]
+      summary: Approve / reject a revenue submission.
+      operationId: adminModerateRevenue
+      security: [{ adminBearer: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [id, action]
+              properties:
+                id: { type: string }
+                action: { type: string, enum: [approve, reject] }
+                moderationNote: { type: string, maxLength: 400 }
+      responses:
+        "200":
+          description: Updated.
+          content:
+            application/json:
+              schema: { type: object, additionalProperties: true }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+
+  # -------------------------------------------------------------------------
+  # Pipeline writes (CRON_SECRET)
+  # -------------------------------------------------------------------------
+  /api/pipeline/ingest:
+    post:
+      tags: [Cron]
+      summary: Ingest a batch of GitHub repos into the pipeline.
+      operationId: pipelineIngest
+      security: [{ cronBearer: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [fullNames]
+              properties:
+                fullNames:
+                  type: array
+                  items: { $ref: "#/components/schemas/FullName" }
+                  minItems: 1
+                  maxItems: 50
+                useMock: { type: boolean }
+                recomputeAfter: { type: boolean, default: true }
+      responses:
+        "200": { description: Batch result. }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+    get:
+      tags: [Cron]
+      summary: Usage shape for POST /api/pipeline/ingest.
+      operationId: pipelineIngestUsage
+      responses:
+        "200": { description: Usage descriptor. }
+
+  /api/pipeline/persist:
+    post:
+      tags: [Cron]
+      summary: Flush in-memory stores to disk.
+      operationId: pipelinePersist
+      security: [{ cronBearer: [] }]
+      responses:
+        "200": { description: File sizes per store. }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+
+  /api/pipeline/recompute:
+    post:
+      tags: [Cron]
+      summary: Run a full recompute pass.
+      operationId: pipelineRecompute
+      security: [{ cronBearer: [] }]
+      responses:
+        "200": { description: Summary. }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "429": { $ref: "#/components/responses/RateLimited" }
+
+  /api/pipeline/refresh:
+    post:
+      tags: [Discovery]
+      summary: Public "nudge the UI" refresh (rate-limited).
+      description: No auth required; per-IP and global cooldowns enforced.
+      operationId: pipelineRefresh
+      responses:
+        "200": { description: Recompute summary. }
+        "429": { $ref: "#/components/responses/RateLimited" }
+
+  /api/pipeline/cleanup:
+    post:
+      tags: [Cron]
+      summary: Re-fetch repos and flag archived / deleted rows.
+      operationId: pipelineCleanup
+      security: [{ cronBearer: [] }]
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                mode: { type: string, enum: [archived, deleted, all] }
+                dryRun: { type: boolean }
+                max: { type: integer, minimum: 1, maximum: 500 }
+      responses:
+        "200": { description: Changes report. }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+
+  /api/pipeline/rebuild:
+    post:
+      tags: [Cron]
+      summary: Full-data rebuild — stargazer backfill + recompute.
+      operationId: pipelineRebuild
+      security: [{ cronBearer: [] }]
+      responses:
+        "200": { description: Summary. }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+
+  /api/pipeline/backfill-history:
+    post:
+      tags: [Cron]
+      summary: Backfill 30-day stargazer history for a single repo.
+      operationId: pipelineBackfillHistory
+      security: [{ cronBearer: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [fullName]
+              properties:
+                fullName: { $ref: "#/components/schemas/FullName" }
+                maxPages: { type: integer, minimum: 1 }
+      responses:
+        "200": { description: Snapshots written + duration. }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+
+  /api/pipeline/profiles/enrich:
+    get:
+      tags: [Cron]
+      summary: Current persisted repo-profile summary.
+      operationId: pipelineProfilesEnrichGet
+      responses:
+        "200": { description: Summary. }
+    post:
+      tags: [Cron]
+      summary: Kick off the enrich script (top / catchup / incremental).
+      operationId: pipelineProfilesEnrichPost
+      security: [{ cronBearer: [] }]
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                mode: { type: string, enum: [top, catchup, incremental] }
+                limit: { type: integer }
+                maxScans: { type: integer }
+                includeRepos:
+                  type: array
+                  items: { $ref: "#/components/schemas/FullName" }
+      responses:
+        "200": { description: Runner output summary. }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+
+  # -------------------------------------------------------------------------
+  # Cron jobs (thin wrappers)
+  # -------------------------------------------------------------------------
+  /api/cron/aiso-drain:
+    post:
+      tags: [Cron]
+      summary: Drain the AISO rescan queue.
+      operationId: cronAisoDrain
+      security: [{ cronBearer: [] }]
+      responses:
+        "200": { description: Drain summary. }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+
+  /api/cron/predictions:
+    post:
+      tags: [Cron]
+      summary: Write prediction rows for top repos.
+      operationId: cronPredictions
+      security: [{ cronBearer: [] }]
+      responses:
+        "200": { description: Summary. }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+
+  /api/cron/predictions/calibrate:
+    post:
+      tags: [Cron]
+      summary: Score predictions whose horizon has elapsed.
+      operationId: cronPredictionsCalibrate
+      security: [{ cronBearer: [] }]
+      responses:
+        "200": { description: Summary. }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+
+  /api/cron/twitter-daily:
+    post:
+      tags: [Cron]
+      summary: Generate + publish the daily Twitter thread.
+      operationId: cronTwitterDaily
+      security: [{ cronBearer: [] }]
+      responses:
+        "200": { description: Publish result. }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+
+  /api/cron/twitter-weekly-recap:
+    post:
+      tags: [Cron]
+      summary: End-of-week recap thread.
+      operationId: cronTwitterWeeklyRecap
+      security: [{ cronBearer: [] }]
+      responses:
+        "200": { description: Publish result. }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+
+  # -------------------------------------------------------------------------
+  # Realtime — documented but not schema'd in v1
+  # -------------------------------------------------------------------------
+  /api/stream:
+    get:
+      tags: [Realtime]
+      summary: Server-Sent Events stream of pipeline events.
+      description: |
+        Long-lived SSE connection. Event types:
+          - `ready` (opening frame)
+          - `rank_changed`, `breakout_detected`, `snapshot_captured`,
+            `alert_triggered`
+          - heartbeat comments every ~15s
+
+        Only works on a single long-lived Node process (NOT Vercel Lambdas).
+      operationId: streamPipelineEvents
+      parameters:
+        - name: types
+          in: query
+          schema: { type: string }
+          description: Comma-separated allow-list of event names.
+      responses:
+        "200":
+          description: Event stream (`text/event-stream`).
+          content:
+            text/event-stream:
+              schema:
+                type: string
+        "503":
+          description: Subscriber cap hit.
+
+  # -------------------------------------------------------------------------
+  # Spec self-publication
+  # -------------------------------------------------------------------------
+  /api/openapi.json:
+    get:
+      tags: [Discovery]
+      summary: This spec, served as JSON.
+      description: |
+        Emits the contents of `docs/openapi.json` with a
+        `Cache-Control: public, s-maxage=3600, stale-while-revalidate=86400`
+        header. Point Swagger UI / Redoc at this URL.
+      operationId: getOpenApiSpec
+      responses:
+        "200":
+          description: OpenAPI 3.1 document.
+          content:
+            application/json:
+              schema: { type: object, additionalProperties: true }

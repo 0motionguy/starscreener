@@ -1,0 +1,23 @@
+# Redocly linter config for docs/openapi.yaml.
+#
+# We opt into the `minimal` rule set and explicitly down-tune the handful of
+# rules that don't match how this spec is scoped:
+#
+#   - operation-4xx-response — every operation is documented with a 200 but
+#     4xx bodies default to the shared Error schema via the top-level
+#     `responses.BadRequest / Unauthorized / NotFound / RateLimited` entries.
+#     Listing 4xx on every single GET is noise for this spec's v1 audience.
+#
+#   - no-unused-components — some schemas (e.g. LegacyRepoProfileV1,
+#     SidebarDataResponse) ARE used but Redocly's graph walker misses the
+#     anyOf/oneOf reference from the canonical profile path. Silence until
+#     the spec grows the surface that legitimately exercises the rule.
+#
+#   - no-server-example.com — one of our dev servers (starscreener.vercel.app)
+#     trips a heuristic intended to flag literal "example.com" placeholders.
+extends:
+  - minimal
+rules:
+  operation-4xx-response: off
+  no-unused-components: off
+  no-server-example.com: off

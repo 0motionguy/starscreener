@@ -180,6 +180,30 @@ starscreener/
 3. **Runtime** — `src/lib/derived-repos.ts` merges trending + metadata + recent-repos, runs `classifyBatch()` + `scoreBatch()`, and caches the result module-level (survives Lambda warm-starts).
 4. **Deltas warm up over time** — for repos new to the tracking set, `delta_24h.basis === "cold-start"` until 24 h of history accumulates. The UI displays a dash instead of a fake 0 %, and sparklines are synthesized from the available anchors so rows aren't blank.
 
+## API
+
+Full OpenAPI 3.1 spec: [`docs/openapi.yaml`](./docs/openapi.yaml) (source of truth) or [`docs/openapi.json`](./docs/openapi.json) (served live at `/api/openapi.json`).
+
+Explore interactively:
+
+```bash
+# Redocly preview
+npx @redocly/cli preview-docs docs/openapi.yaml
+
+# Or open Swagger UI against the deployed spec
+open "https://petstore.swagger.io/?url=https://trendingrepo.com/api/openapi.json"
+```
+
+Primary entry point for programmatic use: **`GET /api/repos/{owner}/{name}?v=2`** — returns the full profile (score, reasons, mentions, freshness, twitter, npm, ProductHunt, revenue, funding, related, prediction, ideas) in one round-trip.
+
+Auth surfaces summarised: public reads have no auth; write endpoints use `Authorization: Bearer <CRON_SECRET | ADMIN_TOKEN | USER_TOKEN>`, or the HMAC-signed `ss_user` cookie issued by `POST /api/auth/session`. See the spec for the per-endpoint matrix.
+
+When editing the spec, regenerate the JSON sibling so `/api/openapi.json` stays in sync:
+
+```bash
+npx @redocly/cli bundle --ext json docs/openapi.yaml > docs/openapi.json
+```
+
 ## Portal v0.1 integration
 
 ```bash

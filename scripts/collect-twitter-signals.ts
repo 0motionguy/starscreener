@@ -20,6 +20,11 @@ import {
   type CollectorRawPost,
 } from "./_twitter-collector";
 import {
+  loadAccountsFromEnv as loadTwitterWebAccountsFromEnv,
+  TwitterWebProvider,
+  type TwitterWebPost,
+} from "./_twitter-web-provider";
+import {
   buildTwitterQueryBundle,
   getTwitterScanCandidates,
   ingestTwitterAgentFindings,
@@ -41,7 +46,7 @@ loadEnvConfig(ROOT);
 const USER_AGENT = "TrendingRepo-TwitterCollector/0.1 (+https://trendingrepo.com)";
 const DEFAULT_BASE_URL = "http://localhost:3023";
 
-type CollectorProvider = "nitter" | "fixture";
+type CollectorProvider = "nitter" | "fixture" | "web";
 type CollectorMode = "direct" | "api";
 
 interface CliOptions {
@@ -273,7 +278,7 @@ function parseArgs(argv: string[]): CliOptions {
     }
   }
 
-  if (out.provider !== "nitter" && out.provider !== "fixture") {
+  if (out.provider !== "nitter" && out.provider !== "fixture" && out.provider !== "web") {
     throw new Error(`unsupported provider: ${out.provider}`);
   }
   if (out.mode !== "direct" && out.mode !== "api") {
@@ -290,7 +295,7 @@ function printHelp(): void {
   console.log(`Usage: npm run collect:twitter -- [options]
 
 Options:
-  --provider nitter|fixture       Source provider. Default: nitter
+  --provider nitter|fixture|web   Source provider. Default: nitter
   --mode direct|api               Direct writes JSONL via service; api posts to running app. Default: api
   --limit N                       Candidate repos to scan. Default: 25
   --queries-per-repo N            Query cap per repo. Default: 4
@@ -571,6 +576,67 @@ async function collectFromNitter(
   return [];
 }
 
+function webPostToRawPost(post: TwitterWebPost): CollectorRawPost {
+  return {
+    postId: post.id,
+    postUrl: post.url,
+    authorHandle: post.authorHandle,
+    authorAvatarUrl: null,
+    postedAt: post.postedAt,
+    text: post.content,
+    likes: post.likeCount,
+    reposts: post.repostCount,
+    replies: post.replyCount,
+    quotes: post.quoteCount,
+    sourceUrl: "https://api.x.com/graphql/SearchTimeline",
+  };
+}
+
+function searchQueryForWeb(query: TwitterQuery): string {
+  if (query.queryType === "repo_slug") {
+    return `"${query.queryText}"`;
+  }
+  if (query.queryType === "repo_url") {
+    try {
+      const url = new URL(query.queryText);
+      const normalized = `${url.hostname.replace(/^www\./, "")}${url.pathname.replace(/\/+$/, "")}`;
+      return `"${normalized}"`;
+    } catch {
+      return `"${query.queryText.replace(/^https?:\/\//, "").replace(/\/+$/, "")}"`;
+    }
+  }
+  return query.queryText;
+}
+
+async function collectFromWeb(
+  provider: TwitterWebProvider,
+  query: TwitterQuery,
+  options: CliOptions,
+): Promise<CollectorRawPost[]> {
+  const sinceMs = Date.now() - options.windowHours * 60 * 60 * 1000;
+  const sinceISO = new Date(sinceMs).toISOString();
+  const searchQuery = searchQueryForWeb(query);
+  const limit = options.postsPerQuery > 0 ? Math.min(options.postsPerQuery, 100) : 25;
+
+  try {
+    const posts = await provider.search({
+      query: searchQuery,
+      sinceISO,
+      limit,
+    });
+    const mapped = posts.map(webPostToRawPost);
+    return capQueryPosts(mapped, options);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    logEvent("query_no_hits", {
+      query: query.queryText,
+      queryType: query.queryType,
+      reason: `web-provider: ${message}`,
+    });
+    throw error;
+  }
+}
+
 async function loadFixturePosts(path: string): Promise<CollectorRawPost[]> {
   const resolved = resolve(ROOT, path);
   const raw = JSON.parse(await readFile(resolved, "utf8")) as unknown;
@@ -653,6 +719,17 @@ async function main(): Promise<void> {
     options.provider === "fixture" && options.fixtureFile
       ? await loadFixturePosts(options.fixtureFile)
       : [];
+
+  let webProvider: TwitterWebProvider | null = null;
+  if (options.provider === "web") {
+    const accounts = loadTwitterWebAccountsFromEnv();
+    webProvider = new TwitterWebProvider({
+      accounts,
+      timeoutMs: options.timeoutMs,
+    });
+    log(`web-provider initialized with ${accounts.length} account(s)`);
+  }
+
   const payloads: TwitterIngestRequest[] = [];
 
   log(
@@ -674,13 +751,31 @@ async function main(): Promise<void> {
     });
 
     const queryStart = Date.now();
+    let repoWebExhausted = false;
     await Promise.all(
       queries.map((query) =>
         limit(async () => {
-          const posts =
-            options.provider === "fixture"
-              ? fixturePostsForQuery(fixturePosts, query, candidate)
-              : await collectFromNitter(query, options);
+          let posts: CollectorRawPost[] = [];
+          if (options.provider === "fixture") {
+            posts = fixturePostsForQuery(fixturePosts, query, candidate);
+          } else if (options.provider === "web" && webProvider) {
+            if (repoWebExhausted) {
+              posts = [];
+            } else {
+              try {
+                posts = await collectFromWeb(webProvider, query, options);
+              } catch (error) {
+                const message = error instanceof Error ? error.message : String(error);
+                log(
+                  `web-provider exhausted for ${candidate.repo.githubFullName}: ${message} — skipping remaining queries for this repo`,
+                );
+                repoWebExhausted = true;
+                posts = [];
+              }
+            }
+          } else {
+            posts = await collectFromNitter(query, options);
+          }
           postsByQuery.set(query.queryText, posts);
           logEvent("query_done", {
             repo: candidate.repo.githubFullName,
@@ -722,6 +817,12 @@ async function main(): Promise<void> {
   }
 
   const postCount = payloads.reduce((sum, payload) => sum + payload.posts.length, 0);
+  if (webProvider) {
+    const stats = webProvider.getStats();
+    log(
+      `web-provider stats requests=${stats.requests} errors=${stats.errors} healthy=${stats.accountsHealthy} rateLimited=${stats.accountsRateLimited}`,
+    );
+  }
   log(`done payloads=${payloads.length} posts=${postCount}`);
 }
 

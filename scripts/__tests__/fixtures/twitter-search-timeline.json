@@ -1,0 +1,127 @@
+{
+  "data": {
+    "search_by_raw_query": {
+      "search_timeline": {
+        "timeline": {
+          "instructions": [
+            {
+              "type": "TimelineAddEntries",
+              "entries": [
+                {
+                  "entryId": "tweet-1900000000000000001",
+                  "content": {
+                    "entryType": "TimelineTimelineItem",
+                    "__typename": "TimelineTimelineItem",
+                    "itemContent": {
+                      "itemType": "TimelineTweet",
+                      "tweetDisplayType": "Tweet",
+                      "tweet_results": {
+                        "result": {
+                          "__typename": "Tweet",
+                          "rest_id": "1900000000000000001",
+                          "core": {
+                            "user_results": {
+                              "result": {
+                                "__typename": "User",
+                                "legacy": {
+                                  "screen_name": "alice_dev",
+                                  "name": "Alice Dev"
+                                }
+                              }
+                            }
+                          },
+                          "legacy": {
+                            "full_text": "Just pushed an update to vercel/next.js — check it out!",
+                            "created_at": "Wed Apr 23 20:19:24 +0000 2026",
+                            "favorite_count": 42,
+                            "retweet_count": 7,
+                            "reply_count": 3,
+                            "quote_count": 1
+                          },
+                          "views": {
+                            "count": "12345"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "entryId": "promoted-tweet-1900000000000000002",
+                  "content": {
+                    "entryType": "TimelineTimelineItem",
+                    "__typename": "TimelineTimelineItem",
+                    "itemContent": {
+                      "itemType": "TimelineTweet",
+                      "tweetDisplayType": "SelfThread",
+                      "tweet_results": {
+                        "result": {
+                          "__typename": "Tweet",
+                          "rest_id": "1900000000000000002",
+                          "legacy": {
+                            "full_text": "Promoted — should be filtered out"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "entryId": "cursor-top-1",
+                  "content": {
+                    "entryType": "TimelineTimelineCursor",
+                    "__typename": "TimelineTimelineCursor",
+                    "cursorType": "Top",
+                    "value": "DAABCgABGZ..."
+                  }
+                },
+                {
+                  "entryId": "tweet-1900000000000000003",
+                  "content": {
+                    "entryType": "TimelineTimelineItem",
+                    "__typename": "TimelineTimelineItem",
+                    "itemContent": {
+                      "itemType": "TimelineTweet",
+                      "tweetDisplayType": "Tweet",
+                      "tweet_results": {
+                        "result": {
+                          "__typename": "TweetWithVisibilityResults",
+                          "tweet": {
+                            "__typename": "Tweet",
+                            "rest_id": "1900000000000000003",
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "legacy": {
+                                    "screen_name": "bob_codes",
+                                    "name": "Bob Codes"
+                                  }
+                                }
+                              }
+                            },
+                            "legacy": {
+                              "full_text": "anthropic/claude-code is wild — the cli is on another level",
+                              "created_at": "Thu Apr 24 10:00:00 +0000 2026",
+                              "favorite_count": 100,
+                              "retweet_count": 10,
+                              "reply_count": 5,
+                              "quote_count": 2
+                            },
+                            "views": {
+                              "count": "50000"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}

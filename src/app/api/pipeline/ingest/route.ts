@@ -10,11 +10,27 @@
 import { NextRequest, NextResponse } from "next/server";
 import { pipeline } from "@/lib/pipeline/pipeline";
 import { createGitHubAdapter } from "@/lib/pipeline/ingestion/ingest";
-import type { IngestBatchResult } from "@/lib/pipeline/types";
+import { getExtendedSocialAdapters } from "@/lib/pipeline/adapters/extended-social";
+import type { IngestBatchResult, SocialAdapter } from "@/lib/pipeline/types";
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 
 const FULL_NAME_PATTERN = /^[A-Za-z0-9._-]+\/[A-Za-z0-9._-]+$/;
 const MAX_BATCH_SIZE = 50;
+
+// P0 fix (F-DATA-social-persist): without social adapters the batch ingest
+// never populates `.data/mentions.jsonl`, so historical mention timelines,
+// cross-source dedup, and confidence scoring all rely on live per-request
+// refetches. Enabling social adapters at ingest makes the unified MentionStore
+// the source of truth with the live fallback as a secondary path.
+//
+// Kill-switch: set INGEST_SOCIAL_ADAPTERS=false to disable if a source goes
+// flaky without needing a deploy.
+function isSocialAdapterIngestEnabled(): boolean {
+  const raw = process.env.INGEST_SOCIAL_ADAPTERS;
+  if (raw === undefined) return true;
+  const v = raw.trim().toLowerCase();
+  return !(v === "false" || v === "0" || v === "no" || v === "off");
+}
 
 export interface IngestRequestBody {
   fullNames: string[];
@@ -126,9 +142,28 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       token,
     });
 
+    // Build per-source throw-guarded wrappers so one flaky social source
+    // can't wedge the whole batch (and so we can count per-source writes
+    // even though ingestRepo already swallows errors). A counter closure
+    // gives us a reliable "written per source" tally without re-reading
+    // the mention store after the fact.
+    const socialAdapters = isSocialAdapterIngestEnabled()
+      ? wrapSocialAdapters(getExtendedSocialAdapters())
+      : undefined;
+
     const batch = await pipeline.ingestBatch(fullNames, {
       githubAdapter: adapter,
+      socialAdapters: socialAdapters?.adapters,
     });
+
+    if (socialAdapters) {
+      const summary = Object.entries(socialAdapters.counters)
+        .map(([id, c]) => `${id}=${c.mentions}${c.failures > 0 ? `(${c.failures} fail)` : ""}`)
+        .join(" ");
+      console.log(
+        `[pipeline:ingest] social adapters summary repos=${fullNames.length} ${summary}`,
+      );
+    }
 
     const shouldRecompute = recomputeAfter ?? true;
     if (shouldRecompute) {
@@ -168,6 +203,49 @@ export interface IngestUsageResponse {
     maxBatchSize: number;
     fullNamePattern: string;
   };
+}
+
+interface SocialAdapterCounter {
+  mentions: number;
+  failures: number;
+}
+
+interface WrappedSocialAdapters {
+  adapters: SocialAdapter[];
+  counters: Record<string, SocialAdapterCounter>;
+}
+
+/**
+ * Wrap each social adapter so (a) per-source throws are caught and logged with
+ * a `[ingest:social:<source>]` prefix (one flaky source can't take down the
+ * GitHub ingest path), and (b) per-source mention counts + failure counts are
+ * accumulated for the post-batch summary log.
+ */
+function wrapSocialAdapters(source: SocialAdapter[]): WrappedSocialAdapters {
+  const counters: Record<string, SocialAdapterCounter> = {};
+  const adapters: SocialAdapter[] = source.map((inner) => {
+    counters[inner.id] = { mentions: 0, failures: 0 };
+    const counter = counters[inner.id];
+    return {
+      id: inner.id,
+      platform: inner.platform,
+      async fetchMentionsForRepo(fullName: string, since?: string) {
+        try {
+          const mentions = await inner.fetchMentionsForRepo(fullName, since);
+          counter.mentions += mentions.length;
+          return mentions;
+        } catch (err) {
+          counter.failures += 1;
+          console.error(
+            `[ingest:social:${inner.id}] error for ${fullName}`,
+            err instanceof Error ? err.message : String(err),
+          );
+          return [];
+        }
+      },
+    };
+  });
+  return { adapters, counters };
 }
 
 export async function GET(): Promise<NextResponse<IngestUsageResponse>> {

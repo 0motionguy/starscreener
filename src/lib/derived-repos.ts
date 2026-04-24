@@ -9,6 +9,9 @@
 // compare + category OG cards). MCP tools + admin pipeline routes continue
 // to read the in-memory stores.
 
+import { existsSync, readFileSync, statSync } from "node:fs";
+import { join } from "node:path";
+
 import type { Repo } from "./types";
 import {
   getRepoMetadata,
@@ -39,6 +42,7 @@ import {
   deriveTags,
 } from "./pipeline/classification/classifier";
 import { attachCrossSignal } from "./pipeline/cross-signal";
+import { currentDataDir, FILES } from "./pipeline/storage/file-persistence";
 import { getLaunchForRepo } from "./producthunt";
 import { getRedditDataVersion } from "./reddit-data";
 import {
@@ -50,6 +54,96 @@ let _cache: Repo[] | null = null;
 let _cacheKey: string | null = null;
 let _byFullName: Map<string, Repo> | null = null;
 let _byId: Map<string, Repo> | null = null;
+
+// ---------------------------------------------------------------------------
+// Pipeline repos.jsonl fallback loader (mtime-cached)
+// ---------------------------------------------------------------------------
+//
+// `.data/repos.jsonl` is the pipeline's persisted repo store — it carries
+// every repo the in-memory `repoStore` has ever tracked, including mature
+// projects (ollama, vercel/next.js, huggingface/transformers, etc.) that
+// have aged out of OSSInsights's trending lists and aren't in the supplemental
+// recent-repos / manual-repos feeds.
+//
+// On cold Vercel Lambdas the in-memory store is empty, so without this
+// fallback those repos would 404 on `/repo/[owner]/[name]`. Reading the
+// JSONL at request time and supplementing `getDerivedRepos()` restores
+// coverage parity with the persisted pipeline state.
+//
+// Cached by mtime (same pattern as repo-reasons.ts). The JSONL is rewritten
+// in bulk by the pipeline store, so a single mtime stamp invalidates safely.
+
+let _pipelineReposCache:
+  | {
+      mtimeMs: number;
+      size: number;
+      rows: Repo[];
+    }
+  | null = null;
+
+function pipelineReposFilePath(): string {
+  return join(currentDataDir(), FILES.repos);
+}
+
+function loadPipelineReposFromDisk(): Repo[] {
+  const path = pipelineReposFilePath();
+  if (!existsSync(path)) return [];
+  let raw: string;
+  try {
+    raw = readFileSync(path, "utf8");
+  } catch {
+    return [];
+  }
+
+  const out: Repo[] = [];
+  for (const line of raw.split(/\r?\n/)) {
+    const trimmed = line.trim();
+    if (!trimmed) continue;
+    try {
+      const record = JSON.parse(trimmed) as Repo;
+      if (record && typeof record.fullName === "string" && record.fullName.includes("/")) {
+        out.push(record);
+      }
+    } catch {
+      // Skip malformed lines — the rest of the file is still usable.
+    }
+  }
+  return out;
+}
+
+function getPipelineRepos(): Repo[] {
+  const path = pipelineReposFilePath();
+  let mtimeMs = -1;
+  let size = -1;
+  try {
+    const stat = statSync(path);
+    mtimeMs = stat.mtimeMs;
+    size = stat.size;
+  } catch {
+    mtimeMs = -1;
+    size = -1;
+  }
+  if (
+    _pipelineReposCache &&
+    _pipelineReposCache.mtimeMs === mtimeMs &&
+    _pipelineReposCache.size === size
+  ) {
+    return _pipelineReposCache.rows;
+  }
+  const rows = loadPipelineReposFromDisk();
+  _pipelineReposCache = { mtimeMs, size, rows };
+  return rows;
+}
+
+function getPipelineReposDataVersion(): string {
+  const path = pipelineReposFilePath();
+  try {
+    const stat = statSync(path);
+    return `jsonl:${stat.mtimeMs}:${stat.size}`;
+  } catch {
+    return "jsonl:none";
+  }
+}
 
 const PERIODS: TrendingPeriod[] = [
   "past_24_hours",
@@ -315,7 +409,7 @@ function baseRepoFromTrending(
  * call.
  */
 export function getDerivedRepos(): Repo[] {
-  const cacheKey = `${getRedditDataVersion()}:${getManualReposDataVersion()}:${getTwitterSignalsDataVersion()}`;
+  const cacheKey = `${getRedditDataVersion()}:${getManualReposDataVersion()}:${getTwitterSignalsDataVersion()}:${getPipelineReposDataVersion()}`;
   if (_cache && _cacheKey === cacheKey) return _cache;
   _byFullName = null;
   _byId = null;
@@ -488,6 +582,46 @@ export function getDerivedRepos(): Repo[] {
     seenFullNames.add(normalized);
   }
 
+  // Supplemental fallback: pipeline-persisted `.data/repos.jsonl` rows that
+  // aren't covered by trending/recent/manual. This catches mature repos
+  // (ollama/ollama, vercel/next.js, huggingface/transformers, …) that have
+  // aged out of OSSInsights's trending feeds but still live in the persisted
+  // pipeline store. Without this the repo detail page 404s on core tracked
+  // repos whenever the Lambda cold-starts (the in-memory repoStore is empty
+  // there). Each JSONL row already carries a full Repo shape; we fold in
+  // committed metadata when present so stars/topics stay in sync, then feed
+  // the row through the same classify+score pass as the trending-derived
+  // set so category/momentum values come out consistent across sources.
+  for (const row of getPipelineRepos()) {
+    const normalized = row.fullName.toLowerCase();
+    if (seenFullNames.has(normalized)) continue;
+    const metadata = getRepoMetadata(row.fullName);
+    const merged: Repo = {
+      ...row,
+      id: slugToId(row.fullName),
+      fullName: metadata?.fullName ?? row.fullName,
+      name: metadata?.name ?? row.name,
+      owner: metadata?.owner ?? row.owner,
+      ownerAvatarUrl: metadata?.ownerAvatarUrl || row.ownerAvatarUrl,
+      description: metadata?.description || row.description || "",
+      url: metadata?.url ?? row.url,
+      language: metadata?.language ?? row.language,
+      topics: metadata?.topics ?? row.topics ?? [],
+      stars: metadata?.stars ?? row.stars,
+      forks: metadata?.forks ?? row.forks,
+      openIssues: metadata?.openIssues ?? row.openIssues,
+      lastCommitAt:
+        metadata?.pushedAt ||
+        metadata?.updatedAt ||
+        metadata?.createdAt ||
+        row.lastCommitAt,
+      createdAt: metadata?.createdAt ?? row.createdAt,
+      archived: metadata?.archived ?? row.archived,
+    };
+    repos.push(merged);
+    seenFullNames.add(normalized);
+  }
+
   // 2. Classify first so scoreBatch's per-category averages use the real
   //    topic-derived categoryIds instead of the "other" placeholder.
   const classifications = classifyBatch(repos);
@@ -616,4 +750,5 @@ export function __resetDerivedReposCache(): void {
   _cacheKey = null;
   _byFullName = null;
   _byId = null;
+  _pipelineReposCache = null;
 }

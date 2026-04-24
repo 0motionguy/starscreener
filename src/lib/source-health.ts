@@ -399,3 +399,100 @@ export function getDegradedScannerSources(): ScannerSourceHealth[] {
 export function getStaleScannerSources(): ScannerSourceHealth[] {
   return getScannerSourceHealth().filter((source) => source.status === "stale");
 }
+
+// ---------------------------------------------------------------------------
+// Per-repo freshness snapshot
+//
+// Design note (keyed by source, NOT by (source, repo)):
+// Every scanner runs globally — we ingest the entire Reddit / HN / Bluesky
+// firehose and bucket posts per repo post-hoc. The last-fetch timestamps
+// tracked in each scraper module are therefore per-source globals. The
+// freshness signal the UI needs is "is the Reddit scan stale?", not "is the
+// Reddit scan stale FOR THIS SPECIFIC REPO?" — those two questions collapse
+// to the same answer under our scraper model, so a global getter is fine.
+//
+// The per-repo route still takes (owner, name) in its URL for cache-key
+// shape and future per-repo differentiation without breaking the contract.
+// ---------------------------------------------------------------------------
+
+export type FreshnessSourceId =
+  | "reddit"
+  | "hackernews"
+  | "bluesky"
+  | "devto"
+  | "producthunt"
+  | "twitter"
+  | "npm"
+  | "github";
+
+export interface FreshnessSourceEntry {
+  lastScanAt: string | null;
+  ageMs: number | null;
+  stale: boolean;
+}
+
+export interface FreshnessSnapshot {
+  fetchedAt: string;
+  sources: Record<FreshnessSourceId, FreshnessSourceEntry>;
+}
+
+// Map health-array source ids onto the chip-level ids. Only sources that
+// source-health actually tracks appear here; twitter + github stay null
+// until their scrapers start emitting fetched-at.
+const HEALTH_TO_FRESHNESS_ID: Partial<Record<ScannerSourceId, FreshnessSourceId>> = {
+  reddit: "reddit",
+  hackernews: "hackernews",
+  bluesky: "bluesky",
+  devto: "devto",
+  producthunt: "producthunt",
+  npm: "npm",
+};
+
+function emptyEntry(): FreshnessSourceEntry {
+  return { lastScanAt: null, ageMs: null, stale: false };
+}
+
+/**
+ * Build a snapshot of per-source freshness suitable for rendering chips.
+ * Pure read of in-memory scraper state — no I/O.
+ */
+export function getFreshnessSnapshot(nowMs: number = Date.now()): FreshnessSnapshot {
+  const sources: Record<FreshnessSourceId, FreshnessSourceEntry> = {
+    reddit: emptyEntry(),
+    hackernews: emptyEntry(),
+    bluesky: emptyEntry(),
+    devto: emptyEntry(),
+    producthunt: emptyEntry(),
+    twitter: emptyEntry(),
+    npm: emptyEntry(),
+    github: emptyEntry(),
+  };
+
+  for (const health of getScannerSourceHealth()) {
+    const freshnessId = HEALTH_TO_FRESHNESS_ID[health.id];
+    if (!freshnessId) continue;
+
+    // Cold or never-scanned → leave as emptyEntry().
+    if (health.cold || !health.fetchedAt) {
+      continue;
+    }
+
+    const ageMs = nowMs - Date.parse(health.fetchedAt);
+    if (!Number.isFinite(ageMs)) {
+      continue;
+    }
+    const normalizedAge = Math.max(0, ageMs);
+    const staleAfterMs = health.staleAfterSeconds * 1000;
+
+    sources[freshnessId] = {
+      lastScanAt: health.fetchedAt,
+      ageMs: normalizedAge,
+      stale: normalizedAge > staleAfterMs,
+    };
+  }
+
+  return {
+    fetchedAt: new Date(nowMs).toISOString(),
+    sources,
+  };
+}

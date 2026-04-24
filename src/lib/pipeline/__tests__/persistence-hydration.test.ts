@@ -227,6 +227,10 @@ function mockMention(repoId: string): RepoMention {
     postedAt: "2026-04-17T00:00:00.000Z",
     discoveredAt: "2026-04-17T00:10:00.000Z",
     isInfluencer: false,
+    // MentionStore.append() fills normalizedUrl on write (P1 dedup fix).
+    // Include it in the fixture so deepEqual(restoredMention, mention)
+    // reflects the post-append + post-hydrate canonical shape.
+    normalizedUrl: "https://news.ycombinator.com/item?id=1",
   };
 }
 

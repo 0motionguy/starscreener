@@ -23,7 +23,8 @@ export type SocialPlatform =
   | "reddit"
   | "hackernews"
   | "github"
-  | "devto";
+  | "devto"
+  | "bluesky";
 
 export type Sentiment = "positive" | "neutral" | "negative";
 
@@ -205,6 +206,23 @@ export interface Repo {
       votesCount: number;
       daysSinceLaunch: number;
       url: string;
+    };
+  } | null;
+
+  /**
+   * Funding events attached to this repo via src/lib/funding/repo-events.ts.
+   * Sparse — only present when at least one funding signal matched this repo
+   * by domain/alias/name at confidence >= 0.6. The Repo row itself never
+   * carries the full event list to keep payloads lean; this is a per-detail
+   * attachment set by the integration site (repo profile page).
+   */
+  funding?: {
+    count: number;
+    /** Latest announced event (for list-card preview / rank-list usage). */
+    latest?: {
+      amountDisplay: string;
+      roundType: string;
+      announcedAt: string;
     };
   } | null;
 }

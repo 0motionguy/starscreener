@@ -38,6 +38,7 @@ const PLATFORM_ICON: Record<SocialPlatform, React.ReactNode> = {
   hackernews: <ExternalLink size={14} className="shrink-0 text-accent-amber" />,
   github: <GitBranch size={14} className="shrink-0 text-text-secondary" />,
   devto: <FileText size={14} className="shrink-0 text-accent-purple" />,
+  bluesky: <MessageCircle size={14} className="shrink-0 text-accent-blue" />,
 };
 
 const SENTIMENT_DOT: Record<string, string> = {

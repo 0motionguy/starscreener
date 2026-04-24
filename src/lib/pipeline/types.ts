@@ -270,6 +270,20 @@ export interface RepoReason {
 // SOCIAL SIGNALS — mentions + aggregate
 // ---------------------------------------------------------------------------
 
+/**
+ * Known values for `RepoMention.matchReason`. The field type on `RepoMention`
+ * is intentionally broader (`string`) so adapters can introduce new reasons
+ * during the transition without TypeScript-breaking the entire pipeline — but
+ * this union is the canonical list new code should target.
+ */
+export type MentionMatchReason =
+  | "exact_url"       // url contained a direct link to the repo
+  | "owner_name"      // owner/name pair matched in content
+  | "alias"           // known alias matched
+  | "domain"          // homepage domain matched
+  | "keyword"         // keyword search hit
+  | "twitter_signal"; // derived from the twitter collector pipeline
+
 export interface RepoMention {
   id: string;
   repoId: string;
@@ -284,6 +298,29 @@ export interface RepoMention {
   postedAt: string;
   discoveredAt: string;
   isInfluencer: boolean;
+
+  // --- P1 correctness fields (all optional for back-compat) ---
+
+  /**
+   * Match confidence in [0, 1]. 1.0 = exact URL match, 0.4 = fuzzy keyword.
+   * When absent, callers should treat the match as "unspecified" rather than
+   * assume a default — old rows predate this field.
+   */
+  confidence?: number;
+
+  /**
+   * Why this mention was associated with `repoId`. Typed as `string` (not the
+   * `MentionMatchReason` union) so adapters can emit free-form reasons during
+   * the transition; new code should pick a value from `MentionMatchReason`.
+   */
+  matchReason?: MentionMatchReason | string;
+
+  /**
+   * Canonical form of `url` used for cross-source dedup in `MentionStore`.
+   * The store fills this on write when unset (see `InMemoryMentionStore.append`).
+   * May be `null` if the raw `url` isn't parseable at all.
+   */
+  normalizedUrl?: string | null;
 }
 
 /** Aggregated social signal for a single repo. */

@@ -10,7 +10,7 @@
 // after marking dirty so the singleton layer can debounce disk writes without
 // every call site having to remember. Tests leave the hook unset (no-op).
 
-import type { Repo } from "../../types";
+import type { Repo, SocialPlatform } from "../../types";
 import type {
   AlertEvent,
   AlertEventStore,
@@ -34,6 +34,7 @@ import {
   readJsonlFile,
   writeJsonlFile,
 } from "./file-persistence";
+import { normalizeUrl } from "../adapters/normalizer";
 
 // ---------------------------------------------------------------------------
 // Shared mutation hook — singleton layer wires this up to debounce persists.
@@ -430,6 +431,40 @@ export class InMemoryReasonStore implements ReasonStore {
 // ---------------------------------------------------------------------------
 
 /**
+ * Opaque cursor for `listForRepoPaginated`. Clients receive the base64url
+ * encoding via the API; the shape is internal to the store + the API route
+ * that wraps it. Cursor is exclusive: rows strictly BEFORE this coordinate
+ * (in (postedAt desc, id desc) order) are returned on the next page.
+ */
+export interface MentionPageCursor {
+  postedAt: string;
+  id: string;
+}
+
+/**
+ * Options for `listForRepoPaginated`. `limit` is capped by the store to a
+ * safe upper bound regardless of what the caller asks for — see
+ * `MENTION_PAGE_MAX_LIMIT`.
+ */
+export interface MentionListOptions {
+  /** Filter down to a single platform, matching `RepoMention.platform`. */
+  source?: SocialPlatform;
+  /** Exclusive lower bound (newer-than-cursor excluded) on (postedAt desc, id desc). */
+  cursor?: MentionPageCursor;
+  /** Default 50, hard-capped at MENTION_PAGE_MAX_LIMIT. */
+  limit?: number;
+}
+
+export interface MentionListPage {
+  items: RepoMention[];
+  /** Cursor for the next page, or null when no more rows exist. */
+  nextCursor: MentionPageCursor | null;
+}
+
+export const MENTION_PAGE_DEFAULT_LIMIT = 50;
+export const MENTION_PAGE_MAX_LIMIT = 200;
+
+/**
  * In-memory mention store keyed by repoId.
  *
  * Mentions are kept sorted newest-first. Aggregates are stored separately
@@ -442,11 +477,52 @@ export class InMemoryMentionStore implements MentionStore {
   private dirty = false;
 
   append(mention: RepoMention): void {
-    const existing = this.byRepo.get(mention.repoId) ?? [];
-    const withoutDupe = existing.filter((m) => m.id !== mention.id);
-    withoutDupe.push(mention);
-    withoutDupe.sort((a, b) => descByIso(a.postedAt, b.postedAt));
-    this.byRepo.set(mention.repoId, withoutDupe);
+    // Fill normalizedUrl at the store boundary when the adapter didn't set
+    // it. Using `in` guards against accidental overwrite of an explicit
+    // `null` that an adapter may have set to record "url was unparseable".
+    let incoming: RepoMention = mention;
+    if (!("normalizedUrl" in mention) && mention.url) {
+      incoming = { ...mention, normalizedUrl: normalizeUrl(mention.url) };
+    }
+
+    const existing = this.byRepo.get(incoming.repoId) ?? [];
+
+    // Dedup priority:
+    //   1. Same `id` — treat as an update and replace in place. Same id is
+    //      by definition the same row; an adapter re-ingesting the same
+    //      item (e.g. an HN story with refreshed engagement counts) should
+    //      see its newer payload land. This preserves prior behaviour.
+    //   2. If `normalizedUrl` is set AND no id match was found, skip when
+    //      an existing row for this repo has the same normalizedUrl. This
+    //      collapses tracking-param + trailing-slash + www. variants across
+    //      sources (e.g. HN link and Reddit link to the same GitHub page).
+    const idIndex = existing.findIndex((m) => m.id === incoming.id);
+    if (idIndex >= 0) {
+      const next = existing.slice();
+      next[idIndex] = incoming;
+      next.sort((a, b) => descByIso(a.postedAt, b.postedAt));
+      this.byRepo.set(incoming.repoId, next);
+      this.markDirty();
+      notifyMutation();
+      return;
+    }
+
+    if (incoming.normalizedUrl) {
+      const urlDup = existing.find(
+        (m) => m.normalizedUrl && m.normalizedUrl === incoming.normalizedUrl,
+      );
+      if (urlDup) {
+        // Different id, same canonical URL → cross-source duplicate. Skip.
+        // First write wins; if adapters need to update metadata (engagement,
+        // reach) they must flow through a dedicated update path, not append.
+        return;
+      }
+    }
+
+    const next = existing.slice();
+    next.push(incoming);
+    next.sort((a, b) => descByIso(a.postedAt, b.postedAt));
+    this.byRepo.set(incoming.repoId, next);
     this.markDirty();
     notifyMutation();
   }
@@ -455,6 +531,69 @@ export class InMemoryMentionStore implements MentionStore {
     const mentions = this.byRepo.get(repoId) ?? [];
     if (limit === undefined) return mentions.slice();
     return mentions.slice(0, Math.max(0, limit));
+  }
+
+  /**
+   * Paginated read over a repo's mentions, ordered by `(postedAt desc, id desc)`.
+   *
+   * The in-memory array is already sorted newest-first by postedAt, but ties
+   * on postedAt aren't stable across platforms (two adapters can mint the
+   * same ISO minute). We resort with a deterministic id tiebreak before
+   * applying the cursor + filter so pagination is reproducible across calls
+   * even when adapters re-ingest.
+   *
+   * O(n) walk per call — acceptable while the working set stays well below
+   * ~10k mentions per repo. If we ever see a hot repo blow past that, swap
+   * in a per-repo sorted index keyed on (postedAt, id).
+   */
+  listForRepoPaginated(
+    repoId: string,
+    opts: MentionListOptions = {},
+  ): MentionListPage {
+    const all = this.byRepo.get(repoId);
+    if (!all || all.length === 0) {
+      return { items: [], nextCursor: null };
+    }
+
+    const limit = Math.max(
+      1,
+      Math.min(opts.limit ?? MENTION_PAGE_DEFAULT_LIMIT, MENTION_PAGE_MAX_LIMIT),
+    );
+
+    // Copy + sort by (postedAt desc, id desc) for deterministic ordering.
+    // The store's internal array sorts by postedAt only, so a second-level
+    // id sort is required for pagination stability.
+    const sorted = all.slice().sort((a, b) => {
+      if (a.postedAt < b.postedAt) return 1;
+      if (a.postedAt > b.postedAt) return -1;
+      if (a.id < b.id) return 1;
+      if (a.id > b.id) return -1;
+      return 0;
+    });
+
+    // Apply source filter.
+    const filtered = opts.source
+      ? sorted.filter((m) => m.platform === opts.source)
+      : sorted;
+
+    // Apply exclusive cursor: keep rows strictly less than (postedAt, id).
+    const cursor = opts.cursor;
+    const afterCursor = cursor
+      ? filtered.filter((m) => {
+          if (m.postedAt < cursor.postedAt) return true;
+          if (m.postedAt > cursor.postedAt) return false;
+          // postedAt tie → compare id desc
+          return m.id < cursor.id;
+        })
+      : filtered;
+
+    const items = afterCursor.slice(0, limit);
+    const nextCursor: MentionPageCursor | null =
+      items.length === limit && items.length > 0
+        ? { postedAt: items[items.length - 1].postedAt, id: items[items.length - 1].id }
+        : null;
+
+    return { items, nextCursor };
   }
 
   aggregateForRepo(repoId: string): SocialAggregate | undefined {

@@ -8,11 +8,13 @@
 // repo-metadata source changes. A miss on either does no work and returns []
 // — this is a read-only overlay, not something the render path can rely on.
 
-import { statSync } from "node:fs";
-import { resolve } from "node:path";
+import { existsSync, readFileSync, statSync } from "node:fs";
+import { join, resolve } from "node:path";
 
 import { getFundingFile } from "../funding-news";
+import { currentDataDir, FILES } from "../pipeline/storage/file-persistence";
 import { listRepoMetadata } from "../repo-metadata";
+import type { Repo } from "../types";
 import { getFundingAliasRegistry } from "./aliases";
 import {
   matchFundingEventToRepo,
@@ -69,29 +71,111 @@ function aliasFileSignature(): string {
   }
 }
 
-function buildCandidates(): RepoCandidate[] {
+function pipelineReposFilePath(): string {
+  return join(currentDataDir(), FILES.repos);
+}
+
+function pipelineReposFileSignature(): string {
+  try {
+    const stat = statSync(pipelineReposFilePath());
+    return `jsonl:${stat.mtimeMs}:${stat.size}`;
+  } catch {
+    return "jsonl:missing";
+  }
+}
+
+/**
+ * Load pipeline-persisted repo rows from `.data/repos.jsonl`. These fullNames
+ * feed the second pass in `buildCandidates()` so the matcher sees every repo
+ * the pipeline has ever tracked — not just the subset in
+ * `data/repo-metadata.json`.
+ *
+ * No mtime cache here; `buildCandidates()` is already memoized by
+ * `buildIndex()`'s signature, which includes the JSONL stat via
+ * `pipelineReposFileSignature()`. Reading synchronously on index rebuild
+ * keeps the data paths simple and test-friendly.
+ */
+function loadPipelineRepoFullNames(): string[] {
+  const path = pipelineReposFilePath();
+  if (!existsSync(path)) return [];
+  let raw: string;
+  try {
+    raw = readFileSync(path, "utf8");
+  } catch {
+    return [];
+  }
+  const out: string[] = [];
+  for (const line of raw.split(/\r?\n/)) {
+    const trimmed = line.trim();
+    if (!trimmed) continue;
+    try {
+      const record = JSON.parse(trimmed) as Partial<Repo>;
+      if (
+        record &&
+        typeof record.fullName === "string" &&
+        record.fullName.includes("/")
+      ) {
+        out.push(record.fullName);
+      }
+    } catch {
+      // Skip malformed lines — the rest of the file is still usable.
+    }
+  }
+  return out;
+}
+
+/**
+ * Build the full union of repo candidates for funding matching.
+ *
+ * Historically this only iterated `listRepoMetadata()`, so repos that lived
+ * in the pipeline's `.data/repos.jsonl` (mature projects aged out of
+ * OSSInsights trending) were invisible to the matcher — blocking brand-level
+ * alias hits for them. We now fold in any JSONL fullName missing from the
+ * metadata set so the matcher is resilient even when the operator-run
+ * reconciler (`scripts/reconcile-repo-stores.mjs`) hasn't filled them in.
+ *
+ * Metadata entries carry homepageUrl → they contribute to the domain band.
+ * JSONL-only entries have no homepage → they only feed the alias / owner /
+ * name / fuzzy bands, which is enough for registry-backed brand matching.
+ */
+export function buildCandidates(): RepoCandidate[] {
   const all = listRepoMetadata();
   const registry = getFundingAliasRegistry();
-  const candidates: RepoCandidate[] = [];
+  const byFullName = new Map<string, RepoCandidate>();
+
   for (const meta of all) {
+    if (!meta.fullName) continue;
     // Enrich with curated brand aliases + owner-level domains so the
     // matcher's alias + domain bands can fire for names like "Hugging Face"
     // → `huggingface/transformers` or domains like `anthropic.com` →
     // `anthropics/claude-code`. Repos without a registry entry keep
     // empty aliases (existing matcher behavior preserved).
     const entry = registry.get(meta.fullName.toLowerCase());
-    candidates.push({
+    byFullName.set(meta.fullName.toLowerCase(), {
       fullName: meta.fullName,
       homepage: meta.homepageUrl ?? null,
       aliases: entry?.aliases ?? [],
       ownerDomain: entry?.domains[0] ?? null,
     });
   }
-  return candidates;
+
+  for (const fullName of loadPipelineRepoFullNames()) {
+    const key = fullName.toLowerCase();
+    if (byFullName.has(key)) continue;
+    const entry = registry.get(key);
+    byFullName.set(key, {
+      fullName,
+      homepage: null,
+      aliases: entry?.aliases ?? [],
+      ownerDomain: entry?.domains[0] ?? null,
+    });
+  }
+
+  return Array.from(byFullName.values());
 }
 
 function buildIndex(): MatchIndex {
-  const signature = `${fundingFileSignature()}:${aliasFileSignature()}:${listRepoMetadata().length}`;
+  const signature = `${fundingFileSignature()}:${aliasFileSignature()}:${pipelineReposFileSignature()}:${listRepoMetadata().length}`;
   if (cache && cache.signature === signature) return cache;
 
   const file = getFundingFile();

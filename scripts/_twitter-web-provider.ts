@@ -395,7 +395,7 @@ export class TwitterWebProvider {
     };
 
     const url =
-      `https://api.x.com/graphql/${encodeURIComponent(this.queryId)}/SearchTimeline` +
+      `https://x.com/i/api/graphql/${encodeURIComponent(this.queryId)}/SearchTimeline` +
       `?variables=${encodeURIComponent(JSON.stringify(variables))}` +
       `&features=${encodeURIComponent(JSON.stringify(GRAPHQL_FEATURES))}`;
 

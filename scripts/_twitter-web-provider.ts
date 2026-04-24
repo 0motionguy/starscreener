@@ -604,20 +604,13 @@ export class TwitterWebProvider {
 
       const posts = parseSearchTimelineResponse(body, query);
       // Diagnostic: when DEBUG is set AND parser returned 0 posts despite a
-      // 200 response, log the top-level shape so we can tell whether the
-      // response really had no tweets vs the GraphQL schema drifted on us.
+      // 200 response, log a sample of the raw body so we can tell what
+      // Twitter is actually returning (empty data? errors array? different
+      // shape? missing feature flag triggering a non-error empty response?).
       if (posts.length === 0 && process.env.TWITTER_WEB_DEBUG === "1") {
-        const dataKeys = Object.keys(
-          (body as { data?: Record<string, unknown> } | null)?.data ?? {},
-        );
-        const searchKeys = Object.keys(
-          (
-            (body as { data?: { search_by_raw_query?: Record<string, unknown> } } | null)
-              ?.data?.search_by_raw_query ?? {}
-          ),
-        );
+        const sample = JSON.stringify(body).slice(0, 500);
         console.log(
-          `[twitter-web:debug] 0 posts for "${query}" · data keys: [${dataKeys.join(",")}] · search keys: [${searchKeys.join(",")}]`,
+          `[twitter-web:debug] 0 posts for "${query.slice(0, 60)}" · body: ${sample}`,
         );
       }
       return { kind: "ok", posts };

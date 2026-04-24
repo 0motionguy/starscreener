@@ -525,6 +525,76 @@ export const fundingRounds: TableDescriptor = {
 };
 
 /**
+ * User-submitted ideas — "what should be built." The new content type
+ * that anchors the social layer. Ideas can target one or more existing
+ * repos (e.g. "an MCP wrapper for X") or stand alone.
+ *
+ * Lifecycle:
+ *   pending_moderation → published → (optional) shipped → archived
+ *   pending_moderation → rejected (terminal)
+ *
+ * Approval gate: an author's first 5 ideas land in pending_moderation;
+ * once 5 have been approved, subsequent posts auto-publish. Anti-spam
+ * trip wires (rate limit, shadow-ban) live in src/lib/ideas.ts; this
+ * descriptor is the persistence shape.
+ *
+ * Reactions on ideas piggy-back on the polymorphic `reactions` table
+ * (object_type = "idea", object_id = idea.id) — no separate counter
+ * column. Counts are derived at read time from the reactions store.
+ */
+export const ideas: TableDescriptor = {
+  name: "ideas",
+  columns: [
+    { name: "id", type: "text", primaryKey: true },
+    { name: "author_id", type: "text", notNull: true, references: "users.id" },
+    // author_handle denormalized for display so list views never need to
+    // join users. Refreshed on user profile update via a maintenance task.
+    { name: "author_handle", type: "text", notNull: true },
+    { name: "title", type: "text", notNull: true },
+    { name: "pitch", type: "text", notNull: true },
+    { name: "body", type: "text" },
+    // Application-layer constrained: pending_moderation, published,
+    // rejected, shipped, archived. Stored as text so adding a state
+    // doesn't require a migration.
+    { name: "status", type: "text", notNull: true },
+    // Distinct from `status`: the build progress an author advertises.
+    // Application values: exploring, scoping, building, shipped, abandoned.
+    { name: "build_status", type: "text", notNull: true },
+    // When build_status moves to "shipped" the author is encouraged to
+    // attach the resulting GitHub repo URL. Sparse for everything else.
+    { name: "shipped_repo_url", type: "text" },
+    // Targets are GitHub fullNames (max 5, enforced at intake). Stored
+    // as JSON so we don't need a join table for "ideas about repo X".
+    { name: "target_repos", type: "jsonb", notNull: true },
+    // Category drawn from the existing repos.category_id taxonomy so
+    // /ideas can be filtered with the same chips as /categories.
+    { name: "category", type: "text" },
+    { name: "tags", type: "jsonb", notNull: true },
+    { name: "created_at", type: "timestamp", notNull: true },
+    { name: "updated_at", type: "timestamp", notNull: true },
+    { name: "published_at", type: "timestamp" },
+    { name: "moderated_at", type: "timestamp" },
+    { name: "moderation_note", type: "text" },
+    // True when the post bypassed moderation because the author had >=5
+    // approved prior ideas. Useful for spam-pattern audits.
+    { name: "approved_automatically", type: "boolean", notNull: true },
+  ],
+  indices: [
+    { name: "ideas_author_idx", columns: ["author_id"] },
+    { name: "ideas_status_idx", columns: ["status"] },
+    { name: "ideas_published_idx", columns: ["published_at"] },
+    { name: "ideas_build_status_idx", columns: ["build_status"] },
+    // Prevents an author from posting the same exact title twice while
+    // they have an active (non-rejected) version. Spam guardrail.
+    {
+      name: "ideas_author_title_active_uniq",
+      columns: ["author_id", "title"],
+      unique: true,
+    },
+  ],
+};
+
+/**
  * Builder reactions on a target object (repo today, idea later).
  *
  * One row per (user, object, type). The intake layer enforces that a user
@@ -608,4 +678,5 @@ export const schema: TableDescriptor[] = [
   alertEvents,
   watchlist,
   reactions,
+  ideas,
 ];

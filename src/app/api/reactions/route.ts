@@ -131,7 +131,7 @@ export async function POST(
 
   if (!isReactionObjectType(objectType)) {
     return NextResponse.json(
-      { ok: false, error: "objectType must be 'repo'" },
+      { ok: false, error: "objectType must be 'repo' or 'idea'" },
       { status: 400 },
     );
   }

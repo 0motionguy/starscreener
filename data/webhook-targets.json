@@ -1,0 +1,5 @@
+[
+  {
+    "_comment": "Outbound webhook targets for breakout / funding / revenue events. Remove this comment entry and append one or more real targets below. See README (section: Webhooks) for the full shape. Each target: { id, provider ('slack'|'discord'), url, events: ['breakout'|'funding'|'revenue'], filters?: { minMomentum?, minAmountUsd?, languages? }, enabled }."
+  }
+]

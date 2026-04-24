@@ -8,6 +8,9 @@
     { "path": "/api/pipeline/rebuild",       "schedule": "0 5 * * 0" },
     { "path": "/api/cron/predictions",       "schedule": "0 6 * * *" },
     { "path": "/api/cron/aiso-drain",        "schedule": "0,30 * * * *" },
+    { "path": "/api/cron/webhooks/scan",     "schedule": "5,35 * * * *" },
+    { "path": "/api/cron/webhooks/flush",    "schedule": "10,40 * * * *" },
+    { "path": "/api/cron/digest/weekly",     "schedule": "0 8 * * 1" },
     { "path": "/api/health",                 "schedule": "*/15 * * * *" }
   ]
 }

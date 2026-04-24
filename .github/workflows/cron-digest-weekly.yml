@@ -1,0 +1,81 @@
+name: Cron - weekly digest email
+
+# Fires POST /api/cron/digest/weekly every Monday at 08:00 UTC — start-of-
+# week inbox slot when users are most likely to triage. Mirrors the
+# vercel.json registration; if both schedulers are live they will double-
+# fire, which is safe (the route is idempotent over the 7d window) but
+# wastes quota. If you want a single primary, disable EITHER this file
+# OR the matching entry in vercel.json.
+#
+# Shipped disabled-by-default: the server returns
+#   { ok: true, skipped: "disabled" }
+# when `DIGEST_ENABLED` is unset or "false". Operators flip it on at
+# their convenience once RESEND_API_KEY, EMAIL_FROM, and the user→email
+# map are provisioned.
+#
+# Required repo config:
+#   secrets.CRON_SECRET     — must match server CRON_SECRET env
+#   vars.STARSCREENER_URL   — optional; defaults to prod URL
+
+on:
+  schedule:
+    - cron: "0 8 * * 1" # UTC, Monday 08:00
+  workflow_dispatch:
+    inputs:
+      dryRun:
+        description: "Set true to render but not send"
+        required: false
+        default: "false"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cron-digest-weekly
+  cancel-in-progress: false
+
+env:
+  BASE_URL: ${{ vars.STARSCREENER_URL || 'https://trendingrepo.com' }}
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: POST /api/cron/digest/weekly
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          DRY_RUN: ${{ inputs.dryRun || 'false' }}
+        run: |
+          if [ -z "$CRON_SECRET" ]; then
+            echo "::error::CRON_SECRET is unset — refusing to fire unauthenticated"
+            exit 1
+          fi
+
+          URL="$BASE_URL/api/cron/digest/weekly"
+          if [ "$DRY_RUN" = "true" ]; then
+            URL="$URL?dryRun=true"
+          fi
+
+          code=$(curl -sS -o /tmp/out -w "%{http_code}" -X POST \
+            "$URL" \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            -H "Content-Type: application/json" \
+            -d '{}')
+          echo "HTTP $code"
+          if command -v jq >/dev/null 2>&1 && jq . /tmp/out >/dev/null 2>&1; then
+            jq . /tmp/out | head -c 4000
+          else
+            head -c 4000 /tmp/out
+          fi
+          echo
+          if [ "$code" != "200" ]; then
+            echo "::error::digest/weekly call failed ($code)"
+            exit 1
+          fi
+          # Only fail the run when the endpoint explicitly returned ok=false —
+          # `{ ok: true, skipped: "disabled" }` is a legitimate no-op response
+          # until the operator flips DIGEST_ENABLED=true.
+          if command -v jq >/dev/null 2>&1; then
+            jq -e '.ok == true' /tmp/out > /dev/null
+          fi

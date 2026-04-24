@@ -205,6 +205,36 @@ When editing the spec, regenerate the JSON sibling so `/api/openapi.json` stays 
 npx @redocly/cli bundle --ext json docs/openapi.yaml > docs/openapi.json
 ```
 
+## Feeds & syndication
+
+StarScreener exposes RSS 2.0 feeds for the two highest-leverage streams so
+aggregators, newsletters, and LLM agents can subscribe without polling the
+HTML pages. Every feed is hand-rolled (no deps), cached for 30 min at the
+edge, and valid against W3C Feed Validator.
+
+| Feed | Contents | Cadence |
+|---|---|---|
+| [`/feeds/breakouts.xml`](https://trendingrepo.com/feeds/breakouts.xml) | Top 30 repos firing on 2+ signals (GitHub + Reddit + HN), sorted by cross-signal score. Matches the `/breakouts` page's default "multi" filter. | `s-maxage=1800, stale-while-revalidate=3600` |
+| [`/feeds/funding.xml`](https://trendingrepo.com/feeds/funding.xml) | 30 most recent AI / startup funding signals from TechCrunch, VentureBeat, Sifted, YC, NewsAPI. Each `<item>` links to the source article. | `s-maxage=1800, stale-while-revalidate=3600` |
+
+Each item includes an RFC-822 `pubDate`, an `isPermaLink` `guid`, category
+tags, author attribution, and a CDATA-wrapped HTML description so inline
+markup survives round-tripping through RSS readers. Discovery tags are
+emitted via `<atom:link rel="self">` in both feeds.
+
+The sitemap ([`/sitemap.xml`](https://trendingrepo.com/sitemap.xml)) includes
+every static page, every category, every collection, and up to 5,000 tracked
+repos ordered by momentum — each `/repo/{owner}/{name}` entry carries its
+own `lastModified` timestamp derived from `lastCommitAt`, with `priority`
+scaled 0.3–0.9 by `momentumScore` so hot repos get crawled more aggressively.
+
+```bash
+# Subscribe via any RSS client, or preview in a terminal:
+curl -sS https://trendingrepo.com/feeds/breakouts.xml | head -c 500
+curl -sS https://trendingrepo.com/feeds/funding.xml   | head -c 500
+curl -sS https://trendingrepo.com/sitemap.xml         | head -c 500
+```
+
 ## Portal v0.1 integration
 
 ```bash
@@ -283,6 +313,8 @@ The pipeline's recurring work (ingest, persist, cleanup, rebuild, predictions, A
 | `0 5 * * 0`      | `/api/pipeline/rebuild`          | Weekly full rebuild (Sundays)               |
 | `0 6 * * *`      | `/api/cron/predictions`          | Daily top-N momentum predictions            |
 | `0,30 * * * *`   | `/api/cron/aiso-drain`           | Drain AISO rescan queue (every 30 min)      |
+| `5,35 * * * *`   | `/api/cron/webhooks/scan`        | Enqueue breakout + funding webhook deliveries |
+| `10,40 * * * *`  | `/api/cron/webhooks/flush`       | Drain Slack / Discord webhook queue         |
 | `*/15 * * * *`   | `/api/health`                    | Unauthed freshness / status probe           |
 
 ### Primary: GitHub Actions
@@ -312,6 +344,66 @@ If you deploy outside Vercel (e.g. self-hosted), only the GitHub Actions path fi
 2. Redeploy so the new env reaches the cron handlers.
 3. First cron tick after deploy: verify in the Vercel -> Cron dashboard that all 7 jobs registered and their next-run times are correct.
 4. Manually trigger any cron from the Vercel dashboard to smoke the auth path end-to-end.
+
+## Webhooks
+
+Deliver breakout, funding, and (phase-2) revenue events to Slack or Discord as structured messages. No UX — pure outbound infrastructure.
+
+**How it works:**
+
+1. `data/webhook-targets.json` holds a list of operator-configured targets. The scan cron (`/api/cron/webhooks/scan`, every 30 min at :05 / :35) reads the latest derived repos + funding feed and enqueues a row per matching target into `.data/webhook-queue.jsonl`. Enqueue is idempotent — the same (event, subject, target) tuple never duplicates.
+2. The flush cron (`/api/cron/webhooks/flush`, every 30 min at :10 / :40) drains the queue. 5s timeout per POST, 3s gap between POSTs to avoid rate limits. Non-2xx responses bump `attempts`; rows that hit 5 attempts move to `.data/webhook-dead-letter.jsonl` so the queue can drain forward.
+
+**Add a Slack target:**
+
+1. Create an Incoming Webhook at `https://api.slack.com/apps` -> your app -> "Incoming Webhooks". Copy the `https://hooks.slack.com/services/…` URL.
+2. Append to `data/webhook-targets.json`:
+   ```json
+   [
+     {
+       "id": "devrel-slack",
+       "provider": "slack",
+       "url": "https://hooks.slack.com/services/T000/B000/XXXX",
+       "events": ["breakout", "funding"],
+       "filters": { "minMomentum": 80 },
+       "enabled": true
+     }
+   ]
+   ```
+3. Commit, or just place locally. The loader is mtime-cached — the next scan/flush tick picks it up automatically.
+
+**Add a Discord target:**
+
+1. In Discord: Server Settings -> Integrations -> Webhooks -> New Webhook. Copy the `https://discord.com/api/webhooks/…` URL.
+2. Append to `data/webhook-targets.json`:
+   ```json
+   {
+     "id": "community-discord",
+     "provider": "discord",
+     "url": "https://discord.com/api/webhooks/123/abc",
+     "events": ["funding"],
+     "filters": { "minAmountUsd": 10000000 },
+     "enabled": true
+   }
+   ```
+
+**Filters:**
+
+- `minMomentum` — breakouts only fire when `momentumScore >= N`.
+- `minAmountUsd` — funding events only fire when the extracted amount meets the floor.
+- `languages` — breakouts only fire for repos whose primary language matches (case-insensitive).
+
+**Operator notes:**
+
+- The URL is treated as a secret: it's never logged, never in error responses, never echoed by any API. Only the target `id` appears in logs.
+- Only `https://*.slack.com` and Discord-family hostnames are accepted — a misconfigured URL is silently dropped at load time, so the queue cannot be redirected at an internal host.
+- `WEBHOOK_TARGETS_PATH` can override the default path if you want to keep the config file outside the repo.
+- Smoke test (no targets configured yet returns a clean `ok: true, delivered: 0`):
+  ```bash
+  curl -sS -X POST "http://localhost:3008/api/cron/webhooks/flush" \
+    -H "Authorization: Bearer $CRON_SECRET" \
+    -H "Content-Type: application/json" -d '{}'
+  ```
 
 ## Credits
 

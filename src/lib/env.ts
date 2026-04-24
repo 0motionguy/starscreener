@@ -37,6 +37,17 @@ const EnvSchema = z.object({
   RESEND_API_KEY: z.string().optional(),
   NEXTAUTH_SECRET: z.string().optional(),
   NEXTAUTH_URL: z.string().url().optional(),
+
+  // ── Weekly digest cron ─────────────────────────────────────────────────
+  // See `src/app/api/cron/digest/weekly/route.ts`. Master opt-in gate —
+  // when unset / "false", the cron returns `{ ok: true, skipped: "disabled" }`.
+  DIGEST_ENABLED: z.string().optional(),
+  // Resend-verified sender, e.g. `TrendingRepo Digest <digest@domain>`.
+  EMAIL_FROM: z.string().optional(),
+  // Stop-gap userId → email map until accounts persist email addresses.
+  // Format: `{"<userId>":"<email>"}`. Accepted as a string here and parsed
+  // at runtime by `loadUserEmailMapFromEnv`.
+  DIGEST_USER_EMAILS_JSON: z.string().optional(),
 });
 
 const parsed = EnvSchema.safeParse(process.env);

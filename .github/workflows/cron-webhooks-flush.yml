@@ -1,0 +1,83 @@
+name: Cron - webhooks flush + scan
+
+# Two-step outbound webhook delivery:
+#   1. SCAN  — /api/cron/webhooks/scan enqueues breakouts + funding rows
+#      based on current derived repos and funding-news feed. Idempotent
+#      — publish*() dedupes on (event, id, target).
+#   2. FLUSH — /api/cron/webhooks/flush drains the queue, POSTing to the
+#      configured Slack / Discord URLs. 5s timeout per POST, 3s gap
+#      between POSTs, 5 attempts before dead-letter.
+#
+# Runs twice per hour, 5 minutes offset so enqueue lands before drain.
+# A queue with zero rows is a cheap no-op (ok:true, delivered:0).
+#
+# Required repo config:
+#   secrets.CRON_SECRET     — must match server CRON_SECRET env
+#   vars.STARSCREENER_URL   — optional; defaults to prod URL
+
+on:
+  schedule:
+    - cron: "5,35 * * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cron-webhooks
+  cancel-in-progress: false
+
+env:
+  BASE_URL: ${{ vars.STARSCREENER_URL || 'https://trendingrepo.com' }}
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: POST /api/cron/webhooks/scan
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          if [ -z "$CRON_SECRET" ]; then
+            echo "::error::CRON_SECRET is unset — refusing to fire unauthenticated"
+            exit 1
+          fi
+          code=$(curl -sS -o /tmp/scan-out -w "%{http_code}" -X POST \
+            "$BASE_URL/api/cron/webhooks/scan" \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            -H "Content-Type: application/json" \
+            -d '{}')
+          echo "SCAN HTTP $code"
+          if command -v jq >/dev/null 2>&1 && jq . /tmp/scan-out >/dev/null 2>&1; then
+            jq . /tmp/scan-out | head -c 2000
+          else
+            head -c 2000 /tmp/scan-out
+          fi
+          echo
+          if [ "$code" != "200" ]; then
+            echo "::error::cron/webhooks/scan call failed ($code)"
+            exit 1
+          fi
+      - name: Wait 30s (let scan commit settle)
+        run: sleep 30
+      - name: POST /api/cron/webhooks/flush
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          code=$(curl -sS -o /tmp/flush-out -w "%{http_code}" -X POST \
+            "$BASE_URL/api/cron/webhooks/flush" \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            -H "Content-Type: application/json" \
+            -d '{}')
+          echo "FLUSH HTTP $code"
+          if command -v jq >/dev/null 2>&1 && jq . /tmp/flush-out >/dev/null 2>&1; then
+            jq . /tmp/flush-out | head -c 2000
+          else
+            head -c 2000 /tmp/flush-out
+          fi
+          echo
+          if [ "$code" != "200" ]; then
+            echo "::error::cron/webhooks/flush call failed ($code)"
+            exit 1
+          fi

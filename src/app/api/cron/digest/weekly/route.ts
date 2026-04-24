@@ -195,7 +195,6 @@ export async function GET(request: NextRequest) {
   return POST(request);
 }
 
-// Re-export the env-map loader so tests can override the provider lookup
-// without poking the module cache. Not part of the public HTTP contract.
-export { loadUserEmailMapFromEnv };
-export type { DigestUserEmailMap };
+// The env-map loader + DigestUserEmailMap type used to be re-exported here
+// for tests. Next 15 rejects non-HTTP-verb exports on route files, so tests
+// now import them directly from `@/lib/pipeline/alerts/weekly-digest`.

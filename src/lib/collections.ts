@@ -182,3 +182,60 @@ export function indexReposByFullName(repos: Repo[]): Map<string, Repo> {
   for (const r of repos) map.set(r.fullName.toLowerCase(), r);
   return map;
 }
+
+// ---------------------------------------------------------------------------
+// Display helpers used by /collections + /collections/[slug] pages + OG
+// card. Written as minimal reductions over the curated item list + live
+// repo index so the pages have one import path. If collection summaries
+// get richer (category breakdown, freshness buckets), extend here.
+// ---------------------------------------------------------------------------
+
+export interface CollectionSummary {
+  /** Total curated items (from the YAML). */
+  total: number;
+  /** Curated items resolved against the live repo index. */
+  live: number;
+  /** Items currently classified as a breakout. */
+  breakoutCount: number;
+  /** Items currently classified as hot (or rising). */
+  hotCount: number;
+}
+
+export function summarizeCollection(
+  collection: CollectionFile,
+  liveIndex: Map<string, Repo>,
+): CollectionSummary {
+  let live = 0;
+  let breakoutCount = 0;
+  let hotCount = 0;
+  for (const fullName of collection.items) {
+    const repo = liveIndex.get(fullName.toLowerCase());
+    if (!repo) continue;
+    live += 1;
+    if (repo.movementStatus === "breakout") breakoutCount += 1;
+    else if (repo.movementStatus === "hot" || repo.movementStatus === "rising") {
+      hotCount += 1;
+    }
+  }
+  return {
+    total: collection.items.length,
+    live,
+    breakoutCount,
+    hotCount,
+  };
+}
+
+/** Compact "Xh ago" / "Xd ago" for a timestamp. "never" when null. */
+export function formatFreshness(iso: string | null | undefined): string {
+  if (!iso) return "never";
+  const ms = Date.now() - new Date(iso).getTime();
+  if (!Number.isFinite(ms) || ms < 0) return "just now";
+  const sec = Math.floor(ms / 1000);
+  if (sec < 60) return "just now";
+  const min = Math.floor(sec / 60);
+  if (min < 60) return `${min}m ago`;
+  const hr = Math.floor(min / 60);
+  if (hr < 24) return `${hr}h ago`;
+  const day = Math.floor(hr / 24);
+  return `${day}d ago`;
+}

@@ -8,6 +8,7 @@
 // headings) to match /funding, /revenue, /breakouts. No emojis.
 
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { PricingCard } from "@/components/pricing/PricingCard";
 import { PricingFAQ } from "@/components/pricing/PricingFAQ";
@@ -198,12 +199,12 @@ export default async function PricingPage({ searchParams }: PricingPageProps) {
             and how private.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <a
+            <Link
               href="/"
               className="rounded-sm bg-brand px-5 py-2.5 text-sm uppercase tracking-wider text-bg-primary transition hover:opacity-90"
             >
               Start free
-            </a>
+            </Link>
             <a
               href="mailto:sales@trendingrepo.com?subject=Enterprise%20inquiry"
               className="rounded-sm border border-border-primary bg-bg-primary px-5 py-2.5 text-sm uppercase tracking-wider text-text-primary transition hover:border-brand/60 hover:text-brand"

@@ -33,7 +33,9 @@ import { RepoDetailChartLazy } from "@/components/repo-detail/RepoDetailChartLaz
 import { buildMentionMarkers } from "@/components/repo-detail/MentionMarkers";
 import { CrossSignalBreakdown } from "@/components/repo-detail/CrossSignalBreakdown";
 import { RecentMentionsFeed } from "@/components/repo-detail/RecentMentionsFeed";
-import { CompletenessStrip } from "@/components/repo-detail/CompletenessStrip";
+// CompletenessStrip is a work-in-progress component parked in a local
+// stash; re-import once it lands on main and CanonicalRepoProfile
+// exposes the `completeness` field.
 import { toMentionItem } from "@/components/repo-detail/MentionMeta";
 import type { MentionItem } from "@/components/repo-detail/MentionMeta";
 import { RepoSignalSnapshot } from "@/components/repo-detail/RepoSignalSnapshot";
@@ -263,10 +265,7 @@ export default async function RepoDetailPage({ params }: PageProps) {
               before the user scrolls through modules that might be empty
               because the pipeline hasn't scanned that source yet vs because
               nothing exists. */}
-          <CompletenessStrip
-            completeness={profile.completeness}
-            repoFullName={profile.repo.fullName}
-          />
+          {/* <CompletenessStrip> WIP — re-enable once merged from stash. */}
           {/* Header + Maintainer card sit side-by-side on lg+, stack on mobile.
               Maintainer card lives in a right rail (~280px) so the header
               keeps room to breathe, and the action row + stats below run
@@ -333,7 +332,6 @@ export default async function RepoDetailPage({ params }: PageProps) {
           <RecentMentionsFeed
             mentions={mentions}
             freshness={profile.freshness}
-            scanState={profile.scanState}
             repoFullName={repo.fullName}
             initialCursor={profile.mentions.nextCursor}
           />

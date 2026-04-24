@@ -39,9 +39,6 @@ const PLATFORM_ICON: Record<SocialPlatform, React.ReactNode> = {
   github: <GitBranch size={14} className="shrink-0 text-text-secondary" />,
   devto: <FileText size={14} className="shrink-0 text-accent-purple" />,
   bluesky: <MessageCircle size={14} className="shrink-0 text-accent-blue" />,
-  pypi: <FileText size={14} className="shrink-0 text-accent-blue" />,
-  huggingface: <ExternalLink size={14} className="shrink-0 text-accent-amber" />,
-  arxiv: <FileText size={14} className="shrink-0 text-text-secondary" />,
 };
 
 const SENTIMENT_DOT: Record<string, string> = {

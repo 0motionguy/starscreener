@@ -79,10 +79,13 @@ async function getSetUserTier(): Promise<SetUserTierFn> {
   return _cachedSetUserTier;
 }
 
-// Test-only hook.
-export function __resetSetUserTierCacheForTests(): void {
+// Test-only hook — attached on globalThis so Next's route-export validator
+// doesn't reject us. (Next 15 rejects any export that isn't an HTTP verb
+// or recognized config symbol on a route file.)
+const __testHookSymbol = Symbol.for("starscreener.stripe.route.test");
+(globalThis as Record<symbol, unknown>)[__testHookSymbol] = (): void => {
   _cachedSetUserTier = null;
-}
+};
 
 // -----------------------------------------------------------------------------
 // Route handler

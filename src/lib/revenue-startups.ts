@@ -20,6 +20,7 @@ export interface VerifiedStartup {
   name: string;
   slug: string;
   website: string | null;
+  description: string | null;
   category: string | null;
   paymentProvider: string | null;
   mrrCents: number;
@@ -28,6 +29,13 @@ export interface VerifiedStartup {
   growthMrr30d: number | null;
   customers: number | null;
   activeSubscriptions: number | null;
+  /** Founder's X handle (no "@"). Drives founder link + avatar. */
+  xHandle: string | null;
+  /** 2-letter ISO country code. Used to render a flag emoji. */
+  country: string | null;
+  /** ISO date or year parseable. Used to show "since YYYY". */
+  foundedDate: string | null;
+  visitorsLast30Days: number | null;
   /** When this startup's website matched one of our tracked repos. */
   matchedRepoFullName: string | null;
 }
@@ -67,6 +75,7 @@ interface RawCatalogEntry {
   name: string;
   slug: string;
   website: string | null;
+  description: string | null;
   category: string | null;
   paymentProvider: string | null;
   revenue?: {
@@ -77,6 +86,10 @@ interface RawCatalogEntry {
   growthMRR30d: number | null;
   customers: number | null;
   activeSubscriptions: number | null;
+  xHandle: string | null;
+  country: string | null;
+  foundedDate: string | null;
+  visitorsLast30Days: number | null;
 }
 
 interface RawCatalogFile {
@@ -123,6 +136,7 @@ function loadCatalog(): {
       name: entry.name,
       slug: entry.slug,
       website: entry.website ?? null,
+      description: entry.description ?? null,
       category: entry.category ?? null,
       paymentProvider: entry.paymentProvider ?? null,
       mrrCents,
@@ -137,6 +151,19 @@ function loadCatalog(): {
       activeSubscriptions:
         typeof entry.activeSubscriptions === "number"
           ? entry.activeSubscriptions
+          : null,
+      xHandle:
+        typeof entry.xHandle === "string" && entry.xHandle.trim()
+          ? entry.xHandle.replace(/^@/, "").trim()
+          : null,
+      country:
+        typeof entry.country === "string" && entry.country.length === 2
+          ? entry.country.toUpperCase()
+          : null,
+      foundedDate: entry.foundedDate ?? null,
+      visitorsLast30Days:
+        typeof entry.visitorsLast30Days === "number"
+          ? entry.visitorsLast30Days
           : null,
       matchedRepoFullName: overlayBySlug.get(entry.slug) ?? null,
     });

@@ -175,6 +175,88 @@ export class StarScreenerClient {
   }
 
   /**
+   * Canonical profile for a single repo — /api/repos/[owner]/[name]?v=2.
+   *
+   * Returns one stitched shape with:
+   *   repo, score, reasons, mentions{recent,nextCursor,countsBySource},
+   *   freshness, twitter, npm{packages,dailyDownloads,dependents},
+   *   productHunt, revenue{verified,selfReported,trustmrrClaim}, funding,
+   *   related, prediction, ideas.
+   *
+   * Consumers get everything in one tool call instead of stitching six or
+   * seven legacy endpoints. The canonical route answers 404 { ok:false,
+   * error:"Repo not found", code:"repo_not_found" } for unknown repos;
+   * that is surfaced as StarScreenerApiError by request() below.
+   */
+  async getRepoProfileFull(params: { fullName: string }): Promise<unknown> {
+    const { owner, name } = splitFullName(params.fullName);
+    const ownerEnc = encodeURIComponent(owner);
+    const nameEnc = encodeURIComponent(name);
+    return this.request(`/api/repos/${ownerEnc}/${nameEnc}?v=2`);
+  }
+
+  /**
+   * Paginated evidence feed for a repo — /api/repos/[owner]/[name]/mentions.
+   *
+   * `source` narrows to a single SocialPlatform. `cursor` is an opaque
+   * base64url token returned by the previous page; callers must pass it back
+   * unchanged. `limit` is clamped server-side to 1..200.
+   */
+  async getRepoMentionsPage(params: {
+    fullName: string;
+    source?: string;
+    cursor?: string;
+    limit?: number;
+  }): Promise<unknown> {
+    const { owner, name } = splitFullName(params.fullName);
+    const ownerEnc = encodeURIComponent(owner);
+    const nameEnc = encodeURIComponent(name);
+    const qs = new URLSearchParams();
+    if (params.source) qs.set("source", params.source);
+    if (params.cursor) qs.set("cursor", params.cursor);
+    if (params.limit !== undefined) {
+      qs.set("limit", String(clampLimit(params.limit, 50, 200)));
+    }
+    const query = qs.toString();
+    const suffix = query.length > 0 ? `?${query}` : "";
+    return this.request(
+      `/api/repos/${ownerEnc}/${nameEnc}/mentions${suffix}`,
+    );
+  }
+
+  /**
+   * Per-repo freshness chips — /api/repos/[owner]/[name]/freshness.
+   *
+   * The freshness snapshot itself is global (scanners are per-source, not
+   * per-repo); the route's owner/name in the URL is used purely to validate
+   * that the repo exists. A 404 from the route surfaces as
+   * StarScreenerApiError on the MCP side.
+   */
+  async getRepoFreshness(params: { fullName: string }): Promise<unknown> {
+    const { owner, name } = splitFullName(params.fullName);
+    const ownerEnc = encodeURIComponent(owner);
+    const nameEnc = encodeURIComponent(name);
+    return this.request(`/api/repos/${ownerEnc}/${nameEnc}/freshness`);
+  }
+
+  /**
+   * AISO scan status for a repo — GET /api/repos/[owner]/[name]/aiso.
+   *
+   * Returns { ok, status: "scanned"|"queued"|"rate_limited"|"failed"|"none",
+   * score, tier, dimensions, topDimensions, lastScanAt, signals,
+   * engineCitations, resultUrl }. `status:"none"` means the repo is
+   * known but has never been scanned (no website or never queued).
+   *
+   * Read-only — POST (rescan enqueue) is intentionally NOT exposed via MCP.
+   */
+  async getRepoAiso(params: { fullName: string }): Promise<unknown> {
+    const { owner, name } = splitFullName(params.fullName);
+    const ownerEnc = encodeURIComponent(owner);
+    const nameEnc = encodeURIComponent(name);
+    return this.request(`/api/repos/${ownerEnc}/${nameEnc}/aiso`);
+  }
+
+  /**
    * Side-by-side compare of 2–4 repos. The REST route accepts either
    * "owner/name" or "owner--name"; we pass through unchanged.
    */
@@ -208,6 +290,22 @@ export class StarScreenerClient {
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
+
+/**
+ * Split a `"owner/name"` slug into parts, throwing a plain Error on malformed
+ * input so the MCP run() wrapper surfaces the message (rather than emitting
+ * a StarScreenerApiError that would imply the API was contacted).
+ */
+function splitFullName(fullName: string): { owner: string; name: string } {
+  const slug = (fullName ?? "").trim();
+  const parts = slug.split("/");
+  if (parts.length !== 2 || !parts[0] || !parts[1]) {
+    throw new Error(
+      `fullName must look like "owner/name", got: ${fullName}`,
+    );
+  }
+  return { owner: parts[0], name: parts[1] };
+}
 
 function windowToPeriod(w: "24h" | "7d" | "30d"): "today" | "week" | "month" {
   switch (w) {

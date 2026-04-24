@@ -24,6 +24,25 @@ const LimitField = z
   .max(100)
   .describe("Maximum number of results (1-100). Default 20.");
 
+// SocialPlatform union — must stay in sync with the server-side allow-list
+// in src/app/api/repos/[owner]/[name]/mentions/route.ts. Duplicated locally
+// rather than imported so the MCP package stays standalone (no @/lib import
+// path).
+const SocialPlatformEnum = z.enum([
+  "reddit",
+  "hackernews",
+  "bluesky",
+  "twitter",
+  "devto",
+  "github",
+]);
+
+const FullNameField = z
+  .string()
+  .min(3)
+  .regex(/^[^/\s]+\/[^/\s]+$/, 'must be "owner/name"')
+  .describe('GitHub-style slug like "vercel/next.js".');
+
 const server = new McpServer(
   {
     name: "starscreener",
@@ -34,12 +53,17 @@ const server = new McpServer(
       "StarScreener exposes live GitHub trend data (momentum score 0-100, " +
       "movement status, breakout detection, 30-day sparklines) for the " +
       "repos tracked by the StarScreener platform. All tools are read-only. " +
-      "Canonical tools (also exposed via Portal v0.1 at /portal): top_gainers, " +
-      "search_repos, maintainer_profile. Additional legacy tools kept for " +
-      "backwards compatibility: get_breakouts, get_new_repos, get_repo, " +
-      "compare_repos, get_categories, get_category_repos. 'get_trending' is " +
-      "deprecated in favor of 'top_gainers'. Windows map: 24h=today, " +
-      "7d=week, 30d=month.",
+      "PRIMARY single-repo tool: repo_profile_full — one call returns the " +
+      "full canonical profile (repo, score, reasons, mentions, freshness, " +
+      "twitter, npm, productHunt, revenue, funding, related, prediction, " +
+      "ideas). Companions: repo_mentions_page (paginated evidence), " +
+      "repo_freshness (source scanner chips), repo_aiso (AISO scan status). " +
+      "Canonical discovery tools (also exposed via Portal v0.1 at /portal): " +
+      "top_gainers, search_repos, maintainer_profile. Additional legacy tools " +
+      "kept for backwards compatibility: get_breakouts, get_new_repos, " +
+      "compare_repos, get_categories, get_category_repos. 'get_trending' and " +
+      "'get_repo' are deprecated — use 'top_gainers' and 'repo_profile_full' " +
+      "instead. Windows map: 24h=today, 7d=week, 30d=month.",
   },
 );
 
@@ -262,19 +286,134 @@ server.registerTool(
   {
     title: "Get repo detail",
     description:
-      'Full detail for a single repo by "owner/name" fullName. Includes ' +
-      "the Repo object (sparkline, momentum, deltas), score breakdown, " +
-      "category, movement reasons, social buzz aggregates, related repos.",
+      "[DEPRECATED — prefer repo_profile_full] Full detail for a single " +
+      'repo by "owner/name" fullName. Hits the legacy v1 shape (repo, ' +
+      "score, category, reasons, social, mentions, twitterSignal, " +
+      "whyMoving, relatedRepos, twitterAvailable). repo_profile_full " +
+      "returns a superset (adds freshness, npm, productHunt, revenue, " +
+      "funding, prediction, ideas) in one call. Kept for back-compat; " +
+      "will be removed in a future version.",
     inputSchema: {
-      fullName: z
-        .string()
-        .min(3)
-        .regex(/^[^/\s]+\/[^/\s]+$/, 'must be "owner/name"')
-        .describe('GitHub-style slug like "vercel/next.js".'),
+      fullName: FullNameField,
     },
     annotations: { readOnlyHint: true, idempotentHint: true },
   },
   async ({ fullName }) => run(() => client.getRepo({ fullName })),
+);
+
+// ---------------------------------------------------------------------------
+// Canonical single-repo tools — wrap /api/repos/[owner]/[name]?v=2 and
+// siblings. Prefer repo_profile_full over get_repo for any new consumer.
+// ---------------------------------------------------------------------------
+
+server.registerTool(
+  "repo_profile_full",
+  {
+    title: "Repo profile (full canonical)",
+    description:
+      "Return the full trending-repo profile in a single call: repo " +
+      "metadata, score breakdown, human-readable movement reasons, recent " +
+      "mentions (first-50 slice + nextCursor for repo_mentions_page), " +
+      "per-source freshness, Twitter signal panel, npm packages with 30d " +
+      "daily downloads + dependents counts, ProductHunt launch, revenue " +
+      "overlays (verified / self-reported / trustmrr claim), funding " +
+      "events, related repos, 30d prediction, and ideas. Use this as the " +
+      "primary lookup for any question about a specific repo on " +
+      "StarScreener / TrendingRepo. Returns 404 when the repo is unknown.",
+    inputSchema: {
+      fullName: FullNameField,
+    },
+    annotations: { readOnlyHint: true, idempotentHint: true },
+  },
+  async ({ fullName }) =>
+    run(() => client.getRepoProfileFull({ fullName })),
+);
+
+server.registerTool(
+  "repo_mentions_page",
+  {
+    title: "Repo mentions (paginated)",
+    description:
+      "Walk the full persisted mention set for a repo beyond the 50-row " +
+      "slice embedded in repo_profile_full. Cursor-based pagination over " +
+      "(postedAt desc, id desc); pass the `nextCursor` from the previous " +
+      "page back in unchanged. Optional `source` narrows to one platform " +
+      "(reddit, hackernews, bluesky, twitter, devto, github). Returns " +
+      "{ ok, fetchedAt, repo, count, nextCursor, items } where `items` is " +
+      "an array of RepoMention.",
+    inputSchema: {
+      fullName: FullNameField,
+      source: SocialPlatformEnum.optional().describe(
+        "Narrow results to a single SocialPlatform.",
+      ),
+      cursor: z
+        .string()
+        .min(1)
+        .optional()
+        .describe(
+          "Opaque base64url cursor returned by the previous page. Omit " +
+            "for the first page.",
+        ),
+      limit: z
+        .number()
+        .int()
+        .min(1)
+        .max(200)
+        .optional()
+        .describe(
+          "Page size (1-200). Default 50 matches the inline profile slice.",
+        ),
+    },
+    annotations: { readOnlyHint: true, idempotentHint: true },
+  },
+  async ({ fullName, source, cursor, limit }) =>
+    run(() =>
+      client.getRepoMentionsPage({
+        fullName,
+        ...(source !== undefined ? { source } : {}),
+        ...(cursor !== undefined ? { cursor } : {}),
+        ...(limit !== undefined ? { limit } : {}),
+      }),
+    ),
+);
+
+server.registerTool(
+  "repo_freshness",
+  {
+    title: "Repo source freshness",
+    description:
+      "Per-source scanner freshness snapshot for a known repo: returns " +
+      "{ ok, fetchedAt, sources } where `sources` is a map keyed by " +
+      "SocialPlatform giving the last successful scan timestamp and " +
+      "staleness bucket (fresh/aging/stale). Freshness is global across " +
+      "scanners (each firehose ingests all repos); the owner/name in the " +
+      "request is used to 404 on unknown repos. Use this to render " +
+      "\"reddit 2h · hn 4h · bluesky 3d\"-style chips alongside mentions.",
+    inputSchema: {
+      fullName: FullNameField,
+    },
+    annotations: { readOnlyHint: true, idempotentHint: true },
+  },
+  async ({ fullName }) => run(() => client.getRepoFreshness({ fullName })),
+);
+
+server.registerTool(
+  "repo_aiso",
+  {
+    title: "Repo AISO scan status",
+    description:
+      "AI discoverability (AISO) scan status for a repo's marketing site. " +
+      "Returns { ok, status, score, tier, dimensions, topDimensions, " +
+      "lastScanAt, signals, engineCitations, resultUrl } where `status` " +
+      "is one of scanned | queued | rate_limited | failed | none. " +
+      "`status: 'none'` means the repo is known but has no site or has " +
+      "never been scanned. Read-only: this tool does NOT enqueue rescans.",
+    inputSchema: {
+      fullName: FullNameField,
+    },
+    annotations: { readOnlyHint: true, idempotentHint: true },
+  },
+  async ({ fullName }) => run(() => client.getRepoAiso({ fullName })),
 );
 
 server.registerTool(

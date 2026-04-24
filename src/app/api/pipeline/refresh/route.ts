@@ -23,7 +23,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { pipeline } from "@/lib/pipeline/pipeline";
-import { checkRateLimit } from "@/lib/api/rate-limit";
+import { checkRateLimitAsync } from "@/lib/api/rate-limit";
 
 export interface RefreshResponse {
   ok: true;
@@ -48,9 +48,9 @@ export interface RefreshErrorResponse {
 const SHARED_COOLDOWN_MS = 30_000;
 let lastFinishedAt = 0;
 
-// Per-IP window — 1 call / IP / 60s. Uses the in-memory limiter from
-// src/lib/api/rate-limit.ts. On serverless the state is per-instance, but
-// that's enough to blunt a single bad actor within one cold-start window.
+// Per-IP window — 1 call / IP / 60s. Uses the shared Upstash-backed limiter
+// via checkRateLimitAsync, so enforcement holds across every Vercel Lambda
+// instance (memory fallback when UPSTASH_REDIS_REST_* env is unset).
 const PER_IP_WINDOW_MS = 60_000;
 const PER_IP_MAX_REQUESTS = 1;
 
@@ -58,19 +58,27 @@ export async function POST(
   request: NextRequest,
 ): Promise<NextResponse<RefreshResponse | RefreshErrorResponse>> {
   // Per-IP gate.
-  const limit = checkRateLimit(request, {
+  const limit = await checkRateLimitAsync(request, {
     windowMs: PER_IP_WINDOW_MS,
     maxRequests: PER_IP_MAX_REQUESTS,
   });
   if (!limit.allowed) {
-    const waitSec = Math.max(1, Math.ceil((limit.resetAt - Date.now()) / 1000));
+    const waitSec = Math.max(1, Math.ceil(limit.retryAfterMs / 1000));
     return NextResponse.json(
       {
         ok: false,
         error: `rate limited (${waitSec}s remaining)`,
         retryAfterSec: waitSec,
       },
-      { status: 429, headers: { "Retry-After": String(waitSec) } },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(waitSec),
+          "X-RateLimit-Limit": String(PER_IP_MAX_REQUESTS),
+          "X-RateLimit-Remaining": "0",
+          "X-RateLimit-Reset": String(Math.ceil(limit.resetAt / 1000)),
+        },
+      },
     );
   }
 

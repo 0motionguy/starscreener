@@ -21,9 +21,11 @@ import assert from "node:assert/strict";
 
 import type { MovementStatus, Repo, RevenueTier } from "../../types";
 import {
+  computeFacets,
   matchesQuery,
   parseSearchQuery,
   sortAndPage,
+  type Facets,
   type MatchContext,
   type SearchQuery,
 } from "../../search-query";
@@ -480,6 +482,290 @@ test("route: v=2 sort=stars order=asc returns ascending stars", async () => {
       `asc sort violated at i=${i}: ${body.results[i - 1].stars} > ${body.results[i].stars}`,
     );
   }
+});
+
+// ---------------------------------------------------------------------------
+// computeFacets — pure unit tests
+// ---------------------------------------------------------------------------
+
+/**
+ * Small in-memory universe sized to exercise every facet dimension without
+ * depending on the committed data fixture. 6 repos across 3 languages, 3
+ * movements, overlapping topics, mixed revenue/funding states.
+ */
+function buildFacetUniverse(): {
+  repos: Repo[];
+  ctx: MatchContext;
+} {
+  const repos: Repo[] = [
+    repo({
+      id: "a--py1",
+      fullName: "a/py1",
+      language: "Python",
+      movementStatus: "hot",
+      topics: ["ai", "llm"],
+    }),
+    repo({
+      id: "a--py2",
+      fullName: "a/py2",
+      language: "Python",
+      movementStatus: "rising",
+      topics: ["ai", "rag"],
+    }),
+    repo({
+      id: "a--ts1",
+      fullName: "a/ts1",
+      language: "TypeScript",
+      movementStatus: "hot",
+      topics: ["web", "llm"],
+    }),
+    repo({
+      id: "a--ts2",
+      fullName: "a/ts2",
+      language: "TypeScript",
+      movementStatus: "stable",
+      topics: ["web"],
+    }),
+    repo({
+      id: "a--go1",
+      fullName: "a/go1",
+      language: "Go",
+      movementStatus: "stable",
+      topics: ["infra"],
+    }),
+    repo({
+      id: "a--nolang",
+      fullName: "a/nolang",
+      language: null,
+      movementStatus: "cooling",
+      topics: [],
+    }),
+  ];
+
+  // Revenue: py1 verified, ts1 self_reported, ts2 self_reported, rest none.
+  // Funding: py1, ts1 funded; rest not.
+  const ctx: MatchContext = {
+    hasRevenue: (fn) =>
+      fn === "a/py1" || fn === "a/ts1" || fn === "a/ts2",
+    getRevenueTier: (fn): RevenueTier | null => {
+      if (fn === "a/py1") return "verified_trustmrr";
+      if (fn === "a/ts1" || fn === "a/ts2") return "self_reported";
+      return null;
+    },
+    hasFunding: (fn) => fn === "a/py1" || fn === "a/ts1",
+  };
+
+  return { repos, ctx };
+}
+
+test("computeFacets: languages dimension ignores the language filter", () => {
+  const { repos, ctx } = buildFacetUniverse();
+  // User filtered to Python — the language bucket MUST still show every
+  // language so the UI can render other chips ("switch to TS: 2 repos").
+  const q = parseOk("/api/search?language=python");
+  const facets = computeFacets(repos, q, ctx);
+  assert.equal(facets.languages.Python, 2);
+  assert.equal(facets.languages.TypeScript, 2);
+  assert.equal(facets.languages.Go, 1);
+  // null-language repo is dropped from the bucket list (skip null/empty).
+  assert.equal(Object.keys(facets.languages).includes(""), false);
+});
+
+test("computeFacets: languages cap at top 20 by count DESC", () => {
+  // Build a universe with 30 distinct languages, each with descending counts.
+  const many: Repo[] = [];
+  for (let i = 0; i < 30; i++) {
+    const count = 30 - i;
+    for (let j = 0; j < count; j++) {
+      many.push(
+        repo({
+          id: `a--lang${i}-${j}`,
+          fullName: `a/lang${i}-${j}`,
+          language: `Lang${String(i).padStart(2, "0")}`,
+        }),
+      );
+    }
+  }
+  const q = parseOk("/api/search");
+  const facets = computeFacets(many, q, EMPTY_CTX);
+  const langKeys = Object.keys(facets.languages);
+  assert.equal(langKeys.length, 20);
+  // Top entry must be Lang00 (count 30), since top-N is DESC by count.
+  assert.equal(facets.languages.Lang00, 30);
+  // Lang19 (count 11) should be present; Lang20 (count 10) should not.
+  assert.equal(Object.prototype.hasOwnProperty.call(facets.languages, "Lang19"), true);
+  assert.equal(Object.prototype.hasOwnProperty.call(facets.languages, "Lang20"), false);
+});
+
+test("computeFacets: movements emits all known keys even with zero counts", () => {
+  const { repos, ctx } = buildFacetUniverse();
+  const q = parseOk("/api/search");
+  const facets = computeFacets(repos, q, ctx);
+  const expectedKeys: MovementStatus[] = [
+    "hot",
+    "breakout",
+    "quiet_killer",
+    "rising",
+    "stable",
+    "cooling",
+    "declining",
+  ];
+  for (const k of expectedKeys) {
+    assert.ok(
+      Object.prototype.hasOwnProperty.call(facets.movements, k),
+      `movements should always include key ${k}`,
+    );
+  }
+  // Counts from the fixture.
+  assert.equal(facets.movements.hot, 2);
+  assert.equal(facets.movements.rising, 1);
+  assert.equal(facets.movements.stable, 2);
+  assert.equal(facets.movements.cooling, 1);
+  assert.equal(facets.movements.breakout, 0);
+  assert.equal(facets.movements.declining, 0);
+  assert.equal(facets.movements.quiet_killer, 0);
+});
+
+test("computeFacets: movements dimension ignores the movement filter", () => {
+  const { repos, ctx } = buildFacetUniverse();
+  // User filtered to hot — movement buckets must still reflect the full
+  // universe (minus other filters, which are empty here).
+  const q = parseOk("/api/search?movement=hot");
+  const facets = computeFacets(repos, q, ctx);
+  assert.equal(facets.movements.hot, 2);
+  assert.equal(facets.movements.rising, 1);
+});
+
+test("computeFacets: topics dimension caps at top 30 DESC, case-insensitive, deduped per repo", () => {
+  // Build 35 distinct topics, descending repo counts 35..1.
+  const many: Repo[] = [];
+  for (let i = 0; i < 35; i++) {
+    const count = 35 - i;
+    const topic = `topic-${String(i).padStart(2, "0")}`;
+    for (let j = 0; j < count; j++) {
+      many.push(
+        repo({
+          id: `a--t${i}-${j}`,
+          fullName: `a/t${i}-${j}`,
+          // Mix-case to exercise normalization; duplicate to test dedup.
+          topics: [topic.toUpperCase(), topic, topic],
+        }),
+      );
+    }
+  }
+  const q = parseOk("/api/search");
+  const facets = computeFacets(many, q, EMPTY_CTX);
+  const keys = Object.keys(facets.topics);
+  assert.equal(keys.length, 30);
+  // Normalized to lowercase.
+  for (const k of keys) {
+    assert.equal(k, k.toLowerCase(), `topic key ${k} not lowercased`);
+  }
+  // Dedup inside a single repo — topic-00 repeated 3x per repo still counts once.
+  assert.equal(facets.topics["topic-00"], 35);
+  // top-30 boundary.
+  assert.equal(
+    Object.prototype.hasOwnProperty.call(facets.topics, "topic-29"),
+    true,
+  );
+  assert.equal(
+    Object.prototype.hasOwnProperty.call(facets.topics, "topic-30"),
+    false,
+  );
+});
+
+test("computeFacets: hasRevenue dimension drops both hasRevenue AND revenueTier filters", () => {
+  const { repos, ctx } = buildFacetUniverse();
+  // Without the drop, revenueTier=self_reported would force hasRevenue=true,
+  // which would mean hasRevenue.false is 0 — useless for the chip.
+  const q = parseOk("/api/search?revenueTier=self_reported");
+  const facets = computeFacets(repos, q, ctx);
+  // Full universe: 3 have revenue, 3 do not.
+  assert.equal(facets.hasRevenue.true, 3);
+  assert.equal(facets.hasRevenue.false, 3);
+});
+
+test("computeFacets: hasFunding splits correctly", () => {
+  const { repos, ctx } = buildFacetUniverse();
+  const q = parseOk("/api/search?hasFunding=true");
+  const facets = computeFacets(repos, q, ctx);
+  // Dropping the hasFunding filter, 2 funded, 4 not.
+  assert.equal(facets.hasFunding.true, 2);
+  assert.equal(facets.hasFunding.false, 4);
+});
+
+test("computeFacets: revenueTier dimension drops only the tier filter, not hasRevenue", () => {
+  const { repos, ctx } = buildFacetUniverse();
+  // hasRevenue=false is preserved while we count tier buckets — repos with
+  // any revenue are excluded, so verified + self_reported should both be 0
+  // and none should be 3.
+  const q = parseOk("/api/search?hasRevenue=false");
+  const facets = computeFacets(repos, q, ctx);
+  assert.equal(facets.revenueTier.verified, 0);
+  assert.equal(facets.revenueTier.self_reported, 0);
+  assert.equal(facets.revenueTier.none, 3);
+});
+
+test("computeFacets: revenueTier buckets the full universe correctly with no filters", () => {
+  const { repos, ctx } = buildFacetUniverse();
+  const q = parseOk("/api/search");
+  const facets = computeFacets(repos, q, ctx);
+  assert.equal(facets.revenueTier.verified, 1);
+  assert.equal(facets.revenueTier.self_reported, 2);
+  assert.equal(facets.revenueTier.none, 3);
+});
+
+// ---------------------------------------------------------------------------
+// Route-level facet wiring
+// ---------------------------------------------------------------------------
+
+test("route: v=2 without facets=1 returns facets: null", async () => {
+  const res = await invokeSearch("?v=2&limit=1");
+  assert.equal(res.status, 200);
+  const body = (await res.json()) as { facets: unknown };
+  assert.equal(body.facets, null);
+});
+
+test("route: v=2 with facets=1 returns populated facet record", async () => {
+  const res = await invokeSearch("?v=2&facets=1&limit=1");
+  assert.equal(res.status, 200);
+  const body = (await res.json()) as { facets: Facets | null };
+  assert.ok(body.facets, "facets should not be null when facets=1");
+  const f = body.facets!;
+  // Language bucket: cap at 20.
+  assert.ok(Object.keys(f.languages).length <= 20);
+  // Movements: always the full enum.
+  assert.deepEqual(
+    Object.keys(f.movements).sort(),
+    [
+      "breakout",
+      "cooling",
+      "declining",
+      "hot",
+      "quiet_killer",
+      "rising",
+      "stable",
+    ].sort(),
+  );
+  // Topic bucket: cap at 30.
+  assert.ok(Object.keys(f.topics).length <= 30);
+  // Boolean buckets present with numeric counts.
+  assert.equal(typeof f.hasRevenue.true, "number");
+  assert.equal(typeof f.hasRevenue.false, "number");
+  assert.equal(typeof f.hasFunding.true, "number");
+  assert.equal(typeof f.hasFunding.false, "number");
+  // revenueTier has exactly 3 keys.
+  assert.deepEqual(
+    Object.keys(f.revenueTier).sort(),
+    ["none", "self_reported", "verified"],
+  );
+});
+
+test("route: withFacets=1 alias also activates facet computation", async () => {
+  const res = await invokeSearch("?v=2&withFacets=1&limit=1");
+  assert.equal(res.status, 200);
+  const body = (await res.json()) as { facets: Facets | null };
+  assert.ok(body.facets, "facets should be populated via withFacets=1 alias");
 });
 
 test("route: limit=10 offset=20 respects pagination in v=2", async () => {

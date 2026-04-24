@@ -23,6 +23,7 @@ import type { Repo } from "@/lib/types";
 import { READ_CACHE_HEADERS } from "@/lib/api/cache";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import {
+  computeFacets,
   matchesQuery,
   parseSearchQuery,
   sortAndPage,
@@ -218,8 +219,25 @@ export async function GET(request: NextRequest) {
     return buildLegacyResponse(results, total, query);
   }
 
-  // v=2 envelope. `facets` is stubbed out per the spec — the concrete
-  // Record<string, number> shape is left TBD until we wire a follow-up wave.
+  // v=2 envelope. Facet aggregation is opt-in: it walks the candidate set
+  // ~6x per repo to compute independent-facet counts, so we keep the hot
+  // path (no `facets=1`) cheap and only pay the cost when the UI actually
+  // needs to render filter chips with live counts.
+  const withFacets =
+    url.searchParams.get("facets") === "1" ||
+    url.searchParams.get("withFacets") === "1";
+  // Candidate set for facet counting = every repo that passes the legacy
+  // `category` pre-filter (which is not part of the faceted contract). That
+  // way the per-dimension drops inside `computeFacets` work off the same
+  // universe the main query path does.
+  const facets = withFacets
+    ? computeFacets(
+        all.filter((r) => (category ? r.categoryId === category : true)),
+        query,
+        ctx,
+      )
+    : null;
+
   return NextResponse.json(
     {
       ok: true,
@@ -229,9 +247,7 @@ export async function GET(request: NextRequest) {
       limit: query.limit,
       offset: query.offset,
       results,
-      // TODO(search-facets): compute and return language/movement/topic
-      // aggregate counts when `withFacets=1` is set. Out of scope this wave.
-      facets: null,
+      facets,
     },
     { headers: READ_CACHE_HEADERS },
   );

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getTwitterRepoPanel } from "@/lib/twitter/service";
 import { READ_CACHE_HEADERS } from "@/lib/api/cache";
-import { checkRateLimit } from "@/lib/api/rate-limit";
+import { checkRateLimitAsync } from "@/lib/api/rate-limit";
 
 const SLUG_PART_PATTERN = /^[A-Za-z0-9._-]+$/;
 
@@ -9,8 +9,12 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ owner: string; name: string }> },
 ): Promise<NextResponse> {
-  const rateLimit = checkRateLimit(request, { windowMs: 60_000, maxRequests: 60 });
+  const rateLimit = await checkRateLimitAsync(request, {
+    windowMs: 60_000,
+    maxRequests: 60,
+  });
   if (!rateLimit.allowed) {
+    const retryAfterSec = Math.max(1, Math.ceil(rateLimit.retryAfterMs / 1000));
     return NextResponse.json(
       { error: "rate limit exceeded" },
       {
@@ -19,6 +23,7 @@ export async function GET(
           "X-RateLimit-Limit": "60",
           "X-RateLimit-Remaining": "0",
           "X-RateLimit-Reset": String(Math.ceil(rateLimit.resetAt / 1000)),
+          "Retry-After": String(retryAfterSec),
         },
       },
     );

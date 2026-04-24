@@ -5,7 +5,7 @@ import {
   getTwitterTrendingRepoLeaderboard,
 } from "@/lib/twitter/service";
 import { READ_CACHE_HEADERS } from "@/lib/api/cache";
-import { checkRateLimit } from "@/lib/api/rate-limit";
+import { checkRateLimitAsync } from "@/lib/api/rate-limit";
 
 type TwitterLeaderboardMode = "trending" | "global";
 
@@ -34,8 +34,12 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     );
   }
 
-  const rateLimit = checkRateLimit(request, { windowMs: 60_000, maxRequests: 60 });
+  const rateLimit = await checkRateLimitAsync(request, {
+    windowMs: 60_000,
+    maxRequests: 60,
+  });
   if (!rateLimit.allowed) {
+    const retryAfterSec = Math.max(1, Math.ceil(rateLimit.retryAfterMs / 1000));
     return NextResponse.json(
       { error: "rate limit exceeded" },
       {
@@ -44,6 +48,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
           "X-RateLimit-Limit": "60",
           "X-RateLimit-Remaining": "0",
           "X-RateLimit-Reset": String(Math.ceil(rateLimit.resetAt / 1000)),
+          "Retry-After": String(retryAfterSec),
         },
       },
     );

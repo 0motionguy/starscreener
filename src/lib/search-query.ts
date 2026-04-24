@@ -470,3 +470,154 @@ export function sortAndPage(repos: Repo[], query: SearchQuery): Repo[] {
   });
   return sorted.slice(query.offset, query.offset + query.limit);
 }
+
+// ---------------------------------------------------------------------------
+// Faceted aggregation
+// ---------------------------------------------------------------------------
+
+/**
+ * Per-dimension bucket counts for the filter-chip UX.
+ *
+ * Semantics: "independent facets" — each dimension is computed with the user's
+ * current filter applied EXCEPT the dimension itself. That is: when you count
+ * languages, the language filter is removed so the UI can show "if I switched
+ * to Python, there would be 42 matches". This is the standard faceted-search
+ * convention and what the filter chips need to render accurate counts.
+ */
+export interface Facets {
+  languages: Record<string, number>;
+  movements: Record<string, number>;
+  topics: Record<string, number>;
+  hasRevenue: { true: number; false: number };
+  hasFunding: { true: number; false: number };
+  revenueTier: { verified: number; self_reported: number; none: number };
+}
+
+const LANGUAGE_TOP_N = 20;
+const TOPIC_TOP_N = 30;
+
+/** Sort `Record<string, number>` entries by value DESC, take top N. */
+function topNByCount(
+  counts: Map<string, number>,
+  n: number,
+): Record<string, number> {
+  const entries = Array.from(counts.entries());
+  entries.sort((a, b) => {
+    if (b[1] !== a[1]) return b[1] - a[1];
+    // Stable tiebreak on key so repeated calls don't flicker.
+    return a[0].localeCompare(b[0]);
+  });
+  const out: Record<string, number> = {};
+  for (const [key, value] of entries.slice(0, n)) {
+    out[key] = value;
+  }
+  return out;
+}
+
+/**
+ * Compute facet counts over the full candidate set (pre-pagination).
+ *
+ * Each dimension applies every filter EXCEPT the one being counted, so the UI
+ * can show "if I changed this chip, what would the result look like". Worst
+ * case this runs ~6 matchesQuery calls per repo. For ~1200 repos that's
+ * ~7200 predicate calls with O(tag-list + topics-list) each — acceptable.
+ */
+export function computeFacets(
+  repos: Repo[],
+  baseQuery: SearchQuery,
+  ctx: MatchContext,
+): Facets {
+  // Variants of the base query with specific dimensions cleared. Cloning with
+  // spread is fine — SearchQuery holds no non-cloneable state.
+  const queryNoLanguages: SearchQuery = { ...baseQuery, languages: [] };
+  const queryNoMovements: SearchQuery = { ...baseQuery, movements: [] };
+  const queryNoTopics: SearchQuery = { ...baseQuery, topics: [] };
+  // hasRevenue dimension: drop BOTH hasRevenue and revenueTier — a tier gate
+  // implies hasRevenue=true and would skew the bucket otherwise.
+  const queryNoRevenuePresence: SearchQuery = {
+    ...baseQuery,
+    hasRevenue: null,
+    revenueTier: null,
+  };
+  const queryNoFundingPresence: SearchQuery = {
+    ...baseQuery,
+    hasFunding: null,
+  };
+  // revenueTier dimension: drop only the tier filter. hasRevenue stays — if
+  // the user selected hasRevenue=false, revenueTier buckets should respect
+  // that (they'll all land in `none`).
+  const queryNoRevenueTier: SearchQuery = { ...baseQuery, revenueTier: null };
+
+  const languageCounts = new Map<string, number>();
+  const movementCounts = new Map<string, number>();
+  // Seed movements with zero so disabled chips still render.
+  for (const m of MOVEMENT_VALUES) movementCounts.set(m, 0);
+  const topicCounts = new Map<string, number>();
+  const hasRevenueCounts = { true: 0, false: 0 };
+  const hasFundingCounts = { true: 0, false: 0 };
+  const revenueTierCounts = { verified: 0, self_reported: 0, none: 0 };
+
+  for (const repo of repos) {
+    if (matchesQuery(repo, queryNoLanguages, ctx)) {
+      const lang = (repo.language ?? "").trim();
+      if (lang) {
+        languageCounts.set(lang, (languageCounts.get(lang) ?? 0) + 1);
+      }
+    }
+
+    if (matchesQuery(repo, queryNoMovements, ctx)) {
+      const m = repo.movementStatus;
+      movementCounts.set(m, (movementCounts.get(m) ?? 0) + 1);
+    }
+
+    if (matchesQuery(repo, queryNoTopics, ctx)) {
+      const seen = new Set<string>();
+      for (const raw of repo.topics ?? []) {
+        const t = raw.toLowerCase().trim();
+        if (!t || seen.has(t)) continue;
+        seen.add(t);
+        topicCounts.set(t, (topicCounts.get(t) ?? 0) + 1);
+      }
+    }
+
+    if (matchesQuery(repo, queryNoRevenuePresence, ctx)) {
+      if (ctx.hasRevenue(repo.fullName)) hasRevenueCounts.true += 1;
+      else hasRevenueCounts.false += 1;
+    }
+
+    if (matchesQuery(repo, queryNoFundingPresence, ctx)) {
+      if (ctx.hasFunding(repo.fullName)) hasFundingCounts.true += 1;
+      else hasFundingCounts.false += 1;
+    }
+
+    if (matchesQuery(repo, queryNoRevenueTier, ctx)) {
+      const tier = ctx.getRevenueTier(repo.fullName);
+      if (tier === null) {
+        revenueTierCounts.none += 1;
+      } else if (matchesOverlayTier(tier, "verified")) {
+        revenueTierCounts.verified += 1;
+      } else if (matchesOverlayTier(tier, "self_reported")) {
+        revenueTierCounts.self_reported += 1;
+      } else {
+        // "estimated" or any future tier not exposed publicly — surface as
+        // none so the three buckets sum cleanly against the matching set.
+        revenueTierCounts.none += 1;
+      }
+    }
+  }
+
+  // Emit movements in declaration order so UI chip ordering is stable.
+  const movementsOut: Record<string, number> = {};
+  for (const m of MOVEMENT_VALUES) {
+    movementsOut[m] = movementCounts.get(m) ?? 0;
+  }
+
+  return {
+    languages: topNByCount(languageCounts, LANGUAGE_TOP_N),
+    movements: movementsOut,
+    topics: topNByCount(topicCounts, TOPIC_TOP_N),
+    hasRevenue: hasRevenueCounts,
+    hasFunding: hasFundingCounts,
+    revenueTier: revenueTierCounts,
+  };
+}

@@ -1,46 +1,46 @@
 {
-  "fetchedAt": "2026-04-24T22:04:30.101Z",
+  "fetchedAt": "2026-04-24T23:00:13.306Z",
   "windowDays": 7,
   "scannedPosts": 99,
   "searchQuery": "github.com",
   "pagesFetched": 1,
   "mentions": {
-    "jj-vcs/jj": {
+    "aloshdenny/reverse-SynthID": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkbfke7i4s2p",
-        "cid": "bafyreigrv5kmoiiiz6nntcakzlpsjwocrqwd5szgktmbkxzl36uszkq5t4",
-        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkbfke7i4s2p",
-        "text": "jj-vcs / jj: A Git-compatible VCS that is both simple and powerful ★28304 https://github.com/jj-vcs/jj",
+        "uri": "at://did:plc:a6hi77n37lundttgzzelygkg/app.bsky.feed.post/3mkbmqwzhts2n",
+        "cid": "bafyreiewa4suwupbdmqlgmpi7lvyjtqveyhbjlchbl4htl5jvbnfst7mcy",
+        "bskyUrl": "https://bsky.app/profile/dickshiner.bsky.social/post/3mkbmqwzhts2n",
+        "text": "A little light reading before bedtime. How the synthid watermark embedded in every Gemini image was reverse engineered. github.com/aloshdenny/r...",
         "author": {
-          "handle": "rusttrending.bsky.social",
-          "displayName": "RustTrending"
+          "handle": "dickshiner.bsky.social",
+          "displayName": "Welshworrier"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-04-24T20:47:46.866910Z",
-        "hoursSincePosted": 1.28
+        "createdAt": "2026-04-24T22:56:44.595Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
-          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkbfke7i4s2p",
-          "cid": "bafyreigrv5kmoiiiz6nntcakzlpsjwocrqwd5szgktmbkxzl36uszkq5t4",
-          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkbfke7i4s2p",
-          "text": "jj-vcs / jj: A Git-compatible VCS that is both simple and powerful ★28304 https://github.com/jj-vcs/jj",
+          "uri": "at://did:plc:a6hi77n37lundttgzzelygkg/app.bsky.feed.post/3mkbmqwzhts2n",
+          "cid": "bafyreiewa4suwupbdmqlgmpi7lvyjtqveyhbjlchbl4htl5jvbnfst7mcy",
+          "bskyUrl": "https://bsky.app/profile/dickshiner.bsky.social/post/3mkbmqwzhts2n",
+          "text": "A little light reading before bedtime. How the synthid watermark embedded in every Gemini image was reverse engineered. github.com/aloshdenny/r...",
           "author": {
-            "handle": "rusttrending.bsky.social",
-            "displayName": "RustTrending"
+            "handle": "dickshiner.bsky.social",
+            "displayName": "Welshworrier"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-04-24T20:47:46.866910Z",
-          "createdUtc": 1777063666,
-          "ageHours": 1.28,
+          "createdAt": "2026-04-24T22:56:44.595Z",
+          "createdUtc": 1777071404,
+          "ageHours": 0.5,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -48,7 +48,7 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "jj-vcs/jj",
+              "fullName": "aloshdenny/reverse-SynthID",
               "matchType": "url",
               "confidence": 1
             }
@@ -56,40 +56,42 @@
         }
       ]
     },
-    "ggml-org/llama.cpp": {
+    "openclaw/openclaw": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkbeq2eeti2i",
-        "cid": "bafyreidkmeclhpvkoqezosxy2kagxgreuztvdlodsuzhnxqo3cwp5h35q4",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkbeq2eeti2i",
-        "text": "🟠 llama.cpp b8922 brings browser-side flash attention fallback to WebGPU llama.cpp b8922 enables FLASH_ATTN_EXT on browsers even when subgroup matrix support is missing, adding tile and vec fallback paths for ggml-webgpu. https://github.com/ggml-org/llama.cpp/releases/tag/b8922 #AI #AgentWyre",
+        "uri": "at://did:plc:alc44kranysj5uwmp6trjt6u/app.bsky.feed.post/3mkbkdbq42q2s",
+        "cid": "bafyreie6romvgt7cpifptxgjweav4v4ovjqzpdprufj5udpqb4xu72a4ti",
+        "bskyUrl": "https://bsky.app/profile/clawnewsai.bsky.social/post/3mkbkdbq42q2s",
+        "text": "Shared device tokens skewed hello-ok scopes on OpenClaw. Mainline now reports scopes cleanly for hand-offs. Worth re-testing before you blame OAuth. https://github.com/openclaw/openclaw/pull/68039 Scopes, refresh timing—or other? #OpenClaw #OpenSource #AIAgents",
         "author": {
-          "handle": "agentwyre.ai"
+          "handle": "clawnewsai.bsky.social",
+          "displayName": "ClawNews"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-04-24T20:33:03.849125+00:00",
-        "hoursSincePosted": 1.52
+        "createdAt": "2026-04-24T22:13:18Z",
+        "hoursSincePosted": 0.78
       },
       "posts": [
         {
-          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkbeq2eeti2i",
-          "cid": "bafyreidkmeclhpvkoqezosxy2kagxgreuztvdlodsuzhnxqo3cwp5h35q4",
-          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkbeq2eeti2i",
-          "text": "🟠 llama.cpp b8922 brings browser-side flash attention fallback to WebGPU llama.cpp b8922 enables FLASH_ATTN_EXT on browsers even when subgroup matrix support is missing, adding tile and vec fallback paths for ggml-webgpu. https://github.com/ggml-org/llama.cpp/releases/tag/b8922 #AI #AgentWyre",
+          "uri": "at://did:plc:alc44kranysj5uwmp6trjt6u/app.bsky.feed.post/3mkbkdbq42q2s",
+          "cid": "bafyreie6romvgt7cpifptxgjweav4v4ovjqzpdprufj5udpqb4xu72a4ti",
+          "bskyUrl": "https://bsky.app/profile/clawnewsai.bsky.social/post/3mkbkdbq42q2s",
+          "text": "Shared device tokens skewed hello-ok scopes on OpenClaw. Mainline now reports scopes cleanly for hand-offs. Worth re-testing before you blame OAuth. https://github.com/openclaw/openclaw/pull/68039 Scopes, refresh timing—or other? #OpenClaw #OpenSource #AIAgents",
           "author": {
-            "handle": "agentwyre.ai"
+            "handle": "clawnewsai.bsky.social",
+            "displayName": "ClawNews"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-04-24T20:33:03.849125+00:00",
-          "createdUtc": 1777062783,
-          "ageHours": 1.52,
+          "createdAt": "2026-04-24T22:13:18Z",
+          "createdUtc": 1777068798,
+          "ageHours": 0.78,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -97,7 +99,7 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "ggml-org/llama.cpp",
+              "fullName": "openclaw/openclaw",
               "matchType": "url",
               "confidence": 1
             }
@@ -105,51 +107,50 @@
         }
       ]
     },
-    "mattpocock/skills": {
+    "actuallyepic/background-computer-use": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:i34vxgn34hwh3ocvbjxh7j4k/app.bsky.feed.post/3mkbedrvq7f23",
-        "cid": "bafyreif5twg4wonfmy6ecsounqpsvzvw2rpgphelmmztlibbak4h562sgy",
-        "bskyUrl": "https://bsky.app/profile/michabbb.bsky.social/post/3mkbedrvq7f23",
-        "text": "npx skills@latest add mattpocock/skills/grill-me npx skills@latest add mattpocock/skills/write-a-prd 🌐 github.com/mattpocock/...",
+        "uri": "at://did:plc:l45kboslxfld24fgv55nxlpc/app.bsky.feed.post/3mkbibmet7au2",
+        "cid": "bafyreieamqwoauy47bsefqjtehmez25isckdumho6wtyp7qgnqjuc3sxty",
+        "bskyUrl": "https://bsky.app/profile/reverse-engineering.activitypub.awakari.com.ap.brid.gy/post/3mkbibmet7au2",
+        "text": "Show HN: I Reverse Engineered Codex Background Computer Use Article URL: https://github.com/actuallyepic/background-computer-use Comments URL: https://news.ycombinator.com/item?id=47895892 Points: ... Origin | Interest | Match",
         "author": {
-          "handle": "michabbb.bsky.social",
-          "displayName": "Micha the DevOp"
+          "handle": "reverse-engineering.activitypub.awakari.com.ap.brid.gy",
+          "displayName": "Reverse-Engineering"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-04-24T20:26:12.860404Z",
-        "hoursSincePosted": 1.64
+        "createdAt": "2026-04-24T21:13:48.000Z",
+        "hoursSincePosted": 1.77
       },
       "posts": [
         {
-          "uri": "at://did:plc:i34vxgn34hwh3ocvbjxh7j4k/app.bsky.feed.post/3mkbedrvq7f23",
-          "cid": "bafyreif5twg4wonfmy6ecsounqpsvzvw2rpgphelmmztlibbak4h562sgy",
-          "bskyUrl": "https://bsky.app/profile/michabbb.bsky.social/post/3mkbedrvq7f23",
-          "text": "npx skills@latest add mattpocock/skills/grill-me npx skills@latest add mattpocock/skills/write-a-prd 🌐 github.com/mattpocock/...",
+          "uri": "at://did:plc:l45kboslxfld24fgv55nxlpc/app.bsky.feed.post/3mkbibmet7au2",
+          "cid": "bafyreieamqwoauy47bsefqjtehmez25isckdumho6wtyp7qgnqjuc3sxty",
+          "bskyUrl": "https://bsky.app/profile/reverse-engineering.activitypub.awakari.com.ap.brid.gy/post/3mkbibmet7au2",
+          "text": "Show HN: I Reverse Engineered Codex Background Computer Use Article URL: https://github.com/actuallyepic/background-computer-use Comments URL: https://news.ycombinator.com/item?id=47895892 Points: ... Origin | Interest | Match",
           "author": {
-            "handle": "michabbb.bsky.social",
-            "displayName": "Micha the DevOp"
+            "handle": "reverse-engineering.activitypub.awakari.com.ap.brid.gy",
+            "displayName": "Reverse-Engineering"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-04-24T20:26:12.860404Z",
-          "createdUtc": 1777062372,
-          "ageHours": 1.64,
+          "createdAt": "2026-04-24T21:13:48.000Z",
+          "createdUtc": 1777065228,
+          "ageHours": 1.77,
           "trendingScore": 0,
           "content_tags": [
-            "has-github-repo",
-            "has-skill"
+            "has-github-repo"
           ],
-          "value_score": 2,
+          "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "mattpocock/skills",
+              "fullName": "actuallyepic/background-computer-use",
               "matchType": "url",
               "confidence": 1
             }
@@ -160,17 +161,17 @@
   },
   "leaderboard": [
     {
-      "fullName": "ggml-org/llama.cpp",
+      "fullName": "actuallyepic/background-computer-use",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "jj-vcs/jj",
+      "fullName": "aloshdenny/reverse-SynthID",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "mattpocock/skills",
+      "fullName": "openclaw/openclaw",
       "count7d": 1,
       "likesSum7d": 0
     }

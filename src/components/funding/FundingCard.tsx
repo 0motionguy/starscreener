@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { FundingSignal } from "@/lib/funding/types";
-import { logoFromDomain } from "@/lib/logo-url";
+import { resolveLogoUrl } from "@/lib/logo-url";
 
 interface FundingCardProps {
   signal: FundingSignal;
@@ -139,7 +139,10 @@ function CompanyLogo({
   size?: number;
 }) {
   const [failed, setFailed] = useState(false);
-  const resolved = logoFromDomain(logoUrl, Math.max(size, 128));
+  // Try explicit logoUrl first, then fall back to a name-based .com guess.
+  // Google's favicon service 404s for nonexistent domains — bad guesses
+  // trip the onError handler and render the initials block below.
+  const resolved = resolveLogoUrl(logoUrl, name, Math.max(size, 128));
   const initials = getInitials(name);
 
   if (resolved && !failed) {
@@ -179,8 +182,12 @@ function CompanyLogo({
 /** Small investor logo / initials pill. */
 function InvestorBadge({ name }: { name: string }) {
   const [failed, setFailed] = useState(false);
+  // Prefer the hardcoded VC domain map (a16z→a16z.com) and fall back to a
+  // slug-based .com guess for the 50+ investors that aren't in the map
+  // (TCV, Blast, Eiffel Investment Group, etc.). Google 404s when a guess
+  // misses and the initials pill below takes over.
   const domain = getVcDomain(name);
-  const logoUrl = logoFromDomain(domain, 64);
+  const logoUrl = resolveLogoUrl(domain, name, 64);
 
   return (
     <span className="inline-flex items-center gap-1.5 rounded-full border border-border-primary bg-bg-tertiary px-2.5 py-1 text-xs text-text-secondary">

@@ -55,3 +55,38 @@ export function logoFromDomain(
   const sz = Math.max(16, Math.min(256, Math.round(size)));
   return `${BASE}?domain=${encodeURIComponent(d)}&sz=${sz}`;
 }
+
+/**
+ * Slug a company/VC name into a best-guess .com domain.
+ * "Cloudsmith" → cloudsmith.com
+ * "Decade Energy" → decadeenergy.com
+ * "TCV" → tcv.com
+ *
+ * Callers should render the resulting URL with an onError fallback to
+ * initials — Google's favicon service returns 404 for domains that don't
+ * exist, so the browser error handler will fire for bad guesses.
+ */
+export function guessDomainFromName(
+  name: string | null | undefined,
+): string | null {
+  if (typeof name !== "string") return null;
+  const slug = name.toLowerCase().replace(/[^a-z0-9]/g, "");
+  if (slug.length < 2 || slug.length > 40) return null;
+  return `${slug}.com`;
+}
+
+/**
+ * Resolve a logo URL, trying in order:
+ *   1. an explicit URL / bare domain (preferred)
+ *   2. a name-based best-guess .com
+ * Returns null only when both inputs are empty.
+ */
+export function resolveLogoUrl(
+  urlOrDomain: string | null | undefined,
+  nameHint: string | null | undefined,
+  size: number = DEFAULT_SIZE,
+): string | null {
+  const fromInput = logoFromDomain(urlOrDomain, size);
+  if (fromInput) return fromInput;
+  return logoFromDomain(guessDomainFromName(nameHint), size);
+}

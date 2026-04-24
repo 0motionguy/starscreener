@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>API Reference — TrendingRepo / StarScreener</title>
+    <meta
+      name="description"
+      content="OpenAPI 3.1 reference for the TrendingRepo / StarScreener public API. Rendered with Redoc from /api/openapi.json."
+    />
+    <!--
+      Standalone Redoc renderer served verbatim from /public. The ~60 KB
+      gzipped bundle is pulled from the Redocly CDN on first visit and
+      adds zero weight to the main Next.js app bundle.
+
+      Air-gapped deployments: mirror
+        https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js
+      to an internal origin and swap the <script src=".."> below.
+    -->
+    <link
+      rel="preconnect"
+      href="https://cdn.redoc.ly"
+      crossorigin
+    />
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: #0a0a0a;
+        font-family:
+          system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
+          sans-serif;
+      }
+      /* Fallback while the CDN bundle boots */
+      #boot-hint {
+        color: #10b981;
+        padding: 24px 28px;
+        font-family: ui-monospace, "JetBrains Mono", Menlo, Consolas, monospace;
+        font-size: 13px;
+      }
+      redoc:defined + #boot-hint {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <redoc
+      spec-url="/api/openapi.json"
+      theme='{"colors":{"primary":{"main":"#10b981"}},"typography":{"fontFamily":"system-ui, -apple-system, sans-serif","headings":{"fontFamily":"system-ui, -apple-system, sans-serif"},"code":{"fontFamily":"ui-monospace, JetBrains Mono, Menlo, Consolas, monospace"}}}'
+    ></redoc>
+    <noscript id="boot-hint">
+      The API reference needs JavaScript to render. The raw OpenAPI 3.1 spec is
+      available at <a href="/api/openapi.json" style="color:#10b981">/api/openapi.json</a>.
+    </noscript>
+    <div id="boot-hint">Loading API reference from /api/openapi.json…</div>
+    <script
+      src="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js"
+      defer
+    ></script>
+  </body>
+</html>

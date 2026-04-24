@@ -174,3 +174,13 @@ export async function POST(
     );
   }
 }
+
+// GET alias for Vercel Cron, which fires GET (not POST) to each cron path.
+// Vercel auto-injects `Authorization: Bearer <CRON_SECRET>`, and `parseBody`
+// already tolerates empty bodies — the writer defaults to topN=300,
+// horizons=[7,30], which matches the GitHub Actions workflow body.
+export async function GET(
+  request: NextRequest,
+): Promise<NextResponse<SuccessResponse | ErrorResponse>> {
+  return POST(request);
+}

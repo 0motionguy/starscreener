@@ -4,15 +4,22 @@
 //
 // Rich deep-dive dashboard: selector + banner row + star-activity chart +
 // commit heatmap + per-repo activity pulse + tech-stack bars + contributor
-// grids + winner chips. Data is sourced from two endpoints run in parallel:
-//   - /api/repos?ids=a,b        → `Repo[]` for the existing star chart.
-//   - /api/compare?repos=o/n,..  → `CompareRepoBundle[]` (Agent 1 adapter)
-//                                   for everything banner/heatmap/pulse.
+// grids + winner chips.
+//
+// Modes:
+//   - Page mode (default): renders the full page chrome (header, selector,
+//     `<main>` wrapper) and dual-fetches `/api/repos` (for the legacy
+//     star-activity chart) + `/api/compare/github` (rich GitHub bundle).
+//   - Embedded mode (`embedded=true`): suppresses the page chrome because
+//     `CompareProfileGrid` above is already rendering it. Skips the
+//     `/api/repos` fetch + legacy star-activity chart — the embedded
+//     "Code activity side-by-side" section only exposes GitHub-derived
+//     visuals (heatmap, contributors, winners) which don't need `Repo[]`.
 //
 // Bundles keyed by fullName so component props can O(1) look up their
-// matching Repo. If /api/compare didn't return a bundle for a selected id,
-// we synthesize a fallback ok:false bundle so the banner card still renders
-// in error state — per-repo failures never block siblings.
+// matching Repo. If /api/compare/github didn't return a bundle for a
+// selected id, we synthesize a fallback ok:false bundle so the banner card
+// still renders in error state — per-repo failures never block siblings.
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
@@ -33,7 +40,10 @@ import { LanguageBar } from "@/components/compare/LanguageBar";
 import { ContributorGrid } from "@/components/compare/ContributorGrid";
 import { WinnerChips } from "@/components/compare/WinnerChips";
 import { StatIcon } from "@/components/compare/StatIcon";
-import { resolveCompareFullNames } from "@/lib/compare-selection";
+import {
+  compareIdToFallbackFullName,
+  resolveCompareFullNames,
+} from "@/lib/compare-selection";
 import type { CompareRepoBundle } from "@/lib/github-compare";
 import type { Repo } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -107,7 +117,14 @@ function formatRelativeDate(iso: string | null | undefined): string {
   return `${years}y ago`;
 }
 
-export function CompareClient() {
+export interface CompareClientProps {
+  /** When true, suppresses the page chrome (header, selector, <main>) and the
+   *  legacy `/api/repos` star-activity chart. Used when this client is
+   *  embedded below the canonical `<CompareProfileGrid />` on `/compare`. */
+  embedded?: boolean;
+}
+
+export function CompareClient({ embedded = false }: CompareClientProps = {}) {
   const repoIds = useCompareStore((s) => s.repos);
   const [repos, setRepos] = useState<Repo[]>([]);
   const [bundles, setBundles] = useState<CompareRepoBundle[]>([]);
@@ -116,8 +133,11 @@ export function CompareClient() {
   const [hasHydrated, setHasHydrated] = useState(false);
 
   useEffect(() => {
+    // Only own the tab title in page mode; embedded mode is a section
+    // inside `/compare`, where the server `<title>` wins anyway.
+    if (embedded) return;
     document.title = "Compare Repos - TrendingRepo";
-  }, []);
+  }, [embedded]);
 
   // --- Zustand persist gate ------------------------------------------
   useEffect(() => {
@@ -178,13 +198,17 @@ export function CompareClient() {
       }
     })();
 
-    // Fetch 2: new rich bundle from Agent 1's adapter. The route accepts
-    // owner/name; store IDs are owner--name — normalize.
+    // Fetch 2: rich GitHub bundle from `/api/compare/github`. The route
+    // accepts owner/name; store IDs are owner--name — normalize via
+    // `compareIdToFallbackFullName` (good enough for the common case;
+    // dots/original casing are preserved by the fallback helper).
     (async () => {
       try {
-        const ids = repoIds.join(",");
+        const fullNames = repoIds
+          .map((id) => compareIdToFallbackFullName(id))
+          .join(",");
         const res = await fetch(
-          `/api/compare?ids=${encodeURIComponent(ids)}`,
+          `/api/compare/github?repos=${encodeURIComponent(fullNames)}`,
           { signal: controller.signal },
         );
         if (!res.ok) throw new Error(`status ${res.status}`);
@@ -192,7 +216,7 @@ export function CompareClient() {
         setBundles(Array.isArray(data.bundles) ? data.bundles : []);
       } catch (err) {
         if ((err as { name?: string }).name === "AbortError") return;
-        console.error("[compare] /api/compare failed", err);
+        console.error("[compare] /api/compare/github failed", err);
         setBundles([]);
       } finally {
         setBundlesLoading(false);
@@ -237,6 +261,9 @@ export function CompareClient() {
   // Empty state — no repos queued in the store.
   // ------------------------------------------------------------------
   if (isEmpty) {
+    // In embedded mode the parent grid already owns the empty UX; render
+    // nothing here so we don't duplicate the "pick 2 repos" nudge.
+    if (embedded) return null;
     return (
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-8">
         <PageHeader />
@@ -254,35 +281,44 @@ export function CompareClient() {
     );
   }
 
+  // Container switches between the page-level `<main>` (standalone) and a
+  // bare fragment (embedded under `<CompareProfileGrid />`). The grid above
+  // already owns the page header + selector, so in embedded mode we skip
+  // those + the banner row (which duplicates the grid's repo columns).
+  const Container = embedded ? EmbeddedShell : PageShell;
+
   return (
-    <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-8">
-      <PageHeader />
+    <Container>
+      {!embedded && (
+        <>
+          <PageHeader />
+          <CompareSelector />
 
-      <CompareSelector />
-
-      {/* -------------------------------------------------------------
-          3. Repo banner row
-         ------------------------------------------------------------- */}
-      <section
-        aria-label="Repo banners"
-        className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4"
-      >
-        {showBundleSkeletons
-          ? Array.from({ length: skeletonCount }).map((_, i) => (
-              <BannerSkeleton key={`bskel-${i}`} />
-            ))
-          : orderedBundles.map((bundle, i) => (
-              <RepoBannerCard
-                key={bundle.fullName || `b-${i}`}
-                bundle={bundle}
-                accentColor={PALETTE[i] ?? PALETTE[0]}
-              />
-            ))}
-        {/* Fill to 4 columns with an "Add repo" tile when there's room. */}
-        {!isLoading &&
-          orderedBundles.length > 0 &&
-          orderedBundles.length < MAX_SLOTS && <AddRepoTile />}
-      </section>
+          {/* -------------------------------------------------------------
+              3. Repo banner row (page mode only — the grid above is the
+              de-facto banner row in embedded mode)
+             ------------------------------------------------------------- */}
+          <section
+            aria-label="Repo banners"
+            className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4"
+          >
+            {showBundleSkeletons
+              ? Array.from({ length: skeletonCount }).map((_, i) => (
+                  <BannerSkeleton key={`bskel-${i}`} />
+                ))
+              : orderedBundles.map((bundle, i) => (
+                  <RepoBannerCard
+                    key={bundle.fullName || `b-${i}`}
+                    bundle={bundle}
+                    accentColor={PALETTE[i] ?? PALETTE[0]}
+                  />
+                ))}
+            {!isLoading &&
+              orderedBundles.length > 0 &&
+              orderedBundles.length < MAX_SLOTS && <AddRepoTile />}
+          </section>
+        </>
+      )}
 
       {/* -------------------------------------------------------------
           4. Star activity chart (30 days)
@@ -381,8 +417,27 @@ export function CompareClient() {
         <h2 className="label-section">WINS</h2>
         {showBundleSkeletons ? <WinnerSkeleton /> : <WinnerChips bundles={orderedBundles} />}
       </section>
+    </Container>
+  );
+}
+
+// ---------------------------------------------------------------------
+// Shell helpers — swap the outermost wrapper based on mode.
+// ---------------------------------------------------------------------
+
+function PageShell({ children }: { children: React.ReactNode }) {
+  return (
+    <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-8">
+      {children}
     </main>
   );
+}
+
+function EmbeddedShell({ children }: { children: React.ReactNode }) {
+  // Embedded under `<CompareProfileGrid />`: no page padding / max-width
+  // (the parent page owns those). A plain div with the same `space-y-8`
+  // rhythm keeps internal section spacing consistent with page mode.
+  return <div className="space-y-8">{children}</div>;
 }
 
 // ---------------------------------------------------------------------

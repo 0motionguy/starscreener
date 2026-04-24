@@ -248,7 +248,20 @@ function wrapSocialAdapters(source: SocialAdapter[]): WrappedSocialAdapters {
   return { adapters, counters };
 }
 
-export async function GET(): Promise<NextResponse<IngestUsageResponse>> {
+export async function GET(
+  request: NextRequest,
+): Promise<NextResponse<IngestUsageResponse> | NextResponse> {
+  // Vercel Cron fires GET (not POST) to every configured cron path. The
+  // Vercel-Cron config registers this route as `/api/pipeline/ingest?cron=1`
+  // so an operator manually hitting `GET /api/pipeline/ingest` still gets
+  // the usage docs, but a cron invocation trips the same ingest pipeline as
+  // the GitHub Actions POST cron. Body parity matters: the GH Actions
+  // workflow POSTs `{}`, so the cron-delegated POST call here does the
+  // same — any shape/validation failure happens identically across both
+  // schedulers (bug parity beats silent divergence).
+  if (request.nextUrl.searchParams.get("cron") === "1") {
+    return POST(request);
+  }
   return NextResponse.json({
     endpoint: "/api/pipeline/ingest",
     methods: ["POST"],

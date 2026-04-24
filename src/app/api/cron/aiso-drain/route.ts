@@ -335,3 +335,12 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+// GET alias for Vercel Cron, which fires GET (not POST) to each cron path.
+// Vercel auto-injects `Authorization: Bearer <CRON_SECRET>` so the underlying
+// auth/body pipeline is identical — parseBody() short-circuits to `{}` when
+// the request has no JSON body, which is the case for cron triggers (they
+// can't send a body), so `limit` falls back to the default (10).
+export async function GET(request: NextRequest) {
+  return POST(request);
+}

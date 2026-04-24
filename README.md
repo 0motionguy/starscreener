@@ -184,13 +184,14 @@ starscreener/
 
 Full OpenAPI 3.1 spec: [`docs/openapi.yaml`](./docs/openapi.yaml) (source of truth) or [`docs/openapi.json`](./docs/openapi.json) (served live at `/api/openapi.json`).
 
-Explore interactively:
+Explore interactively at [**/docs**](https://trendingrepo.com/docs) — rendered with Redoc from a CDN-loaded bundle (zero added app-bundle weight). Raw spec: [`docs/openapi.yaml`](./docs/openapi.yaml) or `/api/openapi.json`.
 
 ```bash
-# Redocly preview
-npx @redocly/cli preview-docs docs/openapi.yaml
+# Local
+open http://localhost:3023/docs
 
-# Or open Swagger UI against the deployed spec
+# Or bring your own tool against the deployed spec
+npx @redocly/cli preview-docs docs/openapi.yaml
 open "https://petstore.swagger.io/?url=https://trendingrepo.com/api/openapi.json"
 ```
 
@@ -269,6 +270,48 @@ npm run portal:conformance
 Vercel. Root-level `next.config.ts` is prod-safe (no turbopack, no experimental flags). The homepage, categories, and collections pages build as static (`○`) with `revalidate = 1800` — so every edge request hits cache and the pipeline only recomputes when data changes on main.
 
 Required env: `GITHUB_TOKEN` (for scraping + compare API), `CRON_SECRET` (guards `/api/pipeline/*` admin routes). ProductHunt refreshes also require a GitHub Actions secret named `PRODUCTHUNT_TOKEN` for `.github/workflows/scrape-producthunt.yml`, or the same variable in `.env.local` for `npm run scrape:ph`. See [`.env.example`](./.env.example).
+
+## Scheduled jobs
+
+The pipeline's recurring work (ingest, persist, cleanup, rebuild, predictions, AISO drain, freshness probe) is wired to two schedulers in parallel for redundancy — pick one as primary, or keep both if you accept double-fires (the per-file locks and in-process cooldowns tolerate overlap).
+
+| Schedule (UTC)   | Endpoint                         | Purpose                                     |
+| ---------------- | -------------------------------- | ------------------------------------------- |
+| `15 */2 * * *`   | `/api/pipeline/ingest`           | GitHub + social adapters batch ingest       |
+| `30 */6 * * *`   | `/api/pipeline/persist`          | Flush in-memory stores to JSONL             |
+| `0 4 * * *`      | `/api/pipeline/cleanup`          | Archive / delete stale repo rows            |
+| `0 5 * * 0`      | `/api/pipeline/rebuild`          | Weekly full rebuild (Sundays)               |
+| `0 6 * * *`      | `/api/cron/predictions`          | Daily top-N momentum predictions            |
+| `0,30 * * * *`   | `/api/cron/aiso-drain`           | Drain AISO rescan queue (every 30 min)      |
+| `*/15 * * * *`   | `/api/health`                    | Unauthed freshness / status probe           |
+
+### Primary: GitHub Actions
+
+`.github/workflows/cron-*.yml` — richer logs, manual fire via `workflow_dispatch`, and per-run concurrency groups. Requires the repo's Actions to be enabled and these secrets/vars:
+
+- `secrets.CRON_SECRET` — must match the server's `CRON_SECRET` env
+- `vars.STARSCREENER_URL` — optional; defaults to the hard-coded prod URL in each workflow
+
+### Fallback: Vercel Cron
+
+`vercel.json` -> top-level `crons` field — native to Vercel Deployments, auto-adds `Authorization: Bearer <CRON_SECRET>` when you set `CRON_SECRET` as a project env var, no extra wiring required. Vercel Cron fires **GET** (not POST), so every cron endpoint either already exports GET or has a GET alias that delegates to POST. `/api/pipeline/ingest` keeps its existing GET usage-docs response and only switches to ingest behavior when called with `?cron=1` (as registered in `vercel.json`).
+
+### Picking one
+
+If you deploy on Vercel AND have GitHub Actions enabled, both will fire on roughly the same cadence. The in-process ingest cooldown, per-file locks (AISO queue, predictions JSONL), and idempotent persistence make duplicate runs safe — but you will pay for two runs per cycle.
+
+- **Keep GH Actions primary** (recommended): delete or comment out the `crons` block in `vercel.json`.
+- **Keep Vercel Cron primary**: disable the `.github/workflows/cron-*.yml` workflows (Actions -> select -> "Disable workflow"). Do not delete them — the files remain a usable fallback.
+- **Keep both** (belt-and-suspenders): leave both live. Expect roughly 2x cron runs with no correctness impact.
+
+If you deploy outside Vercel (e.g. self-hosted), only the GitHub Actions path fires.
+
+### Operator checklist before a Vercel deploy
+
+1. Set `CRON_SECRET` in the Vercel project's env (Production + Preview), distinct from `ADMIN_TOKEN`.
+2. Redeploy so the new env reaches the cron handlers.
+3. First cron tick after deploy: verify in the Vercel -> Cron dashboard that all 7 jobs registered and their next-run times are correct.
+4. Manually trigger any cron from the Vercel dashboard to smoke the auth path end-to-end.
 
 ## Credits
 

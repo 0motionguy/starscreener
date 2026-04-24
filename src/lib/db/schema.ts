@@ -525,6 +525,41 @@ export const fundingRounds: TableDescriptor = {
 };
 
 /**
+ * Outbound Twitter/X publishing runs. Every cron invocation writes
+ * exactly one row regardless of whether the adapter published,
+ * logged, or skipped. Insert-only; this is the audit trail.
+ *
+ * `adapter_name` disambiguates which adapter ran (twitter_api_v2 /
+ * console / null) so an operator can tell "yes the cron ran but the
+ * token isn't provisioned" from "cron is broken."
+ *
+ * `error_message` is populated only for status="error" rows.
+ */
+export const twitterOutboundRuns: TableDescriptor = {
+  name: "twitter_outbound_runs",
+  columns: [
+    { name: "id", type: "text", primaryKey: true },
+    // Application-layer constrained — "daily_breakouts", "weekly_recap",
+    // "idea_published" today. Stored as text so adding a kind doesn't
+    // require a migration.
+    { name: "kind", type: "text", notNull: true },
+    { name: "adapter_name", type: "text", notNull: true },
+    // Application-layer constrained — published / logged / skipped / error.
+    { name: "status", type: "text", notNull: true },
+    { name: "thread_url", type: "text" },
+    { name: "post_count", type: "integer", notNull: true },
+    { name: "started_at", type: "timestamp", notNull: true },
+    { name: "finished_at", type: "timestamp", notNull: true },
+    { name: "error_message", type: "text" },
+  ],
+  indices: [
+    { name: "twitter_outbound_started_idx", columns: ["started_at"] },
+    { name: "twitter_outbound_kind_idx", columns: ["kind"] },
+    { name: "twitter_outbound_status_idx", columns: ["status"] },
+  ],
+};
+
+/**
  * Repo trajectory predictions — recorded so we can score the model
  * against actuals over time (calibration). Insert-only; one row per
  * (repo, horizon, modelVersion, generatedAt).
@@ -720,4 +755,5 @@ export const schema: TableDescriptor[] = [
   reactions,
   ideas,
   predictions,
+  twitterOutboundRuns,
 ];

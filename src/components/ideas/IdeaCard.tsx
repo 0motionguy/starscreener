@@ -13,7 +13,9 @@ import { GitBranch, Sparkles, Wrench } from "lucide-react";
 import type { ReactionCounts } from "@/lib/reactions-shape";
 import type { IdeaBuildStatus, PublicIdea } from "@/lib/ideas";
 import { getRelativeTime } from "@/lib/utils";
+import { absoluteUrl } from "@/lib/seo";
 import { ObjectReactions } from "@/components/reactions/ObjectReactions";
+import { ShareToX } from "@/components/share/ShareToX";
 
 interface IdeaCardProps {
   idea: PublicIdea;
@@ -108,11 +110,18 @@ export function IdeaCard({
         </div>
       ) : null}
 
-      <ObjectReactions
-        objectType="idea"
-        objectId={idea.id}
-        initialCounts={reactionCounts}
-      />
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <ObjectReactions
+          objectType="idea"
+          objectId={idea.id}
+          initialCounts={reactionCounts}
+        />
+        <ShareToX
+          text={`💡 "${idea.title}" — @${idea.authorHandle}`}
+          url={absoluteUrl(`/ideas/${idea.id}`)}
+          compact
+        />
+      </div>
     </article>
   );
 }

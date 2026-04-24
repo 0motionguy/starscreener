@@ -5,7 +5,7 @@ import { RevenueQueueAdmin } from "@/components/admin/RevenueQueueAdmin";
 export const metadata: Metadata = {
   title: "Admin — Revenue Moderation Queue",
   description:
-    "Approve or reject revenue submissions. Gated by the CRON_SECRET bearer token.",
+    "Approve or reject revenue submissions. Gated by the ADMIN_TOKEN bearer token.",
   robots: { index: false, follow: false },
 };
 

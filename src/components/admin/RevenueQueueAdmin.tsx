@@ -12,6 +12,8 @@ import {
   XCircle,
 } from "lucide-react";
 
+import { trustmrrProfileUrl } from "@/lib/trustmrr-url";
+
 type Mode = "trustmrr_link" | "self_report";
 type Status = "pending_moderation" | "approved" | "rejected";
 
@@ -69,7 +71,7 @@ export function RevenueQueueAdmin() {
   const loadQueue = useCallback(
     async (token: string) => {
       if (!token) {
-        setError("Paste the CRON_SECRET to load the queue");
+        setError("Paste the ADMIN_TOKEN to load the queue");
         return;
       }
       setLoading(true);
@@ -152,7 +154,7 @@ export function RevenueQueueAdmin() {
             </span>
           </div>
           <p className="mt-2 max-w-2xl text-sm text-text-secondary">
-            Private admin tool. Paste the <code>CRON_SECRET</code> to load the
+            Private admin tool. Paste the <code>ADMIN_TOKEN</code> to load the
             queue. Approved submissions surface on repo detail pages
             (self-reported card, distinct from verified TrustMRR card).
           </p>
@@ -161,7 +163,7 @@ export function RevenueQueueAdmin() {
         <section className="mb-6 rounded-card border border-border-primary bg-bg-card p-4 shadow-card">
           <label className="flex flex-col gap-2">
             <span className="font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
-              CRON_SECRET
+              ADMIN_TOKEN
             </span>
             <div className="flex flex-wrap gap-2">
               <input
@@ -297,15 +299,19 @@ function ModerationRow({
         </Field>
         {row.mode === "trustmrr_link" ? (
           <Field label="TrustMRR slug">
-            <a
-              href={`https://trustmrr.com/s/${row.trustmrrSlug}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-text-primary hover:underline"
-            >
-              {row.trustmrrSlug}
-              <ExternalLink className="size-3" aria-hidden />
-            </a>
+            {row.trustmrrSlug ? (
+              <a
+                href={trustmrrProfileUrl(row.trustmrrSlug)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-text-primary hover:underline"
+              >
+                {row.trustmrrSlug}
+                <ExternalLink className="size-3" aria-hidden />
+              </a>
+            ) : (
+              <span className="text-text-tertiary">-</span>
+            )}
           </Field>
         ) : (
           <>

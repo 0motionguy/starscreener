@@ -24,6 +24,8 @@
 
 import { createHmac, randomBytes, timingSafeEqual } from "node:crypto";
 
+import { isUserTier, type UserTier } from "@/lib/pricing/tiers";
+
 /** Stable 30-day session window. Matches the cookie Max-Age. */
 export const SESSION_MAX_AGE_MS = 30 * 24 * 60 * 60 * 1_000;
 
@@ -32,6 +34,22 @@ export interface SessionPayload {
   userId: string;
   /** Milliseconds since epoch when the session was issued. */
   issuedAt: number;
+  /**
+   * Optional tier hint embedded in the cookie. Kept optional so old
+   * cookies issued before the pricing wave still verify — they are
+   * treated as free tier by callers that consume this field.
+   *
+   * The cookie is NOT the source of truth for the tier; the user-tier
+   * store is. The hint exists so unauthenticated-browser flows (rate
+   * limiter, UI gating) can skip a disk hit when the cookie is fresh.
+   */
+  tier?: UserTier;
+  /**
+   * ISO timestamp for when the tier entitlement expires. `null` = no
+   * expiry. Mirrors the user-tier store record shape. Optional + may be
+   * absent on legacy cookies.
+   */
+  tierExpiresAt?: string | null;
 }
 
 /**
@@ -131,7 +149,19 @@ export function verifySession(token: string | null | undefined): SessionPayload 
   if (age < 0) return null; // clock skew / future-dated token
   if (age > SESSION_MAX_AGE_MS) return null;
 
-  return { userId, issuedAt };
+  // Additive pricing fields — absent on legacy cookies, present on new
+  // ones. Invalid values are dropped silently so a tampered / corrupted
+  // tier field doesn't void an otherwise-valid session.
+  const payload: SessionPayload = { userId, issuedAt };
+  if (isUserTier(obj.tier)) {
+    payload.tier = obj.tier;
+  }
+  if (obj.tierExpiresAt === null) {
+    payload.tierExpiresAt = null;
+  } else if (typeof obj.tierExpiresAt === "string" && obj.tierExpiresAt.length > 0) {
+    payload.tierExpiresAt = obj.tierExpiresAt;
+  }
+  return payload;
 }
 
 /**

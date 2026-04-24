@@ -19,6 +19,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { timingSafeEqual } from "node:crypto";
 import { verifySession } from "./session";
+import type { UserTier } from "@/lib/pricing/tiers";
 
 /** Name of the HMAC-signed session cookie set by /api/auth/session. */
 export const SESSION_COOKIE_NAME = "ss_user";
@@ -34,7 +35,21 @@ export type InternalAgentAuthVerdict =
   | { kind: "not_configured" };
 
 export type UserAuthVerdict =
-  | { kind: "ok"; userId: string }
+  | {
+      kind: "ok";
+      userId: string;
+      /**
+       * Tier hint available when the caller authenticated via a cookie
+       * that carries the pricing fields. Absent on header-authenticated
+       * callers (server-to-server / CLI) and on legacy cookies. Callers
+       * that need the authoritative tier (feature-gating) should still
+       * call `getUserTier(userId)` from the user-tiers store; this hint
+       * is an optimization for rate-limit decisions on the hot path.
+       */
+      tier?: UserTier;
+      /** Matching expiry for the tier hint. */
+      tierExpiresAt?: string | null;
+    }
   | { kind: "unauthorized" }
   | { kind: "not_configured" };
 
@@ -316,7 +331,14 @@ export function verifyUserAuth(request: NextRequest): UserAuthVerdict {
     // (keeps browsers working). Otherwise we must fall through to the
     // env-less / unauthorized branches below.
     if (cookiePayload && (multi.size > 0 || singleToken)) {
-      return { kind: "ok", userId: cookiePayload.userId };
+      return {
+        kind: "ok",
+        userId: cookiePayload.userId,
+        ...(cookiePayload.tier !== undefined ? { tier: cookiePayload.tier } : {}),
+        ...(cookiePayload.tierExpiresAt !== undefined
+          ? { tierExpiresAt: cookiePayload.tierExpiresAt }
+          : {}),
+      };
     }
     // If env tokens ARE configured, the header was the caller's explicit
     // choice and it didn't match — reject now.
@@ -328,7 +350,14 @@ export function verifyUserAuth(request: NextRequest): UserAuthVerdict {
     // meaningless without env config, same as it was pre-cookie.
   } else if (cookiePayload) {
     // 3. Cookie-only caller (browser). Accept regardless of env-token state.
-    return { kind: "ok", userId: cookiePayload.userId };
+    return {
+      kind: "ok",
+      userId: cookiePayload.userId,
+      ...(cookiePayload.tier !== undefined ? { tier: cookiePayload.tier } : {}),
+      ...(cookiePayload.tierExpiresAt !== undefined
+        ? { tierExpiresAt: cookiePayload.tierExpiresAt }
+        : {}),
+    };
   }
 
   // 4. No valid header match and no valid cookie. Honor the env-less

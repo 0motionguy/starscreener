@@ -27,6 +27,7 @@ import {
   verifySession,
   type SessionPayload,
 } from "@/lib/api/session";
+import { getUserTierRecord } from "@/lib/pricing/user-tiers";
 
 // Keep in sync with SESSION_MAX_AGE_MS in session.ts (30 days, in seconds).
 const SESSION_MAX_AGE_SECONDS = 30 * 24 * 60 * 60;
@@ -166,9 +167,20 @@ export async function POST(
     userId = deriveUserId(email);
   }
 
+  // Pull the latest tier from the user-tier store so fresh cookies carry
+  // the correct entitlement hint. Best-effort — a store read failure falls
+  // back to a tier-less cookie (treated as free by callers).
+  let tierRecord: Awaited<ReturnType<typeof getUserTierRecord>> = null;
+  try {
+    tierRecord = await getUserTierRecord(userId);
+  } catch {
+    tierRecord = null;
+  }
+
   const payload: SessionPayload = {
     userId,
     issuedAt: Date.now(),
+    ...(tierRecord ? { tier: tierRecord.tier, tierExpiresAt: tierRecord.expiresAt } : {}),
   };
   const token = signSession(payload);
 

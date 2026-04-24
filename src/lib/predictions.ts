@@ -90,6 +90,34 @@ export type PredictionResult =
   | { kind: "ok"; prediction: PredictionRecord }
   | { kind: "insufficient_data"; reason: string };
 
+/**
+ * Convenience wrapper around {@link predictRepoTrajectory} that returns the
+ * generated `PredictionRecord` directly, or `null` if the repo does not have
+ * enough sparkline history to forecast. Used by the cron writer
+ * (`src/lib/predictions-writer.ts`) so it can batch-generate rows without
+ * re-implementing the result-kind switch.
+ *
+ * `id` is intentionally NOT part of this shape — row identifiers are the
+ * writer's responsibility (they encode the generation timestamp so multiple
+ * runs can coexist on disk; the reader dedupes by `generatedAt`).
+ */
+export function predictTrajectory(
+  repo: Pick<
+    Repo,
+    | "fullName"
+    | "stars"
+    | "starsDelta24h"
+    | "starsDelta7d"
+    | "starsDelta30d"
+    | "sparklineData"
+  >,
+  horizonDays: PredictionHorizonDays,
+  now: Date = new Date(),
+): PredictionRecord | null {
+  const result = predictRepoTrajectory(repo, horizonDays, now);
+  return result.kind === "ok" ? result.prediction : null;
+}
+
 // ---------------------------------------------------------------------------
 // Pure math helpers
 // ---------------------------------------------------------------------------

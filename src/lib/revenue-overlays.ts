@@ -24,6 +24,7 @@ import {
   type TrustMrrLinkSubmission,
 } from "./revenue-submissions";
 import { currentDataDir } from "./pipeline/storage/file-persistence";
+import { trustmrrProfileUrl } from "./trustmrr-url";
 
 export interface RevenueOverlaysFile {
   generatedAt: string | null;
@@ -146,10 +147,18 @@ export function getRevenueOverlaysMeta() {
 // preserved.
 // ---------------------------------------------------------------------------
 
+// Cache invalidates on either a TTL tick (10s) or a change in the
+// submissions file's mtime. The mtime check means an approve/reject lands
+// in the overlay map immediately instead of waiting for the TTL — important
+// for both the admin UX and for deterministic test runs.
 const SELF_REPORTED_CACHE_TTL_MS = 10_000;
 
 let selfReportedCache:
-  | { fetchedAtMs: number; byFullName: Map<string, RevenueOverlay> }
+  | {
+      fetchedAtMs: number;
+      mtimeMs: number;
+      byFullName: Map<string, RevenueOverlay>;
+    }
   | null = null;
 
 function submissionsFilePath(): string {
@@ -203,12 +212,14 @@ function selfReportToOverlay(
 function trustmrrLinkToOverlay(
   record: TrustMrrLinkSubmission,
 ): RevenueOverlay {
-  // A trustmrr_link claim by itself does not grant verified numbers —
-  // those come from the sync catalog match. But if the repo has no
-  // verified overlay yet (e.g. catalog sync hasn't picked it up),
-  // surfacing the claim as a pointer is better than nothing.
+  // A trustmrr_link claim by itself does NOT grant verified numbers —
+  // those come from the sync catalog match. This overlay is a pointer only:
+  // tier "trustmrr_claim" is rendered as a neutral "linked TrustMRR profile"
+  // card, never as verified revenue. Promotion to "verified_trustmrr"
+  // happens when the next catalog sweep matches the repo and writes to
+  // data/revenue-overlays.json.
   return {
-    tier: "verified_trustmrr",
+    tier: "trustmrr_claim",
     fullName: record.fullName,
     trustmrrSlug: record.trustmrrSlug,
     mrrCents: null,
@@ -221,14 +232,26 @@ function trustmrrLinkToOverlay(
     category: null,
     asOf: record.moderatedAt ?? record.submittedAt,
     matchConfidence: "manual",
-    sourceUrl: `https://trustmrr.com/s/${record.trustmrrSlug}`,
+    sourceUrl: trustmrrProfileUrl(record.trustmrrSlug),
   };
+}
+
+function currentSubmissionsMtimeMs(): number {
+  const path = submissionsFilePath();
+  if (!existsSync(path)) return -1;
+  try {
+    return statSync(path).mtimeMs;
+  } catch {
+    return -1;
+  }
 }
 
 function ensureSelfReportedCache() {
   const now = Date.now();
+  const mtimeMs = currentSubmissionsMtimeMs();
   if (
     selfReportedCache &&
+    selfReportedCache.mtimeMs === mtimeMs &&
     now - selfReportedCache.fetchedAtMs < SELF_REPORTED_CACHE_TTL_MS
   ) {
     return selfReportedCache;
@@ -246,7 +269,7 @@ function ensureSelfReportedCache() {
       );
     }
   }
-  selfReportedCache = { fetchedAtMs: now, byFullName };
+  selfReportedCache = { fetchedAtMs: now, mtimeMs, byFullName };
   return selfReportedCache;
 }
 

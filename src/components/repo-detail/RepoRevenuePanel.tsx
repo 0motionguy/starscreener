@@ -2,6 +2,8 @@ import type { JSX } from "react";
 import {
   AlertCircle,
   BadgeCheck,
+  ExternalLink,
+  Link2,
   TrendingDown,
   TrendingUp,
 } from "lucide-react";
@@ -13,6 +15,7 @@ import { formatNumber, getRelativeTime } from "@/lib/utils";
 interface RepoRevenuePanelProps {
   verified: RevenueOverlay | null;
   selfReported: RevenueOverlay | null;
+  trustmrrClaim?: RevenueOverlay | null;
 }
 
 function formatUsd(cents: number | null): string | null {
@@ -56,11 +59,24 @@ function providerLabel(provider: string | null): string {
 export function RepoRevenuePanel({
   verified,
   selfReported,
+  trustmrrClaim = null,
 }: RepoRevenuePanelProps): JSX.Element | null {
-  if (!verified && !selfReported) return null;
+  // Guard against a claim being passed where a verified overlay is expected.
+  // VerifiedRevenueCard renders "Verified revenue" chrome — a claim-only
+  // overlay there would be the exact UX bug we are fixing.
+  const renderVerified =
+    verified && verified.tier === "verified_trustmrr" ? verified : null;
+  // Don't double-render the claim when a real verified overlay already exists
+  // for this repo — the caller ensures this, but belt-and-braces.
+  const renderClaim =
+    !renderVerified && trustmrrClaim && trustmrrClaim.tier === "trustmrr_claim"
+      ? trustmrrClaim
+      : null;
+  if (!renderVerified && !renderClaim && !selfReported) return null;
   return (
     <section className="space-y-3" aria-label="Revenue signals">
-      {verified ? <VerifiedRevenueCard overlay={verified} /> : null}
+      {renderVerified ? <VerifiedRevenueCard overlay={renderVerified} /> : null}
+      {renderClaim ? <TrustmrrClaimCard overlay={renderClaim} /> : null}
       {selfReported ? <SelfReportedRevenueCard overlay={selfReported} /> : null}
     </section>
   );
@@ -135,6 +151,55 @@ function VerifiedRevenueCard({
       <footer className="mt-3 text-[11px] text-text-tertiary">
         Verified via {provider}
         {overlay.category ? ` · ${overlay.category}` : ""}
+      </footer>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// TrustmrrClaimCard — moderated claim of a TrustMRR profile with no live
+// metrics attached yet. Neutral chrome, no MRR slot, explicit "pointer only"
+// copy. Gets replaced by VerifiedRevenueCard once the next catalog sweep
+// resolves the repo against the catalog.
+// ---------------------------------------------------------------------------
+
+function TrustmrrClaimCard({
+  overlay,
+}: {
+  overlay: RevenueOverlay;
+}): JSX.Element | null {
+  const freshness = classifyFreshness(overlay.asOf);
+  if (freshness === "expired") return null;
+  return (
+    <div
+      aria-label="Linked TrustMRR profile"
+      className="rounded-card border border-border-primary/70 bg-bg-muted/40 p-4"
+    >
+      <header className="flex flex-wrap items-start justify-between gap-3">
+        <div className="flex items-center gap-2">
+          <Link2 className="size-4 text-text-tertiary" aria-hidden />
+          <h3 className="font-mono text-[11px] uppercase tracking-wider text-text-tertiary">
+            Linked TrustMRR profile — numbers not yet verified
+          </h3>
+        </div>
+      </header>
+      <p className="mt-3 text-sm text-text-secondary">
+        The founder linked this repo to a TrustMRR profile. Live metrics will
+        appear here after the next catalog sync. Until then, this is a
+        pointer — not a verified revenue figure.
+      </p>
+      <footer className="mt-3 text-[11px] text-text-tertiary">
+        {overlay.sourceUrl ? (
+          <a
+            href={overlay.sourceUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-text-secondary hover:text-text-primary hover:underline"
+          >
+            View on TrustMRR
+            <ExternalLink className="size-3" aria-hidden />
+          </a>
+        ) : null}
       </footer>
     </div>
   );

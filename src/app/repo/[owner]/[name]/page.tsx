@@ -253,11 +253,15 @@ export default async function RepoDetailPage({ params }: PageProps) {
   const twitterPanel = await getTwitterRepoPanel(repo.fullName);
   const npmPackages = getNpmPackagesForRepo(repo.fullName);
   const productHuntLaunch = getLaunchForRepo(repo.fullName);
-  // Verified overlay (TrustMRR sync) with a fallback to an approved
-  // TrustMRR-link claim so a moderated claim renders at least a badge before
-  // the next catalog sweep picks up the match.
-  const revenueOverlay =
-    getRevenueOverlay(repo.fullName) ?? getTrustmrrClaimOverlay(repo.fullName);
+  // Verified overlay (from the TrustMRR catalog sync) and, separately, an
+  // approved TrustMRR-link claim that has not yet been matched by the sync.
+  // They are kept distinct so the claim never renders with "verified" chrome —
+  // the UI shows a neutral pointer card for the claim until the sweep
+  // promotes it to a verified overlay.
+  const revenueOverlay = getRevenueOverlay(repo.fullName);
+  const trustmrrClaimOverlay = revenueOverlay
+    ? null
+    : getTrustmrrClaimOverlay(repo.fullName);
   const selfReportedOverlay = getSelfReportedOverlay(repo.fullName);
   // Cross-channel marker dots for the Stars chart — pre-built server-side
   // so the client RepoDetailChart bundle stays free of every per-source
@@ -376,6 +380,7 @@ export default async function RepoDetailPage({ params }: PageProps) {
           <RepoRevenuePanel
             verified={revenueOverlay}
             selfReported={selfReportedOverlay}
+            trustmrrClaim={trustmrrClaimOverlay}
           />
 
           <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_420px] gap-6">

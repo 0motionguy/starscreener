@@ -218,7 +218,18 @@ export interface Repo {
 // stable UI-facing shape.
 // ---------------------------------------------------------------------------
 
-export type RevenueTier = "verified_trustmrr" | "self_reported" | "estimated";
+// "verified_trustmrr" means: TrustMRR catalog match with live numbers.
+// "trustmrr_claim"   means: moderator-approved founder claim pointing at a
+//                           TrustMRR profile, but no live metrics have been
+//                           resolved yet. MUST render distinctly from the
+//                           verified tier — see RepoRevenuePanel.
+// "self_reported"    means: founder-submitted numbers with a provider name.
+// "estimated"        means: derived from benchmarks; never a fact-claim.
+export type RevenueTier =
+  | "verified_trustmrr"
+  | "trustmrr_claim"
+  | "self_reported"
+  | "estimated";
 
 export type RevenueMatchConfidence = "exact" | "host" | "manual";
 
@@ -236,7 +247,7 @@ export interface RevenueOverlay {
   category: string | null;
   asOf: string; // ISO — source timestamp, not fetch time
   matchConfidence: RevenueMatchConfidence;
-  sourceUrl: string; // https://trustmrr.com/s/{slug}
+  sourceUrl: string; // canonical https://trustmrr.com/startup/{slug}
 }
 
 export interface Category {

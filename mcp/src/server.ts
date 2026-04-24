@@ -71,6 +71,73 @@ const client = new StarScreenerClient();
 const portal = new PortalClient();
 
 // ---------------------------------------------------------------------------
+// Metering — best-effort POST to the StarScreener API after every tool call.
+//
+// Contract with /api/mcp/record-call:
+//   headers: { "Content-Type": "application/json", "x-user-token": <token> }
+//   body:    { tool, tokenUsed, durationMs, status, errorMessage? }
+//
+// The remote endpoint is user-token auth'd via `verifyUserAuth`; unknown
+// tokens and missing tokens both short-circuit to a silent 200
+// (`{ ok: true, skipped: "anonymous" }`), so MCP installs without
+// `STARSCREENER_USER_TOKEN` do not error — they simply don't get metered.
+//
+// Failure semantics: every await here is fire-and-forget. A network error,
+// 4xx, 5xx, or timeout on the record call MUST NOT propagate to the tool
+// result — that would let metering outages break discovery. We log to
+// stderr and move on.
+//
+// SECURITY: we NEVER log the user token (`userToken` is passed by header
+// only; the log line below elides it).
+// ---------------------------------------------------------------------------
+
+async function withMetering<T>(
+  tool: string,
+  fn: () => Promise<T>,
+): Promise<T> {
+  const start = Date.now();
+  let status: "ok" | "error" = "ok";
+  let errorMessage: string | undefined;
+  try {
+    const result = await fn();
+    return result;
+  } catch (err) {
+    status = "error";
+    errorMessage =
+      err instanceof Error
+        ? err.message.slice(0, 200)
+        : String(err).slice(0, 200);
+    throw err;
+  } finally {
+    const durationMs = Date.now() - start;
+    const userToken = client.getUserToken();
+    if (userToken && typeof globalThis.fetch === "function") {
+      const url = `${client.getBaseUrl()}/api/mcp/record-call`;
+      // Fire-and-forget. The `void` cast + outer .catch() guarantee no
+      // unhandled rejection can tear down the stdio loop.
+      void globalThis
+        .fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-user-token": userToken,
+          },
+          body: JSON.stringify({
+            tool,
+            tokenUsed: 0,
+            durationMs,
+            status,
+            ...(errorMessage !== undefined ? { errorMessage } : {}),
+          }),
+        })
+        .catch(() => {
+          // Metering is best-effort. Never surface this to the caller.
+        });
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Small helper: wrap a tool handler so thrown errors (network, API 4xx/5xx,
 // invalid input) surface as a proper MCP tool error rather than crashing the
 // stdio loop.
@@ -147,7 +214,9 @@ server.registerTool(
     annotations: { readOnlyHint: true, idempotentHint: true },
   },
   async ({ window, limit }) =>
-    run(() => client.getTrending({ window, limit })),
+    withMetering("get_trending", () =>
+      run(() => client.getTrending({ window, limit })),
+    ),
 );
 
 // -------- New Portal-canonical tools — route through POST /portal/call --------
@@ -182,12 +251,14 @@ server.registerTool(
     annotations: { readOnlyHint: true, idempotentHint: true },
   },
   async ({ limit, window, language }) =>
-    run(() =>
-      portal.call("top_gainers", {
-        ...(limit !== undefined ? { limit } : {}),
-        ...(window !== undefined ? { window } : {}),
-        ...(language !== undefined ? { language } : {}),
-      }),
+    withMetering("top_gainers", () =>
+      run(() =>
+        portal.call("top_gainers", {
+          ...(limit !== undefined ? { limit } : {}),
+          ...(window !== undefined ? { window } : {}),
+          ...(language !== undefined ? { language } : {}),
+        }),
+      ),
     ),
 );
 
@@ -215,7 +286,9 @@ server.registerTool(
     annotations: { readOnlyHint: true, idempotentHint: true },
   },
   async ({ handle }) =>
-    run(() => portal.call("maintainer_profile", { handle })),
+    withMetering("maintainer_profile", () =>
+      run(() => portal.call("maintainer_profile", { handle })),
+    ),
 );
 
 // -----------------------------------------------------------------------------
@@ -236,7 +309,9 @@ server.registerTool(
     annotations: { readOnlyHint: true, idempotentHint: true },
   },
   async ({ limit, window }) =>
-    run(() => client.getBreakouts({ limit, window })),
+    withMetering("get_breakouts", () =>
+      run(() => client.getBreakouts({ limit, window })),
+    ),
 );
 
 server.registerTool(
@@ -254,7 +329,9 @@ server.registerTool(
     annotations: { readOnlyHint: true, idempotentHint: true },
   },
   async ({ limit, window }) =>
-    run(() => client.getNewRepos({ limit, window })),
+    withMetering("get_new_repos", () =>
+      run(() => client.getNewRepos({ limit, window })),
+    ),
 );
 
 server.registerTool(
@@ -278,7 +355,9 @@ server.registerTool(
     annotations: { readOnlyHint: true, idempotentHint: true },
   },
   async ({ query, limit, category }) =>
-    run(() => client.searchRepos({ query, limit, category })),
+    withMetering("search_repos", () =>
+      run(() => client.searchRepos({ query, limit, category })),
+    ),
 );
 
 server.registerTool(
@@ -298,7 +377,8 @@ server.registerTool(
     },
     annotations: { readOnlyHint: true, idempotentHint: true },
   },
-  async ({ fullName }) => run(() => client.getRepo({ fullName })),
+  async ({ fullName }) =>
+    withMetering("get_repo", () => run(() => client.getRepo({ fullName }))),
 );
 
 // ---------------------------------------------------------------------------
@@ -326,7 +406,9 @@ server.registerTool(
     annotations: { readOnlyHint: true, idempotentHint: true },
   },
   async ({ fullName }) =>
-    run(() => client.getRepoProfileFull({ fullName })),
+    withMetering("repo_profile_full", () =>
+      run(() => client.getRepoProfileFull({ fullName })),
+    ),
 );
 
 server.registerTool(
@@ -367,13 +449,15 @@ server.registerTool(
     annotations: { readOnlyHint: true, idempotentHint: true },
   },
   async ({ fullName, source, cursor, limit }) =>
-    run(() =>
-      client.getRepoMentionsPage({
-        fullName,
-        ...(source !== undefined ? { source } : {}),
-        ...(cursor !== undefined ? { cursor } : {}),
-        ...(limit !== undefined ? { limit } : {}),
-      }),
+    withMetering("repo_mentions_page", () =>
+      run(() =>
+        client.getRepoMentionsPage({
+          fullName,
+          ...(source !== undefined ? { source } : {}),
+          ...(cursor !== undefined ? { cursor } : {}),
+          ...(limit !== undefined ? { limit } : {}),
+        }),
+      ),
     ),
 );
 
@@ -394,7 +478,10 @@ server.registerTool(
     },
     annotations: { readOnlyHint: true, idempotentHint: true },
   },
-  async ({ fullName }) => run(() => client.getRepoFreshness({ fullName })),
+  async ({ fullName }) =>
+    withMetering("repo_freshness", () =>
+      run(() => client.getRepoFreshness({ fullName })),
+    ),
 );
 
 server.registerTool(
@@ -413,7 +500,10 @@ server.registerTool(
     },
     annotations: { readOnlyHint: true, idempotentHint: true },
   },
-  async ({ fullName }) => run(() => client.getRepoAiso({ fullName })),
+  async ({ fullName }) =>
+    withMetering("repo_aiso", () =>
+      run(() => client.getRepoAiso({ fullName })),
+    ),
 );
 
 server.registerTool(
@@ -434,7 +524,10 @@ server.registerTool(
     },
     annotations: { readOnlyHint: true, idempotentHint: true },
   },
-  async ({ fullNames }) => run(() => client.compareRepos({ fullNames })),
+  async ({ fullNames }) =>
+    withMetering("compare_repos", () =>
+      run(() => client.compareRepos({ fullNames })),
+    ),
 );
 
 server.registerTool(
@@ -446,7 +539,8 @@ server.registerTool(
     inputSchema: {},
     annotations: { readOnlyHint: true, idempotentHint: true },
   },
-  async () => run(() => client.getCategories()),
+  async () =>
+    withMetering("get_categories", () => run(() => client.getCategories())),
 );
 
 server.registerTool(
@@ -470,7 +564,9 @@ server.registerTool(
     annotations: { readOnlyHint: true, idempotentHint: true },
   },
   async ({ categoryId, limit, window }) =>
-    run(() => client.getCategoryRepos({ categoryId, limit, window })),
+    withMetering("get_category_repos", () =>
+      run(() => client.getCategoryRepos({ categoryId, limit, window })),
+    ),
 );
 
 // ---------------------------------------------------------------------------

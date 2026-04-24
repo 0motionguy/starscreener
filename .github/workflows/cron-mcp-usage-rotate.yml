@@ -1,0 +1,57 @@
+name: Cron - MCP usage log rotation
+
+# Fires POST /api/cron/mcp/rotate-usage monthly (1st of month, 03:00 UTC).
+# The handler applies a rolling 12-month retention policy to
+# `.data/mcp-usage.jsonl` — rows older than 365 days are dropped (no
+# archive in v1). The rotation rewrites atomically under the shared
+# per-file lock; concurrent runs (e.g. Vercel Cron + GH Actions) are
+# safe but redundant.
+#
+# Required repo config:
+#   secrets.CRON_SECRET     — must match server CRON_SECRET env
+#   vars.STARSCREENER_URL   — optional; defaults to prod URL
+
+on:
+  schedule:
+    - cron: "0 3 1 * *"  # UTC, 03:00 on the 1st of every month
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cron-mcp-usage-rotate
+  cancel-in-progress: false
+
+env:
+  BASE_URL: ${{ vars.STARSCREENER_URL || 'https://trendingrepo.com' }}
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: POST /api/cron/mcp/rotate-usage
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          if [ -z "$CRON_SECRET" ]; then
+            echo "::error::CRON_SECRET is unset — refusing to fire unauthenticated"
+            exit 1
+          fi
+          code=$(curl -sS -o /tmp/out -w "%{http_code}" -X POST \
+            "$BASE_URL/api/cron/mcp/rotate-usage" \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            -H "Content-Type: application/json" \
+            -d '{}')
+          echo "HTTP $code"
+          if command -v jq >/dev/null 2>&1 && jq . /tmp/out >/dev/null 2>&1; then
+            jq . /tmp/out | head -c 2000
+          else
+            head -c 2000 /tmp/out
+          fi
+          echo
+          if [ "$code" != "200" ]; then
+            echo "::error::cron/mcp/rotate-usage call failed ($code)"
+            exit 1
+          fi

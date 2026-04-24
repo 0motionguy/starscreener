@@ -20,6 +20,14 @@
 export interface StarScreenerClientOptions {
   baseUrl?: string;
   token?: string;
+  /**
+   * Per-user bearer that, when present, is sent as `x-user-token: <value>`
+   * on every request. Resolves to a userId server-side (verifyUserAuth)
+   * so usage metering can attribute each MCP call. Default:
+   * `process.env.STARSCREENER_USER_TOKEN`. Back-compat: omitting this
+   * simply skips the header, which is what pre-metering installs want.
+   */
+  userToken?: string;
   fetchImpl?: typeof fetch;
 }
 
@@ -42,6 +50,7 @@ export class StarScreenerApiError extends Error {
 export class StarScreenerClient {
   private readonly baseUrl: string;
   private readonly token: string | undefined;
+  private readonly userToken: string | undefined;
   private readonly fetchImpl: typeof fetch;
 
   constructor(opts: StarScreenerClientOptions = {}) {
@@ -52,6 +61,10 @@ export class StarScreenerClient {
     // Strip trailing slash so we can always concat `${baseUrl}/api/...`.
     this.baseUrl = raw.replace(/\/+$/, "");
     this.token = opts.token ?? process.env.STARSCREENER_API_TOKEN;
+    // Per-user bearer for MCP usage metering — back-compat: unset = no header.
+    // NEVER log this value.
+    this.userToken =
+      opts.userToken ?? process.env.STARSCREENER_USER_TOKEN ?? undefined;
     // Node 20+ has a global fetch. Accept an override for tests.
     this.fetchImpl = opts.fetchImpl ?? globalThis.fetch;
     if (typeof this.fetchImpl !== "function") {
@@ -59,6 +72,16 @@ export class StarScreenerClient {
         "global fetch is not available — this MCP server requires Node 20+",
       );
     }
+  }
+
+  /** Exposed for the metering middleware in server.ts; never logs the value. */
+  getUserToken(): string | undefined {
+    return this.userToken;
+  }
+
+  /** Exposed for the metering middleware in server.ts. */
+  getBaseUrl(): string {
+    return this.baseUrl;
   }
 
   private async request<T = unknown>(
@@ -70,6 +93,9 @@ export class StarScreenerClient {
     headers.set("accept", "application/json");
     if (this.token && !headers.has("authorization")) {
       headers.set("authorization", `Bearer ${this.token}`);
+    }
+    if (this.userToken && !headers.has("x-user-token")) {
+      headers.set("x-user-token", this.userToken);
     }
     const res = await this.fetchImpl(url, { ...init, headers });
     const text = await res.text();

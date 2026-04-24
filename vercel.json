@@ -11,6 +11,7 @@
     { "path": "/api/cron/webhooks/scan",     "schedule": "5,35 * * * *" },
     { "path": "/api/cron/webhooks/flush",    "schedule": "10,40 * * * *" },
     { "path": "/api/cron/digest/weekly",     "schedule": "0 8 * * 1" },
+    { "path": "/api/cron/mcp/rotate-usage",  "schedule": "0 3 1 * *" },
     { "path": "/api/health",                 "schedule": "*/15 * * * *" }
   ]
 }

@@ -1,3 +1,6 @@
+import type { RepoMention } from "@/lib/pipeline/types";
+import type { SocialPlatform } from "@/lib/types";
+
 export type MentionSource =
   | "reddit"
   | "hn"
@@ -100,3 +103,105 @@ export const MENTION_SOURCE_DESCRIPTIONS: Record<MentionSource, string> = {
 /** Description shown on the "All" tab so the default view is also self-explaining. */
 export const MENTION_ALL_DESCRIPTION =
   "All mentions — every per-source hit merged, newest first.";
+
+// ---------------------------------------------------------------------------
+// RepoMention -> MentionItem conversion
+// ---------------------------------------------------------------------------
+
+/**
+ * Map a persisted-store SocialPlatform to the MentionItem source tag. The
+ * render layer uses a narrower vocabulary ("hn" vs "hackernews") and includes
+ * synthetic sources ("ph") that don't live in the MentionStore — those stay
+ * absent here and continue to be surfaced via their own dedicated props.
+ */
+const PLATFORM_TO_SOURCE: Partial<Record<SocialPlatform, MentionSource>> = {
+  reddit: "reddit",
+  hackernews: "hn",
+  bluesky: "bluesky",
+  devto: "devto",
+  twitter: "twitter",
+};
+
+/** Per-platform label for the primary engagement metric on a store row. */
+const PLATFORM_SCORE_LABEL: Record<MentionSource, string> = {
+  reddit: "upvotes",
+  hn: "points",
+  bluesky: "likes",
+  devto: "reactions",
+  ph: "votes",
+  twitter: "engagement",
+};
+
+/** Render-friendly author handle shaped by source convention. */
+function formatAuthor(source: MentionSource, author: string): string {
+  const raw = (author ?? "").trim();
+  if (!raw) return "—";
+  if (source === "reddit") {
+    return raw.startsWith("u/") ? raw : `u/${raw}`;
+  }
+  if (source === "bluesky" || source === "twitter" || source === "devto") {
+    return raw.startsWith("@") ? raw : `@${raw.replace(/^@+/, "")}`;
+  }
+  return raw;
+}
+
+/**
+ * Convert a persisted `RepoMention` into the render-shaped `MentionItem`
+ * consumed by the feed + signal-snapshot components. Returns `null` when the
+ * mention's platform has no render-layer source (e.g. GitHub events).
+ */
+export function toMentionItem(m: RepoMention): MentionItem | null {
+  const source = PLATFORM_TO_SOURCE[m.platform];
+  if (!source) return null;
+
+  return {
+    id: `${source}-${m.id}`,
+    source,
+    title: m.content,
+    author: formatAuthor(source, m.author),
+    score: m.engagement,
+    scoreLabel: PLATFORM_SCORE_LABEL[source],
+    // The store row has a flat engagement count and no per-metric breakdown,
+    // so the secondary slot is intentionally left empty. The feed's layout
+    // gracefully omits the slot when absent.
+    url: m.url,
+    createdAt: m.postedAt,
+    matchReason: m.matchReason ?? undefined,
+  };
+}
+
+/**
+ * Reverse of `PLATFORM_TO_SOURCE`: map a client-side `MentionTab` onto the
+ * `?source=` query param the API expects. Returns `null` when the API
+ * should be hit without a filter (i.e. the "all" tab, or a tab whose
+ * source isn't persisted in the MentionStore and therefore has no
+ * paginated backend — e.g. "ph").
+ *
+ * The API validates against `SocialPlatform` so the string returned must
+ * be a member of that union; we return a plain `string | null` to keep
+ * this module free of cross-layer imports beyond the type-only
+ * `SocialPlatform` already imported at the top.
+ */
+export function mentionTabToWirePlatform(tab: MentionTab): SocialPlatform | null {
+  switch (tab) {
+    case "all":
+      return null;
+    case "reddit":
+      return "reddit";
+    case "hn":
+      return "hackernews";
+    case "bluesky":
+      return "bluesky";
+    case "twitter":
+      return "twitter";
+    case "devto":
+      return "devto";
+    case "ph":
+      // ProductHunt launches aren't stored in the MentionStore (they live
+      // in the launch index and are synthesized into the feed at SSR
+      // time), so the paginated endpoint has nothing to serve. Return
+      // null and let MentionsLoadMore skip rendering the button on this
+      // tab entirely — see its `disabled` check.
+      return null;
+  }
+}

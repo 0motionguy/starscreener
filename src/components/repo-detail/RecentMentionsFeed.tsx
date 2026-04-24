@@ -15,6 +15,7 @@ import { ExternalLink } from "lucide-react";
 import { getRelativeTime } from "@/lib/utils";
 import type { FreshnessSnapshot } from "@/lib/source-health";
 import { FreshnessChips } from "./FreshnessChips";
+import { MentionsLoadMore } from "./MentionsLoadMore";
 import {
   MENTION_ALL_DESCRIPTION,
   MENTION_SOURCE_BADGE_TEXT,
@@ -38,9 +39,30 @@ interface RecentMentionsFeedProps {
    * existing callers continue to render without change.
    */
   freshness?: FreshnessSnapshot;
+  /**
+   * When provided, the feed renders a `<MentionsLoadMore>` button under
+   * the list so users can page past the SSR-capped first slice. Pass the
+   * canonical `owner/name` string — the client component builds the API
+   * URL from it. Omitting it keeps the existing (non-paginated) behaviour
+   * for any caller that hasn't yet migrated to pass a cursor.
+   */
+  repoFullName?: string;
+  /**
+   * Opaque cursor returned by the first page fetch. `null` means "the
+   * server-rendered slice exhausted the mention set, no more pages
+   * exist" — in which case the load-more button simply doesn't render.
+   * Undefined (along with `repoFullName`) means the paginated path isn't
+   * wired up for this caller.
+   */
+  initialCursor?: string | null;
 }
 
-export function RecentMentionsFeed({ mentions, freshness }: RecentMentionsFeedProps) {
+export function RecentMentionsFeed({
+  mentions,
+  freshness,
+  repoFullName,
+  initialCursor,
+}: RecentMentionsFeedProps) {
   const [tab, setTab] = useState<MentionTab>("all");
 
   // Build per-source counts + visible list memoized so tab clicks don't
@@ -141,54 +163,82 @@ export function RecentMentionsFeed({ mentions, freshness }: RecentMentionsFeedPr
       ) : (
         <ul className="mt-3 divide-y divide-border-primary/40">
           {visible.map((m) => (
-            <li key={m.id}>
-              <a
-                href={m.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex items-start gap-3 py-3 min-h-[44px] hover:bg-bg-card-hover/60 -mx-2 px-2 rounded-md transition-colors"
-              >
-                <SourceBadge source={m.source} />
-                <div className="min-w-0 flex-1">
-                  <p className="text-sm text-text-primary leading-snug line-clamp-2 group-hover:text-brand transition-colors">
-                    {m.title}
-                  </p>
-                  <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-0.5 font-mono text-[11px] text-text-tertiary">
-                    <span className="truncate max-w-[140px] sm:max-w-[220px]">
-                      {m.author}
-                    </span>
-                    <span className="tabular-nums">
-                      <span className="text-text-secondary">
-                        {m.score.toLocaleString()}
-                      </span>{" "}
-                      {m.scoreLabel ?? "pts"}
-                    </span>
-                    {m.secondary && (
-                      <span className="tabular-nums">
-                        <span className="text-text-secondary">
-                          {m.secondary.value.toLocaleString()}
-                        </span>{" "}
-                        {m.secondary.label}
-                      </span>
-                    )}
-                    <span>{getRelativeTime(m.createdAt)}</span>
-                    {m.matchReason && (
-                      <span className="hidden md:inline text-text-tertiary/80">
-                        matched: {m.matchReason}
-                      </span>
-                    )}
-                    <span className="ml-auto inline-flex items-center gap-1 text-text-tertiary uppercase tracking-wider">
-                      {MENTION_SOURCE_SHORT_LABEL[m.source]}
-                      <ExternalLink size={10} aria-hidden />
-                    </span>
-                  </div>
-                </div>
-              </a>
-            </li>
+            <MentionRow key={m.id} item={m} />
           ))}
         </ul>
       )}
+
+      {/* Paginated tail — the button vanishes when the server says there
+          are no more pages (null cursor), and resets on every tab switch
+          via the `key` so per-source paging starts from page 1. Only
+          renders when the parent opted in by passing both props. */}
+      {repoFullName && visible.length > 0 ? (
+        <MentionsLoadMore
+          key={tab}
+          repoFullName={repoFullName}
+          source={tab}
+          initialCursor={tab === "all" ? (initialCursor ?? null) : undefined}
+        />
+      ) : null}
     </section>
+  );
+}
+
+/**
+ * A single row in the mentions list. Exported so the client paginator
+ * (`MentionsLoadMore`) can render newly-fetched items with pixel-perfect
+ * parity — the alternative of duplicating this markup drifts over time.
+ *
+ * Shape: source badge · title · metadata strip. The metadata strip
+ * collapses to a column on narrow viewports because Tailwind's flex-wrap
+ * already does the right thing here; nothing source-specific is hidden.
+ */
+export function MentionRow({ item: m }: { item: MentionItem }) {
+  return (
+    <li>
+      <a
+        href={m.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group flex items-start gap-3 py-3 min-h-[44px] hover:bg-bg-card-hover/60 -mx-2 px-2 rounded-md transition-colors"
+      >
+        <SourceBadge source={m.source} />
+        <div className="min-w-0 flex-1">
+          <p className="text-sm text-text-primary leading-snug line-clamp-2 group-hover:text-brand transition-colors">
+            {m.title}
+          </p>
+          <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-0.5 font-mono text-[11px] text-text-tertiary">
+            <span className="truncate max-w-[140px] sm:max-w-[220px]">
+              {m.author}
+            </span>
+            <span className="tabular-nums">
+              <span className="text-text-secondary">
+                {m.score.toLocaleString()}
+              </span>{" "}
+              {m.scoreLabel ?? "pts"}
+            </span>
+            {m.secondary && (
+              <span className="tabular-nums">
+                <span className="text-text-secondary">
+                  {m.secondary.value.toLocaleString()}
+                </span>{" "}
+                {m.secondary.label}
+              </span>
+            )}
+            <span>{getRelativeTime(m.createdAt)}</span>
+            {m.matchReason && (
+              <span className="hidden md:inline text-text-tertiary/80">
+                matched: {m.matchReason}
+              </span>
+            )}
+            <span className="ml-auto inline-flex items-center gap-1 text-text-tertiary uppercase tracking-wider">
+              {MENTION_SOURCE_SHORT_LABEL[m.source]}
+              <ExternalLink size={10} aria-hidden />
+            </span>
+          </div>
+        </div>
+      </a>
+    </li>
   );
 }
 

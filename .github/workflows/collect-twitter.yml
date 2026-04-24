@@ -2,7 +2,11 @@ name: Collect Twitter Signals
 
 on:
   schedule:
-    - cron: "0 */6 * * *"
+    # Every 3 hours (8×/day) instead of every 6h (4×/day). Doubles Twitter
+    # signal coverage. The collector rotates across 9 Nitter mirrors with
+    # per-instance health + exponential backoff, so the extra runs reuse
+    # healthy mirrors instead of hammering dead ones.
+    - cron: "0 */3 * * *"
   workflow_dispatch:
     inputs:
       limit:

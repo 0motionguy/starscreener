@@ -40,14 +40,18 @@ jobs:
       - name: Decide mode
         id: mode
         run: |
-          # Full runs at :27 every 6h (hours 2/8/14/20). Everything else is incremental.
+          # One full catalog sweep per day at :27 UTC (hour 02). Every other
+          # :27 run is incremental — cheap re-match against the cached
+          # catalog, zero external API calls. This must match the block
+          # comment on the cron schedule above; earlier versions promoted
+          # 08/14/20 to full and were spending ~4x the API budget silently.
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             echo "mode=${{ inputs.mode }}" >> "$GITHUB_OUTPUT"
           else
             HOUR=$(date -u +%H)
             case "$HOUR" in
-              02|08|14|20) echo "mode=full" >> "$GITHUB_OUTPUT" ;;
-              *)            echo "mode=incremental" >> "$GITHUB_OUTPUT" ;;
+              02) echo "mode=full" >> "$GITHUB_OUTPUT" ;;
+              *)  echo "mode=incremental" >> "$GITHUB_OUTPUT" ;;
             esac
           fi
 

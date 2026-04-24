@@ -1,3 +1,3 @@
 {
-  "_comment": "Hand-authored overrides when website<->repo.homepage normalization misses. Keyed by repo fullName (owner/name). Value is the TrustMRR startup slug (the path segment from https://trustmrr.com/s/<slug>). Manual matches override automatic ones."
+  "_comment": "Hand-authored overrides when website<->repo.homepage normalization misses. Keyed by repo fullName (owner/name). Value is the TrustMRR startup slug (the path segment from https://trustmrr.com/startup/<slug>; the /s/<slug> short alias is also accepted). Manual matches override automatic ones."
 }

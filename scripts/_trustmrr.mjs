@@ -267,6 +267,42 @@ function toOverlay(fullName, s, matchConfidence, generatedAt) {
     category: s.category ?? null,
     asOf: generatedAt,
     matchConfidence,
-    sourceUrl: `https://trustmrr.com/s/${s.slug}`,
+    // Canonical public URL for a TrustMRR startup is /startup/<slug>. The
+    // /s/<slug> short-alias was used historically but is not the shape the
+    // catalog emits, so we standardize on /startup/ everywhere. If this
+    // module and src/lib/trustmrr-url.ts diverge, update both.
+    sourceUrl: `https://trustmrr.com/startup/${s.slug}`,
   };
+}
+
+// ---------------------------------------------------------------------------
+// Workflow mode selector
+// ---------------------------------------------------------------------------
+//
+// Exported as a pure function so .github/workflows/sync-trustmrr.yml and its
+// test can share the same decision. The workflow currently inlines the case
+// statement — if that ever drifts, the test against this helper catches it.
+//
+// Contract, to keep the comments in the YAML honest:
+//   - workflow_dispatch: honor the input ("full" or "incremental"); default
+//     falls back to "incremental" if the input is missing/unknown.
+//   - schedule @ 02: full catalog sweep (≈130 API req).
+//   - schedule any other hour: incremental (zero external API req).
+//
+// If you change this, update the block comment on the `on.schedule` keys
+// and the "Decide mode" step in sync-trustmrr.yml together.
+
+export function selectTrustmrrSyncMode({
+  eventName,
+  hourUtc,
+  dispatchInput,
+} = {}) {
+  if (eventName === "workflow_dispatch") {
+    if (dispatchInput === "full" || dispatchInput === "incremental") {
+      return dispatchInput;
+    }
+    return "incremental";
+  }
+  // schedule, cron_parent_workflow, etc — hour-driven.
+  return hourUtc === 2 ? "full" : "incremental";
 }

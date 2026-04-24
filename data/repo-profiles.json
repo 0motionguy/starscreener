@@ -1,16 +1,34 @@
 {
-  "generatedAt": "2026-04-24T07:13:15.005Z",
+  "generatedAt": "2026-04-24T09:19:57.968Z",
   "version": 1,
   "selection": {
     "source": "incremental",
     "limit": 50,
     "maxScans": 5,
     "scanned": 3,
-    "queued": 15,
-    "noWebsite": 32,
+    "queued": 16,
+    "noWebsite": 31,
     "failed": 0
   },
   "profiles": [
+    {
+      "fullName": "Alishahryar1/free-claude-code",
+      "rank": 1,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-24T09:18:29.972Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/Alishahryar1/free-claude-code",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
     {
       "fullName": "forrestchang/andrej-karpathy-skills",
       "rank": 1,
@@ -30,16 +48,16 @@
       "error": null
     },
     {
-      "fullName": "Alishahryar1/free-claude-code",
+      "fullName": "addyosmani/agent-skills",
       "rank": 2,
       "selectedFrom": "incremental",
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-24T07:11:34.856Z",
+      "lastProfiledAt": "2026-04-24T09:18:30.380Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/Alishahryar1/free-claude-code",
+        "githubUrl": "https://github.com/addyosmani/agent-skills",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -1743,24 +1761,6 @@
       "error": null
     },
     {
-      "fullName": "zilliztech/claude-context",
-      "rank": 6,
-      "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-24T07:11:35.865Z",
-      "nextScanAfter": null,
-      "surfaces": {
-        "githubUrl": "https://github.com/zilliztech/claude-context",
-        "docsUrl": null,
-        "npmPackages": [],
-        "productHuntLaunchId": null
-      },
-      "aisoScan": null,
-      "error": null
-    },
-    {
       "fullName": "koala73/worldmonitor",
       "rank": 7,
       "selectedFrom": "incremental",
@@ -3377,24 +3377,6 @@
         ],
         "promptTests": []
       },
-      "error": null
-    },
-    {
-      "fullName": "addyosmani/agent-skills",
-      "rank": 9,
-      "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-24T07:11:36.337Z",
-      "nextScanAfter": null,
-      "surfaces": {
-        "githubUrl": "https://github.com/addyosmani/agent-skills",
-        "docsUrl": null,
-        "npmPackages": [],
-        "productHuntLaunchId": null
-      },
-      "aisoScan": null,
       "error": null
     },
     {
@@ -5085,6 +5067,42 @@
       "error": null
     },
     {
+      "fullName": "zilliztech/claude-context",
+      "rank": 11,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-24T09:18:30.816Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/zilliztech/claude-context",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "lsdefine/GenericAgent",
+      "rank": 12,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-24T09:18:31.245Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/lsdefine/GenericAgent",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
       "fullName": "safishamsi/graphify",
       "rank": 12,
       "selectedFrom": "incremental",
@@ -5849,6 +5867,790 @@
             "severity": "medium",
             "title": "No agent discovery file detected",
             "fix": "Publish /llms.txt and, when relevant, a .well-known agent/plugin manifest that points agents at docs, APIs, MCP endpoints, and support policies.",
+            "dimensionKey": "agent_readiness"
+          }
+        ],
+        "promptTests": []
+      },
+      "error": null
+    },
+    {
+      "fullName": "Anil-matcha/Open-Generative-AI",
+      "rank": 13,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://dev.muapi.ai/open-generative-ai",
+      "websiteSource": "github_homepage",
+      "status": "scanned",
+      "lastProfiledAt": "2026-04-24T09:18:31.256Z",
+      "nextScanAfter": "2026-05-01T09:19:09.948Z",
+      "surfaces": {
+        "githubUrl": "https://github.com/Anil-matcha/Open-Generative-AI",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": {
+        "scanId": "6654114b-5bc8-42f0-82de-de7793020215",
+        "url": "https://dev.muapi.ai/open-generative-ai",
+        "projectName": null,
+        "projectUrl": null,
+        "source": "web",
+        "status": "completed",
+        "score": 38,
+        "tier": "invisible",
+        "runtimeVisibility": null,
+        "scanDurationMs": 30854,
+        "completedAt": "2026-04-24T09:19:06.473+00:00",
+        "resultUrl": "https://aiso.tools/scan/6654114b-5bc8-42f0-82de-de7793020215",
+        "dimensions": [
+          {
+            "key": "structure",
+            "label": "Content Structure",
+            "weight": 20,
+            "score": 5,
+            "status": "fail",
+            "issuesCount": 3,
+            "details": {
+              "heading_ok": true,
+              "faq_present": false,
+              "answer_first": false,
+              "heading_issue": null,
+              "definition_lead": false,
+              "main_text_tokens": 18
+            }
+          },
+          {
+            "key": "citations",
+            "label": "Citation Density",
+            "weight": 20,
+            "score": 10,
+            "status": "warn",
+            "issuesCount": 2,
+            "details": {
+              "word_count": 162244,
+              "stats_count": 2942,
+              "external_links": 0,
+              "authoritative_links": 0,
+              "stats_density_per_500w": 9.07,
+              "citations_density_per_500w": 0
+            }
+          },
+          {
+            "key": "crawler",
+            "label": "Crawler Access",
+            "weight": 15,
+            "score": 15,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "allowed_bots": 14,
+              "blocked_bots": 0,
+              "robots_present": true,
+              "cloudflare_suspected": false,
+              "gptbot_homepage_blocked": false
+            }
+          },
+          {
+            "key": "schema",
+            "label": "Schema Markup",
+            "weight": 15,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "coverage": {
+                "person": 0,
+                "article": 0,
+                "faqPage": 0,
+                "website": 0,
+                "breadcrumb": 0,
+                "organization": 0
+              },
+              "meta_tags": {
+                "title": true,
+                "robots": true,
+                "canonical": true,
+                "open_graph": true,
+                "description": true,
+                "twitter_card": true
+              },
+              "page_family": "local",
+              "blocks_found": 0,
+              "nodes_parsed": 0,
+              "present_types": [],
+              "page_family_missing": [
+                "LocalBusiness",
+                "PostalAddress",
+                "OpeningHoursSpecification"
+              ],
+              "page_family_expected": [
+                "LocalBusiness",
+                "PostalAddress",
+                "OpeningHoursSpecification"
+              ],
+              "page_family_strength": 0
+            }
+          },
+          {
+            "key": "entity",
+            "label": "Entity Clarity",
+            "weight": 10,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "byline": false,
+              "founder_in_ld": false,
+              "about_reachable": false,
+              "self_identification": false
+            }
+          },
+          {
+            "key": "agent_readiness",
+            "label": "Agent Readiness",
+            "weight": 10,
+            "score": 4.2,
+            "status": "warn",
+            "issuesCount": 6,
+            "details": {
+              "probes": [
+                {
+                  "ok": true,
+                  "key": "api",
+                  "url": "https://dev.muapi.ai/api/openapi.json",
+                  "status": 200
+                }
+              ],
+              "detected": {
+                "api": true,
+                "cli": false,
+                "mcp": false,
+                "x402": false,
+                "portal": false,
+                "webmcp": false,
+                "agent_skills": true,
+                "agent_discovery": true,
+                "agent_navigation": false,
+                "integration_safety": true
+              },
+              "checked_paths": [
+                "/openapi.json",
+                "/swagger.json",
+                "/api/openapi.json",
+                "/api/docs",
+                "/docs/api",
+                "/developers",
+                "/mcp",
+                "/docs/mcp",
+                "/.well-known/mcp.json",
+                "/docs/cli",
+                "/cli",
+                "/install",
+                "/webmcp",
+                "/docs/webmcp",
+                "/.well-known/webmcp.json",
+                "/portal",
+                "/portal.json",
+                "/.well-known/portal.json",
+                "/docs/portal",
+                "/.well-known/x402.json",
+                "/docs/x402",
+                "/docs/payments",
+                "/api/x402",
+                "/llms.txt",
+                "/llms-full.txt",
+                "/.well-known/ai-plugin.json",
+                "/.well-known/agent.json",
+                "/agents.json",
+                "/.well-known/agent-skills.json",
+                "/.well-known/agents.json",
+                "/agent-skills.json",
+                "/actions.json",
+                "/tools.json",
+                "/skills",
+                "/agent-skills",
+                "/docs/skills",
+                "/docs/agents",
+                "/sitemap.xml",
+                "/sitemap_index.xml",
+                "/docs",
+                "/help",
+                "/search",
+                "/docs/auth",
+                "/docs/webhooks",
+                "/docs/rate-limits",
+                "/status"
+              ]
+            }
+          },
+          {
+            "key": "llmstxt",
+            "label": "llms.txt",
+            "weight": 10,
+            "score": 8,
+            "status": "pass",
+            "issuesCount": 1,
+            "details": {
+              "has_h1": true,
+              "broken_links": [],
+              "links_broken": 0,
+              "links_sampled": 5,
+              "llms_txt_present": true,
+              "llms_full_txt_present": false
+            }
+          },
+          {
+            "key": "freshness",
+            "label": "Freshness",
+            "weight": 5,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "source": null,
+              "days_since": null,
+              "updated_iso": null
+            }
+          },
+          {
+            "key": "offsite",
+            "label": "Off-site Authority (proxy)",
+            "weight": 5,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "platforms_detected": [],
+              "header_footer_links": 0
+            }
+          },
+          {
+            "key": "template_coverage",
+            "label": "Template Coverage",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "mode": "homepage",
+              "non_scoring": true,
+              "homepage_only": true,
+              "pages_scanned": 1,
+              "sampled_pages": 0,
+              "page_templates": [
+                {
+                  "url": "https://dev.muapi.ai/open-generative-ai",
+                  "template": "homepage",
+                  "text_chars": 1469228
+                }
+              ],
+              "unique_templates": [
+                "homepage"
+              ]
+            }
+          },
+          {
+            "key": "platform_profiles",
+            "label": "Platform Profiles",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "profiles": {
+                "claude": 51,
+                "chatgpt": 52,
+                "google_ai": 23,
+                "perplexity": 44
+              },
+              "non_scoring": true
+            }
+          },
+          {
+            "key": "web_verification",
+            "label": "Web Verification",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "consensus": {
+                "fetch_ok": 1,
+                "search_ok": 2,
+                "fetch_total": 2,
+                "verified_by": 3,
+                "search_total": 2,
+                "search_matched": 2,
+                "content_agreement": "single_fetch",
+                "measured_providers": 4
+              },
+              "providers": [
+                {
+                  "ok": true,
+                  "kind": "fetch",
+                  "title": "Open Generative AI — Free Higgsfield AI, Freepik & Krea AI Alternative | Muapi",
+                  "status": 200,
+                  "finalUrl": "https://dev.muapi.ai/open-generative-ai",
+                  "provider": "http",
+                  "latencyMs": 2159,
+                  "textChars": 1469228,
+                  "description": "The best free alternative to Higgsfield AI, Freepik AI, and Krea AI. Generate stunning images and videos using 200+ models — Flux, Midjourney, Kling, Veo, Seedance and more."
+                },
+                {
+                  "ok": false,
+                  "kind": "fetch",
+                  "error": "tinyfish_timeout",
+                  "title": null,
+                  "status": 0,
+                  "finalUrl": null,
+                  "provider": "tinyfish_fetch",
+                  "latencyMs": 12002,
+                  "textChars": 0,
+                  "description": null
+                },
+                {
+                  "ok": true,
+                  "kind": "search",
+                  "query": "site:dev.muapi.ai dev",
+                  "status": 200,
+                  "results": [
+                    {
+                      "url": "https://dev.muapi.ai/open-generative-ai",
+                      "title": "start creating with image studio",
+                      "snippet": "The best free alternative to Higgsfield AI, Freepik AI, and Krea AI. Generate stunning images and videos using 200+ models — Flux, Midjourney, Kling, Veo, ...",
+                      "position": 1,
+                      "siteName": "Muapi"
+                    },
+                    {
+                      "url": "https://dev.muapi.ai/playground/ai-dance-effects",
+                      "title": "Untitled",
+                      "snippet": "Application error: a client-side exception has occurred while loading dev.muapi.ai (see the browser console for more information).",
+                      "position": 2,
+                      "siteName": "Muapi"
+                    },
+                    {
+                      "url": "https://dev.muapi.ai/playground/gpt-5-mini",
+                      "title": "gpt-5-mini",
+                      "snippet": "GPT‑5 Mini is a compact yet powerful AI that converts plain text ideas into detailed, structured prompts suitable for use in text-to-image, text-to-video, ...",
+                      "position": 3,
+                      "siteName": "Muapi"
+                    }
+                  ],
+                  "provider": "tinyfish_search",
+                  "totalResults": 3,
+                  "topMatchPosition": 1
+                },
+                {
+                  "ok": true,
+                  "kind": "search",
+                  "query": "site:dev.muapi.ai dev",
+                  "status": 200,
+                  "results": [
+                    {
+                      "url": "https://dev.muapi.ai/open-generative-ai",
+                      "title": "Open Generative AI — Free Higgsfield AI, Freepik & Krea AI Alternative | Muapi",
+                      "snippet": "The best free alternative to Higgsfield AI, Freepik AI, and Krea AI. Generate stunning images and videos using 200+ models — Flux, Midjourney, Kling, Veo, Seedance and more.",
+                      "position": 1,
+                      "siteName": "Muapi"
+                    },
+                    {
+                      "url": "https://dev.muapi.ai/open-higgsfield-ai",
+                      "title": "Open Higgsfield AI — Free AI Image & Video Studio | Muapi",
+                      "snippet": "Generate AI images and videos using 200+ models — Flux, Midjourney, Kling, Veo, Seedance and more. Free alternative to Higgsfield AI.",
+                      "position": 2,
+                      "siteName": "Muapi"
+                    }
+                  ],
+                  "provider": "brave_search",
+                  "totalResults": 2,
+                  "topMatchPosition": 1
+                }
+              ],
+              "non_scoring": true,
+              "configured_providers": [
+                "http",
+                "tinyfish_fetch",
+                "tinyfish_search",
+                "brave_search"
+              ]
+            }
+          },
+          {
+            "key": "negative_signals",
+            "label": "Negative Signals",
+            "weight": 0,
+            "score": 0,
+            "status": "warn",
+            "issuesCount": 1,
+            "details": {
+              "flags": [
+                {
+                  "key": "cta_overload",
+                  "count": 0,
+                  "label": "CTA overload"
+                },
+                {
+                  "key": "intrusive_overlay",
+                  "count": 1,
+                  "label": "Intrusive overlay patterns"
+                },
+                {
+                  "key": "thin_pages",
+                  "count": 0,
+                  "label": "Thin pages"
+                },
+                {
+                  "key": "missing_author_signals",
+                  "count": 0,
+                  "label": "Missing author signals"
+                },
+                {
+                  "key": "boilerplate_heavy",
+                  "count": 0,
+                  "label": "Boilerplate-heavy pages"
+                }
+              ],
+              "non_scoring": true,
+              "pages_scanned": 1,
+              "sampled_pages": [
+                {
+                  "url": "https://dev.muapi.ai/open-generative-ai",
+                  "template": "homepage",
+                  "text_chars": 1469228,
+                  "has_canonical": true
+                }
+              ]
+            }
+          },
+          {
+            "key": "prompt_injection",
+            "label": "Prompt Injection",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "findings": [],
+              "non_scoring": true,
+              "pages_scanned": 1
+            }
+          },
+          {
+            "key": "content_decay",
+            "label": "Content Decay",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 1,
+            "details": {
+              "non_scoring": true,
+              "pages_scanned": 1,
+              "volatile_pages": 1,
+              "evergreen_score": 9.5,
+              "stale_year_pages": 0,
+              "updated_signal_pages": 0
+            }
+          },
+          {
+            "key": "trust_stack",
+            "label": "Trust Stack",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "grade": "D",
+              "layers": {
+                "safety": 50,
+                "identity": 24,
+                "authority": 25,
+                "technical": 68,
+                "consistency": 38
+              },
+              "overall": 41,
+              "non_scoring": true
+            }
+          },
+          {
+            "key": "content_gaps",
+            "label": "Content Gap Opportunities",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 2,
+            "details": {
+              "non_scoring": true,
+              "missing_faqs": [
+                "What is AI agent tooling?",
+                "How does Dev work?",
+                "How much does Dev cost?",
+                "What makes Dev different?"
+              ],
+              "pages_checked": 1,
+              "missing_entities": [
+                {
+                  "entity": "company description",
+                  "reason": "No about or company page found in sampled pages.",
+                  "entity_type": "brand",
+                  "where_expected": "about or company page"
+                },
+                {
+                  "entity": "team/founders",
+                  "reason": "No team or founder page found in sampled pages.",
+                  "entity_type": "person",
+                  "where_expected": "team or founder page"
+                },
+                {
+                  "entity": "pricing information",
+                  "reason": "No pricing page found in sampled pages.",
+                  "entity_type": "product",
+                  "where_expected": "pricing page"
+                },
+                {
+                  "entity": "technical documentation",
+                  "reason": "No docs or API page found in sampled pages.",
+                  "entity_type": "product",
+                  "where_expected": "docs or API page"
+                }
+              ],
+              "missing_comparisons": [
+                "Dev vs top competitor",
+                "Dev vs alternative tools",
+                "Best AI Agent Tooling tools compared"
+              ],
+              "missing_content_types": [
+                {
+                  "type": "faq",
+                  "impact": "high",
+                  "reason": "No dedicated FAQ surface found for question-style retrieval.",
+                  "suggested_title": "Frequently Asked Questions about AI Agent Tooling"
+                },
+                {
+                  "type": "glossary",
+                  "impact": "high",
+                  "reason": "No glossary or definition hub found for entity and term authority.",
+                  "suggested_title": "AI Agent Tooling Glossary: Key Terms Explained"
+                },
+                {
+                  "type": "comparison",
+                  "impact": "medium",
+                  "reason": "No comparison surface found for high-intent evaluation queries.",
+                  "suggested_title": "Dev vs Alternatives: Detailed Comparison"
+                },
+                {
+                  "type": "guide",
+                  "impact": "medium",
+                  "reason": "No guide or how-to surface found for procedural extraction.",
+                  "suggested_title": "Complete Guide to AI Agent Tooling"
+                },
+                {
+                  "type": "case_study",
+                  "impact": "medium",
+                  "reason": "No case-study or customer-proof surface found.",
+                  "suggested_title": "Dev Case Study: Real Results from AI Agent Tooling"
+                },
+                {
+                  "type": "benchmark",
+                  "impact": "medium",
+                  "reason": "No benchmark, research, or proprietary-data surface found.",
+                  "suggested_title": "AI Agent Tooling Benchmarks: Performance Data"
+                }
+              ],
+              "missing_ecosystem_pages": []
+            }
+          }
+        ],
+        "issues": [
+          {
+            "severity": "critical",
+            "title": "Homepage has zero external citations",
+            "fix": "Add 2–3 outbound links to .edu/.gov, Wikipedia, or major publications to back your strongest claims.",
+            "dimensionKey": "citations"
+          },
+          {
+            "severity": "critical",
+            "title": "No valid Organization JSON-LD",
+            "fix": "Add <script type='application/ld+json'> with @type:Organization including name, url, logo, and sameAs (≥3 social profiles).",
+            "dimensionKey": "schema"
+          },
+          {
+            "severity": "high",
+            "title": "Statistical claims are unsourced",
+            "fix": "Every % / 'X customers' / stat deserves an inline citation link to the origin study or publication.",
+            "dimensionKey": "citations"
+          },
+          {
+            "severity": "high",
+            "title": "No FAQ section detected",
+            "fix": "Add a FAQ block with ≥5 question/answer pairs using <details>/<summary> or <h3>+<p> patterns. Also mark it up with FAQPage JSON-LD.",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "high",
+            "title": "No definition-lead opener in the first 150 tokens",
+            "fix": "Open the homepage with '<Brand> is a <category> that <differentiator>' — this is the single biggest lever for AI citability.",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "low",
+            "title": "Perplexity readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive perplexity citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "No Portal visit layer detected",
+            "fix": "If the service supports temporary agent visits, publish a Portal manifest at /portal with tool metadata and a call endpoint, then link it from docs and llms.txt.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "Volatile content lacks update signals",
+            "fix": "Pages about prices, versions, launches, or changing data should expose a clear last-updated date and refresh cadence.",
+            "dimensionKey": "content_decay"
+          },
+          {
+            "severity": "low",
+            "title": "Safety trust layer is weak",
+            "fix": "Strengthen the safety layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Identity trust layer is weak",
+            "fix": "Strengthen the identity layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Google ai readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive google_ai citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "No /llms-full.txt variant published",
+            "fix": "Optional: add /llms-full.txt with the expanded content concatenated inline. Some tools prefer the full version.",
+            "dimensionKey": "llmstxt"
+          },
+          {
+            "severity": "low",
+            "title": "Organization JSON-LD missing founder",
+            "fix": "Add 'founder': [{ @type: Person, name: ... }] to the Organization schema.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "low",
+            "title": "No x402 payment support detected",
+            "fix": "If paid agent/API access is supported, document x402 payment flow, supported networks/tokens, payment headers, and facilitator behavior.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "Consistency trust layer is weak",
+            "fix": "Strengthen the consistency layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Template coverage is limited in homepage-only scans",
+            "fix": "Run Template Audit, Full Site, or Deep Investigation mode to compare key templates across the site.",
+            "dimensionKey": "template_coverage"
+          },
+          {
+            "severity": "low",
+            "title": "No named author or byline visible",
+            "fix": "If the homepage surfaces editorial content, include an author byline (Person JSON-LD or 'By <Name>').",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "low",
+            "title": "No social/authority footprint linked from header or footer",
+            "fix": "Add links to Wikipedia, LinkedIn company page, YouTube channel, or GitHub org so AI engines can cross-reference authority.",
+            "dimensionKey": "offsite"
+          },
+          {
+            "severity": "low",
+            "title": "No WebMCP access signal detected",
+            "fix": "If the site supports browser-native agent access, publish a WebMCP endpoint or discovery document and link it from developer docs and llms.txt.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "No clear agent navigation path detected",
+            "fix": "Expose a crawlable sitemap and stable navigation to docs, pricing, support, API references, and key task pages. Agents need predictable links, not only app-shell buttons.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "Authority trust layer is weak",
+            "fix": "Strengthen the authority layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Chatgpt readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive chatgpt citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Claude readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive claude citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "4 entity page gaps detected",
+            "fix": "Add explicit entity surfaces: about or company page, team or founder page, pricing page, docs or API page.",
+            "dimensionKey": "content_gaps"
+          },
+          {
+            "severity": "low",
+            "title": "No CLI or command-line workflow detected",
+            "fix": "Add CLI install/use docs when your product can be operated from CI, terminals, or coding agents. Include copy-paste commands and JSON output examples.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "medium",
+            "title": "2 high-impact content gaps detected",
+            "fix": "Prioritize: Frequently Asked Questions about AI Agent Tooling; AI Agent Tooling Glossary: Key Terms Explained.",
+            "dimensionKey": "content_gaps"
+          },
+          {
+            "severity": "medium",
+            "title": "Popup or overlay patterns may suppress clean extraction",
+            "fix": "Delay or remove modal and overlay patterns on indexable pages, especially above-the-fold newsletter or signup gates.",
+            "dimensionKey": "negative_signals"
+          },
+          {
+            "severity": "medium",
+            "title": "No 2–4 sentence summary paragraph above the fold",
+            "fix": "Add a 2–4 sentence paragraph immediately after the H1 summarising what the product is and who it serves.",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "medium",
+            "title": "No /about or /team page with credentials",
+            "fix": "Publish an About page listing founders, team, and credentials. AI engines heavily weight provenance.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "medium",
+            "title": "No clear self-identification in the opening paragraph",
+            "fix": "Open with 'We are ...' / 'Our mission is ...' / 'This is ...' — AI models need explicit entity framing.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "medium",
+            "title": "No last-updated signal on homepage",
+            "fix": "Add <time datetime='YYYY-MM-DD'>Updated ...</time> or article:modified_time meta, or expose dateModified in Article JSON-LD.",
+            "dimensionKey": "freshness"
+          },
+          {
+            "severity": "medium",
+            "title": "No MCP entrypoint detected",
+            "fix": "Publish an MCP endpoint or setup guide, then link it from the homepage or llms.txt. Agents should be able to discover tool access without reading human-only docs.",
             "dimensionKey": "agent_readiness"
           }
         ],
@@ -7494,6 +8296,24 @@
       "error": null
     },
     {
+      "fullName": "mattpocock/skills",
+      "rank": 15,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-24T09:19:10.412Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/mattpocock/skills",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
       "fullName": "TencentCloud/CubeSandbox",
       "rank": 15,
       "selectedFrom": "incremental",
@@ -8325,6 +9145,823 @@
       "error": null
     },
     {
+      "fullName": "mksglu/context-mode",
+      "rank": 16,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://context-mode.com/",
+      "websiteSource": "github_homepage",
+      "status": "scanned",
+      "lastProfiledAt": "2026-04-24T09:19:10.424Z",
+      "nextScanAfter": "2026-05-01T09:19:27.091Z",
+      "surfaces": {
+        "githubUrl": "https://github.com/mksglu/context-mode",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": {
+        "scanId": "340931c5-6d80-4809-b89b-9516a4e691e8",
+        "url": "https://context-mode.com/",
+        "projectName": null,
+        "projectUrl": null,
+        "source": "web",
+        "status": "completed",
+        "score": 44,
+        "tier": "partial",
+        "runtimeVisibility": null,
+        "scanDurationMs": 13476,
+        "completedAt": "2026-04-24T09:19:24.81+00:00",
+        "resultUrl": "https://aiso.tools/scan/340931c5-6d80-4809-b89b-9516a4e691e8",
+        "dimensions": [
+          {
+            "key": "citations",
+            "label": "Citation Density",
+            "weight": 20,
+            "score": 10,
+            "status": "warn",
+            "issuesCount": 0,
+            "details": {
+              "word_count": 1436,
+              "stats_count": 8,
+              "external_links": 5,
+              "authoritative_links": 1,
+              "stats_density_per_500w": 2.79,
+              "citations_density_per_500w": 0.35
+            }
+          },
+          {
+            "key": "structure",
+            "label": "Content Structure",
+            "weight": 20,
+            "score": 5,
+            "status": "fail",
+            "issuesCount": 3,
+            "details": {
+              "heading_ok": true,
+              "faq_present": false,
+              "answer_first": false,
+              "heading_issue": null,
+              "definition_lead": false,
+              "main_text_tokens": 1351
+            }
+          },
+          {
+            "key": "schema",
+            "label": "Schema Markup",
+            "weight": 15,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 2,
+            "details": {
+              "coverage": {
+                "person": 0,
+                "article": 0,
+                "faqPage": 0,
+                "website": 0,
+                "breadcrumb": 0,
+                "organization": 0
+              },
+              "meta_tags": {
+                "title": true,
+                "robots": false,
+                "canonical": true,
+                "open_graph": true,
+                "description": true,
+                "twitter_card": true
+              },
+              "page_family": "docs",
+              "blocks_found": 1,
+              "nodes_parsed": 1,
+              "present_types": [
+                "SoftwareApplication"
+              ],
+              "page_family_missing": [
+                "TechArticle/Article",
+                "BreadcrumbList",
+                "Organization/WebSite"
+              ],
+              "page_family_expected": [
+                "TechArticle/Article",
+                "BreadcrumbList",
+                "Organization/WebSite"
+              ],
+              "page_family_strength": 0
+            }
+          },
+          {
+            "key": "crawler",
+            "label": "Crawler Access",
+            "weight": 15,
+            "score": 15,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "allowed_bots": 14,
+              "blocked_bots": 0,
+              "robots_present": true,
+              "cloudflare_suspected": false,
+              "gptbot_homepage_blocked": false
+            }
+          },
+          {
+            "key": "entity",
+            "label": "Entity Clarity",
+            "weight": 10,
+            "score": 5,
+            "status": "warn",
+            "issuesCount": 2,
+            "details": {
+              "byline": true,
+              "founder_in_ld": false,
+              "about_reachable": true,
+              "self_identification": false
+            }
+          },
+          {
+            "key": "agent_readiness",
+            "label": "Agent Readiness",
+            "weight": 10,
+            "score": 10,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "probes": [
+                {
+                  "ok": true,
+                  "key": "api",
+                  "url": "https://context-mode.com/openapi.json",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "api",
+                  "url": "https://context-mode.com/swagger.json",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "api",
+                  "url": "https://context-mode.com/api/openapi.json",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "api",
+                  "url": "https://context-mode.com/api/docs",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "api",
+                  "url": "https://context-mode.com/docs/api",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "api",
+                  "url": "https://context-mode.com/developers",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "mcp",
+                  "url": "https://context-mode.com/mcp",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "mcp",
+                  "url": "https://context-mode.com/docs/mcp",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "mcp",
+                  "url": "https://context-mode.com/.well-known/mcp.json",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "cli",
+                  "url": "https://context-mode.com/docs/cli",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "cli",
+                  "url": "https://context-mode.com/cli",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "cli",
+                  "url": "https://context-mode.com/install",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "webmcp",
+                  "url": "https://context-mode.com/webmcp",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "webmcp",
+                  "url": "https://context-mode.com/docs/webmcp",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "webmcp",
+                  "url": "https://context-mode.com/.well-known/webmcp.json",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "portal",
+                  "url": "https://context-mode.com/portal",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "portal",
+                  "url": "https://context-mode.com/portal.json",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "portal",
+                  "url": "https://context-mode.com/.well-known/portal.json",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "portal",
+                  "url": "https://context-mode.com/docs/portal",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "x402",
+                  "url": "https://context-mode.com/.well-known/x402.json",
+                  "status": 200
+                }
+              ],
+              "detected": {
+                "api": true,
+                "cli": true,
+                "mcp": true,
+                "x402": true,
+                "portal": true,
+                "webmcp": true,
+                "agent_skills": true,
+                "agent_discovery": true,
+                "agent_navigation": true,
+                "integration_safety": true
+              },
+              "checked_paths": [
+                "/openapi.json",
+                "/swagger.json",
+                "/api/openapi.json",
+                "/api/docs",
+                "/docs/api",
+                "/developers",
+                "/mcp",
+                "/docs/mcp",
+                "/.well-known/mcp.json",
+                "/docs/cli",
+                "/cli",
+                "/install",
+                "/webmcp",
+                "/docs/webmcp",
+                "/.well-known/webmcp.json",
+                "/portal",
+                "/portal.json",
+                "/.well-known/portal.json",
+                "/docs/portal",
+                "/.well-known/x402.json",
+                "/docs/x402",
+                "/docs/payments",
+                "/api/x402",
+                "/llms.txt",
+                "/llms-full.txt",
+                "/.well-known/ai-plugin.json",
+                "/.well-known/agent.json",
+                "/agents.json",
+                "/.well-known/agent-skills.json",
+                "/.well-known/agents.json",
+                "/agent-skills.json",
+                "/actions.json",
+                "/tools.json",
+                "/skills",
+                "/agent-skills",
+                "/docs/skills",
+                "/docs/agents",
+                "/sitemap.xml",
+                "/sitemap_index.xml",
+                "/docs",
+                "/help",
+                "/search",
+                "/docs/auth",
+                "/docs/webhooks",
+                "/docs/rate-limits",
+                "/status"
+              ]
+            }
+          },
+          {
+            "key": "llmstxt",
+            "label": "llms.txt",
+            "weight": 10,
+            "score": 2,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "has_h1": false,
+              "broken_links": [],
+              "links_broken": 0,
+              "links_sampled": 0,
+              "llms_txt_present": true,
+              "llms_full_txt_present": true
+            }
+          },
+          {
+            "key": "offsite",
+            "label": "Off-site Authority (proxy)",
+            "weight": 5,
+            "score": 1,
+            "status": "fail",
+            "issuesCount": 0,
+            "details": {
+              "platforms_detected": [
+                "github"
+              ],
+              "header_footer_links": 3
+            }
+          },
+          {
+            "key": "freshness",
+            "label": "Freshness",
+            "weight": 5,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "source": null,
+              "days_since": null,
+              "updated_iso": null
+            }
+          },
+          {
+            "key": "content_decay",
+            "label": "Content Decay",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 1,
+            "details": {
+              "non_scoring": true,
+              "pages_scanned": 1,
+              "volatile_pages": 1,
+              "evergreen_score": 9.5,
+              "stale_year_pages": 0,
+              "updated_signal_pages": 0
+            }
+          },
+          {
+            "key": "web_verification",
+            "label": "Web Verification",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "consensus": {
+                "fetch_ok": 2,
+                "search_ok": 2,
+                "fetch_total": 2,
+                "verified_by": 4,
+                "search_total": 2,
+                "search_matched": 2,
+                "content_agreement": "multi_fetch",
+                "measured_providers": 4
+              },
+              "providers": [
+                {
+                  "ok": true,
+                  "kind": "fetch",
+                  "title": "context-mode — Save 98% of your AI coding agent's context window",
+                  "status": 200,
+                  "finalUrl": "https://context-mode.com/",
+                  "provider": "http",
+                  "latencyMs": 154,
+                  "textChars": 9759,
+                  "description": "MCP plugin for Claude Code, Cursor, Copilot, and 12 platforms. Sandbox tool output, index it into FTS5, search on demand. 66,000+ developers. Open source."
+                },
+                {
+                  "ok": true,
+                  "kind": "fetch",
+                  "title": "context-mode — The other half of the context problem",
+                  "status": 200,
+                  "finalUrl": "https://context-mode.com/",
+                  "provider": "tinyfish_fetch",
+                  "latencyMs": 1904.252216045279,
+                  "textChars": 6130,
+                  "description": "Your AI coding agent burns through context in 20 minutes. context-mode keeps 98% of tool output out of the conversation. 66,000+ developers across 12 platforms."
+                },
+                {
+                  "ok": true,
+                  "kind": "search",
+                  "query": "site:context-mode.com context-mode",
+                  "status": 200,
+                  "results": [
+                    {
+                      "url": "https://context-mode.com/",
+                      "title": "context-mode — Save 98% of your AI coding agent's context ...",
+                      "snippet": "5 days ago — context-mode is an MCP server that sits between your agent and its tools. When a tool call would dump large output into the conversation, ...Read more",
+                      "position": 1,
+                      "siteName": "context-mode.com"
+                    }
+                  ],
+                  "provider": "tinyfish_search",
+                  "totalResults": 1,
+                  "topMatchPosition": 1
+                },
+                {
+                  "ok": true,
+                  "kind": "search",
+                  "query": "site:context-mode.com context-mode",
+                  "status": 200,
+                  "results": [
+                    {
+                      "url": "https://context-mode.com/",
+                      "title": "context-mode — Save 98% of your AI coding agent's context window",
+                      "snippet": "Your AI coding agent burns through context in 20 minutes. <strong>context-mode</strong> keeps 98% of tool output out of the conversation. 66,000+ developers across 12 platforms.",
+                      "position": 1,
+                      "siteName": "context-mode"
+                    }
+                  ],
+                  "provider": "brave_search",
+                  "totalResults": 1,
+                  "topMatchPosition": 1
+                }
+              ],
+              "non_scoring": true,
+              "configured_providers": [
+                "http",
+                "tinyfish_fetch",
+                "tinyfish_search",
+                "brave_search"
+              ]
+            }
+          },
+          {
+            "key": "trust_stack",
+            "label": "Trust Stack",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "grade": "D",
+              "layers": {
+                "safety": 40,
+                "identity": 60,
+                "authority": 35,
+                "technical": 53,
+                "consistency": 38
+              },
+              "overall": 45,
+              "non_scoring": true
+            }
+          },
+          {
+            "key": "prompt_injection",
+            "label": "Prompt Injection",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "findings": [],
+              "non_scoring": true,
+              "pages_scanned": 1
+            }
+          },
+          {
+            "key": "template_coverage",
+            "label": "Template Coverage",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "mode": "homepage",
+              "non_scoring": true,
+              "homepage_only": true,
+              "pages_scanned": 1,
+              "sampled_pages": 0,
+              "page_templates": [
+                {
+                  "url": "https://context-mode.com/",
+                  "template": "homepage",
+                  "text_chars": 9759
+                }
+              ],
+              "unique_templates": [
+                "homepage"
+              ]
+            }
+          },
+          {
+            "key": "platform_profiles",
+            "label": "Platform Profiles",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "profiles": {
+                "claude": 54,
+                "chatgpt": 40,
+                "google_ai": 33,
+                "perplexity": 44
+              },
+              "non_scoring": true
+            }
+          },
+          {
+            "key": "content_gaps",
+            "label": "Content Gap Opportunities",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 2,
+            "details": {
+              "non_scoring": true,
+              "missing_faqs": [
+                "What is AI agent tooling?",
+                "How does Context Mode work?",
+                "How much does Context Mode cost?",
+                "What makes Context Mode different?"
+              ],
+              "pages_checked": 1,
+              "missing_entities": [
+                {
+                  "entity": "company description",
+                  "reason": "No about or company page found in sampled pages.",
+                  "entity_type": "brand",
+                  "where_expected": "about or company page"
+                },
+                {
+                  "entity": "team/founders",
+                  "reason": "No team or founder page found in sampled pages.",
+                  "entity_type": "person",
+                  "where_expected": "team or founder page"
+                },
+                {
+                  "entity": "pricing information",
+                  "reason": "No pricing page found in sampled pages.",
+                  "entity_type": "product",
+                  "where_expected": "pricing page"
+                },
+                {
+                  "entity": "technical documentation",
+                  "reason": "No docs or API page found in sampled pages.",
+                  "entity_type": "product",
+                  "where_expected": "docs or API page"
+                }
+              ],
+              "missing_comparisons": [
+                "Context Mode vs top competitor",
+                "Context Mode vs alternative tools",
+                "Best AI Agent Tooling tools compared"
+              ],
+              "missing_content_types": [
+                {
+                  "type": "faq",
+                  "impact": "high",
+                  "reason": "No dedicated FAQ surface found for question-style retrieval.",
+                  "suggested_title": "Frequently Asked Questions about AI Agent Tooling"
+                },
+                {
+                  "type": "glossary",
+                  "impact": "high",
+                  "reason": "No glossary or definition hub found for entity and term authority.",
+                  "suggested_title": "AI Agent Tooling Glossary: Key Terms Explained"
+                },
+                {
+                  "type": "comparison",
+                  "impact": "medium",
+                  "reason": "No comparison surface found for high-intent evaluation queries.",
+                  "suggested_title": "Context Mode vs Alternatives: Detailed Comparison"
+                },
+                {
+                  "type": "guide",
+                  "impact": "medium",
+                  "reason": "No guide or how-to surface found for procedural extraction.",
+                  "suggested_title": "Complete Guide to AI Agent Tooling"
+                },
+                {
+                  "type": "case_study",
+                  "impact": "medium",
+                  "reason": "No case-study or customer-proof surface found.",
+                  "suggested_title": "Context Mode Case Study: Real Results from AI Agent Tooling"
+                },
+                {
+                  "type": "benchmark",
+                  "impact": "medium",
+                  "reason": "No benchmark, research, or proprietary-data surface found.",
+                  "suggested_title": "AI Agent Tooling Benchmarks: Performance Data"
+                }
+              ],
+              "missing_ecosystem_pages": [
+                "Context Mode integrations and ecosystem",
+                "How Context Mode works with popular tools"
+              ]
+            }
+          },
+          {
+            "key": "negative_signals",
+            "label": "Negative Signals",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "flags": [
+                {
+                  "key": "cta_overload",
+                  "count": 0,
+                  "label": "CTA overload"
+                },
+                {
+                  "key": "intrusive_overlay",
+                  "count": 0,
+                  "label": "Intrusive overlay patterns"
+                },
+                {
+                  "key": "thin_pages",
+                  "count": 0,
+                  "label": "Thin pages"
+                },
+                {
+                  "key": "missing_author_signals",
+                  "count": 0,
+                  "label": "Missing author signals"
+                },
+                {
+                  "key": "boilerplate_heavy",
+                  "count": 0,
+                  "label": "Boilerplate-heavy pages"
+                }
+              ],
+              "non_scoring": true,
+              "pages_scanned": 1,
+              "sampled_pages": [
+                {
+                  "url": "https://context-mode.com/",
+                  "template": "homepage",
+                  "text_chars": 9759,
+                  "has_canonical": true
+                }
+              ]
+            }
+          }
+        ],
+        "issues": [
+          {
+            "severity": "critical",
+            "title": "No valid Organization JSON-LD",
+            "fix": "Add <script type='application/ld+json'> with @type:Organization including name, url, logo, and sameAs (≥3 social profiles).",
+            "dimensionKey": "schema"
+          },
+          {
+            "severity": "high",
+            "title": "No FAQ section detected",
+            "fix": "Add a FAQ block with ≥5 question/answer pairs using <details>/<summary> or <h3>+<p> patterns. Also mark it up with FAQPage JSON-LD.",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "high",
+            "title": "llms.txt missing H1 title",
+            "fix": "Start llms.txt with '# <Project name>' as the H1 — per llmstxt.org this is the only required field.",
+            "dimensionKey": "llmstxt"
+          },
+          {
+            "severity": "high",
+            "title": "No definition-lead opener in the first 150 tokens",
+            "fix": "Open the homepage with '<Brand> is a <category> that <differentiator>' — this is the single biggest lever for AI citability.",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "low",
+            "title": "Consistency trust layer is weak",
+            "fix": "Strengthen the consistency layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Google ai readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive google_ai citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Safety trust layer is weak",
+            "fix": "Strengthen the safety layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Chatgpt readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive chatgpt citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Perplexity readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive perplexity citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Organization JSON-LD missing founder",
+            "fix": "Add 'founder': [{ @type: Person, name: ... }] to the Organization schema.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "low",
+            "title": "Volatile content lacks update signals",
+            "fix": "Pages about prices, versions, launches, or changing data should expose a clear last-updated date and refresh cadence.",
+            "dimensionKey": "content_decay"
+          },
+          {
+            "severity": "low",
+            "title": "Authority trust layer is weak",
+            "fix": "Strengthen the authority layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Template coverage is limited in homepage-only scans",
+            "fix": "Run Template Audit, Full Site, or Deep Investigation mode to compare key templates across the site.",
+            "dimensionKey": "template_coverage"
+          },
+          {
+            "severity": "low",
+            "title": "Weak JSON-LD for docs page family",
+            "fix": "Add page-family schema for TechArticle/Article, BreadcrumbList, Organization/WebSite. Strong JSON-LD should match the page type, not just include generic Organization markup.",
+            "dimensionKey": "schema"
+          },
+          {
+            "severity": "low",
+            "title": "Technical trust layer is weak",
+            "fix": "Strengthen the technical layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "4 entity page gaps detected",
+            "fix": "Add explicit entity surfaces: about or company page, team or founder page, pricing page, docs or API page.",
+            "dimensionKey": "content_gaps"
+          },
+          {
+            "severity": "low",
+            "title": "Claude readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive claude citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "medium",
+            "title": "2 high-impact content gaps detected",
+            "fix": "Prioritize: Frequently Asked Questions about AI Agent Tooling; AI Agent Tooling Glossary: Key Terms Explained.",
+            "dimensionKey": "content_gaps"
+          },
+          {
+            "severity": "medium",
+            "title": "No 2–4 sentence summary paragraph above the fold",
+            "fix": "Add a 2–4 sentence paragraph immediately after the H1 summarising what the product is and who it serves.",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "medium",
+            "title": "No last-updated signal on homepage",
+            "fix": "Add <time datetime='YYYY-MM-DD'>Updated ...</time> or article:modified_time meta, or expose dateModified in Article JSON-LD.",
+            "dimensionKey": "freshness"
+          },
+          {
+            "severity": "medium",
+            "title": "No clear self-identification in the opening paragraph",
+            "fix": "Open with 'We are ...' / 'Our mission is ...' / 'This is ...' — AI models need explicit entity framing.",
+            "dimensionKey": "entity"
+          }
+        ],
+        "promptTests": []
+      },
+      "error": null
+    },
+    {
       "fullName": "YouMind-OpenLab/awesome-gpt-image-2",
       "rank": 17,
       "selectedFrom": "incremental",
@@ -9152,6 +10789,24 @@
         ],
         "promptTests": []
       },
+      "error": null
+    },
+    {
+      "fullName": "garrytan/gbrain",
+      "rank": 18,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-24T09:19:27.557Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/garrytan/gbrain",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
       "error": null
     },
     {
@@ -10814,6 +12469,24 @@
       "error": null
     },
     {
+      "fullName": "shiyu-coder/Kronos",
+      "rank": 19,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-24T09:19:28.028Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/shiyu-coder/Kronos",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
       "fullName": "nesquena/hermes-webui",
       "rank": 20,
       "selectedFrom": "incremental",
@@ -11612,34 +13285,16 @@
       "error": null
     },
     {
-      "fullName": "badlogic/pi-mono",
-      "rank": 21,
-      "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-24T07:11:37.285Z",
-      "nextScanAfter": null,
-      "surfaces": {
-        "githubUrl": "https://github.com/badlogic/pi-mono",
-        "docsUrl": null,
-        "npmPackages": [],
-        "productHuntLaunchId": null
-      },
-      "aisoScan": null,
-      "error": null
-    },
-    {
-      "fullName": "iamzhihuix/skills-manage",
+      "fullName": "alchaincyf/nuwa-skill",
       "rank": 22,
       "selectedFrom": "incremental",
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-24T07:11:37.902Z",
+      "lastProfiledAt": "2026-04-24T09:19:28.449Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/iamzhihuix/skills-manage",
+        "githubUrl": "https://github.com/alchaincyf/nuwa-skill",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -11648,34 +13303,16 @@
       "error": null
     },
     {
-      "fullName": "shiyu-coder/Kronos",
+      "fullName": "router-for-me/CLIProxyAPI",
       "rank": 23,
       "selectedFrom": "incremental",
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-24T07:11:38.377Z",
+      "lastProfiledAt": "2026-04-24T09:19:28.862Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/shiyu-coder/Kronos",
-        "docsUrl": null,
-        "npmPackages": [],
-        "productHuntLaunchId": null
-      },
-      "aisoScan": null,
-      "error": null
-    },
-    {
-      "fullName": "Gitlawb/openclaude",
-      "rank": 24,
-      "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-24T07:11:38.871Z",
-      "nextScanAfter": null,
-      "surfaces": {
-        "githubUrl": "https://github.com/Gitlawb/openclaude",
+        "githubUrl": "https://github.com/router-for-me/CLIProxyAPI",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -12522,39 +14159,778 @@
       "error": null
     },
     {
-      "fullName": "garrytan/gbrain",
-      "rank": 26,
+      "fullName": "guokaigdg/animal-island-ui",
+      "rank": 28,
       "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-24T07:11:39.412Z",
-      "nextScanAfter": null,
+      "websiteUrl": "https://guokaigdg.github.io/animal-island-ui/#/",
+      "websiteSource": "github_homepage",
+      "status": "scanned",
+      "lastProfiledAt": "2026-04-24T09:19:28.872Z",
+      "nextScanAfter": "2026-05-01T09:19:48.119Z",
       "surfaces": {
-        "githubUrl": "https://github.com/garrytan/gbrain",
+        "githubUrl": "https://github.com/guokaigdg/animal-island-ui",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
       },
-      "aisoScan": null,
-      "error": null
-    },
-    {
-      "fullName": "Donchitos/Claude-Code-Game-Studios",
-      "rank": 27,
-      "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-24T07:11:39.884Z",
-      "nextScanAfter": null,
-      "surfaces": {
-        "githubUrl": "https://github.com/Donchitos/Claude-Code-Game-Studios",
-        "docsUrl": null,
-        "npmPackages": [],
-        "productHuntLaunchId": null
+      "aisoScan": {
+        "scanId": "301da8b4-3b26-45ca-ada7-f7300bb7a373",
+        "url": "https://guokaigdg.github.io/animal-island-ui",
+        "projectName": null,
+        "projectUrl": null,
+        "source": "web",
+        "status": "completed",
+        "score": 11,
+        "tier": "invisible",
+        "runtimeVisibility": null,
+        "scanDurationMs": 16411,
+        "completedAt": "2026-04-24T09:19:46.122+00:00",
+        "resultUrl": "https://aiso.tools/scan/301da8b4-3b26-45ca-ada7-f7300bb7a373",
+        "dimensions": [
+          {
+            "key": "structure",
+            "label": "Content Structure",
+            "weight": 20,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "heading_ok": false,
+              "faq_present": false,
+              "answer_first": false,
+              "heading_issue": "Found 0 H1 elements (expected exactly 1)",
+              "definition_lead": false,
+              "main_text_tokens": 0
+            }
+          },
+          {
+            "key": "citations",
+            "label": "Citation Density",
+            "weight": 20,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "word_count": 1,
+              "stats_count": 0,
+              "external_links": 0,
+              "authoritative_links": 0,
+              "stats_density_per_500w": 0,
+              "citations_density_per_500w": 0
+            }
+          },
+          {
+            "key": "crawler",
+            "label": "Crawler Access",
+            "weight": 15,
+            "score": 7,
+            "status": "warn",
+            "issuesCount": 1,
+            "details": {
+              "allowed_bots": 14,
+              "blocked_bots": 0,
+              "robots_present": false,
+              "cloudflare_suspected": false,
+              "gptbot_homepage_blocked": false
+            }
+          },
+          {
+            "key": "schema",
+            "label": "Schema Markup",
+            "weight": 15,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 2,
+            "details": {
+              "coverage": {
+                "person": 0,
+                "article": 0,
+                "faqPage": 0,
+                "website": 0,
+                "breadcrumb": 0,
+                "organization": 0
+              },
+              "meta_tags": {
+                "title": true,
+                "robots": false,
+                "canonical": false,
+                "open_graph": false,
+                "description": false,
+                "twitter_card": false
+              },
+              "page_family": "homepage",
+              "blocks_found": 0,
+              "nodes_parsed": 0,
+              "present_types": [],
+              "page_family_missing": [
+                "Organization",
+                "WebSite",
+                "FAQPage"
+              ],
+              "page_family_expected": [
+                "Organization",
+                "WebSite",
+                "FAQPage"
+              ],
+              "page_family_strength": 0
+            }
+          },
+          {
+            "key": "agent_readiness",
+            "label": "Agent Readiness",
+            "weight": 10,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 10,
+            "details": {
+              "probes": [],
+              "detected": {
+                "api": false,
+                "cli": false,
+                "mcp": false,
+                "x402": false,
+                "portal": false,
+                "webmcp": false,
+                "agent_skills": false,
+                "agent_discovery": false,
+                "agent_navigation": false,
+                "integration_safety": false
+              },
+              "checked_paths": [
+                "/openapi.json",
+                "/swagger.json",
+                "/api/openapi.json",
+                "/api/docs",
+                "/docs/api",
+                "/developers",
+                "/mcp",
+                "/docs/mcp",
+                "/.well-known/mcp.json",
+                "/docs/cli",
+                "/cli",
+                "/install",
+                "/webmcp",
+                "/docs/webmcp",
+                "/.well-known/webmcp.json",
+                "/portal",
+                "/portal.json",
+                "/.well-known/portal.json",
+                "/docs/portal",
+                "/.well-known/x402.json",
+                "/docs/x402",
+                "/docs/payments",
+                "/api/x402",
+                "/llms.txt",
+                "/llms-full.txt",
+                "/.well-known/ai-plugin.json",
+                "/.well-known/agent.json",
+                "/agents.json",
+                "/.well-known/agent-skills.json",
+                "/.well-known/agents.json",
+                "/agent-skills.json",
+                "/actions.json",
+                "/tools.json",
+                "/skills",
+                "/agent-skills",
+                "/docs/skills",
+                "/docs/agents",
+                "/sitemap.xml",
+                "/sitemap_index.xml",
+                "/docs",
+                "/help",
+                "/search",
+                "/docs/auth",
+                "/docs/webhooks",
+                "/docs/rate-limits",
+                "/status"
+              ]
+            }
+          },
+          {
+            "key": "llmstxt",
+            "label": "llms.txt",
+            "weight": 10,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "has_h1": false,
+              "broken_links": [],
+              "links_broken": 0,
+              "links_sampled": 0,
+              "llms_txt_present": false,
+              "llms_full_txt_present": false
+            }
+          },
+          {
+            "key": "entity",
+            "label": "Entity Clarity",
+            "weight": 10,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "byline": false,
+              "founder_in_ld": false,
+              "about_reachable": false,
+              "self_identification": false
+            }
+          },
+          {
+            "key": "freshness",
+            "label": "Freshness",
+            "weight": 5,
+            "score": 5,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "source": "last_modified_header",
+              "days_since": 0,
+              "updated_iso": "2026-04-23T14:40:40.000Z"
+            }
+          },
+          {
+            "key": "offsite",
+            "label": "Off-site Authority (proxy)",
+            "weight": 5,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "platforms_detected": [],
+              "header_footer_links": 0
+            }
+          },
+          {
+            "key": "web_verification",
+            "label": "Web Verification",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "consensus": {
+                "fetch_ok": 2,
+                "search_ok": 2,
+                "fetch_total": 2,
+                "verified_by": 3,
+                "search_total": 2,
+                "search_matched": 1,
+                "content_agreement": "multi_fetch",
+                "measured_providers": 4
+              },
+              "providers": [
+                {
+                  "ok": true,
+                  "kind": "fetch",
+                  "title": "Animal Island UI",
+                  "status": 200,
+                  "finalUrl": "https://guokaigdg.github.io/animal-island-ui/",
+                  "provider": "http",
+                  "latencyMs": 269,
+                  "textChars": 0,
+                  "description": null
+                },
+                {
+                  "ok": true,
+                  "kind": "fetch",
+                  "title": "Animal Island UI",
+                  "status": 200,
+                  "finalUrl": "https://guokaigdg.github.io/animal-island-ui/",
+                  "provider": "tinyfish_fetch",
+                  "latencyMs": 2643.257835006807,
+                  "textChars": 1366,
+                  "description": null
+                },
+                {
+                  "ok": true,
+                  "kind": "search",
+                  "query": "site:guokaigdg.github.io guokaigdg",
+                  "status": 200,
+                  "results": [
+                    {
+                      "url": "https://guokaigdg.github.io/react-template-mobile/",
+                      "title": "React App 移动端模板",
+                      "snippet": "bulbasaur · ivysaur · venusaur · charmander · charmeleon · charizard · squirtle · wartortle.",
+                      "position": 1,
+                      "siteName": "guokaigdg.github.io"
+                    },
+                    {
+                      "url": "https://guokaigdg.github.io/animal-island-ui/",
+                      "title": "Animal Island UI",
+                      "snippet": "Animal Island UIv1.0.0. Animal风格的React 组件库，基于TypeScript + Vite 构建让Web 应用充满温暖质感. 开始使用→. 特性. 为什么选择animal-island-ui. Animal风格.",
+                      "position": 2,
+                      "siteName": "guokaigdg.github.io"
+                    }
+                  ],
+                  "provider": "tinyfish_search",
+                  "totalResults": 2,
+                  "topMatchPosition": 1
+                },
+                {
+                  "ok": true,
+                  "kind": "search",
+                  "query": "site:guokaigdg.github.io guokaigdg",
+                  "status": 200,
+                  "results": [],
+                  "provider": "brave_search",
+                  "totalResults": 0,
+                  "topMatchPosition": null
+                }
+              ],
+              "non_scoring": true,
+              "configured_providers": [
+                "http",
+                "tinyfish_fetch",
+                "tinyfish_search",
+                "brave_search"
+              ]
+            }
+          },
+          {
+            "key": "negative_signals",
+            "label": "Negative Signals",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "flags": [
+                {
+                  "key": "cta_overload",
+                  "count": 0,
+                  "label": "CTA overload"
+                },
+                {
+                  "key": "intrusive_overlay",
+                  "count": 0,
+                  "label": "Intrusive overlay patterns"
+                },
+                {
+                  "key": "thin_pages",
+                  "count": 0,
+                  "label": "Thin pages"
+                },
+                {
+                  "key": "missing_author_signals",
+                  "count": 0,
+                  "label": "Missing author signals"
+                },
+                {
+                  "key": "boilerplate_heavy",
+                  "count": 0,
+                  "label": "Boilerplate-heavy pages"
+                }
+              ],
+              "non_scoring": true,
+              "pages_scanned": 1,
+              "sampled_pages": [
+                {
+                  "url": "https://guokaigdg.github.io/animal-island-ui",
+                  "template": "homepage",
+                  "text_chars": 0,
+                  "has_canonical": false
+                }
+              ]
+            }
+          },
+          {
+            "key": "trust_stack",
+            "label": "Trust Stack",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "grade": "F",
+              "layers": {
+                "safety": 22,
+                "identity": 10,
+                "authority": 0,
+                "technical": 34,
+                "consistency": 63
+              },
+              "overall": 26,
+              "non_scoring": true
+            }
+          },
+          {
+            "key": "content_decay",
+            "label": "Content Decay",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "non_scoring": true,
+              "pages_scanned": 1,
+              "volatile_pages": 0,
+              "evergreen_score": 10,
+              "stale_year_pages": 0,
+              "updated_signal_pages": 0
+            }
+          },
+          {
+            "key": "template_coverage",
+            "label": "Template Coverage",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "mode": "homepage",
+              "non_scoring": true,
+              "homepage_only": true,
+              "pages_scanned": 1,
+              "sampled_pages": 0,
+              "page_templates": [
+                {
+                  "url": "https://guokaigdg.github.io/animal-island-ui",
+                  "template": "homepage",
+                  "text_chars": 0
+                }
+              ],
+              "unique_templates": [
+                "homepage"
+              ]
+            }
+          },
+          {
+            "key": "prompt_injection",
+            "label": "Prompt Injection",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "findings": [],
+              "non_scoring": true,
+              "pages_scanned": 1
+            }
+          },
+          {
+            "key": "platform_profiles",
+            "label": "Platform Profiles",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "profiles": {
+                "claude": 20,
+                "chatgpt": 15,
+                "google_ai": 30,
+                "perplexity": 30
+              },
+              "non_scoring": true
+            }
+          },
+          {
+            "key": "content_gaps",
+            "label": "Content Gap Opportunities",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 2,
+            "details": {
+              "non_scoring": true,
+              "missing_faqs": [
+                "What is Guokaigdg?",
+                "How does Guokaigdg work?",
+                "How much does Guokaigdg cost?",
+                "What makes Guokaigdg different?"
+              ],
+              "pages_checked": 1,
+              "missing_entities": [
+                {
+                  "entity": "company description",
+                  "reason": "No about or company page found in sampled pages.",
+                  "entity_type": "brand",
+                  "where_expected": "about or company page"
+                },
+                {
+                  "entity": "team/founders",
+                  "reason": "No team or founder page found in sampled pages.",
+                  "entity_type": "person",
+                  "where_expected": "team or founder page"
+                },
+                {
+                  "entity": "pricing information",
+                  "reason": "No pricing page found in sampled pages.",
+                  "entity_type": "product",
+                  "where_expected": "pricing page"
+                },
+                {
+                  "entity": "technical documentation",
+                  "reason": "No docs or API page found in sampled pages.",
+                  "entity_type": "product",
+                  "where_expected": "docs or API page"
+                }
+              ],
+              "missing_comparisons": [
+                "Guokaigdg vs top competitor",
+                "Guokaigdg vs alternative tools",
+                "Best Guokaigdg tools compared"
+              ],
+              "missing_content_types": [
+                {
+                  "type": "faq",
+                  "impact": "high",
+                  "reason": "No dedicated FAQ surface found for question-style retrieval.",
+                  "suggested_title": "Frequently Asked Questions about Guokaigdg"
+                },
+                {
+                  "type": "glossary",
+                  "impact": "high",
+                  "reason": "No glossary or definition hub found for entity and term authority.",
+                  "suggested_title": "Guokaigdg Glossary: Key Terms Explained"
+                },
+                {
+                  "type": "comparison",
+                  "impact": "medium",
+                  "reason": "No comparison surface found for high-intent evaluation queries.",
+                  "suggested_title": "Guokaigdg vs Alternatives: Detailed Comparison"
+                },
+                {
+                  "type": "guide",
+                  "impact": "medium",
+                  "reason": "No guide or how-to surface found for procedural extraction.",
+                  "suggested_title": "Complete Guide to Guokaigdg"
+                },
+                {
+                  "type": "case_study",
+                  "impact": "medium",
+                  "reason": "No case-study or customer-proof surface found.",
+                  "suggested_title": "Guokaigdg Case Study: Real Results from Guokaigdg"
+                },
+                {
+                  "type": "benchmark",
+                  "impact": "medium",
+                  "reason": "No benchmark, research, or proprietary-data surface found.",
+                  "suggested_title": "Guokaigdg Benchmarks: Performance Data"
+                }
+              ],
+              "missing_ecosystem_pages": [
+                "Guokaigdg integrations and ecosystem",
+                "How Guokaigdg works with popular tools"
+              ]
+            }
+          }
+        ],
+        "issues": [
+          {
+            "severity": "critical",
+            "title": "No valid Organization JSON-LD",
+            "fix": "Add <script type='application/ld+json'> with @type:Organization including name, url, logo, and sameAs (≥3 social profiles).",
+            "dimensionKey": "schema"
+          },
+          {
+            "severity": "critical",
+            "title": "Homepage has zero external citations",
+            "fix": "Add 2–3 outbound links to .edu/.gov, Wikipedia, or major publications to back your strongest claims.",
+            "dimensionKey": "citations"
+          },
+          {
+            "severity": "critical",
+            "title": "No /llms.txt file found",
+            "fix": "Publish /llms.txt at the site root with '# <Project>' + a short summary + H2 sections linking to canonical doc URLs.",
+            "dimensionKey": "llmstxt"
+          },
+          {
+            "severity": "high",
+            "title": "No definition-lead opener in the first 150 tokens",
+            "fix": "Open the homepage with '<Brand> is a <category> that <differentiator>' — this is the single biggest lever for AI citability.",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "high",
+            "title": "No FAQ section detected",
+            "fix": "Add a FAQ block with ≥5 question/answer pairs using <details>/<summary> or <h3>+<p> patterns. Also mark it up with FAQPage JSON-LD.",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "high",
+            "title": "No robots.txt found",
+            "fix": "Publish a /robots.txt that explicitly allows GPTBot, ClaudeBot, PerplexityBot, Google-Extended and other AI crawlers.",
+            "dimensionKey": "crawler"
+          },
+          {
+            "severity": "high",
+            "title": "No API or OpenAPI entrypoint detected",
+            "fix": "Expose a public API reference or OpenAPI document at /docs/api, /openapi.json, or an equivalent developer URL so agents can understand callable surfaces.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "Claude readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive claude citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "No WebMCP access signal detected",
+            "fix": "If the site supports browser-native agent access, publish a WebMCP endpoint or discovery document and link it from developer docs and llms.txt.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "Identity trust layer is weak",
+            "fix": "Strengthen the identity layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Chatgpt readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive chatgpt citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Core meta tags are incomplete",
+            "fix": "Add a unique <title>, meta description, and canonical URL. Add Open Graph/Twitter tags for share and citation previews.",
+            "dimensionKey": "schema"
+          },
+          {
+            "severity": "low",
+            "title": "No named author or byline visible",
+            "fix": "If the homepage surfaces editorial content, include an author byline (Person JSON-LD or 'By <Name>').",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "low",
+            "title": "No social/authority footprint linked from header or footer",
+            "fix": "Add links to Wikipedia, LinkedIn company page, YouTube channel, or GitHub org so AI engines can cross-reference authority.",
+            "dimensionKey": "offsite"
+          },
+          {
+            "severity": "low",
+            "title": "Organization JSON-LD missing founder",
+            "fix": "Add 'founder': [{ @type: Person, name: ... }] to the Organization schema.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "low",
+            "title": "No CLI or command-line workflow detected",
+            "fix": "Add CLI install/use docs when your product can be operated from CI, terminals, or coding agents. Include copy-paste commands and JSON output examples.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "Safety trust layer is weak",
+            "fix": "Strengthen the safety layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Google ai readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive google_ai citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "No Portal visit layer detected",
+            "fix": "If the service supports temporary agent visits, publish a Portal manifest at /portal with tool metadata and a call endpoint, then link it from docs and llms.txt.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "No clear agent navigation path detected",
+            "fix": "Expose a crawlable sitemap and stable navigation to docs, pricing, support, API references, and key task pages. Agents need predictable links, not only app-shell buttons.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "Technical trust layer is weak",
+            "fix": "Strengthen the technical layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "4 entity page gaps detected",
+            "fix": "Add explicit entity surfaces: about or company page, team or founder page, pricing page, docs or API page.",
+            "dimensionKey": "content_gaps"
+          },
+          {
+            "severity": "low",
+            "title": "No x402 payment support detected",
+            "fix": "If paid agent/API access is supported, document x402 payment flow, supported networks/tokens, payment headers, and facilitator behavior.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "No integration-safety docs detected",
+            "fix": "Document auth, API keys/OAuth, rate limits, webhooks, SDKs, sandbox/test mode, and status-page behavior so agents can call tools safely.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "Authority trust layer is weak",
+            "fix": "Strengthen the authority layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Perplexity readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive perplexity citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Template coverage is limited in homepage-only scans",
+            "fix": "Run Template Audit, Full Site, or Deep Investigation mode to compare key templates across the site.",
+            "dimensionKey": "template_coverage"
+          },
+          {
+            "severity": "medium",
+            "title": "No MCP entrypoint detected",
+            "fix": "Publish an MCP endpoint or setup guide, then link it from the homepage or llms.txt. Agents should be able to discover tool access without reading human-only docs.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "medium",
+            "title": "2 high-impact content gaps detected",
+            "fix": "Prioritize: Frequently Asked Questions about Guokaigdg; Guokaigdg Glossary: Key Terms Explained.",
+            "dimensionKey": "content_gaps"
+          },
+          {
+            "severity": "medium",
+            "title": "No agent skills or action manifest detected",
+            "fix": "Document the skills, actions, tools, or capabilities agents can use. Include names, input schemas, output shapes, auth requirements, and whether each action is read-only or writes data.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "medium",
+            "title": "No agent discovery file detected",
+            "fix": "Publish /llms.txt and, when relevant, a .well-known agent/plugin manifest that points agents at docs, APIs, MCP endpoints, and support policies.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "medium",
+            "title": "No clear self-identification in the opening paragraph",
+            "fix": "Open with 'We are ...' / 'Our mission is ...' / 'This is ...' — AI models need explicit entity framing.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "medium",
+            "title": "No 2–4 sentence summary paragraph above the fold",
+            "fix": "Add a 2–4 sentence paragraph immediately after the H1 summarising what the product is and who it serves.",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "medium",
+            "title": "No /about or /team page with credentials",
+            "fix": "Publish an About page listing founders, team, and credentials. AI engines heavily weight provenance.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "medium",
+            "title": "Found 0 H1 elements (expected exactly 1)",
+            "fix": "Use exactly one H1, ensure the first H2 precedes any H3, and give every H2 a clear topic label (3+ words).",
+            "dimensionKey": "structure"
+          }
+        ],
+        "promptTests": []
       },
-      "aisoScan": null,
       "error": null
     },
     {
@@ -13446,16 +15822,34 @@
       "error": null
     },
     {
-      "fullName": "chatfire-AI/huobao-drama",
+      "fullName": "Wei-Shaw/sub2api",
       "rank": 30,
       "selectedFrom": "incremental",
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-24T07:11:40.825Z",
+      "lastProfiledAt": "2026-04-24T09:19:48.543Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/chatfire-AI/huobao-drama",
+        "githubUrl": "https://github.com/Wei-Shaw/sub2api",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "badlogic/pi-mono",
+      "rank": 31,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-24T09:19:48.969Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/badlogic/pi-mono",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -14299,16 +16693,16 @@
       "error": null
     },
     {
-      "fullName": "lsdefine/GenericAgent",
+      "fullName": "Gitlawb/openclaude",
       "rank": 32,
       "selectedFrom": "incremental",
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-24T07:11:41.284Z",
+      "lastProfiledAt": "2026-04-24T09:19:49.403Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/lsdefine/GenericAgent",
+        "githubUrl": "https://github.com/Gitlawb/openclaude",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -14317,16 +16711,16 @@
       "error": null
     },
     {
-      "fullName": "alchaincyf/nuwa-skill",
+      "fullName": "chatfire-AI/huobao-drama",
       "rank": 33,
       "selectedFrom": "incremental",
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-24T07:11:41.732Z",
+      "lastProfiledAt": "2026-04-24T09:19:49.843Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/alchaincyf/nuwa-skill",
+        "githubUrl": "https://github.com/chatfire-AI/huobao-drama",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -15128,24 +17522,6 @@
         ],
         "promptTests": []
       },
-      "error": null
-    },
-    {
-      "fullName": "Wei-Shaw/sub2api",
-      "rank": 35,
-      "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-24T07:11:42.188Z",
-      "nextScanAfter": null,
-      "surfaces": {
-        "githubUrl": "https://github.com/Wei-Shaw/sub2api",
-        "docsUrl": null,
-        "npmPackages": [],
-        "productHuntLaunchId": null
-      },
-      "aisoScan": null,
       "error": null
     },
     {
@@ -16753,16 +19129,16 @@
       "error": null
     },
     {
-      "fullName": "jnMetaCode/agency-agents-zh",
+      "fullName": "leigest519/OpenGame",
       "rank": 38,
       "selectedFrom": "incremental",
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-24T07:11:42.664Z",
+      "lastProfiledAt": "2026-04-24T09:19:50.255Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/jnMetaCode/agency-agents-zh",
+        "githubUrl": "https://github.com/leigest519/OpenGame",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -16771,16 +19147,16 @@
       "error": null
     },
     {
-      "fullName": "router-for-me/CLIProxyAPI",
-      "rank": 39,
+      "fullName": "iamzhihuix/skills-manage",
+      "rank": 40,
       "selectedFrom": "incremental",
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-24T07:11:43.163Z",
+      "lastProfiledAt": "2026-04-24T09:19:50.645Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/router-for-me/CLIProxyAPI",
+        "githubUrl": "https://github.com/iamzhihuix/skills-manage",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -17600,6 +19976,24 @@
       "error": null
     },
     {
+      "fullName": "run-llama/liteparse",
+      "rank": 41,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://developers.llamaindex.ai/liteparse/",
+      "websiteSource": "github_homepage",
+      "status": "rate_limited",
+      "lastProfiledAt": "2026-04-24T09:19:50.654Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/run-llama/liteparse",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": "HTTP 429 Too Many Requests - https://aiso.tools/api/scan - {\"error\":\"rate_limited_ip\",\"retryAfterSeconds\":86324}"
+    },
+    {
       "fullName": "shareAI-lab/learn-claude-code",
       "rank": 41,
       "selectedFrom": "incremental",
@@ -18372,16 +20766,16 @@
       "error": null
     },
     {
-      "fullName": "mvanhorn/last30days-skill",
+      "fullName": "ZhuLinsen/daily_stock_analysis",
       "rank": 42,
       "selectedFrom": "incremental",
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-24T07:11:43.648Z",
+      "lastProfiledAt": "2026-04-24T09:19:51.557Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/mvanhorn/last30days-skill",
+        "githubUrl": "https://github.com/ZhuLinsen/daily_stock_analysis",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -20724,16 +23118,34 @@
       "error": null
     },
     {
-      "fullName": "VoltAgent/awesome-claude-design",
+      "fullName": "googlefonts/googlesans-code",
       "rank": 46,
       "selectedFrom": "incremental",
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-24T07:11:44.195Z",
+      "lastProfiledAt": "2026-04-24T09:19:52.005Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/VoltAgent/awesome-claude-design",
+        "githubUrl": "https://github.com/googlefonts/googlesans-code",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "graykode/abtop",
+      "rank": 47,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-24T09:19:52.407Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/graykode/abtop",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -22420,6 +24832,42 @@
       "error": null
     },
     {
+      "fullName": "jnMetaCode/agency-agents-zh",
+      "rank": 48,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-24T09:19:52.833Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/jnMetaCode/agency-agents-zh",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "kepano/obsidian-skills",
+      "rank": 49,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-24T09:19:53.227Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/kepano/obsidian-skills",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
       "fullName": "NanmiCoder/cc-haha",
       "rank": 49,
       "selectedFrom": "incremental",
@@ -24044,16 +26492,34 @@
       "error": null
     },
     {
-      "fullName": "ZhuLinsen/daily_stock_analysis",
+      "fullName": "ComposioHQ/awesome-claude-skills",
       "rank": 51,
       "selectedFrom": "incremental",
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-24T07:11:44.667Z",
+      "lastProfiledAt": "2026-04-24T09:19:53.653Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/ZhuLinsen/daily_stock_analysis",
+        "githubUrl": "https://github.com/ComposioHQ/awesome-claude-skills",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "Donchitos/Claude-Code-Game-Studios",
+      "rank": 52,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-24T09:19:54.074Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/Donchitos/Claude-Code-Game-Studios",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -26492,16 +28958,34 @@
       "error": null
     },
     {
-      "fullName": "HKUDS/DeepTutor",
-      "rank": 55,
+      "fullName": "Leey21/awesome-ai-research-writing",
+      "rank": 54,
       "selectedFrom": "incremental",
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-24T07:11:45.176Z",
+      "lastProfiledAt": "2026-04-24T09:19:54.484Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/HKUDS/DeepTutor",
+        "githubUrl": "https://github.com/Leey21/awesome-ai-research-writing",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "jundot/omlx",
+      "rank": 55,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://omlx.ai/",
+      "websiteSource": "github_homepage",
+      "status": "scan_pending",
+      "lastProfiledAt": "2026-04-24T09:19:54.492Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/jundot/omlx",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -27249,16 +29733,34 @@
       "error": null
     },
     {
-      "fullName": "edwardkim/rhwp",
+      "fullName": "siddharthvaddem/openscreen",
+      "rank": 56,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://openscreen.vercel.app/",
+      "websiteSource": "github_homepage",
+      "status": "scan_pending",
+      "lastProfiledAt": "2026-04-24T09:19:54.500Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/siddharthvaddem/openscreen",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "HKUDS/DeepTutor",
       "rank": 57,
       "selectedFrom": "incremental",
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-24T07:11:45.672Z",
+      "lastProfiledAt": "2026-04-24T09:19:54.900Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/edwardkim/rhwp",
+        "githubUrl": "https://github.com/HKUDS/DeepTutor",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -28030,16 +30532,34 @@
       "error": null
     },
     {
-      "fullName": "kepano/obsidian-skills",
+      "fullName": "vectorize-io/hindsight",
+      "rank": 58,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://hindsight.vectorize.io/",
+      "websiteSource": "github_homepage",
+      "status": "scan_pending",
+      "lastProfiledAt": "2026-04-24T09:19:54.914Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/vectorize-io/hindsight",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "luongnv89/claude-howto",
       "rank": 59,
       "selectedFrom": "incremental",
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-24T07:12:21.759Z",
+      "lastProfiledAt": "2026-04-24T09:19:55.323Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/kepano/obsidian-skills",
+        "githubUrl": "https://github.com/luongnv89/claude-howto",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -28793,6 +31313,24 @@
       "error": null
     },
     {
+      "fullName": "ruvnet/ruflo",
+      "rank": 60,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://cognitum.one/",
+      "websiteSource": "github_homepage",
+      "status": "scan_pending",
+      "lastProfiledAt": "2026-04-24T09:19:55.331Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/ruvnet/ruflo",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
       "fullName": "JimLiu/baoyu-skills",
       "rank": 61,
       "selectedFrom": "incremental",
@@ -28803,6 +31341,24 @@
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/JimLiu/baoyu-skills",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "mvanhorn/last30days-skill",
+      "rank": 61,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-24T09:19:55.756Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/mvanhorn/last30days-skill",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -29494,6 +32050,42 @@
       "error": null
     },
     {
+      "fullName": "VoltAgent/awesome-claude-design",
+      "rank": 62,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-24T09:19:56.201Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/VoltAgent/awesome-claude-design",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "qwibitai/nanoclaw",
+      "rank": 63,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://nanoclaw.dev/",
+      "websiteSource": "github_homepage",
+      "status": "scan_pending",
+      "lastProfiledAt": "2026-04-24T09:19:56.211Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/qwibitai/nanoclaw",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
       "fullName": "Yeachan-Heo/oh-my-claudecode",
       "rank": 63,
       "selectedFrom": "incremental",
@@ -29512,16 +32104,34 @@
       "error": "HTTP 429 Too Many Requests - https://aiso.tools/api/scan - {\"error\":\"rate_limited_ip\",\"retryAfterSeconds\":86318}"
     },
     {
-      "fullName": "ComposioHQ/awesome-claude-skills",
+      "fullName": "rohitg00/ai-engineering-from-scratch",
       "rank": 64,
       "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-24T07:13:12.403Z",
+      "websiteUrl": "https://aiengineeringfromscratch.com/",
+      "websiteSource": "github_homepage",
+      "status": "scan_pending",
+      "lastProfiledAt": "2026-04-24T09:19:56.221Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/ComposioHQ/awesome-claude-skills",
+        "githubUrl": "https://github.com/rohitg00/ai-engineering-from-scratch",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "abhigyanpatwari/GitNexus",
+      "rank": 65,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://gitnexus.vercel.app/",
+      "websiteSource": "github_homepage",
+      "status": "scan_pending",
+      "lastProfiledAt": "2026-04-24T09:19:56.229Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/abhigyanpatwari/GitNexus",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -29548,16 +32158,34 @@
       "error": null
     },
     {
-      "fullName": "luongnv89/claude-howto",
+      "fullName": "pbakaus/impeccable",
       "rank": 66,
       "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-24T07:13:12.999Z",
+      "websiteUrl": "https://impeccable.style/",
+      "websiteSource": "github_homepage",
+      "status": "scan_pending",
+      "lastProfiledAt": "2026-04-24T09:19:56.237Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/luongnv89/claude-howto",
+        "githubUrl": "https://github.com/pbakaus/impeccable",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "HKUDS/CLI-Anything",
+      "rank": 67,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://clianything.cc/",
+      "websiteSource": "github_homepage",
+      "status": "scan_pending",
+      "lastProfiledAt": "2026-04-24T09:19:56.246Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/HKUDS/CLI-Anything",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -29584,16 +32212,16 @@
       "error": null
     },
     {
-      "fullName": "sickn33/antigravity-awesome-skills",
-      "rank": 68,
+      "fullName": "EveryInc/compound-engineering-plugin",
+      "rank": 69,
       "selectedFrom": "incremental",
-      "websiteUrl": "https://sickn33.github.io/antigravity-awesome-skills/",
+      "websiteUrl": "https://every.to/guides/compound-engineering",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-24T07:13:13.022Z",
+      "lastProfiledAt": "2026-04-24T09:19:56.256Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/sickn33/antigravity-awesome-skills",
+        "githubUrl": "https://github.com/EveryInc/compound-engineering-plugin",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -29620,6 +32248,24 @@
       "error": null
     },
     {
+      "fullName": "edwardkim/rhwp",
+      "rank": 70,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-24T09:19:56.685Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/edwardkim/rhwp",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
       "fullName": "PerryTS/perry",
       "rank": 70,
       "selectedFrom": "incremental",
@@ -29638,16 +32284,16 @@
       "error": null
     },
     {
-      "fullName": "mksglu/context-mode",
+      "fullName": "Lakr233/bgclick-rev-skill",
       "rank": 71,
       "selectedFrom": "incremental",
-      "websiteUrl": "https://context-mode.com/",
-      "websiteSource": "github_homepage",
-      "status": "scan_pending",
-      "lastProfiledAt": "2026-04-24T07:13:13.046Z",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-24T09:19:57.094Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/mksglu/context-mode",
+        "githubUrl": "https://github.com/Lakr233/bgclick-rev-skill",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -29674,6 +32320,24 @@
       "error": null
     },
     {
+      "fullName": "microsoft/VibeVoice",
+      "rank": 72,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://microsoft.github.io/VibeVoice/",
+      "websiteSource": "github_homepage",
+      "status": "scan_pending",
+      "lastProfiledAt": "2026-04-24T09:19:57.103Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/microsoft/VibeVoice",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
       "fullName": "eze-is/web-access",
       "rank": 73,
       "selectedFrom": "incremental",
@@ -29684,6 +32348,42 @@
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/eze-is/web-access",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "HKUDS/nanobot",
+      "rank": 73,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://nanobot.wiki/",
+      "websiteSource": "github_homepage",
+      "status": "scan_pending",
+      "lastProfiledAt": "2026-04-24T09:19:57.110Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/HKUDS/nanobot",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "jackwener/OpenCLI",
+      "rank": 74,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://opencli.info/",
+      "websiteSource": "github_homepage",
+      "status": "scan_pending",
+      "lastProfiledAt": "2026-04-24T09:19:57.118Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/jackwener/OpenCLI",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -29728,6 +32428,42 @@
       "error": null
     },
     {
+      "fullName": "run-bigpig/jcp",
+      "rank": 75,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-24T09:19:57.523Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/run-bigpig/jcp",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "alirezarezvani/claude-skills",
+      "rank": 76,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://alirezarezvani.medium.com/",
+      "websiteSource": "github_homepage",
+      "status": "scan_pending",
+      "lastProfiledAt": "2026-04-24T09:19:57.532Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/alirezarezvani/claude-skills",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
       "fullName": "nashsu/llm_wiki",
       "rank": 76,
       "selectedFrom": "incremental",
@@ -29738,6 +32474,24 @@
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/nashsu/llm_wiki",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "KKKKhazix/khazix-skills",
+      "rank": 77,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-24T09:19:57.953Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/KKKKhazix/khazix-skills",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -29764,16 +32518,16 @@
       "error": null
     },
     {
-      "fullName": "vectorize-io/hindsight",
+      "fullName": "sickn33/antigravity-awesome-skills",
       "rank": 78,
       "selectedFrom": "incremental",
-      "websiteUrl": "https://hindsight.vectorize.io/",
+      "websiteUrl": "https://sickn33.github.io/antigravity-awesome-skills/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-24T07:13:14.964Z",
+      "lastProfiledAt": "2026-04-24T09:19:57.961Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/vectorize-io/hindsight",
+        "githubUrl": "https://github.com/sickn33/antigravity-awesome-skills",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -29846,24 +32600,6 @@
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/alvinreal/awesome-autoresearch",
-        "docsUrl": null,
-        "npmPackages": [],
-        "productHuntLaunchId": null
-      },
-      "aisoScan": null,
-      "error": null
-    },
-    {
-      "fullName": "pbakaus/impeccable",
-      "rank": 83,
-      "selectedFrom": "incremental",
-      "websiteUrl": "https://impeccable.style/",
-      "websiteSource": "github_homepage",
-      "status": "scan_pending",
-      "lastProfiledAt": "2026-04-24T07:13:14.998Z",
-      "nextScanAfter": null,
-      "surfaces": {
-        "githubUrl": "https://github.com/pbakaus/impeccable",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null

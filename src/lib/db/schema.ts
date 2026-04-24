@@ -498,11 +498,66 @@ export const fundingRounds: TableDescriptor = {
     { name: "discovered_at", type: "timestamp", notNull: true },
     { name: "confidence", type: "text", notNull: true },
     { name: "reviewed", type: "boolean", notNull: true },
+    // Repo-matching columns — populated by the funding matcher (see
+    // src/lib/funding/match.ts + src/lib/funding/repo-events.ts). BOTH nullable,
+    // so backfilling is additive and safe. A DBA must generate a drizzle/db
+    // migration from this descriptor — the file-persistence layer is JSONL so
+    // this declaration is intent-only until the Postgres cutover.
+    //
+    // Migration SQL (append to next migration):
+    //   ALTER TABLE funding_rounds
+    //     ADD COLUMN repo_id          TEXT NULL,
+    //     ADD COLUMN match_confidence REAL NULL,
+    //     ADD COLUMN match_reason     TEXT NULL,
+    //     ADD COLUMN matched_at       TIMESTAMP NULL;
+    //   CREATE INDEX funding_rounds_repo_idx ON funding_rounds(repo_id);
+    { name: "repo_id", type: "text" },
+    { name: "match_confidence", type: "real" },
+    { name: "match_reason", type: "text" },
+    { name: "matched_at", type: "timestamp" },
   ],
   indices: [
     { name: "funding_rounds_announced_idx", columns: ["announced_at"] },
     { name: "funding_rounds_platform_idx", columns: ["source_platform"] },
     { name: "funding_rounds_type_idx", columns: ["round_type"] },
+    { name: "funding_rounds_repo_idx", columns: ["repo_id"] },
+  ],
+};
+
+/**
+ * Builder reactions on a target object (repo today, idea later).
+ *
+ * One row per (user, object, type). The intake layer enforces that a user
+ * can only have a single active reaction of each type on each target — so
+ * "user A toggles 'build' on repo X" is a single row that gets inserted on
+ * first toggle and deleted on second. Counts are derived by aggregating.
+ *
+ * Reaction types ("build", "use", "buy", "invest") are constrained at the
+ * application layer rather than via SQL CHECK so we can add new types
+ * without a migration.
+ */
+export const reactions: TableDescriptor = {
+  name: "reactions",
+  columns: [
+    { name: "id", type: "text", primaryKey: true },
+    { name: "user_id", type: "text", notNull: true, references: "users.id" },
+    // object_type narrows the FK target — "repo" today; "idea" once the
+    // ideas table lands. Stored as text so we don't need a polymorphic FK.
+    { name: "object_type", type: "text", notNull: true },
+    { name: "object_id", type: "text", notNull: true },
+    { name: "reaction_type", type: "text", notNull: true },
+    { name: "created_at", type: "timestamp", notNull: true },
+  ],
+  indices: [
+    // The hot path is "give me counts for object_id" — and per-user "did I
+    // already react." The composite uniqueness is the toggle invariant.
+    { name: "reactions_object_idx", columns: ["object_type", "object_id"] },
+    { name: "reactions_user_idx", columns: ["user_id"] },
+    {
+      name: "reactions_user_target_uniq",
+      columns: ["user_id", "object_type", "object_id", "reaction_type"],
+      unique: true,
+    },
   ],
 };
 
@@ -552,4 +607,5 @@ export const schema: TableDescriptor[] = [
   alertRules,
   alertEvents,
   watchlist,
+  reactions,
 ];

@@ -178,6 +178,66 @@ export async function appendJsonlFile<T>(
   await fs.appendFile(filePath, JSON.stringify(item) + "\n", "utf8");
 }
 
+// ---------------------------------------------------------------------------
+// Per-file async serialization
+// ---------------------------------------------------------------------------
+//
+// Within a single Node process, in-flight async operations on the same JSONL
+// file race because read-then-write is not atomic at the JS-event-loop level:
+// two concurrent submitRevenueToQueue() calls can both read the same snapshot,
+// both fail the duplicate check, and both append. Likewise, an append can
+// land *between* a read and the rewriting writeJsonlFile() call inside an
+// approve/reject path, silently dropping the appended row.
+//
+// `withFileLock` serializes async operations per (resolved) file path. It is
+// process-local — sufficient because the JSONL writers all live behind the
+// Next.js server which runs in one process per region. Cross-process races
+// are out of scope for this storage layer; if we ever shard writers we'd
+// move to a real lockfile or a database.
+
+const fileLocks = new Map<string, Promise<unknown>>();
+
+export async function withFileLock<T>(
+  filename: string,
+  fn: () => Promise<T>,
+): Promise<T> {
+  const key = resolvePath(filename);
+  const previous = fileLocks.get(key) ?? Promise.resolve();
+  // Chain both branches to fn so a rejected predecessor still lets the next
+  // holder run. The stored chain promise swallows rejection so the lock map
+  // never keeps a rejected-only promise that would poison new chains.
+  const next = previous.then(fn, fn);
+  const chain: Promise<unknown> = next.catch(() => undefined);
+  fileLocks.set(key, chain);
+  try {
+    return await next;
+  } finally {
+    // Best-effort cleanup so the map doesn't grow unbounded across distinct
+    // filenames over the life of the process. If a newer holder has already
+    // chained on, leave its promise in place.
+    if (fileLocks.get(key) === chain) {
+      fileLocks.delete(key);
+    }
+  }
+}
+
+/**
+ * Atomic read-modify-write for a JSONL file. The mutator sees the current
+ * snapshot and returns the next one. Runs under `withFileLock(filename)` so
+ * concurrent callers serialize and never observe a torn intermediate state.
+ */
+export async function mutateJsonlFile<T>(
+  filename: string,
+  mutator: (current: T[]) => T[] | Promise<T[]>,
+): Promise<T[]> {
+  return withFileLock(filename, async () => {
+    const current = await readJsonlFile<T>(filename);
+    const next = await mutator(current);
+    await writeJsonlFile(filename, next);
+    return next;
+  });
+}
+
 /**
  * Whether persistence is currently enabled.
  *

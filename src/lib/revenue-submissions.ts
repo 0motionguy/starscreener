@@ -22,15 +22,14 @@ import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 import {
-  appendJsonlFile,
+  mutateJsonlFile,
   readJsonlFile,
-  writeJsonlFile,
 } from "@/lib/pipeline/storage/file-persistence";
 import { normalizeRepoReference } from "@/lib/repo-submissions";
+import { normalizeTrustmrrSlug } from "@/lib/trustmrr-url";
 
 export const REVENUE_SUBMISSIONS_FILE = "revenue-submissions.jsonl";
 
-const MAX_SLUG_LENGTH = 120;
 const MAX_PROOF_URL_LENGTH = 300;
 const MAX_NOTES_LENGTH = 400;
 const MAX_CONTACT_LENGTH = 160;
@@ -136,14 +135,7 @@ function normalizeMultiline(value: string): string {
 }
 
 function normalizeSlug(raw: string): string | null {
-  const trimmed = raw.trim().toLowerCase();
-  if (!trimmed) return null;
-  // Users sometimes paste the full URL — accept and reduce to slug.
-  const match = trimmed.match(/trustmrr\.com\/s\/([A-Za-z0-9_-]+)/i);
-  const candidate = match ? match[1] : trimmed;
-  if (!/^[a-z0-9_-]+$/.test(candidate)) return null;
-  if (candidate.length > MAX_SLUG_LENGTH) return null;
-  return candidate;
+  return normalizeTrustmrrSlug(raw);
 }
 
 function validateProofUrl(raw: string): string {
@@ -363,24 +355,34 @@ export async function updateRevenueSubmissionStatus(
   id: string,
   next: { status: RevenueSubmissionStatus; moderationNote?: string | null },
 ): Promise<RevenueSubmissionRecord> {
-  const records = await listRevenueSubmissions();
-  const index = records.findIndex((record) => record.id === id);
-  if (index === -1) {
+  let updated: RevenueSubmissionRecord | null = null;
+  // Serialize with submitRevenueToQueue() on the same file so a submit landing
+  // during an approve/reject cannot be silently overwritten by the rewrite.
+  await mutateJsonlFile<RevenueSubmissionRecord>(
+    REVENUE_SUBMISSIONS_FILE,
+    (records) => {
+      const index = records.findIndex((record) => record.id === id);
+      if (index === -1) {
+        throw new Error(`revenue submission not found: ${id}`);
+      }
+      const current = records[index] as RevenueSubmissionRecord;
+      updated = {
+        ...current,
+        status: next.status,
+        moderatedAt: new Date().toISOString(),
+        moderationNote: next.moderationNote ?? null,
+      } as RevenueSubmissionRecord;
+      const replaced = [...records];
+      replaced[index] = updated;
+      replaced.sort(
+        (a, b) => Date.parse(a.submittedAt) - Date.parse(b.submittedAt),
+      );
+      return replaced;
+    },
+  );
+  if (!updated) {
     throw new Error(`revenue submission not found: ${id}`);
   }
-  const current = records[index] as RevenueSubmissionRecord;
-  const updated: RevenueSubmissionRecord = {
-    ...current,
-    status: next.status,
-    moderatedAt: new Date().toISOString(),
-    moderationNote: next.moderationNote ?? null,
-  } as RevenueSubmissionRecord;
-  const replaced = [...records];
-  replaced[index] = updated;
-  replaced.sort(
-    (a, b) => Date.parse(a.submittedAt) - Date.parse(b.submittedAt),
-  );
-  await writeJsonlFile(REVENUE_SUBMISSIONS_FILE, replaced);
   return updated;
 }
 
@@ -404,48 +406,63 @@ export async function submitRevenueToQueue(
     );
   }
 
-  const existing = await listRevenueSubmissions();
-  const duplicate = existing.find(
-    (record) =>
-      record.normalizedFullName === normalized.normalizedFullName &&
-      record.status !== "rejected",
-  );
-  if (duplicate) {
-    return {
-      kind: "duplicate",
-      submission: toPublicRevenueSubmission(duplicate),
-    };
-  }
-
-  const submittedAt = new Date().toISOString();
-  const common: RevenueSubmissionBase = {
-    id: randomUUID(),
-    fullName: normalized.fullName,
-    normalizedFullName: normalized.normalizedFullName,
-    repoUrl: normalized.repoUrl,
-    mode: input.mode,
-    status: "pending_moderation",
-    contact: input.contact ?? null,
-    notes: input.notes ?? null,
-    source: "web",
-    submittedAt,
-    moderatedAt: null,
-    moderationNote: null,
-  };
-
-  const record: RevenueSubmissionRecord =
-    input.mode === "trustmrr_link"
-      ? { ...common, mode: "trustmrr_link", trustmrrSlug: input.trustmrrSlug }
-      : {
-          ...common,
-          mode: "self_report",
-          mrrCents: input.mrrCents,
-          customers: input.customers ?? null,
-          paymentProvider: input.paymentProvider,
-          proofUrl: input.proofUrl ?? null,
+  // One transactional read-modify-write: duplicate check + append happen
+  // under a per-file lock so two same-repo submits can't both pass the check
+  // and both append, and a concurrent moderation rewrite can't drop the new
+  // row between our append and its rewrite.
+  let result: RevenueSubmissionResult | null = null;
+  await mutateJsonlFile<RevenueSubmissionRecord>(
+    REVENUE_SUBMISSIONS_FILE,
+    (existing) => {
+      const duplicate = existing.find(
+        (record) =>
+          record.normalizedFullName === normalized.normalizedFullName &&
+          record.status !== "rejected",
+      );
+      if (duplicate) {
+        result = {
+          kind: "duplicate",
+          submission: toPublicRevenueSubmission(duplicate),
         };
+        return existing;
+      }
 
-  await appendJsonlFile(REVENUE_SUBMISSIONS_FILE, record);
+      const submittedAt = new Date().toISOString();
+      const common: RevenueSubmissionBase = {
+        id: randomUUID(),
+        fullName: normalized.fullName,
+        normalizedFullName: normalized.normalizedFullName,
+        repoUrl: normalized.repoUrl,
+        mode: input.mode,
+        status: "pending_moderation",
+        contact: input.contact ?? null,
+        notes: input.notes ?? null,
+        source: "web",
+        submittedAt,
+        moderatedAt: null,
+        moderationNote: null,
+      };
 
-  return { kind: "created", submission: toPublicRevenueSubmission(record) };
+      const record: RevenueSubmissionRecord =
+        input.mode === "trustmrr_link"
+          ? { ...common, mode: "trustmrr_link", trustmrrSlug: input.trustmrrSlug }
+          : {
+              ...common,
+              mode: "self_report",
+              mrrCents: input.mrrCents,
+              customers: input.customers ?? null,
+              paymentProvider: input.paymentProvider,
+              proofUrl: input.proofUrl ?? null,
+            };
+
+      result = { kind: "created", submission: toPublicRevenueSubmission(record) };
+      return [...existing, record];
+    },
+  );
+
+  if (!result) {
+    // Defensive — mutator always sets result before returning.
+    throw new Error("revenue submission transaction did not produce a result");
+  }
+  return result;
 }

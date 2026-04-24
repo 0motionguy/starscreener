@@ -82,7 +82,7 @@ function synthReason(
 
   switch (label) {
     case "NUMBER_ONE_TODAY":
-      return `Leading ${window} with +${delta.toLocaleString()} stars`;
+      return `Leading ${window} with +${delta.toLocaleString("en-US")} stars`;
     case "BREAKOUT":
       return "Breakout - momentum accelerating into the top tier";
     case "RANK_CLIMBER":
@@ -98,7 +98,7 @@ function synthReason(
     case "QUIET_KILLER":
       return "Quiet killer - steady sustained growth, no single spike";
     case "WATCHED_MOVING":
-      return `Watched and moving - ${delta >= 0 ? "+" : ""}${delta.toLocaleString()} stars in ${window}`;
+      return `Watched and moving - ${delta >= 0 ? "+" : ""}${delta.toLocaleString("en-US")} stars in ${window}`;
   }
 }
 

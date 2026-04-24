@@ -304,7 +304,7 @@ export function CompareSelector() {
                         {repo.fullName}
                       </p>
                       <p className="text-xs text-text-tertiary truncate">
-                        {repo.language ?? "Unknown"} -- {repo.stars.toLocaleString()} stars
+                        {repo.language ?? "Unknown"} -- {repo.stars.toLocaleString("en-US")} stars
                       </p>
                     </div>
                     <Plus size={14} className="text-text-tertiary shrink-0" />

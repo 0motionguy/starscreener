@@ -50,7 +50,7 @@ export function LaunchLinkIcons({
     links.push({
       href: github,
       label: stars !== undefined
-        ? `${repoLabel(github)} - ${stars.toLocaleString()} stars`
+        ? `${repoLabel(github)} - ${stars.toLocaleString("en-US")} stars`
         : repoLabel(github),
       icon: <GithubIcon size={12} monochrome />,
     });

@@ -46,7 +46,7 @@ function formatUsd(cents: number | null): string {
   if (dollars >= 1_000_000) return `$${(dollars / 1_000_000).toFixed(1)}M`;
   if (dollars >= 10_000) return `$${(dollars / 1_000).toFixed(0)}K`;
   if (dollars >= 1_000) return `$${(dollars / 1_000).toFixed(1)}K`;
-  return `$${Math.round(dollars).toLocaleString()}`;
+  return `$${Math.round(dollars).toLocaleString("en-US")}`;
 }
 
 function formatRelative(iso: string | null | undefined): string {
@@ -138,7 +138,7 @@ export default async function RevenuePage({ searchParams }: PageProps) {
               Tracked repos with verified revenue
             </h2>
             <span className="text-xs text-text-tertiary">
-              {tracked.length.toLocaleString()} match
+              {tracked.length.toLocaleString("en-US")} match
               {tracked.length === 1 ? "" : "es"} ·{" "}
               {trackedMeta.catalogGeneratedAt
                 ? `updated ${formatRelative(trackedMeta.catalogGeneratedAt)}`
@@ -172,7 +172,7 @@ export default async function RevenuePage({ searchParams }: PageProps) {
               </h2>
               <p className="mt-1 text-xs text-text-tertiary">
                 Top {Math.min(LEADERBOARD_LIMIT, leaderboard.rows.length)} of{" "}
-                {leaderboard.totalInFilter.toLocaleString()} verified-revenue
+                {leaderboard.totalInFilter.toLocaleString("en-US")} verified-revenue
                 startup(s) in{" "}
                 {category === "__all__" ? (
                   "every category"

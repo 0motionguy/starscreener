@@ -569,7 +569,7 @@ function PulseCard({ bundle, accent }: BundleWithAccent) {
         <StatIcon
           icon={GitCommit}
           label="Commits 30d"
-          value={commits30d.toLocaleString()}
+          value={commits30d.toLocaleString("en-US")}
           tone="default"
         />
         <StatIcon

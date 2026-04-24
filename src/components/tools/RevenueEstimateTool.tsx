@@ -32,7 +32,7 @@ function fmtUsd(cents: number): string {
   if (dollars >= 1_000_000) return `$${(dollars / 1_000_000).toFixed(1)}M`;
   if (dollars >= 10_000) return `$${Math.round(dollars / 1_000)}K`;
   if (dollars >= 1_000) return `$${(dollars / 1_000).toFixed(1)}K`;
-  return `$${Math.round(dollars).toLocaleString()}`;
+  return `$${Math.round(dollars).toLocaleString("en-US")}`;
 }
 
 const FALLBACK_COPY: Record<
@@ -140,7 +140,7 @@ export function RevenueEstimateTool({
 
         <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-border-primary pt-4">
           <p className="text-[11px] text-text-tertiary">
-            {totalBuckets.toLocaleString()} bucket(s)
+            {totalBuckets.toLocaleString("en-US")} bucket(s)
             {generatedAt ? ` · built ${new Date(generatedAt).toISOString().slice(0, 10)}` : null}
           </p>
           <button
@@ -218,7 +218,7 @@ function ResultCard({
         <span className="text-text-tertiary text-sm">p75</span>
       </div>
       <p className="mt-3 text-sm text-text-secondary">
-        Based on <strong>{result.bucket.n.toLocaleString()}</strong> comparable verified-revenue startup(s){" "}
+        Based on <strong>{result.bucket.n.toLocaleString("en-US")}</strong> comparable verified-revenue startup(s){" "}
         in <strong>{category}</strong>, <strong>{starBand}</strong> stars
         {phLaunched !== "any"
           ? `, ${phLaunched === "yes" ? "launched on" : "never launched on"} ProductHunt`

@@ -110,17 +110,17 @@ export default function DevtoPage() {
               />
               <StatTile
                 label="ARTICLES TRACKED"
-                value={totalArticles.toLocaleString()}
-                hint={`${trendingFile.windowDays}d window · ${trendingFile.scannedArticles.toLocaleString()} scanned`}
+                value={totalArticles.toLocaleString("en-US")}
+                hint={`${trendingFile.windowDays}d window · ${trendingFile.scannedArticles.toLocaleString("en-US")} scanned`}
               />
               <StatTile
                 label="REPOS LINKED"
-                value={reposLinked.toLocaleString()}
+                value={reposLinked.toLocaleString("en-US")}
                 hint="github mentions in body/tags"
               />
               <StatTile
                 label="DISCOVERY"
-                value={sliceCount.toLocaleString()}
+                value={sliceCount.toLocaleString("en-US")}
                 hint={
                   sliceCount > 0
                     ? `${tagCount} tags + rising/fresh + top`
@@ -202,10 +202,10 @@ function ArticlesFeed({
                 }`}
               >
                 <HeartIcon className="w-3 h-3" />
-                <span>{a.reactionsCount.toLocaleString()}</span>
+                <span>{a.reactionsCount.toLocaleString("en-US")}</span>
               </div>
               <div className="text-right text-xs tabular-nums text-text-secondary">
-                {a.commentsCount.toLocaleString()}
+                {a.commentsCount.toLocaleString("en-US")}
               </div>
               <div className="hidden md:block min-w-0">
                 {tag ? (
@@ -289,11 +289,11 @@ function Leaderboard({
               </Link>
             </div>
             <div className="text-right text-xs tabular-nums text-text-secondary">
-              {entry.count7d.toLocaleString()}
+              {entry.count7d.toLocaleString("en-US")}
             </div>
             <div className="text-right text-xs tabular-nums text-text-tertiary inline-flex items-center justify-end gap-1">
               <HeartIcon className="w-2.5 h-2.5" />
-              {entry.reactionsSum7d.toLocaleString()}
+              {entry.reactionsSum7d.toLocaleString("en-US")}
             </div>
           </li>
         ))}

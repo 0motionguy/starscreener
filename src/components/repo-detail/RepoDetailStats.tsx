@@ -71,7 +71,7 @@ export function RepoDetailStats({ repo }: RepoDetailStatsProps): JSX.Element {
           icon={CircleDot}
           label="Open Issues"
           value={formatNumber(repo.openIssues)}
-          hint={`${repo.openIssues.toLocaleString()} open issues`}
+          hint={`${repo.openIssues.toLocaleString("en-US")} open issues`}
         />
         <StatIcon
           icon={GitCommit}

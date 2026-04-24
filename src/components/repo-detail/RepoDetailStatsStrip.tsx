@@ -143,7 +143,7 @@ function MiniCard({
           title={
             deltaMissing
               ? `${deltaWindow} delta unavailable`
-              : `${deltaWindow}: ${delta.toLocaleString()}`
+              : `${deltaWindow}: ${delta.toLocaleString("en-US")}`
           }
         >
           {deltaMissing ? "—" : formatDelta(delta)}

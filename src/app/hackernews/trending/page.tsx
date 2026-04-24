@@ -83,17 +83,17 @@ export default function HackerNewsTrendingPage() {
               />
               <StatTile
                 label="STORIES TRACKED"
-                value={allStories.length.toLocaleString()}
-                hint={`${trendingFile.windowHours}h window · ${trendingFile.scannedTotal.toLocaleString()} scanned`}
+                value={allStories.length.toLocaleString("en-US")}
+                hint={`${trendingFile.windowHours}h window · ${trendingFile.scannedTotal.toLocaleString("en-US")} scanned`}
               />
               <StatTile
                 label="FRONT PAGE"
-                value={frontPageCount.toLocaleString()}
+                value={frontPageCount.toLocaleString("en-US")}
                 hint="ever hit top 30"
               />
               <StatTile
                 label="REPOS LINKED"
-                value={reposLinked.toLocaleString()}
+                value={reposLinked.toLocaleString("en-US")}
                 hint="github repos mentioned 7d"
               />
             </section>
@@ -162,10 +162,10 @@ export default function HackerNewsTrendingPage() {
                           s.score >= 100 ? { color: HN_ORANGE } : undefined
                         }
                       >
-                        {s.score.toLocaleString()}
+                        {s.score.toLocaleString("en-US")}
                       </div>
                       <div className="text-right text-xs tabular-nums text-text-secondary">
-                        {s.descendants.toLocaleString()}
+                        {s.descendants.toLocaleString("en-US")}
                       </div>
                       <div className="text-right text-xs tabular-nums text-text-tertiary">
                         {formatAgeHours(s.ageHours)}

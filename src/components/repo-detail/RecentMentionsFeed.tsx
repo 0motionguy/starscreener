@@ -213,14 +213,14 @@ export function MentionRow({ item: m }: { item: MentionItem }) {
             </span>
             <span className="tabular-nums">
               <span className="text-text-secondary">
-                {m.score.toLocaleString()}
+                {m.score.toLocaleString("en-US")}
               </span>{" "}
               {m.scoreLabel ?? "pts"}
             </span>
             {m.secondary && (
               <span className="tabular-nums">
                 <span className="text-text-secondary">
-                  {m.secondary.value.toLocaleString()}
+                  {m.secondary.value.toLocaleString("en-US")}
                 </span>{" "}
                 {m.secondary.label}
               </span>

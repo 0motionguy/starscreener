@@ -101,7 +101,7 @@ export default function YouClient() {
                         <span className="label-micro">
                           added{" "}
                           {new Date(item.addedAt).toLocaleDateString()} ·{" "}
-                          @ {item.starsAtAdd.toLocaleString()} stars
+                          @ {item.starsAtAdd.toLocaleString("en-US")} stars
                         </span>
                       </div>
                       <button

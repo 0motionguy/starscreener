@@ -99,17 +99,17 @@ export default function LobstersPage() {
               />
               <StatTile
                 label="STORIES TRACKED"
-                value={allStories.length.toLocaleString()}
-                hint={`${file.windowHours}h window, ${file.scannedTotal.toLocaleString()} scanned`}
+                value={allStories.length.toLocaleString("en-US")}
+                hint={`${file.windowHours}h window, ${file.scannedTotal.toLocaleString("en-US")} scanned`}
               />
               <StatTile
                 label="GITHUB STORIES"
-                value={linkedStories.toLocaleString()}
+                value={linkedStories.toLocaleString("en-US")}
                 hint="stories with tracked repo links"
               />
               <StatTile
                 label="REPOS LINKED"
-                value={leaderboard.length.toLocaleString()}
+                value={leaderboard.length.toLocaleString("en-US")}
                 hint="mention buckets in last 7d"
               />
             </section>
@@ -222,10 +222,10 @@ function StoryRow({ rank, story }: { rank: number; story: LobstersStory }) {
           className="text-right text-xs tabular-nums"
           style={isHigh ? { color: LOBSTERS_RED } : undefined}
         >
-          {story.score.toLocaleString()}
+          {story.score.toLocaleString("en-US")}
         </div>
         <div className="text-right text-xs tabular-nums text-text-secondary">
-          {story.commentCount.toLocaleString()}
+          {story.commentCount.toLocaleString("en-US")}
         </div>
         <div className="text-right text-xs tabular-nums text-text-tertiary">
           {formatAgeHours(story.ageHours)}
@@ -250,7 +250,7 @@ function StoryRow({ rank, story }: { rank: number; story: LobstersStory }) {
             {story.title}
           </a>
           <div className="mt-0.5 flex items-center gap-2 text-[10px] text-text-tertiary tabular-nums">
-            <span>{story.commentCount.toLocaleString()} cmts</span>
+            <span>{story.commentCount.toLocaleString("en-US")} cmts</span>
             <span>{formatAgeHours(story.ageHours)}</span>
             {linkedRepo ? (
               <Link
@@ -267,7 +267,7 @@ function StoryRow({ rank, story }: { rank: number; story: LobstersStory }) {
           className="text-right text-xs tabular-nums"
           style={isHigh ? { color: LOBSTERS_RED } : undefined}
         >
-          {story.score.toLocaleString()}
+          {story.score.toLocaleString("en-US")}
         </div>
       </div>
     </li>
@@ -312,10 +312,10 @@ function Leaderboard({
               {entry.fullName}
             </Link>
             <div className="text-right text-xs tabular-nums text-text-secondary">
-              {entry.count7d.toLocaleString()}
+              {entry.count7d.toLocaleString("en-US")}
             </div>
             <div className="text-right text-xs tabular-nums text-text-tertiary">
-              {entry.scoreSum7d.toLocaleString()}
+              {entry.scoreSum7d.toLocaleString("en-US")}
             </div>
           </li>
         ))}

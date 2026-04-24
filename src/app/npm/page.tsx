@@ -136,12 +136,12 @@ export default async function NpmPage({ searchParams }: NpmPageProps) {
               />
               <StatTile
                 label="REPOS LINKED"
-                value={file.counts.linkedRepos.toLocaleString()}
-                hint={`${file.discovery.candidatesFound.toLocaleString()} search candidates`}
+                value={file.counts.linkedRepos.toLocaleString("en-US")}
+                hint={`${file.discovery.candidatesFound.toLocaleString("en-US")} search candidates`}
               />
               <StatTile
                 label="DISCOVERY"
-                value={file.discovery.queries.length.toLocaleString()}
+                value={file.discovery.queries.length.toLocaleString("en-US")}
                 hint={`queries x ${file.discovery.searchSize} results`}
               />
             </section>

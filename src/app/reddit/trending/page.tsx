@@ -89,7 +89,7 @@ export default function RedditTrendingPage() {
               />
               <StatTile
                 label="POSTS TRACKED"
-                value={stats.totalPosts.toLocaleString()}
+                value={stats.totalPosts.toLocaleString("en-US")}
                 hint="last 7d, deduped + capped"
               />
               <StatTile

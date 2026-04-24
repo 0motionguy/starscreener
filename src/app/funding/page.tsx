@@ -93,12 +93,12 @@ export default function FundingPage() {
               />
               <StatTile
                 label="Signals"
-                value={stats.totalSignals.toLocaleString()}
+                value={stats.totalSignals.toLocaleString("en-US")}
                 hint={`${stats.extractedSignals} with extraction`}
               />
               <StatTile
                 label="This Week"
-                value={stats.thisWeekCount.toLocaleString()}
+                value={stats.thisWeekCount.toLocaleString("en-US")}
                 hint="last 7 days"
               />
               <StatTile

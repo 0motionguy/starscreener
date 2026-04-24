@@ -132,7 +132,7 @@ export function SocialMentions({
                   </p>
                   <div className="flex items-center gap-3 mt-1.5">
                     <span className="font-mono text-xs text-text-tertiary">
-                      {mention.engagement.toLocaleString()} engagements
+                      {mention.engagement.toLocaleString("en-US")} engagements
                     </span>
                     <span className="text-xs text-text-tertiary">
                       {getRelativeTime(mention.postedAt)}

@@ -86,7 +86,7 @@ function rankDeltaFromReason(repoId: string): number | null {
 function synthReason(label: FeaturedLabel, repo: Repo): string {
   switch (label) {
     case "NUMBER_ONE_TODAY":
-      return `Leading today with +${repo.starsDelta24h.toLocaleString()} stars`;
+      return `Leading today with +${repo.starsDelta24h.toLocaleString("en-US")} stars`;
     case "BREAKOUT":
       return `Breakout — momentum accelerating into the top tier`;
     case "RANK_CLIMBER":
@@ -102,7 +102,7 @@ function synthReason(label: FeaturedLabel, repo: Repo): string {
     case "QUIET_KILLER":
       return `Quiet killer — steady sustained growth, no single spike`;
     case "WATCHED_MOVING":
-      return `Watched & moving — ${repo.starsDelta7d >= 0 ? "+" : ""}${repo.starsDelta7d.toLocaleString()} stars in 7d`;
+      return `Watched & moving — ${repo.starsDelta7d >= 0 ? "+" : ""}${repo.starsDelta7d.toLocaleString("en-US")} stars in 7d`;
   }
 }
 

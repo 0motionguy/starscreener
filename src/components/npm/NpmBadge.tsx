@@ -25,7 +25,7 @@ function formatCompact(n: number): string {
 
 function buildTooltip(pkg: NpmPackageForBadge, count: number): string {
   const suffix = count > 1 ? ` (${count} linked packages)` : "";
-  return `${pkg.name}: ${pkg.downloads7d.toLocaleString()} npm downloads / 7d${suffix}`;
+  return `${pkg.name}: ${pkg.downloads7d.toLocaleString("en-US")} npm downloads / 7d${suffix}`;
 }
 
 export function NpmBadge({ packages, size = "sm" }: NpmBadgeProps) {

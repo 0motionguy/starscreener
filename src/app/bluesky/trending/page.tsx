@@ -90,17 +90,17 @@ export default function BlueskyTrendingPage() {
               />
               <StatTile
                 label="POSTS TRACKED"
-                value={allPosts.length.toLocaleString()}
+                value={allPosts.length.toLocaleString("en-US")}
                 hint={`${queryCount} queries across ${familyCount} families`}
               />
               <StatTile
                 label="TOPIC FAMILIES"
-                value={familyCount.toLocaleString()}
+                value={familyCount.toLocaleString("en-US")}
                 hint={BLUESKY_TRENDING_KEYWORDS.slice(0, 3).join(" · ")}
               />
               <StatTile
                 label="REPOS LINKED"
-                value={reposLinked.toLocaleString()}
+                value={reposLinked.toLocaleString("en-US")}
                 hint="github repos mentioned 7d"
               />
             </section>
@@ -188,13 +188,13 @@ export default function BlueskyTrendingPage() {
                         className="text-right text-xs tabular-nums"
                         style={isHighSignal ? { color: BSKY_BLUE } : undefined}
                       >
-                        {p.likeCount.toLocaleString()}
+                        {p.likeCount.toLocaleString("en-US")}
                       </div>
                       <div className="text-right text-xs tabular-nums text-text-secondary">
-                        {p.repostCount.toLocaleString()}
+                        {p.repostCount.toLocaleString("en-US")}
                       </div>
                       <div className="text-right text-xs tabular-nums text-text-secondary">
-                        {p.replyCount.toLocaleString()}
+                        {p.replyCount.toLocaleString("en-US")}
                       </div>
                       <div className="text-right text-xs tabular-nums text-text-tertiary">
                         {formatAgeHours(p.ageHours)}

@@ -148,7 +148,7 @@ export default async function ProductHuntPage({
               />
               <StatTile
                 label="LAUNCHES 7D"
-                value={current.length.toLocaleString()}
+                value={current.length.toLocaleString("en-US")}
                 hint={
                   activeTab === "ai"
                     ? "ai-adjacent · last 7 days"
@@ -157,12 +157,12 @@ export default async function ProductHuntPage({
               />
               <StatTile
                 label="LAUNCHES 24H"
-                value={launches24h.length.toLocaleString()}
+                value={launches24h.length.toLocaleString("en-US")}
                 hint="last 24 hours"
               />
               <StatTile
                 label="REPOS LINKED"
-                value={reposLinkedCount.toLocaleString()}
+                value={reposLinkedCount.toLocaleString("en-US")}
                 hint="github links extracted"
               />
             </section>
@@ -240,11 +240,11 @@ function LaunchFeed({ launches }: { launches: Launch[] }) {
                   style={isHot ? { color: PH_RED } : undefined}
                 >
                   <ChevronUp size={11} className="shrink-0" />
-                  {l.votesCount.toLocaleString()}
+                  {l.votesCount.toLocaleString("en-US")}
                 </div>
                 <div className="text-right text-xs tabular-nums text-text-secondary inline-flex items-center justify-end gap-1">
                   <MessageSquare size={10} className="shrink-0 opacity-70" />
-                  {l.commentsCount.toLocaleString()}
+                  {l.commentsCount.toLocaleString("en-US")}
                 </div>
                 <div className="text-right text-xs tabular-nums text-text-tertiary">
                   {formatRelative(l.createdAt)}
@@ -268,7 +268,7 @@ function LaunchFeed({ launches }: { launches: Launch[] }) {
                   style={isHot ? { color: PH_RED } : undefined}
                 >
                   <ChevronUp size={11} className="shrink-0" />
-                  {l.votesCount.toLocaleString()}
+                  {l.votesCount.toLocaleString("en-US")}
                 </div>
                 <div className="text-right text-xs tabular-nums text-text-tertiary">
                   {formatRelative(l.createdAt)}
@@ -353,7 +353,7 @@ function NameTagline({ launch }: { launch: Launch }) {
           className="hidden mt-0.5 inline-flex items-center gap-1 text-[10px] font-mono text-text-tertiary hover:text-functional transition-colors"
           title={
             stars !== undefined
-              ? `${launch.githubUrl.replace(/^https?:\/\/github\.com\//, "")} · ${stars.toLocaleString()}★`
+              ? `${launch.githubUrl.replace(/^https?:\/\/github\.com\//, "")} · ${stars.toLocaleString("en-US")}★`
               : launch.githubUrl
           }
         >
@@ -362,7 +362,7 @@ function NameTagline({ launch }: { launch: Launch }) {
             {launch.githubUrl.replace(/^https?:\/\/github\.com\//, "")}
           </span>
           {stars !== undefined ? (
-            <span className="text-text-muted">· {stars.toLocaleString()}★</span>
+            <span className="text-text-muted">· {stars.toLocaleString("en-US")}★</span>
           ) : null}
         </a>
       ) : null}
@@ -421,7 +421,7 @@ function CrossLinkedReposPanel({ launches }: { launches: Launch[] }) {
                 style={{ color: PH_RED }}
               >
                 <ChevronUp size={11} />
-                {launch.votesCount.toLocaleString()}
+                {launch.votesCount.toLocaleString("en-US")}
               </span>
               <span className="text-[11px] tabular-nums text-text-tertiary">
                 {formatRelative(launch.createdAt)}

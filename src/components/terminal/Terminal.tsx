@@ -373,9 +373,9 @@ export function Terminal({
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40",
               )}
             >
-              Show all {totalRows.toLocaleString()} repos
+              Show all {totalRows.toLocaleString("en-US")} repos
               <span className="ml-2 text-text-muted">
-                (+{hiddenRowCount.toLocaleString()} more)
+                (+{hiddenRowCount.toLocaleString("en-US")} more)
               </span>
             </button>
           )}
@@ -448,16 +448,16 @@ export function Terminal({
             <span>
               Showing top{" "}
               <span className="text-text-primary font-semibold">
-                {effectiveLimit.toLocaleString()}
+                {effectiveLimit.toLocaleString("en-US")}
               </span>
               {" "}of{" "}
               <span className="text-text-primary font-semibold">
-                {totalRows.toLocaleString()}
+                {totalRows.toLocaleString("en-US")}
               </span>
             </span>
             <span className="text-text-muted">·</span>
             <span className="text-brand">
-              Show all {totalRows.toLocaleString()}
+              Show all {totalRows.toLocaleString("en-US")}
             </span>
           </button>
         </div>

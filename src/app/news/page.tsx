@@ -338,17 +338,17 @@ function HackerNewsTabBody({ stories }: { stories: HnStory[] }) {
         />
         <StatTile
           label="STORIES TRACKED"
-          value={allStories.length.toLocaleString()}
+          value={allStories.length.toLocaleString("en-US")}
           hint={`${trendingFile.windowHours}h window`}
         />
         <StatTile
           label="FRONT PAGE"
-          value={frontPageCount.toLocaleString()}
+          value={frontPageCount.toLocaleString("en-US")}
           hint="ever hit top 30"
         />
         <StatTile
           label="REPOS LINKED"
-          value={reposLinked.toLocaleString()}
+          value={reposLinked.toLocaleString("en-US")}
           hint="github mentions 7d"
         />
       </section>
@@ -387,7 +387,7 @@ function HackerNewsTabBody({ stories }: { stories: HnStory[] }) {
                       we hide on small screens). Keeps the signal without
                       forcing a 6-col grid into a 360px viewport. */}
                   <div className="sm:hidden mt-0.5 flex items-center gap-2 text-[10px] text-text-tertiary tabular-nums">
-                    <span>{s.descendants.toLocaleString()} cmts</span>
+                    <span>{s.descendants.toLocaleString("en-US")} cmts</span>
                     <span>·</span>
                     <span>{formatAgeHours(s.ageHours)}</span>
                   </div>
@@ -409,10 +409,10 @@ function HackerNewsTabBody({ stories }: { stories: HnStory[] }) {
                   className="text-right text-xs tabular-nums"
                   style={isHigh ? { color: HN_ORANGE } : undefined}
                 >
-                  {s.score.toLocaleString()}
+                  {s.score.toLocaleString("en-US")}
                 </div>
                 <div className="hidden sm:block text-right text-xs tabular-nums text-text-secondary">
-                  {s.descendants.toLocaleString()}
+                  {s.descendants.toLocaleString("en-US")}
                 </div>
                 <div className="hidden sm:block text-right text-xs tabular-nums text-text-tertiary">
                   {formatAgeHours(s.ageHours)}
@@ -473,17 +473,17 @@ function BlueskyTabBody({ posts }: { posts: BskyPost[] }) {
         />
         <StatTile
           label="POSTS TRACKED"
-          value={trendingFile.posts.length.toLocaleString()}
+          value={trendingFile.posts.length.toLocaleString("en-US")}
           hint={`${queryCount} queries / ${familyCount} families`}
         />
         <StatTile
           label="REPOS LINKED"
-          value={reposLinked.toLocaleString()}
+          value={reposLinked.toLocaleString("en-US")}
           hint="github mentions 7d"
         />
         <StatTile
           label="TOPIC FAMILIES"
-          value={familyCount.toLocaleString()}
+          value={familyCount.toLocaleString("en-US")}
           hint={trendingFile.keywords.slice(0, 3).join(" · ")}
         />
       </section>
@@ -528,20 +528,20 @@ function BlueskyTabBody({ posts }: { posts: BskyPost[] }) {
                     }
                   >
                     @{p.author.handle}
-                    <span className="sm:hidden">{` · ${p.repostCount.toLocaleString()} ⟲ · ${p.replyCount.toLocaleString()} cmts · ${formatAgeHours(p.ageHours)}`}</span>
+                    <span className="sm:hidden">{` · ${p.repostCount.toLocaleString("en-US")} ⟲ · ${p.replyCount.toLocaleString("en-US")} cmts · ${formatAgeHours(p.ageHours)}`}</span>
                   </span>
                 </div>
                 <div
                   className="text-right text-xs tabular-nums"
                   style={isHigh ? { color: BSKY_BLUE } : undefined}
                 >
-                  {p.likeCount.toLocaleString()}
+                  {p.likeCount.toLocaleString("en-US")}
                 </div>
                 <div className="hidden sm:block text-right text-xs tabular-nums text-text-secondary">
-                  {p.repostCount.toLocaleString()}
+                  {p.repostCount.toLocaleString("en-US")}
                 </div>
                 <div className="hidden sm:block text-right text-xs tabular-nums text-text-secondary">
-                  {p.replyCount.toLocaleString()}
+                  {p.replyCount.toLocaleString("en-US")}
                 </div>
                 <div className="hidden sm:block text-right text-xs tabular-nums text-text-tertiary">
                   {formatAgeHours(p.ageHours)}
@@ -615,17 +615,17 @@ function DevtoTabBody() {
         />
         <StatTile
           label="ARTICLES SCANNED"
-          value={articlesScanned.toLocaleString()}
+          value={articlesScanned.toLocaleString("en-US")}
           hint={`${file.windowDays}d window`}
         />
         <StatTile
           label="REPOS LINKED"
-          value={reposLinked.toLocaleString()}
+          value={reposLinked.toLocaleString("en-US")}
           hint="github mentions 7d"
         />
         <StatTile
           label="DISCOVERY"
-          value={sliceCount.toLocaleString()}
+          value={sliceCount.toLocaleString("en-US")}
           hint={
             sliceCount > 0
               ? `${tagCount} tags + rising/fresh`
@@ -667,14 +667,14 @@ function DevtoTabBody() {
                   title={article.author}
                 >
                   @{article.author}
-                  <span className="sm:hidden">{` · ${article.comments.toLocaleString()} cmts · ${article.readingTime}m · ${formatAgeHours(article.hoursSincePosted)}`}</span>
+                  <span className="sm:hidden">{` · ${article.comments.toLocaleString("en-US")} cmts · ${article.readingTime}m · ${formatAgeHours(article.hoursSincePosted)}`}</span>
                 </span>
               </div>
               <div className="text-right text-xs tabular-nums text-text-secondary">
-                {article.reactions.toLocaleString()}
+                {article.reactions.toLocaleString("en-US")}
               </div>
               <div className="hidden sm:block text-right text-xs tabular-nums text-text-secondary">
-                {article.comments.toLocaleString()}
+                {article.comments.toLocaleString("en-US")}
               </div>
               <div className="hidden sm:block text-right text-xs tabular-nums text-text-tertiary">
                 {`${article.readingTime}m`}
@@ -734,17 +734,17 @@ function ProductHuntTabBody({ launches }: { launches: Launch[] }) {
         />
         <StatTile
           label="LAUNCHES TRACKED"
-          value={allLaunches.length.toLocaleString()}
+          value={allLaunches.length.toLocaleString("en-US")}
           hint={`${file.windowDays}d window`}
         />
         <StatTile
           label="TOTAL VOTES"
-          value={totalVotes.toLocaleString()}
+          value={totalVotes.toLocaleString("en-US")}
           hint="across all launches"
         />
         <StatTile
           label="REPOS LINKED"
-          value={linkedRepos.toLocaleString()}
+          value={linkedRepos.toLocaleString("en-US")}
           hint="github links resolved"
         />
       </section>
@@ -789,17 +789,17 @@ function ProductHuntTabBody({ launches }: { launches: Launch[] }) {
                   </a>
                   <LaunchLinkIcons launch={l} />
                   <span className="sm:hidden text-[10px] text-text-tertiary tabular-nums">
-                    {`${l.commentsCount.toLocaleString()} cmts · ${l.daysSinceLaunch}d · ${launchDate}`}
+                    {`${l.commentsCount.toLocaleString("en-US")} cmts · ${l.daysSinceLaunch}d · ${launchDate}`}
                   </span>
                 </div>
                 <div
                   className="text-right text-xs tabular-nums"
                   style={isHigh ? { color: PH_RED } : undefined}
                 >
-                  {l.votesCount.toLocaleString()}
+                  {l.votesCount.toLocaleString("en-US")}
                 </div>
                 <div className="hidden sm:block text-right text-xs tabular-nums text-text-secondary">
-                  {l.commentsCount.toLocaleString()}
+                  {l.commentsCount.toLocaleString("en-US")}
                 </div>
                 <div className="hidden sm:block text-right text-xs tabular-nums text-text-tertiary">
                   {`${l.daysSinceLaunch}d`}
@@ -873,17 +873,17 @@ function LobstersTabBody({ stories }: { stories: LobstersStory[] }) {
         />
         <StatTile
           label="STORIES TRACKED"
-          value={allStories.length.toLocaleString()}
+          value={allStories.length.toLocaleString("en-US")}
           hint={`${file.windowHours}h window`}
         />
         <StatTile
           label="GITHUB STORIES"
-          value={linkedStories.toLocaleString()}
+          value={linkedStories.toLocaleString("en-US")}
           hint="tracked repo links"
         />
         <StatTile
           label="REPOS LINKED"
-          value={reposLinked.toLocaleString()}
+          value={reposLinked.toLocaleString("en-US")}
           hint="mentions 7d"
         />
       </section>
@@ -929,17 +929,17 @@ function LobstersTabBody({ stories }: { stories: LobstersStory[] }) {
                     </Link>
                   ) : null}
                   <span className="sm:hidden text-[10px] text-text-tertiary tabular-nums">
-                    {`${s.commentCount.toLocaleString()} cmts · ${formatAgeHours(s.ageHours)}`}
+                    {`${s.commentCount.toLocaleString("en-US")} cmts · ${formatAgeHours(s.ageHours)}`}
                   </span>
                 </div>
                 <div
                   className="text-right text-xs tabular-nums"
                   style={isHigh ? { color: "#ac130d" } : undefined}
                 >
-                  {s.score.toLocaleString()}
+                  {s.score.toLocaleString("en-US")}
                 </div>
                 <div className="hidden sm:block text-right text-xs tabular-nums text-text-secondary">
-                  {s.commentCount.toLocaleString()}
+                  {s.commentCount.toLocaleString("en-US")}
                 </div>
                 <div className="hidden sm:block text-right text-xs tabular-nums text-text-tertiary">
                   {formatAgeHours(s.ageHours)}

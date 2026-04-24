@@ -109,17 +109,17 @@ export default async function BreakoutsPage({
         <section className="mb-6 grid grid-cols-2 md:grid-cols-4 gap-3">
           <StatTile
             label="TOTAL FIRING"
-            value={totalFiring.toLocaleString()}
+            value={totalFiring.toLocaleString("en-US")}
             hint=">=1 channel active"
           />
           <StatTile
             label="MULTI-CHANNEL"
-            value={multiChannel.toLocaleString()}
+            value={multiChannel.toLocaleString("en-US")}
             hint=">=2 channels firing"
           />
           <StatTile
             label="ALL THREE"
-            value={allThree.toLocaleString()}
+            value={allThree.toLocaleString("en-US")}
             hint="github + reddit + hn"
           />
           <StatTile

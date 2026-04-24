@@ -38,7 +38,7 @@ export function ContributorGrid({
             href={`https://github.com/${c.login}`}
             target="_blank"
             rel="noopener noreferrer"
-            title={`${c.login} — ${c.contributions.toLocaleString()} contributions`}
+            title={`${c.login} — ${c.contributions.toLocaleString("en-US")} contributions`}
             className="group relative block size-8 overflow-hidden rounded-full border border-border-primary hover:border-brand transition-colors"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}

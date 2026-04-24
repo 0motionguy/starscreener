@@ -321,7 +321,7 @@ function ModerationRow({
               </span>
             </Field>
             <Field label="Customers">
-              {typeof row.customers === "number" ? row.customers.toLocaleString() : "-"}
+              {typeof row.customers === "number" ? row.customers.toLocaleString("en-US") : "-"}
             </Field>
             <Field label="Provider">{row.paymentProvider ?? "-"}</Field>
             {row.proofUrl ? (

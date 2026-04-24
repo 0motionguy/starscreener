@@ -102,7 +102,7 @@ function normalizeAmount(
   } else if (amount >= 1_000) {
     display = `$${(amount / 1_000).toFixed(0)}K`;
   } else {
-    display = `$${amount.toLocaleString()}`;
+    display = `$${amount.toLocaleString("en-US")}`;
   }
 
   return { amount, display };

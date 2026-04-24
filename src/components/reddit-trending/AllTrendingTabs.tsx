@@ -665,7 +665,7 @@ function SubredditGroupView({
             </span>
             <span className="text-[11px] text-text-tertiary font-mono">
               {g.breakouts > 0 ? `${g.breakouts} breakout · ` : ""}
-              Σ trending {Math.round(g.trendingScoreSum).toLocaleString()}
+              Σ trending {Math.round(g.trendingScoreSum).toLocaleString("en-US")}
             </span>
           </div>
           <ul className="p-3 space-y-2">

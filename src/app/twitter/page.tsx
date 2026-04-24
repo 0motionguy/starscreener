@@ -309,16 +309,16 @@ export default async function TwitterPage({
           />
           <Stat
             label="Repos with buzz"
-            value={stats.reposWithMentions.toLocaleString()}
+            value={stats.reposWithMentions.toLocaleString("en-US")}
             hint={`${stats.scansStored} scans stored`}
           />
           <Stat
             label="Badged repos"
-            value={stats.badgedRepos.toLocaleString()}
+            value={stats.badgedRepos.toLocaleString("en-US")}
           />
           <Stat
             label="Breakouts"
-            value={stats.breakoutRepos.toLocaleString()}
+            value={stats.breakoutRepos.toLocaleString("en-US")}
           />
           <Stat
             label="Mentions 24h"

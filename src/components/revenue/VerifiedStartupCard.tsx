@@ -69,27 +69,44 @@ function foundedYear(iso: string | null): string | null {
 }
 
 /**
- * Growth strength bar — a single horizontal bar whose fill reflects the
- * 30-day MRR growth rate. Not a time-series sparkline (we don't have the
- * history), but gives each card a live visual signal.
- * Saturates at ±100% so extreme outliers don't blow the layout.
+ * Compact growth gauge — a tiny 7-segment bar whose filled count scales to
+ * the 30-day MRR growth rate. Lives inline with the growth chip instead of
+ * spanning the card width. No time-series (we don't have the history) but
+ * still gives each card a live visual signal without dominating the layout.
+ * Saturates at ±100% so extreme outliers don't blow the gauge.
  */
-function GrowthBar({ pct }: { pct: number | null }) {
+function GrowthGauge({ pct }: { pct: number | null }) {
   if (pct === null || !Number.isFinite(pct)) return null;
+  const SEGMENTS = 7;
   const clamped = Math.max(-100, Math.min(100, pct));
-  const widthPct = Math.abs(clamped);
+  const magnitude = Math.abs(clamped);
+  // Threshold segments by 100/SEGMENTS; at least 1 segment lit if non-zero.
+  const litCount =
+    magnitude === 0
+      ? 0
+      : Math.max(1, Math.min(SEGMENTS, Math.ceil((magnitude / 100) * SEGMENTS)));
   const isUp = clamped >= 0;
   return (
-    <div className="relative mt-1 h-1 w-full overflow-hidden rounded-full bg-bg-muted">
-      <div
-        className={`absolute top-0 h-full ${isUp ? "left-1/2 bg-up" : "right-1/2 bg-down"}`}
-        style={{ width: `${widthPct / 2}%` }}
-        aria-hidden
-      />
-      <div
-        className="absolute left-1/2 top-0 h-full w-px bg-border-primary"
-        aria-hidden
-      />
+    <div
+      className="flex items-center gap-[2px]"
+      aria-label={`Growth magnitude gauge — ${litCount} of ${SEGMENTS}`}
+    >
+      {Array.from({ length: SEGMENTS }, (_, i) => {
+        const lit = i < litCount;
+        return (
+          <span
+            key={i}
+            className={`block h-2.5 w-[3px] rounded-[1px] ${
+              lit
+                ? isUp
+                  ? "bg-up"
+                  : "bg-down"
+                : "bg-bg-muted"
+            }`}
+            aria-hidden
+          />
+        );
+      })}
     </div>
   );
 }
@@ -137,8 +154,8 @@ export function VerifiedStartupCard({
               </span>
             )}
             {startup.matchedRepoFullName ? (
-              <span className="rounded-full border border-up/50 bg-up/10 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-wider text-up">
-                tracked
+              <span className="rounded-full border border-brand/50 bg-brand/10 px-2 py-0.5 font-mono text-[9px] font-semibold uppercase tracking-wider text-brand">
+                tracked · trendingrepo
               </span>
             ) : null}
           </div>
@@ -160,7 +177,7 @@ export function VerifiedStartupCard({
             {mrr ?? "-"}
           </div>
         </div>
-        <div className="flex min-w-[88px] flex-col items-end gap-0.5">
+        <div className="flex min-w-[88px] flex-col items-end gap-1">
           <span
             className={
               "inline-flex items-center gap-1 font-mono text-sm font-semibold tabular-nums " +
@@ -178,13 +195,14 @@ export function VerifiedStartupCard({
             ) : null}
             {growth.label}
           </span>
-          <span className="font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
-            30d
-          </span>
+          <div className="flex items-center gap-1.5">
+            <GrowthGauge pct={startup.growthMrr30d} />
+            <span className="font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
+              30d
+            </span>
+          </div>
         </div>
       </div>
-
-      <GrowthBar pct={startup.growthMrr30d} />
 
       {/* Metadata strip */}
       <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-text-tertiary">

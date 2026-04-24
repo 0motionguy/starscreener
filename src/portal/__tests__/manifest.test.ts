@@ -6,7 +6,7 @@ import { strict as assert } from "node:assert";
 import { buildManifest } from "../manifest";
 import { validateManifest } from "../validate";
 
-test("buildManifest returns a v0.1-valid manifest with the 3 canonical tools", () => {
+test("buildManifest returns a v0.1-valid manifest with every registered tool", () => {
   const m = buildManifest("https://starscreener.xyz");
   const check = validateManifest(m);
   assert.equal(check.ok, true, check.errors.join("; "));
@@ -16,8 +16,22 @@ test("buildManifest returns a v0.1-valid manifest with the 3 canonical tools", (
   assert.equal(m.auth, "none");
   assert.equal(m.pricing.model, "free");
 
+  // The manifest is registry-driven (see src/tools/index.ts). The
+  // assertion below pins the current set so adding a tool requires
+  // consciously updating this test — drift would silently ship
+  // agent-visible surfaces otherwise.
   const names = m.tools.map((t) => t.name).sort();
-  assert.deepEqual(names, ["maintainer_profile", "search_repos", "top_gainers"]);
+  assert.deepEqual(names, [
+    "get_idea",
+    "list_ideas",
+    "maintainer_profile",
+    "predict_repo",
+    "react_to",
+    "search_repos",
+    "submit_idea",
+    "top_gainers",
+    "top_reactions",
+  ]);
 });
 
 test("buildManifest strips a trailing slash from the base URL", () => {

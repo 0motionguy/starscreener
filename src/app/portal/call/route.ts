@@ -12,6 +12,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 
+import { verifyInternalAgentAuth } from "@/lib/api/auth";
 import { pipeline } from "@/lib/pipeline/pipeline";
 import { dispatchCall } from "@/portal/dispatcher";
 import { consumeToken } from "@/portal/rate-limit";
@@ -79,7 +80,13 @@ export async function POST(req: NextRequest): Promise<Response> {
   // Idempotent; concurrent calls share one in-flight promise.
   await pipeline.ensureReady();
 
-  const envelope = await dispatchCall(body);
+  // Resolve the caller's auth principal once and thread it into the
+  // dispatcher. `principal` is undefined for anonymous read-only calls;
+  // write tools throw AuthError when they see no principal.
+  const auth = verifyInternalAgentAuth(req);
+  const principal = auth.kind === "ok" ? auth.principal : undefined;
+
+  const envelope = await dispatchCall(body, { principal });
   return NextResponse.json(envelope, {
     status: 200,
     headers: corsHeaders(req),

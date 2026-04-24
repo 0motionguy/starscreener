@@ -22,6 +22,19 @@ export class NotFoundError extends Error {
   }
 }
 
+/**
+ * Thrown by handlers that require an authenticated principal (the
+ * write-side tools like submit_idea / react_to). The dispatcher maps
+ * AuthError to UNAUTHORIZED. Read-side tools never throw this.
+ */
+export class AuthError extends Error {
+  readonly code = "UNAUTHORIZED" as const;
+  constructor(message: string) {
+    super(message);
+    this.name = "AuthError";
+  }
+}
+
 export type ToolErrorCode =
   | "NOT_FOUND"
   | "INVALID_PARAMS"

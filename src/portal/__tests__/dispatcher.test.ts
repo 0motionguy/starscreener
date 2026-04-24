@@ -1,7 +1,18 @@
 // StarScreener — Portal /portal/call dispatcher tests.
 
+import { mkdtempSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { beforeEach, test } from "node:test";
 import { strict as assert } from "node:assert";
+
+// Isolate file-backed stores BEFORE importing anything that touches
+// them. Without this, running the dispatcher suite in the same process
+// as other suites (or even against a polluted .data/ dir) lets prior
+// state leak into reaction-toggle assertions below.
+process.env.STARSCREENER_DATA_DIR = mkdtempSync(
+  join(tmpdir(), "starscreener-dispatcher-"),
+);
 
 import { dispatchCall } from "../dispatcher";
 import {
@@ -83,4 +94,37 @@ test("dispatchCall treats missing params as {}", async () => {
   seedRepos([makeRepo({ id: "a--one", starsDelta7d: 5 })]);
   const env = await dispatchCall({ tool: "top_gainers" });
   assert.equal(env.ok, true);
+});
+
+test("dispatchCall surfaces AuthError as UNAUTHORIZED for write tools without a principal", async () => {
+  const env = await dispatchCall({
+    tool: "submit_idea",
+    params: {
+      title: "Agent without auth",
+      pitch: "A pitch long enough to satisfy the composer minimum length.",
+    },
+  });
+  assert.equal(env.ok, false);
+  if (!env.ok) {
+    assert.equal(env.code, "UNAUTHORIZED");
+  }
+});
+
+test("dispatchCall forwards the principal into write-tool handlers", async () => {
+  const env = await dispatchCall(
+    {
+      tool: "react_to",
+      params: {
+        objectType: "repo",
+        objectId: "vercel/next.js",
+        reactionType: "build",
+      },
+    },
+    { principal: "claude" },
+  );
+  assert.equal(env.ok, true);
+  if (env.ok) {
+    const result = env.result as { toggled: string };
+    assert.equal(result.toggled, "added");
+  }
 });

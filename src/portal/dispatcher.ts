@@ -2,11 +2,20 @@
 //
 // Maps a { tool, params } request to one of the registered tool handlers
 // and wraps the result in the v0.1 envelope. ParamError -> INVALID_PARAMS,
-// NotFoundError -> NOT_FOUND, any other throw -> INTERNAL, unknown tool ->
-// NOT_FOUND. No auth layer here; rate limits and auth are enforced by the
-// route handler before this function is called.
+// NotFoundError -> NOT_FOUND, AuthError -> UNAUTHORIZED, any other throw
+// -> INTERNAL, unknown tool -> NOT_FOUND. The route handler enforces
+// rate limits before calling here and resolves the caller's auth
+// principal (from x-api-key / INTERNAL_AGENT_TOKENS_JSON) via the
+// `ctx.principal` pass-through — write tools throw AuthError when it's
+// absent.
 
-import { NotFoundError, ParamError, TOOLS_BY_NAME } from "../tools";
+import {
+  AuthError,
+  NotFoundError,
+  ParamError,
+  TOOLS_BY_NAME,
+  type ToolCallContext,
+} from "../tools";
 
 export interface CallSuccess<T = unknown> {
   ok: true;
@@ -16,13 +25,14 @@ export interface CallSuccess<T = unknown> {
 export interface CallFailure {
   ok: false;
   error: string;
-  code: "NOT_FOUND" | "INVALID_PARAMS" | "INTERNAL";
+  code: "NOT_FOUND" | "INVALID_PARAMS" | "INTERNAL" | "UNAUTHORIZED";
 }
 
 export type CallEnvelope = CallSuccess | CallFailure;
 
 export async function dispatchCall(
   body: unknown,
+  ctx: ToolCallContext = {},
 ): Promise<CallEnvelope> {
   // Body shape: { tool: string, params?: object }
   if (body === null || typeof body !== "object") {
@@ -54,7 +64,7 @@ export async function dispatchCall(
   const params = b.params ?? {};
 
   try {
-    const result = await Promise.resolve(tool.handler(params));
+    const result = await Promise.resolve(tool.handler(params, ctx));
     return { ok: true, result };
   } catch (err) {
     if (err instanceof ParamError) {
@@ -62,6 +72,9 @@ export async function dispatchCall(
     }
     if (err instanceof NotFoundError) {
       return { ok: false, error: err.message, code: "NOT_FOUND" };
+    }
+    if (err instanceof AuthError) {
+      return { ok: false, error: err.message, code: "UNAUTHORIZED" };
     }
     const message =
       err instanceof Error ? err.message : String(err ?? "unknown error");

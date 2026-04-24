@@ -525,6 +525,46 @@ export const fundingRounds: TableDescriptor = {
 };
 
 /**
+ * Repo trajectory predictions — recorded so we can score the model
+ * against actuals over time (calibration). Insert-only; one row per
+ * (repo, horizon, modelVersion, generatedAt).
+ *
+ * Today the predictions are computed on demand at /api/predict. This
+ * descriptor sits ready for the calibration cron (P2) that will run
+ * weekly, snapshot the prediction set, and later compare each row to
+ * the repo's actual stars at generatedAt + horizonDays. Without this
+ * record table, a model upgrade silently invalidates calibration math.
+ *
+ * Inputs are stored as JSONB so a model upgrade adding new features
+ * doesn't require a migration. modelVersion is the disambiguator —
+ * calibration scores bucket by it so a v1→v2 swap doesn't poison the
+ * historical accuracy curve.
+ */
+export const predictions: TableDescriptor = {
+  name: "predictions",
+  columns: [
+    { name: "id", type: "text", primaryKey: true },
+    { name: "repo_full_name", type: "text", notNull: true },
+    { name: "horizon_days", type: "integer", notNull: true },
+    { name: "point_estimate", type: "integer", notNull: true },
+    { name: "low_p10", type: "integer", notNull: true },
+    { name: "high_p90", type: "integer", notNull: true },
+    { name: "model_version", type: "text", notNull: true },
+    { name: "generated_at", type: "timestamp", notNull: true },
+    { name: "inputs", type: "jsonb", notNull: true },
+    // Filled in by the calibration cron once generatedAt + horizon
+    // is in the past — null until then.
+    { name: "actual_stars_at_horizon", type: "integer" },
+    { name: "scored_at", type: "timestamp" },
+  ],
+  indices: [
+    { name: "predictions_repo_idx", columns: ["repo_full_name"] },
+    { name: "predictions_generated_idx", columns: ["generated_at"] },
+    { name: "predictions_model_idx", columns: ["model_version"] },
+  ],
+};
+
+/**
  * User-submitted ideas — "what should be built." The new content type
  * that anchors the social layer. Ideas can target one or more existing
  * repos (e.g. "an MCP wrapper for X") or stand alone.
@@ -679,4 +719,5 @@ export const schema: TableDescriptor[] = [
   watchlist,
   reactions,
   ideas,
+  predictions,
 ];

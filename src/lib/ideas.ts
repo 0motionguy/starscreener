@@ -27,6 +27,7 @@ import {
   readJsonlFile,
 } from "@/lib/pipeline/storage/file-persistence";
 import { normalizeRepoReference } from "@/lib/repo-submissions";
+import { autoPostIdeaIfEligible } from "@/lib/twitter/outbound/idea-publisher";
 
 export const IDEAS_FILE = "ideas.jsonl";
 
@@ -411,7 +412,10 @@ export async function createIdea(
     throw new Error("authorHandle must be a non-empty string");
   }
 
-  let result: CreateIdeaResult | null = null;
+  // Single-element holder instead of a closure-captured `let`. TS's
+  // control-flow narrowing on closure-assigned `let` gets confused
+  // after an await; a mutable object reference sidesteps that.
+  const holder: { value: CreateIdeaResult | null } = { value: null };
   const now = new Date().toISOString();
 
   await mutateJsonlFile<IdeaRecord>(IDEAS_FILE, (current) => {
@@ -426,7 +430,7 @@ export async function createIdea(
         r.title.toLowerCase() === lowered,
     );
     if (duplicate) {
-      result = { kind: "duplicate", existing: duplicate };
+      holder.value = { kind: "duplicate", existing: duplicate };
       return current;
     }
 
@@ -461,15 +465,30 @@ export async function createIdea(
       approvedAutomatically: autoApproved,
     };
 
-    result = autoApproved
+    holder.value = autoApproved
       ? { kind: "published", record }
       : { kind: "queued", record };
     return [...current, record];
   });
 
+  const result = holder.value;
   if (!result) {
     throw new Error("createIdea transaction did not produce a result");
   }
+
+  // If the gate auto-published this idea, fire the auto-post hook
+  // outside the transaction. Same failure-isolation rules as
+  // moderateIdea — Twitter can't fail a successful post intake.
+  if (result.kind === "published") {
+    const finalRecord = result.record;
+    void autoPostIdeaIfEligible({
+      idea: toPublicIdea(finalRecord),
+      authorId: finalRecord.authorId,
+      beforeStatus: "",
+      afterStatus: finalRecord.status,
+    }).catch(() => undefined);
+  }
+
   return result;
 }
 
@@ -480,6 +499,11 @@ export type ModerateIdeaAction = "approve" | "reject";
  * (e.g. an admin re-approving a published idea is a no-op apart from
  * a refreshed moderatedAt). The transition rejected→approved is
  * deliberately allowed so reviewers can correct mistakes.
+ *
+ * Fires the idea-published auto-post hook AFTER the storage mutation
+ * commits. The hook is failure-isolated (never throws back here) and
+ * idempotent (re-approves don't re-post). See
+ * src/lib/twitter/outbound/idea-publisher.ts.
  */
 export async function moderateIdea(input: {
   id: string;
@@ -487,6 +511,7 @@ export async function moderateIdea(input: {
   moderationNote?: string | null;
 }): Promise<IdeaRecord> {
   let updated: IdeaRecord | null = null;
+  let beforeStatus: IdeaStatus | null = null;
   const now = new Date().toISOString();
 
   await mutateJsonlFile<IdeaRecord>(IDEAS_FILE, (current) => {
@@ -495,6 +520,7 @@ export async function moderateIdea(input: {
       throw new Error(`idea not found: ${input.id}`);
     }
     const before = current[idx]!;
+    beforeStatus = before.status;
     const status: IdeaStatus =
       input.action === "approve" ? "published" : "rejected";
     updated = {
@@ -511,9 +537,23 @@ export async function moderateIdea(input: {
     return next;
   });
 
-  if (!updated) {
+  if (!updated || !beforeStatus) {
     throw new Error(`moderateIdea returned no updated row for ${input.id}`);
   }
+
+  // Fire-and-forget auto-post. Failures in Twitter (or a missing
+  // token in prod) MUST NOT surface to the admin as a moderation
+  // error — the moderation decision already persisted above. The
+  // hook writes its own audit row for observability.
+  const finalRecord: IdeaRecord = updated;
+  const priorStatus: IdeaStatus = beforeStatus;
+  void autoPostIdeaIfEligible({
+    idea: toPublicIdea(finalRecord),
+    authorId: finalRecord.authorId,
+    beforeStatus: priorStatus,
+    afterStatus: finalRecord.status,
+  }).catch(() => undefined);
+
   return updated;
 }
 

@@ -10,6 +10,13 @@ on:
       dry_run:
         description: 'Dry run'
         default: 'false'
+
+# Required so the auto-commit step (`git push`) can write data/funding-news.json
+# back to main. Without this the scraper runs + produces fresh signal but the
+# final push gets `403 denied to github-actions[bot]`.
+permissions:
+  contents: write
+
 jobs:
   collect:
     runs-on: ubuntu-latest

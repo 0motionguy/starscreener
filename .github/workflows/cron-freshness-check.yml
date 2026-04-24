@@ -1,0 +1,56 @@
+name: Cron - freshness check
+
+# Cheap GET /api/health probe every 15 min UTC to detect cold-start
+# regressions and freshness drops between ingest runs. No auth needed:
+# the route is an unauthenticated uptime probe. If `status` is anything
+# other than "ok" the step fails so Actions email/ops dashboards light
+# up before a user notices stale data.
+#
+# Required repo config:
+#   vars.STARSCREENER_URL   — optional; defaults to prod URL
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"  # UTC, every 15 min
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cron-freshness-check
+  cancel-in-progress: false
+
+env:
+  BASE_URL: ${{ vars.STARSCREENER_URL || 'https://trendingrepo.com' }}
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: GET /api/health
+        run: |
+          code=$(curl -sS -o /tmp/out -w "%{http_code}" \
+            "$BASE_URL/api/health")
+          echo "HTTP $code"
+          if command -v jq >/dev/null 2>&1 && jq . /tmp/out >/dev/null 2>&1; then
+            jq . /tmp/out | head -c 2000
+          else
+            head -c 2000 /tmp/out
+          fi
+          echo
+          if [ "$code" != "200" ]; then
+            echo "::error::health probe failed ($code)"
+            exit 1
+          fi
+          # Fail if body.status != "ok" so "stale" / "error" surface as
+          # red workflow runs, not silent passes.
+          if command -v jq >/dev/null 2>&1; then
+            status=$(jq -r '.status // "missing"' /tmp/out)
+            echo "status=$status"
+            if [ "$status" != "ok" ]; then
+              echo "::error::health status is '$status' (expected 'ok')"
+              exit 1
+            fi
+          fi

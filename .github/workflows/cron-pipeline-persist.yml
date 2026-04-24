@@ -1,0 +1,54 @@
+name: Cron - pipeline persist
+
+# Fires POST /api/pipeline/persist every 6h at :30 past UTC. Flushes
+# in-memory pipeline stores to disk. :30 offsets off the :15 ingest
+# cadence so persist never races a running ingest batch.
+#
+# Required repo config:
+#   secrets.CRON_SECRET     — must match server CRON_SECRET env
+#   vars.STARSCREENER_URL   — optional; defaults to prod URL
+
+on:
+  schedule:
+    - cron: "30 */6 * * *"  # UTC, every 6h at :30 past
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cron-pipeline-persist
+  cancel-in-progress: false
+
+env:
+  BASE_URL: ${{ vars.STARSCREENER_URL || 'https://trendingrepo.com' }}
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: POST /api/pipeline/persist
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          if [ -z "$CRON_SECRET" ]; then
+            echo "::error::CRON_SECRET is unset — refusing to fire unauthenticated"
+            exit 1
+          fi
+          code=$(curl -sS -o /tmp/out -w "%{http_code}" -X POST \
+            "$BASE_URL/api/pipeline/persist" \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            -H "Content-Type: application/json" \
+            -d '{}')
+          echo "HTTP $code"
+          if command -v jq >/dev/null 2>&1 && jq . /tmp/out >/dev/null 2>&1; then
+            jq . /tmp/out | head -c 2000
+          else
+            head -c 2000 /tmp/out
+          fi
+          echo
+          if [ "$code" != "200" ]; then
+            echo "::error::pipeline/persist call failed ($code)"
+            exit 1
+          fi

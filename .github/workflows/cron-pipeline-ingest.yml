@@ -1,0 +1,58 @@
+name: Cron - pipeline ingest
+
+# Fires POST /api/pipeline/ingest on the core data-pipeline cadence.
+# Schedule: every 2h at :15 past UTC. Matches the source-health FAST
+# threshold so a missed run flips health to stale, and the :15 offset
+# staggers us away from the other pipeline crons (persist :30, cleanup
+# 04:00, rebuild Sun 05:00) to avoid a thundering herd on startup.
+#
+# Required repo config:
+#   secrets.CRON_SECRET     — must match server CRON_SECRET env
+#   vars.STARSCREENER_URL   — optional; defaults to prod URL
+#
+# Manual fire: Actions tab → "Cron - pipeline ingest" → Run workflow.
+
+on:
+  schedule:
+    - cron: "15 */2 * * *"  # UTC, every 2h at :15 past
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cron-pipeline-ingest
+  cancel-in-progress: false
+
+env:
+  BASE_URL: ${{ vars.STARSCREENER_URL || 'https://trendingrepo.com' }}
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: POST /api/pipeline/ingest
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          if [ -z "$CRON_SECRET" ]; then
+            echo "::error::CRON_SECRET is unset — refusing to fire unauthenticated"
+            exit 1
+          fi
+          code=$(curl -sS -o /tmp/out -w "%{http_code}" -X POST \
+            "$BASE_URL/api/pipeline/ingest" \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            -H "Content-Type: application/json" \
+            -d '{}')
+          echo "HTTP $code"
+          if command -v jq >/dev/null 2>&1 && jq . /tmp/out >/dev/null 2>&1; then
+            jq . /tmp/out | head -c 2000
+          else
+            head -c 2000 /tmp/out
+          fi
+          echo
+          if [ "$code" != "200" ]; then
+            echo "::error::pipeline/ingest call failed ($code)"
+            exit 1
+          fi

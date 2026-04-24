@@ -1,0 +1,56 @@
+name: Cron - pipeline cleanup
+
+# Fires POST /api/pipeline/cleanup daily at 04:00 UTC. Light table
+# maintenance — runs during the quietest global traffic window so a
+# long GC pass never fights the live UI. Scheduled 15 minutes before
+# the 04:15 ingest so the freshly-compacted tables immediately catch
+# the next ingest batch.
+#
+# Required repo config:
+#   secrets.CRON_SECRET     — must match server CRON_SECRET env
+#   vars.STARSCREENER_URL   — optional; defaults to prod URL
+
+on:
+  schedule:
+    - cron: "0 4 * * *"  # UTC, daily at 04:00
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cron-pipeline-cleanup
+  cancel-in-progress: false
+
+env:
+  BASE_URL: ${{ vars.STARSCREENER_URL || 'https://trendingrepo.com' }}
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: POST /api/pipeline/cleanup
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          if [ -z "$CRON_SECRET" ]; then
+            echo "::error::CRON_SECRET is unset — refusing to fire unauthenticated"
+            exit 1
+          fi
+          code=$(curl -sS -o /tmp/out -w "%{http_code}" -X POST \
+            "$BASE_URL/api/pipeline/cleanup" \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            -H "Content-Type: application/json" \
+            -d '{}')
+          echo "HTTP $code"
+          if command -v jq >/dev/null 2>&1 && jq . /tmp/out >/dev/null 2>&1; then
+            jq . /tmp/out | head -c 2000
+          else
+            head -c 2000 /tmp/out
+          fi
+          echo
+          if [ "$code" != "200" ]; then
+            echo "::error::pipeline/cleanup call failed ($code)"
+            exit 1
+          fi

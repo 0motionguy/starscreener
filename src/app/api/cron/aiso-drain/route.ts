@@ -30,7 +30,7 @@
 //   503 not configured
 //   500 internal (for I/O failures that crash the whole drain)
 //
-// --- scan-writer caveat (intentional, do NOT fold into unrelated work) ---
+// --- scan-writer contract (wave 6+) ---
 // The committed profile writer lives in `scripts/enrich-repo-profiles.mjs`
 // and stamps results into `data/repo-profiles.json`. That writer is a
 // standalone Node script — it re-reads trending/metadata/npm/product-hunt
@@ -38,24 +38,26 @@
 // handler would pull in 600+ lines of enrichment machinery and is out of
 // scope for this worker.
 //
-// For now this route:
+// Instead, this route uses `persistAisoScan` (src/lib/aiso-persist.ts),
+// a lightweight helper that merges a single scan into the canonical
+// `data/repo-profiles.json` under the shared per-file lock. After a
+// successful drain call:
 //   1. Pops queue rows,
-//   2. Invokes `getAisoToolsScan(websiteUrl)` (which caches the result
-//      in the in-process memoryCache inside aiso-tools.ts so a subsequent
-//      /api/repos/[o]/[n]/aiso GET within the 6h TTL sees the completed
-//      scan),
-//   3. Truncates the queue on success,
-//   4. Leaves `data/repo-profiles.json` unchanged.
+//   2. Invokes `getAisoToolsScan(websiteUrl)` (which also caches the
+//      result in the in-process memoryCache inside aiso-tools.ts),
+//   3. Persists the scan into `data/repo-profiles.json` so the result
+//      survives cold restarts and is visible to `ProjectSurfaceMap` on
+//      the next render,
+//   4. Truncates the queue on success.
 //
-// TODO(scan-writer): persist drained scan results back into the canonical
-// repo-profiles store so `ProjectSurfaceMap` sees them on the *next* page
-// render even outside the 6h cache window. Likely path: extract a
-// `persistRepoProfileScan(fullName, scan)` helper from the mjs script and
-// invoke it here after a successful scan.
+// A persist failure counts the row as FAILED (left on the queue for a
+// later retry) so we never drop data the scanner fetched but we couldn't
+// commit.
 
 import { NextRequest, NextResponse } from "next/server";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
+import { persistAisoScan } from "@/lib/aiso-persist";
 import {
   readQueue,
   truncateQueue,
@@ -261,7 +263,12 @@ async function runDrain(
     }
 
     try {
-      await scanner(row.websiteUrl);
+      const scan = await scanner(row.websiteUrl);
+      // Persist the scan (even null) into data/repo-profiles.json so the
+      // result outlives the in-process memoryCache. A persist throw is
+      // treated as a row failure — we'd rather retry than silently drop
+      // the scan result.
+      await persistAisoScan(row.repoFullName, scan);
       processedIds.add(row.id);
       for (const sib of droppedSiblings) processedIds.add(sib);
       succeeded += 1;

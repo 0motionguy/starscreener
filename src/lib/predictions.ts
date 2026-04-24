@@ -84,6 +84,14 @@ export interface PredictionRecord {
   modelVersion: string;
   generatedAt: string;
   inputs: PredictionInputsSnapshot;
+  /**
+   * Set by the calibration cron (src/app/api/cron/predictions/calibrate)
+   * once `generatedAt + horizonDays` is in the past. Undefined for rows
+   * whose horizon hasn't elapsed yet. Back-compat: readers that only
+   * know the pre-calibration shape can ignore these fields.
+   */
+  actualStarsAtHorizon?: number;
+  scoredAt?: string;
 }
 
 export type PredictionResult =

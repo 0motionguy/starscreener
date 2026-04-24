@@ -32,6 +32,14 @@ import path from "node:path";
 const TMP_DATA_DIR = mkdtempSync(path.join(os.tmpdir(), "ss-aiso-drain-"));
 process.env.STARSCREENER_DATA_DIR = TMP_DATA_DIR;
 process.env.STARSCREENER_PERSIST = "false";
+// Redirect the repo-profiles persist path into the temp tree so the
+// drain's `persistAisoScan` call doesn't touch the real
+// `data/repo-profiles.json`. Without this, running the test would
+// rewrite the committed profile file.
+process.env.STARSCREENER_REPO_PROFILES_PATH = path.join(
+  TMP_DATA_DIR,
+  "repo-profiles.json",
+);
 // CRON_SECRET present in tests so verifyCronAuth's "dev fallback" (which
 // auto-ok's when the env is unset) doesn't mask our 401 assertion.
 process.env.CRON_SECRET = "test-cron-secret-0123456789abcdef";

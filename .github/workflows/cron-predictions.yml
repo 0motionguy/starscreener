@@ -1,0 +1,56 @@
+name: Cron - predictions
+
+# Fires POST /api/cron/predictions daily at 06:00 UTC. Runs after the
+# nightly ingest/cleanup window so the top-N slate reflects the freshest
+# momentum scores. Body pins topN=300 and horizons=[7,30] which matches
+# the writer defaults explicitly (so a later default change doesn't
+# silently widen the workload).
+#
+# Required repo config:
+#   secrets.CRON_SECRET     — must match server CRON_SECRET env
+#   vars.STARSCREENER_URL   — optional; defaults to prod URL
+
+on:
+  schedule:
+    - cron: "0 6 * * *"  # UTC, daily at 06:00
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cron-predictions
+  cancel-in-progress: false
+
+env:
+  BASE_URL: ${{ vars.STARSCREENER_URL || 'https://trendingrepo.com' }}
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: POST /api/cron/predictions
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          if [ -z "$CRON_SECRET" ]; then
+            echo "::error::CRON_SECRET is unset — refusing to fire unauthenticated"
+            exit 1
+          fi
+          code=$(curl -sS -o /tmp/out -w "%{http_code}" -X POST \
+            "$BASE_URL/api/cron/predictions" \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            -H "Content-Type: application/json" \
+            -d '{"topN":300,"horizons":[7,30]}')
+          echo "HTTP $code"
+          if command -v jq >/dev/null 2>&1 && jq . /tmp/out >/dev/null 2>&1; then
+            jq . /tmp/out | head -c 2000
+          else
+            head -c 2000 /tmp/out
+          fi
+          echo
+          if [ "$code" != "200" ]; then
+            echo "::error::cron/predictions call failed ($code)"
+            exit 1
+          fi

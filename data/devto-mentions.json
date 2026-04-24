@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-04-24T10:02:22.750Z",
+  "fetchedAt": "2026-04-24T13:47:47.273Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1283,
+  "scannedArticles": 1287,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -179,7 +179,7 @@
   ],
   "sliceCounts": {
     "global-top-7d": 100,
-    "global-rising": 9,
+    "global-rising": 7,
     "global-fresh": 100,
     "tag-ai-top-7d": 100,
     "tag-artificialintelligence-top-7d": 0,
@@ -192,9 +192,9 @@
     "tag-llm-top-7d": 100,
     "tag-llms-top-7d": 11,
     "tag-mcp-top-7d": 100,
-    "tag-rag-top-7d": 67,
+    "tag-rag-top-7d": 71,
     "tag-promptengineering-top-7d": 62,
-    "tag-workflow-top-7d": 20,
+    "tag-workflow-top-7d": 19,
     "tag-workflows-top-7d": 3,
     "tag-automation-top-7d": 100,
     "tag-cli-top-7d": 100,
@@ -206,17 +206,17 @@
   },
   "mentions": {
     "openclaw/openclaw": {
-      "count7d": 5,
-      "reactionsSum7d": 64,
-      "commentsSum7d": 16,
+      "count7d": 4,
+      "reactionsSum7d": 63,
+      "commentsSum7d": 17,
       "topArticle": {
         "id": 3528702,
         "title": "Unpopular Opinion: Do not use OpenClaw...not yet.",
         "url": "https://dev.to/francistrdev/unpopular-opinion-do-not-use-openclawnot-yet-5foe",
         "author": "francistrdev",
-        "reactions": 60,
-        "comments": 16,
-        "hoursSincePosted": 58.4,
+        "reactions": 61,
+        "comments": 17,
+        "hoursSincePosted": 62.2,
         "readingTime": 8
       },
       "articles": [
@@ -230,8 +230,8 @@
             "name": "FrancisTRᴅᴇᴠ (っ◔◡◔)っ",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3711376%2F746cce1f-2c09-40fc-9742-387af1855b6d.gif"
           },
-          "reactionsCount": 60,
-          "commentsCount": 16,
+          "reactionsCount": 61,
+          "commentsCount": 17,
           "readingTime": 8,
           "publishedAt": "2026-04-21T23:35:31Z",
           "tags": [
@@ -240,7 +240,7 @@
             "discuss",
             "ai"
           ],
-          "trendingScore": 4.75,
+          "trendingScore": 4.73,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
@@ -273,34 +273,6 @@
             {
               "fullName": "openclaw/openclaw",
               "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3515175,
-          "title": "How I Run OpenClaw in Production: 3 Months of Lessons Running an Autonomous AI Agent",
-          "description": "How I Run OpenClaw in Production: 3 Months of Lessons Running an Autonomous AI Agent   Three...",
-          "url": "https://dev.to/armorbreak/how-i-built-an-autonomous-ai-agent-that-pays-for-its-own-server-a-real-world-openclaw-story-2e4p",
-          "author": {
-            "username": "armorbreak",
-            "name": "Armor Break",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3874823%2Faec029fe-0052-469f-93b2-ab6be7c52232.png"
-          },
-          "reactionsCount": 2,
-          "commentsCount": 0,
-          "readingTime": 5,
-          "publishedAt": "2026-04-17T11:02:03Z",
-          "tags": [
-            "openclawchallenge",
-            "openclaw",
-            "devchallenge",
-            "opensource"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "openclaw/openclaw",
-              "location": "tag"
             }
           ]
         },
@@ -373,7 +345,7 @@
         "author": "lovestaco",
         "reactions": 21,
         "comments": 1,
-        "hoursSincePosted": 53.3,
+        "hoursSincePosted": 57.1,
         "readingTime": 4
       },
       "articles": [
@@ -397,7 +369,7 @@
             "database",
             "architecture"
           ],
-          "trendingScore": 0.57,
+          "trendingScore": 0.54,
           "linkedRepos": [
             {
               "fullName": "HexmosTech/git-lrc",
@@ -407,45 +379,87 @@
         }
       ]
     },
-    "ggml-org/llama.cpp": {
+    "Open-Dev-Society/OpenStock": {
       "count7d": 1,
-      "reactionsSum7d": 1,
+      "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3543793,
-        "title": "We ran Qwen3.6-27B on $800 of consumer GPUs, day one: llama.cpp vs vLLM",
-        "url": "https://dev.to/defilan/we-ran-qwen36-27b-on-800-of-consumer-gpus-day-one-llamacpp-vs-vllm-mg1",
-        "author": "defilan",
-        "reactions": 1,
+        "id": 3544611,
+        "title": "openstock",
+        "url": "https://dev.to/classccai/openstock-2mn3",
+        "author": "classccai",
+        "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 6.9,
-        "readingTime": 15
+        "hoursSincePosted": 7.1,
+        "readingTime": 8
       },
       "articles": [
         {
-          "id": 3543793,
-          "title": "We ran Qwen3.6-27B on $800 of consumer GPUs, day one: llama.cpp vs vLLM",
-          "description": "A Kubernetes-native bake-off on 2× RTX 5060 Ti, with reproducible manifests and a cost-per-token number neither cloud nor OSS FinOps tools will tell you.",
-          "url": "https://dev.to/defilan/we-ran-qwen36-27b-on-800-of-consumer-gpus-day-one-llamacpp-vs-vllm-mg1",
+          "id": 3544611,
+          "title": "openstock",
+          "description": "OpenStock is an open-source alternative to expensive market platforms. Track real-time prices, set...",
+          "url": "https://dev.to/classccai/openstock-2mn3",
           "author": {
-            "username": "defilan",
-            "name": "Christopher Maher",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3828578%2Fd03de6fc-1dcb-419b-b336-0d9c7d86f7cc.jpeg"
+            "username": "classccai",
+            "name": "classccai",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3895281%2Fba7f488e-305e-4198-bf7b-f48cb1967e67.png"
           },
-          "reactionsCount": 1,
+          "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 15,
-          "publishedAt": "2026-04-24T03:06:36Z",
+          "readingTime": 8,
+          "publishedAt": "2026-04-24T06:40:09Z",
           "tags": [
-            "kubernetes",
-            "ai",
-            "llm",
-            "opensource"
+            "openstock"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "ggml-org/llama.cpp",
+              "fullName": "Open-Dev-Society/OpenStock",
+              "location": "tag"
+            }
+          ]
+        }
+      ]
+    },
+    "vercel-labs/agent-browser": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3544901,
+        "title": "I Stopped Using Playwright. Here's What Replaced It.",
+        "url": "https://dev.to/arnaldo_delisio_5e35889d/i-stopped-using-playwright-heres-what-replaced-it-48mo",
+        "author": "arnaldo_delisio_5e35889d",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 5.6,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3544901,
+          "title": "I Stopped Using Playwright. Here's What Replaced It.",
+          "description": "I stopped writing Playwright tests for integration flows. Not because they stopped working — they...",
+          "url": "https://dev.to/arnaldo_delisio_5e35889d/i-stopped-using-playwright-heres-what-replaced-it-48mo",
+          "author": {
+            "username": "arnaldo_delisio_5e35889d",
+            "name": "Arnaldo De Lisio",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2619146%2F5a015b13-2ab4-4788-aae7-c7b7f256c1bf.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-04-24T08:13:27Z",
+          "tags": [
+            "claudecode",
+            "testing",
+            "ai",
+            "webdev"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "vercel-labs/agent-browser",
               "location": "body"
             }
           ]
@@ -463,7 +477,7 @@
         "author": "reneza",
         "reactions": 7,
         "comments": 0,
-        "hoursSincePosted": 29.9,
+        "hoursSincePosted": 33.7,
         "readingTime": 3
       },
       "articles": [
@@ -487,7 +501,7 @@
             "productivity",
             "tutorial"
           ],
-          "trendingScore": 0.2,
+          "trendingScore": 0.18,
           "linkedRepos": [
             {
               "fullName": "forrestchang/andrej-karpathy-skills",
@@ -508,7 +522,7 @@
         "author": "creatman",
         "reactions": 2,
         "comments": 1,
-        "hoursSincePosted": 157.5,
+        "hoursSincePosted": 161.2,
         "readingTime": 5
       },
       "articles": [
@@ -580,7 +594,7 @@
         "author": "gounthar",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 50.3,
+        "hoursSincePosted": 54.1,
         "readingTime": 9
       },
       "articles": [
@@ -614,6 +628,51 @@
         }
       ]
     },
+    "MemPalace/mempalace": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3530472,
+        "title": "One Open Source Project a Day (No.44): MemPalace - The AI Memory System Built by the Star of Resident Evil",
+        "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no44-mempalace-the-ai-memory-system-built-by-the-star-of-2ceo",
+        "author": "wonderlab",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 78.5,
+        "readingTime": 8
+      },
+      "articles": [
+        {
+          "id": 3530472,
+          "title": "One Open Source Project a Day (No.44): MemPalace - The AI Memory System Built by the Star of Resident Evil",
+          "description": "Introduction    \"She survived T-virus mutants on screen. Now she's fixing AI amnesia in real...",
+          "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no44-mempalace-the-ai-memory-system-built-by-the-star-of-2ceo",
+          "author": {
+            "username": "wonderlab",
+            "name": "WonderLab",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 8,
+          "publishedAt": "2026-04-21T07:19:06Z",
+          "tags": [
+            "ai",
+            "opensource",
+            "agents",
+            "mcp"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "MemPalace/mempalace",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "anthropics/claude-plugins-official": {
       "count7d": 1,
       "reactionsSum7d": 1,
@@ -625,7 +684,7 @@
         "author": "michaeltuszynski",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 82.2,
+        "hoursSincePosted": 86,
         "readingTime": 4
       },
       "articles": [
@@ -670,7 +729,7 @@
         "author": "fisher_shenfisher_1c32",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 93.3,
+        "hoursSincePosted": 97.1,
         "readingTime": 7
       },
       "articles": [
@@ -693,6 +752,33 @@
             "productivity",
             "claude",
             "mcp"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3540767,
+          "title": "Claude Code가 Pro에서 사라진 12시간 - Anthropic의 조용한 하향과 명시적 제거 사이",
+          "description": "원문 이슈는 GitHub #42796에, 관련 보도는 The Register에서 볼 수 있다. 더 많은 글은 radarlog.kr에서.    2026년 4월 21일 오후,...",
+          "url": "https://dev.to/_53fb7c03dd741a6124e4e/claude-codega-proeseo-sarajin-12sigan-anthropicyi-joyonghan-hahyanggwa-myeongsijeog-jegeo-sai-3mfi",
+          "author": {
+            "username": "_53fb7c03dd741a6124e4e",
+            "name": "김이더",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3805054%2F1dd90bc3-aa4f-4db2-901c-4b52816158cb.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 2,
+          "publishedAt": "2026-04-23T10:14:21Z",
+          "tags": [
+            "ai",
+            "claude",
+            "claudecode"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -731,23 +817,24 @@
           ]
         },
         {
-          "id": 3540767,
-          "title": "Claude Code가 Pro에서 사라진 12시간 - Anthropic의 조용한 하향과 명시적 제거 사이",
-          "description": "원문 이슈는 GitHub #42796에, 관련 보도는 The Register에서 볼 수 있다. 더 많은 글은 radarlog.kr에서.    2026년 4월 21일 오후,...",
-          "url": "https://dev.to/_53fb7c03dd741a6124e4e/claude-codega-proeseo-sarajin-12sigan-anthropicyi-joyonghan-hahyanggwa-myeongsijeog-jegeo-sai-3mfi",
+          "id": 3535282,
+          "title": "Playing DOOM in Claude Code's Statusline (and Fighting Its Renderer to Keep It There)",
+          "description": "Playing DOOM in Claude Code's Statusline           I made DOOM run inside Claude Code. Real...",
+          "url": "https://dev.to/erkandogan/playing-doom-in-claude-codes-statusline-and-fighting-its-renderer-to-keep-it-there-3n7k",
           "author": {
-            "username": "_53fb7c03dd741a6124e4e",
-            "name": "김이더",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3805054%2F1dd90bc3-aa4f-4db2-901c-4b52816158cb.png"
+            "username": "erkandogan",
+            "name": "Erkan DOGAN",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3878898%2F23a5c83e-dd51-4d50-b525-dbb42d054e55.png"
           },
           "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 2,
-          "publishedAt": "2026-04-23T10:14:21Z",
+          "readingTime": 10,
+          "publishedAt": "2026-04-22T08:02:02Z",
           "tags": [
-            "ai",
+            "terminal",
             "claude",
-            "claudecode"
+            "ai",
+            "programming"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -776,34 +863,6 @@
             "claude",
             "monitoring",
             "showdev"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3535282,
-          "title": "Playing DOOM in Claude Code's Statusline (and Fighting Its Renderer to Keep It There)",
-          "description": "Playing DOOM in Claude Code's Statusline           I made DOOM run inside Claude Code. Real...",
-          "url": "https://dev.to/erkandogan/playing-doom-in-claude-codes-statusline-and-fighting-its-renderer-to-keep-it-there-3n7k",
-          "author": {
-            "username": "erkandogan",
-            "name": "Erkan DOGAN",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3878898%2F23a5c83e-dd51-4d50-b525-dbb42d054e55.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 10,
-          "publishedAt": "2026-04-22T08:02:02Z",
-          "tags": [
-            "terminal",
-            "claude",
-            "ai",
-            "programming"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -843,51 +902,6 @@
         }
       ]
     },
-    "vercel-labs/agent-browser": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3544901,
-        "title": "I Stopped Using Playwright. Here's What Replaced It.",
-        "url": "https://dev.to/arnaldo_delisio_5e35889d/i-stopped-using-playwright-heres-what-replaced-it-48mo",
-        "author": "arnaldo_delisio_5e35889d",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 1.8,
-        "readingTime": 3
-      },
-      "articles": [
-        {
-          "id": 3544901,
-          "title": "I Stopped Using Playwright. Here's What Replaced It.",
-          "description": "I stopped writing Playwright tests for integration flows. Not because they stopped working — they...",
-          "url": "https://dev.to/arnaldo_delisio_5e35889d/i-stopped-using-playwright-heres-what-replaced-it-48mo",
-          "author": {
-            "username": "arnaldo_delisio_5e35889d",
-            "name": "Arnaldo De Lisio",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2619146%2F5a015b13-2ab4-4788-aae7-c7b7f256c1bf.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-04-24T08:13:27Z",
-          "tags": [
-            "claudecode",
-            "testing",
-            "ai",
-            "webdev"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "vercel-labs/agent-browser",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "zilliztech/claude-context": {
       "count7d": 2,
       "reactionsSum7d": 0,
@@ -899,7 +913,7 @@
         "author": "ramunarasinga-11",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 90.5,
+        "hoursSincePosted": 94.3,
         "readingTime": 3
       },
       "articles": [
@@ -980,7 +994,7 @@
         "author": "hyhmrright",
         "reactions": 1,
         "comments": 1,
-        "hoursSincePosted": 67.2,
+        "hoursSincePosted": 70.9,
         "readingTime": 3
       },
       "articles": [
@@ -1025,7 +1039,7 @@
         "author": "_cbd692d476c5faf3b61bcf",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 72.5,
+        "hoursSincePosted": 76.2,
         "readingTime": 3
       },
       "articles": [
@@ -1053,63 +1067,6 @@
           "linkedRepos": [
             {
               "fullName": "thedotmack/claude-mem",
-              "location": "body"
-            },
-            {
-              "fullName": "coleam00/Archon",
-              "location": "body"
-            },
-            {
-              "fullName": "topoteretes/cognee",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "coleam00/Archon": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3531117,
-        "title": "你的 Claude Code 为什么总是不够聪明? -- Context Engineering 的 7 个进阶技巧",
-        "url": "https://dev.to/_cbd692d476c5faf3b61bcf/ni-de-claude-code-wei-shi-yao-zong-shi-bu-gou-cong-ming-context-engineering-de-7-ge-jin-jie-ji-qiao-1ep5",
-        "author": "_cbd692d476c5faf3b61bcf",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 72.5,
-        "readingTime": 3
-      },
-      "articles": [
-        {
-          "id": 3531117,
-          "title": "你的 Claude Code 为什么总是不够聪明? -- Context Engineering 的 7 个进阶技巧",
-          "description": "引言   我见过太多人装了 Claude Code，却只用来「帮我写个函数」「解释下这段代码」——然后抱怨 AI 编程是智商税。但真正的高手早就换了一套玩法：Context...",
-          "url": "https://dev.to/_cbd692d476c5faf3b61bcf/ni-de-claude-code-wei-shi-yao-zong-shi-bu-gou-cong-ming-context-engineering-de-7-ge-jin-jie-ji-qiao-1ep5",
-          "author": {
-            "username": "_cbd692d476c5faf3b61bcf",
-            "name": "韩",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3887968%2F282c87b1-7364-49c1-bfdb-fbfab6c1f3bc.jpeg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-04-21T09:33:29Z",
-          "tags": [
-            "claude",
-            "productivity",
-            "programming",
-            "promptengineering"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "thedotmack/claude-mem",
-              "location": "body"
-            },
-            {
-              "fullName": "coleam00/Archon",
               "location": "body"
             },
             {
@@ -1131,7 +1088,7 @@
         "author": "_cbd692d476c5faf3b61bcf",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 72.5,
+        "hoursSincePosted": 76.2,
         "readingTime": 3
       },
       "articles": [
@@ -1162,10 +1119,6 @@
               "location": "body"
             },
             {
-              "fullName": "coleam00/Archon",
-              "location": "body"
-            },
-            {
               "fullName": "topoteretes/cognee",
               "location": "body"
             }
@@ -1184,7 +1137,7 @@
         "author": "ganmahmud",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 171.5,
+        "hoursSincePosted": 175.3,
         "readingTime": 5
       },
       "articles": [
@@ -1229,7 +1182,7 @@
         "author": "bokuno_log",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 176.1,
+        "hoursSincePosted": 179.9,
         "readingTime": 3
       },
       "articles": [
@@ -1274,7 +1227,7 @@
         "author": "gabrielanhaia",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 143.8,
+        "hoursSincePosted": 147.5,
         "readingTime": 8
       },
       "articles": [
@@ -1355,7 +1308,7 @@
         "author": "gabrielanhaia",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 143.8,
+        "hoursSincePosted": 147.5,
         "readingTime": 8
       },
       "articles": [
@@ -1408,7 +1361,7 @@
         "author": "gabrielanhaia",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 143.8,
+        "hoursSincePosted": 147.5,
         "readingTime": 8
       },
       "articles": [
@@ -1450,6 +1403,51 @@
         }
       ]
     },
+    "ggml-org/llama.cpp": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3538895,
+        "title": "Gemma 4 VLA chạy cục bộ trên Jetson Orin Nano 8GB",
+        "url": "https://dev.to/david_chan_1994/gemma-4-vla-chay-cuc-bo-tren-jetson-orin-nano-8gb-1ng0",
+        "author": "david_chan_1994",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 33.6,
+        "readingTime": 20
+      },
+      "articles": [
+        {
+          "id": 3538895,
+          "title": "Gemma 4 VLA chạy cục bộ trên Jetson Orin Nano 8GB",
+          "description": "Tổng quan hệ thống, tối ưu và cách triển khai   Chạy một mô hình Vision-Language-Action...",
+          "url": "https://dev.to/david_chan_1994/gemma-4-vla-chay-cuc-bo-tren-jetson-orin-nano-8gb-1ng0",
+          "author": {
+            "username": "david_chan_1994",
+            "name": "David Chan",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3848717%2Fa1478b9c-a211-4b5a-be15-389083ff5b42.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 20,
+          "publishedAt": "2026-04-23T04:13:03Z",
+          "tags": [
+            "ai",
+            "google",
+            "iot",
+            "llm"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "ggml-org/llama.cpp",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "elder-plinius/CL4R1T4S": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -1461,7 +1459,7 @@
         "author": "franciscoferreiraff",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 17.4,
+        "hoursSincePosted": 21.1,
         "readingTime": 4
       },
       "articles": [
@@ -1497,16 +1495,16 @@
     },
     "garrytan/gbrain": {
       "count7d": 1,
-      "reactionsSum7d": 1,
+      "reactionsSum7d": 2,
       "commentsSum7d": 0,
       "topArticle": {
         "id": 3540010,
         "title": "One Open Source Project a Day (No.46): The Y Combinator CEO Wrote His Own AI Brain and Open-Sourced It",
         "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no46-the-y-combinator-ceo-wrote-his-own-ai-brain-and-open-sourced-2ib5",
         "author": "wonderlab",
-        "reactions": 1,
+        "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 26.2,
+        "hoursSincePosted": 29.9,
         "readingTime": 7
       },
       "articles": [
@@ -1520,7 +1518,7 @@
             "name": "WonderLab",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
           },
-          "reactionsCount": 1,
+          "reactionsCount": 2,
           "commentsCount": 0,
           "readingTime": 7,
           "publishedAt": "2026-04-23T07:51:07Z",
@@ -1530,55 +1528,10 @@
             "mcp",
             "yc"
           ],
-          "trendingScore": 0,
+          "trendingScore": 0.02,
           "linkedRepos": [
             {
               "fullName": "garrytan/gbrain",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "MemPalace/mempalace": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3530472,
-        "title": "One Open Source Project a Day (No.44): MemPalace - The AI Memory System Built by the Star of Resident Evil",
-        "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no44-mempalace-the-ai-memory-system-built-by-the-star-of-2ceo",
-        "author": "wonderlab",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 74.7,
-        "readingTime": 8
-      },
-      "articles": [
-        {
-          "id": 3530472,
-          "title": "One Open Source Project a Day (No.44): MemPalace - The AI Memory System Built by the Star of Resident Evil",
-          "description": "Introduction    \"She survived T-virus mutants on screen. Now she's fixing AI amnesia in real...",
-          "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no44-mempalace-the-ai-memory-system-built-by-the-star-of-2ceo",
-          "author": {
-            "username": "wonderlab",
-            "name": "WonderLab",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 8,
-          "publishedAt": "2026-04-21T07:19:06Z",
-          "tags": [
-            "ai",
-            "opensource",
-            "agents",
-            "mcp"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "MemPalace/mempalace",
               "location": "body"
             }
           ]
@@ -1596,7 +1549,7 @@
         "author": "kenimo49",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 69,
+        "hoursSincePosted": 72.8,
         "readingTime": 7
       },
       "articles": [
@@ -1641,7 +1594,7 @@
         "author": "wonderlab",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 128.4,
+        "hoursSincePosted": 132.1,
         "readingTime": 2
       },
       "articles": [
@@ -1686,7 +1639,7 @@
         "author": "sourcier",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 48.8,
+        "hoursSincePosted": 52.6,
         "readingTime": 5
       },
       "articles": [
@@ -1730,7 +1683,7 @@
         "author": "higorae",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 69.6,
+        "hoursSincePosted": 73.4,
         "readingTime": 4
       },
       "articles": [
@@ -1775,7 +1728,7 @@
         "author": "recca0120",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 62.3,
+        "hoursSincePosted": 66,
         "readingTime": 6
       },
       "articles": [
@@ -1820,7 +1773,7 @@
         "author": "_46ea277e677b888e0cd13",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 79.6,
+        "hoursSincePosted": 83.4,
         "readingTime": 6
       },
       "articles": [
@@ -1865,7 +1818,7 @@
         "author": "_46ea277e677b888e0cd13",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 56.5,
+        "hoursSincePosted": 60.2,
         "readingTime": 3
       },
       "articles": [
@@ -1914,7 +1867,7 @@
         "author": "_46ea277e677b888e0cd13",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 56.5,
+        "hoursSincePosted": 60.2,
         "readingTime": 3
       },
       "articles": [
@@ -1963,7 +1916,7 @@
         "author": "hamzaahmedkhan",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 50.4,
+        "hoursSincePosted": 54.2,
         "readingTime": 1
       },
       "articles": [
@@ -2008,7 +1961,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 30.4,
+        "hoursSincePosted": 34.2,
         "readingTime": 9
       },
       "articles": [
@@ -2061,7 +2014,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 30.4,
+        "hoursSincePosted": 34.2,
         "readingTime": 9
       },
       "articles": [
@@ -2102,13 +2055,111 @@
           ]
         }
       ]
+    },
+    "mnfst/awesome-free-llm-apis": {
+      "count7d": 1,
+      "reactionsSum7d": 1,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3541599,
+        "title": "7 GitHub Repos I'd Actually Use to Find Free AI APIs and No-Cost AI Tools",
+        "url": "https://dev.to/asynchronope/7-github-repos-id-actually-use-to-find-free-ai-apis-and-no-cost-ai-tools-31cn",
+        "author": "asynchronope",
+        "reactions": 1,
+        "comments": 0,
+        "hoursSincePosted": 24.7,
+        "readingTime": 4
+      },
+      "articles": [
+        {
+          "id": 3541599,
+          "title": "7 GitHub Repos I'd Actually Use to Find Free AI APIs and No-Cost AI Tools",
+          "description": "Every time I look for \"free AI,\" I run into the same problem: most lists mix permanent free APIs,...",
+          "url": "https://dev.to/asynchronope/7-github-repos-id-actually-use-to-find-free-ai-apis-and-no-cost-ai-tools-31cn",
+          "author": {
+            "username": "asynchronope",
+            "name": "Adam",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F137620%2F2b14c143-b37b-4529-9340-ae52a1e13af1.jpg"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-04-23T13:05:21Z",
+          "tags": [
+            "ai",
+            "github",
+            "api",
+            "opensource"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "mnfst/awesome-free-llm-apis",
+              "location": "body"
+            },
+            {
+              "fullName": "Alishahryar1/free-claude-code",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "Alishahryar1/free-claude-code": {
+      "count7d": 1,
+      "reactionsSum7d": 1,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3541599,
+        "title": "7 GitHub Repos I'd Actually Use to Find Free AI APIs and No-Cost AI Tools",
+        "url": "https://dev.to/asynchronope/7-github-repos-id-actually-use-to-find-free-ai-apis-and-no-cost-ai-tools-31cn",
+        "author": "asynchronope",
+        "reactions": 1,
+        "comments": 0,
+        "hoursSincePosted": 24.7,
+        "readingTime": 4
+      },
+      "articles": [
+        {
+          "id": 3541599,
+          "title": "7 GitHub Repos I'd Actually Use to Find Free AI APIs and No-Cost AI Tools",
+          "description": "Every time I look for \"free AI,\" I run into the same problem: most lists mix permanent free APIs,...",
+          "url": "https://dev.to/asynchronope/7-github-repos-id-actually-use-to-find-free-ai-apis-and-no-cost-ai-tools-31cn",
+          "author": {
+            "username": "asynchronope",
+            "name": "Adam",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F137620%2F2b14c143-b37b-4529-9340-ae52a1e13af1.jpg"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-04-23T13:05:21Z",
+          "tags": [
+            "ai",
+            "github",
+            "api",
+            "opensource"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "mnfst/awesome-free-llm-apis",
+              "location": "body"
+            },
+            {
+              "fullName": "Alishahryar1/free-claude-code",
+              "location": "body"
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
       "fullName": "openclaw/openclaw",
-      "count7d": 5,
-      "reactionsSum7d": 64
+      "count7d": 4,
+      "reactionsSum7d": 63
     },
     {
       "fullName": "HexmosTech/git-lrc",
@@ -2131,8 +2182,18 @@
       "reactionsSum7d": 2
     },
     {
+      "fullName": "garrytan/gbrain",
+      "count7d": 1,
+      "reactionsSum7d": 2
+    },
+    {
       "fullName": "anthropics/claude-code",
       "count7d": 6,
+      "reactionsSum7d": 1
+    },
+    {
+      "fullName": "Alishahryar1/free-claude-code",
+      "count7d": 1,
       "reactionsSum7d": 1
     },
     {
@@ -2141,12 +2202,7 @@
       "reactionsSum7d": 1
     },
     {
-      "fullName": "garrytan/gbrain",
-      "count7d": 1,
-      "reactionsSum7d": 1
-    },
-    {
-      "fullName": "ggml-org/llama.cpp",
+      "fullName": "mnfst/awesome-free-llm-apis",
       "count7d": 1,
       "reactionsSum7d": 1
     },
@@ -2181,11 +2237,6 @@
       "reactionsSum7d": 0
     },
     {
-      "fullName": "coleam00/Archon",
-      "count7d": 1,
-      "reactionsSum7d": 0
-    },
-    {
       "fullName": "elder-plinius/CL4R1T4S",
       "count7d": 1,
       "reactionsSum7d": 0
@@ -2197,6 +2248,11 @@
     },
     {
       "fullName": "FujiwaraChoki/MoneyPrinterV2",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
+      "fullName": "ggml-org/llama.cpp",
       "count7d": 1,
       "reactionsSum7d": 0
     },
@@ -2217,6 +2273,11 @@
     },
     {
       "fullName": "MemPalace/mempalace",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
+      "fullName": "Open-Dev-Society/OpenStock",
       "count7d": 1,
       "reactionsSum7d": 0
     },

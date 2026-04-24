@@ -507,10 +507,19 @@ export class TwitterWebProvider {
           "user-agent": USER_AGENT,
           accept: "*/*",
           "accept-language": "en-US,en;q=0.9",
+          "accept-encoding": "gzip, deflate, br, zstd",
           referer: "https://x.com/",
+          origin: "https://x.com",
           "x-twitter-active-user": "yes",
           "x-twitter-client-language": "en",
           "x-twitter-auth-type": "OAuth2Session",
+          // Browser hints — Twitter's anti-bot checks these in 2026.
+          "sec-ch-ua": '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+          "sec-ch-ua-mobile": "?0",
+          "sec-ch-ua-platform": '"Windows"',
+          "sec-fetch-dest": "empty",
+          "sec-fetch-mode": "cors",
+          "sec-fetch-site": "same-origin",
         },
       });
 

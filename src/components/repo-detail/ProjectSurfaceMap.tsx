@@ -14,9 +14,38 @@ import type { NpmPackageRow } from "@/lib/npm";
 import type { Launch } from "@/lib/producthunt";
 import type { AisoToolsDimension, AisoToolsScan } from "@/lib/aiso-tools";
 import { getRepoMetadata } from "@/lib/repo-metadata";
-import { getRepoProfile } from "@/lib/repo-profiles";
+import { getRepoProfile, type RepoProfileStatus } from "@/lib/repo-profiles";
 import { fetchGithubRepoHomepageUrl } from "@/lib/github-repo-homepage";
 import { formatNumber, getRelativeTime } from "@/lib/utils";
+import { AisoRetryButton } from "./AisoRetryButton";
+
+type AisoUiStatus =
+  | "scanned"
+  | "queued"
+  | "rate_limited"
+  | "failed"
+  | "none";
+
+function deriveAisoUiStatus(
+  scan: AisoToolsScan | null,
+  profileStatus: RepoProfileStatus | undefined,
+): AisoUiStatus {
+  if (scan?.status === "completed") return "scanned";
+  if (profileStatus === "rate_limited") return "rate_limited";
+  if (profileStatus === "scan_failed") return "failed";
+  if (scan?.status === "failed") return "failed";
+  if (profileStatus === "scan_pending" || profileStatus === "scan_running")
+    return "queued";
+  if (scan?.status === "queued" || scan?.status === "running") return "queued";
+  return "none";
+}
+
+function aisoStatusTone(status: AisoUiStatus): string {
+  if (status === "scanned") return "text-up";
+  if (status === "rate_limited" || status === "queued") return "text-warning";
+  if (status === "failed") return "text-down";
+  return "text-text-tertiary";
+}
 
 interface ProjectSurfaceMapProps {
   repo: Repo;
@@ -143,6 +172,15 @@ export async function ProjectSurfaceMap({
     .slice()
     .sort((a, b) => b.downloads7d - a.downloads7d)[0];
   const aisoScan = profile?.aisoScan ?? null;
+  const aisoUiStatus = deriveAisoUiStatus(aisoScan, profile?.status);
+  const aisoHighScore =
+    aisoScan && aisoScan.score != null && aisoScan.score > 70;
+  const aisoTopDimensions = aisoScan
+    ? [...aisoScan.dimensions]
+        .sort((a, b) => pctOfWeight(b) - pctOfWeight(a))
+        .slice(0, 3)
+    : [];
+  const [aisoOwner, aisoName] = repo.fullName.split("/");
   const agentDimension = aisoScan
     ? getDimension(aisoScan.dimensions, "agent_readiness")
     : null;
@@ -240,6 +278,73 @@ export async function ProjectSurfaceMap({
         </span>
       </header>
 
+      {aisoHighScore && aisoScan && aisoScan.score != null && (
+        <section
+          aria-label="AI discoverability (AISO)"
+          className="mb-4 rounded-md border border-up/30 bg-up/5 p-3"
+        >
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <p className="font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
+                AI discoverability
+                <span className="ml-2 text-text-tertiary">{"// AISO"}</span>
+              </p>
+              <p className="mt-1 font-mono text-3xl font-semibold text-up tabular-nums">
+                {aisoScan.score}
+                <span className="ml-1 text-sm text-text-tertiary">/100</span>
+              </p>
+              <p className="mt-1 text-[11px] text-text-tertiary">
+                Strong surface for AI agents and citation engines.
+              </p>
+            </div>
+            <a
+              href={aisoScan.resultUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 rounded-md border border-border-primary bg-bg-secondary/60 px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-text-secondary transition-colors hover:border-brand/40 hover:text-brand"
+            >
+              View report
+              <ExternalLink className="size-3" aria-hidden />
+            </a>
+          </div>
+          {aisoTopDimensions.length > 0 && (
+            <div className="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-2">
+              {aisoTopDimensions.map((dimension) => (
+                <div
+                  key={dimension.key}
+                  className="rounded-md border border-border-primary bg-bg-primary/40 px-2.5 py-2"
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="truncate text-[11px] text-text-secondary">
+                      {dimension.label}
+                    </span>
+                    <span
+                      className={`font-mono text-[11px] tabular-nums ${statusTone(dimension.status)}`}
+                    >
+                      {dimension.weight > 0
+                        ? `${dimension.score}/${dimension.weight}`
+                        : dimension.score}
+                    </span>
+                  </div>
+                  <div className="mt-1 h-1 overflow-hidden rounded-full bg-bg-secondary">
+                    <div
+                      className={
+                        dimension.status === "pass"
+                          ? "h-full rounded-full bg-up"
+                          : dimension.status === "warn"
+                            ? "h-full rounded-full bg-warning"
+                            : "h-full rounded-full bg-down"
+                      }
+                      style={{ width: `${pctOfWeight(dimension)}%` }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+      )}
+
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
         {surfaces.map((surface) => {
           const Icon = surface.icon;
@@ -298,6 +403,28 @@ export async function ProjectSurfaceMap({
         })}
       </div>
 
+      {!aisoScan && aisoUiStatus !== "scanned" && aisoUiStatus !== "none" && aisoOwner && aisoName && (
+        <div className="mt-4 flex items-center justify-between gap-3 rounded-md border border-border-primary bg-bg-secondary/60 p-3">
+          <div className="min-w-0">
+            <p className="font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
+              AISO scan
+            </p>
+            <p className={`mt-1 text-[11px] ${aisoStatusTone(aisoUiStatus)}`}>
+              {aisoUiStatus === "failed"
+                ? "Last scan failed — retry to enqueue another."
+                : aisoUiStatus === "rate_limited"
+                  ? "Rate limited upstream — retry to re-queue."
+                  : "Scan queued — refresh to check status."}
+            </p>
+          </div>
+          <AisoRetryButton
+            owner={aisoOwner}
+            name={aisoName}
+            status={aisoUiStatus}
+          />
+        </div>
+      )}
+
           {aisoScan && (
         <div className="mt-4 rounded-md border border-border-primary bg-bg-secondary/60 p-3">
           <div className="flex items-center justify-between gap-3">
@@ -311,9 +438,26 @@ export async function ProjectSurfaceMap({
               AISO real website scan
               <ExternalLink className="size-3" aria-hidden />
             </a>
-            <span className="font-mono text-sm font-semibold text-text-primary tabular-nums">
-              {aisoScan.score != null ? `${aisoScan.score}/100` : aisoScan.status}
-            </span>
+            <div className="flex items-center gap-2">
+              <span
+                className={`font-mono text-sm font-semibold tabular-nums ${
+                  aisoScan.score != null
+                    ? "text-text-primary"
+                    : aisoStatusTone(aisoUiStatus)
+                }`}
+              >
+                {aisoScan.score != null
+                  ? `${aisoScan.score}/100`
+                  : aisoScan.status}
+              </span>
+              {aisoUiStatus !== "scanned" && aisoUiStatus !== "none" && aisoOwner && aisoName && (
+                <AisoRetryButton
+                  owner={aisoOwner}
+                  name={aisoName}
+                  status={aisoUiStatus}
+                />
+              )}
+            </div>
           </div>
 
           {aisoScan.score != null && (

@@ -56,6 +56,40 @@ export function RepoDetailHeader({
   const score = repo.crossSignalScore ?? 0;
   const firing = repo.channelsFiring ?? 0;
 
+  // Per-dot tooltip copy so hovering over the 5-dot strip surfaces the
+  // exact 7-day mention counts we used to decide whether a channel was
+  // "firing". ChannelDots falls back to a generic "active / not firing"
+  // label for any key we omit here. Data comes from the same rollups
+  // the source badges read so the numbers agree with what renders in
+  // the row above.
+  const hnCount = hnMention?.count7d ?? 0;
+  const hnFrontPage = hnMention?.everHitFrontPage ?? false;
+  const bskyCount = bskyMention?.count7d ?? 0;
+  const redditCount = repo.reddit?.mentions7d ?? 0;
+  const devtoCount = devtoMention?.mentions7d ?? 0;
+  const channelTooltips = {
+    github: `GitHub momentum: ${repo.movementStatus ?? "stable"} (score ${repo.momentumScore.toFixed(1)} / 100)`,
+    reddit:
+      redditCount > 0
+        ? `Reddit: ${redditCount} mention${redditCount === 1 ? "" : "s"} in 7d`
+        : "Reddit: no posts in last 7d",
+    hn:
+      hnCount > 0
+        ? `HackerNews: ${hnCount} mention${hnCount === 1 ? "" : "s"} in 7d${hnFrontPage ? " (front-page hit)" : ""}`
+        : "HackerNews: no mentions in last 7d",
+    bluesky:
+      bskyCount > 0
+        ? `Bluesky: ${bskyCount} mention${bskyCount === 1 ? "" : "s"} in 7d`
+        : "Bluesky: no mentions in last 7d",
+    devto:
+      devtoCount > 0
+        ? `dev.to: ${devtoCount} article${devtoCount === 1 ? "" : "s"} in 7d`
+        : "dev.to: no articles in last 7d",
+  };
+
+  const crossSignalTooltip =
+    "Cross-signal score (0-5): weighted sum of GitHub + Reddit + HN + Bluesky + dev.to components, each 0-1. 5.0 = strong signal across >=4 channels in 7d. 4.0 = strong on >=3. 3.0 = strong on >=2. 2.0+ = active on 1+. Below 1.0 = low or no cross-channel activity.";
+
   return (
     <section
       className="relative overflow-hidden rounded-card border border-border-primary bg-bg-card p-4 sm:p-5 shadow-card"
@@ -146,24 +180,37 @@ export function RepoDetailHeader({
           <DevtoBadge mention={devtoMention} size="md" />
           <PhBadge launch={phLaunch} size="md" />
           <XSignalBadge badge={twitterBadge} />
-          <ChannelDots repo={repo} size="md" hideWhenEmpty={false} />
+          <ChannelDots
+            repo={repo}
+            size="md"
+            hideWhenEmpty={false}
+            tooltips={channelTooltips}
+          />
         </div>
 
         <span className="text-text-tertiary" aria-hidden>·</span>
 
         {/* Cross-signal score callout — same numbers + tone as before, just
-            inline now so the whole story is one line. */}
+            inline now so the whole story is one line. The `title` on the
+            numeric badge reveals the full rubric so users know what
+            0.80 / 5.0 actually means without leaving the page. */}
         <span className="font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
           Cross-signal
         </span>
-        <span className="font-mono text-2xl font-bold text-text-primary tabular-nums leading-none">
+        <span
+          className="font-mono text-2xl font-bold text-text-primary tabular-nums leading-none"
+          title={crossSignalTooltip}
+        >
           {score.toFixed(2)}
           <span className="text-base text-text-tertiary"> / 5.0</span>
         </span>
 
         <span className="text-text-tertiary" aria-hidden>·</span>
 
-        <span className="font-mono text-sm text-text-secondary tabular-nums">
+        <span
+          className="font-mono text-sm text-text-secondary tabular-nums"
+          title="Number of channels with a non-zero component in the last 7 days. Higher = the repo is moving in more places than just GitHub stars."
+        >
           {firing}/5 channels firing
         </span>
 

@@ -72,7 +72,12 @@ export function FreshnessChips({ sources }: FreshnessChipsProps) {
       aria-label="Scanner freshness"
       className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[10px] uppercase tracking-wider text-text-tertiary"
     >
-      <span className="text-text-tertiary/70">{"// last scan"}</span>
+      <span
+        className="text-text-tertiary/70"
+        title="Last scan age per source. A trailing * means the scan is older than the per-source freshness threshold (stale); numbers on newer scans are safe to trust."
+      >
+        {"// last scan"}
+      </span>
       {visible.map((key, idx) => {
         const entry = sources[key];
         const ageLabel = entry.lastScanAt ? formatAge(entry.ageMs) : "never";

@@ -26,6 +26,8 @@ interface SnapshotCard {
   detail: string;
   icon: LucideIcon;
   tone?: "up" | "warning" | "default";
+  /** Long-form explanation surfaced via `title` on the card. */
+  explainer: string;
 }
 
 const DAY_MS = 86_400_000;
@@ -69,6 +71,8 @@ export function RepoSignalSnapshot({
       detail: `${formatDelta(repo.starsDelta24h)} stars 24h | ${formatDelta(repo.starsDelta7d)} 7d`,
       icon: Activity,
       tone: repo.starsDelta24h > 0 ? "up" : "default",
+      explainer:
+        "Momentum score (0-100): recent star velocity normalized against the repo's own 30-day baseline and language-tier peers. 80+ breakout · 50+ rising · 25+ active · <25 stable/declining.",
     },
     {
       label: "Mentions",
@@ -76,6 +80,8 @@ export function RepoSignalSnapshot({
       detail: `${formatNumber(mentions24h)} in 24h | ${sourceCount} source${sourceCount === 1 ? "" : "s"}`,
       icon: Radio,
       tone: mentions7d > 0 ? "up" : "default",
+      explainer:
+        "7-day mentions: unique posts across Reddit, HackerNews, Bluesky, dev.to, ProductHunt, and tracked Twitter/X accounts that reference this repo. Dedup by URL + source id.",
     },
     {
       label: "Cross-signal",
@@ -83,6 +89,8 @@ export function RepoSignalSnapshot({
       detail: `${repo.channelsFiring ?? 0}/5 channels firing`,
       icon: Activity,
       tone: (repo.channelsFiring ?? 0) >= 2 ? "up" : "default",
+      explainer:
+        "Cross-signal score (0-5): weighted sum of GitHub + Reddit + HN + Bluesky + dev.to components, each 0-1. 5.0 = strong signal across >=4 channels in 7d. 4.0 = strong on >=3. 3.0 = strong on >=2. 2.0+ = active on 1+. Below 1.0 = low or no cross-channel activity.",
     },
     {
       label: "Package adoption",
@@ -93,6 +101,8 @@ export function RepoSignalSnapshot({
           : "no linked package yet",
       icon: Package,
       tone: npmPackages.length > 0 ? "up" : "default",
+      explainer:
+        "npm weekly downloads summed across every package linked to this repo (0 when no package has been tied to the repo yet).",
     },
     {
       label: "Project surface",
@@ -104,6 +114,8 @@ export function RepoSignalSnapshot({
           : "website/package scan pending",
       icon: hasProjectSurface ? Globe2 : GitCommit,
       tone: hasProjectSurface ? "up" : "warning",
+      explainer:
+        "Project surface: whether we've linked an npm package or ProductHunt launch to this repo. 'thin' means we only have the GitHub repository to go on.",
     },
   ];
 
@@ -117,6 +129,7 @@ export function RepoSignalSnapshot({
         return (
           <div
             key={card.label}
+            title={card.explainer}
             className="rounded-card border border-border-primary bg-bg-card p-3 shadow-card"
           >
             <div className="flex items-center justify-between gap-3">

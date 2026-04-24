@@ -78,3 +78,25 @@ export const MENTION_SOURCE_SHORT_LABEL: Record<MentionSource, string> = {
   ph: "ph",
   twitter: "x",
 };
+
+/**
+ * One-line description for each mention source. Surfaced via `title` on
+ * the per-source filter tab so users hover to understand what the tab
+ * will show them *before* they click it.
+ */
+export const MENTION_SOURCE_DESCRIPTIONS: Record<MentionSource, string> = {
+  reddit:
+    "Reddit — posts in r/programming, r/MachineLearning, and related developer subs from the last 7 days.",
+  hn: "HackerNews — Algolia-indexed stories and Show HN submissions that mention this repo (front-page hits highlighted).",
+  bluesky:
+    "Bluesky — public AT-protocol posts linking the repo, fetched from the jetstream firehose.",
+  devto:
+    "dev.to — articles tagged with the repo or containing its canonical URL in the last 7 days.",
+  ph: "ProductHunt — launches whose website or description points at this repo.",
+  twitter:
+    "Twitter/X — posts from tracked developer accounts mentioning the repo; scored by unique-author reach.",
+};
+
+/** Description shown on the "All" tab so the default view is also self-explaining. */
+export const MENTION_ALL_DESCRIPTION =
+  "All mentions — every per-source hit merged, newest first.";

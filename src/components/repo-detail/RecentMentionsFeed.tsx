@@ -16,8 +16,10 @@ import { getRelativeTime } from "@/lib/utils";
 import type { FreshnessSnapshot } from "@/lib/source-health";
 import { FreshnessChips } from "./FreshnessChips";
 import {
+  MENTION_ALL_DESCRIPTION,
   MENTION_SOURCE_BADGE_TEXT,
   MENTION_SOURCE_COLORS,
+  MENTION_SOURCE_DESCRIPTIONS,
   MENTION_SOURCE_LABELS,
   MENTION_SOURCE_SHORT_LABEL,
   MENTION_TAB_LABELS,
@@ -99,6 +101,10 @@ export function RecentMentionsFeed({ mentions, freshness }: RecentMentionsFeedPr
           const count =
             key === "all" ? totalCount : counts[key as MentionSource];
           const disabled = count === 0;
+          const tabTitle =
+            key === "all"
+              ? MENTION_ALL_DESCRIPTION
+              : MENTION_SOURCE_DESCRIPTIONS[key as MentionSource];
           return (
             <button
               key={key}
@@ -106,6 +112,7 @@ export function RecentMentionsFeed({ mentions, freshness }: RecentMentionsFeedPr
               onClick={() => !disabled && setTab(key)}
               disabled={disabled}
               aria-pressed={active}
+              title={tabTitle}
               className={`min-h-[36px] inline-flex items-center gap-1.5 px-3 py-1.5 rounded-badge text-[11px] font-mono uppercase tracking-wider whitespace-nowrap transition-colors ${
                 active
                   ? "bg-bg-card text-text-primary shadow-card"

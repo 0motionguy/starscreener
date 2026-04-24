@@ -19,6 +19,17 @@ const SEVERITY_LABEL: Record<ReasonSeverity, string> = {
   info: "Context",
 };
 
+// Long-form copy surfaced via `title` on the severity dot so sighted
+// hover users get the same explanation screen-reader users get via
+// aria-label. Keep in sync with the rubric we show in CrossSignalBreakdown
+// so a repo's "why" and its scoring rubric tell the same story.
+const SEVERITY_EXPLANATION: Record<ReasonSeverity, string> = {
+  critical:
+    "Main driver — the most important reason this repo is moving right now.",
+  strong: "Strong signal — a notable contributor to the trend.",
+  info: "Context — supporting but secondary information.",
+};
+
 /** Tailwind color for the leading severity dot — uses existing tokens only. */
 function dotColorClass(severity: ReasonSeverity): string {
   if (severity === "critical") return "bg-brand";
@@ -52,6 +63,7 @@ export function WhyTrending({ reasons }: WhyTrendingProps): JSX.Element | null {
             <span
               className={`mt-1.5 size-2 shrink-0 rounded-full ${dotColorClass(reason.severity)}`}
               aria-label={SEVERITY_LABEL[reason.severity]}
+              title={SEVERITY_EXPLANATION[reason.severity]}
               role="img"
             />
             <div className="min-w-0 flex-1">

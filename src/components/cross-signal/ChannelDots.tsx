@@ -23,6 +23,8 @@ interface ChannelStatus {
   devto: boolean;
 }
 
+type ChannelKey = keyof ChannelStatus;
+
 interface ChannelDotsProps {
   /**
    * Source of truth for per-channel state. Three accepted shapes:
@@ -33,6 +35,14 @@ interface ChannelDotsProps {
    */
   repo?: { channelStatus?: ChannelStatus };
   status?: ChannelStatus | null;
+  /**
+   * Optional per-channel tooltip copy. When provided for a given channel,
+   * each individual dot renders its own `title` so hover surfaces
+   * channel-specific metrics (e.g. "Reddit: 12 mentions in 7d · scored
+   * 0.8 / 1.0"). Keys not present fall back to the composite tooltip on
+   * the outer wrapper.
+   */
+  tooltips?: Partial<Record<ChannelKey, string>>;
   /** Render `null` when no channel is firing. Default: false (show empty dots). */
   hideWhenEmpty?: boolean;
   size?: "sm" | "md";
@@ -71,8 +81,16 @@ function resolveStatus(props: ChannelDotsProps): ChannelStatus {
   return ZERO_STATUS;
 }
 
+const CHANNEL_DEFAULT_LABEL: Record<ChannelKey, string> = {
+  github: "GitHub",
+  reddit: "Reddit",
+  hn: "HackerNews",
+  bluesky: "Bluesky",
+  devto: "dev.to",
+};
+
 export function ChannelDots(props: ChannelDotsProps) {
-  const { hideWhenEmpty = false, size = "sm" } = props;
+  const { hideWhenEmpty = false, size = "sm", tooltips } = props;
   const status = resolveStatus(props);
   const firing =
     (status.github ? 1 : 0) +
@@ -85,17 +103,25 @@ export function ChannelDots(props: ChannelDotsProps) {
   const dotSize = size === "md" ? "w-2 h-2" : "w-1.5 h-1.5";
   const gap = size === "md" ? "gap-1" : "gap-0.5";
 
-  const dot = (active: boolean, color: string) => (
-    <span
-      className={`${dotSize} rounded-full transition-colors`}
-      style={{
-        backgroundColor: active ? color : "transparent",
-        border: active
-          ? `1px solid ${color}`
-          : "1px solid var(--color-border-primary)",
-      }}
-    />
-  );
+  const dot = (key: ChannelKey, active: boolean, color: string) => {
+    const override = tooltips?.[key];
+    const perDotTitle =
+      override ??
+      `${CHANNEL_DEFAULT_LABEL[key]}: ${active ? "active" : "not firing"}`;
+    return (
+      <span
+        key={key}
+        className={`${dotSize} rounded-full transition-colors`}
+        title={perDotTitle}
+        style={{
+          backgroundColor: active ? color : "transparent",
+          border: active
+            ? `1px solid ${color}`
+            : "1px solid var(--color-border-primary)",
+        }}
+      />
+    );
+  };
 
   return (
     <span
@@ -103,11 +129,11 @@ export function ChannelDots(props: ChannelDotsProps) {
       title={buildTooltip(status, firing)}
       aria-label={`${firing} of 5 cross-signal channels firing`}
     >
-      {dot(status.github, CHANNEL_COLORS.github)}
-      {dot(status.reddit, CHANNEL_COLORS.reddit)}
-      {dot(status.hn, CHANNEL_COLORS.hn)}
-      {dot(status.bluesky, CHANNEL_COLORS.bluesky)}
-      {dot(status.devto, CHANNEL_COLORS.devto)}
+      {dot("github", status.github, CHANNEL_COLORS.github)}
+      {dot("reddit", status.reddit, CHANNEL_COLORS.reddit)}
+      {dot("hn", status.hn, CHANNEL_COLORS.hn)}
+      {dot("bluesky", status.bluesky, CHANNEL_COLORS.bluesky)}
+      {dot("devto", status.devto, CHANNEL_COLORS.devto)}
     </span>
   );
 }

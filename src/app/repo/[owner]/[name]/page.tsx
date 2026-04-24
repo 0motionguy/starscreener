@@ -67,6 +67,10 @@ import { RelatedReposPanel } from "@/components/repo-detail/RelatedReposPanel";
 import { getRelatedReposFor } from "@/lib/repo-related";
 import { getDailyDownloadsForPackage } from "@/lib/npm-daily";
 import { getNpmDependentsCount } from "@/lib/npm-dependents";
+import { PredictionSnapshot } from "@/components/repo-detail/PredictionSnapshot";
+import { getPredictionForRepo } from "@/lib/repo-predictions";
+import { RelatedIdeasPanel } from "@/components/repo-detail/RelatedIdeasPanel";
+import { getIdeasForRepo } from "@/lib/repo-ideas";
 
 // force-dynamic: the page aggregates per-source mention JSON at request
 // time and has ~thousands of possible (owner, name) tuples. Static
@@ -303,6 +307,8 @@ export default async function RepoDetailPage({ params }: PageProps) {
     npmDependentsByPackage[pkg.name] = getNpmDependentsCount(pkg.name);
   }
   const relatedRepos = getRelatedReposFor(repo.fullName);
+  const prediction = getPredictionForRepo(repo.fullName);
+  const ideas = getIdeasForRepo(repo.fullName);
   const productHuntLaunch = getLaunchForRepo(repo.fullName);
   // Verified overlay (from the TrustMRR catalog sync) and, separately, an
   // approved TrustMRR-link claim that has not yet been matched by the sync.
@@ -433,6 +439,10 @@ export default async function RepoDetailPage({ params }: PageProps) {
             Renders null when no reasons are available for this repo.
           */}
           <WhyTrending reasons={whyTrendingReasons} />
+          <PredictionSnapshot
+            prediction={prediction}
+            currentStars={repo.stars}
+          />
           <RepoSignalSnapshot
             repo={repo}
             mentions={mentions}
@@ -469,6 +479,7 @@ export default async function RepoDetailPage({ params }: PageProps) {
 
           <RecentMentionsFeed mentions={mentions} freshness={freshness} />
           <RelatedReposPanel items={relatedRepos} />
+          <RelatedIdeasPanel items={ideas} />
           <RepoDetailChart repo={repo} markers={markers} />
           {twitterPanel ? <TwitterSignalPanel panel={twitterPanel} /> : null}
         </div>

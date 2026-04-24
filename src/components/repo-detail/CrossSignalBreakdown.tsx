@@ -19,6 +19,7 @@ import {
   __test as crossSignalInternals,
   getChannelStatus,
 } from "@/lib/pipeline/cross-signal";
+import { RubricPopover } from "./RubricPopover";
 
 interface CrossSignalBreakdownProps {
   repo: Repo;
@@ -160,7 +161,10 @@ export function CrossSignalBreakdown({
             {"// per-channel components"}
           </span>
         </h2>
-        <span className="font-mono text-[11px] text-text-tertiary tabular-nums">
+        <span
+          className="font-mono text-[11px] text-text-tertiary tabular-nums"
+          title="Cross-signal score (0-5): weighted sum of per-channel components. 5.0 = strong signal across >=4 channels in 7d. 4.0 = strong on >=3. 3.0 = strong on >=2. 2.0+ = active on 1+. Below 1.0 = low or no cross-channel activity."
+        >
           score{" "}
           <span className="text-text-primary">{score.toFixed(2)}</span>
           {" / 5.0  ·  "}
@@ -168,9 +172,40 @@ export function CrossSignalBreakdown({
         </span>
       </header>
 
+      {/* Scoring rubric — collapsed by default so the card stays compact.
+          Users who want to know how 0.80 / 5.0 was derived click the
+          summary to reveal the full tier table. Zero-JS (<details>). */}
+      <div className="mb-3">
+        <RubricPopover summary="How is this scored?">
+          <dl className="grid grid-cols-[minmax(0,1fr)_auto] gap-x-4 gap-y-1.5 font-mono text-[11px]">
+            <dt className="text-text-tertiary uppercase tracking-wider">5.0</dt>
+            <dd className="text-text-secondary">strong signal across &ge;4 of 5 channels</dd>
+            <dt className="text-text-tertiary uppercase tracking-wider">4.0</dt>
+            <dd className="text-text-secondary">strong signal across &ge;3 of 5 channels</dd>
+            <dt className="text-text-tertiary uppercase tracking-wider">3.0</dt>
+            <dd className="text-text-secondary">strong signal across &ge;2 of 5 channels</dd>
+            <dt className="text-text-tertiary uppercase tracking-wider">2.0+</dt>
+            <dd className="text-text-secondary">active on at least 1 channel</dd>
+            <dt className="text-text-tertiary uppercase tracking-wider">&lt;1.0</dt>
+            <dd className="text-text-secondary">low or no cross-channel activity</dd>
+          </dl>
+          <p className="mt-2 text-[10px] leading-snug text-text-tertiary">
+            Each channel contributes 0-1. Per-channel tiers: GitHub (breakout 1.0 /
+            hot 0.7 / rising 0.4), HN (front-page 1.0 / &ge;3 mentions 0.7 / 1-2
+            mentions 0.4), Bluesky (&ge;5 mentions 1.0 / 2-4 0.7 / 1 0.4), dev.to
+            (&ge;3 articles 1.0 / 2 0.7 / 1 0.4), Reddit (corpus-normalized 48h
+            velocity).
+          </p>
+        </RubricPopover>
+      </div>
+
       <ul className="space-y-2.5">
         {rows.map((row) => (
-          <li key={row.key} className="grid grid-cols-[120px_1fr_56px] sm:grid-cols-[160px_1fr_72px] items-center gap-3">
+          <li
+            key={row.key}
+            title={`${row.label}: ${row.hint}${row.active ? "" : " (not firing)"}`}
+            className="grid grid-cols-[120px_1fr_56px] sm:grid-cols-[160px_1fr_72px] items-center gap-3"
+          >
             {/* Label + dot */}
             <div className="flex items-center gap-2 min-w-0">
               <span

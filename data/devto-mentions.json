@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-04-23T07:11:14.628Z",
+  "fetchedAt": "2026-04-24T10:02:22.750Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1296,
+  "scannedArticles": 1283,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -179,12 +179,12 @@
   ],
   "sliceCounts": {
     "global-top-7d": 100,
-    "global-rising": 16,
+    "global-rising": 9,
     "global-fresh": 100,
     "tag-ai-top-7d": 100,
     "tag-artificialintelligence-top-7d": 0,
     "tag-agents-top-7d": 100,
-    "tag-agentic-top-7d": 4,
+    "tag-agentic-top-7d": 3,
     "tag-claudecode-top-7d": 100,
     "tag-claude-top-7d": 100,
     "tag-codex-top-7d": 7,
@@ -192,7 +192,7 @@
     "tag-llm-top-7d": 100,
     "tag-llms-top-7d": 11,
     "tag-mcp-top-7d": 100,
-    "tag-rag-top-7d": 74,
+    "tag-rag-top-7d": 67,
     "tag-promptengineering-top-7d": 62,
     "tag-workflow-top-7d": 20,
     "tag-workflows-top-7d": 3,
@@ -201,67 +201,22 @@
     "tag-tooling-top-7d": 100,
     "tag-devtools-top-7d": 100,
     "tag-langchain-top-7d": 23,
-    "tag-n8n-top-7d": 41,
+    "tag-n8n-top-7d": 37,
     "tag-opensource-top-7d": 100
   },
   "mentions": {
-    "NousResearch/hermes-agent": {
-      "count7d": 1,
-      "reactionsSum7d": 34,
-      "commentsSum7d": 8,
-      "topArticle": {
-        "id": 3511809,
-        "title": "MiniClaw: A Tiny LLM Agent for Mini Micro",
-        "url": "https://dev.to/joestrout/miniclaw-a-tiny-llm-agent-for-mini-micro-4akf",
-        "author": "joestrout",
-        "reactions": 34,
-        "comments": 8,
-        "hoursSincePosted": 157,
-        "readingTime": 8
-      },
-      "articles": [
-        {
-          "id": 3511809,
-          "title": "MiniClaw: A Tiny LLM Agent for Mini Micro",
-          "description": "Agents are all the rage these days.  Claude Code was one of the first, and perhaps still the most...",
-          "url": "https://dev.to/joestrout/miniclaw-a-tiny-llm-agent-for-mini-micro-4akf",
-          "author": {
-            "username": "joestrout",
-            "name": "JoeStrout",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F955389%2Ffdd96374-bc61-43f2-bf73-c2d6d6968a72.png"
-          },
-          "reactionsCount": 34,
-          "commentsCount": 8,
-          "readingTime": 8,
-          "publishedAt": "2026-04-16T18:13:14Z",
-          "tags": [
-            "miniscript",
-            "minimicro",
-            "agents",
-            "programming"
-          ],
-          "trendingScore": 0.6,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "openclaw/openclaw": {
       "count7d": 5,
-      "reactionsSum7d": 57,
-      "commentsSum7d": 8,
+      "reactionsSum7d": 64,
+      "commentsSum7d": 16,
       "topArticle": {
         "id": 3528702,
         "title": "Unpopular Opinion: Do not use OpenClaw...not yet.",
         "url": "https://dev.to/francistrdev/unpopular-opinion-do-not-use-openclawnot-yet-5foe",
         "author": "francistrdev",
-        "reactions": 53,
-        "comments": 8,
-        "hoursSincePosted": 31.6,
+        "reactions": 60,
+        "comments": 16,
+        "hoursSincePosted": 58.4,
         "readingTime": 8
       },
       "articles": [
@@ -275,8 +230,8 @@
             "name": "FrancisTRᴅᴇᴠ (っ◔◡◔)っ",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3711376%2F746cce1f-2c09-40fc-9742-387af1855b6d.gif"
           },
-          "reactionsCount": 53,
-          "commentsCount": 8,
+          "reactionsCount": 60,
+          "commentsCount": 16,
           "readingTime": 8,
           "publishedAt": "2026-04-21T23:35:31Z",
           "tags": [
@@ -285,7 +240,7 @@
             "discuss",
             "ai"
           ],
-          "trendingScore": 5.21,
+          "trendingScore": 4.75,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
@@ -313,7 +268,7 @@
             "machinelearning",
             "showdev"
           ],
-          "trendingScore": 0.01,
+          "trendingScore": 0,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
@@ -350,22 +305,24 @@
           ]
         },
         {
-          "id": 3538662,
-          "title": "One Command Equips Your OpenClaw with an X-ray Machine - Alibaba Cloud Observability Makes Farming Lobsters Cheaper and Safer",
-          "description": "One-command observability integration makes OpenClaw AI agent operations transparent via Alibaba...",
-          "url": "https://dev.to/observabilityguy/one-command-equips-your-openclaw-with-an-x-ray-machine-alibaba-cloud-observability-makes-farming-424i",
+          "id": 3543444,
+          "title": "How I'd Build a Multi-Tenant Digital Employee Platform: Multi-LLM Routing, Approval Gates, MCP, and SOC2-Ready Audit Trails",
+          "description": "Why I wouldn't pick a single LLM — and the platform layer (Claude + GPT + Gemini + Grok, with...",
+          "url": "https://dev.to/chen115y/how-id-build-a-multi-tenant-digital-employee-platform-multi-llm-routing-approval-gates-mcp-and-3fg0",
           "author": {
-            "username": "observabilityguy",
-            "name": "ObservabilityGuy",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3433708%2Faf43ef59-cf80-46ad-930d-f76811e673a2.png"
+            "username": "chen115y",
+            "name": "Yaohua Chen",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2671324%2F3ca83c79-d0fd-40c0-b5ac-349326e71725.jpg"
           },
           "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 13,
-          "publishedAt": "2026-04-23T02:46:10Z",
+          "readingTime": 25,
+          "publishedAt": "2026-04-24T00:43:12Z",
           "tags": [
-            "observability",
-            "ai"
+            "ai",
+            "architecture",
+            "agents",
+            "openai"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -407,16 +364,16 @@
     },
     "HexmosTech/git-lrc": {
       "count7d": 1,
-      "reactionsSum7d": 20,
+      "reactionsSum7d": 21,
       "commentsSum7d": 1,
       "topArticle": {
         "id": 3534314,
         "title": "AUTOVACUUM in SQLite: How Your Database Cleans Up After Itself",
         "url": "https://dev.to/lovestaco/autovacuum-in-sqlite-how-your-database-cleans-up-after-itself-4kp6",
         "author": "lovestaco",
-        "reactions": 20,
+        "reactions": 21,
         "comments": 1,
-        "hoursSincePosted": 26.5,
+        "hoursSincePosted": 53.3,
         "readingTime": 4
       },
       "articles": [
@@ -430,7 +387,7 @@
             "name": "Athreya aka Maneshwar",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1002302%2F5233b7df-6ee3-46b2-b8d7-1fafe103e8a3.jpg"
           },
-          "reactionsCount": 20,
+          "reactionsCount": 21,
           "commentsCount": 1,
           "readingTime": 4,
           "publishedAt": "2026-04-22T04:42:29Z",
@@ -440,7 +397,7 @@
             "database",
             "architecture"
           ],
-          "trendingScore": 1.08,
+          "trendingScore": 0.57,
           "linkedRepos": [
             {
               "fullName": "HexmosTech/git-lrc",
@@ -450,45 +407,45 @@
         }
       ]
     },
-    "gitbutlerapp/gitbutler": {
+    "ggml-org/llama.cpp": {
       "count7d": 1,
-      "reactionsSum7d": 19,
-      "commentsSum7d": 1,
+      "reactionsSum7d": 1,
+      "commentsSum7d": 0,
       "topArticle": {
-        "id": 3510131,
-        "title": "We ditched worktrees for Claude Code. Here's what we use instead",
-        "url": "https://dev.to/maverickdotdev/we-ditched-worktrees-for-claude-code-heres-what-we-use-instead-5b22",
-        "author": "maverickdotdev",
-        "reactions": 19,
-        "comments": 1,
-        "hoursSincePosted": 163.7,
-        "readingTime": 9
+        "id": 3543793,
+        "title": "We ran Qwen3.6-27B on $800 of consumer GPUs, day one: llama.cpp vs vLLM",
+        "url": "https://dev.to/defilan/we-ran-qwen36-27b-on-800-of-consumer-gpus-day-one-llamacpp-vs-vllm-mg1",
+        "author": "defilan",
+        "reactions": 1,
+        "comments": 0,
+        "hoursSincePosted": 6.9,
+        "readingTime": 15
       },
       "articles": [
         {
-          "id": 3510131,
-          "title": "We ditched worktrees for Claude Code. Here's what we use instead",
-          "description": "Everyone's running multiple Claude Code agents in parallel now. The standard advice is \"use git...",
-          "url": "https://dev.to/maverickdotdev/we-ditched-worktrees-for-claude-code-heres-what-we-use-instead-5b22",
+          "id": 3543793,
+          "title": "We ran Qwen3.6-27B on $800 of consumer GPUs, day one: llama.cpp vs vLLM",
+          "description": "A Kubernetes-native bake-off on 2× RTX 5060 Ti, with reproducible manifests and a cost-per-token number neither cloud nor OSS FinOps tools will tell you.",
+          "url": "https://dev.to/defilan/we-ran-qwen36-27b-on-800-of-consumer-gpus-day-one-llamacpp-vs-vllm-mg1",
           "author": {
-            "username": "maverickdotdev",
-            "name": "Eric Allam",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F789527%2F8d63897e-a823-466b-a02b-661eddaadcb1.png"
+            "username": "defilan",
+            "name": "Christopher Maher",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3828578%2Fd03de6fc-1dcb-419b-b336-0d9c7d86f7cc.jpeg"
           },
-          "reactionsCount": 19,
-          "commentsCount": 1,
-          "readingTime": 9,
-          "publishedAt": "2026-04-16T11:29:00Z",
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 15,
+          "publishedAt": "2026-04-24T03:06:36Z",
           "tags": [
-            "claude",
+            "kubernetes",
             "ai",
-            "programming",
-            "github"
+            "llm",
+            "opensource"
           ],
-          "trendingScore": 0.16,
+          "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "gitbutlerapp/gitbutler",
+              "fullName": "ggml-org/llama.cpp",
               "location": "body"
             }
           ]
@@ -496,17 +453,17 @@
       ]
     },
     "forrestchang/andrej-karpathy-skills": {
-      "count7d": 2,
-      "reactionsSum7d": 0,
+      "count7d": 1,
+      "reactionsSum7d": 7,
       "commentsSum7d": 0,
       "topArticle": {
         "id": 3538865,
         "title": "Ten CLAUDE.md rules for Claude Code - four edit-time, six runtime",
         "url": "https://dev.to/reneza/ten-claudemd-rules-for-claude-code-four-edit-time-six-runtime-210g",
         "author": "reneza",
-        "reactions": 0,
+        "reactions": 7,
         "comments": 0,
-        "hoursSincePosted": 3.1,
+        "hoursSincePosted": 29.9,
         "readingTime": 3
       },
       "articles": [
@@ -518,9 +475,9 @@
           "author": {
             "username": "reneza",
             "name": "Rene Zander",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1138713%2F4c71b271-0320-4d6b-92a9-12e3225b72e5.jpeg"
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1138713%2Fa7d8635c-22db-4dec-b156-1fb07de64a8d.jpeg"
           },
-          "reactionsCount": 0,
+          "reactionsCount": 7,
           "commentsCount": 0,
           "readingTime": 3,
           "publishedAt": "2026-04-23T04:06:42Z",
@@ -530,40 +487,8 @@
             "productivity",
             "tutorial"
           ],
-          "trendingScore": 0,
+          "trendingScore": 0.2,
           "linkedRepos": [
-            {
-              "fullName": "forrestchang/andrej-karpathy-skills",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3512192,
-          "title": "Stop Rebuilding Your Claude Code Setup - Scaffold It Once with Worclaude",
-          "description": "Every time I started a new project with Claude Code, I rebuilt the same .claude/ directory from...",
-          "url": "https://dev.to/sefaertunc/stop-rebuilding-your-claude-code-setup-scaffold-it-once-with-worclaude-38m1",
-          "author": {
-            "username": "sefaertunc",
-            "name": "Sefa Ertunç",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3883159%2Fe6647c64-3fb6-4500-9cf8-0b8af608cfd4.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 2,
-          "publishedAt": "2026-04-16T20:39:45Z",
-          "tags": [
-            "claudecode",
-            "claude",
-            "ai",
-            "opensource"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "affaan-m/everything-claude-code",
-              "location": "body"
-            },
             {
               "fullName": "forrestchang/andrej-karpathy-skills",
               "location": "body"
@@ -572,49 +497,72 @@
         }
       ]
     },
-    "affaan-m/everything-claude-code": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
+    "safishamsi/graphify": {
+      "count7d": 2,
+      "reactionsSum7d": 2,
+      "commentsSum7d": 1,
       "topArticle": {
-        "id": 3512192,
-        "title": "Stop Rebuilding Your Claude Code Setup - Scaffold It Once with Worclaude",
-        "url": "https://dev.to/sefaertunc/stop-rebuilding-your-claude-code-setup-scaffold-it-once-with-worclaude-38m1",
-        "author": "sefaertunc",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 154.5,
-        "readingTime": 2
+        "id": 3517012,
+        "title": "The context problem nobody talks about: why AI coding agents waste 80% of tokens on files they already read yesterday",
+        "url": "https://dev.to/creatman/the-context-problem-nobody-talks-about-why-ai-coding-agents-waste-80-of-tokens-on-files-they-mp1",
+        "author": "creatman",
+        "reactions": 2,
+        "comments": 1,
+        "hoursSincePosted": 157.5,
+        "readingTime": 5
       },
       "articles": [
         {
-          "id": 3512192,
-          "title": "Stop Rebuilding Your Claude Code Setup - Scaffold It Once with Worclaude",
-          "description": "Every time I started a new project with Claude Code, I rebuilt the same .claude/ directory from...",
-          "url": "https://dev.to/sefaertunc/stop-rebuilding-your-claude-code-setup-scaffold-it-once-with-worclaude-38m1",
+          "id": 3517012,
+          "title": "The context problem nobody talks about: why AI coding agents waste 80% of tokens on files they already read yesterday",
+          "description": "Every AI coding agent — Claude Code, Cursor, Codex, Gemini CLI — starts every session completely...",
+          "url": "https://dev.to/creatman/the-context-problem-nobody-talks-about-why-ai-coding-agents-waste-80-of-tokens-on-files-they-mp1",
           "author": {
-            "username": "sefaertunc",
-            "name": "Sefa Ertunç",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3883159%2Fe6647c64-3fb6-4500-9cf8-0b8af608cfd4.png"
+            "username": "creatman",
+            "name": "Creatman",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3806804%2F78d84e4b-1735-4590-92c5-8b6e5513e038.jpg"
           },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 2,
-          "publishedAt": "2026-04-16T20:39:45Z",
+          "reactionsCount": 2,
+          "commentsCount": 1,
+          "readingTime": 5,
+          "publishedAt": "2026-04-17T20:34:21Z",
           "tags": [
-            "claudecode",
-            "claude",
             "ai",
-            "opensource"
+            "graphify",
+            "agents",
+            "productivity"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "affaan-m/everything-claude-code",
-              "location": "body"
-            },
+              "fullName": "safishamsi/graphify",
+              "location": "tag"
+            }
+          ]
+        },
+        {
+          "id": 3542483,
+          "title": "Claude Code hooks: the half of Claude Code nobody uses",
+          "description": "I was halfway through writing this post when I decided to fact-check myself. Opened...",
+          "url": "https://dev.to/liran_baba/claude-code-hooks-the-half-of-claude-code-nobody-uses-5570",
+          "author": {
+            "username": "liran_baba",
+            "name": "Liran Baba",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3853249%2F1fb2b801-c7ae-463d-b813-a600cdd7ca4f.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 14,
+          "publishedAt": "2026-04-23T17:32:45Z",
+          "tags": [
+            "devtools",
+            "ai",
+            "claudecode"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
             {
-              "fullName": "forrestchang/andrej-karpathy-skills",
+              "fullName": "safishamsi/graphify",
               "location": "body"
             }
           ]
@@ -632,7 +580,7 @@
         "author": "gounthar",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 23.5,
+        "hoursSincePosted": 50.3,
         "readingTime": 9
       },
       "articles": [
@@ -666,96 +614,6 @@
         }
       ]
     },
-    "safishamsi/graphify": {
-      "count7d": 1,
-      "reactionsSum7d": 2,
-      "commentsSum7d": 1,
-      "topArticle": {
-        "id": 3517012,
-        "title": "The context problem nobody talks about: why AI coding agents waste 80% of tokens on files they already read yesterday",
-        "url": "https://dev.to/creatman/the-context-problem-nobody-talks-about-why-ai-coding-agents-waste-80-of-tokens-on-files-they-mp1",
-        "author": "creatman",
-        "reactions": 2,
-        "comments": 1,
-        "hoursSincePosted": 130.6,
-        "readingTime": 5
-      },
-      "articles": [
-        {
-          "id": 3517012,
-          "title": "The context problem nobody talks about: why AI coding agents waste 80% of tokens on files they already read yesterday",
-          "description": "Every AI coding agent — Claude Code, Cursor, Codex, Gemini CLI — starts every session completely...",
-          "url": "https://dev.to/creatman/the-context-problem-nobody-talks-about-why-ai-coding-agents-waste-80-of-tokens-on-files-they-mp1",
-          "author": {
-            "username": "creatman",
-            "name": "Creatman",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3806804%2F78d84e4b-1735-4590-92c5-8b6e5513e038.jpg"
-          },
-          "reactionsCount": 2,
-          "commentsCount": 1,
-          "readingTime": 5,
-          "publishedAt": "2026-04-17T20:34:21Z",
-          "tags": [
-            "ai",
-            "graphify",
-            "agents",
-            "productivity"
-          ],
-          "trendingScore": 0.01,
-          "linkedRepos": [
-            {
-              "fullName": "safishamsi/graphify",
-              "location": "tag"
-            }
-          ]
-        }
-      ]
-    },
-    "MemPalace/mempalace": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3530472,
-        "title": "One Open Source Project a Day (No.44): MemPalace - The AI Memory System Built by the Star of Resident Evil",
-        "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no44-mempalace-the-ai-memory-system-built-by-the-star-of-2ceo",
-        "author": "wonderlab",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 47.9,
-        "readingTime": 8
-      },
-      "articles": [
-        {
-          "id": 3530472,
-          "title": "One Open Source Project a Day (No.44): MemPalace - The AI Memory System Built by the Star of Resident Evil",
-          "description": "Introduction    \"She survived T-virus mutants on screen. Now she's fixing AI amnesia in real...",
-          "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no44-mempalace-the-ai-memory-system-built-by-the-star-of-2ceo",
-          "author": {
-            "username": "wonderlab",
-            "name": "WonderLab",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 8,
-          "publishedAt": "2026-04-21T07:19:06Z",
-          "tags": [
-            "ai",
-            "opensource",
-            "agents",
-            "mcp"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "MemPalace/mempalace",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "anthropics/claude-plugins-official": {
       "count7d": 1,
       "reactionsSum7d": 1,
@@ -767,7 +625,7 @@
         "author": "michaeltuszynski",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 55.4,
+        "hoursSincePosted": 82.2,
         "readingTime": 4
       },
       "articles": [
@@ -801,89 +659,8 @@
         }
       ]
     },
-    "thedotmack/claude-mem": {
-      "count7d": 2,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3512142,
-        "title": "Adding Persistent Memory to Claude Code with claude-mem — Plus a DIY Lightweight Alternative",
-        "url": "https://dev.to/kanta13jp1/adding-persistent-memory-to-claude-code-with-claude-mem-plus-a-diy-lightweight-alternative-2pgb",
-        "author": "kanta13jp1",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 154.8,
-        "readingTime": 3
-      },
-      "articles": [
-        {
-          "id": 3512142,
-          "title": "Adding Persistent Memory to Claude Code with claude-mem — Plus a DIY Lightweight Alternative",
-          "description": "The Problem: Claude Code Forgets Everything   Every time you start a new Claude Code...",
-          "url": "https://dev.to/kanta13jp1/adding-persistent-memory-to-claude-code-with-claude-mem-plus-a-diy-lightweight-alternative-2pgb",
-          "author": {
-            "username": "kanta13jp1",
-            "name": "kanta13jp1",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F801579%2F93001d32-b560-4f80-9b6e-732e7ee424d2.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-04-16T20:23:02Z",
-          "tags": [
-            "claudecode",
-            "ai",
-            "productivity",
-            "llm"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "thedotmack/claude-mem",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3531117,
-          "title": "你的 Claude Code 为什么总是不够聪明? -- Context Engineering 的 7 个进阶技巧",
-          "description": "引言   我见过太多人装了 Claude Code，却只用来「帮我写个函数」「解释下这段代码」——然后抱怨 AI 编程是智商税。但真正的高手早就换了一套玩法：Context...",
-          "url": "https://dev.to/_cbd692d476c5faf3b61bcf/ni-de-claude-code-wei-shi-yao-zong-shi-bu-gou-cong-ming-context-engineering-de-7-ge-jin-jie-ji-qiao-1ep5",
-          "author": {
-            "username": "_cbd692d476c5faf3b61bcf",
-            "name": "韩",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3887968%2F282c87b1-7364-49c1-bfdb-fbfab6c1f3bc.jpeg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-04-21T09:33:29Z",
-          "tags": [
-            "claude",
-            "productivity",
-            "programming",
-            "promptengineering"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "thedotmack/claude-mem",
-              "location": "body"
-            },
-            {
-              "fullName": "coleam00/Archon",
-              "location": "body"
-            },
-            {
-              "fullName": "topoteretes/cognee",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "anthropics/claude-code": {
-      "count7d": 4,
+      "count7d": 6,
       "reactionsSum7d": 1,
       "commentsSum7d": 0,
       "topArticle": {
@@ -893,7 +670,7 @@
         "author": "fisher_shenfisher_1c32",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 66.5,
+        "hoursSincePosted": 93.3,
         "readingTime": 7
       },
       "articles": [
@@ -926,24 +703,24 @@
           ]
         },
         {
-          "id": 3511198,
-          "title": "Field Notes from a Solo Builder — Shipping the Beloved Claude Code Buddy Into the Wild - Part I",
-          "description": "Last Thursday afternoon, I watched my community grieve.  Anthropic had deprecated /buddy — that...",
-          "url": "https://dev.to/fiorastudio/field-notes-from-a-solo-builder-shipping-the-beloved-claude-code-buddy-into-the-wild-part-i-3lpa",
+          "id": 3540768,
+          "title": "The 12 Hours Claude Code Disappeared from Pro",
+          "description": "The original issue is on GitHub #42796, and coverage is at The Register. More posts at...",
+          "url": "https://dev.to/_53fb7c03dd741a6124e4e/the-12-hours-claude-code-disappeared-from-pro-51jf",
           "author": {
-            "username": "fiorastudio",
-            "name": "Steven Jieli Wu",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3877709%2F7d94f11b-d7c8-42d7-832e-52ba102468db.png"
+            "username": "_53fb7c03dd741a6124e4e",
+            "name": "김이더",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3805054%2F1dd90bc3-aa4f-4db2-901c-4b52816158cb.png"
           },
           "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-04-16T15:27:08Z",
+          "readingTime": 8,
+          "publishedAt": "2026-04-23T10:14:22Z",
           "tags": [
-            "claudecode",
             "ai",
-            "opensource",
-            "aipet"
+            "claude",
+            "claudecode",
+            "aitooling"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -954,24 +731,51 @@
           ]
         },
         {
-          "id": 3511508,
-          "title": "ctxwatch — I Built the Missing Context-Saturation Daemon for Claude Code in 4 Hours",
-          "description": "Six tools measure whether your Claude Code wallet is empty. Zero measure whether your brain is full. 600 lines of stdlib Python closing that gap.",
-          "url": "https://dev.to/geniej/ctxwatch-i-built-the-missing-context-saturation-daemon-for-claude-code-in-4-hours-4l5i",
+          "id": 3540767,
+          "title": "Claude Code가 Pro에서 사라진 12시간 - Anthropic의 조용한 하향과 명시적 제거 사이",
+          "description": "원문 이슈는 GitHub #42796에, 관련 보도는 The Register에서 볼 수 있다. 더 많은 글은 radarlog.kr에서.    2026년 4월 21일 오후,...",
+          "url": "https://dev.to/_53fb7c03dd741a6124e4e/claude-codega-proeseo-sarajin-12sigan-anthropicyi-joyonghan-hahyanggwa-myeongsijeog-jegeo-sai-3mfi",
           "author": {
-            "username": "geniej",
-            "name": "Genie",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3880925%2F00a25c7a-5f71-494c-b80e-66d3cd3975e2.jpeg"
+            "username": "_53fb7c03dd741a6124e4e",
+            "name": "김이더",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3805054%2F1dd90bc3-aa4f-4db2-901c-4b52816158cb.png"
           },
           "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-04-16T16:44:13Z",
+          "readingTime": 2,
+          "publishedAt": "2026-04-23T10:14:21Z",
           "tags": [
-            "claudecode",
             "ai",
-            "python",
-            "cli"
+            "claude",
+            "claudecode"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3541354,
+          "title": "I built a token cost tracker for Claude Code - and it changed the way I think about AI development",
+          "description": "It started with a number I couldn’t explain   A few months ago, I looked at my Anthropic...",
+          "url": "https://dev.to/mypatric69/i-built-a-token-cost-tracker-for-claude-code-and-it-changed-the-way-i-think-about-ai-development-111i",
+          "author": {
+            "username": "mypatric69",
+            "name": "Patric",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3894207%2Ff45c18bf-9632-49c9-abde-27f237fbdacc.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 6,
+          "publishedAt": "2026-04-23T16:20:47Z",
+          "tags": [
+            "ai",
+            "claude",
+            "monitoring",
+            "showdev"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -1008,13 +812,86 @@
               "location": "body"
             }
           ]
+        },
+        {
+          "id": 3519038,
+          "title": "The 7 Most Expensive LLM Production Incidents of 2025–2026 (Each One Had a Fixable Signal Nobody Watched)",
+          "description": "Seven real LLM outages with dollar figures attached. For each: the signal that would have caught it hours earlier, and why no dashboard surfaced it.",
+          "url": "https://dev.to/gabrielanhaia/the-7-most-expensive-llm-production-incidents-of-2025-2026-each-one-had-a-fixable-signal-nobody-1hkm",
+          "author": {
+            "username": "gabrielanhaia",
+            "name": "Gabriel Anhaia",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F425693%2Fb4e58b6f-fdb0-4d1d-b333-87582f0b663d.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 11,
+          "publishedAt": "2026-04-18T10:14:32Z",
+          "tags": [
+            "ai",
+            "observability",
+            "llm",
+            "devops"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "vercel-labs/agent-browser": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3544901,
+        "title": "I Stopped Using Playwright. Here's What Replaced It.",
+        "url": "https://dev.to/arnaldo_delisio_5e35889d/i-stopped-using-playwright-heres-what-replaced-it-48mo",
+        "author": "arnaldo_delisio_5e35889d",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 1.8,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3544901,
+          "title": "I Stopped Using Playwright. Here's What Replaced It.",
+          "description": "I stopped writing Playwright tests for integration flows. Not because they stopped working — they...",
+          "url": "https://dev.to/arnaldo_delisio_5e35889d/i-stopped-using-playwright-heres-what-replaced-it-48mo",
+          "author": {
+            "username": "arnaldo_delisio_5e35889d",
+            "name": "Arnaldo De Lisio",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2619146%2F5a015b13-2ab4-4788-aae7-c7b7f256c1bf.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-04-24T08:13:27Z",
+          "tags": [
+            "claudecode",
+            "testing",
+            "ai",
+            "webdev"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "vercel-labs/agent-browser",
+              "location": "body"
+            }
+          ]
         }
       ]
     },
     "zilliztech/claude-context": {
       "count7d": 2,
       "reactionsSum7d": 0,
-      "commentsSum7d": 0,
+      "commentsSum7d": 1,
       "topArticle": {
         "id": 3527638,
         "title": "AstCodeSplitter in claude-context codebase.",
@@ -1022,7 +899,7 @@
         "author": "ramunarasinga-11",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 63.7,
+        "hoursSincePosted": 90.5,
         "readingTime": 3
       },
       "articles": [
@@ -1065,7 +942,7 @@
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
           },
           "reactionsCount": 0,
-          "commentsCount": 0,
+          "commentsCount": 1,
           "readingTime": 9,
           "publishedAt": "2026-04-23T03:36:41Z",
           "tags": [
@@ -1103,7 +980,7 @@
         "author": "hyhmrright",
         "reactions": 1,
         "comments": 1,
-        "hoursSincePosted": 40.3,
+        "hoursSincePosted": 67.2,
         "readingTime": 3
       },
       "articles": [
@@ -1137,6 +1014,59 @@
         }
       ]
     },
+    "thedotmack/claude-mem": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3531117,
+        "title": "你的 Claude Code 为什么总是不够聪明? -- Context Engineering 的 7 个进阶技巧",
+        "url": "https://dev.to/_cbd692d476c5faf3b61bcf/ni-de-claude-code-wei-shi-yao-zong-shi-bu-gou-cong-ming-context-engineering-de-7-ge-jin-jie-ji-qiao-1ep5",
+        "author": "_cbd692d476c5faf3b61bcf",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 72.5,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3531117,
+          "title": "你的 Claude Code 为什么总是不够聪明? -- Context Engineering 的 7 个进阶技巧",
+          "description": "引言   我见过太多人装了 Claude Code，却只用来「帮我写个函数」「解释下这段代码」——然后抱怨 AI 编程是智商税。但真正的高手早就换了一套玩法：Context...",
+          "url": "https://dev.to/_cbd692d476c5faf3b61bcf/ni-de-claude-code-wei-shi-yao-zong-shi-bu-gou-cong-ming-context-engineering-de-7-ge-jin-jie-ji-qiao-1ep5",
+          "author": {
+            "username": "_cbd692d476c5faf3b61bcf",
+            "name": "韩",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3887968%2F282c87b1-7364-49c1-bfdb-fbfab6c1f3bc.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-04-21T09:33:29Z",
+          "tags": [
+            "claude",
+            "productivity",
+            "programming",
+            "promptengineering"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "thedotmack/claude-mem",
+              "location": "body"
+            },
+            {
+              "fullName": "coleam00/Archon",
+              "location": "body"
+            },
+            {
+              "fullName": "topoteretes/cognee",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "coleam00/Archon": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -1148,7 +1078,7 @@
         "author": "_cbd692d476c5faf3b61bcf",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 45.6,
+        "hoursSincePosted": 72.5,
         "readingTime": 3
       },
       "articles": [
@@ -1201,7 +1131,7 @@
         "author": "_cbd692d476c5faf3b61bcf",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 45.6,
+        "hoursSincePosted": 72.5,
         "readingTime": 3
       },
       "articles": [
@@ -1254,7 +1184,7 @@
         "author": "ganmahmud",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 144.6,
+        "hoursSincePosted": 171.5,
         "readingTime": 5
       },
       "articles": [
@@ -1299,7 +1229,7 @@
         "author": "bokuno_log",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 149.3,
+        "hoursSincePosted": 176.1,
         "readingTime": 3
       },
       "articles": [
@@ -1334,7 +1264,7 @@
       ]
     },
     "BerriAI/litellm": {
-      "count7d": 3,
+      "count7d": 2,
       "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
@@ -1344,7 +1274,7 @@
         "author": "gabrielanhaia",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 116.9,
+        "hoursSincePosted": 143.8,
         "readingTime": 8
       },
       "articles": [
@@ -1380,34 +1310,6 @@
             },
             {
               "fullName": "qdrant/qdrant",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3518953,
-          "title": "A $10B AI Startup Just Got Breached Through the LLM Library in Your Stack.",
-          "description": "Mercor confirmed a breach in April 2026 tied to a supply-chain attack on LiteLLM. Here is the audit your team should run tomorrow.",
-          "url": "https://dev.to/gabrielanhaia/a-10b-ai-startup-just-got-breached-through-the-llm-library-in-your-stack-1b88",
-          "author": {
-            "username": "gabrielanhaia",
-            "name": "Gabriel Anhaia",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F425693%2Fb4e58b6f-fdb0-4d1d-b333-87582f0b663d.jpeg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 8,
-          "publishedAt": "2026-04-18T09:57:16Z",
-          "tags": [
-            "ai",
-            "security",
-            "llm",
-            "devops"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "BerriAI/litellm",
               "location": "body"
             }
           ]
@@ -1453,7 +1355,7 @@
         "author": "gabrielanhaia",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 116.9,
+        "hoursSincePosted": 143.8,
         "readingTime": 8
       },
       "articles": [
@@ -1506,7 +1408,7 @@
         "author": "gabrielanhaia",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 116.9,
+        "hoursSincePosted": 143.8,
         "readingTime": 8
       },
       "articles": [
@@ -1548,6 +1450,141 @@
         }
       ]
     },
+    "elder-plinius/CL4R1T4S": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3542367,
+        "title": "I evaluated the leaked system prompts of the biggest AI coding tools. Here's what I found.",
+        "url": "https://dev.to/franciscoferreiraff/i-evaluated-the-leaked-system-prompts-of-the-biggest-ai-coding-tools-heres-what-i-found-3bo1",
+        "author": "franciscoferreiraff",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 17.4,
+        "readingTime": 4
+      },
+      "articles": [
+        {
+          "id": 3542367,
+          "title": "I evaluated the leaked system prompts of the biggest AI coding tools. Here's what I found.",
+          "description": "There's a GitHub repository with the full system prompts of Cursor, Windsurf, Lovable, Bolt, and v0 —...",
+          "url": "https://dev.to/franciscoferreiraff/i-evaluated-the-leaked-system-prompts-of-the-biggest-ai-coding-tools-heres-what-i-found-3bo1",
+          "author": {
+            "username": "franciscoferreiraff",
+            "name": "Francisco Ferreira",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3891370%2Fe148c8d0-356f-4c52-86b3-76ed5a4e9c62.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-04-23T16:40:23Z",
+          "tags": [
+            "promptengineering",
+            "llm",
+            "ai",
+            "webdev"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "elder-plinius/CL4R1T4S",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "garrytan/gbrain": {
+      "count7d": 1,
+      "reactionsSum7d": 1,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3540010,
+        "title": "One Open Source Project a Day (No.46): The Y Combinator CEO Wrote His Own AI Brain and Open-Sourced It",
+        "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no46-the-y-combinator-ceo-wrote-his-own-ai-brain-and-open-sourced-2ib5",
+        "author": "wonderlab",
+        "reactions": 1,
+        "comments": 0,
+        "hoursSincePosted": 26.2,
+        "readingTime": 7
+      },
+      "articles": [
+        {
+          "id": 3540010,
+          "title": "One Open Source Project a Day (No.46): The Y Combinator CEO Wrote His Own AI Brain and Open-Sourced It",
+          "description": "Introduction    \"This isn't an experiment. This is the production system I actually...",
+          "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no46-the-y-combinator-ceo-wrote-his-own-ai-brain-and-open-sourced-2ib5",
+          "author": {
+            "username": "wonderlab",
+            "name": "WonderLab",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 7,
+          "publishedAt": "2026-04-23T07:51:07Z",
+          "tags": [
+            "opensource",
+            "ai",
+            "mcp",
+            "yc"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gbrain",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "MemPalace/mempalace": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3530472,
+        "title": "One Open Source Project a Day (No.44): MemPalace - The AI Memory System Built by the Star of Resident Evil",
+        "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no44-mempalace-the-ai-memory-system-built-by-the-star-of-2ceo",
+        "author": "wonderlab",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 74.7,
+        "readingTime": 8
+      },
+      "articles": [
+        {
+          "id": 3530472,
+          "title": "One Open Source Project a Day (No.44): MemPalace - The AI Memory System Built by the Star of Resident Evil",
+          "description": "Introduction    \"She survived T-virus mutants on screen. Now she's fixing AI amnesia in real...",
+          "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no44-mempalace-the-ai-memory-system-built-by-the-star-of-2ceo",
+          "author": {
+            "username": "wonderlab",
+            "name": "WonderLab",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 8,
+          "publishedAt": "2026-04-21T07:19:06Z",
+          "tags": [
+            "ai",
+            "opensource",
+            "agents",
+            "mcp"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "MemPalace/mempalace",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "github/github-mcp-server": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -1559,7 +1596,7 @@
         "author": "kenimo49",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 42.2,
+        "hoursSincePosted": 69,
         "readingTime": 7
       },
       "articles": [
@@ -1604,7 +1641,7 @@
         "author": "wonderlab",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 101.5,
+        "hoursSincePosted": 128.4,
         "readingTime": 2
       },
       "articles": [
@@ -1649,7 +1686,7 @@
         "author": "sourcier",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 22,
+        "hoursSincePosted": 48.8,
         "readingTime": 5
       },
       "articles": [
@@ -1682,51 +1719,6 @@
         }
       ]
     },
-    "HKUDS/CLI-Anything": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3533285,
-        "title": "CLI-Anything: The Universal Bridge for AI Agents to Control Any Software",
-        "url": "https://dev.to/recca0120/cli-anything-the-universal-bridge-for-ai-agents-to-control-any-software-4ec3",
-        "author": "recca0120",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 35.4,
-        "readingTime": 6
-      },
-      "articles": [
-        {
-          "id": 3533285,
-          "title": "CLI-Anything: The Universal Bridge for AI Agents to Control Any Software",
-          "description": "No screenshots, no clicking — one command makes Claude Code generate a complete CLI for any software, letting AI agents directly call GIMP, Blender, and LibreOffice",
-          "url": "https://dev.to/recca0120/cli-anything-the-universal-bridge-for-ai-agents-to-control-any-software-4ec3",
-          "author": {
-            "username": "recca0120",
-            "name": "Recca Tsai",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F50274%2F427ea12d-13dd-4a0e-8955-dddfbf0a39ea.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 6,
-          "publishedAt": "2026-04-21T19:47:14Z",
-          "tags": [
-            "claudecode",
-            "agents",
-            "cli",
-            "automation"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "HKUDS/CLI-Anything",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "atuinsh/atuin": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -1738,7 +1730,7 @@
         "author": "higorae",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 42.8,
+        "hoursSincePosted": 69.6,
         "readingTime": 4
       },
       "articles": [
@@ -1772,143 +1764,45 @@
         }
       ]
     },
-    "googleworkspace/cli": {
+    "HKUDS/CLI-Anything": {
       "count7d": 1,
       "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3534802,
-        "title": "Sharing AI Related Bookmarks",
-        "url": "https://dev.to/drorata/sharing-ai-related-bookmarks-6f2",
-        "author": "drorata",
+        "id": 3533285,
+        "title": "CLI-Anything: The Universal Bridge for AI Agents to Control Any Software",
+        "url": "https://dev.to/recca0120/cli-anything-the-universal-bridge-for-ai-agents-to-control-any-software-4ec3",
+        "author": "recca0120",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 24.8,
-        "readingTime": 1
+        "hoursSincePosted": 62.3,
+        "readingTime": 6
       },
       "articles": [
         {
-          "id": 3534802,
-          "title": "Sharing AI Related Bookmarks",
-          "description": "Some bookmarks that I want to share (and for my future-self)",
-          "url": "https://dev.to/drorata/sharing-ai-related-bookmarks-6f2",
+          "id": 3533285,
+          "title": "CLI-Anything: The Universal Bridge for AI Agents to Control Any Software",
+          "description": "No screenshots, no clicking — one command makes Claude Code generate a complete CLI for any software, letting AI agents directly call GIMP, Blender, and LibreOffice",
+          "url": "https://dev.to/recca0120/cli-anything-the-universal-bridge-for-ai-agents-to-control-any-software-4ec3",
           "author": {
-            "username": "drorata",
-            "name": "Dror Atariah",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F128629%2F328da004-ed3e-4d17-b4d5-f0ca1744ca54.jpeg"
+            "username": "recca0120",
+            "name": "Recca Tsai",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F50274%2F427ea12d-13dd-4a0e-8955-dddfbf0a39ea.png"
           },
           "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 1,
-          "publishedAt": "2026-04-22T06:26:00Z",
+          "readingTime": 6,
+          "publishedAt": "2026-04-21T19:47:14Z",
           "tags": [
-            "ai",
+            "claudecode",
+            "agents",
             "cli",
-            "productivity",
-            "tooling"
+            "automation"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "googleworkspace/cli",
-              "location": "tag"
-            }
-          ]
-        }
-      ]
-    },
-    "snarktank/ralph": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3511856,
-        "title": "Stop Prompting. Start Thinking.",
-        "url": "https://dev.to/playfulprogramming/stop-prompting-start-thinking-5fj8",
-        "author": "davideimola",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 151.2,
-        "readingTime": 7
-      },
-      "articles": [
-        {
-          "id": 3511856,
-          "title": "Stop Prompting. Start Thinking.",
-          "description": "This post exists because of a problem I've always had: when I sit down to write something (an...",
-          "url": "https://dev.to/playfulprogramming/stop-prompting-start-thinking-5fj8",
-          "author": {
-            "username": "davideimola",
-            "name": "Davide Imola",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1191980%2F3b0daa0e-1dd1-4c2b-a85c-7d6fd6b65f28.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-04-17T00:00:00Z",
-          "tags": [
-            "ai",
-            "devrel",
-            "productivity",
-            "tooling"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "snarktank/ralph",
-              "location": "body"
-            },
-            {
-              "fullName": "mattpocock/skills",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "mattpocock/skills": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3511856,
-        "title": "Stop Prompting. Start Thinking.",
-        "url": "https://dev.to/playfulprogramming/stop-prompting-start-thinking-5fj8",
-        "author": "davideimola",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 151.2,
-        "readingTime": 7
-      },
-      "articles": [
-        {
-          "id": 3511856,
-          "title": "Stop Prompting. Start Thinking.",
-          "description": "This post exists because of a problem I've always had: when I sit down to write something (an...",
-          "url": "https://dev.to/playfulprogramming/stop-prompting-start-thinking-5fj8",
-          "author": {
-            "username": "davideimola",
-            "name": "Davide Imola",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1191980%2F3b0daa0e-1dd1-4c2b-a85c-7d6fd6b65f28.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-04-17T00:00:00Z",
-          "tags": [
-            "ai",
-            "devrel",
-            "productivity",
-            "tooling"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "snarktank/ralph",
-              "location": "body"
-            },
-            {
-              "fullName": "mattpocock/skills",
+              "fullName": "HKUDS/CLI-Anything",
               "location": "body"
             }
           ]
@@ -1926,7 +1820,7 @@
         "author": "_46ea277e677b888e0cd13",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 52.8,
+        "hoursSincePosted": 79.6,
         "readingTime": 6
       },
       "articles": [
@@ -1960,45 +1854,143 @@
         }
       ]
     },
-    "Dicklesworthstone/destructive_command_guard": {
+    "openai/euphony": {
       "count7d": 1,
       "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3511102,
-        "title": "Disciplined Engineering: How We Build AI Systems That Actually Work",
-        "url": "https://dev.to/alexmikhalev/disciplined-engineering-ai-systems-19di",
-        "author": "alexmikhalev",
+        "id": 3533927,
+        "title": "OpenAI Euphony: A Browser-Based Viewer for Harmony Conversations and Codex CLI Sessions",
+        "url": "https://dev.to/_46ea277e677b888e0cd13/openai-euphony-a-browser-based-viewer-for-harmony-conversations-and-codex-cli-sessions-5gcn",
+        "author": "_46ea277e677b888e0cd13",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 160.2,
-        "readingTime": 4
+        "hoursSincePosted": 56.5,
+        "readingTime": 3
       },
       "articles": [
         {
-          "id": 3511102,
-          "title": "Disciplined Engineering: How We Build AI Systems That Actually Work",
-          "description": "+++ title=\"Disciplined Engineering: How We Build AI Systems That Actually...",
-          "url": "https://dev.to/alexmikhalev/disciplined-engineering-ai-systems-19di",
+          "id": 3533927,
+          "title": "OpenAI Euphony: A Browser-Based Viewer for Harmony Conversations and Codex CLI Sessions",
+          "description": "OpenAI Euphony: A Browser-Based Viewer for Harmony Conversations and Codex CLI...",
+          "url": "https://dev.to/_46ea277e677b888e0cd13/openai-euphony-a-browser-based-viewer-for-harmony-conversations-and-codex-cli-sessions-5gcn",
           "author": {
-            "username": "alexmikhalev",
-            "name": "AlexMikhalev",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F615498%2F1d6840a1-b457-4a78-a93a-1fa431bfc53c.png"
+            "username": "_46ea277e677b888e0cd13",
+            "name": "정상록",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3798483%2F5958ee10-90dd-45e5-815a-91d3f8196156.png"
           },
           "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-04-16T15:00:55Z",
+          "readingTime": 3,
+          "publishedAt": "2026-04-22T01:35:21Z",
           "tags": [
             "ai",
-            "engineering",
-            "devtools",
-            "coding"
+            "openai",
+            "opensource",
+            "tooling"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "Dicklesworthstone/destructive_command_guard",
+              "fullName": "openai/euphony",
+              "location": "body"
+            },
+            {
+              "fullName": "openai/harmony",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "openai/harmony": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3533927,
+        "title": "OpenAI Euphony: A Browser-Based Viewer for Harmony Conversations and Codex CLI Sessions",
+        "url": "https://dev.to/_46ea277e677b888e0cd13/openai-euphony-a-browser-based-viewer-for-harmony-conversations-and-codex-cli-sessions-5gcn",
+        "author": "_46ea277e677b888e0cd13",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 56.5,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3533927,
+          "title": "OpenAI Euphony: A Browser-Based Viewer for Harmony Conversations and Codex CLI Sessions",
+          "description": "OpenAI Euphony: A Browser-Based Viewer for Harmony Conversations and Codex CLI...",
+          "url": "https://dev.to/_46ea277e677b888e0cd13/openai-euphony-a-browser-based-viewer-for-harmony-conversations-and-codex-cli-sessions-5gcn",
+          "author": {
+            "username": "_46ea277e677b888e0cd13",
+            "name": "정상록",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3798483%2F5958ee10-90dd-45e5-815a-91d3f8196156.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-04-22T01:35:21Z",
+          "tags": [
+            "ai",
+            "openai",
+            "opensource",
+            "tooling"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "openai/euphony",
+              "location": "body"
+            },
+            {
+              "fullName": "openai/harmony",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "ryoppippi/ccusage": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3535197,
+        "title": "ccusage-web – web dashboard to track Claude Code token costs",
+        "url": "https://dev.to/hamzaahmedkhan/ccusage-web-web-dashboard-to-track-claude-code-token-costs-3l17",
+        "author": "hamzaahmedkhan",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 50.4,
+        "readingTime": 1
+      },
+      "articles": [
+        {
+          "id": 3535197,
+          "title": "ccusage-web – web dashboard to track Claude Code token costs",
+          "description": "A web UI for ccusage — the Claude Code usage analyzer. See your Claude costs by day, month, session,...",
+          "url": "https://dev.to/hamzaahmedkhan/ccusage-web-web-dashboard-to-track-claude-code-token-costs-3l17",
+          "author": {
+            "username": "hamzaahmedkhan",
+            "name": "Hamza Khan",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F481199%2F4c0ac2c3-f723-433e-9666-49a7c231ade3.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 1,
+          "publishedAt": "2026-04-22T07:38:44Z",
+          "tags": [
+            "claude",
+            "ai",
+            "tooling",
+            "showdev"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "ryoppippi/ccusage",
               "location": "body"
             }
           ]
@@ -2008,15 +2000,15 @@
     "farion1231/cc-switch": {
       "count7d": 1,
       "reactionsSum7d": 0,
-      "commentsSum7d": 0,
+      "commentsSum7d": 1,
       "topArticle": {
         "id": 3538800,
         "title": "Claude Code Agentic Stack: cc-switch & claude-context MCP",
         "url": "https://dev.to/max_quimby/claude-code-agentic-stack-cc-switch-claude-context-mcp-1dg2",
         "author": "max_quimby",
         "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 3.6,
+        "comments": 1,
+        "hoursSincePosted": 30.4,
         "readingTime": 9
       },
       "articles": [
@@ -2031,7 +2023,7 @@
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
           },
           "reactionsCount": 0,
-          "commentsCount": 0,
+          "commentsCount": 1,
           "readingTime": 9,
           "publishedAt": "2026-04-23T03:36:41Z",
           "tags": [
@@ -2061,15 +2053,15 @@
     "shanraisshan/claude-code-best-practice": {
       "count7d": 1,
       "reactionsSum7d": 0,
-      "commentsSum7d": 0,
+      "commentsSum7d": 1,
       "topArticle": {
         "id": 3538800,
         "title": "Claude Code Agentic Stack: cc-switch & claude-context MCP",
         "url": "https://dev.to/max_quimby/claude-code-agentic-stack-cc-switch-claude-context-mcp-1dg2",
         "author": "max_quimby",
         "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 3.6,
+        "comments": 1,
+        "hoursSincePosted": 30.4,
         "readingTime": 9
       },
       "articles": [
@@ -2084,7 +2076,7 @@
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
           },
           "reactionsCount": 0,
-          "commentsCount": 0,
+          "commentsCount": 1,
           "readingTime": 9,
           "publishedAt": "2026-04-23T03:36:41Z",
           "tags": [
@@ -2116,22 +2108,17 @@
     {
       "fullName": "openclaw/openclaw",
       "count7d": 5,
-      "reactionsSum7d": 57
-    },
-    {
-      "fullName": "NousResearch/hermes-agent",
-      "count7d": 1,
-      "reactionsSum7d": 34
+      "reactionsSum7d": 64
     },
     {
       "fullName": "HexmosTech/git-lrc",
       "count7d": 1,
-      "reactionsSum7d": 20
+      "reactionsSum7d": 21
     },
     {
-      "fullName": "gitbutlerapp/gitbutler",
+      "fullName": "forrestchang/andrej-karpathy-skills",
       "count7d": 1,
-      "reactionsSum7d": 19
+      "reactionsSum7d": 7
     },
     {
       "fullName": "JuliusBrussee/caveman",
@@ -2140,16 +2127,26 @@
     },
     {
       "fullName": "safishamsi/graphify",
-      "count7d": 1,
+      "count7d": 2,
       "reactionsSum7d": 2
     },
     {
       "fullName": "anthropics/claude-code",
-      "count7d": 4,
+      "count7d": 6,
       "reactionsSum7d": 1
     },
     {
       "fullName": "anthropics/claude-plugins-official",
+      "count7d": 1,
+      "reactionsSum7d": 1
+    },
+    {
+      "fullName": "garrytan/gbrain",
+      "count7d": 1,
+      "reactionsSum7d": 1
+    },
+    {
+      "fullName": "ggml-org/llama.cpp",
       "count7d": 1,
       "reactionsSum7d": 1
     },
@@ -2160,27 +2157,12 @@
     },
     {
       "fullName": "BerriAI/litellm",
-      "count7d": 3,
-      "reactionsSum7d": 0
-    },
-    {
-      "fullName": "forrestchang/andrej-karpathy-skills",
-      "count7d": 2,
-      "reactionsSum7d": 0
-    },
-    {
-      "fullName": "thedotmack/claude-mem",
       "count7d": 2,
       "reactionsSum7d": 0
     },
     {
       "fullName": "zilliztech/claude-context",
       "count7d": 2,
-      "reactionsSum7d": 0
-    },
-    {
-      "fullName": "affaan-m/everything-claude-code",
-      "count7d": 1,
       "reactionsSum7d": 0
     },
     {
@@ -2204,7 +2186,7 @@
       "reactionsSum7d": 0
     },
     {
-      "fullName": "Dicklesworthstone/destructive_command_guard",
+      "fullName": "elder-plinius/CL4R1T4S",
       "count7d": 1,
       "reactionsSum7d": 0
     },
@@ -2229,17 +2211,7 @@
       "reactionsSum7d": 0
     },
     {
-      "fullName": "googleworkspace/cli",
-      "count7d": 1,
-      "reactionsSum7d": 0
-    },
-    {
       "fullName": "HKUDS/CLI-Anything",
-      "count7d": 1,
-      "reactionsSum7d": 0
-    },
-    {
-      "fullName": "mattpocock/skills",
       "count7d": 1,
       "reactionsSum7d": 0
     },
@@ -2254,6 +2226,16 @@
       "reactionsSum7d": 0
     },
     {
+      "fullName": "openai/euphony",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
+      "fullName": "openai/harmony",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
       "fullName": "qdrant/qdrant",
       "count7d": 1,
       "reactionsSum7d": 0
@@ -2264,17 +2246,27 @@
       "reactionsSum7d": 0
     },
     {
+      "fullName": "ryoppippi/ccusage",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
       "fullName": "shanraisshan/claude-code-best-practice",
       "count7d": 1,
       "reactionsSum7d": 0
     },
     {
-      "fullName": "snarktank/ralph",
+      "fullName": "thedotmack/claude-mem",
       "count7d": 1,
       "reactionsSum7d": 0
     },
     {
       "fullName": "topoteretes/cognee",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
+      "fullName": "vercel-labs/agent-browser",
       "count7d": 1,
       "reactionsSum7d": 0
     }

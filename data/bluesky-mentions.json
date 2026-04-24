@@ -1,13 +1,63 @@
 {
-  "fetchedAt": "2026-04-24T19:13:58.237Z",
+  "fetchedAt": "2026-04-24T20:03:38.493Z",
   "windowDays": 7,
-  "scannedPosts": 198,
+  "scannedPosts": 199,
   "searchQuery": "github.com",
   "pagesFetched": 2,
   "mentions": {
+    "ggml-org/llama.cpp": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:jsaci272pfep77eoo5jjxfrm/app.bsky.feed.post/3mkbcpewpyk2f",
+        "cid": "bafyreiaq4wtowm24ti5lww6sflftlve2biq3d7jxfh5ogt4rdncypwevwa",
+        "bskyUrl": "https://bsky.app/profile/refinement.systems/post/3mkbcpewpyk2f",
+        "text": "idk but github.com/ggml-org/lla... says it's all in cpu. the flash-moe project that streams weights from ssd keeps a cache of a some number of experts in unified ram though github.com/danveloper/f...",
+        "author": {
+          "handle": "refinement.systems"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-04-24T19:56:54.658Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:jsaci272pfep77eoo5jjxfrm/app.bsky.feed.post/3mkbcpewpyk2f",
+          "cid": "bafyreiaq4wtowm24ti5lww6sflftlve2biq3d7jxfh5ogt4rdncypwevwa",
+          "bskyUrl": "https://bsky.app/profile/refinement.systems/post/3mkbcpewpyk2f",
+          "text": "idk but github.com/ggml-org/lla... says it's all in cpu. the flash-moe project that streams weights from ssd keeps a cache of a some number of experts in unified ram though github.com/danveloper/f...",
+          "author": {
+            "handle": "refinement.systems"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-04-24T19:56:54.658Z",
+          "createdUtc": 1777060614,
+          "ageHours": 0.5,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "ggml-org/llama.cpp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "router-for-me/CLIProxyAPI": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -19,11 +69,11 @@
           "handle": "emmnigma.bsky.social",
           "displayName": "Emma"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-24T19:03:51.912Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1
       },
       "posts": [
         {
@@ -35,13 +85,13 @@
             "handle": "emmnigma.bsky.social",
             "displayName": "Emma"
           },
-          "likeCount": 0,
+          "likeCount": 1,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-04-24T19:03:51.912Z",
           "createdUtc": 1777057431,
-          "ageHours": 0.5,
-          "trendingScore": 0,
+          "ageHours": 1,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo",
             "has-agent"
@@ -75,7 +125,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-24T17:47:30.833972Z",
-        "hoursSincePosted": 1.44
+        "hoursSincePosted": 2.27
       },
       "posts": [
         {
@@ -92,7 +142,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-24T17:47:30.833972Z",
           "createdUtc": 1777052850,
-          "ageHours": 1.44,
+          "ageHours": 2.27,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -120,7 +170,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-24T18:47:23Z",
           "createdUtc": 1777056443,
-          "ageHours": 0.5,
+          "ageHours": 1.27,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -154,7 +204,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-24T18:32:16Z",
-        "hoursSincePosted": 0.7
+        "hoursSincePosted": 1.52
       },
       "posts": [
         {
@@ -171,7 +221,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-24T18:32:16Z",
           "createdUtc": 1777055536,
-          "ageHours": 0.7,
+          "ageHours": 1.52,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -180,108 +230,6 @@
           "linkedRepos": [
             {
               "fullName": "tw93/Kaku",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "rorkai/App-Store-Connect-CLI": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:bxcxxsccko254qidvw5atfvi/app.bsky.feed.post/3mkayhvuut52y",
-        "cid": "bafyreifwckjgvkqt7cdkhvgpmywlrcetdu65seqiqfogsabfm227t474dq",
-        "bskyUrl": "https://bsky.app/profile/rudrank.bsky.social/post/3mkayhvuut52y",
-        "text": "7 small releases in past 2 weeks of App Store Connect CLI! All from contributors who file amazing issues (with solutions!!) and PRs github.com/rorkai/App-...",
-        "author": {
-          "handle": "rudrank.bsky.social",
-          "displayName": "Rudrank Riyam"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-24T16:53:46.510032Z",
-        "hoursSincePosted": 2.34
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:bxcxxsccko254qidvw5atfvi/app.bsky.feed.post/3mkayhvuut52y",
-          "cid": "bafyreifwckjgvkqt7cdkhvgpmywlrcetdu65seqiqfogsabfm227t474dq",
-          "bskyUrl": "https://bsky.app/profile/rudrank.bsky.social/post/3mkayhvuut52y",
-          "text": "7 small releases in past 2 weeks of App Store Connect CLI! All from contributors who file amazing issues (with solutions!!) and PRs github.com/rorkai/App-...",
-          "author": {
-            "handle": "rudrank.bsky.social",
-            "displayName": "Rudrank Riyam"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-24T16:53:46.510032Z",
-          "createdUtc": 1777049626,
-          "ageHours": 2.34,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "rorkai/App-Store-Connect-CLI",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "Polymarket/polymarket-cli": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkay4l4h672v",
-        "cid": "bafyreihdtbhdkbnqmsxcgcczjujrpfv2g2ghp4azz6rglwnfvld25wzarm",
-        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkay4l4h672v",
-        "text": "Polymarket / polymarket-cli: ★2549 https://github.com/Polymarket/polymarket-cli",
-        "author": {
-          "handle": "rusttrending.bsky.social",
-          "displayName": "RustTrending"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-24T16:47:25.862546Z",
-        "hoursSincePosted": 2.44
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkay4l4h672v",
-          "cid": "bafyreihdtbhdkbnqmsxcgcczjujrpfv2g2ghp4azz6rglwnfvld25wzarm",
-          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkay4l4h672v",
-          "text": "Polymarket / polymarket-cli: ★2549 https://github.com/Polymarket/polymarket-cli",
-          "author": {
-            "handle": "rusttrending.bsky.social",
-            "displayName": "RustTrending"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-24T16:47:25.862546Z",
-          "createdUtc": 1777049245,
-          "ageHours": 2.44,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "Polymarket/polymarket-cli",
               "matchType": "url",
               "confidence": 1
             }
@@ -297,19 +245,14 @@
       "likesSum7d": 1
     },
     {
-      "fullName": "Polymarket/polymarket-cli",
+      "fullName": "ggml-org/llama.cpp",
       "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "rorkai/App-Store-Connect-CLI",
-      "count7d": 1,
-      "likesSum7d": 0
+      "likesSum7d": 1
     },
     {
       "fullName": "router-for-me/CLIProxyAPI",
       "count7d": 1,
-      "likesSum7d": 0
+      "likesSum7d": 1
     },
     {
       "fullName": "tw93/Kaku",

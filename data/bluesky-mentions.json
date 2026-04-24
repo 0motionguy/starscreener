@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-04-24T21:07:54.868Z",
+  "fetchedAt": "2026-04-24T22:04:30.101Z",
   "windowDays": 7,
-  "scannedPosts": 298,
+  "scannedPosts": 99,
   "searchQuery": "github.com",
-  "pagesFetched": 3,
+  "pagesFetched": 1,
   "mentions": {
     "jj-vcs/jj": {
       "count7d": 1,
@@ -23,7 +23,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-24T20:47:46.866910Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.28
       },
       "posts": [
         {
@@ -40,7 +40,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-24T20:47:46.866910Z",
           "createdUtc": 1777063666,
-          "ageHours": 0.5,
+          "ageHours": 1.28,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -57,53 +57,25 @@
       ]
     },
     "ggml-org/llama.cpp": {
-      "count7d": 2,
-      "likesSum7d": 2,
+      "count7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:jsaci272pfep77eoo5jjxfrm/app.bsky.feed.post/3mkbcpewpyk2f",
-        "cid": "bafyreiaq4wtowm24ti5lww6sflftlve2biq3d7jxfh5ogt4rdncypwevwa",
-        "bskyUrl": "https://bsky.app/profile/refinement.systems/post/3mkbcpewpyk2f",
-        "text": "idk but github.com/ggml-org/lla... says it's all in cpu. the flash-moe project that streams weights from ssd keeps a cache of a some number of experts in unified ram though github.com/danveloper/f...",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkbeq2eeti2i",
+        "cid": "bafyreidkmeclhpvkoqezosxy2kagxgreuztvdlodsuzhnxqo3cwp5h35q4",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkbeq2eeti2i",
+        "text": "🟠 llama.cpp b8922 brings browser-side flash attention fallback to WebGPU llama.cpp b8922 enables FLASH_ATTN_EXT on browsers even when subgroup matrix support is missing, adding tile and vec fallback paths for ggml-webgpu. https://github.com/ggml-org/llama.cpp/releases/tag/b8922 #AI #AgentWyre",
         "author": {
-          "handle": "refinement.systems"
+          "handle": "agentwyre.ai"
         },
-        "likeCount": 2,
+        "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-04-24T19:56:54.658Z",
-        "hoursSincePosted": 1.18
+        "replyCount": 0,
+        "createdAt": "2026-04-24T20:33:03.849125+00:00",
+        "hoursSincePosted": 1.52
       },
       "posts": [
-        {
-          "uri": "at://did:plc:jsaci272pfep77eoo5jjxfrm/app.bsky.feed.post/3mkbcpewpyk2f",
-          "cid": "bafyreiaq4wtowm24ti5lww6sflftlve2biq3d7jxfh5ogt4rdncypwevwa",
-          "bskyUrl": "https://bsky.app/profile/refinement.systems/post/3mkbcpewpyk2f",
-          "text": "idk but github.com/ggml-org/lla... says it's all in cpu. the flash-moe project that streams weights from ssd keeps a cache of a some number of experts in unified ram though github.com/danveloper/f...",
-          "author": {
-            "handle": "refinement.systems"
-          },
-          "likeCount": 2,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-04-24T19:56:54.658Z",
-          "createdUtc": 1777060614,
-          "ageHours": 1.18,
-          "trendingScore": 2.5,
-          "content_tags": [
-            "has-github-repo",
-            "has-md-file"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "ggml-org/llama.cpp",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
         {
           "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkbeq2eeti2i",
           "cid": "bafyreidkmeclhpvkoqezosxy2kagxgreuztvdlodsuzhnxqo3cwp5h35q4",
@@ -117,7 +89,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-24T20:33:03.849125+00:00",
           "createdUtc": 1777062783,
-          "ageHours": 0.58,
+          "ageHours": 1.52,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -151,7 +123,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-24T20:26:12.860404Z",
-        "hoursSincePosted": 0.7
+        "hoursSincePosted": 1.64
       },
       "posts": [
         {
@@ -168,7 +140,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-24T20:26:12.860404Z",
           "createdUtc": 1777062372,
-          "ageHours": 0.7,
+          "ageHours": 1.64,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -184,366 +156,11 @@
           ]
         }
       ]
-    },
-    "leigest519/OpenGame": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkbd7b76go2g",
-        "cid": "bafyreib2iywsss7lq4cu4cnppcm4qr65alkzpbpznhl3xta7z3jmbxcp3e",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkbd7b76go2g",
-        "text": "https://github.com/leigest519/OpenGame",
-        "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-24T20:05:47Z",
-        "hoursSincePosted": 1.04
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkbd7b76go2g",
-          "cid": "bafyreib2iywsss7lq4cu4cnppcm4qr65alkzpbpznhl3xta7z3jmbxcp3e",
-          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkbd7b76go2g",
-          "text": "https://github.com/leigest519/OpenGame",
-          "author": {
-            "handle": "tom-doerr.bsky.social",
-            "displayName": "Tom Dörr "
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-24T20:05:47Z",
-          "createdUtc": 1777061147,
-          "ageHours": 1.04,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "leigest519/OpenGame",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "garrytan/gstack": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 1,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:m3pltlzpmme735m4yh7ueqx5/app.bsky.feed.post/3mkbe5hnskr2z",
-        "cid": "bafyreidwztmk36jahg2a6adiwa4h222shswsho2ataji6ur4mwbwkw5xhi",
-        "bskyUrl": "https://bsky.app/profile/garrytan-mir-rt.selfhosted.social/post/3mkbe5hnskr2z",
-        "text": "RT @attharrva15: This is my first article on X, and it talks about engineering as a discipline and @garrytan's https://github.com/garrytan/gstack in a humble, inexperienced and from the point of view of an engineer who's just starting his journey, paving his path.",
-        "author": {
-          "handle": "garrytan-mir-rt.selfhosted.social",
-          "displayName": "Retweeted by Garry Tan [UNOFFICIAL]"
-        },
-        "likeCount": 0,
-        "repostCount": 1,
-        "replyCount": 1,
-        "createdAt": "2026-04-24T19:48:30.000Z",
-        "hoursSincePosted": 1.32
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:m3pltlzpmme735m4yh7ueqx5/app.bsky.feed.post/3mkbe5hnskr2z",
-          "cid": "bafyreidwztmk36jahg2a6adiwa4h222shswsho2ataji6ur4mwbwkw5xhi",
-          "bskyUrl": "https://bsky.app/profile/garrytan-mir-rt.selfhosted.social/post/3mkbe5hnskr2z",
-          "text": "RT @attharrva15: This is my first article on X, and it talks about engineering as a discipline and @garrytan's https://github.com/garrytan/gstack in a humble, inexperienced and from the point of view of an engineer who's just starting his journey, paving his path.",
-          "author": {
-            "handle": "garrytan-mir-rt.selfhosted.social",
-            "displayName": "Retweeted by Garry Tan [UNOFFICIAL]"
-          },
-          "likeCount": 0,
-          "repostCount": 1,
-          "replyCount": 1,
-          "createdAt": "2026-04-24T19:48:30.000Z",
-          "createdUtc": 1777060110,
-          "ageHours": 1.32,
-          "trendingScore": 2.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "garrytan/gstack",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "router-for-me/CLIProxyAPI": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:gy2l7mlrmwtpo5xjjwyuuzim/app.bsky.feed.post/3mkb7qjmzm227",
-        "cid": "bafyreihsb2w5f2bdqmxij4mx25ki5wx2jfz7vys4z63xfixukzeguhbxly",
-        "bskyUrl": "https://bsky.app/profile/emmnigma.bsky.social/post/3mkb7qjmzm227",
-        "text": "I do something similar using github.com/router-for-m... With the oauth Claude sub and codex auth subagents",
-        "author": {
-          "handle": "emmnigma.bsky.social",
-          "displayName": "Emma"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-24T19:03:51.912Z",
-        "hoursSincePosted": 2.07
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:gy2l7mlrmwtpo5xjjwyuuzim/app.bsky.feed.post/3mkb7qjmzm227",
-          "cid": "bafyreihsb2w5f2bdqmxij4mx25ki5wx2jfz7vys4z63xfixukzeguhbxly",
-          "bskyUrl": "https://bsky.app/profile/emmnigma.bsky.social/post/3mkb7qjmzm227",
-          "text": "I do something similar using github.com/router-for-m... With the oauth Claude sub and codex auth subagents",
-          "author": {
-            "handle": "emmnigma.bsky.social",
-            "displayName": "Emma"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-24T19:03:51.912Z",
-          "createdUtc": 1777057431,
-          "ageHours": 2.07,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo",
-            "has-agent"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "router-for-me/CLIProxyAPI",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "junhoyeo/tokscale": {
-      "count7d": 2,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkb3hyvcjb22",
-        "cid": "bafyreihbg7pioc6vo6x4tvmnxndupt2ejenw5hqmsa3u5c7elm3p3tjibq",
-        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkb3hyvcjb22",
-        "text": "junhoyeo / tokscale: 🛰️ A CLI tool for tracking token usage from OpenCode, Claude Code, 🦞OpenClaw (Clawdbot/Moltbot), Pi, Codex, Gemini, Cursor, AmpCode, Factory Droid, Kimi, and more! • 🏅Global Leaderboard + 2D/3D Contributions Graph ★2149 https://github.com/junhoyeo/tokscale",
-        "author": {
-          "handle": "rusttrending.bsky.social",
-          "displayName": "RustTrending"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-24T17:47:30.833972Z",
-        "hoursSincePosted": 3.34
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkb3hyvcjb22",
-          "cid": "bafyreihbg7pioc6vo6x4tvmnxndupt2ejenw5hqmsa3u5c7elm3p3tjibq",
-          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkb3hyvcjb22",
-          "text": "junhoyeo / tokscale: 🛰️ A CLI tool for tracking token usage from OpenCode, Claude Code, 🦞OpenClaw (Clawdbot/Moltbot), Pi, Codex, Gemini, Cursor, AmpCode, Factory Droid, Kimi, and more! • 🏅Global Leaderboard + 2D/3D Contributions Graph ★2149 https://github.com/junhoyeo/tokscale",
-          "author": {
-            "handle": "rusttrending.bsky.social",
-            "displayName": "RustTrending"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-24T17:47:30.833972Z",
-          "createdUtc": 1777052850,
-          "ageHours": 3.34,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "junhoyeo/tokscale",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkb6t3r5pi2z",
-          "cid": "bafyreigbykuqmelpjvuskewd5ychto3zu4zfktcnk4r4kvsx2shjlqpuau",
-          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkb6t3r5pi2z",
-          "text": "https://github.com/junhoyeo/tokscale",
-          "author": {
-            "handle": "tom-doerr.bsky.social",
-            "displayName": "Tom Dörr "
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-24T18:47:23Z",
-          "createdUtc": 1777056443,
-          "ageHours": 2.34,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "junhoyeo/tokscale",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "tw93/Kaku": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkb5y2ewc42s",
-        "cid": "bafyreicdtpjy62irgvyfxrknlj6qwwdw6st25x25rqxl6bjhvlftjgv63m",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkb5y2ewc42s",
-        "text": "https://github.com/tw93/Kaku",
-        "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-24T18:32:16Z",
-        "hoursSincePosted": 2.59
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkb5y2ewc42s",
-          "cid": "bafyreicdtpjy62irgvyfxrknlj6qwwdw6st25x25rqxl6bjhvlftjgv63m",
-          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkb5y2ewc42s",
-          "text": "https://github.com/tw93/Kaku",
-          "author": {
-            "handle": "tom-doerr.bsky.social",
-            "displayName": "Tom Dörr "
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-24T18:32:16Z",
-          "createdUtc": 1777055536,
-          "ageHours": 2.59,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "tw93/Kaku",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "rorkai/App-Store-Connect-CLI": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:bxcxxsccko254qidvw5atfvi/app.bsky.feed.post/3mkayhvuut52y",
-        "cid": "bafyreifwckjgvkqt7cdkhvgpmywlrcetdu65seqiqfogsabfm227t474dq",
-        "bskyUrl": "https://bsky.app/profile/rudrank.bsky.social/post/3mkayhvuut52y",
-        "text": "7 small releases in past 2 weeks of App Store Connect CLI! All from contributors who file amazing issues (with solutions!!) and PRs github.com/rorkai/App-...",
-        "author": {
-          "handle": "rudrank.bsky.social",
-          "displayName": "Rudrank Riyam"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-24T16:53:46.510032Z",
-        "hoursSincePosted": 4.24
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:bxcxxsccko254qidvw5atfvi/app.bsky.feed.post/3mkayhvuut52y",
-          "cid": "bafyreifwckjgvkqt7cdkhvgpmywlrcetdu65seqiqfogsabfm227t474dq",
-          "bskyUrl": "https://bsky.app/profile/rudrank.bsky.social/post/3mkayhvuut52y",
-          "text": "7 small releases in past 2 weeks of App Store Connect CLI! All from contributors who file amazing issues (with solutions!!) and PRs github.com/rorkai/App-...",
-          "author": {
-            "handle": "rudrank.bsky.social",
-            "displayName": "Rudrank Riyam"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-24T16:53:46.510032Z",
-          "createdUtc": 1777049626,
-          "ageHours": 4.24,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "rorkai/App-Store-Connect-CLI",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
     }
   },
   "leaderboard": [
     {
       "fullName": "ggml-org/llama.cpp",
-      "count7d": 2,
-      "likesSum7d": 2
-    },
-    {
-      "fullName": "junhoyeo/tokscale",
-      "count7d": 2,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "rorkai/App-Store-Connect-CLI",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "router-for-me/CLIProxyAPI",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "garrytan/gstack",
       "count7d": 1,
       "likesSum7d": 0
     },
@@ -553,17 +170,7 @@
       "likesSum7d": 0
     },
     {
-      "fullName": "leigest519/OpenGame",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
       "fullName": "mattpocock/skills",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "tw93/Kaku",
       "count7d": 1,
       "likesSum7d": 0
     }

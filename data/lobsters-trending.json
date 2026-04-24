@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-04-24T13:47:52.071Z",
+  "fetchedAt": "2026-04-24T14:14:43.378Z",
   "windowHours": 72,
-  "scannedTotal": 77,
+  "scannedTotal": 78,
   "stories": [
     {
       "shortId": "qtytfe",
@@ -9,16 +9,33 @@
       "url": "https://www.markround.com/blog/2026/04/19/sloppy-copies/",
       "commentsUrl": "https://lobste.rs/s/qtytfe/sloppy_copies",
       "by": "",
-      "score": 16,
+      "score": 19,
       "commentCount": 0,
       "createdUtc": 1777024939,
-      "ageHours": 3.7591666666666668,
-      "trendingScore": 1.1576586263210311,
+      "ageHours": 4.206666666666667,
+      "trendingScore": 1.2287568956611146,
       "tags": [
         "rant",
         "vibecoding"
       ],
       "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "g3dptp",
+      "title": "Did we lose notifications for comment replies?",
+      "url": "",
+      "commentsUrl": "https://lobste.rs/s/g3dptp/did_we_lose_notifications_for_comment",
+      "by": "",
+      "score": 3,
+      "commentCount": 0,
+      "createdUtc": 1777039254,
+      "ageHours": 0.23027777777777778,
+      "trendingScore": 0.900705508923065,
+      "tags": [
+        "meta"
+      ],
+      "description": "<p>It would appear that we no longer get a notification in our Lobsters inbox for replies to comments or new comments on stories we submitted.</p>\n<p>I remember a similar thing happened a few years ago, and was intentional (the DB side of things was too slow), but that was fixed. Was this intentional or did we hit a regression or is this purely a me problem?</p>\n<p>(Thank you to everyone who makes Lobsters possible. I know the support burden is nonzero and I hate to add to the pile.)</p>\n",
       "linkedRepos": []
     },
     {
@@ -28,12 +45,29 @@
       "commentsUrl": "https://lobste.rs/s/x79usb/bitwarden_cli_compromised_ongoing",
       "by": "",
       "score": 94,
-      "commentCount": 34,
+      "commentCount": 36,
       "createdUtc": 1776957982,
-      "ageHours": 22.358333333333334,
-      "trendingScore": 0.781909517835662,
+      "ageHours": 22.805833333333332,
+      "trendingScore": 0.7608466302310042,
       "tags": [
         "security"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "zroip2",
+      "title": "Hire based on the conversation about code, not the code itself",
+      "url": "https://dbarabashh.com/thoughts-and-experience/hire-for-the-conversation-not-the-code",
+      "commentsUrl": "https://lobste.rs/s/zroip2/hire_based_on_conversation_about_code_not",
+      "by": "",
+      "score": 10,
+      "commentCount": 7,
+      "createdUtc": 1777026185,
+      "ageHours": 3.8605555555555555,
+      "trendingScore": 0.704842071936136,
+      "tags": [
+        "practices"
       ],
       "description": "",
       "linkedRepos": []
@@ -47,8 +81,8 @@
       "score": 49,
       "commentCount": 2,
       "createdUtc": 1776976610,
-      "ageHours": 17.183888888888887,
-      "trendingScore": 0.5831645348149692,
+      "ageHours": 17.63138888888889,
+      "trendingScore": 0.5633386394471179,
       "tags": [
         "c",
         "graphics",
@@ -58,20 +92,21 @@
       "linkedRepos": []
     },
     {
-      "shortId": "zroip2",
-      "title": "Hire based on the conversation about code, not the code itself",
-      "url": "https://dbarabashh.com/thoughts-and-experience/hire-for-the-conversation-not-the-code",
-      "commentsUrl": "https://lobste.rs/s/zroip2/hire_based_on_conversation_about_code_not",
+      "shortId": "g9jlyl",
+      "title": "What are the best developer tools built around Markdown?",
+      "url": "",
+      "commentsUrl": "https://lobste.rs/s/g9jlyl/what_are_best_developer_tools_built",
       "by": "",
-      "score": 7,
-      "commentCount": 5,
-      "createdUtc": 1777026185,
-      "ageHours": 3.4130555555555557,
-      "trendingScore": 0.5558201837149902,
+      "score": 26,
+      "commentCount": 17,
+      "createdUtc": 1776995956,
+      "ageHours": 12.2575,
+      "trendingScore": 0.48295679143818254,
       "tags": [
-        "practices"
+        "ask",
+        "programming"
       ],
-      "description": "",
+      "description": "<p>What are some developer tools that have treated Markdown as more than a documentation format ?</p>\n<p>A good example is I believe is Obsidian where the underlying files are just Markdown, but the product turns them into a working environment with links, backlinks, graph views, plugins, search, templates, and workflows.</p>\n",
       "linkedRepos": []
     },
     {
@@ -83,31 +118,13 @@
       "score": 30,
       "commentCount": 3,
       "createdUtc": 1776989567,
-      "ageHours": 13.584722222222222,
-      "trendingScore": 0.4876100585871784,
+      "ageHours": 14.032222222222222,
+      "trendingScore": 0.4673375406413872,
       "tags": [
         "security",
         "unix"
       ],
       "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "g9jlyl",
-      "title": "What are the best developer tools built around Markdown?",
-      "url": "",
-      "commentsUrl": "https://lobste.rs/s/g9jlyl/what_are_best_developer_tools_built",
-      "by": "",
-      "score": 25,
-      "commentCount": 17,
-      "createdUtc": 1776995956,
-      "ageHours": 11.81,
-      "trendingScore": 0.4871351756894684,
-      "tags": [
-        "ask",
-        "programming"
-      ],
-      "description": "<p>What are some developer tools that have treated Markdown as more than a documentation format ?</p>\n<p>A good example is I believe is Obsidian where the underlying files are just Markdown, but the product turns them into a working environment with links, backlinks, graph views, plugins, search, templates, and workflows.</p>\n",
       "linkedRepos": []
     },
     {
@@ -119,8 +136,8 @@
       "score": 52,
       "commentCount": 6,
       "createdUtc": 1776960816,
-      "ageHours": 21.57111111111111,
-      "trendingScore": 0.45439470401929466,
+      "ageHours": 22.01861111111111,
+      "trendingScore": 0.44175503472919075,
       "tags": [
         "distributed",
         "release"
@@ -134,32 +151,14 @@
       "url": "https://perthirtysix.com/how-the-heck-does-shazam-work",
       "commentsUrl": "https://lobste.rs/s/t04nvc/how_heck_does_shazam_work",
       "by": "",
-      "score": 92,
+      "score": 93,
       "commentCount": 5,
       "createdUtc": 1776917045,
-      "ageHours": 33.72972222222222,
-      "trendingScore": 0.4307679342839155,
+      "ageHours": 34.17722222222222,
+      "trendingScore": 0.4273956741513432,
       "tags": [
         "math",
         "programming"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "9p8j3s",
-      "title": "Security issues found within rust-coreutils",
-      "url": "https://discourse.ubuntu.com/t/an-update-on-rust-coreutils/80773",
-      "commentsUrl": "https://lobste.rs/s/9p8j3s/security_issues_found_within_rust",
-      "by": "",
-      "score": 38,
-      "commentCount": 22,
-      "createdUtc": 1776964842,
-      "ageHours": 20.45277777777778,
-      "trendingScore": 0.35717288321998175,
-      "tags": [
-        "rust",
-        "security"
       ],
       "description": "",
       "linkedRepos": []
@@ -170,11 +169,11 @@
       "url": "https://documentation.ubuntu.com/release-notes/26.04/",
       "commentsUrl": "https://lobste.rs/s/2mpjlh/ubuntu_26_04_lts_release",
       "by": "",
-      "score": 32,
-      "commentCount": 17,
+      "score": 34,
+      "commentCount": 18,
       "createdUtc": 1776972411,
-      "ageHours": 18.350277777777777,
-      "trendingScore": 0.3485735792067125,
+      "ageHours": 18.797777777777778,
+      "trendingScore": 0.358470578563587,
       "tags": [
         "linux",
         "release"
@@ -183,18 +182,19 @@
       "linkedRepos": []
     },
     {
-      "shortId": "yghhn6",
-      "title": "I am building a cloud",
-      "url": "https://crawshaw.io/blog/building-a-cloud",
-      "commentsUrl": "https://lobste.rs/s/yghhn6/i_am_building_cloud",
+      "shortId": "9p8j3s",
+      "title": "Security issues found within rust-coreutils",
+      "url": "https://discourse.ubuntu.com/t/an-update-on-rust-coreutils/80773",
+      "commentsUrl": "https://lobste.rs/s/9p8j3s/security_issues_found_within_rust",
       "by": "",
-      "score": 55,
-      "commentCount": 23,
-      "createdUtc": 1776933764,
-      "ageHours": 29.085555555555555,
-      "trendingScore": 0.31733994299058293,
+      "score": 39,
+      "commentCount": 22,
+      "createdUtc": 1776964842,
+      "ageHours": 20.900277777777777,
+      "trendingScore": 0.3558799177754773,
       "tags": [
-        "vibecoding"
+        "rust",
+        "security"
       ],
       "description": "",
       "linkedRepos": []
@@ -208,13 +208,30 @@
       "score": 96,
       "commentCount": 70,
       "createdUtc": 1776883172,
-      "ageHours": 43.138888888888886,
-      "trendingScore": 0.3165519084851479,
+      "ageHours": 43.58638888888889,
+      "trendingScore": 0.31190220601693497,
       "tags": [
         "ask",
         "emacs"
       ],
       "description": "<p>Reading about Magit and people using Emacs as a web browser made me wonder: what are your essential packages for it?</p>\n<p>Thank you</p>\n",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "yghhn6",
+      "title": "I am building a cloud",
+      "url": "https://crawshaw.io/blog/building-a-cloud",
+      "commentsUrl": "https://lobste.rs/s/yghhn6/i_am_building_cloud",
+      "by": "",
+      "score": 55,
+      "commentCount": 23,
+      "createdUtc": 1776933764,
+      "ageHours": 29.533055555555556,
+      "trendingScore": 0.3106086925745677,
+      "tags": [
+        "vibecoding"
+      ],
+      "description": "",
       "linkedRepos": []
     },
     {
@@ -226,13 +243,31 @@
       "score": 49,
       "commentCount": 19,
       "createdUtc": 1776941209,
-      "ageHours": 27.0175,
-      "trendingScore": 0.31347729484138476,
+      "ageHours": 27.465,
+      "trendingScore": 0.3063630693187432,
       "tags": [
         "c",
         "c++",
         "performance",
         "rust"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "kcggjp",
+      "title": "A quick look at Mythos run on Firefox: too much hype?",
+      "url": "https://xark.es/b/mythos-firefox-150",
+      "commentsUrl": "https://lobste.rs/s/kcggjp/quick_look_at_mythos_run_on_firefox_too",
+      "by": "",
+      "score": 1,
+      "commentCount": 0,
+      "createdUtc": 1777038855,
+      "ageHours": 0.3411111111111111,
+      "trendingScore": 0.27916885205643266,
+      "tags": [
+        "security",
+        "vibecoding"
       ],
       "description": "",
       "linkedRepos": []
@@ -246,29 +281,10 @@
       "score": 6,
       "commentCount": 0,
       "createdUtc": 1777018521,
-      "ageHours": 5.541944444444445,
-      "trendingScore": 0.2896851661339053,
+      "ageHours": 5.989444444444445,
+      "trendingScore": 0.26569071565865204,
       "tags": [
         "haskell"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "esidgp",
-      "title": "Pure Borrow: Linear Haskell Meets Rust-Style Borrowing",
-      "url": "https://discourse.haskell.org/t/pure-borrow-linear-haskell-meets-rust-style-borrowing/13975",
-      "commentsUrl": "https://lobste.rs/s/esidgp/pure_borrow_linear_haskell_meets_rust",
-      "by": "",
-      "score": 7,
-      "commentCount": 0,
-      "createdUtc": 1777014068,
-      "ageHours": 6.778888888888889,
-      "trendingScore": 0.26911549958564634,
-      "tags": [
-        "haskell",
-        "plt",
-        "rust"
       ],
       "description": "",
       "linkedRepos": []
@@ -282,10 +298,29 @@
       "score": 79,
       "commentCount": 7,
       "createdUtc": 1776884660,
-      "ageHours": 42.72555555555556,
-      "trendingScore": 0.26411524846141105,
+      "ageHours": 43.17305555555556,
+      "trendingScore": 0.2602003579772852,
       "tags": [
         "linux"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "esidgp",
+      "title": "Pure Borrow: Linear Haskell Meets Rust-Style Borrowing",
+      "url": "https://discourse.haskell.org/t/pure-borrow-linear-haskell-meets-rust-style-borrowing/13975",
+      "commentsUrl": "https://lobste.rs/s/esidgp/pure_borrow_linear_haskell_meets_rust",
+      "by": "",
+      "score": 7,
+      "commentCount": 0,
+      "createdUtc": 1777014068,
+      "ageHours": 7.226388888888889,
+      "trendingScore": 0.24977582724009886,
+      "tags": [
+        "haskell",
+        "plt",
+        "rust"
       ],
       "description": "",
       "linkedRepos": []
@@ -299,27 +334,10 @@
       "score": 14,
       "commentCount": 2,
       "createdUtc": 1776986832,
-      "ageHours": 14.344444444444445,
-      "trendingScore": 0.21187162169190707,
+      "ageHours": 14.791944444444445,
+      "trendingScore": 0.20345883461358213,
       "tags": [
         "rust"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "9csbvp",
-      "title": "Configuring Firefox",
-      "url": "https://sciops.net/information/technology/firefox",
-      "commentsUrl": "https://lobste.rs/s/9csbvp/configuring_firefox",
-      "by": "",
-      "score": 17,
-      "commentCount": 5,
-      "createdUtc": 1776977912,
-      "ageHours": 16.822222222222223,
-      "trendingScore": 0.20818171241836916,
-      "tags": [
-        "web"
       ],
       "description": "",
       "linkedRepos": []
@@ -333,8 +351,8 @@
       "score": 61,
       "commentCount": 12,
       "createdUtc": 1776885798,
-      "ageHours": 42.409444444444446,
-      "trendingScore": 0.206118429453887,
+      "ageHours": 42.856944444444444,
+      "trendingScore": 0.20304172965318293,
       "tags": [
         "browsers",
         "privacy"
@@ -351,8 +369,8 @@
       "score": 46,
       "commentCount": 1,
       "createdUtc": 1776912828,
-      "ageHours": 34.90111111111111,
-      "trendingScore": 0.20521006924002205,
+      "ageHours": 35.34861111111111,
+      "trendingScore": 0.20153298954458268,
       "tags": [
         "plt"
       ],
@@ -368,8 +386,8 @@
       "score": 77,
       "commentCount": 55,
       "createdUtc": 1776857664,
-      "ageHours": 50.224444444444444,
-      "trendingScore": 0.2040234006541906,
+      "ageHours": 50.67194444444444,
+      "trendingScore": 0.20142886169865504,
       "tags": [
         "rant",
         "vibecoding"
@@ -378,36 +396,18 @@
       "linkedRepos": []
     },
     {
-      "shortId": "edbvsd",
-      "title": "Junkyard Computing: Repurposing Discarded Smartphones to Minimize Carbon",
-      "url": "https://arxiv.org/abs/2110.06870",
-      "commentsUrl": "https://lobste.rs/s/edbvsd/junkyard_computing_repurposing",
+      "shortId": "9csbvp",
+      "title": "Configuring Firefox",
+      "url": "https://sciops.net/information/technology/firefox",
+      "commentsUrl": "https://lobste.rs/s/9csbvp/configuring_firefox",
       "by": "",
-      "score": 1,
-      "commentCount": 0,
-      "createdUtc": 1777034638,
-      "ageHours": 1.065,
-      "trendingScore": 0.18636067796983355,
+      "score": 17,
+      "commentCount": 6,
+      "createdUtc": 1776977912,
+      "ageHours": 17.26972222222222,
+      "trendingScore": 0.2009720858630104,
       "tags": [
-        "android",
-        "distributed"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "3l5gw0",
-      "title": "Email could have been X.400 times better",
-      "url": "https://buttondown.com/blog/x400-vs-smtp-email",
-      "commentsUrl": "https://lobste.rs/s/3l5gw0/email_could_have_been_x_400_times_better",
-      "by": "",
-      "score": 26,
-      "commentCount": 10,
-      "createdUtc": 1776945465,
-      "ageHours": 25.835277777777776,
-      "trendingScore": 0.17704350891778675,
-      "tags": [
-        "email"
+        "web"
       ],
       "description": "",
       "linkedRepos": []
@@ -421,10 +421,27 @@
       "score": 54,
       "commentCount": 7,
       "createdUtc": 1776882408,
-      "ageHours": 43.35111111111111,
-      "trendingScore": 0.17681205105572184,
+      "ageHours": 43.798611111111114,
+      "trendingScore": 0.1742269356258855,
       "tags": [
         "vcs"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "3l5gw0",
+      "title": "Email could have been X.400 times better",
+      "url": "https://buttondown.com/blog/x400-vs-smtp-email",
+      "commentsUrl": "https://lobste.rs/s/3l5gw0/email_could_have_been_x_400_times_better",
+      "by": "",
+      "score": 26,
+      "commentCount": 10,
+      "createdUtc": 1776945465,
+      "ageHours": 26.282777777777778,
+      "trendingScore": 0.17285830739944824,
+      "tags": [
+        "email"
       ],
       "description": "",
       "linkedRepos": []
@@ -435,14 +452,32 @@
       "url": "https://atproto.com/blog/serving-the-for-you-feed",
       "commentsUrl": "https://lobste.rs/s/nlaxri/serving_for_you_feed",
       "by": "",
-      "score": 19,
+      "score": 20,
       "commentCount": 1,
       "createdUtc": 1776961423,
-      "ageHours": 21.4025,
-      "trendingScore": 0.16782637733336328,
+      "ageHours": 21.85,
+      "trendingScore": 0.17171072448188712,
       "tags": [
         "performance",
         "web"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "edbvsd",
+      "title": "Junkyard Computing: Repurposing Discarded Smartphones to Minimize Carbon",
+      "url": "https://arxiv.org/abs/2110.06870",
+      "commentsUrl": "https://lobste.rs/s/edbvsd/junkyard_computing_repurposing",
+      "by": "",
+      "score": 1,
+      "commentCount": 0,
+      "createdUtc": 1777034638,
+      "ageHours": 1.5125,
+      "trendingScore": 0.15190620028817314,
+      "tags": [
+        "android",
+        "distributed"
       ],
       "description": "",
       "linkedRepos": []
@@ -456,8 +491,8 @@
       "score": 50,
       "commentCount": 5,
       "createdUtc": 1776866550,
-      "ageHours": 47.75611111111111,
-      "trendingScore": 0.14246243425796234,
+      "ageHours": 48.20361111111111,
+      "trendingScore": 0.14056188388759466,
       "tags": [
         "plt",
         "rust"
@@ -474,28 +509,10 @@
       "score": 30,
       "commentCount": 2,
       "createdUtc": 1776913433,
-      "ageHours": 34.73305555555555,
-      "trendingScore": 0.134752140094223,
+      "ageHours": 35.18055555555556,
+      "trendingScore": 0.13232668796749367,
       "tags": [
         "graphics"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "zgh5w1",
-      "title": "GL.iNet Comet 5G Review",
-      "url": "https://blog.majid.info/gl-kvm/",
-      "commentsUrl": "https://lobste.rs/s/zgh5w1/gl_inet_comet_5g_review",
-      "by": "",
-      "score": 1,
-      "commentCount": 0,
-      "createdUtc": 1777031541,
-      "ageHours": 1.9252777777777779,
-      "trendingScore": 0.12858621314352353,
-      "tags": [
-        "hardware",
-        "networking"
       ],
       "description": "",
       "linkedRepos": []
@@ -506,11 +523,11 @@
       "url": "https://30fps.net/pages/bayer-order-online-kmeans/",
       "commentsUrl": "https://lobste.rs/s/tzws72/single_pass_palette_refinement_ordered",
       "by": "",
-      "score": 18,
+      "score": 19,
       "commentCount": 0,
       "createdUtc": 1776944157,
-      "ageHours": 26.198611111111113,
-      "trendingScore": 0.12020732361832774,
+      "ageHours": 26.64611111111111,
+      "trendingScore": 0.12392390575560044,
       "tags": [
         "graphics"
       ],
@@ -526,11 +543,29 @@
       "score": 6,
       "commentCount": 2,
       "createdUtc": 1776995457,
-      "ageHours": 11.948611111111111,
-      "trendingScore": 0.11517409303653661,
+      "ageHours": 12.39611111111111,
+      "trendingScore": 0.10984580236118122,
       "tags": [
         "ruby",
         "vibecoding"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "zgh5w1",
+      "title": "GL.iNet Comet 5G Review",
+      "url": "https://blog.majid.info/gl-kvm/",
+      "commentsUrl": "https://lobste.rs/s/zgh5w1/gl_inet_comet_5g_review",
+      "by": "",
+      "score": 1,
+      "commentCount": 0,
+      "createdUtc": 1777031541,
+      "ageHours": 2.372777777777778,
+      "trendingScore": 0.1093613566388067,
+      "tags": [
+        "hardware",
+        "networking"
       ],
       "description": "",
       "linkedRepos": []
@@ -544,27 +579,10 @@
       "score": 37,
       "commentCount": 6,
       "createdUtc": 1776862277,
-      "ageHours": 48.94305555555555,
-      "trendingScore": 0.10175932994026839,
+      "ageHours": 49.39055555555556,
+      "trendingScore": 0.10043307390171945,
       "tags": [
         "programming"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "vksnyl",
-      "title": "The Tribe Has to Outlive the Model",
-      "url": "https://christophermeiklejohn.com/ai/zabriskie/agents/reliability/2026/04/23/the-tribe-has-to-outlive-the-model.html",
-      "commentsUrl": "https://lobste.rs/s/vksnyl/tribe_has_outlive_model",
-      "by": "",
-      "score": 1,
-      "commentCount": 4,
-      "createdUtc": 1777027542,
-      "ageHours": 3.036111111111111,
-      "trendingScore": 0.08848243077816392,
-      "tags": [
-        "vibecoding"
       ],
       "description": "",
       "linkedRepos": []
@@ -578,8 +596,8 @@
       "score": 46,
       "commentCount": 15,
       "createdUtc": 1776795425,
-      "ageHours": 67.51305555555555,
-      "trendingScore": 0.07937034410099282,
+      "ageHours": 67.96055555555556,
+      "trendingScore": 0.07861002915792792,
       "tags": [
         "release",
         "vcs"
@@ -588,18 +606,35 @@
       "linkedRepos": []
     },
     {
-      "shortId": "j9rvye",
-      "title": "i found an old telephone and made it control spotify",
-      "url": "https://natya.is-a.dev/the-beetel/",
-      "commentsUrl": "https://lobste.rs/s/j9rvye/i_found_old_telephone_made_it_control",
+      "shortId": "vksnyl",
+      "title": "The Tribe Has to Outlive the Model",
+      "url": "https://christophermeiklejohn.com/ai/zabriskie/agents/reliability/2026/04/23/the-tribe-has-to-outlive-the-model.html",
+      "commentsUrl": "https://lobste.rs/s/vksnyl/tribe_has_outlive_model",
       "by": "",
       "score": 1,
-      "commentCount": 0,
-      "createdUtc": 1777025902,
-      "ageHours": 3.4916666666666667,
-      "trendingScore": 0.07770406646036962,
+      "commentCount": 4,
+      "createdUtc": 1777027542,
+      "ageHours": 3.483611111111111,
+      "trendingScore": 0.07787535301925831,
       "tags": [
-        "hardware"
+        "vibecoding"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "l4eo1q",
+      "title": "A Linux desktop in x86_64 Assembly",
+      "url": "https://isene.org/2026/04/MyTools.html",
+      "commentsUrl": "https://lobste.rs/s/l4eo1q/linux_desktop_x86_64_assembly",
+      "by": "",
+      "score": 14,
+      "commentCount": 18,
+      "createdUtc": 1776932559,
+      "ageHours": 29.86777777777778,
+      "trendingScore": 0.07782163763124697,
+      "tags": [
+        "vibecoding"
       ],
       "description": "",
       "linkedRepos": []
@@ -613,8 +648,8 @@
       "score": 15,
       "commentCount": 10,
       "createdUtc": 1776925102,
-      "ageHours": 31.491666666666667,
-      "trendingScore": 0.07739022669895552,
+      "ageHours": 31.939166666666665,
+      "trendingScore": 0.07586465675335007,
       "tags": [
         "compilers"
       ],
@@ -622,18 +657,36 @@
       "linkedRepos": []
     },
     {
-      "shortId": "l4eo1q",
-      "title": "A Linux desktop in x86_64 Assembly",
-      "url": "https://isene.org/2026/04/MyTools.html",
-      "commentsUrl": "https://lobste.rs/s/l4eo1q/linux_desktop_x86_64_assembly",
+      "shortId": "j9rvye",
+      "title": "i found an old telephone and made it control spotify",
+      "url": "https://natya.is-a.dev/the-beetel/",
+      "commentsUrl": "https://lobste.rs/s/j9rvye/i_found_old_telephone_made_it_control",
       "by": "",
-      "score": 13,
-      "commentCount": 18,
-      "createdUtc": 1776932559,
-      "ageHours": 29.420277777777777,
-      "trendingScore": 0.07381222926444363,
+      "score": 1,
+      "commentCount": 0,
+      "createdUtc": 1777025902,
+      "ageHours": 3.9391666666666665,
+      "trendingScore": 0.06908944927839605,
       "tags": [
-        "vibecoding"
+        "hardware"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "ivj2o8",
+      "title": "nondescript: a simple embedded programming language",
+      "url": "https://github.com/deadpixi/nondescript",
+      "commentsUrl": "https://lobste.rs/s/ivj2o8/nondescript_simple_embedded",
+      "by": "",
+      "score": 18,
+      "commentCount": 5,
+      "createdUtc": 1776891405,
+      "ageHours": 41.29944444444445,
+      "trendingScore": 0.06317554815848281,
+      "tags": [
+        "plt",
+        "show"
       ],
       "description": "",
       "linkedRepos": []
@@ -647,29 +700,11 @@
       "score": 5,
       "commentCount": 0,
       "createdUtc": 1776980833,
-      "ageHours": 16.010833333333334,
-      "trendingScore": 0.06541378711193478,
+      "ageHours": 16.458333333333332,
+      "trendingScore": 0.06304944638935348,
       "tags": [
         "performance",
         "ruby"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "ivj2o8",
-      "title": "nondescript: a simple embedded programming language",
-      "url": "https://github.com/deadpixi/nondescript",
-      "commentsUrl": "https://lobste.rs/s/ivj2o8/nondescript_simple_embedded",
-      "by": "",
-      "score": 18,
-      "commentCount": 4,
-      "createdUtc": 1776891405,
-      "ageHours": 40.85194444444444,
-      "trendingScore": 0.06416773433811758,
-      "tags": [
-        "plt",
-        "show"
       ],
       "description": "",
       "linkedRepos": []
@@ -681,10 +716,10 @@
       "commentsUrl": "https://lobste.rs/s/nepijn/everyone_wants_servers_nobody_wants",
       "by": "",
       "score": 7,
-      "commentCount": 8,
+      "commentCount": 9,
       "createdUtc": 1776961415,
-      "ageHours": 21.404722222222222,
-      "trendingScore": 0.06182196478054834,
+      "ageHours": 21.852222222222224,
+      "trendingScore": 0.06009035500056718,
       "tags": [
         "distributed",
         "web"
@@ -701,8 +736,8 @@
       "score": 3,
       "commentCount": 2,
       "createdUtc": 1776996827,
-      "ageHours": 11.568055555555556,
-      "trendingScore": 0.06002675065937595,
+      "ageHours": 12.015555555555556,
+      "trendingScore": 0.057174948078975725,
       "tags": [
         "erlang",
         "vibecoding"
@@ -719,25 +754,8 @@
       "score": 1,
       "commentCount": 0,
       "createdUtc": 1777021406,
-      "ageHours": 4.740555555555556,
-      "trendingScore": 0.05714213478616823,
-      "tags": [
-        "programming"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "xs2xus",
-      "title": "What Async Promised and What it Delivered",
-      "url": "https://causality.blog/essays/what-async-promised/",
-      "commentsUrl": "https://lobste.rs/s/xs2xus/what_async_promised_what_it_delivered",
-      "by": "",
-      "score": 19,
-      "commentCount": 44,
-      "createdUtc": 1776860263,
-      "ageHours": 49.5025,
-      "trendingScore": 0.051405683119553604,
+      "ageHours": 5.188055555555556,
+      "trendingScore": 0.051889903425998155,
       "tags": [
         "programming"
       ],
@@ -753,8 +771,8 @@
       "score": 15,
       "commentCount": 1,
       "createdUtc": 1776876397,
-      "ageHours": 45.020833333333336,
-      "trendingScore": 0.04652172143789872,
+      "ageHours": 45.468333333333334,
+      "trendingScore": 0.045865410403846264,
       "tags": [
         "web"
       ],
@@ -770,8 +788,8 @@
       "score": 15,
       "commentCount": 0,
       "createdUtc": 1776870019,
-      "ageHours": 46.7925,
-      "trendingScore": 0.04401104219011126,
+      "ageHours": 47.24,
+      "trendingScore": 0.04341243965839369,
       "tags": [
         "python",
         "security",
@@ -789,8 +807,8 @@
       "score": 12,
       "commentCount": 0,
       "createdUtc": 1776891279,
-      "ageHours": 40.886944444444445,
-      "trendingScore": 0.04272613300932726,
+      "ageHours": 41.33444444444444,
+      "trendingScore": 0.04206601731397666,
       "tags": [
         "css",
         "lisp",
@@ -808,8 +826,8 @@
       "score": 3,
       "commentCount": 0,
       "createdUtc": 1776975561,
-      "ageHours": 17.475277777777777,
-      "trendingScore": 0.03490565272242823,
+      "ageHours": 17.922777777777778,
+      "trendingScore": 0.03373621987646617,
       "tags": [
         "hardware",
         "rust"
@@ -826,8 +844,8 @@
       "score": 3,
       "commentCount": 0,
       "createdUtc": 1776973928,
-      "ageHours": 17.92888888888889,
-      "trendingScore": 0.03372070345830273,
+      "ageHours": 18.37638888888889,
+      "trendingScore": 0.03261597936839629,
       "tags": [
         "performance"
       ],
@@ -843,8 +861,8 @@
       "score": 10,
       "commentCount": 0,
       "createdUtc": 1776878378,
-      "ageHours": 44.470555555555556,
-      "trendingScore": 0.031566992221618684,
+      "ageHours": 44.918055555555554,
+      "trendingScore": 0.03111644632450893,
       "tags": [
         "formalmethods"
       ],
@@ -860,8 +878,8 @@
       "score": 10,
       "commentCount": 1,
       "createdUtc": 1776865152,
-      "ageHours": 48.144444444444446,
-      "trendingScore": 0.02816214718164167,
+      "ageHours": 48.591944444444444,
+      "trendingScore": 0.027789321483372775,
       "tags": [
         "networking"
       ],
@@ -877,8 +895,8 @@
       "score": 4,
       "commentCount": 0,
       "createdUtc": 1776946599,
-      "ageHours": 25.52027777777778,
-      "trendingScore": 0.027706442851842435,
+      "ageHours": 25.967777777777776,
+      "trendingScore": 0.027044132248030144,
       "tags": [
         "release"
       ],
@@ -894,8 +912,8 @@
       "score": 10,
       "commentCount": 0,
       "createdUtc": 1776861089,
-      "ageHours": 49.27305555555556,
-      "trendingScore": 0.027237434621028667,
+      "ageHours": 49.720555555555556,
+      "trendingScore": 0.026884702076746182,
       "tags": [
         "gleam"
       ],
@@ -911,8 +929,8 @@
       "score": 3,
       "commentCount": 0,
       "createdUtc": 1776961967,
-      "ageHours": 21.25138888888889,
-      "trendingScore": 0.02675764606063614,
+      "ageHours": 21.698888888888888,
+      "trendingScore": 0.026003348562009684,
       "tags": [
         "graphics",
         "performance"
@@ -929,8 +947,8 @@
       "score": 3,
       "commentCount": 2,
       "createdUtc": 1776960932,
-      "ageHours": 21.538888888888888,
-      "trendingScore": 0.02626892595588583,
+      "ageHours": 21.98638888888889,
+      "trendingScore": 0.025537239461300418,
       "tags": [
         "linux",
         "networking"
@@ -947,8 +965,8 @@
       "score": 7,
       "commentCount": 0,
       "createdUtc": 1776878229,
-      "ageHours": 44.511944444444445,
-      "trendingScore": 0.022067406567590528,
+      "ageHours": 44.95944444444444,
+      "trendingScore": 0.02175272224650849,
       "tags": [
         "plt"
       ],
@@ -964,8 +982,8 @@
       "score": 1,
       "commentCount": 0,
       "createdUtc": 1776997142,
-      "ageHours": 11.480555555555556,
-      "trendingScore": 0.020204044397202105,
+      "ageHours": 11.928055555555556,
+      "trendingScore": 0.01923819242739075,
       "tags": [
         "api",
         "vibecoding"
@@ -982,8 +1000,8 @@
       "score": 6,
       "commentCount": 0,
       "createdUtc": 1776880659,
-      "ageHours": 43.83694444444444,
-      "trendingScore": 0.019334269215203568,
+      "ageHours": 44.284444444444446,
+      "trendingScore": 0.019054548718285245,
       "tags": [
         "linux",
         "security"
@@ -1000,8 +1018,8 @@
       "score": 3,
       "commentCount": 0,
       "createdUtc": 1776941577,
-      "ageHours": 26.915277777777778,
-      "trendingScore": 0.019294352186308445,
+      "ageHours": 27.36277777777778,
+      "trendingScore": 0.018854957040701083,
       "tags": [
         "osdev",
         "rust"
@@ -1018,8 +1036,8 @@
       "score": 4,
       "commentCount": 1,
       "createdUtc": 1776916537,
-      "ageHours": 33.87083333333333,
-      "trendingScore": 0.018618633030837804,
+      "ageHours": 34.318333333333335,
+      "trendingScore": 0.018275578194419214,
       "tags": [
         "ai",
         "graphics"
@@ -1036,8 +1054,8 @@
       "score": 2,
       "commentCount": 0,
       "createdUtc": 1776959347,
-      "ageHours": 21.979166666666668,
-      "trendingScore": 0.017032518380724414,
+      "ageHours": 22.426666666666666,
+      "trendingScore": 0.016566611459351913,
       "tags": [
         "vibecoding"
       ],
@@ -1053,8 +1071,8 @@
       "score": 2,
       "commentCount": 0,
       "createdUtc": 1776957479,
-      "ageHours": 22.498055555555556,
-      "trendingScore": 0.01649425000389883,
+      "ageHours": 22.945555555555554,
+      "trendingScore": 0.01605240931053631,
       "tags": [
         "ruby"
       ],
@@ -1070,8 +1088,8 @@
       "score": 5,
       "commentCount": 0,
       "createdUtc": 1776880869,
-      "ageHours": 43.77861111111111,
-      "trendingScore": 0.016142696653993066,
+      "ageHours": 44.22611111111111,
+      "trendingScore": 0.01590885655859858,
       "tags": [
         "cryptography"
       ],
@@ -1087,8 +1105,8 @@
       "score": 3,
       "commentCount": 0,
       "createdUtc": 1776911727,
-      "ageHours": 35.206944444444446,
-      "trendingScore": 0.01321859346048839,
+      "ageHours": 35.654444444444444,
+      "trendingScore": 0.012983652643950266,
       "tags": [
         "security"
       ],
@@ -1104,8 +1122,8 @@
       "score": 1,
       "commentCount": 0,
       "createdUtc": 1776977775,
-      "ageHours": 16.860277777777778,
-      "trendingScore": 0.012208937563796539,
+      "ageHours": 17.307777777777776,
+      "trendingScore": 0.011786953289871038,
       "tags": [
         "compsci",
         "video"
@@ -1122,8 +1140,8 @@
       "score": 1,
       "commentCount": 0,
       "createdUtc": 1776970460,
-      "ageHours": 18.892222222222223,
-      "trendingScore": 0.010471841136020066,
+      "ageHours": 19.33972222222222,
+      "trendingScore": 0.010144177904519608,
       "tags": [
         "vibecoding",
         "video"
@@ -1140,8 +1158,8 @@
       "score": 1,
       "commentCount": 0,
       "createdUtc": 1776966633,
-      "ageHours": 19.955277777777777,
-      "trendingScore": 0.009720566949106052,
+      "ageHours": 20.40277777777778,
+      "trendingScore": 0.009430770874343394,
       "tags": [
         "vibecoding"
       ],
@@ -1157,8 +1175,8 @@
       "score": 3,
       "commentCount": 0,
       "createdUtc": 1776863967,
-      "ageHours": 48.47361111111111,
-      "trendingScore": 0.008366131543484822,
+      "ageHours": 48.92111111111111,
+      "trendingScore": 0.008256090549438891,
       "tags": [
         "design",
         "vibecoding"
@@ -1175,8 +1193,8 @@
       "score": 1,
       "commentCount": 0,
       "createdUtc": 1776951782,
-      "ageHours": 24.080555555555556,
-      "trendingScore": 0.007508008274160574,
+      "ageHours": 24.528055555555557,
+      "trendingScore": 0.007318833586876442,
       "tags": [
         "philosophy",
         "privacy"
@@ -1193,8 +1211,8 @@
       "score": 2,
       "commentCount": 1,
       "createdUtc": 1776895259,
-      "ageHours": 39.78138888888889,
-      "trendingScore": 0.007405522175243436,
+      "ageHours": 40.22888888888889,
+      "trendingScore": 0.007288119984052703,
       "tags": [
         "ai",
         "hardware"
@@ -1211,8 +1229,8 @@
       "score": 2,
       "commentCount": 3,
       "createdUtc": 1776887520,
-      "ageHours": 41.931111111111115,
-      "trendingScore": 0.006868655175671402,
+      "ageHours": 42.37861111111111,
+      "trendingScore": 0.006765025473416472,
       "tags": [
         "rant",
         "security",
@@ -1230,8 +1248,8 @@
       "score": 1,
       "commentCount": 0,
       "createdUtc": 1776928614,
-      "ageHours": 30.516111111111112,
-      "trendingScore": 0.005393269242147796,
+      "ageHours": 30.96361111111111,
+      "trendingScore": 0.005283817721773942,
       "tags": [
         "a11y",
         "culture",
@@ -1251,8 +1269,8 @@
       "score": 1,
       "commentCount": 0,
       "createdUtc": 1776883954,
-      "ageHours": 42.92166666666667,
-      "trendingScore": 0.0033213619699280677,
+      "ageHours": 43.369166666666665,
+      "trendingScore": 0.003272342829411046,
       "tags": [
         "elixir",
         "video"
@@ -1269,8 +1287,8 @@
       "score": 1,
       "commentCount": 0,
       "createdUtc": 1776879209,
-      "ageHours": 44.23972222222222,
-      "trendingScore": 0.003180366537200378,
+      "ageHours": 44.687222222222225,
+      "trendingScore": 0.00313475026071046,
       "tags": [
         "plt",
         "video"
@@ -1287,10 +1305,11 @@
       "score": 0,
       "commentCount": 1,
       "createdUtc": 1777026650,
-      "ageHours": 3.283888888888889,
+      "ageHours": 3.731388888888889,
       "trendingScore": 0,
       "tags": [
-        "ruby"
+        "ruby",
+        "vibecoding"
       ],
       "description": "",
       "linkedRepos": []
@@ -1304,7 +1323,7 @@
       "score": 0,
       "commentCount": 0,
       "createdUtc": 1777030203,
-      "ageHours": 2.2969444444444442,
+      "ageHours": 2.7444444444444445,
       "trendingScore": 0,
       "tags": [
         "dotnet",
@@ -1312,24 +1331,6 @@
         "video"
       ],
       "description": "<p>I stumbled upon this and had to share it, the presenter is a medical doctor who learned to code, tried multiple programming languages until settling for F#, as it properly let him solve problems in his (highly regulated and standardized) domain.</p>\n",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "ney8qz",
-      "title": "HTTP security headers for Python web applications",
-      "url": "https://github.com/TypeError/secure",
-      "commentsUrl": "https://lobste.rs/s/ney8qz/http_security_headers_for_python_web",
-      "by": "",
-      "score": 0,
-      "commentCount": 1,
-      "createdUtc": 1776970790,
-      "ageHours": 18.800555555555555,
-      "trendingScore": 0,
-      "tags": [
-        "python",
-        "security"
-      ],
-      "description": "",
       "linkedRepos": []
     },
     {
@@ -1341,10 +1342,28 @@
       "score": -1,
       "commentCount": 0,
       "createdUtc": 1776928388,
-      "ageHours": 30.57888888888889,
-      "trendingScore": -0.005377687941867129,
+      "ageHours": 31.02638888888889,
+      "trendingScore": -0.005268759369981858,
       "tags": [
         "visualization"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "ney8qz",
+      "title": "HTTP security headers for Python web applications",
+      "url": "https://github.com/TypeError/secure",
+      "commentsUrl": "https://lobste.rs/s/ney8qz/http_security_headers_for_python_web",
+      "by": "",
+      "score": -1,
+      "commentCount": 1,
+      "createdUtc": 1776970790,
+      "ageHours": 19.248055555555556,
+      "trendingScore": -0.010209893458510623,
+      "tags": [
+        "python",
+        "security"
       ],
       "description": "",
       "linkedRepos": []

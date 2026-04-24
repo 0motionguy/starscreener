@@ -20,6 +20,11 @@ const EnvSchema = z.object({
   // ── Data sources ───────────────────────────────────────────────────────
   GITHUB_TOKEN: z.string().optional(),
 
+  // ── Revenue enrichment sync (scripts only — not read at request time) ──
+  // The key is consumed by scripts/sync-trustmrr.mjs in CI. The web runtime
+  // doesn't need it; overlays are served from committed JSON.
+  TRUSTMRR_API_KEY: z.string().optional(),
+
   // ── Cron protection ────────────────────────────────────────────────────
   CRON_SECRET: z.string().min(16).optional(),
 

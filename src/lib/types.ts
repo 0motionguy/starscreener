@@ -209,6 +209,36 @@ export interface Repo {
   } | null;
 }
 
+// ---------------------------------------------------------------------------
+// Revenue overlays — TrustMRR enrichment (Phase 1 = verified_trustmrr only).
+// Revenue is sparse, stored in data/revenue-overlays.json and attached at
+// render time — NOT a field on Repo, to keep list payloads lean and because
+// the lifecycle differs (hourly/6h refresh vs committed trending snapshot).
+// Raw TrustMRR DTO lives in src/lib/trustmrr/types.ts; this overlay is the
+// stable UI-facing shape.
+// ---------------------------------------------------------------------------
+
+export type RevenueTier = "verified_trustmrr" | "self_reported" | "estimated";
+
+export type RevenueMatchConfidence = "exact" | "host" | "manual";
+
+export interface RevenueOverlay {
+  tier: RevenueTier;
+  fullName: string;
+  trustmrrSlug: string | null;
+  mrrCents: number | null;
+  last30DaysCents: number | null;
+  totalCents: number | null;
+  growthMrr30d: number | null; // percent as number (10 = 10%)
+  customers: number | null;
+  activeSubscriptions: number | null;
+  paymentProvider: string | null;
+  category: string | null;
+  asOf: string; // ISO — source timestamp, not fetch time
+  matchConfidence: RevenueMatchConfidence;
+  sourceUrl: string; // https://trustmrr.com/s/{slug}
+}
+
 export interface Category {
   id: string;
   name: string;

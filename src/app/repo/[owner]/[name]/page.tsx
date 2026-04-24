@@ -46,6 +46,12 @@ import { RepoActionRow } from "@/components/repo-detail/RepoActionRow";
 import { MaintainerCard } from "@/components/repo-detail/MaintainerCard";
 import { getTwitterRepoPanel } from "@/lib/twitter/service";
 import { TwitterSignalPanel } from "@/components/twitter/TwitterSignalPanel";
+import {
+  getRevenueOverlay,
+  getSelfReportedOverlay,
+  getTrustmrrClaimOverlay,
+} from "@/lib/revenue-overlays";
+import { RepoRevenuePanel } from "@/components/repo-detail/RepoRevenuePanel";
 
 // force-dynamic: the page aggregates per-source mention JSON at request
 // time and has ~thousands of possible (owner, name) tuples. Static
@@ -247,6 +253,12 @@ export default async function RepoDetailPage({ params }: PageProps) {
   const twitterPanel = await getTwitterRepoPanel(repo.fullName);
   const npmPackages = getNpmPackagesForRepo(repo.fullName);
   const productHuntLaunch = getLaunchForRepo(repo.fullName);
+  // Verified overlay (TrustMRR sync) with a fallback to an approved
+  // TrustMRR-link claim so a moderated claim renders at least a badge before
+  // the next catalog sweep picks up the match.
+  const revenueOverlay =
+    getRevenueOverlay(repo.fullName) ?? getTrustmrrClaimOverlay(repo.fullName);
+  const selfReportedOverlay = getSelfReportedOverlay(repo.fullName);
   // Cross-channel marker dots for the Stars chart — pre-built server-side
   // so the client RepoDetailChart bundle stays free of every per-source
   // mentions JSON.
@@ -359,6 +371,11 @@ export default async function RepoDetailPage({ params }: PageProps) {
             mentions={mentions}
             npmPackages={npmPackages}
             productHuntLaunch={productHuntLaunch}
+          />
+
+          <RepoRevenuePanel
+            verified={revenueOverlay}
+            selfReported={selfReportedOverlay}
           />
 
           <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_420px] gap-6">

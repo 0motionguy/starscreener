@@ -21,6 +21,7 @@ import {
   Trophy,
   X,
   DollarSign,
+  BadgeCheck,
 } from "lucide-react";
 import {
   RedditIcon,
@@ -282,6 +283,12 @@ export function SidebarContent({
             icon={DollarSign}
             label="Funding Radar"
             active={pathname === "/funding" || pathname.startsWith("/funding/")}
+          />
+          <SidebarNavItem
+            href="/revenue"
+            icon={BadgeCheck}
+            label="Revenue"
+            active={pathname === "/revenue" || pathname.startsWith("/revenue/")}
           />
           <SidebarNavItem
             icon={Trophy}

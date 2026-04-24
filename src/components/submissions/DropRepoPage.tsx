@@ -229,6 +229,23 @@ export function DropRepoPage() {
             X share link.
           </p>
 
+          <div className="mt-4 flex flex-wrap items-center gap-3 rounded-card border border-up/30 bg-up/5 px-4 py-3 text-sm">
+            <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-up">
+              Founders
+            </span>
+            <span className="text-text-secondary">
+              Making money on this repo? Add a verified revenue signal to your
+              repo page.
+            </span>
+            <Link
+              href="/submit/revenue"
+              className="ml-auto inline-flex items-center gap-1 font-mono text-xs font-semibold text-text-primary hover:underline"
+            >
+              Claim or submit revenue
+              <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
+            </Link>
+          </div>
+
           <form className="mt-6 grid gap-4" onSubmit={handleSubmit}>
             <label className="grid gap-2">
               <span className="text-sm font-medium text-text-primary">

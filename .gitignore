@@ -64,3 +64,11 @@ next-env.d.ts
 
 # dogfood script output
 dogfood-output/
+
+# local MCP config — contains bearer tokens, keep out of git
+.mcp.json
+
+# editor / agent workspace configs
+/.agents/
+/.trae/
+/.windsurf/

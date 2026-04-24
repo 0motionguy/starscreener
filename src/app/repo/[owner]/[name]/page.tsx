@@ -46,6 +46,7 @@ import { RepoActionRow } from "@/components/repo-detail/RepoActionRow";
 import { MaintainerCard } from "@/components/repo-detail/MaintainerCard";
 import { getTwitterRepoPanel } from "@/lib/twitter/service";
 import { TwitterSignalPanel } from "@/components/twitter/TwitterSignalPanel";
+import { RepoBuilderPanel } from "@/components/builder/RepoBuilderPanel";
 
 // force-dynamic: the page aggregates per-source mention JSON at request
 // time and has ~thousands of possible (owner, name) tuples. Static
@@ -350,6 +351,8 @@ export default async function RepoDetailPage({ params }: PageProps) {
             />
           </div>
           <RepoActionRow repo={repo} />
+          {/* Builder layer — conviction + 30d prediction + ideas anchored here. */}
+          <RepoBuilderPanel repo={repo} />
           {/*
             Signal-first layout: metrics and evidence first; mentions stay as
             dots on the chart, with the full mention feed above diagnostics.

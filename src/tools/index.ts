@@ -30,6 +30,24 @@ import {
   MAINTAINER_PROFILE_PORTAL_PARAMS,
   maintainerProfile,
 } from "./maintainer-profile";
+import {
+  TOP_IDEAS_DESCRIPTION,
+  TOP_IDEAS_INPUT_SCHEMA,
+  TOP_IDEAS_PORTAL_PARAMS,
+  topIdeas,
+  IDEA_DESCRIPTION,
+  IDEA_INPUT_SCHEMA,
+  IDEA_PORTAL_PARAMS,
+  idea,
+  REACTIONS_FOR_DESCRIPTION,
+  REACTIONS_FOR_INPUT_SCHEMA,
+  REACTIONS_FOR_PORTAL_PARAMS,
+  reactionsFor,
+  PREDICTIONS_FOR_REPO_DESCRIPTION,
+  PREDICTIONS_FOR_REPO_INPUT_SCHEMA,
+  PREDICTIONS_FOR_REPO_PORTAL_PARAMS,
+  predictionsForRepo,
+} from "./builder-tools";
 
 export interface ToolDefinition {
   name: string;
@@ -63,6 +81,34 @@ export const TOOLS: ReadonlyArray<ToolDefinition> = [
     portalParams: MAINTAINER_PROFILE_PORTAL_PARAMS,
     inputSchema: MAINTAINER_PROFILE_INPUT_SCHEMA,
     handler: maintainerProfile,
+  },
+  {
+    name: "top_ideas",
+    description: TOP_IDEAS_DESCRIPTION,
+    portalParams: TOP_IDEAS_PORTAL_PARAMS,
+    inputSchema: TOP_IDEAS_INPUT_SCHEMA,
+    handler: topIdeas,
+  },
+  {
+    name: "idea",
+    description: IDEA_DESCRIPTION,
+    portalParams: IDEA_PORTAL_PARAMS,
+    inputSchema: IDEA_INPUT_SCHEMA,
+    handler: idea,
+  },
+  {
+    name: "reactions_for",
+    description: REACTIONS_FOR_DESCRIPTION,
+    portalParams: REACTIONS_FOR_PORTAL_PARAMS,
+    inputSchema: REACTIONS_FOR_INPUT_SCHEMA,
+    handler: reactionsFor,
+  },
+  {
+    name: "predictions_for_repo",
+    description: PREDICTIONS_FOR_REPO_DESCRIPTION,
+    portalParams: PREDICTIONS_FOR_REPO_PORTAL_PARAMS,
+    inputSchema: PREDICTIONS_FOR_REPO_INPUT_SCHEMA,
+    handler: predictionsForRepo,
   },
 ];
 

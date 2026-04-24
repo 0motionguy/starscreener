@@ -6,7 +6,7 @@ import { strict as assert } from "node:assert";
 import { buildManifest } from "../manifest";
 import { validateManifest } from "../validate";
 
-test("buildManifest returns a v0.1-valid manifest with the 3 canonical tools", () => {
+test("buildManifest returns a v0.1-valid manifest with the full tool set", () => {
   const m = buildManifest("https://starscreener.xyz");
   const check = validateManifest(m);
   assert.equal(check.ok, true, check.errors.join("; "));
@@ -17,7 +17,16 @@ test("buildManifest returns a v0.1-valid manifest with the 3 canonical tools", (
   assert.equal(m.pricing.model, "free");
 
   const names = m.tools.map((t) => t.name).sort();
-  assert.deepEqual(names, ["maintainer_profile", "search_repos", "top_gainers"]);
+  // 3 repo/signal tools + 4 builder-layer tools (ideas + reactions + predictions).
+  assert.deepEqual(names, [
+    "idea",
+    "maintainer_profile",
+    "predictions_for_repo",
+    "reactions_for",
+    "search_repos",
+    "top_gainers",
+    "top_ideas",
+  ]);
 });
 
 test("buildManifest strips a trailing slash from the base URL", () => {

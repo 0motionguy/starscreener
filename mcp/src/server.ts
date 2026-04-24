@@ -194,6 +194,127 @@ server.registerTool(
     run(() => portal.call("maintainer_profile", { handle })),
 );
 
+// -- Builder layer ------------------------------------------------------------
+
+const IdeaSortEnum = z.enum(["hot", "new", "resolving"]);
+const IdeaPhaseEnum = z.enum(["seed", "alpha", "beta", "live", "sunset"]);
+const SubjectTypeEnum = z.enum(["repo", "idea"]);
+
+server.registerTool(
+  "top_ideas",
+  {
+    title: "Top ideas",
+    description:
+      "Return the TrendingRepo idea feed. Each idea links 1-8 anchor repos, a " +
+      "thesis, a why-now signal citation, a stack, and conviction reactions. " +
+      "Sort 'hot' ranks by conviction density + freshness; 'new' is reverse-" +
+      "chronological; 'resolving' surfaces ideas whose current sprint ends " +
+      "within 48h.",
+    inputSchema: {
+      sort: IdeaSortEnum.optional().describe(
+        "One of 'hot' | 'new' | 'resolving'. Defaults to 'new'.",
+      ),
+      tag: z.string().min(1).optional().describe(
+        "Exact tag match. Tags are stored lowercase.",
+      ),
+      phase: IdeaPhaseEnum.optional().describe(
+        "Filter by idea phase: seed | alpha | beta | live | sunset.",
+      ),
+      limit: z.number().int().min(1).max(50).optional().describe(
+        "Max ideas (1-50). Default 10.",
+      ),
+    },
+    annotations: { readOnlyHint: true, idempotentHint: true },
+  },
+  async ({ sort, tag, phase, limit }) =>
+    run(() =>
+      portal.call("top_ideas", {
+        ...(sort !== undefined ? { sort } : {}),
+        ...(tag !== undefined ? { tag } : {}),
+        ...(phase !== undefined ? { phase } : {}),
+        ...(limit !== undefined ? { limit } : {}),
+      }),
+    ),
+);
+
+server.registerTool(
+  "idea",
+  {
+    title: "Idea detail",
+    description:
+      "Fetch a single TrendingRepo idea by slug. Returns the idea object " +
+      "(thesis, anchors, stack, why-now), the author snapshot, aggregated " +
+      "reaction tally with top payloads, and all sprints.",
+    inputSchema: {
+      slug: z
+        .string()
+        .min(1)
+        .describe(
+          "URL-safe slug, e.g. 'drop-in-agent-debugger-for-langgraph'.",
+        ),
+    },
+    annotations: { readOnlyHint: true, idempotentHint: true },
+  },
+  async ({ slug }) => run(() => portal.call("idea", { slug })),
+);
+
+server.registerTool(
+  "reactions_for",
+  {
+    title: "Reactions tally",
+    description:
+      "Aggregated conviction tally for a repo or idea. Returns counts for " +
+      "use/build/buy/invest, unique-builder count, a conviction density score " +
+      "((build + 2*invest) / uniqueBuilders), and the top 3 public payloads " +
+      "per kind.",
+    inputSchema: {
+      subjectType: SubjectTypeEnum.describe(
+        "'repo' (use fullName like 'vercel/next.js') or 'idea' (use slug).",
+      ),
+      subjectId: z
+        .string()
+        .min(1)
+        .describe("Repo fullName or idea slug."),
+    },
+    annotations: { readOnlyHint: true, idempotentHint: true },
+  },
+  async ({ subjectType, subjectId }) =>
+    run(() => portal.call("reactions_for", { subjectType, subjectId })),
+);
+
+server.registerTool(
+  "predictions_for_repo",
+  {
+    title: "Repo prediction",
+    description:
+      "Return the active star-trajectory prediction for a repo. Method: " +
+      "auto_linear_vol_30d — OLS trend on the last 30 non-zero daily star " +
+      "counts with a ±0.84σ residual band that widens with √horizon. " +
+      "Resolves automatically at resolvesAt.",
+    inputSchema: {
+      fullName: z
+        .string()
+        .regex(
+          /^[A-Za-z0-9._-]+\/[A-Za-z0-9._-]+$/,
+          "Expected 'owner/name'.",
+        )
+        .describe("GitHub full_name, e.g. 'vercel/next.js'."),
+      horizon: z
+        .union([z.literal(14), z.literal(30), z.literal(90)])
+        .optional()
+        .describe("Forecast horizon in days: 14, 30 (default), or 90."),
+    },
+    annotations: { readOnlyHint: true, idempotentHint: true },
+  },
+  async ({ fullName, horizon }) =>
+    run(() =>
+      portal.call("predictions_for_repo", {
+        fullName,
+        ...(horizon !== undefined ? { horizon } : {}),
+      }),
+    ),
+);
+
 // -----------------------------------------------------------------------------
 
 server.registerTool(

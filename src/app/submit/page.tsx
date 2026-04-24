@@ -1,13 +1,18 @@
 import type { Metadata } from "next";
 
-import { DropRepoPage } from "@/components/submissions/DropRepoPage";
+import { SubmitTabs } from "@/components/submissions/SubmitTabs";
 
 export const metadata: Metadata = {
-  title: "Drop Your Repo",
+  title: "Submit — Repo or Idea",
   description:
-    "Submit a GitHub repo to the TrendingRepo review queue. Dedupe against tracked repos, optional X share boost, and transparent pending counts.",
+    "Drop a GitHub repo into the TrendingRepo review queue, or post a builder-grade idea anchored to trending repos.",
 };
 
-export default function SubmitPage() {
-  return <DropRepoPage />;
+export default async function SubmitPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ tab?: string }>;
+}) {
+  const { tab } = await searchParams;
+  return <SubmitTabs initialTab={tab === "idea" ? "idea" : "repo"} />;
 }

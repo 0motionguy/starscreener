@@ -12,6 +12,7 @@ import {
   Bot,
   Bookmark,
   GitCompareArrows,
+  Hammer,
   Layers,
   Package,
   Radar,
@@ -322,6 +323,12 @@ export function SidebarContent({
             label="Compare"
             badge={compareCount > 0 ? compareCount : undefined}
             active={pathname === "/compare"}
+          />
+          <SidebarNavItem
+            href="/ideas"
+            icon={Hammer}
+            label="Ideas"
+            active={pathname === "/ideas" || pathname.startsWith("/ideas/")}
           />
         </SidebarSection>
 

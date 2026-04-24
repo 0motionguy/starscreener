@@ -9,15 +9,21 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  Area,
+  ReferenceLine,
 } from "recharts";
 import type { Repo } from "@/lib/types";
 import { formatNumber } from "@/lib/utils";
+import { forecastLinear } from "@/lib/builder/predictions";
 
 interface CompareChartProps {
   repos: Repo[];
+  /** When true, render the 30d forecast band for each repo. Default true. */
+  showForecast?: boolean;
 }
 
 const LINE_COLORS = ["#22c55e", "#3b82f6", "#a855f7", "#f59e0b"];
+const FORECAST_DAYS = 30;
 
 const MIN_HISTORY_DAYS = 7;
 
@@ -56,6 +62,55 @@ function buildChartData(repos: Repo[]) {
   return data;
 }
 
+/**
+ * Build the combined history + forecast chart data with band fields.
+ *
+ * For each repo we emit:
+ *   - <repoId>         — actual value (history) or p50 (forecast)
+ *   - <repoId>_p50     — forecast median (used for dotted line overlay)
+ *   - <repoId>_band    — [low, high] tuple for Area range
+ */
+function buildChartDataWithForecast(repos: Repo[]) {
+  const histLen = repos[0]?.sparklineData.length ?? 30;
+  const data: Record<string, string | number | [number, number] | null>[] = [];
+
+  // History section.
+  for (let i = 0; i < histLen; i++) {
+    const point: Record<string, string | number | [number, number] | null> = {
+      day: `D-${histLen - 1 - i}`,
+      isForecast: 0,
+    };
+    for (const repo of repos) {
+      point[repo.id] = repo.sparklineData[i] ?? 0;
+      point[`${repo.id}_p50`] = null;
+      point[`${repo.id}_band`] = null;
+    }
+    data.push(point);
+  }
+
+  // Forecast section.
+  const forecastsById = new Map(
+    repos.map((r) => [r.id, forecastLinear(r.sparklineData, { horizon: FORECAST_DAYS, lookback: 30 })]),
+  );
+  for (let t = 1; t <= FORECAST_DAYS; t++) {
+    const point: Record<string, string | number | [number, number] | null> = {
+      day: `D+${t}`,
+      isForecast: 1,
+    };
+    for (const repo of repos) {
+      const f = forecastsById.get(repo.id);
+      const fp = f?.points.find((p) => p.t === t);
+      point[repo.id] = null; // don't extend the solid actual line
+      point[`${repo.id}_p50`] = fp?.p50 ?? null;
+      point[`${repo.id}_band`] =
+        fp && fp.p20 != null && fp.p80 != null ? [fp.p20, fp.p80] : null;
+    }
+    data.push(point);
+  }
+
+  return { data, historyLastLabel: `D-0` };
+}
+
 interface CustomTooltipProps {
   active?: boolean;
   payload?: Array<{
@@ -91,7 +146,7 @@ function ChartTooltip({ active, payload, label }: CustomTooltipProps) {
   );
 }
 
-export function CompareChart({ repos }: CompareChartProps) {
+export function CompareChart({ repos, showForecast = true }: CompareChartProps) {
   if (repos.length < 2) return null;
 
   // Detect sparse histories so we can surface a "still collecting" banner
@@ -100,13 +155,30 @@ export function CompareChart({ repos }: CompareChartProps) {
   const sparseRepos = repos.filter((r) => !hasHistory(r.sparklineData));
   const allSparse = sparseRepos.length === repos.length;
 
-  const data = buildChartData(repos);
+  // Forecasting needs a non-sparse history. If every repo is sparse, fall
+  // back to the history-only shape so we don't render a band of noise.
+  const useForecast = showForecast && !allSparse;
+
+  const withForecast = useForecast ? buildChartDataWithForecast(repos) : null;
+  const data = withForecast ? withForecast.data : buildChartData(repos);
+  const historyLastLabel = withForecast?.historyLastLabel ?? null;
 
   return (
     <div className="bg-bg-card rounded-card border border-border-primary p-4 shadow-card animate-fade-in">
-      <h3 className="text-sm font-medium text-text-secondary mb-3">
-        Star Activity (30 days)
-      </h3>
+      <div className="flex items-center justify-between mb-3">
+        <h3 className="text-sm font-medium text-text-secondary">
+          Star Activity (30d history
+          {useForecast ? " + 30d forecast" : ""})
+        </h3>
+        {useForecast && (
+          <span
+            className="font-mono text-[10px] uppercase tracking-wide text-text-tertiary"
+            title="Forecast method: rolling OLS on last 30 non-zero daily values; band is ±0.84σ residual, widening with √t."
+          >
+            method · auto_linear_vol_30d
+          </span>
+        )}
+      </div>
 
       {sparseRepos.length > 0 && (
         <div
@@ -171,8 +243,54 @@ export function CompareChart({ repos }: CompareChartProps) {
                 strokeWidth={2}
                 dot={false}
                 activeDot={{ r: 4, strokeWidth: 0 }}
+                connectNulls={false}
+                isAnimationActive={false}
               />
             ))}
+            {useForecast && historyLastLabel && (
+              <ReferenceLine
+                x={historyLastLabel}
+                stroke="var(--color-border-primary)"
+                strokeDasharray="4 4"
+                label={{
+                  value: "today",
+                  position: "insideTopRight",
+                  fontSize: 10,
+                  fill: "var(--color-text-tertiary)",
+                }}
+              />
+            )}
+            {useForecast &&
+              repos.map((repo, i) => (
+                <Area
+                  key={`${repo.id}_band`}
+                  type="monotone"
+                  dataKey={`${repo.id}_band`}
+                  name={`${repo.fullName} · p20–p80`}
+                  stroke="none"
+                  fill={LINE_COLORS[i]}
+                  fillOpacity={0.12}
+                  connectNulls={false}
+                  legendType="none"
+                  isAnimationActive={false}
+                />
+              ))}
+            {useForecast &&
+              repos.map((repo, i) => (
+                <Line
+                  key={`${repo.id}_p50`}
+                  type="monotone"
+                  dataKey={`${repo.id}_p50`}
+                  name={`${repo.fullName} · p50`}
+                  stroke={LINE_COLORS[i]}
+                  strokeWidth={1.5}
+                  strokeDasharray="4 4"
+                  dot={false}
+                  connectNulls={false}
+                  legendType="none"
+                  isAnimationActive={false}
+                />
+              ))}
           </LineChart>
         </ResponsiveContainer>
       </div>
@@ -222,8 +340,46 @@ export function CompareChart({ repos }: CompareChartProps) {
                 strokeWidth={1.5}
                 dot={false}
                 activeDot={{ r: 3, strokeWidth: 0 }}
+                connectNulls={false}
+                isAnimationActive={false}
               />
             ))}
+            {useForecast && historyLastLabel && (
+              <ReferenceLine
+                x={historyLastLabel}
+                stroke="var(--color-border-primary)"
+                strokeDasharray="3 3"
+              />
+            )}
+            {useForecast &&
+              repos.map((repo, i) => (
+                <Area
+                  key={`${repo.id}_band`}
+                  type="monotone"
+                  dataKey={`${repo.id}_band`}
+                  stroke="none"
+                  fill={LINE_COLORS[i]}
+                  fillOpacity={0.12}
+                  connectNulls={false}
+                  legendType="none"
+                  isAnimationActive={false}
+                />
+              ))}
+            {useForecast &&
+              repos.map((repo, i) => (
+                <Line
+                  key={`${repo.id}_p50`}
+                  type="monotone"
+                  dataKey={`${repo.id}_p50`}
+                  stroke={LINE_COLORS[i]}
+                  strokeWidth={1}
+                  strokeDasharray="3 3"
+                  dot={false}
+                  connectNulls={false}
+                  legendType="none"
+                  isAnimationActive={false}
+                />
+              ))}
           </LineChart>
         </ResponsiveContainer>
       </div>

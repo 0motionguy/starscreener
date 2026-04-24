@@ -1,13 +1,65 @@
 {
-  "fetchedAt": "2026-04-24T18:02:37.856Z",
+  "fetchedAt": "2026-04-24T19:13:58.237Z",
   "windowDays": 7,
-  "scannedPosts": 98,
+  "scannedPosts": 198,
   "searchQuery": "github.com",
-  "pagesFetched": 1,
+  "pagesFetched": 2,
   "mentions": {
-    "junhoyeo/tokscale": {
+    "router-for-me/CLIProxyAPI": {
       "count7d": 1,
       "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:gy2l7mlrmwtpo5xjjwyuuzim/app.bsky.feed.post/3mkb7qjmzm227",
+        "cid": "bafyreihsb2w5f2bdqmxij4mx25ki5wx2jfz7vys4z63xfixukzeguhbxly",
+        "bskyUrl": "https://bsky.app/profile/emmnigma.bsky.social/post/3mkb7qjmzm227",
+        "text": "I do something similar using github.com/router-for-m... With the oauth Claude sub and codex auth subagents",
+        "author": {
+          "handle": "emmnigma.bsky.social",
+          "displayName": "Emma"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-24T19:03:51.912Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:gy2l7mlrmwtpo5xjjwyuuzim/app.bsky.feed.post/3mkb7qjmzm227",
+          "cid": "bafyreihsb2w5f2bdqmxij4mx25ki5wx2jfz7vys4z63xfixukzeguhbxly",
+          "bskyUrl": "https://bsky.app/profile/emmnigma.bsky.social/post/3mkb7qjmzm227",
+          "text": "I do something similar using github.com/router-for-m... With the oauth Claude sub and codex auth subagents",
+          "author": {
+            "handle": "emmnigma.bsky.social",
+            "displayName": "Emma"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-24T19:03:51.912Z",
+          "createdUtc": 1777057431,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "router-for-me/CLIProxyAPI",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "junhoyeo/tokscale": {
+      "count7d": 2,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -19,11 +71,11 @@
           "handle": "rusttrending.bsky.social",
           "displayName": "RustTrending"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-24T17:47:30.833972Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.44
       },
       "posts": [
         {
@@ -35,11 +87,39 @@
             "handle": "rusttrending.bsky.social",
             "displayName": "RustTrending"
           },
-          "likeCount": 0,
+          "likeCount": 1,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-04-24T17:47:30.833972Z",
           "createdUtc": 1777052850,
+          "ageHours": 1.44,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "junhoyeo/tokscale",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkb6t3r5pi2z",
+          "cid": "bafyreigbykuqmelpjvuskewd5ychto3zu4zfktcnk4r4kvsx2shjlqpuau",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkb6t3r5pi2z",
+          "text": "https://github.com/junhoyeo/tokscale",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-24T18:47:23Z",
+          "createdUtc": 1777056443,
           "ageHours": 0.5,
           "trendingScore": 0,
           "content_tags": [
@@ -49,6 +129,57 @@
           "linkedRepos": [
             {
               "fullName": "junhoyeo/tokscale",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "tw93/Kaku": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkb5y2ewc42s",
+        "cid": "bafyreicdtpjy62irgvyfxrknlj6qwwdw6st25x25rqxl6bjhvlftjgv63m",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkb5y2ewc42s",
+        "text": "https://github.com/tw93/Kaku",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-24T18:32:16Z",
+        "hoursSincePosted": 0.7
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkb5y2ewc42s",
+          "cid": "bafyreicdtpjy62irgvyfxrknlj6qwwdw6st25x25rqxl6bjhvlftjgv63m",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkb5y2ewc42s",
+          "text": "https://github.com/tw93/Kaku",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-24T18:32:16Z",
+          "createdUtc": 1777055536,
+          "ageHours": 0.7,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "tw93/Kaku",
               "matchType": "url",
               "confidence": 1
             }
@@ -74,7 +205,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-24T16:53:46.510032Z",
-        "hoursSincePosted": 1.15
+        "hoursSincePosted": 2.34
       },
       "posts": [
         {
@@ -91,7 +222,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-24T16:53:46.510032Z",
           "createdUtc": 1777049626,
-          "ageHours": 1.15,
+          "ageHours": 2.34,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -125,7 +256,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-24T16:47:25.862546Z",
-        "hoursSincePosted": 1.25
+        "hoursSincePosted": 2.44
       },
       "posts": [
         {
@@ -142,7 +273,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-24T16:47:25.862546Z",
           "createdUtc": 1777049245,
-          "ageHours": 1.25,
+          "ageHours": 2.44,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -162,8 +293,8 @@
   "leaderboard": [
     {
       "fullName": "junhoyeo/tokscale",
-      "count7d": 1,
-      "likesSum7d": 0
+      "count7d": 2,
+      "likesSum7d": 1
     },
     {
       "fullName": "Polymarket/polymarket-cli",
@@ -172,6 +303,16 @@
     },
     {
       "fullName": "rorkai/App-Store-Connect-CLI",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "router-for-me/CLIProxyAPI",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "tw93/Kaku",
       "count7d": 1,
       "likesSum7d": 0
     }

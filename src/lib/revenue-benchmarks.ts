@@ -93,8 +93,16 @@ export interface Estimate {
   range: { lowCents: number; midCents: number; highCents: number } | null;
 }
 
-export function estimateMrr(input: EstimateInput): Estimate {
-  const { buckets } = readRevenueBenchmarksFile();
+/**
+ * Pure version of `estimateMrr` — takes an explicit bucket list instead of
+ * reading from disk. Exported so the fallback-precedence logic can be tested
+ * deterministically without a fixture file. The disk-backed `estimateMrr`
+ * below is a one-line delegate to this.
+ */
+export function estimateMrrFromBuckets(
+  buckets: RevenueBenchmarkBucket[],
+  input: EstimateInput,
+): Estimate {
   if (buckets.length === 0) {
     return { bucket: null, fallback: "none", range: null };
   }
@@ -154,4 +162,15 @@ export function estimateMrr(input: EstimateInput): Estimate {
       highCents: bucket.p75,
     },
   };
+}
+
+/**
+ * Disk-backed estimator. Reads buckets from data/revenue-benchmarks.json
+ * and delegates to the pure estimateMrrFromBuckets above.
+ */
+export function estimateMrr(input: EstimateInput): Estimate {
+  return estimateMrrFromBuckets(
+    readRevenueBenchmarksFile().buckets,
+    input,
+  );
 }

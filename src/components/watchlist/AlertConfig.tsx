@@ -149,6 +149,7 @@ function ToggleSwitch({
 }) {
   return (
     <button
+      type="button"
       role="switch"
       aria-checked={enabled}
       onClick={onToggle}
@@ -404,6 +405,7 @@ function RuleRow({
       <div className="flex items-center gap-2 shrink-0">
         <ToggleSwitch enabled={locallyEnabled} onToggle={onToggle} />
         <button
+          type="button"
           onClick={onDelete}
           className={cn(
             "inline-flex size-11 items-center justify-center rounded-[var(--radius-button)]",
@@ -759,6 +761,7 @@ export function AlertConfig() {
           <BrowserAlertToggle />
           {!showForm && (
             <button
+              type="button"
               onClick={() => setShowForm(true)}
               className={cn(
                 "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--radius-button)] text-xs font-medium min-h-[36px]",

@@ -224,6 +224,7 @@ export function SearchBar({
         }}
         placeholder={placeholder}
         autoFocus={autoFocus}
+        aria-label={placeholder}
         role={showPreview ? "combobox" : undefined}
         aria-expanded={showPreview ? previewOpen : undefined}
         aria-controls={showPreview ? "search-preview" : undefined}

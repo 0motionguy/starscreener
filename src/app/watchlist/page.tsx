@@ -72,7 +72,7 @@ export default function WatchlistPage() {
 
   const heading = (
     <div className="px-4 sm:px-6 pt-6 pb-2">
-      <h1 className="font-display text-3xl font-bold text-text-primary flex items-center gap-3">
+      <h1 className="font-display text-2xl sm:text-3xl font-bold text-text-primary flex items-center gap-3">
         Watchlist
         <span className="text-sm font-mono font-normal text-text-tertiary px-2 py-1 bg-bg-tertiary rounded-full">
           {repos.length}

@@ -119,6 +119,8 @@ export function SidebarFilters({ languages }: SidebarFiltersProps) {
           step={5}
           value={minMomentum}
           onChange={(e) => setMinMomentum(Number(e.target.value))}
+          aria-label="Minimum momentum"
+          aria-valuenow={minMomentum}
           className="w-full h-1 cursor-pointer"
           style={{ accentColor: "var(--color-functional)" }}
         />

@@ -278,7 +278,7 @@ export default async function TwitterPage({
 
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
-      <div className="max-w-[1400px] mx-auto px-6 py-8">
+      <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
         <header className="mb-6 border-b border-border-primary pb-6">
           <div className="flex items-baseline gap-3 flex-wrap">
             <h1 className="text-2xl font-bold uppercase tracking-wider">

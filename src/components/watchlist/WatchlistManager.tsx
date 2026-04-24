@@ -82,6 +82,7 @@ function WatchedRepoCard({
 
         {/* Right: remove button */}
         <button
+          type="button"
           onClick={() => removeRepo(item.repoId)}
           className={cn(
             "shrink-0 p-2 rounded-[var(--radius-button)]",

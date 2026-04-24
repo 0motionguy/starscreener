@@ -197,6 +197,7 @@ export function CompareSelector() {
         </p>
         {repos.length >= 2 && (
           <button
+            type="button"
             onClick={clearAll}
             className="flex items-center gap-1.5 text-xs text-text-tertiary hover:text-accent-red transition-colors cursor-pointer"
           >
@@ -228,6 +229,7 @@ export function CompareSelector() {
                 {name}
               </span>
               <button
+                type="button"
                 onClick={() => removeRepo(id)}
                 className={cn(
                   "p-0.5 rounded-full hover:bg-bg-card-hover transition-colors cursor-pointer",
@@ -245,6 +247,7 @@ export function CompareSelector() {
         {Array.from({ length: emptySlots }).map((_, i) => (
           <button
             key={`empty-${i}`}
+            type="button"
             onClick={openSearch}
             className={cn(
               "rounded-badge px-3 py-1.5 border border-dashed border-border-primary",
@@ -271,6 +274,7 @@ export function CompareSelector() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search by name..."
+                aria-label="Search repos to compare"
                 className={cn(
                   "w-full h-9 pl-9 pr-4",
                   "bg-bg-card border border-border-primary rounded-card",
@@ -287,6 +291,7 @@ export function CompareSelector() {
                 {suggestions.map((repo) => (
                   <button
                     key={repo.id}
+                    type="button"
                     onClick={() => handleSelect(repo.id)}
                     className={cn(
                       "w-full px-3 py-2 flex items-center gap-3 text-left",

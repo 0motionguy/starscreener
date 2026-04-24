@@ -104,6 +104,7 @@ export function RepoActions({ repo }: RepoActionsProps) {
     <div className="flex items-center gap-2 animate-fade-in">
       {/* Watch/Unwatch */}
       <button
+        type="button"
         onClick={handleWatch}
         className={cn(
           "flex items-center gap-2 px-4 py-2 rounded-button border text-sm font-medium transition-all min-h-[44px]",
@@ -118,6 +119,7 @@ export function RepoActions({ repo }: RepoActionsProps) {
 
       {/* Compare */}
       <button
+        type="button"
         onClick={handleCompare}
         disabled={compareDisabled}
         title={
@@ -142,6 +144,7 @@ export function RepoActions({ repo }: RepoActionsProps) {
 
       {/* Share */}
       <button
+        type="button"
         onClick={handleShare}
         className={cn(
           "flex items-center gap-2 px-4 py-2 rounded-button border text-sm font-medium transition-all min-h-[44px]",

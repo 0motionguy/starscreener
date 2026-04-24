@@ -217,6 +217,7 @@ export function RepoChart({ repo }: RepoChartProps) {
           {TIME_TABS.map((tab) => (
             <button
               key={tab.value}
+              type="button"
               onClick={() => setTimeRange(tab.value)}
               className={cn(
                 "px-3 py-1 text-xs font-medium rounded-badge transition-all",

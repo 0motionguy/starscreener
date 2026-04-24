@@ -108,7 +108,9 @@ export function FeaturedCards({
     if (recomputing) return;
     setRecomputing(true);
     try {
-      await fetch("/api/pipeline/recompute", { method: "POST" });
+      // /api/pipeline/recompute is CRON_SECRET-gated; use the public,
+      // rate-limited /api/pipeline/refresh wrapper from the browser.
+      await fetch("/api/pipeline/refresh", { method: "POST" });
       router.refresh();
       // Nudge the effect to refetch by flipping lastRefresh (setState
       // forces a reconcile; the effect above will pick up the next render

@@ -18,8 +18,29 @@ interface AlertsResponse {
   events?: AlertEvent[];
 }
 
-const USER_ID = "local";
 const POLL_INTERVAL_MS = 30_000;
+
+/**
+ * Best-effort session bootstrap. /api/pipeline/alerts now derives the
+ * caller's userId from an HMAC-signed ss_user cookie issued by
+ * /api/auth/session. In dev with SESSION_SECRET unset the session route
+ * returns a dev-fallback identity ("local") without setting a cookie, and
+ * the alerts endpoint's dev-fallback path covers us.
+ */
+async function ensureSessionCookie(): Promise<void> {
+  try {
+    await fetch("/api/auth/session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({}),
+      credentials: "include",
+      cache: "no-store",
+    });
+  } catch {
+    // Non-fatal; the alerts poll below will just 401 and we skip delivering
+    // notifications this cycle.
+  }
+}
 
 function getNotificationPermission():
   | NotificationPermission
@@ -86,9 +107,10 @@ export function BrowserAlertBridge() {
 
     try {
       const res = await fetch(
-        `/api/pipeline/alerts?userId=${encodeURIComponent(USER_ID)}&unreadOnly=true`,
+        "/api/pipeline/alerts?unreadOnly=true",
         {
           cache: "no-store",
+          credentials: "include",
         },
       );
       if (!res.ok) return;
@@ -133,6 +155,10 @@ export function BrowserAlertBridge() {
 
     const prime = async () => {
       if (primedRef.current) return;
+      // Make sure the ss_user cookie exists before polling alerts — without
+      // it, every /api/pipeline/alerts call will 401 in production.
+      await ensureSessionCookie();
+      if (cancelled) return;
       await pollAlerts(true);
       if (!cancelled) primedRef.current = true;
     };

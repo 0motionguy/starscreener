@@ -18,6 +18,10 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { timingSafeEqual } from "node:crypto";
+import { verifySession } from "./session";
+
+/** Name of the HMAC-signed session cookie set by /api/auth/session. */
+export const SESSION_COOKIE_NAME = "ss_user";
 
 export type AuthVerdict =
   | { kind: "ok" }
@@ -233,18 +237,48 @@ function parseUserTokens(): Map<string, string> {
 }
 
 /**
+ * Read the ss_user cookie value without depending on next/headers, so this
+ * helper stays usable from unit tests that pass a Headers-only shim.
+ */
+function readSessionCookie(request: NextRequest): string | null {
+  const cookieHeader = request.headers.get("cookie");
+  if (!cookieHeader) return null;
+  // RFC 6265 — cookies separated by "; ". Values can contain "=" in base64url
+  // variants so we only split on the first "=".
+  for (const part of cookieHeader.split(";")) {
+    const trimmed = part.trim();
+    if (!trimmed) continue;
+    const eq = trimmed.indexOf("=");
+    if (eq === -1) continue;
+    const name = trimmed.slice(0, eq).trim();
+    if (name !== SESSION_COOKIE_NAME) continue;
+    const value = trimmed.slice(eq + 1).trim();
+    return value.length > 0 ? value : null;
+  }
+  return null;
+}
+
+/**
  * Per-user auth for endpoints that mutate user-scoped state (alert rules,
- * read-markers). Accepts either:
+ * read-markers). Accepts, in priority order:
  *
- *   - `x-user-token: <token>`
- *   - `Authorization: Bearer <token>`  (or raw `Authorization: <token>`)
+ *   1. `x-user-token: <token>`                        (server-to-server / CLI)
+ *   2. `Authorization: Bearer <token>` / raw          (server-to-server / CLI)
+ *   3. `Cookie: ss_user=<signed-session>`             (browser UI)
+ *
+ * Header auth wins when both a header and a cookie are present — used for
+ * test rigs and server-to-server calls that know a USER_TOKEN.
  *
  * Env config, in priority order:
  *
  *   1. USER_TOKENS_JSON — JSON `{ "<token>": "<userId>" }` (multi-user)
  *   2. USER_TOKEN       — single token → userId "local"    (single-user dev)
  *
- * If neither env is set:
+ * Cookie auth requires `SESSION_SECRET` (used to HMAC the cookie value). The
+ * cookie path is additive — existing header-based integrations still work
+ * whether SESSION_SECRET is set or not.
+ *
+ * If no header/cookie is present AND no token env is set:
  *   - production → not_configured (503). Operators MUST provision auth.
  *   - development → ok with userId "local" (loud one-shot warn). Keeps the
  *     existing dev UX working while the single-user token contract rolls out.
@@ -252,9 +286,54 @@ function parseUserTokens(): Map<string, string> {
 export function verifyUserAuth(request: NextRequest): UserAuthVerdict {
   const multi = parseUserTokens();
   const singleToken = process.env.USER_TOKEN?.trim();
+  const headerBearer = extractBearer(request, "x-user-token");
 
-  // Pure-dev path: nothing configured. Allow with a loud warning so the
-  // developer knows they're running in an unauthenticated mode.
+  // 1. Cookie — HMAC-signed ss_user. verifySession returns null when
+  //    SESSION_SECRET is unset or the cookie is malformed/expired/tampered.
+  //    We evaluate this BEFORE the header branch so that a browser that
+  //    forwards a stale Authorization header alongside a good cookie still
+  //    authenticates. The explicit "header wins" contract is preserved by
+  //    the early-return in step 2 below.
+  const cookieValue = readSessionCookie(request);
+  const cookiePayload = cookieValue ? verifySession(cookieValue) : null;
+
+  // 2. Header path — when a header is provided, it wins over the cookie
+  //    IF it matches a configured env token. This matches the pre-cookie
+  //    contract: server-to-server callers with a valid USER_TOKEN should
+  //    see their mapped userId, not a browser session's.
+  if (headerBearer) {
+    if (multi.size > 0) {
+      for (const [token, userId] of multi.entries()) {
+        if (timingSafeEqualStr(headerBearer, token)) {
+          return { kind: "ok", userId };
+        }
+      }
+    } else if (singleToken && timingSafeEqualStr(headerBearer, singleToken)) {
+      return { kind: "ok", userId: "local" };
+    }
+    // Header didn't match any env token. If we have a valid cookie AND
+    // env tokens are actually configured, fall through to the cookie
+    // (keeps browsers working). Otherwise we must fall through to the
+    // env-less / unauthorized branches below.
+    if (cookiePayload && (multi.size > 0 || singleToken)) {
+      return { kind: "ok", userId: cookiePayload.userId };
+    }
+    // If env tokens ARE configured, the header was the caller's explicit
+    // choice and it didn't match — reject now.
+    if (multi.size > 0 || singleToken) {
+      return { kind: "unauthorized" };
+    }
+    // Env tokens NOT configured — fall through to the env-less branch so
+    // we return "not_configured" (prod) / "ok local" (dev). The header is
+    // meaningless without env config, same as it was pre-cookie.
+  } else if (cookiePayload) {
+    // 3. Cookie-only caller (browser). Accept regardless of env-token state.
+    return { kind: "ok", userId: cookiePayload.userId };
+  }
+
+  // 4. No valid header match and no valid cookie. Honor the env-less
+  //    contract: in prod → not_configured (503); in dev → ok/local (loud
+  //    one-shot warn).
   if (multi.size === 0 && !singleToken) {
     if (process.env.NODE_ENV === "production") {
       if (!userConfigWarned) {
@@ -277,23 +356,7 @@ export function verifyUserAuth(request: NextRequest): UserAuthVerdict {
     return { kind: "ok", userId: "local" };
   }
 
-  const bearer = extractBearer(request, "x-user-token");
-  if (!bearer) return { kind: "unauthorized" };
-
-  if (multi.size > 0) {
-    for (const [token, userId] of multi.entries()) {
-      if (timingSafeEqualStr(bearer, token)) {
-        return { kind: "ok", userId };
-      }
-    }
-    // If a multi-user map exists but this token isn't in it, don't fall
-    // through to USER_TOKEN — explicit multi-user config wins.
-    return { kind: "unauthorized" };
-  }
-
-  if (singleToken && timingSafeEqualStr(bearer, singleToken)) {
-    return { kind: "ok", userId: "local" };
-  }
+  // 5. Env tokens configured, but nothing valid was presented.
   return { kind: "unauthorized" };
 }
 

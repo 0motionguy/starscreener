@@ -8,7 +8,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 
-import { authFailureResponse, verifyAdminAuth } from "@/lib/api/auth";
+import { adminAuthFailureResponse, verifyAdminAuth } from "@/lib/api/auth";
 import {
   listRevenueSubmissions,
   toPublicRevenueSubmission,
@@ -59,7 +59,7 @@ function toAdminView(record: RevenueSubmissionRecord): AdminSubmission {
 }
 
 export async function GET(request: NextRequest) {
-  const deny = authFailureResponse(verifyAdminAuth(request));
+  const deny = adminAuthFailureResponse(verifyAdminAuth(request));
   if (deny) return deny;
   try {
     const records = await listRevenueSubmissions();
@@ -79,7 +79,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const deny = authFailureResponse(verifyAdminAuth(request));
+  const deny = adminAuthFailureResponse(verifyAdminAuth(request));
   if (deny) return deny;
 
   let body: unknown;

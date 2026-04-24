@@ -34,7 +34,9 @@ function Divider() {
  * StatsBarClient — interactive wrapper around the inline stats row.
  *
  * Re-inlines the stat text so the refresh button and the row live in one
- * flex container. On click, POSTs /api/pipeline/recompute and then calls
+ * flex container. On click, POSTs /api/pipeline/refresh (public, rate-limited
+ * wrapper around recompute — /api/pipeline/recompute itself requires
+ * CRON_SECRET and is not safe to call from the browser) and then calls
  * `router.refresh()` so server components (including StatsBar consumers)
  * re-read the fresh store state. Brief green check animation on success.
  */
@@ -52,8 +54,8 @@ export function StatsBarClient({ stats }: StatsBarClientProps) {
     setLoading(true);
     const startedAt = performance.now();
     try {
-      const res = await fetch("/api/pipeline/recompute", { method: "POST" });
-      if (!res.ok) throw new Error(`recompute failed (${res.status})`);
+      const res = await fetch("/api/pipeline/refresh", { method: "POST" });
+      if (!res.ok) throw new Error(`refresh failed (${res.status})`);
       const durationMs = Math.round(performance.now() - startedAt);
       setJustSucceeded(true);
       toastRefreshSuccess(durationMs);

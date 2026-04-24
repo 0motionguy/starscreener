@@ -4,11 +4,20 @@
 //
 // Wires the alerts UI to the live pipeline API:
 //
-//   GET    /api/pipeline/alerts/rules?userId=local   → list rules
-//   POST   /api/pipeline/alerts/rules                → create rule
-//   DELETE /api/pipeline/alerts/rules?id=<id>        → remove rule
-//   GET    /api/pipeline/alerts?userId=local         → recent fired events
-//   POST   /api/pipeline/alerts                      → mark event read
+//   GET    /api/pipeline/alerts/rules   → list rules (userId from cookie)
+//   POST   /api/pipeline/alerts/rules   → create rule
+//   DELETE /api/pipeline/alerts/rules?id=<id>
+//   GET    /api/pipeline/alerts         → recent fired events
+//   POST   /api/pipeline/alerts         → mark event read
+//
+// Auth model (prod): an HMAC-signed `ss_user` cookie issued by
+// POST /api/auth/session. Every fetch below runs with credentials:"include"
+// so the cookie rides along. The server derives userId from the signed
+// payload — `?userId=` and body `userId=` are ignored.
+//
+// Auth model (dev, no SESSION_SECRET): the session route returns
+// { kind: "dev-fallback", userId: "local" } without setting a cookie, and
+// verifyUserAuth falls back to userId="local" on the server.
 //
 // Rule enable/disable state is local-only for now — the backend route set
 // doesn't expose a PUT /rules endpoint, so toggling a rule disables it
@@ -54,7 +63,39 @@ interface RepoNameMap {
 // Constants
 // ---------------------------------------------------------------------------
 
-const USER_ID = "local";
+// Shared fetch options for per-user endpoints. credentials:"include" ensures
+// the ss_user cookie rides along with same-origin requests; cache:"no-store"
+// keeps the browser from serving stale alert feeds.
+const USER_FETCH_INIT: RequestInit = {
+  credentials: "include",
+  cache: "no-store",
+};
+
+// Legacy value kept ONLY as a doc reference — all user identity now flows
+// through the ss_user cookie. Do not send userId in request bodies or query
+// strings; the server ignores them.
+// const USER_ID = "local";
+
+// Best-effort session bootstrap: POST /api/auth/session if no ss_user cookie
+// exists yet. Safe to call more than once — the server treats a second POST
+// with no email as a renewal rather than a fresh identity. Returns whether
+// the server accepted the call; callers don't block on it (the alerts
+// requests below will 401 if the bootstrap failed, and the component's
+// error banner surfaces that).
+async function ensureSessionCookie(): Promise<boolean> {
+  try {
+    const res = await fetch("/api/auth/session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({}),
+      credentials: "include",
+      cache: "no-store",
+    });
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
 
 const TRIGGER_OPTIONS: {
   value: AlertTriggerType;
@@ -475,7 +516,8 @@ export function AlertConfig() {
   const refreshRules = useCallback(async () => {
     try {
       const res = await fetch(
-        `/api/pipeline/alerts/rules?userId=${encodeURIComponent(USER_ID)}`,
+        "/api/pipeline/alerts/rules",
+        USER_FETCH_INIT,
       );
       if (!res.ok) throw new Error(`status ${res.status}`);
       const data = (await res.json()) as {
@@ -510,7 +552,8 @@ export function AlertConfig() {
   const refreshEvents = useCallback(async () => {
     try {
       const res = await fetch(
-        `/api/pipeline/alerts?userId=${encodeURIComponent(USER_ID)}`,
+        "/api/pipeline/alerts",
+        USER_FETCH_INIT,
       );
       if (!res.ok) throw new Error(`status ${res.status}`);
       const data = (await res.json()) as {
@@ -530,12 +573,17 @@ export function AlertConfig() {
     }
   }, []);
 
-  // Initial load
+  // Initial load — ensures the ss_user session cookie exists before hitting
+  // the per-user endpoints. In dev with no SESSION_SECRET the bootstrap
+  // returns { userId: "local", kind: "dev-fallback" } and the downstream
+  // GETs succeed via the server's dev fallback path.
   useEffect(() => {
     let active = true;
     (async () => {
       setLoading(true);
       setError(null);
+      await ensureSessionCookie();
+      if (!active) return;
       const [rulesOk] = await Promise.all([refreshRules(), refreshEvents()]);
       if (!active) return;
       setLoading(false);
@@ -597,8 +645,10 @@ export function AlertConfig() {
         const res = await fetch("/api/pipeline/alerts/rules", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+          credentials: "include",
           body: JSON.stringify({
-            userId: USER_ID,
+            // userId is derived server-side from the ss_user cookie; we
+            // intentionally do NOT send one (it would be ignored anyway).
             trigger: input.trigger,
             threshold: input.threshold,
             repoId: input.repoId,
@@ -635,7 +685,7 @@ export function AlertConfig() {
     try {
       const res = await fetch(
         `/api/pipeline/alerts/rules?id=${encodeURIComponent(id)}`,
-        { method: "DELETE" },
+        { method: "DELETE", credentials: "include" },
       );
       const data = (await res.json().catch(() => ({ ok: false }))) as {
         ok: boolean;
@@ -667,6 +717,7 @@ export function AlertConfig() {
       const res = await fetch("/api/pipeline/alerts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ eventId }),
       });
       const data = (await res.json().catch(() => ({ ok: false }))) as {

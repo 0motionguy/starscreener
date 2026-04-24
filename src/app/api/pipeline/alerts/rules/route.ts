@@ -1,10 +1,12 @@
-// GET    /api/pipeline/alerts/rules?userId=local   — list AlertRules
+// GET    /api/pipeline/alerts/rules                — list AlertRules for caller
 // POST   /api/pipeline/alerts/rules                 — create an AlertRule
 // DELETE /api/pipeline/alerts/rules?id=<ruleId>     — delete an AlertRule
 //
-// Rules drive the recompute-time alert engine. Each user owns their own
-// set of rules; the MVP defaults to the single-user "local" account when
-// no userId is supplied.
+// Rules drive the recompute-time alert engine. Each user owns their own set
+// of rules; userId is DERIVED from the authenticated caller via
+// `verifyUserAuth`. The previous `userId` body/query parameter is IGNORED —
+// allowing it to be caller-supplied let anyone read, create, or delete
+// another user's rules.
 
 import { NextRequest, NextResponse } from "next/server";
 import { persistPipeline, pipeline } from "@/lib/pipeline/pipeline";
@@ -14,8 +16,7 @@ import {
   type CreateRuleInput,
 } from "@/lib/pipeline/alerts/rule-management";
 import type { AlertRule, AlertTriggerType } from "@/lib/pipeline/types";
-
-const DEFAULT_USER_ID = "local";
+import { userAuthFailureResponse, verifyUserAuth } from "@/lib/api/auth";
 
 const VALID_TRIGGERS: readonly AlertTriggerType[] = [
   "star_spike",
@@ -48,15 +49,25 @@ export interface RulesErrorResponse {
   ok: false;
   error: string;
   details?: string[];
+  code?: string;
 }
 
 export async function GET(
   request: NextRequest,
 ): Promise<NextResponse<RulesListResponse | RulesErrorResponse>> {
+  const auth = verifyUserAuth(request);
+  const deny = userAuthFailureResponse(auth);
+  if (deny) return deny as NextResponse<RulesErrorResponse>;
+  if (auth.kind !== "ok") {
+    return NextResponse.json(
+      { ok: false, error: "unauthorized", code: "UNAUTHORIZED" },
+      { status: 401 },
+    );
+  }
+  const { userId } = auth;
+
   try {
     await pipeline.ensureReady();
-    const { searchParams } = request.nextUrl;
-    const userId = searchParams.get("userId") ?? DEFAULT_USER_ID;
     const rules = pipeline.listAlertRules(userId);
     return NextResponse.json({
       ok: true,
@@ -73,7 +84,7 @@ export async function GET(
 }
 
 interface ParsedCreateBody {
-  input: CreateRuleInput;
+  input: Omit<CreateRuleInput, "userId">;
 }
 
 function parseCreateBody(
@@ -99,10 +110,8 @@ function parseCreateBody(
     return { ok: false, error: "threshold must be a finite number" };
   }
 
-  const userId =
-    typeof body.userId === "string" && body.userId.length > 0
-      ? body.userId
-      : DEFAULT_USER_ID;
+  // userId is INTENTIONALLY not read from the body — it is derived from the
+  // authenticated caller. A client-supplied userId is silently ignored.
 
   const repoId =
     body.repoId === undefined || body.repoId === null
@@ -138,8 +147,7 @@ function parseCreateBody(
   const enabled =
     body.enabled === undefined ? undefined : Boolean(body.enabled);
 
-  const input: CreateRuleInput = {
-    userId,
+  const input: Omit<CreateRuleInput, "userId"> = {
     trigger: trigger as AlertTriggerType,
     threshold,
     repoId,
@@ -154,6 +162,17 @@ function parseCreateBody(
 export async function POST(
   request: NextRequest,
 ): Promise<NextResponse<RulesCreateResponse | RulesErrorResponse>> {
+  const auth = verifyUserAuth(request);
+  const deny = userAuthFailureResponse(auth);
+  if (deny) return deny as NextResponse<RulesErrorResponse>;
+  if (auth.kind !== "ok") {
+    return NextResponse.json(
+      { ok: false, error: "unauthorized", code: "UNAUTHORIZED" },
+      { status: 401 },
+    );
+  }
+  const { userId } = auth;
+
   let raw: unknown;
   try {
     raw = await request.json();
@@ -174,7 +193,11 @@ export async function POST(
 
   try {
     await pipeline.ensureReady();
-    const rule = pipeline.createAlertRule(parsed.value.input);
+    // userId is force-overridden from the authenticated caller, never the body.
+    const rule = pipeline.createAlertRule({
+      ...parsed.value.input,
+      userId,
+    });
     await persistPipeline();
     // Defense-in-depth: re-validate the constructed rule before returning.
     const validation = validateRule(rule);
@@ -209,6 +232,17 @@ export async function POST(
 export async function DELETE(
   request: NextRequest,
 ): Promise<NextResponse<RulesDeleteResponse | RulesErrorResponse>> {
+  const auth = verifyUserAuth(request);
+  const deny = userAuthFailureResponse(auth);
+  if (deny) return deny as NextResponse<RulesErrorResponse>;
+  if (auth.kind !== "ok") {
+    return NextResponse.json(
+      { ok: false, error: "unauthorized", code: "UNAUTHORIZED" },
+      { status: 401 },
+    );
+  }
+  const { userId } = auth;
+
   const { searchParams } = request.nextUrl;
   const id = searchParams.get("id");
   if (!id || id.length === 0) {
@@ -220,6 +254,13 @@ export async function DELETE(
 
   try {
     await pipeline.ensureReady();
+    // Ownership guard: only delete if the rule belongs to this user.
+    const rules = pipeline.listAlertRules(userId);
+    const owned = rules.some((r) => r.id === id);
+    if (!owned) {
+      // 404 not 403 to avoid leaking "this id exists but isn't yours".
+      return NextResponse.json({ ok: false }, { status: 404 });
+    }
     const ok = pipeline.deleteAlertRule(id);
     if (ok) {
       await persistPipeline();

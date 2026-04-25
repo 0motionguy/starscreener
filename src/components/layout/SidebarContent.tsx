@@ -235,16 +235,6 @@ export function SidebarContent({
             }
           />
           <SidebarNavItem
-            href="/producthunt"
-            icon={ProductHuntSidebarIcon}
-            label="ProductHunt"
-            active={
-              pathname === "/producthunt" ||
-              pathname.startsWith("/producthunt/") ||
-              (pathname === "/news" && newsTab === "producthunt")
-            }
-          />
-          <SidebarNavItem
             href="/bluesky/trending"
             icon={BlueskySidebarIcon}
             label="Bluesky"
@@ -276,8 +266,18 @@ export function SidebarContent({
           />
         </SidebarSection>
 
-        {/* FUNDING TERMINAL — startup rounds & events ----------------- */}
-        <SidebarSection id="funding-terminal" label="Funding Terminal">
+        {/* LAUNCHES & FUNDING — launches, startup rounds & events ----- */}
+        <SidebarSection id="funding-terminal" label="Launches & Funding">
+          <SidebarNavItem
+            href="/producthunt"
+            icon={ProductHuntSidebarIcon}
+            label="ProductHunt"
+            active={
+              pathname === "/producthunt" ||
+              pathname.startsWith("/producthunt/") ||
+              (pathname === "/news" && newsTab === "producthunt")
+            }
+          />
           <SidebarNavItem
             href="/funding"
             icon={DollarSign}

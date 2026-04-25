@@ -5,7 +5,11 @@
 // upgrade transparently to OAuth and hit oauth.reddit.com instead. That keeps
 // the scraper working when anonymous GH Actions traffic starts getting 403s.
 
-import { fetchJsonWithRetry } from "./_fetch-json.mjs";
+import {
+  fetchJsonWithRetry,
+  fetchWithTimeout,
+  HttpStatusError,
+} from "./_fetch-json.mjs";
 
 // Real-browser UA — Reddit's anti-bot started 403'ing the previous
 // "StarScreener/0.1 …" identifier from GitHub Actions IPs around
@@ -215,6 +219,204 @@ export const SUBREDDITS = [
 
 export const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+// ---------------------------------------------------------------------------
+// Atom RSS parser — fallback path for the "no OAuth + IP-blocked" case.
+// ---------------------------------------------------------------------------
+//
+// 2026-04-25: probe run 24920554678 confirmed every Reddit JSON endpoint
+// (www, old, np, i, m, gateway) returns 403 from GH Actions egress IPs. The
+// only paths that returned real content were `/r/X/new/.rss` and
+// `/r/X/new/.rss` on old.reddit.com — both serve full Atom feeds (~36KB
+// for active subs).
+//
+// Reddit's Atom RSS exposes fewer fields than the JSON API:
+//   - id, title, author, subreddit, created_utc, url, permalink, selftext,
+//     is_self  → all reconstructible from <entry> elements
+//   - score, num_comments, link_flair_text → NOT EXPOSED. Default to 0 / null.
+//
+// Downstream scoring degrades cleanly when score=0:
+//   - velocity → 0
+//   - trendingScore → 0
+//   - baselineRatio → null (UI marks as "niche sub")
+//   - mentions are still extracted, indexed, and displayed
+// So the loss is "no breakout ranking" not "no data at all".
+
+const SUBREDDIT_FROM_PATH_RE = /\/r\/([A-Za-z0-9_]+)\/new(?:\.json|\/\.rss)/;
+
+function decodeHtmlEntities(s) {
+  return s
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#x27;/gi, "'")
+    .replace(/&#39;/g, "'")
+    .replace(/&apos;/g, "'")
+    .replace(/&#32;/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&"); // do amp last to avoid double-decoding
+}
+
+function stripHtmlTags(s) {
+  return s.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
+}
+
+function extractTagBody(xml, tag) {
+  const re = new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`);
+  const m = xml.match(re);
+  return m ? m[1] : null;
+}
+
+function extractTagAttr(xml, tag, attr) {
+  const re = new RegExp(`<${tag}\\b[^>]*\\s${attr}="([^"]*)"`, "i");
+  const m = xml.match(re);
+  return m ? m[1] : null;
+}
+
+/**
+ * Parse a Reddit Atom RSS feed body into the same `{ data: { children:
+ * [{ data: ... }] } }` shape that `/r/X/new.json` returns. Caller code in
+ * scrape-reddit.mjs / compute-reddit-baselines.mjs consumes the result
+ * unchanged.
+ *
+ * `fallbackSubreddit` is used only when an entry doesn't carry its own
+ * <category term="X"/> (Reddit's RSS always includes it, but defensively
+ * we accept a fallback so a malformed feed degrades to the URL's sub).
+ */
+export function parseRedditAtomFeed(xmlText, fallbackSubreddit) {
+  const children = [];
+  const entryRe = /<entry>([\s\S]*?)<\/entry>/g;
+  let m;
+  while ((m = entryRe.exec(xmlText)) !== null) {
+    const entry = m[1];
+
+    // <id>t3_XXXXX</id> — strip the t3_ thing-prefix so caller's `p.id`
+    // matches the JSON-API value (the bare base36 id).
+    const idRaw = extractTagBody(entry, "id");
+    const idMatch = idRaw?.match(/t3_([a-z0-9]+)/i);
+    if (!idMatch) continue;
+    const id = idMatch[1];
+
+    const title = decodeHtmlEntities(extractTagBody(entry, "title") ?? "").trim();
+    if (!title) continue;
+
+    const published = extractTagBody(entry, "published");
+    const createdMs = published ? Date.parse(published) : NaN;
+    if (!Number.isFinite(createdMs)) continue;
+    const created_utc = Math.floor(createdMs / 1000);
+
+    const authorBlock = extractTagBody(entry, "author") ?? "";
+    const authorName = extractTagBody(authorBlock, "name") ?? "";
+    const author = authorName.replace(/^\/u\//, "").trim();
+
+    const subreddit = extractTagAttr(entry, "category", "term") ?? fallbackSubreddit ?? "";
+
+    const linkHref = extractTagAttr(entry, "link", "href") ?? "";
+
+    // <content type="html">…HTML-encoded body…</content>
+    const contentRaw = extractTagBody(entry, "content") ?? "";
+    const contentHtml = decodeHtmlEntities(contentRaw);
+
+    // Self-vs-link: a self post's <link href> points back to its own
+    // /comments/ID/ URL on reddit.com. A link post's <link href> is the
+    // external URL.
+    const isSelf = linkHref.includes(`/comments/${id}/`);
+
+    // Permalink resolution. For self posts, parse it from <link href>.
+    // For link posts, the [comments] anchor inside <content> is the
+    // canonical /comments/ URL.
+    let permalink = "";
+    if (isSelf) {
+      const pm = linkHref.match(/(\/r\/[^/]+\/comments\/[^/]+\/[^/?#]+\/?)/);
+      permalink = pm?.[1] ?? "";
+    } else {
+      const pm = contentHtml.match(
+        /href="https:\/\/www\.reddit\.com(\/r\/[^/]+\/comments\/[^/]+\/[^/?"#]+\/?)/,
+      );
+      permalink = pm?.[1] ?? `/r/${subreddit}/comments/${id}/`;
+    }
+
+    // Selftext: reddit wraps the markdown-rendered body in
+    // `<!-- SC_OFF -->...<!-- SC_ON -->`. Anything outside is the
+    // "submitted by … [link] [comments]" boilerplate.
+    let selftext = "";
+    if (isSelf) {
+      const sm = contentHtml.match(/<!--\s*SC_OFF\s*-->([\s\S]*?)<!--\s*SC_ON\s*-->/);
+      if (sm) selftext = stripHtmlTags(sm[1]).slice(0, 5000);
+    }
+
+    const url = isSelf ? `https://www.reddit.com${permalink}` : linkHref;
+
+    children.push({
+      data: {
+        id,
+        name: `t3_${id}`,
+        title,
+        author,
+        subreddit,
+        url,
+        permalink,
+        selftext,
+        is_self: isSelf,
+        created_utc,
+        score: 0,            // RSS doesn't expose upvotes
+        num_comments: 0,     // RSS doesn't expose comment count
+        link_flair_text: null, // RSS doesn't expose flair
+        _source: "rss-atom",
+      },
+    });
+  }
+  return { data: { children, after: null, before: null } };
+}
+
+/**
+ * Map a Reddit JSON listing URL (`/r/X/new.json?...`) to its RSS-Atom
+ * equivalent (`/r/X/new/.rss?...`). Returns the input unchanged when the
+ * URL isn't a listing path the RSS endpoint can serve.
+ */
+function rewriteToRss(url) {
+  try {
+    const u = new URL(url);
+    if (!u.pathname.match(/\/r\/[A-Za-z0-9_]+\/new\.json$/)) return url;
+    u.pathname = u.pathname.replace(/\.json$/, "/.rss");
+    return u.toString();
+  } catch {
+    return url;
+  }
+}
+
+/**
+ * Text-shaped sibling of `fetchJsonWithRetry`. Used for the RSS fallback —
+ * the response body is XML, not JSON, so we can't go through the JSON
+ * helper without it parse-failing.
+ */
+async function fetchTextWithRetry(
+  url,
+  { attempts = 2, retryDelayMs = 1000, timeoutMs = 15_000, fetchImpl = fetch, headers } = {},
+) {
+  let lastErr;
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      const res = await fetchWithTimeout(url, { fetchImpl, timeoutMs, headers });
+      if (!res.ok) {
+        const text = await res.text().catch(() => "");
+        const err = new HttpStatusError(res, url, text);
+        if (attempt < attempts && (res.status >= 500 || res.status === 429)) {
+          lastErr = err;
+          await sleep(retryDelayMs * attempt);
+          continue;
+        }
+        throw err;
+      }
+      return await res.text();
+    } catch (err) {
+      lastErr = err;
+      if (attempt >= attempts) throw err;
+      await sleep(retryDelayMs * attempt);
+    }
+  }
+  throw lastErr ?? new Error(`fetchTextWithRetry: exhausted attempts for ${url}`);
+}
+
 export async function fetchRedditJson(url, { fetchImpl = fetch } = {}) {
   const userAgent = getRedditUserAgent();
   // Full browser-shaped header set. Reddit's anti-bot looks at the UA + the
@@ -244,6 +446,30 @@ export async function fetchRedditJson(url, { fetchImpl = fetch } = {}) {
   if (!hasRedditOAuthCreds()) {
     fetchRuntime.activeMode = "public-json";
     fetchRuntime.publicRequests += 1;
+
+    // Listing URLs (/r/X/new.json) hit Reddit's edge IP block from GH
+    // Actions. The RSS variant of the same listing returns 200 and
+    // unauthenticated content. Detect listing URLs and route them through
+    // the Atom-feed parser; everything else (e.g. /r/X/about.json) keeps
+    // the original JSON path so callers that need fields RSS doesn't expose
+    // still degrade gracefully when they 403.
+    const rssUrl = rewriteToRss(url);
+    if (rssUrl !== url) {
+      const subMatch = url.match(SUBREDDIT_FROM_PATH_RE);
+      const fallbackSub = subMatch?.[1] ?? "";
+      const rssText = await fetchTextWithRetry(rssUrl, {
+        headers: {
+          ...publicHeaders,
+          Accept: "application/atom+xml,application/xml;q=0.9,*/*;q=0.8",
+        },
+        attempts: 2,
+        retryDelayMs: 1000,
+        timeoutMs: 15_000,
+        fetchImpl,
+      });
+      return parseRedditAtomFeed(rssText, fallbackSub);
+    }
+
     return fetchJsonWithRetry(rewriteToOldReddit(url), {
       headers: publicHeaders,
       attempts: 2,

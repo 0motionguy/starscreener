@@ -51,20 +51,30 @@ export class ApifyTwitterProvider {
     timeoutMs?: number;
     fetchImpl?: typeof fetch;
   }) {
-    const token = opts?.token ?? process.env.APIFY_API_TOKEN ?? "";
+    // GitHub Actions `${{ vars.FOO }}` substitutes an empty string when the
+    // var is unset, not undefined — so `??` falls through incorrectly. Treat
+    // empty/whitespace as missing for both token and actor.
+    const rawToken = opts?.token ?? process.env.APIFY_API_TOKEN ?? "";
+    const token = rawToken.trim();
     if (!token) {
       throw new Error(
         "APIFY_API_TOKEN unset — set it as a repo secret to enable the Apify Twitter provider",
       );
     }
     this.token = token;
-    this.actor = opts?.actor ?? process.env.APIFY_TWITTER_ACTOR ?? DEFAULT_ACTOR;
+    const rawActor = opts?.actor ?? process.env.APIFY_TWITTER_ACTOR ?? "";
+    const actor = rawActor.trim();
+    this.actor = actor || DEFAULT_ACTOR;
     this.timeoutMs = opts?.timeoutMs ?? 120_000;
     this.fetchImpl = opts?.fetchImpl ?? fetch;
   }
 
   getStats(): ApifyProviderStats {
     return { ...this.stats };
+  }
+
+  getActor(): string {
+    return this.actor;
   }
 
   async search(opts: ApifySearchOptions): Promise<TwitterWebPost[]> {

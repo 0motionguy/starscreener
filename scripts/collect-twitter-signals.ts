@@ -771,7 +771,7 @@ async function main(): Promise<void> {
     apifyProvider = new ApifyTwitterProvider({
       timeoutMs: options.timeoutMs,
     });
-    log(`apify-provider initialized (actor=${process.env.APIFY_TWITTER_ACTOR ?? "apidojo~tweet-scraper"})`);
+    log(`apify-provider initialized (actor=${apifyProvider.getActor()})`);
   }
 
   const payloads: TwitterIngestRequest[] = [];

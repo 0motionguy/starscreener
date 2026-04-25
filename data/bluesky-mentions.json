@@ -1,535 +1,54 @@
 {
-  "fetchedAt": "2026-04-25T05:59:55.247Z",
+  "fetchedAt": "2026-04-25T07:46:39.726Z",
   "windowDays": 7,
-  "scannedPosts": 299,
+  "scannedPosts": 99,
   "searchQuery": "github.com",
-  "pagesFetched": 3,
+  "pagesFetched": 1,
   "mentions": {
-    "NousResearch/hermes-agent": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:5scdazxckg6kso3s3j6psrjs/app.bsky.feed.post/3mkccjdxry22p",
-        "cid": "bafyreibsm3ehwb3ehmsm3hlp7quvrv2c3jktmhbtzklgohbabw2cuighou",
-        "bskyUrl": "https://bsky.app/profile/brrrock.bsky.social/post/3mkccjdxry22p",
-        "text": "Was sad because Hermes Agent no longer worked with liteLLM as a custom provider... but then replaced main.py with the one in the PR and IT WORKS⚡ github.com/NousResearch... #Hermes #localLLM #liteLLM #NousResearch",
-        "author": {
-          "handle": "brrrock.bsky.social",
-          "displayName": "Brock Chapin"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-04-25T05:26:12.057Z",
-        "hoursSincePosted": 0.56
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:5scdazxckg6kso3s3j6psrjs/app.bsky.feed.post/3mkccjdxry22p",
-          "cid": "bafyreibsm3ehwb3ehmsm3hlp7quvrv2c3jktmhbtzklgohbabw2cuighou",
-          "bskyUrl": "https://bsky.app/profile/brrrock.bsky.social/post/3mkccjdxry22p",
-          "text": "Was sad because Hermes Agent no longer worked with liteLLM as a custom provider... but then replaced main.py with the one in the PR and IT WORKS⚡ github.com/NousResearch... #Hermes #localLLM #liteLLM #NousResearch",
-          "author": {
-            "handle": "brrrock.bsky.social",
-            "displayName": "Brock Chapin"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-04-25T05:26:12.057Z",
-          "createdUtc": 1777094772,
-          "ageHours": 0.56,
-          "trendingScore": 0.5,
-          "content_tags": [
-            "is-meme"
-          ],
-          "value_score": -1,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "casey/just": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:cyjmbtkods6pm72qrmbk6u5m/app.bsky.feed.post/3mkcb5pc2r22g",
-        "cid": "bafyreih5jrfgqd2vtkpcb26deycbov3f7f47jzud3n63b2umdfh2dnjqvm",
-        "bskyUrl": "https://bsky.app/profile/ilotoki0804.wbtn.org/post/3mkcb5pc2r22g",
-        "text": "github.com/casey/just",
-        "author": {
-          "handle": "ilotoki0804.wbtn.org"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-04-25T05:01:47.533Z",
-        "hoursSincePosted": 0.97
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:cyjmbtkods6pm72qrmbk6u5m/app.bsky.feed.post/3mkcb5pc2r22g",
-          "cid": "bafyreih5jrfgqd2vtkpcb26deycbov3f7f47jzud3n63b2umdfh2dnjqvm",
-          "bskyUrl": "https://bsky.app/profile/ilotoki0804.wbtn.org/post/3mkcb5pc2r22g",
-          "text": "github.com/casey/just",
-          "author": {
-            "handle": "ilotoki0804.wbtn.org"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-04-25T05:01:47.533Z",
-          "createdUtc": 1777093307,
-          "ageHours": 0.97,
-          "trendingScore": 0.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "casey/just",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "smol-machines/smolvm": {
+    "thunderbird/thunderbolt": {
       "count7d": 1,
       "likesSum7d": 1,
-      "repostsSum7d": 0,
+      "repostsSum7d": 1,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3mkc4drs7ut2s",
-        "cid": "bafyreigkquj4whvqs326re3esimxwlrcqteguuoxisrp2odhxascko3u7i",
-        "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3mkc4drs7ut2s",
-        "text": "GitHub - smol-machines/smolvm: Tool to build & run portable, lightweight, self-contained virtual machines. https://github.com/smol-machines/smolvm",
+        "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mkchrcedfy25",
+        "cid": "bafyreigfkpknab3vdajrg3xexayxnzl2jnkaq6okhfskto2mpihsml5s2i",
+        "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mkchrcedfy25",
+        "text": "MZLA (Mozilla) lance Thunderbolt, un client IA d'entreprise open source qui tourne sur votre propre infrastructure : choix des modèles, données on-prem, zéro vendor lock-in. Encore en développement actif, mais déjà déployable via Docker. https://github.com/thunderbird/thunderbolt",
         "author": {
-          "handle": "tech-trending.bsky.social",
-          "displayName": "Tech Trending"
+          "handle": "camilleroux.com",
+          "displayName": "Camille Roux"
         },
         "likeCount": 1,
-        "repostCount": 0,
+        "repostCount": 1,
         "replyCount": 0,
-        "createdAt": "2026-04-25T03:35:42.601Z",
-        "hoursSincePosted": 2.4
+        "createdAt": "2026-04-25T09:00:07+02:00",
+        "hoursSincePosted": 0.78
       },
       "posts": [
         {
-          "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3mkc4drs7ut2s",
-          "cid": "bafyreigkquj4whvqs326re3esimxwlrcqteguuoxisrp2odhxascko3u7i",
-          "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3mkc4drs7ut2s",
-          "text": "GitHub - smol-machines/smolvm: Tool to build & run portable, lightweight, self-contained virtual machines. https://github.com/smol-machines/smolvm",
+          "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mkchrcedfy25",
+          "cid": "bafyreigfkpknab3vdajrg3xexayxnzl2jnkaq6okhfskto2mpihsml5s2i",
+          "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mkchrcedfy25",
+          "text": "MZLA (Mozilla) lance Thunderbolt, un client IA d'entreprise open source qui tourne sur votre propre infrastructure : choix des modèles, données on-prem, zéro vendor lock-in. Encore en développement actif, mais déjà déployable via Docker. https://github.com/thunderbird/thunderbolt",
           "author": {
-            "handle": "tech-trending.bsky.social",
-            "displayName": "Tech Trending"
+            "handle": "camilleroux.com",
+            "displayName": "Camille Roux"
           },
           "likeCount": 1,
-          "repostCount": 0,
+          "repostCount": 1,
           "replyCount": 0,
-          "createdAt": "2026-04-25T03:35:42.601Z",
-          "createdUtc": 1777088142,
-          "ageHours": 2.4,
-          "trendingScore": 1,
+          "createdAt": "2026-04-25T09:00:07+02:00",
+          "createdUtc": 1777100407,
+          "ageHours": 0.78,
+          "trendingScore": 3,
           "content_tags": [
             "has-github-repo"
           ],
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "smol-machines/smolvm",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "dbalsom/pcjr_bios": {
-      "count7d": 1,
-      "likesSum7d": 4,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:6wbf67f2wnwyol3qeochbjvm/app.bsky.feed.post/3mkbzsylnq22f",
-        "cid": "bafyreihjqzuv2n7u2ph2ewm4rujc5eknsjl32za7h7g4zygx443wsi5qcq",
-        "bskyUrl": "https://bsky.app/profile/gloriouscow.bsky.social/post/3mkbzsylnq22f",
-        "text": "Just kidding, repo up now. github.com/dbalsom/pcjr...",
-        "author": {
-          "handle": "gloriouscow.bsky.social"
-        },
-        "likeCount": 4,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-25T02:50:31.993Z",
-        "hoursSincePosted": 3.16
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:6wbf67f2wnwyol3qeochbjvm/app.bsky.feed.post/3mkbzsylnq22f",
-          "cid": "bafyreihjqzuv2n7u2ph2ewm4rujc5eknsjl32za7h7g4zygx443wsi5qcq",
-          "bskyUrl": "https://bsky.app/profile/gloriouscow.bsky.social/post/3mkbzsylnq22f",
-          "text": "Just kidding, repo up now. github.com/dbalsom/pcjr...",
-          "author": {
-            "handle": "gloriouscow.bsky.social"
-          },
-          "likeCount": 4,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-25T02:50:31.993Z",
-          "createdUtc": 1777085431,
-          "ageHours": 3.16,
-          "trendingScore": 4,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "dbalsom/pcjr_bios",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "tailcallhq/forgecode": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkbsxv7jgg2v",
-        "cid": "bafyreiajeiy4224psbinx4rvpdflrbktuqkuaiyzfzcesuxoenwclw3n64",
-        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkbsxv7jgg2v",
-        "text": "tailcallhq / forgecode: AI enabled pair programmer for Claude, GPT, O Series, Grok, Deepseek, Gemini and 300+ models ★6941 https://github.com/tailcallhq/forgecode",
-        "author": {
-          "handle": "rusttrending.bsky.social",
-          "displayName": "RustTrending"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-25T00:47:59.925019Z",
-        "hoursSincePosted": 5.2
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkbsxv7jgg2v",
-          "cid": "bafyreiajeiy4224psbinx4rvpdflrbktuqkuaiyzfzcesuxoenwclw3n64",
-          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkbsxv7jgg2v",
-          "text": "tailcallhq / forgecode: AI enabled pair programmer for Claude, GPT, O Series, Grok, Deepseek, Gemini and 300+ models ★6941 https://github.com/tailcallhq/forgecode",
-          "author": {
-            "handle": "rusttrending.bsky.social",
-            "displayName": "RustTrending"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-25T00:47:59.925019Z",
-          "createdUtc": 1777078079,
-          "ageHours": 5.2,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "tailcallhq/forgecode",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "anthropics/claude-code": {
-      "count7d": 2,
-      "likesSum7d": 6,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:i4tfenpfog244rxry5uz4vtk/app.bsky.feed.post/3mkbrlohjbs26",
-        "cid": "bafyreic7ogg6ge34loejsnvnhxzpy2j2zxzw3xqff2fcyckigybk6oqhhq",
-        "bskyUrl": "https://bsky.app/profile/lizthegrey.com/post/3mkbrlohjbs26",
-        "text": "okay there's at least a community reported issue here: github.com/anthropics/c...",
-        "author": {
-          "handle": "lizthegrey.com",
-          "displayName": "Liz Fong-Jones (方禮真)"
-        },
-        "likeCount": 6,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-25T00:23:16.556Z",
-        "hoursSincePosted": 5.61
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:i4tfenpfog244rxry5uz4vtk/app.bsky.feed.post/3mkbrlohjbs26",
-          "cid": "bafyreic7ogg6ge34loejsnvnhxzpy2j2zxzw3xqff2fcyckigybk6oqhhq",
-          "bskyUrl": "https://bsky.app/profile/lizthegrey.com/post/3mkbrlohjbs26",
-          "text": "okay there's at least a community reported issue here: github.com/anthropics/c...",
-          "author": {
-            "handle": "lizthegrey.com",
-            "displayName": "Liz Fong-Jones (方禮真)"
-          },
-          "likeCount": 6,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-25T00:23:16.556Z",
-          "createdUtc": 1777076596,
-          "ageHours": 5.61,
-          "trendingScore": 6,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:2pv6hfvcxgndy4lqtphrizsx/app.bsky.feed.post/3mkbnpki6nhr2",
-          "cid": "bafyreidsoon3q5gc7huulocpqleg7kz3xfu7orftxzvakfo2x4i6cfct2m",
-          "bskyUrl": "https://bsky.app/profile/eulanov.m.eula.dev.ap.brid.gy/post/3mkbnpki6nhr2",
-          "text": "[BUG] API Error: Stream idle timeout - partial response received - multiple time today · Issue #46987 · anthropics/claude-code https://github.com/anthropics/claude-code/issues/46987 最近悩まされているこの事象について > Try doing it in smaller steps, like in 5 chunks と付け加えればよいという噂",
-          "author": {
-            "handle": "eulanov.m.eula.dev.ap.brid.gy",
-            "displayName": "ゆらのふ"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-24T23:13:36.000Z",
-          "createdUtc": 1777072416,
-          "ageHours": 6.77,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "Alishahryar1/free-claude-code": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:y4aj7oojk4hq64nr3lbxbz6q/app.bsky.feed.post/3mkbqu7uadd2v",
-        "cid": "bafyreifw2tkpfrcugamry4nbvzttzc57pdlpyo6v226xer252ot7yzz4ay",
-        "bskyUrl": "https://bsky.app/profile/rickqian.bsky.social/post/3mkbqu7uadd2v",
-        "text": "📡 Builder signal of the day free-claude-code — via github-trending Daily channel → https://t.me/inforadar_signals Project radar → https://t.me/inforadar_agentbot https://github.com/Alishahryar1/free-claude-code",
-        "author": {
-          "handle": "rickqian.bsky.social"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-25T00:10:09.160641+00:00",
-        "hoursSincePosted": 5.83
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:y4aj7oojk4hq64nr3lbxbz6q/app.bsky.feed.post/3mkbqu7uadd2v",
-          "cid": "bafyreifw2tkpfrcugamry4nbvzttzc57pdlpyo6v226xer252ot7yzz4ay",
-          "bskyUrl": "https://bsky.app/profile/rickqian.bsky.social/post/3mkbqu7uadd2v",
-          "text": "📡 Builder signal of the day free-claude-code — via github-trending Daily channel → https://t.me/inforadar_signals Project radar → https://t.me/inforadar_agentbot https://github.com/Alishahryar1/free-claude-code",
-          "author": {
-            "handle": "rickqian.bsky.social"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-25T00:10:09.160641+00:00",
-          "createdUtc": 1777075809,
-          "ageHours": 5.83,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "Alishahryar1/free-claude-code",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "AndrewVos/endless-toil": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:d76ifp32sz6xqg7tvk5msqwn/app.bsky.feed.post/3mkbq5j3vxi2u",
-        "cid": "bafyreicoullleiig6pohlbcxisfu4qcyuyuztwkbmx5qs56o7geuv5uezy",
-        "bskyUrl": "https://bsky.app/profile/hot.hn/post/3mkbq5j3vxi2u",
-        "text": "📰 Hear your agent suffer through your code 🔗 https://github.com/AndrewVos/endless-toil 💬 Discuss on HN",
-        "author": {
-          "handle": "hot.hn",
-          "displayName": "Hacker News Hot 100"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-24T23:57:27.348Z",
-        "hoursSincePosted": 6.04
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:d76ifp32sz6xqg7tvk5msqwn/app.bsky.feed.post/3mkbq5j3vxi2u",
-          "cid": "bafyreicoullleiig6pohlbcxisfu4qcyuyuztwkbmx5qs56o7geuv5uezy",
-          "bskyUrl": "https://bsky.app/profile/hot.hn/post/3mkbq5j3vxi2u",
-          "text": "📰 Hear your agent suffer through your code 🔗 https://github.com/AndrewVos/endless-toil 💬 Discuss on HN",
-          "author": {
-            "handle": "hot.hn",
-            "displayName": "Hacker News Hot 100"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-24T23:57:27.348Z",
-          "createdUtc": 1777075047,
-          "ageHours": 6.04,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "AndrewVos/endless-toil",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "dandavison/delta": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkbpmhnmv722",
-        "cid": "bafyreigghfztdd6mt7p7lpyvuawslo5zzqbgyfw3h6zxkxmkxshskh5gqy",
-        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkbpmhnmv722",
-        "text": "dandavison / delta: A syntax-highlighting pager for git, diff, grep, rg --json, and blame output ★30480 https://github.com/dandavison/delta",
-        "author": {
-          "handle": "rusttrending.bsky.social",
-          "displayName": "RustTrending"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-24T23:47:55.374974Z",
-        "hoursSincePosted": 6.2
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkbpmhnmv722",
-          "cid": "bafyreigghfztdd6mt7p7lpyvuawslo5zzqbgyfw3h6zxkxmkxshskh5gqy",
-          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkbpmhnmv722",
-          "text": "dandavison / delta: A syntax-highlighting pager for git, diff, grep, rg --json, and blame output ★30480 https://github.com/dandavison/delta",
-          "author": {
-            "handle": "rusttrending.bsky.social",
-            "displayName": "RustTrending"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-24T23:47:55.374974Z",
-          "createdUtc": 1777074475,
-          "ageHours": 6.2,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "dandavison/delta",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "rtk-ai/rtk": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:tjvbfuypksfztxqqb3issccq/app.bsky.feed.post/3mkbplxdcxs2g",
-        "cid": "bafyreigexdj6gnsxgdtvaeyaikit6otzvrttcszzcsta4gaeok6qxi2xvi",
-        "bskyUrl": "https://bsky.app/profile/debashishsahu.com/post/3mkbplxdcxs2g",
-        "text": "CLI tool to reduce your LLM token usage by up to 60-90% github.com/rtk-ai/rtk",
-        "author": {
-          "handle": "debashishsahu.com",
-          "displayName": "Deb Sahu"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-24T23:47:38.372Z",
-        "hoursSincePosted": 6.2
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:tjvbfuypksfztxqqb3issccq/app.bsky.feed.post/3mkbplxdcxs2g",
-          "cid": "bafyreigexdj6gnsxgdtvaeyaikit6otzvrttcszzcsta4gaeok6qxi2xvi",
-          "bskyUrl": "https://bsky.app/profile/debashishsahu.com/post/3mkbplxdcxs2g",
-          "text": "CLI tool to reduce your LLM token usage by up to 60-90% github.com/rtk-ai/rtk",
-          "author": {
-            "handle": "debashishsahu.com",
-            "displayName": "Deb Sahu"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-24T23:47:38.372Z",
-          "createdUtc": 1777074458,
-          "ageHours": 6.2,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "rtk-ai/rtk",
+              "fullName": "thunderbird/thunderbolt",
               "matchType": "url",
               "confidence": 1
             }
@@ -540,54 +59,9 @@
   },
   "leaderboard": [
     {
-      "fullName": "anthropics/claude-code",
-      "count7d": 2,
-      "likesSum7d": 6
-    },
-    {
-      "fullName": "dbalsom/pcjr_bios",
-      "count7d": 1,
-      "likesSum7d": 4
-    },
-    {
-      "fullName": "dandavison/delta",
+      "fullName": "thunderbird/thunderbolt",
       "count7d": 1,
       "likesSum7d": 1
-    },
-    {
-      "fullName": "smol-machines/smolvm",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "tailcallhq/forgecode",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "Alishahryar1/free-claude-code",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "AndrewVos/endless-toil",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "casey/just",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "NousResearch/hermes-agent",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "rtk-ai/rtk",
-      "count7d": 1,
-      "likesSum7d": 0
     }
   ]
 }

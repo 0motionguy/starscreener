@@ -1,0 +1,24 @@
+name: Probe Reddit endpoints (diagnostic)
+
+# One-shot diagnostic workflow. Tries every plausible Reddit access path
+# from a GH Actions runner so we can pick one that isn't IP-blocked at
+# Reddit's edge. Run manually via workflow_dispatch; no schedule.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Probe
+        run: node scripts/probe-reddit-endpoints.mjs

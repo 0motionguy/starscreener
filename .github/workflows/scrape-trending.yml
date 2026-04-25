@@ -35,7 +35,11 @@ jobs:
         run: node scripts/discover-recent-repos.mjs
 
       - name: Refresh Reddit mentions
-        continue-on-error: true
+        # NOT `continue-on-error: true`. The previous setting silently
+        # masked a 2-day Reddit outage (root cause: `_load-env.mjs`
+        # crashed importing `@next/env` which isn't installed in this
+        # job). The script is now tolerant — but if it does fail we want
+        # the workflow to surface red, not green-with-stale-data.
         env:
           REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
           REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}

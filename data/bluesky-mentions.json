@@ -1,10 +1,522 @@
 {
-  "fetchedAt": "2026-04-25T15:57:40.102Z",
+  "fetchedAt": "2026-04-25T17:02:22.609Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
+    "niri-wm/niri": {
+      "count7d": 3,
+      "likesSum7d": 8,
+      "repostsSum7d": 4,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:q6n5opstauxutfacgojlknn4/app.bsky.feed.post/3mkdaqi4ffc2e",
+        "cid": "bafyreihblpvw6lj6vwmggqk6qhrcqupsmjf6wlk72lfa2z4gib5iw3dnxq",
+        "bskyUrl": "https://bsky.app/profile/yalter.bxt.rs/post/3mkdaqi4ffc2e",
+        "text": "After five months of (on and off) development, I'm glad to announce niri v26.04! It's packed with features like window blur (of course), mouse cursor in window screencasts, rendering optimizations, and more. Enjoy the release notes: github.com/niri-wm/niri... #niri #wayland #rust",
+        "author": {
+          "handle": "yalter.bxt.rs",
+          "displayName": "Ivan Molodetskikh"
+        },
+        "likeCount": 8,
+        "repostCount": 4,
+        "replyCount": 1,
+        "createdAt": "2026-04-25T14:27:03.504Z",
+        "hoursSincePosted": 2.59
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:q6n5opstauxutfacgojlknn4/app.bsky.feed.post/3mkdaqi4ffc2e",
+          "cid": "bafyreihblpvw6lj6vwmggqk6qhrcqupsmjf6wlk72lfa2z4gib5iw3dnxq",
+          "bskyUrl": "https://bsky.app/profile/yalter.bxt.rs/post/3mkdaqi4ffc2e",
+          "text": "After five months of (on and off) development, I'm glad to announce niri v26.04! It's packed with features like window blur (of course), mouse cursor in window screencasts, rendering optimizations, and more. Enjoy the release notes: github.com/niri-wm/niri... #niri #wayland #rust",
+          "author": {
+            "handle": "yalter.bxt.rs",
+            "displayName": "Ivan Molodetskikh"
+          },
+          "likeCount": 8,
+          "repostCount": 4,
+          "replyCount": 1,
+          "createdAt": "2026-04-25T14:27:03.504Z",
+          "createdUtc": 1777127223,
+          "ageHours": 2.59,
+          "trendingScore": 16.5,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "niri-wm/niri",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mkdjc52rm226",
+          "cid": "bafyreigjcxvoysmffzb7nrbyfsr2gqnwvxxxdbnyfbnidfjestyifv7qfq",
+          "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mkdjc52rm226",
+          "text": "Niri 26.04 was just released (scrollable-tiling Wayland compositor) https://github.com/niri-wm/niri/releases/tag/v26.04",
+          "author": {
+            "handle": "hnbot.gsuscs.xyz",
+            "displayName": "HackerNews Compilator"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-25T17:00:05.849Z",
+          "createdUtc": 1777136405,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "niri-wm/niri",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:rouotscdkg4cxv4qbnm4uqgc/app.bsky.feed.post/3mkd7frdvlwm2",
+          "cid": "bafyreiftp6vpc2tkuoaehxmmhp472mj2twejlk6przfmy34ib44skf5lr4",
+          "bskyUrl": "https://bsky.app/profile/omasanori.mstdn.maud.io.ap.brid.gy/post/3mkd7frdvlwm2",
+          "text": "Niri 26.04 🎉 https://github.com/niri-wm/niri/releases/tag/v26.04",
+          "author": {
+            "handle": "omasanori.mstdn.maud.io.ap.brid.gy",
+            "displayName": "Masanori Ogino 𓀁"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-25T14:03:03.000Z",
+          "createdUtc": 1777125783,
+          "ageHours": 2.99,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "niri-wm/niri",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "openclaw/openclaw": {
+      "count7d": 6,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkdikgpslr24",
+        "cid": "bafyreibv4p2ywtqlx7blp4h3yo4lf4xtjargs6wqcdw235eg32cmh4xpju",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkdikgpslr24",
+        "text": "🟠 OpenClaw 2026.4.24-beta.5 follows fast with heartbeat, Telegram, browser, and MCP stability fixes OpenClaw has shipped 2026.4.24-beta.5 less than an hour after beta.4, keeping the new Google Meet and realtime... https://github.com/openclaw/openclaw/releases/tag/v2026.4.24-beta.5 #AI #AgentWyre",
+        "author": {
+          "handle": "agentwyre.ai"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-25T16:46:49.944027+00:00",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkdikgpslr24",
+          "cid": "bafyreibv4p2ywtqlx7blp4h3yo4lf4xtjargs6wqcdw235eg32cmh4xpju",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkdikgpslr24",
+          "text": "🟠 OpenClaw 2026.4.24-beta.5 follows fast with heartbeat, Telegram, browser, and MCP stability fixes OpenClaw has shipped 2026.4.24-beta.5 less than an hour after beta.4, keeping the new Google Meet and realtime... https://github.com/openclaw/openclaw/releases/tag/v2026.4.24-beta.5 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-25T16:46:49.944027+00:00",
+          "createdUtc": 1777135609,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkdhnr56mo2h",
+          "cid": "bafyreib4xl4j7yl3lw6mryfsifuqzi4bly765d4epx3c4efeuucdjn7qfy",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkdhnr56mo2h",
+          "text": "🟠 OpenClaw 2026.4.24-beta.5 follows fast with heartbeat, Telegram, browser, and MCP stability fixes OpenClaw has shipped 2026.4.24-beta.5 less than an hour after beta.4, keeping the new Google Meet and realtime... https://github.com/openclaw/openclaw/releases/tag/v2026.4.24-beta.5 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-25T16:30:47.927407+00:00",
+          "createdUtc": 1777134647,
+          "ageHours": 0.53,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkdgr4k7d72l",
+          "cid": "bafyreidpw4jowedqqpf7fflbeecdkbspzs2ptxvhtss72gdsmhqxiysxfq",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkdgr4k7d72l",
+          "text": "🟠 OpenClaw 2026.4.24-beta.5 follows fast with heartbeat, Telegram, browser, and MCP stability fixes OpenClaw has shipped 2026.4.24-beta.5 less than an hour after beta.4, keeping the new Google Meet and realtime... https://github.com/openclaw/openclaw/releases/tag/v2026.4.24-beta.5 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-25T16:14:46.715115+00:00",
+          "createdUtc": 1777133686,
+          "ageHours": 0.79,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkdgejmu5g2q",
+          "cid": "bafyreie2e6uug2g6yxj6g5nvns2wwslmnq2v7k4ij3wzoi5u4yykb6doeq",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkdgejmu5g2q",
+          "text": "🟠 OpenClaw 2026.4.24-beta.5 follows fast with heartbeat, Telegram, browser, and MCP stability fixes OpenClaw has shipped 2026.4.24-beta.5 less than an hour after beta.4, keeping the new Google Meet and realtime... https://github.com/openclaw/openclaw/releases/tag/v2026.4.24-beta.5 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-25T16:07:43.908199+00:00",
+          "createdUtc": 1777133263,
+          "ageHours": 0.91,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkd7nuj3c32i",
+          "cid": "bafyreibkgh6rdxpgscmhvfblvgvd76xxhtixjftxmpbjwahpxhhjiwz23m",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkd7nuj3c32i",
+          "text": "🟠 OpenClaw beta.3 adds bundled Google Meet agent plugin and realtime voice loops OpenClaw shipped v2026.4.24-beta.3 with a bundled Google Meet participant plugin, including personal Google auth, paired-node Ch... https://github.com/openclaw/openclaw/releases/tag/v2026.4.24-beta.3 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-25T14:07:41.479370+00:00",
+          "createdUtc": 1777126061,
+          "ageHours": 2.91,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkd4df637m2x",
+          "cid": "bafyreiff56pmirtvxnw5qan6uxnachrnmcl565cumrj4537e4lcarxuzpi",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkd4df637m2x",
+          "text": "🟠 OpenClaw beta adds Google Meet agent plugin, realtime voice loops, and DeepSeek V4 Flash default OpenClaw shipped v2026.4.24-beta.1 with a bundled Google Meet participant plugin, realtime voice loops that can... https://github.com/openclaw/openclaw/releases/tag/v2026.4.24-beta.1 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-25T13:08:08.399138+00:00",
+          "createdUtc": 1777122488,
+          "ageHours": 3.9,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "nakagami/grdpwasm": {
+      "count7d": 5,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mkdgbr3rev2f",
+        "cid": "bafyreifmwt5bjqe7a6wm5ylucv6ihtl6rj7zqf3ymfrt26vzpf33tmdstq",
+        "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mkdgbr3rev2f",
+        "text": "A web-based RDP client built with Go WebAssembly and grdp https://github.com/nakagami/grdpwasm (https://news.ycombinator.com/item?id=47900440)",
+        "author": {
+          "handle": "betterhn50.e-work.xyz",
+          "displayName": "Hacker News 50"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-25T16:06:11.497Z",
+        "hoursSincePosted": 0.94
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mkdgbr3rev2f",
+          "cid": "bafyreifmwt5bjqe7a6wm5ylucv6ihtl6rj7zqf3ymfrt26vzpf33tmdstq",
+          "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mkdgbr3rev2f",
+          "text": "A web-based RDP client built with Go WebAssembly and grdp https://github.com/nakagami/grdpwasm (https://news.ycombinator.com/item?id=47900440)",
+          "author": {
+            "handle": "betterhn50.e-work.xyz",
+            "displayName": "Hacker News 50"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-25T16:06:11.497Z",
+          "createdUtc": 1777133171,
+          "ageHours": 0.94,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "nakagami/grdpwasm",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mkd6qclmnz2y",
+          "cid": "bafyreie7lx7zy3cqbxp247kmigrmdlw44726eechap3zm67re2bfe6rccy",
+          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mkd6qclmnz2y",
+          "text": "A web-based RDP client built with Go WebAssembly and grdp https://github.com/nakagami/grdpwasm (https://news.ycombinator.com/item?id=47900440)",
+          "author": {
+            "handle": "betterhn20.e-work.xyz",
+            "displayName": "Hacker News 20"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-25T13:51:09.801Z",
+          "createdUtc": 1777125069,
+          "ageHours": 3.19,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "nakagami/grdpwasm",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:6clcp32vg7hejrq4v7hff3gs/app.bsky.feed.post/3mkd66a3lsd2o",
+          "cid": "bafyreichmkuwzsyo4lu3zfkzfli45ueskjplgioi75z4t6265z4ffewxl4",
+          "bskyUrl": "https://bsky.app/profile/hackernewstop5.bsky.social/post/3mkd66a3lsd2o",
+          "text": "A web-based RDP client built with Go WebAssembly and grdp #HackerNews https://github.com/nakagami/grdpwasm",
+          "author": {
+            "handle": "hackernewstop5.bsky.social",
+            "displayName": "HackerNewsTop5"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-25T13:41:03.581Z",
+          "createdUtc": 1777124463,
+          "ageHours": 3.36,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "nakagami/grdpwasm",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mkd27dpczk26",
+          "cid": "bafyreiclz3vs4t7qk2k3ru67consvfxhnvvu4srwwc6owxwaywkq7j3tha",
+          "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mkd27dpczk26",
+          "text": "A web-based RDP client built with Go WebAssembly and grdp https://github.com/nakagami/grdpwasm",
+          "author": {
+            "handle": "hnbot.gsuscs.xyz",
+            "displayName": "HackerNews Compilator"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-25T12:30:06.031Z",
+          "createdUtc": 1777120206,
+          "ageHours": 4.54,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "nakagami/grdpwasm",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jmuhjrotgvcquoaqtpcuxjii/app.bsky.feed.post/3mkczozcr362s",
+          "cid": "bafyreiguzsxofl3p2bpw3qbawhfqep2b3fsq4bq6iopahfeoq6nr257lti",
+          "bskyUrl": "https://bsky.app/profile/hnws.bsky.social/post/3mkczozcr362s",
+          "text": "A web-based RDP client built with Go WebAssembly and grdp L: https://github.com/nakagami/grdpwasm C: https://news.ycombinator.com/item?id=47900440 posted on 2026.04.25 at 06:59:29 (c=1, p=7)",
+          "author": {
+            "handle": "hnws.bsky.social",
+            "displayName": "HN"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-25T12:20:58.007561+00:00",
+          "createdUtc": 1777119658,
+          "ageHours": 4.69,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "nakagami/grdpwasm",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "aloshdenny/reverse-SynthID": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:xjlskiiberwopklrwvwcyjk4/app.bsky.feed.post/3mkdfzxrofk2f",
+        "cid": "bafyreibsswuevbvllu6qtmaqzgdvrpahkvb2wg7zsutzor5vi5ydflrhnq",
+        "bskyUrl": "https://bsky.app/profile/ushankar.bsky.social/post/3mkdfzxrofk2f",
+        "text": "Reverse engineering Google's watermark. github.com/aloshdenny/r...",
+        "author": {
+          "handle": "ushankar.bsky.social",
+          "displayName": "Udhay Shankar"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-25T16:01:50.662Z",
+        "hoursSincePosted": 1.01
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:xjlskiiberwopklrwvwcyjk4/app.bsky.feed.post/3mkdfzxrofk2f",
+          "cid": "bafyreibsswuevbvllu6qtmaqzgdvrpahkvb2wg7zsutzor5vi5ydflrhnq",
+          "bskyUrl": "https://bsky.app/profile/ushankar.bsky.social/post/3mkdfzxrofk2f",
+          "text": "Reverse engineering Google's watermark. github.com/aloshdenny/r...",
+          "author": {
+            "handle": "ushankar.bsky.social",
+            "displayName": "Udhay Shankar"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-25T16:01:50.662Z",
+          "createdUtc": 1777132910,
+          "ageHours": 1.01,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "aloshdenny/reverse-SynthID",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "ratatui/ratatui": {
       "count7d": 1,
       "likesSum7d": 0,
@@ -23,7 +535,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-25T15:04:12.044Z",
-        "hoursSincePosted": 0.89
+        "hoursSincePosted": 1.97
       },
       "posts": [
         {
@@ -40,7 +552,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T15:04:12.044Z",
           "createdUtc": 1777129452,
-          "ageHours": 0.89,
+          "ageHours": 1.97,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -74,7 +586,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-25T14:37:55Z",
-        "hoursSincePosted": 1.33
+        "hoursSincePosted": 2.41
       },
       "posts": [
         {
@@ -91,7 +603,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T14:37:55Z",
           "createdUtc": 1777127875,
-          "ageHours": 1.33,
+          "ageHours": 2.41,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -100,164 +612,6 @@
           "linkedRepos": [
             {
               "fullName": "wesm/agentsview",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "niri-wm/niri": {
-      "count7d": 2,
-      "likesSum7d": 7,
-      "repostsSum7d": 4,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:q6n5opstauxutfacgojlknn4/app.bsky.feed.post/3mkdaqi4ffc2e",
-        "cid": "bafyreihblpvw6lj6vwmggqk6qhrcqupsmjf6wlk72lfa2z4gib5iw3dnxq",
-        "bskyUrl": "https://bsky.app/profile/yalter.bxt.rs/post/3mkdaqi4ffc2e",
-        "text": "After five months of (on and off) development, I'm glad to announce niri v26.04! It's packed with features like window blur (of course), mouse cursor in window screencasts, rendering optimizations, and more. Enjoy the release notes: github.com/niri-wm/niri... #niri #wayland #rust",
-        "author": {
-          "handle": "yalter.bxt.rs",
-          "displayName": "Ivan Molodetskikh"
-        },
-        "likeCount": 7,
-        "repostCount": 4,
-        "replyCount": 1,
-        "createdAt": "2026-04-25T14:27:03.504Z",
-        "hoursSincePosted": 1.51
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:q6n5opstauxutfacgojlknn4/app.bsky.feed.post/3mkdaqi4ffc2e",
-          "cid": "bafyreihblpvw6lj6vwmggqk6qhrcqupsmjf6wlk72lfa2z4gib5iw3dnxq",
-          "bskyUrl": "https://bsky.app/profile/yalter.bxt.rs/post/3mkdaqi4ffc2e",
-          "text": "After five months of (on and off) development, I'm glad to announce niri v26.04! It's packed with features like window blur (of course), mouse cursor in window screencasts, rendering optimizations, and more. Enjoy the release notes: github.com/niri-wm/niri... #niri #wayland #rust",
-          "author": {
-            "handle": "yalter.bxt.rs",
-            "displayName": "Ivan Molodetskikh"
-          },
-          "likeCount": 7,
-          "repostCount": 4,
-          "replyCount": 1,
-          "createdAt": "2026-04-25T14:27:03.504Z",
-          "createdUtc": 1777127223,
-          "ageHours": 1.51,
-          "trendingScore": 15.5,
-          "content_tags": [
-            "has-github-repo",
-            "is-announcement"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "niri-wm/niri",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:rouotscdkg4cxv4qbnm4uqgc/app.bsky.feed.post/3mkd7frdvlwm2",
-          "cid": "bafyreiftp6vpc2tkuoaehxmmhp472mj2twejlk6przfmy34ib44skf5lr4",
-          "bskyUrl": "https://bsky.app/profile/omasanori.mstdn.maud.io.ap.brid.gy/post/3mkd7frdvlwm2",
-          "text": "Niri 26.04 🎉 https://github.com/niri-wm/niri/releases/tag/v26.04",
-          "author": {
-            "handle": "omasanori.mstdn.maud.io.ap.brid.gy",
-            "displayName": "Masanori Ogino 𓀁"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-25T14:03:03.000Z",
-          "createdUtc": 1777125783,
-          "ageHours": 1.91,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "niri-wm/niri",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "openclaw/openclaw": {
-      "count7d": 2,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkd7nuj3c32i",
-        "cid": "bafyreibkgh6rdxpgscmhvfblvgvd76xxhtixjftxmpbjwahpxhhjiwz23m",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkd7nuj3c32i",
-        "text": "🟠 OpenClaw beta.3 adds bundled Google Meet agent plugin and realtime voice loops OpenClaw shipped v2026.4.24-beta.3 with a bundled Google Meet participant plugin, including personal Google auth, paired-node Ch... https://github.com/openclaw/openclaw/releases/tag/v2026.4.24-beta.3 #AI #AgentWyre",
-        "author": {
-          "handle": "agentwyre.ai"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-25T14:07:41.479370+00:00",
-        "hoursSincePosted": 1.83
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkd7nuj3c32i",
-          "cid": "bafyreibkgh6rdxpgscmhvfblvgvd76xxhtixjftxmpbjwahpxhhjiwz23m",
-          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkd7nuj3c32i",
-          "text": "🟠 OpenClaw beta.3 adds bundled Google Meet agent plugin and realtime voice loops OpenClaw shipped v2026.4.24-beta.3 with a bundled Google Meet participant plugin, including personal Google auth, paired-node Ch... https://github.com/openclaw/openclaw/releases/tag/v2026.4.24-beta.3 #AI #AgentWyre",
-          "author": {
-            "handle": "agentwyre.ai"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-25T14:07:41.479370+00:00",
-          "createdUtc": 1777126061,
-          "ageHours": 1.83,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo",
-            "is-announcement"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "openclaw/openclaw",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkd4df637m2x",
-          "cid": "bafyreiff56pmirtvxnw5qan6uxnachrnmcl565cumrj4537e4lcarxuzpi",
-          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkd4df637m2x",
-          "text": "🟠 OpenClaw beta adds Google Meet agent plugin, realtime voice loops, and DeepSeek V4 Flash default OpenClaw shipped v2026.4.24-beta.1 with a bundled Google Meet participant plugin, realtime voice loops that can... https://github.com/openclaw/openclaw/releases/tag/v2026.4.24-beta.1 #AI #AgentWyre",
-          "author": {
-            "handle": "agentwyre.ai"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-25T13:08:08.399138+00:00",
-          "createdUtc": 1777122488,
-          "ageHours": 2.83,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo",
-            "is-announcement"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "openclaw/openclaw",
               "matchType": "url",
               "confidence": 1
             }
@@ -283,7 +637,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-25T14:07:33Z",
-        "hoursSincePosted": 1.84
+        "hoursSincePosted": 2.91
       },
       "posts": [
         {
@@ -300,7 +654,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T14:07:33Z",
           "createdUtc": 1777126053,
-          "ageHours": 1.84,
+          "ageHours": 2.91,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -309,141 +663,6 @@
           "linkedRepos": [
             {
               "fullName": "YishenTu/claudian",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "nakagami/grdpwasm": {
-      "count7d": 4,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mkd6qclmnz2y",
-        "cid": "bafyreie7lx7zy3cqbxp247kmigrmdlw44726eechap3zm67re2bfe6rccy",
-        "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mkd6qclmnz2y",
-        "text": "A web-based RDP client built with Go WebAssembly and grdp https://github.com/nakagami/grdpwasm (https://news.ycombinator.com/item?id=47900440)",
-        "author": {
-          "handle": "betterhn20.e-work.xyz",
-          "displayName": "Hacker News 20"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-25T13:51:09.801Z",
-        "hoursSincePosted": 2.11
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mkd6qclmnz2y",
-          "cid": "bafyreie7lx7zy3cqbxp247kmigrmdlw44726eechap3zm67re2bfe6rccy",
-          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mkd6qclmnz2y",
-          "text": "A web-based RDP client built with Go WebAssembly and grdp https://github.com/nakagami/grdpwasm (https://news.ycombinator.com/item?id=47900440)",
-          "author": {
-            "handle": "betterhn20.e-work.xyz",
-            "displayName": "Hacker News 20"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-25T13:51:09.801Z",
-          "createdUtc": 1777125069,
-          "ageHours": 2.11,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "nakagami/grdpwasm",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:6clcp32vg7hejrq4v7hff3gs/app.bsky.feed.post/3mkd66a3lsd2o",
-          "cid": "bafyreichmkuwzsyo4lu3zfkzfli45ueskjplgioi75z4t6265z4ffewxl4",
-          "bskyUrl": "https://bsky.app/profile/hackernewstop5.bsky.social/post/3mkd66a3lsd2o",
-          "text": "A web-based RDP client built with Go WebAssembly and grdp #HackerNews https://github.com/nakagami/grdpwasm",
-          "author": {
-            "handle": "hackernewstop5.bsky.social",
-            "displayName": "HackerNewsTop5"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-25T13:41:03.581Z",
-          "createdUtc": 1777124463,
-          "ageHours": 2.28,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "nakagami/grdpwasm",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mkd27dpczk26",
-          "cid": "bafyreiclz3vs4t7qk2k3ru67consvfxhnvvu4srwwc6owxwaywkq7j3tha",
-          "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mkd27dpczk26",
-          "text": "A web-based RDP client built with Go WebAssembly and grdp https://github.com/nakagami/grdpwasm",
-          "author": {
-            "handle": "hnbot.gsuscs.xyz",
-            "displayName": "HackerNews Compilator"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-25T12:30:06.031Z",
-          "createdUtc": 1777120206,
-          "ageHours": 3.46,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "nakagami/grdpwasm",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:jmuhjrotgvcquoaqtpcuxjii/app.bsky.feed.post/3mkczozcr362s",
-          "cid": "bafyreiguzsxofl3p2bpw3qbawhfqep2b3fsq4bq6iopahfeoq6nr257lti",
-          "bskyUrl": "https://bsky.app/profile/hnws.bsky.social/post/3mkczozcr362s",
-          "text": "A web-based RDP client built with Go WebAssembly and grdp L: https://github.com/nakagami/grdpwasm C: https://news.ycombinator.com/item?id=47900440 posted on 2026.04.25 at 06:59:29 (c=1, p=7)",
-          "author": {
-            "handle": "hnws.bsky.social",
-            "displayName": "HN"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-25T12:20:58.007561+00:00",
-          "createdUtc": 1777119658,
-          "ageHours": 3.61,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "nakagami/grdpwasm",
               "matchType": "url",
               "confidence": 1
             }
@@ -468,7 +687,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-04-25T13:40:44.012Z",
-        "hoursSincePosted": 2.28
+        "hoursSincePosted": 3.36
       },
       "posts": [
         {
@@ -484,7 +703,7 @@
           "replyCount": 1,
           "createdAt": "2026-04-25T13:40:44.012Z",
           "createdUtc": 1777124444,
-          "ageHours": 2.28,
+          "ageHours": 3.36,
           "trendingScore": 3.5,
           "content_tags": [
             "has-github-repo"
@@ -518,7 +737,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-25T13:10:49.038Z",
-        "hoursSincePosted": 2.78
+        "hoursSincePosted": 3.86
       },
       "posts": [
         {
@@ -535,7 +754,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T13:10:49.038Z",
           "createdUtc": 1777122649,
-          "ageHours": 2.78,
+          "ageHours": 3.86,
           "trendingScore": 2,
           "content_tags": [],
           "value_score": 0,
@@ -561,7 +780,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T13:22:34.005Z",
           "createdUtc": 1777123354,
-          "ageHours": 2.59,
+          "ageHours": 3.66,
           "trendingScore": 0,
           "content_tags": [],
           "value_score": 0,
@@ -587,7 +806,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T12:40:31.690782+00:00",
           "createdUtc": 1777120831,
-          "ageHours": 3.29,
+          "ageHours": 4.36,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -621,7 +840,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-25T12:36:44Z",
-        "hoursSincePosted": 3.35
+        "hoursSincePosted": 4.43
       },
       "posts": [
         {
@@ -638,7 +857,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T12:36:44Z",
           "createdUtc": 1777120604,
-          "ageHours": 3.35,
+          "ageHours": 4.43,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -653,574 +872,13 @@
           ]
         }
       ]
-    },
-    "Jaxx497/NoctaVox": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:ugk5tjnmjukhp2wcc663gwgj/app.bsky.feed.post/3mkcyjveo7o2n",
-        "cid": "bafyreihqjvvf5ksge7wwk56s5pq63auevdp5mzhb5wxfvtxpahcc3272n4",
-        "bskyUrl": "https://bsky.app/profile/rustaceans.bsky.social/post/3mkcyjveo7o2n",
-        "text": "Link: github.com/Jaxx497/Noct...",
-        "author": {
-          "handle": "rustaceans.bsky.social",
-          "displayName": "Rust Bytes"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-25T12:00:12.578Z",
-        "hoursSincePosted": 3.96
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:ugk5tjnmjukhp2wcc663gwgj/app.bsky.feed.post/3mkcyjveo7o2n",
-          "cid": "bafyreihqjvvf5ksge7wwk56s5pq63auevdp5mzhb5wxfvtxpahcc3272n4",
-          "bskyUrl": "https://bsky.app/profile/rustaceans.bsky.social/post/3mkcyjveo7o2n",
-          "text": "Link: github.com/Jaxx497/Noct...",
-          "author": {
-            "handle": "rustaceans.bsky.social",
-            "displayName": "Rust Bytes"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-25T12:00:12.578Z",
-          "createdUtc": 1777118412,
-          "ageHours": 3.96,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "Jaxx497/NoctaVox",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "alirezarezvani/claude-skills": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:2ygs3i3mxgqiovwhfexe6qcg/app.bsky.feed.post/3mkcycb2dnc2u",
-        "cid": "bafyreihohkzbbnip4auh3glbo42qoubneuiyfy3nr4dqyfh3fvoxd55dei",
-        "bskyUrl": "https://bsky.app/profile/analyticalrohit.bsky.social/post/3mkcycb2dnc2u",
-        "text": "7️⃣ alirezarezvani/claude-skills Repo: github.com/alirezarezva... (12.7k stars)",
-        "author": {
-          "handle": "analyticalrohit.bsky.social",
-          "displayName": "Rohit Kumar Tiwari"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-25T11:55:54.219Z",
-        "hoursSincePosted": 4.03
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:2ygs3i3mxgqiovwhfexe6qcg/app.bsky.feed.post/3mkcycb2dnc2u",
-          "cid": "bafyreihohkzbbnip4auh3glbo42qoubneuiyfy3nr4dqyfh3fvoxd55dei",
-          "bskyUrl": "https://bsky.app/profile/analyticalrohit.bsky.social/post/3mkcycb2dnc2u",
-          "text": "7️⃣ alirezarezvani/claude-skills Repo: github.com/alirezarezva... (12.7k stars)",
-          "author": {
-            "handle": "analyticalrohit.bsky.social",
-            "displayName": "Rohit Kumar Tiwari"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-25T11:55:54.219Z",
-          "createdUtc": 1777118154,
-          "ageHours": 4.03,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "alirezarezvani/claude-skills",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "mattpocock/skills": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:2ygs3i3mxgqiovwhfexe6qcg/app.bsky.feed.post/3mkcycb2bos2u",
-        "cid": "bafyreicw456botk44nmvufwwbhuexjlwzdrwkvadz2o7js2va4lpiugeia",
-        "bskyUrl": "https://bsky.app/profile/analyticalrohit.bsky.social/post/3mkcycb2bos2u",
-        "text": "6️⃣ mattpocock/skills Repo: github.com/mattpocock/s... (18.7k stars)",
-        "author": {
-          "handle": "analyticalrohit.bsky.social",
-          "displayName": "Rohit Kumar Tiwari"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-04-25T11:55:54.218Z",
-        "hoursSincePosted": 4.03
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:2ygs3i3mxgqiovwhfexe6qcg/app.bsky.feed.post/3mkcycb2bos2u",
-          "cid": "bafyreicw456botk44nmvufwwbhuexjlwzdrwkvadz2o7js2va4lpiugeia",
-          "bskyUrl": "https://bsky.app/profile/analyticalrohit.bsky.social/post/3mkcycb2bos2u",
-          "text": "6️⃣ mattpocock/skills Repo: github.com/mattpocock/s... (18.7k stars)",
-          "author": {
-            "handle": "analyticalrohit.bsky.social",
-            "displayName": "Rohit Kumar Tiwari"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-04-25T11:55:54.218Z",
-          "createdUtc": 1777118154,
-          "ageHours": 4.03,
-          "trendingScore": 1.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "mattpocock/skills",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "wshobson/agents": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:2ygs3i3mxgqiovwhfexe6qcg/app.bsky.feed.post/3mkcycb27qc2u",
-        "cid": "bafyreihmnwhwnweyrfir3jurb2a77n32j5u3utw6kbott6atpsyp3rnwfm",
-        "bskyUrl": "https://bsky.app/profile/analyticalrohit.bsky.social/post/3mkcycb27qc2u",
-        "text": "5️⃣ wshobson/agents Repo: github.com/wshobson/age... (34.3k stars)",
-        "author": {
-          "handle": "analyticalrohit.bsky.social",
-          "displayName": "Rohit Kumar Tiwari"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-04-25T11:55:54.217Z",
-        "hoursSincePosted": 4.03
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:2ygs3i3mxgqiovwhfexe6qcg/app.bsky.feed.post/3mkcycb27qc2u",
-          "cid": "bafyreihmnwhwnweyrfir3jurb2a77n32j5u3utw6kbott6atpsyp3rnwfm",
-          "bskyUrl": "https://bsky.app/profile/analyticalrohit.bsky.social/post/3mkcycb27qc2u",
-          "text": "5️⃣ wshobson/agents Repo: github.com/wshobson/age... (34.3k stars)",
-          "author": {
-            "handle": "analyticalrohit.bsky.social",
-            "displayName": "Rohit Kumar Tiwari"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-04-25T11:55:54.217Z",
-          "createdUtc": 1777118154,
-          "ageHours": 4.03,
-          "trendingScore": 1.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "wshobson/agents",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "ComposioHQ/awesome-claude-skills": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:2ygs3i3mxgqiovwhfexe6qcg/app.bsky.feed.post/3mkcycb24sk2u",
-        "cid": "bafyreihvxnevj4jl6o6rmcaykuvy6dk64fhuxj2du3bxvptublba4xzqhi",
-        "bskyUrl": "https://bsky.app/profile/analyticalrohit.bsky.social/post/3mkcycb24sk2u",
-        "text": "4️⃣ ComposioHQ/awesome-claude-skills Repo: github.com/ComposioHQ/a... (56.2k stars)",
-        "author": {
-          "handle": "analyticalrohit.bsky.social",
-          "displayName": "Rohit Kumar Tiwari"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-04-25T11:55:54.216Z",
-        "hoursSincePosted": 4.03
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:2ygs3i3mxgqiovwhfexe6qcg/app.bsky.feed.post/3mkcycb24sk2u",
-          "cid": "bafyreihvxnevj4jl6o6rmcaykuvy6dk64fhuxj2du3bxvptublba4xzqhi",
-          "bskyUrl": "https://bsky.app/profile/analyticalrohit.bsky.social/post/3mkcycb24sk2u",
-          "text": "4️⃣ ComposioHQ/awesome-claude-skills Repo: github.com/ComposioHQ/a... (56.2k stars)",
-          "author": {
-            "handle": "analyticalrohit.bsky.social",
-            "displayName": "Rohit Kumar Tiwari"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-04-25T11:55:54.216Z",
-          "createdUtc": 1777118154,
-          "ageHours": 4.03,
-          "trendingScore": 1.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "ComposioHQ/awesome-claude-skills",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "forrestchang/andrej-karpathy-skills": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:2ygs3i3mxgqiovwhfexe6qcg/app.bsky.feed.post/3mkcycazzus2u",
-        "cid": "bafyreidecs5q3f3ulaoczlhimbnnhhjpkvdozx32lkapeb5zpspbvpbnzy",
-        "bskyUrl": "https://bsky.app/profile/analyticalrohit.bsky.social/post/3mkcycazzus2u",
-        "text": "3️⃣ forrestchang/karpathy-skills Repo: github.com/forrestchang... (85.6k stars)",
-        "author": {
-          "handle": "analyticalrohit.bsky.social",
-          "displayName": "Rohit Kumar Tiwari"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-04-25T11:55:54.215Z",
-        "hoursSincePosted": 4.03
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:2ygs3i3mxgqiovwhfexe6qcg/app.bsky.feed.post/3mkcycazzus2u",
-          "cid": "bafyreidecs5q3f3ulaoczlhimbnnhhjpkvdozx32lkapeb5zpspbvpbnzy",
-          "bskyUrl": "https://bsky.app/profile/analyticalrohit.bsky.social/post/3mkcycazzus2u",
-          "text": "3️⃣ forrestchang/karpathy-skills Repo: github.com/forrestchang... (85.6k stars)",
-          "author": {
-            "handle": "analyticalrohit.bsky.social",
-            "displayName": "Rohit Kumar Tiwari"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-04-25T11:55:54.215Z",
-          "createdUtc": 1777118154,
-          "ageHours": 4.03,
-          "trendingScore": 1.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "forrestchang/andrej-karpathy-skills",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "obra/superpowers": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:2ygs3i3mxgqiovwhfexe6qcg/app.bsky.feed.post/3mkcycazwx22u",
-        "cid": "bafyreif6szdvsnq5b6np5atmkwca64b3cjwfoyfxz4non2bgrclv7h6asu",
-        "bskyUrl": "https://bsky.app/profile/analyticalrohit.bsky.social/post/3mkcycazwx22u",
-        "text": "2️⃣ obra/superpowers Repo: github.com/obra/superpo... (167k stars)",
-        "author": {
-          "handle": "analyticalrohit.bsky.social",
-          "displayName": "Rohit Kumar Tiwari"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-04-25T11:55:54.214Z",
-        "hoursSincePosted": 4.03
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:2ygs3i3mxgqiovwhfexe6qcg/app.bsky.feed.post/3mkcycazwx22u",
-          "cid": "bafyreif6szdvsnq5b6np5atmkwca64b3cjwfoyfxz4non2bgrclv7h6asu",
-          "bskyUrl": "https://bsky.app/profile/analyticalrohit.bsky.social/post/3mkcycazwx22u",
-          "text": "2️⃣ obra/superpowers Repo: github.com/obra/superpo... (167k stars)",
-          "author": {
-            "handle": "analyticalrohit.bsky.social",
-            "displayName": "Rohit Kumar Tiwari"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-04-25T11:55:54.214Z",
-          "createdUtc": 1777118154,
-          "ageHours": 4.03,
-          "trendingScore": 1.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "obra/superpowers",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "anthropics/skills": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:2ygs3i3mxgqiovwhfexe6qcg/app.bsky.feed.post/3mkcycazt222u",
-        "cid": "bafyreieq6ueu4gahw3uyiu2bii2hzioptigyq6l54buskyfssbfj7lrzym",
-        "bskyUrl": "https://bsky.app/profile/analyticalrohit.bsky.social/post/3mkcycazt222u",
-        "text": "1️⃣ Official Anthropic Skills Repo: github.com/anthropics/s... (124k stars)",
-        "author": {
-          "handle": "analyticalrohit.bsky.social",
-          "displayName": "Rohit Kumar Tiwari"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-04-25T11:55:54.213Z",
-        "hoursSincePosted": 4.03
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:2ygs3i3mxgqiovwhfexe6qcg/app.bsky.feed.post/3mkcycazt222u",
-          "cid": "bafyreieq6ueu4gahw3uyiu2bii2hzioptigyq6l54buskyfssbfj7lrzym",
-          "bskyUrl": "https://bsky.app/profile/analyticalrohit.bsky.social/post/3mkcycazt222u",
-          "text": "1️⃣ Official Anthropic Skills Repo: github.com/anthropics/s... (124k stars)",
-          "author": {
-            "handle": "analyticalrohit.bsky.social",
-            "displayName": "Rohit Kumar Tiwari"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-04-25T11:55:54.213Z",
-          "createdUtc": 1777118154,
-          "ageHours": 4.03,
-          "trendingScore": 1.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/skills",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "run-llama/ParseBench": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkcxztxy422o",
-        "cid": "bafyreifcia44wopbkli377duo4d26dznigwc3diae7h4qtuaui7uhxhbyi",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkcxztxy422o",
-        "text": "https://github.com/run-llama/ParseBench",
-        "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-25T11:51:13Z",
-        "hoursSincePosted": 4.11
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkcxztxy422o",
-          "cid": "bafyreifcia44wopbkli377duo4d26dznigwc3diae7h4qtuaui7uhxhbyi",
-          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkcxztxy422o",
-          "text": "https://github.com/run-llama/ParseBench",
-          "author": {
-            "handle": "tom-doerr.bsky.social",
-            "displayName": "Tom Dörr "
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-25T11:51:13Z",
-          "createdUtc": 1777117873,
-          "ageHours": 4.11,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "run-llama/ParseBench",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "tinyhumansai/openhuman": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkcxuotyt22x",
-        "cid": "bafyreig326z3pmeyvqkmyz2xmc5xiqgif3sk6dyub4giawphrw77uwawzy",
-        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkcxuotyt22x",
-        "text": "tinyhumansai / openhuman: Your Personal AI super intelligence. Private, Simple and extremely powerful. ★170 https://github.com/tinyhumansai/openhuman",
-        "author": {
-          "handle": "rusttrending.bsky.social",
-          "displayName": "RustTrending"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-25T11:48:21.029221Z",
-        "hoursSincePosted": 4.16
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkcxuotyt22x",
-          "cid": "bafyreig326z3pmeyvqkmyz2xmc5xiqgif3sk6dyub4giawphrw77uwawzy",
-          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkcxuotyt22x",
-          "text": "tinyhumansai / openhuman: Your Personal AI super intelligence. Private, Simple and extremely powerful. ★170 https://github.com/tinyhumansai/openhuman",
-          "author": {
-            "handle": "rusttrending.bsky.social",
-            "displayName": "RustTrending"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-25T11:48:21.029221Z",
-          "createdUtc": 1777117701,
-          "ageHours": 4.16,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "tinyhumansai/openhuman",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "microsoft/ghqr": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:o2emdvvgo6ov7r4gpljdordf/app.bsky.feed.post/3mkcwtyd3zo2c",
-        "cid": "bafyreic7us5w2ev2xwmfsn5ppc5lssmgohzkq4ymdzy64uyw7w7nzntq4m",
-        "bskyUrl": "https://bsky.app/profile/hatena-bookmark.bsky.social/post/3mkcwtyd3zo2c",
-        "text": "#🔖テクノロジー GitHub - microsoft/ghqr: GitHub Quick Review. Evaluate your enterprise and organizations with GitHub best practices GitHub Quick Review (ghqr) is a powerful command-line interface (CLI) tool that analyzes GitHub enterprises, organizations, and repositorie https://github.com/microsoft/ghqr",
-        "author": {
-          "handle": "hatena-bookmark.bsky.social",
-          "displayName": "はてなブックマーク 人気エントリー"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-04-25T11:30:03.525899+00:00",
-        "hoursSincePosted": 4.46
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:o2emdvvgo6ov7r4gpljdordf/app.bsky.feed.post/3mkcwtyd3zo2c",
-          "cid": "bafyreic7us5w2ev2xwmfsn5ppc5lssmgohzkq4ymdzy64uyw7w7nzntq4m",
-          "bskyUrl": "https://bsky.app/profile/hatena-bookmark.bsky.social/post/3mkcwtyd3zo2c",
-          "text": "#🔖テクノロジー GitHub - microsoft/ghqr: GitHub Quick Review. Evaluate your enterprise and organizations with GitHub best practices GitHub Quick Review (ghqr) is a powerful command-line interface (CLI) tool that analyzes GitHub enterprises, organizations, and repositorie https://github.com/microsoft/ghqr",
-          "author": {
-            "handle": "hatena-bookmark.bsky.social",
-            "displayName": "はてなブックマーク 人気エントリー"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-04-25T11:30:03.525899+00:00",
-          "createdUtc": 1777116603,
-          "ageHours": 4.46,
-          "trendingScore": 1.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "microsoft/ghqr",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
     }
   },
   "leaderboard": [
     {
       "fullName": "niri-wm/niri",
-      "count7d": 2,
-      "likesSum7d": 7
+      "count7d": 3,
+      "likesSum7d": 8
     },
     {
       "fullName": "getagentseal/codeburn",
@@ -1233,57 +891,17 @@
       "likesSum7d": 2
     },
     {
-      "fullName": "alirezarezvani/claude-skills",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "anthropics/skills",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "ComposioHQ/awesome-claude-skills",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "forrestchang/andrej-karpathy-skills",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "mattpocock/skills",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "microsoft/ghqr",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "obra/superpowers",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "wshobson/agents",
-      "count7d": 1,
-      "likesSum7d": 1
+      "fullName": "openclaw/openclaw",
+      "count7d": 6,
+      "likesSum7d": 0
     },
     {
       "fullName": "nakagami/grdpwasm",
-      "count7d": 4,
+      "count7d": 5,
       "likesSum7d": 0
     },
     {
-      "fullName": "openclaw/openclaw",
-      "count7d": 2,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "Jaxx497/NoctaVox",
+      "fullName": "aloshdenny/reverse-SynthID",
       "count7d": 1,
       "likesSum7d": 0
     },
@@ -1294,16 +912,6 @@
     },
     {
       "fullName": "ratatui/ratatui",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "run-llama/ParseBench",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "tinyhumansai/openhuman",
       "count7d": 1,
       "likesSum7d": 0
     },

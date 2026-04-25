@@ -1,10 +1,210 @@
 {
-  "fetchedAt": "2026-04-25T03:33:31.315Z",
+  "fetchedAt": "2026-04-25T05:59:55.247Z",
   "windowDays": 7,
-  "scannedPosts": 199,
+  "scannedPosts": 299,
   "searchQuery": "github.com",
-  "pagesFetched": 2,
+  "pagesFetched": 3,
   "mentions": {
+    "NousResearch/hermes-agent": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:5scdazxckg6kso3s3j6psrjs/app.bsky.feed.post/3mkccjdxry22p",
+        "cid": "bafyreibsm3ehwb3ehmsm3hlp7quvrv2c3jktmhbtzklgohbabw2cuighou",
+        "bskyUrl": "https://bsky.app/profile/brrrock.bsky.social/post/3mkccjdxry22p",
+        "text": "Was sad because Hermes Agent no longer worked with liteLLM as a custom provider... but then replaced main.py with the one in the PR and IT WORKS⚡ github.com/NousResearch... #Hermes #localLLM #liteLLM #NousResearch",
+        "author": {
+          "handle": "brrrock.bsky.social",
+          "displayName": "Brock Chapin"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-04-25T05:26:12.057Z",
+        "hoursSincePosted": 0.56
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:5scdazxckg6kso3s3j6psrjs/app.bsky.feed.post/3mkccjdxry22p",
+          "cid": "bafyreibsm3ehwb3ehmsm3hlp7quvrv2c3jktmhbtzklgohbabw2cuighou",
+          "bskyUrl": "https://bsky.app/profile/brrrock.bsky.social/post/3mkccjdxry22p",
+          "text": "Was sad because Hermes Agent no longer worked with liteLLM as a custom provider... but then replaced main.py with the one in the PR and IT WORKS⚡ github.com/NousResearch... #Hermes #localLLM #liteLLM #NousResearch",
+          "author": {
+            "handle": "brrrock.bsky.social",
+            "displayName": "Brock Chapin"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-04-25T05:26:12.057Z",
+          "createdUtc": 1777094772,
+          "ageHours": 0.56,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "is-meme"
+          ],
+          "value_score": -1,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "casey/just": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:cyjmbtkods6pm72qrmbk6u5m/app.bsky.feed.post/3mkcb5pc2r22g",
+        "cid": "bafyreih5jrfgqd2vtkpcb26deycbov3f7f47jzud3n63b2umdfh2dnjqvm",
+        "bskyUrl": "https://bsky.app/profile/ilotoki0804.wbtn.org/post/3mkcb5pc2r22g",
+        "text": "github.com/casey/just",
+        "author": {
+          "handle": "ilotoki0804.wbtn.org"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-04-25T05:01:47.533Z",
+        "hoursSincePosted": 0.97
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:cyjmbtkods6pm72qrmbk6u5m/app.bsky.feed.post/3mkcb5pc2r22g",
+          "cid": "bafyreih5jrfgqd2vtkpcb26deycbov3f7f47jzud3n63b2umdfh2dnjqvm",
+          "bskyUrl": "https://bsky.app/profile/ilotoki0804.wbtn.org/post/3mkcb5pc2r22g",
+          "text": "github.com/casey/just",
+          "author": {
+            "handle": "ilotoki0804.wbtn.org"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-04-25T05:01:47.533Z",
+          "createdUtc": 1777093307,
+          "ageHours": 0.97,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "casey/just",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "smol-machines/smolvm": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3mkc4drs7ut2s",
+        "cid": "bafyreigkquj4whvqs326re3esimxwlrcqteguuoxisrp2odhxascko3u7i",
+        "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3mkc4drs7ut2s",
+        "text": "GitHub - smol-machines/smolvm: Tool to build & run portable, lightweight, self-contained virtual machines. https://github.com/smol-machines/smolvm",
+        "author": {
+          "handle": "tech-trending.bsky.social",
+          "displayName": "Tech Trending"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-25T03:35:42.601Z",
+        "hoursSincePosted": 2.4
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3mkc4drs7ut2s",
+          "cid": "bafyreigkquj4whvqs326re3esimxwlrcqteguuoxisrp2odhxascko3u7i",
+          "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3mkc4drs7ut2s",
+          "text": "GitHub - smol-machines/smolvm: Tool to build & run portable, lightweight, self-contained virtual machines. https://github.com/smol-machines/smolvm",
+          "author": {
+            "handle": "tech-trending.bsky.social",
+            "displayName": "Tech Trending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-25T03:35:42.601Z",
+          "createdUtc": 1777088142,
+          "ageHours": 2.4,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "smol-machines/smolvm",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "dbalsom/pcjr_bios": {
+      "count7d": 1,
+      "likesSum7d": 4,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:6wbf67f2wnwyol3qeochbjvm/app.bsky.feed.post/3mkbzsylnq22f",
+        "cid": "bafyreihjqzuv2n7u2ph2ewm4rujc5eknsjl32za7h7g4zygx443wsi5qcq",
+        "bskyUrl": "https://bsky.app/profile/gloriouscow.bsky.social/post/3mkbzsylnq22f",
+        "text": "Just kidding, repo up now. github.com/dbalsom/pcjr...",
+        "author": {
+          "handle": "gloriouscow.bsky.social"
+        },
+        "likeCount": 4,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-25T02:50:31.993Z",
+        "hoursSincePosted": 3.16
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:6wbf67f2wnwyol3qeochbjvm/app.bsky.feed.post/3mkbzsylnq22f",
+          "cid": "bafyreihjqzuv2n7u2ph2ewm4rujc5eknsjl32za7h7g4zygx443wsi5qcq",
+          "bskyUrl": "https://bsky.app/profile/gloriouscow.bsky.social/post/3mkbzsylnq22f",
+          "text": "Just kidding, repo up now. github.com/dbalsom/pcjr...",
+          "author": {
+            "handle": "gloriouscow.bsky.social"
+          },
+          "likeCount": 4,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-25T02:50:31.993Z",
+          "createdUtc": 1777085431,
+          "ageHours": 3.16,
+          "trendingScore": 4,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "dbalsom/pcjr_bios",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "tailcallhq/forgecode": {
       "count7d": 1,
       "likesSum7d": 1,
@@ -23,7 +223,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-25T00:47:59.925019Z",
-        "hoursSincePosted": 2.76
+        "hoursSincePosted": 5.2
       },
       "posts": [
         {
@@ -40,7 +240,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T00:47:59.925019Z",
           "createdUtc": 1777078079,
-          "ageHours": 2.76,
+          "ageHours": 5.2,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -58,7 +258,7 @@
     },
     "anthropics/claude-code": {
       "count7d": 2,
-      "likesSum7d": 5,
+      "likesSum7d": 6,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -70,11 +270,11 @@
           "handle": "lizthegrey.com",
           "displayName": "Liz Fong-Jones (方禮真)"
         },
-        "likeCount": 5,
+        "likeCount": 6,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-25T00:23:16.556Z",
-        "hoursSincePosted": 3.17
+        "hoursSincePosted": 5.61
       },
       "posts": [
         {
@@ -86,13 +286,13 @@
             "handle": "lizthegrey.com",
             "displayName": "Liz Fong-Jones (方禮真)"
           },
-          "likeCount": 5,
+          "likeCount": 6,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-04-25T00:23:16.556Z",
           "createdUtc": 1777076596,
-          "ageHours": 3.17,
-          "trendingScore": 5,
+          "ageHours": 5.61,
+          "trendingScore": 6,
           "content_tags": [
             "has-github-repo"
           ],
@@ -119,7 +319,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-24T23:13:36.000Z",
           "createdUtc": 1777072416,
-          "ageHours": 4.33,
+          "ageHours": 6.77,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -152,7 +352,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-25T00:10:09.160641+00:00",
-        "hoursSincePosted": 3.39
+        "hoursSincePosted": 5.83
       },
       "posts": [
         {
@@ -168,7 +368,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T00:10:09.160641+00:00",
           "createdUtc": 1777075809,
-          "ageHours": 3.39,
+          "ageHours": 5.83,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -202,7 +402,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-24T23:57:27.348Z",
-        "hoursSincePosted": 3.6
+        "hoursSincePosted": 6.04
       },
       "posts": [
         {
@@ -219,7 +419,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-24T23:57:27.348Z",
           "createdUtc": 1777075047,
-          "ageHours": 3.6,
+          "ageHours": 6.04,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -253,7 +453,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-24T23:47:55.374974Z",
-        "hoursSincePosted": 3.76
+        "hoursSincePosted": 6.2
       },
       "posts": [
         {
@@ -270,7 +470,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-24T23:47:55.374974Z",
           "createdUtc": 1777074475,
-          "ageHours": 3.76,
+          "ageHours": 6.2,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -304,7 +504,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-24T23:47:38.372Z",
-        "hoursSincePosted": 3.76
+        "hoursSincePosted": 6.2
       },
       "posts": [
         {
@@ -321,7 +521,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-24T23:47:38.372Z",
           "createdUtc": 1777074458,
-          "ageHours": 3.76,
+          "ageHours": 6.2,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -342,10 +542,20 @@
     {
       "fullName": "anthropics/claude-code",
       "count7d": 2,
-      "likesSum7d": 5
+      "likesSum7d": 6
+    },
+    {
+      "fullName": "dbalsom/pcjr_bios",
+      "count7d": 1,
+      "likesSum7d": 4
     },
     {
       "fullName": "dandavison/delta",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "smol-machines/smolvm",
       "count7d": 1,
       "likesSum7d": 1
     },
@@ -361,6 +571,16 @@
     },
     {
       "fullName": "AndrewVos/endless-toil",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "casey/just",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "NousResearch/hermes-agent",
       "count7d": 1,
       "likesSum7d": 0
     },

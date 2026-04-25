@@ -7,6 +7,8 @@ import {
   writeJsonlFile,
 } from "@/lib/pipeline/storage/file-persistence";
 
+import { recordDropEvent } from "./drop-events";
+
 export const REPO_SUBMISSIONS_FILE = "repo-submissions.jsonl";
 
 const MAX_REASON_LENGTH = 600;
@@ -399,6 +401,11 @@ export async function submitRepoToQueue(
   const queueBefore = summarizeRepoSubmissionQueue(existing);
 
   if (trackedRepo) {
+    try {
+      await recordDropEvent({ kind: "already_tracked", fullName: normalized.fullName });
+    } catch (err) {
+      console.warn("[repo-submissions] recordDropEvent failed:", err);
+    }
     return {
       kind: "already_tracked",
       repo: {
@@ -413,6 +420,11 @@ export async function submitRepoToQueue(
     (record) => record.normalizedFullName === normalized.normalizedFullName,
   );
   if (duplicate) {
+    try {
+      await recordDropEvent({ kind: "duplicate", fullName: normalized.fullName });
+    } catch (err) {
+      console.warn("[repo-submissions] recordDropEvent failed:", err);
+    }
     return {
       kind: "duplicate",
       submission: toPublicRepoSubmission(duplicate),
@@ -442,6 +454,11 @@ export async function submitRepoToQueue(
   await appendJsonlFile(REPO_SUBMISSIONS_FILE, submission);
   const queueAfter = summarizeRepoSubmissionQueue([submission, ...existing]);
 
+  try {
+    await recordDropEvent({ kind: "created", fullName: normalized.fullName });
+  } catch (err) {
+    console.warn("[repo-submissions] recordDropEvent failed:", err);
+  }
   return {
     kind: "created",
     submission: toPublicRepoSubmission(submission),

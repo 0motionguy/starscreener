@@ -19,6 +19,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { timingSafeEqual } from "node:crypto";
 import { verifySession } from "./session";
+import { readAdminSessionCookie, verifyAdminSession } from "./admin-session";
 import type { UserTier } from "@/lib/pricing/tiers";
 
 /** Name of the HMAC-signed session cookie set by /api/auth/session. */
@@ -124,6 +125,15 @@ let adminConfigWarned = false;
  * warning stops firing.
  */
 export function verifyAdminAuth(request: NextRequest): AuthVerdict {
+  // Browser admin path: HMAC-signed ss_admin cookie set by /api/admin/login.
+  // Evaluated first so a logged-in operator doesn't need to also hold a
+  // bearer token. Cookie verification fails silently if SESSION_SECRET is
+  // unset — we fall through to the bearer path.
+  const adminCookie = readAdminSessionCookie(request.headers.get("cookie"));
+  if (adminCookie && verifyAdminSession(adminCookie)) {
+    return { kind: "ok" };
+  }
+
   const adminToken = process.env.ADMIN_TOKEN;
   if (!adminToken) {
     if (!adminConfigWarned) {

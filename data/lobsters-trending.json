@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-04-25T19:28:47.994Z",
+  "fetchedAt": "2026-04-25T20:04:20.450Z",
   "windowHours": 72,
-  "scannedTotal": 75,
+  "scannedTotal": 77,
   "stories": [
     {
       "shortId": "xgtyyu",
@@ -9,11 +9,11 @@
       "url": "https://ky.fyi/posts/ai-burnout",
       "commentsUrl": "https://lobste.rs/s/xgtyyu/do_i_belong_tech_anymore",
       "by": "",
-      "score": 103,
-      "commentCount": 31,
+      "score": 112,
+      "commentCount": 32,
       "createdUtc": 1777095661,
-      "ageHours": 13.796111111111111,
-      "trendingScore": 1.6406349342406834,
+      "ageHours": 14.38861111111111,
+      "trendingScore": 1.6881257630481024,
       "tags": [
         "vibecoding"
       ],
@@ -26,11 +26,11 @@
       "url": "https://fp32.org/register_renaming.html",
       "commentsUrl": "https://lobste.rs/s/2jvgsq/your_cpu_has_more_registers_than_you_d",
       "by": "",
-      "score": 18,
+      "score": 19,
       "commentCount": 2,
       "createdUtc": 1777122424,
-      "ageHours": 6.361944444444444,
-      "trendingScore": 0.7444089540392389,
+      "ageHours": 6.954444444444444,
+      "trendingScore": 0.7090806456195435,
       "tags": [
         "hardware"
       ],
@@ -46,8 +46,8 @@
       "score": 68,
       "commentCount": 38,
       "createdUtc": 1777071205,
-      "ageHours": 20.589444444444446,
-      "trendingScore": 0.6333599350856302,
+      "ageHours": 21.181944444444444,
+      "trendingScore": 0.6092339849778691,
       "tags": [
         "vibecoding"
       ],
@@ -63,12 +63,29 @@
       "score": 7,
       "commentCount": 0,
       "createdUtc": 1777134150,
-      "ageHours": 3.104722222222222,
-      "trendingScore": 0.6069317655638704,
+      "ageHours": 3.6972222222222224,
+      "trendingScore": 0.5147582320488253,
       "tags": [
         "assembly",
         "historical",
         "retrocomputing"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "88pksu",
+      "title": "Linux May Drop Old Network Drivers Now That AI-Driven Bug Reports Are Causing A Burden",
+      "url": "https://www.phoronix.com/news/Linux-Old-Network-AI",
+      "commentsUrl": "https://lobste.rs/s/88pksu/linux_may_drop_old_network_drivers_now_ai",
+      "by": "",
+      "score": 3,
+      "commentCount": 1,
+      "createdUtc": 1777141480,
+      "ageHours": 1.6611111111111112,
+      "trendingScore": 0.42825445597624,
+      "tags": [
+        "linux"
       ],
       "description": "",
       "linkedRepos": []
@@ -79,11 +96,11 @@
       "url": "https://chronicbuildfailure.co/how-to-avoid-shipping-your-org-chart-c086effe751c",
       "commentsUrl": "https://lobste.rs/s/gikmcc/avoid_shipping_your_org_chart",
       "by": "",
-      "score": 15,
+      "score": 17,
       "commentCount": 6,
       "createdUtc": 1777111546,
-      "ageHours": 9.383611111111112,
-      "trendingScore": 0.39054509051683556,
+      "ageHours": 9.976111111111111,
+      "trendingScore": 0.4101806759603796,
       "tags": [
         "practices"
       ],
@@ -96,11 +113,11 @@
       "url": "https://gleam.run/news/javascript-source-maps/",
       "commentsUrl": "https://lobste.rs/s/ckacgl/gleam_gets_source_maps_1_16_0",
       "by": "",
-      "score": 47,
+      "score": 48,
       "commentCount": 11,
       "createdUtc": 1777054203,
-      "ageHours": 25.31222222222222,
-      "trendingScore": 0.3292776866088463,
+      "ageHours": 25.904722222222222,
+      "trendingScore": 0.32563020441131607,
       "tags": [
         "gleam"
       ],
@@ -108,19 +125,36 @@
       "linkedRepos": []
     },
     {
-      "shortId": "3v9wvu",
-      "title": "New 10 GbE USB adapters are cooler, smaller, cheaper",
-      "url": "https://www.jeffgeerling.com/blog/2026/new-10-gbe-usb-adapters-cooler-smaller-cheaper/",
-      "commentsUrl": "https://lobste.rs/s/3v9wvu/new_10_gbe_usb_adapters_are_cooler_smaller",
+      "shortId": "rd9x6c",
+      "title": "Gmail: Bringing easy end-to-end encryption to all businesses",
+      "url": "https://workspace.google.com/blog/identity-and-security/gmail-easy-end-to-end-encryption-all-businesses",
+      "commentsUrl": "https://lobste.rs/s/rd9x6c/gmail_bringing_easy_end_end_encryption",
       "by": "",
-      "score": 2,
-      "commentCount": 0,
-      "createdUtc": 1777140403,
-      "ageHours": 1.3677777777777778,
-      "trendingScore": 0.3236047258104366,
+      "score": 14,
+      "commentCount": 7,
+      "createdUtc": 1777108639,
+      "ageHours": 10.783611111111112,
+      "trendingScore": 0.30630050290548244,
       "tags": [
-        "hardware",
-        "networking"
+        "cryptography",
+        "email"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "uiqamk",
+      "title": "Hyper-DERP: C++/io_uring DERP relay - Same throughput as Tailscale's derper, half the cores",
+      "url": "https://hyper-derp.dev/blog/hyper-derp-announcement/",
+      "commentsUrl": "https://lobste.rs/s/uiqamk/hyper_derp_c_io_uring_derp_relay_same",
+      "by": "",
+      "score": 1,
+      "commentCount": 0,
+      "createdUtc": 1777146495,
+      "ageHours": 0.26805555555555555,
+      "trendingScore": 0.292765210240038,
+      "tags": [
+        "performance"
       ],
       "description": "",
       "linkedRepos": []
@@ -134,11 +168,64 @@
       "score": 43,
       "commentCount": 0,
       "createdUtc": 1777053348,
-      "ageHours": 25.549722222222222,
-      "trendingScore": 0.2973668956744364,
+      "ageHours": 26.142222222222223,
+      "trendingScore": 0.2880254563923507,
       "tags": [
         "hardware",
         "linux"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "syfxqg",
+      "title": "What are you doing this weekend?",
+      "url": "",
+      "commentsUrl": "https://lobste.rs/s/syfxqg/what_are_you_doing_this_weekend",
+      "by": "",
+      "score": 6,
+      "commentCount": 9,
+      "createdUtc": 1777126556,
+      "ageHours": 5.806666666666667,
+      "trendingScore": 0.2750760607468168,
+      "tags": [
+        "ask",
+        "programming"
+      ],
+      "description": "<p>Feel free to tell what you plan on doing this weekend and even ask for help or feedback.</p>\n<p>Please keep in mind it’s more than OK to do nothing at all too!</p>\n",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "spm1cr",
+      "title": "Revocation of X.509 certificates",
+      "url": "https://blog.apnic.net/2026/04/24/revocation-of-x-509-certificates/",
+      "commentsUrl": "https://lobste.rs/s/spm1cr/revocation_x_509_certificates",
+      "by": "",
+      "score": 1,
+      "commentCount": 0,
+      "createdUtc": 1777146000,
+      "ageHours": 0.40555555555555556,
+      "trendingScore": 0.26802599265156657,
+      "tags": [
+        "security"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "3v9wvu",
+      "title": "New 10 GbE USB adapters are cooler, smaller, cheaper",
+      "url": "https://www.jeffgeerling.com/blog/2026/new-10-gbe-usb-adapters-cooler-smaller-cheaper/",
+      "commentsUrl": "https://lobste.rs/s/3v9wvu/new_10_gbe_usb_adapters_are_cooler_smaller",
+      "by": "",
+      "score": 2,
+      "commentCount": 1,
+      "createdUtc": 1777140403,
+      "ageHours": 1.9602777777777778,
+      "trendingScore": 0.2537707261622217,
+      "tags": [
+        "hardware",
+        "networking"
       ],
       "description": "",
       "linkedRepos": []
@@ -152,49 +239,13 @@
       "score": 5,
       "commentCount": 2,
       "createdUtc": 1777128309,
-      "ageHours": 4.727222222222222,
-      "trendingScore": 0.2865605111658029,
+      "ageHours": 5.3197222222222225,
+      "trendingScore": 0.2524806525492202,
       "tags": [
         "practices",
         "security"
       ],
       "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "rd9x6c",
-      "title": "Gmail: Bringing easy end-to-end encryption to all businesses",
-      "url": "https://workspace.google.com/blog/identity-and-security/gmail-easy-end-to-end-encryption-all-businesses",
-      "commentsUrl": "https://lobste.rs/s/rd9x6c/gmail_bringing_easy_end_end_encryption",
-      "by": "",
-      "score": 12,
-      "commentCount": 7,
-      "createdUtc": 1777108639,
-      "ageHours": 10.19111111111111,
-      "trendingScore": 0.28191378455644117,
-      "tags": [
-        "cryptography",
-        "email"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "syfxqg",
-      "title": "What are you doing this weekend?",
-      "url": "",
-      "commentsUrl": "https://lobste.rs/s/syfxqg/what_are_you_doing_this_weekend",
-      "by": "",
-      "score": 5,
-      "commentCount": 8,
-      "createdUtc": 1777126556,
-      "ageHours": 5.214166666666666,
-      "trendingScore": 0.2580422066624087,
-      "tags": [
-        "ask",
-        "programming"
-      ],
-      "description": "<p>Feel free to tell what you plan on doing this weekend and even ask for help or feedback.</p>\n<p>Please keep in mind it’s more than OK to do nothing at all too!</p>\n",
       "linkedRepos": []
     },
     {
@@ -206,8 +257,8 @@
       "score": 100,
       "commentCount": 40,
       "createdUtc": 1776957982,
-      "ageHours": 52.040277777777774,
-      "trendingScore": 0.251723430049524,
+      "ageHours": 52.632777777777775,
+      "trendingScore": 0.24763958990290594,
       "tags": [
         "security"
       ],
@@ -223,8 +274,8 @@
       "score": 52,
       "commentCount": 19,
       "createdUtc": 1777024939,
-      "ageHours": 33.44111111111111,
-      "trendingScore": 0.24645767671755317,
+      "ageHours": 34.033611111111114,
+      "trendingScore": 0.24040398529149898,
       "tags": [
         "rant",
         "vibecoding"
@@ -241,29 +292,11 @@
       "score": 29,
       "commentCount": 1,
       "createdUtc": 1777065467,
-      "ageHours": 22.183333333333334,
-      "trendingScore": 0.24385055861695512,
+      "ageHours": 22.775833333333335,
+      "trendingScore": 0.23515574408278286,
       "tags": [
         "editors",
         "lisp"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "u0pix1",
-      "title": "Build yourself flowers",
-      "url": "https://vickiboykis.com/2026/04/20/build-yourself-flowers/",
-      "commentsUrl": "https://lobste.rs/s/u0pix1/build_yourself_flowers",
-      "by": "",
-      "score": 5,
-      "commentCount": 0,
-      "createdUtc": 1777124787,
-      "ageHours": 5.705555555555556,
-      "trendingScore": 0.2337567015006441,
-      "tags": [
-        "ai",
-        "transcript"
       ],
       "description": "",
       "linkedRepos": []
@@ -277,11 +310,29 @@
       "score": 35,
       "commentCount": 9,
       "createdUtc": 1777050184,
-      "ageHours": 26.42861111111111,
-      "trendingScore": 0.23090566100000356,
+      "ageHours": 27.02111111111111,
+      "trendingScore": 0.22387056247202333,
       "tags": [
         "rant",
         "vibecoding"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "u0pix1",
+      "title": "Build yourself flowers",
+      "url": "https://vickiboykis.com/2026/04/20/build-yourself-flowers/",
+      "commentsUrl": "https://lobste.rs/s/u0pix1/build_yourself_flowers",
+      "by": "",
+      "score": 5,
+      "commentCount": 0,
+      "createdUtc": 1777124787,
+      "ageHours": 6.298055555555556,
+      "trendingScore": 0.2091729383440509,
+      "tags": [
+        "ai",
+        "transcript"
       ],
       "description": "",
       "linkedRepos": []
@@ -295,28 +346,11 @@
       "score": 5,
       "commentCount": 0,
       "createdUtc": 1777121427,
-      "ageHours": 6.638888888888889,
-      "trendingScore": 0.1969169824095312,
+      "ageHours": 7.231388888888889,
+      "trendingScore": 0.17826637534547715,
       "tags": [
         "graphics",
         "reversing"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "88pksu",
-      "title": "Linux May Drop Old Network Drivers Now That AI-Driven Bug Reports Are Causing A Burden",
-      "url": "https://www.phoronix.com/news/Linux-Old-Network-AI",
-      "commentsUrl": "https://lobste.rs/s/88pksu/linux_may_drop_old_network_drivers_now_ai",
-      "by": "",
-      "score": 1,
-      "commentCount": 1,
-      "createdUtc": 1777141480,
-      "ageHours": 1.0686111111111112,
-      "trendingScore": 0.18603181367300453,
-      "tags": [
-        "linux"
       ],
       "description": "",
       "linkedRepos": []
@@ -330,8 +364,8 @@
       "score": 62,
       "commentCount": 2,
       "createdUtc": 1776976610,
-      "ageHours": 46.865833333333335,
-      "trendingScore": 0.18150296558408646,
+      "ageHours": 47.458333333333336,
+      "trendingScore": 0.17825120467821853,
       "tags": [
         "c",
         "graphics",
@@ -349,8 +383,8 @@
       "score": 55,
       "commentCount": 8,
       "createdUtc": 1776989567,
-      "ageHours": 43.266666666666666,
-      "trendingScore": 0.18059050674810256,
+      "ageHours": 43.85916666666667,
+      "trendingScore": 0.17710199422763612,
       "tags": [
         "security",
         "unix"
@@ -367,8 +401,8 @@
       "score": 36,
       "commentCount": 8,
       "createdUtc": 1777025902,
-      "ageHours": 33.173611111111114,
-      "trendingScore": 0.17257467507411697,
+      "ageHours": 33.76611111111111,
+      "trendingScore": 0.16830418636828873,
       "tags": [
         "hardware"
       ],
@@ -384,10 +418,27 @@
       "score": 35,
       "commentCount": 42,
       "createdUtc": 1777026185,
-      "ageHours": 33.095,
-      "trendingScore": 0.16834498149242857,
+      "ageHours": 33.6875,
+      "trendingScore": 0.16417002184130638,
       "tags": [
         "practices"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "qqahyp",
+      "title": "Comparing compression tools",
+      "url": "https://www.arp242.net/cmp-compress.html",
+      "commentsUrl": "https://lobste.rs/s/qqahyp/comparing_compression_tools",
+      "by": "",
+      "score": 5,
+      "commentCount": 1,
+      "createdUtc": 1777119469,
+      "ageHours": 7.775277777777778,
+      "trendingScore": 0.16359737968888668,
+      "tags": [
+        "performance"
       ],
       "description": "",
       "linkedRepos": []
@@ -401,32 +452,13 @@
       "score": 43,
       "commentCount": 32,
       "createdUtc": 1776995956,
-      "ageHours": 41.49194444444444,
-      "trendingScore": 0.14991849669144583,
+      "ageHours": 42.08444444444444,
+      "trendingScore": 0.1469062921090571,
       "tags": [
         "ask",
         "programming"
       ],
       "description": "<p>What are some developer tools that have treated Markdown as more than a documentation format ?</p>\n<p>A good example is I believe is Obsidian where the underlying files are just Markdown, but the product turns them into a working environment with links, backlinks, graph views, plugins, search, templates, and workflows.</p>\n",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "8xd0x7",
-      "title": "The Mac App Gold Rush in the Age of Vibe Coding",
-      "url": "https://caio.ca/blog/ai-vibe-coded-mac-apps.html",
-      "commentsUrl": "https://lobste.rs/s/8xd0x7/mac_app_gold_rush_age_vibe_coding",
-      "by": "",
-      "score": 1,
-      "commentCount": 1,
-      "createdUtc": 1777139722,
-      "ageHours": 1.5569444444444445,
-      "trendingScore": 0.1490679836057102,
-      "tags": [
-        "mac",
-        "security",
-        "vibecoding"
-      ],
-      "description": "",
       "linkedRepos": []
     },
     {
@@ -438,46 +470,11 @@
       "score": 57,
       "commentCount": 6,
       "createdUtc": 1776960816,
-      "ageHours": 51.253055555555555,
-      "trendingScore": 0.14667566232746998,
+      "ageHours": 51.845555555555556,
+      "trendingScore": 0.14426137338014763,
       "tags": [
         "distributed",
         "release"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "qqahyp",
-      "title": "Comparing compression tools",
-      "url": "https://www.arp242.net/cmp-compress.html",
-      "commentsUrl": "https://lobste.rs/s/qqahyp/comparing_compression_tools",
-      "by": "",
-      "score": 4,
-      "commentCount": 1,
-      "createdUtc": 1777119469,
-      "ageHours": 7.182777777777778,
-      "trendingScore": 0.1437470297064579,
-      "tags": [
-        "performance"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "vkngyl",
-      "title": "Removing the AUICGP instruction",
-      "url": "https://cheriot.org/isa/toolchain/2026/03/23/removing-auicgp.html",
-      "commentsUrl": "https://lobste.rs/s/vkngyl/removing_auicgp_instruction",
-      "by": "",
-      "score": 2,
-      "commentCount": 0,
-      "createdUtc": 1777129981,
-      "ageHours": 4.262777777777778,
-      "trendingScore": 0.12760846742022178,
-      "tags": [
-        "assembly",
-        "security"
       ],
       "description": "",
       "linkedRepos": []
@@ -491,8 +488,8 @@
       "score": 46,
       "commentCount": 30,
       "createdUtc": 1776964842,
-      "ageHours": 50.13472222222222,
-      "trendingScore": 0.122198882909475,
+      "ageHours": 50.727222222222224,
+      "trendingScore": 0.12014494226699887,
       "tags": [
         "rust",
         "security"
@@ -509,8 +506,8 @@
       "score": 43,
       "commentCount": 33,
       "createdUtc": 1776972411,
-      "ageHours": 48.032222222222224,
-      "trendingScore": 0.12150489271323339,
+      "ageHours": 48.624722222222225,
+      "trendingScore": 0.11937804866274793,
       "tags": [
         "linux",
         "release"
@@ -519,18 +516,38 @@
       "linkedRepos": []
     },
     {
-      "shortId": "bvh1dq",
-      "title": "Why I’m Done Making Desktop Applications (2009)",
-      "url": "https://www.kalzumeus.com/2009/09/05/desktop-aps-versus-web-apps/",
-      "commentsUrl": "https://lobste.rs/s/bvh1dq/why_i_m_done_making_desktop_applications",
+      "shortId": "8xd0x7",
+      "title": "The Mac App Gold Rush in the Age of Vibe Coding",
+      "url": "https://caio.ca/blog/ai-vibe-coded-mac-apps.html",
+      "commentsUrl": "https://lobste.rs/s/8xd0x7/mac_app_gold_rush_age_vibe_coding",
       "by": "",
-      "score": 4,
-      "commentCount": 1,
-      "createdUtc": 1777113388,
-      "ageHours": 8.871944444444445,
-      "trendingScore": 0.11158328801878106,
+      "score": 1,
+      "commentCount": 2,
+      "createdUtc": 1777139722,
+      "ageHours": 2.1494444444444443,
+      "trendingScore": 0.11830826038341923,
       "tags": [
-        "programming"
+        "mac",
+        "security",
+        "vibecoding"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "vkngyl",
+      "title": "Removing the AUICGP instruction",
+      "url": "https://cheriot.org/isa/toolchain/2026/03/23/removing-auicgp.html",
+      "commentsUrl": "https://lobste.rs/s/vkngyl/removing_auicgp_instruction",
+      "by": "",
+      "score": 2,
+      "commentCount": 0,
+      "createdUtc": 1777129981,
+      "ageHours": 4.855277777777777,
+      "trendingScore": 0.11142750592472643,
+      "tags": [
+        "assembly",
+        "security"
       ],
       "description": "",
       "linkedRepos": []
@@ -544,12 +561,29 @@
       "score": 26,
       "commentCount": 0,
       "createdUtc": 1777014068,
-      "ageHours": 36.46083333333333,
-      "trendingScore": 0.10900472237312248,
+      "ageHours": 37.053333333333335,
+      "trendingScore": 0.10653349759107825,
       "tags": [
         "haskell",
         "plt",
         "rust"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "bvh1dq",
+      "title": "Why I’m Done Making Desktop Applications (2009)",
+      "url": "https://www.kalzumeus.com/2009/09/05/desktop-aps-versus-web-apps/",
+      "commentsUrl": "https://lobste.rs/s/bvh1dq/why_i_m_done_making_desktop_applications",
+      "by": "",
+      "score": 4,
+      "commentCount": 1,
+      "createdUtc": 1777113388,
+      "ageHours": 9.464444444444444,
+      "trendingScore": 0.10304584150580944,
+      "tags": [
+        "programming"
       ],
       "description": "",
       "linkedRepos": []
@@ -563,8 +597,8 @@
       "score": 3,
       "commentCount": 5,
       "createdUtc": 1777119350,
-      "ageHours": 7.215833333333333,
-      "trendingScore": 0.10723074830387298,
+      "ageHours": 7.808333333333334,
+      "trendingScore": 0.09766263317365613,
       "tags": [
         "plt"
       ],
@@ -580,8 +614,8 @@
       "score": 27,
       "commentCount": 6,
       "createdUtc": 1776986832,
-      "ageHours": 44.02638888888889,
-      "trendingScore": 0.08646760107565947,
+      "ageHours": 44.61888888888889,
+      "trendingScore": 0.08482441762464045,
       "tags": [
         "rust"
       ],
@@ -597,8 +631,8 @@
       "score": 28,
       "commentCount": 19,
       "createdUtc": 1776977912,
-      "ageHours": 46.50416666666667,
-      "trendingScore": 0.08288757999501188,
+      "ageHours": 47.096666666666664,
+      "trendingScore": 0.08139168137755223,
       "tags": [
         "web"
       ],
@@ -611,11 +645,11 @@
       "url": "https://blog.broulik.de/2026/04/qt-no-contextless-connect/",
       "commentsUrl": "https://lobste.rs/s/kczxr0/qt_no_contextless_connect",
       "by": "",
-      "score": 11,
+      "score": 12,
       "commentCount": 1,
       "createdUtc": 1777052535,
-      "ageHours": 25.775555555555556,
-      "trendingScore": 0.07514473439337814,
+      "ageHours": 26.368055555555557,
+      "trendingScore": 0.07942128196747252,
       "tags": [
         "c++"
       ],
@@ -631,8 +665,8 @@
       "score": 31,
       "commentCount": 15,
       "createdUtc": 1776945465,
-      "ageHours": 55.51722222222222,
-      "trendingScore": 0.0710664854501511,
+      "ageHours": 56.109722222222224,
+      "trendingScore": 0.06998234560960297,
       "tags": [
         "email"
       ],
@@ -648,8 +682,8 @@
       "score": 6,
       "commentCount": 0,
       "createdUtc": 1777082238,
-      "ageHours": 17.524722222222223,
-      "trendingScore": 0.06954628797673505,
+      "ageHours": 18.11722222222222,
+      "trendingScore": 0.06649656787637444,
       "tags": [
         "historical",
         "retrocomputing",
@@ -667,8 +701,8 @@
       "score": 9,
       "commentCount": 6,
       "createdUtc": 1777053585,
-      "ageHours": 25.483888888888888,
-      "trendingScore": 0.062463344376363784,
+      "ageHours": 26.07638888888889,
+      "trendingScore": 0.06049655378731216,
       "tags": [
         "email"
       ],
@@ -684,8 +718,8 @@
       "score": 23,
       "commentCount": 1,
       "createdUtc": 1776961423,
-      "ageHours": 51.08444444444444,
-      "trendingScore": 0.05946712205888552,
+      "ageHours": 51.676944444444445,
+      "trendingScore": 0.0584852239837839,
       "tags": [
         "performance",
         "web"
@@ -702,8 +736,8 @@
       "score": 10,
       "commentCount": 14,
       "createdUtc": 1777041902,
-      "ageHours": 28.729166666666668,
-      "trendingScore": 0.05870482876333958,
+      "ageHours": 29.321666666666665,
+      "trendingScore": 0.05704698612283051,
       "tags": [
         "web"
       ],
@@ -719,28 +753,10 @@
       "score": 3,
       "commentCount": 1,
       "createdUtc": 1777101395,
-      "ageHours": 12.203333333333333,
-      "trendingScore": 0.05604486604765691,
+      "ageHours": 12.795833333333333,
+      "trendingScore": 0.052712317308064964,
       "tags": [
         "editors"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "ivdh3a",
-      "title": "Automatic brightness in Plasma",
-      "url": "https://zamundaaa.github.io/wayland,display/2026/04/24/automatic-brightness.html",
-      "commentsUrl": "https://lobste.rs/s/ivdh3a/automatic_brightness_plasma",
-      "by": "",
-      "score": 5,
-      "commentCount": 2,
-      "createdUtc": 1777078541,
-      "ageHours": 18.551666666666666,
-      "trendingScore": 0.05366602557484507,
-      "tags": [
-        "hardware",
-        "linux"
       ],
       "description": "",
       "linkedRepos": []
@@ -754,11 +770,29 @@
       "score": 10,
       "commentCount": 3,
       "createdUtc": 1777034638,
-      "ageHours": 30.746944444444445,
-      "trendingScore": 0.053363440917700074,
+      "ageHours": 31.339444444444446,
+      "trendingScore": 0.05194723808186216,
       "tags": [
         "android",
         "distributed"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "ivdh3a",
+      "title": "Automatic brightness in Plasma",
+      "url": "https://zamundaaa.github.io/wayland,display/2026/04/24/automatic-brightness.html",
+      "commentsUrl": "https://lobste.rs/s/ivdh3a/automatic_brightness_plasma",
+      "by": "",
+      "score": 5,
+      "commentCount": 2,
+      "createdUtc": 1777078541,
+      "ageHours": 19.144166666666667,
+      "trendingScore": 0.05142616562694858,
+      "tags": [
+        "hardware",
+        "linux"
       ],
       "description": "",
       "linkedRepos": []
@@ -772,8 +806,8 @@
       "score": 5,
       "commentCount": 1,
       "createdUtc": 1777077331,
-      "ageHours": 18.887777777777778,
-      "trendingScore": 0.05237591784270269,
+      "ageHours": 19.48027777777778,
+      "trendingScore": 0.050223868869905645,
       "tags": [
         "a11y",
         "practices",
@@ -791,8 +825,8 @@
       "score": 9,
       "commentCount": 4,
       "createdUtc": 1777039254,
-      "ageHours": 29.46472222222222,
-      "trendingScore": 0.05099254130642452,
+      "ageHours": 30.057222222222222,
+      "trendingScore": 0.04958538364996942,
       "tags": [
         "meta"
       ],
@@ -808,28 +842,11 @@
       "score": 10,
       "commentCount": 2,
       "createdUtc": 1777026650,
-      "ageHours": 32.965833333333336,
-      "trendingScore": 0.04836533222023857,
+      "ageHours": 33.55833333333333,
+      "trendingScore": 0.04716153205040626,
       "tags": [
         "ruby",
         "vibecoding"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "tzws72",
-      "title": "Single-pass palette refinement and ordered dithering",
-      "url": "https://30fps.net/pages/bayer-order-online-kmeans/",
-      "commentsUrl": "https://lobste.rs/s/tzws72/single_pass_palette_refinement_ordered",
-      "by": "",
-      "score": 19,
-      "commentCount": 0,
-      "createdUtc": 1776944157,
-      "ageHours": 55.88055555555555,
-      "trendingScore": 0.04314739340617842,
-      "tags": [
-        "graphics"
       ],
       "description": "",
       "linkedRepos": []
@@ -843,8 +860,8 @@
       "score": 5,
       "commentCount": 9,
       "createdUtc": 1777062986,
-      "ageHours": 22.8725,
-      "trendingScore": 0.04030796242393312,
+      "ageHours": 23.465,
+      "trendingScore": 0.03890939549562549,
       "tags": [
         "rust",
         "vcs",
@@ -862,8 +879,8 @@
       "score": 10,
       "commentCount": 2,
       "createdUtc": 1776995457,
-      "ageHours": 41.63055555555555,
-      "trendingScore": 0.03469875444621675,
+      "ageHours": 42.223055555555554,
+      "trendingScore": 0.03400375514601443,
       "tags": [
         "ruby",
         "vibecoding"
@@ -880,8 +897,8 @@
       "score": 7,
       "commentCount": 0,
       "createdUtc": 1777018521,
-      "ageHours": 35.22388888888889,
-      "trendingScore": 0.030822327113017977,
+      "ageHours": 35.81638888888889,
+      "trendingScore": 0.030100794366220724,
       "tags": [
         "haskell"
       ],
@@ -897,8 +914,8 @@
       "score": 11,
       "commentCount": 12,
       "createdUtc": 1776961415,
-      "ageHours": 51.086666666666666,
-      "trendingScore": 0.0284390117159005,
+      "ageHours": 51.67916666666667,
+      "trendingScore": 0.027969457160496484,
       "tags": [
         "distributed",
         "web"
@@ -915,8 +932,8 @@
       "score": 5,
       "commentCount": 0,
       "createdUtc": 1777031541,
-      "ageHours": 31.607222222222223,
-      "trendingScore": 0.025663806835246616,
+      "ageHours": 32.19972222222222,
+      "trendingScore": 0.024999777094257304,
       "tags": [
         "hardware",
         "networking"
@@ -933,8 +950,8 @@
       "score": 3,
       "commentCount": 1,
       "createdUtc": 1777062297,
-      "ageHours": 23.06388888888889,
-      "trendingScore": 0.02390829301517669,
+      "ageHours": 23.656388888888888,
+      "trendingScore": 0.023084898000435842,
       "tags": [
         "devops",
         "distributed",
@@ -952,8 +969,8 @@
       "score": 3,
       "commentCount": 0,
       "createdUtc": 1777050448,
-      "ageHours": 26.35527777777778,
-      "trendingScore": 0.019868743149275846,
+      "ageHours": 26.947777777777777,
+      "trendingScore": 0.019261868324459426,
       "tags": [
         "video",
         "visualization"
@@ -970,8 +987,8 @@
       "score": 4,
       "commentCount": 3,
       "createdUtc": 1777021406,
-      "ageHours": 34.4225,
-      "trendingScore": 0.01819723331345595,
+      "ageHours": 35.015,
+      "trendingScore": 0.01776206114442475,
       "tags": [
         "programming"
       ],
@@ -987,8 +1004,8 @@
       "score": 5,
       "commentCount": 0,
       "createdUtc": 1776980833,
-      "ageHours": 45.69277777777778,
-      "trendingScore": 0.015180674822301392,
+      "ageHours": 46.28527777777778,
+      "trendingScore": 0.014902114743788665,
       "tags": [
         "performance",
         "ruby"
@@ -1005,8 +1022,8 @@
       "score": 4,
       "commentCount": 4,
       "createdUtc": 1776996827,
-      "ageHours": 41.25,
-      "trendingScore": 0.014063092185335593,
+      "ageHours": 41.8425,
+      "trendingScore": 0.013778978590871899,
       "tags": [
         "erlang",
         "vibecoding"
@@ -1023,8 +1040,8 @@
       "score": 4,
       "commentCount": 0,
       "createdUtc": 1776975561,
-      "ageHours": 47.157222222222224,
-      "trendingScore": 0.011605904447461483,
+      "ageHours": 47.749722222222225,
+      "trendingScore": 0.011399190224374517,
       "tags": [
         "hardware",
         "rust"
@@ -1041,8 +1058,8 @@
       "score": 4,
       "commentCount": 0,
       "createdUtc": 1776946599,
-      "ageHours": 55.202222222222225,
-      "trendingScore": 0.009245717936867605,
+      "ageHours": 55.79472222222222,
+      "trendingScore": 0.009103905064033439,
       "tags": [
         "release"
       ],
@@ -1058,8 +1075,8 @@
       "score": 3,
       "commentCount": 0,
       "createdUtc": 1776977775,
-      "ageHours": 46.54222222222222,
-      "trendingScore": 0.00887037077878075,
+      "ageHours": 47.13472222222222,
+      "trendingScore": 0.008710407978343899,
       "tags": [
         "compsci",
         "video"
@@ -1076,8 +1093,8 @@
       "score": 3,
       "commentCount": 0,
       "createdUtc": 1776973928,
-      "ageHours": 47.61083333333333,
-      "trendingScore": 0.008585319689975834,
+      "ageHours": 48.20333333333333,
+      "trendingScore": 0.008433783029642865,
       "tags": [
         "performance"
       ],
@@ -1093,8 +1110,8 @@
       "score": 3,
       "commentCount": 0,
       "createdUtc": 1776961967,
-      "ageHours": 50.93333333333333,
-      "trendingScore": 0.0077898194108093274,
+      "ageHours": 51.52583333333333,
+      "trendingScore": 0.007660834823041217,
       "tags": [
         "graphics",
         "performance"
@@ -1111,8 +1128,8 @@
       "score": 3,
       "commentCount": 4,
       "createdUtc": 1776960932,
-      "ageHours": 51.22083333333333,
-      "trendingScore": 0.007726783594082112,
+      "ageHours": 51.81333333333333,
+      "trendingScore": 0.007599524395118751,
       "tags": [
         "linux",
         "networking"
@@ -1129,8 +1146,8 @@
       "score": 1,
       "commentCount": 0,
       "createdUtc": 1777053464,
-      "ageHours": 25.5175,
-      "trendingScore": 0.006927659558470012,
+      "ageHours": 26.11,
+      "trendingScore": 0.0067097869650480264,
       "tags": [
         "vibecoding",
         "video"
@@ -1147,8 +1164,8 @@
       "score": 1,
       "commentCount": 0,
       "createdUtc": 1777049677,
-      "ageHours": 26.569444444444443,
-      "trendingScore": 0.006548582559028048,
+      "ageHours": 27.161944444444444,
+      "trendingScore": 0.006350022770119691,
       "tags": [
         "vibecoding"
       ],
@@ -1164,8 +1181,8 @@
       "score": 1,
       "commentCount": 0,
       "createdUtc": 1777038855,
-      "ageHours": 29.575555555555557,
-      "trendingScore": 0.005636032636114132,
+      "ageHours": 30.168055555555554,
+      "trendingScore": 0.00548103764342757,
       "tags": [
         "security",
         "vibecoding"
@@ -1182,8 +1199,8 @@
       "score": 2,
       "commentCount": 0,
       "createdUtc": 1776966633,
-      "ageHours": 49.63722222222222,
-      "trendingScore": 0.005389961809989947,
+      "ageHours": 50.22972222222222,
+      "trendingScore": 0.005298505890841092,
       "tags": [
         "vibecoding"
       ],
@@ -1199,8 +1216,8 @@
       "score": 2,
       "commentCount": 0,
       "createdUtc": 1776959347,
-      "ageHours": 51.66111111111111,
-      "trendingScore": 0.005087922696418636,
+      "ageHours": 52.25361111111111,
+      "trendingScore": 0.0050048033828216,
       "tags": [
         "vibecoding"
       ],
@@ -1216,8 +1233,8 @@
       "score": 2,
       "commentCount": 0,
       "createdUtc": 1776957479,
-      "ageHours": 52.18,
-      "trendingScore": 0.00501500643496507,
+      "ageHours": 52.7725,
+      "trendingScore": 0.004933852360471889,
       "tags": [
         "ruby"
       ],
@@ -1233,8 +1250,8 @@
       "score": 1,
       "commentCount": 0,
       "createdUtc": 1776997142,
-      "ageHours": 41.1625,
-      "trendingScore": 0.0035264693451217068,
+      "ageHours": 41.755,
+      "trendingScore": 0.0034550828649564094,
       "tags": [
         "api",
         "vibecoding"
@@ -1251,8 +1268,8 @@
       "score": 1,
       "commentCount": 0,
       "createdUtc": 1776970460,
-      "ageHours": 48.57416666666666,
-      "trendingScore": 0.0027803975480483857,
+      "ageHours": 49.166666666666664,
+      "trendingScore": 0.0027322429395165914,
       "tags": [
         "vibecoding",
         "video"
@@ -1269,8 +1286,8 @@
       "score": 1,
       "commentCount": 0,
       "createdUtc": 1776951782,
-      "ageHours": 53.7625,
-      "trendingScore": 0.002401522420935698,
+      "ageHours": 54.355,
+      "trendingScore": 0.002363748786097785,
       "tags": [
         "philosophy",
         "privacy"
@@ -1287,7 +1304,7 @@
       "score": 0,
       "commentCount": 1,
       "createdUtc": 1777030203,
-      "ageHours": 31.97888888888889,
+      "ageHours": 32.57138888888889,
       "trendingScore": 0,
       "tags": [
         "dotnet",
@@ -1306,7 +1323,7 @@
       "score": 0,
       "commentCount": 4,
       "createdUtc": 1777027542,
-      "ageHours": 32.71805555555556,
+      "ageHours": 33.31055555555555,
       "trendingScore": 0,
       "tags": [
         "vibecoding"
@@ -1323,8 +1340,8 @@
       "score": -2,
       "commentCount": 1,
       "createdUtc": 1776970790,
-      "ageHours": 48.4825,
-      "trendingScore": -0.0055759479969475865,
+      "ageHours": 49.075,
+      "trendingScore": -0.005479203526332041,
       "tags": [
         "python",
         "security"

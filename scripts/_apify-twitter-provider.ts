@@ -85,12 +85,14 @@ export class ApifyTwitterProvider {
     // the actor's public versions. If the operator points at a different
     // actor via APIFY_TWITTER_ACTOR, they're responsible for an input
     // shape compatible with this.
+    // Twitter search operator `since:YYYY-MM-DD` narrows to the freshness
+    // window. `tweetLanguage` is an ISO-2 enum in apidojo/tweet-scraper — we
+    // omit it so the actor returns tweets in any language.
     const searchTerm = since ? `${opts.query} since:${since}` : opts.query;
-    const input = {
+    const input: Record<string, unknown> = {
       searchTerms: [searchTerm],
       maxItems: limit,
       sort: "Latest",
-      tweetLanguage: "any",
     };
 
     const url = `${API_BASE}/acts/${encodeURIComponent(this.actor)}/run-sync-get-dataset-items?token=${encodeURIComponent(this.token)}`;

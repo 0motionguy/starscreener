@@ -1,10 +1,61 @@
 {
-  "fetchedAt": "2026-04-25T15:02:43.417Z",
+  "fetchedAt": "2026-04-25T15:57:40.102Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
+    "ratatui/ratatui": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:zg2cldonpbgfa6d4wczbvjpm/app.bsky.feed.post/3mkdcsveyrs2f",
+        "cid": "bafyreibz4cq4pf2232ot3w2lcqdkz5thy4sogeewy52qx2qp5w7nncfoka",
+        "bskyUrl": "https://bsky.app/profile/joshuaward.roomy.chat/post/3mkdcsveyrs2f",
+        "text": "I thinks it's neat that #ratatui is entirely 100% #Rust in the Github breakdown. Also: #noagents.md and #noclaude.md! I commend them, and re-commend you (that you give 'em a star on Github) github.com/ratatui/rata...",
+        "author": {
+          "handle": "joshuaward.roomy.chat",
+          "displayName": "Joshua Ward"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-25T15:04:12.044Z",
+        "hoursSincePosted": 0.89
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:zg2cldonpbgfa6d4wczbvjpm/app.bsky.feed.post/3mkdcsveyrs2f",
+          "cid": "bafyreibz4cq4pf2232ot3w2lcqdkz5thy4sogeewy52qx2qp5w7nncfoka",
+          "bskyUrl": "https://bsky.app/profile/joshuaward.roomy.chat/post/3mkdcsveyrs2f",
+          "text": "I thinks it's neat that #ratatui is entirely 100% #Rust in the Github breakdown. Also: #noagents.md and #noclaude.md! I commend them, and re-commend you (that you give 'em a star on Github) github.com/ratatui/rata...",
+          "author": {
+            "handle": "joshuaward.roomy.chat",
+            "displayName": "Joshua Ward"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-25T15:04:12.044Z",
+          "createdUtc": 1777129452,
+          "ageHours": 0.89,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ratatui/ratatui",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "wesm/agentsview": {
       "count7d": 1,
       "likesSum7d": 0,
@@ -23,7 +74,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-25T14:37:55Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.33
       },
       "posts": [
         {
@@ -40,7 +91,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T14:37:55Z",
           "createdUtc": 1777127875,
-          "ageHours": 0.5,
+          "ageHours": 1.33,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -58,9 +109,9 @@
     },
     "niri-wm/niri": {
       "count7d": 2,
-      "likesSum7d": 4,
-      "repostsSum7d": 2,
-      "repliesSum7d": 0,
+      "likesSum7d": 7,
+      "repostsSum7d": 4,
+      "repliesSum7d": 1,
       "topPost": {
         "uri": "at://did:plc:q6n5opstauxutfacgojlknn4/app.bsky.feed.post/3mkdaqi4ffc2e",
         "cid": "bafyreihblpvw6lj6vwmggqk6qhrcqupsmjf6wlk72lfa2z4gib5iw3dnxq",
@@ -70,11 +121,11 @@
           "handle": "yalter.bxt.rs",
           "displayName": "Ivan Molodetskikh"
         },
-        "likeCount": 4,
-        "repostCount": 2,
-        "replyCount": 0,
+        "likeCount": 7,
+        "repostCount": 4,
+        "replyCount": 1,
         "createdAt": "2026-04-25T14:27:03.504Z",
-        "hoursSincePosted": 0.59
+        "hoursSincePosted": 1.51
       },
       "posts": [
         {
@@ -86,13 +137,13 @@
             "handle": "yalter.bxt.rs",
             "displayName": "Ivan Molodetskikh"
           },
-          "likeCount": 4,
-          "repostCount": 2,
-          "replyCount": 0,
+          "likeCount": 7,
+          "repostCount": 4,
+          "replyCount": 1,
           "createdAt": "2026-04-25T14:27:03.504Z",
           "createdUtc": 1777127223,
-          "ageHours": 0.59,
-          "trendingScore": 8,
+          "ageHours": 1.51,
+          "trendingScore": 15.5,
           "content_tags": [
             "has-github-repo",
             "is-announcement"
@@ -120,7 +171,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T14:03:03.000Z",
           "createdUtc": 1777125783,
-          "ageHours": 0.99,
+          "ageHours": 1.91,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -153,7 +204,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-25T14:07:41.479370+00:00",
-        "hoursSincePosted": 0.92
+        "hoursSincePosted": 1.83
       },
       "posts": [
         {
@@ -169,7 +220,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T14:07:41.479370+00:00",
           "createdUtc": 1777126061,
-          "ageHours": 0.92,
+          "ageHours": 1.83,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -197,7 +248,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T13:08:08.399138+00:00",
           "createdUtc": 1777122488,
-          "ageHours": 1.91,
+          "ageHours": 2.83,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -232,7 +283,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-25T14:07:33Z",
-        "hoursSincePosted": 0.92
+        "hoursSincePosted": 1.84
       },
       "posts": [
         {
@@ -249,7 +300,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T14:07:33Z",
           "createdUtc": 1777126053,
-          "ageHours": 0.92,
+          "ageHours": 1.84,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -283,7 +334,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-25T13:51:09.801Z",
-        "hoursSincePosted": 1.19
+        "hoursSincePosted": 2.11
       },
       "posts": [
         {
@@ -300,7 +351,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T13:51:09.801Z",
           "createdUtc": 1777125069,
-          "ageHours": 1.19,
+          "ageHours": 2.11,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -328,7 +379,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T13:41:03.581Z",
           "createdUtc": 1777124463,
-          "ageHours": 1.36,
+          "ageHours": 2.28,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -356,7 +407,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T12:30:06.031Z",
           "createdUtc": 1777120206,
-          "ageHours": 2.54,
+          "ageHours": 3.46,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -384,7 +435,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T12:20:58.007561+00:00",
           "createdUtc": 1777119658,
-          "ageHours": 2.7,
+          "ageHours": 3.61,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -402,9 +453,9 @@
     },
     "getagentseal/codeburn": {
       "count7d": 1,
-      "likesSum7d": 2,
+      "likesSum7d": 3,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
         "uri": "at://did:plc:6epnsu4qemp5iumtb4fnswow/app.bsky.feed.post/3mkd65ndzj22a",
         "cid": "bafyreier3arcngpshghdrs44u76tgnw3icj3ilh7oulbsg5j5zwpfrpa6e",
@@ -413,11 +464,11 @@
         "author": {
           "handle": "torukmako.bsky.social"
         },
-        "likeCount": 2,
+        "likeCount": 3,
         "repostCount": 0,
-        "replyCount": 0,
+        "replyCount": 1,
         "createdAt": "2026-04-25T13:40:44.012Z",
-        "hoursSincePosted": 1.37
+        "hoursSincePosted": 2.28
       },
       "posts": [
         {
@@ -428,13 +479,13 @@
           "author": {
             "handle": "torukmako.bsky.social"
           },
-          "likeCount": 2,
+          "likeCount": 3,
           "repostCount": 0,
-          "replyCount": 0,
+          "replyCount": 1,
           "createdAt": "2026-04-25T13:40:44.012Z",
           "createdUtc": 1777124444,
-          "ageHours": 1.37,
-          "trendingScore": 2,
+          "ageHours": 2.28,
+          "trendingScore": 3.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -451,7 +502,7 @@
     },
     "refactoringhq/tolaria": {
       "count7d": 3,
-      "likesSum7d": 1,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -463,11 +514,11 @@
           "handle": "lunamoth.bsky.social",
           "displayName": "lunamoth"
         },
-        "likeCount": 1,
+        "likeCount": 2,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-25T13:10:49.038Z",
-        "hoursSincePosted": 1.87
+        "hoursSincePosted": 2.78
       },
       "posts": [
         {
@@ -479,13 +530,13 @@
             "handle": "lunamoth.bsky.social",
             "displayName": "lunamoth"
           },
-          "likeCount": 1,
+          "likeCount": 2,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-04-25T13:10:49.038Z",
           "createdUtc": 1777122649,
-          "ageHours": 1.87,
-          "trendingScore": 1,
+          "ageHours": 2.78,
+          "trendingScore": 2,
           "content_tags": [],
           "value_score": 0,
           "linkedRepos": [
@@ -510,7 +561,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T13:22:34.005Z",
           "createdUtc": 1777123354,
-          "ageHours": 1.67,
+          "ageHours": 2.59,
           "trendingScore": 0,
           "content_tags": [],
           "value_score": 0,
@@ -536,7 +587,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T12:40:31.690782+00:00",
           "createdUtc": 1777120831,
-          "ageHours": 2.37,
+          "ageHours": 3.29,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -570,7 +621,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-25T12:36:44Z",
-        "hoursSincePosted": 2.43
+        "hoursSincePosted": 3.35
       },
       "posts": [
         {
@@ -587,7 +638,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T12:36:44Z",
           "createdUtc": 1777120604,
-          "ageHours": 2.43,
+          "ageHours": 3.35,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -621,7 +672,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-25T12:00:12.578Z",
-        "hoursSincePosted": 3.04
+        "hoursSincePosted": 3.96
       },
       "posts": [
         {
@@ -638,7 +689,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T12:00:12.578Z",
           "createdUtc": 1777118412,
-          "ageHours": 3.04,
+          "ageHours": 3.96,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -672,7 +723,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-25T11:55:54.219Z",
-        "hoursSincePosted": 3.11
+        "hoursSincePosted": 4.03
       },
       "posts": [
         {
@@ -689,7 +740,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T11:55:54.219Z",
           "createdUtc": 1777118154,
-          "ageHours": 3.11,
+          "ageHours": 4.03,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -723,7 +774,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-04-25T11:55:54.218Z",
-        "hoursSincePosted": 3.11
+        "hoursSincePosted": 4.03
       },
       "posts": [
         {
@@ -740,7 +791,7 @@
           "replyCount": 1,
           "createdAt": "2026-04-25T11:55:54.218Z",
           "createdUtc": 1777118154,
-          "ageHours": 3.11,
+          "ageHours": 4.03,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -774,7 +825,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-04-25T11:55:54.217Z",
-        "hoursSincePosted": 3.11
+        "hoursSincePosted": 4.03
       },
       "posts": [
         {
@@ -791,7 +842,7 @@
           "replyCount": 1,
           "createdAt": "2026-04-25T11:55:54.217Z",
           "createdUtc": 1777118154,
-          "ageHours": 3.11,
+          "ageHours": 4.03,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -825,7 +876,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-04-25T11:55:54.216Z",
-        "hoursSincePosted": 3.11
+        "hoursSincePosted": 4.03
       },
       "posts": [
         {
@@ -842,7 +893,7 @@
           "replyCount": 1,
           "createdAt": "2026-04-25T11:55:54.216Z",
           "createdUtc": 1777118154,
-          "ageHours": 3.11,
+          "ageHours": 4.03,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -876,7 +927,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-04-25T11:55:54.215Z",
-        "hoursSincePosted": 3.11
+        "hoursSincePosted": 4.03
       },
       "posts": [
         {
@@ -893,7 +944,7 @@
           "replyCount": 1,
           "createdAt": "2026-04-25T11:55:54.215Z",
           "createdUtc": 1777118154,
-          "ageHours": 3.11,
+          "ageHours": 4.03,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -927,7 +978,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-04-25T11:55:54.214Z",
-        "hoursSincePosted": 3.11
+        "hoursSincePosted": 4.03
       },
       "posts": [
         {
@@ -944,7 +995,7 @@
           "replyCount": 1,
           "createdAt": "2026-04-25T11:55:54.214Z",
           "createdUtc": 1777118154,
-          "ageHours": 3.11,
+          "ageHours": 4.03,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -978,7 +1029,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-04-25T11:55:54.213Z",
-        "hoursSincePosted": 3.11
+        "hoursSincePosted": 4.03
       },
       "posts": [
         {
@@ -995,7 +1046,7 @@
           "replyCount": 1,
           "createdAt": "2026-04-25T11:55:54.213Z",
           "createdUtc": 1777118154,
-          "ageHours": 3.11,
+          "ageHours": 4.03,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -1029,7 +1080,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-25T11:51:13Z",
-        "hoursSincePosted": 3.19
+        "hoursSincePosted": 4.11
       },
       "posts": [
         {
@@ -1046,7 +1097,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T11:51:13Z",
           "createdUtc": 1777117873,
-          "ageHours": 3.19,
+          "ageHours": 4.11,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -1080,7 +1131,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-25T11:48:21.029221Z",
-        "hoursSincePosted": 3.24
+        "hoursSincePosted": 4.16
       },
       "posts": [
         {
@@ -1097,7 +1148,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T11:48:21.029221Z",
           "createdUtc": 1777117701,
-          "ageHours": 3.24,
+          "ageHours": 4.16,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -1114,7 +1165,7 @@
       ]
     },
     "microsoft/ghqr": {
-      "count7d": 2,
+      "count7d": 1,
       "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 1,
@@ -1131,7 +1182,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-04-25T11:30:03.525899+00:00",
-        "hoursSincePosted": 3.54
+        "hoursSincePosted": 4.46
       },
       "posts": [
         {
@@ -1148,7 +1199,7 @@
           "replyCount": 1,
           "createdAt": "2026-04-25T11:30:03.525899+00:00",
           "createdUtc": 1777116603,
-          "ageHours": 3.54,
+          "ageHours": 4.46,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -1161,85 +1212,6 @@
               "confidence": 1
             }
           ]
-        },
-        {
-          "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3mkcufmgm5k2u",
-          "cid": "bafyreiayix7543uscmkwwrysl3t2y2ckoyx7dlc67rci2gpjzdja2hiswe",
-          "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3mkcufmgm5k2u",
-          "text": "GitHub - microsoft/ghqr: GitHub Quick Review. Evaluate your enterprise and organizations with GitHub best practices https://github.com/microsoft/ghqr",
-          "author": {
-            "handle": "tech-trending.bsky.social",
-            "displayName": "Tech Trending"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-25T10:46:14.025Z",
-          "createdUtc": 1777113974,
-          "ageHours": 4.27,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "microsoft/ghqr",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "MemPalace/mempalace": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:k4vhz66ip52koywbzahq4ju3/app.bsky.feed.post/3mkcvcm3iv22z",
-        "cid": "bafyreicr6np5fx2fyrkoiuebif7opekoct2vse6tlkv4k6dq4oofywffmi",
-        "bskyUrl": "https://bsky.app/profile/pimmesselink.bsky.social/post/3mkcvcm3iv22z",
-        "text": "Followup: the SSH-wrapper hack from a couple weeks ago is now mempalace-remote, a proper Claude Code plugin. The piece the wrappers couldn't do — auto-save hooks — now fires across the SSH tunnel. PR upstream: github.com/MemPalace/mempalace/pull/1190 #MemPalace #claudecode",
-        "author": {
-          "handle": "pimmesselink.bsky.social",
-          "displayName": "Pim Messelink"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-25T11:02:26.779Z",
-        "hoursSincePosted": 4
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:k4vhz66ip52koywbzahq4ju3/app.bsky.feed.post/3mkcvcm3iv22z",
-          "cid": "bafyreicr6np5fx2fyrkoiuebif7opekoct2vse6tlkv4k6dq4oofywffmi",
-          "bskyUrl": "https://bsky.app/profile/pimmesselink.bsky.social/post/3mkcvcm3iv22z",
-          "text": "Followup: the SSH-wrapper hack from a couple weeks ago is now mempalace-remote, a proper Claude Code plugin. The piece the wrappers couldn't do — auto-save hooks — now fires across the SSH tunnel. PR upstream: github.com/MemPalace/mempalace/pull/1190 #MemPalace #claudecode",
-          "author": {
-            "handle": "pimmesselink.bsky.social",
-            "displayName": "Pim Messelink"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-25T11:02:26.779Z",
-          "createdUtc": 1777114946,
-          "ageHours": 4,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "MemPalace/mempalace",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
         }
       ]
     }
@@ -1248,22 +1220,17 @@
     {
       "fullName": "niri-wm/niri",
       "count7d": 2,
-      "likesSum7d": 4
+      "likesSum7d": 7
     },
     {
       "fullName": "getagentseal/codeburn",
       "count7d": 1,
-      "likesSum7d": 2
+      "likesSum7d": 3
     },
     {
       "fullName": "refactoringhq/tolaria",
       "count7d": 3,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "microsoft/ghqr",
-      "count7d": 2,
-      "likesSum7d": 1
+      "likesSum7d": 2
     },
     {
       "fullName": "alirezarezvani/claude-skills",
@@ -1287,6 +1254,11 @@
     },
     {
       "fullName": "mattpocock/skills",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "microsoft/ghqr",
       "count7d": 1,
       "likesSum7d": 1
     },
@@ -1316,12 +1288,12 @@
       "likesSum7d": 0
     },
     {
-      "fullName": "MemPalace/mempalace",
+      "fullName": "nearai/ironclaw",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "nearai/ironclaw",
+      "fullName": "ratatui/ratatui",
       "count7d": 1,
       "likesSum7d": 0
     },

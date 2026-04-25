@@ -1,12 +1,12 @@
 {
-  "fetchedAt": "2026-04-25T19:12:58.909Z",
+  "fetchedAt": "2026-04-25T19:56:24.735Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
     "openclaw/openclaw": {
-      "count7d": 12,
+      "count7d": 14,
       "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
@@ -22,7 +22,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-25T16:30:47.927407+00:00",
-        "hoursSincePosted": 2.7
+        "hoursSincePosted": 3.43
       },
       "posts": [
         {
@@ -38,8 +38,64 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T16:30:47.927407+00:00",
           "createdUtc": 1777134647,
-          "ageHours": 2.7,
+          "ageHours": 3.43,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkdqfkka6q2s",
+          "cid": "bafyreicvompnhqso2jfpwzretujdto54vhc4arldywnae3wz3w3oxma3lm",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkdqfkka6q2s",
+          "text": "🟠 OpenClaw 2026.4.24-beta.5 follows fast with heartbeat, Telegram, browser, and MCP stability fixes OpenClaw has shipped 2026.4.24-beta.5 less than an hour after beta.4, keeping the new Google Meet and realtime... https://github.com/openclaw/openclaw/releases/tag/v2026.4.24-beta.5 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-25T19:07:16.232888+00:00",
+          "createdUtc": 1777144036,
+          "ageHours": 0.82,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkdqfhtvqz2x",
+          "cid": "bafyreihajcrqnuoq7o63rr5wsnq727ad7q73f3ivu2pubc2cfl7azzlhqy",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkdqfhtvqz2x",
+          "text": "🟠 OpenClaw 2026.4.24 adds Google Meet plugin, realtime voice loops, and a plugin-SDK breaking change OpenClaw shipped v2026.4.24 with a bundled Google Meet participant plugin, realtime voice loops that can consult the... https://github.com/openclaw/openclaw/releases/tag/v2026.4.24 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-25T19:07:12.987725+00:00",
+          "createdUtc": 1777144032,
+          "ageHours": 0.82,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
             "is-announcement"
@@ -66,7 +122,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T18:55:19.275614+00:00",
           "createdUtc": 1777143319,
-          "ageHours": 0.5,
+          "ageHours": 1.02,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -94,7 +150,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T18:39:16.204995+00:00",
           "createdUtc": 1777142356,
-          "ageHours": 0.56,
+          "ageHours": 1.29,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -122,7 +178,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T18:23:16.696620+00:00",
           "createdUtc": 1777141396,
-          "ageHours": 0.83,
+          "ageHours": 1.55,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -150,7 +206,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T18:07:15.911957+00:00",
           "createdUtc": 1777140435,
-          "ageHours": 1.1,
+          "ageHours": 1.82,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -178,7 +234,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T17:51:15.326442+00:00",
           "createdUtc": 1777139475,
-          "ageHours": 1.36,
+          "ageHours": 2.09,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -206,7 +262,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T17:35:11.466053+00:00",
           "createdUtc": 1777138511,
-          "ageHours": 1.63,
+          "ageHours": 2.35,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -234,7 +290,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T17:19:00.708530+00:00",
           "createdUtc": 1777137540,
-          "ageHours": 1.9,
+          "ageHours": 2.62,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -262,7 +318,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T17:02:54.858702+00:00",
           "createdUtc": 1777136574,
-          "ageHours": 2.17,
+          "ageHours": 2.89,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -290,7 +346,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T16:46:49.944027+00:00",
           "createdUtc": 1777135609,
-          "ageHours": 2.44,
+          "ageHours": 3.16,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -318,7 +374,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T16:14:46.715115+00:00",
           "createdUtc": 1777133686,
-          "ageHours": 2.97,
+          "ageHours": 3.69,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -346,7 +402,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T16:07:43.908199+00:00",
           "createdUtc": 1777133263,
-          "ageHours": 3.09,
+          "ageHours": 3.81,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -365,54 +421,25 @@
     },
     "niri-wm/niri": {
       "count7d": 5,
-      "likesSum7d": 15,
-      "repostsSum7d": 7,
-      "repliesSum7d": 3,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:q6n5opstauxutfacgojlknn4/app.bsky.feed.post/3mkdaqi4ffc2e",
-        "cid": "bafyreihblpvw6lj6vwmggqk6qhrcqupsmjf6wlk72lfa2z4gib5iw3dnxq",
-        "bskyUrl": "https://bsky.app/profile/yalter.bxt.rs/post/3mkdaqi4ffc2e",
-        "text": "After five months of (on and off) development, I'm glad to announce niri v26.04! It's packed with features like window blur (of course), mouse cursor in window screencasts, rendering optimizations, and more. Enjoy the release notes: github.com/niri-wm/niri... #niri #wayland #rust",
+        "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mkdnsn4ndw2m",
+        "cid": "bafyreigqsbo272ukvpgjz77gffr6s3knsnoa7txxpawykjskeoztbukvvm",
+        "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mkdnsn4ndw2m",
+        "text": "Niri 26.04 was just released (scrollable-tiling Wayland compositor) (github.com) Discussion | Main Link",
         "author": {
-          "handle": "yalter.bxt.rs",
-          "displayName": "Ivan Molodetskikh"
+          "handle": "newsycombinatorbot.bsky.social",
+          "displayName": "Hacker News Bot"
         },
-        "likeCount": 15,
-        "repostCount": 7,
-        "replyCount": 3,
-        "createdAt": "2026-04-25T14:27:03.504Z",
-        "hoursSincePosted": 4.77
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-25T18:20:54.495714Z",
+        "hoursSincePosted": 1.59
       },
       "posts": [
-        {
-          "uri": "at://did:plc:q6n5opstauxutfacgojlknn4/app.bsky.feed.post/3mkdaqi4ffc2e",
-          "cid": "bafyreihblpvw6lj6vwmggqk6qhrcqupsmjf6wlk72lfa2z4gib5iw3dnxq",
-          "bskyUrl": "https://bsky.app/profile/yalter.bxt.rs/post/3mkdaqi4ffc2e",
-          "text": "After five months of (on and off) development, I'm glad to announce niri v26.04! It's packed with features like window blur (of course), mouse cursor in window screencasts, rendering optimizations, and more. Enjoy the release notes: github.com/niri-wm/niri... #niri #wayland #rust",
-          "author": {
-            "handle": "yalter.bxt.rs",
-            "displayName": "Ivan Molodetskikh"
-          },
-          "likeCount": 15,
-          "repostCount": 7,
-          "replyCount": 3,
-          "createdAt": "2026-04-25T14:27:03.504Z",
-          "createdUtc": 1777127223,
-          "ageHours": 4.77,
-          "trendingScore": 30.5,
-          "content_tags": [
-            "has-github-repo",
-            "is-announcement"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "niri-wm/niri",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
         {
           "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mkdnsn4ndw2m",
           "cid": "bafyreigqsbo272ukvpgjz77gffr6s3knsnoa7txxpawykjskeoztbukvvm",
@@ -427,7 +454,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T18:20:54.495714Z",
           "createdUtc": 1777141254,
-          "ageHours": 0.87,
+          "ageHours": 1.59,
           "trendingScore": 0,
           "content_tags": [],
           "value_score": 0,
@@ -453,7 +480,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T17:42:12.019Z",
           "createdUtc": 1777138932,
-          "ageHours": 1.51,
+          "ageHours": 2.24,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -481,12 +508,41 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T17:21:10.986Z",
           "createdUtc": 1777137670,
-          "ageHours": 1.86,
+          "ageHours": 2.59,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
           "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "niri-wm/niri",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jmuhjrotgvcquoaqtpcuxjii/app.bsky.feed.post/3mkdjfhbh7g22",
+          "cid": "bafyreidfldfpaejlo6lparbx6pisxsyf5nmo4l6hjelofp6gsehmmuowpq",
+          "bskyUrl": "https://bsky.app/profile/hnws.bsky.social/post/3mkdjfhbh7g22",
+          "text": "Niri 26.04 was just released (scrollable-tiling Wayland compositor) L: https://github.com/niri-wm/niri/releases/tag/v26.04 C: https://news.ycombinator.com/item?id=47902416 posted on 2026.04.25 at 11:59:15 (c=1, p=3)",
+          "author": {
+            "handle": "hnws.bsky.social",
+            "displayName": "HN"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-25T17:01:56.957214+00:00",
+          "createdUtc": 1777136516,
+          "ageHours": 2.91,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
           "linkedRepos": [
             {
               "fullName": "niri-wm/niri",
@@ -509,7 +565,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T17:00:05.849Z",
           "createdUtc": 1777136405,
-          "ageHours": 2.21,
+          "ageHours": 2.94,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -543,7 +599,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-25T18:09:12.318Z",
-        "hoursSincePosted": 1.06
+        "hoursSincePosted": 1.79
       },
       "posts": [
         {
@@ -560,7 +616,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T18:09:12.318Z",
           "createdUtc": 1777140552,
-          "ageHours": 1.06,
+          "ageHours": 1.79,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -594,7 +650,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-04-25T17:55:27Z",
-        "hoursSincePosted": 1.29
+        "hoursSincePosted": 2.02
       },
       "posts": [
         {
@@ -611,7 +667,7 @@
           "replyCount": 1,
           "createdAt": "2026-04-25T17:55:27Z",
           "createdUtc": 1777139727,
-          "ageHours": 1.29,
+          "ageHours": 2.02,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -645,7 +701,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-25T17:18:18.489593Z",
-        "hoursSincePosted": 1.91
+        "hoursSincePosted": 2.64
       },
       "posts": [
         {
@@ -662,7 +718,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T17:18:18.489593Z",
           "createdUtc": 1777137498,
-          "ageHours": 1.91,
+          "ageHours": 2.64,
           "trendingScore": 0,
           "content_tags": [],
           "value_score": 0,
@@ -688,7 +744,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T16:06:11.497Z",
           "createdUtc": 1777133171,
-          "ageHours": 3.11,
+          "ageHours": 3.84,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -722,7 +778,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-25T16:01:50.662Z",
-        "hoursSincePosted": 3.19
+        "hoursSincePosted": 3.91
       },
       "posts": [
         {
@@ -739,7 +795,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T16:01:50.662Z",
           "createdUtc": 1777132910,
-          "ageHours": 3.19,
+          "ageHours": 3.91,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -773,7 +829,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-25T15:04:12.044Z",
-        "hoursSincePosted": 4.15
+        "hoursSincePosted": 4.87
       },
       "posts": [
         {
@@ -790,7 +846,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T15:04:12.044Z",
           "createdUtc": 1777129452,
-          "ageHours": 4.15,
+          "ageHours": 4.87,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -824,7 +880,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-25T14:37:55Z",
-        "hoursSincePosted": 4.58
+        "hoursSincePosted": 5.31
       },
       "posts": [
         {
@@ -841,7 +897,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T14:37:55Z",
           "createdUtc": 1777127875,
-          "ageHours": 4.58,
+          "ageHours": 5.31,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -860,19 +916,19 @@
   },
   "leaderboard": [
     {
-      "fullName": "niri-wm/niri",
-      "count7d": 5,
-      "likesSum7d": 15
-    },
-    {
       "fullName": "openclaw/openclaw",
-      "count7d": 12,
+      "count7d": 14,
       "likesSum7d": 1
     },
     {
       "fullName": "browser-use/browser-harness",
       "count7d": 1,
       "likesSum7d": 1
+    },
+    {
+      "fullName": "niri-wm/niri",
+      "count7d": 5,
+      "likesSum7d": 0
     },
     {
       "fullName": "nakagami/grdpwasm",

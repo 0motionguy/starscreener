@@ -588,17 +588,42 @@ export class TwitterWebProvider {
       }
 
       const rawText = await res.text();
+
+      // Silent-reject detection. x.com's anti-bot returns 200 OK with an
+      // empty body and no content-type when the underlying account session
+      // is locked / suspended / expired (cookies still TLS-valid, account
+      // disabled at the platform level). Without this branch we'd treat it
+      // as "ok with 0 posts" forever and never surface the auth problem.
+      const ct = res.headers.get("content-type") ?? "";
+      if (rawText.length === 0 || (rawText.length < 16 && !ct.includes("json"))) {
+        this.stats.errors += 1;
+        if (process.env.TWITTER_WEB_DEBUG === "1") {
+          console.log(
+            `[twitter-web:debug] silent-reject · status=${res.status} ct=${ct || "-"} bytes=${rawText.length}`,
+          );
+        }
+        return {
+          kind: "unauthorized",
+          error: `silent-reject (status ${res.status}, ${rawText.length}B body, ct="${ct || "-"}") — account session likely dead, refresh TWITTER_WEB_ACCOUNTS_JSON cookies`,
+        };
+      }
+
       let body: unknown;
       try {
         body = JSON.parse(rawText);
       } catch {
         if (process.env.TWITTER_WEB_DEBUG === "1") {
-          const ct = res.headers.get("content-type") || "-";
           console.log(
-            `[twitter-web:debug] non-JSON response · status=${res.status} ct=${ct} · first 300: ${rawText.slice(0, 300).replace(/\s+/g, " ")}`,
+            `[twitter-web:debug] non-JSON response · status=${res.status} ct=${ct || "-"} · first 300: ${rawText.slice(0, 300).replace(/\s+/g, " ")}`,
           );
         }
-        body = {};
+        // Non-JSON, non-empty response — also treat as unauthorized so the
+        // account gets demoted instead of silently producing 0 posts.
+        this.stats.errors += 1;
+        return {
+          kind: "unauthorized",
+          error: `non-JSON response (status ${res.status}, ${rawText.length}B body)`,
+        };
       }
 
       // Twitter sometimes returns 200 with a GraphQL `errors` array.

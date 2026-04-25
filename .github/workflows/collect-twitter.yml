@@ -51,7 +51,12 @@ jobs:
           TWITTER_COLLECTOR_PROVIDER: ${{ vars.TWITTER_COLLECTOR_PROVIDER || 'apify' }}
           TWITTER_COLLECTOR_MODE: ${{ github.event.inputs.mode || 'api' }}
           TWITTER_COLLECTOR_LIMIT: ${{ github.event.inputs.limit || '25' }}
-          TWITTER_COLLECTOR_QUERIES_PER_REPO: ${{ vars.TWITTER_COLLECTOR_QUERIES_PER_REPO || '1' }}
+          # 2 queries per repo = tier-1 repo_slug + tier-2 repo_url.
+          # repo_url ("github.com/owner/name") is what users actually post on
+          # Twitter; repo_slug alone (exact string) is too narrow. Cost is
+          # 2 apidojo actor runs per repo × 25 repos × 8 cron firings ≈ 400
+          # runs/day, at ~25 results each ≈ 10k results/day × ~$0.40/1k ≈ $4/day.
+          TWITTER_COLLECTOR_QUERIES_PER_REPO: ${{ vars.TWITTER_COLLECTOR_QUERIES_PER_REPO || '2' }}
           TWITTER_COLLECTOR_DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
           TWITTER_COLLECTOR_REPOS: ${{ github.event.inputs.repos || '' }}
           TWITTER_COLLECTOR_BASE_URL: ${{ vars.STARSCREENER_URL || 'https://trendingrepo.com' }}

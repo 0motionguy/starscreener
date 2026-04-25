@@ -1,12 +1,12 @@
 {
-  "fetchedAt": "2026-04-25T21:54:26.282Z",
+  "fetchedAt": "2026-04-25T22:57:55.675Z",
   "windowDays": 7,
   "scannedPosts": 99,
   "searchQuery": "github.com",
   "pagesFetched": 1,
   "mentions": {
     "niri-wm/niri": {
-      "count7d": 1,
+      "count7d": 3,
       "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
@@ -23,7 +23,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-25T21:20:31Z",
-        "hoursSincePosted": 0.57
+        "hoursSincePosted": 1.62
       },
       "posts": [
         {
@@ -40,8 +40,64 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T21:20:31Z",
           "createdUtc": 1777152031,
-          "ageHours": 0.57,
+          "ageHours": 1.62,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "niri-wm/niri",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:tnfqyyktoyszfco5lcxnyiax/app.bsky.feed.post/3mkdykqm3qn2n",
+          "cid": "bafyreihls6dljurbcjaufrofdrpifh3xmnfnrv66xk3ufy5ohed3nv32ae",
+          "bskyUrl": "https://bsky.app/profile/newsyc200.bsky.social/post/3mkdykqm3qn2n",
+          "text": "Niri 26.04: Scrollable-tiling Wayland compositor https://github.com/niri-wm/niri/releases/tag/v26.04 (http://news.ycombinator.com/item?id=47902416)",
+          "author": {
+            "handle": "newsyc200.bsky.social",
+            "displayName": "Hacker News 200 Points"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-26T00:33:20+03:00",
+          "createdUtc": 1777152800,
+          "ageHours": 1.41,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "niri-wm/niri",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jae5tazawa2t7gorbrhbmfoe/app.bsky.feed.post/3mkdxfj2m6p2d",
+          "cid": "bafyreiglmrulfztnmnp56376rayvmjzc3xkwgopmg5xdcz7hdviy3dyeha",
+          "bskyUrl": "https://bsky.app/profile/eltableroglobal.bsky.social/post/3mkdxfj2m6p2d",
+          "text": "2/2 Aunque aún es un proyecto joven, su enfoque fresco puede atraer a quienes buscan alternativas ligeras a GNOME o KDE. Fuente: https://github.com/niri-wm/niri/releases/tag/v26.04",
+          "author": {
+            "handle": "eltableroglobal.bsky.social",
+            "displayName": "El tablero global"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-25T21:12:31.387Z",
+          "createdUtc": 1777151551,
+          "ageHours": 1.76,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -60,7 +116,7 @@
   "leaderboard": [
     {
       "fullName": "niri-wm/niri",
-      "count7d": 1,
+      "count7d": 3,
       "likesSum7d": 1
     }
   ]

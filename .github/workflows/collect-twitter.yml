@@ -51,12 +51,14 @@ jobs:
           TWITTER_COLLECTOR_PROVIDER: ${{ vars.TWITTER_COLLECTOR_PROVIDER || 'apify' }}
           TWITTER_COLLECTOR_MODE: ${{ github.event.inputs.mode || 'api' }}
           TWITTER_COLLECTOR_LIMIT: ${{ github.event.inputs.limit || '25' }}
-          # 2 queries per repo = tier-1 repo_slug + tier-2 repo_url.
-          # repo_url ("github.com/owner/name") is what users actually post on
-          # Twitter; repo_slug alone (exact string) is too narrow. Cost is
-          # 2 apidojo actor runs per repo × 25 repos × 8 cron firings ≈ 400
-          # runs/day, at ~25 results each ≈ 10k results/day × ~$0.40/1k ≈ $4/day.
-          TWITTER_COLLECTOR_QUERIES_PER_REPO: ${{ vars.TWITTER_COLLECTOR_QUERIES_PER_REPO || '2' }}
+          # 4 queries per repo = full tier-1 coverage. Tier 1 is the set of
+          # "impossible to fake coincidentally" signals: repo_slug (owner/name),
+          # repo_url (github.com/...), package_name (pip/npm install ...),
+          # homepage_url, docs_url. Package + homepage matches are often the
+          # highest-signal finds — tweets saying "npm i foo" don't hit a
+          # slug/url search. Cost at 4 queries × 25 repos × 8 firings/day ≈
+          # 800 actor runs/day ≈ ~$8/day at expected hit rate.
+          TWITTER_COLLECTOR_QUERIES_PER_REPO: ${{ vars.TWITTER_COLLECTOR_QUERIES_PER_REPO || '4' }}
           TWITTER_COLLECTOR_DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
           TWITTER_COLLECTOR_REPOS: ${{ github.event.inputs.repos || '' }}
           TWITTER_COLLECTOR_BASE_URL: ${{ vars.STARSCREENER_URL || 'https://trendingrepo.com' }}

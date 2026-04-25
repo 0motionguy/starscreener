@@ -29,6 +29,7 @@ import {
 import type { RepoMentionRow } from "@/components/news/RepoMentionsTab";
 import type { NewsItem } from "@/components/news/NewsTab";
 import { classifyFreshness } from "@/lib/news/freshness";
+import { triggerScanIfStale } from "@/lib/news/auto-rescrape";
 
 export const dynamic = "force-dynamic";
 
@@ -36,25 +37,6 @@ export default function HackerNewsTrendingPage() {
   const mentionsFile = getHnFile();
   const fetchedAt = mentionsFile.fetchedAt;
   const verdict = classifyFreshness("hackernews", fetchedAt);
-
-  // Skip the heavy data reads when cold — SourceDown will render anyway.
-  if (verdict.status === "cold") {
-    return (
-      <NewsSourceLayout
-        source="hackernews"
-        sourceLabel="Hacker News"
-        tagline="// Firebase + Algolia AI signal"
-        description="GitHub repo mentions and velocity-scored stories from Hacker News."
-        fetchedAt={fetchedAt}
-        freshnessStatus={verdict.status}
-        ageLabel={verdict.ageLabel}
-        staleAfterMs={verdict.staleAfterMs}
-        metrics={[]}
-        mentionsRows={[]}
-        newsItems={[]}
-      />
-    );
-  }
 
   const mentions = getAllHnMentions();
   const trendingFile = getHnTrendingFile();
@@ -126,6 +108,8 @@ export default function HackerNewsTrendingPage() {
       hint: `${mentionsFile.windowDays}d mention window`,
     },
   ];
+
+    void triggerScanIfStale("hackernews", fetchedAt);
 
   return (
     <NewsSourceLayout

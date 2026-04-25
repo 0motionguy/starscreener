@@ -11,15 +11,15 @@
 //   3. Tab strip: Repo Mentions (default) / Top News
 //   4. Active tab content
 //
-// Stale handling: if the source is cold (past its stale threshold), the
-// parent passes `cold={true}` and we render only SourceDownEmptyState.
-// No data leaks through.
+// Freshness handling: the small color-coded ScrapeAge pill in the
+// header is the only freshness signal. We always render the data —
+// no "source down" interstitial. Auto-rescrape runs server-side via
+// src/lib/news/auto-rescrape.ts.
 
 import { useCallback, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { ScrapeAge } from "./ScrapeAge";
-import { SourceDownEmptyState } from "./SourceDownEmptyState";
 import { RepoMentionsTab, type RepoMentionRow } from "./RepoMentionsTab";
 import { NewsTab, type NewsItem } from "./NewsTab";
 import type { FreshnessStatus } from "@/lib/news/freshness";
@@ -42,7 +42,7 @@ interface NewsSourceLayoutProps {
   freshnessStatus: FreshnessStatus;
   /** Pre-formatted age label, e.g. "17m". */
   ageLabel: string;
-  /** Stale threshold ms — passed to SourceDownEmptyState. */
+  /** Stale threshold ms — kept for backwards compat, no longer rendered. */
   staleAfterMs: number;
   metrics: MetricTile[];
   mentionsRows: RepoMentionRow[];
@@ -60,21 +60,20 @@ function isTab(value: string | null): value is Tab {
 }
 
 export function NewsSourceLayout({
-  source,
+  source: _source,
   sourceLabel,
   tagline,
   description,
   fetchedAt,
   freshnessStatus,
   ageLabel,
-  staleAfterMs,
+  staleAfterMs: _staleAfterMs,
   metrics,
   mentionsRows,
   newsItems,
   rightRail,
   mentionsWindowLabel = "7d",
 }: NewsSourceLayoutProps) {
-  const cold = freshnessStatus === "cold";
   const router = useRouter();
   const searchParams = useSearchParams();
   const tabParam = searchParams.get("tab");
@@ -116,59 +115,47 @@ export function NewsSourceLayout({
           ) : null}
         </header>
 
-        {cold ? (
-          <SourceDownEmptyState
-            source={source}
-            sourceLabel={sourceLabel}
-            ageLabel={ageLabel}
-            staleAfterMs={staleAfterMs}
-            fetchedAt={fetchedAt}
-          />
-        ) : (
-          <>
-            {metrics.length > 0 ? (
-              <section className="mb-6 grid grid-cols-2 gap-3 md:grid-cols-4">
-                {metrics.map((m) => (
-                  <StatTile key={m.label} {...m} />
-                ))}
-              </section>
-            ) : null}
+        {metrics.length > 0 ? (
+          <section className="mb-6 grid grid-cols-2 gap-3 md:grid-cols-4">
+            {metrics.map((m) => (
+              <StatTile key={m.label} {...m} />
+            ))}
+          </section>
+        ) : null}
 
-            <section className="mb-4 flex flex-wrap items-center gap-2 text-xs">
-              <TabButton
-                active={tab === "mentions"}
-                onClick={() => switchTab("mentions")}
-                count={mentionsRows.length}
-              >
-                Repo Mentions
-              </TabButton>
-              <TabButton
-                active={tab === "news"}
-                onClick={() => switchTab("news")}
-                count={newsItems.length}
-              >
-                Top News
-              </TabButton>
-            </section>
+        <section className="mb-4 flex flex-wrap items-center gap-2 text-xs">
+          <TabButton
+            active={tab === "mentions"}
+            onClick={() => switchTab("mentions")}
+            count={mentionsRows.length}
+          >
+            Repo Mentions
+          </TabButton>
+          <TabButton
+            active={tab === "news"}
+            onClick={() => switchTab("news")}
+            count={newsItems.length}
+          >
+            Top News
+          </TabButton>
+        </section>
 
-            <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_280px]">
-              <div className="min-w-0">
-                {tab === "mentions" ? (
-                  <RepoMentionsTab
-                    rows={mentionsRows}
-                    windowLabel={mentionsWindowLabel}
-                    sourceLabel={sourceLabel}
-                  />
-                ) : (
-                  <NewsTab items={newsItems} sourceLabel={sourceLabel} />
-                )}
-              </div>
-              {rightRail ? (
-                <aside className="hidden lg:block">{rightRail}</aside>
-              ) : null}
-            </div>
-          </>
-        )}
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_280px]">
+          <div className="min-w-0">
+            {tab === "mentions" ? (
+              <RepoMentionsTab
+                rows={mentionsRows}
+                windowLabel={mentionsWindowLabel}
+                sourceLabel={sourceLabel}
+              />
+            ) : (
+              <NewsTab items={newsItems} sourceLabel={sourceLabel} />
+            )}
+          </div>
+          {rightRail ? (
+            <aside className="hidden lg:block">{rightRail}</aside>
+          ) : null}
+        </div>
       </div>
     </main>
   );

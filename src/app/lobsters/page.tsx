@@ -28,6 +28,7 @@ import {
 import type { RepoMentionRow } from "@/components/news/RepoMentionsTab";
 import type { NewsItem } from "@/components/news/NewsTab";
 import { classifyFreshness } from "@/lib/news/freshness";
+import { triggerScanIfStale } from "@/lib/news/auto-rescrape";
 
 export const dynamic = "force-dynamic";
 
@@ -35,25 +36,6 @@ export default function LobstersPage() {
   const mentionsFile = getLobstersFile();
   const fetchedAt = mentionsFile.fetchedAt || null;
   const verdict = classifyFreshness("lobsters", fetchedAt);
-
-  // Skip the heavy data reads when cold — SourceDown will render anyway.
-  if (verdict.status === "cold") {
-    return (
-      <NewsSourceLayout
-        source="lobsters"
-        sourceLabel="Lobsters"
-        tagline="// curated tech aggregator"
-        description="GitHub repo mentions across Lobsters' hottest, active, and newest feeds."
-        fetchedAt={fetchedAt}
-        freshnessStatus={verdict.status}
-        ageLabel={verdict.ageLabel}
-        staleAfterMs={verdict.staleAfterMs}
-        metrics={[]}
-        mentionsRows={[]}
-        newsItems={[]}
-      />
-    );
-  }
 
   const mentions = getAllLobstersMentions();
   const trendingFile = getLobstersTrendingFile();
@@ -163,6 +145,8 @@ export default function LobstersPage() {
       hint: topTag ? `${topTagCount}× across feed` : null,
     },
   ];
+
+    void triggerScanIfStale("lobsters", fetchedAt);
 
   return (
     <NewsSourceLayout

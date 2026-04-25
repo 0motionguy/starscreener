@@ -28,31 +28,13 @@ import {
 import type { RepoMentionRow } from "@/components/news/RepoMentionsTab";
 import type { NewsItem } from "@/components/news/NewsTab";
 import { classifyFreshness } from "@/lib/news/freshness";
+import { triggerScanIfStale } from "@/lib/news/auto-rescrape";
 
 export const dynamic = "force-dynamic";
 
 export default function BlueskyTrendingPage() {
   const fetchedAt = blueskyFetchedAt;
   const verdict = classifyFreshness("bluesky", fetchedAt);
-
-  // Skip the heavy data reads when cold — SourceDown will render anyway.
-  if (verdict.status === "cold") {
-    return (
-      <NewsSourceLayout
-        source="bluesky"
-        sourceLabel="Bluesky"
-        tagline="// AT Protocol AI signal"
-        description="GitHub repo mentions and trending AI posts across Bluesky."
-        fetchedAt={fetchedAt}
-        freshnessStatus={verdict.status}
-        ageLabel={verdict.ageLabel}
-        staleAfterMs={verdict.staleAfterMs}
-        metrics={[]}
-        mentionsRows={[]}
-        newsItems={[]}
-      />
-    );
-  }
 
   const mentions = getAllBlueskyMentions();
   const trendingFile = getBlueskyTrendingFile();
@@ -139,6 +121,8 @@ export default function BlueskyTrendingPage() {
       hint: topReposts > 0 ? "max reposts on a single repo 7d" : "no reposts yet",
     },
   ];
+
+  void triggerScanIfStale("bluesky", fetchedAt);
 
   return (
     <NewsSourceLayout

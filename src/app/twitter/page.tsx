@@ -29,6 +29,7 @@ import {
 import type { RepoMentionRow } from "@/components/news/RepoMentionsTab";
 import type { NewsItem } from "@/components/news/NewsTab";
 import { classifyFreshness } from "@/lib/news/freshness";
+import { triggerScanIfStale } from "@/lib/news/auto-rescrape";
 
 export const dynamic = "force-dynamic";
 
@@ -47,25 +48,6 @@ export default async function TwitterPage({
   const stats = await getTwitterOverviewStats();
   const fetchedAt = stats.lastScannedAt;
   const verdict = classifyFreshness("twitter", fetchedAt);
-
-  if (verdict.status === "cold") {
-    return (
-      <NewsSourceLayout
-        source="twitter"
-        sourceLabel="X / Twitter"
-        tagline="// real-time repo buzz"
-        description="Real-time X/Twitter buzz on tracked GitHub repos via the OpenClaw / Apify ingestion pipeline."
-        fetchedAt={fetchedAt}
-        freshnessStatus={verdict.status}
-        ageLabel={verdict.ageLabel}
-        staleAfterMs={verdict.staleAfterMs}
-        metrics={[]}
-        mentionsRows={[]}
-        newsItems={[]}
-        mentionsWindowLabel="24h"
-      />
-    );
-  }
 
   const leaderboard = await getTwitterLeaderboard(50);
 
@@ -164,6 +146,8 @@ export default async function TwitterPage({
       hint: stats.topRepoFullName ? topRepoShort : "no leader yet",
     },
   ];
+
+    void triggerScanIfStale("twitter", fetchedAt);
 
   return (
     <NewsSourceLayout

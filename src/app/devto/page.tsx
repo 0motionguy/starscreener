@@ -19,6 +19,7 @@ import {
 import type { RepoMentionRow } from "@/components/news/RepoMentionsTab";
 import type { NewsItem } from "@/components/news/NewsTab";
 import { classifyFreshness } from "@/lib/news/freshness";
+import { triggerScanIfStale } from "@/lib/news/auto-rescrape";
 
 export const dynamic = "force-dynamic";
 
@@ -26,25 +27,6 @@ export default function DevtoPage() {
   const mentionsFile = getDevtoFile();
   const fetchedAt = mentionsFile.fetchedAt;
   const verdict = classifyFreshness("devto", fetchedAt);
-
-  // Skip the heavy data reads when cold — SourceDown will render anyway.
-  if (verdict.status === "cold") {
-    return (
-      <NewsSourceLayout
-        source="devto"
-        sourceLabel="dev.to"
-        tagline="// dev media articles & posts"
-        description="GitHub repo mentions across dev.to long-form articles."
-        fetchedAt={fetchedAt}
-        freshnessStatus={verdict.status}
-        ageLabel={verdict.ageLabel}
-        staleAfterMs={verdict.staleAfterMs}
-        metrics={[]}
-        mentionsRows={[]}
-        newsItems={[]}
-      />
-    );
-  }
 
   const trendingFile = getDevtoTrendingFile();
   const mentions = mentionsFile.mentions;
@@ -135,6 +117,8 @@ export default function DevtoPage() {
       hint: topTag ? `${topTagCount} articles` : null,
     },
   ];
+
+  void triggerScanIfStale("devto", fetchedAt);
 
   return (
     <NewsSourceLayout

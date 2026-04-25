@@ -26,31 +26,13 @@ import {
 import type { RepoMentionRow } from "@/components/news/RepoMentionsTab";
 import type { NewsItem } from "@/components/news/NewsTab";
 import { classifyFreshness } from "@/lib/news/freshness";
+import { triggerScanIfStale } from "@/lib/news/auto-rescrape";
 
 export const dynamic = "force-dynamic";
 
 export default function RedditPage() {
   const fetchedAt = getRedditFetchedAt();
   const verdict = classifyFreshness("reddit", fetchedAt);
-
-  // Skip the heavy data reads when cold — SourceDown will render anyway.
-  if (verdict.status === "cold") {
-    return (
-      <NewsSourceLayout
-        source="reddit"
-        sourceLabel="Reddit"
-        tagline="// AI-dev subreddit firehose"
-        description="GitHub repo mentions across AI-dev subreddits."
-        fetchedAt={fetchedAt}
-        freshnessStatus={verdict.status}
-        ageLabel={verdict.ageLabel}
-        staleAfterMs={verdict.staleAfterMs}
-        metrics={[]}
-        mentionsRows={[]}
-        newsItems={[]}
-      />
-    );
-  }
 
   const mentions = getAllRedditMentions();
   const stats = getRedditStats();
@@ -121,6 +103,8 @@ export default function RedditPage() {
       hint: stats.topRepos[0] ? `${stats.topRepos[0].count7d}× / 7d` : null,
     },
   ];
+
+  void triggerScanIfStale("reddit", fetchedAt);
 
   return (
     <NewsSourceLayout

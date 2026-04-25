@@ -7,10 +7,35 @@
 
 import { fetchJsonWithRetry } from "./_fetch-json.mjs";
 
+// Real-browser UA — Reddit's anti-bot started 403'ing the previous
+// "StarScreener/0.1 …" identifier from GitHub Actions IPs around
+// 2026-04-23. Without this, the public-JSON fallback path is dead.
+// (The OAuth path identifies properly via client credentials and uses a
+// dedicated UA at request time, so this only affects unauth scraping.)
 const DEFAULT_USER_AGENT =
-  "StarScreener/0.1 (+https://github.com/0motionguy/starscreener; reddit-scrape)";
+  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36";
+
 const PUBLIC_REDDIT_ORIGIN = "https://www.reddit.com";
 const TOKEN_URL = `${PUBLIC_REDDIT_ORIGIN}/api/v1/access_token`;
+
+// `old.reddit.com` serves the same JSON but with markedly more permissive
+// anti-bot rules. Used only on the public-json path — OAuth requests still
+// go to oauth.reddit.com via resolveRedditApiUrl().
+const OLD_REDDIT_ORIGIN = "https://old.reddit.com";
+
+function rewriteToOldReddit(url) {
+  try {
+    const u = new URL(url);
+    if (u.origin === PUBLIC_REDDIT_ORIGIN) {
+      u.protocol = "https:";
+      u.host = "old.reddit.com";
+      return u.toString();
+    }
+    return url;
+  } catch {
+    return url;
+  }
+}
 
 let oauthTokenCache = null;
 let fetchRuntime = createFetchRuntime();
@@ -202,7 +227,7 @@ export async function fetchRedditJson(url, { fetchImpl = fetch } = {}) {
   if (!hasRedditOAuthCreds()) {
     fetchRuntime.activeMode = "public-json";
     fetchRuntime.publicRequests += 1;
-    return fetchJsonWithRetry(url, {
+    return fetchJsonWithRetry(rewriteToOldReddit(url), {
       headers: publicHeaders,
       attempts: 2,
       retryDelayMs: 1000,
@@ -247,7 +272,7 @@ export async function fetchRedditJson(url, { fetchImpl = fetch } = {}) {
     fetchRuntime.fallbackUsed = true;
     fetchRuntime.activeMode = "public-json";
     fetchRuntime.publicRequests += 1;
-    return fetchJsonWithRetry(url, {
+    return fetchJsonWithRetry(rewriteToOldReddit(url), {
       headers: publicHeaders,
       attempts: 2,
       retryDelayMs: 1000,

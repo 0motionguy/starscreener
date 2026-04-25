@@ -1,47 +1,45 @@
 {
-  "fetchedAt": "2026-04-25T17:02:22.609Z",
+  "fetchedAt": "2026-04-25T17:57:59.500Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
-    "niri-wm/niri": {
-      "count7d": 3,
-      "likesSum7d": 8,
-      "repostsSum7d": 4,
-      "repliesSum7d": 1,
+    "openclaw/openclaw": {
+      "count7d": 10,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:q6n5opstauxutfacgojlknn4/app.bsky.feed.post/3mkdaqi4ffc2e",
-        "cid": "bafyreihblpvw6lj6vwmggqk6qhrcqupsmjf6wlk72lfa2z4gib5iw3dnxq",
-        "bskyUrl": "https://bsky.app/profile/yalter.bxt.rs/post/3mkdaqi4ffc2e",
-        "text": "After five months of (on and off) development, I'm glad to announce niri v26.04! It's packed with features like window blur (of course), mouse cursor in window screencasts, rendering optimizations, and more. Enjoy the release notes: github.com/niri-wm/niri... #niri #wayland #rust",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkdhnr56mo2h",
+        "cid": "bafyreib4xl4j7yl3lw6mryfsifuqzi4bly765d4epx3c4efeuucdjn7qfy",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkdhnr56mo2h",
+        "text": "🟠 OpenClaw 2026.4.24-beta.5 follows fast with heartbeat, Telegram, browser, and MCP stability fixes OpenClaw has shipped 2026.4.24-beta.5 less than an hour after beta.4, keeping the new Google Meet and realtime... https://github.com/openclaw/openclaw/releases/tag/v2026.4.24-beta.5 #AI #AgentWyre",
         "author": {
-          "handle": "yalter.bxt.rs",
-          "displayName": "Ivan Molodetskikh"
+          "handle": "agentwyre.ai"
         },
-        "likeCount": 8,
-        "repostCount": 4,
-        "replyCount": 1,
-        "createdAt": "2026-04-25T14:27:03.504Z",
-        "hoursSincePosted": 2.59
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-25T16:30:47.927407+00:00",
+        "hoursSincePosted": 1.45
       },
       "posts": [
         {
-          "uri": "at://did:plc:q6n5opstauxutfacgojlknn4/app.bsky.feed.post/3mkdaqi4ffc2e",
-          "cid": "bafyreihblpvw6lj6vwmggqk6qhrcqupsmjf6wlk72lfa2z4gib5iw3dnxq",
-          "bskyUrl": "https://bsky.app/profile/yalter.bxt.rs/post/3mkdaqi4ffc2e",
-          "text": "After five months of (on and off) development, I'm glad to announce niri v26.04! It's packed with features like window blur (of course), mouse cursor in window screencasts, rendering optimizations, and more. Enjoy the release notes: github.com/niri-wm/niri... #niri #wayland #rust",
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkdhnr56mo2h",
+          "cid": "bafyreib4xl4j7yl3lw6mryfsifuqzi4bly765d4epx3c4efeuucdjn7qfy",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkdhnr56mo2h",
+          "text": "🟠 OpenClaw 2026.4.24-beta.5 follows fast with heartbeat, Telegram, browser, and MCP stability fixes OpenClaw has shipped 2026.4.24-beta.5 less than an hour after beta.4, keeping the new Google Meet and realtime... https://github.com/openclaw/openclaw/releases/tag/v2026.4.24-beta.5 #AI #AgentWyre",
           "author": {
-            "handle": "yalter.bxt.rs",
-            "displayName": "Ivan Molodetskikh"
+            "handle": "agentwyre.ai"
           },
-          "likeCount": 8,
-          "repostCount": 4,
-          "replyCount": 1,
-          "createdAt": "2026-04-25T14:27:03.504Z",
-          "createdUtc": 1777127223,
-          "ageHours": 2.59,
-          "trendingScore": 16.5,
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-25T16:30:47.927407+00:00",
+          "createdUtc": 1777134647,
+          "ageHours": 1.45,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo",
             "is-announcement"
@@ -49,94 +47,16 @@
           "value_score": 2,
           "linkedRepos": [
             {
-              "fullName": "niri-wm/niri",
+              "fullName": "openclaw/openclaw",
               "matchType": "url",
               "confidence": 1
             }
           ]
         },
         {
-          "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mkdjc52rm226",
-          "cid": "bafyreigjcxvoysmffzb7nrbyfsr2gqnwvxxxdbnyfbnidfjestyifv7qfq",
-          "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mkdjc52rm226",
-          "text": "Niri 26.04 was just released (scrollable-tiling Wayland compositor) https://github.com/niri-wm/niri/releases/tag/v26.04",
-          "author": {
-            "handle": "hnbot.gsuscs.xyz",
-            "displayName": "HackerNews Compilator"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-25T17:00:05.849Z",
-          "createdUtc": 1777136405,
-          "ageHours": 0.5,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "niri-wm/niri",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:rouotscdkg4cxv4qbnm4uqgc/app.bsky.feed.post/3mkd7frdvlwm2",
-          "cid": "bafyreiftp6vpc2tkuoaehxmmhp472mj2twejlk6przfmy34ib44skf5lr4",
-          "bskyUrl": "https://bsky.app/profile/omasanori.mstdn.maud.io.ap.brid.gy/post/3mkd7frdvlwm2",
-          "text": "Niri 26.04 🎉 https://github.com/niri-wm/niri/releases/tag/v26.04",
-          "author": {
-            "handle": "omasanori.mstdn.maud.io.ap.brid.gy",
-            "displayName": "Masanori Ogino 𓀁"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-25T14:03:03.000Z",
-          "createdUtc": 1777125783,
-          "ageHours": 2.99,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "niri-wm/niri",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "openclaw/openclaw": {
-      "count7d": 6,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkdikgpslr24",
-        "cid": "bafyreibv4p2ywtqlx7blp4h3yo4lf4xtjargs6wqcdw235eg32cmh4xpju",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkdikgpslr24",
-        "text": "🟠 OpenClaw 2026.4.24-beta.5 follows fast with heartbeat, Telegram, browser, and MCP stability fixes OpenClaw has shipped 2026.4.24-beta.5 less than an hour after beta.4, keeping the new Google Meet and realtime... https://github.com/openclaw/openclaw/releases/tag/v2026.4.24-beta.5 #AI #AgentWyre",
-        "author": {
-          "handle": "agentwyre.ai"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-25T16:46:49.944027+00:00",
-        "hoursSincePosted": 0.5
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkdikgpslr24",
-          "cid": "bafyreibv4p2ywtqlx7blp4h3yo4lf4xtjargs6wqcdw235eg32cmh4xpju",
-          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkdikgpslr24",
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkdm5mv47a2s",
+          "cid": "bafyreialqs5xrgvohbkpanrmxcj3hs3nfgpklgvan6fvx4ehizssb2k2we",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkdm5mv47a2s",
           "text": "🟠 OpenClaw 2026.4.24-beta.5 follows fast with heartbeat, Telegram, browser, and MCP stability fixes OpenClaw has shipped 2026.4.24-beta.5 less than an hour after beta.4, keeping the new Google Meet and realtime... https://github.com/openclaw/openclaw/releases/tag/v2026.4.24-beta.5 #AI #AgentWyre",
           "author": {
             "handle": "agentwyre.ai"
@@ -144,8 +64,8 @@
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-04-25T16:46:49.944027+00:00",
-          "createdUtc": 1777135609,
+          "createdAt": "2026-04-25T17:51:15.326442+00:00",
+          "createdUtc": 1777139475,
           "ageHours": 0.5,
           "trendingScore": 0,
           "content_tags": [
@@ -162,9 +82,9 @@
           ]
         },
         {
-          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkdhnr56mo2h",
-          "cid": "bafyreib4xl4j7yl3lw6mryfsifuqzi4bly765d4epx3c4efeuucdjn7qfy",
-          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkdhnr56mo2h",
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkdlavp3hf2q",
+          "cid": "bafyreiai42ogyrsaymece34erevobatypdiy2ru2ddak6g6a4sakqbfpyy",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkdlavp3hf2q",
           "text": "🟠 OpenClaw 2026.4.24-beta.5 follows fast with heartbeat, Telegram, browser, and MCP stability fixes OpenClaw has shipped 2026.4.24-beta.5 less than an hour after beta.4, keeping the new Google Meet and realtime... https://github.com/openclaw/openclaw/releases/tag/v2026.4.24-beta.5 #AI #AgentWyre",
           "author": {
             "handle": "agentwyre.ai"
@@ -172,9 +92,93 @@
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-04-25T16:30:47.927407+00:00",
-          "createdUtc": 1777134647,
-          "ageHours": 0.53,
+          "createdAt": "2026-04-25T17:35:11.466053+00:00",
+          "createdUtc": 1777138511,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkdkdxwnn72c",
+          "cid": "bafyreieum2xrqm5gkhallohunbzfao65qtaefrfg5h4asnj3k5f4mk7gge",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkdkdxwnn72c",
+          "text": "🟠 OpenClaw 2026.4.24-beta.5 follows fast with heartbeat, Telegram, browser, and MCP stability fixes OpenClaw has shipped 2026.4.24-beta.5 less than an hour after beta.4, keeping the new Google Meet and realtime... https://github.com/openclaw/openclaw/releases/tag/v2026.4.24-beta.5 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-25T17:19:00.708530+00:00",
+          "createdUtc": 1777137540,
+          "ageHours": 0.65,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkdjh6unsq2s",
+          "cid": "bafyreifaci4bhtdonkeoqx2l7m5gbbe7li4vtuea2ehc74y5yw4ml3punq",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkdjh6unsq2s",
+          "text": "🟠 OpenClaw 2026.4.24-beta.5 follows fast with heartbeat, Telegram, browser, and MCP stability fixes OpenClaw has shipped 2026.4.24-beta.5 less than an hour after beta.4, keeping the new Google Meet and realtime... https://github.com/openclaw/openclaw/releases/tag/v2026.4.24-beta.5 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-25T17:02:54.858702+00:00",
+          "createdUtc": 1777136574,
+          "ageHours": 0.92,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkdikgpslr24",
+          "cid": "bafyreibv4p2ywtqlx7blp4h3yo4lf4xtjargs6wqcdw235eg32cmh4xpju",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkdikgpslr24",
+          "text": "🟠 OpenClaw 2026.4.24-beta.5 follows fast with heartbeat, Telegram, browser, and MCP stability fixes OpenClaw has shipped 2026.4.24-beta.5 less than an hour after beta.4, keeping the new Google Meet and realtime... https://github.com/openclaw/openclaw/releases/tag/v2026.4.24-beta.5 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-25T16:46:49.944027+00:00",
+          "createdUtc": 1777135609,
+          "ageHours": 1.19,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -202,7 +206,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T16:14:46.715115+00:00",
           "createdUtc": 1777133686,
-          "ageHours": 0.79,
+          "ageHours": 1.72,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -230,7 +234,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T16:07:43.908199+00:00",
           "createdUtc": 1777133263,
-          "ageHours": 0.91,
+          "ageHours": 1.84,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -258,7 +262,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T14:07:41.479370+00:00",
           "createdUtc": 1777126061,
-          "ageHours": 2.91,
+          "ageHours": 3.84,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -286,7 +290,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T13:08:08.399138+00:00",
           "createdUtc": 1777122488,
-          "ageHours": 3.9,
+          "ageHours": 4.83,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -303,27 +307,217 @@
         }
       ]
     },
-    "nakagami/grdpwasm": {
+    "niri-wm/niri": {
       "count7d": 5,
+      "likesSum7d": 10,
+      "repostsSum7d": 5,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:q6n5opstauxutfacgojlknn4/app.bsky.feed.post/3mkdaqi4ffc2e",
+        "cid": "bafyreihblpvw6lj6vwmggqk6qhrcqupsmjf6wlk72lfa2z4gib5iw3dnxq",
+        "bskyUrl": "https://bsky.app/profile/yalter.bxt.rs/post/3mkdaqi4ffc2e",
+        "text": "After five months of (on and off) development, I'm glad to announce niri v26.04! It's packed with features like window blur (of course), mouse cursor in window screencasts, rendering optimizations, and more. Enjoy the release notes: github.com/niri-wm/niri... #niri #wayland #rust",
+        "author": {
+          "handle": "yalter.bxt.rs",
+          "displayName": "Ivan Molodetskikh"
+        },
+        "likeCount": 10,
+        "repostCount": 5,
+        "replyCount": 1,
+        "createdAt": "2026-04-25T14:27:03.504Z",
+        "hoursSincePosted": 3.52
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:q6n5opstauxutfacgojlknn4/app.bsky.feed.post/3mkdaqi4ffc2e",
+          "cid": "bafyreihblpvw6lj6vwmggqk6qhrcqupsmjf6wlk72lfa2z4gib5iw3dnxq",
+          "bskyUrl": "https://bsky.app/profile/yalter.bxt.rs/post/3mkdaqi4ffc2e",
+          "text": "After five months of (on and off) development, I'm glad to announce niri v26.04! It's packed with features like window blur (of course), mouse cursor in window screencasts, rendering optimizations, and more. Enjoy the release notes: github.com/niri-wm/niri... #niri #wayland #rust",
+          "author": {
+            "handle": "yalter.bxt.rs",
+            "displayName": "Ivan Molodetskikh"
+          },
+          "likeCount": 10,
+          "repostCount": 5,
+          "replyCount": 1,
+          "createdAt": "2026-04-25T14:27:03.504Z",
+          "createdUtc": 1777127223,
+          "ageHours": 3.52,
+          "trendingScore": 20.5,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "niri-wm/niri",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mkdlngyrp22f",
+          "cid": "bafyreidt3g7v53ci6fqzva44c36zc377atiqrm3ipqtpffbcl45xsn4a6u",
+          "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mkdlngyrp22f",
+          "text": "Niri 26.04 was just released (scrollable-tiling Wayland compositor) https://github.com/niri-wm/niri/releases/tag/v26.04 (https://news.ycombinator.com/item?id=47902416)",
+          "author": {
+            "handle": "betterhn50.e-work.xyz",
+            "displayName": "Hacker News 50"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-25T17:42:12.019Z",
+          "createdUtc": 1777138932,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "niri-wm/niri",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mkdkhunajx24",
+          "cid": "bafyreibriie6uashgvabraydbcidnrtw64u5pqsiwasqin3rrcmtblu74u",
+          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mkdkhunajx24",
+          "text": "Niri 26.04 was just released (scrollable-tiling Wayland compositor) https://github.com/niri-wm/niri/releases/tag/v26.04 (https://news.ycombinator.com/item?id=47902416)",
+          "author": {
+            "handle": "betterhn20.e-work.xyz",
+            "displayName": "Hacker News 20"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-25T17:21:10.986Z",
+          "createdUtc": 1777137670,
+          "ageHours": 0.61,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "niri-wm/niri",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mkdjc52rm226",
+          "cid": "bafyreigjcxvoysmffzb7nrbyfsr2gqnwvxxxdbnyfbnidfjestyifv7qfq",
+          "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mkdjc52rm226",
+          "text": "Niri 26.04 was just released (scrollable-tiling Wayland compositor) https://github.com/niri-wm/niri/releases/tag/v26.04",
+          "author": {
+            "handle": "hnbot.gsuscs.xyz",
+            "displayName": "HackerNews Compilator"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-25T17:00:05.849Z",
+          "createdUtc": 1777136405,
+          "ageHours": 0.97,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "niri-wm/niri",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:rouotscdkg4cxv4qbnm4uqgc/app.bsky.feed.post/3mkd7frdvlwm2",
+          "cid": "bafyreiftp6vpc2tkuoaehxmmhp472mj2twejlk6przfmy34ib44skf5lr4",
+          "bskyUrl": "https://bsky.app/profile/omasanori.mstdn.maud.io.ap.brid.gy/post/3mkd7frdvlwm2",
+          "text": "Niri 26.04 🎉 https://github.com/niri-wm/niri/releases/tag/v26.04",
+          "author": {
+            "handle": "omasanori.mstdn.maud.io.ap.brid.gy",
+            "displayName": "Masanori Ogino 𓀁"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-25T14:03:03.000Z",
+          "createdUtc": 1777125783,
+          "ageHours": 3.92,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "niri-wm/niri",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "nakagami/grdpwasm": {
+      "count7d": 4,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mkdgbr3rev2f",
-        "cid": "bafyreifmwt5bjqe7a6wm5ylucv6ihtl6rj7zqf3ymfrt26vzpf33tmdstq",
-        "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mkdgbr3rev2f",
-        "text": "A web-based RDP client built with Go WebAssembly and grdp https://github.com/nakagami/grdpwasm (https://news.ycombinator.com/item?id=47900440)",
+        "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mkdkcp4dvd2r",
+        "cid": "bafyreieuohlu23lmubo3ps2yjzf6o5oveq5yh3ehplvc3m32fqrbj7kzci",
+        "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mkdkcp4dvd2r",
+        "text": "A web-based RDP client built with Go WebAssembly and grdp (github.com) Discussion | Main Link",
         "author": {
-          "handle": "betterhn50.e-work.xyz",
-          "displayName": "Hacker News 50"
+          "handle": "newsycombinatorbot.bsky.social",
+          "displayName": "Hacker News Bot"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-04-25T16:06:11.497Z",
-        "hoursSincePosted": 0.94
+        "createdAt": "2026-04-25T17:18:18.489593Z",
+        "hoursSincePosted": 0.66
       },
       "posts": [
+        {
+          "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mkdkcp4dvd2r",
+          "cid": "bafyreieuohlu23lmubo3ps2yjzf6o5oveq5yh3ehplvc3m32fqrbj7kzci",
+          "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mkdkcp4dvd2r",
+          "text": "A web-based RDP client built with Go WebAssembly and grdp (github.com) Discussion | Main Link",
+          "author": {
+            "handle": "newsycombinatorbot.bsky.social",
+            "displayName": "Hacker News Bot"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-25T17:18:18.489593Z",
+          "createdUtc": 1777137498,
+          "ageHours": 0.66,
+          "trendingScore": 0,
+          "content_tags": [],
+          "value_score": 0,
+          "linkedRepos": [
+            {
+              "fullName": "nakagami/grdpwasm",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mkdgbr3rev2f",
           "cid": "bafyreifmwt5bjqe7a6wm5ylucv6ihtl6rj7zqf3ymfrt26vzpf33tmdstq",
@@ -338,7 +532,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T16:06:11.497Z",
           "createdUtc": 1777133171,
-          "ageHours": 0.94,
+          "ageHours": 1.86,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -366,7 +560,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T13:51:09.801Z",
           "createdUtc": 1777125069,
-          "ageHours": 3.19,
+          "ageHours": 4.11,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -394,63 +588,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T13:41:03.581Z",
           "createdUtc": 1777124463,
-          "ageHours": 3.36,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "nakagami/grdpwasm",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mkd27dpczk26",
-          "cid": "bafyreiclz3vs4t7qk2k3ru67consvfxhnvvu4srwwc6owxwaywkq7j3tha",
-          "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mkd27dpczk26",
-          "text": "A web-based RDP client built with Go WebAssembly and grdp https://github.com/nakagami/grdpwasm",
-          "author": {
-            "handle": "hnbot.gsuscs.xyz",
-            "displayName": "HackerNews Compilator"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-25T12:30:06.031Z",
-          "createdUtc": 1777120206,
-          "ageHours": 4.54,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "nakagami/grdpwasm",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:jmuhjrotgvcquoaqtpcuxjii/app.bsky.feed.post/3mkczozcr362s",
-          "cid": "bafyreiguzsxofl3p2bpw3qbawhfqep2b3fsq4bq6iopahfeoq6nr257lti",
-          "bskyUrl": "https://bsky.app/profile/hnws.bsky.social/post/3mkczozcr362s",
-          "text": "A web-based RDP client built with Go WebAssembly and grdp L: https://github.com/nakagami/grdpwasm C: https://news.ycombinator.com/item?id=47900440 posted on 2026.04.25 at 06:59:29 (c=1, p=7)",
-          "author": {
-            "handle": "hnws.bsky.social",
-            "displayName": "HN"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-25T12:20:58.007561+00:00",
-          "createdUtc": 1777119658,
-          "ageHours": 4.69,
+          "ageHours": 4.28,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -484,7 +622,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-25T16:01:50.662Z",
-        "hoursSincePosted": 1.01
+        "hoursSincePosted": 1.94
       },
       "posts": [
         {
@@ -501,7 +639,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T16:01:50.662Z",
           "createdUtc": 1777132910,
-          "ageHours": 1.01,
+          "ageHours": 1.94,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -535,7 +673,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-25T15:04:12.044Z",
-        "hoursSincePosted": 1.97
+        "hoursSincePosted": 2.9
       },
       "posts": [
         {
@@ -552,7 +690,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T15:04:12.044Z",
           "createdUtc": 1777129452,
-          "ageHours": 1.97,
+          "ageHours": 2.9,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -586,7 +724,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-25T14:37:55Z",
-        "hoursSincePosted": 2.41
+        "hoursSincePosted": 3.33
       },
       "posts": [
         {
@@ -603,7 +741,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T14:37:55Z",
           "createdUtc": 1777127875,
-          "ageHours": 2.41,
+          "ageHours": 3.33,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -637,7 +775,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-25T14:07:33Z",
-        "hoursSincePosted": 2.91
+        "hoursSincePosted": 3.84
       },
       "posts": [
         {
@@ -654,7 +792,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T14:07:33Z",
           "createdUtc": 1777126053,
-          "ageHours": 2.91,
+          "ageHours": 3.84,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -687,7 +825,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-04-25T13:40:44.012Z",
-        "hoursSincePosted": 3.36
+        "hoursSincePosted": 4.29
       },
       "posts": [
         {
@@ -703,7 +841,7 @@
           "replyCount": 1,
           "createdAt": "2026-04-25T13:40:44.012Z",
           "createdUtc": 1777124444,
-          "ageHours": 3.36,
+          "ageHours": 4.29,
           "trendingScore": 3.5,
           "content_tags": [
             "has-github-repo"
@@ -720,7 +858,7 @@
       ]
     },
     "refactoringhq/tolaria": {
-      "count7d": 3,
+      "count7d": 2,
       "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
@@ -737,7 +875,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-25T13:10:49.038Z",
-        "hoursSincePosted": 3.86
+        "hoursSincePosted": 4.79
       },
       "posts": [
         {
@@ -754,7 +892,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T13:10:49.038Z",
           "createdUtc": 1777122649,
-          "ageHours": 3.86,
+          "ageHours": 4.79,
           "trendingScore": 2,
           "content_tags": [],
           "value_score": 0,
@@ -780,92 +918,13 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T13:22:34.005Z",
           "createdUtc": 1777123354,
-          "ageHours": 3.66,
+          "ageHours": 4.59,
           "trendingScore": 0,
           "content_tags": [],
           "value_score": 0,
           "linkedRepos": [
             {
               "fullName": "refactoringhq/tolaria",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:3fe25qalw4rfzrty3xyutj7c/app.bsky.feed.post/3mkd2rygwj72y",
-          "cid": "bafyreibcejk2plypgguxcrhnbqpsoolg55mfhl45kdvpz44jdzyjivohsq",
-          "bskyUrl": "https://bsky.app/profile/topickapp.bsky.social/post/3mkd2rygwj72y",
-          "text": "https://github.com/refactoringhq/tolaria macOS向け知識管理アプリTolariaは、マークダウンファイルを直接操作します。 Git連携・オフライン利用・オープンソースで、データは完全にユーザー管理です。 AI連携も可能で、キーボード操作を重視した高機能さが特徴です。",
-          "author": {
-            "handle": "topickapp.bsky.social",
-            "displayName": "topickapp (IT技術系ニュースサイト)"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-25T12:40:31.690782+00:00",
-          "createdUtc": 1777120831,
-          "ageHours": 4.36,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "refactoringhq/tolaria",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "nearai/ironclaw": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkd2lagfd22u",
-        "cid": "bafyreiblgjyvr5zdmhaaio2gglyinsk2txlmmt4tyme76ywdptm46eortm",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkd2lagfd22u",
-        "text": "https://github.com/nearai/ironclaw",
-        "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-25T12:36:44Z",
-        "hoursSincePosted": 4.43
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkd2lagfd22u",
-          "cid": "bafyreiblgjyvr5zdmhaaio2gglyinsk2txlmmt4tyme76ywdptm46eortm",
-          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkd2lagfd22u",
-          "text": "https://github.com/nearai/ironclaw",
-          "author": {
-            "handle": "tom-doerr.bsky.social",
-            "displayName": "Tom Dörr "
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-25T12:36:44Z",
-          "createdUtc": 1777120604,
-          "ageHours": 4.43,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "nearai/ironclaw",
               "matchType": "url",
               "confidence": 1
             }
@@ -877,8 +936,8 @@
   "leaderboard": [
     {
       "fullName": "niri-wm/niri",
-      "count7d": 3,
-      "likesSum7d": 8
+      "count7d": 5,
+      "likesSum7d": 10
     },
     {
       "fullName": "getagentseal/codeburn",
@@ -887,26 +946,21 @@
     },
     {
       "fullName": "refactoringhq/tolaria",
-      "count7d": 3,
+      "count7d": 2,
       "likesSum7d": 2
     },
     {
       "fullName": "openclaw/openclaw",
-      "count7d": 6,
-      "likesSum7d": 0
+      "count7d": 10,
+      "likesSum7d": 1
     },
     {
       "fullName": "nakagami/grdpwasm",
-      "count7d": 5,
+      "count7d": 4,
       "likesSum7d": 0
     },
     {
       "fullName": "aloshdenny/reverse-SynthID",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "nearai/ironclaw",
       "count7d": 1,
       "likesSum7d": 0
     },

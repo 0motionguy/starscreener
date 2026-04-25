@@ -21,6 +21,10 @@ on:
         description: "Dry run (no ingestion)"
         required: false
         default: "false"
+      repos:
+        description: "Comma-separated repo filters (owner/name) — empty to use priority ranking"
+        required: false
+        default: ""
 
 jobs:
   collect:
@@ -49,6 +53,7 @@ jobs:
           TWITTER_COLLECTOR_LIMIT: ${{ github.event.inputs.limit || '25' }}
           TWITTER_COLLECTOR_QUERIES_PER_REPO: ${{ vars.TWITTER_COLLECTOR_QUERIES_PER_REPO || '1' }}
           TWITTER_COLLECTOR_DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+          TWITTER_COLLECTOR_REPOS: ${{ github.event.inputs.repos || '' }}
           TWITTER_COLLECTOR_BASE_URL: ${{ vars.STARSCREENER_URL || 'https://trendingrepo.com' }}
           INTERNAL_AGENT_TOKEN: ${{ secrets.INTERNAL_AGENT_TOKEN }}
           APIFY_API_TOKEN: ${{ secrets.APIFY_API_TOKEN }}

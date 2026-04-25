@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-04-25T09:09:26.290Z",
+  "generatedAt": "2026-04-25T10:07:21.898Z",
   "version": 1,
   "selection": {
     "source": "incremental",
     "limit": 50,
     "maxScans": 5,
-    "scanned": 0,
-    "queued": 0,
-    "noWebsite": 45,
-    "failed": 5
+    "scanned": 3,
+    "queued": 10,
+    "noWebsite": 37,
+    "failed": 0
   },
   "profiles": [
     {
@@ -18,7 +18,7 @@
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-25T09:09:02.747Z",
+      "lastProfiledAt": "2026-04-25T10:06:03.963Z",
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/Alishahryar1/free-claude-code",
@@ -48,21 +48,779 @@
       "error": null
     },
     {
-      "fullName": "addyosmani/agent-skills",
+      "fullName": "refactoringhq/tolaria",
       "rank": 2,
       "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-25T09:09:03.152Z",
-      "nextScanAfter": null,
+      "websiteUrl": "https://tolaria.md/",
+      "websiteSource": "github_homepage",
+      "status": "scanned",
+      "lastProfiledAt": "2026-04-25T10:06:03.993Z",
+      "nextScanAfter": "2026-05-02T10:06:25.818Z",
       "surfaces": {
-        "githubUrl": "https://github.com/addyosmani/agent-skills",
+        "githubUrl": "https://github.com/refactoringhq/tolaria",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
       },
-      "aisoScan": null,
+      "aisoScan": {
+        "scanId": "7a40d46d-cdcf-45ce-a71e-54142fb7c808",
+        "url": "https://tolaria.md/",
+        "projectName": null,
+        "projectUrl": null,
+        "source": "web",
+        "status": "completed",
+        "score": 13,
+        "tier": "invisible",
+        "runtimeVisibility": null,
+        "scanDurationMs": 16595,
+        "completedAt": "2026-04-25T10:06:23.795+00:00",
+        "resultUrl": "https://aiso.tools/scan/7a40d46d-cdcf-45ce-a71e-54142fb7c808",
+        "dimensions": [
+          {
+            "key": "structure",
+            "label": "Content Structure",
+            "weight": 20,
+            "score": 5,
+            "status": "fail",
+            "issuesCount": 3,
+            "details": {
+              "heading_ok": true,
+              "faq_present": false,
+              "answer_first": false,
+              "heading_issue": null,
+              "definition_lead": false,
+              "main_text_tokens": 462
+            }
+          },
+          {
+            "key": "citations",
+            "label": "Citation Density",
+            "weight": 20,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "word_count": 466,
+              "stats_count": 0,
+              "external_links": 3,
+              "authoritative_links": 0,
+              "stats_density_per_500w": 0,
+              "citations_density_per_500w": 0
+            }
+          },
+          {
+            "key": "crawler",
+            "label": "Crawler Access",
+            "weight": 15,
+            "score": 7,
+            "status": "warn",
+            "issuesCount": 1,
+            "details": {
+              "allowed_bots": 14,
+              "blocked_bots": 0,
+              "robots_present": false,
+              "cloudflare_suspected": false,
+              "gptbot_homepage_blocked": false
+            }
+          },
+          {
+            "key": "schema",
+            "label": "Schema Markup",
+            "weight": 15,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 2,
+            "details": {
+              "coverage": {
+                "person": 0,
+                "article": 0,
+                "faqPage": 0,
+                "website": 0,
+                "breadcrumb": 0,
+                "organization": 0
+              },
+              "meta_tags": {
+                "title": true,
+                "robots": false,
+                "canonical": false,
+                "open_graph": false,
+                "description": true,
+                "twitter_card": false
+              },
+              "page_family": "docs",
+              "blocks_found": 0,
+              "nodes_parsed": 0,
+              "present_types": [],
+              "page_family_missing": [
+                "TechArticle/Article",
+                "BreadcrumbList",
+                "Organization/WebSite"
+              ],
+              "page_family_expected": [
+                "TechArticle/Article",
+                "BreadcrumbList",
+                "Organization/WebSite"
+              ],
+              "page_family_strength": 0
+            }
+          },
+          {
+            "key": "llmstxt",
+            "label": "llms.txt",
+            "weight": 10,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "has_h1": false,
+              "broken_links": [],
+              "links_broken": 0,
+              "links_sampled": 0,
+              "llms_txt_present": false,
+              "llms_full_txt_present": false
+            }
+          },
+          {
+            "key": "entity",
+            "label": "Entity Clarity",
+            "weight": 10,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "byline": false,
+              "founder_in_ld": false,
+              "about_reachable": false,
+              "self_identification": false
+            }
+          },
+          {
+            "key": "agent_readiness",
+            "label": "Agent Readiness",
+            "weight": 10,
+            "score": 2,
+            "status": "fail",
+            "issuesCount": 8,
+            "details": {
+              "probes": [],
+              "detected": {
+                "api": false,
+                "cli": true,
+                "mcp": true,
+                "x402": false,
+                "portal": false,
+                "webmcp": false,
+                "agent_skills": false,
+                "agent_discovery": false,
+                "agent_navigation": false,
+                "integration_safety": false
+              },
+              "checked_paths": [
+                "/openapi.json",
+                "/swagger.json",
+                "/api/openapi.json",
+                "/api/docs",
+                "/docs/api",
+                "/developers",
+                "/mcp",
+                "/docs/mcp",
+                "/.well-known/mcp.json",
+                "/docs/cli",
+                "/cli",
+                "/install",
+                "/webmcp",
+                "/docs/webmcp",
+                "/.well-known/webmcp.json",
+                "/portal",
+                "/portal.json",
+                "/.well-known/portal.json",
+                "/docs/portal",
+                "/.well-known/x402.json",
+                "/docs/x402",
+                "/docs/payments",
+                "/api/x402",
+                "/llms.txt",
+                "/llms-full.txt",
+                "/.well-known/ai-plugin.json",
+                "/.well-known/agent.json",
+                "/agents.json",
+                "/.well-known/agent-skills.json",
+                "/.well-known/agents.json",
+                "/agent-skills.json",
+                "/actions.json",
+                "/tools.json",
+                "/skills",
+                "/agent-skills",
+                "/docs/skills",
+                "/docs/agents",
+                "/sitemap.xml",
+                "/sitemap_index.xml",
+                "/docs",
+                "/help",
+                "/search",
+                "/docs/auth",
+                "/docs/webhooks",
+                "/docs/rate-limits",
+                "/status"
+              ]
+            }
+          },
+          {
+            "key": "freshness",
+            "label": "Freshness",
+            "weight": 5,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "source": null,
+              "days_since": null,
+              "updated_iso": null
+            }
+          },
+          {
+            "key": "offsite",
+            "label": "Off-site Authority (proxy)",
+            "weight": 5,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "platforms_detected": [],
+              "header_footer_links": 1
+            }
+          },
+          {
+            "key": "template_coverage",
+            "label": "Template Coverage",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "mode": "homepage",
+              "non_scoring": true,
+              "homepage_only": true,
+              "pages_scanned": 1,
+              "sampled_pages": 0,
+              "page_templates": [
+                {
+                  "url": "https://tolaria.md/",
+                  "template": "homepage",
+                  "text_chars": 2929
+                }
+              ],
+              "unique_templates": [
+                "homepage"
+              ]
+            }
+          },
+          {
+            "key": "web_verification",
+            "label": "Web Verification",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "consensus": {
+                "fetch_ok": 2,
+                "search_ok": 2,
+                "fetch_total": 2,
+                "verified_by": 4,
+                "search_total": 2,
+                "search_matched": 2,
+                "content_agreement": "multi_fetch",
+                "measured_providers": 4
+              },
+              "providers": [
+                {
+                  "ok": true,
+                  "kind": "fetch",
+                  "title": "Tolaria — A second brain for the AI era",
+                  "status": 200,
+                  "finalUrl": "https://tolaria.md/",
+                  "provider": "http",
+                  "latencyMs": 286,
+                  "textChars": 2929,
+                  "description": "Organize your notes as Markdown files. With native relationships, Git, and Claude Code integration. Free forever."
+                },
+                {
+                  "ok": true,
+                  "kind": "fetch",
+                  "title": "Tolaria — A second brain for the AI era",
+                  "status": 200,
+                  "finalUrl": "https://tolaria.md/",
+                  "provider": "tinyfish_fetch",
+                  "latencyMs": 234.39950100146234,
+                  "textChars": 3359,
+                  "description": "Organize your notes as Markdown files. With native relationships, Git, and Claude Code integration. Free forever."
+                },
+                {
+                  "ok": true,
+                  "kind": "search",
+                  "query": "site:tolaria.md tolaria",
+                  "status": 200,
+                  "results": [
+                    {
+                      "url": "https://tolaria.md/",
+                      "title": "Tolaria — A second brain for the AI era",
+                      "snippet": "Tolaria is the product of the learnings from 5 years of full-time content creation. I published 300+ articles and organized my knowledge into 9000+ notes.Read more",
+                      "position": 1,
+                      "siteName": "tolaria.md"
+                    }
+                  ],
+                  "provider": "tinyfish_search",
+                  "totalResults": 1,
+                  "topMatchPosition": 1
+                },
+                {
+                  "ok": true,
+                  "kind": "search",
+                  "query": "site:tolaria.md tolaria",
+                  "status": 200,
+                  "results": [
+                    {
+                      "url": "https://tolaria.md/",
+                      "title": "Tolaria — A second brain for the AI era",
+                      "snippet": "Tolaria is <strong>born from 5 years of full-time writing at Refactoring</strong>, during which I have written 300+ articles about software engineering and developer productivity. ",
+                      "position": 1,
+                      "siteName": "Tolaria"
+                    }
+                  ],
+                  "provider": "brave_search",
+                  "totalResults": 1,
+                  "topMatchPosition": 1
+                }
+              ],
+              "non_scoring": true,
+              "configured_providers": [
+                "http",
+                "tinyfish_fetch",
+                "tinyfish_search",
+                "brave_search"
+              ]
+            }
+          },
+          {
+            "key": "content_gaps",
+            "label": "Content Gap Opportunities",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 2,
+            "details": {
+              "non_scoring": true,
+              "missing_faqs": [
+                "What is AI agent tooling?",
+                "How does Tolaria work?",
+                "How much does Tolaria cost?",
+                "What makes Tolaria different?"
+              ],
+              "pages_checked": 1,
+              "missing_entities": [
+                {
+                  "entity": "company description",
+                  "reason": "No about or company page found in sampled pages.",
+                  "entity_type": "brand",
+                  "where_expected": "about or company page"
+                },
+                {
+                  "entity": "team/founders",
+                  "reason": "No team or founder page found in sampled pages.",
+                  "entity_type": "person",
+                  "where_expected": "team or founder page"
+                },
+                {
+                  "entity": "pricing information",
+                  "reason": "No pricing page found in sampled pages.",
+                  "entity_type": "product",
+                  "where_expected": "pricing page"
+                },
+                {
+                  "entity": "technical documentation",
+                  "reason": "No docs or API page found in sampled pages.",
+                  "entity_type": "product",
+                  "where_expected": "docs or API page"
+                }
+              ],
+              "missing_comparisons": [
+                "Tolaria vs top competitor",
+                "Tolaria vs alternative tools",
+                "Best AI Agent Tooling tools compared"
+              ],
+              "missing_content_types": [
+                {
+                  "type": "faq",
+                  "impact": "high",
+                  "reason": "No dedicated FAQ surface found for question-style retrieval.",
+                  "suggested_title": "Frequently Asked Questions about AI Agent Tooling"
+                },
+                {
+                  "type": "glossary",
+                  "impact": "high",
+                  "reason": "No glossary or definition hub found for entity and term authority.",
+                  "suggested_title": "AI Agent Tooling Glossary: Key Terms Explained"
+                },
+                {
+                  "type": "comparison",
+                  "impact": "medium",
+                  "reason": "No comparison surface found for high-intent evaluation queries.",
+                  "suggested_title": "Tolaria vs Alternatives: Detailed Comparison"
+                },
+                {
+                  "type": "guide",
+                  "impact": "medium",
+                  "reason": "No guide or how-to surface found for procedural extraction.",
+                  "suggested_title": "Complete Guide to AI Agent Tooling"
+                },
+                {
+                  "type": "case_study",
+                  "impact": "medium",
+                  "reason": "No case-study or customer-proof surface found.",
+                  "suggested_title": "Tolaria Case Study: Real Results from AI Agent Tooling"
+                },
+                {
+                  "type": "benchmark",
+                  "impact": "medium",
+                  "reason": "No benchmark, research, or proprietary-data surface found.",
+                  "suggested_title": "AI Agent Tooling Benchmarks: Performance Data"
+                }
+              ],
+              "missing_ecosystem_pages": [
+                "Tolaria integrations and ecosystem",
+                "How Tolaria works with popular tools"
+              ]
+            }
+          },
+          {
+            "key": "trust_stack",
+            "label": "Trust Stack",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 5,
+            "details": {
+              "grade": "F",
+              "layers": {
+                "safety": 22,
+                "identity": 17,
+                "authority": 0,
+                "technical": 34,
+                "consistency": 38
+              },
+              "overall": 22,
+              "non_scoring": true
+            }
+          },
+          {
+            "key": "negative_signals",
+            "label": "Negative Signals",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "flags": [
+                {
+                  "key": "cta_overload",
+                  "count": 0,
+                  "label": "CTA overload"
+                },
+                {
+                  "key": "intrusive_overlay",
+                  "count": 0,
+                  "label": "Intrusive overlay patterns"
+                },
+                {
+                  "key": "thin_pages",
+                  "count": 0,
+                  "label": "Thin pages"
+                },
+                {
+                  "key": "missing_author_signals",
+                  "count": 0,
+                  "label": "Missing author signals"
+                },
+                {
+                  "key": "boilerplate_heavy",
+                  "count": 0,
+                  "label": "Boilerplate-heavy pages"
+                }
+              ],
+              "non_scoring": true,
+              "pages_scanned": 1,
+              "sampled_pages": [
+                {
+                  "url": "https://tolaria.md/",
+                  "template": "homepage",
+                  "text_chars": 2929,
+                  "has_canonical": false
+                }
+              ]
+            }
+          },
+          {
+            "key": "prompt_injection",
+            "label": "Prompt Injection",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "findings": [],
+              "non_scoring": true,
+              "pages_scanned": 1
+            }
+          },
+          {
+            "key": "content_decay",
+            "label": "Content Decay",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 1,
+            "details": {
+              "non_scoring": true,
+              "pages_scanned": 1,
+              "volatile_pages": 1,
+              "evergreen_score": 9.5,
+              "stale_year_pages": 0,
+              "updated_signal_pages": 0
+            }
+          },
+          {
+            "key": "platform_profiles",
+            "label": "Platform Profiles",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "profiles": {
+                "claude": 30,
+                "chatgpt": 15,
+                "google_ai": 15,
+                "perplexity": 20
+              },
+              "non_scoring": true
+            }
+          }
+        ],
+        "issues": [
+          {
+            "severity": "critical",
+            "title": "No /llms.txt file found",
+            "fix": "Publish /llms.txt at the site root with '# <Project>' + a short summary + H2 sections linking to canonical doc URLs.",
+            "dimensionKey": "llmstxt"
+          },
+          {
+            "severity": "critical",
+            "title": "No valid Organization JSON-LD",
+            "fix": "Add <script type='application/ld+json'> with @type:Organization including name, url, logo, and sameAs (≥3 social profiles).",
+            "dimensionKey": "schema"
+          },
+          {
+            "severity": "high",
+            "title": "External links exist but none hit the authoritative allowlist",
+            "fix": "Cite at least one .edu/.gov, Wikipedia, IETF/W3C spec, or tier-1 publication near your flagship claims.",
+            "dimensionKey": "citations"
+          },
+          {
+            "severity": "high",
+            "title": "No robots.txt found",
+            "fix": "Publish a /robots.txt that explicitly allows GPTBot, ClaudeBot, PerplexityBot, Google-Extended and other AI crawlers.",
+            "dimensionKey": "crawler"
+          },
+          {
+            "severity": "high",
+            "title": "No definition-lead opener in the first 150 tokens",
+            "fix": "Open the homepage with '<Brand> is a <category> that <differentiator>' — this is the single biggest lever for AI citability.",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "high",
+            "title": "No API or OpenAPI entrypoint detected",
+            "fix": "Expose a public API reference or OpenAPI document at /docs/api, /openapi.json, or an equivalent developer URL so agents can understand callable surfaces.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "high",
+            "title": "No FAQ section detected",
+            "fix": "Add a FAQ block with ≥5 question/answer pairs using <details>/<summary> or <h3>+<p> patterns. Also mark it up with FAQPage JSON-LD.",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "low",
+            "title": "Template coverage is limited in homepage-only scans",
+            "fix": "Run Template Audit, Full Site, or Deep Investigation mode to compare key templates across the site.",
+            "dimensionKey": "template_coverage"
+          },
+          {
+            "severity": "low",
+            "title": "Volatile content lacks update signals",
+            "fix": "Pages about prices, versions, launches, or changing data should expose a clear last-updated date and refresh cadence.",
+            "dimensionKey": "content_decay"
+          },
+          {
+            "severity": "low",
+            "title": "No named author or byline visible",
+            "fix": "If the homepage surfaces editorial content, include an author byline (Person JSON-LD or 'By <Name>').",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "low",
+            "title": "No WebMCP access signal detected",
+            "fix": "If the site supports browser-native agent access, publish a WebMCP endpoint or discovery document and link it from developer docs and llms.txt.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "No integration-safety docs detected",
+            "fix": "Document auth, API keys/OAuth, rate limits, webhooks, SDKs, sandbox/test mode, and status-page behavior so agents can call tools safely.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "Safety trust layer is weak",
+            "fix": "Strengthen the safety layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Organization JSON-LD missing founder",
+            "fix": "Add 'founder': [{ @type: Person, name: ... }] to the Organization schema.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "low",
+            "title": "4 entity page gaps detected",
+            "fix": "Add explicit entity surfaces: about or company page, team or founder page, pricing page, docs or API page.",
+            "dimensionKey": "content_gaps"
+          },
+          {
+            "severity": "low",
+            "title": "Claude readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive claude citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "No social/authority footprint linked from header or footer",
+            "fix": "Add links to Wikipedia, LinkedIn company page, YouTube channel, or GitHub org so AI engines can cross-reference authority.",
+            "dimensionKey": "offsite"
+          },
+          {
+            "severity": "low",
+            "title": "Identity trust layer is weak",
+            "fix": "Strengthen the identity layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Consistency trust layer is weak",
+            "fix": "Strengthen the consistency layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Chatgpt readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive chatgpt citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Core meta tags are incomplete",
+            "fix": "Add a unique <title>, meta description, and canonical URL. Add Open Graph/Twitter tags for share and citation previews.",
+            "dimensionKey": "schema"
+          },
+          {
+            "severity": "low",
+            "title": "Perplexity readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive perplexity citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "No Portal visit layer detected",
+            "fix": "If the service supports temporary agent visits, publish a Portal manifest at /portal with tool metadata and a call endpoint, then link it from docs and llms.txt.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "No clear agent navigation path detected",
+            "fix": "Expose a crawlable sitemap and stable navigation to docs, pricing, support, API references, and key task pages. Agents need predictable links, not only app-shell buttons.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "Technical trust layer is weak",
+            "fix": "Strengthen the technical layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Google ai readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive google_ai citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Authority trust layer is weak",
+            "fix": "Strengthen the authority layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "No x402 payment support detected",
+            "fix": "If paid agent/API access is supported, document x402 payment flow, supported networks/tokens, payment headers, and facilitator behavior.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "medium",
+            "title": "No agent skills or action manifest detected",
+            "fix": "Document the skills, actions, tools, or capabilities agents can use. Include names, input schemas, output shapes, auth requirements, and whether each action is read-only or writes data.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "medium",
+            "title": "No 2–4 sentence summary paragraph above the fold",
+            "fix": "Add a 2–4 sentence paragraph immediately after the H1 summarising what the product is and who it serves.",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "medium",
+            "title": "2 high-impact content gaps detected",
+            "fix": "Prioritize: Frequently Asked Questions about AI Agent Tooling; AI Agent Tooling Glossary: Key Terms Explained.",
+            "dimensionKey": "content_gaps"
+          },
+          {
+            "severity": "medium",
+            "title": "No last-updated signal on homepage",
+            "fix": "Add <time datetime='YYYY-MM-DD'>Updated ...</time> or article:modified_time meta, or expose dateModified in Article JSON-LD.",
+            "dimensionKey": "freshness"
+          },
+          {
+            "severity": "medium",
+            "title": "No agent discovery file detected",
+            "fix": "Publish /llms.txt and, when relevant, a .well-known agent/plugin manifest that points agents at docs, APIs, MCP endpoints, and support policies.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "medium",
+            "title": "No clear self-identification in the opening paragraph",
+            "fix": "Open with 'We are ...' / 'Our mission is ...' / 'This is ...' — AI models need explicit entity framing.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "medium",
+            "title": "No /about or /team page with credentials",
+            "fix": "Publish an About page listing founders, team, and credentials. AI engines heavily weight provenance.",
+            "dimensionKey": "entity"
+          }
+        ],
+        "promptTests": []
+      },
       "error": null
     },
     {
@@ -76,6 +834,24 @@
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/elder-plinius/CL4R1T4S",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "mattpocock/skills",
+      "rank": 3,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-25T10:06:26.224Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/mattpocock/skills",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -894,6 +1670,24 @@
         ],
         "promptTests": []
       },
+      "error": null
+    },
+    {
+      "fullName": "op7418/guizang-ppt-skill",
+      "rank": 4,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-25T10:06:26.636Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/op7418/guizang-ppt-skill",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
       "error": null
     },
     {
@@ -2627,6 +3421,24 @@
       "error": null
     },
     {
+      "fullName": "badlogic/pi-mono",
+      "rank": 8,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-25T10:06:27.029Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/badlogic/pi-mono",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
       "fullName": "JuliusBrussee/caveman",
       "rank": 8,
       "selectedFrom": "incremental",
@@ -3377,6 +4189,24 @@
         ],
         "promptTests": []
       },
+      "error": null
+    },
+    {
+      "fullName": "zilliztech/claude-context",
+      "rank": 9,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-25T10:06:27.463Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/zilliztech/claude-context",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
       "error": null
     },
     {
@@ -5067,42 +5897,6 @@
       "error": null
     },
     {
-      "fullName": "zilliztech/claude-context",
-      "rank": 11,
-      "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-25T09:09:03.640Z",
-      "nextScanAfter": null,
-      "surfaces": {
-        "githubUrl": "https://github.com/zilliztech/claude-context",
-        "docsUrl": null,
-        "npmPackages": [],
-        "productHuntLaunchId": null
-      },
-      "aisoScan": null,
-      "error": null
-    },
-    {
-      "fullName": "lsdefine/GenericAgent",
-      "rank": 12,
-      "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-25T09:09:04.046Z",
-      "nextScanAfter": null,
-      "surfaces": {
-        "githubUrl": "https://github.com/lsdefine/GenericAgent",
-        "docsUrl": null,
-        "npmPackages": [],
-        "productHuntLaunchId": null
-      },
-      "aisoScan": null,
-      "error": null
-    },
-    {
       "fullName": "safishamsi/graphify",
       "rank": 12,
       "selectedFrom": "incremental",
@@ -6652,6 +7446,799 @@
             "title": "No MCP entrypoint detected",
             "fix": "Publish an MCP endpoint or setup guide, then link it from the homepage or llms.txt. Agents should be able to discover tool access without reading human-only docs.",
             "dimensionKey": "agent_readiness"
+          }
+        ],
+        "promptTests": []
+      },
+      "error": null
+    },
+    {
+      "fullName": "browser-use/browser-harness",
+      "rank": 13,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://browser-use.com/",
+      "websiteSource": "github_homepage",
+      "status": "scanned",
+      "lastProfiledAt": "2026-04-25T10:06:27.479Z",
+      "nextScanAfter": "2026-05-02T10:06:44.063Z",
+      "surfaces": {
+        "githubUrl": "https://github.com/browser-use/browser-harness",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": {
+        "scanId": "0103ed2a-7070-4ac7-9561-2ce77814cd71",
+        "url": "https://browser-use.com/",
+        "projectName": null,
+        "projectUrl": null,
+        "source": "web",
+        "status": "completed",
+        "score": 47,
+        "tier": "partial",
+        "runtimeVisibility": null,
+        "scanDurationMs": 13165,
+        "completedAt": "2026-04-25T10:06:41.59+00:00",
+        "resultUrl": "https://aiso.tools/scan/0103ed2a-7070-4ac7-9561-2ce77814cd71",
+        "dimensions": [
+          {
+            "key": "structure",
+            "label": "Content Structure",
+            "weight": 20,
+            "score": 5,
+            "status": "fail",
+            "issuesCount": 3,
+            "details": {
+              "heading_ok": false,
+              "faq_present": false,
+              "answer_first": true,
+              "heading_issue": "H3 appears before first H2 (broken hierarchy)",
+              "definition_lead": false,
+              "main_text_tokens": 59
+            }
+          },
+          {
+            "key": "citations",
+            "label": "Citation Density",
+            "weight": 20,
+            "score": 10,
+            "status": "warn",
+            "issuesCount": 2,
+            "details": {
+              "word_count": 569,
+              "stats_count": 23,
+              "external_links": 9,
+              "authoritative_links": 0,
+              "stats_density_per_500w": 20.21,
+              "citations_density_per_500w": 0
+            }
+          },
+          {
+            "key": "crawler",
+            "label": "Crawler Access",
+            "weight": 15,
+            "score": 15,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "allowed_bots": 14,
+              "blocked_bots": 0,
+              "robots_present": true,
+              "cloudflare_suspected": false,
+              "gptbot_homepage_blocked": false
+            }
+          },
+          {
+            "key": "schema",
+            "label": "Schema Markup",
+            "weight": 15,
+            "score": 3,
+            "status": "fail",
+            "issuesCount": 2,
+            "details": {
+              "coverage": {
+                "person": 0,
+                "article": 0,
+                "faqPage": 0,
+                "website": 0,
+                "breadcrumb": 0,
+                "organization": 3
+              },
+              "meta_tags": {
+                "title": true,
+                "robots": false,
+                "canonical": false,
+                "open_graph": true,
+                "description": true,
+                "twitter_card": true
+              },
+              "page_family": "local",
+              "blocks_found": 1,
+              "nodes_parsed": 1,
+              "present_types": [
+                "Organization"
+              ],
+              "page_family_missing": [
+                "LocalBusiness",
+                "PostalAddress",
+                "OpeningHoursSpecification"
+              ],
+              "page_family_expected": [
+                "LocalBusiness",
+                "PostalAddress",
+                "OpeningHoursSpecification"
+              ],
+              "page_family_strength": 0
+            }
+          },
+          {
+            "key": "agent_readiness",
+            "label": "Agent Readiness",
+            "weight": 10,
+            "score": 7.2,
+            "status": "warn",
+            "issuesCount": 3,
+            "details": {
+              "probes": [
+                {
+                  "ok": true,
+                  "key": "agent_discovery",
+                  "url": "https://browser-use.com/llms.txt",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "agent_skills",
+                  "url": "https://browser-use.com/skills",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "agent_navigation",
+                  "url": "https://browser-use.com/sitemap.xml",
+                  "status": 200
+                }
+              ],
+              "detected": {
+                "api": true,
+                "cli": true,
+                "mcp": true,
+                "x402": false,
+                "portal": false,
+                "webmcp": false,
+                "agent_skills": true,
+                "agent_discovery": true,
+                "agent_navigation": true,
+                "integration_safety": true
+              },
+              "checked_paths": [
+                "/openapi.json",
+                "/swagger.json",
+                "/api/openapi.json",
+                "/api/docs",
+                "/docs/api",
+                "/developers",
+                "/mcp",
+                "/docs/mcp",
+                "/.well-known/mcp.json",
+                "/docs/cli",
+                "/cli",
+                "/install",
+                "/webmcp",
+                "/docs/webmcp",
+                "/.well-known/webmcp.json",
+                "/portal",
+                "/portal.json",
+                "/.well-known/portal.json",
+                "/docs/portal",
+                "/.well-known/x402.json",
+                "/docs/x402",
+                "/docs/payments",
+                "/api/x402",
+                "/llms.txt",
+                "/llms-full.txt",
+                "/.well-known/ai-plugin.json",
+                "/.well-known/agent.json",
+                "/agents.json",
+                "/.well-known/agent-skills.json",
+                "/.well-known/agents.json",
+                "/agent-skills.json",
+                "/actions.json",
+                "/tools.json",
+                "/skills",
+                "/agent-skills",
+                "/docs/skills",
+                "/docs/agents",
+                "/sitemap.xml",
+                "/sitemap_index.xml",
+                "/docs",
+                "/help",
+                "/search",
+                "/docs/auth",
+                "/docs/webhooks",
+                "/docs/rate-limits",
+                "/status"
+              ]
+            }
+          },
+          {
+            "key": "llmstxt",
+            "label": "llms.txt",
+            "weight": 10,
+            "score": 8,
+            "status": "pass",
+            "issuesCount": 1,
+            "details": {
+              "has_h1": true,
+              "broken_links": [],
+              "links_broken": 0,
+              "links_sampled": 5,
+              "llms_txt_present": true,
+              "llms_full_txt_present": false
+            }
+          },
+          {
+            "key": "entity",
+            "label": "Entity Clarity",
+            "weight": 10,
+            "score": 2,
+            "status": "fail",
+            "issuesCount": 3,
+            "details": {
+              "byline": false,
+              "founder_in_ld": false,
+              "about_reachable": true,
+              "self_identification": false
+            }
+          },
+          {
+            "key": "freshness",
+            "label": "Freshness",
+            "weight": 5,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "source": null,
+              "days_since": null,
+              "updated_iso": null
+            }
+          },
+          {
+            "key": "offsite",
+            "label": "Off-site Authority (proxy)",
+            "weight": 5,
+            "score": 2,
+            "status": "warn",
+            "issuesCount": 0,
+            "details": {
+              "platforms_detected": [
+                "github",
+                "linkedin"
+              ],
+              "header_footer_links": 10
+            }
+          },
+          {
+            "key": "web_verification",
+            "label": "Web Verification",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "consensus": {
+                "fetch_ok": 2,
+                "search_ok": 2,
+                "fetch_total": 2,
+                "verified_by": 4,
+                "search_total": 2,
+                "search_matched": 2,
+                "content_agreement": "multi_fetch",
+                "measured_providers": 4
+              },
+              "providers": [
+                {
+                  "ok": true,
+                  "kind": "fetch",
+                  "title": "Browser Use - The way AI uses the internet",
+                  "status": 200,
+                  "finalUrl": "https://browser-use.com/",
+                  "provider": "http",
+                  "latencyMs": 75,
+                  "textChars": 19935,
+                  "description": "78,000+ GitHub stars. Trusted by Fortune 500. The #1 open-source browser automation platform."
+                },
+                {
+                  "ok": true,
+                  "kind": "fetch",
+                  "title": "Browser Use - The way AI uses the internet",
+                  "status": 200,
+                  "finalUrl": "https://browser-use.com/",
+                  "provider": "tinyfish_fetch",
+                  "latencyMs": 220.55145299964352,
+                  "textChars": 423,
+                  "description": "78,000+ GitHub stars. Trusted by Fortune 500. The #1 open-source browser automation platform."
+                },
+                {
+                  "ok": true,
+                  "kind": "search",
+                  "query": "site:browser-use.com browser-use",
+                  "status": 200,
+                  "results": [
+                    {
+                      "url": "https://browser-use.com/",
+                      "title": "Browser Use - The way AI uses the internet",
+                      "snippet": "Stealth Browsers. Anti-detect, CAPTCHA solving, 195+ country proxies. Zero config. Custom Models. LLMs purpose-built for browser automation. TASKS PER $1.",
+                      "position": 1,
+                      "siteName": "browser-use.com"
+                    },
+                    {
+                      "url": "https://docs.browser-use.com/cloud/quickstart",
+                      "title": "Quick start - Browser Use",
+                      "snippet": "State-of-the-art AI browser automation with stealth browsers, CAPTCHA solving, residential proxies, and managed infrastructure.",
+                      "position": 2,
+                      "siteName": "docs.browser-use.com"
+                    },
+                    {
+                      "url": "https://cloud.browser-use.com/",
+                      "title": "Browser Use Cloud",
+                      "snippet": "We enable LLMs to use the browser and browse the web.",
+                      "position": 3,
+                      "siteName": "cloud.browser-use.com"
+                    },
+                    {
+                      "url": "https://docs.browser-use.com/open-source/introduction",
+                      "title": "Browser Use Open Source",
+                      "snippet": "Python library for AI browser automation with 79k+ GitHub stars. Connect any LLM and run locally or self-hosted. Open in ChatGPT. Browser Use Open Source ...",
+                      "position": 4,
+                      "siteName": "docs.browser-use.com"
+                    },
+                    {
+                      "url": "https://browser-use.com/pricing",
+                      "title": "Pricing - Browser Use",
+                      "snippet": "Cloud browsers with advanced stealth. Pair with our open-source Browser Harness or our fully-hosted v3 agent. Per-minute session billing, per-GB bandwidth.",
+                      "position": 5,
+                      "siteName": "browser-use.com"
+                    }
+                  ],
+                  "provider": "tinyfish_search",
+                  "totalResults": 10,
+                  "topMatchPosition": 1
+                },
+                {
+                  "ok": true,
+                  "kind": "search",
+                  "query": "site:browser-use.com browser-use",
+                  "status": 200,
+                  "results": [
+                    {
+                      "url": "https://browser-use.com/",
+                      "title": "Browser Use - The way AI uses the internet",
+                      "snippet": "78,000+ GitHub stars. Trusted by Fortune 500. The #1 open-source browser automation platform.",
+                      "position": 1,
+                      "siteName": "Browser Use"
+                    },
+                    {
+                      "url": "https://docs.browser-use.com/cloud/quickstart",
+                      "title": "Quick start - Browser Use",
+                      "snippet": "import asyncio from browser_use_sdk.v3 import AsyncBrowserUse async def main(): client = AsyncBrowserUse() result = await client.run(&quot;List the top 20 posts on Hacker News toda",
+                      "position": 2,
+                      "siteName": "Browser Use"
+                    },
+                    {
+                      "url": "https://cloud.browser-use.com/",
+                      "title": "Browser Use Cloud",
+                      "snippet": "We cannot provide a description for this page right now",
+                      "position": 3,
+                      "siteName": "Browser-use"
+                    },
+                    {
+                      "url": "https://docs.cloud.browser-use.com/get-started/human-quickstart",
+                      "title": "Human Quickstart | Browser Use Cloud Docs",
+                      "snippet": "The apiKey parameter is optional if you set the BROWSER_USE_API_KEY environment variable.",
+                      "position": 4,
+                      "siteName": "Browser-use"
+                    },
+                    {
+                      "url": "https://browser-use.com/posts/web-scraping-guide-2026",
+                      "title": "The Ultimate Guide to Web Scraping (2026)",
+                      "snippet": "Browser Use has 950+ integrations, so you can pipe scraped data into Google Sheets, Slack, or a database without glue code, as well as plug in data sources. Here&#x27;s an example ",
+                      "position": 5,
+                      "siteName": "Browser Use"
+                    }
+                  ],
+                  "provider": "brave_search",
+                  "totalResults": 5,
+                  "topMatchPosition": 1
+                }
+              ],
+              "non_scoring": true,
+              "configured_providers": [
+                "http",
+                "tinyfish_fetch",
+                "tinyfish_search",
+                "brave_search"
+              ]
+            }
+          },
+          {
+            "key": "content_gaps",
+            "label": "Content Gap Opportunities",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 2,
+            "details": {
+              "non_scoring": true,
+              "missing_faqs": [
+                "What is AI agent tooling?",
+                "How does Browser Use work?",
+                "How much does Browser Use cost?",
+                "What makes Browser Use different?"
+              ],
+              "pages_checked": 1,
+              "missing_entities": [
+                {
+                  "entity": "company description",
+                  "reason": "No about or company page found in sampled pages.",
+                  "entity_type": "brand",
+                  "where_expected": "about or company page"
+                },
+                {
+                  "entity": "team/founders",
+                  "reason": "No team or founder page found in sampled pages.",
+                  "entity_type": "person",
+                  "where_expected": "team or founder page"
+                }
+              ],
+              "missing_comparisons": [
+                "Browser Use vs top competitor",
+                "Browser Use vs alternative tools",
+                "Best AI Agent Tooling tools compared"
+              ],
+              "missing_content_types": [
+                {
+                  "type": "faq",
+                  "impact": "high",
+                  "reason": "No dedicated FAQ surface found for question-style retrieval.",
+                  "suggested_title": "Frequently Asked Questions about AI Agent Tooling"
+                },
+                {
+                  "type": "glossary",
+                  "impact": "high",
+                  "reason": "No glossary or definition hub found for entity and term authority.",
+                  "suggested_title": "AI Agent Tooling Glossary: Key Terms Explained"
+                },
+                {
+                  "type": "comparison",
+                  "impact": "medium",
+                  "reason": "No comparison surface found for high-intent evaluation queries.",
+                  "suggested_title": "Browser Use vs Alternatives: Detailed Comparison"
+                },
+                {
+                  "type": "guide",
+                  "impact": "medium",
+                  "reason": "No guide or how-to surface found for procedural extraction.",
+                  "suggested_title": "Complete Guide to AI Agent Tooling"
+                },
+                {
+                  "type": "case_study",
+                  "impact": "medium",
+                  "reason": "No case-study or customer-proof surface found.",
+                  "suggested_title": "Browser Use Case Study: Real Results from AI Agent Tooling"
+                },
+                {
+                  "type": "benchmark",
+                  "impact": "medium",
+                  "reason": "No benchmark, research, or proprietary-data surface found.",
+                  "suggested_title": "AI Agent Tooling Benchmarks: Performance Data"
+                }
+              ],
+              "missing_ecosystem_pages": []
+            }
+          },
+          {
+            "key": "content_decay",
+            "label": "Content Decay",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 1,
+            "details": {
+              "non_scoring": true,
+              "pages_scanned": 1,
+              "volatile_pages": 1,
+              "evergreen_score": 9.5,
+              "stale_year_pages": 0,
+              "updated_signal_pages": 0
+            }
+          },
+          {
+            "key": "trust_stack",
+            "label": "Trust Stack",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "grade": "D",
+              "layers": {
+                "safety": 50,
+                "identity": 41,
+                "authority": 45,
+                "technical": 73,
+                "consistency": 38
+              },
+              "overall": 49,
+              "non_scoring": true
+            }
+          },
+          {
+            "key": "prompt_injection",
+            "label": "Prompt Injection",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "findings": [],
+              "non_scoring": true,
+              "pages_scanned": 1
+            }
+          },
+          {
+            "key": "template_coverage",
+            "label": "Template Coverage",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "mode": "homepage",
+              "non_scoring": true,
+              "homepage_only": true,
+              "pages_scanned": 1,
+              "sampled_pages": 0,
+              "page_templates": [
+                {
+                  "url": "https://browser-use.com/",
+                  "template": "homepage",
+                  "text_chars": 19935
+                }
+              ],
+              "unique_templates": [
+                "homepage"
+              ]
+            }
+          },
+          {
+            "key": "negative_signals",
+            "label": "Negative Signals",
+            "weight": 0,
+            "score": 0,
+            "status": "warn",
+            "issuesCount": 0,
+            "details": {
+              "flags": [
+                {
+                  "key": "cta_overload",
+                  "count": 0,
+                  "label": "CTA overload"
+                },
+                {
+                  "key": "intrusive_overlay",
+                  "count": 0,
+                  "label": "Intrusive overlay patterns"
+                },
+                {
+                  "key": "thin_pages",
+                  "count": 0,
+                  "label": "Thin pages"
+                },
+                {
+                  "key": "missing_author_signals",
+                  "count": 0,
+                  "label": "Missing author signals"
+                },
+                {
+                  "key": "boilerplate_heavy",
+                  "count": 1,
+                  "label": "Boilerplate-heavy pages"
+                }
+              ],
+              "non_scoring": true,
+              "pages_scanned": 1,
+              "sampled_pages": [
+                {
+                  "url": "https://browser-use.com/",
+                  "template": "homepage",
+                  "text_chars": 19935,
+                  "has_canonical": false
+                }
+              ]
+            }
+          },
+          {
+            "key": "platform_profiles",
+            "label": "Platform Profiles",
+            "weight": 0,
+            "score": 0,
+            "status": "warn",
+            "issuesCount": 4,
+            "details": {
+              "profiles": {
+                "claude": 59,
+                "chatgpt": 56,
+                "google_ai": 32,
+                "perplexity": 44
+              },
+              "non_scoring": true
+            }
+          }
+        ],
+        "issues": [
+          {
+            "severity": "high",
+            "title": "External links exist but none hit the authoritative allowlist",
+            "fix": "Cite at least one .edu/.gov, Wikipedia, IETF/W3C spec, or tier-1 publication near your flagship claims.",
+            "dimensionKey": "citations"
+          },
+          {
+            "severity": "high",
+            "title": "Statistical claims are unsourced",
+            "fix": "Every % / 'X customers' / stat deserves an inline citation link to the origin study or publication.",
+            "dimensionKey": "citations"
+          },
+          {
+            "severity": "high",
+            "title": "No definition-lead opener in the first 150 tokens",
+            "fix": "Open the homepage with '<Brand> is a <category> that <differentiator>' — this is the single biggest lever for AI citability.",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "high",
+            "title": "No FAQ section detected",
+            "fix": "Add a FAQ block with ≥5 question/answer pairs using <details>/<summary> or <h3>+<p> patterns. Also mark it up with FAQPage JSON-LD.",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "low",
+            "title": "Core meta tags are incomplete",
+            "fix": "Add a unique <title>, meta description, and canonical URL. Add Open Graph/Twitter tags for share and citation previews.",
+            "dimensionKey": "schema"
+          },
+          {
+            "severity": "low",
+            "title": "Volatile content lacks update signals",
+            "fix": "Pages about prices, versions, launches, or changing data should expose a clear last-updated date and refresh cadence.",
+            "dimensionKey": "content_decay"
+          },
+          {
+            "severity": "low",
+            "title": "Identity trust layer is weak",
+            "fix": "Strengthen the identity layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Chatgpt readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive chatgpt citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Safety trust layer is weak",
+            "fix": "Strengthen the safety layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Claude readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive claude citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "No named author or byline visible",
+            "fix": "If the homepage surfaces editorial content, include an author byline (Person JSON-LD or 'By <Name>').",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "low",
+            "title": "No x402 payment support detected",
+            "fix": "If paid agent/API access is supported, document x402 payment flow, supported networks/tokens, payment headers, and facilitator behavior.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "Authority trust layer is weak",
+            "fix": "Strengthen the authority layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Google ai readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive google_ai citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Weak JSON-LD for local page family",
+            "fix": "Add page-family schema for LocalBusiness, PostalAddress, OpeningHoursSpecification. Strong JSON-LD should match the page type, not just include generic Organization markup.",
+            "dimensionKey": "schema"
+          },
+          {
+            "severity": "low",
+            "title": "No /llms-full.txt variant published",
+            "fix": "Optional: add /llms-full.txt with the expanded content concatenated inline. Some tools prefer the full version.",
+            "dimensionKey": "llmstxt"
+          },
+          {
+            "severity": "low",
+            "title": "Organization JSON-LD missing founder",
+            "fix": "Add 'founder': [{ @type: Person, name: ... }] to the Organization schema.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "low",
+            "title": "Perplexity readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive perplexity citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Template coverage is limited in homepage-only scans",
+            "fix": "Run Template Audit, Full Site, or Deep Investigation mode to compare key templates across the site.",
+            "dimensionKey": "template_coverage"
+          },
+          {
+            "severity": "low",
+            "title": "2 entity page gaps detected",
+            "fix": "Add explicit entity surfaces: about or company page, team or founder page.",
+            "dimensionKey": "content_gaps"
+          },
+          {
+            "severity": "low",
+            "title": "Consistency trust layer is weak",
+            "fix": "Strengthen the consistency layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "No WebMCP access signal detected",
+            "fix": "If the site supports browser-native agent access, publish a WebMCP endpoint or discovery document and link it from developer docs and llms.txt.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "No Portal visit layer detected",
+            "fix": "If the service supports temporary agent visits, publish a Portal manifest at /portal with tool metadata and a call endpoint, then link it from docs and llms.txt.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "medium",
+            "title": "H3 appears before first H2 (broken hierarchy)",
+            "fix": "Use exactly one H1, ensure the first H2 precedes any H3, and give every H2 a clear topic label (3+ words).",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "medium",
+            "title": "No clear self-identification in the opening paragraph",
+            "fix": "Open with 'We are ...' / 'Our mission is ...' / 'This is ...' — AI models need explicit entity framing.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "medium",
+            "title": "2 high-impact content gaps detected",
+            "fix": "Prioritize: Frequently Asked Questions about AI Agent Tooling; AI Agent Tooling Glossary: Key Terms Explained.",
+            "dimensionKey": "content_gaps"
+          },
+          {
+            "severity": "medium",
+            "title": "No last-updated signal on homepage",
+            "fix": "Add <time datetime='YYYY-MM-DD'>Updated ...</time> or article:modified_time meta, or expose dateModified in Article JSON-LD.",
+            "dimensionKey": "freshness"
           }
         ],
         "promptTests": []
@@ -8296,16 +9883,16 @@
       "error": null
     },
     {
-      "fullName": "mattpocock/skills",
+      "fullName": "HKUDS/DeepTutor",
       "rank": 15,
       "selectedFrom": "incremental",
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-25T09:09:04.460Z",
+      "lastProfiledAt": "2026-04-25T10:06:44.510Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/mattpocock/skills",
+        "githubUrl": "https://github.com/HKUDS/DeepTutor",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -10792,16 +12379,34 @@
       "error": null
     },
     {
-      "fullName": "garrytan/gbrain",
+      "fullName": "ZhuLinsen/daily_stock_analysis",
+      "rank": 17,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-25T10:06:44.912Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/ZhuLinsen/daily_stock_analysis",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "addyosmani/agent-skills",
       "rank": 18,
       "selectedFrom": "incremental",
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-25T09:09:04.853Z",
+      "lastProfiledAt": "2026-04-25T10:06:45.323Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/garrytan/gbrain",
+        "githubUrl": "https://github.com/addyosmani/agent-skills",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -12469,21 +14074,825 @@
       "error": null
     },
     {
-      "fullName": "shiyu-coder/Kronos",
+      "fullName": "nashsu/llm_wiki",
       "rank": 19,
       "selectedFrom": "incremental",
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-25T09:09:05.237Z",
+      "lastProfiledAt": "2026-04-25T10:06:45.717Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/shiyu-coder/Kronos",
+        "githubUrl": "https://github.com/nashsu/llm_wiki",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
       },
       "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "datawhalechina/easy-vibe",
+      "rank": 20,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://datawhalechina.github.io/easy-vibe/",
+      "websiteSource": "github_homepage",
+      "status": "scanned",
+      "lastProfiledAt": "2026-04-25T10:06:45.732Z",
+      "nextScanAfter": "2026-05-02T10:07:09.766Z",
+      "surfaces": {
+        "githubUrl": "https://github.com/datawhalechina/easy-vibe",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": {
+        "scanId": "ad3b8d18-d198-4ab1-a560-aea1d479a587",
+        "url": "https://datawhalechina.github.io/easy-vibe",
+        "projectName": null,
+        "projectUrl": null,
+        "source": "web",
+        "status": "completed",
+        "score": 27,
+        "tier": "invisible",
+        "runtimeVisibility": null,
+        "scanDurationMs": 20899,
+        "completedAt": "2026-04-25T10:07:07.387+00:00",
+        "resultUrl": "https://aiso.tools/scan/ad3b8d18-d198-4ab1-a560-aea1d479a587",
+        "dimensions": [
+          {
+            "key": "citations",
+            "label": "Citation Density",
+            "weight": 20,
+            "score": 10,
+            "status": "warn",
+            "issuesCount": 2,
+            "details": {
+              "word_count": 2007,
+              "stats_count": 19,
+              "external_links": 4,
+              "authoritative_links": 0,
+              "stats_density_per_500w": 4.73,
+              "citations_density_per_500w": 0
+            }
+          },
+          {
+            "key": "structure",
+            "label": "Content Structure",
+            "weight": 20,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "heading_ok": false,
+              "faq_present": false,
+              "answer_first": false,
+              "heading_issue": "Found 0 H1 elements (expected exactly 1)",
+              "definition_lead": false,
+              "main_text_tokens": 3
+            }
+          },
+          {
+            "key": "crawler",
+            "label": "Crawler Access",
+            "weight": 15,
+            "score": 7,
+            "status": "warn",
+            "issuesCount": 1,
+            "details": {
+              "allowed_bots": 14,
+              "blocked_bots": 0,
+              "robots_present": false,
+              "cloudflare_suspected": false,
+              "gptbot_homepage_blocked": false
+            }
+          },
+          {
+            "key": "schema",
+            "label": "Schema Markup",
+            "weight": 15,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 2,
+            "details": {
+              "coverage": {
+                "person": 0,
+                "article": 0,
+                "faqPage": 0,
+                "website": 0,
+                "breadcrumb": 0,
+                "organization": 0
+              },
+              "meta_tags": {
+                "title": true,
+                "robots": false,
+                "canonical": false,
+                "open_graph": false,
+                "description": true,
+                "twitter_card": false
+              },
+              "page_family": "homepage",
+              "blocks_found": 0,
+              "nodes_parsed": 0,
+              "present_types": [],
+              "page_family_missing": [
+                "Organization",
+                "WebSite",
+                "FAQPage"
+              ],
+              "page_family_expected": [
+                "Organization",
+                "WebSite",
+                "FAQPage"
+              ],
+              "page_family_strength": 0
+            }
+          },
+          {
+            "key": "llmstxt",
+            "label": "llms.txt",
+            "weight": 10,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "has_h1": false,
+              "broken_links": [],
+              "links_broken": 0,
+              "links_sampled": 0,
+              "llms_txt_present": false,
+              "llms_full_txt_present": false
+            }
+          },
+          {
+            "key": "agent_readiness",
+            "label": "Agent Readiness",
+            "weight": 10,
+            "score": 6.2,
+            "status": "warn",
+            "issuesCount": 4,
+            "details": {
+              "probes": [],
+              "detected": {
+                "api": true,
+                "cli": true,
+                "mcp": true,
+                "x402": false,
+                "portal": false,
+                "webmcp": false,
+                "agent_skills": true,
+                "agent_discovery": false,
+                "agent_navigation": true,
+                "integration_safety": true
+              },
+              "checked_paths": [
+                "/openapi.json",
+                "/swagger.json",
+                "/api/openapi.json",
+                "/api/docs",
+                "/docs/api",
+                "/developers",
+                "/mcp",
+                "/docs/mcp",
+                "/.well-known/mcp.json",
+                "/docs/cli",
+                "/cli",
+                "/install",
+                "/webmcp",
+                "/docs/webmcp",
+                "/.well-known/webmcp.json",
+                "/portal",
+                "/portal.json",
+                "/.well-known/portal.json",
+                "/docs/portal",
+                "/.well-known/x402.json",
+                "/docs/x402",
+                "/docs/payments",
+                "/api/x402",
+                "/llms.txt",
+                "/llms-full.txt",
+                "/.well-known/ai-plugin.json",
+                "/.well-known/agent.json",
+                "/agents.json",
+                "/.well-known/agent-skills.json",
+                "/.well-known/agents.json",
+                "/agent-skills.json",
+                "/actions.json",
+                "/tools.json",
+                "/skills",
+                "/agent-skills",
+                "/docs/skills",
+                "/docs/agents",
+                "/sitemap.xml",
+                "/sitemap_index.xml",
+                "/docs",
+                "/help",
+                "/search",
+                "/docs/auth",
+                "/docs/webhooks",
+                "/docs/rate-limits",
+                "/status"
+              ]
+            }
+          },
+          {
+            "key": "entity",
+            "label": "Entity Clarity",
+            "weight": 10,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "byline": false,
+              "founder_in_ld": false,
+              "about_reachable": false,
+              "self_identification": false
+            }
+          },
+          {
+            "key": "freshness",
+            "label": "Freshness",
+            "weight": 5,
+            "score": 5,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "source": "last_modified_header",
+              "days_since": 0,
+              "updated_iso": "2026-04-25T01:36:35.000Z"
+            }
+          },
+          {
+            "key": "offsite",
+            "label": "Off-site Authority (proxy)",
+            "weight": 5,
+            "score": 1,
+            "status": "fail",
+            "issuesCount": 0,
+            "details": {
+              "platforms_detected": [
+                "github"
+              ],
+              "header_footer_links": 4
+            }
+          },
+          {
+            "key": "negative_signals",
+            "label": "Negative Signals",
+            "weight": 0,
+            "score": 0,
+            "status": "warn",
+            "issuesCount": 0,
+            "details": {
+              "flags": [
+                {
+                  "key": "cta_overload",
+                  "count": 0,
+                  "label": "CTA overload"
+                },
+                {
+                  "key": "intrusive_overlay",
+                  "count": 0,
+                  "label": "Intrusive overlay patterns"
+                },
+                {
+                  "key": "thin_pages",
+                  "count": 0,
+                  "label": "Thin pages"
+                },
+                {
+                  "key": "missing_author_signals",
+                  "count": 0,
+                  "label": "Missing author signals"
+                },
+                {
+                  "key": "boilerplate_heavy",
+                  "count": 1,
+                  "label": "Boilerplate-heavy pages"
+                }
+              ],
+              "non_scoring": true,
+              "pages_scanned": 1,
+              "sampled_pages": [
+                {
+                  "url": "https://datawhalechina.github.io/easy-vibe",
+                  "template": "homepage",
+                  "text_chars": 132297,
+                  "has_canonical": false
+                }
+              ]
+            }
+          },
+          {
+            "key": "trust_stack",
+            "label": "Trust Stack",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "grade": "F",
+              "layers": {
+                "safety": 32,
+                "identity": 31,
+                "authority": 35,
+                "technical": 34,
+                "consistency": 63
+              },
+              "overall": 39,
+              "non_scoring": true
+            }
+          },
+          {
+            "key": "web_verification",
+            "label": "Web Verification",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "consensus": {
+                "fetch_ok": 2,
+                "search_ok": 2,
+                "fetch_total": 2,
+                "verified_by": 4,
+                "search_total": 2,
+                "search_matched": 2,
+                "content_agreement": "multi_fetch",
+                "measured_providers": 4
+              },
+              "providers": [
+                {
+                  "ok": true,
+                  "kind": "fetch",
+                  "title": "VitePress",
+                  "status": 200,
+                  "finalUrl": "https://datawhalechina.github.io/easy-vibe/",
+                  "provider": "http",
+                  "latencyMs": 517,
+                  "textChars": 132297,
+                  "description": "A VitePress site"
+                },
+                {
+                  "ok": true,
+                  "kind": "fetch",
+                  "title": "VitePress",
+                  "status": 200,
+                  "finalUrl": "https://datawhalechina.github.io/easy-vibe/welcome.html?next=%2Feasy-vibe%2Fen%2F",
+                  "provider": "tinyfish_fetch",
+                  "latencyMs": 6990.025050006807,
+                  "textChars": 73,
+                  "description": "A VitePress site"
+                },
+                {
+                  "ok": true,
+                  "kind": "search",
+                  "query": "site:datawhalechina.github.io datawhalechina",
+                  "status": 200,
+                  "results": [
+                    {
+                      "url": "https://datawhalechina.github.io/hello-claw/en/",
+                      "title": "Hello Claw",
+                      "snippet": "This project is a comprehensive learning tutorial for OpenClaw, helping you master this powerful command-line AI assistant system from scratch. Whether you want ...",
+                      "position": 1,
+                      "siteName": "datawhalechina.github.io"
+                    },
+                    {
+                      "url": "https://datawhalechina.github.io/easy-vibe/en/",
+                      "title": "Easy-Vibe Tutorial",
+                      "snippet": "Learn Vibe Coding from Zero to Advanced - Master AI programming with Claude Code, Cursor, and other AI IDE tools.",
+                      "position": 2,
+                      "siteName": "datawhalechina.github.io"
+                    },
+                    {
+                      "url": "https://datawhalechina.github.io/joyrl/",
+                      "title": "JoyRL - README",
+                      "snippet": "JoyRL is a parallel reinforcement learning library based on PyTorch and Ray. Unlike existing RL libraries, JoyRL is helping users to release the burden of ...",
+                      "position": 3,
+                      "siteName": "datawhalechina.github.io"
+                    },
+                    {
+                      "url": "https://datawhalechina.github.io/torch-rechub/",
+                      "title": "torch-rechub",
+                      "snippet": "Torch-RecHubA Lightweight PyTorch Framework for Recommendation Systems. Easy-to-use, extensible, and high-performance recommendation system framework.",
+                      "position": 4,
+                      "siteName": "datawhalechina.github.io"
+                    },
+                    {
+                      "url": "https://datawhalechina.github.io/distil-rl-introduction/",
+                      "title": "DistilRL: A Condensed Introduction — DistilRLIntro 0.1 documentation",
+                      "snippet": "DistilRL: A Condensed Introduction# · I. Introduction# · II. Tabular Solution Methods# · III. Approximate Solution Methods#.",
+                      "position": 5,
+                      "siteName": "datawhalechina.github.io"
+                    }
+                  ],
+                  "provider": "tinyfish_search",
+                  "totalResults": 10,
+                  "topMatchPosition": 1
+                },
+                {
+                  "ok": true,
+                  "kind": "search",
+                  "query": "site:datawhalechina.github.io datawhalechina",
+                  "status": 200,
+                  "results": [
+                    {
+                      "url": "https://datawhalechina.github.io/hello-agents/",
+                      "title": "Hello-Agents",
+                      "snippet": "English",
+                      "position": 1,
+                      "siteName": "Datawhalechina"
+                    },
+                    {
+                      "url": "https://datawhalechina.github.io/ai-club/",
+                      "title": "Datawhale 高校联盟",
+                      "snippet": "跳转至 · 点亮更多的个体，建立有意义的人际关系¶ · Datawhale 高校联盟致力于…… · 关注 Datawhale，和学习者一起成长！ · 回到页面顶部",
+                      "position": 2,
+                      "siteName": "Datawhalechina"
+                    },
+                    {
+                      "url": "https://datawhalechina.github.io/juicy-bigdata/",
+                      "title": "妙趣横生大数据Juicy Big Data",
+                      "snippet": "We cannot provide a description for this page right now",
+                      "position": 3,
+                      "siteName": "Datawhalechina"
+                    },
+                    {
+                      "url": "https://datawhalechina.github.io/pumpkin-book/",
+                      "title": "南瓜书PumpkinBook",
+                      "snippet": "We cannot provide a description for this page right now",
+                      "position": 4,
+                      "siteName": "Datawhalechina"
+                    },
+                    {
+                      "url": "https://datawhalechina.github.io/hello-claw/",
+                      "title": "VitePress",
+                      "snippet": "A VitePress site",
+                      "position": 5,
+                      "siteName": "Datawhalechina"
+                    }
+                  ],
+                  "provider": "brave_search",
+                  "totalResults": 10,
+                  "topMatchPosition": 1
+                }
+              ],
+              "non_scoring": true,
+              "configured_providers": [
+                "http",
+                "tinyfish_fetch",
+                "tinyfish_search",
+                "brave_search"
+              ]
+            }
+          },
+          {
+            "key": "prompt_injection",
+            "label": "Prompt Injection",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "findings": [],
+              "non_scoring": true,
+              "pages_scanned": 1
+            }
+          },
+          {
+            "key": "template_coverage",
+            "label": "Template Coverage",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "mode": "homepage",
+              "non_scoring": true,
+              "homepage_only": true,
+              "pages_scanned": 1,
+              "sampled_pages": 0,
+              "page_templates": [
+                {
+                  "url": "https://datawhalechina.github.io/easy-vibe",
+                  "template": "homepage",
+                  "text_chars": 132297
+                }
+              ],
+              "unique_templates": [
+                "homepage"
+              ]
+            }
+          },
+          {
+            "key": "content_decay",
+            "label": "Content Decay",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 1,
+            "details": {
+              "non_scoring": true,
+              "pages_scanned": 1,
+              "volatile_pages": 1,
+              "evergreen_score": 9.5,
+              "stale_year_pages": 0,
+              "updated_signal_pages": 0
+            }
+          },
+          {
+            "key": "platform_profiles",
+            "label": "Platform Profiles",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "profiles": {
+                "claude": 35,
+                "chatgpt": 25,
+                "google_ai": 30,
+                "perplexity": 43
+              },
+              "non_scoring": true
+            }
+          },
+          {
+            "key": "content_gaps",
+            "label": "Content Gap Opportunities",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 2,
+            "details": {
+              "non_scoring": true,
+              "missing_faqs": [
+                "What is AI agent tooling?",
+                "How does Datawhalechina work?",
+                "How much does Datawhalechina cost?",
+                "What makes Datawhalechina different?"
+              ],
+              "pages_checked": 1,
+              "missing_entities": [
+                {
+                  "entity": "company description",
+                  "reason": "No about or company page found in sampled pages.",
+                  "entity_type": "brand",
+                  "where_expected": "about or company page"
+                },
+                {
+                  "entity": "team/founders",
+                  "reason": "No team or founder page found in sampled pages.",
+                  "entity_type": "person",
+                  "where_expected": "team or founder page"
+                },
+                {
+                  "entity": "pricing information",
+                  "reason": "No pricing page found in sampled pages.",
+                  "entity_type": "product",
+                  "where_expected": "pricing page"
+                },
+                {
+                  "entity": "technical documentation",
+                  "reason": "No docs or API page found in sampled pages.",
+                  "entity_type": "product",
+                  "where_expected": "docs or API page"
+                }
+              ],
+              "missing_comparisons": [
+                "Datawhalechina vs top competitor",
+                "Datawhalechina vs alternative tools",
+                "Best AI Agent Tooling tools compared"
+              ],
+              "missing_content_types": [
+                {
+                  "type": "faq",
+                  "impact": "high",
+                  "reason": "No dedicated FAQ surface found for question-style retrieval.",
+                  "suggested_title": "Frequently Asked Questions about AI Agent Tooling"
+                },
+                {
+                  "type": "glossary",
+                  "impact": "high",
+                  "reason": "No glossary or definition hub found for entity and term authority.",
+                  "suggested_title": "AI Agent Tooling Glossary: Key Terms Explained"
+                },
+                {
+                  "type": "comparison",
+                  "impact": "medium",
+                  "reason": "No comparison surface found for high-intent evaluation queries.",
+                  "suggested_title": "Datawhalechina vs Alternatives: Detailed Comparison"
+                },
+                {
+                  "type": "guide",
+                  "impact": "medium",
+                  "reason": "No guide or how-to surface found for procedural extraction.",
+                  "suggested_title": "Complete Guide to AI Agent Tooling"
+                },
+                {
+                  "type": "case_study",
+                  "impact": "medium",
+                  "reason": "No case-study or customer-proof surface found.",
+                  "suggested_title": "Datawhalechina Case Study: Real Results from AI Agent Tooling"
+                },
+                {
+                  "type": "benchmark",
+                  "impact": "medium",
+                  "reason": "No benchmark, research, or proprietary-data surface found.",
+                  "suggested_title": "AI Agent Tooling Benchmarks: Performance Data"
+                }
+              ],
+              "missing_ecosystem_pages": [
+                "Datawhalechina integrations and ecosystem",
+                "How Datawhalechina works with popular tools"
+              ]
+            }
+          }
+        ],
+        "issues": [
+          {
+            "severity": "critical",
+            "title": "No /llms.txt file found",
+            "fix": "Publish /llms.txt at the site root with '# <Project>' + a short summary + H2 sections linking to canonical doc URLs.",
+            "dimensionKey": "llmstxt"
+          },
+          {
+            "severity": "critical",
+            "title": "No valid Organization JSON-LD",
+            "fix": "Add <script type='application/ld+json'> with @type:Organization including name, url, logo, and sameAs (≥3 social profiles).",
+            "dimensionKey": "schema"
+          },
+          {
+            "severity": "high",
+            "title": "External links exist but none hit the authoritative allowlist",
+            "fix": "Cite at least one .edu/.gov, Wikipedia, IETF/W3C spec, or tier-1 publication near your flagship claims.",
+            "dimensionKey": "citations"
+          },
+          {
+            "severity": "high",
+            "title": "No robots.txt found",
+            "fix": "Publish a /robots.txt that explicitly allows GPTBot, ClaudeBot, PerplexityBot, Google-Extended and other AI crawlers.",
+            "dimensionKey": "crawler"
+          },
+          {
+            "severity": "high",
+            "title": "Statistical claims are unsourced",
+            "fix": "Every % / 'X customers' / stat deserves an inline citation link to the origin study or publication.",
+            "dimensionKey": "citations"
+          },
+          {
+            "severity": "high",
+            "title": "No definition-lead opener in the first 150 tokens",
+            "fix": "Open the homepage with '<Brand> is a <category> that <differentiator>' — this is the single biggest lever for AI citability.",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "high",
+            "title": "No FAQ section detected",
+            "fix": "Add a FAQ block with ≥5 question/answer pairs using <details>/<summary> or <h3>+<p> patterns. Also mark it up with FAQPage JSON-LD.",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "low",
+            "title": "Authority trust layer is weak",
+            "fix": "Strengthen the authority layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Chatgpt readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive chatgpt citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "No Portal visit layer detected",
+            "fix": "If the service supports temporary agent visits, publish a Portal manifest at /portal with tool metadata and a call endpoint, then link it from docs and llms.txt.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "Core meta tags are incomplete",
+            "fix": "Add a unique <title>, meta description, and canonical URL. Add Open Graph/Twitter tags for share and citation previews.",
+            "dimensionKey": "schema"
+          },
+          {
+            "severity": "low",
+            "title": "No named author or byline visible",
+            "fix": "If the homepage surfaces editorial content, include an author byline (Person JSON-LD or 'By <Name>').",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "low",
+            "title": "No x402 payment support detected",
+            "fix": "If paid agent/API access is supported, document x402 payment flow, supported networks/tokens, payment headers, and facilitator behavior.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "Perplexity readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive perplexity citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Claude readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive claude citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Identity trust layer is weak",
+            "fix": "Strengthen the identity layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Google ai readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive google_ai citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Safety trust layer is weak",
+            "fix": "Strengthen the safety layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Volatile content lacks update signals",
+            "fix": "Pages about prices, versions, launches, or changing data should expose a clear last-updated date and refresh cadence.",
+            "dimensionKey": "content_decay"
+          },
+          {
+            "severity": "low",
+            "title": "Technical trust layer is weak",
+            "fix": "Strengthen the technical layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Template coverage is limited in homepage-only scans",
+            "fix": "Run Template Audit, Full Site, or Deep Investigation mode to compare key templates across the site.",
+            "dimensionKey": "template_coverage"
+          },
+          {
+            "severity": "low",
+            "title": "No WebMCP access signal detected",
+            "fix": "If the site supports browser-native agent access, publish a WebMCP endpoint or discovery document and link it from developer docs and llms.txt.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "4 entity page gaps detected",
+            "fix": "Add explicit entity surfaces: about or company page, team or founder page, pricing page, docs or API page.",
+            "dimensionKey": "content_gaps"
+          },
+          {
+            "severity": "low",
+            "title": "Organization JSON-LD missing founder",
+            "fix": "Add 'founder': [{ @type: Person, name: ... }] to the Organization schema.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "medium",
+            "title": "2 high-impact content gaps detected",
+            "fix": "Prioritize: Frequently Asked Questions about AI Agent Tooling; AI Agent Tooling Glossary: Key Terms Explained.",
+            "dimensionKey": "content_gaps"
+          },
+          {
+            "severity": "medium",
+            "title": "No 2–4 sentence summary paragraph above the fold",
+            "fix": "Add a 2–4 sentence paragraph immediately after the H1 summarising what the product is and who it serves.",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "medium",
+            "title": "No /about or /team page with credentials",
+            "fix": "Publish an About page listing founders, team, and credentials. AI engines heavily weight provenance.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "medium",
+            "title": "No agent discovery file detected",
+            "fix": "Publish /llms.txt and, when relevant, a .well-known agent/plugin manifest that points agents at docs, APIs, MCP endpoints, and support policies.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "medium",
+            "title": "No clear self-identification in the opening paragraph",
+            "fix": "Open with 'We are ...' / 'Our mission is ...' / 'This is ...' — AI models need explicit entity framing.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "medium",
+            "title": "Found 0 H1 elements (expected exactly 1)",
+            "fix": "Use exactly one H1, ensure the first H2 precedes any H3, and give every H2 a clear topic label (3+ words).",
+            "dimensionKey": "structure"
+          }
+        ],
+        "promptTests": []
+      },
       "error": null
     },
     {
@@ -13285,16 +15694,16 @@
       "error": null
     },
     {
-      "fullName": "alchaincyf/nuwa-skill",
-      "rank": 22,
+      "fullName": "lsdefine/GenericAgent",
+      "rank": 21,
       "selectedFrom": "incremental",
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-25T09:09:05.638Z",
+      "lastProfiledAt": "2026-04-25T10:07:10.167Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/alchaincyf/nuwa-skill",
+        "githubUrl": "https://github.com/lsdefine/GenericAgent",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -13303,16 +15712,34 @@
       "error": null
     },
     {
-      "fullName": "router-for-me/CLIProxyAPI",
+      "fullName": "nowork-studio/toprank",
+      "rank": 22,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-25T10:07:10.589Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/nowork-studio/toprank",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "Wei-Shaw/sub2api",
       "rank": 23,
       "selectedFrom": "incremental",
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-25T09:09:06.067Z",
+      "lastProfiledAt": "2026-04-25T10:07:11.011Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/router-for-me/CLIProxyAPI",
+        "githubUrl": "https://github.com/Wei-Shaw/sub2api",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -14159,6 +16586,24 @@
       "error": null
     },
     {
+      "fullName": "heygen-com/hyperframes",
+      "rank": 25,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-25T10:07:11.458Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/heygen-com/hyperframes",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
       "fullName": "guokaigdg/animal-island-ui",
       "rank": 28,
       "selectedFrom": "incremental",
@@ -14944,6 +17389,24 @@
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/NawfalMotii79/PLFM_RADAR",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "0x0funky/agent-sprite-forge",
+      "rank": 29,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-25T10:07:11.846Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/0x0funky/agent-sprite-forge",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -15822,34 +18285,16 @@
       "error": null
     },
     {
-      "fullName": "Wei-Shaw/sub2api",
+      "fullName": "garrytan/gbrain",
       "rank": 30,
       "selectedFrom": "incremental",
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-25T09:09:06.529Z",
+      "lastProfiledAt": "2026-04-25T10:07:12.240Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/Wei-Shaw/sub2api",
-        "docsUrl": null,
-        "npmPackages": [],
-        "productHuntLaunchId": null
-      },
-      "aisoScan": null,
-      "error": null
-    },
-    {
-      "fullName": "badlogic/pi-mono",
-      "rank": 31,
-      "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-25T09:09:06.935Z",
-      "nextScanAfter": null,
-      "surfaces": {
-        "githubUrl": "https://github.com/badlogic/pi-mono",
+        "githubUrl": "https://github.com/garrytan/gbrain",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -16693,34 +19138,16 @@
       "error": null
     },
     {
-      "fullName": "Gitlawb/openclaude",
-      "rank": 32,
-      "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-25T09:09:07.362Z",
-      "nextScanAfter": null,
-      "surfaces": {
-        "githubUrl": "https://github.com/Gitlawb/openclaude",
-        "docsUrl": null,
-        "npmPackages": [],
-        "productHuntLaunchId": null
-      },
-      "aisoScan": null,
-      "error": null
-    },
-    {
-      "fullName": "chatfire-AI/huobao-drama",
+      "fullName": "router-for-me/CLIProxyAPI",
       "rank": 33,
       "selectedFrom": "incremental",
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-25T09:09:07.812Z",
+      "lastProfiledAt": "2026-04-25T10:07:12.679Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/chatfire-AI/huobao-drama",
+        "githubUrl": "https://github.com/router-for-me/CLIProxyAPI",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -17525,6 +19952,24 @@
       "error": null
     },
     {
+      "fullName": "google/osv-scanner",
+      "rank": 35,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://google.github.io/osv-scanner/",
+      "websiteSource": "github_homepage",
+      "status": "rate_limited",
+      "lastProfiledAt": "2026-04-25T10:07:12.697Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/google/osv-scanner",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": "HTTP 429 Too Many Requests - https://aiso.tools/api/scan - {\"error\":\"rate_limited_ip\",\"retryAfterSeconds\":86334}"
+    },
+    {
       "fullName": "pierrecomputer/pierre",
       "rank": 36,
       "selectedFrom": "incremental",
@@ -18327,6 +20772,24 @@
       "error": null
     },
     {
+      "fullName": "brokermr810/QuantDinger",
+      "rank": 37,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://www.quantdinger.com/",
+      "websiteSource": "github_homepage",
+      "status": "scan_pending",
+      "lastProfiledAt": "2026-04-25T10:07:13.189Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/brokermr810/QuantDinger",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
       "fullName": "langfuse/langfuse",
       "rank": 37,
       "selectedFrom": "incremental",
@@ -19126,24 +21589,6 @@
         ],
         "promptTests": []
       },
-      "error": null
-    },
-    {
-      "fullName": "leigest519/OpenGame",
-      "rank": 38,
-      "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-25T09:09:08.244Z",
-      "nextScanAfter": null,
-      "surfaces": {
-        "githubUrl": "https://github.com/leigest519/OpenGame",
-        "docsUrl": null,
-        "npmPackages": [],
-        "productHuntLaunchId": null
-      },
-      "aisoScan": null,
       "error": null
     },
     {
@@ -19973,6 +22418,24 @@
         ],
         "promptTests": []
       },
+      "error": null
+    },
+    {
+      "fullName": "PostHog/posthog",
+      "rank": 41,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://posthog.com/",
+      "websiteSource": "github_homepage",
+      "status": "scan_pending",
+      "lastProfiledAt": "2026-04-25T10:07:13.202Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/PostHog/posthog",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
       "error": null
     },
     {
@@ -21558,16 +24021,16 @@
       "error": null
     },
     {
-      "fullName": "ZhuLinsen/daily_stock_analysis",
-      "rank": 42,
+      "fullName": "different-ai/openwork",
+      "rank": 43,
       "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-25T09:09:09.058Z",
+      "websiteUrl": "https://openworklabs.com/",
+      "websiteSource": "github_homepage",
+      "status": "scan_pending",
+      "lastProfiledAt": "2026-04-25T10:07:13.227Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/ZhuLinsen/daily_stock_analysis",
+        "githubUrl": "https://github.com/different-ai/openwork",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -22368,6 +24831,24 @@
       "error": null
     },
     {
+      "fullName": "gastownhall/beads",
+      "rank": 44,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-25T10:07:13.641Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/gastownhall/beads",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
       "fullName": "midudev/autoskills",
       "rank": 44,
       "selectedFrom": "incremental",
@@ -23103,6 +25584,24 @@
         ],
         "promptTests": []
       },
+      "error": null
+    },
+    {
+      "fullName": "fetchai/innovation-lab-examples",
+      "rank": 45,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-25T10:07:14.073Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/fetchai/innovation-lab-examples",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
       "error": null
     },
     {
@@ -23910,6 +26409,24 @@
       "error": null
     },
     {
+      "fullName": "alchaincyf/nuwa-skill",
+      "rank": 46,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-25T10:07:14.479Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/alchaincyf/nuwa-skill",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
       "fullName": "googlefonts/googlesans-code",
       "rank": 46,
       "selectedFrom": "incremental",
@@ -23920,24 +26437,6 @@
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/googlefonts/googlesans-code",
-        "docsUrl": null,
-        "npmPackages": [],
-        "productHuntLaunchId": null
-      },
-      "aisoScan": null,
-      "error": null
-    },
-    {
-      "fullName": "graykode/abtop",
-      "rank": 47,
-      "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-25T09:09:09.898Z",
-      "nextScanAfter": null,
-      "surfaces": {
-        "githubUrl": "https://github.com/graykode/abtop",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -24776,6 +27275,24 @@
         ],
         "promptTests": []
       },
+      "error": null
+    },
+    {
+      "fullName": "Yeachan-Heo/oh-my-codex",
+      "rank": 47,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://oh-my-codex.dev/",
+      "websiteSource": "github_homepage",
+      "status": "scan_pending",
+      "lastProfiledAt": "2026-04-25T10:07:14.497Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/Yeachan-Heo/oh-my-codex",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
       "error": null
     },
     {
@@ -25624,34 +28141,16 @@
       "error": null
     },
     {
-      "fullName": "jnMetaCode/agency-agents-zh",
+      "fullName": "seulee26/mckinsey-pptx",
       "rank": 48,
       "selectedFrom": "incremental",
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-25T09:09:10.311Z",
+      "lastProfiledAt": "2026-04-25T10:07:14.910Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/jnMetaCode/agency-agents-zh",
-        "docsUrl": null,
-        "npmPackages": [],
-        "productHuntLaunchId": null
-      },
-      "aisoScan": null,
-      "error": null
-    },
-    {
-      "fullName": "kepano/obsidian-skills",
-      "rank": 49,
-      "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-25T09:09:10.724Z",
-      "nextScanAfter": null,
-      "surfaces": {
-        "githubUrl": "https://github.com/kepano/obsidian-skills",
+        "githubUrl": "https://github.com/seulee26/mckinsey-pptx",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -27284,34 +29783,16 @@
       "error": null
     },
     {
-      "fullName": "ComposioHQ/awesome-claude-skills",
+      "fullName": "connectfarm1/accumulation-radar",
       "rank": 51,
       "selectedFrom": "incremental",
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-25T09:09:11.169Z",
+      "lastProfiledAt": "2026-04-25T10:07:15.226Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/ComposioHQ/awesome-claude-skills",
-        "docsUrl": null,
-        "npmPackages": [],
-        "productHuntLaunchId": null
-      },
-      "aisoScan": null,
-      "error": null
-    },
-    {
-      "fullName": "Donchitos/Claude-Code-Game-Studios",
-      "rank": 52,
-      "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-25T09:09:11.561Z",
-      "nextScanAfter": null,
-      "surfaces": {
-        "githubUrl": "https://github.com/Donchitos/Claude-Code-Game-Studios",
+        "githubUrl": "https://github.com/connectfarm1/accumulation-radar",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -29750,16 +32231,34 @@
       "error": null
     },
     {
-      "fullName": "Leey21/awesome-ai-research-writing",
+      "fullName": "Donchitos/Claude-Code-Game-Studios",
       "rank": 54,
       "selectedFrom": "incremental",
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-25T09:09:11.962Z",
+      "lastProfiledAt": "2026-04-25T10:07:15.623Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/Leey21/awesome-ai-research-writing",
+        "githubUrl": "https://github.com/Donchitos/Claude-Code-Game-Studios",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "jnMetaCode/agency-agents-zh",
+      "rank": 55,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-25T10:07:16.028Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/jnMetaCode/agency-agents-zh",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -31334,6 +33833,24 @@
       "error": null
     },
     {
+      "fullName": "shiyu-coder/Kronos",
+      "rank": 56,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-25T10:07:16.434Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/shiyu-coder/Kronos",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
       "fullName": "siddharthvaddem/openscreen",
       "rank": 56,
       "selectedFrom": "incremental",
@@ -32110,16 +34627,34 @@
       "error": null
     },
     {
-      "fullName": "HKUDS/DeepTutor",
+      "fullName": "Leey21/awesome-ai-research-writing",
       "rank": 57,
       "selectedFrom": "incremental",
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-25T09:09:12.374Z",
+      "lastProfiledAt": "2026-04-25T10:07:16.818Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/HKUDS/DeepTutor",
+        "githubUrl": "https://github.com/Leey21/awesome-ai-research-writing",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "markdown-viewer/skills",
+      "rank": 58,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-25T10:07:17.240Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/markdown-viewer/skills",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -35331,6 +37866,42 @@
       "error": null
     },
     {
+      "fullName": "Yeachan-Heo/oh-my-claudecode",
+      "rank": 60,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://oh-my-claudecode.dev/",
+      "websiteSource": "github_homepage",
+      "status": "scan_pending",
+      "lastProfiledAt": "2026-04-25T10:07:17.255Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/Yeachan-Heo/oh-my-claudecode",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "kepano/obsidian-skills",
+      "rank": 61,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-25T10:07:17.691Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/kepano/obsidian-skills",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
       "fullName": "mvanhorn/last30days-skill",
       "rank": 61,
       "selectedFrom": "incremental",
@@ -35341,6 +37912,24 @@
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/mvanhorn/last30days-skill",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "leigest519/OpenGame",
+      "rank": 62,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-25T10:07:18.086Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/leigest519/OpenGame",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -36859,22 +39448,22 @@
       "error": null
     },
     {
-      "fullName": "Yeachan-Heo/oh-my-claudecode",
-      "rank": 63,
+      "fullName": "JimLiu/baoyu-skills",
+      "rank": 64,
       "selectedFrom": "incremental",
-      "websiteUrl": "https://oh-my-claudecode.dev/",
-      "websiteSource": "github_homepage",
-      "status": "rate_limited",
-      "lastProfiledAt": "2026-04-24T07:13:11.373Z",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-25T10:07:18.503Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/Yeachan-Heo/oh-my-claudecode",
+        "githubUrl": "https://github.com/JimLiu/baoyu-skills",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
       },
       "aisoScan": null,
-      "error": "HTTP 429 Too Many Requests - https://aiso.tools/api/scan - {\"error\":\"rate_limited_ip\",\"retryAfterSeconds\":86318}"
+      "error": null
     },
     {
       "fullName": "rohitg00/ai-engineering-from-scratch",
@@ -38474,16 +41063,16 @@
       "error": null
     },
     {
-      "fullName": "Yeachan-Heo/oh-my-codex",
-      "rank": 65,
+      "fullName": "MemoriLabs/Memori",
+      "rank": 66,
       "selectedFrom": "incremental",
-      "websiteUrl": "https://oh-my-codex.dev/",
+      "websiteUrl": "https://memorilabs.ai/",
       "websiteSource": "github_homepage",
       "status": "scan_pending",
-      "lastProfiledAt": "2026-04-24T07:13:12.412Z",
+      "lastProfiledAt": "2026-04-25T10:07:18.517Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/Yeachan-Heo/oh-my-codex",
+        "githubUrl": "https://github.com/MemoriLabs/Memori",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -39376,6 +41965,24 @@
       "error": null
     },
     {
+      "fullName": "graykode/abtop",
+      "rank": 67,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-25T10:07:18.921Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/graykode/abtop",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
       "fullName": "HKUDS/CLI-Anything",
       "rank": 67,
       "selectedFrom": "incremental",
@@ -40153,6 +42760,24 @@
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/vercel-labs/agent-browser",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "ComposioHQ/awesome-claude-skills",
+      "rank": 68,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-25T10:07:19.343Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/ComposioHQ/awesome-claude-skills",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -41060,16 +43685,16 @@
       "error": null
     },
     {
-      "fullName": "google/osv-scanner",
+      "fullName": "earthtojake/text-to-cad",
       "rank": 72,
       "selectedFrom": "incremental",
-      "websiteUrl": "https://google.github.io/osv-scanner/",
-      "websiteSource": "github_homepage",
-      "status": "scan_pending",
-      "lastProfiledAt": "2026-04-24T07:13:13.054Z",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-25T10:07:19.767Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/google/osv-scanner",
+        "githubUrl": "https://github.com/earthtojake/text-to-cad",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -42786,6 +45411,24 @@
       "error": null
     },
     {
+      "fullName": "wendy7756/AI-Video-Transcriber",
+      "rank": 73,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://sipsip.ai/",
+      "websiteSource": "github_homepage",
+      "status": "scan_pending",
+      "lastProfiledAt": "2026-04-25T10:07:19.782Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/wendy7756/AI-Video-Transcriber",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
       "fullName": "jackwener/OpenCLI",
       "rank": 74,
       "selectedFrom": "incremental",
@@ -43583,6 +46226,24 @@
         ],
         "promptTests": []
       },
+      "error": null
+    },
+    {
+      "fullName": "Gitlawb/openclaude",
+      "rank": 75,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-25T10:07:20.195Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/Gitlawb/openclaude",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
       "error": null
     },
     {
@@ -44440,16 +47101,16 @@
       "error": null
     },
     {
-      "fullName": "nashsu/llm_wiki",
-      "rank": 76,
+      "fullName": "github/awesome-copilot",
+      "rank": 77,
       "selectedFrom": "incremental",
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-24T07:13:14.453Z",
+      "lastProfiledAt": "2026-04-25T10:07:20.619Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/nashsu/llm_wiki",
+        "githubUrl": "https://github.com/github/awesome-copilot",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -46108,6 +48769,24 @@
       "error": null
     },
     {
+      "fullName": "chatfire-AI/huobao-drama",
+      "rank": 81,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-25T10:07:21.030Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/chatfire-AI/huobao-drama",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
       "fullName": "zarazhangrui/frontend-slides",
       "rank": 81,
       "selectedFrom": "incremental",
@@ -46136,6 +48815,24 @@
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/alvinreal/awesome-autoresearch",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "HKUDS/Vibe-Trading",
+      "rank": 82,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://pypi.org/project/vibe-trading-ai/",
+      "websiteSource": "github_homepage",
+      "status": "scan_pending",
+      "lastProfiledAt": "2026-04-25T10:07:21.044Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/HKUDS/Vibe-Trading",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -46943,16 +49640,16 @@
       "error": null
     },
     {
-      "fullName": "JimLiu/baoyu-skills",
-      "rank": 84,
+      "fullName": "openai/codex-plugin-cc",
+      "rank": 83,
       "selectedFrom": "incremental",
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-25T09:09:16.015Z",
+      "lastProfiledAt": "2026-04-25T10:07:21.484Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/JimLiu/baoyu-skills",
+        "githubUrl": "https://github.com/openai/codex-plugin-cc",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -46961,16 +49658,16 @@
       "error": null
     },
     {
-      "fullName": "openai/codex-plugin-cc",
-      "rank": 85,
+      "fullName": "jarrodwatts/claude-hud",
+      "rank": 86,
       "selectedFrom": "incremental",
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-25T09:09:16.434Z",
+      "lastProfiledAt": "2026-04-25T10:07:21.869Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/openai/codex-plugin-cc",
+        "githubUrl": "https://github.com/jarrodwatts/claude-hud",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -46989,6 +49686,24 @@
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/larksuite/cli",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "masterking32/MasterHttpRelayVPN",
+      "rank": 87,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://t.me/masterdnsvpn",
+      "websiteSource": "github_homepage",
+      "status": "scan_pending",
+      "lastProfiledAt": "2026-04-25T10:07:21.884Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/masterking32/MasterHttpRelayVPN",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -48619,24 +51334,6 @@
         ],
         "promptTests": []
       },
-      "error": null
-    },
-    {
-      "fullName": "github/awesome-copilot",
-      "rank": 90,
-      "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-25T09:09:17.347Z",
-      "nextScanAfter": null,
-      "surfaces": {
-        "githubUrl": "https://github.com/github/awesome-copilot",
-        "docsUrl": null,
-        "npmPackages": [],
-        "productHuntLaunchId": null
-      },
-      "aisoScan": null,
       "error": null
     },
     {
@@ -52762,42 +55459,6 @@
         ],
         "promptTests": []
       },
-      "error": null
-    },
-    {
-      "fullName": "jarrodwatts/claude-hud",
-      "rank": 100,
-      "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-25T09:09:18.938Z",
-      "nextScanAfter": null,
-      "surfaces": {
-        "githubUrl": "https://github.com/jarrodwatts/claude-hud",
-        "docsUrl": null,
-        "npmPackages": [],
-        "productHuntLaunchId": null
-      },
-      "aisoScan": null,
-      "error": null
-    },
-    {
-      "fullName": "0x0funky/agent-sprite-forge",
-      "rank": null,
-      "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-24T18:31:11.847Z",
-      "nextScanAfter": null,
-      "surfaces": {
-        "githubUrl": "https://github.com/0x0funky/agent-sprite-forge",
-        "docsUrl": null,
-        "npmPackages": [],
-        "productHuntLaunchId": null
-      },
-      "aisoScan": null,
       "error": null
     },
     {

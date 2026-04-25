@@ -1,27 +1,82 @@
 {
-  "fetchedAt": "2026-04-24T18:38:45.421Z",
+  "fetchedAt": "2026-04-25T01:29:48.677Z",
   "source": "funding-news-scraper",
   "windowDays": 21,
   "signals": [
     {
-      "id": "www.pymnts.com-a69bc262",
-      "headline": "IRS Expands AI Use as Staffing Gaps Raise Risk",
-      "description": "The tax deadline has passed. For the IRS, the work is just beginning. Behind the filing deadlines and refund cycles, the Internal Revenue Service (IRS) is running 126 active artificial intelligence applications across audit selection, fraud detection, taxpayer services and operational workflows. That number stood at 10 in August 2022. The expansion reflects a […] The post IRS Expands AI Use as Staffing Gaps Raise Risk appeared first on PYMNTS.com .",
-      "sourceUrl": "https://www.pymnts.com/artificial-intelligence-2/2026/irs-expands-ai-use-as-staffing-gaps-raise-risk/",
-      "sourcePlatform": "pymnts",
-      "publishedAt": "2026-04-24T14:53:53.000Z",
-      "discoveredAt": "2026-04-24T18:38:45.421Z",
+      "id": "arstechnica.com-98341f15",
+      "headline": "Google will invest as much as $40 billion in Anthropic",
+      "description": "",
+      "sourceUrl": "https://arstechnica.com/ai/2026/04/google-will-invest-as-much-as-40-billion-in-anthropic/",
+      "sourcePlatform": "arstechnica",
+      "publishedAt": "2026-04-24T22:05:45.000Z",
+      "discoveredAt": "2026-04-25T01:29:48.677Z",
       "extracted": {
-        "companyName": "IRS Expands AI Use as Staffing Gaps",
-        "companyWebsite": "https://pymnts.com",
-        "companyLogoUrl": "https://logo.clearbit.com/pymnts.com",
-        "amount": null,
-        "amountDisplay": "Undisclosed",
+        "companyName": "Google",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 40,
+        "amountDisplay": "$40",
         "currency": "USD",
         "roundType": "undisclosed",
+        "investors": [
+          "Google"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Google",
+            "isKnown": true,
+            "confidence": "high"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": []
+    },
+    {
+      "id": "techcrunch.com-13af83c2",
+      "headline": "Two college kids raise a $5.1 million pre-seed to build an AI social network in iMessage",
+      "description": "Series, a social networking app that's grown popular on college campuses, announced a $5.1 million pre-seed round from some big names in tech.",
+      "sourceUrl": "https://techcrunch.com/2026/04/24/two-college-kids-raise-a-5-1-million-pre-seed-to-build-an-ai-social-network-in-imessage/",
+      "sourcePlatform": "techcrunch",
+      "publishedAt": "2026-04-24T21:05:59.000Z",
+      "discoveredAt": "2026-04-25T01:29:48.677Z",
+      "extracted": {
+        "companyName": "Two college kids",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 5.1,
+        "amountDisplay": "$5.1",
+        "currency": "USD",
+        "roundType": "pre-seed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "low"
+        "confidence": "high"
+      },
+      "tags": [
+        "ai",
+        "consumer"
+      ]
+    },
+    {
+      "id": "www.pymnts.com-100fde50",
+      "headline": "Google Doubles Down on Anthropic With New $40 Billion Investment",
+      "description": "Anthropic and Google confirmed Friday (April 24) that Google is investing $40 billion in the artificial intelligence startup to support its continued growth. Google invested $10 billion Friday at Anthropic’s current valuation and plans to invest another $30 billion in the future, contingent upon meeting performance milestones, Anthropic told PYMNTS. Google has been a […] The post Google Doubles Down on Anthropic With New $40 Billion Investment appeared first on PYMNTS.com .",
+      "sourceUrl": "https://www.pymnts.com/news/investment-tracker/2026/google-doubles-down-on-anthropic-with-new-40-billion-investment/",
+      "sourcePlatform": "pymnts",
+      "publishedAt": "2026-04-24T19:40:31.000Z",
+      "discoveredAt": "2026-04-25T01:29:48.677Z",
+      "extracted": {
+        "companyName": "Google Doubles Down",
+        "companyWebsite": "https://pymnts.com",
+        "companyLogoUrl": "https://logo.clearbit.com/pymnts.com",
+        "amount": 40,
+        "amountDisplay": "$40",
+        "currency": "USD",
+        "roundType": "growth",
+        "investors": [],
+        "investorsEnriched": [],
+        "confidence": "high"
       },
       "tags": [
         "ai"
@@ -34,7 +89,7 @@
       "sourceUrl": "https://tech.eu/2026/04/24/verda-raises-117m-aleph-alpha-to-be-acquired-and-solving-the-quantum-bottleneck/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-24T14:22:23.000Z",
-      "discoveredAt": "2026-04-24T18:38:45.421Z",
+      "discoveredAt": "2026-04-25T01:29:48.677Z",
       "extracted": {
         "companyName": "Verda",
         "companyWebsite": null,
@@ -59,7 +114,7 @@
       "sourceUrl": "https://tech.eu/2026/04/24/aleph-alpha-to-be-acquired-by-cohere/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-24T09:55:00.000Z",
-      "discoveredAt": "2026-04-24T18:38:45.421Z",
+      "discoveredAt": "2026-04-25T01:29:48.677Z",
       "extracted": {
         "companyName": "Aleph Alpha",
         "companyWebsite": "https://aleph-alpha.com",
@@ -83,7 +138,7 @@
       "sourceUrl": "https://tech.eu/2026/04/24/verda-raises-117m-to-scale-ai-cloud-infrastructure-built-on-clean-nordic-power/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-24T08:05:05.000Z",
-      "discoveredAt": "2026-04-24T18:38:45.421Z",
+      "discoveredAt": "2026-04-25T01:29:48.677Z",
       "extracted": {
         "companyName": "Verda",
         "companyWebsite": "https://verda.com",
@@ -115,7 +170,7 @@
       "sourceUrl": "https://sifted.eu/articles/verda-raises-e100m-to-build-european-hyperscaler/",
       "sourcePlatform": "sifted",
       "publishedAt": "2026-04-24T08:00:53.000Z",
-      "discoveredAt": "2026-04-24T18:38:45.421Z",
+      "discoveredAt": "2026-04-25T01:29:48.677Z",
       "extracted": {
         "companyName": "Verda",
         "companyWebsite": null,
@@ -148,7 +203,7 @@
       "sourceUrl": "https://tech.eu/2026/04/24/sofia-based-quillon-raises-15m-for-audit-grade-ai-in-accounting/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-24T07:13:29.000Z",
-      "discoveredAt": "2026-04-24T18:38:45.421Z",
+      "discoveredAt": "2026-04-25T01:29:48.677Z",
       "extracted": {
         "companyName": "Sofia-based Quillon",
         "companyWebsite": null,
@@ -172,7 +227,7 @@
       "sourceUrl": "https://techcrunch.com/2026/04/23/era-computer-raises-11m-to-build-a-software-platform-for-ai-gadgets/",
       "sourcePlatform": "techcrunch",
       "publishedAt": "2026-04-23T16:00:00.000Z",
-      "discoveredAt": "2026-04-24T18:38:45.421Z",
+      "discoveredAt": "2026-04-25T01:29:48.677Z",
       "extracted": {
         "companyName": "Era",
         "companyWebsite": "https://era.world",
@@ -211,7 +266,7 @@
       "sourceUrl": "https://tech.eu/2026/04/23/thestorage-raises-eur36m-to-scale-industrial-thermal-energy-storage/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-23T11:06:02.000Z",
-      "discoveredAt": "2026-04-24T18:38:45.421Z",
+      "discoveredAt": "2026-04-25T01:29:48.677Z",
       "extracted": {
         "companyName": "TheStorage",
         "companyWebsite": null,
@@ -243,7 +298,7 @@
       "sourceUrl": "https://tech.eu/2026/04/23/berlin-based-vrey-raises-eur33m-to-unlock-shared-roof-solar/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-23T11:05:00.000Z",
-      "discoveredAt": "2026-04-24T18:38:45.421Z",
+      "discoveredAt": "2026-04-25T01:29:48.677Z",
       "extracted": {
         "companyName": "Berlin-based VREY",
         "companyWebsite": null,
@@ -277,7 +332,7 @@
       "sourceUrl": "https://tech.eu/2026/04/23/cloudsmith-raises-72m-series-c-to-secure-the-ai-era-software-supply-chain/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-23T08:00:00.000Z",
-      "discoveredAt": "2026-04-24T18:38:45.421Z",
+      "discoveredAt": "2026-04-25T01:29:48.677Z",
       "extracted": {
         "companyName": "Cloudsmith",
         "companyWebsite": null,
@@ -309,7 +364,7 @@
       "sourceUrl": "https://tech.eu/2026/04/23/wenite-secures-eur18-million-to-power-the-future-of-data-driven-hr/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-23T07:24:23.000Z",
-      "discoveredAt": "2026-04-24T18:38:45.421Z",
+      "discoveredAt": "2026-04-25T01:29:48.677Z",
       "extracted": {
         "companyName": "Wenite",
         "companyWebsite": "https://wenite.io",
@@ -334,7 +389,7 @@
       "sourceUrl": "https://tech.eu/2026/04/23/univity-raises-eur27m-to-build-sovereign-space-connectivity-for-telecom-operators/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-23T06:00:00.000Z",
-      "discoveredAt": "2026-04-24T18:38:45.421Z",
+      "discoveredAt": "2026-04-25T01:29:48.677Z",
       "extracted": {
         "companyName": "UNIVITY",
         "companyWebsite": null,
@@ -368,7 +423,7 @@
       "sourceUrl": "https://tech.eu/2026/04/23/decade-energy-secures-eur22m-to-electrify-logistics-depots-at-scale/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-23T06:00:00.000Z",
-      "discoveredAt": "2026-04-24T18:38:45.421Z",
+      "discoveredAt": "2026-04-25T01:29:48.677Z",
       "extracted": {
         "companyName": "Decade Energy",
         "companyWebsite": null,
@@ -404,7 +459,7 @@
       "sourceUrl": "https://tech.eu/2026/04/22/nox-mobility-raises-eur2m-pre-seed-to-rethink-europes-night-trains/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-22T09:00:00.000Z",
-      "discoveredAt": "2026-04-24T18:38:45.421Z",
+      "discoveredAt": "2026-04-25T01:29:48.677Z",
       "extracted": {
         "companyName": "Nox Mobility",
         "companyWebsite": "https://noxmobility.com",
@@ -429,7 +484,7 @@
       "sourceUrl": "https://tech.eu/2026/04/22/qmatter-secures-12m-to-tackle-quantum-scaling-challenges/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-22T08:00:00.000Z",
-      "discoveredAt": "2026-04-24T18:38:45.421Z",
+      "discoveredAt": "2026-04-25T01:29:48.677Z",
       "extracted": {
         "companyName": "QMatter",
         "companyWebsite": "https://qmatter.xyz",
@@ -453,7 +508,7 @@
       "sourceUrl": "https://sifted.eu/articles/stripe-alumni-fintech-fundraise/",
       "sourcePlatform": "sifted",
       "publishedAt": "2026-04-21T05:00:21.000Z",
-      "discoveredAt": "2026-04-24T18:38:45.421Z",
+      "discoveredAt": "2026-04-25T01:29:48.677Z",
       "extracted": {
         "companyName": "Seapoint",
         "companyWebsite": "https://seapoint.com",
@@ -515,7 +570,7 @@
         "saas",
         "devtools"
       ],
-      "discoveredAt": "2026-04-24T18:38:45.421Z"
+      "discoveredAt": "2026-04-25T01:29:48.677Z"
     },
     {
       "id": "seed-coreweave-series-c-2026",
@@ -561,7 +616,7 @@
         "hardware",
         "saas"
       ],
-      "discoveredAt": "2026-04-24T18:38:45.421Z"
+      "discoveredAt": "2026-04-25T01:29:48.677Z"
     },
     {
       "id": "seed-cognition-series-a-2026",
@@ -600,7 +655,7 @@
         "ai",
         "devtools"
       ],
-      "discoveredAt": "2026-04-24T18:38:45.421Z"
+      "discoveredAt": "2026-04-25T01:29:48.677Z"
     },
     {
       "id": "seed-anduril-series-f-2026",
@@ -645,7 +700,7 @@
         "defense",
         "ai"
       ],
-      "discoveredAt": "2026-04-24T18:38:45.421Z"
+      "discoveredAt": "2026-04-25T01:29:48.677Z"
     },
     {
       "id": "seed-sambanova-series-e-2026",
@@ -690,7 +745,7 @@
         "ai",
         "hardware"
       ],
-      "discoveredAt": "2026-04-24T18:38:45.421Z"
+      "discoveredAt": "2026-04-25T01:29:48.677Z"
     },
     {
       "id": "seed-poolside-series-a-2026",
@@ -729,7 +784,7 @@
         "ai",
         "devtools"
       ],
-      "discoveredAt": "2026-04-24T18:38:45.421Z"
+      "discoveredAt": "2026-04-25T01:29:48.677Z"
     },
     {
       "id": "seed-hebbia-series-b-2026",
@@ -768,7 +823,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-24T18:38:45.421Z"
+      "discoveredAt": "2026-04-25T01:29:48.677Z"
     },
     {
       "id": "seed-together-series-a-2026",
@@ -807,7 +862,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-24T18:38:45.421Z"
+      "discoveredAt": "2026-04-25T01:29:48.677Z"
     },
     {
       "id": "seed-sierra-series-b-2026",
@@ -846,7 +901,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-24T18:38:45.421Z"
+      "discoveredAt": "2026-04-25T01:29:48.677Z"
     },
     {
       "id": "seed-glean-series-d-2026",
@@ -885,7 +940,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-24T18:38:45.421Z"
+      "discoveredAt": "2026-04-25T01:29:48.677Z"
     },
     {
       "id": "seed-groq-series-d-2026",
@@ -924,7 +979,7 @@
         "ai",
         "hardware"
       ],
-      "discoveredAt": "2026-04-24T18:38:45.421Z"
+      "discoveredAt": "2026-04-25T01:29:48.677Z"
     },
     {
       "id": "seed-mistral-series-b-2026",
@@ -969,7 +1024,7 @@
         "ai",
         "europe"
       ],
-      "discoveredAt": "2026-04-24T18:38:45.421Z"
+      "discoveredAt": "2026-04-25T01:29:48.677Z"
     },
     {
       "id": "seed-adept-series-b-2026",
@@ -1008,7 +1063,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-24T18:38:45.421Z"
+      "discoveredAt": "2026-04-25T01:29:48.677Z"
     },
     {
       "id": "seed-elevenlabs-series-c-2026",
@@ -1052,7 +1107,7 @@
       "tags": [
         "ai"
       ],
-      "discoveredAt": "2026-04-24T18:38:45.421Z"
+      "discoveredAt": "2026-04-25T01:29:48.677Z"
     },
     {
       "id": "seed-scale-series-f-2026",
@@ -1097,7 +1152,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-24T18:38:45.421Z"
+      "discoveredAt": "2026-04-25T01:29:48.677Z"
     },
     {
       "id": "seed-perplexity-series-c-2026",
@@ -1142,7 +1197,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-24T18:38:45.421Z"
+      "discoveredAt": "2026-04-25T01:29:48.677Z"
     }
   ]
 }

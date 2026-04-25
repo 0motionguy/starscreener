@@ -46,6 +46,16 @@ const nextConfig: NextConfig = {
         destination: "https://trendingrepo.com/:path*",
         permanent: true,
       },
+      // /news → /signals: News Terminal was renamed to Signal Terminal and
+      // the consolidated /news view replaced by the cross-source /signals
+      // aggregator. Config-level redirect emits a real 307 (dev server's
+      // App Router redirect() falls back to meta-refresh which breaks
+      // CLI / preview tools).
+      {
+        source: "/news",
+        destination: "/signals",
+        permanent: false,
+      },
     ];
   },
 };

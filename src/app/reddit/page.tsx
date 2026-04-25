@@ -1,16 +1,19 @@
 // /reddit — Reddit Signal Terminal page.
 //
 // Tabs:
-//   1. Repo Mentions (default) — tracked repos discussed on Reddit, ranked
-//      by mention volume + recency.
-//   2. Trending News — top Reddit posts across the watched AI-dev subs,
-//      regardless of whether they link a tracked repo.
-//   3. Subreddits — dense list of active subreddits with mention totals
-//      and the top repo discussed in each.
+//   1. Repo Mentions (default) — tracked repos discussed on Reddit, with
+//      subreddit context and the top post inline on every row.
+//   2. Trending News — top Reddit posts across watched AI-dev subs.
+//   3. Subreddits — dense list with mention totals and the top repo
+//      discussed in each subreddit.
+//   4. Topics — n-gram topic clusters extracted from post titles
+//      (replaces the retired bubble-map mindshare view).
 //
-// No bubble map. No "scan now" button. Fresh data signal is the small
-// LIVE/STALE pill in the header. Server-side auto-rescrape recovers a
-// stale source quietly.
+// No bubble map. No "scan now" button. Auto-rescrape runs server-side
+// when the source goes stale. Right-rail surfaces top topics so the
+// feed is one click from the cross-cutting view.
+
+import Link from "next/link";
 
 import {
   getAllRedditMentions,
@@ -19,6 +22,8 @@ import {
   getRedditStats,
   getRedditSubreddits,
 } from "@/lib/reddit-data";
+import { getAllScoredPosts } from "@/lib/reddit-all-data";
+import { extractTopics, type Topic } from "@/lib/reddit-topics";
 import {
   SignalSourcePage,
   type SignalTabSpec,
@@ -27,7 +32,6 @@ import type { SignalRow } from "@/components/signal/SignalTable";
 import type { SignalMetricCardProps } from "@/components/signal/SignalMetricCard";
 import { classifyFreshness } from "@/lib/news/freshness";
 import { triggerScanIfStale } from "@/lib/news/auto-rescrape";
-import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
@@ -37,7 +41,6 @@ const SUBTITLE =
 interface SubredditTally {
   subreddit: string;
   mentions: number;
-  postsTracked: number;
   topRepo: string | null;
   topRepoCount: number;
   upvotesSum: number;
@@ -70,9 +73,6 @@ export default function RedditPage() {
   const allPosts = getAllRedditPosts();
 
   // ─── Repo Mentions tab ─────────────────────────────────────────────────
-  // Sort repos by 7d mention count, then build a SignalRow per repo with
-  // the top-post excerpt for context. Velocity comes from the top post's
-  // comments/hour, signal score from a normalized engagement.
   const mentionEntries = Object.entries(mentions)
     .filter(([, m]) => m.count7d > 0)
     .sort((a, b) => b[1].count7d - a[1].count7d)
@@ -82,13 +82,16 @@ export default function RedditPage() {
   const mentionRows: SignalRow[] = mentionEntries.map(([fullName, m]) => {
     const top = m.posts[0] ?? null;
     const postedAtMs = top ? top.createdUtc * 1000 : 0;
+    const subList = Array.from(
+      new Set(m.posts.slice(0, 4).map((p) => `r/${p.subreddit}`)),
+    ).slice(0, 3);
     return {
       id: `reddit-mention:${fullName}`,
       title: fullName,
       href: `/repo/${fullName}`,
       external: false,
       attribution: top
-        ? `${m.count7d}× · top: r/${top.subreddit} · ${top.title}`
+        ? `${m.count7d}× · ${subList.join(" · ")} · "${top.title.slice(0, 80)}${top.title.length > 80 ? "…" : ""}"`
         : `${m.count7d}× / 7d`,
       engagement: m.upvotes7d,
       engagementLabel: "Upvotes",
@@ -123,11 +126,8 @@ export default function RedditPage() {
     };
   });
 
-  // ─── Subreddits tab ────────────────────────────────────────────────────
-  // Aggregate by subreddit from the mention data. Each repo's posts carry
-  // their subreddit; we count mentions per sub and surface the most-cited
-  // repo in each.
-  const tally: Map<string, SubredditTally> = new Map();
+  // ─── Subreddits aggregation ────────────────────────────────────────────
+  const tally = new Map<string, SubredditTally>();
   for (const [fullName, m] of Object.entries(mentions)) {
     for (const post of m.posts) {
       const sub = post.subreddit;
@@ -135,7 +135,6 @@ export default function RedditPage() {
         tally.get(sub) ?? {
           subreddit: sub,
           mentions: 0,
-          postsTracked: 0,
           topRepo: null,
           topRepoCount: 0,
           upvotesSum: 0,
@@ -144,7 +143,6 @@ export default function RedditPage() {
       cur.mentions += 1;
       cur.upvotesSum += post.score ?? 0;
       cur.commentsSum += post.numComments ?? 0;
-      // Per-repo count inside this subreddit — track the leader.
       const repoCount = m.posts.filter((p) => p.subreddit === sub).length;
       if (repoCount > cur.topRepoCount) {
         cur.topRepo = fullName;
@@ -157,9 +155,16 @@ export default function RedditPage() {
     (a, b) => b.mentions - a.mentions,
   );
 
+  // ─── Topics aggregation (replaces retired bubble map) ──────────────────
+  const allScored = getAllScoredPosts();
+  const topics: Topic[] = extractTopics(
+    allScored.filter(
+      (p) => p.createdUtc * 1000 >= Date.now() - 7 * 24 * 60 * 60 * 1000,
+    ),
+    { maxTopics: 30 },
+  );
+
   // ─── Metric strip ─────────────────────────────────────────────────────
-  const reposHit = stats.reposWithMentions;
-  const totalMentions = stats.totalMentions;
   const last24hPosts = allPosts.filter(
     (p) => Date.now() - p.createdUtc * 1000 < 24 * 3_600_000,
   );
@@ -172,7 +177,6 @@ export default function RedditPage() {
     (p) => classifyVelocity(p.numComments ?? 0, p.createdUtc * 1000) === "hot",
   ).length;
   const activeSubs = subList.filter((s) => s.mentions > 0).length;
-  const topPostScore = allPosts[0]?.score ?? 0;
   const topRepo = stats.topRepos[0]?.fullName.split("/")[1] ?? "—";
 
   const metrics: SignalMetricCardProps[] = [
@@ -184,15 +188,14 @@ export default function RedditPage() {
     },
     {
       label: "Repo mentions",
-      value: reposHit,
-      delta: totalMentions > 0 ? `${totalMentions} total` : null,
+      value: stats.reposWithMentions,
+      delta: stats.totalMentions > 0 ? `${stats.totalMentions} total` : null,
       sparkTone: "brand",
     },
     {
       label: "Active subreddits",
       value: `${activeSubs} / ${subreddits.length}`,
-      helper:
-        subList[0]?.subreddit ? `top: r/${subList[0].subreddit}` : null,
+      helper: subList[0]?.subreddit ? `top: r/${subList[0].subreddit}` : null,
       sparkTone: "info",
     },
     {
@@ -207,17 +210,19 @@ export default function RedditPage() {
       sparkTone: commentsPerHour >= 10 ? "warning" : "info",
     },
     {
-      label: "Top repo",
-      value: topRepo,
-      helper: stats.topRepos[0]
-        ? `${stats.topRepos[0].count7d}× / 7d · ${stats.topRepos[0].upvotes7d}↑`
+      label: "Top topic",
+      value: topics[0]?.phrase ?? "—",
+      helper: topics[0]
+        ? `${topics[0].count} posts · r/${topics[0].dominantSub}`
         : null,
       sparkTone: "up",
     },
     {
-      label: "Top signal",
-      value: topPostScore,
-      helper: allPosts[0]?.title?.slice(0, 40) ?? null,
+      label: "Top repo",
+      value: topRepo,
+      helper: stats.topRepos[0]
+        ? `${stats.topRepos[0].count7d}× · ${stats.topRepos[0].upvotes7d}↑`
+        : null,
       sparkTone: "brand",
     },
   ];
@@ -230,7 +235,8 @@ export default function RedditPage() {
       rows: mentionRows,
       columns: ["rank", "title", "engagement", "velocity", "age", "signal"],
       emptyTitle: "No tracked repos mentioned on Reddit in the last 7 days.",
-      emptySubtitle: "Pipeline is healthy; the watch list just hasn't lit up yet.",
+      emptySubtitle:
+        "Pipeline is healthy; the watch list just hasn't lit up yet.",
     },
     {
       id: "news",
@@ -253,6 +259,12 @@ export default function RedditPage() {
       rows: [],
       content: <SubredditsList rows={subList} />,
     },
+    {
+      id: "topics",
+      label: "Topics",
+      rows: [],
+      content: <TopicsList topics={topics} />,
+    },
   ];
 
   void triggerScanIfStale("reddit", fetchedAt);
@@ -268,14 +280,13 @@ export default function RedditPage() {
       ageLabel={verdict.ageLabel}
       metrics={metrics}
       tabs={tabs}
+      rightRail={<TopTopicsPanel topics={topics} />}
     />
   );
 }
 
 // ─────────────────────────────────────────────────────────────────────────
-// Subreddits tab — dense list. No chart, no bubble map. Each row carries
-// the active sub, mention volume, top repo discussed there, and the
-// engagement totals.
+// Subreddits tab — dense list. No chart, no bubble map.
 // ─────────────────────────────────────────────────────────────────────────
 
 function SubredditsList({ rows }: { rows: SubredditTally[] }) {
@@ -288,9 +299,7 @@ function SubredditsList({ rows }: { rows: SubredditTally[] }) {
       </div>
     );
   }
-
   const max = rows[0]?.mentions ?? 1;
-
   return (
     <div className="overflow-x-auto rounded-card border border-border-primary bg-bg-card">
       <table className="w-full text-xs">
@@ -343,7 +352,9 @@ function SubredditsList({ rows }: { rows: SubredditTally[] }) {
                   <div className="h-1.5 w-24 rounded-full bg-bg-muted overflow-hidden">
                     <div
                       className="h-full bg-brand"
-                      style={{ width: `${Math.max(4, (r.mentions / max) * 100)}%` }}
+                      style={{
+                        width: `${Math.max(4, (r.mentions / max) * 100)}%`,
+                      }}
                     />
                   </div>
                 </div>
@@ -370,6 +381,137 @@ function SubredditsList({ rows }: { rows: SubredditTally[] }) {
           ))}
         </tbody>
       </table>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// Topics tab — n-gram topic clusters (replaces the retired bubble map).
+// ─────────────────────────────────────────────────────────────────────────
+
+function TopicsList({ topics }: { topics: Topic[] }) {
+  if (topics.length === 0) {
+    return (
+      <div className="rounded-card border border-dashed border-border-primary bg-bg-muted/30 px-4 py-10 text-center">
+        <p className="font-mono text-sm text-text-tertiary">
+          Topic clustering is warming up.
+        </p>
+      </div>
+    );
+  }
+  const max = topics[0]?.count ?? 1;
+  return (
+    <div className="overflow-x-auto rounded-card border border-border-primary bg-bg-card">
+      <table className="w-full text-xs">
+        <thead className="text-left text-text-tertiary">
+          <tr className="border-b border-border-primary bg-bg-muted/40">
+            <th className="px-2 py-2 w-10 font-mono text-[10px] uppercase tracking-[0.12em]">
+              #
+            </th>
+            <th className="px-2 py-2 font-mono text-[10px] uppercase tracking-[0.12em]">
+              Topic
+            </th>
+            <th className="px-2 py-2 w-44 font-mono text-[10px] uppercase tracking-[0.12em]">
+              Volume
+            </th>
+            <th className="px-2 py-2 hidden md:table-cell font-mono text-[10px] uppercase tracking-[0.12em]">
+              Dominant sub
+            </th>
+            <th className="px-2 py-2 w-20 hidden md:table-cell font-mono text-[10px] uppercase tracking-[0.12em]">
+              Upvotes
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {topics.map((t, idx) => (
+            <tr
+              key={t.phrase}
+              className="border-b border-border-primary/40 last:border-b-0 hover:bg-bg-muted/20"
+            >
+              <td className="px-2 py-2 font-mono text-text-tertiary tabular-nums">
+                {idx + 1}
+              </td>
+              <td className="px-2 py-2 font-medium text-text-primary">
+                {t.phrase}
+              </td>
+              <td className="px-2 py-2">
+                <div className="flex items-center gap-2">
+                  <span className="font-mono tabular-nums text-text-secondary w-8">
+                    {t.count}
+                  </span>
+                  <div className="h-1.5 w-24 rounded-full bg-bg-muted overflow-hidden">
+                    <div
+                      className="h-full bg-brand"
+                      style={{
+                        width: `${Math.max(4, (t.count / max) * 100)}%`,
+                      }}
+                    />
+                  </div>
+                </div>
+              </td>
+              <td className="px-2 py-2 hidden md:table-cell">
+                <a
+                  href={`https://www.reddit.com/r/${t.dominantSub}/`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-mono text-[11px] text-text-secondary hover:text-text-primary hover:underline"
+                >
+                  r/{t.dominantSub}
+                </a>
+              </td>
+              <td className="px-2 py-2 hidden md:table-cell font-mono text-text-tertiary tabular-nums">
+                {t.upvotesSum.toLocaleString("en-US")}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// Right-rail panel — top topics at a glance.
+// ─────────────────────────────────────────────────────────────────────────
+
+function TopTopicsPanel({ topics }: { topics: Topic[] }) {
+  if (topics.length === 0) return null;
+  const max = topics[0]?.count ?? 1;
+  return (
+    <div className="rounded-card border border-border-primary bg-bg-card p-4">
+      <div className="mb-3 flex items-baseline justify-between">
+        <h2 className="font-mono text-[10px] uppercase tracking-[0.16em] text-text-tertiary">
+          Top Topics
+        </h2>
+        <span className="font-mono text-[10px] text-text-tertiary">7d</span>
+      </div>
+      <ol className="space-y-1.5">
+        {topics.slice(0, 8).map((t, idx) => (
+          <li
+            key={t.phrase}
+            className="flex items-center gap-2 text-xs"
+            title={`${t.count} posts · r/${t.dominantSub} · ${t.upvotesSum}↑`}
+          >
+            <span className="font-mono text-text-tertiary tabular-nums w-4">
+              {idx + 1}
+            </span>
+            <span className="flex-1 truncate text-text-primary">
+              {t.phrase}
+            </span>
+            <span className="font-mono tabular-nums text-text-secondary w-6 text-right">
+              {t.count}
+            </span>
+            <div className="h-1 w-12 rounded-full bg-bg-muted overflow-hidden">
+              <div
+                className="h-full bg-brand"
+                style={{
+                  width: `${Math.max(4, (t.count / max) * 100)}%`,
+                }}
+              />
+            </div>
+          </li>
+        ))}
+      </ol>
     </div>
   );
 }

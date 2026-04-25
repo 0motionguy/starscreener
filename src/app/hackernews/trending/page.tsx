@@ -1,21 +1,19 @@
-// /hackernews/trending — Hacker News news terminal page.
+// /hackernews/trending — Hacker News Signal Terminal page.
 //
-// Tab 1 (default): Repo Mentions — repos most-discussed on HN in the
-// last 7 days, with top story title + score (engagement).
-// Tab 2: Top News — top trending HN stories (Firebase top 500 +
-// Algolia 7d sweep, ranked by velocity * log10(score)).
+// Tabs:
+//   1. Repo Mentions (default) — tracked repos discussed on HN, ranked
+//      by 7d mention volume + total score.
+//   2. Trending News — top HN stories ranked by velocity * log10(score).
+//   3. Front Page — same shape as news, filtered to stories that ever
+//      hit the front page.
 //
-// Reads the latest data/hackernews-repo-mentions.json +
-// data/hackernews-trending.json on each request so local scraper runs
-// show up without restarting.
-//
-// Stale handling: if the scraper hasn't produced fresh data within the
-// stale threshold (2h for fast sources), the page hides everything and
-// renders SourceDownEmptyState. No outdated stories leak through.
+// Mirrors src/app/reddit/page.tsx: server component, dense rows,
+// columns-driven SignalTable, six metric tiles, no scan-now buttons.
 
 import {
   getAllHnMentions,
   getHnFile,
+  hnFetchedAt,
   hnItemHref,
 } from "@/lib/hackernews";
 import {
@@ -23,19 +21,38 @@ import {
   getHnTrendingFile,
 } from "@/lib/hackernews-trending";
 import {
-  NewsSourceLayout,
-  type MetricTile,
-} from "@/components/news/NewsSourceLayout";
-import type { RepoMentionRow } from "@/components/news/RepoMentionsTab";
-import type { NewsItem } from "@/components/news/NewsTab";
+  SignalSourcePage,
+  type SignalTabSpec,
+} from "@/components/signal/SignalSourcePage";
+import type { SignalRow } from "@/components/signal/SignalTable";
+import type { SignalMetricCardProps } from "@/components/signal/SignalMetricCard";
 import { classifyFreshness } from "@/lib/news/freshness";
 import { triggerScanIfStale } from "@/lib/news/auto-rescrape";
 
 export const dynamic = "force-dynamic";
 
+const SUBTITLE =
+  "Trending Hacker News stories ranked by discussion velocity, front-page strength, and repo links.";
+
+function classifyVelocity(
+  comments: number,
+  postedAtMs: number,
+): "hot" | "rising" | null {
+  const hours = Math.max(0.25, (Date.now() - postedAtMs) / 3_600_000);
+  const perHour = comments / hours;
+  if (perHour >= 10) return "hot";
+  if (perHour >= 3) return "rising";
+  return null;
+}
+
+function scaleScore(values: number[]): (n: number) => number {
+  const max = Math.max(...values, 1);
+  return (n: number) => Math.round((n / max) * 100);
+}
+
 export default function HackerNewsTrendingPage() {
   const mentionsFile = getHnFile();
-  const fetchedAt = mentionsFile.fetchedAt;
+  const fetchedAt = mentionsFile.fetchedAt ?? hnFetchedAt;
   const verdict = classifyFreshness("hackernews", fetchedAt);
 
   const mentions = getAllHnMentions();
@@ -43,87 +60,208 @@ export default function HackerNewsTrendingPage() {
   const allStories = trendingFile.stories;
   const topStories = getHnTopStories(30);
 
-  const mentionsRows: RepoMentionRow[] = Object.entries(mentions)
-    .map(([fullName, m]) => {
-      const top = m.topStory;
-      return {
-        fullName,
-        count: m.count7d,
-        engagement: m.scoreSum7d,
-        engagementLabel: "Score",
-        topExcerpt: top?.title ?? null,
-        attribution: top ? `news.ycombinator.com · item ${top.id}` : null,
-        topUrl: top ? hnItemHref(top.id) : null,
-        topAt: null,
-      };
-    })
-    .sort((a, b) => b.count - a.count)
+  // ─── Repo Mentions tab ─────────────────────────────────────────────────
+  const mentionEntries = Object.entries(mentions)
+    .filter(([, m]) => m.count7d > 0)
+    .sort((a, b) => b[1].count7d - a[1].count7d)
     .slice(0, 50);
+  const mentionScale = scaleScore(
+    mentionEntries.map(([, m]) => m.scoreSum7d),
+  );
 
-  const newsItems: NewsItem[] = topStories.map((s) => {
-    const linkedRepo = s.linkedRepos?.[0]?.fullName ?? null;
+  const mentionRows: SignalRow[] = mentionEntries.map(([fullName, m]) => {
+    const top = m.topStory ?? null;
+    const fallback = m.stories?.[0] ?? null;
+    const velocitySource = fallback;
+    const postedAtMs = velocitySource
+      ? velocitySource.createdUtc * 1000
+      : null;
     return {
-      id: String(s.id),
-      title: s.title,
-      url: s.url || hnItemHref(s.id),
-      attribution: s.by ? `by ${s.by}` : null,
-      score: s.score,
-      scoreLabel: "Points",
-      comments: s.descendants,
-      postedAt: new Date(s.createdUtc * 1000).toISOString(),
-      linkedRepo,
-      tag: s.everHitFrontPage ? "front-page" : null,
+      id: `hn-mention:${fullName}`,
+      title: fullName,
+      href: `/repo/${fullName}`,
+      external: false,
+      attribution: top
+        ? `${m.count7d}× · top: ${top.title}`
+        : `${m.count7d}× / 7d`,
+      engagement: m.scoreSum7d,
+      engagementLabel: "Score",
+      velocity:
+        velocitySource && postedAtMs !== null
+          ? classifyVelocity(velocitySource.descendants ?? 0, postedAtMs)
+          : null,
+      postedAt: postedAtMs !== null ? new Date(postedAtMs).toISOString() : null,
+      signalScore: mentionScale(m.scoreSum7d),
+      linkedRepo: null,
+      badges: m.count7d >= 5 ? ["fire"] : undefined,
     };
   });
 
+  // ─── Trending News tab ─────────────────────────────────────────────────
+  const newsScale = scaleScore(topStories.map((s) => s.score));
+
+  const newsRows: SignalRow[] = topStories.map((s) => {
+    const postedAtMs = s.createdUtc * 1000;
+    const linkedRepo = s.linkedRepos?.[0]?.fullName ?? null;
+    return {
+      id: `hn-news:${s.id}`,
+      title: s.title,
+      href: s.url || hnItemHref(s.id),
+      external: true,
+      attribution: s.by ? `by ${s.by}` : null,
+      engagement: s.score,
+      engagementLabel: "Score",
+      comments: s.descendants,
+      velocity: classifyVelocity(s.descendants ?? 0, postedAtMs),
+      postedAt: new Date(postedAtMs).toISOString(),
+      signalScore: newsScale(s.score),
+      linkedRepo,
+      badges: s.everHitFrontPage ? ["front-page"] : undefined,
+    };
+  });
+
+  // ─── Front Page tab ────────────────────────────────────────────────────
+  const frontPageRows: SignalRow[] = newsRows.filter((r) =>
+    r.badges?.includes("front-page"),
+  );
+
+  // ─── Metric strip ─────────────────────────────────────────────────────
   const frontPageCount = allStories.filter((s) => s.everHitFrontPage).length;
-  const githubLinkedCount = allStories.filter(
-    (s) => (s.linkedRepos?.length ?? 0) > 0,
-  ).length;
-  const topScore = allStories.reduce(
-    (max, s) => (s.score > max ? s.score : max),
+  const totalStories = allStories.length;
+  const frontPagePct = totalStories > 0
+    ? Math.round((frontPageCount / totalStories) * 100)
+    : 0;
+
+  const reposHit = Object.keys(mentions).length;
+  const totalMentions = Object.values(mentions).reduce(
+    (s, m) => s + (m.count7d ?? 0),
     0,
   );
-  const reposHit = Object.keys(mentions).length;
 
-  const metrics: MetricTile[] = [
+  const last24hStories = allStories.filter(
+    (s) => Date.now() - s.createdUtc * 1000 < 24 * 3_600_000,
+  );
+  const commentsLast24h = last24hStories.reduce(
+    (s, st) => s + (st.descendants ?? 0),
+    0,
+  );
+  const commentsPerHour = commentsLast24h / 24;
+
+  const topStory = allStories.reduce<typeof allStories[number] | null>(
+    (best, s) => (best === null || s.score > best.score ? s : best),
+    null,
+  );
+  const topScore = topStory?.score ?? 0;
+
+  const aiDevCount = allStories.filter((s) => {
+    const tags = (s.content_tags ?? []).map((t) => t.toLowerCase());
+    const hitsTag = tags.some(
+      (t) => t === "ai" || t === "dev" || t === "ml" || t === "llm",
+    );
+    const hasRepo = (s.linkedRepos?.length ?? 0) > 0;
+    return hitsTag || hasRepo;
+  }).length;
+
+  const metrics: SignalMetricCardProps[] = [
     {
-      label: "Front-page",
+      label: "Front Page Signals",
       value: frontPageCount,
-      hint: `of ${allStories.length} stories tracked`,
+      helper: `${frontPagePct}% on front page`,
+      sparkTone: "warning",
     },
     {
-      label: "GitHub-link",
-      value: githubLinkedCount,
-      hint: "stories linking tracked repos",
-    },
-    {
-      label: "Top score",
-      value: topScore,
-      hint: `${trendingFile.windowHours}h window`,
-    },
-    {
-      label: "Repos hit",
+      label: "Repo Mentions",
       value: reposHit,
-      hint: `${mentionsFile.windowDays}d mention window`,
+      delta: totalMentions > 0 ? `${totalMentions} total` : null,
+      sparkTone: "brand",
+    },
+    {
+      label: "Discussion Velocity",
+      value: `${Math.round(commentsPerHour)}/h`,
+      helper:
+        commentsPerHour >= 10
+          ? "Hot"
+          : commentsPerHour >= 3
+            ? "Rising"
+            : "Steady",
+      sparkTone: commentsPerHour >= 10 ? "warning" : "info",
+    },
+    {
+      label: "Top Story Score",
+      value: topScore,
+      helper: topStory?.title?.slice(0, 40) ?? null,
+      sparkTone: "up",
+    },
+    {
+      label: "Comments 24h",
+      value: commentsLast24h,
+      helper: `${last24hStories.length} stories`,
+      sparkTone: "info",
+    },
+    {
+      label: "AI / Dev stories",
+      value: aiDevCount,
+      helper: `of ${totalStories} tracked`,
+      sparkTone: "brand",
     },
   ];
 
-    void triggerScanIfStale("hackernews", fetchedAt);
+  // ─── Tabs ─────────────────────────────────────────────────────────────
+  const tabs: SignalTabSpec[] = [
+    {
+      id: "mentions",
+      label: "Repo Mentions",
+      rows: mentionRows,
+      columns: ["rank", "title", "engagement", "velocity", "age", "signal"],
+      emptyTitle: "No tracked repos mentioned on Hacker News in the last 7 days.",
+      emptySubtitle:
+        "Pipeline is healthy; the watch list just hasn't lit up yet.",
+    },
+    {
+      id: "news",
+      label: "Trending News",
+      rows: newsRows,
+      columns: [
+        "rank",
+        "title",
+        "linkedRepo",
+        "engagement",
+        "velocity",
+        "age",
+        "signal",
+      ],
+      emptyTitle: "Hacker News is quiet right now. Check back in a few minutes.",
+    },
+    {
+      id: "frontpage",
+      label: "Front Page",
+      rows: frontPageRows,
+      columns: [
+        "rank",
+        "title",
+        "linkedRepo",
+        "engagement",
+        "velocity",
+        "age",
+        "signal",
+      ],
+      emptyTitle: "No front-page hits in the current window.",
+    },
+  ];
+
+  void triggerScanIfStale("hackernews", fetchedAt);
 
   return (
-    <NewsSourceLayout
+    <SignalSourcePage
       source="hackernews"
-      sourceLabel="Hacker News"
-      tagline="// Firebase + Algolia AI signal"
-      description={`Velocity-scored Hacker News stories from the dual-source scrape (Firebase top 500 + Algolia ${mentionsFile.windowDays}d github sweep), plus per-repo mention buckets ranked by 7d frequency.`}
+      sourceLabel="HACKER NEWS"
+      mode="TRENDING"
+      subtitle={SUBTITLE}
       fetchedAt={fetchedAt}
       freshnessStatus={verdict.status}
       ageLabel={verdict.ageLabel}
-      staleAfterMs={verdict.staleAfterMs}
       metrics={metrics}
-      mentionsRows={mentionsRows}
-      newsItems={newsItems}
+      tabs={tabs}
     />
   );
 }

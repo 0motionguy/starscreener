@@ -9,10 +9,16 @@
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import {
+  Activity,
+  BadgeCheck,
+  BarChart3,
   Bot,
   Bookmark,
+  DollarSign,
   GitCompareArrows,
   Layers,
+  LifeBuoy,
+  Lightbulb,
   Package,
   Radar,
   Rocket,
@@ -20,8 +26,6 @@ import {
   TrendingUp,
   Trophy,
   X,
-  DollarSign,
-  BadgeCheck,
 } from "lucide-react";
 import {
   RedditIcon,
@@ -171,27 +175,32 @@ export function SidebarContent({
 
       {/* Scrollable body ------------------------------------------------- */}
       <div className="flex-1 overflow-y-auto scrollbar-hide">
-        {/* REPOS TERMINAL — GitHub trending, the anchor product -------- */}
-        <SidebarSection id="repos-terminal" label="Repos Terminal">
+        {/* TREND TERMINAL — Stage 1: discover ideas + repos ----------- */}
+        <SidebarSection id="trend-terminal" label="Trend Terminal">
+          <SidebarNavItem
+            href="/ideas"
+            icon={Lightbulb}
+            label="Trending Ideas"
+            active={pathname === "/ideas" || pathname.startsWith("/ideas/")}
+          />
           <SidebarNavItem
             onClick={() => goToReposTerminal(null)}
             icon={TrendingUp}
-            label="Trending"
+            label="Trending Repos"
             active={pathname === "/" && activeMetaFilter === null}
           />
           <SidebarNavItem
-            onClick={() => goToReposTerminal("breakouts")}
+            href="/breakouts"
             icon={Rocket}
             label="Breakouts"
             badge={metaCounts.breakouts}
-            active={pathname === "/" && activeMetaFilter === "breakouts"}
+            active={pathname === "/breakouts"}
           />
           <SidebarNavItem
-            onClick={() => goToReposTerminal("new")}
             icon={Sparkles}
             label="New Repos"
-            badge={metaCounts.new}
-            active={pathname === "/" && activeMetaFilter === "new"}
+            badge="Soon"
+            disabled
           />
           <SidebarNavItem
             onClick={goToAgentRepos}
@@ -207,13 +216,23 @@ export function SidebarContent({
           />
         </SidebarSection>
 
-        {/* NEWS TERMINAL — dev media firehose ------------------------- */}
-        <SidebarSection id="news-terminal" label="News Terminal">
+        {/* SIGNAL TERMINAL — Stage 2: validate market signal ---------- */}
+        <SidebarSection id="signal-terminal" label="Signal Terminal">
           <SidebarNavItem
-            href="/twitter"
-            icon={XSidebarIcon}
-            label="X / Twitter"
-            active={pathname === "/twitter"}
+            href="/signals"
+            icon={Activity}
+            label="Market Signals"
+            active={pathname === "/signals" || pathname.startsWith("/signals/")}
+          />
+          <SidebarNavItem
+            href="/hackernews/trending"
+            icon={HackerNewsSidebarIcon}
+            label="Hacker News"
+            active={
+              pathname === "/hackernews" ||
+              pathname.startsWith("/hackernews/") ||
+              (pathname === "/news" && (!newsTab || newsTab === "hackernews"))
+            }
           />
           <SidebarNavItem
             href="/reddit/trending"
@@ -225,13 +244,19 @@ export function SidebarContent({
             }
           />
           <SidebarNavItem
-            href="/hackernews/trending"
-            icon={HackerNewsSidebarIcon}
-            label="HackerNews"
+            href="/twitter"
+            icon={XSidebarIcon}
+            label="X / Twitter"
+            active={pathname === "/twitter"}
+          />
+          <SidebarNavItem
+            href="/producthunt"
+            icon={ProductHuntSidebarIcon}
+            label="Product Hunt"
             active={
-              pathname === "/hackernews" ||
-              pathname.startsWith("/hackernews/") ||
-              (pathname === "/news" && (!newsTab || newsTab === "hackernews"))
+              pathname === "/producthunt" ||
+              pathname.startsWith("/producthunt/") ||
+              (pathname === "/news" && newsTab === "producthunt")
             }
           />
           <SidebarNavItem
@@ -266,18 +291,30 @@ export function SidebarContent({
           />
         </SidebarSection>
 
-        {/* LAUNCHES & FUNDING — launches, startup rounds & events ----- */}
-        <SidebarSection id="funding-terminal" label="Launches & Funding">
+        {/* ECOSYSTEM TERMINAL — Stage 3: check ecosystem traction ----- */}
+        <SidebarSection id="ecosystem-terminal" label="Ecosystem Terminal">
           <SidebarNavItem
-            href="/producthunt"
-            icon={ProductHuntSidebarIcon}
-            label="ProductHunt"
-            active={
-              pathname === "/producthunt" ||
-              pathname.startsWith("/producthunt/") ||
-              (pathname === "/news" && newsTab === "producthunt")
-            }
+            href="/npm"
+            icon={Package}
+            label="NPM Packages"
+            active={pathname === "/npm" || pathname.startsWith("/npm/")}
           />
+          <SidebarNavItem
+            icon={Sparkles}
+            label="Hugging Face"
+            badge="Soon"
+            disabled
+          />
+          <SidebarNavItem
+            icon={BarChart3}
+            label="LLM Charts"
+            badge="Soon"
+            disabled
+          />
+        </SidebarSection>
+
+        {/* LAUNCH TERMINAL — Stage 4-5: prepare + track outcomes ------ */}
+        <SidebarSection id="launch-terminal" label="Launch Terminal">
           <SidebarNavItem
             href="/funding"
             icon={DollarSign}
@@ -296,26 +333,16 @@ export function SidebarContent({
             badge="Soon"
             disabled
           />
-        </SidebarSection>
-
-        {/* NPM TERMINAL - package registry adoption telemetry ---------- */}
-        <SidebarSection id="npm-terminal" label="NPM Terminal">
           <SidebarNavItem
-            href="/npm"
-            icon={Package}
-            label="Packages"
-            active={pathname === "/npm" || pathname.startsWith("/npm/")}
+            icon={LifeBuoy}
+            label="Launch Support"
+            badge="Soon"
+            disabled
           />
         </SidebarSection>
 
-        {/* LENSES - ways to view the corpus --------------------------- */}
-        <SidebarSection id="lenses" label="Lenses">
-          <SidebarNavItem
-            href="/breakouts"
-            icon={Radar}
-            label="Cross-Signal Breakouts"
-            active={pathname === "/breakouts"}
-          />
+        {/* ALERTS TERMINAL — watchlist + compare + radar -------------- */}
+        <SidebarSection id="alerts-terminal" label="Alerts Terminal">
           <SidebarNavItem
             href="/watchlist"
             icon={Bookmark}
@@ -329,6 +356,12 @@ export function SidebarContent({
             label="Compare"
             badge={compareCount > 0 ? compareCount : undefined}
             active={pathname === "/compare"}
+          />
+          <SidebarNavItem
+            href="/#signals"
+            icon={Radar}
+            label="Signal Radar"
+            active={false}
           />
         </SidebarSection>
 

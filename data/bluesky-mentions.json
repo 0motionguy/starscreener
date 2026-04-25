@@ -1,10 +1,112 @@
 {
-  "fetchedAt": "2026-04-25T10:07:42.232Z",
+  "fetchedAt": "2026-04-25T11:05:51.142Z",
   "windowDays": 7,
-  "scannedPosts": 199,
+  "scannedPosts": 299,
   "searchQuery": "github.com",
-  "pagesFetched": 2,
+  "pagesFetched": 3,
   "mentions": {
+    "MemPalace/mempalace": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:k4vhz66ip52koywbzahq4ju3/app.bsky.feed.post/3mkcvcm3iv22z",
+        "cid": "bafyreicr6np5fx2fyrkoiuebif7opekoct2vse6tlkv4k6dq4oofywffmi",
+        "bskyUrl": "https://bsky.app/profile/pimmesselink.bsky.social/post/3mkcvcm3iv22z",
+        "text": "Followup: the SSH-wrapper hack from a couple weeks ago is now mempalace-remote, a proper Claude Code plugin. The piece the wrappers couldn't do — auto-save hooks — now fires across the SSH tunnel. PR upstream: github.com/MemPalace/mempalace/pull/1190 #MemPalace #claudecode",
+        "author": {
+          "handle": "pimmesselink.bsky.social",
+          "displayName": "Pim Messelink"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-25T11:02:26.779Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:k4vhz66ip52koywbzahq4ju3/app.bsky.feed.post/3mkcvcm3iv22z",
+          "cid": "bafyreicr6np5fx2fyrkoiuebif7opekoct2vse6tlkv4k6dq4oofywffmi",
+          "bskyUrl": "https://bsky.app/profile/pimmesselink.bsky.social/post/3mkcvcm3iv22z",
+          "text": "Followup: the SSH-wrapper hack from a couple weeks ago is now mempalace-remote, a proper Claude Code plugin. The piece the wrappers couldn't do — auto-save hooks — now fires across the SSH tunnel. PR upstream: github.com/MemPalace/mempalace/pull/1190 #MemPalace #claudecode",
+          "author": {
+            "handle": "pimmesselink.bsky.social",
+            "displayName": "Pim Messelink"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-25T11:02:26.779Z",
+          "createdUtc": 1777114946,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "MemPalace/mempalace",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "microsoft/ghqr": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3mkcufmgm5k2u",
+        "cid": "bafyreiayix7543uscmkwwrysl3t2y2ckoyx7dlc67rci2gpjzdja2hiswe",
+        "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3mkcufmgm5k2u",
+        "text": "GitHub - microsoft/ghqr: GitHub Quick Review. Evaluate your enterprise and organizations with GitHub best practices https://github.com/microsoft/ghqr",
+        "author": {
+          "handle": "tech-trending.bsky.social",
+          "displayName": "Tech Trending"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-25T10:46:14.025Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3mkcufmgm5k2u",
+          "cid": "bafyreiayix7543uscmkwwrysl3t2y2ckoyx7dlc67rci2gpjzdja2hiswe",
+          "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3mkcufmgm5k2u",
+          "text": "GitHub - microsoft/ghqr: GitHub Quick Review. Evaluate your enterprise and organizations with GitHub best practices https://github.com/microsoft/ghqr",
+          "author": {
+            "handle": "tech-trending.bsky.social",
+            "displayName": "Tech Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-25T10:46:14.025Z",
+          "createdUtc": 1777113974,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "microsoft/ghqr",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "refactoringhq/tolaria": {
       "count7d": 1,
       "likesSum7d": 0,
@@ -23,7 +125,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-25T10:00:15.729542+00:00",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.09
       },
       "posts": [
         {
@@ -40,7 +142,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T10:00:15.729542+00:00",
           "createdUtc": 1777111215,
-          "ageHours": 0.5,
+          "ageHours": 1.09,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -74,7 +176,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-25T09:26:09.318Z",
-        "hoursSincePosted": 0.69
+        "hoursSincePosted": 1.66
       },
       "posts": [
         {
@@ -91,7 +193,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T09:26:09.318Z",
           "createdUtc": 1777109169,
-          "ageHours": 0.69,
+          "ageHours": 1.66,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -125,7 +227,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-25T08:33:38.694Z",
-        "hoursSincePosted": 1.57
+        "hoursSincePosted": 2.54
       },
       "posts": [
         {
@@ -142,7 +244,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T08:33:38.694Z",
           "createdUtc": 1777106018,
-          "ageHours": 1.57,
+          "ageHours": 2.54,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -176,7 +278,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-25T08:01:56.096Z",
-        "hoursSincePosted": 2.1
+        "hoursSincePosted": 3.07
       },
       "posts": [
         {
@@ -193,7 +295,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T08:01:56.096Z",
           "createdUtc": 1777104116,
-          "ageHours": 2.1,
+          "ageHours": 3.07,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -226,7 +328,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-25T07:15:03.710058Z",
-        "hoursSincePosted": 2.88
+        "hoursSincePosted": 3.85
       },
       "posts": [
         {
@@ -242,7 +344,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T07:15:03.710058Z",
           "createdUtc": 1777101303,
-          "ageHours": 2.88,
+          "ageHours": 3.85,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -269,7 +371,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T07:15:02.729619Z",
           "createdUtc": 1777101302,
-          "ageHours": 2.88,
+          "ageHours": 3.85,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -289,7 +391,7 @@
       "count7d": 1,
       "likesSum7d": 4,
       "repostsSum7d": 2,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
         "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mkchrcedfy25",
         "cid": "bafyreigfkpknab3vdajrg3xexayxnzl2jnkaq6okhfskto2mpihsml5s2i",
@@ -301,9 +403,9 @@
         },
         "likeCount": 4,
         "repostCount": 2,
-        "replyCount": 0,
+        "replyCount": 1,
         "createdAt": "2026-04-25T09:00:07+02:00",
-        "hoursSincePosted": 3.13
+        "hoursSincePosted": 4.1
       },
       "posts": [
         {
@@ -317,11 +419,11 @@
           },
           "likeCount": 4,
           "repostCount": 2,
-          "replyCount": 0,
+          "replyCount": 1,
           "createdAt": "2026-04-25T09:00:07+02:00",
           "createdUtc": 1777100407,
-          "ageHours": 3.13,
-          "trendingScore": 8,
+          "ageHours": 4.1,
+          "trendingScore": 8.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -329,6 +431,106 @@
           "linkedRepos": [
             {
               "fullName": "thunderbird/thunderbolt",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "NousResearch/hermes-agent": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:5scdazxckg6kso3s3j6psrjs/app.bsky.feed.post/3mkccjdxry22p",
+        "cid": "bafyreibsm3ehwb3ehmsm3hlp7quvrv2c3jktmhbtzklgohbabw2cuighou",
+        "bskyUrl": "https://bsky.app/profile/brrrock.bsky.social/post/3mkccjdxry22p",
+        "text": "Was sad because Hermes Agent no longer worked with liteLLM as a custom provider... but then replaced main.py with the one in the PR and IT WORKS⚡ github.com/NousResearch... #Hermes #localLLM #liteLLM #NousResearch",
+        "author": {
+          "handle": "brrrock.bsky.social",
+          "displayName": "Brock Chapin"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-04-25T05:26:12.057Z",
+        "hoursSincePosted": 5.66
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:5scdazxckg6kso3s3j6psrjs/app.bsky.feed.post/3mkccjdxry22p",
+          "cid": "bafyreibsm3ehwb3ehmsm3hlp7quvrv2c3jktmhbtzklgohbabw2cuighou",
+          "bskyUrl": "https://bsky.app/profile/brrrock.bsky.social/post/3mkccjdxry22p",
+          "text": "Was sad because Hermes Agent no longer worked with liteLLM as a custom provider... but then replaced main.py with the one in the PR and IT WORKS⚡ github.com/NousResearch... #Hermes #localLLM #liteLLM #NousResearch",
+          "author": {
+            "handle": "brrrock.bsky.social",
+            "displayName": "Brock Chapin"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-04-25T05:26:12.057Z",
+          "createdUtc": 1777094772,
+          "ageHours": 5.66,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "is-meme"
+          ],
+          "value_score": -1,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "casey/just": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:cyjmbtkods6pm72qrmbk6u5m/app.bsky.feed.post/3mkcb5pc2r22g",
+        "cid": "bafyreih5jrfgqd2vtkpcb26deycbov3f7f47jzud3n63b2umdfh2dnjqvm",
+        "bskyUrl": "https://bsky.app/profile/ilotoki0804.wbtn.org/post/3mkcb5pc2r22g",
+        "text": "github.com/casey/just",
+        "author": {
+          "handle": "ilotoki0804.wbtn.org"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-04-25T05:01:47.533Z",
+        "hoursSincePosted": 6.07
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:cyjmbtkods6pm72qrmbk6u5m/app.bsky.feed.post/3mkcb5pc2r22g",
+          "cid": "bafyreih5jrfgqd2vtkpcb26deycbov3f7f47jzud3n63b2umdfh2dnjqvm",
+          "bskyUrl": "https://bsky.app/profile/ilotoki0804.wbtn.org/post/3mkcb5pc2r22g",
+          "text": "github.com/casey/just",
+          "author": {
+            "handle": "ilotoki0804.wbtn.org"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-04-25T05:01:47.533Z",
+          "createdUtc": 1777093307,
+          "ageHours": 6.07,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "casey/just",
               "matchType": "url",
               "confidence": 1
             }
@@ -344,12 +546,32 @@
       "likesSum7d": 4
     },
     {
+      "fullName": "NousResearch/hermes-agent",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
       "fullName": "browser-use/browser-harness",
       "count7d": 2,
       "likesSum7d": 0
     },
     {
       "fullName": "AndrewVos/endless-toil",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "casey/just",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "MemPalace/mempalace",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "microsoft/ghqr",
       "count7d": 1,
       "likesSum7d": 0
     },

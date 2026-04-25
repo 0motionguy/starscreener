@@ -24,6 +24,7 @@ import {
   TwitterWebProvider,
   type TwitterWebPost,
 } from "./_twitter-web-provider";
+import { ApifyTwitterProvider } from "./_apify-twitter-provider";
 import {
   buildTwitterQueryBundle,
   getTwitterScanCandidates,
@@ -46,7 +47,7 @@ loadEnvConfig(ROOT);
 const USER_AGENT = "TrendingRepo-TwitterCollector/0.1 (+https://trendingrepo.com)";
 const DEFAULT_BASE_URL = "http://localhost:3023";
 
-type CollectorProvider = "nitter" | "fixture" | "web";
+type CollectorProvider = "nitter" | "fixture" | "web" | "apify";
 type CollectorMode = "direct" | "api";
 
 interface CliOptions {
@@ -278,7 +279,12 @@ function parseArgs(argv: string[]): CliOptions {
     }
   }
 
-  if (out.provider !== "nitter" && out.provider !== "fixture" && out.provider !== "web") {
+  if (
+    out.provider !== "nitter" &&
+    out.provider !== "fixture" &&
+    out.provider !== "web" &&
+    out.provider !== "apify"
+  ) {
     throw new Error(`unsupported provider: ${out.provider}`);
   }
   if (out.mode !== "direct" && out.mode !== "api") {
@@ -295,7 +301,8 @@ function printHelp(): void {
   console.log(`Usage: npm run collect:twitter -- [options]
 
 Options:
-  --provider nitter|fixture|web   Source provider. Default: nitter
+  --provider nitter|fixture|web|apify
+                                  Source provider. Default: nitter
   --mode direct|api               Direct writes JSONL via service; api posts to running app. Default: api
   --limit N                       Candidate repos to scan. Default: 25
   --queries-per-repo N            Query cap per repo. Default: 4
@@ -637,6 +644,35 @@ async function collectFromWeb(
   }
 }
 
+async function collectFromApify(
+  provider: ApifyTwitterProvider,
+  query: TwitterQuery,
+  options: CliOptions,
+): Promise<CollectorRawPost[]> {
+  const sinceMs = Date.now() - options.windowHours * 60 * 60 * 1000;
+  const sinceISO = new Date(sinceMs).toISOString();
+  const searchQuery = searchQueryForWeb(query);
+  const limit = options.postsPerQuery > 0 ? Math.min(options.postsPerQuery, 100) : 25;
+
+  try {
+    const posts = await provider.search({
+      query: searchQuery,
+      sinceISO,
+      limit,
+    });
+    const mapped = posts.map(webPostToRawPost);
+    return capQueryPosts(mapped, options);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    logEvent("query_no_hits", {
+      query: query.queryText,
+      queryType: query.queryType,
+      reason: `apify-provider: ${message}`,
+    });
+    throw error;
+  }
+}
+
 async function loadFixturePosts(path: string): Promise<CollectorRawPost[]> {
   const resolved = resolve(ROOT, path);
   const raw = JSON.parse(await readFile(resolved, "utf8")) as unknown;
@@ -730,6 +766,14 @@ async function main(): Promise<void> {
     log(`web-provider initialized with ${accounts.length} account(s)`);
   }
 
+  let apifyProvider: ApifyTwitterProvider | null = null;
+  if (options.provider === "apify") {
+    apifyProvider = new ApifyTwitterProvider({
+      timeoutMs: options.timeoutMs,
+    });
+    log(`apify-provider initialized (actor=${process.env.APIFY_TWITTER_ACTOR ?? "apidojo~tweet-scraper"})`);
+  }
+
   const payloads: TwitterIngestRequest[] = [];
 
   log(
@@ -768,6 +812,21 @@ async function main(): Promise<void> {
                 const message = error instanceof Error ? error.message : String(error);
                 log(
                   `web-provider exhausted for ${candidate.repo.githubFullName}: ${message} — skipping remaining queries for this repo`,
+                );
+                repoWebExhausted = true;
+                posts = [];
+              }
+            }
+          } else if (options.provider === "apify" && apifyProvider) {
+            if (repoWebExhausted) {
+              posts = [];
+            } else {
+              try {
+                posts = await collectFromApify(apifyProvider, query, options);
+              } catch (error) {
+                const message = error instanceof Error ? error.message : String(error);
+                log(
+                  `apify-provider error for ${candidate.repo.githubFullName}: ${message} — skipping remaining queries for this repo`,
                 );
                 repoWebExhausted = true;
                 posts = [];
@@ -821,6 +880,12 @@ async function main(): Promise<void> {
     const stats = webProvider.getStats();
     log(
       `web-provider stats requests=${stats.requests} errors=${stats.errors} healthy=${stats.accountsHealthy} rateLimited=${stats.accountsRateLimited}`,
+    );
+  }
+  if (apifyProvider) {
+    const stats = apifyProvider.getStats();
+    log(
+      `apify-provider stats requests=${stats.requests} errors=${stats.errors} lastError=${stats.lastError ?? "none"}`,
     );
   }
   log(`done payloads=${payloads.length} posts=${postCount}`);

@@ -41,12 +41,18 @@ jobs:
 
       - name: Collect Twitter signals
         env:
-          TWITTER_COLLECTOR_PROVIDER: web
+          # Apify tweet-scraper actor runs on residential IPs and returns clean
+          # JSON — sidesteps Twitter's 2026 x-client-transaction-id anti-bot
+          # that silently breaks the cookie-based web provider.
+          TWITTER_COLLECTOR_PROVIDER: ${{ vars.TWITTER_COLLECTOR_PROVIDER || 'apify' }}
           TWITTER_COLLECTOR_MODE: ${{ github.event.inputs.mode || 'api' }}
           TWITTER_COLLECTOR_LIMIT: ${{ github.event.inputs.limit || '25' }}
+          TWITTER_COLLECTOR_QUERIES_PER_REPO: ${{ vars.TWITTER_COLLECTOR_QUERIES_PER_REPO || '1' }}
           TWITTER_COLLECTOR_DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
           TWITTER_COLLECTOR_BASE_URL: ${{ vars.STARSCREENER_URL || 'https://trendingrepo.com' }}
           INTERNAL_AGENT_TOKEN: ${{ secrets.INTERNAL_AGENT_TOKEN }}
+          APIFY_API_TOKEN: ${{ secrets.APIFY_API_TOKEN }}
+          APIFY_TWITTER_ACTOR: ${{ vars.APIFY_TWITTER_ACTOR }}
           TWITTER_WEB_ACCOUNTS_JSON: ${{ secrets.TWITTER_WEB_ACCOUNTS_JSON }}
           TWITTER_GRAPHQL_SEARCH_QUERY_ID: ${{ vars.TWITTER_GRAPHQL_SEARCH_QUERY_ID }}
           # TWITTER_WEB_DEBUG: "1"  # uncomment when diagnosing empty responses

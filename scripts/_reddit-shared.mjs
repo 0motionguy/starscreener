@@ -217,9 +217,26 @@ export const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export async function fetchRedditJson(url, { fetchImpl = fetch } = {}) {
   const userAgent = getRedditUserAgent();
+  // Full browser-shaped header set. Reddit's anti-bot looks at the UA + the
+  // accompanying headers as a coherent profile; bare UA without sec-fetch-*
+  // or accept-language is a tell. This won't bypass IP-level blocks (GH
+  // Actions ranges are dropped at the edge regardless of headers) but it
+  // does bypass the Cloudflare-tier check that fires on residential IPs
+  // with a bare-UA request.
   const publicHeaders = {
     "User-Agent": userAgent,
-    Accept: "application/json",
+    Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Sec-Fetch-Dest": "document",
+    "Sec-Fetch-Mode": "navigate",
+    "Sec-Fetch-Site": "none",
+    "Sec-Fetch-User": "?1",
+    "Upgrade-Insecure-Requests": "1",
+    "Sec-Ch-Ua":
+      '"Not A(Brand";v="99", "Google Chrome";v="121", "Chromium";v="121"',
+    "Sec-Ch-Ua-Mobile": "?0",
+    "Sec-Ch-Ua-Platform": '"macOS"',
   };
 
   fetchRuntime.preferredMode = hasRedditOAuthCreds() ? "oauth" : "public-json";

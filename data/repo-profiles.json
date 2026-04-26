@@ -1,27 +1,27 @@
 {
-  "generatedAt": "2026-04-26T08:08:00.512Z",
+  "generatedAt": "2026-04-26T09:36:05.449Z",
   "version": 1,
   "selection": {
     "source": "incremental",
     "limit": 50,
     "maxScans": 5,
-    "scanned": 2,
-    "queued": 0,
-    "noWebsite": 48,
+    "scanned": 3,
+    "queued": 10,
+    "noWebsite": 37,
     "failed": 0
   },
   "profiles": [
     {
-      "fullName": "Alishahryar1/free-claude-code",
+      "fullName": "forrestchang/andrej-karpathy-skills",
       "rank": 1,
       "selectedFrom": "incremental",
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-26T08:06:53.328Z",
+      "lastProfiledAt": "2026-04-26T09:34:46.801Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/Alishahryar1/free-claude-code",
+        "githubUrl": "https://github.com/forrestchang/andrej-karpathy-skills",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -30,16 +30,16 @@
       "error": null
     },
     {
-      "fullName": "forrestchang/andrej-karpathy-skills",
-      "rank": 1,
+      "fullName": "mattpocock/skills",
+      "rank": 2,
       "selectedFrom": "incremental",
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-24T07:11:34.347Z",
+      "lastProfiledAt": "2026-04-26T09:34:47.236Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/forrestchang/andrej-karpathy-skills",
+        "githubUrl": "https://github.com/mattpocock/skills",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -824,6 +824,24 @@
       "error": null
     },
     {
+      "fullName": "Alishahryar1/free-claude-code",
+      "rank": 3,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-26T09:34:47.667Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/Alishahryar1/free-claude-code",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
       "fullName": "elder-plinius/CL4R1T4S",
       "rank": 3,
       "selectedFrom": "incremental",
@@ -834,24 +852,6 @@
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/elder-plinius/CL4R1T4S",
-        "docsUrl": null,
-        "npmPackages": [],
-        "productHuntLaunchId": null
-      },
-      "aisoScan": null,
-      "error": null
-    },
-    {
-      "fullName": "mattpocock/skills",
-      "rank": 3,
-      "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-26T08:06:53.784Z",
-      "nextScanAfter": null,
-      "surfaces": {
-        "githubUrl": "https://github.com/mattpocock/skills",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -1670,24 +1670,6 @@
         ],
         "promptTests": []
       },
-      "error": null
-    },
-    {
-      "fullName": "op7418/guizang-ppt-skill",
-      "rank": 4,
-      "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-26T08:06:54.256Z",
-      "nextScanAfter": null,
-      "surfaces": {
-        "githubUrl": "https://github.com/op7418/guizang-ppt-skill",
-        "docsUrl": null,
-        "npmPackages": [],
-        "productHuntLaunchId": null
-      },
-      "aisoScan": null,
       "error": null
     },
     {
@@ -3421,16 +3403,16 @@
       "error": null
     },
     {
-      "fullName": "badlogic/pi-mono",
+      "fullName": "heygen-com/hyperframes",
       "rank": 8,
       "selectedFrom": "incremental",
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-26T08:06:54.708Z",
+      "lastProfiledAt": "2026-04-26T09:34:48.139Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/badlogic/pi-mono",
+        "githubUrl": "https://github.com/heygen-com/hyperframes",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -4189,24 +4171,6 @@
         ],
         "promptTests": []
       },
-      "error": null
-    },
-    {
-      "fullName": "zilliztech/claude-context",
-      "rank": 9,
-      "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-26T08:06:55.183Z",
-      "nextScanAfter": null,
-      "surfaces": {
-        "githubUrl": "https://github.com/zilliztech/claude-context",
-        "docsUrl": null,
-        "npmPackages": [],
-        "productHuntLaunchId": null
-      },
-      "aisoScan": null,
       "error": null
     },
     {
@@ -4998,6 +4962,24 @@
         ],
         "promptTests": []
       },
+      "error": null
+    },
+    {
+      "fullName": "badlogic/pi-mono",
+      "rank": 11,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-26T09:34:48.565Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/badlogic/pi-mono",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
       "error": null
     },
     {
@@ -9883,16 +9865,16 @@
       "error": null
     },
     {
-      "fullName": "HKUDS/DeepTutor",
-      "rank": 15,
+      "fullName": "op7418/guizang-ppt-skill",
+      "rank": 14,
       "selectedFrom": "incremental",
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-26T08:06:55.653Z",
+      "lastProfiledAt": "2026-04-26T09:34:48.980Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/HKUDS/DeepTutor",
+        "githubUrl": "https://github.com/op7418/guizang-ppt-skill",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -10711,6 +10693,24 @@
         ],
         "promptTests": []
       },
+      "error": null
+    },
+    {
+      "fullName": "ComposioHQ/awesome-codex-skills",
+      "rank": 16,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-26T09:34:49.417Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/ComposioHQ/awesome-codex-skills",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
       "error": null
     },
     {
@@ -12379,42 +12379,6 @@
       "error": null
     },
     {
-      "fullName": "ZhuLinsen/daily_stock_analysis",
-      "rank": 17,
-      "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-26T08:06:56.094Z",
-      "nextScanAfter": null,
-      "surfaces": {
-        "githubUrl": "https://github.com/ZhuLinsen/daily_stock_analysis",
-        "docsUrl": null,
-        "npmPackages": [],
-        "productHuntLaunchId": null
-      },
-      "aisoScan": null,
-      "error": null
-    },
-    {
-      "fullName": "addyosmani/agent-skills",
-      "rank": 18,
-      "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-26T08:06:56.556Z",
-      "nextScanAfter": null,
-      "surfaces": {
-        "githubUrl": "https://github.com/addyosmani/agent-skills",
-        "docsUrl": null,
-        "npmPackages": [],
-        "productHuntLaunchId": null
-      },
-      "aisoScan": null,
-      "error": null
-    },
-    {
       "fullName": "vercel-labs/skills",
       "rank": 18,
       "selectedFrom": "incremental",
@@ -14074,21 +14038,785 @@
       "error": null
     },
     {
-      "fullName": "nashsu/llm_wiki",
-      "rank": 19,
+      "fullName": "AmintaCCCP/GithubStarsManager",
+      "rank": 20,
       "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-26T08:06:57.014Z",
-      "nextScanAfter": null,
+      "websiteUrl": "https://gsm.aminta.top/",
+      "websiteSource": "github_homepage",
+      "status": "scanned",
+      "lastProfiledAt": "2026-04-26T09:34:49.446Z",
+      "nextScanAfter": "2026-05-03T09:35:12.464Z",
       "surfaces": {
-        "githubUrl": "https://github.com/nashsu/llm_wiki",
+        "githubUrl": "https://github.com/AmintaCCCP/GithubStarsManager",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
       },
-      "aisoScan": null,
+      "aisoScan": {
+        "scanId": "9f3acd05-768e-4e8c-935e-c8de29fb10cb",
+        "url": "https://gsm.aminta.top/",
+        "projectName": null,
+        "projectUrl": null,
+        "source": "web",
+        "status": "completed",
+        "score": 20,
+        "tier": "invisible",
+        "runtimeVisibility": null,
+        "scanDurationMs": 16981,
+        "completedAt": "2026-04-26T09:35:08.5+00:00",
+        "resultUrl": "https://aiso.tools/scan/9f3acd05-768e-4e8c-935e-c8de29fb10cb",
+        "dimensions": [
+          {
+            "key": "structure",
+            "label": "Content Structure",
+            "weight": 20,
+            "score": 10,
+            "status": "warn",
+            "issuesCount": 2,
+            "details": {
+              "heading_ok": false,
+              "faq_present": true,
+              "answer_first": true,
+              "heading_issue": "Some H2 topics are too short (<3 words)",
+              "definition_lead": false,
+              "main_text_tokens": 390
+            }
+          },
+          {
+            "key": "citations",
+            "label": "Citation Density",
+            "weight": 20,
+            "score": 10,
+            "status": "warn",
+            "issuesCount": 2,
+            "details": {
+              "word_count": 411,
+              "stats_count": 4,
+              "external_links": 5,
+              "authoritative_links": 0,
+              "stats_density_per_500w": 4.87,
+              "citations_density_per_500w": 0
+            }
+          },
+          {
+            "key": "crawler",
+            "label": "Crawler Access",
+            "weight": 15,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 2,
+            "details": {
+              "allowed_bots": 6,
+              "blocked_bots": 8,
+              "robots_present": true,
+              "cloudflare_suspected": false,
+              "gptbot_homepage_blocked": true
+            }
+          },
+          {
+            "key": "schema",
+            "label": "Schema Markup",
+            "weight": 15,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 3,
+            "details": {
+              "coverage": {
+                "person": 0,
+                "article": 0,
+                "faqPage": 0,
+                "website": 0,
+                "breadcrumb": 0,
+                "organization": 0
+              },
+              "meta_tags": {
+                "title": true,
+                "robots": false,
+                "canonical": false,
+                "open_graph": false,
+                "description": false,
+                "twitter_card": false
+              },
+              "page_family": "homepage",
+              "blocks_found": 0,
+              "nodes_parsed": 0,
+              "present_types": [],
+              "page_family_missing": [
+                "Organization",
+                "WebSite",
+                "FAQPage"
+              ],
+              "page_family_expected": [
+                "Organization",
+                "WebSite",
+                "FAQPage"
+              ],
+              "page_family_strength": 0
+            }
+          },
+          {
+            "key": "entity",
+            "label": "Entity Clarity",
+            "weight": 10,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "byline": false,
+              "founder_in_ld": false,
+              "about_reachable": false,
+              "self_identification": false
+            }
+          },
+          {
+            "key": "agent_readiness",
+            "label": "Agent Readiness",
+            "weight": 10,
+            "score": 1,
+            "status": "fail",
+            "issuesCount": 9,
+            "details": {
+              "probes": [],
+              "detected": {
+                "api": false,
+                "cli": false,
+                "mcp": false,
+                "x402": false,
+                "portal": false,
+                "webmcp": false,
+                "agent_skills": false,
+                "agent_discovery": false,
+                "agent_navigation": false,
+                "integration_safety": true
+              },
+              "checked_paths": [
+                "/openapi.json",
+                "/swagger.json",
+                "/api/openapi.json",
+                "/api/docs",
+                "/docs/api",
+                "/developers",
+                "/mcp",
+                "/docs/mcp",
+                "/.well-known/mcp.json",
+                "/docs/cli",
+                "/cli",
+                "/install",
+                "/webmcp",
+                "/docs/webmcp",
+                "/.well-known/webmcp.json",
+                "/portal",
+                "/portal.json",
+                "/.well-known/portal.json",
+                "/docs/portal",
+                "/.well-known/x402.json",
+                "/docs/x402",
+                "/docs/payments",
+                "/api/x402",
+                "/llms.txt",
+                "/llms-full.txt",
+                "/.well-known/ai-plugin.json",
+                "/.well-known/agent.json",
+                "/agents.json",
+                "/.well-known/agent-skills.json",
+                "/.well-known/agents.json",
+                "/agent-skills.json",
+                "/actions.json",
+                "/tools.json",
+                "/skills",
+                "/agent-skills",
+                "/docs/skills",
+                "/docs/agents",
+                "/sitemap.xml",
+                "/sitemap_index.xml",
+                "/docs",
+                "/help",
+                "/search",
+                "/docs/auth",
+                "/docs/webhooks",
+                "/docs/rate-limits",
+                "/status"
+              ]
+            }
+          },
+          {
+            "key": "llmstxt",
+            "label": "llms.txt",
+            "weight": 10,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "has_h1": false,
+              "broken_links": [],
+              "links_broken": 0,
+              "links_sampled": 0,
+              "llms_txt_present": false,
+              "llms_full_txt_present": false
+            }
+          },
+          {
+            "key": "freshness",
+            "label": "Freshness",
+            "weight": 5,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "source": null,
+              "days_since": null,
+              "updated_iso": null
+            }
+          },
+          {
+            "key": "offsite",
+            "label": "Off-site Authority (proxy)",
+            "weight": 5,
+            "score": 1,
+            "status": "fail",
+            "issuesCount": 0,
+            "details": {
+              "platforms_detected": [
+                "github"
+              ],
+              "header_footer_links": 3
+            }
+          },
+          {
+            "key": "template_coverage",
+            "label": "Template Coverage",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "mode": "homepage",
+              "non_scoring": true,
+              "homepage_only": true,
+              "pages_scanned": 1,
+              "sampled_pages": 0,
+              "page_templates": [
+                {
+                  "url": "https://gsm.aminta.top/",
+                  "template": "homepage",
+                  "text_chars": 2886
+                }
+              ],
+              "unique_templates": [
+                "homepage"
+              ]
+            }
+          },
+          {
+            "key": "platform_profiles",
+            "label": "Platform Profiles",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "profiles": {
+                "claude": 32,
+                "chatgpt": 16,
+                "google_ai": 8,
+                "perplexity": 29
+              },
+              "non_scoring": true
+            }
+          },
+          {
+            "key": "prompt_injection",
+            "label": "Prompt Injection",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "findings": [],
+              "non_scoring": true,
+              "pages_scanned": 1
+            }
+          },
+          {
+            "key": "web_verification",
+            "label": "Web Verification",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "consensus": {
+                "fetch_ok": 2,
+                "search_ok": 2,
+                "fetch_total": 2,
+                "verified_by": 3,
+                "search_total": 2,
+                "search_matched": 1,
+                "content_agreement": "multi_fetch",
+                "measured_providers": 4
+              },
+              "providers": [
+                {
+                  "ok": true,
+                  "kind": "fetch",
+                  "title": "GithubStarsManager - AI-Powered GitHub Starring Assistant",
+                  "status": 200,
+                  "finalUrl": "https://gsm.aminta.top/",
+                  "provider": "http",
+                  "latencyMs": 198,
+                  "textChars": 2886,
+                  "description": null
+                },
+                {
+                  "ok": true,
+                  "kind": "fetch",
+                  "title": "GithubStarsManager - AI-Powered GitHub Starring Assistant",
+                  "status": 200,
+                  "finalUrl": "https://gsm.aminta.top/",
+                  "provider": "tinyfish_fetch",
+                  "latencyMs": 136.8749559915159,
+                  "textChars": 3858,
+                  "description": null
+                },
+                {
+                  "ok": true,
+                  "kind": "search",
+                  "query": "site:gsm.aminta.top gsm",
+                  "status": 200,
+                  "results": [],
+                  "provider": "tinyfish_search",
+                  "totalResults": 0,
+                  "topMatchPosition": null
+                },
+                {
+                  "ok": true,
+                  "kind": "search",
+                  "query": "site:gsm.aminta.top gsm",
+                  "status": 200,
+                  "results": [
+                    {
+                      "url": "https://gsm.aminta.top/",
+                      "title": "GithubStarsManager - AI-Powered GitHub Starring Assistant",
+                      "snippet": "Automatically analyze, categorize, and track your starred repositories. Say goodbye to messy bookmarks and hello to an organized tech library · Processing: React-Framework Status: ",
+                      "position": 1,
+                      "siteName": "Aminta"
+                    }
+                  ],
+                  "provider": "brave_search",
+                  "totalResults": 1,
+                  "topMatchPosition": 1
+                }
+              ],
+              "non_scoring": true,
+              "configured_providers": [
+                "http",
+                "tinyfish_fetch",
+                "tinyfish_search",
+                "brave_search"
+              ]
+            }
+          },
+          {
+            "key": "negative_signals",
+            "label": "Negative Signals",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "flags": [
+                {
+                  "key": "cta_overload",
+                  "count": 0,
+                  "label": "CTA overload"
+                },
+                {
+                  "key": "intrusive_overlay",
+                  "count": 0,
+                  "label": "Intrusive overlay patterns"
+                },
+                {
+                  "key": "thin_pages",
+                  "count": 0,
+                  "label": "Thin pages"
+                },
+                {
+                  "key": "missing_author_signals",
+                  "count": 0,
+                  "label": "Missing author signals"
+                },
+                {
+                  "key": "boilerplate_heavy",
+                  "count": 0,
+                  "label": "Boilerplate-heavy pages"
+                }
+              ],
+              "non_scoring": true,
+              "pages_scanned": 1,
+              "sampled_pages": [
+                {
+                  "url": "https://gsm.aminta.top/",
+                  "template": "homepage",
+                  "text_chars": 2886,
+                  "has_canonical": false
+                }
+              ]
+            }
+          },
+          {
+            "key": "content_decay",
+            "label": "Content Decay",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 1,
+            "details": {
+              "non_scoring": true,
+              "pages_scanned": 1,
+              "volatile_pages": 1,
+              "evergreen_score": 9.5,
+              "stale_year_pages": 0,
+              "updated_signal_pages": 0
+            }
+          },
+          {
+            "key": "trust_stack",
+            "label": "Trust Stack",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 5,
+            "details": {
+              "grade": "F",
+              "layers": {
+                "safety": 7,
+                "identity": 13,
+                "authority": 35,
+                "technical": 23,
+                "consistency": 47
+              },
+              "overall": 25,
+              "non_scoring": true
+            }
+          },
+          {
+            "key": "content_gaps",
+            "label": "Content Gap Opportunities",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 2,
+            "details": {
+              "non_scoring": true,
+              "missing_faqs": [
+                "What is AI agent tooling?",
+                "How does Gsm work?",
+                "How much does Gsm cost?",
+                "What makes Gsm different?"
+              ],
+              "pages_checked": 1,
+              "missing_entities": [
+                {
+                  "entity": "company description",
+                  "reason": "No about or company page found in sampled pages.",
+                  "entity_type": "brand",
+                  "where_expected": "about or company page"
+                },
+                {
+                  "entity": "team/founders",
+                  "reason": "No team or founder page found in sampled pages.",
+                  "entity_type": "person",
+                  "where_expected": "team or founder page"
+                },
+                {
+                  "entity": "pricing information",
+                  "reason": "No pricing page found in sampled pages.",
+                  "entity_type": "product",
+                  "where_expected": "pricing page"
+                },
+                {
+                  "entity": "technical documentation",
+                  "reason": "No docs or API page found in sampled pages.",
+                  "entity_type": "product",
+                  "where_expected": "docs or API page"
+                }
+              ],
+              "missing_comparisons": [
+                "Gsm vs top competitor",
+                "Gsm vs alternative tools",
+                "Best AI Agent Tooling tools compared"
+              ],
+              "missing_content_types": [
+                {
+                  "type": "faq",
+                  "impact": "high",
+                  "reason": "No dedicated FAQ surface found for question-style retrieval.",
+                  "suggested_title": "Frequently Asked Questions about AI Agent Tooling"
+                },
+                {
+                  "type": "glossary",
+                  "impact": "high",
+                  "reason": "No glossary or definition hub found for entity and term authority.",
+                  "suggested_title": "AI Agent Tooling Glossary: Key Terms Explained"
+                },
+                {
+                  "type": "comparison",
+                  "impact": "medium",
+                  "reason": "No comparison surface found for high-intent evaluation queries.",
+                  "suggested_title": "Gsm vs Alternatives: Detailed Comparison"
+                },
+                {
+                  "type": "guide",
+                  "impact": "medium",
+                  "reason": "No guide or how-to surface found for procedural extraction.",
+                  "suggested_title": "Complete Guide to AI Agent Tooling"
+                },
+                {
+                  "type": "case_study",
+                  "impact": "medium",
+                  "reason": "No case-study or customer-proof surface found.",
+                  "suggested_title": "Gsm Case Study: Real Results from AI Agent Tooling"
+                },
+                {
+                  "type": "benchmark",
+                  "impact": "medium",
+                  "reason": "No benchmark, research, or proprietary-data surface found.",
+                  "suggested_title": "AI Agent Tooling Benchmarks: Performance Data"
+                }
+              ],
+              "missing_ecosystem_pages": [
+                "Gsm integrations and ecosystem",
+                "How Gsm works with popular tools"
+              ]
+            }
+          }
+        ],
+        "issues": [
+          {
+            "severity": "critical",
+            "title": "No valid Organization JSON-LD",
+            "fix": "Add <script type='application/ld+json'> with @type:Organization including name, url, logo, and sameAs (≥3 social profiles).",
+            "dimensionKey": "schema"
+          },
+          {
+            "severity": "critical",
+            "title": "robots.txt blocks 8 AI bots",
+            "fix": "Allowlist AI crawlers in robots.txt. Start with GPTBot, ClaudeBot, PerplexityBot, Google-Extended.",
+            "dimensionKey": "crawler"
+          },
+          {
+            "severity": "critical",
+            "title": "Homepage returns 403 for GPTBot",
+            "fix": "Remove WAF/CDN rules that block OpenAI's GPTBot crawler and similar AI user agents.",
+            "dimensionKey": "crawler"
+          },
+          {
+            "severity": "critical",
+            "title": "No /llms.txt file found",
+            "fix": "Publish /llms.txt at the site root with '# <Project>' + a short summary + H2 sections linking to canonical doc URLs.",
+            "dimensionKey": "llmstxt"
+          },
+          {
+            "severity": "high",
+            "title": "No API or OpenAPI entrypoint detected",
+            "fix": "Expose a public API reference or OpenAPI document at /docs/api, /openapi.json, or an equivalent developer URL so agents can understand callable surfaces.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "high",
+            "title": "No definition-lead opener in the first 150 tokens",
+            "fix": "Open the homepage with '<Brand> is a <category> that <differentiator>' — this is the single biggest lever for AI citability.",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "high",
+            "title": "External links exist but none hit the authoritative allowlist",
+            "fix": "Cite at least one .edu/.gov, Wikipedia, IETF/W3C spec, or tier-1 publication near your flagship claims.",
+            "dimensionKey": "citations"
+          },
+          {
+            "severity": "high",
+            "title": "Statistical claims are unsourced",
+            "fix": "Every % / 'X customers' / stat deserves an inline citation link to the origin study or publication.",
+            "dimensionKey": "citations"
+          },
+          {
+            "severity": "high",
+            "title": "FAQ section exists but is not marked up as FAQPage JSON-LD",
+            "fix": "Wrap the FAQ with a FAQPage JSON-LD block so AI engines can lift the Q/A pairs verbatim.",
+            "dimensionKey": "schema"
+          },
+          {
+            "severity": "low",
+            "title": "4 entity page gaps detected",
+            "fix": "Add explicit entity surfaces: about or company page, team or founder page, pricing page, docs or API page.",
+            "dimensionKey": "content_gaps"
+          },
+          {
+            "severity": "low",
+            "title": "Authority trust layer is weak",
+            "fix": "Strengthen the authority layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Core meta tags are incomplete",
+            "fix": "Add a unique <title>, meta description, and canonical URL. Add Open Graph/Twitter tags for share and citation previews.",
+            "dimensionKey": "schema"
+          },
+          {
+            "severity": "low",
+            "title": "No x402 payment support detected",
+            "fix": "If paid agent/API access is supported, document x402 payment flow, supported networks/tokens, payment headers, and facilitator behavior.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "No clear agent navigation path detected",
+            "fix": "Expose a crawlable sitemap and stable navigation to docs, pricing, support, API references, and key task pages. Agents need predictable links, not only app-shell buttons.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "Volatile content lacks update signals",
+            "fix": "Pages about prices, versions, launches, or changing data should expose a clear last-updated date and refresh cadence.",
+            "dimensionKey": "content_decay"
+          },
+          {
+            "severity": "low",
+            "title": "Identity trust layer is weak",
+            "fix": "Strengthen the identity layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Consistency trust layer is weak",
+            "fix": "Strengthen the consistency layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Perplexity readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive perplexity citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Claude readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive claude citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "No WebMCP access signal detected",
+            "fix": "If the site supports browser-native agent access, publish a WebMCP endpoint or discovery document and link it from developer docs and llms.txt.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "No named author or byline visible",
+            "fix": "If the homepage surfaces editorial content, include an author byline (Person JSON-LD or 'By <Name>').",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "low",
+            "title": "Organization JSON-LD missing founder",
+            "fix": "Add 'founder': [{ @type: Person, name: ... }] to the Organization schema.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "low",
+            "title": "Template coverage is limited in homepage-only scans",
+            "fix": "Run Template Audit, Full Site, or Deep Investigation mode to compare key templates across the site.",
+            "dimensionKey": "template_coverage"
+          },
+          {
+            "severity": "low",
+            "title": "No Portal visit layer detected",
+            "fix": "If the service supports temporary agent visits, publish a Portal manifest at /portal with tool metadata and a call endpoint, then link it from docs and llms.txt.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "Technical trust layer is weak",
+            "fix": "Strengthen the technical layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Safety trust layer is weak",
+            "fix": "Strengthen the safety layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Chatgpt readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive chatgpt citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Google ai readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive google_ai citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "No CLI or command-line workflow detected",
+            "fix": "Add CLI install/use docs when your product can be operated from CI, terminals, or coding agents. Include copy-paste commands and JSON output examples.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "medium",
+            "title": "2 high-impact content gaps detected",
+            "fix": "Prioritize: Frequently Asked Questions about AI Agent Tooling; AI Agent Tooling Glossary: Key Terms Explained.",
+            "dimensionKey": "content_gaps"
+          },
+          {
+            "severity": "medium",
+            "title": "No last-updated signal on homepage",
+            "fix": "Add <time datetime='YYYY-MM-DD'>Updated ...</time> or article:modified_time meta, or expose dateModified in Article JSON-LD.",
+            "dimensionKey": "freshness"
+          },
+          {
+            "severity": "medium",
+            "title": "No clear self-identification in the opening paragraph",
+            "fix": "Open with 'We are ...' / 'Our mission is ...' / 'This is ...' — AI models need explicit entity framing.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "medium",
+            "title": "No agent discovery file detected",
+            "fix": "Publish /llms.txt and, when relevant, a .well-known agent/plugin manifest that points agents at docs, APIs, MCP endpoints, and support policies.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "medium",
+            "title": "No /about or /team page with credentials",
+            "fix": "Publish an About page listing founders, team, and credentials. AI engines heavily weight provenance.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "medium",
+            "title": "No agent skills or action manifest detected",
+            "fix": "Document the skills, actions, tools, or capabilities agents can use. Include names, input schemas, output shapes, auth requirements, and whether each action is read-only or writes data.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "medium",
+            "title": "Some H2 topics are too short (<3 words)",
+            "fix": "Use exactly one H1, ensure the first H2 precedes any H3, and give every H2 a clear topic label (3+ words).",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "medium",
+            "title": "No MCP entrypoint detected",
+            "fix": "Publish an MCP endpoint or setup guide, then link it from the homepage or llms.txt. Agents should be able to discover tool access without reading human-only docs.",
+            "dimensionKey": "agent_readiness"
+          }
+        ],
+        "promptTests": []
+      },
       "error": null
     },
     {
@@ -15694,52 +16422,34 @@
       "error": null
     },
     {
-      "fullName": "lsdefine/GenericAgent",
-      "rank": 21,
-      "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-26T08:06:57.459Z",
-      "nextScanAfter": null,
-      "surfaces": {
-        "githubUrl": "https://github.com/lsdefine/GenericAgent",
-        "docsUrl": null,
-        "npmPackages": [],
-        "productHuntLaunchId": null
-      },
-      "aisoScan": null,
-      "error": null
-    },
-    {
-      "fullName": "nowork-studio/toprank",
-      "rank": 22,
-      "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-26T08:06:57.926Z",
-      "nextScanAfter": null,
-      "surfaces": {
-        "githubUrl": "https://github.com/nowork-studio/toprank",
-        "docsUrl": null,
-        "npmPackages": [],
-        "productHuntLaunchId": null
-      },
-      "aisoScan": null,
-      "error": null
-    },
-    {
-      "fullName": "Wei-Shaw/sub2api",
+      "fullName": "hydropix/TranslateBooksWithLLMs",
       "rank": 23,
       "selectedFrom": "incremental",
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-26T08:06:58.388Z",
+      "lastProfiledAt": "2026-04-26T09:35:12.939Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/Wei-Shaw/sub2api",
+        "githubUrl": "https://github.com/hydropix/TranslateBooksWithLLMs",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "HKUDS/DeepTutor",
+      "rank": 24,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-26T09:35:13.402Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/HKUDS/DeepTutor",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -16586,21 +17296,1672 @@
       "error": null
     },
     {
-      "fullName": "heygen-com/hyperframes",
+      "fullName": "Michael-A-Kuykendall/shimmy",
       "rank": 25,
       "selectedFrom": "incremental",
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-26T08:06:58.850Z",
+      "lastProfiledAt": "2026-04-26T09:35:13.839Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/heygen-com/hyperframes",
+        "githubUrl": "https://github.com/Michael-A-Kuykendall/shimmy",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
       },
       "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "GammaLabTechnologies/harmonist",
+      "rank": 26,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://gammalab.ae/",
+      "websiteSource": "github_homepage",
+      "status": "scanned",
+      "lastProfiledAt": "2026-04-26T09:35:13.860Z",
+      "nextScanAfter": "2026-05-03T09:35:33.785Z",
+      "surfaces": {
+        "githubUrl": "https://github.com/GammaLabTechnologies/harmonist",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": {
+        "scanId": "57f116c8-ab09-449b-9bf9-c88c1e95a3f5",
+        "url": "https://gammalab.ae/",
+        "projectName": null,
+        "projectUrl": null,
+        "source": "web",
+        "status": "completed",
+        "score": 26,
+        "tier": "invisible",
+        "runtimeVisibility": null,
+        "scanDurationMs": 14619,
+        "completedAt": "2026-04-26T09:35:29.297+00:00",
+        "resultUrl": "https://aiso.tools/scan/57f116c8-ab09-449b-9bf9-c88c1e95a3f5",
+        "dimensions": [
+          {
+            "key": "structure",
+            "label": "Content Structure",
+            "weight": 20,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "heading_ok": false,
+              "faq_present": false,
+              "answer_first": false,
+              "heading_issue": "Found 0 H1 elements (expected exactly 1)",
+              "definition_lead": false,
+              "main_text_tokens": 0
+            }
+          },
+          {
+            "key": "citations",
+            "label": "Citation Density",
+            "weight": 20,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "word_count": 1,
+              "stats_count": 0,
+              "external_links": 0,
+              "authoritative_links": 0,
+              "stats_density_per_500w": 0,
+              "citations_density_per_500w": 0
+            }
+          },
+          {
+            "key": "crawler",
+            "label": "Crawler Access",
+            "weight": 15,
+            "score": 15,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "allowed_bots": 14,
+              "blocked_bots": 0,
+              "robots_present": true,
+              "cloudflare_suspected": false,
+              "gptbot_homepage_blocked": false
+            }
+          },
+          {
+            "key": "schema",
+            "label": "Schema Markup",
+            "weight": 15,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "coverage": {
+                "person": 0,
+                "article": 0,
+                "faqPage": 0,
+                "website": 0,
+                "breadcrumb": 0,
+                "organization": 0
+              },
+              "meta_tags": {
+                "title": true,
+                "robots": false,
+                "canonical": true,
+                "open_graph": true,
+                "description": true,
+                "twitter_card": true
+              },
+              "page_family": "homepage",
+              "blocks_found": 0,
+              "nodes_parsed": 0,
+              "present_types": [],
+              "page_family_missing": [
+                "Organization",
+                "WebSite",
+                "FAQPage"
+              ],
+              "page_family_expected": [
+                "Organization",
+                "WebSite",
+                "FAQPage"
+              ],
+              "page_family_strength": 0
+            }
+          },
+          {
+            "key": "agent_readiness",
+            "label": "Agent Readiness",
+            "weight": 10,
+            "score": 10,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "probes": [
+                {
+                  "ok": true,
+                  "key": "api",
+                  "url": "https://gammalab.ae/openapi.json",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "api",
+                  "url": "https://gammalab.ae/swagger.json",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "api",
+                  "url": "https://gammalab.ae/api/openapi.json",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "api",
+                  "url": "https://gammalab.ae/api/docs",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "api",
+                  "url": "https://gammalab.ae/docs/api",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "api",
+                  "url": "https://gammalab.ae/developers",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "mcp",
+                  "url": "https://gammalab.ae/mcp",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "mcp",
+                  "url": "https://gammalab.ae/docs/mcp",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "mcp",
+                  "url": "https://gammalab.ae/.well-known/mcp.json",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "cli",
+                  "url": "https://gammalab.ae/docs/cli",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "cli",
+                  "url": "https://gammalab.ae/cli",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "cli",
+                  "url": "https://gammalab.ae/install",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "webmcp",
+                  "url": "https://gammalab.ae/webmcp",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "webmcp",
+                  "url": "https://gammalab.ae/docs/webmcp",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "webmcp",
+                  "url": "https://gammalab.ae/.well-known/webmcp.json",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "portal",
+                  "url": "https://gammalab.ae/portal",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "portal",
+                  "url": "https://gammalab.ae/portal.json",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "portal",
+                  "url": "https://gammalab.ae/.well-known/portal.json",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "portal",
+                  "url": "https://gammalab.ae/docs/portal",
+                  "status": 200
+                },
+                {
+                  "ok": true,
+                  "key": "x402",
+                  "url": "https://gammalab.ae/.well-known/x402.json",
+                  "status": 200
+                }
+              ],
+              "detected": {
+                "api": true,
+                "cli": true,
+                "mcp": true,
+                "x402": true,
+                "portal": true,
+                "webmcp": true,
+                "agent_skills": true,
+                "agent_discovery": true,
+                "agent_navigation": true,
+                "integration_safety": true
+              },
+              "checked_paths": [
+                "/openapi.json",
+                "/swagger.json",
+                "/api/openapi.json",
+                "/api/docs",
+                "/docs/api",
+                "/developers",
+                "/mcp",
+                "/docs/mcp",
+                "/.well-known/mcp.json",
+                "/docs/cli",
+                "/cli",
+                "/install",
+                "/webmcp",
+                "/docs/webmcp",
+                "/.well-known/webmcp.json",
+                "/portal",
+                "/portal.json",
+                "/.well-known/portal.json",
+                "/docs/portal",
+                "/.well-known/x402.json",
+                "/docs/x402",
+                "/docs/payments",
+                "/api/x402",
+                "/llms.txt",
+                "/llms-full.txt",
+                "/.well-known/ai-plugin.json",
+                "/.well-known/agent.json",
+                "/agents.json",
+                "/.well-known/agent-skills.json",
+                "/.well-known/agents.json",
+                "/agent-skills.json",
+                "/actions.json",
+                "/tools.json",
+                "/skills",
+                "/agent-skills",
+                "/docs/skills",
+                "/docs/agents",
+                "/sitemap.xml",
+                "/sitemap_index.xml",
+                "/docs",
+                "/help",
+                "/search",
+                "/docs/auth",
+                "/docs/webhooks",
+                "/docs/rate-limits",
+                "/status"
+              ]
+            }
+          },
+          {
+            "key": "llmstxt",
+            "label": "llms.txt",
+            "weight": 10,
+            "score": 2,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "has_h1": false,
+              "broken_links": [],
+              "links_broken": 0,
+              "links_sampled": 0,
+              "llms_txt_present": true,
+              "llms_full_txt_present": true
+            }
+          },
+          {
+            "key": "entity",
+            "label": "Entity Clarity",
+            "weight": 10,
+            "score": 2,
+            "status": "fail",
+            "issuesCount": 3,
+            "details": {
+              "byline": false,
+              "founder_in_ld": false,
+              "about_reachable": true,
+              "self_identification": false
+            }
+          },
+          {
+            "key": "offsite",
+            "label": "Off-site Authority (proxy)",
+            "weight": 5,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "platforms_detected": [],
+              "header_footer_links": 0
+            }
+          },
+          {
+            "key": "freshness",
+            "label": "Freshness",
+            "weight": 5,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "source": null,
+              "days_since": null,
+              "updated_iso": null
+            }
+          },
+          {
+            "key": "prompt_injection",
+            "label": "Prompt Injection",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "findings": [],
+              "non_scoring": true,
+              "pages_scanned": 1
+            }
+          },
+          {
+            "key": "trust_stack",
+            "label": "Trust Stack",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 5,
+            "details": {
+              "grade": "F",
+              "layers": {
+                "safety": 40,
+                "identity": 50,
+                "authority": 0,
+                "technical": 53,
+                "consistency": 30
+              },
+              "overall": 35,
+              "non_scoring": true
+            }
+          },
+          {
+            "key": "platform_profiles",
+            "label": "Platform Profiles",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "profiles": {
+                "claude": 49,
+                "chatgpt": 30,
+                "google_ai": 27,
+                "perplexity": 26
+              },
+              "non_scoring": true
+            }
+          },
+          {
+            "key": "web_verification",
+            "label": "Web Verification",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "consensus": {
+                "fetch_ok": 1,
+                "search_ok": 2,
+                "fetch_total": 2,
+                "verified_by": 3,
+                "search_total": 2,
+                "search_matched": 2,
+                "content_agreement": "single_fetch",
+                "measured_providers": 4
+              },
+              "providers": [
+                {
+                  "ok": true,
+                  "kind": "fetch",
+                  "title": "GammaLab: Humanoid Robotics Atelier",
+                  "status": 200,
+                  "finalUrl": "https://gammalab.ae/",
+                  "provider": "http",
+                  "latencyMs": 737,
+                  "textChars": 0,
+                  "description": "Experience the future of humanoid robotics. GammaLab is Dubai's premier atelier for the customization and integration of advanced humanoid robots. Explore our minimalist showcase of cutting-edge technology and bespoke robotic solutions."
+                },
+                {
+                  "ok": false,
+                  "kind": "fetch",
+                  "error": "proxy_error",
+                  "title": null,
+                  "status": 200,
+                  "finalUrl": null,
+                  "provider": "tinyfish_fetch",
+                  "latencyMs": 3161,
+                  "textChars": 0,
+                  "description": null
+                },
+                {
+                  "ok": true,
+                  "kind": "search",
+                  "query": "site:gammalab.ae gammalab",
+                  "status": 200,
+                  "results": [
+                    {
+                      "url": "https://gammalab.ae/",
+                      "title": "GammaLab: Humanoid Robotics Atelier",
+                      "snippet": "Experience the future of humanoid robotics. GammaLab is Dubai's premier atelier for the customization and integration of advanced humanoid robots.",
+                      "position": 1,
+                      "siteName": "gammalab.ae"
+                    }
+                  ],
+                  "provider": "tinyfish_search",
+                  "totalResults": 1,
+                  "topMatchPosition": 1
+                },
+                {
+                  "ok": true,
+                  "kind": "search",
+                  "query": "site:gammalab.ae gammalab",
+                  "status": 200,
+                  "results": [
+                    {
+                      "url": "https://gammalab.ae/",
+                      "title": "GammaLab: Humanoid Robotics Atelier",
+                      "snippet": "Experience the future of humanoid robotics. GammaLab is <strong>Dubai&#x27;s premier atelier for the customization and integration of advanced humanoid robots</strong>. Explore our",
+                      "position": 1,
+                      "siteName": "Gammalab"
+                    }
+                  ],
+                  "provider": "brave_search",
+                  "totalResults": 1,
+                  "topMatchPosition": 1
+                }
+              ],
+              "non_scoring": true,
+              "configured_providers": [
+                "http",
+                "tinyfish_fetch",
+                "tinyfish_search",
+                "brave_search"
+              ]
+            }
+          },
+          {
+            "key": "content_decay",
+            "label": "Content Decay",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "non_scoring": true,
+              "pages_scanned": 1,
+              "volatile_pages": 0,
+              "evergreen_score": 10,
+              "stale_year_pages": 0,
+              "updated_signal_pages": 0
+            }
+          },
+          {
+            "key": "negative_signals",
+            "label": "Negative Signals",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "flags": [
+                {
+                  "key": "cta_overload",
+                  "count": 0,
+                  "label": "CTA overload"
+                },
+                {
+                  "key": "intrusive_overlay",
+                  "count": 0,
+                  "label": "Intrusive overlay patterns"
+                },
+                {
+                  "key": "thin_pages",
+                  "count": 0,
+                  "label": "Thin pages"
+                },
+                {
+                  "key": "missing_author_signals",
+                  "count": 0,
+                  "label": "Missing author signals"
+                },
+                {
+                  "key": "boilerplate_heavy",
+                  "count": 0,
+                  "label": "Boilerplate-heavy pages"
+                }
+              ],
+              "non_scoring": true,
+              "pages_scanned": 1,
+              "sampled_pages": [
+                {
+                  "url": "https://gammalab.ae/",
+                  "template": "homepage",
+                  "text_chars": 0,
+                  "has_canonical": true
+                }
+              ]
+            }
+          },
+          {
+            "key": "content_gaps",
+            "label": "Content Gap Opportunities",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 2,
+            "details": {
+              "non_scoring": true,
+              "missing_faqs": [
+                "What is Gammalab?",
+                "How does Gammalab work?",
+                "How much does Gammalab cost?",
+                "What makes Gammalab different?"
+              ],
+              "pages_checked": 1,
+              "missing_entities": [
+                {
+                  "entity": "company description",
+                  "reason": "No about or company page found in sampled pages.",
+                  "entity_type": "brand",
+                  "where_expected": "about or company page"
+                },
+                {
+                  "entity": "team/founders",
+                  "reason": "No team or founder page found in sampled pages.",
+                  "entity_type": "person",
+                  "where_expected": "team or founder page"
+                },
+                {
+                  "entity": "pricing information",
+                  "reason": "No pricing page found in sampled pages.",
+                  "entity_type": "product",
+                  "where_expected": "pricing page"
+                },
+                {
+                  "entity": "technical documentation",
+                  "reason": "No docs or API page found in sampled pages.",
+                  "entity_type": "product",
+                  "where_expected": "docs or API page"
+                }
+              ],
+              "missing_comparisons": [
+                "Gammalab vs top competitor",
+                "Gammalab vs alternative tools",
+                "Best Gammalab tools compared"
+              ],
+              "missing_content_types": [
+                {
+                  "type": "faq",
+                  "impact": "high",
+                  "reason": "No dedicated FAQ surface found for question-style retrieval.",
+                  "suggested_title": "Frequently Asked Questions about Gammalab"
+                },
+                {
+                  "type": "glossary",
+                  "impact": "high",
+                  "reason": "No glossary or definition hub found for entity and term authority.",
+                  "suggested_title": "Gammalab Glossary: Key Terms Explained"
+                },
+                {
+                  "type": "comparison",
+                  "impact": "medium",
+                  "reason": "No comparison surface found for high-intent evaluation queries.",
+                  "suggested_title": "Gammalab vs Alternatives: Detailed Comparison"
+                },
+                {
+                  "type": "guide",
+                  "impact": "medium",
+                  "reason": "No guide or how-to surface found for procedural extraction.",
+                  "suggested_title": "Complete Guide to Gammalab"
+                },
+                {
+                  "type": "case_study",
+                  "impact": "medium",
+                  "reason": "No case-study or customer-proof surface found.",
+                  "suggested_title": "Gammalab Case Study: Real Results from Gammalab"
+                },
+                {
+                  "type": "benchmark",
+                  "impact": "medium",
+                  "reason": "No benchmark, research, or proprietary-data surface found.",
+                  "suggested_title": "Gammalab Benchmarks: Performance Data"
+                }
+              ],
+              "missing_ecosystem_pages": [
+                "Gammalab integrations and ecosystem",
+                "How Gammalab works with popular tools"
+              ]
+            }
+          },
+          {
+            "key": "template_coverage",
+            "label": "Template Coverage",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "mode": "homepage",
+              "non_scoring": true,
+              "homepage_only": true,
+              "pages_scanned": 1,
+              "sampled_pages": 0,
+              "page_templates": [
+                {
+                  "url": "https://gammalab.ae/",
+                  "template": "homepage",
+                  "text_chars": 0
+                }
+              ],
+              "unique_templates": [
+                "homepage"
+              ]
+            }
+          }
+        ],
+        "issues": [
+          {
+            "severity": "critical",
+            "title": "Homepage has zero external citations",
+            "fix": "Add 2–3 outbound links to .edu/.gov, Wikipedia, or major publications to back your strongest claims.",
+            "dimensionKey": "citations"
+          },
+          {
+            "severity": "critical",
+            "title": "No valid Organization JSON-LD",
+            "fix": "Add <script type='application/ld+json'> with @type:Organization including name, url, logo, and sameAs (≥3 social profiles).",
+            "dimensionKey": "schema"
+          },
+          {
+            "severity": "high",
+            "title": "llms.txt missing H1 title",
+            "fix": "Start llms.txt with '# <Project name>' as the H1 — per llmstxt.org this is the only required field.",
+            "dimensionKey": "llmstxt"
+          },
+          {
+            "severity": "high",
+            "title": "No FAQ section detected",
+            "fix": "Add a FAQ block with ≥5 question/answer pairs using <details>/<summary> or <h3>+<p> patterns. Also mark it up with FAQPage JSON-LD.",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "high",
+            "title": "No definition-lead opener in the first 150 tokens",
+            "fix": "Open the homepage with '<Brand> is a <category> that <differentiator>' — this is the single biggest lever for AI citability.",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "low",
+            "title": "4 entity page gaps detected",
+            "fix": "Add explicit entity surfaces: about or company page, team or founder page, pricing page, docs or API page.",
+            "dimensionKey": "content_gaps"
+          },
+          {
+            "severity": "low",
+            "title": "No named author or byline visible",
+            "fix": "If the homepage surfaces editorial content, include an author byline (Person JSON-LD or 'By <Name>').",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "low",
+            "title": "No social/authority footprint linked from header or footer",
+            "fix": "Add links to Wikipedia, LinkedIn company page, YouTube channel, or GitHub org so AI engines can cross-reference authority.",
+            "dimensionKey": "offsite"
+          },
+          {
+            "severity": "low",
+            "title": "Identity trust layer is weak",
+            "fix": "Strengthen the identity layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Consistency trust layer is weak",
+            "fix": "Strengthen the consistency layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Perplexity readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive perplexity citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Claude readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive claude citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Organization JSON-LD missing founder",
+            "fix": "Add 'founder': [{ @type: Person, name: ... }] to the Organization schema.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "low",
+            "title": "Authority trust layer is weak",
+            "fix": "Strengthen the authority layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Google ai readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive google_ai citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Template coverage is limited in homepage-only scans",
+            "fix": "Run Template Audit, Full Site, or Deep Investigation mode to compare key templates across the site.",
+            "dimensionKey": "template_coverage"
+          },
+          {
+            "severity": "low",
+            "title": "Technical trust layer is weak",
+            "fix": "Strengthen the technical layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Safety trust layer is weak",
+            "fix": "Strengthen the safety layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Chatgpt readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive chatgpt citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "medium",
+            "title": "No clear self-identification in the opening paragraph",
+            "fix": "Open with 'We are ...' / 'Our mission is ...' / 'This is ...' — AI models need explicit entity framing.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "medium",
+            "title": "No 2–4 sentence summary paragraph above the fold",
+            "fix": "Add a 2–4 sentence paragraph immediately after the H1 summarising what the product is and who it serves.",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "medium",
+            "title": "2 high-impact content gaps detected",
+            "fix": "Prioritize: Frequently Asked Questions about Gammalab; Gammalab Glossary: Key Terms Explained.",
+            "dimensionKey": "content_gaps"
+          },
+          {
+            "severity": "medium",
+            "title": "No last-updated signal on homepage",
+            "fix": "Add <time datetime='YYYY-MM-DD'>Updated ...</time> or article:modified_time meta, or expose dateModified in Article JSON-LD.",
+            "dimensionKey": "freshness"
+          },
+          {
+            "severity": "medium",
+            "title": "Found 0 H1 elements (expected exactly 1)",
+            "fix": "Use exactly one H1, ensure the first H2 precedes any H3, and give every H2 a clear topic label (3+ words).",
+            "dimensionKey": "structure"
+          }
+        ],
+        "promptTests": []
+      },
+      "error": null
+    },
+    {
+      "fullName": "davila7/claude-code-templates",
+      "rank": 27,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://aitmpl.com/",
+      "websiteSource": "github_homepage",
+      "status": "scanned",
+      "lastProfiledAt": "2026-04-26T09:35:33.812Z",
+      "nextScanAfter": "2026-05-03T09:35:52.973Z",
+      "surfaces": {
+        "githubUrl": "https://github.com/davila7/claude-code-templates",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": {
+        "scanId": "c813097d-a0be-49f5-857c-e799f05ddbdf",
+        "url": "https://aitmpl.com/",
+        "projectName": null,
+        "projectUrl": null,
+        "source": "web",
+        "status": "completed",
+        "score": 26,
+        "tier": "invisible",
+        "runtimeVisibility": null,
+        "scanDurationMs": 13881,
+        "completedAt": "2026-04-26T09:35:48.494+00:00",
+        "resultUrl": "https://aiso.tools/scan/c813097d-a0be-49f5-857c-e799f05ddbdf",
+        "dimensions": [
+          {
+            "key": "citations",
+            "label": "Citation Density",
+            "weight": 20,
+            "score": 5,
+            "status": "fail",
+            "issuesCount": 2,
+            "details": {
+              "word_count": 353,
+              "stats_count": 1,
+              "external_links": 6,
+              "authoritative_links": 0,
+              "stats_density_per_500w": 1.42,
+              "citations_density_per_500w": 0
+            }
+          },
+          {
+            "key": "structure",
+            "label": "Content Structure",
+            "weight": 20,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "heading_ok": false,
+              "faq_present": false,
+              "answer_first": false,
+              "heading_issue": "Found 0 H1 elements (expected exactly 1)",
+              "definition_lead": false,
+              "main_text_tokens": 66
+            }
+          },
+          {
+            "key": "crawler",
+            "label": "Crawler Access",
+            "weight": 15,
+            "score": 14,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "allowed_bots": 13,
+              "blocked_bots": 1,
+              "robots_present": true,
+              "cloudflare_suspected": false,
+              "gptbot_homepage_blocked": false
+            }
+          },
+          {
+            "key": "schema",
+            "label": "Schema Markup",
+            "weight": 15,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 2,
+            "details": {
+              "coverage": {
+                "person": 0,
+                "article": 0,
+                "faqPage": 0,
+                "website": 0,
+                "breadcrumb": 0,
+                "organization": 0
+              },
+              "meta_tags": {
+                "title": true,
+                "robots": false,
+                "canonical": true,
+                "open_graph": true,
+                "description": true,
+                "twitter_card": true
+              },
+              "page_family": "homepage",
+              "blocks_found": 2,
+              "nodes_parsed": 4,
+              "present_types": [
+                "Organization",
+                "SoftwareApplication",
+                "WebSite"
+              ],
+              "page_family_missing": [
+                "FAQPage"
+              ],
+              "page_family_expected": [
+                "Organization",
+                "WebSite",
+                "FAQPage"
+              ],
+              "page_family_strength": 67
+            }
+          },
+          {
+            "key": "entity",
+            "label": "Entity Clarity",
+            "weight": 10,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "byline": false,
+              "founder_in_ld": false,
+              "about_reachable": false,
+              "self_identification": false
+            }
+          },
+          {
+            "key": "llmstxt",
+            "label": "llms.txt",
+            "weight": 10,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "has_h1": false,
+              "broken_links": [],
+              "links_broken": 0,
+              "links_sampled": 0,
+              "llms_txt_present": false,
+              "llms_full_txt_present": false
+            }
+          },
+          {
+            "key": "agent_readiness",
+            "label": "Agent Readiness",
+            "weight": 10,
+            "score": 4,
+            "status": "warn",
+            "issuesCount": 6,
+            "details": {
+              "probes": [
+                {
+                  "ok": true,
+                  "key": "agent_skills",
+                  "url": "https://aitmpl.com/skills",
+                  "status": 200
+                }
+              ],
+              "detected": {
+                "api": false,
+                "cli": true,
+                "mcp": true,
+                "x402": false,
+                "portal": false,
+                "webmcp": false,
+                "agent_skills": true,
+                "agent_discovery": false,
+                "agent_navigation": true,
+                "integration_safety": false
+              },
+              "checked_paths": [
+                "/openapi.json",
+                "/swagger.json",
+                "/api/openapi.json",
+                "/api/docs",
+                "/docs/api",
+                "/developers",
+                "/mcp",
+                "/docs/mcp",
+                "/.well-known/mcp.json",
+                "/docs/cli",
+                "/cli",
+                "/install",
+                "/webmcp",
+                "/docs/webmcp",
+                "/.well-known/webmcp.json",
+                "/portal",
+                "/portal.json",
+                "/.well-known/portal.json",
+                "/docs/portal",
+                "/.well-known/x402.json",
+                "/docs/x402",
+                "/docs/payments",
+                "/api/x402",
+                "/llms.txt",
+                "/llms-full.txt",
+                "/.well-known/ai-plugin.json",
+                "/.well-known/agent.json",
+                "/agents.json",
+                "/.well-known/agent-skills.json",
+                "/.well-known/agents.json",
+                "/agent-skills.json",
+                "/actions.json",
+                "/tools.json",
+                "/skills",
+                "/agent-skills",
+                "/docs/skills",
+                "/docs/agents",
+                "/sitemap.xml",
+                "/sitemap_index.xml",
+                "/docs",
+                "/help",
+                "/search",
+                "/docs/auth",
+                "/docs/webhooks",
+                "/docs/rate-limits",
+                "/status"
+              ]
+            }
+          },
+          {
+            "key": "offsite",
+            "label": "Off-site Authority (proxy)",
+            "weight": 5,
+            "score": 1,
+            "status": "fail",
+            "issuesCount": 0,
+            "details": {
+              "platforms_detected": [
+                "github"
+              ],
+              "header_footer_links": 4
+            }
+          },
+          {
+            "key": "freshness",
+            "label": "Freshness",
+            "weight": 5,
+            "score": 5,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "source": "last_modified_header",
+              "days_since": 0,
+              "updated_iso": "2026-04-26T04:31:54.000Z"
+            }
+          },
+          {
+            "key": "trust_stack",
+            "label": "Trust Stack",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "grade": "F",
+              "layers": {
+                "safety": 38,
+                "identity": 23,
+                "authority": 23,
+                "technical": 46,
+                "consistency": 63
+              },
+              "overall": 39,
+              "non_scoring": true
+            }
+          },
+          {
+            "key": "content_decay",
+            "label": "Content Decay",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 1,
+            "details": {
+              "non_scoring": true,
+              "pages_scanned": 1,
+              "volatile_pages": 1,
+              "evergreen_score": 9.5,
+              "stale_year_pages": 0,
+              "updated_signal_pages": 0
+            }
+          },
+          {
+            "key": "platform_profiles",
+            "label": "Platform Profiles",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 4,
+            "details": {
+              "profiles": {
+                "claude": 30,
+                "chatgpt": 30,
+                "google_ai": 36,
+                "perplexity": 46
+              },
+              "non_scoring": true
+            }
+          },
+          {
+            "key": "web_verification",
+            "label": "Web Verification",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "consensus": {
+                "fetch_ok": 2,
+                "search_ok": 2,
+                "fetch_total": 2,
+                "verified_by": 4,
+                "search_total": 2,
+                "search_matched": 2,
+                "content_agreement": "multi_fetch",
+                "measured_providers": 4
+              },
+              "providers": [
+                {
+                  "ok": true,
+                  "kind": "fetch",
+                  "title": "Claude Code Templates: 1000+ Agents, Commands, Skills & MCP Integrations",
+                  "status": 200,
+                  "finalUrl": "https://www.aitmpl.com/",
+                  "provider": "http",
+                  "latencyMs": 54,
+                  "textChars": 10751,
+                  "description": "Browse and install 1000+ pre-built components for Claude Code. AI agents, slash commands, MCP integrations, hooks, and settings. Free, open-source CLI tool."
+                },
+                {
+                  "ok": true,
+                  "kind": "fetch",
+                  "title": "Claude Code Templates: 1000+ Agents, Commands, Skills & MCP Integrations",
+                  "status": 200,
+                  "finalUrl": "https://www.aitmpl.com/",
+                  "provider": "tinyfish_fetch",
+                  "latencyMs": 218.8772440131288,
+                  "textChars": 343,
+                  "description": "Browse and install 1000+ pre-built components for Claude Code. AI agents, slash commands, MCP integrations, hooks, and settings. Free, open-source CLI tool."
+                },
+                {
+                  "ok": true,
+                  "kind": "search",
+                  "query": "site:aitmpl.com aitmpl",
+                  "status": 200,
+                  "results": [
+                    {
+                      "url": "https://www.aitmpl.com/",
+                      "title": "Claude Code Templates: 1000+ Agents, Commands, Skills & MCP ...",
+                      "snippet": "Browse and install 1000+ pre-built components for Claude Code. AI agents, slash commands, MCP integrations, hooks, and settings. Free, open-source CLI tool.",
+                      "position": 1,
+                      "siteName": "www.aitmpl.com"
+                    },
+                    {
+                      "url": "https://docs.aitmpl.com/introduction",
+                      "title": "Claude Code Templates",
+                      "snippet": "Ready-to-use configurations for Anthropic's Claude Code. Install AI agents, custom commands, settings, hooks, and MCPs to enhance your development workflow.",
+                      "position": 2,
+                      "siteName": "docs.aitmpl.com"
+                    },
+                    {
+                      "url": "https://www.aitmpl.com/agents/",
+                      "title": "600+ AI Agents for Claude Code — Development, Security, DevOps",
+                      "snippet": "600+ specialized AI agents for Claude Code. Frontend, backend, security, DevOps, data science, and more. Install with a single npx command.",
+                      "position": 3,
+                      "siteName": "www.aitmpl.com"
+                    },
+                    {
+                      "url": "https://www.aitmpl.com/plugins/",
+                      "title": "Claude Code Plugins & Marketplaces — Discover the Best Collections",
+                      "snippet": "A Claude Code plugin that automatically captures everything Claude does during your coding sessions, compresses it with AI (using Claude's agent-sdk), and ...",
+                      "position": 4,
+                      "siteName": "www.aitmpl.com"
+                    },
+                    {
+                      "url": "https://www.aitmpl.com/commands/",
+                      "title": "200+ Slash Commands for Claude Code Workflows",
+                      "snippet": "BrainGrid is the AI Product Planner that helps you shape ideas, plan features, and scope tasks that Claude Code can build right the first time.",
+                      "position": 5,
+                      "siteName": "www.aitmpl.com"
+                    }
+                  ],
+                  "provider": "tinyfish_search",
+                  "totalResults": 10,
+                  "topMatchPosition": 1
+                },
+                {
+                  "ok": true,
+                  "kind": "search",
+                  "query": "site:aitmpl.com aitmpl",
+                  "status": 200,
+                  "results": [
+                    {
+                      "url": "https://www.aitmpl.com/",
+                      "title": "Claude Code Templates: 1000+ Agents, Commands, Skills & MCP Integrations",
+                      "snippet": "Browse and install 1000+ pre-built components for Claude Code. AI agents, slash commands, MCP integrations, hooks, and settings. Free, open-source CLI tool.",
+                      "position": 1,
+                      "siteName": "Aitmpl"
+                    },
+                    {
+                      "url": "https://www.aitmpl.com/agents/",
+                      "title": "600+ AI Agents for Claude Code — Development, Security, DevOps",
+                      "snippet": "600+ specialized AI agents for Claude Code. Frontend, backend, security, DevOps, data science, and more. Install with a single npx command.",
+                      "position": 2,
+                      "siteName": "Aitmpl"
+                    },
+                    {
+                      "url": "https://www.aitmpl.com/skills/",
+                      "title": "Claude Code Skills: Pre-built Templates & Configurations",
+                      "snippet": "Browse skills for Claude Code. Pre-built templates and configurations to enhance your AI development workflow. Install with a single npx command.",
+                      "position": 3,
+                      "siteName": "Aitmpl"
+                    },
+                    {
+                      "url": "https://www.aitmpl.com/plugins/",
+                      "title": "Claude Code Plugins & Marketplaces — Discover the Best Collections",
+                      "snippet": "Discover the most popular Claude Code plugin marketplaces, skill collections, and component registries on GitHub. Browse 20+ curated repositories.",
+                      "position": 4,
+                      "siteName": "Aitmpl"
+                    },
+                    {
+                      "url": "https://www.aitmpl.com/commands/",
+                      "title": "Supercharge Your AI Development with Anthropic Claude",
+                      "snippet": "200+ custom slash commands for Claude Code. Automate testing, deployment, code review, and more. Install with a single npx command.",
+                      "position": 5,
+                      "siteName": "Aitmpl"
+                    }
+                  ],
+                  "provider": "brave_search",
+                  "totalResults": 10,
+                  "topMatchPosition": 1
+                }
+              ],
+              "non_scoring": true,
+              "configured_providers": [
+                "http",
+                "tinyfish_fetch",
+                "tinyfish_search",
+                "brave_search"
+              ]
+            }
+          },
+          {
+            "key": "content_gaps",
+            "label": "Content Gap Opportunities",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 2,
+            "details": {
+              "non_scoring": true,
+              "missing_faqs": [
+                "What is AI agent tooling?",
+                "How does Aitmpl work?",
+                "How much does Aitmpl cost?",
+                "What makes Aitmpl different?"
+              ],
+              "pages_checked": 1,
+              "missing_entities": [
+                {
+                  "entity": "company description",
+                  "reason": "No about or company page found in sampled pages.",
+                  "entity_type": "brand",
+                  "where_expected": "about or company page"
+                },
+                {
+                  "entity": "team/founders",
+                  "reason": "No team or founder page found in sampled pages.",
+                  "entity_type": "person",
+                  "where_expected": "team or founder page"
+                },
+                {
+                  "entity": "pricing information",
+                  "reason": "No pricing page found in sampled pages.",
+                  "entity_type": "product",
+                  "where_expected": "pricing page"
+                },
+                {
+                  "entity": "technical documentation",
+                  "reason": "No docs or API page found in sampled pages.",
+                  "entity_type": "product",
+                  "where_expected": "docs or API page"
+                }
+              ],
+              "missing_comparisons": [
+                "Aitmpl vs top competitor",
+                "Aitmpl vs alternative tools",
+                "Best AI Agent Tooling tools compared"
+              ],
+              "missing_content_types": [
+                {
+                  "type": "faq",
+                  "impact": "high",
+                  "reason": "No dedicated FAQ surface found for question-style retrieval.",
+                  "suggested_title": "Frequently Asked Questions about AI Agent Tooling"
+                },
+                {
+                  "type": "glossary",
+                  "impact": "high",
+                  "reason": "No glossary or definition hub found for entity and term authority.",
+                  "suggested_title": "AI Agent Tooling Glossary: Key Terms Explained"
+                },
+                {
+                  "type": "comparison",
+                  "impact": "medium",
+                  "reason": "No comparison surface found for high-intent evaluation queries.",
+                  "suggested_title": "Aitmpl vs Alternatives: Detailed Comparison"
+                },
+                {
+                  "type": "guide",
+                  "impact": "medium",
+                  "reason": "No guide or how-to surface found for procedural extraction.",
+                  "suggested_title": "Complete Guide to AI Agent Tooling"
+                },
+                {
+                  "type": "case_study",
+                  "impact": "medium",
+                  "reason": "No case-study or customer-proof surface found.",
+                  "suggested_title": "Aitmpl Case Study: Real Results from AI Agent Tooling"
+                },
+                {
+                  "type": "benchmark",
+                  "impact": "medium",
+                  "reason": "No benchmark, research, or proprietary-data surface found.",
+                  "suggested_title": "AI Agent Tooling Benchmarks: Performance Data"
+                }
+              ],
+              "missing_ecosystem_pages": [
+                "Aitmpl integrations and ecosystem",
+                "How Aitmpl works with popular tools"
+              ]
+            }
+          },
+          {
+            "key": "negative_signals",
+            "label": "Negative Signals",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "flags": [
+                {
+                  "key": "cta_overload",
+                  "count": 0,
+                  "label": "CTA overload"
+                },
+                {
+                  "key": "intrusive_overlay",
+                  "count": 0,
+                  "label": "Intrusive overlay patterns"
+                },
+                {
+                  "key": "thin_pages",
+                  "count": 0,
+                  "label": "Thin pages"
+                },
+                {
+                  "key": "missing_author_signals",
+                  "count": 0,
+                  "label": "Missing author signals"
+                },
+                {
+                  "key": "boilerplate_heavy",
+                  "count": 0,
+                  "label": "Boilerplate-heavy pages"
+                }
+              ],
+              "non_scoring": true,
+              "pages_scanned": 1,
+              "sampled_pages": [
+                {
+                  "url": "https://aitmpl.com/",
+                  "template": "homepage",
+                  "text_chars": 10751,
+                  "has_canonical": true
+                }
+              ]
+            }
+          },
+          {
+            "key": "prompt_injection",
+            "label": "Prompt Injection",
+            "weight": 0,
+            "score": 0,
+            "status": "pass",
+            "issuesCount": 0,
+            "details": {
+              "findings": [],
+              "non_scoring": true,
+              "pages_scanned": 1
+            }
+          },
+          {
+            "key": "template_coverage",
+            "label": "Template Coverage",
+            "weight": 0,
+            "score": 0,
+            "status": "fail",
+            "issuesCount": 1,
+            "details": {
+              "mode": "homepage",
+              "non_scoring": true,
+              "homepage_only": true,
+              "pages_scanned": 1,
+              "sampled_pages": 0,
+              "page_templates": [
+                {
+                  "url": "https://aitmpl.com/",
+                  "template": "homepage",
+                  "text_chars": 10751
+                }
+              ],
+              "unique_templates": [
+                "homepage"
+              ]
+            }
+          }
+        ],
+        "issues": [
+          {
+            "severity": "critical",
+            "title": "No valid Organization JSON-LD",
+            "fix": "Add <script type='application/ld+json'> with @type:Organization including name, url, logo, and sameAs (≥3 social profiles).",
+            "dimensionKey": "schema"
+          },
+          {
+            "severity": "critical",
+            "title": "No /llms.txt file found",
+            "fix": "Publish /llms.txt at the site root with '# <Project>' + a short summary + H2 sections linking to canonical doc URLs.",
+            "dimensionKey": "llmstxt"
+          },
+          {
+            "severity": "high",
+            "title": "No API or OpenAPI entrypoint detected",
+            "fix": "Expose a public API reference or OpenAPI document at /docs/api, /openapi.json, or an equivalent developer URL so agents can understand callable surfaces.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "high",
+            "title": "External links exist but none hit the authoritative allowlist",
+            "fix": "Cite at least one .edu/.gov, Wikipedia, IETF/W3C spec, or tier-1 publication near your flagship claims.",
+            "dimensionKey": "citations"
+          },
+          {
+            "severity": "high",
+            "title": "Statistical claims are unsourced",
+            "fix": "Every % / 'X customers' / stat deserves an inline citation link to the origin study or publication.",
+            "dimensionKey": "citations"
+          },
+          {
+            "severity": "high",
+            "title": "No FAQ section detected",
+            "fix": "Add a FAQ block with ≥5 question/answer pairs using <details>/<summary> or <h3>+<p> patterns. Also mark it up with FAQPage JSON-LD.",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "high",
+            "title": "No definition-lead opener in the first 150 tokens",
+            "fix": "Open the homepage with '<Brand> is a <category> that <differentiator>' — this is the single biggest lever for AI citability.",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "low",
+            "title": "4 entity page gaps detected",
+            "fix": "Add explicit entity surfaces: about or company page, team or founder page, pricing page, docs or API page.",
+            "dimensionKey": "content_gaps"
+          },
+          {
+            "severity": "low",
+            "title": "No named author or byline visible",
+            "fix": "If the homepage surfaces editorial content, include an author byline (Person JSON-LD or 'By <Name>').",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "low",
+            "title": "No WebMCP access signal detected",
+            "fix": "If the site supports browser-native agent access, publish a WebMCP endpoint or discovery document and link it from developer docs and llms.txt.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "Claude readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive claude citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "No Portal visit layer detected",
+            "fix": "If the service supports temporary agent visits, publish a Portal manifest at /portal with tool metadata and a call endpoint, then link it from docs and llms.txt.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "No integration-safety docs detected",
+            "fix": "Document auth, API keys/OAuth, rate limits, webhooks, SDKs, sandbox/test mode, and status-page behavior so agents can call tools safely.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "Volatile content lacks update signals",
+            "fix": "Pages about prices, versions, launches, or changing data should expose a clear last-updated date and refresh cadence.",
+            "dimensionKey": "content_decay"
+          },
+          {
+            "severity": "low",
+            "title": "Identity trust layer is weak",
+            "fix": "Strengthen the identity layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Google ai readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive google_ai citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Template coverage is limited in homepage-only scans",
+            "fix": "Run Template Audit, Full Site, or Deep Investigation mode to compare key templates across the site.",
+            "dimensionKey": "template_coverage"
+          },
+          {
+            "severity": "low",
+            "title": "Technical trust layer is weak",
+            "fix": "Strengthen the technical layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Safety trust layer is weak",
+            "fix": "Strengthen the safety layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Perplexity readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive perplexity citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "low",
+            "title": "Organization JSON-LD missing founder",
+            "fix": "Add 'founder': [{ @type: Person, name: ... }] to the Organization schema.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "low",
+            "title": "No x402 payment support detected",
+            "fix": "If paid agent/API access is supported, document x402 payment flow, supported networks/tokens, payment headers, and facilitator behavior.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "low",
+            "title": "Authority trust layer is weak",
+            "fix": "Strengthen the authority layer before expecting durable AI citations and stable visibility.",
+            "dimensionKey": "trust_stack"
+          },
+          {
+            "severity": "low",
+            "title": "Chatgpt readiness is underdeveloped",
+            "fix": "Improve the underlying dimensions that drive chatgpt citations: crawlability, structure, schema, freshness, entity clarity, and trust.",
+            "dimensionKey": "platform_profiles"
+          },
+          {
+            "severity": "medium",
+            "title": "No agent discovery file detected",
+            "fix": "Publish /llms.txt and, when relevant, a .well-known agent/plugin manifest that points agents at docs, APIs, MCP endpoints, and support policies.",
+            "dimensionKey": "agent_readiness"
+          },
+          {
+            "severity": "medium",
+            "title": "No clear self-identification in the opening paragraph",
+            "fix": "Open with 'We are ...' / 'Our mission is ...' / 'This is ...' — AI models need explicit entity framing.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "medium",
+            "title": "2 high-impact content gaps detected",
+            "fix": "Prioritize: Frequently Asked Questions about AI Agent Tooling; AI Agent Tooling Glossary: Key Terms Explained.",
+            "dimensionKey": "content_gaps"
+          },
+          {
+            "severity": "medium",
+            "title": "Found 0 H1 elements (expected exactly 1)",
+            "fix": "Use exactly one H1, ensure the first H2 precedes any H3, and give every H2 a clear topic label (3+ words).",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "medium",
+            "title": "No 2–4 sentence summary paragraph above the fold",
+            "fix": "Add a 2–4 sentence paragraph immediately after the H1 summarising what the product is and who it serves.",
+            "dimensionKey": "structure"
+          },
+          {
+            "severity": "medium",
+            "title": "No /about or /team page with credentials",
+            "fix": "Publish an About page listing founders, team, and credentials. AI engines heavily weight provenance.",
+            "dimensionKey": "entity"
+          },
+          {
+            "severity": "medium",
+            "title": "Weak JSON-LD for homepage page family",
+            "fix": "Add page-family schema for FAQPage. Strong JSON-LD should match the page type, not just include generic Organization markup.",
+            "dimensionKey": "schema"
+          }
+        ],
+        "promptTests": []
+      },
       "error": null
     },
     {
@@ -17389,6 +19750,24 @@
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/NawfalMotii79/PLFM_RADAR",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "ZhuLinsen/daily_stock_analysis",
+      "rank": 28,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-26T09:35:53.449Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/ZhuLinsen/daily_stock_analysis",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -18285,6 +20664,24 @@
       "error": null
     },
     {
+      "fullName": "tiagozip/cap",
+      "rank": 29,
+      "selectedFrom": "incremental",
+      "websiteUrl": "http://capjs.js.org/",
+      "websiteSource": "github_homepage",
+      "status": "rate_limited",
+      "lastProfiledAt": "2026-04-26T09:35:53.476Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/tiagozip/cap",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": "HTTP 429 Too Many Requests - https://aiso.tools/api/scan - {\"error\":\"rate_limited_ip\",\"retryAfterSeconds\":86337}"
+    },
+    {
       "fullName": "garrytan/gbrain",
       "rank": 30,
       "selectedFrom": "incremental",
@@ -18295,6 +20692,24 @@
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/garrytan/gbrain",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "CJackHwang/ds2api",
+      "rank": 31,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://linux.do/u/cjackhwang",
+      "websiteSource": "github_homepage",
+      "status": "scan_pending",
+      "lastProfiledAt": "2026-04-26T09:35:53.984Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/CJackHwang/ds2api",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -19952,6 +22367,42 @@
       "error": null
     },
     {
+      "fullName": "wxyhgk/retain-pdf",
+      "rank": 34,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-26T09:35:54.422Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/wxyhgk/retain-pdf",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "addyosmani/agent-skills",
+      "rank": 35,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-26T09:35:54.832Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/addyosmani/agent-skills",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
       "fullName": "google/osv-scanner",
       "rank": 35,
       "selectedFrom": "incremental",
@@ -21559,6 +24010,24 @@
       "error": null
     },
     {
+      "fullName": "zilliztech/claude-context",
+      "rank": 36,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-26T09:35:55.278Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/zilliztech/claude-context",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
       "fullName": "brokermr810/QuantDinger",
       "rank": 37,
       "selectedFrom": "incremental",
@@ -23161,6 +25630,60 @@
       "error": null
     },
     {
+      "fullName": "luongnv89/claude-howto",
+      "rank": 37,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-26T09:35:55.716Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/luongnv89/claude-howto",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "getagentseal/codeburn",
+      "rank": 38,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-26T09:35:56.146Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/getagentseal/codeburn",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "penpot/penpot",
+      "rank": 39,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://penpot.app/",
+      "websiteSource": "github_homepage",
+      "status": "scan_pending",
+      "lastProfiledAt": "2026-04-26T09:35:56.169Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/penpot/penpot",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
       "fullName": "iamzhihuix/skills-manage",
       "rank": 40,
       "selectedFrom": "incremental",
@@ -23171,6 +25694,24 @@
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/iamzhihuix/skills-manage",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "kunchenguid/gnhf",
+      "rank": 40,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-26T09:35:56.592Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/kunchenguid/gnhf",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -23987,6 +26528,24 @@
         ],
         "promptTests": []
       },
+      "error": null
+    },
+    {
+      "fullName": "nowork-studio/toprank",
+      "rank": 41,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-26T09:35:57.041Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/nowork-studio/toprank",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
       "error": null
     },
     {
@@ -27972,6 +30531,24 @@
       "error": null
     },
     {
+      "fullName": "RooCodeInc/Roo-Code",
+      "rank": 43,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://roocode.com/",
+      "websiteSource": "github_homepage",
+      "status": "scan_pending",
+      "lastProfiledAt": "2026-04-26T09:35:57.062Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/RooCodeInc/Roo-Code",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
       "fullName": "gastownhall/beads",
       "rank": 44,
       "selectedFrom": "incremental",
@@ -27982,6 +30559,24 @@
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/gastownhall/beads",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "lsdefine/GenericAgent",
+      "rank": 44,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-26T09:35:57.486Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/lsdefine/GenericAgent",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -29547,24 +32142,6 @@
         ],
         "promptTests": []
       },
-      "error": null
-    },
-    {
-      "fullName": "alchaincyf/nuwa-skill",
-      "rank": 46,
-      "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-26T08:07:01.643Z",
-      "nextScanAfter": null,
-      "surfaces": {
-        "githubUrl": "https://github.com/alchaincyf/nuwa-skill",
-        "docsUrl": null,
-        "npmPackages": [],
-        "productHuntLaunchId": null
-      },
-      "aisoScan": null,
       "error": null
     },
     {
@@ -33681,6 +36258,24 @@
       "error": null
     },
     {
+      "fullName": "yizhiyanhua-ai/fireworks-tech-graph",
+      "rank": 50,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-26T09:35:57.930Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/yizhiyanhua-ai/fireworks-tech-graph",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
       "fullName": "connectfarm1/accumulation-radar",
       "rank": 51,
       "selectedFrom": "incremental",
@@ -35281,6 +37876,24 @@
       "error": null
     },
     {
+      "fullName": "Wei-Shaw/sub2api",
+      "rank": 53,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-26T09:35:58.349Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/Wei-Shaw/sub2api",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
       "fullName": "cloudflare/kumo",
       "rank": 54,
       "selectedFrom": "incremental",
@@ -36129,34 +38742,16 @@
       "error": null
     },
     {
-      "fullName": "Donchitos/Claude-Code-Game-Studios",
+      "fullName": "nashsu/llm_wiki",
       "rank": 54,
       "selectedFrom": "incremental",
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-26T08:07:02.942Z",
+      "lastProfiledAt": "2026-04-26T09:35:58.771Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/Donchitos/Claude-Code-Game-Studios",
-        "docsUrl": null,
-        "npmPackages": [],
-        "productHuntLaunchId": null
-      },
-      "aisoScan": null,
-      "error": null
-    },
-    {
-      "fullName": "jnMetaCode/agency-agents-zh",
-      "rank": 55,
-      "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-26T08:07:03.388Z",
-      "nextScanAfter": null,
-      "surfaces": {
-        "githubUrl": "https://github.com/jnMetaCode/agency-agents-zh",
+        "githubUrl": "https://github.com/nashsu/llm_wiki",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -37731,24 +40326,6 @@
       "error": null
     },
     {
-      "fullName": "shiyu-coder/Kronos",
-      "rank": 56,
-      "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-26T08:07:03.828Z",
-      "nextScanAfter": null,
-      "surfaces": {
-        "githubUrl": "https://github.com/shiyu-coder/Kronos",
-        "docsUrl": null,
-        "npmPackages": [],
-        "productHuntLaunchId": null
-      },
-      "aisoScan": null,
-      "error": null
-    },
-    {
       "fullName": "siddharthvaddem/openscreen",
       "rank": 56,
       "selectedFrom": "incremental",
@@ -38525,6 +41102,24 @@
       "error": null
     },
     {
+      "fullName": "tw93/Kami",
+      "rank": 56,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://kami.tw93.fun/",
+      "websiteSource": "github_homepage",
+      "status": "scan_pending",
+      "lastProfiledAt": "2026-04-26T09:35:58.791Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/tw93/Kami",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
       "fullName": "Leey21/awesome-ai-research-writing",
       "rank": 57,
       "selectedFrom": "incremental",
@@ -38535,6 +41130,42 @@
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/Leey21/awesome-ai-research-writing",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "SimoneAvogadro/android-reverse-engineering-skill",
+      "rank": 57,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-26T09:35:59.212Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/SimoneAvogadro/android-reverse-engineering-skill",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "alash3al/stash",
+      "rank": 58,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://alash3al.github.io/stash/",
+      "websiteSource": "github_homepage",
+      "status": "scan_pending",
+      "lastProfiledAt": "2026-04-26T09:35:59.240Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/alash3al/stash",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -40124,24 +42755,6 @@
       "error": null
     },
     {
-      "fullName": "luongnv89/claude-howto",
-      "rank": 59,
-      "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-25T09:09:12.772Z",
-      "nextScanAfter": null,
-      "surfaces": {
-        "githubUrl": "https://github.com/luongnv89/claude-howto",
-        "docsUrl": null,
-        "npmPackages": [],
-        "productHuntLaunchId": null
-      },
-      "aisoScan": null,
-      "error": null
-    },
-    {
       "fullName": "basketikun/chatgpt2api",
       "rank": 60,
       "selectedFrom": "incremental",
@@ -40884,6 +43497,24 @@
         ],
         "promptTests": []
       },
+      "error": null
+    },
+    {
+      "fullName": "Gitlawb/openclaude",
+      "rank": 60,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-26T09:35:59.705Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/Gitlawb/openclaude",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
       "error": null
     },
     {
@@ -42519,24 +45150,6 @@
       "error": null
     },
     {
-      "fullName": "kepano/obsidian-skills",
-      "rank": 61,
-      "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-26T08:07:05.279Z",
-      "nextScanAfter": null,
-      "surfaces": {
-        "githubUrl": "https://github.com/kepano/obsidian-skills",
-        "docsUrl": null,
-        "npmPackages": [],
-        "productHuntLaunchId": null
-      },
-      "aisoScan": null,
-      "error": null
-    },
-    {
       "fullName": "mvanhorn/last30days-skill",
       "rank": 61,
       "selectedFrom": "incremental",
@@ -42565,6 +45178,24 @@
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/leigest519/OpenGame",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "openai/codex-plugin-cc",
+      "rank": 62,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-26T09:36:00.165Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/openai/codex-plugin-cc",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -43266,6 +45897,24 @@
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/VoltAgent/awesome-claude-design",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "jo-inc/camofox-browser",
+      "rank": 63,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-26T09:36:00.598Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/jo-inc/camofox-browser",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -49076,6 +51725,42 @@
       "error": null
     },
     {
+      "fullName": "tashfeenahmed/freellmapi",
+      "rank": 69,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-26T09:36:01.020Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/tashfeenahmed/freellmapi",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "ali25az/ir-downloader",
+      "rank": 70,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-26T09:36:01.422Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/ali25az/ir-downloader",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
       "fullName": "edwardkim/rhwp",
       "rank": 70,
       "selectedFrom": "incremental",
@@ -49130,16 +51815,34 @@
       "error": null
     },
     {
-      "fullName": "earthtojake/text-to-cad",
+      "fullName": "shiyu-coder/Kronos",
+      "rank": 71,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-26T09:36:01.857Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/shiyu-coder/Kronos",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "Donchitos/Claude-Code-Game-Studios",
       "rank": 72,
       "selectedFrom": "incremental",
       "websiteUrl": null,
       "websiteSource": null,
       "status": "no_website",
-      "lastProfiledAt": "2026-04-26T08:07:07.583Z",
+      "lastProfiledAt": "2026-04-26T09:36:02.270Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/earthtojake/text-to-cad",
+        "githubUrl": "https://github.com/Donchitos/Claude-Code-Game-Studios",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -50856,6 +53559,24 @@
       "error": null
     },
     {
+      "fullName": "nikopueringer/CorridorKey",
+      "rank": 73,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-26T09:36:02.688Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/nikopueringer/CorridorKey",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
       "fullName": "wendy7756/AI-Video-Transcriber",
       "rank": 73,
       "selectedFrom": "incremental",
@@ -52441,16 +55162,16 @@
       "error": null
     },
     {
-      "fullName": "Gitlawb/openclaude",
-      "rank": 75,
+      "fullName": "Universal-Commerce-Protocol/ucp",
+      "rank": 74,
       "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-26T08:07:08.089Z",
+      "websiteUrl": "https://ucp.dev/",
+      "websiteSource": "github_homepage",
+      "status": "scan_pending",
+      "lastProfiledAt": "2026-04-26T09:36:02.709Z",
       "nextScanAfter": null,
       "surfaces": {
-        "githubUrl": "https://github.com/Gitlawb/openclaude",
+        "githubUrl": "https://github.com/Universal-Commerce-Protocol/ucp",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -52487,6 +55208,24 @@
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/run-bigpig/jcp",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "yaojingang/yao-open-skills",
+      "rank": 75,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-26T09:36:03.149Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/yaojingang/yao-open-skills",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -53313,6 +56052,24 @@
       "error": null
     },
     {
+      "fullName": "enetx/surf",
+      "rank": 76,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://enetx.surf/",
+      "websiteSource": "github_homepage",
+      "status": "scan_pending",
+      "lastProfiledAt": "2026-04-26T09:36:03.169Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/enetx/surf",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
       "fullName": "github/awesome-copilot",
       "rank": 77,
       "selectedFrom": "incremental",
@@ -53331,6 +56088,24 @@
       "error": null
     },
     {
+      "fullName": "jnMetaCode/agency-agents-zh",
+      "rank": 77,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-26T09:36:03.603Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/jnMetaCode/agency-agents-zh",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
       "fullName": "KKKKhazix/khazix-skills",
       "rank": 77,
       "selectedFrom": "incremental",
@@ -53341,6 +56116,24 @@
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/KKKKhazix/khazix-skills",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "GetBindu/Bindu",
+      "rank": 78,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://docs.getbindu.com/",
+      "websiteSource": "github_homepage",
+      "status": "scan_pending",
+      "lastProfiledAt": "2026-04-26T09:36:03.630Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/GetBindu/Bindu",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -54124,6 +56917,24 @@
         ],
         "promptTests": []
       },
+      "error": null
+    },
+    {
+      "fullName": "datawhalechina/Path2AGI",
+      "rank": 79,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-26T09:36:04.077Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/datawhalechina/Path2AGI",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
       "error": null
     },
     {
@@ -54963,6 +57774,24 @@
       "error": null
     },
     {
+      "fullName": "kepano/obsidian-skills",
+      "rank": 80,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-26T09:36:04.514Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/kepano/obsidian-skills",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
       "fullName": "1sdv/TripStar",
       "rank": 81,
       "selectedFrom": "incremental",
@@ -54973,6 +57802,24 @@
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/1sdv/TripStar",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "alchaincyf/nuwa-skill",
+      "rank": 81,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-26T09:36:04.926Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/alchaincyf/nuwa-skill",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -55861,6 +58708,24 @@
       "error": null
     },
     {
+      "fullName": "earthtojake/text-to-cad",
+      "rank": 83,
+      "selectedFrom": "incremental",
+      "websiteUrl": null,
+      "websiteSource": null,
+      "status": "no_website",
+      "lastProfiledAt": "2026-04-26T09:36:05.408Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/earthtojake/text-to-cad",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
       "fullName": "mukul975/Anthropic-Cybersecurity-Skills",
       "rank": 83,
       "selectedFrom": "incremental",
@@ -56660,24 +59525,6 @@
       "error": null
     },
     {
-      "fullName": "openai/codex-plugin-cc",
-      "rank": 83,
-      "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-26T08:07:09.518Z",
-      "nextScanAfter": null,
-      "surfaces": {
-        "githubUrl": "https://github.com/openai/codex-plugin-cc",
-        "docsUrl": null,
-        "npmPackages": [],
-        "productHuntLaunchId": null
-      },
-      "aisoScan": null,
-      "error": null
-    },
-    {
       "fullName": "jarrodwatts/claude-hud",
       "rank": 86,
       "selectedFrom": "incremental",
@@ -56706,6 +59553,24 @@
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/larksuite/cli",
+        "docsUrl": null,
+        "npmPackages": [],
+        "productHuntLaunchId": null
+      },
+      "aisoScan": null,
+      "error": null
+    },
+    {
+      "fullName": "Lum1104/Understand-Anything",
+      "rank": 87,
+      "selectedFrom": "incremental",
+      "websiteUrl": "https://understand-anything.com/",
+      "websiteSource": "github_homepage",
+      "status": "scan_pending",
+      "lastProfiledAt": "2026-04-26T09:36:05.429Z",
+      "nextScanAfter": null,
+      "surfaces": {
+        "githubUrl": "https://github.com/Lum1104/Understand-Anything",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null
@@ -65987,24 +68852,6 @@
       "error": null
     },
     {
-      "fullName": "getagentseal/codeburn",
-      "rank": 100,
-      "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-26T08:07:13.267Z",
-      "nextScanAfter": null,
-      "surfaces": {
-        "githubUrl": "https://github.com/getagentseal/codeburn",
-        "docsUrl": null,
-        "npmPackages": [],
-        "productHuntLaunchId": null
-      },
-      "aisoScan": null,
-      "error": null
-    },
-    {
       "fullName": "0103x/Coin-Flashing-Tool-2026",
       "rank": null,
       "selectedFrom": "incremental",
@@ -74444,24 +77291,6 @@
       "error": "HTTP 404 Not Found - https://aiso.tools/api/scan - The page could not be found NOT_FOUND sfo1::swg85-1777103112885-da2bc0c816cd"
     },
     {
-      "fullName": "alash3al/stash",
-      "rank": null,
-      "selectedFrom": "incremental",
-      "websiteUrl": "https://alash3al.github.io/stash/",
-      "websiteSource": "github_homepage",
-      "status": "scan_failed",
-      "lastProfiledAt": "2026-04-25T05:59:12.342Z",
-      "nextScanAfter": null,
-      "surfaces": {
-        "githubUrl": "https://github.com/alash3al/stash",
-        "docsUrl": null,
-        "npmPackages": [],
-        "productHuntLaunchId": null
-      },
-      "aisoScan": null,
-      "error": "HTTP 404 Not Found - https://aiso.tools/api/scan - The page could not be found NOT_FOUND iad1::7mcpk-1777096752415-65b65bf937be"
-    },
-    {
       "fullName": "alchaincyf/deepseek-v4-deep-dive",
       "rank": null,
       "selectedFrom": "incremental",
@@ -76143,24 +78972,6 @@
       "nextScanAfter": null,
       "surfaces": {
         "githubUrl": "https://github.com/Alfattah07/Acrobat-Editor-2026",
-        "docsUrl": null,
-        "npmPackages": [],
-        "productHuntLaunchId": null
-      },
-      "aisoScan": null,
-      "error": null
-    },
-    {
-      "fullName": "ali25az/ir-downloader",
-      "rank": null,
-      "selectedFrom": "incremental",
-      "websiteUrl": null,
-      "websiteSource": null,
-      "status": "no_website",
-      "lastProfiledAt": "2026-04-25T22:06:12.165Z",
-      "nextScanAfter": null,
-      "surfaces": {
-        "githubUrl": "https://github.com/ali25az/ir-downloader",
         "docsUrl": null,
         "npmPackages": [],
         "productHuntLaunchId": null

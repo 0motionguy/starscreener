@@ -16,7 +16,6 @@ import {
   Crown,
   Bookmark,
   ArrowUpDown,
-  Triangle,
 } from "lucide-react";
 
 import type { Repo } from "@/lib/types";
@@ -39,54 +38,94 @@ interface TrendingTableV2Props {
   subtitle?: string;
 }
 
-// Source-pill metadata. Maps a 1-letter code to its row color and label.
-// The icon counts are synthesized from the repo's signal channels for
-// the demo so each row looks busy.
-type SourceCode = "X" | "R" | "Y" | "B" | "D" | "L";
+// Source pill metadata. One pill per source, color matches the
+// corresponding news-page accent so visual identity stays consistent
+// from /news → /reddit → /hackernews/trending → trending tables.
+type SourceCode = "X" | "R" | "Y" | "B" | "D" | "PH";
 
-const SOURCES: { code: SourceCode; label: string; color: string }[] = [
-  { code: "X", label: "TWITTER", color: "rgba(220,168,43,0.85)" },
-  { code: "R", label: "REDDIT", color: "rgba(255, 77, 77, 0.85)" },
-  { code: "Y", label: "HN", color: "rgba(245, 110, 15, 0.85)" },
-  { code: "B", label: "BLUESKY", color: "rgba(58, 214, 197, 0.85)" },
-  { code: "D", label: "DEVTO", color: "rgba(102, 153, 255, 0.85)" },
-  { code: "L", label: "LOBSTERS", color: "rgba(132, 110, 195, 0.85)" },
-];
-
-// Stable per-repo hash — picks 2-3 source pills per row deterministically
-// so screenshots don't shuffle on each refresh.
-function pickSources(id: string): { code: SourceCode; count: number; color: string }[] {
-  let h = 0;
-  for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) | 0;
-  h = Math.abs(h);
-  const count = (h % 3) + 1; // 1 to 3 source pills per row
-  const result: { code: SourceCode; count: number; color: string }[] = [];
-  for (let i = 0; i < count; i++) {
-    const src = SOURCES[(h + i * 7) % SOURCES.length];
-    const cnt = ((h >> (i * 3)) % 18) + 1;
-    if (!result.find((r) => r.code === src.code)) {
-      result.push({ code: src.code, count: cnt, color: src.color });
-    }
-  }
-  return result;
+interface SourcePill {
+  code: SourceCode;
+  label: string;
+  color: string;
+  count: number;
 }
 
-// Synthesize a rank-change indicator (▲ N / ▼ N / —) from a stable hash.
-// Demo only — real wiring would come from a rank-history store.
-function pickRankDelta(id: string, rank: number): { dir: "up" | "down" | "flat"; mag: number } {
-  if (rank === 1) {
-    // Top spot — show a ▼ N to indicate it's been climbing the chart.
-    let h = 0;
-    for (let i = 0; i < id.length; i++) h = (h * 17 + id.charCodeAt(i)) | 0;
-    return { dir: "down", mag: (Math.abs(h) % 12) + 2 };
+const SOURCE_META: Record<SourceCode, { label: string; color: string }> = {
+  X: { label: "TWITTER", color: "rgba(220,168,43,0.85)" },
+  R: { label: "REDDIT", color: "rgba(255, 77, 77, 0.85)" },
+  Y: { label: "HN", color: "rgba(245, 110, 15, 0.85)" },
+  B: { label: "BLUESKY", color: "rgba(58, 214, 197, 0.85)" },
+  D: { label: "DEVTO", color: "rgba(102, 153, 255, 0.85)" },
+  PH: { label: "PRODUCTHUNT", color: "rgba(220, 70, 100, 0.85)" },
+};
+
+/**
+ * Read the real per-source mention counts off a Repo and emit pills
+ * only for the sources that actually fired in the last 7 days. No
+ * hashing, no synthesis — every pill represents real activity.
+ */
+function getRepoSources(repo: Repo): SourcePill[] {
+  const pills: SourcePill[] = [];
+
+  // Twitter — uses 24h window (Twitter signals are short-lived)
+  if (repo.twitter && repo.twitter.mentionCount24h > 0) {
+    pills.push({
+      code: "X",
+      label: SOURCE_META.X.label,
+      color: SOURCE_META.X.color,
+      count: repo.twitter.mentionCount24h,
+    });
   }
-  let h = 0;
-  for (let i = 0; i < id.length; i++) h = (h * 23 + id.charCodeAt(i)) | 0;
-  h = Math.abs(h);
-  const rem = h % 7;
-  if (rem === 0) return { dir: "flat", mag: 0 };
-  if (rem < 4) return { dir: "down", mag: (h % 4) + 1 };
-  return { dir: "up", mag: (h % 4) + 1 };
+  // Reddit
+  if (repo.reddit && repo.reddit.mentions7d > 0) {
+    pills.push({
+      code: "R",
+      label: SOURCE_META.R.label,
+      color: SOURCE_META.R.color,
+      count: repo.reddit.mentions7d,
+    });
+  }
+  // HN — only `channelStatus.hn` is a boolean. Use HN-mention count
+  // would require pulling getHnMentions(fullName) per row, which is
+  // expensive in a server component. The boolean is sufficient signal:
+  // when on, show "HN" pill with the firing tier marker (no count).
+  if (repo.channelStatus?.hn) {
+    pills.push({
+      code: "Y",
+      label: SOURCE_META.Y.label,
+      color: SOURCE_META.Y.color,
+      count: 0, // 0 marker means "firing, count unknown at this layer"
+    });
+  }
+  // Bluesky
+  if (repo.bluesky && repo.bluesky.mentions7d > 0) {
+    pills.push({
+      code: "B",
+      label: SOURCE_META.B.label,
+      color: SOURCE_META.B.color,
+      count: repo.bluesky.mentions7d,
+    });
+  }
+  // Dev.to
+  if (repo.devto && repo.devto.mentions7d > 0) {
+    pills.push({
+      code: "D",
+      label: SOURCE_META.D.label,
+      color: SOURCE_META.D.color,
+      count: repo.devto.mentions7d,
+    });
+  }
+  // ProductHunt — boolean launchedOnPH; treat votes as the count.
+  if (repo.producthunt?.launchedOnPH) {
+    pills.push({
+      code: "PH",
+      label: SOURCE_META.PH.label,
+      color: SOURCE_META.PH.color,
+      count: repo.producthunt.launch.votesCount,
+    });
+  }
+
+  return pills;
 }
 
 export function TrendingTableV2({
@@ -250,8 +289,8 @@ function Th({
 
 function Row({ repo, rank }: { repo: Repo; rank: number }) {
   const isTop = rank === 1;
-  const sources = pickSources(repo.id);
-  const rankDelta = pickRankDelta(repo.id, rank);
+  // Real per-source mention pills, from the canonical Repo profile.
+  const sources = getRepoSources(repo);
   const stars = repo.stars ?? 0;
   const delta24 = repo.starsDelta24h ?? 0;
   const delta24Pct = stars > 0 ? (delta24 / stars) * 100 : 0;
@@ -306,31 +345,6 @@ function Row({ repo, rank }: { repo: Repo; rank: number }) {
           >
             #{rank}
           </span>
-          {rankDelta.dir !== "flat" ? (
-            <span
-              className="inline-flex items-center gap-0.5"
-              style={{
-                fontSize: 10,
-                color:
-                  rankDelta.dir === "up"
-                    ? "var(--v2-sig-green)"
-                    : "var(--v2-sig-red)",
-              }}
-            >
-              <Triangle
-                className="size-2"
-                style={{
-                  fill: "currentColor",
-                  transform:
-                    rankDelta.dir === "up" ? "none" : "rotate(180deg)",
-                }}
-                aria-hidden
-              />
-              <span className="tabular-nums">{rankDelta.mag}</span>
-            </span>
-          ) : (
-            <span style={{ color: "var(--v2-ink-500)", fontSize: 10 }}>—</span>
-          )}
         </span>
       </td>
 
@@ -380,10 +394,14 @@ function Row({ repo, rank }: { repo: Repo; rank: number }) {
                   color: s.color.replace("0.85", "1"),
                   borderRadius: 1,
                 }}
-                title={SOURCES.find((src) => src.code === s.code)?.label}
+                title={s.label}
               >
                 <span>{s.code}</span>
-                <span className="tabular-nums">{s.count}</span>
+                {s.count > 0 ? (
+                  <span className="tabular-nums">
+                    {formatNumber(s.count)}
+                  </span>
+                ) : null}
               </span>
             ))}
           </span>

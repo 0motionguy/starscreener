@@ -49,23 +49,53 @@ export interface NewsItem {
   age: string;
   /** Heat tier — drives row tint. */
   heat: "breakout" | "hot" | "rising" | "neutral";
+  /**
+   * Optional body excerpt — used by featured cards. Sources without an
+   * intrinsic body (HN headlines, Lobsters titles) leave this blank;
+   * the featured card falls back to a meta-line built from author/score.
+   */
+  body?: string;
+}
+
+/**
+ * Per-source volume row — real count + summed score from the current
+ * snapshot. No fake time series.
+ */
+export interface SourceVolume {
+  code: string;
+  label: string;
+  color: string;
+  itemCount: number;
+  totalScore: number;
+}
+
+/**
+ * Top topic — real frequency count of a token across the current item
+ * set. Renders as a horizontal bar in the hero.
+ */
+export interface TopTopic {
+  topic: string;
+  count: number;
+  color: string;
 }
 
 interface NewsTemplateV2Props {
   /** Page-level metadata. The unified page uses { code: "ALL", ... }. */
   source: NewsSourceMeta;
-  /** Sources represented in the data — for the stacked-bar legend. */
+  /** Sources represented in the data — drives the per-source volume bar. */
   channels: NewsSourceMeta[];
-  /** Mock data rows. */
+  /** Real item rows. */
   items: NewsItem[];
-  /** Pre-computed counter (today's mentions). */
-  todayCounter: number;
-  /** 24h delta (signed). */
-  todayDelta: number;
-  /** 7d stacked bar data — one bar per day, segments per channel. */
-  stackedBars: Array<{ day: string; segments: Record<string, number> }>;
-  /** Multi-line trending topics — top 5 over 7d. */
-  topicLines: Array<{ topic: string; values: number[]; color: string }>;
+  /** Real total of items in this snapshot. */
+  totalItems: number;
+  /** Real sum of all item scores. */
+  totalScore: number;
+  /** Real top item (highest score). */
+  topItem: NewsItem | null;
+  /** Real per-source volume rows. */
+  sourceVolume: SourceVolume[];
+  /** Real top-N most-mentioned tokens across item titles. */
+  topTopics: TopTopic[];
   /** 3 editorial picks rendered above the table. */
   featured?: FeaturedItem[];
 }
@@ -78,10 +108,11 @@ export function NewsTemplateV2({
   source,
   channels,
   items,
-  todayCounter,
-  todayDelta,
-  stackedBars,
-  topicLines,
+  totalItems,
+  totalScore,
+  topItem,
+  sourceVolume,
+  topTopics,
   featured,
 }: NewsTemplateV2Props) {
   const isUnified = source.code === "ALL";
@@ -91,10 +122,11 @@ export function NewsTemplateV2({
       <NewsHero
         source={source}
         channels={channels}
-        todayCounter={todayCounter}
-        todayDelta={todayDelta}
-        stackedBars={stackedBars}
-        topicLines={topicLines}
+        totalItems={totalItems}
+        totalScore={totalScore}
+        topItem={topItem}
+        sourceVolume={sourceVolume}
+        topTopics={topTopics}
       />
       {featured && featured.length > 0 ? (
         <FeaturedCardsV2 items={featured} />
@@ -111,40 +143,42 @@ export function NewsTemplateV2({
 interface NewsHeroProps {
   source: NewsSourceMeta;
   channels: NewsSourceMeta[];
-  todayCounter: number;
-  todayDelta: number;
-  stackedBars: NewsTemplateV2Props["stackedBars"];
-  topicLines: NewsTemplateV2Props["topicLines"];
+  totalItems: number;
+  totalScore: number;
+  topItem: NewsItem | null;
+  sourceVolume: SourceVolume[];
+  topTopics: TopTopic[];
 }
 
 function NewsHero({
   source,
   channels,
-  todayCounter,
-  todayDelta,
-  stackedBars,
-  topicLines,
+  totalItems,
+  totalScore,
+  topItem,
+  sourceVolume,
+  topTopics,
 }: NewsHeroProps) {
-  const positive = todayDelta >= 0;
-  const deltaColor = positive
-    ? "var(--v2-sig-green)"
-    : "var(--v2-sig-red)";
-
-  // Title line — small mono uppercase, sits above the hero charts like a
-  // logo. Replaces the previous giant display headline so the page leads
-  // with the data, not the title.
   const titleLine =
     source.label === "ALL"
       ? "MARKET SIGNALS · CROSS-SOURCE"
       : `${source.label} · SIGNAL TERMINAL`;
 
+  // Find the max for the per-source bar so we can size each bar
+  // proportionally without inventing a y-axis.
+  const sourceMax = Math.max(...sourceVolume.map((s) => s.itemCount), 1);
+  const topicMax = Math.max(...topTopics.map((t) => t.count), 1);
+
   return (
     <section className="border-b border-[color:var(--v2-line-100)]">
       <div className="v2-frame pt-6 pb-6">
-        {/* Single mono title line — eyebrow + page name combined. */}
         <h1
           className="v2-mono mb-4 inline-flex items-center gap-2"
-          style={{ color: "var(--v2-ink-100)", fontSize: 12, letterSpacing: "0.20em" }}
+          style={{
+            color: "var(--v2-ink-100)",
+            fontSize: 12,
+            letterSpacing: "0.20em",
+          }}
         >
           <span aria-hidden>{"// "}</span>
           {titleLine}
@@ -161,24 +195,29 @@ function NewsHero({
           />
         </h1>
 
-        {/* 3-column hero grid: counter | stacked-bar | topic-lines */}
+        {/* 3-column hero grid: counter | per-source volume | top topics */}
         <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr_1fr] gap-3">
-          {/* COUNTER — bracket-marked, the centerpiece KPI */}
+          {/* COUNTER — real total of current snapshot */}
           <div className="v2-card v2-bracket relative overflow-hidden">
             <BracketMarkers />
             <TerminalBar
-              label="// MENTIONS · 24H"
+              label="// SNAPSHOT · NOW"
               status={
-                <span style={{ color: deltaColor }} className="tabular-nums">
-                  {positive ? "+" : ""}
-                  {todayDelta.toLocaleString("en-US")}
+                <span
+                  className="tabular-nums"
+                  style={{ color: "var(--v2-ink-200)" }}
+                >
+                  {totalItems} ITEMS
                 </span>
               }
             />
             <div className="p-4 flex flex-col gap-3">
               <div>
-                <span className="v2-mono" style={{ color: "var(--v2-ink-300)" }}>
-                  TOTAL TODAY
+                <span
+                  className="v2-mono"
+                  style={{ color: "var(--v2-ink-300)" }}
+                >
+                  ITEMS TRACKED
                 </span>
                 <div
                   className="mt-1 tabular-nums"
@@ -191,342 +230,214 @@ function NewsHero({
                     color: "var(--v2-ink-000)",
                   }}
                 >
-                  {todayCounter.toLocaleString("en-US")}
+                  {totalItems.toLocaleString("en-US")}
                 </div>
-                <div className="mt-1 v2-mono" style={{ color: "var(--v2-ink-400)" }}>
-                  ACROSS {channels.length} {channels.length === 1 ? "SOURCE" : "SOURCES"}
+                <div
+                  className="mt-1 v2-mono"
+                  style={{ color: "var(--v2-ink-400)" }}
+                >
+                  ACROSS {channels.length}{" "}
+                  {channels.length === 1 ? "SOURCE" : "SOURCES"}
                 </div>
               </div>
 
-              {/* Per-source mini-counters */}
-              <div className="grid grid-cols-2 gap-x-3 gap-y-1">
-                {channels.slice(0, 4).map((ch) => (
+              {/* Total score + top item — both real snapshot values */}
+              <div className="grid grid-cols-1 gap-1">
+                <div
+                  className="flex items-center justify-between v2-mono"
+                  style={{
+                    borderTop: "1px dashed var(--v2-line-200)",
+                    paddingTop: 4,
+                  }}
+                >
+                  <span style={{ color: "var(--v2-ink-300)" }}>
+                    TOTAL SCORE
+                  </span>
+                  <span
+                    className="tabular-nums"
+                    style={{ color: "var(--v2-ink-100)" }}
+                  >
+                    {totalScore.toLocaleString("en-US")}
+                  </span>
+                </div>
+                {topItem ? (
                   <div
-                    key={ch.code}
-                    className="flex items-center justify-between"
+                    className="flex items-center justify-between v2-mono"
                     style={{
                       borderTop: "1px dashed var(--v2-line-200)",
                       paddingTop: 4,
                     }}
                   >
-                    <span
-                      className="v2-mono inline-flex items-center gap-1.5"
-                      style={{ color: "var(--v2-ink-300)" }}
-                    >
-                      <span
-                        aria-hidden
-                        className="inline-block w-1.5 h-1.5"
-                        style={{ background: ch.color, borderRadius: 1 }}
-                      />
-                      {ch.code}
-                    </span>
-                    <span
-                      className="v2-mono tabular-nums"
-                      style={{ color: "var(--v2-ink-100)" }}
-                    >
-                      {Math.round(todayCounter / channels.length).toLocaleString()}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* CHART 1 — stacked bar: mentions per source over 7d */}
-          <div className="v2-card overflow-hidden">
-            <TerminalBar
-              label="// MENTIONS · PER SOURCE · 7D"
-              status={
-                <span className="tabular-nums">
-                  {stackedBars.length}D
-                </span>
-              }
-            />
-            <div className="p-3">
-              <StackedBarChart
-                data={stackedBars}
-                channels={channels}
-                height={140}
-              />
-              {/* Legend — tight, single row preferred */}
-              <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
-                {channels.map((ch) => (
-                  <span
-                    key={ch.code}
-                    className="v2-mono inline-flex items-center gap-1"
-                    style={{ color: "var(--v2-ink-300)", fontSize: 9 }}
-                  >
-                    <span
-                      aria-hidden
-                      className="inline-block w-1.5 h-1.5"
-                      style={{ background: ch.color, borderRadius: 1 }}
-                    />
-                    {ch.label}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* CHART 2 — multi-line: top 5 trending topics */}
-          <div className="v2-card overflow-hidden">
-            <TerminalBar
-              label="// TOPICS · TRENDING · 7D"
-              status={
-                <span className="tabular-nums">{topicLines.length} TOP</span>
-              }
-            />
-            <div className="p-3">
-              <MultiLineChart data={topicLines} height={140} />
-              <div className="mt-2 flex flex-col gap-0.5">
-                {topicLines.map((t) => (
-                  <div
-                    key={t.topic}
-                    className="flex items-center justify-between v2-mono"
-                    style={{ fontSize: 9 }}
-                  >
-                    <span className="inline-flex items-center gap-1">
-                      <span
-                        aria-hidden
-                        className="inline-block w-1.5 h-1.5"
-                        style={{ background: t.color, borderRadius: 1 }}
-                      />
-                      <span style={{ color: "var(--v2-ink-200)" }}>
-                        {t.topic}
-                      </span>
+                    <span style={{ color: "var(--v2-ink-300)" }}>
+                      TOP SCORE
                     </span>
                     <span
                       className="tabular-nums"
-                      style={{ color: "var(--v2-ink-100)" }}
+                      style={{ color: "var(--v2-acc)" }}
                     >
-                      {t.values[t.values.length - 1].toLocaleString("en-US")}
+                      {topItem.score.toLocaleString("en-US")}
                     </span>
                   </div>
-                ))}
+                ) : null}
               </div>
+            </div>
+          </div>
+
+          {/* PER-SOURCE VOLUME — horizontal bars, one per source */}
+          <div className="v2-card overflow-hidden">
+            <TerminalBar
+              label="// VOLUME · PER SOURCE"
+              status={
+                <span className="tabular-nums">
+                  {sourceVolume.length}{" "}
+                  {sourceVolume.length === 1 ? "CHANNEL" : "CHANNELS"}
+                </span>
+              }
+            />
+            <div className="p-3 space-y-1.5">
+              {sourceVolume.map((s) => (
+                <div
+                  key={s.code}
+                  className="flex items-center gap-2"
+                  style={{ minHeight: 22 }}
+                >
+                  <span
+                    className="v2-mono shrink-0 w-12"
+                    style={{
+                      color: "var(--v2-ink-200)",
+                      fontSize: 10,
+                    }}
+                  >
+                    {s.code}
+                  </span>
+                  <div
+                    className="flex-1 relative"
+                    style={{
+                      height: 14,
+                      background: "var(--v2-bg-100)",
+                      borderRadius: 1,
+                    }}
+                  >
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        bottom: 0,
+                        width: `${(s.itemCount / sourceMax) * 100}%`,
+                        background: s.color,
+                        borderRadius: 1,
+                        minWidth: s.itemCount > 0 ? 2 : 0,
+                      }}
+                    />
+                  </div>
+                  <span
+                    className="v2-mono tabular-nums shrink-0 w-14 text-right"
+                    style={{
+                      color: "var(--v2-ink-100)",
+                      fontSize: 10,
+                    }}
+                  >
+                    {s.itemCount}
+                  </span>
+                  <span
+                    className="v2-mono tabular-nums shrink-0 w-16 text-right"
+                    style={{
+                      color: "var(--v2-ink-400)",
+                      fontSize: 9,
+                    }}
+                  >
+                    {s.totalScore.toLocaleString("en-US")}
+                  </span>
+                </div>
+              ))}
+              {sourceVolume.length === 0 ? (
+                <div
+                  className="v2-mono py-6 text-center"
+                  style={{ color: "var(--v2-ink-500)" }}
+                >
+                  <span aria-hidden>{"// "}</span>
+                  NO SOURCES IN SNAPSHOT
+                </div>
+              ) : null}
+            </div>
+          </div>
+
+          {/* TOP TOPICS — most-mentioned tokens across current items */}
+          <div className="v2-card overflow-hidden">
+            <TerminalBar
+              label="// TOPICS · MENTIONED MOST"
+              status={
+                <span className="tabular-nums">
+                  TOP {topTopics.length}
+                </span>
+              }
+            />
+            <div className="p-3 space-y-1.5">
+              {topTopics.map((t) => (
+                <div
+                  key={t.topic}
+                  className="flex items-center gap-2"
+                  style={{ minHeight: 22 }}
+                >
+                  <span
+                    className="v2-mono shrink-0 w-32 truncate"
+                    style={{
+                      color: "var(--v2-ink-200)",
+                      fontSize: 10,
+                      letterSpacing: "0.04em",
+                      textTransform: "uppercase",
+                    }}
+                    title={t.topic}
+                  >
+                    {t.topic}
+                  </span>
+                  <div
+                    className="flex-1 relative"
+                    style={{
+                      height: 14,
+                      background: "var(--v2-bg-100)",
+                      borderRadius: 1,
+                    }}
+                  >
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        bottom: 0,
+                        width: `${(t.count / topicMax) * 100}%`,
+                        background: t.color,
+                        borderRadius: 1,
+                        minWidth: t.count > 0 ? 2 : 0,
+                      }}
+                    />
+                  </div>
+                  <span
+                    className="v2-mono tabular-nums shrink-0 w-10 text-right"
+                    style={{
+                      color: "var(--v2-ink-100)",
+                      fontSize: 10,
+                    }}
+                  >
+                    {t.count}
+                  </span>
+                </div>
+              ))}
+              {topTopics.length === 0 ? (
+                <div
+                  className="v2-mono py-6 text-center"
+                  style={{ color: "var(--v2-ink-500)" }}
+                >
+                  <span aria-hidden>{"// "}</span>
+                  NO TOPICS YET
+                </div>
+              ) : null}
             </div>
           </div>
         </div>
       </div>
     </section>
-  );
-}
-
-// ---------------------------------------------------------------------------
-// CHART — stacked vertical bars (one per day, segments per channel)
-// ---------------------------------------------------------------------------
-
-function StackedBarChart({
-  data,
-  channels,
-  height,
-}: {
-  data: NewsTemplateV2Props["stackedBars"];
-  channels: NewsSourceMeta[];
-  height: number;
-}) {
-  const padding = { top: 12, right: 8, bottom: 28, left: 36 };
-  const width = 520;
-  const innerH = height - padding.top - padding.bottom;
-  const innerW = width - padding.left - padding.right;
-
-  // Compute total per day, then global max for the y-axis.
-  const totals = data.map((d) =>
-    Object.values(d.segments).reduce((s, v) => s + v, 0),
-  );
-  const max = Math.max(...totals, 1);
-
-  const barW = innerW / data.length - 4;
-
-  return (
-    <svg
-      viewBox={`0 0 ${width} ${height}`}
-      className="block w-full h-auto"
-      preserveAspectRatio="none"
-      aria-hidden
-    >
-      {/* Y-axis grid lines (4 ticks) */}
-      {[0, 0.25, 0.5, 0.75, 1].map((t) => {
-        const y = padding.top + innerH * (1 - t);
-        return (
-          <g key={t}>
-            <line
-              x1={padding.left}
-              y1={y}
-              x2={width - padding.right}
-              y2={y}
-              stroke="var(--v2-line-200)"
-              strokeWidth={0.5}
-              strokeDasharray={t === 0 ? "0" : "2 3"}
-              opacity={t === 0 ? 0.6 : 0.3}
-            />
-            <text
-              x={padding.left - 6}
-              y={y + 3}
-              textAnchor="end"
-              fill="var(--v2-ink-400)"
-              fontSize={9}
-              fontFamily="var(--font-geist-mono), monospace"
-              style={{ letterSpacing: "0.06em" }}
-            >
-              {Math.round(max * t)}
-            </text>
-          </g>
-        );
-      })}
-
-      {/* Bars */}
-      {data.map((day, i) => {
-        const x = padding.left + i * (innerW / data.length) + 2;
-        let yCursor = padding.top + innerH;
-        return (
-          <g key={day.day}>
-            {channels.map((ch) => {
-              const v = day.segments[ch.code] ?? 0;
-              const h = (v / max) * innerH;
-              yCursor -= h;
-              return (
-                <rect
-                  key={ch.code}
-                  x={x}
-                  y={yCursor}
-                  width={barW}
-                  height={h}
-                  fill={ch.color}
-                />
-              );
-            })}
-            {/* X-axis label */}
-            {i % 2 === 0 ? (
-              <text
-                x={x + barW / 2}
-                y={height - 8}
-                textAnchor="middle"
-                fill="var(--v2-ink-400)"
-                fontSize={9}
-                fontFamily="var(--font-geist-mono), monospace"
-                style={{ letterSpacing: "0.06em" }}
-              >
-                {day.day}
-              </text>
-            ) : null}
-          </g>
-        );
-      })}
-    </svg>
-  );
-}
-
-// ---------------------------------------------------------------------------
-// CHART — multi-line series with axis labels
-// ---------------------------------------------------------------------------
-
-function MultiLineChart({
-  data,
-  height,
-}: {
-  data: NewsTemplateV2Props["topicLines"];
-  height: number;
-}) {
-  const padding = { top: 12, right: 8, bottom: 28, left: 36 };
-  const width = 520;
-  const innerH = height - padding.top - padding.bottom;
-  const innerW = width - padding.left - padding.right;
-
-  const all = data.flatMap((d) => d.values);
-  const max = Math.max(...all, 1);
-  const points = data[0]?.values.length ?? 7;
-
-  const xAt = (i: number) =>
-    padding.left + (i / Math.max(1, points - 1)) * innerW;
-  const yAt = (v: number) => padding.top + innerH * (1 - v / max);
-
-  return (
-    <svg
-      viewBox={`0 0 ${width} ${height}`}
-      className="block w-full h-auto"
-      preserveAspectRatio="none"
-      aria-hidden
-    >
-      {/* Y-axis grid lines */}
-      {[0, 0.5, 1].map((t) => (
-        <g key={t}>
-          <line
-            x1={padding.left}
-            y1={padding.top + innerH * (1 - t)}
-            x2={width - padding.right}
-            y2={padding.top + innerH * (1 - t)}
-            stroke="var(--v2-line-200)"
-            strokeWidth={0.5}
-            strokeDasharray={t === 0 ? "0" : "2 3"}
-            opacity={t === 0 ? 0.6 : 0.3}
-          />
-          <text
-            x={padding.left - 6}
-            y={padding.top + innerH * (1 - t) + 3}
-            textAnchor="end"
-            fill="var(--v2-ink-400)"
-            fontSize={9}
-            fontFamily="var(--font-geist-mono), monospace"
-            style={{ letterSpacing: "0.06em" }}
-          >
-            {Math.round(max * t)}
-          </text>
-        </g>
-      ))}
-
-      {/* Line series */}
-      {data.map((line) => {
-        const path = line.values
-          .map((v, i) => `${i === 0 ? "M" : "L"} ${xAt(i)} ${yAt(v)}`)
-          .join(" ");
-        return (
-          <g key={line.topic}>
-            <path
-              d={path}
-              fill="none"
-              stroke={line.color}
-              strokeWidth={1.5}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            {/* Last point marker */}
-            <rect
-              x={xAt(line.values.length - 1) - 3}
-              y={yAt(line.values[line.values.length - 1]) - 3}
-              width={6}
-              height={6}
-              fill={line.color}
-              stroke="#000"
-              strokeWidth={0.5}
-            />
-          </g>
-        );
-      })}
-
-      {/* X-axis tick at left and right */}
-      <text
-        x={padding.left}
-        y={height - 8}
-        fill="var(--v2-ink-400)"
-        fontSize={9}
-        fontFamily="var(--font-geist-mono), monospace"
-        style={{ letterSpacing: "0.06em" }}
-      >
-        7D AGO
-      </text>
-      <text
-        x={width - padding.right}
-        y={height - 8}
-        textAnchor="end"
-        fill="var(--v2-ink-400)"
-        fontSize={9}
-        fontFamily="var(--font-geist-mono), monospace"
-        style={{ letterSpacing: "0.06em" }}
-      >
-        TODAY
-      </text>
-    </svg>
   );
 }
 

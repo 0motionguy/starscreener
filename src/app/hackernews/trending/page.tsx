@@ -10,8 +10,8 @@ import { NewsTemplateV2 } from "@/components/today-v2/NewsTemplateV2";
 import {
   ADAPTER_SOURCES,
   adaptHnStories,
-  buildStackedBars,
-  buildTopicLines,
+  buildSourceVolume,
+  buildTopTopics,
   buildTodayCounter,
   pickFeatured,
 } from "@/components/today-v2/newsAdapters";
@@ -33,9 +33,9 @@ export default function HackerNewsTrendingPage() {
   // Single-source page — channels = just HN.
   const channels = [source];
   const itemsByChannel = { [source.code]: items };
-  const stackedBars = buildStackedBars(channels, itemsByChannel);
-  const topicLines = buildTopicLines(items);
-  const counter = buildTodayCounter(stackedBars);
+  const sourceVolume = buildSourceVolume(channels, itemsByChannel);
+  const topTopics = buildTopTopics(items);
+  const counter = buildTodayCounter(items);
   const featured = pickFeatured(items, source);
 
   return (
@@ -43,10 +43,11 @@ export default function HackerNewsTrendingPage() {
       source={source}
       channels={channels}
       items={items}
-      todayCounter={counter.total}
-      todayDelta={counter.delta}
-      stackedBars={stackedBars}
-      topicLines={topicLines}
+      totalItems={counter.totalItems}
+      totalScore={counter.totalScore}
+      topItem={counter.topItem}
+      sourceVolume={sourceVolume}
+      topTopics={topTopics}
       featured={featured}
     />
   );

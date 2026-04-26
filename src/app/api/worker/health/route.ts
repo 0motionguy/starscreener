@@ -75,6 +75,12 @@ const SLUG_TABLE: ReadonlyArray<SlugHealthSpec> = [
   // Phase 3.1 — engagement composite scoring (hourly :45, joins 7 upstream slugs)
   { slug: "engagement-composite", fetcher: "engagement-composite", cadenceMin: 60 },
 
+  // Phase 3.3 — GitHub events firehose (per-repo slugs are dynamic; we only
+  // probe the index slug here. The :_index slug existing + fresh confirms
+  // the fetcher is firing and the watchlist was computed; per-repo
+  // freshness is best probed by hitting /api/repos/[owner]/[name]/events).
+  { slug: "github-events:_index", fetcher: "github-events", cadenceMin: 5 },
+
   // Phase 3.4 — funding source coverage
   { slug: "funding-news-crunchbase", fetcher: "crunchbase", cadenceMin: 360 },
   { slug: "funding-news-x", fetcher: "x-funding", cadenceMin: 60 * 12 },

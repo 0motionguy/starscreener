@@ -53,6 +53,11 @@ import xFunding from './fetchers/x-funding/index.js';
 // into a 0-100 leaderboard score per repo. Hourly :45 (after the staggered
 // upstream cluster ends at :40 with deltas).
 import engagementComposite from './fetchers/engagement-composite/index.js';
+// Phase 3.3 — GitHub Events firehose. Polls top-50 watchlist every 5 min
+// using the 10-PAT pool (50K req/hr, comfortable headroom for 600 calls/hr).
+// Sub-minute latency goal — 5 min is the realistic floor given GH rate
+// limits + worker tick budget.
+import githubEvents from './fetchers/github-events/index.js';
 
 export const FETCHERS: Fetcher[] = [
   hnPulse,
@@ -89,6 +94,7 @@ export const FETCHERS: Fetcher[] = [
   crunchbase,
   xFunding,
   engagementComposite,
+  githubEvents,
 ];
 
 export function getFetcher(name: string): Fetcher | undefined {

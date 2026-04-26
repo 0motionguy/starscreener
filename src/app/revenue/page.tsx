@@ -1,22 +1,16 @@
-// /revenue — Revenue Terminal
+// /revenue — V2 Revenue Terminal
 //
 // Two sections:
 //  1. Tracked repos with verified revenue — cards whose product matched one
 //     of our trending repos. Anchored to /repo/[owner]/[name].
 //  2. Verified revenue leaderboard — broader catalog of verified-revenue
-//     startups in dev/AI-adjacent categories, for audience relevance even
-//     when the tracked-repo match count is small.
+//     startups in dev/AI-adjacent categories.
 //
-// Reads:
-//  - data/revenue-overlays.json  (via src/lib/revenue-overlays.ts)
-//  - data/trustmrr-startups.json (via src/lib/revenue-startups.ts)
-//
-// Section 2 supports ?category=<name> for drilldowns, ?category=__all__ for
-// every category in the catalog.
+// V2 design: TerminalBar header, mono section labels, V2 stat tile for
+// combined MRR, V2 category filter chips, VerifiedStartupCard grid.
 
 import type { Metadata } from "next";
 import Link from "next/link";
-import { BadgeCheck } from "lucide-react";
 
 import {
   getLeaderboard,
@@ -28,6 +22,7 @@ import {
   refreshRevenueOverlaysFromStore,
 } from "@/lib/revenue-overlays";
 import { VerifiedStartupCard } from "@/components/revenue/VerifiedStartupCard";
+import { TerminalBar } from "@/components/today-v2/primitives/TerminalBar";
 
 export const dynamic = "force-dynamic";
 
@@ -67,9 +62,6 @@ function formatRelative(iso: string | null | undefined): string {
 }
 
 export default async function RevenuePage({ searchParams }: PageProps) {
-  // Refresh both Redis-backed payloads before any sync getter runs. Both
-  // refreshes are internally rate-limited (30s) so concurrent renders never
-  // burn more than 2 Redis calls per process per refresh window.
   await Promise.all([
     refreshRevenueStartupsFromStore(),
     refreshRevenueOverlaysFromStore(),
@@ -85,79 +77,143 @@ export default async function RevenuePage({ searchParams }: PageProps) {
 
   const trackedMeta = getRevenueOverlaysMeta();
 
-  // Full-catalog leaderboard (independent of tracked-repo matches) filtered
-  // by the active category. Default = dev-adjacent allowlist.
   const leaderboard = getLeaderboard({
     category,
     limit: LEADERBOARD_LIMIT,
   });
 
-  // Tracked section = every matched row, independent of category filter.
-  // Always shows them even if the user narrowed the leaderboard to a
-  // category the tracked matches aren't in.
   const tracked = getLeaderboard({
     category: "__all__",
     limit: 1000,
-  }).rows.filter((r): r is VerifiedStartup & { matchedRepoFullName: string } =>
-    Boolean(r.matchedRepoFullName),
+  }).rows.filter(
+    (r): r is VerifiedStartup & { matchedRepoFullName: string } =>
+      Boolean(r.matchedRepoFullName),
   );
 
   return (
     <>
-      <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        <header className="mb-6 border-b border-border-primary pb-6">
-          <div className="flex items-baseline gap-3 flex-wrap">
-            <h1 className="text-2xl font-bold uppercase tracking-wider inline-flex items-center gap-2">
-              <BadgeCheck className="size-5 text-up" aria-hidden />
-              REVENUE TERMINAL
-            </h1>
-            <span className="text-xs text-text-tertiary">
-              {"// verified MRR across trending repos + the broader dev/AI leaderboard"}
-            </span>
-          </div>
-          <p className="mt-2 max-w-3xl text-sm text-text-secondary">
+      <section className="border-b border-[color:var(--v2-line-100)]">
+        <div className="v2-frame pt-6 pb-6">
+          <TerminalBar
+            label={
+              <>
+                <span aria-hidden>{"// "}</span>REVENUE · TERMINAL · MRR
+              </>
+            }
+            status={`${leaderboard.totalInFilter.toLocaleString("en-US")} STARTUPS`}
+          />
+
+          <h1
+            className="v2-mono mt-6 inline-flex items-center gap-2"
+            style={{
+              color: "var(--v2-ink-100)",
+              fontSize: 12,
+              letterSpacing: "0.20em",
+            }}
+          >
+            <span aria-hidden>{"// "}</span>
+            REVENUE TERMINAL · VERIFIED MRR
+            <span
+              aria-hidden
+              className="inline-block ml-1"
+              style={{
+                width: 6,
+                height: 6,
+                background: "var(--v2-acc)",
+                borderRadius: 1,
+                boxShadow: "0 0 6px var(--v2-acc-glow)",
+              }}
+            />
+          </h1>
+          <p
+            className="text-[14px] leading-relaxed max-w-[80ch] mt-3"
+            style={{ color: "var(--v2-ink-200)" }}
+          >
             Revenue numbers are verified through direct read-only sync with
             each product&apos;s payment provider (Stripe, LemonSqueezy, Polar,
-            and others). Top section shows tracked repos with verified revenue.
-            Bottom section is the broader catalog of verified-revenue startups
-            in developer-adjacent categories.
+            and others). Top section shows tracked repos with verified
+            revenue. Bottom section is the broader catalog of verified-revenue
+            startups in developer-adjacent categories.
           </p>
-          <div className="mt-4 flex flex-wrap items-center gap-3 rounded-card border border-up/30 bg-up/5 px-4 py-3 text-xs">
-            <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-up">
-              Founders
+
+          <div
+            className="v2-card mt-4 p-3 flex flex-wrap items-center gap-3"
+            style={{
+              borderColor: "var(--v2-sig-green)",
+              background: "rgba(58, 214, 197, 0.05)",
+            }}
+          >
+            <span
+              className="v2-mono"
+              style={{ color: "var(--v2-sig-green)", fontSize: 11 }}
+            >
+              <span aria-hidden>{"// "}</span>
+              FOUNDERS
             </span>
-            <span className="text-text-secondary">
+            <span
+              className="text-[13px]"
+              style={{ color: "var(--v2-ink-200)" }}
+            >
               Don&apos;t see your project? Link a verified-revenue profile or
               self-report your MRR.
             </span>
             <Link
               href="/submit/revenue"
-              className="ml-auto inline-flex items-center gap-1 font-mono text-xs font-semibold text-text-primary hover:underline"
+              className="ml-auto v2-mono"
+              style={{
+                color: "var(--v2-acc)",
+                fontSize: 11,
+                letterSpacing: "0.20em",
+              }}
             >
-              Claim or submit revenue →
+              CLAIM / SUBMIT →
             </Link>
           </div>
-        </header>
+        </div>
+      </section>
 
-        {/* SECTION 1 — tracked repos ----------------------------------- */}
-        <section className="mb-12" aria-labelledby="tracked-heading">
+      <section className="border-b border-[color:var(--v2-line-100)]">
+        <div className="v2-frame py-6">
           <div className="mb-4 flex flex-wrap items-baseline justify-between gap-3">
-            <h2
-              id="tracked-heading"
-              className="text-lg font-bold uppercase tracking-wider text-text-primary"
+            <p
+              className="v2-mono"
+              style={{ color: "var(--v2-ink-300)" }}
             >
-              Tracked repos with verified revenue
-            </h2>
-            <span className="text-xs text-text-tertiary">
-              {tracked.length.toLocaleString("en-US")} match
-              {tracked.length === 1 ? "" : "es"} ·{" "}
+              <span aria-hidden>{"// "}</span>
+              TRACKED · WITH VERIFIED MRR ·{" "}
+              <span style={{ color: "var(--v2-ink-100)" }}>
+                {tracked.length}
+              </span>
+            </p>
+            <span
+              className="v2-mono"
+              style={{ color: "var(--v2-ink-400)", fontSize: 11 }}
+            >
+              <span aria-hidden>{"// "}</span>
               {trackedMeta.catalogGeneratedAt
-                ? `updated ${formatRelative(trackedMeta.catalogGeneratedAt)}`
-                : "never synced"}
+                ? `UPDATED ${formatRelative(trackedMeta.catalogGeneratedAt).toUpperCase()}`
+                : "NEVER SYNCED"}
             </span>
           </div>
           {tracked.length === 0 ? (
-            <TrackedColdState />
+            <div className="v2-card p-6">
+              <p
+                className="v2-mono mb-2"
+                style={{ color: "var(--v2-acc)" }}
+              >
+                <span aria-hidden>{"// "}</span>
+                NO MATCHES
+              </p>
+              <p
+                className="text-[13px]"
+                style={{ color: "var(--v2-ink-200)" }}
+              >
+                No tracked repos currently match a verified-revenue startup.
+                Most trending OSS isn&apos;t monetized as SaaS — Postiz-style
+                dual-licensed products are rare. The leaderboard below
+                surfaces the broader catalog.
+              </p>
+            </div>
           ) : (
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
               {tracked.map((startup, i) => (
@@ -169,45 +225,71 @@ export default async function RevenuePage({ searchParams }: PageProps) {
               ))}
             </div>
           )}
-        </section>
+        </div>
+      </section>
 
-        {/* SECTION 2 — broader leaderboard ---------------------------- */}
-        <section aria-labelledby="leaderboard-heading">
+      <section>
+        <div className="v2-frame py-6">
           <div className="mb-4 flex flex-wrap items-baseline justify-between gap-3">
             <div>
-              <h2
-                id="leaderboard-heading"
-                className="text-lg font-bold uppercase tracking-wider text-text-primary"
+              <p
+                className="v2-mono"
+                style={{ color: "var(--v2-ink-300)" }}
               >
-                Verified revenue leaderboard
-              </h2>
-              <p className="mt-1 text-xs text-text-tertiary">
-                Top {Math.min(LEADERBOARD_LIMIT, leaderboard.rows.length)} of{" "}
-                {leaderboard.totalInFilter.toLocaleString("en-US")} verified-revenue
-                startup(s) in{" "}
+                <span aria-hidden>{"// "}</span>
+                LEADERBOARD · VERIFIED REVENUE
+              </p>
+              <p
+                className="v2-mono mt-1"
+                style={{ color: "var(--v2-ink-400)", fontSize: 11 }}
+              >
+                <span aria-hidden>{"// "}</span>
+                TOP{" "}
+                <span style={{ color: "var(--v2-ink-100)" }}>
+                  {Math.min(LEADERBOARD_LIMIT, leaderboard.rows.length)}
+                </span>{" "}
+                OF{" "}
+                <span style={{ color: "var(--v2-ink-100)" }}>
+                  {leaderboard.totalInFilter.toLocaleString("en-US")}
+                </span>{" "}
+                ·{" "}
                 {category === "__all__" ? (
-                  "every category"
+                  "EVERY CATEGORY"
                 ) : category ? (
-                  <span className="text-text-primary">{category}</span>
+                  <span style={{ color: "var(--v2-ink-100)" }}>
+                    {category.toUpperCase()}
+                  </span>
                 ) : (
-                  "developer-adjacent categories"
+                  "DEVELOPER-ADJACENT"
                 )}
-                .
               </p>
             </div>
-            <span className="text-xs text-text-tertiary">
-              Combined MRR: {formatUsd(leaderboard.totalMrrCents)}
+            <span
+              className="v2-mono tabular-nums"
+              style={{ color: "var(--v2-ink-400)", fontSize: 11 }}
+            >
+              <span aria-hidden>{"// "}</span>
+              COMBINED MRR ·{" "}
+              <span style={{ color: "var(--v2-ink-100)" }}>
+                {formatUsd(leaderboard.totalMrrCents)}
+              </span>
             </span>
           </div>
 
-          <CategoryFilter
+          <CategoryFilterV2
             active={category}
             available={leaderboard.availableCategories}
           />
 
           {leaderboard.rows.length === 0 ? (
-            <div className="rounded-card border border-dashed border-border-primary bg-bg-muted/40 px-4 py-6 text-sm text-text-tertiary">
-              No startups in this filter.
+            <div className="v2-card p-6">
+              <p
+                className="v2-mono"
+                style={{ color: "var(--v2-acc)" }}
+              >
+                <span aria-hidden>{"// "}</span>
+                NO STARTUPS · IN FILTER
+              </p>
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
@@ -221,28 +303,33 @@ export default async function RevenuePage({ searchParams }: PageProps) {
             </div>
           )}
 
-          <footer className="mt-8 flex flex-wrap items-center gap-3 text-xs text-text-tertiary">
+          <footer
+            className="mt-8 flex flex-wrap items-center gap-3 v2-mono"
+            style={{ color: "var(--v2-ink-400)", fontSize: 11 }}
+          >
             <Link
               href="/tools/revenue-estimate"
-              className="text-text-secondary hover:text-text-primary"
+              className="underline decoration-dotted"
+              style={{ color: "var(--v2-ink-200)" }}
             >
-              Try the MRR estimator →
+              MRR ESTIMATOR →
             </Link>
             <span aria-hidden>·</span>
             <Link
               href="/submit/revenue"
-              className="text-text-secondary hover:text-text-primary"
+              className="underline decoration-dotted"
+              style={{ color: "var(--v2-ink-200)" }}
             >
-              Claim or submit revenue →
+              CLAIM / SUBMIT REVENUE →
             </Link>
           </footer>
-        </section>
-      </div>
+        </div>
+      </section>
     </>
   );
 }
 
-function CategoryFilter({
+function CategoryFilterV2({
   active,
   available,
 }: {
@@ -251,19 +338,19 @@ function CategoryFilter({
 }) {
   const chips: Array<{ label: string; href: string; active: boolean }> = [
     {
-      label: "Dev-adjacent (default)",
+      label: "DEV-ADJACENT (DEFAULT)",
       href: "/revenue",
       active: active === null,
     },
     {
-      label: "All categories",
+      label: "ALL CATEGORIES",
       href: "/revenue?category=__all__",
       active: active === "__all__",
     },
   ];
   for (const c of available) {
     chips.push({
-      label: c,
+      label: c.toUpperCase(),
       href: `/revenue?category=${encodeURIComponent(c)}`,
       active: active === c,
     });
@@ -274,26 +361,20 @@ function CategoryFilter({
         <Link
           key={chip.href}
           href={chip.href}
-          className={
-            "rounded-md border px-2.5 py-1 font-mono text-[11px] uppercase tracking-wider transition " +
-            (chip.active
-              ? "border-brand bg-brand/10 text-text-primary"
-              : "border-border-primary bg-bg-muted text-text-secondary hover:text-text-primary")
-          }
+          className="v2-mono px-3 py-1.5 inline-block transition"
+          style={{
+            fontSize: 11,
+            letterSpacing: "0.20em",
+            color: chip.active ? "var(--v2-bg-000)" : "var(--v2-ink-300)",
+            background: chip.active ? "var(--v2-acc)" : "transparent",
+            border: `1px solid ${
+              chip.active ? "var(--v2-acc)" : "var(--v2-line-200)"
+            }`,
+          }}
         >
           {chip.label}
         </Link>
       ))}
-    </div>
-  );
-}
-
-function TrackedColdState() {
-  return (
-    <div className="rounded-card border border-dashed border-border-primary bg-bg-secondary/40 px-4 py-6 text-sm text-text-tertiary">
-      No tracked repos currently match a verified-revenue startup. Most
-      trending OSS isn&apos;t monetized as SaaS — Postiz-style dual-licensed
-      products are rare. The leaderboard below surfaces the broader catalog.
     </div>
   );
 }

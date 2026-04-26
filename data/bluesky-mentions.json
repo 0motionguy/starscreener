@@ -1,10 +1,393 @@
 {
-  "fetchedAt": "2026-04-25T23:56:18.196Z",
+  "fetchedAt": "2026-04-26T03:57:22.450Z",
   "windowDays": 7,
-  "scannedPosts": 199,
+  "scannedPosts": 300,
   "searchQuery": "github.com",
-  "pagesFetched": 2,
+  "pagesFetched": 3,
   "mentions": {
+    "heygen-com/hyperframes": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:y3sx47eiibwu3yjk5qhlvh5l/app.bsky.feed.post/3mkeniexwp223",
+        "cid": "bafyreihtnur3e4xtsffnxwbrzadt2osxgjs26nwfgrqur5vlfjepkqbyym",
+        "bskyUrl": "https://bsky.app/profile/toolfolio.bsky.social/post/3mkeniexwp223",
+        "text": "Get this Claude Design x HyperFrames skill https://github.com/heygen-com/hyperframes/blob/main/docs/guides/claude-design-hyperframes.md",
+        "author": {
+          "handle": "toolfolio.bsky.social"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-26T03:47:49+00:00",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:y3sx47eiibwu3yjk5qhlvh5l/app.bsky.feed.post/3mkeniexwp223",
+          "cid": "bafyreihtnur3e4xtsffnxwbrzadt2osxgjs26nwfgrqur5vlfjepkqbyym",
+          "bskyUrl": "https://bsky.app/profile/toolfolio.bsky.social/post/3mkeniexwp223",
+          "text": "Get this Claude Design x HyperFrames skill https://github.com/heygen-com/hyperframes/blob/main/docs/guides/claude-design-hyperframes.md",
+          "author": {
+            "handle": "toolfolio.bsky.social"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-26T03:47:49+00:00",
+          "createdUtc": 1777175269,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "heygen-com/hyperframes",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "microsoft/ghqr": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:3fe25qalw4rfzrty3xyutj7c/app.bsky.feed.post/3mkemdkq3cz2o",
+        "cid": "bafyreicfixloirtm46lsane72ljwxfp6xeydzgpfsiw3dzgc6kmmjpr4ii",
+        "bskyUrl": "https://bsky.app/profile/topickapp.bsky.social/post/3mkemdkq3cz2o",
+        "text": "https://github.com/microsoft/ghqr ghqrは、GitHub組織やリポジトリの設定を一括診断するCLIです。 セキュリティ、権限、ブランチ保護、Actionsなどを点検できます。 結果はMarkdown/Excel/JSONで出力でき、改善点も分かります。",
+        "author": {
+          "handle": "topickapp.bsky.social",
+          "displayName": "topickapp (IT技術系ニュースサイト)"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-26T03:27:14.644864+00:00",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:3fe25qalw4rfzrty3xyutj7c/app.bsky.feed.post/3mkemdkq3cz2o",
+          "cid": "bafyreicfixloirtm46lsane72ljwxfp6xeydzgpfsiw3dzgc6kmmjpr4ii",
+          "bskyUrl": "https://bsky.app/profile/topickapp.bsky.social/post/3mkemdkq3cz2o",
+          "text": "https://github.com/microsoft/ghqr ghqrは、GitHub組織やリポジトリの設定を一括診断するCLIです。 セキュリティ、権限、ブランチ保護、Actionsなどを点検できます。 結果はMarkdown/Excel/JSONで出力でき、改善点も分かります。",
+          "author": {
+            "handle": "topickapp.bsky.social",
+            "displayName": "topickapp (IT技術系ニュースサイト)"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-26T03:27:14.644864+00:00",
+          "createdUtc": 1777174034,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "microsoft/ghqr",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "nakagami/grdpwasm": {
+      "count7d": 2,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:nqs6ukshmhbkdbihf6kaeax6/app.bsky.feed.post/3mkekyet2yx2r",
+        "cid": "bafyreidkauxr2rqkczf3tlxw3rvxm5dpy4xs7rvqmqo3tqptqsy5ttpcs4",
+        "bskyUrl": "https://bsky.app/profile/hnfeed.bsky.social/post/3mkekyet2yx2r",
+        "text": "A web-based RDP client built with Go WebAssembly and grdp https://github.com/nakagami/grdpwasm [comments] [116 points]",
+        "author": {
+          "handle": "hnfeed.bsky.social",
+          "displayName": "Hacker News Bot"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-26T03:03:05.613Z",
+        "hoursSincePosted": 0.9
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:nqs6ukshmhbkdbihf6kaeax6/app.bsky.feed.post/3mkekyet2yx2r",
+          "cid": "bafyreidkauxr2rqkczf3tlxw3rvxm5dpy4xs7rvqmqo3tqptqsy5ttpcs4",
+          "bskyUrl": "https://bsky.app/profile/hnfeed.bsky.social/post/3mkekyet2yx2r",
+          "text": "A web-based RDP client built with Go WebAssembly and grdp https://github.com/nakagami/grdpwasm [comments] [116 points]",
+          "author": {
+            "handle": "hnfeed.bsky.social",
+            "displayName": "Hacker News Bot"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-26T03:03:05.613Z",
+          "createdUtc": 1777172585,
+          "ageHours": 0.9,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "nakagami/grdpwasm",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mke74425eh27",
+          "cid": "bafyreicogn7ogth4elwfs77oxct53psuthpkm5ugmvp3pps7vqkweqyaty",
+          "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mke74425eh27",
+          "text": "A web-based RDP client built with Go WebAssembly and grdp https://github.com/nakagami/grdpwasm https://news.ycombinator.com/item?id=47900440",
+          "author": {
+            "handle": "hn100.atproto.rocks",
+            "displayName": "Hacker News 100"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-25T23:30:25.701533+00:00",
+          "createdUtc": 1777159825,
+          "ageHours": 4.45,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "nakagami/grdpwasm",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "TinyAGI/tinyagi": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkek3xoj3m22",
+        "cid": "bafyreifjpk6btxsk5pkrhjplxtbh7olyjkiq37vveclexstgqvyd2esdaa",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkek3xoj3m22",
+        "text": "https://github.com/TinyAGI/tinyagi",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-26T02:47:11Z",
+        "hoursSincePosted": 1.17
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkek3xoj3m22",
+          "cid": "bafyreifjpk6btxsk5pkrhjplxtbh7olyjkiq37vveclexstgqvyd2esdaa",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkek3xoj3m22",
+          "text": "https://github.com/TinyAGI/tinyagi",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-26T02:47:11Z",
+          "createdUtc": 1777171631,
+          "ageHours": 1.17,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "TinyAGI/tinyagi",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "mnfst/manifest": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkebmqn47l2t",
+        "cid": "bafyreihssb6frudvedtvcc3eprx3qexwvwmveo534cultfws74ezwcx24m",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkebmqn47l2t",
+        "text": "https://github.com/mnfst/manifest",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-26T00:15:31Z",
+        "hoursSincePosted": 3.7
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkebmqn47l2t",
+          "cid": "bafyreihssb6frudvedtvcc3eprx3qexwvwmveo534cultfws74ezwcx24m",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkebmqn47l2t",
+          "text": "https://github.com/mnfst/manifest",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-26T00:15:31Z",
+          "createdUtc": 1777162531,
+          "ageHours": 3.7,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "mnfst/manifest",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "Alishahryar1/free-claude-code": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:y4aj7oojk4hq64nr3lbxbz6q/app.bsky.feed.post/3mkebd4yvee2n",
+        "cid": "bafyreibt7pgkolhoommgrsnxiv2yfll5hwpxlkgrxdjwdigplzxwnlw2hm",
+        "bskyUrl": "https://bsky.app/profile/rickqian.bsky.social/post/3mkebd4yvee2n",
+        "text": "📡 Builder signal of the day free-claude-code: Use Claude Code for free in terminal/VSCode/Discord — via github-trending Daily channel → https://t.me/inforadar_signals Project radar → https://t.me/inforadar_agentbot https://github.com/Alishahryar1/free-claude-code",
+        "author": {
+          "handle": "rickqian.bsky.social"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-26T00:10:08.747771+00:00",
+        "hoursSincePosted": 3.79
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:y4aj7oojk4hq64nr3lbxbz6q/app.bsky.feed.post/3mkebd4yvee2n",
+          "cid": "bafyreibt7pgkolhoommgrsnxiv2yfll5hwpxlkgrxdjwdigplzxwnlw2hm",
+          "bskyUrl": "https://bsky.app/profile/rickqian.bsky.social/post/3mkebd4yvee2n",
+          "text": "📡 Builder signal of the day free-claude-code: Use Claude Code for free in terminal/VSCode/Discord — via github-trending Daily channel → https://t.me/inforadar_signals Project radar → https://t.me/inforadar_agentbot https://github.com/Alishahryar1/free-claude-code",
+          "author": {
+            "handle": "rickqian.bsky.social"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-26T00:10:08.747771+00:00",
+          "createdUtc": 1777162208,
+          "ageHours": 3.79,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Alishahryar1/free-claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "openclaw/openclaw": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:hqp6m4ysm6fa52sz4yutt3mf/app.bsky.feed.post/3mkeb2xd2ws2b",
+        "cid": "bafyreiaon6niclfb7cytsg4sgmeabyelrcgkhvrhj2ztlwfoxwtrxx3nqq",
+        "bskyUrl": "https://bsky.app/profile/notesbylex.com/post/3mkeb2xd2ws2b",
+        "text": "PSA: gateway fails to start on the latest version of OpenClaw. Don't install version 2026.4.24. If you have already installed it, you'll want to downgrade to the previous working version: > openclaw update --tag 2026.4.21 See issues: - github.com/openclaw/ope... - github.com/openclaw/ope...",
+        "author": {
+          "handle": "notesbylex.com",
+          "displayName": "Lex"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-26T00:05:34.768Z",
+        "hoursSincePosted": 3.86
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:hqp6m4ysm6fa52sz4yutt3mf/app.bsky.feed.post/3mkeb2xd2ws2b",
+          "cid": "bafyreiaon6niclfb7cytsg4sgmeabyelrcgkhvrhj2ztlwfoxwtrxx3nqq",
+          "bskyUrl": "https://bsky.app/profile/notesbylex.com/post/3mkeb2xd2ws2b",
+          "text": "PSA: gateway fails to start on the latest version of OpenClaw. Don't install version 2026.4.24. If you have already installed it, you'll want to downgrade to the previous working version: > openclaw update --tag 2026.4.21 See issues: - github.com/openclaw/ope... - github.com/openclaw/ope...",
+          "author": {
+            "handle": "notesbylex.com",
+            "displayName": "Lex"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-26T00:05:34.768Z",
+          "createdUtc": 1777161934,
+          "ageHours": 3.86,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "yologdev/yoyo-evolve": {
       "count7d": 1,
       "likesSum7d": 1,
@@ -23,7 +406,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-25T23:47:30.739Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 4.16
       },
       "posts": [
         {
@@ -40,7 +423,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-25T23:47:30.739Z",
           "createdUtc": 1777160850,
-          "ageHours": 0.5,
+          "ageHours": 4.16,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo",
@@ -56,170 +439,12 @@
           ]
         }
       ]
-    },
-    "nakagami/grdpwasm": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mke74425eh27",
-        "cid": "bafyreicogn7ogth4elwfs77oxct53psuthpkm5ugmvp3pps7vqkweqyaty",
-        "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mke74425eh27",
-        "text": "A web-based RDP client built with Go WebAssembly and grdp https://github.com/nakagami/grdpwasm https://news.ycombinator.com/item?id=47900440",
-        "author": {
-          "handle": "hn100.atproto.rocks",
-          "displayName": "Hacker News 100"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-25T23:30:25.701533+00:00",
-        "hoursSincePosted": 0.5
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mke74425eh27",
-          "cid": "bafyreicogn7ogth4elwfs77oxct53psuthpkm5ugmvp3pps7vqkweqyaty",
-          "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mke74425eh27",
-          "text": "A web-based RDP client built with Go WebAssembly and grdp https://github.com/nakagami/grdpwasm https://news.ycombinator.com/item?id=47900440",
-          "author": {
-            "handle": "hn100.atproto.rocks",
-            "displayName": "Hacker News 100"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-25T23:30:25.701533+00:00",
-          "createdUtc": 1777159825,
-          "ageHours": 0.5,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "nakagami/grdpwasm",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "niri-wm/niri": {
-      "count7d": 3,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:l5gupr4kifwasjek7vblnoy2/app.bsky.feed.post/3mkdxtsz3e32y",
-        "cid": "bafyreidggbke44dyq2sihbt34bzvjdrfgjzk4igtv3ubzrbkc3nyntihzm",
-        "bskyUrl": "https://bsky.app/profile/hn.rbrt.fr/post/3mkdxtsz3e32y",
-        "text": "Niri 26.04: Scrollable-tiling Wayland compositor https://github.com/niri-wm/niri/releases/tag/v26.04 https://news.ycombinator.com/item?id=47902416",
-        "author": {
-          "handle": "hn.rbrt.fr",
-          "displayName": "Hacker News RSS"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-25T21:20:31Z",
-        "hoursSincePosted": 2.6
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:l5gupr4kifwasjek7vblnoy2/app.bsky.feed.post/3mkdxtsz3e32y",
-          "cid": "bafyreidggbke44dyq2sihbt34bzvjdrfgjzk4igtv3ubzrbkc3nyntihzm",
-          "bskyUrl": "https://bsky.app/profile/hn.rbrt.fr/post/3mkdxtsz3e32y",
-          "text": "Niri 26.04: Scrollable-tiling Wayland compositor https://github.com/niri-wm/niri/releases/tag/v26.04 https://news.ycombinator.com/item?id=47902416",
-          "author": {
-            "handle": "hn.rbrt.fr",
-            "displayName": "Hacker News RSS"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-25T21:20:31Z",
-          "createdUtc": 1777152031,
-          "ageHours": 2.6,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "niri-wm/niri",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:tnfqyyktoyszfco5lcxnyiax/app.bsky.feed.post/3mkdykqm3qn2n",
-          "cid": "bafyreihls6dljurbcjaufrofdrpifh3xmnfnrv66xk3ufy5ohed3nv32ae",
-          "bskyUrl": "https://bsky.app/profile/newsyc200.bsky.social/post/3mkdykqm3qn2n",
-          "text": "Niri 26.04: Scrollable-tiling Wayland compositor https://github.com/niri-wm/niri/releases/tag/v26.04 (http://news.ycombinator.com/item?id=47902416)",
-          "author": {
-            "handle": "newsyc200.bsky.social",
-            "displayName": "Hacker News 200 Points"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-26T00:33:20+03:00",
-          "createdUtc": 1777152800,
-          "ageHours": 2.38,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "niri-wm/niri",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:jae5tazawa2t7gorbrhbmfoe/app.bsky.feed.post/3mkdxfj2m6p2d",
-          "cid": "bafyreiglmrulfztnmnp56376rayvmjzc3xkwgopmg5xdcz7hdviy3dyeha",
-          "bskyUrl": "https://bsky.app/profile/eltableroglobal.bsky.social/post/3mkdxfj2m6p2d",
-          "text": "2/2 Aunque aún es un proyecto joven, su enfoque fresco puede atraer a quienes buscan alternativas ligeras a GNOME o KDE. Fuente: https://github.com/niri-wm/niri/releases/tag/v26.04",
-          "author": {
-            "handle": "eltableroglobal.bsky.social",
-            "displayName": "El tablero global"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-25T21:12:31.387Z",
-          "createdUtc": 1777151551,
-          "ageHours": 2.73,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "niri-wm/niri",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "niri-wm/niri",
-      "count7d": 3,
+      "fullName": "Alishahryar1/free-claude-code",
+      "count7d": 1,
       "likesSum7d": 1
     },
     {
@@ -229,6 +454,31 @@
     },
     {
       "fullName": "nakagami/grdpwasm",
+      "count7d": 2,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "heygen-com/hyperframes",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "microsoft/ghqr",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "mnfst/manifest",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "openclaw/openclaw",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "TinyAGI/tinyagi",
       "count7d": 1,
       "likesSum7d": 0
     }

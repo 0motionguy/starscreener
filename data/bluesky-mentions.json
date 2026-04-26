@@ -1,10 +1,162 @@
 {
-  "fetchedAt": "2026-04-26T17:59:13.528Z",
+  "fetchedAt": "2026-04-26T19:15:11.529Z",
   "windowDays": 7,
-  "scannedPosts": 99,
+  "scannedPosts": 199,
   "searchQuery": "github.com",
-  "pagesFetched": 1,
+  "pagesFetched": 2,
   "mentions": {
+    "earthtojake/text-to-cad": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkg5topt7a2y",
+        "cid": "bafyreify6gpel2oo2nkq44qecq3wqa7sk34c3hjipjfeumjegwzpzd624a",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkg5topt7a2y",
+        "text": "https://github.com/earthtojake/text-to-cad",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-26T18:13:08Z",
+        "hoursSincePosted": 1.03
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkg5topt7a2y",
+          "cid": "bafyreify6gpel2oo2nkq44qecq3wqa7sk34c3hjipjfeumjegwzpzd624a",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkg5topt7a2y",
+          "text": "https://github.com/earthtojake/text-to-cad",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-26T18:13:08Z",
+          "createdUtc": 1777227188,
+          "ageHours": 1.03,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "earthtojake/text-to-cad",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "ggml-org/llama.cpp": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkg5l5tlce2a",
+        "cid": "bafyreidubgwmhdd7zhcpatjklx6odg3mxmjakz5b2zwv6zztyncshetoky",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkg5l5tlce2a",
+        "text": "🟠 llama.cpp b8941 ships portable matmul tuning that should lift local inference performance across backends llama.cpp released build b8941 with new performance-portable tuning for register-tile and subgroup matmul, a... https://github.com/ggml-org/llama.cpp/releases/tag/b8941 #AI #AgentWyre",
+        "author": {
+          "handle": "agentwyre.ai"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-26T18:08:22.400860+00:00",
+        "hoursSincePosted": 1.11
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkg5l5tlce2a",
+          "cid": "bafyreidubgwmhdd7zhcpatjklx6odg3mxmjakz5b2zwv6zztyncshetoky",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkg5l5tlce2a",
+          "text": "🟠 llama.cpp b8941 ships portable matmul tuning that should lift local inference performance across backends llama.cpp released build b8941 with new performance-portable tuning for register-tile and subgroup matmul, a... https://github.com/ggml-org/llama.cpp/releases/tag/b8941 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-26T18:08:22.400860+00:00",
+          "createdUtc": 1777226902,
+          "ageHours": 1.11,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "ggml-org/llama.cpp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "antirez/llama.cpp-deepseek-v4-flash": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:b3thjibfigj2d6syeftwqiyi/app.bsky.feed.post/3mkg546vzi22d",
+        "cid": "bafyreigaakek54yim2foq22wwiu2hjq2pcxndhjq7nn4vi2snvlrothdyu",
+        "bskyUrl": "https://bsky.app/profile/trivikram.bsky.social/post/3mkg546vzi22d",
+        "text": "Based on their GitHub repo, it looks like @antirez.bsky.social is using a Mac with 128 GB RAM for running deepseek-v4-flash with 2-bit quantization github.com/antirez/llam...",
+        "author": {
+          "handle": "trivikram.bsky.social",
+          "displayName": "Trivikram Kamat"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-26T18:00:00.792Z",
+        "hoursSincePosted": 1.25
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:b3thjibfigj2d6syeftwqiyi/app.bsky.feed.post/3mkg546vzi22d",
+          "cid": "bafyreigaakek54yim2foq22wwiu2hjq2pcxndhjq7nn4vi2snvlrothdyu",
+          "bskyUrl": "https://bsky.app/profile/trivikram.bsky.social/post/3mkg546vzi22d",
+          "text": "Based on their GitHub repo, it looks like @antirez.bsky.social is using a Mac with 128 GB RAM for running deepseek-v4-flash with 2-bit quantization github.com/antirez/llam...",
+          "author": {
+            "handle": "trivikram.bsky.social",
+            "displayName": "Trivikram Kamat"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-26T18:00:00.792Z",
+          "createdUtc": 1777226400,
+          "ageHours": 1.25,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "antirez/llama.cpp-deepseek-v4-flash",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "gitleaks/gitleaks": {
       "count7d": 1,
       "likesSum7d": 0,
@@ -23,7 +175,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-26T16:55:05.097Z",
-        "hoursSincePosted": 1.07
+        "hoursSincePosted": 2.34
       },
       "posts": [
         {
@@ -40,7 +192,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-26T16:55:05.097Z",
           "createdUtc": 1777222505,
-          "ageHours": 1.07,
+          "ageHours": 2.34,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -58,6 +210,21 @@
     }
   },
   "leaderboard": [
+    {
+      "fullName": "antirez/llama.cpp-deepseek-v4-flash",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "earthtojake/text-to-cad",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "ggml-org/llama.cpp",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
     {
       "fullName": "gitleaks/gitleaks",
       "count7d": 1,

@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "start": "node --enable-source-maps dist/index.js",
+    "start": "node --enable-source-maps --max-old-space-size=512 dist/index.js --cron",
     "build": "tsc -p tsconfig.json",
     "fetcher": "tsx src/index.ts",
     "fetcher:hf": "tsx src/index.ts huggingface",

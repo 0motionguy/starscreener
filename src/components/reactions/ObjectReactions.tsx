@@ -39,7 +39,6 @@ interface ObjectReactionsProps {
   initialMine?: UserReactionState | null;
   /** Compact mode strips the labels — for inline use on dense rows. */
   compact?: boolean;
-  variant?: "default" | "mono";
 }
 
 interface ReactionMeta {
@@ -97,7 +96,6 @@ export function ObjectReactions({
   initialCounts,
   initialMine,
   compact = false,
-  variant = "default",
 }: ObjectReactionsProps) {
   const [counts, setCounts] = useState<ReactionCounts>(
     initialCounts ?? emptyReactionCounts(),
@@ -222,13 +220,9 @@ export function ObjectReactions({
               className={cn(
                 "inline-flex items-center gap-1.5 rounded-button border font-mono text-xs font-medium transition-colors min-h-[36px]",
                 compact ? "px-2 py-1" : "px-3 py-1.5",
-                variant === "mono"
-                  ? active
-                    ? "border-white/25 bg-white/10 text-white"
-                    : "border-white/10 bg-transparent text-text-tertiary hover:border-white/20 hover:text-text-primary"
-                  : active
-                    ? "bg-brand/15 border-brand text-brand"
-                    : "bg-bg-card border-border-primary text-text-secondary hover:bg-bg-card-hover hover:text-text-primary",
+                active
+                  ? "bg-brand/15 border-brand text-brand"
+                  : "bg-bg-card border-border-primary text-text-secondary hover:bg-bg-card-hover hover:text-text-primary",
                 busy === type && "opacity-50 cursor-progress",
                 busy && busy !== type && "opacity-70",
               )}

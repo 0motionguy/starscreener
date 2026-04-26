@@ -1,10 +1,14 @@
-// /collections/[slug] — V2 collection detail.
+// StarScreener — Collection detail
 //
-// Server component. Resolves the slug to a YAML collection, intersects
-// the curated items against the live pipeline repoStore, and renders a
-// V2 page: TerminalBar, breadcrumb, V2 stat tiles, TrendingTableV2.
+// Server component. Resolves the slug to a YAML collection under
+// data/collections/, intersects the curated items against the live
+// pipeline repoStore, and renders a unified TerminalLayout table.
+// Curated items missing from live trending appear as muted stub rows
+// (see isCuratedQuietStub in src/lib/collections.ts) — the table stays
+// unified; styling degrades.
 //
-// Collection data is Apache 2.0 from pingcap/ossinsight.
+// Collection data is Apache 2.0 from pingcap/ossinsight (see
+// data/collections/NOTICE.md).
 
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -17,9 +21,8 @@ import {
   assembleCollectionRepos,
   liveCountFor,
 } from "@/lib/collections";
-import { TrendingTableV2 } from "@/components/today-v2/TrendingTableV2";
-import { TerminalBar } from "@/components/today-v2/primitives/TerminalBar";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
+import { TerminalLayout } from "@/components/terminal/TerminalLayout";
 
 export const dynamic = "force-dynamic";
 
@@ -80,107 +83,68 @@ export default async function CollectionDetailPage({ params }: PageProps) {
   const repos = assembleCollectionRepos(collection, liveIndex);
   const live = liveCountFor(collection, liveIndex);
 
-  return (
-    <>
-      <section className="border-b border-[color:var(--v2-line-100)]">
-        <div className="v2-frame pt-6 pb-6">
-          <TerminalBar
-            label={
-              <>
-                <span aria-hidden>{"// "}</span>COLLECTION ·{" "}
-                {collection.name.toUpperCase()}
-              </>
-            }
-            status={`${collection.items.length} REPOS · ${live} LIVE`}
-          />
+  const heading = (
+    <div className="px-4 sm:px-6 pt-6 pb-2">
+      <nav
+        aria-label="Breadcrumb"
+        className="flex items-center gap-1.5 text-xs text-text-tertiary mb-3"
+      >
+        <Link href="/" className="hover:text-text-secondary">
+          Home
+        </Link>
+        <span>/</span>
+        <Link href="/collections" className="hover:text-text-secondary">
+          Collections
+        </Link>
+        <span>/</span>
+        <span className="text-text-secondary">{collection.name}</span>
+      </nav>
 
-          <nav
-            aria-label="Breadcrumb"
-            className="v2-mono mt-6 inline-flex items-center gap-2"
-            style={{
-              color: "var(--v2-ink-400)",
-              fontSize: 11,
-              letterSpacing: "0.20em",
-            }}
-          >
-            <Link href="/" style={{ color: "var(--v2-ink-300)" }}>
-              HOME
-            </Link>
-            <span aria-hidden>›</span>
-            <Link
-              href="/collections"
-              style={{ color: "var(--v2-ink-300)" }}
-            >
-              COLLECTIONS
-            </Link>
-            <span aria-hidden>›</span>
-            <span style={{ color: "var(--v2-ink-100)" }}>
-              {collection.name.toUpperCase()}
-            </span>
-          </nav>
-
-          <h1
-            className="v2-display mt-6"
-            style={{
-              fontSize: "clamp(28px, 4vw, 44px)",
-              color: "var(--v2-ink-000)",
-            }}
-          >
-            {collection.name}
-          </h1>
-
-          <p
-            className="v2-mono mt-3"
-            style={{ color: "var(--v2-ink-400)" }}
-          >
-            <span aria-hidden>{"// "}</span>
-            <span
-              className="tabular-nums"
-              style={{ color: "var(--v2-ink-100)" }}
-            >
-              {collection.items.length}
-            </span>{" "}
-            REPOS · CURATED ·{" "}
-            <span
-              className="tabular-nums"
-              style={{ color: "var(--v2-ink-100)" }}
-            >
-              {live}
-            </span>{" "}
-            WITH LIVE DATA
-          </p>
-
-          <p
-            className="v2-mono mt-2"
-            style={{ color: "var(--v2-ink-500)", fontSize: 11 }}
-          >
-            <span aria-hidden>{"// "}</span>
-            CURATED FROM{" "}
-            <a
-              href="https://github.com/pingcap/ossinsight"
-              className="underline decoration-dotted"
-              style={{ color: "var(--v2-ink-300)" }}
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              OSS INSIGHT
-            </a>{" "}
-            · APACHE 2.0 ·{" "}
-            <a
-              href="https://github.com/Kermit457/starscreener/blob/main/data/collections/NOTICE.md"
-              className="underline decoration-dotted"
-              style={{ color: "var(--v2-ink-300)" }}
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              ATTRIBUTION
-            </a>
-          </p>
+      <div className="flex flex-col gap-2 mb-2">
+        <h1 className="font-display text-2xl sm:text-3xl font-bold text-text-primary">
+          {collection.name}
+        </h1>
+        <div className="flex items-baseline gap-2 font-mono text-xs">
+          <span className="text-text-primary font-semibold tabular-nums">
+            {collection.items.length} repos
+          </span>
+          <span className="text-text-tertiary tabular-nums">
+            {live} with live data
+          </span>
         </div>
-      </section>
+      </div>
 
-      <TrendingTableV2 repos={repos} sortBy="stars" limit={collection.items.length} />
-    </>
+      <p className="text-[11px] text-text-tertiary">
+        Curated list from{" "}
+        <a
+          href="https://github.com/pingcap/ossinsight"
+          className="underline hover:text-text-secondary"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          OSS Insight
+        </a>{" "}
+        (Apache 2.0) —{" "}
+        <a
+          href="https://github.com/Kermit457/starscreener/blob/main/data/collections/NOTICE.md"
+          className="underline hover:text-text-secondary"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          attribution
+        </a>
+        .
+      </p>
+    </div>
+  );
+
+  return (
+    <TerminalLayout
+      repos={repos}
+      filterBarVariant="category"
+      showFeatured={false}
+      heading={heading}
+    />
   );
 }
 

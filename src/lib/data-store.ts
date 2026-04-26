@@ -29,8 +29,25 @@
 //   src/lib/api/rate-limit-store.ts — same Upstash-with-memory-fallback
 //   pattern, same factory shape, same one-shot warn discipline.
 
-import { readFileSync, writeFileSync, statSync, mkdirSync } from "fs";
 import { dirname, resolve } from "path";
+
+// Lazy-load `fs` to keep this module safe to import (transitively) from
+// client components. Webpack bundling for the client side replaces `fs`
+// with `false` in next.config; if we used a static top-level import it
+// errored "Module not found: Can't resolve 'fs'" during the client build.
+// Function-scoped require resolves the binding on the server only and
+// stays opaque to webpack's module-graph analysis. Reader libs that wire
+// in refreshXxxFromStore() never call into the filesystem tier from the
+// client — they only call it from server components / route handlers —
+// so this trade is safe.
+type FsModule = typeof import("fs");
+let _fs: FsModule | null = null;
+function fs(): FsModule {
+  if (_fs) return _fs;
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  _fs = require("fs") as FsModule;
+  return _fs;
+}
 
 // ---------------------------------------------------------------------------
 // Types
@@ -213,7 +230,7 @@ class DefaultDataStore implements DataStore {
     // ---- Tier 2: File --------------------------------------------------------
     const filePath = fileFallbackPath(key, this.dataDir);
     try {
-      const raw = readFileSync(filePath, "utf8");
+      const raw = fs().readFileSync(filePath, "utf8");
       const data = JSON.parse(raw) as T;
       const stat = safeStat(filePath);
       const writtenAt = stat ? new Date(stat.mtimeMs).toISOString() : undefined;
@@ -285,8 +302,8 @@ class DefaultDataStore implements DataStore {
     if (opts.mirrorToFile && !this.disableFileMirror) {
       const filePath = fileFallbackPath(key, this.dataDir);
       try {
-        mkdirSync(dirname(filePath), { recursive: true });
-        writeFileSync(filePath, payload, "utf8");
+        fs().mkdirSync(dirname(filePath), { recursive: true });
+        fs().writeFileSync(filePath, payload, "utf8");
       } catch (err) {
         // File mirror failure is non-fatal (Redis is the truth). Warn only.
         console.warn(`[data-store] File mirror write failed for "${key}":`, err);
@@ -361,7 +378,7 @@ function parseWrittenAt(raw: unknown): string | null {
 
 function safeStat(path: string): { mtimeMs: number } | null {
   try {
-    const s = statSync(path);
+    const s = fs().statSync(path);
     return { mtimeMs: s.mtimeMs };
   } catch {
     return null;

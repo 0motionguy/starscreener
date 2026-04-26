@@ -28,6 +28,26 @@ const nextConfig: NextConfig = {
   },
   poweredByHeader: false,
   compress: true,
+  // src/lib/data-store.ts (and a handful of *-refresh.ts files) lazily
+  // require Node `fs` for the file-fallback tier of the data-store.
+  // Several reader libs are transitively imported by client components
+  // (e.g. SidebarWatchlistPreview pulls @/lib/bluesky for sync getters),
+  // and webpack would otherwise fail the client build with
+  // "Module not found: Can't resolve 'fs'". Stubbing fs to false in the
+  // client bundle is safe because the refresh hooks are only ever called
+  // from server components / route handlers — the fs branch is dead code
+  // on the client side.
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve = config.resolve ?? {};
+      config.resolve.fallback = {
+        ...(config.resolve.fallback ?? {}),
+        fs: false,
+        path: false,
+      };
+    }
+    return config;
+  },
   // Canonical host = apex (trendingrepo.com). Every other host attached to
   // this project 308s to the apex so Google + shared links consolidate on
   // one URL. The redirect ships with the build, so there's no DNS/dashboard

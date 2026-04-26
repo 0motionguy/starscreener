@@ -2,16 +2,28 @@ import { NextResponse } from "next/server";
 import { READ_CACHE_HEADERS } from "@/lib/api/cache";
 import { loadAllCollections, indexReposByFullName, liveCountFor } from "@/lib/collections";
 import { getDerivedRepos } from "@/lib/derived-repos";
-import { lastFetchedAt } from "@/lib/trending";
-import { getHotAiCollections, hotCollectionsFetchedAt } from "@/lib/hot-collections";
+import { getLastFetchedAt, refreshTrendingFromStore } from "@/lib/trending";
 import {
-  collectionRankingsFetchedAt,
-  collectionRankingsPeriod,
+  getHotAiCollections,
+  getHotCollectionsFetchedAt,
+  refreshHotCollectionsFromStore,
+} from "@/lib/hot-collections";
+import {
   getCollectionRankings,
   getCollectionRankingsCoverage,
+  getCollectionRankingsFetchedAt,
+  getCollectionRankingsPeriod,
+  refreshCollectionRankingsFromStore,
 } from "@/lib/collection-rankings";
 
 export async function GET() {
+  // Refresh in-memory caches from the data-store before reading sync getters.
+  await Promise.all([
+    refreshTrendingFromStore(),
+    refreshHotCollectionsFromStore(),
+    refreshCollectionRankingsFromStore(),
+  ]);
+
   const collections = loadAllCollections();
   const liveIndex = indexReposByFullName(getDerivedRepos());
   const hotCollections = getHotAiCollections(collections);
@@ -59,10 +71,10 @@ export async function GET() {
     {
       meta: {
         collectionsCount: rows.length,
-        trendingFetchedAt: lastFetchedAt ?? null,
-        hotCollectionsFetchedAt: hotCollectionsFetchedAt ?? null,
-        collectionRankingsFetchedAt,
-        rankingPeriod: collectionRankingsPeriod,
+        trendingFetchedAt: getLastFetchedAt() ?? null,
+        hotCollectionsFetchedAt: getHotCollectionsFetchedAt() ?? null,
+        collectionRankingsFetchedAt: getCollectionRankingsFetchedAt(),
+        rankingPeriod: getCollectionRankingsPeriod(),
       },
       coverage: getCollectionRankingsCoverage(collectionRankings),
       collections: rows,

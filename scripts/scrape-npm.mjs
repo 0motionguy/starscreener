@@ -21,6 +21,7 @@ import { writeFile, mkdir } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { fetchJsonWithRetry, HttpStatusError, sleep } from "./_fetch-json.mjs";
+import { writeDataStore } from "./_data-store-write.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
@@ -555,7 +556,14 @@ export async function main({ log = console.log, fetchImpl = fetch } = {}) {
 
   await mkdir(DATA_DIR, { recursive: true });
   await writeFile(OUT, `${JSON.stringify(payload, null, 2)}\n`, "utf8");
-  log(`wrote ${OUT} (${rows.length} top repo-linked npm packages)`);
+
+  // Dual-write: also push to data-store so live readers see fresh data
+  // without waiting for a deploy.
+  const result = await writeDataStore("npm-packages", payload);
+
+  log(
+    `wrote ${OUT} (${rows.length} top repo-linked npm packages) [redis: ${result.source}]`,
+  );
   return payload;
 }
 

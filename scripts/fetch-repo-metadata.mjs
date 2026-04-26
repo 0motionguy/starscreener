@@ -7,6 +7,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { fetchJsonWithRetry } from "./_fetch-json.mjs";
+import { writeDataStore } from "./_data-store-write.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
@@ -287,23 +288,24 @@ async function main() {
     a.fullName.toLowerCase().localeCompare(b.fullName.toLowerCase()),
   );
 
-  await mkdir(dirname(OUT_FILE), { recursive: true });
-  await writeFile(
-    OUT_FILE,
-    JSON.stringify(
-      {
-        fetchedAt,
-        sourceCount: fullNames.length,
-        items,
-        failures,
-      },
-      null,
-      2,
-    ) + "\n",
-    "utf8",
-  );
+  const payload = {
+    fetchedAt,
+    sourceCount: fullNames.length,
+    items,
+    failures,
+  };
 
-  console.log(`wrote ${OUT_FILE} (${items.length}/${fullNames.length} repos, ${failures.length} failures)`);
+  await mkdir(dirname(OUT_FILE), { recursive: true });
+  await writeFile(OUT_FILE, JSON.stringify(payload, null, 2) + "\n", "utf8");
+
+  // Dual-write: also push to data-store so live readers see fresh data
+  // without waiting for a deploy. Throws if Redis is configured but
+  // unreachable — workflow goes red, operator notices.
+  const result = await writeDataStore("repo-metadata", payload);
+
+  console.log(
+    `wrote ${OUT_FILE} (${items.length}/${fullNames.length} repos, ${failures.length} failures) [redis: ${result.source}]`,
+  );
 }
 
 main().catch((err) => {

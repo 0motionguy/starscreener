@@ -17,7 +17,10 @@ import {
   summarizeCollection,
   formatFreshness,
 } from "@/lib/collections";
-import { collectionRankingsFetchedAt } from "@/lib/collection-rankings";
+import {
+  getCollectionRankingsFetchedAt,
+  refreshCollectionRankingsFromStore,
+} from "@/lib/collection-rankings";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
@@ -52,6 +55,9 @@ export const metadata: Metadata = {
 
 export default async function CollectionsIndexPage() {
   await pipeline.ensureReady();
+  // Refresh collection-rankings cache from the data-store before reading sync getters.
+  await refreshCollectionRankingsFromStore();
+  const collectionRankingsFetchedAt = getCollectionRankingsFetchedAt();
   const collections = loadAllCollections();
   const liveIndex = indexReposByFullName(repoStore.getAll());
   const freshness = formatFreshness(collectionRankingsFetchedAt);

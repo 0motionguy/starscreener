@@ -8,23 +8,32 @@ import { pipeline, repoStore, scoreStore, snapshotStore } from "@/lib/pipeline/p
 import { createGitHubAdapter } from "@/lib/pipeline/ingestion/ingest";
 import { getDerivedMetaCounts } from "@/lib/derived-insights";
 import {
-  lastFetchedAt,
-  deltasComputedAt,
   deltasCoveragePct,
+  getDeltasComputedAt,
+  getLastFetchedAt,
+  refreshTrendingFromStore,
 } from "@/lib/trending";
-import { hotCollectionsFetchedAt } from "@/lib/hot-collections";
 import {
-  collectionRankingsFetchedAt,
+  getHotCollectionsFetchedAt,
+  refreshHotCollectionsFromStore,
+} from "@/lib/hot-collections";
+import {
   getCollectionRankingsCoverage,
+  getCollectionRankingsFetchedAt,
+  refreshCollectionRankingsFromStore,
   type CollectionRankingsCoverage,
 } from "@/lib/collection-rankings";
-import { recentReposFetchedAt } from "@/lib/recent-repos";
 import {
-  getRepoMetadataCoveragePct,
+  getRecentReposFetchedAt,
+  refreshRecentReposFromStore,
+} from "@/lib/recent-repos";
+import {
   getRepoMetadataCount,
+  getRepoMetadataCoveragePct,
   getRepoMetadataFailures,
+  getRepoMetadataFetchedAt,
   getRepoMetadataSourceCount,
-  repoMetadataFetchedAt,
+  refreshRepoMetadataFromStore,
 } from "@/lib/repo-metadata";
 import {
   FAST_DATA_STALE_THRESHOLD_MS,
@@ -89,6 +98,24 @@ function ageMs(iso: string | null): number | null {
 export async function GET(): Promise<NextResponse<PipelineStatusResponse | { error: string }>> {
   try {
     await pipeline.ensureReady();
+
+    // Refresh in-memory caches from the data-store so per-source freshness
+    // reflects the live Redis payload, not the bundled JSON snapshot. Each
+    // refresh call internally rate-limits to 1 read per source per 30s.
+    await Promise.all([
+      refreshTrendingFromStore(),
+      refreshHotCollectionsFromStore(),
+      refreshRecentReposFromStore(),
+      refreshRepoMetadataFromStore(),
+      refreshCollectionRankingsFromStore(),
+    ]);
+
+    const lastFetchedAt = getLastFetchedAt();
+    const deltasComputedAt = getDeltasComputedAt();
+    const hotCollectionsFetchedAt = getHotCollectionsFetchedAt();
+    const recentReposFetchedAt = getRecentReposFetchedAt();
+    const repoMetadataFetchedAt = getRepoMetadataFetchedAt();
+    const collectionRankingsFetchedAt = getCollectionRankingsFetchedAt();
 
     const repos = repoStore.getAll();
     const snapshotCount = snapshotStore.totalCount();

@@ -17,6 +17,7 @@ import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import {
   getRepoProfilesGeneratedAt,
   readRepoProfilesFileSync,
+  refreshRepoProfilesFromStore,
 } from "@/lib/repo-profiles";
 
 export const dynamic = "force-dynamic";
@@ -141,6 +142,7 @@ function runEnricher(args: string[]): Promise<{
 export async function GET(request: NextRequest): Promise<NextResponse> {
   const deny = authFailureResponse(verifyCronAuth(request));
   if (deny) return deny;
+  await refreshRepoProfilesFromStore();
   return NextResponse.json({
     ok: true,
     mode: "status",

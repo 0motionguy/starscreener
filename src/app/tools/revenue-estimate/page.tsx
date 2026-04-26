@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { RevenueEstimateTool } from "@/components/tools/RevenueEstimateTool";
-import { readRevenueBenchmarksFile } from "@/lib/revenue-benchmarks";
+import {
+  readRevenueBenchmarksFile,
+  refreshRevenueBenchmarksFromStore,
+} from "@/lib/revenue-benchmarks";
 
 export const metadata: Metadata = {
   title: "Revenue Estimator — TrendingRepo",
@@ -13,7 +16,8 @@ export const metadata: Metadata = {
 
 export const dynamic = "force-dynamic";
 
-export default function RevenueEstimatePage() {
+export default async function RevenueEstimatePage() {
+  await refreshRevenueBenchmarksFromStore();
   const file = readRevenueBenchmarksFile();
   const categories = Array.from(
     new Set(file.buckets.map((b) => b.category)),

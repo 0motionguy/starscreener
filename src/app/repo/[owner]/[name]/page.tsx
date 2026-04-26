@@ -25,6 +25,29 @@ import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import { formatNumber, getRelativeTime } from "@/lib/utils";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 import { buildCanonicalRepoProfile } from "@/lib/api/repo-profile";
+// Data-store refresh hooks. The repo detail page consumes signal data from
+// many sources; we refresh all of them in parallel before the canonical
+// assembler runs so the post-refresh getters see the freshest cache.
+// Each refresh has internal 30s rate-limit + in-flight dedupe — calling
+// them on every render is cheap on warm Lambdas.
+//   Group A (discovery / GH metadata)
+import { refreshRepoMetadataFromStore } from "@/lib/repo-metadata";
+import { refreshNpmFromStore } from "@/lib/npm";
+//   Group B (social mentions + per-source trending)
+import { refreshRedditMentionsFromStore } from "@/lib/reddit-data";
+import { refreshRedditAllPostsFromStore } from "@/lib/reddit-all-data";
+import { refreshRedditBaselinesFromStore } from "@/lib/reddit-baselines";
+import { refreshHackernewsMentionsFromStore } from "@/lib/hackernews";
+import { refreshHackernewsTrendingFromStore } from "@/lib/hackernews-trending";
+import { refreshBlueskyMentionsFromStore } from "@/lib/bluesky";
+import { refreshBlueskyTrendingFromStore } from "@/lib/bluesky-trending";
+import { refreshDevtoMentionsFromStore } from "@/lib/devto";
+import { refreshDevtoTrendingFromStore } from "@/lib/devto-trending";
+import { refreshLobstersMentionsFromStore } from "@/lib/lobsters";
+import { refreshLobstersTrendingFromStore } from "@/lib/lobsters-trending";
+import { refreshProducthuntLaunchesFromStore } from "@/lib/producthunt";
+// Group C (funding + profiles + revenue) is refreshed inside
+// buildCanonicalRepoProfile() — no need to re-call here.
 
 import { RepoDetailHeader } from "@/components/repo-detail/RepoDetailHeader";
 import { RepoDetailStats } from "@/components/repo-detail/RepoDetailStats";
@@ -148,6 +171,25 @@ export default async function RepoDetailPage({ params }: PageProps) {
   if (!baseRepo) {
     notFound();
   }
+
+  // Refresh every data-store-backed cache the canonical profile + render
+  // surfaces will read. All in parallel; each is cheap on warm Lambdas.
+  await Promise.all([
+    refreshRepoMetadataFromStore(),
+    refreshNpmFromStore(),
+    refreshRedditMentionsFromStore(),
+    refreshRedditAllPostsFromStore(),
+    refreshRedditBaselinesFromStore(),
+    refreshHackernewsMentionsFromStore(),
+    refreshHackernewsTrendingFromStore(),
+    refreshBlueskyMentionsFromStore(),
+    refreshBlueskyTrendingFromStore(),
+    refreshDevtoMentionsFromStore(),
+    refreshDevtoTrendingFromStore(),
+    refreshLobstersMentionsFromStore(),
+    refreshLobstersTrendingFromStore(),
+    refreshProducthuntLaunchesFromStore(),
+  ]);
 
   // Single canonical call replaces the fifteen-loader stitch that used to
   // live here. Every surface consumes a slice of `profile`, so any future

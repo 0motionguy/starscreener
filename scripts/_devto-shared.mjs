@@ -22,12 +22,45 @@ export const DEVTO_BATCH_SIZE = 5; // 5 in-flight, then pause
 
 export const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+// Token pool — round-robin across N Dev.to API keys for 30 req/min × N
+// effective quota. DEVTO_API_KEYS (plural, comma-separated) is the new
+// canonical env var; DEVTO_API_KEY (singular) stays as back-compat
+// fallback. Both can be set; we just dedupe and round-robin across the
+// union. Counter survives across calls within one process invocation —
+// each fetchJson() picks the next slot, looping at the end.
+function loadDevtoKeys() {
+  const out = [];
+  const seen = new Set();
+  const push = (k) => {
+    const v = (k ?? "").trim();
+    if (!v || seen.has(v)) return;
+    seen.add(v);
+    out.push(v);
+  };
+  const pool = process.env.DEVTO_API_KEYS;
+  if (typeof pool === "string" && pool.length > 0) {
+    for (const raw of pool.split(",")) push(raw);
+  }
+  push(process.env.DEVTO_API_KEY);
+  return out;
+}
+
+const DEVTO_KEYS = loadDevtoKeys();
+let devtoCursor = 0;
+
+function nextDevtoKey() {
+  if (DEVTO_KEYS.length === 0) return undefined;
+  const key = DEVTO_KEYS[devtoCursor % DEVTO_KEYS.length];
+  devtoCursor += 1;
+  return key;
+}
+
 function buildHeaders() {
   const h = {
     "User-Agent": USER_AGENT,
     Accept: "application/json",
   };
-  const key = process.env.DEVTO_API_KEY;
+  const key = nextDevtoKey();
   if (key) h["api-key"] = key;
   return h;
 }

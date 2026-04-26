@@ -43,6 +43,7 @@ import {
   extractGithubRepoFullNames,
   normalizeGithubFullName,
 } from "./_github-repo-links.mjs";
+import { writeDataStore } from "./_data-store-write.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
@@ -388,11 +389,13 @@ async function main() {
   await mkdir(DATA_DIR, { recursive: true });
   await writeFile(MENTIONS_OUT, JSON.stringify(mentionsPayload, null, 2) + "\n", "utf8");
   await writeFile(TRENDING_OUT, JSON.stringify(trendingPayload, null, 2) + "\n", "utf8");
+  const mentionsRedis = await writeDataStore("devto-mentions", mentionsPayload);
+  const trendingRedis = await writeDataStore("devto-trending", trendingPayload);
 
   log("");
-  log(`wrote ${MENTIONS_OUT}`);
+  log(`wrote ${MENTIONS_OUT} [redis: ${mentionsRedis.source}]`);
   log(`  repos with mentions: ${Object.keys(mentions).length} (${leaderboard.length} leaderboard rows)`);
-  log(`wrote ${TRENDING_OUT}`);
+  log(`wrote ${TRENDING_OUT} [redis: ${trendingRedis.source}]`);
   log(
     `  trending articles: ${trendingArticles.length} ` +
       `(mode: ${bodyFetchMode}, slices: ${DEVTO_DISCOVERY_SLICES.length}, tags: ${DEVTO_PRIORITY_TAGS.length})`,

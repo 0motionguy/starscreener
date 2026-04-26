@@ -15,6 +15,7 @@ import {
   fetchWithTimeout,
   sleep,
 } from "./_fetch-json.mjs";
+import { writeDataStore } from "./_data-store-write.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
@@ -570,7 +571,7 @@ async function runAisoScan({ baseUrl, websiteUrl, existing, scanIdOverride = nul
   };
 }
 
-async function writeProfilesFile(profilesByRepo, selection) {
+async function writeProfilesFile(profilesByRepo, selection, { mirrorToStore = false } = {}) {
   const profiles = Array.from(profilesByRepo.values()).sort((a, b) => {
     const ar = a.rank ?? Number.MAX_SAFE_INTEGER;
     const br = b.rank ?? Number.MAX_SAFE_INTEGER;
@@ -578,21 +579,27 @@ async function writeProfilesFile(profilesByRepo, selection) {
     return a.fullName.localeCompare(b.fullName);
   });
 
+  const payload = {
+    generatedAt: new Date().toISOString(),
+    version: 1,
+    selection,
+    profiles,
+  };
+
   await mkdir(dirname(OUT_FILE), { recursive: true });
   await writeFile(
     OUT_FILE,
-    JSON.stringify(
-      {
-        generatedAt: new Date().toISOString(),
-        version: 1,
-        selection,
-        profiles,
-      },
-      null,
-      2,
-    ) + "\n",
+    JSON.stringify(payload, null, 2) + "\n",
     "utf8",
   );
+
+  // The script calls writeProfilesFile incrementally after every repo to
+  // preserve progress on crash; we don't want to burn one Redis write per
+  // repo, so the caller opts in to mirroring only at the end of the run.
+  if (mirrorToStore) {
+    return writeDataStore("repo-profiles", payload);
+  }
+  return null;
 }
 
 async function main() {
@@ -736,9 +743,11 @@ async function main() {
     await writeProfilesFile(profilesByRepo, selection);
   }
 
-  await writeProfilesFile(profilesByRepo, selection);
+  const redisResult = await writeProfilesFile(profilesByRepo, selection, {
+    mirrorToStore: true,
+  });
   console.log(
-    `repo profiles wrote ${OUT_FILE} scanned=${selection.scanned} queued=${selection.queued} noWebsite=${selection.noWebsite} failed=${selection.failed}`,
+    `repo profiles wrote ${OUT_FILE} scanned=${selection.scanned} queued=${selection.queued} noWebsite=${selection.noWebsite} failed=${selection.failed} [redis: ${redisResult?.source ?? "skipped"}]`,
   );
 }
 

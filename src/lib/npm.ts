@@ -6,6 +6,7 @@
 
 import npmData from "../../data/npm-packages.json";
 import npmManualData from "../../data/npm-manual-packages.json";
+import { getDataStore } from "./data-store";
 
 export type NpmWindow = "24h" | "7d" | "30d";
 
@@ -83,12 +84,24 @@ export interface NpmPackagesFile {
   packages: NpmPackageRow[];
 }
 
-const file = npmData as unknown as NpmPackagesFile;
+// Mutable in-memory cache. Seeded from the bundled JSON; replaced by Redis
+// payloads via refreshNpmFromStore(). Sync getters below all read this.
+let file: NpmPackagesFile = npmData as unknown as NpmPackagesFile;
 const manualFile = npmManualData as unknown as Pick<NpmPackagesFile, "packages">;
 
+// Backwards-compat constants — capture the cache value at import time.
+// New callers should use the matching getter to see post-refresh values.
 export const npmFetchedAt: string = file.fetchedAt ?? "";
 export const npmCold: boolean =
   !file.fetchedAt || !Array.isArray(file.packages);
+
+export function getNpmFetchedAt(): string {
+  return file.fetchedAt ?? "";
+}
+
+export function getNpmCold(): boolean {
+  return !file.fetchedAt || !Array.isArray(file.packages);
+}
 
 export function getNpmPackagesFile(): NpmPackagesFile {
   return file;
@@ -165,4 +178,53 @@ export function getNpmPackagesForRepo(fullName: string): NpmPackageRow[] {
   return getNpmPackages().filter(
     (pkg) => pkg.linkedRepo.toLowerCase() === lower,
   );
+}
+
+// ---------------------------------------------------------------------------
+// Refresh hook — pulls fresh npm-packages from the data-store.
+// ---------------------------------------------------------------------------
+
+interface RefreshResult {
+  source: "redis" | "file" | "memory" | "missing";
+  ageMs: number;
+}
+
+let inflight: Promise<RefreshResult> | null = null;
+let lastRefreshMs = 0;
+const MIN_REFRESH_INTERVAL_MS = 30_000;
+
+/**
+ * Pull the freshest npm-packages payload from the data-store and swap it
+ * into the in-memory cache. Cheap to call multiple times — internal dedupe +
+ * rate-limit ensure we hit Redis at most once per 30s per process.
+ *
+ * Note: only the auto-scraped `npm-packages` slug is refreshed — the static
+ * `npm-manual-packages.json` overlay continues to load from the bundled file.
+ */
+export async function refreshNpmFromStore(): Promise<RefreshResult> {
+  if (inflight) return inflight;
+  const sinceLast = Date.now() - lastRefreshMs;
+  if (sinceLast < MIN_REFRESH_INTERVAL_MS && lastRefreshMs > 0) {
+    return { source: "memory", ageMs: sinceLast };
+  }
+
+  inflight = (async (): Promise<RefreshResult> => {
+    const result = await getDataStore().read<NpmPackagesFile>("npm-packages");
+    if (result.data && result.source !== "missing") {
+      file = result.data;
+    }
+    lastRefreshMs = Date.now();
+    return { source: result.source, ageMs: result.ageMs };
+  })().finally(() => {
+    inflight = null;
+  });
+
+  return inflight;
+}
+
+/** Test/admin — reset the in-memory cache to the bundled seed. */
+export function _resetNpmCacheForTests(): void {
+  file = npmData as unknown as NpmPackagesFile;
+  lastRefreshMs = 0;
+  inflight = null;
 }

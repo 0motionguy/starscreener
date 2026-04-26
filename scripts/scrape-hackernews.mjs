@@ -35,6 +35,7 @@ import {
   extractGithubRepoFullNames,
   normalizeGithubFullName,
 } from "./_github-repo-links.mjs";
+import { writeDataStore } from "./_data-store-write.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
@@ -448,11 +449,13 @@ async function main() {
   await mkdir(DATA_DIR, { recursive: true });
   await writeFile(TRENDING_OUT, JSON.stringify(trendingPayload, null, 2) + "\n", "utf8");
   await writeFile(MENTIONS_OUT, JSON.stringify(mentionsPayload, null, 2) + "\n", "utf8");
+  const trendingRedis = await writeDataStore("hackernews-trending", trendingPayload);
+  const mentionsRedis = await writeDataStore("hackernews-repo-mentions", mentionsPayload);
 
   log("");
-  log(`wrote ${TRENDING_OUT}`);
+  log(`wrote ${TRENDING_OUT} [redis: ${trendingRedis.source}]`);
   log(`  stories in ${TRENDING_WINDOW_HOURS}h window: ${trendingMerged.length} (firebase=${rawItems.length}, algolia=${algoliaHits.length})`);
-  log(`wrote ${MENTIONS_OUT}`);
+  log(`wrote ${MENTIONS_OUT} [redis: ${mentionsRedis.source}]`);
   log(`  repos with mentions: ${Object.keys(mentions).length} (${leaderboard.length} leaderboard rows)`);
 
   if (rawItems.length === 0 && algoliaHits.length === 0) {

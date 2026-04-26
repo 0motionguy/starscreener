@@ -11,9 +11,12 @@
 // scraper builds — mirrors hackernews-trending.ts.
 
 import bskyTrendingData from "../../data/bluesky-trending.json";
+import { getDataStore } from "./data-store";
 import type { BskyPost, BskyTrendingFile } from "./bluesky";
 
-const trendingFile = bskyTrendingData as unknown as BskyTrendingFile;
+// Mutable in-memory cache — seeded from bundled JSON, replaced via
+// refreshBlueskyTrendingFromStore().
+let trendingFile: BskyTrendingFile = bskyTrendingData as unknown as BskyTrendingFile;
 
 function round2(n: number): number {
   return Math.round(n * 100) / 100;
@@ -82,3 +85,37 @@ export function getBlueskyPostsByKeyword(
 
 export const BLUESKY_TRENDING_KEYWORDS: readonly string[] =
   trendingFile.keywords ?? [];
+
+// ---------------------------------------------------------------------------
+// Phase 4: refresh hook — pull latest bluesky-trending payload from data-store.
+// ---------------------------------------------------------------------------
+
+let inflight: Promise<{ source: string; ageMs: number }> | null = null;
+let lastRefreshMs = 0;
+const MIN_REFRESH_INTERVAL_MS = 30_000;
+
+export async function refreshBlueskyTrendingFromStore(): Promise<{
+  source: string;
+  ageMs: number;
+}> {
+  if (inflight) return inflight;
+  if (
+    Date.now() - lastRefreshMs < MIN_REFRESH_INTERVAL_MS &&
+    lastRefreshMs > 0
+  ) {
+    return { source: "memory", ageMs: Date.now() - lastRefreshMs };
+  }
+  inflight = (async () => {
+    const result = await getDataStore().read<BskyTrendingFile>(
+      "bluesky-trending",
+    );
+    if (result.data && result.source !== "missing") {
+      trendingFile = result.data;
+    }
+    lastRefreshMs = Date.now();
+    return { source: result.source, ageMs: result.ageMs };
+  })().finally(() => {
+    inflight = null;
+  });
+  return inflight;
+}

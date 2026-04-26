@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-04-24T13:47:47.273Z",
+  "fetchedAt": "2026-04-26T09:29:10.158Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1287,
+  "scannedArticles": 1267,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -179,7 +179,7 @@
   ],
   "sliceCounts": {
     "global-top-7d": 100,
-    "global-rising": 7,
+    "global-rising": 3,
     "global-fresh": 100,
     "tag-ai-top-7d": 100,
     "tag-artificialintelligence-top-7d": 0,
@@ -187,36 +187,36 @@
     "tag-agentic-top-7d": 3,
     "tag-claudecode-top-7d": 100,
     "tag-claude-top-7d": 100,
-    "tag-codex-top-7d": 7,
-    "tag-cursor-top-7d": 48,
+    "tag-codex-top-7d": 4,
+    "tag-cursor-top-7d": 58,
     "tag-llm-top-7d": 100,
     "tag-llms-top-7d": 11,
     "tag-mcp-top-7d": 100,
-    "tag-rag-top-7d": 71,
-    "tag-promptengineering-top-7d": 62,
+    "tag-rag-top-7d": 62,
+    "tag-promptengineering-top-7d": 66,
     "tag-workflow-top-7d": 19,
-    "tag-workflows-top-7d": 3,
+    "tag-workflows-top-7d": 0,
     "tag-automation-top-7d": 100,
     "tag-cli-top-7d": 100,
     "tag-tooling-top-7d": 100,
     "tag-devtools-top-7d": 100,
-    "tag-langchain-top-7d": 23,
+    "tag-langchain-top-7d": 25,
     "tag-n8n-top-7d": 37,
     "tag-opensource-top-7d": 100
   },
   "mentions": {
     "openclaw/openclaw": {
       "count7d": 4,
-      "reactionsSum7d": 63,
-      "commentsSum7d": 17,
+      "reactionsSum7d": 70,
+      "commentsSum7d": 24,
       "topArticle": {
         "id": 3528702,
         "title": "Unpopular Opinion: Do not use OpenClaw...not yet.",
         "url": "https://dev.to/francistrdev/unpopular-opinion-do-not-use-openclawnot-yet-5foe",
         "author": "francistrdev",
-        "reactions": 61,
-        "comments": 17,
-        "hoursSincePosted": 62.2,
+        "reactions": 70,
+        "comments": 24,
+        "hoursSincePosted": 105.9,
         "readingTime": 8
       },
       "articles": [
@@ -230,8 +230,8 @@
             "name": "FrancisTRᴅᴇᴠ (っ◔◡◔)っ",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3711376%2F746cce1f-2c09-40fc-9742-387af1855b6d.gif"
           },
-          "reactionsCount": 61,
-          "commentsCount": 17,
+          "reactionsCount": 70,
+          "commentsCount": 24,
           "readingTime": 8,
           "publishedAt": "2026-04-21T23:35:31Z",
           "tags": [
@@ -240,7 +240,7 @@
             "discuss",
             "ai"
           ],
-          "trendingScore": 4.73,
+          "trendingScore": 4.15,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
@@ -249,24 +249,24 @@
           ]
         },
         {
-          "id": 3514734,
-          "title": "Teaching Alfred to Remember with a Neuroscience-Inspired Memory System for AI Agents",
-          "description": "Introduction   My people, its me again. A few months back, I wrote about Alfred, my personal...",
-          "url": "https://dev.to/joojodontoh/teaching-alfred-to-remember-with-a-neuroscience-inspired-memory-system-for-ai-agents-2o5l",
+          "id": 3551720,
+          "title": "GHSA-C4QG-J8JG-42Q5: GHSA-C4QG-J8JG-42Q5: Server-Side Request Forgery in OpenClaw QQBot Extension",
+          "description": "GHSA-C4QG-J8JG-42Q5: Server-Side Request Forgery in OpenClaw QQBot...",
+          "url": "https://dev.to/cverports/ghsa-c4qg-j8jg-42q5-ghsa-c4qg-j8jg-42q5-server-side-request-forgery-in-openclaw-qqbot-extension-28af",
           "author": {
-            "username": "joojodontoh",
-            "name": "JOOJO DONTOH",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F238457%2Ff673858d-3131-485a-b2c2-f7366fbe00a1.PNG"
+            "username": "cverports",
+            "name": "CVE Reports",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1959489%2F6e9f36b9-96a5-441a-a9b5-6993444f71d8.png"
           },
-          "reactionsCount": 2,
+          "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 36,
-          "publishedAt": "2026-04-19T07:38:31Z",
+          "readingTime": 2,
+          "publishedAt": "2026-04-26T03:10:20Z",
           "tags": [
-            "agents",
-            "ai",
-            "machinelearning",
-            "showdev"
+            "security",
+            "cve",
+            "cybersecurity",
+            "ghsa"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -334,132 +334,98 @@
         }
       ]
     },
-    "HexmosTech/git-lrc": {
+    "trufflesecurity/trufflehog": {
       "count7d": 1,
-      "reactionsSum7d": 21,
-      "commentsSum7d": 1,
+      "reactionsSum7d": 1,
+      "commentsSum7d": 0,
       "topArticle": {
-        "id": 3534314,
-        "title": "AUTOVACUUM in SQLite: How Your Database Cleans Up After Itself",
-        "url": "https://dev.to/lovestaco/autovacuum-in-sqlite-how-your-database-cleans-up-after-itself-4kp6",
-        "author": "lovestaco",
-        "reactions": 21,
-        "comments": 1,
-        "hoursSincePosted": 57.1,
+        "id": 3552000,
+        "title": "I Pushed Our Backend Repo to a Public GitHub by Accident. Here's What Happened in 47 Minutes",
+        "url": "https://dev.to/sharjeelz/i-pushed-our-backend-repo-to-a-public-github-by-accident-heres-what-happened-in-47-minutes-4df6",
+        "author": "sharjeelz",
+        "reactions": 1,
+        "comments": 0,
+        "hoursSincePosted": 3.5,
         "readingTime": 4
       },
       "articles": [
         {
-          "id": 3534314,
-          "title": "AUTOVACUUM in SQLite: How Your Database Cleans Up After Itself",
-          "description": "Hello, I'm Maneshwar. I'm building git-lrc, an AI code reviewer that runs on every commit. It is...",
-          "url": "https://dev.to/lovestaco/autovacuum-in-sqlite-how-your-database-cleans-up-after-itself-4kp6",
+          "id": 3552000,
+          "title": "I Pushed Our Backend Repo to a Public GitHub by Accident. Here's What Happened in 47 Minutes",
+          "description": "TL;DR: Leaking real source code (not just .env files) exposes your business logic, internal APIs,...",
+          "url": "https://dev.to/sharjeelz/i-pushed-our-backend-repo-to-a-public-github-by-accident-heres-what-happened-in-47-minutes-4df6",
           "author": {
-            "username": "lovestaco",
-            "name": "Athreya aka Maneshwar",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1002302%2F5233b7df-6ee3-46b2-b8d7-1fafe103e8a3.jpg"
+            "username": "sharjeelz",
+            "name": "Sharjeel Zubair",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F572792%2F423d91ce-b404-4ecc-9236-9705d7f6a4c8.png"
           },
-          "reactionsCount": 21,
-          "commentsCount": 1,
+          "reactionsCount": 1,
+          "commentsCount": 0,
           "readingTime": 4,
-          "publishedAt": "2026-04-22T04:42:29Z",
+          "publishedAt": "2026-04-26T06:01:36Z",
           "tags": [
             "webdev",
-            "programming",
-            "database",
-            "architecture"
+            "discuss",
+            "security",
+            "backup"
           ],
-          "trendingScore": 0.54,
+          "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "HexmosTech/git-lrc",
+              "fullName": "trufflesecurity/trufflehog",
+              "location": "body"
+            },
+            {
+              "fullName": "gitleaks/gitleaks",
               "location": "body"
             }
           ]
         }
       ]
     },
-    "Open-Dev-Society/OpenStock": {
+    "gitleaks/gitleaks": {
       "count7d": 1,
-      "reactionsSum7d": 0,
+      "reactionsSum7d": 1,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3544611,
-        "title": "openstock",
-        "url": "https://dev.to/classccai/openstock-2mn3",
-        "author": "classccai",
-        "reactions": 0,
+        "id": 3552000,
+        "title": "I Pushed Our Backend Repo to a Public GitHub by Accident. Here's What Happened in 47 Minutes",
+        "url": "https://dev.to/sharjeelz/i-pushed-our-backend-repo-to-a-public-github-by-accident-heres-what-happened-in-47-minutes-4df6",
+        "author": "sharjeelz",
+        "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 7.1,
-        "readingTime": 8
+        "hoursSincePosted": 3.5,
+        "readingTime": 4
       },
       "articles": [
         {
-          "id": 3544611,
-          "title": "openstock",
-          "description": "OpenStock is an open-source alternative to expensive market platforms. Track real-time prices, set...",
-          "url": "https://dev.to/classccai/openstock-2mn3",
+          "id": 3552000,
+          "title": "I Pushed Our Backend Repo to a Public GitHub by Accident. Here's What Happened in 47 Minutes",
+          "description": "TL;DR: Leaking real source code (not just .env files) exposes your business logic, internal APIs,...",
+          "url": "https://dev.to/sharjeelz/i-pushed-our-backend-repo-to-a-public-github-by-accident-heres-what-happened-in-47-minutes-4df6",
           "author": {
-            "username": "classccai",
-            "name": "classccai",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3895281%2Fba7f488e-305e-4198-bf7b-f48cb1967e67.png"
+            "username": "sharjeelz",
+            "name": "Sharjeel Zubair",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F572792%2F423d91ce-b404-4ecc-9236-9705d7f6a4c8.png"
           },
-          "reactionsCount": 0,
+          "reactionsCount": 1,
           "commentsCount": 0,
-          "readingTime": 8,
-          "publishedAt": "2026-04-24T06:40:09Z",
+          "readingTime": 4,
+          "publishedAt": "2026-04-26T06:01:36Z",
           "tags": [
-            "openstock"
+            "webdev",
+            "discuss",
+            "security",
+            "backup"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "Open-Dev-Society/OpenStock",
-              "location": "tag"
-            }
-          ]
-        }
-      ]
-    },
-    "vercel-labs/agent-browser": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3544901,
-        "title": "I Stopped Using Playwright. Here's What Replaced It.",
-        "url": "https://dev.to/arnaldo_delisio_5e35889d/i-stopped-using-playwright-heres-what-replaced-it-48mo",
-        "author": "arnaldo_delisio_5e35889d",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 5.6,
-        "readingTime": 3
-      },
-      "articles": [
-        {
-          "id": 3544901,
-          "title": "I Stopped Using Playwright. Here's What Replaced It.",
-          "description": "I stopped writing Playwright tests for integration flows. Not because they stopped working — they...",
-          "url": "https://dev.to/arnaldo_delisio_5e35889d/i-stopped-using-playwright-heres-what-replaced-it-48mo",
-          "author": {
-            "username": "arnaldo_delisio_5e35889d",
-            "name": "Arnaldo De Lisio",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2619146%2F5a015b13-2ab4-4788-aae7-c7b7f256c1bf.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-04-24T08:13:27Z",
-          "tags": [
-            "claudecode",
-            "testing",
-            "ai",
-            "webdev"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
+              "fullName": "trufflesecurity/trufflehog",
+              "location": "body"
+            },
             {
-              "fullName": "vercel-labs/agent-browser",
+              "fullName": "gitleaks/gitleaks",
               "location": "body"
             }
           ]
@@ -469,15 +435,15 @@
     "forrestchang/andrej-karpathy-skills": {
       "count7d": 1,
       "reactionsSum7d": 7,
-      "commentsSum7d": 0,
+      "commentsSum7d": 1,
       "topArticle": {
         "id": 3538865,
         "title": "Ten CLAUDE.md rules for Claude Code - four edit-time, six runtime",
         "url": "https://dev.to/reneza/ten-claudemd-rules-for-claude-code-four-edit-time-six-runtime-210g",
         "author": "reneza",
         "reactions": 7,
-        "comments": 0,
-        "hoursSincePosted": 33.7,
+        "comments": 1,
+        "hoursSincePosted": 77.4,
         "readingTime": 3
       },
       "articles": [
@@ -492,7 +458,7 @@
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1138713%2Fa7d8635c-22db-4dec-b156-1fb07de64a8d.jpeg"
           },
           "reactionsCount": 7,
-          "commentsCount": 0,
+          "commentsCount": 1,
           "readingTime": 3,
           "publishedAt": "2026-04-23T04:06:42Z",
           "tags": [
@@ -501,82 +467,10 @@
             "productivity",
             "tutorial"
           ],
-          "trendingScore": 0.18,
+          "trendingScore": 0.08,
           "linkedRepos": [
             {
               "fullName": "forrestchang/andrej-karpathy-skills",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "safishamsi/graphify": {
-      "count7d": 2,
-      "reactionsSum7d": 2,
-      "commentsSum7d": 1,
-      "topArticle": {
-        "id": 3517012,
-        "title": "The context problem nobody talks about: why AI coding agents waste 80% of tokens on files they already read yesterday",
-        "url": "https://dev.to/creatman/the-context-problem-nobody-talks-about-why-ai-coding-agents-waste-80-of-tokens-on-files-they-mp1",
-        "author": "creatman",
-        "reactions": 2,
-        "comments": 1,
-        "hoursSincePosted": 161.2,
-        "readingTime": 5
-      },
-      "articles": [
-        {
-          "id": 3517012,
-          "title": "The context problem nobody talks about: why AI coding agents waste 80% of tokens on files they already read yesterday",
-          "description": "Every AI coding agent — Claude Code, Cursor, Codex, Gemini CLI — starts every session completely...",
-          "url": "https://dev.to/creatman/the-context-problem-nobody-talks-about-why-ai-coding-agents-waste-80-of-tokens-on-files-they-mp1",
-          "author": {
-            "username": "creatman",
-            "name": "Creatman",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3806804%2F78d84e4b-1735-4590-92c5-8b6e5513e038.jpg"
-          },
-          "reactionsCount": 2,
-          "commentsCount": 1,
-          "readingTime": 5,
-          "publishedAt": "2026-04-17T20:34:21Z",
-          "tags": [
-            "ai",
-            "graphify",
-            "agents",
-            "productivity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "safishamsi/graphify",
-              "location": "tag"
-            }
-          ]
-        },
-        {
-          "id": 3542483,
-          "title": "Claude Code hooks: the half of Claude Code nobody uses",
-          "description": "I was halfway through writing this post when I decided to fact-check myself. Opened...",
-          "url": "https://dev.to/liran_baba/claude-code-hooks-the-half-of-claude-code-nobody-uses-5570",
-          "author": {
-            "username": "liran_baba",
-            "name": "Liran Baba",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3853249%2F1fb2b801-c7ae-463d-b813-a600cdd7ca4f.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 14,
-          "publishedAt": "2026-04-23T17:32:45Z",
-          "tags": [
-            "devtools",
-            "ai",
-            "claudecode"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "safishamsi/graphify",
               "location": "body"
             }
           ]
@@ -594,7 +488,7 @@
         "author": "gounthar",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 54.1,
+        "hoursSincePosted": 97.8,
         "readingTime": 9
       },
       "articles": [
@@ -639,7 +533,7 @@
         "author": "wonderlab",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 78.5,
+        "hoursSincePosted": 122.2,
         "readingTime": 8
       },
       "articles": [
@@ -673,53 +567,8 @@
         }
       ]
     },
-    "anthropics/claude-plugins-official": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3528970,
-        "title": "Your Claude Plugin Marketplace Needs More Than a Git Repo",
-        "url": "https://dev.to/michaeltuszynski/your-claude-plugin-marketplace-needs-more-than-a-git-repo-5631",
-        "author": "michaeltuszynski",
-        "reactions": 1,
-        "comments": 0,
-        "hoursSincePosted": 86,
-        "readingTime": 4
-      },
-      "articles": [
-        {
-          "id": 3528970,
-          "title": "Your Claude Plugin Marketplace Needs More Than a Git Repo",
-          "description": "Your Claude Plugin Marketplace Needs More Than a Git Repo   Anthropic's official plugin...",
-          "url": "https://dev.to/michaeltuszynski/your-claude-plugin-marketplace-needs-more-than-a-git-repo-5631",
-          "author": {
-            "username": "michaeltuszynski",
-            "name": "Michael Tuszynski",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1447774%2Fa99eea93-7845-4764-9fce-b1755bcfa456.png"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-04-20T23:48:03Z",
-          "tags": [
-            "claudecode",
-            "platformengineering",
-            "ai",
-            "enterpriseai"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-plugins-official",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "anthropics/claude-code": {
-      "count7d": 6,
+      "count7d": 9,
       "reactionsSum7d": 1,
       "commentsSum7d": 0,
       "topArticle": {
@@ -729,7 +578,7 @@
         "author": "fisher_shenfisher_1c32",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 97.1,
+        "hoursSincePosted": 140.8,
         "readingTime": 7
       },
       "articles": [
@@ -752,6 +601,62 @@
             "productivity",
             "claude",
             "mcp"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3551380,
+          "title": "12 More Days Scanned: Claude Code Sub-Agent Cache TTL Has Been 100% 5m for 17 Straight Days — This Isn''t a Regression, It''s the New Default",
+          "description": "On 4/14 I reported 5 days of sub-agent 100% 5m and left it at \"monitoring.\" Today 4/26 it''s 17 straight days, 15,727 API calls, 0 1h writes. Anthropic closed the main issue without resolution. The community is on fire.",
+          "url": "https://dev.to/recca0120/12-more-days-scanned-claude-code-sub-agent-cache-ttl-has-been-100-5m-for-17-straight-days-this-7ff",
+          "author": {
+            "username": "recca0120",
+            "name": "Recca Tsai",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F50274%2F427ea12d-13dd-4a0e-8955-dddfbf0a39ea.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 7,
+          "publishedAt": "2026-04-25T23:16:26Z",
+          "tags": [
+            "claudecode",
+            "promptcaching",
+            "agents",
+            "python"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3551468,
+          "title": "I Audited 3 Months of Claude Code Billing — Most Community Cost-Saving Tips Don''t Work",
+          "description": "$127K equivalent cost, 127K turns, four models, three months. After turning myself into a dataset, \"long sessions are the culprit\" and \"too many skills\" were debunked by data. Only two levers actually worked.",
+          "url": "https://dev.to/recca0120/i-audited-3-months-of-claude-code-billing-every-cost-saving-tip-i-believed-was-wrong-2ghj",
+          "author": {
+            "username": "recca0120",
+            "name": "Recca Tsai",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F50274%2F427ea12d-13dd-4a0e-8955-dddfbf0a39ea.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 7,
+          "publishedAt": "2026-04-26T00:26:04Z",
+          "tags": [
+            "claudecode",
+            "promptcaching",
+            "agents",
+            "costoptimization"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -817,24 +722,24 @@
           ]
         },
         {
-          "id": 3535282,
-          "title": "Playing DOOM in Claude Code's Statusline (and Fighting Its Renderer to Keep It There)",
-          "description": "Playing DOOM in Claude Code's Statusline           I made DOOM run inside Claude Code. Real...",
-          "url": "https://dev.to/erkandogan/playing-doom-in-claude-codes-statusline-and-fighting-its-renderer-to-keep-it-there-3n7k",
+          "id": 3549699,
+          "title": "How I Stopped Getting \"Stream Idle Timeout\" Errors in Claude Code",
+          "description": "The fix is five lines in your CLAUDE.md, not a settings change   Note: This is a personal...",
+          "url": "https://dev.to/lavellehatcherjr/how-i-stopped-getting-stream-idle-timeout-errors-in-claude-code-hf9",
           "author": {
-            "username": "erkandogan",
-            "name": "Erkan DOGAN",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3878898%2F23a5c83e-dd51-4d50-b525-dbb42d054e55.png"
+            "username": "lavellehatcherjr",
+            "name": "Lavelle Hatcher Jr",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3860079%2F668ec800-7cf1-492e-baf0-0ce71e77a1ef.png"
           },
           "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 10,
-          "publishedAt": "2026-04-22T08:02:02Z",
+          "readingTime": 4,
+          "publishedAt": "2026-04-25T11:59:59Z",
           "tags": [
-            "terminal",
-            "claude",
+            "claudecode",
             "ai",
-            "programming"
+            "productivity",
+            "devtools"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -873,24 +778,24 @@
           ]
         },
         {
-          "id": 3519038,
-          "title": "The 7 Most Expensive LLM Production Incidents of 2025–2026 (Each One Had a Fixable Signal Nobody Watched)",
-          "description": "Seven real LLM outages with dollar figures attached. For each: the signal that would have caught it hours earlier, and why no dashboard surfaced it.",
-          "url": "https://dev.to/gabrielanhaia/the-7-most-expensive-llm-production-incidents-of-2025-2026-each-one-had-a-fixable-signal-nobody-1hkm",
+          "id": 3535282,
+          "title": "Playing DOOM in Claude Code's Statusline (and Fighting Its Renderer to Keep It There)",
+          "description": "Playing DOOM in Claude Code's Statusline           I made DOOM run inside Claude Code. Real...",
+          "url": "https://dev.to/erkandogan/playing-doom-in-claude-codes-statusline-and-fighting-its-renderer-to-keep-it-there-3n7k",
           "author": {
-            "username": "gabrielanhaia",
-            "name": "Gabriel Anhaia",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F425693%2Fb4e58b6f-fdb0-4d1d-b333-87582f0b663d.jpeg"
+            "username": "erkandogan",
+            "name": "Erkan DOGAN",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3878898%2F23a5c83e-dd51-4d50-b525-dbb42d054e55.png"
           },
           "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 11,
-          "publishedAt": "2026-04-18T10:14:32Z",
+          "readingTime": 10,
+          "publishedAt": "2026-04-22T08:02:02Z",
           "tags": [
+            "terminal",
+            "claude",
             "ai",
-            "observability",
-            "llm",
-            "devops"
+            "programming"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -899,24 +804,454 @@
               "location": "body"
             }
           ]
+        },
+        {
+          "id": 3550670,
+          "title": "Claude Code Ecosystem 2026: Memory, Sync, and Mobile Tools",
+          "description": "Claude Code is one of the most capable AI coding agents available today, but it ships with three...",
+          "url": "https://dev.to/sahil_kat/claude-code-ecosystem-2026-memory-sync-and-mobile-tools-5788",
+          "author": {
+            "username": "sahil_kat",
+            "name": "Sahil Kathpal",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3855263%2Fbad52ee6-c66a-49f1-846f-440b94963de2.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 9,
+          "publishedAt": "2026-04-25T17:30:15Z",
+          "tags": [
+            "agents",
+            "claude",
+            "productivity",
+            "tooling"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            },
+            {
+              "fullName": "zilliztech/memsearch",
+              "location": "body"
+            }
+          ]
         }
       ]
     },
-    "zilliztech/claude-context": {
+    "anthropics/claude-plugins-official": {
+      "count7d": 1,
+      "reactionsSum7d": 1,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3528970,
+        "title": "Your Claude Plugin Marketplace Needs More Than a Git Repo",
+        "url": "https://dev.to/michaeltuszynski/your-claude-plugin-marketplace-needs-more-than-a-git-repo-5631",
+        "author": "michaeltuszynski",
+        "reactions": 1,
+        "comments": 0,
+        "hoursSincePosted": 129.7,
+        "readingTime": 4
+      },
+      "articles": [
+        {
+          "id": 3528970,
+          "title": "Your Claude Plugin Marketplace Needs More Than a Git Repo",
+          "description": "Your Claude Plugin Marketplace Needs More Than a Git Repo   Anthropic's official plugin...",
+          "url": "https://dev.to/michaeltuszynski/your-claude-plugin-marketplace-needs-more-than-a-git-repo-5631",
+          "author": {
+            "username": "michaeltuszynski",
+            "name": "Michael Tuszynski",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1447774%2Fa99eea93-7845-4764-9fce-b1755bcfa456.png"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-04-20T23:48:03Z",
+          "tags": [
+            "claudecode",
+            "platformengineering",
+            "ai",
+            "enterpriseai"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "vercel-labs/agent-browser": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3544901,
+        "title": "I Stopped Using Playwright. Here's What Replaced It.",
+        "url": "https://dev.to/arnaldo_delisio_5e35889d/i-stopped-using-playwright-heres-what-replaced-it-48mo",
+        "author": "arnaldo_delisio_5e35889d",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 49.3,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3544901,
+          "title": "I Stopped Using Playwright. Here's What Replaced It.",
+          "description": "I stopped writing Playwright tests for integration flows. Not because they stopped working — they...",
+          "url": "https://dev.to/arnaldo_delisio_5e35889d/i-stopped-using-playwright-heres-what-replaced-it-48mo",
+          "author": {
+            "username": "arnaldo_delisio_5e35889d",
+            "name": "Arnaldo De Lisio",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2619146%2F5a015b13-2ab4-4788-aae7-c7b7f256c1bf.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-04-24T08:13:27Z",
+          "tags": [
+            "claudecode",
+            "testing",
+            "ai",
+            "webdev"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "vercel-labs/agent-browser",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "safishamsi/graphify": {
       "count7d": 2,
       "reactionsSum7d": 0,
       "commentsSum7d": 1,
       "topArticle": {
-        "id": 3527638,
-        "title": "AstCodeSplitter in claude-context codebase.",
-        "url": "https://dev.to/ramunarasinga-11/astcodesplitter-in-claude-context-codebase-33id",
-        "author": "ramunarasinga-11",
+        "id": 3542483,
+        "title": "Claude Code hooks: the half of Claude Code nobody uses",
+        "url": "https://dev.to/liran_baba/claude-code-hooks-the-half-of-claude-code-nobody-uses-5570",
+        "author": "liran_baba",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 94.3,
-        "readingTime": 3
+        "hoursSincePosted": 63.9,
+        "readingTime": 14
       },
       "articles": [
+        {
+          "id": 3542483,
+          "title": "Claude Code hooks: the half of Claude Code nobody uses",
+          "description": "I was halfway through writing this post when I decided to fact-check myself. Opened...",
+          "url": "https://dev.to/liran_baba/claude-code-hooks-the-half-of-claude-code-nobody-uses-5570",
+          "author": {
+            "username": "liran_baba",
+            "name": "Liran Baba",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3853249%2F1fb2b801-c7ae-463d-b813-a600cdd7ca4f.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 14,
+          "publishedAt": "2026-04-23T17:32:45Z",
+          "tags": [
+            "devtools",
+            "ai",
+            "claudecode"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "safishamsi/graphify",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3547262,
+          "title": "🤖 AI Dev Tools",
+          "description": "AI Dev Tools — Comparison    graphify vs claude-context vs axon vs Lynkr               🧠 The...",
+          "url": "https://dev.to/kalpesh47/ai-dev-tools-bmh",
+          "author": {
+            "username": "kalpesh47",
+            "name": "KALPESH",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3808502%2F8fb391da-71fa-4e30-8610-55972618d98c.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 1,
+          "readingTime": 2,
+          "publishedAt": "2026-04-24T18:49:12Z",
+          "tags": [
+            "ai",
+            "productivity",
+            "programming",
+            "tooling"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "zilliztech/claude-context",
+              "location": "body"
+            },
+            {
+              "fullName": "safishamsi/graphify",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "garrytan/gstack": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3548261,
+        "title": "GStack: Turn Claude Code Into a Full Engineering Team",
+        "url": "https://dev.to/max_quimby/gstack-turn-claude-code-into-a-full-engineering-team-1c7e",
+        "author": "max_quimby",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 29.3,
+        "readingTime": 5
+      },
+      "articles": [
+        {
+          "id": 3548261,
+          "title": "GStack: Turn Claude Code Into a Full Engineering Team",
+          "description": "Garry Tan's gstack gives Claude Code 23 specialist skills: CEO, Eng Manager, QA. 82K stars and still climbing. Here's what actually works.",
+          "url": "https://dev.to/max_quimby/gstack-turn-claude-code-into-a-full-engineering-team-1c7e",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 5,
+          "publishedAt": "2026-04-25T04:12:55Z",
+          "tags": [
+            "claudecode",
+            "ai",
+            "devtools",
+            "opensource"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gstack",
+              "location": "body"
+            },
+            {
+              "fullName": "code-yeongyu/oh-my-openagent",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "code-yeongyu/oh-my-openagent": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3548261,
+        "title": "GStack: Turn Claude Code Into a Full Engineering Team",
+        "url": "https://dev.to/max_quimby/gstack-turn-claude-code-into-a-full-engineering-team-1c7e",
+        "author": "max_quimby",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 29.3,
+        "readingTime": 5
+      },
+      "articles": [
+        {
+          "id": 3548261,
+          "title": "GStack: Turn Claude Code Into a Full Engineering Team",
+          "description": "Garry Tan's gstack gives Claude Code 23 specialist skills: CEO, Eng Manager, QA. 82K stars and still climbing. Here's what actually works.",
+          "url": "https://dev.to/max_quimby/gstack-turn-claude-code-into-a-full-engineering-team-1c7e",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 5,
+          "publishedAt": "2026-04-25T04:12:55Z",
+          "tags": [
+            "claudecode",
+            "ai",
+            "devtools",
+            "opensource"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gstack",
+              "location": "body"
+            },
+            {
+              "fullName": "code-yeongyu/oh-my-openagent",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "HKUDS/CLI-Anything": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3533285,
+        "title": "CLI-Anything: The Universal Bridge for AI Agents to Control Any Software",
+        "url": "https://dev.to/recca0120/cli-anything-the-universal-bridge-for-ai-agents-to-control-any-software-4ec3",
+        "author": "recca0120",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 109.7,
+        "readingTime": 6
+      },
+      "articles": [
+        {
+          "id": 3533285,
+          "title": "CLI-Anything: The Universal Bridge for AI Agents to Control Any Software",
+          "description": "No screenshots, no clicking — one command makes Claude Code generate a complete CLI for any software, letting AI agents directly call GIMP, Blender, and LibreOffice",
+          "url": "https://dev.to/recca0120/cli-anything-the-universal-bridge-for-ai-agents-to-control-any-software-4ec3",
+          "author": {
+            "username": "recca0120",
+            "name": "Recca Tsai",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F50274%2F427ea12d-13dd-4a0e-8955-dddfbf0a39ea.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 6,
+          "publishedAt": "2026-04-21T19:47:14Z",
+          "tags": [
+            "claudecode",
+            "agents",
+            "cli",
+            "automation"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "HKUDS/CLI-Anything",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "farion1231/cc-switch": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 1,
+      "topArticle": {
+        "id": 3538800,
+        "title": "Claude Code Agentic Stack: cc-switch & claude-context MCP",
+        "url": "https://dev.to/max_quimby/claude-code-agentic-stack-cc-switch-claude-context-mcp-1dg2",
+        "author": "max_quimby",
+        "reactions": 0,
+        "comments": 1,
+        "hoursSincePosted": 77.9,
+        "readingTime": 9
+      },
+      "articles": [
+        {
+          "id": 3538800,
+          "title": "Claude Code Agentic Stack: cc-switch & claude-context MCP",
+          "description": "Set up the full 2026 agentic developer stack with Claude Code, cc-switch CLI manager, and claude-context semantic code search MCP. Step-by-step guide.",
+          "url": "https://dev.to/max_quimby/claude-code-agentic-stack-cc-switch-claude-context-mcp-1dg2",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 1,
+          "readingTime": 9,
+          "publishedAt": "2026-04-23T03:36:41Z",
+          "tags": [
+            "claudecode",
+            "mcp",
+            "devtools",
+            "ai"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "farion1231/cc-switch",
+              "location": "body"
+            },
+            {
+              "fullName": "zilliztech/claude-context",
+              "location": "body"
+            },
+            {
+              "fullName": "shanraisshan/claude-code-best-practice",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "zilliztech/claude-context": {
+      "count7d": 3,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 2,
+      "topArticle": {
+        "id": 3538800,
+        "title": "Claude Code Agentic Stack: cc-switch & claude-context MCP",
+        "url": "https://dev.to/max_quimby/claude-code-agentic-stack-cc-switch-claude-context-mcp-1dg2",
+        "author": "max_quimby",
+        "reactions": 0,
+        "comments": 1,
+        "hoursSincePosted": 77.9,
+        "readingTime": 9
+      },
+      "articles": [
+        {
+          "id": 3538800,
+          "title": "Claude Code Agentic Stack: cc-switch & claude-context MCP",
+          "description": "Set up the full 2026 agentic developer stack with Claude Code, cc-switch CLI manager, and claude-context semantic code search MCP. Step-by-step guide.",
+          "url": "https://dev.to/max_quimby/claude-code-agentic-stack-cc-switch-claude-context-mcp-1dg2",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 1,
+          "readingTime": 9,
+          "publishedAt": "2026-04-23T03:36:41Z",
+          "tags": [
+            "claudecode",
+            "mcp",
+            "devtools",
+            "ai"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "farion1231/cc-switch",
+              "location": "body"
+            },
+            {
+              "fullName": "zilliztech/claude-context",
+              "location": "body"
+            },
+            {
+              "fullName": "shanraisshan/claude-code-best-practice",
+              "location": "body"
+            }
+          ]
+        },
         {
           "id": 3527638,
           "title": "AstCodeSplitter in claude-context codebase.",
@@ -945,6 +1280,55 @@
             }
           ]
         },
+        {
+          "id": 3547262,
+          "title": "🤖 AI Dev Tools",
+          "description": "AI Dev Tools — Comparison    graphify vs claude-context vs axon vs Lynkr               🧠 The...",
+          "url": "https://dev.to/kalpesh47/ai-dev-tools-bmh",
+          "author": {
+            "username": "kalpesh47",
+            "name": "KALPESH",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3808502%2F8fb391da-71fa-4e30-8610-55972618d98c.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 1,
+          "readingTime": 2,
+          "publishedAt": "2026-04-24T18:49:12Z",
+          "tags": [
+            "ai",
+            "productivity",
+            "programming",
+            "tooling"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "zilliztech/claude-context",
+              "location": "body"
+            },
+            {
+              "fullName": "safishamsi/graphify",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "shanraisshan/claude-code-best-practice": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 1,
+      "topArticle": {
+        "id": 3538800,
+        "title": "Claude Code Agentic Stack: cc-switch & claude-context MCP",
+        "url": "https://dev.to/max_quimby/claude-code-agentic-stack-cc-switch-claude-context-mcp-1dg2",
+        "author": "max_quimby",
+        "reactions": 0,
+        "comments": 1,
+        "hoursSincePosted": 77.9,
+        "readingTime": 9
+      },
+      "articles": [
         {
           "id": 3538800,
           "title": "Claude Code Agentic Stack: cc-switch & claude-context MCP",
@@ -994,7 +1378,7 @@
         "author": "hyhmrright",
         "reactions": 1,
         "comments": 1,
-        "hoursSincePosted": 70.9,
+        "hoursSincePosted": 114.6,
         "readingTime": 3
       },
       "articles": [
@@ -1039,7 +1423,7 @@
         "author": "_cbd692d476c5faf3b61bcf",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 76.2,
+        "hoursSincePosted": 119.9,
         "readingTime": 3
       },
       "articles": [
@@ -1068,380 +1452,95 @@
             {
               "fullName": "thedotmack/claude-mem",
               "location": "body"
-            },
-            {
-              "fullName": "topoteretes/cognee",
-              "location": "body"
             }
           ]
         }
       ]
     },
-    "topoteretes/cognee": {
+    "angelnicolasc/graymatter": {
       "count7d": 1,
       "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3531117,
-        "title": "你的 Claude Code 为什么总是不够聪明? -- Context Engineering 的 7 个进阶技巧",
-        "url": "https://dev.to/_cbd692d476c5faf3b61bcf/ni-de-claude-code-wei-shi-yao-zong-shi-bu-gou-cong-ming-context-engineering-de-7-ge-jin-jie-ji-qiao-1ep5",
-        "author": "_cbd692d476c5faf3b61bcf",
+        "id": 3538006,
+        "title": "I Got Tired of Re-explaining My Codebase to Claude Code Every Session. So I Built llmwiki.",
+        "url": "https://dev.to/emgiezet/i-got-tired-of-re-explaining-my-codebase-to-claude-code-every-session-so-i-built-llmwiki-4j2k",
+        "author": "emgiezet",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 76.2,
-        "readingTime": 3
+        "hoursSincePosted": 85,
+        "readingTime": 4
       },
       "articles": [
         {
-          "id": 3531117,
-          "title": "你的 Claude Code 为什么总是不够聪明? -- Context Engineering 的 7 个进阶技巧",
-          "description": "引言   我见过太多人装了 Claude Code，却只用来「帮我写个函数」「解释下这段代码」——然后抱怨 AI 编程是智商税。但真正的高手早就换了一套玩法：Context...",
-          "url": "https://dev.to/_cbd692d476c5faf3b61bcf/ni-de-claude-code-wei-shi-yao-zong-shi-bu-gou-cong-ming-context-engineering-de-7-ge-jin-jie-ji-qiao-1ep5",
+          "id": 3538006,
+          "title": "I Got Tired of Re-explaining My Codebase to Claude Code Every Session. So I Built llmwiki.",
+          "description": "The context-switch tax   If you juggle multiple projects across different clients and...",
+          "url": "https://dev.to/emgiezet/i-got-tired-of-re-explaining-my-codebase-to-claude-code-every-session-so-i-built-llmwiki-4j2k",
           "author": {
-            "username": "_cbd692d476c5faf3b61bcf",
-            "name": "韩",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3887968%2F282c87b1-7364-49c1-bfdb-fbfab6c1f3bc.jpeg"
+            "username": "emgiezet",
+            "name": "Max Małecki",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F581555%2F923d0ea0-a1fe-4a6c-95c3-36776e8d95ec.jpeg"
           },
           "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-04-21T09:33:29Z",
+          "readingTime": 4,
+          "publishedAt": "2026-04-22T20:31:57Z",
           "tags": [
-            "claude",
-            "productivity",
-            "programming",
-            "promptengineering"
+            "ai",
+            "opensource",
+            "devtools",
+            "claude"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "thedotmack/claude-mem",
-              "location": "body"
-            },
-            {
-              "fullName": "topoteretes/cognee",
+              "fullName": "angelnicolasc/graymatter",
               "location": "body"
             }
           ]
         }
       ]
     },
-    "JuliusBrussee/caveman": {
+    "shareAI-lab/learn-claude-code": {
       "count7d": 1,
       "reactionsSum7d": 6,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3513870,
-        "title": "How To Install Caveman In Codex On macOS And Windows",
-        "url": "https://dev.to/ganmahmud/how-to-install-caveman-in-codex-on-macos-and-windows-5a22",
-        "author": "ganmahmud",
+        "id": 3549001,
+        "title": "🤖 Learn Harness Engineering by Building a Mini Openclaw 🦞",
+        "url": "https://dev.to/truongpx396/learn-harness-engineering-by-building-a-mini-openclaw-bdm",
+        "author": "truongpx396",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 175.3,
-        "readingTime": 5
+        "hoursSincePosted": 24.9,
+        "readingTime": 6
       },
       "articles": [
         {
-          "id": 3513870,
-          "title": "How To Install Caveman In Codex On macOS And Windows",
-          "description": "If you use Codex inside VS Code and want shorter, more compressed responses, caveman is a simple...",
-          "url": "https://dev.to/ganmahmud/how-to-install-caveman-in-codex-on-macos-and-windows-5a22",
+          "id": 3549001,
+          "title": "🤖 Learn Harness Engineering by Building a Mini Openclaw 🦞",
+          "description": "Table of Contents    🔀 Origin &amp; Modifications 🤔 What is this? 🏗️ Architecture 🔗 Section...",
+          "url": "https://dev.to/truongpx396/learn-harness-engineering-by-building-a-mini-openclaw-bdm",
           "author": {
-            "username": "ganmahmud",
-            "name": "Gan Mahmud",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F484391%2F82329dea-0ccb-45a3-932f-6ec4f63c5d64.jpeg"
+            "username": "truongpx396",
+            "name": "Truong Phung",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2215325%2Ff0dca1b8-525d-45b6-bafc-f3d3141bc934.jpg"
           },
           "reactionsCount": 6,
           "commentsCount": 0,
-          "readingTime": 5,
-          "publishedAt": "2026-04-17T06:32:28Z",
-          "tags": [
-            "caveman",
-            "codex",
-            "ai",
-            "programming"
-          ],
-          "trendingScore": 0.03,
-          "linkedRepos": [
-            {
-              "fullName": "JuliusBrussee/caveman",
-              "location": "tag"
-            }
-          ]
-        }
-      ]
-    },
-    "openai/codex-plugin-cc": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3513176,
-        "title": "Three Ways to Call Codex from Claude Code — A Practical Breakdown",
-        "url": "https://dev.to/bokuno_log/three-ways-to-call-codex-from-claude-code-a-practical-breakdown-d8n",
-        "author": "bokuno_log",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 179.9,
-        "readingTime": 3
-      },
-      "articles": [
-        {
-          "id": 3513176,
-          "title": "Three Ways to Call Codex from Claude Code — A Practical Breakdown",
-          "description": "Note: A breakdown of the three methods for calling OpenAI Codex from within a Claude Code session —...",
-          "url": "https://dev.to/bokuno_log/three-ways-to-call-codex-from-claude-code-a-practical-breakdown-d8n",
-          "author": {
-            "username": "bokuno_log",
-            "name": "naoki_JPN",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3849123%2Fb9f651cc-b700-4b86-abdc-5048c5a502d7.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-04-17T01:54:38Z",
-          "tags": [
-            "claudecode",
-            "codex",
-            "openai",
-            "ai"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "openai/codex-plugin-cc",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "BerriAI/litellm": {
-      "count7d": 2,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3519041,
-        "title": "Go Is Quietly Winning the AI Backend Race in 2026. Here's the Evidence.",
-        "url": "https://dev.to/gabrielanhaia/go-is-quietly-winning-the-ai-backend-race-in-2026-heres-the-evidence-dpi",
-        "author": "gabrielanhaia",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 147.5,
-        "readingTime": 8
-      },
-      "articles": [
-        {
-          "id": 3519041,
-          "title": "Go Is Quietly Winning the AI Backend Race in 2026. Here's the Evidence.",
-          "description": "Python still owns model training. But the 2026 AI serving layer, gateways, agent runtimes, and observability pipelines, keeps getting written in Go. A look at who is shipping what.",
-          "url": "https://dev.to/gabrielanhaia/go-is-quietly-winning-the-ai-backend-race-in-2026-heres-the-evidence-dpi",
-          "author": {
-            "username": "gabrielanhaia",
-            "name": "Gabriel Anhaia",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F425693%2Fb4e58b6f-fdb0-4d1d-b333-87582f0b663d.jpeg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 8,
-          "publishedAt": "2026-04-18T10:15:00Z",
+          "readingTime": 6,
+          "publishedAt": "2026-04-25T08:34:29Z",
           "tags": [
             "ai",
-            "go",
-            "backend",
+            "webdev",
+            "programming",
             "llm"
           ],
-          "trendingScore": 0,
+          "trendingScore": 0.19,
           "linkedRepos": [
             {
-              "fullName": "BerriAI/litellm",
-              "location": "body"
-            },
-            {
-              "fullName": "cloudwego/eino",
-              "location": "body"
-            },
-            {
-              "fullName": "qdrant/qdrant",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3518948,
-          "title": "This Week in AI (April 14–20, 2026): The Stories That Actually Mattered",
-          "description": "Five stories this week. Three changes to your roadmap. Two will be cited in postmortems next year. None of them is a new model benchmark.",
-          "url": "https://dev.to/gabrielanhaia/this-week-in-ai-april-14-20-2026-the-stories-that-actually-mattered-2pj9",
-          "author": {
-            "username": "gabrielanhaia",
-            "name": "Gabriel Anhaia",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F425693%2Fb4e58b6f-fdb0-4d1d-b333-87582f0b663d.jpeg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-04-18T09:56:22Z",
-          "tags": [
-            "ai",
-            "llm",
-            "news",
-            "webdev"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "BerriAI/litellm",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "cloudwego/eino": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3519041,
-        "title": "Go Is Quietly Winning the AI Backend Race in 2026. Here's the Evidence.",
-        "url": "https://dev.to/gabrielanhaia/go-is-quietly-winning-the-ai-backend-race-in-2026-heres-the-evidence-dpi",
-        "author": "gabrielanhaia",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 147.5,
-        "readingTime": 8
-      },
-      "articles": [
-        {
-          "id": 3519041,
-          "title": "Go Is Quietly Winning the AI Backend Race in 2026. Here's the Evidence.",
-          "description": "Python still owns model training. But the 2026 AI serving layer, gateways, agent runtimes, and observability pipelines, keeps getting written in Go. A look at who is shipping what.",
-          "url": "https://dev.to/gabrielanhaia/go-is-quietly-winning-the-ai-backend-race-in-2026-heres-the-evidence-dpi",
-          "author": {
-            "username": "gabrielanhaia",
-            "name": "Gabriel Anhaia",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F425693%2Fb4e58b6f-fdb0-4d1d-b333-87582f0b663d.jpeg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 8,
-          "publishedAt": "2026-04-18T10:15:00Z",
-          "tags": [
-            "ai",
-            "go",
-            "backend",
-            "llm"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "BerriAI/litellm",
-              "location": "body"
-            },
-            {
-              "fullName": "cloudwego/eino",
-              "location": "body"
-            },
-            {
-              "fullName": "qdrant/qdrant",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "qdrant/qdrant": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3519041,
-        "title": "Go Is Quietly Winning the AI Backend Race in 2026. Here's the Evidence.",
-        "url": "https://dev.to/gabrielanhaia/go-is-quietly-winning-the-ai-backend-race-in-2026-heres-the-evidence-dpi",
-        "author": "gabrielanhaia",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 147.5,
-        "readingTime": 8
-      },
-      "articles": [
-        {
-          "id": 3519041,
-          "title": "Go Is Quietly Winning the AI Backend Race in 2026. Here's the Evidence.",
-          "description": "Python still owns model training. But the 2026 AI serving layer, gateways, agent runtimes, and observability pipelines, keeps getting written in Go. A look at who is shipping what.",
-          "url": "https://dev.to/gabrielanhaia/go-is-quietly-winning-the-ai-backend-race-in-2026-heres-the-evidence-dpi",
-          "author": {
-            "username": "gabrielanhaia",
-            "name": "Gabriel Anhaia",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F425693%2Fb4e58b6f-fdb0-4d1d-b333-87582f0b663d.jpeg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 8,
-          "publishedAt": "2026-04-18T10:15:00Z",
-          "tags": [
-            "ai",
-            "go",
-            "backend",
-            "llm"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "BerriAI/litellm",
-              "location": "body"
-            },
-            {
-              "fullName": "cloudwego/eino",
-              "location": "body"
-            },
-            {
-              "fullName": "qdrant/qdrant",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "ggml-org/llama.cpp": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3538895,
-        "title": "Gemma 4 VLA chạy cục bộ trên Jetson Orin Nano 8GB",
-        "url": "https://dev.to/david_chan_1994/gemma-4-vla-chay-cuc-bo-tren-jetson-orin-nano-8gb-1ng0",
-        "author": "david_chan_1994",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 33.6,
-        "readingTime": 20
-      },
-      "articles": [
-        {
-          "id": 3538895,
-          "title": "Gemma 4 VLA chạy cục bộ trên Jetson Orin Nano 8GB",
-          "description": "Tổng quan hệ thống, tối ưu và cách triển khai   Chạy một mô hình Vision-Language-Action...",
-          "url": "https://dev.to/david_chan_1994/gemma-4-vla-chay-cuc-bo-tren-jetson-orin-nano-8gb-1ng0",
-          "author": {
-            "username": "david_chan_1994",
-            "name": "David Chan",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3848717%2Fa1478b9c-a211-4b5a-be15-389083ff5b42.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 20,
-          "publishedAt": "2026-04-23T04:13:03Z",
-          "tags": [
-            "ai",
-            "google",
-            "iot",
-            "llm"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "ggml-org/llama.cpp",
+              "fullName": "shareAI-lab/learn-claude-code",
               "location": "body"
             }
           ]
@@ -1459,7 +1558,7 @@
         "author": "franciscoferreiraff",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 21.1,
+        "hoursSincePosted": 64.8,
         "readingTime": 4
       },
       "articles": [
@@ -1493,6 +1592,51 @@
         }
       ]
     },
+    "ggml-org/llama.cpp": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3538895,
+        "title": "Gemma 4 VLA chạy cục bộ trên Jetson Orin Nano 8GB",
+        "url": "https://dev.to/david_chan_1994/gemma-4-vla-chay-cuc-bo-tren-jetson-orin-nano-8gb-1ng0",
+        "author": "david_chan_1994",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 77.3,
+        "readingTime": 20
+      },
+      "articles": [
+        {
+          "id": 3538895,
+          "title": "Gemma 4 VLA chạy cục bộ trên Jetson Orin Nano 8GB",
+          "description": "Tổng quan hệ thống, tối ưu và cách triển khai   Chạy một mô hình Vision-Language-Action...",
+          "url": "https://dev.to/david_chan_1994/gemma-4-vla-chay-cuc-bo-tren-jetson-orin-nano-8gb-1ng0",
+          "author": {
+            "username": "david_chan_1994",
+            "name": "David Chan",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3848717%2Fa1478b9c-a211-4b5a-be15-389083ff5b42.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 20,
+          "publishedAt": "2026-04-23T04:13:03Z",
+          "tags": [
+            "ai",
+            "google",
+            "iot",
+            "llm"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "ggml-org/llama.cpp",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "garrytan/gbrain": {
       "count7d": 1,
       "reactionsSum7d": 2,
@@ -1504,7 +1648,7 @@
         "author": "wonderlab",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 29.9,
+        "hoursSincePosted": 73.6,
         "readingTime": 7
       },
       "articles": [
@@ -1528,7 +1672,7 @@
             "mcp",
             "yc"
           ],
-          "trendingScore": 0.02,
+          "trendingScore": 0.01,
           "linkedRepos": [
             {
               "fullName": "garrytan/gbrain",
@@ -1549,7 +1693,7 @@
         "author": "kenimo49",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 72.8,
+        "hoursSincePosted": 116.5,
         "readingTime": 7
       },
       "articles": [
@@ -1583,6 +1727,51 @@
         }
       ]
     },
+    "Ar9av/obsidian-wiki": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3545056,
+        "title": "Le Wiki LLM : Une révolution dans la gestion de la connaissance",
+        "url": "https://dev.to/yohann_streibel_7e1f7b4b8/le-wiki-llm-une-revolution-dans-la-gestion-de-la-connaissance-3m1f",
+        "author": "yohann_streibel_7e1f7b4b8",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 43.8,
+        "readingTime": 8
+      },
+      "articles": [
+        {
+          "id": 3545056,
+          "title": "Le Wiki LLM : Une révolution dans la gestion de la connaissance",
+          "description": "Le problème avec le RAG classique   La plupart des systèmes RAG (Retrieval Augmented...",
+          "url": "https://dev.to/yohann_streibel_7e1f7b4b8/le-wiki-llm-une-revolution-dans-la-gestion-de-la-connaissance-3m1f",
+          "author": {
+            "username": "yohann_streibel_7e1f7b4b8",
+            "name": "yohann streibel",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2880966%2F7c05addc-b0f9-4811-9b22-121f24158f04.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 8,
+          "publishedAt": "2026-04-24T13:42:46Z",
+          "tags": [
+            "ai",
+            "rag",
+            "programming",
+            "productivity"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "Ar9av/obsidian-wiki",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "FujiwaraChoki/MoneyPrinterV2": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -1594,7 +1783,7 @@
         "author": "wonderlab",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 132.1,
+        "hoursSincePosted": 175.8,
         "readingTime": 2
       },
       "articles": [
@@ -1639,7 +1828,7 @@
         "author": "sourcier",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 52.6,
+        "hoursSincePosted": 96.3,
         "readingTime": 5
       },
       "articles": [
@@ -1683,7 +1872,7 @@
         "author": "higorae",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 73.4,
+        "hoursSincePosted": 117.1,
         "readingTime": 4
       },
       "articles": [
@@ -1717,45 +1906,45 @@
         }
       ]
     },
-    "HKUDS/CLI-Anything": {
+    "temporalio/temporal": {
       "count7d": 1,
       "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3533285,
-        "title": "CLI-Anything: The Universal Bridge for AI Agents to Control Any Software",
-        "url": "https://dev.to/recca0120/cli-anything-the-universal-bridge-for-ai-agents-to-control-any-software-4ec3",
-        "author": "recca0120",
+        "id": 3549878,
+        "title": "9 Tools Big Tech Uses Internally (Now Open Source)",
+        "url": "https://dev.to/sonotommy/9-tools-big-tech-uses-internally-now-open-source-1j4g",
+        "author": "sonotommy",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 66,
-        "readingTime": 6
+        "hoursSincePosted": 20.5,
+        "readingTime": 8
       },
       "articles": [
         {
-          "id": 3533285,
-          "title": "CLI-Anything: The Universal Bridge for AI Agents to Control Any Software",
-          "description": "No screenshots, no clicking — one command makes Claude Code generate a complete CLI for any software, letting AI agents directly call GIMP, Blender, and LibreOffice",
-          "url": "https://dev.to/recca0120/cli-anything-the-universal-bridge-for-ai-agents-to-control-any-software-4ec3",
+          "id": 3549878,
+          "title": "9 Tools Big Tech Uses Internally (Now Open Source)",
+          "description": "Most \"best tools\" lists are just GitHub trending with extra steps.  Same 10 repos. Same README...",
+          "url": "https://dev.to/sonotommy/9-tools-big-tech-uses-internally-now-open-source-1j4g",
           "author": {
-            "username": "recca0120",
-            "name": "Recca Tsai",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F50274%2F427ea12d-13dd-4a0e-8955-dddfbf0a39ea.png"
+            "username": "sonotommy",
+            "name": "Tommaso Bertocchi",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3399256%2F111d6919-72dc-4992-a6c6-2b20a4ccf85b.jpeg"
           },
           "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 6,
-          "publishedAt": "2026-04-21T19:47:14Z",
+          "readingTime": 8,
+          "publishedAt": "2026-04-25T12:59:02Z",
           "tags": [
-            "claudecode",
-            "agents",
-            "cli",
-            "automation"
+            "devops",
+            "opensource",
+            "webdev",
+            "tooling"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "HKUDS/CLI-Anything",
+              "fullName": "temporalio/temporal",
               "location": "body"
             }
           ]
@@ -1773,7 +1962,7 @@
         "author": "_46ea277e677b888e0cd13",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 83.4,
+        "hoursSincePosted": 127.1,
         "readingTime": 6
       },
       "articles": [
@@ -1807,6 +1996,55 @@
         }
       ]
     },
+    "zilliztech/memsearch": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3550670,
+        "title": "Claude Code Ecosystem 2026: Memory, Sync, and Mobile Tools",
+        "url": "https://dev.to/sahil_kat/claude-code-ecosystem-2026-memory-sync-and-mobile-tools-5788",
+        "author": "sahil_kat",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 16,
+        "readingTime": 9
+      },
+      "articles": [
+        {
+          "id": 3550670,
+          "title": "Claude Code Ecosystem 2026: Memory, Sync, and Mobile Tools",
+          "description": "Claude Code is one of the most capable AI coding agents available today, but it ships with three...",
+          "url": "https://dev.to/sahil_kat/claude-code-ecosystem-2026-memory-sync-and-mobile-tools-5788",
+          "author": {
+            "username": "sahil_kat",
+            "name": "Sahil Kathpal",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3855263%2Fbad52ee6-c66a-49f1-846f-440b94963de2.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 9,
+          "publishedAt": "2026-04-25T17:30:15Z",
+          "tags": [
+            "agents",
+            "claude",
+            "productivity",
+            "tooling"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            },
+            {
+              "fullName": "zilliztech/memsearch",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "openai/euphony": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -1818,7 +2056,7 @@
         "author": "_46ea277e677b888e0cd13",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 60.2,
+        "hoursSincePosted": 103.9,
         "readingTime": 3
       },
       "articles": [
@@ -1846,210 +2084,6 @@
           "linkedRepos": [
             {
               "fullName": "openai/euphony",
-              "location": "body"
-            },
-            {
-              "fullName": "openai/harmony",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "openai/harmony": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3533927,
-        "title": "OpenAI Euphony: A Browser-Based Viewer for Harmony Conversations and Codex CLI Sessions",
-        "url": "https://dev.to/_46ea277e677b888e0cd13/openai-euphony-a-browser-based-viewer-for-harmony-conversations-and-codex-cli-sessions-5gcn",
-        "author": "_46ea277e677b888e0cd13",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 60.2,
-        "readingTime": 3
-      },
-      "articles": [
-        {
-          "id": 3533927,
-          "title": "OpenAI Euphony: A Browser-Based Viewer for Harmony Conversations and Codex CLI Sessions",
-          "description": "OpenAI Euphony: A Browser-Based Viewer for Harmony Conversations and Codex CLI...",
-          "url": "https://dev.to/_46ea277e677b888e0cd13/openai-euphony-a-browser-based-viewer-for-harmony-conversations-and-codex-cli-sessions-5gcn",
-          "author": {
-            "username": "_46ea277e677b888e0cd13",
-            "name": "정상록",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3798483%2F5958ee10-90dd-45e5-815a-91d3f8196156.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-04-22T01:35:21Z",
-          "tags": [
-            "ai",
-            "openai",
-            "opensource",
-            "tooling"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "openai/euphony",
-              "location": "body"
-            },
-            {
-              "fullName": "openai/harmony",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "ryoppippi/ccusage": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3535197,
-        "title": "ccusage-web – web dashboard to track Claude Code token costs",
-        "url": "https://dev.to/hamzaahmedkhan/ccusage-web-web-dashboard-to-track-claude-code-token-costs-3l17",
-        "author": "hamzaahmedkhan",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 54.2,
-        "readingTime": 1
-      },
-      "articles": [
-        {
-          "id": 3535197,
-          "title": "ccusage-web – web dashboard to track Claude Code token costs",
-          "description": "A web UI for ccusage — the Claude Code usage analyzer. See your Claude costs by day, month, session,...",
-          "url": "https://dev.to/hamzaahmedkhan/ccusage-web-web-dashboard-to-track-claude-code-token-costs-3l17",
-          "author": {
-            "username": "hamzaahmedkhan",
-            "name": "Hamza Khan",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F481199%2F4c0ac2c3-f723-433e-9666-49a7c231ade3.jpeg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 1,
-          "publishedAt": "2026-04-22T07:38:44Z",
-          "tags": [
-            "claude",
-            "ai",
-            "tooling",
-            "showdev"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "ryoppippi/ccusage",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "farion1231/cc-switch": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 1,
-      "topArticle": {
-        "id": 3538800,
-        "title": "Claude Code Agentic Stack: cc-switch & claude-context MCP",
-        "url": "https://dev.to/max_quimby/claude-code-agentic-stack-cc-switch-claude-context-mcp-1dg2",
-        "author": "max_quimby",
-        "reactions": 0,
-        "comments": 1,
-        "hoursSincePosted": 34.2,
-        "readingTime": 9
-      },
-      "articles": [
-        {
-          "id": 3538800,
-          "title": "Claude Code Agentic Stack: cc-switch & claude-context MCP",
-          "description": "Set up the full 2026 agentic developer stack with Claude Code, cc-switch CLI manager, and claude-context semantic code search MCP. Step-by-step guide.",
-          "url": "https://dev.to/max_quimby/claude-code-agentic-stack-cc-switch-claude-context-mcp-1dg2",
-          "author": {
-            "username": "max_quimby",
-            "name": "Max Quimby",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 1,
-          "readingTime": 9,
-          "publishedAt": "2026-04-23T03:36:41Z",
-          "tags": [
-            "claudecode",
-            "mcp",
-            "devtools",
-            "ai"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "farion1231/cc-switch",
-              "location": "body"
-            },
-            {
-              "fullName": "zilliztech/claude-context",
-              "location": "body"
-            },
-            {
-              "fullName": "shanraisshan/claude-code-best-practice",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "shanraisshan/claude-code-best-practice": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 1,
-      "topArticle": {
-        "id": 3538800,
-        "title": "Claude Code Agentic Stack: cc-switch & claude-context MCP",
-        "url": "https://dev.to/max_quimby/claude-code-agentic-stack-cc-switch-claude-context-mcp-1dg2",
-        "author": "max_quimby",
-        "reactions": 0,
-        "comments": 1,
-        "hoursSincePosted": 34.2,
-        "readingTime": 9
-      },
-      "articles": [
-        {
-          "id": 3538800,
-          "title": "Claude Code Agentic Stack: cc-switch & claude-context MCP",
-          "description": "Set up the full 2026 agentic developer stack with Claude Code, cc-switch CLI manager, and claude-context semantic code search MCP. Step-by-step guide.",
-          "url": "https://dev.to/max_quimby/claude-code-agentic-stack-cc-switch-claude-context-mcp-1dg2",
-          "author": {
-            "username": "max_quimby",
-            "name": "Max Quimby",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 1,
-          "readingTime": 9,
-          "publishedAt": "2026-04-23T03:36:41Z",
-          "tags": [
-            "claudecode",
-            "mcp",
-            "devtools",
-            "ai"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "farion1231/cc-switch",
-              "location": "body"
-            },
-            {
-              "fullName": "zilliztech/claude-context",
-              "location": "body"
-            },
-            {
-              "fullName": "shanraisshan/claude-code-best-practice",
               "location": "body"
             }
           ]
@@ -2067,7 +2101,7 @@
         "author": "asynchronope",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 24.7,
+        "hoursSincePosted": 68.4,
         "readingTime": 4
       },
       "articles": [
@@ -2116,7 +2150,7 @@
         "author": "asynchronope",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 24.7,
+        "hoursSincePosted": 68.4,
         "readingTime": 4
       },
       "articles": [
@@ -2153,18 +2187,58 @@
           ]
         }
       ]
+    },
+    "obra/superpowers": {
+      "count7d": 1,
+      "reactionsSum7d": 2,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3549278,
+        "title": "Introducing fulgur: a blazing fast HTML-to-PDF engine in Rust — no browser required",
+        "url": "https://dev.to/mitsuru/introducing-fulgur-a-blazing-fast-html-to-pdf-engine-in-rust-no-browser-required-ghl",
+        "author": "mitsuru",
+        "reactions": 2,
+        "comments": 0,
+        "hoursSincePosted": 23.4,
+        "readingTime": 8
+      },
+      "articles": [
+        {
+          "id": 3549278,
+          "title": "Introducing fulgur: a blazing fast HTML-to-PDF engine in Rust — no browser required",
+          "description": "How I built fulgur, a Rust HTML-to-PDF engine on top of Blitz + Krilla — 200-page docs in 190ms with 57MB memory, no Chromium required.",
+          "url": "https://dev.to/mitsuru/introducing-fulgur-a-blazing-fast-html-to-pdf-engine-in-rust-no-browser-required-ghl",
+          "author": {
+            "username": "mitsuru",
+            "name": "mitsuru",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3897304%2Ff59fe6c9-e8d8-46f9-b01d-54c028bf14fa.png"
+          },
+          "reactionsCount": 2,
+          "commentsCount": 0,
+          "readingTime": 8,
+          "publishedAt": "2026-04-25T10:03:22Z",
+          "tags": [
+            "rust",
+            "pdf",
+            "opensource",
+            "ai"
+          ],
+          "trendingScore": 0.03,
+          "linkedRepos": [
+            {
+              "fullName": "obra/superpowers",
+              "location": "body"
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
       "fullName": "openclaw/openclaw",
       "count7d": 4,
-      "reactionsSum7d": 63
-    },
-    {
-      "fullName": "HexmosTech/git-lrc",
-      "count7d": 1,
-      "reactionsSum7d": 21
+      "reactionsSum7d": 70
     },
     {
       "fullName": "forrestchang/andrej-karpathy-skills",
@@ -2172,14 +2246,9 @@
       "reactionsSum7d": 7
     },
     {
-      "fullName": "JuliusBrussee/caveman",
+      "fullName": "shareAI-lab/learn-claude-code",
       "count7d": 1,
       "reactionsSum7d": 6
-    },
-    {
-      "fullName": "safishamsi/graphify",
-      "count7d": 2,
-      "reactionsSum7d": 2
     },
     {
       "fullName": "garrytan/gbrain",
@@ -2187,8 +2256,13 @@
       "reactionsSum7d": 2
     },
     {
+      "fullName": "obra/superpowers",
+      "count7d": 1,
+      "reactionsSum7d": 2
+    },
+    {
       "fullName": "anthropics/claude-code",
-      "count7d": 6,
+      "count7d": 9,
       "reactionsSum7d": 1
     },
     {
@@ -2202,7 +2276,17 @@
       "reactionsSum7d": 1
     },
     {
+      "fullName": "gitleaks/gitleaks",
+      "count7d": 1,
+      "reactionsSum7d": 1
+    },
+    {
       "fullName": "mnfst/awesome-free-llm-apis",
+      "count7d": 1,
+      "reactionsSum7d": 1
+    },
+    {
+      "fullName": "trufflesecurity/trufflehog",
       "count7d": 1,
       "reactionsSum7d": 1
     },
@@ -2212,13 +2296,23 @@
       "reactionsSum7d": 1
     },
     {
-      "fullName": "BerriAI/litellm",
+      "fullName": "zilliztech/claude-context",
+      "count7d": 3,
+      "reactionsSum7d": 0
+    },
+    {
+      "fullName": "safishamsi/graphify",
       "count7d": 2,
       "reactionsSum7d": 0
     },
     {
-      "fullName": "zilliztech/claude-context",
-      "count7d": 2,
+      "fullName": "angelnicolasc/graymatter",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
+      "fullName": "Ar9av/obsidian-wiki",
+      "count7d": 1,
       "reactionsSum7d": 0
     },
     {
@@ -2232,7 +2326,7 @@
       "reactionsSum7d": 0
     },
     {
-      "fullName": "cloudwego/eino",
+      "fullName": "code-yeongyu/oh-my-openagent",
       "count7d": 1,
       "reactionsSum7d": 0
     },
@@ -2248,6 +2342,11 @@
     },
     {
       "fullName": "FujiwaraChoki/MoneyPrinterV2",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
+      "fullName": "garrytan/gstack",
       "count7d": 1,
       "reactionsSum7d": 0
     },
@@ -2277,27 +2376,7 @@
       "reactionsSum7d": 0
     },
     {
-      "fullName": "Open-Dev-Society/OpenStock",
-      "count7d": 1,
-      "reactionsSum7d": 0
-    },
-    {
-      "fullName": "openai/codex-plugin-cc",
-      "count7d": 1,
-      "reactionsSum7d": 0
-    },
-    {
       "fullName": "openai/euphony",
-      "count7d": 1,
-      "reactionsSum7d": 0
-    },
-    {
-      "fullName": "openai/harmony",
-      "count7d": 1,
-      "reactionsSum7d": 0
-    },
-    {
-      "fullName": "qdrant/qdrant",
       "count7d": 1,
       "reactionsSum7d": 0
     },
@@ -2307,12 +2386,12 @@
       "reactionsSum7d": 0
     },
     {
-      "fullName": "ryoppippi/ccusage",
+      "fullName": "shanraisshan/claude-code-best-practice",
       "count7d": 1,
       "reactionsSum7d": 0
     },
     {
-      "fullName": "shanraisshan/claude-code-best-practice",
+      "fullName": "temporalio/temporal",
       "count7d": 1,
       "reactionsSum7d": 0
     },
@@ -2322,12 +2401,12 @@
       "reactionsSum7d": 0
     },
     {
-      "fullName": "topoteretes/cognee",
+      "fullName": "vercel-labs/agent-browser",
       "count7d": 1,
       "reactionsSum7d": 0
     },
     {
-      "fullName": "vercel-labs/agent-browser",
+      "fullName": "zilliztech/memsearch",
       "count7d": 1,
       "reactionsSum7d": 0
     }

@@ -31,7 +31,10 @@ import { NextRequest, NextResponse } from "next/server";
 import path from "node:path";
 
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
-import { getRepoProfile } from "@/lib/repo-profiles";
+import {
+  getRepoProfile,
+  refreshRepoProfilesFromStore,
+} from "@/lib/repo-profiles";
 import {
   appendJsonlFile,
   currentDataDir,
@@ -178,6 +181,7 @@ export async function GET(
     );
   }
 
+  await refreshRepoProfilesFromStore();
   const profile = getRepoProfile(repo.fullName);
   const scan = profile?.aisoScan ?? null;
   const uiStatus = toUiStatus(scan, profile?.status);
@@ -263,6 +267,7 @@ export async function POST(
     );
   }
 
+  await refreshRepoProfilesFromStore();
   const profile = getRepoProfile(repo.fullName);
   const websiteUrl = profile?.websiteUrl ?? null;
   const queuedAt = new Date().toISOString();

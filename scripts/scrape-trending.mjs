@@ -7,6 +7,7 @@ import { writeFile, mkdir, readdir, readFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { fetchJsonWithRetry } from "./_fetch-json.mjs";
+import { writeDataStore } from "./_data-store-write.mjs";
 
 const PERIODS = ["past_24_hours", "past_week", "past_month"];
 const LANGUAGES = ["All", "Python", "TypeScript", "Rust", "Go"];
@@ -178,10 +179,18 @@ async function main() {
       "utf8",
     );
 
+    // Dual-write: also push to data-store so live readers see fresh data
+    // without waiting for a deploy. Throws if Redis is configured but
+    // unreachable — workflow goes red, operator notices.
+    const trendsRedis = await writeDataStore("trending", trendsPayload);
+    const hotRedis = await writeDataStore("hot-collections", hotCollectionsPayload);
+
     console.log(
-      `wrote ${TRENDS_OUT} (${totalRows} rows across ${PERIODS.length * LANGUAGES.length} buckets)`,
+      `wrote ${TRENDS_OUT} (${totalRows} rows across ${PERIODS.length * LANGUAGES.length} buckets) [redis: ${trendsRedis.source}]`,
     );
-    console.log(`wrote ${HOT_COLLECTIONS_OUT} (${hotCollections.length} rows)`);
+    console.log(
+      `wrote ${HOT_COLLECTIONS_OUT} (${hotCollections.length} rows) [redis: ${hotRedis.source}]`,
+    );
   }
 
   if (fetchCollectionRankings) {
@@ -215,8 +224,13 @@ async function main() {
       "utf8",
     );
 
+    const rankingsRedis = await writeDataStore(
+      "collection-rankings",
+      collectionRankingsPayload,
+    );
+
     console.log(
-      `wrote ${COLLECTION_RANKINGS_OUT} (${totalCollectionRankingRows} rows across ${collectionRefs.length} collections x ${COLLECTION_RANKING_METRICS.length} metrics)`,
+      `wrote ${COLLECTION_RANKINGS_OUT} (${totalCollectionRankingRows} rows across ${collectionRefs.length} collections x ${COLLECTION_RANKING_METRICS.length} metrics) [redis: ${rankingsRedis.source}]`,
     );
   }
 }

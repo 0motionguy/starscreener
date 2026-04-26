@@ -22,6 +22,7 @@ import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { execFileSync } from "node:child_process";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { writeDataStore } from "./_data-store-write.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
@@ -242,7 +243,11 @@ async function main() {
   await mkdir(dirname(OUT_PATH), { recursive: true });
   await writeFile(OUT_PATH, JSON.stringify(payload, null, 2) + "\n", "utf8");
 
-  console.log(`wrote ${OUT_PATH}`);
+  // Dual-write: also push to data-store so live readers see fresh data
+  // without waiting for a deploy.
+  const result = await writeDataStore("deltas", payload);
+
+  console.log(`wrote ${OUT_PATH} [redis: ${result.source}]`);
   console.log(`repos: ${currentStars.size}`);
   for (const w of WINDOWS) {
     const c = coverage[w.key];

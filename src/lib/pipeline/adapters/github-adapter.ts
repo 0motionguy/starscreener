@@ -10,6 +10,19 @@ import type {
   GitHubRepoRaw,
   GitHubReleaseRaw,
 } from "../types";
+import {
+  GitHubTokenPoolEmptyError,
+  GitHubTokenPoolExhaustedError,
+  createGitHubTokenPool,
+  getGitHubTokenPool,
+  parseRateLimitHeaders,
+  redactToken,
+  type GitHubTokenPool,
+} from "@/lib/github-token-pool";
+// Phase 2C: per-source circuit breaker. Wrapped around request() so a
+// flapping GitHub API doesn't keep getting hit and an OPEN breaker
+// short-circuits before we burn quota on requests we know will fail.
+import { sourceHealthTracker } from "@/lib/source-health-tracker";
 
 const GITHUB_API = "https://api.github.com";
 const FETCH_TIMEOUT_MS = 10_000;
@@ -49,11 +62,33 @@ interface RateLimitState {
 export class GitHubApiAdapter implements GitHubAdapter {
   public readonly id = "github" as const;
 
-  private readonly token: string | undefined;
+  /**
+   * Token pool — shared singleton in production, but constructor allows an
+   * override for tests. When `opts.token` is passed (legacy path), we wrap it
+   * in a one-token throwaway pool so the new request flow stays uniform.
+   *
+   * The pool's per-token quota tracking supersedes the single
+   * `rateLimit` cache that used to live on this class. We keep the field
+   * around for `getRateLimit()` so observers see the most recent header
+   * snapshot from whichever token was used last.
+   */
+  private readonly pool: GitHubTokenPool;
   private rateLimit: RateLimitState = { remaining: null, reset: null };
 
-  constructor(opts: { token?: string } = {}) {
-    this.token = opts.token ?? process.env.GITHUB_TOKEN ?? undefined;
+  constructor(opts: { token?: string; pool?: GitHubTokenPool } = {}) {
+    if (opts.pool) {
+      this.pool = opts.pool;
+    } else if (opts.token) {
+      // Wrap the legacy single-token path so callers that still pass
+      // `{ token }` keep working. The pool exists per-instance in this
+      // case (no cross-instance sharing), which matches the prior
+      // behaviour where each adapter held its own token.
+      this.pool = createGitHubTokenPool({
+        env: { GITHUB_TOKEN: opts.token },
+      });
+    } else {
+      this.pool = getGitHubTokenPool();
+    }
   }
 
   // -------------------------------------------------------------------------
@@ -184,10 +219,10 @@ export class GitHubApiAdapter implements GitHubAdapter {
   // Internals
   // -------------------------------------------------------------------------
 
-  private buildHeaders(): Record<string, string> {
+  private buildHeaders(token: string | null): Record<string, string> {
     const headers: Record<string, string> = { ...BASE_HEADERS };
-    if (this.token) {
-      headers["Authorization"] = `Bearer ${this.token}`;
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
     }
     return headers;
   }
@@ -200,23 +235,53 @@ export class GitHubApiAdapter implements GitHubAdapter {
    * Retries up to 2 extra times on 429 and 5xx responses with exponential
    * backoff (1s, 2s). Logs each fetch with the current rate-limit remaining
    * count for observability.
+   *
+   * Each attempt reads a fresh token from the pool so a 429/5xx retry can
+   * land on a different PAT — exactly the behaviour we want when the cause
+   * was secondary-rate-limit on the previous token.
    */
   private async request(path: string): Promise<Response | null> {
-    if (this.isRateLimited()) {
+    // Circuit breaker short-circuit BEFORE any work — saves quota on a
+    // known-flapping upstream. Breaker reopens after the cooldown so this
+    // is auto-healing (no operator action required for transient outages).
+    if (sourceHealthTracker.isOpen("github")) {
       console.warn(
-        `[github-adapter] rate limited — refusing request to ${path} until ${this.rateLimit.reset}`,
+        `[github-adapter] breaker OPEN for source 'github' — short-circuiting ${path}`,
       );
       return null;
     }
 
     const maxAttempts = 3; // 1 original + 2 retries
     for (let attempt = 0; attempt < maxAttempts; attempt++) {
+      // Pull a token per attempt so retries can fail over to a healthy PAT.
+      // An exhausted pool surfaces as a hard error — we do not silently
+      // drop to unauthenticated requests because the operator needs to
+      // know they need to rotate / add tokens.
+      let token: string | null = null;
+      try {
+        token = this.pool.getNextToken();
+      } catch (err) {
+        if (err instanceof GitHubTokenPoolEmptyError) {
+          // No tokens at all — fall through to an unauthenticated call.
+          // This preserves dev-machine behaviour where someone runs the
+          // adapter without a PAT and accepts the 60/hr cap.
+          token = null;
+        } else if (err instanceof GitHubTokenPoolExhaustedError) {
+          console.warn(
+            `[github-adapter] every PAT in the pool is rate-limited; refusing ${path}. ${err.message}`,
+          );
+          return null;
+        } else {
+          throw err;
+        }
+      }
+
       let res: Response;
       const { signal, clear } = timeoutSignal(FETCH_TIMEOUT_MS);
       try {
         res = await fetch(`${GITHUB_API}${path}`, {
           method: "GET",
-          headers: this.buildHeaders(),
+          headers: this.buildHeaders(token),
           signal,
         });
       } catch (err) {
@@ -228,18 +293,26 @@ export class GitHubApiAdapter implements GitHubAdapter {
           await sleep(1000 * 2 ** attempt);
           continue;
         }
+        // Final attempt failed — feed the breaker so 5 consecutive net
+        // errors flip it to OPEN.
+        sourceHealthTracker.recordFailure(
+          "github",
+          err instanceof Error ? err.message : String(err),
+        );
         return null;
       } finally {
         clear();
       }
 
-      this.updateRateLimit(res);
+      this.updateRateLimit(res, token);
       const remaining =
         this.rateLimit.remaining === null ? "?" : String(this.rateLimit.remaining);
-      console.log(`[github] GET ${path} rl=${remaining}`);
+      const tokenLabel = token ? redactToken(token) : "unauth";
+      console.log(`[github] GET ${path} tok=${tokenLabel} rl=${remaining}`);
 
-      // Retry on transient errors. 403 with remaining=0 is a rate limit, not
-      // a retryable error — let isRateLimited() handle it on the next call.
+      // Retry on transient errors. 403 with remaining=0 is a rate limit on
+      // the token we just used — the pool will skip it on the next attempt
+      // because we recorded it via updateRateLimit().
       const isServerError = res.status >= 500 && res.status < 600;
       const isTooManyRequests = res.status === 429;
       if ((isServerError || isTooManyRequests) && attempt < maxAttempts - 1) {
@@ -251,35 +324,37 @@ export class GitHubApiAdapter implements GitHubAdapter {
         continue;
       }
 
+      // Feed the breaker. 4xx responses (e.g. 404 for a renamed repo) count
+      // as success because GitHub is responding correctly — only 5xx and
+      // unhandled 429 indicate upstream trouble.
+      if (isServerError || isTooManyRequests) {
+        sourceHealthTracker.recordFailure("github", `HTTP ${res.status}`);
+      } else {
+        sourceHealthTracker.recordSuccess("github");
+      }
       return res;
     }
 
-    // Exhausted retries — return null so caller gets a safe failure.
+    // Exhausted retries — record failure and return null so caller gets a
+    // safe failure (avoids double-counting in the loop above).
+    sourceHealthTracker.recordFailure("github", "exhausted retries");
     return null;
   }
 
-  private updateRateLimit(res: Response): void {
-    const remainingStr = res.headers.get("x-ratelimit-remaining");
-    const resetStr = res.headers.get("x-ratelimit-reset");
-    if (remainingStr !== null) {
-      const parsed = Number.parseInt(remainingStr, 10);
-      if (Number.isFinite(parsed)) {
-        this.rateLimit.remaining = parsed;
-      }
+  /**
+   * Records the response's rate-limit headers BOTH on the per-instance
+   * `rateLimit` cache (for `getRateLimit()` callers) and on the pool entry
+   * for the token that issued the request. Unauthenticated calls (token =
+   * null) skip the pool update — there's no per-token state to mutate.
+   */
+  private updateRateLimit(res: Response, token: string | null): void {
+    const parsed = parseRateLimitHeaders(res.headers);
+    if (parsed === null) return;
+    this.rateLimit.remaining = parsed.remaining;
+    this.rateLimit.reset = new Date(parsed.resetUnixSec * 1000).toISOString();
+    if (token) {
+      this.pool.recordRateLimit(token, parsed.remaining, parsed.resetUnixSec);
     }
-    if (resetStr !== null) {
-      const epoch = Number.parseInt(resetStr, 10);
-      if (Number.isFinite(epoch)) {
-        this.rateLimit.reset = new Date(epoch * 1000).toISOString();
-      }
-    }
-  }
-
-  private isRateLimited(): boolean {
-    if (this.rateLimit.remaining === null) return false;
-    if (this.rateLimit.remaining > 0) return false;
-    if (!this.rateLimit.reset) return false;
-    return new Date(this.rateLimit.reset).getTime() > Date.now();
   }
 }
 

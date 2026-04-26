@@ -27,6 +27,7 @@ import {
   fetchRedditJson,
   getRedditAuthMode,
 } from "./_reddit-shared.mjs";
+import { writeDataStore } from "./_data-store-write.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
@@ -274,9 +275,10 @@ async function main() {
 
   await mkdir(DATA_DIR, { recursive: true });
   await writeFile(OUT, JSON.stringify(payload, null, 2) + "\n", "utf8");
+  const baselinesRedis = await writeDataStore("reddit-baselines", payload);
 
   log("");
-  log(`wrote ${OUT}`);
+  log(`wrote ${OUT} [redis: ${baselinesRedis.source}]`);
   log(
     `  this run: fetched=${fetched} skipped(cached)=${skipped} errors=${Object.keys(errors).length}`,
   );

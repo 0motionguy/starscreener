@@ -36,6 +36,7 @@ import {
   loadTrackedReposFromFiles,
   recentRepoRows,
 } from "./_tracked-repos.mjs";
+import { writeDataStore } from "./_data-store-write.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
@@ -243,13 +244,46 @@ async function fetchBroadPosts(token, postedAfter) {
   return (data?.posts?.edges ?? []).map((e) => e.node).filter(Boolean);
 }
 
+// Token pool — round-robin across N PH access tokens for 6,250 req/15min
+// per token effective quota. PRODUCTHUNT_TOKENS (plural, comma-separated)
+// is the canonical env var; PRODUCTHUNT_TOKEN (singular) stays as
+// back-compat. Both can be set; we dedupe and round-robin across the union.
+function loadProducthuntTokens() {
+  const out = [];
+  const seen = new Set();
+  const push = (k) => {
+    const v = (k ?? "").trim();
+    if (!v || seen.has(v)) return;
+    seen.add(v);
+    out.push(v);
+  };
+  const pool = process.env.PRODUCTHUNT_TOKENS;
+  if (typeof pool === "string" && pool.length > 0) {
+    for (const raw of pool.split(",")) push(raw);
+  }
+  push(process.env.PRODUCTHUNT_TOKEN);
+  return out;
+}
+
+let _phCursor = 0;
+function pickToken(tokens) {
+  const t = tokens[_phCursor % tokens.length];
+  _phCursor += 1;
+  return t;
+}
+
 async function main() {
-  const token = process.env.PRODUCTHUNT_TOKEN;
-  if (!token) {
+  const tokens = loadProducthuntTokens();
+  if (tokens.length === 0) {
     throw new Error(
-      "PRODUCTHUNT_TOKEN not set — see https://www.producthunt.com/v2/oauth/applications",
+      "PRODUCTHUNT_TOKENS / PRODUCTHUNT_TOKEN not set — see https://www.producthunt.com/v2/oauth/applications",
     );
   }
+  console.log(
+    `[scrape-producthunt] token pool size: ${tokens.length} ` +
+      `(${tokens.length === 1 ? "single token" : "round-robin per request"})`,
+  );
+  const token = pickToken(tokens);
 
   const tracked = await loadTrackedRepos();
   log(`tracked repos: ${tracked.size}`);
@@ -424,6 +458,7 @@ async function main() {
 
   await mkdir(DATA_DIR, { recursive: true });
   await writeFile(OUT_PATH, JSON.stringify(payload, null, 2) + "\n", "utf8");
+  const launchesRedis = await writeDataStore("producthunt-launches", payload);
 
   const aiCount = launches.filter((l) => l.aiAdjacent).length;
   const linkedCount = launches.filter((l) => l.linkedRepo).length;
@@ -434,7 +469,7 @@ async function main() {
     .map((l) => `${l.name} (${l.votesCount})`)
     .join(", ");
   log("");
-  log(`wrote ${OUT_PATH}`);
+  log(`wrote ${OUT_PATH} [redis: ${launchesRedis.source}]`);
   log(`  x links found: ${withXCount}`);
   log(
     `  launches kept: ${launches.length} (${aiCount} AI-adjacent · ${withGhCount} with github · ${linkedCount} linked to tracked repos · ${enrichedCount} enriched)`,

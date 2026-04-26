@@ -18,6 +18,13 @@
 
 import type { PipelineStores } from "../storage/singleton";
 import type { RepoSnapshot } from "../types";
+import {
+  GitHubTokenPoolEmptyError,
+  GitHubTokenPoolExhaustedError,
+  getGitHubTokenPool,
+  parseRateLimitHeaders,
+  type GitHubTokenPool,
+} from "@/lib/github-token-pool";
 
 const GITHUB_API = "https://api.github.com";
 const ONE_DAY_MS = 86_400_000;
@@ -73,11 +80,11 @@ export async function backfillFromEvents(
   stores: PipelineStores,
   opts: EventsBackfillOptions = {},
 ): Promise<EventsBackfillResult> {
-  if (!token) {
-    throw new Error(
-      "backfillFromEvents: token required — Events API rate-limited to 60/hr unauth.",
-    );
-  }
+  // `token` is kept positional for back-compat with /api/pipeline/backfill-history.
+  // Pass an empty string to route through the shared GitHub token pool —
+  // recommended for new callers so we get round-robin + exhaustion guards.
+  const pool: GitHubTokenPool | null = token ? null : getGitHubTokenPool();
+
   const repo = stores.repoStore.getByFullName(fullName);
   if (!repo) {
     return {
@@ -108,19 +115,39 @@ export async function backfillFromEvents(
   let rateLimitRemaining: number | null = null;
 
   for (let page = 1; page <= maxPages; page++) {
+    // Pull a token per page so a mid-walk pool refresh can pick up newly
+    // healthy PATs after their reset window passes. The pool's per-token
+    // rate-limit accounting takes care of skipping exhausted tokens.
+    let activeToken: string | null = token || null;
+    if (!activeToken && pool) {
+      try {
+        activeToken = pool.getNextToken();
+      } catch (err) {
+        if (err instanceof GitHubTokenPoolEmptyError) {
+          activeToken = null;
+        } else if (err instanceof GitHubTokenPoolExhaustedError) {
+          console.warn(
+            `[events-backfill] every PAT exhausted for ${fullName}; aborting at page ${page}. ${err.message}`,
+          );
+          break;
+        } else {
+          throw err;
+        }
+      }
+    }
+
     const url = `${GITHUB_API}/repos/${fullName}/events?per_page=100&page=${page}`;
     const { signal, clear } = timeoutSignal(FETCH_TIMEOUT_MS);
+    const headers: Record<string, string> = {
+      Accept: "application/vnd.github+json",
+      "X-GitHub-Api-Version": "2022-11-28",
+      "User-Agent": "TrendingRepo",
+    };
+    if (activeToken) headers.Authorization = `Bearer ${activeToken}`;
+
     let res: Response;
     try {
-      res = await fetch(url, {
-        headers: {
-          Accept: "application/vnd.github+json",
-          Authorization: `Bearer ${token}`,
-          "X-GitHub-Api-Version": "2022-11-28",
-          "User-Agent": "TrendingRepo",
-        },
-        signal,
-      });
+      res = await fetch(url, { headers, signal });
     } catch (err) {
       console.error(
         `[events-backfill] network error for ${fullName} page ${page}`,
@@ -129,6 +156,14 @@ export async function backfillFromEvents(
       break;
     } finally {
       clear();
+    }
+    // Always feed rate-limit info back to the pool so future picks see
+    // the post-call quota. Skipped for the legacy single-PAT path.
+    if (activeToken && pool) {
+      const parsedRl = parseRateLimitHeaders(res.headers);
+      if (parsedRl) {
+        pool.recordRateLimit(activeToken, parsedRl.remaining, parsedRl.resetUnixSec);
+      }
     }
     const rlHeader = res.headers.get("x-ratelimit-remaining");
     if (rlHeader) rateLimitRemaining = parseInt(rlHeader, 10);

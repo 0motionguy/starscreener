@@ -15,6 +15,7 @@ import { getCategoryIcon } from "@/lib/category-icons";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 import { TerminalLayout } from "@/components/terminal/TerminalLayout";
+import { CategoryNewsRollup } from "@/components/categories/CategoryNewsRollup";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -103,6 +104,13 @@ export default async function CategoryDetailPage({ params }: PageProps) {
       <p className="mt-2 text-text-secondary max-w-2xl">
         {category.description}
       </p>
+      <div className="mt-4">
+        <CategoryNewsRollup
+          repos={repos}
+          categorySlug={slug}
+          categoryLabel={category.name}
+        />
+      </div>
     </div>
   );
 

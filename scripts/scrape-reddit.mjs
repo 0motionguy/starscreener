@@ -42,6 +42,7 @@ import {
   extractGithubRepoFullNames,
   normalizeGithubFullName,
 } from "./_github-repo-links.mjs";
+import { writeDataStore } from "./_data-store-write.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
@@ -991,6 +992,7 @@ async function main() {
 
   await mkdir(DATA_DIR, { recursive: true });
   await writeFile(OUT, JSON.stringify(payload, null, 2) + "\n", "utf8");
+  const mentionsRedis = await writeDataStore("reddit-mentions", payload);
 
   // ---- all-posts merge + write ----
   const existingAllPosts = scrubStaleProjectNameLinks(
@@ -1023,16 +1025,20 @@ async function main() {
     JSON.stringify(allPostsPayload, null, 2) + "\n",
     "utf8",
   );
+  const allPostsRedis = await writeDataStore(
+    "reddit-all-posts",
+    allPostsPayload,
+  );
 
   log("");
-  log(`wrote ${OUT}`);
+  log(`wrote ${OUT} [redis: ${mentionsRedis.source}]`);
   log(
     `  repos with mentions: ${mentions.size} / posts scanned: ${scannedTotal} / subreddits: ${SUBREDDITS.length} (errors: ${errors})`,
   );
   log(
     `  baseline tiers: breakout=${breakoutCount} above-average=${aboveAvgCount}`,
   );
-  log(`wrote ${ALL_POSTS_OUT}`);
+  log(`wrote ${ALL_POSTS_OUT} [redis: ${allPostsRedis.source}]`);
   log(
     `  all posts: ${mergedAllPosts.length} total · pruned: ${prunedOld} old + ${prunedOverflow} overflow`,
   );

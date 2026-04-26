@@ -11,6 +11,16 @@
 
 import type { Sentiment, SocialPlatform } from "@/lib/types";
 import { slugToId } from "@/lib/utils";
+import {
+  GitHubTokenPoolEmptyError,
+  GitHubTokenPoolExhaustedError,
+  getGitHubTokenPool,
+  parseRateLimitHeaders,
+} from "@/lib/github-token-pool";
+// Phase 2C: per-source circuit breaker. Each adapter checks isOpen()
+// at the top of fetch and records success/failure on every response so
+// 5 consecutive failures auto-disable the source until the cooldown.
+import { sourceHealthTracker } from "@/lib/source-health-tracker";
 import type { RepoMention, SocialAdapter } from "../types";
 
 // ---------------------------------------------------------------------------
@@ -166,6 +176,9 @@ export class HackerNewsAdapter implements SocialAdapter {
     fullName: string,
     since?: string,
   ): Promise<RepoMention[]> {
+    if (sourceHealthTracker.isOpen("hackernews")) {
+      return [];
+    }
     const repoId = slugToId(fullName);
     const query = encodeURIComponent(fullName);
     const params = new URLSearchParams({ query: fullName, tags: "story" });
@@ -193,6 +206,7 @@ export class HackerNewsAdapter implements SocialAdapter {
         console.error(
           `[social:hackernews] HTTP ${res.status} for ${fullName}`,
         );
+        sourceHealthTracker.recordFailure("hackernews", `HTTP ${res.status}`);
         return [];
       }
       const body: unknown = await res.json();
@@ -203,11 +217,16 @@ export class HackerNewsAdapter implements SocialAdapter {
         const mention = this.hitToMention(hit, repoId, now);
         if (mention) out.push(mention);
       }
+      sourceHealthTracker.recordSuccess("hackernews");
       return out;
     } catch (err) {
       console.error(
         `[social:hackernews] fetchMentionsForRepo ${fullName} failed`,
         err,
+      );
+      sourceHealthTracker.recordFailure(
+        "hackernews",
+        err instanceof Error ? err.message : String(err),
       );
       return [];
     } finally {
@@ -308,6 +327,9 @@ export class RedditAdapter implements SocialAdapter {
     fullName: string,
     since?: string,
   ): Promise<RepoMention[]> {
+    if (sourceHealthTracker.isOpen("reddit")) {
+      return [];
+    }
     const repoId = slugToId(fullName);
     const repoName = repoNameOf(fullName);
     const owner = repoOwnerOf(fullName);
@@ -328,6 +350,7 @@ export class RedditAdapter implements SocialAdapter {
       });
       if (!res.ok) {
         console.error(`[social:reddit] HTTP ${res.status} for ${fullName}`);
+        sourceHealthTracker.recordFailure("reddit", `HTTP ${res.status}`);
         return [];
       }
       const body: unknown = await res.json();
@@ -359,11 +382,16 @@ export class RedditAdapter implements SocialAdapter {
         if (!mentionsRepo) continue;
         out.push(mention);
       }
+      sourceHealthTracker.recordSuccess("reddit");
       return out;
     } catch (err) {
       console.error(
         `[social:reddit] fetchMentionsForRepo ${fullName} failed`,
         err,
+      );
+      sourceHealthTracker.recordFailure(
+        "reddit",
+        err instanceof Error ? err.message : String(err),
       );
       return [];
     } finally {
@@ -468,6 +496,9 @@ export class GitHubActivityAdapter implements SocialAdapter {
     fullName: string,
     since?: string,
   ): Promise<RepoMention[]> {
+    if (sourceHealthTracker.isOpen("github-search")) {
+      return [];
+    }
     const repoId = slugToId(fullName);
     const q = encodeURIComponent(`${fullName} in:body is:issue`);
     const url =
@@ -479,19 +510,49 @@ export class GitHubActivityAdapter implements SocialAdapter {
       "X-GitHub-Api-Version": "2022-11-28",
       "User-Agent": USER_AGENT,
     };
-    const token = process.env.GITHUB_TOKEN;
+
+    // Pull a token from the shared pool. An empty pool degrades to the
+    // unauthenticated 10 req/min cap (preserves dev-machine behaviour);
+    // an exhausted pool returns [] because there's no point making the
+    // call until reset.
+    let token: string | null = null;
+    const pool = getGitHubTokenPool();
+    try {
+      token = pool.getNextToken();
+    } catch (err) {
+      if (err instanceof GitHubTokenPoolEmptyError) {
+        token = null;
+      } else if (err instanceof GitHubTokenPoolExhaustedError) {
+        if (!ghRateLimitLogged) {
+          console.error(
+            `[social:github] all PATs exhausted; skipping ${fullName}. ${err.message}`,
+          );
+          ghRateLimitLogged = true;
+        }
+        return [];
+      } else {
+        throw err;
+      }
+    }
     if (token) headers.Authorization = `Bearer ${token}`;
 
     const { signal, clear } = timeoutSignal(FETCH_TIMEOUT_MS);
     try {
       const res = await fetch(url, { signal, headers });
+      // Update pool quota from headers REGARDLESS of status — GitHub still
+      // returns x-ratelimit-* on 403s, and not recording exhaustion would
+      // leave the pool picking the dead token again.
+      if (token) {
+        const rl = parseRateLimitHeaders(res.headers);
+        if (rl) pool.recordRateLimit(token, rl.remaining, rl.resetUnixSec);
+      }
       if (!res.ok) {
         // Rate limit exhaustion is the common unauthenticated failure.
         if (res.status === 403 || res.status === 429) {
           if (!ghRateLimitLogged) {
             console.error(
               `[social:github] rate limit hit (${res.status}); ` +
-                `set GITHUB_TOKEN to raise the cap`,
+                `add more PATs to GITHUB_TOKEN_POOL to raise the cap`,
             );
             ghRateLimitLogged = true;
           }
@@ -500,6 +561,10 @@ export class GitHubActivityAdapter implements SocialAdapter {
             `[social:github] HTTP ${res.status} for ${fullName}`,
           );
         }
+        sourceHealthTracker.recordFailure(
+          "github-search",
+          `HTTP ${res.status}`,
+        );
         return [];
       }
       const body: unknown = await res.json();
@@ -516,11 +581,16 @@ export class GitHubActivityAdapter implements SocialAdapter {
         }
         out.push(mention);
       }
+      sourceHealthTracker.recordSuccess("github-search");
       return out;
     } catch (err) {
       console.error(
         `[social:github] fetchMentionsForRepo ${fullName} failed`,
         err,
+      );
+      sourceHealthTracker.recordFailure(
+        "github-search",
+        err instanceof Error ? err.message : String(err),
       );
       return [];
     } finally {

@@ -24,6 +24,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { fetchAllStartups, buildOverlays } from "./_trustmrr.mjs";
+import { writeDataStore } from "./_data-store-write.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
@@ -120,13 +121,30 @@ async function runFull() {
   console.log(
     `[sync-trustmrr] fetched ${startups.length} startups across ${pages} page(s) (reported total: ${total})`,
   );
-  await writeJson(CATALOG_FILE, {
+  const catalogPayload = {
     generatedAt: fetchedAt,
     version: 1,
     total,
     startups,
-  });
+  };
+  await writeJson(CATALOG_FILE, catalogPayload);
   console.log(`[sync-trustmrr] wrote ${CATALOG_FILE}`);
+
+  // Dual-write catalog to data-store. Also push a small metadata sidecar so
+  // callers that only need the count don't have to fetch the ~7 MB blob.
+  const serialized = JSON.stringify(catalogPayload);
+  const catalogRedis = await writeDataStore("trustmrr-startups", catalogPayload);
+  const metaRedis = await writeDataStore("trustmrr-startups:meta", {
+    generatedAt: fetchedAt,
+    startupCount: startups.length,
+    totalReported: total,
+    totalSize: serialized.length,
+    fetchedAt,
+  });
+  console.log(
+    `[sync-trustmrr] data-store: catalog=${catalogRedis.source} meta=${metaRedis.source} (size=${serialized.length} bytes)`,
+  );
+
   await deriveOverlays({ catalogGeneratedAt: fetchedAt });
 }
 
@@ -154,15 +172,17 @@ async function deriveOverlays({ catalogGeneratedAt }) {
     generatedAt: catalogGeneratedAt ?? generatedAt,
   });
   const matchedCount = Object.keys(overlays).length;
-  await writeJson(OVERLAYS_FILE, {
+  const overlaysPayload = {
     generatedAt,
     version: 1,
     source: "trustmrr",
     catalogGeneratedAt: catalogGeneratedAt ?? null,
     overlays,
-  });
+  };
+  await writeJson(OVERLAYS_FILE, overlaysPayload);
+  const overlaysRedis = await writeDataStore("revenue-overlays", overlaysPayload);
   console.log(
-    `[sync-trustmrr] wrote ${OVERLAYS_FILE} — matched ${matchedCount} repo(s) against ${(catalog.startups ?? []).length} startup(s)`,
+    `[sync-trustmrr] wrote ${OVERLAYS_FILE} — matched ${matchedCount} repo(s) against ${(catalog.startups ?? []).length} startup(s) [redis: ${overlaysRedis.source}]`,
   );
 }
 

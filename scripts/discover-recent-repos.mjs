@@ -11,6 +11,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { fetchJsonWithRetry } from "./_fetch-json.mjs";
+import { writeDataStore } from "./_data-store-write.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT_FILE = resolve(__dirname, "..", "data", "recent-repos.json");
@@ -149,14 +150,16 @@ async function main() {
     })
     .slice(0, MAX_ITEMS);
 
-  await mkdir(dirname(OUT_FILE), { recursive: true });
-  await writeFile(
-    OUT_FILE,
-    JSON.stringify({ fetchedAt, items }, null, 2) + "\n",
-    "utf8",
-  );
+  const payload = { fetchedAt, items };
 
-  console.log(`wrote ${OUT_FILE} (${items.length} rows)`);
+  await mkdir(dirname(OUT_FILE), { recursive: true });
+  await writeFile(OUT_FILE, JSON.stringify(payload, null, 2) + "\n", "utf8");
+
+  // Dual-write: also push to data-store so live readers see fresh data
+  // without waiting for a deploy.
+  const result = await writeDataStore("recent-repos", payload);
+
+  console.log(`wrote ${OUT_FILE} (${items.length} rows) [redis: ${result.source}]`);
 }
 
 main().catch((err) => {

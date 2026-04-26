@@ -42,6 +42,7 @@ import {
 } from "./classification/classifier";
 import { scoreBatch, scoreRepo } from "./scoring/engine";
 import { generateReasons, generateReasonsBatch } from "./reasons/generator";
+import { aggregateRepoMentions } from "./aggregation/mention-aggregates";
 import {
   buildTriggerContext,
   evaluateAllRules,
@@ -196,9 +197,33 @@ function recomputeAll(): RecomputeSummary {
   //    still exists in dev, and stitch both back onto each Repo.
   //    Deltas are loaded once outside the map — the JSON is static.
   const trendingDeltas = getDeltas();
+  const aggregateNow = new Date();
   const freshRepos: Repo[] = baseRepos.map((repo) => {
     const sparklineData = deriveSparklineData(repo.id, snapshotStore);
-    return { ...assembleRepoFromTrending(repo, trendingDeltas), sparklineData };
+    const fromTrending = {
+      ...assembleRepoFromTrending(repo, trendingDeltas),
+      sparklineData,
+    };
+    // 1a. Roll up persisted mentions → SocialAggregate → buzz score. Replaces
+    //     the hard-coded `socialBuzzScore = 0` shim from `normalizeGitHubRepo`
+    //     so anti-spam dampening and the social-buzz component finally have
+    //     real input. Aggregate is upserted here for the in-memory store so
+    //     query layers (mostDiscussed, repoSummary) see it on the next read.
+    const repoMentions = mentionStore.listForRepo(fromTrending.id);
+    if (repoMentions.length > 0) {
+      const agg = aggregateRepoMentions(
+        fromTrending.id,
+        repoMentions,
+        aggregateNow,
+      );
+      mentionStore.saveAggregate(agg);
+      return {
+        ...fromTrending,
+        socialBuzzScore: agg.buzzScore,
+        mentionCount24h: agg.mentionCount24h,
+      };
+    }
+    return fromTrending;
   });
 
   // 2. Score everything in one pass so category averages are consistent.
@@ -384,7 +409,27 @@ function recomputeRepo(repoId: string): RecomputeSummary {
   const previousScore = scoreStore.get(repoId);
 
   const sparklineData = deriveSparklineData(repoId, snapshotStore);
-  const fresh: Repo = { ...assembleRepoFromTrending(repo, getDeltas()), sparklineData };
+  let fresh: Repo = {
+    ...assembleRepoFromTrending(repo, getDeltas()),
+    sparklineData,
+  };
+
+  // Refresh socialBuzzScore + mentionCount24h from the persisted mention
+  // store before scoring so the single-repo path mirrors the batch path.
+  const singleRepoMentions = mentionStore.listForRepo(repoId);
+  if (singleRepoMentions.length > 0) {
+    const singleAgg = aggregateRepoMentions(
+      repoId,
+      singleRepoMentions,
+      new Date(),
+    );
+    mentionStore.saveAggregate(singleAgg);
+    fresh = {
+      ...fresh,
+      socialBuzzScore: singleAgg.buzzScore,
+      mentionCount24h: singleAgg.mentionCount24h,
+    };
+  }
 
   const score = scoreRepo(fresh);
   scoreStore.save(score);

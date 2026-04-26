@@ -5,11 +5,17 @@
 // git history of trending.json) as the delta source, replacing the
 // Vercel-Lambda-ephemeral snapshot pipeline.
 //
-// Both files ship with the build, so every Lambda sees the same data
-// without any cross-invocation state.
+// Phase 4 (data-API): the bundled JSON files are now a cold-start SEED
+// only. The live source of truth is Redis (via src/lib/data-store). At
+// module init the cache is the bundled snapshot; server components call
+// `refreshTrendingFromStore()` before rendering to pull the fresh payload.
+// Sync getters keep their existing signatures so 30+ callers don't have to
+// change in lockstep — they read whatever's in the in-memory cache, which
+// is updated by the refresh hook.
 
 import trending from "../../data/trending.json";
 import deltasData from "../../data/deltas.json";
+import { getDataStore } from "./data-store";
 import type { Repo } from "./types";
 
 export type TrendingPeriod = "past_24_hours" | "past_week" | "past_month";
@@ -36,8 +42,19 @@ interface TrendingFile {
   buckets: Record<TrendingPeriod, Record<TrendingLanguage, TrendingRow[]>>;
 }
 
-const data = trending as unknown as TrendingFile;
+// Mutable in-memory cache. Seeded from the bundled JSON; replaced by Redis
+// payloads via refreshTrendingFromStore(). Sync getters below all read this.
+let data: TrendingFile = trending as unknown as TrendingFile;
 
+// Public read of "when was the in-memory snapshot last produced".
+// Updated whenever refreshTrendingFromStore() succeeds with fresher Redis data.
+export function getLastFetchedAt(): string {
+  return data.fetchedAt;
+}
+
+// Backwards-compat: callers that imported `lastFetchedAt` as a constant
+// keep working — the value reflects whatever the cache held at THEIR import
+// time. New callers should use getLastFetchedAt() to see post-refresh values.
 export const lastFetchedAt: string = data.fetchedAt;
 
 export function getTrending(
@@ -116,7 +133,12 @@ export interface DeltasJson {
   repos: Record<string, RepoDeltaEntry>;
 }
 
-const deltas = deltasData as unknown as DeltasJson;
+// Same mutable-seed pattern as `data` above.
+let deltas: DeltasJson = deltasData as unknown as DeltasJson;
+
+export function getDeltasComputedAt(): string {
+  return deltas.computedAt;
+}
 
 export const deltasComputedAt: string = deltas.computedAt;
 
@@ -124,7 +146,8 @@ export function getDeltas(): DeltasJson {
   return deltas;
 }
 
-// Cache: owner/name → OSS Insight repo_id. Built once from trending buckets.
+// Cache: owner/name → OSS Insight repo_id. Rebuilt whenever the underlying
+// trending payload is replaced via refreshTrendingFromStore().
 let _fullNameToRepoId: Map<string, string> | null = null;
 function fullNameIndex(): Map<string, string> {
   if (_fullNameToRepoId) return _fullNameToRepoId;
@@ -139,6 +162,83 @@ function fullNameIndex(): Map<string, string> {
   }
   _fullNameToRepoId = map;
   return map;
+}
+
+// ---------------------------------------------------------------------------
+// Refresh hook — pulls fresh trending + deltas from the data-store.
+// ---------------------------------------------------------------------------
+
+interface RefreshResult {
+  trending: { source: "redis" | "file" | "memory" | "missing"; ageMs: number };
+  deltas: { source: "redis" | "file" | "memory" | "missing"; ageMs: number };
+}
+
+// In-flight dedupe so a burst of concurrent server-component renders doesn't
+// fan out N parallel Redis calls. The first request kicks the fetch; the
+// rest await the same promise.
+let inflight: Promise<RefreshResult> | null = null;
+let lastRefreshMs = 0;
+const MIN_REFRESH_INTERVAL_MS = 30_000; // 30s — at most ~120 refreshes/hr per Lambda
+
+/**
+ * Pull the freshest trending + deltas payloads from the data-store and swap
+ * them into the in-memory cache. Cheap to call multiple times — internal
+ * dedupe + rate-limit ensure we hit Redis at most once per 30s per process.
+ *
+ * Safe to call from any server-component / route handler before reading any
+ * sync getter. Never throws — on Redis miss the existing cache is preserved.
+ */
+export async function refreshTrendingFromStore(): Promise<RefreshResult> {
+  if (inflight) return inflight;
+  const sinceLast = Date.now() - lastRefreshMs;
+  if (sinceLast < MIN_REFRESH_INTERVAL_MS && lastRefreshMs > 0) {
+    return {
+      trending: { source: "memory", ageMs: sinceLast },
+      deltas: { source: "memory", ageMs: sinceLast },
+    };
+  }
+
+  inflight = (async (): Promise<RefreshResult> => {
+    const store = getDataStore();
+    const [trendingResult, deltasResult] = await Promise.all([
+      store.read<TrendingFile>("trending"),
+      store.read<DeltasJson>("deltas"),
+    ]);
+
+    if (trendingResult.data && trendingResult.source !== "missing") {
+      // Only swap if we got something real — never blank out the seed.
+      data = trendingResult.data;
+      _fullNameToRepoId = null; // invalidate derived index
+    }
+    if (deltasResult.data && deltasResult.source !== "missing") {
+      deltas = deltasResult.data;
+    }
+
+    lastRefreshMs = Date.now();
+    return {
+      trending: {
+        source: trendingResult.source,
+        ageMs: trendingResult.ageMs,
+      },
+      deltas: { source: deltasResult.source, ageMs: deltasResult.ageMs },
+    };
+  })().finally(() => {
+    inflight = null;
+  });
+
+  return inflight;
+}
+
+/**
+ * Test/admin — reset the in-memory cache to the bundled seed. Lets tests
+ * exercise the refresh path without leaking state across cases.
+ */
+export function _resetTrendingCacheForTests(): void {
+  data = trending as unknown as TrendingFile;
+  deltas = deltasData as unknown as DeltasJson;
+  _fullNameToRepoId = null;
+  lastRefreshMs = 0;
+  inflight = null;
 }
 
 /** Count of repos in deltas.json that have at least one non-null delta. */

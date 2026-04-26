@@ -15,6 +15,7 @@ import {
   getFundingSignals,
   getFundingStats,
   isFundingCold,
+  refreshFundingNewsFromStore,
 } from "@/lib/funding-news";
 import { FundingCard } from "@/components/funding/FundingCard";
 
@@ -49,7 +50,8 @@ function formatRelative(iso: string | null | undefined): string {
 // Page
 // ---------------------------------------------------------------------------
 
-export default function FundingPage() {
+export default async function FundingPage() {
+  await refreshFundingNewsFromStore();
   const file = getFundingFile();
   const signals = getFundingSignals();
   const stats = getFundingStats();

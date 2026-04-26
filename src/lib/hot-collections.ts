@@ -1,5 +1,6 @@
 import hotCollectionsJson from "../../data/hot-collections.json";
 import { loadAllCollections, type CollectionFile } from "./collections";
+import { getDataStore } from "./data-store";
 
 export interface HotCollectionRepo {
   repoId: number | null;
@@ -33,9 +34,15 @@ interface HotCollectionsFile {
   rows: HotCollectionRow[];
 }
 
-const data = hotCollectionsJson as unknown as HotCollectionsFile;
+// Mutable in-memory cache. Seeded from the bundled JSON; replaced by Redis
+// payloads via refreshHotCollectionsFromStore(). Sync getters below all read this.
+let data: HotCollectionsFile = hotCollectionsJson as unknown as HotCollectionsFile;
 
 export const hotCollectionsFetchedAt = data.fetchedAt;
+
+export function getHotCollectionsFetchedAt(): string {
+  return data.fetchedAt;
+}
 
 export function groupHotCollectionRows(
   rows: HotCollectionRow[],
@@ -82,4 +89,50 @@ export function getHotAiCollections(
   return groupHotCollectionRows(data.rows, collections).filter((collection) =>
     aiIds.has(collection.id),
   );
+}
+
+// ---------------------------------------------------------------------------
+// Refresh hook — pulls fresh hot-collections from the data-store.
+// ---------------------------------------------------------------------------
+
+interface RefreshResult {
+  source: "redis" | "file" | "memory" | "missing";
+  ageMs: number;
+}
+
+let inflight: Promise<RefreshResult> | null = null;
+let lastRefreshMs = 0;
+const MIN_REFRESH_INTERVAL_MS = 30_000;
+
+/**
+ * Pull the freshest hot-collections payload from the data-store and swap it
+ * into the in-memory cache. Cheap to call multiple times — internal dedupe +
+ * rate-limit ensure we hit Redis at most once per 30s per process.
+ */
+export async function refreshHotCollectionsFromStore(): Promise<RefreshResult> {
+  if (inflight) return inflight;
+  const sinceLast = Date.now() - lastRefreshMs;
+  if (sinceLast < MIN_REFRESH_INTERVAL_MS && lastRefreshMs > 0) {
+    return { source: "memory", ageMs: sinceLast };
+  }
+
+  inflight = (async (): Promise<RefreshResult> => {
+    const result = await getDataStore().read<HotCollectionsFile>("hot-collections");
+    if (result.data && result.source !== "missing") {
+      data = result.data;
+    }
+    lastRefreshMs = Date.now();
+    return { source: result.source, ageMs: result.ageMs };
+  })().finally(() => {
+    inflight = null;
+  });
+
+  return inflight;
+}
+
+/** Test/admin — reset the in-memory cache to the bundled seed. */
+export function _resetHotCollectionsCacheForTests(): void {
+  data = hotCollectionsJson as unknown as HotCollectionsFile;
+  lastRefreshMs = 0;
+  inflight = null;
 }

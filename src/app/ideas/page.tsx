@@ -1,16 +1,14 @@
-// /ideas — public idea feed.
+// /ideas — V2 public idea feed.
 //
 // Three views (URL-driven via ?sort=hot|new|shipped):
 //   - hot     (default) — weighted reactions × recency decay
 //   - new     — chronological by publish time
 //   - shipped — only ideas that reached buildStatus = "shipped"
 //
-// Server-renders the first 20 rows so the page is interactive immediately.
-// The composer is client-side; once a user posts, the new idea appears at
-// the top of "new" / hot-ranked into "hot" depending on its score.
+// V2 design: TerminalBar header, V2 sort tabs, IdeaCardV2 grid (rank 1
+// gets bracket markers via the component's isFeatured rule).
 
 import type { Metadata } from "next";
-import { Lightbulb, Plus } from "lucide-react";
 
 import {
   hotScore,
@@ -23,8 +21,9 @@ import {
   listReactionsForObject,
 } from "@/lib/reactions";
 import type { ReactionCounts } from "@/lib/reactions-shape";
-import { IdeaCard } from "@/components/ideas/IdeaCard";
+import { IdeaCardV2 } from "@/components/today-v2/IdeaCardV2";
 import { IdeaComposer } from "@/components/ideas/IdeaComposer";
+import { TerminalBar } from "@/components/today-v2/primitives/TerminalBar";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 
 type SortKey = "hot" | "new" | "shipped";
@@ -123,84 +122,159 @@ export default async function IdeasPage({ searchParams }: PageProps) {
   const feed = await loadFeed(sortKey);
 
   return (
-    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
-      <div className="max-w-[900px] mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6">
-        <header className="border-b border-border-primary pb-6">
-          <div className="flex flex-wrap items-baseline gap-3">
-            <h1 className="text-2xl font-bold uppercase tracking-wider inline-flex items-center gap-2">
-              <Lightbulb className="size-5 text-warning" aria-hidden />
-              Ideas
-            </h1>
-            <span className="text-xs text-text-tertiary">
-              {"// what builders should ship next"}
-            </span>
-          </div>
-          <p className="mt-2 max-w-2xl text-sm text-text-secondary">
+    <>
+      <section className="border-b border-[color:var(--v2-line-100)]">
+        <div className="v2-frame pt-6 pb-6">
+          <TerminalBar
+            label={
+              <>
+                <span aria-hidden>{"// "}</span>IDEAS · BUILDER FEED
+              </>
+            }
+            status={`${feed.length} IDEA${feed.length === 1 ? "" : "S"}`}
+          />
+
+          <h1
+            className="v2-mono mt-6 inline-flex items-center gap-2"
+            style={{
+              color: "var(--v2-ink-100)",
+              fontSize: 12,
+              letterSpacing: "0.20em",
+            }}
+          >
+            <span aria-hidden>{"// "}</span>
+            IDEAS · WHAT TO BUILD NEXT
+            <span
+              aria-hidden
+              className="inline-block ml-1"
+              style={{
+                width: 6,
+                height: 6,
+                background: "var(--v2-acc)",
+                borderRadius: 1,
+                boxShadow: "0 0 6px var(--v2-acc-glow)",
+              }}
+            />
+          </h1>
+          <p
+            className="text-[14px] leading-relaxed max-w-[80ch] mt-3"
+            style={{ color: "var(--v2-ink-200)" }}
+          >
             Post a 1-line idea. Builders react with{" "}
-            <strong className="text-brand">build</strong>,{" "}
-            <strong className="text-brand">use</strong>,{" "}
-            <strong className="text-brand">buy</strong>, and{" "}
-            <strong className="text-brand">invest</strong>. The signal helps
-            decide what to ship.
+            <strong style={{ color: "var(--v2-acc)" }}>build</strong>,{" "}
+            <strong style={{ color: "var(--v2-acc)" }}>use</strong>,{" "}
+            <strong style={{ color: "var(--v2-acc)" }}>buy</strong>, and{" "}
+            <strong style={{ color: "var(--v2-acc)" }}>invest</strong>. The
+            signal helps decide what to ship.
           </p>
-        </header>
+        </div>
+      </section>
 
-        <section
-          aria-label="Post an idea"
-          className="space-y-2"
-          data-testid="idea-composer-section"
-        >
-          <h2 className="font-mono text-[10px] uppercase tracking-wider text-text-tertiary inline-flex items-center gap-1.5">
-            <Plus className="size-3" aria-hidden /> New idea
-          </h2>
+      <section
+        aria-label="Post an idea"
+        className="border-b border-[color:var(--v2-line-100)]"
+        data-testid="idea-composer-section"
+      >
+        <div className="v2-frame py-6">
+          <p
+            className="v2-mono mb-3"
+            style={{ color: "var(--v2-ink-300)" }}
+          >
+            <span aria-hidden>{"// "}</span>
+            COMPOSE · NEW IDEA
+          </p>
           <IdeaComposer />
-        </section>
+        </div>
+      </section>
 
-        <nav
-          aria-label="Sort ideas"
-          className="flex flex-wrap items-center gap-2 text-xs"
-        >
-          {(["hot", "new", "shipped"] as SortKey[]).map((view) => {
-            const active = view === sortKey;
-            return (
-              <a
-                key={view}
-                href={`/ideas?sort=${view}`}
-                aria-current={active ? "page" : undefined}
-                className={
-                  "rounded-md border px-3 py-1.5 font-mono text-xs uppercase tracking-wider transition " +
-                  (active
-                    ? "border-brand bg-brand/10 text-text-primary"
-                    : "border-border-primary bg-bg-muted text-text-secondary hover:text-text-primary")
-                }
+      <section className="border-b border-[color:var(--v2-line-100)]">
+        <div className="v2-frame py-6">
+          <nav
+            aria-label="Sort ideas"
+            className="flex flex-wrap items-center gap-2"
+          >
+            {(["hot", "new", "shipped"] as SortKey[]).map((view) => {
+              const active = view === sortKey;
+              return (
+                <a
+                  key={view}
+                  href={`/ideas?sort=${view}`}
+                  aria-current={active ? "page" : undefined}
+                  className="v2-mono px-3 py-1.5 inline-block transition"
+                  style={{
+                    fontSize: 11,
+                    letterSpacing: "0.20em",
+                    color: active
+                      ? "var(--v2-bg-000)"
+                      : "var(--v2-ink-300)",
+                    background: active
+                      ? "var(--v2-acc)"
+                      : "transparent",
+                    border: `1px solid ${
+                      active ? "var(--v2-acc)" : "var(--v2-line-200)"
+                    }`,
+                  }}
+                >
+                  {view.toUpperCase()}
+                </a>
+              );
+            })}
+            <span
+              className="ml-auto v2-mono tabular-nums"
+              style={{ color: "var(--v2-ink-400)", fontSize: 11 }}
+            >
+              <span aria-hidden>{"// "}</span>
+              {feed.length} IDEA{feed.length === 1 ? "" : "S"}
+            </span>
+          </nav>
+        </div>
+      </section>
+
+      <section>
+        <div className="v2-frame py-6">
+          <p
+            className="v2-mono mb-4"
+            style={{ color: "var(--v2-ink-300)" }}
+          >
+            <span aria-hidden>{"// "}</span>
+            FEED · {sortKey.toUpperCase()}
+          </p>
+
+          {feed.length === 0 ? (
+            <div className="v2-card p-8">
+              <p
+                className="v2-mono mb-3"
+                style={{ color: "var(--v2-acc)" }}
               >
-                {view}
-              </a>
-            );
-          })}
-          <span className="ml-auto text-[10px] text-text-tertiary tabular-nums">
-            {feed.length} idea{feed.length === 1 ? "" : "s"}
-          </span>
-        </nav>
-
-        {feed.length === 0 ? (
-          <div className="rounded-card border border-dashed border-border-primary bg-bg-muted/40 px-4 py-12 text-center text-sm text-text-tertiary">
-            <Lightbulb className="size-6 mx-auto mb-3 opacity-50" aria-hidden />
-            No ideas yet in this view. Post the first.
-          </div>
-        ) : (
-          <ul className="space-y-3" data-testid="idea-feed">
-            {feed.slice(0, 50).map((row) => (
-              <li key={row.idea.id}>
-                <IdeaCard
-                  idea={row.idea}
-                  reactionCounts={row.reactionCounts}
-                />
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-    </main>
+                <span aria-hidden>{"// "}</span>
+                NO IDEAS · {sortKey.toUpperCase()}
+              </p>
+              <p
+                className="text-[14px] leading-relaxed max-w-[60ch]"
+                style={{ color: "var(--v2-ink-200)" }}
+              >
+                No ideas yet in this view. Post the first.
+              </p>
+            </div>
+          ) : (
+            <ul
+              className="grid grid-cols-1 md:grid-cols-2 gap-4"
+              data-testid="idea-feed"
+            >
+              {feed.slice(0, 50).map((row, index) => (
+                <li key={row.idea.id}>
+                  <IdeaCardV2
+                    idea={row.idea}
+                    reactionCounts={row.reactionCounts}
+                    hotScore={row.hotScore}
+                    rank={index + 1}
+                  />
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </section>
+    </>
   );
 }

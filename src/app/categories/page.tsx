@@ -49,60 +49,108 @@ export default async function CategoriesPage() {
   );
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-      <div className="mb-8">
-        <h1 className="font-display text-2xl sm:text-3xl font-bold text-text-primary mb-2">
-          Categories
-        </h1>
-        <p className="text-text-secondary">
-          Repo sectors ranked by momentum and activity.
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {CATEGORIES.map((cat, i) => {
-          const Icon = getCategoryIcon(cat.icon);
-          const s = stats.get(cat.id);
-          return (
-            <Link
-              key={cat.id}
-              href={`/categories/${cat.id}`}
-              className="block bg-bg-card border border-border-primary rounded-[var(--radius-card)] p-5 hover:border-brand/40 hover:bg-bg-card-hover transition-all animate-slide-up opacity-0"
+    <>
+      <section className="border-b border-[color:var(--v2-line-100)]">
+        <div className="v2-frame pt-6 pb-6">
+          <h1
+            className="v2-mono mb-3 inline-flex items-center gap-2"
+            style={{
+              color: "var(--v2-ink-100)",
+              fontSize: 12,
+              letterSpacing: "0.20em",
+            }}
+          >
+            <span aria-hidden>{"// "}</span>
+            CATEGORIES · REPO SECTORS · LIVE
+            <span
+              aria-hidden
+              className="inline-block ml-1"
               style={{
-                animationDelay: `${i * 40}ms`,
-                animationFillMode: "both",
+                width: 6,
+                height: 6,
+                background: "var(--v2-acc)",
+                borderRadius: 1,
+                boxShadow: "0 0 6px var(--v2-acc-glow)",
               }}
-            >
-              <div className="flex items-center gap-3 mb-3">
-                {Icon && (
-                  <Icon
-                    size={22}
-                    style={{ color: cat.color }}
-                    className="shrink-0"
-                    aria-hidden="true"
-                  />
-                )}
-                <span className="font-semibold text-lg text-text-primary truncate">
-                  {cat.name}
-                </span>
-              </div>
-              <p className="text-sm text-text-secondary line-clamp-2 leading-snug mb-4">
-                {cat.description}
-              </p>
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-mono text-text-tertiary">
-                  {formatNumber(s?.repoCount ?? 0)} repos
-                </span>
-                <MomentumBadge
-                  score={s?.avgMomentum ?? 0}
-                  size="sm"
-                  showLabel
-                />
-              </div>
-            </Link>
-          );
-        })}
-      </div>
-    </div>
+            />
+          </h1>
+          <p
+            className="text-[14px] leading-relaxed max-w-[80ch]"
+            style={{ color: "var(--v2-ink-200)" }}
+          >
+            Browse every tracked GitHub repo sector — ranked by live
+            momentum and activity.
+          </p>
+        </div>
+      </section>
+
+      <section className="border-b border-[color:var(--v2-line-100)]">
+        <div className="v2-frame py-6">
+          <p className="v2-mono mb-3" style={{ color: "var(--v2-ink-300)" }}>
+            <span aria-hidden>{"// "}</span>
+            {CATEGORIES.length} CATEGORIES TRACKED
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {CATEGORIES.map((cat) => {
+              const Icon = getCategoryIcon(cat.icon);
+              const s = stats.get(cat.id);
+              return (
+                <Link
+                  key={cat.id}
+                  href={`/categories/${cat.id}`}
+                  className="v2-card v2-card-hover overflow-hidden block group p-5"
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    {Icon && (
+                      <Icon
+                        size={20}
+                        style={{ color: cat.color }}
+                        className="shrink-0"
+                        aria-hidden="true"
+                      />
+                    )}
+                    <span
+                      style={{
+                        fontFamily:
+                          "var(--font-geist), Inter, sans-serif",
+                        fontWeight: 510,
+                        fontSize: 16,
+                        letterSpacing: "-0.012em",
+                        color: "var(--v2-ink-000)",
+                      }}
+                      className="truncate"
+                    >
+                      {cat.name}
+                    </span>
+                  </div>
+                  <p
+                    className="line-clamp-2 leading-snug mb-4 text-[12px]"
+                    style={{ color: "var(--v2-ink-300)" }}
+                  >
+                    {cat.description}
+                  </p>
+                  <div
+                    className="flex items-center justify-between pt-3 v2-mono"
+                    style={{ borderTop: "1px dashed var(--v2-line-200)" }}
+                  >
+                    <span
+                      className="tabular-nums"
+                      style={{ color: "var(--v2-ink-300)" }}
+                    >
+                      {formatNumber(s?.repoCount ?? 0)} REPOS
+                    </span>
+                    <MomentumBadge
+                      score={s?.avgMomentum ?? 0}
+                      size="sm"
+                      showLabel
+                    />
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

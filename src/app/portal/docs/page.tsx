@@ -11,6 +11,7 @@
 
 import type { Metadata } from "next";
 import PortalDocsClient, { type PortalDocsTool } from "./PortalDocsClient";
+import { TerminalBar } from "@/components/today-v2/primitives/TerminalBar";
 
 export const metadata: Metadata = {
   title: "MCP Portal - TrendingRepo",
@@ -75,5 +76,21 @@ const TOOLS: PortalDocsTool[] = [
 ];
 
 export default function PortalDocsPage() {
-  return <PortalDocsClient tools={TOOLS} />;
+  return (
+    <>
+      <section className="border-b border-[color:var(--v2-line-100)]">
+        <div className="v2-frame pt-6 pb-4">
+          <TerminalBar
+            label={
+              <>
+                <span aria-hidden>{"// "}</span>PORTAL · MCP · TOOLS
+              </>
+            }
+            status={`${TOOLS.length} TOOL${TOOLS.length === 1 ? "" : "S"}`}
+          />
+        </div>
+      </section>
+      <PortalDocsClient tools={TOOLS} />
+    </>
+  );
 }

@@ -36,28 +36,88 @@ export function ProfileView({
   const { handle, exists, ideas, shippedRepos, reactionsGiven } = profile;
 
   return (
-    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
-      <div className="max-w-[1000px] mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6">
-        <header className="border-b border-border-primary pb-6">
-          <div className="flex flex-wrap items-baseline gap-3">
-            <h1 className="text-2xl font-bold uppercase tracking-wider inline-flex items-center gap-2">
-              <User2 className="size-5 text-brand" aria-hidden />
-              @{handle}
-            </h1>
-            {!exists ? (
-              <span className="font-mono text-[11px] uppercase tracking-wider text-text-tertiary">
-                no activity yet
-              </span>
-            ) : null}
-          </div>
-          {exists ? (
-            <p className="mt-2 font-mono text-[11px] text-text-tertiary">
-              {ideas.length} idea{ideas.length === 1 ? "" : "s"} · {shippedRepos.length}{" "}
-              shipped · {reactionsGiven.total} reaction
-              {reactionsGiven.total === 1 ? "" : "s"} given
-            </p>
+    <div className="v2-frame py-6 space-y-6 max-w-[1000px]">
+      <header
+        className="pb-6"
+        style={{ borderBottom: "1px solid var(--v2-line-200)" }}
+      >
+        <h1
+          className="v2-mono mb-2 inline-flex items-center gap-2"
+          style={{
+            color: "var(--v2-ink-100)",
+            fontSize: 12,
+            letterSpacing: "0.20em",
+          }}
+        >
+          <span aria-hidden>{"// "}</span>
+          PROFILE ·{" "}
+          <span
+            style={{
+              textTransform: "lowercase",
+              letterSpacing: "0.04em",
+            }}
+          >
+            @{handle}
+          </span>
+          <span
+            aria-hidden
+            className="inline-block ml-1"
+            style={{
+              width: 6,
+              height: 6,
+              background: "var(--v2-acc)",
+              borderRadius: 1,
+              boxShadow: "0 0 6px var(--v2-acc-glow)",
+            }}
+          />
+        </h1>
+        <div className="flex flex-wrap items-baseline gap-3">
+          <span
+            className="inline-flex items-center gap-2"
+            style={{
+              fontFamily: "var(--font-geist), Inter, sans-serif",
+              fontWeight: 510,
+              fontSize: 28,
+              letterSpacing: "-0.02em",
+              color: "var(--v2-ink-000)",
+            }}
+          >
+            <User2
+              className="size-6"
+              style={{ color: "var(--v2-acc)" }}
+              aria-hidden
+            />
+            @{handle}
+          </span>
+          {!exists ? (
+            <span
+              className="v2-mono"
+              style={{ color: "var(--v2-ink-400)" }}
+            >
+              NO ACTIVITY YET
+            </span>
           ) : null}
-        </header>
+        </div>
+        {exists ? (
+          <p
+            className="mt-2 v2-mono"
+            style={{ color: "var(--v2-ink-300)" }}
+          >
+            <span className="tabular-nums" style={{ color: "var(--v2-ink-100)" }}>
+              {ideas.length}
+            </span>{" "}
+            IDEA{ideas.length === 1 ? "" : "S"} ·{" "}
+            <span className="tabular-nums" style={{ color: "var(--v2-ink-100)" }}>
+              {shippedRepos.length}
+            </span>{" "}
+            SHIPPED ·{" "}
+            <span className="tabular-nums" style={{ color: "var(--v2-ink-100)" }}>
+              {reactionsGiven.total}
+            </span>{" "}
+            REACTION{reactionsGiven.total === 1 ? "" : "S"} GIVEN
+          </p>
+        ) : null}
+      </header>
 
         {/* Reaction summary tiles — compact. Individual reactions are not
             listed in v1 (too long on power users); we surface totals by
@@ -158,8 +218,7 @@ export function ProfileView({
             No posts or reactions from @{handle} yet.
           </div>
         ) : null}
-      </div>
-    </main>
+    </div>
   );
 }
 

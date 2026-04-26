@@ -1,23 +1,25 @@
 "use client";
 
-// StarScreener — Watchlist (Phase 3)
+// /watchlist — V2 personal watchlist terminal.
 //
-// Client component — reads the watchlist store (zustand/persist) and hydrates
-// each repoId against the live `/api/repos?ids=a,b,c` endpoint. Hands the
-// resolved list to TerminalLayout with `watchlist` FilterBar variant.
-// AlertConfig stays below the terminal as a dedicated section.
+// Client component — reads the watchlist store (zustand/persist) and
+// hydrates each repoId against /api/repos?ids=… Renders a V2 page with
+// TerminalBar, V2 stat tiles (count + best mover), TrendingTableV2 of
+// watched repos, an inline manage panel with per-repo remove buttons,
+// and the AlertConfig section below.
 //
 // Hydration gotcha: zustand/persist runs a rehydrate pass on the client
 // AFTER the first render. We gate the fetch on `hasHydrated` to avoid
 // firing with an empty ID list, then flashing real data in a second pass.
 
-import { Eye } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { Repo } from "@/lib/types";
 import { useWatchlistStore } from "@/lib/store";
-import { TerminalLayout } from "@/components/terminal/TerminalLayout";
+import { TrendingTableV2 } from "@/components/today-v2/TrendingTableV2";
+import { TerminalBar } from "@/components/today-v2/primitives/TerminalBar";
 import { AlertConfig } from "@/components/watchlist/AlertConfig";
+import { idToSlug, formatNumber } from "@/lib/utils";
 
 export default function WatchlistPage() {
   useEffect(() => {
@@ -25,17 +27,10 @@ export default function WatchlistPage() {
   }, []);
 
   const watchlist = useWatchlistStore((s) => s.repos);
+  const removeWatched = useWatchlistStore((s) => s.removeRepo);
 
-  // Hydration gate. zustand/persist finishes rehydrating from localStorage
-  // after the first client render; until then, `watchlist` is the store's
-  // initial value (empty array), which would otherwise trigger a spurious
-  // "empty state" flash.
   const [hasHydrated, setHasHydrated] = useState(false);
-  useEffect(() => {
-    // Mark hydrated on mount — zustand/persist runs synchronously in the
-    // browser so by the time this effect fires, the real state is loaded.
-    setHasHydrated(true);
-  }, []);
+  useEffect(() => setHasHydrated(true), []);
 
   const [repos, setRepos] = useState<Repo[]>([]);
   const [loading, setLoading] = useState(false);
@@ -52,10 +47,9 @@ export default function WatchlistPage() {
     (async () => {
       try {
         const ids = watchlist.map((w) => w.repoId).join(",");
-        const res = await fetch(
-          `/api/repos?ids=${encodeURIComponent(ids)}`,
-          { signal: controller.signal },
-        );
+        const res = await fetch(`/api/repos?ids=${encodeURIComponent(ids)}`, {
+          signal: controller.signal,
+        });
         if (!res.ok) throw new Error(`status ${res.status}`);
         const data = (await res.json()) as { repos?: Repo[] };
         setRepos(Array.isArray(data.repos) ? data.repos : []);
@@ -70,84 +64,252 @@ export default function WatchlistPage() {
     return () => controller.abort();
   }, [watchlist, hasHydrated]);
 
-  const heading = (
-    <div className="px-4 sm:px-6 pt-6 pb-2">
-      <h1 className="font-display text-2xl sm:text-3xl font-bold text-text-primary flex items-center gap-3">
-        Watchlist
-        <span className="text-sm font-mono font-normal text-text-tertiary px-2 py-1 bg-bg-tertiary rounded-full">
-          {repos.length}
-        </span>
-      </h1>
-      <p className="mt-2 text-text-secondary">Track repos you care about.</p>
-    </div>
+  // Best 24h mover — drives the second stat tile.
+  const topMover =
+    repos.length > 0
+      ? [...repos]
+          .filter((r) => (r.starsDelta24h ?? 0) > 0)
+          .sort((a, b) => (b.starsDelta24h ?? 0) - (a.starsDelta24h ?? 0))[0]
+      : undefined;
+
+  // Total 24h delta across the watchlist — throughput stat.
+  const totalDelta = repos.reduce(
+    (sum, r) => sum + Math.max(0, r.starsDelta24h ?? 0),
+    0,
   );
 
-  // Choose the empty-state body based on the phase: pre-hydration and
-  // in-flight fetches show a subtle loading shimmer; truly-empty state
-  // gets the "add repos" CTA.
-  const emptyState =
-    !hasHydrated || loading ? (
-      <WatchlistLoadingState />
-    ) : (
-      <EmptyWatchlistState />
-    );
+  const status = !hasHydrated
+    ? "HYDRATING"
+    : loading
+      ? "LOADING"
+      : `${repos.length} REPO${repos.length === 1 ? "" : "S"}`;
 
   return (
     <>
-      <TerminalLayout
-        repos={repos}
-        filterBarVariant="watchlist"
-        featuredCount={4}
-        featuredTitle="Your Movers"
-        showFeatured={repos.length >= 4}
-        rowActions={["remove", "compare"]}
-        heading={heading}
-        emptyState={emptyState}
-      />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 border-t border-border-primary mt-8">
-        <AlertConfig />
-      </div>
+      <section className="border-b border-[color:var(--v2-line-100)]">
+        <div className="v2-frame pt-6 pb-6">
+          <TerminalBar
+            label={
+              <>
+                <span aria-hidden>{"// "}</span>WATCHLIST · LOCAL · NO ACCOUNT
+              </>
+            }
+            status={status}
+          />
+
+          <h1
+            className="v2-mono mt-6 inline-flex items-center gap-2"
+            style={{
+              color: "var(--v2-ink-100)",
+              fontSize: 12,
+              letterSpacing: "0.20em",
+            }}
+          >
+            <span aria-hidden>{"// "}</span>
+            WATCHLIST · TRACKED REPOS
+            <span
+              aria-hidden
+              className="inline-block ml-1"
+              style={{
+                width: 6,
+                height: 6,
+                background: "var(--v2-acc)",
+                borderRadius: 1,
+                boxShadow: "0 0 6px var(--v2-acc-glow)",
+              }}
+            />
+          </h1>
+          <p
+            className="text-[14px] leading-relaxed max-w-[80ch] mt-3"
+            style={{ color: "var(--v2-ink-200)" }}
+          >
+            Track the repos you care about. Click the watch icon on any repo
+            page to add it here. Everything is local — no account, no tracking,
+            no sync.
+          </p>
+        </div>
+      </section>
+
+      {hasHydrated && repos.length > 0 ? (
+        <>
+          {/* Stat tiles */}
+          <section className="border-b border-[color:var(--v2-line-100)]">
+            <div className="v2-frame py-6">
+              <p
+                className="v2-mono mb-3"
+                style={{ color: "var(--v2-ink-300)" }}
+              >
+                <span aria-hidden>{"// "}</span>
+                METRICS · 24H
+              </p>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                <div className="v2-stat">
+                  <div className="v">{repos.length}</div>
+                  <div className="k">
+                    <span aria-hidden>{"// "}</span>
+                    REPOS · TRACKED
+                  </div>
+                </div>
+                <div className="v2-stat">
+                  <div className="v tabular-nums">
+                    +{formatNumber(totalDelta)}
+                  </div>
+                  <div className="k">
+                    <span aria-hidden>{"// "}</span>
+                    STARS · TOTAL · 24H
+                  </div>
+                </div>
+                <div className="v2-stat">
+                  <div
+                    className="v tabular-nums truncate"
+                    title={topMover?.name}
+                  >
+                    {topMover?.name ?? "—"}
+                  </div>
+                  <div className="k">
+                    <span aria-hidden>{"// "}</span>
+                    TOP · MOVER · 24H
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <TrendingTableV2 repos={repos} sortBy="delta24h" limit={50} />
+
+          {/* Manage panel */}
+          <section className="border-t border-[color:var(--v2-line-100)]">
+            <div className="v2-frame py-6">
+              <p
+                className="v2-mono mb-3"
+                style={{ color: "var(--v2-ink-300)" }}
+              >
+                <span aria-hidden>{"// "}</span>
+                MANAGE · WATCHLIST
+              </p>
+              <ul className="v2-card overflow-hidden">
+                {watchlist.map((item, idx) => {
+                  const slug = idToSlug(item.repoId);
+                  return (
+                    <li
+                      key={item.repoId}
+                      className="flex items-center justify-between px-4 py-3"
+                      style={{
+                        borderTop:
+                          idx === 0
+                            ? "none"
+                            : "1px solid var(--v2-line-100)",
+                      }}
+                    >
+                      <div className="min-w-0 flex-1">
+                        <Link
+                          href={`/repo/${slug}`}
+                          className="v2-mono-tight font-mono truncate block"
+                          style={{ color: "var(--v2-ink-100)" }}
+                        >
+                          {slug}
+                        </Link>
+                        <span
+                          className="v2-mono"
+                          style={{ color: "var(--v2-ink-400)", fontSize: 11 }}
+                        >
+                          <span aria-hidden>{"// "}</span>
+                          ADDED{" "}
+                          {new Date(item.addedAt).toLocaleDateString()} · @{" "}
+                          {item.starsAtAdd.toLocaleString("en-US")} STARS
+                        </span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => removeWatched(item.repoId)}
+                        aria-label={`Remove ${slug} from watchlist`}
+                        className="v2-mono ml-3 px-2 py-1 transition shrink-0"
+                        style={{
+                          color: "var(--v2-ink-400)",
+                          fontSize: 11,
+                          letterSpacing: "0.20em",
+                        }}
+                      >
+                        REMOVE
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </section>
+
+          {/* Alerts */}
+          <section className="border-t border-[color:var(--v2-line-100)]">
+            <div className="v2-frame py-8">
+              <p
+                className="v2-mono mb-4"
+                style={{ color: "var(--v2-ink-300)" }}
+              >
+                <span aria-hidden>{"// "}</span>
+                ALERTS · CONFIG
+              </p>
+              <AlertConfig />
+            </div>
+          </section>
+        </>
+      ) : (
+        <section>
+          <div className="v2-frame py-12">
+            {!hasHydrated || loading ? (
+              <WatchlistLoadingV2 />
+            ) : (
+              <EmptyWatchlistV2 />
+            )}
+          </div>
+        </section>
+      )}
     </>
   );
 }
 
-// ---------------------------------------------------------------------------
-// Empty + loading states
-// ---------------------------------------------------------------------------
-
-function WatchlistLoadingState() {
+function WatchlistLoadingV2() {
   return (
-    <div className="text-center py-20 px-4">
-      <div className="mx-auto mb-4 inline-flex items-center justify-center p-4 rounded-full bg-bg-card border border-border-primary">
-        <Eye
-          size={28}
-          className="text-text-tertiary animate-pulse"
-          aria-hidden="true"
-        />
-      </div>
-      <p className="text-text-secondary text-lg">Loading watchlist&hellip;</p>
+    <div className="v2-card p-12 text-center">
+      <p
+        className="v2-mono"
+        style={{ color: "var(--v2-ink-400)" }}
+      >
+        <span aria-hidden>{"// "}</span>
+        LOADING · WATCHLIST
+      </p>
     </div>
   );
 }
 
-function EmptyWatchlistState() {
+function EmptyWatchlistV2() {
   return (
-    <div className="text-center py-20 px-4">
-      <div className="mx-auto mb-4 inline-flex items-center justify-center p-4 rounded-full bg-bg-card border border-border-primary">
-        <Eye size={28} className="text-text-tertiary" aria-hidden="true" />
-      </div>
-      <p className="text-text-secondary text-lg">
-        Your watchlist is empty
+    <div className="v2-card p-8 md:p-12 text-center">
+      <p
+        className="v2-mono mb-3"
+        style={{ color: "var(--v2-acc)" }}
+      >
+        <span aria-hidden>{"// "}</span>
+        EMPTY · NO REPOS
       </p>
-      <p className="text-text-muted text-sm mt-2 max-w-md mx-auto">
+      <p
+        className="v2-display mb-4"
+        style={{
+          fontSize: "clamp(24px, 3vw, 36px)",
+          color: "var(--v2-ink-000)",
+        }}
+      >
+        Your watchlist is empty.
+      </p>
+      <p
+        className="text-[14px] leading-relaxed mb-6 max-w-md mx-auto"
+        style={{ color: "var(--v2-ink-200)" }}
+      >
         Click the eye icon on any repo to add it here. You&rsquo;ll get a
         quick-glance view of movement across everything you&rsquo;re tracking.
       </p>
-      <Link
-        href="/"
-        className="inline-block mt-6 px-4 py-2 rounded-[var(--radius-md)] bg-brand text-text-inverse font-medium text-sm hover:bg-brand-hover transition-colors"
-      >
-        Browse trending repos
+      <Link href="/" className="v2-btn v2-btn-primary inline-flex">
+        BROWSE TRENDING →
       </Link>
     </div>
   );

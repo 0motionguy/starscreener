@@ -28,15 +28,16 @@ const nextConfig: NextConfig = {
   },
   poweredByHeader: false,
   compress: true,
-  // src/lib/data-store.ts (and a handful of *-refresh.ts files) lazily
-  // require Node `fs` for the file-fallback tier of the data-store.
-  // Several reader libs are transitively imported by client components
-  // (e.g. SidebarWatchlistPreview pulls @/lib/bluesky for sync getters),
-  // and webpack would otherwise fail the client build with
-  // "Module not found: Can't resolve 'fs'". Stubbing fs to false in the
-  // client bundle is safe because the refresh hooks are only ever called
-  // from server components / route handlers — the fs branch is dead code
-  // on the client side.
+  // src/lib/data-store.ts lazily loads either `@upstash/redis` (REST) or
+  // `ioredis` (TCP — Railway native Redis) for the Redis tier, plus Node
+  // `fs` for the file-fallback tier. Several reader libs are transitively
+  // imported by client components (e.g. SidebarWatchlistPreview pulls
+  // @/lib/bluesky for sync getters), so webpack would otherwise fail the
+  // client build with "Module not found: Can't resolve 'fs' / 'net' / ...".
+  //
+  // Stubbing these to false in the client bundle is safe because the Redis
+  // refresh hooks are only ever called from server components / route
+  // handlers — the relevant code paths are dead in the client bundle.
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve = config.resolve ?? {};
@@ -44,6 +45,14 @@ const nextConfig: NextConfig = {
         ...(config.resolve.fallback ?? {}),
         fs: false,
         path: false,
+        // ioredis transitive deps — TCP socket, TLS, DNS, OS info.
+        net: false,
+        tls: false,
+        dns: false,
+        os: false,
+        crypto: false,
+        stream: false,
+        zlib: false,
       };
     }
     return config;

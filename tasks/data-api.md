@@ -126,20 +126,39 @@ Phase 2-4 = separate sessions, each with its own plan doc.
 
 Once you've provisioned a Redis instance, the system lights up automatically. Until then, every reader gracefully degrades to the bundled file snapshot (current behavior) and every writer logs `[redis: skipped]` instead of pushing to Redis.
 
-### 1. Provision Upstash (free tier OK to start)
+### 1. Provision Redis — TWO options
 
+**Option A — Railway native Redis (recommended if you're already on Railway)**
+1. Open your Railway project → **+ New** → **Database** → **Redis**
+2. Wait ~30s for it to provision
+3. Open the new Redis service → **Variables** tab
+4. Copy the `REDIS_URL` value (looks like `redis://default:xxx@redis.railway.internal:6379`)
+
+The data-store auto-detects the URL scheme — `redis://` / `rediss://` → ioredis (TCP).
+
+**Option B — Upstash REST (legacy / standalone)**
 1. Go to https://console.upstash.com/redis
 2. Create a new database (any region near your Vercel region; `us-east-1` is a safe default)
 3. In the database detail page, find the **REST API** tab
 4. Copy `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN`
 
+Either path works. Set the corresponding env var(s) in Step 2.
+
 ### 2. Add the env vars in 3 places
 
+For **Option A (Railway)** — set `REDIS_URL`:
 | Where | How |
 |---|---|
-| **Local dev** (`.env.local`) | Paste both vars |
-| **Vercel** (production) | `vercel env add UPSTASH_REDIS_REST_URL production`, then again for the token. (Or via the Vercel dashboard → Project → Settings → Environment Variables.) |
-| **GitHub Actions** (so collectors can write) | `gh secret set UPSTASH_REDIS_REST_URL --body "..."`, same for token. (Or repo Settings → Secrets and variables → Actions.) |
+| **Local dev** (`.env.local`) | `REDIS_URL=redis://...` |
+| **Vercel** (production) | `vercel env add REDIS_URL production` (or via dashboard) |
+| **GitHub Actions** | `gh secret set REDIS_URL --body "redis://..."` |
+
+For **Option B (Upstash)** — set both vars:
+| Where | How |
+|---|---|
+| **Local dev** (`.env.local`) | Paste both `UPSTASH_REDIS_REST_*` vars |
+| **Vercel** (production) | `vercel env add UPSTASH_REDIS_REST_URL production`, then again for the token |
+| **GitHub Actions** | `gh secret set UPSTASH_REDIS_REST_URL --body "..."`, same for token |
 
 ### 3. Verify locally
 

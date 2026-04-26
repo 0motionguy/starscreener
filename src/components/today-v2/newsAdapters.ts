@@ -140,17 +140,27 @@ export function adaptRedditPosts(
   posts: RedditPost[],
   limit = 30,
 ): NewsItem[] {
-  return posts.slice(0, limit).map((p) => ({
-    id: `reddit-${p.id}`,
-    title: p.title,
-    source: "R",
-    author: p.author || "—",
-    score: p.score,
-    mentions: p.numComments,
-    repo: p.repoFullName ?? null,
-    age: relativeAge(p.createdUtc),
-    heat: heatFromScore(p.score, { breakout: 1500, hot: 400, rising: 100 }),
-  }));
+  return posts.slice(0, limit).map((p) => {
+    // RedditAllPost (a superset of RedditPost) carries a selftext field —
+    // narrow + read it when present.
+    const selftext = (p as RedditPost & { selftext?: string }).selftext;
+    return {
+      id: `reddit-${p.id}`,
+      title: p.title,
+      source: "R",
+      author: p.author || "—",
+      score: p.score,
+      mentions: p.numComments,
+      repo: p.repoFullName ?? null,
+      age: relativeAge(p.createdUtc),
+      heat: heatFromScore(p.score, {
+        breakout: 1500,
+        hot: 400,
+        rising: 100,
+      }),
+      body: selftext?.trim() || undefined,
+    };
+  });
 }
 
 // ---------------------------------------------------------------------------
@@ -170,22 +180,27 @@ export function adaptBlueskyPosts(
       if (ref.uri) repoByUri.set(ref.uri, fullName);
     }
   }
-  return posts.slice(0, limit).map((p) => ({
-    id: `bsky-${p.cid}`,
-    // Bluesky has no title — use the first 80 chars of text instead.
-    title: (p.text ?? "").split("\n")[0].slice(0, 120) || "(no text)",
-    source: "B",
-    author: p.author?.handle ?? "—",
-    score: (p.likeCount ?? 0) + (p.repostCount ?? 0) * 2,
-    mentions: p.replyCount ?? 0,
-    repo: repoByUri.get(p.uri) ?? null,
-    age: relativeAge(p.createdUtc),
-    heat: heatFromScore((p.likeCount ?? 0) + (p.repostCount ?? 0) * 2, {
-      breakout: 800,
-      hot: 200,
-      rising: 50,
-    }),
-  }));
+  return posts.slice(0, limit).map((p) => {
+    const fullText = (p.text ?? "").trim();
+    return {
+      id: `bsky-${p.cid}`,
+      // Bluesky has no title — use the first line of text as the title
+      // and pass the full body for the featured-card excerpt.
+      title: fullText.split("\n")[0].slice(0, 120) || "(no text)",
+      source: "B",
+      author: p.author?.handle ?? "—",
+      score: (p.likeCount ?? 0) + (p.repostCount ?? 0) * 2,
+      mentions: p.replyCount ?? 0,
+      repo: repoByUri.get(p.uri) ?? null,
+      age: relativeAge(p.createdUtc),
+      heat: heatFromScore((p.likeCount ?? 0) + (p.repostCount ?? 0) * 2, {
+        breakout: 800,
+        hot: 200,
+        rising: 50,
+      }),
+      body: fullText || undefined,
+    };
+  });
 }
 
 // ---------------------------------------------------------------------------
@@ -211,6 +226,8 @@ export function adaptDevtoArticles(
       hot: 50,
       rising: 10,
     }),
+    // Real article excerpt from the dev.to API.
+    body: a.description?.trim() || undefined,
   }));
 }
 
@@ -232,6 +249,7 @@ export function adaptLobstersStories(
     repo: null,
     age: relativeAge(s.createdUtc),
     heat: heatFromScore(s.score, { breakout: 80, hot: 30, rising: 10 }),
+    body: s.description?.trim() || undefined,
   }));
 }
 
@@ -252,7 +270,12 @@ export function adaptProductHuntLaunches(
     mentions: l.commentsCount,
     repo: null,
     age: relativeAgeIso(l.createdAt),
-    heat: heatFromScore(l.votesCount, { breakout: 800, hot: 300, rising: 100 }),
+    heat: heatFromScore(l.votesCount, {
+      breakout: 800,
+      hot: 300,
+      rising: 100,
+    }),
+    body: l.description?.trim() || undefined,
   }));
 }
 
@@ -300,114 +323,149 @@ export function adaptTwitterLeaderboard(
 export function pickFeatured(
   items: NewsItem[],
   source: NewsSourceMeta,
-  excerptByItem?: (item: NewsItem) => string,
 ): FeaturedItem[] {
-  return items.slice(0, 3).map((item) => ({
-    id: `feat-${item.id}`,
-    source: item.source,
-    sourceLabel: source.label,
-    sourceColor: source.color,
-    title: item.title,
-    excerpt:
-      excerptByItem?.(item) ??
-      `${item.author ? `by @${item.author} · ` : ""}${item.score.toLocaleString()} score · ${item.mentions} ${item.mentions === 1 ? "comment" : "comments"} · ${item.age} ago`,
-    author: item.author,
-    score: item.score,
-    mentions: item.mentions,
-    age: item.age,
-  }));
-}
-
-// ---------------------------------------------------------------------------
-// Hero charts — synthesize 7-day stacked bars + 5 trending-topic lines
-//
-// Real time-series data isn't on the data files (each lib only carries
-// "current" snapshots). For now the adapter creates a plausible 7-day
-// shape from the current item count + score distribution. Once the
-// scrapers add a daily-snapshot file, swap this for the real series.
-// ---------------------------------------------------------------------------
-
-export function buildStackedBars(
-  channels: NewsSourceMeta[],
-  itemsByChannel: Record<string, NewsItem[]>,
-): Array<{ day: string; segments: Record<string, number> }> {
-  const days = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
-  // Compute per-channel base + a deterministic ramp using the channel
-  // code as a seed so the bars have variation but stay stable.
-  return days.map((day, di) => {
-    const segments: Record<string, number> = {};
-    for (const ch of channels) {
-      const items = itemsByChannel[ch.code] ?? [];
-      const totalScore = items.reduce((sum, x) => sum + x.score, 0);
-      // Daily share: each day gets (total/7) ± 30% deterministic wobble.
-      const wobble =
-        (((di + ch.code.charCodeAt(0)) % 7) - 3) * 0.07 + 1;
-      segments[ch.code] = Math.max(1, Math.round((totalScore / 7) * wobble));
-    }
-    return { day, segments };
+  return items.slice(0, 3).map((item) => {
+    // Prefer the real body text from the source. If the source doesn't
+    // carry one (HN headlines, raw Twitter leaderboard rows), fall back
+    // to a one-line meta strip built from real numbers.
+    const realBody = item.body?.trim();
+    const fallbackMeta = `${item.author ? `by @${item.author} · ` : ""}${item.score.toLocaleString()} score · ${item.mentions} ${item.mentions === 1 ? "comment" : "comments"} · ${item.age} ago`;
+    return {
+      id: `feat-${item.id}`,
+      source: item.source,
+      sourceLabel: source.label,
+      sourceColor: source.color,
+      title: item.title,
+      excerpt: realBody && realBody.length > 24 ? realBody : fallbackMeta,
+      author: item.author,
+      score: item.score,
+      mentions: item.mentions,
+      age: item.age,
+    };
   });
 }
 
-export function buildTopicLines(
-  items: NewsItem[],
-): Array<{ topic: string; values: number[]; color: string }> {
-  // Extract the top 5 most-mentioned tokens from titles. Cheap stop-word
-  // filter so we don't end up with "the", "a", "is" as topics.
-  const STOP = new Set([
-    "the",
-    "a",
-    "an",
-    "is",
-    "are",
-    "for",
-    "on",
-    "in",
-    "to",
-    "of",
-    "and",
-    "or",
-    "with",
-    "how",
-    "why",
-    "what",
-    "show",
-    "ask",
-    "hn",
-    "i",
-    "my",
-    "we",
-    "by",
-    "as",
-    "at",
-    "this",
-    "that",
-    "from",
-    "your",
-    "you",
-    "be",
-    "it",
-    "its",
-    "do",
-    "does",
-    "no",
-    "not",
-    "out",
-    "new",
-    "now",
-    "use",
-    "using",
-  ]);
+// ---------------------------------------------------------------------------
+// Hero stats — REAL data only. We never had per-day time series in the
+// committed data files, so showing a 7-day chart was synthetic. The
+// hero now uses two non-time-series visualizations that ARE backed by
+// the snapshot we have:
+//
+//  1. buildSourceVolume — total real activity per source (item count +
+//     summed score). Renders as a single horizontal-bar chart.
+//  2. buildTopTopics — real most-mentioned terms across the current
+//     item set, with real counts. Renders as a horizontal bar list.
+//  3. buildTodayCounter — sum of all current items + their score.
+//
+// Once a daily-snapshot scrape is wired (separate work item), swap in
+// real 7-day series. Until then, no fiction.
+// ---------------------------------------------------------------------------
+
+export interface SourceVolumeRow {
+  code: string;
+  label: string;
+  color: string;
+  /** Real count of items in the current snapshot. */
+  itemCount: number;
+  /** Sum of their scores (HN points / Reddit upvotes / etc). */
+  totalScore: number;
+}
+
+export function buildSourceVolume(
+  channels: NewsSourceMeta[],
+  itemsByChannel: Record<string, NewsItem[]>,
+): SourceVolumeRow[] {
+  return channels.map((ch) => {
+    const items = itemsByChannel[ch.code] ?? [];
+    const totalScore = items.reduce((sum, x) => sum + x.score, 0);
+    return {
+      code: ch.code,
+      label: ch.label,
+      color: ch.color,
+      itemCount: items.length,
+      totalScore,
+    };
+  });
+}
+
+export interface TopTopic {
+  topic: string;
+  /** Real number of items in the current snapshot containing this term. */
+  count: number;
+  color: string;
+}
+
+const STOP_WORDS = new Set([
+  "the",
+  "a",
+  "an",
+  "is",
+  "are",
+  "for",
+  "on",
+  "in",
+  "to",
+  "of",
+  "and",
+  "or",
+  "with",
+  "how",
+  "why",
+  "what",
+  "show",
+  "ask",
+  "hn",
+  "i",
+  "my",
+  "we",
+  "by",
+  "as",
+  "at",
+  "this",
+  "that",
+  "from",
+  "your",
+  "you",
+  "be",
+  "it",
+  "its",
+  "do",
+  "does",
+  "no",
+  "not",
+  "out",
+  "new",
+  "now",
+  "use",
+  "using",
+  "can",
+  "will",
+  "has",
+  "have",
+  "than",
+  "into",
+  "over",
+  "via",
+  "re",
+  "so",
+  "if",
+  "but",
+]);
+
+export function buildTopTopics(items: NewsItem[], limit = 5): TopTopic[] {
+  // Real frequency count across current item titles. No time series
+  // synthesis — just the actual counts.
   const counts = new Map<string, number>();
   for (const item of items) {
     const tokens = item.title.toLowerCase().match(/\b[a-z][a-z-]{2,}\b/g);
     for (const t of tokens ?? []) {
-      if (STOP.has(t) || t.length > 22) continue;
+      if (STOP_WORDS.has(t) || t.length > 22) continue;
       counts.set(t, (counts.get(t) ?? 0) + 1);
     }
   }
   const top = Array.from(counts.entries())
     .sort((a, b) => b[1] - a[1])
-    .slice(0, 5);
+    .slice(0, limit);
 
   const colors = [
     "rgba(146, 151, 246, 1)",
@@ -417,26 +475,31 @@ export function buildTopicLines(
     "rgba(254, 223, 137, 1)",
   ];
 
-  // Synthesize a 7-day series for each topic — ascending toward the
-  // current count so the chart reads as "rising trends."
-  return top.map(([topic, count], i) => {
-    const values: number[] = [];
-    for (let d = 0; d < 7; d++) {
-      const t = d / 6;
-      const wobble = (((d + topic.charCodeAt(0)) % 5) - 2) * 0.5;
-      values.push(Math.max(1, Math.round(count * (0.3 + 0.7 * t) + wobble)));
-    }
-    return { topic, values, color: colors[i] ?? colors[0] };
-  });
+  return top.map(([topic, count], i) => ({
+    topic,
+    count,
+    color: colors[i] ?? colors[0],
+  }));
 }
 
-export function buildTodayCounter(
-  bars: ReturnType<typeof buildStackedBars>,
-): { total: number; delta: number } {
-  if (bars.length === 0) return { total: 0, delta: 0 };
-  const today = bars[bars.length - 1];
-  const yesterday = bars[bars.length - 2] ?? today;
-  const total = Object.values(today.segments).reduce((s, v) => s + v, 0);
-  const prev = Object.values(yesterday.segments).reduce((s, v) => s + v, 0);
-  return { total, delta: total - prev };
+export interface TodayCounter {
+  totalItems: number;
+  totalScore: number;
+  topItem: NewsItem | null;
+}
+
+export function buildTodayCounter(items: NewsItem[]): TodayCounter {
+  if (items.length === 0) {
+    return { totalItems: 0, totalScore: 0, topItem: null };
+  }
+  const totalScore = items.reduce((sum, x) => sum + x.score, 0);
+  const topItem = items.reduce<NewsItem>(
+    (best, x) => (x.score > best.score ? x : best),
+    items[0],
+  );
+  return {
+    totalItems: items.length,
+    totalScore,
+    topItem,
+  };
 }

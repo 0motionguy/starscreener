@@ -28,8 +28,8 @@ import {
   adaptDevtoArticles,
   adaptLobstersStories,
   adaptProductHuntLaunches,
-  buildStackedBars,
-  buildTopicLines,
+  buildSourceVolume,
+  buildTopTopics,
   buildTodayCounter,
   pickFeatured,
 } from "@/components/today-v2/newsAdapters";
@@ -95,8 +95,8 @@ export default function MarketSignalsPage() {
     ADAPTER_SOURCES.producthunt,
   ];
 
-  // Hero charts use per-channel item buckets so the stacked bar reads
-  // as "channel mix" instead of one big total.
+  // Real per-channel item buckets — drives the per-source volume bar
+  // chart with actual snapshot counts (no time-series synthesis).
   const itemsByChannel: Record<string, typeof items> = {
     HN: hnItems,
     R: redditItems,
@@ -106,9 +106,9 @@ export default function MarketSignalsPage() {
     PH: phItems,
   };
 
-  const stackedBars = buildStackedBars(channels, itemsByChannel);
-  const topicLines = buildTopicLines(items);
-  const counter = buildTodayCounter(stackedBars);
+  const sourceVolume = buildSourceVolume(channels, itemsByChannel);
+  const topTopics = buildTopTopics(items);
+  const counter = buildTodayCounter(items);
 
   // Featured cards mix sources too — pick top 3 by score from the
   // merged feed.
@@ -125,10 +125,11 @@ export default function MarketSignalsPage() {
       source={unifiedSource}
       channels={channels}
       items={items.slice(0, 60)}
-      todayCounter={counter.total}
-      todayDelta={counter.delta}
-      stackedBars={stackedBars}
-      topicLines={topicLines}
+      totalItems={counter.totalItems}
+      totalScore={counter.totalScore}
+      topItem={counter.topItem}
+      sourceVolume={sourceVolume}
+      topTopics={topTopics}
       featured={featured}
     />
   );

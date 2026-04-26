@@ -32,7 +32,6 @@ export async function getRedis(): Promise<RedisHandle | null> {
       connectTimeout: 5_000,
     });
     client.on('error', (err: Error) => {
-      // eslint-disable-next-line no-console
       console.warn(`[redis] ioredis error: ${err.message}`);
     });
     cachedHandle = ioredisAdapter(client);
@@ -51,7 +50,6 @@ export async function getRedis(): Promise<RedisHandle | null> {
 
   if (!warned) {
     warned = true;
-    // eslint-disable-next-line no-console
     console.warn('[redis] no REDIS_URL or UPSTASH_REDIS_REST_URL/TOKEN set - skipping writes');
   }
   return null;
@@ -126,6 +124,27 @@ export async function writeDataStore(
     handle.set(`${META_NAMESPACE}:${key}`, writtenAt, setOpts),
   ]);
   return { source: 'redis', writtenAt };
+}
+
+/**
+ * Read a payload previously written to the data-store by writeDataStore (or
+ * scripts/_data-store-write.mjs). Returns null if Redis is disabled, the key
+ * is missing, or the stored value isn't valid JSON. Caller is responsible for
+ * downcasting to the expected shape — there's no schema validation here.
+ *
+ * Used by derived fetchers (revenue-benchmarks, reddit-baselines, etc) that
+ * compute on top of payloads other fetchers wrote.
+ */
+export async function readDataStore<T = unknown>(key: string): Promise<T | null> {
+  const handle = await getRedis();
+  if (!handle) return null;
+  const raw = await handle.get(`${NAMESPACE}:${key}`);
+  if (raw === null) return null;
+  try {
+    return JSON.parse(raw) as T;
+  } catch {
+    return null;
+  }
 }
 
 export async function closeRedis(): Promise<void> {

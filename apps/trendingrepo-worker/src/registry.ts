@@ -18,6 +18,14 @@ import ossTrending from './fetchers/oss-trending/index.js';
 import recentRepos from './fetchers/recent-repos/index.js';
 import deltas from './fetchers/deltas/index.js';
 import collectionRankings from './fetchers/collection-rankings/index.js';
+// Phase B Group 3 (enrichment)
+import repoProfiles from './fetchers/repo-profiles/index.js';
+import repoMetadata from './fetchers/repo-metadata/index.js';
+import npmPackages from './fetchers/npm-packages/index.js';
+import fundingNews from './fetchers/funding-news/index.js';
+import trustmrr from './fetchers/trustmrr/index.js';
+import revenueBenchmarks from './fetchers/revenue-benchmarks/index.js';
+import redditBaselines from './fetchers/reddit-baselines/index.js';
 
 export const FETCHERS: Fetcher[] = [
   hnPulse,
@@ -25,6 +33,13 @@ export const FETCHERS: Fetcher[] = [
   recentRepos,
   deltas,
   collectionRankings,
+  repoProfiles,
+  repoMetadata,
+  npmPackages,
+  fundingNews,
+  trustmrr,
+  revenueBenchmarks,
+  redditBaselines,
   huggingface,
   github,
   bluesky,

@@ -2,9 +2,18 @@ import { describe, it, expect } from 'vitest';
 import { TRENDING_ITEM_TYPES } from '../src/lib/types.js';
 
 describe('TRENDING_ITEM_TYPES', () => {
-  it('lists all 7 types', () => {
-    expect(TRENDING_ITEM_TYPES).toHaveLength(7);
-    expect(new Set(TRENDING_ITEM_TYPES).size).toBe(7);
+  it('is non-empty, all entries are strings, and contains no duplicates', () => {
+    expect(TRENDING_ITEM_TYPES.length).toBeGreaterThanOrEqual(7);
+    expect(new Set(TRENDING_ITEM_TYPES).size).toBe(TRENDING_ITEM_TYPES.length);
+    for (const t of TRENDING_ITEM_TYPES) expect(typeof t).toBe('string');
+  });
+
+  it('includes the foundational kinds we always ship', () => {
+    // These were the v1 types; refactors can add more (e.g. 'paper') but
+    // never silently drop one of the founding seven.
+    for (const t of ['skill', 'mcp', 'hf_model', 'hf_dataset', 'hf_space', 'repo', 'idea']) {
+      expect(TRENDING_ITEM_TYPES).toContain(t);
+    }
   });
 });
 

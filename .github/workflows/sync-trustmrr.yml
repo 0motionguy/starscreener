@@ -60,6 +60,7 @@ jobs:
           TRUSTMRR_API_KEY: ${{ secrets.TRUSTMRR_API_KEY }}
           # Phase 1B: collector dual-writes to Redis. Writes 3 keys:
           # trustmrr-startups, trustmrr-startups:meta sidecar, revenue-overlays.
+          REDIS_URL: ${{ secrets.REDIS_URL }}
           UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
           UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
         run: node scripts/sync-trustmrr.mjs --mode=${{ steps.mode.outputs.mode }}
@@ -67,6 +68,7 @@ jobs:
       - name: Recompute benchmarks (full sweep only)
         if: steps.mode.outputs.mode == 'full'
         env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
           UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
           UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
         run: node scripts/compute-revenue-benchmarks.mjs

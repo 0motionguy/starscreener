@@ -33,6 +33,7 @@ jobs:
           # enrich-repo-profiles.mjs only mirrors the FINAL snapshot to
           # Redis (per-repo intermediate writes stay file-only) to avoid
           # burning hundreds of Upstash writes per cron tick.
+          REDIS_URL: ${{ secrets.REDIS_URL }}
           UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
           UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
         run: node scripts/enrich-repo-profiles.mjs --mode incremental --limit 50 --max-scans 5

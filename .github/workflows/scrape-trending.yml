@@ -29,6 +29,7 @@ jobs:
       - name: Refresh OSSInsight trending + hot collections
         env:
           # Phase 1B: collector dual-writes to Redis via writeDataStore().
+          REDIS_URL: ${{ secrets.REDIS_URL }}
           UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
           UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
         run: node scripts/scrape-trending.mjs --skip-collection-rankings
@@ -36,6 +37,7 @@ jobs:
       - name: Discover recent GitHub repos
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          REDIS_URL: ${{ secrets.REDIS_URL }}
           UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
           UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
         run: node scripts/discover-recent-repos.mjs
@@ -50,6 +52,7 @@ jobs:
           REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
           REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
           REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
+          REDIS_URL: ${{ secrets.REDIS_URL }}
           UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
           UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
         run: node scripts/scrape-reddit.mjs
@@ -59,6 +62,7 @@ jobs:
         # hackernews-trending + hackernews-repo-mentions to Redis (and
         # mirrors to data/*.json for cold-start seed).
         env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
           UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
           UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
         run: node scripts/scrape-hackernews.mjs
@@ -66,12 +70,14 @@ jobs:
       - name: Refresh GitHub repo metadata
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          REDIS_URL: ${{ secrets.REDIS_URL }}
           UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
           UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
         run: node scripts/fetch-repo-metadata.mjs
 
       - name: Compute deltas from git history
         env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
           UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
           UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
         run: node scripts/compute-deltas.mjs

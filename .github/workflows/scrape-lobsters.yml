@@ -36,6 +36,7 @@ jobs:
         # continues on per-page failure so one 503 doesn't kill the run.
         env:
           # Phase 1B: collector dual-writes to Redis via writeDataStore().
+          REDIS_URL: ${{ secrets.REDIS_URL }}
           UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
           UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
         run: node scripts/scrape-lobsters.mjs

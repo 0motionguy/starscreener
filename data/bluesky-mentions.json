@@ -1,46 +1,46 @@
 {
-  "fetchedAt": "2026-04-26T20:59:09.604Z",
+  "fetchedAt": "2026-04-26T21:55:08.967Z",
   "windowDays": 7,
-  "scannedPosts": 299,
+  "scannedPosts": 99,
   "searchQuery": "github.com",
-  "pagesFetched": 3,
+  "pagesFetched": 1,
   "mentions": {
-    "earthtojake/text-to-cad": {
+    "mitsuhiko/pi-draw": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkg5topt7a2y",
-        "cid": "bafyreify6gpel2oo2nkq44qecq3wqa7sk34c3hjipjfeumjegwzpzd624a",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkg5topt7a2y",
-        "text": "https://github.com/earthtojake/text-to-cad",
+        "uri": "at://did:plc:yym5dkfbnzf6lspvh4hnstjg/app.bsky.feed.post/3mkgij3vrpk2p",
+        "cid": "bafyreig23kz53clzm7tzxlqtfk7xf2ol7bm5ti5ucq7md24q56vlxnyrum",
+        "bskyUrl": "https://bsky.app/profile/mitsuhiko.at/post/3mkgij3vrpk2p",
+        "text": "Mostly vanilla pi, but with a draw extension we built and a using VoiceInk for text to speech. github.com/mitsuhiko/pi...",
         "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
+          "handle": "mitsuhiko.at",
+          "displayName": "Armin Ronacher"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-04-26T18:13:08Z",
-        "hoursSincePosted": 2.77
+        "createdAt": "2026-04-26T21:24:05.006Z",
+        "hoursSincePosted": 0.52
       },
       "posts": [
         {
-          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkg5topt7a2y",
-          "cid": "bafyreify6gpel2oo2nkq44qecq3wqa7sk34c3hjipjfeumjegwzpzd624a",
-          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkg5topt7a2y",
-          "text": "https://github.com/earthtojake/text-to-cad",
+          "uri": "at://did:plc:yym5dkfbnzf6lspvh4hnstjg/app.bsky.feed.post/3mkgij3vrpk2p",
+          "cid": "bafyreig23kz53clzm7tzxlqtfk7xf2ol7bm5ti5ucq7md24q56vlxnyrum",
+          "bskyUrl": "https://bsky.app/profile/mitsuhiko.at/post/3mkgij3vrpk2p",
+          "text": "Mostly vanilla pi, but with a draw extension we built and a using VoiceInk for text to speech. github.com/mitsuhiko/pi...",
           "author": {
-            "handle": "tom-doerr.bsky.social",
-            "displayName": "Tom Dörr "
+            "handle": "mitsuhiko.at",
+            "displayName": "Armin Ronacher"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-04-26T18:13:08Z",
-          "createdUtc": 1777227188,
-          "ageHours": 2.77,
+          "createdAt": "2026-04-26T21:24:05.006Z",
+          "createdUtc": 1777238645,
+          "ageHours": 0.52,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -48,7 +48,7 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "earthtojake/text-to-cad",
+              "fullName": "mitsuhiko/pi-draw",
               "matchType": "url",
               "confidence": 1
             }
@@ -56,253 +56,50 @@
         }
       ]
     },
-    "ggml-org/llama.cpp": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkg5l5tlce2a",
-        "cid": "bafyreidubgwmhdd7zhcpatjklx6odg3mxmjakz5b2zwv6zztyncshetoky",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkg5l5tlce2a",
-        "text": "🟠 llama.cpp b8941 ships portable matmul tuning that should lift local inference performance across backends llama.cpp released build b8941 with new performance-portable tuning for register-tile and subgroup matmul, a... https://github.com/ggml-org/llama.cpp/releases/tag/b8941 #AI #AgentWyre",
-        "author": {
-          "handle": "agentwyre.ai"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-26T18:08:22.400860+00:00",
-        "hoursSincePosted": 2.85
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkg5l5tlce2a",
-          "cid": "bafyreidubgwmhdd7zhcpatjklx6odg3mxmjakz5b2zwv6zztyncshetoky",
-          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkg5l5tlce2a",
-          "text": "🟠 llama.cpp b8941 ships portable matmul tuning that should lift local inference performance across backends llama.cpp released build b8941 with new performance-portable tuning for register-tile and subgroup matmul, a... https://github.com/ggml-org/llama.cpp/releases/tag/b8941 #AI #AgentWyre",
-          "author": {
-            "handle": "agentwyre.ai"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-26T18:08:22.400860+00:00",
-          "createdUtc": 1777226902,
-          "ageHours": 2.85,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo",
-            "is-announcement"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "ggml-org/llama.cpp",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "antirez/llama.cpp-deepseek-v4-flash": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:b3thjibfigj2d6syeftwqiyi/app.bsky.feed.post/3mkg546vzi22d",
-        "cid": "bafyreigaakek54yim2foq22wwiu2hjq2pcxndhjq7nn4vi2snvlrothdyu",
-        "bskyUrl": "https://bsky.app/profile/trivikram.bsky.social/post/3mkg546vzi22d",
-        "text": "Based on their GitHub repo, it looks like @antirez.bsky.social is using a Mac with 128 GB RAM for running deepseek-v4-flash with 2-bit quantization github.com/antirez/llam...",
-        "author": {
-          "handle": "trivikram.bsky.social",
-          "displayName": "Trivikram Kamat"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-26T18:00:00.792Z",
-        "hoursSincePosted": 2.99
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:b3thjibfigj2d6syeftwqiyi/app.bsky.feed.post/3mkg546vzi22d",
-          "cid": "bafyreigaakek54yim2foq22wwiu2hjq2pcxndhjq7nn4vi2snvlrothdyu",
-          "bskyUrl": "https://bsky.app/profile/trivikram.bsky.social/post/3mkg546vzi22d",
-          "text": "Based on their GitHub repo, it looks like @antirez.bsky.social is using a Mac with 128 GB RAM for running deepseek-v4-flash with 2-bit quantization github.com/antirez/llam...",
-          "author": {
-            "handle": "trivikram.bsky.social",
-            "displayName": "Trivikram Kamat"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-26T18:00:00.792Z",
-          "createdUtc": 1777226400,
-          "ageHours": 2.99,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "antirez/llama.cpp-deepseek-v4-flash",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "gitleaks/gitleaks": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:mrxvpcmontw7iqhkyik2isgh/app.bsky.feed.post/3mkfzi3osu22z",
-        "cid": "bafyreieim7wc2p7txdsmop4k5s4st4ah7oabuxm4vesbmgrzutpflyasx4",
-        "bskyUrl": "https://bsky.app/profile/soisoiro.bsky.social/post/3mkfzi3osu22z",
-        "text": "なんか流行ってるgitleaksより、同作者の後継であるBetterleaksのほうが検出性能としていいみたい github.com/betterleaks/... github.com/gitleaks/git...",
-        "author": {
-          "handle": "soisoiro.bsky.social",
-          "displayName": "soiro_"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-26T16:55:05.097Z",
-        "hoursSincePosted": 4.07
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:mrxvpcmontw7iqhkyik2isgh/app.bsky.feed.post/3mkfzi3osu22z",
-          "cid": "bafyreieim7wc2p7txdsmop4k5s4st4ah7oabuxm4vesbmgrzutpflyasx4",
-          "bskyUrl": "https://bsky.app/profile/soisoiro.bsky.social/post/3mkfzi3osu22z",
-          "text": "なんか流行ってるgitleaksより、同作者の後継であるBetterleaksのほうが検出性能としていいみたい github.com/betterleaks/... github.com/gitleaks/git...",
-          "author": {
-            "handle": "soisoiro.bsky.social",
-            "displayName": "soiro_"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-26T16:55:05.097Z",
-          "createdUtc": 1777222505,
-          "ageHours": 4.07,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "gitleaks/gitleaks",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "gastownhall/gastown": {
+    "garrytan/gstack": {
       "count7d": 1,
       "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:h3idndtrsxptalho64h4xv7i/app.bsky.feed.post/3mkfuq4a2bs2c",
-        "cid": "bafyreigzrtm67ddh6uahng6sgoebj5om2mtgcqvzhxibpiuz6rllhfst2i",
-        "bskyUrl": "https://bsky.app/profile/paul.dreamisle.ca/post/3mkfuq4a2bs2c",
-        "text": "sounds like a task for github.com/gastownhall/... 🫣",
+        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mkghml752j2b",
+        "cid": "bafyreidqdixpior524xs7sxdwh4l2ifl3ydtvzaj4exltcgfsdnwkmdohq",
+        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mkghml752j2b",
+        "text": "GStack is my set of opinionated coding agent tools. It's open source and free. Just say \"Install GStack\" in Claude Code and it should work. https://github.com/garrytan/gstack",
         "author": {
-          "handle": "paul.dreamisle.ca",
-          "displayName": "Paul Roche"
+          "handle": "garrytan-mirr.selfhosted.social",
+          "displayName": "Garry Tan [UNOFFICIAL]"
         },
         "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-04-26T15:30:05.387Z",
-        "hoursSincePosted": 5.48
+        "replyCount": 0,
+        "createdAt": "2026-04-26T20:57:12.000Z",
+        "hoursSincePosted": 0.97
       },
       "posts": [
         {
-          "uri": "at://did:plc:h3idndtrsxptalho64h4xv7i/app.bsky.feed.post/3mkfuq4a2bs2c",
-          "cid": "bafyreigzrtm67ddh6uahng6sgoebj5om2mtgcqvzhxibpiuz6rllhfst2i",
-          "bskyUrl": "https://bsky.app/profile/paul.dreamisle.ca/post/3mkfuq4a2bs2c",
-          "text": "sounds like a task for github.com/gastownhall/... 🫣",
+          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mkghml752j2b",
+          "cid": "bafyreidqdixpior524xs7sxdwh4l2ifl3ydtvzaj4exltcgfsdnwkmdohq",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mkghml752j2b",
+          "text": "GStack is my set of opinionated coding agent tools. It's open source and free. Just say \"Install GStack\" in Claude Code and it should work. https://github.com/garrytan/gstack",
           "author": {
-            "handle": "paul.dreamisle.ca",
-            "displayName": "Paul Roche"
+            "handle": "garrytan-mirr.selfhosted.social",
+            "displayName": "Garry Tan [UNOFFICIAL]"
           },
           "likeCount": 1,
           "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-04-26T15:30:05.387Z",
-          "createdUtc": 1777217405,
-          "ageHours": 5.48,
-          "trendingScore": 1.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "gastownhall/gastown",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "refactoringhq/tolaria": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:vevngu5t7a2zqvdftysxv26d/app.bsky.feed.post/3mkfui6uwkc2o",
-        "cid": "bafyreignku2xbzvhoyijoibcdjcijbwynkecpddjqmgudelmwuwxzncwwq",
-        "bskyUrl": "https://bsky.app/profile/ytroncal.bsky.social/post/3mkfui6uwkc2o",
-        "text": "Tolaria Tolaria is a desktop app for Mac and Linux for managing markdown knowledge bases. github.com/refactoringh...",
-        "author": {
-          "handle": "ytroncal.bsky.social",
-          "displayName": "ytroncal"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-26T15:25:39.734Z",
-        "hoursSincePosted": 5.56
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:vevngu5t7a2zqvdftysxv26d/app.bsky.feed.post/3mkfui6uwkc2o",
-          "cid": "bafyreignku2xbzvhoyijoibcdjcijbwynkecpddjqmgudelmwuwxzncwwq",
-          "bskyUrl": "https://bsky.app/profile/ytroncal.bsky.social/post/3mkfui6uwkc2o",
-          "text": "Tolaria Tolaria is a desktop app for Mac and Linux for managing markdown knowledge bases. github.com/refactoringh...",
-          "author": {
-            "handle": "ytroncal.bsky.social",
-            "displayName": "ytroncal"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-04-26T15:25:39.734Z",
-          "createdUtc": 1777217139,
-          "ageHours": 5.56,
-          "trendingScore": 0,
+          "createdAt": "2026-04-26T20:57:12.000Z",
+          "createdUtc": 1777237032,
+          "ageHours": 0.97,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
           ],
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "refactoringhq/tolaria",
+              "fullName": "garrytan/gstack",
               "matchType": "url",
               "confidence": 1
             }
@@ -313,32 +110,12 @@
   },
   "leaderboard": [
     {
-      "fullName": "gastownhall/gastown",
+      "fullName": "garrytan/gstack",
       "count7d": 1,
       "likesSum7d": 1
     },
     {
-      "fullName": "antirez/llama.cpp-deepseek-v4-flash",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "earthtojake/text-to-cad",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "ggml-org/llama.cpp",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "gitleaks/gitleaks",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "refactoringhq/tolaria",
+      "fullName": "mitsuhiko/pi-draw",
       "count7d": 1,
       "likesSum7d": 0
     }

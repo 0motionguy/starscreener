@@ -4,8 +4,14 @@
 // visually identical to every other source page — same hero (counter +
 // 2 trend charts) + 3 featured cards + table.
 
-import { getHnTopStories } from "@/lib/hackernews-trending";
-import { getAllHnMentions } from "@/lib/hackernews";
+import {
+  getHnTopStories,
+  refreshHackernewsTrendingFromStore,
+} from "@/lib/hackernews-trending";
+import {
+  getAllHnMentions,
+  refreshHackernewsMentionsFromStore,
+} from "@/lib/hackernews";
 import { NewsTemplateV2 } from "@/components/today-v2/NewsTemplateV2";
 import {
   ADAPTER_SOURCES,
@@ -25,7 +31,11 @@ export const metadata = {
   alternates: { canonical: "/hackernews/trending" },
 };
 
-export default function HackerNewsTrendingPage() {
+export default async function HackerNewsTrendingPage() {
+  await Promise.all([
+    refreshHackernewsTrendingFromStore(),
+    refreshHackernewsMentionsFromStore(),
+  ]);
   const source = ADAPTER_SOURCES.hackernews;
   const stories = getHnTopStories(50);
   const items = adaptHnStories(stories, getAllHnMentions(), 50);

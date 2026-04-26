@@ -1,6 +1,10 @@
 // /lobsters — V2 Lobsters trending stories.
 
-import { getLobstersTopStories } from "@/lib/lobsters-trending";
+import {
+  getLobstersTopStories,
+  refreshLobstersTrendingFromStore,
+} from "@/lib/lobsters-trending";
+import { refreshLobstersMentionsFromStore } from "@/lib/lobsters";
 import { NewsTemplateV2 } from "@/components/today-v2/NewsTemplateV2";
 import {
   ADAPTER_SOURCES,
@@ -20,7 +24,11 @@ export const metadata = {
   alternates: { canonical: "/lobsters" },
 };
 
-export default function LobstersPage() {
+export default async function LobstersPage() {
+  await Promise.all([
+    refreshLobstersTrendingFromStore(),
+    refreshLobstersMentionsFromStore(),
+  ]);
   const source = ADAPTER_SOURCES.lobsters;
   const stories = getLobstersTopStories(50);
   const items = adaptLobstersStories(stories, 50);

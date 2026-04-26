@@ -1,6 +1,9 @@
 // /producthunt — V2 ProductHunt launch terminal.
 
-import { getRecentLaunches } from "@/lib/producthunt";
+import {
+  getRecentLaunches,
+  refreshProducthuntLaunchesFromStore,
+} from "@/lib/producthunt";
 import { NewsTemplateV2 } from "@/components/today-v2/NewsTemplateV2";
 import {
   ADAPTER_SOURCES,
@@ -20,7 +23,8 @@ export const metadata = {
   alternates: { canonical: "/producthunt" },
 };
 
-export default function ProductHuntPage() {
+export default async function ProductHuntPage() {
+  await refreshProducthuntLaunchesFromStore();
   const source = ADAPTER_SOURCES.producthunt;
   // 14-day window, sorted by votes via the adapter.
   const launches = getRecentLaunches(14)

@@ -9,14 +9,40 @@
 // NewsTemplateV2 multi-channel mode handles the stacked-bar legend
 // + source-tagged rows.
 
-import { getHnTopStories } from "@/lib/hackernews-trending";
-import { getAllHnMentions } from "@/lib/hackernews";
-import { getAllRedditPosts } from "@/lib/reddit-data";
-import { getBlueskyTopPosts } from "@/lib/bluesky-trending";
-import { getAllBlueskyMentions } from "@/lib/bluesky";
-import { getDevtoTopArticles } from "@/lib/devto-trending";
-import { getLobstersTopStories } from "@/lib/lobsters-trending";
-import { getRecentLaunches } from "@/lib/producthunt";
+import {
+  getHnTopStories,
+  refreshHackernewsTrendingFromStore,
+} from "@/lib/hackernews-trending";
+import {
+  getAllHnMentions,
+  refreshHackernewsMentionsFromStore,
+} from "@/lib/hackernews";
+import {
+  getAllRedditPosts,
+  refreshRedditMentionsFromStore,
+} from "@/lib/reddit-data";
+import {
+  getBlueskyTopPosts,
+  refreshBlueskyTrendingFromStore,
+} from "@/lib/bluesky-trending";
+import {
+  getAllBlueskyMentions,
+  refreshBlueskyMentionsFromStore,
+} from "@/lib/bluesky";
+import {
+  getDevtoTopArticles,
+  refreshDevtoTrendingFromStore,
+} from "@/lib/devto-trending";
+import { refreshDevtoMentionsFromStore } from "@/lib/devto";
+import {
+  getLobstersTopStories,
+  refreshLobstersTrendingFromStore,
+} from "@/lib/lobsters-trending";
+import { refreshLobstersMentionsFromStore } from "@/lib/lobsters";
+import {
+  getRecentLaunches,
+  refreshProducthuntLaunchesFromStore,
+} from "@/lib/producthunt";
 
 import type { NewsSourceMeta } from "@/components/today-v2/NewsTemplateV2";
 import { NewsTemplateV2 } from "@/components/today-v2/NewsTemplateV2";
@@ -45,7 +71,20 @@ export const metadata = {
 
 const PER_SOURCE_LIMIT = 20;
 
-export default function MarketSignalsPage() {
+export default async function MarketSignalsPage() {
+  await Promise.all([
+    refreshHackernewsTrendingFromStore(),
+    refreshHackernewsMentionsFromStore(),
+    refreshRedditMentionsFromStore(),
+    refreshBlueskyTrendingFromStore(),
+    refreshBlueskyMentionsFromStore(),
+    refreshDevtoTrendingFromStore(),
+    refreshDevtoMentionsFromStore(),
+    refreshLobstersTrendingFromStore(),
+    refreshLobstersMentionsFromStore(),
+    refreshProducthuntLaunchesFromStore(),
+  ]);
+
   // Build per-source items, then mix.
   const hnItems = adaptHnStories(
     getHnTopStories(PER_SOURCE_LIMIT),

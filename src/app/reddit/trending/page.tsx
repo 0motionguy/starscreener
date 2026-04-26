@@ -4,7 +4,10 @@
 // just the repo-mention slice) so the feed shows what the whole
 // developer Reddit is talking about, scored by upvote velocity.
 
-import { getAllScoredPosts } from "@/lib/reddit-all-data";
+import {
+  getAllScoredPosts,
+  refreshRedditAllPostsFromStore,
+} from "@/lib/reddit-all-data";
 import { NewsTemplateV2 } from "@/components/today-v2/NewsTemplateV2";
 import {
   ADAPTER_SOURCES,
@@ -24,7 +27,8 @@ export const metadata = {
   alternates: { canonical: "/reddit/trending" },
 };
 
-export default function RedditTrendingPage() {
+export default async function RedditTrendingPage() {
+  await refreshRedditAllPostsFromStore();
   const source = ADAPTER_SOURCES.reddit;
   const posts = getAllScoredPosts().sort((a, b) => b.score - a.score);
   const items = adaptRedditPosts(posts, 60);

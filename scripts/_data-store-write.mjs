@@ -57,7 +57,8 @@ async function getClient() {
     const { default: IORedis } = await import("ioredis");
     const client = new IORedis(redisUrl, {
       maxRetriesPerRequest: 3,
-      enableOfflineQueue: false,
+      // Default enableOfflineQueue=true so first command queues until
+      // connect completes rather than failing "Stream isn't writeable".
       connectTimeout: 5_000,
     });
     client.on("error", (err) => {

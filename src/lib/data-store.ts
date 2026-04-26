@@ -508,14 +508,17 @@ function defaultRedisFactory(url: string, token?: string): RedisClientLike {
     // Vercel Lambda invocation past its timeout — collectors prefer
     // fail-loud (workflow goes red) over fail-slow.
     maxRetriesPerRequest: 3,
-    // Don't queue commands while the client is reconnecting; let the
-    // call surface an error and let the data-store fall through to its
-    // file/memory tiers.
-    enableOfflineQueue: false,
     // Connection timeout — Railway Redis usually responds in <50 ms, but
     // a 5 s ceiling is generous enough for cold connect from a cold
     // Lambda without blocking the request meaningfully.
     connectTimeout: 5_000,
+    // enableOfflineQueue stays at the ioredis default (`true`). Setting
+    // it to `false` made the FIRST command on a fresh client fail
+    // immediately when the TCP handshake hadn't completed yet — verify
+    // script's first SET hit "Stream isn't writeable" on every cold
+    // run. With queue=true, ioredis buffers commands during the brief
+    // connect window and flushes them once ready; the maxRetries +
+    // connectTimeout above still bound the worst case.
   });
 
   // Without an `error` listener ioredis crashes the process on any

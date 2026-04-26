@@ -105,8 +105,11 @@ function normalizeHotCollectionRow(
 
 const fetcher: Fetcher = {
   name: 'oss-trending',
-  // Hourly at :27 - matches `.github/workflows/scrape-trending.yml`.
-  schedule: '27 * * * *',
+  // Staggered to :22 (was :27 — clustered with 3 others). Runs first in
+  // the cluster so deltas (:40) sees a fresh `trending` payload. Cron-tick
+  // budget is generous: 22s of bucket fetches comfortably finish before
+  // recent-repos starts at :25.
+  schedule: '22 * * * *',
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
     const errors: RunResult['errors'] = [];

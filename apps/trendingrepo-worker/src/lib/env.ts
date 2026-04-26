@@ -10,13 +10,48 @@ const envSchema = z
     UPSTASH_REDIS_REST_TOKEN: z.string().optional(),
 
     GH_PAT: z.string().optional(),
+    GITHUB_TOKEN: z.string().optional(),
+    GH_TOKEN_POOL: z.string().optional(),
+    GITHUB_TOKEN_POOL: z.string().optional(),
     HF_TOKEN: z.string().optional(),
     PRODUCTHUNT_TOKEN: z.string().optional(),
+    PRODUCTHUNT_TOKENS: z.string().optional(),
+    DEVTO_API_KEY: z.string().optional(),
+    DEVTO_API_KEYS: z.string().optional(),
     BLUESKY_HANDLE: z.string().optional(),
     BLUESKY_APP_PASSWORD: z.string().optional(),
     FIRECRAWL_API_KEY: z.string().optional(),
     PULSEMCP_API_KEY: z.string().optional(),
+    PULSEMCP_TENANT_ID: z.string().optional(),
     SMITHERY_API_KEY: z.string().optional(),
+    GLAMA_API_KEY: z.string().optional(),
+    TRUSTMRR_API_KEY: z.string().optional(),
+    APIFY_API_TOKEN: z.string().optional(),
+    APIFY_PROXY_GROUPS: z.string().optional(),
+    APIFY_PROXY_COUNTRY: z.string().optional(),
+    REDDIT_CLIENT_ID: z.string().optional(),
+    REDDIT_CLIENT_SECRET: z.string().optional(),
+    REDDIT_USER_AGENT: z.string().optional(),
+
+    // Worker tunables (numeric values are validated in the consuming fetcher,
+    // not here — keeping this layer string-typed avoids zod coercion surprises
+    // when an env var is "" or has trailing whitespace).
+    NPM_SEARCH_SIZE: z.string().optional(),
+    NPM_CANDIDATE_LIMIT: z.string().optional(),
+    NPM_TOP_LIMIT: z.string().optional(),
+    NPM_SEARCH_DELAY_MS: z.string().optional(),
+    NPM_DOWNLOAD_RANGE_DELAY_MS: z.string().optional(),
+    NPM_DOWNLOAD_LAG_DAYS: z.string().optional(),
+    NPM_DISCOVERY_QUERIES: z.string().optional(),
+    NPM_DOWNLOAD_END_DATE: z.string().optional(),
+    PROFILE_ENRICH_LIMIT: z.string().optional(),
+    REPO_METADATA_BATCH_SIZE: z.string().optional(),
+
+    // Tier 2 producer config (manual-repos + revenue-manual-matches read
+    // operator-curated JSON from raw.githubusercontent — these override the
+    // default 0motionguy/starscreener@main path).
+    MANUAL_DATA_SOURCE_REPO: z.string().optional(),
+    MANUAL_DATA_SOURCE_BRANCH: z.string().optional(),
 
     SENTRY_DSN: z.string().url().optional(),
     NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),

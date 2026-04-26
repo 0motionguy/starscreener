@@ -439,20 +439,11 @@ export async function enrichWithGithub(
   };
 }
 
-/** Pick a GitHub PAT from GH_TOKEN_POOL (round-robin) or GH_PAT/GITHUB_TOKEN. */
-export function pickGithubToken(): string | null {
-  const pool = (process.env.GH_TOKEN_POOL ?? '').trim();
-  if (pool) {
-    const tokens = pool
-      .split(',')
-      .map((s) => s.trim())
-      .filter(Boolean);
-    if (tokens.length > 0) {
-      const idx = Math.floor(Math.random() * tokens.length);
-      const tok = tokens[idx];
-      if (tok) return tok;
-    }
-  }
-  const single = (process.env.GH_PAT ?? process.env.GITHUB_TOKEN ?? '').trim();
-  return single || null;
-}
+/**
+ * Re-export the canonical round-robin picker so callers in this file
+ * (producthunt repo enrichment) keep their existing import surface but
+ * route through the single source of truth at lib/util/github-token-pool.
+ * Removed the local random-pick variant — round-robin is more predictable
+ * for debugging and avoids hot-spotting one PAT.
+ */
+export { pickGithubToken } from '../util/github-token-pool.js';

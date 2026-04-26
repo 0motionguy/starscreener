@@ -171,9 +171,14 @@ function pickNearest(
 
 const fetcher: Fetcher = {
   name: 'deltas',
-  // Hourly at :29 - two minutes after oss-trending publishes the fresh
-  // trending snapshot at :27, giving the snapshot time to land in Redis.
-  schedule: '29 * * * *',
+  // Moved from :29 → :40 so the upstream cluster has time to flush their
+  // Redis writes before deltas reads `trending`. Order:
+  //   :22 oss-trending publishes `trending`
+  //   :25 recent-repos
+  //   :27 trustmrr (full sweep at hour 02 takes 7+ min; finishes by ~:34)
+  //   :30 reddit (~225s; finishes by ~:34)
+  //   :40 deltas (safely after every upstream)
+  schedule: '40 * * * *',
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
     const errors: RunResult['errors'] = [];

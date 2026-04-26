@@ -1,24 +1,25 @@
 import type { Fetcher } from './lib/types.js';
 
 import huggingface from './fetchers/huggingface/index.js';
-import github from './fetchers/github/index.js';
 import bluesky from './fetchers/bluesky/index.js';
 import pulsemcp from './fetchers/pulsemcp/index.js';
 import smithery from './fetchers/smithery/index.js';
 import mcpRegistryOfficial from './fetchers/mcp-registry-official/index.js';
 import glama from './fetchers/glama/index.js';
-import mcpSo from './fetchers/mcp-so/index.js';
 import claudeSkills from './fetchers/claude-skills/index.js';
 import skillsSh from './fetchers/skills-sh/index.js';
 import skillsmp from './fetchers/skillsmp/index.js';
 import smitherySkills from './fetchers/smithery-skills/index.js';
 import lobehubSkills from './fetchers/lobehub-skills/index.js';
-import mcpServersRepo from './fetchers/mcp-servers-repo/index.js';
 import hackernews from './fetchers/hackernews/index.js';
 import producthunt from './fetchers/producthunt/index.js';
 import devto from './fetchers/devto/index.js';
 import reddit from './fetchers/reddit/index.js';
 import hnPulse from './fetchers/hn-pulse/index.js';
+// 3 stubs (`github`, `mcp-so`, `mcp-servers-repo`) intentionally NOT imported
+// here — they were registered + ticking but only emitted "not yet implemented"
+// warnings, polluting Sentry every cron tick. Files remain in src/fetchers/
+// as documentation of intent; re-add to FETCHERS once a real port lands.
 // Phase B Group 1 (signals)
 import ossTrending from './fetchers/oss-trending/index.js';
 import recentRepos from './fetchers/recent-repos/index.js';
@@ -59,19 +60,16 @@ export const FETCHERS: Fetcher[] = [
   redditBaselines,
   lobsters,
   huggingface,
-  github,
   bluesky,
   mcpRegistryOfficial,
   glama,
   pulsemcp,
   smithery,
-  mcpSo,
   claudeSkills,
   skillsSh,
   skillsmp,
   smitherySkills,
   lobehubSkills,
-  mcpServersRepo,
   hackernews,
   producthunt,
   devto,

@@ -103,7 +103,11 @@ async function fetchSubredditNew(sub: string, log: FetcherContext['log']): Promi
 
 const fetcher: Fetcher = {
   name: 'reddit',
-  schedule: '27 * * * *',
+  // Staggered to :30 (was :27 — clustered with 3 others; reddit alone is
+  // ~225s and was contending for the same TCP/Redis pipeline). Trustmrr
+  // still runs at :27 because its hour-02 full sweep needs the most
+  // headroom.
+  schedule: '30 * * * *',
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
     if (ctx.dryRun) {

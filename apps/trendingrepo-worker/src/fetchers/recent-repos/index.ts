@@ -170,8 +170,9 @@ async function fetchSearchWindow(
 
 const fetcher: Fetcher = {
   name: 'recent-repos',
-  // Hourly at :27 - same workflow window as the rest of fast-discovery.
-  schedule: '27 * * * *',
+  // Staggered to :25 (was :27 — clustered with 3 heavyweights). Runs after
+  // oss-trending (:22) and before trustmrr (:27), reddit (:30).
+  schedule: '25 * * * *',
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
     const errors: RunResult['errors'] = [];

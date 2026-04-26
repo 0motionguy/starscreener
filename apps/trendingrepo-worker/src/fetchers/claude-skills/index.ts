@@ -16,6 +16,7 @@
 // /api/skills reads this slug.
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
+import { pickGithubToken as pickGithubTokenCanonical } from '../../lib/util/github-token-pool.js';
 import { writeDataStore } from '../../lib/redis.js';
 
 const GITHUB_TOPICS = ['claude-code-skill', 'claude-skill', 'agent-skill'] as const;
@@ -188,16 +189,14 @@ async function searchGitHubTopic(ctx: FetcherContext, topic: string): Promise<Gi
   return Array.isArray(data?.items) ? data.items : [];
 }
 
+// `pickGitHubToken` was a local first-slot picker; replaced by the canonical
+// round-robin helper at lib/util/github-token-pool. The fallback to GH_PAT is
+// preserved by that helper (it reads GITHUB_TOKEN, GH_TOKEN_POOL, and
+// GITHUB_TOKEN_POOL — GH_PAT only is intentionally not part of the pool
+// surface; if Mirko relied on that specifically, set GITHUB_TOKEN to the same
+// value).
 function pickGitHubToken(): string | undefined {
-  // Phase 2A introduced GH_TOKEN_POOL (comma-separated). Use first slot if present;
-  // the worker's full pool integration belongs in Phase B alongside the github
-  // fetcher port. For one search call every 6h we don't need the rotation.
-  const pool = process.env.GH_TOKEN_POOL;
-  if (pool) {
-    const first = pool.split(',').map((t) => t.trim()).find((t) => t.length > 0);
-    if (first) return first;
-  }
-  return process.env.GH_PAT?.trim() || undefined;
+  return pickGithubTokenCanonical() ?? undefined;
 }
 
 function normalizeRepo(repo: GitHubRepo, sourceTopic: string): SkillItem {

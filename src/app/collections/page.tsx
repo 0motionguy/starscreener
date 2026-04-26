@@ -1,15 +1,14 @@
-// StarScreener — Collections index
+// /collections — V2 collections index.
 //
 // Server component. Lists every collection shipped in data/collections/.
-// Each card shows: name, total curated items, count currently in the
-// live trending store. Links into /collections/[slug].
+// Each card is a v2-card with collection name, total/live counts, and a
+// "moving" tag when members are hot/breakout. Links into /collections/[slug].
 //
 // Collections are Apache 2.0 data imported from pingcap/ossinsight; see
 // data/collections/NOTICE.md for attribution and the resync procedure.
 
 import Link from "next/link";
 import type { Metadata } from "next";
-import { Layers } from "lucide-react";
 import { pipeline, repoStore } from "@/lib/pipeline/pipeline";
 import {
   loadAllCollections,
@@ -21,6 +20,7 @@ import {
   getCollectionRankingsFetchedAt,
   refreshCollectionRankingsFromStore,
 } from "@/lib/collection-rankings";
+import { TerminalBar } from "@/components/today-v2/primitives/TerminalBar";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
@@ -55,7 +55,6 @@ export const metadata: Metadata = {
 
 export default async function CollectionsIndexPage() {
   await pipeline.ensureReady();
-  // Refresh collection-rankings cache from the data-store before reading sync getters.
   await refreshCollectionRankingsFromStore();
   const collectionRankingsFetchedAt = getCollectionRankingsFetchedAt();
   const collections = loadAllCollections();
@@ -73,113 +72,174 @@ export default async function CollectionsIndexPage() {
     };
   });
 
-  if (cards.length === 0) {
-    return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-        <div className="mb-8">
-          <h1 className="font-display text-2xl sm:text-3xl font-bold text-text-primary mb-2">
-            Collections
-          </h1>
-        </div>
-        <div
-          role="status"
-          className="flex flex-col items-center justify-center rounded-card border border-dashed border-border-primary bg-bg-card px-6 py-16 text-center"
-        >
-          <div className="mb-3 inline-flex size-10 items-center justify-center rounded-full bg-bg-tertiary text-text-tertiary">
-            <Layers size={20} strokeWidth={1.75} />
-          </div>
-          <h3 className="font-display text-lg text-text-primary">
-            No collections available
-          </h3>
-          <p className="mt-1 max-w-sm text-sm text-text-tertiary">
-            Collections are curated via data/collections/*.yml. Run the sync
-            script to populate.
-          </p>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-      <div className="mb-8">
-        <h1 className="font-display text-2xl sm:text-3xl font-bold text-text-primary mb-2">
-          Collections
-        </h1>
-        <p className="text-text-secondary">
-          Curated AI repo lists ranked live against current trending data.
-        </p>
-        {freshness && (
-          <p
-            className="mt-2 font-mono text-[11px] uppercase tracking-wider text-text-tertiary"
-            title={`Rankings last refreshed at ${collectionRankingsFetchedAt}`}
+    <>
+      <section className="border-b border-[color:var(--v2-line-100)]">
+        <div className="v2-frame pt-6 pb-6">
+          <TerminalBar
+            label={
+              <>
+                <span aria-hidden>{"// "}</span>COLLECTIONS · CURATED · LIVE
+              </>
+            }
+            status={`${cards.length} LIST${cards.length === 1 ? "" : "S"}`}
+          />
+
+          <h1
+            className="v2-mono mt-6 inline-flex items-center gap-2"
+            style={{
+              color: "var(--v2-ink-100)",
+              fontSize: 12,
+              letterSpacing: "0.20em",
+            }}
           >
+            <span aria-hidden>{"// "}</span>
+            COLLECTIONS · AI REPO LISTS
             <span
-              className="inline-block size-1.5 rounded-full bg-functional align-middle mr-1.5"
-              aria-hidden="true"
+              aria-hidden
+              className="inline-block ml-1"
+              style={{
+                width: 6,
+                height: 6,
+                background: "var(--v2-acc)",
+                borderRadius: 1,
+                boxShadow: "0 0 6px var(--v2-acc-glow)",
+              }}
             />
-            Updated {freshness} · {cards.length} collections
-          </p>
-        )}
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {cards.map((c) => (
-          <Link
-            key={c.slug}
-            href={`/collections/${c.slug}`}
-            title={`${c.name} — ${c.total} curated · ${c.live} with live data${c.moving > 0 ? ` · ${c.moving} moving` : ""}`}
-            className="group flex flex-col gap-2 p-4 rounded-lg border border-border-subtle bg-surface-raised hover:border-brand hover:bg-surface-hover transition-colors"
+          </h1>
+          <p
+            className="text-[14px] leading-relaxed max-w-[80ch] mt-3"
+            style={{ color: "var(--v2-ink-200)" }}
           >
-            <div className="flex items-start justify-between gap-3">
-              <div className="flex items-center gap-2">
-                <Layers className="w-4 h-4 text-text-tertiary group-hover:text-brand transition-colors" />
-                <span className="font-display text-base font-semibold text-text-primary">
-                  {c.name}
-                </span>
-              </div>
-              {c.moving > 0 && (
-                <span
-                  className="shrink-0 rounded-full border border-accent-amber/40 bg-accent-amber/10 px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-accent-amber"
-                  title={`${c.moving} member${c.moving === 1 ? "" : "s"} currently hot or breakout`}
-                >
-                  {c.moving} moving
-                </span>
-              )}
-            </div>
-            <div className="flex items-baseline gap-2 font-mono text-xs">
-              <span className="text-text-primary font-semibold tabular-nums">
-                {c.total} repos
-              </span>
-              <span className="text-text-tertiary tabular-nums">
-                {c.live} with live data
-              </span>
-            </div>
-          </Link>
-        ))}
-      </div>
+            Curated AI repo lists ranked live against current trending data.
+            Each list pulls from OSS Insight&apos;s open collections; the live
+            counter on each card shows how many members are currently in our
+            tracking corpus.
+          </p>
+          {freshness ? (
+            <p
+              className="v2-mono mt-3 inline-flex items-center gap-2"
+              style={{ color: "var(--v2-ink-400)", fontSize: 11 }}
+              title={`Rankings last refreshed at ${collectionRankingsFetchedAt}`}
+            >
+              <span
+                aria-hidden
+                style={{
+                  width: 6,
+                  height: 6,
+                  background: "var(--v2-sig-green)",
+                  borderRadius: 1,
+                  display: "inline-block",
+                }}
+              />
+              <span aria-hidden>{"// "}</span>
+              UPDATED {freshness.toUpperCase()} · {cards.length} COLLECTIONS
+            </p>
+          ) : null}
+        </div>
+      </section>
 
-      <footer className="mt-12 pt-6 border-t border-border-subtle text-xs text-text-tertiary">
-        Curated lists from{" "}
-        <a
-          href="https://github.com/pingcap/ossinsight"
-          className="underline hover:text-text-secondary"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          OSS Insight
-        </a>{" "}
-        (Apache 2.0).{" "}
-        <a
-          href="https://github.com/0motionguy/starscreener/blob/main/data/collections/NOTICE.md"
-          className="underline hover:text-text-secondary"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          Attribution &amp; resync details
-        </a>
-        .
+      <section>
+        <div className="v2-frame py-6">
+          {cards.length === 0 ? (
+            <div className="v2-card p-12 text-center">
+              <p
+                className="v2-mono mb-3"
+                style={{ color: "var(--v2-acc)" }}
+              >
+                <span aria-hidden>{"// "}</span>
+                NO COLLECTIONS · COLD
+              </p>
+              <p
+                className="text-[14px] leading-relaxed max-w-md mx-auto"
+                style={{ color: "var(--v2-ink-200)" }}
+              >
+                Collections are curated via{" "}
+                <code
+                  className="v2-mono-tight"
+                  style={{ color: "var(--v2-ink-100)" }}
+                >
+                  data/collections/*.yml
+                </code>
+                . Run the sync script to populate.
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {cards.map((c) => (
+                <Link
+                  key={c.slug}
+                  href={`/collections/${c.slug}`}
+                  title={`${c.name} — ${c.total} curated · ${c.live} with live data${c.moving > 0 ? ` · ${c.moving} moving` : ""}`}
+                  className="v2-card v2-card-hover p-5 group"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <h2
+                      className="text-[16px] font-medium"
+                      style={{
+                        color: "var(--v2-ink-000)",
+                        fontFamily: "var(--font-geist), Inter, sans-serif",
+                        fontWeight: 510,
+                        letterSpacing: "-0.012em",
+                      }}
+                    >
+                      {c.name}
+                    </h2>
+                    {c.moving > 0 ? (
+                      <span
+                        className="v2-tag v2-tag-acc shrink-0"
+                        title={`${c.moving} member${c.moving === 1 ? "" : "s"} currently hot or breakout`}
+                      >
+                        {c.moving} MOVING
+                      </span>
+                    ) : null}
+                  </div>
+                  <div className="mt-3 flex items-baseline gap-3 v2-mono-tight tabular-nums">
+                    <span style={{ color: "var(--v2-ink-100)" }}>
+                      {c.total} REPOS
+                    </span>
+                    <span style={{ color: "var(--v2-ink-500)" }}>·</span>
+                    <span style={{ color: "var(--v2-ink-400)" }}>
+                      {c.live} LIVE
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      <footer className="border-t border-[color:var(--v2-line-100)]">
+        <div className="v2-frame py-6">
+          <p
+            className="v2-mono"
+            style={{ color: "var(--v2-ink-400)", fontSize: 11 }}
+          >
+            <span aria-hidden>{"// "}</span>
+            CURATED FROM{" "}
+            <a
+              href="https://github.com/pingcap/ossinsight"
+              className="underline decoration-dotted"
+              style={{ color: "var(--v2-ink-200)" }}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              OSS INSIGHT
+            </a>{" "}
+            · APACHE 2.0 ·{" "}
+            <a
+              href="https://github.com/Kermit457/starscreener/blob/main/data/collections/NOTICE.md"
+              className="underline decoration-dotted"
+              style={{ color: "var(--v2-ink-200)" }}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              ATTRIBUTION
+            </a>
+          </p>
+        </div>
       </footer>
-    </div>
+    </>
   );
 }

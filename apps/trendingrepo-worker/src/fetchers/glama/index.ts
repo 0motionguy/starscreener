@@ -1,32 +1,24 @@
 import { loadEnv } from '../../lib/env.js';
 import { runMcpFetcher } from '../../lib/mcp/run-mcp-fetcher.js';
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
-import { fetchAllPulseMcp } from './client.js';
+import { fetchAllGlama } from './client.js';
 
 const fetcher: Fetcher = {
-  name: 'pulsemcp',
-  schedule: '30 */12 * * *',
+  name: 'glama',
+  schedule: '15 */6 * * *',
   requiresDb: true,
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
     if (ctx.dryRun) {
-      ctx.log.info('pulsemcp dry-run');
-      return empty('pulsemcp', startedAt);
+      ctx.log.info('glama dry-run');
+      return empty('glama', startedAt);
     }
     const env = loadEnv();
-    if (!env.PULSEMCP_API_KEY) {
-      ctx.log.warn('pulsemcp skipped: PULSEMCP_API_KEY not set');
-      return empty('pulsemcp', startedAt);
-    }
     return runMcpFetcher({
       ctx,
-      fetcherName: 'pulsemcp',
+      fetcherName: 'glama',
       startedAt,
-      fetch: () =>
-        fetchAllPulseMcp(ctx.http, ctx.log, {
-          apiKey: env.PULSEMCP_API_KEY!,
-          tenantId: env.PULSEMCP_TENANT_ID,
-        }),
+      fetch: () => fetchAllGlama(ctx.http, ctx.log, env.GLAMA_API_KEY),
     });
   },
 };

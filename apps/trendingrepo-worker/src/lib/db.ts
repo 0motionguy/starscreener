@@ -68,9 +68,11 @@ export async function writeMetric(
   itemId: string,
   metric: NormalizedMetric,
 ): Promise<void> {
+  const capturedAt = new Date().toISOString();
   const row = {
     item_id: itemId,
-    captured_at: new Date().toISOString(),
+    captured_at: capturedAt,
+    captured_date: metric.captured_date ?? capturedAt.slice(0, 10),
     downloads_total: metric.downloads_total ?? null,
     downloads_7d: metric.downloads_7d ?? null,
     stars_total: metric.stars_total ?? null,
@@ -82,10 +84,39 @@ export async function writeMetric(
     raw: metric.raw ?? {},
   };
   const { error } = await db.from('trending_metrics').upsert(row, {
-    onConflict: 'item_id,captured_at',
+    onConflict: 'item_id,captured_date',
     ignoreDuplicates: false,
   });
   if (error) throw new Error(`writeMetric failed (${itemId}): ${error.message}`);
+}
+
+export interface UpsertAssetInput {
+  item_id: string;
+  kind: 'logo' | 'badge' | 'thumbnail' | 'banner';
+  url: string;
+  alt?: string;
+  simple_icons_slug?: string | null;
+  brand_color?: string | null;
+  raw?: Record<string, unknown>;
+}
+
+export async function upsertAsset(
+  db: SupabaseClient,
+  input: UpsertAssetInput,
+): Promise<void> {
+  const row = {
+    item_id: input.item_id,
+    kind: input.kind,
+    url: input.url,
+    alt: input.alt ?? null,
+    simple_icons_slug: input.simple_icons_slug ?? null,
+    brand_color: input.brand_color ?? null,
+    raw: input.raw ?? {},
+  };
+  const { error } = await db
+    .from('trending_assets')
+    .upsert(row, { onConflict: 'item_id,kind', ignoreDuplicates: false });
+  if (error) throw new Error(`upsertAsset failed (${input.item_id}/${input.kind}): ${error.message}`);
 }
 
 export async function queryTopByType(

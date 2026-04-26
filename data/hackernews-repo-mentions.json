@@ -1,18 +1,18 @@
 {
-  "fetchedAt": "2026-04-26T08:02:18.680Z",
+  "fetchedAt": "2026-04-26T09:21:40.502Z",
   "windowDays": 7,
-  "scannedAlgoliaHits": 731,
+  "scannedAlgoliaHits": 728,
   "scannedFirebaseItems": 500,
   "mentions": {
     "niri-wm/niri": {
       "count7d": 1,
-      "scoreSum7d": 231,
+      "scoreSum7d": 232,
       "topStory": {
         "id": 47902416,
         "title": "Niri 26.04: Scrollable-tiling Wayland compositor",
-        "score": 231,
+        "score": 232,
         "url": "https://github.com/niri-wm/niri/releases/tag/v26.04",
-        "hoursSincePosted": 16.05
+        "hoursSincePosted": 17.37
       },
       "everHitFrontPage": false,
       "stories": [
@@ -21,12 +21,12 @@
           "title": "Niri 26.04: Scrollable-tiling Wayland compositor",
           "url": "https://github.com/niri-wm/niri/releases/tag/v26.04",
           "by": "nickjj",
-          "score": 231,
-          "descendants": 74,
+          "score": 232,
+          "descendants": 76,
           "createdUtc": 1777132755,
-          "ageHours": 16.05,
-          "velocity": 14.39,
-          "trendingScore": 285.7,
+          "ageHours": 17.37,
+          "velocity": 13.35,
+          "trendingScore": 271.58,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -51,7 +51,7 @@
         "title": "Show HN: Tolaria – Open-source macOS app to manage Markdown knowledge bases",
         "score": 300,
         "url": "https://github.com/refactoringhq/tolaria",
-        "hoursSincePosted": 58.01
+        "hoursSincePosted": 59.33
       },
       "everHitFrontPage": false,
       "stories": [
@@ -63,9 +63,9 @@
           "score": 300,
           "descendants": 138,
           "createdUtc": 1776981719,
-          "ageHours": 58.01,
-          "velocity": 5.17,
-          "trendingScore": 189.54,
+          "ageHours": 59.33,
+          "velocity": 5.06,
+          "trendingScore": 185.51,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -83,45 +83,6 @@
         }
       ]
     },
-    "nakagami/grdpwasm": {
-      "count7d": 1,
-      "scoreSum7d": 124,
-      "topStory": {
-        "id": 47900440,
-        "title": "A web-based RDP client built with Go WebAssembly and grdp",
-        "score": 124,
-        "url": "https://github.com/nakagami/grdpwasm",
-        "hoursSincePosted": 21.05
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 47900440,
-          "title": "A web-based RDP client built with Go WebAssembly and grdp",
-          "url": "https://github.com/nakagami/grdpwasm",
-          "by": "mariuz",
-          "score": 124,
-          "descendants": 45,
-          "createdUtc": 1777114769,
-          "ageHours": 21.05,
-          "velocity": 5.89,
-          "trendingScore": 67.82,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "nakagami/grdpwasm",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
     "browser-use/browser-harness": {
       "count7d": 2,
       "scoreSum7d": 122,
@@ -130,7 +91,7 @@
         "title": "Show HN: Browser Harness – Gives LLM freedom to complete any browser task",
         "score": 119,
         "url": "https://github.com/browser-use/browser-harness",
-        "hoursSincePosted": 41.51
+        "hoursSincePosted": 42.83
       },
       "everHitFrontPage": false,
       "stories": [
@@ -142,9 +103,9 @@
           "score": 119,
           "descendants": 60,
           "createdUtc": 1777041098,
-          "ageHours": 41.51,
-          "velocity": 2.87,
-          "trendingScore": 41.7,
+          "ageHours": 42.83,
+          "velocity": 2.78,
+          "trendingScore": 40.39,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -168,7 +129,7 @@
           "score": 3,
           "descendants": 1,
           "createdUtc": 1776647125,
-          "ageHours": 150.95,
+          "ageHours": 152.27,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -197,7 +158,7 @@
         "title": "Show HN: VT Code – Rust TUI coding agent with multi-provider support",
         "score": 16,
         "url": "https://github.com/vinhnx/VTCode",
-        "hoursSincePosted": 28.75
+        "hoursSincePosted": 30.07
       },
       "everHitFrontPage": false,
       "stories": [
@@ -209,9 +170,9 @@
           "score": 16,
           "descendants": 2,
           "createdUtc": 1777087039,
-          "ageHours": 28.75,
-          "velocity": 0.56,
-          "trendingScore": 0.81,
+          "ageHours": 30.07,
+          "velocity": 0.53,
+          "trendingScore": 0.77,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -239,7 +200,7 @@
         "title": "Hermes.md in Git commit messages causes requests to route to extra usage billing",
         "score": 6,
         "url": "https://github.com/anthropics/claude-code/issues/53262",
-        "hoursSincePosted": 13.18
+        "hoursSincePosted": 14.5
       },
       "everHitFrontPage": false,
       "stories": [
@@ -251,9 +212,9 @@
           "score": 6,
           "descendants": 0,
           "createdUtc": 1777143105,
-          "ageHours": 13.18,
-          "velocity": 0.46,
-          "trendingScore": 0.36,
+          "ageHours": 14.5,
+          "velocity": 0.41,
+          "trendingScore": 0.32,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -276,7 +237,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776743980,
-          "ageHours": 124.04,
+          "ageHours": 125.37,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -303,7 +264,7 @@
         "title": "Show HN: AI Visibility Monitor – Track if your site gets cited by GPT/Claude",
         "score": 5,
         "url": "https://github.com/WorkSmartAI-alt/ai-visibility-monitor",
-        "hoursSincePosted": 11.98
+        "hoursSincePosted": 13.3
       },
       "everHitFrontPage": false,
       "stories": [
@@ -315,9 +276,9 @@
           "score": 5,
           "descendants": 0,
           "createdUtc": 1777147422,
-          "ageHours": 11.98,
-          "velocity": 0.42,
-          "trendingScore": 0.29,
+          "ageHours": 13.3,
+          "velocity": 0.38,
+          "trendingScore": 0.27,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -343,7 +304,7 @@
         "title": "FaceX – Face embedding in 3ms with handwritten C and AVX2,no dependencies",
         "score": 6,
         "url": "https://github.com/facex-engine/facex",
-        "hoursSincePosted": 18.85
+        "hoursSincePosted": 20.17
       },
       "everHitFrontPage": false,
       "stories": [
@@ -355,9 +316,9 @@
           "score": 6,
           "descendants": 0,
           "createdUtc": 1777122684,
-          "ageHours": 18.85,
-          "velocity": 0.32,
-          "trendingScore": 0.25,
+          "ageHours": 20.17,
+          "velocity": 0.3,
+          "trendingScore": 0.23,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -382,7 +343,7 @@
         "title": "Paperclip – a ticket-based multi AI agent orchestrator",
         "score": 3,
         "url": "https://github.com/paperclipai/paperclip",
-        "hoursSincePosted": 13.34
+        "hoursSincePosted": 14.66
       },
       "everHitFrontPage": false,
       "stories": [
@@ -394,8 +355,8 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1777142531,
-          "ageHours": 13.34,
-          "velocity": 0.22,
+          "ageHours": 14.66,
+          "velocity": 0.2,
           "trendingScore": 0.1,
           "everHitFrontPage": false,
           "content_tags": [
@@ -422,7 +383,7 @@
         "title": "Show HN: We built a <60ms, open-source alternative to E2B using RustVMM and KVM",
         "score": 7,
         "url": "https://github.com/TencentCloud/CubeSandbox",
-        "hoursSincePosted": 90.43
+        "hoursSincePosted": 91.75
       },
       "everHitFrontPage": false,
       "stories": [
@@ -434,7 +395,7 @@
           "score": 7,
           "descendants": 2,
           "createdUtc": 1776864992,
-          "ageHours": 90.43,
+          "ageHours": 91.75,
           "velocity": 0.08,
           "trendingScore": 0.08,
           "everHitFrontPage": false,
@@ -461,7 +422,7 @@
           "score": 5,
           "descendants": 0,
           "createdUtc": 1776967784,
-          "ageHours": 61.88,
+          "ageHours": 63.2,
           "velocity": 0.08,
           "trendingScore": 0.06,
           "everHitFrontPage": false,
@@ -487,7 +448,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1776778570,
-          "ageHours": 114.44,
+          "ageHours": 115.76,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -512,8 +473,8 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776904955,
-          "ageHours": 79.33,
-          "velocity": 0.03,
+          "ageHours": 80.65,
+          "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
           "content_tags": [
@@ -540,7 +501,7 @@
         "title": "RLMs process inputs up to two orders of magnitude beyond model context windows",
         "score": 2,
         "url": "https://github.com/alexzhang13/rlm",
-        "hoursSincePosted": 36.65
+        "hoursSincePosted": 37.97
       },
       "everHitFrontPage": false,
       "stories": [
@@ -552,7 +513,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1777058603,
-          "ageHours": 36.65,
+          "ageHours": 37.97,
           "velocity": 0.05,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -579,7 +540,7 @@
         "title": "Show HN: Sprite sheets from prompts (Codex skill)",
         "score": 2,
         "url": "https://github.com/0x0funky/agent-sprite-forge",
-        "hoursSincePosted": 53.88
+        "hoursSincePosted": 55.21
       },
       "everHitFrontPage": false,
       "stories": [
@@ -591,7 +552,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776996562,
-          "ageHours": 53.88,
+          "ageHours": 55.21,
           "velocity": 0.04,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -611,45 +572,6 @@
         }
       ]
     },
-    "trailofbits/skills": {
-      "count7d": 1,
-      "scoreSum7d": 2,
-      "topStory": {
-        "id": 47882044,
-        "title": "Trail of Bits Skills Marketplace",
-        "score": 2,
-        "url": "https://github.com/trailofbits/skills/",
-        "hoursSincePosted": 58.88
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 47882044,
-          "title": "Trail of Bits Skills Marketplace",
-          "url": "https://github.com/trailofbits/skills/",
-          "by": "wslh",
-          "score": 2,
-          "descendants": 0,
-          "createdUtc": 1776978572,
-          "ageHours": 58.88,
-          "velocity": 0.03,
-          "trendingScore": 0.01,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "trailofbits/skills",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
     "tinyhumansai/openhuman": {
       "count7d": 1,
       "scoreSum7d": 2,
@@ -658,7 +580,7 @@
         "title": "Show HN: OpenHuman, an AI agent with a subconscious loop",
         "score": 2,
         "url": "https://github.com/tinyhumansai/openhuman",
-        "hoursSincePosted": 65.55
+        "hoursSincePosted": 66.88
       },
       "everHitFrontPage": false,
       "stories": [
@@ -670,7 +592,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776954543,
-          "ageHours": 65.55,
+          "ageHours": 66.88,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -699,7 +621,7 @@
         "title": "GitHub Actions Key, but Resources Allocated to Other Areas",
         "score": 1,
         "url": "https://github.com/cli/cli/issues/5416",
-        "hoursSincePosted": 46.99
+        "hoursSincePosted": 48.32
       },
       "everHitFrontPage": false,
       "stories": [
@@ -711,7 +633,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1777021359,
-          "ageHours": 46.99,
+          "ageHours": 48.32,
           "velocity": 0.02,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -738,7 +660,7 @@
         "title": "Show HN: Agent Vault – Open-source credential proxy and vault for agents",
         "score": 150,
         "url": "https://github.com/Infisical/agent-vault",
-        "hoursSincePosted": 87.61
+        "hoursSincePosted": 88.94
       },
       "everHitFrontPage": false,
       "stories": [
@@ -750,9 +672,9 @@
           "score": 150,
           "descendants": 55,
           "createdUtc": 1776875128,
-          "ageHours": 87.61,
-          "velocity": 1.71,
-          "trendingScore": 24.19,
+          "ageHours": 88.94,
+          "velocity": 1.69,
+          "trendingScore": 23.9,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -779,7 +701,7 @@
         "title": "Show HN: GoModel – an open-source AI gateway in Go",
         "score": 213,
         "url": "https://github.com/ENTERPILOT/GOModel/",
-        "hoursSincePosted": 113.84
+        "hoursSincePosted": 115.16
       },
       "everHitFrontPage": false,
       "stories": [
@@ -791,9 +713,9 @@
           "score": 213,
           "descendants": 75,
           "createdUtc": 1776780713,
-          "ageHours": 113.84,
-          "velocity": 1.87,
-          "trendingScore": 37.01,
+          "ageHours": 115.16,
+          "velocity": 1.85,
+          "trendingScore": 36.61,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -819,7 +741,7 @@
         "title": "Show HN: Git Push No-Mistakes",
         "score": 19,
         "url": "https://github.com/kunchenguid/no-mistakes",
-        "hoursSincePosted": 133.37
+        "hoursSincePosted": 134.69
       },
       "everHitFrontPage": false,
       "stories": [
@@ -831,7 +753,7 @@
           "score": 19,
           "descendants": 6,
           "createdUtc": 1776710421,
-          "ageHours": 133.37,
+          "ageHours": 134.69,
           "velocity": 0.14,
           "trendingScore": 0.29,
           "everHitFrontPage": false,
@@ -859,7 +781,7 @@
         "title": "Twenty: The open alternative to Salesforce, designed for AI",
         "score": 4,
         "url": "https://github.com/twentyhq/twenty",
-        "hoursSincePosted": 84.75
+        "hoursSincePosted": 86.07
       },
       "everHitFrontPage": false,
       "stories": [
@@ -871,7 +793,7 @@
           "score": 4,
           "descendants": 1,
           "createdUtc": 1776885448,
-          "ageHours": 84.75,
+          "ageHours": 86.07,
           "velocity": 0.05,
           "trendingScore": 0.03,
           "everHitFrontPage": false,
@@ -898,7 +820,7 @@
         "title": "Aube: A fast Node.js package manager",
         "score": 4,
         "url": "https://github.com/endevco/aube",
-        "hoursSincePosted": 96.44
+        "hoursSincePosted": 97.76
       },
       "everHitFrontPage": false,
       "stories": [
@@ -910,7 +832,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1776843371,
-          "ageHours": 96.44,
+          "ageHours": 97.76,
           "velocity": 0.04,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -929,45 +851,6 @@
         }
       ]
     },
-    "Lazarus-AI/clearwing": {
-      "count7d": 1,
-      "scoreSum7d": 3,
-      "topStory": {
-        "id": 47824573,
-        "title": "Clearwing: Produce similar results as Anthropic Glasswing (Mythos)",
-        "score": 3,
-        "url": "https://github.com/Lazarus-AI/clearwing",
-        "hoursSincePosted": 161.54
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 47824573,
-          "title": "Clearwing: Produce similar results as Anthropic Glasswing (Mythos)",
-          "url": "https://github.com/Lazarus-AI/clearwing",
-          "by": "ninjagoo",
-          "score": 3,
-          "descendants": 1,
-          "createdUtc": 1776608991,
-          "ageHours": 161.54,
-          "velocity": 0.02,
-          "trendingScore": 0.01,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "Lazarus-AI/clearwing",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
     "calfonso/rusternetes": {
       "count7d": 1,
       "scoreSum7d": 3,
@@ -976,7 +859,7 @@
         "title": "Rusternetes: A ground-up reimplementation of Kubernetes in Rust",
         "score": 3,
         "url": "https://github.com/calfonso/rusternetes",
-        "hoursSincePosted": 131.52
+        "hoursSincePosted": 132.84
       },
       "everHitFrontPage": false,
       "stories": [
@@ -988,7 +871,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1776717068,
-          "ageHours": 131.52,
+          "ageHours": 132.84,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1015,7 +898,7 @@
         "title": "GitNexus: Client-side knowledge graph creator that runs in the browser",
         "score": 3,
         "url": "https://github.com/abhigyanpatwari/GitNexus",
-        "hoursSincePosted": 145.12
+        "hoursSincePosted": 146.45
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1027,7 +910,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1776668095,
-          "ageHours": 145.12,
+          "ageHours": 146.45,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1054,7 +937,7 @@
         "title": "DensePose turns commodity WiFi signals into real-time human pose estimation",
         "score": 2,
         "url": "https://github.com/ruvnet/RuView",
-        "hoursSincePosted": 134.53
+        "hoursSincePosted": 135.86
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1066,7 +949,7 @@
           "score": 2,
           "descendants": 1,
           "createdUtc": 1776706217,
-          "ageHours": 134.53,
+          "ageHours": 135.86,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1091,7 +974,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776855347,
-          "ageHours": 93.11,
+          "ageHours": 94.43,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1118,7 +1001,7 @@
         "title": "Plannotator",
         "score": 2,
         "url": "https://github.com/backnotprop/plannotator",
-        "hoursSincePosted": 88
+        "hoursSincePosted": 89.33
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1130,7 +1013,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776873723,
-          "ageHours": 88,
+          "ageHours": 89.33,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1157,7 +1040,7 @@
         "title": "Nvidia OpenShell: safe, private runtime for autonomous AI agents",
         "score": 2,
         "url": "https://github.com/nvidia/openshell",
-        "hoursSincePosted": 111.57
+        "hoursSincePosted": 112.9
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1169,7 +1052,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776788877,
-          "ageHours": 111.57,
+          "ageHours": 112.9,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1197,7 +1080,7 @@
         "title": "Ggsql: A SQL extension for declarative data visualisation based on the Grammar O",
         "score": 2,
         "url": "https://github.com/posit-dev/ggsql",
-        "hoursSincePosted": 116.34
+        "hoursSincePosted": 117.66
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1209,7 +1092,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776771724,
-          "ageHours": 116.34,
+          "ageHours": 117.66,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1236,7 +1119,7 @@
         "title": "Fincept Terminal",
         "score": 2,
         "url": "https://github.com/Fincept-Corporation/FinceptTerminal",
-        "hoursSincePosted": 134.54
+        "hoursSincePosted": 135.86
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1248,7 +1131,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776706191,
-          "ageHours": 134.54,
+          "ageHours": 135.86,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1275,7 +1158,7 @@
         "title": "Show HN: StegoForge – A tool to hide payloads and hunt them with offline AI",
         "score": 2,
         "url": "https://github.com/Nour833/StegoForge",
-        "hoursSincePosted": 162.39
+        "hoursSincePosted": 163.72
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1287,7 +1170,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776605924,
-          "ageHours": 162.39,
+          "ageHours": 163.72,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1315,7 +1198,7 @@
         "title": "Voicebox – The open-source voice synthesis studio",
         "score": 1,
         "url": "https://github.com/jamiepine/voicebox",
-        "hoursSincePosted": 144.29
+        "hoursSincePosted": 145.61
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1327,7 +1210,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1776671103,
-          "ageHours": 144.29,
+          "ageHours": 145.61,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1356,7 +1239,7 @@
     {
       "fullName": "niri-wm/niri",
       "count7d": 1,
-      "scoreSum7d": 231
+      "scoreSum7d": 232
     },
     {
       "fullName": "ENTERPILOT/GoModel",
@@ -1367,11 +1250,6 @@
       "fullName": "Infisical/agent-vault",
       "count7d": 1,
       "scoreSum7d": 150
-    },
-    {
-      "fullName": "nakagami/grdpwasm",
-      "count7d": 1,
-      "scoreSum7d": 124
     },
     {
       "fullName": "browser-use/browser-harness",
@@ -1434,11 +1312,6 @@
       "scoreSum7d": 3
     },
     {
-      "fullName": "Lazarus-AI/clearwing",
-      "count7d": 1,
-      "scoreSum7d": 3
-    },
-    {
       "fullName": "paperclipai/paperclip",
       "count7d": 1,
       "scoreSum7d": 3
@@ -1480,11 +1353,6 @@
     },
     {
       "fullName": "tinyhumansai/openhuman",
-      "count7d": 1,
-      "scoreSum7d": 2
-    },
-    {
-      "fullName": "trailofbits/skills",
       "count7d": 1,
       "scoreSum7d": 2
     },

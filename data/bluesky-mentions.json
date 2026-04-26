@@ -1,13 +1,64 @@
 {
-  "fetchedAt": "2026-04-26T23:00:15.235Z",
+  "fetchedAt": "2026-04-26T23:57:45.152Z",
   "windowDays": 7,
-  "scannedPosts": 96,
+  "scannedPosts": 98,
   "searchQuery": "github.com",
   "pagesFetched": 1,
   "mentions": {
+    "rohitg00/agentmemory": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:m3pltlzpmme735m4yh7ueqx5/app.bsky.feed.post/3mkgoawijm62z",
+        "cid": "bafyreifhnooqyiijpsu3opyvkjjvp5hbv2bgwbnwkxv4gp7o7iob7zz5t4",
+        "bskyUrl": "https://bsky.app/profile/garrytan-mir-rt.selfhosted.social/post/3mkgoawijm62z",
+        "text": "RT @ghumare64: What's your take on adding agent memory that can compress and recall sessions using a hybrid approach? http://github.com/rohitg00/agentmemory",
+        "author": {
+          "handle": "garrytan-mir-rt.selfhosted.social",
+          "displayName": "Retweeted by Garry Tan [UNOFFICIAL]"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-04-26T21:59:37.000Z",
+        "hoursSincePosted": 1.97
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:m3pltlzpmme735m4yh7ueqx5/app.bsky.feed.post/3mkgoawijm62z",
+          "cid": "bafyreifhnooqyiijpsu3opyvkjjvp5hbv2bgwbnwkxv4gp7o7iob7zz5t4",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mir-rt.selfhosted.social/post/3mkgoawijm62z",
+          "text": "RT @ghumare64: What's your take on adding agent memory that can compress and recall sessions using a hybrid approach? http://github.com/rohitg00/agentmemory",
+          "author": {
+            "handle": "garrytan-mir-rt.selfhosted.social",
+            "displayName": "Retweeted by Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-04-26T21:59:37.000Z",
+          "createdUtc": 1777240777,
+          "ageHours": 1.97,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "rohitg00/agentmemory",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "mitsuhiko/pi-draw": {
       "count7d": 1,
-      "likesSum7d": 4,
+      "likesSum7d": 6,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -19,11 +70,11 @@
           "handle": "mitsuhiko.at",
           "displayName": "Armin Ronacher"
         },
-        "likeCount": 4,
+        "likeCount": 6,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-26T21:24:05.006Z",
-        "hoursSincePosted": 1.6
+        "hoursSincePosted": 2.56
       },
       "posts": [
         {
@@ -35,13 +86,13 @@
             "handle": "mitsuhiko.at",
             "displayName": "Armin Ronacher"
           },
-          "likeCount": 4,
+          "likeCount": 6,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-04-26T21:24:05.006Z",
           "createdUtc": 1777238645,
-          "ageHours": 1.6,
-          "trendingScore": 4,
+          "ageHours": 2.56,
+          "trendingScore": 6,
           "content_tags": [
             "has-github-repo"
           ],
@@ -61,7 +112,12 @@
     {
       "fullName": "mitsuhiko/pi-draw",
       "count7d": 1,
-      "likesSum7d": 4
+      "likesSum7d": 6
+    },
+    {
+      "fullName": "rohitg00/agentmemory",
+      "count7d": 1,
+      "likesSum7d": 0
     }
   ]
 }

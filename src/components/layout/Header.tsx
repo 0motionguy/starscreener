@@ -10,14 +10,12 @@ import { HamburgerButton } from "@/components/layout/HamburgerButton";
 import { FreshBadge } from "@/components/layout/FreshBadge";
 
 /**
- * Header — 56px sticky top bar.
+ * Header — legacy chrome, no longer rendered.
  *
- * Layout:
- *   [Hamburger (mobile only)] [Logo]      [SearchBar (desktop)]      [ThemeToggle]
- *
- * The old desktop nav links (Trending/Categories/Compare) have been removed
- * as of Phase 1C — those now live in the Sidebar. Mobile users reach them
- * through the MobileDrawer (via the hamburger) or the bottom MobileNav.
+ * Replaced by HeaderV2 (src/components/today-v2/HeaderV2.tsx) site-wide
+ * as of the V2 rebrand. Keeping this file in place so any external
+ * imports during the migration window don't 404 — safe to delete in a
+ * future cleanup pass once we're confident nothing references it.
  */
 export function Header() {
   return (

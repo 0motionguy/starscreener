@@ -96,7 +96,7 @@ export default async function PricingPage({ searchParams }: PricingPageProps) {
   const nextCadence: BillingCadence = cadence === "yearly" ? "monthly" : "yearly";
 
   return (
-    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLd }}
@@ -214,6 +214,6 @@ export default async function PricingPage({ searchParams }: PricingPageProps) {
           </div>
         </section>
       </div>
-    </main>
+    </>
   );
 }

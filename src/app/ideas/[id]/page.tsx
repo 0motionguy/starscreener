@@ -80,7 +80,7 @@ export default async function IdeaDetailPage({ params }: PageProps) {
   const counts = countReactions(reactions);
 
   return (
-    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
+    <>
       <div className="max-w-[900px] mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-4">
         <nav className="flex items-center">
           <Link
@@ -93,6 +93,6 @@ export default async function IdeaDetailPage({ params }: PageProps) {
         </nav>
         <IdeaCard idea={toPublicIdea(record)} reactionCounts={counts} linkToDetail={false} />
       </div>
-    </main>
+    </>
   );
 }

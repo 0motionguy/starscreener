@@ -25,7 +25,7 @@ export default async function RevenueEstimatePage() {
   const hasData = file.buckets.length > 0;
 
   return (
-    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
+    <>
       <div className="max-w-[960px] mx-auto px-4 md:px-6 py-6 md:py-8">
         <header className="mb-6 border-b border-border-primary pb-6">
           <div className="flex flex-wrap items-baseline gap-3">
@@ -84,6 +84,6 @@ export default async function RevenueEstimatePage() {
           </Link>
         </footer>
       </div>
-    </main>
+    </>
   );
 }

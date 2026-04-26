@@ -18,7 +18,7 @@
 //   - ss:data:v1:reddit-mentions  (per-repo mention buckets, 7d window)
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
-import { writeDataStore } from '../../lib/redis.js';
+import { readDataStore, writeDataStore } from '../../lib/redis.js';
 import { classifyPost } from '../../lib/util/classify-post.js';
 import { extractGithubRepoFullNames } from '../../lib/util/github-repo-links.js';
 import { loadTrackedRepos } from '../../lib/util/tracked-repos.js';
@@ -271,18 +271,78 @@ const fetcher: Fetcher = {
     };
 
     const result = await writeDataStore('reddit-mentions', payload);
+
+    // Also publish the all-posts slug consumed by /reddit/trending. The
+    // legacy script merges this run's posts with the prior payload and
+    // prunes anything older than the 7d cutoff, so the slug carries
+    // historical depth across runs (some subs flake on individual ticks).
+    // Replicating that here so Phase D archive of the script doesn't
+    // freeze the consumer page.
+    const previousAllPosts = await readDataStore<RedditAllPostsPayload>('reddit-all-posts');
+    const mergedAllPosts = mergeAllPostsPayload(previousAllPosts?.posts ?? [], allPostsOut, cutoff);
+    const allPostsPayload: RedditAllPostsPayload = {
+      lastFetchedAt: fetchedAt,
+      scannedSubreddits: SUBREDDITS,
+      windowDays: WINDOW_DAYS,
+      totalPosts: mergedAllPosts.length,
+      prunedOldPosts: Math.max(0, (previousAllPosts?.posts.length ?? 0) - mergedAllPosts.length + allPostsOut.length),
+      prunedOverflowPosts: 0,
+      posts: mergedAllPosts,
+    };
+    const allPostsResult = await writeDataStore('reddit-all-posts', allPostsPayload);
+
     ctx.log.info(
       {
         mentions: mentions.size,
         scanned: scannedTotal,
         errors,
         redis: result.source,
+        allPostsRedis: allPostsResult.source,
+        allPostsTotal: allPostsPayload.totalPosts,
       },
       'reddit published',
     );
     return done(startedAt, scannedTotal, result.source === 'redis');
   },
 };
+
+interface RedditAllPostsPayload {
+  lastFetchedAt: string;
+  scannedSubreddits: readonly string[];
+  windowDays: number;
+  totalPosts: number;
+  prunedOldPosts: number;
+  prunedOverflowPosts: number;
+  posts: NormalizedPost[];
+}
+
+/**
+ * Merge prior all-posts with this run's, dedupe by id (newer wins), drop
+ * anything older than the 7d cutoff. Mirrors the script's mergeAllPosts
+ * behavior so consumers see historical depth across runs.
+ */
+function mergeAllPostsPayload(
+  previous: NormalizedPost[],
+  current: NormalizedPost[],
+  cutoffSec: number,
+): NormalizedPost[] {
+  const byId = new Map<string, NormalizedPost>();
+  for (const p of previous) {
+    if (!p || typeof p.id !== 'string') continue;
+    if (typeof p.createdUtc !== 'number' || p.createdUtc < cutoffSec) continue;
+    byId.set(p.id, p);
+  }
+  // Current overrides previous for any matching id (latest score/comments).
+  for (const p of current) {
+    if (!p || typeof p.id !== 'string') continue;
+    if (typeof p.createdUtc !== 'number' || p.createdUtc < cutoffSec) continue;
+    byId.set(p.id, p);
+  }
+  return Array.from(byId.values()).sort((a, b) => {
+    if (b.createdUtc !== a.createdUtc) return b.createdUtc - a.createdUtc;
+    return b.score - a.score;
+  });
+}
 
 export default fetcher;
 

@@ -166,17 +166,28 @@ export async function refreshFundingNewsFromStore(): Promise<RefreshResult> {
   inflight = (async (): Promise<RefreshResult> => {
     try {
       const store = getDataStore();
-      const result = await store.read<unknown>("funding-news");
-      if (result.data && result.source !== "missing") {
-        const next = normalizeFile(result.data);
-        // Swap the cache. Use a synthetic signature so loadCache() returns
-        // this entry until either (a) the on-disk file mtime changes — in
-        // which case loadCache() rebuilds from disk — or (b) the next
-        // refresh swaps in another Redis payload.
-        cache = { signature: `redis:${result.writtenAt ?? Date.now()}`, file: next };
+      // Phase 3.4 wired the auxiliary slugs `funding-news-crunchbase` (every 6h
+      // via the `crunchbase` worker fetcher) and `funding-news-x` (twice daily
+      // via `x-funding`). All three share the FundingSignal shape — merge
+      // them deduped by signal.id so the consumer page sees the union without
+      // having to know about the 3-slug fan-out.
+      const [primary, crunchbase, xFunding] = await Promise.all([
+        store.read<unknown>("funding-news"),
+        store.read<unknown>("funding-news-crunchbase"),
+        store.read<unknown>("funding-news-x"),
+      ]);
+
+      const reads = [primary, crunchbase, xFunding];
+      const haveAny = reads.some((r) => r.data && r.source !== "missing");
+      if (haveAny) {
+        const merged = mergeFundingFiles(reads.map((r) => normalizeFile(r.data)));
+        cache = {
+          signature: `redis:${primary.writtenAt ?? Date.now()}`,
+          file: merged,
+        };
       }
       lastRefreshMs = Date.now();
-      return { source: result.source, ageMs: result.ageMs };
+      return { source: primary.source, ageMs: primary.ageMs };
     } catch {
       lastRefreshMs = Date.now();
       return { source: "missing", ageMs: 0 };
@@ -186,6 +197,82 @@ export async function refreshFundingNewsFromStore(): Promise<RefreshResult> {
   });
 
   return inflight;
+}
+
+/**
+ * Merge multiple FundingNewsFile payloads (typically: the primary
+ * `funding-news` slug + the 2 Phase 3.4 auxiliary slugs `funding-news-
+ * crunchbase` + `funding-news-x`). Deduplicates signals by `id` (when two
+ * sources hit the same announcement, the one with the more-fresh `extracted`
+ * data wins; tiebreak prefers the entry with non-null `extracted`). Sorts the
+ * merged signal list newest-first by `publishedAt`. The merged
+ * `fetchedAt` is the most recent of the 3 inputs; `windowDays` is the max.
+ *
+ * Exported for tests + diagnostics. Pure function — no side effects.
+ */
+export function mergeFundingFiles(
+  files: ReadonlyArray<FundingNewsFile>,
+): FundingNewsFile {
+  if (files.length === 0) return createFallbackFile();
+
+  // Dedupe by signal.id. Pass 1: pick the freshest entry per id (prefer
+  // entries with extracted data; tiebreak by larger publishedAt).
+  const byId = new Map<string, FundingSignal>();
+  for (const f of files) {
+    for (const sig of f.signals) {
+      if (!sig?.id) continue;
+      const prior = byId.get(sig.id);
+      if (!prior) {
+        byId.set(sig.id, sig);
+        continue;
+      }
+      const priorScore = prior.extracted ? 2 : 1;
+      const nextScore = sig.extracted ? 2 : 1;
+      if (nextScore > priorScore) {
+        byId.set(sig.id, sig);
+        continue;
+      }
+      if (nextScore === priorScore) {
+        const priorT = Date.parse(prior.publishedAt) || 0;
+        const nextT = Date.parse(sig.publishedAt) || 0;
+        if (nextT > priorT) byId.set(sig.id, sig);
+      }
+    }
+  }
+
+  const signals = Array.from(byId.values()).sort((a, b) => {
+    const ta = Date.parse(a.publishedAt) || 0;
+    const tb = Date.parse(b.publishedAt) || 0;
+    return tb - ta;
+  });
+
+  // Pick the freshest fetchedAt across inputs; max windowDays so the merged
+  // file's window covers every contributing source.
+  let fetchedAt = EPOCH_ZERO;
+  let windowDays = 7;
+  let source = "merged";
+  for (const f of files) {
+    if (
+      typeof f.fetchedAt === "string" &&
+      f.fetchedAt > fetchedAt &&
+      !f.fetchedAt.startsWith("1970-")
+    ) {
+      fetchedAt = f.fetchedAt;
+    }
+    if (typeof f.windowDays === "number" && f.windowDays > windowDays) {
+      windowDays = f.windowDays;
+    }
+    if (typeof f.source === "string" && f.source !== "none" && source === "merged") {
+      // Keep "merged" once we have multiple sources so the consumer can
+      // distinguish a single-source render from a true union.
+      const nonEmpty = files.filter(
+        (other) => other.signals.length > 0 && other.source !== "none",
+      ).length;
+      if (nonEmpty <= 1) source = f.source;
+    }
+  }
+
+  return { fetchedAt, source, windowDays, signals };
 }
 
 /**

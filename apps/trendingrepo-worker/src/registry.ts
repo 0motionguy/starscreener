@@ -49,6 +49,10 @@ import arxiv from './fetchers/arxiv/index.js';
 // merge in src/lib/funding-news.ts is a follow-up.
 import crunchbase from './fetchers/crunchbase/index.js';
 import xFunding from './fetchers/x-funding/index.js';
+// Phase 3.1 — engagement composite scoring. Joins 7 upstream signal slugs
+// into a 0-100 leaderboard score per repo. Hourly :45 (after the staggered
+// upstream cluster ends at :40 with deltas).
+import engagementComposite from './fetchers/engagement-composite/index.js';
 
 export const FETCHERS: Fetcher[] = [
   hnPulse,
@@ -84,6 +88,7 @@ export const FETCHERS: Fetcher[] = [
   arxiv,
   crunchbase,
   xFunding,
+  engagementComposite,
 ];
 
 export function getFetcher(name: string): Fetcher | undefined {

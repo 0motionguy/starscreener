@@ -72,6 +72,13 @@ const SLUG_TABLE: ReadonlyArray<SlugHealthSpec> = [
   { slug: "lobsters-trending", fetcher: "lobsters", cadenceMin: 60 },
   { slug: "lobsters-mentions", fetcher: "lobsters", cadenceMin: 60 },
 
+  // Phase 3.1 — engagement composite scoring (hourly :45, joins 7 upstream slugs)
+  { slug: "engagement-composite", fetcher: "engagement-composite", cadenceMin: 60 },
+
+  // Phase 3.4 — funding source coverage
+  { slug: "funding-news-crunchbase", fetcher: "crunchbase", cadenceMin: 360 },
+  { slug: "funding-news-x", fetcher: "x-funding", cadenceMin: 60 * 12 },
+
   // few-hours cadence
   { slug: "trending-skill-sh", fetcher: "skills-sh", cadenceMin: 120 },
   { slug: "trending-hf_model", fetcher: "huggingface", cadenceMin: 240 },

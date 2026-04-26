@@ -9,6 +9,7 @@ import type {
   RedditStats,
 } from "./reddit";
 import { buildGlobalRedditPosts, buildRedditStats } from "./reddit";
+import { getDataStore } from "./data-store";
 
 const REDDIT_MENTIONS_PATH = resolve(
   process.cwd(),
@@ -21,6 +22,10 @@ interface RedditCache {
   signature: string;
   file: RedditMentionsFile;
   mentionsByLowerName: Map<string, RedditRepoMention>;
+  /** True when the cache was populated from Redis (refresh hook). The
+   * signature-based file reload should NOT overwrite a Redis-sourced cache
+   * — the data-store is the truth. Cleared on _resetRedditCacheForTests. */
+  fromRedis?: boolean;
 }
 
 let cache: RedditCache | null = null;
@@ -125,6 +130,11 @@ function normalizeFile(input: unknown): RedditMentionsFile {
 }
 
 function loadRedditCache(): RedditCache {
+  // Phase 4: a Redis-sourced cache wins over the bundled JSON snapshot.
+  // Once refreshRedditMentionsFromStore() has populated the cache, the
+  // file-mtime check is irrelevant — we keep serving the live payload
+  // until the next refresh tick.
+  if (cache && cache.fromRedis) return cache;
   const signature = getFileSignature(REDDIT_MENTIONS_PATH);
   if (cache && cache.signature === signature) return cache;
 
@@ -204,4 +214,55 @@ export function getRedditSubreddits(): string[] {
 
 export function getRedditStats(): RedditStats {
   return buildRedditStats(getRedditFile());
+}
+
+// ---------------------------------------------------------------------------
+// Phase 4: refresh hook — pull latest reddit-mentions payload from data-store.
+// The signature-based filesystem cache above continues to work as the
+// cold-start seed; this hook overlays fresher Redis data when available so
+// long-lived Lambdas don't keep serving stale committed JSON.
+// ---------------------------------------------------------------------------
+
+let inflight: Promise<{ source: string; ageMs: number }> | null = null;
+let lastRefreshMs = 0;
+const MIN_REFRESH_INTERVAL_MS = 30_000;
+
+export async function refreshRedditMentionsFromStore(): Promise<{
+  source: string;
+  ageMs: number;
+}> {
+  if (inflight) return inflight;
+  if (
+    Date.now() - lastRefreshMs < MIN_REFRESH_INTERVAL_MS &&
+    lastRefreshMs > 0
+  ) {
+    return { source: "memory", ageMs: Date.now() - lastRefreshMs };
+  }
+  inflight = (async () => {
+    const result = await getDataStore().read<RedditMentionsFile>(
+      "reddit-mentions",
+    );
+    if (result.data && result.source !== "missing") {
+      const file = normalizeFile(result.data);
+      const mentionsByLowerName = new Map<string, RedditRepoMention>();
+      for (const [fullName, mention] of Object.entries(file.mentions)) {
+        mentionsByLowerName.set(fullName.toLowerCase(), mention);
+      }
+      // Replace the in-memory cache directly. Use the upstream writtenAt
+      // (when present) as a stable signature so the file-mtime-based
+      // loadRedditCache() doesn't immediately overwrite us with stale
+      // bundled JSON on the next call.
+      cache = {
+        signature: `redis:${result.writtenAt ?? Date.now()}`,
+        file,
+        mentionsByLowerName,
+        fromRedis: true,
+      };
+    }
+    lastRefreshMs = Date.now();
+    return { source: result.source, ageMs: result.ageMs };
+  })().finally(() => {
+    inflight = null;
+  });
+  return inflight;
 }

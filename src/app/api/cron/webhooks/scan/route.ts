@@ -18,7 +18,10 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import { getDerivedRepos } from "@/lib/derived-repos";
-import { getFundingSignals } from "@/lib/funding-news";
+import {
+  getFundingSignals,
+  refreshFundingNewsFromStore,
+} from "@/lib/funding-news";
 import {
   publishBreakoutToWebhooks,
   publishFundingEvent,
@@ -95,6 +98,12 @@ async function runScan(): Promise<ScanResult> {
   const startedAt = Date.now();
   const overrides = getOverrides();
   const nowMs = typeof overrides.now === "number" ? overrides.now : Date.now();
+
+  // Pull fresh funding-news from the data-store before reading the cache.
+  // No-op when overrides supply the events directly (test path).
+  if (!overrides.fundingEvents) {
+    await refreshFundingNewsFromStore();
+  }
 
   // --- Breakouts ---
   let breakoutRepos: WebhookBreakoutRepo[];

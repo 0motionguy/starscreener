@@ -11,6 +11,7 @@
 // canonical repo href helper, leaderboard surface.
 
 import bskyMentionsData from "../../data/bluesky-mentions.json";
+import { getDataStore } from "./data-store";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -107,7 +108,9 @@ export interface BskyTrendingFile {
 // Module-init: narrow JSON imports + build the case-insensitive lookup map
 // ---------------------------------------------------------------------------
 
-const mentionsFile = bskyMentionsData as unknown as BskyMentionsFile;
+// Mutable in-memory cache — seeded from bundled JSON, replaced via
+// refreshBlueskyMentionsFromStore().
+let mentionsFile: BskyMentionsFile = bskyMentionsData as unknown as BskyMentionsFile;
 
 // Exposed as `null` when the stub epoch-zero fetchedAt is still in place,
 // so /api/health can distinguish "never scraped" from "fresh" without
@@ -119,13 +122,26 @@ export const blueskyFetchedAt: string | null =
     : null;
 export const blueskyCold: boolean = blueskyFetchedAt === null;
 
-const mentionsByLowerName: Map<string, BskyRepoMention> = (() => {
+export function getBlueskyFetchedAt(): string | null {
+  return mentionsFile.fetchedAt && mentionsFile.fetchedAt !== EPOCH_ZERO
+    ? mentionsFile.fetchedAt
+    : null;
+}
+
+export function isBlueskyCold(): boolean {
+  return getBlueskyFetchedAt() === null;
+}
+
+function buildBskyMentionsByLowerName(file: BskyMentionsFile): Map<string, BskyRepoMention> {
   const map = new Map<string, BskyRepoMention>();
-  for (const [fullName, mention] of Object.entries(mentionsFile.mentions)) {
+  for (const [fullName, mention] of Object.entries(file.mentions)) {
     map.set(fullName.toLowerCase(), mention);
   }
   return map;
-})();
+}
+
+let mentionsByLowerName: Map<string, BskyRepoMention> =
+  buildBskyMentionsByLowerName(mentionsFile);
 
 // ---------------------------------------------------------------------------
 // Public API — mentions side
@@ -163,4 +179,40 @@ export function repoFullNameToHref(fullName: string): string {
   const [owner, name] = fullName.split("/", 2);
   if (!owner || !name) return "/repo";
   return `/repo/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`;
+}
+
+// ---------------------------------------------------------------------------
+// Phase 4: refresh hook — pull latest bluesky-mentions payload from data-store.
+// Rebuilds the case-insensitive lookup map after a swap.
+// ---------------------------------------------------------------------------
+
+let inflight: Promise<{ source: string; ageMs: number }> | null = null;
+let lastRefreshMs = 0;
+const MIN_REFRESH_INTERVAL_MS = 30_000;
+
+export async function refreshBlueskyMentionsFromStore(): Promise<{
+  source: string;
+  ageMs: number;
+}> {
+  if (inflight) return inflight;
+  if (
+    Date.now() - lastRefreshMs < MIN_REFRESH_INTERVAL_MS &&
+    lastRefreshMs > 0
+  ) {
+    return { source: "memory", ageMs: Date.now() - lastRefreshMs };
+  }
+  inflight = (async () => {
+    const result = await getDataStore().read<BskyMentionsFile>(
+      "bluesky-mentions",
+    );
+    if (result.data && result.source !== "missing") {
+      mentionsFile = result.data;
+      mentionsByLowerName = buildBskyMentionsByLowerName(mentionsFile);
+    }
+    lastRefreshMs = Date.now();
+    return { source: result.source, ageMs: result.ageMs };
+  })().finally(() => {
+    inflight = null;
+  });
+  return inflight;
 }

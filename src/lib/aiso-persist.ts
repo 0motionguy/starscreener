@@ -26,6 +26,7 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 
 import type { AisoToolsScan } from "./aiso-tools";
+import { getDataStore } from "./data-store";
 import {
   withFileLock,
 } from "./pipeline/storage/file-persistence";
@@ -233,6 +234,7 @@ export async function persistAisoScan(
   const now = new Date().toISOString();
   const nextStatus = resolveStatus(scan);
 
+  let nextSnapshot: RepoProfilesFile | null = null;
   await withFileLock(filePath, async () => {
     const current = await readFileSafe(filePath);
     const idx = findProfileIndex(current.profiles, fullName);
@@ -263,7 +265,30 @@ export async function persistAisoScan(
     };
 
     await writeFileAtomic(filePath, serialize(next));
+    nextSnapshot = next;
   });
+
+  // Best-effort mirror of the merged snapshot to the data-store. Runs OUTSIDE
+  // the file lock so a slow Redis write doesn't block concurrent persisters
+  // on the same path, but uses the snapshot we just wrote so live readers
+  // see the new scan immediately on the next refresh tick. Failures are
+  // swallowed because the file is already the durable record.
+  if (nextSnapshot) {
+    try {
+      await getDataStore().write("repo-profiles", nextSnapshot);
+    } catch (err) {
+      // The data-store throws "has no destination" when Redis env vars
+      // aren't set and mirrorToFile=false — that's the expected dev/test
+      // posture, not an error worth shouting about.
+      const message = err instanceof Error ? err.message : String(err);
+      if (!message.includes("has no destination")) {
+        console.warn(
+          "[aiso-persist] data-store mirror failed (file write succeeded):",
+          message,
+        );
+      }
+    }
+  }
 }
 
 /**

@@ -28,6 +28,35 @@ const nextConfig: NextConfig = {
   },
   poweredByHeader: false,
   compress: true,
+  // src/lib/data-store.ts lazily loads either `@upstash/redis` (REST) or
+  // `ioredis` (TCP — Railway native Redis) for the Redis tier, plus Node
+  // `fs` for the file-fallback tier. Several reader libs are transitively
+  // imported by client components (e.g. SidebarWatchlistPreview pulls
+  // @/lib/bluesky for sync getters), so webpack would otherwise fail the
+  // client build with "Module not found: Can't resolve 'fs' / 'net' / ...".
+  //
+  // Stubbing these to false in the client bundle is safe because the Redis
+  // refresh hooks are only ever called from server components / route
+  // handlers — the relevant code paths are dead in the client bundle.
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve = config.resolve ?? {};
+      config.resolve.fallback = {
+        ...(config.resolve.fallback ?? {}),
+        fs: false,
+        path: false,
+        // ioredis transitive deps — TCP socket, TLS, DNS, OS info.
+        net: false,
+        tls: false,
+        dns: false,
+        os: false,
+        crypto: false,
+        stream: false,
+        zlib: false,
+      };
+    }
+    return config;
+  },
   // Canonical host = apex (trendingrepo.com). Every other host attached to
   // this project 308s to the apex so Google + shared links consolidate on
   // one URL. The redirect ships with the build, so there's no DNS/dashboard
@@ -45,6 +74,16 @@ const nextConfig: NextConfig = {
         has: [{ type: "host", value: "starscreener.vercel.app" }],
         destination: "https://trendingrepo.com/:path*",
         permanent: true,
+      },
+      // /news → /signals: News Terminal was renamed to Signal Terminal and
+      // the consolidated /news view replaced by the cross-source /signals
+      // aggregator. Config-level redirect emits a real 307 (dev server's
+      // App Router redirect() falls back to meta-refresh which breaks
+      // CLI / preview tools).
+      {
+        source: "/news",
+        destination: "/signals",
+        permanent: false,
       },
     ];
   },

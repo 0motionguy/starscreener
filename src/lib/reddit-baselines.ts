@@ -16,6 +16,7 @@
 // rather than treating them as "normal".
 
 import baselinesData from "../../data/reddit-baselines.json";
+import { getDataStore } from "./data-store";
 
 export type BaselineConfidence = "high" | "medium" | "low";
 
@@ -46,11 +47,23 @@ export interface BaselinesFile {
   baselines: Record<string, SubredditBaseline>;
 }
 
-const data = baselinesData as unknown as BaselinesFile;
+// Mutable in-memory cache — seeded from the bundled JSON, replaced by Redis
+// payloads via refreshRedditBaselinesFromStore().
+let data: BaselinesFile = baselinesData as unknown as BaselinesFile;
 
+// Backwards-compat constants captured at module-load time. New callers should
+// use the getter equivalents below to see post-refresh values.
 export const redditBaselinesComputedAt: string = data.lastComputedAt;
 export const redditBaselinesCold: boolean =
   data.subredditsSucceeded === 0;
+
+export function getRedditBaselinesComputedAt(): string {
+  return data.lastComputedAt;
+}
+
+export function isRedditBaselinesCold(): boolean {
+  return data.subredditsSucceeded === 0;
+}
 
 export function getBaseline(sub: string): SubredditBaseline | null {
   return data.baselines[sub] ?? null;
@@ -96,4 +109,36 @@ export function computeBaselineRatio(
     tier,
     confidence: baseline.confidence,
   };
+}
+
+// ---------------------------------------------------------------------------
+// Phase 4: refresh hook — pull latest reddit-baselines payload from data-store.
+// ---------------------------------------------------------------------------
+
+let inflight: Promise<{ source: string; ageMs: number }> | null = null;
+let lastRefreshMs = 0;
+const MIN_REFRESH_INTERVAL_MS = 30_000;
+
+export async function refreshRedditBaselinesFromStore(): Promise<{
+  source: string;
+  ageMs: number;
+}> {
+  if (inflight) return inflight;
+  if (
+    Date.now() - lastRefreshMs < MIN_REFRESH_INTERVAL_MS &&
+    lastRefreshMs > 0
+  ) {
+    return { source: "memory", ageMs: Date.now() - lastRefreshMs };
+  }
+  inflight = (async () => {
+    const result = await getDataStore().read<BaselinesFile>("reddit-baselines");
+    if (result.data && result.source !== "missing") {
+      data = result.data;
+    }
+    lastRefreshMs = Date.now();
+    return { source: result.source, ageMs: result.ageMs };
+  })().finally(() => {
+    inflight = null;
+  });
+  return inflight;
 }

@@ -13,6 +13,7 @@ import {
   getRedditStats,
   getRedditSubreddits,
   isRedditCold,
+  refreshRedditMentionsFromStore,
 } from "@/lib/reddit-data";
 import { RedditTabsClient } from "@/components/reddit/RedditTabsClient";
 
@@ -31,7 +32,8 @@ function formatRelative(iso: string): string {
   return `${days}d ago`;
 }
 
-export default function RedditPage() {
+export default async function RedditPage() {
+  await refreshRedditMentionsFromStore();
   const redditFetchedAt = getRedditFetchedAt();
   const redditCold = isRedditCold();
   const stats = getRedditStats();

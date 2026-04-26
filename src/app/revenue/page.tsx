@@ -20,9 +20,13 @@ import { BadgeCheck } from "lucide-react";
 
 import {
   getLeaderboard,
+  refreshRevenueStartupsFromStore,
   type VerifiedStartup,
 } from "@/lib/revenue-startups";
-import { getRevenueOverlaysMeta } from "@/lib/revenue-overlays";
+import {
+  getRevenueOverlaysMeta,
+  refreshRevenueOverlaysFromStore,
+} from "@/lib/revenue-overlays";
 import { VerifiedStartupCard } from "@/components/revenue/VerifiedStartupCard";
 
 export const dynamic = "force-dynamic";
@@ -63,6 +67,13 @@ function formatRelative(iso: string | null | undefined): string {
 }
 
 export default async function RevenuePage({ searchParams }: PageProps) {
+  // Refresh both Redis-backed payloads before any sync getter runs. Both
+  // refreshes are internally rate-limited (30s) so concurrent renders never
+  // burn more than 2 Redis calls per process per refresh window.
+  await Promise.all([
+    refreshRevenueStartupsFromStore(),
+    refreshRevenueOverlaysFromStore(),
+  ]);
   const params = await searchParams;
   const rawCategory = Array.isArray(params.category)
     ? params.category[0]

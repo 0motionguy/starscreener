@@ -18,6 +18,7 @@ import {
   getRecentLaunches,
   producthuntCold,
   producthuntFetchedAt,
+  refreshProducthuntLaunchesFromStore,
   type Launch,
 } from "@/lib/producthunt";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
@@ -78,6 +79,7 @@ interface ProductHuntPageProps {
 export default async function ProductHuntPage({
   searchParams,
 }: ProductHuntPageProps) {
+  await refreshProducthuntLaunchesFromStore();
   const { tab: rawTab } = await searchParams;
   const activeTab = parseTab(rawTab);
 

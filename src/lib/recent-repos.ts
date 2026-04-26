@@ -1,6 +1,7 @@
 import recentReposJson from "../../data/recent-repos.json";
 import type { Repo } from "./types";
 import { slugToId } from "./utils";
+import { getDataStore } from "./data-store";
 
 export interface RecentRepoRow {
   githubId: number;
@@ -25,9 +26,17 @@ interface RecentReposFile {
   items: RecentRepoRow[];
 }
 
-const data = recentReposJson as unknown as RecentReposFile;
+// Mutable in-memory cache. Seeded from the bundled JSON; replaced by Redis
+// payloads via refreshRecentReposFromStore(). Sync getters below all read this.
+let data: RecentReposFile = recentReposJson as unknown as RecentReposFile;
 
+// Backwards-compat: existing callers keep their import. New callers should
+// use getRecentReposFetchedAt() to see post-refresh values.
 export const recentReposFetchedAt = data.fetchedAt ?? null;
+
+export function getRecentReposFetchedAt(): string | null {
+  return data.fetchedAt ?? null;
+}
 
 export function getRecentRepos(): RecentRepoRow[] {
   return Array.isArray(data.items) ? data.items : [];
@@ -76,4 +85,50 @@ export function buildBaseRepoFromRecent(row: RecentRepoRow): Repo {
     mentionCount24h: 0,
     tags: [],
   };
+}
+
+// ---------------------------------------------------------------------------
+// Refresh hook — pulls fresh recent-repos from the data-store.
+// ---------------------------------------------------------------------------
+
+interface RefreshResult {
+  source: "redis" | "file" | "memory" | "missing";
+  ageMs: number;
+}
+
+let inflight: Promise<RefreshResult> | null = null;
+let lastRefreshMs = 0;
+const MIN_REFRESH_INTERVAL_MS = 30_000;
+
+/**
+ * Pull the freshest recent-repos payload from the data-store and swap it
+ * into the in-memory cache. Cheap to call multiple times — internal dedupe +
+ * rate-limit ensure we hit Redis at most once per 30s per process.
+ */
+export async function refreshRecentReposFromStore(): Promise<RefreshResult> {
+  if (inflight) return inflight;
+  const sinceLast = Date.now() - lastRefreshMs;
+  if (sinceLast < MIN_REFRESH_INTERVAL_MS && lastRefreshMs > 0) {
+    return { source: "memory", ageMs: sinceLast };
+  }
+
+  inflight = (async (): Promise<RefreshResult> => {
+    const result = await getDataStore().read<RecentReposFile>("recent-repos");
+    if (result.data && result.source !== "missing") {
+      data = result.data;
+    }
+    lastRefreshMs = Date.now();
+    return { source: result.source, ageMs: result.ageMs };
+  })().finally(() => {
+    inflight = null;
+  });
+
+  return inflight;
+}
+
+/** Test/admin — reset the in-memory cache to the bundled seed. */
+export function _resetRecentReposCacheForTests(): void {
+  data = recentReposJson as unknown as RecentReposFile;
+  lastRefreshMs = 0;
+  inflight = null;
 }

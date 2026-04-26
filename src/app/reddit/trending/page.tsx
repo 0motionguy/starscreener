@@ -7,6 +7,7 @@ import {
   getAllPostsStats,
   getAllScoredPosts,
   isAllPostsCold,
+  refreshRedditAllPostsFromStore,
 } from "@/lib/reddit-all-data";
 import { extractTopics } from "@/lib/reddit-topics";
 import { SubredditMindshareMap } from "@/components/reddit-trending/SubredditMindshareMap";
@@ -27,7 +28,8 @@ function formatRelative(iso: string): string {
   return `${days}d ago`;
 }
 
-export default function RedditTrendingPage() {
+export default async function RedditTrendingPage() {
+  await refreshRedditAllPostsFromStore();
   const allPostsFetchedAt = getAllPostsFetchedAt();
   const allPostsCold = isAllPostsCold();
   const posts = getAllScoredPosts();

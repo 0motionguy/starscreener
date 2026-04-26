@@ -53,7 +53,9 @@ import {
   getRevenueOverlay,
   getSelfReportedOverlay,
   getTrustmrrClaimOverlay,
+  refreshRevenueOverlaysFromStore,
 } from "@/lib/revenue-overlays";
+import { refreshRepoProfilesFromStore } from "@/lib/repo-profiles";
 import {
   getFundingEventsForRepo,
   type RepoFundingEvent,
@@ -166,6 +168,14 @@ export async function buildCanonicalRepoProfile(
 ): Promise<CanonicalRepoProfile | null> {
   const repo = getDerivedRepoByFullName(fullName);
   if (!repo) return null;
+
+  // Pull fresh repo-profiles + revenue-overlays payloads from the data-store
+  // before stitching. Both refreshes are internally rate-limited (30s) so a
+  // burst of detail-page requests doesn't fan out to N Redis calls.
+  await Promise.all([
+    refreshRepoProfilesFromStore(),
+    refreshRevenueOverlaysFromStore(),
+  ]);
 
   // Hydrate mentions from disk. Idempotent on warm Lambdas; the store is
   // the source of truth for the recent-mentions slice + countsBySource.

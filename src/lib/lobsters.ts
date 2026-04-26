@@ -11,6 +11,7 @@
 // flips true, badges render null, and the homepage keeps serving.
 
 import lobstersMentionsData from "../../data/lobsters-mentions.json";
+import { getDataStore } from "./data-store";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -70,7 +71,9 @@ export interface LobstersMentionsFile {
 // Module-init — narrow JSON import + build case-insensitive lookup
 // ---------------------------------------------------------------------------
 
-const mentionsFile = lobstersMentionsData as unknown as LobstersMentionsFile;
+// Mutable in-memory cache — seeded from bundled JSON, replaced via
+// refreshLobstersMentionsFromStore().
+let mentionsFile: LobstersMentionsFile = lobstersMentionsData as unknown as LobstersMentionsFile;
 
 export const lobstersFetchedAt: string = mentionsFile.fetchedAt ?? "";
 
@@ -81,15 +84,24 @@ export const lobstersFetchedAt: string = mentionsFile.fetchedAt ?? "";
 export const lobstersCold: boolean =
   !mentionsFile.fetchedAt || !mentionsFile.mentions;
 
-const mentionsByLowerName: Map<string, LobstersRepoMention> = (() => {
+export function getLobstersFetchedAt(): string {
+  return mentionsFile.fetchedAt ?? "";
+}
+
+export function isLobstersCold(): boolean {
+  return !mentionsFile.fetchedAt || !mentionsFile.mentions;
+}
+
+function buildLobstersMentionsByLowerName(file: LobstersMentionsFile): Map<string, LobstersRepoMention> {
   const map = new Map<string, LobstersRepoMention>();
-  for (const [fullName, mention] of Object.entries(
-    mentionsFile.mentions ?? {},
-  )) {
+  for (const [fullName, mention] of Object.entries(file.mentions ?? {})) {
     map.set(fullName.toLowerCase(), mention);
   }
   return map;
-})();
+}
+
+let mentionsByLowerName: Map<string, LobstersRepoMention> =
+  buildLobstersMentionsByLowerName(mentionsFile);
 
 // ---------------------------------------------------------------------------
 // Public API
@@ -123,4 +135,40 @@ export function repoFullNameToHref(fullName: string): string {
   const [owner, name] = fullName.split("/", 2);
   if (!owner || !name) return "/repo";
   return `/repo/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`;
+}
+
+// ---------------------------------------------------------------------------
+// Phase 4: refresh hook — pull latest lobsters-mentions payload from data-store.
+// Rebuilds the case-insensitive lookup map after a swap.
+// ---------------------------------------------------------------------------
+
+let inflight: Promise<{ source: string; ageMs: number }> | null = null;
+let lastRefreshMs = 0;
+const MIN_REFRESH_INTERVAL_MS = 30_000;
+
+export async function refreshLobstersMentionsFromStore(): Promise<{
+  source: string;
+  ageMs: number;
+}> {
+  if (inflight) return inflight;
+  if (
+    Date.now() - lastRefreshMs < MIN_REFRESH_INTERVAL_MS &&
+    lastRefreshMs > 0
+  ) {
+    return { source: "memory", ageMs: Date.now() - lastRefreshMs };
+  }
+  inflight = (async () => {
+    const result = await getDataStore().read<LobstersMentionsFile>(
+      "lobsters-mentions",
+    );
+    if (result.data && result.source !== "missing") {
+      mentionsFile = result.data;
+      mentionsByLowerName = buildLobstersMentionsByLowerName(mentionsFile);
+    }
+    lastRefreshMs = Date.now();
+    return { source: result.source, ageMs: result.ageMs };
+  })().finally(() => {
+    inflight = null;
+  });
+  return inflight;
 }

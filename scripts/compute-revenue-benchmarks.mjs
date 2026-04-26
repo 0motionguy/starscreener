@@ -26,6 +26,8 @@ import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { writeDataStore } from "./_data-store-write.mjs";
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
 const DATA_DIR = resolve(ROOT, "data");
@@ -195,8 +197,9 @@ async function main() {
 
   await mkdir(dirname(OUT_FILE), { recursive: true });
   await writeFile(OUT_FILE, `${JSON.stringify(out, null, 2)}\n`, "utf8");
+  const redisResult = await writeDataStore("revenue-benchmarks", out);
   console.log(
-    `[benchmarks] wrote ${OUT_FILE} — ${serialized.length} populated bucket(s) from ${catalog.startups.length} startup(s)`,
+    `[benchmarks] wrote ${OUT_FILE} — ${serialized.length} populated bucket(s) from ${catalog.startups.length} startup(s) [redis: ${redisResult.source}]`,
   );
 }
 

@@ -11,6 +11,7 @@
 // repo lookup, leaderboard accessor, fetched-at exposure.
 
 import devtoMentionsData from "../../data/devto-mentions.json";
+import { getDataStore } from "./data-store";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -92,7 +93,9 @@ export interface DevtoMentionsFile {
 // Module-init
 // ---------------------------------------------------------------------------
 
-const mentionsFile = devtoMentionsData as unknown as DevtoMentionsFile;
+// Mutable in-memory cache — seeded from bundled JSON, replaced via
+// refreshDevtoMentionsFromStore().
+let mentionsFile: DevtoMentionsFile = devtoMentionsData as unknown as DevtoMentionsFile;
 
 export const devtoFetchedAt: string = mentionsFile.fetchedAt;
 export const devtoBodyFetchMode: DevtoBodyFetchMode = mentionsFile.bodyFetchMode;
@@ -106,13 +109,28 @@ export const devtoCold: boolean =
   mentionsFile.fetchedAt.startsWith("1970-") ||
   mentionsFile.scannedArticles === 0;
 
-const mentionsByLowerName: Map<string, DevtoRepoMention> = (() => {
+export function getDevtoFetchedAt(): string {
+  return mentionsFile.fetchedAt;
+}
+
+export function isDevtoCold(): boolean {
+  return (
+    !mentionsFile.fetchedAt ||
+    mentionsFile.fetchedAt.startsWith("1970-") ||
+    mentionsFile.scannedArticles === 0
+  );
+}
+
+function buildDevtoMentionsByLowerName(file: DevtoMentionsFile): Map<string, DevtoRepoMention> {
   const map = new Map<string, DevtoRepoMention>();
-  for (const [fullName, mention] of Object.entries(mentionsFile.mentions)) {
+  for (const [fullName, mention] of Object.entries(file.mentions)) {
     map.set(fullName.toLowerCase(), mention);
   }
   return map;
-})();
+}
+
+let mentionsByLowerName: Map<string, DevtoRepoMention> =
+  buildDevtoMentionsByLowerName(mentionsFile);
 
 // ---------------------------------------------------------------------------
 // Public API
@@ -177,4 +195,40 @@ export function getDevtoBadgeRollup(fullName: string): {
         }
       : undefined,
   };
+}
+
+// ---------------------------------------------------------------------------
+// Phase 4: refresh hook — pull latest devto-mentions payload from data-store.
+// Rebuilds the case-insensitive lookup map after a swap.
+// ---------------------------------------------------------------------------
+
+let inflight: Promise<{ source: string; ageMs: number }> | null = null;
+let lastRefreshMs = 0;
+const MIN_REFRESH_INTERVAL_MS = 30_000;
+
+export async function refreshDevtoMentionsFromStore(): Promise<{
+  source: string;
+  ageMs: number;
+}> {
+  if (inflight) return inflight;
+  if (
+    Date.now() - lastRefreshMs < MIN_REFRESH_INTERVAL_MS &&
+    lastRefreshMs > 0
+  ) {
+    return { source: "memory", ageMs: Date.now() - lastRefreshMs };
+  }
+  inflight = (async () => {
+    const result = await getDataStore().read<DevtoMentionsFile>(
+      "devto-mentions",
+    );
+    if (result.data && result.source !== "missing") {
+      mentionsFile = result.data;
+      mentionsByLowerName = buildDevtoMentionsByLowerName(mentionsFile);
+    }
+    lastRefreshMs = Date.now();
+    return { source: result.source, ageMs: result.ageMs };
+  })().finally(() => {
+    inflight = null;
+  });
+  return inflight;
 }

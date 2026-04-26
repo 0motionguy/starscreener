@@ -49,6 +49,7 @@ import {
   extractGithubRepoFullNames,
   normalizeGithubFullName,
 } from "./_github-repo-links.mjs";
+import { writeDataStore } from "./_data-store-write.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
@@ -457,11 +458,13 @@ async function main() {
     JSON.stringify(trendingPayload, null, 2) + "\n",
     "utf8",
   );
+  const mentionsRedis = await writeDataStore("bluesky-mentions", mentionsPayload);
+  const trendingRedis = await writeDataStore("bluesky-trending", trendingPayload);
 
   log("");
-  log(`wrote ${MENTIONS_OUT}`);
+  log(`wrote ${MENTIONS_OUT} [redis: ${mentionsRedis.source}]`);
   log(`  repos with mentions: ${Object.keys(mentions).length} (${leaderboard.length} leaderboard rows)`);
-  log(`wrote ${TRENDING_OUT}`);
+  log(`wrote ${TRENDING_OUT} [redis: ${trendingRedis.source}]`);
   log(
     `  trending posts: ${trendingMerged.length} across ` +
       `${BLUESKY_TRENDING_QUERIES.length} queries / ${BLUESKY_QUERY_FAMILIES.length} topic families`,

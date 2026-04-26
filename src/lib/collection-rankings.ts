@@ -1,5 +1,6 @@
 import collectionRankingsJson from "../../data/collection-rankings.json";
 import { loadAllCollections, type CollectionFile } from "./collections";
+import { getDataStore } from "./data-store";
 
 export type CollectionRankingMetric = "stars" | "issues";
 
@@ -47,10 +48,20 @@ export interface CollectionRankingsFile {
   >;
 }
 
-const data = collectionRankingsJson as unknown as CollectionRankingsFile;
+// Mutable in-memory cache. Seeded from the bundled JSON; replaced by Redis
+// payloads via refreshCollectionRankingsFromStore(). Sync getters read this.
+let data: CollectionRankingsFile = collectionRankingsJson as unknown as CollectionRankingsFile;
 
 export const collectionRankingsFetchedAt = data.fetchedAt || null;
 export const collectionRankingsPeriod = data.period;
+
+export function getCollectionRankingsFetchedAt(): string | null {
+  return data.fetchedAt || null;
+}
+
+export function getCollectionRankingsPeriod(): string {
+  return data.period;
+}
 
 function sortRankingRows(rows: CollectionRankingRow[]): CollectionRankingRow[] {
   return [...rows].sort((a, b) => {
@@ -117,4 +128,52 @@ export function getCollectionRankingsCoverage(
     withIssues,
     withAnyRanking,
   };
+}
+
+// ---------------------------------------------------------------------------
+// Refresh hook — pulls fresh collection-rankings from the data-store.
+// ---------------------------------------------------------------------------
+
+interface RefreshResult {
+  source: "redis" | "file" | "memory" | "missing";
+  ageMs: number;
+}
+
+let inflight: Promise<RefreshResult> | null = null;
+let lastRefreshMs = 0;
+const MIN_REFRESH_INTERVAL_MS = 30_000;
+
+/**
+ * Pull the freshest collection-rankings payload from the data-store and swap
+ * it into the in-memory cache. Cheap to call multiple times — internal dedupe
+ * + rate-limit ensure we hit Redis at most once per 30s per process.
+ */
+export async function refreshCollectionRankingsFromStore(): Promise<RefreshResult> {
+  if (inflight) return inflight;
+  const sinceLast = Date.now() - lastRefreshMs;
+  if (sinceLast < MIN_REFRESH_INTERVAL_MS && lastRefreshMs > 0) {
+    return { source: "memory", ageMs: sinceLast };
+  }
+
+  inflight = (async (): Promise<RefreshResult> => {
+    const result = await getDataStore().read<CollectionRankingsFile>(
+      "collection-rankings",
+    );
+    if (result.data && result.source !== "missing") {
+      data = result.data;
+    }
+    lastRefreshMs = Date.now();
+    return { source: result.source, ageMs: result.ageMs };
+  })().finally(() => {
+    inflight = null;
+  });
+
+  return inflight;
+}
+
+/** Test/admin — reset the in-memory cache to the bundled seed. */
+export function _resetCollectionRankingsCacheForTests(): void {
+  data = collectionRankingsJson as unknown as CollectionRankingsFile;
+  lastRefreshMs = 0;
+  inflight = null;
 }

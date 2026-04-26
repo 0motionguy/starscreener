@@ -10,10 +10,11 @@ import {
   deltaForNpmWindow,
   deltaPctForNpmWindow,
   downloadsForNpmWindow,
+  getNpmCold,
+  getNpmFetchedAt,
   getNpmPackagesFile,
   getTopNpmPackages,
-  npmCold,
-  npmFetchedAt,
+  refreshNpmFromStore,
   type NpmPackageRow,
   type NpmWindow,
 } from "@/lib/npm";
@@ -80,11 +81,14 @@ function formatDeltaPct(n: number | null | undefined): string {
 
 export default async function NpmPage({ searchParams }: NpmPageProps) {
   const { range } = await searchParams;
+  // Refresh npm-packages cache from the data-store before reading sync getters.
+  await refreshNpmFromStore();
   const activeWindow = parseWindow(range);
   const file = getNpmPackagesFile();
   const packages = getTopNpmPackages(activeWindow, 100);
+  const npmFetchedAt = getNpmFetchedAt();
   const top = packages[0];
-  const cold = npmCold || packages.length === 0;
+  const cold = getNpmCold() || packages.length === 0;
 
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">

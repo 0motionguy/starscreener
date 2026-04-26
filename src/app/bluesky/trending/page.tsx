@@ -10,10 +10,12 @@ import {
   BLUESKY_TRENDING_KEYWORDS,
   getBlueskyTopPosts,
   getBlueskyTrendingFile,
+  refreshBlueskyTrendingFromStore,
 } from "@/lib/bluesky-trending";
 import {
   blueskyCold,
   getBlueskyLeaderboard,
+  refreshBlueskyMentionsFromStore,
   repoFullNameToHref,
 } from "@/lib/bluesky";
 
@@ -41,7 +43,11 @@ function formatAgeHours(ageHours: number | undefined): string {
   return `${Math.round(ageHours / 24)}d`;
 }
 
-export default function BlueskyTrendingPage() {
+export default async function BlueskyTrendingPage() {
+  await Promise.all([
+    refreshBlueskyTrendingFromStore(),
+    refreshBlueskyMentionsFromStore(),
+  ]);
   const trendingFile = getBlueskyTrendingFile();
   const posts = getBlueskyTopPosts(50);
   const allPosts = trendingFile.posts;

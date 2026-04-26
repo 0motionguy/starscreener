@@ -35,8 +35,14 @@ import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import { renderCsv, type CsvColumn, UTF8_BOM } from "@/lib/export/csv";
 import type { Repo } from "@/lib/types";
 import { getFundingMatchCounts } from "@/lib/funding/repo-events";
-import { getRevenueOverlay } from "@/lib/revenue-overlays";
-import { getRepoMetadata } from "@/lib/repo-metadata";
+import {
+  getRevenueOverlay,
+  refreshRevenueOverlaysFromStore,
+} from "@/lib/revenue-overlays";
+import {
+  getRepoMetadata,
+  refreshRepoMetadataFromStore,
+} from "@/lib/repo-metadata";
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -257,6 +263,15 @@ function todayIso(): string {
 }
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
+  // Refresh data-store-backed caches before serializing rows. Both have
+  // internal 30s rate-limits so back-to-back exports don't burn quota:
+  //   - repo-metadata (Group A) — homepageUrl + description columns
+  //   - revenue-overlays (Group C) — revenue badge column
+  await Promise.all([
+    refreshRepoMetadataFromStore(),
+    refreshRevenueOverlaysFromStore(),
+  ]);
+
   // 1. Auth
   const auth = verifyUserAuth(request);
   const deny = userAuthFailureResponse(auth);

@@ -4,6 +4,8 @@
 import { existsSync, readFileSync, statSync } from "node:fs";
 import { resolve } from "node:path";
 
+import { getDataStore } from "./data-store";
+
 export interface RevenueBenchmarkBucket {
   category: string;
   starBand: string;
@@ -36,36 +38,51 @@ const EMPTY_FILE: RevenueBenchmarksFile = {
   buckets: [],
 };
 
-let cache:
-  | { mtimeMs: number; file: RevenueBenchmarksFile }
-  | null = null;
+interface BenchmarksCacheEntry {
+  signature: string;
+  file: RevenueBenchmarksFile;
+}
+
+let cache: BenchmarksCacheEntry | null = null;
+
+function normalizeFile(input: unknown): RevenueBenchmarksFile {
+  if (!input || typeof input !== "object") return EMPTY_FILE;
+  const parsed = input as Partial<RevenueBenchmarksFile>;
+  return {
+    ...EMPTY_FILE,
+    ...parsed,
+    starBands: Array.isArray(parsed.starBands) ? parsed.starBands : [],
+    buckets: Array.isArray(parsed.buckets) ? parsed.buckets : [],
+  };
+}
 
 function loadSync(): RevenueBenchmarksFile {
   if (!existsSync(FILE_PATH)) return EMPTY_FILE;
   try {
-    const raw = readFileSync(FILE_PATH, "utf8");
-    const parsed = JSON.parse(raw) as Partial<RevenueBenchmarksFile>;
-    return {
-      ...EMPTY_FILE,
-      ...parsed,
-      starBands: Array.isArray(parsed.starBands) ? parsed.starBands : [],
-      buckets: Array.isArray(parsed.buckets) ? parsed.buckets : [],
-    };
+    return normalizeFile(JSON.parse(readFileSync(FILE_PATH, "utf8")));
   } catch {
     return EMPTY_FILE;
   }
 }
 
-export function readRevenueBenchmarksFile(): RevenueBenchmarksFile {
-  let mtimeMs = -1;
+function diskSignature(): string {
   try {
-    mtimeMs = existsSync(FILE_PATH) ? statSync(FILE_PATH).mtimeMs : -1;
+    return existsSync(FILE_PATH)
+      ? `disk:${statSync(FILE_PATH).mtimeMs}`
+      : "missing";
   } catch {
-    mtimeMs = -1;
+    return "missing";
   }
-  if (cache && cache.mtimeMs === mtimeMs) return cache.file;
+}
+
+export function readRevenueBenchmarksFile(): RevenueBenchmarksFile {
+  const sig = diskSignature();
+  if (cache && cache.signature === sig) return cache.file;
+  // A synthetic redis: signature stays stable across calls — only the
+  // refresh hook overwrites it.
+  if (cache && cache.signature.startsWith("redis:")) return cache.file;
   const file = loadSync();
-  cache = { mtimeMs, file };
+  cache = { signature: sig, file };
   return file;
 }
 
@@ -173,4 +190,57 @@ export function estimateMrr(input: EstimateInput): Estimate {
     readRevenueBenchmarksFile().buckets,
     input,
   );
+}
+
+// ---------------------------------------------------------------------------
+// Refresh hook — pulls the freshest revenue-benchmarks payload from the
+// data-store. Internal in-flight dedupe + 30s rate limit so concurrent
+// estimator requests don't fan out N Redis calls.
+// ---------------------------------------------------------------------------
+
+interface RefreshResult {
+  source: "redis" | "file" | "memory" | "missing";
+  ageMs: number;
+}
+
+let inflight: Promise<RefreshResult> | null = null;
+let lastRefreshMs = 0;
+const MIN_REFRESH_INTERVAL_MS = 30_000;
+
+export async function refreshRevenueBenchmarksFromStore(): Promise<RefreshResult> {
+  if (inflight) return inflight;
+  const sinceLast = Date.now() - lastRefreshMs;
+  if (sinceLast < MIN_REFRESH_INTERVAL_MS && lastRefreshMs > 0) {
+    return { source: "memory", ageMs: sinceLast };
+  }
+
+  inflight = (async (): Promise<RefreshResult> => {
+    try {
+      const store = getDataStore();
+      const result = await store.read<unknown>("revenue-benchmarks");
+      if (result.data && result.source !== "missing") {
+        const next = normalizeFile(result.data);
+        cache = {
+          signature: `redis:${result.writtenAt ?? Date.now()}`,
+          file: next,
+        };
+      }
+      lastRefreshMs = Date.now();
+      return { source: result.source, ageMs: result.ageMs };
+    } catch {
+      lastRefreshMs = Date.now();
+      return { source: "missing", ageMs: 0 };
+    }
+  })().finally(() => {
+    inflight = null;
+  });
+
+  return inflight;
+}
+
+/** Test/admin — drop the in-memory cache so the next read goes to disk. */
+export function _resetRevenueBenchmarksCacheForTests(): void {
+  cache = null;
+  lastRefreshMs = 0;
+  inflight = null;
 }

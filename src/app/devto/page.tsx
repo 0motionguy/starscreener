@@ -17,8 +17,13 @@ import {
   devtoBodyFetchMode,
   devtoFetchedAt,
   getDevtoLeaderboard,
+  refreshDevtoMentionsFromStore,
 } from "@/lib/devto";
-import { getDevtoTopArticles, getDevtoTrendingFile } from "@/lib/devto-trending";
+import {
+  getDevtoTopArticles,
+  getDevtoTrendingFile,
+  refreshDevtoTrendingFromStore,
+} from "@/lib/devto-trending";
 import { repoFullNameToHref } from "@/lib/hackernews";
 
 export const dynamic = "force-static";
@@ -55,7 +60,11 @@ function formatAgeFromIso(iso: string): string {
 // Page
 // ---------------------------------------------------------------------------
 
-export default function DevtoPage() {
+export default async function DevtoPage() {
+  await Promise.all([
+    refreshDevtoTrendingFromStore(),
+    refreshDevtoMentionsFromStore(),
+  ]);
   const trendingFile = getDevtoTrendingFile();
   const articles = getDevtoTopArticles(50);
   const leaderboard = getDevtoLeaderboard();

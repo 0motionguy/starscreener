@@ -5,6 +5,7 @@
 // badges do not pull the larger story snapshot into their bundle.
 
 import lobstersTrendingData from "../../data/lobsters-trending.json";
+import { getDataStore } from "./data-store";
 import type { LobstersStory } from "./lobsters";
 
 export interface LobstersTrendingFile {
@@ -14,7 +15,9 @@ export interface LobstersTrendingFile {
   stories: LobstersStory[];
 }
 
-const trendingFile = lobstersTrendingData as unknown as LobstersTrendingFile;
+// Mutable in-memory cache — seeded from bundled JSON, replaced via
+// refreshLobstersTrendingFromStore().
+let trendingFile: LobstersTrendingFile = lobstersTrendingData as unknown as LobstersTrendingFile;
 
 function round2(n: number): number {
   return Math.round(n * 100) / 100;
@@ -52,4 +55,38 @@ export function getLobstersTopStories(
   hydrated.sort((a, b) => (b.trendingScore ?? 0) - (a.trendingScore ?? 0));
   if (hydrated.length <= limit) return hydrated;
   return hydrated.slice(0, limit);
+}
+
+// ---------------------------------------------------------------------------
+// Phase 4: refresh hook — pull latest lobsters-trending payload from data-store.
+// ---------------------------------------------------------------------------
+
+let inflight: Promise<{ source: string; ageMs: number }> | null = null;
+let lastRefreshMs = 0;
+const MIN_REFRESH_INTERVAL_MS = 30_000;
+
+export async function refreshLobstersTrendingFromStore(): Promise<{
+  source: string;
+  ageMs: number;
+}> {
+  if (inflight) return inflight;
+  if (
+    Date.now() - lastRefreshMs < MIN_REFRESH_INTERVAL_MS &&
+    lastRefreshMs > 0
+  ) {
+    return { source: "memory", ageMs: Date.now() - lastRefreshMs };
+  }
+  inflight = (async () => {
+    const result = await getDataStore().read<LobstersTrendingFile>(
+      "lobsters-trending",
+    );
+    if (result.data && result.source !== "missing") {
+      trendingFile = result.data;
+    }
+    lastRefreshMs = Date.now();
+    return { source: result.source, ageMs: result.ageMs };
+  })().finally(() => {
+    inflight = null;
+  });
+  return inflight;
 }

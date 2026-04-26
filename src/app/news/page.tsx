@@ -15,17 +15,24 @@ import Link from "next/link";
 import {
   getHnTopStories,
   getHnTrendingFile,
+  refreshHackernewsTrendingFromStore,
 } from "@/lib/hackernews-trending";
 import {
   getHnLeaderboard,
   hnItemHref,
+  refreshHackernewsMentionsFromStore,
   type HnStory,
 } from "@/lib/hackernews";
-import { getBlueskyTopPosts, getBlueskyTrendingFile } from "@/lib/bluesky-trending";
+import {
+  getBlueskyTopPosts,
+  getBlueskyTrendingFile,
+  refreshBlueskyTrendingFromStore,
+} from "@/lib/bluesky-trending";
 import {
   blueskyCold,
   bskyPostHref,
   getBlueskyLeaderboard,
+  refreshBlueskyMentionsFromStore,
   type BskyPost,
 } from "@/lib/bluesky";
 import {
@@ -33,20 +40,25 @@ import {
   getDevtoFile,
   getDevtoLeaderboard,
   devtoCold,
+  refreshDevtoMentionsFromStore,
   type DevtoTopArticleRef,
 } from "@/lib/devto";
+import { refreshDevtoTrendingFromStore } from "@/lib/devto-trending";
 import {
   getRecentLaunches,
   getPhFile,
+  refreshProducthuntLaunchesFromStore,
   type Launch,
 } from "@/lib/producthunt";
 import {
   getLobstersTopStories,
   getLobstersTrendingFile,
+  refreshLobstersTrendingFromStore,
 } from "@/lib/lobsters-trending";
 import {
   getLobstersLeaderboard,
   lobstersStoryHref,
+  refreshLobstersMentionsFromStore,
   repoFullNameToHref,
   type LobstersStory,
 } from "@/lib/lobsters";
@@ -132,6 +144,20 @@ export default async function NewsPage({
 }: {
   searchParams: Promise<{ tab?: string }>;
 }) {
+  // Pull every Group B source's freshest payload from the data-store before
+  // composing tab counts + lists. Each refresh is internally rate-limited
+  // and dedupes concurrent calls, so doing them in parallel is cheap.
+  await Promise.all([
+    refreshHackernewsTrendingFromStore(),
+    refreshHackernewsMentionsFromStore(),
+    refreshBlueskyTrendingFromStore(),
+    refreshBlueskyMentionsFromStore(),
+    refreshDevtoTrendingFromStore(),
+    refreshDevtoMentionsFromStore(),
+    refreshLobstersTrendingFromStore(),
+    refreshLobstersMentionsFromStore(),
+    refreshProducthuntLaunchesFromStore(),
+  ]);
   const params = await searchParams;
   const activeTab: TabId = isTabId(params.tab) ? params.tab : "hackernews";
 

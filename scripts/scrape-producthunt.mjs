@@ -36,6 +36,7 @@ import {
   loadTrackedReposFromFiles,
   recentRepoRows,
 } from "./_tracked-repos.mjs";
+import { writeDataStore } from "./_data-store-write.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
@@ -424,6 +425,7 @@ async function main() {
 
   await mkdir(DATA_DIR, { recursive: true });
   await writeFile(OUT_PATH, JSON.stringify(payload, null, 2) + "\n", "utf8");
+  const launchesRedis = await writeDataStore("producthunt-launches", payload);
 
   const aiCount = launches.filter((l) => l.aiAdjacent).length;
   const linkedCount = launches.filter((l) => l.linkedRepo).length;
@@ -434,7 +436,7 @@ async function main() {
     .map((l) => `${l.name} (${l.votesCount})`)
     .join(", ");
   log("");
-  log(`wrote ${OUT_PATH}`);
+  log(`wrote ${OUT_PATH} [redis: ${launchesRedis.source}]`);
   log(`  x links found: ${withXCount}`);
   log(
     `  launches kept: ${launches.length} (${aiCount} AI-adjacent · ${withGhCount} with github · ${linkedCount} linked to tracked repos · ${enrichedCount} enriched)`,

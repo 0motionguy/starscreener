@@ -8,10 +8,12 @@ import Link from "next/link";
 import {
   getLobstersTopStories,
   getLobstersTrendingFile,
+  refreshLobstersTrendingFromStore,
 } from "@/lib/lobsters-trending";
 import {
   getLobstersLeaderboard,
   lobstersStoryHref,
+  refreshLobstersMentionsFromStore,
   repoFullNameToHref,
   type LobstersStory,
 } from "@/lib/lobsters";
@@ -47,7 +49,11 @@ function formatAgeHours(ageHours: number | undefined): string {
   return `${Math.round(ageHours / 24)}d`;
 }
 
-export default function LobstersPage() {
+export default async function LobstersPage() {
+  await Promise.all([
+    refreshLobstersTrendingFromStore(),
+    refreshLobstersMentionsFromStore(),
+  ]);
   const file = getLobstersTrendingFile();
   const stories = getLobstersTopStories(50);
   const allStories = file.stories ?? [];

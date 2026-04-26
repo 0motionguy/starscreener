@@ -1,6 +1,11 @@
 "use client";
 
+// Admin moderation UI for revenue submissions. Auth is handled by the
+// ss_admin cookie (server-gated in src/app/admin/revenue-queue/page.tsx and
+// re-checked by verifyAdminAuth on every API call). No token paste.
+
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   BadgeCheck,
@@ -46,10 +51,9 @@ function fmtUsd(cents: number | null | undefined): string {
 }
 
 export function RevenueQueueAdmin() {
-  const [secret, setSecret] = useState("");
-  const [savedSecret, setSavedSecret] = useState("");
+  const router = useRouter();
   const [submissions, setSubmissions] = useState<AdminSubmission[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<Filter>("pending");
   const [busyId, setBusyId] = useState<string | null>(null);
@@ -68,56 +72,46 @@ export function RevenueQueueAdmin() {
     [submissions],
   );
 
-  const loadQueue = useCallback(
-    async (token: string) => {
-      if (!token) {
-        setError("Paste the ADMIN_TOKEN to load the queue");
+  const loadQueue = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/admin/revenue-queue", {
+        credentials: "include",
+        cache: "no-store",
+      });
+      if (res.status === 401) {
+        router.push("/admin/login?next=/admin/revenue-queue");
         return;
       }
-      setLoading(true);
-      setError(null);
-      try {
-        const res = await fetch("/api/admin/revenue-queue", {
-          headers: { Authorization: `Bearer ${token}` },
-          cache: "no-store",
-        });
-        const payload = (await res.json()) as
-          | { ok: true; submissions: AdminSubmission[] }
-          | { ok: false; error: string; reason?: string };
-        if (!payload.ok) {
-          throw new Error(
-            "reason" in payload && payload.reason === "unauthorized"
-              ? "Unauthorized — check the token"
-              : payload.error ?? "request failed",
-          );
-        }
-        setSubmissions(payload.submissions);
-        setSavedSecret(token);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : String(err));
-      } finally {
-        setLoading(false);
+      const payload = (await res.json()) as
+        | { ok: true; submissions: AdminSubmission[] }
+        | { ok: false; error: string; reason?: string };
+      if (!payload.ok) {
+        throw new Error(payload.error ?? "request failed");
       }
-    },
-    [],
-  );
+      setSubmissions(payload.submissions);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setLoading(false);
+    }
+  }, [router]);
 
   async function moderate(id: string, action: "approve" | "reject") {
-    if (!savedSecret) {
-      setError("Load the queue with a valid token first");
-      return;
-    }
     setBusyId(id);
     setError(null);
     try {
       const res = await fetch("/api/admin/revenue-queue", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${savedSecret}`,
-        },
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ id, action }),
       });
+      if (res.status === 401) {
+        router.push("/admin/login?next=/admin/revenue-queue");
+        return;
+      }
       const payload = (await res.json()) as
         | { ok: true; submission: AdminSubmission }
         | { ok: false; error: string };
@@ -132,69 +126,44 @@ export function RevenueQueueAdmin() {
     }
   }
 
-  // Autoload if the secret is already in memory from a previous session on
-  // this tab. No localStorage — token stays in the page memory only.
   useEffect(() => {
-    if (savedSecret && submissions.length === 0 && !loading && !error) {
-      void loadQueue(savedSecret);
-    }
-  }, [savedSecret, submissions.length, loading, error, loadQueue]);
+    void loadQueue();
+  }, [loadQueue]);
 
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
       <div className="max-w-[1100px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        <header className="mb-6 border-b border-border-primary pb-6">
-          <div className="flex flex-wrap items-baseline gap-3">
+        <header className="mb-6 flex flex-wrap items-start justify-between gap-3 border-b border-border-primary pb-6">
+          <div>
             <h1 className="text-2xl font-bold uppercase tracking-wider inline-flex items-center gap-2">
               <ShieldAlert className="size-5 text-warning" aria-hidden />
               Revenue Moderation Queue
             </h1>
-            <span className="text-xs text-text-tertiary">
-              {"// approve or reject founder submissions"}
-            </span>
+            <p className="mt-2 max-w-2xl text-sm text-text-secondary">
+              Private admin tool. Approved submissions surface on repo detail
+              pages (self-reported card, distinct from verified TrustMRR card).
+            </p>
           </div>
-          <p className="mt-2 max-w-2xl text-sm text-text-secondary">
-            Private admin tool. Paste the <code>ADMIN_TOKEN</code> to load the
-            queue. Approved submissions surface on repo detail pages
-            (self-reported card, distinct from verified TrustMRR card).
-          </p>
+          <button
+            type="button"
+            onClick={() => void loadQueue()}
+            disabled={loading}
+            className="inline-flex items-center gap-2 rounded-md border border-border-primary bg-bg-muted px-3 py-2 font-mono text-xs font-semibold uppercase tracking-wider text-text-primary hover:bg-bg-card-hover disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {loading ? (
+              <LoaderCircle className="size-4 animate-spin" aria-hidden />
+            ) : (
+              <RefreshCw className="size-4" aria-hidden />
+            )}
+            Reload
+          </button>
         </header>
 
-        <section className="mb-6 rounded-card border border-border-primary bg-bg-card p-4 shadow-card">
-          <label className="flex flex-col gap-2">
-            <span className="font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
-              ADMIN_TOKEN
-            </span>
-            <div className="flex flex-wrap gap-2">
-              <input
-                type="password"
-                value={secret}
-                onChange={(e) => setSecret(e.target.value)}
-                placeholder="Paste bearer token"
-                autoComplete="off"
-                className="min-w-[260px] flex-1 rounded-md border border-border-primary bg-bg-muted px-3 py-2 font-mono text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-1 focus:ring-brand"
-              />
-              <button
-                type="button"
-                onClick={() => void loadQueue(secret)}
-                disabled={loading}
-                className="inline-flex items-center gap-2 rounded-md border border-border-primary bg-bg-muted px-3 py-2 font-mono text-xs font-semibold uppercase tracking-wider text-text-primary hover:bg-bg-card-hover disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                {loading ? (
-                  <LoaderCircle className="size-4 animate-spin" aria-hidden />
-                ) : (
-                  <RefreshCw className="size-4" aria-hidden />
-                )}
-                Load queue
-              </button>
-            </div>
-          </label>
-          {error ? (
-            <div className="mt-3 rounded-md border border-down/60 bg-down/5 px-3 py-2 text-sm text-down">
-              {error}
-            </div>
-          ) : null}
-        </section>
+        {error ? (
+          <div className="mb-4 rounded-md border border-down/60 bg-down/5 px-3 py-2 text-sm text-down">
+            {error}
+          </div>
+        ) : null}
 
         <section className="mb-4 flex flex-wrap items-center gap-2 text-xs">
           {(["pending", "approved", "rejected", "all"] as Filter[]).map((f) => (

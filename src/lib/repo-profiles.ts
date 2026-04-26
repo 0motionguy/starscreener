@@ -4,10 +4,18 @@
 // profiles are updated by the enrichment scanner while the app is running.
 // Read from disk with a lightweight mtime cache so server routes and pages see
 // fresh profile data without a process restart.
+//
+// Phase 4 (data-API): the on-disk file is now a cold-start SEED + DR
+// snapshot only. The live source of truth is Redis (via src/lib/data-store).
+// Server routes call `refreshRepoProfilesFromStore()` before reading any
+// sync getter; that function pulls the freshest payload into the in-memory
+// cache and is rate-limited so concurrent renders don't fan out N Redis
+// calls.
 
 import { existsSync, readFileSync, statSync } from "node:fs";
 import { resolve } from "node:path";
 import type { AisoToolsScan } from "./aiso-tools";
+import { getDataStore } from "./data-store";
 
 export type RepoProfileStatus =
   | "scanned"
@@ -69,49 +77,69 @@ const EMPTY_FILE: RepoProfilesFile = {
   profiles: [],
 };
 
-let cache:
-  | {
-      mtimeMs: number;
-      file: RepoProfilesFile;
-      byFullName: Map<string, RepoProfile>;
-    }
-  | null = null;
+interface RepoProfilesCacheEntry {
+  /** mtimeMs when sourced from disk, or a synthetic key when sourced from Redis. */
+  signature: string;
+  file: RepoProfilesFile;
+  byFullName: Map<string, RepoProfile>;
+}
+
+let cache: RepoProfilesCacheEntry | null = null;
 
 function loadFileSync(): RepoProfilesFile {
   if (!existsSync(FILE_PATH)) return EMPTY_FILE;
   try {
     const raw = readFileSync(FILE_PATH, "utf8");
     const parsed = JSON.parse(raw) as RepoProfilesFile;
-    return {
-      ...EMPTY_FILE,
-      ...parsed,
-      selection: {
-        ...EMPTY_FILE.selection,
-        ...(parsed.selection ?? {}),
-      },
-      profiles: Array.isArray(parsed.profiles) ? parsed.profiles : [],
-    };
+    return normalizeFile(parsed);
   } catch {
     return EMPTY_FILE;
   }
 }
 
-function ensureCache() {
-  let mtimeMs = -1;
-  try {
-    mtimeMs = existsSync(FILE_PATH) ? statSync(FILE_PATH).mtimeMs : -1;
-  } catch {
-    mtimeMs = -1;
-  }
+function normalizeFile(input: unknown): RepoProfilesFile {
+  if (!input || typeof input !== "object") return EMPTY_FILE;
+  const parsed = input as Partial<RepoProfilesFile>;
+  return {
+    ...EMPTY_FILE,
+    ...parsed,
+    selection: {
+      ...EMPTY_FILE.selection,
+      ...(parsed.selection ?? {}),
+    },
+    profiles: Array.isArray(parsed.profiles) ? parsed.profiles : [],
+  };
+}
 
-  if (cache && cache.mtimeMs === mtimeMs) return cache;
-
-  const file = loadFileSync();
+function buildIndex(file: RepoProfilesFile): Map<string, RepoProfile> {
   const byFullName = new Map<string, RepoProfile>();
   for (const profile of file.profiles) {
     byFullName.set(profile.fullName.toLowerCase(), profile);
   }
-  cache = { mtimeMs, file, byFullName };
+  return byFullName;
+}
+
+function diskSignature(): string {
+  try {
+    return existsSync(FILE_PATH)
+      ? `disk:${statSync(FILE_PATH).mtimeMs}`
+      : "missing";
+  } catch {
+    return "missing";
+  }
+}
+
+function ensureCache(): RepoProfilesCacheEntry {
+  const sig = diskSignature();
+  if (cache && cache.signature === sig) return cache;
+  // Only re-read from disk if the signature actually points at a disk
+  // mtime; a synthetic Redis signature stays stable until the next refresh.
+  if (cache && cache.signature.startsWith("redis:")) {
+    return cache;
+  }
+
+  const file = loadFileSync();
+  cache = { signature: sig, file, byFullName: buildIndex(file) };
   return cache;
 }
 
@@ -133,4 +161,69 @@ export function getRepoProfileSelection() {
 
 export function getRepoProfilesGeneratedAt(): string | null {
   return readRepoProfilesFileSync().generatedAt ?? null;
+}
+
+// ---------------------------------------------------------------------------
+// Refresh hook — pulls the freshest repo-profiles payload from the data-store.
+// ---------------------------------------------------------------------------
+
+interface RefreshResult {
+  source: "redis" | "file" | "memory" | "missing";
+  ageMs: number;
+}
+
+let inflight: Promise<RefreshResult> | null = null;
+let lastRefreshMs = 0;
+const MIN_REFRESH_INTERVAL_MS = 30_000;
+
+/**
+ * Pull the freshest repo-profiles payload from the data-store and swap it
+ * into the in-memory cache. Cheap to call multiple times — internal
+ * dedupe + rate-limit ensure we hit Redis at most once per 30s per process.
+ *
+ * Safe to call from any server-component / route handler before reading any
+ * sync getter. Never throws — on Redis miss the existing cache is preserved.
+ */
+export async function refreshRepoProfilesFromStore(): Promise<RefreshResult> {
+  if (inflight) return inflight;
+  const sinceLast = Date.now() - lastRefreshMs;
+  if (sinceLast < MIN_REFRESH_INTERVAL_MS && lastRefreshMs > 0) {
+    return { source: "memory", ageMs: sinceLast };
+  }
+
+  inflight = (async (): Promise<RefreshResult> => {
+    try {
+      const store = getDataStore();
+      const result = await store.read<unknown>("repo-profiles");
+      if (result.data && result.source !== "missing") {
+        const next = normalizeFile(result.data);
+        // Synthetic signature so ensureCache() doesn't try to re-read from
+        // disk on the next call. Invalidates naturally on the next refresh.
+        cache = {
+          signature: `redis:${result.writtenAt ?? Date.now()}`,
+          file: next,
+          byFullName: buildIndex(next),
+        };
+      }
+      lastRefreshMs = Date.now();
+      return { source: result.source, ageMs: result.ageMs };
+    } catch {
+      lastRefreshMs = Date.now();
+      return { source: "missing", ageMs: 0 };
+    }
+  })().finally(() => {
+    inflight = null;
+  });
+
+  return inflight;
+}
+
+/**
+ * Test/admin — drop the in-memory cache so the next read goes to disk.
+ * Lets tests exercise the refresh path without leaking state across cases.
+ */
+export function _resetRepoProfilesCacheForTests(): void {
+  cache = null;
+  lastRefreshMs = 0;
+  inflight = null;
 }

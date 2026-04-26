@@ -5,7 +5,10 @@
 // back to the source article — this feed syndicates headlines, not
 // landing pages, because each signal is a public news event.
 
-import { getFundingSignals } from "@/lib/funding-news";
+import {
+  getFundingSignals,
+  refreshFundingNewsFromStore,
+} from "@/lib/funding-news";
 import type { FundingSignal } from "@/lib/funding/types";
 import { renderRssFeed, type RssItem } from "@/lib/feeds/rss";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
@@ -54,6 +57,7 @@ function byPublishedDesc(a: FundingSignal, b: FundingSignal): number {
 }
 
 export async function GET(): Promise<Response> {
+  await refreshFundingNewsFromStore();
   const signals = getFundingSignals();
   const ordered = [...signals].sort(byPublishedDesc).slice(0, MAX_ITEMS);
 

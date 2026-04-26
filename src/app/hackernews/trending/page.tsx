@@ -9,8 +9,14 @@
 import {
   getHnTopStories,
   getHnTrendingFile,
+  refreshHackernewsTrendingFromStore,
 } from "@/lib/hackernews-trending";
-import { getHnLeaderboard, hnItemHref, repoFullNameToHref } from "@/lib/hackernews";
+import {
+  getHnLeaderboard,
+  hnItemHref,
+  refreshHackernewsMentionsFromStore,
+  repoFullNameToHref,
+} from "@/lib/hackernews";
 
 export const dynamic = "force-static";
 
@@ -36,7 +42,11 @@ function formatAgeHours(ageHours: number | undefined): string {
   return `${Math.round(ageHours / 24)}d`;
 }
 
-export default function HackerNewsTrendingPage() {
+export default async function HackerNewsTrendingPage() {
+  await Promise.all([
+    refreshHackernewsTrendingFromStore(),
+    refreshHackernewsMentionsFromStore(),
+  ]);
   const trendingFile = getHnTrendingFile();
   const stories = getHnTopStories(50);
   const allStories = trendingFile.stories;

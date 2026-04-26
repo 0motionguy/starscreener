@@ -17,6 +17,7 @@ import { BubbleMap } from "@/components/terminal/BubbleMap";
 import { MomentumHeadline } from "@/components/home/MomentumHeadline";
 import { HomeCtaRow } from "@/components/home/HomeCtaRow";
 import { HomeEmptyState } from "@/components/home/HomeEmptyState";
+import { CrossSourceBuzz } from "@/components/home/CrossSourceBuzz";
 import { SITE_NAME, SITE_URL, absoluteUrl } from "@/lib/seo";
 
 // ISR: data/*.json only changes when the GHA scrape commits new trending
@@ -97,6 +98,8 @@ export default async function HomePage() {
         </p>
         <HomeCtaRow />
       </section>
+
+      <CrossSourceBuzz repos={repos} limit={10} />
 
       <TerminalLayout
         repos={repos}

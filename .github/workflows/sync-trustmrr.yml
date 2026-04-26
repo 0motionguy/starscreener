@@ -58,22 +58,20 @@ jobs:
       - name: Sync TrustMRR catalog + derive overlays
         env:
           TRUSTMRR_API_KEY: ${{ secrets.TRUSTMRR_API_KEY }}
+          # Phase 1B: collector dual-writes to Redis. Writes 3 keys:
+          # trustmrr-startups, trustmrr-startups:meta sidecar, revenue-overlays.
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
         run: node scripts/sync-trustmrr.mjs --mode=${{ steps.mode.outputs.mode }}
 
       - name: Recompute benchmarks (full sweep only)
         if: steps.mode.outputs.mode == 'full'
+        env:
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
         run: node scripts/compute-revenue-benchmarks.mjs
 
-      - name: Commit if changed
-        run: |
-          git config user.name  "starscreener-bot"
-          git config user.email "bot@starscreener.local"
-          git add data/trustmrr-startups.json data/revenue-overlays.json data/revenue-benchmarks.json
-          if git diff --quiet --staged; then
-            echo "no changes - skipping commit"
-            exit 0
-          fi
-          TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-          git commit -m "chore(data): refresh trustmrr overlays ${TS}"
-          git pull --rebase origin main
-          git push
+      # Phase 1B (commit 87e3f4e): "Commit if changed" step removed —
+      # data-store writes to Redis are the durable path for trustmrr-startups,
+      # revenue-overlays, and revenue-benchmarks. Vercel no longer
+      # auto-deploys on every cron tick. Restore from git for rollback.

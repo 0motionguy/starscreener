@@ -34,18 +34,14 @@ jobs:
         env:
           BLUESKY_HANDLE: ${{ secrets.BLUESKY_HANDLE }}
           BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}
+          # Phase 1B: collector dual-writes to Redis via writeDataStore().
+          # Skipped silently if these secrets aren't set in the repo.
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
         run: node scripts/scrape-bluesky.mjs
 
-      - name: Commit if changed
-        run: |
-          git config user.name  "starscreener-bot"
-          git config user.email "bot@starscreener.local"
-          git add data/bluesky-mentions.json data/bluesky-trending.json
-          if git diff --quiet --staged; then
-            echo "no changes - skipping commit"
-            exit 0
-          fi
-          TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-          git commit -m "chore(data): refresh bluesky signals ${TS}"
-          git pull --rebase origin main
-          git push
+      # Phase 1B (commit 87e3f4e): data-store writes to Redis are the durable
+      # path. The previous "Commit if changed" step that git-pushed
+      # data/bluesky-*.json to main has been removed — Vercel no longer
+      # auto-deploys on every cron tick. To re-enable file push as an
+      # emergency rollback, restore the pre-87e3f4e block from git history.

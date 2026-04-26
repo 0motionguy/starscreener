@@ -34,18 +34,12 @@ jobs:
         # No auth required — Lobsters exposes hottest/active/newest as
         # public JSON. The scraper uses a polite UA + 3 retries and
         # continues on per-page failure so one 503 doesn't kill the run.
+        env:
+          # Phase 1B: collector dual-writes to Redis via writeDataStore().
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
         run: node scripts/scrape-lobsters.mjs
 
-      - name: Commit if changed
-        run: |
-          git config user.name  "trendingrepo-bot"
-          git config user.email "bot@trendingrepo.com"
-          git add data/lobsters-mentions.json data/lobsters-trending.json
-          if git diff --quiet --staged; then
-            echo "no changes - skipping commit"
-            exit 0
-          fi
-          TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-          git commit -m "chore(data): refresh lobsters signals ${TS}"
-          git pull --rebase origin main
-          git push
+      # Phase 1B (commit 87e3f4e): "Commit if changed" step removed —
+      # data-store writes to Redis are the durable path. Vercel no longer
+      # auto-deploys on every cron tick. Restore from git for rollback.

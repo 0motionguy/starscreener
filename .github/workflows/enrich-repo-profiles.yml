@@ -2,7 +2,7 @@ name: Refresh repo profiles
 
 on:
   schedule:
-    - cron: "11,41 * * * *"
+    - cron: "41 * * * *"
   workflow_dispatch:
 
 permissions:
@@ -29,18 +29,14 @@ jobs:
       - name: Refresh repo profiles incrementally
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          # Phase 1B: collector dual-writes to Redis via writeDataStore().
+          # enrich-repo-profiles.mjs only mirrors the FINAL snapshot to
+          # Redis (per-repo intermediate writes stay file-only) to avoid
+          # burning hundreds of Upstash writes per cron tick.
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
         run: node scripts/enrich-repo-profiles.mjs --mode incremental --limit 50 --max-scans 5
 
-      - name: Commit if changed
-        run: |
-          git config user.name  "starscreener-bot"
-          git config user.email "bot@starscreener.local"
-          git add data/repo-profiles.json
-          if git diff --quiet --staged; then
-            echo "no changes - skipping commit"
-            exit 0
-          fi
-          TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-          git commit -m "chore(data): refresh repo profiles ${TS}"
-          git pull --rebase origin main
-          git push
+      # Phase 1B (commit 87e3f4e): "Commit if changed" step removed —
+      # data-store writes to Redis are the durable path. Vercel no longer
+      # auto-deploys on every cron tick. Restore from git for rollback.

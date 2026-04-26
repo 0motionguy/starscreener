@@ -2,7 +2,7 @@ name: Refresh fast discovery
 
 on:
   schedule:
-    - cron: "7,27,47 * * * *"
+    - cron: "27 * * * *"
   workflow_dispatch:
 
 permissions:
@@ -27,11 +27,17 @@ jobs:
           node-version: "20"
 
       - name: Refresh OSSInsight trending + hot collections
+        env:
+          # Phase 1B: collector dual-writes to Redis via writeDataStore().
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
         run: node scripts/scrape-trending.mjs --skip-collection-rankings
 
       - name: Discover recent GitHub repos
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
         run: node scripts/discover-recent-repos.mjs
 
       - name: Refresh Reddit mentions
@@ -44,33 +50,35 @@ jobs:
           REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
           REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
           REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
         run: node scripts/scrape-reddit.mjs
 
       - name: Refresh HackerNews trending + repo mentions
         # Firebase + Algolia public endpoints — no auth needed. Writes
-        # data/hackernews-trending.json + data/hackernews-repo-mentions.json.
-        # Wired into the fast-refresh loop so HN mentions feed cross-signal
-        # on the same hourly cadence as Reddit (Sprint 1 finding #1).
+        # hackernews-trending + hackernews-repo-mentions to Redis (and
+        # mirrors to data/*.json for cold-start seed).
+        env:
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
         run: node scripts/scrape-hackernews.mjs
 
       - name: Refresh GitHub repo metadata
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
         run: node scripts/fetch-repo-metadata.mjs
 
       - name: Compute deltas from git history
+        env:
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
         run: node scripts/compute-deltas.mjs
 
-      - name: Commit if changed
-        run: |
-          git config user.name  "starscreener-bot"
-          git config user.email "bot@starscreener.local"
-          git add data/trending.json data/deltas.json data/hot-collections.json data/recent-repos.json data/repo-metadata.json data/reddit-mentions.json data/reddit-all-posts.json data/hackernews-trending.json data/hackernews-repo-mentions.json
-          if git diff --quiet --staged; then
-            echo "no changes - skipping commit"
-            exit 0
-          fi
-          TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-          git commit -m "chore(data): refresh fast discovery snapshots ${TS}"
-          git pull --rebase origin main
-          git push
+      # Phase 1B (commit 87e3f4e): "Commit if changed" step removed —
+      # data-store writes to Redis are the durable path for all 9 outputs
+      # (trending, deltas, hot-collections, recent-repos, repo-metadata,
+      # reddit-mentions, reddit-all-posts, hackernews-trending,
+      # hackernews-repo-mentions). Vercel no longer auto-deploys on every
+      # cron tick. Restore from git for emergency rollback.

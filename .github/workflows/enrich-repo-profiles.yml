@@ -2,7 +2,7 @@ name: Refresh repo profiles
 
 on:
   schedule:
-    - cron: "11,41 * * * *"
+    - cron: "41 * * * *"
   workflow_dispatch:
 
 permissions:

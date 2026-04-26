@@ -1,7 +1,13 @@
 // /bluesky/trending — V2 Bluesky engagement-ranked feed.
 
-import { getBlueskyTopPosts } from "@/lib/bluesky-trending";
-import { getAllBlueskyMentions } from "@/lib/bluesky";
+import {
+  getBlueskyTopPosts,
+  refreshBlueskyTrendingFromStore,
+} from "@/lib/bluesky-trending";
+import {
+  getAllBlueskyMentions,
+  refreshBlueskyMentionsFromStore,
+} from "@/lib/bluesky";
 import { NewsTemplateV2 } from "@/components/today-v2/NewsTemplateV2";
 import {
   ADAPTER_SOURCES,
@@ -21,7 +27,11 @@ export const metadata = {
   alternates: { canonical: "/bluesky/trending" },
 };
 
-export default function BlueskyTrendingPage() {
+export default async function BlueskyTrendingPage() {
+  await Promise.all([
+    refreshBlueskyTrendingFromStore(),
+    refreshBlueskyMentionsFromStore(),
+  ]);
   const source = ADAPTER_SOURCES.bluesky;
   const posts = getBlueskyTopPosts(50);
   const items = adaptBlueskyPosts(posts, getAllBlueskyMentions(), 50);

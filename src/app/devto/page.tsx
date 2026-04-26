@@ -1,6 +1,10 @@
 // /devto — V2 Dev.to long-form signal terminal.
 
-import { getDevtoTopArticles } from "@/lib/devto-trending";
+import {
+  getDevtoTopArticles,
+  refreshDevtoTrendingFromStore,
+} from "@/lib/devto-trending";
+import { refreshDevtoMentionsFromStore } from "@/lib/devto";
 import { NewsTemplateV2 } from "@/components/today-v2/NewsTemplateV2";
 import {
   ADAPTER_SOURCES,
@@ -20,7 +24,11 @@ export const metadata = {
   alternates: { canonical: "/devto" },
 };
 
-export default function DevtoPage() {
+export default async function DevtoPage() {
+  await Promise.all([
+    refreshDevtoTrendingFromStore(),
+    refreshDevtoMentionsFromStore(),
+  ]);
   const source = ADAPTER_SOURCES.devto;
   const articles = getDevtoTopArticles(50);
   const items = adaptDevtoArticles(articles, 50);

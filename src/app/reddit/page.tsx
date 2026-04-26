@@ -1,6 +1,9 @@
 // /reddit — V2 Reddit signal terminal.
 
-import { getAllRedditPosts } from "@/lib/reddit-data";
+import {
+  getAllRedditPosts,
+  refreshRedditMentionsFromStore,
+} from "@/lib/reddit-data";
 import { NewsTemplateV2 } from "@/components/today-v2/NewsTemplateV2";
 import {
   ADAPTER_SOURCES,
@@ -20,7 +23,8 @@ export const metadata = {
   alternates: { canonical: "/reddit" },
 };
 
-export default function RedditPage() {
+export default async function RedditPage() {
+  await refreshRedditMentionsFromStore();
   const source = ADAPTER_SOURCES.reddit;
   const posts = getAllRedditPosts().sort((a, b) => b.score - a.score);
   const items = adaptRedditPosts(posts, 50);

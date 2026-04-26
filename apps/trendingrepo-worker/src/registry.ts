@@ -5,8 +5,11 @@ import github from './fetchers/github/index.js';
 import bluesky from './fetchers/bluesky/index.js';
 import pulsemcp from './fetchers/pulsemcp/index.js';
 import smithery from './fetchers/smithery/index.js';
+import mcpRegistryOfficial from './fetchers/mcp-registry-official/index.js';
+import glama from './fetchers/glama/index.js';
 import mcpSo from './fetchers/mcp-so/index.js';
 import claudeSkills from './fetchers/claude-skills/index.js';
+import skillsSh from './fetchers/skills-sh/index.js';
 import mcpServersRepo from './fetchers/mcp-servers-repo/index.js';
 import hackernews from './fetchers/hackernews/index.js';
 import producthunt from './fetchers/producthunt/index.js';
@@ -52,6 +55,7 @@ export const FETCHERS: Fetcher[] = [
   smithery,
   mcpSo,
   claudeSkills,
+  skillsSh,
   mcpServersRepo,
   hackernews,
   producthunt,

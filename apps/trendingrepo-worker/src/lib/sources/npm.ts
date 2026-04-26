@@ -191,7 +191,8 @@ interface NpmSearchObject {
 
 export function normalizeSearchObject(object: NpmSearchObject, query: string): NpmCandidate | null {
   const pkg = object?.package;
-  const name = typeof pkg?.name === 'string' ? pkg.name : '';
+  if (!pkg) return null;
+  const name = typeof pkg.name === 'string' ? pkg.name : '';
   if (!name) return null;
   const repositoryUrl = normalizeRepositoryUrl(pkg.links?.repository);
   const linkedRepo = extractGithubRepoFullName(repositoryUrl);

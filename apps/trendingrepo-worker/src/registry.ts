@@ -26,6 +26,10 @@ import fundingNews from './fetchers/funding-news/index.js';
 import trustmrr from './fetchers/trustmrr/index.js';
 import revenueBenchmarks from './fetchers/revenue-benchmarks/index.js';
 import redditBaselines from './fetchers/reddit-baselines/index.js';
+// Phase B Group 2 (social) - lobsters is the only NEW name; bluesky/devto/
+// hackernews/producthunt/reddit replaced their stub bodies in place and so
+// their existing imports above pick up the real implementations transparently.
+import lobsters from './fetchers/lobsters/index.js';
 
 export const FETCHERS: Fetcher[] = [
   hnPulse,
@@ -40,6 +44,7 @@ export const FETCHERS: Fetcher[] = [
   trustmrr,
   revenueBenchmarks,
   redditBaselines,
+  lobsters,
   huggingface,
   github,
   bluesky,

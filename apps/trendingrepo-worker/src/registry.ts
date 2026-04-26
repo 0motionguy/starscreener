@@ -13,9 +13,18 @@ import producthunt from './fetchers/producthunt/index.js';
 import devto from './fetchers/devto/index.js';
 import reddit from './fetchers/reddit/index.js';
 import hnPulse from './fetchers/hn-pulse/index.js';
+// Phase B Group 1 (signals)
+import ossTrending from './fetchers/oss-trending/index.js';
+import recentRepos from './fetchers/recent-repos/index.js';
+import deltas from './fetchers/deltas/index.js';
+import collectionRankings from './fetchers/collection-rankings/index.js';
 
 export const FETCHERS: Fetcher[] = [
   hnPulse,
+  ossTrending,
+  recentRepos,
+  deltas,
+  collectionRankings,
   huggingface,
   github,
   bluesky,

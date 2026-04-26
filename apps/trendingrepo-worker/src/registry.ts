@@ -10,6 +10,9 @@ import glama from './fetchers/glama/index.js';
 import mcpSo from './fetchers/mcp-so/index.js';
 import claudeSkills from './fetchers/claude-skills/index.js';
 import skillsSh from './fetchers/skills-sh/index.js';
+import skillsmp from './fetchers/skillsmp/index.js';
+import smitherySkills from './fetchers/smithery-skills/index.js';
+import lobehubSkills from './fetchers/lobehub-skills/index.js';
 import mcpServersRepo from './fetchers/mcp-servers-repo/index.js';
 import hackernews from './fetchers/hackernews/index.js';
 import producthunt from './fetchers/producthunt/index.js';
@@ -65,6 +68,9 @@ export const FETCHERS: Fetcher[] = [
   mcpSo,
   claudeSkills,
   skillsSh,
+  skillsmp,
+  smitherySkills,
+  lobehubSkills,
   mcpServersRepo,
   hackernews,
   producthunt,

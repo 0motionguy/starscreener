@@ -29,7 +29,7 @@ const BRIEF =
 
 /**
  * Build the manifest. Pass an absolute public base URL in production (e.g.
- * "https://starscreener.xyz") so `call_endpoint` is absolute. In local dev
+ * "https://trendingrepo.com") so `call_endpoint` is absolute. In local dev
  * we fall back to http://localhost:3023 for parity with `npm run dev`.
  */
 export function buildManifest(baseUrl?: string): PortalManifest {
@@ -61,7 +61,7 @@ export function buildManifest(baseUrl?: string): PortalManifest {
 // against the v0.1 schema, throw at module load so the dev server / build
 // fails loudly rather than serving a broken manifest.
 {
-  const probe = buildManifest("https://starscreener.xyz");
+  const probe = buildManifest("https://trendingrepo.com");
   const check = validateManifest(probe);
   if (!check.ok) {
     throw new Error(

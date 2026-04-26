@@ -7,12 +7,12 @@ import { buildManifest } from "../manifest";
 import { validateManifest } from "../validate";
 
 test("buildManifest returns a v0.1-valid manifest with every registered tool", () => {
-  const m = buildManifest("https://starscreener.xyz");
+  const m = buildManifest("https://trendingrepo.com");
   const check = validateManifest(m);
   assert.equal(check.ok, true, check.errors.join("; "));
 
   assert.equal(m.portal_version, "0.1");
-  assert.equal(m.call_endpoint, "https://starscreener.xyz/portal/call");
+  assert.equal(m.call_endpoint, "https://trendingrepo.com/portal/call");
   assert.equal(m.auth, "none");
   assert.equal(m.pricing.model, "free");
 
@@ -35,8 +35,8 @@ test("buildManifest returns a v0.1-valid manifest with every registered tool", (
 });
 
 test("buildManifest strips a trailing slash from the base URL", () => {
-  const m = buildManifest("https://starscreener.xyz/");
-  assert.equal(m.call_endpoint, "https://starscreener.xyz/portal/call");
+  const m = buildManifest("https://trendingrepo.com/");
+  assert.equal(m.call_endpoint, "https://trendingrepo.com/portal/call");
 });
 
 test("buildManifest falls back to localhost:3023 when no base URL given", () => {

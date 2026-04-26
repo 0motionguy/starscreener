@@ -1,4 +1,4 @@
-// StarScreener MCP — Portal /portal/call client.
+// StarScreener MCP - Portal /portal/call client.
 //
 // The three Portal-canonical tools (top_gainers, search_repos,
 // maintainer_profile) route through the Star Screener Next.js app's
@@ -44,12 +44,12 @@ export class PortalClient {
     const raw =
       opts.baseUrl ??
       process.env.STARSCREENER_API_URL ??
-      "http://localhost:3023";
+      "https://trendingrepo.com";
     this.baseUrl = raw.replace(/\/+$/, "");
     this.fetchImpl = opts.fetchImpl ?? globalThis.fetch;
     if (typeof this.fetchImpl !== "function") {
       throw new Error(
-        "global fetch is not available — this MCP server requires Node 20+",
+        "global fetch is not available - this MCP server requires Node 20+",
       );
     }
   }

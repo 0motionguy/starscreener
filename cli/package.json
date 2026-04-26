@@ -1,7 +1,7 @@
 {
   "name": "starscreener-cli",
   "version": "0.1.0",
-  "description": "StarScreener CLI (ss) — read-only terminal client for the StarScreener GitHub trend API.",
+  "description": "TrendingRepo CLI (ss) - read-only terminal client for open-source trend intelligence.",
   "type": "module",
   "bin": {
     "ss": "./ss.mjs"
@@ -12,22 +12,25 @@
   ],
   "keywords": [
     "starscreener",
+    "trendingrepo",
     "github",
     "trending",
     "cli",
+    "mcp",
+    "ai-agents",
     "repos",
     "stars"
   ],
   "license": "MIT",
   "author": "Mirko Basil Dolger",
-  "homepage": "https://github.com/Kermit457/STARSCREENER#readme",
+  "homepage": "https://github.com/0motionguy/starscreener#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Kermit457/STARSCREENER.git",
+    "url": "git+https://github.com/0motionguy/starscreener.git",
     "directory": "cli"
   },
   "bugs": {
-    "url": "https://github.com/Kermit457/STARSCREENER/issues"
+    "url": "https://github.com/0motionguy/starscreener/issues"
   },
   "engines": {
     "node": ">=18"

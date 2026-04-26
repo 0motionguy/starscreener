@@ -2,8 +2,8 @@
  * HTTP client for the StarScreener REST API.
  *
  * Wraps the public read endpoints served by the Next.js app at
- * STARSCREENER_API_URL (default http://localhost:3023) and exposes small,
- * typed helpers that the MCP tool handlers delegate to. No response caching —
+ * STARSCREENER_API_URL (default https://trendingrepo.com) and exposes small,
+ * typed helpers that the MCP tool handlers delegate to. No response caching -
  * the pipeline is already the single source of truth for momentum/deltas and
  * recomputes on ensureReady(), so every tool call hits fresh data.
  *
@@ -20,6 +20,11 @@
 export interface StarScreenerClientOptions {
   baseUrl?: string;
   token?: string;
+  /**
+   * Self-serve API key created in the web portal. Preferred for paid MCP
+   * metering and sent as `x-api-key: <value>`.
+   */
+  apiKey?: string;
   /**
    * Per-user bearer that, when present, is sent as `x-user-token: <value>`
    * on every request. Resolves to a userId server-side (verifyUserAuth)
@@ -50,6 +55,7 @@ export class StarScreenerApiError extends Error {
 export class StarScreenerClient {
   private readonly baseUrl: string;
   private readonly token: string | undefined;
+  private readonly apiKey: string | undefined;
   private readonly userToken: string | undefined;
   private readonly fetchImpl: typeof fetch;
 
@@ -57,11 +63,13 @@ export class StarScreenerClient {
     const raw =
       opts.baseUrl ??
       process.env.STARSCREENER_API_URL ??
-      "http://localhost:3023";
+      "https://trendingrepo.com";
     // Strip trailing slash so we can always concat `${baseUrl}/api/...`.
     this.baseUrl = raw.replace(/\/+$/, "");
     this.token = opts.token ?? process.env.STARSCREENER_API_TOKEN;
-    // Per-user bearer for MCP usage metering — back-compat: unset = no header.
+    // Self-serve paid API key. NEVER log this value.
+    this.apiKey = opts.apiKey ?? process.env.STARSCREENER_API_KEY ?? undefined;
+    // Per-user bearer for MCP usage metering; back-compat: unset = no header.
     // NEVER log this value.
     this.userToken =
       opts.userToken ?? process.env.STARSCREENER_USER_TOKEN ?? undefined;
@@ -69,7 +77,7 @@ export class StarScreenerClient {
     this.fetchImpl = opts.fetchImpl ?? globalThis.fetch;
     if (typeof this.fetchImpl !== "function") {
       throw new Error(
-        "global fetch is not available — this MCP server requires Node 20+",
+        "global fetch is not available - this MCP server requires Node 20+",
       );
     }
   }
@@ -77,6 +85,13 @@ export class StarScreenerClient {
   /** Exposed for the metering middleware in server.ts; never logs the value. */
   getUserToken(): string | undefined {
     return this.userToken;
+  }
+
+  /** Header used for paid metering. API keys take precedence over user tokens. */
+  getMeteringAuthHeader(): { name: "x-api-key" | "x-user-token"; value: string } | null {
+    if (this.apiKey) return { name: "x-api-key", value: this.apiKey };
+    if (this.userToken) return { name: "x-user-token", value: this.userToken };
+    return null;
   }
 
   /** Exposed for the metering middleware in server.ts. */
@@ -94,7 +109,9 @@ export class StarScreenerClient {
     if (this.token && !headers.has("authorization")) {
       headers.set("authorization", `Bearer ${this.token}`);
     }
-    if (this.userToken && !headers.has("x-user-token")) {
+    if (this.apiKey && !headers.has("x-api-key")) {
+      headers.set("x-api-key", this.apiKey);
+    } else if (this.userToken && !headers.has("x-user-token")) {
       headers.set("x-user-token", this.userToken);
     }
     const res = await this.fetchImpl(url, { ...init, headers });
@@ -184,7 +201,7 @@ export class StarScreenerClient {
   }
 
   /**
-   * Full repo detail — hits the slug route /api/repos/[owner]/[name] which
+   * Full repo detail - hits the slug route /api/repos/[owner]/[name] which
    * returns repo + score + category + reasons + social + related.
    */
   async getRepo(params: { fullName: string }): Promise<unknown> {
@@ -201,7 +218,7 @@ export class StarScreenerClient {
   }
 
   /**
-   * Canonical profile for a single repo — /api/repos/[owner]/[name]?v=2.
+   * Canonical profile for a single repo - /api/repos/[owner]/[name]?v=2.
    *
    * Returns one stitched shape with:
    *   repo, score, reasons, mentions{recent,nextCursor,countsBySource},
@@ -222,7 +239,7 @@ export class StarScreenerClient {
   }
 
   /**
-   * Paginated evidence feed for a repo — /api/repos/[owner]/[name]/mentions.
+   * Paginated evidence feed for a repo - /api/repos/[owner]/[name]/mentions.
    *
    * `source` narrows to a single SocialPlatform. `cursor` is an opaque
    * base64url token returned by the previous page; callers must pass it back
@@ -251,7 +268,7 @@ export class StarScreenerClient {
   }
 
   /**
-   * Per-repo freshness chips — /api/repos/[owner]/[name]/freshness.
+   * Per-repo freshness chips - /api/repos/[owner]/[name]/freshness.
    *
    * The freshness snapshot itself is global (scanners are per-source, not
    * per-repo); the route's owner/name in the URL is used purely to validate
@@ -266,14 +283,14 @@ export class StarScreenerClient {
   }
 
   /**
-   * AISO scan status for a repo — GET /api/repos/[owner]/[name]/aiso.
+   * AISO scan status for a repo - GET /api/repos/[owner]/[name]/aiso.
    *
    * Returns { ok, status: "scanned"|"queued"|"rate_limited"|"failed"|"none",
    * score, tier, dimensions, topDimensions, lastScanAt, signals,
    * engineCitations, resultUrl }. `status:"none"` means the repo is
    * known but has never been scanned (no website or never queued).
    *
-   * Read-only — POST (rescan enqueue) is intentionally NOT exposed via MCP.
+   * Read-only - POST (rescan enqueue) is intentionally NOT exposed via MCP.
    */
   async getRepoAiso(params: { fullName: string }): Promise<unknown> {
     const { owner, name } = splitFullName(params.fullName);
@@ -283,7 +300,7 @@ export class StarScreenerClient {
   }
 
   /**
-   * Side-by-side compare of 2–4 repos. The REST route accepts either
+   * Side-by-side compare of 2-4 repos. The REST route accepts either
    * "owner/name" or "owner--name"; we pass through unchanged.
    */
   async compareRepos(params: { fullNames: string[] }): Promise<unknown> {

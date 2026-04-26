@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-04-26T17:06:03.748Z",
+  "fetchedAt": "2026-04-26T17:59:13.528Z",
   "windowDays": 7,
   "scannedPosts": 99,
   "searchQuery": "github.com",
@@ -23,7 +23,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-26T16:55:05.097Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.07
       },
       "posts": [
         {
@@ -40,7 +40,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-26T16:55:05.097Z",
           "createdUtc": 1777222505,
-          "ageHours": 0.5,
+          "ageHours": 1.07,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -55,123 +55,11 @@
           ]
         }
       ]
-    },
-    "gastownhall/gastown": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:h3idndtrsxptalho64h4xv7i/app.bsky.feed.post/3mkfuq4a2bs2c",
-        "cid": "bafyreigzrtm67ddh6uahng6sgoebj5om2mtgcqvzhxibpiuz6rllhfst2i",
-        "bskyUrl": "https://bsky.app/profile/paul.dreamisle.ca/post/3mkfuq4a2bs2c",
-        "text": "sounds like a task for github.com/gastownhall/... 🫣",
-        "author": {
-          "handle": "paul.dreamisle.ca",
-          "displayName": "Paul Roche"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-04-26T15:30:05.387Z",
-        "hoursSincePosted": 1.6
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:h3idndtrsxptalho64h4xv7i/app.bsky.feed.post/3mkfuq4a2bs2c",
-          "cid": "bafyreigzrtm67ddh6uahng6sgoebj5om2mtgcqvzhxibpiuz6rllhfst2i",
-          "bskyUrl": "https://bsky.app/profile/paul.dreamisle.ca/post/3mkfuq4a2bs2c",
-          "text": "sounds like a task for github.com/gastownhall/... 🫣",
-          "author": {
-            "handle": "paul.dreamisle.ca",
-            "displayName": "Paul Roche"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-04-26T15:30:05.387Z",
-          "createdUtc": 1777217405,
-          "ageHours": 1.6,
-          "trendingScore": 1.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "gastownhall/gastown",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "refactoringhq/tolaria": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:vevngu5t7a2zqvdftysxv26d/app.bsky.feed.post/3mkfui6uwkc2o",
-        "cid": "bafyreignku2xbzvhoyijoibcdjcijbwynkecpddjqmgudelmwuwxzncwwq",
-        "bskyUrl": "https://bsky.app/profile/ytroncal.bsky.social/post/3mkfui6uwkc2o",
-        "text": "Tolaria Tolaria is a desktop app for Mac and Linux for managing markdown knowledge bases. github.com/refactoringh...",
-        "author": {
-          "handle": "ytroncal.bsky.social",
-          "displayName": "ytroncal"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-26T15:25:39.734Z",
-        "hoursSincePosted": 1.67
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:vevngu5t7a2zqvdftysxv26d/app.bsky.feed.post/3mkfui6uwkc2o",
-          "cid": "bafyreignku2xbzvhoyijoibcdjcijbwynkecpddjqmgudelmwuwxzncwwq",
-          "bskyUrl": "https://bsky.app/profile/ytroncal.bsky.social/post/3mkfui6uwkc2o",
-          "text": "Tolaria Tolaria is a desktop app for Mac and Linux for managing markdown knowledge bases. github.com/refactoringh...",
-          "author": {
-            "handle": "ytroncal.bsky.social",
-            "displayName": "ytroncal"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-26T15:25:39.734Z",
-          "createdUtc": 1777217139,
-          "ageHours": 1.67,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "refactoringhq/tolaria",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "gastownhall/gastown",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
       "fullName": "gitleaks/gitleaks",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "refactoringhq/tolaria",
       "count7d": 1,
       "likesSum7d": 0
     }

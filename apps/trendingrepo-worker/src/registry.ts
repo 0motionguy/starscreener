@@ -12,8 +12,10 @@ import hackernews from './fetchers/hackernews/index.js';
 import producthunt from './fetchers/producthunt/index.js';
 import devto from './fetchers/devto/index.js';
 import reddit from './fetchers/reddit/index.js';
+import hnPulse from './fetchers/hn-pulse/index.js';
 
 export const FETCHERS: Fetcher[] = [
+  hnPulse,
   huggingface,
   github,
   bluesky,

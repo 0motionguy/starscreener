@@ -42,7 +42,12 @@ export async function publishLeaderboard(
       metrics: pickMetrics(r),
     })),
   };
-  const result = await writeDataStore(`trending:${type}`, payload);
+  // Slug uses a hyphen separator so the resulting key
+  // `ss:data:v1:trending-<type>` stays a single bare slug and never
+  // collides with the app's `ss:data:v1:trending` (which is a different
+  // payload entirely — the OSS Insight discovery snapshot, not a
+  // Supabase-backed leaderboard).
+  const result = await writeDataStore(`trending-${type}`, payload);
   return {
     items: payload.items.length,
     writtenAt: result.writtenAt,

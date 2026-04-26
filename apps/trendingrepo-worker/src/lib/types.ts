@@ -130,6 +130,8 @@ export interface FetcherContext {
 export interface Fetcher {
   name: string;
   schedule: string;
+  /** Default false. Set true to receive a live SupabaseClient on ctx.db. */
+  requiresDb?: boolean;
   requiresFirecrawl?: boolean;
   run(ctx: FetcherContext): Promise<RunResult>;
 }

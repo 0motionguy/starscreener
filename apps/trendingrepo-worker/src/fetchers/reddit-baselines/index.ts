@@ -3,20 +3,19 @@
 //
 // Slug: `reddit-baselines`. Cadence: weekly (matches refresh-reddit-baselines.yml).
 //
-// Note: this fetcher uses Reddit's anonymous public-JSON path with a real-
-// browser UA. When/if Reddit OAuth credentials become available in the worker
-// env (REDDIT_CLIENT_ID / REDDIT_CLIENT_SECRET), the Group 2 reddit fetcher
-// will land an OAuth helper we can adopt. Until then, anonymous is the
-// floor, and per-sub failures degrade gracefully — partial baselines are
-// useful, complete absence is not.
+// Note: this fetcher routes through `lib/sources/reddit.ts:fetchRedditJson`,
+// the same OAuth-aware helper the main reddit fetcher uses. This is critical
+// on Railway: anonymous public-JSON fetches from datacenter IPs are blocked
+// by Reddit's edge, and the previous Mozilla-UA path was effectively dead
+// in production. fetchRedditJson uses OAuth when REDDIT_CLIENT_ID/SECRET are
+// set, falls back to public-JSON with apify residential proxy when configured,
+// and finally degrades to RSS-Atom when needed. Per-sub failures still
+// degrade gracefully — partial baselines are useful, complete absence is not.
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { writeDataStore, readDataStore } from '../../lib/redis.js';
-import {
-  fetchJsonWithRetry,
-  HttpStatusError,
-  sleep,
-} from '../../lib/util/http-helpers.js';
+import { sleep } from '../../lib/util/http-helpers.js';
+import { fetchRedditJson } from '../../lib/sources/reddit.js';
 
 // Mirrors scripts/_reddit-shared.mjs SUBREDDITS list (2026-04-26).
 const SUBREDDITS: readonly string[] = [
@@ -67,13 +66,12 @@ const SUBREDDITS: readonly string[] = [
   'nocode',
 ];
 
-const REDDIT_USER_AGENT =
-  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36';
+// User-Agent + retry/backoff are now owned by lib/sources/reddit.ts;
+// nothing to override here.
 
 const WINDOW_DAYS = 30;
 const WINDOW_SECONDS = WINDOW_DAYS * 24 * 60 * 60;
 const BASELINE_REQUEST_PAUSE_MS = 5_000;
-const RATE_LIMIT_BACKOFF_MS = 65_000;
 const MAX_PAGES_PER_SUB = 5;
 const PAGE_LIMIT = 100;
 const BASELINE_STALE_MS = 6 * 24 * 60 * 60 * 1000;
@@ -140,34 +138,16 @@ function classifyConfidence(sampleSize: number): SubBaseline['confidence'] {
   return 'low';
 }
 
-async function fetchRedditWithBackoff(url: string): Promise<RedditListingResponse> {
-  try {
-    return await fetchJsonWithRetry<RedditListingResponse>(url, {
-      headers: { 'User-Agent': REDDIT_USER_AGENT, Accept: 'application/json' },
-      attempts: 2,
-      retryDelayMs: 2_000,
-      timeoutMs: 25_000,
-    });
-  } catch (err) {
-    if (err instanceof HttpStatusError && err.status === 429) {
-      await sleep(RATE_LIMIT_BACKOFF_MS);
-      return fetchJsonWithRetry<RedditListingResponse>(url, {
-        headers: { 'User-Agent': REDDIT_USER_AGENT, Accept: 'application/json' },
-        attempts: 1,
-        timeoutMs: 25_000,
-      });
-    }
-    throw err;
-  }
-}
-
 async function fetchSubPosts(sub: string, cutoffUtc: number): Promise<RedditPost[]> {
   const collected: RedditPost[] = [];
   let after: string | null = null;
   for (let page = 0; page < MAX_PAGES_PER_SUB; page += 1) {
     const afterParam = after ? `&after=${encodeURIComponent(after)}` : '';
+    // Note: fetchRedditJson normalizes the URL — OAuth path swaps origin to
+    // oauth.reddit.com, public path keeps www.reddit.com. We always pass the
+    // www form; the helper does the right thing.
     const url = `https://www.reddit.com/r/${sub}/new.json?limit=${PAGE_LIMIT}${afterParam}`;
-    const body = await fetchRedditWithBackoff(url);
+    const body = (await fetchRedditJson(url)) as RedditListingResponse;
     const children = body?.data?.children;
     if (!Array.isArray(children) || children.length === 0) break;
     let pageOldestUtc = Infinity;

@@ -33,6 +33,11 @@ import redditBaselines from './fetchers/reddit-baselines/index.js';
 // hackernews/producthunt/reddit replaced their stub bodies in place and so
 // their existing imports above pick up the real implementations transparently.
 import lobsters from './fetchers/lobsters/index.js';
+// Tier 2 audit fixes — operator-curated data file producers (close the
+// chicken-egg gaps that left `manual-repos` + `revenue-manual-matches`
+// consumed-but-never-produced under worker-only mode).
+import manualRepos from './fetchers/manual-repos/index.js';
+import revenueManualMatches from './fetchers/revenue-manual-matches/index.js';
 
 export const FETCHERS: Fetcher[] = [
   hnPulse,
@@ -40,6 +45,8 @@ export const FETCHERS: Fetcher[] = [
   recentRepos,
   deltas,
   collectionRankings,
+  manualRepos,
+  revenueManualMatches,
   repoProfiles,
   repoMetadata,
   npmPackages,
@@ -51,6 +58,8 @@ export const FETCHERS: Fetcher[] = [
   huggingface,
   github,
   bluesky,
+  mcpRegistryOfficial,
+  glama,
   pulsemcp,
   smithery,
   mcpSo,

@@ -3,8 +3,11 @@
 // from Redis (written by Group 1 fetchers) and queries the GitHub GraphQL
 // API in batches of 25 for stargazerCount, forkCount, topics, etc.
 //
-// Slug: `repo-metadata`. Cadence: every 12h (no dedicated workflow today;
-// pick-12h matches the 6h enrich-repo-profiles cadence with a half-offset).
+// Slug: `repo-metadata`. Cadence: hourly at :13 (matches what scripts/
+// fetch-repo-metadata.mjs runs at via scrape-trending.yml). Bumped from
+// the original 12h pick to keep parity once the legacy workflow archives;
+// downstream consumers (repo-profiles, trustmrr, /repo/* page) all assume
+// hourly fresh metadata.
 //
 // Auth: GH_TOKEN_POOL or GITHUB_TOKEN. Throws when no PAT is available.
 
@@ -206,9 +209,11 @@ function normalizeRepo(
 
 const fetcher: Fetcher = {
   name: 'repo-metadata',
-  // No dedicated workflow today; 12h cadence is a sensible halfway point
-  // between the 6h enrich-repo-profiles tick and the daily npm tick.
-  schedule: '13 */12 * * *',
+  // Hourly at :13 — matches scripts/fetch-repo-metadata.mjs which runs as
+  // part of scrape-trending.yml every hour. Keeping pace ensures
+  // repo-profiles / trustmrr / /repo/* page never drop to a stale
+  // metadata snapshot once Phase D archives the legacy script.
+  schedule: '13 * * * *',
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
 

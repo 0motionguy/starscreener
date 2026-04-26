@@ -7,9 +7,13 @@
 //
 // Slug: `funding-news`. Cadence: every 6h (matches collect-funding.yml).
 //
-// The original script also seeded a static SEED_SIGNALS list of high-
-// quality known rounds. The worker port keeps those — they're a stable
-// editorial floor so the page never goes empty if RSS sources are quiet.
+// Reliability: each RSS feed is fetched with one retry on network/5xx
+// failure. The original script seeded a static SEED_SIGNALS list of
+// high-quality known rounds — we keep a small subset inline as a floor
+// so the page never goes empty even if every RSS source is down. Operator
+// can grow the seed list anytime; full upstream seed (60+ entries) lives
+// in scripts/scrape-funding-news.mjs and won't be inlined here to keep the
+// fetcher tidy.
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { writeDataStore } from '../../lib/redis.js';
@@ -20,6 +24,7 @@ import {
   extractTags,
   type FundingExtraction,
 } from '../../lib/sources/funding-extract.js';
+import { SEED_SIGNALS } from './seed-signals.js';
 
 const WINDOW_DAYS = 21;
 const MAX_AGE_MS = WINDOW_DAYS * 24 * 60 * 60 * 1000;
@@ -86,28 +91,49 @@ const fetcher: Fetcher = {
     const allSignals: FundingSignal[] = [];
     const seenIds = new Set<string>();
 
+    // Editorial floor: seed first so any matching RSS hit can dedupe by
+    // sourceUrl + headline rather than overwrite. Real RSS hits sort to
+    // the top later because they have fresher publishedAt.
+    for (const seed of SEED_SIGNALS) {
+      if (seenIds.has(seed.id)) continue;
+      seenIds.add(seed.id);
+      allSignals.push({ ...seed, discoveredAt });
+    }
+
     for (const [sourceName, url] of Object.entries(RSS_FEEDS)) {
       ctx.log.info({ source: sourceName, url }, 'funding rss fetch');
       let items: ReturnType<typeof parseRssItems> = [];
-      try {
-        const res = await fetchWithTimeout(url, {
-          timeoutMs: 20_000,
-          headers: {
-            'User-Agent': USER_AGENT,
-            Accept: 'application/rss+xml,application/xml,*/*;q=0.8',
-          },
-        });
-        if (!res.ok) {
-          ctx.log.warn({ source: sourceName, status: res.status }, 'rss feed http error');
-        } else {
+      let lastError: string | null = null;
+      // One retry on network/5xx — RSS sources flake intermittently and a
+      // single failure was previously enough to blank the source.
+      for (let attempt = 0; attempt <= 1; attempt += 1) {
+        try {
+          const res = await fetchWithTimeout(url, {
+            timeoutMs: 20_000,
+            headers: {
+              'User-Agent': USER_AGENT,
+              Accept: 'application/rss+xml,application/xml,*/*;q=0.8',
+            },
+          });
+          if (!res.ok) {
+            lastError = `http ${res.status}`;
+            // Retry only on 5xx; 4xx is permanent and not worth re-trying.
+            if (res.status < 500 || attempt === 1) break;
+            await sleep(1500);
+            continue;
+          }
           const xml = await res.text();
           items = parseRssItems(xml);
+          lastError = null;
+          break;
+        } catch (err) {
+          lastError = (err as Error).message;
+          if (attempt === 1) break;
+          await sleep(1500);
         }
-      } catch (err) {
-        ctx.log.warn(
-          { source: sourceName, message: (err as Error).message },
-          'rss feed failed',
-        );
+      }
+      if (lastError) {
+        ctx.log.warn({ source: sourceName, error: lastError }, 'rss feed failed after retry');
       }
 
       await sleep(500);

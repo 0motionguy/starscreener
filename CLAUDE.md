@@ -6,7 +6,7 @@ Real-time trend-discovery scanner. Aggregates GitHub stars, Twitter buzz, Reddit
 - **Framework:** Next.js 15 (App Router, Turbopack, RSC + client islands)
 - **Language:** TypeScript 5 strict
 - **UI:** React 19, Tailwind 4, Recharts (charts), Framer Motion (animation), Zustand (client state)
-- **Data:** Upstash Redis is the source of truth for 30 cron-driven payloads (`data/*.json`) via [src/lib/data-store.ts](src/lib/data-store.ts) — three-tier read (Redis → bundled file → in-memory last-known-good). `.data/*.jsonl` (Twitter scans, append-only logs) still git-committed via collector workflows.
+- **Data:** Redis (Railway-native via `ioredis` OR Upstash REST) is the source of truth for 30 cron-driven payloads (`data/*.json`) via [src/lib/data-store.ts](src/lib/data-store.ts) — three-tier read (Redis → bundled file → in-memory last-known-good). Picks the backend by URL scheme: `redis://` / `rediss://` → ioredis (TCP), `https://` → Upstash REST. Set `REDIS_URL` (Railway) or `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` (Upstash) — never both. `.data/*.jsonl` (Twitter scans, append-only logs) still git-committed via collector workflows.
 - **Validation:** Zod on all API boundaries
 - **Auth:** Cookie-based admin session (see `e2a0908`)
 - **Payments:** Stripe (configured, not billed yet)
@@ -35,7 +35,7 @@ Real-time trend-discovery scanner. Aggregates GitHub stars, Twitter buzz, Reddit
 - Local scrape: `npm run scrape:twitter` / `:reddit` / `:hn` / `:bsky` / `:ph` / `:devto`
 - Trigger workflow: `gh workflow run collect-twitter.yml`
 - Build graph: `code-review-graph build` (run once after major refactor; auto-updates on Edit/Write/Bash via project hook)
-- Verify Redis data-store: `npm run verify:data-store` (requires `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` in env)
+- Verify Redis data-store: `npm run verify:data-store` (requires `REDIS_URL` for Railway, OR `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` for Upstash)
 
 ## Where to Look First
 - New here? `docs/ARCHITECTURE.md`

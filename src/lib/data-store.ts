@@ -133,10 +133,16 @@ class MemoryCache {
 }
 
 // ---------------------------------------------------------------------------
-// Upstash client interface (mockable for tests, no SDK dep at type level)
+// Redis client interface (mockable for tests, no SDK dep at type level)
+//
+// Same shape as before so the tests + factory plumbing didn't have to
+// change when we swapped backends from Upstash REST to Railway-native
+// Redis (ioredis). The defaultIoRedisFactory() below adapts ioredis's
+// positional set("key", "val", "EX", ttl) syntax back to the
+// `{ ex: number }` opts shape this interface uses.
 // ---------------------------------------------------------------------------
 
-export interface UpstashClientLike {
+export interface RedisClientLike {
   get(key: string): Promise<unknown>;
   set(
     key: string,
@@ -146,6 +152,10 @@ export interface UpstashClientLike {
   del(...keys: string[]): Promise<number>;
 }
 
+// Backwards-compat alias for tests + external callers that still import
+// the old name. Will be removed after the test suite is updated.
+export type UpstashClientLike = RedisClientLike;
+
 // ---------------------------------------------------------------------------
 // Implementation
 // ---------------------------------------------------------------------------
@@ -154,8 +164,14 @@ export type EnvLike = Record<string, string | undefined>;
 
 export interface CreateDataStoreOptions {
   env?: EnvLike;
-  /** Override the Upstash factory. Tests inject a fake here. */
-  upstashFactory?: (url: string, token: string) => UpstashClientLike;
+  /**
+   * Override the Redis client factory. Tests inject a fake here. The
+   * second argument is undefined for ioredis (URL-only) and the auth
+   * token for Upstash REST. Either signature is accepted.
+   */
+  redisFactory?: (url: string, token?: string) => RedisClientLike;
+  /** Backwards-compat alias for tests written against the old name. */
+  upstashFactory?: (url: string, token?: string) => RedisClientLike;
   /** Root for file fallback / mirror writes. Defaults to <cwd>/data. */
   dataDir?: string;
   /**
@@ -170,7 +186,7 @@ export interface CreateDataStoreOptions {
 }
 
 class DefaultDataStore implements DataStore {
-  private readonly redis: UpstashClientLike | null;
+  private readonly redis: RedisClientLike | null;
   private readonly memory = new MemoryCache();
   private readonly dataDir: string;
   private readonly disableFileMirror: boolean;
@@ -178,7 +194,7 @@ class DefaultDataStore implements DataStore {
   private warnedRedisError = false;
 
   constructor(opts: {
-    redis: UpstashClientLike | null;
+    redis: RedisClientLike | null;
     dataDir: string;
     disableFileMirror: boolean;
     onError?: (err: unknown, op: "read" | "write") => void;
@@ -395,7 +411,12 @@ export function createDataStore(
   options: CreateDataStoreOptions = {},
 ): DataStore {
   const env = options.env ?? process.env;
-  const url = env.UPSTASH_REDIS_REST_URL?.trim();
+  // Two env var conventions supported (in order of preference):
+  //   REDIS_URL                   — Railway / standard ioredis (TCP)
+  //   UPSTASH_REDIS_REST_URL      — legacy, kept for fallback compatibility
+  // Token is only used for Upstash REST; ioredis encodes auth in the URL.
+  const url =
+    env.REDIS_URL?.trim() || env.UPSTASH_REDIS_REST_URL?.trim() || "";
   const token = env.UPSTASH_REDIS_REST_TOKEN?.trim();
   const dataDir =
     options.dataDir ?? resolve(process.cwd(), "data");
@@ -409,16 +430,17 @@ export function createDataStore(
       warnedAboutFileFallback = true;
       if (reason === "env-missing") {
         console.warn(
-          "[data-store] UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN " +
-            "not set in production — degrading to file+memory only. Reads " +
-            "serve the bundled JSON snapshot; writes have no durable target.",
+          "[data-store] REDIS_URL not set in production — degrading to " +
+            "file+memory only. Reads serve the bundled JSON snapshot; " +
+            "writes have no durable target. Set REDIS_URL (Railway-style) " +
+            "to activate the Redis tier.",
         );
       } else if (reason === "import-failed") {
-        console.warn("[data-store] Failed to load @upstash/redis:", err);
+        console.warn("[data-store] Failed to load Redis client:", err);
       }
     });
 
-  if (!url || !token) {
+  if (!url) {
     onFallback("env-missing");
     return new DefaultDataStore({
       redis: null,
@@ -427,7 +449,8 @@ export function createDataStore(
     });
   }
 
-  const factory = options.upstashFactory ?? defaultUpstashFactory;
+  const factory =
+    options.redisFactory ?? options.upstashFactory ?? defaultRedisFactory;
   try {
     const redis = factory(url, token);
     return new DefaultDataStore({
@@ -445,14 +468,79 @@ export function createDataStore(
   }
 }
 
-function defaultUpstashFactory(url: string, token: string): UpstashClientLike {
-  // Lazy require so `@upstash/redis` is only loaded when actually used.
-  // Keeps dev cold starts and unit-test bundles cheap.
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const mod = require("@upstash/redis") as {
-    Redis: new (config: { url: string; token: string }) => UpstashClientLike;
+/**
+ * Default Redis client factory. Picks the backend based on the URL scheme:
+ *   redis://  or rediss://  → ioredis (TCP, Railway / self-hosted)
+ *   https://                → Upstash REST (legacy)
+ *
+ * Lazy-required so neither SDK is loaded until the first call. Keeps dev
+ * cold starts and unit-test bundles cheap, and the unused client never
+ * gets dragged into the webpack graph.
+ */
+function defaultRedisFactory(url: string, token?: string): RedisClientLike {
+  if (url.startsWith("https://") || url.startsWith("http://")) {
+    if (!token) {
+      throw new Error(
+        "[data-store] Upstash REST URL requires UPSTASH_REDIS_REST_TOKEN. " +
+          "If using Railway Redis, set REDIS_URL to the redis:// or rediss:// URL instead.",
+      );
+    }
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const mod = require("@upstash/redis") as {
+      Redis: new (config: { url: string; token: string }) => RedisClientLike;
+    };
+    return new mod.Redis({ url, token });
+  }
+
+  // ioredis path (Railway native Redis or any self-hosted Redis 5+).
+  // Lazy require so the SDK is only loaded when actually used. The
+  // `default ?? mod` dance covers both ESM-default and CJS shapes that
+  // ioredis ships across versions.
+  /* eslint-disable @typescript-eslint/no-require-imports */
+  const ioredisMod = require("ioredis") as
+    | { default: typeof import("ioredis").default }
+    | typeof import("ioredis").default;
+  /* eslint-enable @typescript-eslint/no-require-imports */
+  const IORedisCtor =
+    "default" in ioredisMod ? ioredisMod.default : ioredisMod;
+  const client = new IORedisCtor(url, {
+    // Cap the per-request retry window so a slow Redis doesn't hold a
+    // Vercel Lambda invocation past its timeout — collectors prefer
+    // fail-loud (workflow goes red) over fail-slow.
+    maxRetriesPerRequest: 3,
+    // Connection timeout — Railway Redis usually responds in <50 ms, but
+    // a 5 s ceiling is generous enough for cold connect from a cold
+    // Lambda without blocking the request meaningfully.
+    connectTimeout: 5_000,
+    // enableOfflineQueue stays at the ioredis default (`true`). Setting
+    // it to `false` made the FIRST command on a fresh client fail
+    // immediately when the TCP handshake hadn't completed yet — verify
+    // script's first SET hit "Stream isn't writeable" on every cold
+    // run. With queue=true, ioredis buffers commands during the brief
+    // connect window and flushes them once ready; the maxRetries +
+    // connectTimeout above still bound the worst case.
+  });
+
+  // Without an `error` listener ioredis crashes the process on any
+  // transient transport error. We swallow it here — per-call try/catch
+  // in the data-store handles the actual fallback.
+  client.on("error", (err: Error) => {
+    console.warn("[data-store] ioredis transport error:", err.message);
+  });
+
+  // Adapt ioredis's positional set("key", "val", "EX", ttl) to the
+  // `{ ex: number }` opts shape used by RedisClientLike. Read + del
+  // signatures already match.
+  return {
+    get: (key) => client.get(key),
+    set: (key, value, opts) => {
+      if (opts && typeof opts.ex === "number" && opts.ex > 0) {
+        return client.set(key, value, "EX", opts.ex);
+      }
+      return client.set(key, value);
+    },
+    del: (...keys) => client.del(...keys),
   };
-  return new mod.Redis({ url, token });
 }
 
 // ---------------------------------------------------------------------------

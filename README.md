@@ -184,6 +184,15 @@ starscreener/
 
 Full OpenAPI 3.1 spec: [`docs/openapi.yaml`](./docs/openapi.yaml) (source of truth) or [`docs/openapi.json`](./docs/openapi.json) (served live at `/api/openapi.json`).
 
+Authenticated bulk data clients should use the Data API:
+
+```bash
+curl 'https://trendingrepo.com/api/data/repos?window=24h&filter=breakouts&limit=25&fields=fullName,stars,starsDelta24h,momentumScore,url' \
+  -H 'x-api-key: YOUR_API_KEY'
+```
+
+See [`docs/DATA_API.md`](./docs/DATA_API.md) for filters, projection fields, pagination, and snapshot summaries.
+
 Explore interactively at [**/docs**](https://trendingrepo.com/docs) — rendered with Redoc from a CDN-loaded bundle (zero added app-bundle weight). Raw spec: [`docs/openapi.yaml`](./docs/openapi.yaml) or `/api/openapi.json`.
 
 ```bash
@@ -197,7 +206,9 @@ open "https://petstore.swagger.io/?url=https://trendingrepo.com/api/openapi.json
 
 Primary entry point for programmatic use: **`GET /api/repos/{owner}/{name}?v=2`** — returns the full profile (score, reasons, mentions, freshness, twitter, npm, ProductHunt, revenue, funding, related, prediction, ideas) in one round-trip.
 
-Auth surfaces summarised: public reads have no auth; write endpoints use `Authorization: Bearer <CRON_SECRET | ADMIN_TOKEN | USER_TOKEN>`, or the HMAC-signed `ss_user` cookie issued by `POST /api/auth/session`. See the spec for the per-endpoint matrix.
+Auth surfaces summarised: public reads have no auth; write endpoints use `Authorization: Bearer <CRON_SECRET | ADMIN_TOKEN | USER_TOKEN>`, `x-api-key: sskey_...`, or the HMAC-signed `ss_user` cookie issued by `POST /api/auth/session`. Self-serve API keys are created with `POST /api/keys`, listed with `GET /api/keys`, and revoked with `DELETE /api/keys/{id}`; only SHA-256 hashes are stored.
+
+Monetization is Stripe Billing based: `/api/checkout/stripe` creates hosted subscription Checkout Sessions, `/api/webhooks/stripe` applies verified tier changes to `.data/user-tiers.jsonl`, and MCP/API usage is recorded locally in `.data/mcp-usage.jsonl`. When `STRIPE_MCP_METER_EVENT_NAME` is set and the user has a Stripe customer id, usage is also reported to Stripe Billing Meter events.
 
 When editing the spec, regenerate the JSON sibling so `/api/openapi.json` stays in sync:
 
@@ -272,6 +283,8 @@ Or go HTTP-native (no bundle required):
 claude mcp add starscreener --transport http --url https://starscreener.vercel.app/portal
 ```
 
+Paid tiers unlock higher request budgets, private/watchlist features, webhook targets, and Team usage reports. API keys can be passed to MCP/REST calls as `x-api-key`; legacy `x-user-token` remains supported for existing automation.
+
 ## Development
 
 ```bash
@@ -316,6 +329,8 @@ The pipeline's recurring work (ingest, persist, cleanup, rebuild, predictions, A
 | `5,35 * * * *`   | `/api/cron/webhooks/scan`        | Enqueue breakout + funding webhook deliveries |
 | `10,40 * * * *`  | `/api/cron/webhooks/flush`       | Drain Slack / Discord webhook queue         |
 | `*/15 * * * *`   | `/api/health`                    | Unauthed freshness / status probe           |
+
+Public status is available at `/status`, with machine-readable probes at `/api/health?soft=1`, `/api/health/sources`, `/api/health/portal`, and `/api/pipeline/status`.
 
 ### Primary: GitHub Actions
 

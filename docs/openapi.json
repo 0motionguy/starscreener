@@ -39,6 +39,10 @@
       "description": "Listing, search, categories, collections, compare."
     },
     {
+      "name": "Data",
+      "description": "Authenticated bulk data API for API-key clients."
+    },
+    {
       "name": "Evidence",
       "description": "Mentions, freshness, AISO (AI-discoverability) surfaces."
     },
@@ -71,1611 +75,6 @@
       "description": "Long-lived streams — documented but not schema'd in v1."
     }
   ],
-  "components": {
-    "securitySchemes": {
-      "cronBearer": {
-        "type": "http",
-        "scheme": "bearer",
-        "description": "`Authorization: Bearer <CRON_SECRET>` — used by scheduled jobs and\noperator-driven data-pipeline endpoints (ingest, persist, recompute,\ncleanup, rebuild, backfill-history, profiles/enrich).\n"
-      },
-      "adminBearer": {
-        "type": "http",
-        "scheme": "bearer",
-        "description": "`Authorization: Bearer <ADMIN_TOKEN>` — browser-facing moderation UI.\nDeliberately NOT interchangeable with `CRON_SECRET` (different blast\nradius).\n"
-      },
-      "userBearer": {
-        "type": "http",
-        "scheme": "bearer",
-        "description": "`Authorization: Bearer <USER_TOKEN>` or `x-user-token: <USER_TOKEN>`\n— per-user endpoints. The `userId` is derived server-side from the\ntoken; any client-supplied `userId` in body/query is ignored.\n"
-      },
-      "sessionCookie": {
-        "type": "apiKey",
-        "in": "cookie",
-        "name": "ss_user",
-        "description": "HMAC-SHA256 signed session cookie issued by `POST /api/auth/session`.\nHttpOnly, SameSite=Lax, 30-day Max-Age. Accepted anywhere `userBearer`\nis accepted.\n"
-      }
-    },
-    "schemas": {
-      "Error": {
-        "type": "object",
-        "required": [
-          "ok",
-          "error"
-        ],
-        "properties": {
-          "ok": {
-            "type": "boolean",
-            "enum": [
-              false
-            ]
-          },
-          "error": {
-            "type": "string"
-          },
-          "code": {
-            "type": "string",
-            "description": "Optional machine-readable code (e.g. `invalid_slug`, `repo_not_found`)."
-          },
-          "details": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        }
-      },
-      "Timestamp": {
-        "type": "string",
-        "format": "date-time",
-        "description": "ISO-8601 timestamp (UTC)."
-      },
-      "FullName": {
-        "type": "string",
-        "pattern": "^[A-Za-z0-9._-]+/[A-Za-z0-9._-]+$",
-        "example": "vercel/next.js"
-      },
-      "SlugPart": {
-        "type": "string",
-        "pattern": "^[A-Za-z0-9._-]+$"
-      },
-      "SocialPlatform": {
-        "type": "string",
-        "enum": [
-          "reddit",
-          "hackernews",
-          "bluesky",
-          "twitter",
-          "devto",
-          "github"
-        ]
-      },
-      "Sentiment": {
-        "type": "string",
-        "enum": [
-          "positive",
-          "negative",
-          "neutral"
-        ]
-      },
-      "MovementStatus": {
-        "type": "string",
-        "enum": [
-          "hot",
-          "breakout",
-          "quiet_killer",
-          "steady",
-          "cooling",
-          "dormant"
-        ]
-      },
-      "TrendWindow": {
-        "type": "string",
-        "enum": [
-          "today",
-          "week",
-          "month"
-        ]
-      },
-      "TimeRange": {
-        "type": "string",
-        "enum": [
-          "24h",
-          "7d",
-          "30d"
-        ]
-      },
-      "Repo": {
-        "type": "object",
-        "description": "Canonical Repo snapshot. Fields are a superset — some (sparklineData,\ncrossSignalScore, channelsFiring) are only populated after a\nrecompute pass.\n",
-        "required": [
-          "id",
-          "fullName",
-          "owner",
-          "name",
-          "stars",
-          "language",
-          "momentumScore",
-          "movementStatus"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "example": "vercel--next-js"
-          },
-          "fullName": {
-            "$ref": "#/components/schemas/FullName"
-          },
-          "owner": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "ownerAvatarUrl": {
-            "type": "string",
-            "format": "uri"
-          },
-          "description": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "url": {
-            "type": "string",
-            "format": "uri"
-          },
-          "language": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "topics": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "tags": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "categoryId": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "stars": {
-            "type": "integer",
-            "minimum": 0
-          },
-          "forks": {
-            "type": "integer",
-            "minimum": 0
-          },
-          "contributors": {
-            "type": "integer",
-            "minimum": 0
-          },
-          "openIssues": {
-            "type": "integer",
-            "minimum": 0
-          },
-          "starsDelta24h": {
-            "type": "integer"
-          },
-          "starsDelta7d": {
-            "type": "integer"
-          },
-          "starsDelta30d": {
-            "type": "integer"
-          },
-          "starsDelta24hMissing": {
-            "type": "boolean"
-          },
-          "forksDelta7d": {
-            "type": "integer"
-          },
-          "contributorsDelta30d": {
-            "type": "integer"
-          },
-          "momentumScore": {
-            "type": "number",
-            "minimum": 0,
-            "maximum": 100
-          },
-          "movementStatus": {
-            "$ref": "#/components/schemas/MovementStatus"
-          },
-          "sparklineData": {
-            "type": "array",
-            "items": {
-              "type": "number"
-            }
-          },
-          "rank": {
-            "type": "integer"
-          },
-          "crossSignalScore": {
-            "type": [
-              "number",
-              "null"
-            ]
-          },
-          "channelsFiring": {
-            "type": [
-              "integer",
-              "null"
-            ]
-          },
-          "mentionCount24h": {
-            "type": "integer",
-            "minimum": 0
-          },
-          "lastCommitAt": {
-            "$ref": "#/components/schemas/Timestamp"
-          },
-          "lastReleaseAt": {
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/Timestamp"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "lastReleaseTag": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "createdAt": {
-            "$ref": "#/components/schemas/Timestamp"
-          },
-          "archived": {
-            "type": "boolean"
-          },
-          "deleted": {
-            "type": "boolean"
-          },
-          "collectionNames": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        }
-      },
-      "RepoScore": {
-        "type": "object",
-        "description": "Score bundle produced by the recompute pipeline.",
-        "properties": {
-          "repoId": {
-            "type": "string"
-          },
-          "total": {
-            "type": "number"
-          },
-          "components": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "number"
-            }
-          },
-          "computedAt": {
-            "$ref": "#/components/schemas/Timestamp"
-          }
-        }
-      },
-      "HumanReason": {
-        "type": "object",
-        "description": "Rendered \"why-moving\" explainer.",
-        "required": [
-          "label",
-          "text"
-        ],
-        "properties": {
-          "label": {
-            "type": "string",
-            "example": "BREAKOUT"
-          },
-          "text": {
-            "type": "string"
-          },
-          "source": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "confidence": {
-            "type": [
-              "number",
-              "null"
-            ]
-          }
-        }
-      },
-      "RepoMention": {
-        "type": "object",
-        "required": [
-          "id",
-          "repoId",
-          "platform",
-          "author",
-          "content",
-          "url",
-          "postedAt"
-        ],
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "repoId": {
-            "type": "string"
-          },
-          "platform": {
-            "$ref": "#/components/schemas/SocialPlatform"
-          },
-          "author": {
-            "type": "string"
-          },
-          "authorFollowers": {
-            "type": [
-              "integer",
-              "null"
-            ]
-          },
-          "content": {
-            "type": "string"
-          },
-          "url": {
-            "type": "string",
-            "format": "uri"
-          },
-          "sentiment": {
-            "$ref": "#/components/schemas/Sentiment"
-          },
-          "engagement": {
-            "type": "object",
-            "properties": {
-              "likes": {
-                "type": "integer"
-              },
-              "reposts": {
-                "type": "integer"
-              },
-              "replies": {
-                "type": "integer"
-              },
-              "views": {
-                "type": "integer"
-              }
-            }
-          },
-          "postedAt": {
-            "$ref": "#/components/schemas/Timestamp"
-          },
-          "discoveredAt": {
-            "$ref": "#/components/schemas/Timestamp"
-          },
-          "isInfluencer": {
-            "type": "boolean"
-          },
-          "reach": {
-            "type": "integer"
-          }
-        }
-      },
-      "MentionsPage": {
-        "type": "object",
-        "required": [
-          "ok",
-          "fetchedAt",
-          "repo",
-          "count",
-          "items"
-        ],
-        "properties": {
-          "ok": {
-            "type": "boolean",
-            "enum": [
-              true
-            ]
-          },
-          "fetchedAt": {
-            "$ref": "#/components/schemas/Timestamp"
-          },
-          "repo": {
-            "$ref": "#/components/schemas/FullName"
-          },
-          "count": {
-            "type": "integer"
-          },
-          "nextCursor": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "description": "Base64url-encoded `{postedAt,id}` for the next page."
-          },
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RepoMention"
-            }
-          }
-        }
-      },
-      "FreshnessSource": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "fetchedAt": {
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/Timestamp"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "ageSeconds": {
-            "type": [
-              "integer",
-              "null"
-            ]
-          },
-          "cold": {
-            "type": "boolean"
-          },
-          "stale": {
-            "type": "boolean"
-          }
-        }
-      },
-      "FreshnessSnapshot": {
-        "type": "object",
-        "required": [
-          "fetchedAt",
-          "sources"
-        ],
-        "properties": {
-          "fetchedAt": {
-            "$ref": "#/components/schemas/Timestamp"
-          },
-          "sources": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/FreshnessSource"
-            }
-          }
-        }
-      },
-      "FundingEvent": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "fullName": {
-            "$ref": "#/components/schemas/FullName"
-          },
-          "round": {
-            "type": "string"
-          },
-          "amountUsd": {
-            "type": "number"
-          },
-          "announcedAt": {
-            "$ref": "#/components/schemas/Timestamp"
-          },
-          "investors": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "source": {
-            "type": "string"
-          }
-        }
-      },
-      "RevenueOverlay": {
-        "type": "object",
-        "description": "Revenue overlay row. The `verified` tier comes from OSS-index-style\nreporting; `selfReported` is founder-submitted post-moderation;\n`trustmrrClaim` is a provisional claim backed by a trustMRR link.\n",
-        "properties": {
-          "fullName": {
-            "$ref": "#/components/schemas/FullName"
-          },
-          "tier": {
-            "type": "string",
-            "enum": [
-              "verified",
-              "self_reported",
-              "trustmrr_claim"
-            ]
-          },
-          "mrrCents": {
-            "type": "integer"
-          },
-          "customers": {
-            "type": [
-              "integer",
-              "null"
-            ]
-          },
-          "reportedAt": {
-            "$ref": "#/components/schemas/Timestamp"
-          },
-          "proofUrl": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "uri"
-          },
-          "paymentProvider": {
-            "type": [
-              "string",
-              "null"
-            ]
-          }
-        }
-      },
-      "NpmPackageRow": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "downloads7d": {
-            "type": "integer"
-          },
-          "downloads30d": {
-            "type": "integer"
-          },
-          "lastPublishAt": {
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/Timestamp"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
-        }
-      },
-      "Launch": {
-        "type": "object",
-        "description": "ProductHunt launch record.",
-        "properties": {
-          "slug": {
-            "type": "string"
-          },
-          "title": {
-            "type": "string"
-          },
-          "tagline": {
-            "type": "string"
-          },
-          "votes": {
-            "type": "integer"
-          },
-          "launchedAt": {
-            "$ref": "#/components/schemas/Timestamp"
-          }
-        }
-      },
-      "TwitterRepoPanel": {
-        "type": "object",
-        "description": "Rollup of Twitter signals tied to a repo. Shape defined in\n`src/lib/twitter/types.ts`.\n",
-        "additionalProperties": true
-      },
-      "RelatedRepoItem": {
-        "type": "object",
-        "properties": {
-          "fullName": {
-            "$ref": "#/components/schemas/FullName"
-          },
-          "sharedTopics": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "similarityScore": {
-            "type": "number"
-          }
-        }
-      },
-      "PredictionItem": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "fullName": {
-            "$ref": "#/components/schemas/FullName"
-          },
-          "horizonDays": {
-            "type": "integer",
-            "enum": [
-              7,
-              30,
-              90
-            ]
-          },
-          "p10": {
-            "type": "integer"
-          },
-          "p50": {
-            "type": "integer"
-          },
-          "p90": {
-            "type": "integer"
-          },
-          "modelVersion": {
-            "type": "string"
-          },
-          "createdAt": {
-            "$ref": "#/components/schemas/Timestamp"
-          },
-          "actualStarsAtHorizon": {
-            "type": [
-              "integer",
-              "null"
-            ]
-          },
-          "scoredAt": {
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/Timestamp"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
-        }
-      },
-      "IdeaItem": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "title": {
-            "type": "string"
-          },
-          "body": {
-            "type": "string"
-          },
-          "authorHandle": {
-            "type": "string"
-          },
-          "targetRepoFullName": {
-            "$ref": "#/components/schemas/FullName"
-          },
-          "buildStatus": {
-            "type": "string",
-            "enum": [
-              "open",
-              "building",
-              "shipped"
-            ]
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "published",
-              "shipped",
-              "archived",
-              "pending_moderation",
-              "rejected"
-            ]
-          },
-          "createdAt": {
-            "$ref": "#/components/schemas/Timestamp"
-          },
-          "publishedAt": {
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/Timestamp"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
-        }
-      },
-      "CanonicalRepoProfileMentions": {
-        "type": "object",
-        "required": [
-          "recent",
-          "nextCursor",
-          "countsBySource"
-        ],
-        "properties": {
-          "recent": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RepoMention"
-            },
-            "description": "Newest-first, capped at 50 rows."
-          },
-          "nextCursor": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "countsBySource": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "integer",
-              "minimum": 0
-            }
-          }
-        }
-      },
-      "CanonicalRepoProfileNpm": {
-        "type": "object",
-        "required": [
-          "packages",
-          "dailyDownloads",
-          "dependents"
-        ],
-        "properties": {
-          "packages": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/NpmPackageRow"
-            }
-          },
-          "dailyDownloads": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "date": {
-                    "type": "string",
-                    "format": "date"
-                  },
-                  "downloads": {
-                    "type": "integer"
-                  }
-                }
-              }
-            }
-          },
-          "dependents": {
-            "type": "object",
-            "additionalProperties": {
-              "type": [
-                "integer",
-                "null"
-              ]
-            }
-          }
-        }
-      },
-      "CanonicalRepoProfileRevenue": {
-        "type": "object",
-        "required": [
-          "verified",
-          "selfReported",
-          "trustmrrClaim"
-        ],
-        "properties": {
-          "verified": {
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/RevenueOverlay"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "selfReported": {
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/RevenueOverlay"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "trustmrrClaim": {
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/RevenueOverlay"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
-        }
-      },
-      "CanonicalRepoProfile": {
-        "type": "object",
-        "required": [
-          "ok",
-          "fetchedAt",
-          "v",
-          "repo",
-          "mentions",
-          "freshness",
-          "npm",
-          "revenue",
-          "funding",
-          "related"
-        ],
-        "properties": {
-          "ok": {
-            "type": "boolean",
-            "enum": [
-              true
-            ]
-          },
-          "fetchedAt": {
-            "$ref": "#/components/schemas/Timestamp"
-          },
-          "v": {
-            "type": "integer",
-            "enum": [
-              2
-            ]
-          },
-          "repo": {
-            "$ref": "#/components/schemas/Repo"
-          },
-          "score": {
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/RepoScore"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "reasons": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/HumanReason"
-            }
-          },
-          "mentions": {
-            "$ref": "#/components/schemas/CanonicalRepoProfileMentions"
-          },
-          "freshness": {
-            "$ref": "#/components/schemas/FreshnessSnapshot"
-          },
-          "twitter": {
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/TwitterRepoPanel"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "npm": {
-            "$ref": "#/components/schemas/CanonicalRepoProfileNpm"
-          },
-          "productHunt": {
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/Launch"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "revenue": {
-            "$ref": "#/components/schemas/CanonicalRepoProfileRevenue"
-          },
-          "funding": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/FundingEvent"
-            }
-          },
-          "related": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RelatedRepoItem"
-            }
-          },
-          "prediction": {
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/PredictionItem"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "ideas": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/IdeaItem"
-            }
-          }
-        }
-      },
-      "LegacyRepoProfileV1": {
-        "type": "object",
-        "required": [
-          "repo",
-          "mentions"
-        ],
-        "properties": {
-          "repo": {
-            "$ref": "#/components/schemas/Repo"
-          },
-          "score": {
-            "type": "null"
-          },
-          "category": {
-            "type": "null"
-          },
-          "reasons": {
-            "type": "null"
-          },
-          "social": {
-            "type": "array",
-            "items": {
-              "type": "object"
-            }
-          },
-          "mentions": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RepoMention"
-            }
-          },
-          "twitterSignal": {
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/TwitterRepoPanel"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "whyMoving": {
-            "type": "array",
-            "items": {
-              "type": "object"
-            }
-          },
-          "relatedRepos": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RelatedRepoItem"
-            }
-          },
-          "twitterAvailable": {
-            "type": "boolean"
-          }
-        }
-      },
-      "AlertEvent": {
-        "type": "object",
-        "required": [
-          "id",
-          "userId",
-          "trigger",
-          "createdAt"
-        ],
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "userId": {
-            "type": "string"
-          },
-          "ruleId": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "trigger": {
-            "type": "string"
-          },
-          "repoId": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "categoryId": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "payload": {
-            "type": "object",
-            "additionalProperties": true
-          },
-          "createdAt": {
-            "$ref": "#/components/schemas/Timestamp"
-          },
-          "readAt": {
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/Timestamp"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
-        }
-      },
-      "AlertRule": {
-        "type": "object",
-        "required": [
-          "id",
-          "userId",
-          "trigger",
-          "threshold",
-          "enabled"
-        ],
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "userId": {
-            "type": "string"
-          },
-          "trigger": {
-            "type": "string",
-            "enum": [
-              "star_spike",
-              "new_release",
-              "rank_jump",
-              "discussion_spike",
-              "momentum_threshold",
-              "breakout_detected",
-              "daily_digest",
-              "weekly_digest"
-            ]
-          },
-          "threshold": {
-            "type": "number"
-          },
-          "repoId": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "categoryId": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "cooldownMinutes": {
-            "type": [
-              "integer",
-              "null"
-            ]
-          },
-          "enabled": {
-            "type": "boolean"
-          },
-          "createdAt": {
-            "$ref": "#/components/schemas/Timestamp"
-          }
-        }
-      },
-      "Category": {
-        "type": "object",
-        "required": [
-          "id",
-          "name"
-        ],
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "hue": {
-            "type": "number"
-          },
-          "repoCount": {
-            "type": "integer"
-          },
-          "avgMomentum": {
-            "type": "number"
-          },
-          "topMoverId": {
-            "type": [
-              "string",
-              "null"
-            ]
-          }
-        }
-      },
-      "CollectionSummary": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "slug": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "curatedRepoCount": {
-            "type": "integer"
-          },
-          "liveRepoCount": {
-            "type": "integer"
-          },
-          "hotRank": {
-            "type": [
-              "integer",
-              "null"
-            ]
-          },
-          "hotRepoCount": {
-            "type": [
-              "integer",
-              "null"
-            ]
-          },
-          "hotTopRepo": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "starsRankingCount": {
-            "type": "integer"
-          },
-          "issuesRankingCount": {
-            "type": "integer"
-          },
-          "topStarsRepo": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "topIssuesRepo": {
-            "type": [
-              "string",
-              "null"
-            ]
-          }
-        }
-      },
-      "FeaturedCard": {
-        "type": "object",
-        "required": [
-          "label",
-          "labelDisplay",
-          "repo",
-          "reason"
-        ],
-        "properties": {
-          "label": {
-            "type": "string",
-            "enum": [
-              "NUMBER_ONE_TODAY",
-              "BREAKOUT",
-              "RANK_CLIMBER",
-              "HN_FEATURED",
-              "FRESH_RELEASE",
-              "MOST_DISCUSSED",
-              "QUIET_KILLER",
-              "WATCHED_MOVING"
-            ]
-          },
-          "labelDisplay": {
-            "type": "string"
-          },
-          "repo": {
-            "$ref": "#/components/schemas/Repo"
-          },
-          "reason": {
-            "type": "string"
-          },
-          "deltaPercent": {
-            "type": "number"
-          },
-          "rankDelta": {
-            "type": [
-              "integer",
-              "null"
-            ]
-          },
-          "sparkline": {
-            "type": "array",
-            "items": {
-              "type": "number"
-            }
-          }
-        }
-      },
-      "FeaturedResponse": {
-        "type": "object",
-        "required": [
-          "cards",
-          "generatedAt"
-        ],
-        "properties": {
-          "cards": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/FeaturedCard"
-            }
-          },
-          "generatedAt": {
-            "$ref": "#/components/schemas/Timestamp"
-          }
-        }
-      },
-      "MetaCounts": {
-        "type": "object",
-        "properties": {
-          "hot": {
-            "type": "integer"
-          },
-          "breakouts": {
-            "type": "integer"
-          },
-          "quietKillers": {
-            "type": "integer"
-          },
-          "new": {
-            "type": "integer"
-          },
-          "discussed": {
-            "type": "integer"
-          },
-          "rankClimbers": {
-            "type": "integer"
-          },
-          "freshReleases": {
-            "type": "integer"
-          }
-        }
-      },
-      "SidebarDataRepo": {
-        "type": "object",
-        "required": [
-          "id",
-          "fullName",
-          "owner",
-          "name"
-        ],
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "fullName": {
-            "$ref": "#/components/schemas/FullName"
-          },
-          "owner": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "ownerAvatarUrl": {
-            "type": "string",
-            "format": "uri"
-          },
-          "momentumScore": {
-            "type": "number"
-          },
-          "movementStatus": {
-            "$ref": "#/components/schemas/MovementStatus"
-          },
-          "sparklineData": {
-            "type": "array",
-            "items": {
-              "type": "number"
-            }
-          },
-          "stars": {
-            "type": "integer"
-          },
-          "starsDelta24h": {
-            "type": "integer"
-          },
-          "starsDelta24hMissing": {
-            "type": "boolean"
-          }
-        }
-      },
-      "SidebarDataResponse": {
-        "type": "object",
-        "required": [
-          "categoryStats",
-          "metaCounts",
-          "availableLanguages",
-          "reposById",
-          "unreadAlerts",
-          "generatedAt"
-        ],
-        "properties": {
-          "categoryStats": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "additionalProperties": true
-            }
-          },
-          "metaCounts": {
-            "$ref": "#/components/schemas/MetaCounts"
-          },
-          "availableLanguages": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "reposById": {
-            "type": "object",
-            "additionalProperties": {
-              "$ref": "#/components/schemas/SidebarDataRepo"
-            }
-          },
-          "unreadAlerts": {
-            "type": "integer"
-          },
-          "generatedAt": {
-            "$ref": "#/components/schemas/Timestamp"
-          }
-        }
-      },
-      "RevenueSubmissionInput": {
-        "type": "object",
-        "required": [
-          "repo",
-          "mode"
-        ],
-        "properties": {
-          "repo": {
-            "type": "string",
-            "description": "Either a GitHub URL or `owner/name`."
-          },
-          "mode": {
-            "type": "string",
-            "enum": [
-              "self_reported",
-              "trustmrr_link"
-            ]
-          },
-          "mrrCents": {
-            "type": "integer",
-            "minimum": 0
-          },
-          "customers": {
-            "type": [
-              "integer",
-              "null"
-            ]
-          },
-          "paymentProvider": {
-            "type": "string"
-          },
-          "proofUrl": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "uri"
-          },
-          "trustmrrSlug": {
-            "type": "string"
-          },
-          "contact": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "notes": {
-            "type": [
-              "string",
-              "null"
-            ]
-          }
-        }
-      },
-      "RepoSubmissionInput": {
-        "type": "object",
-        "required": [
-          "repo"
-        ],
-        "properties": {
-          "repo": {
-            "type": "string",
-            "description": "Either a GitHub URL or `owner/name`."
-          },
-          "notes": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "contact": {
-            "type": [
-              "string",
-              "null"
-            ]
-          }
-        }
-      },
-      "ReactionCounts": {
-        "type": "object",
-        "properties": {
-          "build": {
-            "type": "integer"
-          },
-          "use": {
-            "type": "integer"
-          },
-          "buy": {
-            "type": "integer"
-          },
-          "invest": {
-            "type": "integer"
-          }
-        }
-      },
-      "IdeaInput": {
-        "type": "object",
-        "required": [
-          "title",
-          "body"
-        ],
-        "properties": {
-          "title": {
-            "type": "string",
-            "maxLength": 140
-          },
-          "body": {
-            "type": "string",
-            "maxLength": 4000
-          },
-          "targetRepoFullName": {
-            "$ref": "#/components/schemas/FullName"
-          }
-        }
-      }
-    },
-    "parameters": {
-      "OwnerPath": {
-        "name": "owner",
-        "in": "path",
-        "required": true,
-        "schema": {
-          "$ref": "#/components/schemas/SlugPart"
-        }
-      },
-      "NamePath": {
-        "name": "name",
-        "in": "path",
-        "required": true,
-        "schema": {
-          "$ref": "#/components/schemas/SlugPart"
-        }
-      },
-      "LimitQuery": {
-        "name": "limit",
-        "in": "query",
-        "schema": {
-          "type": "integer",
-          "minimum": 1,
-          "maximum": 200,
-          "default": 50
-        }
-      },
-      "OffsetQuery": {
-        "name": "offset",
-        "in": "query",
-        "schema": {
-          "type": "integer",
-          "minimum": 0,
-          "default": 0
-        }
-      }
-    },
-    "responses": {
-      "BadRequest": {
-        "description": "Invalid parameter or body.",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error"
-            }
-          }
-        }
-      },
-      "Unauthorized": {
-        "description": "Missing or invalid credentials.",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error"
-            }
-          }
-        }
-      },
-      "NotFound": {
-        "description": "Resource not found.",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error"
-            }
-          }
-        }
-      },
-      "RateLimited": {
-        "description": "Too many requests.",
-        "headers": {
-          "Retry-After": {
-            "schema": {
-              "type": "integer"
-            }
-          }
-        },
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error"
-            }
-          }
-        }
-      },
-      "ServerError": {
-        "description": "Internal error.",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error"
-            }
-          }
-        }
-      }
-    }
-  },
   "paths": {
     "/api/repos/{owner}/{name}": {
       "get": {
@@ -2212,6 +611,363 @@
           },
           "400": {
             "$ref": "#/components/responses/BadRequest"
+          }
+        }
+      }
+    },
+    "/api/data/repos": {
+      "get": {
+        "tags": [
+          "Data"
+        ],
+        "summary": "Authenticated bulk repo data feed.",
+        "description": "Versioned Data API endpoint for API-key clients. Supports projection,\nfiltering, search, sorting, and cursor-style pagination via `offset`.\n",
+        "operationId": "dataRepos",
+        "security": [
+          {
+            "apiKey": []
+          },
+          {
+            "userBearer": []
+          },
+          {
+            "sessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "window",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "24h",
+                "7d",
+                "30d"
+              ],
+              "default": "7d"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "trend",
+                "momentum",
+                "stars",
+                "delta",
+                "newest"
+              ],
+              "default": "trend"
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "all",
+                "breakouts",
+                "hot",
+                "quiet-killers",
+                "new-under-30d"
+              ],
+              "default": "all"
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tag",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "topic",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-separated allow-list of repo fields to include."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 500,
+              "default": 100
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Versioned data feed envelope.",
+            "headers": {
+              "X-RateLimit-Limit": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "ok",
+                    "v",
+                    "fetchedAt",
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "v": {
+                      "type": "integer",
+                      "enum": [
+                        1
+                      ]
+                    },
+                    "fetchedAt": {
+                      "$ref": "#/components/schemas/Timestamp"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": true
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "required": [
+                        "total",
+                        "count",
+                        "limit",
+                        "offset",
+                        "nextOffset",
+                        "window",
+                        "sort",
+                        "filter",
+                        "fields"
+                      ],
+                      "properties": {
+                        "total": {
+                          "type": "integer"
+                        },
+                        "count": {
+                          "type": "integer"
+                        },
+                        "limit": {
+                          "type": "integer"
+                        },
+                        "offset": {
+                          "type": "integer"
+                        },
+                        "nextOffset": {
+                          "type": [
+                            "integer",
+                            "null"
+                          ]
+                        },
+                        "window": {
+                          "type": "string"
+                        },
+                        "sort": {
+                          "type": "string"
+                        },
+                        "filter": {
+                          "type": "string"
+                        },
+                        "fields": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          }
+        }
+      }
+    },
+    "/api/data/snapshot": {
+      "get": {
+        "tags": [
+          "Data"
+        ],
+        "summary": "Authenticated dataset snapshot summary.",
+        "operationId": "dataSnapshot",
+        "security": [
+          {
+            "apiKey": []
+          },
+          {
+            "userBearer": []
+          },
+          {
+            "sessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "top",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 25
+            },
+            "description": "Number of top-momentum repos to include."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dataset summary and top repos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "ok",
+                    "v",
+                    "fetchedAt",
+                    "summary",
+                    "topRepos"
+                  ],
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "v": {
+                      "type": "integer",
+                      "enum": [
+                        1
+                      ]
+                    },
+                    "fetchedAt": {
+                      "$ref": "#/components/schemas/Timestamp"
+                    },
+                    "summary": {
+                      "type": "object",
+                      "properties": {
+                        "totalRepos": {
+                          "type": "integer"
+                        },
+                        "totalStars": {
+                          "type": "integer"
+                        },
+                        "byLanguage": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "integer"
+                          }
+                        },
+                        "byCategory": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "integer"
+                          }
+                        },
+                        "byMovementStatus": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    },
+                    "topRepos": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
           }
         }
       }
@@ -4623,6 +3379,1617 @@
                   "additionalProperties": true
                 }
               }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "cronBearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "`Authorization: Bearer <CRON_SECRET>` — used by scheduled jobs and\noperator-driven data-pipeline endpoints (ingest, persist, recompute,\ncleanup, rebuild, backfill-history, profiles/enrich).\n"
+      },
+      "adminBearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "`Authorization: Bearer <ADMIN_TOKEN>` — browser-facing moderation UI.\nDeliberately NOT interchangeable with `CRON_SECRET` (different blast\nradius).\n"
+      },
+      "userBearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "`Authorization: Bearer <USER_TOKEN>` or `x-user-token: <USER_TOKEN>`\n— per-user endpoints. The `userId` is derived server-side from the\ntoken; any client-supplied `userId` in body/query is ignored.\n"
+      },
+      "sessionCookie": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "ss_user",
+        "description": "HMAC-SHA256 signed session cookie issued by `POST /api/auth/session`.\nHttpOnly, SameSite=Lax, 30-day Max-Age. Accepted anywhere `userBearer`\nis accepted.\n"
+      },
+      "apiKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-api-key",
+        "description": "Self-serve API key created with `POST /api/keys`. Preferred for\nCLI, MCP, and Data API clients.\n"
+      }
+    },
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "required": [
+          "ok",
+          "error"
+        ],
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              false
+            ]
+          },
+          "error": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string",
+            "description": "Optional machine-readable code (e.g. `invalid_slug`, `repo_not_found`)."
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Timestamp": {
+        "type": "string",
+        "format": "date-time",
+        "description": "ISO-8601 timestamp (UTC)."
+      },
+      "FullName": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9._-]+/[A-Za-z0-9._-]+$",
+        "example": "vercel/next.js"
+      },
+      "SlugPart": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9._-]+$"
+      },
+      "SocialPlatform": {
+        "type": "string",
+        "enum": [
+          "reddit",
+          "hackernews",
+          "bluesky",
+          "twitter",
+          "devto",
+          "github"
+        ]
+      },
+      "Sentiment": {
+        "type": "string",
+        "enum": [
+          "positive",
+          "negative",
+          "neutral"
+        ]
+      },
+      "MovementStatus": {
+        "type": "string",
+        "enum": [
+          "hot",
+          "breakout",
+          "quiet_killer",
+          "steady",
+          "cooling",
+          "dormant"
+        ]
+      },
+      "TrendWindow": {
+        "type": "string",
+        "enum": [
+          "today",
+          "week",
+          "month"
+        ]
+      },
+      "TimeRange": {
+        "type": "string",
+        "enum": [
+          "24h",
+          "7d",
+          "30d"
+        ]
+      },
+      "Repo": {
+        "type": "object",
+        "description": "Canonical Repo snapshot. Fields are a superset — some (sparklineData,\ncrossSignalScore, channelsFiring) are only populated after a\nrecompute pass.\n",
+        "required": [
+          "id",
+          "fullName",
+          "owner",
+          "name",
+          "stars",
+          "language",
+          "momentumScore",
+          "movementStatus"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "vercel--next-js"
+          },
+          "fullName": {
+            "$ref": "#/components/schemas/FullName"
+          },
+          "owner": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "ownerAvatarUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "language": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "topics": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "categoryId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "stars": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "forks": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "contributors": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "openIssues": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "starsDelta24h": {
+            "type": "integer"
+          },
+          "starsDelta7d": {
+            "type": "integer"
+          },
+          "starsDelta30d": {
+            "type": "integer"
+          },
+          "starsDelta24hMissing": {
+            "type": "boolean"
+          },
+          "forksDelta7d": {
+            "type": "integer"
+          },
+          "contributorsDelta30d": {
+            "type": "integer"
+          },
+          "momentumScore": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "movementStatus": {
+            "$ref": "#/components/schemas/MovementStatus"
+          },
+          "sparklineData": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "rank": {
+            "type": "integer"
+          },
+          "crossSignalScore": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "channelsFiring": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "mentionCount24h": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "lastCommitAt": {
+            "$ref": "#/components/schemas/Timestamp"
+          },
+          "lastReleaseAt": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Timestamp"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "lastReleaseTag": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "createdAt": {
+            "$ref": "#/components/schemas/Timestamp"
+          },
+          "archived": {
+            "type": "boolean"
+          },
+          "deleted": {
+            "type": "boolean"
+          },
+          "collectionNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "RepoScore": {
+        "type": "object",
+        "description": "Score bundle produced by the recompute pipeline.",
+        "properties": {
+          "repoId": {
+            "type": "string"
+          },
+          "total": {
+            "type": "number"
+          },
+          "components": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number"
+            }
+          },
+          "computedAt": {
+            "$ref": "#/components/schemas/Timestamp"
+          }
+        }
+      },
+      "HumanReason": {
+        "type": "object",
+        "description": "Rendered \"why-moving\" explainer.",
+        "required": [
+          "label",
+          "text"
+        ],
+        "properties": {
+          "label": {
+            "type": "string",
+            "example": "BREAKOUT"
+          },
+          "text": {
+            "type": "string"
+          },
+          "source": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "confidence": {
+            "type": [
+              "number",
+              "null"
+            ]
+          }
+        }
+      },
+      "RepoMention": {
+        "type": "object",
+        "required": [
+          "id",
+          "repoId",
+          "platform",
+          "author",
+          "content",
+          "url",
+          "postedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "repoId": {
+            "type": "string"
+          },
+          "platform": {
+            "$ref": "#/components/schemas/SocialPlatform"
+          },
+          "author": {
+            "type": "string"
+          },
+          "authorFollowers": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "content": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "sentiment": {
+            "$ref": "#/components/schemas/Sentiment"
+          },
+          "engagement": {
+            "type": "object",
+            "properties": {
+              "likes": {
+                "type": "integer"
+              },
+              "reposts": {
+                "type": "integer"
+              },
+              "replies": {
+                "type": "integer"
+              },
+              "views": {
+                "type": "integer"
+              }
+            }
+          },
+          "postedAt": {
+            "$ref": "#/components/schemas/Timestamp"
+          },
+          "discoveredAt": {
+            "$ref": "#/components/schemas/Timestamp"
+          },
+          "isInfluencer": {
+            "type": "boolean"
+          },
+          "reach": {
+            "type": "integer"
+          }
+        }
+      },
+      "MentionsPage": {
+        "type": "object",
+        "required": [
+          "ok",
+          "fetchedAt",
+          "repo",
+          "count",
+          "items"
+        ],
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "fetchedAt": {
+            "$ref": "#/components/schemas/Timestamp"
+          },
+          "repo": {
+            "$ref": "#/components/schemas/FullName"
+          },
+          "count": {
+            "type": "integer"
+          },
+          "nextCursor": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Base64url-encoded `{postedAt,id}` for the next page."
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RepoMention"
+            }
+          }
+        }
+      },
+      "FreshnessSource": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "fetchedAt": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Timestamp"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "ageSeconds": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "cold": {
+            "type": "boolean"
+          },
+          "stale": {
+            "type": "boolean"
+          }
+        }
+      },
+      "FreshnessSnapshot": {
+        "type": "object",
+        "required": [
+          "fetchedAt",
+          "sources"
+        ],
+        "properties": {
+          "fetchedAt": {
+            "$ref": "#/components/schemas/Timestamp"
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FreshnessSource"
+            }
+          }
+        }
+      },
+      "FundingEvent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "fullName": {
+            "$ref": "#/components/schemas/FullName"
+          },
+          "round": {
+            "type": "string"
+          },
+          "amountUsd": {
+            "type": "number"
+          },
+          "announcedAt": {
+            "$ref": "#/components/schemas/Timestamp"
+          },
+          "investors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "source": {
+            "type": "string"
+          }
+        }
+      },
+      "RevenueOverlay": {
+        "type": "object",
+        "description": "Revenue overlay row. The `verified` tier comes from OSS-index-style\nreporting; `selfReported` is founder-submitted post-moderation;\n`trustmrrClaim` is a provisional claim backed by a trustMRR link.\n",
+        "properties": {
+          "fullName": {
+            "$ref": "#/components/schemas/FullName"
+          },
+          "tier": {
+            "type": "string",
+            "enum": [
+              "verified",
+              "self_reported",
+              "trustmrr_claim"
+            ]
+          },
+          "mrrCents": {
+            "type": "integer"
+          },
+          "customers": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "reportedAt": {
+            "$ref": "#/components/schemas/Timestamp"
+          },
+          "proofUrl": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uri"
+          },
+          "paymentProvider": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "NpmPackageRow": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "downloads7d": {
+            "type": "integer"
+          },
+          "downloads30d": {
+            "type": "integer"
+          },
+          "lastPublishAt": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Timestamp"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "Launch": {
+        "type": "object",
+        "description": "ProductHunt launch record.",
+        "properties": {
+          "slug": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "tagline": {
+            "type": "string"
+          },
+          "votes": {
+            "type": "integer"
+          },
+          "launchedAt": {
+            "$ref": "#/components/schemas/Timestamp"
+          }
+        }
+      },
+      "TwitterRepoPanel": {
+        "type": "object",
+        "description": "Rollup of Twitter signals tied to a repo. Shape defined in\n`src/lib/twitter/types.ts`.\n",
+        "additionalProperties": true
+      },
+      "RelatedRepoItem": {
+        "type": "object",
+        "properties": {
+          "fullName": {
+            "$ref": "#/components/schemas/FullName"
+          },
+          "sharedTopics": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "similarityScore": {
+            "type": "number"
+          }
+        }
+      },
+      "PredictionItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "fullName": {
+            "$ref": "#/components/schemas/FullName"
+          },
+          "horizonDays": {
+            "type": "integer",
+            "enum": [
+              7,
+              30,
+              90
+            ]
+          },
+          "p10": {
+            "type": "integer"
+          },
+          "p50": {
+            "type": "integer"
+          },
+          "p90": {
+            "type": "integer"
+          },
+          "modelVersion": {
+            "type": "string"
+          },
+          "createdAt": {
+            "$ref": "#/components/schemas/Timestamp"
+          },
+          "actualStarsAtHorizon": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "scoredAt": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Timestamp"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "IdeaItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "body": {
+            "type": "string"
+          },
+          "authorHandle": {
+            "type": "string"
+          },
+          "targetRepoFullName": {
+            "$ref": "#/components/schemas/FullName"
+          },
+          "buildStatus": {
+            "type": "string",
+            "enum": [
+              "open",
+              "building",
+              "shipped"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "published",
+              "shipped",
+              "archived",
+              "pending_moderation",
+              "rejected"
+            ]
+          },
+          "createdAt": {
+            "$ref": "#/components/schemas/Timestamp"
+          },
+          "publishedAt": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Timestamp"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "CanonicalRepoProfileMentions": {
+        "type": "object",
+        "required": [
+          "recent",
+          "nextCursor",
+          "countsBySource"
+        ],
+        "properties": {
+          "recent": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RepoMention"
+            },
+            "description": "Newest-first, capped at 50 rows."
+          },
+          "nextCursor": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "countsBySource": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        }
+      },
+      "CanonicalRepoProfileNpm": {
+        "type": "object",
+        "required": [
+          "packages",
+          "dailyDownloads",
+          "dependents"
+        ],
+        "properties": {
+          "packages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NpmPackageRow"
+            }
+          },
+          "dailyDownloads": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "date": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "downloads": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          },
+          "dependents": {
+            "type": "object",
+            "additionalProperties": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            }
+          }
+        }
+      },
+      "CanonicalRepoProfileRevenue": {
+        "type": "object",
+        "required": [
+          "verified",
+          "selfReported",
+          "trustmrrClaim"
+        ],
+        "properties": {
+          "verified": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/RevenueOverlay"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "selfReported": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/RevenueOverlay"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "trustmrrClaim": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/RevenueOverlay"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "CanonicalRepoProfile": {
+        "type": "object",
+        "required": [
+          "ok",
+          "fetchedAt",
+          "v",
+          "repo",
+          "mentions",
+          "freshness",
+          "npm",
+          "revenue",
+          "funding",
+          "related"
+        ],
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "fetchedAt": {
+            "$ref": "#/components/schemas/Timestamp"
+          },
+          "v": {
+            "type": "integer",
+            "enum": [
+              2
+            ]
+          },
+          "repo": {
+            "$ref": "#/components/schemas/Repo"
+          },
+          "score": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/RepoScore"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reasons": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HumanReason"
+            }
+          },
+          "mentions": {
+            "$ref": "#/components/schemas/CanonicalRepoProfileMentions"
+          },
+          "freshness": {
+            "$ref": "#/components/schemas/FreshnessSnapshot"
+          },
+          "twitter": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/TwitterRepoPanel"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "npm": {
+            "$ref": "#/components/schemas/CanonicalRepoProfileNpm"
+          },
+          "productHunt": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Launch"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "revenue": {
+            "$ref": "#/components/schemas/CanonicalRepoProfileRevenue"
+          },
+          "funding": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FundingEvent"
+            }
+          },
+          "related": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RelatedRepoItem"
+            }
+          },
+          "prediction": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/PredictionItem"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "ideas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IdeaItem"
+            }
+          }
+        }
+      },
+      "LegacyRepoProfileV1": {
+        "type": "object",
+        "required": [
+          "repo",
+          "mentions"
+        ],
+        "properties": {
+          "repo": {
+            "$ref": "#/components/schemas/Repo"
+          },
+          "score": {
+            "type": "null"
+          },
+          "category": {
+            "type": "null"
+          },
+          "reasons": {
+            "type": "null"
+          },
+          "social": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "mentions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RepoMention"
+            }
+          },
+          "twitterSignal": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/TwitterRepoPanel"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "whyMoving": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "relatedRepos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RelatedRepoItem"
+            }
+          },
+          "twitterAvailable": {
+            "type": "boolean"
+          }
+        }
+      },
+      "AlertEvent": {
+        "type": "object",
+        "required": [
+          "id",
+          "userId",
+          "trigger",
+          "createdAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "ruleId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "trigger": {
+            "type": "string"
+          },
+          "repoId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "categoryId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "payload": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "createdAt": {
+            "$ref": "#/components/schemas/Timestamp"
+          },
+          "readAt": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Timestamp"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "AlertRule": {
+        "type": "object",
+        "required": [
+          "id",
+          "userId",
+          "trigger",
+          "threshold",
+          "enabled"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "trigger": {
+            "type": "string",
+            "enum": [
+              "star_spike",
+              "new_release",
+              "rank_jump",
+              "discussion_spike",
+              "momentum_threshold",
+              "breakout_detected",
+              "daily_digest",
+              "weekly_digest"
+            ]
+          },
+          "threshold": {
+            "type": "number"
+          },
+          "repoId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "categoryId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "cooldownMinutes": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "$ref": "#/components/schemas/Timestamp"
+          }
+        }
+      },
+      "Category": {
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "hue": {
+            "type": "number"
+          },
+          "repoCount": {
+            "type": "integer"
+          },
+          "avgMomentum": {
+            "type": "number"
+          },
+          "topMoverId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "CollectionSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "curatedRepoCount": {
+            "type": "integer"
+          },
+          "liveRepoCount": {
+            "type": "integer"
+          },
+          "hotRank": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "hotRepoCount": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "hotTopRepo": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "starsRankingCount": {
+            "type": "integer"
+          },
+          "issuesRankingCount": {
+            "type": "integer"
+          },
+          "topStarsRepo": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "topIssuesRepo": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "FeaturedCard": {
+        "type": "object",
+        "required": [
+          "label",
+          "labelDisplay",
+          "repo",
+          "reason"
+        ],
+        "properties": {
+          "label": {
+            "type": "string",
+            "enum": [
+              "NUMBER_ONE_TODAY",
+              "BREAKOUT",
+              "RANK_CLIMBER",
+              "HN_FEATURED",
+              "FRESH_RELEASE",
+              "MOST_DISCUSSED",
+              "QUIET_KILLER",
+              "WATCHED_MOVING"
+            ]
+          },
+          "labelDisplay": {
+            "type": "string"
+          },
+          "repo": {
+            "$ref": "#/components/schemas/Repo"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "deltaPercent": {
+            "type": "number"
+          },
+          "rankDelta": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "sparkline": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "FeaturedResponse": {
+        "type": "object",
+        "required": [
+          "cards",
+          "generatedAt"
+        ],
+        "properties": {
+          "cards": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FeaturedCard"
+            }
+          },
+          "generatedAt": {
+            "$ref": "#/components/schemas/Timestamp"
+          }
+        }
+      },
+      "MetaCounts": {
+        "type": "object",
+        "properties": {
+          "hot": {
+            "type": "integer"
+          },
+          "breakouts": {
+            "type": "integer"
+          },
+          "quietKillers": {
+            "type": "integer"
+          },
+          "new": {
+            "type": "integer"
+          },
+          "discussed": {
+            "type": "integer"
+          },
+          "rankClimbers": {
+            "type": "integer"
+          },
+          "freshReleases": {
+            "type": "integer"
+          }
+        }
+      },
+      "SidebarDataRepo": {
+        "type": "object",
+        "required": [
+          "id",
+          "fullName",
+          "owner",
+          "name"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "fullName": {
+            "$ref": "#/components/schemas/FullName"
+          },
+          "owner": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "ownerAvatarUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "momentumScore": {
+            "type": "number"
+          },
+          "movementStatus": {
+            "$ref": "#/components/schemas/MovementStatus"
+          },
+          "sparklineData": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "stars": {
+            "type": "integer"
+          },
+          "starsDelta24h": {
+            "type": "integer"
+          },
+          "starsDelta24hMissing": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SidebarDataResponse": {
+        "type": "object",
+        "required": [
+          "categoryStats",
+          "metaCounts",
+          "availableLanguages",
+          "reposById",
+          "unreadAlerts",
+          "generatedAt"
+        ],
+        "properties": {
+          "categoryStats": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "metaCounts": {
+            "$ref": "#/components/schemas/MetaCounts"
+          },
+          "availableLanguages": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "reposById": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/SidebarDataRepo"
+            }
+          },
+          "unreadAlerts": {
+            "type": "integer"
+          },
+          "generatedAt": {
+            "$ref": "#/components/schemas/Timestamp"
+          }
+        }
+      },
+      "RevenueSubmissionInput": {
+        "type": "object",
+        "required": [
+          "repo",
+          "mode"
+        ],
+        "properties": {
+          "repo": {
+            "type": "string",
+            "description": "Either a GitHub URL or `owner/name`."
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "self_reported",
+              "trustmrr_link"
+            ]
+          },
+          "mrrCents": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "customers": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "paymentProvider": {
+            "type": "string"
+          },
+          "proofUrl": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uri"
+          },
+          "trustmrrSlug": {
+            "type": "string"
+          },
+          "contact": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "notes": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "RepoSubmissionInput": {
+        "type": "object",
+        "required": [
+          "repo"
+        ],
+        "properties": {
+          "repo": {
+            "type": "string",
+            "description": "Either a GitHub URL or `owner/name`."
+          },
+          "notes": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "contact": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "ReactionCounts": {
+        "type": "object",
+        "properties": {
+          "build": {
+            "type": "integer"
+          },
+          "use": {
+            "type": "integer"
+          },
+          "buy": {
+            "type": "integer"
+          },
+          "invest": {
+            "type": "integer"
+          }
+        }
+      },
+      "IdeaInput": {
+        "type": "object",
+        "required": [
+          "title",
+          "body"
+        ],
+        "properties": {
+          "title": {
+            "type": "string",
+            "maxLength": 140
+          },
+          "body": {
+            "type": "string",
+            "maxLength": 4000
+          },
+          "targetRepoFullName": {
+            "$ref": "#/components/schemas/FullName"
+          }
+        }
+      }
+    },
+    "parameters": {
+      "OwnerPath": {
+        "name": "owner",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/SlugPart"
+        }
+      },
+      "NamePath": {
+        "name": "name",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/SlugPart"
+        }
+      },
+      "LimitQuery": {
+        "name": "limit",
+        "in": "query",
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 200,
+          "default": 50
+        }
+      },
+      "OffsetQuery": {
+        "name": "offset",
+        "in": "query",
+        "schema": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0
+        }
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Invalid parameter or body.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Missing or invalid credentials.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Resource not found.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "RateLimited": {
+        "description": "Too many requests.",
+        "headers": {
+          "Retry-After": {
+            "schema": {
+              "type": "integer"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "ServerError": {
+        "description": "Internal error.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
             }
           }
         }

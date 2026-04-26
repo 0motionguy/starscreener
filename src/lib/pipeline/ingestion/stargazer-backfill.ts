@@ -17,6 +17,13 @@
 
 import type { PipelineStores } from "../storage/singleton";
 import type { RepoSnapshot } from "../types";
+import {
+  GitHubTokenPoolEmptyError,
+  GitHubTokenPoolExhaustedError,
+  getGitHubTokenPool,
+  parseRateLimitHeaders,
+  type GitHubTokenPool,
+} from "@/lib/github-token-pool";
 
 const GITHUB_API = "https://api.github.com";
 const ONE_DAY_MS = 86_400_000;
@@ -59,6 +66,10 @@ interface StargazerPageEntry {
  *
  * Returns zero-write result when the repo isn't in the store or has no stars
  * visible through the stargazer endpoint.
+ *
+ * `token` is kept as the second positional argument for back-compat with
+ * existing callers (e.g. /api/pipeline/backfill-history). Pass an empty
+ * string to route through the shared GitHub token pool — recommended.
  */
 export async function backfillStargazerHistory(
   fullName: string,
@@ -66,12 +77,12 @@ export async function backfillStargazerHistory(
   stores: PipelineStores,
   opts: StargazerBackfillOptions = {},
 ): Promise<StargazerBackfillResult> {
-  if (!token) {
-    throw new Error(
-      "backfillStargazerHistory: token is required. The stargazer endpoint " +
-        "requires a GitHub PAT to stay under the 60/hr unauthenticated limit.",
-    );
-  }
+  // Resolve a per-call request issuer that picks a fresh token from the
+  // pool on each call AND records the response's rate-limit headers back
+  // onto the pool so other callers stay consistent. Callers that pass an
+  // explicit `token` arg keep the legacy single-PAT path; everyone else
+  // gets pool-based round-robin.
+  const issueRequest = makeStargazerRequester(token);
 
   const repo = stores.repoStore.getByFullName(fullName);
   if (!repo) {
@@ -92,15 +103,12 @@ export async function backfillStargazerHistory(
   let lastPage = 1;
   {
     const probeUrl = `${GITHUB_API}/repos/${fullName}/stargazers?per_page=100&page=1`;
-    const probe = await fetch(probeUrl, {
-      method: "GET",
-      headers: {
-        Accept: "application/vnd.github.star+json",
-        Authorization: `Bearer ${token}`,
-        "X-GitHub-Api-Version": "2022-11-28",
-        "User-Agent": "TrendingRepo",
-      },
-    });
+    const probe = await issueRequest(probeUrl);
+    if (!probe) {
+      throw new Error(
+        `stargazer probe ${fullName} failed: token pool empty and no fallback`,
+      );
+    }
     const link = probe.headers.get("link");
     if (link) {
       const m = link.match(/<[^>]*[?&]page=(\d+)[^>]*>;\s*rel="last"/);
@@ -150,15 +158,12 @@ export async function backfillStargazerHistory(
 
   for (let page = startPage; page <= lastPage; page++) {
     const url = `${GITHUB_API}/repos/${fullName}/stargazers?per_page=100&page=${page}`;
-    const res = await fetch(url, {
-      method: "GET",
-      headers: {
-        Accept: "application/vnd.github.star+json",
-        Authorization: `Bearer ${token}`,
-        "X-GitHub-Api-Version": "2022-11-28",
-        "User-Agent": "TrendingRepo",
-      },
-    });
+    const res = await issueRequest(url);
+    if (!res) {
+      throw new Error(
+        `stargazer fetch ${fullName} page ${page} failed: token pool exhausted`,
+      );
+    }
 
     // Extract rate-limit info on every response so we stay observable even
     // when aborting early.
@@ -260,6 +265,66 @@ export async function backfillStargazerHistory(
     snapshotsWritten: snapshots.length,
     daysCovered: perDay.size,
     rateLimitRemaining,
+  };
+}
+
+/**
+ * Build a per-call GitHub fetcher. When the caller passed a non-empty
+ * `legacyToken`, that PAT is used directly (back-compat for routes that
+ * still inject a single token). Otherwise we resolve a token from the
+ * shared pool on every call and feed the response's rate-limit headers
+ * back into the pool.
+ *
+ * Returns null when there is no token available at all (empty pool AND
+ * no legacy token), or when the pool reports every PAT exhausted.
+ */
+function makeStargazerRequester(
+  legacyToken: string,
+): (url: string) => Promise<Response | null> {
+  // Capture the pool reference once. Tests that swap the singleton via
+  // `_resetGitHubTokenPoolForTests` need to call this factory AFTER the
+  // reset so the new pool is picked up.
+  const pool: GitHubTokenPool | null = legacyToken ? null : getGitHubTokenPool();
+
+  return async (url: string): Promise<Response | null> => {
+    let token: string | null = legacyToken || null;
+    if (!token && pool) {
+      try {
+        token = pool.getNextToken();
+      } catch (err) {
+        if (err instanceof GitHubTokenPoolEmptyError) {
+          // No PAT at all — the stargazer endpoint requires auth above 60/hr,
+          // but we still attempt unauthenticated to surface the 403 to the
+          // caller rather than swallowing it here.
+          token = null;
+        } else if (err instanceof GitHubTokenPoolExhaustedError) {
+          console.warn(
+            `[stargazer-backfill] every PAT exhausted; aborting. ${err.message}`,
+          );
+          return null;
+        } else {
+          throw err;
+        }
+      }
+    }
+
+    const headers: Record<string, string> = {
+      Accept: "application/vnd.github.star+json",
+      "X-GitHub-Api-Version": "2022-11-28",
+      "User-Agent": "TrendingRepo",
+    };
+    if (token) headers.Authorization = `Bearer ${token}`;
+
+    const res = await fetch(url, { method: "GET", headers });
+
+    // Feed the response's rate-limit info back to the pool so future picks
+    // see the post-call quota. Skipped for the legacy single-PAT path
+    // since we don't manage that token's quota in the pool.
+    if (token && pool) {
+      const rl = parseRateLimitHeaders(res.headers);
+      if (rl) pool.recordRateLimit(token, rl.remaining, rl.resetUnixSec);
+    }
+    return res;
   };
 }
 

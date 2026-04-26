@@ -21,6 +21,7 @@
 
 import type { SocialPlatform } from "@/lib/types";
 import { slugToId } from "@/lib/utils";
+import { sourceHealthTracker } from "@/lib/source-health-tracker";
 import type { RepoMention, SocialAdapter } from "../types";
 import { inferSentiment } from "./social-adapters";
 
@@ -226,6 +227,7 @@ export class NitterAdapter implements SocialAdapter {
     try {
       await ensureProbed();
       if (!nitterHost) return [];
+      if (sourceHealthTracker.isOpen("nitter")) return [];
 
       await waitForRateLimit();
 
@@ -245,6 +247,7 @@ export class NitterAdapter implements SocialAdapter {
           console.error(
             `[social:nitter] HTTP ${res.status} for ${fullName} via ${nitterHost}`,
           );
+          sourceHealthTracker.recordFailure("nitter", `HTTP ${res.status}`);
           return [];
         }
         xml = await res.text();
@@ -300,12 +303,14 @@ export class NitterAdapter implements SocialAdapter {
         });
       }
 
+      sourceHealthTracker.recordSuccess("nitter");
       return out;
     } catch (err) {
       console.error(
         `[social:nitter] fetchMentionsForRepo ${fullName} failed`,
         err,
       );
+      sourceHealthTracker.recordFailure("nitter", err);
       return [];
     }
   }

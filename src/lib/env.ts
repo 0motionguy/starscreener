@@ -19,6 +19,16 @@ const EnvSchema = z.object({
 
   // ── Data sources ───────────────────────────────────────────────────────
   GITHUB_TOKEN: z.string().optional(),
+  // Comma-separated list of ADDITIONAL PATs the github-token-pool will
+  // round-robin across. Treated as additive to GITHUB_TOKEN; duplicates
+  // across the two vars are deduped at parse time. See
+  // src/lib/github-token-pool.ts.
+  //
+  // GH_TOKEN_POOL is the canonical env name (GitHub Actions reserves the
+  // "GITHUB_*" prefix for system-managed secrets). GITHUB_TOKEN_POOL is
+  // accepted as an alias for back-compat / dev machines.
+  GH_TOKEN_POOL: z.string().optional(),
+  GITHUB_TOKEN_POOL: z.string().optional(),
 
   // ── Revenue enrichment sync (scripts only — not read at request time) ──
   // The key is consumed by scripts/sync-trustmrr.mjs in CI. The web runtime

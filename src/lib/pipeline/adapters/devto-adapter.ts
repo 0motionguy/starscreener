@@ -17,6 +17,7 @@
 
 import type { Sentiment, SocialPlatform } from "@/lib/types";
 import { slugToId } from "@/lib/utils";
+import { sourceHealthTracker } from "@/lib/source-health-tracker";
 import type { RepoMention, SocialAdapter } from "../types";
 import { inferSentiment } from "./social-adapters";
 
@@ -221,6 +222,9 @@ export class DevtoAdapter implements SocialAdapter {
     const owner = repoOwnerOf(fullName);
     const name = repoNameOf(fullName);
     if (!owner || !name) return [];
+    if (sourceHealthTracker.isOpen("devto")) {
+      return [];
+    }
 
     // top=7 biases toward high-engagement articles from the last week, which
     // matches the mention-store freshness window. per_page=100 gives us a
@@ -242,6 +246,7 @@ export class DevtoAdapter implements SocialAdapter {
       const res = await doFetch(url, { signal, headers });
       if (!res.ok) {
         console.error(`[social:devto] HTTP ${res.status} for ${fullName}`);
+        sourceHealthTracker.recordFailure("devto", `HTTP ${res.status}`);
         return [];
       }
       const body: unknown = await res.json();
@@ -258,12 +263,14 @@ export class DevtoAdapter implements SocialAdapter {
         }
         out.push(mention);
       }
+      sourceHealthTracker.recordSuccess("devto");
       return out;
     } catch (err) {
       console.error(
         `[social:devto] fetchMentionsForRepo ${fullName} failed`,
         err,
       );
+      sourceHealthTracker.recordFailure("devto", err);
       return [];
     } finally {
       clear();

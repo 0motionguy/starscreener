@@ -38,6 +38,7 @@ import {
   getScannerSourceHealth,
   type ScannerSourceHealth,
 } from "@/lib/source-health";
+import { sourceHealthTracker } from "@/lib/source-health-tracker";
 import {
   deltasCoveragePct,
   deltasCoverageQuality,
@@ -123,8 +124,28 @@ interface HealthBody {
   };
   degradedSources?: string[];
   sources?: ScannerSourceHealth[];
+  circuitBreakers?: {
+    open: string[];
+    half_open: string[];
+  };
   warning?: string;
   error?: string;
+}
+
+function getCircuitBreakerSummary(): {
+  open: string[];
+  half_open: string[];
+} {
+  const all = sourceHealthTracker.getAllHealth();
+  const open: string[] = [];
+  const halfOpen: string[] = [];
+  for (const [id, snap] of Object.entries(all)) {
+    if (snap.state === "OPEN") open.push(id);
+    else if (snap.state === "HALF_OPEN") halfOpen.push(id);
+  }
+  open.sort();
+  halfOpen.sort();
+  return { open, half_open: halfOpen };
 }
 
 function ageMs(iso: string | null): number | null {
@@ -291,6 +312,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<HealthBody
       },
       degradedSources,
       sources,
+      circuitBreakers: getCircuitBreakerSummary(),
     };
 
     if (!anyStale && quality === "partial") {
@@ -384,6 +406,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<HealthBody
         },
         degradedSources: [],
         sources: [],
+        circuitBreakers: getCircuitBreakerSummary(),
         error: message,
       },
       { status: 503 },

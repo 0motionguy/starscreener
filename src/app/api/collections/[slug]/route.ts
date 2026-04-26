@@ -3,12 +3,17 @@ import type { Repo } from "@/lib/types";
 import { READ_CACHE_HEADERS } from "@/lib/api/cache";
 import { loadCollection, loadAllCollections, indexReposByFullName, liveCountFor } from "@/lib/collections";
 import { getDerivedRepos } from "@/lib/derived-repos";
-import { lastFetchedAt } from "@/lib/trending";
-import { getHotAiCollections, hotCollectionsFetchedAt } from "@/lib/hot-collections";
+import { getLastFetchedAt, refreshTrendingFromStore } from "@/lib/trending";
 import {
-  collectionRankingsFetchedAt,
-  collectionRankingsPeriod,
+  getHotAiCollections,
+  getHotCollectionsFetchedAt,
+  refreshHotCollectionsFromStore,
+} from "@/lib/hot-collections";
+import {
   getCollectionRankingBySlug,
+  getCollectionRankingsFetchedAt,
+  getCollectionRankingsPeriod,
+  refreshCollectionRankingsFromStore,
   type CollectionRankingRow,
 } from "@/lib/collection-rankings";
 
@@ -61,6 +66,13 @@ export async function GET(
     return NextResponse.json({ error: "Collection not found" }, { status: 404 });
   }
 
+  // Refresh in-memory caches from the data-store before reading sync getters.
+  await Promise.all([
+    refreshTrendingFromStore(),
+    refreshHotCollectionsFromStore(),
+    refreshCollectionRankingsFromStore(),
+  ]);
+
   const limit = parseLimit(request.nextUrl.searchParams.get("limit"));
   const collections = loadAllCollections();
   const liveRepos = getDerivedRepos();
@@ -93,10 +105,10 @@ export async function GET(
         liveRepoCount: liveCountFor(collection, liveIndex),
       },
       sources: {
-        trendingFetchedAt: lastFetchedAt ?? null,
-        hotCollectionsFetchedAt: hotCollectionsFetchedAt ?? null,
-        collectionRankingsFetchedAt,
-        rankingPeriod: collectionRankingsPeriod,
+        trendingFetchedAt: getLastFetchedAt() ?? null,
+        hotCollectionsFetchedAt: getHotCollectionsFetchedAt() ?? null,
+        collectionRankingsFetchedAt: getCollectionRankingsFetchedAt(),
+        rankingPeriod: getCollectionRankingsPeriod(),
       },
       coverage: {
         starsRankingCount: starsRows.length,
@@ -118,11 +130,11 @@ export async function GET(
       upstreamStarsOutsideCurated: starsOutsideCurated,
       upstreamIssuesOutsideCurated: issuesOutsideCurated,
       rankingByStars: {
-        period: collectionRankingsPeriod,
+        period: getCollectionRankingsPeriod(),
         rows: enrichRankingRows(starsRows, curatedNames, liveIndex, limit),
       },
       rankingByIssues: {
-        period: collectionRankingsPeriod,
+        period: getCollectionRankingsPeriod(),
         rows: enrichRankingRows(issuesRows, curatedNames, liveIndex, limit),
       },
     },

@@ -25,6 +25,7 @@ import {
 } from "./revenue-submissions";
 import { currentDataDir } from "./pipeline/storage/file-persistence";
 import { trustmrrProfileUrl } from "./trustmrr-url";
+import { getDataStore } from "./data-store";
 
 export interface RevenueOverlaysFile {
   generatedAt: string | null;
@@ -50,49 +51,67 @@ const EMPTY_FILE: RevenueOverlaysFile = {
 const HARD_CUTOFF_MS = 14 * 24 * 60 * 60 * 1000;
 const STALE_THRESHOLD_MS = 2 * 24 * 60 * 60 * 1000;
 
-let cache:
-  | {
-      mtimeMs: number;
-      file: RevenueOverlaysFile;
-      byFullName: Map<string, RevenueOverlay>;
-    }
-  | null = null;
-
-function loadFileSync(): RevenueOverlaysFile {
-  if (!existsSync(FILE_PATH)) return EMPTY_FILE;
-  try {
-    const raw = readFileSync(FILE_PATH, "utf8");
-    const parsed = JSON.parse(raw) as Partial<RevenueOverlaysFile>;
-    return {
-      ...EMPTY_FILE,
-      ...parsed,
-      overlays:
-        parsed.overlays && typeof parsed.overlays === "object"
-          ? (parsed.overlays as Record<string, RevenueOverlay>)
-          : {},
-    };
-  } catch {
-    return EMPTY_FILE;
-  }
+interface RevenueOverlaysCacheEntry {
+  /** Numeric mtime when sourced from disk; negative numbers signal Redis-sourced. */
+  signature: string;
+  file: RevenueOverlaysFile;
+  byFullName: Map<string, RevenueOverlay>;
 }
 
-function ensureCache() {
-  let mtimeMs = -1;
-  try {
-    mtimeMs = existsSync(FILE_PATH) ? statSync(FILE_PATH).mtimeMs : -1;
-  } catch {
-    mtimeMs = -1;
-  }
+let cache: RevenueOverlaysCacheEntry | null = null;
 
-  if (cache && cache.mtimeMs === mtimeMs) return cache;
+function normalizeFile(input: unknown): RevenueOverlaysFile {
+  if (!input || typeof input !== "object") return EMPTY_FILE;
+  const parsed = input as Partial<RevenueOverlaysFile>;
+  return {
+    ...EMPTY_FILE,
+    ...parsed,
+    overlays:
+      parsed.overlays && typeof parsed.overlays === "object"
+        ? (parsed.overlays as Record<string, RevenueOverlay>)
+        : {},
+  };
+}
 
-  const file = loadFileSync();
+function buildIndex(file: RevenueOverlaysFile): Map<string, RevenueOverlay> {
   const byFullName = new Map<string, RevenueOverlay>();
   for (const [fullName, overlay] of Object.entries(file.overlays)) {
     if (!overlay) continue;
     byFullName.set(fullName.toLowerCase(), overlay);
   }
-  cache = { mtimeMs, file, byFullName };
+  return byFullName;
+}
+
+function loadFileSync(): RevenueOverlaysFile {
+  if (!existsSync(FILE_PATH)) return EMPTY_FILE;
+  try {
+    const raw = readFileSync(FILE_PATH, "utf8");
+    return normalizeFile(JSON.parse(raw));
+  } catch {
+    return EMPTY_FILE;
+  }
+}
+
+function diskSignature(): string {
+  try {
+    return existsSync(FILE_PATH)
+      ? `disk:${statSync(FILE_PATH).mtimeMs}`
+      : "missing";
+  } catch {
+    return "missing";
+  }
+}
+
+function ensureCache(): RevenueOverlaysCacheEntry {
+  const sig = diskSignature();
+  if (cache && cache.signature === sig) return cache;
+  // A synthetic "redis:" signature stays stable across calls — only the
+  // refresh hook overwrites it. We still re-check disk here so a local
+  // recompute (e.g. cron writing the JSON file) gets picked up.
+  if (cache && cache.signature.startsWith("redis:")) return cache;
+
+  const file = loadFileSync();
+  cache = { signature: sig, file, byFullName: buildIndex(file) };
   return cache;
 }
 
@@ -138,6 +157,69 @@ export function getRevenueOverlaysMeta() {
     catalogGeneratedAt: file.catalogGeneratedAt,
     matchedCount: Object.keys(file.overlays).length,
   };
+}
+
+// ---------------------------------------------------------------------------
+// Refresh hook — pulls the freshest revenue-overlays payload from the
+// data-store. Self-reported overlays come from the runtime JSONL and stay
+// on the existing mtime cache; this hook only swaps the verified overlay
+// table that originates in scripts/sync-trustmrr.mjs.
+// ---------------------------------------------------------------------------
+
+interface RefreshResult {
+  source: "redis" | "file" | "memory" | "missing";
+  ageMs: number;
+}
+
+let inflight: Promise<RefreshResult> | null = null;
+let lastRefreshMs = 0;
+const MIN_REFRESH_INTERVAL_MS = 30_000;
+
+/**
+ * Pull the freshest revenue-overlays payload from the data-store and swap
+ * it into the in-memory cache. Cheap to call multiple times — internal
+ * dedupe + rate-limit ensure we hit Redis at most once per 30s per process.
+ *
+ * Safe to call from any server-component / route handler before reading any
+ * sync getter. Never throws — on Redis miss the existing cache is preserved.
+ */
+export async function refreshRevenueOverlaysFromStore(): Promise<RefreshResult> {
+  if (inflight) return inflight;
+  const sinceLast = Date.now() - lastRefreshMs;
+  if (sinceLast < MIN_REFRESH_INTERVAL_MS && lastRefreshMs > 0) {
+    return { source: "memory", ageMs: sinceLast };
+  }
+
+  inflight = (async (): Promise<RefreshResult> => {
+    try {
+      const store = getDataStore();
+      const result = await store.read<unknown>("revenue-overlays");
+      if (result.data && result.source !== "missing") {
+        const next = normalizeFile(result.data);
+        cache = {
+          signature: `redis:${result.writtenAt ?? Date.now()}`,
+          file: next,
+          byFullName: buildIndex(next),
+        };
+      }
+      lastRefreshMs = Date.now();
+      return { source: result.source, ageMs: result.ageMs };
+    } catch {
+      lastRefreshMs = Date.now();
+      return { source: "missing", ageMs: 0 };
+    }
+  })().finally(() => {
+    inflight = null;
+  });
+
+  return inflight;
+}
+
+/** Test/admin — drop the in-memory cache so the next read goes to disk. */
+export function _resetRevenueOverlaysCacheForTests(): void {
+  cache = null;
+  lastRefreshMs = 0;
+  inflight = null;
 }
 
 // ---------------------------------------------------------------------------

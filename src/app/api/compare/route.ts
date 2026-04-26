@@ -32,6 +32,8 @@ import {
   buildCanonicalRepoProfile,
   type CanonicalRepoProfile,
 } from "@/lib/api/repo-profile";
+import { refreshRepoMetadataFromStore } from "@/lib/repo-metadata";
+import { refreshNpmFromStore } from "@/lib/npm";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -134,6 +136,13 @@ export async function GET(request: NextRequest) {
       names.push(n);
     }
   }
+
+  // Refresh data-store-backed caches consumed by the canonical assembler
+  // (repo-metadata + npm-packages slices) before fanning out per-repo.
+  await Promise.all([
+    refreshRepoMetadataFromStore(),
+    refreshNpmFromStore(),
+  ]);
 
   let rows: CompareRepoRow[];
   try {

@@ -11,9 +11,12 @@
 // mirrors the hydrateRedditPost backwards-compat philosophy.
 
 import hnTrendingData from "../../data/hackernews-trending.json";
+import { getDataStore } from "./data-store";
 import type { HnStory, HnTrendingFile } from "./hackernews";
 
-const trendingFile = hnTrendingData as unknown as HnTrendingFile;
+// Mutable in-memory cache — seeded from the bundled JSON, replaced by Redis
+// payloads via refreshHackernewsTrendingFromStore().
+let trendingFile: HnTrendingFile = hnTrendingData as unknown as HnTrendingFile;
 
 function round2(n: number): number {
   return Math.round(n * 100) / 100;
@@ -65,4 +68,38 @@ export function getHnTopStories(
   hydrated.sort((a, b) => (b.trendingScore ?? 0) - (a.trendingScore ?? 0));
   if (hydrated.length <= limit) return hydrated;
   return hydrated.slice(0, limit);
+}
+
+// ---------------------------------------------------------------------------
+// Phase 4: refresh hook — pull latest hackernews-trending payload from data-store.
+// ---------------------------------------------------------------------------
+
+let inflight: Promise<{ source: string; ageMs: number }> | null = null;
+let lastRefreshMs = 0;
+const MIN_REFRESH_INTERVAL_MS = 30_000;
+
+export async function refreshHackernewsTrendingFromStore(): Promise<{
+  source: string;
+  ageMs: number;
+}> {
+  if (inflight) return inflight;
+  if (
+    Date.now() - lastRefreshMs < MIN_REFRESH_INTERVAL_MS &&
+    lastRefreshMs > 0
+  ) {
+    return { source: "memory", ageMs: Date.now() - lastRefreshMs };
+  }
+  inflight = (async () => {
+    const result = await getDataStore().read<HnTrendingFile>(
+      "hackernews-trending",
+    );
+    if (result.data && result.source !== "missing") {
+      trendingFile = result.data;
+    }
+    lastRefreshMs = Date.now();
+    return { source: result.source, ageMs: result.ageMs };
+  })().finally(() => {
+    inflight = null;
+  });
+  return inflight;
 }

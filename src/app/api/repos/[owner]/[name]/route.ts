@@ -38,6 +38,8 @@ import type { RepoMention } from "@/lib/pipeline/types";
 import { READ_CACHE_HEADERS } from "@/lib/api/cache";
 import { getTwitterRepoPanel } from "@/lib/twitter/service";
 import { buildCanonicalRepoProfile } from "@/lib/api/repo-profile";
+import { refreshRepoMetadataFromStore } from "@/lib/repo-metadata";
+import { refreshNpmFromStore } from "@/lib/npm";
 
 const SLUG_PART_PATTERN = /^[A-Za-z0-9._-]+$/;
 
@@ -107,6 +109,12 @@ export async function GET(
 
 async function handleV2(owner: string, name: string) {
   try {
+    // Refresh data-store-backed caches consumed by the canonical assembler
+    // (repo-metadata + npm-packages slices).
+    await Promise.all([
+      refreshRepoMetadataFromStore(),
+      refreshNpmFromStore(),
+    ]);
     const profile = await buildCanonicalRepoProfile(`${owner}/${name}`);
     if (!profile) {
       return errorResponse("Repo not found", 404, "repo_not_found");

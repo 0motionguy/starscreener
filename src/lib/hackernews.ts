@@ -12,6 +12,7 @@
 // lookup, canonical repo route helper.
 
 import hnMentionsData from "../../data/hackernews-repo-mentions.json";
+import { getDataStore } from "./data-store";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -79,7 +80,9 @@ export interface HnTrendingFile {
 // Module-init: narrow JSON imports + build the case-insensitive lookup map
 // ---------------------------------------------------------------------------
 
-const mentionsFile = hnMentionsData as unknown as HnMentionsFile;
+// Mutable in-memory cache — seeded from the bundled JSON, replaced by Redis
+// payloads via refreshHackernewsMentionsFromStore().
+let mentionsFile: HnMentionsFile = hnMentionsData as unknown as HnMentionsFile;
 
 export const hnFetchedAt: string = mentionsFile.fetchedAt;
 
@@ -91,13 +94,23 @@ export const hnFetchedAt: string = mentionsFile.fetchedAt;
 export const hnCold: boolean =
   !mentionsFile.fetchedAt || !mentionsFile.mentions;
 
-const mentionsByLowerName: Map<string, HnRepoMention> = (() => {
+export function getHnFetchedAt(): string {
+  return mentionsFile.fetchedAt;
+}
+
+export function isHnCold(): boolean {
+  return !mentionsFile.fetchedAt || !mentionsFile.mentions;
+}
+
+function buildMentionsByLowerName(file: HnMentionsFile): Map<string, HnRepoMention> {
   const map = new Map<string, HnRepoMention>();
-  for (const [fullName, mention] of Object.entries(mentionsFile.mentions)) {
+  for (const [fullName, mention] of Object.entries(file.mentions)) {
     map.set(fullName.toLowerCase(), mention);
   }
   return map;
-})();
+}
+
+let mentionsByLowerName: Map<string, HnRepoMention> = buildMentionsByLowerName(mentionsFile);
 
 // ---------------------------------------------------------------------------
 // Public API — mentions side
@@ -129,4 +142,40 @@ export function repoFullNameToHref(fullName: string): string {
   const [owner, name] = fullName.split("/", 2);
   if (!owner || !name) return "/repo";
   return `/repo/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`;
+}
+
+// ---------------------------------------------------------------------------
+// Phase 4: refresh hook — pull latest hackernews-repo-mentions payload from
+// the data-store. Rebuilds the case-insensitive lookup map after a swap.
+// ---------------------------------------------------------------------------
+
+let inflight: Promise<{ source: string; ageMs: number }> | null = null;
+let lastRefreshMs = 0;
+const MIN_REFRESH_INTERVAL_MS = 30_000;
+
+export async function refreshHackernewsMentionsFromStore(): Promise<{
+  source: string;
+  ageMs: number;
+}> {
+  if (inflight) return inflight;
+  if (
+    Date.now() - lastRefreshMs < MIN_REFRESH_INTERVAL_MS &&
+    lastRefreshMs > 0
+  ) {
+    return { source: "memory", ageMs: Date.now() - lastRefreshMs };
+  }
+  inflight = (async () => {
+    const result = await getDataStore().read<HnMentionsFile>(
+      "hackernews-repo-mentions",
+    );
+    if (result.data && result.source !== "missing") {
+      mentionsFile = result.data;
+      mentionsByLowerName = buildMentionsByLowerName(mentionsFile);
+    }
+    lastRefreshMs = Date.now();
+    return { source: result.source, ageMs: result.ageMs };
+  })().finally(() => {
+    inflight = null;
+  });
+  return inflight;
 }

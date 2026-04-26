@@ -7,9 +7,13 @@
 
 import { NextRequest, NextResponse } from "next/server";
 
-import { estimateMrr } from "@/lib/revenue-benchmarks";
+import {
+  estimateMrr,
+  refreshRevenueBenchmarksFromStore,
+} from "@/lib/revenue-benchmarks";
 
 export async function GET(request: NextRequest) {
+  await refreshRevenueBenchmarksFromStore();
   const params = request.nextUrl.searchParams;
   const category = params.get("category");
   const starBand = params.get("starBand");

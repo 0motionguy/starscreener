@@ -8,19 +8,27 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import {
-  collectionRankingsFetchedAt,
   getCollectionRankingsCoverage,
+  getCollectionRankingsFetchedAt,
+  refreshCollectionRankingsFromStore,
   type CollectionRankingsCoverage,
 } from "@/lib/collection-rankings";
-import { hotCollectionsFetchedAt } from "@/lib/hot-collections";
+import {
+  getHotCollectionsFetchedAt,
+  refreshHotCollectionsFromStore,
+} from "@/lib/hot-collections";
 import {
   getRepoMetadataCount,
   getRepoMetadataCoveragePct,
   getRepoMetadataFailures,
+  getRepoMetadataFetchedAt,
   getRepoMetadataSourceCount,
-  repoMetadataFetchedAt,
+  refreshRepoMetadataFromStore,
 } from "@/lib/repo-metadata";
-import { recentReposFetchedAt } from "@/lib/recent-repos";
+import {
+  getRecentReposFetchedAt,
+  refreshRecentReposFromStore,
+} from "@/lib/recent-repos";
 import {
   DEVTO_STALE_THRESHOLD_MS,
   FAST_DATA_STALE_THRESHOLD_MS,
@@ -31,10 +39,11 @@ import {
   type ScannerSourceHealth,
 } from "@/lib/source-health";
 import {
-  deltasComputedAt,
   deltasCoveragePct,
   deltasCoverageQuality,
-  lastFetchedAt,
+  getDeltasComputedAt,
+  getLastFetchedAt,
+  refreshTrendingFromStore,
   type DeltaCoverageQuality,
 } from "@/lib/trending";
 
@@ -128,6 +137,25 @@ function ageMs(iso: string | null): number | null {
 export async function GET(request: NextRequest): Promise<NextResponse<HealthBody>> {
   try {
     const soft = request.nextUrl.searchParams.get("soft") === "1";
+
+    // Refresh in-memory caches from the data-store so per-source freshness
+    // reflects the live Redis payload, not the bundled JSON snapshot. Each
+    // refresh call internally rate-limits to 1 read per source per 30s.
+    await Promise.all([
+      refreshTrendingFromStore(),
+      refreshHotCollectionsFromStore(),
+      refreshRecentReposFromStore(),
+      refreshRepoMetadataFromStore(),
+      refreshCollectionRankingsFromStore(),
+    ]);
+
+    const lastFetchedAt = getLastFetchedAt();
+    const deltasComputedAt = getDeltasComputedAt();
+    const hotCollectionsFetchedAt = getHotCollectionsFetchedAt();
+    const recentReposFetchedAt = getRecentReposFetchedAt();
+    const repoMetadataFetchedAt = getRepoMetadataFetchedAt();
+    const collectionRankingsFetchedAt = getCollectionRankingsFetchedAt();
+
     const sources = getScannerSourceHealth();
     const degradedSources = getDegradedScannerSources().map((source) => source.id);
     const sourceById = new Map<ScannerSourceHealth["id"], ScannerSourceHealth>(
@@ -283,12 +311,12 @@ export async function GET(request: NextRequest): Promise<NextResponse<HealthBody
       {
         status: "error",
         sourceStatus: "degraded",
-        lastFetchedAt: lastFetchedAt ?? null,
-        computedAt: deltasComputedAt ?? null,
-        hotCollectionsFetchedAt: hotCollectionsFetchedAt ?? null,
-        recentReposFetchedAt,
-        repoMetadataFetchedAt,
-        collectionRankingsFetchedAt,
+        lastFetchedAt: getLastFetchedAt() ?? null,
+        computedAt: getDeltasComputedAt() ?? null,
+        hotCollectionsFetchedAt: getHotCollectionsFetchedAt() ?? null,
+        recentReposFetchedAt: getRecentReposFetchedAt(),
+        repoMetadataFetchedAt: getRepoMetadataFetchedAt(),
+        collectionRankingsFetchedAt: getCollectionRankingsFetchedAt(),
         redditFetchedAt: null,
         redditCold: true,
         blueskyFetchedAt: null,

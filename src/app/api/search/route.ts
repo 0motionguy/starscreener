@@ -34,6 +34,7 @@ import {
 import {
   getRevenueOverlay,
   getSelfReportedOverlay,
+  refreshRevenueOverlaysFromStore,
 } from "@/lib/revenue-overlays";
 import { getFundingEventsForRepo } from "@/lib/funding/repo-events";
 import type { RevenueTier } from "@/lib/types";
@@ -150,6 +151,9 @@ function buildLegacyResponse(
 // ---------------------------------------------------------------------------
 
 export async function GET(request: NextRequest) {
+  // Pull fresh overlays from the data-store before scoring matches. Internal
+  // 30s rate-limit absorbs the spike from concurrent search requests.
+  await refreshRevenueOverlaysFromStore();
   // `request.nextUrl` is only populated when the handler is invoked via the
   // Next runtime. Unit tests pass a plain `Request`, so we fall back to
   // parsing `request.url` directly — both paths produce the same URL.

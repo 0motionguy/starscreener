@@ -16,6 +16,7 @@ import { resolve } from "path";
 import pLimit from "p-limit";
 import { fetchWithTimeout, sleep } from "./_fetch-json.mjs";
 import { fetchArticleData } from "./_funding-article.mjs";
+import { writeDataStore } from "./_data-store-write.mjs";
 
 // ---------------------------------------------------------------------------
 // Config
@@ -1090,12 +1091,21 @@ async function main() {
   await mkdir(DATA_DIR, { recursive: true });
   await writeFile(outputPath, JSON.stringify(payload, null, 2) + "\n", "utf8");
 
+  // Dual-write: also push to data-store so live readers see fresh data without
+  // waiting for a deploy. Only mirror to Redis when the writer is targeting
+  // the canonical OUT_PATH — preview/test outputs (--output=...) stay local.
+  let redisInfo = "";
+  if (outputPath === OUT_PATH) {
+    const redisResult = await writeDataStore("funding-news", payload);
+    redisInfo = ` [redis: ${redisResult.source}]`;
+  }
+
   const extractedCount = allSignals.filter((s) => s.extracted !== null).length;
   const enrichedCount = allSignals.filter(
     (s) => s.extracted?.companyLogoUrl || s.extracted?.investorsEnriched?.length,
   ).length;
   console.log(
-    `[funding] wrote ${allSignals.length} signals (${extractedCount} with extraction, ${enrichedCount} enriched) to ${outputPath}`,
+    `[funding] wrote ${allSignals.length} signals (${extractedCount} with extraction, ${enrichedCount} enriched) to ${outputPath}${redisInfo}`,
   );
 }
 

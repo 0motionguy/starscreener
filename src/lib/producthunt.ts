@@ -6,6 +6,7 @@
 // /api/health can distinguish "never scraped" from "stale".
 
 import phData from "../../data/producthunt-launches.json";
+import { getDataStore } from "./data-store";
 
 export interface Launch {
   id: string;
@@ -54,7 +55,9 @@ export interface ProductHuntFile {
   launches: Launch[];
 }
 
-const file = phData as unknown as ProductHuntFile;
+// Mutable in-memory cache — seeded from bundled JSON, replaced via
+// refreshProducthuntLaunchesFromStore().
+let file: ProductHuntFile = phData as unknown as ProductHuntFile;
 
 export const producthuntFetchedAt: string = file.lastFetchedAt;
 
@@ -67,20 +70,30 @@ export const producthuntFetchedAt: string = file.lastFetchedAt;
 export const producthuntCold: boolean =
   !file.lastFetchedAt || !Array.isArray(file.launches);
 
-// Pre-compute lookup: lowercased fullName -> best (highest-voted) launch.
-// A single tracked repo could in theory have two launches in the 7d window
-// (e.g. relaunch) — we always surface the one with more votes.
-const launchesByRepo: Map<string, Launch> = (() => {
+export function getProducthuntFetchedAt(): string {
+  return file.lastFetchedAt;
+}
+
+export function isProducthuntCold(): boolean {
+  return !file.lastFetchedAt || !Array.isArray(file.launches);
+}
+
+function buildLaunchesByRepo(input: ProductHuntFile): Map<string, Launch> {
   const map = new Map<string, Launch>();
-  if (!Array.isArray(file.launches)) return map;
-  for (const l of file.launches) {
+  if (!Array.isArray(input.launches)) return map;
+  for (const l of input.launches) {
     if (!l.linkedRepo) continue;
     const key = l.linkedRepo.toLowerCase();
     const existing = map.get(key);
     if (!existing || l.votesCount > existing.votesCount) map.set(key, l);
   }
   return map;
-})();
+}
+
+// Pre-compute lookup: lowercased fullName -> best (highest-voted) launch.
+// A single tracked repo could in theory have two launches in the 7d window
+// (e.g. relaunch) — we always surface the one with more votes.
+let launchesByRepo: Map<string, Launch> = buildLaunchesByRepo(file);
 
 export function getPhFile(): ProductHuntFile {
   return file;
@@ -119,4 +132,40 @@ export function getLaunchForRepo(fullName: string): Launch | null {
 
 export function getAllPhLaunches(): Launch[] {
   return file.launches ?? [];
+}
+
+// ---------------------------------------------------------------------------
+// Phase 4: refresh hook — pull latest producthunt-launches payload from data-store.
+// Rebuilds the case-insensitive launchesByRepo lookup after a swap.
+// ---------------------------------------------------------------------------
+
+let inflight: Promise<{ source: string; ageMs: number }> | null = null;
+let lastRefreshMs = 0;
+const MIN_REFRESH_INTERVAL_MS = 30_000;
+
+export async function refreshProducthuntLaunchesFromStore(): Promise<{
+  source: string;
+  ageMs: number;
+}> {
+  if (inflight) return inflight;
+  if (
+    Date.now() - lastRefreshMs < MIN_REFRESH_INTERVAL_MS &&
+    lastRefreshMs > 0
+  ) {
+    return { source: "memory", ageMs: Date.now() - lastRefreshMs };
+  }
+  inflight = (async () => {
+    const result = await getDataStore().read<ProductHuntFile>(
+      "producthunt-launches",
+    );
+    if (result.data && result.source !== "missing") {
+      file = result.data;
+      launchesByRepo = buildLaunchesByRepo(file);
+    }
+    lastRefreshMs = Date.now();
+    return { source: result.source, ageMs: result.ageMs };
+  })().finally(() => {
+    inflight = null;
+  });
+  return inflight;
 }

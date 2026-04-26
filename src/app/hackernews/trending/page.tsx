@@ -1,267 +1,240 @@
-// /hackernews/trending — Hacker News Signal Terminal page.
+// /hackernews/trending — velocity-scored HN story feed.
 //
-// Tabs:
-//   1. Repo Mentions (default) — tracked repos discussed on HN, ranked
-//      by 7d mention volume + total score.
-//   2. Trending News — top HN stories ranked by velocity * log10(score).
-//   3. Front Page — same shape as news, filtered to stories that ever
-//      hit the front page.
-//
-// Mirrors src/app/reddit/page.tsx: server component, dense rows,
-// columns-driven SignalTable, six metric tiles, no scan-now buttons.
+// Single-tab v1: top 50 stories from data/hackernews-trending.json
+// (Firebase top-500 + Algolia 7d github-mention sweep, deduped, scored
+// by velocity * log10(score)). Mirrors the structural/visual rhythm of
+// /reddit/trending: header strip, 4 stat tiles, list below. No topic
+// mindshare map (HN has no n-gram topics yet).
 
-import {
-  getAllHnMentions,
-  getHnFile,
-  hnFetchedAt,
-  hnItemHref,
-} from "@/lib/hackernews";
 import {
   getHnTopStories,
   getHnTrendingFile,
+  refreshHackernewsTrendingFromStore,
 } from "@/lib/hackernews-trending";
 import {
-  SignalSourcePage,
-  type SignalTabSpec,
-} from "@/components/signal/SignalSourcePage";
-import type { SignalRow } from "@/components/signal/SignalTable";
-import type { SignalMetricCardProps } from "@/components/signal/SignalMetricCard";
-import { classifyFreshness } from "@/lib/news/freshness";
-import { triggerScanIfStale } from "@/lib/news/auto-rescrape";
+  getHnLeaderboard,
+  hnItemHref,
+  refreshHackernewsMentionsFromStore,
+  repoFullNameToHref,
+} from "@/lib/hackernews";
 
-export const dynamic = "force-dynamic";
+export const dynamic = "force-static";
 
-const SUBTITLE =
-  "Trending Hacker News stories ranked by discussion velocity, front-page strength, and repo links.";
+const HN_ORANGE = "#ff6600";
 
-function classifyVelocity(
-  comments: number,
-  postedAtMs: number,
-): "hot" | "rising" | null {
-  const hours = Math.max(0.25, (Date.now() - postedAtMs) / 3_600_000);
-  const perHour = comments / hours;
-  if (perHour >= 10) return "hot";
-  if (perHour >= 3) return "rising";
-  return null;
+function formatRelative(iso: string): string {
+  const t = new Date(iso).getTime();
+  if (!Number.isFinite(t)) return "unknown";
+  const diff = Date.now() - t;
+  if (diff < 60_000) return "just now";
+  const mins = Math.floor(diff / 60_000);
+  if (mins < 60) return `${mins}m ago`;
+  const hours = Math.floor(mins / 60);
+  if (hours < 24) return `${hours}h ago`;
+  const days = Math.floor(hours / 24);
+  return `${days}d ago`;
 }
 
-function scaleScore(values: number[]): (n: number) => number {
-  const max = Math.max(...values, 1);
-  return (n: number) => Math.round((n / max) * 100);
+function formatAgeHours(ageHours: number | undefined): string {
+  if (ageHours === undefined || !Number.isFinite(ageHours)) return "—";
+  if (ageHours < 1) return "<1h";
+  if (ageHours < 24) return `${Math.round(ageHours)}h`;
+  return `${Math.round(ageHours / 24)}d`;
 }
 
-export default function HackerNewsTrendingPage() {
-  const mentionsFile = getHnFile();
-  const fetchedAt = mentionsFile.fetchedAt ?? hnFetchedAt;
-  const verdict = classifyFreshness("hackernews", fetchedAt);
-
-  const mentions = getAllHnMentions();
+export default async function HackerNewsTrendingPage() {
+  await Promise.all([
+    refreshHackernewsTrendingFromStore(),
+    refreshHackernewsMentionsFromStore(),
+  ]);
   const trendingFile = getHnTrendingFile();
+  const stories = getHnTopStories(50);
   const allStories = trendingFile.stories;
-  const topStories = getHnTopStories(30);
-
-  // ─── Repo Mentions tab ─────────────────────────────────────────────────
-  const mentionEntries = Object.entries(mentions)
-    .filter(([, m]) => m.count7d > 0)
-    .sort((a, b) => b[1].count7d - a[1].count7d)
-    .slice(0, 50);
-  const mentionScale = scaleScore(
-    mentionEntries.map(([, m]) => m.scoreSum7d),
-  );
-
-  const mentionRows: SignalRow[] = mentionEntries.map(([fullName, m]) => {
-    const top = m.topStory ?? null;
-    const fallback = m.stories?.[0] ?? null;
-    const velocitySource = fallback;
-    const postedAtMs = velocitySource
-      ? velocitySource.createdUtc * 1000
-      : null;
-    return {
-      id: `hn-mention:${fullName}`,
-      title: fullName,
-      href: `/repo/${fullName}`,
-      external: false,
-      attribution: top
-        ? `${m.count7d}× · top: ${top.title}`
-        : `${m.count7d}× / 7d`,
-      engagement: m.scoreSum7d,
-      engagementLabel: "Score",
-      velocity:
-        velocitySource && postedAtMs !== null
-          ? classifyVelocity(velocitySource.descendants ?? 0, postedAtMs)
-          : null,
-      postedAt: postedAtMs !== null ? new Date(postedAtMs).toISOString() : null,
-      signalScore: mentionScale(m.scoreSum7d),
-      linkedRepo: null,
-      badges: m.count7d >= 5 ? ["fire"] : undefined,
-    };
-  });
-
-  // ─── Trending News tab ─────────────────────────────────────────────────
-  const newsScale = scaleScore(topStories.map((s) => s.score));
-
-  const newsRows: SignalRow[] = topStories.map((s) => {
-    const postedAtMs = s.createdUtc * 1000;
-    const linkedRepo = s.linkedRepos?.[0]?.fullName ?? null;
-    return {
-      id: `hn-news:${s.id}`,
-      title: s.title,
-      href: s.url || hnItemHref(s.id),
-      external: true,
-      attribution: s.by ? `by ${s.by}` : null,
-      engagement: s.score,
-      engagementLabel: "Score",
-      comments: s.descendants,
-      velocity: classifyVelocity(s.descendants ?? 0, postedAtMs),
-      postedAt: new Date(postedAtMs).toISOString(),
-      signalScore: newsScale(s.score),
-      linkedRepo,
-      badges: s.everHitFrontPage ? ["front-page"] : undefined,
-    };
-  });
-
-  // ─── Front Page tab ────────────────────────────────────────────────────
-  const frontPageRows: SignalRow[] = newsRows.filter((r) =>
-    r.badges?.includes("front-page"),
-  );
-
-  // ─── Metric strip ─────────────────────────────────────────────────────
   const frontPageCount = allStories.filter((s) => s.everHitFrontPage).length;
-  const totalStories = allStories.length;
-  const frontPagePct = totalStories > 0
-    ? Math.round((frontPageCount / totalStories) * 100)
-    : 0;
-
-  const reposHit = Object.keys(mentions).length;
-  const totalMentions = Object.values(mentions).reduce(
-    (s, m) => s + (m.count7d ?? 0),
-    0,
-  );
-
-  const last24hStories = allStories.filter(
-    (s) => Date.now() - s.createdUtc * 1000 < 24 * 3_600_000,
-  );
-  const commentsLast24h = last24hStories.reduce(
-    (s, st) => s + (st.descendants ?? 0),
-    0,
-  );
-  const commentsPerHour = commentsLast24h / 24;
-
-  const topStory = allStories.reduce<typeof allStories[number] | null>(
-    (best, s) => (best === null || s.score > best.score ? s : best),
-    null,
-  );
-  const topScore = topStory?.score ?? 0;
-
-  const aiDevCount = allStories.filter((s) => {
-    const tags = (s.content_tags ?? []).map((t) => t.toLowerCase());
-    const hitsTag = tags.some(
-      (t) => t === "ai" || t === "dev" || t === "ml" || t === "llm",
-    );
-    const hasRepo = (s.linkedRepos?.length ?? 0) > 0;
-    return hitsTag || hasRepo;
-  }).length;
-
-  const metrics: SignalMetricCardProps[] = [
-    {
-      label: "Front Page Signals",
-      value: frontPageCount,
-      helper: `${frontPagePct}% on front page`,
-      sparkTone: "warning",
-    },
-    {
-      label: "Repo Mentions",
-      value: reposHit,
-      delta: totalMentions > 0 ? `${totalMentions} total` : null,
-      sparkTone: "brand",
-    },
-    {
-      label: "Discussion Velocity",
-      value: `${Math.round(commentsPerHour)}/h`,
-      helper:
-        commentsPerHour >= 10
-          ? "Hot"
-          : commentsPerHour >= 3
-            ? "Rising"
-            : "Steady",
-      sparkTone: commentsPerHour >= 10 ? "warning" : "info",
-    },
-    {
-      label: "Top Story Score",
-      value: topScore,
-      helper: topStory?.title?.slice(0, 40) ?? null,
-      sparkTone: "up",
-    },
-    {
-      label: "Comments 24h",
-      value: commentsLast24h,
-      helper: `${last24hStories.length} stories`,
-      sparkTone: "info",
-    },
-    {
-      label: "AI / Dev stories",
-      value: aiDevCount,
-      helper: `of ${totalStories} tracked`,
-      sparkTone: "brand",
-    },
-  ];
-
-  // ─── Tabs ─────────────────────────────────────────────────────────────
-  const tabs: SignalTabSpec[] = [
-    {
-      id: "mentions",
-      label: "Repo Mentions",
-      rows: mentionRows,
-      columns: ["rank", "title", "engagement", "velocity", "age", "signal"],
-      emptyTitle: "No tracked repos mentioned on Hacker News in the last 7 days.",
-      emptySubtitle:
-        "Pipeline is healthy; the watch list just hasn't lit up yet.",
-    },
-    {
-      id: "news",
-      label: "Trending News",
-      rows: newsRows,
-      columns: [
-        "rank",
-        "title",
-        "linkedRepo",
-        "engagement",
-        "velocity",
-        "age",
-        "signal",
-      ],
-      emptyTitle: "Hacker News is quiet right now. Check back in a few minutes.",
-    },
-    {
-      id: "frontpage",
-      label: "Front Page",
-      rows: frontPageRows,
-      columns: [
-        "rank",
-        "title",
-        "linkedRepo",
-        "engagement",
-        "velocity",
-        "age",
-        "signal",
-      ],
-      emptyTitle: "No front-page hits in the current window.",
-    },
-  ];
-
-  void triggerScanIfStale("hackernews", fetchedAt);
+  const reposLinked = getHnLeaderboard().length;
+  const cold = allStories.length === 0;
 
   return (
-    <SignalSourcePage
-      source="hackernews"
-      sourceLabel="HACKER NEWS"
-      mode="TRENDING"
-      subtitle={SUBTITLE}
-      fetchedAt={fetchedAt}
-      freshnessStatus={verdict.status}
-      ageLabel={verdict.ageLabel}
-      metrics={metrics}
-      tabs={tabs}
-    />
+    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
+      <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
+        {/* Header */}
+        <header className="mb-6 border-b border-border-primary pb-6">
+          <div className="flex items-baseline gap-3 flex-wrap">
+            <h1 className="text-2xl font-bold uppercase tracking-wider">
+              HACKERNEWS / ALL TRENDING
+            </h1>
+            <span className="text-xs text-text-tertiary">
+              {"// firebase top 500 + algolia 7d github mentions"}
+            </span>
+          </div>
+          <p className="mt-2 text-sm text-text-secondary max-w-2xl">
+            Every Hacker News story from the dual-source scrape: Firebase top
+            500 (front page + new) merged with Algolia&apos;s 7d sweep for
+            github-linked submissions. Stories are ranked by{" "}
+            <code className="text-text-primary">trendingScore</code> —
+            velocity (points/hour) weighted by log10(score) so a 200-pt rocket
+            outranks a 1500-pt 3-day-old whale.
+          </p>
+        </header>
+
+        {cold ? (
+          <ColdState />
+        ) : (
+          <>
+            {/* Stat tiles */}
+            <section className="mb-6 grid grid-cols-2 md:grid-cols-4 gap-3">
+              <StatTile
+                label="LAST SCRAPE"
+                value={formatRelative(trendingFile.fetchedAt)}
+                hint={new Date(trendingFile.fetchedAt)
+                  .toISOString()
+                  .slice(0, 16)
+                  .replace("T", " ")}
+              />
+              <StatTile
+                label="STORIES TRACKED"
+                value={allStories.length.toLocaleString("en-US")}
+                hint={`${trendingFile.windowHours}h window · ${trendingFile.scannedTotal.toLocaleString("en-US")} scanned`}
+              />
+              <StatTile
+                label="FRONT PAGE"
+                value={frontPageCount.toLocaleString("en-US")}
+                hint="ever hit top 30"
+              />
+              <StatTile
+                label="REPOS LINKED"
+                value={reposLinked.toLocaleString("en-US")}
+                hint="github repos mentioned 7d"
+              />
+            </section>
+
+            {/* Feed */}
+            <section className="border border-border-primary rounded-md bg-bg-secondary overflow-hidden">
+              <div className="grid grid-cols-[40px_1fr_auto_60px_60px_80px] gap-3 items-center px-3 h-9 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
+                <div>#</div>
+                <div>TITLE</div>
+                <div>FP</div>
+                <div className="text-right">SCORE</div>
+                <div className="text-right">CMTS</div>
+                <div className="text-right">AGE</div>
+              </div>
+              <ul>
+                {stories.map((s, i) => {
+                  const linkedRepo = s.linkedRepos?.[0]?.fullName;
+                  const scoreClass =
+                    s.score >= 100 ? "" : "text-text-secondary";
+                  return (
+                    <li
+                      key={s.id}
+                      className="grid grid-cols-[40px_1fr_auto_60px_60px_80px] gap-3 items-center px-3 h-10 hover:bg-bg-card-hover border-b border-border-primary/40 last:border-b-0"
+                    >
+                      <div className="text-text-tertiary text-xs tabular-nums">
+                        {i + 1}
+                      </div>
+                      <div className="min-w-0 flex items-center gap-2">
+                        <a
+                          href={hnItemHref(s.id)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm text-text-primary hover:text-accent-green truncate"
+                          title={s.title}
+                        >
+                          {s.title}
+                        </a>
+                        {linkedRepo ? (
+                          <a
+                            href={repoFullNameToHref(linkedRepo)}
+                            className="shrink-0 text-[10px] px-1.5 py-0.5 rounded border border-border-primary text-text-tertiary hover:text-accent-green hover:border-accent-green/50 transition-colors"
+                            title={`Linked repo: ${linkedRepo}`}
+                          >
+                            {linkedRepo}
+                          </a>
+                        ) : null}
+                      </div>
+                      <div>
+                        {s.everHitFrontPage ? (
+                          <span
+                            className="inline-flex items-center justify-center text-[8px] font-bold w-3.5 h-3.5 rounded-sm text-white"
+                            style={{ backgroundColor: HN_ORANGE }}
+                            title="Hit the HN front page"
+                          >
+                            Y
+                          </span>
+                        ) : (
+                          <span className="text-text-tertiary text-[10px]">
+                            —
+                          </span>
+                        )}
+                      </div>
+                      <div
+                        className={`text-right text-xs tabular-nums ${scoreClass}`}
+                        style={
+                          s.score >= 100 ? { color: HN_ORANGE } : undefined
+                        }
+                      >
+                        {s.score.toLocaleString("en-US")}
+                      </div>
+                      <div className="text-right text-xs tabular-nums text-text-secondary">
+                        {s.descendants.toLocaleString("en-US")}
+                      </div>
+                      <div className="text-right text-xs tabular-nums text-text-tertiary">
+                        {formatAgeHours(s.ageHours)}
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            </section>
+          </>
+        )}
+      </div>
+    </main>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Pieces
+// ---------------------------------------------------------------------------
+
+function StatTile({
+  label,
+  value,
+  hint,
+}: {
+  label: string;
+  value: string;
+  hint?: string;
+}) {
+  return (
+    <div className="border border-border-primary rounded-md px-4 py-3 bg-bg-secondary">
+      <div className="text-[10px] uppercase tracking-wider text-text-tertiary">
+        {label}
+      </div>
+      <div className="mt-1 text-xl font-bold truncate">{value}</div>
+      {hint ? (
+        <div className="mt-0.5 text-[11px] text-text-tertiary truncate">
+          {hint}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function ColdState() {
+  return (
+    <section className="border border-dashed border-border-primary rounded-md p-8 bg-bg-secondary/40">
+      <h2 className="text-lg font-bold uppercase tracking-wider text-accent-green">
+        {"// no data yet"}
+      </h2>
+      <p className="mt-3 text-sm text-text-secondary max-w-xl">
+        The Hacker News scraper hasn&apos;t run yet. Run{" "}
+        <code className="text-text-primary">npm run scrape:hn</code> locally to
+        populate{" "}
+        <code className="text-text-primary">
+          data/hackernews-trending.json
+        </code>
+        , then refresh this page.
+      </p>
+    </section>
   );
 }

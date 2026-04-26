@@ -7,6 +7,7 @@
 // their bundle. The future /news dev.to tab imports from here.
 
 import devtoTrendingData from "../../data/devto-trending.json";
+import { getDataStore } from "./data-store";
 import type { DevtoArticle, DevtoBodyFetchMode } from "./devto";
 
 export interface DevtoTrendingFile {
@@ -27,7 +28,9 @@ export interface DevtoTrendingFile {
   articles: DevtoArticle[];
 }
 
-const trendingFile = devtoTrendingData as unknown as DevtoTrendingFile;
+// Mutable in-memory cache — seeded from bundled JSON, replaced via
+// refreshDevtoTrendingFromStore().
+let trendingFile: DevtoTrendingFile = devtoTrendingData as unknown as DevtoTrendingFile;
 
 export function getDevtoTrendingFile(): DevtoTrendingFile {
   return trendingFile;
@@ -37,4 +40,38 @@ export function getDevtoTopArticles(limit = 50): DevtoArticle[] {
   // Already sorted by trendingScore desc by the scraper.
   if (trendingFile.articles.length <= limit) return trendingFile.articles;
   return trendingFile.articles.slice(0, limit);
+}
+
+// ---------------------------------------------------------------------------
+// Phase 4: refresh hook — pull latest devto-trending payload from data-store.
+// ---------------------------------------------------------------------------
+
+let inflight: Promise<{ source: string; ageMs: number }> | null = null;
+let lastRefreshMs = 0;
+const MIN_REFRESH_INTERVAL_MS = 30_000;
+
+export async function refreshDevtoTrendingFromStore(): Promise<{
+  source: string;
+  ageMs: number;
+}> {
+  if (inflight) return inflight;
+  if (
+    Date.now() - lastRefreshMs < MIN_REFRESH_INTERVAL_MS &&
+    lastRefreshMs > 0
+  ) {
+    return { source: "memory", ageMs: Date.now() - lastRefreshMs };
+  }
+  inflight = (async () => {
+    const result = await getDataStore().read<DevtoTrendingFile>(
+      "devto-trending",
+    );
+    if (result.data && result.source !== "missing") {
+      trendingFile = result.data;
+    }
+    lastRefreshMs = Date.now();
+    return { source: result.source, ageMs: result.ageMs };
+  })().finally(() => {
+    inflight = null;
+  });
+  return inflight;
 }

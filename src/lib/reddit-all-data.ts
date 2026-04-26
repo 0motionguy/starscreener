@@ -3,6 +3,7 @@ import { resolve } from "path";
 
 import type { AllPostsStats, RedditAllPost, RedditAllPostsFile } from "./reddit-all";
 import { buildAllPostsStats } from "./reddit-all";
+import { getDataStore } from "./data-store";
 
 const REDDIT_ALL_POSTS_PATH = resolve(
   process.cwd(),
@@ -14,6 +15,8 @@ const EPOCH_ZERO = "1970-01-01T00:00:00.000Z";
 interface RedditAllPostsCache {
   signature: string;
   file: RedditAllPostsFile;
+  /** See reddit-data.ts: Redis-sourced caches survive file-signature reloads. */
+  fromRedis?: boolean;
 }
 
 let cache: RedditAllPostsCache | null = null;
@@ -77,6 +80,8 @@ function normalizeFile(input: unknown): RedditAllPostsFile {
 }
 
 function loadAllPostsCache(): RedditAllPostsCache {
+  // Phase 4: Redis-sourced cache wins; see reddit-data.ts.
+  if (cache && cache.fromRedis) return cache;
   const signature = getFileSignature(REDDIT_ALL_POSTS_PATH);
   if (cache && cache.signature === signature) return cache;
 
@@ -113,4 +118,42 @@ export function getAllScoredPosts(): RedditAllPost[] {
 
 export function getAllPostsStats(nowMs: number = Date.now()): AllPostsStats {
   return buildAllPostsStats(getAllScoredPosts(), nowMs);
+}
+
+// ---------------------------------------------------------------------------
+// Phase 4: refresh hook — pull latest reddit-all-posts payload from data-store.
+// ---------------------------------------------------------------------------
+
+let inflight: Promise<{ source: string; ageMs: number }> | null = null;
+let lastRefreshMs = 0;
+const MIN_REFRESH_INTERVAL_MS = 30_000;
+
+export async function refreshRedditAllPostsFromStore(): Promise<{
+  source: string;
+  ageMs: number;
+}> {
+  if (inflight) return inflight;
+  if (
+    Date.now() - lastRefreshMs < MIN_REFRESH_INTERVAL_MS &&
+    lastRefreshMs > 0
+  ) {
+    return { source: "memory", ageMs: Date.now() - lastRefreshMs };
+  }
+  inflight = (async () => {
+    const result = await getDataStore().read<RedditAllPostsFile>(
+      "reddit-all-posts",
+    );
+    if (result.data && result.source !== "missing") {
+      cache = {
+        signature: `redis:${result.writtenAt ?? Date.now()}`,
+        file: normalizeFile(result.data),
+        fromRedis: true,
+      };
+    }
+    lastRefreshMs = Date.now();
+    return { source: result.source, ageMs: result.ageMs };
+  })().finally(() => {
+    inflight = null;
+  });
+  return inflight;
 }

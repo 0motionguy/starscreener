@@ -1,376 +1,375 @@
-// /lobsters — Lobsters Signal Terminal page.
+// /lobsters - full Lobsters story feed.
 //
-// Tabs:
-//   1. Repo Mentions (default) — tracked repos discussed on Lobsters,
-//      ranked by 7d mention count.
-//   2. Trending News — top Lobsters stories by raw score, regardless of
-//      whether they link a tracked repo.
-//   3. Tags — dense list of active Lobsters tags with story totals and
-//      the top story under each.
-//
-// No bubble map. No "scan now" button. Fresh data signal is the small
-// LIVE/STALE pill in the header. Server-side auto-rescrape recovers a
-// stale source quietly.
+// Renders data/lobsters-trending.json, produced by scripts/scrape-lobsters.mjs.
+// The compact version also appears inside /news?tab=lobsters.
 
-import {
-  getAllLobstersMentions,
-  getLobstersFile,
-  lobstersFetchedAt,
-  type LobstersStory,
-} from "@/lib/lobsters";
+import type { Metadata } from "next";
+import Link from "next/link";
 import {
   getLobstersTopStories,
   getLobstersTrendingFile,
+  refreshLobstersTrendingFromStore,
 } from "@/lib/lobsters-trending";
 import {
-  SignalSourcePage,
-  type SignalTabSpec,
-} from "@/components/signal/SignalSourcePage";
-import type { SignalRow } from "@/components/signal/SignalTable";
-import type { SignalMetricCardProps } from "@/components/signal/SignalMetricCard";
-import { classifyFreshness } from "@/lib/news/freshness";
-import { triggerScanIfStale } from "@/lib/news/auto-rescrape";
+  getLobstersLeaderboard,
+  lobstersStoryHref,
+  refreshLobstersMentionsFromStore,
+  repoFullNameToHref,
+  type LobstersStory,
+} from "@/lib/lobsters";
 
-export const dynamic = "force-dynamic";
+export const dynamic = "force-static";
 
-const SUBTITLE =
-  "Technical stories ranked by score, comments, tags, and repo mentions.";
+export const metadata: Metadata = {
+  title: "TrendingRepo - Lobsters Trending",
+  description:
+    "Lobsters stories ranked by recent score velocity and cross-linked to tracked GitHub repositories.",
+};
 
-interface TagTally {
-  tag: string;
-  count: number;
-  topStory: LobstersStory | null;
+const LOBSTERS_RED = "#ac130d";
+
+function formatRelative(iso: string | null | undefined): string {
+  if (!iso) return "never";
+  const t = new Date(iso).getTime();
+  if (!Number.isFinite(t)) return "unknown";
+  const diff = Date.now() - t;
+  if (diff < 60_000) return "just now";
+  const mins = Math.floor(diff / 60_000);
+  if (mins < 60) return `${mins}m ago`;
+  const hours = Math.floor(mins / 60);
+  if (hours < 24) return `${hours}h ago`;
+  const days = Math.floor(hours / 24);
+  return `${days}d ago`;
 }
 
-function classifyVelocity(
-  comments: number,
-  postedAtMs: number,
-): "hot" | "rising" | null {
-  const hours = Math.max(0.25, (Date.now() - postedAtMs) / 3_600_000);
-  const perHour = comments / hours;
-  if (perHour >= 10) return "hot";
-  if (perHour >= 3) return "rising";
-  return null;
+function formatAgeHours(ageHours: number | undefined): string {
+  if (ageHours === undefined || !Number.isFinite(ageHours)) return "-";
+  if (ageHours < 1) return "<1h";
+  if (ageHours < 24) return `${Math.round(ageHours)}h`;
+  return `${Math.round(ageHours / 24)}d`;
 }
 
-function scaleScore(values: number[]): (n: number) => number {
-  const max = Math.max(...values, 1);
-  return (n: number) => Math.round((n / max) * 100);
-}
-
-export default function LobstersPage() {
-  const mentionsFile = getLobstersFile();
-  const fetchedAt = mentionsFile.fetchedAt || lobstersFetchedAt || null;
-  const verdict = classifyFreshness("lobsters", fetchedAt);
-
-  const mentions = getAllLobstersMentions();
-  const trendingFile = getLobstersTrendingFile();
-  const allStories: LobstersStory[] = trendingFile.stories ?? [];
-  const topStoriesHydrated = getLobstersTopStories(500);
-
-  // Build a quick lookup so we can pull submitter / createdUtc /
-  // commentCount from the full story snapshot when we only have a
-  // LobstersStoryRef on the mention bucket.
-  const storyByShortId = new Map<string, LobstersStory>();
-  for (const s of allStories) {
-    storyByShortId.set(s.shortId, s);
-  }
-
-  // ─── Repo Mentions tab ─────────────────────────────────────────────────
-  const mentionEntries = Object.entries(mentions)
-    .filter(([, m]) => m.count7d > 0)
-    .sort((a, b) => b[1].count7d - a[1].count7d)
-    .slice(0, 50);
-  const mentionScale = scaleScore(
-    mentionEntries.map(([, m]) => m.scoreSum7d),
-  );
-
-  const mentionRows: SignalRow[] = mentionEntries.map(([fullName, m]) => {
-    const topRef = m.topStory;
-    const fullTop = topRef ? storyByShortId.get(topRef.shortId) ?? null : null;
-    const postedAtMs = fullTop?.createdUtc ? fullTop.createdUtc * 1000 : 0;
-    const commentCount = fullTop?.commentCount ?? 0;
-    const titleExcerpt = (topRef?.title ?? fullTop?.title ?? "").slice(0, 80);
-    return {
-      id: `lobsters-mention:${fullName}`,
-      title: fullName,
-      href: `/repo/${fullName}`,
-      external: false,
-      attribution: titleExcerpt
-        ? `${m.count7d}× · ${titleExcerpt}`
-        : `${m.count7d}× / 7d`,
-      engagement: m.scoreSum7d,
-      engagementLabel: "Score",
-      comments: commentCount,
-      velocity: postedAtMs ? classifyVelocity(commentCount, postedAtMs) : null,
-      postedAt: postedAtMs ? new Date(postedAtMs).toISOString() : null,
-      signalScore: mentionScale(m.scoreSum7d),
-      linkedRepo: null,
-      badges: m.count7d >= 5 ? ["fire"] : undefined,
-    };
-  });
-
-  // ─── Trending News tab ─────────────────────────────────────────────────
-  // Re-sort the hydrated stories by raw score desc — the helper sorts by
-  // trendingScore, but the news tab wants raw score ranking.
-  const topPosts = topStoriesHydrated
-    .slice()
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 30);
-  const newsScale = scaleScore(topPosts.map((p) => p.score));
-
-  const newsRows: SignalRow[] = topPosts.map((story) => {
-    const postedAtMs = story.createdUtc * 1000;
-    const linkedRepo = story.linkedRepos?.[0]?.fullName ?? null;
-    const tag = story.tags?.[0] ?? null;
-    return {
-      id: `lobsters-news:${story.shortId}`,
-      title: story.title,
-      href: story.commentsUrl || story.url,
-      external: true,
-      attribution: story.by ? `by ${story.by}` : null,
-      engagement: story.score,
-      engagementLabel: "Score",
-      comments: story.commentCount,
-      velocity: classifyVelocity(story.commentCount ?? 0, postedAtMs),
-      postedAt: new Date(postedAtMs).toISOString(),
-      signalScore: newsScale(story.score),
-      linkedRepo,
-      topic: tag,
-    };
-  });
-
-  // ─── Tags tab ──────────────────────────────────────────────────────────
-  // Tally tags across all stories, capture the highest-scoring story per
-  // tag for the sidebar link.
-  const tagMap: Map<string, TagTally> = new Map();
-  for (const s of allStories) {
-    for (const t of s.tags ?? []) {
-      const cur =
-        tagMap.get(t) ?? {
-          tag: t,
-          count: 0,
-          topStory: null as LobstersStory | null,
-        };
-      cur.count += 1;
-      if (!cur.topStory || (s.score ?? 0) > (cur.topStory.score ?? 0)) {
-        cur.topStory = s;
-      }
-      tagMap.set(t, cur);
-    }
-  }
-  const tagList = Array.from(tagMap.values()).sort((a, b) => b.count - a.count);
-  const totalTags = tagList.length;
-  const activeTags = tagList.filter((t) => t.count >= 2).length;
-
-  // ─── Metric strip ─────────────────────────────────────────────────────
-  const reposHit = Object.keys(mentions).length;
-  const scannedStories =
-    mentionsFile.scannedStories || trendingFile.scannedTotal || allStories.length;
-
-  const last24hStories = allStories.filter(
-    (s) => Date.now() - s.createdUtc * 1000 < 24 * 3_600_000,
-  );
-  const commentsLast24h = last24hStories.reduce(
-    (sum, s) => sum + (s.commentCount ?? 0),
-    0,
-  );
-  const commentsPerHour = commentsLast24h / 24;
-  const velocityHelper =
-    commentsPerHour >= 10 ? "Hot" : commentsPerHour >= 3 ? "Rising" : "Steady";
-
-  const securityDevtoolsCount = allStories.filter((s) =>
-    (s.tags ?? []).some((t) => /security|devops|programming|practices/.test(t)),
+export default async function LobstersPage() {
+  await Promise.all([
+    refreshLobstersTrendingFromStore(),
+    refreshLobstersMentionsFromStore(),
+  ]);
+  const file = getLobstersTrendingFile();
+  const stories = getLobstersTopStories(50);
+  const allStories = file.stories ?? [];
+  const leaderboard = getLobstersLeaderboard();
+  const linkedStories = allStories.filter(
+    (story) => (story.linkedRepos?.length ?? 0) > 0,
   ).length;
-
-  const topStory = topPosts[0] ?? null;
-  const topSignalValue = topStory?.score ?? 0;
-  const topSignalHelper = topStory ? topStory.title.slice(0, 40) : null;
-
-  const metrics: SignalMetricCardProps[] = [
-    {
-      label: "Technical Signals",
-      value: scannedStories,
-      helper: `${trendingFile.windowHours ?? 72}h trending window`,
-      sparkTone: "brand",
-    },
-    {
-      label: "Repo Mentions",
-      value: reposHit,
-      helper:
-        reposHit > 0
-          ? `${reposHit} repo${reposHit === 1 ? "" : "s"} mentioned in 7d`
-          : "no GitHub links matched tracked repos",
-      sparkTone: "info",
-    },
-    {
-      label: "Active Tags",
-      value: `${activeTags} / ${totalTags}`,
-      helper: tagList[0] ? `top: ${tagList[0].tag}` : null,
-      sparkTone: "info",
-    },
-    {
-      label: "Discussion Velocity",
-      value: `${Math.round(commentsPerHour)}/h`,
-      helper: velocityHelper,
-      sparkTone: commentsPerHour >= 10 ? "warning" : "info",
-    },
-    {
-      label: "Security / DevTools",
-      value: securityDevtoolsCount,
-      helper:
-        securityDevtoolsCount > 0
-          ? `tagged security · devops · programming · practices`
-          : "no signal in window",
-      sparkTone: "up",
-    },
-    {
-      label: "Top signal",
-      value: topSignalValue,
-      helper: topSignalHelper,
-      sparkTone: "brand",
-    },
-  ];
-
-  // ─── Tabs ─────────────────────────────────────────────────────────────
-  const tabs: SignalTabSpec[] = [
-    {
-      id: "mentions",
-      label: "Repo Mentions",
-      rows: mentionRows,
-      columns: ["rank", "title", "engagement", "velocity", "age", "signal"],
-      emptyTitle: "No tracked repos mentioned on Lobsters in the last 7 days.",
-      emptySubtitle: "Pipeline is healthy; the watch list just hasn't lit up yet.",
-    },
-    {
-      id: "news",
-      label: "Trending News",
-      rows: newsRows,
-      columns: [
-        "rank",
-        "title",
-        "linkedRepo",
-        "engagement",
-        "velocity",
-        "age",
-        "signal",
-      ],
-      emptyTitle: "Lobsters is quiet right now. Check back in a few minutes.",
-    },
-    {
-      id: "tags",
-      label: "Tags",
-      rows: [],
-      content: <TagsPanel rows={tagList} />,
-    },
-  ];
-
-  void triggerScanIfStale("lobsters", fetchedAt);
+  const cold = allStories.length === 0;
 
   return (
-    <SignalSourcePage
-      source="lobsters"
-      sourceLabel="LOBSTERS"
-      mode="TRENDING"
-      subtitle={SUBTITLE}
-      fetchedAt={fetchedAt}
-      freshnessStatus={verdict.status}
-      ageLabel={verdict.ageLabel}
-      metrics={metrics}
-      tabs={tabs}
-    />
+    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
+      <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
+        <header className="mb-6 border-b border-border-primary pb-6">
+          <div className="flex items-baseline gap-3 flex-wrap">
+            <h1 className="text-2xl font-bold uppercase tracking-wider inline-flex items-center gap-2">
+              <span style={{ color: LOBSTERS_RED }} aria-hidden>
+                L
+              </span>
+              LOBSTERS / ALL TRENDING
+            </h1>
+            <span className="text-xs text-text-tertiary">
+              {"// community tech links + github mentions"}
+            </span>
+          </div>
+          <p className="mt-2 text-sm text-text-secondary max-w-3xl">
+            Top Lobsters stories from hottest, active, and newest public JSON
+            feeds. Stories are ranked by score decay over the last{" "}
+            {file.windowHours} hours and joined against tracked GitHub repos
+            when a story links to one.
+          </p>
+        </header>
+
+        {cold ? (
+          <ColdState />
+        ) : (
+          <>
+            <section className="mb-6 grid grid-cols-2 md:grid-cols-4 gap-3">
+              <StatTile
+                label="LAST SCRAPE"
+                value={formatRelative(file.fetchedAt)}
+                hint={
+                  file.fetchedAt
+                    ? new Date(file.fetchedAt)
+                        .toISOString()
+                        .slice(0, 16)
+                        .replace("T", " ")
+                    : undefined
+                }
+              />
+              <StatTile
+                label="STORIES TRACKED"
+                value={allStories.length.toLocaleString("en-US")}
+                hint={`${file.windowHours}h window, ${file.scannedTotal.toLocaleString("en-US")} scanned`}
+              />
+              <StatTile
+                label="GITHUB STORIES"
+                value={linkedStories.toLocaleString("en-US")}
+                hint="stories with tracked repo links"
+              />
+              <StatTile
+                label="REPOS LINKED"
+                value={leaderboard.length.toLocaleString("en-US")}
+                hint="mention buckets in last 7d"
+              />
+            </section>
+
+            <div
+              className={
+                leaderboard.length > 0
+                  ? "grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6"
+                  : ""
+              }
+            >
+              <StoryFeed stories={stories} />
+              {leaderboard.length > 0 ? (
+                <Leaderboard entries={leaderboard.slice(0, 15)} />
+              ) : null}
+            </div>
+          </>
+        )}
+      </div>
+    </main>
   );
 }
 
-// ─────────────────────────────────────────────────────────────────────────
-// Tags tab — dense list. Each row carries the tag, story volume with a
-// max-relative bar, and the top story link to commentsUrl.
-// ─────────────────────────────────────────────────────────────────────────
-
-function TagsPanel({ rows }: { rows: TagTally[] }) {
-  if (rows.length === 0) {
-    return (
-      <div className="rounded-card border border-dashed border-border-primary bg-bg-muted/30 px-4 py-10 text-center">
-        <p className="font-mono text-sm text-text-tertiary">
-          No active tags in the current window.
-        </p>
+function StoryFeed({ stories }: { stories: LobstersStory[] }) {
+  return (
+    <section className="border border-border-primary rounded-md bg-bg-secondary overflow-hidden">
+      <div className="hidden md:grid grid-cols-[40px_minmax(0,1fr)_120px_60px_60px_80px] gap-3 items-center px-3 h-9 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
+        <div>#</div>
+        <div>TITLE</div>
+        <div>TAGS</div>
+        <div className="text-right">SCORE</div>
+        <div className="text-right">CMTS</div>
+        <div className="text-right">AGE</div>
       </div>
-    );
-  }
+      <div className="grid md:hidden grid-cols-[32px_minmax(0,1fr)_56px] gap-2 items-center px-3 h-9 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
+        <div>#</div>
+        <div>TITLE</div>
+        <div className="text-right">SCORE</div>
+      </div>
+      <ul>
+        {stories.map((story, index) => (
+          <StoryRow key={story.shortId} rank={index + 1} story={story} />
+        ))}
+      </ul>
+    </section>
+  );
+}
 
-  const max = rows[0]?.count ?? 1;
+function StoryRow({ rank, story }: { rank: number; story: LobstersStory }) {
+  const commentsHref = story.commentsUrl || lobstersStoryHref(story.shortId);
+  const linkedRepo = story.linkedRepos?.[0]?.fullName;
+  const tags = (story.tags ?? []).slice(0, 3);
+  const isHigh = story.score >= 25;
 
   return (
-    <div className="overflow-x-auto rounded-card border border-border-primary bg-bg-card">
-      <table className="w-full text-xs">
-        <thead className="text-left text-text-tertiary">
-          <tr className="border-b border-border-primary bg-bg-muted/40">
-            <th className="px-2 py-2 w-10 font-mono text-[10px] uppercase tracking-[0.12em]">
-              #
-            </th>
-            <th className="px-2 py-2 font-mono text-[10px] uppercase tracking-[0.12em]">
-              Tag
-            </th>
-            <th className="px-2 py-2 w-44 font-mono text-[10px] uppercase tracking-[0.12em]">
-              Stories
-            </th>
-            <th className="px-2 py-2 hidden md:table-cell font-mono text-[10px] uppercase tracking-[0.12em]">
-              Top story
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((r, idx) => {
-            const top = r.topStory;
-            const href = top ? top.commentsUrl || top.url : null;
-            return (
-              <tr
-                key={r.tag}
-                className="border-b border-border-primary/40 last:border-b-0 hover:bg-bg-muted/20"
+    <li className="border-b border-border-primary/40 last:border-b-0">
+      <div className="hidden md:grid grid-cols-[40px_minmax(0,1fr)_120px_60px_60px_80px] gap-3 items-center px-3 min-h-[44px] py-2 hover:bg-bg-card-hover transition-colors">
+        <div
+          className="text-xs tabular-nums font-semibold"
+          style={rank <= 10 ? { color: LOBSTERS_RED } : undefined}
+        >
+          #{rank}
+        </div>
+        <div className="min-w-0 flex items-center gap-2">
+          <a
+            href={commentsHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-text-primary hover:text-accent-green truncate"
+            title={story.title}
+          >
+            {story.title}
+          </a>
+          {story.url ? (
+            <a
+              href={story.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="shrink-0 text-[10px] text-text-tertiary hover:text-accent-green"
+            >
+              src
+            </a>
+          ) : null}
+          {linkedRepo ? (
+            <Link
+              href={repoFullNameToHref(linkedRepo)}
+              className="shrink-0 text-[10px] px-1.5 py-0.5 rounded border border-border-primary text-text-tertiary hover:text-accent-green hover:border-accent-green/50 transition-colors"
+              title={`Linked repo: ${linkedRepo}`}
+            >
+              {linkedRepo}
+            </Link>
+          ) : null}
+        </div>
+        <div className="min-w-0 flex items-center gap-1">
+          {tags.length > 0 ? (
+            tags.map((tag) => (
+              <span
+                key={tag}
+                className="min-w-0 max-w-full truncate text-[10px] px-1.5 py-0.5 rounded border border-border-primary text-text-tertiary"
+                title={tag}
               >
-                <td className="px-2 py-2 font-mono text-text-tertiary tabular-nums">
-                  {idx + 1}
-                </td>
-                <td className="px-2 py-2">
-                  <span className="rounded-full border border-border-primary bg-bg-muted px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-text-secondary">
-                    {r.tag}
-                  </span>
-                </td>
-                <td className="px-2 py-2">
-                  <div className="flex items-center gap-2">
-                    <span className="font-mono tabular-nums text-text-secondary w-8">
-                      {r.count}
-                    </span>
-                    <div className="h-1.5 w-24 rounded-full bg-bg-muted overflow-hidden">
-                      <div
-                        className="h-full bg-brand"
-                        style={{
-                          width: `${Math.max(4, (r.count / max) * 100)}%`,
-                        }}
-                      />
-                    </div>
-                  </div>
-                </td>
-                <td className="px-2 py-2 hidden md:table-cell">
-                  {top && href ? (
-                    <a
-                      href={href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="line-clamp-1 text-[11px] text-text-primary hover:underline"
-                    >
-                      {top.title}
-                    </a>
-                  ) : (
-                    <span className="text-text-tertiary">—</span>
-                  )}
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+                {tag}
+              </span>
+            ))
+          ) : (
+            <span className="text-text-tertiary text-[10px]">-</span>
+          )}
+        </div>
+        <div
+          className="text-right text-xs tabular-nums"
+          style={isHigh ? { color: LOBSTERS_RED } : undefined}
+        >
+          {story.score.toLocaleString("en-US")}
+        </div>
+        <div className="text-right text-xs tabular-nums text-text-secondary">
+          {story.commentCount.toLocaleString("en-US")}
+        </div>
+        <div className="text-right text-xs tabular-nums text-text-tertiary">
+          {formatAgeHours(story.ageHours)}
+        </div>
+      </div>
+
+      <div className="grid md:hidden grid-cols-[32px_minmax(0,1fr)_56px] gap-2 items-center px-3 py-2 min-h-[54px] hover:bg-bg-card-hover transition-colors">
+        <div
+          className="text-xs tabular-nums font-semibold"
+          style={rank <= 10 ? { color: LOBSTERS_RED } : undefined}
+        >
+          #{rank}
+        </div>
+        <div className="min-w-0">
+          <a
+            href={commentsHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block text-sm text-text-primary hover:text-accent-green truncate"
+            title={story.title}
+          >
+            {story.title}
+          </a>
+          <div className="mt-0.5 flex items-center gap-2 text-[10px] text-text-tertiary tabular-nums">
+            <span>{story.commentCount.toLocaleString("en-US")} cmts</span>
+            <span>{formatAgeHours(story.ageHours)}</span>
+            {linkedRepo ? (
+              <Link
+                href={repoFullNameToHref(linkedRepo)}
+                className="min-w-0 truncate hover:text-accent-green"
+                title={linkedRepo}
+              >
+                {linkedRepo}
+              </Link>
+            ) : null}
+          </div>
+        </div>
+        <div
+          className="text-right text-xs tabular-nums"
+          style={isHigh ? { color: LOBSTERS_RED } : undefined}
+        >
+          {story.score.toLocaleString("en-US")}
+        </div>
+      </div>
+    </li>
+  );
+}
+
+function Leaderboard({
+  entries,
+}: {
+  entries: ReturnType<typeof getLobstersLeaderboard>;
+}) {
+  return (
+    <aside className="hidden lg:block border border-border-primary rounded-md bg-bg-secondary overflow-hidden h-fit">
+      <div className="px-3 h-9 border-b border-border-primary flex items-center justify-between">
+        <span className="text-[10px] uppercase tracking-wider text-text-tertiary">
+          REPO LEADERBOARD
+        </span>
+        <span className="text-[10px] text-text-tertiary tabular-nums">
+          {entries.length}
+        </span>
+      </div>
+      <div className="grid grid-cols-[28px_1fr_40px_50px] gap-2 items-center px-3 h-7 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
+        <div>#</div>
+        <div>REPO</div>
+        <div className="text-right">ST</div>
+        <div className="text-right">PTS</div>
+      </div>
+      <ul>
+        {entries.map((entry, index) => (
+          <li
+            key={entry.fullName}
+            className="grid grid-cols-[28px_1fr_40px_50px] gap-2 items-center px-3 h-9 hover:bg-bg-card-hover transition-colors border-b border-border-primary/40 last:border-b-0"
+          >
+            <div className="text-text-tertiary text-xs tabular-nums">
+              {index + 1}
+            </div>
+            <Link
+              href={repoFullNameToHref(entry.fullName)}
+              className="text-xs text-text-primary hover:text-accent-green truncate"
+              title={entry.fullName}
+            >
+              {entry.fullName}
+            </Link>
+            <div className="text-right text-xs tabular-nums text-text-secondary">
+              {entry.count7d.toLocaleString("en-US")}
+            </div>
+            <div className="text-right text-xs tabular-nums text-text-tertiary">
+              {entry.scoreSum7d.toLocaleString("en-US")}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </aside>
+  );
+}
+
+function StatTile({
+  label,
+  value,
+  hint,
+}: {
+  label: string;
+  value: string;
+  hint?: string;
+}) {
+  return (
+    <div className="border border-border-primary rounded-md px-4 py-3 bg-bg-secondary">
+      <div className="text-[10px] uppercase tracking-wider text-text-tertiary">
+        {label}
+      </div>
+      <div className="mt-1 text-xl font-bold truncate">{value}</div>
+      {hint ? (
+        <div className="mt-0.5 text-[11px] text-text-tertiary truncate">
+          {hint}
+        </div>
+      ) : null}
     </div>
   );
 }
 
+function ColdState() {
+  return (
+    <section className="border border-dashed border-border-primary rounded-md p-8 bg-bg-secondary/40">
+      <h2
+        className="text-lg font-bold uppercase tracking-wider"
+        style={{ color: LOBSTERS_RED }}
+      >
+        {"// no lobsters data yet"}
+      </h2>
+      <p className="mt-3 text-sm text-text-secondary max-w-xl">
+        The Lobsters scraper has not produced data yet. Run{" "}
+        <code className="text-text-primary">npm run scrape:lobsters</code>{" "}
+        locally to populate{" "}
+        <code className="text-text-primary">data/lobsters-trending.json</code>
+        , then refresh this page.
+      </p>
+    </section>
+  );
+}

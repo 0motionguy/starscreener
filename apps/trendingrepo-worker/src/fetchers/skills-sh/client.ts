@@ -1,168 +1,148 @@
-// Thin Firecrawl /v1/scrape wrapper. Two modes used by the skills.sh fetcher:
+// Thin wrapper around @mendable/firecrawl-js for the skills.sh fetcher.
 //
-//   1. JSON-structured extract (primary): formats=[{type:'json',schema,prompt}]
-//      with waitFor=5000 to let the JS leaderboard hydrate. Returns
-//      data.json shaped to our schema.
-//   2. Raw HTML (fallback): formats=['html'] with the same waitFor. Used by
-//      parser.parseFromHtml when the structured extract returns no rows.
+// Hides the SDK types behind two narrow methods so the rest of the fetcher
+// never touches Firecrawl-shaped objects directly. If the SDK changes shape
+// or we swap to a self-hosted Firecrawl / direct Playwright scrape, only
+// this file needs editing.
 //
-// We use the worker's HttpClient (undici + ETag cache + 429/5xx retries)
-// rather than a dedicated Firecrawl SDK so the resilience layer is shared
-// with every other fetcher.
+//   scrapeJson  - structured /v1/scrape with formats:['json'] + zod schema.
+//                 Primary path - LLM extraction is robust to UI churn.
+//   scrapeHtml  - raw rendered HTML fallback (formats:['html']) for the
+//                 cheerio path. Used when scrapeJson returns < 10 rows.
+//
+// Both apply waitFor=5000 by default so the skills.sh client-side leaderboard
+// hydrates before the snapshot is taken.
+//
+// We also expose `FirecrawlClient.fromEnv()` so callers don't have to know
+// where the API key comes from. Returns null if FIRECRAWL_API_KEY is unset;
+// the fetcher's `run()` should check for the key first and skip cleanly.
 
-import type { HttpClient } from '../../lib/types.js';
+import FirecrawlApp from '@mendable/firecrawl-js';
+import { z } from 'zod';
+import { loadEnv } from '../../lib/env.js';
 
-const FIRECRAWL_BASE = 'https://api.firecrawl.dev';
-// skills.sh defers leaderboard data behind XHR fetched after initial render.
-// 12s waitFor reliably captures it; lower values return chrome-only HTML.
-const DEFAULT_WAIT_MS = 12_000;
+const DEFAULT_WAIT_MS = 5000;
+const DEFAULT_TIMEOUT_MS = 60_000;
 
-export interface FirecrawlScrapeRequest {
-  url: string;
-  formats: ReadonlyArray<unknown>; // 'html' | 'markdown' | { type: 'json', ... }
-  waitFor?: number;
-  onlyMainContent?: boolean;
-  headers?: Record<string, string>;
+export interface ScrapeJsonResult<T> {
+  data: T | null;
+  statusCode: number | null;
+  warning: string | null;
 }
 
-export interface FirecrawlScrapeResponse<T = unknown> {
-  success: boolean;
-  data?: {
-    html?: string;
-    markdown?: string;
-    json?: T;
-    metadata?: {
-      title?: string;
-      statusCode?: number;
-      sourceURL?: string;
-    };
-  };
+export interface ScrapeHtmlResult {
+  html: string | null;
+  statusCode: number | null;
+  warning: string | null;
 }
 
-export interface FirecrawlClientDeps {
-  http: HttpClient;
+export interface FirecrawlClientOptions {
   apiKey: string;
+  apiUrl?: string;
 }
 
-export class FirecrawlClient {
-  private readonly http: HttpClient;
-  private readonly apiKey: string;
+/**
+ * The minimal surface our scraper needs. Lets tests stub Firecrawl without
+ * mocking the whole SDK.
+ */
+export interface FirecrawlLike {
+  scrapeJson<T>(
+    url: string,
+    schema: z.ZodSchema<T>,
+    prompt: string,
+    waitMs?: number,
+  ): Promise<ScrapeJsonResult<T>>;
+  scrapeHtml(url: string, waitMs?: number): Promise<ScrapeHtmlResult>;
+}
 
-  constructor(deps: FirecrawlClientDeps) {
-    this.http = deps.http;
-    this.apiKey = deps.apiKey;
+export class FirecrawlClient implements FirecrawlLike {
+  private readonly app: FirecrawlApp;
+
+  constructor(opts: FirecrawlClientOptions) {
+    const ctorArg: { apiKey: string; apiUrl: string | null } = {
+      apiKey: opts.apiKey,
+      apiUrl: opts.apiUrl ?? null,
+    };
+    this.app = new FirecrawlApp(ctorArg);
+  }
+
+  static fromEnv(): FirecrawlClient | null {
+    const env = loadEnv();
+    if (!env.FIRECRAWL_API_KEY) return null;
+    return new FirecrawlClient({ apiKey: env.FIRECRAWL_API_KEY });
   }
 
   async scrapeJson<T>(
     url: string,
-    schema: Record<string, unknown>,
+    schema: z.ZodSchema<T>,
     prompt: string,
     waitMs: number = DEFAULT_WAIT_MS,
-  ): Promise<{ data: T | null; statusCode: number | null }> {
-    const body = {
-      url,
-      formats: [
-        {
-          type: 'json',
-          prompt,
-          schema,
-        },
-      ],
-      waitFor: waitMs,
+  ): Promise<ScrapeJsonResult<T>> {
+    // Firecrawl SDK pins its own zod@3 install; our project ships zod@4.
+    // The schema is structurally identical at runtime (we only use object/
+    // array/string/number/union) but the v3/v4 type-tag mismatch makes TS
+    // refuse the assignment. Cast to `any` at the SDK boundary and let
+    // Firecrawl serialise via its bundled zod-to-json-schema.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const sdkSchema = schema as unknown as any;
+    const res = await this.app.scrapeUrl(url, {
+      formats: ['json'],
       onlyMainContent: false,
-    };
-    const res = await this.post<FirecrawlScrapeResponse<T>>('/v1/scrape', body);
-    return {
-      data: (res.data?.json ?? null) as T | null,
-      statusCode: res.data?.metadata?.statusCode ?? null,
-    };
-  }
-
-  async scrapeHtml(
-    url: string,
-    waitMs: number = DEFAULT_WAIT_MS,
-  ): Promise<{ html: string | null; statusCode: number | null }> {
-    const body = {
-      url,
-      formats: ['html'],
       waitFor: waitMs,
-      onlyMainContent: false,
-    };
-    const res = await this.post<FirecrawlScrapeResponse>('/v1/scrape', body);
-    return {
-      html: res.data?.html ?? null,
-      statusCode: res.data?.metadata?.statusCode ?? null,
-    };
-  }
-
-  async scrapeMarkdown(
-    url: string,
-    waitMs: number = DEFAULT_WAIT_MS,
-  ): Promise<{ markdown: string | null; html: string | null; statusCode: number | null }> {
-    const body = {
-      url,
-      formats: ['markdown', 'html'],
-      waitFor: waitMs,
-      onlyMainContent: false,
-    };
-    const res = await this.post<FirecrawlScrapeResponse>('/v1/scrape', body);
-    return {
-      markdown: res.data?.markdown ?? null,
-      html: res.data?.html ?? null,
-      statusCode: res.data?.metadata?.statusCode ?? null,
-    };
-  }
-
-  private async post<T>(path: string, body: unknown): Promise<T> {
-    const { data } = await this.http.json<T>(`${FIRECRAWL_BASE}${path}`, {
-      method: 'POST',
-      headers: {
-        authorization: `Bearer ${this.apiKey}`,
-        'content-type': 'application/json',
-      },
-      body: body as Record<string, unknown>,
-      timeoutMs: 60_000,
-      maxRetries: 2,
-      useEtagCache: false,
+      timeout: DEFAULT_TIMEOUT_MS,
+      jsonOptions: { schema: sdkSchema, prompt },
     });
-    return data;
+    if (!res.success) {
+      return { data: null, statusCode: null, warning: res.error ?? 'firecrawl error' };
+    }
+    const json = (res as { json?: unknown }).json;
+    return {
+      data: (json ?? null) as T | null,
+      statusCode: res.metadata?.statusCode ?? null,
+      warning: res.warning ?? null,
+    };
+  }
+
+  async scrapeHtml(url: string, waitMs: number = DEFAULT_WAIT_MS): Promise<ScrapeHtmlResult> {
+    const res = await this.app.scrapeUrl(url, {
+      formats: ['html'],
+      onlyMainContent: false,
+      waitFor: waitMs,
+      timeout: DEFAULT_TIMEOUT_MS,
+    });
+    if (!res.success) {
+      return { html: null, statusCode: null, warning: res.error ?? 'firecrawl error' };
+    }
+    return {
+      html: res.html ?? null,
+      statusCode: res.metadata?.statusCode ?? null,
+      warning: res.warning ?? null,
+    };
   }
 }
 
-/** Skills.sh leaderboard JSON schema for Firecrawl's LLM extract. */
-export const SKILLS_LEADERBOARD_SCHEMA = {
-  type: 'object',
-  properties: {
-    skills: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          rank: { type: 'integer' },
-          skill_name: { type: 'string' },
-          owner: { type: 'string' },
-          repo: { type: 'string' },
-          installs: {
-            type: 'string',
-            description: 'Install count as shown on the page (e.g. "1.2M", "350.0K", "42").',
-          },
-          agents: {
-            type: 'array',
-            items: { type: 'string' },
-            description:
-              'Agent compatibility slugs from the per-row icons. Slugs match the skills.sh /agents/<slug>.svg URL pattern.',
-          },
-          url: {
-            type: 'string',
-            description: 'Absolute URL to the skill detail page on skills.sh.',
-          },
-        },
-        required: ['rank', 'skill_name', 'owner', 'repo', 'installs', 'agents'],
-      },
-    },
-  },
-  required: ['skills'],
-} as const;
+/**
+ * Zod schema for the leaderboard JSON shape we ask Firecrawl to extract.
+ * Accepting `installs` as string or number because the LLM occasionally
+ * returns one or the other depending on the column wording. The shape is
+ * passed straight to Firecrawl's jsonOptions.schema and parsed downstream
+ * by parseFromExtract.
+ */
+export const SKILLS_LEADERBOARD_SCHEMA = z.object({
+  skills: z.array(
+    z.object({
+      rank: z.number().int().optional(),
+      skill_name: z.string(),
+      owner: z.string(),
+      repo: z.string(),
+      installs: z.union([z.string(), z.number()]).optional(),
+      agents: z.array(z.string()).default([]),
+      url: z.string().optional(),
+    }),
+  ),
+});
+
+export type SkillsLeaderboardExtract = z.infer<typeof SKILLS_LEADERBOARD_SCHEMA>;
 
 export const SKILLS_LEADERBOARD_PROMPT =
-  'Extract every leaderboard row visible on this skills.sh page. For each row, capture: rank (integer position from the top), skill_name (the skill identifier shown in the row, NOT the path), owner (GitHub org/user from the URL), repo (GitHub repo from the URL), installs (the count shown, e.g. "1.2M"), agents (the list of compatibility-icon slugs in that row), and url (the absolute href). Skip header rows and pagination controls. Return all visible rows.';
+  'Extract every leaderboard row visible on this skills.sh page. For each row, capture: rank (integer position from the top), skill_name (the skill identifier shown in the row, NOT the path), owner (GitHub org/user from the URL), repo (GitHub repo from the URL), installs (the count shown, e.g. "1.2M"), agents (the list of compatibility-icon slugs in that row, matching the skills.sh /agents/<slug>.svg URL pattern), and url (the absolute href). Skip header rows and pagination controls. Return all visible rows.';

@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { RevenueQueueAdmin } from "@/components/admin/RevenueQueueAdmin";
+import { TerminalBar } from "@/components/today-v2/primitives/TerminalBar";
 import {
   ADMIN_SESSION_COOKIE_NAME,
   verifyAdminSession,
@@ -22,5 +23,21 @@ export default async function RevenueQueueAdminPage() {
   if (!verifyAdminSession(session)) {
     redirect("/admin/login?next=/admin/revenue-queue");
   }
-  return <RevenueQueueAdmin />;
+  return (
+    <>
+      <section className="border-b border-[color:var(--v2-line-100)]">
+        <div className="v2-frame pt-6 pb-4">
+          <TerminalBar
+            label={
+              <>
+                <span aria-hidden>{"// "}</span>ADMIN · REVENUE · MODERATION
+              </>
+            }
+            status="QUEUE"
+          />
+        </div>
+      </section>
+      <RevenueQueueAdmin />
+    </>
+  );
 }

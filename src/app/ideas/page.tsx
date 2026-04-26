@@ -123,7 +123,7 @@ export default async function IdeasPage({ searchParams }: PageProps) {
   const feed = await loadFeed(sortKey);
 
   return (
-    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
+    <>
       <div className="max-w-[900px] mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6">
         <header className="border-b border-border-primary pb-6">
           <div className="flex flex-wrap items-baseline gap-3">
@@ -201,6 +201,6 @@ export default async function IdeasPage({ searchParams }: PageProps) {
           </ul>
         )}
       </div>
-    </main>
+    </>
   );
 }

@@ -56,7 +56,7 @@ export default function FundingPage() {
   const cold = isFundingCold(file);
 
   return (
-    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
+    <>
       <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
         {/* Header */}
         <header className="mb-6 border-b border-border-primary pb-6">
@@ -121,7 +121,7 @@ export default function FundingPage() {
           </>
         )}
       </div>
-    </main>
+    </>
   );
 }
 

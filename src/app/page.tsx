@@ -1,292 +1,110 @@
-// TrendingRepo — Home (Phase 3 / P9)
+// TrendingRepo — Today (homepage `/`).
+//
+// V2 design system. Renders the 5-stage product loop:
+//   Discover ideas + repos → Validate market signal → Check ecosystem
+//   traction → Prepare for launch → Track funding/revenue outcomes.
 //
 // Server component. Reads the derived Repo[] from committed JSON
-// (data/trending.json + data/deltas.json) and hands the top 80 by
-// starsDelta24h to TerminalLayout. The in-memory pipeline store is empty
-// on cold Vercel Lambdas, so reading from JSON is the only way to serve
-// non-empty repo cards consistently.
+// (data/trending.json + data/deltas.json) and the ranked ideas feed
+// from .data/ideas.jsonl + reactions store. Hands both to the V2 hero
+// + activity strip + ideas/repos split + trending table + signal radar
+// + launch section.
 //
 // Title/description metadata is inherited from the root layout template
-// — no per-page override here so the canonical "TrendingRepo — {tagline}"
-// formula stays source-of-truth in one place (src/lib/seo.ts).
+// — the canonical "TrendingRepo — {tagline}" formula stays single-source
+// in src/lib/seo.ts.
 
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { lastFetchedAt } from "@/lib/trending";
-import { TerminalLayout } from "@/components/terminal/TerminalLayout";
-import { BubbleMap } from "@/components/terminal/BubbleMap";
-import { MomentumHeadline } from "@/components/home/MomentumHeadline";
-import { HomeCtaRow } from "@/components/home/HomeCtaRow";
-import { HomeEmptyState } from "@/components/home/HomeEmptyState";
+import { loadHotIdeasForToday } from "@/lib/today-ideas";
 import { SITE_NAME, SITE_URL, absoluteUrl } from "@/lib/seo";
 
-// ISR: data/*.json only changes when the GHA scrape commits new trending
-// data, so serving the homepage from a 30-minute edge cache is safe. Drops
-// per-request getDerivedRepos() re-runs (15 passes × ~2.4k rows + full
-// scoreBatch) from ~300 ms to a lookup. `force-dynamic` is no longer needed.
+import { HeroV2 } from "@/components/today-v2/HeroV2";
+import { ActivityStripV2 } from "@/components/today-v2/ActivityStripV2";
+import { TabsV2 } from "@/components/today-v2/TabsV2";
+import { IdeasRepoSplitV2 } from "@/components/today-v2/IdeasRepoSplitV2";
+import { TrendingTableV2 } from "@/components/today-v2/TrendingTableV2";
+import { SignalRadarV2 } from "@/components/today-v2/SignalRadarV2";
+import { LaunchSectionV2 } from "@/components/today-v2/LaunchSectionV2";
+import { AsciiInterstitial } from "@/components/today-v2/AsciiInterstitial";
+
+// ISR: data/*.json only changes when the GHA scrape commits new
+// trending data, so serving the homepage from a 30-minute edge cache
+// is safe.
 export const revalidate = 1800;
 
 export default async function HomePage() {
   const repos = getDerivedRepos();
 
-  // Cold lambda / broken data file → show a branded empty state instead
-  // of the generic "no repos match filters" inner message. Preserves the
-  // h1 + FAQ for SEO so Google doesn't see a dead page on a degraded
-  // deploy, but skips the bubble map + featured row which would look
-  // empty/broken.
-  if (repos.length === 0) {
-    return (
-      <>
-        <section className="px-4 sm:px-6 pt-4 pb-2">
-          <h1 className="font-display text-xl sm:text-2xl font-bold text-text-primary leading-tight">
-            TrendingRepo is a trend radar that surfaces breakout open-source repos
-            from live social signals.
-          </h1>
-        </section>
-        <HomeEmptyState />
-      </>
-    );
-  }
+  // Top-trending repos for the hero (right column) — ranked by 24h
+  // star delta to surface what's actually moving today.
+  const heroRepos = [...repos]
+    .sort((a, b) => b.starsDelta24h - a.starsDelta24h)
+    .slice(0, 4);
 
-  // Top-20 repos (by 24h star delta) feed the ItemList JSON-LD below.
-  // Canonical list of what's "on this page" for search crawlers.
+  // Top ideas for the hero. Returns at most 4 by hot score.
+  const heroIdeas = await loadHotIdeasForToday(4);
+
+  // Top-20 repos for the ItemList JSON-LD below — canonical list of
+  // what's "on this page" for search crawlers.
   const itemListTop = [...repos]
     .sort((a, b) => b.starsDelta24h - a.starsDelta24h)
     .slice(0, 20);
 
+  if (repos.length === 0) {
+    return (
+      <>
+        <HeroV2 repos={[]} lastFetchedAt={lastFetchedAt} />
+        <section className="border-b border-[color:var(--v2-line-100)]">
+          <div className="v2-frame py-12 text-center">
+            <p className="v2-mono">
+              <span aria-hidden>{"// "}</span>
+              NO DATA · COLD START · WAITING NEXT SCRAPE
+            </p>
+          </div>
+        </section>
+      </>
+    );
+  }
+
   return (
     <>
-      {/* H1 + Claims — definition-lead opener with authoritative citations */}
-      <section className="px-4 sm:px-6 pt-4 pb-2 space-y-3">
-        <MomentumHeadline repos={repos} lastFetchedAt={lastFetchedAt} />
-        <h1 className="font-display text-xl sm:text-2xl font-bold text-text-primary leading-tight">
-          TrendingRepo is a trend radar that surfaces breakout open-source repos
-          from live social signals.
-        </h1>
-        <p className="mt-2 text-sm text-text-secondary max-w-3xl">
-          GitHub now hosts{" "}
-          <a
-            href="https://github.blog/news-insights/company-news/github-now-has-100-million-developers/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline decoration-brand/50 hover:decoration-brand text-text-primary"
-          >
-            over 100 million developers
-          </a>{" "}
-          — the fastest-growing open-source ecosystem in history. We ingest
-          GitHub, Reddit, Hacker News, ProductHunt, Bluesky, and dev.to every 20
-          minutes, score momentum across 15 categories, and surface the movers
-          before they plateau.{" "}
-          <a
-            href="https://en.wikipedia.org/wiki/Open-source_software"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline decoration-brand/50 hover:decoration-brand text-text-primary"
-          >
-            Open-source software
-          </a>{" "}
-          now powers 96% of the world&apos;s codebases, per{" "}
-          <a
-            href="https://www.synopsys.com/software-integrity/resources/analyst-reports/open-source-security-risk-analysis.html"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline decoration-brand/50 hover:decoration-brand text-text-primary"
-          >
-            Synopsys 2024
-          </a>
-          .
-        </p>
-        <HomeCtaRow />
-      </section>
+      <HeroV2 repos={repos} lastFetchedAt={lastFetchedAt} />
 
-      <TerminalLayout
-        repos={repos}
-        filterBarVariant="full"
-        showFeatured
-        featuredCount={8}
-        heading={
-          <>
-            {/* BubbleMap is illegible on phones (~108px tall in viewBox 1200x360
-                — bubble labels collapse to dots). Hide on <md and let the
-                terminal cards drive the mobile narrative. */}
-            <div className="hidden md:block">
-              <BubbleMap repos={repos} limit={220} />
-            </div>
-          </>
-        }
-      />
+      <ActivityStripV2 repos={repos} ideas={heroIdeas} />
 
-      {/* FAQ section with JSON-LD */}
-      <section id="faq" className="px-4 sm:px-6 py-8 max-w-3xl">
-        <h2 className="font-display text-xl font-bold text-text-primary mb-4">
-          Frequently asked questions
-        </h2>
-        <div className="flex flex-col gap-3">
-          <details className="group rounded-lg border border-border-primary bg-bg-secondary open:border-brand/30">
-            <summary className="flex cursor-pointer items-center justify-between px-4 py-3 text-sm font-medium text-text-primary select-none">
-              What data sources does TrendingRepo track?
-              <span className="ml-2 text-text-tertiary group-open:rotate-180 transition-transform">
-                ▼
-              </span>
-            </summary>
-            <div className="px-4 pb-3 text-sm text-text-secondary">
-              GitHub (stars, forks, releases, contributors), Reddit (r/programming,
-              r/webdev, r/MachineLearning), Hacker News front page,
-              ProductHunt daily launches, Bluesky tech feeds, and dev.to trending
-              articles. Every signal is timestamped and scored for momentum.
-            </div>
-          </details>
+      <TabsV2 />
 
-          <details className="group rounded-lg border border-border-primary bg-bg-secondary open:border-brand/30">
-            <summary className="flex cursor-pointer items-center justify-between px-4 py-3 text-sm font-medium text-text-primary select-none">
-              How is the momentum score calculated?
-              <span className="ml-2 text-text-tertiary group-open:rotate-180 transition-transform">
-                ▼
-              </span>
-            </summary>
-            <div className="px-4 pb-3 text-sm text-text-secondary">
-              A composite 0–100 score based on 24h / 7d / 30d star velocity, fork
-              growth, contributor churn, commit freshness, release cadence, and
-              anti-spam dampening. Breakouts are flagged when velocity exceeds
-              rolling baselines by 2σ.
-            </div>
-          </details>
+      <IdeasRepoSplitV2 ideas={heroIdeas} repos={heroRepos} limit={4} />
 
-          <details className="group rounded-lg border border-border-primary bg-bg-secondary open:border-brand/30">
-            <summary className="flex cursor-pointer items-center justify-between px-4 py-3 text-sm font-medium text-text-primary select-none">
-              Can I query TrendingRepo from a terminal or agent?
-              <span className="ml-2 text-text-tertiary group-open:rotate-180 transition-transform">
-                ▼
-              </span>
-            </summary>
-            <div className="px-4 pb-3 text-sm text-text-secondary">
-              Yes — three interfaces: a zero-dependency CLI (Node 18+), an MCP
-              server for Claude / any agent, and a Portal v0.1 endpoint. All
-              three hit the same live pipeline, so results never drift.
-            </div>
-          </details>
+      <TrendingTableV2 repos={repos} limit={20} />
 
-          <details className="group rounded-lg border border-border-primary bg-bg-secondary open:border-brand/30">
-            <summary className="flex cursor-pointer items-center justify-between px-4 py-3 text-sm font-medium text-text-primary select-none">
-              How often is the data refreshed?
-              <span className="ml-2 text-text-tertiary group-open:rotate-180 transition-transform">
-                ▼
-              </span>
-            </summary>
-            <div className="px-4 pb-3 text-sm text-text-secondary">
-              Scrapers run every 20 minutes via GitHub Actions. The homepage is
-              ISR-cached for 30 minutes, so the edge serves a static hit while
-              the pipeline ingests fresh signals in the background.
-            </div>
-          </details>
+      <SignalRadarV2 repos={repos} limit={220} />
 
-          <details className="group rounded-lg border border-border-primary bg-bg-secondary open:border-brand/30">
-            <summary className="flex cursor-pointer items-center justify-between px-4 py-3 text-sm font-medium text-text-primary select-none">
-              Is there an API?
-              <span className="ml-2 text-text-tertiary group-open:rotate-180 transition-transform">
-                ▼
-              </span>
-            </summary>
-            <div className="px-4 pb-3 text-sm text-text-secondary">
-              Yes — public REST endpoints under /api/repos with filtering,
-              sorting, and pagination. The Portal v0.1 manifest exposes the same
-              tools over structured JSON-RPC. See the{" "}
-              <a
-                href="/portal/docs"
-                className="underline decoration-brand/50 hover:decoration-brand text-text-primary"
-              >
-                Portal docs
-              </a>{" "}
-              for schemas and examples.
-            </div>
-          </details>
+      <AsciiInterstitial />
 
-          <details className="group rounded-lg border border-border-primary bg-bg-secondary open:border-brand/30">
-            <summary className="flex cursor-pointer items-center justify-between px-4 py-3 text-sm font-medium text-text-primary select-none">
-              How do I submit my own repo?
-              <span className="ml-2 text-text-tertiary group-open:rotate-180 transition-transform">
-                ▼
-              </span>
-            </summary>
-            <div className="px-4 pb-3 text-sm text-text-secondary">
-              Click the &quot;Drop repo&quot; button in the header or visit{" "}
-              <a
-                href="/submit"
-                className="underline decoration-brand/50 hover:decoration-brand text-text-primary"
-              >
-                /submit
-              </a>
-              . Any GitHub repo is eligible — the pipeline scores it on the next
-              ingest cycle.
-            </div>
-          </details>
+      <LaunchSectionV2 repos={repos} limit={6} />
+
+      {/* Footer sign-off — V2 closing line. */}
+      <footer className="py-8">
+        <div className="v2-frame flex items-center justify-between v2-mono">
+          <span>
+            <span aria-hidden>{"// "}</span>
+            TRENDINGREPO ·{" "}
+            <span className="tabular-nums">
+              {String(repos.length).padStart(3, "0")}/2200
+            </span>{" "}
+            REPOS LIVE
+          </span>
+          <span className="text-[color:var(--v2-ink-400)]">
+            END OF PAGE ▮
+          </span>
         </div>
-      </section>
+      </footer>
 
-      {/* FAQPage JSON-LD */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            mainEntity: [
-              {
-                "@type": "Question",
-                name: "What data sources does TrendingRepo track?",
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: "GitHub (stars, forks, releases, contributors), Reddit (r/programming, r/webdev, r/MachineLearning), Hacker News front page, ProductHunt daily launches, Bluesky tech feeds, and dev.to trending articles. Every signal is timestamped and scored for momentum.",
-                },
-              },
-              {
-                "@type": "Question",
-                name: "How is the momentum score calculated?",
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: "A composite 0–100 score based on 24h / 7d / 30d star velocity, fork growth, contributor churn, commit freshness, release cadence, and anti-spam dampening. Breakouts are flagged when velocity exceeds rolling baselines by 2σ.",
-                },
-              },
-              {
-                "@type": "Question",
-                name: "Can I query TrendingRepo from a terminal or agent?",
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: "Yes — three interfaces: a zero-dependency CLI (Node 18+), an MCP server for Claude / any agent, and a Portal v0.1 endpoint. All three hit the same live pipeline, so results never drift.",
-                },
-              },
-              {
-                "@type": "Question",
-                name: "How often is the data refreshed?",
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: "Scrapers run every 20 minutes via GitHub Actions. The homepage is ISR-cached for 30 minutes, so the edge serves a static hit while the pipeline ingests fresh signals in the background.",
-                },
-              },
-              {
-                "@type": "Question",
-                name: "Is there an API?",
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: "Yes — public REST endpoints under /api/repos with filtering, sorting, and pagination. The Portal v0.1 manifest exposes the same tools over structured JSON-RPC.",
-                },
-              },
-              {
-                "@type": "Question",
-                name: "How do I submit my own repo?",
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: "Click the 'Drop repo' button in the header or visit /submit. Any GitHub repo is eligible — the pipeline scores it on the next ingest cycle.",
-                },
-              },
-            ],
-          }),
-        }}
-      />
-
-      {/* CollectionPage + ItemList JSON-LD — tells crawlers this page is
-          a curated list of trending repos and enumerates the top 20 so
-          structured-data rich results can pick them up. Complements the
-          Organization + FAQPage schemas already emitted elsewhere. */}
+      {/* CollectionPage + ItemList JSON-LD — tells crawlers this page
+          is a curated list of trending repos and enumerates the top 20
+          so structured-data rich results can pick them up. */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -294,7 +112,7 @@ export default async function HomePage() {
             "@context": "https://schema.org",
             "@type": "CollectionPage",
             "@id": `${SITE_URL.replace(/\/+$/, "")}/#homepage`,
-            name: `${SITE_NAME} — trending open-source repos`,
+            name: `${SITE_NAME} — today's trending ideas, repos, and signals`,
             url: absoluteUrl("/"),
             isPartOf: {
               "@type": "WebSite",

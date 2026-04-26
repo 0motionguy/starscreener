@@ -210,47 +210,81 @@ export default async function RepoDetailPage({ params }: PageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      {/* Sticky breadcrumb strip — unchanged behavior, terminal tone. */}
-      <div className="sticky top-14 z-30 bg-bg-primary/90 backdrop-blur-md border-b border-border-primary">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4 flex-wrap">
-          <nav
-            aria-label="Breadcrumb"
-            className="flex items-center gap-1.5 font-mono text-xs text-text-tertiary"
+      {/* V2 sticky title strip — replaces the legacy breadcrumb. Mono
+          uppercase title-line with live momentum + 24h delta inline. */}
+      <div
+        className="sticky top-14 z-30 backdrop-blur-md border-b"
+        style={{
+          background: "rgba(22, 26, 31, 0.92)",
+          borderColor: "var(--v2-line-200)",
+        }}
+      >
+        <div className="v2-frame py-3 flex items-center justify-between gap-4 flex-wrap">
+          <h1
+            className="v2-mono inline-flex items-center gap-2"
+            style={{
+              color: "var(--v2-ink-100)",
+              fontSize: 12,
+              letterSpacing: "0.20em",
+            }}
           >
-            <Link
-              href="/"
-              className="hover:text-text-primary transition-colors"
-            >
-              Home
-            </Link>
-            <span aria-hidden>›</span>
-            <span className="text-text-primary font-medium truncate max-w-[260px] sm:max-w-none">
+            <span aria-hidden>{"// "}</span>
+            REPO ·{" "}
+            <span style={{ textTransform: "lowercase", letterSpacing: "0.04em" }}>
               {repo.fullName}
             </span>
-          </nav>
-          <div className="flex items-center gap-3 font-mono text-xs tabular-nums">
-            <span className="hidden sm:inline-flex items-center gap-1.5 text-text-tertiary">
+            <span
+              aria-hidden
+              className="inline-block ml-1"
+              style={{
+                width: 6,
+                height: 6,
+                background: "var(--v2-acc)",
+                borderRadius: 1,
+                boxShadow: "0 0 6px var(--v2-acc-glow)",
+              }}
+            />
+          </h1>
+          <div
+            className="flex items-center gap-3 v2-mono tabular-nums"
+            style={{ color: "var(--v2-ink-300)" }}
+          >
+            <span className="hidden sm:inline-flex items-center gap-1.5">
               <TrendingUp size={12} aria-hidden />
-              <span>Rank:</span>
-              <span className="text-text-primary">#{repo.rank}</span>
+              RANK <span style={{ color: "var(--v2-ink-100)" }}>#{repo.rank}</span>
             </span>
-            <span className="inline-flex items-center gap-1.5 text-brand">
+            <span
+              className="inline-flex items-center gap-1.5"
+              style={{ color: "var(--v2-acc)" }}
+            >
               <Flame size={12} aria-hidden />
-              <span className="text-text-tertiary">Momentum:</span>
+              <span style={{ color: "var(--v2-ink-300)" }}>MOMENTUM</span>
               <span>{repo.momentumScore.toFixed(1)}</span>
             </span>
             <span className="inline-flex items-center gap-1.5">
-              <Zap size={12} className="text-warning" aria-hidden />
-              <span className="text-text-tertiary">24h:</span>
+              <Zap
+                size={12}
+                style={{ color: "var(--v2-sig-amber)" }}
+                aria-hidden
+              />
+              <span style={{ color: "var(--v2-ink-300)" }}>24H</span>
               <span
-                className={repo.starsDelta24h >= 0 ? "text-up" : "text-down"}
+                style={{
+                  color:
+                    repo.starsDelta24h >= 0
+                      ? "var(--v2-sig-green)"
+                      : "var(--v2-sig-red)",
+                }}
               >
                 {repo.starsDelta24h >= 0 ? "+" : ""}
                 {formatNumber(repo.starsDelta24h)} ★
               </span>
             </span>
-            <span className="hidden md:inline text-text-tertiary">
-              · refreshed {lastRefresh}
+            <span
+              className="hidden md:inline"
+              style={{ color: "var(--v2-ink-400)" }}
+            >
+              · {lastRefresh}
             </span>
           </div>
         </div>

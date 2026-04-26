@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
 import { DropRepoPage } from "@/components/submissions/DropRepoPage";
-import { TerminalBar } from "@/components/today-v2/primitives/TerminalBar";
 
 export const metadata: Metadata = {
   title: "Drop Your Repo",
@@ -10,21 +9,5 @@ export const metadata: Metadata = {
 };
 
 export default function SubmitPage() {
-  return (
-    <>
-      <section className="border-b border-[color:var(--v2-line-100)]">
-        <div className="v2-frame pt-6 pb-4">
-          <TerminalBar
-            label={
-              <>
-                <span aria-hidden>{"// "}</span>SUBMIT · REPO · QUEUE
-              </>
-            }
-            status="OPEN"
-          />
-        </div>
-      </section>
-      <DropRepoPage />
-    </>
-  );
+  return <DropRepoPage />;
 }

@@ -1,13 +1,12 @@
-// /cli — V2 CLI docs.
+// TrendingRepo — /cli docs
 //
 // Static docs page for the `ss` CLI (bin/ss.mjs). Lists the real command
 // set extracted from the binary so drift against the help text is
-// obvious in review. Pure server component — V2 design system: TerminalBar,
-// .v2-display headline, .v2-card command table, mono section labels.
+// obvious in review. Pure server component — no interactive state so
+// we render a single flat tree and let the document-title metadata
+// handle tab naming.
 
 import type { Metadata } from "next";
-import { TerminalBar } from "@/components/today-v2/primitives/TerminalBar";
-import { AsciiInterstitial } from "@/components/today-v2/AsciiInterstitial";
 
 export const metadata: Metadata = {
   title: "CLI — TrendingRepo",
@@ -57,10 +56,12 @@ const CLI_COMMANDS: CliCommand[] = [
   },
 ];
 
-// Live prod endpoint — the CLI reads STARSCREENER_API_URL.
-const LIVE_BASE = "https://trendingrepo.com";
+// Live prod endpoint — the CLI reads STARSCREENER_API_URL, so a one-line
+// export gets you real data immediately. Portal v0.1 /portal + /portal/call
+// run against the same base.
+const LIVE_BASE = "https://starscreener.vercel.app";
 
-const INSTALL_LIVE = `# Pipe straight from the live deployment
+const INSTALL_LIVE = `# Pipe straight from the live Vercel deployment
 npx github:0motionguy/starscreener \\
   trending --window=24h --limit=10
 
@@ -89,205 +90,106 @@ Trending repos (window=24h, showing 5 of 212)
 4  ollama/ollama                   112,880  +548     +1,982  79.1      rising
 5  vercel/ai                       12,044   +421     +1,210  74.8      rising`;
 
-function CodeBlock({ children }: { children: string }) {
-  return (
-    <pre
-      className="v2-card overflow-x-auto p-4 whitespace-pre"
-      style={{
-        fontFamily:
-          "var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace",
-        fontSize: 13,
-        lineHeight: 1.5,
-        color: "var(--v2-ink-100)",
-      }}
-    >
-      {children}
-    </pre>
-  );
-}
-
 export default function CliPage() {
   return (
-    <>
-      <section className="border-b border-[color:var(--v2-line-100)]">
-        <div className="v2-frame pt-6 pb-6">
-          <TerminalBar
-            label={
-              <>
-                <span aria-hidden>{"// "}</span>CLI · SS · TERMINAL CLIENT
-              </>
-            }
-            status={`${CLI_COMMANDS.length} CMDS`}
-          />
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
+      {/* Heading ------------------------------------------------------ */}
+      <header className="mb-8">
+        <span className="label-micro">CLI · ss</span>
+        <h1 className="font-display text-4xl sm:text-5xl mt-2 mb-3">
+          Terminal-native AI trending.
+        </h1>
+        <p className="text-text-secondary text-md max-w-2xl leading-relaxed">
+          Zero dependencies. Reads the same pipeline the web terminal
+          reads, printed in honest monospace. Pipe through{" "}
+          <span className="font-mono text-text-primary">jq</span>, tail
+          the event stream, or just glance at what&apos;s moving without
+          opening a browser.
+        </p>
+      </header>
 
-          <h1
-            className="v2-display mt-6"
-            style={{
-              fontSize: "clamp(36px, 5vw, 64px)",
-              color: "var(--v2-ink-000)",
-            }}
-          >
-            Terminal-native AI{" "}
-            <span style={{ color: "var(--v2-ink-400)" }}>trending.</span>
-          </h1>
-          <p
-            className="text-[15px] leading-relaxed max-w-[80ch] mt-3"
-            style={{ color: "var(--v2-ink-200)" }}
-          >
-            Zero dependencies. Reads the same pipeline the web terminal reads,
-            printed in honest monospace. Pipe through{" "}
-            <code
-              className="v2-mono-tight"
-              style={{ color: "var(--v2-ink-100)", fontSize: 13 }}
-            >
-              jq
-            </code>
-            , tail the event stream, or just glance at what&apos;s moving
-            without opening a browser.
-          </p>
-        </div>
+      {/* Install ------------------------------------------------------ */}
+      <section className="mb-10">
+        <span className="label-section">Run against live production</span>
+        <p className="text-text-secondary text-sm mt-2 mb-3">
+          The CLI hits the live Portal pipeline directly — no clone, no
+          setup. Node 18+ is the only prerequisite.
+        </p>
+        <pre className="bg-bg-card border border-border-primary rounded-md p-3 font-mono text-[13px] overflow-x-auto text-text-primary whitespace-pre">
+          {INSTALL_LIVE}
+        </pre>
+
+        <p className="text-text-tertiary text-xs mt-5 mb-2 font-mono uppercase tracking-wider">
+          Or via the Portal v0.1 visitor CLI
+        </p>
+        <p className="text-text-secondary text-sm mb-3">
+          Same data, spec-native. Works against any{" "}
+          <span className="font-mono text-text-primary">/portal</span>{" "}
+          endpoint on the open agent web.
+        </p>
+        <pre className="bg-bg-card border border-border-primary rounded-md p-3 font-mono text-[13px] overflow-x-auto text-text-primary whitespace-pre">
+          {PORTAL_CLI}
+        </pre>
+
+        <p className="text-text-tertiary text-xs mt-5 mb-2 font-mono uppercase tracking-wider">
+          Local dev
+        </p>
+        <pre className="bg-bg-card border border-border-primary rounded-md p-3 font-mono text-[13px] overflow-x-auto text-text-primary whitespace-pre">
+          {INSTALL_DEV}
+        </pre>
+        <p className="text-text-tertiary text-xs mt-2">
+          Every command accepts{" "}
+          <span className="font-mono text-text-secondary">
+            STARSCREENER_API_URL=https://…
+          </span>{" "}
+          to point at a non-default API.
+        </p>
       </section>
 
-      {/* Install */}
-      <section className="border-b border-[color:var(--v2-line-100)]">
-        <div className="v2-frame py-6 max-w-[900px]">
-          <p
-            className="v2-mono mb-2"
-            style={{ color: "var(--v2-ink-300)" }}
-          >
-            <span aria-hidden>{"// "}</span>
-            RUN AGAINST LIVE PRODUCTION
-          </p>
-          <p
-            className="text-[14px] leading-relaxed mb-3"
-            style={{ color: "var(--v2-ink-200)" }}
-          >
-            The CLI hits the live Portal pipeline directly — no clone, no
-            setup. Node 18+ is the only prerequisite.
-          </p>
-          <CodeBlock>{INSTALL_LIVE}</CodeBlock>
-
-          <p
-            className="v2-mono mt-6 mb-2"
-            style={{ color: "var(--v2-ink-300)" }}
-          >
-            <span aria-hidden>{"// "}</span>
-            OR · PORTAL V0.1 VISITOR CLI
-          </p>
-          <p
-            className="text-[14px] leading-relaxed mb-3"
-            style={{ color: "var(--v2-ink-200)" }}
-          >
-            Same data, spec-native. Works against any{" "}
-            <code
-              className="v2-mono-tight"
-              style={{ color: "var(--v2-ink-100)", fontSize: 13 }}
+      {/* Commands ----------------------------------------------------- */}
+      <section className="mb-10">
+        <span className="label-section">Commands</span>
+        <div className="mt-3 border border-border-primary rounded-md overflow-hidden bg-bg-card">
+          {CLI_COMMANDS.map((c, i) => (
+            <div
+              key={c.cmd}
+              className={
+                "grid grid-cols-1 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] gap-2 sm:gap-6 px-4 py-3 " +
+                (i < CLI_COMMANDS.length - 1
+                  ? "border-b border-border-secondary"
+                  : "")
+              }
             >
-              /portal
-            </code>{" "}
-            endpoint on the open agent web.
-          </p>
-          <CodeBlock>{PORTAL_CLI}</CodeBlock>
-
-          <p
-            className="v2-mono mt-6 mb-2"
-            style={{ color: "var(--v2-ink-300)" }}
-          >
-            <span aria-hidden>{"// "}</span>
-            LOCAL DEV
-          </p>
-          <CodeBlock>{INSTALL_DEV}</CodeBlock>
-          <p
-            className="v2-mono mt-3"
-            style={{ color: "var(--v2-ink-400)", fontSize: 11 }}
-          >
-            <span aria-hidden>{"// "}</span>
-            EVERY COMMAND ACCEPTS{" "}
-            <code
-              className="v2-mono-tight"
-              style={{ color: "var(--v2-ink-200)", fontSize: 11 }}
-            >
-              STARSCREENER_API_URL=https://…
-            </code>{" "}
-            TO POINT AT A NON-DEFAULT API.
-          </p>
+              <code className="font-mono text-[13px] text-brand break-all">
+                {c.cmd}
+              </code>
+              <p className="text-text-secondary text-sm leading-snug">
+                {c.desc}
+              </p>
+            </div>
+          ))}
         </div>
+        <p className="text-text-tertiary text-xs mt-3">
+          Every command accepts{" "}
+          <span className="font-mono text-text-secondary">--json</span>{" "}
+          for machine-readable output. Exit code is{" "}
+          <span className="font-mono">0</span> on success,{" "}
+          <span className="font-mono">1</span> on error,{" "}
+          <span className="font-mono">130</span> on Ctrl-C.
+        </p>
       </section>
 
-      <AsciiInterstitial />
-
-      {/* Commands */}
-      <section className="border-b border-[color:var(--v2-line-100)]">
-        <div className="v2-frame py-6 max-w-[1100px]">
-          <p
-            className="v2-mono mb-3"
-            style={{ color: "var(--v2-ink-300)" }}
-          >
-            <span aria-hidden>{"// "}</span>
-            COMMANDS · {CLI_COMMANDS.length}
-          </p>
-          <div className="v2-card overflow-hidden">
-            {CLI_COMMANDS.map((c, i) => (
-              <div
-                key={c.cmd}
-                className="grid grid-cols-1 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] gap-2 sm:gap-6 px-4 py-3"
-                style={{
-                  borderTop:
-                    i === 0 ? "none" : "1px solid var(--v2-line-100)",
-                }}
-              >
-                <code
-                  className="v2-mono-tight break-all"
-                  style={{ color: "var(--v2-acc)", fontSize: 13 }}
-                >
-                  {c.cmd}
-                </code>
-                <p
-                  className="text-[14px] leading-snug"
-                  style={{ color: "var(--v2-ink-200)" }}
-                >
-                  {c.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-          <p
-            className="v2-mono mt-3"
-            style={{ color: "var(--v2-ink-400)", fontSize: 11 }}
-          >
-            <span aria-hidden>{"// "}</span>
-            EVERY COMMAND ACCEPTS{" "}
-            <code
-              className="v2-mono-tight"
-              style={{ color: "var(--v2-ink-200)", fontSize: 11 }}
-            >
-              --json
-            </code>{" "}
-            FOR MACHINE-READABLE OUTPUT · EXIT 0 OK · 1 ERROR · 130 CTRL-C
-          </p>
-        </div>
-      </section>
-
-      {/* Transcript */}
+      {/* Transcript --------------------------------------------------- */}
       <section>
-        <div className="v2-frame py-6 max-w-[1100px]">
-          <p
-            className="v2-mono mb-2"
-            style={{ color: "var(--v2-ink-300)" }}
-          >
-            <span aria-hidden>{"// "}</span>
-            SAMPLE SESSION
-          </p>
-          <p
-            className="text-[14px] leading-relaxed mb-3"
-            style={{ color: "var(--v2-ink-200)" }}
-          >
-            What a 24-hour movers check actually looks like on a wide
-            terminal:
-          </p>
-          <CodeBlock>{TRANSCRIPT}</CodeBlock>
-        </div>
+        <span className="label-section">Sample session</span>
+        <p className="text-text-secondary text-sm mt-2 mb-3">
+          What a 24-hour movers check actually looks like on a wide
+          terminal:
+        </p>
+        <pre className="bg-bg-card border border-border-primary rounded-md p-3 font-mono text-[13px] overflow-x-auto whitespace-pre text-text-primary">
+          {TRANSCRIPT}
+        </pre>
       </section>
-    </>
+    </div>
   );
 }

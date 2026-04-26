@@ -1,10 +1,112 @@
 {
-  "fetchedAt": "2026-04-26T10:08:22.202Z",
+  "fetchedAt": "2026-04-26T11:06:17.683Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
+    "microsoft/VibeVoice": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 1,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3mkfdauax3x2t",
+        "cid": "bafyreifvq44y6ypvfjft3rembbtun5m7ysrwqj4avjhy7674uwwduqqdj4",
+        "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3mkfdauax3x2t",
+        "text": "GitHub - microsoft/VibeVoice: Open-Source Frontier Voice AI https://github.com/microsoft/VibeVoice",
+        "author": {
+          "handle": "tech-trending.bsky.social",
+          "displayName": "Tech Trending"
+        },
+        "likeCount": 1,
+        "repostCount": 1,
+        "replyCount": 0,
+        "createdAt": "2026-04-26T10:17:19.885Z",
+        "hoursSincePosted": 0.82
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3mkfdauax3x2t",
+          "cid": "bafyreifvq44y6ypvfjft3rembbtun5m7ysrwqj4avjhy7674uwwduqqdj4",
+          "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3mkfdauax3x2t",
+          "text": "GitHub - microsoft/VibeVoice: Open-Source Frontier Voice AI https://github.com/microsoft/VibeVoice",
+          "author": {
+            "handle": "tech-trending.bsky.social",
+            "displayName": "Tech Trending"
+          },
+          "likeCount": 1,
+          "repostCount": 1,
+          "replyCount": 0,
+          "createdAt": "2026-04-26T10:17:19.885Z",
+          "createdUtc": 1777198639,
+          "ageHours": 0.82,
+          "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "microsoft/VibeVoice",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "antirez/llama.cpp-deepseek-v4-flash": {
+      "count7d": 1,
+      "likesSum7d": 4,
+      "repostsSum7d": 1,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:ipt7y6qaf6fn7oeeduboqe44/app.bsky.feed.post/3mkfd2m2jss2o",
+        "cid": "bafyreicpl45xwlhbvfwqz2qjqnb3c2dzr76esonkjzmd4kcvax447rl7gu",
+        "bskyUrl": "https://bsky.app/profile/antirez.bsky.social/post/3mkfd2m2jss2o",
+        "text": "Here you can find experimental support for DeepSeek v4 Flash in llama.cpp: github.com/antirez/llam... And a GGUF file you can use in order to run the inference with just 128 GB of RAM: huggingface.co/antirez/deep...",
+        "author": {
+          "handle": "antirez.bsky.social",
+          "displayName": "antirez"
+        },
+        "likeCount": 4,
+        "repostCount": 1,
+        "replyCount": 1,
+        "createdAt": "2026-04-26T10:13:50.176Z",
+        "hoursSincePosted": 0.87
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:ipt7y6qaf6fn7oeeduboqe44/app.bsky.feed.post/3mkfd2m2jss2o",
+          "cid": "bafyreicpl45xwlhbvfwqz2qjqnb3c2dzr76esonkjzmd4kcvax447rl7gu",
+          "bskyUrl": "https://bsky.app/profile/antirez.bsky.social/post/3mkfd2m2jss2o",
+          "text": "Here you can find experimental support for DeepSeek v4 Flash in llama.cpp: github.com/antirez/llam... And a GGUF file you can use in order to run the inference with just 128 GB of RAM: huggingface.co/antirez/deep...",
+          "author": {
+            "handle": "antirez.bsky.social",
+            "displayName": "antirez"
+          },
+          "likeCount": 4,
+          "repostCount": 1,
+          "replyCount": 1,
+          "createdAt": "2026-04-26T10:13:50.176Z",
+          "createdUtc": 1777198430,
+          "ageHours": 0.87,
+          "trendingScore": 6.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "antirez/llama.cpp-deepseek-v4-flash",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "ggml-org/llama.cpp": {
       "count7d": 3,
       "likesSum7d": 2,
@@ -22,7 +124,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-26T10:07:48.402121+00:00",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 0.97
       },
       "posts": [
         {
@@ -38,7 +140,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-26T10:07:48.402121+00:00",
           "createdUtc": 1777198068,
-          "ageHours": 0.5,
+          "ageHours": 0.97,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -65,7 +167,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-26T09:09:00.868731+00:00",
           "createdUtc": 1777194540,
-          "ageHours": 0.99,
+          "ageHours": 1.95,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -92,7 +194,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-26T08:07:48.354521+00:00",
           "createdUtc": 1777190868,
-          "ageHours": 2.01,
+          "ageHours": 2.97,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -126,7 +228,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-26T09:32:36.607Z",
-        "hoursSincePosted": 0.6
+        "hoursSincePosted": 1.56
       },
       "posts": [
         {
@@ -142,7 +244,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-26T09:32:36.607Z",
           "createdUtc": 1777195956,
-          "ageHours": 0.6,
+          "ageHours": 1.56,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -175,7 +277,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-26T06:50:59.333Z",
-        "hoursSincePosted": 3.29
+        "hoursSincePosted": 4.26
       },
       "posts": [
         {
@@ -191,7 +293,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-26T06:50:59.333Z",
           "createdUtc": 1777186259,
-          "ageHours": 3.29,
+          "ageHours": 4.26,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -225,7 +327,7 @@
         "repostCount": 2,
         "replyCount": 0,
         "createdAt": "2026-04-26T06:27:26.150Z",
-        "hoursSincePosted": 3.68
+        "hoursSincePosted": 4.65
       },
       "posts": [
         {
@@ -242,7 +344,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-26T06:27:26.150Z",
           "createdUtc": 1777184846,
-          "ageHours": 3.68,
+          "ageHours": 4.65,
           "trendingScore": 7,
           "content_tags": [
             "has-github-repo"
@@ -260,7 +362,7 @@
     },
     "johnpcutler/tbm-recommender": {
       "count7d": 1,
-      "likesSum7d": 4,
+      "likesSum7d": 5,
       "repostsSum7d": 1,
       "repliesSum7d": 0,
       "topPost": {
@@ -272,11 +374,11 @@
           "handle": "johncutle.fish",
           "displayName": "John Cutler"
         },
-        "likeCount": 4,
+        "likeCount": 5,
         "repostCount": 1,
         "replyCount": 0,
         "createdAt": "2026-04-26T06:14:59.564Z",
-        "hoursSincePosted": 3.89
+        "hoursSincePosted": 4.86
       },
       "posts": [
         {
@@ -288,13 +390,13 @@
             "handle": "johncutle.fish",
             "displayName": "John Cutler"
           },
-          "likeCount": 4,
+          "likeCount": 5,
           "repostCount": 1,
           "replyCount": 0,
           "createdAt": "2026-04-26T06:14:59.564Z",
           "createdUtc": 1777184099,
-          "ageHours": 3.89,
-          "trendingScore": 6,
+          "ageHours": 4.86,
+          "trendingScore": 7,
           "content_tags": [
             "has-github-repo"
           ],
@@ -327,7 +429,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-26T05:52:52.000Z",
-        "hoursSincePosted": 4.26
+        "hoursSincePosted": 5.22
       },
       "posts": [
         {
@@ -344,7 +446,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-26T05:52:52.000Z",
           "createdUtc": 1777182772,
-          "ageHours": 4.26,
+          "ageHours": 5.22,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -365,6 +467,11 @@
     {
       "fullName": "johnpcutler/tbm-recommender",
       "count7d": 1,
+      "likesSum7d": 5
+    },
+    {
+      "fullName": "antirez/llama.cpp-deepseek-v4-flash",
+      "count7d": 1,
       "likesSum7d": 4
     },
     {
@@ -376,6 +483,11 @@
       "fullName": "ggml-org/llama.cpp",
       "count7d": 3,
       "likesSum7d": 2
+    },
+    {
+      "fullName": "microsoft/VibeVoice",
+      "count7d": 1,
+      "likesSum7d": 1
     },
     {
       "fullName": "abhigyanpatwari/GitNexus",

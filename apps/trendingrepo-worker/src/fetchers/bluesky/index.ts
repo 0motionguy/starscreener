@@ -5,11 +5,8 @@ const fetcher: Fetcher = {
   schedule: '*/15 * * * *',
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
-    if (ctx.dryRun) {
-      ctx.log.info('bluesky fetcher dry-run');
-      return empty('bluesky', startedAt);
-    }
-    throw new Error('Not Implemented: bluesky fetcher');
+    ctx.log.warn('bluesky not yet implemented - skip until Phase B port lands');
+    return empty('bluesky', startedAt);
   },
 };
 

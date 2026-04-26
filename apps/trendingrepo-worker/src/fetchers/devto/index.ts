@@ -5,11 +5,8 @@ const fetcher: Fetcher = {
   schedule: '50 */3 * * *',
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
-    if (ctx.dryRun) {
-      ctx.log.info('devto fetcher dry-run');
-      return empty('devto', startedAt);
-    }
-    throw new Error('Not Implemented: devto fetcher');
+    ctx.log.warn('devto not yet implemented - skip until Phase B port lands');
+    return empty('devto', startedAt);
   },
 };
 

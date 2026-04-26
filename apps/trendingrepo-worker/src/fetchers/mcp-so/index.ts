@@ -6,11 +6,8 @@ const fetcher: Fetcher = {
   requiresFirecrawl: true,
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
-    if (ctx.dryRun) {
-      ctx.log.info('mcp-so fetcher dry-run');
-      return empty('mcp-so', startedAt);
-    }
-    throw new Error('Not Implemented: mcp-so fetcher (Firecrawl crawl)');
+    ctx.log.warn('mcp-so not yet implemented - skip (Firecrawl crawl, no public API)');
+    return empty('mcp-so', startedAt);
   },
 };
 

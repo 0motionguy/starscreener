@@ -6,11 +6,8 @@ const fetcher: Fetcher = {
   requiresFirecrawl: true,
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
-    if (ctx.dryRun) {
-      ctx.log.info('smithery fetcher dry-run');
-      return empty('smithery', startedAt);
-    }
-    throw new Error('Not Implemented: smithery fetcher (Firecrawl crawl)');
+    ctx.log.warn('smithery not yet implemented - skip (Firecrawl crawl, no public API)');
+    return empty('smithery', startedAt);
   },
 };
 

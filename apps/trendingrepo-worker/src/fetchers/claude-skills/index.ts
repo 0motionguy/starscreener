@@ -6,11 +6,8 @@ const fetcher: Fetcher = {
   requiresFirecrawl: true,
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
-    if (ctx.dryRun) {
-      ctx.log.info('claude-skills fetcher dry-run');
-      return empty('claude-skills', startedAt);
-    }
-    throw new Error('Not Implemented: claude-skills fetcher (Firecrawl crawl)');
+    ctx.log.warn('claude-skills not yet implemented - skip (next on the deck for trending skills onboarding)');
+    return empty('claude-skills', startedAt);
   },
 };
 

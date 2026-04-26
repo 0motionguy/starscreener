@@ -39,7 +39,15 @@ let cached: WorkerEnv | null = null;
 
 export function loadEnv(): WorkerEnv {
   if (cached !== null) return cached;
-  const parsed = envSchema.safeParse(process.env);
+  // Treat empty-string env values as missing. .env.local files commonly
+  // ship with `KEY=` placeholders that bash `source` and Node `--env-file`
+  // both load as empty strings - zod's .url()/.min() reject those even
+  // with .optional(), since optional() means "or undefined", not "or empty".
+  const cleaned: Record<string, string | undefined> = {};
+  for (const [k, v] of Object.entries(process.env)) {
+    cleaned[k] = v === '' ? undefined : v;
+  }
+  const parsed = envSchema.safeParse(cleaned);
   if (!parsed.success) {
     const issues = parsed.error.issues.map((i) => `  - ${i.path.join('.')}: ${i.message}`).join('\n');
     throw new Error(`Invalid worker environment:\n${issues}`);

@@ -5,11 +5,8 @@ const fetcher: Fetcher = {
   schedule: '0 */4 * * *',
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
-    if (ctx.dryRun) {
-      ctx.log.info('huggingface fetcher dry-run');
-      return empty('huggingface', startedAt);
-    }
-    throw new Error('Not Implemented: huggingface fetcher');
+    ctx.log.warn('huggingface not yet implemented - skip (see ~/.claude/plans/huggingface-fetcher-plan.md)');
+    return empty('huggingface', startedAt);
   },
 };
 

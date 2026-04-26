@@ -5,11 +5,8 @@ const fetcher: Fetcher = {
   schedule: '5 */12 * * *',
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
-    if (ctx.dryRun) {
-      ctx.log.info('mcp-servers-repo fetcher dry-run');
-      return empty('mcp-servers-repo', startedAt);
-    }
-    throw new Error('Not Implemented: mcp-servers-repo fetcher');
+    ctx.log.warn('mcp-servers-repo not yet implemented - skip until Phase B port lands');
+    return empty('mcp-servers-repo', startedAt);
   },
 };
 

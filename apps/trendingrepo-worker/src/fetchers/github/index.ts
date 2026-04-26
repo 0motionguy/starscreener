@@ -5,11 +5,8 @@ const fetcher: Fetcher = {
   schedule: '15 */1 * * *',
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
-    if (ctx.dryRun) {
-      ctx.log.info('github fetcher dry-run');
-      return empty('github', startedAt);
-    }
-    throw new Error('Not Implemented: github fetcher');
+    ctx.log.warn('github not yet implemented - skip until Phase B port lands');
+    return empty('github', startedAt);
   },
 };
 

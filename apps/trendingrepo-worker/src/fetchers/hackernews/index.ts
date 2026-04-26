@@ -5,11 +5,8 @@ const fetcher: Fetcher = {
   schedule: '10 * * * *',
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
-    if (ctx.dryRun) {
-      ctx.log.info('hackernews fetcher dry-run');
-      return empty('hackernews', startedAt);
-    }
-    throw new Error('Not Implemented: hackernews fetcher');
+    ctx.log.warn('hackernews port not yet implemented - hn-pulse covers liveness; this is the historical/Algolia port');
+    return empty('hackernews', startedAt);
   },
 };
 

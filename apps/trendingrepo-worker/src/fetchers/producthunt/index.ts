@@ -5,11 +5,8 @@ const fetcher: Fetcher = {
   schedule: '40 */4 * * *',
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
-    if (ctx.dryRun) {
-      ctx.log.info('producthunt fetcher dry-run');
-      return empty('producthunt', startedAt);
-    }
-    throw new Error('Not Implemented: producthunt fetcher');
+    ctx.log.warn('producthunt not yet implemented - skip until Phase B port lands');
+    return empty('producthunt', startedAt);
   },
 };
 

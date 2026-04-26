@@ -5,11 +5,8 @@ const fetcher: Fetcher = {
   schedule: '25 */2 * * *',
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
-    if (ctx.dryRun) {
-      ctx.log.info('reddit fetcher dry-run');
-      return empty('reddit', startedAt);
-    }
-    throw new Error('Not Implemented: reddit fetcher');
+    ctx.log.warn('reddit not yet implemented - skip until Phase B port + Reddit OAuth pool land');
+    return empty('reddit', startedAt);
   },
 };
 

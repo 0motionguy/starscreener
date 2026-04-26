@@ -19,8 +19,12 @@ import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { writeDataStore } from '../../lib/redis.js';
 
 const BASE = 'https://api.smithery.ai/skills';
-const PAGE_LIMIT = 50;
-const MAX_PAGES = 6;
+// Smithery accepts `pageSize` (NOT `limit`) up to 100. Default is 10. Their
+// pagination response carries totalPages so we can stop once we've consumed
+// what the API will give us. With pageSize=100 we collect 200+ skills in
+// 2-3 calls, well under their rate budget.
+const PAGE_SIZE = 100;
+const MAX_PAGES = 3;
 const TOP_KEEP = 200;
 const RECENCY_HALF_LIFE_DAYS = 30;
 const QUALITY_WEIGHT = 0.5;
@@ -50,7 +54,12 @@ interface SmitherySkill {
 
 interface SmitheryResponse {
   skills: SmitherySkill[];
-  pagination?: { page?: number; totalPages?: number; total?: number };
+  pagination?: {
+    currentPage?: number;
+    pageSize?: number;
+    totalPages?: number;
+    totalCount?: number;
+  };
 }
 
 interface SkillRow {
@@ -81,6 +90,7 @@ interface SmitheryPayload {
   pagesFetched: number;
   featured_count: number;
   verified_count: number;
+  upstream_total?: number;
   items: SkillRow[];
 }
 
@@ -96,11 +106,13 @@ const fetcher: Fetcher = {
 
     const seen = new Map<string, SmitherySkill>();
     let pagesFetched = 0;
+    let totalCount: number | null = null;
+    let totalPages: number | null = null;
     const errors: RunResult['errors'] = [];
 
     for (let page = 1; page <= MAX_PAGES; page += 1) {
       try {
-        const url = `${BASE}?page=${page}&limit=${PAGE_LIMIT}`;
+        const url = `${BASE}?page=${page}&pageSize=${PAGE_SIZE}`;
         const { data } = await ctx.http.json<SmitheryResponse>(url, {
           timeoutMs: 30_000,
           maxRetries: 3,
@@ -112,8 +124,22 @@ const fetcher: Fetcher = {
           if (s?.id && !seen.has(s.id)) seen.set(s.id, s);
         }
         pagesFetched = page;
-        ctx.log.debug({ page, got: skills.length, cumulative: seen.size }, 'smithery-skills page');
-        if (skills.length < PAGE_LIMIT) break;
+        totalPages = data?.pagination?.totalPages ?? totalPages;
+        totalCount = data?.pagination?.totalCount ?? totalCount;
+        ctx.log.debug(
+          {
+            page,
+            got: skills.length,
+            cumulative: seen.size,
+            totalPages,
+            totalCount,
+          },
+          'smithery-skills page',
+        );
+        // Stop if the API tells us this was the last page, OR if we got
+        // fewer than the requested page size (last partial page).
+        if (totalPages !== null && page >= totalPages) break;
+        if (skills.length < PAGE_SIZE) break;
       } catch (err) {
         errors.push({ stage: `fetch-page-${page}`, message: (err as Error).message });
         break;
@@ -136,6 +162,7 @@ const fetcher: Fetcher = {
       pagesFetched,
       featured_count,
       verified_count,
+      ...(totalCount !== null ? { upstream_total: totalCount } : {}),
       items: ranked,
     };
 

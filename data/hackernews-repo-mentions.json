@@ -1,18 +1,18 @@
 {
-  "fetchedAt": "2026-04-27T09:39:17.124Z",
+  "fetchedAt": "2026-04-27T12:07:19.963Z",
   "windowDays": 7,
-  "scannedAlgoliaHits": 741,
+  "scannedAlgoliaHits": 751,
   "scannedFirebaseItems": 500,
   "mentions": {
     "niri-wm/niri": {
       "count7d": 1,
-      "scoreSum7d": 243,
+      "scoreSum7d": 245,
       "topStory": {
         "id": 47902416,
         "title": "Niri 26.04: Scrollable-tiling Wayland compositor",
-        "score": 243,
+        "score": 245,
         "url": "https://github.com/niri-wm/niri/releases/tag/v26.04",
-        "hoursSincePosted": 41.67
+        "hoursSincePosted": 44.13
       },
       "everHitFrontPage": false,
       "stories": [
@@ -21,12 +21,12 @@
           "title": "Niri 26.04: Scrollable-tiling Wayland compositor",
           "url": "https://github.com/niri-wm/niri/releases/tag/v26.04",
           "by": "nickjj",
-          "score": 243,
-          "descendants": 82,
+          "score": 245,
+          "descendants": 85,
           "createdUtc": 1777132755,
-          "ageHours": 41.67,
-          "velocity": 5.83,
-          "trendingScore": 127.95,
+          "ageHours": 44.13,
+          "velocity": 5.55,
+          "trendingScore": 125.97,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -43,15 +43,54 @@
         }
       ]
     },
+    "evanklem/evanflow": {
+      "count7d": 1,
+      "scoreSum7d": 81,
+      "topStory": {
+        "id": 47916909,
+        "title": "EvanFlow – A TDD driven feedback loop for Claude Code",
+        "score": 81,
+        "url": "https://github.com/evanklem/evanflow",
+        "hoursSincePosted": 10.18
+      },
+      "everHitFrontPage": true,
+      "stories": [
+        {
+          "id": 47916909,
+          "title": "EvanFlow – A TDD driven feedback loop for Claude Code",
+          "url": "https://github.com/evanklem/evanflow",
+          "by": "evanklem2004",
+          "score": 81,
+          "descendants": 39,
+          "createdUtc": 1777254999,
+          "ageHours": 10.18,
+          "velocity": 7.96,
+          "trendingScore": 74.44,
+          "everHitFrontPage": true,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "evanklem/evanflow",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "sachitrafa/YourMemory": {
       "count7d": 1,
-      "scoreSum7d": 87,
+      "scoreSum7d": 89,
       "topStory": {
         "id": 47914367,
         "title": "Show HN: AI memory with biological decay (52% recall)",
-        "score": 87,
+        "score": 89,
         "url": "https://github.com/sachitrafa/YourMemory",
-        "hoursSincePosted": 12.68
+        "hoursSincePosted": 15.15
       },
       "everHitFrontPage": false,
       "stories": [
@@ -60,12 +99,12 @@
           "title": "Show HN: AI memory with biological decay (52% recall)",
           "url": "https://github.com/sachitrafa/YourMemory",
           "by": "SachitRafa",
-          "score": 87,
-          "descendants": 37,
+          "score": 89,
+          "descendants": 38,
           "createdUtc": 1777237111,
-          "ageHours": 12.68,
-          "velocity": 6.86,
-          "trendingScore": 62.53,
+          "ageHours": 15.15,
+          "velocity": 5.88,
+          "trendingScore": 55.02,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -84,45 +123,6 @@
         }
       ]
     },
-    "evanklem/evanflow": {
-      "count7d": 1,
-      "scoreSum7d": 67,
-      "topStory": {
-        "id": 47916909,
-        "title": "EvanFlow – A TDD driven feedback loop for Claude Code",
-        "score": 67,
-        "url": "https://github.com/evanklem/evanflow",
-        "hoursSincePosted": 7.71
-      },
-      "everHitFrontPage": true,
-      "stories": [
-        {
-          "id": 47916909,
-          "title": "EvanFlow – A TDD driven feedback loop for Claude Code",
-          "url": "https://github.com/evanklem/evanflow",
-          "by": "evanklem2004",
-          "score": 67,
-          "descendants": 28,
-          "createdUtc": 1777254999,
-          "ageHours": 7.71,
-          "velocity": 8.69,
-          "trendingScore": 60.3,
-          "everHitFrontPage": true,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "evanklem/evanflow",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
     "browser-use/browser-harness": {
       "count7d": 1,
       "scoreSum7d": 129,
@@ -131,7 +131,7 @@
         "title": "Show HN: Browser Harness – Gives LLM freedom to complete any browser task",
         "score": 129,
         "url": "https://github.com/browser-use/browser-harness",
-        "hoursSincePosted": 67.13
+        "hoursSincePosted": 69.59
       },
       "everHitFrontPage": false,
       "stories": [
@@ -143,9 +143,9 @@
           "score": 129,
           "descendants": 62,
           "createdUtc": 1777041098,
-          "ageHours": 67.13,
-          "velocity": 1.92,
-          "trendingScore": 29.18,
+          "ageHours": 69.59,
+          "velocity": 1.85,
+          "trendingScore": 28.11,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -171,7 +171,7 @@
         "title": "Hermes.md in Git commit messages causes requests to route to extra usage billing",
         "score": 8,
         "url": "https://github.com/anthropics/claude-code/issues/53262",
-        "hoursSincePosted": 38.79
+        "hoursSincePosted": 41.26
       },
       "everHitFrontPage": false,
       "stories": [
@@ -183,9 +183,9 @@
           "score": 8,
           "descendants": 0,
           "createdUtc": 1777143105,
-          "ageHours": 38.79,
-          "velocity": 0.21,
-          "trendingScore": 0.19,
+          "ageHours": 41.26,
+          "velocity": 0.19,
+          "trendingScore": 0.17,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -208,9 +208,9 @@
           "score": 4,
           "descendants": 1,
           "createdUtc": 1777273265,
-          "ageHours": 2.64,
-          "velocity": 1.52,
-          "trendingScore": 1.01,
+          "ageHours": 5.1,
+          "velocity": 0.78,
+          "trendingScore": 0.52,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -233,9 +233,9 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1777249724,
-          "ageHours": 9.18,
-          "velocity": 0.22,
-          "trendingScore": 0.07,
+          "ageHours": 11.64,
+          "velocity": 0.17,
+          "trendingScore": 0.05,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -258,7 +258,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776743980,
-          "ageHours": 149.66,
+          "ageHours": 152.13,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -285,7 +285,7 @@
         "title": "Show HN: VT Code – Rust TUI coding agent with multi-provider support",
         "score": 18,
         "url": "https://github.com/vinhnx/VTCode",
-        "hoursSincePosted": 54.37
+        "hoursSincePosted": 56.83
       },
       "everHitFrontPage": false,
       "stories": [
@@ -297,9 +297,9 @@
           "score": 18,
           "descendants": 2,
           "createdUtc": 1777087039,
-          "ageHours": 54.37,
-          "velocity": 0.33,
-          "trendingScore": 0.5,
+          "ageHours": 56.83,
+          "velocity": 0.32,
+          "trendingScore": 0.48,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -319,6 +319,70 @@
         }
       ]
     },
+    "alexzhang13/rlm": {
+      "count7d": 2,
+      "scoreSum7d": 4,
+      "topStory": {
+        "id": 47919752,
+        "title": "RLM: LLMs to process arbitrarily long prompts with inference-time scaling (2025)",
+        "score": 2,
+        "url": "https://github.com/alexzhang13/rlm",
+        "hoursSincePosted": 1.81
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 47919752,
+          "title": "RLM: LLMs to process arbitrarily long prompts with inference-time scaling (2025)",
+          "url": "https://github.com/alexzhang13/rlm",
+          "by": "ihrimech",
+          "score": 2,
+          "descendants": 1,
+          "createdUtc": 1777285113,
+          "ageHours": 1.81,
+          "velocity": 1.1,
+          "trendingScore": 0.36,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "alexzhang13/rlm",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "id": 47894669,
+          "title": "RLMs process inputs up to two orders of magnitude beyond model context windows",
+          "url": "https://github.com/alexzhang13/rlm",
+          "by": "blumomo",
+          "score": 2,
+          "descendants": 0,
+          "createdUtc": 1777058603,
+          "ageHours": 64.73,
+          "velocity": 0.03,
+          "trendingScore": 0.01,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "alexzhang13/rlm",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "waybarrios/opencode-power-pack": {
       "count7d": 1,
       "scoreSum7d": 3,
@@ -327,7 +391,7 @@
         "title": "OpenCode-power-pack – Claude Code skills ported to OpenCode",
         "score": 3,
         "url": "https://github.com/waybarrios/opencode-power-pack",
-        "hoursSincePosted": 16.11
+        "hoursSincePosted": 18.58
       },
       "everHitFrontPage": false,
       "stories": [
@@ -339,9 +403,9 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1777224764,
-          "ageHours": 16.11,
-          "velocity": 0.19,
-          "trendingScore": 0.09,
+          "ageHours": 18.58,
+          "velocity": 0.16,
+          "trendingScore": 0.08,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -366,7 +430,7 @@
         "title": "Superpowers is indeed game changer",
         "score": 3,
         "url": "https://github.com/obra/superpowers",
-        "hoursSincePosted": 17.74
+        "hoursSincePosted": 20.21
       },
       "everHitFrontPage": false,
       "stories": [
@@ -378,9 +442,9 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1777218881,
-          "ageHours": 17.74,
-          "velocity": 0.17,
-          "trendingScore": 0.08,
+          "ageHours": 20.21,
+          "velocity": 0.15,
+          "trendingScore": 0.07,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -405,7 +469,7 @@
         "title": "Paperclip – a ticket-based multi AI agent orchestrator",
         "score": 3,
         "url": "https://github.com/paperclipai/paperclip",
-        "hoursSincePosted": 38.95
+        "hoursSincePosted": 41.42
       },
       "everHitFrontPage": false,
       "stories": [
@@ -417,9 +481,9 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1777142531,
-          "ageHours": 38.95,
-          "velocity": 0.08,
-          "trendingScore": 0.04,
+          "ageHours": 41.42,
+          "velocity": 0.07,
+          "trendingScore": 0.03,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -445,7 +509,7 @@
         "title": "Query neural network weights like a graph database",
         "score": 2,
         "url": "https://github.com/chrishayuk/larql",
-        "hoursSincePosted": 19.16
+        "hoursSincePosted": 21.63
       },
       "everHitFrontPage": false,
       "stories": [
@@ -457,8 +521,8 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1777213766,
-          "ageHours": 19.16,
-          "velocity": 0.1,
+          "ageHours": 21.63,
+          "velocity": 0.09,
           "trendingScore": 0.03,
           "everHitFrontPage": false,
           "content_tags": [
@@ -484,7 +548,7 @@
         "title": "Seven database engines in a single Rust binary",
         "score": 2,
         "url": "https://github.com/nodeDB-Lab/nodedb",
-        "hoursSincePosted": 26.4
+        "hoursSincePosted": 28.87
       },
       "everHitFrontPage": false,
       "stories": [
@@ -496,8 +560,8 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1777187723,
-          "ageHours": 26.4,
-          "velocity": 0.08,
+          "ageHours": 28.87,
+          "velocity": 0.07,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
           "content_tags": [
@@ -523,7 +587,7 @@
         "title": "macOS window internals: SkyLight enables multi-cursor background agents",
         "score": 3,
         "url": "https://github.com/trycua/cua/blob/main/blog/inside-macos-window-internals.md",
-        "hoursSincePosted": 88.08
+        "hoursSincePosted": 90.54
       },
       "everHitFrontPage": false,
       "stories": [
@@ -535,7 +599,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1776965681,
-          "ageHours": 88.08,
+          "ageHours": 90.54,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -561,7 +625,7 @@
           "score": 2,
           "descendants": 1,
           "createdUtc": 1777043587,
-          "ageHours": 66.44,
+          "ageHours": 68.9,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -581,38 +645,39 @@
         }
       ]
     },
-    "alexzhang13/rlm": {
+    "garrytan/gstack": {
       "count7d": 1,
-      "scoreSum7d": 2,
+      "scoreSum7d": 1,
       "topStory": {
-        "id": 47894669,
-        "title": "RLMs process inputs up to two orders of magnitude beyond model context windows",
-        "score": 2,
-        "url": "https://github.com/alexzhang13/rlm",
-        "hoursSincePosted": 62.27
+        "id": 47920436,
+        "title": "On the LOC Controversy",
+        "score": 1,
+        "url": "https://github.com/garrytan/gstack/blob/main/docs/ON_THE_LOC_CONTROVERSY.md",
+        "hoursSincePosted": 0.5
       },
       "everHitFrontPage": false,
       "stories": [
         {
-          "id": 47894669,
-          "title": "RLMs process inputs up to two orders of magnitude beyond model context windows",
-          "url": "https://github.com/alexzhang13/rlm",
-          "by": "blumomo",
-          "score": 2,
+          "id": 47920436,
+          "title": "On the LOC Controversy",
+          "url": "https://github.com/garrytan/gstack/blob/main/docs/ON_THE_LOC_CONTROVERSY.md",
+          "by": "tie-in",
+          "score": 1,
           "descendants": 0,
-          "createdUtc": 1777058603,
-          "ageHours": 62.27,
-          "velocity": 0.03,
-          "trendingScore": 0.01,
+          "createdUtc": 1777291120,
+          "ageHours": 0.5,
+          "velocity": 2,
+          "trendingScore": 0,
           "everHitFrontPage": false,
           "content_tags": [
-            "has-github-repo"
+            "has-github-repo",
+            "has-md-file"
           ],
-          "value_score": 1,
+          "value_score": 2,
           "storyText": "",
           "linkedRepos": [
             {
-              "fullName": "alexzhang13/rlm",
+              "fullName": "garrytan/gstack",
               "matchType": "url",
               "confidence": 1
             }
@@ -628,7 +693,7 @@
         "title": "MemPalace – Local-first AI memory",
         "score": 1,
         "url": "https://github.com/mempalace/mempalace",
-        "hoursSincePosted": 3.55
+        "hoursSincePosted": 6.01
       },
       "everHitFrontPage": false,
       "stories": [
@@ -640,8 +705,8 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1777269988,
-          "ageHours": 3.55,
-          "velocity": 0.28,
+          "ageHours": 6.01,
+          "velocity": 0.17,
           "trendingScore": 0,
           "everHitFrontPage": false,
           "content_tags": [
@@ -667,7 +732,7 @@
         "title": "Rockchip-vaapi – VA-API hardware video decode driver for RK3588",
         "score": 1,
         "url": "https://github.com/woodyst/rockchip-vaapi",
-        "hoursSincePosted": 24.24
+        "hoursSincePosted": 26.7
       },
       "everHitFrontPage": false,
       "stories": [
@@ -679,7 +744,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1777195510,
-          "ageHours": 24.24,
+          "ageHours": 26.7,
           "velocity": 0.04,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -706,7 +771,7 @@
         "title": "Show HN: Agent Vault – Open-source credential proxy and vault for agents",
         "score": 155,
         "url": "https://github.com/Infisical/agent-vault",
-        "hoursSincePosted": 113.23
+        "hoursSincePosted": 115.7
       },
       "everHitFrontPage": false,
       "stories": [
@@ -718,9 +783,9 @@
           "score": 155,
           "descendants": 55,
           "createdUtc": 1776875128,
-          "ageHours": 113.23,
-          "velocity": 1.37,
-          "trendingScore": 19.5,
+          "ageHours": 115.7,
+          "velocity": 1.34,
+          "trendingScore": 19.08,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -747,7 +812,7 @@
         "title": "Show HN: We built a <60ms, open-source alternative to E2B using RustVMM and KVM",
         "score": 7,
         "url": "https://github.com/TencentCloud/CubeSandbox",
-        "hoursSincePosted": 116.05
+        "hoursSincePosted": 118.51
       },
       "everHitFrontPage": false,
       "stories": [
@@ -759,7 +824,7 @@
           "score": 7,
           "descendants": 2,
           "createdUtc": 1776864992,
-          "ageHours": 116.05,
+          "ageHours": 118.51,
           "velocity": 0.06,
           "trendingScore": 0.06,
           "everHitFrontPage": false,
@@ -786,7 +851,7 @@
           "score": 5,
           "descendants": 0,
           "createdUtc": 1776967784,
-          "ageHours": 87.49,
+          "ageHours": 89.96,
           "velocity": 0.06,
           "trendingScore": 0.04,
           "everHitFrontPage": false,
@@ -812,7 +877,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1776778570,
-          "ageHours": 140.05,
+          "ageHours": 142.52,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -837,7 +902,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776904955,
-          "ageHours": 104.95,
+          "ageHours": 107.41,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -865,7 +930,7 @@
         "title": "Show HN: Honker – Postgres NOTIFY/LISTEN Semantics for SQLite",
         "score": 310,
         "url": "https://github.com/russellromney/honker",
-        "hoursSincePosted": 93.77
+        "hoursSincePosted": 96.24
       },
       "everHitFrontPage": false,
       "stories": [
@@ -877,9 +942,9 @@
           "score": 310,
           "descendants": 80,
           "createdUtc": 1776945191,
-          "ageHours": 93.77,
-          "velocity": 3.31,
-          "trendingScore": 74.22,
+          "ageHours": 96.24,
+          "velocity": 3.22,
+          "trendingScore": 72.2,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -905,7 +970,7 @@
         "title": "Show HN: Tolaria – Open-source macOS app to manage Markdown knowledge bases",
         "score": 309,
         "url": "https://github.com/refactoringhq/tolaria",
-        "hoursSincePosted": 83.62
+        "hoursSincePosted": 86.09
       },
       "everHitFrontPage": false,
       "stories": [
@@ -917,9 +982,9 @@
           "score": 309,
           "descendants": 140,
           "createdUtc": 1776981719,
-          "ageHours": 83.62,
-          "velocity": 3.7,
-          "trendingScore": 138.19,
+          "ageHours": 86.09,
+          "velocity": 3.59,
+          "trendingScore": 134.08,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -945,7 +1010,7 @@
         "title": "Show HN: GoModel – an open-source AI gateway in Go",
         "score": 215,
         "url": "https://github.com/ENTERPILOT/GOModel/",
-        "hoursSincePosted": 139.46
+        "hoursSincePosted": 141.92
       },
       "everHitFrontPage": false,
       "stories": [
@@ -957,9 +1022,9 @@
           "score": 215,
           "descendants": 75,
           "createdUtc": 1776780713,
-          "ageHours": 139.46,
-          "velocity": 1.54,
-          "trendingScore": 30.53,
+          "ageHours": 141.92,
+          "velocity": 1.51,
+          "trendingScore": 29.94,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -985,7 +1050,7 @@
         "title": "Show HN: Git Push No-Mistakes",
         "score": 19,
         "url": "https://github.com/kunchenguid/no-mistakes",
-        "hoursSincePosted": 158.98
+        "hoursSincePosted": 161.45
       },
       "everHitFrontPage": false,
       "stories": [
@@ -997,7 +1062,7 @@
           "score": 19,
           "descendants": 6,
           "createdUtc": 1776710421,
-          "ageHours": 158.98,
+          "ageHours": 161.45,
           "velocity": 0.12,
           "trendingScore": 0.25,
           "everHitFrontPage": false,
@@ -1025,7 +1090,7 @@
         "title": "Rusternetes: A ground-up reimplementation of Kubernetes in Rust",
         "score": 5,
         "url": "https://github.com/calfonso/rusternetes",
-        "hoursSincePosted": 157.14
+        "hoursSincePosted": 159.6
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1037,7 +1102,7 @@
           "score": 5,
           "descendants": 0,
           "createdUtc": 1776717068,
-          "ageHours": 157.14,
+          "ageHours": 159.6,
           "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -1064,7 +1129,7 @@
         "title": "Twenty: The open alternative to Salesforce, designed for AI",
         "score": 4,
         "url": "https://github.com/twentyhq/twenty",
-        "hoursSincePosted": 110.36
+        "hoursSincePosted": 112.83
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1076,7 +1141,7 @@
           "score": 4,
           "descendants": 1,
           "createdUtc": 1776885448,
-          "ageHours": 110.36,
+          "ageHours": 112.83,
           "velocity": 0.04,
           "trendingScore": 0.03,
           "everHitFrontPage": false,
@@ -1103,7 +1168,7 @@
         "title": "Aube: A fast Node.js package manager",
         "score": 4,
         "url": "https://github.com/endevco/aube",
-        "hoursSincePosted": 122.05
+        "hoursSincePosted": 124.52
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1115,7 +1180,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1776843371,
-          "ageHours": 122.05,
+          "ageHours": 124.52,
           "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -1142,7 +1207,7 @@
         "title": "DensePose turns commodity WiFi signals into real-time human pose estimation",
         "score": 2,
         "url": "https://github.com/ruvnet/RuView",
-        "hoursSincePosted": 160.15
+        "hoursSincePosted": 162.62
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1154,7 +1219,7 @@
           "score": 2,
           "descendants": 1,
           "createdUtc": 1776706217,
-          "ageHours": 160.15,
+          "ageHours": 162.62,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1179,7 +1244,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776855347,
-          "ageHours": 118.73,
+          "ageHours": 121.19,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1206,7 +1271,7 @@
         "title": "Show HN: Sprite sheets from prompts (Codex skill)",
         "score": 2,
         "url": "https://github.com/0x0funky/agent-sprite-forge",
-        "hoursSincePosted": 79.5
+        "hoursSincePosted": 81.97
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1218,8 +1283,8 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776996562,
-          "ageHours": 79.5,
-          "velocity": 0.03,
+          "ageHours": 81.97,
+          "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
           "content_tags": [
@@ -1246,7 +1311,7 @@
         "title": "Show HN: OpenHuman, an AI agent with a subconscious loop",
         "score": 2,
         "url": "https://github.com/tinyhumansai/openhuman",
-        "hoursSincePosted": 91.17
+        "hoursSincePosted": 93.64
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1258,7 +1323,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776954543,
-          "ageHours": 91.17,
+          "ageHours": 93.64,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1287,7 +1352,7 @@
         "title": "Plannotator",
         "score": 2,
         "url": "https://github.com/backnotprop/plannotator",
-        "hoursSincePosted": 113.62
+        "hoursSincePosted": 116.09
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1299,7 +1364,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776873723,
-          "ageHours": 113.62,
+          "ageHours": 116.09,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1326,7 +1391,7 @@
         "title": "Nvidia OpenShell: safe, private runtime for autonomous AI agents",
         "score": 2,
         "url": "https://github.com/nvidia/openshell",
-        "hoursSincePosted": 137.19
+        "hoursSincePosted": 139.66
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1338,7 +1403,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776788877,
-          "ageHours": 137.19,
+          "ageHours": 139.66,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1366,7 +1431,7 @@
         "title": "Ggsql: A SQL extension for declarative data visualisation based on the Grammar O",
         "score": 2,
         "url": "https://github.com/posit-dev/ggsql",
-        "hoursSincePosted": 141.95
+        "hoursSincePosted": 144.42
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1378,7 +1443,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776771724,
-          "ageHours": 141.95,
+          "ageHours": 144.42,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1405,7 +1470,7 @@
         "title": "Fincept Terminal",
         "score": 2,
         "url": "https://github.com/Fincept-Corporation/FinceptTerminal",
-        "hoursSincePosted": 160.16
+        "hoursSincePosted": 162.62
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1417,7 +1482,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776706191,
-          "ageHours": 160.16,
+          "ageHours": 162.62,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1444,7 +1509,7 @@
         "title": "GitHub Actions Key, but Resources Allocated to Other Areas",
         "score": 1,
         "url": "https://github.com/cli/cli/issues/5416",
-        "hoursSincePosted": 72.61
+        "hoursSincePosted": 75.08
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1456,7 +1521,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1777021359,
-          "ageHours": 72.61,
+          "ageHours": 75.08,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1490,7 +1555,7 @@
     {
       "fullName": "niri-wm/niri",
       "count7d": 1,
-      "scoreSum7d": 243
+      "scoreSum7d": 245
     },
     {
       "fullName": "ENTERPILOT/GoModel",
@@ -1510,12 +1575,12 @@
     {
       "fullName": "sachitrafa/YourMemory",
       "count7d": 1,
-      "scoreSum7d": 87
+      "scoreSum7d": 89
     },
     {
       "fullName": "evanklem/evanflow",
       "count7d": 1,
-      "scoreSum7d": 67
+      "scoreSum7d": 81
     },
     {
       "fullName": "kunchenguid/no-mistakes",
@@ -1546,6 +1611,11 @@
       "fullName": "calfonso/rusternetes",
       "count7d": 1,
       "scoreSum7d": 5
+    },
+    {
+      "fullName": "alexzhang13/rlm",
+      "count7d": 2,
+      "scoreSum7d": 4
     },
     {
       "fullName": "ruvnet/RuView",
@@ -1579,11 +1649,6 @@
     },
     {
       "fullName": "0x0funky/agent-sprite-forge",
-      "count7d": 1,
-      "scoreSum7d": 2
-    },
-    {
-      "fullName": "alexzhang13/rlm",
       "count7d": 1,
       "scoreSum7d": 2
     },
@@ -1624,6 +1689,11 @@
     },
     {
       "fullName": "cli/cli",
+      "count7d": 1,
+      "scoreSum7d": 1
+    },
+    {
+      "fullName": "garrytan/gstack",
       "count7d": 1,
       "scoreSum7d": 1
     },

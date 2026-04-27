@@ -11,8 +11,10 @@
 // without removing the first.
 
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 
 import { timingSafeEqualStr } from "@/lib/api/auth";
+import { parseBody } from "@/lib/api/parse-body";
 import {
   ADMIN_SESSION_COOKIE_NAME,
   ADMIN_SESSION_MAX_AGE_SECONDS,
@@ -87,30 +89,33 @@ export async function POST(
     );
   }
 
-  let body: { username?: unknown; password?: unknown } = {};
-  try {
-    body = (await request.json()) as typeof body;
-  } catch {
-    return NextResponse.json(
-      { ok: false, reason: "bad_request", error: "body must be valid JSON" },
-      { status: 400 },
-    );
-  }
-
-  const providedUsername =
-    typeof body.username === "string" ? body.username.trim() : "";
-  const providedPassword =
-    typeof body.password === "string" ? body.password : "";
-  if (!providedUsername || !providedPassword) {
+  const LoginSchema = z.object({
+    username: z.string().min(1).transform((s) => s.trim()),
+    password: z.string().min(1),
+  });
+  const parsed = await parseBody(request, LoginSchema, {
+    publicMessage: "username and password are required",
+    includeDetails: false,
+  });
+  if (!parsed.ok) {
+    // parseBody returns the canonical { ok:false, error } envelope; admin
+    // login wants { ok:false, reason, error } so the dashboard can branch
+    // on `reason`. Read the underlying body, re-shape minimally.
+    const status = parsed.response.status;
     return NextResponse.json(
       {
         ok: false,
         reason: "bad_request",
-        error: "username and password are required",
+        error:
+          status === 400
+            ? "username and password are required"
+            : "body must be valid JSON",
       },
       { status: 400 },
     );
   }
+  const { username: providedUsername, password: providedPassword } =
+    parsed.data;
 
   // Always run BOTH comparisons even if the first mismatches, so a wrong
   // username can't be distinguished from a wrong password by response time.

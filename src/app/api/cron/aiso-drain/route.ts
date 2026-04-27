@@ -55,8 +55,10 @@
 // commit.
 
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
+import { parseBody } from "@/lib/api/parse-body";
 import { persistAisoScan } from "@/lib/aiso-persist";
 import {
   readQueue,
@@ -122,10 +124,14 @@ function getOverrides(): AisoDrainTestOverrides {
 // Request body parsing
 // ---------------------------------------------------------------------------
 
-interface DrainRequestBody {
-  limit?: number;
-  dryRun?: boolean;
-}
+const DrainRequestSchema = z
+  .object({
+    limit: z.number().finite().optional(),
+    dryRun: z.boolean().optional(),
+  })
+  .passthrough();
+
+type DrainRequestBody = z.infer<typeof DrainRequestSchema>;
 
 function parseLimit(raw: unknown): number {
   if (typeof raw !== "number" || !Number.isFinite(raw) || raw <= 0) {
@@ -135,21 +141,8 @@ function parseLimit(raw: unknown): number {
   return Math.max(1, clamped);
 }
 
-async function parseBody(request: NextRequest): Promise<DrainRequestBody> {
-  const contentType = request.headers.get("content-type") ?? "";
-  if (!contentType.includes("application/json")) return {};
-  try {
-    const parsed = (await request.json()) as unknown;
-    if (parsed === null || typeof parsed !== "object") return {};
-    const body = parsed as DrainRequestBody;
-    return {
-      limit: body.limit,
-      dryRun: body.dryRun === true,
-    };
-  } catch {
-    return {};
-  }
-}
+// Body parsing routed through @/lib/api/parse-body (canonical helper)
+// with allowEmpty so a no-body cron POST is treated as `{}`.
 
 // ---------------------------------------------------------------------------
 // Drain selection
@@ -315,9 +308,12 @@ export async function POST(request: NextRequest) {
   const deny = authFailureResponse(verifyCronAuth(request));
   if (deny) return deny;
 
-  const body = await parseBody(request);
-  const limit = parseLimit(body.limit);
-  const dryRun = body.dryRun === true;
+  const parsed = await parseBody(request, DrainRequestSchema, {
+    allowEmpty: true,
+  });
+  if (!parsed.ok) return parsed.response;
+  const limit = parseLimit(parsed.data.limit);
+  const dryRun = parsed.data.dryRun === true;
 
   try {
     const result = await runDrain(limit, dryRun);

@@ -35,22 +35,34 @@ const ALLOW_NO_PARSEBODY = new Map([
     "src/app/api/admin/scan/route.ts",
     "Body is { source: string } — minimal shape, manually validated against the SCRIPTS allow-list.",
   ],
+  [
+    "src/app/api/cron/twitter-daily/route.ts",
+    "No-body cron trigger — verifyCronAuth handles trust; no body fields consumed.",
+  ],
+  [
+    "src/app/api/cron/twitter-weekly-recap/route.ts",
+    "No-body cron trigger — same as twitter-daily.",
+  ],
+  [
+    "src/app/api/cron/digest/weekly/route.ts",
+    "No-body cron trigger — verifyCronAuth handles trust.",
+  ],
+  [
+    "src/app/api/cron/news-auto-recover/route.ts",
+    "No-body cron trigger — verifyCronAuth handles trust.",
+  ],
+  [
+    "src/app/api/cron/mcp/rotate-usage/route.ts",
+    "No-body cron trigger — verifyCronAuth handles trust.",
+  ],
 
   // Grandfathered: pre-APP-02 typeof-ladder routes. Migrate to parseBody
   // when next touched. Keep this list ratcheting down — never add a NEW
   // route here. The CI guard's value is catching new regressions; these
   // are pinned debt, not new permission.
-  ["src/app/api/admin/login/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/admin/queues/repo/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
-  ["src/app/api/auth/session/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/checkout/stripe/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
-  ["src/app/api/cron/aiso-drain/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
-  ["src/app/api/cron/digest/weekly/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
-  ["src/app/api/cron/mcp/rotate-usage/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
-  ["src/app/api/cron/news-auto-recover/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/cron/predictions/calibrate/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
-  ["src/app/api/cron/twitter-daily/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
-  ["src/app/api/cron/twitter-weekly-recap/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/cron/webhooks/flush/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/cron/webhooks/scan/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/export/csv/route.ts", "legacy: pre-APP-02 — migrate when next touched"],

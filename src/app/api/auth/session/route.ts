@@ -18,9 +18,11 @@
 // UI can treat it as "not logged in" without error banners.
 
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 import {
   SESSION_COOKIE_NAME,
 } from "@/lib/api/auth";
+import { parseBody } from "@/lib/api/parse-body";
 import {
   deriveUserId,
   signSession,
@@ -143,20 +145,25 @@ export async function POST(
   }
 
   // Parse optional email from the body. Tolerant of no body at all.
-  let email: string | null = null;
-  try {
-    const raw = await request.json();
-    if (raw && typeof raw === "object") {
-      const obj = raw as Record<string, unknown>;
-      if (typeof obj.email === "string" && obj.email.trim().length > 0) {
-        email = obj.email.trim();
-      }
-    }
-  } catch {
-    // No body / invalid JSON — treat as anonymous. Not a 400; this endpoint
-    // is explicitly tolerant of empty-body POSTs from the browser.
-    email = null;
-  }
+  const SessionRequestSchema = z
+    .object({
+      email: z
+        .string()
+        .transform((s) => s.trim())
+        .refine((s) => s.length > 0, "email empty")
+        .optional(),
+    })
+    .passthrough();
+  const parsedBody = await parseBody(request, SessionRequestSchema, {
+    allowEmpty: true,
+  });
+  // No-body / invalid-JSON / extra keys are all tolerated; only a value
+  // present and explicitly-malformed (e.g. email: 123) would 400, and
+  // even then we'd rather route that to "anonymous" than reject the
+  // POST. Treat any failure as "no email supplied".
+  const email: string | null = parsedBody.ok
+    ? parsedBody.data.email ?? null
+    : null;
 
   // If the caller already has a valid cookie AND didn't supply an email,
   // renew the existing identity rather than minting a new random one.

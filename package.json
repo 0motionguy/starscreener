@@ -60,6 +60,8 @@
     "test:portal": "tsx --test src/portal/__tests__/*.test.ts",
     "test:hooks": "vitest run --config vitest.config.ts",
     "test:hooks:watch": "vitest --config vitest.config.ts",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
     "typecheck": "tsc --noEmit",
     "verify:data-store": "node scripts/verify-data-store.mjs",
     "scrape": "node scripts/scrape-trending.mjs",
@@ -115,6 +117,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@next/bundle-analyzer": "^16.2.4",
+    "@playwright/test": "^1.59.1",
     "@tailwindcss/postcss": "^4",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/react": "^16.3.2",

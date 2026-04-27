@@ -69,6 +69,12 @@ dogfood-output/
 # playwright-mcp local capture / trace output
 .playwright-mcp/
 
+# playwright e2e — install reports, traces, screenshots
+/playwright-report/
+/test-results/
+/blob-report/
+/.cache/playwright/
+
 # local build / typecheck logs
 build_*.log
 build-*.log

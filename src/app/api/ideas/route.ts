@@ -12,6 +12,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { userAuthFailureResponse, verifyUserAuth } from "@/lib/api/auth";
+import { serverError } from "@/lib/api/error-response";
 import {
   createIdea,
   hotScore,
@@ -141,11 +142,7 @@ export async function GET(
       ideas: ranked.slice(offset, offset + limit),
     });
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    return NextResponse.json(
-      { ok: false, error: message },
-      { status: 500 },
-    );
+    return serverError<IdeasErrorResponse>(err, { scope: "[ideas:GET]" });
   }
 }
 
@@ -207,10 +204,6 @@ export async function POST(
           : { kind: "published", idea: responseIdea },
     });
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    return NextResponse.json(
-      { ok: false, error: message },
-      { status: 500 },
-    );
+    return serverError<IdeasErrorResponse>(err, { scope: "[ideas:POST]" });
   }
 }

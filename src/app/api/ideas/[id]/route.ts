@@ -4,6 +4,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 
+import { serverError } from "@/lib/api/error-response";
 import { getIdeaById, toPublicIdea } from "@/lib/ideas";
 import {
   countReactions,
@@ -57,10 +58,6 @@ export async function GET(
       reactionCounts: countReactions(reactions),
     });
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    return NextResponse.json(
-      { ok: false, error: message },
-      { status: 500 },
-    );
+    return serverError(err, { scope: "[ideas/:id]" });
   }
 }

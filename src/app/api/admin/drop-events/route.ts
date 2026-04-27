@@ -8,6 +8,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { adminAuthFailureResponse, verifyAdminAuth } from "@/lib/api/auth";
+import { serverError } from "@/lib/api/error-response";
 import {
   readRecentDropEvents,
   summarizeDropEvents,
@@ -65,10 +66,8 @@ export async function GET(
       { headers: { "Cache-Control": "no-store" } },
     );
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    return NextResponse.json(
-      { ok: false, error: message },
-      { status: 500, headers: { "Cache-Control": "no-store" } },
-    );
+    const response = serverError(err, { scope: "[admin/drop-events]" });
+    response.headers.set("Cache-Control", "no-store");
+    return response;
   }
 }

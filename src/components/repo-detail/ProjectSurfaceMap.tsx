@@ -382,14 +382,16 @@ export async function ProjectSurfaceMap({
                     style={{ background: "var(--v3-bg-200)" }}
                   >
                     <div
-                      className={
-                        dimension.status === "pass"
-                          ? "h-full rounded-full bg-up"
-                          : dimension.status === "warn"
-                            ? "h-full rounded-full bg-warning"
-                            : "h-full rounded-full bg-down"
-                      }
-                      style={{ width: `${pctOfWeight(dimension)}%` }}
+                      className="h-full rounded-full"
+                      style={{
+                        width: `${pctOfWeight(dimension)}%`,
+                        background:
+                          dimension.status === "pass"
+                            ? "var(--v3-sig-green)"
+                            : dimension.status === "warn"
+                              ? "var(--v3-sig-amber)"
+                              : "var(--v3-sig-red)",
+                      }}
                     />
                   </div>
                 </div>
@@ -614,14 +616,16 @@ export async function ProjectSurfaceMap({
                   style={{ background: "var(--v3-bg-200)" }}
                 >
                   <div
-                    className={
-                      dimension.status === "pass"
-                        ? "h-full rounded-full bg-up"
-                        : dimension.status === "warn"
-                          ? "h-full rounded-full bg-warning"
-                          : "h-full rounded-full bg-down"
-                    }
-                    style={{ width: `${pctOfWeight(dimension)}%` }}
+                    className="h-full rounded-full"
+                    style={{
+                      width: `${pctOfWeight(dimension)}%`,
+                      background:
+                        dimension.status === "pass"
+                          ? "var(--v3-sig-green)"
+                          : dimension.status === "warn"
+                            ? "var(--v3-sig-amber)"
+                            : "var(--v3-sig-red)",
+                    }}
                   />
                 </div>
                 {dimension.issuesCount > 0 && (

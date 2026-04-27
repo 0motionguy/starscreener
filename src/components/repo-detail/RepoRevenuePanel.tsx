@@ -114,13 +114,24 @@ function VerifiedRevenueCard({
     >
       <header className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex items-center gap-2">
-          <BadgeCheck className="size-4 text-up" aria-hidden />
+          <BadgeCheck
+            className="size-4"
+            style={{ color: "var(--v3-sig-green)" }}
+            aria-hidden
+          />
           <h3 className="font-mono text-[11px] uppercase tracking-wider text-text-tertiary">
             Verified revenue
           </h3>
         </div>
         {freshness === "stale" ? (
-          <span className="rounded-[2px] border border-border-primary bg-bg-muted px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-warning">
+          <span
+            className="rounded-[2px] border px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em]"
+            style={{
+              borderColor: "var(--v3-line-200)",
+              background: "var(--v3-bg-100)",
+              color: "var(--v3-sig-amber)",
+            }}
+          >
             updated {getRelativeTime(overlay.asOf)}
           </span>
         ) : null}
@@ -239,7 +250,14 @@ function SelfReportedRevenueCard({
           </h3>
         </div>
         {freshness === "stale" ? (
-          <span className="rounded-[2px] border border-border-primary bg-bg-muted px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-warning">
+          <span
+            className="rounded-[2px] border px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em]"
+            style={{
+              borderColor: "var(--v3-line-200)",
+              background: "var(--v3-bg-100)",
+              color: "var(--v3-sig-amber)",
+            }}
+          >
             {getRelativeTime(overlay.asOf)}
           </span>
         ) : null}
@@ -280,12 +298,12 @@ function Metric({
   highlight,
   icon: Icon,
 }: MetricProps): JSX.Element {
-  const valueTone =
+  const valueColor =
     tone === "up"
-      ? "text-up"
+      ? "var(--v3-sig-green)"
       : tone === "down"
-        ? "text-down"
-        : "text-text-primary";
+        ? "var(--v3-sig-red)"
+        : "var(--v3-ink-100)";
   return (
     <div>
       <div className="font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
@@ -294,7 +312,8 @@ function Metric({
       <div
         className={`mt-1 flex items-baseline gap-1 font-mono font-semibold tabular-nums leading-none ${
           highlight ? "text-2xl" : "text-lg"
-        } ${valueTone}`}
+        }`}
+        style={{ color: valueColor }}
       >
         {Icon ? <Icon className="size-4" aria-hidden /> : null}
         <span>{value}</span>

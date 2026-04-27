@@ -51,7 +51,7 @@ const EMPTY_AGES: AgeSeconds = {
   lobsters: null,
 };
 
-function readAge(snap: HealthSnapshot, key: keyof AgeSeconds): number | null {
+export function readAge(snap: HealthSnapshot, key: keyof AgeSeconds): number | null {
   return snap.ageSeconds?.[key] ?? null;
 }
 
@@ -60,7 +60,7 @@ function isHealthStatus(value: unknown): value is HealthStatus {
 }
 
 /** Coerce any health-shaped JSON into a safe HealthSnapshot. */
-function normalizeHealth(raw: unknown): HealthSnapshot {
+export function normalizeHealth(raw: unknown): HealthSnapshot {
   const obj = (raw && typeof raw === "object" ? raw : {}) as Record<string, unknown>;
   const status = isHealthStatus(obj.status) ? obj.status : "error";
   const ages = obj.ageSeconds && typeof obj.ageSeconds === "object"
@@ -87,7 +87,7 @@ function normalizeHealth(raw: unknown): HealthSnapshot {
  * Pretty-print a second count as "4m" / "2h" / "3d". Returns "—"
  * when input is null so the UI never shows NaN.
  */
-function formatAge(seconds: number | null): string {
+export function formatAge(seconds: number | null): string {
   if (seconds === null || !Number.isFinite(seconds)) return "—";
   if (seconds < 60) return "live";
   const m = Math.floor(seconds / 60);

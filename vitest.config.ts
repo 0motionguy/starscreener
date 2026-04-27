@@ -1,7 +1,8 @@
-// Vitest config — scoped to React hook tests under src/hooks/__tests__/.
-// Other test suites continue to use node:test via the existing `npm test`
-// pipeline. This config only owns the React-DOM surface where node:test
-// can't run (no DOM, no JSX renderer).
+// Vitest config — scoped to React-surface tests (anything that needs a DOM
+// renderer or imports JSX). Other test suites continue to use node:test via
+// the existing `npm test` pipeline. This config owns hooks (src/hooks/),
+// components (src/components/), and pure helpers under src/lib/ that are
+// easier to test alongside the React-surface code.
 
 import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
@@ -25,7 +26,17 @@ export default defineConfig({
   },
   test: {
     environment: "happy-dom",
-    include: ["src/hooks/__tests__/**/*.test.{ts,tsx}"],
+    include: [
+      "src/hooks/__tests__/**/*.test.{ts,tsx}",
+      "src/components/**/__tests__/**/*.test.{ts,tsx}",
+      "src/lib/__vitest__/**/*.test.{ts,tsx}",
+    ],
+    // src/lib/__tests__/* and src/lib/pipeline/__tests__/* run under
+    // node:test via `npm test` — vitest can't read those (no
+    // describe/it suite at top-level). Vitest-specific lib tests live
+    // under src/lib/__vitest__/ to keep the runners cleanly separated:
+    // `tsx --test` globs `src/lib/__tests__/*.test.ts`, vitest globs
+    // `src/lib/__vitest__/**`. No file is matched by both.
     globals: false,
     css: false,
     restoreMocks: true,

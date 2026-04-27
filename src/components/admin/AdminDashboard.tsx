@@ -16,7 +16,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, type CSSProperties } from "react";
 
 import DashboardStats from "./DashboardStats";
 import DropEventsTile from "./DropEventsTile";
@@ -110,10 +110,26 @@ const SCAN_SOURCES: Array<{
   { id: "funding-news", label: "Funding news", provider: "scrape" },
 ];
 
-function providerBadge(provider: Provider): string {
-  if (provider === "api") return "border-up/50 bg-up/10 text-up";
-  if (provider === "scrape") return "border-warning/50 bg-warning/10 text-warning";
-  return "border-border-primary bg-bg-muted text-text-secondary";
+function providerBadge(provider: Provider): CSSProperties {
+  if (provider === "api") {
+    return {
+      borderColor: "var(--v3-sig-green)",
+      background: "color-mix(in srgb, var(--v3-sig-green) 10%, transparent)",
+      color: "var(--v3-sig-green)",
+    };
+  }
+  if (provider === "scrape") {
+    return {
+      borderColor: "var(--v3-sig-amber)",
+      background: "color-mix(in srgb, var(--v3-sig-amber) 10%, transparent)",
+      color: "var(--v3-sig-amber)",
+    };
+  }
+  return {
+    borderColor: "var(--v3-line-200)",
+    background: "var(--v3-bg-100)",
+    color: "var(--v3-ink-200)",
+  };
 }
 
 function fmtAge(seconds: number | null): string {
@@ -129,11 +145,33 @@ function fmtWhen(iso: string | null): string {
   return new Date(iso).toISOString().slice(0, 16).replace("T", " ") + "Z";
 }
 
-function statusColor(status: ScannerStatus): string {
-  if (status === "ok") return "border-up/60 bg-up/10 text-up";
-  if (status === "cold") return "border-border-primary bg-bg-muted text-text-tertiary";
-  if (status === "degraded") return "border-warning/60 bg-warning/10 text-warning";
-  return "border-down/60 bg-down/10 text-down";
+function statusColor(status: ScannerStatus): CSSProperties {
+  if (status === "ok") {
+    return {
+      borderColor: "var(--v3-sig-green)",
+      background: "color-mix(in srgb, var(--v3-sig-green) 10%, transparent)",
+      color: "var(--v3-sig-green)",
+    };
+  }
+  if (status === "cold") {
+    return {
+      borderColor: "var(--v3-line-200)",
+      background: "var(--v3-bg-100)",
+      color: "var(--v3-ink-300)",
+    };
+  }
+  if (status === "degraded") {
+    return {
+      borderColor: "var(--v3-sig-amber)",
+      background: "color-mix(in srgb, var(--v3-sig-amber) 10%, transparent)",
+      color: "var(--v3-sig-amber)",
+    };
+  }
+  return {
+    borderColor: "var(--v3-sig-red)",
+    background: "color-mix(in srgb, var(--v3-sig-red) 10%, transparent)",
+    color: "var(--v3-sig-red)",
+  };
 }
 
 export function AdminDashboard() {
@@ -504,9 +542,27 @@ export function AdminDashboard() {
                   className="mb-3 font-mono text-[11px] uppercase tracking-[0.14em]"
                   style={{ color: "var(--v3-ink-400)" }}
                 >
-                  <span className="rounded-[2px] border border-up/50 bg-up/10 px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-up">API</span>{" "}
+                  <span
+                    className="rounded-[2px] border px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em]"
+                    style={{
+                      borderColor: "var(--v3-sig-green)",
+                      background: "color-mix(in srgb, var(--v3-sig-green) 10%, transparent)",
+                      color: "var(--v3-sig-green)",
+                    }}
+                  >
+                    API
+                  </span>{" "}
                   = official API (needs credentials).{" "}
-                  <span className="rounded-[2px] border border-warning/50 bg-warning/10 px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-warning">SCRAPE</span>{" "}
+                  <span
+                    className="rounded-[2px] border px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em]"
+                    style={{
+                      borderColor: "var(--v3-sig-amber)",
+                      background: "color-mix(in srgb, var(--v3-sig-amber) 10%, transparent)",
+                      color: "var(--v3-sig-amber)",
+                    }}
+                  >
+                    SCRAPE
+                  </span>{" "}
                   = HTML scrape / workaround (no stable API).
                 </p>
 
@@ -586,10 +642,8 @@ export function AdminDashboard() {
                             </td>
                             <td className="px-2 py-2">
                               <span
-                                className={
-                                  "rounded-[2px] border px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] " +
-                                  providerBadge(scan.provider)
-                                }
+                                className="rounded-[2px] border px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em]"
+                                style={providerBadge(scan.provider)}
                               >
                                 {scan.provider}
                               </span>
@@ -615,10 +669,8 @@ export function AdminDashboard() {
                             <td className="px-2 py-2">
                               {health ? (
                                 <span
-                                  className={
-                                    "rounded-[2px] border px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] " +
-                                    statusColor(health.status)
-                                  }
+                                  className="rounded-[2px] border px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em]"
+                                  style={statusColor(health.status)}
                                 >
                                   {health.status}
                                 </span>
@@ -833,13 +885,25 @@ export function AdminDashboard() {
                             </td>
                             <td className="px-2 py-2">
                               <span
-                                className={
-                                  "rounded-[2px] border px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] " +
-                                  (row.status === "listed"
-                                    ? "border-up/60 bg-up/10 text-up"
+                                className="rounded-[2px] border px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em]"
+                                style={
+                                  row.status === "listed"
+                                    ? {
+                                        borderColor: "var(--v3-sig-green)",
+                                        background: "color-mix(in srgb, var(--v3-sig-green) 10%, transparent)",
+                                        color: "var(--v3-sig-green)",
+                                      }
                                     : row.status === "scan_failed"
-                                      ? "border-down/60 bg-down/10 text-down"
-                                      : "border-warning/60 bg-warning/10 text-warning")
+                                      ? {
+                                          borderColor: "var(--v3-sig-red)",
+                                          background: "color-mix(in srgb, var(--v3-sig-red) 10%, transparent)",
+                                          color: "var(--v3-sig-red)",
+                                        }
+                                      : {
+                                          borderColor: "var(--v3-sig-amber)",
+                                          background: "color-mix(in srgb, var(--v3-sig-amber) 10%, transparent)",
+                                          color: "var(--v3-sig-amber)",
+                                        }
                                 }
                               >
                                 {row.status}

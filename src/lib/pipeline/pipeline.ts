@@ -528,6 +528,47 @@ function recomputeRepo(repoId: string): RecomputeSummary {
     alertEventStore,
   );
 
+  // LIB-08: previously the single-repo recompute stored fired events in
+  // alertEventStore but never emitted alert_triggered to the pipeline
+  // event bus, so /api/pipeline/events/stream subscribers (and tools that
+  // tail the bus) missed alerts produced by /api/pipeline/recompute-repo.
+  // Mirror phaseAlerts' emission + fire-and-forget email delivery so both
+  // recompute paths produce consistent observable behavior.
+  for (const ev of fired) {
+    emitPipelineEvent({
+      type: "alert_triggered",
+      at: ev.firedAt,
+      ruleId: ev.ruleId,
+      repoId: ev.repoId,
+      fullName: updatedRepo.fullName,
+      condition: ev.trigger,
+    });
+  }
+
+  if (fired.length > 0) {
+    const repoLookup = new Map<string, Repo>([[updatedRepo.id, updatedRepo]]);
+    deliverAlertsViaEmail(fired, repoLookup)
+      .then((stats) => {
+        console.log(
+          JSON.stringify({
+            scope: "alert:delivery",
+            level: stats.failed > 0 ? "warn" : "info",
+            ...stats,
+          }),
+        );
+      })
+      .catch((err) => {
+        console.error(
+          JSON.stringify({
+            scope: "alert:delivery",
+            level: "error",
+            message: err instanceof Error ? err.message : String(err),
+            eventsConsidered: fired.length,
+          }),
+        );
+      });
+  }
+
   return {
     reposRecomputed: 1,
     scoresComputed: 1,

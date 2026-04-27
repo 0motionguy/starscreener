@@ -84,6 +84,10 @@ export interface WebhookFlushTestOverrides {
   maxAttempts?: number;
 }
 
+// APP-14: the Symbol.for(...) override pattern previously walked the
+// global registry on every request — fine for prod (no overrides set)
+// but unnecessary work and a footgun (any module could plant overrides).
+// Gate the lookup on NODE_ENV === "test" so prod skips the read entirely.
 const WEBHOOK_FLUSH_TEST_KEY = Symbol.for("starscreener.webhooks.flush.test");
 
 interface OverrideBag {
@@ -91,17 +95,20 @@ interface OverrideBag {
 }
 
 function getOverrides(): WebhookFlushTestOverrides {
+  if (process.env.NODE_ENV !== "test") return {};
   const bag = (globalThis as unknown as Record<symbol, OverrideBag | undefined>)[
     WEBHOOK_FLUSH_TEST_KEY
   ];
   return bag?.overrides ?? {};
 }
 
-(globalThis as unknown as Record<symbol, OverrideBag>)[
-  WEBHOOK_FLUSH_TEST_KEY
-] = (globalThis as unknown as Record<symbol, OverrideBag>)[
-  WEBHOOK_FLUSH_TEST_KEY
-] ?? {};
+if (process.env.NODE_ENV === "test") {
+  (globalThis as unknown as Record<symbol, OverrideBag>)[
+    WEBHOOK_FLUSH_TEST_KEY
+  ] = (globalThis as unknown as Record<symbol, OverrideBag>)[
+    WEBHOOK_FLUSH_TEST_KEY
+  ] ?? {};
+}
 
 // ---------------------------------------------------------------------------
 // Formatting

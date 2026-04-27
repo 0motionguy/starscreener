@@ -52,6 +52,8 @@ export interface WebhookScanTestOverrides {
   now?: number;
 }
 
+// APP-14: prod skips the global-registry walk; only NODE_ENV=test sees
+// any override surface. See sibling route for full rationale.
 const WEBHOOK_SCAN_TEST_KEY = Symbol.for("starscreener.webhooks.scan.test");
 
 interface OverrideBag {
@@ -59,17 +61,20 @@ interface OverrideBag {
 }
 
 function getOverrides(): WebhookScanTestOverrides {
+  if (process.env.NODE_ENV !== "test") return {};
   const bag = (globalThis as unknown as Record<symbol, OverrideBag | undefined>)[
     WEBHOOK_SCAN_TEST_KEY
   ];
   return bag?.overrides ?? {};
 }
 
-(globalThis as unknown as Record<symbol, OverrideBag>)[
-  WEBHOOK_SCAN_TEST_KEY
-] = (globalThis as unknown as Record<symbol, OverrideBag>)[
-  WEBHOOK_SCAN_TEST_KEY
-] ?? {};
+if (process.env.NODE_ENV === "test") {
+  (globalThis as unknown as Record<symbol, OverrideBag>)[
+    WEBHOOK_SCAN_TEST_KEY
+  ] = (globalThis as unknown as Record<symbol, OverrideBag>)[
+    WEBHOOK_SCAN_TEST_KEY
+  ] ?? {};
+}
 
 // ---------------------------------------------------------------------------
 // Helpers

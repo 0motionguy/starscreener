@@ -38,6 +38,13 @@ export interface ParseBodyOptions {
   publicMessage?: string;
   /** Whether to include `details: ZodIssue[]` in the 400 body. Default: true. */
   includeDetails?: boolean;
+  /**
+   * Treat an empty / non-JSON body as `{}` and run schema validation
+   * against the empty object. Default false. Cron routes that may
+   * receive `Content-Length: 0` should set this so they don't 400 on
+   * the trigger's no-body POST.
+   */
+  allowEmpty?: boolean;
 }
 
 /**
@@ -46,6 +53,8 @@ export interface ParseBodyOptions {
  *
  * Failure modes:
  *   - body not JSON           → 400 { ok: false, error: "invalid_json" }
+ *                                 (suppressed when `opts.allowEmpty` is true;
+ *                                 empty body becomes `{}` then runs schema)
  *   - body fails validation   → 400 { ok: false, error: "validation", details? }
  */
 export async function parseBody<T>(
@@ -57,13 +66,17 @@ export async function parseBody<T>(
   try {
     raw = await request.json();
   } catch {
-    return {
-      ok: false,
-      response: NextResponse.json(
-        { ok: false, error: "request body is not valid JSON" },
-        { status: 400 },
-      ),
-    };
+    if (opts.allowEmpty) {
+      raw = {};
+    } else {
+      return {
+        ok: false,
+        response: NextResponse.json(
+          { ok: false, error: "request body is not valid JSON" },
+          { status: 400 },
+        ),
+      };
+    }
   }
 
   const parsed = schema.safeParse(raw);

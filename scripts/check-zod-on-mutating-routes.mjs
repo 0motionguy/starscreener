@@ -49,7 +49,6 @@ const ALLOW_NO_PARSEBODY = new Map([
   ["src/app/api/cron/mcp/rotate-usage/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/cron/news-auto-recover/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/cron/predictions/calibrate/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
-  ["src/app/api/cron/predictions/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/cron/twitter-daily/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/cron/twitter-weekly-recap/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/cron/webhooks/flush/route.ts", "legacy: pre-APP-02 — migrate when next touched"],

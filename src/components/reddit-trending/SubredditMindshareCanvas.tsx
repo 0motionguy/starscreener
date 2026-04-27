@@ -22,10 +22,12 @@
 //     size on toggle = the "this sub really moved" signal).
 
 import {
+  memo,
   useCallback,
   useMemo,
   useRef,
   useState,
+  type MutableRefObject,
 } from "react";
 import { motion } from "framer-motion";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -101,6 +103,280 @@ const LEGEND_ORANGE = "#ff4500";
 // Inside-bubble names widen to 16 chars so r/MachineLearning, r/PromptEng..,
 // r/GoogleGemin.. etc. don't get truncated mid-common-word.
 const INSIDE_NAME_MAX_CHARS = 16;
+
+// Bubble-label layout constants (used by both the outsideLayout pass below
+// and the per-bubble BubbleNode). Hoisted to module scope so the memo'd
+// BubbleNode can read them without a closure on the parent.
+const INSIDE_LABEL_R = 24; // diameter 48px+
+const NAME_FONT_OUTSIDE = 10;
+const NAME_CHAR_W_OUTSIDE = 5.6; // mono approx at 10px
+const OUTSIDE_PAD = 6;
+const OUTSIDE_NAME_H = 12;
+
+type OutsidePos = {
+  cx: number;
+  cy: number;
+  tx: number;
+  ty: number;
+  anchor: "start" | "end" | "middle";
+  bbox: { x1: number; y1: number; x2: number; y2: number };
+  text: string;
+};
+
+// ---------------------------------------------------------------------------
+// BubbleNode — memo'd per-bubble JSX.
+//
+// Pulled out of an inline seeds.map (UI-03). The previous structure had
+// hoveredId/draggingId in the bubbleElements useMemo deps, so every hover
+// rebuilt + re-rendered all 50+ bubbles. With React.memo, the parent's map
+// still allocates 50 React elements per hover (acceptable), but only the
+// newly-hovered + previously-hovered bubbles actually run their render
+// function — the other ~48 short-circuit on shallow prop equality.
+//
+// Defined at module scope so the component identity is stable across parent
+// renders (which is what makes memo work).
+// ---------------------------------------------------------------------------
+
+interface BubbleNodeProps {
+  seed: SubredditSeed;
+  gradientId: string;
+  isHovered: boolean;
+  isDragging: boolean;
+  isActive: boolean;
+  isLabeled: boolean;
+  outside: OutsidePos | null | undefined;
+  /** Refs from the parent's usePhysicsBubbles. Stable across renders. */
+  groupRefs: MutableRefObject<Record<string, SVGGElement | null>>;
+  bodies: MutableRefObject<
+    ReadonlyArray<SubredditSeed & { cx: number; cy: number; subreddit: string }>
+  >;
+  /** Pointer handlers (already useCallback'd by the caller). */
+  onPointerDown: (e: React.PointerEvent<SVGGElement>, id: string) => void;
+  onPointerEnter: (s: SubredditSeed, e: React.PointerEvent<SVGGElement>) => void;
+  onPointerMove: (s: SubredditSeed, e: React.PointerEvent<SVGGElement>) => void;
+  onPointerLeave: (id: string) => void;
+}
+
+const BubbleNode = memo(function BubbleNode({
+  seed: s,
+  gradientId,
+  isHovered,
+  isDragging,
+  isActive,
+  isLabeled,
+  outside,
+  groupRefs,
+  bodies,
+  onPointerDown,
+  onPointerEnter,
+  onPointerMove,
+  onPointerLeave,
+}: BubbleNodeProps) {
+  const insideLabel = s.r >= INSIDE_LABEL_R;
+  const labelFontSize = Math.max(10, Math.min(14, s.r * 0.20));
+  const valueFontSize = insideLabel
+    ? Math.max(11, Math.min(20, s.r * 0.25))
+    : Math.max(10, Math.min(13, s.r * 0.39));
+  const breakoutFontSize = Math.max(8, valueFontSize * 0.7);
+  const maxLabelChars = Math.max(
+    6,
+    Math.min(INSIDE_NAME_MAX_CHARS, Math.round(s.r / 3.4)),
+  );
+  const fullLabel = `r/${s.subreddit}`;
+  const shortLabel =
+    fullLabel.length > maxLabelChars
+      ? `${fullLabel.slice(0, maxLabelChars - 1)}…`
+      : fullLabel;
+  const lifted = isDragging || isHovered || isActive;
+  const valueText = formatNumber(Math.round(s.activityScore));
+  const showBreakoutGlyph = s.breakoutCount >= 1;
+
+  const setRef = useCallback(
+    (el: SVGGElement | null) => {
+      groupRefs.current[s.id] = el;
+      // Anchor to the body's CURRENT cx/cy on mount so re-parented bubbles
+      // don't paint at their new target for a frame before the physics
+      // spring kicks in.
+      if (el) {
+        const body = bodies.current.find((b) => b.subreddit === s.subreddit);
+        const bx = body?.cx ?? s.cx;
+        const by = body?.cy ?? s.cy;
+        el.setAttribute("transform", `translate(${bx} ${by})`);
+      }
+    },
+    [groupRefs, bodies, s.id, s.subreddit, s.cx, s.cy],
+  );
+
+  const handleDown = useCallback(
+    (e: React.PointerEvent<SVGGElement>) => {
+      e.preventDefault();
+      onPointerDown(e, s.id);
+    },
+    [onPointerDown, s.id],
+  );
+  const handleEnter = useCallback(
+    (e: React.PointerEvent<SVGGElement>) => onPointerEnter(s, e),
+    [onPointerEnter, s],
+  );
+  const handleMove = useCallback(
+    (e: React.PointerEvent<SVGGElement>) => onPointerMove(s, e),
+    [onPointerMove, s],
+  );
+  const handleLeave = useCallback(
+    () => onPointerLeave(s.id),
+    [onPointerLeave, s.id],
+  );
+
+  return (
+    <g
+      ref={setRef}
+      onPointerDown={handleDown}
+      onPointerEnter={handleEnter}
+      onPointerMove={handleMove}
+      onPointerLeave={handleLeave}
+      style={{
+        cursor: isDragging ? "grabbing" : "pointer",
+        touchAction: "none",
+      }}
+      aria-label={`Subreddit r/${s.subreddit} — activity ${Math.round(s.activityScore)}, momentum ${s.momentumRatio.toFixed(2)}x, ${s.breakoutCount} breakout posts, ${s.aboveAvgCount} above-average posts, ${s.totalPosts} total (click to filter feed)`}
+    >
+      <title>
+        {`r/${s.subreddit} · ${valueText} activity · ${s.momentumRatio.toFixed(2)}x vs 7d avg · ${s.breakoutCount} breakout · ${s.aboveAvgCount} above-avg · ${s.totalPosts} posts`}
+      </title>
+      <circle r={Math.max(s.r, 22)} fill="transparent" />
+      <motion.circle
+        initial={false}
+        animate={{ r: s.r + (lifted ? 10 : 4) }}
+        transition={{ duration: 0.6, ease: "easeInOut" }}
+        fill={s.glow}
+      />
+      <motion.circle
+        initial={false}
+        animate={{ r: s.r * (isHovered && !isDragging ? 1.05 : 1) }}
+        transition={{ duration: 0.6, ease: "easeInOut" }}
+        fill={`url(#${gradientId})`}
+        stroke={isActive ? "#f6f9fc" : s.stroke}
+        strokeWidth={
+          isActive
+            ? 2.5
+            : isDragging || isHovered
+              ? Math.max(s.strokeWidth, 2.25)
+              : s.strokeWidth
+        }
+        style={{
+          filter: isDragging
+            ? "drop-shadow(0 6px 18px rgba(255,69,0,0.35))"
+            : isHovered
+              ? "drop-shadow(0 4px 10px rgba(255,69,0,0.20))"
+              : undefined,
+        }}
+      />
+      {insideLabel && isLabeled && (
+        <text
+          x={0}
+          y={-s.r * 0.12}
+          textAnchor="middle"
+          fill={s.textColor}
+          fontSize={labelFontSize}
+          fontWeight={600}
+          style={{
+            fontFamily: "var(--font-mono)",
+            letterSpacing: "-0.01em",
+            pointerEvents: "none",
+            userSelect: "none",
+          }}
+        >
+          {shortLabel}
+        </text>
+      )}
+      {isLabeled && (
+        <g pointerEvents="none">
+          <text
+            x={0}
+            y={insideLabel ? s.r * 0.34 : s.r * 0.12}
+            textAnchor="middle"
+            fill={s.textColor}
+            fontSize={valueFontSize}
+            fontWeight={700}
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontVariantNumeric: "tabular-nums",
+              userSelect: "none",
+            }}
+          >
+            {valueText}
+          </text>
+          {showBreakoutGlyph && (
+            <text
+              x={0}
+              y={
+                (insideLabel ? s.r * 0.34 : s.r * 0.12) +
+                breakoutFontSize +
+                1
+              }
+              textAnchor="middle"
+              fill="#ff6600"
+              fontSize={breakoutFontSize}
+              fontWeight={700}
+              style={{
+                fontFamily: "var(--font-mono)",
+                fontVariantNumeric: "tabular-nums",
+                userSelect: "none",
+                letterSpacing: "0.02em",
+              }}
+            >
+              {`▲ ${s.breakoutCount}`}
+            </text>
+          )}
+        </g>
+      )}
+      {outside && isLabeled && (
+        <g pointerEvents="none">
+          <line
+            x1={outside.cx}
+            y1={outside.cy}
+            x2={
+              outside.anchor === "start"
+                ? outside.tx - 2
+                : outside.anchor === "end"
+                  ? outside.tx + 2
+                  : outside.tx
+            }
+            y2={
+              outside.anchor === "middle"
+                ? outside.cy < 0
+                  ? outside.ty + OUTSIDE_NAME_H * 0.5
+                  : outside.ty - OUTSIDE_NAME_H * 0.9
+                : outside.ty
+            }
+            stroke="rgba(148, 163, 184, 0.45)"
+            strokeWidth={1}
+          />
+          <text
+            x={outside.tx}
+            y={outside.ty}
+            textAnchor={outside.anchor}
+            dominantBaseline="middle"
+            fill="#cbd5e1"
+            fontSize={NAME_FONT_OUTSIDE}
+            fontWeight={600}
+            style={{
+              fontFamily: "var(--font-mono)",
+              letterSpacing: "-0.01em",
+              userSelect: "none",
+              paintOrder: "stroke",
+              stroke: "rgba(15, 23, 42, 0.85)",
+              strokeWidth: 3,
+              strokeLinejoin: "round",
+            }}
+          >
+            {outside.text}
+          </text>
+        </g>
+      )}
+    </g>
+  );
+});
 
 export function SubredditMindshareCanvas({
   windows,
@@ -262,11 +538,6 @@ export function SubredditMindshareCanvas({
   //                              connector line, positioned via greedy
   //                              collision pass against ALL bubbles
   // ──────────────────────────────────────────────────────────────────────
-  const INSIDE_LABEL_R = 24; // diameter 48px+
-  const NAME_FONT_OUTSIDE = 10;
-  const NAME_CHAR_W_OUTSIDE = 5.6; // mono approx at 10px
-  const OUTSIDE_PAD = 6;
-  const OUTSIDE_NAME_H = 12;
 
   // Previously gated on top-N by radius, which left smaller bubbles as
   // anonymous grey circles. Label every seed so the map reads as data,
@@ -276,16 +547,6 @@ export function SubredditMindshareCanvas({
     () => new Set(seeds.map((s) => s.id)),
     [seeds],
   );
-
-  type OutsidePos = {
-    cx: number;
-    cy: number;
-    tx: number;
-    ty: number;
-    anchor: "start" | "end" | "middle";
-    bbox: { x1: number; y1: number; x2: number; y2: number };
-    text: string;
-  };
 
   const outsideLayout = useMemo(() => {
     const placed: Array<{ x1: number; y1: number; x2: number; y2: number }> = [];
@@ -472,211 +733,43 @@ export function SubredditMindshareCanvas({
     setTooltip((t) => ({ ...t, visible: false }));
   }, []);
 
+  // Per-bubble JSX is wrapped in <BubbleNode> (memo'd, see top of file).
+  // The map still allocates 50 React elements when hover/drag changes, but
+  // shallow prop comparison short-circuits the actual render for the ~48
+  // bubbles whose isHovered/isDragging didn't change.
   const bubbleElements = useMemo(() => {
-    return seeds.map((s) => {
-      const insideLabel = s.r >= INSIDE_LABEL_R;
-      const isLabeled = labeledIds.has(s.id);
-      const labelFontSize = Math.max(10, Math.min(14, s.r * 0.20));
-      // Bumped value font: bolder + ~15% larger than before for readability.
-      const valueFontSize = insideLabel
-        ? Math.max(11, Math.min(20, s.r * 0.25))
-        : Math.max(10, Math.min(13, s.r * 0.39));
-      const breakoutFontSize = Math.max(8, valueFontSize * 0.7);
-      const maxLabelChars = Math.max(
-        6,
-        Math.min(INSIDE_NAME_MAX_CHARS, Math.round(s.r / 3.4)),
-      );
-      const fullLabel = `r/${s.subreddit}`;
-      const shortLabel =
-        fullLabel.length > maxLabelChars
-          ? `${fullLabel.slice(0, maxLabelChars - 1)}…`
-          : fullLabel;
-      const isDragging = draggingId === s.id;
-      const isHovered = hoveredId === s.id;
-      const isActive = activeSub === s.subreddit;
-      const lifted = isDragging || isHovered || isActive;
-
-      const outside = outsideLayout[s.id];
-      const valueText = formatNumber(Math.round(s.activityScore));
-      const showBreakoutGlyph = s.breakoutCount >= 1;
-
-      return (
-        <g
-          key={s.id}
-          ref={(el) => {
-            groupRefs.current[s.id] = el;
-            // Anchor to the body's CURRENT cx/cy on mount so re-parented
-            // bubbles don't paint at their new target for a frame before
-            // the physics spring kicks in. Falls back to seed cx/cy for
-            // brand-new bubbles (no prior body to inherit from).
-            if (el) {
-              const body = bodies.current.find((b) => b.subreddit === s.subreddit);
-              const bx = body?.cx ?? s.cx;
-              const by = body?.cy ?? s.cy;
-              el.setAttribute("transform", `translate(${bx} ${by})`);
-            }
-          }}
-          onPointerDown={(e) => {
-            e.preventDefault();
-            handlePointerDown(e, s.id);
-          }}
-          onPointerEnter={(e) => handleBubbleEnter(s, e)}
-          onPointerMove={(e) => handleBubbleMove(s, e)}
-          onPointerLeave={() => handleBubbleLeave(s.id)}
-          style={{
-            cursor: isDragging ? "grabbing" : "pointer",
-            touchAction: "none",
-          }}
-          aria-label={`Subreddit r/${s.subreddit} — activity ${Math.round(s.activityScore)}, momentum ${s.momentumRatio.toFixed(2)}x, ${s.breakoutCount} breakout posts, ${s.aboveAvgCount} above-average posts, ${s.totalPosts} total (click to filter feed)`}
-        >
-          <title>
-            {`r/${s.subreddit} · ${valueText} activity · ${s.momentumRatio.toFixed(2)}x vs 7d avg · ${s.breakoutCount} breakout · ${s.aboveAvgCount} above-avg · ${s.totalPosts} posts`}
-          </title>
-          <circle r={Math.max(s.r, 22)} fill="transparent" />
-          <motion.circle
-            initial={false}
-            animate={{ r: s.r + (lifted ? 10 : 4) }}
-            transition={{ duration: 0.6, ease: "easeInOut" }}
-            fill={s.glow}
-          />
-          <motion.circle
-            initial={false}
-            animate={{ r: s.r * (isHovered && !isDragging ? 1.05 : 1) }}
-            transition={{ duration: 0.6, ease: "easeInOut" }}
-            fill={`url(#${gradients.idBySeed.get(s.id) ?? "sgrad-0"})`}
-            stroke={isActive ? "#f6f9fc" : s.stroke}
-            strokeWidth={
-              isActive
-                ? 2.5
-                : isDragging || isHovered
-                  ? Math.max(s.strokeWidth, 2.25)
-                  : s.strokeWidth
-            }
-            style={{
-              filter: isDragging
-                ? "drop-shadow(0 6px 18px rgba(255,69,0,0.35))"
-                : isHovered
-                  ? "drop-shadow(0 4px 10px rgba(255,69,0,0.20))"
-                  : undefined,
-            }}
-          />
-          {insideLabel && isLabeled && (
-            <text
-              x={0}
-              y={-s.r * 0.12}
-              textAnchor="middle"
-              fill={s.textColor}
-              fontSize={labelFontSize}
-              fontWeight={600}
-              style={{
-                fontFamily: "var(--font-mono)",
-                letterSpacing: "-0.01em",
-                pointerEvents: "none",
-                userSelect: "none",
-              }}
-            >
-              {shortLabel}
-            </text>
-          )}
-          {isLabeled && (
-            <g pointerEvents="none">
-              <text
-                x={0}
-                y={insideLabel ? s.r * 0.34 : s.r * 0.12}
-                textAnchor="middle"
-                fill={s.textColor}
-                fontSize={valueFontSize}
-                fontWeight={700}
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  fontVariantNumeric: "tabular-nums",
-                  userSelect: "none",
-                }}
-              >
-                {valueText}
-              </text>
-              {showBreakoutGlyph && (
-                <text
-                  x={0}
-                  y={
-                    (insideLabel ? s.r * 0.34 : s.r * 0.12) +
-                    breakoutFontSize +
-                    1
-                  }
-                  textAnchor="middle"
-                  fill="#ff6600"
-                  fontSize={breakoutFontSize}
-                  fontWeight={700}
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    fontVariantNumeric: "tabular-nums",
-                    userSelect: "none",
-                    letterSpacing: "0.02em",
-                  }}
-                >
-                  {`▲ ${s.breakoutCount}`}
-                </text>
-              )}
-            </g>
-          )}
-          {outside && isLabeled && (
-            <g pointerEvents="none">
-              <line
-                x1={outside.cx}
-                y1={outside.cy}
-                x2={
-                  outside.anchor === "start"
-                    ? outside.tx - 2
-                    : outside.anchor === "end"
-                      ? outside.tx + 2
-                      : outside.tx
-                }
-                y2={
-                  outside.anchor === "middle"
-                    ? outside.cy < 0
-                      ? outside.ty + OUTSIDE_NAME_H * 0.5
-                      : outside.ty - OUTSIDE_NAME_H * 0.9
-                    : outside.ty
-                }
-                stroke="rgba(148, 163, 184, 0.45)"
-                strokeWidth={1}
-              />
-              <text
-                x={outside.tx}
-                y={outside.ty}
-                textAnchor={outside.anchor}
-                dominantBaseline="middle"
-                fill="#cbd5e1"
-                fontSize={NAME_FONT_OUTSIDE}
-                fontWeight={600}
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  letterSpacing: "-0.01em",
-                  userSelect: "none",
-                  paintOrder: "stroke",
-                  stroke: "rgba(15, 23, 42, 0.85)",
-                  strokeWidth: 3,
-                  strokeLinejoin: "round",
-                }}
-              >
-                {outside.text}
-              </text>
-            </g>
-          )}
-        </g>
-      );
-    });
+    return seeds.map((s) => (
+      <BubbleNode
+        key={s.id}
+        seed={s}
+        gradientId={gradients.idBySeed.get(s.id) ?? "sgrad-0"}
+        isHovered={hoveredId === s.id}
+        isDragging={draggingId === s.id}
+        isActive={activeSub === s.subreddit}
+        isLabeled={labeledIds.has(s.id)}
+        outside={outsideLayout[s.id]}
+        groupRefs={groupRefs}
+        bodies={bodies}
+        onPointerDown={handlePointerDown}
+        onPointerEnter={handleBubbleEnter}
+        onPointerMove={handleBubbleMove}
+        onPointerLeave={handleBubbleLeave}
+      />
+    ));
   }, [
     seeds,
     draggingId,
     hoveredId,
     activeSub,
+    labeledIds,
+    outsideLayout,
+    gradients,
+    groupRefs,
+    bodies,
     handlePointerDown,
     handleBubbleEnter,
     handleBubbleMove,
     handleBubbleLeave,
-    outsideLayout,
-    labeledIds,
   ]);
 
   return (

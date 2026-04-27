@@ -68,14 +68,8 @@ const ALLOW_NO_PARSEBODY = new Map([
   // when next touched. Keep this list ratcheting down — never add a NEW
   // route here. The CI guard's value is catching new regressions; these
   // are pinned debt, not new permission.
-  ["src/app/api/admin/queues/repo/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
-  ["src/app/api/checkout/stripe/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
-  ["src/app/api/cron/predictions/calibrate/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
-  ["src/app/api/export/csv/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
-  ["src/app/api/ideas/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/internal/signals/twitter/v1/ingest/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/internal/twitter/v1/findings/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
-  ["src/app/api/mcp/record-call/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/pipeline/alerts/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/pipeline/alerts/rules/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/pipeline/backfill-history/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
@@ -86,11 +80,8 @@ const ALLOW_NO_PARSEBODY = new Map([
   ["src/app/api/pipeline/rebuild/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/pipeline/recompute/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/pipeline/refresh/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
-  ["src/app/api/reactions/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
-  ["src/app/api/repo-submissions/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/repos/[owner]/[name]/aiso/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/submissions/revenue/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
-  ["src/app/api/watchlist/private/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
 ]);
 
 const MUTATING_METHODS = ["POST", "PUT", "DELETE", "PATCH"];

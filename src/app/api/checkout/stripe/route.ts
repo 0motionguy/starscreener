@@ -29,8 +29,10 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
+import { z } from "zod";
 
 import { userAuthFailureResponse, verifyUserAuth } from "@/lib/api/auth";
+import { parseBody } from "@/lib/api/parse-body";
 import {
   getStripeClient,
   loadPriceIds,
@@ -38,12 +40,6 @@ import {
 } from "@/lib/stripe/client";
 
 export const runtime = "nodejs";
-
-interface CheckoutRequestBody {
-  tier?: unknown;
-  cadence?: unknown;
-  seats?: unknown;
-}
 
 interface CheckoutOkResponse {
   ok: true;
@@ -58,47 +54,43 @@ interface CheckoutErrorResponse {
   code: string;
 }
 
-type ParsedInput =
-  | {
-      ok: true;
-      tier: "pro" | "team";
-      cadence: "monthly" | "yearly";
-      seats: number;
+// `tier` is a string-prechecked enum so the "enterprise is not self-serve"
+// message stays distinct from "tier must be 'pro' or 'team'". `cadence` is
+// a plain enum. `seats` is clamped 1..100. Cross-field rule (pro = single
+// seat) is enforced via outer superRefine.
+const CheckoutBodySchema = z
+  .object({
+    tier: z
+      .string({ message: "tier must be 'pro' or 'team'" })
+      .refine((v) => v !== "enterprise", {
+        message: "enterprise tier is not self-serve",
+      })
+      .pipe(
+        z.enum(["pro", "team"], {
+          message: "tier must be 'pro' or 'team'",
+        }),
+      ),
+    cadence: z.enum(["monthly", "yearly"], {
+      message: "cadence must be 'monthly' or 'yearly'",
+    }),
+    seats: z
+      .number({ message: "seats must be a number" })
+      .finite()
+      .min(1, "seats must be >= 1")
+      .max(100, "seats must be <= 100")
+      .transform((n) => Math.floor(n))
+      .optional(),
+  })
+  .superRefine((value, ctx) => {
+    const seats = value.seats ?? 1;
+    if (value.tier === "pro" && seats !== 1) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["seats"],
+        message: "pro tier is single-seat",
+      });
     }
-  | { ok: false; reason: string };
-
-function parseInput(raw: unknown): ParsedInput {
-  if (!raw || typeof raw !== "object") {
-    return { ok: false, reason: "body must be a JSON object" };
-  }
-  const body = raw as CheckoutRequestBody;
-
-  if (body.tier === "enterprise") {
-    return { ok: false, reason: "enterprise tier is not self-serve" };
-  }
-  if (body.tier !== "pro" && body.tier !== "team") {
-    return { ok: false, reason: "tier must be 'pro' or 'team'" };
-  }
-  if (body.cadence !== "monthly" && body.cadence !== "yearly") {
-    return { ok: false, reason: "cadence must be 'monthly' or 'yearly'" };
-  }
-
-  let seats = 1;
-  if (typeof body.seats === "number" && Number.isFinite(body.seats)) {
-    // Clamp — no gifts of 10k seats, no zero / negative.
-    if (body.seats < 1) return { ok: false, reason: "seats must be >= 1" };
-    if (body.seats > 100) return { ok: false, reason: "seats must be <= 100" };
-    seats = Math.floor(body.seats);
-  } else if (body.seats !== undefined) {
-    return { ok: false, reason: "seats must be a number" };
-  }
-
-  // Pro tier is single-seat — reject seat counts silently rewriting to 1.
-  if (body.tier === "pro" && seats !== 1) {
-    return { ok: false, reason: "pro tier is single-seat" };
-  }
-  return { ok: true, tier: body.tier, cadence: body.cadence, seats };
-}
+  });
 
 function originFromRequest(request: NextRequest): string {
   // Prefer the origin the browser sent; fall back to the configured app URL.
@@ -129,22 +121,24 @@ export async function POST(
   const { userId } = auth;
 
   // 2. Parse body.
-  let raw: unknown;
-  try {
-    raw = await request.json();
-  } catch {
+  const parsedResult = await parseBody(request, CheckoutBodySchema);
+  if (!parsedResult.ok) {
+    // Re-shape onto the route's error envelope which carries `code`.
+    const fallback = await parsedResult.response.json();
     return NextResponse.json(
-      { ok: false, error: "invalid JSON body", code: "BAD_REQUEST" },
+      {
+        ok: false,
+        error: fallback.error ?? "validation failed",
+        code: "BAD_REQUEST",
+      },
       { status: 400 },
     );
   }
-  const parsed = parseInput(raw);
-  if (!parsed.ok) {
-    return NextResponse.json(
-      { ok: false, error: parsed.reason, code: "BAD_REQUEST" },
-      { status: 400 },
-    );
-  }
+  const parsed = {
+    tier: parsedResult.data.tier,
+    cadence: parsedResult.data.cadence,
+    seats: parsedResult.data.seats ?? 1,
+  };
 
   // 3. Resolve price ID from env.
   const priceIds = loadPriceIds();

@@ -10,9 +10,11 @@
 //      is always derived from the auth header — body fields ignored.
 
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 
 import { userAuthFailureResponse, verifyUserAuth } from "@/lib/api/auth";
 import { serverError } from "@/lib/api/error-response";
+import { parseBody } from "@/lib/api/parse-body";
 import {
   createIdea,
   hotScore,
@@ -22,6 +24,9 @@ import {
   type IdeaRecord,
   type PublicIdea,
 } from "@/lib/ideas";
+
+// Shape gate only — field-level validation lives in validateIdeaInput.
+const IdeasPostSchema = z.record(z.string(), z.unknown());
 import {
   countReactions,
   listReactionsForObjects,
@@ -162,17 +167,12 @@ export async function POST(
   }
   const { userId } = auth;
 
-  let raw: unknown;
-  try {
-    raw = await request.json();
-  } catch {
-    return NextResponse.json(
-      { ok: false, error: "request body is not valid JSON" },
-      { status: 400 },
-    );
+  const parsedShape = await parseBody(request, IdeasPostSchema);
+  if (!parsedShape.ok) {
+    return parsedShape.response as NextResponse<IdeasErrorResponse>;
   }
 
-  const parsed = validateIdeaInput(raw);
+  const parsed = validateIdeaInput(parsedShape.data);
   if (!parsed.ok) {
     return NextResponse.json(
       { ok: false, error: "validation failed", details: parsed.errors },

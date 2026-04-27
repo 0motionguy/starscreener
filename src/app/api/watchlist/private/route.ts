@@ -41,15 +41,13 @@ import {
 
 export const runtime = "nodejs";
 
+// MAX_PRIVATE_WATCHLIST_REPOS is checked post-parse to preserve the
+// discrete `code: TOO_MANY_REPOS` discriminator (asserted by
+// pipeline/__tests__/private-watchlist.test.ts:284).
 const PrivateWatchlistPutSchema = z.object({
-  fullNames: z
-    .array(z.string(), {
-      message: "fullNames must be an array of strings",
-    })
-    .max(
-      MAX_PRIVATE_WATCHLIST_REPOS,
-      `too many repos (max ${MAX_PRIVATE_WATCHLIST_REPOS})`,
-    ),
+  fullNames: z.array(z.string(), {
+    message: "fullNames must be an array of strings",
+  }),
 });
 
 // ---------------------------------------------------------------------------
@@ -148,6 +146,16 @@ export async function PUT(request: NextRequest): Promise<NextResponse> {
     // Body shape stays { ok:false, error, code? } from the canonical helper.
     const errBody = await parsed.response.json();
     return jsonNoStore(errBody, { status: parsed.response.status });
+  }
+  if (parsed.data.fullNames.length > MAX_PRIVATE_WATCHLIST_REPOS) {
+    return jsonNoStore(
+      {
+        ok: false,
+        error: `too many repos (max ${MAX_PRIVATE_WATCHLIST_REPOS})`,
+        code: "TOO_MANY_REPOS",
+      },
+      { status: 400 },
+    );
   }
 
   const { fullNames: rawList } = parsed.data;

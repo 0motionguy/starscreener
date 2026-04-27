@@ -19,27 +19,49 @@
 // Cache-Control: no-store. Every write has side-effects.
 
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 
 import { verifyUserAuth } from "@/lib/api/auth";
+import { parseBody } from "@/lib/api/parse-body";
 import { recordUsage } from "@/lib/mcp/usage";
 
 export const runtime = "nodejs";
-
-interface RecordCallBody {
-  tool?: unknown;
-  tokenUsed?: unknown;
-  durationMs?: unknown;
-  status?: unknown;
-  errorMessage?: unknown;
-}
 
 const RESPONSE_HEADERS = {
   "Cache-Control": "no-store",
 } as const;
 
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
+// Permissive numeric handling matches the prior typeof ladder: malformed
+// tokenUsed / durationMs degrade to 0 rather than 400ing the metering call.
+const RecordCallSchema = z.object({
+  // Message attached at the type-check level too so a missing `tool` field
+  // (undefined) surfaces as "tool is required" rather than Zod's default
+  // "expected string, received undefined". mcp-usage tests pin this string.
+  tool: z
+    .string({ message: "tool is required" })
+    .trim()
+    .min(1, "tool is required"),
+  tokenUsed: z
+    .number()
+    .finite()
+    .transform((n) => Math.max(0, Math.floor(n)))
+    .optional()
+    .catch(undefined),
+  durationMs: z
+    .number()
+    .finite()
+    .transform((n) => Math.max(0, Math.round(n)))
+    .optional()
+    .catch(undefined),
+  status: z.enum(["ok", "error", "timeout"], {
+    message: "status must be one of ok | error | timeout",
+  }),
+  errorMessage: z
+    .string()
+    .min(1)
+    .transform((s) => s.slice(0, 200))
+    .optional(),
+});
 
 export async function POST(request: NextRequest) {
   const auth = verifyUserAuth(request);
@@ -55,61 +77,21 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  let body: RecordCallBody;
-  try {
-    const parsed = (await request.json()) as unknown;
-    if (!isRecord(parsed)) {
-      return NextResponse.json(
-        { ok: false as const, error: "body must be a JSON object" },
-        { status: 400, headers: RESPONSE_HEADERS },
-      );
-    }
-    body = parsed as RecordCallBody;
-  } catch {
-    return NextResponse.json(
-      { ok: false as const, error: "invalid JSON body" },
-      { status: 400, headers: RESPONSE_HEADERS },
-    );
+  const parsed = await parseBody(request, RecordCallSchema, {
+    includeDetails: false,
+  });
+  if (!parsed.ok) {
+    // Re-shape onto the route's no-store headers. Body shape preserved.
+    const errBody = await parsed.response.json();
+    return NextResponse.json(errBody, {
+      status: parsed.response.status,
+      headers: RESPONSE_HEADERS,
+    });
   }
-
-  const tool = typeof body.tool === "string" ? body.tool.trim() : "";
-  if (tool.length === 0) {
-    return NextResponse.json(
-      { ok: false as const, error: "tool is required" },
-      { status: 400, headers: RESPONSE_HEADERS },
-    );
-  }
-
-  const tokenUsed =
-    typeof body.tokenUsed === "number" && Number.isFinite(body.tokenUsed)
-      ? Math.max(0, Math.floor(body.tokenUsed))
-      : 0;
-
-  const durationMs =
-    typeof body.durationMs === "number" && Number.isFinite(body.durationMs)
-      ? Math.max(0, Math.round(body.durationMs))
-      : 0;
-
-  const status =
-    body.status === "ok" ||
-    body.status === "error" ||
-    body.status === "timeout"
-      ? body.status
-      : null;
-  if (status === null) {
-    return NextResponse.json(
-      {
-        ok: false as const,
-        error: "status must be one of ok | error | timeout",
-      },
-      { status: 400, headers: RESPONSE_HEADERS },
-    );
-  }
-
-  const errorMessage =
-    typeof body.errorMessage === "string" && body.errorMessage.length > 0
-      ? body.errorMessage.slice(0, 200)
-      : undefined;
+  const { tool, status } = parsed.data;
+  const tokenUsed = parsed.data.tokenUsed ?? 0;
+  const durationMs = parsed.data.durationMs ?? 0;
+  const errorMessage = parsed.data.errorMessage;
 
   try {
     await recordUsage({

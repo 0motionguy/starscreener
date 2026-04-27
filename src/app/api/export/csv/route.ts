@@ -28,8 +28,10 @@
 // first — do NOT stub `canUseFeature` here.
 
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 
 import { userAuthFailureResponse, verifyUserAuth } from "@/lib/api/auth";
+import { parseBody } from "@/lib/api/parse-body";
 import { canUseFeature } from "@/lib/pricing/entitlements";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import { renderCsv, type CsvColumn, UTF8_BOM } from "@/lib/export/csv";
@@ -133,6 +135,24 @@ const COLUMN_TABLE: Record<ExportColumnKey, CsvColumn<ExportRow>> = {
 // Request parsing
 // ---------------------------------------------------------------------------
 
+// Shape gate via Zod — fullNames is the only field with a clean cardinality
+// rule. The preset/columns union has too much custom error shape (UNKNOWN_PRESET,
+// UNKNOWN_COLUMN with a details payload) to fit cleanly in Zod, so we
+// resolve it post-parse via resolveColumns.
+// MAX_EXPORT_ROWS is checked post-parse so it can keep the discrete
+// `code: TOO_MANY_REPOS` discriminator clients depend on. Inside Zod
+// it would collapse into a generic BAD_REQUEST.
+const ExportBodySchema = z.object({
+  fullNames: z
+    .array(
+      z.string().min(1, "fullNames entries must be non-empty strings"),
+      { message: "fullNames must be an array of strings" },
+    )
+    .min(1, "fullNames must be non-empty"),
+  preset: z.string().optional(),
+  columns: z.unknown().optional(),
+});
+
 interface ParsedBody {
   fullNames: string[];
   columns: ExportColumnKey[];
@@ -143,54 +163,12 @@ interface ParseError {
   body: { ok: false; error: string; code: string; details?: unknown };
 }
 
-function parseBody(raw: unknown): ParsedBody | ParseError {
-  if (raw === null || typeof raw !== "object") {
-    return {
-      status: 400,
-      body: { ok: false, error: "body must be a JSON object", code: "BAD_REQUEST" },
-    };
-  }
-  const body = raw as Record<string, unknown>;
-
-  // -- fullNames
-  if (!Array.isArray(body.fullNames)) {
-    return {
-      status: 400,
-      body: { ok: false, error: "fullNames must be an array of strings", code: "BAD_REQUEST" },
-    };
-  }
-  const rawFullNames = body.fullNames as unknown[];
-  if (rawFullNames.length === 0) {
-    return {
-      status: 400,
-      body: { ok: false, error: "fullNames must be non-empty", code: "BAD_REQUEST" },
-    };
-  }
-  if (rawFullNames.length > MAX_EXPORT_ROWS) {
-    return {
-      status: 400,
-      body: {
-        ok: false,
-        error: `too many repos (max ${MAX_EXPORT_ROWS})`,
-        code: "TOO_MANY_REPOS",
-      },
-    };
-  }
-  const fullNames: string[] = [];
-  for (const entry of rawFullNames) {
-    if (typeof entry !== "string" || entry.length === 0) {
-      return {
-        status: 400,
-        body: { ok: false, error: "fullNames entries must be non-empty strings", code: "BAD_REQUEST" },
-      };
-    }
-    fullNames.push(entry);
-  }
-
-  // -- preset or columns
+function resolveColumns(
+  body: z.infer<typeof ExportBodySchema>,
+): ParsedBody | ParseError {
   let columns: ExportColumnKey[];
   if (typeof body.preset === "string") {
-    const preset = body.preset as string;
+    const preset = body.preset;
     if (!(preset in PRESET_COLUMNS)) {
       return {
         status: 400,
@@ -248,7 +226,7 @@ function parseBody(raw: unknown): ParsedBody | ParseError {
     columns = known;
   }
 
-  return { fullNames, columns };
+  return { fullNames: body.fullNames, columns };
 }
 
 // ---------------------------------------------------------------------------
@@ -301,16 +279,32 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   }
 
   // 3. Parse
-  let rawBody: unknown;
-  try {
-    rawBody = await request.json();
-  } catch {
+  const parsedShape = await parseBody(request, ExportBodySchema, {
+    includeDetails: false,
+  });
+  if (!parsedShape.ok) {
+    // Re-shape onto the route's error envelope which carries `code`.
+    const errBody = await parsedShape.response.json();
     return NextResponse.json(
-      { ok: false, error: "body must be valid JSON", code: "BAD_REQUEST" },
+      {
+        ok: false,
+        error: errBody.error ?? "validation failed",
+        code: "BAD_REQUEST",
+      },
+      { status: parsedShape.response.status },
+    );
+  }
+  if (parsedShape.data.fullNames.length > MAX_EXPORT_ROWS) {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: `too many repos (max ${MAX_EXPORT_ROWS})`,
+        code: "TOO_MANY_REPOS",
+      },
       { status: 400 },
     );
   }
-  const parsed = parseBody(rawBody);
+  const parsed = resolveColumns(parsedShape.data);
   if ("status" in parsed) {
     return NextResponse.json(parsed.body, { status: parsed.status });
   }

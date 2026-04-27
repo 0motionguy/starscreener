@@ -499,18 +499,11 @@ export const fundingRounds: TableDescriptor = {
     { name: "confidence", type: "text", notNull: true },
     { name: "reviewed", type: "boolean", notNull: true },
     // Repo-matching columns — populated by the funding matcher (see
-    // src/lib/funding/match.ts + src/lib/funding/repo-events.ts). BOTH nullable,
-    // so backfilling is additive and safe. A DBA must generate a drizzle/db
-    // migration from this descriptor — the file-persistence layer is JSONL so
-    // this declaration is intent-only until the Postgres cutover.
-    //
-    // Migration SQL (append to next migration):
-    //   ALTER TABLE funding_rounds
-    //     ADD COLUMN repo_id          TEXT NULL,
-    //     ADD COLUMN match_confidence REAL NULL,
-    //     ADD COLUMN match_reason     TEXT NULL,
-    //     ADD COLUMN matched_at       TIMESTAMP NULL;
-    //   CREATE INDEX funding_rounds_repo_idx ON funding_rounds(repo_id);
+    // src/lib/funding/match.ts + src/lib/funding/repo-events.ts). BOTH
+    // nullable so backfilling is additive and safe. The descriptor is
+    // intent-only until the Postgres cutover; the migration SQL lives in
+    // docs/DATABASE.md (LIB-20) under the "funding_rounds repo-match
+    // columns" section.
     { name: "repo_id", type: "text" },
     { name: "match_confidence", type: "real" },
     { name: "match_reason", type: "text" },

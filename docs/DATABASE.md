@@ -150,3 +150,26 @@ Use `@libsql/client` instead of `postgres`. Schema is mostly compatible — swap
 - `memory-stores.ts` caps snapshot retention at `SNAPSHOT_HISTORY_CAP = 120` (~30 days at 6h cadence). Postgres should do the same via a monthly-partition + retention job once volume matters.
 - Add connection pooling (PgBouncer / Neon pooler) because serverless functions open-close connections frequently.
 - The debounced persist in `singleton.ts` (`schedulePersist` / `PERSIST_DEBOUNCE_MS`) stays relevant — it still governs the JSONL fallback path while a DB is warming up, and it's the seam you'd replace with `flushCache → commit` if the Postgres path ever needs batching.
+
+## Pending migration SQL
+
+Snippets that previously lived inline as `// Migration SQL:` comments in
+`src/lib/db/schema.ts` (LIB-20). Append to the next migration when the
+Postgres cutover happens.
+
+### funding_rounds repo-match columns
+
+Adds the four nullable columns the funding matcher writes (`repo_id`,
+`match_confidence`, `match_reason`, `matched_at`) plus an index on
+`repo_id` for the per-repo lookup path. The columns are nullable so the
+add can ship before any backfill — existing rows stay valid.
+
+```sql
+ALTER TABLE funding_rounds
+  ADD COLUMN repo_id          TEXT NULL,
+  ADD COLUMN match_confidence REAL NULL,
+  ADD COLUMN match_reason     TEXT NULL,
+  ADD COLUMN matched_at       TIMESTAMP NULL;
+
+CREATE INDEX funding_rounds_repo_idx ON funding_rounds(repo_id);
+```

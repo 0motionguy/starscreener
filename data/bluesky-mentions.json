@@ -1,52 +1,55 @@
 {
-  "fetchedAt": "2026-04-27T11:32:56.505Z",
+  "fetchedAt": "2026-04-27T14:28:26.799Z",
   "windowDays": 7,
-  "scannedPosts": 198,
+  "scannedPosts": 300,
   "searchQuery": "github.com",
-  "pagesFetched": 2,
+  "pagesFetched": 3,
   "mentions": {
-    "evanklem/evanflow": {
+    "netbirdio/netbird": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mkhsjaj5md2v",
-        "cid": "bafyreidy2cyaqshdoxfz2j5kvypulhj66o4nt6l7x26w5xuh3rfvogjy64",
-        "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mkhsjaj5md2v",
-        "text": "EvanFlow – A TDD driven feedback loop for Claude Code (github.com) Discussion | Main Link",
+        "uri": "at://did:plc:cz32h5hwdr67i7ecwdux6b4s/app.bsky.feed.post/3mkiayrlrl72f",
+        "cid": "bafyreihkdfpschdyluwrqk7mtgicv7aibek2msnbysrpdukdytcbxdvlge",
+        "bskyUrl": "https://bsky.app/profile/dbt3.ch/post/3mkiayrlrl72f",
+        "text": "NetBird v0.70.0 is here and the self-hosted networking game keeps getting stronger. If you are not running your own WireGuard overlay network yet, now is the time to start. #selfhosted #homelab https://github.com/netbirdio/netbird/releases/tag/v0.70.0",
         "author": {
-          "handle": "newsycombinatorbot.bsky.social",
-          "displayName": "Hacker News Bot"
+          "handle": "dbt3.ch",
+          "displayName": "David"
         },
         "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-04-27T09:55:46.947551Z",
-        "hoursSincePosted": 1.62
+        "replyCount": 0,
+        "createdAt": "2026-04-27T14:15:00.481Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
-          "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mkhsjaj5md2v",
-          "cid": "bafyreidy2cyaqshdoxfz2j5kvypulhj66o4nt6l7x26w5xuh3rfvogjy64",
-          "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mkhsjaj5md2v",
-          "text": "EvanFlow – A TDD driven feedback loop for Claude Code (github.com) Discussion | Main Link",
+          "uri": "at://did:plc:cz32h5hwdr67i7ecwdux6b4s/app.bsky.feed.post/3mkiayrlrl72f",
+          "cid": "bafyreihkdfpschdyluwrqk7mtgicv7aibek2msnbysrpdukdytcbxdvlge",
+          "bskyUrl": "https://bsky.app/profile/dbt3.ch/post/3mkiayrlrl72f",
+          "text": "NetBird v0.70.0 is here and the self-hosted networking game keeps getting stronger. If you are not running your own WireGuard overlay network yet, now is the time to start. #selfhosted #homelab https://github.com/netbirdio/netbird/releases/tag/v0.70.0",
           "author": {
-            "handle": "newsycombinatorbot.bsky.social",
-            "displayName": "Hacker News Bot"
+            "handle": "dbt3.ch",
+            "displayName": "David"
           },
           "likeCount": 0,
           "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-04-27T09:55:46.947551Z",
-          "createdUtc": 1777283746,
-          "ageHours": 1.62,
-          "trendingScore": 0.5,
-          "content_tags": [],
-          "value_score": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-27T14:15:00.481Z",
+          "createdUtc": 1777299300,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
           "linkedRepos": [
             {
-              "fullName": "evanklem/evanflow",
+              "fullName": "netbirdio/netbird",
               "matchType": "url",
               "confidence": 1
             }
@@ -54,42 +57,42 @@
         }
       ]
     },
-    "HKUDS/OpenSpace": {
+    "anthropics/claude-code": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkhsgbhd372o",
-        "cid": "bafyreiglzs3cwkmdnprpgq4ldai2ragsv6uvlhdjn4b5v7hiqqhp5352yu",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkhsgbhd372o",
-        "text": "https://github.com/HKUDS/OpenSpace",
+        "uri": "at://did:plc:niluiwex7fsnjak2wxs4j47y/app.bsky.feed.post/3mki5v2n4ge2i",
+        "cid": "bafyreieub6rb4midhzkzstwns33nfsyr7tupchjirbf7vmllelpypdpxee",
+        "bskyUrl": "https://bsky.app/profile/azu.bsky.social/post/3mki5v2n4ge2i",
+        "text": "見てる: \"Claude Code web sandbox proxy allowlist blocks user-owned custom domains · Issue #52982 · anthropics/claude-code\" https://github.com/anthropics/claude-code/issues/52982",
         "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
+          "handle": "azu.bsky.social",
+          "displayName": "azu"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-04-27T09:54:06Z",
-        "hoursSincePosted": 1.65
+        "createdAt": "2026-04-27T13:19:13.910Z",
+        "hoursSincePosted": 1.15
       },
       "posts": [
         {
-          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkhsgbhd372o",
-          "cid": "bafyreiglzs3cwkmdnprpgq4ldai2ragsv6uvlhdjn4b5v7hiqqhp5352yu",
-          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkhsgbhd372o",
-          "text": "https://github.com/HKUDS/OpenSpace",
+          "uri": "at://did:plc:niluiwex7fsnjak2wxs4j47y/app.bsky.feed.post/3mki5v2n4ge2i",
+          "cid": "bafyreieub6rb4midhzkzstwns33nfsyr7tupchjirbf7vmllelpypdpxee",
+          "bskyUrl": "https://bsky.app/profile/azu.bsky.social/post/3mki5v2n4ge2i",
+          "text": "見てる: \"Claude Code web sandbox proxy allowlist blocks user-owned custom domains · Issue #52982 · anthropics/claude-code\" https://github.com/anthropics/claude-code/issues/52982",
           "author": {
-            "handle": "tom-doerr.bsky.social",
-            "displayName": "Tom Dörr "
+            "handle": "azu.bsky.social",
+            "displayName": "azu"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-04-27T09:54:06Z",
-          "createdUtc": 1777283646,
-          "ageHours": 1.65,
+          "createdAt": "2026-04-27T13:19:13.910Z",
+          "createdUtc": 1777295953,
+          "ageHours": 1.15,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -97,7 +100,58 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "HKUDS/OpenSpace",
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "getagentseal/codeburn": {
+      "count7d": 1,
+      "likesSum7d": 4,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:k2s63pxmksn23okbbmp36fjo/app.bsky.feed.post/3mki4zkomr52p",
+        "cid": "bafyreigbv2zxibnfdb2qh6srwzzytb7owkeribk4ung6khv7vklwhllhfu",
+        "bskyUrl": "https://bsky.app/profile/francoisz.bsky.social/post/3mki4zkomr52p",
+        "text": "getagentseal/codeburn: See where your AI coding tokens go. Interactive TUI dashboard for Claude Code, Codex, and Cursor cost observability. github.com/getagentseal...",
+        "author": {
+          "handle": "francoisz.bsky.social",
+          "displayName": "François Zaninotto"
+        },
+        "likeCount": 4,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-04-27T13:03:51.918Z",
+        "hoursSincePosted": 1.41
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:k2s63pxmksn23okbbmp36fjo/app.bsky.feed.post/3mki4zkomr52p",
+          "cid": "bafyreigbv2zxibnfdb2qh6srwzzytb7owkeribk4ung6khv7vklwhllhfu",
+          "bskyUrl": "https://bsky.app/profile/francoisz.bsky.social/post/3mki4zkomr52p",
+          "text": "getagentseal/codeburn: See where your AI coding tokens go. Interactive TUI dashboard for Claude Code, Codex, and Cursor cost observability. github.com/getagentseal...",
+          "author": {
+            "handle": "francoisz.bsky.social",
+            "displayName": "François Zaninotto"
+          },
+          "likeCount": 4,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-04-27T13:03:51.918Z",
+          "createdUtc": 1777295031,
+          "ageHours": 1.41,
+          "trendingScore": 4.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "getagentseal/codeburn",
               "matchType": "url",
               "confidence": 1
             }
@@ -108,12 +162,17 @@
   },
   "leaderboard": [
     {
-      "fullName": "evanklem/evanflow",
+      "fullName": "getagentseal/codeburn",
+      "count7d": 1,
+      "likesSum7d": 4
+    },
+    {
+      "fullName": "anthropics/claude-code",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "HKUDS/OpenSpace",
+      "fullName": "netbirdio/netbird",
       "count7d": 1,
       "likesSum7d": 0
     }

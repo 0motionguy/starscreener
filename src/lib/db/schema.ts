@@ -1,11 +1,18 @@
+// PLAN_ONLY (LIB-07) — descriptors only, no runtime data path.
+//
 // StarScreener DB — schema descriptors for the Postgres migration path.
 //
 // This file is **design-time documentation**. It is NOT wired to a live
 // database. Today the pipeline persists to JSONL files via
-// `src/lib/pipeline/storage/file-persistence.ts`. When we flip over to a
-// real Postgres (Supabase / Neon / Turso), these descriptors map 1:1 onto
-// Drizzle table definitions — the column names and types already match
-// what `drizzle-kit` expects from `pgTable(...)`.
+// `src/lib/pipeline/storage/file-persistence.ts` and Redis via
+// `src/lib/data-store.ts`. The descriptors below exist so a future
+// Postgres migration has a concrete schema to start from — they map
+// 1:1 onto Drizzle `pgTable(...)` calls. Operators reading these
+// declarations should NOT assume the columns exist anywhere yet.
+//
+// When we flip over to a real Postgres (Supabase / Neon / Turso),
+// these descriptors map 1:1 onto Drizzle table definitions — the
+// column names and types already match what `drizzle-kit` expects.
 //
 // See `docs/DATABASE.md` for the migration playbook.
 //

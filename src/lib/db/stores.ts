@@ -1,12 +1,16 @@
+// PLAN_ONLY (LIB-07) — this file is intent-only, not runnable.
+//
 // StarScreener DB — Postgres store scaffolds.
 //
-// These classes are **not implemented**. They exist to document the swap
-// path from in-memory JSONL to a real Postgres / Supabase backend. Every
-// method throws `NOT_IMPLEMENTED` so a test suite can assert they compile
-// against the same interfaces the memory stores satisfy, without any
-// accidental runtime call landing in production.
+// **WARNING:** every method here throws `NOT_IMPLEMENTED`. Nothing in
+// production calls these classes; they exist purely to document the
+// swap-from-JSONL-to-Postgres path so a future migration has a
+// concrete interface to fill in. Operators reading this file should
+// NOT assume the in-memory pipeline is "almost on Postgres" — the
+// actual data layer is the JSONL + Redis path under
+// src/lib/pipeline/storage/.
 //
-// When the time comes:
+// When (if) the time comes:
 //   1. `npm install drizzle-orm drizzle-kit postgres`
 //   2. Import `db` from `./client` (create a thin wrapper over `postgres`)
 //   3. Replace each `throw NOT_IMPLEMENTED` with a Drizzle query backed by

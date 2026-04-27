@@ -14,7 +14,6 @@ import {
 } from "@/lib/bluesky-trending";
 import {
   blueskyCold,
-  getBlueskyLeaderboard,
   refreshBlueskyMentionsFromStore,
   repoFullNameToHref,
 } from "@/lib/bluesky";
@@ -26,19 +25,6 @@ const BSKY_ACCENT = "rgba(58, 214, 197, 0.85)";
 export const dynamic = "force-static";
 
 const BSKY_BLUE = "#0085FF";
-
-function formatRelative(iso: string): string {
-  const t = new Date(iso).getTime();
-  if (!Number.isFinite(t)) return "unknown";
-  const diff = Date.now() - t;
-  if (diff < 60_000) return "just now";
-  const mins = Math.floor(diff / 60_000);
-  if (mins < 60) return `${mins}m ago`;
-  const hours = Math.floor(mins / 60);
-  if (hours < 24) return `${hours}h ago`;
-  const days = Math.floor(hours / 24);
-  return `${days}d ago`;
-}
 
 function formatAgeHours(ageHours: number | undefined): string {
   if (ageHours === undefined || !Number.isFinite(ageHours)) return "—";
@@ -55,7 +41,6 @@ export default async function BlueskyTrendingPage() {
   const trendingFile = getBlueskyTrendingFile();
   const posts = getBlueskyTopPosts(50);
   const allPosts = trendingFile.posts;
-  const reposLinked = getBlueskyLeaderboard().length;
   const familyCount = trendingFile.queryFamilies?.length ?? BLUESKY_TRENDING_KEYWORDS.length;
   const queryCount = trendingFile.queries?.length ?? BLUESKY_TRENDING_KEYWORDS.length;
   const cold = blueskyCold || allPosts.length === 0;
@@ -63,24 +48,34 @@ export default async function BlueskyTrendingPage() {
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
       <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        {/* Header */}
-        <header className="mb-6 border-b border-border-primary pb-6">
-          <div className="flex items-baseline gap-3 flex-wrap">
-            <h1 className="text-2xl font-bold uppercase tracking-wider">
-              BLUESKY / ALL TRENDING
-            </h1>
-            <span className="text-xs text-text-tertiary">
-              {"// AT Protocol · AI query families · engagement-ranked"}
-            </span>
+        {/* V3 page header — mono eyebrow + title + tight subtitle. */}
+        <header
+          className="mb-5 pb-4 border-b"
+          style={{ borderColor: "var(--v3-line-100)" }}
+        >
+          <div
+            className="v2-mono mb-2 text-[10px] tracking-[0.18em] uppercase"
+            style={{ color: "var(--v3-ink-400)" }}
+          >
+            {"// AT PROTOCOL · AI QUERY FAMILIES · ENGAGEMENT-RANKED"}
           </div>
-          <p className="mt-2 text-sm text-text-secondary max-w-2xl">
+          <h1
+            className="text-2xl font-bold uppercase tracking-wider"
+            style={{ color: "var(--v3-ink-000)" }}
+          >
+            BLUESKY / ALL TRENDING
+          </h1>
+          <p
+            className="mt-2 text-[13px] leading-relaxed max-w-2xl"
+            style={{ color: "var(--v3-ink-300)" }}
+          >
             Top posts from Bluesky{" "}
-            <code className="text-text-primary">searchPosts</code>, deduped
+            <code style={{ color: "var(--v3-ink-100)" }}>searchPosts</code>, deduped
             across {queryCount} curated query slices in {familyCount} AI topic
-            families ({BLUESKY_TRENDING_KEYWORDS.map((k) => `"${k}"`).join(", ")})
-            plus a parallel <code className="text-text-primary">github.com</code>{" "}
+            families plus a parallel{" "}
+            <code style={{ color: "var(--v3-ink-100)" }}>github.com</code>{" "}
             sweep that surfaces posts mentioning tracked repos. Score:{" "}
-            <code className="text-text-primary">likes + 2·reposts + 0.5·replies</code>.
+            <code style={{ color: "var(--v3-ink-100)" }}>likes + 2·reposts + 0.5·replies</code>.
           </p>
         </header>
 
@@ -209,30 +204,6 @@ export default async function BlueskyTrendingPage() {
 // ---------------------------------------------------------------------------
 // Pieces
 // ---------------------------------------------------------------------------
-
-function StatTile({
-  label,
-  value,
-  hint,
-}: {
-  label: string;
-  value: string;
-  hint?: string;
-}) {
-  return (
-    <div className="border border-border-primary rounded-md px-4 py-3 bg-bg-secondary">
-      <div className="text-[10px] uppercase tracking-wider text-text-tertiary">
-        {label}
-      </div>
-      <div className="mt-1 text-xl font-bold truncate">{value}</div>
-      {hint ? (
-        <div className="mt-0.5 text-[11px] text-text-tertiary truncate">
-          {hint}
-        </div>
-      ) : null}
-    </div>
-  );
-}
 
 function ColdState() {
   return (

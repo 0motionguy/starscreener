@@ -55,7 +55,7 @@ export function TerminalSkeleton({
             }
             className="px-2"
           >
-            <div className="h-3 w-12 skeleton-shimmer rounded" />
+            <div className="h-3 w-12 skeleton-shimmer rounded-[1px]" />
           </div>
         ))}
         <div style={{ width: 80 }} />
@@ -87,7 +87,7 @@ export function TerminalSkeleton({
               >
                 <div
                   className={cn(
-                    "h-3 skeleton-shimmer rounded",
+                    "h-3 skeleton-shimmer rounded-[1px]",
                     col.id === "repo" ? "w-40" : "w-10",
                     col.align === "right" && "ml-auto",
                     col.align === "center" && "mx-auto",

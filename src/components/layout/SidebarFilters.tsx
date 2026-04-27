@@ -217,7 +217,7 @@ export function SidebarFiltersHeader() {
 
   return (
     <span className="flex items-center gap-1.5">
-      <span className="font-mono text-[10px] px-1.5 py-0.5 rounded-full bg-functional-glow text-functional tabular-nums">
+      <span className="font-mono text-[10px] px-1.5 py-0.5 rounded-[2px] bg-functional-glow text-functional tabular-nums tracking-[0.14em]">
         {activeCount}
       </span>
       <button

@@ -19,17 +19,67 @@ import { cn } from "@/lib/utils";
 
 type HealthStatus = "ok" | "stale" | "error";
 
+interface AgeSeconds {
+  scraper: number | null;
+  deltas: number | null;
+  reddit: number | null;
+  bluesky: number | null;
+  hn: number | null;
+  producthunt: number | null;
+  devto: number | null;
+  lobsters: number | null;
+}
+
 interface HealthSnapshot {
   status: HealthStatus;
-  ageSeconds: {
-    scraper: number | null;
-    deltas: number | null;
-    reddit: number | null;
-    bluesky: number | null;
-    hn: number | null;
-    producthunt: number | null;
-    devto: number | null;
-    lobsters: number | null;
+  /**
+   * Per-source ages. APP-12 strips this object from `/api/health?soft=1`
+   * for unauthorized callers, so it can be missing entirely — every
+   * read goes through `readAge()` which returns null when absent.
+   */
+  ageSeconds?: AgeSeconds;
+}
+
+const EMPTY_AGES: AgeSeconds = {
+  scraper: null,
+  deltas: null,
+  reddit: null,
+  bluesky: null,
+  hn: null,
+  producthunt: null,
+  devto: null,
+  lobsters: null,
+};
+
+function readAge(snap: HealthSnapshot, key: keyof AgeSeconds): number | null {
+  return snap.ageSeconds?.[key] ?? null;
+}
+
+function isHealthStatus(value: unknown): value is HealthStatus {
+  return value === "ok" || value === "stale" || value === "error";
+}
+
+/** Coerce any health-shaped JSON into a safe HealthSnapshot. */
+function normalizeHealth(raw: unknown): HealthSnapshot {
+  const obj = (raw && typeof raw === "object" ? raw : {}) as Record<string, unknown>;
+  const status = isHealthStatus(obj.status) ? obj.status : "error";
+  const ages = obj.ageSeconds && typeof obj.ageSeconds === "object"
+    ? (obj.ageSeconds as Partial<AgeSeconds>)
+    : null;
+  return {
+    status,
+    ageSeconds: ages
+      ? {
+          scraper: typeof ages.scraper === "number" ? ages.scraper : null,
+          deltas: typeof ages.deltas === "number" ? ages.deltas : null,
+          reddit: typeof ages.reddit === "number" ? ages.reddit : null,
+          bluesky: typeof ages.bluesky === "number" ? ages.bluesky : null,
+          hn: typeof ages.hn === "number" ? ages.hn : null,
+          producthunt: typeof ages.producthunt === "number" ? ages.producthunt : null,
+          devto: typeof ages.devto === "number" ? ages.devto : null,
+          lobsters: typeof ages.lobsters === "number" ? ages.lobsters : null,
+        }
+      : undefined,
   };
 }
 
@@ -61,23 +111,11 @@ export function FreshBadge() {
       try {
         const res = await fetch("/api/health?soft=1", { cache: "no-store" });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const json = (await res.json()) as HealthSnapshot;
-        if (!cancelled) setSnap(json);
+        const json = await res.json();
+        if (!cancelled) setSnap(normalizeHealth(json));
       } catch {
         if (!cancelled) {
-          setSnap({
-            status: "error",
-            ageSeconds: {
-              scraper: null,
-              deltas: null,
-              reddit: null,
-              bluesky: null,
-              hn: null,
-              producthunt: null,
-              devto: null,
-              lobsters: null,
-            },
-          });
+          setSnap({ status: "error", ageSeconds: EMPTY_AGES });
         }
       }
     };
@@ -102,7 +140,7 @@ export function FreshBadge() {
   }
 
   const status = snap.status;
-  const scraperSec = snap.ageSeconds.scraper;
+  const scraperSec = readAge(snap, "scraper");
 
   const { label, dotClass, textClass } = (() => {
     if (status === "error") {
@@ -126,14 +164,17 @@ export function FreshBadge() {
     };
   })();
 
+  // Tooltip — every age read goes through `readAge()` so the
+  // unauthorized `/api/health?soft=1` shape (which has no
+  // `ageSeconds`) renders "—" instead of crashing the React tree.
   const tooltip = [
-    ["GitHub", snap.ageSeconds.scraper],
-    ["Reddit", snap.ageSeconds.reddit],
-    ["HN", snap.ageSeconds.hn],
-    ["Bluesky", snap.ageSeconds.bluesky],
-    ["ProductHunt", snap.ageSeconds.producthunt],
-    ["dev.to", snap.ageSeconds.devto],
-    ["Lobsters", snap.ageSeconds.lobsters],
+    ["GitHub", readAge(snap, "scraper")],
+    ["Reddit", readAge(snap, "reddit")],
+    ["HN", readAge(snap, "hn")],
+    ["Bluesky", readAge(snap, "bluesky")],
+    ["ProductHunt", readAge(snap, "producthunt")],
+    ["dev.to", readAge(snap, "devto")],
+    ["Lobsters", readAge(snap, "lobsters")],
   ]
     .map(([k, s]) => `${k}: ${formatAge(s as number | null)}`)
     .join("\n");

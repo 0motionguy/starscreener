@@ -12,7 +12,6 @@ import {
   refreshHackernewsTrendingFromStore,
 } from "@/lib/hackernews-trending";
 import {
-  getHnLeaderboard,
   hnItemHref,
   refreshHackernewsMentionsFromStore,
   repoFullNameToHref,
@@ -25,19 +24,6 @@ const HN_ACCENT = "rgba(245, 110, 15, 0.85)";
 export const dynamic = "force-static";
 
 const HN_ORANGE = "#ff6600";
-
-function formatRelative(iso: string): string {
-  const t = new Date(iso).getTime();
-  if (!Number.isFinite(t)) return "unknown";
-  const diff = Date.now() - t;
-  if (diff < 60_000) return "just now";
-  const mins = Math.floor(diff / 60_000);
-  if (mins < 60) return `${mins}m ago`;
-  const hours = Math.floor(mins / 60);
-  if (hours < 24) return `${hours}h ago`;
-  const days = Math.floor(hours / 24);
-  return `${days}d ago`;
-}
 
 function formatAgeHours(ageHours: number | undefined): string {
   if (ageHours === undefined || !Number.isFinite(ageHours)) return "—";
@@ -54,28 +40,36 @@ export default async function HackerNewsTrendingPage() {
   const trendingFile = getHnTrendingFile();
   const stories = getHnTopStories(50);
   const allStories = trendingFile.stories;
-  const frontPageCount = allStories.filter((s) => s.everHitFrontPage).length;
-  const reposLinked = getHnLeaderboard().length;
   const cold = allStories.length === 0;
 
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
       <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        {/* Header */}
-        <header className="mb-6 border-b border-border-primary pb-6">
-          <div className="flex items-baseline gap-3 flex-wrap">
-            <h1 className="text-2xl font-bold uppercase tracking-wider">
-              HACKERNEWS / ALL TRENDING
-            </h1>
-            <span className="text-xs text-text-tertiary">
-              {"// firebase top 500 + algolia 7d github mentions"}
-            </span>
+        {/* V3 page header — mono eyebrow + title + tight subtitle. */}
+        <header
+          className="mb-5 pb-4 border-b"
+          style={{ borderColor: "var(--v3-line-100)" }}
+        >
+          <div
+            className="v2-mono mb-2 text-[10px] tracking-[0.18em] uppercase"
+            style={{ color: "var(--v3-ink-400)" }}
+          >
+            {"// FIREBASE TOP 500 · ALGOLIA 7D · GITHUB MENTIONS"}
           </div>
-          <p className="mt-2 text-sm text-text-secondary max-w-2xl">
+          <h1
+            className="text-2xl font-bold uppercase tracking-wider"
+            style={{ color: "var(--v3-ink-000)" }}
+          >
+            HACKERNEWS / ALL TRENDING
+          </h1>
+          <p
+            className="mt-2 text-[13px] leading-relaxed max-w-2xl"
+            style={{ color: "var(--v3-ink-300)" }}
+          >
             Every Hacker News story from the dual-source scrape: Firebase top
             500 (front page + new) merged with Algolia&apos;s 7d sweep for
             github-linked submissions. Stories are ranked by{" "}
-            <code className="text-text-primary">trendingScore</code> —
+            <code style={{ color: "var(--v3-ink-100)" }}>trendingScore</code> —
             velocity (points/hour) weighted by log10(score) so a 200-pt rocket
             outranks a 1500-pt 3-day-old whale.
           </p>
@@ -184,30 +178,6 @@ export default async function HackerNewsTrendingPage() {
 // ---------------------------------------------------------------------------
 // Pieces
 // ---------------------------------------------------------------------------
-
-function StatTile({
-  label,
-  value,
-  hint,
-}: {
-  label: string;
-  value: string;
-  hint?: string;
-}) {
-  return (
-    <div className="border border-border-primary rounded-md px-4 py-3 bg-bg-secondary">
-      <div className="text-[10px] uppercase tracking-wider text-text-tertiary">
-        {label}
-      </div>
-      <div className="mt-1 text-xl font-bold truncate">{value}</div>
-      {hint ? (
-        <div className="mt-0.5 text-[11px] text-text-tertiary truncate">
-          {hint}
-        </div>
-      ) : null}
-    </div>
-  );
-}
 
 function ColdState() {
   return (

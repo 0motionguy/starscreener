@@ -14,8 +14,6 @@
 import Link from "next/link";
 import {
   devtoArticleHref,
-  devtoBodyFetchMode,
-  devtoFetchedAt,
   getDevtoLeaderboard,
   refreshDevtoMentionsFromStore,
 } from "@/lib/devto";
@@ -35,20 +33,6 @@ export const dynamic = "force-static";
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
-
-function formatRelative(iso: string | null | undefined): string {
-  if (!iso) return "never";
-  const t = new Date(iso).getTime();
-  if (!Number.isFinite(t)) return "unknown";
-  const diff = Date.now() - t;
-  if (diff < 60_000) return "just now";
-  const mins = Math.floor(diff / 60_000);
-  if (mins < 60) return `${mins}m ago`;
-  const hours = Math.floor(mins / 60);
-  if (hours < 24) return `${hours}h ago`;
-  const days = Math.floor(hours / 24);
-  return `${days}d ago`;
-}
 
 function formatAgeFromIso(iso: string): string {
   const t = new Date(iso).getTime();
@@ -75,31 +59,38 @@ export default async function DevtoPage() {
 
   const totalArticles = trendingFile.articles.length;
   const reposLinked = leaderboard.length;
-  const sliceCount = trendingFile.discoverySlices?.length ?? 0;
-  const tagCount = trendingFile.priorityTags?.length ?? 0;
   const cold = totalArticles === 0 && reposLinked === 0;
 
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
       <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        {/* Header */}
-        <header className="mb-6 border-b border-border-primary pb-6">
-          <div className="flex items-baseline gap-3 flex-wrap">
-            <h1 className="text-2xl font-bold uppercase tracking-wider">
-              DEV.TO / ARTICLES
-            </h1>
-            <span className="text-xs text-text-tertiary">
-              {"// long-form developer writing + tutorials"}
-            </span>
+        {/* V3 page header — mono eyebrow + title + tight subtitle. */}
+        <header
+          className="mb-5 pb-4 border-b"
+          style={{ borderColor: "var(--v3-line-100)" }}
+        >
+          <div
+            className="v2-mono mb-2 text-[10px] tracking-[0.18em] uppercase"
+            style={{ color: "var(--v3-ink-400)" }}
+          >
+            {"// LONG-FORM DEVELOPER WRITING + TUTORIALS"}
           </div>
-          <p className="mt-2 text-sm text-text-secondary max-w-3xl">
+          <h1
+            className="text-2xl font-bold uppercase tracking-wider"
+            style={{ color: "var(--v3-ink-000)" }}
+          >
+            DEV.TO / ARTICLES
+          </h1>
+          <p
+            className="mt-2 text-[13px] leading-relaxed max-w-3xl"
+            style={{ color: "var(--v3-ink-300)" }}
+          >
             Top dev.to articles scraped via the public dev.to API and ranked by
             a velocity score that blends reactions, comments, and post age.
-            Discovery now combines global popularity slices plus curated AI/dev
-            tag slices ({tagCount} tags, {sliceCount} total slices). Article
-            bodies are scanned for GitHub links so each piece is cross-referenced
-            back to the tracked repo set — useful for spotting which projects
-            are getting written-up in tutorial form, not just starred.
+            Article bodies are scanned for GitHub links so each piece is
+            cross-referenced back to the tracked repo set — useful for spotting
+            which projects are getting written-up in tutorial form, not just
+            starred.
           </p>
         </header>
 
@@ -297,30 +288,6 @@ function Leaderboard({
 // ---------------------------------------------------------------------------
 // Pieces
 // ---------------------------------------------------------------------------
-
-function StatTile({
-  label,
-  value,
-  hint,
-}: {
-  label: string;
-  value: string;
-  hint?: string;
-}) {
-  return (
-    <div className="border border-border-primary rounded-md px-4 py-3 bg-bg-secondary">
-      <div className="text-[10px] uppercase tracking-wider text-text-tertiary">
-        {label}
-      </div>
-      <div className="mt-1 text-xl font-bold truncate">{value}</div>
-      {hint ? (
-        <div className="mt-0.5 text-[11px] text-text-tertiary truncate">
-          {hint}
-        </div>
-      ) : null}
-    </div>
-  );
-}
 
 function ColdState() {
   return (

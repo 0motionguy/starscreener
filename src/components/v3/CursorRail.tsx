@@ -51,10 +51,10 @@ export function CursorRail({
           transform: `translate3d(0, ${state.y - 18}px, 0)`,
           background: state.moving
             ? "var(--v3-acc-soft)"
-            : "rgba(255, 255, 255, 0.045)",
+            : "var(--v3-line-soft)",
           borderColor: state.moving
             ? "var(--v3-acc)"
-            : "rgba(255, 255, 255, 0.10)",
+            : "var(--v3-line-std)",
           boxShadow: state.moving ? "0 0 18px var(--v3-acc-glow)" : "none",
         }}
       />

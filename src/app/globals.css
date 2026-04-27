@@ -286,7 +286,14 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Background themes — 3 shades: black (default), graphite, charcoal
+   Background themes — 5 swatches:
+     black     (default) — Void dark, current trendingrepo.com look
+     graphite  — Cool blue-leaning dark (existing)
+     slate     — Warm-gray "in between" dark, lighter than graphite
+     creme     — PostHog-style warm off-white, yellow undertone
+     linen     — Softer beige off-white, neutral warm
+   The first three keep all V3 ink tokens dark-mode; the last two flip
+   the ink ramp so text remains legible on the warm backgrounds.
    --------------------------------------------------------------------------- */
 
 html[data-bg-theme="graphite"] {
@@ -355,6 +362,288 @@ html[data-bg-theme="charcoal"] {
   --v2-line-200: #363644;
   --v2-line-300: #464654;
   --v2-line-400: #585866;
+}
+
+/* "Slate" — warm-gray dark, the "in between" stop. Lighter than
+   graphite, with a neutral (not blue-leaning) palette so the chrome
+   feels less terminal-cold and more dashboard-warm. */
+html[data-bg-theme="slate"] {
+  --color-bg-primary: #1a1a1f;
+  --color-bg-secondary: #232328;
+  --color-bg-tertiary: #2c2c33;
+  --color-bg-card: #1f1f25;
+  --color-bg-card-hover: #2c2c33;
+  --color-bg-row-hover: #232328;
+  --color-bg-elevated: #36363f;
+  --color-bg-inset: #1a1a1f;
+  --color-bg-overlay: rgba(26, 26, 31, 0.82);
+  --color-border-primary: #3a3a44;
+  --color-border-secondary: #2c2c33;
+  --color-text-inverse: #1a1a1f;
+  --v3-bg-000: #1a1a1f;
+  --v3-bg-025: #1f1f25;
+  --v3-bg-050: #23232a;
+  --v3-bg-100: #2a2a32;
+  --v3-bg-200: #34343d;
+  --v3-bg-300: #40404a;
+  --v3-line-100: #2c2c34;
+  --v3-line-200: #3a3a44;
+  --v3-line-300: #4a4a55;
+  --v3-line-400: #5c5c68;
+  --v2-bg-000: #1a1a1f;
+  --v2-bg-050: #23232a;
+  --v2-bg-100: #2a2a32;
+  --v2-bg-200: #34343d;
+  --v2-bg-300: #40404a;
+  --v2-line-100: #2c2c34;
+  --v2-line-200: #3a3a44;
+  --v2-line-300: #4a4a55;
+  --v2-line-400: #5c5c68;
+}
+
+/* "Creme" — PostHog-flavoured warm off-white. Yellow undertone keeps
+   the Liquid Lava brand feeling like brand, not alert. Inverts the
+   ink ramp so headlines stay legible on the bright surface. Hairlines
+   shift to warm tans. */
+html[data-bg-theme="creme"] {
+  color-scheme: light;
+  --color-bg-primary: #f7f1de;
+  --color-bg-secondary: #efe9d2;
+  --color-bg-tertiary: #e6dfc4;
+  --color-bg-card: #fffaea;
+  --color-bg-card-hover: #f1ebd5;
+  --color-bg-row-hover: #efe9d2;
+  --color-bg-elevated: #fffaea;
+  --color-bg-inset: #ede6c9;
+  --color-bg-overlay: rgba(38, 33, 18, 0.55);
+  --color-border-primary: #d8cfac;
+  --color-border-secondary: #e4dcbc;
+  --color-border-strong: #b9ad84;
+  --color-border-focus: #c45a00;
+  --color-text-primary: #1a160a;
+  --color-text-secondary: #3f3823;
+  --color-text-tertiary: #6c6243;
+  --color-text-muted: #968a64;
+  --color-text-inverse: #fffaea;
+  --color-brand: #d35400;
+  --color-brand-hover: #ec6406;
+  --color-brand-active: #a44400;
+  --color-brand-glow: rgba(211, 84, 0, 0.14);
+  --color-brand-glow-strong: rgba(211, 84, 0, 0.28);
+  --color-brand-subtle: rgba(211, 84, 0, 0.08);
+  --color-functional: #2f8c4d;
+  --color-functional-hover: #38a85c;
+  --color-up: #2f8c4d;
+  --color-up-bg: rgba(47, 140, 77, 0.14);
+  --color-down: #c0392b;
+  --color-down-bg: rgba(192, 57, 43, 0.14);
+  --color-warning: #b07103;
+  --color-warning-bg: rgba(176, 113, 3, 0.14);
+  --color-info: #1d6cb1;
+  --color-info-bg: rgba(29, 108, 177, 0.14);
+  --v3-bg-000: #f7f1de;
+  --v3-bg-025: #efe9d2;
+  --v3-bg-050: #e7e1c7;
+  --v3-bg-100: #ddd6b8;
+  --v3-bg-200: #cfc69d;
+  --v3-bg-300: #b9ad84;
+  --v3-line-soft: rgba(26, 22, 10, 0.06);
+  --v3-line-std: rgba(26, 22, 10, 0.10);
+  --v3-line-100: #e0d7b3;
+  --v3-line-200: #d0c699;
+  --v3-line-300: #b9ad84;
+  --v3-line-400: #9a8e6a;
+  --v3-ink-000: #0e0c05;
+  --v3-ink-100: #1a160a;
+  --v3-ink-200: #3f3823;
+  --v3-ink-300: #6c6243;
+  --v3-ink-400: #968a64;
+  --v3-ink-500: #b9ad84;
+  --v2-bg-000: #f7f1de;
+  --v2-bg-050: #e7e1c7;
+  --v2-bg-100: #ddd6b8;
+  --v2-bg-200: #cfc69d;
+  --v2-bg-300: #b9ad84;
+  --v2-line-soft: rgba(26, 22, 10, 0.06);
+  --v2-line-std: rgba(26, 22, 10, 0.10);
+  --v2-line-100: #e0d7b3;
+  --v2-line-200: #d0c699;
+  --v2-line-300: #b9ad84;
+  --v2-line-400: #9a8e6a;
+  --v2-ink-000: #0e0c05;
+  --v2-ink-100: #1a160a;
+  --v2-ink-200: #3f3823;
+  --v2-ink-300: #6c6243;
+  --v2-ink-400: #968a64;
+  --v2-ink-500: #b9ad84;
+}
+
+/* "Linen" — softer light beige, more neutral than creme. Same flipped
+   ink ramp; slightly cooler tans on the hairlines so the surface
+   reads as paper rather than parchment. */
+html[data-bg-theme="linen"] {
+  color-scheme: light;
+  --color-bg-primary: #f4eee2;
+  --color-bg-secondary: #ebe5d6;
+  --color-bg-tertiary: #e1dac8;
+  --color-bg-card: #fbf6ea;
+  --color-bg-card-hover: #ede7d8;
+  --color-bg-row-hover: #ebe5d6;
+  --color-bg-elevated: #fbf6ea;
+  --color-bg-inset: #e8e1cf;
+  --color-bg-overlay: rgba(40, 35, 25, 0.55);
+  --color-border-primary: #d4cab2;
+  --color-border-secondary: #ddd3bc;
+  --color-border-strong: #b1a484;
+  --color-border-focus: #b94a00;
+  --color-text-primary: #18140b;
+  --color-text-secondary: #3a3322;
+  --color-text-tertiary: #635a40;
+  --color-text-muted: #8e8260;
+  --color-text-inverse: #fbf6ea;
+  --color-brand: #c84e00;
+  --color-brand-hover: #e25d05;
+  --color-brand-active: #993b00;
+  --color-brand-glow: rgba(200, 78, 0, 0.14);
+  --color-brand-glow-strong: rgba(200, 78, 0, 0.26);
+  --color-brand-subtle: rgba(200, 78, 0, 0.08);
+  --color-functional: #2c8049;
+  --color-functional-hover: #379c58;
+  --color-up: #2c8049;
+  --color-up-bg: rgba(44, 128, 73, 0.14);
+  --color-down: #b8392a;
+  --color-down-bg: rgba(184, 57, 42, 0.14);
+  --color-warning: #a16704;
+  --color-warning-bg: rgba(161, 103, 4, 0.14);
+  --color-info: #1c609f;
+  --color-info-bg: rgba(28, 96, 159, 0.14);
+  --v3-bg-000: #f4eee2;
+  --v3-bg-025: #ebe5d6;
+  --v3-bg-050: #e3dccb;
+  --v3-bg-100: #d9d2bd;
+  --v3-bg-200: #cac0a4;
+  --v3-bg-300: #b1a484;
+  --v3-line-soft: rgba(24, 20, 11, 0.06);
+  --v3-line-std: rgba(24, 20, 11, 0.10);
+  --v3-line-100: #dcd2b6;
+  --v3-line-200: #ccc09c;
+  --v3-line-300: #b1a484;
+  --v3-line-400: #91846a;
+  --v3-ink-000: #0c0a04;
+  --v3-ink-100: #18140b;
+  --v3-ink-200: #3a3322;
+  --v3-ink-300: #635a40;
+  --v3-ink-400: #8e8260;
+  --v3-ink-500: #b1a484;
+  --v2-bg-000: #f4eee2;
+  --v2-bg-050: #e3dccb;
+  --v2-bg-100: #d9d2bd;
+  --v2-bg-200: #cac0a4;
+  --v2-bg-300: #b1a484;
+  --v2-line-soft: rgba(24, 20, 11, 0.06);
+  --v2-line-std: rgba(24, 20, 11, 0.10);
+  --v2-line-100: #dcd2b6;
+  --v2-line-200: #ccc09c;
+  --v2-line-300: #b1a484;
+  --v2-line-400: #91846a;
+  --v2-ink-000: #0c0a04;
+  --v2-ink-100: #18140b;
+  --v2-ink-200: #3a3322;
+  --v2-ink-300: #635a40;
+  --v2-ink-400: #8e8260;
+  --v2-ink-500: #b1a484;
+}
+
+/* Creme uniform-surface overrides — collapse the 6-step bg ramp so the
+   sidebar, header, panels and main canvas share one warm yellow-cream
+   tone. Same flatten pattern as linen, but with the creme palette. */
+html[data-bg-theme="creme"] {
+  --v3-bg-000: #f7f1de;
+  --v3-bg-025: #f7f1de;
+  --v3-bg-050: #f7f1de;
+  --v3-bg-100: #efe9d2; /* row hover only */
+  --v3-bg-200: #efe9d2;
+  --v3-bg-300: #efe9d2;
+  --v2-bg-000: #f7f1de;
+  --v2-bg-050: #f7f1de;
+  --v2-bg-100: #efe9d2;
+  --v2-bg-200: #efe9d2;
+  --v2-bg-300: #efe9d2;
+  --color-bg-primary: #f7f1de;
+  --color-bg-secondary: #f7f1de;
+  --color-bg-tertiary: #efe9d2;
+  --color-bg-card: #f7f1de;
+  --color-bg-card-hover: #efe9d2;
+  --color-bg-row-hover: #efe9d2;
+  --color-bg-elevated: #f7f1de;
+  --color-bg-inset: #f7f1de;
+}
+
+html[data-bg-theme="creme"] .v3-chrome,
+html[data-bg-theme="creme"] .v3-panel {
+  background: var(--v3-bg-000);
+  box-shadow: none;
+}
+
+html[data-bg-theme="creme"] .v3-panel {
+  border: 1px solid var(--v3-line-200);
+}
+
+/* Replace the dark dot/line grid + radial glows for creme with a barely
+   visible warm hairline grid sampled from the creme ink ramp. */
+html[data-bg-theme="creme"] body::before {
+  background-image:
+    linear-gradient(rgba(108, 98, 67, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(108, 98, 67, 0.045) 1px, transparent 1px);
+  background-size: 40px 40px, 40px 40px;
+  background-position: 0 0, 0 0;
+}
+
+/* Linen uniform-surface overrides — collapse the 6-step bg ramp so the
+   sidebar, header, panels and main canvas share one cream tone. Internal
+   structure comes from hairlines + typography, not luminance differential. */
+html[data-bg-theme="linen"] {
+  --v3-bg-000: #f4eee2;
+  --v3-bg-025: #f4eee2;
+  --v3-bg-050: #f4eee2;
+  --v3-bg-100: #ede6d4; /* row hover only */
+  --v3-bg-200: #ede6d4;
+  --v3-bg-300: #ede6d4;
+  --v2-bg-000: #f4eee2;
+  --v2-bg-050: #f4eee2;
+  --v2-bg-100: #ede6d4;
+  --v2-bg-200: #ede6d4;
+  --v2-bg-300: #ede6d4;
+  --color-bg-primary: #f4eee2;
+  --color-bg-secondary: #f4eee2;
+  --color-bg-tertiary: #ede6d4;
+  --color-bg-card: #f4eee2;
+  --color-bg-card-hover: #ede6d4;
+  --color-bg-row-hover: #ede6d4;
+  --color-bg-elevated: #f4eee2;
+  --color-bg-inset: #f4eee2;
+}
+
+/* Flatten chrome + panels for linen — no gradient, just the page tone +
+   a single hairline border so the page reads as one paper surface. */
+html[data-bg-theme="linen"] .v3-chrome,
+html[data-bg-theme="linen"] .v3-panel {
+  background: var(--v3-bg-000);
+  box-shadow: none;
+}
+
+html[data-bg-theme="linen"] .v3-panel {
+  border: 1px solid var(--v3-line-200);
+}
+
+/* Replace the dark dot/line grid + radial glows for linen with a barely
+   visible warm hairline grid sampled from the linen ink ramp. */
+html[data-bg-theme="linen"] body::before {
+  background-image:
+    linear-gradient(rgba(91, 84, 68, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(91, 84, 68, 0.045) 1px, transparent 1px);
+  background-size: 40px 40px, 40px 40px;
+  background-position: 0 0, 0 0;
 }
 
 /* ---------------------------------------------------------------------------
@@ -1066,15 +1355,13 @@ body::before {
 }
 
 .v3-chrome {
-  background:
-    linear-gradient(180deg, rgba(21, 26, 32, 0.96), rgba(13, 16, 19, 0.94));
+  background: linear-gradient(180deg, var(--v3-bg-050), var(--v3-bg-025));
   border-color: var(--v3-line-200);
   box-shadow: inset 0 -1px 0 var(--v3-line-soft);
 }
 
 .v3-panel {
-  background:
-    linear-gradient(180deg, rgba(16, 20, 24, 0.96), rgba(11, 13, 15, 0.96));
+  background: linear-gradient(180deg, var(--v3-bg-050), var(--v3-bg-000));
   border: 1px solid var(--v3-line-200);
   border-radius: 2px;
 }

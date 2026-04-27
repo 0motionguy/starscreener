@@ -134,18 +134,29 @@ export function CompareChart({ repos }: CompareChartProps) {
           <LineChart data={data} margin={{ top: 8, right: 12, bottom: 4, left: 4 }}>
             <CartesianGrid
               strokeDasharray="3 3"
-              stroke="var(--color-border-primary)"
-              opacity={0.5}
+              stroke="var(--v3-line-200)"
+              opacity={0.35}
+              vertical={false}
             />
             <XAxis
               dataKey="day"
-              tick={{ fontSize: 11, fill: "var(--color-text-tertiary)" }}
+              tick={{
+                fontSize: 10,
+                fill: "var(--v3-ink-400)",
+                fontFamily: "var(--font-geist-mono), monospace",
+                letterSpacing: "0.12em",
+              }}
               tickLine={false}
-              axisLine={{ stroke: "var(--color-border-primary)" }}
+              axisLine={{ stroke: "var(--v3-line-200)" }}
               interval={4}
             />
             <YAxis
-              tick={{ fontSize: 11, fill: "var(--color-text-tertiary)" }}
+              tick={{
+                fontSize: 10,
+                fill: "var(--v3-ink-400)",
+                fontFamily: "var(--font-geist-mono), monospace",
+                letterSpacing: "0.12em",
+              }}
               tickLine={false}
               axisLine={false}
               tickFormatter={(v: number) => formatNumber(v)}
@@ -185,18 +196,27 @@ export function CompareChart({ repos }: CompareChartProps) {
           <LineChart data={data} margin={{ top: 8, right: 8, bottom: 4, left: 0 }}>
             <CartesianGrid
               strokeDasharray="3 3"
-              stroke="var(--color-border-primary)"
-              opacity={0.5}
+              stroke="var(--v3-line-200)"
+              opacity={0.35}
+              vertical={false}
             />
             <XAxis
               dataKey="day"
-              tick={{ fontSize: 9, fill: "var(--color-text-tertiary)" }}
+              tick={{
+                fontSize: 9,
+                fill: "var(--v3-ink-400)",
+                fontFamily: "var(--font-geist-mono), monospace",
+              }}
               tickLine={false}
-              axisLine={{ stroke: "var(--color-border-primary)" }}
+              axisLine={{ stroke: "var(--v3-line-200)" }}
               interval={9}
             />
             <YAxis
-              tick={{ fontSize: 9, fill: "var(--color-text-tertiary)" }}
+              tick={{
+                fontSize: 9,
+                fill: "var(--v3-ink-400)",
+                fontFamily: "var(--font-geist-mono), monospace",
+              }}
               tickLine={false}
               axisLine={false}
               tickFormatter={(v: number) => formatNumber(v)}
@@ -260,8 +280,15 @@ function CompareChartPlaceholder() {
           opacity={0.5}
         />
       </svg>
-      <p className="relative text-xs font-mono text-text-tertiary bg-bg-card px-2 py-1 rounded-badge">
-        Collecting history — check back after more daily snapshots
+      <p
+        className="relative text-[11px] font-mono uppercase tracking-[0.14em] px-2.5 py-1 rounded-[2px]"
+        style={{
+          background: "var(--v3-bg-050)",
+          border: "1px solid var(--v3-line-200)",
+          color: "var(--v3-ink-300)",
+        }}
+      >
+        {"// COLLECTING HISTORY · CHECK BACK AFTER MORE DAILY SNAPSHOTS"}
       </p>
     </div>
   );

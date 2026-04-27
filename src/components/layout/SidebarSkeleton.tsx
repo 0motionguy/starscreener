@@ -8,7 +8,7 @@
 function SectionHeader() {
   return (
     <div className="px-3 pt-4 pb-2">
-      <div className="h-2.5 w-16 skeleton-shimmer rounded-full" />
+      <div className="h-2.5 w-16 skeleton-shimmer rounded-[1px]" />
     </div>
   );
 }
@@ -16,9 +16,9 @@ function SectionHeader() {
 function Row() {
   return (
     <div className="h-9 flex items-center gap-2.5 pl-3 pr-2">
-      <div className="w-4 h-4 skeleton-shimmer rounded-sm" />
-      <div className="h-2.5 flex-1 max-w-[140px] skeleton-shimmer rounded-full" />
-      <div className="w-6 h-3 skeleton-shimmer rounded-full" />
+      <div className="w-4 h-4 skeleton-shimmer rounded-[1px]" />
+      <div className="h-2.5 flex-1 max-w-[140px] skeleton-shimmer rounded-[1px]" />
+      <div className="w-6 h-3 skeleton-shimmer rounded-[1px]" />
     </div>
   );
 }

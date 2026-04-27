@@ -509,18 +509,31 @@ export function RepoDetailChart({
               : "No cross-channel mentions in this window"}
           </p>
         </div>
-        <div className="flex gap-1 bg-bg-secondary rounded-badge p-0.5">
+        <div
+          className="flex gap-px rounded-[2px] p-px"
+          style={{
+            background: "var(--v3-bg-100)",
+            border: "1px solid var(--v3-line-200)",
+          }}
+        >
           {TIME_TABS.map((tab) => (
             <button
               key={tab.value}
               type="button"
               onClick={() => setTimeRange(tab.value)}
               className={cn(
-                "px-3 py-1 text-xs font-medium rounded-badge transition-all",
-                timeRange === tab.value
-                  ? "bg-bg-card text-text-primary shadow-card"
-                  : "text-text-tertiary hover:text-text-secondary",
+                "px-2.5 py-1 text-[11px] font-mono font-medium uppercase tracking-[0.16em] rounded-[1px] transition-colors",
               )}
+              style={
+                timeRange === tab.value
+                  ? {
+                      background: "var(--v3-acc-soft)",
+                      color: "var(--v3-acc)",
+                    }
+                  : {
+                      color: "var(--v3-ink-300)",
+                    }
+              }
             >
               {tab.label}
             </button>
@@ -560,8 +573,8 @@ export function RepoDetailChart({
                   </linearGradient>
                 </defs>
                 <CartesianGrid
-                  stroke="var(--color-border-primary)"
-                  strokeOpacity={0.4}
+                  stroke="var(--v3-line-200)"
+                  strokeOpacity={0.35}
                   vertical={false}
                 />
                 <XAxis
@@ -571,9 +584,10 @@ export function RepoDetailChart({
                   axisLine={false}
                   tickLine={false}
                   tick={{
-                    fill: "var(--color-text-tertiary)",
-                    fontSize: 11,
-                    fontFamily: "var(--font-mono)",
+                    fill: "var(--v3-ink-400)",
+                    fontSize: 10,
+                    fontFamily: "var(--font-geist-mono), monospace",
+                    letterSpacing: "0.12em",
                   }}
                   interval="preserveStartEnd"
                   minTickGap={24}
@@ -597,9 +611,10 @@ export function RepoDetailChart({
                   tickLine={false}
                   tickCount={5}
                   tick={{
-                    fill: "var(--color-text-tertiary)",
-                    fontSize: 11,
-                    fontFamily: "var(--font-mono)",
+                    fill: "var(--v3-ink-400)",
+                    fontSize: 10,
+                    fontFamily: "var(--font-geist-mono), monospace",
+                    letterSpacing: "0.12em",
                   }}
                   tickFormatter={(value: number) => formatNumber(value)}
                   width={54}
@@ -613,9 +628,10 @@ export function RepoDetailChart({
                   axisLine={false}
                   tickLine={false}
                   tick={{
-                    fill: "var(--color-text-tertiary)",
-                    fontSize: 11,
-                    fontFamily: "var(--font-mono)",
+                    fill: "var(--v3-ink-400)",
+                    fontSize: 10,
+                    fontFamily: "var(--font-geist-mono), monospace",
+                    letterSpacing: "0.12em",
                   }}
                   tickFormatter={(value: number) =>
                     value === 0 ? "" : String(value)
@@ -633,8 +649,9 @@ export function RepoDetailChart({
                   // renderTooltipContent above. Tracked under audit UI-16.
                   content={renderTooltipContent as never}
                   cursor={{
-                    stroke: "var(--color-border-primary)",
+                    stroke: "var(--v3-line-300)",
                     strokeDasharray: "4 4",
+                    strokeOpacity: 0.6,
                   }}
                 />
 

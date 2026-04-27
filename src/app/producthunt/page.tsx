@@ -16,9 +16,7 @@ import { LaunchLinkIcons } from "@/components/producthunt/LaunchLinkIcons";
 import {
   getAiLaunches,
   getRecentLaunches,
-  getPhFile,
   producthuntCold,
-  producthuntFetchedAt,
   refreshProducthuntLaunchesFromStore,
   type Launch,
   type ProductHuntFile,
@@ -96,8 +94,9 @@ export default async function ProductHuntPage({
   const ai7d = getAiLaunches(7);
   const current = activeTab === "ai" ? ai7d : all7d;
 
-  const launches24h = current.filter((l) => l.daysSinceLaunch <= 1);
-  const reposLinkedCount = current.filter((l) => l.linkedRepo).length;
+  // Only `current` (the filtered tab feed) and `topLaunches` are read
+  // below now that the legacy stat tiles are gone. The 24h/linked-repo
+  // counts are exposed by the V3 snapshot card via the builder math.
   const cold = producthuntCold;
 
   // Top 50 of the current tab, sorted by votes desc. Getter preserves
@@ -109,27 +108,37 @@ export default async function ProductHuntPage({
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
       <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        {/* Header */}
-        <header className="mb-6 border-b border-border-primary pb-6">
-          <div className="flex items-baseline gap-3 flex-wrap">
-            <h1 className="text-2xl font-bold uppercase tracking-wider inline-flex items-center gap-2">
-              <span style={{ color: PH_RED }} aria-hidden>
-                ▲
-              </span>
-              PRODUCTHUNT / LAUNCHES
-            </h1>
-            <span className="text-xs text-text-tertiary">
-              {"// devs shipping side projects + AI tools"}
-            </span>
+        {/* V3 page header — mono eyebrow + title + tight subtitle. */}
+        <header
+          className="mb-5 pb-4 border-b"
+          style={{ borderColor: "var(--v3-line-100)" }}
+        >
+          <div
+            className="v2-mono mb-2 text-[10px] tracking-[0.18em] uppercase"
+            style={{ color: "var(--v3-ink-400)" }}
+          >
+            {"// DEVS SHIPPING SIDE PROJECTS + AI TOOLS"}
           </div>
-          <p className="mt-2 text-sm text-text-secondary max-w-2xl">
+          <h1
+            className="text-2xl font-bold uppercase tracking-wider inline-flex items-center gap-2"
+            style={{ color: "var(--v3-ink-000)" }}
+          >
+            <span style={{ color: PH_RED }} aria-hidden>
+              ▲
+            </span>
+            PRODUCTHUNT / LAUNCHES
+          </h1>
+          <p
+            className="mt-2 text-[13px] leading-relaxed max-w-2xl"
+            style={{ color: "var(--v3-ink-300)" }}
+          >
             Daily launches pulled via the ProductHunt API across AI / dev-tools
             topics, scored by{" "}
-            <code className="text-text-primary">votesCount</code> and{" "}
-            <code className="text-text-primary">commentsCount</code>. Each launch
-            is cross-linked to its GitHub repo when the maker mentions one in
-            the description, so an OSS launch can be traced back to its tracked
-            star momentum here on TrendingRepo.
+            <code style={{ color: "var(--v3-ink-100)" }}>votesCount</code> and{" "}
+            <code style={{ color: "var(--v3-ink-100)" }}>commentsCount</code>. Each
+            launch is cross-linked to its GitHub repo when the maker mentions
+            one in the description, so an OSS launch can be traced back to its
+            tracked star momentum here on TrendingRepo.
           </p>
         </header>
 
@@ -425,29 +434,6 @@ function CrossLinkedReposPanel({ launches }: { launches: Launch[] }) {
   );
 }
 
-function StatTile({
-  label,
-  value,
-  hint,
-}: {
-  label: string;
-  value: string;
-  hint?: string;
-}) {
-  return (
-    <div className="border border-border-primary rounded-md px-4 py-3 bg-bg-secondary">
-      <div className="text-[10px] uppercase tracking-wider text-text-tertiary">
-        {label}
-      </div>
-      <div className="mt-1 text-xl font-bold truncate">{value}</div>
-      {hint ? (
-        <div className="mt-0.5 text-[11px] text-text-tertiary truncate">
-          {hint}
-        </div>
-      ) : null}
-    </div>
-  );
-}
 
 function ColdState() {
   return (

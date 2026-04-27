@@ -120,7 +120,7 @@ function VerifiedRevenueCard({
           </h3>
         </div>
         {freshness === "stale" ? (
-          <span className="rounded-full border border-border-primary bg-bg-muted px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-warning">
+          <span className="rounded-[2px] border border-border-primary bg-bg-muted px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-warning">
             updated {getRelativeTime(overlay.asOf)}
           </span>
         ) : null}
@@ -239,7 +239,7 @@ function SelfReportedRevenueCard({
           </h3>
         </div>
         {freshness === "stale" ? (
-          <span className="rounded-full border border-border-primary bg-bg-muted px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-warning">
+          <span className="rounded-[2px] border border-border-primary bg-bg-muted px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-warning">
             {getRelativeTime(overlay.asOf)}
           </span>
         ) : null}

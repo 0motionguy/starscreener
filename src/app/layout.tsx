@@ -170,13 +170,18 @@ export default function RootLayout({
                 toastOptions={{
                   classNames: {
                     toast:
-                      "!bg-bg-card !border !border-border-primary !text-text-primary !rounded-[var(--radius-card)] !shadow-[var(--shadow-popover)] !font-sans",
-                    title: "!text-text-primary !font-medium",
-                    description: "!text-text-secondary",
-                    success: "!border-functional/40",
-                    error: "!border-down/40",
-                    info: "!border-info/40",
-                    warning: "!border-warning/40",
+                      "!bg-[var(--v3-bg-050)] !border !border-[var(--v3-line-200)] !text-[var(--v3-ink-100)] !rounded-[2px] !shadow-[var(--shadow-popover)] !font-sans !text-[13px]",
+                    title:
+                      "!text-[var(--v3-ink-000)] !font-medium !tracking-[-0.005em]",
+                    description: "!text-[var(--v3-ink-300)] !text-[12px]",
+                    success:
+                      "!border-l-[3px] !border-l-[var(--v3-sig-green)]",
+                    error:
+                      "!border-l-[3px] !border-l-[var(--v3-sig-red)]",
+                    info:
+                      "!border-l-[3px] !border-l-[var(--v3-acc)]",
+                    warning:
+                      "!border-l-[3px] !border-l-[var(--v3-sig-amber)]",
                   },
                 }}
               />

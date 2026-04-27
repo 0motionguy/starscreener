@@ -217,7 +217,7 @@ function ModerationRow({
         </div>
         <span
           className={
-            "rounded-full border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider " +
+            "rounded-[2px] border px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] " +
             (row.status === "published" || row.status === "shipped"
               ? "border-up/60 bg-up/10 text-up"
               : row.status === "rejected"

@@ -1,13 +1,12 @@
 "use client";
 
-// TagsBar — narrow AI-focus tag chips (claude-code, agent-memory, ...).
+// V3 AI-focus tag chips (claude-code, agent-memory, …).
 //
-// Sibling row to MetasBar. Each chip toggles `activeTag` in the filter store,
-// which in turn sends `?tag=<id>` to /api/repos on the next fetch. Tags are
+// Sibling row to MetasBar. Each chip toggles `activeTag` in the filter
+// store, sending `?tag=<id>` on the next /api/repos fetch. Tags are
 // additive to metaFilter so a user can see "breakouts" AND "claude-code"
-// simultaneously.
-//
-// Counts are optional — when `counts` prop is passed, chip shows count badge.
+// together. When `counts` is supplied, each chip shows its tag count in
+// a tabular-nums slot pinned to the right edge.
 
 import { useFilterStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
@@ -24,7 +23,7 @@ export function TagsBar({ counts }: TagsBarProps) {
   return (
     <div
       className={cn(
-        "flex gap-2",
+        "flex gap-1.5",
         "overflow-x-auto scrollbar-hide snap-x",
         "md:flex-wrap md:overflow-visible",
       )}
@@ -44,22 +43,37 @@ export function TagsBar({ counts }: TagsBarProps) {
             className={cn(
               "group shrink-0 snap-start",
               "inline-flex items-center gap-1.5",
-              "h-6 px-2 rounded-full",
-              "text-[11px] font-medium",
+              "h-6 px-2 rounded-[2px]",
+              "font-mono uppercase tracking-[0.16em]",
+              "text-[10px] font-medium",
               "border transition-colors duration-150",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40",
-              isActive
-                ? "border-brand bg-brand-subtle text-brand"
-                : "border-border-secondary bg-bg-secondary text-text-tertiary hover:border-brand/40 hover:text-text-secondary",
+              "focus-visible:outline-none focus-visible:ring-1",
             )}
+            style={{
+              background: isActive ? "var(--v3-acc-soft)" : "var(--v3-bg-050)",
+              borderColor: isActive
+                ? "var(--v3-acc)"
+                : "var(--v3-line-200)",
+              color: isActive ? "var(--v3-acc)" : "var(--v3-ink-300)",
+            }}
           >
-            <span className="label-micro tracking-wide">#{tag.label}</span>
+            <span
+              aria-hidden="true"
+              className="shrink-0 size-1"
+              style={{
+                background: isActive ? "var(--v3-acc)" : "var(--v3-line-400)",
+              }}
+            />
+            <span className="whitespace-nowrap">{tag.label}</span>
             {typeof count === "number" && (
               <span
-                className={cn(
-                  "font-mono text-[10px] px-1 rounded-full tabular-nums",
-                  isActive ? "text-brand" : "text-text-tertiary",
-                )}
+                className="font-mono text-[10px] tabular-nums tracking-[0.12em] px-1 rounded-[1px]"
+                style={{
+                  color: isActive ? "var(--v3-acc)" : "var(--v3-ink-400)",
+                  background: isActive
+                    ? "var(--v3-acc-soft)"
+                    : "var(--v3-bg-100)",
+                }}
               >
                 {count}
               </span>

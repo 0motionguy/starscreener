@@ -66,5 +66,13 @@ next-env.d.ts
 # dogfood script output
 dogfood-output/
 
+# playwright-mcp local capture / trace output
+.playwright-mcp/
+
+# local build / typecheck logs
+build_*.log
+build-*.log
+typecheck_*.log
+
 # embedded clones (not submodules)
 awesome-codex-skills/

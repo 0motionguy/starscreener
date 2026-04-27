@@ -122,6 +122,20 @@ interface MemoryEntry<T = unknown> {
   cachedAtMs: number;
 }
 
+/**
+ * Process-level last-known-good cache for the data-store reads.
+ *
+ * **PUBLIC-DATA INVARIANT (LIB-16):** every payload routed through this
+ * cache MUST be globally public — trending repos, news scans, leaderboards,
+ * etc. The cache key is bare slug (no tenant prefix), and the in-memory
+ * Map is shared across all requests in the same Node process. The moment
+ * a tenant-scoped or user-private payload lands in this layer it leaks
+ * across requests.
+ *
+ * If you need to cache scoped data, namespace the key (e.g.
+ * `user:<id>:<slug>`) AND clear on auth boundaries. Don't reuse this
+ * primitive directly.
+ */
 class MemoryCache {
   private readonly entries = new Map<string, MemoryEntry>();
 

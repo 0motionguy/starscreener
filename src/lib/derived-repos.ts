@@ -50,6 +50,21 @@ import {
   synthesizeSparkline,
 } from "./derived-repos/sparkline";
 
+// Process-global derived-repos cache (LIB-17).
+//
+// Cache key composition lives in computeCacheKey(): a colon-joined string
+// of getXxxDataVersion() outputs (one per upstream JSON file). The cache
+// returns the prior result whenever every upstream's data version is
+// unchanged — this is what makes warm Lambda calls O(1).
+//
+// Test-time invalidation: tests that mutate underlying data versions MUST
+// call __resetDerivedReposCache() between cases. The function is exported
+// purely for that purpose. Forgetting to reset = cross-test pollution
+// where case B sees stale data from case A.
+//
+// Production invalidation: the cache key tracks file mtimes via
+// getXxxDataVersion(); a fresh collector write bumps the version on the
+// next cache-key floor expiration, no manual reset needed.
 let _cache: Repo[] | null = null;
 let _cacheKey: string | null = null;
 let _byFullName: Map<string, Repo> | null = null;

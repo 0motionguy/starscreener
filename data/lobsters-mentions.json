@@ -1,18 +1,18 @@
 {
-  "fetchedAt": "2026-04-27T11:54:45.762Z",
+  "fetchedAt": "2026-04-27T14:39:33.849Z",
   "windowDays": 7,
-  "scannedStories": 78,
+  "scannedStories": 79,
   "mentions": {
     "niri-wm/niri": {
       "count7d": 1,
-      "scoreSum7d": 6,
+      "scoreSum7d": 20,
       "topStory": {
         "shortId": "uf38bg",
         "title": "Niri v26.04",
-        "score": 6,
+        "score": 20,
         "url": "https://github.com/niri-wm/niri/releases/tag/v26.04",
         "commentsUrl": "https://lobste.rs/s/uf38bg/niri_v26_04",
-        "hoursSincePosted": 1.055
+        "hoursSincePosted": 3.8016666666666667
       },
       "stories": [
         {
@@ -21,11 +21,11 @@
           "url": "https://github.com/niri-wm/niri/releases/tag/v26.04",
           "commentsUrl": "https://lobste.rs/s/uf38bg/niri_v26_04",
           "by": "",
-          "score": 6,
-          "commentCount": 0,
+          "score": 20,
+          "commentCount": 1,
           "createdUtc": 1777287087,
-          "ageHours": 1.055,
-          "trendingScore": 1.123658725415299,
+          "ageHours": 3.8016666666666667,
+          "trendingScore": 1.4312016765783326,
           "tags": [
             "linux",
             "release",
@@ -51,7 +51,7 @@
         "score": 7,
         "url": "https://github.com/NawfalMotii79/PLFM_RADAR",
         "commentsUrl": "https://lobste.rs/s/vnnpwe/plfm_radar_open_source_low_cost_10_5_ghz",
-        "hoursSincePosted": 17.503888888888888
+        "hoursSincePosted": 20.250555555555554
       },
       "stories": [
         {
@@ -63,8 +63,8 @@
           "score": 7,
           "commentCount": 1,
           "createdUtc": 1777227871,
-          "ageHours": 17.503888888888888,
-          "trendingScore": 0.08126737253818597,
+          "ageHours": 20.250555555555554,
+          "trendingScore": 0.06669399790248941,
           "tags": [
             "hardware"
           ],
@@ -82,14 +82,14 @@
   },
   "leaderboard": [
     {
+      "fullName": "niri-wm/niri",
+      "count7d": 1,
+      "scoreSum7d": 20
+    },
+    {
       "fullName": "NawfalMotii79/PLFM_RADAR",
       "count7d": 1,
       "scoreSum7d": 7
-    },
-    {
-      "fullName": "niri-wm/niri",
-      "count7d": 1,
-      "scoreSum7d": 6
     }
   ]
 }

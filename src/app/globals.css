@@ -1,9 +1,10 @@
 @import "tailwindcss";
 
 /* ---------------------------------------------------------------------------
-   TrendingRepo Design System — Tailwind 4 CSS-first configuration
-   Dark Void + Liquid Lava dual-accent system.
-   Dark-first: @theme defines dark tokens, .light class overrides for light.
+   TrendingRepo Design System — V2 (Tailwind 4 CSS-first configuration).
+   Dark-only. V2 surface ramp + Liquid Lava accent. V1 token names are
+   retained as aliases over V2 values so legacy components keep rendering
+   without per-file edits.
    --------------------------------------------------------------------------- */
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -94,10 +95,11 @@
   --color-momentum-neutral: var(--color-heat-neutral);
   --color-momentum-cool: var(--color-heat-cool);
 
-  /* ── Fonts ─────────────────────────────────────────────────────────────── */
-  --font-sans: var(--font-inter), "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-mono: var(--font-jetbrains-mono), "JetBrains Mono", ui-monospace, "Cascadia Code", monospace;
-  --font-display: var(--font-space-grotesk), "Space Grotesk", var(--font-inter), "Inter", sans-serif;
+  /* ── Fonts ── V1 names alias to Geist so legacy `font-sans/mono/display`
+     Tailwind classes pick up V2 typography without component edits. */
+  --font-sans: var(--font-geist), "Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-geist-mono), "Geist Mono", ui-monospace, "Cascadia Code", monospace;
+  --font-display: var(--font-geist), "Geist", ui-sans-serif, system-ui, sans-serif;
 
   /* ── Type scale ────────────────────────────────────────────────────────── */
   --text-2xs: 0.625rem;     /* 10px */
@@ -134,18 +136,21 @@
   --tracking-wider: 0.08em;
   --tracking-widest: 0.14em;
 
-  /* ── Radii ─────────────────────────────────────────────────────────────── */
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
-  --radius-button: 0.5rem;
-  --radius-card: 0.75rem;
-  --radius-card-lg: 1rem;
-  --radius-xl: 1.25rem;
-  --radius-badge: 9999px;
+  /* ── Radii ── V2 "sharp by default": all card/button radii flattened
+     to 1-2px. Pills stay round for binary toggles. */
+  --radius-sm: 0.0625rem;     /* 1px */
+  --radius-md: 0.125rem;      /* 2px */
+  --radius-button: 0.125rem;  /* 2px */
+  --radius-card: 0.125rem;    /* 2px */
+  --radius-card-lg: 0.125rem; /* 2px */
+  --radius-xl: 0.125rem;      /* 2px */
+  --radius-badge: 9999px;     /* pill — kept for toggles only */
 
-  /* ── Shadows ───────────────────────────────────────────────────────────── */
-  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4), 0 1px 1px rgba(0, 0, 0, 0.25);
-  --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.4);
+  /* ── Shadows ── V2 has no drop shadows on dark; use luminance steps
+     instead. Card/hover shadows neutered to near-zero so legacy
+     consumers stop emitting visible elevation. */
+  --shadow-card: 0 0 0 0 transparent;
+  --shadow-card-hover: 0 0 0 0 transparent;
   --shadow-row-hover: inset 3px 0 0 var(--color-functional);
   --shadow-overlay: 0 24px 48px rgba(0, 0, 0, 0.55), 0 2px 6px rgba(0, 0, 0, 0.35);
   --shadow-popover: 0 12px 32px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.35);
@@ -310,83 +315,10 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Light theme overrides — warm off-white so Liquid Lava stays brand, not alert
-   --------------------------------------------------------------------------- */
-.light {
-  /* Backgrounds (warm off-white) */
-  --color-bg-primary: #f7f6f2;
-  --color-bg-secondary: #efede6;
-  --color-bg-tertiary: #e4e2da;
-  --color-bg-card: #ffffff;
-  --color-bg-card-hover: #f2f0e9;
-  --color-bg-row-hover: #efede6;
-  --color-bg-elevated: #ffffff;
-  --color-bg-inset: #ecebe4;
-  --color-bg-overlay: rgba(30, 28, 24, 0.55);
-
-  /* Text */
-  --color-text-primary: #151419;
-  --color-text-secondary: #3d3c44;
-  --color-text-tertiary: #6a6a70;
-  --color-text-muted: #9a9aa1;
-  --color-text-inverse: #fbfbfb;
-
-  /* Borders */
-  --color-border-primary: #d7d4c8;
-  --color-border-secondary: #e4e2da;
-  --color-border-strong: #b7b4a6;
-  --color-border-focus: #d85b00;
-
-  /* Brand stays Liquid Lava but slightly darker for AA on warm white */
-  --color-brand: #e85d00;
-  --color-brand-hover: #f56e0f;
-  --color-brand-active: #b94a00;
-  --color-brand-glow: rgba(232, 93, 0, 0.12);
-  --color-brand-glow-strong: rgba(232, 93, 0, 0.22);
-  --color-brand-subtle: rgba(232, 93, 0, 0.07);
-
-  /* Functional green */
-  --color-functional: #16a34a;
-  --color-functional-hover: #22c55e;
-  --color-functional-glow: rgba(22, 163, 74, 0.14);
-  --color-functional-subtle: rgba(22, 163, 74, 0.08);
-
-  /* Deltas */
-  --color-up: #16a34a;
-  --color-up-bg: rgba(22, 163, 74, 0.12);
-  --color-down: #dc2626;
-  --color-down-bg: rgba(220, 38, 38, 0.10);
-  --color-warning: #d97706;
-  --color-warning-bg: rgba(217, 119, 6, 0.12);
-  --color-info: #2563eb;
-  --color-info-bg: rgba(37, 99, 235, 0.10);
-
-  /* Heat tiers */
-  --color-heat-hot: #e85d00;
-  --color-heat-warm: #d97706;
-  --color-heat-neutral: #6a6a70;
-  --color-heat-cool: #2563eb;
-
-  /* Terminal surfaces */
-  --color-terminal-row-hover: rgba(232, 93, 0, 0.05);
-  --color-terminal-divider: rgba(120, 115, 100, 0.25);
-
-  /* Shadows lighter, more spread */
-  --shadow-card: 0 1px 3px rgba(20, 18, 14, 0.08), 0 1px 2px rgba(20, 18, 14, 0.05);
-  --shadow-card-hover: 0 10px 30px rgba(20, 18, 14, 0.12), 0 4px 12px rgba(20, 18, 14, 0.08);
-  --shadow-overlay: 0 24px 48px rgba(20, 18, 14, 0.18), 0 2px 6px rgba(20, 18, 14, 0.1);
-  --shadow-popover: 0 12px 32px rgba(20, 18, 14, 0.15), 0 2px 6px rgba(20, 18, 14, 0.08);
-}
-
-/* ---------------------------------------------------------------------------
-   Base styles
+   Base styles — V2 is dark-only.
    --------------------------------------------------------------------------- */
 html {
   color-scheme: dark;
-}
-
-html.light {
-  color-scheme: light;
 }
 
 *,
@@ -430,25 +362,6 @@ body::before {
     linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
   background-size: auto, auto, 40px 40px, 40px 40px;
   background-position: 0 0, 0 0, 0 0, 0 0;
-}
-
-/* Light theme: swap grid lines + glow opacities so they stay subtle
-   on the warm off-white canvas. */
-.light body::before {
-  background-image:
-    radial-gradient(
-      1200px 600px at 8% -8%,
-      rgba(216, 91, 0, 0.06),
-      transparent 60%
-    ),
-    radial-gradient(
-      900px 500px at 100% 110%,
-      rgba(22, 163, 74, 0.04),
-      transparent 60%
-    ),
-    linear-gradient(rgba(30, 28, 24, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(30, 28, 24, 0.05) 1px, transparent 1px);
-  background-size: auto, auto, 40px 40px, 40px 40px;
 }
 
 /* Content sits above the ambient canvas. Wrapped in `@layer base` so
@@ -602,18 +515,6 @@ body::before {
   animation: shimmer 1.6s ease-in-out infinite;
 }
 
-.light .skeleton-shimmer::after {
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(0, 0, 0, 0.035) 40%,
-    rgba(0, 0, 0, 0.06) 50%,
-    rgba(0, 0, 0, 0.035) 60%,
-    transparent 100%
-  );
-  background-size: 200% 100%;
-}
-
 /* Pulsing "live data" dot — small 6px circle with breathing halo. Used
    beside "LIVE" / "updated Xm ago" labels so freshness reads visually.
    Halo color derives from --dot-rgb (r,g,b triplet) so the same utility
@@ -661,11 +562,6 @@ body::before {
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
   background-size: 160px 160px;
-}
-
-.light .grain::after {
-  mix-blend-mode: multiply;
-  opacity: 0.06;
 }
 
 /* Dashed horizontal divider for editorial sections */

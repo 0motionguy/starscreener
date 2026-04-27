@@ -1,23 +1,15 @@
 // Root layout — V2 design system applies SITE-WIDE.
 //
-// Phase 1 of the rebrand: Geist + Geist Mono are loaded globally, the
-// V2 chrome (HeaderV2 + SidebarV2) replaces the legacy Header/Sidebar,
-// the entire body is wrapped in .v2-root .v2-canvas so the dot-field
-// background, theme tokens, and theme picker apply on every route.
-//
-// Page bodies still use the legacy orange Liquid Lava design until they
-// are migrated batch-by-batch in Phase 2. They render fine inside V2
-// chrome — Tailwind tokens like text-text-primary still resolve.
+// Geist + Geist Mono are loaded globally; the V2 chrome (HeaderV2 +
+// SidebarV2) replaces legacy Header/Sidebar; the entire body is wrapped
+// in .v2-root .v2-canvas so the dot-field background and V2 tokens
+// apply on every route. Legacy --font-sans/mono/display tokens alias
+// to Geist in @theme so any V1 component using `font-sans` still picks
+// up V2 typography.
 
 import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/next";
-import {
-  Geist,
-  Geist_Mono,
-  Inter,
-  JetBrains_Mono,
-  Space_Grotesk,
-} from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "sonner";
 // Validate environment variables at server boot. Must stay first so misconfig
 // crashes the app before any routes load.
@@ -33,10 +25,6 @@ import { BrowserAlertBridge } from "@/components/alerts/BrowserAlertBridge";
 import { SITE_URL, SITE_NAME, SITE_TAGLINE, SITE_DESCRIPTION } from "@/lib/seo";
 import "./globals.css";
 
-// Geist drives the V2 design system. Inter / JetBrains / Space Grotesk
-// stay loaded during the migration so legacy page bodies (still using
-// the old --font-* tokens) keep rendering correctly. They will be
-// removed in Phase 3 once every page is V2.
 const geist = Geist({
   variable: "--font-geist",
   subsets: ["latin"],
@@ -49,25 +37,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
   display: "swap",
   weight: ["300", "400", "500", "600"],
-});
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -127,10 +96,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#0a0b0d" },
-    { media: "(prefers-color-scheme: light)", color: "#f7f6f2" },
-  ],
+  themeColor: "#08090a",
 };
 
 export default function RootLayout({
@@ -141,7 +107,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geist.variable} ${geistMono.variable} ${inter.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable}`}
+      className={`${geist.variable} ${geistMono.variable}`}
       suppressHydrationWarning
     >
       <head>
@@ -151,7 +117,7 @@ export default function RootLayout({
             // "starscreener-theme" entry for one release so existing
             // users don't get their theme wiped. Also migrates the value
             // forward so next-themes finds it on the new key next render.
-            __html: `(function(){try{var K="trendingrepo-theme",L="starscreener-theme",t=localStorage.getItem(K);if(!t){var old=localStorage.getItem(L);if(old){localStorage.setItem(K,old);t=old;}}if(t==="light")document.documentElement.classList.add("light");else document.documentElement.classList.add("dark")}catch(e){document.documentElement.classList.add("dark")}})();`,
+            __html: `document.documentElement.classList.add("dark");`,
           }}
         />
         <script

@@ -7,7 +7,7 @@
 // Causality question ("did mentions spike BEFORE stars or AFTER?") becomes
 // visible by putting both series on the same calendar x-axis.
 
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import {
   Area,
   Bar,
@@ -396,6 +396,36 @@ export function RepoDetailChart({
     return out;
   }, [signalSeries]);
 
+  // Stable Tooltip content callback. Inlining `content={(props) => ...}`
+  // forced Recharts to remount the tooltip every render because the prop
+  // identity changed; useCallback keyed on starsDeltaByTs preserves the
+  // reference between hovers. (Recharts TooltipProps typing per UI-16.)
+  const renderTooltipContent = useCallback(
+    (props: {
+      active?: boolean;
+      payload?: ReadonlyArray<{ payload?: unknown }>;
+    }) => {
+      const payload = props.payload;
+      const first = payload?.[0]?.payload;
+      if (first && typeof first === "object" && "marker" in first) {
+        return (
+          <MarkerTooltip
+            active={props.active}
+            payload={payload as ReadonlyArray<MarkerTooltipPayloadEntry>}
+          />
+        );
+      }
+      return (
+        <SignalTooltip
+          active={props.active}
+          payload={payload as ReadonlyArray<SignalTooltipPayloadEntry>}
+          starsDeltaByTs={starsDeltaByTs}
+        />
+      );
+    },
+    [starsDeltaByTs],
+  );
+
   const visibleMarkers = useMemo(
     () =>
       markers.filter(
@@ -599,41 +629,9 @@ export function RepoDetailChart({
                 <Tooltip
                   // Recharts ships TooltipProps but its ContentType callback
                   // receives a partial subset that doesn't expose `payload`
-                  // directly — keeping the localized `as` narrowing here is
-                  // the lowest-friction path until recharts ships a proper
-                  // ContentProps export. Tracked under audit UI-16.
-                  content={(props) => {
-                    const payload = (
-                      props as {
-                        active?: boolean;
-                        payload?: ReadonlyArray<{ payload?: unknown }>;
-                      }
-                    ).payload;
-                    const first = payload?.[0]?.payload;
-                    if (
-                      first &&
-                      typeof first === "object" &&
-                      "marker" in first
-                    ) {
-                      return (
-                        <MarkerTooltip
-                          active={props.active}
-                          payload={
-                            payload as ReadonlyArray<MarkerTooltipPayloadEntry>
-                          }
-                        />
-                      );
-                    }
-                    return (
-                      <SignalTooltip
-                        active={props.active}
-                        payload={
-                          payload as ReadonlyArray<SignalTooltipPayloadEntry>
-                        }
-                        starsDeltaByTs={starsDeltaByTs}
-                      />
-                    );
-                  }}
+                  // directly — keeping the localized `as` narrowing in
+                  // renderTooltipContent above. Tracked under audit UI-16.
+                  content={renderTooltipContent as never}
                   cursor={{
                     stroke: "var(--color-border-primary)",
                     strokeDasharray: "4 4",

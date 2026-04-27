@@ -31,13 +31,11 @@ import {
   classifyBatch,
   deriveTags,
 } from "./pipeline/classification/classifier";
-import { attachCrossSignal } from "./pipeline/cross-signal";
-import { getLaunchForRepo } from "./producthunt";
+import { decorateWithCrossSignal } from "./derived-repos/decorators/cross-signal";
+import { decorateWithProductHunt } from "./derived-repos/decorators/producthunt";
+import { decorateWithTwitter } from "./derived-repos/decorators/twitter";
 import { getRedditDataVersion } from "./reddit-data";
-import {
-  getTwitterSignalSync,
-  getTwitterSignalsDataVersion,
-} from "./twitter/signal-data";
+import { getTwitterSignalsDataVersion } from "./twitter/signal-data";
 import {
   __resetPipelineReposCacheForTests,
   getPipelineRepos,
@@ -318,57 +316,14 @@ export function getDerivedRepos(): Repo[] {
   // 3.5 Four-channel cross-signal fusion (GitHub + Reddit + HN + Bluesky).
   // Two-pass internally so the reddit component is min-max normalized
   // across the full corpus. Must run after scoreBatch — the github
-  // component reads movementStatus. Also attaches the per-repo
-  // `bluesky` rollup so surfaces can render the BskyBadge without
-  // re-querying the mentions JSON.
-  repos = attachCrossSignal(repos);
+  // component reads movementStatus.
+  repos = decorateWithCrossSignal(repos);
 
-  // 3.6 Attach the latest Twitter/X row rollup from .data/twitter-repo-signals.
-  // This keeps the client terminal free of server-only storage imports while
-  // letting rows render the same X mention counts as /twitter.
-  repos = repos.map((r) => {
-    const signal = getTwitterSignalSync(r.fullName);
-    if (!signal) {
-      return {
-        ...r,
-        twitter: null,
-      };
-    }
-    return {
-      ...r,
-      twitter: {
-        mentionCount24h: signal.metrics.mentionCount24h,
-        uniqueAuthors24h: signal.metrics.uniqueAuthors24h,
-        finalTwitterScore: signal.score.finalTwitterScore,
-        badgeState: signal.badge.state,
-        topPostUrl: signal.metrics.topPostUrl,
-        lastScannedAt: signal.updatedAt,
-      },
-    };
-  });
+  // 3.6 Twitter/X row rollup (.data/twitter-repo-signals).
+  repos = decorateWithTwitter(repos);
 
-  // 3.7 Attach ProductHunt launch for tracked repos that have a recent (7d)
-  // PH match. Sparse by design — only repos whose github.com URL appeared
-  // in a PH launch's website/description get this field set. Most repos
-  // keep producthunt = undefined. Used by PhBadge and the "Hot launch"
-  // cross-signal highlight.
-  repos = repos.map((r) => {
-    const launch = getLaunchForRepo(r.fullName);
-    if (!launch) return r;
-    return {
-      ...r,
-      producthunt: {
-        launchedOnPH: true,
-        launch: {
-          id: launch.id,
-          name: launch.name,
-          votesCount: launch.votesCount,
-          daysSinceLaunch: launch.daysSinceLaunch,
-          url: launch.url,
-        },
-      },
-    };
-  });
+  // 3.7 ProductHunt launch (sparse — most repos keep producthunt undefined).
+  repos = decorateWithProductHunt(repos);
 
   // 4. Rank by momentum desc, tracking per-category position.
   const sorted = [...repos].sort((a, b) => b.momentumScore - a.momentumScore);

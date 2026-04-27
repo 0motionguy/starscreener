@@ -76,36 +76,62 @@ function CardShell({
 }: CardShellProps): JSX.Element {
   return (
     <aside
-      className="rounded-card border border-border-primary bg-bg-card shadow-card p-4 font-mono"
+      className="v2-card overflow-hidden font-mono"
       aria-label={`${eyebrow.toLowerCase()} — ${login}`}
     >
-      <div className="font-mono text-[10px] uppercase tracking-wider text-text-tertiary mb-3">
-        {eyebrow}
+      <div className="v2-term-bar">
+        <span aria-hidden className="flex items-center gap-1.5">
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-acc)" }}
+          />
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-line-200)" }}
+          />
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-line-200)" }}
+          />
+        </span>
+        <span className="flex-1 truncate" style={{ color: "var(--v2-ink-200)" }}>
+          {`// ${eyebrow} · ${login.toUpperCase()}`}
+        </span>
       </div>
 
-      <div className="flex items-start gap-3">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={avatarUrl}
-          alt={login}
-          width={48}
-          height={48}
-          loading="lazy"
-          className="size-12 shrink-0 rounded-full border border-border-primary object-cover"
-        />
-        <div className="flex-1 min-w-0">{children}</div>
-      </div>
+      <div className="p-4">
+        <div className="flex items-start gap-3">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={avatarUrl}
+            alt={login}
+            width={48}
+            height={48}
+            loading="lazy"
+            className="size-12 shrink-0 object-cover"
+            style={{
+              borderRadius: 2,
+              border: "1px solid var(--v2-line-200)",
+            }}
+          />
+          <div className="flex-1 min-w-0">{children}</div>
+        </div>
 
-      <div className="mt-4 pt-3 border-t border-border-primary">
-        <a
-          href={htmlUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 text-xs text-text-secondary hover:text-brand transition-colors"
+        <div
+          className="mt-4 pt-3"
+          style={{ borderTop: "1px solid var(--v2-line-std)" }}
         >
-          View on GitHub
-          <ExternalLink size={12} aria-hidden />
-        </a>
+          <a
+            href={htmlUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="v2-btn v2-btn-ghost"
+            style={{ height: 32, padding: "0 12px", fontSize: 10 }}
+          >
+            VIEW ON GITHUB
+            <ExternalLink size={11} aria-hidden style={{ marginLeft: 8 }} />
+          </a>
+        </div>
       </div>
     </aside>
   );
@@ -126,12 +152,21 @@ function MaintainerCardFallback({
         href={`https://github.com/${owner}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="font-display text-base font-semibold text-text-primary hover:text-brand transition-colors truncate block"
+        className="block truncate"
+        style={{
+          fontFamily: "var(--font-geist), Inter, sans-serif",
+          fontSize: 16,
+          fontWeight: 510,
+          color: "var(--v2-ink-100)",
+        }}
       >
         {owner}
       </Link>
-      <p className="text-[11px] text-text-tertiary mt-1">
-        Profile details unavailable.
+      <p
+        className="v2-mono mt-1"
+        style={{ fontSize: 10, color: "var(--v2-ink-400)" }}
+      >
+        {"// PROFILE UNAVAILABLE"}
       </p>
     </CardShell>
   );
@@ -165,26 +200,43 @@ function MaintainerCardContent({
         href={profile.htmlUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="font-display text-base font-semibold text-text-primary hover:text-brand transition-colors truncate block"
+        className="block truncate"
+        style={{
+          fontFamily: "var(--font-geist), Inter, sans-serif",
+          fontSize: 16,
+          fontWeight: 510,
+          color: "var(--v2-ink-100)",
+        }}
       >
         {profile.login}
       </Link>
       {displayName && (
-        <p className="text-xs text-text-secondary mt-0.5 truncate">
+        <p
+          className="mt-0.5 truncate"
+          style={{ fontSize: 12, color: "var(--v2-ink-300)" }}
+        >
           {displayName}
         </p>
       )}
 
       {bio && (
-        <p className="mt-2 text-xs text-text-secondary leading-snug">{bio}</p>
+        <p
+          className="mt-2 leading-snug"
+          style={{ fontSize: 12, color: "var(--v2-ink-200)" }}
+        >
+          {bio}
+        </p>
       )}
 
       {(profile.location ||
         profile.twitterUsername ||
         profile.blog) && (
-        <ul className="mt-3 space-y-1.5 text-[11px]">
+        <ul className="mt-3 space-y-1.5" style={{ fontSize: 11 }}>
           {profile.location && (
-            <li className="inline-flex items-center gap-1.5 text-text-tertiary">
+            <li
+              className="inline-flex items-center gap-1.5"
+              style={{ color: "var(--v2-ink-300)" }}
+            >
               <MapPin size={11} aria-hidden />
               <span className="truncate">{profile.location}</span>
             </li>
@@ -195,16 +247,31 @@ function MaintainerCardContent({
                 href={`https://x.com/${profile.twitterUsername}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-text-secondary hover:text-brand transition-colors"
+                className="inline-flex items-center gap-1.5 transition-colors"
+                style={{ color: "var(--v2-ink-200)" }}
               >
                 <span
                   aria-hidden
-                  className="bg-text-primary text-bg-card text-[8px] font-bold w-3 h-3 leading-none rounded-sm flex items-center justify-center"
+                  className="flex items-center justify-center"
+                  style={{
+                    background: "var(--v2-ink-100)",
+                    color: "var(--v2-bg-000)",
+                    fontSize: 8,
+                    fontWeight: 700,
+                    width: 12,
+                    height: 12,
+                    lineHeight: 1,
+                    borderRadius: 1,
+                  }}
                 >
                   X
                 </span>
                 <span className="truncate">@{profile.twitterUsername}</span>
-                <ExternalLink size={10} aria-hidden className="text-text-tertiary" />
+                <ExternalLink
+                  size={10}
+                  aria-hidden
+                  style={{ color: "var(--v2-ink-400)" }}
+                />
               </a>
             </li>
           )}
@@ -214,11 +281,17 @@ function MaintainerCardContent({
                 href={normalizeBlogUrl(profile.blog)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-text-secondary hover:text-brand transition-colors max-w-full"
+                className="inline-flex items-center gap-1.5 max-w-full transition-colors"
+                style={{ color: "var(--v2-ink-200)" }}
               >
                 <Globe size={11} aria-hidden />
                 <span className="truncate">{blogDisplayLabel(profile.blog)}</span>
-                <ExternalLink size={10} aria-hidden className="text-text-tertiary shrink-0" />
+                <ExternalLink
+                  size={10}
+                  aria-hidden
+                  className="shrink-0"
+                  style={{ color: "var(--v2-ink-400)" }}
+                />
               </a>
             </li>
           )}

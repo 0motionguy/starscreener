@@ -30,11 +30,10 @@ const SEVERITY_EXPLANATION: Record<ReasonSeverity, string> = {
   info: "Context — supporting but secondary information.",
 };
 
-/** Tailwind color for the leading severity dot — uses existing tokens only. */
-function dotColorClass(severity: ReasonSeverity): string {
-  if (severity === "critical") return "bg-brand";
-  if (severity === "strong") return "bg-up";
-  return "bg-text-tertiary";
+function dotColor(severity: ReasonSeverity): string {
+  if (severity === "critical") return "var(--v2-acc)";
+  if (severity === "strong") return "var(--v2-sig-green)";
+  return "var(--v2-ink-400)";
 }
 
 export function WhyTrending({ reasons }: WhyTrendingProps): JSX.Element | null {
@@ -43,44 +42,79 @@ export function WhyTrending({ reasons }: WhyTrendingProps): JSX.Element | null {
   return (
     <section
       aria-label="Why this repo is trending"
-      className="rounded-card border border-border-primary bg-bg-primary p-3 sm:p-4"
+      className="v2-card overflow-hidden"
     >
-      <header className="flex items-center justify-between gap-3">
-        <span className="font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
-          Why trending
+      <div className="v2-term-bar">
+        <span aria-hidden className="flex items-center gap-1.5">
+          <span className="block h-1.5 w-1.5 rounded-full v2-live-dot" />
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-line-200)" }}
+          />
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-line-200)" }}
+          />
         </span>
-        <span className="font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
-          {reasons.length} signal{reasons.length === 1 ? "" : "s"}
+        <span
+          className="flex-1 truncate"
+          style={{ color: "var(--v2-ink-200)" }}
+        >
+          {"// WHY TRENDING"}
         </span>
-      </header>
+        <span
+          className="v2-stat shrink-0"
+          style={{ color: "var(--v2-ink-300)" }}
+        >
+          {reasons.length} SIGNAL{reasons.length === 1 ? "" : "S"}
+        </span>
+      </div>
 
-      <ul className="mt-3 grid grid-cols-1 gap-3 lg:grid-cols-3">
-        {reasons.map((reason) => (
+      <ul className="grid grid-cols-1 lg:grid-cols-3">
+        {reasons.map((reason, i) => (
           <li
             key={reason.code}
-            className="flex items-start gap-2.5 border-l-2 border-border-primary pl-3 lg:border-l-2"
+            className="flex items-start gap-2.5 p-3 sm:p-4"
+            style={{
+              borderRight:
+                i < reasons.length - 1
+                  ? "1px solid var(--v2-line-std)"
+                  : "none",
+            }}
           >
             <span
-              className={`mt-1.5 size-2 shrink-0 rounded-full ${dotColorClass(reason.severity)}`}
+              className="mt-1.5 size-2 shrink-0 rounded-full"
+              style={{ background: dotColor(reason.severity) }}
               aria-label={SEVERITY_LABEL[reason.severity]}
               title={SEVERITY_EXPLANATION[reason.severity]}
               role="img"
             />
             <div className="min-w-0 flex-1">
-              <p className="font-mono text-[12px] leading-snug text-text-primary">
+              <p
+                className="leading-snug"
+                style={{
+                  fontFamily: "var(--font-geist), Inter, sans-serif",
+                  fontSize: 13,
+                  color: "var(--v2-ink-100)",
+                }}
+              >
                 {reason.headline}
               </p>
               {reason.detail ? (
                 <p
-                  className="mt-1 line-clamp-2 text-[11px] leading-snug text-text-tertiary"
+                  className="mt-1 line-clamp-2 leading-snug"
+                  style={{ fontSize: 11, color: "var(--v2-ink-300)" }}
                   title={reason.detail}
                 >
                   {reason.detail}
                 </p>
               ) : null}
               {reason.sourceHint ? (
-                <p className="mt-1 font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
-                  via {reason.sourceHint}
+                <p
+                  className="v2-mono mt-1.5"
+                  style={{ fontSize: 9, color: "var(--v2-ink-400)" }}
+                >
+                  {`// VIA ${reason.sourceHint.toUpperCase()}`}
                 </p>
               ) : null}
             </div>

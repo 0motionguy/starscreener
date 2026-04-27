@@ -22,6 +22,7 @@ import assert from "node:assert/strict";
 import { promises as fs } from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { randomUUID } from "node:crypto";
 
 import type { Repo } from "../../types";
 import type {
@@ -53,7 +54,14 @@ async function setupHarness(): Promise<Harness> {
   process.env.STARSCREENER_DATA_DIR = dir;
   delete process.env.STARSCREENER_PERSIST; // force enabled
 
-  const bust = `${Date.now()}-${Math.random()}`;
+  // LIB-15: ESM module-cache busting via query string. randomUUID() is
+  // deterministic enough for parallel tests (the prior `${Date.now()}-
+  // ${Math.random()}` collided when two tests fired in the same ms with
+  // the same RNG seed on Windows under tsx). The query-string trick
+  // remains the lightest-touch isolation; a true factory `dataDir` param
+  // would be cleaner but requires reshaping file-persistence's module
+  // surface, tracked as a follow-up.
+  const bust = randomUUID();
   const filePersistenceUrl = new URL(
     `../storage/file-persistence.ts?t=${bust}`,
     import.meta.url,

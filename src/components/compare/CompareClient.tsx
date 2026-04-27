@@ -500,7 +500,7 @@ function BannerSkeleton() {
 function HeatmapSkeleton() {
   // 52×7 grid of muted cells to match CompareHeatmap's geometry.
   return (
-    <div className="bg-bg-card rounded-card border border-border-primary p-4">
+    <div className="v2-card p-4">
       <div className="grid grid-cols-[repeat(52,minmax(0,1fr))] gap-[2px]">
         {Array.from({ length: 52 * 7 }).map((_, i) => (
           <div
@@ -515,7 +515,7 @@ function HeatmapSkeleton() {
 
 function PulseSkeleton() {
   return (
-    <div className="bg-bg-card rounded-card border border-border-primary p-4 space-y-3">
+    <div className="v2-card p-4 space-y-3">
       <div className="flex items-center gap-2">
         <div className="skeleton-shimmer size-6 rounded-full shrink-0" />
         <div className="skeleton-shimmer h-4 w-2/3 rounded-sm" />
@@ -534,7 +534,7 @@ function PulseSkeleton() {
 
 function SectionRowSkeleton() {
   return (
-    <div className="bg-bg-card rounded-card border border-border-primary p-4 space-y-3">
+    <div className="v2-card p-4 space-y-3">
       <div className="flex items-center gap-2">
         <div className="skeleton-shimmer size-6 rounded-full shrink-0" />
         <div className="skeleton-shimmer h-5 w-64 max-w-[70%] rounded-sm" />
@@ -561,7 +561,7 @@ function WinnerSkeleton() {
 
 function EmptyPanel({ message }: { message: string }) {
   return (
-    <div className="bg-bg-card rounded-card border border-border-primary p-4 text-sm text-text-tertiary">
+    <div className="v2-card p-4 text-sm text-text-tertiary">
       {message}
     </div>
   );
@@ -583,7 +583,7 @@ function PulseCard({ bundle, accent }: BundleWithAccent) {
   if (!bundle.ok) {
     return (
       <div
-        className="bg-bg-card rounded-card border border-border-primary p-4 space-y-2"
+        className="v2-card p-4 space-y-2"
         style={{ borderLeft: `3px solid ${accent}` }}
       >
         <p className="text-sm font-medium text-text-primary truncate">
@@ -608,7 +608,7 @@ function PulseCard({ bundle, accent }: BundleWithAccent) {
 
   return (
     <div
-      className="bg-bg-card rounded-card border border-border-primary p-4 space-y-3"
+      className="v2-card p-4 space-y-3"
       style={{ borderLeft: `3px solid ${accent}` }}
     >
       <div className="flex items-center gap-2 min-w-0">
@@ -673,7 +673,7 @@ function RepoSubHeader({
 
   return (
     <div
-      className="bg-bg-card rounded-card border border-border-primary p-4"
+      className="v2-card p-4"
       style={{ borderLeft: `3px solid ${accent}` }}
     >
       <div className="flex items-center gap-2 mb-3 min-w-0">

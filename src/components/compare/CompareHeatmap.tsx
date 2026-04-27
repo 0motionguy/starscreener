@@ -113,7 +113,7 @@ function buildRow(bundle: CompareRepoBundle, accent: string): RepoRow {
 function HeatRow({ row }: { row: RepoRow }): JSX.Element {
   return (
     <div
-      className="rounded-card border border-border-primary bg-bg-card p-3"
+      className="v2-card p-3"
       style={{ borderLeft: `3px solid ${row.accent}` }}
     >
       <div className="flex flex-wrap items-center gap-2 mb-2">
@@ -172,7 +172,7 @@ function HeatRow({ row }: { row: RepoRow }): JSX.Element {
 function UnavailableRow({ bundle, accent }: { bundle: CompareRepoBundle; accent: string }): JSX.Element {
   return (
     <div
-      className="rounded-card border border-border-primary bg-bg-card p-3"
+      className="v2-card p-3"
       style={{ borderLeft: `3px solid ${accent}` }}
     >
       <div className="flex items-center gap-2 mb-1">

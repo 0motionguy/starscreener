@@ -71,7 +71,7 @@ function ChartTooltip({ active, payload, label }: CustomTooltipProps) {
   if (!active || !payload?.length) return null;
 
   return (
-    <div className="bg-bg-card border border-border-primary rounded-card px-3 py-2 shadow-card">
+    <div className="v2-card px-3 py-2 shadow-card">
       <p className="text-xs text-text-tertiary font-mono mb-1.5">{label}</p>
       {payload.map((entry) => (
         <div key={entry.dataKey} className="flex items-center gap-2 text-sm">

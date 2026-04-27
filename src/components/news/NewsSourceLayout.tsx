@@ -163,7 +163,7 @@ export function NewsSourceLayout({
 
 function StatTile({ label, value, hint }: MetricTile) {
   return (
-    <div className="rounded-card border border-border-primary bg-bg-card p-3">
+    <div className="v2-card p-3">
       <div className="text-[10px] uppercase tracking-wider text-text-tertiary">
         {label}
       </div>

@@ -146,7 +146,7 @@ export function SignalTable({
   const engagementLabel = rows[0]?.engagementLabel ?? "Engagement";
 
   return (
-    <div className="overflow-x-auto rounded-card border border-border-primary bg-bg-card">
+    <div className="overflow-x-auto v2-card">
       <table className="w-full text-xs">
         <thead className="text-left text-text-tertiary">
           <tr className="border-b border-border-primary bg-bg-muted/40">

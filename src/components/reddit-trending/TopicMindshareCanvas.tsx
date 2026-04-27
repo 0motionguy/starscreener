@@ -194,7 +194,7 @@ export function TopicMindshareCanvas({
   return (
     <section
       aria-label="Topic mindshare map — drag to rearrange, click to filter feed"
-      className="relative mb-4 rounded-card border border-border-primary bg-bg-card/60 overflow-hidden"
+      className="relative mb-4 v2-card/60 overflow-hidden"
     >
       <div
         className="absolute top-2 right-2 z-10 flex items-center gap-0.5 rounded-full border border-border-primary bg-bg-card/80 backdrop-blur-sm p-0.5 font-mono text-[11px]"

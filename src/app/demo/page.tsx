@@ -133,7 +133,7 @@ export default function DemoPage() {
             subtitle="Live model. Sparkline = last 30 days actual. Shaded band = next 7 / 30 / 90 day forecast."
           />
 
-          <div className="rounded-card border border-border-primary bg-bg-card/60 backdrop-blur-sm p-5 shadow-card">
+          <div className="v2-card/60 backdrop-blur-sm p-5 shadow-card">
             <div className="flex flex-wrap items-baseline justify-between gap-3 pb-4 border-b border-border-primary">
               <div>
                 <h3 className="font-mono text-lg font-bold text-text-primary">
@@ -464,7 +464,7 @@ function HeroIdeaCard({ idea }: { idea: IdeaMock }): JSX.Element {
           </div>
 
           {/* 7-DAY VELOCITY — mini chart */}
-          <div className="rounded-card border border-border-primary bg-bg-card p-4">
+          <div className="v2-card p-4">
             <div className="flex items-baseline justify-between mb-3">
               <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-text-tertiary font-semibold">
                 Velocity · 7d
@@ -477,7 +477,7 @@ function HeroIdeaCard({ idea }: { idea: IdeaMock }): JSX.Element {
           </div>
 
           {/* REACTION MIX */}
-          <div className="rounded-card border border-border-primary bg-bg-card p-4 space-y-3">
+          <div className="v2-card p-4 space-y-3">
             <div className="flex items-baseline justify-between">
               <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-text-tertiary font-semibold">
                 Reaction mix

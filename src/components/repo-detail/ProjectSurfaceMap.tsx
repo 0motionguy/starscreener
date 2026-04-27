@@ -258,25 +258,45 @@ export async function ProjectSurfaceMap({
   ];
 
   return (
-    <section className="v2-card p-4">
-      <header className="flex items-start justify-between gap-3 mb-4">
-        <div>
-          <h2 className="font-mono text-[11px] uppercase tracking-wider text-text-secondary">
-            Project surface map
-            <span className="ml-2 text-text-tertiary">{"// entity links"}</span>
-          </h2>
-          <p className="mt-1 text-sm text-text-tertiary">
-            Known repo, package, launch, and site surfaces.
-          </p>
-        </div>
-        <span className="rounded-md border border-border-primary bg-bg-secondary px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
-          {aisoScan
-            ? "profile scan"
-            : profile?.status === "scan_pending" || profile?.status === "scan_running"
-              ? "scan queued"
-              : "surfaces only"}
+    <section className="v2-card overflow-hidden">
+      <div className="v2-term-bar">
+        <span aria-hidden className="flex items-center gap-1.5">
+          <span className="block h-1.5 w-1.5 rounded-full v2-live-dot" />
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-line-200)" }}
+          />
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-line-200)" }}
+          />
         </span>
-      </header>
+        <span
+          className="flex-1 truncate"
+          style={{ color: "var(--v2-ink-200)" }}
+        >
+          {"// PROJECT SURFACE MAP · ENTITY LINKS"}
+        </span>
+        <span
+          className="v2-stat shrink-0"
+          style={{ color: "var(--v2-ink-300)" }}
+        >
+          {aisoScan
+            ? "PROFILE SCAN"
+            : profile?.status === "scan_pending" ||
+                profile?.status === "scan_running"
+              ? "SCAN QUEUED"
+              : "SURFACES ONLY"}
+        </span>
+      </div>
+
+      <div className="p-4">
+        <p
+          className="mb-4"
+          style={{ fontSize: 13, color: "var(--v2-ink-300)" }}
+        >
+          Known repo, package, launch, and site surfaces.
+        </p>
 
       {aisoHighScore && aisoScan && aisoScan.score != null && (
         <section
@@ -626,6 +646,7 @@ export async function ProjectSurfaceMap({
           </p>
         </div>
       )}
+      </div>
     </section>
   );
 }

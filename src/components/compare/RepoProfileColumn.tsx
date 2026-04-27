@@ -57,7 +57,7 @@ export function RepoProfileColumn({
   if (!profile) {
     return (
       <article
-        className="bg-bg-card rounded-card border border-border-primary p-4 space-y-2 min-h-[140px]"
+        className="v2-card p-4 space-y-2 min-h-[140px]"
         style={{ borderLeft: `3px solid ${accent}` }}
       >
         <p className="text-sm font-medium text-text-primary truncate">
@@ -77,7 +77,7 @@ export function RepoProfileColumn({
 
   return (
     <article
-      className="bg-bg-card rounded-card border border-border-primary p-4 space-y-4"
+      className="v2-card p-4 space-y-4"
       style={{ borderLeft: `3px solid ${accent}` }}
     >
       {/* Header */}
@@ -155,7 +155,7 @@ function ColumnSkeleton({ accent }: { accent: string }) {
   return (
     <div
       className={cn(
-        "bg-bg-card rounded-card border border-border-primary p-4 space-y-4",
+        "v2-card p-4 space-y-4",
       )}
       style={{ borderLeft: `3px solid ${accent}` }}
     >

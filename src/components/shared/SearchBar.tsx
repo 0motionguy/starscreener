@@ -270,7 +270,7 @@ export function SearchBar({
               zIndex: 9999,
             }}
             className={cn(
-              "bg-bg-card border border-border-primary rounded-card shadow-popover",
+              "v2-card shadow-popover",
               "overflow-hidden",
             )}
           >

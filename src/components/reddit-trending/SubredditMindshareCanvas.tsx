@@ -775,7 +775,7 @@ export function SubredditMindshareCanvas({
   return (
     <section
       aria-label="Subreddit mindshare map — drag to rearrange, click to filter feed"
-      className="relative mb-4 rounded-card border border-border-primary bg-bg-card/60 overflow-hidden"
+      className="relative mb-4 v2-card/60 overflow-hidden"
     >
       {/* Top-right control cluster: scale toggle + window toggle. */}
       <div className="absolute top-2 right-2 z-10 flex items-center gap-1.5 font-mono text-[11px]">

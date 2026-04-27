@@ -89,7 +89,7 @@ function Tile({
   children: React.ReactNode;
 }) {
   return (
-    <div className="rounded-card border border-border-primary bg-bg-card p-3">
+    <div className="v2-card p-3">
       <div className="text-xs uppercase tracking-wide text-text-muted">{label}</div>
       {children}
     </div>

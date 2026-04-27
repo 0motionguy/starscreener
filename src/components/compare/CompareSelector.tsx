@@ -270,7 +270,7 @@ export function CompareSelector() {
                 aria-label="Search repos to compare"
                 className={cn(
                   "w-full h-9 pl-9 pr-4",
-                  "bg-bg-card border border-border-primary rounded-card",
+                  "v2-card",
                   "text-sm font-mono text-text-primary placeholder:text-text-tertiary",
                   "outline-none",
                   "focus:border-accent-green/50 focus:ring-1 focus:ring-accent-green/20",

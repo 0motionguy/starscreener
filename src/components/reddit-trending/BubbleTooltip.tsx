@@ -86,7 +86,7 @@ export function BubbleTooltip({ visible, x, y, data }: BubbleTooltipProps) {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 4 }}
           transition={{ duration: 0.15 }}
-          className="fixed z-50 pointer-events-none w-[280px] rounded-md border border-border-primary bg-bg-card shadow-lg p-3 font-mono text-xs"
+          className="fixed z-50 pointer-events-none w-[280px] v2-card shadow-lg p-3 font-mono text-xs"
           style={{ left: x, top: y }}
         >
           <TooltipBody data={data} />

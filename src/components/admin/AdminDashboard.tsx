@@ -252,49 +252,105 @@ export function AdminDashboard() {
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
       <div className="max-w-[1200px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        <header className="mb-6 flex flex-wrap items-start justify-between gap-4 border-b border-border-primary pb-4">
-          <div>
-            <h1 className="text-2xl font-bold uppercase tracking-wider">
-              Admin Control
-            </h1>
-            <p className="mt-1 text-sm text-text-secondary">
-              {"// feeds, queues, issues"}
-            </p>
-            <div className="mt-3 flex flex-wrap gap-3 text-xs text-text-tertiary">
-              <Link href="/admin/ideas-queue" className="underline">
-                /admin/ideas-queue
-              </Link>
-              <Link href="/admin/revenue-queue" className="underline">
-                /admin/revenue-queue
-              </Link>
-              {overview ? (
-                <span>loaded {fmtWhen(overview.generatedAt)}</span>
-              ) : null}
-            </div>
+        <header
+          className="mb-6 pb-4 space-y-3"
+          style={{ borderBottom: "1px solid var(--v2-line-std)" }}
+        >
+          <div
+            className="flex items-center justify-between gap-3 pb-1"
+            style={{ borderBottom: "1px solid var(--v2-line-std)" }}
+          >
+            <span
+              className="v2-mono"
+              style={{ fontSize: 10, color: "var(--v2-ink-400)" }}
+            >
+              {"// 01 · ADMIN · CONTROL · OPERATOR-LEVEL"}
+            </span>
+            {overview ? (
+              <span
+                className="v2-mono v2-stat tabular-nums"
+                style={{ fontSize: 10, color: "var(--v2-ink-300)" }}
+              >
+                <span className="v2-live-dot mr-2 inline-block" aria-hidden />
+                LOADED {fmtWhen(overview.generatedAt).toUpperCase()}
+              </span>
+            ) : null}
           </div>
-          <div className="flex gap-2">
-            <button
-              type="button"
-              onClick={() => void load()}
-              disabled={loading}
-              className="rounded-md border border-border-primary bg-bg-muted px-3 py-2 text-xs font-semibold uppercase tracking-wider hover:bg-bg-card-hover disabled:opacity-50"
-            >
-              {loading ? "…" : "Reload"}
-            </button>
-            <button
-              type="button"
-              onClick={() => void logout()}
-              disabled={busyLogout}
-              className="rounded-md border border-border-primary bg-bg-muted px-3 py-2 text-xs uppercase tracking-wider text-text-secondary hover:text-text-primary disabled:opacity-50"
-            >
-              {busyLogout ? "…" : "Logout"}
-            </button>
+
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <h1
+                style={{
+                  fontFamily: "var(--font-geist), Inter, sans-serif",
+                  fontSize: "clamp(24px, 3vw, 32px)",
+                  fontWeight: 510,
+                  letterSpacing: "-0.022em",
+                  color: "var(--v2-ink-000)",
+                  lineHeight: 1.1,
+                }}
+              >
+                ADMIN CONTROL
+              </h1>
+              <p
+                className="mt-1.5"
+                style={{ fontSize: 13, color: "var(--v2-ink-300)" }}
+              >
+                {"// feeds, queues, issues"}
+              </p>
+              <div
+                className="mt-3 flex flex-wrap gap-3 v2-mono"
+                style={{ fontSize: 10, color: "var(--v2-ink-400)" }}
+              >
+                <Link
+                  href="/admin/ideas-queue"
+                  className="underline"
+                  style={{ color: "var(--v2-ink-300)" }}
+                >
+                  /admin/ideas-queue
+                </Link>
+                <Link
+                  href="/admin/revenue-queue"
+                  className="underline"
+                  style={{ color: "var(--v2-ink-300)" }}
+                >
+                  /admin/revenue-queue
+                </Link>
+              </div>
+            </div>
+
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => void load()}
+                disabled={loading}
+                className="v2-btn v2-btn-ghost disabled:opacity-50"
+              >
+                {loading ? "…" : "RELOAD"}
+              </button>
+              <button
+                type="button"
+                onClick={() => void logout()}
+                disabled={busyLogout}
+                className="v2-btn v2-btn-ghost disabled:opacity-50"
+              >
+                {busyLogout ? "…" : "LOGOUT"}
+              </button>
+            </div>
           </div>
         </header>
 
         {error ? (
-          <div className="mb-4 rounded-md border border-down/60 bg-down/5 px-3 py-2 text-sm text-down">
-            {error}
+          <div
+            className="v2-mono mb-4 px-3 py-2"
+            style={{
+              fontSize: 11,
+              color: "var(--v2-sig-red)",
+              border: "1px solid var(--v2-sig-red)",
+              borderRadius: 2,
+              background: "rgba(255, 77, 77, 0.06)",
+            }}
+          >
+            {`// ERROR · ${error}`}
           </div>
         ) : null}
 
@@ -325,7 +381,7 @@ export function AdminDashboard() {
             </section>
 
             {/* Issues */}
-            <section className="mb-6 rounded-card border border-border-primary bg-bg-card p-4">
+            <section className="mb-6 v2-card p-4">
               <h2 className="mb-3 text-sm font-bold uppercase tracking-wider">
                 Issues
                 <span className="ml-2 text-[10px] text-text-tertiary">
@@ -354,7 +410,7 @@ export function AdminDashboard() {
             </section>
 
             {/* Feeds */}
-            <section className="mb-6 rounded-card border border-border-primary bg-bg-card p-4">
+            <section className="mb-6 v2-card p-4">
               <h2 className="mb-3 text-sm font-bold uppercase tracking-wider">
                 Feeds &amp; manual scan
                 <span className="ml-2 text-[10px] text-text-tertiary">
@@ -469,7 +525,7 @@ export function AdminDashboard() {
             </section>
 
             {/* Drop-a-repo submissions */}
-            <section className="mb-6 rounded-card border border-border-primary bg-bg-card p-4">
+            <section className="mb-6 v2-card p-4">
               <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
                 <h2 className="text-sm font-bold uppercase tracking-wider">
                   Drop-a-repo submissions
@@ -564,7 +620,7 @@ export function AdminDashboard() {
             </section>
 
             {/* Ideas queue */}
-            <section className="mb-6 rounded-card border border-border-primary bg-bg-card p-4">
+            <section className="mb-6 v2-card p-4">
               <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
                 <h2 className="text-sm font-bold uppercase tracking-wider">
                   Ideas queue
@@ -605,7 +661,7 @@ export function AdminDashboard() {
 
             {/* Action log */}
             {actionLog.length > 0 ? (
-              <section className="rounded-card border border-border-primary bg-bg-card p-4">
+              <section className="v2-card p-4">
                 <h2 className="mb-2 text-sm font-bold uppercase tracking-wider">
                   Action log (this session)
                 </h2>
@@ -635,7 +691,7 @@ function StatTile({
   value: string | number;
 }) {
   return (
-    <div className="rounded-card border border-border-primary bg-bg-card p-3">
+    <div className="v2-card p-3">
       <div className="text-[10px] uppercase tracking-wider text-text-tertiary">
         {label}
       </div>

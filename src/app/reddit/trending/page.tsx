@@ -9,7 +9,6 @@ import {
   isAllPostsCold,
   refreshRedditAllPostsFromStore,
 } from "@/lib/reddit-all-data";
-import { extractTopics } from "@/lib/reddit-topics";
 import { SubredditMindshareMap } from "@/components/reddit-trending/SubredditMindshareMap";
 import { AllTrendingTabs } from "@/components/reddit-trending/AllTrendingTabs";
 import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
@@ -38,29 +37,31 @@ export default async function RedditTrendingPage() {
   const allPostsCold = isAllPostsCold();
   const posts = getAllScoredPosts();
   const stats = getAllPostsStats();
-  const topics7d = allPostsCold
-    ? []
-    : extractTopics(
-        posts.filter(
-          (post) =>
-            post.createdUtc * 1000 >= Date.now() - 7 * 24 * 60 * 60 * 1000,
-        ),
-        { maxTopics: 200 },
-      );
 
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
       <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        <header className="mb-6 border-b border-border-primary pb-6">
-          <div className="flex items-baseline gap-3 flex-wrap">
-            <h1 className="text-2xl font-bold uppercase tracking-wider">
-              REDDIT / ALL TRENDING
-            </h1>
-            <span className="text-xs text-text-tertiary">
-              {"// topic mindshare across 45 AI subs"}
-            </span>
+        {/* V3 page header — mono eyebrow + title + tight subtitle. */}
+        <header
+          className="mb-5 pb-4 border-b"
+          style={{ borderColor: "var(--v3-line-100)" }}
+        >
+          <div
+            className="v2-mono mb-2 text-[10px] tracking-[0.18em] uppercase"
+            style={{ color: "var(--v3-ink-400)" }}
+          >
+            {"// TOPIC MINDSHARE ACROSS 45 AI SUBS"}
           </div>
-          <p className="mt-2 text-sm text-text-secondary max-w-2xl">
+          <h1
+            className="text-2xl font-bold uppercase tracking-wider"
+            style={{ color: "var(--v3-ink-000)" }}
+          >
+            REDDIT / ALL TRENDING
+          </h1>
+          <p
+            className="mt-2 text-[13px] leading-relaxed max-w-2xl"
+            style={{ color: "var(--v3-ink-300)" }}
+          >
             Every scored Reddit post across the tracked subs. Topic phrases are
             extracted from titles with n-gram frequency + baseline-tier
             weighting. Click a bubble to filter the feed to posts discussing
@@ -100,33 +101,9 @@ export default async function RedditTrendingPage() {
   );
 }
 
-function StatTile({
-  label,
-  value,
-  hint,
-}: {
-  label: string;
-  value: string;
-  hint?: string;
-}) {
-  return (
-    <div className="border border-border-primary rounded-md px-4 py-3 bg-bg-secondary">
-      <div className="text-[10px] uppercase tracking-wider text-text-tertiary">
-        {label}
-      </div>
-      <div className="mt-1 text-xl font-bold truncate">{value}</div>
-      {hint ? (
-        <div className="mt-0.5 text-[11px] text-text-tertiary truncate">
-          {hint}
-        </div>
-      ) : null}
-    </div>
-  );
-}
-
 function MapSkeleton() {
   return (
-    <div className="rounded-card border border-border-primary bg-bg-card/40 h-[400px] flex items-center justify-center text-sm text-text-tertiary">
+    <div className="v2-card/40 h-[400px] flex items-center justify-center text-sm text-text-tertiary">
       Loading mindshare map...
     </div>
   );

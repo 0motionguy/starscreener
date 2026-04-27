@@ -65,7 +65,7 @@ export default function DropEventsTile() {
 
   if (state.status === "loading") {
     return (
-      <div className="rounded-card border border-border-primary bg-bg-card p-3">
+      <div className="v2-card p-3">
         <div className="text-[10px] uppercase tracking-wider text-text-tertiary">
           Drop attempts (7d)
         </div>
@@ -77,7 +77,7 @@ export default function DropEventsTile() {
 
   if (state.status === "error") {
     return (
-      <div className="rounded-card border border-border-primary bg-bg-card p-3">
+      <div className="v2-card p-3">
         <div className="text-[10px] uppercase tracking-wider text-text-tertiary">
           Drop attempts (7d)
         </div>
@@ -89,7 +89,7 @@ export default function DropEventsTile() {
 
   const { alreadyTracked, duplicate, created, total } = state.summary;
   return (
-    <div className="rounded-card border border-border-primary bg-bg-card p-3">
+    <div className="v2-card p-3">
       <div className="text-[10px] uppercase tracking-wider text-text-tertiary">
         Drop attempts (7d)
       </div>

@@ -4,21 +4,24 @@
 
 import { readFile, writeFile } from "node:fs/promises";
 
-const TARGETS = [
-  "src/components/admin/IdeasQueueAdmin.tsx",
-  "src/components/admin/RevenueQueueAdmin.tsx",
-  "src/components/profile/ProfileView.tsx",
-  "src/components/producthunt/RecentLaunches.tsx",
-  "src/components/ideas/IdeaCard.tsx",
-  "src/components/compare/CompareChart.tsx",
-  "src/components/compare/CompareSelector.tsx",
-  "src/components/tools/RevenueEstimateTool.tsx",
-  "src/components/revenue/VerifiedStartupCard.tsx",
-  "src/components/repo-detail/ProjectSurfaceMap.tsx",
-  "src/components/submissions/DropRevenuePage.tsx",
-  "src/components/repo-detail/RepoDetailChart.tsx",
-  "src/components/repo-detail/RepoRevenuePanel.tsx",
-];
+// Auto-discover all .tsx files under src/. Cheap (~1k files) and means
+// every new file lands in the sweep without manually maintaining the list.
+import { readdir } from "node:fs/promises";
+import { join } from "node:path";
+
+async function walk(dir) {
+  const out = [];
+  const entries = await readdir(dir, { withFileTypes: true });
+  for (const entry of entries) {
+    if (entry.name === "node_modules" || entry.name === ".next") continue;
+    const full = join(dir, entry.name);
+    if (entry.isDirectory()) out.push(...(await walk(full)));
+    else if (entry.isFile() && /\.(tsx|ts)$/.test(entry.name)) out.push(full);
+  }
+  return out;
+}
+
+const TARGETS = await walk("src");
 
 // Each rule is { from: regex, to: string }. Order matters — longer
 // patterns first so they win over shorter substring matches.
@@ -52,6 +55,36 @@ const RULES = [
   },
   {
     from: /\bbg-bg-card\s+rounded-card\s+border\s+border-border-primary\s+shadow-card\b/g,
+    to: "v2-card",
+  },
+  // No-shadow variants (shadow-card already neutered via globals.css; the
+  // bare `rounded-card border border-border-primary bg-bg-card` chrome
+  // still survives in many places. Replace with v2-card for visual
+  // parity + 2px corners.).
+  {
+    from: /\brounded-card\s+border\s+border-border-primary\s+bg-bg-card\b/g,
+    to: "v2-card",
+  },
+  {
+    from: /\bbg-bg-card\s+border\s+border-border-primary\s+rounded-card\b/g,
+    to: "v2-card",
+  },
+  {
+    from: /\bbg-bg-card\s+rounded-card\s+border\s+border-border-primary\b/g,
+    to: "v2-card",
+  },
+  // bg-bg-card with rounded-md border-border-primary is the inset-card
+  // variant. Map to v2-card for consistency.
+  {
+    from: /\brounded-md\s+border\s+border-border-primary\s+bg-bg-card\b/g,
+    to: "v2-card",
+  },
+  {
+    from: /\bbg-bg-card\s+rounded-md\s+border\s+border-border-primary\b/g,
+    to: "v2-card",
+  },
+  {
+    from: /\bborder\s+border-border-primary\s+bg-bg-card\s+rounded-md\b/g,
     to: "v2-card",
   },
 ];

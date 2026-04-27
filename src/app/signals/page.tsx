@@ -455,7 +455,7 @@ export default function SignalsPage() {
 
   const rightRail = (
     <aside className="flex flex-col gap-4">
-      <div className="rounded-card border border-border-primary bg-bg-card p-3">
+      <div className="v2-card p-3">
         <h3 className="font-mono text-[10px] uppercase tracking-[0.16em] text-text-tertiary">
           Top Topics
         </h3>
@@ -478,7 +478,7 @@ export default function SignalsPage() {
         )}
       </div>
 
-      <div className="rounded-card border border-border-primary bg-bg-card p-3">
+      <div className="v2-card p-3">
         <h3 className="font-mono text-[10px] uppercase tracking-[0.16em] text-text-tertiary">
           Top Linked Repos
         </h3>

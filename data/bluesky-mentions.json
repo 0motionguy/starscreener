@@ -1,46 +1,44 @@
 {
-  "fetchedAt": "2026-04-27T16:57:17.227Z",
+  "fetchedAt": "2026-04-27T18:42:04.040Z",
   "windowDays": 7,
-  "scannedPosts": 300,
+  "scannedPosts": 99,
   "searchQuery": "github.com",
-  "pagesFetched": 3,
+  "pagesFetched": 1,
   "mentions": {
-    "opendataloader-project/opendataloader-pdf": {
+    "lightonai/next-plaid": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:mrxvpcmontw7iqhkyik2isgh/app.bsky.feed.post/3mkijyfmizs25",
-        "cid": "bafyreiaiycjixb233rqhasoamgj2saatt5szagumkxmvprk6iprwq2xzcq",
-        "bskyUrl": "https://bsky.app/profile/soisoiro.bsky.social/post/3mkijyfmizs25",
-        "text": "ローカル処理可能なPDF OCR。CPU動作かつ多言語対応、ハイブリッドモードで動くAI処理もバックエンド鯖で処理されるから完全ローカル動作を謳ってる。図表キャプションも付けられるようで期待のプロジェクトだな～ 競合とのベンチマーク差本当かよってレベルの差 note.com/humble_bobca... github.com/opendataload...",
+        "uri": "at://did:plc:jsaci272pfep77eoo5jjxfrm/app.bsky.feed.post/3mkimpgpnhk2k",
+        "cid": "bafyreied2dzcz2pgp2epnvw2mzla56ztqesa7a5ihcrhyrv2eneyq6rrjm",
+        "bskyUrl": "https://bsky.app/profile/refinement.systems/post/3mkimpgpnhk2k",
+        "text": "anyway this is interesting but a bit underwhelming compared to how long it takes to build an index: github.com/lightonai/ne...",
         "author": {
-          "handle": "soisoiro.bsky.social",
-          "displayName": "soiro_"
+          "handle": "refinement.systems"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-04-27T16:55:51.723Z",
-        "hoursSincePosted": 0.5
+        "createdAt": "2026-04-27T17:44:32.110Z",
+        "hoursSincePosted": 0.96
       },
       "posts": [
         {
-          "uri": "at://did:plc:mrxvpcmontw7iqhkyik2isgh/app.bsky.feed.post/3mkijyfmizs25",
-          "cid": "bafyreiaiycjixb233rqhasoamgj2saatt5szagumkxmvprk6iprwq2xzcq",
-          "bskyUrl": "https://bsky.app/profile/soisoiro.bsky.social/post/3mkijyfmizs25",
-          "text": "ローカル処理可能なPDF OCR。CPU動作かつ多言語対応、ハイブリッドモードで動くAI処理もバックエンド鯖で処理されるから完全ローカル動作を謳ってる。図表キャプションも付けられるようで期待のプロジェクトだな～ 競合とのベンチマーク差本当かよってレベルの差 note.com/humble_bobca... github.com/opendataload...",
+          "uri": "at://did:plc:jsaci272pfep77eoo5jjxfrm/app.bsky.feed.post/3mkimpgpnhk2k",
+          "cid": "bafyreied2dzcz2pgp2epnvw2mzla56ztqesa7a5ihcrhyrv2eneyq6rrjm",
+          "bskyUrl": "https://bsky.app/profile/refinement.systems/post/3mkimpgpnhk2k",
+          "text": "anyway this is interesting but a bit underwhelming compared to how long it takes to build an index: github.com/lightonai/ne...",
           "author": {
-            "handle": "soisoiro.bsky.social",
-            "displayName": "soiro_"
+            "handle": "refinement.systems"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-04-27T16:55:51.723Z",
-          "createdUtc": 1777308951,
-          "ageHours": 0.5,
+          "createdAt": "2026-04-27T17:44:32.110Z",
+          "createdUtc": 1777311872,
+          "ageHours": 0.96,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -48,7 +46,7 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "opendataloader-project/opendataloader-pdf",
+              "fullName": "lightonai/next-plaid",
               "matchType": "url",
               "confidence": 1
             }
@@ -56,221 +54,16 @@
         }
       ]
     },
-    "fynnfluegge/agtx": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkijotnmkn2p",
-        "cid": "bafyreicod4hovu5thfyflm4jqnnfrs5ebdnwyjlrb7e7oahl43lmnp5a7u",
-        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkijotnmkn2p",
-        "text": "fynnfluegge / agtx: 🏄🏼‍♂️ The blackboard for coding agents - from idea to merge, hands-free ★956 https://github.com/fynnfluegge/agtx",
-        "author": {
-          "handle": "rusttrending.bsky.social",
-          "displayName": "RustTrending"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-27T16:50:30.780755Z",
-        "hoursSincePosted": 0.5
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkijotnmkn2p",
-          "cid": "bafyreicod4hovu5thfyflm4jqnnfrs5ebdnwyjlrb7e7oahl43lmnp5a7u",
-          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkijotnmkn2p",
-          "text": "fynnfluegge / agtx: 🏄🏼‍♂️ The blackboard for coding agents - from idea to merge, hands-free ★956 https://github.com/fynnfluegge/agtx",
-          "author": {
-            "handle": "rusttrending.bsky.social",
-            "displayName": "RustTrending"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-27T16:50:30.780755Z",
-          "createdUtc": 1777308630,
-          "ageHours": 0.5,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "fynnfluegge/agtx",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "unslothai/unsloth": {
+    "JCodesMore/ai-website-cloner-template": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:3x2yyg4s6c6n26caev222yv3/app.bsky.feed.post/3mkiimumkek24",
-        "cid": "bafyreidgogkf53heln7mls5vldl5ucqy7zilyl2z6fi7tteswkx7pbegxq",
-        "bskyUrl": "https://bsky.app/profile/ota.bsky.social/post/3mkiimumkek24",
-        "text": "\"Unsloth Studio lets you run and train models locally.\" github.com/unslothai/un...",
-        "author": {
-          "handle": "ota.bsky.social",
-          "displayName": "S. Ota"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-27T16:31:31.059Z",
-        "hoursSincePosted": 0.5
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:3x2yyg4s6c6n26caev222yv3/app.bsky.feed.post/3mkiimumkek24",
-          "cid": "bafyreidgogkf53heln7mls5vldl5ucqy7zilyl2z6fi7tteswkx7pbegxq",
-          "bskyUrl": "https://bsky.app/profile/ota.bsky.social/post/3mkiimumkek24",
-          "text": "\"Unsloth Studio lets you run and train models locally.\" github.com/unslothai/un...",
-          "author": {
-            "handle": "ota.bsky.social",
-            "displayName": "S. Ota"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-27T16:31:31.059Z",
-          "createdUtc": 1777307491,
-          "ageHours": 0.5,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "unslothai/unsloth",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "paperless-ngx/paperless-ngx": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:cz32h5hwdr67i7ecwdux6b4s/app.bsky.feed.post/3mkihybzh2d22",
-        "cid": "bafyreifyz4riwevbqq6sulzdyw77bxm4cwsthkbslxp7w4d444k4zl34pu",
-        "bskyUrl": "https://bsky.app/profile/dbt3.ch/post/3mkihybzh2d22",
-        "text": "Paperless-ngx v2.20.15 is out with fresh fixes and improvements. If you are not already managing your documents with this beast, you are doing it wrong. #selfhosted #homelab https://github.com/paperless-ngx/paperless-ngx/releases/tag/v2.20.15",
-        "author": {
-          "handle": "dbt3.ch",
-          "displayName": "David"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-27T16:20:00.347Z",
-        "hoursSincePosted": 0.62
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:cz32h5hwdr67i7ecwdux6b4s/app.bsky.feed.post/3mkihybzh2d22",
-          "cid": "bafyreifyz4riwevbqq6sulzdyw77bxm4cwsthkbslxp7w4d444k4zl34pu",
-          "bskyUrl": "https://bsky.app/profile/dbt3.ch/post/3mkihybzh2d22",
-          "text": "Paperless-ngx v2.20.15 is out with fresh fixes and improvements. If you are not already managing your documents with this beast, you are doing it wrong. #selfhosted #homelab https://github.com/paperless-ngx/paperless-ngx/releases/tag/v2.20.15",
-          "author": {
-            "handle": "dbt3.ch",
-            "displayName": "David"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-27T16:20:00.347Z",
-          "createdUtc": 1777306800,
-          "ageHours": 0.62,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo",
-            "is-announcement"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "paperless-ngx/paperless-ngx",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "steipete/summarize": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:mrxvpcmontw7iqhkyik2isgh/app.bsky.feed.post/3mkigupg3fs2u",
-        "cid": "bafyreigxlnoyeocduan5rnezbvxpkcorcmgdiwf2rdz3n4m2im7suxzusi",
-        "bskyUrl": "https://bsky.app/profile/soisoiro.bsky.social/post/3mkigupg3fs2u",
-        "text": "一つの理想形のプログラムだけど、多機能すぎてすごいな よくみたらOpenClawの開発者というね github.com/steipete/sum...",
-        "author": {
-          "handle": "soisoiro.bsky.social",
-          "displayName": "soiro_"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-27T16:00:06.556Z",
-        "hoursSincePosted": 0.95
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:mrxvpcmontw7iqhkyik2isgh/app.bsky.feed.post/3mkigupg3fs2u",
-          "cid": "bafyreigxlnoyeocduan5rnezbvxpkcorcmgdiwf2rdz3n4m2im7suxzusi",
-          "bskyUrl": "https://bsky.app/profile/soisoiro.bsky.social/post/3mkigupg3fs2u",
-          "text": "一つの理想形のプログラムだけど、多機能すぎてすごいな よくみたらOpenClawの開発者というね github.com/steipete/sum...",
-          "author": {
-            "handle": "soisoiro.bsky.social",
-            "displayName": "soiro_"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-27T16:00:06.556Z",
-          "createdUtc": 1777305606,
-          "ageHours": 0.95,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "steipete/summarize",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "aiming-lab/AutoResearchClaw": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkigshbx5i2o",
-        "cid": "bafyreig2wm5jlmxo63rvbvbdfihrer3lxu5no5iwh33mfdgk32wtvlek7y",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkigshbx5i2o",
-        "text": "https://github.com/aiming-lab/AutoResearchClaw",
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkilvoqayt2u",
+        "cid": "bafyreigm6a6ojbt4bnjlxqv2zl6to3jatlcsrcq5jmsbbl77dj4qqsacku",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkilvoqayt2u",
+        "text": "https://github.com/JCodesMore/ai-website-cloner-template",
         "author": {
           "handle": "tom-doerr.bsky.social",
           "displayName": "Tom Dörr "
@@ -278,15 +71,15 @@
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-04-27T15:58:50Z",
-        "hoursSincePosted": 0.97
+        "createdAt": "2026-04-27T17:30:07Z",
+        "hoursSincePosted": 1.2
       },
       "posts": [
         {
-          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkigshbx5i2o",
-          "cid": "bafyreig2wm5jlmxo63rvbvbdfihrer3lxu5no5iwh33mfdgk32wtvlek7y",
-          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkigshbx5i2o",
-          "text": "https://github.com/aiming-lab/AutoResearchClaw",
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkilvoqayt2u",
+          "cid": "bafyreigm6a6ojbt4bnjlxqv2zl6to3jatlcsrcq5jmsbbl77dj4qqsacku",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkilvoqayt2u",
+          "text": "https://github.com/JCodesMore/ai-website-cloner-template",
           "author": {
             "handle": "tom-doerr.bsky.social",
             "displayName": "Tom Dörr "
@@ -294,9 +87,9 @@
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-04-27T15:58:50Z",
-          "createdUtc": 1777305530,
-          "ageHours": 0.97,
+          "createdAt": "2026-04-27T17:30:07Z",
+          "createdUtc": 1777311007,
+          "ageHours": 1.2,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -304,498 +97,7 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "aiming-lab/AutoResearchClaw",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "Michael-A-Kuykendall/shimmy": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkigdfc64x2z",
-        "cid": "bafyreibrkia7z7iajjaxbtaopxcauztqufvxkgkvqy7ooebh7biz24e4r4",
-        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkigdfc64x2z",
-        "text": "Michael-A-Kuykendall / shimmy: ⚡ Python-free Rust inference server — OpenAI-API compatible. GGUF + SafeTensors, hot model swap, auto-discovery, single binary. FREE now, FREE forever. ★4618 https://github.com/Michael-A-Kuykendall/shimmy",
-        "author": {
-          "handle": "rusttrending.bsky.social",
-          "displayName": "RustTrending"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-27T15:50:24.820034Z",
-        "hoursSincePosted": 1.11
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkigdfc64x2z",
-          "cid": "bafyreibrkia7z7iajjaxbtaopxcauztqufvxkgkvqy7ooebh7biz24e4r4",
-          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkigdfc64x2z",
-          "text": "Michael-A-Kuykendall / shimmy: ⚡ Python-free Rust inference server — OpenAI-API compatible. GGUF + SafeTensors, hot model swap, auto-discovery, single binary. FREE now, FREE forever. ★4618 https://github.com/Michael-A-Kuykendall/shimmy",
-          "author": {
-            "handle": "rusttrending.bsky.social",
-            "displayName": "RustTrending"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-27T15:50:24.820034Z",
-          "createdUtc": 1777305024,
-          "ageHours": 1.11,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "Michael-A-Kuykendall/shimmy",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "HamzaYslmn/esp-ps5": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:3ya6fekbfwfvs6bx4zio5p2k/app.bsky.feed.post/3mkigcs44o42h",
-        "cid": "bafyreicfi2zkvxsj6ww54etdkayhgcbm5dvzdu64hrxlkzwvkbytb5rk6u",
-        "bskyUrl": "https://bsky.app/profile/arduinolibs.bsky.social/post/3mkigcs44o42h",
-        "text": "esp-ps5 (1.3.2) for esp32 by Hamza Yesilmen ➡️ https://github.com/HamzaYslmn/esp-ps5 Use a PS5 DualSense controller with an ESP32 over Bluetooth Classic. #ArduinoLibraries #ArduinoLibs #esp32Libraries",
-        "author": {
-          "handle": "arduinolibs.bsky.social",
-          "displayName": "Arduino Libraries"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-27T17:50:02+02:00",
-        "hoursSincePosted": 1.12
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:3ya6fekbfwfvs6bx4zio5p2k/app.bsky.feed.post/3mkigcs44o42h",
-          "cid": "bafyreicfi2zkvxsj6ww54etdkayhgcbm5dvzdu64hrxlkzwvkbytb5rk6u",
-          "bskyUrl": "https://bsky.app/profile/arduinolibs.bsky.social/post/3mkigcs44o42h",
-          "text": "esp-ps5 (1.3.2) for esp32 by Hamza Yesilmen ➡️ https://github.com/HamzaYslmn/esp-ps5 Use a PS5 DualSense controller with an ESP32 over Bluetooth Classic. #ArduinoLibraries #ArduinoLibs #esp32Libraries",
-          "author": {
-            "handle": "arduinolibs.bsky.social",
-            "displayName": "Arduino Libraries"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-27T17:50:02+02:00",
-          "createdUtc": 1777305002,
-          "ageHours": 1.12,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo",
-            "is-announcement"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "HamzaYslmn/esp-ps5",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "wanshuiyin/Auto-claude-code-research-in-sleep": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkiearqcpx2o",
-        "cid": "bafyreigaf6lgin36u3a677atiqnxikz4ogjqsqzhkhsdbe6vo7e2szk5mi",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkiearqcpx2o",
-        "text": "https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep",
-        "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-27T15:13:10Z",
-        "hoursSincePosted": 1.74
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkiearqcpx2o",
-          "cid": "bafyreigaf6lgin36u3a677atiqnxikz4ogjqsqzhkhsdbe6vo7e2szk5mi",
-          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkiearqcpx2o",
-          "text": "https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep",
-          "author": {
-            "handle": "tom-doerr.bsky.social",
-            "displayName": "Tom Dörr "
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-27T15:13:10Z",
-          "createdUtc": 1777302790,
-          "ageHours": 1.74,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "wanshuiyin/Auto-claude-code-research-in-sleep",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "alash3al/stash": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:p34okilpjskbqyf3fibdirbg/app.bsky.feed.post/3mkidvpdgfo2i",
-        "cid": "bafyreictq53fmvj6ficy3pxhxcmeelififocd56wiq7czgrsbcyb6hzu7m",
-        "bskyUrl": "https://bsky.app/profile/golangch.bsky.social/post/3mkidvpdgfo2i",
-        "text": "A persistent memory layer for AI agents. Episodes, facts, and working context stored in Postgres. MCP server included. Self-hosted, single binary, no cloud required #golang github.com/alash3al/st...",
-        "author": {
-          "handle": "golangch.bsky.social",
-          "displayName": "Golang Articles, News, Packages"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-04-27T15:06:58.566991Z",
-        "hoursSincePosted": 1.84
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:p34okilpjskbqyf3fibdirbg/app.bsky.feed.post/3mkidvpdgfo2i",
-          "cid": "bafyreictq53fmvj6ficy3pxhxcmeelififocd56wiq7czgrsbcyb6hzu7m",
-          "bskyUrl": "https://bsky.app/profile/golangch.bsky.social/post/3mkidvpdgfo2i",
-          "text": "A persistent memory layer for AI agents. Episodes, facts, and working context stored in Postgres. MCP server included. Self-hosted, single binary, no cloud required #golang github.com/alash3al/st...",
-          "author": {
-            "handle": "golangch.bsky.social",
-            "displayName": "Golang Articles, News, Packages"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-04-27T15:06:58.566991Z",
-          "createdUtc": 1777302418,
-          "ageHours": 1.84,
-          "trendingScore": 1.5,
-          "content_tags": [
-            "has-github-repo",
-            "has-mcp",
-            "has-agent"
-          ],
-          "value_score": 3,
-          "linkedRepos": [
-            {
-              "fullName": "alash3al/stash",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "heygen-com/hyperframes": {
-      "count7d": 1,
-      "likesSum7d": 5,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:shvwbxopy7nkqebf4z6ep3rl/app.bsky.feed.post/3mkidi6ffen2e",
-        "cid": "bafyreibqu52jlknd3wzitbrpwg7e3wlp425igzhtktzosup5k4eavpiwwm",
-        "bskyUrl": "https://bsky.app/profile/midu.dev/post/3mkidi6ffen2e",
-        "text": "Crea vídeos con HTML, CSS y JS. ¿Cómo? Instalando una sola Agent Skill. Se llama HyperFrames, es de código abierto y funciona con cualquier IA. El resultado es tremendo. → github.com/heygen-com/hyperframes",
-        "author": {
-          "handle": "midu.dev",
-          "displayName": "midudev · Miguel Ángel Durán"
-        },
-        "likeCount": 5,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-27T14:59:24.573Z",
-        "hoursSincePosted": 1.96
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:shvwbxopy7nkqebf4z6ep3rl/app.bsky.feed.post/3mkidi6ffen2e",
-          "cid": "bafyreibqu52jlknd3wzitbrpwg7e3wlp425igzhtktzosup5k4eavpiwwm",
-          "bskyUrl": "https://bsky.app/profile/midu.dev/post/3mkidi6ffen2e",
-          "text": "Crea vídeos con HTML, CSS y JS. ¿Cómo? Instalando una sola Agent Skill. Se llama HyperFrames, es de código abierto y funciona con cualquier IA. El resultado es tremendo. → github.com/heygen-com/hyperframes",
-          "author": {
-            "handle": "midu.dev",
-            "displayName": "midudev · Miguel Ángel Durán"
-          },
-          "likeCount": 5,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-27T14:59:24.573Z",
-          "createdUtc": 1777301964,
-          "ageHours": 1.96,
-          "trendingScore": 5,
-          "content_tags": [
-            "has-github-repo",
-            "has-skill"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "heygen-com/hyperframes",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "openclaw/openclaw": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkiceriblv2a",
-        "cid": "bafyreifwb2ftjfu5dttjur7svtwk5cix6bg4dpwkbfeodoy7ilhmdrji5a",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkiceriblv2a",
-        "text": "🟠 OpenClaw 2026.4.25 lands a major voice and observability upgrade, plus safer browser and plugin startup paths OpenClaw 2026.4.25 is not a routine point release. It expands TTS into a much broader multi-provider voice... https://github.com/openclaw/openclaw/releases/tag/v2026.4.25 #AI #AgentWyre",
-        "author": {
-          "handle": "agentwyre.ai"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-04-27T14:39:35.050179+00:00",
-        "hoursSincePosted": 2.3
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkiceriblv2a",
-          "cid": "bafyreifwb2ftjfu5dttjur7svtwk5cix6bg4dpwkbfeodoy7ilhmdrji5a",
-          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkiceriblv2a",
-          "text": "🟠 OpenClaw 2026.4.25 lands a major voice and observability upgrade, plus safer browser and plugin startup paths OpenClaw 2026.4.25 is not a routine point release. It expands TTS into a much broader multi-provider voice... https://github.com/openclaw/openclaw/releases/tag/v2026.4.25 #AI #AgentWyre",
-          "author": {
-            "handle": "agentwyre.ai"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-04-27T14:39:35.050179+00:00",
-          "createdUtc": 1777300775,
-          "ageHours": 2.3,
-          "trendingScore": 1.5,
-          "content_tags": [
-            "has-github-repo",
-            "is-announcement"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "openclaw/openclaw",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "anthropics/claude-code": {
-      "count7d": 2,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:niluiwex7fsnjak2wxs4j47y/app.bsky.feed.post/3mkibrcktzp2i",
-        "cid": "bafyreihhfkwbilvuld4udp6okpv2ao6fngbfbfixlkieakq3ggkzqgf4p4",
-        "bskyUrl": "https://bsky.app/profile/azu.bsky.social/post/3mkibrcktzp2i",
-        "text": "見てる: \"Stop hook systemMessage JSON not rendered as visible Line in v2.1.114 (plugin-scope dispatch) · Issue #50542 · anthropics/claude-code\" https://github.com/anthropics/claude-code/issues/50542",
-        "author": {
-          "handle": "azu.bsky.social",
-          "displayName": "azu"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-27T14:28:42.984Z",
-        "hoursSincePosted": 2.48
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:niluiwex7fsnjak2wxs4j47y/app.bsky.feed.post/3mkibrcktzp2i",
-          "cid": "bafyreihhfkwbilvuld4udp6okpv2ao6fngbfbfixlkieakq3ggkzqgf4p4",
-          "bskyUrl": "https://bsky.app/profile/azu.bsky.social/post/3mkibrcktzp2i",
-          "text": "見てる: \"Stop hook systemMessage JSON not rendered as visible Line in v2.1.114 (plugin-scope dispatch) · Issue #50542 · anthropics/claude-code\" https://github.com/anthropics/claude-code/issues/50542",
-          "author": {
-            "handle": "azu.bsky.social",
-            "displayName": "azu"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-27T14:28:42.984Z",
-          "createdUtc": 1777300122,
-          "ageHours": 2.48,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:niluiwex7fsnjak2wxs4j47y/app.bsky.feed.post/3mki5v2n4ge2i",
-          "cid": "bafyreieub6rb4midhzkzstwns33nfsyr7tupchjirbf7vmllelpypdpxee",
-          "bskyUrl": "https://bsky.app/profile/azu.bsky.social/post/3mki5v2n4ge2i",
-          "text": "見てる: \"Claude Code web sandbox proxy allowlist blocks user-owned custom domains · Issue #52982 · anthropics/claude-code\" https://github.com/anthropics/claude-code/issues/52982",
-          "author": {
-            "handle": "azu.bsky.social",
-            "displayName": "azu"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-27T13:19:13.910Z",
-          "createdUtc": 1777295953,
-          "ageHours": 3.63,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "netbirdio/netbird": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:cz32h5hwdr67i7ecwdux6b4s/app.bsky.feed.post/3mkiayrlrl72f",
-        "cid": "bafyreihkdfpschdyluwrqk7mtgicv7aibek2msnbysrpdukdytcbxdvlge",
-        "bskyUrl": "https://bsky.app/profile/dbt3.ch/post/3mkiayrlrl72f",
-        "text": "NetBird v0.70.0 is here and the self-hosted networking game keeps getting stronger. If you are not running your own WireGuard overlay network yet, now is the time to start. #selfhosted #homelab https://github.com/netbirdio/netbird/releases/tag/v0.70.0",
-        "author": {
-          "handle": "dbt3.ch",
-          "displayName": "David"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-27T14:15:00.481Z",
-        "hoursSincePosted": 2.7
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:cz32h5hwdr67i7ecwdux6b4s/app.bsky.feed.post/3mkiayrlrl72f",
-          "cid": "bafyreihkdfpschdyluwrqk7mtgicv7aibek2msnbysrpdukdytcbxdvlge",
-          "bskyUrl": "https://bsky.app/profile/dbt3.ch/post/3mkiayrlrl72f",
-          "text": "NetBird v0.70.0 is here and the self-hosted networking game keeps getting stronger. If you are not running your own WireGuard overlay network yet, now is the time to start. #selfhosted #homelab https://github.com/netbirdio/netbird/releases/tag/v0.70.0",
-          "author": {
-            "handle": "dbt3.ch",
-            "displayName": "David"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-27T14:15:00.481Z",
-          "createdUtc": 1777299300,
-          "ageHours": 2.7,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo",
-            "is-announcement"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "netbirdio/netbird",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "getagentseal/codeburn": {
-      "count7d": 1,
-      "likesSum7d": 4,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:k2s63pxmksn23okbbmp36fjo/app.bsky.feed.post/3mki4zkomr52p",
-        "cid": "bafyreigbv2zxibnfdb2qh6srwzzytb7owkeribk4ung6khv7vklwhllhfu",
-        "bskyUrl": "https://bsky.app/profile/francoisz.bsky.social/post/3mki4zkomr52p",
-        "text": "getagentseal/codeburn: See where your AI coding tokens go. Interactive TUI dashboard for Claude Code, Codex, and Cursor cost observability. github.com/getagentseal...",
-        "author": {
-          "handle": "francoisz.bsky.social",
-          "displayName": "François Zaninotto"
-        },
-        "likeCount": 4,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-04-27T13:03:51.918Z",
-        "hoursSincePosted": 3.89
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:k2s63pxmksn23okbbmp36fjo/app.bsky.feed.post/3mki4zkomr52p",
-          "cid": "bafyreigbv2zxibnfdb2qh6srwzzytb7owkeribk4ung6khv7vklwhllhfu",
-          "bskyUrl": "https://bsky.app/profile/francoisz.bsky.social/post/3mki4zkomr52p",
-          "text": "getagentseal/codeburn: See where your AI coding tokens go. Interactive TUI dashboard for Claude Code, Codex, and Cursor cost observability. github.com/getagentseal...",
-          "author": {
-            "handle": "francoisz.bsky.social",
-            "displayName": "François Zaninotto"
-          },
-          "likeCount": 4,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-04-27T13:03:51.918Z",
-          "createdUtc": 1777295031,
-          "ageHours": 3.89,
-          "trendingScore": 4.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "getagentseal/codeburn",
+              "fullName": "JCodesMore/ai-website-cloner-template",
               "matchType": "url",
               "confidence": 1
             }
@@ -806,77 +108,12 @@
   },
   "leaderboard": [
     {
-      "fullName": "heygen-com/hyperframes",
-      "count7d": 1,
-      "likesSum7d": 5
-    },
-    {
-      "fullName": "getagentseal/codeburn",
-      "count7d": 1,
-      "likesSum7d": 4
-    },
-    {
-      "fullName": "alash3al/stash",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "fynnfluegge/agtx",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "Michael-A-Kuykendall/shimmy",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "openclaw/openclaw",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "paperless-ngx/paperless-ngx",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "anthropics/claude-code",
-      "count7d": 2,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "aiming-lab/AutoResearchClaw",
+      "fullName": "JCodesMore/ai-website-cloner-template",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "HamzaYslmn/esp-ps5",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "netbirdio/netbird",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "opendataloader-project/opendataloader-pdf",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "steipete/summarize",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "unslothai/unsloth",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "wanshuiyin/Auto-claude-code-research-in-sleep",
+      "fullName": "lightonai/next-plaid",
       "count7d": 1,
       "likesSum7d": 0
     }

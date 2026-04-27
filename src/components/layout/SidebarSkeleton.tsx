@@ -1,8 +1,8 @@
-"use client";
-
 /**
  * SidebarSkeleton — pulsing placeholder rendered while the sidebar's
- * pipeline data is still being fetched client-side.
+ * pipeline data is still being fetched client-side. No hooks, no events,
+ * no browser APIs — pure presentation, runs in RSC parents without
+ * spinning up a client island.
  */
 
 function SectionHeader() {

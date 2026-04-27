@@ -105,13 +105,32 @@ function normalizeUrl(url: string): string {
   }
 }
 
-function stableStringify(value: unknown): string {
+// Recursive stable serializer used for payload hashing. Bounded depth +
+// cycle detection prevent OOM on hostile/cyclic ingest payloads — without
+// these, a Twitter ingest with a deep object graph could exhaust the heap
+// before the hash even completes (LIB-12 in TECH_DEBT_AUDIT.md).
+const STABLE_STRINGIFY_MAX_DEPTH = 32;
+const STABLE_STRINGIFY_TRUNCATED = '"__truncated__"';
+
+function stableStringify(value: unknown, depth = 0, seen?: WeakSet<object>): string {
   if (value === null || typeof value !== "object") {
     return JSON.stringify(value);
   }
+  if (depth >= STABLE_STRINGIFY_MAX_DEPTH) {
+    return STABLE_STRINGIFY_TRUNCATED;
+  }
+
+  // Lazy WeakSet allocation — avoids cost when the typical small payload
+  // never recurses past depth 1 or 2.
+  const cycleGuard = seen ?? new WeakSet<object>();
+  const obj = value as object;
+  if (cycleGuard.has(obj)) {
+    return STABLE_STRINGIFY_TRUNCATED;
+  }
+  cycleGuard.add(obj);
 
   if (Array.isArray(value)) {
-    return `[${value.map((item) => stableStringify(item)).join(",")}]`;
+    return `[${value.map((item) => stableStringify(item, depth + 1, cycleGuard)).join(",")}]`;
   }
 
   const entries = Object.entries(value as Record<string, unknown>)
@@ -119,7 +138,7 @@ function stableStringify(value: unknown): string {
     .sort(([a], [b]) => a.localeCompare(b));
 
   return `{${entries
-    .map(([key, nested]) => `${JSON.stringify(key)}:${stableStringify(nested)}`)
+    .map(([key, nested]) => `${JSON.stringify(key)}:${stableStringify(nested, depth + 1, cycleGuard)}`)
     .join(",")}}`;
 }
 

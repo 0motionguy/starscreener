@@ -71,10 +71,8 @@ const USER_FETCH_INIT: RequestInit = {
   cache: "no-store",
 };
 
-// Legacy value kept ONLY as a doc reference — all user identity now flows
-// through the ss_user cookie. Do not send userId in request bodies or query
-// strings; the server ignores them.
-// const USER_ID = "local";
+// All user identity flows through the ss_user cookie. Do not send userId in
+// request bodies or query strings; the server ignores them.
 
 // Best-effort session bootstrap: POST /api/auth/session if no ss_user cookie
 // exists yet. Safe to call more than once — the server treats a second POST

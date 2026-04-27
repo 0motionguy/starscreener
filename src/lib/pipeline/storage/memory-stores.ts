@@ -185,15 +185,35 @@ export class InMemorySnapshotStore implements SnapshotStore {
   append(snapshot: RepoSnapshot): void {
     const existing = this.byRepo.get(snapshot.repoId) ?? [];
     const prevLen = existing.length;
-    // Guard against duplicate ids for the same capturedAt.
-    const withoutDupe = existing.filter((s) => s.id !== snapshot.id);
-    withoutDupe.push(snapshot);
-    withoutDupe.sort((a, b) => descByIso(a.capturedAt, b.capturedAt));
+    // LIB-05: scan for a dupe before allocating a filtered copy. The vast
+    // majority of appends are unique (snapshots are time-sequenced); the
+    // old `existing.filter(...)` allocated a new array on every call.
+    let dupeIndex = -1;
+    for (let i = 0; i < existing.length; i++) {
+      if (existing[i].id === snapshot.id) {
+        dupeIndex = i;
+        break;
+      }
+    }
+    let working: RepoSnapshot[];
+    if (dupeIndex >= 0) {
+      // Replace in place to keep the array structurally simple — slice off
+      // the dupe and rebuild only when we have to.
+      working = existing.slice();
+      working.splice(dupeIndex, 1);
+      working.push(snapshot);
+    } else {
+      // Hot path: clone the existing array, push, sort. Avoids mutating
+      // the array a list() consumer might still hold a reference to.
+      working = existing.slice();
+      working.push(snapshot);
+    }
+    working.sort((a, b) => descByIso(a.capturedAt, b.capturedAt));
     // Enforce retention cap — slice keeps newest N, drops the oldest tail.
     const capped =
-      withoutDupe.length > SNAPSHOT_HISTORY_CAP
-        ? withoutDupe.slice(0, SNAPSHOT_HISTORY_CAP)
-        : withoutDupe;
+      working.length > SNAPSHOT_HISTORY_CAP
+        ? working.slice(0, SNAPSHOT_HISTORY_CAP)
+        : working;
     this.byRepo.set(snapshot.repoId, capped);
     this.countTotal += capped.length - prevLen;
     this.markDirty();

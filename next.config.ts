@@ -75,6 +75,36 @@ const nextConfig: NextConfig = {
     }
     return config;
   },
+  // Turbopack equivalent of the webpack fallback above. `next dev --turbopack`
+  // doesn't honor the `webpack:` block, so the same Node-builtin stubs need
+  // to be declared here. Without this, importing data-store.ts (which lazily
+  // requires ioredis -> dns) from any client component crashes the dev build
+  // with "Module not found: Can't resolve 'dns'". `src/lib/empty-module.js`
+  // is the Turbopack-idiomatic equivalent of webpack's `dns: false`.
+  //
+  // Path is resolved relative to project root. The `browser` condition only
+  // applies these stubs to client bundles — server bundles see the real
+  // Node built-ins as expected. In Next.js 15.5 the conditional resolveAlias
+  // (Record<string, Record<string,string>>) is recognized.
+  turbopack: {
+    resolveAlias: {
+      fs: { browser: "./src/lib/empty-module.js" },
+      path: { browser: "./src/lib/empty-module.js" },
+      net: { browser: "./src/lib/empty-module.js" },
+      tls: { browser: "./src/lib/empty-module.js" },
+      dns: { browser: "./src/lib/empty-module.js" },
+      os: { browser: "./src/lib/empty-module.js" },
+      crypto: { browser: "./src/lib/empty-module.js" },
+      stream: { browser: "./src/lib/empty-module.js" },
+      zlib: { browser: "./src/lib/empty-module.js" },
+    },
+  },
+  // Ioredis + Upstash Redis are server-only Redis clients. Marking them as
+  // serverExternalPackages tells Next not to bundle them on the server (they
+  // resolve as Node externals at runtime), which also keeps their transitive
+  // `require("dns")`/`require("net")` calls from being scanned during the
+  // server build. Client bundles still have the resolveAlias stub above.
+  serverExternalPackages: ["ioredis", "@upstash/redis"],
   // Canonical host = apex (trendingrepo.com). Every other host attached to
   // this project 308s to the apex so Google + shared links consolidate on
   // one URL. The redirect ships with the build, so there's no DNS/dashboard

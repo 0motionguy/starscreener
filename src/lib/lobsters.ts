@@ -11,7 +11,11 @@
 // flips true, badges render null, and the homepage keeps serving.
 
 import lobstersMentionsData from "../../data/lobsters-mentions.json";
-import { getDataStore } from "./data-store";
+// data-store is loaded lazily (dynamic import) inside the async refresh
+// helper. Static-importing it pulls the ioredis dependency into client
+// bundles via /lib/lobsters → /components/repo-signals/RepoMentionBadges
+// (a "use client" file), which crashes turbopack with a `dns` resolution
+// error. The sync getters above this line don't need the store.
 
 // ---------------------------------------------------------------------------
 // Types
@@ -158,6 +162,7 @@ export async function refreshLobstersMentionsFromStore(): Promise<{
     return { source: "memory", ageMs: Date.now() - lastRefreshMs };
   }
   inflight = (async () => {
+    const { getDataStore } = await import("./data-store");
     const result = await getDataStore().read<LobstersMentionsFile>(
       "lobsters-mentions",
     );

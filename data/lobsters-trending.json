@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-04-27T07:17:39.626Z",
+  "fetchedAt": "2026-04-27T09:39:59.363Z",
   "windowHours": 72,
-  "scannedTotal": 77,
+  "scannedTotal": 78,
   "stories": [
     {
       "shortId": "h8hlp7",
@@ -9,11 +9,11 @@
       "url": "https://purplesyringa.moe/blog/wasm-is-not-quite-a-stack-machine/",
       "commentsUrl": "https://lobste.rs/s/h8hlp7/wasm_is_not_quite_stack_machine",
       "by": "",
-      "score": 4,
-      "commentCount": 0,
+      "score": 9,
+      "commentCount": 2,
       "createdUtc": 1777270836,
-      "ageHours": 0.9508333333333333,
-      "trendingScore": 0.7891198540620427,
+      "ageHours": 3.3230555555555554,
+      "trendingScore": 0.7328262394158052,
       "tags": [
         "plt",
         "wasm"
@@ -27,11 +27,11 @@
       "url": "https://dillo-browser.org/release/3.3.0/",
       "commentsUrl": "https://lobste.rs/s/v247np/dillo_release_3_3_0",
       "by": "",
-      "score": 45,
+      "score": 47,
       "commentCount": 2,
       "createdUtc": 1777221945,
-      "ageHours": 14.531666666666666,
-      "trendingScore": 0.6694799175282692,
+      "ageHours": 16.90388888888889,
+      "trendingScore": 0.5718355141594512,
       "tags": [
         "browsers",
         "release"
@@ -45,11 +45,11 @@
       "url": "https://riki.house/lua-html",
       "commentsUrl": "https://lobste.rs/s/ukar7d/lua_can_be_really_cool_html_templating",
       "by": "",
-      "score": 51,
-      "commentCount": 12,
+      "score": 55,
+      "commentCount": 13,
       "createdUtc": 1777213379,
-      "ageHours": 16.91111111111111,
-      "trendingScore": 0.6201469421970612,
+      "ageHours": 19.283333333333335,
+      "trendingScore": 0.5601485539714025,
       "tags": [
         "lua",
         "web"
@@ -63,30 +63,13 @@
       "url": "https://akselmo.dev/posts/smolwebifying-my-site/",
       "commentsUrl": "https://lobste.rs/s/fyev5y/smolwebifying_my_site",
       "by": "",
-      "score": 35,
-      "commentCount": 17,
+      "score": 39,
+      "commentCount": 19,
       "createdUtc": 1777228307,
-      "ageHours": 12.764444444444445,
-      "trendingScore": 0.6169392190001606,
+      "ageHours": 15.136666666666667,
+      "trendingScore": 0.5497624627417441,
       "tags": [
         "web"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "l4kgqg",
-      "title": "(Cryptographic) Registries Considered Harmful (2020)",
-      "url": "https://words.filippo.io/registries-considered-harmful/",
-      "commentsUrl": "https://lobste.rs/s/l4kgqg/cryptographic_registries_considered",
-      "by": "",
-      "score": 10,
-      "commentCount": 0,
-      "createdUtc": 1777258201,
-      "ageHours": 4.460555555555556,
-      "trendingScore": 0.6089690234870708,
-      "tags": [
-        "cryptography"
       ],
       "description": "",
       "linkedRepos": []
@@ -97,11 +80,11 @@
       "url": "https://asahilinux.org/2026/04/progress-report-7-0/",
       "commentsUrl": "https://lobste.rs/s/bzrow5/asahi_linux_progress_report_linux_7_0",
       "by": "",
-      "score": 54,
+      "score": 62,
       "commentCount": 0,
       "createdUtc": 1777205421,
-      "ageHours": 19.121666666666666,
-      "trendingScore": 0.5562902946892169,
+      "ageHours": 21.49388888888889,
+      "trendingScore": 0.5444516568505532,
       "tags": [
         "linux",
         "release"
@@ -115,13 +98,84 @@
       "url": "https://ky.fyi/posts/ai-burnout",
       "commentsUrl": "https://lobste.rs/s/xgtyyu/do_i_belong_tech_anymore",
       "by": "",
-      "score": 198,
-      "commentCount": 63,
+      "score": 201,
+      "commentCount": 64,
       "createdUtc": 1777095661,
-      "ageHours": 49.61055555555556,
-      "trendingScore": 0.5340198362367437,
+      "ageHours": 51.98277777777778,
+      "trendingScore": 0.5067727045443644,
       "tags": [
         "vibecoding"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "l4kgqg",
+      "title": "(Cryptographic) Registries Considered Harmful (2020)",
+      "url": "https://words.filippo.io/registries-considered-harmful/",
+      "commentsUrl": "https://lobste.rs/s/l4kgqg/cryptographic_registries_considered",
+      "by": "",
+      "score": 13,
+      "commentCount": 0,
+      "createdUtc": 1777258201,
+      "ageHours": 6.832777777777777,
+      "trendingScore": 0.49521911071940633,
+      "tags": [
+        "cryptography"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "99jbw2",
+      "title": "The gold standard of optimization: A look under the hood of RollerCoaster Tycoon",
+      "url": "https://larstofus.com/2026/03/22/the-gold-standard-of-optimization-a-look-under-the-hood-of-rollercoaster-tycoon/",
+      "commentsUrl": "https://lobste.rs/s/99jbw2/gold_standard_optimization_look_under",
+      "by": "",
+      "score": 2,
+      "commentCount": 0,
+      "createdUtc": 1777279924,
+      "ageHours": 0.7986111111111112,
+      "trendingScore": 0.4271851671643913,
+      "tags": [
+        "games",
+        "performance",
+        "programming"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "5dbg0u",
+      "title": "HardenedBSD Is Now Officially on Radicle",
+      "url": "https://hardenedbsd.org/article/shawn-webb/2026-04-26/hardenedbsd-officially-radicle",
+      "commentsUrl": "https://lobste.rs/s/5dbg0u/hardenedbsd_is_now_officially_on_radicle",
+      "by": "",
+      "score": 18,
+      "commentCount": 0,
+      "createdUtc": 1777246085,
+      "ageHours": 10.198333333333334,
+      "trendingScore": 0.42249518120518886,
+      "tags": [
+        "freebsd",
+        "vcs"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "hqxwko",
+      "title": "Everything That Went Wrong With Claude",
+      "url": "https://clawd.rip/",
+      "commentsUrl": "https://lobste.rs/s/hqxwko/everything_went_wrong_with_claude",
+      "by": "",
+      "score": 2,
+      "commentCount": 0,
+      "createdUtc": 1777279149,
+      "ageHours": 1.0138888888888888,
+      "trendingScore": 0.38224264670695285,
+      "tags": [
+        "ai"
       ],
       "description": "",
       "linkedRepos": []
@@ -135,30 +189,12 @@
       "score": 53,
       "commentCount": 18,
       "createdUtc": 1777193382,
-      "ageHours": 22.465833333333332,
-      "trendingScore": 0.43796141500235797,
+      "ageHours": 24.838055555555556,
+      "trendingScore": 0.38119684565518264,
       "tags": [
         "networking",
         "security",
         "vibecoding"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "5dbg0u",
-      "title": "HardenedBSD Is Now Officially on Radicle",
-      "url": "https://hardenedbsd.org/article/shawn-webb/2026-04-26/hardenedbsd-officially-radicle",
-      "commentsUrl": "https://lobste.rs/s/5dbg0u/hardenedbsd_is_now_officially_on_radicle",
-      "by": "",
-      "score": 13,
-      "commentCount": 0,
-      "createdUtc": 1777246085,
-      "ageHours": 7.8261111111111115,
-      "trendingScore": 0.42205674596949144,
-      "tags": [
-        "freebsd",
-        "vcs"
       ],
       "description": "",
       "linkedRepos": []
@@ -169,14 +205,50 @@
       "url": "https://www.hmpcabral.com/2026/04/26/the-fastest-linux-timestamps/",
       "commentsUrl": "https://lobste.rs/s/viax22/fastest_linux_timestamps",
       "by": "",
-      "score": 33,
+      "score": 40,
       "commentCount": 2,
       "createdUtc": 1777208514,
-      "ageHours": 18.2625,
-      "trendingScore": 0.3618048615011753,
+      "ageHours": 20.634722222222223,
+      "trendingScore": 0.3714473271852108,
       "tags": [
         "linux",
         "performance"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "up9qm4",
+      "title": "Golden Testing a CAD Library",
+      "url": "https://doscienceto.it/blog/posts/2026-04-27-golden-testing-cad.html",
+      "commentsUrl": "https://lobste.rs/s/up9qm4/golden_testing_cad_library",
+      "by": "",
+      "score": 2,
+      "commentCount": 0,
+      "createdUtc": 1777278439,
+      "ageHours": 1.211111111111111,
+      "trendingScore": 0.3475737709120547,
+      "tags": [
+        "graphics",
+        "haskell",
+        "testing"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "j2uphs",
+      "title": "TurboQuant: A First-Principles Walkthrough",
+      "url": "https://arkaung.github.io/interactive-turboquant/",
+      "commentsUrl": "https://lobste.rs/s/j2uphs/turboquant_first_principles",
+      "by": "",
+      "score": 1,
+      "commentCount": 0,
+      "createdUtc": 1777282494,
+      "ageHours": 0.08472222222222223,
+      "trendingScore": 0.3322214782109179,
+      "tags": [
+        "ai"
       ],
       "description": "",
       "linkedRepos": []
@@ -187,11 +259,11 @@
       "url": "https://philpearl.github.io/post/swissing_a_table/",
       "commentsUrl": "https://lobste.rs/s/2lzsw6/swissing_table",
       "by": "",
-      "score": 25,
+      "score": 27,
       "commentCount": 4,
       "createdUtc": 1777213153,
-      "ageHours": 16.97388888888889,
-      "trendingScore": 0.30248613943453334,
+      "ageHours": 19.34611111111111,
+      "trendingScore": 0.2737698484908811,
       "tags": [
         "go"
       ],
@@ -204,11 +276,11 @@
       "url": "https://lcamtuf.substack.com/p/a-breakthrough-in-cc-dependency-management",
       "commentsUrl": "https://lobste.rs/s/cn89rt/breakthrough_c_c_dependency_management",
       "by": "",
-      "score": 55,
+      "score": 56,
       "commentCount": 23,
       "createdUtc": 1777162102,
-      "ageHours": 31.154722222222222,
-      "trendingScore": 0.28810088941799716,
+      "ageHours": 33.526944444444446,
+      "trendingScore": 0.2644546706701765,
       "tags": [
         "c",
         "c++",
@@ -219,18 +291,71 @@
       "linkedRepos": []
     },
     {
+      "shortId": "mytuvk",
+      "title": "Running the Gauntlet: a tiny nodejs test runner",
+      "url": "https://robey.lag.net/2026/04/26/running-gauntlet.html",
+      "commentsUrl": "https://lobste.rs/s/mytuvk/running_gauntlet_tiny_nodejs_test_runner",
+      "by": "",
+      "score": 1,
+      "commentCount": 0,
+      "createdUtc": 1777280912,
+      "ageHours": 0.5241666666666667,
+      "trendingScore": 0.24935780081566827,
+      "tags": [
+        "nodejs",
+        "show",
+        "testing"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "trap9p",
+      "title": "From Milliseconds to 26 Nanoseconds: How a $20 eBay SFP Module Beat My Entire NTP Setup",
+      "url": "https://austinsnerdythings.com/2026/04/26/ptp-osa5401-26-nanoseconds-raspberry-pi/",
+      "commentsUrl": "https://lobste.rs/s/trap9p/from_milliseconds_26_nanoseconds_how_20",
+      "by": "",
+      "score": 1,
+      "commentCount": 0,
+      "createdUtc": 1777280146,
+      "ageHours": 0.7369444444444444,
+      "trendingScore": 0.22085184258622254,
+      "tags": [
+        "hardware"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
       "shortId": "b2tvhe",
       "title": "Why the Future Doesn't Need Us (Bill Joy, 2000)",
       "url": "https://web.archive.org/web/20160210081017/https://www.wired.com/2000/04/joy-2/",
       "commentsUrl": "https://lobste.rs/s/b2tvhe/why_future_doesn_t_need_us_bill_joy_2000",
       "by": "",
-      "score": 12,
-      "commentCount": 2,
+      "score": 14,
+      "commentCount": 3,
       "createdUtc": 1777232138,
-      "ageHours": 11.700277777777778,
-      "trendingScore": 0.23663947164015697,
+      "ageHours": 14.0725,
+      "trendingScore": 0.217271560721129,
       "tags": [
         "philosophy"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "mndexe",
+      "title": "How I Built AriaType Without Writing Any Code",
+      "url": "https://joe223.github.io/posts/how-i-built-ariatype-without-writing-any-code/",
+      "commentsUrl": "https://lobste.rs/s/mndexe/how_i_built_ariatype_without_writing_any",
+      "by": "",
+      "score": 1,
+      "commentCount": 0,
+      "createdUtc": 1777279939,
+      "ageHours": 0.7944444444444444,
+      "trendingScore": 0.2140704786243876,
+      "tags": [
+        "vibecoding"
       ],
       "description": "",
       "linkedRepos": []
@@ -241,31 +366,13 @@
       "url": "https://www.theverge.com/podcast/917029/software-brain-ai-backlash-databases-automation",
       "commentsUrl": "https://lobste.rs/s/gp02rx/people_do_not_yearn_for_automation",
       "by": "",
-      "score": 96,
+      "score": 98,
       "commentCount": 70,
       "createdUtc": 1777071205,
-      "ageHours": 56.403888888888886,
-      "trendingScore": 0.21508423738402155,
+      "ageHours": 58.77611111111111,
+      "trendingScore": 0.20683627826109857,
       "tags": [
         "vibecoding"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "0qqjyi",
-      "title": "It's Not About The API - Fast, Flexible, and Simple Rendering in Vulkan (2024)",
-      "url": "https://www.youtube.com/watch?v=7bSzp-QildA",
-      "commentsUrl": "https://lobste.rs/s/0qqjyi/it_s_not_about_api_fast_flexible_simple",
-      "by": "",
-      "score": 1,
-      "commentCount": 0,
-      "createdUtc": 1777270324,
-      "ageHours": 1.0930555555555554,
-      "trendingScore": 0.18383086007207522,
-      "tags": [
-        "graphics",
-        "video"
       ],
       "description": "",
       "linkedRepos": []
@@ -279,10 +386,28 @@
       "score": 35,
       "commentCount": 6,
       "createdUtc": 1777160264,
-      "ageHours": 31.665277777777778,
-      "trendingScore": 0.17918214900946683,
+      "ageHours": 34.0375,
+      "trendingScore": 0.16178418343169662,
       "tags": [
         "satire"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "vwncrg",
+      "title": "The world’s most complex machine",
+      "url": "https://worksinprogress.co/issue/the-worlds-most-complex-machine/",
+      "commentsUrl": "https://lobste.rs/s/vwncrg/world_s_most_complex_machine",
+      "by": "",
+      "score": 12,
+      "commentCount": 0,
+      "createdUtc": 1777218862,
+      "ageHours": 17.760277777777777,
+      "trendingScore": 0.1366128897650626,
+      "tags": [
+        "hardware",
+        "historical"
       ],
       "description": "",
       "linkedRepos": []
@@ -296,8 +421,8 @@
       "score": 10,
       "commentCount": 1,
       "createdUtc": 1777226834,
-      "ageHours": 13.17361111111111,
-      "trendingScore": 0.16918683893008798,
+      "ageHours": 15.545833333333333,
+      "trendingScore": 0.1360626735820508,
       "tags": [
         "hardware"
       ],
@@ -310,11 +435,11 @@
       "url": "https://nullprogram.com/blog/2026/04/26/",
       "commentsUrl": "https://lobste.rs/s/plertt/i_have_officially_retired_from_emacs",
       "by": "",
-      "score": 20,
+      "score": 21,
       "commentCount": 5,
       "createdUtc": 1777186296,
-      "ageHours": 24.434166666666666,
-      "trendingScore": 0.14715721492168382,
+      "ageHours": 26.80638888888889,
+      "trendingScore": 0.13582698656769493,
       "tags": [
         "vibecoding"
       ],
@@ -330,28 +455,10 @@
       "score": 43,
       "commentCount": 3,
       "createdUtc": 1777122424,
-      "ageHours": 42.17638888888889,
-      "trendingScore": 0.14644789610293804,
+      "ageHours": 44.548611111111114,
+      "trendingScore": 0.13539678889500675,
       "tags": [
         "hardware"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "vwncrg",
-      "title": "The world’s most complex machine",
-      "url": "https://worksinprogress.co/issue/the-worlds-most-complex-machine/",
-      "commentsUrl": "https://lobste.rs/s/vwncrg/world_s_most_complex_machine",
-      "by": "",
-      "score": 10,
-      "commentCount": 0,
-      "createdUtc": 1777218862,
-      "ageHours": 15.388055555555555,
-      "trendingScore": 0.13791880048758273,
-      "tags": [
-        "hardware",
-        "historical"
       ],
       "description": "",
       "linkedRepos": []
@@ -362,11 +469,11 @@
       "url": "https://chauhankiran.blogspot.com/2026/04/lets-build-terminal-pt-1.html",
       "commentsUrl": "https://lobste.rs/s/9ckz9x/let_s_build_terminal_pt_1",
       "by": "",
-      "score": 1,
-      "commentCount": 0,
+      "score": 2,
+      "commentCount": 1,
       "createdUtc": 1777267947,
-      "ageHours": 1.7533333333333334,
-      "trendingScore": 0.13752267023008927,
+      "ageHours": 4.125555555555556,
+      "trendingScore": 0.13192034278040762,
       "tags": [
         "c"
       ],
@@ -382,8 +489,8 @@
       "score": 25,
       "commentCount": 16,
       "createdUtc": 1777159266,
-      "ageHours": 31.9425,
-      "trendingScore": 0.12642246926811812,
+      "ageHours": 34.31472222222222,
+      "trendingScore": 0.11423940142910755,
       "tags": [
         "vibecoding"
       ],
@@ -397,29 +504,12 @@
       "commentsUrl": "https://lobste.rs/s/88pksu/linux_may_drop_old_network_drivers_now_ai",
       "by": "",
       "score": 30,
-      "commentCount": 27,
+      "commentCount": 28,
       "createdUtc": 1777141480,
-      "ageHours": 36.88305555555556,
-      "trendingScore": 0.12373161339703917,
+      "ageHours": 39.25527777777778,
+      "trendingScore": 0.11321448133309733,
       "tags": [
         "linux"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "bnvmia",
-      "title": "Let’s All Agree to Use Seeds as ML-KEM Keys (2024)",
-      "url": "https://words.filippo.io/ml-kem-seeds/",
-      "commentsUrl": "https://lobste.rs/s/bnvmia/let_s_all_agree_use_seeds_as_ml_kem_keys_2024",
-      "by": "",
-      "score": 2,
-      "commentCount": 2,
-      "createdUtc": 1777258240,
-      "ageHours": 4.449722222222222,
-      "trendingScore": 0.12210079158763235,
-      "tags": [
-        "cryptography"
       ],
       "description": "",
       "linkedRepos": []
@@ -430,11 +520,11 @@
       "url": "https://tendrils.co/background",
       "commentsUrl": "https://lobste.rs/s/q3ffiu/on_interaction_nets_hardware",
       "by": "",
-      "score": 7,
+      "score": 8,
       "commentCount": 1,
       "createdUtc": 1777224837,
-      "ageHours": 13.728333333333333,
-      "trendingScore": 0.11222096088863188,
+      "ageHours": 16.100555555555555,
+      "trendingScore": 0.10388482914551543,
       "tags": [
         "compsci",
         "hardware"
@@ -451,36 +541,13 @@
       "score": 53,
       "commentCount": 14,
       "createdUtc": 1777054203,
-      "ageHours": 61.126666666666665,
-      "trendingScore": 0.1056711863902153,
+      "ageHours": 63.49888888888889,
+      "trendingScore": 0.0999827253015281,
       "tags": [
         "gleam"
       ],
       "description": "",
       "linkedRepos": []
-    },
-    {
-      "shortId": "vnnpwe",
-      "title": "PLFM_RADAR: Open-source, low-cost 10.5 GHz PLFM phased array RADAR system",
-      "url": "https://github.com/NawfalMotii79/PLFM_RADAR",
-      "commentsUrl": "https://lobste.rs/s/vnnpwe/plfm_radar_open_source_low_cost_10_5_ghz",
-      "by": "",
-      "score": 6,
-      "commentCount": 1,
-      "createdUtc": 1777227871,
-      "ageHours": 12.885555555555555,
-      "trendingScore": 0.10447290680659047,
-      "tags": [
-        "hardware"
-      ],
-      "description": "",
-      "linkedRepos": [
-        {
-          "fullName": "NawfalMotii79/PLFM_RADAR",
-          "matchType": "url",
-          "confidence": 1
-        }
-      ]
     },
     {
       "shortId": "lb065m",
@@ -491,27 +558,10 @@
       "score": 12,
       "commentCount": 13,
       "createdUtc": 1777196301,
-      "ageHours": 21.655,
-      "trendingScore": 0.10430300421063608,
+      "ageHours": 24.02722222222222,
+      "trendingScore": 0.09037316992796222,
       "tags": [
         "cryptography"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "jzuifo",
-      "title": "Lute: a standalone runtime for Luau",
-      "url": "https://lute.luau.org",
-      "commentsUrl": "https://lobste.rs/s/jzuifo/lute_standalone_runtime_for_luau",
-      "by": "",
-      "score": 19,
-      "commentCount": 6,
-      "createdUtc": 1777160318,
-      "ageHours": 31.650277777777777,
-      "trendingScore": 0.09733535575567849,
-      "tags": [
-        "lua"
       ],
       "description": "",
       "linkedRepos": []
@@ -525,8 +575,8 @@
       "score": 21,
       "commentCount": 5,
       "createdUtc": 1777147821,
-      "ageHours": 35.12166666666667,
-      "trendingScore": 0.09284918472522564,
+      "ageHours": 37.49388888888889,
+      "trendingScore": 0.0846105356991411,
       "tags": [
         "hardware"
       ],
@@ -534,18 +584,41 @@
       "linkedRepos": []
     },
     {
-      "shortId": "gikmcc",
-      "title": "Avoid Shipping Your Org Chart",
-      "url": "https://chronicbuildfailure.co/how-to-avoid-shipping-your-org-chart-c086effe751c",
-      "commentsUrl": "https://lobste.rs/s/gikmcc/avoid_shipping_your_org_chart",
+      "shortId": "vnnpwe",
+      "title": "PLFM_RADAR: Open-source, low-cost 10.5 GHz PLFM phased array RADAR system",
+      "url": "https://github.com/NawfalMotii79/PLFM_RADAR",
+      "commentsUrl": "https://lobste.rs/s/vnnpwe/plfm_radar_open_source_low_cost_10_5_ghz",
       "by": "",
-      "score": 28,
-      "commentCount": 10,
-      "createdUtc": 1777111546,
-      "ageHours": 45.198055555555555,
-      "trendingScore": 0.0863518946032999,
+      "score": 6,
+      "commentCount": 1,
+      "createdUtc": 1777227871,
+      "ageHours": 15.257777777777777,
+      "trendingScore": 0.08369007204662117,
       "tags": [
-        "practices"
+        "hardware"
+      ],
+      "description": "",
+      "linkedRepos": [
+        {
+          "fullName": "NawfalMotii79/PLFM_RADAR",
+          "matchType": "url",
+          "confidence": 1
+        }
+      ]
+    },
+    {
+      "shortId": "jzuifo",
+      "title": "Lute: a standalone runtime for Luau",
+      "url": "https://lute.luau.org",
+      "commentsUrl": "https://lobste.rs/s/jzuifo/lute_standalone_runtime_for_luau",
+      "by": "",
+      "score": 18,
+      "commentCount": 6,
+      "createdUtc": 1777160318,
+      "ageHours": 34.0225,
+      "trendingScore": 0.08325526932401604,
+      "tags": [
+        "lua"
       ],
       "description": "",
       "linkedRepos": []
@@ -559,11 +632,63 @@
       "score": 43,
       "commentCount": 0,
       "createdUtc": 1777053348,
-      "ageHours": 61.36416666666667,
-      "trendingScore": 0.08525166391033893,
+      "ageHours": 63.73638888888889,
+      "trendingScore": 0.0806788484458977,
       "tags": [
         "hardware",
         "linux"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "gikmcc",
+      "title": "Avoid Shipping Your Org Chart",
+      "url": "https://chronicbuildfailure.co/how-to-avoid-shipping-your-org-chart-c086effe751c",
+      "commentsUrl": "https://lobste.rs/s/gikmcc/avoid_shipping_your_org_chart",
+      "by": "",
+      "score": 28,
+      "commentCount": 10,
+      "createdUtc": 1777111546,
+      "ageHours": 47.570277777777775,
+      "trendingScore": 0.08022800677017554,
+      "tags": [
+        "practices"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "0qqjyi",
+      "title": "It's Not About The API - Fast, Flexible, and Simple Rendering in Vulkan (2024)",
+      "url": "https://www.youtube.com/watch?v=7bSzp-QildA",
+      "commentsUrl": "https://lobste.rs/s/0qqjyi/it_s_not_about_api_fast_flexible_simple",
+      "by": "",
+      "score": 1,
+      "commentCount": 0,
+      "createdUtc": 1777270324,
+      "ageHours": 3.4652777777777777,
+      "trendingScore": 0.0782675320217007,
+      "tags": [
+        "graphics",
+        "video"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "bnvmia",
+      "title": "Let’s All Agree to Use Seeds as ML-KEM Keys (2024)",
+      "url": "https://words.filippo.io/ml-kem-seeds/",
+      "commentsUrl": "https://lobste.rs/s/bnvmia/let_s_all_agree_use_seeds_as_ml_kem_keys_2024",
+      "by": "",
+      "score": 2,
+      "commentCount": 2,
+      "createdUtc": 1777258240,
+      "ageHours": 6.821944444444444,
+      "trendingScore": 0.07632793586007618,
+      "tags": [
+        "cryptography"
       ],
       "description": "",
       "linkedRepos": []
@@ -577,28 +702,10 @@
       "score": 18,
       "commentCount": 2,
       "createdUtc": 1777146495,
-      "ageHours": 35.49,
-      "trendingScore": 0.078415035692178,
+      "ageHours": 37.86222222222222,
+      "trendingScore": 0.07152045130282755,
       "tags": [
         "performance"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "lawef3",
-      "title": "Multiple things can be true at the same time",
-      "url": "https://frederikbraun.de/feels-and-llms.html",
-      "commentsUrl": "https://lobste.rs/s/lawef3/multiple_things_can_be_true_at_same_time",
-      "by": "",
-      "score": 36,
-      "commentCount": 9,
-      "createdUtc": 1777050184,
-      "ageHours": 62.24305555555556,
-      "trendingScore": 0.06991384984845449,
-      "tags": [
-        "rant",
-        "vibecoding"
       ],
       "description": "",
       "linkedRepos": []
@@ -612,8 +719,8 @@
       "score": 30,
       "commentCount": 1,
       "createdUtc": 1777065467,
-      "ageHours": 57.99777777777778,
-      "trendingScore": 0.06455330869851134,
+      "ageHours": 60.37,
+      "trendingScore": 0.06090565788019772,
       "tags": [
         "editors",
         "lisp"
@@ -628,12 +735,30 @@
       "commentsUrl": "https://lobste.rs/s/qqahyp/comparing_compression_tools",
       "by": "",
       "score": 18,
-      "commentCount": 9,
+      "commentCount": 10,
       "createdUtc": 1777119469,
-      "ageHours": 42.99722222222222,
-      "trendingScore": 0.05963400098154017,
+      "ageHours": 45.36944444444445,
+      "trendingScore": 0.05521093069872661,
       "tags": [
         "performance"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "3v9wvu",
+      "title": "New 10 GbE USB adapters are cooler, smaller, cheaper",
+      "url": "https://www.jeffgeerling.com/blog/2026/new-10-gbe-usb-adapters-cooler-smaller-cheaper/",
+      "commentsUrl": "https://lobste.rs/s/3v9wvu/new_10_gbe_usb_adapters_are_cooler_smaller",
+      "by": "",
+      "score": 13,
+      "commentCount": 12,
+      "createdUtc": 1777140403,
+      "ageHours": 39.55444444444444,
+      "trendingScore": 0.04853076437279329,
+      "tags": [
+        "hardware",
+        "networking"
       ],
       "description": "",
       "linkedRepos": []
@@ -647,46 +772,9 @@
       "score": 3,
       "commentCount": 4,
       "createdUtc": 1777232327,
-      "ageHours": 11.647777777777778,
-      "trendingScore": 0.0595015584906115,
+      "ageHours": 14.02,
+      "trendingScore": 0.0467872465041112,
       "tags": [
-        "vibecoding"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "3v9wvu",
-      "title": "New 10 GbE USB adapters are cooler, smaller, cheaper",
-      "url": "https://www.jeffgeerling.com/blog/2026/new-10-gbe-usb-adapters-cooler-smaller-cheaper/",
-      "commentsUrl": "https://lobste.rs/s/3v9wvu/new_10_gbe_usb_adapters_are_cooler_smaller",
-      "by": "",
-      "score": 13,
-      "commentCount": 11,
-      "createdUtc": 1777140403,
-      "ageHours": 37.18222222222222,
-      "trendingScore": 0.053004135704134904,
-      "tags": [
-        "hardware",
-        "networking"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "8xd0x7",
-      "title": "The Mac App Gold Rush in the Age of Vibe Coding",
-      "url": "https://caio.ca/blog/ai-vibe-coded-mac-apps.html",
-      "commentsUrl": "https://lobste.rs/s/8xd0x7/mac_app_gold_rush_age_vibe_coding",
-      "by": "",
-      "score": 13,
-      "commentCount": 5,
-      "createdUtc": 1777139722,
-      "ageHours": 37.37138888888889,
-      "trendingScore": 0.05262259357526591,
-      "tags": [
-        "mac",
-        "security",
         "vibecoding"
       ],
       "description": "",
@@ -701,8 +789,8 @@
       "score": 13,
       "commentCount": 0,
       "createdUtc": 1777134150,
-      "ageHours": 38.91916666666667,
-      "trendingScore": 0.04966531352976995,
+      "ageHours": 41.29138888888889,
+      "trendingScore": 0.04563952055399107,
       "tags": [
         "assembly",
         "historical",
@@ -720,11 +808,30 @@
       "score": 16,
       "commentCount": 13,
       "createdUtc": 1777108639,
-      "ageHours": 46.00555555555555,
-      "trendingScore": 0.048104170772286785,
+      "ageHours": 48.37777777777778,
+      "trendingScore": 0.04474674748214241,
       "tags": [
         "cryptography",
         "email"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "8xd0x7",
+      "title": "The Mac App Gold Rush in the Age of Vibe Coding",
+      "url": "https://caio.ca/blog/ai-vibe-coded-mac-apps.html",
+      "commentsUrl": "https://lobste.rs/s/8xd0x7/mac_app_gold_rush_age_vibe_coding",
+      "by": "",
+      "score": 12,
+      "commentCount": 5,
+      "createdUtc": 1777139722,
+      "ageHours": 39.743611111111115,
+      "trendingScore": 0.04449346437051943,
+      "tags": [
+        "mac",
+        "security",
+        "vibecoding"
       ],
       "description": "",
       "linkedRepos": []
@@ -738,8 +845,8 @@
       "score": 13,
       "commentCount": 16,
       "createdUtc": 1777126556,
-      "ageHours": 41.02861111111111,
-      "trendingScore": 0.04605824230981251,
+      "ageHours": 43.40083333333333,
+      "trendingScore": 0.042495957173903746,
       "tags": [
         "ask",
         "programming"
@@ -756,11 +863,29 @@
       "score": 13,
       "commentCount": 0,
       "createdUtc": 1777121427,
-      "ageHours": 42.45333333333333,
-      "trendingScore": 0.04386184078985736,
+      "ageHours": 44.82555555555555,
+      "trendingScore": 0.040571301915218703,
       "tags": [
         "graphics",
         "reversing"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "vkngyl",
+      "title": "Removing the AUICGP instruction",
+      "url": "https://cheriot.org/isa/toolchain/2026/03/23/removing-auicgp.html",
+      "commentsUrl": "https://lobste.rs/s/vkngyl/removing_auicgp_instruction",
+      "by": "",
+      "score": 12,
+      "commentCount": 4,
+      "createdUtc": 1777129981,
+      "ageHours": 42.449444444444445,
+      "trendingScore": 0.040493166585957856,
+      "tags": [
+        "assembly",
+        "security"
       ],
       "description": "",
       "linkedRepos": []
@@ -774,28 +899,10 @@
       "score": 12,
       "commentCount": 6,
       "createdUtc": 1777128309,
-      "ageHours": 40.541666666666664,
-      "trendingScore": 0.04324734944732723,
+      "ageHours": 42.91388888888889,
+      "trendingScore": 0.03986669702463568,
       "tags": [
         "practices",
-        "security"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "vkngyl",
-      "title": "Removing the AUICGP instruction",
-      "url": "https://cheriot.org/isa/toolchain/2026/03/23/removing-auicgp.html",
-      "commentsUrl": "https://lobste.rs/s/vkngyl/removing_auicgp_instruction",
-      "by": "",
-      "score": 11,
-      "commentCount": 4,
-      "createdUtc": 1777129981,
-      "ageHours": 40.077222222222225,
-      "trendingScore": 0.04030158185424276,
-      "tags": [
-        "assembly",
         "security"
       ],
       "description": "",
@@ -810,8 +917,8 @@
       "score": 4,
       "commentCount": 0,
       "createdUtc": 1777201064,
-      "ageHours": 20.331944444444446,
-      "trendingScore": 0.03790270306420964,
+      "ageHours": 22.704166666666666,
+      "trendingScore": 0.03257651922081532,
       "tags": [
         "retrocomputing",
         "video"
@@ -828,8 +935,8 @@
       "score": 4,
       "commentCount": 1,
       "createdUtc": 1777200465,
-      "ageHours": 20.498333333333335,
-      "trendingScore": 0.037483011044614815,
+      "ageHours": 22.870555555555555,
+      "trendingScore": 0.03225015167013332,
       "tags": [
         "practices",
         "programming",
@@ -848,11 +955,28 @@
       "score": 9,
       "commentCount": 0,
       "createdUtc": 1777124787,
-      "ageHours": 41.52,
-      "trendingScore": 0.031347952454719046,
+      "ageHours": 43.89222222222222,
+      "trendingScore": 0.02894902075332684,
       "tags": [
         "ai",
         "transcript"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "tvolib",
+      "title": "Things C++26 define_static_array can’t do",
+      "url": "https://quuxplusone.github.io/blog/2026/04/24/define-static-array/",
+      "commentsUrl": "https://lobste.rs/s/tvolib/things_c_26_define_static_array_can_t_do",
+      "by": "",
+      "score": 3,
+      "commentCount": 0,
+      "createdUtc": 1777210339,
+      "ageHours": 20.127777777777776,
+      "trendingScore": 0.028821365484801523,
+      "tags": [
+        "c++"
       ],
       "description": "",
       "linkedRepos": []
@@ -866,8 +990,8 @@
       "score": 6,
       "commentCount": 1,
       "createdUtc": 1777161746,
-      "ageHours": 31.253611111111113,
-      "trendingScore": 0.031289097029126654,
+      "ageHours": 33.62583333333333,
+      "trendingScore": 0.02821653639363696,
       "tags": [
         "javascript",
         "nodejs",
@@ -885,11 +1009,30 @@
       "score": 3,
       "commentCount": 0,
       "createdUtc": 1777205621,
-      "ageHours": 19.066111111111113,
-      "trendingScore": 0.03102735101825674,
+      "ageHours": 21.438333333333333,
+      "trendingScore": 0.02643815626257506,
       "tags": [
         "browsers",
         "security"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "9tvnsx",
+      "title": "Replacing an Apple Time Capsule? Skip the Ubiquiti UNAS-2",
+      "url": "https://rachelbythebay.com/w/2026/04/24/unas/",
+      "commentsUrl": "https://lobste.rs/s/9tvnsx/replacing_apple_time_capsule_skip",
+      "by": "",
+      "score": 5,
+      "commentCount": 1,
+      "createdUtc": 1777165304,
+      "ageHours": 32.6375,
+      "trendingScore": 0.024527325587460732,
+      "tags": [
+        "hardware",
+        "networking",
+        "rant"
       ],
       "description": "",
       "linkedRepos": []
@@ -903,28 +1046,10 @@
       "score": 8,
       "commentCount": 1,
       "createdUtc": 1777113388,
-      "ageHours": 44.68638888888889,
-      "trendingScore": 0.025078673537111774,
+      "ageHours": 47.05861111111111,
+      "trendingScore": 0.02328183000012109,
       "tags": [
         "programming"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "3yydcj",
-      "title": "The West Forgot How to Build. Now It's Forgetting Code",
-      "url": "https://techtrenches.dev/p/the-west-forgot-how-to-make-things",
-      "commentsUrl": "https://lobste.rs/s/3yydcj/west_forgot_how_build_now_it_s_forgetting",
-      "by": "",
-      "score": 2,
-      "commentCount": 4,
-      "createdUtc": 1777213188,
-      "ageHours": 16.964166666666667,
-      "trendingScore": 0.0242175023454405,
-      "tags": [
-        "practices",
-        "vibecoding"
       ],
       "description": "",
       "linkedRepos": []
@@ -938,8 +1063,8 @@
       "score": 12,
       "commentCount": 1,
       "createdUtc": 1777052535,
-      "ageHours": 61.59,
-      "trendingScore": 0.023664536821153492,
+      "ageHours": 63.96222222222222,
+      "trendingScore": 0.022399500228986083,
       "tags": [
         "c++"
       ],
@@ -947,37 +1072,19 @@
       "linkedRepos": []
     },
     {
-      "shortId": "tvolib",
-      "title": "Things C++26 define_static_array can’t do",
-      "url": "https://quuxplusone.github.io/blog/2026/04/24/define-static-array/",
-      "commentsUrl": "https://lobste.rs/s/tvolib/things_c_26_define_static_array_can_t_do",
+      "shortId": "3yydcj",
+      "title": "The West Forgot How to Build. Now It's Forgetting Code",
+      "url": "https://techtrenches.dev/p/the-west-forgot-how-to-make-things",
+      "commentsUrl": "https://lobste.rs/s/3yydcj/west_forgot_how_build_now_it_s_forgetting",
       "by": "",
       "score": 2,
-      "commentCount": 0,
-      "createdUtc": 1777210339,
-      "ageHours": 17.755555555555556,
-      "trendingScore": 0.022776979182947115,
+      "commentCount": 4,
+      "createdUtc": 1777213188,
+      "ageHours": 19.336388888888887,
+      "trendingScore": 0.020293110397150274,
       "tags": [
-        "c++"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "9tvnsx",
-      "title": "Replacing an Apple Time Capsule? Skip the Ubiquiti UNAS-2",
-      "url": "https://rachelbythebay.com/w/2026/04/24/unas/",
-      "commentsUrl": "https://lobste.rs/s/9tvnsx/replacing_apple_time_capsule_skip",
-      "by": "",
-      "score": 4,
-      "commentCount": 1,
-      "createdUtc": 1777165304,
-      "ageHours": 30.26527777777778,
-      "trendingScore": 0.02182513198621503,
-      "tags": [
-        "hardware",
-        "networking",
-        "rant"
+        "practices",
+        "vibecoding"
       ],
       "description": "",
       "linkedRepos": []
@@ -988,48 +1095,13 @@
       "url": "https://joshblais.com/blog/using-the-internet-like-its-1999/",
       "commentsUrl": "https://lobste.rs/s/i2wzkb/using_internet_like_its_1999",
       "by": "",
-      "score": 10,
+      "score": 9,
       "commentCount": 15,
       "createdUtc": 1777041902,
-      "ageHours": 64.5436111111111,
-      "trendingScore": 0.018422155870391456,
+      "ageHours": 66.91583333333334,
+      "trendingScore": 0.015731277474976723,
       "tags": [
         "web"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "g3dptp",
-      "title": "Did we lose notifications for comment replies?",
-      "url": "",
-      "commentsUrl": "https://lobste.rs/s/g3dptp/did_we_lose_notifications_for_comment",
-      "by": "",
-      "score": 10,
-      "commentCount": 4,
-      "createdUtc": 1777039254,
-      "ageHours": 65.27916666666667,
-      "trendingScore": 0.01812087208316574,
-      "tags": [
-        "meta"
-      ],
-      "description": "<p>It would appear that we no longer get a notification in our Lobsters inbox for replies to comments or new comments on stories we submitted.</p>\n<p>I remember a similar thing happened a few years ago, and was intentional (the DB side of things was too slow), but that was fixed. Was this intentional or did we hit a regression or is this purely a me problem?</p>\n<p>(Thank you to everyone who makes Lobsters possible. I know the support burden is nonzero and I hate to add to the pile.)</p>\n",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "edbvsd",
-      "title": "Junkyard Computing: Repurposing Discarded Smartphones to Minimize Carbon",
-      "url": "https://arxiv.org/abs/2110.06870",
-      "commentsUrl": "https://lobste.rs/s/edbvsd/junkyard_computing_repurposing",
-      "by": "",
-      "score": 10,
-      "commentCount": 3,
-      "createdUtc": 1777034638,
-      "ageHours": 66.56138888888889,
-      "trendingScore": 0.017614916541165048,
-      "tags": [
-        "android",
-        "distributed"
       ],
       "description": "",
       "linkedRepos": []
@@ -1043,12 +1115,30 @@
       "score": 6,
       "commentCount": 0,
       "createdUtc": 1777082238,
-      "ageHours": 53.339166666666664,
-      "trendingScore": 0.014574790737231582,
+      "ageHours": 55.71138888888889,
+      "trendingScore": 0.01368544617970063,
       "tags": [
         "historical",
         "retrocomputing",
         "reversing"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "ivdh3a",
+      "title": "Automatic brightness in Plasma",
+      "url": "https://zamundaaa.github.io/wayland,display/2026/04/24/automatic-brightness.html",
+      "commentsUrl": "https://lobste.rs/s/ivdh3a/automatic_brightness_plasma",
+      "by": "",
+      "score": 6,
+      "commentCount": 2,
+      "createdUtc": 1777078541,
+      "ageHours": 56.73833333333334,
+      "trendingScore": 0.013328117755660906,
+      "tags": [
+        "hardware",
+        "linux"
       ],
       "description": "",
       "linkedRepos": []
@@ -1062,12 +1152,29 @@
       "score": 6,
       "commentCount": 1,
       "createdUtc": 1777077331,
-      "ageHours": 54.702222222222225,
-      "trendingScore": 0.014052420300346351,
+      "ageHours": 57.074444444444445,
+      "trendingScore": 0.013214531826913583,
       "tags": [
         "a11y",
         "practices",
         "video"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "ytzaui",
+      "title": "Cloudflare Email Service is a deliverability bet dressed as an agents launch",
+      "url": "https://lord.technology/2026/04/20/cloudflare-email-service-is-a-deliverability-bet-dressed-as-an-agents-launch.html",
+      "commentsUrl": "https://lobste.rs/s/ytzaui/cloudflare_email_service_is",
+      "by": "",
+      "score": 7,
+      "commentCount": 6,
+      "createdUtc": 1777053585,
+      "ageHours": 63.67055555555555,
+      "trendingScore": 0.01315352045594765,
+      "tags": [
+        "email"
       ],
       "description": "",
       "linkedRepos": []
@@ -1081,8 +1188,8 @@
       "score": 3,
       "commentCount": 0,
       "createdUtc": 1777152795,
-      "ageHours": 33.74,
-      "trendingScore": 0.014040721737107539,
+      "ageHours": 36.11222222222222,
+      "trendingScore": 0.012750430449309577,
       "tags": [
         "ai"
       ],
@@ -1090,18 +1197,35 @@
       "linkedRepos": []
     },
     {
-      "shortId": "ytzaui",
-      "title": "Cloudflare Email Service is a deliverability bet dressed as an agents launch",
-      "url": "https://lord.technology/2026/04/20/cloudflare-email-service-is-a-deliverability-bet-dressed-as-an-agents-launch.html",
-      "commentsUrl": "https://lobste.rs/s/ytzaui/cloudflare_email_service_is",
+      "shortId": "yhzg6d",
+      "title": "Basic Type System Terminology",
+      "url": "https://lewiscampbell.tech/blog/250817.html",
+      "commentsUrl": "https://lobste.rs/s/yhzg6d/basic_type_system_terminology",
       "by": "",
-      "score": 7,
-      "commentCount": 6,
-      "createdUtc": 1777053585,
-      "ageHours": 61.29833333333333,
-      "trendingScore": 0.01389983444039796,
+      "score": 4,
+      "commentCount": 10,
+      "createdUtc": 1777119350,
+      "ageHours": 45.4025,
+      "trendingScore": 0.012256264391912165,
       "tags": [
-        "email"
+        "plt"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "spm1cr",
+      "title": "Revocation of X.509 certificates",
+      "url": "https://blog.apnic.net/2026/04/24/revocation-of-x-509-certificates/",
+      "commentsUrl": "https://lobste.rs/s/spm1cr/revocation_x_509_certificates",
+      "by": "",
+      "score": 3,
+      "commentCount": 1,
+      "createdUtc": 1777146000,
+      "ageHours": 37.999722222222225,
+      "trendingScore": 0.011858664753174809,
+      "tags": [
+        "security"
       ],
       "description": "",
       "linkedRepos": []
@@ -1115,45 +1239,10 @@
       "score": 2,
       "commentCount": 0,
       "createdUtc": 1777179962,
-      "ageHours": 26.19361111111111,
-      "trendingScore": 0.013359922479285762,
+      "ageHours": 28.565833333333334,
+      "trendingScore": 0.01183520090630286,
       "tags": [
         "math"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "yhzg6d",
-      "title": "Basic Type System Terminology",
-      "url": "https://lewiscampbell.tech/blog/250817.html",
-      "commentsUrl": "https://lobste.rs/s/yhzg6d/basic_type_system_terminology",
-      "by": "",
-      "score": 4,
-      "commentCount": 10,
-      "createdUtc": 1777119350,
-      "ageHours": 43.030277777777776,
-      "trendingScore": 0.013237410973376683,
-      "tags": [
-        "plt"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "ivdh3a",
-      "title": "Automatic brightness in Plasma",
-      "url": "https://zamundaaa.github.io/wayland,display/2026/04/24/automatic-brightness.html",
-      "commentsUrl": "https://lobste.rs/s/ivdh3a/automatic_brightness_plasma",
-      "by": "",
-      "score": 5,
-      "commentCount": 2,
-      "createdUtc": 1777078541,
-      "ageHours": 54.36611111111111,
-      "trendingScore": 0.011815249466280148,
-      "tags": [
-        "hardware",
-        "linux"
       ],
       "description": "",
       "linkedRepos": []
@@ -1167,8 +1256,8 @@
       "score": 4,
       "commentCount": 4,
       "createdUtc": 1777101395,
-      "ageHours": 48.01777777777778,
-      "trendingScore": 0.011307677201774584,
+      "ageHours": 50.39,
+      "trendingScore": 0.010548419517921794,
       "tags": [
         "editors"
       ],
@@ -1184,8 +1273,8 @@
       "score": 5,
       "commentCount": 9,
       "createdUtc": 1777062986,
-      "ageHours": 58.68694444444444,
-      "trendingScore": 0.01057613770930753,
+      "ageHours": 61.05916666666667,
+      "trendingScore": 0.009984990672970293,
       "tags": [
         "rust",
         "vcs",
@@ -1203,46 +1292,11 @@
       "score": 5,
       "commentCount": 0,
       "createdUtc": 1777053464,
-      "ageHours": 61.331944444444446,
-      "trendingScore": 0.009920550475858797,
+      "ageHours": 63.704166666666666,
+      "trendingScore": 0.00938816334165642,
       "tags": [
         "vibecoding",
         "video"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "spm1cr",
-      "title": "Revocation of X.509 certificates",
-      "url": "https://blog.apnic.net/2026/04/24/revocation-of-x-509-certificates/",
-      "commentsUrl": "https://lobste.rs/s/spm1cr/revocation_x_509_certificates",
-      "by": "",
-      "score": 2,
-      "commentCount": 0,
-      "createdUtc": 1777146000,
-      "ageHours": 35.6275,
-      "trendingScore": 0.008665067477286051,
-      "tags": [
-        "security"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "zgh5w1",
-      "title": "GL.iNet Comet 5G Review",
-      "url": "https://blog.majid.info/gl-kvm/",
-      "commentsUrl": "https://lobste.rs/s/zgh5w1/gl_inet_comet_5g_review",
-      "by": "",
-      "score": 5,
-      "commentCount": 0,
-      "createdUtc": 1777031541,
-      "ageHours": 67.42166666666667,
-      "trendingScore": 0.00864425262352798,
-      "tags": [
-        "hardware",
-        "networking"
       ],
       "description": "",
       "linkedRepos": []
@@ -1256,8 +1310,8 @@
       "score": 4,
       "commentCount": 0,
       "createdUtc": 1777050448,
-      "ageHours": 62.16972222222222,
-      "trendingScore": 0.0077815256321375,
+      "ageHours": 64.54194444444444,
+      "trendingScore": 0.007369139200168918,
       "tags": [
         "video",
         "visualization"
@@ -1274,47 +1328,12 @@
       "score": 3,
       "commentCount": 1,
       "createdUtc": 1777062297,
-      "ageHours": 58.87833333333333,
-      "trendingScore": 0.006315781886250215,
+      "ageHours": 61.25055555555556,
+      "trendingScore": 0.005963822896661373,
       "tags": [
         "devops",
         "distributed",
         "practices"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "0cc123",
-      "title": "Agent-friendly CLI for reading large Markdown files",
-      "url": "https://github.com/molefrog/lilmd",
-      "commentsUrl": "https://lobste.rs/s/0cc123/agent_friendly_cli_for_reading_large",
-      "by": "",
-      "score": 2,
-      "commentCount": 0,
-      "createdUtc": 1777049677,
-      "ageHours": 62.38388888888889,
-      "trendingScore": 0.003871365610096317,
-      "tags": [
-        "vibecoding"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "kcggjp",
-      "title": "A quick look at Mythos run on Firefox: too much hype?",
-      "url": "https://xark.es/b/mythos-firefox-150",
-      "commentsUrl": "https://lobste.rs/s/kcggjp/quick_look_at_mythos_run_on_firefox_too",
-      "by": "",
-      "score": 1,
-      "commentCount": 0,
-      "createdUtc": 1777038855,
-      "ageHours": 65.39,
-      "trendingScore": 0.001807618658125348,
-      "tags": [
-        "security",
-        "vibecoding"
       ],
       "description": "",
       "linkedRepos": []
@@ -1325,11 +1344,11 @@
       "url": "https://www.ssp.sh/brain/using-obsidian-with-ai/",
       "commentsUrl": "https://lobste.rs/s/p6gyqf/using_obsidian_with_ai",
       "by": "",
-      "score": 0,
+      "score": -1,
       "commentCount": 1,
       "createdUtc": 1777214310,
-      "ageHours": 16.6525,
-      "trendingScore": 0,
+      "ageHours": 19.024722222222223,
+      "trendingScore": -0.010373005306332443,
       "tags": [
         "vibecoding"
       ],

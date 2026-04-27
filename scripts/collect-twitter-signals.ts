@@ -305,9 +305,12 @@ function printHelp(): void {
   console.log(`Usage: npm run collect:twitter -- [options]
 
 Options:
-  --provider nitter|fixture|web|apify
-                                  Source provider. Default: nitter
-  --mode direct|api               Direct writes JSONL via service; api posts to running app. Default: api
+  --provider apify|fixture        Source provider. Default: apify (the only
+                                  working production path; nitter + web are
+                                  retained for offline replay only).
+  --mode direct|api               Direct writes JSONL via service; api posts
+                                  to running app. Default: direct (api silently
+                                  fails on Vercel's ephemeral filesystem).
   --limit N                       Candidate repos to scan. Default: 25
   --queries-per-repo N            Query cap per repo. Default: 4
   --posts-per-query N             Accepted source posts per query. 0 = all returned posts. Default: 0
@@ -316,14 +319,14 @@ Options:
   --window-hours N                Freshness window. Default: 24
   --max-tier 1|2|3                Highest query tier to run. Default: 2
   --repo owner/name               Restrict collection to one repo. Repeatable
-  --nitter-instances a,b,c        Comma-separated Nitter instance bases
+  --nitter-instances a,b,c        Comma-separated Nitter instance bases (legacy)
   --include-aliases               Include tier-3 alias queries
   --dry-run                       Build payloads without ingesting
   --ingest-empty                  Write zero-post scans too
   --output path                   Write built payloads as JSON for review
   --fixture-file path             Provider fixture input
 
-Default Nitter instances:
+Default Nitter instances (legacy, only used when --provider nitter):
   ${DEFAULT_NITTER_INSTANCES.join(", ")}
 `);
 }

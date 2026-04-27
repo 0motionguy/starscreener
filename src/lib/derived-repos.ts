@@ -49,6 +49,10 @@ import {
   getTwitterSignalSync,
   getTwitterSignalsDataVersion,
 } from "./twitter/signal-data";
+import {
+  synthesizeRecentRepoSparkline,
+  synthesizeSparkline,
+} from "./derived-repos/sparkline";
 
 let _cache: Repo[] | null = null;
 let _cacheKey: string | null = null;
@@ -191,82 +195,6 @@ function parseCollectionNames(value: string | null | undefined): string[] {
     .split(",")
     .map((name) => name.trim())
     .filter(Boolean);
-}
-
-/**
- * Synthesize a 30-point daily sparkline from known deltas + stars_now.
- *
- * Anchors: today = stars_now, -1d = stars_now - delta_24h, -7d = stars_now -
- * delta_7d, -30d shrunk to -29d proportionally so the curve stays inside a
- * 30-point window. Intermediate days are linearly interpolated. This
- * is a cold-start-friendly stand-in for real snapshot history; once the
- * in-memory snapshotter accumulates real datapoints those override.
- */
-function synthesizeSparkline(
-  starsNow: number,
-  delta24h: number,
-  delta7d: number,
-  delta30d: number,
-): number[] {
-  if (starsNow <= 0) return [];
-
-  // Anchor points keyed by days-ago (0 = today).
-  const anchors = new Map<number, number>();
-  anchors.set(0, starsNow);
-  anchors.set(1, Math.max(0, starsNow - Math.max(0, delta24h)));
-  anchors.set(7, Math.max(0, starsNow - Math.max(0, delta7d)));
-  // Compress 30d onto the 29-days-ago slot so the curve shows the longer-term
-  // slope while keeping exactly 30 points for the detail chart.
-  const delta29d = Math.round(delta30d * (29 / 30));
-  anchors.set(29, Math.max(0, starsNow - Math.max(0, delta29d)));
-
-  const sortedKeys = Array.from(anchors.keys()).sort((a, b) => a - b);
-
-  const series: number[] = [];
-  for (let day = 29; day >= 0; day--) {
-    // Find surrounding anchors for linear interpolation.
-    let lower = sortedKeys[0];
-    let upper = sortedKeys[sortedKeys.length - 1];
-    for (const k of sortedKeys) {
-      if (k <= day) lower = k;
-      if (k >= day) {
-        upper = k;
-        break;
-      }
-    }
-    const lo = anchors.get(lower)!;
-    const hi = anchors.get(upper)!;
-    if (lower === upper) {
-      series.push(lo);
-    } else {
-      const t = (day - lower) / (upper - lower);
-      series.push(Math.round(lo + (hi - lo) * t));
-    }
-  }
-  return series;
-}
-
-function synthesizeRecentRepoSparkline(starsNow: number, createdAt: string): number[] {
-  if (starsNow <= 0) return [];
-
-  const created = Date.parse(createdAt);
-  const ageDays = Number.isFinite(created)
-    ? Math.max(1, Math.ceil((Date.now() - created) / 86_400_000))
-    : 29;
-  const activeSpan = Math.min(29, ageDays);
-  const series: number[] = [];
-
-  for (let dayAgo = 29; dayAgo >= 0; dayAgo--) {
-    if (dayAgo > activeSpan) {
-      series.push(0);
-      continue;
-    }
-    const progress = activeSpan <= 0 ? 1 : (activeSpan - dayAgo) / activeSpan;
-    series.push(Math.round(starsNow * Math.pow(progress, 0.85)));
-  }
-
-  series[series.length - 1] = starsNow;
-  return series;
 }
 
 function setPeriodMetrics(

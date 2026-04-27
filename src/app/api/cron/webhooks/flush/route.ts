@@ -36,9 +36,8 @@ import {
   writeQueue,
 } from "@/lib/webhooks/publish";
 import type {
-  WebhookBreakoutRepo,
   WebhookDelivery,
-  WebhookFundingEvent,
+  WebhookEventPayload,
   WebhookTarget,
 } from "@/lib/webhooks/types";
 import {
@@ -118,20 +117,27 @@ function formatPayload(
   target: WebhookTarget,
   delivery: WebhookDelivery,
 ): SlackPayload | DiscordPayload | null {
+  // LIB-18: narrow via the discriminated WebhookEventPayload map. Casts
+  // are still required at the persistence boundary (.payload is unknown
+  // in the wire shape) but they're routed through one canonical pattern
+  // instead of scattered \`as Foo\` calls.
   if (delivery.event === "breakout") {
-    const repo = delivery.payload as WebhookBreakoutRepo;
+    const repo = delivery.payload as WebhookEventPayload["breakout"];
     return target.provider === "slack"
       ? formatBreakoutForSlack(repo)
       : formatBreakoutForDiscord(repo);
   }
   if (delivery.event === "funding") {
-    const ev = delivery.payload as WebhookFundingEvent;
+    const ev = delivery.payload as WebhookEventPayload["funding"];
     return target.provider === "slack"
       ? formatFundingForSlack(ev)
       : formatFundingForDiscord(ev);
   }
-  // revenue: phase-2 — no formatter yet. Leave as null so the drain
-  // records a failure rather than POSTing a bare payload.
+  // revenue: phase-2 — formatter pending. Leave as null so the drain
+  // records a failure rather than POSTing a bare payload. When the
+  // formatter ships add a branch here; TS won't flag the missing case
+  // automatically since WebhookEvent is a string union, but the
+  // WebhookEventPayload map will surface the expected shape.
   return null;
 }
 

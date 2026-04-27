@@ -99,3 +99,37 @@ export interface WebhookFundingEvent {
   amountUsd?: number | null;
   roundType?: string;
 }
+
+/** Revenue overlay payload (phase-2; formatter pending). */
+export interface WebhookRevenueEvent {
+  id: string;
+  fullName: string;
+  [key: string]: unknown;
+}
+
+/**
+ * LIB-18: discriminated map from event name to its payload type.
+ * The `WebhookDelivery.payload` field is `unknown` at the persistence
+ * boundary (.data/webhook-queue.jsonl) — but callers that already
+ * narrowed `delivery.event` should reach for `WebhookEventPayload[E]`
+ * to type the payload without a hand-written cast.
+ *
+ * Adding a new event:
+ *   1. Add the literal to WebhookEvent.
+ *   2. Add the payload type to this map.
+ *   3. Add a publish*() helper in src/lib/webhooks/publish.ts.
+ *   4. Add a formatter branch in src/app/api/cron/webhooks/flush/route.ts
+ *      formatPayload (TS will flag the missing case).
+ */
+export interface WebhookEventPayload {
+  breakout: WebhookBreakoutRepo;
+  funding: WebhookFundingEvent;
+  revenue: WebhookRevenueEvent;
+}
+
+/** Convenience: the typed delivery shape for a known event. */
+export type TypedWebhookDelivery<E extends WebhookEvent = WebhookEvent> =
+  Omit<WebhookDelivery, "event" | "payload"> & {
+    event: E;
+    payload: WebhookEventPayload[E];
+  };

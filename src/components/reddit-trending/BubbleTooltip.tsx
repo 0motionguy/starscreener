@@ -10,7 +10,7 @@
 // Performance: data is null during idle so the AnimatePresence subtree
 // unmounts and we don't pay for a hidden DOM node 40 bubbles wide.
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Sparkline } from "@/components/shared/Sparkline";
 import { formatNumber } from "@/lib/utils";
 
@@ -78,14 +78,15 @@ function tierFor(ratio: number, breakoutCount: number): Tier {
 }
 
 export function BubbleTooltip({ visible, x, y, data }: BubbleTooltipProps) {
+  const reduceMotion = useReducedMotion();
   return (
     <AnimatePresence>
       {visible && data && (
         <motion.div
-          initial={{ opacity: 0, y: 4 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 4 }}
-          transition={{ duration: 0.15 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 4 }}
+          animate={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
+          exit={reduceMotion ? {} : { opacity: 0, y: 4 }}
+          transition={reduceMotion ? { duration: 0 } : { duration: 0.15 }}
           className="fixed z-50 pointer-events-none w-[280px] v2-card shadow-lg p-3 font-mono text-xs"
           style={{ left: x, top: y }}
         >

@@ -23,7 +23,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Sparkline } from "@/components/shared/Sparkline";
 import { formatNumber, cn } from "@/lib/utils";
@@ -453,6 +453,7 @@ function Cell({
   onLeave,
   onClick,
 }: CellProps) {
+  const reduceMotion = useReducedMotion();
   const typo = typographyFor(rect.w, rect.h);
   const delta = deltaColor(cell.momentumRatio);
   const isBreakout = cell.tier === "breakout";
@@ -480,8 +481,12 @@ function Cell({
         width: rect.w,
         height: rect.h,
       }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      whileHover={{ scale: 1.02, zIndex: 10 }}
+      transition={
+        reduceMotion
+          ? { duration: 0 }
+          : { duration: 0.5, ease: [0.22, 1, 0.36, 1] }
+      }
+      whileHover={reduceMotion ? undefined : { scale: 1.02, zIndex: 10 }}
       style={{
         position: "absolute",
         background,
@@ -495,9 +500,10 @@ function Cell({
         filter: hovered ? "brightness(1.08)" : "brightness(1)",
         cursor: "pointer",
         overflow: "hidden",
-        animation: isBreakout
-          ? "heatmap-breakout-pulse 3s ease-in-out infinite"
-          : undefined,
+        animation:
+          isBreakout && !reduceMotion
+            ? "heatmap-breakout-pulse 3s ease-in-out infinite"
+            : undefined,
       }}
       onPointerEnter={(e) => onEnter(cell, e)}
       onPointerMove={onMove}

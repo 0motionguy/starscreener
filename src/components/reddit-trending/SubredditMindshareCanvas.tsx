@@ -29,7 +29,7 @@ import {
   useState,
   type MutableRefObject,
 } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { formatNumber } from "@/lib/utils";
 import { BubbleTooltip, type BubbleTooltipData } from "./BubbleTooltip";
@@ -172,6 +172,7 @@ const BubbleNode = memo(function BubbleNode({
   onPointerMove,
   onPointerLeave,
 }: BubbleNodeProps) {
+  const reduceMotion = useReducedMotion();
   const insideLabel = s.r >= INSIDE_LABEL_R;
   const labelFontSize = Math.max(10, Math.min(14, s.r * 0.20));
   const valueFontSize = insideLabel
@@ -247,13 +248,17 @@ const BubbleNode = memo(function BubbleNode({
       <motion.circle
         initial={false}
         animate={{ r: s.r + (lifted ? 10 : 4) }}
-        transition={{ duration: 0.6, ease: "easeInOut" }}
+        transition={
+          reduceMotion ? { duration: 0 } : { duration: 0.6, ease: "easeInOut" }
+        }
         fill={s.glow}
       />
       <motion.circle
         initial={false}
         animate={{ r: s.r * (isHovered && !isDragging ? 1.05 : 1) }}
-        transition={{ duration: 0.6, ease: "easeInOut" }}
+        transition={
+          reduceMotion ? { duration: 0 } : { duration: 0.6, ease: "easeInOut" }
+        }
         fill={`url(#${gradientId})`}
         stroke={isActive ? "#f6f9fc" : s.stroke}
         strokeWidth={

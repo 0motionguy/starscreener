@@ -12,7 +12,7 @@
 import Link from "next/link";
 import { useCallback, useMemo } from "react";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { ChevronUp, Flame, MessageSquare, TrendingUp, Users } from "lucide-react";
 import type { ComponentType, SVGProps } from "react";
 import { BaselinePill, type BaselinePillSize } from "@/components/reddit/BaselinePill";
@@ -224,6 +224,7 @@ function sortHot7d(posts: RedditAllPost[]): RedditAllPost[] {
 }
 
 export function AllTrendingTabs({ posts }: { posts: RedditAllPost[] }) {
+  const reduceMotion = useReducedMotion();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
@@ -386,7 +387,11 @@ export function AllTrendingTabs({ posts }: { posts: RedditAllPost[] }) {
                   layoutId="trendingTabIndicator"
                   aria-hidden="true"
                   className="pointer-events-none absolute bottom-0 left-0 right-0 h-[2px] bg-brand"
-                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  transition={
+                    reduceMotion
+                      ? { duration: 0 }
+                      : { type: "spring", stiffness: 380, damping: 30 }
+                  }
                 />
               ) : null}
             </Link>
@@ -448,6 +453,7 @@ interface PostRowProps {
 }
 
 function PostRow({ post: p, velocityP90, velocityStats, onSubClick }: PostRowProps) {
+  const reduceMotion = useReducedMotion();
   const primaryRepo =
     p.linkedRepos && p.linkedRepos.length > 0
       ? p.linkedRepos[0].fullName
@@ -471,8 +477,10 @@ function PostRow({ post: p, velocityP90, velocityStats, onSubClick }: PostRowPro
 
   return (
     <motion.li
-      whileHover={{ y: -2, scale: 1.005 }}
-      transition={{ duration: 0.15, ease: "easeOut" }}
+      whileHover={reduceMotion ? undefined : { y: -2, scale: 1.005 }}
+      transition={
+        reduceMotion ? { duration: 0 } : { duration: 0.15, ease: "easeOut" }
+      }
       className={cn(
         // PREMIUM CARD — Linear changelog × Vercel feed × TweetDeck dense
         // Big breathing room, rounded-xl, hover-lift via framer + shadow.
@@ -694,6 +702,7 @@ function PostRowCompact({
   velocityP90: number;
   velocityStats: VelocityStats;
 }) {
+  const reduceMotion = useReducedMotion();
   const tier = getPostTier(p.baselineRatio);
   const tc = tierClassesCompact(tier);
   const showVelocity = (p.trendingScore ?? 0) >= velocityP90;
@@ -704,8 +713,10 @@ function PostRowCompact({
 
   return (
     <motion.li
-      whileHover={{ y: -1, scale: 1.003 }}
-      transition={{ duration: 0.12, ease: "easeOut" }}
+      whileHover={reduceMotion ? undefined : { y: -1, scale: 1.003 }}
+      transition={
+        reduceMotion ? { duration: 0 } : { duration: 0.12, ease: "easeOut" }
+      }
       className={cn(
         // Same card aesthetic as PostRow but tighter (p-3 vs p-5).
         "group relative block border border-border-primary rounded-xl bg-bg-card shadow-card p-3",

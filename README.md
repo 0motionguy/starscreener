@@ -13,6 +13,7 @@
 [![Tech-debt audit](https://img.shields.io/badge/audit-71%2F87%20closed-22c55e.svg?style=for-the-badge)](./docs/AUDIT_COMPLETE.md)
 [![V2 conformance](https://img.shields.io/badge/V2%20conformance-100%25-22c55e.svg?style=for-the-badge)](./scripts/check-no-legacy-tokens.mjs)
 [![Critical findings](https://img.shields.io/badge/critical%20open-0-22c55e.svg?style=for-the-badge)](./docs/AUDIT_COMPLETE.md)
+[![CI](https://github.com/0motionguy/starscreener/actions/workflows/ci.yml/badge.svg)](https://github.com/0motionguy/starscreener/actions/workflows/ci.yml)
 
 [**Live**](https://trendingrepo.com)  ·  [**Portal manifest**](https://trendingrepo.com/portal)  ·  [**API docs**](https://trendingrepo.com/portal/docs)  ·  [**CLI**](https://trendingrepo.com/cli)  ·  [**@0motionguy**](https://x.com/0motionguy)
 
@@ -275,6 +276,37 @@ Or go HTTP-native (no bundle required):
 ```bash
 claude mcp add starscreener --transport http --url https://starscreener.vercel.app/portal
 ```
+
+## Design system
+
+V3 is the production skin: a Node/01 x Linear fusion. Dark canvas, sharp 2px
+corners, hairline frames, mono uppercase labels, accent reserved for the
+focused object. New work targets `--v3-*` tokens and `.v3-*` utility classes;
+older `--v2-*` names are aliased to V3 in `src/app/globals.css` so partially
+migrated components inherit the V3 palette automatically.
+
+The full token vocabulary (surfaces, hairlines, ink, accents, motion) is
+documented in [`docs/DESIGN_SYSTEM.md`](./docs/DESIGN_SYSTEM.md). Two CI
+guards prevent regression: `npm run lint:tokens` rejects new `--v2-*` /
+legacy hex references, and `npm run lint:v3-budget` snapshots `--v2-*`
+alias counts in `scripts/_v3-token-baseline.json` and fails when any
+pattern grows.
+
+## Testing
+
+Three runners cover different layers; the [CI workflow](./.github/workflows/ci.yml)
+runs all three on every PR and push to `main`.
+
+```bash
+npm run test:hooks       # Vitest — 93 tests for hooks, components, lib
+npm test                 # node:test + tsx --test — collectors, pipeline, tools, portal
+npm run test:e2e         # Playwright — 12 E2E smokes against a production build
+```
+
+In CI the gate also runs `npm run typecheck`, the chained `npm run lint:guards`
+(tokens, err-message, zod-routes, route-runtime, error-envelope), the
+standalone `lint:v3-budget` guard, and a full `next build` before Playwright
+boots `next start` on port 3023.
 
 ## Development
 

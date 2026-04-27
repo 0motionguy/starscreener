@@ -88,7 +88,12 @@ export async function POST(
   }
 
   const cronSecret = process.env.CRON_SECRET;
-  if (!cronSecret && process.env.NODE_ENV === "production") {
+  // APP-07: only allow CRON_SECRET-less drains in `development`. Earlier
+  // versions checked NODE_ENV === "production" only, which silently
+  // accepted unauthenticated drain calls in `staging`/`preview`/`test`/
+  // anything-not-production. Tighten to fail-closed everywhere except
+  // explicit local dev.
+  if (!cronSecret && process.env.NODE_ENV !== "development") {
     return NextResponse.json(
       { ok: false, error: "CRON_SECRET not configured; cannot drain" },
       { status: 503 },

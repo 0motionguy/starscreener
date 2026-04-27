@@ -23,7 +23,7 @@ import { Flame, TrendingUp, Zap } from "lucide-react";
 
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import { formatNumber, getRelativeTime } from "@/lib/utils";
-import { absoluteUrl, SITE_NAME } from "@/lib/seo";
+import { absoluteUrl, SITE_NAME, safeJsonLd } from "@/lib/seo";
 import { buildCanonicalRepoProfile } from "@/lib/api/repo-profile";
 // Data-store refresh hooks. The repo detail page consumes signal data from
 // many sources; we refresh all of them in parallel before the canonical
@@ -278,11 +278,11 @@ export default async function RepoDetailPage({ params }: PageProps) {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbJsonLd) }}
       />
 
       {/* Sticky breadcrumb strip — unchanged behavior, terminal tone. */}

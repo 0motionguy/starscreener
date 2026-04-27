@@ -13,11 +13,23 @@
 
 import { Eye } from "lucide-react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import type { Repo } from "@/lib/types";
 import { useWatchlistStore } from "@/lib/store";
 import { TerminalLayout } from "@/components/terminal/TerminalLayout";
-import { AlertConfig } from "@/components/watchlist/AlertConfig";
+
+// AlertConfig is 868 lines of browser-alert plumbing, threshold sliders, and
+// a repo picker — none of which is needed for the first paint of the
+// terminal table. Defer it from the watchlist first-load chunk; ssr:false
+// because it renders below the fold and is fully client-driven.
+const AlertConfig = dynamic(
+  () =>
+    import("@/components/watchlist/AlertConfig").then((m) => ({
+      default: m.AlertConfig,
+    })),
+  { ssr: false },
+);
 
 export default function WatchlistPage() {
   useEffect(() => {

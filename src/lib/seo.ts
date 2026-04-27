@@ -24,6 +24,26 @@ export function absoluteUrl(path: string = "/"): string {
 }
 
 /**
+ * Safe stringifier for JSON-LD bodies that get written into a `<script>` tag
+ * via `dangerouslySetInnerHTML`. JSON.stringify by itself does NOT escape
+ * `</script>` (it leaves `<` and `>` raw), so a future contributor who pipes
+ * a user-controlled string into one of these blobs would silently introduce
+ * XSS. Today every interpolated value is allowlisted (static SITE_*
+ * constants or repo slugs that already passed `/^[A-Za-z0-9._-]+$/`), so
+ * this is defense-in-depth — pin the safe pattern in one helper so the four
+ * call sites can't drift. Also escapes U+2028/U+2029 which break JS string
+ * literals in some legacy parsers.
+ */
+export function safeJsonLd(obj: unknown): string {
+  return JSON.stringify(obj)
+    .replace(/</g, "\\u003c")
+    .replace(/>/g, "\\u003e")
+    .replace(/&/g, "\\u0026")
+    .replace(/\u2028/g, "\\u2028")
+    .replace(/\u2029/g, "\\u2029");
+}
+
+/**
  * Brand palette literal hex values. Token values from globals.css — used by
  * OG image generators (ImageResponse) where CSS vars can't be resolved.
  */

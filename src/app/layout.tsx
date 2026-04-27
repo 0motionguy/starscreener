@@ -13,7 +13,11 @@ import { StoreProvider } from "@/components/providers/StoreProvider";
 import { AppShell } from "@/components/layout/AppShell";
 import { Header } from "@/components/layout/Header";
 import { Sidebar } from "@/components/layout/Sidebar";
-import { MobileDrawer } from "@/components/layout/MobileDrawer";
+// MobileDrawer is deferred via a thin client wrapper so framer-motion (the
+// drawer's biggest dep, ~30 kB gzipped) lands in its own chunk instead of
+// the shared bundle. The win propagates to every route. The wrapper file
+// exists because Server Components can't pass ssr:false to next/dynamic.
+import { MobileDrawerLazy } from "@/components/layout/MobileDrawerLazy";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { BrowserAlertBridge } from "@/components/alerts/BrowserAlertBridge";
 import { DesignSystemProvider } from "@/components/v3";
@@ -155,7 +159,7 @@ export default function RootLayout({
           <StoreProvider>
             <DesignSystemProvider>
               <Header />
-              <MobileDrawer />
+              <MobileDrawerLazy />
               <AppShell>
                 <Sidebar />
                 <main className="app-main">{children}</main>

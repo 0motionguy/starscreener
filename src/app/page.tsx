@@ -30,6 +30,7 @@ import {
   SITE_TAGLINE,
   SITE_DESCRIPTION,
   absoluteUrl,
+  safeJsonLd,
 } from "@/lib/seo";
 
 // ISR: data/*.json only changes when the GHA scrape commits new trending
@@ -274,7 +275,7 @@ export default async function HomePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: safeJsonLd({
             "@context": "https://schema.org",
             "@type": "WebSite",
             "@id": `${SITE_URL.replace(/\/+$/, "")}/#website`,
@@ -307,7 +308,7 @@ export default async function HomePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: safeJsonLd({
             "@context": "https://schema.org",
             "@type": "Organization",
             "@id": `${SITE_URL.replace(/\/+$/, "")}/#organization`,
@@ -327,7 +328,7 @@ export default async function HomePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: safeJsonLd({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
@@ -347,7 +348,7 @@ export default async function HomePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: safeJsonLd({
             "@context": "https://schema.org",
             "@type": "FAQPage",
             mainEntity: HOMEPAGE_FAQ.map(({ q, a }) => ({
@@ -366,7 +367,7 @@ export default async function HomePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: safeJsonLd({
             "@context": "https://schema.org",
             "@type": "CollectionPage",
             "@id": `${SITE_URL.replace(/\/+$/, "")}/#homepage`,

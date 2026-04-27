@@ -17,6 +17,11 @@
 // mix real data into our fixtures. Mirrors canonical-profile-endpoint.test.ts.
 process.env.STARSCREENER_PERSIST = "false";
 
+// Seed deterministic JSONL fixtures so vercel/next.js and ollama/ollama
+// resolve in CI runners that don't carry the live .data/repos.jsonl payload.
+import { ensurePipelineRepoJsonlFixture } from "./fixtures/pipeline-repo-fixtures";
+ensurePipelineRepoJsonlFixture();
+
 import { test } from "node:test";
 import assert from "node:assert/strict";
 

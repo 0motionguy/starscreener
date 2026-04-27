@@ -24,7 +24,13 @@ import {
   AsciiInterstitial,
   BarcodeTicker,
 } from "@/components/v2";
-import { SITE_NAME, SITE_URL, absoluteUrl } from "@/lib/seo";
+import {
+  SITE_NAME,
+  SITE_URL,
+  SITE_TAGLINE,
+  SITE_DESCRIPTION,
+  absoluteUrl,
+} from "@/lib/seo";
 
 // ISR: data/*.json only changes when the GHA scrape commits new trending
 // data, so serving the homepage from a 30-minute edge cache is safe. Drops
@@ -261,6 +267,80 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* WebSite JSON-LD — gives Google a SearchAction so the sitelinks
+          search box can render against /search?q={query}. Pairs with
+          the Organization + BreadcrumbList blocks below. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "@id": `${SITE_URL.replace(/\/+$/, "")}/#website`,
+            name: SITE_NAME,
+            alternateName: `${SITE_NAME} — ${SITE_TAGLINE}`,
+            description: SITE_DESCRIPTION,
+            url: SITE_URL,
+            inLanguage: "en-US",
+            publisher: {
+              "@type": "Organization",
+              "@id": `${SITE_URL.replace(/\/+$/, "")}/#organization`,
+            },
+            potentialAction: {
+              "@type": "SearchAction",
+              target: {
+                "@type": "EntryPoint",
+                urlTemplate: `${SITE_URL.replace(
+                  /\/+$/,
+                  "",
+                )}/search?q={search_term_string}`,
+              },
+              "query-input": "required name=search_term_string",
+            },
+          }),
+        }}
+      />
+
+      {/* Organization JSON-LD — establishes brand identity (name, logo, url)
+          so search engines can attach knowledge-panel metadata. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "@id": `${SITE_URL.replace(/\/+$/, "")}/#organization`,
+            name: SITE_NAME,
+            url: SITE_URL,
+            logo: {
+              "@type": "ImageObject",
+              url: absoluteUrl("/icon.svg"),
+            },
+            description: SITE_DESCRIPTION,
+          }),
+        }}
+      />
+
+      {/* BreadcrumbList JSON-LD — single-item breadcrumb for the homepage
+          so crawlers can connect this URL to the canonical home anchor. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: absoluteUrl("/"),
+              },
+            ],
+          }),
+        }}
+      />
 
       {/* FAQPage JSON-LD — derived from the same array as the visible FAQ
           above so structured data and the rendered Q/A can never drift. */}

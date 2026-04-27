@@ -7,6 +7,7 @@
 // to the PH post URL, with a secondary link to the repo page on
 // StarScreener when the launch links to a tracked repo.
 
+import Image from "next/image";
 import Link from "next/link";
 import { getAiLaunches, producthuntCold } from "@/lib/producthunt";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
@@ -70,13 +71,11 @@ export function RecentLaunches({
                     className="shrink-0"
                     aria-label={`${l.name} on ProductHunt`}
                   >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
+                    <Image
                       src={l.thumbnail}
                       alt=""
                       width={48}
                       height={48}
-                      loading="lazy"
                       className="size-12 rounded-md border border-border-primary bg-bg-tertiary object-cover"
                     />
                   </a>

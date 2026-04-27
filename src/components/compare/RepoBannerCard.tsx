@@ -1,4 +1,5 @@
 import type { JSX } from "react";
+import Image from "next/image";
 import {
   Star,
   GitFork,
@@ -67,13 +68,11 @@ export function RepoBannerCard({
     >
       {/* Header row: avatar + owner/name + license + language chips */}
       <div className="flex items-start gap-3 mb-2">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src={bundle.avatarUrl}
           alt={bundle.owner}
           width={36}
           height={36}
-          loading="lazy"
           className="size-9 shrink-0 rounded-full border border-border-primary object-cover"
         />
         <div className="flex-1 min-w-0">

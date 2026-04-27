@@ -21,6 +21,7 @@
 // the detail page uses.
 
 import type { JSX } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { ExternalLink, MapPin, Globe } from "lucide-react";
 
@@ -101,13 +102,11 @@ function CardShell({
 
       <div className="p-4">
         <div className="flex items-start gap-3">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src={avatarUrl}
             alt={login}
             width={48}
             height={48}
-            loading="lazy"
             className="size-12 shrink-0 object-cover"
             style={{
               borderRadius: 2,

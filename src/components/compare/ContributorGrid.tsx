@@ -1,4 +1,5 @@
 import type { JSX } from "react";
+import Image from "next/image";
 import type { CompareRepoBundle } from "@/lib/github-compare";
 
 interface ContributorGridProps {
@@ -41,13 +42,11 @@ export function ContributorGrid({
             title={`${c.login} — ${c.contributions.toLocaleString("en-US")} contributions`}
             className="group relative block size-8 overflow-hidden rounded-full border border-border-primary hover:border-brand transition-colors"
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src={c.avatarUrl}
               alt={c.login}
               width={32}
               height={32}
-              loading="lazy"
               className="size-full object-cover"
             />
           </a>

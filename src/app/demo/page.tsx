@@ -15,6 +15,7 @@
 // comes from Tailwind `animate-pulse` + custom CSS keyframes declared
 // inline.
 
+import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import type { JSX } from "react";
@@ -523,8 +524,7 @@ function RepoChip({ repo }: { repo: { fullName: string; stars: number } }): JSX.
   return (
     <div className="group inline-flex items-center gap-2 rounded-button border border-border-primary bg-bg-muted/50 px-2.5 py-1.5 hover:border-brand/40 transition-colors">
       {/* Google favicons — works for any repo owner with a matching .com */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+      <Image
         src={`https://www.google.com/s2/favicons?sz=32&domain=github.com`}
         alt=""
         width={14}

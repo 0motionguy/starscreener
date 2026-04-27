@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import type { JSX } from "react";
+import Image from "next/image";
 import type { CompareRepoBundle } from "@/lib/github-compare";
 
 interface CompareHeatmapProps {
@@ -117,8 +118,7 @@ function HeatRow({ row }: { row: RepoRow }): JSX.Element {
       style={{ borderLeft: `3px solid ${row.accent}` }}
     >
       <div className="flex flex-wrap items-center gap-2 mb-2">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={row.bundle.avatarUrl} alt={row.bundle.owner} width={16} height={16} loading="lazy" className="size-4 rounded-full" />
+        <Image src={row.bundle.avatarUrl} alt={row.bundle.owner} width={16} height={16} className="size-4 rounded-full" />
         <span className="font-mono text-[12px] text-text-primary truncate">{row.bundle.fullName}</span>
         <span className="font-mono text-[11px] text-text-tertiary tabular-nums ml-auto">
           <span className="text-text-secondary">{row.total30d}</span> commits (30d) ·{" "}
@@ -176,8 +176,7 @@ function UnavailableRow({ bundle, accent }: { bundle: CompareRepoBundle; accent:
       style={{ borderLeft: `3px solid ${accent}` }}
     >
       <div className="flex items-center gap-2 mb-1">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={bundle.avatarUrl} alt={bundle.owner} width={16} height={16} loading="lazy" className="size-4 rounded-full" />
+        <Image src={bundle.avatarUrl} alt={bundle.owner} width={16} height={16} className="size-4 rounded-full" />
         <span className="font-mono text-[12px] text-text-secondary truncate">{bundle.fullName}</span>
       </div>
       <p className="text-xs text-text-tertiary">Heatmap unavailable</p>

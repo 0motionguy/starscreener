@@ -10,6 +10,7 @@
 // scrape lands.
 
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { MessageSquare, ChevronUp } from "lucide-react";
 import { LaunchLinkIcons } from "@/components/producthunt/LaunchLinkIcons";
@@ -292,13 +293,11 @@ function ThumbLink({ launch }: { launch: Launch }) {
         className="shrink-0 block"
         aria-label={`${launch.name} on ProductHunt`}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src={launch.thumbnail}
           alt=""
           width={40}
           height={40}
-          loading="lazy"
           className="size-10 rounded-md border border-border-primary bg-bg-tertiary object-cover"
         />
       </a>

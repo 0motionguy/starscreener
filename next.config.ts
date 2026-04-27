@@ -20,9 +20,17 @@ const nextConfig: NextConfig = {
   // named exports actually used end up in the bundle. lucide-react alone
   // exports ~1.5k icons via a barrel — without this, a naive build can
   // ship hundreds of unused icon modules when any file imports even one
-  // icon from it. framer-motion + recharts also benefit.
+  // icon from it.
+  //
+  // framer-motion is INTENTIONALLY excluded: its 12.x ESM barrel re-exports
+  // from motion-dom/motion-utils break Next 15's RSC chunk graph during the
+  // `/_not-found` static prerender (TypeError: Cannot read properties of
+  // undefined (reading 'call') at webpack-runtime). lucide-react and recharts
+  // are already in Next 15's built-in optimized list — listing them here is
+  // a no-op but documents intent and protects against the default-list
+  // changing in a future Next minor.
   experimental: {
-    optimizePackageImports: ["lucide-react", "framer-motion", "recharts"],
+    optimizePackageImports: ["lucide-react", "recharts"],
   },
   images: {
     remotePatterns: [
@@ -33,6 +41,7 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "abs.twimg.com" },
       { protocol: "https", hostname: "unavatar.io" },
       { protocol: "https", hostname: "www.google.com" },
+      { protocol: "https", hostname: "ph-files.imgix.net" },
     ],
   },
   // Uncomment for Docker/Railway/Fly deployments that need a self-contained

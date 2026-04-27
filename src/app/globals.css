@@ -237,7 +237,13 @@
   --v3-ink-100: #eef0f2;
   --v3-ink-200: #b8c0c8;
   --v3-ink-300: #84909b;
-  --v3-ink-400: #59636d;
+  /* WCAG AA fix (2026-04-27): old #59636d clocked 3.26:1 vs --v3-bg-000
+     and 3.02:1 vs --v3-bg-050 — failed AA body text (4.5:1). Lifted to
+     #7a8694 which clears 5.38:1 vs bg-000 and 4.99:1 vs bg-050. Aliases
+     in the V2 ramp + Tailwind --color-text-muted inherit automatically,
+     so this single token-edit migrates every dark-theme surface that
+     uses the muted ink for body copy. */
+  --v3-ink-400: #7a8694;
   --v3-ink-500: #3c444d;
 
   --v3-acc: #9297f6;

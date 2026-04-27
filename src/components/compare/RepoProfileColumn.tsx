@@ -8,6 +8,7 @@
 // error placeholder — the grid keeps every slot populated so the layout
 // doesn't jitter when one lookup fails.
 
+import Image from "next/image";
 import Link from "next/link";
 import { Star } from "lucide-react";
 import type { CompareRepoRow, DiffTone } from "./CompareProfileGrid";
@@ -83,10 +84,11 @@ export function RepoProfileColumn({
       {/* Header */}
       <header className="flex items-center gap-2 min-w-0">
         {repo.ownerAvatarUrl ? (
-          /* eslint-disable-next-line @next/next/no-img-element */
-          <img
+          <Image
             src={repo.ownerAvatarUrl}
             alt=""
+            width={28}
+            height={28}
             className="size-7 rounded-full bg-bg-card-hover shrink-0"
           />
         ) : (

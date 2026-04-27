@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { GitFork, Users } from "lucide-react";
 import { Sparkline } from "@/components/shared/Sparkline";
@@ -109,13 +110,11 @@ export function FeaturedCard({ card, index = 0 }: FeaturedCardProps) {
       <div className="flex flex-1 flex-col gap-2 p-3 min-w-0">
         {/* Row 1: avatar + repo name + reason */}
         <div className="flex items-start gap-2.5 min-w-0">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src={repo.ownerAvatarUrl}
             alt=""
             width={24}
             height={24}
-            loading="lazy"
             className="size-6 shrink-0 rounded-sm border bg-[color:var(--v2-bg-100)]"
             style={{ borderColor: "var(--v2-line-200)" }}
           />

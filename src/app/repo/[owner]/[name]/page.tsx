@@ -247,11 +247,42 @@ export default async function RepoDetailPage({ params }: PageProps) {
       .join(", "),
   };
 
+  // BreadcrumbList JSON-LD — Home > {owner} > {name}. Mirrors the visible
+  // breadcrumb strip rendered above so structured data matches the UI.
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: absoluteUrl("/"),
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: repo.owner,
+        item: `https://github.com/${repo.owner}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: repo.name,
+        item: absoluteUrl(`/repo/${repo.owner}/${repo.name}`),
+      },
+    ],
+  };
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
 
       {/* Sticky breadcrumb strip — unchanged behavior, terminal tone. */}

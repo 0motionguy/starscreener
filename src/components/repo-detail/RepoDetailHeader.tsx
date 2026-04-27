@@ -6,6 +6,7 @@
 // this page), and unified cross-signal strip carried forward.
 
 import type { JSX } from "react";
+import Image from "next/image";
 import { ExternalLink } from "lucide-react";
 import type { Repo } from "@/lib/types";
 import { ChannelDots } from "@/components/cross-signal/ChannelDots";
@@ -96,13 +97,12 @@ export function RepoDetailHeader({
       <div className="p-4 sm:p-5 space-y-4">
         {/* Identity row */}
         <div className="flex items-start gap-3 sm:gap-4">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src={repo.ownerAvatarUrl}
             alt={repo.owner}
             width={56}
             height={56}
-            loading="eager"
+            priority
             className="size-12 sm:size-14 shrink-0 object-cover"
             style={{
               borderRadius: 2,

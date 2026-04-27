@@ -21,6 +21,7 @@ import {
   useRef,
   useState,
 } from "react";
+import Image from "next/image";
 import { X, Plus, Trash2, Search } from "lucide-react";
 import { useCompareStore } from "@/lib/store";
 import type { Repo } from "@/lib/types";
@@ -292,9 +293,11 @@ export function CompareSelector() {
                       "border-b border-border-primary last:border-b-0",
                     )}
                   >
-                    <img
+                    <Image
                       src={repo.ownerAvatarUrl}
                       alt=""
+                      width={20}
+                      height={20}
                       className="size-5 rounded-full bg-bg-card-hover"
                     />
                     <div className="flex-1 min-w-0">

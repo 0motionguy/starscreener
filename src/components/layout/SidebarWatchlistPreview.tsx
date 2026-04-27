@@ -7,6 +7,7 @@
  * Parent resolves the top 5 from the watchlist store + repo data before
  * passing them in — this component is a pure presentation layer.
  */
+import Image from "next/image";
 import Link from "next/link";
 import { EyeOff } from "lucide-react";
 import type { MovementStatus } from "@/lib/types";
@@ -91,12 +92,11 @@ export function SidebarWatchlistPreview({
             className="grid grid-cols-[20px_1fr_auto] gap-2 items-center px-3 h-10 hover:bg-bg-card-hover transition-colors"
             title={`${repo.fullName} — ${deltaLabel} stars / 24h`}
           >
-            <img
+            <Image
               src={repo.ownerAvatarUrl}
               alt=""
               width={20}
               height={20}
-              loading="lazy"
               className="size-5 shrink-0 rounded-full border border-border-primary bg-bg-tertiary"
             />
             <div className="flex items-center gap-1.5 min-w-0">

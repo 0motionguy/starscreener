@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import type { FundingSignal } from "@/lib/funding/types";
 import { resolveLogoUrl } from "@/lib/logo-url";
@@ -151,15 +152,13 @@ function CompanyLogo({
         className="shrink-0 rounded-lg overflow-hidden border border-border-primary/50 bg-bg-muted"
         style={{ width: size, height: size }}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src={resolved}
           alt={name}
           width={size}
           height={size}
           className="w-full h-full object-contain"
           onError={() => setFailed(true)}
-          loading="lazy"
         />
       </div>
     );
@@ -192,15 +191,13 @@ function InvestorBadge({ name }: { name: string }) {
   return (
     <span className="inline-flex items-center gap-1.5 rounded-full border border-border-primary bg-bg-tertiary px-2.5 py-1 text-xs text-text-secondary">
       {logoUrl && !failed ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
+        <Image
           src={logoUrl}
           alt=""
           width={16}
           height={16}
           className="rounded-full object-contain bg-bg-muted"
           onError={() => setFailed(true)}
-          loading="lazy"
         />
       ) : (
         <span

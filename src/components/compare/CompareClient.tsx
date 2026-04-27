@@ -21,6 +21,7 @@
 // selected id, we synthesize a fallback ok:false bundle so the banner card
 // still renders in error state — per-repo failures never block siblings.
 
+import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useEffect, useMemo, useState } from "react";
@@ -613,13 +614,11 @@ function PulseCard({ bundle, accent }: BundleWithAccent) {
     >
       <div className="flex items-center gap-2 min-w-0">
         {bundle.avatarUrl ? (
-          /* eslint-disable-next-line @next/next/no-img-element */
-          <img
+          <Image
             src={bundle.avatarUrl}
             alt=""
             width={24}
             height={24}
-            loading="lazy"
             className="size-6 rounded-full bg-bg-card-hover shrink-0"
           />
         ) : (
@@ -678,13 +677,11 @@ function RepoSubHeader({
     >
       <div className="flex items-center gap-2 mb-3 min-w-0">
         {bundle.avatarUrl ? (
-          /* eslint-disable-next-line @next/next/no-img-element */
-          <img
+          <Image
             src={bundle.avatarUrl}
             alt=""
             width={24}
             height={24}
-            loading="lazy"
             className="size-6 rounded-full bg-bg-card-hover shrink-0"
           />
         ) : (

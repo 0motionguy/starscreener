@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-04-26T23:02:02.854Z",
+  "fetchedAt": "2026-04-26T23:59:26.659Z",
   "items": [
     {
       "githubId": 1221914096,
@@ -11,11 +11,11 @@
       "url": "https://github.com/browser-use/bux",
       "language": "Python",
       "topics": [],
-      "stars": 8,
+      "stars": 10,
       "forks": 1,
       "openIssues": 0,
       "createdAt": "2026-04-26T20:53:37Z",
-      "updatedAt": "2026-04-26T22:53:09Z",
+      "updatedAt": "2026-04-26T23:30:46Z",
       "pushedAt": "2026-04-26T21:02:08Z"
     },
     {
@@ -83,11 +83,11 @@
       "url": "https://github.com/SharifiZarchi/janfadaa",
       "language": "HTML",
       "topics": [],
-      "stars": 35,
+      "stars": 36,
       "forks": 1,
       "openIssues": 2,
       "createdAt": "2026-04-26T18:32:51Z",
-      "updatedAt": "2026-04-26T22:59:24Z",
+      "updatedAt": "2026-04-26T23:57:41Z",
       "pushedAt": "2026-04-26T19:10:27Z"
     },
     {
@@ -138,12 +138,45 @@
       "url": "https://github.com/avaco-cloud/Vercel-XHTTP",
       "language": "JavaScript",
       "topics": [],
-      "stars": 74,
-      "forks": 307,
+      "stars": 94,
+      "forks": 439,
       "openIssues": 0,
       "createdAt": "2026-04-26T18:06:53Z",
-      "updatedAt": "2026-04-26T23:00:56Z",
+      "updatedAt": "2026-04-26T23:56:12Z",
       "pushedAt": "2026-04-26T20:14:31Z"
+    },
+    {
+      "githubId": 1221814255,
+      "fullName": "hec-ovi/vllm-awq4-qwen",
+      "name": "vllm-awq4-qwen",
+      "owner": "hec-ovi",
+      "ownerAvatarUrl": "https://avatars.githubusercontent.com/u/157006875?v=4",
+      "description": "vLLM Qwen 3.6-27B (AWQ-INT4) + DFlash speculative decoding on AMD Strix Halo (gfx1151 iGPU, 128 GB UMA, ROCm 7.13). 24.8 t/s single-stream, vision, tool calling, 256K context, OpenAI-compatible, Docker. Matches DGX Spark FP8+DFlash+MTP at a third of the cost. No CUDA.",
+      "url": "https://github.com/hec-ovi/vllm-awq4-qwen",
+      "language": "Python",
+      "topics": [
+        "27b",
+        "amd-strix-halo",
+        "awq",
+        "dflash",
+        "docker",
+        "gfx1151",
+        "llm-inference",
+        "multimodal-llm",
+        "openai-api",
+        "qwen3",
+        "rdna35",
+        "rocm",
+        "ryzen-ai-max",
+        "speculative-decoding",
+        "vllm"
+      ],
+      "stars": 7,
+      "forks": 0,
+      "openIssues": 0,
+      "createdAt": "2026-04-26T18:03:28Z",
+      "updatedAt": "2026-04-26T23:58:06Z",
+      "pushedAt": "2026-04-26T20:32:06Z"
     },
     {
       "githubId": 1221796063,
@@ -155,11 +188,11 @@
       "url": "https://github.com/sweriko/ai4anim-webgpu",
       "language": "TypeScript",
       "topics": [],
-      "stars": 29,
+      "stars": 36,
       "forks": 3,
       "openIssues": 0,
       "createdAt": "2026-04-26T17:35:08Z",
-      "updatedAt": "2026-04-26T22:55:36Z",
+      "updatedAt": "2026-04-26T23:54:06Z",
       "pushedAt": "2026-04-26T17:59:04Z"
     },
     {
@@ -183,11 +216,11 @@
         "security-audit",
         "skills"
       ],
-      "stars": 18,
+      "stars": 21,
       "forks": 0,
       "openIssues": 0,
       "createdAt": "2026-04-26T17:13:11Z",
-      "updatedAt": "2026-04-26T22:59:45Z",
+      "updatedAt": "2026-04-26T23:43:38Z",
       "pushedAt": "2026-04-26T17:15:04Z"
     },
     {
@@ -225,6 +258,44 @@
       "pushedAt": "2026-04-26T17:06:29Z"
     },
     {
+      "githubId": 1221754548,
+      "fullName": "SignalBot-Labs/aster-bot",
+      "name": "aster-bot",
+      "owner": "SignalBot-Labs",
+      "ownerAvatarUrl": "https://avatars.githubusercontent.com/u/278741890?v=4",
+      "description": "asterDEX trading bot, perp trading bot, asterDEX trading bot, perp trading bot, asterDEX trading bot, perp trading bot, asterDEX trading bot, perp trading bot, asterDEX trading bot, perp trading bot, asterDEX trading bot, perp trading bot, asterDEX trading bot, perp trading bot, asterDEX trading bot, perp trading bot, asterDEX trading bot, perp tra",
+      "url": "https://github.com/SignalBot-Labs/aster-bot",
+      "language": "TypeScript",
+      "topics": [
+        "algorithmic-trading",
+        "algotrading",
+        "aster",
+        "asterdex",
+        "asterusdt",
+        "automated-trading",
+        "crypto",
+        "crypto-trading",
+        "cryptocurrency",
+        "defi",
+        "dex",
+        "futures",
+        "nextjs",
+        "nodejs",
+        "perp",
+        "perpetual",
+        "perpetual-futures",
+        "risk-management",
+        "trading-bot",
+        "typescript"
+      ],
+      "stars": 42,
+      "forks": 0,
+      "openIssues": 0,
+      "createdAt": "2026-04-26T16:32:56Z",
+      "updatedAt": "2026-04-26T23:58:33Z",
+      "pushedAt": "2026-04-26T17:04:28Z"
+    },
+    {
       "githubId": 1221747306,
       "fullName": "freypwn/HackTheBox-All-Cheatsheets",
       "name": "HackTheBox-All-Cheatsheets",
@@ -234,12 +305,50 @@
       "url": "https://github.com/freypwn/HackTheBox-All-Cheatsheets",
       "language": null,
       "topics": [],
-      "stars": 54,
-      "forks": 16,
+      "stars": 58,
+      "forks": 19,
       "openIssues": 0,
       "createdAt": "2026-04-26T16:22:08Z",
-      "updatedAt": "2026-04-26T22:42:37Z",
+      "updatedAt": "2026-04-26T23:53:18Z",
       "pushedAt": "2026-04-26T16:49:33Z"
+    },
+    {
+      "githubId": 1221745953,
+      "fullName": "PolyPulse-Analytics/hyperliquid-trading-bot",
+      "name": "hyperliquid-trading-bot",
+      "owner": "PolyPulse-Analytics",
+      "ownerAvatarUrl": "https://avatars.githubusercontent.com/u/279487132?v=4",
+      "description": "hyperliquid trading bot, hyperliquid trading bot, hyperliquid trading bot, hyperliquid trading bot, hyperliquid trading bot, hyperliquid trading bot, hyperliquid trading bot, hyperliquid trading bot, hyperliquid trading bot, hyperliquid trading bot, hyperliquid trading bot, hyperliquid trading bot, ",
+      "url": "https://github.com/PolyPulse-Analytics/hyperliquid-trading-bot",
+      "language": "Python",
+      "topics": [
+        "algorithmic-trading",
+        "automated-trading",
+        "blockchain",
+        "crypto-trading",
+        "cryptocurrency",
+        "decentralized-exchange",
+        "defi",
+        "derivatives",
+        "dex",
+        "ethereum",
+        "grid-trading",
+        "hyperliquid",
+        "nodejs",
+        "perpetuals",
+        "python",
+        "quantitative-trading",
+        "spot-trading",
+        "trading-bot",
+        "typescript",
+        "web3"
+      ],
+      "stars": 42,
+      "forks": 55,
+      "openIssues": 0,
+      "createdAt": "2026-04-26T16:20:04Z",
+      "updatedAt": "2026-04-26T23:58:11Z",
+      "pushedAt": "2026-04-26T16:20:31Z"
     },
     {
       "githubId": 1221742871,
@@ -268,11 +377,11 @@
       "url": "https://github.com/alefinvest/polymarket-copy-bot",
       "language": "TypeScript",
       "topics": [],
-      "stars": 81,
-      "forks": 274,
+      "stars": 97,
+      "forks": 312,
       "openIssues": 0,
       "createdAt": "2026-04-26T16:10:23Z",
-      "updatedAt": "2026-04-26T22:48:16Z",
+      "updatedAt": "2026-04-26T23:53:16Z",
       "pushedAt": "2026-04-26T16:10:54Z"
     },
     {
@@ -293,23 +402,6 @@
       "pushedAt": "2026-04-26T15:56:46Z"
     },
     {
-      "githubId": 1221618527,
-      "fullName": "Maqi-x/idiomatic-rust-calculator",
-      "name": "idiomatic-rust-calculator",
-      "owner": "Maqi-x",
-      "ownerAvatarUrl": "https://avatars.githubusercontent.com/u/186316794?v=4",
-      "description": "Calculator written using idiomatic and modern rust",
-      "url": "https://github.com/Maqi-x/idiomatic-rust-calculator",
-      "language": "Rust",
-      "topics": [],
-      "stars": 6,
-      "forks": 0,
-      "openIssues": 0,
-      "createdAt": "2026-04-26T13:11:51Z",
-      "updatedAt": "2026-04-26T22:52:55Z",
-      "pushedAt": "2026-04-26T13:12:10Z"
-    },
-    {
       "githubId": 1221580378,
       "fullName": "vthinkxie/illustrated-explainer-spec",
       "name": "illustrated-explainer-spec",
@@ -319,11 +411,11 @@
       "url": "https://github.com/vthinkxie/illustrated-explainer-spec",
       "language": null,
       "topics": [],
-      "stars": 94,
-      "forks": 13,
+      "stars": 99,
+      "forks": 15,
       "openIssues": 0,
       "createdAt": "2026-04-26T12:09:21Z",
-      "updatedAt": "2026-04-26T22:37:53Z",
+      "updatedAt": "2026-04-26T23:58:49Z",
       "pushedAt": "2026-04-26T12:14:58Z"
     },
     {
@@ -354,7 +446,7 @@
       "language": null,
       "topics": [],
       "stars": 9,
-      "forks": 416,
+      "forks": 422,
       "openIssues": 0,
       "createdAt": "2026-04-26T11:10:58Z",
       "updatedAt": "2026-04-26T22:48:55Z",
@@ -421,11 +513,11 @@
       "url": "https://github.com/alefinvest/polymarket-arbitrage-bot",
       "language": "TypeScript",
       "topics": [],
-      "stars": 81,
-      "forks": 499,
+      "stars": 97,
+      "forks": 537,
       "openIssues": 0,
       "createdAt": "2026-04-26T09:50:48Z",
-      "updatedAt": "2026-04-26T22:48:22Z",
+      "updatedAt": "2026-04-26T23:53:27Z",
       "pushedAt": "2026-04-26T10:08:52Z"
     },
     {
@@ -438,11 +530,11 @@
       "url": "https://github.com/antirez/llama.cpp-deepseek-v4-flash",
       "language": "C++",
       "topics": [],
-      "stars": 30,
+      "stars": 33,
       "forks": 3,
       "openIssues": 0,
       "createdAt": "2026-04-26T09:36:09Z",
-      "updatedAt": "2026-04-26T22:56:30Z",
+      "updatedAt": "2026-04-26T23:29:23Z",
       "pushedAt": "2026-04-26T17:49:20Z"
     },
     {
@@ -573,11 +665,11 @@
       "url": "https://github.com/shuaidaoya/beacon-cm",
       "language": "JavaScript",
       "topics": [],
-      "stars": 9,
+      "stars": 10,
       "forks": 2,
       "openIssues": 0,
       "createdAt": "2026-04-26T07:55:23Z",
-      "updatedAt": "2026-04-26T22:18:41Z",
+      "updatedAt": "2026-04-26T23:39:40Z",
       "pushedAt": "2026-04-26T08:39:49Z"
     },
     {
@@ -770,23 +862,6 @@
       "pushedAt": "2026-04-26T04:36:38Z"
     },
     {
-      "githubId": 1221335901,
-      "fullName": "Hunter-qing/Forearm-sEMG-Gesture-Dataset",
-      "name": "Forearm-sEMG-Gesture-Dataset",
-      "owner": "Hunter-qing",
-      "ownerAvatarUrl": "https://avatars.githubusercontent.com/u/189988902?v=4",
-      "description": "A forearm sEMG dataset for hand gesture recognition, containing 8-channel EMG signals from 30 subjects performing five gestures and rest-state trials.",
-      "url": "https://github.com/Hunter-qing/Forearm-sEMG-Gesture-Dataset",
-      "language": "MATLAB",
-      "topics": [],
-      "stars": 6,
-      "forks": 1,
-      "openIssues": 0,
-      "createdAt": "2026-04-26T04:07:13Z",
-      "updatedAt": "2026-04-26T12:56:02Z",
-      "pushedAt": "2026-04-26T11:10:13Z"
-    },
-    {
       "githubId": 1221334781,
       "fullName": "NyxTides/ppt-image-first",
       "name": "ppt-image-first",
@@ -813,11 +888,11 @@
       "url": "https://github.com/adi0900/MV---Design",
       "language": "Shell",
       "topics": [],
-      "stars": 11,
-      "forks": 0,
+      "stars": 13,
+      "forks": 1,
       "openIssues": 0,
       "createdAt": "2026-04-26T04:03:05Z",
-      "updatedAt": "2026-04-26T22:19:43Z",
+      "updatedAt": "2026-04-26T23:41:41Z",
       "pushedAt": "2026-04-26T06:47:52Z"
     },
     {
@@ -993,11 +1068,11 @@
         "tabler",
         "tmdb"
       ],
-      "stars": 44,
+      "stars": 47,
       "forks": 0,
       "openIssues": 3,
       "createdAt": "2026-04-26T01:03:16Z",
-      "updatedAt": "2026-04-26T22:54:31Z",
+      "updatedAt": "2026-04-26T23:34:54Z",
       "pushedAt": "2026-04-26T22:37:33Z"
     },
     {
@@ -1010,11 +1085,11 @@
       "url": "https://github.com/alexzhang13/longcot-mini-rlm-results",
       "language": "Jupyter Notebook",
       "topics": [],
-      "stars": 11,
+      "stars": 12,
       "forks": 0,
       "openIssues": 0,
       "createdAt": "2026-04-26T00:56:44Z",
-      "updatedAt": "2026-04-26T20:53:00Z",
+      "updatedAt": "2026-04-26T23:10:05Z",
       "pushedAt": "2026-04-26T04:25:47Z"
     },
     {
@@ -1059,23 +1134,6 @@
       "createdAt": "2026-04-26T00:38:06Z",
       "updatedAt": "2026-04-26T18:15:21Z",
       "pushedAt": "2026-04-26T18:15:17Z"
-    },
-    {
-      "githubId": 1221244294,
-      "fullName": "jiayuxiaochaoren/session-replay",
-      "name": "session-replay",
-      "owner": "jiayuxiaochaoren",
-      "ownerAvatarUrl": "https://avatars.githubusercontent.com/u/12232001?v=4",
-      "description": "",
-      "url": "https://github.com/jiayuxiaochaoren/session-replay",
-      "language": "Python",
-      "topics": [],
-      "stars": 7,
-      "forks": 1,
-      "openIssues": 0,
-      "createdAt": "2026-04-26T00:06:25Z",
-      "updatedAt": "2026-04-26T18:31:13Z",
-      "pushedAt": "2026-04-26T17:05:41Z"
     },
     {
       "githubId": 1221241760,
@@ -1135,11 +1193,11 @@
       "url": "https://github.com/aiwithremy/claude-skills-llm-council",
       "language": null,
       "topics": [],
-      "stars": 8,
+      "stars": 10,
       "forks": 2,
       "openIssues": 0,
       "createdAt": "2026-04-25T23:31:54Z",
-      "updatedAt": "2026-04-26T21:56:43Z",
+      "updatedAt": "2026-04-26T23:47:21Z",
       "pushedAt": "2026-04-26T01:08:39Z"
     },
     {
@@ -1169,11 +1227,11 @@
       "url": "https://github.com/AnthonyRonning/pi-ax-model-optimization",
       "language": "TypeScript",
       "topics": [],
-      "stars": 30,
+      "stars": 32,
       "forks": 1,
       "openIssues": 0,
       "createdAt": "2026-04-25T23:02:11Z",
-      "updatedAt": "2026-04-26T20:26:54Z",
+      "updatedAt": "2026-04-26T23:45:32Z",
       "pushedAt": "2026-04-25T23:08:32Z"
     },
     {
@@ -1203,11 +1261,11 @@
       "url": "https://github.com/getagentseal/founder-playbook",
       "language": null,
       "topics": [],
-      "stars": 56,
-      "forks": 14,
+      "stars": 59,
+      "forks": 15,
       "openIssues": 0,
       "createdAt": "2026-04-25T22:32:34Z",
-      "updatedAt": "2026-04-26T21:49:10Z",
+      "updatedAt": "2026-04-26T23:54:38Z",
       "pushedAt": "2026-04-26T07:40:01Z"
     },
     {
@@ -1220,11 +1278,11 @@
       "url": "https://github.com/ksimback/tech-debt-skill",
       "language": null,
       "topics": [],
-      "stars": 245,
+      "stars": 248,
       "forks": 18,
       "openIssues": 0,
       "createdAt": "2026-04-25T22:17:11Z",
-      "updatedAt": "2026-04-26T23:01:57Z",
+      "updatedAt": "2026-04-26T23:44:04Z",
       "pushedAt": "2026-04-25T22:17:13Z"
     },
     {
@@ -1236,13 +1294,24 @@
       "description": "Browser-based Rubik's Cube solver — upload a flat-net image, get the step-by-step solution.",
       "url": "https://github.com/jeffhuber/rubiks-solver",
       "language": "TypeScript",
-      "topics": [],
-      "stars": 9,
+      "topics": [
+        "claude-code",
+        "computer-vision",
+        "cube-solver",
+        "kociemba",
+        "react",
+        "react-three-fiber",
+        "rubiks-cube",
+        "threejs",
+        "typescript",
+        "web-worker"
+      ],
+      "stars": 10,
       "forks": 1,
       "openIssues": 0,
       "createdAt": "2026-04-25T21:58:36Z",
-      "updatedAt": "2026-04-26T22:30:46Z",
-      "pushedAt": "2026-04-26T22:30:51Z"
+      "updatedAt": "2026-04-26T23:45:32Z",
+      "pushedAt": "2026-04-26T23:45:28Z"
     },
     {
       "githubId": 1221183212,
@@ -1255,7 +1324,7 @@
       "language": "Python",
       "topics": [],
       "stars": 11,
-      "forks": 1,
+      "forks": 3,
       "openIssues": 0,
       "createdAt": "2026-04-25T21:30:02Z",
       "updatedAt": "2026-04-26T22:53:20Z",
@@ -1322,11 +1391,11 @@
       "url": "https://github.com/pham-tuan-binh/leslider",
       "language": "Python",
       "topics": [],
-      "stars": 36,
+      "stars": 37,
       "forks": 6,
       "openIssues": 0,
       "createdAt": "2026-04-25T20:36:43Z",
-      "updatedAt": "2026-04-26T22:19:36Z",
+      "updatedAt": "2026-04-26T23:36:33Z",
       "pushedAt": "2026-04-26T00:49:17Z"
     },
     {
@@ -1339,11 +1408,11 @@
       "url": "https://github.com/sartoopjj/vpn-over-github",
       "language": "Go",
       "topics": [],
-      "stars": 63,
-      "forks": 46,
-      "openIssues": 1,
+      "stars": 66,
+      "forks": 48,
+      "openIssues": 2,
       "createdAt": "2026-04-25T20:22:22Z",
-      "updatedAt": "2026-04-26T22:55:23Z",
+      "updatedAt": "2026-04-26T23:31:03Z",
       "pushedAt": "2026-04-25T21:00:45Z"
     },
     {
@@ -1453,11 +1522,11 @@
         "typescript",
         "zero-dependencies"
       ],
-      "stars": 46,
+      "stars": 47,
       "forks": 0,
       "openIssues": 1,
       "createdAt": "2026-04-25T18:56:34Z",
-      "updatedAt": "2026-04-26T21:15:45Z",
+      "updatedAt": "2026-04-26T23:39:33Z",
       "pushedAt": "2026-04-26T19:59:53Z"
     },
     {
@@ -1548,11 +1617,11 @@
       "url": "https://github.com/hacktivist123/agent-session-resume",
       "language": "Python",
       "topics": [],
-      "stars": 100,
+      "stars": 105,
       "forks": 3,
       "openIssues": 0,
       "createdAt": "2026-04-25T17:58:33Z",
-      "updatedAt": "2026-04-26T22:57:34Z",
+      "updatedAt": "2026-04-26T23:46:05Z",
       "pushedAt": "2026-04-25T20:23:19Z"
     },
     {
@@ -1581,8 +1650,8 @@
       "forks": 0,
       "openIssues": 0,
       "createdAt": "2026-04-25T17:46:37Z",
-      "updatedAt": "2026-04-26T22:46:07Z",
-      "pushedAt": "2026-04-26T22:46:03Z"
+      "updatedAt": "2026-04-26T23:45:25Z",
+      "pushedAt": "2026-04-26T23:45:22Z"
     },
     {
       "githubId": 1221060558,
@@ -1611,11 +1680,11 @@
       "url": "https://github.com/samyns/Unit-3",
       "language": "QML",
       "topics": [],
-      "stars": 117,
+      "stars": 130,
       "forks": 3,
       "openIssues": 0,
       "createdAt": "2026-04-25T17:25:54Z",
-      "updatedAt": "2026-04-26T23:01:28Z",
+      "updatedAt": "2026-04-26T23:53:40Z",
       "pushedAt": "2026-04-26T22:07:30Z"
     },
     {
@@ -1628,11 +1697,11 @@
       "url": "https://github.com/aeroxy/ast-outline",
       "language": "Rust",
       "topics": [],
-      "stars": 44,
+      "stars": 46,
       "forks": 3,
       "openIssues": 2,
       "createdAt": "2026-04-25T17:25:51Z",
-      "updatedAt": "2026-04-26T21:06:53Z",
+      "updatedAt": "2026-04-26T23:30:19Z",
       "pushedAt": "2026-04-25T18:22:28Z"
     },
     {
@@ -1665,11 +1734,11 @@
         "harness",
         "llms"
       ],
-      "stars": 23,
+      "stars": 26,
       "forks": 0,
       "openIssues": 0,
       "createdAt": "2026-04-25T17:04:09Z",
-      "updatedAt": "2026-04-26T22:55:05Z",
+      "updatedAt": "2026-04-26T23:52:53Z",
       "pushedAt": "2026-04-26T21:11:25Z"
     },
     {
@@ -1733,11 +1802,11 @@
       "url": "https://github.com/Andrea-lyz/Scene-Port-Hider-by-eBPF",
       "language": "Shell",
       "topics": [],
-      "stars": 42,
-      "forks": 40,
+      "stars": 44,
+      "forks": 45,
       "openIssues": 0,
       "createdAt": "2026-04-25T16:23:35Z",
-      "updatedAt": "2026-04-26T22:50:42Z",
+      "updatedAt": "2026-04-26T23:49:06Z",
       "pushedAt": "2026-04-26T17:13:41Z"
     },
     {
@@ -1788,8 +1857,8 @@
       "forks": 3,
       "openIssues": 0,
       "createdAt": "2026-04-25T15:53:30Z",
-      "updatedAt": "2026-04-26T14:30:12Z",
-      "pushedAt": "2026-04-26T13:55:42Z"
+      "updatedAt": "2026-04-26T23:55:48Z",
+      "pushedAt": "2026-04-26T23:55:44Z"
     },
     {
       "githubId": 1220986623,
@@ -1809,11 +1878,11 @@
         "sports-market",
         "trading-bot"
       ],
-      "stars": 254,
-      "forks": 125,
+      "stars": 263,
+      "forks": 134,
       "openIssues": 0,
       "createdAt": "2026-04-25T15:51:16Z",
-      "updatedAt": "2026-04-26T22:58:02Z",
+      "updatedAt": "2026-04-26T23:58:42Z",
       "pushedAt": "2026-04-25T15:51:59Z"
     },
     {
@@ -1834,11 +1903,11 @@
         "sports-market",
         "trading-bot"
       ],
-      "stars": 252,
-      "forks": 239,
+      "stars": 261,
+      "forks": 248,
       "openIssues": 0,
       "createdAt": "2026-04-25T15:46:31Z",
-      "updatedAt": "2026-04-26T22:57:49Z",
+      "updatedAt": "2026-04-26T23:58:31Z",
       "pushedAt": "2026-04-25T15:47:26Z"
     },
     {
@@ -1980,11 +2049,11 @@
         "trading",
         "typescript"
       ],
-      "stars": 75,
+      "stars": 92,
       "forks": 150,
       "openIssues": 0,
       "createdAt": "2026-04-25T15:33:36Z",
-      "updatedAt": "2026-04-26T22:53:24Z",
+      "updatedAt": "2026-04-26T23:52:45Z",
       "pushedAt": "2026-04-25T17:17:23Z"
     },
     {
@@ -2027,11 +2096,11 @@
       "url": "https://github.com/loong-solvable/x-bookmark-digest-skill",
       "language": "JavaScript",
       "topics": [],
-      "stars": 14,
+      "stars": 15,
       "forks": 3,
       "openIssues": 0,
       "createdAt": "2026-04-25T15:22:38Z",
-      "updatedAt": "2026-04-26T22:29:16Z",
+      "updatedAt": "2026-04-26T23:02:50Z",
       "pushedAt": "2026-04-26T03:46:54Z"
     },
     {
@@ -2044,11 +2113,11 @@
       "url": "https://github.com/stainlu/hermes-labyrinth",
       "language": "HTML",
       "topics": [],
-      "stars": 42,
+      "stars": 50,
       "forks": 3,
       "openIssues": 1,
       "createdAt": "2026-04-25T15:12:11Z",
-      "updatedAt": "2026-04-26T22:52:10Z",
+      "updatedAt": "2026-04-26T23:58:26Z",
       "pushedAt": "2026-04-26T16:48:18Z"
     },
     {
@@ -2061,11 +2130,11 @@
       "url": "https://github.com/norbertFeron/better-dash",
       "language": "Python",
       "topics": [],
-      "stars": 12,
+      "stars": 13,
       "forks": 3,
       "openIssues": 0,
       "createdAt": "2026-04-25T15:08:34Z",
-      "updatedAt": "2026-04-26T12:23:23Z",
+      "updatedAt": "2026-04-26T23:20:34Z",
       "pushedAt": "2026-04-26T10:20:56Z"
     },
     {
@@ -2207,11 +2276,11 @@
       "url": "https://github.com/itsc0c0/flipsay",
       "language": "JavaScript",
       "topics": [],
-      "stars": 37,
+      "stars": 38,
       "forks": 5,
       "openIssues": 0,
       "createdAt": "2026-04-25T14:30:28Z",
-      "updatedAt": "2026-04-26T20:55:12Z",
+      "updatedAt": "2026-04-26T23:53:43Z",
       "pushedAt": "2026-04-26T18:37:47Z"
     },
     {
@@ -2224,11 +2293,11 @@
       "url": "https://github.com/noonghunna/qwen36-dual-3090",
       "language": "Shell",
       "topics": [],
-      "stars": 19,
+      "stars": 20,
       "forks": 3,
       "openIssues": 2,
       "createdAt": "2026-04-25T14:30:25Z",
-      "updatedAt": "2026-04-26T17:58:35Z",
+      "updatedAt": "2026-04-26T23:55:43Z",
       "pushedAt": "2026-04-26T00:30:53Z"
     },
     {
@@ -2275,7 +2344,7 @@
       "name": "ds2api-Tutorial",
       "owner": "helloyangy",
       "ownerAvatarUrl": "https://avatars.githubusercontent.com/u/102957628?v=4",
-      "description": "ds2api反代DeepSeek v4，免费API教程",
+      "description": "DeepSeek免费API",
       "url": "https://github.com/helloyangy/ds2api-Tutorial",
       "language": null,
       "topics": [],
@@ -2283,7 +2352,7 @@
       "forks": 21,
       "openIssues": 0,
       "createdAt": "2026-04-25T14:10:06Z",
-      "updatedAt": "2026-04-26T22:32:22Z",
+      "updatedAt": "2026-04-26T23:56:18Z",
       "pushedAt": "2026-04-25T16:11:38Z"
     },
     {
@@ -2303,11 +2372,11 @@
         "image-generation",
         "ppt"
       ],
-      "stars": 157,
+      "stars": 159,
       "forks": 20,
       "openIssues": 1,
       "createdAt": "2026-04-25T14:02:51Z",
-      "updatedAt": "2026-04-26T22:57:37Z",
+      "updatedAt": "2026-04-26T23:46:24Z",
       "pushedAt": "2026-04-25T14:23:25Z"
     },
     {
@@ -2341,7 +2410,7 @@
       "forks": 0,
       "openIssues": 0,
       "createdAt": "2026-04-25T13:57:05Z",
-      "updatedAt": "2026-04-26T19:38:15Z",
+      "updatedAt": "2026-04-26T23:46:17Z",
       "pushedAt": "2026-04-25T14:02:40Z"
     },
     {
@@ -2387,11 +2456,11 @@
         "save-management",
         "ubisoft"
       ],
-      "stars": 126,
+      "stars": 127,
       "forks": 0,
       "openIssues": 0,
       "createdAt": "2026-04-25T13:45:30Z",
-      "updatedAt": "2026-04-26T19:38:14Z",
+      "updatedAt": "2026-04-26T23:16:20Z",
       "pushedAt": "2026-04-25T13:50:02Z"
     },
     {

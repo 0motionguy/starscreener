@@ -49,25 +49,21 @@ function git(args) {
   });
 }
 
-// List every commit touching data/trending.json within [since, until] as
-// `{ sha, ts }` tuples. Timestamps are committer-time seconds (%ct).
-function listCommitsInWindow(sinceEpoch, untilEpoch) {
-  const out = git([
-    "log",
-    `--since=${sinceEpoch}`,
-    `--until=${untilEpoch}`,
-    "--format=%H %ct",
-    "--",
-    TRENDING_REL,
-  ]);
-  return parseCommitList(out);
-}
-
-// Every commit touching data/trending.json. Used for cold-start fallback
-// when no commit falls inside a window's buffer.
+// Every commit touching data/trending.json, returned as `{ sha, ts }` tuples
+// with committer-time seconds (%ct). One spawn covers every window — we
+// partition in JS via `commitsInWindow` rather than re-spawning git per
+// window with --since/--until.
 function listAllCommits() {
   const out = git(["log", "--format=%H %ct", "--", TRENDING_REL]);
   return parseCommitList(out);
+}
+
+// Filter the cached full history to a [sinceEpoch, untilEpoch] inclusive
+// window. Equivalent to `git log --since=... --until=...` but in-memory.
+function commitsInWindow(allCommits, sinceEpoch, untilEpoch) {
+  return allCommits.filter(
+    (c) => c.ts >= sinceEpoch && c.ts <= untilEpoch,
+  );
 }
 
 function parseCommitList(stdout) {
@@ -158,7 +154,7 @@ async function main() {
     const target = now - w.seconds;
     const since = target - w.buffer_s;
     const until = target + w.buffer_s;
-    const candidates = listCommitsInWindow(since, until);
+    const candidates = commitsInWindow(allCommits, since, until);
     let picked = pickNearest(candidates, target);
     let basis;
     if (picked) {

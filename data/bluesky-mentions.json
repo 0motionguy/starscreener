@@ -1,133 +1,49 @@
 {
-  "fetchedAt": "2026-04-27T09:30:56.795Z",
+  "fetchedAt": "2026-04-27T12:00:38.291Z",
   "windowDays": 7,
-  "scannedPosts": 299,
+  "scannedPosts": 198,
   "searchQuery": "github.com",
-  "pagesFetched": 3,
+  "pagesFetched": 2,
   "mentions": {
     "evanklem/evanflow": {
-      "count7d": 4,
+      "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:22g7l55edwo5z2gddhfkemtm/app.bsky.feed.post/3mkhpffd6oj2a",
-        "cid": "bafyreiddayhhgw3mdxgtwjs7snw7llyeb7vzfer3zgwvdxgonuch6734li",
-        "bskyUrl": "https://bsky.app/profile/sirile.bsky.social/post/3mkhpffd6oj2a",
-        "text": "Code that tests itself while it writes itself – Claude's feedback loop here is tighter than most human dev cycles I see. https://github.com/evanklem/evanflow",
+        "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mkhsjaj5md2v",
+        "cid": "bafyreidy2cyaqshdoxfz2j5kvypulhj66o4nt6l7x26w5xuh3rfvogjy64",
+        "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mkhsjaj5md2v",
+        "text": "EvanFlow – A TDD driven feedback loop for Claude Code (github.com) Discussion | Main Link",
         "author": {
-          "handle": "sirile.bsky.social"
+          "handle": "newsycombinatorbot.bsky.social",
+          "displayName": "Hacker News Bot"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 1,
-        "createdAt": "2026-04-27T08:59:56.232012+00:00",
-        "hoursSincePosted": 0.52
+        "createdAt": "2026-04-27T09:55:46.947551Z",
+        "hoursSincePosted": 2.08
       },
       "posts": [
         {
-          "uri": "at://did:plc:22g7l55edwo5z2gddhfkemtm/app.bsky.feed.post/3mkhpffd6oj2a",
-          "cid": "bafyreiddayhhgw3mdxgtwjs7snw7llyeb7vzfer3zgwvdxgonuch6734li",
-          "bskyUrl": "https://bsky.app/profile/sirile.bsky.social/post/3mkhpffd6oj2a",
-          "text": "Code that tests itself while it writes itself – Claude's feedback loop here is tighter than most human dev cycles I see. https://github.com/evanklem/evanflow",
+          "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mkhsjaj5md2v",
+          "cid": "bafyreidy2cyaqshdoxfz2j5kvypulhj66o4nt6l7x26w5xuh3rfvogjy64",
+          "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mkhsjaj5md2v",
+          "text": "EvanFlow – A TDD driven feedback loop for Claude Code (github.com) Discussion | Main Link",
           "author": {
-            "handle": "sirile.bsky.social"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-04-27T08:59:56.232012+00:00",
-          "createdUtc": 1777280396,
-          "ageHours": 0.52,
-          "trendingScore": 0.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "evanklem/evanflow",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:nqs6ukshmhbkdbihf6kaeax6/app.bsky.feed.post/3mkhm7p57yc2d",
-          "cid": "bafyreicsbztr7c2ze65zeymsr5n5o6l4kzhnq3ghs6rhxwdxtj7pboabym",
-          "bskyUrl": "https://bsky.app/profile/hnfeed.bsky.social/post/3mkhm7p57yc2d",
-          "text": "EvanFlow – A TDD driven feedback loop for Claude Code https://github.com/evanklem/evanflow [comments] [59 points]",
-          "author": {
-            "handle": "hnfeed.bsky.social",
+            "handle": "newsycombinatorbot.bsky.social",
             "displayName": "Hacker News Bot"
           },
           "likeCount": 0,
           "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-27T08:03:04.283Z",
-          "createdUtc": 1777276984,
-          "ageHours": 1.46,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "evanklem/evanflow",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mkhi23g2zf2v",
-          "cid": "bafyreibqxjd27kylamacc7cflscmslem2rwdmo7bw6fm2lmbz2exr6my7e",
-          "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mkhi23g2zf2v",
-          "text": "EvanFlow – A TDD driven feedback loop for Claude Code https://github.com/evanklem/evanflow (https://news.ycombinator.com/item?id=47916909)",
-          "author": {
-            "handle": "betterhn50.e-work.xyz",
-            "displayName": "Hacker News 50"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-27T06:48:20.249Z",
-          "createdUtc": 1777272500,
-          "ageHours": 2.71,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "evanklem/evanflow",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mkh7g3kbij2y",
-          "cid": "bafyreig4hhzoqumygxylg66r7hr3yohuiajeoygfdtts56g3kn35vaoukm",
-          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mkh7g3kbij2y",
-          "text": "EvanFlow – A TDD driven feedback loop for Claude Code https://github.com/evanklem/evanflow (https://news.ycombinator.com/item?id=47916909)",
-          "author": {
-            "handle": "betterhn20.e-work.xyz",
-            "displayName": "Hacker News 20"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-27T04:13:59.234Z",
-          "createdUtc": 1777263239,
-          "ageHours": 5.28,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
+          "replyCount": 1,
+          "createdAt": "2026-04-27T09:55:46.947551Z",
+          "createdUtc": 1777283746,
+          "ageHours": 2.08,
+          "trendingScore": 0.5,
+          "content_tags": [],
+          "value_score": 0,
           "linkedRepos": [
             {
               "fullName": "evanklem/evanflow",
@@ -138,350 +54,42 @@
         }
       ]
     },
-    "sherlock-project/sherlock": {
-      "count7d": 1,
-      "likesSum7d": 2,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:dc6ij3xmllfuisttrvt3kuyc/app.bsky.feed.post/3mkhoexv5vs2e",
-        "cid": "bafyreifq55jeip7zvv7att7bz3yjhjvmupdc6bzhgudsnxjukdlfdsm3k4",
-        "bskyUrl": "https://bsky.app/profile/znouza.bsky.social/post/3mkhoexv5vs2e",
-        "text": "nj, kdyz ono to ma seznam \"vsech\" sites, tak to je to hledani pak easy :) github.com/sherlock-pro...",
-        "author": {
-          "handle": "znouza.bsky.social",
-          "displayName": "znouza"
-        },
-        "likeCount": 2,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-04-27T08:41:48.763Z",
-        "hoursSincePosted": 0.82
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:dc6ij3xmllfuisttrvt3kuyc/app.bsky.feed.post/3mkhoexv5vs2e",
-          "cid": "bafyreifq55jeip7zvv7att7bz3yjhjvmupdc6bzhgudsnxjukdlfdsm3k4",
-          "bskyUrl": "https://bsky.app/profile/znouza.bsky.social/post/3mkhoexv5vs2e",
-          "text": "nj, kdyz ono to ma seznam \"vsech\" sites, tak to je to hledani pak easy :) github.com/sherlock-pro...",
-          "author": {
-            "handle": "znouza.bsky.social",
-            "displayName": "znouza"
-          },
-          "likeCount": 2,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-04-27T08:41:48.763Z",
-          "createdUtc": 1777279308,
-          "ageHours": 0.82,
-          "trendingScore": 2.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "sherlock-project/sherlock",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "zensical/zensical": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 1,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:pdl3hnysndlwyrweml6iz2ux/app.bsky.feed.post/3mkhmdpcgxs26",
-        "cid": "bafyreiejra3ttk4vsrrt3vtix2dw77aqdgo4ksusfq453eu33srewgtruu",
-        "bskyUrl": "https://bsky.app/profile/zensical.org/post/3mkhmdpcgxs26",
-        "text": "Zensical 0.0.37 adds support for installable themes – you can now package your existing customizations into a theme that can be installed via pip exactly as with MkDocs. Read the release notes: github.com/zensical/zen...",
-        "author": {
-          "handle": "zensical.org",
-          "displayName": "Zensical"
-        },
-        "likeCount": 0,
-        "repostCount": 1,
-        "replyCount": 0,
-        "createdAt": "2026-04-27T08:05:18.723Z",
-        "hoursSincePosted": 1.43
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:pdl3hnysndlwyrweml6iz2ux/app.bsky.feed.post/3mkhmdpcgxs26",
-          "cid": "bafyreiejra3ttk4vsrrt3vtix2dw77aqdgo4ksusfq453eu33srewgtruu",
-          "bskyUrl": "https://bsky.app/profile/zensical.org/post/3mkhmdpcgxs26",
-          "text": "Zensical 0.0.37 adds support for installable themes – you can now package your existing customizations into a theme that can be installed via pip exactly as with MkDocs. Read the release notes: github.com/zensical/zen...",
-          "author": {
-            "handle": "zensical.org",
-            "displayName": "Zensical"
-          },
-          "likeCount": 0,
-          "repostCount": 1,
-          "replyCount": 0,
-          "createdAt": "2026-04-27T08:05:18.723Z",
-          "createdUtc": 1777277118,
-          "ageHours": 1.43,
-          "trendingScore": 2,
-          "content_tags": [
-            "has-github-repo",
-            "is-announcement"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "zensical/zensical",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "JuliusBrussee/caveman": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:l4vytg5rubqc3yonvlcr7ab6/app.bsky.feed.post/3mkhklixfvw2p",
-        "cid": "bafyreia7wji5asf7kga5344oxg6vyeaw6ral4hixxl3q4w33uhpjwr2y2m",
-        "bskyUrl": "https://bsky.app/profile/freek.bsky.social/post/3mkhklixfvw2p",
-        "text": "repo: github.com/juliusbruss... enough said bye",
-        "author": {
-          "handle": "freek.bsky.social",
-          "displayName": "Freek Van der Herten"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-27T07:33:52.964452Z",
-        "hoursSincePosted": 1.95
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:l4vytg5rubqc3yonvlcr7ab6/app.bsky.feed.post/3mkhklixfvw2p",
-          "cid": "bafyreia7wji5asf7kga5344oxg6vyeaw6ral4hixxl3q4w33uhpjwr2y2m",
-          "bskyUrl": "https://bsky.app/profile/freek.bsky.social/post/3mkhklixfvw2p",
-          "text": "repo: github.com/juliusbruss... enough said bye",
-          "author": {
-            "handle": "freek.bsky.social",
-            "displayName": "Freek Van der Herten"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-27T07:33:52.964452Z",
-          "createdUtc": 1777275232,
-          "ageHours": 1.95,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "JuliusBrussee/caveman",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "dmtrKovalenko/fff.nvim": {
+    "HKUDS/OpenSpace": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkhi4w65h42g",
-        "cid": "bafyreignn5avsmf3w24ettngu2xdp7ayrl5bg5xxwmi653owe5l72kslr4",
-        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkhi4w65h42g",
-        "text": "dmtrKovalenko / fff.nvim: The fastest and the most accurate file search toolkit for AI agents, Neovim, Rust, C, and NodeJS ★5473 https://github.com/dmtrKovalenko/fff.nvim",
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkhsgbhd372o",
+        "cid": "bafyreiglzs3cwkmdnprpgq4ldai2ragsv6uvlhdjn4b5v7hiqqhp5352yu",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkhsgbhd372o",
+        "text": "https://github.com/HKUDS/OpenSpace",
         "author": {
-          "handle": "rusttrending.bsky.social",
-          "displayName": "RustTrending"
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-04-27T06:49:55.969022Z",
-        "hoursSincePosted": 2.68
+        "createdAt": "2026-04-27T09:54:06Z",
+        "hoursSincePosted": 2.11
       },
       "posts": [
         {
-          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkhi4w65h42g",
-          "cid": "bafyreignn5avsmf3w24ettngu2xdp7ayrl5bg5xxwmi653owe5l72kslr4",
-          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkhi4w65h42g",
-          "text": "dmtrKovalenko / fff.nvim: The fastest and the most accurate file search toolkit for AI agents, Neovim, Rust, C, and NodeJS ★5473 https://github.com/dmtrKovalenko/fff.nvim",
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkhsgbhd372o",
+          "cid": "bafyreiglzs3cwkmdnprpgq4ldai2ragsv6uvlhdjn4b5v7hiqqhp5352yu",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkhsgbhd372o",
+          "text": "https://github.com/HKUDS/OpenSpace",
           "author": {
-            "handle": "rusttrending.bsky.social",
-            "displayName": "RustTrending"
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-04-27T06:49:55.969022Z",
-          "createdUtc": 1777272595,
-          "ageHours": 2.68,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo",
-            "has-agent"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "dmtrKovalenko/fff.nvim",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "refactoringhq/tolaria": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:mzbewfpd3wopiwgfyzicefhi/app.bsky.feed.post/3mkhhg6dkq22d",
-        "cid": "bafyreicvvwu44b23jmu5fnjzoflaa6fg6fwcmdghbngq6ubkzhworeqrfq",
-        "bskyUrl": "https://bsky.app/profile/productimpossible.com/post/3mkhhg6dkq22d",
-        "text": "3/ Tolaria — open-source macOS-native app for managing Markdown knowledge bases. File-system storage instead of a proprietary database github.com/refactoringhq/tolaria",
-        "author": {
-          "handle": "productimpossible.com",
-          "displayName": "Product Impossible"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-04-27T06:37:12.889Z",
-        "hoursSincePosted": 2.9
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:mzbewfpd3wopiwgfyzicefhi/app.bsky.feed.post/3mkhhg6dkq22d",
-          "cid": "bafyreicvvwu44b23jmu5fnjzoflaa6fg6fwcmdghbngq6ubkzhworeqrfq",
-          "bskyUrl": "https://bsky.app/profile/productimpossible.com/post/3mkhhg6dkq22d",
-          "text": "3/ Tolaria — open-source macOS-native app for managing Markdown knowledge bases. File-system storage instead of a proprietary database github.com/refactoringhq/tolaria",
-          "author": {
-            "handle": "productimpossible.com",
-            "displayName": "Product Impossible"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-04-27T06:37:12.889Z",
-          "createdUtc": 1777271832,
-          "ageHours": 2.9,
-          "trendingScore": 0.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "refactoringhq/tolaria",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "Fincept-Corporation/FinceptTerminal": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:mzbewfpd3wopiwgfyzicefhi/app.bsky.feed.post/3mkhhfsrykk2d",
-        "cid": "bafyreidx67iavu2yoi6ew3zarj2e2jicbu7ekp5mw6fsehrdcdngxyojni",
-        "bskyUrl": "https://bsky.app/profile/productimpossible.com/post/3mkhhfsrykk2d",
-        "text": "2/ Fincept Terminal — open-source Bloomberg Terminal alternative. Native C++20, 100+ data connectors, CFA-grade analytics, trading across 16 brokers. +10K stars this week github.com/Fincept-Corporation/FinceptTerminal",
-        "author": {
-          "handle": "productimpossible.com",
-          "displayName": "Product Impossible"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-04-27T06:37:00.779Z",
-        "hoursSincePosted": 2.9
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:mzbewfpd3wopiwgfyzicefhi/app.bsky.feed.post/3mkhhfsrykk2d",
-          "cid": "bafyreidx67iavu2yoi6ew3zarj2e2jicbu7ekp5mw6fsehrdcdngxyojni",
-          "bskyUrl": "https://bsky.app/profile/productimpossible.com/post/3mkhhfsrykk2d",
-          "text": "2/ Fincept Terminal — open-source Bloomberg Terminal alternative. Native C++20, 100+ data connectors, CFA-grade analytics, trading across 16 brokers. +10K stars this week github.com/Fincept-Corporation/FinceptTerminal",
-          "author": {
-            "handle": "productimpossible.com",
-            "displayName": "Product Impossible"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-04-27T06:37:00.779Z",
-          "createdUtc": 1777271820,
-          "ageHours": 2.9,
-          "trendingScore": 0.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "Fincept-Corporation/FinceptTerminal",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "microsoft/playwright-cli": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:rrrwbar3wv576qpsymwey5p5/app.bsky.feed.post/3mkhgqq52u22u",
-        "cid": "bafyreid2xlpcaamxxnr2yyir22y4xz3h2c45g33i6xiv4ht74ary6ltvme",
-        "bskyUrl": "https://bsky.app/profile/andri.dk/post/3mkhgqq52u22u",
-        "text": "github.com/microsoft/pl... Run `playwright-cli install --skills` and then you can tell your agent of choice to use Playwright It can also record videos, take screenshots, etc",
-        "author": {
-          "handle": "andri.dk",
-          "displayName": "Andri Óskarsson"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-27T06:25:13.341Z",
-        "hoursSincePosted": 3.1
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:rrrwbar3wv576qpsymwey5p5/app.bsky.feed.post/3mkhgqq52u22u",
-          "cid": "bafyreid2xlpcaamxxnr2yyir22y4xz3h2c45g33i6xiv4ht74ary6ltvme",
-          "bskyUrl": "https://bsky.app/profile/andri.dk/post/3mkhgqq52u22u",
-          "text": "github.com/microsoft/pl... Run `playwright-cli install --skills` and then you can tell your agent of choice to use Playwright It can also record videos, take screenshots, etc",
-          "author": {
-            "handle": "andri.dk",
-            "displayName": "Andri Óskarsson"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-27T06:25:13.341Z",
-          "createdUtc": 1777271113,
-          "ageHours": 3.1,
+          "createdAt": "2026-04-27T09:54:06Z",
+          "createdUtc": 1777283646,
+          "ageHours": 2.11,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -489,109 +97,7 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "microsoft/playwright-cli",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "emdash-cms/emdash": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:web:simnaut.io/app.bsky.feed.post/3mkhghebztk2v",
-        "cid": "bafyreiac6sjfz62nxiotxoh6lqshb4gqkhb7xbhgjxd5sp57j772jvkfea",
-        "bskyUrl": "https://bsky.app/profile/simnaut.io/post/3mkhghebztk2v",
-        "text": "My MR for pluggable auth providers for @emdashcms.com is in! This also adds Atmosphere Account as an auth method in the admin panel. github.com/emdash-cms/e...",
-        "author": {
-          "handle": "simnaut.io",
-          "displayName": "simnaut"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-04-27T06:19:58.942Z",
-        "hoursSincePosted": 3.18
-      },
-      "posts": [
-        {
-          "uri": "at://did:web:simnaut.io/app.bsky.feed.post/3mkhghebztk2v",
-          "cid": "bafyreiac6sjfz62nxiotxoh6lqshb4gqkhb7xbhgjxd5sp57j772jvkfea",
-          "bskyUrl": "https://bsky.app/profile/simnaut.io/post/3mkhghebztk2v",
-          "text": "My MR for pluggable auth providers for @emdashcms.com is in! This also adds Atmosphere Account as an auth method in the admin panel. github.com/emdash-cms/e...",
-          "author": {
-            "handle": "simnaut.io",
-            "displayName": "simnaut"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-04-27T06:19:58.942Z",
-          "createdUtc": 1777270798,
-          "ageHours": 3.18,
-          "trendingScore": 0.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "emdash-cms/emdash",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "sweriko/ai4anim-webgpu": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:a2anbsoy6odyey6geqvld42l/app.bsky.feed.post/3mkhfagisct23",
-        "cid": "bafyreihwbcx3nuzn6zf5m45s7rks5bcz5hslstkcporr3gxoxh547baouq",
-        "bskyUrl": "https://bsky.app/profile/projectnothing.bsky.social/post/3mkhfagisct23",
-        "text": "When AI animation runs natively in your browser, the next frontier isn’t just smarter agents—it’s real-time, GPU-powered creative tooling for everyone. https://github.com/sweriko/ai4anim-webgpu https://www.projectnothing.ai/experiments/signal-from-the-void",
-        "author": {
-          "handle": "projectnothing.bsky.social",
-          "displayName": "Project Nothing"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-27T05:58:11.234Z",
-        "hoursSincePosted": 3.55
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:a2anbsoy6odyey6geqvld42l/app.bsky.feed.post/3mkhfagisct23",
-          "cid": "bafyreihwbcx3nuzn6zf5m45s7rks5bcz5hslstkcporr3gxoxh547baouq",
-          "bskyUrl": "https://bsky.app/profile/projectnothing.bsky.social/post/3mkhfagisct23",
-          "text": "When AI animation runs natively in your browser, the next frontier isn’t just smarter agents—it’s real-time, GPU-powered creative tooling for everyone. https://github.com/sweriko/ai4anim-webgpu https://www.projectnothing.ai/experiments/signal-from-the-void",
-          "author": {
-            "handle": "projectnothing.bsky.social",
-            "displayName": "Project Nothing"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-27T05:58:11.234Z",
-          "createdUtc": 1777269491,
-          "ageHours": 3.55,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "sweriko/ai4anim-webgpu",
+              "fullName": "HKUDS/OpenSpace",
               "matchType": "url",
               "confidence": 1
             }
@@ -602,52 +108,12 @@
   },
   "leaderboard": [
     {
-      "fullName": "sherlock-project/sherlock",
-      "count7d": 1,
-      "likesSum7d": 2
-    },
-    {
-      "fullName": "JuliusBrussee/caveman",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
       "fullName": "evanklem/evanflow",
-      "count7d": 4,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "dmtrKovalenko/fff.nvim",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "emdash-cms/emdash",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "Fincept-Corporation/FinceptTerminal",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "microsoft/playwright-cli",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "refactoringhq/tolaria",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "sweriko/ai4anim-webgpu",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "zensical/zensical",
+      "fullName": "HKUDS/OpenSpace",
       "count7d": 1,
       "likesSum7d": 0
     }

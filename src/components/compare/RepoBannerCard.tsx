@@ -62,7 +62,7 @@ export function RepoBannerCard({
   const phLaunch = getLaunchForRepo(bundle.fullName);
   return (
     <div
-      className="relative overflow-hidden rounded-card border border-border-primary bg-bg-card p-4 shadow-card"
+      className="v2-card relative overflow-hidden p-4"
       style={{ borderLeft: `3px solid ${accentStripe}` }}
     >
       {/* Header row: avatar + owner/name + license + language chips */}

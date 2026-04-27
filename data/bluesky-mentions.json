@@ -1,10 +1,349 @@
 {
-  "fetchedAt": "2026-04-27T06:42:43.288Z",
+  "fetchedAt": "2026-04-27T09:30:56.795Z",
   "windowDays": 7,
-  "scannedPosts": 99,
+  "scannedPosts": 299,
   "searchQuery": "github.com",
-  "pagesFetched": 1,
+  "pagesFetched": 3,
   "mentions": {
+    "evanklem/evanflow": {
+      "count7d": 4,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:22g7l55edwo5z2gddhfkemtm/app.bsky.feed.post/3mkhpffd6oj2a",
+        "cid": "bafyreiddayhhgw3mdxgtwjs7snw7llyeb7vzfer3zgwvdxgonuch6734li",
+        "bskyUrl": "https://bsky.app/profile/sirile.bsky.social/post/3mkhpffd6oj2a",
+        "text": "Code that tests itself while it writes itself – Claude's feedback loop here is tighter than most human dev cycles I see. https://github.com/evanklem/evanflow",
+        "author": {
+          "handle": "sirile.bsky.social"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-04-27T08:59:56.232012+00:00",
+        "hoursSincePosted": 0.52
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:22g7l55edwo5z2gddhfkemtm/app.bsky.feed.post/3mkhpffd6oj2a",
+          "cid": "bafyreiddayhhgw3mdxgtwjs7snw7llyeb7vzfer3zgwvdxgonuch6734li",
+          "bskyUrl": "https://bsky.app/profile/sirile.bsky.social/post/3mkhpffd6oj2a",
+          "text": "Code that tests itself while it writes itself – Claude's feedback loop here is tighter than most human dev cycles I see. https://github.com/evanklem/evanflow",
+          "author": {
+            "handle": "sirile.bsky.social"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-04-27T08:59:56.232012+00:00",
+          "createdUtc": 1777280396,
+          "ageHours": 0.52,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "evanklem/evanflow",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:nqs6ukshmhbkdbihf6kaeax6/app.bsky.feed.post/3mkhm7p57yc2d",
+          "cid": "bafyreicsbztr7c2ze65zeymsr5n5o6l4kzhnq3ghs6rhxwdxtj7pboabym",
+          "bskyUrl": "https://bsky.app/profile/hnfeed.bsky.social/post/3mkhm7p57yc2d",
+          "text": "EvanFlow – A TDD driven feedback loop for Claude Code https://github.com/evanklem/evanflow [comments] [59 points]",
+          "author": {
+            "handle": "hnfeed.bsky.social",
+            "displayName": "Hacker News Bot"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-27T08:03:04.283Z",
+          "createdUtc": 1777276984,
+          "ageHours": 1.46,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "evanklem/evanflow",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mkhi23g2zf2v",
+          "cid": "bafyreibqxjd27kylamacc7cflscmslem2rwdmo7bw6fm2lmbz2exr6my7e",
+          "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mkhi23g2zf2v",
+          "text": "EvanFlow – A TDD driven feedback loop for Claude Code https://github.com/evanklem/evanflow (https://news.ycombinator.com/item?id=47916909)",
+          "author": {
+            "handle": "betterhn50.e-work.xyz",
+            "displayName": "Hacker News 50"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-27T06:48:20.249Z",
+          "createdUtc": 1777272500,
+          "ageHours": 2.71,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "evanklem/evanflow",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mkh7g3kbij2y",
+          "cid": "bafyreig4hhzoqumygxylg66r7hr3yohuiajeoygfdtts56g3kn35vaoukm",
+          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mkh7g3kbij2y",
+          "text": "EvanFlow – A TDD driven feedback loop for Claude Code https://github.com/evanklem/evanflow (https://news.ycombinator.com/item?id=47916909)",
+          "author": {
+            "handle": "betterhn20.e-work.xyz",
+            "displayName": "Hacker News 20"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-27T04:13:59.234Z",
+          "createdUtc": 1777263239,
+          "ageHours": 5.28,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "evanklem/evanflow",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "sherlock-project/sherlock": {
+      "count7d": 1,
+      "likesSum7d": 2,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:dc6ij3xmllfuisttrvt3kuyc/app.bsky.feed.post/3mkhoexv5vs2e",
+        "cid": "bafyreifq55jeip7zvv7att7bz3yjhjvmupdc6bzhgudsnxjukdlfdsm3k4",
+        "bskyUrl": "https://bsky.app/profile/znouza.bsky.social/post/3mkhoexv5vs2e",
+        "text": "nj, kdyz ono to ma seznam \"vsech\" sites, tak to je to hledani pak easy :) github.com/sherlock-pro...",
+        "author": {
+          "handle": "znouza.bsky.social",
+          "displayName": "znouza"
+        },
+        "likeCount": 2,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-04-27T08:41:48.763Z",
+        "hoursSincePosted": 0.82
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:dc6ij3xmllfuisttrvt3kuyc/app.bsky.feed.post/3mkhoexv5vs2e",
+          "cid": "bafyreifq55jeip7zvv7att7bz3yjhjvmupdc6bzhgudsnxjukdlfdsm3k4",
+          "bskyUrl": "https://bsky.app/profile/znouza.bsky.social/post/3mkhoexv5vs2e",
+          "text": "nj, kdyz ono to ma seznam \"vsech\" sites, tak to je to hledani pak easy :) github.com/sherlock-pro...",
+          "author": {
+            "handle": "znouza.bsky.social",
+            "displayName": "znouza"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-04-27T08:41:48.763Z",
+          "createdUtc": 1777279308,
+          "ageHours": 0.82,
+          "trendingScore": 2.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "sherlock-project/sherlock",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "zensical/zensical": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 1,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:pdl3hnysndlwyrweml6iz2ux/app.bsky.feed.post/3mkhmdpcgxs26",
+        "cid": "bafyreiejra3ttk4vsrrt3vtix2dw77aqdgo4ksusfq453eu33srewgtruu",
+        "bskyUrl": "https://bsky.app/profile/zensical.org/post/3mkhmdpcgxs26",
+        "text": "Zensical 0.0.37 adds support for installable themes – you can now package your existing customizations into a theme that can be installed via pip exactly as with MkDocs. Read the release notes: github.com/zensical/zen...",
+        "author": {
+          "handle": "zensical.org",
+          "displayName": "Zensical"
+        },
+        "likeCount": 0,
+        "repostCount": 1,
+        "replyCount": 0,
+        "createdAt": "2026-04-27T08:05:18.723Z",
+        "hoursSincePosted": 1.43
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:pdl3hnysndlwyrweml6iz2ux/app.bsky.feed.post/3mkhmdpcgxs26",
+          "cid": "bafyreiejra3ttk4vsrrt3vtix2dw77aqdgo4ksusfq453eu33srewgtruu",
+          "bskyUrl": "https://bsky.app/profile/zensical.org/post/3mkhmdpcgxs26",
+          "text": "Zensical 0.0.37 adds support for installable themes – you can now package your existing customizations into a theme that can be installed via pip exactly as with MkDocs. Read the release notes: github.com/zensical/zen...",
+          "author": {
+            "handle": "zensical.org",
+            "displayName": "Zensical"
+          },
+          "likeCount": 0,
+          "repostCount": 1,
+          "replyCount": 0,
+          "createdAt": "2026-04-27T08:05:18.723Z",
+          "createdUtc": 1777277118,
+          "ageHours": 1.43,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "zensical/zensical",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "JuliusBrussee/caveman": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:l4vytg5rubqc3yonvlcr7ab6/app.bsky.feed.post/3mkhklixfvw2p",
+        "cid": "bafyreia7wji5asf7kga5344oxg6vyeaw6ral4hixxl3q4w33uhpjwr2y2m",
+        "bskyUrl": "https://bsky.app/profile/freek.bsky.social/post/3mkhklixfvw2p",
+        "text": "repo: github.com/juliusbruss... enough said bye",
+        "author": {
+          "handle": "freek.bsky.social",
+          "displayName": "Freek Van der Herten"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-27T07:33:52.964452Z",
+        "hoursSincePosted": 1.95
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:l4vytg5rubqc3yonvlcr7ab6/app.bsky.feed.post/3mkhklixfvw2p",
+          "cid": "bafyreia7wji5asf7kga5344oxg6vyeaw6ral4hixxl3q4w33uhpjwr2y2m",
+          "bskyUrl": "https://bsky.app/profile/freek.bsky.social/post/3mkhklixfvw2p",
+          "text": "repo: github.com/juliusbruss... enough said bye",
+          "author": {
+            "handle": "freek.bsky.social",
+            "displayName": "Freek Van der Herten"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-27T07:33:52.964452Z",
+          "createdUtc": 1777275232,
+          "ageHours": 1.95,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "JuliusBrussee/caveman",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "dmtrKovalenko/fff.nvim": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkhi4w65h42g",
+        "cid": "bafyreignn5avsmf3w24ettngu2xdp7ayrl5bg5xxwmi653owe5l72kslr4",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkhi4w65h42g",
+        "text": "dmtrKovalenko / fff.nvim: The fastest and the most accurate file search toolkit for AI agents, Neovim, Rust, C, and NodeJS ★5473 https://github.com/dmtrKovalenko/fff.nvim",
+        "author": {
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-27T06:49:55.969022Z",
+        "hoursSincePosted": 2.68
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkhi4w65h42g",
+          "cid": "bafyreignn5avsmf3w24ettngu2xdp7ayrl5bg5xxwmi653owe5l72kslr4",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkhi4w65h42g",
+          "text": "dmtrKovalenko / fff.nvim: The fastest and the most accurate file search toolkit for AI agents, Neovim, Rust, C, and NodeJS ★5473 https://github.com/dmtrKovalenko/fff.nvim",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-27T06:49:55.969022Z",
+          "createdUtc": 1777272595,
+          "ageHours": 2.68,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "dmtrKovalenko/fff.nvim",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "refactoringhq/tolaria": {
       "count7d": 1,
       "likesSum7d": 0,
@@ -23,7 +362,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-04-27T06:37:12.889Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 2.9
       },
       "posts": [
         {
@@ -40,7 +379,7 @@
           "replyCount": 1,
           "createdAt": "2026-04-27T06:37:12.889Z",
           "createdUtc": 1777271832,
-          "ageHours": 0.5,
+          "ageHours": 2.9,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -74,7 +413,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-04-27T06:37:00.779Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 2.9
       },
       "posts": [
         {
@@ -91,7 +430,7 @@
           "replyCount": 1,
           "createdAt": "2026-04-27T06:37:00.779Z",
           "createdUtc": 1777271820,
-          "ageHours": 0.5,
+          "ageHours": 2.9,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -125,7 +464,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-27T06:25:13.341Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 3.1
       },
       "posts": [
         {
@@ -142,7 +481,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-27T06:25:13.341Z",
           "createdUtc": 1777271113,
-          "ageHours": 0.5,
+          "ageHours": 3.1,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -176,7 +515,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-04-27T06:19:58.942Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 3.18
       },
       "posts": [
         {
@@ -193,7 +532,7 @@
           "replyCount": 1,
           "createdAt": "2026-04-27T06:19:58.942Z",
           "createdUtc": 1777270798,
-          "ageHours": 0.5,
+          "ageHours": 3.18,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -227,7 +566,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-27T05:58:11.234Z",
-        "hoursSincePosted": 0.74
+        "hoursSincePosted": 3.55
       },
       "posts": [
         {
@@ -244,7 +583,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-27T05:58:11.234Z",
           "createdUtc": 1777269491,
-          "ageHours": 0.74,
+          "ageHours": 3.55,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -259,67 +598,31 @@
           ]
         }
       ]
-    },
-    "evanklem/evanflow": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mkh7g3kbij2y",
-        "cid": "bafyreig4hhzoqumygxylg66r7hr3yohuiajeoygfdtts56g3kn35vaoukm",
-        "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mkh7g3kbij2y",
-        "text": "EvanFlow – A TDD driven feedback loop for Claude Code https://github.com/evanklem/evanflow (https://news.ycombinator.com/item?id=47916909)",
-        "author": {
-          "handle": "betterhn20.e-work.xyz",
-          "displayName": "Hacker News 20"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-27T04:13:59.234Z",
-        "hoursSincePosted": 2.48
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mkh7g3kbij2y",
-          "cid": "bafyreig4hhzoqumygxylg66r7hr3yohuiajeoygfdtts56g3kn35vaoukm",
-          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mkh7g3kbij2y",
-          "text": "EvanFlow – A TDD driven feedback loop for Claude Code https://github.com/evanklem/evanflow (https://news.ycombinator.com/item?id=47916909)",
-          "author": {
-            "handle": "betterhn20.e-work.xyz",
-            "displayName": "Hacker News 20"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-27T04:13:59.234Z",
-          "createdUtc": 1777263239,
-          "ageHours": 2.48,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "evanklem/evanflow",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "emdash-cms/emdash",
+      "fullName": "sherlock-project/sherlock",
+      "count7d": 1,
+      "likesSum7d": 2
+    },
+    {
+      "fullName": "JuliusBrussee/caveman",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "evanklem/evanflow",
+      "count7d": 4,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "dmtrKovalenko/fff.nvim",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "evanklem/evanflow",
+      "fullName": "emdash-cms/emdash",
       "count7d": 1,
       "likesSum7d": 0
     },
@@ -340,6 +643,11 @@
     },
     {
       "fullName": "sweriko/ai4anim-webgpu",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "zensical/zensical",
       "count7d": 1,
       "likesSum7d": 0
     }

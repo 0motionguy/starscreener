@@ -57,6 +57,26 @@ let _cacheKey: string | null = null;
 let _byFullName: Map<string, Repo> | null = null;
 let _byId: Map<string, Repo> | null = null;
 
+// Cache-key-of-cache-key: each getXxxDataVersion() does its own statSync.
+// Without this, every getDerivedRepos() call on a warm Lambda re-stats
+// four files even when nothing has changed in the last few milliseconds.
+// 5-second floor matches the audit recommendation (LIB-01) — short enough
+// that a fresh collector write surfaces within one render tick, long
+// enough that homepage rendering doesn't fan out to four `stat` syscalls
+// on every request.
+const CACHE_KEY_FLOOR_MS = 5_000;
+let _cacheKeyComputedAtMs = 0;
+let _cacheKeyComputed = "";
+
+function computeCacheKey(): string {
+  const now = Date.now();
+  if (_cacheKeyComputed && now - _cacheKeyComputedAtMs < CACHE_KEY_FLOOR_MS) {
+    return _cacheKeyComputed;
+  }
+  _cacheKeyComputed = `${getRedditDataVersion()}:${getManualReposDataVersion()}:${getTwitterSignalsDataVersion()}:${getPipelineReposDataVersion()}`;
+  _cacheKeyComputedAtMs = now;
+  return _cacheKeyComputed;
+}
 
 /**
  * Fully-assembled Repo[] built from committed JSON. Runs classify → score →
@@ -65,7 +85,7 @@ let _byId: Map<string, Repo> | null = null;
  * call.
  */
 export function getDerivedRepos(): Repo[] {
-  const cacheKey = `${getRedditDataVersion()}:${getManualReposDataVersion()}:${getTwitterSignalsDataVersion()}:${getPipelineReposDataVersion()}`;
+  const cacheKey = computeCacheKey();
   if (_cache && _cacheKey === cacheKey) return _cache;
   _byFullName = null;
   _byId = null;
@@ -408,5 +428,7 @@ export function __resetDerivedReposCache(): void {
   _cacheKey = null;
   _byFullName = null;
   _byId = null;
+  _cacheKeyComputed = "";
+  _cacheKeyComputedAtMs = 0;
   __resetPipelineReposCacheForTests();
 }

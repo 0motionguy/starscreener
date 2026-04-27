@@ -11,7 +11,6 @@
 import type { Metadata } from "next";
 import {
   getFundingFile,
-  getFundingFetchedAt,
   getFundingSignals,
   getFundingStats,
   isFundingCold,
@@ -19,6 +18,10 @@ import {
 } from "@/lib/funding-news";
 import { FundingCard } from "@/components/funding/FundingCard";
 import { TerminalBar, MonoLabel, BarcodeTicker } from "@/components/v2";
+import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
+import { buildFundingHeader } from "@/components/funding/fundingTopMetrics";
+
+const FUNDING_ACCENT = "rgba(245, 110, 15, 0.85)";
 
 export const dynamic = "force-dynamic";
 
@@ -30,24 +33,6 @@ export const metadata: Metadata = {
 };
 
 // ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
-function formatRelative(iso: string | null | undefined): string {
-  if (!iso) return "never";
-  const t = new Date(iso).getTime();
-  if (!Number.isFinite(t)) return "unknown";
-  const diff = Date.now() - t;
-  if (diff < 60_000) return "just now";
-  const mins = Math.floor(diff / 60_000);
-  if (mins < 60) return `${mins}m ago`;
-  const hours = Math.floor(mins / 60);
-  if (hours < 24) return `${hours}h ago`;
-  const days = Math.floor(hours / 24);
-  return `${days}d ago`;
-}
-
-// ---------------------------------------------------------------------------
 // Page
 // ---------------------------------------------------------------------------
 
@@ -57,6 +42,7 @@ export default async function FundingPage() {
   const signals = getFundingSignals();
   const stats = getFundingStats();
   const cold = isFundingCold(file);
+  const { cards, topStories } = buildFundingHeader(signals, stats);
 
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
@@ -93,34 +79,15 @@ export default async function FundingPage() {
           <ColdState />
         ) : (
           <>
-            {/* Stat tiles */}
-            <section className="mb-6 grid grid-cols-2 md:grid-cols-4 gap-3">
-              <StatTile
-                label="Last Scrape"
-                value={formatRelative(getFundingFetchedAt())}
-                hint={getFundingFetchedAt()
-                  ? new Date(getFundingFetchedAt()!)
-                      .toISOString()
-                      .slice(0, 16)
-                      .replace("T", " ")
-                  : undefined}
+            <div className="mb-6">
+              <NewsTopHeaderV3
+                eyebrow="// FUNDING · TOP ROUNDS"
+                status={`${signals.length.toLocaleString("en-US")} SIGNALS · 7D`}
+                cards={cards}
+                topStories={topStories}
+                accent={FUNDING_ACCENT}
               />
-              <StatTile
-                label="Signals"
-                value={stats.totalSignals.toLocaleString("en-US")}
-                hint={`${stats.extractedSignals} with extraction`}
-              />
-              <StatTile
-                label="This Week"
-                value={stats.thisWeekCount.toLocaleString("en-US")}
-                hint="last 7 days"
-              />
-              <StatTile
-                label="Top Round"
-                value={stats.topRound?.extracted?.amountDisplay ?? "—"}
-                hint={stats.topRound?.extracted?.companyName ?? "no data"}
-              />
-            </section>
+            </div>
 
             {/* Signals feed */}
             {signals.length > 0 ? (
@@ -142,28 +109,6 @@ export default async function FundingPage() {
 // ---------------------------------------------------------------------------
 // Pieces
 // ---------------------------------------------------------------------------
-
-function StatTile({
-  label,
-  value,
-  hint,
-}: {
-  label: string;
-  value: string;
-  hint?: string;
-}) {
-  return (
-    <div className="border border-border-primary rounded-md px-4 py-3 bg-bg-secondary">
-      <div className="text-[10px] uppercase tracking-wider text-text-tertiary">
-        {label}
-      </div>
-      <div className="mt-1 text-xl font-bold truncate">{value}</div>
-      {hint ? (
-        <div className="mt-0.5 text-[11px] text-text-tertiary truncate">{hint}</div>
-      ) : null}
-    </div>
-  );
-}
 
 function ColdState() {
   return (

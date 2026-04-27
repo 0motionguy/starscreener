@@ -11,7 +11,6 @@ import {
   deltaPctForNpmWindow,
   downloadsForNpmWindow,
   getNpmCold,
-  getNpmFetchedAt,
   getNpmPackagesFile,
   getTopNpmPackages,
   refreshNpmFromStore,
@@ -19,6 +18,10 @@ import {
   type NpmWindow,
 } from "@/lib/npm";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
+import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
+import { buildNpmHeader } from "@/components/npm/npmTopMetrics";
+
+const NPM_ACCENT = "rgba(203, 56, 55, 0.85)";
 
 const WINDOWS: NpmWindow[] = ["24h", "7d", "30d"];
 const DEFAULT_WINDOW: NpmWindow = "24h";
@@ -41,20 +44,6 @@ function parseWindow(raw: string | string[] | undefined): NpmWindow {
   return (WINDOWS as readonly string[]).includes(candidate ?? "")
     ? (candidate as NpmWindow)
     : DEFAULT_WINDOW;
-}
-
-function formatRelative(iso: string | null | undefined): string {
-  if (!iso) return "never";
-  const t = new Date(iso).getTime();
-  if (!Number.isFinite(t)) return "unknown";
-  const diff = Date.now() - t;
-  if (diff < 60_000) return "just now";
-  const mins = Math.floor(diff / 60_000);
-  if (mins < 60) return `${mins}m ago`;
-  const hours = Math.floor(mins / 60);
-  if (hours < 24) return `${hours}h ago`;
-  const days = Math.floor(hours / 24);
-  return `${days}d ago`;
 }
 
 function formatCompact(n: number): string {
@@ -86,9 +75,8 @@ export default async function NpmPage({ searchParams }: NpmPageProps) {
   const activeWindow = parseWindow(range);
   const file = getNpmPackagesFile();
   const packages = getTopNpmPackages(activeWindow, 100);
-  const npmFetchedAt = getNpmFetchedAt();
-  const top = packages[0];
   const cold = getNpmCold() || packages.length === 0;
+  const header = buildNpmHeader(packages, file);
 
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
@@ -114,41 +102,17 @@ export default async function NpmPage({ searchParams }: NpmPageProps) {
           <ColdState />
         ) : (
           <>
-            <TabNav active={activeWindow} />
+            <div className="mb-6">
+              <NewsTopHeaderV3
+                eyebrow="// NPM · TOP PACKAGES"
+                status={`${packages.length.toLocaleString("en-US")} TRACKED · ${activeWindow.toUpperCase()}`}
+                cards={header.cards}
+                topStories={header.topStories}
+                accent={NPM_ACCENT}
+              />
+            </div>
 
-            <section className="mb-6 grid grid-cols-2 md:grid-cols-4 gap-3">
-              <StatTile
-                label="LAST SCRAPE"
-                value={formatRelative(npmFetchedAt)}
-                hint={
-                  npmFetchedAt
-                    ? new Date(npmFetchedAt)
-                        .toISOString()
-                        .slice(0, 16)
-                        .replace("T", " ")
-                    : undefined
-                }
-              />
-              <StatTile
-                label={`TOP ${activeWindow.toUpperCase()} MOVE`}
-                value={top ? formatDeltaPct(deltaPctForNpmWindow(top, activeWindow)) : "0.0%"}
-                hint={
-                  top
-                    ? `${top.name} - ${formatSignedCompact(deltaForNpmWindow(top, activeWindow))}`
-                    : undefined
-                }
-              />
-              <StatTile
-                label="REPOS LINKED"
-                value={file.counts.linkedRepos.toLocaleString("en-US")}
-                hint={`${file.discovery.candidatesFound.toLocaleString("en-US")} search candidates`}
-              />
-              <StatTile
-                label="DISCOVERY"
-                value={file.discovery.queries.length.toLocaleString("en-US")}
-                hint={`queries x ${file.discovery.searchSize} results`}
-              />
-            </section>
+            <TabNav active={activeWindow} />
 
             <PackageFeed packages={packages} activeWindow={activeWindow} />
           </>
@@ -375,30 +339,6 @@ function VersionPill({ pkg }: { pkg: NpmPackageRow }) {
         {pkg.latestVersion ? `v${pkg.latestVersion}` : "published"}
       </span>
     </span>
-  );
-}
-
-function StatTile({
-  label,
-  value,
-  hint,
-}: {
-  label: string;
-  value: string;
-  hint?: string;
-}) {
-  return (
-    <div className="border border-border-primary rounded-md px-4 py-3 bg-bg-secondary">
-      <div className="text-[10px] uppercase tracking-wider text-text-tertiary">
-        {label}
-      </div>
-      <div className="mt-1 text-xl font-bold truncate">{value}</div>
-      {hint ? (
-        <div className="mt-0.5 text-[11px] text-text-tertiary truncate">
-          {hint}
-        </div>
-      ) : null}
-    </div>
   );
 }
 

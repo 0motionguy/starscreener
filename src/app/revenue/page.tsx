@@ -28,6 +28,10 @@ import {
   refreshRevenueOverlaysFromStore,
 } from "@/lib/revenue-overlays";
 import { VerifiedStartupCard } from "@/components/revenue/VerifiedStartupCard";
+import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
+import { buildRevenueHeader } from "@/components/revenue/revenueTopMetrics";
+
+const REVENUE_ACCENT = "rgba(34, 197, 94, 0.85)";
 
 export const dynamic = "force-dynamic";
 
@@ -102,6 +106,14 @@ export default async function RevenuePage({ searchParams }: PageProps) {
     Boolean(r.matchedRepoFullName),
   );
 
+  const { cards, topStories } = buildRevenueHeader({
+    rows: leaderboard.rows,
+    totalInFilter: leaderboard.totalInFilter,
+    totalMrrCents: leaderboard.totalMrrCents,
+    topMrrCents: leaderboard.topMrrCents,
+    trackedMatches: tracked.length,
+  });
+
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
       <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
@@ -138,6 +150,16 @@ export default async function RevenuePage({ searchParams }: PageProps) {
             </Link>
           </div>
         </header>
+
+        <div className="mb-6">
+          <NewsTopHeaderV3
+            eyebrow="// REVENUE · VERIFIED MRR"
+            status={`${leaderboard.totalInFilter.toLocaleString("en-US")} STARTUPS · ${tracked.length} TRACKED`}
+            cards={cards}
+            topStories={topStories}
+            accent={REVENUE_ACCENT}
+          />
+        </div>
 
         {/* SECTION 1 — tracked repos ----------------------------------- */}
         <section className="mb-12" aria-labelledby="tracked-heading">

@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { Globe } from "lucide-react";
 import { GithubIcon, XIcon } from "@/components/brand/BrandIcons";
 import { TerminalBar, MonoLabel, BarcodeTicker } from "@/components/v2";
-import { formatNumber, getRelativeTime } from "@/lib/utils";
+import { formatNumber } from "@/lib/utils";
 import type {
   TwitterLeaderboardRow,
   TwitterMentionAuthorBubble,
@@ -14,6 +14,10 @@ import {
   getTwitterOverviewStats,
   getTwitterTrendingRepoLeaderboard,
 } from "@/lib/twitter/service";
+import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
+import { buildTwitterHeader } from "@/components/twitter/twitterTopMetrics";
+
+const TWITTER_ACCENT = "rgba(29, 155, 240, 0.85)";
 
 export const dynamic = "force-dynamic";
 
@@ -58,30 +62,6 @@ const AUTHOR_BUBBLE_TONES = [
     color: "#dbb8ff",
   },
 ] as const;
-
-function Stat({
-  label,
-  value,
-  hint,
-}: {
-  label: string;
-  value: string;
-  hint?: string;
-}) {
-  return (
-    <div className="border border-border-primary rounded-md px-4 py-3 bg-bg-secondary">
-      <div className="text-[10px] uppercase tracking-wider text-text-tertiary">
-        {label}
-      </div>
-      <div className="mt-1 text-xl font-bold truncate">{value}</div>
-      {hint ? (
-        <div className="mt-0.5 text-[11px] text-text-tertiary truncate">
-          {hint}
-        </div>
-      ) : null}
-    </div>
-  );
-}
 
 function getAuthorBubbleTone(handle: string) {
   let hash = 0;
@@ -276,6 +256,7 @@ export default async function TwitterPage({
     getTwitterOverviewStats(),
   ]);
   const rows = activeTab === "global" ? globalRows : trendingRows;
+  const { cards, topStories } = buildTwitterHeader(rows, stats);
 
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
@@ -313,43 +294,15 @@ export default async function TwitterPage({
           globalCount={globalRows.length}
         />
 
-        <section className="mb-6 grid grid-cols-2 md:grid-cols-4 xl:grid-cols-8 gap-3">
-          <Stat
-            label="Last scan"
-            value={stats.lastScannedAt ? getRelativeTime(stats.lastScannedAt) : "--"}
-            hint={stats.lastScannedAt ?? "no scans yet"}
+        <div className="mb-6">
+          <NewsTopHeaderV3
+            cards={cards}
+            topStories={topStories}
+            accent={TWITTER_ACCENT}
+            eyebrow="// X · TOP TWEETS · 24H"
+            status={`${rows.length} ROWS · LIVE`}
           />
-          <Stat
-            label="Repos with buzz"
-            value={stats.reposWithMentions.toLocaleString("en-US")}
-            hint={`${stats.scansStored} scans stored`}
-          />
-          <Stat
-            label="Badged repos"
-            value={stats.badgedRepos.toLocaleString("en-US")}
-          />
-          <Stat
-            label="Breakouts"
-            value={stats.breakoutRepos.toLocaleString("en-US")}
-          />
-          <Stat
-            label="Mentions 24h"
-            value={formatNumber(stats.totalMentions24h)}
-          />
-          <Stat
-            label="Likes 24h"
-            value={formatNumber(stats.totalLikes24h)}
-          />
-          <Stat
-            label="Reposts 24h"
-            value={formatNumber(stats.totalReposts24h)}
-          />
-          <Stat
-            label="Top score"
-            value={stats.topRepoScore !== null ? stats.topRepoScore.toFixed(1) : "--"}
-            hint={stats.topRepoFullName ?? "no leader yet"}
-          />
-        </section>
+        </div>
 
         {rows.length === 0 ? (
           <section className="border border-dashed border-border-primary rounded-md p-8 bg-bg-secondary/40">

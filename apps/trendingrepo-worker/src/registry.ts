@@ -44,6 +44,8 @@ import manualRepos from './fetchers/manual-repos/index.js';
 import revenueManualMatches from './fetchers/revenue-manual-matches/index.js';
 // Phase 0 of the research-layer signal: arxiv submissions in cs.AI/CL/LG/MA.
 import arxiv from './fetchers/arxiv/index.js';
+// Phase 1 ai-blog signal: RSS path over the lab feeds in AI_LAB_REGISTRY.
+import aiBlogs from './fetchers/ai-blogs/index.js';
 // Phase 3.4 (funding source coverage) — Crunchbase RSS + X funding hashtags.
 // Both produce funding-news-shape signals to separate slugs; consumer
 // merge in src/lib/funding-news.ts is a follow-up.
@@ -91,6 +93,7 @@ export const FETCHERS: Fetcher[] = [
   devto,
   reddit,
   arxiv,
+  aiBlogs,
   crunchbase,
   xFunding,
   engagementComposite,

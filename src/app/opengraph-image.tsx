@@ -51,7 +51,7 @@ export default async function HomeOGImage() {
             marginBottom: 32,
           }}
         >
-          // trendingrepo · live · 04.27
+          {"// trendingrepo · live · 04.27"}
         </div>
 
         {/* Wordmark */}

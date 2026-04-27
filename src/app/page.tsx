@@ -18,6 +18,13 @@ import { MomentumHeadline } from "@/components/home/MomentumHeadline";
 import { HomeCtaRow } from "@/components/home/HomeCtaRow";
 import { HomeEmptyState } from "@/components/home/HomeEmptyState";
 import { CrossSourceBuzz } from "@/components/home/CrossSourceBuzz";
+import {
+  MonoLabel,
+  SpiderNode,
+  TerminalBar,
+  AsciiInterstitial,
+  BarcodeTicker,
+} from "@/components/v2";
 import { SITE_NAME, SITE_URL, absoluteUrl } from "@/lib/seo";
 
 // ISR: data/*.json only changes when the GHA scrape commits new trending
@@ -54,49 +61,86 @@ export default async function HomePage() {
     .sort((a, b) => b.starsDelta24h - a.starsDelta24h)
     .slice(0, 20);
 
+  // V2 chrome — operator-mono date stamp (e.g. "04.27") used on terminal bars.
+  const monoDate = new Date(lastFetchedAt).toLocaleDateString("en-US", {
+    month: "2-digit",
+    day: "2-digit",
+  });
+
   return (
     <>
       {/* H1 + Claims — definition-lead opener with authoritative citations */}
       <section className="px-4 sm:px-6 pt-4 pb-2 space-y-3">
+        {/* V2 operator eyebrow — scoped to this section only, additive to V1 chrome */}
+        <div className="flex items-center justify-between gap-3 pb-1 border-b border-[var(--v2-line-std)]">
+          <MonoLabel
+            index="01"
+            name="TRENDINGREPO"
+            hint={monoDate}
+            tone="muted"
+          />
+          <span className="v2-mono text-[10px] text-text-tertiary hidden sm:inline-flex items-center gap-2">
+            <span className="v2-live-dot" aria-hidden />
+            {repos.length} REPOS · LIVE
+          </span>
+        </div>
+
         <MomentumHeadline repos={repos} lastFetchedAt={lastFetchedAt} />
-        <h1 className="font-display text-xl sm:text-2xl font-bold text-text-primary leading-tight">
-          TrendingRepo is a trend radar that surfaces breakout open-source repos
-          from live social signals.
-        </h1>
-        <p className="mt-2 text-sm text-text-secondary max-w-3xl">
-          GitHub now hosts{" "}
-          <a
-            href="https://github.blog/news-insights/company-news/github-now-has-100-million-developers/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline decoration-brand/50 hover:decoration-brand text-text-primary"
-          >
-            over 100 million developers
-          </a>{" "}
-          — the fastest-growing open-source ecosystem in history. We ingest
-          GitHub, Reddit, Hacker News, ProductHunt, Bluesky, and dev.to every 20
-          minutes, score momentum across 15 categories, and surface the movers
-          before they plateau.{" "}
-          <a
-            href="https://en.wikipedia.org/wiki/Open-source_software"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline decoration-brand/50 hover:decoration-brand text-text-primary"
-          >
-            Open-source software
-          </a>{" "}
-          now powers 96% of the world&apos;s codebases, per{" "}
-          <a
-            href="https://www.synopsys.com/software-integrity/resources/analyst-reports/open-source-security-risk-analysis.html"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline decoration-brand/50 hover:decoration-brand text-text-primary"
-          >
-            Synopsys 2024
-          </a>
-          .
-        </p>
-        <HomeCtaRow />
+
+        <div className="grid md:grid-cols-[1fr_auto] gap-6 items-start">
+          <div className="space-y-3">
+            <h1 className="font-display text-xl sm:text-2xl font-bold text-text-primary leading-tight">
+              TrendingRepo is a trend radar that surfaces breakout open-source
+              repos from live social signals.
+            </h1>
+            <p className="text-sm text-text-secondary max-w-3xl">
+              GitHub now hosts{" "}
+              <a
+                href="https://github.blog/news-insights/company-news/github-now-has-100-million-developers/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline decoration-brand/50 hover:decoration-brand text-text-primary"
+              >
+                over 100 million developers
+              </a>{" "}
+              — the fastest-growing open-source ecosystem in history. We ingest
+              GitHub, Reddit, Hacker News, ProductHunt, Bluesky, and dev.to
+              every 20 minutes, score momentum across 15 categories, and
+              surface the movers before they plateau.{" "}
+              <a
+                href="https://en.wikipedia.org/wiki/Open-source_software"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline decoration-brand/50 hover:decoration-brand text-text-primary"
+              >
+                Open-source software
+              </a>{" "}
+              now powers 96% of the world&apos;s codebases, per{" "}
+              <a
+                href="https://www.synopsys.com/software-integrity/resources/analyst-reports/open-source-security-risk-analysis.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline decoration-brand/50 hover:decoration-brand text-text-primary"
+              >
+                Synopsys 2024
+              </a>
+              .
+            </p>
+            <HomeCtaRow />
+          </div>
+
+          {/* V2 spider-node hero accent — desktop only, decorative, no interaction */}
+          <div className="hidden lg:block self-center">
+            <div className="v2-frame p-2">
+              <SpiderNode width={180} height={180} peripheral={9} />
+            </div>
+          </div>
+        </div>
+
+        {/* V2 barcode ticker — "live data flow" accent under the hero */}
+        <div className="pt-3">
+          <BarcodeTicker count={96} height={14} seed={repos.length} />
+        </div>
       </section>
 
       <CrossSourceBuzz repos={repos} limit={10} />
@@ -107,20 +151,37 @@ export default async function HomePage() {
         showFeatured
         featuredCount={8}
         heading={
-          <>
-            {/* BubbleMap is illegible on phones (~108px tall in viewBox 1200x360
-                — bubble labels collapse to dots). Hide on <md and let the
-                terminal cards drive the mobile narrative. */}
+          <div className="space-y-3">
+            {/* V2 terminal-bar header — wraps the bubble-map signal radar */}
             <div className="hidden md:block">
-              <BubbleMap repos={repos} limit={220} />
+              <div className="v2-card overflow-hidden">
+                <TerminalBar
+                  label={`// SIGNAL · RADAR · ${repos.length} NODES`}
+                  status={`${monoDate} · LIVE`}
+                  live
+                />
+                {/* BubbleMap is illegible on phones (~108px tall in viewBox 1200x360
+                    — bubble labels collapse to dots). Hide on <md and let the
+                    terminal cards drive the mobile narrative. */}
+                <BubbleMap repos={repos} limit={220} />
+              </div>
             </div>
-          </>
+          </div>
         }
       />
 
+      {/* V2 ASCII interstitial — divider before the FAQ section */}
+      <section
+        className="px-4 sm:px-6 py-6 hidden md:block"
+        aria-hidden
+      >
+        <AsciiInterstitial rows={5} cols={120} seed={repos.length} />
+      </section>
+
       {/* FAQ section with JSON-LD */}
-      <section id="faq" className="px-4 sm:px-6 py-8 max-w-3xl">
-        <h2 className="font-display text-xl font-bold text-text-primary mb-4">
+      <section id="faq" className="px-4 sm:px-6 py-8 max-w-3xl space-y-4">
+        <MonoLabel index="02" name="FAQ" hint="OPERATOR-LEVEL" tone="muted" />
+        <h2 className="font-display text-xl font-bold text-text-primary">
           Frequently asked questions
         </h2>
         <div className="flex flex-col gap-3">
@@ -262,7 +323,7 @@ export default async function HomePage() {
                 name: "How often is the data refreshed?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Scrapers run every 20 minutes via GitHub Actions. The homepage is ISR-cached for 30 minutes, so the edge serves a static hit while the pipeline ingests fresh signals in the background.",
+                  text: "Scrapers run every 3 hours via GitHub Actions. The homepage is ISR-cached for 30 minutes, so the edge serves a static hit while the pipeline ingests fresh signals in the background.",
                 },
               },
               {
@@ -319,6 +380,21 @@ export default async function HomePage() {
           }),
         }}
       />
+
+      {/* V2 sign-off — operator-grade footer line */}
+      <section className="px-4 sm:px-6 pt-2 pb-8">
+        <div className="flex items-center justify-between gap-3 pt-3 border-t border-[var(--v2-line-std)]">
+          <MonoLabel
+            text={`// TRENDINGREPO · v2 · ${monoDate} · SERIAL ${repos.length}/2200 · END OF PAGE ▮`}
+            tone="muted"
+          />
+          <span
+            className="v2-mono text-[10px] text-text-tertiary hidden sm:inline"
+          >
+            DATA · {new Date(lastFetchedAt).toISOString().slice(11, 16)} UTC
+          </span>
+        </div>
+      </section>
     </>
   );
 }

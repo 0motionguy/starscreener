@@ -49,6 +49,7 @@ import { refreshProducthuntLaunchesFromStore } from "@/lib/producthunt";
 // Group C (funding + profiles + revenue) is refreshed inside
 // buildCanonicalRepoProfile() — no need to re-call here.
 
+import { TerminalBar, MonoLabel, BarcodeTicker } from "@/components/v2";
 import { RepoDetailHeader } from "@/components/repo-detail/RepoDetailHeader";
 import { RepoDetailStats } from "@/components/repo-detail/RepoDetailStats";
 import { RepoDetailStatsStrip } from "@/components/repo-detail/RepoDetailStatsStrip";
@@ -303,6 +304,15 @@ export default async function RepoDetailPage({ params }: PageProps) {
           to match /breakouts and the rest of the modernized surfaces. */}
       <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6">
+          {/* V2 terminal-bar header — operator identity + live status */}
+          <div className="v2-frame overflow-hidden">
+            <TerminalBar
+              label={`// REPO · ${repo.fullName.toUpperCase()}`}
+              status={`${formatNumber(repo.stars)} ★ · LIVE`}
+              live
+            />
+            <BarcodeTicker count={120} height={12} seed={repo.stars} />
+          </div>
           {/* Completeness strip — audit finding #1 trust fix.
               Answers "how much of this profile is actually populated?"
               before the user scrolls through modules that might be empty

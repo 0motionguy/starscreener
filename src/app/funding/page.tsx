@@ -18,6 +18,7 @@ import {
   refreshFundingNewsFromStore,
 } from "@/lib/funding-news";
 import { FundingCard } from "@/components/funding/FundingCard";
+import { TerminalBar, MonoLabel, BarcodeTicker } from "@/components/v2";
 
 export const dynamic = "force-dynamic";
 
@@ -60,17 +61,28 @@ export default async function FundingPage() {
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
       <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
+        {/* V2 terminal-bar — operator chrome */}
+        <div className="v2-frame overflow-hidden mb-4">
+          <TerminalBar
+            label="// FUNDING · RADAR · 24H"
+            status={`${signals.length} SIGNALS · ${cold ? "COLD" : "LIVE"}`}
+            live={!cold}
+          />
+          <BarcodeTicker count={140} height={12} seed={signals.length || 88} />
+        </div>
+
         {/* Header */}
-        <header className="mb-6 border-b border-border-primary pb-6">
+        <header className="mb-6 border-b border-[var(--v2-line-std)] pb-6 space-y-3">
+          <MonoLabel index="01" name="FUNDING" hint="AI · TECH" tone="muted" />
           <div className="flex items-baseline gap-3 flex-wrap">
-            <h1 className="text-2xl font-bold uppercase tracking-wider">
+            <h1 className="font-display text-2xl font-bold uppercase tracking-wider">
               FUNDING RADAR
             </h1>
             <span className="text-xs text-text-tertiary">
               {"// ai & tech startup rounds"}
             </span>
           </div>
-          <p className="mt-2 text-sm text-text-secondary max-w-2xl">
+          <p className="text-sm text-text-secondary max-w-2xl">
             Funding signals aggregated from TechCrunch, VentureBeat, and other
             sources. Structured extraction uses regex heuristics — confidence
             indicators show how reliably each field was parsed.

@@ -25,6 +25,7 @@ import {
 import type { ReactionCounts } from "@/lib/reactions-shape";
 import { IdeaCard } from "@/components/ideas/IdeaCard";
 import { IdeaComposer } from "@/components/ideas/IdeaComposer";
+import { TerminalBar, MonoLabel, BarcodeTicker } from "@/components/v2";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 
 type SortKey = "hot" | "new" | "shipped";
@@ -125,9 +126,20 @@ export default async function IdeasPage({ searchParams }: PageProps) {
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
       <div className="max-w-[900px] mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6">
-        <header className="border-b border-border-primary pb-6">
+        {/* V2 terminal-bar — operator chrome */}
+        <div className="v2-frame overflow-hidden">
+          <TerminalBar
+            label={`// IDEAS · ${sortKey.toUpperCase()}`}
+            status={`${feed.length} ROWS · LIVE`}
+            live
+          />
+          <BarcodeTicker count={120} height={12} seed={feed.length || 33} />
+        </div>
+
+        <header className="border-b border-[var(--v2-line-std)] pb-6 space-y-3">
+          <MonoLabel index="01" name="IDEAS" hint="BUILDERS' QUEUE" tone="muted" />
           <div className="flex flex-wrap items-baseline gap-3">
-            <h1 className="text-2xl font-bold uppercase tracking-wider inline-flex items-center gap-2">
+            <h1 className="font-display text-2xl font-bold uppercase tracking-wider inline-flex items-center gap-2">
               <Lightbulb className="size-5 text-warning" aria-hidden />
               Ideas
             </h1>
@@ -135,7 +147,7 @@ export default async function IdeasPage({ searchParams }: PageProps) {
               {"// what builders should ship next"}
             </span>
           </div>
-          <p className="mt-2 max-w-2xl text-sm text-text-secondary">
+          <p className="max-w-2xl text-sm text-text-secondary">
             Post a 1-line idea. Builders react with{" "}
             <strong className="text-brand">build</strong>,{" "}
             <strong className="text-brand">use</strong>,{" "}

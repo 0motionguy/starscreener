@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { Globe } from "lucide-react";
 import { GithubIcon, XIcon } from "@/components/brand/BrandIcons";
+import { TerminalBar, MonoLabel, BarcodeTicker } from "@/components/v2";
 import { formatNumber, getRelativeTime } from "@/lib/utils";
 import type {
   TwitterLeaderboardRow,
@@ -279,16 +280,27 @@ export default async function TwitterPage({
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
       <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        <header className="mb-6 border-b border-border-primary pb-6">
+        {/* V2 terminal-bar header — operator chrome above the page header */}
+        <div className="v2-frame overflow-hidden mb-4">
+          <TerminalBar
+            label="// X · TRENDING REPO MENTIONS · 24H"
+            status={`${trendingRows.length} ROWS · LIVE`}
+            live
+          />
+          <BarcodeTicker count={140} height={12} seed={trendingRows.length || 220} />
+        </div>
+
+        <header className="mb-6 border-b border-[var(--v2-line-std)] pb-6 space-y-3">
+          <MonoLabel index="01" name="TWITTER" hint="MAIN-RANK FILTER" tone="muted" />
           <div className="flex items-baseline gap-3 flex-wrap">
-            <h1 className="text-2xl font-bold uppercase tracking-wider">
+            <h1 className="font-display text-2xl font-bold uppercase tracking-wider">
               X / TRENDING REPO MENTIONS
             </h1>
             <span className="text-xs text-text-tertiary">
               {"// main repo rank plus real X buzz - last 24h"}
             </span>
           </div>
-          <p className="mt-2 text-sm text-text-secondary max-w-2xl">
+          <p className="text-sm text-text-secondary max-w-2xl">
             Default view follows the main TrendingRepo ranking and filters to
             repos with accepted X mentions. The global tab keeps the raw X-only
             score as a separate signal.

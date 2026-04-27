@@ -16,6 +16,7 @@ import {
   refreshRedditMentionsFromStore,
 } from "@/lib/reddit-data";
 import { RedditTabsClient } from "@/components/reddit/RedditTabsClient";
+import { TerminalBar, MonoLabel, BarcodeTicker } from "@/components/v2";
 
 export const dynamic = "force-dynamic";
 
@@ -44,16 +45,27 @@ export default async function RedditPage() {
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
       <div className="max-w-[1400px] mx-auto px-6 py-8">
-        <header className="mb-8 border-b border-border-primary pb-6">
+        {/* V2 terminal-bar — operator chrome */}
+        <div className="v2-frame overflow-hidden mb-4">
+          <TerminalBar
+            label={`// REDDIT · ${subreddits.length} SUBS · 24H`}
+            status={`${stats.totalMentions} MENTIONS · ${redditCold ? "COLD" : "LIVE"}`}
+            live={!redditCold}
+          />
+          <BarcodeTicker count={140} height={12} seed={subreddits.length || 12} />
+        </div>
+
+        <header className="mb-8 border-b border-[var(--v2-line-std)] pb-6 space-y-3">
+          <MonoLabel index="01" name="REDDIT" hint="AI-DEV SIGNAL" tone="muted" />
           <div className="flex items-baseline gap-3">
-            <h1 className="text-2xl font-bold uppercase tracking-wider">
+            <h1 className="font-display text-2xl font-bold uppercase tracking-wider">
               REDDIT
             </h1>
             <span className="text-xs text-text-tertiary">
               {"// r/AI-signal · local preview"}
             </span>
           </div>
-          <p className="mt-2 text-sm text-text-secondary max-w-2xl">
+          <p className="text-sm text-text-secondary max-w-2xl">
             GitHub repo mentions aggregated across {subreddits.length} AI-dev
             subreddits (mirrors the agnt.newsroom watcher list). Scans the
             most recent ~100 posts per sub, matches

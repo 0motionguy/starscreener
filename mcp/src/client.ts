@@ -58,6 +58,30 @@ export class StarScreenerClient {
       opts.baseUrl ??
       process.env.STARSCREENER_API_URL ??
       "http://localhost:3023";
+    // SCR-12 (mirrored on the constructor surface): refuse non-https
+    // base URLs except loopback. STARSCREENER_API_TOKEN +
+    // STARSCREENER_USER_TOKEN are passed as headers on every request;
+    // a misconfigured `http://evil.test` base URL would leak both in
+    // cleartext. We fail fast at construction so the misconfig
+    // surfaces in the operator's first MCP call rather than silently
+    // exfiltrating tokens for the lifetime of the process.
+    let parsed: URL;
+    try {
+      parsed = new URL(raw);
+    } catch {
+      throw new Error(
+        `STARSCREENER_API_URL is not a valid URL: ${raw}`,
+      );
+    }
+    const isLoopback =
+      parsed.hostname === "localhost" ||
+      parsed.hostname === "127.0.0.1" ||
+      parsed.hostname === "::1";
+    if (parsed.protocol !== "https:" && !isLoopback) {
+      throw new Error(
+        `STARSCREENER_API_URL must be https or a loopback host (got ${parsed.protocol}//${parsed.hostname}). Refusing to send tokens over plaintext.`,
+      );
+    }
     // Strip trailing slash so we can always concat `${baseUrl}/api/...`.
     this.baseUrl = raw.replace(/\/+$/, "");
     this.token = opts.token ?? process.env.STARSCREENER_API_TOKEN;

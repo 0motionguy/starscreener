@@ -25,47 +25,80 @@ export default function RootError({ error, reset }: ErrorProps) {
 
   return (
     <div className="max-w-[640px] mx-auto px-4 md:px-6 py-16 md:py-24">
-      <div className="rounded-card border border-down/40 bg-down-bg/30 p-6 md:p-8">
-        <span className="label-micro text-down">Error · runtime</span>
-        <h1 className="font-display text-3xl md:text-4xl mt-2 mb-3 text-text-primary">
-          Something broke while rendering this surface.
-        </h1>
-        <p className="text-text-secondary text-md leading-relaxed mb-5">
-          The firehose is still running — this is a client-side render
-          fault, not stale data. Try refreshing the view; if it keeps
-          erroring, the homepage usually survives.
-        </p>
-        {error.digest && (
-          <p className="font-mono text-xs text-text-muted mb-5">
-            digest: <span className="text-text-tertiary">{error.digest}</span>
+      <div
+        className="v2-card overflow-hidden"
+        style={{
+          background: "rgba(255, 77, 77, 0.06)",
+          borderColor: "var(--v2-sig-red)",
+        }}
+      >
+        <div className="v2-term-bar">
+          <span aria-hidden className="flex items-center gap-1.5">
+            <span
+              className="block h-1.5 w-1.5 rounded-full"
+              style={{ background: "var(--v2-sig-red)" }}
+            />
+            <span
+              className="block h-1.5 w-1.5 rounded-full"
+              style={{ background: "var(--v2-line-200)" }}
+            />
+            <span
+              className="block h-1.5 w-1.5 rounded-full"
+              style={{ background: "var(--v2-line-200)" }}
+            />
+          </span>
+          <span
+            className="flex-1 truncate"
+            style={{ color: "var(--v2-sig-red)" }}
+          >
+            {"// ERROR · RUNTIME"}
+          </span>
+        </div>
+        <div className="p-6 md:p-8">
+          <h1
+            style={{
+              fontFamily: "var(--font-geist), Inter, sans-serif",
+              fontSize: "clamp(28px, 4vw, 36px)",
+              fontWeight: 510,
+              letterSpacing: "-0.022em",
+              color: "var(--v2-ink-000)",
+              lineHeight: 1.1,
+              marginBottom: 12,
+            }}
+          >
+            Something broke while rendering this surface.
+          </h1>
+          <p
+            className="leading-relaxed mb-5"
+            style={{ fontSize: 14, color: "var(--v2-ink-300)" }}
+          >
+            The firehose is still running — this is a client-side render
+            fault, not stale data. Try refreshing the view; if it keeps
+            erroring, the homepage usually survives.
           </p>
-        )}
-        <div className="flex flex-wrap items-center gap-2">
-          <button
-            type="button"
-            onClick={reset}
-            className={cn(
-              "inline-flex h-9 items-center gap-2 rounded-card",
-              "border border-brand/60 px-3",
-              "text-sm font-medium text-brand transition-colors",
-              "hover:bg-brand hover:text-black hover:border-brand",
-            )}
-          >
-            <RefreshCw className="h-4 w-4" />
-            Try again
-          </button>
-          <Link
-            href="/"
-            className={cn(
-              "inline-flex h-9 items-center gap-2 rounded-card",
-              "border border-border-primary bg-bg-secondary px-3",
-              "text-sm font-medium text-text-secondary transition-colors",
-              "hover:text-text-primary",
-            )}
-          >
-            <Home className="h-4 w-4" />
-            Back to home
-          </Link>
+          {error.digest && (
+            <p
+              className="v2-mono mb-5"
+              style={{ fontSize: 11, color: "var(--v2-ink-400)" }}
+            >
+              {"// DIGEST: "}
+              <span style={{ color: "var(--v2-ink-300)" }}>{error.digest}</span>
+            </p>
+          )}
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={reset}
+              className={cn("v2-btn v2-btn-primary inline-flex")}
+            >
+              <RefreshCw className="h-4 w-4" style={{ marginRight: 8 }} />
+              TRY AGAIN
+            </button>
+            <Link href="/" className="v2-btn v2-btn-ghost inline-flex">
+              <Home className="h-4 w-4" style={{ marginRight: 8 }} />
+              BACK TO HOME
+            </Link>
+          </div>
         </div>
       </div>
     </div>

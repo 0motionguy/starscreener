@@ -125,7 +125,7 @@ function McpTab({ tools }: { tools: PortalDocsTool[] }) {
           (<span className="font-mono">INVALID_PARAMS</span>,{" "}
           <span className="font-mono">NOT_FOUND</span>).
         </p>
-        <ul className="divide-y divide-border-secondary border border-border-primary rounded-md overflow-hidden bg-bg-card">
+        <ul className="v2-card divide-y divide-[color:var(--v2-line-std)] overflow-hidden">
           {tools.map((tool) => (
             <li key={tool.name} className="p-4">
               <div className="font-mono text-sm text-brand mb-1">
@@ -232,12 +232,13 @@ function TabButton({
       role="tab"
       aria-selected={active}
       onClick={onClick}
-      className={
-        "flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono uppercase tracking-wider rounded-sm transition-colors " +
-        (active
-          ? "bg-brand text-black"
-          : "text-text-secondary hover:text-text-primary")
-      }
+      className="v2-mono flex items-center gap-1.5 px-3 py-1.5 transition-colors"
+      style={{
+        fontSize: 11,
+        background: active ? "var(--v2-acc-soft)" : "transparent",
+        color: active ? "var(--v2-acc)" : "var(--v2-ink-300)",
+        borderRadius: 2,
+      }}
     >
       {children}
     </button>

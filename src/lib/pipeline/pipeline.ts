@@ -182,42 +182,42 @@ function recomputeAll(): RecomputeSummary {
   return withSuspendedPersistHook(() => recomputeAllInner());
 }
 
-function recomputeAllInner(): RecomputeSummary {
-  const startedAt = Date.now();
+interface PreviousState {
+  baseRepos: Repo[];
+  previousRepos: Map<string, Repo>;
+  previousScores: Map<string, RepoScore>;
+}
 
-  // 0. Snapshot previous state (repos + scores) BEFORE we mutate anything.
-  //    These are fed into the alert engine as `previousRepo`/`previousScore`.
-  //    Use `getActive()` so soft-deleted repos (marked via /api/pipeline/cleanup)
-  //    are excluded from scoring + alert evaluation — otherwise tombstones keep
-  //    firing rules and email deliveries reference repos that no longer exist
-  //    (F-DATA-001, Phase 2 P-110).
+/**
+ * Phase 0: snapshot previous repo + score state BEFORE any mutation, so
+ * delta-sensitive alert triggers (rank_jump, momentum_threshold, new_release,
+ * breakout transitions) and rank/breakout event emission have a stable
+ * "before" reference. Uses `getActive()` so soft-deleted repos don't keep
+ * firing rules (F-DATA-001).
+ */
+function snapshotPreviousState(): PreviousState {
   const baseRepos = repoStore.getActive();
   const previousRepos = new Map<string, Repo>();
-  for (const r of baseRepos) {
-    previousRepos.set(r.id, r);
-  }
+  for (const r of baseRepos) previousRepos.set(r.id, r);
   const previousScores = new Map<string, RepoScore>();
-  for (const s of scoreStore.getAll()) {
-    previousScores.set(s.repoId, s);
-  }
+  for (const s of scoreStore.getAll()) previousScores.set(s.repoId, s);
+  return { baseRepos, previousRepos, previousScores };
+}
 
-  // 1. Pull current repos, project deltas from data/deltas.json (git-history
-  //    source), derive the 30-day sparkline from the snapshot history that
-  //    still exists in dev, and stitch both back onto each Repo.
-  //    Deltas are loaded once outside the map — the JSON is static.
+/**
+ * Phase 1: assemble fresh Repo objects from the persisted base set —
+ * projects deltas/git-history, derives sparkline, rolls up mention
+ * aggregates onto each repo. Deltas are loaded once outside the map.
+ */
+function phaseAssemble(baseRepos: Repo[]): Repo[] {
   const trendingDeltas = getDeltas();
   const aggregateNow = new Date();
-  const freshRepos: Repo[] = baseRepos.map((repo) => {
+  return baseRepos.map((repo) => {
     const sparklineData = deriveSparklineData(repo.id, snapshotStore);
     const fromTrending = {
       ...assembleRepoFromTrending(repo, trendingDeltas),
       sparklineData,
     };
-    // 1a. Roll up persisted mentions → SocialAggregate → buzz score. Replaces
-    //     the hard-coded `socialBuzzScore = 0` shim from `normalizeGitHubRepo`
-    //     so anti-spam dampening and the social-buzz component finally have
-    //     real input. Aggregate is upserted here for the in-memory store so
-    //     query layers (mostDiscussed, repoSummary) see it on the next read.
     const repoMentions = mentionStore.listForRepo(fromTrending.id);
     if (repoMentions.length > 0) {
       const agg = aggregateRepoMentions(
@@ -234,32 +234,47 @@ function recomputeAllInner(): RecomputeSummary {
     }
     return fromTrending;
   });
+}
 
-  // 2. Score everything in one pass so category averages are consistent.
+/** Phase 2: batch score, persist each. */
+function phaseScore(freshRepos: Repo[]): RepoScore[] {
   const scores = scoreBatch(freshRepos);
-  for (const score of scores) {
-    scoreStore.save(score);
-  }
+  for (const score of scores) scoreStore.save(score);
+  return scores;
+}
 
-  // 3. Classify everything, then project the primary categoryId onto each
-  //    fresh Repo so ranking, filters, and category stats see real topic-
-  //    derived categories instead of the normalizer's "other" placeholder.
+/**
+ * Phase 3: classify each repo, persist the classification, project the
+ * primary categoryId + AI-focus tags back onto the fresh Repo so ranking,
+ * filters, and `/api/repos?tag=` see consistent data. Returns the mutated
+ * repo array (same length, in the same order).
+ */
+function phaseClassify(freshRepos: Repo[]): Repo[] {
   const classifications = classifyBatch(freshRepos);
+  const out = freshRepos.slice();
   for (let i = 0; i < classifications.length; i++) {
     const classification = classifications[i];
     categoryStore.save(classification);
-    // Derive flat, multi-label AI-focus tags in the same pass so cards +
-    // filter bar + /api/repos?tag= all see consistent data.
-    const tags = deriveTags(freshRepos[i]);
-    freshRepos[i] = {
-      ...freshRepos[i],
+    const tags = deriveTags(out[i]);
+    out[i] = {
+      ...out[i],
       categoryId: classification.primary.categoryId,
       tags,
     };
   }
+  return out;
+}
 
-  // 4. Generate reasons in batch. Feed in previous rank so rank_jump works.
-  const reasonInputs = freshRepos.map((repo, i) => {
+/**
+ * Phase 4: batch reason generation. Feeds in previous rank from
+ * `baseRepos[i]?.rank` so the `rank_jump` reason works correctly.
+ */
+function phaseReasons(
+  freshRepos: Repo[],
+  baseRepos: Repo[],
+  scores: RepoScore[],
+): RepoReason[] {
+  const inputs = freshRepos.map((repo, i) => {
     const prev = baseRepos[i];
     const score = scores[i];
     return {
@@ -270,20 +285,29 @@ function recomputeAllInner(): RecomputeSummary {
       isQuietKiller: score.isQuietKiller,
     };
   });
-  const reasons = generateReasonsBatch(reasonInputs);
-  for (const r of reasons) {
-    reasonStore.save(r);
-  }
+  const reasons = generateReasonsBatch(inputs);
+  for (const r of reasons) reasonStore.save(r);
+  return reasons;
+}
 
-  // 5. Recompute global rank — highest overall score = rank 1.
+/**
+ * Phase 5: sort repos by overall score, assign global rank + per-category
+ * rank, upsert each, and emit `rank_changed` / `breakout_detected` events
+ * on transitions. Returns the ranked repos so phase 6 can consume them.
+ */
+function phaseRankAndEvents(
+  freshRepos: Repo[],
+  scores: RepoScore[],
+  previousRepos: Map<string, Repo>,
+  previousScores: Map<string, RepoScore>,
+): Repo[] {
   const ranked = freshRepos
     .map((repo, i) => ({ repo, score: scores[i] }))
     .sort((a, b) => b.score.overall - a.score.overall);
 
-  // Track per-category position for categoryRank.
   const perCategoryCounter = new Map<string, number>();
-
   const rankedRepos: Repo[] = [];
+
   for (let i = 0; i < ranked.length; i++) {
     const { repo, score } = ranked[i];
     const catIndex = perCategoryCounter.get(repo.categoryId) ?? 0;
@@ -299,7 +323,6 @@ function recomputeAllInner(): RecomputeSummary {
     repoStore.upsert(updated);
     rankedRepos.push(updated);
 
-    // Emit rank change event when the repo's global rank moved.
     const prev = previousRepos.get(repo.id);
     const prevRank = prev?.rank ?? null;
     const newRank = i + 1;
@@ -315,7 +338,6 @@ function recomputeAllInner(): RecomputeSummary {
       });
     }
 
-    // Emit breakout event on new-breakout transitions.
     const prevScore = previousScores.get(repo.id);
     if (score.isBreakout && !prevScore?.isBreakout) {
       emitPipelineEvent({
@@ -327,10 +349,20 @@ function recomputeAllInner(): RecomputeSummary {
       });
     }
   }
+  return rankedRepos;
+}
 
-  // 6. Evaluate alerts against the fresh state, using previous state
-  //    for delta-sensitive triggers (rank_jump, momentum_threshold,
-  //    new_release, breakout transitions).
+/**
+ * Phase 6: build per-repo TriggerContext, evaluate every active rule, emit
+ * `alert_triggered` for each fired event. Email delivery is fire-and-forget
+ * downstream — no-op when RESEND credentials are unset; errors logged so a
+ * Resend outage can't wedge recompute (Phase 2 F-OBSV-002).
+ */
+function phaseAlerts(
+  rankedRepos: Repo[],
+  previousRepos: Map<string, Repo>,
+  previousScores: Map<string, RepoScore>,
+): AlertEvent[] {
   const ctxMap = new Map<string, TriggerContext>();
   for (const repo of rankedRepos) {
     const score = scoreStore.get(repo.id);
@@ -341,7 +373,11 @@ function recomputeAllInner(): RecomputeSummary {
       buildTriggerContext(repo, score, prevRepo, prevScore, prevRepo?.rank),
     );
   }
-  const firedEvents = evaluateAllRules(ctxMap, alertRuleStore, alertEventStore);
+  const firedEvents = evaluateAllRules(
+    ctxMap,
+    alertRuleStore,
+    alertEventStore,
+  );
 
   for (const ev of firedEvents) {
     const repo = repoStore.get(ev.repoId);
@@ -356,14 +392,6 @@ function recomputeAllInner(): RecomputeSummary {
     });
   }
 
-  // P0.1: fire-and-forget email delivery. No-op when
-  // RESEND_API_KEY / ALERT_EMAIL_TO are unset (dev, pre-DNS-propagation).
-  // Errors are logged by the delivery layer — we don't propagate them
-  // so a Resend outage can't wedge the recompute loop.
-  //
-  // Phase 2 (F-OBSV-002): log the DeliveryStats on both success and failure
-  // so operators can see at a glance whether emails actually went out,
-  // without awaiting the call (preserves "don't wedge recompute" spirit).
   if (firedEvents.length > 0) {
     const repoLookup = new Map(rankedRepos.map((r) => [r.id, r]));
     deliverAlertsViaEmail(firedEvents, repoLookup)
@@ -388,8 +416,27 @@ function recomputeAllInner(): RecomputeSummary {
       });
   }
 
+  return firedEvents;
+}
+
+function recomputeAllInner(): RecomputeSummary {
+  const startedAt = Date.now();
+
+  const { baseRepos, previousRepos, previousScores } = snapshotPreviousState();
+  const assembled = phaseAssemble(baseRepos);
+  const scores = phaseScore(assembled);
+  const classified = phaseClassify(assembled);
+  const reasons = phaseReasons(classified, baseRepos, scores);
+  const rankedRepos = phaseRankAndEvents(
+    classified,
+    scores,
+    previousRepos,
+    previousScores,
+  );
+  const firedEvents = phaseAlerts(rankedRepos, previousRepos, previousScores);
+
   return {
-    reposRecomputed: freshRepos.length,
+    reposRecomputed: classified.length,
     scoresComputed: scores.length,
     reasonsGenerated: reasons.length,
     alertsFired: firedEvents.length,

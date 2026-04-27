@@ -25,6 +25,17 @@ const nextConfig: NextConfig = {
   // output: "standalone",
   outputFileTracingIncludes: {
     "/*": ["./.data/twitter-*.jsonl"],
+    "/api/openapi.json": ["./docs/openapi.json"],
+  },
+  outputFileTracingExcludes: {
+    "/**": [
+      "./.claude/**/*",
+      "./.next/**/*",
+      "./.vercel/**/*",
+      "./.data/backup*/**/*",
+      "./awesome-codex-skills/**/*",
+      "./docs/review/**/*",
+    ],
   },
   poweredByHeader: false,
   compress: true,

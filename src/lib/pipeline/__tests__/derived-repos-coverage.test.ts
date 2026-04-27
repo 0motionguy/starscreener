@@ -20,6 +20,10 @@ import {
   getDerivedRepos,
 } from "../../derived-repos";
 import { currentDataDir, FILES } from "../storage/file-persistence";
+import { ensurePipelineRepoJsonlFixture } from "./fixtures/pipeline-repo-fixtures";
+
+// Seed deterministic fixtures so CI doesn't depend on rotating real data.
+ensurePipelineRepoJsonlFixture();
 
 interface JsonlRepoLite {
   fullName?: unknown;

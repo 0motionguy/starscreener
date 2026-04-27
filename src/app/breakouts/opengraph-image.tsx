@@ -21,6 +21,7 @@ import {
 } from "@/lib/og-primitives";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 export const alt = "TrendingRepo — Cross-Signal Breakouts";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";

@@ -13,6 +13,8 @@ import type { FundingSignal } from "@/lib/funding/types";
 import { renderRssFeed, type RssItem } from "@/lib/feeds/rss";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 export const revalidate = 1800; // 30 minutes
 
 const MAX_ITEMS = 30;

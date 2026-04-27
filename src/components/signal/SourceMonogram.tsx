@@ -10,6 +10,8 @@ export type MonoSource =
   | "lobsters"
   | "twitter"
   | "producthunt"
+  | "mcp"
+  | "skills"
   | "github";
 
 const STYLES: Record<MonoSource, { label: string; cls: string }> = {
@@ -23,6 +25,8 @@ const STYLES: Record<MonoSource, { label: string; cls: string }> = {
     cls: "border-border-primary bg-bg-muted text-text-primary",
   },
   producthunt: { label: "PH", cls: "border-brand/60 bg-brand/10 text-brand" },
+  mcp: { label: "MCP", cls: "border-functional/60 bg-functional/10 text-functional" },
+  skills: { label: "SK", cls: "border-up/60 bg-up/10 text-up" },
   github: {
     label: "GH",
     cls: "border-border-primary bg-bg-muted text-text-secondary",

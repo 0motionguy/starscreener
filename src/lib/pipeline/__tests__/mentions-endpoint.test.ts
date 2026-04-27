@@ -17,6 +17,11 @@
 // would mix real persisted data into our fixture counts.
 process.env.STARSCREENER_PERSIST = "false";
 
+// Seed the derived-repos JSONL fixture so vercel/next.js resolves on cold
+// CI runners that don't carry the live .data/repos.jsonl payload.
+import { ensurePipelineRepoJsonlFixture } from "./fixtures/pipeline-repo-fixtures";
+ensurePipelineRepoJsonlFixture();
+
 import { test, before } from "node:test";
 import assert from "node:assert/strict";
 

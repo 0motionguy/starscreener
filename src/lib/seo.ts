@@ -3,8 +3,16 @@
 // Centralised site-URL resolution + absolute-URL helpers so every page can
 // emit a correct canonical + metadataBase without duplicating logic.
 
-export const SITE_URL: string =
-  process.env.NEXT_PUBLIC_APP_URL ?? "https://trendingrepo.com";
+// `.trim()` defends against env vars set with a trailing newline on
+// Vercel — a common copy-paste foot-gun that silently corrupts every
+// `${SITE_URL}${path}` concatenation downstream (sitemap, robots,
+// JSON-LD, OG metadata). Strip the leading `https://` is left intact;
+// only whitespace + trailing slashes are normalized.
+export const SITE_URL: string = (
+  process.env.NEXT_PUBLIC_APP_URL ?? "https://trendingrepo.com"
+)
+  .trim()
+  .replace(/\/+$/, "");
 
 export const SITE_NAME = "TrendingRepo";
 export const SITE_TAGLINE = "The trend map for open source";
@@ -18,9 +26,8 @@ export const SITE_DESCRIPTION =
  */
 export function absoluteUrl(path: string = "/"): string {
   if (path.startsWith("http://") || path.startsWith("https://")) return path;
-  const base = SITE_URL.replace(/\/+$/, "");
   const rel = path.startsWith("/") ? path : `/${path}`;
-  return `${base}${rel}`;
+  return `${SITE_URL}${rel}`;
 }
 
 /**

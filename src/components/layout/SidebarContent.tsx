@@ -583,8 +583,6 @@ export function SidebarContent({
             href="/papers"
             icon={FileText}
             label="arXiv Papers"
-            badge={deltaChip(sourceCounts?.arxivPapers ?? 0) || undefined}
-            badgeTone="delta"
             active={pathname === "/papers" || pathname.startsWith("/papers/")}
           />
           <V2NavRow

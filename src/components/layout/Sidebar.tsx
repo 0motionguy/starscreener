@@ -139,7 +139,6 @@ const EMPTY_SOURCE_COUNTS: SidebarDataResponse["sourceCounts"] = {
   blueskyPosts: 0,
   redditPosts: 0,
   producthuntLaunches: 0,
-  arxivPapers: 0,
   fundingSignals: 0,
   revenueOverlays: 0,
   npmPackages: 0,

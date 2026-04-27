@@ -65,7 +65,7 @@ import { RepoSignalSnapshot } from "@/components/repo-detail/RepoSignalSnapshot"
 import { ProjectSurfaceMap } from "@/components/repo-detail/ProjectSurfaceMap";
 import { NpmAdoptionPanel } from "@/components/repo-detail/NpmAdoptionPanel";
 import { RepoActionRow } from "@/components/repo-detail/RepoActionRow";
-import { RepoReactions } from "@/components/reactions/RepoReactions";
+import { ObjectReactions } from "@/components/reactions/ObjectReactions";
 import {
   countReactions,
   listReactionsForObject,
@@ -323,8 +323,9 @@ export default async function RepoDetailPage({ params }: PageProps) {
             />
           </div>
           <RepoActionRow repo={repo} />
-          <RepoReactions
-            repoFullName={repo.fullName}
+          <ObjectReactions
+            objectType="repo"
+            objectId={repo.fullName}
             initialCounts={initialReactionCounts}
           />
           {/*

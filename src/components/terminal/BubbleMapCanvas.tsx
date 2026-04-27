@@ -14,6 +14,7 @@
 // navigates to the repo detail page.
 
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import { formatNumber } from "@/lib/utils";
 import { CATEGORIES } from "@/lib/constants";
 
@@ -91,6 +92,7 @@ const SIM = {
 const CLICK_DRAG_THRESHOLD = 5;
 
 export function BubbleMapCanvas({ windows, width, height }: BubbleMapCanvasProps) {
+  const router = useRouter();
   // Default to the first window that has any bubbles, so the map never
   // opens on an empty canvas.
   const defaultTab: WindowKey =
@@ -434,20 +436,21 @@ export function BubbleMapCanvas({ windows, width, height }: BubbleMapCanvasProps
       };
       setDraggingId(null);
 
-      // If the gesture was effectively a click, let the <Link> navigate.
-      // We intentionally prevented default on pointerdown, so this is the
-      // moment to synthesize navigation via the link's href.
+      // If the gesture was effectively a click, navigate. Pointerdown
+      // already preventDefault'd so cmd/ctrl/middle-click never reach this
+      // path anyway — the comment on the prior `window.location.href = href`
+      // claimed they did, but they don't (pointerdown blocks the native
+      // anchor activation). Using `router.push` keeps Next's prefetch +
+      // scroll restoration + transition state consistent with the rest of
+      // the app.
       if (wasShortDrag && body) {
         const href = `/repo/${body.owner}/${body.name}`;
-        // Use router-like behavior without pulling useRouter (keeps the
-        // middle-click / cmd-click fallback on the <Link> intact — pointer
-        // events don't fire for those).
-        window.location.href = href;
+        router.push(href);
       }
 
       void e;
     },
-    [wakeSim],
+    [wakeSim, router],
   );
 
   const bubbleElements = useMemo(() => {

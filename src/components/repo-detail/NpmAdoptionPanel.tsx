@@ -162,22 +162,48 @@ export function NpmAdoptionPanel({
   return (
     <section
       aria-label="npm adoption"
-      className="rounded-card border border-border-primary bg-bg-card p-4 shadow-card"
+      className="v2-card overflow-hidden"
     >
-      <header className="flex items-start justify-between gap-3 mb-4 flex-wrap">
-        <div>
-          <h2 className="font-mono text-[11px] uppercase tracking-wider text-text-secondary">
-            npm adoption
-            <span className="ml-2 text-text-tertiary">{"// package downloads"}</span>
-          </h2>
-          <p className="mt-1 text-sm text-text-tertiary">
-            Real registry download windows for npm packages linked or related to this repo.
-          </p>
-        </div>
-        <span className="rounded-md border border-border-primary bg-bg-secondary px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
-          {packages.length} package{packages.length === 1 ? "" : "s"}
+      <div className="v2-term-bar">
+        <span aria-hidden className="flex items-center gap-1.5">
+          <span className="block h-1.5 w-1.5 rounded-full v2-live-dot" />
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-line-200)" }}
+          />
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-line-200)" }}
+          />
         </span>
-      </header>
+        <Package
+          size={12}
+          className="shrink-0"
+          style={{ color: "var(--v2-acc)" }}
+          aria-hidden
+        />
+        <span
+          className="flex-1 truncate"
+          style={{ color: "var(--v2-ink-200)" }}
+        >
+          {"// NPM ADOPTION · PACKAGE DOWNLOADS"}
+        </span>
+        <span
+          className="v2-stat shrink-0"
+          style={{ color: "var(--v2-ink-300)" }}
+        >
+          {packages.length} PACKAGE{packages.length === 1 ? "" : "S"}
+        </span>
+      </div>
+
+      <div className="p-4">
+        <p
+          className="mb-4"
+          style={{ fontSize: 12, color: "var(--v2-ink-300)" }}
+        >
+          Real registry download windows for npm packages linked or related to
+          this repo.
+        </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         {metrics.map((metric) => {
@@ -243,28 +269,44 @@ export function NpmAdoptionPanel({
       </div>
 
       {topPackage && (
-        <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-text-tertiary">
+        <div
+          className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1"
+          style={{ fontSize: 11, color: "var(--v2-ink-400)" }}
+        >
           <p className="flex items-center gap-1">
-            Leading package:{" "}
-            <span className="text-text-secondary">{topPackage.name}</span> with{" "}
-            <span className="font-mono text-text-primary tabular-nums">
+            <span style={{ color: "var(--v2-ink-400)" }}>
+              {"// LEADING PACKAGE: "}
+            </span>
+            <span style={{ color: "var(--v2-ink-200)" }}>{topPackage.name}</span>
+            <span>{" with "}</span>
+            <span
+              className="tabular-nums"
+              style={{
+                color: "var(--v2-acc)",
+                fontFamily: "var(--font-geist-mono), monospace",
+              }}
+            >
               {formatNumber(topPackage.downloads7d)}
-            </span>{" "}
-            downloads in 7d.
+            </span>
+            <span>{" downloads in 7d"}</span>
           </p>
           {topSeries && topSeries.length >= 2 && (
             <span
               className="inline-flex items-center gap-1"
               title={`${topPackage.name} — last ${topSeries.length} days of downloads`}
             >
-              <span className="font-mono text-[10px] uppercase tracking-wider">
-                30d
+              <span
+                className="v2-mono"
+                style={{ fontSize: 10, color: "var(--v2-ink-400)" }}
+              >
+                30D
               </span>
               <Sparkline series={topSeries} />
             </span>
           )}
         </div>
       )}
+      </div>
     </section>
   );
 }

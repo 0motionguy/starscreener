@@ -195,15 +195,37 @@ export async function flushPendingPersist(): Promise<void> {
 // every mutator in every singleton store nudges the timer forward.
 setStoreMutationHook(schedulePersist);
 
-// Internal helpers to suspend/restore the hook around bulk-load operations
-// (hydrate, test fixtures). Kept private to this module. The return value
-// lets callers pattern-match the usual "save-prev → restore" idiom even
-// though our only "previous" state is the fixed `schedulePersist` hook.
+// Helpers to suspend/restore the hook around bulk-load operations (hydrate,
+// test fixtures, recomputeAll). Internal callers in this module use them
+// directly via try/finally; external callers should prefer the
+// withSuspendedPersistHook wrapper below for the standard guarantees.
 function suspendPersistHook(): void {
   setStoreMutationHook(null);
 }
 function restorePersistHook(): void {
   setStoreMutationHook(schedulePersist);
+}
+
+/**
+ * Run `fn` with the per-mutation persist hook suspended, then restore the
+ * hook and schedule exactly one persist flush. Saves N hook invocations
+ * during a bulk pass — the audit's LIB-11 win for `recomputeAll`'s upsert
+ * loop, which previously fired schedulePersist() once per repo (1k+
+ * debounce-resets per recompute).
+ *
+ * Synchronous variant: callers passing a sync function get the result back.
+ * For async bulk passes use the awaited form by typing fn as () => Promise<T>.
+ */
+export function withSuspendedPersistHook<T>(fn: () => T): T {
+  suspendPersistHook();
+  try {
+    return fn();
+  } finally {
+    restorePersistHook();
+    // Trigger exactly one debounced flush after the bulk pass. This is the
+    // whole point of the wrapper — N writes collapse to 1 schedule.
+    schedulePersist();
+  }
 }
 
 // ---------------------------------------------------------------------------

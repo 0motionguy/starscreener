@@ -30,6 +30,7 @@ import {
   repoStore,
   scoreStore,
   snapshotStore,
+  withSuspendedPersistHook,
 } from "./storage/singleton";
 import { isPersistenceEnabled } from "./storage/file-persistence";
 import { assembleRepoFromTrending, getDeltas } from "../trending";
@@ -174,6 +175,14 @@ export interface RecomputeSummary {
  * threshold crossings, and new-release detection work correctly.
  */
 function recomputeAll(): RecomputeSummary {
+  // LIB-11: wrap the entire bulk pass in withSuspendedPersistHook so the
+  // 1k+ store mutations (repo upserts, score upserts, reason saves, mention
+  // aggregate saves) collapse to a single debounced flush at the end
+  // instead of nudging schedulePersist on every single mutator call.
+  return withSuspendedPersistHook(() => recomputeAllInner());
+}
+
+function recomputeAllInner(): RecomputeSummary {
   const startedAt = Date.now();
 
   // 0. Snapshot previous state (repos + scores) BEFORE we mutate anything.

@@ -30,6 +30,7 @@ import { TerminalMobileCard } from "./TerminalMobileCard";
 import { TerminalRow } from "./TerminalRow";
 import { TerminalBar } from "@/components/v2/TerminalBar";
 
+import { useWindowWidth } from "@/hooks/useWindowWidth";
 import type { ColumnId, Repo, SortDirection } from "@/lib/types";
 import { getEffectiveSortColumn } from "@/lib/filters";
 import { cn } from "@/lib/utils";
@@ -77,33 +78,6 @@ const DEFAULT_VISIBLE_ROWS = 150;
 
 function bpPasses(current: number, minBp: Breakpoint): boolean {
   return current >= BP_PX[minBp];
-}
-
-/** Lightweight window-width hook (SSR-safe). */
-function useWindowWidth(): number {
-  const [w, setW] = useState<number>(() =>
-    typeof window === "undefined" ? 1280 : window.innerWidth,
-  );
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    // rAF-coalesce so a continuous drag-resize fires at most one setW per
-    // animation frame (~60Hz) instead of every browser resize event
-    // (often 120+/s on high-refresh displays).
-    let raf = 0;
-    const onResize = () => {
-      if (raf !== 0) return;
-      raf = window.requestAnimationFrame(() => {
-        raf = 0;
-        setW(window.innerWidth);
-      });
-    };
-    window.addEventListener("resize", onResize);
-    return () => {
-      if (raf !== 0) window.cancelAnimationFrame(raf);
-      window.removeEventListener("resize", onResize);
-    };
-  }, []);
-  return w;
 }
 
 export function Terminal({

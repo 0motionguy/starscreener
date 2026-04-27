@@ -8,7 +8,7 @@
 // one fetch) plus a small 30s cache so a back-to-back render doesn't
 // re-network at all.
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { Repo } from "@/lib/types";
 
 interface CacheEntry {
@@ -19,6 +19,14 @@ interface CacheEntry {
 const CACHE_TTL_MS = 30_000;
 const cache = new Map<string, CacheEntry>();
 const inFlight = new Map<string, Promise<Repo[]>>();
+
+// Stable empty array — `setRepos([])` with a fresh literal each render
+// would loop in tests that pass `[]` directly (the effect dep `repoIds`
+// changes by reference even when set-equal, re-running the effect, which
+// then setRepos to ANOTHER new empty array). Production callers thread a
+// Zustand-store array, so this never bit prod, but the defensive constant
+// makes the hook safe to call with literal arrays too.
+const EMPTY_REPOS: Repo[] = Object.freeze([] as Repo[]) as Repo[];
 
 function makeKey(repoIds: ReadonlyArray<string>): string {
   return repoIds.slice().sort().join(",");
@@ -52,13 +60,24 @@ export function useCompareRepos(
   hasHydrated: boolean,
 ): UseCompareReposResult {
   const key = useMemo(() => makeKey(repoIds), [repoIds]);
-  const [repos, setRepos] = useState<Repo[]>(() => cache.get(key)?.repos ?? []);
+  const [repos, setRepos] = useState<Repo[]>(
+    () => cache.get(key)?.repos ?? EMPTY_REPOS,
+  );
   const [loading, setLoading] = useState(false);
+
+  // Stash the latest ids in a ref so the effect can read them without
+  // listing `repoIds` as a dep. `key` already captures set-equality, so
+  // depending on the array reference adds nothing but a footgun: callers
+  // passing a fresh literal each render would re-fire the effect even
+  // when the set is identical.
+  const repoIdsRef = useRef(repoIds);
+  repoIdsRef.current = repoIds;
 
   useEffect(() => {
     if (!hasHydrated) return;
-    if (repoIds.length === 0) {
-      setRepos([]);
+    const currentIds = repoIdsRef.current;
+    if (currentIds.length === 0) {
+      setRepos(EMPTY_REPOS);
       setLoading(false);
       return;
     }
@@ -80,14 +99,14 @@ export function useCompareRepos(
     let controller: AbortController | null = null;
     if (!promise) {
       controller = new AbortController();
-      promise = fetchCompareRepos(repoIds, controller.signal)
+      promise = fetchCompareRepos(currentIds, controller.signal)
         .catch((err) => {
           if ((err as { name?: string }).name === "AbortError") {
             // Caller aborted — let the hook reset; don't pollute cache.
-            return [] as Repo[];
+            return EMPTY_REPOS;
           }
           console.error("[compare] /api/repos failed", err);
-          return [] as Repo[];
+          return EMPTY_REPOS;
         })
         .then((result) => {
           cache.set(key, { repos: result, fetchedAtMs: Date.now() });
@@ -109,7 +128,7 @@ export function useCompareRepos(
       })
       .catch(() => {
         if (!cancelled) {
-          setRepos([]);
+          setRepos(EMPTY_REPOS);
           setLoading(false);
         }
       });
@@ -122,7 +141,7 @@ export function useCompareRepos(
         controller.abort();
       }
     };
-  }, [key, hasHydrated, repoIds]);
+  }, [key, hasHydrated]);
 
   return { repos, loading };
 }

@@ -597,6 +597,11 @@ export function RepoDetailChart({
                   )}
                 />
                 <Tooltip
+                  // Recharts ships TooltipProps but its ContentType callback
+                  // receives a partial subset that doesn't expose `payload`
+                  // directly — keeping the localized `as` narrowing here is
+                  // the lowest-friction path until recharts ships a proper
+                  // ContentProps export. Tracked under audit UI-16.
                   content={(props) => {
                     const payload = (
                       props as {
@@ -640,7 +645,11 @@ export function RepoDetailChart({
                   <Bar
                     key={src}
                     yAxisId="right"
-                    dataKey={(p: SignalPoint) => p.counts[src]}
+                    // Recharts supports dot-notation string dataKeys for nested
+                    // fields. The fn-form `(p) => p.counts[src]` was un-cacheable
+                    // in Recharts' fast path; the string form lets Recharts
+                    // memoize the per-bar accessor (UI-14).
+                    dataKey={`counts.${src}`}
                     name={MENTION_PLATFORM_LABELS[src]}
                     stackId="mentions"
                     fill={MENTION_PLATFORM_COLORS[src]}

@@ -13,6 +13,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { userAuthFailureResponse, verifyUserAuth } from "@/lib/api/auth";
+import { serverError } from "@/lib/api/error-response";
 import {
   countReactions,
   emptyReactionCounts,
@@ -175,9 +176,11 @@ export async function POST(
       mine: userReactionsFor(userId, records),
     });
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
+    // Server-side log includes raw err; response carries empty counts so the
+    // client UI can keep rendering buttons without crashing on a missing key.
+    console.error("[reactions:POST] toggle failed", { err });
     return NextResponse.json(
-      { ok: false, error: message, counts: emptyReactionCounts() },
+      { ok: false, error: "server error", counts: emptyReactionCounts() },
       { status: 500 },
     );
   }

@@ -18,8 +18,13 @@ import {
   ADMIN_SESSION_MAX_AGE_SECONDS,
   signAdminSession,
 } from "@/lib/api/admin-session";
+import { checkRateLimitAsync } from "@/lib/api/rate-limit";
 
 export const dynamic = "force-dynamic";
+
+// Brute-force lockout. 5 attempts per IP per minute. Cross-instance because
+// the rate-limit store is Upstash-backed when configured. Audit finding APP-11.
+const LOGIN_RATE_LIMIT = { windowMs: 60_000, maxRequests: 5 } as const;
 
 interface LoginOk {
   ok: true;
@@ -28,7 +33,7 @@ interface LoginOk {
 
 interface LoginErr {
   ok: false;
-  reason: "unauthorized" | "not_configured" | "bad_request";
+  reason: "unauthorized" | "not_configured" | "bad_request" | "rate_limited";
   error?: string;
 }
 
@@ -47,6 +52,26 @@ function configured(): {
 export async function POST(
   request: NextRequest,
 ): Promise<NextResponse<LoginOk | LoginErr>> {
+  // Rate-limit BEFORE config gate so probing a misconfigured deploy still
+  // counts toward the per-IP budget. The constant-time comparison below
+  // already protects timing; this protects volume.
+  const rate = await checkRateLimitAsync(request, LOGIN_RATE_LIMIT);
+  if (!rate.allowed) {
+    return NextResponse.json(
+      {
+        ok: false,
+        reason: "rate_limited",
+        error: "too many login attempts; try again shortly",
+      },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(Math.ceil(rate.retryAfterMs / 1000)),
+        },
+      },
+    );
+  }
+
   const config = configured();
   if (!config) {
     return NextResponse.json(

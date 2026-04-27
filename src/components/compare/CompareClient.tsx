@@ -33,6 +33,7 @@ import {
   Plus,
 } from "lucide-react";
 import { useCompareStore } from "@/lib/store";
+import { useCompareRepos } from "@/hooks/useCompareRepos";
 import { CompareSelector } from "@/components/compare/CompareSelector";
 import { RepoBannerCard } from "@/components/compare/RepoBannerCard";
 import { CompareHeatmap } from "@/components/compare/CompareHeatmap";
@@ -141,11 +142,28 @@ export interface CompareClientProps {
 
 export function CompareClient({ embedded = false }: CompareClientProps = {}) {
   const repoIds = useCompareStore((s) => s.repos);
-  const [repos, setRepos] = useState<Repo[]>([]);
   const [bundles, setBundles] = useState<CompareRepoBundle[]>([]);
-  const [reposLoading, setReposLoading] = useState(false);
   const [bundlesLoading, setBundlesLoading] = useState(false);
   const [hasHydrated, setHasHydrated] = useState(false);
+  // UI-06: shared `/api/repos` fetcher with cross-component dedup.
+  // Replaces a private fetch + Repo[] state that mirrored
+  // CompareProfileGrid's identical fetch on /compare.
+  const { repos, loading: reposLoading } = useCompareRepos(
+    repoIds,
+    hasHydrated,
+  );
+  const reposById = useMemo(() => {
+    const map = new Map<string, Repo>();
+    for (const r of repos) map.set(r.id, r);
+    return map;
+  }, [repos]);
+  const orderedRepos = useMemo(
+    () =>
+      repoIds
+        .map((id) => reposById.get(id))
+        .filter((r): r is Repo => r !== undefined),
+    [repoIds, reposById],
+  );
 
   useEffect(() => {
     // Only own the tab title in page mode; embedded mode is a section
@@ -168,50 +186,23 @@ export function CompareClient({ embedded = false }: CompareClientProps = {}) {
     return unsubscribe;
   }, []);
 
-  // --- Dual fetch: /api/repos and /api/compare ------------------------
+  // --- Bundle fetch: `/api/compare/github` ----------------------------
+  // UI-06: the legacy `/api/repos` fetch lives in useCompareRepos now.
+  // Only the `/api/compare/github` rich-bundle fetch is owned here.
   useEffect(() => {
     if (!hasHydrated) {
-      setReposLoading(true);
       setBundlesLoading(true);
       return;
     }
     if (repoIds.length === 0) {
-      setRepos([]);
       setBundles([]);
-      setReposLoading(false);
       setBundlesLoading(false);
       return;
     }
 
     const controller = new AbortController();
-    setReposLoading(true);
     setBundlesLoading(true);
     setBundles([]);
-
-    // Fetch 1: legacy Repo[] for CompareChart.
-    (async () => {
-      try {
-        const res = await fetch(
-          `/api/repos?ids=${encodeURIComponent(repoIds.join(","))}`,
-          { signal: controller.signal },
-        );
-        if (!res.ok) throw new Error(`status ${res.status}`);
-        const data = (await res.json()) as { repos?: Repo[] };
-        const byId = new Map(
-          (Array.isArray(data.repos) ? data.repos : []).map((r) => [r.id, r]),
-        );
-        const ordered = repoIds
-          .map((id) => byId.get(id))
-          .filter((r): r is Repo => r !== undefined);
-        setRepos(ordered);
-      } catch (err) {
-        if ((err as { name?: string }).name === "AbortError") return;
-        console.error("[compare] /api/repos failed", err);
-        setRepos([]);
-      } finally {
-        setReposLoading(false);
-      }
-    })();
 
     // Fetch 2: rich GitHub bundle from `/api/compare/github`. The route
     // accepts owner/name; store IDs are owner--name — normalize via
@@ -251,8 +242,8 @@ export function CompareClient({ embedded = false }: CompareClientProps = {}) {
   }, [bundles]);
 
   const selectedFullNames = useMemo(
-    () => resolveCompareFullNames(repoIds, repos),
-    [repoIds, repos],
+    () => resolveCompareFullNames(repoIds, orderedRepos),
+    [repoIds, orderedRepos],
   );
 
   // Ordered bundles mirroring selector order. Prefer the API response slot
@@ -340,10 +331,10 @@ export function CompareClient({ embedded = false }: CompareClientProps = {}) {
          ------------------------------------------------------------- */}
       <section aria-label="Star activity">
         <h2 className="label-section mb-3">STAR ACTIVITY · 30 DAYS</h2>
-        {isLoading && repos.length < 2 ? (
+        {isLoading && orderedRepos.length < 2 ? (
           <div className="skeleton-shimmer rounded-card h-[300px] w-full" />
-        ) : repos.length >= 2 ? (
-          <CompareChart repos={repos} />
+        ) : orderedRepos.length >= 2 ? (
+          <CompareChart repos={orderedRepos} />
         ) : (
           <EmptyPanel message="Need at least 2 resolved repos to render the chart." />
         )}

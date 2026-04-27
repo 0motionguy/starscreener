@@ -21,6 +21,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { GitCompareArrows, Plus } from "lucide-react";
 import { useCompareStore } from "@/lib/store";
+import { useCompareRepos } from "@/hooks/useCompareRepos";
 import { slugToId } from "@/lib/utils";
 import { CompareSelector } from "@/components/compare/CompareSelector";
 import { RepoProfileColumn } from "@/components/compare/RepoProfileColumn";
@@ -112,10 +113,12 @@ export function CompareProfileGrid() {
   const addRepo = useCompareStore((s) => s.addRepo);
   const clearAll = useCompareStore((s) => s.clearAll);
   const searchParams = useSearchParams();
-  const [repos, setRepos] = useState<Repo[]>([]);
   const [rows, setRows] = useState<CompareRepoRow[]>([]);
   const [loading, setLoading] = useState(false);
   const [hasHydrated, setHasHydrated] = useState(false);
+  // UI-06: shared `/api/repos` fetcher with cross-component dedup.
+  // Replaces a private fetch + Repo[] state that mirrored CompareClient.
+  const { repos } = useCompareRepos(repoIds, hasHydrated);
 
   useEffect(() => {
     document.title = "Compare Repos - TrendingRepo";
@@ -161,31 +164,10 @@ export function CompareProfileGrid() {
     return unsubscribe;
   }, []);
 
-  // Hydrate `Repo[]` for fullName resolution (store holds ids like
-  // `owner--name`; `/api/compare?repos=` needs owner/name).
-  useEffect(() => {
-    if (!hasHydrated || repoIds.length === 0) {
-      setRepos([]);
-      return;
-    }
-    const controller = new AbortController();
-    (async () => {
-      try {
-        const res = await fetch(
-          `/api/repos?ids=${encodeURIComponent(repoIds.join(","))}`,
-          { signal: controller.signal },
-        );
-        if (!res.ok) throw new Error(`status ${res.status}`);
-        const data = (await res.json()) as { repos?: Repo[] };
-        setRepos(Array.isArray(data.repos) ? data.repos : []);
-      } catch (err) {
-        if ((err as { name?: string }).name === "AbortError") return;
-        console.error("[compare] /api/repos failed", err);
-        setRepos([]);
-      }
-    })();
-    return () => controller.abort();
-  }, [hasHydrated, repoIds]);
+  // Repo[] for fullName resolution lives in the shared useCompareRepos
+  // hook above (UI-06). The store holds ids like `owner--name`;
+  // `/api/compare?repos=` needs owner/name, so the resolved Repo[]
+  // gets fed into resolveCompareFullNames below.
 
   const selectedFullNames = useMemo(
     () => resolveCompareFullNames(repoIds, repos),

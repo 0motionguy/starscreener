@@ -87,6 +87,12 @@ class InMemoryTwitterStore {
   private repoSignals = new Map<string, TwitterRepoSignal>();
   private repoSignalsByFullName = new Map<string, string>();
   private scans = new Map<string, TwitterScanRecord>();
+  // Per-repo scan-id index. Maintained alongside `scans` so list/prune
+  // operations don't have to walk the entire scans map. Audit LIB-04:
+  // pruneScansForRepo was O(N log N) per upsert because listScansForRepo
+  // sorted the full corpus before filtering by repoId. With this index,
+  // pruning walks only the affected repo's bucket.
+  private scansByRepo = new Map<string, Set<string>>();
   private auditLogs = new Map<string, TwitterIngestionAuditLog>();
   private dirty = false;
 
@@ -113,7 +119,21 @@ class InMemoryTwitterStore {
   }
 
   upsertScan(scan: TwitterScanRecord): void {
+    // Defensive: if a scanId is being reassigned to a different repo
+    // (shouldn't happen — scanId is server-assigned and stable — but
+    // a buggy ingest could drift), drop the old bucket entry first so
+    // the index doesn't accumulate stale references.
+    const existing = this.scans.get(scan.scanId);
+    if (existing && existing.repo.repoId !== scan.repo.repoId) {
+      this.scansByRepo.get(existing.repo.repoId)?.delete(scan.scanId);
+    }
     this.scans.set(scan.scanId, scan);
+    let bucket = this.scansByRepo.get(scan.repo.repoId);
+    if (!bucket) {
+      bucket = new Set();
+      this.scansByRepo.set(scan.repo.repoId, bucket);
+    }
+    bucket.add(scan.scanId);
     this.pruneScansForRepo(scan.repo.repoId);
     this.dirty = true;
     scheduleTwitterPersist();
@@ -134,9 +154,20 @@ class InMemoryTwitterStore {
   }
 
   listScansForRepo(repoId: string, limit = MAX_SCANS_PER_REPO): TwitterScanRecord[] {
-    return this.listScans()
-      .filter((scan) => scan.repo.repoId === repoId)
-      .slice(0, Math.max(0, limit));
+    // Walk only the per-repo bucket — typical bucket size is tiny (single
+    // double digits), so the local sort is cheap and we avoid the O(N log N)
+    // full-corpus sort that the old `listScans().filter(...)` form did.
+    const bucket = this.scansByRepo.get(repoId);
+    if (!bucket || bucket.size === 0) return [];
+    const out: TwitterScanRecord[] = [];
+    for (const scanId of bucket) {
+      const scan = this.scans.get(scanId);
+      if (scan) out.push(scan);
+    }
+    out.sort((a, b) =>
+      a.completedAt < b.completedAt ? 1 : a.completedAt > b.completedAt ? -1 : 0,
+    );
+    return out.slice(0, Math.max(0, limit));
   }
 
   upsertAuditLog(entry: TwitterIngestionAuditLog): void {
@@ -161,19 +192,32 @@ class InMemoryTwitterStore {
   }
 
   private pruneScansForRepo(repoId: string): void {
+    // Walks the per-repo bucket only (typically a small Set). Deletes
+    // age-expired scans from both the main map and the bucket index so
+    // the two stay in lockstep.
+    //
+    // Note: MAX_SCANS_PER_REPO = MAX_SAFE_INTEGER intentionally — the
+    // age check is the real cap. The "exceedsCap" branch from the prior
+    // implementation was unreachable; keeping it would have required an
+    // ordered structure here. Drop it.
+    const bucket = this.scansByRepo.get(repoId);
+    if (!bucket || bucket.size === 0) return;
     const now = Date.now();
-    const scans = this.listScansForRepo(repoId, Number.MAX_SAFE_INTEGER);
-
-    for (let i = 0; i < scans.length; i++) {
-      const scan = scans[i];
+    for (const scanId of bucket) {
+      const scan = this.scans.get(scanId);
+      if (!scan) {
+        // Phantom entry — can't happen with the upsert/hydrate paths but
+        // keep the index clean if it ever does.
+        bucket.delete(scanId);
+        continue;
+      }
       const completedMs = Date.parse(scan.completedAt);
-      const isTooOld =
-        Number.isFinite(completedMs) && now - completedMs > MAX_SCAN_AGE_MS;
-      const exceedsCap = i >= MAX_SCANS_PER_REPO;
-      if (isTooOld || exceedsCap) {
-        this.scans.delete(scan.scanId);
+      if (Number.isFinite(completedMs) && now - completedMs > MAX_SCAN_AGE_MS) {
+        this.scans.delete(scanId);
+        bucket.delete(scanId);
       }
     }
+    if (bucket.size === 0) this.scansByRepo.delete(repoId);
   }
 
   private pruneAuditLogs(): void {
@@ -208,6 +252,7 @@ class InMemoryTwitterStore {
     this.repoSignals.clear();
     this.repoSignalsByFullName.clear();
     this.scans.clear();
+    this.scansByRepo.clear();
     this.auditLogs.clear();
 
     const [repoSignals, scans, auditLogs] = await Promise.all([
@@ -236,6 +281,15 @@ class InMemoryTwitterStore {
 
     for (const scan of scans) {
       this.scans.set(scan.scanId, scan);
+      // Rebuild the per-repo index alongside the main map so post-hydrate
+      // listScansForRepo / pruneScansForRepo don't have to walk the full
+      // corpus on first access.
+      let bucket = this.scansByRepo.get(scan.repo.repoId);
+      if (!bucket) {
+        bucket = new Set();
+        this.scansByRepo.set(scan.repo.repoId, bucket);
+      }
+      bucket.add(scan.scanId);
     }
 
     for (const auditLog of auditLogs) {
@@ -265,6 +319,7 @@ class InMemoryTwitterStore {
     this.repoSignals.clear();
     this.repoSignalsByFullName.clear();
     this.scans.clear();
+    this.scansByRepo.clear();
     this.auditLogs.clear();
     this.dirty = false;
   }

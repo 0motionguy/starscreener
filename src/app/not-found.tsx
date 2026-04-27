@@ -1,38 +1,70 @@
 import Link from "next/link";
-import { cn } from "@/lib/utils";
 import { ROUTES } from "@/lib/constants";
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-4">
+    <div
+      className="v2-frame"
+      style={{
+        minHeight: "70vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 24,
+      }}
+    >
+      <p className="v2-mono" style={{ color: "var(--v2-ink-300)" }}>
+        <span aria-hidden>{"// "}</span>
+        NO SIGNAL · 404 · PATH NOT IN REGISTRY
+      </p>
+
       <p
-        className={cn(
-          "font-mono font-bold text-8xl md:text-9xl",
-          "text-text-muted select-none"
-        )}
+        className="v2-display"
+        style={{
+          fontSize: "clamp(96px, 18vw, 240px)",
+          color: "var(--v2-ink-500)",
+          letterSpacing: "var(--v2-tracking-display)",
+          fontWeight: 300,
+          lineHeight: 1,
+          userSelect: "none",
+        }}
       >
         404
       </p>
 
-      <h1 className="mt-4 text-xl md:text-2xl font-semibold text-text-primary">
-        Page not found
-      </h1>
+      <pre
+        aria-hidden
+        className="v2-ascii"
+        style={{
+          color: "var(--v2-ink-400)",
+          fontSize: 11,
+          lineHeight: 1.2,
+          margin: 0,
+          textAlign: "center",
+          opacity: 0.6,
+        }}
+      >
+{`░ ░ ░  ░  ░░░ ░ ░    ░ ░ ░░ ░  ░░░░ ░ ░
+  ░░ ░ ░ ░░  ░ ░  ░ ░ ░░ ░ ░ ░░ ░░ ░  ░
+░  ░  ░░ ░░  ░ ░ ░░  ░  ░ ░░ ░  ░  ░ ░░░`}
+      </pre>
 
-      <p className="mt-2 text-sm text-text-tertiary text-center max-w-md">
-        The page you are looking for does not exist or has been moved.
+      <p
+        style={{
+          color: "var(--v2-ink-200)",
+          fontSize: 14,
+          textAlign: "center",
+          maxWidth: 480,
+        }}
+      >
+        The path you requested does not resolve in the trendingrepo registry.
+        Either it was never indexed or it has been retired.
       </p>
 
-      <Link
-        href={ROUTES.HOME}
-        className={cn(
-          "mt-8 inline-flex items-center gap-2",
-          "px-5 py-2.5 rounded-button",
-          "bg-accent-green text-bg-primary",
-          "font-medium text-sm",
-          "hover:opacity-90 transition-opacity"
-        )}
-      >
-        Back to Home
+      <Link href={ROUTES.HOME} className="v2-btn v2-btn-primary">
+        <span aria-hidden>{"→ "}</span>
+        back to terminal
       </Link>
     </div>
   );

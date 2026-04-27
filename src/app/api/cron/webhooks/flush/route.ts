@@ -52,6 +52,8 @@ import {
   type DiscordPayload,
 } from "@/lib/webhooks/providers/discord";
 
+export const runtime = "nodejs";
+
 // ---------------------------------------------------------------------------
 // Tunables
 // ---------------------------------------------------------------------------

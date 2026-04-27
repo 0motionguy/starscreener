@@ -23,6 +23,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { verifyUserAuth } from "@/lib/api/auth";
 import { recordUsage } from "@/lib/mcp/usage";
 
+export const runtime = "nodejs";
+
 interface RecordCallBody {
   tool?: unknown;
   tokenUsed?: unknown;

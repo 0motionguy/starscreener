@@ -18,6 +18,8 @@ import {
   type IdeaRecord,
 } from "@/lib/ideas";
 
+export const runtime = "nodejs";
+
 const ModerateIdeaSchema = z.object({
   id: z.string().trim().min(1, "id is required"),
   action: z.enum(["approve", "reject"]),

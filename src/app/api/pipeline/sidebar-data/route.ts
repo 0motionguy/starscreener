@@ -27,6 +27,8 @@ import { getDerivedRepos } from "@/lib/derived-repos";
 import type { MetaCounts, MovementStatus } from "@/lib/types";
 import type { CategoryStats } from "@/lib/pipeline/queries/aggregate";
 
+export const runtime = "nodejs";
+
 export interface SidebarDataRepo {
   id: string;
   fullName: string;

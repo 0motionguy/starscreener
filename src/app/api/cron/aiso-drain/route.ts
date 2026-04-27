@@ -65,6 +65,8 @@ import {
 } from "@/lib/aiso-queue";
 import { getAisoToolsScan, type AisoToolsScan } from "@/lib/aiso-tools";
 
+export const runtime = "nodejs";
+
 // ---------------------------------------------------------------------------
 // Config
 // ---------------------------------------------------------------------------

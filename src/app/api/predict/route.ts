@@ -26,6 +26,8 @@ import {
 } from "@/lib/predictions";
 import { normalizeRepoReference } from "@/lib/repo-submissions";
 
+export const runtime = "nodejs";
+
 interface PredictItem {
   horizonDays: PredictionHorizonDays;
   prediction: PredictionRecord | null;

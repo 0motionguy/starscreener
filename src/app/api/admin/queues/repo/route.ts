@@ -11,6 +11,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { adminAuthFailureResponse, verifyAdminAuth } from "@/lib/api/auth";
 import { readQueue } from "@/lib/aiso-queue";
 
+export const runtime = "nodejs";
+
 export const dynamic = "force-dynamic";
 
 interface ListResponse {

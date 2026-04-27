@@ -31,6 +31,8 @@ import {
 } from "@/lib/stripe/events";
 import { acquireStripeEventLock } from "@/lib/stripe/idempotency";
 
+export const runtime = "nodejs";
+
 // setUserTier is now a static import from `@/lib/pricing/user-tiers`. Earlier
 // versions of this file used a dynamic-import stub guard while that module
 // was being landed in parallel — that guard silently 200-ed every Stripe

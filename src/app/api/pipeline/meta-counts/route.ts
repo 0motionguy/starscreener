@@ -8,6 +8,8 @@ import { NextResponse } from "next/server";
 import { getDerivedMetaCounts } from "@/lib/derived-insights";
 import type { MetaCounts } from "@/lib/types";
 
+export const runtime = "nodejs";
+
 export interface MetaCountsResponse {
   counts: MetaCounts;
 }

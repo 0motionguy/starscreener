@@ -44,6 +44,8 @@ import {
   refreshRepoMetadataFromStore,
 } from "@/lib/repo-metadata";
 
+export const runtime = "nodejs";
+
 // ---------------------------------------------------------------------------
 // Constants
 // ---------------------------------------------------------------------------

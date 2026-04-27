@@ -25,6 +25,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { pipeline } from "@/lib/pipeline/pipeline";
 import { checkRateLimitAsync } from "@/lib/api/rate-limit";
 
+export const runtime = "nodejs";
+
 export interface RefreshResponse {
   ok: true;
   scheduledAt: number;

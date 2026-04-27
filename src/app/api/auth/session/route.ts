@@ -29,6 +29,8 @@ import {
 } from "@/lib/api/session";
 import { getUserTierRecord } from "@/lib/pricing/user-tiers";
 
+export const runtime = "nodejs";
+
 // Keep in sync with SESSION_MAX_AGE_MS in session.ts (30 days, in seconds).
 const SESSION_MAX_AGE_SECONDS = 30 * 24 * 60 * 60;
 

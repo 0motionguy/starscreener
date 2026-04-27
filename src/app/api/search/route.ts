@@ -39,6 +39,8 @@ import {
 import { getFundingEventsForRepo } from "@/lib/funding/repo-events";
 import type { RevenueTier } from "@/lib/types";
 
+export const runtime = "nodejs";
+
 // ---------------------------------------------------------------------------
 // Legacy sort translation
 //

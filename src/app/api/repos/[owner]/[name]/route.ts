@@ -41,6 +41,8 @@ import { buildCanonicalRepoProfile } from "@/lib/api/repo-profile";
 import { refreshRepoMetadataFromStore } from "@/lib/repo-metadata";
 import { refreshNpmFromStore } from "@/lib/npm";
 
+export const runtime = "nodejs";
+
 const SLUG_PART_PATTERN = /^[A-Za-z0-9._-]+$/;
 
 interface ErrorEnvelope {

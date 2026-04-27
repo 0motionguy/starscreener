@@ -48,6 +48,8 @@ import {
   type DeltaCoverageQuality,
 } from "@/lib/trending";
 
+export const runtime = "nodejs";
+
 const RANKINGS_STALE_THRESHOLD_MS = 12 * 60 * 60 * 1000;
 const COVERAGE_WARN_PCT = 50;
 

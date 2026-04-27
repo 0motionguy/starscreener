@@ -23,6 +23,8 @@ import type {
   TimeRange,
 } from "@/lib/types";
 
+export const runtime = "nodejs";
+
 const KNOWN_META_FILTERS: ReadonlyArray<MetaFilter> = [
   "hot",
   "breakouts",

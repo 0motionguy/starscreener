@@ -18,6 +18,8 @@ import {
   type RevenueSubmissionResult,
 } from "@/lib/revenue-submissions";
 
+export const runtime = "nodejs";
+
 interface RevenueSubmissionsListResponse {
   ok: true;
   submissions: PublicRevenueSubmission[];

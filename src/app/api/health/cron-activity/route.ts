@@ -26,6 +26,8 @@ import {
   type CronActivitySummary,
 } from "@/lib/observability/cron-activity";
 
+export const runtime = "nodejs";
+
 interface CronActivityResponse {
   entries: CronActivityEntry[];
   summary: CronActivitySummary;

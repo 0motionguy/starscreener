@@ -31,6 +31,8 @@ import type {
   WebhookFundingEvent,
 } from "@/lib/webhooks/types";
 
+export const runtime = "nodejs";
+
 const BREAKOUT_COMMIT_WINDOW_HOURS = 6;
 const FUNDING_WINDOW_HOURS = 48;
 

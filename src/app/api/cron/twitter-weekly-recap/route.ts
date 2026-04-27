@@ -21,6 +21,8 @@ import { recordOutboundRun } from "@/lib/twitter/outbound/audit";
 import { selectOutboundAdapter } from "@/lib/twitter/outbound/adapters";
 import { composeWeeklyRecap } from "@/lib/twitter/outbound/composer";
 
+export const runtime = "nodejs";
+
 interface WeeklyResponse {
   ok: true;
   adapter: string;

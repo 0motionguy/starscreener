@@ -3,6 +3,8 @@ import { getTwitterRepoPanel } from "@/lib/twitter/service";
 import { READ_CACHE_HEADERS } from "@/lib/api/cache";
 import { checkRateLimitAsync } from "@/lib/api/rate-limit";
 
+export const runtime = "nodejs";
+
 const SLUG_PART_PATTERN = /^[A-Za-z0-9._-]+$/;
 
 export async function GET(

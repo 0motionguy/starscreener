@@ -26,6 +26,8 @@ import {
   type UserReactionState,
 } from "@/lib/reactions";
 
+export const runtime = "nodejs";
+
 export interface ReactionsGetResponse {
   ok: true;
   objectType: string;

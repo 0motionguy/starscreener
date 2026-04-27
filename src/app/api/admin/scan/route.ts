@@ -22,6 +22,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { adminAuthFailureResponse, verifyAdminAuth } from "@/lib/api/auth";
 
+export const runtime = "nodejs";
+
 export const dynamic = "force-dynamic";
 
 const SCRIPTS: Record<string, string> = {

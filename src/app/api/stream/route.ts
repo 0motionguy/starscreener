@@ -28,6 +28,7 @@ import {
 } from "@/lib/pipeline/events";
 
 export const runtime = "nodejs";
+
 export const dynamic = "force-dynamic";
 
 const HEARTBEAT_MS = (() => {

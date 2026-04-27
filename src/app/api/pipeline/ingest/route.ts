@@ -14,6 +14,8 @@ import { getExtendedSocialAdapters } from "@/lib/pipeline/adapters/extended-soci
 import type { IngestBatchResult, SocialAdapter } from "@/lib/pipeline/types";
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 
+export const runtime = "nodejs";
+
 const FULL_NAME_PATTERN = /^[A-Za-z0-9._-]+\/[A-Za-z0-9._-]+$/;
 const MAX_BATCH_SIZE = 50;
 

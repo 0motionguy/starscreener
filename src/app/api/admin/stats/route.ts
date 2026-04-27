@@ -21,6 +21,8 @@ import { collectionRankingsFetchedAt } from "@/lib/collection-rankings";
 import { recentReposFetchedAt } from "@/lib/recent-repos";
 import { repoMetadataFetchedAt } from "@/lib/repo-metadata";
 
+export const runtime = "nodejs";
+
 export const dynamic = "force-dynamic";
 
 // status/route.ts inlines this constant; replicate locally rather than reach

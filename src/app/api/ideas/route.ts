@@ -28,6 +28,8 @@ import {
   type ReactionCounts,
 } from "@/lib/reactions";
 
+export const runtime = "nodejs";
+
 interface IdeaWithCounts extends PublicIdea {
   reactionCounts: ReactionCounts;
   hotScore?: number;

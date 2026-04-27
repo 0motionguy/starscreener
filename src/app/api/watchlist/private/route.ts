@@ -37,6 +37,8 @@ import {
   type PrivateWatchlistEntry,
 } from "@/lib/watchlist/private-store";
 
+export const runtime = "nodejs";
+
 // ---------------------------------------------------------------------------
 // Headers
 // ---------------------------------------------------------------------------

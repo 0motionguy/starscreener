@@ -13,6 +13,8 @@ import {
   type RepoSubmissionResult,
 } from "@/lib/repo-submissions";
 
+export const runtime = "nodejs";
+
 interface RepoSubmissionsListResponse {
   ok: true;
   queue: RepoSubmissionQueueSummary;

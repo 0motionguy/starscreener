@@ -43,6 +43,8 @@ import { PREDICTIONS_FILE } from "@/lib/repo-predictions";
 import { mutateJsonlFile } from "@/lib/pipeline/storage/file-persistence";
 import type { Repo } from "@/lib/types";
 
+export const runtime = "nodejs";
+
 interface SuccessResponse {
   ok: true;
   repos: number;

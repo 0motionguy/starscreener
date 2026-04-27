@@ -19,6 +19,8 @@ import {
   type RevenueSubmissionRecord,
 } from "@/lib/revenue-submissions";
 
+export const runtime = "nodejs";
+
 const ModerateRevenueSchema = z.object({
   id: z.string().trim().min(1, "id is required"),
   action: z.enum(["approve", "reject"]),

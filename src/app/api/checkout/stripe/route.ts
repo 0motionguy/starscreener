@@ -37,6 +37,8 @@ import {
   resolvePriceId,
 } from "@/lib/stripe/client";
 
+export const runtime = "nodejs";
+
 interface CheckoutRequestBody {
   tier?: unknown;
   cadence?: unknown;

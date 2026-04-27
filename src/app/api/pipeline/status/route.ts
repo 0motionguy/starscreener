@@ -43,6 +43,8 @@ import {
 } from "@/lib/source-health";
 import { getDerivedRepoCount, getDerivedRepos } from "@/lib/derived-repos";
 
+export const runtime = "nodejs";
+
 const RANKINGS_STALE_THRESHOLD_MS = 12 * 60 * 60 * 1000;
 
 export interface PipelineStatusResponse {

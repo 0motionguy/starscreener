@@ -34,6 +34,8 @@ import type { PredictionRow } from "@/lib/predictions-writer";
 import { PREDICTIONS_FILE } from "@/lib/repo-predictions";
 import { mutateJsonlFile } from "@/lib/pipeline/storage/file-persistence";
 
+export const runtime = "nodejs";
+
 interface SuccessResponse {
   ok: true;
   /** Total rows read from the jsonl. */

@@ -24,6 +24,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import { rotateUsage } from "@/lib/mcp/usage";
 
+export const runtime = "nodejs";
+
 const RESPONSE_HEADERS = {
   "Cache-Control": "no-store",
 } as const;

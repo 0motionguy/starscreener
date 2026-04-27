@@ -12,6 +12,8 @@ import {
   type ReactionCounts,
 } from "@/lib/reactions";
 
+export const runtime = "nodejs";
+
 interface IdeaDetailResponse {
   ok: true;
   idea: ReturnType<typeof toPublicIdea>;

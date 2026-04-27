@@ -6,6 +6,8 @@ import {
   isTwitterIngestError,
 } from "@/lib/twitter/service";
 
+export const runtime = "nodejs";
+
 function apiErrorResponse(
   status: number,
   code: string,

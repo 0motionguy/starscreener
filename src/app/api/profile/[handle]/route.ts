@@ -10,6 +10,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { serverError } from "@/lib/api/error-response";
 import { getProfile, type Profile } from "@/lib/profile";
 
+export const runtime = "nodejs";
+
 interface ProfileResponse {
   ok: true;
   profile: Profile;

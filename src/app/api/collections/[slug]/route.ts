@@ -17,6 +17,8 @@ import {
   type CollectionRankingRow,
 } from "@/lib/collection-rankings";
 
+export const runtime = "nodejs";
+
 function parseLimit(value: string | null): number {
   const parsed = Number.parseInt(value ?? "25", 10);
   if (!Number.isFinite(parsed)) return 25;

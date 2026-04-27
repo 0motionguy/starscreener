@@ -12,6 +12,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import { getFreshnessSnapshot } from "@/lib/source-health";
 
+export const runtime = "nodejs";
+
 const SLUG_PART_PATTERN = /^[A-Za-z0-9._-]+$/;
 
 const FRESHNESS_CACHE_HEADERS = {

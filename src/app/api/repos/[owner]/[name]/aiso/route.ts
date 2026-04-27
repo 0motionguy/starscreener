@@ -44,6 +44,8 @@ import type {
   AisoToolsScan,
 } from "@/lib/aiso-tools";
 
+export const runtime = "nodejs";
+
 const SLUG_PART_PATTERN = /^[A-Za-z0-9._-]+$/;
 
 const GET_CACHE_HEADERS = {

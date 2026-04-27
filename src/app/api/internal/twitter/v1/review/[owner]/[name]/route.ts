@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import { getTwitterAdminReview } from "@/lib/twitter/service";
 
+export const runtime = "nodejs";
+
 const SLUG_PART_PATTERN = /^[A-Za-z0-9._-]+$/;
 
 export async function GET(

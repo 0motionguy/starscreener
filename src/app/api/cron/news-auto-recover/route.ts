@@ -27,6 +27,8 @@ import { lobstersFetchedAt } from "@/lib/lobsters";
 import { producthuntFetchedAt } from "@/lib/producthunt";
 import { getRedditFetchedAt } from "@/lib/reddit-data";
 
+export const runtime = "nodejs";
+
 export const dynamic = "force-dynamic";
 
 const NO_STORE_HEADERS = { "Cache-Control": "no-store" } as const;

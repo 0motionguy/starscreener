@@ -18,6 +18,8 @@ import {
 } from "@/lib/pipeline/storage/file-persistence";
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 
+export const runtime = "nodejs";
+
 export interface PersistResponse {
   ok: true;
   enabled: boolean;

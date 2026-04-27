@@ -7,6 +7,8 @@ import {
 import { READ_CACHE_HEADERS } from "@/lib/api/cache";
 import { checkRateLimitAsync } from "@/lib/api/rate-limit";
 
+export const runtime = "nodejs";
+
 type TwitterLeaderboardMode = "trending" | "global";
 
 function parseMode(value: string | null): TwitterLeaderboardMode | null {

@@ -10,6 +10,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { buildManifest } from "@/portal/manifest";
 import { validateManifest } from "@/portal/validate";
 
+export const runtime = "nodejs";
+
 interface HealthBody {
   ok: boolean;
   manifest_valid: boolean;

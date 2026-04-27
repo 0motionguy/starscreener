@@ -30,6 +30,7 @@ import {
 } from "@/lib/github-compare";
 
 export const runtime = "nodejs";
+
 export const dynamic = "force-dynamic";
 
 const MAX_REPOS = 4;

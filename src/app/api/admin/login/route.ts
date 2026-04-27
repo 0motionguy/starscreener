@@ -20,6 +20,8 @@ import {
 } from "@/lib/api/admin-session";
 import { checkRateLimitAsync } from "@/lib/api/rate-limit";
 
+export const runtime = "nodejs";
+
 export const dynamic = "force-dynamic";
 
 // Brute-force lockout. 5 attempts per IP per minute. Cross-instance because

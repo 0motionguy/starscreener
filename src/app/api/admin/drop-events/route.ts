@@ -16,6 +16,8 @@ import {
   type DropEventSummary,
 } from "@/lib/drop-events";
 
+export const runtime = "nodejs";
+
 export const dynamic = "force-dynamic";
 
 const DEFAULT_DAYS = 7;

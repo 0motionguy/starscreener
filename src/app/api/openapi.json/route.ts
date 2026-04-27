@@ -20,6 +20,7 @@ import path from "node:path";
 import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
+
 // The spec reads from the repo-rooted `docs/openapi.json`; that file is not
 // a Next.js asset so we need the nodejs runtime (edge has no fs access).
 // Keep this as a lambda: Vercel can fail to package static API routes that

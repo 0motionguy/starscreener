@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Eye, Star, Trash2, ArrowRight } from "lucide-react";
 import { useWatchlistStore } from "@/lib/store";
 import { cn, formatNumber, getRelativeTime } from "@/lib/utils";
@@ -136,11 +136,19 @@ export function WatchlistManager() {
   const [reposById, setReposById] = useState<Record<string, Repo>>({});
   const [loading, setLoading] = useState(false);
 
+  // Stable refetch key — sorted, joined repoIds. Using `watchlist` directly
+  // would refetch on every parent re-render because the store returns a
+  // fresh array reference even when contents are unchanged.
+  const repoIdKey = useMemo(
+    () => watchlist.map((w) => w.repoId).sort().join(","),
+    [watchlist],
+  );
+
   // Hydrate repos via the live /api/repos?ids=a,b,c endpoint whenever the
   // watchlist ID list changes. We keep the results keyed by id so removing
   // and re-adding a repo doesn't force a second round-trip.
   useEffect(() => {
-    if (watchlist.length === 0) {
+    if (repoIdKey === "") {
       setReposById({});
       setLoading(false);
       return;
@@ -149,9 +157,8 @@ export function WatchlistManager() {
     setLoading(true);
     (async () => {
       try {
-        const ids = watchlist.map((w) => w.repoId).join(",");
         const res = await fetch(
-          `/api/repos?ids=${encodeURIComponent(ids)}`,
+          `/api/repos?ids=${encodeURIComponent(repoIdKey)}`,
           { signal: controller.signal },
         );
         if (!res.ok) throw new Error(`status ${res.status}`);
@@ -169,7 +176,7 @@ export function WatchlistManager() {
       }
     })();
     return () => controller.abort();
-  }, [watchlist]);
+  }, [repoIdKey]);
 
   if (watchlist.length === 0) {
     return <EmptyWatchlist />;

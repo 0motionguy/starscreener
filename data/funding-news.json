@@ -1,8 +1,41 @@
 {
-  "fetchedAt": "2026-04-27T01:57:47.625Z",
+  "fetchedAt": "2026-04-27T08:07:25.111Z",
   "source": "funding-news-scraper",
   "windowDays": 21,
   "signals": [
+    {
+      "id": "tech.eu-2bbb0270",
+      "headline": "Atech raises Pre-Seed to unlock a new era of Physical AI builders with the \"Lovable for hardware\"",
+      "description": "AI hardware startup Atech has raised a Pre-Seed round with participation from Nordic Makers, Emblem, Lovable, Sequoia Scout Fund (Sequoia), and Andreessen Horowitz Scout Fund (A16z). Founded by Vladi...",
+      "sourceUrl": "https://tech.eu/2026/04/27/atech-raises-pre-seed-to-unlock-the-next-wave-of-physical-ai-builders/",
+      "sourcePlatform": "techeu",
+      "publishedAt": "2026-04-27T06:00:00.000Z",
+      "discoveredAt": "2026-04-27T08:07:25.111Z",
+      "extracted": {
+        "companyName": "Atech",
+        "companyWebsite": "https://atech.dev",
+        "companyLogoUrl": "https://logo.clearbit.com/atech.dev",
+        "amount": null,
+        "amountDisplay": "Undisclosed",
+        "currency": "USD",
+        "roundType": "pre-seed",
+        "investors": [
+          "platform"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "platform",
+            "isKnown": false,
+            "confidence": "medium"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai",
+        "hardware"
+      ]
+    },
     {
       "id": "techcrunch.com-1d9d7fa5",
       "headline": "India’s Snabbit seeks fresh funding at a $400M valuation, sources say",
@@ -10,7 +43,7 @@
       "sourceUrl": "https://techcrunch.com/2026/04/25/indias-snabbit-seeks-fresh-funding-at-a-400m-valuation-sources-say/",
       "sourcePlatform": "techcrunch",
       "publishedAt": "2026-04-25T14:57:26.000Z",
-      "discoveredAt": "2026-04-27T01:57:47.625Z",
+      "discoveredAt": "2026-04-27T08:07:25.111Z",
       "extracted": {
         "companyName": "India",
         "companyWebsite": null,
@@ -42,7 +75,7 @@
       "sourceUrl": "https://arstechnica.com/ai/2026/04/google-will-invest-as-much-as-40-billion-in-anthropic/",
       "sourcePlatform": "arstechnica",
       "publishedAt": "2026-04-24T22:05:45.000Z",
-      "discoveredAt": "2026-04-27T01:57:47.625Z",
+      "discoveredAt": "2026-04-27T08:07:25.111Z",
       "extracted": {
         "companyName": "Google",
         "companyWebsite": null,
@@ -72,7 +105,7 @@
       "sourceUrl": "https://techcrunch.com/2026/04/24/two-college-kids-raise-a-5-1-million-pre-seed-to-build-an-ai-social-network-in-imessage/",
       "sourcePlatform": "techcrunch",
       "publishedAt": "2026-04-24T21:05:59.000Z",
-      "discoveredAt": "2026-04-27T01:57:47.625Z",
+      "discoveredAt": "2026-04-27T08:07:25.111Z",
       "extracted": {
         "companyName": "Two college kids",
         "companyWebsite": null,
@@ -97,7 +130,7 @@
       "sourceUrl": "https://tech.eu/2026/04/24/verda-raises-117m-aleph-alpha-to-be-acquired-and-solving-the-quantum-bottleneck/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-24T14:22:23.000Z",
-      "discoveredAt": "2026-04-27T01:57:47.625Z",
+      "discoveredAt": "2026-04-27T08:07:25.111Z",
       "extracted": {
         "companyName": "Verda",
         "companyWebsite": null,
@@ -122,7 +155,7 @@
       "sourceUrl": "https://tech.eu/2026/04/24/aleph-alpha-to-be-acquired-by-cohere/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-24T09:55:00.000Z",
-      "discoveredAt": "2026-04-27T01:57:47.625Z",
+      "discoveredAt": "2026-04-27T08:07:25.111Z",
       "extracted": {
         "companyName": "Aleph Alpha",
         "companyWebsite": "https://aleph-alpha.com",
@@ -146,7 +179,7 @@
       "sourceUrl": "https://tech.eu/2026/04/24/verda-raises-117m-to-scale-ai-cloud-infrastructure-built-on-clean-nordic-power/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-24T08:05:05.000Z",
-      "discoveredAt": "2026-04-27T01:57:47.625Z",
+      "discoveredAt": "2026-04-27T08:07:25.111Z",
       "extracted": {
         "companyName": "Verda",
         "companyWebsite": "https://verda.com",
@@ -178,7 +211,7 @@
       "sourceUrl": "https://sifted.eu/articles/verda-raises-e100m-to-build-european-hyperscaler/",
       "sourcePlatform": "sifted",
       "publishedAt": "2026-04-24T08:00:53.000Z",
-      "discoveredAt": "2026-04-27T01:57:47.625Z",
+      "discoveredAt": "2026-04-27T08:07:25.111Z",
       "extracted": {
         "companyName": "Verda",
         "companyWebsite": null,
@@ -211,7 +244,7 @@
       "sourceUrl": "https://tech.eu/2026/04/24/sofia-based-quillon-raises-15m-for-audit-grade-ai-in-accounting/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-24T07:13:29.000Z",
-      "discoveredAt": "2026-04-27T01:57:47.625Z",
+      "discoveredAt": "2026-04-27T08:07:25.111Z",
       "extracted": {
         "companyName": "Sofia-based Quillon",
         "companyWebsite": null,
@@ -235,7 +268,7 @@
       "sourceUrl": "https://techcrunch.com/2026/04/23/era-computer-raises-11m-to-build-a-software-platform-for-ai-gadgets/",
       "sourcePlatform": "techcrunch",
       "publishedAt": "2026-04-23T16:00:00.000Z",
-      "discoveredAt": "2026-04-27T01:57:47.625Z",
+      "discoveredAt": "2026-04-27T08:07:25.111Z",
       "extracted": {
         "companyName": "Era",
         "companyWebsite": "https://era.world",
@@ -274,7 +307,7 @@
       "sourceUrl": "https://tech.eu/2026/04/23/thestorage-raises-eur36m-to-scale-industrial-thermal-energy-storage/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-23T11:06:02.000Z",
-      "discoveredAt": "2026-04-27T01:57:47.625Z",
+      "discoveredAt": "2026-04-27T08:07:25.111Z",
       "extracted": {
         "companyName": "TheStorage",
         "companyWebsite": null,
@@ -306,7 +339,7 @@
       "sourceUrl": "https://tech.eu/2026/04/23/berlin-based-vrey-raises-eur33m-to-unlock-shared-roof-solar/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-23T11:05:00.000Z",
-      "discoveredAt": "2026-04-27T01:57:47.625Z",
+      "discoveredAt": "2026-04-27T08:07:25.111Z",
       "extracted": {
         "companyName": "Berlin-based VREY",
         "companyWebsite": null,
@@ -340,7 +373,7 @@
       "sourceUrl": "https://tech.eu/2026/04/23/cloudsmith-raises-72m-series-c-to-secure-the-ai-era-software-supply-chain/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-23T08:00:00.000Z",
-      "discoveredAt": "2026-04-27T01:57:47.625Z",
+      "discoveredAt": "2026-04-27T08:07:25.111Z",
       "extracted": {
         "companyName": "Cloudsmith",
         "companyWebsite": null,
@@ -372,7 +405,7 @@
       "sourceUrl": "https://tech.eu/2026/04/23/wenite-secures-eur18-million-to-power-the-future-of-data-driven-hr/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-23T07:24:23.000Z",
-      "discoveredAt": "2026-04-27T01:57:47.625Z",
+      "discoveredAt": "2026-04-27T08:07:25.111Z",
       "extracted": {
         "companyName": "Wenite",
         "companyWebsite": "https://wenite.io",
@@ -397,7 +430,7 @@
       "sourceUrl": "https://tech.eu/2026/04/23/univity-raises-eur27m-to-build-sovereign-space-connectivity-for-telecom-operators/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-23T06:00:00.000Z",
-      "discoveredAt": "2026-04-27T01:57:47.625Z",
+      "discoveredAt": "2026-04-27T08:07:25.111Z",
       "extracted": {
         "companyName": "UNIVITY",
         "companyWebsite": null,
@@ -431,7 +464,7 @@
       "sourceUrl": "https://tech.eu/2026/04/23/decade-energy-secures-eur22m-to-electrify-logistics-depots-at-scale/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-23T06:00:00.000Z",
-      "discoveredAt": "2026-04-27T01:57:47.625Z",
+      "discoveredAt": "2026-04-27T08:07:25.111Z",
       "extracted": {
         "companyName": "Decade Energy",
         "companyWebsite": null,
@@ -461,62 +494,13 @@
       "tags": []
     },
     {
-      "id": "tech.eu-e6487830",
-      "headline": "Nox Mobility raises €2M pre-seed to rethink Europe’s night trains",
-      "description": "Nox Mobility has raised €2 million inpre-seed funding to develop a new generation of overnight trains. The round wasled by Berlin-based IBB Ventures, with participation from Italian investorTommaso Lu...",
-      "sourceUrl": "https://tech.eu/2026/04/22/nox-mobility-raises-eur2m-pre-seed-to-rethink-europes-night-trains/",
-      "sourcePlatform": "techeu",
-      "publishedAt": "2026-04-22T09:00:00.000Z",
-      "discoveredAt": "2026-04-27T01:57:47.625Z",
-      "extracted": {
-        "companyName": "Nox Mobility",
-        "companyWebsite": "https://noxmobility.com",
-        "companyLogoUrl": "https://logo.clearbit.com/noxmobility.com",
-        "amount": 2000000,
-        "amountDisplay": "$2M",
-        "currency": "USD",
-        "roundType": "pre-seed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high"
-      },
-      "tags": [
-        "ai",
-        "europe"
-      ]
-    },
-    {
-      "id": "tech.eu-4ca84071",
-      "headline": "QMatter secures $1.2M to tackle quantum scaling challenges",
-      "description": "QMatter, a quantum technology startup, has raised $1.2 million inpre-seed funding, led by 55 North, with participation from XTX Ventures,Bellstate Oy, and the Conception X Angel Syndicate. Simulating ...",
-      "sourceUrl": "https://tech.eu/2026/04/22/qmatter-secures-12m-to-tackle-quantum-scaling-challenges/",
-      "sourcePlatform": "techeu",
-      "publishedAt": "2026-04-22T08:00:00.000Z",
-      "discoveredAt": "2026-04-27T01:57:47.625Z",
-      "extracted": {
-        "companyName": "QMatter",
-        "companyWebsite": "https://qmatter.xyz",
-        "companyLogoUrl": "https://logo.clearbit.com/qmatter.xyz",
-        "amount": 1200000,
-        "amountDisplay": "$1.2M",
-        "currency": "USD",
-        "roundType": "seed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high"
-      },
-      "tags": [
-        "ai"
-      ]
-    },
-    {
       "id": "sifted.eu-834fa202",
       "headline": "Stripe alumni raise €7.5m for AI-powered fintech Seapoint",
       "description": "",
       "sourceUrl": "https://sifted.eu/articles/stripe-alumni-fintech-fundraise/",
       "sourcePlatform": "sifted",
       "publishedAt": "2026-04-21T05:00:21.000Z",
-      "discoveredAt": "2026-04-27T01:57:47.625Z",
+      "discoveredAt": "2026-04-27T08:07:25.111Z",
       "extracted": {
         "companyName": "Seapoint",
         "companyWebsite": "https://seapoint.com",
@@ -578,7 +562,7 @@
         "saas",
         "devtools"
       ],
-      "discoveredAt": "2026-04-27T01:57:47.625Z"
+      "discoveredAt": "2026-04-27T08:07:25.111Z"
     },
     {
       "id": "seed-coreweave-series-c-2026",
@@ -624,7 +608,7 @@
         "hardware",
         "saas"
       ],
-      "discoveredAt": "2026-04-27T01:57:47.625Z"
+      "discoveredAt": "2026-04-27T08:07:25.111Z"
     },
     {
       "id": "seed-cognition-series-a-2026",
@@ -663,7 +647,7 @@
         "ai",
         "devtools"
       ],
-      "discoveredAt": "2026-04-27T01:57:47.625Z"
+      "discoveredAt": "2026-04-27T08:07:25.111Z"
     },
     {
       "id": "seed-anduril-series-f-2026",
@@ -708,7 +692,7 @@
         "defense",
         "ai"
       ],
-      "discoveredAt": "2026-04-27T01:57:47.625Z"
+      "discoveredAt": "2026-04-27T08:07:25.111Z"
     },
     {
       "id": "seed-sambanova-series-e-2026",
@@ -753,7 +737,7 @@
         "ai",
         "hardware"
       ],
-      "discoveredAt": "2026-04-27T01:57:47.625Z"
+      "discoveredAt": "2026-04-27T08:07:25.111Z"
     },
     {
       "id": "seed-poolside-series-a-2026",
@@ -792,7 +776,7 @@
         "ai",
         "devtools"
       ],
-      "discoveredAt": "2026-04-27T01:57:47.625Z"
+      "discoveredAt": "2026-04-27T08:07:25.111Z"
     },
     {
       "id": "seed-hebbia-series-b-2026",
@@ -831,7 +815,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-27T01:57:47.625Z"
+      "discoveredAt": "2026-04-27T08:07:25.111Z"
     },
     {
       "id": "seed-together-series-a-2026",
@@ -870,7 +854,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-27T01:57:47.625Z"
+      "discoveredAt": "2026-04-27T08:07:25.111Z"
     },
     {
       "id": "seed-sierra-series-b-2026",
@@ -909,7 +893,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-27T01:57:47.625Z"
+      "discoveredAt": "2026-04-27T08:07:25.111Z"
     },
     {
       "id": "seed-glean-series-d-2026",
@@ -948,7 +932,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-27T01:57:47.625Z"
+      "discoveredAt": "2026-04-27T08:07:25.111Z"
     },
     {
       "id": "seed-groq-series-d-2026",
@@ -987,7 +971,7 @@
         "ai",
         "hardware"
       ],
-      "discoveredAt": "2026-04-27T01:57:47.625Z"
+      "discoveredAt": "2026-04-27T08:07:25.111Z"
     },
     {
       "id": "seed-mistral-series-b-2026",
@@ -1032,7 +1016,7 @@
         "ai",
         "europe"
       ],
-      "discoveredAt": "2026-04-27T01:57:47.625Z"
+      "discoveredAt": "2026-04-27T08:07:25.111Z"
     },
     {
       "id": "seed-adept-series-b-2026",
@@ -1071,7 +1055,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-27T01:57:47.625Z"
+      "discoveredAt": "2026-04-27T08:07:25.111Z"
     },
     {
       "id": "seed-elevenlabs-series-c-2026",
@@ -1115,7 +1099,7 @@
       "tags": [
         "ai"
       ],
-      "discoveredAt": "2026-04-27T01:57:47.625Z"
+      "discoveredAt": "2026-04-27T08:07:25.111Z"
     },
     {
       "id": "seed-scale-series-f-2026",
@@ -1160,7 +1144,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-27T01:57:47.625Z"
+      "discoveredAt": "2026-04-27T08:07:25.111Z"
     },
     {
       "id": "seed-perplexity-series-c-2026",
@@ -1205,7 +1189,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-27T01:57:47.625Z"
+      "discoveredAt": "2026-04-27T08:07:25.111Z"
     }
   ]
 }

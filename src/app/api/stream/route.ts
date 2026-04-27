@@ -62,6 +62,25 @@ function parseTypeFilter(req: NextRequest): Set<PipelineEventName> {
 }
 
 export async function GET(req: NextRequest): Promise<Response> {
+  // APP-18: Vercel serverless functions get a fresh process per invocation
+  // and don't hold long-lived SSE connections. The endpoint *appears* to
+  // work — the connection establishes, then drops on the next platform
+  // recycle (often within seconds). Refuse fast in that environment so
+  // clients fall back to polling rather than reconnect-flapping.
+  if (process.env.VERCEL) {
+    return new Response(
+      JSON.stringify({
+        ok: false,
+        error: "SSE not supported on Vercel — deploy to Railway/Fly/self-host",
+        code: "SSE_UNAVAILABLE_ON_VERCEL",
+      }),
+      {
+        status: 501,
+        headers: { "Content-Type": "application/json; charset=utf-8" },
+      },
+    );
+  }
+
   // Cap concurrent subscribers to protect the long-lived process. Returning
   // 503 here keeps clients' auto-reconnect honest — they'll back off and
   // retry rather than hammering a saturated server.

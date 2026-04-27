@@ -98,6 +98,9 @@ export async function GET(
   const useLegacyShape = versionParam === "1";
 
   if (useLegacyShape) {
+    // APP-17: track sunset criterion — log every legacy hit so we can tell
+    // when ?v=1 traffic has dropped to zero and the branch is safe to remove.
+    console.warn("[api/repos] legacy v=1 path hit", { owner, name });
     return handleV1(owner, name);
   }
   return handleV2(owner, name);

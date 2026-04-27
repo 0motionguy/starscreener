@@ -22,7 +22,9 @@ import { NextResponse } from "next/server";
 export const runtime = "nodejs";
 // The spec reads from the repo-rooted `docs/openapi.json`; that file is not
 // a Next.js asset so we need the nodejs runtime (edge has no fs access).
-export const dynamic = "force-static";
+// Keep this as a lambda: Vercel can fail to package static API routes that
+// still depend on node fs access because there is no lambda for the route.
+export const dynamic = "force-dynamic";
 
 // The shape is intentionally permissive — the OpenAPI object is huge and
 // fully typing it would duplicate the spec in TypeScript. `unknown` at the

@@ -1,6 +1,10 @@
 import type { Fetcher } from './lib/types.js';
 
-import huggingface from './fetchers/huggingface/index.js';
+// huggingface intentionally NOT imported — its body is a stub that only
+// logs `not yet implemented` (`fetchers/huggingface/index.ts`). Re-add
+// to the import + FETCHERS list once a real port lands. Removed from
+// the rotation to stop Sentry pollution every 4h.
+// import huggingface from './fetchers/huggingface/index.js';
 import bluesky from './fetchers/bluesky/index.js';
 import pulsemcp from './fetchers/pulsemcp/index.js';
 import smithery from './fetchers/smithery/index.js';
@@ -77,7 +81,6 @@ export const FETCHERS: Fetcher[] = [
   revenueBenchmarks,
   redditBaselines,
   lobsters,
-  huggingface,
   bluesky,
   mcpRegistryOfficial,
   glama,

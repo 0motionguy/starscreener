@@ -109,6 +109,12 @@ const SLUG_TABLE: ReadonlyArray<SlugHealthSpec> = [
   { slug: "trending-skill-skillsmp", fetcher: "skillsmp", cadenceMin: 360 },
   { slug: "trending-skill-smithery", fetcher: "smithery-skills", cadenceMin: 360 },
   { slug: "trending-skill-lobehub", fetcher: "lobehub-skills", cadenceMin: 360 },
+
+  // research-layer leaderboards (arxiv papers + ai-blogs posts) — published
+  // by writeDataStore('trending-${type}', ...) inside publishLeaderboard.
+  // Cadence matches each fetcher's croner schedule.
+  { slug: "trending-paper", fetcher: "arxiv", cadenceMin: 360 },
+  { slug: "trending-post", fetcher: "ai-blogs", cadenceMin: 360 },
 ];
 
 // ---------------------------------------------------------------------------

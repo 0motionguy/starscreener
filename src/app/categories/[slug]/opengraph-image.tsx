@@ -11,6 +11,7 @@ import { OG_COLORS } from "@/lib/seo";
 import { StarMark } from "@/lib/og-primitives";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 export const alt = "TrendingRepo — Category momentum card";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";

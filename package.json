@@ -12,6 +12,9 @@
     "url": "https://github.com/0motionguy/starscreener/issues"
   },
   "license": "MIT",
+  "engines": {
+    "node": "22.x"
+  },
   "keywords": [
     "github-trending",
     "ai-agents",
@@ -31,6 +34,7 @@
     "cli:dev": "node bin/ss.mjs",
     "dev": "next dev --turbopack -p 3023",
     "build": "next build",
+    "postbuild": "node scripts/sanitize-next-traces.mjs",
     "start": "next start -p 3023",
     "lint": "eslint",
     "test": "npm run test:scraper-shared && npm run test:reddit && npm run test:hn && npm run test:bsky && npm run test:ph && npm run test:devto && npm run test:npm && npm run test:funding && npm run test:twitter-collector && tsx --test src/lib/__tests__/*.test.ts src/lib/pipeline/__tests__/*.test.ts src/lib/twitter/__tests__/*.test.ts src/tools/__tests__/*.test.ts src/portal/__tests__/*.test.ts",

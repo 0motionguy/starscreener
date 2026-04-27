@@ -191,6 +191,32 @@ export function usePhysicsBubbles<T extends PhysicsSeed>(
     idleFramesRef.current = 0;
     if (rafRef.current !== null) return;
 
+    // Respect prefers-reduced-motion: snap each body straight to its target
+    // (or settle in place) instead of running the rAF integration loop.
+    // Avoids motion-sickness triggers from drifting + repulsion oscillation
+    // for users who opted out of motion. The CSS @media block in globals.css
+    // already neutralizes class-based animations, but rAF loops bypass it.
+    if (
+      typeof window !== "undefined" &&
+      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
+    ) {
+      const list = bodies.current;
+      const svg = svgRef.current;
+      for (const b of list) {
+        if (b.targetCx !== undefined) b.cx = b.targetCx;
+        if (b.targetCy !== undefined) b.cy = b.targetCy;
+        b.vx = 0;
+        b.vy = 0;
+        if (svg) {
+          const node = svg.querySelector<SVGGElement>(`g[data-id="${b.id}"]`);
+          if (node) {
+            node.setAttribute("transform", `translate(${b.cx} ${b.cy})`);
+          }
+        }
+      }
+      return;
+    }
+
     const step = () => {
       const list = bodies.current;
       const n = list.length;

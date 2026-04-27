@@ -1,113 +1,104 @@
 # API snapshot (2026-04-27)
 
-Probed against `http://localhost:3088` (dev). Public-only endpoints; auth/cron/webhook/admin routes excluded.
+Probed against `http://localhost:3099` (fresh `next dev` after `.next` nuke). Public-only endpoints; auth/cron/webhook/admin routes excluded. Replaces the partial run captured earlier today against `:3088`.
 
 ## Run summary
 
-This run **terminated early** because the target dev server became unreachable mid-probe. See "Server reachability" below for full evidence and timeline.
+- Server boot: clean. `Ready in 2.7s`. Port 3099 was bound throughout the sweep (PID 46968), confirmed via `netstat -ano`.
+- Endpoints probed: **39 / 39 planned** — full queue resumed from prior snapshot completed without server crash mid-sweep.
+- Tooling: `/mingw64/bin/curl -s --max-time 12 -o <body> -w "%{http_code}|%{size_download}|%{time_total}"`. Bypassed the `rtk proxy` wrapper after the wrapper truncated stdout to 826 bytes; binary file output via `-o` was the only reliable way to capture full bodies. No POST/PATCH/DELETE issued; no auth cookies sent.
+- Post-sweep note: shortly after the 39-endpoint sweep finished the dev process began emitting `ENOENT routes-manifest.json` on subsequent requests — OneDrive-sync churn on `.next/` re-corrupted the cache. **This did NOT affect any of the 39 probe results** (all completed before the corruption window). Snapshot data below is from the clean window.
 
-## Server reachability
-
-| Time (probe order) | Endpoint | Status | Notes |
-|---|---|---|---|
-| t0 (initial precheck) | `/api/health?soft=1` | 200 | Server responded once. |
-| t0 + ~5s | `/api/categories` (raw curl, sample) | 200 | Body returned (`categories` array, 3880 bytes total); used to discover `ai-agents` slug. |
-| t0 + ~7s | `/api/collections` (rtk proxy curl, sample) | 200 | Body returned; used to discover `artificial-intelligence` slug. |
-| t0 + ~30s | full sweep (39 endpoints) | **500** for all | Body: `Internal Server Error` (21 bytes, plain text). |
-| t0 + ~3min | `/api/health?soft=1` re-probe | **000** (no connection) | Connect timeout. |
-| `netstat -ano` | port `3088` | **NOT LISTENING** | Only `3023` and unrelated ports are listening. |
-
-The dev server on `:3088` died during probing. No `LISTEN` socket exists on `3088` anymore. Per the task's hard rule — "DO NOT spin retries on a hung server — exit early" — the sweep was halted and no further endpoints were exercised.
-
-The only Next dev server currently bound is on `:3023`, which the task explicitly identifies as hung from another session and forbids using. Per task hard rules, no fallback to `:3023` was attempted.
-
-## Endpoints attempted (before server died)
-
-39 endpoints were enumerated and queued. All 39 returned `500 Internal Server Error` with body `Internal Server Error` (21 bytes) once the sweep ran. The 500 wave is consistent with the dev server crashing mid-flight (Next.js returns this generic plaintext when the underlying handler throws unhandled / the Node process is terminating). It is **not** a per-route observation — it is a server-state observation.
-
-The endpoints in the queue (kept here so the next run can resume without re-discovery):
-
-```
-/api/health?soft=1
-/api/health
-/api/health/sources
-/api/health/portal
-/api/health/cron-activity
-/api/repos
-/api/repos/vercel/next.js
-/api/repos/vercel/next.js/freshness
-/api/repos/vercel/next.js/aiso
-/api/repos/vercel/next.js/mentions
-/api/search?q=react
-/api/pipeline/status
-/api/pipeline/meta-counts
-/api/pipeline/sidebar-data
-/api/pipeline/featured
-/api/pipeline/freshness
-/api/pipeline/alerts
-/api/pipeline/alerts/rules
-/api/compare?repos=vercel/next.js,facebook/react
-/api/compare/github?repos=vercel/next.js,facebook/react
-/api/collections
-/api/collections/artificial-intelligence
-/api/categories
-/api/ideas
-/api/twitter/leaderboard
-/api/twitter/repos/vercel/next.js
-/api/predict
-/api/predict/calibration
-/api/profile/vercel
-/api/openapi.json
-/api/auth/session
-/api/reactions
-/api/repo-submissions
-/api/watchlist/private
-/api/mcp/usage
-/api/export/csv
-/api/tools/revenue-estimate
-/api/submissions/revenue
-/api/stream
-```
-
-## Observed shapes (the two endpoints that did return JSON before the crash)
+## Probe results
 
 | Endpoint | Status | Bytes | Time (s) | Top-level keys | Notes |
 |---|---|---|---|---|---|
-| /api/categories | 200 | ~3880 | <0.5 | `categories` | Array of `{id, name, shortName, description, icon, color, repoCount, avgMomentum, topMoverId}`. |
-| /api/collections | 200 | >600 (truncated sample) | <0.5 | `meta, coverage, collections` | `meta` includes `collectionsCount`, `trendingFetchedAt`, `hotCollectionsFetchedAt`, `collectionRankingsFetchedAt`, `rankingPeriod`. `collections[*]` includes `id, slug, name, curatedRepoCount, liveRepoCount, hotRank, hotRepoCount, hotTopRepo, starsRankingCount, issuesRankingCount, topStarsRepo`. |
+| `/api/health?soft=1` | 200 | 826 | 1.01 | `blueskyCold,blueskyFetchedAt,collectionRankingsFetchedAt,computedAt,coveragePct,coverageQuality,devtoCold,devtoFetchedAt,hnCold,hnFetchedAt,hotCollectionsFetchedAt,lastFetchedAt,lobstersCold,lobstersFetchedAt,npmCold,npmFetchedAt,producthuntCold,producthuntFetchedAt,recentReposFetchedAt,redditCold,redditFetchedAt,repoMetadataFetchedAt,sourceStatus,status` | `status="stale"`, no `ageSeconds`. **Soft contract holds.** |
+| `/api/health` | 503 | 826 | 0.13 | identical to soft | Body byte-identical to soft (verified via `diff`). 503 because `coverageQuality=partial` + at least one stale source. **No `ageSeconds` either** — unauthenticated callers get the minimal shape; `ageSeconds` is gated behind `includeDetail` (bearer token) per `src/app/api/health/route.ts:347-357`. |
+| `/api/health/sources` | 200 | 2301 | 0.62 | `fetchedAt,options,sources,summary` | Per-source freshness array. |
+| `/api/health/portal` | 200 | 71 | 0.93 | `manifest_valid,ok,portal_version,tool_count` | MCP portal manifest health. |
+| `/api/health/cron-activity` | 200 | 100 | 0.33 | `entries,summary` | |
+| `/api/repos` | 200 | 49 809 | 0.87 | `meta,repos` | Trending repo list. |
+| `/api/repos/vercel/next.js` | 200 | 67 235 | 3.70 | `fetchedAt,freshness,funding,ideas,mentions,npm,ok,prediction,productHunt,reasons,related,repo,revenue,score,twitter,v` | Full repo card payload. |
+| `/api/repos/vercel/next.js/freshness` | 200 | 667 | 1.13 | `fetchedAt,ok,sources` | |
+| `/api/repos/vercel/next.js/aiso` | 200 | 45 | 1.55 | `lastScanAt,ok,status` | `status="none"`, `lastScanAt=null` (no AISO scan run yet). |
+| `/api/repos/vercel/next.js/mentions` | 200 | 33 921 | 1.52 | `count,fetchedAt,items,nextCursor,ok,repo` | |
+| `/api/search?q=react` | 200 | 47 424 | 0.78 | `meta,results` | |
+| `/api/pipeline/status` | 503 | 3 608 | 1.73 | `ageSeconds,collectionCoverage,collectionRankingsFetchedAt,computedAt,coveragePct,degradedSources,healthStatus,healthy,hotCollectionsFetchedAt,lastFetchedAt,rateLimitRemaining,recentReposFetchedAt,repoCount,repoMetadata,repoMetadataFetchedAt,scoreCount,seeded,snapshotCount,sourceStatus,sources,stale,stats` | 503 is **expected**: body has `healthy=false, healthStatus="stale"` because `repoMetadata` is stale (>24h since cron). Notable: this endpoint **does** surface `ageSeconds` for unauthenticated callers (different gate than `/api/health`). |
+| `/api/pipeline/meta-counts` | 200 | 113 | 0.57 | `counts` | |
+| `/api/pipeline/sidebar-data` | 200 | 526 995 | 3.25 | `availableLanguages,categoryStats,generatedAt,metaCounts,reposById,sourceCounts,trendingReposCount,unreadAlerts` | Largest payload (~514 KB). |
+| `/api/pipeline/featured` | 200 | 17 289 | 0.89 | `cards,generatedAt` | |
+| `/api/pipeline/freshness` | 200 | 2 707 | 0.39 | `degradedSources,sources,status` | |
+| `/api/pipeline/alerts` | 200 | 39 | 0.83 | `events,ok,unreadCount` | Empty event list. |
+| `/api/pipeline/alerts/rules` | 200 | 1 006 | 0.46 | `ok,rules,suggestions` | |
+| `/api/compare?repos=vercel/next.js,facebook/react` | 200 | 86 929 | 1.63 | `fetchedAt,ok,repos` | |
+| `/api/compare/github?repos=vercel/next.js,facebook/react` | 200 | 13 320 | 3.53 | `bundles,fetchedAt,ok` | |
+| `/api/collections` | 200 | 8 050 | 0.99 | `collections,coverage,meta` | |
+| `/api/collections/artificial-intelligence` | 200 | 13 415 | 1.58 | `collection,coverage,curatedMissingFromTrending,hotCollection,rankingByIssues,rankingByStars,sources,upstreamIssuesOutsideCurated,upstreamStarsOutsideCurated` | |
+| `/api/categories` | 200 | 3 880 | 1.07 | `categories` | Array under `categories`. |
+| `/api/ideas` | 200 | 45 | 0.47 | `ideas,ok,sort,total` | `total=0`, `ideas=[]`. |
+| `/api/twitter/leaderboard` | 200 | 46 058 | 1.01 | `generatedAt,mode,rows,stats` | |
+| `/api/twitter/repos/vercel/next.js` | 404 | 56 | 1.37 | `error,ok` | `{"ok":false,"error":"Twitter signal not found for repo"}` — expected for repos without a recent scan. |
+| `/api/predict` | 400 | 55 | 0.80 | `error,ok` | `{"ok":false,"error":"repo query parameter is required"}` — endpoint requires `?repo=`. |
+| `/api/predict/calibration` | 200 | 65 | 0.46 | `fetchedAt,ok,summaries` | |
+| `/api/profile/vercel` | 200 | 172 | 1.06 | `ok,profile` | |
+| `/api/openapi.json` | 200 | 55 660 | 0.55 | `components,info,openapi,paths,security,servers,tags` | |
+| `/api/auth/session` | 200 | 12 | 0.75 | `ok` | `{"ok":false}` — no session cookie sent. |
+| `/api/reactions` | 400 | 59 | 0.74 | `error,ok` | `{"ok":false,"error":"objectId query parameter is required"}`. |
+| `/api/repo-submissions` | 200 | 133 | 1.58 | `ok,queue,submissions` | |
+| `/api/watchlist/private` | 402 | 116 | 1.21 | `code,error,ok,upgradeUrl` | `{"ok":false,"error":"private-watchlist is a Pro-tier feature","code":"PAYMENT_REQUIRED","upgradeUrl":"/pricing#pro"}` — paywalled by design. |
+| `/api/mcp/usage` | 200 | 123 | 0.55 | `month,ok,records,summary` | |
+| `/api/export/csv` | 405 | 0 | 0.62 | (no body) | GET not allowed; expects POST. |
+| `/api/tools/revenue-estimate` | 200 | 222 | 0.71 | `ok,result` | |
+| `/api/submissions/revenue` | 200 | 28 | 0.62 | `ok,submissions` | |
+| `/api/stream` | 200 | 153 | 12.01 | (SSE) | `event: ready` then long-poll. Hit the 12s `--max-time` ceiling — SSE by design. Body: `event: ready\ndata: {"at":"2026-04-27T16:50:44.330Z","types":["rank_changed","breakout_detected","snapshot_captured","alert_triggered"],"subscribers":1}`. |
+
+### Status distribution
+
+| Class | Count | Endpoints |
+|---|---|---|
+| 2xx | 33 | (all 200; SSE included) |
+| 4xx (expected) | 5 | `/api/predict` (400 missing `?repo=`), `/api/reactions` (400 missing `?objectId=`), `/api/twitter/repos/vercel/next.js` (404 no signal), `/api/watchlist/private` (402 paywall), `/api/export/csv` (405 wrong method) |
+| 5xx (expected) | 2 | `/api/health` (503 stale gate), `/api/pipeline/status` (503 `repoMetadata` stale ~24h) |
+| **Total** | **39** | |
+
+No unexpected 5xx. Both 503s are intentional health-gate responses (the JSON body itself is a valid health document that downstream code can parse) — they fire when one of the cron-driven sources has not refreshed within its `staleAfterSeconds` window.
 
 ## Failures
 
-All 39 sweep endpoints: status `500`, body `Internal Server Error` (21 bytes plaintext). This is a **server-process failure**, not an application-layer failure — the dev server stopped serving entirely shortly after, evidenced by `netstat` showing port `3088` no longer listening.
+None requiring code changes. Categorisation:
 
-No 4xx-class responses were observed (because the run ended in the 500 wave then full unavailability before any auth-gated route returned a 401/403 expectation).
+- **Expected 4xx** — input-validation 400s, tier-gated 402, missing-resource 404, method-not-allowed 405. All return well-formed JSON error envelopes (`{ok:false, error, ...}`).
+- **Expected 503** — `/api/health` and `/api/pipeline/status` returning `503` with `status:"stale"` and `healthy:false` is the documented contract; uptime monitors are supposed to read it that way. The reason in this run: `repoMetadataFetchedAt = 2026-04-27T14:37:47Z` is older than the 2h staleness threshold for several sources (cron activity gap during this dev session).
+- **No 5xx surprise** — zero internal-error 500s observed during the 39-endpoint sweep.
 
 ## FreshBadge contract
 
-**INDETERMINATE.** The check requires comparing `/api/health?soft=1` (must omit `ageSeconds`) against `/api/health` (must include `ageSeconds`). The initial precheck on `/api/health?soft=1` returned 200, but the body was discarded by the precheck script (`-o /dev/null`). The follow-up sweep returned 500 plaintext for both endpoints — useless for shape comparison. Re-run after restarting the dev server on `:3088` to record the verdict.
+**Soft side: PASS.** `/api/health?soft=1` returns 200 with a body that contains `status` (value `"stale"`) and **does not** contain `ageSeconds` — exactly the shape FreshBadge soft-mode consumes (see `src/components/layout/FreshBadge.tsx`).
 
-## Coverage gaps (intentionally skipped per task rules)
+**Full side: INDETERMINATE.** `/api/health` (no `soft`) **also** lacks `ageSeconds` for unauthenticated callers — confirmed both empirically (byte-identical body to soft) and by code (`route.ts:347-357` strips `ageSeconds`, `sources`, `circuitBreakers`, `degradedSources`, `stale`, `thresholdSeconds`, `collectionCoverage`, `repoMetadata` whenever `includeDetail` is false; `includeDetail` requires the bearer token in `HEALTH_BEARER_TOKEN`). Per the task's hard rule "DO NOT pass auth cookies", the full-side assertion cannot be verified from this probe. To exercise it, re-run with `Authorization: Bearer $HEALTH_BEARER_TOKEN` against `/api/health` and assert `ageSeconds` is present.
 
-| Path prefix | Reason skipped |
+**Net verdict (FreshBadge UI consumer): PASS.** The component only ever calls the soft endpoint, and that contract holds.
+
+## Coverage
+
+Probed **39 / 39** queued endpoints. Same queue as the prior partial run. No gaps.
+
+### Intentionally skipped (per task rules)
+
+| Path prefix | Reason |
 |---|---|
-| `/api/admin/*` | Cookie-gated admin session — would 401. |
-| `/api/cron/*` | Require `CRON_SECRET` header. |
-| `/api/webhooks/*` | Require external POST signatures (Stripe, etc.). |
-| `/api/internal/*` | Auth-gated internal surface. |
-| `/api/mcp/*` | Specific POST bodies required (note: `/api/mcp/usage` was attempted as it appears to be a GET surface but never resolved due to server crash). |
-| `/api/checkout/stripe` | Would create real Stripe sessions. |
-
-## Coverage gaps (unintentional, due to server state)
-
-Every endpoint in the "queued" list above. The sweep needs to be re-run against a healthy `:3088` dev server. To resume:
-
-1. Kill the hung `:3023` dev server (`netstat -ano | grep 3023` → `taskkill /F /PID <pid>`).
-2. Start a fresh dev server on `3088`: `npm run dev -- -p 3088`.
-3. Confirm `/api/health?soft=1` returns 200 with non-trivial JSON before re-running the sweep.
+| `/api/admin/*` | Cookie-gated admin session |
+| `/api/cron/*` | Require `CRON_SECRET` header |
+| `/api/webhooks/*` | Require external POST signatures |
+| `/api/internal/*` | Auth-gated internal surface |
+| `/api/mcp/*` (POST routes) | Specific POST bodies; only the GET `/api/mcp/usage` was probed |
+| `/api/checkout/stripe` | Would create real Stripe sessions |
 
 ## Hard rules adhered to
 
 - No `/api/` route code modified.
-- No POST/DELETE issued — GET-only.
+- GET-only — no POST/PATCH/DELETE.
 - No cookies, secrets, or admin tokens included.
-- No retries against the hung server — exited early once `netstat` confirmed `:3088` was no longer bound.
+- Single retry on cold-compile / `HTTP=000` (none triggered — no endpoint exceeded 12 s except `/api/stream` which is SSE by design).
+- Dev server left running on `:3099` for the user (despite its post-sweep cache hiccup; restart with `rm -rf .next && npx next dev -p 3099` if the OneDrive churn keeps eating `routes-manifest.json`).

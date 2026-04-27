@@ -1,19 +1,15 @@
 // Vitest tests for src/lib/seo.ts.
 //
 // Coverage gap: `safeJsonLd` (added in 9722a43) had zero direct tests
-// — it is the single defense-in-depth helper that ships into four
+// — it is the single defense-in-depth helper that ships into seven
 // `<script type="application/ld+json">` blobs across the metadata
 // surface. A regression here is silent + XSS-shaped, so it gets hard
 // pinned tests.
 //
-// CONFLICT NOTE: this file lives in src/lib/__tests__/ which is also
-// matched by `npm test`'s `tsx --test src/lib/__tests__/*.test.ts`
-// glob, but tsx --test cannot import "vitest" (its index.cjs throws
-// on require()). The fix lives in package.json — exclude this file
-// from the tsx --test glob, e.g.
-//   tsx --test "src/lib/__tests__/!(seo).test.ts" ...
-// Until that lands, `npm test` will fail on the import below — vitest
-// runs cleanly via `npm run test:hooks` / the verify CLI command.
+// File lives in `src/lib/__vitest__/`, NOT `src/lib/__tests__/`, so
+// the `npm test` glob (`tsx --test src/lib/__tests__/*.test.ts`)
+// doesn't see it. Vitest's include array opts this directory in
+// explicitly via `vitest.config.ts`. No runner overlap.
 
 import { describe, expect, it } from "vitest";
 

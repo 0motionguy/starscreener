@@ -32,13 +32,23 @@ describe("CategoryPill", () => {
     const { container } = render(<CategoryPill categoryId={KNOWN.id} />);
     const dot = container.querySelector('[aria-hidden="true"]') as HTMLElement;
     expect(dot).toBeTruthy();
-    // Tailwind sets backgroundColor inline via the style prop on the dot.
-    // Browsers normalize hex → rgb, so check either form.
+    // happy-dom stores style.backgroundColor as the literal source string;
+    // a real browser normalizes hex → rgb. Handle both. Either way, parse
+    // back to a 6-char hex and assert equality with KNOWN.color so a
+    // missing-color regression (default black) fails this test rather
+    // than slipping through a `startsWith("rgb")` accept-all.
     const bg = dot.style.backgroundColor.toLowerCase();
-    const colorLower = KNOWN.color.toLowerCase();
-    const hexMatches = bg === colorLower;
-    const rgbMatches = bg.startsWith("rgb");
-    expect(hexMatches || rgbMatches).toBe(true);
+    const expected = KNOWN.color.toLowerCase();
+    if (bg.startsWith("#")) {
+      expect(bg).toBe(expected);
+    } else {
+      const m = bg.match(/^rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)$/);
+      expect(m).not.toBeNull();
+      const hex = `#${[m![1], m![2], m![3]]
+        .map((n) => Number(n).toString(16).padStart(2, "0"))
+        .join("")}`;
+      expect(hex).toBe(expected);
+    }
   });
 
   it("brand variant uses accent CSS variables instead of the category color", () => {

@@ -1,58 +1,131 @@
 name: CI
 
+# PR/push gate. Runs the full guard + test + build matrix shipped this
+# session: typecheck, 5 lint guards (lint:guards), the V3 token-budget
+# guard, 93 vitest tests (test:hooks), the existing node:test suite (test),
+# a production next build, and the Playwright smoke harness against
+# next start. No secrets, no scheduled runs — strictly a gate.
 on:
+  pull_request:
+    branches: [main]
   push:
     branches: [main]
-  pull_request:
+  workflow_dispatch:
 
-# Cancel in-flight runs for the same ref when a newer commit arrives.
+# Cancel in-flight runs for the same ref when a newer commit lands. PRs
+# typically rebase or push fixups several times before merge; old runs are
+# wasted CI minutes.
 concurrency:
-  group: ci-${{ github.workflow }}-${{ github.ref }}
+  group: ci-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  verify:
-    name: Typecheck, lint, test, build
+  gate:
+    name: Typecheck, guards, tests, build, e2e
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node 20
+      # Node 22 matches engines.node in package.json. The project uses Next
+      # 15 + React 19 + Vitest 2 — all expect Node 20+ at minimum.
+      - name: Setup Node 22
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
 
+      # Step 1: typecheck. Strict tsc --noEmit. Fails fast on type drift
+      # before we burn time on tests.
       - name: Typecheck
         run: npm run typecheck
 
-      - name: Lint
-        run: npm run lint
+      # Step 2: 5 chained CI guards (tokens, err-message echoes, zod on
+      # mutating routes, route runtime declared, error envelope shape).
+      # See package.json scripts.lint:guards.
+      - name: Lint guards
+        run: npm run lint:guards
 
-      - name: Test
+      # Step 3: V3 token-budget guard. Snapshots V1 alias-name counts in
+      # scripts/_v3-token-baseline.json and fails when any pattern grows.
+      # Prevents regression of the V3 design sweep.
+      - name: V3 token budget
+        run: node scripts/check-v3-token-budget.mjs
+
+      # Step 4: 93 vitest tests (hooks, components, lib).
+      - name: Vitest (hooks/components/lib)
+        run: npm run test:hooks
+
+      # Step 5: existing node:test + tsx --test suites (scrapers, pipeline,
+      # twitter collector, tools, portal). Same set developers run with
+      # `npm test`.
+      - name: Node test suite
         run: npm test
 
-      # Next.js production build. Catches regressions that typecheck + tests
-      # miss (dead imports, side-effect ordering, Turbopack-specific issues).
-      # F-QA-005 from the Phase 2 red-team review.
-      - name: Build
+      # Step 6: Playwright. Requires a built + running production server.
+      # Cold-compile dev mode would blow the 30s test timeout in
+      # playwright.config.ts on the first hit per route — production builds
+      # serve every page sub-second, which is what the timeout assumes.
+      - name: Install Playwright (chromium)
+        run: npx playwright install --with-deps chromium
+
+      - name: Build (production)
         run: npm run build
 
+      # Background next start on port 3023 (the project's canonical port —
+      # matches scripts.start, scripts.dev, and the playwright config
+      # default). Wait until the port answers before we kick off the test
+      # run; gives the runtime up to 60s to come up.
+      - name: Start production server
+        run: |
+          STARSCREENER_BASE_URL=http://localhost:3023 npx next start -p 3023 &
+          echo $! > .next-pid
+          for i in $(seq 1 60); do
+            if curl -sSf http://localhost:3023/ >/dev/null 2>&1; then
+              echo "server up after ${i}s"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "server failed to start within 60s" >&2
+          exit 1
+
+      # STARSCREENER_BASE_URL is honored by playwright.config.ts: when set,
+      # the config skips its built-in webServer block and assumes the
+      # server is already running (which it is, from the previous step).
+      - name: Playwright smokes
+        env:
+          STARSCREENER_BASE_URL: http://localhost:3023
+        run: npm run test:e2e -- --reporter=line
+
+      - name: Stop production server
+        if: always()
+        run: |
+          if [ -f .next-pid ]; then
+            kill "$(cat .next-pid)" 2>/dev/null || true
+            rm -f .next-pid
+          fi
+
+  # MCP server is a separate package with its own lockfile under mcp/.
+  # Kept as a sibling job (was already in the previous ci.yml) so a
+  # broken MCP build still gates PRs without serializing onto the main
+  # gate job above.
   mcp-build:
     name: MCP server build
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node 20
+      - name: Setup Node 22
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
           cache-dependency-path: mcp/package-lock.json
 

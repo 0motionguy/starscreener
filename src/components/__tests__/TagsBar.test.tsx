@@ -34,16 +34,16 @@ describe("TagsBar", () => {
   });
 
   it("renders counts only when the counts map provides one for the tag", () => {
+    // Only the first tag gets a count entry; every other tag should render
+    // no numeric badge. Asserting on the standalone `\d+` count nodes keeps
+    // this test honest — the negative branch ("no number for tags without
+    // a count") was previously tautological (re-checking that "42" still
+    // matched). Now the chip set has exactly one numeric badge.
     const counts = { [FIRST_TAG.tagId]: 42 };
-    const { getByText, queryByText } = render(<TagsBar counts={counts} />);
+    const { getByText, queryAllByText } = render(<TagsBar counts={counts} />);
     expect(getByText("42")).toBeTruthy();
-    // Other tags should have no number rendered.
-    if (SECOND_TAG.tagId !== FIRST_TAG.tagId) {
-      // We can't assert "no count node" cheaply, so just confirm "42" is the
-      // only count and it hasn't doubled.
-      const all = queryByText("42");
-      expect(all).toBeTruthy();
-    }
+    const numericBadges = queryAllByText(/^\d+$/);
+    expect(numericBadges).toHaveLength(1);
   });
 
   it("clicking a tag chip writes activeTag into the store", () => {

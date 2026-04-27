@@ -39,6 +39,56 @@ const SCRIPTS: Record<string, string> = {
 
 const LOG_DIR = path.join(process.cwd(), ".data", "admin-scan-runs");
 
+/**
+ * Keep at most N newest logs per source (APP-13). Without this the scan-run
+ * directory grew unbounded — every operator click left another file in
+ * place forever, and the dashboard tail-link logic eventually slowed to a
+ * crawl scanning thousands of historical files. Fire-and-forget after the
+ * spawn so log rotation never blocks the API response.
+ */
+const KEEP_LOGS_PER_SOURCE = 20;
+
+async function pruneScanRunLogs(
+  logDir: string,
+  source: string,
+  keep: number,
+): Promise<void> {
+  let entries: string[];
+  try {
+    entries = await fs.readdir(logDir);
+  } catch {
+    return; // dir missing — nothing to prune
+  }
+  const prefix = `${source}-`;
+  const matching = entries.filter(
+    (name) => name.startsWith(prefix) && name.endsWith(".log"),
+  );
+  if (matching.length <= keep) return;
+
+  const stats = await Promise.all(
+    matching.map(async (name) => {
+      try {
+        const full = path.join(logDir, name);
+        const stat = await fs.stat(full);
+        return { name, full, mtime: stat.mtimeMs };
+      } catch {
+        return null;
+      }
+    }),
+  );
+  const valid = stats.filter(
+    (s): s is { name: string; full: string; mtime: number } => s !== null,
+  );
+  valid.sort((a, b) => b.mtime - a.mtime);
+
+  const toDelete = valid.slice(keep);
+  await Promise.all(
+    toDelete.map((entry) =>
+      fs.unlink(entry.full).catch(() => void 0),
+    ),
+  );
+}
+
 interface Ok {
   ok: true;
   source: string;
@@ -116,6 +166,17 @@ export async function POST(
     child.unref();
 
     await logFd.close();
+
+    // Fire-and-forget rotation — keep only the newest N logs per source.
+    // Errors don't propagate; pruning failures must never block scans.
+    void pruneScanRunLogs(LOG_DIR, source, KEEP_LOGS_PER_SOURCE).catch(
+      (err) => {
+        console.warn(
+          `[api:admin:scan] log rotation failed for ${source}`,
+          err,
+        );
+      },
+    );
 
     return NextResponse.json({
       ok: true,

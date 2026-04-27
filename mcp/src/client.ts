@@ -103,8 +103,9 @@ export class StarScreenerClient {
       throw new StarScreenerApiError(res.status, text, url);
     }
     if (!text) return {} as T;
+    let parsed: unknown;
     try {
-      return JSON.parse(text) as T;
+      parsed = JSON.parse(text);
     } catch (err) {
       throw new StarScreenerApiError(
         res.status,
@@ -112,6 +113,24 @@ export class StarScreenerClient {
         url,
       );
     }
+    // SCR-08: minimal envelope sanity. Every documented StarScreener
+    // endpoint returns a JSON object or array — string/number/null/boolean
+    // payloads indicate the route went wrong (proxy intercept, cached HTML
+    // error page, misconfigured edge). Surface as a structured 200-error
+    // rather than passing gibberish to the LLM.
+    if (
+      parsed === null ||
+      typeof parsed === "string" ||
+      typeof parsed === "number" ||
+      typeof parsed === "boolean"
+    ) {
+      throw new StarScreenerApiError(
+        res.status,
+        `unexpected JSON shape (got ${parsed === null ? "null" : typeof parsed}, expected object/array)`,
+        url,
+      );
+    }
+    return parsed as T;
   }
 
   // ---------------------------------------------------------------------

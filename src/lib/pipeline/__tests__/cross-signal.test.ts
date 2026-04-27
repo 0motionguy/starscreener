@@ -2,6 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 
 import type { Repo } from "../../types";
+import { getDevtoLeaderboard } from "../../devto";
 import { attachCrossSignal, getChannelStatus, __test } from "../cross-signal";
 
 const { githubComponent, hnComponent, blueskyComponent, devtoComponent } = __test;
@@ -86,11 +87,11 @@ test("devtoComponent: returns 0 for an unknown repo", () => {
 });
 
 test("devtoComponent: real repo with mentions ≥1 lights at least 0.4", () => {
-  // Pulled from live data: NousResearch/hermes-agent had count7d=3 on the
-  // first scraper run. If the data file rotates and this repo loses
-  // mentions later, swap for whichever leaderboard top-row currently exists.
-  const score = devtoComponent("NousResearch/hermes-agent");
-  assert.ok(score >= 0.4, `expected dev.to signal, got ${score}`);
+  const mentioned = getDevtoLeaderboard().find((row) => row.count7d >= 1);
+  assert.ok(mentioned, "expected dev.to fixture to include at least one mentioned repo");
+
+  const score = devtoComponent(mentioned.fullName);
+  assert.ok(score >= 0.4, `expected dev.to signal for ${mentioned.fullName}, got ${score}`);
 });
 
 // ---------------------------------------------------------------------------

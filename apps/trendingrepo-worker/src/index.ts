@@ -1,4 +1,4 @@
-import { initSentry } from './lib/sentry.js';
+import { flushSentry, initSentry } from './lib/sentry.js';
 import { getLogger } from './lib/log.js';
 import { loadEnv } from './lib/env.js';
 import { getFetcher, listFetcherNames } from './registry.js';
@@ -63,6 +63,7 @@ async function main(argv: string[]): Promise<number> {
     await runFetcher(fetcher, { dryRun });
     return 0;
   } catch {
+    await flushSentry();
     return 1;
   }
 }
@@ -72,6 +73,6 @@ main(process.argv).then(
   (err) => {
     // eslint-disable-next-line no-console
     console.error(err);
-    process.exit(1);
+    flushSentry().finally(() => process.exit(1));
   },
 );

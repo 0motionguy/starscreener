@@ -156,6 +156,32 @@ export function SubredditMindshareCanvas({
     return { breakoutPosts, aboveAvgPosts };
   }, [seeds]);
 
+  // Gradient defs keyed on the (fill, gradientEnd) tier color pair instead
+  // of per-seed id. The 80 seeds use ~4 unique tier colors, so this collapses
+  // ~80 <radialGradient> elements into ~4 — every bubble references the
+  // shared def via gradientIdBySeedId.
+  const gradients = useMemo(() => {
+    const byKey = new Map<
+      string,
+      { id: string; fill: string; gradientEnd: string }
+    >();
+    const idBySeed = new Map<string, string>();
+    for (const s of seeds) {
+      const key = `${s.fill}|${s.gradientEnd}`;
+      let entry = byKey.get(key);
+      if (!entry) {
+        entry = {
+          id: `sgrad-${byKey.size}`,
+          fill: s.fill,
+          gradientEnd: s.gradientEnd,
+        };
+        byKey.set(key, entry);
+      }
+      idBySeed.set(s.id, entry.id);
+    }
+    return { defs: Array.from(byKey.values()), idBySeed };
+  }, [seeds]);
+
   const svgRef = useRef<SVGSVGElement | null>(null);
   const groupRefs = useRef<Record<string, SVGGElement | null>>({});
 
@@ -800,7 +826,7 @@ export function SubredditMindshareCanvas({
             initial={false}
             animate={{ r: s.r * (isHovered && !isDragging ? 1.05 : 1) }}
             transition={{ duration: 0.6, ease: "easeInOut" }}
-            fill={`url(#sgrad-${s.id})`}
+            fill={`url(#${gradients.idBySeed.get(s.id) ?? "sgrad-0"})`}
             stroke={isActive ? "#f6f9fc" : s.stroke}
             strokeWidth={
               isActive
@@ -1047,16 +1073,16 @@ export function SubredditMindshareCanvas({
         onPointerLeave={handlePointerUp}
       >
         <defs>
-          {seeds.map((s) => (
+          {gradients.defs.map((g) => (
             <radialGradient
-              key={`sg-${s.id}`}
-              id={`sgrad-${s.id}`}
+              key={g.id}
+              id={g.id}
               cx="35%"
               cy="30%"
               r="75%"
             >
-              <stop offset="0%" stopColor={s.fill} stopOpacity={0.85} />
-              <stop offset="100%" stopColor={s.gradientEnd} stopOpacity={0.30} />
+              <stop offset="0%" stopColor={g.fill} stopOpacity={0.85} />
+              <stop offset="100%" stopColor={g.gradientEnd} stopOpacity={0.30} />
             </radialGradient>
           ))}
         </defs>

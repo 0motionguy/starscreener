@@ -420,3 +420,90 @@ test("webhook route — bad signature returns 400", async () => {
     else process.env.STRIPE_WEBHOOK_SECRET = prior.STRIPE_WEBHOOK_SECRET;
   }
 });
+
+// LIB-06: three negative tests for the sig-verify boundary. The existing
+// test above covers the "constructEvent throws" path with an expired t=0
+// timestamp; these cover the remaining failure modes the route is
+// responsible for catching cleanly.
+async function withStripeEnv<T>(fn: () => Promise<T>): Promise<T> {
+  const prior = {
+    STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
+    STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
+  };
+  process.env.STRIPE_SECRET_KEY = "sk_test_dummy_do_not_use";
+  process.env.STRIPE_WEBHOOK_SECRET = "whsec_dummy_do_not_use";
+  try {
+    return await fn();
+  } finally {
+    if (prior.STRIPE_SECRET_KEY === undefined)
+      delete process.env.STRIPE_SECRET_KEY;
+    else process.env.STRIPE_SECRET_KEY = prior.STRIPE_SECRET_KEY;
+    if (prior.STRIPE_WEBHOOK_SECRET === undefined)
+      delete process.env.STRIPE_WEBHOOK_SECRET;
+    else process.env.STRIPE_WEBHOOK_SECRET = prior.STRIPE_WEBHOOK_SECRET;
+  }
+}
+
+async function loadRoute() {
+  const routeMod = await import(
+    "../../../app/api/webhooks/stripe/route.js"
+  ).catch(() => null);
+  return routeMod ?? (await import("../../../app/api/webhooks/stripe/route"));
+}
+
+test("webhook route — missing stripe-signature header returns 400", async () => {
+  await withStripeEnv(async () => {
+    const ts = await loadRoute();
+    const fakeRequest = {
+      headers: new Headers({ "content-type": "application/json" }),
+      text: async () => JSON.stringify({ id: "evt_x", type: "ping" }),
+    } as unknown as Parameters<typeof ts.POST>[0];
+
+    const res = await ts.POST(fakeRequest);
+    assert.equal(res.status, 400);
+    const body = (await res.json()) as { ok: boolean; code?: string };
+    assert.equal(body.ok, false);
+    assert.equal(body.code, "BAD_SIGNATURE");
+  });
+});
+
+test("webhook route — empty stripe-signature header returns 400", async () => {
+  await withStripeEnv(async () => {
+    const ts = await loadRoute();
+    // Empty string is falsy in `if (!signature)`, same path as missing.
+    const fakeRequest = {
+      headers: new Headers({
+        "content-type": "application/json",
+        "stripe-signature": "",
+      }),
+      text: async () => JSON.stringify({ id: "evt_x", type: "ping" }),
+    } as unknown as Parameters<typeof ts.POST>[0];
+
+    const res = await ts.POST(fakeRequest);
+    assert.equal(res.status, 400);
+    const body = (await res.json()) as { ok: boolean; code?: string };
+    assert.equal(body.ok, false);
+    assert.equal(body.code, "BAD_SIGNATURE");
+  });
+});
+
+test("webhook route — malformed stripe-signature value returns 400", async () => {
+  await withStripeEnv(async () => {
+    const ts = await loadRoute();
+    // Header is present + non-empty but doesn't parse as Stripe's
+    // `t=<unix>,v1=<hex>` shape. constructEvent throws; route maps to 400.
+    const fakeRequest = {
+      headers: new Headers({
+        "content-type": "application/json",
+        "stripe-signature": "garbage-not-a-stripe-sig",
+      }),
+      text: async () => JSON.stringify({ id: "evt_x", type: "ping" }),
+    } as unknown as Parameters<typeof ts.POST>[0];
+
+    const res = await ts.POST(fakeRequest);
+    assert.equal(res.status, 400);
+    const body = (await res.json()) as { ok: boolean; code?: string };
+    assert.equal(body.ok, false);
+    assert.equal(body.code, "BAD_SIGNATURE");
+  });
+});

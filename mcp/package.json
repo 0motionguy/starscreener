@@ -1,7 +1,7 @@
 {
   "name": "starscreener-mcp",
   "version": "0.1.0",
-  "description": "MCP server exposing the StarScreener GitHub trend REST API to AI agents via stdio.",
+  "description": "MCP server exposing TrendingRepo open-source trend intelligence to AI agents via stdio.",
   "type": "module",
   "bin": {
     "starscreener-mcp": "dist/server.js"
@@ -15,21 +15,23 @@
     "mcp",
     "model-context-protocol",
     "starscreener",
+    "trendingrepo",
     "github",
     "trending",
+    "open-source-intelligence",
     "ai-agents",
     "claude"
   ],
   "license": "MIT",
   "author": "Mirko Basil Dolger",
-  "homepage": "https://github.com/Kermit457/STARSCREENER#readme",
+  "homepage": "https://github.com/0motionguy/starscreener#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Kermit457/STARSCREENER.git",
+    "url": "git+https://github.com/0motionguy/starscreener.git",
     "directory": "mcp"
   },
   "bugs": {
-    "url": "https://github.com/Kermit457/STARSCREENER/issues"
+    "url": "https://github.com/0motionguy/starscreener/issues"
   },
   "scripts": {
     "build": "tsc -p .",

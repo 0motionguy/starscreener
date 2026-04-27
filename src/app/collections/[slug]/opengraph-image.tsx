@@ -172,7 +172,7 @@ export default async function CollectionOGImage({ params }: RouteParams) {
                   alignItems: "center",
                   justifyContent: "space-between",
                   padding: "18px 24px",
-                  borderRadius: 14,
+                  borderRadius: 1,
                   backgroundColor: OG_COLORS.bgSecondary,
                   border: `1px solid ${OG_COLORS.border}`,
                 }}

@@ -325,7 +325,7 @@ function BigStat({
         flexDirection: "column",
         gap: 8,
         padding: "18px 22px",
-        borderRadius: 14,
+        borderRadius: 1,
         backgroundColor: OG_COLORS.bgSecondary,
         border: `1px solid ${OG_COLORS.border}`,
       }}

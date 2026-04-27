@@ -33,12 +33,27 @@ export default async function HomeOGImage() {
           display: "flex",
           flexDirection: "column",
           backgroundColor: OG_COLORS.bg,
-          padding: "72px 80px",
+          padding: "60px 80px",
           fontFamily: "sans-serif",
           color: OG_COLORS.textPrimary,
           position: "relative",
         }}
       >
+        {/* Mono eyebrow — V2 operator label */}
+        <div
+          style={{
+            display: "flex",
+            fontSize: 16,
+            fontFamily: "monospace",
+            color: OG_COLORS.textMuted,
+            letterSpacing: "0.20em",
+            textTransform: "uppercase",
+            marginBottom: 32,
+          }}
+        >
+          {"// trendingrepo · live · 04.27"}
+        </div>
+
         {/* Wordmark */}
         <div
           style={{
@@ -46,8 +61,8 @@ export default async function HomeOGImage() {
             alignItems: "center",
             gap: 16,
             fontSize: 72,
-            fontWeight: 800,
-            letterSpacing: "-0.02em",
+            fontWeight: 700,
+            letterSpacing: "-0.035em",
             lineHeight: 1,
           }}
         >
@@ -55,34 +70,20 @@ export default async function HomeOGImage() {
           <span style={{ color: OG_COLORS.textPrimary }}>TrendingRepo</span>
         </div>
 
-        {/* Headline */}
+        {/* Headline — display weight 300 with dim/bright pattern */}
         <div
           style={{
             display: "flex",
-            marginTop: 28,
-            fontSize: 72,
-            fontWeight: 700,
-            color: OG_COLORS.textPrimary,
-            letterSpacing: "-0.02em",
+            marginTop: 24,
+            fontSize: 64,
+            fontWeight: 300,
+            letterSpacing: "-0.035em",
             lineHeight: 1,
           }}
         >
-          AI Trending Terminal
-        </div>
-
-        {/* Sub — surfaces */}
-        <div
-          style={{
-            display: "flex",
-            marginTop: 18,
-            fontSize: 22,
-            fontFamily: "monospace",
-            color: OG_COLORS.textTertiary,
-            letterSpacing: "0.18em",
-            textTransform: "uppercase",
-          }}
-        >
-          WEB · CLI · CLAUDE
+          <span style={{ color: OG_COLORS.textMuted }}>the&nbsp;</span>
+          <span style={{ color: OG_COLORS.textPrimary }}>trend map</span>
+          <span style={{ color: OG_COLORS.textMuted }}>&nbsp;for open source</span>
         </div>
 
         {/* 3x2 repo grid */}
@@ -104,7 +105,7 @@ export default async function HomeOGImage() {
                 justifyContent: "space-between",
                 width: 336,
                 padding: "16px 20px",
-                borderRadius: 12,
+                borderRadius: 1,
                 backgroundColor: OG_COLORS.bgSecondary,
                 border: `1px solid ${OG_COLORS.border}`,
               }}

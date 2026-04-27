@@ -45,7 +45,7 @@ test("reddit shared: defaults to public-json without oauth creds", async () => {
     async () => {
       assert.equal(hasRedditOAuthCreds(), false);
       assert.equal(getRedditAuthMode(), "public-json");
-      assert.match(getRedditUserAgent(), /StarScreener\/0\.1/);
+      assert.match(getRedditUserAgent(), /Chrome\/121/);
       assert.equal(
         resolveRedditApiUrl("https://www.reddit.com/r/OpenAI/new.json?limit=3"),
         "https://www.reddit.com/r/OpenAI/new.json?limit=3",
@@ -95,14 +95,14 @@ test("reddit shared: fetchRedditJson uses public endpoint without oauth creds", 
         },
       );
 
-      assert.deepEqual(body, { data: { children: [] } });
+      assert.deepEqual(body, { data: { children: [], after: null, before: null } });
       assert.equal(calls.length, 1);
       assert.equal(
         calls[0].url,
-        "https://www.reddit.com/r/OpenAI/new.json?limit=3",
+        "https://www.reddit.com/r/OpenAI/new/.rss?limit=3",
       );
       assert.equal(calls[0].init.headers.Authorization, undefined);
-      assert.match(calls[0].init.headers["User-Agent"], /StarScreener\/0\.1/);
+      assert.match(calls[0].init.headers["User-Agent"], /Chrome\/121/);
     },
   );
 });
@@ -201,7 +201,7 @@ test("reddit shared: falls back to public JSON when oauth path fails", async () 
             }
             assert.equal(
               url,
-              "https://www.reddit.com/r/OpenAI/new.json?limit=3",
+              "https://old.reddit.com/r/OpenAI/new.json?limit=3",
             );
             assert.equal(init.headers.Authorization, undefined);
             return Response.json({ data: { children: [{ id: "public-hit" }] } });
@@ -217,7 +217,7 @@ test("reddit shared: falls back to public JSON when oauth path fails", async () 
       );
       assert.equal(
         calls[2].url,
-        "https://www.reddit.com/r/OpenAI/new.json?limit=3",
+        "https://old.reddit.com/r/OpenAI/new.json?limit=3",
       );
       assert.deepEqual(getRedditFetchRuntime(), {
         preferredMode: "oauth",

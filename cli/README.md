@@ -1,6 +1,6 @@
 # starscreener-cli (`ss`)
 
-Read-only terminal client for the [StarScreener](https://github.com/Kermit457/STARSCREENER) GitHub trend API. Native Node 18+, no external dependencies.
+Read-only terminal client for the [TrendingRepo](https://trendingrepo.com) open-source trend API. Native Node 18+, no external dependencies.
 
 ## Install
 
@@ -16,28 +16,40 @@ npx starscreener-cli trending
 
 ## Configure
 
-Point the CLI at a running StarScreener backend via env var:
+By default, the CLI talks to the live API:
 
 ```bash
-export STARSCREENER_API_URL="http://localhost:3004"   # default
+ss trending --window=24h --limit=10
 ```
 
-If not set, it falls back to `http://localhost:3004`.
+For local development, point it at your Next.js server:
+
+```bash
+export STARSCREENER_API_URL="http://localhost:3023"
+```
+
+Optional auth:
+
+| Variable | Purpose |
+| --- | --- |
+| `STARSCREENER_API_KEY` | Preferred self-serve API key. Sent as `x-api-key`. |
+| `STARSCREENER_USER_TOKEN` | Legacy per-user token. Sent as `x-user-token` when no API key is set. |
 
 ## Commands
 
-| Command      | Description                                                 |
-| ------------ | ----------------------------------------------------------- |
+| Command | Description |
+| --- | --- |
 | `ss trending [--window=24h\|7d\|30d] [--limit=20] [--json]` | Top movers for a time window. Default: 7d. |
-| `ss breakouts [--limit=20] [--json]`                        | Repos currently flagged as breakouts.       |
-| `ss new [--limit=20] [--json]`                              | Repos created in the last 30 days.          |
-| `ss search <query> [--limit=10] [--json]`                   | Full-text search over name / desc / topics. |
-| `ss repo <owner/name> [--json]`                             | Detailed view of one repo.                  |
-| `ss compare <owner/name> <owner/name> [...] [--json]`       | Side-by-side comparison.                    |
-| `ss categories [--json]`                                    | List categories with repoCount + avg momentum. |
-| `ss stream [--types=...]`                                   | Tail live SSE event stream (Ctrl+C stops).  |
-| `ss help`                                                   | Show full help.                              |
-| `ss --version`                                              | Print CLI version.                           |
+| `ss breakouts [--limit=20] [--json]` | Repos currently flagged as breakouts. |
+| `ss new [--limit=20] [--json]` | Repos created in the last 30 days. |
+| `ss search <query> [--limit=10] [--json]` | Full-text search over name, description, and topics. |
+| `ss repo <owner/name> [--json]` | Detailed view of one repo. |
+| `ss compare <owner/name> <owner/name> [...] [--json]` | Side-by-side comparison. |
+| `ss categories [--json]` | List categories with repo count and average momentum. |
+| `ss status [--json]` | Check API health. |
+| `ss stream [--types=...]` | Tail the live SSE event stream. |
+| `ss help` | Show full help. |
+| `ss --version` | Print CLI version. |
 
 ## Examples
 
@@ -46,12 +58,14 @@ ss trending --window=24h --limit=10
 ss search "rust database" --limit=5
 ss repo vercel/next.js
 ss compare vercel/next.js ollama/ollama
+ss status
 ss trending --json | jq '.repos[].fullName'
 ```
 
 ## Related
 
-- [`starscreener-mcp`](https://www.npmjs.com/package/starscreener-mcp) — MCP server exposing the same API to AI agents.
+- [`starscreener-mcp`](https://www.npmjs.com/package/starscreener-mcp) - MCP server exposing the same API to AI agents.
+- Source repository: <https://github.com/0motionguy/starscreener>
 
 ## License
 

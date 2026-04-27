@@ -12,7 +12,7 @@ Skills live under [skills/](../../skills/). Each skill is a folder containing a 
 | [`investigate-maintainer`](../../skills/investigate-maintainer/SKILL.md) | "Who's behind `<handle>`?" | `maintainer_profile`, `search_repos`, `top_gainers` |
 | [`weekly-report`](../../skills/weekly-report/SKILL.md) | "Give me a weekly brief." | `top_gainers`, `maintainer_profile` |
 
-Each skill uses the Portal-canonical tool names so it works whether the agent has `@starscreener/mcp` installed OR uses Portal drive-by to `starscreener.xyz/portal`.
+Each skill uses the Portal-canonical tool names so it works whether the agent has `starscreener-mcp` installed OR uses Portal drive-by to `trendingrepo.com/portal`.
 
 ## Try it in 60 seconds — Claude Code
 
@@ -43,7 +43,7 @@ description: "..."            # 1–1024 chars; describes WHAT it does and WHEN 
 license: MIT                  # optional
 metadata:                     # optional
   version: "0.1.0"
-  source: starscreener.xyz
+  source: trendingrepo.com
 ---
 ```
 

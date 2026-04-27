@@ -76,6 +76,8 @@ tags:
     description: Canonical per-repo profile + evidence sub-endpoints.
   - name: Discovery
     description: Listing, search, categories, collections, compare.
+  - name: Data
+    description: Authenticated bulk data API for API-key clients.
   - name: Evidence
     description: Mentions, freshness, AISO (AI-discoverability) surfaces.
   - name: Auth
@@ -127,6 +129,13 @@ components:
         HMAC-SHA256 signed session cookie issued by `POST /api/auth/session`.
         HttpOnly, SameSite=Lax, 30-day Max-Age. Accepted anywhere `userBearer`
         is accepted.
+    apiKey:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: |
+        Self-serve API key created with `POST /api/keys`. Preferred for
+        CLI, MCP, and Data API clients.
 
   # =========================================================================
   # Reusable primitives
@@ -1081,6 +1090,131 @@ paths:
                         type: array
                         items: { type: string }
         "400": { $ref: "#/components/responses/BadRequest" }
+
+  /api/data/repos:
+    get:
+      tags: [Data]
+      summary: Authenticated bulk repo data feed.
+      description: |
+        Versioned Data API endpoint for API-key clients. Supports projection,
+        filtering, search, sorting, and cursor-style pagination via `offset`.
+      operationId: dataRepos
+      security:
+        - apiKey: []
+        - userBearer: []
+        - sessionCookie: []
+      parameters:
+        - name: window
+          in: query
+          schema: { type: string, enum: [24h, 7d, 30d], default: 7d }
+        - name: sort
+          in: query
+          schema: { type: string, enum: [trend, momentum, stars, delta, newest], default: trend }
+        - name: filter
+          in: query
+          schema: { type: string, enum: [all, breakouts, hot, quiet-killers, new-under-30d], default: all }
+        - name: category
+          in: query
+          schema: { type: string }
+        - name: language
+          in: query
+          schema: { type: string }
+        - name: tag
+          in: query
+          schema: { type: string }
+        - name: topic
+          in: query
+          schema: { type: string }
+        - name: q
+          in: query
+          schema: { type: string }
+        - name: fields
+          in: query
+          schema: { type: string }
+          description: Comma-separated allow-list of repo fields to include.
+        - name: limit
+          in: query
+          schema: { type: integer, minimum: 1, maximum: 500, default: 100 }
+        - name: offset
+          in: query
+          schema: { type: integer, minimum: 0, default: 0 }
+      responses:
+        "200":
+          description: Versioned data feed envelope.
+          headers:
+            X-RateLimit-Limit: { schema: { type: string } }
+            X-RateLimit-Remaining: { schema: { type: string } }
+            X-RateLimit-Reset: { schema: { type: string } }
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ok, v, fetchedAt, data, meta]
+                properties:
+                  ok: { type: boolean, enum: [true] }
+                  v: { type: integer, enum: [1] }
+                  fetchedAt: { $ref: "#/components/schemas/Timestamp" }
+                  data:
+                    type: array
+                    items: { type: object, additionalProperties: true }
+                  meta:
+                    type: object
+                    required: [total, count, limit, offset, nextOffset, window, sort, filter, fields]
+                    properties:
+                      total: { type: integer }
+                      count: { type: integer }
+                      limit: { type: integer }
+                      offset: { type: integer }
+                      nextOffset: { type: [integer, "null"] }
+                      window: { type: string }
+                      sort: { type: string }
+                      filter: { type: string }
+                      fields:
+                        type: array
+                        items: { type: string }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "429": { $ref: "#/components/responses/RateLimited" }
+
+  /api/data/snapshot:
+    get:
+      tags: [Data]
+      summary: Authenticated dataset snapshot summary.
+      operationId: dataSnapshot
+      security:
+        - apiKey: []
+        - userBearer: []
+        - sessionCookie: []
+      parameters:
+        - name: top
+          in: query
+          schema: { type: integer, minimum: 1, maximum: 100, default: 25 }
+          description: Number of top-momentum repos to include.
+      responses:
+        "200":
+          description: Dataset summary and top repos.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ok, v, fetchedAt, summary, topRepos]
+                properties:
+                  ok: { type: boolean, enum: [true] }
+                  v: { type: integer, enum: [1] }
+                  fetchedAt: { $ref: "#/components/schemas/Timestamp" }
+                  summary:
+                    type: object
+                    properties:
+                      totalRepos: { type: integer }
+                      totalStars: { type: integer }
+                      byLanguage: { type: object, additionalProperties: { type: integer } }
+                      byCategory: { type: object, additionalProperties: { type: integer } }
+                      byMovementStatus: { type: object, additionalProperties: { type: integer } }
+                  topRepos:
+                    type: array
+                    items: { type: object, additionalProperties: true }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "429": { $ref: "#/components/responses/RateLimited" }
 
   /api/search:
     get:

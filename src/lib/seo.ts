@@ -24,20 +24,21 @@ export function absoluteUrl(path: string = "/"): string {
 }
 
 /**
- * Brand palette literal hex values. Token values from globals.css — used by
- * OG image generators (ImageResponse) where CSS vars can't be resolved.
+ * V2 brand palette literal hex values. Mirrors the --v2-* tokens defined
+ * in globals.css — used by OG image generators (ImageResponse) where CSS
+ * vars can't be resolved.
  */
 export const OG_COLORS = {
-  bg: "#151419", // Dark Void
-  bgSecondary: "#1b1b1e", // Gluon Grey
-  bgTertiary: "#262626", // Slate
-  brand: "#F56E0F", // Liquid Lava orange
-  brandDim: "rgba(245, 110, 15, 0.15)",
-  textPrimary: "#FBFBFB", // Snow
-  textSecondary: "#C4C4C6",
-  textTertiary: "#878787",
-  textMuted: "#5A5A5C",
-  up: "#22C55E",
-  down: "#EF4444",
-  border: "#2B2B2F",
+  bg: "#08090a", // --v2-bg-000 (page edge / deepest surface)
+  bgSecondary: "#0d0f10", // --v2-bg-050 (default card)
+  bgTertiary: "#13161a", // --v2-bg-100 (well / hover)
+  brand: "#f56e0f", // --v2-acc (Liquid Lava orange)
+  brandDim: "rgba(245, 110, 15, 0.14)", // --v2-acc-soft
+  textPrimary: "#ffffff", // --v2-ink-000
+  textSecondary: "#e6e7e8", // --v2-ink-100 (body)
+  textTertiary: "#aab0b6", // --v2-ink-200
+  textMuted: "#7d848c", // --v2-ink-300 (mono captions)
+  up: "#22c55e", // --v2-sig-green
+  down: "#ff4d4d", // --v2-sig-red
+  border: "#1c2024", // --v2-line-100
 } as const;

@@ -1,8 +1,10 @@
-// /npm - top repo-linked npm packages by download movement.
+// /npm — V2 top repo-linked npm packages.
 //
-// npm is its own terminal because it is registry adoption telemetry, not a
-// news/social mention source. The scraper discovers package candidates,
-// keeps only rows whose metadata links to GitHub, then ranks 24h/7d/30d.
+// npm is its own terminal because it is registry adoption telemetry,
+// not a news/social mention source. The scraper discovers package
+// candidates, keeps only rows whose metadata links to GitHub, then
+// ranks 24h/7d/30d. V2 design: TerminalBar header, V2 tab nav, V2
+// stat tiles, V2 table with v2-row hover state.
 
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -19,11 +21,11 @@ import {
   type NpmWindow,
 } from "@/lib/npm";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
+import { TerminalBar } from "@/components/today-v2/primitives/TerminalBar";
 
 const WINDOWS: NpmWindow[] = ["24h", "7d", "30d"];
 const DEFAULT_WINDOW: NpmWindow = "24h";
 
-// Dynamic because the active window comes from searchParams.
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
@@ -81,7 +83,6 @@ function formatDeltaPct(n: number | null | undefined): string {
 
 export default async function NpmPage({ searchParams }: NpmPageProps) {
   const { range } = await searchParams;
-  // Refresh npm-packages cache from the data-store before reading sync getters.
   await refreshNpmFromStore();
   const activeWindow = parseWindow(range);
   const file = getNpmPackagesFile();
@@ -91,78 +92,140 @@ export default async function NpmPage({ searchParams }: NpmPageProps) {
   const cold = getNpmCold() || packages.length === 0;
 
   return (
-    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
-      <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        <header className="mb-6 border-b border-border-primary pb-6">
-          <div className="flex items-baseline gap-3 flex-wrap">
-            <h1 className="text-2xl font-bold uppercase tracking-wider">
-              NPM / TOP PACKAGES
-            </h1>
-            <span className="text-xs text-text-tertiary">
-              {"// 24h / 7d / 30d repo-linked package movement"}
-            </span>
-          </div>
-          <p className="mt-2 text-sm text-text-secondary max-w-3xl">
-            Top npm packages are discovered through npm registry search, then
-            filtered to packages with a GitHub repository attached. The table
-            ranks public download movement against the previous equivalent
-            window; npm stats usually lag by 24-48 hours.
+    <>
+      <section className="border-b border-[color:var(--v2-line-100)]">
+        <div className="v2-frame pt-6 pb-6">
+          <TerminalBar
+            label={
+              <>
+                <span aria-hidden>{"// "}</span>NPM · TOP · REPO-LINKED
+              </>
+            }
+            status={cold ? "COLD" : `${packages.length} PKGS`}
+          />
+
+          <h1
+            className="v2-mono mt-6 inline-flex items-center gap-2"
+            style={{
+              color: "var(--v2-ink-100)",
+              fontSize: 12,
+              letterSpacing: "0.20em",
+            }}
+          >
+            <span aria-hidden>{"// "}</span>
+            NPM · TOP PACKAGES
+            <span
+              aria-hidden
+              className="inline-block ml-1"
+              style={{
+                width: 6,
+                height: 6,
+                background: "var(--v2-acc)",
+                borderRadius: 1,
+                boxShadow: "0 0 6px var(--v2-acc-glow)",
+              }}
+            />
+          </h1>
+          <p
+            className="text-[14px] leading-relaxed max-w-[80ch] mt-3"
+            style={{ color: "var(--v2-ink-200)" }}
+          >
+            Top npm packages discovered through registry search, then filtered
+            to packages with a GitHub repository attached. The table ranks
+            public download movement against the previous equivalent window;
+            npm stats usually lag by 24-48 hours.
           </p>
-        </header>
+        </div>
+      </section>
 
-        {cold ? (
-          <ColdState />
-        ) : (
-          <>
-            <TabNav active={activeWindow} />
+      {cold ? (
+        <ColdStateV2 />
+      ) : (
+        <>
+          <section className="border-b border-[color:var(--v2-line-100)]">
+            <div className="v2-frame py-4">
+              <TabNavV2 active={activeWindow} />
+            </div>
+          </section>
 
-            <section className="mb-6 grid grid-cols-2 md:grid-cols-4 gap-3">
-              <StatTile
-                label="LAST SCRAPE"
-                value={formatRelative(npmFetchedAt)}
-                hint={
-                  npmFetchedAt
-                    ? new Date(npmFetchedAt)
-                        .toISOString()
-                        .slice(0, 16)
-                        .replace("T", " ")
-                    : undefined
-                }
-              />
-              <StatTile
-                label={`TOP ${activeWindow.toUpperCase()} MOVE`}
-                value={top ? formatDeltaPct(deltaPctForNpmWindow(top, activeWindow)) : "0.0%"}
-                hint={
-                  top
-                    ? `${top.name} - ${formatSignedCompact(deltaForNpmWindow(top, activeWindow))}`
-                    : undefined
-                }
-              />
-              <StatTile
-                label="REPOS LINKED"
-                value={file.counts.linkedRepos.toLocaleString("en-US")}
-                hint={`${file.discovery.candidatesFound.toLocaleString("en-US")} search candidates`}
-              />
-              <StatTile
-                label="DISCOVERY"
-                value={file.discovery.queries.length.toLocaleString("en-US")}
-                hint={`queries x ${file.discovery.searchSize} results`}
-              />
-            </section>
+          <section className="border-b border-[color:var(--v2-line-100)]">
+            <div className="v2-frame py-6">
+              <p
+                className="v2-mono mb-3"
+                style={{ color: "var(--v2-ink-300)" }}
+              >
+                <span aria-hidden>{"// "}</span>
+                METRICS · {activeWindow.toUpperCase()}
+              </p>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <StatTileV2
+                  label="LAST · SCRAPE"
+                  value={formatRelative(npmFetchedAt)}
+                  hint={
+                    npmFetchedAt
+                      ? new Date(npmFetchedAt)
+                          .toISOString()
+                          .slice(0, 16)
+                          .replace("T", " ")
+                      : undefined
+                  }
+                />
+                <StatTileV2
+                  label={`TOP · ${activeWindow.toUpperCase()} · MOVE`}
+                  value={
+                    top
+                      ? formatDeltaPct(deltaPctForNpmWindow(top, activeWindow))
+                      : "0.0%"
+                  }
+                  hint={
+                    top
+                      ? `${top.name} - ${formatSignedCompact(deltaForNpmWindow(top, activeWindow))}`
+                      : undefined
+                  }
+                />
+                <StatTileV2
+                  label="REPOS · LINKED"
+                  value={file.counts.linkedRepos.toLocaleString("en-US")}
+                  hint={`${file.discovery.candidatesFound.toLocaleString("en-US")} search candidates`}
+                />
+                <StatTileV2
+                  label="DISCOVERY · QUERIES"
+                  value={file.discovery.queries.length.toLocaleString("en-US")}
+                  hint={`queries x ${file.discovery.searchSize} results`}
+                />
+              </div>
+            </div>
+          </section>
 
-            <PackageFeed packages={packages} activeWindow={activeWindow} />
-          </>
-        )}
-      </div>
-    </main>
+          <section>
+            <div className="v2-frame py-6">
+              <p
+                className="v2-mono mb-3"
+                style={{ color: "var(--v2-ink-300)" }}
+              >
+                <span aria-hidden>{"// "}</span>
+                FEED · {activeWindow.toUpperCase()} · TOP{" "}
+                <span style={{ color: "var(--v2-ink-100)" }}>
+                  {packages.length}
+                </span>
+              </p>
+              <PackageFeedV2
+                packages={packages}
+                activeWindow={activeWindow}
+              />
+            </div>
+          </section>
+        </>
+      )}
+    </>
   );
 }
 
-function TabNav({ active }: { active: NpmWindow }) {
+function TabNavV2({ active }: { active: NpmWindow }) {
   return (
     <nav
       aria-label="npm time windows"
-      className="mb-6 flex items-center gap-1 border-b border-border-primary overflow-x-auto scrollbar-hide"
+      className="flex items-center gap-2 flex-wrap"
     >
       {WINDOWS.map((window) => {
         const isActive = window === active;
@@ -171,13 +234,18 @@ function TabNav({ active }: { active: NpmWindow }) {
             key={window}
             href={`/npm?range=${window}`}
             aria-current={isActive ? "page" : undefined}
-            className={`inline-flex items-center gap-2 px-3 min-h-[40px] text-xs uppercase tracking-wider whitespace-nowrap transition-colors ${
-              isActive
-                ? "text-text-primary border-b-2 border-accent-green"
-                : "text-text-tertiary hover:text-text-secondary border-b-2 border-transparent"
-            }`}
+            className="v2-mono px-3 py-1.5 inline-block transition"
+            style={{
+              fontSize: 11,
+              letterSpacing: "0.20em",
+              color: isActive ? "var(--v2-bg-000)" : "var(--v2-ink-300)",
+              background: isActive ? "var(--v2-acc)" : "transparent",
+              border: `1px solid ${
+                isActive ? "var(--v2-acc)" : "var(--v2-line-200)"
+              }`,
+            }}
           >
-            Top {window}
+            TOP {window.toUpperCase()}
           </Link>
         );
       })}
@@ -185,7 +253,7 @@ function TabNav({ active }: { active: NpmWindow }) {
   );
 }
 
-function PackageFeed({
+function PackageFeedV2({
   packages,
   activeWindow,
 }: {
@@ -193,54 +261,72 @@ function PackageFeed({
   activeWindow: NpmWindow;
 }) {
   return (
-    <section className="border border-border-primary rounded-md bg-bg-secondary overflow-hidden">
-      <div className="hidden md:grid grid-cols-[40px_minmax(0,1.3fr)_minmax(0,1fr)_100px_100px_100px_110px] gap-3 items-center px-3 h-9 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
+    <div className="v2-card overflow-hidden">
+      <div
+        className="hidden md:grid grid-cols-[40px_minmax(0,1.3fr)_minmax(0,1fr)_100px_100px_100px_110px] gap-3 items-center px-3 h-9 v2-mono"
+        style={{
+          borderBottom: "1px solid var(--v2-line-100)",
+          color: "var(--v2-ink-400)",
+          fontSize: 10,
+          letterSpacing: "0.20em",
+        }}
+      >
         <div>#</div>
         <div>PACKAGE</div>
         <div>REPO</div>
-        <div className="text-right">24H MOVE</div>
-        <div className="text-right">7D MOVE</div>
-        <div className="text-right">30D MOVE</div>
+        <div className="text-right">24H · MOVE</div>
+        <div className="text-right">7D · MOVE</div>
+        <div className="text-right">30D · MOVE</div>
         <div>VERSION</div>
       </div>
-      <div className="grid md:hidden grid-cols-[32px_1fr_86px] gap-2 items-center px-3 h-9 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
+      <div
+        className="grid md:hidden grid-cols-[32px_1fr_86px] gap-2 items-center px-3 h-9 v2-mono"
+        style={{
+          borderBottom: "1px solid var(--v2-line-100)",
+          color: "var(--v2-ink-400)",
+          fontSize: 10,
+          letterSpacing: "0.20em",
+        }}
+      >
         <div>#</div>
         <div>PACKAGE</div>
-        <div className="text-right">{activeWindow.toUpperCase()} MOVE</div>
+        <div className="text-right">{activeWindow.toUpperCase()} · MOVE</div>
       </div>
 
       <ul>
         {packages.map((pkg, i) => (
           <li
             key={pkg.name}
-            className="border-b border-border-primary/40 last:border-b-0"
+            style={{
+              borderTop: i === 0 ? "none" : "1px dashed var(--v2-line-soft)",
+            }}
           >
-            <div className="hidden md:grid grid-cols-[40px_minmax(0,1.3fr)_minmax(0,1fr)_100px_100px_100px_110px] gap-3 items-center px-3 py-2 min-h-[58px] hover:bg-bg-card-hover transition-colors">
+            <div className="hidden md:grid grid-cols-[40px_minmax(0,1.3fr)_minmax(0,1fr)_100px_100px_100px_110px] gap-3 items-center px-3 py-2 min-h-[58px] transition-colors hover:bg-[color:var(--v2-bg-100)]">
               <Rank index={i} />
               <PackageIdentity pkg={pkg} />
               <RepoLink pkg={pkg} />
               <Metric
-                current={pkg.downloads24h}
                 delta={pkg.delta24h}
                 deltaPct={pkg.deltaPct24h}
+                current={pkg.downloads24h}
                 active={activeWindow === "24h"}
               />
               <Metric
-                current={pkg.downloads7d}
                 delta={pkg.delta7d}
                 deltaPct={pkg.deltaPct7d}
+                current={pkg.downloads7d}
                 active={activeWindow === "7d"}
               />
               <Metric
-                current={pkg.downloads30d}
                 delta={pkg.delta30d}
                 deltaPct={pkg.deltaPct30d}
+                current={pkg.downloads30d}
                 active={activeWindow === "30d"}
               />
               <VersionPill pkg={pkg} />
             </div>
 
-            <div className="grid md:hidden grid-cols-[32px_1fr_86px] gap-2 items-center px-3 py-2 min-h-[64px] hover:bg-bg-card-hover transition-colors">
+            <div className="grid md:hidden grid-cols-[32px_1fr_86px] gap-2 items-center px-3 py-2 min-h-[64px] transition-colors hover:bg-[color:var(--v2-bg-100)]">
               <Rank index={i} />
               <div className="min-w-0">
                 <PackageIdentity pkg={pkg} />
@@ -249,22 +335,25 @@ function PackageFeed({
                 </div>
               </div>
               <Metric
-                current={downloadsForNpmWindow(pkg, activeWindow)}
                 delta={deltaForNpmWindow(pkg, activeWindow)}
                 deltaPct={deltaPctForNpmWindow(pkg, activeWindow)}
+                current={downloadsForNpmWindow(pkg, activeWindow)}
                 active
               />
             </div>
           </li>
         ))}
       </ul>
-    </section>
+    </div>
   );
 }
 
 function Rank({ index }: { index: number }) {
   return (
-    <div className="text-xs tabular-nums font-semibold text-accent-green">
+    <div
+      className="v2-mono-tight tabular-nums"
+      style={{ color: "var(--v2-acc)", fontSize: 12, fontWeight: 510 }}
+    >
       #{index + 1}
     </div>
   );
@@ -277,12 +366,16 @@ function PackageIdentity({ pkg }: { pkg: NpmPackageRow }) {
         href={pkg.npmUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="text-sm text-text-primary font-semibold hover:text-accent-green truncate block"
+        className="text-[14px] truncate block transition-colors"
+        style={{ color: "var(--v2-ink-100)", fontWeight: 510 }}
         title={pkg.name}
       >
         {pkg.name}
       </a>
-      <div className="text-[11px] text-text-tertiary truncate">
+      <div
+        className="v2-mono-tight truncate"
+        style={{ color: "var(--v2-ink-400)", fontSize: 11 }}
+      >
         {pkg.description ?? "repo-linked npm package"}
       </div>
     </div>
@@ -295,20 +388,21 @@ function RepoLink({ pkg }: { pkg: NpmPackageRow }) {
     return (
       <Link
         href={`/repo/${derived.owner}/${derived.name}`}
-        className="text-xs text-text-primary hover:text-accent-green truncate block"
+        className="v2-mono-tight truncate block transition-colors"
+        style={{ color: "var(--v2-ink-200)", fontSize: 12 }}
         title={pkg.linkedRepo}
       >
         {pkg.linkedRepo}
       </Link>
     );
   }
-
   return (
     <a
       href={pkg.repositoryUrl ?? `https://github.com/${pkg.linkedRepo}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-xs text-text-secondary hover:text-accent-green truncate block"
+      className="v2-mono-tight truncate block"
+      style={{ color: "var(--v2-ink-300)", fontSize: 12 }}
       title={pkg.linkedRepo}
     >
       {pkg.linkedRepo}
@@ -317,46 +411,52 @@ function RepoLink({ pkg }: { pkg: NpmPackageRow }) {
 }
 
 function Metric({
-  current,
   delta,
   deltaPct,
+  current,
   active = false,
 }: {
-  current: number;
   delta: number;
   deltaPct?: number | null;
+  current: number;
   active?: boolean;
 }) {
   const pct = Number(deltaPct) || 0;
+  const deltaColor =
+    delta > 0
+      ? "var(--v2-sig-green)"
+      : delta < 0
+        ? "var(--v2-sig-red)"
+        : "var(--v2-ink-300)";
   return (
     <div
-      className={`text-right text-xs tabular-nums ${
-        active ? "text-text-primary font-semibold" : "text-text-secondary"
-      }`}
+      className="text-right tabular-nums"
+      style={{
+        color: active ? "var(--v2-ink-100)" : "var(--v2-ink-300)",
+        fontWeight: active ? 510 : 400,
+      }}
     >
-      <div
-        className={
-          delta > 0
-            ? "text-accent-green"
-            : delta < 0
-              ? "text-accent-red"
-              : undefined
-        }
-      >
+      <div style={{ color: deltaColor, fontSize: 13 }}>
         {formatSignedCompact(delta)}
       </div>
-      <div className="mt-0.5 text-[10px] font-normal text-text-tertiary">
-        {formatCompact(current)} dl
+      <div
+        className="v2-mono-tight"
+        style={{ color: "var(--v2-ink-400)", fontSize: 10 }}
+      >
+        {formatCompact(current)} DL
       </div>
       {typeof deltaPct === "number" ? (
         <div
-          className={`mt-0.5 text-[10px] font-normal ${
-            pct > 0
-              ? "text-accent-green"
-              : pct < 0
-                ? "text-accent-red"
-                : "text-text-tertiary"
-          }`}
+          className="v2-mono-tight"
+          style={{
+            color:
+              pct > 0
+                ? "var(--v2-sig-green)"
+                : pct < 0
+                  ? "var(--v2-sig-red)"
+                  : "var(--v2-ink-400)",
+            fontSize: 10,
+          }}
         >
           {formatDeltaPct(pct)}
         </div>
@@ -368,17 +468,17 @@ function Metric({
 function VersionPill({ pkg }: { pkg: NpmPackageRow }) {
   return (
     <span
-      className="inline-flex max-w-full items-center rounded-sm border border-accent-green/40 bg-accent-green/10 px-1.5 py-0.5 text-[10px] uppercase tracking-wider text-accent-green"
+      className="v2-tag v2-tag-acc inline-flex max-w-full items-center"
       title={pkg.publishedAt ?? undefined}
     >
       <span className="truncate">
-        {pkg.latestVersion ? `v${pkg.latestVersion}` : "published"}
+        {pkg.latestVersion ? `v${pkg.latestVersion}` : "PUBLISHED"}
       </span>
     </span>
   );
 }
 
-function StatTile({
+function StatTileV2({
   label,
   value,
   hint,
@@ -388,13 +488,20 @@ function StatTile({
   hint?: string;
 }) {
   return (
-    <div className="border border-border-primary rounded-md px-4 py-3 bg-bg-secondary">
-      <div className="text-[10px] uppercase tracking-wider text-text-tertiary">
+    <div className="v2-stat">
+      <div className="v truncate" title={value}>
+        {value}
+      </div>
+      <div className="k">
+        <span aria-hidden>{"// "}</span>
         {label}
       </div>
-      <div className="mt-1 text-xl font-bold truncate">{value}</div>
       {hint ? (
-        <div className="mt-0.5 text-[11px] text-text-tertiary truncate">
+        <div
+          className="mt-1 v2-mono-tight truncate"
+          style={{ color: "var(--v2-ink-400)", fontSize: 11 }}
+          title={hint}
+        >
           {hint}
         </div>
       ) : null}
@@ -402,18 +509,41 @@ function StatTile({
   );
 }
 
-function ColdState() {
+function ColdStateV2() {
   return (
-    <section className="border border-dashed border-border-primary rounded-md p-8 bg-bg-secondary/40">
-      <h2 className="text-lg font-bold uppercase tracking-wider text-accent-green">
-        {"// no repo-linked npm data yet"}
-      </h2>
-      <p className="mt-3 text-sm text-text-secondary max-w-xl">
-        Run <code className="text-text-primary">npm run scrape:npm</code> to
-        discover npm packages, keep only packages with GitHub repos attached,
-        and populate{" "}
-        <code className="text-text-primary">data/npm-packages.json</code>.
-      </p>
+    <section>
+      <div className="v2-frame py-12">
+        <div className="v2-card p-8">
+          <p
+            className="v2-mono mb-3"
+            style={{ color: "var(--v2-acc)" }}
+          >
+            <span aria-hidden>{"// "}</span>
+            NO REPO-LINKED NPM DATA
+          </p>
+          <p
+            className="text-[14px] leading-relaxed max-w-[60ch]"
+            style={{ color: "var(--v2-ink-200)" }}
+          >
+            Run{" "}
+            <code
+              className="v2-mono-tight"
+              style={{ color: "var(--v2-ink-100)", fontSize: 12 }}
+            >
+              npm run scrape:npm
+            </code>{" "}
+            to discover npm packages, keep only packages with GitHub repos
+            attached, and populate{" "}
+            <code
+              className="v2-mono-tight"
+              style={{ color: "var(--v2-ink-100)", fontSize: 12 }}
+            >
+              data/npm-packages.json
+            </code>
+            .
+          </p>
+        </div>
+      </div>
     </section>
   );
 }

@@ -245,24 +245,36 @@ export function CompareProfileGrid() {
 
   if (isEmpty) {
     return (
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-8">
+      <div className="v2-frame py-6 space-y-8">
         <PageHeader />
         <CompareSelector />
         <div className="flex flex-col items-center justify-center py-20 gap-4 animate-fade-in">
-          <div className="p-4 rounded-full bg-bg-card border border-border-primary">
-            <GitCompareArrows size={32} className="text-text-tertiary" />
+          <div
+            className="p-4 rounded-sm border"
+            style={{
+              background: "var(--v2-bg-050)",
+              borderColor: "var(--v2-line-200)",
+            }}
+          >
+            <GitCompareArrows
+              size={32}
+              style={{ color: "var(--v2-ink-400)" }}
+            />
           </div>
-          <p className="text-text-tertiary text-sm text-center max-w-xs">
+          <p
+            className="text-sm text-center max-w-xs"
+            style={{ color: "var(--v2-ink-300)" }}
+          >
             Select at least 2 repos to compare their momentum, signals, and
             revenue side by side.
           </p>
         </div>
-      </main>
+      </div>
     );
   }
 
   return (
-    <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-8">
+    <div className="v2-frame py-6 space-y-8">
       <PageHeader />
       <CompareSelector />
 
@@ -294,32 +306,43 @@ export function CompareProfileGrid() {
           <AddRepoTile />
         )}
       </section>
-    </main>
+    </div>
   );
 }
 
 function PageHeader() {
   return (
-    <>
-      <nav
-        aria-label="Breadcrumb"
-        className="flex items-center gap-1.5 text-xs text-text-tertiary"
+    <div>
+      <h1
+        className="v2-mono mb-2 inline-flex items-center gap-2"
+        style={{
+          color: "var(--v2-ink-100)",
+          fontSize: 12,
+          letterSpacing: "0.20em",
+        }}
       >
-        <Link href="/" className="hover:text-text-primary transition-colors">
-          Home
-        </Link>
-        <span aria-hidden="true">/</span>
-        <span className="text-text-primary">Compare</span>
-      </nav>
-      <div>
-        <h1 className="font-display text-2xl font-bold text-text-primary">
-          Compare Repos · Canonical Signals
-        </h1>
-        <p className="text-text-secondary mt-1 text-sm">
-          Side-by-side: momentum, reasons, revenue, funding, mentions.
-        </p>
-      </div>
-    </>
+        <span aria-hidden>{"// "}</span>
+        COMPARE · CANONICAL SIGNALS · SIDE-BY-SIDE
+        <span
+          aria-hidden
+          className="inline-block ml-1"
+          style={{
+            width: 6,
+            height: 6,
+            background: "var(--v2-acc)",
+            borderRadius: 1,
+            boxShadow: "0 0 6px var(--v2-acc-glow)",
+          }}
+        />
+      </h1>
+      <p
+        className="text-[14px] leading-relaxed max-w-[80ch]"
+        style={{ color: "var(--v2-ink-200)" }}
+      >
+        Side-by-side: momentum, reasons, revenue, funding, mentions, npm
+        adoption.
+      </p>
+    </div>
   );
 }
 

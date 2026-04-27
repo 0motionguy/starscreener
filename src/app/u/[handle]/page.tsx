@@ -15,6 +15,7 @@ import {
 } from "@/lib/reactions";
 import type { ReactionCounts } from "@/lib/reactions-shape";
 import { ProfileView } from "@/components/profile/ProfileView";
+import { TerminalBar } from "@/components/today-v2/primitives/TerminalBar";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
@@ -52,30 +53,42 @@ export async function generateMetadata({
 
 export default async function UserProfilePage({ params }: PageProps) {
   const { handle } = await params;
+  const headerStrip = (
+    <section className="border-b border-[color:var(--v2-line-100)]">
+      <div className="v2-frame pt-6 pb-4">
+        <TerminalBar
+          label={
+            <>
+              <span aria-hidden>{"// "}</span>PROFILE · @{handle}
+            </>
+          }
+          status="PUBLIC"
+        />
+      </div>
+    </section>
+  );
+
   if (!HANDLE_PATTERN.test(handle)) {
-    // Render the same empty-state UI the aggregator returns for an
-    // unknown handle — visually identical, no 404 brand hit.
     return (
-      <ProfileView
-        profile={{
-          handle,
-          exists: false,
-          ideas: [],
-          shippedRepos: [],
-          reactionsGiven: { build: 0, use: 0, buy: 0, invest: 0, total: 0 },
-          recentReactions: [],
-        }}
-        ideaReactionCounts={{}}
-      />
+      <>
+        {headerStrip}
+        <ProfileView
+          profile={{
+            handle,
+            exists: false,
+            ideas: [],
+            shippedRepos: [],
+            reactionsGiven: { build: 0, use: 0, buy: 0, invest: 0, total: 0 },
+            recentReactions: [],
+          }}
+          ideaReactionCounts={{}}
+        />
+      </>
     );
   }
 
   const profile = await getProfile(handle);
 
-  // Fetch reaction counts for every idea in one pass. The storage
-  // layer reads the file once per call; for a profile with N ideas
-  // that's N reads. Small N (<50) — acceptable for v1; the Postgres
-  // cutover batches this into a single GROUP BY.
   const entries = await Promise.all(
     profile.ideas.map(async (idea) => {
       const records = await listReactionsForObject("idea", idea.id);
@@ -86,9 +99,12 @@ export default async function UserProfilePage({ params }: PageProps) {
     Object.fromEntries(entries);
 
   return (
-    <ProfileView
-      profile={profile}
-      ideaReactionCounts={ideaReactionCounts}
-    />
+    <>
+      {headerStrip}
+      <ProfileView
+        profile={profile}
+        ideaReactionCounts={ideaReactionCounts}
+      />
+    </>
   );
 }

@@ -121,7 +121,7 @@ export default async function BreakoutsOGImage() {
                   alignItems: "center",
                   justifyContent: "space-between",
                   padding: "18px 24px",
-                  borderRadius: 14,
+                  borderRadius: 1,
                   backgroundColor: OG_COLORS.bgSecondary,
                   border: `1px solid ${
                     firing === 3 ? OG_COLORS.brand : OG_COLORS.border
@@ -142,7 +142,7 @@ export default async function BreakoutsOGImage() {
                       justifyContent: "center",
                       width: 52,
                       height: 52,
-                      borderRadius: 12,
+                      borderRadius: 1,
                       border: `1px solid ${OG_COLORS.border}`,
                       backgroundColor: OG_COLORS.bg,
                       fontSize: 24,

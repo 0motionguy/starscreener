@@ -23,7 +23,10 @@ export type NewsSource =
   | "lobsters"
   | "producthunt"
   | "twitter"
-  | "npm";
+  | "npm"
+  | "huggingface"
+  | "skills"
+  | "mcp";
 
 export type FreshnessStatus = "live" | "warn" | "cold";
 
@@ -43,6 +46,9 @@ export const SOURCE_STALE_MS: Record<NewsSource, number> = {
   devto: DEVTO_STALE_THRESHOLD_MS,
   producthunt: PRODUCTHUNT_STALE_THRESHOLD_MS,
   npm: NPM_STALE_THRESHOLD_MS,
+  huggingface: PRODUCTHUNT_STALE_THRESHOLD_MS,
+  skills: PRODUCTHUNT_STALE_THRESHOLD_MS,
+  mcp: PRODUCTHUNT_STALE_THRESHOLD_MS,
   // Twitter freshness is reported through the scan-ingestion system, not
   // a JSON file — the page passes its own age in directly. Default to
   // the fast threshold so a missing twitter timestamp behaves like a

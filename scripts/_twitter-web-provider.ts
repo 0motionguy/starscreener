@@ -1,6 +1,17 @@
 /**
  * Twitter web-session cookie provider.
  *
+ * @deprecated SCR-13 — replaced by `ApifyTwitterProvider` since the 2026
+ * anti-bot wave killed cookie-based access. CLAUDE.md explicitly lists
+ * cookie-based scrapers as dead. The collector defaults to `apify` since
+ * c8c2ae5; this file is kept only for offline replay against archived
+ * fixtures and will be deleted after one stable Apify-only cycle (target
+ * removal: 2026-Q3 if no operator surfaces a regression).
+ *
+ * If you're reading this because of a fresh failure: switch the collector
+ * to `--provider apify` (already the default) and ensure
+ * APIFY_API_TOKEN is set. Do NOT attempt to revive cookie-based access.
+ *
  * Hits Twitter's internal GraphQL SearchTimeline endpoint using rotated
  * web-session cookies (auth_token + ct0). Uses the public web-client bearer
  * token. No OAuth, no scraping, no browser automation.

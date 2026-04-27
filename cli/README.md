@@ -35,7 +35,7 @@ If not set, it falls back to `http://localhost:3004`.
 | `ss repo <owner/name> [--json]`                             | Detailed view of one repo.                  |
 | `ss compare <owner/name> <owner/name> [...] [--json]`       | Side-by-side comparison.                    |
 | `ss categories [--json]`                                    | List categories with repoCount + avg momentum. |
-| `ss stream [--types=...]`                                   | Tail live SSE event stream (Ctrl+C stops).  |
+| `ss stream [--types=...]`                                   | Tail live SSE event stream (Ctrl+C stops). One JSON-shaped event per line by default; `--json` is not accepted (the line stream IS the structured form). |
 | `ss help`                                                   | Show full help.                              |
 | `ss --version`                                              | Print CLI version.                           |
 

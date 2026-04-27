@@ -17,6 +17,7 @@
 
 import { packBubbles } from "@/lib/bubble-pack";
 import type { RedditAllPost } from "@/lib/reddit-all";
+import { ErrorBoundary } from "@/components/shared/ErrorBoundary";
 import {
   SubredditMindshareCanvas,
   type SubredditSeed,
@@ -326,11 +327,13 @@ export function SubredditMindshareMap({
       <div className="px-1 text-[11px] font-mono uppercase tracking-wider text-text-tertiary">
         {`// ${headlineCount} subreddits · color = momentum vs 7d avg · orange ring = breakout intensity`}
       </div>
-      <SubredditMindshareCanvas
-        windows={windows}
-        width={MAP_WIDTH}
-        height={MAP_HEIGHT}
-      />
+      <ErrorBoundary>
+        <SubredditMindshareCanvas
+          windows={windows}
+          width={MAP_WIDTH}
+          height={MAP_HEIGHT}
+        />
+      </ErrorBoundary>
     </div>
   );
 }

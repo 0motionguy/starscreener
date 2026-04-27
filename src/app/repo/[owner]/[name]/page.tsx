@@ -53,6 +53,7 @@ import { RepoDetailHeader } from "@/components/repo-detail/RepoDetailHeader";
 import { RepoDetailStats } from "@/components/repo-detail/RepoDetailStats";
 import { RepoDetailStatsStrip } from "@/components/repo-detail/RepoDetailStatsStrip";
 import { RepoDetailChartLazy } from "@/components/repo-detail/RepoDetailChartLazy";
+import { ErrorBoundary } from "@/components/shared/ErrorBoundary";
 import { buildMentionMarkers } from "@/components/repo-detail/MentionMarkers";
 import { CrossSignalBreakdown } from "@/components/repo-detail/CrossSignalBreakdown";
 import { RecentMentionsFeed } from "@/components/repo-detail/RecentMentionsFeed";
@@ -380,7 +381,9 @@ export default async function RepoDetailPage({ params }: PageProps) {
           />
           <RelatedReposPanel items={profile.related} />
           <RelatedIdeasPanel items={profile.ideas} />
-          <RepoDetailChartLazy repo={repo} markers={markers} />
+          <ErrorBoundary>
+            <RepoDetailChartLazy repo={repo} markers={markers} />
+          </ErrorBoundary>
           {profile.twitter ? <TwitterSignalPanel panel={profile.twitter} /> : null}
         </div>
       </main>

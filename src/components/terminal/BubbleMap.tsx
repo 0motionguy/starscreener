@@ -14,6 +14,7 @@
 import type { Repo } from "@/lib/types";
 import { CATEGORIES } from "@/lib/constants";
 import { packBubbles } from "@/lib/bubble-pack";
+import { ErrorBoundary } from "@/components/shared/ErrorBoundary";
 import {
   BubbleMapCanvas,
   type BubbleSeed,
@@ -207,10 +208,12 @@ export function BubbleMap({ repos, limit = 220 }: BubbleMapProps) {
   }
 
   return (
-    <BubbleMapCanvas
-      windows={windows}
-      width={MAP_WIDTH}
-      height={MAP_HEIGHT}
-    />
+    <ErrorBoundary>
+      <BubbleMapCanvas
+        windows={windows}
+        width={MAP_WIDTH}
+        height={MAP_HEIGHT}
+      />
+    </ErrorBoundary>
   );
 }

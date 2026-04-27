@@ -563,14 +563,12 @@ export const pipeline = {
   recomputeAll: (): Promise<RecomputeSummary> =>
     withRecomputeLock(async () => {
       // Hydrate first so a recompute triggered by an API call doesn't
-      // overwrite persisted state with an empty recompute. If the async
-      // bootstrap hasn't run yet, fall through to the sync seed path.
-      if (!readyPromise && !isSeeded) {
-        await ensureReady();
-      } else if (!isSeeded) {
-        // readyPromise may still be pending — await it.
-        await readyPromise;
-      }
+      // overwrite persisted state with an empty recompute. ensureReady()
+      // is idempotent (cached readyPromise, alert-store re-hydrate per
+      // call) and replaces the prior three-branch guard that skipped
+      // alert hydration when isSeeded was already true (multi-worker
+      // alert-staleness window).
+      await ensureReady();
       const summary = recomputeAll();
       // Flush fresh state to disk so a server restart resumes in place.
       await persistPipeline();

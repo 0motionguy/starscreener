@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 
 import { verifyCronAuth } from "@/lib/api/auth";
+import { parseBody } from "@/lib/api/parse-body";
 import { runRepoIntakeForSubmission } from "@/lib/repo-intake";
 import {
   listRepoSubmissions,
@@ -14,6 +16,11 @@ import {
 } from "@/lib/repo-submissions";
 
 export const runtime = "nodejs";
+
+// Shape gate only — field-level validation (length limits, shareUrl host
+// allow-list, repo normalization) lives in validateRepoSubmissionInput
+// because it composes URL parsing helpers used by other call sites.
+const RepoSubmissionsPostSchema = z.record(z.string(), z.unknown());
 
 interface RepoSubmissionsListResponse {
   ok: true;
@@ -56,17 +63,12 @@ export async function POST(
 ): Promise<
   NextResponse<RepoSubmissionsCreateResponse | RepoSubmissionsErrorResponse>
 > {
-  let raw: unknown;
-  try {
-    raw = await request.json();
-  } catch {
-    return NextResponse.json(
-      { ok: false, error: "request body is not valid JSON" },
-      { status: 400 },
-    );
+  const parsedShape = await parseBody(request, RepoSubmissionsPostSchema);
+  if (!parsedShape.ok) {
+    return parsedShape.response as NextResponse<RepoSubmissionsErrorResponse>;
   }
 
-  const parsed = validateRepoSubmissionInput(raw);
+  const parsed = validateRepoSubmissionInput(parsedShape.data);
   if (!parsed.ok) {
     return NextResponse.json(
       { ok: false, error: parsed.error },

@@ -22,8 +22,10 @@
 //                    into the millions; excess rows get picked up next tick.
 
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
+import { parseBody } from "@/lib/api/parse-body";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import type { PredictionRecord } from "@/lib/predictions";
 import {
@@ -54,28 +56,22 @@ interface ErrorResponse {
   code?: string;
 }
 
-interface RequestBody {
-  limit?: number;
-}
-
 const DEFAULT_LIMIT = 500;
 
-async function parseBody(request: NextRequest): Promise<RequestBody> {
-  try {
-    const raw = await request.text();
-    if (!raw.trim()) return {};
-    const parsed: unknown = JSON.parse(raw);
-    if (!parsed || typeof parsed !== "object") return {};
-    const body = parsed as Record<string, unknown>;
-    const out: RequestBody = {};
-    if (typeof body.limit === "number" && Number.isFinite(body.limit)) {
-      out.limit = Math.max(1, Math.floor(body.limit));
-    }
-    return out;
-  } catch {
-    return {};
-  }
-}
+// Permissive — a malformed `limit` resolves to undefined (default applied)
+// rather than 400ing the cron. Matches the prior parseBody's behavior.
+const CalibrateBodySchema = z
+  .object({
+    limit: z
+      .number()
+      .finite()
+      .positive()
+      .transform((n) => Math.floor(n))
+      .optional()
+      .catch(undefined),
+  })
+  .partial()
+  .catch({});
 
 /**
  * Build the repo-stars lookup the calibrator needs. Keys are lowercased
@@ -97,8 +93,9 @@ export async function POST(
   if (deny) return deny as NextResponse<ErrorResponse>;
 
   const startedAt = Date.now();
-  const body = await parseBody(request);
-  const limit = body.limit ?? DEFAULT_LIMIT;
+  const parsed = await parseBody(request, CalibrateBodySchema, { allowEmpty: true });
+  if (!parsed.ok) return parsed.response as NextResponse<ErrorResponse>;
+  const limit = parsed.data.limit ?? DEFAULT_LIMIT;
 
   try {
     const starsByFullName = buildStarsByFullName();

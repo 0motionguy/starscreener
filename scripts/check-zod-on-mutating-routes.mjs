@@ -55,6 +55,14 @@ const ALLOW_NO_PARSEBODY = new Map([
     "src/app/api/cron/mcp/rotate-usage/route.ts",
     "No-body cron trigger — verifyCronAuth handles trust.",
   ],
+  [
+    "src/app/api/cron/webhooks/flush/route.ts",
+    "No-body cron trigger — runs the webhook drain on auth alone; no body fields consumed.",
+  ],
+  [
+    "src/app/api/cron/webhooks/scan/route.ts",
+    "No-body cron trigger — scans derived repos + funding signals on auth alone.",
+  ],
 
   // Grandfathered: pre-APP-02 typeof-ladder routes. Migrate to parseBody
   // when next touched. Keep this list ratcheting down — never add a NEW
@@ -63,8 +71,6 @@ const ALLOW_NO_PARSEBODY = new Map([
   ["src/app/api/admin/queues/repo/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/checkout/stripe/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/cron/predictions/calibrate/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
-  ["src/app/api/cron/webhooks/flush/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
-  ["src/app/api/cron/webhooks/scan/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/export/csv/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/ideas/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/internal/signals/twitter/v1/ingest/route.ts", "legacy: pre-APP-02 — migrate when next touched"],

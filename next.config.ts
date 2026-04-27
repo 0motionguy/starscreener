@@ -1,4 +1,13 @@
 import type { NextConfig } from "next";
+import bundleAnalyzer from "@next/bundle-analyzer";
+
+// Bundle-size visualization: `npm run analyze` sets ANALYZE=true and runs a
+// production build, dumping interactive HTML reports to .next/analyze/.
+// No-op on default builds (the wrapper short-circuits when enabled=false).
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === "true",
+  openAnalyzer: false,
+});
 
 // Note on Windows + OneDrive: this project lives under a synced folder
 // and OneDrive can race Turbopack's `.next/static/development/_buildManifest.js.tmp`
@@ -153,4 +162,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withBundleAnalyzer(nextConfig);

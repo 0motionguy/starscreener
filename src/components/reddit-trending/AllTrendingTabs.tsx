@@ -234,13 +234,22 @@ export function AllTrendingTabs({ posts }: { posts: RedditAllPost[] }) {
 
   const nowMs = Date.now();
 
+  // Hoisted: topic-filtered pool. Three useMemo blocks below + tabCounts
+  // were each recomputing this filter. Computing once and depending on
+  // the result everywhere downstream cuts redundant work on every
+  // posts/topic change. Audit finding UI-12.
+  const topicFiltered = useMemo(
+    () =>
+      activeTopic
+        ? posts.filter((p) => postMatchesTopic(p, activeTopic))
+        : posts,
+    [posts, activeTopic],
+  );
+
   // Chip-filtered pool (default-hides value_score<1 unless showAll). Counts
   // below are computed off the pool AFTER topic filter but BEFORE chip
   // selection so toggling a chip doesn't zero out its own count.
   const chipCounts = useMemo(() => {
-    const topicFiltered = activeTopic
-      ? posts.filter((p) => postMatchesTopic(p, activeTopic))
-      : posts;
     const counts: Record<string, number> = {};
     for (const chip of CONTENT_CHIPS) {
       counts[chip.key] = topicFiltered.filter((p) =>
@@ -248,19 +257,14 @@ export function AllTrendingTabs({ posts }: { posts: RedditAllPost[] }) {
       ).length;
     }
     return counts;
-  }, [posts, activeTopic]);
+  }, [topicFiltered]);
 
-  const hiddenCount = useMemo(() => {
-    const topicFiltered = activeTopic
-      ? posts.filter((p) => postMatchesTopic(p, activeTopic))
-      : posts;
-    return topicFiltered.filter((p) => (p.value_score ?? 0) < 1).length;
-  }, [posts, activeTopic]);
+  const hiddenCount = useMemo(
+    () => topicFiltered.filter((p) => (p.value_score ?? 0) < 1).length,
+    [topicFiltered],
+  );
 
   const filtered = useMemo(() => {
-    const topicFiltered = activeTopic
-      ? posts.filter((p) => postMatchesTopic(p, activeTopic))
-      : posts;
     const chipFiltered = applyChipFilter(topicFiltered, activeChips, showAll);
     switch (activeTab) {
       case "trending-now":
@@ -270,7 +274,7 @@ export function AllTrendingTabs({ posts }: { posts: RedditAllPost[] }) {
       case "by-subreddit":
         return filterByWindow(chipFiltered, 168, nowMs);
     }
-  }, [activeTab, activeTopic, activeChips, showAll, posts, nowMs]);
+  }, [activeTab, topicFiltered, activeChips, showAll, nowMs]);
 
   function clearTopic() {
     const params = new URLSearchParams(searchParams.toString());
@@ -308,16 +312,13 @@ export function AllTrendingTabs({ posts }: { posts: RedditAllPost[] }) {
   // Per-tab counts (post-topic, post-chip, post-showAll, post-window). Drives
   // the inset count badge on each tab in the strip below.
   const tabCounts = useMemo<Record<TrendingTab, number>>(() => {
-    const topicFiltered = activeTopic
-      ? posts.filter((p) => postMatchesTopic(p, activeTopic))
-      : posts;
     const chipFiltered = applyChipFilter(topicFiltered, activeChips, showAll);
     return {
       "trending-now": filterByWindow(chipFiltered, 24, nowMs).length,
       "hot-7d": filterByWindow(chipFiltered, 168, nowMs).length,
       "by-subreddit": filterByWindow(chipFiltered, 168, nowMs).length,
     };
-  }, [posts, activeTopic, activeChips, showAll, nowMs]);
+  }, [topicFiltered, activeChips, showAll, nowMs]);
 
   return (
     <section>

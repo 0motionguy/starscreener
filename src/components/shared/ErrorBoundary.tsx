@@ -82,15 +82,30 @@ export class ErrorBoundary extends Component<
     if (this.props.fallback !== undefined) {
       return this.props.fallback;
     }
+    // V2 design-system fallback: terminal-styled stub on v2-bg-100 with
+    // v2-ink-300 hint text and an inline retry control. Avoids old
+    // Tailwind zinc utilities so it composes with the rest of the V2 surface.
     return (
-      <div className="flex h-full min-h-[8rem] items-center justify-center text-xs text-zinc-500">
-        Couldn’t render this view.{" "}
+      <div
+        className="flex h-full min-h-[8rem] flex-col items-center justify-center gap-2 v2-mono text-[11px]"
+        style={{
+          background: "var(--v2-bg-100)",
+          border: "1px solid var(--v2-line-200)",
+          color: "var(--v2-ink-300)",
+        }}
+      >
+        <span aria-hidden style={{ color: "var(--v2-sig-amber)" }}>
+          {"// render error"}
+        </span>
+        <span style={{ color: "var(--v2-ink-200)" }}>
+          Couldn’t render this view.
+        </span>
         <button
           type="button"
           onClick={this.reset}
-          className="ml-2 underline underline-offset-2 hover:text-zinc-300"
+          className="v2-btn v2-btn-ghost"
         >
-          Try again
+          Retry
         </button>
       </div>
     );

@@ -4,8 +4,6 @@
 import { existsSync, readFileSync, statSync } from "node:fs";
 import { resolve } from "node:path";
 
-import { getDataStore } from "./data-store";
-
 export interface RevenueBenchmarkBucket {
   category: string;
   starBand: string;
@@ -216,6 +214,7 @@ export async function refreshRevenueBenchmarksFromStore(): Promise<RefreshResult
 
   inflight = (async (): Promise<RefreshResult> => {
     try {
+      const { getDataStore } = await import("./data-store");
       const store = getDataStore();
       const result = await store.read<unknown>("revenue-benchmarks");
       if (result.data && result.source !== "missing") {

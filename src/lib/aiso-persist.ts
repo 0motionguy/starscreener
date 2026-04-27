@@ -26,7 +26,6 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 
 import type { AisoToolsScan } from "./aiso-tools";
-import { getDataStore } from "./data-store";
 import {
   withFileLock,
 } from "./pipeline/storage/file-persistence";
@@ -275,6 +274,7 @@ export async function persistAisoScan(
   // swallowed because the file is already the durable record.
   if (nextSnapshot) {
     try {
+      const { getDataStore } = await import("./data-store");
       await getDataStore().write("repo-profiles", nextSnapshot);
     } catch (err) {
       // The data-store throws "has no destination" when Redis env vars

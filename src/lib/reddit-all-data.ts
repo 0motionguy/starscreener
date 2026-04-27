@@ -3,8 +3,6 @@ import { resolve } from "path";
 
 import type { AllPostsStats, RedditAllPost, RedditAllPostsFile } from "./reddit-all";
 import { buildAllPostsStats } from "./reddit-all";
-import { getDataStore } from "./data-store";
-
 const REDDIT_ALL_POSTS_PATH = resolve(
   process.cwd(),
   "data",
@@ -140,6 +138,7 @@ export async function refreshRedditAllPostsFromStore(): Promise<{
     return { source: "memory", ageMs: Date.now() - lastRefreshMs };
   }
   inflight = (async () => {
+    const { getDataStore } = await import("./data-store");
     const result = await getDataStore().read<RedditAllPostsFile>(
       "reddit-all-posts",
     );

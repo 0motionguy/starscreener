@@ -5,7 +5,6 @@
 // badges do not pull the larger story snapshot into their bundle.
 
 import lobstersTrendingData from "../../data/lobsters-trending.json";
-import { getDataStore } from "./data-store";
 import type { LobstersStory } from "./lobsters";
 
 export interface LobstersTrendingFile {
@@ -77,6 +76,7 @@ export async function refreshLobstersTrendingFromStore(): Promise<{
     return { source: "memory", ageMs: Date.now() - lastRefreshMs };
   }
   inflight = (async () => {
+    const { getDataStore } = await import("./data-store");
     const result = await getDataStore().read<LobstersTrendingFile>(
       "lobsters-trending",
     );

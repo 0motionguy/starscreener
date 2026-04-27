@@ -9,8 +9,6 @@ import type {
   RedditStats,
 } from "./reddit";
 import { buildGlobalRedditPosts, buildRedditStats } from "./reddit";
-import { getDataStore } from "./data-store";
-
 const REDDIT_MENTIONS_PATH = resolve(
   process.cwd(),
   "data",
@@ -239,6 +237,7 @@ export async function refreshRedditMentionsFromStore(): Promise<{
     return { source: "memory", ageMs: Date.now() - lastRefreshMs };
   }
   inflight = (async () => {
+    const { getDataStore } = await import("./data-store");
     const result = await getDataStore().read<RedditMentionsFile>(
       "reddit-mentions",
     );

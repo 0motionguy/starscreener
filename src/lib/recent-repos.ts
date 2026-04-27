@@ -1,8 +1,6 @@
 import recentReposJson from "../../data/recent-repos.json";
 import type { Repo } from "./types";
 import { slugToId } from "./utils";
-import { getDataStore } from "./data-store";
-
 export interface RecentRepoRow {
   githubId: number;
   fullName: string;
@@ -113,6 +111,7 @@ export async function refreshRecentReposFromStore(): Promise<RefreshResult> {
   }
 
   inflight = (async (): Promise<RefreshResult> => {
+    const { getDataStore } = await import("./data-store");
     const result = await getDataStore().read<RecentReposFile>("recent-repos");
     if (result.data && result.source !== "missing") {
       data = result.data;

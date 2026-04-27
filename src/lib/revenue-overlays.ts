@@ -25,8 +25,6 @@ import {
 } from "./revenue-submissions";
 import { currentDataDir } from "./pipeline/storage/file-persistence";
 import { trustmrrProfileUrl } from "./trustmrr-url";
-import { getDataStore } from "./data-store";
-
 export interface RevenueOverlaysFile {
   generatedAt: string | null;
   version: number;
@@ -192,6 +190,7 @@ export async function refreshRevenueOverlaysFromStore(): Promise<RefreshResult> 
 
   inflight = (async (): Promise<RefreshResult> => {
     try {
+      const { getDataStore } = await import("./data-store");
       const store = getDataStore();
       const result = await store.read<unknown>("revenue-overlays");
       if (result.data && result.source !== "missing") {

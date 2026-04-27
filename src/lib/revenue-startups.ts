@@ -15,8 +15,6 @@ import { existsSync, readFileSync, statSync } from "node:fs";
 import { resolve } from "node:path";
 
 import { listRevenueOverlays } from "./revenue-overlays";
-import { getDataStore } from "./data-store";
-
 export interface VerifiedStartup {
   name: string;
   slug: string;
@@ -303,6 +301,7 @@ export async function refreshRevenueStartupsFromStore(): Promise<RefreshResult> 
 
   inflight = (async (): Promise<RefreshResult> => {
     try {
+      const { getDataStore } = await import("./data-store");
       const store = getDataStore();
       const result = await store.read<RawCatalogFile>("trustmrr-startups");
       if (result.data && result.source !== "missing") {
@@ -335,6 +334,7 @@ export async function refreshRevenueStartupsFromStore(): Promise<RefreshResult> 
  */
 export async function getTrustMrrMeta(): Promise<TrustMrrMeta> {
   try {
+    const { getDataStore } = await import("./data-store");
     const store = getDataStore();
     const result = await store.read<{
       generatedAt?: string;

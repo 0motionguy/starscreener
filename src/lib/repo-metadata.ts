@@ -1,6 +1,4 @@
 import repoMetadataJson from "../../data/repo-metadata.json";
-import { getDataStore } from "./data-store";
-
 export interface RepoMetadata {
   githubId: number | null;
   fullName: string;
@@ -118,6 +116,7 @@ export async function refreshRepoMetadataFromStore(): Promise<RefreshResult> {
   }
 
   inflight = (async (): Promise<RefreshResult> => {
+    const { getDataStore } = await import("./data-store");
     const result = await getDataStore().read<RepoMetadataFile>("repo-metadata");
     if (result.data && result.source !== "missing") {
       data = result.data;

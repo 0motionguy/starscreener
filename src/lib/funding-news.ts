@@ -19,8 +19,6 @@ import { resolve } from "path";
 
 import type { FundingNewsFile, FundingSignal, FundingStats } from "./funding/types";
 import { buildFundingStats } from "./funding/extract";
-import { getDataStore } from "./data-store";
-
 const FUNDING_NEWS_PATH = resolve(process.cwd(), "data", "funding-news.json");
 const EPOCH_ZERO = "1970-01-01T00:00:00.000Z";
 
@@ -165,6 +163,7 @@ export async function refreshFundingNewsFromStore(): Promise<RefreshResult> {
 
   inflight = (async (): Promise<RefreshResult> => {
     try {
+      const { getDataStore } = await import("./data-store");
       const store = getDataStore();
       const result = await store.read<unknown>("funding-news");
       if (result.data && result.source !== "missing") {

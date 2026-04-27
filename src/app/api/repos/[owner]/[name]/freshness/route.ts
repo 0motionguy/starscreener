@@ -9,6 +9,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 
+import { errorEnvelope } from "@/lib/api/error-response";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import { getFreshnessSnapshot } from "@/lib/source-health";
 

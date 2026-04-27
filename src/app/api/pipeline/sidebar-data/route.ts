@@ -17,6 +17,7 @@
 //           `unreadAlerts` count for that user.
 
 import { NextRequest, NextResponse } from "next/server";
+import { errorEnvelope } from "@/lib/api/error-response";
 import { pipeline } from "@/lib/pipeline/pipeline";
 import {
   getDerivedAvailableLanguages,

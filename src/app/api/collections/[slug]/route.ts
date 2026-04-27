@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { errorEnvelope } from "@/lib/api/error-response";
 import type { Repo } from "@/lib/types";
 import { READ_CACHE_HEADERS } from "@/lib/api/cache";
 import { loadCollection, loadAllCollections, indexReposByFullName, liveCountFor } from "@/lib/collections";

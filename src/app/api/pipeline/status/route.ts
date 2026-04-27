@@ -4,6 +4,7 @@
 // top of the same committed JSON freshness signals /api/health enforces.
 
 import { NextResponse } from "next/server";
+import { errorEnvelope } from "@/lib/api/error-response";
 import { pipeline, repoStore, scoreStore, snapshotStore } from "@/lib/pipeline/pipeline";
 import { createGitHubAdapter } from "@/lib/pipeline/ingestion/ingest";
 import { getDerivedMetaCounts } from "@/lib/derived-insights";

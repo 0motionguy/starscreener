@@ -23,6 +23,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 
+import { errorEnvelope } from "@/lib/api/error-response";
 import { getDefaultSocialAdapters } from "@/lib/pipeline/adapters/social-adapters";
 import {
   NitterAdapter,

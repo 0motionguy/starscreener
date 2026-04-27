@@ -5,6 +5,7 @@
 // repo in a single pass.
 
 import { NextResponse } from "next/server";
+import { errorEnvelope } from "@/lib/api/error-response";
 import { getDerivedMetaCounts } from "@/lib/derived-insights";
 import type { MetaCounts } from "@/lib/types";
 

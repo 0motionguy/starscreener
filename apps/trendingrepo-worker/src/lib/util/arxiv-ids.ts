@@ -19,7 +19,11 @@ const PREFIX_NEW_RE = /arxiv[:\s]\s*(\d{4}\.\d{4,5})(?:v\d+)?/gi;
 const PREFIX_OLD_RE = /arxiv[:\s]\s*([a-z-]+(?:\.[a-z]{2})?\/\d{7})(?:v\d+)?/gi;
 const DOI_NEW_RE = /10\.48550\/arxiv\.(\d{4}\.\d{4,5})(?:v\d+)?/gi;
 const DOI_OLD_RE = /10\.48550\/arxiv\.([a-z-]+(?:\.[a-z]{2})?\/\d{7})(?:v\d+)?/gi;
-const STANDALONE_NEW_RE = /(?<![\d.])(\d{4}\.\d{4,5})(?:v\d+)?(?![\d.])/g;
+// Standalone (un-prefixed, no URL) needs a plausible YYMM to avoid false
+// positives on arbitrary numeric tokens like "1234.56789 tokens". arXiv
+// new format started in 2007-04, so YY in [07,99] mapped to 2007-2099 and
+// MM in [01,12].
+const STANDALONE_NEW_RE = /(?<![\d.])((?:0[7-9]|[1-9]\d)(?:0[1-9]|1[0-2])\.\d{4,5})(?:v\d+)?(?![\d.])/g;
 const STANDALONE_OLD_RE = /(?<![A-Za-z0-9.])([a-z-]+(?:\.[A-Z]{2})\/\d{7})(?:v\d+)?(?![\d])/g;
 
 /**
@@ -59,8 +63,15 @@ export function extractArxivIds(text: string): string[] {
   return out;
 }
 
+/**
+ * Normalize a raw atom <id> URL (https://arxiv.org/abs/2511.12345v2) to the
+ * canonical id. Tightens to URL form only — refuses bare numeric ids that
+ * the standalone extractor would otherwise accept. arXiv's Atom <id> is
+ * always an abs URL.
+ */
 export function canonicalizeArxivAtomId(atomId: string): string | null {
   if (!atomId || typeof atomId !== 'string') return null;
+  if (!/arxiv\.org\/(?:abs|pdf|html|ps)\//i.test(atomId)) return null;
   const ids = extractArxivIds(atomId);
   return ids[0] ?? null;
 }

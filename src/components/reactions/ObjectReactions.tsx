@@ -8,7 +8,7 @@
 // server returns the full counts + per-user state on every POST so we
 // never need a separate "did I already react" call.
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 import {
   Hammer,
   type LucideIcon,
@@ -106,6 +106,9 @@ export function ObjectReactions({
   const [busy, setBusy] = useState<ReactionType | null>(null);
   const [authMissing, setAuthMissing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // UI-09: high-commitment confirm modal state. Replaces window.confirm
+  // (page-blocking, not screen-reader friendly).
+  const [pendingType, setPendingType] = useState<ReactionType | null>(null);
 
   useEffect(() => {
     if (initialCounts) return;
@@ -130,20 +133,8 @@ export function ObjectReactions({
     };
   }, [objectType, objectId, initialCounts]);
 
-  const handleToggle = useCallback(
+  const performToggle = useCallback(
     async (type: ReactionType) => {
-      if (busy) return;
-      setError(null);
-      if (
-        HIGH_COMMITMENT_REACTIONS.has(type) &&
-        !mine?.[type] &&
-        META[type].confirmCopy
-      ) {
-        if (typeof window !== "undefined") {
-          const ok = window.confirm(META[type].confirmCopy);
-          if (!ok) return;
-        }
-      }
       setBusy(type);
       const wasOn = Boolean(mine?.[type]);
       setMine((prev) => ({
@@ -194,8 +185,38 @@ export function ObjectReactions({
         setBusy(null);
       }
     },
-    [busy, mine, objectType, objectId],
+    [mine, objectType, objectId],
   );
+
+  const handleToggle = useCallback(
+    (type: ReactionType) => {
+      if (busy) return;
+      setError(null);
+      // High-commitment reactions (Buy/Invest) gate behind a confirm
+      // modal — only when the user is turning the reaction ON.
+      if (
+        HIGH_COMMITMENT_REACTIONS.has(type) &&
+        !mine?.[type] &&
+        META[type].confirmCopy
+      ) {
+        setPendingType(type);
+        return;
+      }
+      void performToggle(type);
+    },
+    [busy, mine, performToggle],
+  );
+
+  const confirmPending = useCallback(() => {
+    if (!pendingType) return;
+    const type = pendingType;
+    setPendingType(null);
+    void performToggle(type);
+  }, [pendingType, performToggle]);
+
+  const cancelPending = useCallback(() => {
+    setPendingType(null);
+  }, []);
 
   return (
     <div
@@ -269,6 +290,106 @@ export function ObjectReactions({
           {`// SAVE FAILED · ${error}`}
         </p>
       ) : null}
+      {pendingType ? (
+        <ConfirmReactionModal
+          type={pendingType}
+          onConfirm={confirmPending}
+          onCancel={cancelPending}
+        />
+      ) : null}
+    </div>
+  );
+}
+
+/**
+ * Accessible confirm modal for high-commitment reactions (UI-09 — replaces
+ * window.confirm). Renders inline so the click context (the button the
+ * user pressed) stays on screen behind the dialog. Focus moves to the
+ * Confirm button on mount; Escape cancels.
+ */
+function ConfirmReactionModal({
+  type,
+  onConfirm,
+  onCancel,
+}: {
+  type: ReactionType;
+  onConfirm: () => void;
+  onCancel: () => void;
+}) {
+  const titleId = useId();
+  const bodyId = useId();
+  const confirmRef = useRef<HTMLButtonElement | null>(null);
+
+  useEffect(() => {
+    confirmRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        onCancel();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [onCancel]);
+
+  const meta = META[type];
+
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={titleId}
+      aria-describedby={bodyId}
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4"
+      style={{ background: "rgba(0,0,0,0.55)" }}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onCancel();
+      }}
+    >
+      <div
+        className="v2-card max-w-md w-full"
+        style={{
+          background: "var(--v2-bg-100)",
+          border: "1px solid var(--v2-line-300)",
+          borderRadius: 8,
+          padding: 20,
+        }}
+      >
+        <h2
+          id={titleId}
+          className="font-display text-lg font-bold"
+          style={{ color: "var(--v2-ink-100)", marginBottom: 8 }}
+        >
+          {`Confirm: ${meta.label}`}
+        </h2>
+        <p
+          id={bodyId}
+          className="text-sm"
+          style={{ color: "var(--v2-ink-200)", marginBottom: 16 }}
+        >
+          {meta.confirmCopy}
+        </p>
+        <div className="flex justify-end gap-2">
+          <button
+            type="button"
+            onClick={onCancel}
+            className="v2-btn v2-btn-ghost"
+            style={{ minHeight: 36, padding: "0 14px" }}
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            ref={confirmRef}
+            onClick={onConfirm}
+            className="v2-btn v2-btn-primary"
+            style={{ minHeight: 36, padding: "0 14px" }}
+            data-testid="confirm-reaction"
+          >
+            {`Yes, mark as ${meta.label}`}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

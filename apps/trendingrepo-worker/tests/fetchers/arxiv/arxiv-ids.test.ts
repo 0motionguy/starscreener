@@ -31,6 +31,24 @@ describe('extractArxivIds', () => {
     expect(extractArxivIds('phone 555.1234.5678')).toEqual([]);
   });
 
+  it('does not match standalone numerics with implausible YYMM', () => {
+    expect(extractArxivIds('we trained on 1234.56789 tokens')).toEqual([]);
+    expect(extractArxivIds('eval 0612.12345 (year 2006, before arxiv new fmt)')).toEqual([]);
+    expect(extractArxivIds('result 9999.12345 (month 99, invalid)')).toEqual([]);
+    expect(extractArxivIds('try 2613.12345 (month 13, invalid)')).toEqual([]);
+  });
+
+  it('matches valid YYMM range (2007-04 onward)', () => {
+    expect(extractArxivIds('see 0704.0001 the very first new-fmt paper')).toEqual(['0704.0001']);
+    expect(extractArxivIds('paper 2511.12345 latest')).toEqual(['2511.12345']);
+    expect(extractArxivIds('older 0801.12345 from 2008')).toEqual(['0801.12345']);
+  });
+
+  it('still extracts implausible-YYMM when given a URL or prefix (trust the source)', () => {
+    expect(extractArxivIds('https://arxiv.org/abs/1234.56789')).toEqual(['1234.56789']);
+    expect(extractArxivIds('arxiv:1234.56789')).toEqual(['1234.56789']);
+  });
+
   it('dedupes across patterns', () => {
     const text = 'See arXiv:2511.12345 also https://arxiv.org/pdf/2511.12345v2.pdf';
     expect(extractArxivIds(text)).toEqual(['2511.12345']);
@@ -56,6 +74,11 @@ describe('canonicalizeArxivAtomId', () => {
 
   it('returns null for non-arxiv URLs', () => {
     expect(canonicalizeArxivAtomId('https://example.com/foo')).toBeNull();
+  });
+
+  it('rejects bare numeric ids (must come from a URL form)', () => {
+    expect(canonicalizeArxivAtomId('2511.12345')).toBeNull();
+    expect(canonicalizeArxivAtomId('arxiv:2511.12345')).toBeNull();
   });
 });
 

@@ -1,10 +1,61 @@
 {
-  "fetchedAt": "2026-04-27T20:19:49.928Z",
+  "fetchedAt": "2026-04-27T22:08:33.080Z",
   "windowDays": 7,
-  "scannedPosts": 199,
+  "scannedPosts": 299,
   "searchQuery": "github.com",
-  "pagesFetched": 2,
+  "pagesFetched": 3,
   "mentions": {
+    "endevco/aube": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:xvy6enhwjoqn4dee2bcdyr6w/app.bsky.feed.post/3mkj2xe236s2f",
+        "cid": "bafyreigoydcsuafiqotwuesh7xz3iupb4shgbn3arl36mmvktxihrvwnh4",
+        "bskyUrl": "https://bsky.app/profile/gautier.dev/post/3mkj2xe236s2f",
+        "text": "The timing is incredible, everyone is working on a rust package manager for node at the same time: - github.com/yarnpkg/zpm by @yarnpkg.dev - github.com/pnpm/pacquet by @pnpm.io - github.com/endevco/aube by @jdx.dev",
+        "author": {
+          "handle": "gautier.dev",
+          "displayName": "Gautier"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-27T21:59:30.127Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:xvy6enhwjoqn4dee2bcdyr6w/app.bsky.feed.post/3mkj2xe236s2f",
+          "cid": "bafyreigoydcsuafiqotwuesh7xz3iupb4shgbn3arl36mmvktxihrvwnh4",
+          "bskyUrl": "https://bsky.app/profile/gautier.dev/post/3mkj2xe236s2f",
+          "text": "The timing is incredible, everyone is working on a rust package manager for node at the same time: - github.com/yarnpkg/zpm by @yarnpkg.dev - github.com/pnpm/pacquet by @pnpm.io - github.com/endevco/aube by @jdx.dev",
+          "author": {
+            "handle": "gautier.dev",
+            "displayName": "Gautier"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-27T21:59:30.127Z",
+          "createdUtc": 1777327170,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "endevco/aube",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "ggml-org/llama.cpp": {
       "count7d": 6,
       "likesSum7d": 0,
@@ -22,7 +73,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-27T20:16:23.574787+00:00",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.87
       },
       "posts": [
         {
@@ -38,7 +89,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-27T20:16:23.574787+00:00",
           "createdUtc": 1777320983,
-          "ageHours": 0.5,
+          "ageHours": 1.87,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -65,7 +116,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-27T20:00:17.877739+00:00",
           "createdUtc": 1777320017,
-          "ageHours": 0.5,
+          "ageHours": 2.14,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -92,7 +143,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-27T19:44:02.005050+00:00",
           "createdUtc": 1777319042,
-          "ageHours": 0.6,
+          "ageHours": 2.41,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -119,7 +170,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-27T19:28:04.233468+00:00",
           "createdUtc": 1777318084,
-          "ageHours": 0.86,
+          "ageHours": 2.67,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -146,7 +197,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-27T19:11:59.076316+00:00",
           "createdUtc": 1777317119,
-          "ageHours": 1.13,
+          "ageHours": 2.94,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -173,7 +224,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-27T19:08:22.275025+00:00",
           "createdUtc": 1777316902,
-          "ageHours": 1.19,
+          "ageHours": 3,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -207,7 +258,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-04-27T19:37:32.242Z",
-        "hoursSincePosted": 0.7
+        "hoursSincePosted": 2.52
       },
       "posts": [
         {
@@ -224,7 +275,7 @@
           "replyCount": 1,
           "createdAt": "2026-04-27T19:37:32.242Z",
           "createdUtc": 1777318652,
-          "ageHours": 0.7,
+          "ageHours": 2.52,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -258,7 +309,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-27T19:09:37.000Z",
-        "hoursSincePosted": 1.17
+        "hoursSincePosted": 2.98
       },
       "posts": [
         {
@@ -275,7 +326,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-27T19:09:37.000Z",
           "createdUtc": 1777316977,
-          "ageHours": 1.17,
+          "ageHours": 2.98,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -309,7 +360,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-27T19:04:48.613Z",
-        "hoursSincePosted": 1.25
+        "hoursSincePosted": 3.06
       },
       "posts": [
         {
@@ -326,7 +377,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-27T19:04:48.613Z",
           "createdUtc": 1777316688,
-          "ageHours": 1.25,
+          "ageHours": 3.06,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -359,7 +410,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-27T17:44:32.110Z",
-        "hoursSincePosted": 2.59
+        "hoursSincePosted": 4.4
       },
       "posts": [
         {
@@ -375,7 +426,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-27T17:44:32.110Z",
           "createdUtc": 1777311872,
-          "ageHours": 2.59,
+          "ageHours": 4.4,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -384,57 +435,6 @@
           "linkedRepos": [
             {
               "fullName": "lightonai/next-plaid",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "JCodesMore/ai-website-cloner-template": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkilvoqayt2u",
-        "cid": "bafyreigm6a6ojbt4bnjlxqv2zl6to3jatlcsrcq5jmsbbl77dj4qqsacku",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkilvoqayt2u",
-        "text": "https://github.com/JCodesMore/ai-website-cloner-template",
-        "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-27T17:30:07Z",
-        "hoursSincePosted": 2.83
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkilvoqayt2u",
-          "cid": "bafyreigm6a6ojbt4bnjlxqv2zl6to3jatlcsrcq5jmsbbl77dj4qqsacku",
-          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkilvoqayt2u",
-          "text": "https://github.com/JCodesMore/ai-website-cloner-template",
-          "author": {
-            "handle": "tom-doerr.bsky.social",
-            "displayName": "Tom Dörr "
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-27T17:30:07Z",
-          "createdUtc": 1777311007,
-          "ageHours": 2.83,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "JCodesMore/ai-website-cloner-template",
               "matchType": "url",
               "confidence": 1
             }
@@ -455,12 +455,12 @@
       "likesSum7d": 0
     },
     {
-      "fullName": "garrytan/gbrain",
+      "fullName": "endevco/aube",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "JCodesMore/ai-website-cloner-template",
+      "fullName": "garrytan/gbrain",
       "count7d": 1,
       "likesSum7d": 0
     },

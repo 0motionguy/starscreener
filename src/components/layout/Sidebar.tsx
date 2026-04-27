@@ -128,7 +128,22 @@ export interface SidebarData {
   availableLanguages: SidebarDataResponse["availableLanguages"];
   reposById: Record<string, SidebarDataRepo>;
   unreadAlerts: number;
+  sourceCounts: SidebarDataResponse["sourceCounts"];
+  trendingReposCount: number;
 }
+
+const EMPTY_SOURCE_COUNTS: SidebarDataResponse["sourceCounts"] = {
+  hackernewsStories: 0,
+  lobstersStories: 0,
+  devtoArticles: 0,
+  blueskyPosts: 0,
+  redditPosts: 0,
+  producthuntLaunches: 0,
+  arxivPapers: 0,
+  fundingSignals: 0,
+  revenueOverlays: 0,
+  npmPackages: 0,
+};
 
 export function useSidebarData(): SidebarData | null {
   const [data, setData] = useState<SidebarData | null>(null);
@@ -145,6 +160,8 @@ export function useSidebarData(): SidebarData | null {
           availableLanguages: json.availableLanguages,
           reposById: json.reposById,
           unreadAlerts: json.unreadAlerts ?? 0,
+          sourceCounts: json.sourceCounts ?? EMPTY_SOURCE_COUNTS,
+          trendingReposCount: json.trendingReposCount ?? 0,
         });
       })
       .catch(() => {
@@ -213,6 +230,8 @@ export function Sidebar() {
           availableLanguages={data.availableLanguages}
           watchlistPreview={watchlistPreview}
           unreadAlerts={data.unreadAlerts}
+          sourceCounts={data.sourceCounts}
+          trendingReposCount={data.trendingReposCount}
         />
       ) : (
         <SidebarSkeleton />

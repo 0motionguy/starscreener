@@ -112,11 +112,28 @@ async function withMetering<T>(
     const durationMs = Date.now() - start;
     const userToken = client.getUserToken();
     if (userToken && typeof globalThis.fetch === "function") {
-      const url = `${client.getBaseUrl()}/api/mcp/record-call`;
+      // SCR-12: refuse to send the user token over plaintext HTTP unless
+      // the URL is localhost. STARSCREENER_API_URL=http://evil.test would
+      // otherwise leak the token in cleartext on every tool call.
+      let safeMeteringUrl: string | null = null;
+      try {
+        const parsed = new URL(
+          `${client.getBaseUrl()}/api/mcp/record-call`,
+        );
+        const isLoopback =
+          parsed.hostname === "localhost" ||
+          parsed.hostname === "127.0.0.1" ||
+          parsed.hostname === "::1";
+        if (parsed.protocol === "https:" || isLoopback) {
+          safeMeteringUrl = parsed.toString();
+        }
+      } catch {
+        // Invalid URL — skip metering. Best-effort by design.
+      }
       // Fire-and-forget. The `void` cast + outer .catch() guarantee no
       // unhandled rejection can tear down the stdio loop.
-      void globalThis
-        .fetch(url, {
+      if (safeMeteringUrl) void globalThis
+        .fetch(safeMeteringUrl, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

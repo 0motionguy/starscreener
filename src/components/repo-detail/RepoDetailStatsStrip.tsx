@@ -116,30 +116,41 @@ function MiniCard({
   deltaMissing,
 }: MiniCardData) {
   const tone = deltaTone(delta);
-  const toneClass =
+  const toneColor =
     deltaMissing
-      ? "text-text-tertiary"
+      ? "var(--v2-ink-400)"
       : tone === "up"
-        ? "text-up"
+        ? "var(--v2-sig-green)"
         : tone === "down"
-          ? "text-down"
-          : "text-text-tertiary";
+          ? "var(--v2-sig-red)"
+          : "var(--v2-ink-400)";
 
   return (
-    <div className="border border-border-primary rounded-md bg-bg-secondary p-3 flex items-center gap-3">
+    <div className="v2-card p-3 flex items-center gap-3">
       <div className="flex flex-col min-w-0 flex-1">
-        <span className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
-          <Icon className="size-3 shrink-0" aria-hidden />
-          <span>{label}</span>
+        <span
+          className="v2-mono inline-flex items-center gap-1.5"
+          style={{ fontSize: 10, color: "var(--v2-ink-400)" }}
+        >
+          <Icon className="shrink-0" size={11} aria-hidden />
+          <span>{`// ${label.toUpperCase()}`}</span>
         </span>
-        <span className="font-mono text-xl font-semibold text-text-primary tabular-nums leading-tight mt-1">
+        <span
+          className="v2-stat tabular-nums leading-tight mt-1"
+          style={{
+            fontSize: 22,
+            fontWeight: 510,
+            color: "var(--v2-ink-100)",
+          }}
+        >
           {formatNumber(value)}
         </span>
         <span
-          className={cn(
-            "font-mono text-[11px] tabular-nums mt-0.5",
-            toneClass,
-          )}
+          className={cn("v2-stat tabular-nums mt-0.5")}
+          style={{
+            fontSize: 11,
+            color: toneColor,
+          }}
           title={
             deltaMissing
               ? `${deltaWindow} delta unavailable`
@@ -147,7 +158,9 @@ function MiniCard({
           }
         >
           {deltaMissing ? "—" : formatDelta(delta)}
-          <span className="text-text-tertiary ml-1">{deltaWindow}</span>
+          <span style={{ color: "var(--v2-ink-400)", marginLeft: 4 }}>
+            / {deltaWindow}
+          </span>
         </span>
       </div>
       <div className="shrink-0">

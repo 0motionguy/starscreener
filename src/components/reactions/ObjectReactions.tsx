@@ -218,30 +218,56 @@ export function ObjectReactions({
               aria-pressed={active}
               title={meta.hint}
               className={cn(
-                "inline-flex items-center gap-1.5 rounded-button border font-mono text-xs font-medium transition-colors min-h-[36px]",
-                compact ? "px-2 py-1" : "px-3 py-1.5",
-                active
-                  ? "bg-brand/15 border-brand text-brand"
-                  : "bg-bg-card border-border-primary text-text-secondary hover:bg-bg-card-hover hover:text-text-primary",
+                "v2-btn",
+                active ? "v2-btn-primary" : "v2-btn-ghost",
                 busy === type && "opacity-50 cursor-progress",
                 busy && busy !== type && "opacity-70",
               )}
+              style={{
+                minHeight: 36,
+                height: compact ? 32 : 36,
+                padding: compact ? "0 10px" : "0 14px",
+                fontSize: compact ? 10 : 11,
+              }}
             >
-              <Icon size={14} aria-hidden />
+              <Icon size={13} aria-hidden style={{ marginRight: 6 }} />
               {!compact ? <span>{meta.label}</span> : null}
-              <span className="tabular-nums text-text-tertiary">{count}</span>
+              <span
+                className="tabular-nums"
+                style={{
+                  marginLeft: 8,
+                  color: active ? "inherit" : "var(--v2-ink-300)",
+                  opacity: active ? 0.85 : 1,
+                }}
+              >
+                {count}
+              </span>
             </button>
           );
         })}
       </div>
 
       {authMissing ? (
-        <p className="text-[11px] text-text-tertiary">
-          Sign in to react. Reactions help builders see what to ship next.
+        <p
+          className="v2-mono"
+          style={{
+            fontSize: 10,
+            color: "var(--v2-ink-400)",
+          }}
+        >
+          {"// SIGN IN TO REACT · reactions help builders see what to ship next"}
         </p>
       ) : null}
       {error ? (
-        <p className="text-[11px] text-down">Couldn&apos;t save: {error}</p>
+        <p
+          className="v2-mono"
+          style={{
+            fontSize: 10,
+            color: "var(--v2-sig-red)",
+          }}
+        >
+          {`// SAVE FAILED · ${error}`}
+        </p>
       ) : null}
     </div>
   );

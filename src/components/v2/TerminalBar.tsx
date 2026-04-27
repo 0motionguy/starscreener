@@ -1,10 +1,13 @@
 // V2 design-system primitive — terminal-bar header for cards.
 // Usage:
 //   <TerminalBar label="// REPOS · LIVE" status="14ms" live />
+//   <TerminalBar label="// REPO" status={<>RANK #{n} · {fire}/5</>} />
+
+import type { ReactNode } from "react";
 
 type TerminalBarProps = {
-  label: string;
-  status?: string;
+  label: ReactNode;
+  status?: ReactNode;
   live?: boolean;
   className?: string;
 };

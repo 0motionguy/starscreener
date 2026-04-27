@@ -122,41 +122,58 @@ export function RepoSignalSnapshot({
   return (
     <section
       aria-label="Signal snapshot"
-      className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-3"
+      className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-2"
     >
-      {cards.map((card) => {
+      {cards.map((card, idx) => {
         const Icon = card.icon;
+        const valueColor =
+          card.tone === "up"
+            ? "var(--v2-acc)"
+            : card.tone === "warning"
+              ? "var(--v2-sig-amber)"
+              : "var(--v2-ink-100)";
+        const iconColor =
+          card.tone === "up"
+            ? "var(--v2-acc)"
+            : card.tone === "warning"
+              ? "var(--v2-sig-amber)"
+              : "var(--v2-ink-400)";
         return (
           <div
             key={card.label}
             title={card.explainer}
-            className="rounded-card border border-border-primary bg-bg-card p-3 shadow-card"
+            className="v2-card p-3"
           >
             <div className="flex items-center justify-between gap-3">
-              <span className="font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
-                {card.label}
+              <span
+                className="v2-mono"
+                style={{ fontSize: 10, color: "var(--v2-ink-400)" }}
+              >
+                {`// 0${idx + 1} · ${card.label.toUpperCase()}`}
               </span>
               <Icon
-                className={
-                  card.tone === "up"
-                    ? "size-3.5 text-up"
-                    : card.tone === "warning"
-                      ? "size-3.5 text-warning"
-                      : "size-3.5 text-text-tertiary"
-                }
+                size={14}
+                style={{ color: iconColor }}
                 aria-hidden
               />
             </div>
             <div
-              className={
-                card.tone === "up"
-                  ? "mt-2 font-mono text-2xl font-semibold leading-none text-up tabular-nums"
-                  : "mt-2 font-mono text-2xl font-semibold leading-none text-text-primary tabular-nums"
-              }
+              className="v2-stat tabular-nums leading-none mt-2"
+              style={{
+                fontSize: 24,
+                fontWeight: 510,
+                color: valueColor,
+              }}
             >
               {card.value}
             </div>
-            <p className="mt-2 text-[11px] leading-snug text-text-tertiary">
+            <p
+              className="mt-2 leading-snug"
+              style={{
+                fontSize: 11,
+                color: "var(--v2-ink-300)",
+              }}
+            >
               {card.detail}
             </p>
           </div>

@@ -6,6 +6,7 @@ import type {
   TwitterRepoSignal,
   TwitterScanRecord,
 } from "./types";
+import { createDebouncedPersist } from "@/lib/pipeline/storage/debounced-persist";
 import {
   currentDataDir,
   ensureDataDir,
@@ -328,7 +329,15 @@ class InMemoryTwitterStore {
 export const twitterStore = new InMemoryTwitterStore();
 
 let readyPromise: Promise<void> | null = null;
-let persistTimer: ReturnType<typeof setTimeout> | null = null;
+
+// LIB-13: hand the debounce dance off to the shared factory. Pipeline-side
+// uses the same factory; the only thing different here is the flush body
+// (twitterStore.persistIfDirty vs persistAll) and the log label.
+const twitterPersist = createDebouncedPersist({
+  flush: () => twitterStore.persistIfDirty(),
+  debounceMs: PERSIST_DEBOUNCE_MS,
+  label: "twitter",
+});
 
 export async function ensureTwitterReady(): Promise<void> {
   if (!readyPromise) {
@@ -340,38 +349,15 @@ export async function ensureTwitterReady(): Promise<void> {
 export function scheduleTwitterPersist(
   delayMs: number = PERSIST_DEBOUNCE_MS,
 ): void {
-  if (!isPersistenceEnabled()) return;
-  if (persistTimer !== null) {
-    clearTimeout(persistTimer);
-  }
-  persistTimer = setTimeout(() => {
-    persistTimer = null;
-    twitterStore.persistIfDirty().catch((err) => {
-      console.error("[twitter] debounced persist failed", err);
-    });
-  }, Math.max(0, delayMs));
-
-  if (
-    persistTimer !== null &&
-    typeof (persistTimer as { unref?: () => void }).unref === "function"
-  ) {
-    (persistTimer as { unref: () => void }).unref();
-  }
+  twitterPersist.schedule(delayMs);
 }
 
 export async function flushTwitterPersist(): Promise<void> {
-  if (persistTimer !== null) {
-    clearTimeout(persistTimer);
-    persistTimer = null;
-  }
-  await twitterStore.persistIfDirty();
+  await twitterPersist.flush();
 }
 
 export function __resetTwitterStoreForTests(): void {
-  if (persistTimer !== null) {
-    clearTimeout(persistTimer);
-    persistTimer = null;
-  }
+  twitterPersist.cancel();
   readyPromise = null;
   twitterStore.resetForTests();
 }

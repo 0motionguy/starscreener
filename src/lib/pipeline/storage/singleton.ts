@@ -25,6 +25,7 @@ import {
   InMemorySnapshotStore,
   setStoreMutationHook,
 } from "./memory-stores";
+import { createDebouncedPersist } from "./debounced-persist";
 import {
   ensureDataDir,
   isPersistenceEnabled,
@@ -138,9 +139,14 @@ export async function persistAll(): Promise<void> {
 /** How long to wait after the last mutation before flushing to disk. */
 export const PERSIST_DEBOUNCE_MS = 2000;
 
-// Use the Node-standard return shape from setTimeout so we never leak a
-// reference even when compiled under --target esnext.
-let persistTimer: ReturnType<typeof setTimeout> | null = null;
+// Pipeline-side debounce handle. The factory owns the timer + the
+// suspend/clear/flush primitives; we re-export the names the rest of the
+// codebase has been calling for years.
+const pipelinePersist = createDebouncedPersist({
+  flush: () => persistAll(),
+  debounceMs: PERSIST_DEBOUNCE_MS,
+  label: "pipeline",
+});
 
 /**
  * Schedule a persist flush `delayMs` milliseconds from now. Additional calls
@@ -148,34 +154,12 @@ let persistTimer: ReturnType<typeof setTimeout> | null = null;
  * after the burst settles. No-op when persistence is disabled.
  */
 export function schedulePersist(delayMs: number = PERSIST_DEBOUNCE_MS): void {
-  if (!isPersistenceEnabled()) return;
-  if (persistTimer !== null) {
-    clearTimeout(persistTimer);
-  }
-  persistTimer = setTimeout(() => {
-    persistTimer = null;
-    persistAll().catch((err) => {
-      // eslint-disable-next-line no-console
-      console.error("[pipeline] debounced persist failed", err);
-    });
-  }, Math.max(0, delayMs));
-  // Best-effort: don't keep the Node event loop alive purely for a pending
-  // persist. When the timer has `.unref()` (Node timers) we call it so
-  // ephemeral CLIs / tests can exit even with an un-flushed timer queued.
-  if (
-    persistTimer !== null &&
-    typeof (persistTimer as { unref?: () => void }).unref === "function"
-  ) {
-    (persistTimer as { unref: () => void }).unref();
-  }
+  pipelinePersist.schedule(delayMs);
 }
 
 /** Cancel any pending debounced persist (useful in tests). */
 export function cancelScheduledPersist(): void {
-  if (persistTimer !== null) {
-    clearTimeout(persistTimer);
-    persistTimer = null;
-  }
+  pipelinePersist.cancel();
 }
 
 /**
@@ -184,11 +168,7 @@ export function cancelScheduledPersist(): void {
  * uniformly `await` before a clean shutdown.
  */
 export async function flushPendingPersist(): Promise<void> {
-  if (persistTimer !== null) {
-    clearTimeout(persistTimer);
-    persistTimer = null;
-  }
-  await persistAll();
+  await pipelinePersist.flush();
 }
 
 // Install the debounced persist as the default store-mutation hook. Once set,

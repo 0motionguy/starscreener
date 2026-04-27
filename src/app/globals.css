@@ -23,6 +23,10 @@
   --color-bg-inset: #08090a;
   --color-bg-overlay: rgba(8, 9, 10, 0.82);
 
+  /* Background theme palettes — overridden by html[data-bg-theme] below */
+  --color-bg-graphite: #0c0c12;
+  --color-bg-charcoal: #14141c;
+
   /* ── Text (V2 5-stop ink ramp) ──────────────────────────────────────────── */
   --color-text-primary: #ffffff;
   --color-text-secondary: #aab0b6;
@@ -208,6 +212,149 @@
   /* V2 dot-field */
   --v2-dot:        #2a3037;
   --v2-dot-bright: #4a5159;
+
+  /* -----------------------------------------------------------------------
+     V3 production skin contract.
+     These tokens are the stable surface for new production UI. The existing
+     V2 names are aliased below so partially migrated components inherit V3
+     without another broad rewrite.
+     ----------------------------------------------------------------------- */
+  --v3-bg-000: #08090a;
+  --v3-bg-025: #0b0d0f;
+  --v3-bg-050: #101418;
+  --v3-bg-100: #151a20;
+  --v3-bg-200: #1d242b;
+  --v3-bg-300: #2a323a;
+
+  --v3-line-soft: rgba(255, 255, 255, 0.045);
+  --v3-line-std: rgba(255, 255, 255, 0.08);
+  --v3-line-100: #1b2229;
+  --v3-line-200: #29323b;
+  --v3-line-300: #3a444f;
+  --v3-line-400: #4d5865;
+
+  --v3-ink-000: #ffffff;
+  --v3-ink-100: #eef0f2;
+  --v3-ink-200: #b8c0c8;
+  --v3-ink-300: #84909b;
+  --v3-ink-400: #59636d;
+  --v3-ink-500: #3c444d;
+
+  --v3-acc: #9297f6;
+  --v3-acc-hover: #a8acf8;
+  --v3-acc-dim: #555bd8;
+  --v3-acc-soft: rgba(146, 151, 246, 0.14);
+  --v3-acc-glow: rgba(146, 151, 246, 0.45);
+
+  --v3-sig-green: #22c55e;
+  --v3-sig-amber: #ffb547;
+  --v3-sig-red: #ff4d4d;
+  --v3-sig-cyan: #3ad6c5;
+
+  --v3-tracking-mono: 0.18em;
+  --v3-tracking-mono-tight: 0.12em;
+  --v3-tracking-display: -0.028em;
+
+  --v2-bg-000: var(--v3-bg-000);
+  --v2-bg-050: var(--v3-bg-050);
+  --v2-bg-100: var(--v3-bg-100);
+  --v2-bg-200: var(--v3-bg-200);
+  --v2-bg-300: var(--v3-bg-300);
+  --v2-line-soft: var(--v3-line-soft);
+  --v2-line-std: var(--v3-line-std);
+  --v2-line-100: var(--v3-line-100);
+  --v2-line-200: var(--v3-line-200);
+  --v2-line-300: var(--v3-line-300);
+  --v2-line-400: var(--v3-line-400);
+  --v2-ink-000: var(--v3-ink-000);
+  --v2-ink-100: var(--v3-ink-100);
+  --v2-ink-200: var(--v3-ink-200);
+  --v2-ink-300: var(--v3-ink-300);
+  --v2-ink-400: var(--v3-ink-400);
+  --v2-ink-500: var(--v3-ink-500);
+  --v2-acc: var(--v3-acc);
+  --v2-acc-soft: var(--v3-acc-soft);
+  --v2-acc-glow: var(--v3-acc-glow);
+  --v2-acc-dim: var(--v3-acc-dim);
+  --v2-sig-red: var(--v3-sig-red);
+  --v2-sig-amber: var(--v3-sig-amber);
+  --v2-sig-cyan: var(--v3-sig-cyan);
+  --v2-sig-green: var(--v3-sig-green);
+  --v2-tracking-display: var(--v3-tracking-display);
+  --v2-tracking-mono: var(--v3-tracking-mono);
+  --v2-tracking-mono-tight: var(--v3-tracking-mono-tight);
+}
+
+/* ---------------------------------------------------------------------------
+   Background themes — 3 shades: black (default), graphite, charcoal
+   --------------------------------------------------------------------------- */
+
+html[data-bg-theme="graphite"] {
+  --color-bg-primary: #0c0c12;
+  --color-bg-secondary: #15151c;
+  --color-bg-tertiary: #1d1d26;
+  --color-bg-card: #0f0f14;
+  --color-bg-card-hover: #1d1d26;
+  --color-bg-row-hover: #15151c;
+  --color-bg-elevated: #262632;
+  --color-bg-inset: #0c0c12;
+  --color-bg-overlay: rgba(12, 12, 18, 0.82);
+  --color-border-primary: #2a2a36;
+  --color-border-secondary: #1e1e28;
+  --color-text-inverse: #0c0c12;
+  --v3-bg-000: #0c0c12;
+  --v3-bg-025: #111118;
+  --v3-bg-050: #15151c;
+  --v3-bg-100: #1a1a22;
+  --v3-bg-200: #22222c;
+  --v3-bg-300: #2e2e3a;
+  --v3-line-100: #1e1e28;
+  --v3-line-200: #2a2a36;
+  --v3-line-300: #383844;
+  --v3-line-400: #4a4a56;
+  --v2-bg-000: #0c0c12;
+  --v2-bg-050: #15151c;
+  --v2-bg-100: #1a1a22;
+  --v2-bg-200: #22222c;
+  --v2-bg-300: #2e2e3a;
+  --v2-line-100: #1e1e28;
+  --v2-line-200: #2a2a36;
+  --v2-line-300: #383844;
+  --v2-line-400: #4a4a56;
+}
+
+html[data-bg-theme="charcoal"] {
+  --color-bg-primary: #14141c;
+  --color-bg-secondary: #1e1e28;
+  --color-bg-tertiary: #282836;
+  --color-bg-card: #181824;
+  --color-bg-card-hover: #282836;
+  --color-bg-row-hover: #1e1e28;
+  --color-bg-elevated: #323240;
+  --color-bg-inset: #14141c;
+  --color-bg-overlay: rgba(20, 20, 28, 0.82);
+  --color-border-primary: #363644;
+  --color-border-secondary: #262632;
+  --color-text-inverse: #14141c;
+  --v3-bg-000: #14141c;
+  --v3-bg-025: #181824;
+  --v3-bg-050: #1c1c26;
+  --v3-bg-100: #242430;
+  --v3-bg-200: #2e2e3a;
+  --v3-bg-300: #3a3a48;
+  --v3-line-100: #262632;
+  --v3-line-200: #363644;
+  --v3-line-300: #464654;
+  --v3-line-400: #585866;
+  --v2-bg-000: #14141c;
+  --v2-bg-050: #1c1c26;
+  --v2-bg-100: #242430;
+  --v2-bg-200: #2e2e3a;
+  --v2-bg-300: #3a3a48;
+  --v2-line-100: #262632;
+  --v2-line-200: #363644;
+  --v2-line-300: #464654;
+  --v2-line-400: #585866;
 }
 
 /* ---------------------------------------------------------------------------
@@ -825,6 +972,33 @@ body::before {
   right: -1px;
 }
 
+/* Corner bracket markers used inside SidebarV2 active items */
+.v2-br1,
+.v2-br2 {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--v2-acc);
+  pointer-events: none;
+}
+.v2-br1 {
+  top: -1px;
+  left: -1px;
+}
+.v2-br2 {
+  bottom: -1px;
+  right: -1px;
+}
+
+/* Hover lift for v2 cards */
+.v2-card-hover {
+  transition: background-color 120ms ease-out, border-color 120ms ease-out;
+}
+.v2-card-hover:hover {
+  background: var(--v2-bg-100);
+  border-color: var(--v2-line-300);
+}
+
 .v2-term-bar {
   display: flex;
   align-items: center;
@@ -853,4 +1027,182 @@ body::before {
   color: var(--v2-ink-400);
   white-space: pre;
   user-select: none;
+}
+
+/* ---------------------------------------------------------------------------
+   V3 production design-system utilities.
+   These are intentionally small and stable: new production work should target
+   v3-* classes/tokens, while legacy v2-* utilities remain as compatibility.
+   --------------------------------------------------------------------------- */
+
+.v3-root {
+  min-height: 100vh;
+  background:
+    radial-gradient(1100px 520px at 8% -12%, var(--v3-acc-soft), transparent 58%),
+    radial-gradient(850px 440px at 100% 112%, rgba(34, 197, 94, 0.055), transparent 60%),
+    var(--v3-bg-000);
+  color: var(--v3-ink-100);
+  --color-bg-primary: var(--v3-bg-000);
+  --color-bg-secondary: var(--v3-bg-100);
+  --color-bg-tertiary: var(--v3-bg-200);
+  --color-bg-card: var(--v3-bg-050);
+  --color-bg-card-hover: var(--v3-bg-100);
+  --color-bg-row-hover: var(--v3-bg-100);
+  --color-bg-elevated: var(--v3-bg-200);
+  --color-bg-inset: var(--v3-bg-000);
+  --color-text-primary: var(--v3-ink-000);
+  --color-text-secondary: var(--v3-ink-200);
+  --color-text-tertiary: var(--v3-ink-300);
+  --color-text-muted: var(--v3-ink-400);
+  --color-border-primary: var(--v3-line-200);
+  --color-border-secondary: var(--v3-line-100);
+  --color-border-strong: var(--v3-line-300);
+  --color-border-focus: var(--v3-acc);
+  --color-brand: var(--v3-acc);
+  --color-brand-hover: var(--v3-acc-hover);
+  --color-brand-active: var(--v3-acc-dim);
+  --color-brand-glow: var(--v3-acc-soft);
+  --color-brand-glow-strong: var(--v3-acc-glow);
+}
+
+.v3-chrome {
+  background:
+    linear-gradient(180deg, rgba(21, 26, 32, 0.96), rgba(13, 16, 19, 0.94));
+  border-color: var(--v3-line-200);
+  box-shadow: inset 0 -1px 0 var(--v3-line-soft);
+}
+
+.v3-panel {
+  background:
+    linear-gradient(180deg, rgba(16, 20, 24, 0.96), rgba(11, 13, 15, 0.96));
+  border: 1px solid var(--v3-line-200);
+  border-radius: 2px;
+}
+
+.v3-label {
+  font-family: var(--font-geist-mono), var(--font-jetbrains-mono), monospace;
+  font-size: 9px;
+  letter-spacing: var(--v3-tracking-mono);
+  text-transform: uppercase;
+  color: var(--v3-ink-400);
+}
+
+.v3-wordmark {
+  font-family: var(--font-geist-mono), var(--font-jetbrains-mono), monospace;
+  font-size: 12px;
+  letter-spacing: var(--v3-tracking-mono);
+  text-transform: uppercase;
+  color: var(--v3-ink-100);
+}
+
+.v3-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid var(--v3-line-300);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--v3-ink-100);
+  font-family: var(--font-geist-mono), var(--font-jetbrains-mono), monospace;
+  font-size: 11px;
+  letter-spacing: var(--v3-tracking-mono);
+  text-transform: uppercase;
+  transition:
+    background-color 120ms ease-out,
+    border-color 120ms ease-out,
+    color 120ms ease-out,
+    box-shadow 120ms ease-out;
+}
+
+.v3-button:hover {
+  background: var(--v3-bg-100);
+  border-color: var(--v3-line-400);
+}
+
+.v3-button-primary {
+  background: var(--v3-acc);
+  border-color: var(--v3-acc);
+  color: var(--v3-bg-000);
+  box-shadow: 0 0 14px var(--v3-acc-glow);
+}
+
+.v3-button-primary:hover {
+  background: var(--v3-acc-hover);
+  border-color: var(--v3-acc-hover);
+}
+
+.v3-swatch {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  cursor: pointer;
+  border: 1px solid var(--v3-line-200);
+  border-radius: 1px;
+  background: var(--swatch);
+  transition:
+    border-color 120ms ease-out,
+    box-shadow 120ms ease-out,
+    transform 120ms ease-out;
+}
+
+.v3-swatch:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 12px var(--swatch-glow);
+}
+
+.v3-swatch[aria-pressed="true"] {
+  border-color: var(--v3-bg-000);
+  box-shadow: 0 0 0 1px var(--swatch), 0 0 14px var(--swatch-glow);
+}
+
+.v3-swatch-corner {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--swatch);
+  box-shadow: 0 0 0 1px var(--v3-bg-000);
+  pointer-events: none;
+}
+
+.v3-cursor-rail {
+  position: relative;
+}
+
+.v3-cursor-rail-glow {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  top: 0;
+  height: 36px;
+  pointer-events: none;
+  border: 1px solid;
+  border-radius: 1px;
+  transition:
+    transform 120ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 180ms ease-out,
+    background-color 180ms ease-out,
+    border-color 180ms ease-out,
+    box-shadow 180ms ease-out;
+  z-index: 0;
+}
+
+.v3-barcode-wrap {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+}
+
+.v3-barcode {
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.v3-barcode span {
+  background: var(--v3-ink-200);
 }

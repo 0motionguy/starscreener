@@ -16,6 +16,7 @@ import { Sidebar } from "@/components/layout/Sidebar";
 import { MobileDrawer } from "@/components/layout/MobileDrawer";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { BrowserAlertBridge } from "@/components/alerts/BrowserAlertBridge";
+import { DesignSystemProvider } from "@/components/v3";
 import { SITE_URL, SITE_NAME, SITE_TAGLINE, SITE_DESCRIPTION } from "@/lib/seo";
 import "./globals.css";
 
@@ -143,36 +144,43 @@ export default function RootLayout({
             __html: `(function(){function s(v){try{if(!v)return"";if(typeof v==="string")return v;var p=[];if(v.message)p.push(v.message);if(v.name)p.push(v.name);if(v.stack)p.push(v.stack);if(v.filename)p.push(v.filename);if(v.reason)p.push(s(v.reason));return p.join(" ")}catch(e){return""}}function x(e){var m=s(e)+" "+s(e&&e.reason)+" "+s(e&&e.error)+" "+(e&&e.filename?e.filename:"")+" "+(e&&e.message?e.message:"");return /chrome-extension:\\/\\/|moz-extension:\\/\\/|safari-web-extension:\\/\\//i.test(m)||/MetaMask extension not found|Failed to connect to MetaMask|Could not establish connection\\. Receiving end does not exist|runtime\\.lastError|\\[PHANTOM\\]/i.test(m)}function h(e){if(x(e)){e.preventDefault&&e.preventDefault();e.stopImmediatePropagation&&e.stopImmediatePropagation();return false}}window.addEventListener("error",h,true);window.addEventListener("unhandledrejection",h,true)})();`,
           }}
         />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var k="trendingrepo-v3-accent",t=localStorage.getItem(k)||"indigo",m={lava:["#f56e0f","#ff8128","#c25608","rgba(245,110,15,.14)","rgba(245,110,15,.45)"],indigo:["#9297f6","#a8acf8","#555bd8","rgba(146,151,246,.14)","rgba(146,151,246,.45)"],lime:["#def135","#e8fb55","#a9b827","rgba(222,241,53,.14)","rgba(222,241,53,.45)"],cyan:["#3ad6c5","#63e1d3","#26a597","rgba(58,214,197,.14)","rgba(58,214,197,.45)"],magenta:["#e879f9","#f0a2ff","#a855f7","rgba(232,121,249,.14)","rgba(232,121,249,.45)"]}[t]||["#9297f6","#a8acf8","#555bd8","rgba(146,151,246,.14)","rgba(146,151,246,.45)"],r=document.documentElement;r.dataset.v3Accent=t;r.style.setProperty("--v3-acc",m[0]);r.style.setProperty("--v3-acc-hover",m[1]);r.style.setProperty("--v3-acc-dim",m[2]);r.style.setProperty("--v3-acc-soft",m[3]);r.style.setProperty("--v3-acc-glow",m[4]);r.style.setProperty("--v2-acc",m[0]);r.style.setProperty("--v2-acc-soft",m[3]);r.style.setProperty("--v2-acc-glow",m[4]);r.style.setProperty("--v2-acc-dim",m[2]);r.style.setProperty("--color-brand",m[0]);r.style.setProperty("--color-brand-hover",m[1]);r.style.setProperty("--color-brand-active",m[2]);r.style.setProperty("--color-border-focus",m[0]);var b=localStorage.getItem("trendingrepo-v3-bg")||"black";r.dataset.bgTheme=b;}catch(e){}})();`,
+          }}
+        />
       </head>
       <body>
         <ThemeProvider>
           <StoreProvider>
-            <Header />
-            <MobileDrawer />
-            <AppShell>
-              <Sidebar />
-              <main className="app-main">{children}</main>
-            </AppShell>
-            <MobileNav />
-            <BrowserAlertBridge />
-            <Toaster
-              theme="dark"
-              position="bottom-right"
-              richColors={false}
-              closeButton={false}
-              toastOptions={{
-                classNames: {
-                  toast:
-                    "!bg-bg-card !border !border-border-primary !text-text-primary !rounded-[var(--radius-card)] !shadow-[var(--shadow-popover)] !font-sans",
-                  title: "!text-text-primary !font-medium",
-                  description: "!text-text-secondary",
-                  success: "!border-functional/40",
-                  error: "!border-down/40",
-                  info: "!border-info/40",
-                  warning: "!border-warning/40",
-                },
-              }}
-            />
+            <DesignSystemProvider>
+              <Header />
+              <MobileDrawer />
+              <AppShell>
+                <Sidebar />
+                <main className="app-main">{children}</main>
+              </AppShell>
+              <MobileNav />
+              <BrowserAlertBridge />
+              <Toaster
+                theme="dark"
+                position="bottom-right"
+                richColors={false}
+                closeButton={false}
+                toastOptions={{
+                  classNames: {
+                    toast:
+                      "!bg-bg-card !border !border-border-primary !text-text-primary !rounded-[var(--radius-card)] !shadow-[var(--shadow-popover)] !font-sans",
+                    title: "!text-text-primary !font-medium",
+                    description: "!text-text-secondary",
+                    success: "!border-functional/40",
+                    error: "!border-down/40",
+                    info: "!border-info/40",
+                    warning: "!border-warning/40",
+                  },
+                }}
+              />
+            </DesignSystemProvider>
           </StoreProvider>
         </ThemeProvider>
         <Analytics />

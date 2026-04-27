@@ -1,11 +1,9 @@
 "use client";
 
-// /predict — standalone forecasting tool. Search any tracked repo, see
-// 7d / 30d / 90d projections with confidence bands and a list of
-// drivers.
+// /predict — standalone forecasting tool (v2-styled).
 //
-// Calibration disclosure is rendered in the page itself as a fixed
-// banner — the model is v1 baseline and we explicitly say so.
+// Search any tracked repo, see 7d / 30d / 90d projections with confidence
+// gauge, forecast sparkline band, stat pills, and driver list.
 
 import { useState } from "react";
 import {
@@ -14,6 +12,8 @@ import {
   LoaderCircle,
   Search,
   TrendingUp,
+  TrendingDown,
+  Zap,
 } from "lucide-react";
 
 import type {
@@ -21,6 +21,13 @@ import type {
   PredictionRecord,
 } from "@/lib/predictions";
 import { cn } from "@/lib/utils";
+import {
+  ConfidenceGauge,
+  StatPill,
+  ForecastSparkline,
+  TerminalBar,
+  BarcodeTicker,
+} from "@/components/v2";
 
 interface PredictItem {
   horizonDays: number;
@@ -48,16 +55,30 @@ function fmtNumber(n: number): string {
   return n.toLocaleString("en-US");
 }
 
-function fmtSigned(n: number): string {
-  const sign = n >= 0 ? "+" : "";
-  return `${sign}${fmtNumber(n)}`;
+/** Heuristic confidence derived from data quality + horizon. Transparent. */
+function computeConfidence(prediction: PredictionRecord): number {
+  const inputs = prediction.inputs;
+  let score = 55;
+  // More data points = higher confidence
+  if (inputs.sparklinePoints >= 30) score += 20;
+  else if (inputs.sparklinePoints >= 14) score += 10;
+  // Low volatility (CV < 0.5) = higher confidence
+  const cv = inputs.meanDailyDelta > 0 ? inputs.stdDailyDelta / inputs.meanDailyDelta : Infinity;
+  if (cv < 0.3) score += 10;
+  else if (cv > 1.0) score -= 15;
+  else if (cv > 0.7) score -= 8;
+  // Horizon penalty
+  if (prediction.horizonDays === 7) score += 5;
+  else if (prediction.horizonDays === 90) score -= 12;
+  return Math.min(95, Math.max(15, Math.round(score)));
 }
 
 interface PredictToolProps {
   initialRepo?: string;
+  sparklineData?: number[] | null;
 }
 
-export function PredictTool({ initialRepo = "" }: PredictToolProps) {
+export function PredictTool({ initialRepo = "", sparklineData }: PredictToolProps) {
   const [query, setQuery] = useState(initialRepo);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -94,7 +115,7 @@ export function PredictTool({ initialRepo = "" }: PredictToolProps) {
     <div className="space-y-6">
       <form
         onSubmit={handleSubmit}
-        className="rounded-card border border-border-primary bg-bg-card p-4 shadow-card"
+        className="v2-card rounded-card border border-border-primary bg-bg-card p-4 shadow-card"
       >
         <label className="flex flex-col gap-2">
           <span className="font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
@@ -112,9 +133,9 @@ export function PredictTool({ initialRepo = "" }: PredictToolProps) {
               type="submit"
               disabled={loading || !query.trim()}
               className={cn(
-                "inline-flex items-center gap-2 rounded-md border border-border-primary bg-brand/90 px-4 py-2 font-mono text-xs font-semibold uppercase tracking-wider text-bg-primary hover:bg-brand transition-colors min-h-[40px]",
+                "v2-btn v2-btn-primary inline-flex items-center gap-2 rounded-md border px-4 py-2 font-mono text-xs font-semibold uppercase tracking-wider min-h-[40px]",
                 (loading || !query.trim()) &&
-                  "cursor-not-allowed opacity-50 hover:bg-brand/90",
+                  "cursor-not-allowed opacity-50",
               )}
             >
               {loading ? (
@@ -138,39 +159,58 @@ export function PredictTool({ initialRepo = "" }: PredictToolProps) {
         </div>
       ) : null}
 
-      {response ? <ResultPanel response={response} /> : null}
+      {response ? (
+        <ResultPanel response={response} sparklineData={sparklineData} />
+      ) : null}
     </div>
   );
 }
 
-function ResultPanel({ response }: { response: PredictResponse }) {
+function ResultPanel({
+  response,
+  sparklineData,
+}: {
+  response: PredictResponse;
+  sparklineData?: number[] | null;
+}) {
   return (
     <section
       aria-label={`Forecasts for ${response.fullName}`}
-      className="space-y-3"
+      className="space-y-4"
       data-testid="predict-result"
     >
-      <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <h2 className="font-mono text-base font-semibold text-text-primary">
-          {response.fullName}
-        </h2>
-        <span className="font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
-          model: {response.modelVersion}
-        </span>
+      <div className="v2-frame overflow-hidden">
+        <TerminalBar
+          label={`// PREDICT · ${response.fullName.toUpperCase()}`}
+          status={`MODEL ${response.modelVersion} · LIVE`}
+          live
+        />
+        <BarcodeTicker count={96} height={12} seed={response.results.length} />
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {response.results.map((item) => (
-          <ForecastCard key={item.horizonDays} item={item} />
+          <ForecastCard
+            key={item.horizonDays}
+            item={item}
+            sparklineData={sparklineData}
+          />
         ))}
       </div>
     </section>
   );
 }
 
-function ForecastCard({ item }: { item: PredictItem }) {
+function ForecastCard({
+  item,
+  sparklineData,
+}: {
+  item: PredictItem;
+  sparklineData?: number[] | null;
+}) {
   if (!item.prediction) {
     return (
-      <article className="rounded-card border border-dashed border-border-primary bg-bg-muted/40 p-4">
+      <article className="v2-card rounded-card border border-dashed border-border-primary bg-bg-muted/40 p-4">
         <header className="flex items-center gap-2">
           <LineChart className="size-4 text-text-tertiary" aria-hidden />
           <h3 className="font-mono text-[11px] uppercase tracking-wider text-text-tertiary">
@@ -183,65 +223,118 @@ function ForecastCard({ item }: { item: PredictItem }) {
       </article>
     );
   }
+
   const { prediction, drivers } = item;
   const delta = prediction.pointEstimate - prediction.inputs.stars;
   const deltaPct =
     prediction.inputs.stars > 0
       ? (delta / prediction.inputs.stars) * 100
       : 0;
-  const bandWidth = prediction.highP90 - prediction.lowP10;
-  return (
-    <article className="rounded-card border border-border-primary bg-bg-card p-4 shadow-card space-y-3">
-      <header className="flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2">
-          <TrendingUp className="size-4 text-brand" aria-hidden />
-          <h3 className="font-mono text-[11px] uppercase tracking-wider text-text-tertiary">
-            +{item.horizonDays}d horizon
-          </h3>
-        </div>
-        <span className="font-mono text-[10px] text-text-tertiary tabular-nums">
-          band ±{fmtNumber(Math.round(bandWidth / 2))}
-        </span>
-      </header>
+  const confidence = computeConfidence(prediction);
+  const confTier =
+    confidence >= 75 ? "high" : confidence >= 50 ? "mid" : "low";
+  const confColor =
+    confTier === "high"
+      ? "text-up"
+      : confTier === "mid"
+        ? "text-warning"
+        : "text-down";
+  const glow =
+    confTier === "high"
+      ? "shadow-[0_0_40px_rgba(34,197,94,0.12)]"
+      : confTier === "mid"
+        ? "shadow-[0_0_40px_rgba(245,158,11,0.10)]"
+        : "shadow-[0_0_40px_rgba(239,68,68,0.08)]";
 
-      <div>
-        <div className="font-mono text-2xl font-semibold tabular-nums text-text-primary">
+  return (
+    <article
+      className={`v2-card rounded-card border border-border-primary bg-bg-primary/60 ${glow} overflow-hidden hover:border-brand/40 transition-colors`}
+    >
+      {/* Terminal-bar header */}
+      <div className="v2-term-bar flex items-center gap-2 px-4 pt-4">
+        <TrendingUp className="size-4 text-brand" aria-hidden />
+        <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-text-tertiary font-bold">
+          +{item.horizonDays}d horizon
+        </span>
+        <span className="ml-auto">
+          <ConfidenceGauge value={confidence} color={confColor} />
+        </span>
+      </div>
+
+      {/* Big estimate */}
+      <div className="px-4 pt-3">
+        <div
+          className="font-mono font-bold tabular-nums leading-none bg-clip-text text-transparent"
+          style={{
+            fontSize: "40px",
+            backgroundImage:
+              delta >= 0
+                ? "linear-gradient(135deg, #FBFBFB 0%, #22C55E 100%)"
+                : "linear-gradient(135deg, #FBFBFB 0%, #EF4444 100%)",
+          }}
+        >
           {fmtNumber(prediction.pointEstimate)}
         </div>
-        <div className="font-mono text-[11px] text-text-tertiary tabular-nums">
-          from {fmtNumber(prediction.inputs.stars)} ·{" "}
-          <span className={delta >= 0 ? "text-up" : "text-down"}>
-            {fmtSigned(delta)} ({deltaPct.toFixed(1)}%)
+        <div className="mt-1 font-mono text-[11px] tabular-nums text-text-tertiary">
+          from{" "}
+          <span className="text-text-secondary">
+            {fmtNumber(prediction.inputs.stars)}
+          </span>{" "}
+          ·{" "}
+          <span className={`${delta >= 0 ? "text-up" : "text-down"} font-bold`}>
+            {delta >= 0 ? "+" : ""}
+            {fmtNumber(delta)} ({deltaPct.toFixed(1)}%)
           </span>
         </div>
       </div>
 
-      <div>
-        <div className="font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
-          80% confidence
+      {/* Sparkline */}
+      {sparklineData && sparklineData.length > 0 ? (
+        <div className="px-4 py-3">
+          <ForecastSparkline
+            past={sparklineData}
+            currentStars={prediction.inputs.stars}
+            pointEstimate={prediction.pointEstimate}
+            lowP10={prediction.lowP10}
+            highP90={prediction.highP90}
+            horizonDays={item.horizonDays}
+          />
         </div>
-        <div className="font-mono text-[11px] tabular-nums text-text-secondary">
-          {fmtNumber(prediction.lowP10)} – {fmtNumber(prediction.highP90)}
-        </div>
+      ) : null}
+
+      {/* Pills */}
+      <div className="px-4 pb-3 grid grid-cols-3 gap-1.5">
+        <StatPill label="P10" value={fmtNumber(prediction.lowP10)} tone="down" />
+        <StatPill label="EST" value={fmtNumber(prediction.pointEstimate)} tone="brand" />
+        <StatPill label="P90" value={fmtNumber(prediction.highP90)} tone="up" />
       </div>
 
+      {/* Drivers */}
       {drivers && drivers.length > 0 ? (
-        <div className="space-y-1.5 pt-2 border-t border-border-primary">
+        <div className="px-4 py-3 border-t border-border-primary space-y-2">
           {drivers.map((d) => (
-            <div key={d.label} className="text-[11px]">
+            <div key={d.label} className="flex items-start gap-2 text-[11px]">
               <span
-                className={cn(
-                  "font-mono uppercase tracking-wider mr-2",
+                className={`inline-flex items-center gap-1 font-mono uppercase tracking-wider font-bold whitespace-nowrap ${
                   d.tone === "positive"
                     ? "text-up"
                     : d.tone === "negative"
                       ? "text-down"
-                      : "text-text-tertiary",
-                )}
+                      : "text-text-tertiary"
+                }`}
               >
+                {d.tone === "positive" ? (
+                  <TrendingUp className="size-3" aria-hidden />
+                ) : d.tone === "negative" ? (
+                  <TrendingDown className="size-3" aria-hidden />
+                ) : (
+                  <Zap className="size-3" aria-hidden />
+                )}
                 {d.label}
               </span>
-              <span className="text-text-secondary">{d.detail}</span>
+              <span className="text-text-secondary flex-1 leading-snug">
+                {d.detail}
+              </span>
             </div>
           ))}
         </div>

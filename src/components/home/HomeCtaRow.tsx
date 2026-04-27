@@ -1,79 +1,46 @@
-// HomeCtaRow — compact nav row under the hero.
+// HomeCtaRow — compact nav row under the hero (V2 button styling).
 //
-// Five high-intent destinations, rendered as terminal-pill links so a
-// visitor can jump straight to the surface that matters to them (breakouts
-// leaderboard, verified revenue, funding events, compare, or submit a repo)
+// Five high-intent destinations, rendered as V2 mono buttons so a visitor
+// can jump straight to the surface that matters to them (submit a repo,
+// breakouts leaderboard, verified revenue, funding events, or compare)
 // without scrolling through the full terminal. Pure server component — no
 // client JS, no store dependencies, zero hydration cost.
+//
+// Visual: first action ("Drop a repo") is the primary accent button so
+// submit intent always wins the eye. The rest are ghost buttons. Each
+// button label gets a trailing `→` glyph for the V2 terminal feel.
 
 import Link from "next/link";
-import { ArrowRight, DollarSign, GitCompare, Send, TrendingUp, Zap } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
 
 interface CtaLink {
   href: string;
   label: string;
-  hint: string;
-  icon: LucideIcon;
+  /** Render as the orange primary action; only one in the row. */
+  primary?: boolean;
 }
 
 const LINKS: CtaLink[] = [
-  {
-    href: "/breakouts",
-    label: "Breakouts",
-    hint: "live velocity leaders",
-    icon: Zap,
-  },
-  {
-    href: "/revenue",
-    label: "Revenue",
-    hint: "verified MRR",
-    icon: DollarSign,
-  },
-  {
-    href: "/funding",
-    label: "Funding",
-    hint: "rounds · valuations",
-    icon: TrendingUp,
-  },
-  {
-    href: "/compare",
-    label: "Compare",
-    hint: "any two repos",
-    icon: GitCompare,
-  },
-  {
-    href: "/submit",
-    label: "Drop a repo",
-    hint: "ingest in 20 min",
-    icon: Send,
-  },
+  { href: "/submit", label: "Drop a repo", primary: true },
+  { href: "/breakouts", label: "Breakouts" },
+  { href: "/revenue", label: "Revenue" },
+  { href: "/funding", label: "Funding" },
+  { href: "/compare", label: "Compare" },
 ];
 
 export function HomeCtaRow() {
   return (
     <nav
       aria-label="Quick links"
-      className="flex flex-wrap items-center gap-2"
+      className="flex flex-wrap items-center gap-3"
     >
-      {LINKS.map(({ href, label, hint, icon: Icon }) => (
+      {LINKS.map(({ href, label, primary }) => (
         <Link
           key={href}
           href={href}
-          className="group inline-flex items-center gap-2 rounded-full border border-border-primary bg-bg-secondary/60 px-3 py-1.5 text-xs font-mono text-text-secondary transition-colors hover:border-brand/40 hover:text-text-primary"
+          className={`v2-btn ${primary ? "v2-btn-primary" : "v2-btn-ghost"} gap-2`}
         >
-          <Icon
-            size={12}
-            aria-hidden="true"
-            className="text-text-tertiary group-hover:text-brand"
-          />
-          <span className="font-medium text-text-primary">{label}</span>
-          <span className="hidden sm:inline text-text-tertiary">{hint}</span>
-          <ArrowRight
-            size={11}
-            aria-hidden="true"
-            className="text-text-tertiary transition-transform group-hover:translate-x-0.5 group-hover:text-brand"
-          />
+          <span>{label}</span>
+          <span aria-hidden="true">→</span>
         </Link>
       ))}
     </nav>

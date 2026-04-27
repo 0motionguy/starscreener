@@ -3,11 +3,13 @@
 /**
  * SidebarCategoryItem — single category row inside the CATEGORIES section.
  *
- * Layout: [icon]  [name truncate]  [repoCount]  [heat dot]
+ * V2 layout: [icon] [name MONO uppercase 11px] [count chip] [heat dot]
  *
- * Active state: inset-left rail in the category's color + 5% tint of the
- * same color. Heat dot color + pulse animation derives from avgMomentum.
- * Click toggles `filterStore.category` — unselecting when already active.
+ * Active state: V2 bracket frame on the row + 3px accent left rail in the
+ * category's color, plus a low-alpha tint of the same color so the active
+ * row reads as a discrete cell. Heat dot color + pulse animation derives
+ * from avgMomentum. Click toggles `filterStore.category` — unselecting
+ * when already active.
  */
 import { cn } from "@/lib/utils";
 import { getCategoryIcon } from "@/lib/category-icons";
@@ -45,14 +47,22 @@ export function SidebarCategoryItem({
   const dotColor = heatColor(avgMomentum);
   const isHot = avgMomentum >= 70;
 
-  // When active: paint a 5% tint of the category's color as background + an
-  // inset-left rail in the same color. `0D` = ~5% alpha in hex suffix form.
-  const activeStyle = active
+  // Active row: 8% tint of the category color + 3px inset-left rail in
+  // the same color + a 1px V2 line border so the row reads as a
+  // discrete cell against the rail background. `14` ≈ 8% alpha hex.
+  const style: React.CSSProperties = active
     ? {
-        backgroundColor: `${category.color}0D`,
-        boxShadow: `inset 2px 0 0 ${category.color}`,
+        backgroundColor: `${category.color}14`,
+        boxShadow: `inset 3px 0 0 ${category.color}`,
+        border: "1px solid var(--v2-line-200)",
+        borderRadius: 1,
+        color: "var(--v2-ink-100)",
       }
-    : undefined;
+    : {
+        border: "1px solid transparent",
+        borderRadius: 1,
+        color: "var(--v2-ink-300)",
+      };
 
   return (
     <button
@@ -61,12 +71,12 @@ export function SidebarCategoryItem({
       aria-pressed={active}
       title={category.name}
       className={cn(
-        "w-full h-9 flex items-center gap-2.5 pl-3 pr-2",
-        "text-[13px] font-medium text-text-secondary",
-        "transition-colors duration-150",
-        !active && "hover:bg-bg-card-hover",
+        "v2-mono relative w-full h-8 flex items-center gap-2 pl-3 pr-2",
+        "text-[11px] tracking-[0.16em] transition-colors duration-150",
+        active && "v2-bracket",
+        !active && "hover:bg-[var(--v2-bg-100)] hover:text-[var(--v2-ink-100)]",
       )}
-      style={activeStyle}
+      style={style}
     >
       {Icon ? (
         <Icon
@@ -76,13 +86,29 @@ export function SidebarCategoryItem({
         />
       ) : (
         <span
-          className="shrink-0 rounded-sm"
-          style={{ backgroundColor: category.color, width: 14, height: 14 }}
+          className="shrink-0"
+          style={{
+            backgroundColor: category.color,
+            width: 14,
+            height: 14,
+            borderRadius: 1,
+          }}
         />
       )}
       <span className="flex-1 truncate text-left">{category.shortName}</span>
       <span className="ml-auto flex items-center gap-1.5 shrink-0">
-        <span className="font-mono text-[10px] text-text-tertiary tabular-nums">
+        <span
+          className="v2-mono tabular-nums inline-flex items-center justify-center"
+          style={{
+            background: active ? "var(--v2-acc-soft)" : "var(--v2-bg-200)",
+            color: active ? "var(--v2-acc)" : "var(--v2-ink-300)",
+            height: 16,
+            minWidth: 20,
+            padding: "0 5px",
+            fontSize: 9,
+            borderRadius: 1,
+          }}
+        >
           {repoCount}
         </span>
         <span

@@ -1,15 +1,11 @@
-// /news — unified News Terminal.
+// /news — unified News Terminal (v2-styled).
 //
 // Consolidates HackerNews + Bluesky + dev.to + ProductHunt + Lobsters into
 // a single tabbed overview page. Each tab renders a 10-row compact list of
-// the source's top items and links out to the dedicated /hackernews/trending
-// or /bluesky/trending deep view when one exists. Per-source pages stay
-// alive for deep-linking — this surface is the consolidated "morning
-// terminal" view.
+// the source's top items and links out to the dedicated deep view when one
+// exists.
 //
 // Server component, URL-driven tab state (?tab=...), no client JS required.
-// Mirrors the visual rhythm of /hackernews/trending: header strip, stat
-// tiles, list rows, monospace tone.
 
 import Link from "next/link";
 import {
@@ -63,18 +59,67 @@ import {
   type LobstersStory,
 } from "@/lib/lobsters";
 import { LaunchLinkIcons } from "@/components/producthunt/LaunchLinkIcons";
+import { TerminalBar, MonoLabel, BarcodeTicker, BracketMarkers } from "@/components/v2";
 
-// Query-string tabs must render per request; otherwise a static build can
-// serve the default HackerNews tab for every /news?tab=... URL.
 export const dynamic = "force-dynamic";
-
-// ---------------------------------------------------------------------------
-// Constants
-// ---------------------------------------------------------------------------
 
 const HN_ORANGE = "#ff6600";
 const BSKY_BLUE = "#0085FF";
 const PH_RED = "#DA552F";
+
+const SOURCE_META: Record<TabId, { code: string; color: string; label: string }> = {
+  hackernews: { code: "HN", color: "rgba(245, 110, 15, 0.85)", label: "HACKERNEWS" },
+  bluesky:    { code: "BS", color: "rgba(58, 214, 197, 0.85)", label: "BLUESKY" },
+  devto:      { code: "DV", color: "rgba(102, 153, 255, 0.85)", label: "DEV.TO" },
+  producthunt:{ code: "PH", color: "rgba(218, 85, 47, 0.85)", label: "PRODUCTHUNT" },
+  lobsters:   { code: "LZ", color: "rgba(172, 19, 13, 0.85)", label: "LOBSTERS" },
+};
+
+const STOP_WORDS = new Set([
+  "the","a","an","is","are","was","were","be","been","being","to","of","and","in","on","at","by","for","with","as","from",
+  "that","this","it","its","have","has","had","do","does","did","will","would","could","should","may","might","can","shall",
+  "you","your","we","our","us","i","my","me","he","she","they","them","his","her","their","what","which","who","when","where",
+  "why","how","all","any","both","each","few","more","most","other","some","such","no","nor","not","only","own","same","so","than",
+  "too","very","just","now","then","here","there","up","out","if","about","into","through","during","before","after","above","below",
+  "between","under","again","further","once","also","but","or","yet","because","until","while","although","though","unless","since",
+  "ago","new","using","use","used","show","shows","showing","via","based","build","building","built","make","making","made",
+  "get","gets","getting","one","two","three","first","last","way","ways","time","times","day","days","year","years","work","works",
+  "working","add","adds","added","adding","fix","fixes","fixed","support","supports","supported","release","releases","released",
+  "version","update","updates","updated","github","com","http","https","www","org","io","dev","app","web","site","page","repo",
+  "open","source","code","project","projects","tool","tools","api","cli","ui","ux","ai","llm","ml","gpu","cpu","ram",
+  "javascript","typescript","python","rust","go","java","cpp","cplusplus","html","css","sql","json","xml","yaml","docker","kubernetes",
+  "react","vue","angular","svelte","nextjs","nuxt","node","nodejs","deno","bun","npm","yarn","pnpm","git","github",
+]);
+
+function tokenize(text: string): string[] {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .split(/\s+/)
+    .filter((w) => w.length >= 3 && !STOP_WORDS.has(w));
+}
+
+function computeTopTopics(texts: string[], n = 6): Array<{ topic: string; count: number; color: string }> {
+  const freq = new Map<string, number>();
+  for (const text of texts) {
+    for (const word of tokenize(text)) {
+      freq.set(word, (freq.get(word) ?? 0) + 1);
+    }
+  }
+  const sorted = Array.from(freq.entries())
+    .filter(([, c]) => c >= 2)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, n);
+
+  const TOPIC_COLORS = [
+    "var(--v2-acc)", "#F59E0B", "#3AD6C5", "#F472B6", "#FBBF24", "#A78BFA", "#34D399", "#FB923C",
+  ];
+  return sorted.map(([topic, count], i) => ({
+    topic: topic.toUpperCase(),
+    count,
+    color: TOPIC_COLORS[i % TOPIC_COLORS.length],
+  }));
+}
 
 type TabId = "hackernews" | "bluesky" | "devto" | "producthunt" | "lobsters";
 
@@ -104,10 +149,6 @@ function isTabId(value: string | undefined): value is TabId {
   );
 }
 
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
 function formatRelative(iso: string | null | undefined): string {
   if (!iso) return "never";
   const t = new Date(iso).getTime();
@@ -135,18 +176,11 @@ function truncate(text: string, max: number): string {
   return `${text.slice(0, max)}…`;
 }
 
-// ---------------------------------------------------------------------------
-// Page
-// ---------------------------------------------------------------------------
-
 export default async function NewsPage({
   searchParams,
 }: {
   searchParams: Promise<{ tab?: string }>;
 }) {
-  // Pull every Group B source's freshest payload from the data-store before
-  // composing tab counts + lists. Each refresh is internally rate-limited
-  // and dedupes concurrent calls, so doing them in parallel is cheap.
   await Promise.all([
     refreshHackernewsTrendingFromStore(),
     refreshHackernewsMentionsFromStore(),
@@ -161,7 +195,6 @@ export default async function NewsPage({
   const params = await searchParams;
   const activeTab: TabId = isTabId(params.tab) ? params.tab : "hackernews";
 
-  // Pre-compute counts for tab badges (server-side, cheap — JSON already loaded).
   const hnStoriesTop = getHnTopStories(10);
   const bskyPostsTop = getBlueskyTopPosts(10);
   const devtoLeaderboard = getDevtoLeaderboard();
@@ -176,14 +209,111 @@ export default async function NewsPage({
     lobsters: lobstersStoriesTop.length,
   };
 
+  // --- Cross-source stats for unified hero ---
+  const hnFile = getHnTrendingFile();
+  const bskyFile = getBlueskyTrendingFile();
+  const devtoFile = getDevtoFile();
+  const phFile = getPhFile();
+  const lobstersFile = getLobstersTrendingFile();
+
+  const allHnStories = hnFile.stories ?? [];
+  const allBskyPosts = bskyFile.posts ?? [];
+  const allLobstersStories = lobstersFile.stories ?? [];
+  const allPhLaunches = phFile.launches ?? [];
+
+  const sourceVolumes = [
+    {
+      code: SOURCE_META.hackernews.code,
+      label: SOURCE_META.hackernews.label,
+      color: SOURCE_META.hackernews.color,
+      itemCount: allHnStories.length,
+      totalScore: allHnStories.reduce((s, x) => s + (x.score ?? 0), 0),
+    },
+    {
+      code: SOURCE_META.bluesky.code,
+      label: SOURCE_META.bluesky.label,
+      color: SOURCE_META.bluesky.color,
+      itemCount: allBskyPosts.length,
+      totalScore: allBskyPosts.reduce((s, x) => s + (x.likeCount ?? 0), 0),
+    },
+    {
+      code: SOURCE_META.devto.code,
+      label: SOURCE_META.devto.label,
+      color: SOURCE_META.devto.color,
+      itemCount: devtoFile.scannedArticles ?? devtoLeaderboard.length,
+      totalScore: devtoLeaderboard.reduce((s, x) => s + (x.reactionsSum7d ?? 0), 0),
+    },
+    {
+      code: SOURCE_META.producthunt.code,
+      label: SOURCE_META.producthunt.label,
+      color: SOURCE_META.producthunt.color,
+      itemCount: allPhLaunches.length,
+      totalScore: allPhLaunches.reduce((s, x) => s + (x.votesCount ?? 0), 0),
+    },
+    {
+      code: SOURCE_META.lobsters.code,
+      label: SOURCE_META.lobsters.label,
+      color: SOURCE_META.lobsters.color,
+      itemCount: allLobstersStories.length,
+      totalScore: allLobstersStories.reduce((s, x) => s + (x.score ?? 0), 0),
+    },
+  ];
+
+  const totalItems = sourceVolumes.reduce((s, x) => s + x.itemCount, 0);
+  const totalScore = sourceVolumes.reduce((s, x) => s + x.totalScore, 0);
+
+  // Find top-scoring item across all sources
+  let topItem: { title: string; score: number; sourceLabel: string } | null = null;
+  for (const s of allHnStories) {
+    if (!topItem || (s.score ?? 0) > topItem.score) topItem = { title: s.title, score: s.score ?? 0, sourceLabel: "HN" };
+  }
+  for (const p of allBskyPosts) {
+    if (!topItem || (p.likeCount ?? 0) > topItem.score) topItem = { title: p.text.slice(0, 60), score: p.likeCount ?? 0, sourceLabel: "BS" };
+  }
+  for (const l of allPhLaunches) {
+    if (!topItem || (l.votesCount ?? 0) > topItem.score) topItem = { title: l.name, score: l.votesCount ?? 0, sourceLabel: "PH" };
+  }
+  for (const s of allLobstersStories) {
+    if (!topItem || (s.score ?? 0) > topItem.score) topItem = { title: s.title, score: s.score ?? 0, sourceLabel: "LZ" };
+  }
+
+  // Topics from all titles / texts
+  const allTexts: string[] = [];
+  allHnStories.forEach((s) => allTexts.push(s.title));
+  allBskyPosts.forEach((p) => allTexts.push(p.text));
+  devtoLeaderboard.forEach((e) => {
+    const art = devtoFile.mentions[e.fullName]?.topArticle;
+    if (art) allTexts.push(art.title);
+  });
+  allPhLaunches.forEach((l) => allTexts.push(`${l.name} ${l.tagline || ""}`));
+  allLobstersStories.forEach((s) => allTexts.push(s.title));
+
+  const topTopics = computeTopTopics(allTexts, 6);
+
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
-      <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
+      <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8 space-y-6">
+        {/* V2 terminal chrome */}
+        <div className="v2-frame overflow-hidden">
+          <TerminalBar
+            label={`// NEWS · ${activeTab.toUpperCase()}`}
+            status={`${Object.values(tabCounts).reduce((a, b) => a + b, 0)} SIGNALS · LIVE`}
+            live
+          />
+          <BarcodeTicker count={120} height={12} seed={tabCounts[activeTab] || 33} />
+        </div>
+
         {/* Header */}
-        <header className="mb-6 border-b border-border-primary pb-6">
+        <header className="mb-6 border-b border-[var(--v2-line-std)] pb-6 space-y-3">
+          <MonoLabel
+            index="02"
+            name="NEWS"
+            hint="DEV MEDIA FIREHOSE"
+            tone="muted"
+          />
           <div className="flex items-baseline gap-3 flex-wrap">
             <h1 className="text-2xl font-bold uppercase tracking-wider">
-              NEWS / DEV MEDIA FIRELOOSE
+              NEWS / DEV MEDIA FIREHOSE
             </h1>
             <span className="text-xs text-text-tertiary">
               {"// where developers post, share, and launch"}
@@ -197,19 +327,27 @@ export default async function NewsPage({
           </p>
         </header>
 
-        {/* Tab strip — horizontally scrollable on mobile so all 5 tabs
-            stay reachable without wrapping into stacked rows. */}
+        {/* Cross-source hero */}
+        <NewsHero
+          totalItems={totalItems}
+          totalScore={totalScore}
+          sourceVolumes={sourceVolumes}
+          topTopics={topTopics}
+          topItem={topItem}
+        />
+
+        {/* Tab strip */}
         <nav
-          className="mb-6 flex items-center gap-1 flex-nowrap md:flex-wrap overflow-x-auto md:overflow-visible scrollbar-hide border-b border-border-primary"
+          className="mb-6 flex items-center gap-1 flex-nowrap md:flex-wrap overflow-x-auto md:overflow-visible scrollbar-hide border-b border-[var(--v2-line-std)]"
         >
           {TAB_ORDER.map((tab) => {
             const isActive = tab === activeTab;
             const href = tab === "hackernews" ? "/news" : `/news?tab=${tab}`;
             const labelClass = isActive
-              ? "text-accent-green"
+              ? "text-[color:var(--v2-acc)]"
               : "text-text-tertiary hover:text-text-secondary";
             const borderClass = isActive
-              ? "border-b-2 border-accent-green"
+              ? "border-b-2 border-[color:var(--v2-acc)]"
               : "border-b-2 border-transparent";
             return (
               <Link
@@ -246,7 +384,190 @@ export default async function NewsPage({
 }
 
 // ---------------------------------------------------------------------------
-// Pieces — shared
+// News Hero — 3-card cross-source stats (Snapshot + Volume + Topics)
+// ---------------------------------------------------------------------------
+
+function NewsHero({
+  totalItems,
+  totalScore,
+  sourceVolumes,
+  topTopics,
+  topItem,
+}: {
+  totalItems: number;
+  totalScore: number;
+  sourceVolumes: Array<{ code: string; label: string; color: string; itemCount: number; totalScore: number }>;
+  topTopics: Array<{ topic: string; count: number; color: string }>;
+  topItem: { title: string; score: number; sourceLabel: string } | null;
+}) {
+  const sourceMax = Math.max(...sourceVolumes.map((s) => s.itemCount), 1);
+  const topicMax = Math.max(...topTopics.map((t) => t.count), 1);
+
+  return (
+    <section className="mb-6">
+      <h1
+        className="v2-mono mb-4 inline-flex items-center gap-2"
+        style={{ color: "var(--v2-ink-100)", fontSize: 12, letterSpacing: "0.20em" }}
+      >
+        <span aria-hidden>{"// "}</span>
+        MARKET SIGNALS · CROSS-SOURCE
+        <span
+          aria-hidden
+          className="inline-block ml-1"
+          style={{ width: 6, height: 6, background: "var(--v2-acc)", borderRadius: 1, boxShadow: "0 0 6px var(--v2-acc-glow)" }}
+        />
+      </h1>
+
+      <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr_1fr] gap-3">
+        {/* SNAPSHOT — real totals */}
+        <div className="v2-card v2-bracket relative overflow-hidden">
+          <BracketMarkers>
+            <TerminalBar
+              label="// SNAPSHOT · NOW"
+              status={`${totalItems} ITEMS`}
+            />
+            <div className="p-4 flex flex-col gap-3">
+              <div>
+                <span className="v2-mono" style={{ color: "var(--v2-ink-300)" }}>
+                  ITEMS TRACKED
+                </span>
+                <div
+                  className="mt-1 tabular-nums"
+                  style={{
+                    fontFamily: "var(--font-geist), Inter, sans-serif",
+                    fontWeight: 300,
+                    fontSize: "clamp(32px, 4.5vw, 48px)",
+                    letterSpacing: "-0.03em",
+                    lineHeight: 1,
+                    color: "var(--v2-ink-000)",
+                  }}
+                >
+                  {totalItems.toLocaleString("en-US")}
+                </div>
+                <div className="mt-1 v2-mono" style={{ color: "var(--v2-ink-400)" }}>
+                  ACROSS {sourceVolumes.length} SOURCES
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 gap-1">
+                <div
+                  className="flex items-center justify-between v2-mono"
+                  style={{ borderTop: "1px dashed var(--v2-line-200)", paddingTop: 4 }}
+                >
+                  <span style={{ color: "var(--v2-ink-300)" }}>TOTAL SCORE</span>
+                  <span className="tabular-nums" style={{ color: "var(--v2-ink-100)" }}>
+                    {totalScore.toLocaleString("en-US")}
+                  </span>
+                </div>
+                {topItem ? (
+                  <div
+                    className="flex items-center justify-between v2-mono"
+                    style={{ borderTop: "1px dashed var(--v2-line-200)", paddingTop: 4 }}
+                  >
+                    <span style={{ color: "var(--v2-ink-300)" }}>TOP SCORE</span>
+                    <span className="tabular-nums" style={{ color: "var(--v2-acc)" }}>
+                      {topItem.score.toLocaleString("en-US")}
+                    </span>
+                  </div>
+                ) : null}
+              </div>
+            </div>
+          </BracketMarkers>
+        </div>
+
+        {/* VOLUME PER SOURCE */}
+        <div className="v2-card overflow-hidden">
+          <TerminalBar
+            label="// VOLUME · PER SOURCE"
+            status={`${sourceVolumes.length} ${sourceVolumes.length === 1 ? "CHANNEL" : "CHANNELS"}`}
+          />
+          <div className="p-3 space-y-1.5">
+            {sourceVolumes.map((s) => (
+              <div key={s.code} className="flex items-center gap-2" style={{ minHeight: 22 }}>
+                <span className="v2-mono shrink-0 w-12" style={{ color: "var(--v2-ink-200)", fontSize: 10 }}>
+                  {s.code}
+                </span>
+                <div className="flex-1 relative" style={{ height: 14, background: "var(--v2-bg-100)", borderRadius: 1 }}>
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      bottom: 0,
+                      width: `${(s.itemCount / sourceMax) * 100}%`,
+                      background: s.color,
+                      borderRadius: 1,
+                      minWidth: s.itemCount > 0 ? 2 : 0,
+                    }}
+                  />
+                </div>
+                <span className="v2-mono tabular-nums shrink-0 w-14 text-right" style={{ color: "var(--v2-ink-100)", fontSize: 10 }}>
+                  {s.itemCount}
+                </span>
+                <span className="v2-mono tabular-nums shrink-0 w-16 text-right" style={{ color: "var(--v2-ink-400)", fontSize: 9 }}>
+                  {s.totalScore.toLocaleString("en-US")}
+                </span>
+              </div>
+            ))}
+            {sourceVolumes.length === 0 ? (
+              <div className="v2-mono py-6 text-center" style={{ color: "var(--v2-ink-500)" }}>
+                <span aria-hidden>{"// "}</span>
+                NO SOURCES IN SNAPSHOT
+              </div>
+            ) : null}
+          </div>
+        </div>
+
+        {/* TOP TOPICS */}
+        <div className="v2-card overflow-hidden">
+          <TerminalBar
+            label="// TOPICS · MENTIONED MOST"
+            status={`TOP ${topTopics.length}`}
+          />
+          <div className="p-3 space-y-1.5">
+            {topTopics.map((t) => (
+              <div key={t.topic} className="flex items-center gap-2" style={{ minHeight: 22 }}>
+                <span
+                  className="v2-mono shrink-0 w-32 truncate"
+                  style={{ color: "var(--v2-ink-200)", fontSize: 10, letterSpacing: "0.04em", textTransform: "uppercase" }}
+                  title={t.topic}
+                >
+                  {t.topic}
+                </span>
+                <div className="flex-1 relative" style={{ height: 14, background: "var(--v2-bg-100)", borderRadius: 1 }}>
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      bottom: 0,
+                      width: `${(t.count / topicMax) * 100}%`,
+                      background: t.color,
+                      borderRadius: 1,
+                      minWidth: t.count > 0 ? 2 : 0,
+                    }}
+                  />
+                </div>
+                <span className="v2-mono tabular-nums shrink-0 w-10 text-right" style={{ color: "var(--v2-ink-100)", fontSize: 10 }}>
+                  {t.count}
+                </span>
+              </div>
+            ))}
+            {topTopics.length === 0 ? (
+              <div className="v2-mono py-6 text-center" style={{ color: "var(--v2-ink-500)" }}>
+                <span aria-hidden>{"// "}</span>
+                NO TOPICS YET
+              </div>
+            ) : null}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Shared pieces — v2-styled
 // ---------------------------------------------------------------------------
 
 function StatTile({
@@ -259,13 +580,30 @@ function StatTile({
   hint?: string;
 }) {
   return (
-    <div className="border border-border-primary rounded-md px-4 py-3 bg-bg-secondary">
-      <div className="text-[10px] uppercase tracking-wider text-text-tertiary">
+    <div
+      className="rounded-md px-4 py-3"
+      style={{
+        background: "var(--v2-bg-050)",
+        border: "1px solid var(--v2-line-200)",
+      }}
+    >
+      <div
+        className="v2-mono text-[10px] uppercase tracking-wider"
+        style={{ color: "var(--v2-ink-400)" }}
+      >
         {label}
       </div>
-      <div className="mt-1 text-xl font-bold truncate">{value}</div>
+      <div
+        className="mt-1 text-xl font-bold truncate tabular-nums"
+        style={{ color: "var(--v2-ink-100)" }}
+      >
+        {value}
+      </div>
       {hint ? (
-        <div className="mt-0.5 text-[11px] text-text-tertiary truncate">
+        <div
+          className="mt-0.5 text-[11px] truncate"
+          style={{ color: "var(--v2-ink-400)" }}
+        >
           {hint}
         </div>
       ) : null}
@@ -275,7 +613,13 @@ function StatTile({
 
 function ListShell({ children }: { children: React.ReactNode }) {
   return (
-    <section className="border border-border-primary rounded-md bg-bg-secondary overflow-hidden">
+    <section
+      className="rounded-md overflow-hidden"
+      style={{
+        background: "var(--v2-bg-050)",
+        border: "1px solid var(--v2-line-200)",
+      }}
+    >
       {children}
     </section>
   );
@@ -286,7 +630,7 @@ function FullViewLink({ href, label }: { href: string; label: string }) {
     <div className="mt-4 text-right">
       <Link
         href={href}
-        className="text-xs text-accent-green hover:underline uppercase tracking-wider"
+        className="text-xs text-[color:var(--v2-acc)] hover:underline uppercase tracking-wider"
       >
         {label} →
       </Link>
@@ -296,7 +640,10 @@ function FullViewLink({ href, label }: { href: string; label: string }) {
 
 function ComingSoonNote({ message }: { message: string }) {
   return (
-    <div className="mt-4 text-right text-xs text-text-tertiary">
+    <div
+      className="mt-4 text-right text-xs"
+      style={{ color: "var(--v2-ink-400)" }}
+    >
       {`// ${message}`}
     </div>
   );
@@ -312,10 +659,16 @@ function ColdCard({
   accent?: string;
 }) {
   return (
-    <section className="border border-dashed border-border-primary rounded-md p-8 bg-bg-secondary/40">
+    <section
+      className="rounded-md p-8"
+      style={{
+        background: "var(--v2-bg-050)",
+        border: "1px dashed var(--v2-line-300)",
+      }}
+    >
       <h2
-        className="text-lg font-bold uppercase tracking-wider text-accent-green"
-        style={accent ? { color: accent } : undefined}
+        className="text-lg font-bold uppercase tracking-wider"
+        style={{ color: accent || "var(--v2-sig-green)" }}
       >
         {title}
       </h2>
@@ -380,7 +733,9 @@ function HackerNewsTabBody({ stories }: { stories: HnStory[] }) {
       </section>
 
       <ListShell>
-        <div className="hidden sm:grid grid-cols-[40px_1fr_60px_60px_60px_80px] gap-3 items-center px-3 h-9 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
+        <div className="hidden sm:grid grid-cols-[40px_1fr_60px_60px_60px_80px] gap-3 items-center px-3 h-9 border-b text-[10px] uppercase tracking-wider"
+          style={{ borderColor: "var(--v2-line-100)", color: "var(--v2-ink-400)" }}
+        >
           <div>#</div>
           <div>TITLE</div>
           <div className="text-right">FP</div>
@@ -388,15 +743,15 @@ function HackerNewsTabBody({ stories }: { stories: HnStory[] }) {
           <div className="text-right">CMTS</div>
           <div className="text-right">AGE</div>
         </div>
-        <ul>
+        <ul className="divide-y" style={{ borderColor: "var(--v2-line-100)" }}>
           {stories.map((s, i) => {
             const isHigh = s.score >= 100;
             return (
               <li
                 key={s.id}
-                className="grid grid-cols-[28px_1fr_auto] sm:grid-cols-[40px_1fr_60px_60px_60px_80px] gap-3 items-center px-3 min-h-[44px] sm:h-10 py-2 sm:py-0 hover:bg-bg-card-hover transition-colors border-b border-border-primary/40 last:border-b-0"
+                className="grid grid-cols-[28px_1fr_auto] sm:grid-cols-[40px_1fr_60px_60px_60px_80px] gap-3 items-center px-3 min-h-[44px] sm:h-10 py-2 sm:py-0 hover:bg-bg-card-hover transition-colors"
               >
-                <div className="text-text-tertiary text-xs tabular-nums">
+                <div style={{ color: "var(--v2-ink-400)" }} className="text-xs tabular-nums">
                   {i + 1}
                 </div>
                 <div className="min-w-0">
@@ -404,15 +759,12 @@ function HackerNewsTabBody({ stories }: { stories: HnStory[] }) {
                     href={hnItemHref(s.id)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm text-text-primary hover:text-accent-green truncate block"
+                    className="text-sm text-text-primary hover:text-[color:var(--v2-acc)] truncate block"
                     title={s.title}
                   >
                     {s.title}
                   </a>
-                  {/* Mobile-only secondary line: comments + age (the columns
-                      we hide on small screens). Keeps the signal without
-                      forcing a 6-col grid into a 360px viewport. */}
-                  <div className="sm:hidden mt-0.5 flex items-center gap-2 text-[10px] text-text-tertiary tabular-nums">
+                  <div className="sm:hidden mt-0.5 flex items-center gap-2 text-[10px] tabular-nums" style={{ color: "var(--v2-ink-400)" }}>
                     <span>{s.descendants.toLocaleString("en-US")} cmts</span>
                     <span>·</span>
                     <span>{formatAgeHours(s.ageHours)}</span>
@@ -440,7 +792,7 @@ function HackerNewsTabBody({ stories }: { stories: HnStory[] }) {
                 <div className="hidden sm:block text-right text-xs tabular-nums text-text-secondary">
                   {s.descendants.toLocaleString("en-US")}
                 </div>
-                <div className="hidden sm:block text-right text-xs tabular-nums text-text-tertiary">
+                <div className="hidden sm:block text-right text-xs tabular-nums" style={{ color: "var(--v2-ink-400)" }}>
                   {formatAgeHours(s.ageHours)}
                 </div>
               </li>
@@ -515,7 +867,9 @@ function BlueskyTabBody({ posts }: { posts: BskyPost[] }) {
       </section>
 
       <ListShell>
-        <div className="hidden sm:grid grid-cols-[40px_1fr_60px_60px_60px_80px] gap-3 items-center px-3 h-9 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
+        <div className="hidden sm:grid grid-cols-[40px_1fr_60px_60px_60px_80px] gap-3 items-center px-3 h-9 border-b text-[10px] uppercase tracking-wider"
+          style={{ borderColor: "var(--v2-line-100)", color: "var(--v2-ink-400)" }}
+        >
           <div>#</div>
           <div>POST · AUTHOR</div>
           <div className="text-right">♥</div>
@@ -523,16 +877,16 @@ function BlueskyTabBody({ posts }: { posts: BskyPost[] }) {
           <div className="text-right">CMTS</div>
           <div className="text-right">AGE</div>
         </div>
-        <ul>
+        <ul className="divide-y" style={{ borderColor: "var(--v2-line-100)" }}>
           {posts.map((p, i) => {
             const snippet = truncate(p.text, 80);
             const isHigh = p.likeCount >= 50 || p.repostCount >= 5;
             return (
               <li
                 key={p.uri}
-                className="grid grid-cols-[28px_1fr_auto] sm:grid-cols-[40px_1fr_60px_60px_60px_80px] gap-3 items-center px-3 min-h-[44px] sm:h-10 py-2 sm:py-0 hover:bg-bg-card-hover transition-colors border-b border-border-primary/40 last:border-b-0"
+                className="grid grid-cols-[28px_1fr_auto] sm:grid-cols-[40px_1fr_60px_60px_60px_80px] gap-3 items-center px-3 min-h-[44px] sm:h-10 py-2 sm:py-0 hover:bg-bg-card-hover transition-colors"
               >
-                <div className="text-text-tertiary text-xs tabular-nums">
+                <div style={{ color: "var(--v2-ink-400)" }} className="text-xs tabular-nums">
                   {i + 1}
                 </div>
                 <div className="min-w-0 flex flex-col sm:flex-row sm:items-center gap-y-0.5 sm:gap-x-2">
@@ -540,13 +894,14 @@ function BlueskyTabBody({ posts }: { posts: BskyPost[] }) {
                     href={bskyPostHref(p.uri, p.author.handle)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm text-text-primary hover:text-accent-green truncate"
+                    className="text-sm text-text-primary hover:text-[color:var(--v2-acc)] truncate"
                     title={p.text}
                   >
                     {snippet}
                   </a>
                   <span
-                    className="shrink-0 text-[10px] text-text-tertiary truncate"
+                    className="shrink-0 text-[10px] truncate"
+                    style={{ color: "var(--v2-ink-400)" }}
                     title={
                       p.author.displayName
                         ? `${p.author.displayName} (@${p.author.handle})`
@@ -569,7 +924,7 @@ function BlueskyTabBody({ posts }: { posts: BskyPost[] }) {
                 <div className="hidden sm:block text-right text-xs tabular-nums text-text-secondary">
                   {p.replyCount.toLocaleString("en-US")}
                 </div>
-                <div className="hidden sm:block text-right text-xs tabular-nums text-text-tertiary">
+                <div className="hidden sm:block text-right text-xs tabular-nums" style={{ color: "var(--v2-ink-400)" }}>
                   {formatAgeHours(p.ageHours)}
                 </div>
               </li>
@@ -593,10 +948,6 @@ function DevtoTabBody() {
   const sliceCount = file.discoverySlices?.length ?? 0;
   const tagCount = file.priorityTags?.length ?? 0;
 
-  // Build a top-10 of articles by walking the leaderboard and pulling each
-  // repo's topArticle. Skip entries that don't have one. This avoids the
-  // need to import the larger devto-trending bundle here, while still
-  // surfacing the highest-engagement article-per-repo pairs.
   const rows: { repo: string; article: DevtoTopArticleRef }[] = [];
   for (const entry of leaderboard) {
     const mention = file.mentions[entry.fullName];
@@ -609,11 +960,6 @@ function DevtoTabBody() {
   const articlesScanned = file.scannedArticles;
   const reposLinked = leaderboard.length;
 
-  // Cold = scraper has never produced real data (epoch-zero stub or zero
-  // scanned articles). A successful scrape with `articles > 0` but no
-  // tracked-repo links is NOT cold — that's a normal "quiet week" state
-  // and the tab should render its empty-leaderboard view, not the cold
-  // bootstrap CTA. Sprint review finding #3.
   if (devtoCold) {
     return (
       <ColdCard
@@ -661,7 +1007,9 @@ function DevtoTabBody() {
       </section>
 
       <ListShell>
-        <div className="hidden sm:grid grid-cols-[40px_1fr_60px_60px_60px_80px] gap-3 items-center px-3 h-9 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
+        <div className="hidden sm:grid grid-cols-[40px_1fr_60px_60px_60px_80px] gap-3 items-center px-3 h-9 border-b text-[10px] uppercase tracking-wider"
+          style={{ borderColor: "var(--v2-line-100)", color: "var(--v2-ink-400)" }}
+        >
           <div>#</div>
           <div>TITLE · AUTHOR</div>
           <div className="text-right">REACT</div>
@@ -669,13 +1017,13 @@ function DevtoTabBody() {
           <div className="text-right">READ</div>
           <div className="text-right">AGE</div>
         </div>
-        <ul>
+        <ul className="divide-y" style={{ borderColor: "var(--v2-line-100)" }}>
           {rows.map(({ repo, article }, i) => (
             <li
               key={`${repo}-${article.id}`}
-              className="grid grid-cols-[28px_1fr_auto] sm:grid-cols-[40px_1fr_60px_60px_60px_80px] gap-3 items-center px-3 min-h-[44px] sm:h-10 py-2 sm:py-0 hover:bg-bg-card-hover transition-colors border-b border-border-primary/40 last:border-b-0"
+              className="grid grid-cols-[28px_1fr_auto] sm:grid-cols-[40px_1fr_60px_60px_60px_80px] gap-3 items-center px-3 min-h-[44px] sm:h-10 py-2 sm:py-0 hover:bg-bg-card-hover transition-colors"
             >
-              <div className="text-text-tertiary text-xs tabular-nums">
+              <div style={{ color: "var(--v2-ink-400)" }} className="text-xs tabular-nums">
                 {i + 1}
               </div>
               <div className="min-w-0 flex flex-col sm:flex-row sm:items-center gap-y-0.5 sm:gap-x-2">
@@ -683,13 +1031,14 @@ function DevtoTabBody() {
                   href={devtoArticleHref(article.url)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-text-primary hover:text-accent-green truncate"
+                  className="text-sm text-text-primary hover:text-[color:var(--v2-acc)] truncate"
                   title={article.title}
                 >
                   {article.title}
                 </a>
                 <span
-                  className="shrink-0 text-[10px] text-text-tertiary truncate"
+                  className="shrink-0 text-[10px] truncate"
+                  style={{ color: "var(--v2-ink-400)" }}
                   title={article.author}
                 >
                   @{article.author}
@@ -702,10 +1051,10 @@ function DevtoTabBody() {
               <div className="hidden sm:block text-right text-xs tabular-nums text-text-secondary">
                 {article.comments.toLocaleString("en-US")}
               </div>
-              <div className="hidden sm:block text-right text-xs tabular-nums text-text-tertiary">
+              <div className="hidden sm:block text-right text-xs tabular-nums" style={{ color: "var(--v2-ink-400)" }}>
                 {`${article.readingTime}m`}
               </div>
-              <div className="hidden sm:block text-right text-xs tabular-nums text-text-tertiary">
+              <div className="hidden sm:block text-right text-xs tabular-nums" style={{ color: "var(--v2-ink-400)" }}>
                 {formatAgeHours(article.hoursSincePosted)}
               </div>
             </li>
@@ -777,66 +1126,68 @@ function ProductHuntTabBody({ launches }: { launches: Launch[] }) {
 
       {launches.length > 0 ? (
         <ListShell>
-          <div className="hidden sm:grid grid-cols-[40px_1fr_60px_60px_60px_80px] gap-3 items-center px-3 h-9 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
-          <div>#</div>
-          <div>NAME · TAGLINE</div>
-          <div className="text-right">VOTES</div>
-          <div className="text-right">CMTS</div>
-          <div className="text-right">DAYS</div>
-          <div className="text-right">DATE</div>
-        </div>
-        <ul>
-          {launches.map((l, i) => {
-            const isHigh = l.votesCount >= 200;
-            const t = new Date(l.createdAt).getTime();
-            const launchDate = Number.isFinite(t)
-              ? new Date(l.createdAt).toISOString().slice(5, 10)
-              : "—";
-            return (
-              <li
-                key={l.id}
-                className="grid grid-cols-[28px_1fr_auto] sm:grid-cols-[40px_1fr_60px_60px_60px_80px] gap-3 items-center px-3 min-h-[44px] sm:h-10 py-2 sm:py-0 hover:bg-bg-card-hover transition-colors border-b border-border-primary/40 last:border-b-0"
-              >
-                <div className="text-text-tertiary text-xs tabular-nums">
-                  {i + 1}
-                </div>
-                <div className="min-w-0 flex flex-col sm:flex-row sm:items-center gap-y-0.5 sm:gap-x-2">
-                  <a
-                    href={l.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-text-primary hover:text-accent-green truncate"
-                    title={`${l.name} — ${l.tagline}`}
-                  >
-                    <span className="font-semibold">{l.name}</span>
-                    {l.tagline ? (
-                      <span className="text-text-tertiary"> · {l.tagline}</span>
-                    ) : null}
-                  </a>
-                  <LaunchLinkIcons launch={l} />
-                  <span className="sm:hidden text-[10px] text-text-tertiary tabular-nums">
-                    {`${l.commentsCount.toLocaleString("en-US")} cmts · ${l.daysSinceLaunch}d · ${launchDate}`}
-                  </span>
-                </div>
-                <div
-                  className="text-right text-xs tabular-nums"
-                  style={isHigh ? { color: PH_RED } : undefined}
+          <div className="hidden sm:grid grid-cols-[40px_1fr_60px_60px_60px_80px] gap-3 items-center px-3 h-9 border-b text-[10px] uppercase tracking-wider"
+            style={{ borderColor: "var(--v2-line-100)", color: "var(--v2-ink-400)" }}
+          >
+            <div>#</div>
+            <div>NAME · TAGLINE</div>
+            <div className="text-right">VOTES</div>
+            <div className="text-right">CMTS</div>
+            <div className="text-right">DAYS</div>
+            <div className="text-right">DATE</div>
+          </div>
+          <ul className="divide-y" style={{ borderColor: "var(--v2-line-100)" }}>
+            {launches.map((l, i) => {
+              const isHigh = l.votesCount >= 200;
+              const t = new Date(l.createdAt).getTime();
+              const launchDate = Number.isFinite(t)
+                ? new Date(l.createdAt).toISOString().slice(5, 10)
+                : "—";
+              return (
+                <li
+                  key={l.id}
+                  className="grid grid-cols-[28px_1fr_auto] sm:grid-cols-[40px_1fr_60px_60px_60px_80px] gap-3 items-center px-3 min-h-[44px] sm:h-10 py-2 sm:py-0 hover:bg-bg-card-hover transition-colors"
                 >
-                  {l.votesCount.toLocaleString("en-US")}
-                </div>
-                <div className="hidden sm:block text-right text-xs tabular-nums text-text-secondary">
-                  {l.commentsCount.toLocaleString("en-US")}
-                </div>
-                <div className="hidden sm:block text-right text-xs tabular-nums text-text-tertiary">
-                  {`${l.daysSinceLaunch}d`}
-                </div>
-                <div className="hidden sm:block text-right text-xs tabular-nums text-text-tertiary">
-                  {launchDate}
-                </div>
-              </li>
-            );
-          })}
-        </ul>
+                  <div style={{ color: "var(--v2-ink-400)" }} className="text-xs tabular-nums">
+                    {i + 1}
+                  </div>
+                  <div className="min-w-0 flex flex-col sm:flex-row sm:items-center gap-y-0.5 sm:gap-x-2">
+                    <a
+                      href={l.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-text-primary hover:text-[color:var(--v2-acc)] truncate"
+                      title={`${l.name} — ${l.tagline}`}
+                    >
+                      <span className="font-semibold">{l.name}</span>
+                      {l.tagline ? (
+                        <span className="text-text-tertiary"> · {l.tagline}</span>
+                      ) : null}
+                    </a>
+                    <LaunchLinkIcons launch={l} />
+                    <span className="sm:hidden text-[10px] tabular-nums" style={{ color: "var(--v2-ink-400)" }}>
+                      {`${l.commentsCount.toLocaleString("en-US")} cmts · ${l.daysSinceLaunch}d · ${launchDate}`}
+                    </span>
+                  </div>
+                  <div
+                    className="text-right text-xs tabular-nums"
+                    style={isHigh ? { color: PH_RED } : undefined}
+                  >
+                    {l.votesCount.toLocaleString("en-US")}
+                  </div>
+                  <div className="hidden sm:block text-right text-xs tabular-nums text-text-secondary">
+                    {l.commentsCount.toLocaleString("en-US")}
+                  </div>
+                  <div className="hidden sm:block text-right text-xs tabular-nums" style={{ color: "var(--v2-ink-400)" }}>
+                    {`${l.daysSinceLaunch}d`}
+                  </div>
+                  <div className="hidden sm:block text-right text-xs tabular-nums" style={{ color: "var(--v2-ink-400)" }}>
+                    {launchDate}
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
         </ListShell>
       ) : (
         <ColdCard
@@ -915,14 +1266,16 @@ function LobstersTabBody({ stories }: { stories: LobstersStory[] }) {
       </section>
 
       <ListShell>
-        <div className="hidden sm:grid grid-cols-[40px_1fr_60px_60px_80px] gap-3 items-center px-3 h-9 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
+        <div className="hidden sm:grid grid-cols-[40px_1fr_60px_60px_80px] gap-3 items-center px-3 h-9 border-b text-[10px] uppercase tracking-wider"
+          style={{ borderColor: "var(--v2-line-100)", color: "var(--v2-ink-400)" }}
+        >
           <div>#</div>
           <div>TITLE</div>
           <div className="text-right">SCORE</div>
           <div className="text-right">CMTS</div>
           <div className="text-right">AGE</div>
         </div>
-        <ul>
+        <ul className="divide-y" style={{ borderColor: "var(--v2-line-100)" }}>
           {stories.map((s, i) => {
             const linkedRepo = s.linkedRepos?.[0]?.fullName;
             const href = s.commentsUrl || lobstersStoryHref(s.shortId);
@@ -930,9 +1283,9 @@ function LobstersTabBody({ stories }: { stories: LobstersStory[] }) {
             return (
               <li
                 key={s.shortId}
-                className="grid grid-cols-[28px_1fr_auto] sm:grid-cols-[40px_1fr_60px_60px_80px] gap-3 items-center px-3 min-h-[44px] sm:h-10 py-2 sm:py-0 hover:bg-bg-card-hover transition-colors border-b border-border-primary/40 last:border-b-0"
+                className="grid grid-cols-[28px_1fr_auto] sm:grid-cols-[40px_1fr_60px_60px_80px] gap-3 items-center px-3 min-h-[44px] sm:h-10 py-2 sm:py-0 hover:bg-bg-card-hover transition-colors"
               >
-                <div className="text-text-tertiary text-xs tabular-nums">
+                <div style={{ color: "var(--v2-ink-400)" }} className="text-xs tabular-nums">
                   {i + 1}
                 </div>
                 <div className="min-w-0 flex flex-col sm:flex-row sm:items-center gap-y-0.5 sm:gap-x-2">
@@ -940,7 +1293,7 @@ function LobstersTabBody({ stories }: { stories: LobstersStory[] }) {
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm text-text-primary hover:text-accent-green truncate"
+                    className="text-sm text-text-primary hover:text-[color:var(--v2-acc)] truncate"
                     title={s.title}
                   >
                     {s.title}
@@ -948,13 +1301,13 @@ function LobstersTabBody({ stories }: { stories: LobstersStory[] }) {
                   {linkedRepo ? (
                     <Link
                       href={repoFullNameToHref(linkedRepo)}
-                      className="shrink-0 text-[10px] px-1.5 py-0.5 rounded border border-border-primary text-text-tertiary hover:text-accent-green hover:border-accent-green/50 transition-colors"
+                      className="shrink-0 text-[10px] px-1.5 py-0.5 rounded border border-border-primary text-text-tertiary hover:text-[color:var(--v2-acc)] hover:border-[color:var(--v2-acc)]/50 transition-colors"
                       title={`Linked repo: ${linkedRepo}`}
                     >
                       {linkedRepo}
                     </Link>
                   ) : null}
-                  <span className="sm:hidden text-[10px] text-text-tertiary tabular-nums">
+                  <span className="sm:hidden text-[10px] tabular-nums" style={{ color: "var(--v2-ink-400)" }}>
                     {`${s.commentCount.toLocaleString("en-US")} cmts · ${formatAgeHours(s.ageHours)}`}
                   </span>
                 </div>
@@ -967,7 +1320,7 @@ function LobstersTabBody({ stories }: { stories: LobstersStory[] }) {
                 <div className="hidden sm:block text-right text-xs tabular-nums text-text-secondary">
                   {s.commentCount.toLocaleString("en-US")}
                 </div>
-                <div className="hidden sm:block text-right text-xs tabular-nums text-text-tertiary">
+                <div className="hidden sm:block text-right text-xs tabular-nums" style={{ color: "var(--v2-ink-400)" }}>
                   {formatAgeHours(s.ageHours)}
                 </div>
               </li>

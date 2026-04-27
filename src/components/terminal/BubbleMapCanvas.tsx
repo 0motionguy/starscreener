@@ -493,28 +493,34 @@ export function BubbleMapCanvas({ windows, width, height }: BubbleMapCanvasProps
             touchAction: "none",
           }}
           aria-label={`${s.fullName} gained ${deltaLabel} stars over ${s.deltaWindow} (click or drag)`}
+          className="v2-bubble"
         >
           {/* Invisible oversize hit target so tiny bubbles still grab easily */}
           <circle r={Math.max(s.r, 20)} fill="transparent" />
-          {/* Ambient glow */}
+          {/* Ambient glow — V2 accent-soft on active, otherwise no halo
+              (the V2 surface is intentionally quiet; identity belongs to
+              the legend strip, not the bubble fill). */}
+          {isDragging && (
+            <circle
+              r={s.r + 10}
+              fill="var(--v2-acc-soft)"
+              style={{ transition: "r 180ms ease-out" }}
+            />
+          )}
+          {/* Disk — uniform V2 neutral fill, V2 line stroke; active gets
+              an orange accent stroke + glow. Hover variant flips to
+              var(--v2-bg-300) via the .v2-bubble:hover rule below. */}
           <circle
-            r={s.r + (isDragging ? 8 : 4)}
-            fill={s.glow}
-            style={{ transition: "r 180ms ease-out" }}
-          />
-          {/* Disk — faint gradient (stops 0.35 → 0.12) with a slightly
-              thicker stroke carrying category identity. The bubble field
-              now recedes into the page instead of competing with brand
-              orange + Featured cards + delta greens. */}
-          <circle
+            className="v2-bubble-disk"
             r={s.r}
-            fill={`url(#bgrad-${s.id})`}
-            stroke={s.stroke}
-            strokeWidth={isDragging ? 2.25 : 1.5}
+            fill={isDragging ? "var(--v2-bg-300)" : "var(--v2-bg-200)"}
+            stroke={isDragging ? "var(--v2-acc)" : "var(--v2-line-300)"}
+            strokeWidth={isDragging ? 1.5 : 1}
             style={{
-              transition: "stroke-width 120ms ease-out",
+              transition:
+                "fill 120ms ease-out, stroke 120ms ease-out, stroke-width 120ms ease-out",
               filter: isDragging
-                ? "drop-shadow(0 6px 18px rgba(34,197,94,0.35))"
+                ? "drop-shadow(0 0 12px var(--v2-acc-glow))"
                 : undefined,
             }}
           />
@@ -537,12 +543,14 @@ export function BubbleMapCanvas({ windows, width, height }: BubbleMapCanvasProps
               x={0}
               y={s.r * 0.05}
               textAnchor="middle"
-              fill={s.textColor}
+              fill="var(--v2-ink-100)"
               fontSize={nameFontSize}
-              fontWeight={600}
+              fontWeight={500}
               style={{
-                fontFamily: "var(--font-sans)",
-                letterSpacing: "-0.01em",
+                fontFamily:
+                  "var(--font-geist-mono), var(--font-jetbrains-mono), monospace",
+                letterSpacing: "0.04em",
+                textTransform: "uppercase",
                 pointerEvents: "none",
                 userSelect: "none",
               }}
@@ -555,12 +563,14 @@ export function BubbleMapCanvas({ windows, width, height }: BubbleMapCanvasProps
             x={0}
             y={showName ? s.r * 0.36 : s.r * 0.12}
             textAnchor="middle"
-            fill={s.textColor}
+            fill={isDragging ? "var(--v2-acc)" : "var(--v2-ink-200)"}
             fontSize={deltaFontSize}
-            fontWeight={700}
+            fontWeight={600}
             style={{
-              fontFamily: "var(--font-mono)",
+              fontFamily:
+                "var(--font-geist-mono), var(--font-jetbrains-mono), monospace",
               fontVariantNumeric: "tabular-nums",
+              letterSpacing: "0.02em",
               pointerEvents: "none",
               userSelect: "none",
             }}
@@ -572,115 +582,246 @@ export function BubbleMapCanvas({ windows, width, height }: BubbleMapCanvasProps
     });
   }, [seeds, draggingId, handlePointerDown]);
 
+  // Top spider-strip stats — Node/01-flavored mono labels with arrows.
+  // The dominant category (first legendEntry) drives the `category=` field;
+  // 24h delta sum drives the `Δ` field so the strip reads as a live
+  // telemetry banner above the map.
+  const topCategory = legendEntries[0];
+  const totalDelta = seeds.reduce((sum, s) => sum + s.delta, 0);
+  const momentum =
+    seeds.length >= 80 ? "hot" : seeds.length >= 30 ? "warm" : "cold";
+  const totalDeltaLabel = `${totalDelta >= 0 ? "+" : ""}${formatNumber(totalDelta)}`;
+
   return (
     <section
       aria-label="Trending bubble map — drag to rearrange, click to open"
-      className="relative mb-4 rounded-card border border-border-primary bg-bg-card/60 overflow-hidden"
+      className="relative select-none"
+      style={{ background: "var(--v2-bg-000)" }}
     >
-      {/* Window tabs — overlaid in the top-right corner so the canvas
-          stays the focus. Absolute-positioned so they float above the
-          SVG without consuming vertical space. */}
+      {/* Spider-strip — mono telemetry above the map, mirrors Node/01's
+          `tags → key=value` pattern from SignalRadarV2. Border-bottom
+          uses var(--v2-line-200) per spec. */}
       <div
-        className="absolute top-2 right-2 z-10 flex items-center gap-0.5 rounded-full border border-border-primary bg-bg-card/80 backdrop-blur-sm p-0.5 font-mono text-[11px]"
-        role="tablist"
-        aria-label="Time window"
-      >
-        {WINDOW_TABS.map((tab) => {
-          const count = windows[tab.key].length;
-          const active = activeTab === tab.key;
-          const disabled = count === 0;
-          return (
-            <button
-              key={tab.key}
-              type="button"
-              role="tab"
-              aria-selected={active}
-              aria-label={`Show ${tab.label} window (${count} repos)`}
-              disabled={disabled}
-              onClick={() => setActiveTab(tab.key)}
-              className={
-                "px-3 py-1 rounded-full transition-colors uppercase tracking-wider " +
-                (active
-                  ? "bg-brand text-text-inverse font-semibold"
-                  : disabled
-                    ? "text-text-muted cursor-not-allowed"
-                    : "text-text-secondary hover:bg-bg-tertiary hover:text-text-primary")
-              }
-            >
-              {tab.label}
-            </button>
-          );
-        })}
-      </div>
-      {/* Category legend — sits below the floating tab pills, above the
-          canvas. Shows only the categories actually present in the
-          current (filtered + windowed) view, with a color swatch
-          matching the bubble fill so users can decode the map at a
-          glance. Count per category is tabular-nums so row wraps
-          stay tidy. */}
-      {legendEntries.length > 0 && (
-        <div
-          aria-label="Category legend"
-          className="pt-11 px-3 pb-1.5 flex items-center flex-wrap gap-x-3 gap-y-1 font-mono text-[10px] uppercase tracking-wider text-text-tertiary"
-        >
-          {legendEntries.map((entry) => (
-            <span
-              key={entry.id}
-              className="inline-flex items-center gap-1.5 whitespace-nowrap"
-            >
-              <span
-                aria-hidden="true"
-                className="inline-block w-2 h-2 rounded-full"
-                style={{ backgroundColor: entry.color }}
-              />
-              <span className="text-text-secondary">{entry.name}</span>
-              <span className="tabular-nums text-text-muted">
-                {entry.count}
-              </span>
-            </span>
-          ))}
-        </div>
-      )}
-      <svg
-        ref={svgRef}
-        viewBox={`0 0 ${width} ${height}`}
-        width="100%"
-        role="img"
-        aria-label={`${seeds.length} trending repos by ${activeTab} star gain — drag any bubble to rearrange`}
-        className="block select-none"
+        aria-label="Radar telemetry"
+        className="flex items-center flex-wrap gap-x-4 gap-y-1 px-3 py-2"
         style={{
-          aspectRatio: `${width} / ${height}`,
-          touchAction: "none",
+          borderBottom: "1px solid var(--v2-line-200)",
+          fontFamily:
+            "var(--font-geist-mono), var(--font-jetbrains-mono), monospace",
+          fontSize: 10,
+          letterSpacing: "var(--v2-tracking-mono-tight)",
+          textTransform: "uppercase",
+          color: "var(--v2-ink-300)",
         }}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        onPointerCancel={handlePointerUp}
-        onPointerLeave={handlePointerUp}
       >
-        <defs>
-          {seeds.map((s) => (
-            <radialGradient
-              key={`bg-${s.id}`}
-              id={`bgrad-${s.id}`}
-              cx="35%"
-              cy="30%"
-              r="75%"
-            >
-              <stop offset="0%" stopColor={s.fill} stopOpacity={0.35} />
-              <stop offset="100%" stopColor={s.fill} stopOpacity={0.12} />
-            </radialGradient>
-          ))}
-          {seeds.map((s) => {
-            const avatarSize = Math.min(30, Math.max(14, s.r * 0.38));
+        <span className="whitespace-nowrap">
+          <span aria-hidden>tags </span>
+          <span aria-hidden style={{ color: "var(--v2-ink-400)" }}>→ </span>
+          <span style={{ color: "var(--v2-ink-100)" }}>
+            category={topCategory ? topCategory.id : "ai"}
+          </span>
+        </span>
+        <span aria-hidden style={{ color: "var(--v2-line-300)" }}>·</span>
+        <span className="whitespace-nowrap">
+          <span aria-hidden style={{ color: "var(--v2-ink-400)" }}>→ </span>
+          <span style={{ color: "var(--v2-ink-100)" }}>
+            momentum={momentum}
+          </span>
+        </span>
+        <span aria-hidden style={{ color: "var(--v2-line-300)" }}>·</span>
+        <span className="whitespace-nowrap">
+          <span aria-hidden style={{ color: "var(--v2-ink-400)" }}>→ </span>
+          <span
+            className="tabular-nums"
+            style={{ color: "var(--v2-acc)" }}
+          >
+            {activeTab} Δ={totalDeltaLabel}
+          </span>
+        </span>
+        <span
+          aria-hidden
+          style={{ color: "var(--v2-line-300)", marginLeft: "auto" }}
+        >
+          ·
+        </span>
+        {/* Window tabs — pulled inline into the strip so the canvas keeps
+            its full height. Mono buttons matching Node/01 chrome. */}
+        <div
+          className="flex items-center gap-1"
+          role="tablist"
+          aria-label="Time window"
+        >
+          {WINDOW_TABS.map((tab) => {
+            const count = windows[tab.key].length;
+            const active = activeTab === tab.key;
+            const disabled = count === 0;
             return (
-              <clipPath key={`clip-${s.id}`} id={`bclip-${s.id}`}>
-                <circle cx={0} cy={-s.r * 0.34} r={avatarSize / 2} />
-              </clipPath>
+              <button
+                key={tab.key}
+                type="button"
+                role="tab"
+                aria-selected={active}
+                aria-label={`Show ${tab.label} window (${count} repos)`}
+                disabled={disabled}
+                onClick={() => setActiveTab(tab.key)}
+                className="px-2 py-0.5 transition-colors tabular-nums"
+                style={{
+                  fontFamily:
+                    "var(--font-geist-mono), var(--font-jetbrains-mono), monospace",
+                  fontSize: 10,
+                  letterSpacing: "var(--v2-tracking-mono)",
+                  textTransform: "uppercase",
+                  border: "1px solid",
+                  borderColor: active
+                    ? "var(--v2-acc)"
+                    : "var(--v2-line-200)",
+                  color: active
+                    ? "var(--v2-acc)"
+                    : disabled
+                      ? "var(--v2-ink-500)"
+                      : "var(--v2-ink-200)",
+                  background: active ? "var(--v2-acc-soft)" : "transparent",
+                  cursor: disabled ? "not-allowed" : "pointer",
+                  borderRadius: 2,
+                }}
+              >
+                {tab.label}
+              </button>
             );
           })}
-        </defs>
-        {bubbleElements}
-      </svg>
+        </div>
+      </div>
+      {/* Canvas wrapper — dot-field background sits behind the SVG. */}
+      <div
+        className="relative"
+        style={{
+          background: "var(--v2-bg-000)",
+          backgroundImage:
+            "radial-gradient(var(--v2-dot) 0.7px, transparent 0.7px)",
+          backgroundSize: "14px 14px",
+          backgroundPosition: "0 0",
+        }}
+      >
+        {/* Category legend — V2-themed, sits below the strip. Uses the
+            category color as a swatch (only place tied to category hue);
+            counts in tabular-nums for tidy wraps. */}
+        {legendEntries.length > 0 && (
+          <div
+            aria-label="Category legend"
+            className="px-3 pt-2 pb-1 flex items-center flex-wrap gap-x-3 gap-y-1"
+            style={{
+              fontFamily:
+                "var(--font-geist-mono), var(--font-jetbrains-mono), monospace",
+              fontSize: 10,
+              letterSpacing: "var(--v2-tracking-mono-tight)",
+              textTransform: "uppercase",
+              color: "var(--v2-ink-300)",
+            }}
+          >
+            {legendEntries.map((entry, i) => (
+              <span
+                key={entry.id}
+                className="inline-flex items-center gap-1.5 whitespace-nowrap"
+              >
+                {i > 0 ? (
+                  <span
+                    aria-hidden
+                    style={{ color: "var(--v2-line-200)", marginRight: 6 }}
+                  >
+                    |
+                  </span>
+                ) : null}
+                <span
+                  aria-hidden="true"
+                  className="inline-block w-2 h-2"
+                  style={{ backgroundColor: entry.color, borderRadius: 1 }}
+                />
+                <span style={{ color: "var(--v2-ink-200)" }}>{entry.name}</span>
+                <span
+                  className="tabular-nums"
+                  style={{ color: "var(--v2-ink-400)" }}
+                >
+                  {entry.count}
+                </span>
+              </span>
+            ))}
+          </div>
+        )}
+        <svg
+          ref={svgRef}
+          viewBox={`0 0 ${width} ${height}`}
+          width="100%"
+          role="img"
+          aria-label={`${seeds.length} trending repos by ${activeTab} star gain — drag any bubble to rearrange`}
+          className="block select-none"
+          style={{
+            aspectRatio: `${width} / ${height}`,
+            touchAction: "none",
+          }}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={handlePointerUp}
+          onPointerLeave={handlePointerUp}
+        >
+          <defs>
+            {seeds.map((s) => {
+              const avatarSize = Math.min(30, Math.max(14, s.r * 0.38));
+              return (
+                <clipPath key={`clip-${s.id}`} id={`bclip-${s.id}`}>
+                  <circle cx={0} cy={-s.r * 0.34} r={avatarSize / 2} />
+                </clipPath>
+              );
+            })}
+          </defs>
+          {/* Hover swap: idle bubbles flip from var(--v2-bg-200) to
+              var(--v2-bg-300) on hover. Inline so we don't grow the
+              global stylesheet for one component. */}
+          <style>{`.v2-bubble:hover .v2-bubble-disk{fill:var(--v2-bg-300);stroke:var(--v2-line-400);}`}</style>
+          {bubbleElements}
+        </svg>
+        {/* Bottom legend — scale label + horizontal gradient bar showing
+            the small→large bubble mapping (delta → radius, log-scaled
+            upstream by the circle-pack). Mirrors the spec's
+            `// SCALE · LOG(...)` callout. */}
+        <div
+          className="flex items-center gap-3 px-3 py-2"
+          style={{
+            borderTop: "1px solid var(--v2-line-200)",
+            fontFamily:
+              "var(--font-geist-mono), var(--font-jetbrains-mono), monospace",
+            fontSize: 10,
+            letterSpacing: "var(--v2-tracking-mono)",
+            textTransform: "uppercase",
+            color: "var(--v2-ink-300)",
+          }}
+        >
+          <span style={{ color: "var(--v2-ink-300)" }}>
+            <span aria-hidden>{"// "}</span>
+            SCALE · LOG(STARS_{activeTab.toUpperCase()})
+          </span>
+          <div
+            aria-hidden
+            className="flex-1 h-1.5"
+            style={{
+              background:
+                "linear-gradient(to right, var(--v2-line-200), var(--v2-line-300) 30%, var(--v2-acc-dim) 75%, var(--v2-acc) 100%)",
+              borderRadius: 1,
+            }}
+          />
+          <span
+            className="tabular-nums"
+            style={{ color: "var(--v2-ink-400)" }}
+          >
+            min
+          </span>
+          <span
+            className="tabular-nums"
+            style={{ color: "var(--v2-acc)" }}
+          >
+            max
+          </span>
+        </div>
+      </div>
     </section>
   );
 }

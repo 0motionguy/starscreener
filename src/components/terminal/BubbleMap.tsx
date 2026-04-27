@@ -1,20 +1,22 @@
-// Coin360-style LIVE bubble map for repo momentum.
+// Coin360-style LIVE bubble map for repo momentum — V2 chrome.
 //
 // Server component that computes initial circle-pack positions for all
 // three windows (24h / 7d / 30d) and hands them to the client
 // BubbleMapCanvas. The canvas owns the tab state + physics + drag.
 //
-// Visual spec:
+// Visual spec (V2 / Node/01 fusion):
 //   - Up to 220 movers per window
-//   - Bubble color = categoryId tint (vivid for big movers,
-//     muted for small ones) so AI / MCP / DevTools / etc. read at a
-//     glance
+//   - Outer chrome: v2-card frame + TerminalBar header
+//   - Bubble fill/border: V2 neutral tokens (var(--v2-bg-200) /
+//     var(--v2-line-300)); category color now lives in the legend strip,
+//     not the bubble itself, so the radar reads as one unified surface
 //   - Owner avatar + repo short-name + `+NNN` per bubble
 
 import type { Repo } from "@/lib/types";
 import { CATEGORIES } from "@/lib/constants";
 import { packBubbles } from "@/lib/bubble-pack";
 import { ErrorBoundary } from "@/components/shared/ErrorBoundary";
+import { TerminalBar } from "@/components/v2/TerminalBar";
 import {
   BubbleMapCanvas,
   type BubbleSeed,
@@ -185,35 +187,61 @@ export function BubbleMap({ repos, limit = 220 }: BubbleMapProps) {
     "30d": seedsForWindow(repos, "30d", limit),
   };
 
+  const totalNodes =
+    windows["24h"].length + windows["7d"].length + windows["30d"].length;
+  const monoDate = (() => {
+    const d = new Date();
+    const mm = String(d.getUTCMonth() + 1).padStart(2, "0");
+    const dd = String(d.getUTCDate()).padStart(2, "0");
+    return `${mm}.${dd}`;
+  })();
+  const headerLabel = `// SIGNAL · RADAR · ${windows["24h"].length || totalNodes} NODES`;
+  const headerStatus = `LIVE · ${monoDate}`;
+
   // If every window is empty, render a minimal "warming up" placeholder
   // instead of returning null — collapsing the whole section is worse
   // UX because the page jumps and users can't tell if the feature exists.
-  const hasAny =
-    windows["24h"].length > 0 ||
-    windows["7d"].length > 0 ||
-    windows["30d"].length > 0;
+  const hasAny = totalNodes > 0;
   if (!hasAny) {
     return (
-      <div
-        className="w-full rounded-card border border-border-primary bg-bg-secondary/40 flex items-center justify-center text-text-tertiary font-mono text-xs uppercase tracking-wider"
-        style={{ height: MAP_HEIGHT }}
-        aria-label="Bubble map warming up"
-      >
-        <span className="inline-flex items-center gap-2">
-          <span className="inline-block h-1.5 w-1.5 rounded-full bg-brand animate-pulse" />
-          Warming up the firehose…
-        </span>
+      <div className="v2-card overflow-hidden">
+        <TerminalBar label={headerLabel} status={headerStatus} live />
+        <div
+          className="w-full flex items-center justify-center"
+          style={{
+            height: MAP_HEIGHT,
+            background: "var(--v2-bg-000)",
+            color: "var(--v2-ink-300)",
+            fontFamily:
+              "var(--font-geist-mono), var(--font-jetbrains-mono), monospace",
+            fontSize: 11,
+            letterSpacing: "var(--v2-tracking-mono)",
+            textTransform: "uppercase",
+          }}
+          aria-label="Bubble map warming up"
+        >
+          <span className="inline-flex items-center gap-2">
+            <span
+              className="inline-block h-1.5 w-1.5 rounded-full animate-pulse"
+              style={{ background: "var(--v2-acc)" }}
+            />
+            Warming up the firehose…
+          </span>
+        </div>
       </div>
     );
   }
 
   return (
     <ErrorBoundary>
-      <BubbleMapCanvas
-        windows={windows}
-        width={MAP_WIDTH}
-        height={MAP_HEIGHT}
-      />
+      <div className="v2-card overflow-hidden">
+        <TerminalBar label={headerLabel} status={headerStatus} live />
+        <BubbleMapCanvas
+          windows={windows}
+          width={MAP_WIDTH}
+          height={MAP_HEIGHT}
+        />
+      </div>
     </ErrorBoundary>
   );
 }

@@ -25,7 +25,8 @@ function Divider() {
   return (
     <div
       aria-hidden="true"
-      className="w-px h-4 bg-border-primary shrink-0"
+      className="w-px h-3.5 shrink-0"
+      style={{ background: "var(--v2-line-200)" }}
     />
   );
 }
@@ -72,27 +73,26 @@ export function StatsBarClient({ stats }: StatsBarClientProps) {
 
   return (
     <div
-      className={cn(
-        "flex items-center gap-2.5 shrink-0 whitespace-nowrap",
-        "font-mono text-xs tabular-nums",
-      )}
+      className="flex items-center gap-2.5 shrink-0 whitespace-nowrap v2-mono tabular-nums"
+      style={{ fontSize: 10 }}
     >
       <span
         className="flex items-center gap-1.5"
         title="Total unique repos in the screener universe — everything the pipeline tracks across discovery feeds and curated collections."
       >
-        <span className="text-text-tertiary">Repos tracked:</span>
-        <span className="text-text-primary">{stats.totalRepos}</span>
+        <span style={{ color: "var(--v2-ink-400)" }}>REPOS</span>
+        <span style={{ color: "var(--v2-ink-100)" }}>{stats.totalRepos}</span>
       </span>
 
       <Divider />
 
       <span
-        className="flex items-center gap-1.5 text-brand"
+        className="flex items-center gap-1.5"
+        style={{ color: "var(--v2-acc)" }}
         title="Hot = momentum score ≥ 55 AND +25 stars in the last 24 h (or curated-hot inertia). Strong short-term buzz right now."
       >
-        <Flame size={12} aria-hidden="true" />
-        <span className="text-text-tertiary">Hot:</span>
+        <Flame size={11} aria-hidden="true" strokeWidth={1.75} />
+        <span style={{ color: "var(--v2-ink-400)" }}>HOT</span>
         <span>{stats.hotCount ?? "—"}</span>
       </span>
 
@@ -102,16 +102,26 @@ export function StatsBarClient({ stats }: StatsBarClientProps) {
         className="flex items-center gap-1.5"
         title="Breakout = surge detected on star + fork velocity vs. baseline. Rarer than Hot — the ones actually going parabolic."
       >
-        <Zap size={12} aria-hidden="true" className="text-warning" />
-        <span className="text-text-tertiary">Breakouts:</span>
-        <span className="text-warning">{stats.breakoutCount ?? "—"}</span>
+        <Zap
+          size={11}
+          aria-hidden="true"
+          strokeWidth={1.75}
+          style={{ color: "var(--v2-sig-amber)" }}
+        />
+        <span style={{ color: "var(--v2-ink-400)" }}>BREAKOUTS</span>
+        <span style={{ color: "var(--v2-sig-amber)" }}>
+          {stats.breakoutCount ?? "—"}
+        </span>
       </span>
 
       <Divider />
 
-      <span className="flex items-center gap-1.5 text-text-tertiary">
-        <span>Last refresh:</span>
-        <span>{lastRefresh}</span>
+      <span
+        className="flex items-center gap-1.5"
+        style={{ color: "var(--v2-ink-400)" }}
+      >
+        <span>LAST</span>
+        <span style={{ color: "var(--v2-ink-200)" }}>{lastRefresh}</span>
       </span>
 
       <button
@@ -121,21 +131,31 @@ export function StatsBarClient({ stats }: StatsBarClientProps) {
         aria-label="Refresh pipeline"
         aria-busy={loading}
         className={cn(
-          "inline-flex items-center justify-center size-6 rounded-md",
-          "border border-border-primary text-text-tertiary",
-          "transition-colors duration-150",
-          "hover:border-brand hover:text-brand",
+          "inline-flex items-center justify-center size-6 transition-colors duration-150",
           "disabled:cursor-not-allowed disabled:opacity-60",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40",
-          justSucceeded && "border-functional text-functional",
+          "focus-visible:outline-none",
         )}
+        style={{
+          border: "1px solid",
+          borderRadius: 2,
+          borderColor: justSucceeded
+            ? "var(--v2-sig-green)"
+            : "var(--v2-line-300)",
+          color: justSucceeded
+            ? "var(--v2-sig-green)"
+            : "var(--v2-ink-300)",
+          background: justSucceeded
+            ? "rgba(34, 197, 94, 0.08)"
+            : "transparent",
+        }}
       >
         {justSucceeded ? (
-          <Check size={14} aria-hidden="true" />
+          <Check size={13} aria-hidden="true" strokeWidth={1.75} />
         ) : (
           <RefreshCcw
-            size={14}
+            size={13}
             aria-hidden="true"
+            strokeWidth={1.75}
             className={cn(loading && "animate-spin")}
           />
         )}

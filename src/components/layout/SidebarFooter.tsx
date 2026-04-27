@@ -1,42 +1,47 @@
 "use client";
 
-/**
- * SidebarFooter — theme toggle + GitHub + Twitter + version strip.
- *
- * 48px tall, sits at the bottom of both desktop Sidebar and mobile drawer.
- */
 import { Code2, X } from "lucide-react";
 import { ThemeToggle } from "@/components/shared/ThemeToggle";
 import { APP_VERSION } from "@/lib/app-meta";
+import { AccentPicker, SystemBarcode } from "@/components/v3";
 
 const STARSCREENER_REPO_URL = "https://github.com/0motionguy/starscreener";
 const AUTHOR_TWITTER_URL = "https://x.com/0motionguy";
 
 export function SidebarFooter() {
   return (
-    <div className="h-12 px-3 border-t border-border-primary flex items-center gap-2 shrink-0">
-      <ThemeToggle />
-      <a
-        href={STARSCREENER_REPO_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="GitHub repository"
-        className="w-8 h-8 flex items-center justify-center rounded-button border border-border-primary bg-bg-secondary hover:bg-bg-tertiary text-text-secondary hover:text-text-primary transition-colors"
-      >
-        <Code2 className="w-4 h-4" strokeWidth={2} />
-      </a>
-      <a
-        href={AUTHOR_TWITTER_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Author on X / Twitter"
-        className="w-8 h-8 flex items-center justify-center rounded-button border border-border-primary bg-bg-secondary hover:bg-bg-tertiary text-text-secondary hover:text-text-primary transition-colors"
-      >
-        <X className="w-4 h-4" strokeWidth={2} />
-      </a>
-      <span className="ml-auto font-mono text-[10px] text-text-muted tabular-nums">
-        v{APP_VERSION}
-      </span>
+    <div
+      className="shrink-0 space-y-3 border-t px-3 py-3"
+      style={{ borderColor: "var(--v3-line-100)" }}
+    >
+      <AccentPicker compact />
+      <SystemBarcode
+        label="// PROD"
+        value={`v${APP_VERSION}`}
+        bars={18}
+        height={18}
+      />
+      <div className="flex items-center gap-2">
+        <ThemeToggle />
+        <a
+          href={STARSCREENER_REPO_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="GitHub repository"
+          className="v3-button h-9 w-9 p-0"
+        >
+          <Code2 className="h-4 w-4" strokeWidth={2} />
+        </a>
+        <a
+          href={AUTHOR_TWITTER_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Author on X / Twitter"
+          className="v3-button h-9 w-9 p-0"
+        >
+          <X className="h-4 w-4" strokeWidth={2} />
+        </a>
+      </div>
     </div>
   );
 }

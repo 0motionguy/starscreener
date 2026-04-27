@@ -1,44 +1,55 @@
-// HomeEmptyState — cold-start / degraded-data fallback for the homepage.
+// HomeEmptyState — cold-start / degraded-data fallback for the homepage (V2 shell).
 //
 // Rendered only when getDerivedRepos() comes back empty (broken data file,
 // cold lambda with no committed JSON, or a local dev env that hasn't run
 // the scraper yet). The default TerminalBody "no repos match filters"
 // state would be confusing here because there are no filters applied —
 // this one explains the situation and points the operator at /submit.
+//
+// Visual: V2 frame with a `.v2-live-dot` + mono "// NO DATA · COLD START"
+// banner, a smaller mono caption explaining the cold-lambda situation,
+// and a single ghost button to /submit. Keeps the same component contract
+// as before (no props) so the page handler call site is unchanged.
 
 import Link from "next/link";
-import { RefreshCcw } from "lucide-react";
 
 export function HomeEmptyState() {
   return (
     <section
       aria-label="Pipeline warming up"
-      className="mx-4 sm:mx-6 mt-4 rounded-card border border-border-primary bg-bg-secondary/40 p-8 text-center"
+      className="mx-4 sm:mx-6 mt-4"
     >
-      <div className="mx-auto flex size-12 items-center justify-center rounded-full border border-border-primary text-text-tertiary">
-        <RefreshCcw size={20} aria-hidden="true" className="animate-pulse" />
-      </div>
-      <h2 className="mt-4 font-display text-lg font-semibold text-text-primary">
-        The pipeline is warming up.
-      </h2>
-      <p className="mx-auto mt-2 max-w-md text-sm text-text-secondary">
-        No trending repos loaded yet. The scraper runs every 20 minutes and
-        hydrates on the next build. You can still submit a repo — it will be
-        picked up on the next ingest.
-      </p>
-      <div className="mt-4 flex items-center justify-center gap-2">
-        <Link
-          href="/submit"
-          className="inline-flex items-center rounded-md border border-border-primary bg-bg-primary px-3 py-1.5 text-xs font-mono font-medium uppercase tracking-wider text-text-primary hover:border-brand hover:text-brand"
+      <div className="v2-frame px-6 py-10 text-center sm:px-10 sm:py-12">
+        <div className="flex items-center justify-center gap-2 v2-mono text-[11px] text-[color:var(--v2-ink-300)]">
+          <span aria-hidden="true" className="v2-live-dot" />
+          <span>
+            <span aria-hidden="true">{"// "}</span>
+            <span className="text-[color:var(--v2-ink-100)]">
+              NO DATA
+            </span>{" "}
+            <span className="text-[color:var(--v2-line-300)]">·</span>{" "}
+            <span className="text-[color:var(--v2-ink-100)]">
+              COLD START
+            </span>{" "}
+            <span className="text-[color:var(--v2-line-300)]">·</span>{" "}
+            WAITING NEXT SCRAPE
+          </span>
+        </div>
+
+        <p
+          className="mx-auto mt-5 max-w-[52ch] v2-mono text-[10px] leading-relaxed text-[color:var(--v2-ink-400)]"
         >
-          Submit a repo
-        </Link>
-        <Link
-          href="/breakouts"
-          className="inline-flex items-center rounded-md px-3 py-1.5 text-xs font-mono font-medium uppercase tracking-wider text-text-secondary hover:text-text-primary"
-        >
-          See breakouts
-        </Link>
+          <span aria-hidden="true">{"// "}</span>
+          SCRAPER RUNS EVERY 20 MIN · DATA HYDRATES ON NEXT BUILD ·
+          SUBMITTED REPOS ARE PICKED UP ON THE NEXT INGEST.
+        </p>
+
+        <div className="mt-6 flex items-center justify-center">
+          <Link href="/submit" className="v2-btn v2-btn-ghost gap-2">
+            <span>Drop a repo</span>
+            <span aria-hidden="true">→</span>
+          </Link>
+        </div>
       </div>
     </section>
   );

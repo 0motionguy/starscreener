@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { GitFork, Users } from "lucide-react";
-import { CategoryPill } from "@/components/shared/CategoryPill";
 import { Sparkline } from "@/components/shared/Sparkline";
 import { cn, formatNumber } from "@/lib/utils";
 import type { FeaturedCard as FeaturedCardType } from "@/lib/types";
@@ -14,17 +13,21 @@ interface FeaturedCardProps {
 }
 
 /**
- * Featured trending card — data-dense trader-style layout.
+ * Featured trending card — V2 design system.
  *
  *   ┌─────────────────────────────────────────────────┐
- *   │ #1 TODAY                          [AI/ML]       │  label + category
- *   │ vercel/next.js                                  │  fullName (prominent)
- *   │ ┌──────────┐  +780 ★          ╱╲                │  stars gain hero
- *   │ │          │  +2.3%                ╱╱╲          │  sparkline right
- *   │ │ 135k ★   │                                    │
- *   │ └──────────┘                                    │
- *   │ 🍴 13.5k   👥 249   · v15 release + HN front   │  forks/contrib/reason
+ *   │ ◦ ◦ ◦  // REPO · OWNER/NAME          12.5K ★    │  v2-term-bar
+ *   ├─────────────────────────────────────────────────┤
+ *   │ [██]  vercel/next.js                            │  avatar 24px sq + repo name
+ *   │       reason text, line clamp                   │
+ *   │                                                 │
+ *   │ +780  +2.3%                            ╱╲       │  delta + sparkline
+ *   │                                                 │
+ *   │ [#1 TODAY]  [BRK]  fork 13.5k · 249 ctrb        │  tags + meta
  *   └─────────────────────────────────────────────────┘
+ *
+ * Top-rank (NUMBER_ONE_TODAY) gets v2-bracket corner markers — the day's
+ * strongest signal declares itself as the focused object.
  */
 export function FeaturedCard({ card, index = 0 }: FeaturedCardProps) {
   const { repo } = card;
@@ -33,18 +36,26 @@ export function FeaturedCard({ card, index = 0 }: FeaturedCardProps) {
   const isPositive = gain >= 0;
   const gainSign = gain > 0 ? "+" : gain < 0 ? "" : "";
   const pctSign = pct > 0 ? "+" : pct < 0 ? "" : "";
+  const isTopRank = card.label === "NUMBER_ONE_TODAY";
+
+  // Shorten owner/name for the terminal-bar header without truncating mid-glyph.
+  const headerSlug = `${repo.owner}/${repo.name}`.toUpperCase();
+
+  // Map gain direction to V2 signal tokens — green up, red down, dim neutral.
+  const deltaColor = isPositive
+    ? "var(--v2-sig-green)"
+    : "var(--v2-sig-red)";
 
   return (
     <Link
       href={`/repo/${repo.owner}/${repo.name}`}
       className={cn(
-        "group relative flex flex-col flex-shrink-0 min-w-[220px] sm:w-[252px] h-[156px]",
-        "bg-gradient-to-br from-bg-card via-bg-card to-bg-secondary",
-        "border border-border-primary rounded-xl p-3",
-        "shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] grain",
-        "hover:border-brand/60 hover:shadow-[0_0_28px_-4px_var(--color-brand-glow),inset_0_1px_0_rgba(255,255,255,0.06)]",
-        "hover:-translate-y-0.5 transition-all duration-200",
+        "v2-card group relative flex flex-col flex-shrink-0",
+        "min-w-[260px] sm:w-[296px] h-[176px]",
         "overflow-hidden",
+        "transition-[border-color,background-color] duration-200",
+        "hover:border-[color:var(--v2-line-300)]",
+        isTopRank && "v2-bracket",
         "animate-slide-up",
       )}
       style={{
@@ -52,90 +63,155 @@ export function FeaturedCard({ card, index = 0 }: FeaturedCardProps) {
         animationFillMode: "both",
       }}
     >
-      {/* Row 1: brand label + category pill */}
-      <div className="flex items-center justify-between">
-        <span className="text-[10px] font-mono font-bold uppercase tracking-[0.08em] text-brand">
-          {card.labelDisplay}
-        </span>
-        <CategoryPill
-          categoryId={repo.categoryId}
-          size="sm"
-          variant="brand"
-        />
-      </div>
-
-      {/* Row 2: repo name — prominent */}
-      <div className="mt-1.5 flex items-center gap-2 min-w-0">
-        <img
-          src={repo.ownerAvatarUrl}
-          alt=""
-          width={18}
-          height={18}
-          loading="lazy"
-          className="size-[18px] shrink-0 rounded-full border border-border-primary bg-bg-tertiary"
-        />
-        <span className="truncate font-semibold text-[13px] text-text-primary">
-          {repo.fullName}
-        </span>
-      </div>
-
-      {/* Row 3: big stars-gain + period activity left, sparkline right */}
-      <div className="mt-2 flex items-center justify-between gap-2">
-        <div className="flex flex-col min-w-0">
+      {/* Terminal-bar header: // REPO · OWNER/NAME · stars right */}
+      <div className="v2-term-bar">
+        <span aria-hidden className="flex items-center gap-1.5">
           <span
             className={cn(
-              "text-xl font-mono font-bold leading-none tabular-nums",
-              isPositive ? "text-up" : "text-down",
+              "block h-1.5 w-1.5 rounded-full",
+              isTopRank && "v2-live-dot",
             )}
-          >
-            {gainSign}
-            {formatNumber(gain)} ★
+            style={
+              isTopRank ? undefined : { background: "var(--v2-line-300)" }
+            }
+          />
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-line-200)" }}
+          />
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-line-200)" }}
+          />
+        </span>
+        <span
+          className="flex-1 truncate"
+          style={{ color: "var(--v2-ink-200)" }}
+        >
+          <span aria-hidden style={{ color: "var(--v2-ink-400)" }}>
+            {"// "}
           </span>
+          REPO
+          <span aria-hidden className="mx-1.5" style={{ color: "var(--v2-ink-500)" }}>
+            ·
+          </span>
+          <span style={{ color: "var(--v2-ink-100)" }}>{headerSlug}</span>
+        </span>
+        <span
+          className="v2-stat shrink-0 tabular-nums"
+          style={{ color: "var(--v2-ink-300)" }}
+        >
+          {formatNumber(repo.stars)} ★
+        </span>
+      </div>
+
+      {/* Body */}
+      <div className="flex flex-1 flex-col gap-2 p-3 min-w-0">
+        {/* Row 1: avatar + repo name + reason */}
+        <div className="flex items-start gap-2.5 min-w-0">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={repo.ownerAvatarUrl}
+            alt=""
+            width={24}
+            height={24}
+            loading="lazy"
+            className="size-6 shrink-0 rounded-sm border bg-[color:var(--v2-bg-100)]"
+            style={{ borderColor: "var(--v2-line-200)" }}
+          />
+          <div className="flex-1 min-w-0">
+            <div
+              className="truncate transition-colors duration-200 group-hover:text-[color:var(--v2-acc)]"
+              style={{
+                fontFamily: "var(--font-geist), Inter, sans-serif",
+                fontWeight: 510,
+                fontSize: 16,
+                lineHeight: 1.2,
+                letterSpacing: "-0.012em",
+                color: "var(--v2-ink-100)",
+              }}
+            >
+              {repo.fullName}
+            </div>
+            <div
+              className="mt-0.5 truncate text-[11px] leading-snug"
+              style={{ color: "var(--v2-ink-300)" }}
+            >
+              {card.reason}
+            </div>
+          </div>
+        </div>
+
+        {/* Row 2: delta + sparkline */}
+        <div className="flex items-center justify-between gap-2 min-w-0">
+          <div className="flex items-baseline gap-2 min-w-0">
+            <span
+              className="v2-stat tabular-nums text-[15px] leading-none"
+              style={{ color: deltaColor }}
+            >
+              {gainSign}
+              {formatNumber(gain)} ★
+            </span>
+            <span
+              className="v2-stat tabular-nums text-[11px] leading-none opacity-90"
+              style={{ color: deltaColor }}
+            >
+              {pctSign}
+              {pct.toFixed(1)}%
+            </span>
+            <span
+              aria-hidden
+              className="v2-mono text-[10px]"
+              style={{ color: "var(--v2-ink-500)" }}
+            >
+              /24H
+            </span>
+          </div>
+          <Sparkline
+            data={repo.sparklineData}
+            width={64}
+            height={26}
+            positive={isPositive}
+            className="shrink-0 self-center opacity-80"
+          />
+        </div>
+
+        {/* Row 3: tags + meta */}
+        <div className="mt-auto flex items-center gap-1.5 min-w-0">
           <span
-            className={cn(
-              "mt-1 text-[10px] font-mono tabular-nums",
-              isPositive ? "text-up" : "text-down",
-              "opacity-80",
-            )}
+            className="v2-tag shrink-0"
+            style={{
+              color: "var(--v2-acc)",
+              borderColor: "var(--v2-line-300)",
+            }}
           >
-            {pctSign}
-            {pct.toFixed(1)}%
-            <span className="ml-1.5 text-text-tertiary">
-              · {formatNumber(repo.stars)}
+            {card.labelDisplay}
+          </span>
+          {isTopRank ? null : (
+            <span className="v2-tag shrink-0">BRK</span>
+          )}
+          <span
+            className="ml-auto inline-flex items-center gap-2 text-[10px] shrink-0"
+            style={{
+              fontFamily:
+                "var(--font-geist-mono), var(--font-jetbrains-mono), monospace",
+              letterSpacing: "0.08em",
+              color: "var(--v2-ink-300)",
+            }}
+          >
+            <span className="inline-flex items-center gap-1">
+              <GitFork size={10} aria-hidden />
+              <span className="tabular-nums">{formatNumber(repo.forks)}</span>
+            </span>
+            <span className="inline-flex items-center gap-1">
+              <Users size={10} aria-hidden />
+              <span className="tabular-nums">
+                {formatNumber(repo.contributors)}
+              </span>
             </span>
           </span>
         </div>
-        <Sparkline
-          data={repo.sparklineData}
-          width={64}
-          height={32}
-          positive={isPositive}
-          className="shrink-0 self-center"
-        />
       </div>
-
-      {/* Row 4: forks + contributors + reason (line-clamp) */}
-      <div className="mt-auto flex items-center gap-2 text-[10px] font-mono text-text-tertiary">
-        <span className="inline-flex items-center gap-1 shrink-0">
-          <GitFork size={10} aria-hidden="true" />
-          <span className="tabular-nums">{formatNumber(repo.forks)}</span>
-        </span>
-        <span className="inline-flex items-center gap-1 shrink-0">
-          <Users size={10} aria-hidden="true" />
-          <span className="tabular-nums">{formatNumber(repo.contributors)}</span>
-        </span>
-        <span className="truncate text-text-secondary">
-          · {card.reason}
-        </span>
-      </div>
-
-      {/* NUMBER_ONE_TODAY: hover pulse overlay */}
-      {card.label === "NUMBER_ONE_TODAY" && (
-        <div
-          className="absolute inset-0 rounded-xl pointer-events-none opacity-0 group-hover:opacity-100 group-hover:animate-brand-pulse"
-          aria-hidden="true"
-        />
-      )}
     </Link>
   );
 }

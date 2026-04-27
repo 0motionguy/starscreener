@@ -21,7 +21,6 @@ import { CrossSourceBuzz } from "@/components/home/CrossSourceBuzz";
 import {
   MonoLabel,
   SpiderNode,
-  TerminalBar,
   AsciiInterstitial,
   BarcodeTicker,
 } from "@/components/v2";
@@ -152,19 +151,13 @@ export default async function HomePage() {
         featuredCount={8}
         heading={
           <div className="space-y-3">
-            {/* V2 terminal-bar header — wraps the bubble-map signal radar */}
+            {/* BubbleMap now ships its own v2-card + TerminalBar chrome
+                internally (Signal Radar surface). We only enforce the
+                <md hide here — the bubble map is illegible on phones
+                (~108px tall in viewBox 1200x360, labels collapse to
+                dots). On <md the terminal cards drive the narrative. */}
             <div className="hidden md:block">
-              <div className="v2-card overflow-hidden">
-                <TerminalBar
-                  label={`// SIGNAL · RADAR · ${repos.length} NODES`}
-                  status={`${monoDate} · LIVE`}
-                  live
-                />
-                {/* BubbleMap is illegible on phones (~108px tall in viewBox 1200x360
-                    — bubble labels collapse to dots). Hide on <md and let the
-                    terminal cards drive the mobile narrative. */}
-                <BubbleMap repos={repos} limit={220} />
-              </div>
+              <BubbleMap repos={repos} limit={220} />
             </div>
           </div>
         }

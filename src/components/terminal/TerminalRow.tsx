@@ -123,8 +123,6 @@ function TerminalRowBase({
     [href],
   );
 
-  const isHot = repo.movementStatus === "hot";
-  const isBreakout = repo.movementStatus === "breakout";
   const rowH = density === "compact" ? 44 : 56;
 
   // Stagger cap — 6 rows * 50ms = 300ms max.
@@ -139,15 +137,24 @@ function TerminalRowBase({
       style={{
         height: rowH,
         animationDelay: stagger > 0 ? `${stagger}ms` : undefined,
+        // Hairline dashed divider — V2 motif. Inline so it survives the
+        // border-collapse: separate / border-spacing-0 table model used
+        // by the parent.
+        borderBottom: "1px dashed var(--v2-line-100)",
+        background: focused ? "var(--v2-bg-100)" : "transparent",
+        // Single-side outline mark for the focused row, drawn as a
+        // pseudo border-left via box-shadow so we don't double up with
+        // the dashed bottom border.
+        boxShadow: focused
+          ? "inset 2px 0 0 var(--v2-acc)"
+          : undefined,
       }}
       className={cn(
-        "group row-hover cursor-pointer border-b border-border-secondary bg-bg-primary",
+        // `v2-row` provides the luminance-step hover (var(--v2-bg-100)).
+        // Drops the V1 orange `row-hover` tint entirely, per the V2
+        // brief — the color step is the hover signal.
+        "group v2-row cursor-pointer",
         "animate-[slide-up_0.35s_ease-out_forwards] opacity-0",
-        "transition-colors",
-        focused &&
-          "outline outline-2 -outline-offset-2 outline-functional bg-bg-row-hover",
-        (isHot || isBreakout) &&
-          "shadow-[inset_0_0_0_1px_rgba(245,110,15,0.25),0_0_14px_-4px_rgba(245,110,15,0.35)]",
       )}
     >
       {visibleColumns.map((col) => (

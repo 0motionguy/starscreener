@@ -67,7 +67,13 @@ export function FilterBar({ variant = "full" }: FilterBarProps) {
   void counts;
 
   return (
-    <div className="sticky top-14 z-30 bg-bg-primary/90 backdrop-blur-md border-b border-border-primary">
+    <div
+      className="sticky top-14 z-30 backdrop-blur-md"
+      style={{
+        background: "color-mix(in srgb, var(--v2-bg-000) 90%, transparent)",
+        borderBottom: "1px solid var(--v2-line-100)",
+      }}
+    >
       <div className="max-w-full mx-auto px-4 sm:px-6 py-3">
         <div className="flex items-center gap-3 flex-nowrap overflow-x-auto scrollbar-hide">
           {cfg.showStats && stats && <StatsBarClient stats={stats} />}
@@ -77,14 +83,22 @@ export function FilterBar({ variant = "full" }: FilterBarProps) {
 
             {cfg.showTime && (
               <>
-                <div aria-hidden="true" className="w-px h-5 bg-border-primary hidden sm:block" />
+                <div
+                  aria-hidden="true"
+                  className="w-px h-5 hidden sm:block"
+                  style={{ background: "var(--v2-line-200)" }}
+                />
                 <TimeRangePills />
               </>
             )}
 
             {cfg.showView && (
               <>
-                <div aria-hidden="true" className="w-px h-5 bg-border-primary hidden sm:block" />
+                <div
+                  aria-hidden="true"
+                  className="w-px h-5 hidden sm:block"
+                  style={{ background: "var(--v2-line-200)" }}
+                />
                 <ViewControls />
               </>
             )}

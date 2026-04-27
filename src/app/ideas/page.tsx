@@ -1,13 +1,12 @@
-// /ideas — public idea feed.
+// /ideas — public idea feed (v2-styled).
 //
 // Three views (URL-driven via ?sort=hot|new|shipped):
 //   - hot     (default) — weighted reactions × recency decay
 //   - new     — chronological by publish time
 //   - shipped — only ideas that reached buildStatus = "shipped"
 //
-// Server-renders the first 20 rows so the page is interactive immediately.
-// The composer is client-side; once a user posts, the new idea appears at
-// the top of "new" / hot-ranked into "hot" depending on its score.
+// Server component. Computes conviction scores server-side and hands
+// them to IdeaCard for v2 chrome (conviction gauge + reaction bar).
 
 import type { Metadata } from "next";
 import { Lightbulb, Plus } from "lucide-react";
@@ -17,6 +16,8 @@ import {
   listIdeas,
   toPublicIdea,
   type PublicIdea,
+  HOT_SCORE_WEIGHTS,
+  RECENCY_HALF_LIFE_HOURS,
 } from "@/lib/ideas";
 import {
   countReactions,
@@ -67,6 +68,20 @@ interface RankedIdea {
   idea: PublicIdea;
   reactionCounts: ReactionCounts;
   hotScore?: number;
+  conviction: number;
+}
+
+/** Conviction = weighted reactions decayed by recency, scaled to 0–100. */
+function conviction(idea: PublicIdea, reactions: ReactionCounts): number {
+  const raw =
+    reactions.build * HOT_SCORE_WEIGHTS.build +
+    reactions.use * HOT_SCORE_WEIGHTS.use +
+    reactions.buy * HOT_SCORE_WEIGHTS.buy +
+    reactions.invest * HOT_SCORE_WEIGHTS.invest;
+  const createdAt = idea.publishedAt ?? idea.createdAt;
+  const hoursAgo = (Date.now() - Date.parse(createdAt)) / 36e5;
+  const decay = Math.exp(-hoursAgo / RECENCY_HALF_LIFE_HOURS);
+  return Math.min(100, Math.round(Math.log1p(raw * decay) * 18));
 }
 
 async function loadFeed(sort: SortKey): Promise<RankedIdea[]> {
@@ -80,9 +95,11 @@ async function loadFeed(sort: SortKey): Promise<RankedIdea[]> {
   const withCounts: RankedIdea[] = await Promise.all(
     visible.map(async (record) => {
       const reactions = await listReactionsForObject("idea", record.id);
+      const reactionCounts = countReactions(reactions);
       return {
         idea: toPublicIdea(record),
-        reactionCounts: countReactions(reactions),
+        reactionCounts,
+        conviction: conviction(toPublicIdea(record), reactionCounts),
       };
     }),
   );
@@ -122,6 +139,9 @@ export default async function IdeasPage({ searchParams }: PageProps) {
   const { sort } = await searchParams;
   const sortKey = parseSort(sort);
   const feed = await loadFeed(sortKey);
+
+  const hero = feed[0];
+  const list = feed.slice(1);
 
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
@@ -201,16 +221,50 @@ export default async function IdeasPage({ searchParams }: PageProps) {
             No ideas yet in this view. Post the first.
           </div>
         ) : (
-          <ul className="space-y-3" data-testid="idea-feed">
-            {feed.slice(0, 50).map((row) => (
-              <li key={row.idea.id}>
-                <IdeaCard
-                  idea={row.idea}
-                  reactionCounts={row.reactionCounts}
+          <div className="space-y-4" data-testid="idea-feed">
+            {/* Hero card — top-ranked idea gets full-width treatment */}
+            {hero ? (
+              <div className="v2-frame overflow-hidden">
+                <TerminalBar
+                  label={`// HERO · CONVICTION ${hero.conviction}/100`}
+                  status={`${hero.reactionCounts.build + hero.reactionCounts.use + hero.reactionCounts.buy + hero.reactionCounts.invest} REACTIONS`}
+                  live={sortKey === "hot"}
                 />
-              </li>
-            ))}
-          </ul>
+                <div className="p-1">
+                  <IdeaCard
+                    idea={hero.idea}
+                    reactionCounts={hero.reactionCounts}
+                    conviction={hero.conviction}
+                    rank={1}
+                  />
+                </div>
+              </div>
+            ) : null}
+
+            {/* Leaderboard grid */}
+            {list.length > 0 ? (
+              <>
+                <div className="flex items-baseline justify-between gap-3 border-b border-border-primary/60 pb-2">
+                  <span className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-text-tertiary font-semibold">
+                    <span className="inline-block size-1.5 rounded-full bg-brand animate-pulse" />
+                    LEADERBOARD · LIVE CONVICTION
+                  </span>
+                </div>
+                <ul className="grid grid-cols-1 gap-3">
+                  {list.slice(0, 49).map((row, idx) => (
+                    <li key={row.idea.id}>
+                      <IdeaCard
+                        idea={row.idea}
+                        reactionCounts={row.reactionCounts}
+                        conviction={row.conviction}
+                        rank={idx + 2}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </>
+            ) : null}
+          </div>
         )}
       </div>
     </main>

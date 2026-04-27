@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getTwitterRepoPanel } from "@/lib/twitter/service";
 import { READ_CACHE_HEADERS } from "@/lib/api/cache";
+import { errorEnvelope } from "@/lib/api/error-response";
 import { checkRateLimitAsync } from "@/lib/api/rate-limit";
 
 export const runtime = "nodejs";
@@ -18,7 +19,7 @@ export async function GET(
   if (!rateLimit.allowed) {
     const retryAfterSec = Math.max(1, Math.ceil(rateLimit.retryAfterMs / 1000));
     return NextResponse.json(
-      { error: "rate limit exceeded" },
+      errorEnvelope("rate limit exceeded", "RATE_LIMITED"),
       {
         status: 429,
         headers: {
@@ -33,15 +34,12 @@ export async function GET(
 
   const { owner, name } = await params;
   if (!SLUG_PART_PATTERN.test(owner) || !SLUG_PART_PATTERN.test(name)) {
-    return NextResponse.json({ error: "Invalid repo slug" }, { status: 400 });
+    return NextResponse.json(errorEnvelope("Invalid repo slug"), { status: 400 });
   }
 
   const panel = await getTwitterRepoPanel(`${owner}/${name}`);
   if (!panel) {
-    return NextResponse.json(
-      { error: "Twitter signal not found for repo" },
-      { status: 404 },
-    );
+    return NextResponse.json(errorEnvelope("Twitter signal not found for repo"), { status: 404 });
   }
 
   return NextResponse.json(panel, {

@@ -15,15 +15,12 @@ export async function GET(
 
   const { owner, name } = await params;
   if (!SLUG_PART_PATTERN.test(owner) || !SLUG_PART_PATTERN.test(name)) {
-    return NextResponse.json({ error: "Invalid repo slug" }, { status: 400 });
+    return NextResponse.json(errorEnvelope("Invalid repo slug"), { status: 400 });
   }
 
   const review = await getTwitterAdminReview(`${owner}/${name}`);
   if (!review) {
-    return NextResponse.json(
-      { error: "Twitter review data not found for repo" },
-      { status: 404 },
-    );
+    return NextResponse.json(errorEnvelope("Twitter review data not found for repo"), { status: 404 });
   }
 
   return NextResponse.json(review);

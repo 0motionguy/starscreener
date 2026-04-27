@@ -27,12 +27,12 @@ export async function GET(
   const { owner, name } = await params;
 
   if (!SLUG_PART_PATTERN.test(owner) || !SLUG_PART_PATTERN.test(name)) {
-    return NextResponse.json({ error: "Invalid repo slug" }, { status: 400 });
+    return NextResponse.json(errorEnvelope("Invalid repo slug"), { status: 400 });
   }
 
   const repo = getDerivedRepoByFullName(`${owner}/${name}`);
   if (!repo) {
-    return NextResponse.json({ error: "Repo not found" }, { status: 404 });
+    return NextResponse.json(errorEnvelope("Repo not found"), { status: 404 });
   }
 
   const snapshot = getFreshnessSnapshot();

@@ -65,7 +65,7 @@ export async function GET(
   const { slug } = await params;
   const collection = loadCollection(slug);
   if (!collection) {
-    return NextResponse.json({ error: "Collection not found" }, { status: 404 });
+    return NextResponse.json(errorEnvelope("Collection not found"), { status: 404 });
   }
 
   // Refresh in-memory caches from the data-store before reading sync getters.

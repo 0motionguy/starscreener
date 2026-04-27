@@ -105,6 +105,6 @@ export async function GET(
     );
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
-    return NextResponse.json({ error: message }, { status: 500 });
+    return NextResponse.json(errorEnvelope(message), { status: 500 });
   }
 }

@@ -144,7 +144,7 @@ async function handleV2(owner: string, name: string) {
 async function handleV1(owner: string, name: string) {
   const repo = getDerivedRepoByFullName(`${owner}/${name}`);
   if (!repo) {
-    return NextResponse.json({ error: "Repo not found" }, { status: 404 });
+    return NextResponse.json(errorEnvelope("Repo not found"), { status: 404 });
   }
 
   // Fan out to the live social adapters. Each adapter swallows its own

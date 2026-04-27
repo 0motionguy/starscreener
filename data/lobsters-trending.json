@@ -1,19 +1,37 @@
 {
-  "fetchedAt": "2026-04-27T04:09:47.637Z",
+  "fetchedAt": "2026-04-27T07:17:39.626Z",
   "windowHours": 72,
   "scannedTotal": 77,
   "stories": [
+    {
+      "shortId": "h8hlp7",
+      "title": "Wasm is not quite a stack machine",
+      "url": "https://purplesyringa.moe/blog/wasm-is-not-quite-a-stack-machine/",
+      "commentsUrl": "https://lobste.rs/s/h8hlp7/wasm_is_not_quite_stack_machine",
+      "by": "",
+      "score": 4,
+      "commentCount": 0,
+      "createdUtc": 1777270836,
+      "ageHours": 0.9508333333333333,
+      "trendingScore": 0.7891198540620427,
+      "tags": [
+        "plt",
+        "wasm"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
     {
       "shortId": "v247np",
       "title": "Dillo release 3.3.0",
       "url": "https://dillo-browser.org/release/3.3.0/",
       "commentsUrl": "https://lobste.rs/s/v247np/dillo_release_3_3_0",
       "by": "",
-      "score": 41,
+      "score": 45,
       "commentCount": 2,
       "createdUtc": 1777221945,
-      "ageHours": 11.400555555555556,
-      "trendingScore": 0.8357947741532084,
+      "ageHours": 14.531666666666666,
+      "trendingScore": 0.6694799175282692,
       "tags": [
         "browsers",
         "release"
@@ -27,11 +45,11 @@
       "url": "https://riki.house/lua-html",
       "commentsUrl": "https://lobste.rs/s/ukar7d/lua_can_be_really_cool_html_templating",
       "by": "",
-      "score": 49,
+      "score": 51,
       "commentCount": 12,
       "createdUtc": 1777213379,
-      "ageHours": 13.78,
-      "trendingScore": 0.7816918459264982,
+      "ageHours": 16.91111111111111,
+      "trendingScore": 0.6201469421970612,
       "tags": [
         "lua",
         "web"
@@ -45,13 +63,30 @@
       "url": "https://akselmo.dev/posts/smolwebifying-my-site/",
       "commentsUrl": "https://lobste.rs/s/fyev5y/smolwebifying_my_site",
       "by": "",
-      "score": 30,
-      "commentCount": 12,
+      "score": 35,
+      "commentCount": 17,
       "createdUtc": 1777228307,
-      "ageHours": 9.633333333333333,
-      "trendingScore": 0.7560752058231269,
+      "ageHours": 12.764444444444445,
+      "trendingScore": 0.6169392190001606,
       "tags": [
         "web"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "l4kgqg",
+      "title": "(Cryptographic) Registries Considered Harmful (2020)",
+      "url": "https://words.filippo.io/registries-considered-harmful/",
+      "commentsUrl": "https://lobste.rs/s/l4kgqg/cryptographic_registries_considered",
+      "by": "",
+      "score": 10,
+      "commentCount": 0,
+      "createdUtc": 1777258201,
+      "ageHours": 4.460555555555556,
+      "trendingScore": 0.6089690234870708,
+      "tags": [
+        "cryptography"
       ],
       "description": "",
       "linkedRepos": []
@@ -62,11 +97,11 @@
       "url": "https://asahilinux.org/2026/04/progress-report-7-0/",
       "commentsUrl": "https://lobste.rs/s/bzrow5/asahi_linux_progress_report_linux_7_0",
       "by": "",
-      "score": 46,
+      "score": 54,
       "commentCount": 0,
       "createdUtc": 1777205421,
-      "ageHours": 15.990555555555556,
-      "trendingScore": 0.6028246040612167,
+      "ageHours": 19.121666666666666,
+      "trendingScore": 0.5562902946892169,
       "tags": [
         "linux",
         "release"
@@ -80,11 +115,11 @@
       "url": "https://ky.fyi/posts/ai-burnout",
       "commentsUrl": "https://lobste.rs/s/xgtyyu/do_i_belong_tech_anymore",
       "by": "",
-      "score": 194,
+      "score": 198,
       "commentCount": 63,
       "createdUtc": 1777095661,
-      "ageHours": 46.47944444444445,
-      "trendingScore": 0.5747318675431107,
+      "ageHours": 49.61055555555556,
+      "trendingScore": 0.5340198362367437,
       "tags": [
         "vibecoding"
       ],
@@ -100,8 +135,8 @@
       "score": 53,
       "commentCount": 18,
       "createdUtc": 1777193382,
-      "ageHours": 19.334722222222222,
-      "trendingScore": 0.5378304422727638,
+      "ageHours": 22.465833333333332,
+      "trendingScore": 0.43796141500235797,
       "tags": [
         "networking",
         "security",
@@ -111,18 +146,19 @@
       "linkedRepos": []
     },
     {
-      "shortId": "l4kgqg",
-      "title": "(Cryptographic) Registries Considered Harmful (2020)",
-      "url": "https://words.filippo.io/registries-considered-harmful/",
-      "commentsUrl": "https://lobste.rs/s/l4kgqg/cryptographic_registries_considered",
+      "shortId": "5dbg0u",
+      "title": "HardenedBSD Is Now Officially on Radicle",
+      "url": "https://hardenedbsd.org/article/shawn-webb/2026-04-26/hardenedbsd-officially-radicle",
+      "commentsUrl": "https://lobste.rs/s/5dbg0u/hardenedbsd_is_now_officially_on_radicle",
       "by": "",
-      "score": 3,
+      "score": 13,
       "commentCount": 0,
-      "createdUtc": 1777258201,
-      "ageHours": 1.3294444444444444,
-      "trendingScore": 0.4938142245475659,
+      "createdUtc": 1777246085,
+      "ageHours": 7.8261111111111115,
+      "trendingScore": 0.42205674596949144,
       "tags": [
-        "cryptography"
+        "freebsd",
+        "vcs"
       ],
       "description": "",
       "linkedRepos": []
@@ -133,11 +169,11 @@
       "url": "https://www.hmpcabral.com/2026/04/26/the-fastest-linux-timestamps/",
       "commentsUrl": "https://lobste.rs/s/viax22/fastest_linux_timestamps",
       "by": "",
-      "score": 29,
+      "score": 33,
       "commentCount": 2,
       "createdUtc": 1777208514,
-      "ageHours": 15.131388888888889,
-      "trendingScore": 0.4089866546949148,
+      "ageHours": 18.2625,
+      "trendingScore": 0.3618048615011753,
       "tags": [
         "linux",
         "performance"
@@ -151,11 +187,11 @@
       "url": "https://philpearl.github.io/post/swissing_a_table/",
       "commentsUrl": "https://lobste.rs/s/2lzsw6/swissing_table",
       "by": "",
-      "score": 21,
+      "score": 25,
       "commentCount": 4,
       "createdUtc": 1777213153,
-      "ageHours": 13.842777777777778,
-      "trendingScore": 0.33302152017750336,
+      "ageHours": 16.97388888888889,
+      "trendingScore": 0.30248613943453334,
       "tags": [
         "go"
       ],
@@ -168,11 +204,11 @@
       "url": "https://lcamtuf.substack.com/p/a-breakthrough-in-cc-dependency-management",
       "commentsUrl": "https://lobste.rs/s/cn89rt/breakthrough_c_c_dependency_management",
       "by": "",
-      "score": 53,
-      "commentCount": 21,
+      "score": 55,
+      "commentCount": 23,
       "createdUtc": 1777162102,
-      "ageHours": 28.023611111111112,
-      "trendingScore": 0.322167317067717,
+      "ageHours": 31.154722222222222,
+      "trendingScore": 0.28810088941799716,
       "tags": [
         "c",
         "c++",
@@ -188,31 +224,13 @@
       "url": "https://web.archive.org/web/20160210081017/https://www.wired.com/2000/04/joy-2/",
       "commentsUrl": "https://lobste.rs/s/b2tvhe/why_future_doesn_t_need_us_bill_joy_2000",
       "by": "",
-      "score": 11,
-      "commentCount": 1,
+      "score": 12,
+      "commentCount": 2,
       "createdUtc": 1777232138,
-      "ageHours": 8.569166666666666,
-      "trendingScore": 0.3201338263917123,
+      "ageHours": 11.700277777777778,
+      "trendingScore": 0.23663947164015697,
       "tags": [
         "philosophy"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "5dbg0u",
-      "title": "HardenedBSD Is Now Officially on Radicle",
-      "url": "https://hardenedbsd.org/article/shawn-webb/2026-04-26/hardenedbsd-officially-radicle",
-      "commentsUrl": "https://lobste.rs/s/5dbg0u/hardenedbsd_is_now_officially_on_radicle",
-      "by": "",
-      "score": 4,
-      "commentCount": 0,
-      "createdUtc": 1777246085,
-      "ageHours": 4.695,
-      "trendingScore": 0.23090541582921922,
-      "tags": [
-        "freebsd",
-        "vcs"
       ],
       "description": "",
       "linkedRepos": []
@@ -223,13 +241,31 @@
       "url": "https://www.theverge.com/podcast/917029/software-brain-ai-backlash-databases-automation",
       "commentsUrl": "https://lobste.rs/s/gp02rx/people_do_not_yearn_for_automation",
       "by": "",
-      "score": 94,
-      "commentCount": 66,
+      "score": 96,
+      "commentCount": 70,
       "createdUtc": 1777071205,
-      "ageHours": 53.272777777777776,
-      "trendingScore": 0.22874990226233016,
+      "ageHours": 56.403888888888886,
+      "trendingScore": 0.21508423738402155,
       "tags": [
         "vibecoding"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "0qqjyi",
+      "title": "It's Not About The API - Fast, Flexible, and Simple Rendering in Vulkan (2024)",
+      "url": "https://www.youtube.com/watch?v=7bSzp-QildA",
+      "commentsUrl": "https://lobste.rs/s/0qqjyi/it_s_not_about_api_fast_flexible_simple",
+      "by": "",
+      "score": 1,
+      "commentCount": 0,
+      "createdUtc": 1777270324,
+      "ageHours": 1.0930555555555554,
+      "trendingScore": 0.18383086007207522,
+      "tags": [
+        "graphics",
+        "video"
       ],
       "description": "",
       "linkedRepos": []
@@ -243,27 +279,10 @@
       "score": 35,
       "commentCount": 6,
       "createdUtc": 1777160264,
-      "ageHours": 28.534166666666668,
-      "trendingScore": 0.20743829618138201,
+      "ageHours": 31.665277777777778,
+      "trendingScore": 0.17918214900946683,
       "tags": [
         "satire"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "plertt",
-      "title": "I have officially retired from Emacs",
-      "url": "https://nullprogram.com/blog/2026/04/26/",
-      "commentsUrl": "https://lobste.rs/s/plertt/i_have_officially_retired_from_emacs",
-      "by": "",
-      "score": 19,
-      "commentCount": 4,
-      "createdUtc": 1777186296,
-      "ageHours": 21.303055555555556,
-      "trendingScore": 0.1689018066973777,
-      "tags": [
-        "vibecoding"
       ],
       "description": "",
       "linkedRepos": []
@@ -274,11 +293,11 @@
       "url": "https://tuxtower.net/blog/dactylmanuform/#the-assembly",
       "commentsUrl": "https://lobste.rs/s/to23a4/i_built_wireless_dactyl_manuform_2024",
       "by": "",
-      "score": 7,
+      "score": 10,
       "commentCount": 1,
       "createdUtc": 1777226834,
-      "ageHours": 10.0425,
-      "trendingScore": 0.16750318043459678,
+      "ageHours": 13.17361111111111,
+      "trendingScore": 0.16918683893008798,
       "tags": [
         "hardware"
       ],
@@ -286,36 +305,18 @@
       "linkedRepos": []
     },
     {
-      "shortId": "vwncrg",
-      "title": "The world’s most complex machine",
-      "url": "https://worksinprogress.co/issue/the-worlds-most-complex-machine/",
-      "commentsUrl": "https://lobste.rs/s/vwncrg/world_s_most_complex_machine",
+      "shortId": "plertt",
+      "title": "I have officially retired from Emacs",
+      "url": "https://nullprogram.com/blog/2026/04/26/",
+      "commentsUrl": "https://lobste.rs/s/plertt/i_have_officially_retired_from_emacs",
       "by": "",
-      "score": 9,
-      "commentCount": 0,
-      "createdUtc": 1777218862,
-      "ageHours": 12.256944444444445,
-      "trendingScore": 0.16718712266887667,
+      "score": 20,
+      "commentCount": 5,
+      "createdUtc": 1777186296,
+      "ageHours": 24.434166666666666,
+      "trendingScore": 0.14715721492168382,
       "tags": [
-        "hardware",
-        "historical"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "bnvmia",
-      "title": "Let’s All Agree to Use Seeds as ML-KEM Keys (2024)",
-      "url": "https://words.filippo.io/ml-kem-seeds/",
-      "commentsUrl": "https://lobste.rs/s/bnvmia/let_s_all_agree_use_seeds_as_ml_kem_keys_2024",
-      "by": "",
-      "score": 1,
-      "commentCount": 1,
-      "createdUtc": 1777258240,
-      "ageHours": 1.3186111111111112,
-      "trendingScore": 0.16541140692860565,
-      "tags": [
-        "cryptography"
+        "vibecoding"
       ],
       "description": "",
       "linkedRepos": []
@@ -329,10 +330,45 @@
       "score": 43,
       "commentCount": 3,
       "createdUtc": 1777122424,
-      "ageHours": 39.04527777777778,
-      "trendingScore": 0.16352104612820187,
+      "ageHours": 42.17638888888889,
+      "trendingScore": 0.14644789610293804,
       "tags": [
         "hardware"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "vwncrg",
+      "title": "The world’s most complex machine",
+      "url": "https://worksinprogress.co/issue/the-worlds-most-complex-machine/",
+      "commentsUrl": "https://lobste.rs/s/vwncrg/world_s_most_complex_machine",
+      "by": "",
+      "score": 10,
+      "commentCount": 0,
+      "createdUtc": 1777218862,
+      "ageHours": 15.388055555555555,
+      "trendingScore": 0.13791880048758273,
+      "tags": [
+        "hardware",
+        "historical"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "9ckz9x",
+      "title": "Let's Build the Terminal Pt. 1",
+      "url": "https://chauhankiran.blogspot.com/2026/04/lets-build-terminal-pt-1.html",
+      "commentsUrl": "https://lobste.rs/s/9ckz9x/let_s_build_terminal_pt_1",
+      "by": "",
+      "score": 1,
+      "commentCount": 0,
+      "createdUtc": 1777267947,
+      "ageHours": 1.7533333333333334,
+      "trendingScore": 0.13752267023008927,
+      "tags": [
+        "c"
       ],
       "description": "",
       "linkedRepos": []
@@ -344,10 +380,10 @@
       "commentsUrl": "https://lobste.rs/s/dtkjsz/it_s_ok_use_coding_assistance_tools_revive",
       "by": "",
       "score": 25,
-      "commentCount": 15,
+      "commentCount": 16,
       "createdUtc": 1777159266,
-      "ageHours": 28.81138888888889,
-      "trendingScore": 0.1461749976116885,
+      "ageHours": 31.9425,
+      "trendingScore": 0.12642246926811812,
       "tags": [
         "vibecoding"
       ],
@@ -363,10 +399,27 @@
       "score": 30,
       "commentCount": 27,
       "createdUtc": 1777141480,
-      "ageHours": 33.75194444444445,
-      "trendingScore": 0.14033685982197955,
+      "ageHours": 36.88305555555556,
+      "trendingScore": 0.12373161339703917,
       "tags": [
         "linux"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "bnvmia",
+      "title": "Let’s All Agree to Use Seeds as ML-KEM Keys (2024)",
+      "url": "https://words.filippo.io/ml-kem-seeds/",
+      "commentsUrl": "https://lobste.rs/s/bnvmia/let_s_all_agree_use_seeds_as_ml_kem_keys_2024",
+      "by": "",
+      "score": 2,
+      "commentCount": 2,
+      "createdUtc": 1777258240,
+      "ageHours": 4.449722222222222,
+      "trendingScore": 0.12210079158763235,
+      "tags": [
+        "cryptography"
       ],
       "description": "",
       "linkedRepos": []
@@ -377,11 +430,11 @@
       "url": "https://tendrils.co/background",
       "commentsUrl": "https://lobste.rs/s/q3ffiu/on_interaction_nets_hardware",
       "by": "",
-      "score": 6,
+      "score": 7,
       "commentCount": 1,
       "createdUtc": 1777224837,
-      "ageHours": 10.597222222222221,
-      "trendingScore": 0.13419584349098937,
+      "ageHours": 13.728333333333333,
+      "trendingScore": 0.11222096088863188,
       "tags": [
         "compsci",
         "hardware"
@@ -390,16 +443,56 @@
       "linkedRepos": []
     },
     {
+      "shortId": "ckacgl",
+      "title": "Gleam gets source maps, 1.16.0",
+      "url": "https://gleam.run/news/javascript-source-maps/",
+      "commentsUrl": "https://lobste.rs/s/ckacgl/gleam_gets_source_maps_1_16_0",
+      "by": "",
+      "score": 53,
+      "commentCount": 14,
+      "createdUtc": 1777054203,
+      "ageHours": 61.126666666666665,
+      "trendingScore": 0.1056711863902153,
+      "tags": [
+        "gleam"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "vnnpwe",
+      "title": "PLFM_RADAR: Open-source, low-cost 10.5 GHz PLFM phased array RADAR system",
+      "url": "https://github.com/NawfalMotii79/PLFM_RADAR",
+      "commentsUrl": "https://lobste.rs/s/vnnpwe/plfm_radar_open_source_low_cost_10_5_ghz",
+      "by": "",
+      "score": 6,
+      "commentCount": 1,
+      "createdUtc": 1777227871,
+      "ageHours": 12.885555555555555,
+      "trendingScore": 0.10447290680659047,
+      "tags": [
+        "hardware"
+      ],
+      "description": "",
+      "linkedRepos": [
+        {
+          "fullName": "NawfalMotii79/PLFM_RADAR",
+          "matchType": "url",
+          "confidence": 1
+        }
+      ]
+    },
+    {
       "shortId": "lb065m",
       "title": "Why C Remains the Gold Standard for Cryptographic Software",
       "url": "https://www.wolfssl.com/why-c-remains-the-gold-standard-for-cryptographic-software/",
       "commentsUrl": "https://lobste.rs/s/lb065m/why_c_remains_gold_standard_for",
       "by": "",
       "score": 12,
-      "commentCount": 12,
+      "commentCount": 13,
       "createdUtc": 1777196301,
-      "ageHours": 18.523888888888887,
-      "trendingScore": 0.12906003061808632,
+      "ageHours": 21.655,
+      "trendingScore": 0.10430300421063608,
       "tags": [
         "cryptography"
       ],
@@ -415,27 +508,10 @@
       "score": 19,
       "commentCount": 6,
       "createdUtc": 1777160318,
-      "ageHours": 28.519166666666667,
-      "trendingScore": 0.112692391292383,
+      "ageHours": 31.650277777777777,
+      "trendingScore": 0.09733535575567849,
       "tags": [
         "lua"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "ckacgl",
-      "title": "Gleam gets source maps, 1.16.0",
-      "url": "https://gleam.run/news/javascript-source-maps/",
-      "commentsUrl": "https://lobste.rs/s/ckacgl/gleam_gets_source_maps_1_16_0",
-      "by": "",
-      "score": 52,
-      "commentCount": 14,
-      "createdUtc": 1777054203,
-      "ageHours": 57.995555555555555,
-      "trendingScore": 0.11189861850669032,
-      "tags": [
-        "gleam"
       ],
       "description": "",
       "linkedRepos": []
@@ -449,36 +525,13 @@
       "score": 21,
       "commentCount": 5,
       "createdUtc": 1777147821,
-      "ageHours": 31.990555555555556,
-      "trendingScore": 0.10596974770081297,
+      "ageHours": 35.12166666666667,
+      "trendingScore": 0.09284918472522564,
       "tags": [
         "hardware"
       ],
       "description": "",
       "linkedRepos": []
-    },
-    {
-      "shortId": "vnnpwe",
-      "title": "PLFM_RADAR: Open-source, low-cost 10.5 GHz PLFM phased array RADAR system",
-      "url": "https://github.com/NawfalMotii79/PLFM_RADAR",
-      "commentsUrl": "https://lobste.rs/s/vnnpwe/plfm_radar_open_source_low_cost_10_5_ghz",
-      "by": "",
-      "score": 4,
-      "commentCount": 1,
-      "createdUtc": 1777227871,
-      "ageHours": 9.754444444444445,
-      "trendingScore": 0.09925601384301311,
-      "tags": [
-        "hardware"
-      ],
-      "description": "",
-      "linkedRepos": [
-        {
-          "fullName": "NawfalMotii79/PLFM_RADAR",
-          "matchType": "url",
-          "confidence": 1
-        }
-      ]
     },
     {
       "shortId": "gikmcc",
@@ -489,8 +542,8 @@
       "score": 28,
       "commentCount": 10,
       "createdUtc": 1777111546,
-      "ageHours": 42.066944444444445,
-      "trendingScore": 0.0957168999332612,
+      "ageHours": 45.198055555555555,
+      "trendingScore": 0.0863518946032999,
       "tags": [
         "practices"
       ],
@@ -506,28 +559,11 @@
       "score": 43,
       "commentCount": 0,
       "createdUtc": 1777053348,
-      "ageHours": 58.23305555555555,
-      "trendingScore": 0.09198480945894374,
+      "ageHours": 61.36416666666667,
+      "trendingScore": 0.08525166391033893,
       "tags": [
         "hardware",
         "linux"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "npaxtp",
-      "title": "LLM-assisted coding is not deterministic. Does it matter?",
-      "url": "https://blog.vrypan.net/2026/04/23/llm-assisted-coding-is-not-deterministic-does-it-matter/",
-      "commentsUrl": "https://lobste.rs/s/npaxtp/llm_assisted_coding_is_not_deterministic",
-      "by": "",
-      "score": 3,
-      "commentCount": 0,
-      "createdUtc": 1777232327,
-      "ageHours": 8.516666666666667,
-      "trendingScore": 0.08796382207565898,
-      "tags": [
-        "vibecoding"
       ],
       "description": "",
       "linkedRepos": []
@@ -538,11 +574,11 @@
       "url": "https://hyper-derp.dev/blog/hyper-derp-announcement/",
       "commentsUrl": "https://lobste.rs/s/uiqamk/hyper_derp_c_io_uring_derp_relay_same",
       "by": "",
-      "score": 17,
+      "score": 18,
       "commentCount": 2,
       "createdUtc": 1777146495,
-      "ageHours": 32.35888888888889,
-      "trendingScore": 0.08440929147958773,
+      "ageHours": 35.49,
+      "trendingScore": 0.078415035692178,
       "tags": [
         "performance"
       ],
@@ -558,8 +594,8 @@
       "score": 36,
       "commentCount": 9,
       "createdUtc": 1777050184,
-      "ageHours": 59.11194444444445,
-      "trendingScore": 0.07535522092800943,
+      "ageHours": 62.24305555555556,
+      "trendingScore": 0.06991384984845449,
       "tags": [
         "rant",
         "vibecoding"
@@ -576,8 +612,8 @@
       "score": 30,
       "commentCount": 1,
       "createdUtc": 1777065467,
-      "ageHours": 54.86666666666667,
-      "trendingScore": 0.069957550806914,
+      "ageHours": 57.99777777777778,
+      "trendingScore": 0.06455330869851134,
       "tags": [
         "editors",
         "lisp"
@@ -594,10 +630,27 @@
       "score": 18,
       "commentCount": 9,
       "createdUtc": 1777119469,
-      "ageHours": 39.86611111111111,
-      "trendingScore": 0.06644748878637717,
+      "ageHours": 42.99722222222222,
+      "trendingScore": 0.05963400098154017,
       "tags": [
         "performance"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "npaxtp",
+      "title": "LLM-assisted coding is not deterministic. Does it matter?",
+      "url": "https://blog.vrypan.net/2026/04/23/llm-assisted-coding-is-not-deterministic-does-it-matter/",
+      "commentsUrl": "https://lobste.rs/s/npaxtp/llm_assisted_coding_is_not_deterministic",
+      "by": "",
+      "score": 3,
+      "commentCount": 4,
+      "createdUtc": 1777232327,
+      "ageHours": 11.647777777777778,
+      "trendingScore": 0.0595015584906115,
+      "tags": [
+        "vibecoding"
       ],
       "description": "",
       "linkedRepos": []
@@ -611,8 +664,8 @@
       "score": 13,
       "commentCount": 11,
       "createdUtc": 1777140403,
-      "ageHours": 34.05111111111111,
-      "trendingScore": 0.06005724012139447,
+      "ageHours": 37.18222222222222,
+      "trendingScore": 0.053004135704134904,
       "tags": [
         "hardware",
         "networking"
@@ -629,8 +682,8 @@
       "score": 13,
       "commentCount": 5,
       "createdUtc": 1777139722,
-      "ageHours": 34.24027777777778,
-      "trendingScore": 0.05958762494141624,
+      "ageHours": 37.37138888888889,
+      "trendingScore": 0.05262259357526591,
       "tags": [
         "mac",
         "security",
@@ -648,8 +701,8 @@
       "score": 13,
       "commentCount": 0,
       "createdUtc": 1777134150,
-      "ageHours": 35.78805555555556,
-      "trendingScore": 0.05596435909014513,
+      "ageHours": 38.91916666666667,
+      "trendingScore": 0.04966531352976995,
       "tags": [
         "assembly",
         "historical",
@@ -667,8 +720,8 @@
       "score": 16,
       "commentCount": 13,
       "createdUtc": 1777108639,
-      "ageHours": 42.87444444444444,
-      "trendingScore": 0.053225696743591094,
+      "ageHours": 46.00555555555555,
+      "trendingScore": 0.048104170772286785,
       "tags": [
         "cryptography",
         "email"
@@ -685,8 +738,8 @@
       "score": 13,
       "commentCount": 16,
       "createdUtc": 1777126556,
-      "ageHours": 37.8975,
-      "trendingScore": 0.05158516537942942,
+      "ageHours": 41.02861111111111,
+      "trendingScore": 0.04605824230981251,
       "tags": [
         "ask",
         "programming"
@@ -703,8 +756,8 @@
       "score": 13,
       "commentCount": 0,
       "createdUtc": 1777121427,
-      "ageHours": 39.32222222222222,
-      "trendingScore": 0.04894043767418494,
+      "ageHours": 42.45333333333333,
+      "trendingScore": 0.04386184078985736,
       "tags": [
         "graphics",
         "reversing"
@@ -721,8 +774,8 @@
       "score": 12,
       "commentCount": 6,
       "createdUtc": 1777128309,
-      "ageHours": 37.410555555555554,
-      "trendingScore": 0.04850230860353127,
+      "ageHours": 40.541666666666664,
+      "trendingScore": 0.04324734944732723,
       "tags": [
         "practices",
         "security"
@@ -731,19 +784,19 @@
       "linkedRepos": []
     },
     {
-      "shortId": "3yydcj",
-      "title": "The West Forgot How to Build. Now It's Forgetting Code",
-      "url": "https://techtrenches.dev/p/the-west-forgot-how-to-make-things",
-      "commentsUrl": "https://lobste.rs/s/3yydcj/west_forgot_how_build_now_it_s_forgetting",
+      "shortId": "vkngyl",
+      "title": "Removing the AUICGP instruction",
+      "url": "https://cheriot.org/isa/toolchain/2026/03/23/removing-auicgp.html",
+      "commentsUrl": "https://lobste.rs/s/vkngyl/removing_auicgp_instruction",
       "by": "",
-      "score": 3,
-      "commentCount": 3,
-      "createdUtc": 1777213188,
-      "ageHours": 13.833055555555555,
-      "trendingScore": 0.04761832899842816,
+      "score": 11,
+      "commentCount": 4,
+      "createdUtc": 1777129981,
+      "ageHours": 40.077222222222225,
+      "trendingScore": 0.04030158185424276,
       "tags": [
-        "practices",
-        "vibecoding"
+        "assembly",
+        "security"
       ],
       "description": "",
       "linkedRepos": []
@@ -757,8 +810,8 @@
       "score": 4,
       "commentCount": 0,
       "createdUtc": 1777201064,
-      "ageHours": 17.200833333333332,
-      "trendingScore": 0.047542265661373526,
+      "ageHours": 20.331944444444446,
+      "trendingScore": 0.03790270306420964,
       "tags": [
         "retrocomputing",
         "video"
@@ -773,10 +826,10 @@
       "commentsUrl": "https://lobste.rs/s/diksad/event_sourcing_explained_using_football",
       "by": "",
       "score": 4,
-      "commentCount": 0,
+      "commentCount": 1,
       "createdUtc": 1777200465,
-      "ageHours": 17.36722222222222,
-      "trendingScore": 0.04693091133633934,
+      "ageHours": 20.498333333333335,
+      "trendingScore": 0.037483011044614815,
       "tags": [
         "practices",
         "programming",
@@ -787,18 +840,37 @@
       "linkedRepos": []
     },
     {
-      "shortId": "vkngyl",
-      "title": "Removing the AUICGP instruction",
-      "url": "https://cheriot.org/isa/toolchain/2026/03/23/removing-auicgp.html",
-      "commentsUrl": "https://lobste.rs/s/vkngyl/removing_auicgp_instruction",
+      "shortId": "u0pix1",
+      "title": "Build yourself flowers",
+      "url": "https://vickiboykis.com/2026/04/20/build-yourself-flowers/",
+      "commentsUrl": "https://lobste.rs/s/u0pix1/build_yourself_flowers",
       "by": "",
-      "score": 11,
-      "commentCount": 4,
-      "createdUtc": 1777129981,
-      "ageHours": 36.94611111111111,
-      "trendingScore": 0.04525812289094971,
+      "score": 9,
+      "commentCount": 0,
+      "createdUtc": 1777124787,
+      "ageHours": 41.52,
+      "trendingScore": 0.031347952454719046,
       "tags": [
-        "assembly",
+        "ai",
+        "transcript"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "hllfeo",
+      "title": "Npm Slop & Wonky Software Supply Chains",
+      "url": "https://simonramstedt.com/blog/2026-04-09-npm-slop-and-wonky-software-supply-chains/",
+      "commentsUrl": "https://lobste.rs/s/hllfeo/npm_slop_wonky_software_supply_chains",
+      "by": "",
+      "score": 6,
+      "commentCount": 1,
+      "createdUtc": 1777161746,
+      "ageHours": 31.253611111111113,
+      "trendingScore": 0.031289097029126654,
+      "tags": [
+        "javascript",
+        "nodejs",
         "security"
       ],
       "description": "",
@@ -813,65 +885,11 @@
       "score": 3,
       "commentCount": 0,
       "createdUtc": 1777205621,
-      "ageHours": 15.935,
-      "trendingScore": 0.039497461387618775,
+      "ageHours": 19.066111111111113,
+      "trendingScore": 0.03102735101825674,
       "tags": [
         "browsers",
         "security"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "hllfeo",
-      "title": "Npm Slop & Wonky Software Supply Chains",
-      "url": "https://simonramstedt.com/blog/2026-04-09-npm-slop-and-wonky-software-supply-chains/",
-      "commentsUrl": "https://lobste.rs/s/hllfeo/npm_slop_wonky_software_supply_chains",
-      "by": "",
-      "score": 6,
-      "commentCount": 1,
-      "createdUtc": 1777161746,
-      "ageHours": 28.1225,
-      "trendingScore": 0.03629231994006401,
-      "tags": [
-        "javascript",
-        "nodejs",
-        "security"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "u0pix1",
-      "title": "Build yourself flowers",
-      "url": "https://vickiboykis.com/2026/04/20/build-yourself-flowers/",
-      "commentsUrl": "https://lobste.rs/s/u0pix1/build_yourself_flowers",
-      "by": "",
-      "score": 9,
-      "commentCount": 0,
-      "createdUtc": 1777124787,
-      "ageHours": 38.388888888888886,
-      "trendingScore": 0.03506304675414096,
-      "tags": [
-        "ai",
-        "transcript"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "tvolib",
-      "title": "Things C++26 define_static_array can’t do",
-      "url": "https://quuxplusone.github.io/blog/2026/04/24/define-static-array/",
-      "commentsUrl": "https://lobste.rs/s/tvolib/things_c_26_define_static_array_can_t_do",
-      "by": "",
-      "score": 2,
-      "commentCount": 0,
-      "createdUtc": 1777210339,
-      "ageHours": 14.624444444444444,
-      "trendingScore": 0.0295059284003743,
-      "tags": [
-        "c++"
       ],
       "description": "",
       "linkedRepos": []
@@ -885,10 +903,28 @@
       "score": 8,
       "commentCount": 1,
       "createdUtc": 1777113388,
-      "ageHours": 41.555277777777775,
-      "trendingScore": 0.02783099961032147,
+      "ageHours": 44.68638888888889,
+      "trendingScore": 0.025078673537111774,
       "tags": [
         "programming"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "3yydcj",
+      "title": "The West Forgot How to Build. Now It's Forgetting Code",
+      "url": "https://techtrenches.dev/p/the-west-forgot-how-to-make-things",
+      "commentsUrl": "https://lobste.rs/s/3yydcj/west_forgot_how_build_now_it_s_forgetting",
+      "by": "",
+      "score": 2,
+      "commentCount": 4,
+      "createdUtc": 1777213188,
+      "ageHours": 16.964166666666667,
+      "trendingScore": 0.0242175023454405,
+      "tags": [
+        "practices",
+        "vibecoding"
       ],
       "description": "",
       "linkedRepos": []
@@ -902,8 +938,25 @@
       "score": 12,
       "commentCount": 1,
       "createdUtc": 1777052535,
-      "ageHours": 58.458888888888886,
-      "trendingScore": 0.02552648425504867,
+      "ageHours": 61.59,
+      "trendingScore": 0.023664536821153492,
+      "tags": [
+        "c++"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "tvolib",
+      "title": "Things C++26 define_static_array can’t do",
+      "url": "https://quuxplusone.github.io/blog/2026/04/24/define-static-array/",
+      "commentsUrl": "https://lobste.rs/s/tvolib/things_c_26_define_static_array_can_t_do",
+      "by": "",
+      "score": 2,
+      "commentCount": 0,
+      "createdUtc": 1777210339,
+      "ageHours": 17.755555555555556,
+      "trendingScore": 0.022776979182947115,
       "tags": [
         "c++"
       ],
@@ -919,8 +972,8 @@
       "score": 4,
       "commentCount": 1,
       "createdUtc": 1777165304,
-      "ageHours": 27.134166666666665,
-      "trendingScore": 0.0254364260601787,
+      "ageHours": 30.26527777777778,
+      "trendingScore": 0.02182513198621503,
       "tags": [
         "hardware",
         "networking",
@@ -936,10 +989,10 @@
       "commentsUrl": "https://lobste.rs/s/i2wzkb/using_internet_like_its_1999",
       "by": "",
       "score": 10,
-      "commentCount": 14,
+      "commentCount": 15,
       "createdUtc": 1777041902,
-      "ageHours": 61.4125,
-      "trendingScore": 0.019803305488627142,
+      "ageHours": 64.5436111111111,
+      "trendingScore": 0.018422155870391456,
       "tags": [
         "web"
       ],
@@ -955,8 +1008,8 @@
       "score": 10,
       "commentCount": 4,
       "createdUtc": 1777039254,
-      "ageHours": 62.14805555555556,
-      "trendingScore": 0.019463671001746587,
+      "ageHours": 65.27916666666667,
+      "trendingScore": 0.01812087208316574,
       "tags": [
         "meta"
       ],
@@ -972,63 +1025,11 @@
       "score": 10,
       "commentCount": 3,
       "createdUtc": 1777034638,
-      "ageHours": 63.430277777777775,
-      "trendingScore": 0.018894345559144148,
+      "ageHours": 66.56138888888889,
+      "trendingScore": 0.017614916541165048,
       "tags": [
         "android",
         "distributed"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "kd4xkt",
-      "title": "spinel - Ruby AOT native compiler",
-      "url": "https://github.com/matz/spinel",
-      "commentsUrl": "https://lobste.rs/s/kd4xkt/spinel_ruby_aot_native_compiler",
-      "by": "",
-      "score": 10,
-      "commentCount": 2,
-      "createdUtc": 1777026650,
-      "ageHours": 65.64916666666667,
-      "trendingScore": 0.017972410241001414,
-      "tags": [
-        "ruby",
-        "vibecoding"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "hzhyw9",
-      "title": "Transformers are Inherently Succinct",
-      "url": "https://arxiv.org/abs/2510.19315",
-      "commentsUrl": "https://lobste.rs/s/hzhyw9/transformers_are_inherently_succinct",
-      "by": "",
-      "score": 3,
-      "commentCount": 0,
-      "createdUtc": 1777152795,
-      "ageHours": 30.608888888888888,
-      "trendingScore": 0.016110805450813084,
-      "tags": [
-        "ai"
-      ],
-      "description": "<p>Abstract:\nWe propose succinctness as a measure of the expressive power of a transformer in describing a concept. To this end, we prove that transformers are highly expressive in that they can represent formal languages substantially more succinctly than standard representations of formal languages like finite automata and Linear Temporal Logic (LTL) formulas. As a by-product of this expressivity, we show that verifying properties of transformers is provably intractable (i.e. EXPSPACE-complete",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "g2jq2n",
-      "title": "A New Perspective on Drawing Venn Diagrams for Data Visualization",
-      "url": "https://arxiv.org/abs/2601.06980",
-      "commentsUrl": "https://lobste.rs/s/g2jq2n/new_perspective_on_drawing_venn_diagrams",
-      "by": "",
-      "score": 2,
-      "commentCount": 0,
-      "createdUtc": 1777179962,
-      "ageHours": 23.0625,
-      "trendingScore": 0.015940186954658868,
-      "tags": [
-        "math"
       ],
       "description": "",
       "linkedRepos": []
@@ -1042,14 +1043,50 @@
       "score": 6,
       "commentCount": 0,
       "createdUtc": 1777082238,
-      "ageHours": 50.20805555555555,
-      "trendingScore": 0.01590541380662848,
+      "ageHours": 53.339166666666664,
+      "trendingScore": 0.014574790737231582,
       "tags": [
         "historical",
         "retrocomputing",
         "reversing"
       ],
       "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "gdlaj1",
+      "title": "The Aging Programmer (2024)",
+      "url": "https://www.youtube.com/watch?v=hs8EGgoJpdQ&list=PLsAtvvJ8KXBT-Tx67H5P3TgkiW6llnoBE&index=3",
+      "commentsUrl": "https://lobste.rs/s/gdlaj1/aging_programmer_2024",
+      "by": "",
+      "score": 6,
+      "commentCount": 1,
+      "createdUtc": 1777077331,
+      "ageHours": 54.702222222222225,
+      "trendingScore": 0.014052420300346351,
+      "tags": [
+        "a11y",
+        "practices",
+        "video"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "hzhyw9",
+      "title": "Transformers are Inherently Succinct",
+      "url": "https://arxiv.org/abs/2510.19315",
+      "commentsUrl": "https://lobste.rs/s/hzhyw9/transformers_are_inherently_succinct",
+      "by": "",
+      "score": 3,
+      "commentCount": 0,
+      "createdUtc": 1777152795,
+      "ageHours": 33.74,
+      "trendingScore": 0.014040721737107539,
+      "tags": [
+        "ai"
+      ],
+      "description": "<p>Abstract:\nWe propose succinctness as a measure of the expressive power of a transformer in describing a concept. To this end, we prove that transformers are highly expressive in that they can represent formal languages substantially more succinctly than standard representations of formal languages like finite automata and Linear Temporal Logic (LTL) formulas. As a by-product of this expressivity, we show that verifying properties of transformers is provably intractable (i.e. EXPSPACE-complete",
       "linkedRepos": []
     },
     {
@@ -1061,10 +1098,27 @@
       "score": 7,
       "commentCount": 6,
       "createdUtc": 1777053585,
-      "ageHours": 58.16722222222222,
-      "trendingScore": 0.014998854687623407,
+      "ageHours": 61.29833333333333,
+      "trendingScore": 0.01389983444039796,
       "tags": [
         "email"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "g2jq2n",
+      "title": "A New Perspective on Drawing Venn Diagrams for Data Visualization",
+      "url": "https://arxiv.org/abs/2601.06980",
+      "commentsUrl": "https://lobste.rs/s/g2jq2n/new_perspective_on_drawing_venn_diagrams",
+      "by": "",
+      "score": 2,
+      "commentCount": 0,
+      "createdUtc": 1777179962,
+      "ageHours": 26.19361111111111,
+      "trendingScore": 0.013359922479285762,
+      "tags": [
+        "math"
       ],
       "description": "",
       "linkedRepos": []
@@ -1078,8 +1132,8 @@
       "score": 4,
       "commentCount": 10,
       "createdUtc": 1777119350,
-      "ageHours": 39.899166666666666,
-      "trendingScore": 0.014748637902701036,
+      "ageHours": 43.030277777777776,
+      "trendingScore": 0.013237410973376683,
       "tags": [
         "plt"
       ],
@@ -1095,30 +1149,11 @@
       "score": 5,
       "commentCount": 2,
       "createdUtc": 1777078541,
-      "ageHours": 51.235,
-      "trendingScore": 0.01287283245370307,
+      "ageHours": 54.36611111111111,
+      "trendingScore": 0.011815249466280148,
       "tags": [
         "hardware",
         "linux"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "gdlaj1",
-      "title": "The Aging Programmer (2024)",
-      "url": "https://www.youtube.com/watch?v=hs8EGgoJpdQ&list=PLsAtvvJ8KXBT-Tx67H5P3TgkiW6llnoBE&index=3",
-      "commentsUrl": "https://lobste.rs/s/gdlaj1/aging_programmer_2024",
-      "by": "",
-      "score": 5,
-      "commentCount": 1,
-      "createdUtc": 1777077331,
-      "ageHours": 51.57111111111111,
-      "trendingScore": 0.012751874303020048,
-      "tags": [
-        "a11y",
-        "practices",
-        "video"
       ],
       "description": "",
       "linkedRepos": []
@@ -1132,8 +1167,8 @@
       "score": 4,
       "commentCount": 4,
       "createdUtc": 1777101395,
-      "ageHours": 44.88666666666666,
-      "trendingScore": 0.0124590794072866,
+      "ageHours": 48.01777777777778,
+      "trendingScore": 0.011307677201774584,
       "tags": [
         "editors"
       ],
@@ -1149,8 +1184,8 @@
       "score": 5,
       "commentCount": 9,
       "createdUtc": 1777062986,
-      "ageHours": 55.55583333333333,
-      "trendingScore": 0.011450804100662923,
+      "ageHours": 58.68694444444444,
+      "trendingScore": 0.01057613770930753,
       "tags": [
         "rust",
         "vcs",
@@ -1168,8 +1203,8 @@
       "score": 5,
       "commentCount": 0,
       "createdUtc": 1777053464,
-      "ageHours": 58.200833333333335,
-      "trendingScore": 0.01070449662983373,
+      "ageHours": 61.331944444444446,
+      "trendingScore": 0.009920550475858797,
       "tags": [
         "vibecoding",
         "video"
@@ -1186,8 +1221,8 @@
       "score": 2,
       "commentCount": 0,
       "createdUtc": 1777146000,
-      "ageHours": 32.49638888888889,
-      "trendingScore": 0.009871190720407635,
+      "ageHours": 35.6275,
+      "trendingScore": 0.008665067477286051,
       "tags": [
         "security"
       ],
@@ -1203,8 +1238,8 @@
       "score": 5,
       "commentCount": 0,
       "createdUtc": 1777031541,
-      "ageHours": 64.29055555555556,
-      "trendingScore": 0.009263871372402472,
+      "ageHours": 67.42166666666667,
+      "trendingScore": 0.00864425262352798,
       "tags": [
         "hardware",
         "networking"
@@ -1221,8 +1256,8 @@
       "score": 4,
       "commentCount": 0,
       "createdUtc": 1777050448,
-      "ageHours": 59.03861111111111,
-      "trendingScore": 0.008387895801648974,
+      "ageHours": 62.16972222222222,
+      "trendingScore": 0.0077815256321375,
       "tags": [
         "video",
         "visualization"
@@ -1239,8 +1274,8 @@
       "score": 3,
       "commentCount": 1,
       "createdUtc": 1777062297,
-      "ageHours": 55.74722222222222,
-      "trendingScore": 0.006836355003391214,
+      "ageHours": 58.87833333333333,
+      "trendingScore": 0.006315781886250215,
       "tags": [
         "devops",
         "distributed",
@@ -1258,8 +1293,8 @@
       "score": 2,
       "commentCount": 0,
       "createdUtc": 1777049677,
-      "ageHours": 59.25277777777778,
-      "trendingScore": 0.004171971307577261,
+      "ageHours": 62.38388888888889,
+      "trendingScore": 0.003871365610096317,
       "tags": [
         "vibecoding"
       ],
@@ -1275,8 +1310,8 @@
       "score": 1,
       "commentCount": 0,
       "createdUtc": 1777038855,
-      "ageHours": 62.25888888888889,
-      "trendingScore": 0.0019413336492833644,
+      "ageHours": 65.39,
+      "trendingScore": 0.001807618658125348,
       "tags": [
         "security",
         "vibecoding"
@@ -1293,43 +1328,7 @@
       "score": 0,
       "commentCount": 1,
       "createdUtc": 1777214310,
-      "ageHours": 13.52138888888889,
-      "trendingScore": 0,
-      "tags": [
-        "vibecoding"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "8zne6o",
-      "title": "The GenPRES project by Casper Bollen",
-      "url": "https://www.youtube.com/watch?v=9o6dT_rJ6Qg",
-      "commentsUrl": "https://lobste.rs/s/8zne6o/genpres_project_by_casper_bollen",
-      "by": "",
-      "score": 0,
-      "commentCount": 1,
-      "createdUtc": 1777030203,
-      "ageHours": 64.66222222222223,
-      "trendingScore": 0,
-      "tags": [
-        "dotnet",
-        "programming",
-        "video"
-      ],
-      "description": "<p>I stumbled upon this and had to share it, the presenter is a medical doctor who learned to code, tried multiple programming languages until settling for F#, as it properly let him solve problems in his (highly regulated and standardized) domain.</p>\n",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "vksnyl",
-      "title": "The Tribe Has to Outlive the Model",
-      "url": "https://christophermeiklejohn.com/ai/zabriskie/agents/reliability/2026/04/23/the-tribe-has-to-outlive-the-model.html",
-      "commentsUrl": "https://lobste.rs/s/vksnyl/tribe_has_outlive_model",
-      "by": "",
-      "score": 0,
-      "commentCount": 4,
-      "createdUtc": 1777027542,
-      "ageHours": 65.40138888888889,
+      "ageHours": 16.6525,
       "trendingScore": 0,
       "tags": [
         "vibecoding"

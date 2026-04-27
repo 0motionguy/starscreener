@@ -84,6 +84,36 @@ function descByIso(a: string, b: string): number {
   return 0;
 }
 
+/**
+ * Binary-insert `item` into a newest-first sorted array by `postedAt`.
+ * Replaces the `arr.push(item); arr.sort(...)` pattern, dropping the
+ * dominant cost from O(N log N) to O(log N) lookup + O(N) splice.
+ *
+ * Caller is responsible for ensuring the array is already sorted
+ * newest-first by ISO `postedAt`. Mutates `arr` in place.
+ *
+ * Used by InMemoryMentionStore.append (LIB-10).
+ */
+function insertMentionSortedDesc(
+  arr: { postedAt: string }[],
+  item: { postedAt: string },
+): number {
+  let lo = 0;
+  let hi = arr.length;
+  while (lo < hi) {
+    const mid = (lo + hi) >>> 1;
+    // Newest-first ordering: if arr[mid] is OLDER than item, item goes
+    // before arr[mid]; otherwise after. ISO 8601 lex compare is correct.
+    if (arr[mid].postedAt < item.postedAt) {
+      hi = mid;
+    } else {
+      lo = mid + 1;
+    }
+  }
+  arr.splice(lo, 0, item);
+  return lo;
+}
+
 // ---------------------------------------------------------------------------
 // RepoStore
 // ---------------------------------------------------------------------------
@@ -516,11 +546,22 @@ export class InMemoryMentionStore implements MentionStore {
     //      an existing row for this repo has the same normalizedUrl. This
     //      collapses tracking-param + trailing-slash + www. variants across
     //      sources (e.g. HN link and Reddit link to the same GitHub page).
+    // LIB-10: Path 1 (id match) and Path 3 (new mention) both used to
+    // .push() then .sort() the entire array — O(M log M) per append.
+    // Replaced with binary-insertion: O(log M) lookup + O(M) splice.
+    // The URL-dedup .find() in Path 2 is still O(M); a per-repo
+    // Map<normalizedUrl, RepoMention> index would make it O(1) but
+    // requires more sync surface. Left as a follow-up — most repos
+    // see normalizedUrl set on a small fraction of mentions.
+
     const idIndex = existing.findIndex((m) => m.id === incoming.id);
     if (idIndex >= 0) {
+      // Path 1: id match → splice out old, binary-insert at new position.
+      // postedAt could have shifted (engagement-refresh re-ingest), so we
+      // can't just replace in-place and trust the sort to still hold.
       const next = existing.slice();
-      next[idIndex] = incoming;
-      next.sort((a, b) => descByIso(a.postedAt, b.postedAt));
+      next.splice(idIndex, 1);
+      insertMentionSortedDesc(next, incoming);
       this.byRepo.set(incoming.repoId, next);
       this.markDirty();
       notifyMutation();
@@ -539,9 +580,9 @@ export class InMemoryMentionStore implements MentionStore {
       }
     }
 
+    // Path 3: new mention → clone and binary-insert. No full sort.
     const next = existing.slice();
-    next.push(incoming);
-    next.sort((a, b) => descByIso(a.postedAt, b.postedAt));
+    insertMentionSortedDesc(next, incoming);
     this.byRepo.set(incoming.repoId, next);
     this.markDirty();
     notifyMutation();

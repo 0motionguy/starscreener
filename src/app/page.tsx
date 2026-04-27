@@ -394,6 +394,100 @@ export default async function HomePage() {
         }}
       />
 
+      {/* Dataset JSON-LD — declares the catalog itself as a Schema.org
+          Dataset so AI/GEO surfaces (Google Dataset Search, Perplexity,
+          ChatGPT, Claude) can recognise this site as a structured data
+          source rather than a generic blog. Lists the variables we
+          measure and the JSON / Markdown / XML distribution endpoints. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: safeJsonLd({
+            "@context": "https://schema.org",
+            "@type": "Dataset",
+            "@id": `${SITE_URL.replace(/\/+$/, "")}/#dataset`,
+            name: `${SITE_NAME} — open-source repo trend dataset`,
+            alternateName: "TrendingRepo Catalog",
+            description:
+              "Aggregated repo metadata + cross-source signals (GitHub, Reddit, Hacker News, Bluesky, dev.to, ProductHunt, Lobsters) for the open-source ecosystem. Updated every 3 hours.",
+            url: SITE_URL,
+            sameAs: [SITE_URL],
+            inLanguage: "en-US",
+            isAccessibleForFree: true,
+            keywords: [
+              "open source",
+              "github",
+              "trending repos",
+              "developer tools",
+              "AI agents",
+              "MCP",
+              "LLM",
+              "DevTools",
+            ],
+            creator: {
+              "@type": "Organization",
+              "@id": `${SITE_URL.replace(/\/+$/, "")}/#organization`,
+            },
+            publisher: {
+              "@type": "Organization",
+              "@id": `${SITE_URL.replace(/\/+$/, "")}/#organization`,
+            },
+            // Metadata only — repos retain their own license.
+            license: "https://creativecommons.org/publicdomain/zero/1.0/",
+            variableMeasured: [
+              {
+                "@type": "PropertyValue",
+                name: "stars",
+                description: "GitHub star count",
+              },
+              {
+                "@type": "PropertyValue",
+                name: "starsDelta24h",
+                description: "24-hour star delta",
+              },
+              {
+                "@type": "PropertyValue",
+                name: "starsDelta7d",
+                description: "7-day star delta",
+              },
+              {
+                "@type": "PropertyValue",
+                name: "momentumScore",
+                description: "0–100 composite momentum score",
+              },
+              {
+                "@type": "PropertyValue",
+                name: "crossSignalScore",
+                description: "0–5 cross-channel signal aggregate",
+              },
+            ],
+            distribution: [
+              {
+                "@type": "DataDownload",
+                encodingFormat: "application/json",
+                contentUrl: absoluteUrl("/api/repos"),
+              },
+              {
+                "@type": "DataDownload",
+                encodingFormat: "text/markdown",
+                contentUrl: absoluteUrl("/llms-full.txt"),
+              },
+              {
+                "@type": "DataDownload",
+                encodingFormat: "application/xml",
+                contentUrl: absoluteUrl("/sitemap.xml"),
+              },
+            ],
+            temporalCoverage: `${new Date(
+              Date.now() - 365 * 24 * 3600 * 1000,
+            )
+              .toISOString()
+              .slice(0, 10)}/..`,
+            dateModified: lastFetchedAt,
+          }),
+        }}
+      />
+
       {/* V2 sign-off — operator-grade footer line */}
       <section className="px-4 sm:px-6 pt-2 pb-8">
         <div className="flex items-center justify-between gap-3 pt-3 border-t border-[var(--v2-line-std)]">

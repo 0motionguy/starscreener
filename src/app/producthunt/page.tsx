@@ -16,12 +16,18 @@ import { LaunchLinkIcons } from "@/components/producthunt/LaunchLinkIcons";
 import {
   getAiLaunches,
   getRecentLaunches,
+  getPhFile,
   producthuntCold,
   producthuntFetchedAt,
   refreshProducthuntLaunchesFromStore,
   type Launch,
+  type ProductHuntFile,
 } from "@/lib/producthunt";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
+import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
+import { buildProductHuntHeader } from "@/components/news/newsTopMetrics";
+
+const PH_ACCENT = "rgba(218, 85, 47, 0.85)";
 
 type PhTab = "ai" | "all";
 const VALID_TABS: PhTab[] = ["ai", "all"];
@@ -131,43 +137,26 @@ export default async function ProductHuntPage({
           <ColdState />
         ) : (
           <>
-            {/* Tab nav — AI Launches (filtered) vs All (full PH feed) */}
-            <TabNav active={activeTab} aiCount={ai7d.length} allCount={all7d.length} />
+            {/* V3 top header — 3 charts + 3 hero launches. Reflects the
+                currently-selected tab (`ai` or `all`) by passing a file-
+                shaped wrapper around `current` so the metric math sees
+                only what the user is actually looking at. */}
+            <div className="mb-6">
+              <NewsTopHeaderV3
+                eyebrow={`// PRODUCTHUNT · ${activeTab === "ai" ? "AI LAUNCHES" : "ALL LAUNCHES"}`}
+                status={`${current.length.toLocaleString("en-US")} TRACKED · 7D`}
+                {...buildProductHuntHeader(
+                  ({ launches: current } as Pick<ProductHuntFile, "launches">) as ProductHuntFile,
+                  topLaunches.slice(0, 3),
+                )}
+                accent={PH_ACCENT}
+              />
+            </div>
 
-            {/* Stat tiles */}
-            <section className="mb-6 grid grid-cols-2 md:grid-cols-4 gap-3">
-              <StatTile
-                label="LAST SCRAPE"
-                value={formatRelative(producthuntFetchedAt)}
-                hint={
-                  producthuntFetchedAt
-                    ? new Date(producthuntFetchedAt)
-                        .toISOString()
-                        .slice(0, 16)
-                        .replace("T", " ")
-                    : undefined
-                }
-              />
-              <StatTile
-                label="LAUNCHES 7D"
-                value={current.length.toLocaleString("en-US")}
-                hint={
-                  activeTab === "ai"
-                    ? "ai-adjacent · last 7 days"
-                    : `all launches · ${ai7d.length} ai-adjacent`
-                }
-              />
-              <StatTile
-                label="LAUNCHES 24H"
-                value={launches24h.length.toLocaleString("en-US")}
-                hint="last 24 hours"
-              />
-              <StatTile
-                label="REPOS LINKED"
-                value={reposLinkedCount.toLocaleString("en-US")}
-                hint="github links extracted"
-              />
-            </section>
+            {/* Tab nav — AI Launches (filtered) vs All (full PH feed) */}
+            <div className="mb-6">
+              <TabNav active={activeTab} aiCount={ai7d.length} allCount={all7d.length} />
+            </div>
 
             {/* Main feed */}
             {topLaunches.length > 0 ? (

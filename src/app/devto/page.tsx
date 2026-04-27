@@ -25,6 +25,10 @@ import {
   refreshDevtoTrendingFromStore,
 } from "@/lib/devto-trending";
 import { repoFullNameToHref } from "@/lib/hackernews";
+import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
+import { buildDevtoHeaderFromArticles } from "@/components/news/newsTopMetrics";
+
+const DEVTO_ACCENT = "rgba(102, 153, 255, 0.85)";
 
 export const dynamic = "force-static";
 
@@ -103,40 +107,19 @@ export default async function DevtoPage() {
           <ColdState />
         ) : (
           <>
-            {/* Stat tiles */}
-            <section className="mb-6 grid grid-cols-2 md:grid-cols-4 gap-3">
-              <StatTile
-                label="LAST SCRAPE"
-                value={formatRelative(devtoFetchedAt)}
-                hint={
-                  devtoFetchedAt
-                    ? new Date(devtoFetchedAt)
-                        .toISOString()
-                        .slice(0, 16)
-                        .replace("T", " ")
-                    : undefined
-                }
+            {/* V3 top header — 3 charts + 3 hero articles. The legacy stat
+                tiles below this were dropped — covered by the V3 snapshot. */}
+            <div className="mb-6">
+              <NewsTopHeaderV3
+                eyebrow="// DEV.TO · TOP ARTICLES"
+                status={`${totalArticles.toLocaleString("en-US")} TRACKED · ${trendingFile.windowDays}D`}
+                {...buildDevtoHeaderFromArticles(
+                  trendingFile.articles,
+                  leaderboard,
+                )}
+                accent={DEVTO_ACCENT}
               />
-              <StatTile
-                label="ARTICLES TRACKED"
-                value={totalArticles.toLocaleString("en-US")}
-                hint={`${trendingFile.windowDays}d window · ${trendingFile.scannedArticles.toLocaleString("en-US")} scanned`}
-              />
-              <StatTile
-                label="REPOS LINKED"
-                value={reposLinked.toLocaleString("en-US")}
-                hint="github mentions in body/tags"
-              />
-              <StatTile
-                label="DISCOVERY"
-                value={sliceCount.toLocaleString("en-US")}
-                hint={
-                  sliceCount > 0
-                    ? `${tagCount} tags + rising/fresh + top`
-                    : devtoBodyFetchMode
-                }
-              />
-            </section>
+            </div>
 
             {/* Two-column layout */}
             <div className="grid grid-cols-1 md:grid-cols-[1fr_320px] gap-6">

@@ -6,7 +6,11 @@
 // /api/health can distinguish "never scraped" from "stale".
 
 import phData from "../../data/producthunt-launches.json";
-import { getDataStore } from "./data-store";
+
+// data-store import is dynamic: pulling it statically here drags ioredis
+// (Node-only `dns` dep) into client bundles whenever a client component
+// imports `getLaunchForRepo`. The refresh function below is server-only
+// and resolves the dep at runtime.
 
 export interface Launch {
   id: string;
@@ -155,6 +159,7 @@ export async function refreshProducthuntLaunchesFromStore(): Promise<{
     return { source: "memory", ageMs: Date.now() - lastRefreshMs };
   }
   inflight = (async () => {
+    const { getDataStore } = await import("./data-store");
     const result = await getDataStore().read<ProductHuntFile>(
       "producthunt-launches",
     );

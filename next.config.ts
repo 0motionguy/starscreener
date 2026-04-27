@@ -1,5 +1,20 @@
 import type { NextConfig } from "next";
 
+// Note on Windows + OneDrive: this project lives under a synced folder
+// and OneDrive can race Turbopack's `.next/static/development/_buildManifest.js.tmp`
+// writes on cold-start (ENOENT loops). Two mitigations are baked in:
+//   1. We avoid touching `.next` between dev runs (no rm -rf in scripts);
+//      once the cache is populated Turbopack rewrites are atomic enough
+//      to coexist with OneDrive.
+//   2. If you need a clean slate, replace `.next` with a directory
+//      junction pointing outside the synced tree:
+//        rmdir /S /Q .next
+//        mklink /J .next %TEMP%\starscreener-next-dev
+//      Turbopack's "stay inside project root" check is satisfied because
+//      the junction is inside the project; the writes land outside it.
+//      Production builds on Vercel ignore the junction (the runner
+//      builds on a fresh ext4 lambda).
+
 const nextConfig: NextConfig = {
   // Next 15 bundler optimization: rewrite barrel imports so only the
   // named exports actually used end up in the bundle. lucide-react alone

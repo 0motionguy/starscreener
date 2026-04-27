@@ -12,7 +12,11 @@
 // lookup, canonical repo route helper.
 
 import hnMentionsData from "../../data/hackernews-repo-mentions.json";
-import { getDataStore } from "./data-store";
+
+// data-store import is dynamic: pulling it statically here drags ioredis
+// (Node-only `dns` dep) into client bundles whenever a client component
+// imports `getHnMentions`. The refresh function below is server-only and
+// resolves the dep at runtime.
 
 // ---------------------------------------------------------------------------
 // Types
@@ -165,6 +169,7 @@ export async function refreshHackernewsMentionsFromStore(): Promise<{
     return { source: "memory", ageMs: Date.now() - lastRefreshMs };
   }
   inflight = (async () => {
+    const { getDataStore } = await import("./data-store");
     const result = await getDataStore().read<HnMentionsFile>(
       "hackernews-repo-mentions",
     );

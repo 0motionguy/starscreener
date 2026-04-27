@@ -199,11 +199,9 @@ export default async function PricingPage({ searchParams }: PricingPageProps) {
             and how private.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <Link
-              href="/"
-              className="rounded-sm bg-brand px-5 py-2.5 text-sm uppercase tracking-wider text-bg-primary transition hover:opacity-90"
-            >
-              Start free
+            <Link href="/" className="v2-btn v2-btn-primary inline-flex">
+              START FREE
+              <span aria-hidden style={{ marginLeft: 8 }}>→</span>
             </Link>
             <a
               href="mailto:sales@trendingrepo.com?subject=Enterprise%20inquiry"

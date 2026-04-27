@@ -32,6 +32,36 @@ import { SITE_NAME, SITE_URL, absoluteUrl } from "@/lib/seo";
 // scoreBatch) from ~300 ms to a lookup. `force-dynamic` is no longer needed.
 export const revalidate = 1800;
 
+// Single source of truth for the homepage FAQ. Renders both the visible
+// <details> list and the FAQPage JSON-LD below — keeping them in one array
+// means structured data and rendered copy can't drift apart.
+const HOMEPAGE_FAQ: ReadonlyArray<{ q: string; a: string }> = [
+  {
+    q: "What data sources does TrendingRepo track?",
+    a: "GitHub (stars, forks, releases, contributors), Reddit (r/programming, r/webdev, r/MachineLearning), Hacker News front page, ProductHunt daily launches, Bluesky tech feeds, and dev.to trending articles. Every signal is timestamped and scored for momentum.",
+  },
+  {
+    q: "How is the momentum score calculated?",
+    a: "A composite 0–100 score based on 24h / 7d / 30d star velocity, fork growth, contributor churn, commit freshness, release cadence, and anti-spam dampening. Breakouts are flagged when velocity exceeds rolling baselines by 2σ.",
+  },
+  {
+    q: "Can I query TrendingRepo from a terminal or agent?",
+    a: "Yes — three interfaces: a zero-dependency CLI (Node 18+), an MCP server for Claude / any agent, and a Portal v0.1 endpoint. All three hit the same live pipeline, so results never drift.",
+  },
+  {
+    q: "How often is the data refreshed?",
+    a: "Scrapers run every 3 hours via GitHub Actions. The homepage is ISR-cached for 30 minutes, so the edge serves a static hit while the pipeline ingests fresh signals in the background.",
+  },
+  {
+    q: "Is there an API?",
+    a: "Yes — public REST endpoints under /api/repos with filtering, sorting, and pagination. The Portal v0.1 manifest exposes the same tools over structured JSON-RPC.",
+  },
+  {
+    q: "How do I submit my own repo?",
+    a: "Click the 'Drop repo' button in the header or visit /submit. Any GitHub repo is eligible — the pipeline scores it on the next ingest cycle.",
+  },
+];
+
 export default async function HomePage() {
   const repos = getDerivedRepos();
 
@@ -104,7 +134,7 @@ export default async function HomePage() {
               </a>{" "}
               — the fastest-growing open-source ecosystem in history. We ingest
               GitHub, Reddit, Hacker News, ProductHunt, Bluesky, and dev.to
-              every 20 minutes, score momentum across 15 categories, and
+              every few hours, score momentum across 15 categories, and
               surface the movers before they plateau.{" "}
               <a
                 href="https://en.wikipedia.org/wiki/Open-source_software"
@@ -171,171 +201,80 @@ export default async function HomePage() {
         <AsciiInterstitial rows={5} cols={120} seed={repos.length} />
       </section>
 
-      {/* FAQ section with JSON-LD */}
-      <section id="faq" className="px-4 sm:px-6 py-8 max-w-3xl space-y-4">
-        <MonoLabel index="02" name="FAQ" hint="OPERATOR-LEVEL" tone="muted" />
-        <h2 className="font-display text-xl font-bold text-text-primary">
-          Frequently asked questions
-        </h2>
-        <div className="flex flex-col gap-3">
-          <details className="group rounded-lg border border-border-primary bg-bg-secondary open:border-brand/30">
-            <summary className="flex cursor-pointer items-center justify-between px-4 py-3 text-sm font-medium text-text-primary select-none">
-              What data sources does TrendingRepo track?
-              <span className="ml-2 text-text-tertiary group-open:rotate-180 transition-transform">
-                ▼
-              </span>
-            </summary>
-            <div className="px-4 pb-3 text-sm text-text-secondary">
-              GitHub (stars, forks, releases, contributors), Reddit (r/programming,
-              r/webdev, r/MachineLearning), Hacker News front page,
-              ProductHunt daily launches, Bluesky tech feeds, and dev.to trending
-              articles. Every signal is timestamped and scored for momentum.
-            </div>
-          </details>
+      {/* Operator-grade FAQ — terminal feel, V3 hairlines, [+]/[-] toggles.
+          Source-of-truth is HOMEPAGE_FAQ above so the JSON-LD below can't
+          drift from the visible answers. */}
+      <section id="faq" className="px-4 sm:px-6 py-8">
+        <div className="max-w-3xl space-y-3">
+          <MonoLabel index="02" name="FAQ" hint="OPERATOR-LEVEL" tone="muted" />
 
-          <details className="group rounded-lg border border-border-primary bg-bg-secondary open:border-brand/30">
-            <summary className="flex cursor-pointer items-center justify-between px-4 py-3 text-sm font-medium text-text-primary select-none">
-              How is the momentum score calculated?
-              <span className="ml-2 text-text-tertiary group-open:rotate-180 transition-transform">
-                ▼
-              </span>
-            </summary>
-            <div className="px-4 pb-3 text-sm text-text-secondary">
-              A composite 0–100 score based on 24h / 7d / 30d star velocity, fork
-              growth, contributor churn, commit freshness, release cadence, and
-              anti-spam dampening. Breakouts are flagged when velocity exceeds
-              rolling baselines by 2σ.
-            </div>
-          </details>
-
-          <details className="group rounded-lg border border-border-primary bg-bg-secondary open:border-brand/30">
-            <summary className="flex cursor-pointer items-center justify-between px-4 py-3 text-sm font-medium text-text-primary select-none">
-              Can I query TrendingRepo from a terminal or agent?
-              <span className="ml-2 text-text-tertiary group-open:rotate-180 transition-transform">
-                ▼
-              </span>
-            </summary>
-            <div className="px-4 pb-3 text-sm text-text-secondary">
-              Yes — three interfaces: a zero-dependency CLI (Node 18+), an MCP
-              server for Claude / any agent, and a Portal v0.1 endpoint. All
-              three hit the same live pipeline, so results never drift.
-            </div>
-          </details>
-
-          <details className="group rounded-lg border border-border-primary bg-bg-secondary open:border-brand/30">
-            <summary className="flex cursor-pointer items-center justify-between px-4 py-3 text-sm font-medium text-text-primary select-none">
-              How often is the data refreshed?
-              <span className="ml-2 text-text-tertiary group-open:rotate-180 transition-transform">
-                ▼
-              </span>
-            </summary>
-            <div className="px-4 pb-3 text-sm text-text-secondary">
-              Scrapers run every 20 minutes via GitHub Actions. The homepage is
-              ISR-cached for 30 minutes, so the edge serves a static hit while
-              the pipeline ingests fresh signals in the background.
-            </div>
-          </details>
-
-          <details className="group rounded-lg border border-border-primary bg-bg-secondary open:border-brand/30">
-            <summary className="flex cursor-pointer items-center justify-between px-4 py-3 text-sm font-medium text-text-primary select-none">
-              Is there an API?
-              <span className="ml-2 text-text-tertiary group-open:rotate-180 transition-transform">
-                ▼
-              </span>
-            </summary>
-            <div className="px-4 pb-3 text-sm text-text-secondary">
-              Yes — public REST endpoints under /api/repos with filtering,
-              sorting, and pagination. The Portal v0.1 manifest exposes the same
-              tools over structured JSON-RPC. See the{" "}
-              <a
-                href="/portal/docs"
-                className="underline decoration-brand/50 hover:decoration-brand text-text-primary"
+          <div
+            className="v3-faq-list border-y"
+            style={{ borderColor: "var(--v3-line-100)" }}
+          >
+            <style>{`
+              .v3-faq-list .toggle-open { display: none; }
+              .v3-faq-list details[open] .toggle-closed { display: none; }
+              .v3-faq-list details[open] .toggle-open { display: inline; }
+              .v3-faq-list details[open] > summary {
+                color: var(--v3-ink-100);
+                background: var(--v3-bg-050);
+              }
+            `}</style>
+            {HOMEPAGE_FAQ.map(({ q, a }, i) => (
+              <details
+                key={q}
+                className="group block border-t first:border-t-0 transition-colors"
+                style={{ borderColor: "var(--v3-line-100)" }}
               >
-                Portal docs
-              </a>{" "}
-              for schemas and examples.
-            </div>
-          </details>
-
-          <details className="group rounded-lg border border-border-primary bg-bg-secondary open:border-brand/30">
-            <summary className="flex cursor-pointer items-center justify-between px-4 py-3 text-sm font-medium text-text-primary select-none">
-              How do I submit my own repo?
-              <span className="ml-2 text-text-tertiary group-open:rotate-180 transition-transform">
-                ▼
-              </span>
-            </summary>
-            <div className="px-4 pb-3 text-sm text-text-secondary">
-              Click the &quot;Drop repo&quot; button in the header or visit{" "}
-              <a
-                href="/submit"
-                className="underline decoration-brand/50 hover:decoration-brand text-text-primary"
-              >
-                /submit
-              </a>
-              . Any GitHub repo is eligible — the pipeline scores it on the next
-              ingest cycle.
-            </div>
-          </details>
+                <summary
+                  className="v2-mono flex cursor-pointer select-none items-center justify-between gap-4 px-4 py-3.5 text-[11px] tracking-[0.12em] transition-colors hover:bg-[var(--v3-bg-050)]"
+                  style={{ color: "var(--v3-ink-200)" }}
+                >
+                  <span className="flex items-baseline gap-3 min-w-0">
+                    <span
+                      className="tabular-nums shrink-0"
+                      style={{ color: "var(--v3-ink-400)" }}
+                      aria-hidden
+                    >
+                      Q.{String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="truncate uppercase">{q}</span>
+                  </span>
+                  <span
+                    className="shrink-0 tabular-nums"
+                    style={{ color: "var(--v3-acc)" }}
+                    aria-hidden
+                  >
+                    <span className="toggle-closed">[+]</span>
+                    <span className="toggle-open">[−]</span>
+                  </span>
+                </summary>
+                <div
+                  className="px-4 pb-4 pt-1 text-[13px] leading-relaxed"
+                  style={{ color: "var(--v3-ink-300)" }}
+                >
+                  {a}
+                </div>
+              </details>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* FAQPage JSON-LD */}
+      {/* FAQPage JSON-LD — derived from the same array as the visible FAQ
+          above so structured data and the rendered Q/A can never drift. */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "FAQPage",
-            mainEntity: [
-              {
-                "@type": "Question",
-                name: "What data sources does TrendingRepo track?",
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: "GitHub (stars, forks, releases, contributors), Reddit (r/programming, r/webdev, r/MachineLearning), Hacker News front page, ProductHunt daily launches, Bluesky tech feeds, and dev.to trending articles. Every signal is timestamped and scored for momentum.",
-                },
-              },
-              {
-                "@type": "Question",
-                name: "How is the momentum score calculated?",
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: "A composite 0–100 score based on 24h / 7d / 30d star velocity, fork growth, contributor churn, commit freshness, release cadence, and anti-spam dampening. Breakouts are flagged when velocity exceeds rolling baselines by 2σ.",
-                },
-              },
-              {
-                "@type": "Question",
-                name: "Can I query TrendingRepo from a terminal or agent?",
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: "Yes — three interfaces: a zero-dependency CLI (Node 18+), an MCP server for Claude / any agent, and a Portal v0.1 endpoint. All three hit the same live pipeline, so results never drift.",
-                },
-              },
-              {
-                "@type": "Question",
-                name: "How often is the data refreshed?",
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: "Scrapers run every 3 hours via GitHub Actions. The homepage is ISR-cached for 30 minutes, so the edge serves a static hit while the pipeline ingests fresh signals in the background.",
-                },
-              },
-              {
-                "@type": "Question",
-                name: "Is there an API?",
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: "Yes — public REST endpoints under /api/repos with filtering, sorting, and pagination. The Portal v0.1 manifest exposes the same tools over structured JSON-RPC.",
-                },
-              },
-              {
-                "@type": "Question",
-                name: "How do I submit my own repo?",
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: "Click the 'Drop repo' button in the header or visit /submit. Any GitHub repo is eligible — the pipeline scores it on the next ingest cycle.",
-                },
-              },
-            ],
+            mainEntity: HOMEPAGE_FAQ.map(({ q, a }) => ({
+              "@type": "Question",
+              name: q,
+              acceptedAnswer: { "@type": "Answer", text: a },
+            })),
           }),
         }}
       />

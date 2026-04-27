@@ -102,47 +102,92 @@ export function PricingCard({ tier, cadence, highlighted = false }: PricingCardP
     tier.key === "team" || tier.key === "enterprise" ? features : features.slice(0, 8);
 
   const borderClass = highlighted
-    ? "border-brand/60 shadow-[0_0_0_1px_var(--color-brand-subtle)]"
-    : "border-border-primary";
+    ? "border-[color:var(--v2-acc)]"
+    : "border-[color:var(--v2-line-200)]";
 
   return (
     <article
-      className={`relative flex h-full flex-col rounded-md border bg-bg-secondary/40 p-6 font-mono ${borderClass}`}
+      className={`relative flex h-full flex-col border bg-[color:var(--v2-bg-050)] p-6 font-mono ${borderClass}`}
+      style={{ borderRadius: 2 }}
       data-tier={tier.key}
     >
       {highlighted ? (
-        <span className="absolute -top-3 left-6 rounded-sm border border-brand/60 bg-bg-primary px-2 py-0.5 text-[10px] uppercase tracking-wider text-brand">
-          Most popular
+        <span
+          className="v2-tag absolute -top-3 left-6"
+          style={{
+            background: "var(--v2-acc-soft)",
+            borderColor: "var(--v2-acc)",
+            color: "var(--v2-acc)",
+          }}
+        >
+          MOST POPULAR
         </span>
       ) : null}
 
       <header>
-        <h2 className="text-sm uppercase tracking-wider text-text-tertiary">
-          {tier.displayName}
+        <h2
+          className="v2-mono"
+          style={{ fontSize: 11, color: "var(--v2-ink-400)" }}
+        >
+          {`// ${tier.displayName.toUpperCase()}`}
         </h2>
         <div className="mt-3 flex items-baseline gap-2">
-          <span className="text-4xl font-bold text-text-primary">{price.lead}</span>
-          <span className="text-xs text-text-tertiary">{price.cadenceHint}</span>
+          <span
+            className="tabular-nums"
+            style={{
+              fontFamily: "var(--font-geist), Inter, sans-serif",
+              fontSize: 36,
+              fontWeight: 510,
+              letterSpacing: "-0.022em",
+              color: "var(--v2-ink-000)",
+              lineHeight: 1,
+            }}
+          >
+            {price.lead}
+          </span>
+          <span
+            className="v2-mono"
+            style={{ fontSize: 10, color: "var(--v2-ink-400)" }}
+          >
+            {price.cadenceHint}
+          </span>
         </div>
-        <p className="mt-3 min-h-[2.5rem] text-sm text-text-secondary">{tier.tagline}</p>
+        <p
+          className="mt-3 min-h-[2.5rem]"
+          style={{ fontSize: 13, color: "var(--v2-ink-200)" }}
+        >
+          {tier.tagline}
+        </p>
         {tier.minSeats > 1 ? (
-          <p className="mt-1 text-[11px] text-text-tertiary">
-            {"// "}min {tier.minSeats} seats
+          <p
+            className="v2-mono mt-1"
+            style={{ fontSize: 10, color: "var(--v2-ink-400)" }}
+          >
+            {`// MIN ${tier.minSeats} SEATS`}
           </p>
         ) : null}
       </header>
 
-      <ul className="my-6 flex-1 space-y-2 text-sm">
+      <ul className="my-6 flex-1 space-y-2" style={{ fontSize: 13 }}>
         {displayFeatures.map((line) => (
           <li
             key={line.label}
             className={`flex items-start gap-2 ${
-              line.present ? "text-text-primary" : "text-text-tertiary/60 line-through"
+              line.present ? "" : "line-through"
             }`}
+            style={{
+              color: line.present ? "var(--v2-ink-100)" : "var(--v2-ink-400)",
+              opacity: line.present ? 1 : 0.6,
+            }}
           >
             <span
               aria-hidden="true"
-              className={`mt-0.5 font-bold ${line.present ? "text-brand" : "text-border-primary"}`}
+              className="mt-0.5 font-bold"
+              style={{
+                color: line.present
+                  ? "var(--v2-acc)"
+                  : "var(--v2-line-300)",
+              }}
             >
               {line.present ? "+" : "-"}
             </span>
@@ -154,13 +199,13 @@ export function PricingCard({ tier, cadence, highlighted = false }: PricingCardP
       <footer>
         <a
           href={tier.ctaHref}
-          className={`block w-full rounded-sm px-4 py-2.5 text-center text-sm uppercase tracking-wider transition ${
-            highlighted
-              ? "bg-brand text-bg-primary hover:opacity-90"
-              : "border border-border-primary bg-bg-primary text-text-primary hover:border-brand/60 hover:text-brand"
+          className={`v2-btn block w-full text-center ${
+            highlighted ? "v2-btn-primary" : "v2-btn-ghost"
           }`}
+          style={{ minHeight: 42 }}
         >
-          {tier.ctaLabel}
+          {tier.ctaLabel.toUpperCase()}
+          <span aria-hidden style={{ marginLeft: 8 }}>→</span>
         </a>
       </footer>
     </article>

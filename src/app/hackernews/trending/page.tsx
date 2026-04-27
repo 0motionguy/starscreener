@@ -17,6 +17,10 @@ import {
   refreshHackernewsMentionsFromStore,
   repoFullNameToHref,
 } from "@/lib/hackernews";
+import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
+import { buildHackerNewsHeader } from "@/components/news/newsTopMetrics";
+
+const HN_ACCENT = "rgba(245, 110, 15, 0.85)";
 
 export const dynamic = "force-static";
 
@@ -81,32 +85,17 @@ export default async function HackerNewsTrendingPage() {
           <ColdState />
         ) : (
           <>
-            {/* Stat tiles */}
-            <section className="mb-6 grid grid-cols-2 md:grid-cols-4 gap-3">
-              <StatTile
-                label="LAST SCRAPE"
-                value={formatRelative(trendingFile.fetchedAt)}
-                hint={new Date(trendingFile.fetchedAt)
-                  .toISOString()
-                  .slice(0, 16)
-                  .replace("T", " ")}
+            {/* V3 top header — 3 chart cards + 3 hero stories. The legacy
+                4-tile stat row that used to live below this is dropped: the
+                snapshot card + activity bars cover every metric it carried. */}
+            <div className="mb-6">
+              <NewsTopHeaderV3
+                eyebrow="// HACKERNEWS · TOP STORIES"
+                status={`${allStories.length.toLocaleString("en-US")} TRACKED · ${trendingFile.windowHours}H`}
+                {...buildHackerNewsHeader(trendingFile, getHnTopStories(3))}
+                accent={HN_ACCENT}
               />
-              <StatTile
-                label="STORIES TRACKED"
-                value={allStories.length.toLocaleString("en-US")}
-                hint={`${trendingFile.windowHours}h window · ${trendingFile.scannedTotal.toLocaleString("en-US")} scanned`}
-              />
-              <StatTile
-                label="FRONT PAGE"
-                value={frontPageCount.toLocaleString("en-US")}
-                hint="ever hit top 30"
-              />
-              <StatTile
-                label="REPOS LINKED"
-                value={reposLinked.toLocaleString("en-US")}
-                hint="github repos mentioned 7d"
-              />
-            </section>
+            </div>
 
             {/* Feed */}
             <section className="border border-border-primary rounded-md bg-bg-secondary overflow-hidden">

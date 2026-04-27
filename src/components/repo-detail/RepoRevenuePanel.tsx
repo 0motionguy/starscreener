@@ -110,7 +110,7 @@ function VerifiedRevenueCard({
   return (
     <div
       aria-label="Verified revenue"
-      className="rounded-card border border-border-primary bg-bg-card p-4 shadow-card"
+      className="v2-card p-4"
     >
       <header className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex items-center gap-2">
@@ -173,7 +173,8 @@ function TrustmrrClaimCard({
   return (
     <div
       aria-label="Linked TrustMRR profile"
-      className="rounded-card border border-border-primary/70 bg-bg-muted/40 p-4"
+      className="v2-card p-4"
+      style={{ background: "var(--v2-bg-100)" }}
     >
       <header className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex items-center gap-2">
@@ -224,7 +225,8 @@ function SelfReportedRevenueCard({
   return (
     <div
       aria-label="Self-reported revenue"
-      className="rounded-card border border-border-primary/70 bg-bg-muted/50 p-4"
+      className="v2-card p-4"
+      style={{ background: "var(--v2-bg-100)" }}
     >
       <header className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex items-center gap-2">

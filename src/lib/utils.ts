@@ -96,11 +96,11 @@ export function idToSlug(id: string): string {
  * Returns Tailwind-compatible color token strings.
  */
 export function getMomentumColor(score: number): string {
-  if (score >= 80) return "text-red-500"; // hot
-  if (score >= 60) return "text-orange-500"; // warm
-  if (score >= 40) return "text-yellow-500"; // neutral
-  if (score >= 20) return "text-blue-400"; // cool
-  return "text-gray-400"; // cold
+  if (score >= 80) return "text-heat-hot"; // hot — Liquid Lava
+  if (score >= 60) return "text-heat-warm"; // warm — amber
+  if (score >= 40) return "text-heat-neutral"; // neutral
+  if (score >= 20) return "text-heat-cool"; // cool — blue
+  return "text-text-muted"; // cold — V3 muted ink
 }
 
 /**

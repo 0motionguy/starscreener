@@ -187,14 +187,21 @@ function ModerationRow({
   const isPending = row.status === "pending_moderation";
   return (
     <article
-      className={
-        "rounded-card border p-4 shadow-card " +
-        (row.status === "published" || row.status === "shipped"
-          ? "border-up/50 bg-up/5"
-          : row.status === "rejected"
-            ? "border-down/50 bg-down/5"
-            : "border-border-primary bg-bg-card")
-      }
+      className="v2-card p-4"
+      style={{
+        background:
+          row.status === "published" || row.status === "shipped"
+            ? "rgba(34, 197, 94, 0.06)"
+            : row.status === "rejected"
+              ? "rgba(255, 77, 77, 0.06)"
+              : "var(--v2-bg-050)",
+        borderColor:
+          row.status === "published" || row.status === "shipped"
+            ? "var(--v2-sig-green)"
+            : row.status === "rejected"
+              ? "var(--v2-sig-red)"
+              : "var(--v2-line-std)",
+      }}
     >
       <header className="flex flex-wrap items-start justify-between gap-3">
         <div>

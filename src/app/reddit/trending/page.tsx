@@ -12,6 +12,10 @@ import {
 import { extractTopics } from "@/lib/reddit-topics";
 import { SubredditMindshareMap } from "@/components/reddit-trending/SubredditMindshareMap";
 import { AllTrendingTabs } from "@/components/reddit-trending/AllTrendingTabs";
+import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
+import { buildRedditHeader } from "@/components/news/newsTopMetrics";
+
+const REDDIT_ACCENT = "rgba(255, 77, 77, 0.85)";
 
 export const dynamic = "force-dynamic";
 
@@ -68,43 +72,23 @@ export default async function RedditTrendingPage() {
           <ColdState />
         ) : (
           <>
+            {/* V3 top header — 3 chart cards + 3 hero posts. */}
+            <div className="mb-6">
+              <NewsTopHeaderV3
+                eyebrow="// REDDIT · TOP POSTS"
+                status={`${stats.totalPosts.toLocaleString("en-US")} TRACKED · 7D · ${
+                  allPostsFetchedAt ? formatRelative(allPostsFetchedAt).toUpperCase() : "COLD"
+                }`}
+                {...buildRedditHeader(posts, stats)}
+                accent={REDDIT_ACCENT}
+              />
+            </div>
+
             <div className="hidden md:block">
               <Suspense fallback={<MapSkeleton />}>
                 <SubredditMindshareMap posts={posts} limit={60} />
               </Suspense>
             </div>
-
-            <section className="mt-6 mb-6 grid grid-cols-2 md:grid-cols-4 gap-3">
-              <StatTile
-                label="LAST SCRAPE"
-                value={
-                  allPostsFetchedAt ? formatRelative(allPostsFetchedAt) : "—"
-                }
-                hint={
-                  allPostsFetchedAt
-                    ? new Date(allPostsFetchedAt)
-                        .toISOString()
-                        .slice(0, 16)
-                        .replace("T", " ")
-                    : "run scraper"
-                }
-              />
-              <StatTile
-                label="POSTS TRACKED"
-                value={stats.totalPosts.toLocaleString("en-US")}
-                hint="last 7d, deduped + capped"
-              />
-              <StatTile
-                label="BREAKOUTS 24H"
-                value={String(stats.breakouts24h)}
-                hint="posts >=10x sub baseline"
-              />
-              <StatTile
-                label="TOPICS"
-                value={String(topics7d.length)}
-                hint={`${stats.postsWithLinkedRepos} posts link a tracked repo`}
-              />
-            </section>
 
             <Suspense fallback={<FeedSkeleton />}>
               <AllTrendingTabs posts={posts} />

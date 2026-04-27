@@ -37,7 +37,7 @@ export function RecentLaunches({
   return (
     <section
       aria-labelledby="recent-launches-heading"
-      className="rounded-card border border-border-primary bg-bg-card shadow-card"
+      className="v2-card"
     >
       <header className="flex items-baseline justify-between px-4 pt-4 pb-2">
         <h2

@@ -173,7 +173,7 @@ function ReactionTile({
   icon: typeof Hammer;
 }): JSX.Element {
   return (
-    <div className="rounded-card border border-border-primary bg-bg-card p-3 shadow-card">
+    <div className="v2-card p-3">
       <div className="flex items-center gap-1.5">
         <Icon className="size-3.5 text-text-tertiary" aria-hidden />
         <span className="font-mono text-[10px] uppercase tracking-wider text-text-tertiary">

@@ -210,7 +210,7 @@ function SignalTooltip({
   const activeSources = SIGNAL_SOURCES.filter((src) => point.counts[src] > 0);
 
   return (
-    <div className="bg-bg-card border border-border-primary rounded-card px-3 py-2 shadow-card min-w-[200px]">
+    <div className="v2-card px-3 py-2 min-w-[200px]">
       <p className="text-[11px] font-mono text-text-tertiary mb-1.5">
         {dateLabel}
       </p>
@@ -289,7 +289,7 @@ function MarkerTooltip({
     day: "numeric",
   });
   return (
-    <div className="bg-bg-card border border-border-primary rounded-card px-3 py-2 shadow-card max-w-[280px]">
+    <div className="v2-card px-3 py-2 max-w-[280px]">
       <div className="flex items-center justify-between gap-3 mb-1">
         <span
           className="inline-flex items-center gap-1.5 text-[11px] font-mono uppercase tracking-wider"
@@ -495,7 +495,7 @@ export function RepoDetailChart({
 
   return (
     <section
-      className="bg-bg-card rounded-card p-4 border border-border-primary shadow-card"
+      className="v2-card p-4"
       aria-label={`Star growth and daily mentions over ${periodDays} days`}
     >
       <div className="flex items-center justify-between gap-4 mb-4 flex-wrap">

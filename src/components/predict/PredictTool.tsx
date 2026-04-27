@@ -115,7 +115,7 @@ export function PredictTool({ initialRepo = "", sparklineData }: PredictToolProp
     <div className="space-y-6">
       <form
         onSubmit={handleSubmit}
-        className="v2-card rounded-card border border-border-primary bg-bg-card p-4 shadow-card"
+        className="v2-card p-4"
       >
         <label className="flex flex-col gap-2">
           <span className="font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
@@ -210,7 +210,13 @@ function ForecastCard({
 }) {
   if (!item.prediction) {
     return (
-      <article className="v2-card rounded-card border border-dashed border-border-primary bg-bg-muted/40 p-4">
+      <article
+        className="v2-card p-4"
+        style={{
+          borderStyle: "dashed",
+          background: "var(--v2-bg-100)",
+        }}
+      >
         <header className="flex items-center gap-2">
           <LineChart className="size-4 text-text-tertiary" aria-hidden />
           <h3 className="font-mono text-[11px] uppercase tracking-wider text-text-tertiary">
@@ -248,7 +254,7 @@ function ForecastCard({
 
   return (
     <article
-      className={`v2-card rounded-card border border-border-primary bg-bg-primary/60 ${glow} overflow-hidden hover:border-brand/40 transition-colors`}
+      className={`v2-card ${glow} overflow-hidden transition-colors`}
     >
       {/* Terminal-bar header */}
       <div className="v2-term-bar flex items-center gap-2 px-4 pt-4">

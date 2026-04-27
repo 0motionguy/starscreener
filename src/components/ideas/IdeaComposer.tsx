@@ -95,7 +95,7 @@ export function IdeaComposer({ onPublished }: IdeaComposerProps) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-card border border-border-primary bg-bg-card p-4 shadow-card space-y-3"
+      className="v2-card p-4 space-y-3"
       data-testid="idea-composer"
     >
       <div className="flex flex-col gap-1">
@@ -108,7 +108,13 @@ export function IdeaComposer({ onPublished }: IdeaComposerProps) {
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Ship a 1-line idea that doesn't exist yet"
           maxLength={80}
-          className="rounded-md border border-border-primary bg-bg-muted px-3 py-2 font-mono text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-1 focus:ring-brand"
+          className="px-3 py-2 font-mono text-sm placeholder:text-text-tertiary focus:outline-none"
+          style={{
+            background: "var(--v2-bg-100)",
+            border: "1px solid var(--v2-line-200)",
+            borderRadius: 2,
+            color: "var(--v2-ink-100)",
+          }}
         />
         <span className="text-[10px] text-text-tertiary tabular-nums self-end">
           {title.trim().length}/80
@@ -125,7 +131,13 @@ export function IdeaComposer({ onPublished }: IdeaComposerProps) {
           placeholder="Why this matters in one breath. 20-280 chars. No URLs (use full-mode composer for links)."
           maxLength={280}
           rows={3}
-          className="rounded-md border border-border-primary bg-bg-muted px-3 py-2 font-mono text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-1 focus:ring-brand resize-none"
+          className="px-3 py-2 font-mono text-sm placeholder:text-text-tertiary focus:outline-none resize-none"
+          style={{
+            background: "var(--v2-bg-100)",
+            border: "1px solid var(--v2-line-200)",
+            borderRadius: 2,
+            color: "var(--v2-ink-100)",
+          }}
         />
         <span className="text-[10px] text-text-tertiary tabular-nums self-end">
           {pitch.trim().length}/280
@@ -141,7 +153,13 @@ export function IdeaComposer({ onPublished }: IdeaComposerProps) {
           value={targetRepo}
           onChange={(e) => setTargetRepo(e.target.value)}
           placeholder="vercel/next.js"
-          className="rounded-md border border-border-primary bg-bg-muted px-3 py-2 font-mono text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-1 focus:ring-brand"
+          className="px-3 py-2 font-mono text-sm placeholder:text-text-tertiary focus:outline-none"
+          style={{
+            background: "var(--v2-bg-100)",
+            border: "1px solid var(--v2-line-200)",
+            borderRadius: 2,
+            color: "var(--v2-ink-100)",
+          }}
         />
       </div>
 
@@ -157,23 +175,24 @@ export function IdeaComposer({ onPublished }: IdeaComposerProps) {
       ) : null}
 
       <div className="flex items-center justify-between gap-2">
-        <p className="text-[10px] text-text-tertiary">
-          First 5 posts land in moderation. After that, auto-publish.
+        <p className="v2-mono" style={{ fontSize: 10, color: "var(--v2-ink-400)" }}>
+          {"// FIRST 5 POSTS LAND IN MODERATION · AFTER THAT, AUTO-PUBLISH"}
         </p>
         <button
           type="submit"
           disabled={disabled}
           className={cn(
-            "inline-flex items-center gap-2 rounded-button border border-border-primary bg-brand/90 px-4 py-2 font-mono text-xs font-semibold uppercase tracking-wider text-bg-primary hover:bg-brand transition-colors min-h-[40px]",
-            disabled && "cursor-not-allowed opacity-50 hover:bg-brand/90",
+            "v2-btn v2-btn-primary",
+            disabled && "cursor-not-allowed opacity-50",
           )}
+          style={{ minHeight: 40 }}
         >
           {submitting ? (
-            <LoaderCircle className="size-4 animate-spin" aria-hidden />
+            <LoaderCircle className="size-4 animate-spin" aria-hidden style={{ marginRight: 8 }} />
           ) : (
-            <Send className="size-4" aria-hidden />
+            <Send className="size-4" aria-hidden style={{ marginRight: 8 }} />
           )}
-          Post idea
+          POST IDEA
         </button>
       </div>
     </form>

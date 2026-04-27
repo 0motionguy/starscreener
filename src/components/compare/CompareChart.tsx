@@ -103,7 +103,7 @@ export function CompareChart({ repos }: CompareChartProps) {
   const data = buildChartData(repos);
 
   return (
-    <div className="bg-bg-card rounded-card border border-border-primary p-4 shadow-card animate-fade-in">
+    <div className="v2-card p-4 animate-fade-in">
       <h3 className="text-sm font-medium text-text-secondary mb-3">
         Star Activity (30 days)
       </h3>

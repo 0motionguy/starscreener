@@ -131,7 +131,7 @@ export function VerifiedStartupCard({
   const logoUrl = logoFromDomain(host, 128);
 
   return (
-    <article className="group relative flex flex-col gap-3 rounded-card border border-border-primary bg-bg-card p-4 shadow-card transition hover:border-brand/40 hover:bg-bg-card-hover">
+    <article className="group relative flex flex-col gap-3 v2-card p-4 transition hover:border-brand/40 hover:bg-bg-card-hover">
       {/* Header: logo + name + tracked badge */}
       <header className="flex items-start gap-3">
         <LogoBlock logoUrl={logoUrl} name={startup.name} />

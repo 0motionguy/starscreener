@@ -17,6 +17,10 @@ import {
   repoFullNameToHref,
   type LobstersStory,
 } from "@/lib/lobsters";
+import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
+import { buildLobstersHeader } from "@/components/news/newsTopMetrics";
+
+const LOBSTERS_ACCENT = "rgba(172, 19, 13, 0.85)";
 
 export const dynamic = "force-static";
 
@@ -90,35 +94,16 @@ export default async function LobstersPage() {
           <ColdState />
         ) : (
           <>
-            <section className="mb-6 grid grid-cols-2 md:grid-cols-4 gap-3">
-              <StatTile
-                label="LAST SCRAPE"
-                value={formatRelative(file.fetchedAt)}
-                hint={
-                  file.fetchedAt
-                    ? new Date(file.fetchedAt)
-                        .toISOString()
-                        .slice(0, 16)
-                        .replace("T", " ")
-                    : undefined
-                }
+            {/* V3 top header — 3 charts + 3 hero stories. The legacy stat
+                tiles below this were dropped — covered by the V3 snapshot. */}
+            <div className="mb-6">
+              <NewsTopHeaderV3
+                eyebrow="// LOBSTERS · TOP STORIES"
+                status={`${allStories.length.toLocaleString("en-US")} TRACKED · ${file.windowHours}H`}
+                {...buildLobstersHeader(file, getLobstersTopStories(3))}
+                accent={LOBSTERS_ACCENT}
               />
-              <StatTile
-                label="STORIES TRACKED"
-                value={allStories.length.toLocaleString("en-US")}
-                hint={`${file.windowHours}h window, ${file.scannedTotal.toLocaleString("en-US")} scanned`}
-              />
-              <StatTile
-                label="GITHUB STORIES"
-                value={linkedStories.toLocaleString("en-US")}
-                hint="stories with tracked repo links"
-              />
-              <StatTile
-                label="REPOS LINKED"
-                value={leaderboard.length.toLocaleString("en-US")}
-                hint="mention buckets in last 7d"
-              />
-            </section>
+            </div>
 
             <div
               className={

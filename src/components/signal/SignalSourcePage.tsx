@@ -58,6 +58,13 @@ interface SignalSourcePageProps {
   tabs: SignalTabSpec[];
   /** Optional right-rail content (lg+). */
   rightRail?: React.ReactNode;
+  /**
+   * Optional content rendered between the header strip and the metric
+   * grid. /signals uses this to inject the V3 cross-source summary
+   * (3 charts + 3 hero stories). Server-rendered ReactNode only —
+   * functions would cross the client boundary.
+   */
+  topSlot?: React.ReactNode;
 }
 
 export function SignalSourcePage({
@@ -70,6 +77,7 @@ export function SignalSourcePage({
   metrics,
   tabs,
   rightRail,
+  topSlot,
 }: SignalSourcePageProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -114,6 +122,8 @@ export function SignalSourcePage({
             </p>
           ) : null}
         </header>
+
+        {topSlot ? <div className="mb-6">{topSlot}</div> : null}
 
         <SignalMetricStrip metrics={metrics} />
 

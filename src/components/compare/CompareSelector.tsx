@@ -280,7 +280,7 @@ export function CompareSelector() {
             </div>
 
             {suggestions.length > 0 && (
-              <div className="bg-bg-card border border-border-primary rounded-card shadow-card overflow-hidden">
+              <div className="v2-card overflow-hidden">
                 {suggestions.map((repo) => (
                   <button
                     key={repo.id}

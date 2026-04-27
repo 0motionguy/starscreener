@@ -11,7 +11,11 @@
 // canonical repo href helper, leaderboard surface.
 
 import bskyMentionsData from "../../data/bluesky-mentions.json";
-import { getDataStore } from "./data-store";
+
+// data-store import is dynamic: pulling it statically here drags ioredis
+// (Node-only `dns` dep) into client bundles whenever a client component
+// imports `getBlueskyMentions`. The refresh function below is server-only
+// and resolves the dep at runtime.
 
 // ---------------------------------------------------------------------------
 // Types
@@ -202,6 +206,7 @@ export async function refreshBlueskyMentionsFromStore(): Promise<{
     return { source: "memory", ageMs: Date.now() - lastRefreshMs };
   }
   inflight = (async () => {
+    const { getDataStore } = await import("./data-store");
     const result = await getDataStore().read<BskyMentionsFile>(
       "bluesky-mentions",
     );

@@ -258,7 +258,7 @@ export async function ProjectSurfaceMap({
   ];
 
   return (
-    <section className="rounded-card border border-border-primary bg-bg-card p-4 shadow-card">
+    <section className="v2-card p-4">
       <header className="flex items-start justify-between gap-3 mb-4">
         <div>
           <h2 className="font-mono text-[11px] uppercase tracking-wider text-text-secondary">

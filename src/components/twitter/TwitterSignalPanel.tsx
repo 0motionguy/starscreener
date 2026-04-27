@@ -32,23 +32,48 @@ function Stat({
 
 export function TwitterSignalPanel({ panel }: TwitterSignalPanelProps) {
   return (
-    <section className="rounded-card border border-border-primary bg-bg-card p-4 shadow-card">
-      <header className="flex items-center justify-between gap-3 flex-wrap">
-        <div>
-          <div className="flex items-center gap-2">
-            <h2 className="font-mono text-[11px] uppercase tracking-wider text-text-secondary">
-              X signal
-            </h2>
-            <XSignalBadge badge={panel.rowBadge} />
-          </div>
-          <p className="mt-1 text-sm text-text-tertiary">
-            Ranked confirmation layer for repo-specific X buzz in the last 24h.
-          </p>
-        </div>
-        <span className="font-mono text-[11px] text-text-tertiary">
-          refreshed {getRelativeTime(panel.summary.lastScannedAt)}
+    <section className="v2-card overflow-hidden">
+      <div className="v2-term-bar">
+        <span aria-hidden className="flex items-center gap-1.5">
+          <span className="block h-1.5 w-1.5 rounded-full v2-live-dot" />
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-line-200)" }}
+          />
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-line-200)" }}
+          />
         </span>
-      </header>
+        <span
+          className="flex-1 truncate"
+          style={{ color: "var(--v2-ink-200)" }}
+        >
+          {"// X · SIGNAL · 24H"}
+        </span>
+        <span
+          className="v2-stat shrink-0"
+          style={{ color: "var(--v2-ink-300)" }}
+        >
+          REFRESHED {getRelativeTime(panel.summary.lastScannedAt).toUpperCase()}
+        </span>
+      </div>
+
+      <div className="p-4">
+        <header className="flex items-center justify-between gap-3 flex-wrap mb-4">
+          <div className="flex items-center gap-2">
+            <XSignalBadge badge={panel.rowBadge} />
+            <p
+              style={{
+                fontSize: 13,
+                color: "var(--v2-ink-300)",
+              }}
+            >
+              Ranked confirmation layer for repo-specific X buzz in the last
+              24h.
+            </p>
+          </div>
+        </header>
 
       <div className="mt-4 grid grid-cols-2 lg:grid-cols-5 gap-3">
         <Stat
@@ -190,6 +215,7 @@ export function TwitterSignalPanel({ panel }: TwitterSignalPanelProps) {
             </Link>
           ) : null}
         </aside>
+      </div>
       </div>
     </section>
   );

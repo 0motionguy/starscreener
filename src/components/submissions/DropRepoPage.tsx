@@ -305,7 +305,7 @@ export function DropRepoPage() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="inline-flex h-11 items-center gap-2 rounded-card bg-brand px-4 text-sm font-medium text-text-inverse transition-colors hover:bg-brand-hover disabled:cursor-not-allowed disabled:opacity-70"
+                className="v2-btn v2-btn-primary disabled:cursor-not-allowed disabled:opacity-70"
               >
                 {submitting ? (
                   <LoaderCircle className="h-4 w-4 animate-spin" />

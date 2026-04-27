@@ -18,6 +18,10 @@ import {
   refreshBlueskyMentionsFromStore,
   repoFullNameToHref,
 } from "@/lib/bluesky";
+import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
+import { buildBlueskyHeader } from "@/components/news/newsTopMetrics";
+
+const BSKY_ACCENT = "rgba(58, 214, 197, 0.85)";
 
 export const dynamic = "force-static";
 
@@ -84,32 +88,17 @@ export default async function BlueskyTrendingPage() {
           <ColdState />
         ) : (
           <>
-            {/* Stat tiles */}
-            <section className="mb-6 grid grid-cols-2 md:grid-cols-4 gap-3">
-              <StatTile
-                label="LAST SCRAPE"
-                value={formatRelative(trendingFile.fetchedAt)}
-                hint={new Date(trendingFile.fetchedAt)
-                  .toISOString()
-                  .slice(0, 16)
-                  .replace("T", " ")}
+            {/* V3 top header — 3 charts + 3 hero posts. The legacy stat
+                tiles below this were dropped — the V3 snapshot card +
+                activity bars carry the same numbers in less space. */}
+            <div className="mb-6">
+              <NewsTopHeaderV3
+                eyebrow="// BLUESKY · TOP POSTS"
+                status={`${allPosts.length.toLocaleString("en-US")} TRACKED · 24H`}
+                {...buildBlueskyHeader(trendingFile, getBlueskyTopPosts(3))}
+                accent={BSKY_ACCENT}
               />
-              <StatTile
-                label="POSTS TRACKED"
-                value={allPosts.length.toLocaleString("en-US")}
-                hint={`${queryCount} queries across ${familyCount} families`}
-              />
-              <StatTile
-                label="TOPIC FAMILIES"
-                value={familyCount.toLocaleString("en-US")}
-                hint={BLUESKY_TRENDING_KEYWORDS.slice(0, 3).join(" · ")}
-              />
-              <StatTile
-                label="REPOS LINKED"
-                value={reposLinked.toLocaleString("en-US")}
-                hint="github repos mentioned 7d"
-              />
-            </section>
+            </div>
 
             {/* Feed */}
             <section className="border border-border-primary rounded-md bg-bg-secondary overflow-hidden">

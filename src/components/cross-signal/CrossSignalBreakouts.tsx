@@ -41,19 +41,34 @@ export function CrossSignalBreakouts({
   return (
     <section
       aria-labelledby="cross-signal-breakouts-heading"
-      className="rounded-card border border-border-primary bg-bg-card shadow-card"
+      className="v2-card overflow-hidden"
     >
-      <header className="flex items-baseline justify-between px-4 pt-4 pb-2">
-        <h2
+      <div className="v2-term-bar">
+        <span aria-hidden className="flex items-center gap-1.5">
+          <span className="block h-1.5 w-1.5 rounded-full v2-live-dot" />
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-line-200)" }}
+          />
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-line-200)" }}
+          />
+        </span>
+        <span
           id="cross-signal-breakouts-heading"
-          className="font-mono text-[11px] uppercase tracking-wider text-text-secondary"
+          className="flex-1 truncate"
+          style={{ color: "var(--v2-ink-200)" }}
         >
-          Cross-Signal Breakouts
-        </h2>
-        <p className="text-[11px] text-text-tertiary">
-          Firing across multiple channels
-        </p>
-      </header>
+          {"// CROSS-SIGNAL BREAKOUTS"}
+        </span>
+        <span
+          className="v2-stat shrink-0"
+          style={{ color: "var(--v2-ink-300)" }}
+        >
+          {candidates.length} FIRING
+        </span>
+      </div>
 
       <ol className="divide-y divide-border-primary/40">
         {candidates.map((repo, i) => {
@@ -88,10 +103,17 @@ export function CrossSignalBreakouts({
                 <span className="text-[12px] text-text-primary truncate font-medium inline-flex items-center gap-2 min-w-0">
                   {hotLaunch ? (
                     <span
-                      className="shrink-0 rounded-sm bg-brand/15 text-brand font-mono text-[9px] px-1 py-px uppercase tracking-wider"
+                      className="v2-tag shrink-0"
+                      style={{
+                        fontSize: 9,
+                        padding: "1px 4px",
+                        background: "var(--v2-acc-soft)",
+                        borderColor: "var(--v2-acc)",
+                        color: "var(--v2-acc)",
+                      }}
                       title={`Hot launch — ${repo.producthunt?.launch?.votesCount ?? 0} PH votes, ${repo.producthunt?.launch?.daysSinceLaunch ?? 0}d ago`}
                     >
-                      🚀 Hot launch
+                      🚀 HOT LAUNCH
                     </span>
                   ) : null}
                   <span className="truncate">{repo.fullName}</span>

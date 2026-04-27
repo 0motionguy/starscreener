@@ -54,6 +54,15 @@ import { DevtoTabBody } from "./_tabs/devto";
 import { ProductHuntTabBody } from "./_tabs/producthunt";
 import { LobstersTabBody } from "./_tabs/lobsters";
 
+import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
+import {
+  buildHackerNewsHeader,
+  buildBlueskyHeader,
+  buildDevtoHeader,
+  buildProductHuntHeader,
+  buildLobstersHeader,
+} from "@/components/news/newsTopMetrics";
+
 export const dynamic = "force-dynamic";
 
 const SOURCE_META: Record<TabId, { code: string; color: string; label: string }> = {
@@ -289,15 +298,6 @@ export default async function NewsPage({
           </p>
         </header>
 
-        {/* Cross-source hero */}
-        <NewsHero
-          totalItems={totalItems}
-          totalScore={totalScore}
-          sourceVolumes={sourceVolumes}
-          topTopics={topTopics}
-          topItem={topItem}
-        />
-
         {/* Tab strip */}
         <nav
           className="mb-6 flex items-center gap-1 flex-nowrap md:flex-wrap overflow-x-auto md:overflow-visible scrollbar-hide border-b border-[var(--v2-line-std)]"
@@ -325,6 +325,47 @@ export default async function NewsPage({
             );
           })}
         </nav>
+
+        {/* Per-tab V3 header — 3 metric chart cards + 3 hero feature
+            cards. Accent flips with the active source so the page chrome
+            visually matches whichever firehose you're reading. Sits
+            between the tab strip and the long list so the morning-glance
+            answer is always above the fold. */}
+        {activeTab === "hackernews"
+          ? renderTabHeader(
+              "hackernews",
+              buildHackerNewsHeader(hnFile, hnStoriesTop),
+              SOURCE_META.hackernews,
+            )
+          : null}
+        {activeTab === "bluesky"
+          ? renderTabHeader(
+              "bluesky",
+              buildBlueskyHeader(bskyFile, bskyPostsTop),
+              SOURCE_META.bluesky,
+            )
+          : null}
+        {activeTab === "devto"
+          ? renderTabHeader(
+              "devto",
+              buildDevtoHeader(devtoFile, devtoLeaderboard),
+              SOURCE_META.devto,
+            )
+          : null}
+        {activeTab === "producthunt"
+          ? renderTabHeader(
+              "producthunt",
+              buildProductHuntHeader(phFile, phLaunchesTop),
+              SOURCE_META.producthunt,
+            )
+          : null}
+        {activeTab === "lobsters"
+          ? renderTabHeader(
+              "lobsters",
+              buildLobstersHeader(lobstersFile, lobstersStoriesTop),
+              SOURCE_META.lobsters,
+            )
+          : null}
 
         {/* Active tab body */}
         {activeTab === "hackernews" ? (
@@ -632,5 +673,33 @@ function ColdCard({
       </h2>
       <p className="mt-3 text-sm text-text-secondary max-w-xl">{body}</p>
     </section>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Tab header renderer — wraps NewsTopHeaderV3 with eyebrow + accent so each
+// of the 5 tabs gets the same shape with source-specific colouring.
+// ---------------------------------------------------------------------------
+
+function renderTabHeader(
+  tabId: TabId,
+  data: ReturnType<typeof buildHackerNewsHeader>,
+  source: { code: string; color: string; label: string },
+) {
+  // Pull the headline number out of the snapshot card for the
+  // eyebrow status pill — keeps the chrome readable above the fold.
+  const snapshot = data.cards[0];
+  const itemCount =
+    snapshot.variant === "snapshot" ? snapshot.value : "0";
+  return (
+    <div className="my-4">
+      <NewsTopHeaderV3
+        eyebrow={`// ${source.label} · LIVE FIREHOSE`}
+        status={`${itemCount} TRACKED · ${tabId.toUpperCase()}`}
+        cards={data.cards}
+        topStories={data.topStories}
+        accent={source.color}
+      />
+    </div>
   );
 }

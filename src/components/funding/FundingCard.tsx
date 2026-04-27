@@ -274,7 +274,14 @@ export function FundingCard({ signal }: FundingCardProps) {
   }
 
   return (
-    <article className="border border-border-primary rounded-lg bg-bg-secondary overflow-hidden hover:border-brand/30 transition-colors">
+    <article
+      className="overflow-hidden transition-colors"
+      style={{
+        background: "var(--v2-bg-050)",
+        border: "1px solid var(--v2-line-std)",
+        borderRadius: 2,
+      }}
+    >
       {/* Top row: Logo + Company | Raised Amount */}
       <div className="px-5 pt-5 pb-4 flex items-center gap-4">
         {/* Left: Logo + Company */}
@@ -351,7 +358,8 @@ export function FundingCard({ signal }: FundingCardProps) {
             {signal.tags.map((tag) => (
               <span
                 key={tag}
-                className="text-[9px] font-mono uppercase tracking-wider rounded-sm px-1 py-px bg-brand/15 text-brand"
+                className="v2-tag"
+                style={{ fontSize: 9, padding: "1px 4px" }}
               >
                 {tag}
               </span>

@@ -11,15 +11,12 @@ import Link from "next/link";
 import { EyeOff } from "lucide-react";
 import type { MovementStatus } from "@/lib/types";
 import { cn, formatNumber } from "@/lib/utils";
-import { HnBadge } from "@/components/hackernews/HnBadge";
 import { ChannelDots } from "@/components/cross-signal/ChannelDots";
-import { getHnMentions } from "@/lib/hackernews";
-import { BskyBadge } from "@/components/bluesky/BskyBadge";
-import { getBlueskyMentions } from "@/lib/bluesky";
-import { PhBadge } from "@/components/producthunt/PhBadge";
-import { getLaunchForRepo } from "@/lib/producthunt";
-import { DevtoBadge } from "@/components/devto/DevtoBadge";
-import { getDevtoBadgeRollup } from "@/lib/devto";
+
+// Per-source badges (HnBadge / BskyBadge / PhBadge / DevtoBadge) intentionally
+// removed from this preview: their lib imports drag ioredis (a Node-only
+// dep) into the client bundle via the data-store, breaking the dev build.
+// `ChannelDots` already conveys per-source signal in a single 28px dot row.
 
 export interface SidebarWatchlistPreviewRepo {
   id: string;
@@ -111,10 +108,6 @@ export function SidebarWatchlistPreview({
                 hideWhenEmpty
                 size="sm"
               />
-              <HnBadge mention={getHnMentions(repo.fullName)} size="sm" />
-              <BskyBadge mention={getBlueskyMentions(repo.fullName)} size="sm" />
-              <PhBadge launch={getLaunchForRepo(repo.fullName)} size="sm" />
-              <DevtoBadge mention={getDevtoBadgeRollup(repo.fullName)} size="sm" />
             </div>
             <span
               className={cn(

@@ -152,7 +152,7 @@ export function DropRevenuePage() {
         ) : (
           <form
             onSubmit={onSubmit}
-            className="space-y-6 rounded-card border border-border-primary bg-bg-card p-5 shadow-card"
+            className="space-y-6 v2-card p-5"
           >
             <ModeToggle mode={mode} onChange={setMode} />
 
@@ -279,14 +279,14 @@ export function DropRevenuePage() {
               <button
                 type="submit"
                 disabled={!canSubmit}
-                className="inline-flex items-center gap-2 rounded-md border border-border-primary bg-brand/90 px-4 py-2 font-mono text-xs font-semibold uppercase tracking-wider text-bg-primary hover:bg-brand disabled:cursor-not-allowed disabled:opacity-50"
+                className="v2-btn v2-btn-primary disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {submitting ? (
-                  <LoaderCircle className="size-4 animate-spin" aria-hidden />
+                  <LoaderCircle className="size-4 animate-spin" aria-hidden style={{ marginRight: 8 }} />
                 ) : (
-                  <Sparkles className="size-4" aria-hidden />
+                  <Sparkles className="size-4" aria-hidden style={{ marginRight: 8 }} />
                 )}
-                Submit for moderation
+                SUBMIT FOR MODERATION
               </button>
             </div>
           </form>
@@ -394,7 +394,13 @@ function SuccessPanel({
 }) {
   const { submission, kind } = state;
   return (
-    <section className="rounded-card border border-up/50 bg-up/5 p-5 shadow-card">
+    <section
+      className="v2-card p-5"
+      style={{
+        background: "rgba(34, 197, 94, 0.06)",
+        borderColor: "var(--v2-sig-green)",
+      }}
+    >
       <div className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider text-up">
         <BadgeCheck className="size-4" aria-hidden />
         {kind === "duplicate" ? "Already in the queue" : "Submitted"}

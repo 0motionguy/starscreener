@@ -39,7 +39,7 @@ export function RepoBannerCard({
   if (!bundle.ok) {
     return (
       <div
-        className="relative overflow-hidden rounded-card border border-border-primary bg-bg-card p-4 shadow-card"
+        className="v2-card relative overflow-hidden p-4"
         style={{ borderLeft: `3px solid ${accentStripe}` }}
       >
         <div className="flex items-center gap-2 mb-2">

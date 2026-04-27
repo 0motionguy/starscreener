@@ -126,7 +126,7 @@ export function IdeaCard({
   return (
     <article
       data-testid="idea-card"
-      className="v2-card group relative rounded-card border border-border-primary bg-bg-card p-4 shadow-card space-y-3 hover:border-brand/40 hover:-translate-y-0.5 transition-all overflow-hidden"
+      className="v2-card group relative v2-card p-4 space-y-3 hover:border-brand/40 hover:-translate-y-0.5 transition-all overflow-hidden"
     >
       {/* Optional rank ribbon */}
       {rank !== undefined && rank <= 3 ? (

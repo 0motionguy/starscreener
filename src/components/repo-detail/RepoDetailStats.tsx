@@ -53,54 +53,72 @@ export function RepoDetailStats({ repo }: RepoDetailStatsProps): JSX.Element {
   return (
     <section
       aria-label="Repo statistics"
-      className="rounded-card border border-border-primary bg-bg-card p-4 shadow-card"
+      className="v2-card overflow-hidden"
     >
-      <h2 className="font-mono text-[11px] uppercase tracking-wider text-text-secondary mb-3">
-        Stats
-        <span className="ml-2 text-text-tertiary">{"// snapshot"}</span>
-      </h2>
-
-      {/*
-        Stars / Forks / Contributors moved to RepoDetailStatsStrip — this
-        grid keeps the secondary metadata (Issues, last commit, last
-        release) so the page still surfaces it without duplicating the
-        hero numbers shown by the strip.
-      */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-3 gap-y-3">
-        <StatIcon
-          icon={CircleDot}
-          label="Open Issues"
-          value={formatNumber(repo.openIssues)}
-          hint={`${repo.openIssues.toLocaleString("en-US")} open issues`}
-        />
-        <StatIcon
-          icon={GitCommit}
-          label="Last Commit"
-          value={lastCommitValue}
-          hint={lastCommitHint}
-        />
-        <StatIcon
-          icon={Package}
-          label={repo.lastReleaseTag ?? "Latest Release"}
-          value={lastReleaseValue}
-          hint={lastReleaseHint}
-        />
-      </div>
-
-      {/* Sub-row: deltas as tiny inline trend chips. Compact, monospace,
-          and only rendered when we actually have movement data — flat
-          repos with zero deltas would otherwise show three "0"s. */}
-      <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[11px] font-mono">
-        <span className="text-text-tertiary">{"// trend"}</span>
-        <DeltaChip label="24h" value={repo.starsDelta24h} />
-        <DeltaChip label="7d" value={repo.starsDelta7d} />
-        <DeltaChip label="30d" value={repo.starsDelta30d} />
-        <span className="text-text-tertiary ml-auto">
-          momentum:{" "}
-          <span className="text-text-primary tabular-nums">
+      <div className="v2-term-bar">
+        <span aria-hidden className="flex items-center gap-1.5">
+          <span className="block h-1.5 w-1.5 rounded-full v2-live-dot" />
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-line-200)" }}
+          />
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-line-200)" }}
+          />
+        </span>
+        <span
+          className="flex-1 truncate"
+          style={{ color: "var(--v2-ink-200)" }}
+        >
+          {"// STATS · SNAPSHOT"}
+        </span>
+        <span
+          className="v2-stat shrink-0 tabular-nums"
+          style={{ color: "var(--v2-ink-300)" }}
+          title="Momentum score (0-100)"
+        >
+          MOMENTUM{" "}
+          <span style={{ color: "var(--v2-acc)" }}>
             {repo.momentumScore.toFixed(1)}
           </span>
         </span>
+      </div>
+
+      <div className="p-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-3 gap-y-3">
+          <StatIcon
+            icon={CircleDot}
+            label="Open Issues"
+            value={formatNumber(repo.openIssues)}
+            hint={`${repo.openIssues.toLocaleString("en-US")} open issues`}
+          />
+          <StatIcon
+            icon={GitCommit}
+            label="Last Commit"
+            value={lastCommitValue}
+            hint={lastCommitHint}
+          />
+          <StatIcon
+            icon={Package}
+            label={repo.lastReleaseTag ?? "Latest Release"}
+            value={lastReleaseValue}
+            hint={lastReleaseHint}
+          />
+        </div>
+
+        <div
+          className="mt-4 pt-3 flex flex-wrap items-center gap-x-3 gap-y-1.5 v2-mono-tight"
+          style={{
+            fontSize: 11,
+            borderTop: "1px solid var(--v2-line-std)",
+          }}
+        >
+          <span style={{ color: "var(--v2-ink-400)" }}>{"// TREND"}</span>
+          <DeltaChip label="24h" value={repo.starsDelta24h} />
+          <DeltaChip label="7d" value={repo.starsDelta7d} />
+          <DeltaChip label="30d" value={repo.starsDelta30d} />
+        </div>
       </div>
     </section>
   );
@@ -108,17 +126,19 @@ export function RepoDetailStats({ repo }: RepoDetailStatsProps): JSX.Element {
 
 function DeltaChip({ label, value }: { label: string; value: number }) {
   const tone = deltaTone(value);
-  const cls =
+  const color =
     tone === "up"
-      ? "text-up"
+      ? "var(--v2-sig-green)"
       : tone === "down"
-        ? "text-down"
-        : "text-text-tertiary";
+        ? "var(--v2-sig-red)"
+        : "var(--v2-ink-400)";
   return (
     <span className="inline-flex items-baseline gap-1">
-      <span className="text-text-tertiary">{label}</span>
-      <span className={`tabular-nums ${cls}`}>{formatDelta(value)}</span>
-      <span className="text-text-tertiary">★</span>
+      <span style={{ color: "var(--v2-ink-400)" }}>{label}</span>
+      <span className="tabular-nums" style={{ color }}>
+        {formatDelta(value)}
+      </span>
+      <span style={{ color: "var(--v2-ink-400)" }}>★</span>
     </span>
   );
 }

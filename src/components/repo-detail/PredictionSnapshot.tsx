@@ -69,12 +69,12 @@ export function PredictionSnapshot({
         ? ArrowDownRight
         : ArrowRight;
 
-  const toneClass =
+  const toneColor =
     tone === "up"
-      ? "text-up"
+      ? "var(--v2-sig-green)"
       : tone === "down"
-        ? "text-down"
-        : "text-text-secondary";
+        ? "var(--v2-sig-red)"
+        : "var(--v2-ink-300)";
 
   // Band geometry: the p10..p90 range is a horizontal bar. Inside the
   // bar we draw a tick at the point estimate so the reader can see the
@@ -87,57 +87,112 @@ export function PredictionSnapshot({
   return (
     <section
       aria-label="Projected star trajectory"
-      className="rounded-card border border-border-primary bg-bg-primary p-3 sm:p-4"
+      className="v2-card overflow-hidden"
     >
-      <header className="flex items-center justify-between gap-3">
-        <span className="font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
-          Projected
+      <div className="v2-term-bar">
+        <span aria-hidden className="flex items-center gap-1.5">
+          <span className="block h-1.5 w-1.5 rounded-full v2-live-dot" />
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-line-200)" }}
+          />
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-line-200)" }}
+          />
         </span>
-        <span className="inline-flex items-center rounded-full border border-border-primary bg-bg-muted px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-text-secondary">
+        <span
+          className="flex-1 truncate"
+          style={{ color: "var(--v2-ink-200)" }}
+        >
+          {"// PROJECTED"}
+        </span>
+        <span
+          className="v2-stat shrink-0 tabular-nums"
+          style={{ color: "var(--v2-acc)" }}
+        >
           {horizonLabel(prediction.horizonDays)}
         </span>
-      </header>
-
-      <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-        <div className="flex items-center gap-2">
-          <ArrowIcon
-            className={`size-4 shrink-0 ${toneClass}`}
-            aria-hidden
-          />
-          <div className="flex items-baseline gap-2 font-mono">
-            <span className={`text-sm ${toneClass}`}>
-              {formatSignedInt(delta)} stars
-            </span>
-            <span className="text-[11px] text-text-tertiary">
-              ({formatSignedPct(deltaPct)})
-            </span>
-          </div>
-        </div>
-
-        <div className="min-w-0 flex-1" aria-hidden>
-          <div className="relative h-1.5 w-full rounded-full border border-border-primary bg-bg-muted">
-            <span
-              className="absolute top-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-text-primary"
-              style={{ left: `${(tickOffset * 100).toFixed(2)}%` }}
-            />
-          </div>
-          <div className="mt-1 flex items-center justify-between font-mono text-[10px] tabular-nums text-text-tertiary">
-            <span>{formatNumber(prediction.p10)}</span>
-            <span className="text-text-secondary">
-              {formatNumber(prediction.pointEstimate)}
-            </span>
-            <span>{formatNumber(prediction.p90)}</span>
-          </div>
-        </div>
       </div>
 
-      <footer className="mt-3 flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
-        <span>model {prediction.modelVersion}</span>
-        <span aria-hidden>·</span>
-        <span>via calibration</span>
-        <span aria-hidden>·</span>
-        <span>{prediction.horizonDays}d horizon</span>
-      </footer>
+      <div className="p-3 sm:p-4 space-y-3">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+          <div className="flex items-center gap-2">
+            <ArrowIcon
+              size={16}
+              className="shrink-0"
+              style={{ color: toneColor }}
+              aria-hidden
+            />
+            <div
+              className="flex items-baseline gap-2"
+              style={{ fontFamily: "var(--font-geist-mono), monospace" }}
+            >
+              <span
+                className="tabular-nums"
+                style={{
+                  fontSize: 14,
+                  color: toneColor,
+                  fontWeight: 510,
+                }}
+              >
+                {formatSignedInt(delta)} stars
+              </span>
+              <span
+                className="tabular-nums"
+                style={{ fontSize: 11, color: "var(--v2-ink-400)" }}
+              >
+                ({formatSignedPct(deltaPct)})
+              </span>
+            </div>
+          </div>
+
+          <div className="min-w-0 flex-1" aria-hidden>
+            <div
+              className="relative h-1.5 w-full"
+              style={{
+                background: "var(--v2-bg-100)",
+                border: "1px solid var(--v2-line-200)",
+                borderRadius: 1,
+              }}
+            >
+              <span
+                className="absolute top-1/2 size-2 -translate-x-1/2 -translate-y-1/2"
+                style={{
+                  left: `${(tickOffset * 100).toFixed(2)}%`,
+                  background: "var(--v2-acc)",
+                  borderRadius: 1,
+                }}
+              />
+            </div>
+            <div
+              className="mt-1 flex items-center justify-between tabular-nums"
+              style={{
+                fontFamily: "var(--font-geist-mono), monospace",
+                fontSize: 10,
+                color: "var(--v2-ink-400)",
+              }}
+            >
+              <span>{formatNumber(prediction.p10)}</span>
+              <span style={{ color: "var(--v2-ink-200)" }}>
+                {formatNumber(prediction.pointEstimate)}
+              </span>
+              <span>{formatNumber(prediction.p90)}</span>
+            </div>
+          </div>
+        </div>
+
+        <footer
+          className="v2-mono flex items-center gap-2"
+          style={{ fontSize: 10, color: "var(--v2-ink-400)" }}
+        >
+          <span>{`// MODEL ${prediction.modelVersion}`}</span>
+          <span aria-hidden style={{ color: "var(--v2-line-300)" }}>·</span>
+          <span>VIA CALIBRATION</span>
+          <span aria-hidden style={{ color: "var(--v2-line-300)" }}>·</span>
+          <span>{prediction.horizonDays}D HORIZON</span>
+        </footer>
+      </div>
     </section>
   );
 }

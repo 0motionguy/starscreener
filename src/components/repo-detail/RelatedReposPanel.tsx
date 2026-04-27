@@ -46,19 +46,44 @@ export function RelatedReposPanel({
   return (
     <section
       aria-label="Related repositories"
-      className="rounded-card border border-border-primary bg-bg-primary p-3 sm:p-4"
+      className="v2-card overflow-hidden"
     >
-      <header className="flex items-center gap-2 mb-3">
-        <Network className="size-4 text-text-primary" aria-hidden />
-        <h2 className="font-mono text-[11px] uppercase tracking-wider text-text-tertiary">
-          Related repos
-        </h2>
-        <span className="ml-auto font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
-          {items.length} {items.length === 1 ? "repo" : "repos"}
+      <div className="v2-term-bar">
+        <span aria-hidden className="flex items-center gap-1.5">
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-acc)" }}
+          />
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-line-200)" }}
+          />
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-line-200)" }}
+          />
         </span>
-      </header>
+        <Network
+          size={12}
+          className="shrink-0"
+          style={{ color: "var(--v2-acc)" }}
+          aria-hidden
+        />
+        <span
+          className="flex-1 truncate"
+          style={{ color: "var(--v2-ink-200)" }}
+        >
+          {"// RELATED REPOS"}
+        </span>
+        <span
+          className="v2-stat shrink-0"
+          style={{ color: "var(--v2-ink-300)" }}
+        >
+          {items.length} {items.length === 1 ? "REPO" : "REPOS"}
+        </span>
+      </div>
 
-      <ul className="grid grid-cols-1 gap-2 lg:grid-cols-3">
+      <ul className="grid grid-cols-1 gap-2 p-3 lg:grid-cols-3">
         {items.map((item) => (
           <RelatedRepoCard key={item.fullName} item={item} />
         ))}
@@ -79,7 +104,15 @@ function RelatedRepoCard({ item }: { item: RelatedRepoItem }): JSX.Element {
   meta.push(`${formatNumber(item.stars)} stars`);
 
   return (
-    <li className="rounded-card border border-border-primary bg-bg-card p-3 transition-colors hover:bg-bg-card-hover">
+    <li
+      className="transition-colors v2-row"
+      style={{
+        background: "var(--v2-bg-050)",
+        border: "1px solid var(--v2-line-std)",
+        borderRadius: 2,
+        padding: 12,
+      }}
+    >
       <Link
         href={href}
         className="block"
@@ -92,31 +125,55 @@ function RelatedRepoCard({ item }: { item: RelatedRepoItem }): JSX.Element {
               alt=""
               width={20}
               height={20}
-              className="size-5 shrink-0 rounded-full border border-border-primary"
+              className="size-5 shrink-0"
+              style={{
+                borderRadius: 2,
+                border: "1px solid var(--v2-line-200)",
+              }}
               unoptimized
             />
           ) : (
             <span
               aria-hidden
-              className="size-5 shrink-0 rounded-full border border-border-primary bg-bg-muted"
+              className="size-5 shrink-0"
+              style={{
+                background: "var(--v2-bg-100)",
+                border: "1px solid var(--v2-line-200)",
+                borderRadius: 2,
+              }}
             />
           )}
-          <span className="font-mono text-sm text-text-primary truncate">
+          <span
+            className="truncate"
+            style={{
+              fontFamily: "var(--font-geist-mono), monospace",
+              fontSize: 13,
+              color: "var(--v2-ink-100)",
+            }}
+          >
             {item.fullName}
           </span>
           {relationLabel ? (
-            <span className="ml-auto inline-flex shrink-0 items-center rounded-full border border-border-primary bg-bg-muted px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-text-secondary">
-              {relationLabel}
-            </span>
+            <span className="v2-tag ml-auto shrink-0">{relationLabel}</span>
           ) : null}
         </div>
 
-        <div className="mt-1 font-mono text-[11px] text-text-tertiary">
+        <div
+          className="mt-1.5 v2-mono-tight tabular-nums"
+          style={{ fontSize: 10, color: "var(--v2-ink-400)" }}
+        >
           {meta.join(" · ")}
         </div>
 
         {item.description ? (
-          <p className="mt-1 truncate font-mono text-[11px] text-text-secondary">
+          <p
+            className="mt-1 truncate"
+            style={{
+              fontFamily: "var(--font-geist-mono), monospace",
+              fontSize: 11,
+              color: "var(--v2-ink-300)",
+            }}
+          >
             {item.description}
           </p>
         ) : null}

@@ -14,8 +14,7 @@ export type SignalBadgeKind =
   | "linked-repo"
   | "agents"
   | "mcp"
-  | "llm"
-  | "verified";
+  | "llm";
 
 const STYLES: Record<SignalBadgeKind, { label: string; cls: string }> = {
   hot: {
@@ -61,10 +60,6 @@ const STYLES: Record<SignalBadgeKind, { label: string; cls: string }> = {
   llm: {
     label: "LLM",
     cls: "border-border-primary bg-bg-muted text-text-secondary",
-  },
-  verified: {
-    label: "✓ OFFICIAL",
-    cls: "border-up/60 bg-up/10 text-up",
   },
 };
 

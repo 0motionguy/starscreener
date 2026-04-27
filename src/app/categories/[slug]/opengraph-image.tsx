@@ -176,7 +176,7 @@ export default async function CategoryOGImage({ params }: RouteParams) {
                   alignItems: "center",
                   justifyContent: "space-between",
                   padding: "14px 20px",
-                  borderRadius: 1,
+                  borderRadius: 10,
                   backgroundColor: OG_COLORS.bgSecondary,
                   border: `1px solid ${OG_COLORS.border}`,
                 }}

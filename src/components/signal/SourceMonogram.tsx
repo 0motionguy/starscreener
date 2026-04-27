@@ -10,10 +10,7 @@ export type MonoSource =
   | "lobsters"
   | "twitter"
   | "producthunt"
-  | "github"
-  | "huggingface"
-  | "skills"
-  | "mcp";
+  | "github";
 
 const STYLES: Record<MonoSource, { label: string; cls: string }> = {
   reddit: { label: "R", cls: "border-warning/60 bg-warning/10 text-warning" },
@@ -30,9 +27,6 @@ const STYLES: Record<MonoSource, { label: string; cls: string }> = {
     label: "GH",
     cls: "border-border-primary bg-bg-muted text-text-secondary",
   },
-  huggingface: { label: "HF", cls: "border-warning/60 bg-warning/10 text-warning" },
-  skills: { label: "SK", cls: "border-functional/60 bg-functional/10 text-functional" },
-  mcp: { label: "MC", cls: "border-brand/60 bg-brand/10 text-brand" },
 };
 
 interface SourceMonogramProps {

@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { verifyCronAuth } from "@/lib/api/auth";
-import { checkRateLimitAsync } from "@/lib/api/rate-limit";
 import { runRepoIntakeForSubmission } from "@/lib/repo-intake";
 import {
   listRepoSubmissions,
@@ -13,13 +12,6 @@ import {
   type RepoSubmissionQueueSummary,
   type RepoSubmissionResult,
 } from "@/lib/repo-submissions";
-
-// Public POST surface — anyone can submit a repo, but a per-IP fixed window
-// caps spam: 5 submissions per 10 minutes. Backed by Upstash when configured
-// so the cap holds across Vercel Lambdas, memory fallback in dev. Rejects with
-// 429 + Retry-After. CRON_SECRET-authenticated callers bypass via the same
-// auto-trigger gate downstream — they're trusted to batch submit.
-const SUBMISSION_RATE_LIMIT = { windowMs: 10 * 60 * 1000, maxRequests: 5 } as const;
 
 interface RepoSubmissionsListResponse {
   ok: true;
@@ -62,27 +54,6 @@ export async function POST(
 ): Promise<
   NextResponse<RepoSubmissionsCreateResponse | RepoSubmissionsErrorResponse>
 > {
-  // Rate-limit BEFORE parsing the body so a flood of malformed JSON can't
-  // bypass the cap. Skip the check for trusted CRON callers (operator
-  // batch submissions).
-  const cronAuth = verifyCronAuth(request);
-  if (cronAuth.kind !== "ok") {
-    const rl = await checkRateLimitAsync(request, SUBMISSION_RATE_LIMIT);
-    if (!rl.allowed) {
-      const retryAfterSec = Math.max(1, Math.ceil(rl.retryAfterMs / 1000));
-      return NextResponse.json(
-        {
-          ok: false,
-          error: `Rate limited — ${SUBMISSION_RATE_LIMIT.maxRequests} submissions per ${SUBMISSION_RATE_LIMIT.windowMs / 60000}min per IP. Retry after ${retryAfterSec}s.`,
-        },
-        {
-          status: 429,
-          headers: { "Retry-After": String(retryAfterSec) },
-        },
-      );
-    }
-  }
-
   let raw: unknown;
   try {
     raw = await request.json();
@@ -104,7 +75,8 @@ export async function POST(
   try {
     const result = await submitRepoToQueue(parsed.value);
     const canTriggerIntake =
-      process.env.NODE_ENV !== "production" || cronAuth.kind === "ok";
+      process.env.NODE_ENV !== "production" ||
+      verifyCronAuth(request).kind === "ok";
     const autoTriggerEnabled =
       process.env.STARSCREENER_AUTO_INTAKE !== "false";
     const triggerableSubmission =

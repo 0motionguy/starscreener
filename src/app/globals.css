@@ -1,10 +1,9 @@
 @import "tailwindcss";
 
 /* ---------------------------------------------------------------------------
-   TrendingRepo Design System — V2 (Tailwind 4 CSS-first configuration).
-   Dark-only. V2 surface ramp + Liquid Lava accent. V1 token names are
-   retained as aliases over V2 values so legacy components keep rendering
-   without per-file edits.
+   TrendingRepo Design System — Tailwind 4 CSS-first configuration
+   Dark Void + Liquid Lava dual-accent system.
+   Dark-first: @theme defines dark tokens, .light class overrides for light.
    --------------------------------------------------------------------------- */
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -13,43 +12,37 @@
    Theme tokens (dark by default)
    --------------------------------------------------------------------------- */
 @theme {
-  /* ── Backgrounds — aligned to V2 surface ramp.
-     Legacy token names kept so all bg-bg-card / bg-bg-primary class
-     usages across 171 components keep working but resolve to the V2
-     palette. Visual unity with V2 chrome without touching component
-     code. */
-  --color-bg-primary: #0a0b0d;         /* page canvas (matches V2 bg) */
-  --color-bg-secondary: #101214;       /* card surface */
-  --color-bg-tertiary: #161a1f;        /* card hover */
-  --color-bg-card: #101214;
-  --color-bg-card-hover: #161a1f;
-  --color-bg-row-hover: #161a1f;
-  --color-bg-elevated: #1d2228;
-  --color-bg-inset: #08090a;
-  --color-bg-overlay: rgba(10, 11, 13, 0.85);
+  /* ── Backgrounds (Dark Void palette) ───────────────────────────────────── */
+  --color-bg-primary: #151419;         /* Dark Void */
+  --color-bg-secondary: #1b1b1e;       /* Gluon Grey */
+  --color-bg-tertiary: #262626;        /* Slate Grey */
+  --color-bg-card: #1b1b1e;
+  --color-bg-card-hover: #262626;
+  --color-bg-row-hover: #1f1f22;
+  --color-bg-elevated: #2e2e33;
+  --color-bg-inset: #101014;
+  --color-bg-overlay: rgba(10, 10, 12, 0.78);
 
-  /* ── Text — aligned to V2 ink ramp ─────────────────────────────────── */
-  --color-text-primary: #ffffff;       /* V2 ink-000 */
-  --color-text-secondary: #aab0b6;     /* V2 ink-200 */
-  --color-text-tertiary: #7d848c;      /* V2 ink-300 */
-  --color-text-muted: #565d65;         /* V2 ink-400 */
-  --color-text-inverse: #0a0b0d;
+  /* ── Text ──────────────────────────────────────────────────────────────── */
+  --color-text-primary: #fbfbfb;       /* Snow */
+  --color-text-secondary: #c4c4c6;
+  --color-text-tertiary: #878787;      /* Dusty Grey */
+  --color-text-muted: #5a5a5c;
+  --color-text-inverse: #151419;
 
-  /* ── Borders — aligned to V2 line ramp ─────────────────────────────── */
-  --color-border-primary: #272c33;     /* V2 line-200 */
-  --color-border-secondary: #1c2024;   /* V2 line-100 */
-  --color-border-strong: #363c44;      /* V2 line-300 */
-  --color-border-focus: var(--v2-acc, #f56e0f);
+  /* ── Borders ───────────────────────────────────────────────────────────── */
+  --color-border-primary: #2b2b2f;
+  --color-border-secondary: #1f1f23;
+  --color-border-strong: #3a3a3e;
+  --color-border-focus: #f56e0f;
 
-  /* ── Brand accent — pulls from V2 theme so the picker swaps everywhere.
-     The fallback (#f56e0f) matches Liquid Lava when V2 root tokens
-     aren't loaded (e.g. test harnesses). */
-  --color-brand: var(--v2-acc, #f56e0f);
-  --color-brand-hover: var(--v2-acc-dim, #ff7f1f);
-  --color-brand-active: var(--v2-acc-dim, #d85b00);
-  --color-brand-glow: var(--v2-acc-glow, rgba(245, 110, 15, 0.12));
-  --color-brand-glow-strong: var(--v2-acc-glow, rgba(245, 110, 15, 0.22));
-  --color-brand-subtle: var(--v2-acc-soft, rgba(245, 110, 15, 0.06));
+  /* ── Brand accent (Liquid Lava orange) — hero/CTA/momentum-hot ─────────── */
+  --color-brand: #f56e0f;
+  --color-brand-hover: #ff7f1f;
+  --color-brand-active: #d85b00;
+  --color-brand-glow: rgba(245, 110, 15, 0.12);
+  --color-brand-glow-strong: rgba(245, 110, 15, 0.22);
+  --color-brand-subtle: rgba(245, 110, 15, 0.06);
 
   /* ── Functional accent (Green) — active tab/selected/toggle ON ─────────── */
   --color-functional: #22c55e;
@@ -95,11 +88,10 @@
   --color-momentum-neutral: var(--color-heat-neutral);
   --color-momentum-cool: var(--color-heat-cool);
 
-  /* ── Fonts ── V1 names alias to Geist so legacy `font-sans/mono/display`
-     Tailwind classes pick up V2 typography without component edits. */
-  --font-sans: var(--font-geist), "Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-mono: var(--font-geist-mono), "Geist Mono", ui-monospace, "Cascadia Code", monospace;
-  --font-display: var(--font-geist), "Geist", ui-sans-serif, system-ui, sans-serif;
+  /* ── Fonts ─────────────────────────────────────────────────────────────── */
+  --font-sans: var(--font-inter), "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), "JetBrains Mono", ui-monospace, "Cascadia Code", monospace;
+  --font-display: var(--font-space-grotesk), "Space Grotesk", var(--font-inter), "Inter", sans-serif;
 
   /* ── Type scale ────────────────────────────────────────────────────────── */
   --text-2xs: 0.625rem;     /* 10px */
@@ -136,21 +128,18 @@
   --tracking-wider: 0.08em;
   --tracking-widest: 0.14em;
 
-  /* ── Radii ── V2 "sharp by default": all card/button radii flattened
-     to 1-2px. Pills stay round for binary toggles. */
-  --radius-sm: 0.0625rem;     /* 1px */
-  --radius-md: 0.125rem;      /* 2px */
-  --radius-button: 0.125rem;  /* 2px */
-  --radius-card: 0.125rem;    /* 2px */
-  --radius-card-lg: 0.125rem; /* 2px */
-  --radius-xl: 0.125rem;      /* 2px */
-  --radius-badge: 9999px;     /* pill — kept for toggles only */
+  /* ── Radii ─────────────────────────────────────────────────────────────── */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-button: 0.5rem;
+  --radius-card: 0.75rem;
+  --radius-card-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --radius-badge: 9999px;
 
-  /* ── Shadows ── V2 has no drop shadows on dark; use luminance steps
-     instead. Card/hover shadows neutered to near-zero so legacy
-     consumers stop emitting visible elevation. */
-  --shadow-card: 0 0 0 0 transparent;
-  --shadow-card-hover: 0 0 0 0 transparent;
+  /* ── Shadows ───────────────────────────────────────────────────────────── */
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4), 0 1px 1px rgba(0, 0, 0, 0.25);
+  --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.4);
   --shadow-row-hover: inset 3px 0 0 var(--color-functional);
   --shadow-overlay: 0 24px 48px rgba(0, 0, 0, 0.55), 0 2px 6px rgba(0, 0, 0, 0.35);
   --shadow-popover: 0 12px 32px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.35);
@@ -168,51 +157,6 @@
   --animate-brand-pulse: brand-pulse 2.4s ease-in-out infinite;
   --animate-shimmer: shimmer 1.6s linear infinite;
   --animate-tick: tick 0.4s ease-out;
-
-  /* ── V2 (Node/01 × Linear fusion) — scoped to /v2 routes ──────────────── */
-  /* Surfaces — Node/01 darks, retuned toward the existing 0a/15-family.
-     bg-000 stays near-black (page canvas peeks through the dot-field).
-     bg-050 sits one luminance step above so cards lift cleanly off the
-     warmer page background without needing shadows. */
-  --v2-bg-000: #08090a;
-  --v2-bg-050: #101214;
-  --v2-bg-100: #161a1f;
-  --v2-bg-200: #1d2228;
-  --v2-bg-300: #262c33;
-  /* Hairlines — semi-transparent (Linear) + solid (Node/01).               */
-  --v2-line-soft: rgba(255, 255, 255, 0.05);
-  --v2-line-std:  rgba(255, 255, 255, 0.08);
-  --v2-line-100: #1c2024;
-  --v2-line-200: #272c33;
-  --v2-line-300: #363c44;
-  --v2-line-400: #4a5159;
-  /* Ink — Node/01 5-stop scale.                                            */
-  --v2-ink-000: #ffffff;
-  --v2-ink-100: #e6e7e8;
-  --v2-ink-200: #aab0b6;
-  --v2-ink-300: #7d848c;
-  --v2-ink-400: #565d65;
-  --v2-ink-500: #3a4047;
-  /* Accent — Liquid Lava stays. Node/01 discipline: active object only.    */
-  --v2-acc:      #f56e0f;
-  --v2-acc-dim:  #c25608;
-  --v2-acc-soft: rgba(245, 110, 15, 0.14);
-  --v2-acc-glow: rgba(245, 110, 15, 0.45);
-  /* Signal channels.                                                       */
-  --v2-sig-red:   #ff4d4d;
-  --v2-sig-amber: #ffb547;
-  --v2-sig-cyan:  #3ad6c5;
-  --v2-sig-green: #22c55e;
-  /* Dot-field motif — pushed up the luminance ramp so the dots actually
-     read against the #0a0b0d page bg. Previous values (2a3037 / 4a5159)
-     had ~9% contrast and looked like solid black on most monitors. */
-  --v2-dot:        #515862;
-  --v2-dot-bright: #6b727b;
-  /* Tracking presets.                                                      */
-  --v2-tracking-display: -0.035em;
-  --v2-tracking-h1:      -0.022em;
-  --v2-tracking-mono:    0.18em;
-  --v2-tracking-mono-tight: 0.06em;
 }
 
 /* ---------------------------------------------------------------------------
@@ -315,10 +259,83 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Base styles — V2 is dark-only.
+   Light theme overrides — warm off-white so Liquid Lava stays brand, not alert
+   --------------------------------------------------------------------------- */
+.light {
+  /* Backgrounds (warm off-white) */
+  --color-bg-primary: #f7f6f2;
+  --color-bg-secondary: #efede6;
+  --color-bg-tertiary: #e4e2da;
+  --color-bg-card: #ffffff;
+  --color-bg-card-hover: #f2f0e9;
+  --color-bg-row-hover: #efede6;
+  --color-bg-elevated: #ffffff;
+  --color-bg-inset: #ecebe4;
+  --color-bg-overlay: rgba(30, 28, 24, 0.55);
+
+  /* Text */
+  --color-text-primary: #151419;
+  --color-text-secondary: #3d3c44;
+  --color-text-tertiary: #6a6a70;
+  --color-text-muted: #9a9aa1;
+  --color-text-inverse: #fbfbfb;
+
+  /* Borders */
+  --color-border-primary: #d7d4c8;
+  --color-border-secondary: #e4e2da;
+  --color-border-strong: #b7b4a6;
+  --color-border-focus: #d85b00;
+
+  /* Brand stays Liquid Lava but slightly darker for AA on warm white */
+  --color-brand: #e85d00;
+  --color-brand-hover: #f56e0f;
+  --color-brand-active: #b94a00;
+  --color-brand-glow: rgba(232, 93, 0, 0.12);
+  --color-brand-glow-strong: rgba(232, 93, 0, 0.22);
+  --color-brand-subtle: rgba(232, 93, 0, 0.07);
+
+  /* Functional green */
+  --color-functional: #16a34a;
+  --color-functional-hover: #22c55e;
+  --color-functional-glow: rgba(22, 163, 74, 0.14);
+  --color-functional-subtle: rgba(22, 163, 74, 0.08);
+
+  /* Deltas */
+  --color-up: #16a34a;
+  --color-up-bg: rgba(22, 163, 74, 0.12);
+  --color-down: #dc2626;
+  --color-down-bg: rgba(220, 38, 38, 0.10);
+  --color-warning: #d97706;
+  --color-warning-bg: rgba(217, 119, 6, 0.12);
+  --color-info: #2563eb;
+  --color-info-bg: rgba(37, 99, 235, 0.10);
+
+  /* Heat tiers */
+  --color-heat-hot: #e85d00;
+  --color-heat-warm: #d97706;
+  --color-heat-neutral: #6a6a70;
+  --color-heat-cool: #2563eb;
+
+  /* Terminal surfaces */
+  --color-terminal-row-hover: rgba(232, 93, 0, 0.05);
+  --color-terminal-divider: rgba(120, 115, 100, 0.25);
+
+  /* Shadows lighter, more spread */
+  --shadow-card: 0 1px 3px rgba(20, 18, 14, 0.08), 0 1px 2px rgba(20, 18, 14, 0.05);
+  --shadow-card-hover: 0 10px 30px rgba(20, 18, 14, 0.12), 0 4px 12px rgba(20, 18, 14, 0.08);
+  --shadow-overlay: 0 24px 48px rgba(20, 18, 14, 0.18), 0 2px 6px rgba(20, 18, 14, 0.1);
+  --shadow-popover: 0 12px 32px rgba(20, 18, 14, 0.15), 0 2px 6px rgba(20, 18, 14, 0.08);
+}
+
+/* ---------------------------------------------------------------------------
+   Base styles
    --------------------------------------------------------------------------- */
 html {
   color-scheme: dark;
+}
+
+html.light {
+  color-scheme: light;
 }
 
 *,
@@ -362,6 +379,25 @@ body::before {
     linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
   background-size: auto, auto, 40px 40px, 40px 40px;
   background-position: 0 0, 0 0, 0 0, 0 0;
+}
+
+/* Light theme: swap grid lines + glow opacities so they stay subtle
+   on the warm off-white canvas. */
+.light body::before {
+  background-image:
+    radial-gradient(
+      1200px 600px at 8% -8%,
+      rgba(216, 91, 0, 0.06),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 500px at 100% 110%,
+      rgba(22, 163, 74, 0.04),
+      transparent 60%
+    ),
+    linear-gradient(rgba(30, 28, 24, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30, 28, 24, 0.05) 1px, transparent 1px);
+  background-size: auto, auto, 40px 40px, 40px 40px;
 }
 
 /* Content sits above the ambient canvas. Wrapped in `@layer base` so
@@ -515,6 +551,18 @@ body::before {
   animation: shimmer 1.6s ease-in-out infinite;
 }
 
+.light .skeleton-shimmer::after {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.035) 40%,
+    rgba(0, 0, 0, 0.06) 50%,
+    rgba(0, 0, 0, 0.035) 60%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+}
+
 /* Pulsing "live data" dot — small 6px circle with breathing halo. Used
    beside "LIVE" / "updated Xm ago" labels so freshness reads visually.
    Halo color derives from --dot-rgb (r,g,b triplet) so the same utility
@@ -564,6 +612,11 @@ body::before {
   background-size: 160px 160px;
 }
 
+.light .grain::after {
+  mix-blend-mode: multiply;
+  opacity: 0.06;
+}
+
 /* Dashed horizontal divider for editorial sections */
 .divider-dashed {
   display: block;
@@ -583,549 +636,4 @@ body::before {
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
-}
-
-/* ---------------------------------------------------------------------------
-   V2 — Node/01 × Linear fusion (scoped to .v2-root descendants)
-   The .v2-root wrapper sits inside src/app/v2/layout.tsx and isolates these
-   styles from the rest of the app. Tokens live in @theme above as --v2-*.
-   --------------------------------------------------------------------------- */
-
-.v2-root {
-  background: var(--v2-bg-000);
-  color: var(--v2-ink-100);
-  font-family: var(--font-geist), Inter, ui-sans-serif, system-ui, sans-serif;
-  font-feature-settings: "ss01", "cv11";
-  -webkit-font-smoothing: antialiased;
-}
-
-/* (Legacy chrome-hide rules removed — Phase 1 of the rebrand made
-    V2 chrome the only chrome. The original Header / Sidebar / MobileNav
-    still exist as files but are no longer rendered by the root layout.
-    They will be deleted in Phase 3 cleanup once every page body is
-    migrated.) */
-
-/* ---------------------------------------------------------------------------
-   V2 BACKGROUND — three-layer instrument panel
-   --------------------------------------------------------------------------
-   Layer 0 (base): solid dark page color on .v2-canvas.
-   Layer 1 (::before, fixed to viewport): aurora mesh — large blurred color
-     blobs (orange / blue / teal) overlapping. Gives atmosphere.
-   Layer 2 (::after, fixed to viewport): blueprint grid — bright enough to
-     actually see. Major lines + minor lines + dots at the intersections.
-   Plus: an animated scanline sweep for a "live instrument" feel.
-   --------------------------------------------------------------------------- */
-
-.v2-root .v2-canvas {
-  position: relative;
-  isolation: isolate;
-  background: #0a0b0d;
-}
-
-/* AURORA — 4 soft glowing color blobs blurred into a mesh.
-   Pure CSS, no images. Blob colors are V2 brand-adjacent so the bg
-   feels native, not pasted. */
-.v2-root .v2-canvas::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background:
-    /* Orange brand glow — top-right */
-    radial-gradient(
-      900px 700px at 92% 12%,
-      rgba(245, 110, 15, 0.28),
-      transparent 60%
-    ),
-    /* Deep indigo — left-mid */
-    radial-gradient(
-      800px 800px at 8% 50%,
-      rgba(94, 106, 210, 0.18),
-      transparent 60%
-    ),
-    /* Teal — bottom-right */
-    radial-gradient(
-      900px 700px at 100% 100%,
-      rgba(58, 214, 197, 0.16),
-      transparent 60%
-    ),
-    /* Magenta accent — bottom-left */
-    radial-gradient(
-      700px 600px at 0% 100%,
-      rgba(168, 85, 247, 0.12),
-      transparent 60%
-    );
-  filter: blur(0px);
-}
-
-/* BLUEPRINT GRID + DOTS — visible at a glance, not subtle. */
-.v2-root .v2-canvas::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background-image:
-    /* Major vertical lines every 120px */
-    linear-gradient(
-      to right,
-      rgba(140, 152, 168, 0.18) 1px,
-      transparent 1px
-    ),
-    /* Major horizontal lines every 120px */
-    linear-gradient(
-      to bottom,
-      rgba(140, 152, 168, 0.18) 1px,
-      transparent 1px
-    ),
-    /* Minor vertical lines every 30px */
-    linear-gradient(
-      to right,
-      rgba(140, 152, 168, 0.07) 1px,
-      transparent 1px
-    ),
-    /* Minor horizontal lines every 30px */
-    linear-gradient(
-      to bottom,
-      rgba(140, 152, 168, 0.07) 1px,
-      transparent 1px
-    ),
-    /* Dots at the major-grid intersections */
-    radial-gradient(
-      circle at 1px 1px,
-      rgba(245, 110, 15, 0.45) 1.5px,
-      transparent 2px
-    );
-  background-size:
-    120px 120px,
-    120px 120px,
-    30px 30px,
-    30px 30px,
-    120px 120px;
-  background-position: 0 0, 0 0, 0 0, 0 0, 0 0;
-}
-
-/* Children sit ABOVE both bg layers. */
-.v2-root .v2-canvas > * {
-  position: relative;
-  z-index: 1;
-}
-
-/* Frame — page-width container. Mirrors Node/01's `.frame` (max 1440 / 32px). */
-.v2-frame {
-  max-width: 1440px;
-  margin-inline: auto;
-  padding-inline: 32px;
-}
-
-@media (max-width: 768px) {
-  .v2-frame {
-    padding-inline: 16px;
-  }
-}
-
-/* Card — luminance-stacked surface (Linear). Hairline border (Node/01).
-   Translucent so the aurora bleeds through, with a strong backdrop-blur
-   so text inside the card stays readable. */
-.v2-card {
-  background: rgba(13, 15, 17, 0.72);
-  backdrop-filter: blur(20px) saturate(140%);
-  -webkit-backdrop-filter: blur(20px) saturate(140%);
-  border: 1px solid var(--v2-line-200);
-  border-radius: 2px;
-  position: relative;
-}
-
-.v2-card-hover {
-  transition:
-    background-color 150ms ease-out,
-    border-color 150ms ease-out;
-}
-
-.v2-card-hover:hover {
-  background: rgba(20, 23, 26, 0.82);
-  border-color: var(--v2-line-300);
-}
-
-/* Terminal bar — chrome header on data cards. Three dots, mono caption,
-   right-aligned status. Bottom hairline. */
-.v2-term-bar {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  height: 36px;
-  padding: 0 12px;
-  border-bottom: 1px solid var(--v2-line-100);
-  font-family: var(--font-geist-mono), "JetBrains Mono", ui-monospace, monospace;
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--v2-ink-400);
-  background: var(--v2-bg-050);
-}
-
-.v2-term-bar .v2-dots {
-  display: inline-flex;
-  gap: 4px;
-}
-
-.v2-term-bar .v2-dots i {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  background: var(--v2-line-300);
-  border-radius: 1px;
-}
-
-.v2-term-bar .v2-dots i.live {
-  background: var(--v2-acc);
-  box-shadow: 0 0 8px var(--v2-acc-glow);
-  animation: v2-live-pulse 1.6s ease-in-out infinite;
-}
-
-@keyframes v2-live-pulse {
-  0%, 100% {
-    box-shadow: 0 0 6px rgba(245, 110, 15, 0.45);
-  }
-  50% {
-    box-shadow: 0 0 14px rgba(245, 110, 15, 0.75);
-  }
-}
-
-.v2-term-bar .v2-status {
-  margin-left: auto;
-  color: var(--v2-ink-300);
-}
-
-/* Bracket markers — Node/01 Sentinel-style selection corners. Apply to
-   any container by adding .v2-bracket. The markers are filled lime/orange
-   8x8 squares at each corner, with a 1px dashed inner border. */
-.v2-bracket {
-  position: relative;
-}
-
-.v2-bracket::before,
-.v2-bracket::after,
-.v2-bracket > .v2-br1,
-.v2-bracket > .v2-br2 {
-  content: "";
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background: var(--v2-acc);
-  box-shadow: 0 0 0 1px #000, 0 0 8px var(--v2-acc-glow);
-  z-index: 2;
-  pointer-events: none;
-}
-
-.v2-bracket::before {
-  top: -1px;
-  left: -1px;
-}
-
-.v2-bracket::after {
-  top: -1px;
-  right: -1px;
-}
-
-.v2-bracket > .v2-br1 {
-  bottom: -1px;
-  left: -1px;
-}
-
-.v2-bracket > .v2-br2 {
-  bottom: -1px;
-  right: -1px;
-}
-
-/* The dashed inner frame inside bracket markers — Node/01 hero illustration.
-   Sized 100% with negative margin so it sits between the corner markers. */
-.v2-bracket-dash {
-  position: absolute;
-  inset: 4px;
-  border: 1px dashed var(--v2-acc);
-  pointer-events: none;
-  opacity: 0.6;
-  z-index: 1;
-}
-
-/* Mono label utility — Node/01 eyebrow style. */
-.v2-mono {
-  font-family: var(--font-geist-mono), "JetBrains Mono", ui-monospace, monospace;
-  font-size: 11px;
-  letter-spacing: 0.20em;
-  text-transform: uppercase;
-  color: var(--v2-ink-300);
-}
-
-.v2-mono-tight {
-  font-family: var(--font-geist-mono), "JetBrains Mono", ui-monospace, monospace;
-  font-size: 12px;
-  letter-spacing: 0.04em;
-  color: var(--v2-ink-200);
-}
-
-.v2-display {
-  font-family: var(--font-geist), Inter, ui-sans-serif, sans-serif;
-  font-weight: 300;
-  letter-spacing: var(--v2-tracking-display);
-  line-height: 0.95;
-  color: var(--v2-ink-000);
-}
-
-.v2-h1 {
-  font-family: var(--font-geist), Inter, ui-sans-serif, sans-serif;
-  font-weight: 400;
-  font-size: 40px;
-  line-height: 1.05;
-  letter-spacing: var(--v2-tracking-h1);
-  color: var(--v2-ink-000);
-}
-
-.v2-h2 {
-  font-family: var(--font-geist), Inter, ui-sans-serif, sans-serif;
-  /* Linear's signature 510 weight — between regular and medium. */
-  font-weight: 510;
-  font-size: 24px;
-  line-height: 1.15;
-  letter-spacing: -0.01em;
-  color: var(--v2-ink-000);
-}
-
-/* Buttons — Node/01 instrument feel. Mono uppercase, sharp corners.         */
-.v2-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  height: 42px;
-  padding: 0 18px;
-  font-family: var(--font-geist-mono), "JetBrains Mono", ui-monospace, monospace;
-  font-size: 11px;
-  letter-spacing: 0.20em;
-  text-transform: uppercase;
-  border: 1px solid var(--v2-line-300);
-  background: var(--v2-bg-200);
-  color: var(--v2-ink-100);
-  border-radius: 2px;
-  cursor: pointer;
-  transition:
-    border-color 150ms ease-out,
-    background-color 150ms ease-out,
-    color 150ms ease-out;
-}
-
-.v2-btn:hover {
-  border-color: var(--v2-ink-300);
-  background: var(--v2-bg-300);
-}
-
-.v2-btn-primary {
-  background: var(--v2-acc);
-  color: #110700;
-  border-color: var(--v2-acc);
-  box-shadow:
-    0 0 0 1px rgba(0, 0, 0, 0.35) inset,
-    0 0 24px var(--v2-acc-glow);
-}
-
-.v2-btn-primary:hover {
-  background: #ff7f1f;
-  border-color: #ff7f1f;
-  box-shadow:
-    0 0 0 1px rgba(0, 0, 0, 0.35) inset,
-    0 0 32px var(--v2-acc-glow);
-}
-
-.v2-btn-ghost {
-  background: transparent;
-  border-color: var(--v2-line-200);
-  color: var(--v2-ink-200);
-}
-
-.v2-btn-ghost:hover {
-  border-color: var(--v2-line-400);
-  color: var(--v2-ink-000);
-}
-
-/* Tag — Node/01 sharp pill. */
-.v2-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-family: var(--font-geist-mono), "JetBrains Mono", ui-monospace, monospace;
-  font-size: 10px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  padding: 4px 8px;
-  border: 1px solid var(--v2-line-200);
-  color: var(--v2-ink-200);
-  border-radius: 2px;
-}
-
-.v2-tag-dot {
-  width: 6px;
-  height: 6px;
-  background: var(--v2-ink-400);
-  border-radius: 1px;
-}
-
-.v2-tag-acc {
-  color: var(--v2-acc);
-  border-color: rgba(245, 110, 15, 0.35);
-  background: var(--v2-acc-soft);
-}
-
-.v2-tag-acc .v2-tag-dot {
-  background: var(--v2-acc);
-  box-shadow: 0 0 8px var(--v2-acc-glow);
-}
-
-.v2-tag-green {
-  color: var(--v2-sig-green);
-  border-color: rgba(34, 197, 94, 0.35);
-}
-
-.v2-tag-green .v2-tag-dot {
-  background: var(--v2-sig-green);
-}
-
-/* Stat tile — Node/01 stat block. */
-.v2-stat {
-  background: var(--v2-bg-050);
-  border: 1px solid var(--v2-line-100);
-  padding: 16px;
-  min-height: 96px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border-radius: 2px;
-}
-
-.v2-stat .v {
-  font-family: var(--font-geist), Inter, ui-sans-serif, sans-serif;
-  font-weight: 300;
-  font-size: 34px;
-  letter-spacing: -0.02em;
-  color: var(--v2-ink-000);
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
-}
-
-.v2-stat .v small {
-  font-size: 0.55em;
-  color: var(--v2-ink-300);
-  margin-left: 2px;
-}
-
-.v2-stat .k {
-  font-family: var(--font-geist-mono), "JetBrains Mono", ui-monospace, monospace;
-  font-size: 10px;
-  letter-spacing: 0.20em;
-  text-transform: uppercase;
-  color: var(--v2-ink-400);
-}
-
-/* Barcode ticker — Node/01 industrial vibe. */
-.v2-ticker {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 10px 16px;
-  background: var(--v2-bg-050);
-  border: 1px solid var(--v2-line-100);
-  font-family: var(--font-geist-mono), "JetBrains Mono", ui-monospace, monospace;
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--v2-ink-300);
-  border-radius: 2px;
-}
-
-.v2-barcode {
-  display: inline-flex;
-  align-items: center;
-  gap: 1px;
-  height: 18px;
-}
-
-.v2-barcode i {
-  display: inline-block;
-  width: 2px;
-  height: 100%;
-  background: var(--v2-ink-200);
-}
-
-.v2-barcode i:nth-child(2n) {
-  width: 1px;
-  background: var(--v2-ink-300);
-}
-
-.v2-barcode i:nth-child(3n) {
-  width: 3px;
-  background: var(--v2-ink-100);
-}
-
-.v2-barcode i:nth-child(7n) {
-  width: 1px;
-  background: var(--v2-ink-400);
-}
-
-/* ASCII texture — interstitial divider. */
-.v2-ascii {
-  background: var(--v2-bg-000);
-  border: 1px solid var(--v2-line-100);
-  padding: 16px;
-  font-family: var(--font-geist-mono), "JetBrains Mono", ui-monospace, monospace;
-  font-size: 9px;
-  line-height: 1.05;
-  color: var(--v2-ink-300);
-  white-space: pre;
-  overflow: hidden;
-  position: relative;
-  border-radius: 2px;
-}
-
-.v2-ascii::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    400px 200px at 60% 50%,
-    rgba(245, 110, 15, 0.18),
-    transparent 60%
-  );
-  pointer-events: none;
-}
-
-/* Trending table row hover — invert to bg-100 on hover, accented bar
-   on the leading edge to mirror the existing terminal table affordance. */
-.v2-row {
-  position: relative;
-}
-
-.v2-row:hover {
-  background-color: var(--v2-bg-100) !important;
-}
-
-.v2-row:hover td:first-child::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: var(--v2-acc);
-  box-shadow: 0 0 8px var(--v2-acc-glow);
-}
-
-/* Live dot — Node/01 + existing live-dot variant for V2 surfaces. */
-.v2-live-dot {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  background: var(--v2-acc);
-  border-radius: 1px;
-  box-shadow: 0 0 8px var(--v2-acc-glow);
-  animation: v2-live-pulse 1.6s ease-in-out infinite;
 }

@@ -3,7 +3,6 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { IdeasQueueAdmin } from "@/components/admin/IdeasQueueAdmin";
-import { TerminalBar } from "@/components/today-v2/primitives/TerminalBar";
 import {
   ADMIN_SESSION_COOKIE_NAME,
   verifyAdminSession,
@@ -23,21 +22,5 @@ export default async function IdeasQueueAdminPage() {
   if (!verifyAdminSession(session)) {
     redirect("/admin/login?next=/admin/ideas-queue");
   }
-  return (
-    <>
-      <section className="border-b border-[color:var(--v2-line-100)]">
-        <div className="v2-frame pt-6 pb-4">
-          <TerminalBar
-            label={
-              <>
-                <span aria-hidden>{"// "}</span>ADMIN · IDEAS · MODERATION
-              </>
-            }
-            status="QUEUE"
-          />
-        </div>
-      </section>
-      <IdeasQueueAdmin />
-    </>
-  );
+  return <IdeasQueueAdmin />;
 }

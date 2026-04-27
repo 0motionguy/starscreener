@@ -258,7 +258,7 @@ export default async function CompareOGImage() {
                 flexDirection: "column",
                 justifyContent: "space-between",
                 padding: "20px 24px",
-                borderRadius: 1,
+                borderRadius: 14,
                 backgroundColor: OG_COLORS.bgSecondary,
                 border: `1px solid ${OG_COLORS.border}`,
               }}

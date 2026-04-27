@@ -14,14 +14,14 @@ npm run portal:conformance          # expect: 8/8 checks pass (dev server on :30
 
 ## Step 1 — Deploy Next.js to production
 
-Two supported paths depending on which host serves `trendingrepo.com`.
+Two supported paths depending on which host serves `starscreener.xyz`.
 
 ### Path A: Vercel (recommended for this integration)
 
 1. `vercel link` (once, if not linked).
 2. `vercel --prod`.
 3. Note the deployment URL from the CLI output.
-4. Update DNS: point `trendingrepo.com` A record at Vercel per [Vercel domain docs](https://vercel.com/docs/projects/domains).
+4. Update DNS: point `starscreener.xyz` A record at Vercel per [Vercel domain docs](https://vercel.com/docs/projects/domains).
 5. **Before DNS flip**, remove the blanket Railway redirect in `vercel.json`:
    ```bash
    git rm vercel.json   # or reduce to just the $schema line if you want to keep the file
@@ -40,30 +40,30 @@ From a machine that's NOT your development laptop (a VPS, GitHub Actions runner,
 
 ```bash
 # 1. Manifest
-curl -s https://trendingrepo.com/portal | jq '.portal_version, .tools[].name'
+curl -s https://starscreener.xyz/portal | jq '.portal_version, .tools[].name'
 
 # 2. Real data for each tool
-curl -s -X POST https://trendingrepo.com/portal/call \
+curl -s -X POST https://starscreener.xyz/portal/call \
   -H 'Content-Type: application/json' \
   -d '{"tool":"top_gainers","params":{"limit":3}}' | jq .
 
-curl -s -X POST https://trendingrepo.com/portal/call \
+curl -s -X POST https://starscreener.xyz/portal/call \
   -H 'Content-Type: application/json' \
   -d '{"tool":"search_repos","params":{"query":"agent","limit":3}}' | jq .
 
-curl -s -X POST https://trendingrepo.com/portal/call \
+curl -s -X POST https://starscreener.xyz/portal/call \
   -H 'Content-Type: application/json' \
   -d '{"tool":"maintainer_profile","params":{"handle":"anthropics"}}' | jq .
 
 # 3. Health probe
-curl -s https://trendingrepo.com/api/health/portal | jq .
+curl -s https://starscreener.xyz/api/health/portal | jq .
 
 # 4. Automated conformance (same script CI would run)
-npm run portal:conformance https://trendingrepo.com/portal
+npm run portal:conformance https://starscreener.xyz/portal
 
 # 5. Regression — existing routes unchanged
-curl -s 'https://trendingrepo.com/api/repos?period=week&limit=3' | jq '.repos[0].fullName'
-curl -s 'https://trendingrepo.com/api/search?q=next' | jq '.results[0].fullName'
+curl -s 'https://starscreener.xyz/api/repos?period=week&limit=3' | jq '.repos[0].fullName'
+curl -s 'https://starscreener.xyz/api/search?q=next' | jq '.results[0].fullName'
 ```
 
 Expected:
@@ -118,7 +118,7 @@ If Step 2 finds an issue:
 ## Acceptance criteria recap
 
 All must be green:
-- [ ] `GET https://trendingrepo.com/portal` returns a v0.1-valid manifest.
+- [ ] `GET https://starscreener.xyz/portal` returns a v0.1-valid manifest.
 - [ ] POST calls for each of the 3 tools return real production data.
 - [ ] Upstream / vendored conformance runner passes.
 - [ ] `npx -y starscreener-mcp` spins up an MCP server.

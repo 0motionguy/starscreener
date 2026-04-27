@@ -64,11 +64,6 @@ export interface SignalRow {
 
   /** Optional inline badges (max 3 enforced visually). */
   badges?: SignalBadgeKind[];
-
-  /** Optional vendor product logo (16-20px, leading the title). */
-  logoUrl?: string | null;
-  /** Brand color hex (no #) used as the logo's background tile. */
-  brandColor?: string | null;
 }
 
 interface SignalTableProps {
@@ -234,35 +229,15 @@ export function SignalTable({
                     );
                     return (
                       <td key={c} className="px-2 py-2 align-top">
-                        <div className="flex items-start gap-2">
-                          {row.logoUrl ? (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img
-                              src={row.logoUrl}
-                              alt=""
-                              loading="lazy"
-                              width={20}
-                              height={20}
-                              className="mt-0.5 h-5 w-5 flex-none rounded-sm object-contain"
-                              style={
-                                row.brandColor
-                                  ? { backgroundColor: `#${row.brandColor}1A` }
-                                  : undefined
-                              }
-                            />
-                          ) : null}
-                          <div className="min-w-0 flex-1">
-                            {titleNode}
-                            {row.attribution || (row.badges && row.badges.length) ? (
-                              <div className="mt-0.5 flex flex-wrap items-center gap-1.5 text-[10px] text-text-tertiary">
-                                {row.attribution ? <span>{row.attribution}</span> : null}
-                                {row.badges?.slice(0, 3).map((b) => (
-                                  <SignalBadge key={b} kind={b} />
-                                ))}
-                              </div>
-                            ) : null}
+                        {titleNode}
+                        {row.attribution || (row.badges && row.badges.length) ? (
+                          <div className="mt-0.5 flex flex-wrap items-center gap-1.5 text-[10px] text-text-tertiary">
+                            {row.attribution ? <span>{row.attribution}</span> : null}
+                            {row.badges?.slice(0, 3).map((b) => (
+                              <SignalBadge key={b} kind={b} />
+                            ))}
                           </div>
-                        </div>
+                        ) : null}
                       </td>
                     );
                   }

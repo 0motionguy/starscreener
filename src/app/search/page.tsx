@@ -1,28 +1,28 @@
 "use client";
 
-// /search — V2 search terminal.
+// StarScreener — Search (Phase 3)
 //
 // Client component wrapped in Suspense (required for useSearchParams).
-// Renders a V2 page: TerminalBar header, breadcrumb mono link, V2 search
-// bar, status line ("// SEARCHING…" or result count), then a
-// TrendingTableV2 of results.
+// Renders the search bar + result count as a heading slot above a
+// TerminalLayout with the `search` FilterBar variant (no metas/stats/tabs,
+// only view controls). Featured cards are hidden — search is a pure
+// result surface.
 //
-// Sidebar "Top 100" links here with ?sort=trending&limit=100. When
-// there's no `q`, fall back to /api/repos?sort=stars-total so the page
-// becomes a usable top-ranked list instead of the empty-state prompt.
+// Data source is the live `/api/search` route; mock fallbacks removed in
+// Phase 0. The route returns `{ results: Repo[], meta: { total, query } }`.
 
 import { Suspense, useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Search as SearchIcon } from "lucide-react";
 import type { Repo } from "@/lib/types";
 import { useFilterStore } from "@/lib/store";
 import { SearchBar } from "@/components/shared/SearchBar";
-import { TrendingTableV2 } from "@/components/today-v2/TrendingTableV2";
-import { TerminalBar } from "@/components/today-v2/primitives/TerminalBar";
+import { TerminalLayout } from "@/components/terminal/TerminalLayout";
 
 export default function SearchPage() {
   return (
-    <Suspense fallback={<SearchPageSkeletonV2 />}>
+    <Suspense fallback={<SearchPageSkeleton />}>
       <SearchPageInner />
     </Suspense>
   );
@@ -32,20 +32,26 @@ function SearchPageInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const query = searchParams.get("q") ?? "";
+  // Sidebar "Top 100" links here with ?sort=trending&limit=100. When there's no
+  // `q`, fall back to /api/repos?sort=stars so the page becomes a usable
+  // top-ranked list instead of the empty-state prompt.
   const sortParam = searchParams.get("sort");
   const limitParam = searchParams.get("limit");
-  const isTopList =
-    !query.trim() && (sortParam !== null || limitParam !== null);
-  const topLimit = Math.min(
-    Math.max(Number.parseInt(limitParam ?? "100", 10) || 100, 1),
-    100,
-  );
-  const topSort =
-    sortParam === "stars" ? "stars-total" : sortParam ?? "stars-total";
+  const isTopList = !query.trim() && (sortParam !== null || limitParam !== null);
+  const topLimit = Math.min(Math.max(Number.parseInt(limitParam ?? "100", 10) || 100, 1), 100);
+  // /api/repos accepts: trending | momentum | stars-today | stars-total | newest.
+  // The Top 100 sidebar link sends sort=stars-total so this becomes a pure
+  // star-ranked list.
+  const topSort = sortParam === "stars" ? "stars-total" : (sortParam ?? "stars-total");
 
   const [results, setResults] = useState<Repo[]>([]);
   const [loading, setLoading] = useState(false);
 
+  // Top-100 list needs the terminal grid to show stars-desc. The client
+  // <Terminal/> re-sorts every fetched result through useSortedRepos against
+  // the persisted filterStore sort (defaults to rank/asc = momentum), which
+  // silently overrode the API's star ordering — so the UI looked like a
+  // random list instead of "1 to 100 by most stars". Force the sort here.
   const setSort = useFilterStore((s) => s.setSort);
   useEffect(() => {
     if (isTopList) {
@@ -102,163 +108,118 @@ function SearchPageInner() {
     [router, searchParams],
   );
 
-  const status = isTopList
-    ? `TOP ${topLimit}`
-    : query.trim()
-      ? loading
-        ? "SEARCHING"
-        : `${results.length} RESULT${results.length === 1 ? "" : "S"}`
-      : "READY";
-
-  return (
-    <>
-      <section className="border-b border-[color:var(--v2-line-100)]">
-        <div className="v2-frame pt-6 pb-6">
-          <TerminalBar
-            label={
-              <>
-                <span aria-hidden>{"// "}</span>
-                {isTopList ? `TOP · ${topLimit} · BY ${topSort.toUpperCase()}` : "SEARCH · ALL REPOS"}
-              </>
-            }
-            status={status}
-          />
-
-          <nav
-            aria-label="Breadcrumb"
-            className="v2-mono mt-6 inline-flex items-center gap-2"
-            style={{
-              color: "var(--v2-ink-400)",
-              fontSize: 11,
-              letterSpacing: "0.20em",
-            }}
-          >
-            <Link
-              href="/"
-              style={{ color: "var(--v2-ink-300)" }}
-            >
-              HOME
-            </Link>
-            <span aria-hidden>›</span>
-            <span style={{ color: "var(--v2-ink-100)" }}>
-              {isTopList ? `TOP ${topLimit}` : "SEARCH"}
+  const heading = (
+    <div className="px-4 sm:px-6 pt-6 pb-2 space-y-4">
+      <nav
+        aria-label="Breadcrumb"
+        className="flex items-center gap-1.5 text-xs text-text-tertiary"
+      >
+        <Link href="/" className="hover:text-text-primary transition-colors">
+          Home
+        </Link>
+        <span aria-hidden="true">›</span>
+        <span className="text-text-primary">Search</span>
+      </nav>
+      <SearchBar
+        fullWidth
+        autoFocus
+        placeholder="Search repos by name, language, topic..."
+        onSearch={handleSearch}
+      />
+      {query && (
+        <p className="text-sm text-text-tertiary" aria-live="polite">
+          {loading ? (
+            <span className="inline-flex items-center gap-2">
+              <span
+                className="size-1.5 rounded-full bg-text-tertiary animate-pulse"
+                aria-hidden
+              />
+              Searching for{" "}
+              <span className="text-text-primary font-medium">
+                &ldquo;{query}&rdquo;
+              </span>
             </span>
-          </nav>
-
-          <div className="mt-4">
-            <SearchBar
-              fullWidth
-              autoFocus
-              placeholder="Search repos by name, language, topic..."
-              onSearch={handleSearch}
-            />
-          </div>
-
-          {query && (
-            <p
-              className="v2-mono mt-4"
-              style={{ color: "var(--v2-ink-400)" }}
-              aria-live="polite"
-            >
-              <span aria-hidden>{"// "}</span>
-              {loading ? (
-                <>
-                  SEARCHING ·{" "}
-                  <span style={{ color: "var(--v2-ink-100)" }}>
-                    &ldquo;{query}&rdquo;
-                  </span>
-                </>
-              ) : (
-                <>
-                  {results.length} RESULT{results.length !== 1 ? "S" : ""}{" "}
-                  · FOR ·{" "}
-                  <span style={{ color: "var(--v2-ink-100)" }}>
-                    &ldquo;{query}&rdquo;
-                  </span>
-                </>
-              )}
-            </p>
+          ) : (
+            <>
+              {results.length} result{results.length !== 1 ? "s" : ""} for{" "}
+              <span className="text-text-primary font-medium">
+                &ldquo;{query}&rdquo;
+              </span>
+            </>
           )}
-        </div>
-      </section>
-
-      {(query.trim() || isTopList) && results.length > 0 ? (
-        <TrendingTableV2 repos={results} sortBy="none" limit={topLimit} />
-      ) : (
-        <section>
-          <div className="v2-frame py-12">
-            {query.trim() && loading ? (
-              <SearchLoadingV2 query={query} />
-            ) : query.trim() ? (
-              <SearchEmptyV2 query={query} />
-            ) : (
-              <SearchPromptV2 />
-            )}
-          </div>
-        </section>
+        </p>
       )}
-    </>
+    </div>
+  );
+
+  return (
+    <TerminalLayout
+      repos={results}
+      filterBarVariant="search"
+      showFeatured={false}
+      heading={heading}
+      emptyState={
+        query ? (
+          loading ? (
+            <SearchLoading query={query} />
+          ) : (
+            <SearchEmpty query={query} />
+          )
+        ) : (
+          <SearchPrompt />
+        )
+      }
+    />
   );
 }
 
-function SearchPageSkeletonV2() {
+// ---------------------------------------------------------------------------
+// Supplementary surfaces
+// ---------------------------------------------------------------------------
+
+function SearchPageSkeleton() {
   return (
-    <section>
-      <div className="v2-frame py-12">
-        <div className="v2-card p-12 text-center">
-          <p
-            className="v2-mono"
-            style={{ color: "var(--v2-ink-400)" }}
-          >
-            <span aria-hidden>{"// "}</span>
-            INITIALIZING · SEARCH
-          </p>
-        </div>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+      <div className="h-12 bg-bg-tertiary rounded-[var(--radius-card)] animate-pulse mb-6" />
+      <div className="flex gap-2 mb-6">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <div
+            key={i}
+            className="h-8 w-20 bg-bg-tertiary rounded-[var(--radius-badge)] animate-pulse"
+          />
+        ))}
       </div>
-    </section>
+    </div>
   );
 }
 
-function SearchLoadingV2({ query }: { query: string }) {
+function SearchLoading({ query }: { query: string }) {
   return (
-    <div className="v2-card p-12 text-center">
-      <p
-        className="v2-mono mb-2"
-        style={{ color: "var(--v2-acc)" }}
-      >
-        <span aria-hidden>{"// "}</span>
-        SEARCHING
-      </p>
-      <p
-        className="text-[14px]"
-        style={{ color: "var(--v2-ink-200)" }}
-      >
+    <div className="text-center py-20 px-4">
+      <SearchIcon
+        size={40}
+        className="mx-auto mb-4 text-text-muted animate-pulse"
+        aria-hidden="true"
+      />
+      <p className="text-text-secondary text-lg">
         Searching for &lsquo;{query}&rsquo;&hellip;
       </p>
     </div>
   );
 }
 
-function SearchEmptyV2({ query }: { query: string }) {
+function SearchEmpty({ query }: { query: string }) {
   return (
-    <div className="v2-card p-12 text-center">
-      <p
-        className="v2-mono mb-3"
-        style={{ color: "var(--v2-acc)" }}
-      >
-        <span aria-hidden>{"// "}</span>
-        NO MATCHES
-      </p>
-      <p
-        className="text-[15px] mb-3"
-        style={{ color: "var(--v2-ink-100)" }}
-      >
+    <div className="text-center py-20 px-4">
+      <SearchIcon
+        size={40}
+        className="mx-auto mb-4 text-text-muted"
+        aria-hidden="true"
+      />
+      <p className="text-text-tertiary text-lg">
         No repos found for &lsquo;{query}&rsquo;
       </p>
-      <p
-        className="text-[13px] max-w-md mx-auto"
-        style={{ color: "var(--v2-ink-300)" }}
-      >
+      <p className="text-text-muted text-sm mt-2 max-w-md mx-auto">
         Try searching for a repo name, programming language, or topic like
         &ldquo;rust&rdquo;, &ldquo;llm&rdquo;, or &ldquo;database&rdquo;.
       </p>
@@ -266,27 +227,19 @@ function SearchEmptyV2({ query }: { query: string }) {
   );
 }
 
-function SearchPromptV2() {
+function SearchPrompt() {
   return (
-    <div className="v2-card p-12 text-center">
-      <p
-        className="v2-mono mb-3"
-        style={{ color: "var(--v2-ink-300)" }}
-      >
-        <span aria-hidden>{"// "}</span>
-        START TYPING
+    <div className="text-center py-20 px-4">
+      <SearchIcon
+        size={40}
+        className="mx-auto mb-4 text-text-muted"
+        aria-hidden="true"
+      />
+      <p className="text-text-secondary text-lg">
+        Start typing to search across all repos
       </p>
-      <p
-        className="text-[15px] mb-2"
-        style={{ color: "var(--v2-ink-100)" }}
-      >
-        Search across all tracked repos.
-      </p>
-      <p
-        className="text-[13px]"
-        style={{ color: "var(--v2-ink-300)" }}
-      >
-        Search by name, owner, language, topic, or description.
+      <p className="text-text-muted text-sm mt-1">
+        Search by name, owner, language, topic, or description
       </p>
     </div>
   );

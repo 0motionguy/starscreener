@@ -1,23 +1,21 @@
-// /categories/[slug] — V2 category detail.
+// StarScreener — Category detail (Phase 3)
 //
 // Server component. Resolves the category from the slug, loads the full
-// set of repos in that category via the pipeline facade, and renders a
-// V2 page: TerminalBar, breadcrumb, .v2-display title, news rollup,
-// and TrendingTableV2.
+// set of repos in that category via the pipeline facade, and renders the
+// dense terminal surface with a category-specific heading and FilterBar
+// variant. No more card grid — category pages are full terminal pages.
 
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+export const revalidate = 1800;
 import { CATEGORIES } from "@/lib/constants";
 import { getCategoryIcon } from "@/lib/category-icons";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
-import { TrendingTableV2 } from "@/components/today-v2/TrendingTableV2";
-import { TerminalBar } from "@/components/today-v2/primitives/TerminalBar";
+import { TerminalLayout } from "@/components/terminal/TerminalLayout";
 import { CategoryNewsRollup } from "@/components/categories/CategoryNewsRollup";
-
-export const revalidate = 1800;
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -73,91 +71,55 @@ export default async function CategoryDetailPage({ params }: PageProps) {
   const repos = getDerivedRepos().filter((repo) => repo.categoryId === slug);
   const Icon = getCategoryIcon(category.icon);
 
+  const heading = (
+    <div className="px-4 sm:px-6 pt-6 pb-2">
+      <nav
+        aria-label="Breadcrumb"
+        className="flex items-center gap-1.5 text-xs text-text-tertiary mb-3"
+      >
+        <Link
+          href="/"
+          className="hover:text-text-primary transition-colors"
+        >
+          Home
+        </Link>
+        <span aria-hidden="true">›</span>
+        <Link
+          href="/categories"
+          className="text-text-secondary hover:text-text-primary transition-colors"
+        >
+          Categories
+        </Link>
+        <span aria-hidden="true">›</span>
+        <span className="text-text-primary">{category.name}</span>
+      </nav>
+      <div className="flex items-center gap-3">
+        {Icon && (
+          <Icon size={28} style={{ color: category.color }} aria-hidden="true" />
+        )}
+        <h1 className="font-display text-3xl font-bold text-text-primary">
+          {category.name}
+        </h1>
+      </div>
+      <p className="mt-2 text-text-secondary max-w-2xl">
+        {category.description}
+      </p>
+      <div className="mt-4">
+        <CategoryNewsRollup
+          repos={repos}
+          categorySlug={slug}
+          categoryLabel={category.name}
+        />
+      </div>
+    </div>
+  );
+
   return (
-    <>
-      <section className="border-b border-[color:var(--v2-line-100)]">
-        <div className="v2-frame pt-6 pb-6">
-          <TerminalBar
-            label={
-              <>
-                <span aria-hidden>{"// "}</span>CATEGORY ·{" "}
-                {category.shortName.toUpperCase()}
-              </>
-            }
-            status={`${repos.length} REPO${repos.length === 1 ? "" : "S"}`}
-          />
-
-          <nav
-            aria-label="Breadcrumb"
-            className="v2-mono mt-6 inline-flex items-center gap-2"
-            style={{
-              color: "var(--v2-ink-400)",
-              fontSize: 11,
-              letterSpacing: "0.20em",
-            }}
-          >
-            <Link href="/" style={{ color: "var(--v2-ink-300)" }}>
-              HOME
-            </Link>
-            <span aria-hidden>›</span>
-            <Link
-              href="/categories"
-              style={{ color: "var(--v2-ink-300)" }}
-            >
-              CATEGORIES
-            </Link>
-            <span aria-hidden>›</span>
-            <span style={{ color: "var(--v2-ink-100)" }}>
-              {category.name.toUpperCase()}
-            </span>
-          </nav>
-
-          <div className="mt-6 flex items-center gap-3">
-            {Icon ? (
-              <Icon
-                size={32}
-                style={{ color: category.color }}
-                aria-hidden="true"
-              />
-            ) : null}
-            <h1
-              className="v2-display"
-              style={{
-                fontSize: "clamp(28px, 4vw, 44px)",
-                color: "var(--v2-ink-000)",
-              }}
-            >
-              {category.name}
-            </h1>
-          </div>
-          <p
-            className="mt-3 text-[14px] leading-relaxed max-w-[80ch]"
-            style={{ color: "var(--v2-ink-200)" }}
-          >
-            {category.description}
-          </p>
-        </div>
-      </section>
-
-      {/* News rollup */}
-      <section className="border-b border-[color:var(--v2-line-100)]">
-        <div className="v2-frame py-6">
-          <p
-            className="v2-mono mb-3"
-            style={{ color: "var(--v2-ink-300)" }}
-          >
-            <span aria-hidden>{"// "}</span>
-            NEWS · ROLLUP · {category.shortName.toUpperCase()}
-          </p>
-          <CategoryNewsRollup
-            repos={repos}
-            categorySlug={slug}
-            categoryLabel={category.name}
-          />
-        </div>
-      </section>
-
-      <TrendingTableV2 repos={repos} sortBy="delta24h" limit={50} />
-    </>
+    <TerminalLayout
+      repos={repos}
+      filterBarVariant="category"
+      featuredCount={4}
+      heading={heading}
+    />
   );
 }

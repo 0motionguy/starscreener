@@ -1,15 +1,9 @@
-// Root layout — V2 design system applies SITE-WIDE.
-//
-// Geist + Geist Mono are loaded globally; the V2 chrome (HeaderV2 +
-// SidebarV2) replaces legacy Header/Sidebar; the entire body is wrapped
-// in .v2-root .v2-canvas so the dot-field background and V2 tokens
-// apply on every route. Legacy --font-sans/mono/display tokens alias
-// to Geist in @theme so any V1 component using `font-sans` still picks
-// up V2 typography.
-
 import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/next";
-import { Geist, Geist_Mono } from "next/font/google";
+// Trimmed from 4 fonts to 3: Instrument Serif (--font-editorial) was
+// defined but not referenced anywhere in src/components or src/app.
+// Dropping it saves ~30 KB of font payload + one <link rel="preload">.
+import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import { Toaster } from "sonner";
 // Validate environment variables at server boot. Must stay first so misconfig
 // crashes the app before any routes load.
@@ -17,26 +11,31 @@ import "@/lib/bootstrap";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { StoreProvider } from "@/components/providers/StoreProvider";
 import { AppShell } from "@/components/layout/AppShell";
-import { HeaderV2 } from "@/components/today-v2/HeaderV2";
-import { SidebarV2 } from "@/components/today-v2/SidebarV2";
+import { Header } from "@/components/layout/Header";
+import { Sidebar } from "@/components/layout/Sidebar";
 import { MobileDrawer } from "@/components/layout/MobileDrawer";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { BrowserAlertBridge } from "@/components/alerts/BrowserAlertBridge";
 import { SITE_URL, SITE_NAME, SITE_TAGLINE, SITE_DESCRIPTION } from "@/lib/seo";
 import "./globals.css";
 
-const geist = Geist({
-  variable: "--font-geist",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
   display: "swap",
-  weight: ["300", "400", "500", "600", "700"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
   display: "swap",
-  weight: ["300", "400", "500", "600"],
+});
+
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -96,7 +95,10 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#08090a",
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#151419" },
+    { media: "(prefers-color-scheme: light)", color: "#f7f6f2" },
+  ],
 };
 
 export default function RootLayout({
@@ -107,7 +109,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geist.variable} ${geistMono.variable}`}
+      className={`${inter.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable}`}
       suppressHydrationWarning
     >
       <head>
@@ -117,7 +119,7 @@ export default function RootLayout({
             // "starscreener-theme" entry for one release so existing
             // users don't get their theme wiped. Also migrates the value
             // forward so next-themes finds it on the new key next render.
-            __html: `document.documentElement.classList.add("dark");`,
+            __html: `(function(){try{var K="trendingrepo-theme",L="starscreener-theme",t=localStorage.getItem(K);if(!t){var old=localStorage.getItem(L);if(old){localStorage.setItem(K,old);t=old;}}if(t==="light")document.documentElement.classList.add("light");else document.documentElement.classList.add("dark")}catch(e){document.documentElement.classList.add("dark")}})();`,
           }}
         />
         <script
@@ -133,37 +135,32 @@ export default function RootLayout({
       <body>
         <ThemeProvider>
           <StoreProvider>
-            {/* V2 chrome wraps the entire app. .v2-root provides the
-                token block + Geist font features; .v2-canvas paints the
-                dot-field background and aurora glows. */}
-            <div className="v2-root v2-canvas">
-              <HeaderV2 />
-              <MobileDrawer />
-              <AppShell>
-                <SidebarV2 />
-                <main className="app-main">{children}</main>
-              </AppShell>
-              <MobileNav />
-              <BrowserAlertBridge />
-              <Toaster
-                theme="dark"
-                position="bottom-right"
-                richColors={false}
-                closeButton={false}
-                toastOptions={{
-                  classNames: {
-                    toast:
-                      "!bg-bg-card !border !border-border-primary !text-text-primary !rounded-[var(--radius-card)] !shadow-[var(--shadow-popover)] !font-sans",
-                    title: "!text-text-primary !font-medium",
-                    description: "!text-text-secondary",
-                    success: "!border-functional/40",
-                    error: "!border-down/40",
-                    info: "!border-info/40",
-                    warning: "!border-warning/40",
-                  },
-                }}
-              />
-            </div>
+            <Header />
+            <MobileDrawer />
+            <AppShell>
+              <Sidebar />
+              <main className="app-main">{children}</main>
+            </AppShell>
+            <MobileNav />
+            <BrowserAlertBridge />
+            <Toaster
+              theme="dark"
+              position="bottom-right"
+              richColors={false}
+              closeButton={false}
+              toastOptions={{
+                classNames: {
+                  toast:
+                    "!bg-bg-card !border !border-border-primary !text-text-primary !rounded-[var(--radius-card)] !shadow-[var(--shadow-popover)] !font-sans",
+                  title: "!text-text-primary !font-medium",
+                  description: "!text-text-secondary",
+                  success: "!border-functional/40",
+                  error: "!border-down/40",
+                  info: "!border-info/40",
+                  warning: "!border-warning/40",
+                },
+              }}
+            />
           </StoreProvider>
         </ThemeProvider>
         <Analytics />

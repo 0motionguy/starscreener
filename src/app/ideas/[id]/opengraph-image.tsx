@@ -203,7 +203,7 @@ function ReactionTile({
         alignItems: "baseline",
         gap: 10,
         padding: "12px 20px",
-        borderRadius: 1,
+        borderRadius: 14,
         border: `1px solid ${muted ? OG_COLORS.border : OG_COLORS.brandDim}`,
         backgroundColor: muted ? OG_COLORS.bgSecondary : OG_COLORS.brandDim,
         color: muted ? OG_COLORS.textTertiary : OG_COLORS.brand,

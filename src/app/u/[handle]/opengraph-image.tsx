@@ -221,7 +221,7 @@ export default async function UserProfileOGImage({ params }: RouteParams) {
                   alignItems: "center",
                   gap: 14,
                   padding: "14px 20px",
-                  borderRadius: 1,
+                  borderRadius: 12,
                   backgroundColor: OG_COLORS.bgSecondary,
                   border: `1px solid ${OG_COLORS.border}`,
                 }}
@@ -304,7 +304,7 @@ function ProfileStat({
         flexDirection: "column",
         gap: 8,
         padding: "18px 22px",
-        borderRadius: 1,
+        borderRadius: 14,
         backgroundColor: OG_COLORS.bgSecondary,
         border: `1px solid ${OG_COLORS.border}`,
       }}

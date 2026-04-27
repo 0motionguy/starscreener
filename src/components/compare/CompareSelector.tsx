@@ -26,6 +26,7 @@ import { useCompareStore } from "@/lib/store";
 import type { Repo } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { MAX_COMPARE_REPOS } from "@/lib/constants";
+import { useDebouncedSearch } from "@/hooks/useDebouncedSearch";
 
 const SLOT_COLORS = [
   { border: "border-accent-green", text: "text-accent-green", dot: "bg-accent-green" },
@@ -48,8 +49,6 @@ export function CompareSelector() {
   const { repos, addRepo, removeRepo, clearAll, isFull } = useCompareStore();
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const [suggestions, setSuggestions] = useState<Repo[]>([]);
-  const [suggestLoading, setSuggestLoading] = useState(false);
   const [refsById, setRefsById] = useState<Record<string, RepoRef>>({});
   const dropdownRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -70,54 +69,48 @@ export function CompareSelector() {
   }, []);
 
   // --- Debounced search ------------------------------------------------
-  useEffect(() => {
-    const q = query.trim();
-    if (!q) {
-      setSuggestions([]);
-      setSuggestLoading(false);
-      return;
-    }
-    const controller = new AbortController();
-    setSuggestLoading(true);
-    const handle = setTimeout(async () => {
-      try {
-        const res = await fetch(
-          `/api/search?q=${encodeURIComponent(q)}&limit=8`,
-          { signal: controller.signal },
-        );
-        if (!res.ok) throw new Error(`status ${res.status}`);
-        const data = (await res.json()) as { results?: Repo[] };
-        const items = Array.isArray(data.results) ? data.results : [];
-        // Merge fresh hits into the ref cache so pills for ids we happened
-        // to surface are name-resolved without a second round-trip.
-        setRefsById((prev) => {
-          const next = { ...prev };
-          for (const r of items) {
-            next[r.id] = {
-              fullName: r.fullName,
-              ownerAvatarUrl: r.ownerAvatarUrl,
-              language: r.language,
-              stars: r.stars,
-            };
-          }
-          return next;
-        });
-        // Filter out repos already in the compare list.
-        setSuggestions(items.filter((r) => !repos.includes(r.id)));
-      } catch (err) {
-        if ((err as { name?: string }).name === "AbortError") return;
-        console.error("[compare:search] failed", err);
-        setSuggestions([]);
-      } finally {
-        setSuggestLoading(false);
-      }
-    }, SEARCH_DEBOUNCE_MS);
+  // Refetches only when the query changes; the `repos` filter is applied
+  // downstream in `suggestions` so adding/removing pills doesn't burn a
+  // network round-trip.
+  const { data: rawSuggestions, loading: suggestLoading } = useDebouncedSearch<
+    Repo[]
+  >(
+    query,
+    async (q, signal) => {
+      const res = await fetch(
+        `/api/search?q=${encodeURIComponent(q)}&limit=8`,
+        { signal },
+      );
+      if (!res.ok) throw new Error(`status ${res.status}`);
+      const data = (await res.json()) as { results?: Repo[] };
+      return Array.isArray(data.results) ? data.results : [];
+    },
+    { delayMs: SEARCH_DEBOUNCE_MS, minChars: 1 },
+  );
 
-    return () => {
-      clearTimeout(handle);
-      controller.abort();
-    };
-  }, [query, repos]);
+  // Merge fresh hits into the ref cache so pills for ids we happen to
+  // surface are name-resolved without a second round-trip.
+  useEffect(() => {
+    if (!rawSuggestions || rawSuggestions.length === 0) return;
+    setRefsById((prev) => {
+      const next = { ...prev };
+      for (const r of rawSuggestions) {
+        next[r.id] = {
+          fullName: r.fullName,
+          ownerAvatarUrl: r.ownerAvatarUrl,
+          language: r.language,
+          stars: r.stars,
+        };
+      }
+      return next;
+    });
+  }, [rawSuggestions]);
+
+  // Filter out repos already in the compare list.
+  const suggestions = useMemo<Repo[]>(
+    () => (rawSuggestions ?? []).filter((r) => !repos.includes(r.id)),
+    [rawSuggestions, repos],
+  );
 
   // --- Hydrate pill refs whenever the compare list changes -----------
   useEffect(() => {

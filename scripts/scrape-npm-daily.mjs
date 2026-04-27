@@ -30,6 +30,7 @@ import { readFile, writeFile, mkdir, stat } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { fetchJsonWithRetry, HttpStatusError, sleep } from "./_fetch-json.mjs";
+import { writeDataStore } from "./_data-store-write.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = resolve(__dirname, "..");
@@ -275,10 +276,19 @@ export async function main({ argv = process.argv.slice(2), log = console.log, fe
   await writeFile(OUT_JSONL, serializeJsonl(existing), "utf8");
   await writeFile(OUT_DEPENDENTS, `${JSON.stringify(dependents, null, 2)}\n`, "utf8");
 
+  // SCR-04: dual-write to data-store so live readers see the dependents
+  // map without waiting for the next deploy. JSONL stays on disk for the
+  // append-only history; only the dependents snapshot is small enough to
+  // fit in Redis comfortably.
+  const dsResult = await writeDataStore("npm-dependents", {
+    fetchedAt: new Date().toISOString(),
+    dependents,
+  });
+
   const sizeJsonl = (await stat(OUT_JSONL)).size;
   const sizeDeps = (await stat(OUT_DEPENDENTS)).size;
   log(`wrote ${OUT_JSONL} (${sizeJsonl} bytes, ${existing.size} rows)`);
-  log(`wrote ${OUT_DEPENDENTS} (${sizeDeps} bytes, ${Object.keys(dependents).length} packages)`);
+  log(`wrote ${OUT_DEPENDENTS} (${sizeDeps} bytes, ${Object.keys(dependents).length} packages) [redis: ${dsResult.source}]`);
   log(`done: ok=${ok} skipped=${skipped} failed=${failed}`);
   return { ok, skipped, failed };
 }

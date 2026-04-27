@@ -8,7 +8,9 @@
 // src/lib/revenue-submissions.ts for the storage and validation layer.
 
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 
+import { parseBody } from "@/lib/api/parse-body";
 import {
   listRevenueSubmissions,
   submitRevenueToQueue,
@@ -19,6 +21,9 @@ import {
 } from "@/lib/revenue-submissions";
 
 export const runtime = "nodejs";
+
+// Shape gate only — field-level validation lives in validateRevenueSubmissionInput.
+const RevenueSubmissionsPostSchema = z.record(z.string(), z.unknown());
 
 interface RevenueSubmissionsListResponse {
   ok: true;
@@ -60,17 +65,12 @@ export async function POST(
     RevenueSubmissionsCreateResponse | RevenueSubmissionsErrorResponse
   >
 > {
-  let raw: unknown;
-  try {
-    raw = await request.json();
-  } catch {
-    return NextResponse.json(
-      { ok: false, error: "request body is not valid JSON" },
-      { status: 400 },
-    );
+  const parsedShape = await parseBody(request, RevenueSubmissionsPostSchema);
+  if (!parsedShape.ok) {
+    return parsedShape.response as NextResponse<RevenueSubmissionsErrorResponse>;
   }
 
-  const parsed = validateRevenueSubmissionInput(raw);
+  const parsed = validateRevenueSubmissionInput(parsedShape.data);
   if (!parsed.ok) {
     return NextResponse.json(
       { ok: false, error: parsed.error },

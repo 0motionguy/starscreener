@@ -1,3 +1,9 @@
+// lint-allow: no-parsebody — body IS Zod-validated via TwitterIngestRequestSchema
+// below, but the agent-platform contract uses a bespoke {ok:false, error:{code,
+// message,retryable,details}} envelope and 422 status for validation failures
+// (vs canonical {ok:false, error:string} 400). Reshaping through parseBody
+// would either flatten the envelope (breaking the agent contract) or require
+// a full re-shape on every error path. Document and skip.
 import { NextRequest, NextResponse } from "next/server";
 import {
   internalAgentAuthFailureResponse,

@@ -1,3 +1,8 @@
+// lint-allow: no-parsebody — DEPRECATED endpoint kept for legacy v1 callers
+// (canonical replacement: /api/internal/signals/twitter/v1/ingest). Body IS
+// Zod-validated via LegacyTwitterFindingsPayloadSchema below. Same bespoke
+// {ok:false, error:{code,message,retryable}} envelope + 422 status as the
+// canonical v1 endpoint — the agent-platform contract requires it.
 import { NextRequest, NextResponse } from "next/server";
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import { LegacyTwitterFindingsPayloadSchema } from "@/lib/twitter/ingest-contract";

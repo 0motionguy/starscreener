@@ -63,13 +63,15 @@ const ALLOW_NO_PARSEBODY = new Map([
     "src/app/api/cron/webhooks/scan/route.ts",
     "No-body cron trigger — scans derived repos + funding signals on auth alone.",
   ],
+  [
+    "src/app/api/repos/[owner]/[name]/aiso/route.ts",
+    "POST takes no body — only URL slug params, per-IP rate limit, enqueues a rescan row from the auth-derived state.",
+  ],
 
   // Grandfathered: pre-APP-02 typeof-ladder routes. Migrate to parseBody
   // when next touched. Keep this list ratcheting down — never add a NEW
   // route here. The CI guard's value is catching new regressions; these
   // are pinned debt, not new permission.
-  ["src/app/api/internal/signals/twitter/v1/ingest/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
-  ["src/app/api/internal/twitter/v1/findings/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/pipeline/alerts/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/pipeline/alerts/rules/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/pipeline/backfill-history/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
@@ -80,8 +82,6 @@ const ALLOW_NO_PARSEBODY = new Map([
   ["src/app/api/pipeline/rebuild/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/pipeline/recompute/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/pipeline/refresh/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
-  ["src/app/api/repos/[owner]/[name]/aiso/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
-  ["src/app/api/submissions/revenue/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
 ]);
 
 const MUTATING_METHODS = ["POST", "PUT", "DELETE", "PATCH"];

@@ -3,7 +3,7 @@ import { Analytics } from "@vercel/analytics/next";
 // Trimmed from 4 fonts to 3: Instrument Serif (--font-editorial) was
 // defined but not referenced anywhere in src/components or src/app.
 // Dropping it saves ~30 KB of font payload + one <link rel="preload">.
-import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
+import { Geist, Geist_Mono, Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import { Toaster } from "sonner";
 // Validate environment variables at server boot. Must stay first so misconfig
 // crashes the app before any routes load.
@@ -18,6 +18,18 @@ import { MobileNav } from "@/components/layout/MobileNav";
 import { BrowserAlertBridge } from "@/components/alerts/BrowserAlertBridge";
 import { SITE_URL, SITE_NAME, SITE_TAGLINE, SITE_DESCRIPTION } from "@/lib/seo";
 import "./globals.css";
+
+const geist = Geist({
+  variable: "--font-geist",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+  display: "swap",
+});
 
 const inter = Inter({
   variable: "--font-inter",
@@ -96,7 +108,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#151419" },
+    { media: "(prefers-color-scheme: dark)", color: "#08090a" },
     { media: "(prefers-color-scheme: light)", color: "#f7f6f2" },
   ],
 };
@@ -109,7 +121,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable}`}
+      className={`${geist.variable} ${geistMono.variable} ${inter.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable}`}
       suppressHydrationWarning
     >
       <head>

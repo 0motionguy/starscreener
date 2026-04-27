@@ -12,28 +12,28 @@
    Theme tokens (dark by default)
    --------------------------------------------------------------------------- */
 @theme {
-  /* ── Backgrounds (Dark Void palette) ───────────────────────────────────── */
-  --color-bg-primary: #151419;         /* Dark Void */
-  --color-bg-secondary: #1b1b1e;       /* Gluon Grey */
-  --color-bg-tertiary: #262626;        /* Slate Grey */
-  --color-bg-card: #1b1b1e;
-  --color-bg-card-hover: #262626;
-  --color-bg-row-hover: #1f1f22;
-  --color-bg-elevated: #2e2e33;
-  --color-bg-inset: #101014;
-  --color-bg-overlay: rgba(10, 10, 12, 0.78);
+  /* ── Backgrounds (V2 Node/01 darks, retuned to 151419 family) ───────────── */
+  --color-bg-primary: #08090a;
+  --color-bg-secondary: #13161a;
+  --color-bg-tertiary: #1a1e23;
+  --color-bg-card: #0d0f10;
+  --color-bg-card-hover: #1a1e23;
+  --color-bg-row-hover: #13161a;
+  --color-bg-elevated: #23282e;
+  --color-bg-inset: #08090a;
+  --color-bg-overlay: rgba(8, 9, 10, 0.82);
 
-  /* ── Text ──────────────────────────────────────────────────────────────── */
-  --color-text-primary: #fbfbfb;       /* Snow */
-  --color-text-secondary: #c4c4c6;
-  --color-text-tertiary: #878787;      /* Dusty Grey */
-  --color-text-muted: #5a5a5c;
-  --color-text-inverse: #151419;
+  /* ── Text (V2 5-stop ink ramp) ──────────────────────────────────────────── */
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #aab0b6;
+  --color-text-tertiary: #7d848c;
+  --color-text-muted: #565d65;
+  --color-text-inverse: #08090a;
 
-  /* ── Borders ───────────────────────────────────────────────────────────── */
-  --color-border-primary: #2b2b2f;
-  --color-border-secondary: #1f1f23;
-  --color-border-strong: #3a3a3e;
+  /* ── Borders (V2 hairlines) ─────────────────────────────────────────────── */
+  --color-border-primary: #272c33;
+  --color-border-secondary: #1c2024;
+  --color-border-strong: #363c44;
   --color-border-focus: #f56e0f;
 
   /* ── Brand accent (Liquid Lava orange) — hero/CTA/momentum-hot ─────────── */
@@ -88,10 +88,10 @@
   --color-momentum-neutral: var(--color-heat-neutral);
   --color-momentum-cool: var(--color-heat-cool);
 
-  /* ── Fonts ─────────────────────────────────────────────────────────────── */
-  --font-sans: var(--font-inter), "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-mono: var(--font-jetbrains-mono), "JetBrains Mono", ui-monospace, "Cascadia Code", monospace;
-  --font-display: var(--font-space-grotesk), "Space Grotesk", var(--font-inter), "Inter", sans-serif;
+  /* ── Fonts (V2: Geist primary, V1 stack as fallback) ────────────────────── */
+  --font-sans: var(--font-geist), var(--font-inter), "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-geist-mono), var(--font-jetbrains-mono), "JetBrains Mono", ui-monospace, "Cascadia Code", monospace;
+  --font-display: var(--font-geist), var(--font-space-grotesk), "Space Grotesk", var(--font-inter), "Inter", sans-serif;
 
   /* ── Type scale ────────────────────────────────────────────────────────── */
   --text-2xs: 0.625rem;     /* 10px */
@@ -128,18 +128,18 @@
   --tracking-wider: 0.08em;
   --tracking-widest: 0.14em;
 
-  /* ── Radii ─────────────────────────────────────────────────────────────── */
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
-  --radius-button: 0.5rem;
-  --radius-card: 0.75rem;
-  --radius-card-lg: 1rem;
-  --radius-xl: 1.25rem;
+  /* ── Radii (V2: sharp 2px corners) ──────────────────────────────────────── */
+  --radius-sm: 0.125rem;
+  --radius-md: 0.125rem;
+  --radius-button: 0.125rem;
+  --radius-card: 0.125rem;
+  --radius-card-lg: 0.125rem;
+  --radius-xl: 0.125rem;
   --radius-badge: 9999px;
 
-  /* ── Shadows ───────────────────────────────────────────────────────────── */
-  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4), 0 1px 1px rgba(0, 0, 0, 0.25);
-  --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.4);
+  /* ── Shadows (V2: removed — luminance-stacked surfaces only) ────────────── */
+  --shadow-card: none;
+  --shadow-card-hover: none;
   --shadow-row-hover: inset 3px 0 0 var(--color-functional);
   --shadow-overlay: 0 24px 48px rgba(0, 0, 0, 0.55), 0 2px 6px rgba(0, 0, 0, 0.35);
   --shadow-popover: 0 12px 32px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.35);
@@ -157,6 +157,57 @@
   --animate-brand-pulse: brand-pulse 2.4s ease-in-out infinite;
   --animate-shimmer: shimmer 1.6s linear infinite;
   --animate-tick: tick 0.4s ease-out;
+
+  /* ─────────────────────────────────────────────────────────────────────────
+     V2 design system (Node/01 × Linear fusion) — additive, namespaced --v2-*.
+     Existing V1 token names above are re-skinned to V2 values so V1
+     components inherit the V2 palette without per-component edits.
+     ───────────────────────────────────────────────────────────────────────── */
+
+  /* V2 surfaces — Node/01 darks */
+  --v2-bg-000: #08090a;
+  --v2-bg-050: #0d0f10;
+  --v2-bg-100: #13161a;
+  --v2-bg-200: #1a1e23;
+  --v2-bg-300: #23282e;
+
+  /* V2 hairlines */
+  --v2-line-soft: rgba(255, 255, 255, 0.05);
+  --v2-line-std:  rgba(255, 255, 255, 0.08);
+  --v2-line-100:  #1c2024;
+  --v2-line-200:  #272c33;
+  --v2-line-300:  #363c44;
+  --v2-line-400:  #4a5159;
+
+  /* V2 5-stop ink ramp */
+  --v2-ink-000: #ffffff;
+  --v2-ink-100: #e6e7e8;
+  --v2-ink-200: #aab0b6;
+  --v2-ink-300: #7d848c;
+  --v2-ink-400: #565d65;
+  --v2-ink-500: #3a4047;
+
+  /* V2 accent — Liquid Lava with Node/01 discipline */
+  --v2-acc:      #f56e0f;
+  --v2-acc-soft: rgba(245, 110, 15, 0.14);
+  --v2-acc-glow: rgba(245, 110, 15, 0.45);
+  --v2-acc-dim:  rgba(245, 110, 15, 0.32);
+
+  /* V2 signal palette */
+  --v2-sig-red:   #ff4d4d;
+  --v2-sig-amber: #ffb547;
+  --v2-sig-cyan:  #3ad6c5;
+  --v2-sig-green: #22c55e;
+
+  /* V2 typography tracking */
+  --v2-tracking-display:    -0.035em;
+  --v2-tracking-h1:         -0.022em;
+  --v2-tracking-mono:        0.18em;
+  --v2-tracking-mono-tight:  0.12em;
+
+  /* V2 dot-field */
+  --v2-dot:        #2a3037;
+  --v2-dot-bright: #4a5159;
 }
 
 /* ---------------------------------------------------------------------------
@@ -636,4 +687,170 @@ body::before {
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ---------------------------------------------------------------------------
+   V2 utility classes (Node/01 × Linear fusion) — opt-in via className.
+   Coexist with V1 utilities; never auto-replace anything.
+   --------------------------------------------------------------------------- */
+
+.v2-mono {
+  font-family: var(--font-geist-mono), var(--font-jetbrains-mono), "JetBrains Mono", monospace;
+  letter-spacing: var(--v2-tracking-mono);
+  text-transform: uppercase;
+}
+
+.v2-mono-tight {
+  font-family: var(--font-geist-mono), var(--font-jetbrains-mono), "JetBrains Mono", monospace;
+  letter-spacing: var(--v2-tracking-mono-tight);
+}
+
+.v2-display {
+  font-family: var(--font-geist), var(--font-inter), Inter, sans-serif;
+  font-weight: 300;
+  letter-spacing: var(--v2-tracking-display);
+  line-height: 1.04;
+}
+
+.v2-h1 {
+  font-family: var(--font-geist), var(--font-inter), Inter, sans-serif;
+  font-weight: 400;
+  letter-spacing: var(--v2-tracking-h1);
+  line-height: 1.1;
+}
+
+.v2-h2 {
+  font-family: var(--font-geist), var(--font-inter), Inter, sans-serif;
+  font-weight: 510;
+  letter-spacing: -0.018em;
+  line-height: 1.2;
+}
+
+.v2-card {
+  background: var(--v2-bg-050);
+  border: 1px solid var(--v2-line-std);
+  border-radius: 2px;
+}
+
+.v2-frame {
+  border: 1px solid var(--v2-line-200);
+  border-radius: 2px;
+}
+
+.v2-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  padding: 0 16px;
+  border-radius: 2px;
+  font-family: var(--font-geist-mono), var(--font-jetbrains-mono), monospace;
+  letter-spacing: var(--v2-tracking-mono);
+  text-transform: uppercase;
+  font-size: 11px;
+  cursor: pointer;
+  transition: background 120ms ease-out, border-color 120ms ease-out;
+}
+
+.v2-btn-primary {
+  background: var(--v2-acc);
+  color: #08090a;
+  border: 1px solid var(--v2-acc);
+}
+
+.v2-btn-primary:hover {
+  background: #ff8128;
+  border-color: #ff8128;
+}
+
+.v2-btn-ghost {
+  background: transparent;
+  color: var(--v2-ink-100);
+  border: 1px solid var(--v2-line-300);
+}
+
+.v2-btn-ghost:hover {
+  background: var(--v2-bg-100);
+  border-color: var(--v2-line-400);
+}
+
+.v2-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 6px;
+  border: 1px solid var(--v2-line-200);
+  border-radius: 2px;
+  font-family: var(--font-geist-mono), var(--font-jetbrains-mono), monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--v2-ink-200);
+}
+
+.v2-stat {
+  font-family: var(--font-geist-mono), var(--font-jetbrains-mono), monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--v2-tracking-mono-tight);
+}
+
+.v2-row {
+  transition: background-color 120ms ease-out;
+}
+
+.v2-row:hover {
+  background: var(--v2-bg-100);
+}
+
+.v2-bracket {
+  position: relative;
+}
+
+.v2-bracket::before,
+.v2-bracket::after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: var(--v2-acc);
+  pointer-events: none;
+}
+
+.v2-bracket::before {
+  top: -1px;
+  left: -1px;
+}
+
+.v2-bracket::after {
+  bottom: -1px;
+  right: -1px;
+}
+
+.v2-term-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--v2-line-std);
+  font-family: var(--font-geist-mono), var(--font-jetbrains-mono), monospace;
+  font-size: 11px;
+  letter-spacing: var(--v2-tracking-mono);
+  color: var(--v2-ink-300);
+  text-transform: uppercase;
+}
+
+.v2-live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--v2-sig-green);
+  box-shadow: 0 0 6px var(--v2-sig-green);
+}
+
+.v2-ascii {
+  font-family: var(--font-geist-mono), var(--font-jetbrains-mono), monospace;
+  font-size: 10px;
+  line-height: 1;
+  color: var(--v2-ink-400);
+  white-space: pre;
+  user-select: none;
 }

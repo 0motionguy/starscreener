@@ -10,6 +10,10 @@
 [![Portal v0.1](https://img.shields.io/badge/Portal-v0.1-f56e0f.svg?style=for-the-badge)](https://visitportal.dev)
 [![MCP](https://img.shields.io/badge/MCP-ready-a855f7.svg?style=for-the-badge)](https://modelcontextprotocol.io)
 
+[![Tech-debt audit](https://img.shields.io/badge/audit-71%2F87%20closed-22c55e.svg?style=for-the-badge)](./docs/AUDIT_COMPLETE.md)
+[![V2 conformance](https://img.shields.io/badge/V2%20conformance-100%25-22c55e.svg?style=for-the-badge)](./scripts/check-no-legacy-tokens.mjs)
+[![Critical findings](https://img.shields.io/badge/critical%20open-0-22c55e.svg?style=for-the-badge)](./docs/AUDIT_COMPLETE.md)
+
 [**Live**](https://trendingrepo.com)  ·  [**Portal manifest**](https://trendingrepo.com/portal)  ·  [**API docs**](https://trendingrepo.com/portal/docs)  ·  [**CLI**](https://trendingrepo.com/cli)  ·  [**@0motionguy**](https://x.com/0motionguy)
 
 <br />

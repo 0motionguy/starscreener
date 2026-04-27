@@ -24,7 +24,7 @@ import {
 } from "@/lib/ideas";
 import {
   countReactions,
-  listReactionsForObject,
+  listReactionsForObjects,
   type ReactionCounts,
 } from "@/lib/reactions";
 
@@ -91,20 +91,20 @@ export async function GET(
     const all = await listIdeas();
     const visible = all.filter(publiclyVisible);
 
-    // Pull reaction counts for the visible set in one batched read of the
-    // file via individual lookups — listReactionsForObject reads the file
-    // once per call. For >100 ideas this could be optimized to a single
-    // pass over the reactions store; for v1 the cost is bounded.
-    const withCounts: IdeaWithCounts[] = await Promise.all(
-      visible.map(async (record) => {
-        const reactions = await listReactionsForObject("idea", record.id);
-        const counts = countReactions(reactions);
-        return {
-          ...toPublicIdea(record),
-          reactionCounts: counts,
-        };
-      }),
+    // APP-08: one read of the reactions JSONL across every visible idea,
+    // not one read per idea. listReactionsForObjects groups records by
+    // objectId in a single pass.
+    const reactionsByIdeaId = await listReactionsForObjects(
+      "idea",
+      visible.map((r) => r.id),
     );
+    const withCounts: IdeaWithCounts[] = visible.map((record) => {
+      const reactions = reactionsByIdeaId.get(record.id) ?? [];
+      return {
+        ...toPublicIdea(record),
+        reactionCounts: countReactions(reactions),
+      };
+    });
 
     const now = Date.now();
     let ranked: IdeaWithCounts[];

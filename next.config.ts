@@ -27,10 +27,17 @@ const nextConfig: NextConfig = {
     "/*": ["./.data/twitter-*.jsonl"],
     "/api/openapi.json": ["./docs/openapi.json"],
   },
+  // NOTE: Do NOT add "./.next/**/*" here. It looks redundant (the .next dir
+  // is the build output, not source) but Next.js resolves trace entries
+  // (e.g. ../../chunks/*.js relative to .next/server/app/<route>) into
+  // absolute paths under /<repo>/.next/... before applying these globs.
+  // Excluding ".next/**/*" therefore strips the route's own server chunk
+  // graph from the lambda manifest and prod 500s with
+  // "Cannot find module .../page.js" at runtime. Confirmed regression
+  // from 290a502.
   outputFileTracingExcludes: {
     "/**": [
       "./.claude/**/*",
-      "./.next/**/*",
       "./.vercel/**/*",
       "./.data/backup*/**/*",
       "./awesome-codex-skills/**/*",

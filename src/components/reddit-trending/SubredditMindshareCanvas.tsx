@@ -22,16 +22,19 @@
 //     size on toggle = the "this sub really moved" signal).
 
 import {
-  useEffect,
+  useCallback,
   useMemo,
   useRef,
   useState,
-  useCallback,
 } from "react";
 import { motion } from "framer-motion";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { formatNumber } from "@/lib/utils";
 import { BubbleTooltip, type BubbleTooltipData } from "./BubbleTooltip";
+import {
+  usePhysicsBubbles,
+  type PhysicsBody,
+} from "@/hooks/usePhysicsBubbles";
 
 export type SubredditWindowKey = "24h" | "7d";
 export type ScaleMode = "log" | "linear";
@@ -71,15 +74,6 @@ export type SubredditWindowSeedSet = Record<
   { log: SubredditSeed[]; linear: SubredditSeed[] }
 >;
 
-interface Body extends SubredditSeed {
-  vx: number;
-  vy: number;
-  held: boolean;
-  /** Target position the body should glide toward when seeds re-pack. */
-  targetCx: number;
-  targetCy: number;
-}
-
 interface SubredditMindshareCanvasProps {
   windows: SubredditWindowSeedSet;
   width: number;
@@ -95,23 +89,6 @@ const SCALE_TABS: Array<{ key: ScaleMode; label: string }> = [
   { key: "log", label: "LOG" },
   { key: "linear", label: "LIN" },
 ];
-
-const SIM = {
-  centerPull: 0.00045,
-  damping: 0.9,
-  pairPad: 1.5,
-  wallBounce: -0.35,
-  flingScale: 0.5,
-  idleThreshold: 0.05,
-  settleFrames: 30,
-  /** Spring strength toward the per-body target. Tuned so bubbles arrive
-   * in ~40 frames after a toggle without overshoot wobble. */
-  targetPull: 0.045,
-  /** Distance under which a body is "at" its target — the pull turns off. */
-  targetSnapDist: 0.5,
-};
-
-const CLICK_DRAG_THRESHOLD = 5;
 
 // Two-color legend — orange = breakout intensity, green = the heating/stable
 // momentum band. Used by the static legend pills at the top of the canvas.
@@ -182,50 +159,77 @@ export function SubredditMindshareCanvas({
     return { defs: Array.from(byKey.values()), idBySeed };
   }, [seeds]);
 
-  const svgRef = useRef<SVGSVGElement | null>(null);
-  const groupRefs = useRef<Record<string, SVGGElement | null>>({});
+  // Local seed type carrying targetCx/targetCy so the hook's optional
+  // target-pull spring fires during window/scale re-pack.
+  type SubredditSeedWithTarget = SubredditSeed & {
+    targetCx: number;
+    targetCy: number;
+  };
 
-  // Bodies hold the live (animated) cx/cy used by physics. On seed change
-  // we RE-PARENT to the new seeds — for subs present in both old and new
-  // sets we keep their previous cx/cy so the physics state survives the
-  // toggle (otherwise there'd be no glide-from anchor). Targets receive
-  // the new packed positions and the spring carries the body home.
-  const bodies = useRef<Body[]>(
-    seeds.map((s) => ({
-      ...s,
-      vx: 0,
-      vy: 0,
-      held: false,
-      targetCx: s.cx,
-      targetCy: s.cy,
-    })),
+  // Wrap raw seeds with targetCx/Cy initialized to cx/cy so the hook's
+  // initial-bodies path picks them up.
+  const seedsWithTarget = useMemo<SubredditSeedWithTarget[]>(
+    () => seeds.map((s) => ({ ...s, targetCx: s.cx, targetCy: s.cy })),
+    [seeds],
   );
 
-  const pointer = useRef<{
-    active: boolean;
-    id: string | null;
-    offsetX: number;
-    offsetY: number;
-    lastX: number;
-    lastY: number;
-    vx: number;
-    vy: number;
-    moved: number;
-    pointerId: number | null;
-  }>({
-    active: false,
-    id: null,
-    offsetX: 0,
-    offsetY: 0,
-    lastX: 0,
-    lastY: 0,
-    vx: 0,
-    vy: 0,
-    moved: 0,
-    pointerId: null,
+  // Position-preserving reset: subs present in both old and new sets keep
+  // their previous cx/cy so the spring-pull toward the new target produces
+  // a visible glide instead of a teleport.
+  const preservePositions = useCallback(
+    (
+      prev: PhysicsBody<SubredditSeedWithTarget>[],
+      next: SubredditSeedWithTarget[],
+    ): PhysicsBody<SubredditSeedWithTarget>[] => {
+      const prevBySub = new Map(prev.map((b) => [b.subreddit, b]));
+      return next.map((s) => {
+        const old = prevBySub.get(s.subreddit);
+        if (old) {
+          return {
+            ...s,
+            cx: old.cx,
+            cy: old.cy,
+            vx: 0,
+            vy: 0,
+            held: false,
+            targetCx: s.cx,
+            targetCy: s.cy,
+          };
+        }
+        return { ...s, vx: 0, vy: 0, held: false };
+      });
+    },
+    [],
+  );
+
+  // Physics + pointer wiring lives in usePhysicsBubbles (UI-04). Click
+  // toggles the ?sub=<subreddit> URL param.
+  const {
+    svgRef,
+    groupRefs,
+    bodies,
+    draggingId,
+    handlePointerDown: rawHandlePointerDown,
+    handlePointerMove,
+    handlePointerUp,
+  } = usePhysicsBubbles<SubredditSeedWithTarget>({
+    seeds: seedsWithTarget,
+    width,
+    height,
+    resetBodies: preservePositions,
+    wakeOnSeedChange: true,
+    onClick: (seed) => {
+      const params = new URLSearchParams(searchParams.toString());
+      if (activeSub === seed.subreddit) {
+        params.delete("sub");
+      } else {
+        params.set("sub", seed.subreddit);
+      }
+      const qs = params.toString();
+      router.push(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+    },
   });
 
-  const [draggingId, setDraggingId] = useState<string | null>(null);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   // Tooltip is positioned in viewport coords; visibility tracks hover/drag.
@@ -236,301 +240,14 @@ export function SubredditMindshareCanvas({
     data: BubbleTooltipData | null;
   }>({ visible: false, x: 0, y: 0, data: null });
 
-  const toSvgCoords = useCallback(
-    (clientX: number, clientY: number): { x: number; y: number } | null => {
-      const svg = svgRef.current;
-      if (!svg) return null;
-      const pt = svg.createSVGPoint();
-      pt.x = clientX;
-      pt.y = clientY;
-      const ctm = svg.getScreenCTM();
-      if (!ctm) return null;
-      const local = pt.matrixTransform(ctm.inverse());
-      return { x: local.x, y: local.y };
-    },
-    [],
-  );
-
-  const rafRef = useRef<number | null>(null);
-  const idleFramesRef = useRef(0);
-
-  const wakeSim = useCallback(() => {
-    idleFramesRef.current = 0;
-    if (rafRef.current !== null) return;
-
-    const step = () => {
-      const list = bodies.current;
-      const n = list.length;
-      let maxSpeed = 0;
-      let anyHeld = false;
-      let anyChasingTarget = false;
-
-      for (let i = 0; i < n; i++) {
-        const a = list[i];
-        if (a.held) {
-          anyHeld = true;
-          continue;
-        }
-        // Pull toward target (post-toggle re-pack). When the target equals
-        // the live cx/cy this contributes ~0 force, so it's idle-safe.
-        const tdx = a.targetCx - a.cx;
-        const tdy = a.targetCy - a.cy;
-        if (Math.abs(tdx) > SIM.targetSnapDist || Math.abs(tdy) > SIM.targetSnapDist) {
-          a.vx += tdx * SIM.targetPull;
-          a.vy += tdy * SIM.targetPull;
-          anyChasingTarget = true;
-        }
-        a.vx += (width / 2 - a.cx) * SIM.centerPull;
-        a.vy += (height / 2 - a.cy) * SIM.centerPull;
-        a.vx *= SIM.damping;
-        a.vy *= SIM.damping;
-      }
-
-      for (let i = 0; i < n; i++) {
-        const a = list[i];
-        if (a.held) continue;
-        a.cx += a.vx;
-        a.cy += a.vy;
-      }
-
-      for (let i = 0; i < n; i++) {
-        const a = list[i];
-        for (let j = i + 1; j < n; j++) {
-          const b = list[j];
-          const dx = b.cx - a.cx;
-          const dy = b.cy - a.cy;
-          const distSq = dx * dx + dy * dy;
-          const min = a.r + b.r + SIM.pairPad;
-          if (distSq < min * min && distSq > 0.0001) {
-            const dist = Math.sqrt(distSq);
-            const overlap = (min - dist) * 0.5;
-            const nx = dx / dist;
-            const ny = dy / dist;
-            if (a.held && b.held) {
-              // both held
-            } else if (a.held) {
-              b.cx += nx * overlap * 2;
-              b.cy += ny * overlap * 2;
-            } else if (b.held) {
-              a.cx -= nx * overlap * 2;
-              a.cy -= ny * overlap * 2;
-            } else {
-              a.cx -= nx * overlap;
-              a.cy -= ny * overlap;
-              b.cx += nx * overlap;
-              b.cy += ny * overlap;
-              a.vx -= nx * 0.08;
-              a.vy -= ny * 0.08;
-              b.vx += nx * 0.08;
-              b.vy += ny * 0.08;
-            }
-          }
-        }
-      }
-
-      for (let i = 0; i < n; i++) {
-        const a = list[i];
-        if (a.held) continue;
-        if (a.cx < a.r) {
-          a.cx = a.r;
-          a.vx *= SIM.wallBounce;
-        } else if (a.cx > width - a.r) {
-          a.cx = width - a.r;
-          a.vx *= SIM.wallBounce;
-        }
-        if (a.cy < a.r) {
-          a.cy = a.r;
-          a.vy *= SIM.wallBounce;
-        } else if (a.cy > height - a.r) {
-          a.cy = height - a.r;
-          a.vy *= SIM.wallBounce;
-        }
-      }
-
-      for (let i = 0; i < n; i++) {
-        const a = list[i];
-        const node = groupRefs.current[a.id];
-        if (!node) continue;
-        const speed = Math.abs(a.vx) + Math.abs(a.vy);
-        if (speed > maxSpeed) maxSpeed = speed;
-        // Always render position when chasing target so the morph is visible
-        // even at sub-threshold speeds.
-        if (speed > SIM.idleThreshold || a.held || anyChasingTarget) {
-          node.setAttribute("transform", `translate(${a.cx} ${a.cy})`);
-        }
-      }
-
-      if (!anyHeld && !anyChasingTarget && maxSpeed <= SIM.idleThreshold) {
-        idleFramesRef.current += 1;
-      } else {
-        idleFramesRef.current = 0;
-      }
-      if (idleFramesRef.current >= SIM.settleFrames) {
-        rafRef.current = null;
-        return;
-      }
-
-      rafRef.current = requestAnimationFrame(step);
-    };
-
-    rafRef.current = requestAnimationFrame(step);
-  }, [width, height]);
-
-  useEffect(() => {
-    return () => {
-      if (rafRef.current !== null) {
-        cancelAnimationFrame(rafRef.current);
-        rafRef.current = null;
-      }
-    };
-  }, []);
-
-  // Re-parent bodies on seed change (window/scale toggle). For subs present
-  // in both old and new sets we keep the previous cx/cy so the spring pull
-  // toward the new target produces a visible glide. Brand-new subs land at
-  // their target with zero velocity (they "appear" rather than fly in).
-  useEffect(() => {
-    const prev = new Map(bodies.current.map((b) => [b.subreddit, b]));
-    bodies.current = seeds.map((s) => {
-      const old = prev.get(s.subreddit);
-      if (old) {
-        return {
-          ...s,
-          cx: old.cx,
-          cy: old.cy,
-          vx: 0,
-          vy: 0,
-          held: false,
-          targetCx: s.cx,
-          targetCy: s.cy,
-        };
-      }
-      return {
-        ...s,
-        vx: 0,
-        vy: 0,
-        held: false,
-        targetCx: s.cx,
-        targetCy: s.cy,
-      };
-    });
-    wakeSim();
-  }, [seeds, wakeSim]);
-
+  // Wrap pointer-down so we can hide the tooltip on drag start. The hook's
+  // physics handling stays untouched.
   const handlePointerDown = useCallback(
     (e: React.PointerEvent<SVGGElement>, id: string) => {
-      const coords = toSvgCoords(e.clientX, e.clientY);
-      if (!coords) return;
-      const body = bodies.current.find((b) => b.id === id);
-      if (!body) return;
-      const svg = svgRef.current;
-      if (svg) {
-        try {
-          svg.setPointerCapture(e.pointerId);
-        } catch {
-          // ignore
-        }
-      }
-      pointer.current = {
-        active: true,
-        id,
-        offsetX: body.cx - coords.x,
-        offsetY: body.cy - coords.y,
-        lastX: coords.x,
-        lastY: coords.y,
-        vx: 0,
-        vy: 0,
-        moved: 0,
-        pointerId: e.pointerId,
-      };
-      body.held = true;
-      body.vx = 0;
-      body.vy = 0;
-      // Cancel target-pull while dragging — user is in control.
-      body.targetCx = body.cx;
-      body.targetCy = body.cy;
-      setDraggingId(id);
       setTooltip((t) => ({ ...t, visible: false }));
-      wakeSim();
+      rawHandlePointerDown(e, id);
     },
-    [toSvgCoords, wakeSim],
-  );
-
-  const handlePointerMove = useCallback(
-    (e: React.PointerEvent<SVGSVGElement>) => {
-      const p = pointer.current;
-      if (!p.active || !p.id) return;
-      const coords = toSvgCoords(e.clientX, e.clientY);
-      if (!coords) return;
-      const body = bodies.current.find((b) => b.id === p.id);
-      if (!body) return;
-      const dx = coords.x - p.lastX;
-      const dy = coords.y - p.lastY;
-      p.vx = dx;
-      p.vy = dy;
-      p.lastX = coords.x;
-      p.lastY = coords.y;
-      p.moved += Math.abs(dx) + Math.abs(dy);
-      body.cx = coords.x + p.offsetX;
-      body.cy = coords.y + p.offsetY;
-      body.targetCx = body.cx;
-      body.targetCy = body.cy;
-      wakeSim();
-    },
-    [toSvgCoords, wakeSim],
-  );
-
-  const handlePointerUp = useCallback(
-    (e: React.PointerEvent<SVGSVGElement>) => {
-      const p = pointer.current;
-      if (!p.active || !p.id) return;
-      const body = bodies.current.find((b) => b.id === p.id);
-      if (body) {
-        body.held = false;
-        body.vx = p.vx * SIM.flingScale;
-        body.vy = p.vy * SIM.flingScale;
-        wakeSim();
-      }
-
-      const wasShortDrag = p.moved < CLICK_DRAG_THRESHOLD;
-
-      const svg = svgRef.current;
-      if (svg && p.pointerId !== null) {
-        try {
-          svg.releasePointerCapture(p.pointerId);
-        } catch {
-          // ignore
-        }
-      }
-
-      pointer.current = {
-        active: false,
-        id: null,
-        offsetX: 0,
-        offsetY: 0,
-        lastX: 0,
-        lastY: 0,
-        vx: 0,
-        vy: 0,
-        moved: 0,
-        pointerId: null,
-      };
-      setDraggingId(null);
-
-      if (wasShortDrag && body) {
-        const params = new URLSearchParams(searchParams.toString());
-        if (activeSub === body.subreddit) {
-          params.delete("sub");
-        } else {
-          params.set("sub", body.subreddit);
-        }
-        const qs = params.toString();
-        router.push(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
-      }
-
-      void e;
-    },
-    [wakeSim, activeSub, searchParams, router, pathname],
+    [rawHandlePointerDown],
   );
 
   // ──────────────────────────────────────────────────────────────────────
@@ -716,7 +433,7 @@ export function SubredditMindshareCanvas({
   const handleBubbleEnter = useCallback(
     (s: SubredditSeed, e: React.PointerEvent<SVGGElement>) => {
       setHoveredId(s.id);
-      if (pointer.current.active) return;
+      if (draggingId !== null) return;
       const pos = positionTooltip(e.clientX, e.clientY);
       setTooltip({
         visible: true,
@@ -739,7 +456,7 @@ export function SubredditMindshareCanvas({
 
   const handleBubbleMove = useCallback(
     (s: SubredditSeed, e: React.PointerEvent<SVGGElement>) => {
-      if (pointer.current.active) return;
+      if (draggingId !== null) return;
       const pos = positionTooltip(e.clientX, e.clientY);
       setTooltip((prev) =>
         prev.data?.subreddit === s.subreddit

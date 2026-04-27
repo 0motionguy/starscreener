@@ -2,6 +2,10 @@
 
 End-of-day 2026-04-27 (continuation of [`AUDIT_HANDOFF.md`](./AUDIT_HANDOFF.md)).
 
+<!-- BADGE_DATA: closed=71 total=87 critical_open=0 -->
+<!-- ^ Single source of truth for the README badges. Edit when the audit is
+     re-run, then run `npm run update:badges`. -->
+
 ## Headline
 
 **71 of 87 findings closed (82%). The remaining 16 (all `WK-*`) are non-actionable on this branch — `apps/trendingrepo-worker/` is no longer present. All findings tractable from the current tree are closed.**

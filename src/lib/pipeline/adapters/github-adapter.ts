@@ -5,6 +5,7 @@
 // off proactively. All errors are swallowed and logged; the caller receives
 // null or a safe default instead of exceptions.
 
+import { sourceHealthTracker } from "@/lib/source-health-tracker";
 import type {
   GitHubAdapter,
   GitHubRepoRaw,
@@ -208,6 +209,12 @@ export class GitHubApiAdapter implements GitHubAdapter {
       );
       return null;
     }
+    if (sourceHealthTracker.isOpen("github")) {
+      console.warn(
+        `[github-adapter] breaker OPEN — short-circuiting request to ${path}`,
+      );
+      return null;
+    }
 
     const maxAttempts = 3; // 1 original + 2 retries
     for (let attempt = 0; attempt < maxAttempts; attempt++) {
@@ -228,6 +235,7 @@ export class GitHubApiAdapter implements GitHubAdapter {
           await sleep(1000 * 2 ** attempt);
           continue;
         }
+        sourceHealthTracker.recordFailure("github", err);
         return null;
       } finally {
         clear();
@@ -251,10 +259,23 @@ export class GitHubApiAdapter implements GitHubAdapter {
         continue;
       }
 
+      // Final attempt for this request: record outcome. 4xx (except 429) and
+      // 2xx are both terminal — only the former counts as a failure for the
+      // breaker. 404 is a normal "not found" and treated as success since
+      // the upstream is responding correctly.
+      if (res.ok || res.status === 404) {
+        sourceHealthTracker.recordSuccess("github");
+      } else {
+        sourceHealthTracker.recordFailure(
+          "github",
+          `HTTP ${res.status} ${res.statusText}`,
+        );
+      }
       return res;
     }
 
     // Exhausted retries — return null so caller gets a safe failure.
+    sourceHealthTracker.recordFailure("github", "max retries exceeded");
     return null;
   }
 

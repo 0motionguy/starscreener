@@ -11,6 +11,7 @@
 
 import type { Sentiment, SocialPlatform } from "@/lib/types";
 import { slugToId } from "@/lib/utils";
+import { sourceHealthTracker } from "@/lib/source-health-tracker";
 import type { RepoMention, SocialAdapter } from "../types";
 
 // ---------------------------------------------------------------------------
@@ -166,6 +167,9 @@ export class HackerNewsAdapter implements SocialAdapter {
     fullName: string,
     since?: string,
   ): Promise<RepoMention[]> {
+    if (sourceHealthTracker.isOpen("hackernews")) {
+      return [];
+    }
     const repoId = slugToId(fullName);
     const query = encodeURIComponent(fullName);
     const params = new URLSearchParams({ query: fullName, tags: "story" });
@@ -193,6 +197,10 @@ export class HackerNewsAdapter implements SocialAdapter {
         console.error(
           `[social:hackernews] HTTP ${res.status} for ${fullName}`,
         );
+        sourceHealthTracker.recordFailure(
+          "hackernews",
+          `HTTP ${res.status}`,
+        );
         return [];
       }
       const body: unknown = await res.json();
@@ -203,12 +211,14 @@ export class HackerNewsAdapter implements SocialAdapter {
         const mention = this.hitToMention(hit, repoId, now);
         if (mention) out.push(mention);
       }
+      sourceHealthTracker.recordSuccess("hackernews");
       return out;
     } catch (err) {
       console.error(
         `[social:hackernews] fetchMentionsForRepo ${fullName} failed`,
         err,
       );
+      sourceHealthTracker.recordFailure("hackernews", err);
       return [];
     } finally {
       clear();
@@ -308,6 +318,9 @@ export class RedditAdapter implements SocialAdapter {
     fullName: string,
     since?: string,
   ): Promise<RepoMention[]> {
+    if (sourceHealthTracker.isOpen("reddit")) {
+      return [];
+    }
     const repoId = slugToId(fullName);
     const repoName = repoNameOf(fullName);
     const owner = repoOwnerOf(fullName);
@@ -328,6 +341,7 @@ export class RedditAdapter implements SocialAdapter {
       });
       if (!res.ok) {
         console.error(`[social:reddit] HTTP ${res.status} for ${fullName}`);
+        sourceHealthTracker.recordFailure("reddit", `HTTP ${res.status}`);
         return [];
       }
       const body: unknown = await res.json();
@@ -359,12 +373,14 @@ export class RedditAdapter implements SocialAdapter {
         if (!mentionsRepo) continue;
         out.push(mention);
       }
+      sourceHealthTracker.recordSuccess("reddit");
       return out;
     } catch (err) {
       console.error(
         `[social:reddit] fetchMentionsForRepo ${fullName} failed`,
         err,
       );
+      sourceHealthTracker.recordFailure("reddit", err);
       return [];
     } finally {
       clear();
@@ -468,6 +484,9 @@ export class GitHubActivityAdapter implements SocialAdapter {
     fullName: string,
     since?: string,
   ): Promise<RepoMention[]> {
+    if (sourceHealthTracker.isOpen("github-search")) {
+      return [];
+    }
     const repoId = slugToId(fullName);
     const q = encodeURIComponent(`${fullName} in:body is:issue`);
     const url =
@@ -500,6 +519,10 @@ export class GitHubActivityAdapter implements SocialAdapter {
             `[social:github] HTTP ${res.status} for ${fullName}`,
           );
         }
+        sourceHealthTracker.recordFailure(
+          "github-search",
+          `HTTP ${res.status}`,
+        );
         return [];
       }
       const body: unknown = await res.json();
@@ -516,12 +539,14 @@ export class GitHubActivityAdapter implements SocialAdapter {
         }
         out.push(mention);
       }
+      sourceHealthTracker.recordSuccess("github-search");
       return out;
     } catch (err) {
       console.error(
         `[social:github] fetchMentionsForRepo ${fullName} failed`,
         err,
       );
+      sourceHealthTracker.recordFailure("github-search", err);
       return [];
     } finally {
       clear();

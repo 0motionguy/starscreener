@@ -11,6 +11,7 @@
 import type { Sentiment, SocialPlatform } from "@/lib/types";
 import { bskyPostHref } from "@/lib/bluesky";
 import { slugToId } from "@/lib/utils";
+import { sourceHealthTracker } from "@/lib/source-health-tracker";
 import type { RepoMention, SocialAdapter } from "../types";
 import { inferSentiment } from "./social-adapters";
 
@@ -150,6 +151,9 @@ export class BlueskyAdapter implements SocialAdapter {
     since?: string,
   ): Promise<RepoMention[]> {
     if (!fullName.includes("/")) return [];
+    if (sourceHealthTracker.isOpen("bluesky")) {
+      return [];
+    }
     const repoId = slugToId(fullName);
 
     const params = new URLSearchParams({
@@ -171,6 +175,7 @@ export class BlueskyAdapter implements SocialAdapter {
       });
       if (!res.ok) {
         console.error(`[social:bluesky] HTTP ${res.status} for ${fullName}`);
+        sourceHealthTracker.recordFailure("bluesky", `HTTP ${res.status}`);
         return [];
       }
       const body: unknown = await res.json();
@@ -197,12 +202,14 @@ export class BlueskyAdapter implements SocialAdapter {
         }
         out.push(mention);
       }
+      sourceHealthTracker.recordSuccess("bluesky");
       return out;
     } catch (err) {
       console.error(
         `[social:bluesky] fetchMentionsForRepo ${fullName} failed`,
         err,
       );
+      sourceHealthTracker.recordFailure("bluesky", err);
       return [];
     } finally {
       clear();

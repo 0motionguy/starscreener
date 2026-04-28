@@ -10,6 +10,10 @@
  * Run: `node dist/server.js` (after `npm run build`) or `npm run dev`.
  */
 
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, resolve as resolvePath } from "node:path";
+
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
@@ -21,6 +25,17 @@ import {
   run,
   withMetering as withMeteringRaw,
 } from "./runtime.js";
+
+// Single source of truth: mcp/package.json. Bump there and the
+// MCP `initialize` handshake reflects it on the next build.
+//
+// This used to be a hand-typed literal that drifted from the package
+// (server reported 0.1.0 while npm shipped 0.2.0). Reading at runtime
+// closes the drift permanently.
+const __serverDir = dirname(fileURLToPath(import.meta.url));
+const MCP_VERSION: string = JSON.parse(
+  readFileSync(resolvePath(__serverDir, "..", "package.json"), "utf8"),
+).version;
 
 // Re-export for tests that pin the notice string as part of the public
 // contract.
@@ -56,7 +71,7 @@ const FullNameField = z
 const server = new McpServer(
   {
     name: "trendingrepo",
-    version: "0.1.0",
+    version: MCP_VERSION,
   },
   {
     instructions:

@@ -10,6 +10,7 @@ import {
   getMcpSignalData,
   type EcosystemBoard,
 } from "@/lib/ecosystem-leaderboards";
+import { LivenessPill } from "@/components/signal/LivenessPill";
 import { classifyFreshness } from "@/lib/news/freshness";
 import { absoluteUrl } from "@/lib/seo";
 import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
@@ -146,6 +147,7 @@ function McpRightRail({ board }: { board: EcosystemBoard }) {
                     ✓
                   </span>
                 ) : null}
+                <LivenessPill liveness={item.liveness} />
                 <span className="font-mono tabular-nums text-text-secondary">
                   {item.signalScore}
                 </span>

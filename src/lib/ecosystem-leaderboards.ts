@@ -1,9 +1,29 @@
 import type { SignalRow } from "@/components/signal/SignalTable";
 import { getDataStore, type DataReadResult, type DataSource } from "./data-store";
 import { resolveLogoUrl } from "./logo-url";
+import { skillScorer, type SkillItem } from "./pipeline/scoring/domain/skill";
+import { mcpScorer, type McpItem } from "./pipeline/scoring/domain/mcp";
+import { computeCrossDomainMomentum } from "./pipeline/scoring/cross-domain";
+import type {
+  DomainItem,
+  DomainKey,
+  ScoredItem,
+} from "./pipeline/scoring/domain/types";
 
 export type EcosystemLeaderboardKind = "skill" | "mcp";
 export type SkillBoardId = "skills-sh" | "github";
+
+/**
+ * Liveness signal for an MCP item. `undefined` for skills and for MCP rows
+ * where Chunk C's MCP-ping job hasn't populated the field yet — UI renders
+ * a `?` "pending" pill in that case. `isStdio` short-circuits to a "stdio
+ * inferred" pill regardless of `uptime7d`.
+ */
+export interface LivenessInfo {
+  uptime7d?: number; // 0..1
+  isStdio?: boolean;
+  isInferred?: boolean;
+}
 
 export interface EcosystemLeaderboardItem {
   id: string;
@@ -28,6 +48,12 @@ export interface EcosystemLeaderboardItem {
   verified: boolean;
   /** Number of registries this MCP appears in (1-4). */
   crossSourceCount: number;
+  /**
+   * Liveness signal — populated for MCP items only, undefined for skills.
+   * Cold-start: always `undefined` (no MCP-ping data yet) — UI shows a
+   * "pending" pill until Chunk C ships ping data.
+   */
+  liveness?: LivenessInfo;
 }
 
 export interface EcosystemBoard {
@@ -159,11 +185,10 @@ function coerceSkillsShBoard(result: DataReadResult<unknown>): EcosystemBoard {
   const obj = asRecord(result.data);
   const fetchedAt = asString(obj?.fetchedAt) ?? result.writtenAt ?? null;
   const rows = Array.isArray(obj?.items) ? obj.items : [];
-  const items = normalizeScores(
-    rows
-      .map((item, idx) => coerceSkillsShItem(item, idx + 1, fetchedAt))
-      .filter((item): item is EcosystemLeaderboardItem => item !== null),
-  );
+  const pairs = rows
+    .map((item, idx) => coerceSkillsShItem(item, idx + 1, fetchedAt))
+    .filter((p): p is { item: EcosystemLeaderboardItem; raw: Record<string, unknown> } => p !== null);
+  const items = applySkillMomentum(pairs);
   const sources = asRecord(obj?.sources);
   const views = asRecord(obj?.views);
 
@@ -189,11 +214,10 @@ function coerceGithubSkillsBoard(result: DataReadResult<unknown>): EcosystemBoar
   const obj = asRecord(result.data);
   const fetchedAt = asString(obj?.fetchedAt) ?? result.writtenAt ?? null;
   const rows = Array.isArray(obj?.items) ? obj.items : [];
-  const items = normalizeScores(
-    rows
-      .map((item, idx) => coerceGithubSkillItem(item, idx + 1))
-      .filter((item): item is EcosystemLeaderboardItem => item !== null),
-  );
+  const pairs = rows
+    .map((item, idx) => coerceGithubSkillItem(item, idx + 1))
+    .filter((p): p is { item: EcosystemLeaderboardItem; raw: Record<string, unknown> } => p !== null);
+  const items = applySkillMomentum(pairs);
   const sources = asRecord(obj?.sources);
 
   return {
@@ -216,11 +240,10 @@ function coerceMcpBoard(result: DataReadResult<unknown>): EcosystemBoard {
   const fetchedAt =
     asString(obj?.generatedAt) ?? asString(obj?.fetchedAt) ?? result.writtenAt ?? null;
   const rows = Array.isArray(obj?.items) ? obj.items : [];
-  const items = normalizeScores(
-    rows
-      .map((item, idx) => coerceMcpItem(item, idx + 1, fetchedAt))
-      .filter((item): item is EcosystemLeaderboardItem => item !== null),
-  );
+  const pairs = rows
+    .map((item, idx) => coerceMcpItem(item, idx + 1, fetchedAt))
+    .filter((p): p is { item: EcosystemLeaderboardItem; raw: Record<string, unknown> } => p !== null);
+  const items = applyMcpMomentum(pairs);
 
   return {
     id: "mcp",
@@ -241,7 +264,7 @@ function coerceSkillsShItem(
   raw: unknown,
   fallbackRank: number,
   fallbackDate: string | null,
-): EcosystemLeaderboardItem | null {
+): { item: EcosystemLeaderboardItem; raw: Record<string, unknown> } | null {
   const item = asRecord(raw);
   if (!item) return null;
   const owner = asString(item.owner);
@@ -263,33 +286,37 @@ function coerceSkillsShItem(
   ].filter((tag): tag is string => Boolean(tag));
 
   return {
-    id,
-    title: skillName,
-    url,
-    author: linkedRepo,
-    rank: asNumber(item.rank) ?? fallbackRank,
-    description: asString(item.description),
-    topic: view ? view.replace("-", " ") : "skills.sh",
-    tags,
-    agents,
-    linkedRepo,
-    popularity: asNumber(item.installs),
-    popularityLabel: "Installs",
-    signalScore: asNumber(item.trending_score) ?? 0,
-    postedAt: asString(item.last_pushed_at) ?? fallbackDate,
-    sourceLabel: "skills.sh",
-    vendor: null,
-    logoUrl: null,
-    brandColor: null,
-    verified: false,
-    crossSourceCount: 1,
+    item: {
+      id,
+      title: skillName,
+      url,
+      author: linkedRepo,
+      rank: asNumber(item.rank) ?? fallbackRank,
+      description: asString(item.description),
+      topic: view ? view.replace("-", " ") : "skills.sh",
+      tags,
+      agents,
+      linkedRepo,
+      popularity: asNumber(item.installs),
+      popularityLabel: "Installs",
+      // Placeholder — overwritten by applySkillMomentum below.
+      signalScore: 0,
+      postedAt: asString(item.last_pushed_at) ?? fallbackDate,
+      sourceLabel: "skills.sh",
+      vendor: null,
+      logoUrl: null,
+      brandColor: null,
+      verified: false,
+      crossSourceCount: 1,
+    },
+    raw: item,
   };
 }
 
 function coerceGithubSkillItem(
   raw: unknown,
   fallbackRank: number,
-): EcosystemLeaderboardItem | null {
+): { item: EcosystemLeaderboardItem; raw: Record<string, unknown> } | null {
   const item = asRecord(raw);
   if (!item) return null;
   const fullName = asString(item.full_name);
@@ -298,26 +325,30 @@ function coerceGithubSkillItem(
   if (!fullName || !title || !url) return null;
 
   return {
-    id: fullName,
-    title,
-    url,
-    author: asString(item.author) ?? fullName.split("/")[0] ?? null,
-    rank: asNumber(item.rank) ?? fallbackRank,
-    description: asString(item.description),
-    topic: "GitHub",
-    tags: asStringArray(item.source_topics).slice(0, 4),
-    agents: [],
-    linkedRepo: fullName,
-    popularity: asNumber(item.stars),
-    popularityLabel: "Stars",
-    signalScore: asNumber(item.score) ?? 0,
-    postedAt: asString(item.pushed_at) ?? asString(item.created_at),
-    sourceLabel: "GitHub topics",
-    vendor: null,
-    logoUrl: null,
-    brandColor: null,
-    verified: false,
-    crossSourceCount: 1,
+    item: {
+      id: fullName,
+      title,
+      url,
+      author: asString(item.author) ?? fullName.split("/")[0] ?? null,
+      rank: asNumber(item.rank) ?? fallbackRank,
+      description: asString(item.description),
+      topic: "GitHub",
+      tags: asStringArray(item.source_topics).slice(0, 4),
+      agents: [],
+      linkedRepo: fullName,
+      popularity: asNumber(item.stars),
+      popularityLabel: "Stars",
+      // Placeholder — overwritten by applySkillMomentum below.
+      signalScore: 0,
+      postedAt: asString(item.pushed_at) ?? asString(item.created_at),
+      sourceLabel: "GitHub topics",
+      vendor: null,
+      logoUrl: null,
+      brandColor: null,
+      verified: false,
+      crossSourceCount: 1,
+    },
+    raw: item,
   };
 }
 
@@ -325,7 +356,7 @@ function coerceMcpItem(
   raw: unknown,
   fallbackRank: number,
   fallbackDate: string | null,
-): EcosystemLeaderboardItem | null {
+): { item: EcosystemLeaderboardItem; raw: Record<string, unknown> } | null {
   const item = asRecord(raw);
   if (!item) return null;
   const id = asString(item.id) ?? asString(item.slug);
@@ -361,47 +392,166 @@ function coerceMcpItem(
   if (crossSourceCount >= 2) tags.push(`${crossSourceCount}× sources`);
 
   return {
-    id,
-    title,
-    url,
-    author: vendor,
-    rank: asNumber(item.rank) ?? fallbackRank,
-    description: asString(item.description),
-    topic: vendor ?? (slug?.includes("/") ? slug.split("/")[0] ?? "MCP" : "MCP"),
-    tags,
-    agents: [],
-    linkedRepo: linkedRepo && linkedRepo.includes("/") ? linkedRepo : null,
-    popularity,
-    popularityLabel,
-    signalScore: asNumber(item.trending_score) ?? 0,
-    postedAt: fallbackDate,
-    sourceLabel: "MCP registries",
-    vendor,
-    logoUrl,
-    brandColor,
-    verified,
-    crossSourceCount,
+    item: {
+      id,
+      title,
+      url,
+      author: vendor,
+      rank: asNumber(item.rank) ?? fallbackRank,
+      description: asString(item.description),
+      topic: vendor ?? (slug?.includes("/") ? slug.split("/")[0] ?? "MCP" : "MCP"),
+      tags,
+      agents: [],
+      linkedRepo: linkedRepo && linkedRepo.includes("/") ? linkedRepo : null,
+      popularity,
+      popularityLabel,
+      // Placeholder — overwritten by applyMcpMomentum below.
+      signalScore: 0,
+      postedAt: fallbackDate,
+      sourceLabel: "MCP registries",
+      vendor,
+      logoUrl,
+      brandColor,
+      verified,
+      crossSourceCount,
+      // Liveness intentionally undefined for MVP — UI shows "pending" pill.
+      // Chunk C's MCP-ping job will populate this.
+      liveness: undefined,
+    },
+    raw: item,
   };
 }
 
-function normalizeScores(items: EcosystemLeaderboardItem[]): EcosystemLeaderboardItem[] {
-  const maxScore = Math.max(0, ...items.map((item) => item.signalScore));
-  if (maxScore <= 0) {
-    return items.map((item, idx) => ({ ...item, signalScore: rankScore(idx, items.length) }));
-  }
-  const shouldScale = maxScore > 100 || maxScore <= 20;
-  return items.map((item, idx) => ({
-    ...item,
-    signalScore: shouldScale
-      ? Math.max(1, Math.round((item.signalScore / maxScore) * 100))
-      : Math.max(1, Math.min(100, Math.round(item.signalScore))),
-    rank: item.rank || idx + 1,
-  }));
+// ---------------------------------------------------------------------------
+// New-pipeline scoring: skill / mcp domain scorers feed
+// computeCrossDomainMomentum, and the resulting `momentum` overwrites
+// `signalScore` (still 0..100). Replaces the old normalizeScores()
+// passthrough of the collector's raw `trending_score`.
+// ---------------------------------------------------------------------------
+
+function applySkillMomentum(
+  pairs: Array<{ item: EcosystemLeaderboardItem; raw: Record<string, unknown> }>,
+): EcosystemLeaderboardItem[] {
+  if (pairs.length === 0) return [];
+  const skillItems: SkillItem[] = pairs.map(({ item, raw }) => buildSkillItem(item, raw));
+  const scored = skillScorer.computeRaw(skillItems);
+  const perDomain = new Map<DomainKey, ScoredItem<DomainItem>[]>([
+    ["skill", scored as unknown as ScoredItem<DomainItem>[]],
+  ]);
+  const ranked = computeCrossDomainMomentum(perDomain).get("skill") ?? [];
+  // ranked preserves input order — splice momentum back in by index.
+  return pairs.map((p, i) => {
+    const r = ranked[i];
+    const momentum = r ? Math.round(r.momentum) : 0;
+    return {
+      ...p.item,
+      signalScore: Math.max(1, Math.min(100, momentum)),
+      rank: p.item.rank || i + 1,
+    };
+  });
 }
 
-function rankScore(index: number, total: number): number {
-  if (total <= 1) return 100;
-  return Math.max(1, Math.round(100 - (index / (total - 1)) * 70));
+function applyMcpMomentum(
+  pairs: Array<{ item: EcosystemLeaderboardItem; raw: Record<string, unknown> }>,
+): EcosystemLeaderboardItem[] {
+  if (pairs.length === 0) return [];
+  const mcpItems: McpItem[] = pairs.map(({ item, raw }) => buildMcpItem(item, raw));
+  const scored = mcpScorer.computeRaw(mcpItems);
+  const perDomain = new Map<DomainKey, ScoredItem<DomainItem>[]>([
+    ["mcp", scored as unknown as ScoredItem<DomainItem>[]],
+  ]);
+  const ranked = computeCrossDomainMomentum(perDomain).get("mcp") ?? [];
+  return pairs.map((p, i) => {
+    const r = ranked[i];
+    const momentum = r ? Math.round(r.momentum) : 0;
+    return {
+      ...p.item,
+      signalScore: Math.max(1, Math.min(100, momentum)),
+      rank: p.item.rank || i + 1,
+    };
+  });
+}
+
+/**
+ * Map a raw skill row → SkillItem for the domain scorer. Both skills.sh
+ * (`installs`, `last_pushed_at`) and GitHub-topic (`stars`, `forks`,
+ * `pushed_at`) shapes flow through this — fields not present in a given
+ * shape are left undefined and the scorer renormalizes weights.
+ *
+ * Cold-start limitations (Chunk F MVP):
+ *   - `installsPrev7d` is undefined → installsDelta7d component is dropped.
+ *     Chunk C will deliver historical snapshots.
+ *   - `inAwesomeLists` is undefined → component defaults to 0 (still
+ *     emitted, just no contribution). Populated when Chunk C lands the
+ *     awesome-lists scraper.
+ *   - `commitVelocity30d` is undefined → defaults to 0. Out of scope (would
+ *     need a per-row GitHub commits API call).
+ */
+function buildSkillItem(
+  item: EcosystemLeaderboardItem,
+  raw: Record<string, unknown>,
+): SkillItem {
+  const installs7d = asNumber(raw.installs); // skills.sh
+  const stars = asNumber(raw.stars); // both shapes (when present)
+  const forks = asNumber(raw.forks); // GitHub-topic shape
+  const lastPushedAt =
+    asString(raw.last_pushed_at) ??
+    asString(raw.pushed_at) ??
+    item.postedAt ??
+    undefined;
+  return {
+    domainKey: "skill",
+    id: item.id,
+    joinKeys: { repoFullName: item.linkedRepo ?? undefined },
+    installs7d: installs7d !== null ? installs7d : undefined,
+    installsPrev7d: undefined,
+    stars: stars !== null ? stars : undefined,
+    forks: forks !== null ? forks : undefined,
+    agents: item.agents,
+    inAwesomeLists: undefined,
+    commitVelocity30d: undefined,
+    lastPushedAt: lastPushedAt ?? undefined,
+  };
+}
+
+/**
+ * Map a raw MCP row (LeaderboardItem) → McpItem for the domain scorer.
+ *
+ * Cold-start limitations (Chunk F MVP):
+ *   - `metrics.downloads_7d` is treated as `npmDownloads7d`. The publish
+ *     payload doesn't split npm vs pypi; for ranking purposes the combined
+ *     log-norm is fine.
+ *   - `livenessUptime7d`, `isStdio`, `toolCount`, `smitheryRank`,
+ *     `npmDependents`, `p50LatencyMs` are all undefined. The scorer drops
+ *     each missing component and renormalizes weights — net result: with
+ *     today's payload the score is driven by `downloadsCombined7d` +
+ *     `crossSourceCount`. Chunk C populates the rest.
+ */
+function buildMcpItem(
+  item: EcosystemLeaderboardItem,
+  raw: Record<string, unknown>,
+): McpItem {
+  const metrics = asRecord(raw.metrics);
+  const downloads7d = asNumber(metrics?.downloads_7d);
+  const npmName = item.linkedRepo
+    ? leafName(item.linkedRepo) ?? undefined
+    : undefined;
+  return {
+    domainKey: "mcp",
+    id: item.id,
+    joinKeys: { npmName, repoFullName: item.linkedRepo ?? undefined },
+    npmDownloads7d: downloads7d !== null ? downloads7d : undefined,
+    pypiDownloads7d: undefined,
+    livenessUptime7d: undefined,
+    livenessInferred: false,
+    toolCount: undefined,
+    smitheryRank: undefined,
+    smitheryTotal: undefined,
+    npmDependents: undefined,
+    crossSourceCount: item.crossSourceCount,
+    p50LatencyMs: undefined,
+    isStdio: false,
+  };
 }
 
 function dedupeItems(items: EcosystemLeaderboardItem[]): EcosystemLeaderboardItem[] {

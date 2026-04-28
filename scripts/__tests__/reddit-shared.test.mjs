@@ -45,7 +45,10 @@ test("reddit shared: defaults to public-json without oauth creds", async () => {
     async () => {
       assert.equal(hasRedditOAuthCreds(), false);
       assert.equal(getRedditAuthMode(), "public-json");
-      assert.match(getRedditUserAgent(), /StarScreener\/0\.1/);
+      // Default UA is now a Mozilla/Chrome profile (anti-bot workaround for
+      // GH Actions egress IPs); the StarScreener/0.1 UA is only used when
+      // REDDIT_USER_AGENT is set explicitly.
+      assert.match(getRedditUserAgent(), /Mozilla\/5\.0/);
       assert.equal(
         resolveRedditApiUrl("https://www.reddit.com/r/OpenAI/new.json?limit=3"),
         "https://www.reddit.com/r/OpenAI/new.json?limit=3",
@@ -95,14 +98,19 @@ test("reddit shared: fetchRedditJson uses public endpoint without oauth creds", 
         },
       );
 
-      assert.deepEqual(body, { data: { children: [] } });
+      // Listing URLs (`/r/X/new.json`) are routed through the RSS variant
+      // (`/r/X/new/.rss`) on the public-json path — the JSON listing endpoint
+      // is blocked at the Reddit edge for GH Actions IPs while the RSS feed
+      // serves the same listing unauthenticated. parseRedditAtomFeed is
+      // tolerant of non-Atom input and returns the empty-children shape.
+      assert.deepEqual(body, { data: { children: [], after: null, before: null } });
       assert.equal(calls.length, 1);
       assert.equal(
         calls[0].url,
-        "https://www.reddit.com/r/OpenAI/new.json?limit=3",
+        "https://www.reddit.com/r/OpenAI/new/.rss?limit=3",
       );
       assert.equal(calls[0].init.headers.Authorization, undefined);
-      assert.match(calls[0].init.headers["User-Agent"], /StarScreener\/0\.1/);
+      assert.match(calls[0].init.headers["User-Agent"], /Mozilla\/5\.0/);
     },
   );
 });
@@ -201,7 +209,7 @@ test("reddit shared: falls back to public JSON when oauth path fails", async () 
             }
             assert.equal(
               url,
-              "https://www.reddit.com/r/OpenAI/new.json?limit=3",
+              "https://old.reddit.com/r/OpenAI/new.json?limit=3",
             );
             assert.equal(init.headers.Authorization, undefined);
             return Response.json({ data: { children: [{ id: "public-hit" }] } });
@@ -217,7 +225,7 @@ test("reddit shared: falls back to public JSON when oauth path fails", async () 
       );
       assert.equal(
         calls[2].url,
-        "https://www.reddit.com/r/OpenAI/new.json?limit=3",
+        "https://old.reddit.com/r/OpenAI/new.json?limit=3",
       );
       assert.deepEqual(getRedditFetchRuntime(), {
         preferredMode: "oauth",

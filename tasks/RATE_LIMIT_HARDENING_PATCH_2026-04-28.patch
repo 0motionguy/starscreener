@@ -1,0 +1,233 @@
+diff --git a/src/app/api/repo-submissions/route.ts b/src/app/api/repo-submissions/route.ts
+index 5324f61..7a066a2 100644
+--- a/src/app/api/repo-submissions/route.ts
++++ b/src/app/api/repo-submissions/route.ts
+@@ -1,6 +1,7 @@
+ import { NextRequest, NextResponse } from "next/server";
+ 
+ import { verifyCronAuth } from "@/lib/api/auth";
++import { checkRateLimitAsync } from "@/lib/api/rate-limit";
+ import { runRepoIntakeForSubmission } from "@/lib/repo-intake";
+ import {
+   listRepoSubmissions,
+@@ -13,6 +14,13 @@ import {
+   type RepoSubmissionResult,
+ } from "@/lib/repo-submissions";
+ 
++// Public POST surface — anyone can submit a repo, but a per-IP fixed window
++// caps spam: 5 submissions per 10 minutes. Backed by Upstash when configured
++// so the cap holds across Vercel Lambdas, memory fallback in dev. Rejects with
++// 429 + Retry-After. CRON_SECRET-authenticated callers bypass via the same
++// auto-trigger gate downstream — they're trusted to batch submit.
++const SUBMISSION_RATE_LIMIT = { windowMs: 10 * 60 * 1000, maxRequests: 5 } as const;
++
+ interface RepoSubmissionsListResponse {
+   ok: true;
+   queue: RepoSubmissionQueueSummary;
+@@ -54,6 +62,27 @@ export async function POST(
+ ): Promise<
+   NextResponse<RepoSubmissionsCreateResponse | RepoSubmissionsErrorResponse>
+ > {
++  // Rate-limit BEFORE parsing the body so a flood of malformed JSON can't
++  // bypass the cap. Skip the check for trusted CRON callers (operator
++  // batch submissions).
++  const cronAuth = verifyCronAuth(request);
++  if (cronAuth.kind !== "ok") {
++    const rl = await checkRateLimitAsync(request, SUBMISSION_RATE_LIMIT);
++    if (!rl.allowed) {
++      const retryAfterSec = Math.max(1, Math.ceil(rl.retryAfterMs / 1000));
++      return NextResponse.json(
++        {
++          ok: false,
++          error: `Rate limited — ${SUBMISSION_RATE_LIMIT.maxRequests} submissions per ${SUBMISSION_RATE_LIMIT.windowMs / 60000}min per IP. Retry after ${retryAfterSec}s.`,
++        },
++        {
++          status: 429,
++          headers: { "Retry-After": String(retryAfterSec) },
++        },
++      );
++    }
++  }
++
+   let raw: unknown;
+   try {
+     raw = await request.json();
+@@ -75,8 +104,7 @@ export async function POST(
+   try {
+     const result = await submitRepoToQueue(parsed.value);
+     const canTriggerIntake =
+-      process.env.NODE_ENV !== "production" ||
+-      verifyCronAuth(request).kind === "ok";
++      process.env.NODE_ENV !== "production" || cronAuth.kind === "ok";
+     const autoTriggerEnabled =
+       process.env.STARSCREENER_AUTO_INTAKE !== "false";
+     const triggerableSubmission =
+diff --git a/src/app/api/repos/[owner]/[name]/aiso/route.ts b/src/app/api/repos/[owner]/[name]/aiso/route.ts
+index 3b2c036..c39c347 100644
+--- a/src/app/api/repos/[owner]/[name]/aiso/route.ts
++++ b/src/app/api/repos/[owner]/[name]/aiso/route.ts
+@@ -15,11 +15,12 @@
+ //        (src/lib/aiso-tools.ts). This route never touches the scanner
+ //        state directly — the scanner stays the source of truth.
+ //
+-// Rate-limiting (POST): per-IP token bucket, 1 request / 60s. Keyed on the
+-// first address in `x-forwarded-for` falling back to the socket address.
+-// Memory-local — intentional: a single Vercel Lambda handles bursts from a
+-// client cooldown, and a distributed limit isn't needed for a per-profile
+-// refresh button.
++// Rate-limiting (POST): per-IP fixed window, 1 request / 60s, backed by
++// Upstash Redis (shared across every Vercel Lambda) when configured, with
++// in-process memory fallback otherwise. Migrated from the previous local
++// rateLimitMap because cold starts on Vercel cycle Lambdas frequently
++// enough that a determined attacker could exceed the cap by spraying
++// requests across instances.
+ //
+ // Auth: none. The button is a visible, idempotent-ish affordance on a
+ // public profile page. The per-IP cooldown + the client-side 60s button
+@@ -30,6 +31,7 @@
+ import { NextRequest, NextResponse } from "next/server";
+ import path from "node:path";
+ 
++import { checkRateLimitAsync } from "@/lib/api/rate-limit";
+ import { getDerivedRepoByFullName } from "@/lib/derived-repos";
+ import {
+   getRepoProfile,
+@@ -91,52 +93,10 @@ function topDimensions(
+     .slice(0, n);
+ }
+ 
+-// ---------------------------------------------------------------------------
+-// Rate limiting (per-IP, in-memory)
+-// ---------------------------------------------------------------------------
+-
+-const RATE_LIMIT_MS = 60_000;
+-const rateLimitMap = new Map<string, number>();
+-
+-function clientIp(request: NextRequest): string {
+-  const xff = request.headers.get("x-forwarded-for");
+-  if (xff) {
+-    const first = xff.split(",")[0]?.trim();
+-    if (first) return first;
+-  }
+-  const real = request.headers.get("x-real-ip");
+-  if (real) return real;
+-  return "unknown";
+-}
+-
+-function pruneRateLimit(now: number): void {
+-  // Prevent unbounded growth — drop entries older than two windows.
+-  if (rateLimitMap.size < 1024) return;
+-  const cutoff = now - RATE_LIMIT_MS * 2;
+-  for (const [key, last] of rateLimitMap.entries()) {
+-    if (last < cutoff) rateLimitMap.delete(key);
+-  }
+-}
+-
+-function checkRateLimit(ip: string): { ok: true } | { ok: false; retryAfterMs: number } {
+-  const now = Date.now();
+-  const last = rateLimitMap.get(ip);
+-  if (last !== undefined && now - last < RATE_LIMIT_MS) {
+-    return { ok: false, retryAfterMs: RATE_LIMIT_MS - (now - last) };
+-  }
+-  rateLimitMap.set(ip, now);
+-  pruneRateLimit(now);
+-  return { ok: true };
+-}
+-
+-// Test-only escape hatch — Next.js forbids extra named exports in route
+-// files, so we publish the reset hook on `globalThis` under a symbol key.
+-// Tests import the route then call `(globalThis as any)[AISO_TEST_RESET]()`
+-// without polluting the route's public type surface.
+-const AISO_TEST_RESET = Symbol.for("starscreener.aiso.test.reset");
+-(globalThis as unknown as Record<symbol, () => void>)[AISO_TEST_RESET] = () => {
+-  rateLimitMap.clear();
+-};
++// Rate-limiting now lives in src/lib/api/rate-limit.ts via checkRateLimitAsync.
++// Keep the AISO_RATE_LIMIT constants here so the per-route policy stays visible
++// at the top of the file — only the storage layer moved.
++const AISO_RATE_LIMIT = { windowMs: 60_000, maxRequests: 1 } as const;
+ 
+ // ---------------------------------------------------------------------------
+ // Rescan queue
+@@ -247,9 +207,8 @@ export async function POST(
+     );
+   }
+ 
+-  const ip = clientIp(request);
+-  const rl = checkRateLimit(ip);
+-  if (!rl.ok) {
++  const rl = await checkRateLimitAsync(request, AISO_RATE_LIMIT);
++  if (!rl.allowed) {
+     const retryAfterSec = Math.max(1, Math.ceil(rl.retryAfterMs / 1000));
+     return NextResponse.json(
+       {
+@@ -272,12 +231,18 @@ export async function POST(
+   const websiteUrl = profile?.websiteUrl ?? null;
+   const queuedAt = new Date().toISOString();
+ 
++  // Recover the client IP for the queue trace. The rate-limit module extracts
++  // it internally from x-forwarded-for; we just mirror that header read here
++  // so the queued row carries the same value.
++  const xff = request.headers.get("x-forwarded-for");
++  const requestIp = xff ? (xff.split(",")[0]?.trim() ?? "unknown") : "unknown";
++
+   try {
+     await enqueueRescan({
+       fullName: repo.fullName,
+       websiteUrl,
+       requestedAt: queuedAt,
+-      requestIp: ip,
++      requestIp,
+       source: "user-retry",
+     });
+   } catch (err) {
+diff --git a/src/app/api/submissions/revenue/route.ts b/src/app/api/submissions/revenue/route.ts
+index 0f5bef8..4cbf1a4 100644
+--- a/src/app/api/submissions/revenue/route.ts
++++ b/src/app/api/submissions/revenue/route.ts
+@@ -9,6 +9,8 @@
+ 
+ import { NextRequest, NextResponse } from "next/server";
+ 
++import { verifyCronAuth } from "@/lib/api/auth";
++import { checkRateLimitAsync } from "@/lib/api/rate-limit";
+ import {
+   listRevenueSubmissions,
+   submitRevenueToQueue,
+@@ -18,6 +20,11 @@ import {
+   type RevenueSubmissionResult,
+ } from "@/lib/revenue-submissions";
+ 
++// Public POST — founders submit revenue claims. Tighter cap than repo
++// submissions (3 per 10 min per IP) because each submission also creates a
++// downstream moderation task. CRON-authenticated callers bypass.
++const REVENUE_SUBMISSION_RATE_LIMIT = { windowMs: 10 * 60 * 1000, maxRequests: 3 } as const;
++
+ interface RevenueSubmissionsListResponse {
+   ok: true;
+   submissions: PublicRevenueSubmission[];
+@@ -58,6 +65,24 @@ export async function POST(
+     RevenueSubmissionsCreateResponse | RevenueSubmissionsErrorResponse
+   >
+ > {
++  const cronAuth = verifyCronAuth(request);
++  if (cronAuth.kind !== "ok") {
++    const rl = await checkRateLimitAsync(request, REVENUE_SUBMISSION_RATE_LIMIT);
++    if (!rl.allowed) {
++      const retryAfterSec = Math.max(1, Math.ceil(rl.retryAfterMs / 1000));
++      return NextResponse.json(
++        {
++          ok: false,
++          error: `Rate limited — ${REVENUE_SUBMISSION_RATE_LIMIT.maxRequests} submissions per ${REVENUE_SUBMISSION_RATE_LIMIT.windowMs / 60000}min per IP. Retry after ${retryAfterSec}s.`,
++        },
++        {
++          status: 429,
++          headers: { "Retry-After": String(retryAfterSec) },
++        },
++      );
++    }
++  }
++
+   let raw: unknown;
+   try {
+     raw = await request.json();

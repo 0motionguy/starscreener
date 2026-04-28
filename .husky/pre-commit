@@ -1,0 +1,16 @@
+# Pre-commit hook: typecheck + zod-route lint before every commit.
+#
+# `lint:zod-routes` enforces P0-critical: every mutating route handler
+# (POST/PUT/PATCH/DELETE) must validate its body with Zod. Without this
+# guard a developer can silently ship an un-validated mutating route.
+#
+# Full `npm test` is intentionally NOT run here (8+ sub-suites, ~30s).
+# CI gates the full test run; pre-commit catches the most common breaks.
+#
+# Total cost: ~5-10s (4s tsc + 1s zod-route scanner).
+#
+# To bypass for an emergency commit:  git commit --no-verify
+# (use sparingly — CI catches the same things, just slower)
+
+cd "$(dirname "$0")/.."
+npx --no-install tsc --noEmit && npm run lint:zod-routes --silent

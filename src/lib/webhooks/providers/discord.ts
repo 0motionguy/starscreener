@@ -2,7 +2,7 @@
 //
 // Discord accepts embed objects on POST to discord.com/api/webhooks/<id>/<token>.
 // We emit one embed per event with color + title + description + fields +
-// link. Colors are chosen to match the StarScreener surface conventions:
+// link. Colors are chosen to match the TrendingRepo surface conventions:
 //   breakout → orange
 //   funding  → green
 //   revenue  → cyan
@@ -41,7 +41,7 @@ export interface DiscordPayload {
   embeds: DiscordEmbed[];
 }
 
-const COLOR_BREAKOUT = 0xff7a00; // starscreener orange
+const COLOR_BREAKOUT = 0xff7a00; // TrendingRepo orange
 const COLOR_FUNDING = 0x22c55e; // green
 // const COLOR_REVENUE = 0x06b6d4; // cyan — reserved for phase-2 revenue hook
 
@@ -99,7 +99,7 @@ export function formatBreakoutForDiscord(
         inline: true,
       },
     ],
-    footer: { text: "StarScreener" },
+    footer: { text: "TrendingRepo" },
     timestamp: repo.lastCommitAt,
   };
 
@@ -125,7 +125,7 @@ export function formatFundingForDiscord(
       { name: "Amount", value: truncate(amount, 1024), inline: true },
       { name: "Round", value: truncate(round, 1024), inline: true },
     ],
-    footer: { text: "StarScreener · Funding Radar" },
+    footer: { text: "TrendingRepo · Funding Radar" },
     timestamp: event.publishedAt,
   };
 

@@ -907,6 +907,7 @@ body::before {
 .app-shell {
   display: grid;
   grid-template-columns: 280px 1fr;
+  column-gap: 16px;
   min-height: calc(100vh - 56px);
 }
 
@@ -1233,11 +1234,20 @@ body::before {
 }
 
 .v2-row {
-  transition: background-color 120ms ease-out;
+  transition:
+    background-color 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .v2-row:hover {
   background: var(--v2-bg-100);
+  /* Two-layer hover: 2px accent rail slides in on the left edge,
+     and a subtle hairline appears at the bottom — the row "lifts"
+     toward the cursor without translating, so dense rows don't
+     reflow on mouseover. */
+  box-shadow:
+    inset 2px 0 0 var(--v2-acc),
+    inset 0 -1px 0 var(--v2-line-300);
 }
 
 .v2-bracket {

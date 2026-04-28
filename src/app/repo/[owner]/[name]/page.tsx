@@ -24,6 +24,7 @@ import { Flame, TrendingUp, Zap } from "lucide-react";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import { formatNumber, getRelativeTime } from "@/lib/utils";
 import { absoluteUrl, SITE_NAME, safeJsonLd } from "@/lib/seo";
+import { buildRepoPageSchemas } from "@/lib/seo-repo-schemas";
 import { buildCanonicalRepoProfile } from "@/lib/api/repo-profile";
 // Data-store refresh hooks. The repo detail page consumes signal data from
 // many sources; we refresh all of them in parallel before the canonical
@@ -222,68 +223,36 @@ export default async function RepoDetailPage({ params }: PageProps) {
   const markers = buildMentionMarkers(repo.fullName, 30);
   const lastRefresh = getRelativeTime(new Date().toISOString());
 
-  // SoftwareSourceCode JSON-LD — kept identical to the previous version so
-  // search engines see no schema regression on the URL.
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "SoftwareSourceCode",
-    name: repo.fullName,
+  // JSON-LD entity graph for the repo page. Replaces the previous hand-rolled
+  // SoftwareSourceCode + BreadcrumbList pair with a richer set:
+  //   SoftwareSourceCode, SoftwareApplication, BreadcrumbList,
+  //   and (when momentum + stars are present) AggregateRating.
+  // All schemas are anchored to the global Organization (#organization) and
+  // Website (#website) entities defined on the homepage.
+  const jsonLdSchemas = buildRepoPageSchemas({
+    owner: repo.owner,
+    name: repo.name,
     description: repo.description,
-    codeRepository: repo.url,
-    programmingLanguage: repo.language ?? undefined,
-    url: absoluteUrl(`/repo/${repo.owner}/${repo.name}`),
-    author: {
-      "@type": "Organization",
-      name: repo.owner,
-      url: `https://github.com/${repo.owner}`,
-    },
-    interactionStatistic: {
-      "@type": "InteractionCounter",
-      interactionType: "https://schema.org/LikeAction",
-      userInteractionCount: repo.stars,
-    },
-    keywords: [repo.language, ...(repo.topics ?? [])]
-      .filter(Boolean)
-      .join(", "),
-  };
-
-  // BreadcrumbList JSON-LD — Home > {owner} > {name}. Mirrors the visible
-  // breadcrumb strip rendered above so structured data matches the UI.
-  const breadcrumbJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Home",
-        item: absoluteUrl("/"),
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: repo.owner,
-        item: `https://github.com/${repo.owner}`,
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: repo.name,
-        item: absoluteUrl(`/repo/${repo.owner}/${repo.name}`),
-      },
-    ],
-  };
+    language: repo.language,
+    topics: repo.topics,
+    stars: repo.stars,
+    forks: repo.forks,
+    lastCommitAt: repo.lastCommitAt,
+    createdAt: repo.createdAt,
+    momentumScore: repo.momentumScore,
+  });
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbJsonLd) }}
-      />
+      {jsonLdSchemas.map((schema, idx) => (
+        <script
+          // Index-based key is fine: the array length only varies based on
+          // whether AggregateRating is appended (deterministic per render).
+          key={`repo-jsonld-${idx}`}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(schema) }}
+        />
+      ))}
 
       {/* Sticky breadcrumb strip — unchanged behavior, terminal tone. */}
       <div className="sticky top-14 z-30 bg-bg-primary/90 backdrop-blur-md border-b border-border-primary">

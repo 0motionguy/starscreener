@@ -46,8 +46,8 @@ jobs:
 
       - name: Commit if changed
         run: |
-          git config user.name  "starscreener-bot"
-          git config user.email "bot@starscreener.local"
+          git config user.name  "trendingrepo-bot"
+          git config user.email "bot@trendingrepo.local"
           git add data/reddit-baselines.json data/reddit-mentions.json data/reddit-all-posts.json
           if git diff --quiet --staged; then
             echo "no changes - skipping commit"

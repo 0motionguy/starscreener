@@ -13,7 +13,7 @@ import type {
   NewsMetricBar,
   NewsMetricCard,
 } from "@/components/news/NewsTopHeaderV3";
-import { compactNumber } from "@/components/news/newsTopMetrics";
+import { applyCompactV1, compactNumber } from "@/components/news/newsTopMetrics";
 import type { VerifiedStartup } from "@/lib/revenue-startups";
 import { trustmrrProfileUrl } from "@/lib/trustmrr-url";
 
@@ -108,37 +108,40 @@ export function buildRevenueHeader(input: RevenueHeaderInput): {
       color: CATEGORY_PALETTE[i % CATEGORY_PALETTE.length],
     }));
 
-  const cards: [NewsMetricCard, NewsMetricCard, NewsMetricCard] = [
-    {
-      variant: "snapshot",
-      title: "// SNAPSHOT · NOW",
-      rightLabel: `${totalInFilter} STARTUPS`,
-      label: "STARTUPS TRACKED",
-      value: compactNumber(totalInFilter),
-      hint: `${trackedMatches} TRACKED-REPO MATCH${trackedMatches === 1 ? "" : "ES"}`,
-      rows: [
-        { label: "TOP MRR", value: formatUsd(topMrrCents), tone: "accent" },
-        { label: "AGGREGATE MRR", value: formatUsd(totalMrrCents) },
-        { label: "CATEGORIES", value: compactNumber(catCounts.size) },
-      ],
-    },
-    {
-      variant: "bars",
-      title: "// TIERS · BY MRR BAND",
-      rightLabel: `${rows.length} ROWS`,
-      bars: tierBars,
-      labelWidth: 64,
-      emptyText: "NO STARTUPS IN FILTER",
-    },
-    {
-      variant: "bars",
-      title: "// CATEGORIES · TOP",
-      rightLabel: `TOP ${catBars.length}`,
-      bars: catBars,
-      labelWidth: 120,
-      emptyText: "NO CATEGORIES YET",
-    },
-  ];
+  const cards: [NewsMetricCard, NewsMetricCard, NewsMetricCard] = applyCompactV1(
+    [
+      {
+        variant: "snapshot",
+        title: "// SNAPSHOT · NOW",
+        rightLabel: `${totalInFilter} STARTUPS`,
+        label: "STARTUPS TRACKED",
+        value: compactNumber(totalInFilter),
+        hint: `${trackedMatches} TRACKED-REPO MATCH${trackedMatches === 1 ? "" : "ES"}`,
+        rows: [
+          { label: "TOP MRR", value: formatUsd(topMrrCents), tone: "accent" },
+          { label: "AGGREGATE MRR", value: formatUsd(totalMrrCents) },
+          { label: "CATEGORIES", value: compactNumber(catCounts.size) },
+        ],
+      },
+      {
+        variant: "bars",
+        title: "// TIERS · BY MRR BAND",
+        rightLabel: `${rows.length} ROWS`,
+        bars: tierBars,
+        labelWidth: 64,
+        emptyText: "NO STARTUPS IN FILTER",
+      },
+      {
+        variant: "bars",
+        title: "// CATEGORIES · TOP",
+        rightLabel: `TOP ${catBars.length}`,
+        bars: catBars,
+        labelWidth: 120,
+        emptyText: "NO CATEGORIES YET",
+      },
+    ],
+    { topics: catBars, totalItems: totalInFilter },
+  );
 
   const topStories: NewsHeroStory[] = rows
     .slice()

@@ -28,6 +28,7 @@ import { writeFile, mkdir, readFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import "./_load-env.mjs";
+import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 import {
   createSession,
   searchPostsAllPages,
@@ -72,7 +73,13 @@ const REPO_PAGE_LIMIT = 100;
 // Curated query slices. Bluesky behaves more like search/feed/list territory
 // than subreddit-style channels, so coverage lives in query families rather
 // than one monolithic keyword list.
-const QUERY_LIMIT = 50;
+//
+// QUERY_LIMIT lowered from 50 → 30 (T3.5): bluesky-trending.json was ~1.2 MB
+// at 50 posts/family, hurting first-paint on 3G. 30 keeps the top of each
+// family well-covered while bringing the output under ~720 KB. If a family's
+// long tail starts to matter, raise in increments of 5 and re-measure the
+// JSON size before merging.
+const QUERY_LIMIT = 30;
 
 const POST_TEXT_MAX_CHARS = 500;
 
@@ -483,8 +490,33 @@ const isDirectRun = invokedPath
   : false;
 
 if (isDirectRun) {
-  main().catch((err) => {
-    console.error("scrape-bluesky failed:", err.message ?? err);
-    process.exit(1);
-  });
+  // T2.6: same metadata-sidecar pattern as scrape-hackernews — lets the
+  // SRE freshness probe distinguish Bluesky outage from a quiet day.
+  const startedAt = Date.now();
+  main()
+    .then(async () => {
+      try {
+        await writeSourceMetaFromOutcome({
+          source: "bluesky",
+          count: 1,
+          durationMs: Date.now() - startedAt,
+        });
+      } catch (metaErr) {
+        console.error("[meta] bluesky.json write failed:", metaErr);
+      }
+    })
+    .catch(async (err) => {
+      console.error("scrape-bluesky failed:", err.message ?? err);
+      try {
+        await writeSourceMetaFromOutcome({
+          source: "bluesky",
+          count: 0,
+          durationMs: Date.now() - startedAt,
+          error: err,
+        });
+      } catch (metaErr) {
+        console.error("[meta] bluesky.json error-write failed:", metaErr);
+      }
+      process.exit(1);
+    });
 }

@@ -76,8 +76,8 @@ export function BrowserAlertBridge() {
         storageEvent.type === "storage" &&
         storageEvent.key &&
         ![
-          "starscreener-browser-alerts-enabled",
-          "starscreener-browser-alerts-seen",
+          "trendingrepo-browser-alerts-enabled",
+          "trendingrepo-browser-alerts-seen",
         ].includes(storageEvent.key)
       ) {
         return;

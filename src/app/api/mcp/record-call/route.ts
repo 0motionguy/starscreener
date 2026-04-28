@@ -69,7 +69,7 @@ export async function POST(request: NextRequest) {
   // Skip-not-fail when the caller is anonymous. The MCP server calls this
   // endpoint best-effort and never surfaces the response to the end user;
   // returning 401 would just log noise on stdio-based clients that don't
-  // have a configured STARSCREENER_USER_TOKEN.
+  // have a configured TRENDINGREPO_USER_TOKEN (legacy: STARSCREENER_USER_TOKEN).
   if (auth.kind !== "ok") {
     return NextResponse.json(
       { ok: true as const, skipped: "anonymous" },

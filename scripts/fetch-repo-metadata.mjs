@@ -163,7 +163,7 @@ async function fetchBatch(batch, token) {
         Accept: "application/vnd.github+json",
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
-        "User-Agent": "starscreener-metadata-bot",
+        "User-Agent": "trendingrepo-metadata-bot",
         "X-GitHub-Api-Version": API_VERSION,
       },
       body: JSON.stringify(payload),

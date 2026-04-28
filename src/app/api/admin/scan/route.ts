@@ -80,8 +80,10 @@ const CHILD_ENV_ALLOW = [
   "PRODUCTHUNT_API_TOKEN",
   "DEVTO_API_KEY",
   "STARSCREENER_USER_AGENT",
+  "TRENDINGREPO_USER_AGENT",
   // Project-local discovery (used by repo-metadata + scoring).
   "STARSCREENER_DATA_DIR",
+  "TRENDINGREPO_DATA_DIR",
 ];
 
 function buildChildEnv(

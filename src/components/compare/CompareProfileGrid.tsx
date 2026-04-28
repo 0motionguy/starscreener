@@ -29,8 +29,7 @@ import { resolveCompareFullNames } from "@/lib/compare-selection";
 import type { Repo } from "@/lib/types";
 import type { CanonicalRepoProfile } from "@/lib/api/repo-profile";
 import { cn } from "@/lib/utils";
-
-const MAX_SLOTS = 4;
+import { COMPARE_MAX_SLOTS as MAX_SLOTS } from "./palette";
 
 /** Single row from `/api/compare`'s new shape. */
 export interface CompareRepoRow {

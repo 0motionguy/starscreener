@@ -57,15 +57,15 @@ One data pipeline. Four consumers. No mocks — every number is anchored in a li
 
 ## Quick start
 
-Three ways to use StarScreener, ordered by effort:
+Three ways to use TrendingRepo, ordered by effort:
 
-**1. Visit the site.** [starscreener.vercel.app](https://starscreener.vercel.app)
+**1. Visit the site.** [trendingrepo.com](https://trendingrepo.com)
 
 **2. Query from a terminal.**
 
 ```bash
 # Via the spec-native Portal visitor
-npx @visitportal/visit https://starscreener.vercel.app/portal top_gainers --limit=10
+npx @visitportal/visit https://trendingrepo.com/portal top_gainers --limit=10
 
 # Or via the native CLI (clones + runs from GitHub)
 npx github:0motionguy/starscreener trending --window=24h --limit=5
@@ -75,15 +75,15 @@ npx github:0motionguy/starscreener trending --window=24h --limit=5
 
 ```bash
 # HTTP transport (Claude Code 2+)
-claude mcp add starscreener \
+claude mcp add trendingrepo \
   --transport http \
-  --url https://starscreener.vercel.app/portal
+  --url https://trendingrepo.com/portal
 ```
 
 Or hit the REST endpoint directly:
 
 ```bash
-curl -X POST https://starscreener.vercel.app/portal/call \
+curl -X POST https://trendingrepo.com/portal/call \
   -H "Content-Type: application/json" \
   -d '{"tool":"search_repos","params":{"query":"agent","limit":5}}'
 ```
@@ -123,7 +123,7 @@ starscreener/
 │     ├─ top-gainers.ts
 │     ├─ search-repos.ts
 │     └─ maintainer-profile.ts
-├─ mcp/                           Published MCP server (starscreener-mcp) — stdio bridge
+├─ mcp/                           Published MCP server (trendingrepo-mcp) — stdio bridge
 ├─ bin/
 │  └─ ss.mjs                      Zero-dependency CLI (Node 18+)
 ├─ data/                          Committed JSON — ships with every deploy
@@ -212,7 +212,7 @@ npx @redocly/cli bundle --ext json docs/openapi.yaml > docs/openapi.json
 
 ## Feeds & syndication
 
-StarScreener exposes RSS 2.0 feeds for the two highest-leverage streams so
+TrendingRepo exposes RSS 2.0 feeds for the two highest-leverage streams so
 aggregators, newsletters, and LLM agents can subscribe without polling the
 HTML pages. Every feed is hand-rolled (no deps), cached for 30 min at the
 edge, and valid against W3C Feed Validator.
@@ -244,10 +244,10 @@ curl -sS https://trendingrepo.com/sitemap.xml         | head -c 500
 
 ```bash
 # Read the manifest
-curl https://starscreener.vercel.app/portal | jq
+curl https://trendingrepo.com/portal | jq
 
 # Call a tool
-curl -X POST https://starscreener.vercel.app/portal/call \
+curl -X POST https://trendingrepo.com/portal/call \
   -H "Content-Type: application/json" \
   -d '{"tool":"top_gainers","params":{"limit":5}}'
 ```
@@ -268,13 +268,13 @@ A stdio MCP bridge lives in [`mcp/`](./mcp). Build + register:
 
 ```bash
 npm run mcp:build
-claude mcp add starscreener node ./mcp/dist/server.js
+claude mcp add trendingrepo node ./mcp/dist/server.js
 ```
 
 Or go HTTP-native (no bundle required):
 
 ```bash
-claude mcp add starscreener --transport http --url https://starscreener.vercel.app/portal
+claude mcp add trendingrepo --transport http --url https://trendingrepo.com/portal
 ```
 
 ## Design system
@@ -358,7 +358,7 @@ The pipeline's recurring work (ingest, persist, cleanup, rebuild, predictions, A
 `.github/workflows/cron-*.yml` — richer logs, manual fire via `workflow_dispatch`, and per-run concurrency groups. Requires the repo's Actions to be enabled and these secrets/vars:
 
 - `secrets.CRON_SECRET` — must match the server's `CRON_SECRET` env
-- `vars.STARSCREENER_URL` — optional; defaults to the hard-coded prod URL in each workflow
+- `vars.TRENDINGREPO_URL` (legacy alias `STARSCREENER_URL` still accepted) — optional; defaults to the hard-coded prod URL in each workflow
 
 ### Fallback: Vercel Cron
 

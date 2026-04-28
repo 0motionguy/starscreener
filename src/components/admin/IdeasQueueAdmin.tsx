@@ -191,9 +191,9 @@ function ModerationRow({
       style={{
         background:
           row.status === "published" || row.status === "shipped"
-            ? "rgba(34, 197, 94, 0.06)"
+            ? "var(--v2-sig-green-soft)"
             : row.status === "rejected"
-              ? "rgba(255, 77, 77, 0.06)"
+              ? "var(--v2-sig-red-soft)"
               : "var(--v2-bg-050)",
         borderColor:
           row.status === "published" || row.status === "shipped"

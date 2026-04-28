@@ -25,6 +25,7 @@ import {
 } from "@/components/news/NewsTopHeaderV3";
 import {
   activityBars,
+  applyCompactV1,
   compactNumber,
   sourceVolumeBars,
   topicBars,
@@ -522,6 +523,10 @@ export default function SignalsPage() {
   // Build per-source `SourceVolumeInput` rows for the middle card.
   // Source colours match the `SOURCE_COLORS` palette used elsewhere on
   // /news — same chrome regardless of which page you're reading from.
+  // Brand favicons for each source — kept beside the per-source volume row
+  // so the bar rail reads as "logo · code · count" instead of bare text.
+  const SRC_FAVICON = (domain: string) =>
+    `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
   const sourceVolumeRows: SourceVolumeInput[] = [
     {
       code: "HN",
@@ -529,6 +534,7 @@ export default function SignalsPage() {
       color: "rgba(245, 110, 15, 0.85)",
       itemCount: hnTop.length,
       totalScore: hnTop.reduce((s, x) => s + (x.score ?? 0), 0),
+      logoUrl: SRC_FAVICON("news.ycombinator.com"),
     },
     {
       code: "BS",
@@ -536,6 +542,7 @@ export default function SignalsPage() {
       color: "rgba(58, 214, 197, 0.85)",
       itemCount: bskyTop.length,
       totalScore: bskyTop.reduce((s, x) => s + (x.likeCount ?? 0), 0),
+      logoUrl: SRC_FAVICON("bsky.app"),
     },
     {
       code: "DV",
@@ -543,6 +550,7 @@ export default function SignalsPage() {
       color: "rgba(102, 153, 255, 0.85)",
       itemCount: devtoTop.length,
       totalScore: devtoTop.reduce((s, x) => s + (x.reactionsCount ?? 0), 0),
+      logoUrl: SRC_FAVICON("dev.to"),
     },
     {
       code: "LZ",
@@ -550,6 +558,7 @@ export default function SignalsPage() {
       color: "rgba(172, 19, 13, 0.85)",
       itemCount: lobstersTop.length,
       totalScore: lobstersTop.reduce((s, x) => s + (x.score ?? 0), 0),
+      logoUrl: SRC_FAVICON("lobste.rs"),
     },
     {
       code: "R",
@@ -557,6 +566,7 @@ export default function SignalsPage() {
       color: "rgba(255, 77, 77, 0.85)",
       itemCount: redditPostsAll.length,
       totalScore: redditPostsAll.reduce((s, x) => s + (x.score ?? 0), 0),
+      logoUrl: SRC_FAVICON("reddit.com"),
     },
   ];
 
@@ -579,44 +589,48 @@ export default function SignalsPage() {
   for (const s of lobstersTop) allTitles.push(s.title);
   for (const p of redditPostsAll) allTitles.push(p.title ?? "");
 
-  const summaryCards: [NewsMetricCard, NewsMetricCard, NewsMetricCard] = [
-    {
-      variant: "snapshot",
-      title: "// SNAPSHOT · NOW",
-      rightLabel: `${totalItemsAll} SIGNALS`,
-      label: "SIGNALS TRACKED",
-      value: compactNumber(totalItemsAll),
-      hint: `ACROSS ${activeSourceCount}/${TOTAL_SOURCES} SOURCES`,
-      rows: [
-        { label: "TOTAL SCORE", value: compactNumber(totalScoreAll) },
-        {
-          label: "TOP SIGNAL",
-          value: compactNumber(topItemAll?.engagement ?? 0),
-          tone: "accent",
-        },
-        {
-          label: "CROSS-CHANNEL",
-          value: `${mentionRepos.length} REPOS`,
-        },
-      ],
-    },
-    {
-      variant: "bars",
-      title: "// VOLUME · PER SOURCE",
-      rightLabel: `${activeSourceCount} CHANNELS`,
-      bars: sourceVolumeBars(sourceVolumeRows),
-      labelWidth: 36,
-      emptyText: "NO LIVE SOURCES",
-    },
-    {
-      variant: "bars",
-      title: "// TOPICS · MENTIONED MOST",
-      rightLabel: "TOP 6",
-      bars: topicBars(allTitles, 6),
-      labelWidth: 96,
-      emptyText: "NOT ENOUGH SIGNAL YET",
-    },
-  ];
+  const signalsTopicBars = topicBars(allTitles, 6);
+  const summaryCards: [NewsMetricCard, NewsMetricCard, NewsMetricCard] = applyCompactV1(
+    [
+      {
+        variant: "snapshot",
+        title: "// SNAPSHOT · NOW",
+        rightLabel: `${totalItemsAll} SIGNALS`,
+        label: "SIGNALS TRACKED",
+        value: compactNumber(totalItemsAll),
+        hint: `ACROSS ${activeSourceCount}/${TOTAL_SOURCES} SOURCES`,
+        rows: [
+          { label: "TOTAL SCORE", value: compactNumber(totalScoreAll) },
+          {
+            label: "TOP SIGNAL",
+            value: compactNumber(topItemAll?.engagement ?? 0),
+            tone: "accent",
+          },
+          {
+            label: "CROSS-CHANNEL",
+            value: `${mentionRepos.length} REPOS`,
+          },
+        ],
+      },
+      {
+        variant: "bars",
+        title: "// VOLUME · PER SOURCE",
+        rightLabel: `${activeSourceCount} CHANNELS`,
+        bars: sourceVolumeBars(sourceVolumeRows),
+        labelWidth: 36,
+        emptyText: "NO LIVE SOURCES",
+      },
+      {
+        variant: "bars",
+        title: "// TOPICS · MENTIONED MOST",
+        rightLabel: "TOP 6",
+        bars: signalsTopicBars,
+        labelWidth: 96,
+        emptyText: "NOT ENOUGH SIGNAL YET",
+      },
+    ],
+    { topics: signalsTopicBars, totalItems: totalItemsAll },
+  );
 
   // Top 3 signals across all sources — already sorted in `allMerged`.
   const summaryTopStories: NewsHeroStory[] = allMerged.slice(0, 3).map((row) => {
@@ -655,10 +669,21 @@ export default function SignalsPage() {
 
   const summaryTopSlot = (
     <NewsTopHeaderV3
+      routeTitle="SIGNALS · CROSS-SOURCE"
+      liveLabel="LIVE"
       eyebrow="// MARKET SIGNALS · ALL SOURCES"
-      status={`${totalItemsAll.toLocaleString("en-US")} SIGNALS · ${activeSourceCount}/${TOTAL_SOURCES} LIVE`}
+      meta={[
+        { label: "SIGNALS", value: totalItemsAll.toLocaleString("en-US") },
+        { label: "SOURCES", value: `${activeSourceCount}/${TOTAL_SOURCES}` },
+        { label: "REPOS", value: mentionRepos.length.toLocaleString("en-US") },
+      ]}
       cards={summaryCards}
       topStories={summaryTopStories}
+      caption={[
+        "// LAYOUT compact-v1",
+        "· 3-COL · 320 / 1FR / 1FR",
+        "· DATA UNCHANGED",
+      ]}
     />
   );
 

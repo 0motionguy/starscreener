@@ -32,6 +32,7 @@
   },
   "scripts": {
     "cli:dev": "node bin/ss.mjs",
+    "prepare": "husky",
     "dev": "next dev --turbopack -p 3023",
     "build": "next build",
     "postbuild": "node scripts/sanitize-next-traces.mjs",
@@ -73,7 +74,9 @@
     "scrape:ph": "node scripts/scrape-producthunt.mjs",
     "scrape:devto": "node scripts/scrape-devto.mjs",
     "scrape:lobsters": "node scripts/scrape-lobsters.mjs",
+    "scrape:hf": "node scripts/scrape-huggingface.mjs",
     "scrape:arxiv": "node scripts/scrape-arxiv.mjs",
+    "scrape:huggingface": "node scripts/scrape-huggingface.mjs",
     "ingest:arxiv-cited": "node scripts/ingest-arxiv-cited-repos.mjs",
     "scrape:npm": "node scripts/scrape-npm.mjs",
     "collect:twitter": "tsx scripts/collect-twitter-signals.ts",
@@ -100,8 +103,8 @@
     "portal:conformance": "node scripts/portal-conformance.mjs"
   },
   "dependencies": {
+    "@sentry/nextjs": "^10.50.0",
     "@upstash/redis": "^1.37.0",
-    "@vercel/analytics": "^2.0.1",
     "framer-motion": "^12.38.0",
     "ioredis": "^5.10.1",
     "linkedom": "^0.18.12",
@@ -109,6 +112,7 @@
     "next": "15.5.15",
     "next-themes": "^0.4.6",
     "p-limit": "^7.3.0",
+    "posthog-js": "^1.372.3",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "recharts": "^3.8.1",
@@ -133,6 +137,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.5.15",
     "happy-dom": "^15.11.7",
+    "husky": "^9.1.7",
     "tailwindcss": "^4",
     "tsx": "^4.21.0",
     "typescript": "^5",

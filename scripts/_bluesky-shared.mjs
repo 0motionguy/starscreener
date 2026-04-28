@@ -12,7 +12,7 @@
 import { fetchWithTimeout } from "./_fetch-json.mjs";
 
 export const USER_AGENT =
-  "StarScreener/0.1 (+https://github.com/0motionguy/starscreener; bluesky-scraper)";
+  "TrendingRepo/0.2 (+https://github.com/0motionguy/starscreener; bluesky-scraper)";
 
 const AT_PDS = "https://bsky.social";
 const SEARCH_THROTTLE_MS = 250;

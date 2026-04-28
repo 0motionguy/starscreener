@@ -12,6 +12,8 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 
+import { readEnv } from "@/lib/env-helpers";
+
 // ---------------------------------------------------------------------------
 // Constants
 // ---------------------------------------------------------------------------
@@ -43,7 +45,7 @@ import path from "node:path";
  *   - When unset, we default to `<cwd>/.data`.
  */
 export function currentDataDir(): string {
-  const raw = process.env.STARSCREENER_DATA_DIR;
+  const raw = readEnv("TRENDINGREPO_DATA_DIR", "STARSCREENER_DATA_DIR");
   if (!raw) return path.join(process.cwd(), ".data");
 
   // Block any path that tries to escape via a parent-directory segment —
@@ -52,7 +54,7 @@ export function currentDataDir(): string {
   const segments = raw.split(/[/\\]/);
   if (segments.includes("..")) {
     throw new Error(
-      `STARSCREENER_DATA_DIR must not contain '..' segments (got ${JSON.stringify(raw)})`,
+      `TRENDINGREPO_DATA_DIR / STARSCREENER_DATA_DIR must not contain '..' segments (got ${JSON.stringify(raw)})`,
     );
   }
 
@@ -239,11 +241,12 @@ export async function mutateJsonlFile<T>(
 /**
  * Whether persistence is currently enabled.
  *
- * Defaults to `true`. Set `STARSCREENER_PERSIST=false` (exact string) to
- * disable — everything else (including unset) counts as enabled.
+ * Defaults to `true`. Set `TRENDINGREPO_PERSIST=false` (legacy:
+ * `STARSCREENER_PERSIST=false`) to disable — everything else (including
+ * unset) counts as enabled.
  */
 export function isPersistenceEnabled(): boolean {
-  const v = process.env.STARSCREENER_PERSIST;
+  const v = readEnv("TRENDINGREPO_PERSIST", "STARSCREENER_PERSIST");
   if (v === undefined) return true;
   return v.toLowerCase() !== "false";
 }

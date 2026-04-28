@@ -69,7 +69,7 @@ jobs:
           TWITTER_COLLECTOR_QUERIES_PER_REPO: ${{ vars.TWITTER_COLLECTOR_QUERIES_PER_REPO || '4' }}
           TWITTER_COLLECTOR_DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
           TWITTER_COLLECTOR_REPOS: ${{ github.event.inputs.repos || '' }}
-          TWITTER_COLLECTOR_BASE_URL: ${{ vars.STARSCREENER_URL || 'https://trendingrepo.com' }}
+          TWITTER_COLLECTOR_BASE_URL: ${{ vars.TRENDINGREPO_URL || vars.STARSCREENER_URL || 'https://trendingrepo.com' }}
           INTERNAL_AGENT_TOKEN: ${{ secrets.INTERNAL_AGENT_TOKEN }}
           APIFY_API_TOKEN: ${{ secrets.APIFY_API_TOKEN }}
           APIFY_TWITTER_ACTOR: ${{ vars.APIFY_TWITTER_ACTOR }}
@@ -82,8 +82,8 @@ jobs:
       - name: Commit updated twitter signals
         if: github.event.inputs.dry_run != 'true'
         run: |
-          git config user.name  "starscreener-bot"
-          git config user.email "bot@starscreener.local"
+          git config user.name  "trendingrepo-bot"
+          git config user.email "bot@trendingrepo.local"
           git add .data/twitter-repo-signals.jsonl .data/twitter-scans.jsonl .data/twitter-ingestion-audit.jsonl
           if git diff --quiet --staged; then
             echo "no changes to twitter data — skipping commit"

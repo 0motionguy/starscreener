@@ -107,7 +107,7 @@ export async function GET(): Promise<NextResponse> {
 // Next.js forbids additional named exports from a route file, so we publish
 // the reset hook on `globalThis` under a symbol key (same pattern as
 // `src/app/api/repos/[owner]/[name]/aiso/route.ts`).
-const OPENAPI_TEST_RESET = Symbol.for("starscreener.openapi.test.reset");
+const OPENAPI_TEST_RESET = Symbol.for("trendingrepo.openapi.test.reset");
 (globalThis as unknown as Record<symbol, () => void>)[OPENAPI_TEST_RESET] =
   () => {
     cachedSpec = null;

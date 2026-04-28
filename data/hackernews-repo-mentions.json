@@ -1,18 +1,97 @@
 {
-  "fetchedAt": "2026-04-28T00:15:24.200Z",
+  "fetchedAt": "2026-04-28T11:40:40.776Z",
   "windowDays": 7,
-  "scannedAlgoliaHits": 754,
+  "scannedAlgoliaHits": 761,
   "scannedFirebaseItems": 500,
   "mentions": {
+    "dirac-run/dirac": {
+      "count7d": 1,
+      "scoreSum7d": 348,
+      "topStory": {
+        "id": 47920787,
+        "title": "Show HN: OSS Agent I built topped the TerminalBench on Gemini-3-flash-preview",
+        "score": 348,
+        "url": "https://github.com/dirac-run/dirac",
+        "hoursSincePosted": 23.08
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 47920787,
+          "title": "Show HN: OSS Agent I built topped the TerminalBench on Gemini-3-flash-preview",
+          "url": "https://github.com/dirac-run/dirac",
+          "by": "GodelNumbering",
+          "score": 348,
+          "descendants": 127,
+          "createdUtc": 1777293355,
+          "ageHours": 23.08,
+          "velocity": 15.08,
+          "trendingScore": 525.08,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo",
+            "is-show-hn"
+          ],
+          "value_score": 3,
+          "storyText": "Scored 65.2% vs google's official 47.8%, and the existing top closed source model Junie CLI's 64.3%. Since there are a lot of reports of deliberate cheating on TerminalBench 2.0 lately ( https://debugml.github.io/cheating-agents/ ), I would like to also clarify a few things 1. Absolutely no {agents/skills}.md files were inserted at any point. No cheating mechanisms whatsoever 2. The cli agent was run in leaderboard compliant way (no modification of resources or timeouts) 3. The full terminal ben",
+          "linkedRepos": [
+            {
+              "fullName": "dirac-run/dirac",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "WeebLabs/DSPi": {
+      "count7d": 1,
+      "scoreSum7d": 299,
+      "topStory": {
+        "id": 47901433,
+        "title": "Fully Featured Audio DSP Firmware for the Raspberry Pi Pico",
+        "score": 299,
+        "url": "https://github.com/WeebLabs/DSPi",
+        "hoursSincePosted": 70.2
+      },
+      "everHitFrontPage": true,
+      "stories": [
+        {
+          "id": 47901433,
+          "title": "Fully Featured Audio DSP Firmware for the Raspberry Pi Pico",
+          "url": "https://github.com/WeebLabs/DSPi",
+          "by": "BoingBoomTschak",
+          "score": 299,
+          "descendants": 85,
+          "createdUtc": 1777123709,
+          "ageHours": 70.2,
+          "velocity": 4.26,
+          "trendingScore": 100.19,
+          "everHitFrontPage": true,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "WeebLabs/DSPi",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "niri-wm/niri": {
       "count7d": 1,
-      "scoreSum7d": 248,
+      "scoreSum7d": 250,
       "topStory": {
         "id": 47902416,
         "title": "Niri 26.04: Scrollable-tiling Wayland compositor",
-        "score": 248,
+        "score": 250,
         "url": "https://github.com/niri-wm/niri/releases/tag/v26.04",
-        "hoursSincePosted": 56.27
+        "hoursSincePosted": 67.69
       },
       "everHitFrontPage": false,
       "stories": [
@@ -21,12 +100,12 @@
           "title": "Niri 26.04: Scrollable-tiling Wayland compositor",
           "url": "https://github.com/niri-wm/niri/releases/tag/v26.04",
           "by": "nickjj",
-          "score": 248,
+          "score": 250,
           "descendants": 85,
           "createdUtc": 1777132755,
-          "ageHours": 56.27,
-          "velocity": 4.41,
-          "trendingScore": 100.32,
+          "ageHours": 67.69,
+          "velocity": 3.69,
+          "trendingScore": 84.06,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -43,121 +122,39 @@
         }
       ]
     },
-    "sachitrafa/YourMemory": {
+    "hpennington/agentswift": {
       "count7d": 1,
-      "scoreSum7d": 93,
+      "scoreSum7d": 41,
       "topStory": {
-        "id": 47914367,
-        "title": "Show HN: AI memory with biological decay (52% recall)",
-        "score": 93,
-        "url": "https://github.com/sachitrafa/YourMemory",
-        "hoursSincePosted": 27.28
+        "id": 47929375,
+        "title": "Show HN: AgentSwift – Open-source iOS builder agent",
+        "score": 41,
+        "url": "https://github.com/hpennington/agentswift",
+        "hoursSincePosted": 10.44
       },
       "everHitFrontPage": false,
       "stories": [
         {
-          "id": 47914367,
-          "title": "Show HN: AI memory with biological decay (52% recall)",
-          "url": "https://github.com/sachitrafa/YourMemory",
-          "by": "SachitRafa",
-          "score": 93,
-          "descendants": 43,
-          "createdUtc": 1777237111,
-          "ageHours": 27.28,
-          "velocity": 3.41,
-          "trendingScore": 35.58,
+          "id": 47929375,
+          "title": "Show HN: AgentSwift – Open-source iOS builder agent",
+          "url": "https://github.com/hpennington/agentswift",
+          "by": "hpen",
+          "score": 41,
+          "descendants": 8,
+          "createdUtc": 1777338871,
+          "ageHours": 10.44,
+          "velocity": 3.93,
+          "trendingScore": 11.41,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
-            "has-mcp",
             "is-show-hn"
           ],
-          "value_score": 4,
-          "storyText": "Most RAG setups fail because they treat memory like a static filing cabinet. When every transient bug fix or abandoned rule is stored forever, the context window eventually chokes on noise, spiking token costs and degrading the agent's reasoning. This implementation experiments with a biological approach by using the Ebbinghaus forgetting curve to manage context as a living substrate. Memories are assigned a \"strength\" score where each recall reinforces the data and flattens its decay curve (spa",
+          "value_score": 3,
+          "storyText": "I'm working on a coding agent for building iOS apps. It's built on openspec and xcodebuildmcp. It's free and open source.",
           "linkedRepos": [
             {
-              "fullName": "sachitrafa/YourMemory",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "vinhnx/VTCode": {
-      "count7d": 1,
-      "scoreSum7d": 18,
-      "topStory": {
-        "id": 47898308,
-        "title": "Show HN: VT Code – Rust TUI coding agent with multi-provider support",
-        "score": 18,
-        "url": "https://github.com/vinhnx/VTCode",
-        "hoursSincePosted": 68.97
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 47898308,
-          "title": "Show HN: VT Code – Rust TUI coding agent with multi-provider support",
-          "url": "https://github.com/vinhnx/VTCode",
-          "by": "vinhnx",
-          "score": 18,
-          "descendants": 2,
-          "createdUtc": 1777087039,
-          "ageHours": 68.97,
-          "velocity": 0.26,
-          "trendingScore": 0.39,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo",
-            "has-mcp",
-            "has-skill",
-            "is-show-hn"
-          ],
-          "value_score": 5,
-          "storyText": "Hi HN, I built VT Code, a semantic coding agent. Supports all SOTA and open sources model. Anthropic, OpenAI, Gemini, Codex. Agent Skills, Model Context Protocol and Agent Client Protocol (ACP) ready. All open source models are support. Local inference via LM Studio and Ollama (experiment). Semantic context understanding is supported by ast-grep for structured code search and ripgrep for powered grep. I built VT Code in Rust on Ratatui. Architecture and agent loop documented in the README and De",
-          "linkedRepos": [
-            {
-              "fullName": "vinhnx/VTCode",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "altaidevorg/isanagent": {
-      "count7d": 1,
-      "scoreSum7d": 4,
-      "topStory": {
-        "id": 47922422,
-        "title": "Agentic ML engineer. works with Colab. Zero infra needed. 3x faster TurboQuant",
-        "score": 4,
-        "url": "https://github.com/altaidevorg/isanagent",
-        "hoursSincePosted": 9.38
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 47922422,
-          "title": "Agentic ML engineer. works with Colab. Zero infra needed. 3x faster TurboQuant",
-          "url": "https://github.com/altaidevorg/isanagent",
-          "by": "monatis",
-          "score": 4,
-          "descendants": 1,
-          "createdUtc": 1777301567,
-          "ageHours": 9.38,
-          "velocity": 0.43,
-          "trendingScore": 0.28,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "altaidevorg/isanagent",
+              "fullName": "hpennington/agentswift",
               "matchType": "url",
               "confidence": 1
             }
@@ -166,14 +163,14 @@
       ]
     },
     "anthropics/claude-code": {
-      "count7d": 4,
-      "scoreSum7d": 17,
+      "count7d": 3,
+      "scoreSum7d": 15,
       "topStory": {
         "id": 47903621,
         "title": "Hermes.md in Git commit messages causes requests to route to extra usage billing",
         "score": 9,
         "url": "https://github.com/anthropics/claude-code/issues/53262",
-        "hoursSincePosted": 53.39
+        "hoursSincePosted": 64.82
       },
       "everHitFrontPage": false,
       "stories": [
@@ -185,9 +182,9 @@
           "score": 9,
           "descendants": 0,
           "createdUtc": 1777143105,
-          "ageHours": 53.39,
-          "velocity": 0.17,
-          "trendingScore": 0.16,
+          "ageHours": 64.82,
+          "velocity": 0.14,
+          "trendingScore": 0.13,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -210,9 +207,9 @@
           "score": 4,
           "descendants": 1,
           "createdUtc": 1777273265,
-          "ageHours": 17.24,
-          "velocity": 0.23,
-          "trendingScore": 0.15,
+          "ageHours": 28.66,
+          "velocity": 0.14,
+          "trendingScore": 0.09,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -235,34 +232,9 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1777249724,
-          "ageHours": 23.78,
-          "velocity": 0.08,
+          "ageHours": 35.2,
+          "velocity": 0.06,
           "trendingScore": 0.02,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "id": 47844358,
-          "title": "Sonnet 4.6 model could mistakenly use wrong model for OpenAI",
-          "url": "https://github.com/anthropics/claude-code/issues/51417",
-          "by": "keytalker",
-          "score": 2,
-          "descendants": 0,
-          "createdUtc": 1776743980,
-          "ageHours": 164.26,
-          "velocity": 0.01,
-          "trendingScore": 0,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -287,7 +259,7 @@
         "title": "On the LOC Controversy",
         "score": 3,
         "url": "https://github.com/garrytan/gstack/blob/main/docs/ON_THE_LOC_CONTROVERSY.md",
-        "hoursSincePosted": 12.28
+        "hoursSincePosted": 23.7
       },
       "everHitFrontPage": false,
       "stories": [
@@ -299,9 +271,9 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1777291120,
-          "ageHours": 12.28,
-          "velocity": 0.24,
-          "trendingScore": 0.11,
+          "ageHours": 23.7,
+          "velocity": 0.13,
+          "trendingScore": 0.06,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -319,39 +291,40 @@
         }
       ]
     },
-    "weirdmachine64/SharkMCP": {
+    "a-agmon/rs-graph-llm": {
       "count7d": 1,
       "scoreSum7d": 2,
       "topStory": {
-        "id": 47924858,
-        "title": "SharkMCP: A Swiss-knife MCP server for analysing PCAP files",
+        "id": 47925524,
+        "title": "Show HN: Graph-flow – LangGraph-inspired AI agent workflows in Rust",
         "score": 2,
-        "url": "https://github.com/weirdmachine64/SharkMCP",
-        "hoursSincePosted": 6.45
+        "url": "https://github.com/a-agmon/rs-graph-llm",
+        "hoursSincePosted": 16.97
       },
       "everHitFrontPage": false,
       "stories": [
         {
-          "id": 47924858,
-          "title": "SharkMCP: A Swiss-knife MCP server for analysing PCAP files",
-          "url": "https://github.com/weirdmachine64/SharkMCP",
-          "by": "zerodaysbroker",
+          "id": 47925524,
+          "title": "Show HN: Graph-flow – LangGraph-inspired AI agent workflows in Rust",
+          "url": "https://github.com/a-agmon/rs-graph-llm",
+          "by": "alonagmon",
           "score": 2,
           "descendants": 0,
-          "createdUtc": 1777312100,
-          "ageHours": 6.45,
-          "velocity": 0.31,
-          "trendingScore": 0.09,
+          "createdUtc": 1777315361,
+          "ageHours": 16.97,
+          "velocity": 0.12,
+          "trendingScore": 0.04,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
-            "has-mcp"
+            "has-agent",
+            "is-show-hn"
           ],
-          "value_score": 2,
-          "storyText": "",
+          "value_score": 4,
+          "storyText": "300 GitHub stars and 6,000 crates.io downloads later, graph-flow has been a fun experiment in building AI-agent workflows in Rust. It is a LangGraph-inspired library focused on graph-based orchestration, stateful execution, conditional routing, persistence, and type safety. The goal was to keep the core small and useful not only for AI agents, but for any Rust application that needs robust workflow execution. Rust in AI still feels early, but projects like Rig, LanceDB, and others make it feel l",
           "linkedRepos": [
             {
-              "fullName": "weirdmachine64/SharkMCP",
+              "fullName": "a-agmon/rs-graph-llm",
               "matchType": "url",
               "confidence": 1
             }
@@ -359,29 +332,29 @@
         }
       ]
     },
-    "neo-airouter/rvidia-exporter": {
+    "ROCm/spur": {
       "count7d": 1,
       "scoreSum7d": 2,
       "topStory": {
-        "id": 47921813,
-        "title": "Rvidia-exporter – Prometheus metrics exporter for Nvidia GPUs",
+        "id": 47927837,
+        "title": "AMD used AI to reimplement slurm in Rust",
         "score": 2,
-        "url": "https://github.com/neo-airouter/rvidia-exporter",
-        "hoursSincePosted": 10.12
+        "url": "https://github.com/ROCm/spur",
+        "hoursSincePosted": 13.84
       },
       "everHitFrontPage": false,
       "stories": [
         {
-          "id": 47921813,
-          "title": "Rvidia-exporter – Prometheus metrics exporter for Nvidia GPUs",
-          "url": "https://github.com/neo-airouter/rvidia-exporter",
-          "by": "sacrelege",
+          "id": 47927837,
+          "title": "AMD used AI to reimplement slurm in Rust",
+          "url": "https://github.com/ROCm/spur",
+          "by": "latchkey",
           "score": 2,
-          "descendants": 1,
-          "createdUtc": 1777298882,
-          "ageHours": 10.12,
-          "velocity": 0.2,
-          "trendingScore": 0.07,
+          "descendants": 0,
+          "createdUtc": 1777326623,
+          "ageHours": 13.84,
+          "velocity": 0.14,
+          "trendingScore": 0.04,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -390,7 +363,46 @@
           "storyText": "",
           "linkedRepos": [
             {
-              "fullName": "neo-airouter/rvidia-exporter",
+              "fullName": "ROCm/spur",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "obra/superpowers": {
+      "count7d": 1,
+      "scoreSum7d": 3,
+      "topStory": {
+        "id": 47911289,
+        "title": "Superpowers is indeed game changer",
+        "score": 3,
+        "url": "https://github.com/obra/superpowers",
+        "hoursSincePosted": 43.77
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 47911289,
+          "title": "Superpowers is indeed game changer",
+          "url": "https://github.com/obra/superpowers",
+          "by": "zane__chen",
+          "score": 3,
+          "descendants": 0,
+          "createdUtc": 1777218881,
+          "ageHours": 43.77,
+          "velocity": 0.07,
+          "trendingScore": 0.03,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "obra/superpowers",
               "matchType": "url",
               "confidence": 1
             }
@@ -406,7 +418,7 @@
         "title": "RLM: LLMs to process arbitrarily long prompts with inference-time scaling (2025)",
         "score": 2,
         "url": "https://github.com/alexzhang13/rlm",
-        "hoursSincePosted": 13.95
+        "hoursSincePosted": 25.37
       },
       "everHitFrontPage": false,
       "stories": [
@@ -418,9 +430,9 @@
           "score": 2,
           "descendants": 1,
           "createdUtc": 1777285113,
-          "ageHours": 13.95,
-          "velocity": 0.14,
-          "trendingScore": 0.05,
+          "ageHours": 25.37,
+          "velocity": 0.08,
+          "trendingScore": 0.03,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -443,8 +455,8 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1777058603,
-          "ageHours": 76.87,
-          "velocity": 0.03,
+          "ageHours": 88.29,
+          "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
           "content_tags": [
@@ -462,45 +474,6 @@
         }
       ]
     },
-    "obra/superpowers": {
-      "count7d": 1,
-      "scoreSum7d": 3,
-      "topStory": {
-        "id": 47911289,
-        "title": "Superpowers is indeed game changer",
-        "score": 3,
-        "url": "https://github.com/obra/superpowers",
-        "hoursSincePosted": 32.35
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 47911289,
-          "title": "Superpowers is indeed game changer",
-          "url": "https://github.com/obra/superpowers",
-          "by": "zane__chen",
-          "score": 3,
-          "descendants": 0,
-          "createdUtc": 1777218881,
-          "ageHours": 32.35,
-          "velocity": 0.09,
-          "trendingScore": 0.04,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "obra/superpowers",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
     "paperclipai/paperclip": {
       "count7d": 1,
       "scoreSum7d": 3,
@@ -509,7 +482,7 @@
         "title": "Paperclip – a ticket-based multi AI agent orchestrator",
         "score": 3,
         "url": "https://github.com/paperclipai/paperclip",
-        "hoursSincePosted": 53.55
+        "hoursSincePosted": 64.97
       },
       "everHitFrontPage": false,
       "stories": [
@@ -521,9 +494,9 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1777142531,
-          "ageHours": 53.55,
-          "velocity": 0.06,
-          "trendingScore": 0.03,
+          "ageHours": 64.97,
+          "velocity": 0.05,
+          "trendingScore": 0.02,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -549,7 +522,7 @@
         "title": "Query neural network weights like a graph database",
         "score": 2,
         "url": "https://github.com/chrishayuk/larql",
-        "hoursSincePosted": 33.77
+        "hoursSincePosted": 45.19
       },
       "everHitFrontPage": false,
       "stories": [
@@ -561,9 +534,9 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1777213766,
-          "ageHours": 33.77,
-          "velocity": 0.06,
-          "trendingScore": 0.02,
+          "ageHours": 45.19,
+          "velocity": 0.04,
+          "trendingScore": 0.01,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -580,45 +553,6 @@
         }
       ]
     },
-    "NodeDB-Lab/nodedb": {
-      "count7d": 1,
-      "scoreSum7d": 2,
-      "topStory": {
-        "id": 47908117,
-        "title": "Seven database engines in a single Rust binary",
-        "score": 2,
-        "url": "https://github.com/nodeDB-Lab/nodedb",
-        "hoursSincePosted": 41
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 47908117,
-          "title": "Seven database engines in a single Rust binary",
-          "url": "https://github.com/nodeDB-Lab/nodedb",
-          "by": "mansarip",
-          "score": 2,
-          "descendants": 0,
-          "createdUtc": 1777187723,
-          "ageHours": 41,
-          "velocity": 0.05,
-          "trendingScore": 0.02,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "NodeDB-Lab/nodedb",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
     "trycua/cua": {
       "count7d": 3,
       "scoreSum7d": 6,
@@ -627,7 +561,7 @@
         "title": "macOS window internals: SkyLight enables multi-cursor background agents",
         "score": 3,
         "url": "https://github.com/trycua/cua/blob/main/blog/inside-macos-window-internals.md",
-        "hoursSincePosted": 102.68
+        "hoursSincePosted": 114.1
       },
       "everHitFrontPage": false,
       "stories": [
@@ -639,7 +573,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1776965681,
-          "ageHours": 102.68,
+          "ageHours": 114.1,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -665,7 +599,7 @@
           "score": 2,
           "descendants": 1,
           "createdUtc": 1777043587,
-          "ageHours": 81.04,
+          "ageHours": 92.46,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -691,8 +625,8 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1777297486,
-          "ageHours": 10.51,
-          "velocity": 0.1,
+          "ageHours": 21.93,
+          "velocity": 0.05,
           "trendingScore": 0,
           "everHitFrontPage": false,
           "content_tags": [
@@ -719,7 +653,7 @@
         "title": "Tile Kernels: An optimized GPU kernels library written in TileLang",
         "score": 1,
         "url": "https://github.com/deepseek-ai/TileKernels",
-        "hoursSincePosted": 7.61
+        "hoursSincePosted": 19.03
       },
       "everHitFrontPage": false,
       "stories": [
@@ -731,8 +665,8 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1777307915,
-          "ageHours": 7.61,
-          "velocity": 0.13,
+          "ageHours": 19.03,
+          "velocity": 0.05,
           "trendingScore": 0,
           "everHitFrontPage": false,
           "content_tags": [
@@ -758,7 +692,7 @@
         "title": "Using Google's Gemma 4 E4B Local AI Model to Reverse Engineer a Simple Crackme",
         "score": 1,
         "url": "https://github.com/markoglasgow/gemma_crackme_tutorial",
-        "hoursSincePosted": 10.3
+        "hoursSincePosted": 21.72
       },
       "everHitFrontPage": false,
       "stories": [
@@ -770,8 +704,8 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1777298247,
-          "ageHours": 10.3,
-          "velocity": 0.1,
+          "ageHours": 21.72,
+          "velocity": 0.05,
           "trendingScore": 0,
           "everHitFrontPage": false,
           "content_tags": [
@@ -797,7 +731,7 @@
         "title": "MemPalace – Local-first AI memory",
         "score": 1,
         "url": "https://github.com/mempalace/mempalace",
-        "hoursSincePosted": 18.15
+        "hoursSincePosted": 29.57
       },
       "everHitFrontPage": false,
       "stories": [
@@ -809,8 +743,8 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1777269988,
-          "ageHours": 18.15,
-          "velocity": 0.06,
+          "ageHours": 29.57,
+          "velocity": 0.03,
           "trendingScore": 0,
           "everHitFrontPage": false,
           "content_tags": [
@@ -828,6 +762,47 @@
         }
       ]
     },
+    "nex-crm/wuphf": {
+      "count7d": 1,
+      "scoreSum7d": 258,
+      "topStory": {
+        "id": 47899844,
+        "title": "Show HN: A Karpathy-style LLM wiki your agents maintain (Markdown and Git)",
+        "score": 258,
+        "url": "https://github.com/nex-crm/wuphf",
+        "hoursSincePosted": 74.78
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 47899844,
+          "title": "Show HN: A Karpathy-style LLM wiki your agents maintain (Markdown and Git)",
+          "url": "https://github.com/nex-crm/wuphf",
+          "by": "najmuzzaman",
+          "score": 258,
+          "descendants": 114,
+          "createdUtc": 1777107233,
+          "ageHours": 74.78,
+          "velocity": 3.45,
+          "trendingScore": 103.17,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent",
+            "is-show-hn"
+          ],
+          "value_score": 4,
+          "storyText": "I shipped a wiki layer for AI agents that uses markdown + git as the source of truth, with a bleve (BM25) + SQLite index on top. No vector or graph db yet. It runs locally in ~/.wuphf/wiki/ and you can git clone it out if you want to take your knowledge with you. The shape is the one Karpathy has been circling for a while: an LLM-native knowledge substrate that agents both read from and write into, so context compounds across sessions rather than getting re-pasted every morning. Most implementat",
+          "linkedRepos": [
+            {
+              "fullName": "nex-crm/wuphf",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "Infisical/agent-vault": {
       "count7d": 1,
       "scoreSum7d": 156,
@@ -836,7 +811,7 @@
         "title": "Show HN: Agent Vault – Open-source credential proxy and vault for agents",
         "score": 156,
         "url": "https://github.com/Infisical/agent-vault",
-        "hoursSincePosted": 127.83
+        "hoursSincePosted": 139.25
       },
       "everHitFrontPage": false,
       "stories": [
@@ -848,9 +823,9 @@
           "score": 156,
           "descendants": 56,
           "createdUtc": 1776875128,
-          "ageHours": 127.83,
-          "velocity": 1.22,
-          "trendingScore": 17.66,
+          "ageHours": 139.25,
+          "velocity": 1.12,
+          "trendingScore": 16.21,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -877,7 +852,7 @@
         "title": "Show HN: Browser Harness – Gives LLM freedom to complete any browser task",
         "score": 131,
         "url": "https://github.com/browser-use/browser-harness",
-        "hoursSincePosted": 81.73
+        "hoursSincePosted": 93.15
       },
       "everHitFrontPage": false,
       "stories": [
@@ -887,11 +862,11 @@
           "url": "https://github.com/browser-use/browser-harness",
           "by": "gregpr07",
           "score": 131,
-          "descendants": 63,
+          "descendants": 64,
           "createdUtc": 1777041098,
-          "ageHours": 81.73,
-          "velocity": 1.6,
-          "trendingScore": 24.73,
+          "ageHours": 93.15,
+          "velocity": 1.41,
+          "trendingScore": 22.09,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -909,6 +884,48 @@
         }
       ]
     },
+    "vinhnx/VTCode": {
+      "count7d": 1,
+      "scoreSum7d": 18,
+      "topStory": {
+        "id": 47898308,
+        "title": "Show HN: VT Code – Rust TUI coding agent with multi-provider support",
+        "score": 18,
+        "url": "https://github.com/vinhnx/VTCode",
+        "hoursSincePosted": 80.39
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 47898308,
+          "title": "Show HN: VT Code – Rust TUI coding agent with multi-provider support",
+          "url": "https://github.com/vinhnx/VTCode",
+          "by": "vinhnx",
+          "score": 18,
+          "descendants": 2,
+          "createdUtc": 1777087039,
+          "ageHours": 80.39,
+          "velocity": 0.22,
+          "trendingScore": 0.33,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo",
+            "has-mcp",
+            "has-skill",
+            "is-show-hn"
+          ],
+          "value_score": 5,
+          "storyText": "Hi HN, I built VT Code, a semantic coding agent. Supports all SOTA and open sources model. Anthropic, OpenAI, Gemini, Codex. Agent Skills, Model Context Protocol and Agent Client Protocol (ACP) ready. All open source models are support. Local inference via LM Studio and Ollama (experiment). Semantic context understanding is supported by ast-grep for structured code search and ripgrep for powered grep. I built VT Code in Rust on Ratatui. Architecture and agent loop documented in the README and De",
+          "linkedRepos": [
+            {
+              "fullName": "vinhnx/VTCode",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "TencentCloud/CubeSandbox": {
       "count7d": 4,
       "scoreSum7d": 17,
@@ -917,7 +934,7 @@
         "title": "Show HN: We built a <60ms, open-source alternative to E2B using RustVMM and KVM",
         "score": 7,
         "url": "https://github.com/TencentCloud/CubeSandbox",
-        "hoursSincePosted": 130.65
+        "hoursSincePosted": 142.07
       },
       "everHitFrontPage": false,
       "stories": [
@@ -929,7 +946,7 @@
           "score": 7,
           "descendants": 2,
           "createdUtc": 1776864992,
-          "ageHours": 130.65,
+          "ageHours": 142.07,
           "velocity": 0.05,
           "trendingScore": 0.05,
           "everHitFrontPage": false,
@@ -956,8 +973,8 @@
           "score": 5,
           "descendants": 0,
           "createdUtc": 1776967784,
-          "ageHours": 102.09,
-          "velocity": 0.05,
+          "ageHours": 113.52,
+          "velocity": 0.04,
           "trendingScore": 0.03,
           "everHitFrontPage": false,
           "content_tags": [
@@ -982,7 +999,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1776778570,
-          "ageHours": 154.65,
+          "ageHours": 166.08,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1007,7 +1024,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776904955,
-          "ageHours": 119.55,
+          "ageHours": 130.97,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1027,55 +1044,15 @@
         }
       ]
     },
-    "russellromney/honker": {
+    "refactoringhq/tolaria": {
       "count7d": 1,
       "scoreSum7d": 312,
       "topStory": {
-        "id": 47874647,
-        "title": "Show HN: Honker – Postgres NOTIFY/LISTEN Semantics for SQLite",
-        "score": 312,
-        "url": "https://github.com/russellromney/honker",
-        "hoursSincePosted": 108.37
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 47874647,
-          "title": "Show HN: Honker – Postgres NOTIFY/LISTEN Semantics for SQLite",
-          "url": "https://github.com/russellromney/honker",
-          "by": "russellthehippo",
-          "score": 312,
-          "descendants": 80,
-          "createdUtc": 1776945191,
-          "ageHours": 108.37,
-          "velocity": 2.88,
-          "trendingScore": 64.65,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo",
-            "is-show-hn"
-          ],
-          "value_score": 3,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "russellromney/honker",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "refactoringhq/tolaria": {
-      "count7d": 1,
-      "scoreSum7d": 311,
-      "topStory": {
         "id": 47882697,
         "title": "Show HN: Tolaria – Open-source macOS app to manage Markdown knowledge bases",
-        "score": 311,
+        "score": 312,
         "url": "https://github.com/refactoringhq/tolaria",
-        "hoursSincePosted": 98.22
+        "hoursSincePosted": 109.64
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1084,12 +1061,12 @@
           "title": "Show HN: Tolaria – Open-source macOS app to manage Markdown knowledge bases",
           "url": "https://github.com/refactoringhq/tolaria",
           "by": "lucaronin",
-          "score": 311,
+          "score": 312,
           "descendants": 140,
           "createdUtc": 1776981719,
-          "ageHours": 98.22,
-          "velocity": 3.17,
-          "trendingScore": 118.53,
+          "ageHours": 109.64,
+          "velocity": 2.85,
+          "trendingScore": 106.63,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -1107,6 +1084,46 @@
         }
       ]
     },
+    "russellromney/honker": {
+      "count7d": 1,
+      "scoreSum7d": 312,
+      "topStory": {
+        "id": 47874647,
+        "title": "Show HN: Honker – Postgres NOTIFY/LISTEN Semantics for SQLite",
+        "score": 312,
+        "url": "https://github.com/russellromney/honker",
+        "hoursSincePosted": 119.79
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 47874647,
+          "title": "Show HN: Honker – Postgres NOTIFY/LISTEN Semantics for SQLite",
+          "url": "https://github.com/russellromney/honker",
+          "by": "russellthehippo",
+          "score": 312,
+          "descendants": 82,
+          "createdUtc": 1776945191,
+          "ageHours": 119.79,
+          "velocity": 2.6,
+          "trendingScore": 59.66,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo",
+            "is-show-hn"
+          ],
+          "value_score": 3,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "russellromney/honker",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "ENTERPILOT/GoModel": {
       "count7d": 1,
       "scoreSum7d": 216,
@@ -1115,7 +1132,7 @@
         "title": "Show HN: GoModel – an open-source AI gateway in Go",
         "score": 216,
         "url": "https://github.com/ENTERPILOT/GOModel/",
-        "hoursSincePosted": 154.06
+        "hoursSincePosted": 165.48
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1125,11 +1142,11 @@
           "url": "https://github.com/ENTERPILOT/GOModel/",
           "by": "santiago-pl",
           "score": 216,
-          "descendants": 76,
+          "descendants": 75,
           "createdUtc": 1776780713,
-          "ageHours": 154.06,
-          "velocity": 1.4,
-          "trendingScore": 28.11,
+          "ageHours": 165.48,
+          "velocity": 1.31,
+          "trendingScore": 25.99,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -1147,6 +1164,47 @@
         }
       ]
     },
+    "decisionbox-io/decisionbox-platform": {
+      "count7d": 1,
+      "scoreSum7d": 6,
+      "topStory": {
+        "id": 47875097,
+        "title": "Show HN: DecisionBox – Autonomous AI agent runs data discovery on your warehouse",
+        "score": 6,
+        "url": "https://github.com/decisionbox-io/decisionbox-platform",
+        "hoursSincePosted": 118.91
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 47875097,
+          "title": "Show HN: DecisionBox – Autonomous AI agent runs data discovery on your warehouse",
+          "url": "https://github.com/decisionbox-io/decisionbox-platform",
+          "by": "seltug",
+          "score": 6,
+          "descendants": 0,
+          "createdUtc": 1776948367,
+          "ageHours": 118.91,
+          "velocity": 0.05,
+          "trendingScore": 0.04,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent",
+            "is-show-hn"
+          ],
+          "value_score": 4,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "decisionbox-io/decisionbox-platform",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "twentyhq/twenty": {
       "count7d": 1,
       "scoreSum7d": 4,
@@ -1155,7 +1213,7 @@
         "title": "Twenty: The open alternative to Salesforce, designed for AI",
         "score": 4,
         "url": "https://github.com/twentyhq/twenty",
-        "hoursSincePosted": 124.97
+        "hoursSincePosted": 136.39
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1167,7 +1225,7 @@
           "score": 4,
           "descendants": 1,
           "createdUtc": 1776885448,
-          "ageHours": 124.97,
+          "ageHours": 136.39,
           "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -1194,7 +1252,7 @@
         "title": "Aube: A fast Node.js package manager",
         "score": 4,
         "url": "https://github.com/endevco/aube",
-        "hoursSincePosted": 136.65
+        "hoursSincePosted": 148.07
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1206,7 +1264,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1776843371,
-          "ageHours": 136.65,
+          "ageHours": 148.07,
           "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -1233,7 +1291,7 @@
         "title": "Show HN: Sprite sheets from prompts (Codex skill)",
         "score": 2,
         "url": "https://github.com/0x0funky/agent-sprite-forge",
-        "hoursSincePosted": 94.1
+        "hoursSincePosted": 105.52
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1245,7 +1303,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776996562,
-          "ageHours": 94.1,
+          "ageHours": 105.52,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1273,7 +1331,7 @@
         "title": "Show HN: OpenHuman, an AI agent with a subconscious loop",
         "score": 2,
         "url": "https://github.com/tinyhumansai/openhuman",
-        "hoursSincePosted": 105.77
+        "hoursSincePosted": 117.19
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1285,7 +1343,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776954543,
-          "ageHours": 105.77,
+          "ageHours": 117.19,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1306,6 +1364,46 @@
         }
       ]
     },
+    "kpolley/redai": {
+      "count7d": 1,
+      "scoreSum7d": 2,
+      "topStory": {
+        "id": 47869732,
+        "title": "Show HN: RedAI – AI-driven vulnerability discovery and live validation",
+        "score": 2,
+        "url": "https://github.com/kpolley/redai",
+        "hoursSincePosted": 133.83
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 47869732,
+          "title": "Show HN: RedAI – AI-driven vulnerability discovery and live validation",
+          "url": "https://github.com/kpolley/redai",
+          "by": "kpolls",
+          "score": 2,
+          "descendants": 0,
+          "createdUtc": 1776894645,
+          "ageHours": 133.83,
+          "velocity": 0.01,
+          "trendingScore": 0,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo",
+            "is-show-hn"
+          ],
+          "value_score": 3,
+          "storyText": "Most AI security tools stop at flagging code that looks vulnerable. You end up with a wall of \"potential\" findings and no way to know which ones are real without manually reproducing each one. Finding and fixing are both cheap now; actually proving which findings are real and impactful is the last remaining hurdle. RedAI is built to close that gap. After scanner agents surface candidates, validator agents take each one into a live environment — a running instance of the target — and try to prove",
+          "linkedRepos": [
+            {
+              "fullName": "kpolley/redai",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "backnotprop/plannotator": {
       "count7d": 1,
       "scoreSum7d": 2,
@@ -1314,7 +1412,7 @@
         "title": "Plannotator",
         "score": 2,
         "url": "https://github.com/backnotprop/plannotator",
-        "hoursSincePosted": 128.22
+        "hoursSincePosted": 139.64
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1326,9 +1424,9 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776873723,
-          "ageHours": 128.22,
-          "velocity": 0.02,
-          "trendingScore": 0.01,
+          "ageHours": 139.64,
+          "velocity": 0.01,
+          "trendingScore": 0,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -1353,7 +1451,7 @@
         "title": "Π RuView: turn WiFi into realtime human detection,vitals monitoring, and more",
         "score": 2,
         "url": "https://github.com/ruvnet/RuView",
-        "hoursSincePosted": 133.33
+        "hoursSincePosted": 144.75
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1365,9 +1463,9 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776855347,
-          "ageHours": 133.33,
-          "velocity": 0.02,
-          "trendingScore": 0.01,
+          "ageHours": 144.75,
+          "velocity": 0.01,
+          "trendingScore": 0,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -1392,7 +1490,7 @@
         "title": "Nvidia OpenShell: safe, private runtime for autonomous AI agents",
         "score": 2,
         "url": "https://github.com/nvidia/openshell",
-        "hoursSincePosted": 151.79
+        "hoursSincePosted": 163.21
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1404,7 +1502,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776788877,
-          "ageHours": 151.79,
+          "ageHours": 163.21,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1432,7 +1530,7 @@
         "title": "Ggsql: A SQL extension for declarative data visualisation based on the Grammar O",
         "score": 2,
         "url": "https://github.com/posit-dev/ggsql",
-        "hoursSincePosted": 156.56
+        "hoursSincePosted": 167.98
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1444,7 +1542,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1776771724,
-          "ageHours": 156.56,
+          "ageHours": 167.98,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1471,7 +1569,7 @@
         "title": "GitHub Actions Key, but Resources Allocated to Other Areas",
         "score": 1,
         "url": "https://github.com/cli/cli/issues/5416",
-        "hoursSincePosted": 87.21
+        "hoursSincePosted": 98.63
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1483,7 +1581,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1777021359,
-          "ageHours": 87.21,
+          "ageHours": 98.63,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1505,19 +1603,34 @@
   },
   "leaderboard": [
     {
+      "fullName": "dirac-run/dirac",
+      "count7d": 1,
+      "scoreSum7d": 348
+    },
+    {
+      "fullName": "refactoringhq/tolaria",
+      "count7d": 1,
+      "scoreSum7d": 312
+    },
+    {
       "fullName": "russellromney/honker",
       "count7d": 1,
       "scoreSum7d": 312
     },
     {
-      "fullName": "refactoringhq/tolaria",
+      "fullName": "WeebLabs/DSPi",
       "count7d": 1,
-      "scoreSum7d": 311
+      "scoreSum7d": 299
+    },
+    {
+      "fullName": "nex-crm/wuphf",
+      "count7d": 1,
+      "scoreSum7d": 258
     },
     {
       "fullName": "niri-wm/niri",
       "count7d": 1,
-      "scoreSum7d": 248
+      "scoreSum7d": 250
     },
     {
       "fullName": "ENTERPILOT/GoModel",
@@ -1535,9 +1648,9 @@
       "scoreSum7d": 131
     },
     {
-      "fullName": "sachitrafa/YourMemory",
+      "fullName": "hpennington/agentswift",
       "count7d": 1,
-      "scoreSum7d": 93
+      "scoreSum7d": 41
     },
     {
       "fullName": "vinhnx/VTCode",
@@ -1545,14 +1658,14 @@
       "scoreSum7d": 18
     },
     {
-      "fullName": "anthropics/claude-code",
+      "fullName": "TencentCloud/CubeSandbox",
       "count7d": 4,
       "scoreSum7d": 17
     },
     {
-      "fullName": "TencentCloud/CubeSandbox",
-      "count7d": 4,
-      "scoreSum7d": 17
+      "fullName": "anthropics/claude-code",
+      "count7d": 3,
+      "scoreSum7d": 15
     },
     {
       "fullName": "trycua/cua",
@@ -1560,13 +1673,13 @@
       "scoreSum7d": 6
     },
     {
-      "fullName": "alexzhang13/rlm",
-      "count7d": 2,
-      "scoreSum7d": 4
+      "fullName": "decisionbox-io/decisionbox-platform",
+      "count7d": 1,
+      "scoreSum7d": 6
     },
     {
-      "fullName": "altaidevorg/isanagent",
-      "count7d": 1,
+      "fullName": "alexzhang13/rlm",
+      "count7d": 2,
       "scoreSum7d": 4
     },
     {
@@ -1600,6 +1713,11 @@
       "scoreSum7d": 2
     },
     {
+      "fullName": "a-agmon/rs-graph-llm",
+      "count7d": 1,
+      "scoreSum7d": 2
+    },
+    {
       "fullName": "backnotprop/plannotator",
       "count7d": 1,
       "scoreSum7d": 2
@@ -1610,12 +1728,7 @@
       "scoreSum7d": 2
     },
     {
-      "fullName": "neo-airouter/rvidia-exporter",
-      "count7d": 1,
-      "scoreSum7d": 2
-    },
-    {
-      "fullName": "NodeDB-Lab/nodedb",
+      "fullName": "kpolley/redai",
       "count7d": 1,
       "scoreSum7d": 2
     },
@@ -1630,17 +1743,17 @@
       "scoreSum7d": 2
     },
     {
+      "fullName": "ROCm/spur",
+      "count7d": 1,
+      "scoreSum7d": 2
+    },
+    {
       "fullName": "ruvnet/RuView",
       "count7d": 1,
       "scoreSum7d": 2
     },
     {
       "fullName": "tinyhumansai/openhuman",
-      "count7d": 1,
-      "scoreSum7d": 2
-    },
-    {
-      "fullName": "weirdmachine64/SharkMCP",
       "count7d": 1,
       "scoreSum7d": 2
     },

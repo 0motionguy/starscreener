@@ -39,7 +39,7 @@ test("ss help lists every documented command", () => {
   const { code, stdout } = runCli(["help"]);
   assert.equal(code, 0);
   // Spot-check the top-line plus every documented command.
-  assert.match(stdout, /StarScreener CLI/);
+  assert.match(stdout, /TrendingRepo CLI/);
   for (const cmd of [
     "trending",
     "breakouts",

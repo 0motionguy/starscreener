@@ -8,7 +8,9 @@ export type TrendingItemType =
   | 'hf_dataset'
   | 'hf_space'
   | 'repo'
-  | 'idea';
+  | 'idea'
+  | 'post'
+  | 'paper';
 
 export const TRENDING_ITEM_TYPES: readonly TrendingItemType[] = [
   'skill',
@@ -18,6 +20,8 @@ export const TRENDING_ITEM_TYPES: readonly TrendingItemType[] = [
   'hf_space',
   'repo',
   'idea',
+  'post',
+  'paper',
 ] as const;
 
 export interface TrendingItemRow {
@@ -85,6 +89,7 @@ export interface NormalizedItem {
 }
 
 export interface NormalizedMetric {
+  /** YYYY-MM-DD; defaults to capturedAt date if omitted (see db.upsertMetric). */
   captured_date?: string;
   downloads_total?: number;
   downloads_7d?: number;

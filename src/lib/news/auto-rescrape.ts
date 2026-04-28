@@ -49,7 +49,7 @@ const THROTTLE_MS = 900_000; // 15 minutes
 
 // Per-source last-trigger timestamps. Persisted on globalThis so HMR /
 // multiple route imports share state in a single Node runtime.
-const THROTTLE_KEY = Symbol.for("starscreener.news.auto-rescrape.throttle");
+const THROTTLE_KEY = Symbol.for("trendingrepo.news.auto-rescrape.throttle");
 
 interface ThrottleBag {
   map: Map<string, number>;

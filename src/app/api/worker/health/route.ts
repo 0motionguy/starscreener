@@ -49,6 +49,12 @@ interface SlugHealthSpec {
   cadenceMin: number;
   /** True if this slug is allowed to lag without raising an alert (e.g. weekly). */
   slowMoving?: boolean;
+  /**
+   * Advisory slugs are useful diagnostics but do not make the fleet unhealthy.
+   * They are either credential-dependent catalogs or GitHub-workflow mirrors,
+   * not core live-feed liveness.
+   */
+  blocking?: boolean;
 }
 
 const SLUG_TABLE: ReadonlyArray<SlugHealthSpec> = [
@@ -58,11 +64,12 @@ const SLUG_TABLE: ReadonlyArray<SlugHealthSpec> = [
   { slug: "hot-collections", fetcher: "oss-trending", cadenceMin: 60 },
   { slug: "recent-repos", fetcher: "recent-repos", cadenceMin: 60 },
   { slug: "deltas", fetcher: "deltas", cadenceMin: 60 },
-  { slug: "repo-metadata", fetcher: "repo-metadata", cadenceMin: 60 },
+  { slug: "repo-metadata", fetcher: "repo-metadata", cadenceMin: 60, blocking: false },
   { slug: "repo-profiles", fetcher: "repo-profiles", cadenceMin: 60 },
-  { slug: "trustmrr-startups", fetcher: "trustmrr", cadenceMin: 60 },
-  { slug: "trustmrr-startups:meta", fetcher: "trustmrr", cadenceMin: 60 },
-  { slug: "revenue-overlays", fetcher: "trustmrr", cadenceMin: 60 },
+  { slug: "engagement-composite", fetcher: "engagement-composite", cadenceMin: 60 },
+  { slug: "trustmrr-startups", fetcher: "trustmrr", cadenceMin: 60, blocking: false },
+  { slug: "trustmrr-startups:meta", fetcher: "trustmrr", cadenceMin: 60, blocking: false },
+  { slug: "revenue-overlays", fetcher: "trustmrr", cadenceMin: 60, blocking: false },
   { slug: "reddit-mentions", fetcher: "reddit", cadenceMin: 60 },
   { slug: "reddit-all-posts", fetcher: "reddit", cadenceMin: 60 },
   { slug: "hackernews-trending", fetcher: "hackernews", cadenceMin: 60 },
@@ -74,12 +81,10 @@ const SLUG_TABLE: ReadonlyArray<SlugHealthSpec> = [
 
   // few-hours cadence
   { slug: "trending-skill-sh", fetcher: "skills-sh", cadenceMin: 120 },
-  { slug: "trending-hf_model", fetcher: "huggingface", cadenceMin: 240 },
-  { slug: "trending-hf_dataset", fetcher: "huggingface", cadenceMin: 240 },
-  { slug: "trending-hf_space", fetcher: "huggingface", cadenceMin: 240 },
-  { slug: "producthunt-launches", fetcher: "producthunt", cadenceMin: 360 },
+  { slug: "huggingface-trending", fetcher: "scrape-huggingface", cadenceMin: 240, blocking: false },
+  { slug: "producthunt-launches", fetcher: "producthunt", cadenceMin: 360, blocking: false },
   { slug: "trending-skill", fetcher: "claude-skills", cadenceMin: 360 },
-  { slug: "trending-mcp", fetcher: "mcp-registry-official+glama+pulsemcp+smithery", cadenceMin: 360 },
+  { slug: "trending-mcp", fetcher: "mcp-registry-official+glama+pulsemcp+smithery", cadenceMin: 360, blocking: false },
   { slug: "funding-news", fetcher: "funding-news", cadenceMin: 360 },
   { slug: "collection-rankings", fetcher: "collection-rankings", cadenceMin: 360 },
 
@@ -87,7 +92,7 @@ const SLUG_TABLE: ReadonlyArray<SlugHealthSpec> = [
   { slug: "manual-repos", fetcher: "manual-repos", cadenceMin: 60 * 24 },
   { slug: "revenue-manual-matches", fetcher: "revenue-manual-matches", cadenceMin: 60 * 24 },
   { slug: "npm-packages", fetcher: "npm-packages", cadenceMin: 60 * 24 },
-  { slug: "revenue-benchmarks", fetcher: "revenue-benchmarks", cadenceMin: 60 * 24 },
+  { slug: "revenue-benchmarks", fetcher: "revenue-benchmarks", cadenceMin: 60 * 24, blocking: false },
 
   // weekly — slow-moving baselines
   { slug: "reddit-baselines", fetcher: "reddit-baselines", cadenceMin: 60 * 24 * 7, slowMoving: true },
@@ -108,6 +113,7 @@ interface SlugHealth {
   slug: string;
   fetcher: string;
   cadenceMin: number;
+  blocking: boolean;
   status: SlugStatus;
   writtenAt: string | null;
   ageSec: number | null;
@@ -119,6 +125,8 @@ interface HealthSummary {
   amber: number;
   red: number;
   missing: number;
+  blockingRed: number;
+  blockingMissing: number;
 }
 
 interface HealthResponse {
@@ -166,6 +174,7 @@ export async function GET(): Promise<NextResponse<HealthResponse>> {
         slug: spec.slug,
         fetcher: spec.fetcher,
         cadenceMin: spec.cadenceMin,
+        blocking: spec.blocking !== false,
         status,
         writtenAt,
         ageSec,
@@ -179,6 +188,8 @@ export async function GET(): Promise<NextResponse<HealthResponse>> {
     amber: probes.filter((p) => p.status === "amber").length,
     red: probes.filter((p) => p.status === "red").length,
     missing: probes.filter((p) => p.status === "missing").length,
+    blockingRed: probes.filter((p) => p.blocking && p.status === "red").length,
+    blockingMissing: probes.filter((p) => p.blocking && p.status === "missing").length,
   };
 
   // Sort: red+missing first (caller scans them), then amber, then green.
@@ -195,7 +206,7 @@ export async function GET(): Promise<NextResponse<HealthResponse>> {
     return a.slug.localeCompare(b.slug);
   });
 
-  const ok = summary.red === 0 && summary.missing === 0;
+  const ok = summary.blockingRed === 0 && summary.blockingMissing === 0;
 
   return NextResponse.json(
     {

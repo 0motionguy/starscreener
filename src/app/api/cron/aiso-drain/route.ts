@@ -100,7 +100,7 @@ export interface AisoDrainTestOverrides {
   delayMs?: number;
 }
 
-const AISO_DRAIN_TEST_KEY = Symbol.for("starscreener.aiso.drain.test");
+const AISO_DRAIN_TEST_KEY = Symbol.for("trendingrepo.aiso.drain.test");
 
 interface DrainOverrideBag {
   overrides?: AisoDrainTestOverrides;

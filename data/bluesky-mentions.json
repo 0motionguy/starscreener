@@ -1,148 +1,74 @@
 {
-  "fetchedAt": "2026-04-28T04:08:26.311Z",
+  "fetchedAt": "2026-04-28T06:46:15.494Z",
   "windowDays": 7,
-  "scannedPosts": 99,
+  "scannedPosts": 199,
   "searchQuery": "github.com",
-  "pagesFetched": 1,
+  "pagesFetched": 2,
   "mentions": {
-    "openclaw/openclaw": {
-      "count7d": 1,
+    "openai/codex": {
+      "count7d": 2,
       "likesSum7d": 0,
-      "repostsSum7d": 0,
+      "repostsSum7d": 1,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkjiwh3psa2h",
-        "cid": "bafyreibp7l4f4nyhawxcpekorozwrbv7bgjdvtbma6vqli2n3koc7pevvq",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkjiwh3psa2h",
-        "text": "🟠 OpenClaw 2026.4.26 ships Cerebras, Google Live browser talk, and a new migration path OpenClaw just shipped a dense platform release that adds Cerebras as a bundled provider, Google Live browser Talk sessions, and a... https://github.com/openclaw/openclaw/releases/tag/v2026.4.26 #AI #AgentWyre",
+        "uri": "at://did:plc:kdyelf4vsmhrkvhueghesbiu/app.bsky.feed.post/3mkjyakeg7p2z",
+        "cid": "bafyreigmkcliyideutq3r3uf3lc7s7iusy542d3aio6nl2gjzsw47ewoc4",
+        "bskyUrl": "https://bsky.app/profile/davidmanheim.alter.org.il/post/3mkjyakeg7p2z",
+        "text": "It's not just in the prompt, it's there twice! (Mistake, or necessary overkill? Who knows!) bsky.app/profile/emol... github.com/openai/codex...",
         "author": {
-          "handle": "agentwyre.ai"
+          "handle": "davidmanheim.alter.org.il",
+          "displayName": "David Manheim"
         },
         "likeCount": 0,
-        "repostCount": 0,
+        "repostCount": 1,
         "replyCount": 0,
-        "createdAt": "2026-04-28T02:09:30.505248+00:00",
-        "hoursSincePosted": 1.98
+        "createdAt": "2026-04-28T06:43:37.378Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
-          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkjiwh3psa2h",
-          "cid": "bafyreibp7l4f4nyhawxcpekorozwrbv7bgjdvtbma6vqli2n3koc7pevvq",
-          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkjiwh3psa2h",
-          "text": "🟠 OpenClaw 2026.4.26 ships Cerebras, Google Live browser talk, and a new migration path OpenClaw just shipped a dense platform release that adds Cerebras as a bundled provider, Google Live browser Talk sessions, and a... https://github.com/openclaw/openclaw/releases/tag/v2026.4.26 #AI #AgentWyre",
+          "uri": "at://did:plc:kdyelf4vsmhrkvhueghesbiu/app.bsky.feed.post/3mkjyakeg7p2z",
+          "cid": "bafyreigmkcliyideutq3r3uf3lc7s7iusy542d3aio6nl2gjzsw47ewoc4",
+          "bskyUrl": "https://bsky.app/profile/davidmanheim.alter.org.il/post/3mkjyakeg7p2z",
+          "text": "It's not just in the prompt, it's there twice! (Mistake, or necessary overkill? Who knows!) bsky.app/profile/emol... github.com/openai/codex...",
           "author": {
-            "handle": "agentwyre.ai"
+            "handle": "davidmanheim.alter.org.il",
+            "displayName": "David Manheim"
           },
           "likeCount": 0,
-          "repostCount": 0,
+          "repostCount": 1,
           "replyCount": 0,
-          "createdAt": "2026-04-28T02:09:30.505248+00:00",
-          "createdUtc": 1777342170,
-          "ageHours": 1.98,
-          "trendingScore": 0,
+          "createdAt": "2026-04-28T06:43:37.378Z",
+          "createdUtc": 1777358617,
+          "ageHours": 0.5,
+          "trendingScore": 2,
           "content_tags": [
-            "has-github-repo",
-            "is-announcement"
+            "has-github-repo"
           ],
-          "value_score": 2,
+          "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "openclaw/openclaw",
+              "fullName": "openai/codex",
               "matchType": "url",
               "confidence": 1
             }
           ]
-        }
-      ]
-    },
-    "microsoft/VibeVoice": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:kft6lu4trxowqmter2b6vg6z/app.bsky.feed.post/3mkjipql35c2u",
-        "cid": "bafyreid73qufxofa3exvfizznfrzmv7qvj2pjjsryjcpswcdkigyzvcjyy",
-        "bskyUrl": "https://bsky.app/profile/simonwillison.net/post/3mkjipql35c2u",
-        "text": "They have a different model for that which I haven't tried yet github.com/microsoft/Vi...",
-        "author": {
-          "handle": "simonwillison.net",
-          "displayName": "Simon Willison"
         },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-28T02:05:47.218Z",
-        "hoursSincePosted": 2.04
-      },
-      "posts": [
         {
-          "uri": "at://did:plc:kft6lu4trxowqmter2b6vg6z/app.bsky.feed.post/3mkjipql35c2u",
-          "cid": "bafyreid73qufxofa3exvfizznfrzmv7qvj2pjjsryjcpswcdkigyzvcjyy",
-          "bskyUrl": "https://bsky.app/profile/simonwillison.net/post/3mkjipql35c2u",
-          "text": "They have a different model for that which I haven't tried yet github.com/microsoft/Vi...",
+          "uri": "at://did:plc:bj5i7vn2xtwidyrzsxcjw4if/app.bsky.feed.post/3mkjpweclgv2b",
+          "cid": "bafyreiaynqikc5ly7beyal2adg7yedyptf5lkx3k3l2adbexnjp4sdifna",
+          "bskyUrl": "https://bsky.app/profile/tszzl-mir-rt.selfhosted.social/post/3mkjpweclgv2b",
+          "text": "Never talk about goblins, gremlins, raccoons, trolls, ogres, pigeons, or other animals or creatures unless it is absolutely and unambiguously relevant to the user's query gh link: https://github.com/openai/codex/blob/main/codex-rs/models-manager/models.json#L55",
           "author": {
-            "handle": "simonwillison.net",
-            "displayName": "Simon Willison"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-28T02:05:47.218Z",
-          "createdUtc": 1777341947,
-          "ageHours": 2.04,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo",
-            "has-md-file"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "microsoft/VibeVoice",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "angelnicolasc/graymatter": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkjh7tqsvo2s",
-        "cid": "bafyreibhq5uwhwlxbcjujapeumjmpigdqaa4zsf5qeeqgnrk62l3mhqxou",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkjh7tqsvo2s",
-        "text": "https://github.com/angelnicolasc/graymatter",
-        "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-28T01:38:59Z",
-        "hoursSincePosted": 2.49
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkjh7tqsvo2s",
-          "cid": "bafyreibhq5uwhwlxbcjujapeumjmpigdqaa4zsf5qeeqgnrk62l3mhqxou",
-          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkjh7tqsvo2s",
-          "text": "https://github.com/angelnicolasc/graymatter",
-          "author": {
-            "handle": "tom-doerr.bsky.social",
-            "displayName": "Tom Dörr "
+            "handle": "tszzl-mir-rt.selfhosted.social",
+            "displayName": "Retweeted by roon [UNOFFICIAL]"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-04-28T01:38:59Z",
-          "createdUtc": 1777340339,
-          "ageHours": 2.49,
+          "createdAt": "2026-04-28T02:52:03.000Z",
+          "createdUtc": 1777344723,
+          "ageHours": 3.9,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -150,7 +76,373 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "angelnicolasc/graymatter",
+              "fullName": "openai/codex",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "anthropics/claude-code": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:jl5xc6vsmnmo4lhbvzb43ykc/app.bsky.feed.post/3mkjwdf37cs2s",
+        "cid": "bafyreihtc4yvfh4a5dojx7vxgavg676c6hdhzpet6s2bmxgrdpjomujqdi",
+        "bskyUrl": "https://bsky.app/profile/georgesl.bsky.social/post/3mkjwdf37cs2s",
+        "text": "Claude Code 2.1.121 release change log github.com/anthropics/c...",
+        "author": {
+          "handle": "georgesl.bsky.social",
+          "displayName": "George"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-28T06:09:24.896Z",
+        "hoursSincePosted": 0.61
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:jl5xc6vsmnmo4lhbvzb43ykc/app.bsky.feed.post/3mkjwdf37cs2s",
+          "cid": "bafyreihtc4yvfh4a5dojx7vxgavg676c6hdhzpet6s2bmxgrdpjomujqdi",
+          "bskyUrl": "https://bsky.app/profile/georgesl.bsky.social/post/3mkjwdf37cs2s",
+          "text": "Claude Code 2.1.121 release change log github.com/anthropics/c...",
+          "author": {
+            "handle": "georgesl.bsky.social",
+            "displayName": "George"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-28T06:09:24.896Z",
+          "createdUtc": 1777356564,
+          "ageHours": 0.61,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "luongnv89/claude-howto": {
+      "count7d": 1,
+      "likesSum7d": 30,
+      "repostsSum7d": 4,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:4q4wdaknunskbt47bzsi2qbv/app.bsky.feed.post/3mkjt2syctc2m",
+        "cid": "bafyreigvbip2tcu7jxpy35xedzurhwsqqchutvk66geec7qhpgd543gsua",
+        "bskyUrl": "https://bsky.app/profile/ponceto91.bsky.social/post/3mkjt2syctc2m",
+        "text": "Pour celles et ceux qui veulent se mettre à Claude code, voici un dépôt qui pourra vous y aider, en partant des concepts de bases et en allant crescendo ⬇️ github.com/luongnv89/cl...",
+        "author": {
+          "handle": "ponceto91.bsky.social",
+          "displayName": "Olivier Poncet 🦝"
+        },
+        "likeCount": 30,
+        "repostCount": 4,
+        "replyCount": 0,
+        "createdAt": "2026-04-28T05:10:56.266Z",
+        "hoursSincePosted": 1.59
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:4q4wdaknunskbt47bzsi2qbv/app.bsky.feed.post/3mkjt2syctc2m",
+          "cid": "bafyreigvbip2tcu7jxpy35xedzurhwsqqchutvk66geec7qhpgd543gsua",
+          "bskyUrl": "https://bsky.app/profile/ponceto91.bsky.social/post/3mkjt2syctc2m",
+          "text": "Pour celles et ceux qui veulent se mettre à Claude code, voici un dépôt qui pourra vous y aider, en partant des concepts de bases et en allant crescendo ⬇️ github.com/luongnv89/cl...",
+          "author": {
+            "handle": "ponceto91.bsky.social",
+            "displayName": "Olivier Poncet 🦝"
+          },
+          "likeCount": 30,
+          "repostCount": 4,
+          "replyCount": 0,
+          "createdAt": "2026-04-28T05:10:56.266Z",
+          "createdUtc": 1777353056,
+          "ageHours": 1.59,
+          "trendingScore": 38,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "luongnv89/claude-howto",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "hpennington/agentswift": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mkjsoiun472g",
+        "cid": "bafyreihv6zhs3nlkfwqq44mzyyvdi64uwgtcavgyvoy45ffredehyypqna",
+        "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mkjsoiun472g",
+        "text": "Show HN: AgentSwift – Open-source iOS builder agent https://github.com/hpennington/agentswift (https://news.ycombinator.com/item?id=47929375)",
+        "author": {
+          "handle": "betterhn20.e-work.xyz",
+          "displayName": "Hacker News 20"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-28T05:04:02.675Z",
+        "hoursSincePosted": 1.7
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mkjsoiun472g",
+          "cid": "bafyreihv6zhs3nlkfwqq44mzyyvdi64uwgtcavgyvoy45ffredehyypqna",
+          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mkjsoiun472g",
+          "text": "Show HN: AgentSwift – Open-source iOS builder agent https://github.com/hpennington/agentswift (https://news.ycombinator.com/item?id=47929375)",
+          "author": {
+            "handle": "betterhn20.e-work.xyz",
+            "displayName": "Hacker News 20"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-28T05:04:02.675Z",
+          "createdUtc": 1777352642,
+          "ageHours": 1.7,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "hpennington/agentswift",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "getagentseal/codeburn": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:qddwg3fp67n2wqdtwxf3ghpx/app.bsky.feed.post/3mkjslweq2c26",
+        "cid": "bafyreifdafhy4lwipawzwnh22bjv6uxfbboykrpmoe2ecfykpskkiixqx4",
+        "bskyUrl": "https://bsky.app/profile/nunocky.bsky.social/post/3mkjslweq2c26",
+        "text": "こういうの眺めていたい github.com/getagentseal...",
+        "author": {
+          "handle": "nunocky.bsky.social",
+          "displayName": "NUNOKAWA Masato"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-28T05:02:36.499Z",
+        "hoursSincePosted": 1.73
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:qddwg3fp67n2wqdtwxf3ghpx/app.bsky.feed.post/3mkjslweq2c26",
+          "cid": "bafyreifdafhy4lwipawzwnh22bjv6uxfbboykrpmoe2ecfykpskkiixqx4",
+          "bskyUrl": "https://bsky.app/profile/nunocky.bsky.social/post/3mkjslweq2c26",
+          "text": "こういうの眺めていたい github.com/getagentseal...",
+          "author": {
+            "handle": "nunocky.bsky.social",
+            "displayName": "NUNOKAWA Masato"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-28T05:02:36.499Z",
+          "createdUtc": 1777352556,
+          "ageHours": 1.73,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "getagentseal/codeburn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "remotion-dev/remotion": {
+      "count7d": 1,
+      "likesSum7d": 2,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:3icbr7tmasq5cqevlb2sorfb/app.bsky.feed.post/3mkjqxatazk23",
+        "cid": "bafyreicwsejdm3vrf3vda66uey7ffl24jgasmbrhwgg76fsubb5zm3z35i",
+        "bskyUrl": "https://bsky.app/profile/arielfrischer.bsky.social/post/3mkjqxatazk23",
+        "text": "AI can efficiently generate code that renders videos. Recommend: github.com/remotion-dev... It does take a bit of iteration but its worth it. Long term you'll have a solid setup to generate #saas demo style vids for a fraction of the usual price. Heres an example for my Saas rentalot.ai",
+        "author": {
+          "handle": "arielfrischer.bsky.social"
+        },
+        "likeCount": 2,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-28T04:33:09.079Z",
+        "hoursSincePosted": 2.22
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:3icbr7tmasq5cqevlb2sorfb/app.bsky.feed.post/3mkjqxatazk23",
+          "cid": "bafyreicwsejdm3vrf3vda66uey7ffl24jgasmbrhwgg76fsubb5zm3z35i",
+          "bskyUrl": "https://bsky.app/profile/arielfrischer.bsky.social/post/3mkjqxatazk23",
+          "text": "AI can efficiently generate code that renders videos. Recommend: github.com/remotion-dev... It does take a bit of iteration but its worth it. Long term you'll have a solid setup to generate #saas demo style vids for a fraction of the usual price. Heres an example for my Saas rentalot.ai",
+          "author": {
+            "handle": "arielfrischer.bsky.social"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-28T04:33:09.079Z",
+          "createdUtc": 1777350789,
+          "ageHours": 2.22,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "remotion-dev/remotion",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "garrytan/gstack": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 1,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:m3pltlzpmme735m4yh7ueqx5/app.bsky.feed.post/3mkjviziucu2z",
+        "cid": "bafyreic4zrsnmlqfto5fv4oglkn7w6qvwtvkgevpz3qpy7ksebqdicuyrq",
+        "bskyUrl": "https://bsky.app/profile/garrytan-mir-rt.selfhosted.social/post/3mkjviziucu2z",
+        "text": "RT @eastweb3eth: 我从几千个 Hermes Skill 里面精选了5个你必装的Skill 大家注意，如果你的Hermes不装Skill就不是完全体，我个人感觉最少差60%以上的能力。现在Skill仓库估计有几千个了，很多人看的眼花缭乱，我给大家精选了下面5个Skill，人人都用得到，人人都必须按照。 1. https://github.com/garrytan/gstack 85K星的含金量 必备Skill，优化Hermes记忆层，自我进化的必备Skill 2. https://github.com/garrytan/gbrain 11K星",
+        "author": {
+          "handle": "garrytan-mir-rt.selfhosted.social",
+          "displayName": "Retweeted by Garry Tan [UNOFFICIAL]"
+        },
+        "likeCount": 0,
+        "repostCount": 1,
+        "replyCount": 1,
+        "createdAt": "2026-04-28T02:44:54.000Z",
+        "hoursSincePosted": 4.02
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:m3pltlzpmme735m4yh7ueqx5/app.bsky.feed.post/3mkjviziucu2z",
+          "cid": "bafyreic4zrsnmlqfto5fv4oglkn7w6qvwtvkgevpz3qpy7ksebqdicuyrq",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mir-rt.selfhosted.social/post/3mkjviziucu2z",
+          "text": "RT @eastweb3eth: 我从几千个 Hermes Skill 里面精选了5个你必装的Skill 大家注意，如果你的Hermes不装Skill就不是完全体，我个人感觉最少差60%以上的能力。现在Skill仓库估计有几千个了，很多人看的眼花缭乱，我给大家精选了下面5个Skill，人人都用得到，人人都必须按照。 1. https://github.com/garrytan/gstack 85K星的含金量 必备Skill，优化Hermes记忆层，自我进化的必备Skill 2. https://github.com/garrytan/gbrain 11K星",
+          "author": {
+            "handle": "garrytan-mir-rt.selfhosted.social",
+            "displayName": "Retweeted by Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 1,
+          "replyCount": 1,
+          "createdAt": "2026-04-28T02:44:54.000Z",
+          "createdUtc": 1777344294,
+          "ageHours": 4.02,
+          "trendingScore": 2.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gstack",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "garrytan/gbrain": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 1,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:m3pltlzpmme735m4yh7ueqx5/app.bsky.feed.post/3mkjviziucu2z",
+        "cid": "bafyreic4zrsnmlqfto5fv4oglkn7w6qvwtvkgevpz3qpy7ksebqdicuyrq",
+        "bskyUrl": "https://bsky.app/profile/garrytan-mir-rt.selfhosted.social/post/3mkjviziucu2z",
+        "text": "RT @eastweb3eth: 我从几千个 Hermes Skill 里面精选了5个你必装的Skill 大家注意，如果你的Hermes不装Skill就不是完全体，我个人感觉最少差60%以上的能力。现在Skill仓库估计有几千个了，很多人看的眼花缭乱，我给大家精选了下面5个Skill，人人都用得到，人人都必须按照。 1. https://github.com/garrytan/gstack 85K星的含金量 必备Skill，优化Hermes记忆层，自我进化的必备Skill 2. https://github.com/garrytan/gbrain 11K星",
+        "author": {
+          "handle": "garrytan-mir-rt.selfhosted.social",
+          "displayName": "Retweeted by Garry Tan [UNOFFICIAL]"
+        },
+        "likeCount": 0,
+        "repostCount": 1,
+        "replyCount": 1,
+        "createdAt": "2026-04-28T02:44:54.000Z",
+        "hoursSincePosted": 4.02
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:m3pltlzpmme735m4yh7ueqx5/app.bsky.feed.post/3mkjviziucu2z",
+          "cid": "bafyreic4zrsnmlqfto5fv4oglkn7w6qvwtvkgevpz3qpy7ksebqdicuyrq",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mir-rt.selfhosted.social/post/3mkjviziucu2z",
+          "text": "RT @eastweb3eth: 我从几千个 Hermes Skill 里面精选了5个你必装的Skill 大家注意，如果你的Hermes不装Skill就不是完全体，我个人感觉最少差60%以上的能力。现在Skill仓库估计有几千个了，很多人看的眼花缭乱，我给大家精选了下面5个Skill，人人都用得到，人人都必须按照。 1. https://github.com/garrytan/gstack 85K星的含金量 必备Skill，优化Hermes记忆层，自我进化的必备Skill 2. https://github.com/garrytan/gbrain 11K星",
+          "author": {
+            "handle": "garrytan-mir-rt.selfhosted.social",
+            "displayName": "Retweeted by Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 1,
+          "replyCount": 1,
+          "createdAt": "2026-04-28T02:44:54.000Z",
+          "createdUtc": 1777344294,
+          "ageHours": 4.02,
+          "trendingScore": 2.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gstack",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "garrytan/gbrain",
               "matchType": "url",
               "confidence": 1
             }
@@ -161,17 +453,42 @@
   },
   "leaderboard": [
     {
-      "fullName": "microsoft/VibeVoice",
+      "fullName": "luongnv89/claude-howto",
       "count7d": 1,
-      "likesSum7d": 1
+      "likesSum7d": 30
     },
     {
-      "fullName": "angelnicolasc/graymatter",
+      "fullName": "remotion-dev/remotion",
+      "count7d": 1,
+      "likesSum7d": 2
+    },
+    {
+      "fullName": "openai/codex",
+      "count7d": 2,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "anthropics/claude-code",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "openclaw/openclaw",
+      "fullName": "garrytan/gbrain",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "garrytan/gstack",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "getagentseal/codeburn",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "hpennington/agentswift",
       "count7d": 1,
       "likesSum7d": 0
     }

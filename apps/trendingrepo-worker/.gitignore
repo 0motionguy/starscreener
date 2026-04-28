@@ -1,0 +1,21 @@
+# Self-contained worker .gitignore. Root .gitignore intentionally NOT
+# touched - apps/ has no special treatment from the monorepo root, this
+# package manages its own ignores.
+
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+
+# env files - .env.example is committed, .env.local is not
+.env
+.env.local
+.env.*.local
+
+# supabase local stack scratch
+supabase/.branches/
+supabase/.temp/
+
+# logs / scratch
+*.log
+.tmp/

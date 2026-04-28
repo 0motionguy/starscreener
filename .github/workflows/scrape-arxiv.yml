@@ -1,0 +1,57 @@
+name: Refresh arXiv signals
+
+# Every 6h at :47 — staggered from lobsters (:37), reddit (:27), bluesky
+# (:17), and fast-discovery (:07/:27/:47) so we don't all hit external
+# APIs + git push at the same minute. arXiv announcements happen daily on
+# weekday evenings (US Eastern); 6h is enough granularity without burning
+# the implicit quota on a free academic API.
+on:
+  schedule:
+    - cron: "47 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: arxiv-refresh
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Refresh arXiv trending snapshot
+        # No auth required — arXiv exposes Atom feeds at export.arxiv.org.
+        # The scraper uses a polite UA + 3 retries + 350ms inter-request
+        # delay (under the 3 req/sec ToS limit) and continues on per-
+        # category failure so one 503 doesn't kill the run.
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+        run: node scripts/scrape-arxiv.mjs
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "trendingrepo-bot"
+          git config user.email "bot@trendingrepo.com"
+          git add data/arxiv-trending.json
+          if git diff --quiet --staged; then
+            echo "no changes - skipping commit"
+            exit 0
+          fi
+          TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          git commit -m "chore(data): refresh arxiv signals ${TS}"
+          git pull --rebase origin main
+          git push

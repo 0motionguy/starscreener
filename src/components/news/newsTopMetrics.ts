@@ -27,6 +27,11 @@ import type { Launch, ProductHuntFile } from "@/lib/producthunt";
 import type { LobstersStory } from "@/lib/lobsters";
 import type { LobstersTrendingFile } from "@/lib/lobsters-trending";
 import type { RedditAllPost, AllPostsStats } from "@/lib/reddit-all";
+import type { ArxivPaper, ArxivTrendingFile } from "@/lib/arxiv-trending";
+import type {
+  ResearchCitedRepo,
+  ResearchCitedReposFile,
+} from "@/lib/arxiv-cited-repos";
 
 // ---------------------------------------------------------------------------
 // Topic palette — cycled through the topic bars. 8 colours × 6 visible
@@ -629,6 +634,189 @@ export function buildLobstersHeader(
     byline: s.by ? `@${s.by}` : undefined,
     scoreLabel: `${compactNumber(s.score ?? 0)} pts · ${compactNumber(s.commentCount ?? 0)} cmts`,
     ageHours: s.ageHours ?? null,
+  }));
+
+  return { cards, topStories: heroStories };
+}
+
+// ---------------------------------------------------------------------------
+// arXiv (/papers — full firehose)
+// ---------------------------------------------------------------------------
+
+export function buildArxivHeader(
+  file: ArxivTrendingFile,
+  topPapers: ArxivPaper[],
+): { cards: [NewsMetricCard, NewsMetricCard, NewsMetricCard]; topStories: NewsHeroStory[] } {
+  const papers = file.papers ?? [];
+  const distinctCategories = new Set<string>();
+  const distinctAuthors = new Set<string>();
+  for (const p of papers) {
+    if (p.primaryCategory) distinctCategories.add(p.primaryCategory);
+    for (const a of p.authors ?? []) distinctAuthors.add(a);
+  }
+  // Median age robustly conveys "freshness of feed". Mean would skew on
+  // the 14-day tail.
+  const ages = papers
+    .map((p) => p.ageHours)
+    .filter((n): n is number => typeof n === "number" && Number.isFinite(n))
+    .sort((a, b) => a - b);
+  const medianAgeH = ages.length === 0
+    ? 0
+    : ages.length % 2 === 1
+      ? ages[(ages.length - 1) >> 1]
+      : (ages[ages.length / 2 - 1] + ages[ages.length / 2]) / 2;
+
+  const activity = activityBars(
+    papers.map((p) => ({ tsSec: p.submittedUtc, weight: 1 })),
+  );
+  const topics = topicBars(papers.map((p) => p.title));
+
+  const cards: [NewsMetricCard, NewsMetricCard, NewsMetricCard] = [
+    {
+      variant: "snapshot",
+      title: "// SNAPSHOT · NOW",
+      rightLabel: `${papers.length} PAPERS`,
+      label: "PAPERS TRACKED",
+      value: compactNumber(papers.length),
+      hint: `${file.windowDays ?? 14}D WINDOW · ${file.categories?.length ?? 6} CATS`,
+      rows: [
+        { label: "TOP CAT", value: (file.categories?.[0] ?? "—").toUpperCase(), tone: "accent" },
+        { label: "AUTHORS", value: compactNumber(distinctAuthors.size) },
+        {
+          label: "MEDIAN AGE",
+          value: medianAgeH < 24
+            ? `${Math.round(medianAgeH)}H`
+            : `${Math.round(medianAgeH / 24)}D`,
+        },
+      ],
+    },
+    {
+      variant: "bars",
+      title: "// ACTIVITY · LAST 24H",
+      rightLabel: "PER 4H",
+      bars: activity,
+      labelWidth: 48,
+      emptyText: "NO RECENT PAPERS",
+    },
+    {
+      variant: "bars",
+      title: "// TOPICS · MENTIONED MOST",
+      rightLabel: `TOP ${topics.length}`,
+      bars: topics,
+      labelWidth: 96,
+      emptyText: "NOT ENOUGH SIGNAL YET",
+    },
+  ];
+
+  // Hero scoreLabel = age-first (the actual ranking signal — page subtitle
+  // says "order is age, not popularity") rather than echoing the category
+  // chip already in each row.
+  const heroStories: NewsHeroStory[] = topPapers.slice(0, 3).map((p) => ({
+    title: p.title,
+    href: p.absUrl,
+    external: true,
+    sourceCode: "AX",
+    byline: p.authors?.[0] ? `@${p.authors[0]}` : undefined,
+    scoreLabel: `${(p.primaryCategory || "—").toUpperCase()} · ${p.categories?.length ?? 1} cats`,
+    ageHours: p.ageHours ?? null,
+  }));
+
+  return { cards, topStories: heroStories };
+}
+
+// ---------------------------------------------------------------------------
+// /research — arxiv-cited repos (sister to /papers, repo-keyed)
+// ---------------------------------------------------------------------------
+
+export function buildResearchHeader(
+  file: ResearchCitedReposFile,
+  topRepos: ResearchCitedRepo[],
+): { cards: [NewsMetricCard, NewsMetricCard, NewsMetricCard]; topStories: NewsHeroStory[] } {
+  const repos = file.repos ?? [];
+  const nowSec = Date.now() / 1000;
+  const fresh24hCount = repos.filter(
+    (r) => nowSec - r.latestSubmittedUtc < 24 * 3600,
+  ).length;
+  const multiCitedCount = repos.filter((r) => r.paperCount >= 2).length;
+
+  // Activity per 4h: weight = paperCount so a repo cited by 3 papers in
+  // the last 4h shows more lift than one cited by 1.
+  const activity = activityBars(
+    repos.map((r) => ({ tsSec: r.latestSubmittedUtc, weight: r.paperCount })),
+  );
+
+  // Categories: aggregate r.topCategory across all repos. Don't reuse
+  // topicBars() — its English tokenizer is wrong for "cs.LG".
+  const catCounts = new Map<string, { repos: number; papers: number }>();
+  for (const r of repos) {
+    const k = r.topCategory || "—";
+    const cur = catCounts.get(k) ?? { repos: 0, papers: 0 };
+    cur.repos += 1;
+    cur.papers += r.paperCount;
+    catCounts.set(k, cur);
+  }
+  const CATEGORY_PALETTE = TOPIC_PALETTE;
+  const categoryBars: NewsMetricBar[] = Array.from(catCounts.entries())
+    .sort((a, b) => b[1].repos - a[1].repos)
+    .slice(0, 6)
+    .map(([cat, counts], i) => ({
+      label: cat.toUpperCase(),
+      value: counts.repos,
+      valueLabel: counts.repos.toLocaleString("en-US"),
+      hintLabel: `${counts.papers} CITES`,
+      color: CATEGORY_PALETTE[i % CATEGORY_PALETTE.length],
+    }));
+
+  const cards: [NewsMetricCard, NewsMetricCard, NewsMetricCard] = [
+    {
+      variant: "snapshot",
+      title: "// SNAPSHOT · NOW",
+      rightLabel: `${compactNumber(repos.length)} REPOS`,
+      label: "REPOS CITED",
+      value: compactNumber(file.totalCitedRepos),
+      hint: `${file.windowDays}D · ${file.scannedPapers} PAPERS`,
+      rows: [
+        { label: "TOTAL CITES", value: compactNumber(file.totalUrlMatches) },
+        {
+          label: "MULTI-CITED",
+          value: compactNumber(multiCitedCount),
+          tone: "accent",
+        },
+        { label: "FRESH 24H", value: compactNumber(fresh24hCount) },
+      ],
+    },
+    {
+      variant: "bars",
+      title: "// ACTIVITY · LAST 24H",
+      rightLabel: "PER 4H",
+      bars: activity,
+      labelWidth: 56,
+      emptyText: "NO RECENT CITATIONS",
+    },
+    {
+      variant: "bars",
+      title: "// CATEGORIES · TOP CITED",
+      rightLabel: `TOP ${categoryBars.length}`,
+      bars: categoryBars,
+      labelWidth: 64,
+      emptyText: "NO CATEGORY DATA",
+    },
+  ];
+
+  // Repos as heroes (not papers): /research is a repo-discovery surface,
+  // so the click target = repo. (Twitter heroes surface tweets because
+  // the repo list there already exists on /twitter; the heroes there add
+  // a NEW atom to click. Here, the repo IS the atom.)
+  const heroStories: NewsHeroStory[] = topRepos.slice(0, 3).map((r) => ({
+    title: r.fullName,
+    href: `https://github.com/${r.fullName}`,
+    external: true,
+    sourceCode: "AX",
+    byline: r.topCategory.toUpperCase() || undefined,
+    scoreLabel: `${r.paperCount} PAPERS · ${r.score.toFixed(1)}`,
+    ageHours: r.latestSubmittedUtc
+      ? Math.max(0, (nowSec - r.latestSubmittedUtc) / 3600)
+      : null,
   }));
 
   return { cards, topStories: heroStories };

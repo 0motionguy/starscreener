@@ -45,7 +45,7 @@ export const revalidate = 1800;
 const HOMEPAGE_FAQ: ReadonlyArray<{ q: string; a: string }> = [
   {
     q: "What data sources does TrendingRepo track?",
-    a: "GitHub (stars, forks, releases, contributors), Reddit (r/programming, r/webdev, r/MachineLearning), Hacker News front page, ProductHunt daily launches, Bluesky tech feeds, and dev.to trending articles. Every signal is timestamped and scored for momentum.",
+    a: "GitHub (stars, forks, releases, contributors), Reddit (r/programming, r/webdev, r/MachineLearning), Hacker News front page, ProductHunt daily launches, Bluesky tech feeds, dev.to trending articles, Lobsters, and recent arXiv papers across cs.AI / cs.LG / cs.CL / cs.CV / cs.SE / stat.ML. Every signal is timestamped and scored for momentum.",
   },
   {
     q: "How is the momentum score calculated?",
@@ -140,9 +140,9 @@ export default async function HomePage() {
                 over 100 million developers
               </a>{" "}
               — the fastest-growing open-source ecosystem in history. We ingest
-              GitHub, Reddit, Hacker News, ProductHunt, Bluesky, and dev.to
-              every few hours, score momentum across 15 categories, and
-              surface the movers before they plateau.{" "}
+              GitHub, Reddit, Hacker News, ProductHunt, Bluesky, dev.to,
+              Lobsters, and recent arXiv papers every few hours, score momentum
+              across 15 categories, and surface the movers before they plateau.{" "}
               <a
                 href="https://en.wikipedia.org/wiki/Open-source_software"
                 target="_blank"
@@ -409,7 +409,7 @@ export default async function HomePage() {
             name: `${SITE_NAME} — open-source repo trend dataset`,
             alternateName: "TrendingRepo Catalog",
             description:
-              "Aggregated repo metadata + cross-source signals (GitHub, Reddit, Hacker News, Bluesky, dev.to, ProductHunt, Lobsters) for the open-source ecosystem. Updated every 3 hours.",
+              "Aggregated repo metadata + cross-source signals (GitHub, Reddit, Hacker News, Bluesky, dev.to, ProductHunt, Lobsters, arXiv papers) for the open-source ecosystem. Updated every 3 hours.",
             url: SITE_URL,
             sameAs: [SITE_URL],
             inLanguage: "en-US",

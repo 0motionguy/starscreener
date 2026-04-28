@@ -262,7 +262,7 @@ function V2Chip({
     tone === "accent"
       ? { bg: "var(--v2-acc-soft)", color: "var(--v2-acc)" }
       : tone === "danger"
-        ? { bg: "rgba(239, 68, 68, 0.14)", color: "#ef4444" }
+        ? { bg: "var(--v2-sig-red-glow)", color: "var(--v2-sig-red)" }
         : tone === "delta"
           ? { bg: "var(--color-up-bg)", color: "var(--color-up)" }
           : { bg: "var(--v2-bg-200)", color: "var(--v2-ink-300)" };

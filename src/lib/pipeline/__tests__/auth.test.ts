@@ -388,9 +388,18 @@ test("verifyUserAuth: ss_user cookie with tampered signature → not promoted", 
     },
     () => {
       const valid = signSession({ userId: "u_real", issuedAt: Date.now() });
-      // Flip the last character of the signature half.
+      // Flip a character in the *middle* of the signature half. We avoid the
+      // last char on purpose: a 32-byte HMAC encodes to 43 base64url chars,
+      // and the trailing char carries only 4 bits of real data — the other 2
+      // bits are padding that base64-decoders silently truncate. Flipping
+      // the trailing char between e.g. `A`(0000) and `B`(00001) decodes to
+      // the *same* 32 bytes ~6% of the time, which made this test flaky in
+      // CI. Mutating an interior char guarantees the decoded buffer differs.
       const [p, sig] = valid.split(".");
-      const tampered = `${p}.${sig!.slice(0, -1)}${sig!.endsWith("A") ? "B" : "A"}`;
+      const flipIdx = Math.floor(sig!.length / 2);
+      const flipChar = sig![flipIdx]!;
+      const replacement = flipChar === "A" ? "B" : "A";
+      const tampered = `${p}.${sig!.slice(0, flipIdx)}${replacement}${sig!.slice(flipIdx + 1)}`;
       const v = verifyUserAuth(
         mkRequest({ cookie: `${SESSION_COOKIE_NAME}=${tampered}` }),
       );

@@ -31,6 +31,12 @@ export interface NewsMetricBar {
   hintLabel?: string;
   /** Bar fill colour. Defaults to the page accent. */
   color?: string;
+  /** Optional logo URL rendered as a 16px tile before the label.
+   *  Falls back to a deterministic monogram tile when null/missing. */
+  logoUrl?: string | null;
+  /** Name to drive the monogram fallback when `logoUrl` is null.
+   *  Defaults to `label` so the monogram letter matches the bar's text. */
+  logoName?: string;
 }
 
 export interface NewsMetricSnapshotRow {
@@ -841,12 +847,23 @@ function BarsBody({
     <div className="flex flex-col">
       {bars.length > 0 ? (
       <div className="px-3 py-3 sm:px-4 sm:py-4 flex flex-col gap-2">
-      {bars.map((bar, i) => (
+      {bars.map((bar, i) => {
+        const hasLogo = bar.logoUrl !== undefined;
+        return (
         <div
           key={i}
           className="flex items-center gap-2 sm:gap-3"
           style={{ minHeight: 22 }}
         >
+          {hasLogo ? (
+            <EntityLogo
+              src={bar.logoUrl ?? null}
+              name={bar.logoName ?? bar.label}
+              size={16}
+              shape="circle"
+              alt=""
+            />
+          ) : null}
           {/* Left rail label — narrower on mobile so the bar stays
               visible on iPhone-SE-class widths (375px). */}
           <span
@@ -909,7 +926,8 @@ function BarsBody({
             </span>
           ) : null}
         </div>
-      ))}
+        );
+      })}
       </div>
       ) : null}
 

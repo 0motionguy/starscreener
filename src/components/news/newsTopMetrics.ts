@@ -189,6 +189,9 @@ export interface SourceVolumeInput {
   color: string;
   itemCount: number;
   totalScore: number;
+  /** Optional brand/source logo URL — rendered as a 16px tile before the
+   *  bar's label by NewsTopHeaderV3. Omit to fall back to a monogram tile. */
+  logoUrl?: string | null;
 }
 
 export function sourceVolumeBars(rows: SourceVolumeInput[]): NewsMetricBar[] {
@@ -200,6 +203,8 @@ export function sourceVolumeBars(rows: SourceVolumeInput[]): NewsMetricBar[] {
       valueLabel: r.itemCount.toLocaleString("en-US"),
       hintLabel: compactNumber(r.totalScore),
       color: r.color,
+      logoUrl: r.logoUrl ?? null,
+      logoName: r.label,
     }));
 }
 

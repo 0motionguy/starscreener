@@ -68,6 +68,31 @@ export function buildEcosystemHeader({
     bucket.score += Math.round(it.signalScore);
     volumeMap.set(label, bucket);
   }
+  // Resolve a brand logo per source label so each volume row gets a tile.
+  // GitHub uses its own owner avatar service; everything else goes through
+  // resolveLogoUrl (Google favicons), which yields the registry's favicon
+  // for skills.sh / smithery / mcp.so / etc. EntityLogo falls back to a
+  // monogram when the URL is null.
+  const sourceLogo = (label: string): string | null => {
+    const lower = label.toLowerCase();
+    if (lower === "github" || lower === "gh") {
+      return "https://github.com/github.png?size=40";
+    }
+    // Map known ecosystem registries to their canonical home so the
+    // favicon service returns a stable tile.
+    const homepage =
+      lower === "skills.sh" || lower === "skl" || lower === "sklsh"
+        ? "https://skills.sh"
+        : lower === "smithery" || lower === "smthy"
+          ? "https://smithery.ai"
+          : lower === "mcp.so" || lower === "mcp"
+            ? "https://mcp.so"
+            : lower === "claudeai" || lower === "claude"
+              ? "https://claude.com"
+              : `https://${label}`;
+    return resolveLogoUrl(homepage, label, 64);
+  };
+
   const volumeBars: NewsMetricBar[] = Array.from(volumeMap.entries())
     .sort((a, b) => b[1].count - a[1].count)
     .slice(0, 6)
@@ -77,6 +102,8 @@ export function buildEcosystemHeader({
       valueLabel: bucket.count.toLocaleString("en-US"),
       hintLabel: compactNumber(bucket.score),
       color: SOURCE_PALETTE[i % SOURCE_PALETTE.length],
+      logoUrl: sourceLogo(label),
+      logoName: label,
     }));
 
   // Topics — n-gram-ish word frequency across titles + topic + tags.

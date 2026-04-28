@@ -1,340 +1,53 @@
 {
-  "fetchedAt": "2026-04-28T00:08:35.777Z",
+  "fetchedAt": "2026-04-28T04:08:26.311Z",
   "windowDays": 7,
-  "scannedPosts": 300,
+  "scannedPosts": 99,
   "searchQuery": "github.com",
-  "pagesFetched": 3,
+  "pagesFetched": 1,
   "mentions": {
-    "getagentseal/codeburn": {
+    "openclaw/openclaw": {
       "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3mkjaxxptwv2a",
-        "cid": "bafyreia27o6ty3z2tjawpbwrc6wh6jfgjdzvagida2eji4bhmf6rulgozi",
-        "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3mkjaxxptwv2a",
-        "text": "GitHub - getagentseal/codeburn: See where your AI coding tokens go. Interactive TUI dashboard for Claude Code, Codex, and Cursor cost observability. https://github.com/getagentseal/codeburn",
-        "author": {
-          "handle": "tech-trending.bsky.social",
-          "displayName": "Tech Trending"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-27T23:47:13.178Z",
-        "hoursSincePosted": 0.5
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3mkjaxxptwv2a",
-          "cid": "bafyreia27o6ty3z2tjawpbwrc6wh6jfgjdzvagida2eji4bhmf6rulgozi",
-          "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3mkjaxxptwv2a",
-          "text": "GitHub - getagentseal/codeburn: See where your AI coding tokens go. Interactive TUI dashboard for Claude Code, Codex, and Cursor cost observability. https://github.com/getagentseal/codeburn",
-          "author": {
-            "handle": "tech-trending.bsky.social",
-            "displayName": "Tech Trending"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-27T23:47:13.178Z",
-          "createdUtc": 1777333633,
-          "ageHours": 0.5,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "getagentseal/codeburn",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "JuliusBrussee/caveman": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:ywh4n7ihypdnwb4n2kzlzrht/app.bsky.feed.post/3mkj6agoa722v",
-        "cid": "bafyreig3mipvo4kt4bbjv3y7jwt6xavinrbt6atzi5gd3jww5bflekaoxq",
-        "bskyUrl": "https://bsky.app/profile/damien.zone/post/3mkj6agoa722v",
-        "text": "You're never gonna guess what's the hot new way to make chatbots/LLMs waste less tokens github.com/JuliusBrusse...",
-        "author": {
-          "handle": "damien.zone",
-          "displayName": "damien 🥖🐈‍⬛🧣"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-04-27T22:58:16.101Z",
-        "hoursSincePosted": 1.17
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:ywh4n7ihypdnwb4n2kzlzrht/app.bsky.feed.post/3mkj6agoa722v",
-          "cid": "bafyreig3mipvo4kt4bbjv3y7jwt6xavinrbt6atzi5gd3jww5bflekaoxq",
-          "bskyUrl": "https://bsky.app/profile/damien.zone/post/3mkj6agoa722v",
-          "text": "You're never gonna guess what's the hot new way to make chatbots/LLMs waste less tokens github.com/JuliusBrusse...",
-          "author": {
-            "handle": "damien.zone",
-            "displayName": "damien 🥖🐈‍⬛🧣"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-04-27T22:58:16.101Z",
-          "createdUtc": 1777330696,
-          "ageHours": 1.17,
-          "trendingScore": 1.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "JuliusBrussee/caveman",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "endevco/aube": {
-      "count7d": 1,
-      "likesSum7d": 2,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:xvy6enhwjoqn4dee2bcdyr6w/app.bsky.feed.post/3mkj2xe236s2f",
-        "cid": "bafyreigoydcsuafiqotwuesh7xz3iupb4shgbn3arl36mmvktxihrvwnh4",
-        "bskyUrl": "https://bsky.app/profile/gautier.dev/post/3mkj2xe236s2f",
-        "text": "The timing is incredible, everyone is working on a rust package manager for node at the same time: - github.com/yarnpkg/zpm by @yarnpkg.dev - github.com/pnpm/pacquet by @pnpm.io - github.com/endevco/aube by @jdx.dev",
-        "author": {
-          "handle": "gautier.dev",
-          "displayName": "Gautier"
-        },
-        "likeCount": 2,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-27T21:59:30.127Z",
-        "hoursSincePosted": 2.15
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:xvy6enhwjoqn4dee2bcdyr6w/app.bsky.feed.post/3mkj2xe236s2f",
-          "cid": "bafyreigoydcsuafiqotwuesh7xz3iupb4shgbn3arl36mmvktxihrvwnh4",
-          "bskyUrl": "https://bsky.app/profile/gautier.dev/post/3mkj2xe236s2f",
-          "text": "The timing is incredible, everyone is working on a rust package manager for node at the same time: - github.com/yarnpkg/zpm by @yarnpkg.dev - github.com/pnpm/pacquet by @pnpm.io - github.com/endevco/aube by @jdx.dev",
-          "author": {
-            "handle": "gautier.dev",
-            "displayName": "Gautier"
-          },
-          "likeCount": 2,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-27T21:59:30.127Z",
-          "createdUtc": 1777327170,
-          "ageHours": 2.15,
-          "trendingScore": 2,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "endevco/aube",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "ggml-org/llama.cpp": {
-      "count7d": 6,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkiv6yourc2c",
-        "cid": "bafyreibox7lpkmga3uu6q3hrmr3nnnyf25njyehoh3fkevfrzdbd7qv4yq",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkiv6yourc2c",
-        "text": "🟠 llama.cpp b8951 adds fast i-quant mat-vec kernels across WebGPU backends llama.cpp b8951 ships fast matrix-vector kernels for all nine i-quant formats on its WebGPU path, covering Apple, NVIDIA, AMD, and Intel GPUs. https://github.com/ggml-org/llama.cpp/releases/tag/b8951 #AI #AgentWyre",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkjiwh3psa2h",
+        "cid": "bafyreibp7l4f4nyhawxcpekorozwrbv7bgjdvtbma6vqli2n3koc7pevvq",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkjiwh3psa2h",
+        "text": "🟠 OpenClaw 2026.4.26 ships Cerebras, Google Live browser talk, and a new migration path OpenClaw just shipped a dense platform release that adds Cerebras as a bundled provider, Google Live browser Talk sessions, and a... https://github.com/openclaw/openclaw/releases/tag/v2026.4.26 #AI #AgentWyre",
         "author": {
           "handle": "agentwyre.ai"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-04-27T20:16:23.574787+00:00",
-        "hoursSincePosted": 3.87
+        "createdAt": "2026-04-28T02:09:30.505248+00:00",
+        "hoursSincePosted": 1.98
       },
       "posts": [
         {
-          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkiv6yourc2c",
-          "cid": "bafyreibox7lpkmga3uu6q3hrmr3nnnyf25njyehoh3fkevfrzdbd7qv4yq",
-          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkiv6yourc2c",
-          "text": "🟠 llama.cpp b8951 adds fast i-quant mat-vec kernels across WebGPU backends llama.cpp b8951 ships fast matrix-vector kernels for all nine i-quant formats on its WebGPU path, covering Apple, NVIDIA, AMD, and Intel GPUs. https://github.com/ggml-org/llama.cpp/releases/tag/b8951 #AI #AgentWyre",
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkjiwh3psa2h",
+          "cid": "bafyreibp7l4f4nyhawxcpekorozwrbv7bgjdvtbma6vqli2n3koc7pevvq",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkjiwh3psa2h",
+          "text": "🟠 OpenClaw 2026.4.26 ships Cerebras, Google Live browser talk, and a new migration path OpenClaw just shipped a dense platform release that adds Cerebras as a bundled provider, Google Live browser Talk sessions, and a... https://github.com/openclaw/openclaw/releases/tag/v2026.4.26 #AI #AgentWyre",
           "author": {
             "handle": "agentwyre.ai"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-04-27T20:16:23.574787+00:00",
-          "createdUtc": 1777320983,
-          "ageHours": 3.87,
+          "createdAt": "2026-04-28T02:09:30.505248+00:00",
+          "createdUtc": 1777342170,
+          "ageHours": 1.98,
           "trendingScore": 0,
           "content_tags": [
-            "has-github-repo"
+            "has-github-repo",
+            "is-announcement"
           ],
-          "value_score": 1,
+          "value_score": 2,
           "linkedRepos": [
             {
-              "fullName": "ggml-org/llama.cpp",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkiuc7vnmn2s",
-          "cid": "bafyreia6iciiqusaz7y4hzfwk5p3ukb4dsbwm4pubmuvrjsl4nc53nphvu",
-          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkiuc7vnmn2s",
-          "text": "🟠 llama.cpp b8951 adds fast i-quant mat-vec kernels across WebGPU backends llama.cpp b8951 ships fast matrix-vector kernels for all nine i-quant formats on its WebGPU path, covering Apple, NVIDIA, AMD, and Intel GPUs. https://github.com/ggml-org/llama.cpp/releases/tag/b8951 #AI #AgentWyre",
-          "author": {
-            "handle": "agentwyre.ai"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-27T20:00:17.877739+00:00",
-          "createdUtc": 1777320017,
-          "ageHours": 4.14,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "ggml-org/llama.cpp",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkitf54tex2a",
-          "cid": "bafyreieaw4pskwcdppdfsoc4pd5ng745ccnxzbv3xbrur5dkgyzpklozei",
-          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkitf54tex2a",
-          "text": "🟠 llama.cpp b8951 adds fast i-quant mat-vec kernels across WebGPU backends llama.cpp b8951 ships fast matrix-vector kernels for all nine i-quant formats on its WebGPU path, covering Apple, NVIDIA, AMD, and Intel GPUs. https://github.com/ggml-org/llama.cpp/releases/tag/b8951 #AI #AgentWyre",
-          "author": {
-            "handle": "agentwyre.ai"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-27T19:44:02.005050+00:00",
-          "createdUtc": 1777319042,
-          "ageHours": 4.41,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "ggml-org/llama.cpp",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkisilqrrq2u",
-          "cid": "bafyreig4wwehdtaqhw23coldhunevkyx5k6rw6apf5jiltnz3irdanaa2i",
-          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkisilqrrq2u",
-          "text": "🟠 llama.cpp b8951 adds fast i-quant mat-vec kernels across WebGPU backends llama.cpp b8951 ships fast matrix-vector kernels for all nine i-quant formats on its WebGPU path, covering Apple, NVIDIA, AMD, and Intel GPUs. https://github.com/ggml-org/llama.cpp/releases/tag/b8951 #AI #AgentWyre",
-          "author": {
-            "handle": "agentwyre.ai"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-27T19:28:04.233468+00:00",
-          "createdUtc": 1777318084,
-          "ageHours": 4.68,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "ggml-org/llama.cpp",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkirlti3cr2u",
-          "cid": "bafyreigdog2wede66z3hngpf7v3m7unbkqeb2nqzlidmdx7hcdpqnsc2y4",
-          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkirlti3cr2u",
-          "text": "🟠 llama.cpp b8951 adds fast i-quant mat-vec kernels across WebGPU backends llama.cpp b8951 ships fast matrix-vector kernels for all nine i-quant formats on its WebGPU path, covering Apple, NVIDIA, AMD, and Intel GPUs. https://github.com/ggml-org/llama.cpp/releases/tag/b8951 #AI #AgentWyre",
-          "author": {
-            "handle": "agentwyre.ai"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-27T19:11:59.076316+00:00",
-          "createdUtc": 1777317119,
-          "ageHours": 4.94,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "ggml-org/llama.cpp",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkirfet4e42l",
-          "cid": "bafyreicwm7btregdnqzhmy5cafzw7artlixw6vpd3i2srve4djobjpo234",
-          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkirfet4e42l",
-          "text": "🟠 llama.cpp b8951 adds fast i-quant mat-vec kernels across WebGPU backends llama.cpp b8951 ships fast matrix-vector kernels for all nine i-quant formats on its WebGPU path, covering Apple, NVIDIA, AMD, and Intel GPUs. https://github.com/ggml-org/llama.cpp/releases/tag/b8951 #AI #AgentWyre",
-          "author": {
-            "handle": "agentwyre.ai"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-27T19:08:22.275025+00:00",
-          "createdUtc": 1777316902,
-          "ageHours": 5,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "ggml-org/llama.cpp",
+              "fullName": "openclaw/openclaw",
               "matchType": "url",
               "confidence": 1
             }
@@ -342,50 +55,51 @@
         }
       ]
     },
-    "vercel-labs/skills": {
+    "microsoft/VibeVoice": {
       "count7d": 1,
-      "likesSum7d": 2,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:vtp52kel3fhn2pgwb36ebnev/app.bsky.feed.post/3mkisziqzy22z",
-        "cid": "bafyreig5og25dqlwbh7bbaeui4xjrt7qcrhgo5gitqltbsouowctwfdl5a",
-        "bskyUrl": "https://bsky.app/profile/jays.name/post/3mkisziqzy22z",
-        "text": "I've got a personal repo where I manage user-scoped skills, mcp.json. I use github.com/vercel-labs/... for \"install skill\", either from local filepath or from git URL. I have a package.json-like file listing each skill I install. I have a script that parses that file and syncs them all.",
+        "uri": "at://did:plc:kft6lu4trxowqmter2b6vg6z/app.bsky.feed.post/3mkjipql35c2u",
+        "cid": "bafyreid73qufxofa3exvfizznfrzmv7qvj2pjjsryjcpswcdkigyzvcjyy",
+        "bskyUrl": "https://bsky.app/profile/simonwillison.net/post/3mkjipql35c2u",
+        "text": "They have a different model for that which I haven't tried yet github.com/microsoft/Vi...",
         "author": {
-          "handle": "jays.name",
-          "displayName": "Jay Gruber"
+          "handle": "simonwillison.net",
+          "displayName": "Simon Willison"
         },
-        "likeCount": 2,
+        "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-04-27T19:37:32.242Z",
-        "hoursSincePosted": 4.52
+        "replyCount": 0,
+        "createdAt": "2026-04-28T02:05:47.218Z",
+        "hoursSincePosted": 2.04
       },
       "posts": [
         {
-          "uri": "at://did:plc:vtp52kel3fhn2pgwb36ebnev/app.bsky.feed.post/3mkisziqzy22z",
-          "cid": "bafyreig5og25dqlwbh7bbaeui4xjrt7qcrhgo5gitqltbsouowctwfdl5a",
-          "bskyUrl": "https://bsky.app/profile/jays.name/post/3mkisziqzy22z",
-          "text": "I've got a personal repo where I manage user-scoped skills, mcp.json. I use github.com/vercel-labs/... for \"install skill\", either from local filepath or from git URL. I have a package.json-like file listing each skill I install. I have a script that parses that file and syncs them all.",
+          "uri": "at://did:plc:kft6lu4trxowqmter2b6vg6z/app.bsky.feed.post/3mkjipql35c2u",
+          "cid": "bafyreid73qufxofa3exvfizznfrzmv7qvj2pjjsryjcpswcdkigyzvcjyy",
+          "bskyUrl": "https://bsky.app/profile/simonwillison.net/post/3mkjipql35c2u",
+          "text": "They have a different model for that which I haven't tried yet github.com/microsoft/Vi...",
           "author": {
-            "handle": "jays.name",
-            "displayName": "Jay Gruber"
+            "handle": "simonwillison.net",
+            "displayName": "Simon Willison"
           },
-          "likeCount": 2,
+          "likeCount": 1,
           "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-04-27T19:37:32.242Z",
-          "createdUtc": 1777318652,
-          "ageHours": 4.52,
-          "trendingScore": 2.5,
+          "replyCount": 0,
+          "createdAt": "2026-04-28T02:05:47.218Z",
+          "createdUtc": 1777341947,
+          "ageHours": 2.04,
+          "trendingScore": 1,
           "content_tags": [
-            "has-github-repo"
+            "has-github-repo",
+            "has-md-file"
           ],
-          "value_score": 1,
+          "value_score": 2,
           "linkedRepos": [
             {
-              "fullName": "vercel-labs/skills",
+              "fullName": "microsoft/VibeVoice",
               "matchType": "url",
               "confidence": 1
             }
@@ -393,42 +107,42 @@
         }
       ]
     },
-    "garrytan/gbrain": {
+    "angelnicolasc/graymatter": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:m3pltlzpmme735m4yh7ueqx5/app.bsky.feed.post/3mkis5ndjvi2z",
-        "cid": "bafyreiakreqhcg3uumq6cjrhgwzjgii6rmcmp5rwgvoagvro5la2zsywki",
-        "bskyUrl": "https://bsky.app/profile/garrytan-mir-rt.selfhosted.social/post/3mkis5ndjvi2z",
-        "text": "RT @sergioduran89: Spent ~48h this weekend connecting gbrain @garrytan to ALL my Claudes: 🖥️ Desktop ✅ 🌐 web + Cowork ✅ 📱 mobile ✅ ⌨️ Code (CLI) ✅ Closes \"planned but not yet implemented\" in DEPLOY.md. PR: <http://github.com/garrytan/gbrain/pull/481>",
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkjh7tqsvo2s",
+        "cid": "bafyreibhq5uwhwlxbcjujapeumjmpigdqaa4zsf5qeeqgnrk62l3mhqxou",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkjh7tqsvo2s",
+        "text": "https://github.com/angelnicolasc/graymatter",
         "author": {
-          "handle": "garrytan-mir-rt.selfhosted.social",
-          "displayName": "Retweeted by Garry Tan [UNOFFICIAL]"
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-04-27T19:09:37.000Z",
-        "hoursSincePosted": 4.98
+        "createdAt": "2026-04-28T01:38:59Z",
+        "hoursSincePosted": 2.49
       },
       "posts": [
         {
-          "uri": "at://did:plc:m3pltlzpmme735m4yh7ueqx5/app.bsky.feed.post/3mkis5ndjvi2z",
-          "cid": "bafyreiakreqhcg3uumq6cjrhgwzjgii6rmcmp5rwgvoagvro5la2zsywki",
-          "bskyUrl": "https://bsky.app/profile/garrytan-mir-rt.selfhosted.social/post/3mkis5ndjvi2z",
-          "text": "RT @sergioduran89: Spent ~48h this weekend connecting gbrain @garrytan to ALL my Claudes: 🖥️ Desktop ✅ 🌐 web + Cowork ✅ 📱 mobile ✅ ⌨️ Code (CLI) ✅ Closes \"planned but not yet implemented\" in DEPLOY.md. PR: <http://github.com/garrytan/gbrain/pull/481>",
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkjh7tqsvo2s",
+          "cid": "bafyreibhq5uwhwlxbcjujapeumjmpigdqaa4zsf5qeeqgnrk62l3mhqxou",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkjh7tqsvo2s",
+          "text": "https://github.com/angelnicolasc/graymatter",
           "author": {
-            "handle": "garrytan-mir-rt.selfhosted.social",
-            "displayName": "Retweeted by Garry Tan [UNOFFICIAL]"
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-04-27T19:09:37.000Z",
-          "createdUtc": 1777316977,
-          "ageHours": 4.98,
+          "createdAt": "2026-04-28T01:38:59Z",
+          "createdUtc": 1777340339,
+          "ageHours": 2.49,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -436,58 +150,7 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "garrytan/gbrain",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "retlehs/quien": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:n2wtla6czvo6xdohffxnarld/app.bsky.feed.post/3mkir6y55bg2a",
-        "cid": "bafyreigtmqomji4iyayq4dp6564e4d3t6kor4yueep3sdxqsd2ykfs2rhq",
-        "bskyUrl": "https://bsky.app/profile/winsontang.com/post/3mkir6y55bg2a",
-        "text": "Discover Quien, the innovative WHOIS lookup tool designed to make domain information retrieval easier and more efficient. Say goodbye to complicated searches and hello to streamlined results. Explore its features and enhance your domain management today! https://github.com/retlehs/quien/",
-        "author": {
-          "handle": "winsontang.com",
-          "displayName": "Winson Tang"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-27T19:04:48.613Z",
-        "hoursSincePosted": 5.06
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:n2wtla6czvo6xdohffxnarld/app.bsky.feed.post/3mkir6y55bg2a",
-          "cid": "bafyreigtmqomji4iyayq4dp6564e4d3t6kor4yueep3sdxqsd2ykfs2rhq",
-          "bskyUrl": "https://bsky.app/profile/winsontang.com/post/3mkir6y55bg2a",
-          "text": "Discover Quien, the innovative WHOIS lookup tool designed to make domain information retrieval easier and more efficient. Say goodbye to complicated searches and hello to streamlined results. Explore its features and enhance your domain management today! https://github.com/retlehs/quien/",
-          "author": {
-            "handle": "winsontang.com",
-            "displayName": "Winson Tang"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-27T19:04:48.613Z",
-          "createdUtc": 1777316688,
-          "ageHours": 5.06,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "retlehs/quien",
+              "fullName": "angelnicolasc/graymatter",
               "matchType": "url",
               "confidence": 1
             }
@@ -498,37 +161,17 @@
   },
   "leaderboard": [
     {
-      "fullName": "endevco/aube",
-      "count7d": 1,
-      "likesSum7d": 2
-    },
-    {
-      "fullName": "vercel-labs/skills",
-      "count7d": 1,
-      "likesSum7d": 2
-    },
-    {
-      "fullName": "getagentseal/codeburn",
+      "fullName": "microsoft/VibeVoice",
       "count7d": 1,
       "likesSum7d": 1
     },
     {
-      "fullName": "JuliusBrussee/caveman",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "ggml-org/llama.cpp",
-      "count7d": 6,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "garrytan/gbrain",
+      "fullName": "angelnicolasc/graymatter",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "retlehs/quien",
+      "fullName": "openclaw/openclaw",
       "count7d": 1,
       "likesSum7d": 0
     }

@@ -13,8 +13,9 @@ import {
 } from "./_fetch-json.mjs";
 
 // Real-browser UA — Reddit's anti-bot started 403'ing the previous
-// "StarScreener/0.1 …" identifier from GitHub Actions IPs around
-// 2026-04-23. Without this, the public-JSON fallback path is dead.
+// "TrendingRepo/0.2 …" identifier (formerly "StarScreener/0.1 …") from
+// GitHub Actions IPs around 2026-04-23. Without this, the public-JSON
+// fallback path is dead.
 // (The OAuth path identifies properly via client credentials and uses a
 // dedicated UA at request time, so this only affects unauth scraping.)
 const DEFAULT_USER_AGENT =

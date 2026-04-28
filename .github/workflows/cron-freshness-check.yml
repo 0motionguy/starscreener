@@ -7,7 +7,7 @@ name: Cron - freshness check
 # up before a user notices stale data.
 #
 # Required repo config:
-#   vars.STARSCREENER_URL   — optional; defaults to prod URL
+#   vars.TRENDINGREPO_URL  — optional; defaults to prod URL (legacy: vars.STARSCREENER_URL)
 
 on:
   schedule:
@@ -22,7 +22,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  BASE_URL: ${{ vars.STARSCREENER_URL || 'https://trendingrepo.com' }}
+  BASE_URL: ${{ vars.TRENDINGREPO_URL || vars.STARSCREENER_URL || 'https://trendingrepo.com' }}
 
 jobs:
   run:

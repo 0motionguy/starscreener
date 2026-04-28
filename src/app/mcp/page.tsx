@@ -5,15 +5,17 @@ import {
   SignalSourcePage,
   type SignalTabSpec,
 } from "@/components/signal/SignalSourcePage";
-import type { SignalMetricCardProps } from "@/components/signal/SignalMetricCard";
 import {
   ecosystemBoardToRows,
-  formatCompact,
   getMcpSignalData,
   type EcosystemBoard,
 } from "@/lib/ecosystem-leaderboards";
 import { classifyFreshness } from "@/lib/news/freshness";
 import { absoluteUrl } from "@/lib/seo";
+import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
+import { buildEcosystemHeader } from "@/components/signal/ecosystemTopHeader";
+
+const MCP_ACCENT = "rgba(58, 214, 197, 0.85)";
 
 export const dynamic = "force-dynamic";
 
@@ -35,44 +37,34 @@ export default async function McpPage() {
   const freshness = classifyFreshness("mcp", data.fetchedAt);
   const rows = ecosystemBoardToRows(data.board);
 
-  const metrics: SignalMetricCardProps[] = [
-    {
-      label: "MCP Servers",
-      value: data.board.items.length,
-      helper: sourceHelper(data.board),
-      sparkTone: "brand",
+  const { cards, topStories } = buildEcosystemHeader({
+    items: data.board.items,
+    snapshotEyebrow: "// SNAPSHOT · NOW",
+    snapshotLabel: "MCP SERVERS",
+    snapshotRight: `${data.board.items.length.toLocaleString("en-US")} ITEMS`,
+    volumeEyebrow: "// VOLUME · PER REGISTRY",
+    topicsEyebrow: "// TOPICS · MENTIONED MOST",
+    sourceLabelMap: {
+      "official": "OFCL",
+      "Official": "OFCL",
+      "glama": "GLAMA",
+      "Glama": "GLAMA",
+      "pulsemcp": "PULSE",
+      "PulseMCP": "PULSE",
+      "smithery": "SMTHY",
+      "Smithery": "SMTHY",
     },
-    {
-      label: "Top Signal",
-      value: signalValue(data.board.items[0]),
-      helper: data.board.items[0]?.title ?? "no rows",
-      sparkTone: "up",
-    },
-    {
-      label: "Top Popularity",
-      value: formatCompact(maxPopularity(data.board)),
-      helper: data.board.items[0]?.popularityLabel ?? "registry signal",
-      sparkTone: "warning",
-    },
-    {
-      label: "Surface",
-      value: "4",
-      helper: "official / glama / pulsemcp / smithery",
-      sparkTone: "info",
-    },
-    {
-      label: "Worker Key",
-      value: "MCP",
-      helper: "trending-mcp",
-      sparkTone: "brand",
-    },
-    {
-      label: "Data Tier",
-      value: data.source.toUpperCase(),
-      helper: data.fetchedAt ? freshness.ageLabel : "missing",
-      sparkTone: data.source === "redis" ? "up" : "warning",
-    },
-  ];
+  });
+
+  const topHeader = (
+    <NewsTopHeaderV3
+      eyebrow={`// MCP · ${data.source.toUpperCase()} · ${freshness.ageLabel.toUpperCase()}`}
+      status={`${data.board.items.length.toLocaleString("en-US")} TRACKED · 4 REGISTRIES`}
+      cards={cards}
+      topStories={topStories}
+      accent={MCP_ACCENT}
+    />
+  );
 
   const tabs: SignalTabSpec[] = [
     {
@@ -90,11 +82,11 @@ export default async function McpPage() {
       source="mcp"
       sourceLabel="MCP"
       mode="TRENDING"
-      subtitle="Merged MCP server momentum across official registry, Glama, PulseMCP, and Smithery feeds."
       fetchedAt={data.fetchedAt}
       freshnessStatus={freshness.status}
       ageLabel={freshness.ageLabel}
-      metrics={metrics}
+      metrics={[]}
+      topSlot={topHeader}
       tabs={tabs}
       rightRail={<McpRightRail board={data.board} />}
     />
@@ -169,17 +161,3 @@ function McpRightRail({ board }: { board: EcosystemBoard }) {
   );
 }
 
-function sourceHelper(board: EcosystemBoard): string {
-  return `${board.source} / ${board.key}`;
-}
-
-function signalValue(item: { signalScore: number } | undefined): string {
-  return item ? String(Math.round(item.signalScore)) : "-";
-}
-
-function maxPopularity(board: EcosystemBoard): number | null {
-  const values = board.items
-    .map((item) => item.popularity)
-    .filter((value): value is number => value !== null);
-  return values.length > 0 ? Math.max(...values) : null;
-}

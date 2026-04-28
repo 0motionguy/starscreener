@@ -16,9 +16,13 @@ import {
   blueskyCold,
   refreshBlueskyMentionsFromStore,
   repoFullNameToHref,
+  type BskyPost,
 } from "@/lib/bluesky";
 import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
 import { buildBlueskyHeader } from "@/components/news/newsTopMetrics";
+import { TerminalFeedTable, type FeedColumn } from "@/components/feed/TerminalFeedTable";
+import { EntityLogo } from "@/components/ui/EntityLogo";
+import { repoLogoUrl, userLogoUrl } from "@/lib/logos";
 
 const BSKY_ACCENT = "rgba(58, 214, 197, 0.85)";
 
@@ -41,51 +45,20 @@ export default async function BlueskyTrendingPage() {
   const trendingFile = getBlueskyTrendingFile();
   const posts = getBlueskyTopPosts(50);
   const allPosts = trendingFile.posts;
-  const familyCount = trendingFile.queryFamilies?.length ?? BLUESKY_TRENDING_KEYWORDS.length;
-  const queryCount = trendingFile.queries?.length ?? BLUESKY_TRENDING_KEYWORDS.length;
+  // Reserved — mention counts surface on /research and via SignalTable.
+  void BLUESKY_TRENDING_KEYWORDS;
+  void trendingFile.queries;
+  void trendingFile.queryFamilies;
+
   const cold = blueskyCold || allPosts.length === 0;
 
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
       <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        {/* V3 page header — mono eyebrow + title + tight subtitle. */}
-        <header
-          className="mb-5 pb-4 border-b"
-          style={{ borderColor: "var(--v3-line-100)" }}
-        >
-          <div
-            className="v2-mono mb-2 text-[10px] tracking-[0.18em] uppercase"
-            style={{ color: "var(--v3-ink-400)" }}
-          >
-            {"// AT PROTOCOL · AI QUERY FAMILIES · ENGAGEMENT-RANKED"}
-          </div>
-          <h1
-            className="text-2xl font-bold uppercase tracking-wider"
-            style={{ color: "var(--v3-ink-000)" }}
-          >
-            BLUESKY / ALL TRENDING
-          </h1>
-          <p
-            className="mt-2 text-[13px] leading-relaxed max-w-2xl"
-            style={{ color: "var(--v3-ink-300)" }}
-          >
-            Top posts from Bluesky{" "}
-            <code style={{ color: "var(--v3-ink-100)" }}>searchPosts</code>, deduped
-            across {queryCount} curated query slices in {familyCount} AI topic
-            families plus a parallel{" "}
-            <code style={{ color: "var(--v3-ink-100)" }}>github.com</code>{" "}
-            sweep that surfaces posts mentioning tracked repos. Score:{" "}
-            <code style={{ color: "var(--v3-ink-100)" }}>likes + 2·reposts + 0.5·replies</code>.
-          </p>
-        </header>
-
         {cold ? (
           <ColdState />
         ) : (
           <>
-            {/* V3 top header — 3 charts + 3 hero posts. The legacy stat
-                tiles below this were dropped — the V3 snapshot card +
-                activity bars carry the same numbers in less space. */}
             <div className="mb-6">
               <NewsTopHeaderV3
                 eyebrow="// BLUESKY · TOP POSTS"
@@ -95,109 +68,195 @@ export default async function BlueskyTrendingPage() {
               />
             </div>
 
-            {/* Feed */}
-            <section className="border border-border-primary rounded-md bg-bg-secondary overflow-hidden">
-              <div className="grid grid-cols-[40px_1fr_120px_60px_60px_60px_60px] gap-3 items-center px-3 h-9 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
-                <div>#</div>
-                <div>POST</div>
-                <div>KEYWORD</div>
-                <div className="text-right">♥</div>
-                <div className="text-right">⟲</div>
-                <div className="text-right">CMTS</div>
-                <div className="text-right">AGE</div>
-              </div>
-              <ul>
-                {posts.map((p, i) => {
-                  const linkedRepo = p.linkedRepos?.[0]?.fullName;
-                  const snippet =
-                    p.text.length > 140 ? `${p.text.slice(0, 140)}…` : p.text;
-                  const isHighSignal = p.likeCount >= 50 || p.repostCount >= 5;
-                  const topicLabel = p.matchedTopicLabel ?? p.matchedKeyword;
-                  return (
-                    <li
-                      key={p.uri}
-                      className="grid grid-cols-[40px_1fr_120px_60px_60px_60px_60px] gap-3 items-start px-3 py-2 hover:bg-bg-card-hover border-b border-border-primary/40 last:border-b-0"
-                    >
-                      <div className="text-text-tertiary text-xs tabular-nums pt-0.5">
-                        {i + 1}
-                      </div>
-                      <div className="min-w-0 flex flex-col gap-1">
-                        <a
-                          href={p.bskyUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-sm text-text-primary hover:text-accent-green line-clamp-2"
-                          title={p.text}
-                        >
-                          {snippet}
-                        </a>
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <span
-                            className="text-[10px] text-text-tertiary"
-                            title={
-                              p.author.displayName
-                                ? `${p.author.displayName} (@${p.author.handle})`
-                                : `@${p.author.handle}`
-                            }
-                          >
-                            @{p.author.handle}
-                          </span>
-                          {linkedRepo ? (
-                            <a
-                              href={repoFullNameToHref(linkedRepo)}
-                              className="shrink-0 text-[10px] px-1.5 py-0.5 rounded border border-border-primary text-text-tertiary hover:text-accent-green hover:border-accent-green/50 transition-colors"
-                              title={`Linked repo: ${linkedRepo}`}
-                            >
-                              {linkedRepo}
-                            </a>
-                          ) : null}
-                        </div>
-                      </div>
-                      <div>
-                        {topicLabel ? (
-                          <span
-                            className="inline-flex items-center text-[10px] px-1.5 py-0.5 rounded border font-mono"
-                            style={{
-                              color: BSKY_BLUE,
-                              borderColor: `${BSKY_BLUE}4D`,
-                              backgroundColor: `${BSKY_BLUE}0D`,
-                            }}
-                            title={
-                              p.matchedQuery
-                                ? `Matched topic: ${topicLabel} · query: ${p.matchedQuery}`
-                                : `Matched topic: ${topicLabel}`
-                            }
-                          >
-                            {topicLabel}
-                          </span>
-                        ) : (
-                          <span className="text-text-tertiary text-[10px]">—</span>
-                        )}
-                      </div>
-                      <div
-                        className="text-right text-xs tabular-nums"
-                        style={isHighSignal ? { color: BSKY_BLUE } : undefined}
-                      >
-                        {p.likeCount.toLocaleString("en-US")}
-                      </div>
-                      <div className="text-right text-xs tabular-nums text-text-secondary">
-                        {p.repostCount.toLocaleString("en-US")}
-                      </div>
-                      <div className="text-right text-xs tabular-nums text-text-secondary">
-                        {p.replyCount.toLocaleString("en-US")}
-                      </div>
-                      <div className="text-right text-xs tabular-nums text-text-tertiary">
-                        {formatAgeHours(p.ageHours)}
-                      </div>
-                    </li>
-                  );
-                })}
-              </ul>
-            </section>
+            <BskyPostFeed posts={posts} />
           </>
         )}
       </div>
     </main>
+  );
+}
+
+function BskyPostFeed({ posts }: { posts: BskyPost[] }) {
+  const columns: FeedColumn<BskyPost>[] = [
+    {
+      id: "rank",
+      header: "#",
+      width: "44px",
+      render: (_, i) => (
+        <span
+          className="font-mono text-[12px] tabular-nums font-semibold"
+          style={{ color: i < 10 ? BSKY_BLUE : "var(--v3-ink-400)" }}
+        >
+          {String(i + 1).padStart(2, "0")}
+        </span>
+      ),
+    },
+    {
+      id: "post",
+      header: "Post",
+      render: (p) => {
+        const linkedRepo = p.linkedRepos?.[0]?.fullName;
+        const snippet = p.text.length > 140 ? `${p.text.slice(0, 140)}…` : p.text;
+        const authorAvatar =
+          (p.author as { avatar?: string | null } | null)?.avatar ?? null;
+        return (
+          <div className="flex min-w-0 items-start gap-2">
+            <EntityLogo
+              src={repoLogoUrl(linkedRepo) ?? userLogoUrl(authorAvatar)}
+              name={linkedRepo ?? p.author?.handle ?? p.text}
+              size={20}
+              shape="circle"
+              alt=""
+            />
+            <div className="min-w-0 flex-1">
+            <a
+              href={p.bskyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="line-clamp-2 text-[13px] font-medium transition-colors hover:text-[color:var(--v3-acc)]"
+              style={{ color: "var(--v3-ink-100)" }}
+              title={p.text}
+            >
+              {snippet}
+            </a>
+            <div className="mt-0.5 flex flex-wrap items-center gap-2">
+              <span
+                className="text-[10px]"
+                style={{ color: "var(--v3-ink-400)" }}
+                title={
+                  p.author.displayName
+                    ? `${p.author.displayName} (@${p.author.handle})`
+                    : `@${p.author.handle}`
+                }
+              >
+                @{p.author.handle}
+              </span>
+              {linkedRepo ? (
+                <a
+                  href={repoFullNameToHref(linkedRepo)}
+                  className="v2-mono shrink-0 px-1.5 py-0.5 text-[10px] tracking-[0.14em] uppercase transition-colors hover:text-[color:var(--v3-acc)]"
+                  style={{
+                    border: "1px solid var(--v3-line-200)",
+                    background: "var(--v3-bg-100)",
+                    color: "var(--v3-ink-300)",
+                    borderRadius: 2,
+                  }}
+                  title={`Linked repo: ${linkedRepo}`}
+                >
+                  ↳ {linkedRepo}
+                </a>
+              ) : null}
+            </div>
+            </div>
+          </div>
+        );
+      },
+    },
+    {
+      id: "topic",
+      header: "Topic",
+      width: "130px",
+      hideBelow: "md",
+      render: (p) => {
+        const topicLabel = p.matchedTopicLabel ?? p.matchedKeyword;
+        if (!topicLabel) {
+          return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+        }
+        return (
+          <span
+            className="v2-mono inline-flex max-w-full items-center truncate px-1.5 py-0.5 text-[10px] tracking-[0.14em] uppercase"
+            style={{
+              color: BSKY_BLUE,
+              borderColor: `${BSKY_BLUE}4D`,
+              border: `1px solid ${BSKY_BLUE}4D`,
+              backgroundColor: `${BSKY_BLUE}0D`,
+              borderRadius: 2,
+            }}
+            title={
+              p.matchedQuery
+                ? `Matched topic: ${topicLabel} · query: ${p.matchedQuery}`
+                : `Matched topic: ${topicLabel}`
+            }
+          >
+            {topicLabel}
+          </span>
+        );
+      },
+    },
+    {
+      id: "likes",
+      header: "♥",
+      width: "60px",
+      align: "right",
+      render: (p) => (
+        <span
+          className="font-mono text-[12px] tabular-nums"
+          style={{
+            color:
+              p.likeCount >= 50 || p.repostCount >= 5
+                ? BSKY_BLUE
+                : "var(--v3-ink-100)",
+          }}
+        >
+          {p.likeCount.toLocaleString("en-US")}
+        </span>
+      ),
+    },
+    {
+      id: "reposts",
+      header: "⟲",
+      width: "54px",
+      align: "right",
+      hideBelow: "sm",
+      render: (p) => (
+        <span
+          className="font-mono text-[12px] tabular-nums"
+          style={{ color: "var(--v3-ink-300)" }}
+        >
+          {p.repostCount.toLocaleString("en-US")}
+        </span>
+      ),
+    },
+    {
+      id: "replies",
+      header: "Cmts",
+      width: "54px",
+      align: "right",
+      hideBelow: "md",
+      render: (p) => (
+        <span
+          className="font-mono text-[12px] tabular-nums"
+          style={{ color: "var(--v3-ink-300)" }}
+        >
+          {p.replyCount.toLocaleString("en-US")}
+        </span>
+      ),
+    },
+    {
+      id: "age",
+      header: "Age",
+      width: "60px",
+      align: "right",
+      hideBelow: "md",
+      render: (p) => (
+        <span
+          className="font-mono text-[12px] tabular-nums"
+          style={{ color: "var(--v3-ink-400)" }}
+        >
+          {formatAgeHours(p.ageHours)}
+        </span>
+      ),
+    },
+  ];
+
+  return (
+    <TerminalFeedTable
+      rows={posts}
+      columns={columns}
+      rowKey={(p) => p.uri}
+      accent={BSKY_BLUE}
+      caption="Top Bluesky posts ranked by likes + reposts + replies"
+    />
   );
 }
 
@@ -207,20 +266,31 @@ export default async function BlueskyTrendingPage() {
 
 function ColdState() {
   return (
-    <section className="border border-dashed border-border-primary rounded-md p-8 bg-bg-secondary/40">
-      <h2 className="text-lg font-bold uppercase tracking-wider text-accent-green">
+    <section
+      className="p-8"
+      style={{
+        background: "var(--v3-bg-025)",
+        border: "1px dashed var(--v3-line-100)",
+        borderRadius: 2,
+      }}
+    >
+      <h2
+        className="v2-mono text-lg font-bold uppercase tracking-[0.18em]"
+        style={{ color: BSKY_BLUE }}
+      >
         {"// no data yet"}
       </h2>
-      <p className="mt-3 text-sm text-text-secondary max-w-xl">
+      <p
+        className="mt-3 max-w-xl text-sm"
+        style={{ color: "var(--v3-ink-300)" }}
+      >
         The Bluesky scraper hasn&apos;t run yet. Run{" "}
-        <code className="text-text-primary">npm run scrape:bsky</code> locally
-        (with <code className="text-text-primary">BLUESKY_HANDLE</code> +{" "}
-        <code className="text-text-primary">BLUESKY_APP_PASSWORD</code> in env)
-        to populate{" "}
-        <code className="text-text-primary">
-          data/bluesky-trending.json
-        </code>
-        , then refresh this page.
+        <code style={{ color: "var(--v3-ink-100)" }}>npm run scrape:bsky</code>{" "}
+        locally (with <code style={{ color: "var(--v3-ink-100)" }}>BLUESKY_HANDLE</code>{" "}
+        + <code style={{ color: "var(--v3-ink-100)" }}>BLUESKY_APP_PASSWORD</code>{" "}
+        in env) to populate{" "}
+        <code style={{ color: "var(--v3-ink-100)" }}>data/bluesky-trending.json</code>,
+        then refresh this page.
       </p>
     </section>
   );

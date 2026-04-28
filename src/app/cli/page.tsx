@@ -56,24 +56,26 @@ const CLI_COMMANDS: CliCommand[] = [
   },
 ];
 
-// Live prod endpoint — the CLI reads STARSCREENER_API_URL, so a one-line
-// export gets you real data immediately. Portal v0.1 /portal + /portal/call
-// run against the same base.
-const LIVE_BASE = "https://starscreener.vercel.app";
+// Live prod endpoint — the CLI reads TRENDINGREPO_API_URL (legacy
+// STARSCREENER_API_URL also accepted), so a one-line export gets you real
+// data immediately. Portal v0.1 /portal + /portal/call run against the
+// same base.
+const LIVE_BASE = "https://trendingrepo.com";
 
-const INSTALL_LIVE = `# Pipe straight from the live Vercel deployment
+const INSTALL_LIVE = `# Pipe straight from the live deployment
 npx github:0motionguy/starscreener \\
   trending --window=24h --limit=10
 
 # Or export the API base and keep the command short across a session
-export STARSCREENER_API_URL=${LIVE_BASE}
+export TRENDINGREPO_API_URL=${LIVE_BASE}
+# (legacy STARSCREENER_API_URL also accepted)
 npx github:0motionguy/starscreener trending --limit=5`;
 
 const INSTALL_DEV = `# From a local checkout against npm run dev
 npm run cli:dev -- trending --window=24h --limit=10
 
 # Or run the bin directly
-STARSCREENER_API_URL=${LIVE_BASE} node bin/ss.mjs trending`;
+TRENDINGREPO_API_URL=${LIVE_BASE} node bin/ss.mjs trending`;
 
 const PORTAL_CLI = `# Spec-native Portal v0.1 visitor CLI — works against /portal
 # on any provider that publishes a manifest, not just TrendingRepo.
@@ -140,7 +142,7 @@ export default function CliPage() {
         <p className="text-text-tertiary text-xs mt-2">
           Every command accepts{" "}
           <span className="font-mono text-text-secondary">
-            STARSCREENER_API_URL=https://…
+            TRENDINGREPO_API_URL=https://…
           </span>{" "}
           to point at a non-default API.
         </p>

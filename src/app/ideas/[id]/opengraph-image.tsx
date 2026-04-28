@@ -10,7 +10,7 @@
 //   - Title (massive, up to 2 lines)
 //   - Pitch (truncated ~160 chars, 2-3 lines)
 //   - Reaction counts strip (build/use/buy/invest) when any > 0
-//   - Author handle + targets + STARSCREENER wordmark (bottom)
+//   - Author handle + targets + TRENDINGREPO wordmark (bottom)
 
 import { ImageResponse } from "next/og";
 

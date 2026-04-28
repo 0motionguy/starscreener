@@ -14,6 +14,7 @@
 // Pure server component — every prop is derived data (numbers + strings).
 
 import Link from "next/link";
+import { EntityLogo } from "@/components/ui/EntityLogo";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -80,6 +81,13 @@ export interface NewsHeroStory {
   scoreLabel: string;
   /** Hours since posted; rendered as "<1H", "4H", "2D". null = unknown. */
   ageHours?: number | null;
+  /** Optional logo / avatar URL — repo owner, author, or company. The
+   *  card falls back to a deterministic monogram tile when missing. */
+  logoUrl?: string | null;
+  /** Optional entity name to drive the monogram letter + hue. Defaults
+   *  to the title. Use this for cases where the monogram should reflect
+   *  the byline (`@vercel`) instead of a long story title. */
+  logoName?: string;
 }
 
 export interface NewsTopHeaderV3Props {
@@ -528,7 +536,7 @@ function HeroFeatureCard({
           minHeight: 168,
         }}
       >
-        {/* Top row: source chip + byline + FEATURED tag (top only) */}
+        {/* Top row: source chip + logo + byline + FEATURED tag (top only) */}
         <div className="flex items-center gap-2 v2-mono text-[10px] tracking-[0.18em]">
           <span
             className="px-1.5 py-0.5 shrink-0 inline-flex items-center gap-1"
@@ -542,6 +550,13 @@ function HeroFeatureCard({
           >
             {story.sourceCode}
           </span>
+          <EntityLogo
+            src={story.logoUrl ?? null}
+            name={story.logoName ?? story.byline ?? story.title}
+            size={20}
+            shape="circle"
+            alt=""
+          />
           {story.byline ? (
             <span
               className="truncate min-w-0"

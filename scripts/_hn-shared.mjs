@@ -11,7 +11,7 @@
 // ever an abuse concern. No browser-default UAs.
 
 export const USER_AGENT =
-  "StarScreener/0.1 (+https://github.com/0motionguy/starscreener; local-dev-scrape)";
+  "TrendingRepo/0.2 (+https://github.com/0motionguy/starscreener; local-dev-scrape)";
 
 // Window-batch concurrency: 5 parallel in-flight requests, then a pause.
 // Effective rate: batch_size / (avg_latency + pause). With typical 100-200ms

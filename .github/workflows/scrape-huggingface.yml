@@ -1,0 +1,54 @@
+name: Refresh HuggingFace signals
+
+# Every 3h at :13. Staggered from arxiv (:43), lobsters (:37), reddit (:27),
+# bluesky (:17), and fast-discovery (:07/:27/:47) so we don't all hit
+# upstream + git push at the same minute. HF's API is generous; 3h matches
+# the trending half-life on the site without burning rate budget.
+on:
+  schedule:
+    - cron: "13 */3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: huggingface-refresh
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Refresh HuggingFace trending models
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+        run: node scripts/scrape-huggingface.mjs
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "trendingrepo-bot"
+          git config user.email "bot@trendingrepo.com"
+          git add data/huggingface-trending.json
+          if git diff --quiet --staged; then
+            echo "no changes - skipping commit"
+            exit 0
+          fi
+          TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          git commit -m "chore(data): refresh huggingface signals ${TS}"
+          git pull --rebase origin main
+          git push

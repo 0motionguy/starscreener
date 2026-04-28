@@ -1,0 +1,80 @@
+name: sentry-fix-bot
+
+# Trigger: Sentry's GitHub integration creates an issue with the
+# `sentry-error` label whenever a new error fingerprint surfaces.
+# This workflow turns the label-add event into a Claude Code agent
+# dispatch — agent reads the stack trace, locates the file, drafts
+# a minimal fix, and opens a PR.
+#
+# Pre-requisites (one-time setup):
+#   1. Sentry → Project → Integrations → GitHub: enable issue
+#      auto-creation, label = "sentry-error", rate-limit 1/fingerprint/24h.
+#   2. GitHub repo → Settings → Actions → General: "Read and write
+#      permissions" + allow workflows to create PRs.
+#   3. Install Anthropic's Claude Code Action
+#      (https://github.com/anthropics/claude-code-action), add
+#      ANTHROPIC_API_KEY to repo secrets. The action listens for
+#      `@claude` mentions; this workflow plants one as a comment.
+#
+# Special note for Starscreener: errors fall into two buckets —
+#   - Next.js app errors (route handlers, RSC) → standard fix path
+#   - Cron scrape-script errors (HN/Reddit/Bluesky/PH adapters) →
+#     these come from scripts/scrape-*.mjs; they often need adapter-
+#     specific knowledge (rate-limit headers, schema drift). The
+#     prompt below routes those by inspecting the source tag.
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  dispatch-agent:
+    if: github.event.label.name == 'sentry-error'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Plant @claude prompt with stack-trace context
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          gh issue comment "$ISSUE_NUMBER" --body "$(cat <<'BODY'
+          @claude — Sentry surfaced this error in production. Please act on it:
+
+          1. **Read the stack trace + tagged file paths + Sentry tags** above.
+             - If \`tag:source\` is set (bluesky / reddit / hackernews / etc.),
+               this is a cron scrape-script error — start at \`scripts/scrape-<source>.mjs\`
+               and \`scripts/_<source>-shared.mjs\`.
+             - If \`tag:runtime\` is \`browser\`, it's a client-side error in the
+               Next app — start at the topmost frame in \`src/\`.
+             - If \`tag:runtime\` is \`nodejs\` or \`edge\`, it's a server route
+               or middleware — same starting point.
+          2. **Open the suspect file**, read enough context to be confident.
+             Check git blame on the suspect line.
+          3. **Draft a minimal fix.** Smallest correct change. Don't refactor
+             surrounding code. Watch for the patterns Mirko has corrected before:
+             - Rate-limit responses must respect \`Retry-After\` (Bluesky scraper
+               is the canonical example, \`scripts/_bluesky-shared.mjs\`).
+             - Schema-validate third-party responses (Zod) before persisting.
+             - Distinguish "0 items" from "transport failed" via \`data/_meta/\`.
+          4. **Open a PR** with:
+             - Title: \`fix(sentry): <one-line fingerprint summary>\`
+             - Body: root cause + change in 2 sentences. \`Closes #'$ISSUE_NUMBER'\`.
+             - Add or extend a test under \`scripts/__tests__/\` or \`src/lib/.../*.test.ts\`
+               if reachable from one.
+          5. **Verify clean before pushing**: \`npm run verify\` must succeed
+             (typecheck + tests + build).
+          6. **If you can't find the root cause**, post a comment listing what
+             you ruled out + next step for a human. Don't guess.
+
+          Constraints:
+          - Don't reintroduce patterns already noted in CLAUDE.md.
+          - If the fix touches > 3 files, stop and request human review.
+          - Pre-commit hook will run \`lint:zod-routes\` for mutating routes —
+            don't bypass it.
+          BODY
+          )"

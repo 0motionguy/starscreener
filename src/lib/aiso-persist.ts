@@ -26,6 +26,7 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 
 import type { AisoToolsScan } from "./aiso-tools";
+import { readEnv } from "./env";
 import {
   withFileLock,
 } from "./pipeline/storage/file-persistence";
@@ -40,16 +41,19 @@ import type {
 // ---------------------------------------------------------------------------
 
 const DEFAULT_RELATIVE_PATH = "data/repo-profiles.json";
-const PATH_ENV = "STARSCREENER_REPO_PROFILES_PATH";
 
 /**
- * Absolute path to `repo-profiles.json`. Resolves `STARSCREENER_REPO_PROFILES_PATH`
+ * Absolute path to `repo-profiles.json`. Resolves
+ * `TRENDINGREPO_REPO_PROFILES_PATH` (legacy: `STARSCREENER_REPO_PROFILES_PATH`)
  * at every call so a test that mutates the env after module-load still
  * lands I/O in the right place. Defaults to `<cwd>/data/repo-profiles.json`
  * which matches `scripts/enrich-repo-profiles.mjs` and `src/lib/repo-profiles.ts`.
  */
 export function repoProfilesPath(): string {
-  const raw = process.env[PATH_ENV];
+  const raw = readEnv(
+    "TRENDINGREPO_REPO_PROFILES_PATH",
+    "STARSCREENER_REPO_PROFILES_PATH",
+  );
   if (raw && raw.trim().length > 0) {
     const trimmed = raw.trim();
     return path.isAbsolute(trimmed)

@@ -3,6 +3,7 @@ import { z } from "zod";
 
 import { verifyCronAuth } from "@/lib/api/auth";
 import { parseBody } from "@/lib/api/parse-body";
+import { readEnv } from "@/lib/env-helpers";
 import { runRepoIntakeForSubmission } from "@/lib/repo-intake";
 import {
   listRepoSubmissions,
@@ -82,7 +83,8 @@ export async function POST(
       process.env.NODE_ENV !== "production" ||
       verifyCronAuth(request).kind === "ok";
     const autoTriggerEnabled =
-      process.env.STARSCREENER_AUTO_INTAKE !== "false";
+      readEnv("TRENDINGREPO_AUTO_INTAKE", "STARSCREENER_AUTO_INTAKE") !==
+      "false";
     const triggerableSubmission =
       result.kind === "created" ||
       (result.kind === "duplicate" &&

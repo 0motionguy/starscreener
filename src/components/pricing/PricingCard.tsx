@@ -3,6 +3,8 @@
 // Renders on the server so the pricing page ships without a JS bundle tax.
 // All copy comes from the tier definition; this component is a dumb layout.
 
+import Link from "next/link";
+
 import type { BillingCadence, TierDefinition } from "@/lib/pricing/tiers";
 
 export interface PricingCardProps {
@@ -104,6 +106,15 @@ export function PricingCard({ tier, cadence, highlighted = false }: PricingCardP
   const borderClass = highlighted
     ? "border-[color:var(--v2-acc)]"
     : "border-[color:var(--v2-line-200)]";
+  const ctaClassName = `v2-btn block w-full text-center ${
+    highlighted ? "v2-btn-primary" : "v2-btn-ghost"
+  }`;
+  const ctaContent = (
+    <>
+      {tier.ctaLabel.toUpperCase()}
+      <span aria-hidden style={{ marginLeft: 8 }}>-&gt;</span>
+    </>
+  );
 
   return (
     <article
@@ -197,16 +208,19 @@ export function PricingCard({ tier, cadence, highlighted = false }: PricingCardP
       </ul>
 
       <footer>
-        <a
-          href={tier.ctaHref}
-          className={`v2-btn block w-full text-center ${
-            highlighted ? "v2-btn-primary" : "v2-btn-ghost"
-          }`}
-          style={{ minHeight: 42 }}
-        >
-          {tier.ctaLabel.toUpperCase()}
-          <span aria-hidden style={{ marginLeft: 8 }}>→</span>
-        </a>
+        {tier.ctaHref.startsWith("/") ? (
+          <Link
+            href={tier.ctaHref}
+            className={ctaClassName}
+            style={{ minHeight: 42 }}
+          >
+            {ctaContent}
+          </Link>
+        ) : (
+          <a href={tier.ctaHref} className={ctaClassName} style={{ minHeight: 42 }}>
+            {ctaContent}
+          </a>
+        )}
       </footer>
     </article>
   );

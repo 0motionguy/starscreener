@@ -48,31 +48,31 @@ function tierFor(ratio: number, breakoutCount: number): Tier {
   if (breakoutCount >= 3 || ratio > 5) {
     return {
       label: "BREAKOUT",
-      badgeBg: "rgba(255, 102, 0, 0.18)",
-      badgeFg: "#ff6600",
+      badgeBg: "var(--v3-tier-breakout-glow)",
+      badgeFg: "var(--v3-tier-breakout-fill)",
       arrow: "↑",
     };
   }
   if (ratio > 1.3) {
     return {
       label: "HEATING",
-      badgeBg: "rgba(16, 185, 129, 0.18)",
-      badgeFg: "#10B981",
+      badgeBg: "var(--v3-tier-heating-glow)",
+      badgeFg: "var(--v3-tier-heating-fill)",
       arrow: "↑",
     };
   }
   if (ratio >= 0.7) {
     return {
       label: "STABLE",
-      badgeBg: "rgba(45, 90, 61, 0.25)",
-      badgeFg: "#22c55e",
+      badgeBg: "var(--v3-tier-stable-glow)",
+      badgeFg: "var(--v3-tier-heating-end)",
       arrow: "→",
     };
   }
   return {
     label: "COOLING",
-    badgeBg: "rgba(107, 123, 141, 0.20)",
-    badgeFg: "#94a3b8",
+    badgeBg: "var(--v3-tier-cooling-glow)",
+    badgeFg: "var(--v3-tier-cooling-end)",
     arrow: "↓",
   };
 }

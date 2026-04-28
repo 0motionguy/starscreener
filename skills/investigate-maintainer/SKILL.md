@@ -1,15 +1,15 @@
 ---
 name: investigate-maintainer
-description: Use when the user wants to understand what a specific GitHub maintainer is up to — "who is this person/org", "what else have they shipped", "which of their repos are moving right now". Produces a one-page profile with their owned repos ranked by momentum. Requires the Star Screener Portal or @starscreener/mcp to be reachable.
+description: Use when the user wants to understand what a specific GitHub maintainer is up to — "who is this person/org", "what else have they shipped", "which of their repos are moving right now". Produces a one-page profile with their owned repos ranked by momentum. Requires the TrendingRepo Portal or trendingrepo-mcp to be reachable.
 license: MIT
 metadata:
   version: "0.1.0"
-  source: starscreener.xyz
+  source: trendingrepo.com
 ---
 
 # Investigate a GitHub maintainer
 
-This skill walks through a single handle (e.g. `anthropics`, `vercel`, `All-Hands-AI`) and produces a compact "what are they shipping" brief grounded in Star Screener's index. It is intentionally narrow: it does NOT attempt to summarize the maintainer's whole GitHub presence, only what Star Screener already tracks.
+This skill walks through a single handle (e.g. `anthropics`, `vercel`, `All-Hands-AI`) and produces a compact "what are they shipping" brief grounded in TrendingRepo's index. It is intentionally narrow: it does NOT attempt to summarize the maintainer's whole GitHub presence, only what TrendingRepo already tracks.
 
 ## When to use it
 
@@ -21,8 +21,8 @@ Trigger on questions like:
 
 Do **not** use this skill for:
 
-- A general GitHub profile lookup — Star Screener's index is curated, not exhaustive.
-- A single repo deep-dive — use `get_repo` from `@starscreener/mcp` or the `screen-trending-repos` skill.
+- A general GitHub profile lookup — TrendingRepo's index is curated, not exhaustive.
+- A single repo deep-dive — use `get_repo` from `trendingrepo-mcp` or the `screen-trending-repos` skill.
 
 ## Tools it calls
 
@@ -32,12 +32,12 @@ Do **not** use this skill for:
 
 ## Step-by-step playbook
 
-1. **Normalize the handle.** GitHub usernames are case-insensitive; Star Screener's data preserves canonical casing. Pass the handle as the user wrote it; the tool normalizes internally.
+1. **Normalize the handle.** GitHub usernames are case-insensitive; TrendingRepo's data preserves canonical casing. Pass the handle as the user wrote it; the tool normalizes internally.
 2. **Call `maintainer_profile`.**
    - On success: jump to step 4.
    - On `NOT_FOUND`: jump to step 3 (fallback).
    - On `INVALID_PARAMS`: the handle didn't match GitHub's username rules. Tell the user the exact reason from the error envelope.
-3. **Fallback search.** Call `search_repos({ query: "<handle>" })` to see if any indexed repos mention the handle. If zero hits, tell the user: "Star Screener's index has no repos owned by or referencing `<handle>`. The index is curated, not comprehensive — the maintainer may still be active on GitHub but isn't in our trending set." Stop here.
+3. **Fallback search.** Call `search_repos({ query: "<handle>" })` to see if any indexed repos mention the handle. If zero hits, tell the user: "TrendingRepo's index has no repos owned by or referencing `<handle>`. The index is curated, not comprehensive — the maintainer may still be active on GitHub but isn't in our trending set." Stop here.
 4. **Digest the profile.** Check `scope_note` and pass its gist along so the user knows we're reporting from the curated index, not live GitHub. Present in this order:
    - One-line summary: `<handle> — <repo_count> tracked repos, <total_stars> total stars, +<total_stars_delta_7d> this week.`
    - Language mix (the `languages` array), sorted desc by repo count — report the top 3.
@@ -67,11 +67,11 @@ Top repos:
 
 Signal: 3 of 4 tracked repos gaining; the TS SDK had the biggest jump, likely tied to their release.
 
-(Scope: derived from repos Star Screener indexes where owner == "anthropics". The maintainer may have
+(Scope: derived from repos TrendingRepo indexes where owner == "anthropics". The maintainer may have
 other repos on GitHub that aren't in the index.)
 ```
 
 ## Reference
 
 - Portal spec: https://visitportal.dev
-- Star Screener docs: https://starscreener.xyz/docs/protocols/portal
+- TrendingRepo docs: https://trendingrepo.com/docs/protocols/portal

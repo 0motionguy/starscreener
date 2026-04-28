@@ -1,15 +1,15 @@
 ---
 name: weekly-report
-description: Use when the user asks for a "weekly GitHub ecosystem report", a roundup, or a Monday-morning brief. Synthesizes top_gainers + a few maintainer_profile checks into a compact one-page report grouped by theme. Requires the Star Screener Portal or @starscreener/mcp to be reachable.
+description: Use when the user asks for a "weekly GitHub ecosystem report", a roundup, or a Monday-morning brief. Synthesizes top_gainers + a few maintainer_profile checks into a compact one-page report grouped by theme. Requires the TrendingRepo Portal or trendingrepo-mcp to be reachable.
 license: MIT
 metadata:
   version: "0.1.0"
-  source: starscreener.xyz
+  source: trendingrepo.com
 ---
 
 # Weekly GitHub ecosystem report
 
-This skill produces a Monday-morning brief: a compact, theme-grouped report of what moved in the GitHub ecosystem over the last 7 days, grounded entirely in Star Screener's index. Use it when the user wants a shareable summary, not an interactive exploration.
+This skill produces a Monday-morning brief: a compact, theme-grouped report of what moved in the GitHub ecosystem over the last 7 days, grounded entirely in TrendingRepo's index. Use it when the user wants a shareable summary, not an interactive exploration.
 
 ## When to use it
 
@@ -47,7 +47,7 @@ Do **not** use this skill for:
 - Length cap: ~300 words unless the user explicitly asked for more.
 - No emojis unless the user's message contained them.
 - Code blocks only for repo names/slugs, never for prose.
-- Include a `Source:` line at the bottom crediting Star Screener with the date of the pull (e.g. `Source: starscreener.xyz, pulled 2026-04-19`).
+- Include a `Source:` line at the bottom crediting TrendingRepo with the date of the pull (e.g. `Source: trendingrepo.com, pulled 2026-04-19`).
 
 ## What to refuse
 
@@ -74,10 +74,10 @@ Rust Ecosystem (4 repos, +900 stars):
 
 Signal: AI agent tooling dominated — 5 of the top 10 were agent frameworks or agent infra.
 
-Source: starscreener.xyz, pulled 2026-04-19.
+Source: trendingrepo.com, pulled 2026-04-19.
 ```
 
 ## Reference
 
 - Portal spec: https://visitportal.dev
-- Star Screener docs: https://starscreener.xyz/docs/protocols/skills
+- TrendingRepo docs: https://trendingrepo.com/docs/protocols/skills

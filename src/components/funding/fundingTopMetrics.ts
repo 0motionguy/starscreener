@@ -15,6 +15,7 @@ import type {
 } from "@/components/news/NewsTopHeaderV3";
 import {
   activityBars,
+  applyCompactV1,
   compactNumber,
 } from "@/components/news/newsTopMetrics";
 import type {
@@ -77,53 +78,55 @@ export function buildFundingHeader(
       ? Math.round((stats.extractedSignals / stats.totalSignals) * 100)
       : 0;
 
-  const cards: [NewsMetricCard, NewsMetricCard, NewsMetricCard] = [
-    {
-      variant: "snapshot",
-      title: "// SNAPSHOT · NOW",
-      rightLabel: `${stats.totalSignals} SIGNALS`,
-      label: "ROUNDS TRACKED",
-      value: compactNumber(stats.totalSignals),
-      hint: `${stats.thisWeekCount} THIS WEEK`,
-      rows: [
-        {
-          // Includes round type so the dollar figure has identity ("$50M
-          // SERIES B" not just "$50M"). Falls back to amount alone when the
-          // extractor couldn't pin a round type.
-          label: "TOP ROUND",
-          value: formatTopRound(stats.topRound),
-          tone: "accent",
-        },
-        {
-          label: "EXTRACTED",
-          value: `${extractedRatio}%`,
-        },
-        {
-          label: "AGGREGATE",
-          value:
-            stats.totalAmountUsd && stats.totalAmountUsd > 0
-              ? `$${compactNumber(stats.totalAmountUsd)}`
-              : "—",
-        },
-      ],
-    },
-    {
-      variant: "bars",
-      title: "// ACTIVITY · LAST 24H",
-      rightLabel: "PER 4H",
-      bars: activity,
-      labelWidth: 48,
-      emptyText: "NO RECENT SIGNALS",
-    },
-    {
-      variant: "bars",
-      title: "// ROUNDS · DISTRIBUTION",
-      rightLabel: `TOP ${roundBars.length}`,
-      bars: roundBars,
-      labelWidth: 88,
-      emptyText: "NO STRUCTURED ROUNDS",
-    },
-  ];
+  const cards: [NewsMetricCard, NewsMetricCard, NewsMetricCard] = applyCompactV1(
+    [
+      {
+        variant: "snapshot",
+        title: "// SNAPSHOT · NOW",
+        rightLabel: `${stats.totalSignals} SIGNALS`,
+        label: "ROUNDS TRACKED",
+        value: compactNumber(stats.totalSignals),
+        hint: `${stats.thisWeekCount} THIS WEEK`,
+        rows: [
+          {
+            // Includes round type so the dollar figure has identity ("$50M
+            // SERIES B" not just "$50M"). Falls back to amount alone when the
+            // extractor couldn't pin a round type.
+            label: "TOP ROUND",
+            value: formatTopRound(stats.topRound),
+            tone: "accent",
+          },
+          {
+            label: "EXTRACTED",
+            value: `${extractedRatio}%`,
+          },
+          {
+            label: "AGGREGATE",
+            value:
+              stats.totalAmountUsd && stats.totalAmountUsd > 0
+                ? `$${compactNumber(stats.totalAmountUsd)}`
+                : "—",
+          },
+        ],
+      },
+      {
+        variant: "bars",
+        title: "// VOLUME · LAST 24H",
+        bars: [],
+        labelWidth: 48,
+        emptyText: "NO RECENT SIGNALS",
+      },
+      {
+        variant: "bars",
+        title: "// ROUNDS · DISTRIBUTION",
+        rightLabel: `TOP ${roundBars.length}`,
+        bars: roundBars,
+        labelWidth: 88,
+        emptyText: "NO STRUCTURED ROUNDS",
+      },
+    ],
+    { activity, topics: roundBars, totalItems: stats.totalSignals },
+  );
 
   // Heroes: prefer biggest extracted amount, fall back to freshest.
   const sorted = signals.slice().sort((a, b) => {

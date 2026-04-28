@@ -87,7 +87,7 @@ export interface WebhookFlushTestOverrides {
 // global registry on every request — fine for prod (no overrides set)
 // but unnecessary work and a footgun (any module could plant overrides).
 // Gate the lookup on NODE_ENV === "test" so prod skips the read entirely.
-const WEBHOOK_FLUSH_TEST_KEY = Symbol.for("starscreener.webhooks.flush.test");
+const WEBHOOK_FLUSH_TEST_KEY = Symbol.for("trendingrepo.webhooks.flush.test");
 
 interface OverrideBag {
   overrides?: WebhookFlushTestOverrides;

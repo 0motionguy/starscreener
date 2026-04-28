@@ -24,6 +24,7 @@
 import { writeFile, mkdir, readFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 import "./_load-env.mjs";
 import {
   SUBREDDITS,
@@ -994,8 +995,32 @@ const invokedPath = process.argv[1] ? resolve(process.argv[1]) : null;
 const modulePath = fileURLToPath(import.meta.url);
 
 if (invokedPath && resolve(invokedPath) === resolve(modulePath)) {
-  main().catch((err) => {
-    console.error("scrape-reddit failed:", err.message ?? err);
-    process.exit(1);
-  });
+  // T2.6: metadata sidecar — distinguishes outage from quiet day.
+  const startedAt = Date.now();
+  main()
+    .then(async () => {
+      try {
+        await writeSourceMetaFromOutcome({
+          source: "reddit",
+          count: 1,
+          durationMs: Date.now() - startedAt,
+        });
+      } catch (metaErr) {
+        console.error("[meta] reddit.json write failed:", metaErr);
+      }
+    })
+    .catch(async (err) => {
+      console.error("scrape-reddit failed:", err.message ?? err);
+      try {
+        await writeSourceMetaFromOutcome({
+          source: "reddit",
+          count: 0,
+          durationMs: Date.now() - startedAt,
+          error: err,
+        });
+      } catch (metaErr) {
+        console.error("[meta] reddit.json error-write failed:", metaErr);
+      }
+      process.exit(1);
+    });
 }

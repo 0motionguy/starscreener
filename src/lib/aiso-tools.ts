@@ -1,3 +1,5 @@
+import { readEnv } from "@/lib/env-helpers";
+
 export type AisoScanStatus = "queued" | "running" | "completed" | "failed";
 
 export interface AisoToolsDimension {
@@ -103,7 +105,7 @@ const memoryCache = new Map<
 >();
 
 function normalizeBaseUrl(): string | null {
-  if (process.env.STARSCREENER_AISO_AUTO_SCAN === "false") return null;
+  if (readEnv("TRENDINGREPO_AISO_AUTO_SCAN", "STARSCREENER_AISO_AUTO_SCAN") === "false") return null;
 
   const explicit =
     process.env.AISO_API_URL ??
@@ -130,8 +132,8 @@ function cacheTtl(scan: AisoToolsScan | null): number {
   return ACTIVE_CACHE_TTL_MS;
 }
 
-function numericEnv(name: string, fallback: number): number {
-  const raw = process.env[name];
+function numericEnv(newName: string, oldName: string, fallback: number): number {
+  const raw = readEnv(newName, oldName);
   if (!raw) return fallback;
   const parsed = Number(raw);
   return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
@@ -269,7 +271,11 @@ export async function getAisoToolsScan(
     return null;
   }
 
-  const waitMs = numericEnv("STARSCREENER_AISO_PAGE_WAIT_MS", DEFAULT_PAGE_WAIT_MS);
+  const waitMs = numericEnv(
+    "TRENDINGREPO_AISO_PAGE_WAIT_MS",
+    "STARSCREENER_AISO_PAGE_WAIT_MS",
+    DEFAULT_PAGE_WAIT_MS,
+  );
   const scan = await pollScan(baseUrl, submitted.scanId, waitMs);
   const value =
     scan ??

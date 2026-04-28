@@ -1,8 +1,8 @@
 # MCP integration
 
-Star Screener ships an MCP server that exposes the live trend index as typed tools for Claude Desktop, Claude Code, Cursor, and any other agent that speaks the [Model Context Protocol](https://modelcontextprotocol.io).
+TrendingRepo ships an MCP server that exposes the live trend index as typed tools for Claude Desktop, Claude Code, Cursor, and any other agent that speaks the [Model Context Protocol](https://modelcontextprotocol.io).
 
-Package: [`starscreener-mcp`](../../mcp/) · SDK pin: `@modelcontextprotocol/sdk@^1.29.0` · Protocol version: `2025-11-25`.
+Package: [`trendingrepo-mcp`](../../mcp/) · SDK pin: `@modelcontextprotocol/sdk@^1.29.0` · Protocol version: `2025-11-25`.
 
 ## Try it in 60 seconds
 
@@ -22,10 +22,10 @@ npx @modelcontextprotocol/inspector node mcp/dist/server.js
 ```json
 {
   "mcpServers": {
-    "starscreener": {
+    "trendingrepo": {
       "command": "node",
       "args": ["C:/absolute/path/to/starscreener/mcp/dist/server.js"],
-      "env": { "STARSCREENER_API_URL": "http://localhost:3023" }
+      "env": { "TRENDINGREPO_API_URL": "http://localhost:3023" }
     }
   }
 }
@@ -63,7 +63,7 @@ The package is publish-ready but **held behind a human gate**. Before `npm publi
 
 1. `cd mcp && npm publish --dry-run` — confirm the tarball only includes `dist/**`, `README.md`, `package.json`.
 2. Review tool descriptions for accuracy.
-3. Confirm the `starscreener-mcp` npm name is claimable (unscoped).
+3. Confirm the `trendingrepo-mcp` npm name is claimable (unscoped).
 4. `npm publish`.
 
 Upgrade path: change MCP tool params or shapes only behind a new tool name. Renaming or removing existing tools breaks installed users.

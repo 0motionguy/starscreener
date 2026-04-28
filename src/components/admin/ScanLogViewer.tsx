@@ -166,7 +166,7 @@ export default function ScanLogViewer({
               style={{
                 color: "var(--v3-sig-red)",
                 border: "1px solid var(--v3-sig-red)",
-                background: "rgba(255, 77, 77, 0.06)",
+                background: "var(--v3-sig-red-soft)",
               }}
             >
               {`// ERROR · ${error}`}

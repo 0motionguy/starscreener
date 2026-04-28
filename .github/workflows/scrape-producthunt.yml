@@ -32,7 +32,10 @@ jobs:
 
       - name: Scrape ProductHunt
         env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
           PRODUCTHUNT_TOKEN: ${{ secrets.PRODUCTHUNT_TOKEN }}
+          PRODUCTHUNT_TOKENS: ${{ secrets.PRODUCTHUNT_TOKENS }}
+          GITHUB_TOKEN: ${{ github.token }}
         run: node scripts/scrape-producthunt.mjs
 
       - name: Commit if changed

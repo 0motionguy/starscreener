@@ -27,10 +27,13 @@ jobs:
           node-version: "20"
 
       - name: Refresh OSSInsight trending + hot collections
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
         run: node scripts/scrape-trending.mjs --skip-collection-rankings
 
       - name: Discover recent GitHub repos
         env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
           GITHUB_TOKEN: ${{ github.token }}
         run: node scripts/discover-recent-repos.mjs
 
@@ -41,6 +44,7 @@ jobs:
         # job). The script is now tolerant — but if it does fail we want
         # the workflow to surface red, not green-with-stale-data.
         env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
           REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
           REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
           REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
@@ -51,14 +55,19 @@ jobs:
         # data/hackernews-trending.json + data/hackernews-repo-mentions.json.
         # Wired into the fast-refresh loop so HN mentions feed cross-signal
         # on the same hourly cadence as Reddit (Sprint 1 finding #1).
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
         run: node scripts/scrape-hackernews.mjs
 
       - name: Refresh GitHub repo metadata
         env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
           GITHUB_TOKEN: ${{ github.token }}
         run: node scripts/fetch-repo-metadata.mjs
 
       - name: Compute deltas from git history
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
         run: node scripts/compute-deltas.mjs
 
       - name: Commit if changed

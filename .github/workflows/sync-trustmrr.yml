@@ -57,11 +57,14 @@ jobs:
 
       - name: Sync TrustMRR catalog + derive overlays
         env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
           TRUSTMRR_API_KEY: ${{ secrets.TRUSTMRR_API_KEY }}
         run: node scripts/sync-trustmrr.mjs --mode=${{ steps.mode.outputs.mode }}
 
       - name: Recompute benchmarks (full sweep only)
         if: steps.mode.outputs.mode == 'full'
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
         run: node scripts/compute-revenue-benchmarks.mjs
 
       - name: Commit if changed

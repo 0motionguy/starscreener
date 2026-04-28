@@ -80,14 +80,14 @@ cd mcp
 npm publish --dry-run                # review the tarball contents
 # Expected: README.md, dist/**, package.json — no node_modules, no .env.
 npm login                            # if needed
-npm publish                          # publishes starscreener-mcp@0.1.0
+npm publish                          # publishes trendingrepo-mcp@0.2.0
 ```
 
 Post-publish: verify install works from a clean directory:
 
 ```bash
 cd /tmp && mkdir mcp-smoke && cd mcp-smoke
-npx -y starscreener-mcp --help       # or wire into claude_desktop_config.json
+npx -y trendingrepo-mcp --help       # or wire into claude_desktop_config.json
 ```
 
 ## Step 4 — Tag the release
@@ -106,14 +106,14 @@ Open Claude Code in this repo, try each skill:
 - "Tell me about All-Hands-AI — what's their top repo?" → `investigate-maintainer`.
 - "Give me a weekly GitHub report." → `weekly-report`.
 
-Each should invoke `top_gainers` or `maintainer_profile` via `@starscreener/mcp` (if installed) or the Portal endpoint, and return a ranked/filtered output per the skill playbook.
+Each should invoke `top_gainers` or `maintainer_profile` via `trendingrepo-mcp` (if installed) or the Portal endpoint, and return a ranked/filtered output per the skill playbook.
 
 ## Rollback
 
 If Step 2 finds an issue:
 - **Vercel:** `vercel rollback` to the previous production deployment.
 - **Railway:** redeploy the prior commit.
-- **npm:** the first publish cannot be unpublished after 72 hours except as `starscreener-mcp@0.1.1` replacing it. Don't publish until smoke tests are green.
+- **npm:** the first publish cannot be unpublished after 72 hours except as `trendingrepo-mcp@0.2.1` replacing it. Don't publish until smoke tests are green.
 
 ## Acceptance criteria recap
 
@@ -121,9 +121,9 @@ All must be green:
 - [ ] `GET https://trendingrepo.com/portal` returns a v0.1-valid manifest.
 - [ ] POST calls for each of the 3 tools return real production data.
 - [ ] Upstream / vendored conformance runner passes.
-- [ ] `npx -y starscreener-mcp` spins up an MCP server.
+- [ ] `npx -y trendingrepo-mcp` spins up an MCP server.
 - [ ] MCP Inspector shows 10 tools.
-- [ ] Claude Desktop with `starscreener-mcp` config loaded can call a tool.
+- [ ] Claude Desktop with `trendingrepo-mcp` config loaded can call a tool.
 - [ ] 3 SKILL.md files in `/skills/` have valid frontmatter.
 - [ ] Skills trigger correctly and produce useful output in Claude Code.
 - [ ] Existing `/api/*` routes return the same shape they always have.

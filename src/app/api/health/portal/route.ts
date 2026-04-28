@@ -7,8 +7,11 @@
 
 import { NextRequest, NextResponse } from "next/server";
 
+import { readEnv } from "@/lib/env-helpers";
 import { buildManifest } from "@/portal/manifest";
 import { validateManifest } from "@/portal/validate";
+
+export const runtime = "nodejs";
 
 interface HealthBody {
   ok: boolean;
@@ -20,7 +23,8 @@ interface HealthBody {
 
 export function GET(req: NextRequest): Response {
   const envBase =
-    process.env.STARSCREENER_PUBLIC_URL ?? process.env.NEXT_PUBLIC_SITE_URL;
+    readEnv("TRENDINGREPO_PUBLIC_URL", "STARSCREENER_PUBLIC_URL") ??
+    process.env.NEXT_PUBLIC_SITE_URL;
   const host = req.headers.get("host");
   const proto = req.headers.get("x-forwarded-proto") ?? "http";
   const base = envBase ?? (host ? `${proto}://${host}` : "http://localhost:3023");

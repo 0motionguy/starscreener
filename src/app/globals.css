@@ -12,28 +12,32 @@
    Theme tokens (dark by default)
    --------------------------------------------------------------------------- */
 @theme {
-  /* ── Backgrounds (Dark Void palette) ───────────────────────────────────── */
-  --color-bg-primary: #151419;         /* Dark Void */
-  --color-bg-secondary: #1b1b1e;       /* Gluon Grey */
-  --color-bg-tertiary: #262626;        /* Slate Grey */
-  --color-bg-card: #1b1b1e;
-  --color-bg-card-hover: #262626;
-  --color-bg-row-hover: #1f1f22;
-  --color-bg-elevated: #2e2e33;
-  --color-bg-inset: #101014;
-  --color-bg-overlay: rgba(10, 10, 12, 0.78);
+  /* ── Backgrounds (V2 Node/01 darks, retuned to 151419 family) ───────────── */
+  --color-bg-primary: #08090a;
+  --color-bg-secondary: #13161a;
+  --color-bg-tertiary: #1a1e23;
+  --color-bg-card: #0d0f10;
+  --color-bg-card-hover: #1a1e23;
+  --color-bg-row-hover: #13161a;
+  --color-bg-elevated: #23282e;
+  --color-bg-inset: #08090a;
+  --color-bg-overlay: rgba(8, 9, 10, 0.82);
 
-  /* ── Text ──────────────────────────────────────────────────────────────── */
-  --color-text-primary: #fbfbfb;       /* Snow */
-  --color-text-secondary: #c4c4c6;
-  --color-text-tertiary: #878787;      /* Dusty Grey */
-  --color-text-muted: #5a5a5c;
-  --color-text-inverse: #151419;
+  /* Background theme palettes — overridden by html[data-bg-theme] below */
+  --color-bg-graphite: #0c0c12;
+  --color-bg-charcoal: #14141c;
 
-  /* ── Borders ───────────────────────────────────────────────────────────── */
-  --color-border-primary: #2b2b2f;
-  --color-border-secondary: #1f1f23;
-  --color-border-strong: #3a3a3e;
+  /* ── Text (V2 5-stop ink ramp) ──────────────────────────────────────────── */
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #aab0b6;
+  --color-text-tertiary: #7d848c;
+  --color-text-muted: #565d65;
+  --color-text-inverse: #08090a;
+
+  /* ── Borders (V2 hairlines) ─────────────────────────────────────────────── */
+  --color-border-primary: #272c33;
+  --color-border-secondary: #1c2024;
+  --color-border-strong: #363c44;
   --color-border-focus: #f56e0f;
 
   /* ── Brand accent (Liquid Lava orange) — hero/CTA/momentum-hot ─────────── */
@@ -66,11 +70,13 @@
   --color-heat-neutral: #878787;
   --color-heat-cool: #60a5fa;
 
-  /* ── Chart series ──────────────────────────────────────────────────────── */
-  --color-series-1: #60a5fa;
-  --color-series-2: #a855f7;
-  --color-series-3: #f59e0b;
-  --color-series-4: #14b8a6;
+  /* ── Chart series — 4-slot rotating palette for compare/heatmap/multi-line.
+     Slot order matches the compare-page selector pills + repo-profile columns
+     so chart strokes, banner accents, and column headers line up by index. */
+  --color-series-1: #22c55e;  /* green  — slot 0 */
+  --color-series-2: #3b82f6;  /* blue   — slot 1 */
+  --color-series-3: #a855f7;  /* purple — slot 2 */
+  --color-series-4: #f59e0b;  /* amber  — slot 3 */
 
   /* ── Terminal surfaces ─────────────────────────────────────────────────── */
   --color-terminal-row-hover: rgba(245, 110, 15, 0.04);
@@ -88,10 +94,10 @@
   --color-momentum-neutral: var(--color-heat-neutral);
   --color-momentum-cool: var(--color-heat-cool);
 
-  /* ── Fonts ─────────────────────────────────────────────────────────────── */
-  --font-sans: var(--font-inter), "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-mono: var(--font-jetbrains-mono), "JetBrains Mono", ui-monospace, "Cascadia Code", monospace;
-  --font-display: var(--font-space-grotesk), "Space Grotesk", var(--font-inter), "Inter", sans-serif;
+  /* ── Fonts (V2: Geist primary, V1 stack as fallback) ────────────────────── */
+  --font-sans: var(--font-geist), var(--font-inter), "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-geist-mono), var(--font-jetbrains-mono), "JetBrains Mono", ui-monospace, "Cascadia Code", monospace;
+  --font-display: var(--font-geist), var(--font-space-grotesk), "Space Grotesk", var(--font-inter), "Inter", sans-serif;
 
   /* ── Type scale ────────────────────────────────────────────────────────── */
   --text-2xs: 0.625rem;     /* 10px */
@@ -128,18 +134,18 @@
   --tracking-wider: 0.08em;
   --tracking-widest: 0.14em;
 
-  /* ── Radii ─────────────────────────────────────────────────────────────── */
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
-  --radius-button: 0.5rem;
-  --radius-card: 0.75rem;
-  --radius-card-lg: 1rem;
-  --radius-xl: 1.25rem;
+  /* ── Radii (V2: sharp 2px corners) ──────────────────────────────────────── */
+  --radius-sm: 0.125rem;
+  --radius-md: 0.125rem;
+  --radius-button: 0.125rem;
+  --radius-card: 0.125rem;
+  --radius-card-lg: 0.125rem;
+  --radius-xl: 0.125rem;
   --radius-badge: 9999px;
 
-  /* ── Shadows ───────────────────────────────────────────────────────────── */
-  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4), 0 1px 1px rgba(0, 0, 0, 0.25);
-  --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.4);
+  /* ── Shadows (V2: removed — luminance-stacked surfaces only) ────────────── */
+  --shadow-card: none;
+  --shadow-card-hover: none;
   --shadow-row-hover: inset 3px 0 0 var(--color-functional);
   --shadow-overlay: 0 24px 48px rgba(0, 0, 0, 0.55), 0 2px 6px rgba(0, 0, 0, 0.35);
   --shadow-popover: 0 12px 32px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.35);
@@ -157,6 +163,490 @@
   --animate-brand-pulse: brand-pulse 2.4s ease-in-out infinite;
   --animate-shimmer: shimmer 1.6s linear infinite;
   --animate-tick: tick 0.4s ease-out;
+
+  /* ─────────────────────────────────────────────────────────────────────────
+     V2 design system (Node/01 × Linear fusion) — additive, namespaced --v2-*.
+     Existing V1 token names above are re-skinned to V2 values so V1
+     components inherit the V2 palette without per-component edits.
+     ───────────────────────────────────────────────────────────────────────── */
+
+  /* V2 surfaces — Node/01 darks */
+  --v2-bg-000: #08090a;
+  --v2-bg-050: #0d0f10;
+  --v2-bg-100: #13161a;
+  --v2-bg-200: #1a1e23;
+  --v2-bg-300: #23282e;
+
+  /* V2 hairlines */
+  --v2-line-soft: rgba(255, 255, 255, 0.05);
+  --v2-line-std:  rgba(255, 255, 255, 0.08);
+  --v2-line-100:  #1c2024;
+  --v2-line-200:  #272c33;
+  --v2-line-300:  #363c44;
+  --v2-line-400:  #4a5159;
+
+  /* V2 5-stop ink ramp */
+  --v2-ink-000: #ffffff;
+  --v2-ink-100: #e6e7e8;
+  --v2-ink-200: #aab0b6;
+  --v2-ink-300: #7d848c;
+  --v2-ink-400: #565d65;
+  --v2-ink-500: #3a4047;
+
+  /* V2 accent — Liquid Lava with Node/01 discipline */
+  --v2-acc:      #f56e0f;
+  --v2-acc-soft: rgba(245, 110, 15, 0.14);
+  --v2-acc-glow: rgba(245, 110, 15, 0.45);
+  --v2-acc-dim:  rgba(245, 110, 15, 0.32);
+
+  /* V2 signal palette */
+  --v2-sig-red:   #ff4d4d;
+  --v2-sig-amber: #ffb547;
+  --v2-sig-cyan:  #3ad6c5;
+  --v2-sig-green: #22c55e;
+
+  /* V2 typography tracking */
+  --v2-tracking-display:    -0.035em;
+  --v2-tracking-h1:         -0.022em;
+  --v2-tracking-mono:        0.18em;
+  --v2-tracking-mono-tight:  0.12em;
+
+  /* V2 dot-field */
+  --v2-dot:        #2a3037;
+  --v2-dot-bright: #4a5159;
+
+  /* -----------------------------------------------------------------------
+     V3 production skin contract.
+     These tokens are the stable surface for new production UI. The existing
+     V2 names are aliased below so partially migrated components inherit V3
+     without another broad rewrite.
+     ----------------------------------------------------------------------- */
+  --v3-bg-000: #08090a;
+  --v3-bg-025: #0b0d0f;
+  --v3-bg-050: #101418;
+  --v3-bg-100: #151a20;
+  --v3-bg-200: #1d242b;
+  --v3-bg-300: #2a323a;
+
+  --v3-line-soft: rgba(255, 255, 255, 0.045);
+  --v3-line-std: rgba(255, 255, 255, 0.08);
+  --v3-line-100: #1b2229;
+  --v3-line-200: #29323b;
+  --v3-line-300: #3a444f;
+  --v3-line-400: #4d5865;
+
+  --v3-ink-000: #ffffff;
+  --v3-ink-100: #eef0f2;
+  --v3-ink-200: #b8c0c8;
+  --v3-ink-300: #84909b;
+  /* WCAG AA fix (2026-04-27, second pass): the previous #7a8694 cleared
+     bg-000/025/050/100 (5.38 / 5.25 / 4.99 / 4.72) but FAILED on the
+     deeper surfaces: 4.23:1 vs --v3-bg-200 and 3.51:1 vs --v3-bg-300.
+     Lifted to #909caa which clears every V3 surface:
+       bg-000 7.14 / bg-025 6.97 / bg-050 6.63 / bg-100 6.27 /
+       bg-200 5.62 / bg-300 4.66.
+     Note this places ink-400 slightly above ink-300 in luminance — the
+     ramp is already compressed at the muted end, and the AA contract on
+     body text takes priority over strict ordering. Aliases in the V2
+     ramp + Tailwind --color-text-muted inherit automatically. */
+  --v3-ink-400: #909caa;
+  --v3-ink-500: #3c444d;
+
+  --v3-acc: #9297f6;
+  --v3-acc-hover: #a8acf8;
+  --v3-acc-dim: #555bd8;
+  --v3-acc-soft: rgba(146, 151, 246, 0.14);
+  --v3-acc-glow: rgba(146, 151, 246, 0.45);
+
+  --v3-sig-green: #22c55e;
+  --v3-sig-amber: #ffb547;
+  --v3-sig-red: #ff4d4d;
+  --v3-sig-cyan: #3ad6c5;
+
+  /* Signal soft fills — admin error/warning row backgrounds, badge tints.
+     `soft` = ~6% alpha for row tints, `glow` = ~14% for hover/banner. */
+  --v3-sig-green-soft: rgba(34, 197, 94, 0.06);
+  --v3-sig-green-glow: rgba(34, 197, 94, 0.14);
+  --v3-sig-red-soft: rgba(255, 77, 77, 0.06);
+  --v3-sig-red-glow: rgba(255, 77, 77, 0.14);
+  --v3-sig-amber-soft: rgba(255, 181, 71, 0.06);
+  --v3-sig-amber-glow: rgba(255, 181, 71, 0.14);
+
+  /* Momentum tiers — heatmaps + bubble maps + baseline pills. Each tier has
+     a `fill` (gradient inner stop) and `end` (gradient outer stop). The
+     vocabulary spans both naming conventions:
+       breakout    — explosive growth (orange, Reddit-flavored)
+       heating     — strong growth (vivid green) — alias: above-average
+       stable      — steady (deep green) — alias: normal
+       cooling     — fading (slate gray) — alias: below-average
+       dormant     — no signal (very dim gray) — alias: no-baseline
+     Light themes (linen) override these with paper-friendly tones so
+     "cooling" cells don't read as black blobs on cream. */
+  --v3-tier-breakout-fill: #ff6600;
+  --v3-tier-breakout-end: #ff4500;
+  --v3-tier-breakout-glow: rgba(255, 102, 0, 0.25);
+  --v3-tier-heating-fill: #10b981;
+  --v3-tier-heating-end: #22c55e;
+  --v3-tier-heating-glow: rgba(16, 185, 129, 0.20);
+  --v3-tier-stable-fill: #2d5a3d;
+  --v3-tier-stable-end: #22c55e;
+  --v3-tier-stable-glow: rgba(45, 90, 61, 0.15);
+  --v3-tier-cooling-fill: #4a5568;
+  --v3-tier-cooling-end: #6b7b8d;
+  --v3-tier-cooling-glow: rgba(74, 85, 104, 0.20);
+  --v3-tier-dormant-fill: #374151;
+  --v3-tier-dormant-end: #4b5563;
+  --v3-tier-dormant-glow: rgba(55, 65, 81, 0.15);
+  --v3-tier-text: #ffffff;
+
+  --v3-tracking-mono: 0.18em;
+  --v3-tracking-mono-tight: 0.12em;
+  --v3-tracking-display: -0.028em;
+
+  --v2-bg-000: var(--v3-bg-000);
+  --v2-bg-050: var(--v3-bg-050);
+  --v2-bg-100: var(--v3-bg-100);
+  --v2-bg-200: var(--v3-bg-200);
+  --v2-bg-300: var(--v3-bg-300);
+  --v2-line-soft: var(--v3-line-soft);
+  --v2-line-std: var(--v3-line-std);
+  --v2-line-100: var(--v3-line-100);
+  --v2-line-200: var(--v3-line-200);
+  --v2-line-300: var(--v3-line-300);
+  --v2-line-400: var(--v3-line-400);
+  --v2-ink-000: var(--v3-ink-000);
+  --v2-ink-100: var(--v3-ink-100);
+  --v2-ink-200: var(--v3-ink-200);
+  --v2-ink-300: var(--v3-ink-300);
+  --v2-ink-400: var(--v3-ink-400);
+  --v2-ink-500: var(--v3-ink-500);
+  --v2-acc: var(--v3-acc);
+  --v2-acc-soft: var(--v3-acc-soft);
+  --v2-acc-glow: var(--v3-acc-glow);
+  --v2-acc-dim: var(--v3-acc-dim);
+  --v2-sig-red: var(--v3-sig-red);
+  --v2-sig-amber: var(--v3-sig-amber);
+  --v2-sig-cyan: var(--v3-sig-cyan);
+  --v2-sig-green: var(--v3-sig-green);
+  --v2-sig-red-soft: var(--v3-sig-red-soft);
+  --v2-sig-red-glow: var(--v3-sig-red-glow);
+  --v2-sig-green-soft: var(--v3-sig-green-soft);
+  --v2-sig-green-glow: var(--v3-sig-green-glow);
+  --v2-sig-amber-soft: var(--v3-sig-amber-soft);
+  --v2-sig-amber-glow: var(--v3-sig-amber-glow);
+  --v2-tier-breakout-fill: var(--v3-tier-breakout-fill);
+  --v2-tier-breakout-end: var(--v3-tier-breakout-end);
+  --v2-tier-breakout-glow: var(--v3-tier-breakout-glow);
+  --v2-tier-heating-fill: var(--v3-tier-heating-fill);
+  --v2-tier-heating-end: var(--v3-tier-heating-end);
+  --v2-tier-heating-glow: var(--v3-tier-heating-glow);
+  --v2-tier-stable-fill: var(--v3-tier-stable-fill);
+  --v2-tier-stable-end: var(--v3-tier-stable-end);
+  --v2-tier-stable-glow: var(--v3-tier-stable-glow);
+  --v2-tier-cooling-fill: var(--v3-tier-cooling-fill);
+  --v2-tier-cooling-end: var(--v3-tier-cooling-end);
+  --v2-tier-cooling-glow: var(--v3-tier-cooling-glow);
+  --v2-tier-dormant-fill: var(--v3-tier-dormant-fill);
+  --v2-tier-dormant-end: var(--v3-tier-dormant-end);
+  --v2-tier-dormant-glow: var(--v3-tier-dormant-glow);
+  --v2-tier-text: var(--v3-tier-text);
+  --v2-tracking-display: var(--v3-tracking-display);
+  --v2-tracking-mono: var(--v3-tracking-mono);
+  --v2-tracking-mono-tight: var(--v3-tracking-mono-tight);
+}
+
+/* ---------------------------------------------------------------------------
+   Background themes — 5 swatches:
+     black     (default) — Void dark, current trendingrepo.com look
+     graphite  — Cool blue-leaning dark
+     slate     — Warm-gray "in between" dark, lighter than graphite
+     creme     — Warm dark with cream text (uniform-surface, dark family)
+     linen     — Soft beige off-white (uniform-surface, light family)
+   The first four keep dark surfaces; only linen flips to a true light
+   canvas. Creme + linen both collapse the surface ramp so chrome reads
+   as one tone — internal structure comes from hairlines + typography.
+   --------------------------------------------------------------------------- */
+
+html[data-bg-theme="graphite"] {
+  --color-bg-primary: #0c0c12;
+  --color-bg-secondary: #15151c;
+  --color-bg-tertiary: #1d1d26;
+  --color-bg-card: #0f0f14;
+  --color-bg-card-hover: #1d1d26;
+  --color-bg-row-hover: #15151c;
+  --color-bg-elevated: #262632;
+  --color-bg-inset: #0c0c12;
+  --color-bg-overlay: rgba(12, 12, 18, 0.82);
+  --color-border-primary: #2a2a36;
+  --color-border-secondary: #1e1e28;
+  --color-text-inverse: #0c0c12;
+  --v3-bg-000: #0c0c12;
+  --v3-bg-025: #111118;
+  --v3-bg-050: #15151c;
+  --v3-bg-100: #1a1a22;
+  --v3-bg-200: #22222c;
+  --v3-bg-300: #2e2e3a;
+  --v3-line-100: #1e1e28;
+  --v3-line-200: #2a2a36;
+  --v3-line-300: #383844;
+  --v3-line-400: #4a4a56;
+  --v2-bg-000: #0c0c12;
+  --v2-bg-050: #15151c;
+  --v2-bg-100: #1a1a22;
+  --v2-bg-200: #22222c;
+  --v2-bg-300: #2e2e3a;
+  --v2-line-100: #1e1e28;
+  --v2-line-200: #2a2a36;
+  --v2-line-300: #383844;
+  --v2-line-400: #4a4a56;
+}
+
+/* "Slate" — warm-gray dark, the "in between" stop. Lighter than
+   graphite, with a neutral (not blue-leaning) palette so the chrome
+   feels less terminal-cold and more dashboard-warm. */
+html[data-bg-theme="slate"] {
+  --color-bg-primary: #1a1a1f;
+  --color-bg-secondary: #232328;
+  --color-bg-tertiary: #2c2c33;
+  --color-bg-card: #1f1f25;
+  --color-bg-card-hover: #2c2c33;
+  --color-bg-row-hover: #232328;
+  --color-bg-elevated: #36363f;
+  --color-bg-inset: #1a1a1f;
+  --color-bg-overlay: rgba(26, 26, 31, 0.82);
+  --color-border-primary: #3a3a44;
+  --color-border-secondary: #2c2c33;
+  --color-text-inverse: #1a1a1f;
+  --v3-bg-000: #1a1a1f;
+  --v3-bg-025: #1f1f25;
+  --v3-bg-050: #23232a;
+  --v3-bg-100: #2a2a32;
+  --v3-bg-200: #34343d;
+  --v3-bg-300: #40404a;
+  --v3-line-100: #2c2c34;
+  --v3-line-200: #3a3a44;
+  --v3-line-300: #4a4a55;
+  --v3-line-400: #5c5c68;
+  --v2-bg-000: #1a1a1f;
+  --v2-bg-050: #23232a;
+  --v2-bg-100: #2a2a32;
+  --v2-bg-200: #34343d;
+  --v2-bg-300: #40404a;
+  --v2-line-100: #2c2c34;
+  --v2-line-200: #3a3a44;
+  --v2-line-300: #4a4a55;
+  --v2-line-400: #5c5c68;
+}
+
+/* Theme 4 (creme slot) — uniform warm dark with creme text/logos. Body,
+   sidebar, header, and panels share #1a1a1f. Text and logos resolve to
+   creme tones; Liquid Lava orange brand is kept for actions. */
+html[data-bg-theme="creme"] {
+  --color-bg-primary: #1a1a1f;
+  --color-bg-secondary: #1a1a1f;
+  --color-bg-tertiary: #232328;
+  --color-bg-card: #1a1a1f;
+  --color-bg-card-hover: #232328;
+  --color-bg-row-hover: #232328;
+  --color-bg-elevated: #1a1a1f;
+  --color-bg-inset: #1a1a1f;
+  --color-bg-overlay: rgba(26, 26, 31, 0.82);
+  --color-border-primary: #2c2c33;
+  --color-border-secondary: #232328;
+  --color-border-strong: #3a3a44;
+  --color-border-focus: #ec6406;
+  --color-text-primary: #fffaea;
+  --color-text-secondary: #f7f1de;
+  --color-text-tertiary: #e7e1c7;
+  --color-text-muted: #b9ad84;
+  --color-text-inverse: #1a1a1f;
+  --color-brand: #d35400;
+  --color-brand-hover: #ec6406;
+  --color-brand-active: #a44400;
+  --color-brand-glow: rgba(211, 84, 0, 0.14);
+  --color-brand-glow-strong: rgba(211, 84, 0, 0.28);
+  --color-brand-subtle: rgba(211, 84, 0, 0.08);
+  --color-functional: #2f8c4d;
+  --color-functional-hover: #38a85c;
+  --color-up: #2f8c4d;
+  --color-up-bg: rgba(47, 140, 77, 0.14);
+  --color-down: #c0392b;
+  --color-down-bg: rgba(192, 57, 43, 0.14);
+  --color-warning: #b07103;
+  --color-warning-bg: rgba(176, 113, 3, 0.14);
+  --color-info: #1d6cb1;
+  --color-info-bg: rgba(29, 108, 177, 0.14);
+  --v3-bg-000: #1a1a1f;
+  --v3-bg-025: #1a1a1f;
+  --v3-bg-050: #1a1a1f;
+  --v3-bg-100: #232328;
+  --v3-bg-200: #2c2c33;
+  --v3-bg-300: #36363f;
+  --v3-line-soft: rgba(255, 255, 255, 0.04);
+  --v3-line-std: rgba(255, 255, 255, 0.08);
+  --v3-line-100: #2c2c34;
+  --v3-line-200: #3a3a44;
+  --v3-line-300: #4a4a55;
+  --v3-line-400: #5c5c68;
+  --v3-ink-000: #fffaea;
+  --v3-ink-100: #f7f1de;
+  --v3-ink-200: #e7e1c7;
+  --v3-ink-300: #cfc69d;
+  --v3-ink-400: #b9ad84;
+  --v3-ink-500: #968a64;
+  --v2-bg-000: #1a1a1f;
+  --v2-bg-050: #1a1a1f;
+  --v2-bg-100: #232328;
+  --v2-bg-200: #2c2c33;
+  --v2-bg-300: #36363f;
+  --v2-line-soft: rgba(255, 255, 255, 0.05);
+  --v2-line-std: rgba(255, 255, 255, 0.08);
+  --v2-line-100: #2c2c34;
+  --v2-line-200: #3a3a44;
+  --v2-line-300: #4a4a55;
+  --v2-line-400: #5c5c68;
+  --v2-ink-000: #fffaea;
+  --v2-ink-100: #f7f1de;
+  --v2-ink-200: #e7e1c7;
+  --v2-ink-300: #cfc69d;
+  --v2-ink-400: #b9ad84;
+  --v2-ink-500: #968a64;
+}
+
+/* "Linen" — paper-light surface, the lightest of the family. Uniform
+   single-tone canvas (sidebar, header, panels, main all share one cream
+   tone) — internal structure comes from hairlines + typography, not
+   luminance differential. Matches creme's uniform-surface treatment. */
+html[data-bg-theme="linen"] {
+  color-scheme: light;
+  --color-bg-primary: #f4eee2;
+  --color-bg-secondary: #f4eee2;
+  --color-bg-tertiary: #ede6d4;
+  --color-bg-card: #f4eee2;
+  --color-bg-card-hover: #ede6d4;
+  --color-bg-row-hover: #ede6d4;
+  --color-bg-elevated: #f4eee2;
+  --color-bg-inset: #f4eee2;
+  --color-bg-overlay: rgba(40, 35, 25, 0.55);
+  --color-border-primary: #d4cab2;
+  --color-border-secondary: #ddd3bc;
+  --color-border-strong: #b1a484;
+  --color-border-focus: #b94a00;
+  --color-text-primary: #18140b;
+  --color-text-secondary: #3a3322;
+  --color-text-tertiary: #635a40;
+  --color-text-muted: #8e8260;
+  --color-text-inverse: #fbf6ea;
+  --color-brand: #c84e00;
+  --color-brand-hover: #e25d05;
+  --color-brand-active: #993b00;
+  --color-brand-glow: rgba(200, 78, 0, 0.14);
+  --color-brand-glow-strong: rgba(200, 78, 0, 0.26);
+  --color-brand-subtle: rgba(200, 78, 0, 0.08);
+  --color-functional: #2c8049;
+  --color-functional-hover: #379c58;
+  --color-up: #2c8049;
+  --color-up-bg: rgba(44, 128, 73, 0.14);
+  --color-down: #b8392a;
+  --color-down-bg: rgba(184, 57, 42, 0.14);
+  --color-warning: #a16704;
+  --color-warning-bg: rgba(161, 103, 4, 0.14);
+  --color-info: #1c609f;
+  --color-info-bg: rgba(28, 96, 159, 0.14);
+  --v3-bg-000: #f4eee2;
+  --v3-bg-025: #f4eee2;
+  --v3-bg-050: #f4eee2;
+  --v3-bg-100: #ede6d4;
+  --v3-bg-200: #ede6d4;
+  --v3-bg-300: #ede6d4;
+  --v3-line-soft: rgba(24, 20, 11, 0.06);
+  --v3-line-std: rgba(24, 20, 11, 0.10);
+  --v3-line-100: #dcd2b6;
+  --v3-line-200: #ccc09c;
+  --v3-line-300: #b1a484;
+  --v3-line-400: #91846a;
+  --v3-ink-000: #0c0a04;
+  --v3-ink-100: #18140b;
+  --v3-ink-200: #3a3322;
+  --v3-ink-300: #635a40;
+  --v3-ink-400: #8e8260;
+  --v3-ink-500: #b1a484;
+  --v2-bg-000: #f4eee2;
+  --v2-bg-050: #f4eee2;
+  --v2-bg-100: #ede6d4;
+  --v2-bg-200: #ede6d4;
+  --v2-bg-300: #ede6d4;
+  --v2-line-soft: rgba(24, 20, 11, 0.06);
+  --v2-line-std: rgba(24, 20, 11, 0.10);
+  --v2-line-100: #dcd2b6;
+  --v2-line-200: #ccc09c;
+  --v2-line-300: #b1a484;
+  --v2-line-400: #91846a;
+  --v2-ink-000: #0c0a04;
+  --v2-ink-100: #18140b;
+  --v2-ink-200: #3a3322;
+  --v2-ink-300: #635a40;
+  --v2-ink-400: #8e8260;
+  --v2-ink-500: #b1a484;
+}
+
+/* Flatten chrome + panels for creme + linen — no gradient, just the page
+   tone + a single hairline border so the page reads as one surface. */
+html[data-bg-theme="creme"] .v3-chrome,
+html[data-bg-theme="creme"] .v3-panel,
+html[data-bg-theme="linen"] .v3-chrome,
+html[data-bg-theme="linen"] .v3-panel {
+  background: var(--v3-bg-000);
+  box-shadow: none;
+}
+
+html[data-bg-theme="creme"] .v3-panel,
+html[data-bg-theme="linen"] .v3-panel {
+  border: 1px solid var(--v3-line-200);
+}
+
+/* Replace the dark dot/line grid + radial glows for creme with a barely
+   visible white hairline grid that sits cleanly on the warm dark surface. */
+html[data-bg-theme="creme"] body::before {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 40px 40px, 40px 40px;
+  background-position: 0 0, 0 0;
+}
+
+/* Linen retunes the momentum tier ramp so cooling/dormant cells don't
+   read as near-black blobs on the cream canvas. Breakout + heating stay
+   vivid (they're the "look here" cells); stable/cooling/dormant lift to
+   warm mid-grays that sit naturally on paper. Text flips to dark so the
+   cell labels stay legible against the lighter fills. */
+html[data-bg-theme="linen"] {
+  --v3-tier-breakout-fill: #e85d00;
+  --v3-tier-breakout-end: #c84e00;
+  --v3-tier-breakout-glow: rgba(232, 93, 0, 0.18);
+  --v3-tier-heating-fill: #2c8049;
+  --v3-tier-heating-end: #379c58;
+  --v3-tier-heating-glow: rgba(44, 128, 73, 0.16);
+  --v3-tier-stable-fill: #8aab8e;
+  --v3-tier-stable-end: #a3bda5;
+  --v3-tier-stable-glow: rgba(138, 171, 142, 0.18);
+  --v3-tier-cooling-fill: #aea48a;
+  --v3-tier-cooling-end: #c2b89e;
+  --v3-tier-cooling-glow: rgba(174, 164, 138, 0.16);
+  --v3-tier-dormant-fill: #c2b89e;
+  --v3-tier-dormant-end: #d4cab2;
+  --v3-tier-dormant-glow: rgba(194, 184, 158, 0.14);
+  --v3-tier-text: #18140b;
+}
+
+/* Replace the dark dot/line grid + radial glows for linen with a barely
+   visible warm hairline grid sampled from the linen ink ramp. */
+html[data-bg-theme="linen"] body::before {
+  background-image:
+    linear-gradient(rgba(91, 84, 68, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(91, 84, 68, 0.045) 1px, transparent 1px);
+  background-size: 40px 40px, 40px 40px;
+  background-position: 0 0, 0 0;
 }
 
 /* ---------------------------------------------------------------------------
@@ -417,6 +907,7 @@ body::before {
 .app-shell {
   display: grid;
   grid-template-columns: 280px 1fr;
+  column-gap: 16px;
   min-height: calc(100vh - 56px);
 }
 
@@ -636,4 +1127,382 @@ body::before {
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ---------------------------------------------------------------------------
+   V2 utility classes (Node/01 × Linear fusion) — opt-in via className.
+   Coexist with V1 utilities; never auto-replace anything.
+   --------------------------------------------------------------------------- */
+
+.v2-mono {
+  font-family: var(--font-geist-mono), var(--font-jetbrains-mono), "JetBrains Mono", monospace;
+  letter-spacing: var(--v2-tracking-mono);
+  text-transform: uppercase;
+}
+
+.v2-mono-tight {
+  font-family: var(--font-geist-mono), var(--font-jetbrains-mono), "JetBrains Mono", monospace;
+  letter-spacing: var(--v2-tracking-mono-tight);
+}
+
+.v2-display {
+  font-family: var(--font-geist), var(--font-inter), Inter, sans-serif;
+  font-weight: 300;
+  letter-spacing: var(--v2-tracking-display);
+  line-height: 1.04;
+}
+
+.v2-h1 {
+  font-family: var(--font-geist), var(--font-inter), Inter, sans-serif;
+  font-weight: 400;
+  letter-spacing: var(--v2-tracking-h1);
+  line-height: 1.1;
+}
+
+.v2-h2 {
+  font-family: var(--font-geist), var(--font-inter), Inter, sans-serif;
+  font-weight: 510;
+  letter-spacing: -0.018em;
+  line-height: 1.2;
+}
+
+.v2-card {
+  background: var(--v2-bg-050);
+  border: 1px solid var(--v2-line-std);
+  border-radius: 2px;
+}
+
+.v2-frame {
+  border: 1px solid var(--v2-line-200);
+  border-radius: 2px;
+}
+
+.v2-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  padding: 0 16px;
+  border-radius: 2px;
+  font-family: var(--font-geist-mono), var(--font-jetbrains-mono), monospace;
+  letter-spacing: var(--v2-tracking-mono);
+  text-transform: uppercase;
+  font-size: 11px;
+  cursor: pointer;
+  transition: background 120ms ease-out, border-color 120ms ease-out;
+}
+
+.v2-btn-primary {
+  background: var(--v2-acc);
+  color: #08090a;
+  border: 1px solid var(--v2-acc);
+}
+
+.v2-btn-primary:hover {
+  background: #ff8128;
+  border-color: #ff8128;
+}
+
+.v2-btn-ghost {
+  background: transparent;
+  color: var(--v2-ink-100);
+  border: 1px solid var(--v2-line-300);
+}
+
+.v2-btn-ghost:hover {
+  background: var(--v2-bg-100);
+  border-color: var(--v2-line-400);
+}
+
+.v2-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 6px;
+  border: 1px solid var(--v2-line-200);
+  border-radius: 2px;
+  font-family: var(--font-geist-mono), var(--font-jetbrains-mono), monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--v2-ink-200);
+}
+
+.v2-stat {
+  font-family: var(--font-geist-mono), var(--font-jetbrains-mono), monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--v2-tracking-mono-tight);
+}
+
+.v2-row {
+  transition:
+    background-color 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.v2-row:hover {
+  background: var(--v2-bg-100);
+  /* Two-layer hover: 2px accent rail slides in on the left edge,
+     and a subtle hairline appears at the bottom — the row "lifts"
+     toward the cursor without translating, so dense rows don't
+     reflow on mouseover. */
+  box-shadow:
+    inset 2px 0 0 var(--v2-acc),
+    inset 0 -1px 0 var(--v2-line-300);
+}
+
+.v2-bracket {
+  position: relative;
+}
+
+.v2-bracket::before,
+.v2-bracket::after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: var(--v2-acc);
+  pointer-events: none;
+}
+
+.v2-bracket::before {
+  top: -1px;
+  left: -1px;
+}
+
+.v2-bracket::after {
+  bottom: -1px;
+  right: -1px;
+}
+
+/* Corner bracket markers used inside SidebarV2 active items */
+.v2-br1,
+.v2-br2 {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--v2-acc);
+  pointer-events: none;
+}
+.v2-br1 {
+  top: -1px;
+  left: -1px;
+}
+.v2-br2 {
+  bottom: -1px;
+  right: -1px;
+}
+
+/* Hover lift for v2 cards */
+.v2-card-hover {
+  transition: background-color 120ms ease-out, border-color 120ms ease-out;
+}
+.v2-card-hover:hover {
+  background: var(--v2-bg-100);
+  border-color: var(--v2-line-300);
+}
+
+.v2-term-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--v2-line-std);
+  font-family: var(--font-geist-mono), var(--font-jetbrains-mono), monospace;
+  font-size: 11px;
+  letter-spacing: var(--v2-tracking-mono);
+  color: var(--v2-ink-300);
+  text-transform: uppercase;
+}
+
+.v2-live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--v2-sig-green);
+  box-shadow: 0 0 6px var(--v2-sig-green);
+}
+
+.v2-ascii {
+  font-family: var(--font-geist-mono), var(--font-jetbrains-mono), monospace;
+  font-size: 10px;
+  line-height: 1;
+  color: var(--v2-ink-400);
+  white-space: pre;
+  user-select: none;
+}
+
+/* ---------------------------------------------------------------------------
+   V3 production design-system utilities.
+   These are intentionally small and stable: new production work should target
+   v3-* classes/tokens, while legacy v2-* utilities remain as compatibility.
+   --------------------------------------------------------------------------- */
+
+.v3-root {
+  min-height: 100vh;
+  background:
+    radial-gradient(1100px 520px at 8% -12%, var(--v3-acc-soft), transparent 58%),
+    radial-gradient(850px 440px at 100% 112%, rgba(34, 197, 94, 0.055), transparent 60%),
+    var(--v3-bg-000);
+  color: var(--v3-ink-100);
+  --color-bg-primary: var(--v3-bg-000);
+  --color-bg-secondary: var(--v3-bg-100);
+  --color-bg-tertiary: var(--v3-bg-200);
+  --color-bg-card: var(--v3-bg-050);
+  --color-bg-card-hover: var(--v3-bg-100);
+  --color-bg-row-hover: var(--v3-bg-100);
+  --color-bg-elevated: var(--v3-bg-200);
+  --color-bg-inset: var(--v3-bg-000);
+  --color-text-primary: var(--v3-ink-000);
+  --color-text-secondary: var(--v3-ink-200);
+  --color-text-tertiary: var(--v3-ink-300);
+  --color-text-muted: var(--v3-ink-400);
+  --color-border-primary: var(--v3-line-200);
+  --color-border-secondary: var(--v3-line-100);
+  --color-border-strong: var(--v3-line-300);
+  --color-border-focus: var(--v3-acc);
+  --color-brand: var(--v3-acc);
+  --color-brand-hover: var(--v3-acc-hover);
+  --color-brand-active: var(--v3-acc-dim);
+  --color-brand-glow: var(--v3-acc-soft);
+  --color-brand-glow-strong: var(--v3-acc-glow);
+}
+
+.v3-chrome {
+  background: linear-gradient(180deg, var(--v3-bg-050), var(--v3-bg-025));
+  border-color: var(--v3-line-200);
+  box-shadow: inset 0 -1px 0 var(--v3-line-soft);
+}
+
+.v3-panel {
+  background: linear-gradient(180deg, var(--v3-bg-050), var(--v3-bg-000));
+  border: 1px solid var(--v3-line-200);
+  border-radius: 2px;
+}
+
+.v3-label {
+  font-family: var(--font-geist-mono), var(--font-jetbrains-mono), monospace;
+  font-size: 9px;
+  letter-spacing: var(--v3-tracking-mono);
+  text-transform: uppercase;
+  color: var(--v3-ink-400);
+}
+
+.v3-wordmark {
+  font-family: var(--font-geist-mono), var(--font-jetbrains-mono), monospace;
+  font-size: 12px;
+  letter-spacing: var(--v3-tracking-mono);
+  text-transform: uppercase;
+  color: var(--v3-ink-100);
+}
+
+.v3-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid var(--v3-line-300);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--v3-ink-100);
+  font-family: var(--font-geist-mono), var(--font-jetbrains-mono), monospace;
+  font-size: 11px;
+  letter-spacing: var(--v3-tracking-mono);
+  text-transform: uppercase;
+  transition:
+    background-color 120ms ease-out,
+    border-color 120ms ease-out,
+    color 120ms ease-out,
+    box-shadow 120ms ease-out;
+}
+
+.v3-button:hover {
+  background: var(--v3-bg-100);
+  border-color: var(--v3-line-400);
+}
+
+.v3-button-primary {
+  background: var(--v3-acc);
+  border-color: var(--v3-acc);
+  color: var(--v3-bg-000);
+  box-shadow: 0 0 14px var(--v3-acc-glow);
+}
+
+.v3-button-primary:hover {
+  background: var(--v3-acc-hover);
+  border-color: var(--v3-acc-hover);
+}
+
+.v3-swatch {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  cursor: pointer;
+  border: 1px solid var(--v3-line-200);
+  border-radius: 1px;
+  background: var(--swatch);
+  transition:
+    border-color 120ms ease-out,
+    box-shadow 120ms ease-out,
+    transform 120ms ease-out;
+}
+
+.v3-swatch:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 12px var(--swatch-glow);
+}
+
+.v3-swatch[aria-pressed="true"] {
+  border-color: var(--v3-bg-000);
+  box-shadow: 0 0 0 1px var(--swatch), 0 0 14px var(--swatch-glow);
+}
+
+.v3-swatch-corner {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--swatch);
+  box-shadow: 0 0 0 1px var(--v3-bg-000);
+  pointer-events: none;
+}
+
+.v3-cursor-rail {
+  position: relative;
+}
+
+.v3-cursor-rail-glow {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  top: 0;
+  height: 36px;
+  pointer-events: none;
+  border: 1px solid;
+  border-radius: 1px;
+  transition:
+    transform 120ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 180ms ease-out,
+    background-color 180ms ease-out,
+    border-color 180ms ease-out,
+    box-shadow 180ms ease-out;
+  z-index: 0;
+}
+
+.v3-barcode-wrap {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+}
+
+.v3-barcode {
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.v3-barcode span {
+  background: var(--v3-ink-200);
 }

@@ -7,7 +7,10 @@
 
 import { NextRequest, NextResponse } from "next/server";
 
+import { serverError } from "@/lib/api/error-response";
 import { getProfile, type Profile } from "@/lib/profile";
+
+export const runtime = "nodejs";
 
 interface ProfileResponse {
   ok: true;
@@ -38,10 +41,6 @@ export async function GET(
     const profile = await getProfile(handle);
     return NextResponse.json({ ok: true, profile });
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    return NextResponse.json(
-      { ok: false, error: message },
-      { status: 500 },
-    );
+    return serverError(err, { scope: "[profile]" });
   }
 }

@@ -15,8 +15,6 @@
 import { existsSync, readFileSync, statSync } from "node:fs";
 import { resolve } from "node:path";
 import type { AisoToolsScan } from "./aiso-tools";
-import { getDataStore } from "./data-store";
-
 export type RepoProfileStatus =
   | "scanned"
   | "scan_pending"
@@ -193,6 +191,7 @@ export async function refreshRepoProfilesFromStore(): Promise<RefreshResult> {
 
   inflight = (async (): Promise<RefreshResult> => {
     try {
+      const { getDataStore } = await import("./data-store");
       const store = getDataStore();
       const result = await store.read<unknown>("repo-profiles");
       if (result.data && result.source !== "missing") {

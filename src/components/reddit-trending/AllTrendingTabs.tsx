@@ -12,7 +12,7 @@
 import Link from "next/link";
 import { useCallback, useMemo } from "react";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { ChevronUp, Flame, MessageSquare, TrendingUp, Users } from "lucide-react";
 import type { ComponentType, SVGProps } from "react";
 import { BaselinePill, type BaselinePillSize } from "@/components/reddit/BaselinePill";
@@ -224,6 +224,7 @@ function sortHot7d(posts: RedditAllPost[]): RedditAllPost[] {
 }
 
 export function AllTrendingTabs({ posts }: { posts: RedditAllPost[] }) {
+  const reduceMotion = useReducedMotion();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
@@ -234,13 +235,22 @@ export function AllTrendingTabs({ posts }: { posts: RedditAllPost[] }) {
 
   const nowMs = Date.now();
 
+  // Hoisted: topic-filtered pool. Three useMemo blocks below + tabCounts
+  // were each recomputing this filter. Computing once and depending on
+  // the result everywhere downstream cuts redundant work on every
+  // posts/topic change. Audit finding UI-12.
+  const topicFiltered = useMemo(
+    () =>
+      activeTopic
+        ? posts.filter((p) => postMatchesTopic(p, activeTopic))
+        : posts,
+    [posts, activeTopic],
+  );
+
   // Chip-filtered pool (default-hides value_score<1 unless showAll). Counts
   // below are computed off the pool AFTER topic filter but BEFORE chip
   // selection so toggling a chip doesn't zero out its own count.
   const chipCounts = useMemo(() => {
-    const topicFiltered = activeTopic
-      ? posts.filter((p) => postMatchesTopic(p, activeTopic))
-      : posts;
     const counts: Record<string, number> = {};
     for (const chip of CONTENT_CHIPS) {
       counts[chip.key] = topicFiltered.filter((p) =>
@@ -248,19 +258,14 @@ export function AllTrendingTabs({ posts }: { posts: RedditAllPost[] }) {
       ).length;
     }
     return counts;
-  }, [posts, activeTopic]);
+  }, [topicFiltered]);
 
-  const hiddenCount = useMemo(() => {
-    const topicFiltered = activeTopic
-      ? posts.filter((p) => postMatchesTopic(p, activeTopic))
-      : posts;
-    return topicFiltered.filter((p) => (p.value_score ?? 0) < 1).length;
-  }, [posts, activeTopic]);
+  const hiddenCount = useMemo(
+    () => topicFiltered.filter((p) => (p.value_score ?? 0) < 1).length,
+    [topicFiltered],
+  );
 
   const filtered = useMemo(() => {
-    const topicFiltered = activeTopic
-      ? posts.filter((p) => postMatchesTopic(p, activeTopic))
-      : posts;
     const chipFiltered = applyChipFilter(topicFiltered, activeChips, showAll);
     switch (activeTab) {
       case "trending-now":
@@ -270,7 +275,7 @@ export function AllTrendingTabs({ posts }: { posts: RedditAllPost[] }) {
       case "by-subreddit":
         return filterByWindow(chipFiltered, 168, nowMs);
     }
-  }, [activeTab, activeTopic, activeChips, showAll, posts, nowMs]);
+  }, [activeTab, topicFiltered, activeChips, showAll, nowMs]);
 
   function clearTopic() {
     const params = new URLSearchParams(searchParams.toString());
@@ -308,16 +313,13 @@ export function AllTrendingTabs({ posts }: { posts: RedditAllPost[] }) {
   // Per-tab counts (post-topic, post-chip, post-showAll, post-window). Drives
   // the inset count badge on each tab in the strip below.
   const tabCounts = useMemo<Record<TrendingTab, number>>(() => {
-    const topicFiltered = activeTopic
-      ? posts.filter((p) => postMatchesTopic(p, activeTopic))
-      : posts;
     const chipFiltered = applyChipFilter(topicFiltered, activeChips, showAll);
     return {
       "trending-now": filterByWindow(chipFiltered, 24, nowMs).length,
       "hot-7d": filterByWindow(chipFiltered, 168, nowMs).length,
       "by-subreddit": filterByWindow(chipFiltered, 168, nowMs).length,
     };
-  }, [posts, activeTopic, activeChips, showAll, nowMs]);
+  }, [topicFiltered, activeChips, showAll, nowMs]);
 
   return (
     <section>
@@ -385,7 +387,11 @@ export function AllTrendingTabs({ posts }: { posts: RedditAllPost[] }) {
                   layoutId="trendingTabIndicator"
                   aria-hidden="true"
                   className="pointer-events-none absolute bottom-0 left-0 right-0 h-[2px] bg-brand"
-                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  transition={
+                    reduceMotion
+                      ? { duration: 0 }
+                      : { type: "spring", stiffness: 380, damping: 30 }
+                  }
                 />
               ) : null}
             </Link>
@@ -447,6 +453,7 @@ interface PostRowProps {
 }
 
 function PostRow({ post: p, velocityP90, velocityStats, onSubClick }: PostRowProps) {
+  const reduceMotion = useReducedMotion();
   const primaryRepo =
     p.linkedRepos && p.linkedRepos.length > 0
       ? p.linkedRepos[0].fullName
@@ -470,8 +477,10 @@ function PostRow({ post: p, velocityP90, velocityStats, onSubClick }: PostRowPro
 
   return (
     <motion.li
-      whileHover={{ y: -2, scale: 1.005 }}
-      transition={{ duration: 0.15, ease: "easeOut" }}
+      whileHover={reduceMotion ? undefined : { y: -2, scale: 1.005 }}
+      transition={
+        reduceMotion ? { duration: 0 } : { duration: 0.15, ease: "easeOut" }
+      }
       className={cn(
         // PREMIUM CARD — Linear changelog × Vercel feed × TweetDeck dense
         // Big breathing room, rounded-xl, hover-lift via framer + shadow.
@@ -693,6 +702,7 @@ function PostRowCompact({
   velocityP90: number;
   velocityStats: VelocityStats;
 }) {
+  const reduceMotion = useReducedMotion();
   const tier = getPostTier(p.baselineRatio);
   const tc = tierClassesCompact(tier);
   const showVelocity = (p.trendingScore ?? 0) >= velocityP90;
@@ -703,8 +713,10 @@ function PostRowCompact({
 
   return (
     <motion.li
-      whileHover={{ y: -1, scale: 1.003 }}
-      transition={{ duration: 0.12, ease: "easeOut" }}
+      whileHover={reduceMotion ? undefined : { y: -1, scale: 1.003 }}
+      transition={
+        reduceMotion ? { duration: 0 } : { duration: 0.12, ease: "easeOut" }
+      }
       className={cn(
         // Same card aesthetic as PostRow but tighter (p-3 vs p-5).
         "group relative block border border-border-primary rounded-xl bg-bg-card shadow-card p-3",

@@ -64,7 +64,7 @@ export function ColumnPicker({ onClose }: ColumnPickerProps) {
       role="dialog"
       aria-label="Configure columns"
       className={cn(
-        "absolute right-2 top-full z-40 mt-2 w-72 rounded-card border border-border-primary bg-bg-card",
+        "absolute right-2 top-full z-40 mt-2 w-72 v2-card",
         "shadow-[var(--shadow-popover)]",
       )}
     >

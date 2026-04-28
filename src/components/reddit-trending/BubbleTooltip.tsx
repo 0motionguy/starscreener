@@ -10,7 +10,7 @@
 // Performance: data is null during idle so the AnimatePresence subtree
 // unmounts and we don't pay for a hidden DOM node 40 bubbles wide.
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Sparkline } from "@/components/shared/Sparkline";
 import { formatNumber } from "@/lib/utils";
 
@@ -48,45 +48,46 @@ function tierFor(ratio: number, breakoutCount: number): Tier {
   if (breakoutCount >= 3 || ratio > 5) {
     return {
       label: "BREAKOUT",
-      badgeBg: "rgba(255, 102, 0, 0.18)",
-      badgeFg: "#ff6600",
+      badgeBg: "var(--v3-tier-breakout-glow)",
+      badgeFg: "var(--v3-tier-breakout-fill)",
       arrow: "↑",
     };
   }
   if (ratio > 1.3) {
     return {
       label: "HEATING",
-      badgeBg: "rgba(16, 185, 129, 0.18)",
-      badgeFg: "#10B981",
+      badgeBg: "var(--v3-tier-heating-glow)",
+      badgeFg: "var(--v3-tier-heating-fill)",
       arrow: "↑",
     };
   }
   if (ratio >= 0.7) {
     return {
       label: "STABLE",
-      badgeBg: "rgba(45, 90, 61, 0.25)",
-      badgeFg: "#22c55e",
+      badgeBg: "var(--v3-tier-stable-glow)",
+      badgeFg: "var(--v3-tier-heating-end)",
       arrow: "→",
     };
   }
   return {
     label: "COOLING",
-    badgeBg: "rgba(107, 123, 141, 0.20)",
-    badgeFg: "#94a3b8",
+    badgeBg: "var(--v3-tier-cooling-glow)",
+    badgeFg: "var(--v3-tier-cooling-end)",
     arrow: "↓",
   };
 }
 
 export function BubbleTooltip({ visible, x, y, data }: BubbleTooltipProps) {
+  const reduceMotion = useReducedMotion();
   return (
     <AnimatePresence>
       {visible && data && (
         <motion.div
-          initial={{ opacity: 0, y: 4 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 4 }}
-          transition={{ duration: 0.15 }}
-          className="fixed z-50 pointer-events-none w-[280px] rounded-md border border-border-primary bg-bg-card shadow-lg p-3 font-mono text-xs"
+          initial={reduceMotion ? false : { opacity: 0, y: 4 }}
+          animate={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
+          exit={reduceMotion ? {} : { opacity: 0, y: 4 }}
+          transition={reduceMotion ? { duration: 0 } : { duration: 0.15 }}
+          className="fixed z-50 pointer-events-none w-[280px] v2-card shadow-lg p-3 font-mono text-xs"
           style={{ left: x, top: y }}
         >
           <TooltipBody data={data} />

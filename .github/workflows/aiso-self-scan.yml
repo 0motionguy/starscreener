@@ -1,0 +1,94 @@
+name: AISO daily self-scan dogfood
+
+# Once a day, run aiso.tools' OWN scan against itself. Two wins:
+#
+# 1. MARKETING — proves the product works on the canonical case ("if AISO
+#    can't score AISO well, why would I pay for it?"). Auto-published
+#    score over time becomes a public credibility signal.
+#
+# 2. REGRESSION CATCH — the scanner has 9 dimensions. If aiso.tools' own
+#    score drops 10+ points day-over-day, something broke in the scanner
+#    OR something on aiso.tools regressed. Either way, signal worth a
+#    look the same morning instead of 6 weeks later.
+#
+# Lives in starscreener (public repo, unlimited free Actions). Same
+# rationale as the uptime monitor.
+#
+# After-merge tile to add to TIP-TOP:
+#   SELECT toStartOfDay(timestamp) AS day,
+#          toIntOrZero(toString(properties.scan_id_assigned)) AS got_id,
+#          properties.http_status,
+#          count() AS triggers
+#   FROM events WHERE event = 'aiso_self_scan_triggered'
+#   GROUP BY day, got_id, properties.http_status ORDER BY day DESC
+
+on:
+  schedule:
+    - cron: "17 3 * * *" # 03:17 UTC = 11:17am Bali / 8:17pm PT — off-peak
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  self-scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Trigger scan + capture event
+        env:
+          POSTHOG_KEY: phc_oDeVTBdCyqdoepUZRiLL7a6DanRzuZ33Td2UdLfBqwMz
+        run: |
+          set +e
+          start=$(date +%s%3N)
+          # Submit the scan. AISO API expects { url, mode } per the existing
+          # /api/scan/route handler — homepage = the 1-page diagnostic, fastest
+          # tier, costs nothing for free users.
+          resp=$(curl -s -w "\n__HTTP__%{http_code}" --max-time 30 \
+            -X POST "https://aiso.tools/api/scan" \
+            -H "Content-Type: application/json" \
+            -d '{"url":"https://aiso.tools","mode":"homepage"}')
+          end=$(date +%s%3N)
+          latency=$((end - start))
+
+          status=$(echo "$resp" | grep -oE '__HTTP__[0-9]+' | sed 's/__HTTP__//')
+          body=$(echo "$resp" | sed '/__HTTP__/d')
+          scan_id=$(echo "$body" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('scanId',''))" 2>/dev/null || echo "")
+          err=$(echo "$body" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('error',''))" 2>/dev/null || echo "")
+
+          ok=true
+          if [ -z "$status" ] || [ "$status" -ge 400 ] || [ -z "$scan_id" ]; then
+            ok=false
+          fi
+
+          # Always emit the trigger event so we can see whether the cron is
+          # running and getting through rate-limits / auth.
+          curl -s -X POST "https://us.i.posthog.com/capture/" \
+            -H "Content-Type: application/json" \
+            -d "$(cat <<JSON
+          {
+            "api_key": "$POSTHOG_KEY",
+            "event": "aiso_self_scan_triggered",
+            "distinct_id": "aiso-self-scan-cron",
+            "properties": {
+              "host": "aiso.tools",
+              "url": "https://aiso.tools",
+              "mode": "homepage",
+              "http_status": $([ -z "$status" ] && echo 0 || echo "$status"),
+              "scan_id_assigned": "$scan_id",
+              "error": "$err",
+              "latency_ms": $latency,
+              "ok": $ok,
+              "source": "github-actions-cron",
+              "project": "self-scan"
+            }
+          }
+          JSON
+          )" > /dev/null
+
+          echo "  http=$status  scanId=$scan_id  err=$err  latency=${latency}ms  ok=$ok"
+
+          # Job RED on failure → GitHub auto-emails on workflow failure.
+          if [ "$ok" != "true" ]; then
+            exit 1
+          fi

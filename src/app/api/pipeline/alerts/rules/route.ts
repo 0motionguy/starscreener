@@ -18,6 +18,8 @@ import {
 import type { AlertRule, AlertTriggerType } from "@/lib/pipeline/types";
 import { userAuthFailureResponse, verifyUserAuth } from "@/lib/api/auth";
 
+export const runtime = "nodejs";
+
 const VALID_TRIGGERS: readonly AlertTriggerType[] = [
   "star_spike",
   "new_release",

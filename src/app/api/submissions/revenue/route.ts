@@ -8,9 +8,9 @@
 // src/lib/revenue-submissions.ts for the storage and validation layer.
 
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 
-import { verifyCronAuth } from "@/lib/api/auth";
-import { checkRateLimitAsync } from "@/lib/api/rate-limit";
+import { parseBody } from "@/lib/api/parse-body";
 import {
   listRevenueSubmissions,
   submitRevenueToQueue,
@@ -20,10 +20,10 @@ import {
   type RevenueSubmissionResult,
 } from "@/lib/revenue-submissions";
 
-// Public POST — founders submit revenue claims. Tighter cap than repo
-// submissions (3 per 10 min per IP) because each submission also creates a
-// downstream moderation task. CRON-authenticated callers bypass.
-const REVENUE_SUBMISSION_RATE_LIMIT = { windowMs: 10 * 60 * 1000, maxRequests: 3 } as const;
+export const runtime = "nodejs";
+
+// Shape gate only — field-level validation lives in validateRevenueSubmissionInput.
+const RevenueSubmissionsPostSchema = z.record(z.string(), z.unknown());
 
 interface RevenueSubmissionsListResponse {
   ok: true;
@@ -65,35 +65,12 @@ export async function POST(
     RevenueSubmissionsCreateResponse | RevenueSubmissionsErrorResponse
   >
 > {
-  const cronAuth = verifyCronAuth(request);
-  if (cronAuth.kind !== "ok") {
-    const rl = await checkRateLimitAsync(request, REVENUE_SUBMISSION_RATE_LIMIT);
-    if (!rl.allowed) {
-      const retryAfterSec = Math.max(1, Math.ceil(rl.retryAfterMs / 1000));
-      return NextResponse.json(
-        {
-          ok: false,
-          error: `Rate limited — ${REVENUE_SUBMISSION_RATE_LIMIT.maxRequests} submissions per ${REVENUE_SUBMISSION_RATE_LIMIT.windowMs / 60000}min per IP. Retry after ${retryAfterSec}s.`,
-        },
-        {
-          status: 429,
-          headers: { "Retry-After": String(retryAfterSec) },
-        },
-      );
-    }
+  const parsedShape = await parseBody(request, RevenueSubmissionsPostSchema);
+  if (!parsedShape.ok) {
+    return parsedShape.response as NextResponse<RevenueSubmissionsErrorResponse>;
   }
 
-  let raw: unknown;
-  try {
-    raw = await request.json();
-  } catch {
-    return NextResponse.json(
-      { ok: false, error: "request body is not valid JSON" },
-      { status: 400 },
-    );
-  }
-
-  const parsed = validateRevenueSubmissionInput(raw);
+  const parsed = validateRevenueSubmissionInput(parsedShape.data);
   if (!parsed.ok) {
     return NextResponse.json(
       { ok: false, error: parsed.error },

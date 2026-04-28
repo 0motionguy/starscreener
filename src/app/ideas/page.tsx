@@ -1,13 +1,12 @@
-// /ideas — public idea feed.
+// /ideas — public idea feed (v2-styled).
 //
 // Three views (URL-driven via ?sort=hot|new|shipped):
 //   - hot     (default) — weighted reactions × recency decay
 //   - new     — chronological by publish time
 //   - shipped — only ideas that reached buildStatus = "shipped"
 //
-// Server-renders the first 20 rows so the page is interactive immediately.
-// The composer is client-side; once a user posts, the new idea appears at
-// the top of "new" / hot-ranked into "hot" depending on its score.
+// Server component. Computes conviction scores server-side and hands
+// them to IdeaCard for v2 chrome (conviction gauge + reaction bar).
 
 import type { Metadata } from "next";
 import { Lightbulb, Plus } from "lucide-react";
@@ -17,6 +16,8 @@ import {
   listIdeas,
   toPublicIdea,
   type PublicIdea,
+  HOT_SCORE_WEIGHTS,
+  RECENCY_HALF_LIFE_HOURS,
 } from "@/lib/ideas";
 import {
   countReactions,
@@ -25,6 +26,7 @@ import {
 import type { ReactionCounts } from "@/lib/reactions-shape";
 import { IdeaCard } from "@/components/ideas/IdeaCard";
 import { IdeaComposer } from "@/components/ideas/IdeaComposer";
+import { TerminalBar, MonoLabel, BarcodeTicker } from "@/components/v2";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 
 type SortKey = "hot" | "new" | "shipped";
@@ -66,6 +68,20 @@ interface RankedIdea {
   idea: PublicIdea;
   reactionCounts: ReactionCounts;
   hotScore?: number;
+  conviction: number;
+}
+
+/** Conviction = weighted reactions decayed by recency, scaled to 0–100. */
+function conviction(idea: PublicIdea, reactions: ReactionCounts): number {
+  const raw =
+    reactions.build * HOT_SCORE_WEIGHTS.build +
+    reactions.use * HOT_SCORE_WEIGHTS.use +
+    reactions.buy * HOT_SCORE_WEIGHTS.buy +
+    reactions.invest * HOT_SCORE_WEIGHTS.invest;
+  const createdAt = idea.publishedAt ?? idea.createdAt;
+  const hoursAgo = (Date.now() - Date.parse(createdAt)) / 36e5;
+  const decay = Math.exp(-hoursAgo / RECENCY_HALF_LIFE_HOURS);
+  return Math.min(100, Math.round(Math.log1p(raw * decay) * 18));
 }
 
 async function loadFeed(sort: SortKey): Promise<RankedIdea[]> {
@@ -79,9 +95,11 @@ async function loadFeed(sort: SortKey): Promise<RankedIdea[]> {
   const withCounts: RankedIdea[] = await Promise.all(
     visible.map(async (record) => {
       const reactions = await listReactionsForObject("idea", record.id);
+      const reactionCounts = countReactions(reactions);
       return {
         idea: toPublicIdea(record),
-        reactionCounts: countReactions(reactions),
+        reactionCounts,
+        conviction: conviction(toPublicIdea(record), reactionCounts),
       };
     }),
   );
@@ -122,12 +140,26 @@ export default async function IdeasPage({ searchParams }: PageProps) {
   const sortKey = parseSort(sort);
   const feed = await loadFeed(sortKey);
 
+  const hero = feed[0];
+  const list = feed.slice(1);
+
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
       <div className="max-w-[900px] mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6">
-        <header className="border-b border-border-primary pb-6">
+        {/* V2 terminal-bar — operator chrome */}
+        <div className="v2-frame overflow-hidden">
+          <TerminalBar
+            label={`// IDEAS · ${sortKey.toUpperCase()}`}
+            status={`${feed.length} ROWS · LIVE`}
+            live
+          />
+          <BarcodeTicker count={120} height={12} seed={feed.length || 33} />
+        </div>
+
+        <header className="border-b border-[var(--v2-line-std)] pb-6 space-y-3">
+          <MonoLabel index="01" name="IDEAS" hint="BUILDERS' QUEUE" tone="muted" />
           <div className="flex flex-wrap items-baseline gap-3">
-            <h1 className="text-2xl font-bold uppercase tracking-wider inline-flex items-center gap-2">
+            <h1 className="font-display text-2xl font-bold uppercase tracking-wider inline-flex items-center gap-2">
               <Lightbulb className="size-5 text-warning" aria-hidden />
               Ideas
             </h1>
@@ -135,7 +167,7 @@ export default async function IdeasPage({ searchParams }: PageProps) {
               {"// what builders should ship next"}
             </span>
           </div>
-          <p className="mt-2 max-w-2xl text-sm text-text-secondary">
+          <p className="max-w-2xl text-sm text-text-secondary">
             Post a 1-line idea. Builders react with{" "}
             <strong className="text-brand">build</strong>,{" "}
             <strong className="text-brand">use</strong>,{" "}
@@ -189,16 +221,50 @@ export default async function IdeasPage({ searchParams }: PageProps) {
             No ideas yet in this view. Post the first.
           </div>
         ) : (
-          <ul className="space-y-3" data-testid="idea-feed">
-            {feed.slice(0, 50).map((row) => (
-              <li key={row.idea.id}>
-                <IdeaCard
-                  idea={row.idea}
-                  reactionCounts={row.reactionCounts}
+          <div className="space-y-4" data-testid="idea-feed">
+            {/* Hero card — top-ranked idea gets full-width treatment */}
+            {hero ? (
+              <div className="v2-frame overflow-hidden">
+                <TerminalBar
+                  label={`// HERO · CONVICTION ${hero.conviction}/100`}
+                  status={`${hero.reactionCounts.build + hero.reactionCounts.use + hero.reactionCounts.buy + hero.reactionCounts.invest} REACTIONS`}
+                  live={sortKey === "hot"}
                 />
-              </li>
-            ))}
-          </ul>
+                <div className="p-1">
+                  <IdeaCard
+                    idea={hero.idea}
+                    reactionCounts={hero.reactionCounts}
+                    conviction={hero.conviction}
+                    rank={1}
+                  />
+                </div>
+              </div>
+            ) : null}
+
+            {/* Leaderboard grid */}
+            {list.length > 0 ? (
+              <>
+                <div className="flex items-baseline justify-between gap-3 border-b border-border-primary/60 pb-2">
+                  <span className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-text-tertiary font-semibold">
+                    <span className="inline-block size-1.5 rounded-full bg-brand animate-pulse" />
+                    LEADERBOARD · LIVE CONVICTION
+                  </span>
+                </div>
+                <ul className="grid grid-cols-1 gap-3">
+                  {list.slice(0, 49).map((row, idx) => (
+                    <li key={row.idea.id}>
+                      <IdeaCard
+                        idea={row.idea}
+                        reactionCounts={row.reactionCounts}
+                        conviction={row.conviction}
+                        rank={idx + 2}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </>
+            ) : null}
+          </div>
         )}
       </div>
     </main>

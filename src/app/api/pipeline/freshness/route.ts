@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 
 import { getDegradedScannerSources, getScannerSourceHealth } from "@/lib/source-health";
 
+export const runtime = "nodejs";
+
 export const dynamic = "force-dynamic";
 
 export async function GET() {

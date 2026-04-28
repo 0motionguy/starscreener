@@ -7,7 +7,7 @@
 // Causality question ("did mentions spike BEFORE stars or AFTER?") becomes
 // visible by putting both series on the same calendar x-axis.
 
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import {
   Area,
   Bar,
@@ -210,7 +210,7 @@ function SignalTooltip({
   const activeSources = SIGNAL_SOURCES.filter((src) => point.counts[src] > 0);
 
   return (
-    <div className="bg-bg-card border border-border-primary rounded-card px-3 py-2 shadow-card min-w-[200px]">
+    <div className="v2-card px-3 py-2 min-w-[200px]">
       <p className="text-[11px] font-mono text-text-tertiary mb-1.5">
         {dateLabel}
       </p>
@@ -289,7 +289,7 @@ function MarkerTooltip({
     day: "numeric",
   });
   return (
-    <div className="bg-bg-card border border-border-primary rounded-card px-3 py-2 shadow-card max-w-[280px]">
+    <div className="v2-card px-3 py-2 max-w-[280px]">
       <div className="flex items-center justify-between gap-3 mb-1">
         <span
           className="inline-flex items-center gap-1.5 text-[11px] font-mono uppercase tracking-wider"
@@ -396,6 +396,36 @@ export function RepoDetailChart({
     return out;
   }, [signalSeries]);
 
+  // Stable Tooltip content callback. Inlining `content={(props) => ...}`
+  // forced Recharts to remount the tooltip every render because the prop
+  // identity changed; useCallback keyed on starsDeltaByTs preserves the
+  // reference between hovers. (Recharts TooltipProps typing per UI-16.)
+  const renderTooltipContent = useCallback(
+    (props: {
+      active?: boolean;
+      payload?: ReadonlyArray<{ payload?: unknown }>;
+    }) => {
+      const payload = props.payload;
+      const first = payload?.[0]?.payload;
+      if (first && typeof first === "object" && "marker" in first) {
+        return (
+          <MarkerTooltip
+            active={props.active}
+            payload={payload as ReadonlyArray<MarkerTooltipPayloadEntry>}
+          />
+        );
+      }
+      return (
+        <SignalTooltip
+          active={props.active}
+          payload={payload as ReadonlyArray<SignalTooltipPayloadEntry>}
+          starsDeltaByTs={starsDeltaByTs}
+        />
+      );
+    },
+    [starsDeltaByTs],
+  );
+
   const visibleMarkers = useMemo(
     () =>
       markers.filter(
@@ -465,7 +495,7 @@ export function RepoDetailChart({
 
   return (
     <section
-      className="bg-bg-card rounded-card p-4 border border-border-primary shadow-card"
+      className="v2-card p-4"
       aria-label={`Star growth and daily mentions over ${periodDays} days`}
     >
       <div className="flex items-center justify-between gap-4 mb-4 flex-wrap">
@@ -479,18 +509,31 @@ export function RepoDetailChart({
               : "No cross-channel mentions in this window"}
           </p>
         </div>
-        <div className="flex gap-1 bg-bg-secondary rounded-badge p-0.5">
+        <div
+          className="flex gap-px rounded-[2px] p-px"
+          style={{
+            background: "var(--v3-bg-100)",
+            border: "1px solid var(--v3-line-200)",
+          }}
+        >
           {TIME_TABS.map((tab) => (
             <button
               key={tab.value}
               type="button"
               onClick={() => setTimeRange(tab.value)}
               className={cn(
-                "px-3 py-1 text-xs font-medium rounded-badge transition-all",
-                timeRange === tab.value
-                  ? "bg-bg-card text-text-primary shadow-card"
-                  : "text-text-tertiary hover:text-text-secondary",
+                "px-2.5 py-1 text-[11px] font-mono font-medium uppercase tracking-[0.16em] rounded-[1px] transition-colors",
               )}
+              style={
+                timeRange === tab.value
+                  ? {
+                      background: "var(--v3-acc-soft)",
+                      color: "var(--v3-acc)",
+                    }
+                  : {
+                      color: "var(--v3-ink-300)",
+                    }
+              }
             >
               {tab.label}
             </button>
@@ -530,8 +573,8 @@ export function RepoDetailChart({
                   </linearGradient>
                 </defs>
                 <CartesianGrid
-                  stroke="var(--color-border-primary)"
-                  strokeOpacity={0.4}
+                  stroke="var(--v3-line-200)"
+                  strokeOpacity={0.35}
                   vertical={false}
                 />
                 <XAxis
@@ -541,9 +584,10 @@ export function RepoDetailChart({
                   axisLine={false}
                   tickLine={false}
                   tick={{
-                    fill: "var(--color-text-tertiary)",
-                    fontSize: 11,
-                    fontFamily: "var(--font-mono)",
+                    fill: "var(--v3-ink-400)",
+                    fontSize: 10,
+                    fontFamily: "var(--font-geist-mono), monospace",
+                    letterSpacing: "0.12em",
                   }}
                   interval="preserveStartEnd"
                   minTickGap={24}
@@ -567,9 +611,10 @@ export function RepoDetailChart({
                   tickLine={false}
                   tickCount={5}
                   tick={{
-                    fill: "var(--color-text-tertiary)",
-                    fontSize: 11,
-                    fontFamily: "var(--font-mono)",
+                    fill: "var(--v3-ink-400)",
+                    fontSize: 10,
+                    fontFamily: "var(--font-geist-mono), monospace",
+                    letterSpacing: "0.12em",
                   }}
                   tickFormatter={(value: number) => formatNumber(value)}
                   width={54}
@@ -583,9 +628,10 @@ export function RepoDetailChart({
                   axisLine={false}
                   tickLine={false}
                   tick={{
-                    fill: "var(--color-text-tertiary)",
-                    fontSize: 11,
-                    fontFamily: "var(--font-mono)",
+                    fill: "var(--v3-ink-400)",
+                    fontSize: 10,
+                    fontFamily: "var(--font-geist-mono), monospace",
+                    letterSpacing: "0.12em",
                   }}
                   tickFormatter={(value: number) =>
                     value === 0 ? "" : String(value)
@@ -597,41 +643,15 @@ export function RepoDetailChart({
                   )}
                 />
                 <Tooltip
-                  content={(props) => {
-                    const payload = (
-                      props as {
-                        active?: boolean;
-                        payload?: ReadonlyArray<{ payload?: unknown }>;
-                      }
-                    ).payload;
-                    const first = payload?.[0]?.payload;
-                    if (
-                      first &&
-                      typeof first === "object" &&
-                      "marker" in first
-                    ) {
-                      return (
-                        <MarkerTooltip
-                          active={props.active}
-                          payload={
-                            payload as ReadonlyArray<MarkerTooltipPayloadEntry>
-                          }
-                        />
-                      );
-                    }
-                    return (
-                      <SignalTooltip
-                        active={props.active}
-                        payload={
-                          payload as ReadonlyArray<SignalTooltipPayloadEntry>
-                        }
-                        starsDeltaByTs={starsDeltaByTs}
-                      />
-                    );
-                  }}
+                  // Recharts ships TooltipProps but its ContentType callback
+                  // receives a partial subset that doesn't expose `payload`
+                  // directly — keeping the localized `as` narrowing in
+                  // renderTooltipContent above. Tracked under audit UI-16.
+                  content={renderTooltipContent as never}
                   cursor={{
-                    stroke: "var(--color-border-primary)",
+                    stroke: "var(--v3-line-300)",
                     strokeDasharray: "4 4",
+                    strokeOpacity: 0.6,
                   }}
                 />
 
@@ -640,7 +660,11 @@ export function RepoDetailChart({
                   <Bar
                     key={src}
                     yAxisId="right"
-                    dataKey={(p: SignalPoint) => p.counts[src]}
+                    // Recharts supports dot-notation string dataKeys for nested
+                    // fields. The fn-form `(p) => p.counts[src]` was un-cacheable
+                    // in Recharts' fast path; the string form lets Recharts
+                    // memoize the per-bar accessor (UI-14).
+                    dataKey={`counts.${src}`}
                     name={MENTION_PLATFORM_LABELS[src]}
                     stackId="mentions"
                     fill={MENTION_PLATFORM_COLORS[src]}

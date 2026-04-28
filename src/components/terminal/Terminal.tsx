@@ -19,6 +19,7 @@ import {
   useState,
 } from "react";
 import { useRouter } from "next/navigation";
+import { ArrowUpDown } from "lucide-react";
 
 import type { Breakpoint, Column } from "./columns";
 import { COLUMNS_BY_ID } from "./columns";
@@ -27,7 +28,9 @@ import { TerminalEmpty } from "./TerminalEmpty";
 import { TerminalHeader } from "./TerminalHeader";
 import { TerminalMobileCard } from "./TerminalMobileCard";
 import { TerminalRow } from "./TerminalRow";
+import { TerminalBar } from "@/components/v2/TerminalBar";
 
+import { useWindowWidth } from "@/hooks/useWindowWidth";
 import type { ColumnId, Repo, SortDirection } from "@/lib/types";
 import { getEffectiveSortColumn } from "@/lib/filters";
 import { cn } from "@/lib/utils";
@@ -75,20 +78,6 @@ const DEFAULT_VISIBLE_ROWS = 150;
 
 function bpPasses(current: number, minBp: Breakpoint): boolean {
   return current >= BP_PX[minBp];
-}
-
-/** Lightweight window-width hook (SSR-safe). */
-function useWindowWidth(): number {
-  const [w, setW] = useState<number>(() =>
-    typeof window === "undefined" ? 1280 : window.innerWidth,
-  );
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const onResize = () => setW(window.innerWidth);
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
-  return w;
 }
 
 export function Terminal({
@@ -365,17 +354,14 @@ export function Terminal({
             <button
               type="button"
               onClick={() => setShowAll(true)}
-              className={cn(
-                "w-full py-3 rounded-card text-sm font-mono",
-                "border border-border-primary text-text-secondary",
-                "hover:border-brand hover:text-brand hover:bg-brand-subtle",
-                "transition-colors",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40",
-              )}
+              className="v2-btn v2-btn-ghost w-full"
             >
-              Show all {totalRows.toLocaleString("en-US")} repos
-              <span className="ml-2 text-text-muted">
-                (+{hiddenRowCount.toLocaleString("en-US")} more)
+              SHOW ALL {totalRows.toLocaleString("en-US")} REPOS
+              <span
+                className="ml-2"
+                style={{ color: "var(--v2-ink-400)" }}
+              >
+                (+{hiddenRowCount.toLocaleString("en-US")} MORE)
               </span>
             </button>
           )}
@@ -386,47 +372,92 @@ export function Terminal({
   }
 
   // ---------------- Desktop table ----------------
+  const visibleRows = repos.slice(0, effectiveLimit).length;
   return (
     <>
       <div
         ref={containerRef}
         className={cn(
-          "relative w-full overflow-x-auto rounded-card border border-border-primary bg-bg-card",
-          "shadow-[inset_0_1px_0_rgba(255,255,255,0.035)] shadow-card",
+          "v2-card relative w-full overflow-hidden",
           className,
         )}
       >
-        <table
-          role="grid"
-          aria-rowcount={repos.length}
-          // table-layout: fixed so explicit per-column widths are honored
-          // strictly. Prevents the repo (name) cell from bloating with
-          // slack and pushing the stats cluster away from the name.
-          style={{ tableLayout: "fixed", width: "100%" }}
-          className="border-separate border-spacing-0"
+        <TerminalBar
+          label={`// REPOS · LIVE · ${visibleRows.toLocaleString("en-US")} ROWS`}
+          status={`EU-CENTRAL-1 · ${repos.length.toLocaleString("en-US")} TRACKED`}
+          live
+        />
+        <div className="overflow-x-auto">
+          <table
+            role="grid"
+            aria-rowcount={repos.length}
+            // table-layout: fixed so explicit per-column widths are honored
+            // strictly. Prevents the repo (name) cell from bloating with
+            // slack and pushing the stats cluster away from the name.
+            style={{ tableLayout: "fixed", width: "100%" }}
+            className="border-separate border-spacing-0"
+          >
+            <TerminalHeader
+              visibleColumns={visibleColumns}
+              sortColumn={effectiveSortColumn}
+              sortDirection={effectiveSortDirection}
+              onSort={onSort}
+              onOpenColumnPicker={openColumnPicker}
+              disableSort={Boolean(sortOverride)}
+            />
+            <tbody>
+              {repos.slice(0, effectiveLimit).map((repo, i) => (
+                <TerminalRow
+                  key={repo.id}
+                  repo={repo}
+                  displayRank={i + 1}
+                  visibleColumns={visibleColumns}
+                  density={density}
+                  focused={focusedIndex === i}
+                  index={i}
+                />
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Footer ticker — V2 motif. Mono uppercase, hairline border-top. */}
+        <div
+          className="flex items-center justify-between px-3 py-2 v2-mono text-[10px]"
+          style={{
+            borderTop: "1px solid var(--v2-line-100)",
+            background: "var(--v2-bg-050)",
+            color: "var(--v2-ink-400)",
+          }}
         >
-          <TerminalHeader
-            visibleColumns={visibleColumns}
-            sortColumn={effectiveSortColumn}
-            sortDirection={effectiveSortDirection}
-            onSort={onSort}
-            onOpenColumnPicker={openColumnPicker}
-            disableSort={Boolean(sortOverride)}
-          />
-          <tbody>
-            {repos.slice(0, effectiveLimit).map((repo, i) => (
-              <TerminalRow
-                key={repo.id}
-                repo={repo}
-                displayRank={i + 1}
-                visibleColumns={visibleColumns}
-                density={density}
-                focused={focusedIndex === i}
-                index={i}
-              />
-            ))}
-          </tbody>
-        </table>
+          <span>
+            <span aria-hidden>{"// "}</span>
+            SHOWING{" "}
+            <span
+              className="tabular-nums"
+              style={{ color: "var(--v2-ink-100)" }}
+            >
+              {visibleRows.toLocaleString("en-US")}
+            </span>{" "}
+            OF{" "}
+            <span
+              className="tabular-nums"
+              style={{ color: "var(--v2-ink-100)" }}
+            >
+              {totalRows.toLocaleString("en-US")}
+            </span>
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            <ArrowUpDown size={10} aria-hidden className="shrink-0" />
+            <span>
+              SORT{" "}
+              <span style={{ color: "var(--v2-ink-100)" }}>
+                {effectiveSortColumn ? effectiveSortColumn.toUpperCase() : "—"}
+              </span>{" "}
+              {effectiveSortDirection === "asc" ? "ASC" : "DESC"}
+            </span>
+          </span>
+        </div>
 
         {pickerOpen ? <ColumnPicker onClose={closeColumnPicker} /> : null}
       </div>
@@ -436,28 +467,36 @@ export function Terminal({
           <button
             type="button"
             onClick={() => setShowAll(true)}
-            className={cn(
-              "inline-flex items-center gap-2 px-4 py-2 rounded-card text-xs font-mono",
-              "border border-border-primary text-text-secondary",
-              "hover:border-brand hover:text-brand hover:bg-brand-subtle",
-              "transition-colors",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40",
-            )}
+            className="v2-btn v2-btn-ghost"
+            style={{ height: 36 }}
             title="Load the full sorted list — may briefly increase CPU on slower devices."
           >
-            <span>
-              Showing top{" "}
-              <span className="text-text-primary font-semibold">
+            <span style={{ color: "var(--v2-ink-300)" }}>
+              <span aria-hidden>{"// "}</span>
+              SHOWING{" "}
+              <span
+                className="tabular-nums"
+                style={{ color: "var(--v2-ink-100)" }}
+              >
                 {effectiveLimit.toLocaleString("en-US")}
               </span>
-              {" "}of{" "}
-              <span className="text-text-primary font-semibold">
+              /
+              <span
+                className="tabular-nums"
+                style={{ color: "var(--v2-ink-100)" }}
+              >
                 {totalRows.toLocaleString("en-US")}
               </span>
             </span>
-            <span className="text-text-muted">·</span>
-            <span className="text-brand">
-              Show all {totalRows.toLocaleString("en-US")}
+            <span
+              className="mx-2"
+              aria-hidden
+              style={{ color: "var(--v2-ink-500)" }}
+            >
+              ·
+            </span>
+            <span style={{ color: "var(--v2-acc)" }}>
+              SHOW ALL {totalRows.toLocaleString("en-US")}
             </span>
           </button>
         </div>

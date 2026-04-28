@@ -23,7 +23,8 @@ import { Flame, TrendingUp, Zap } from "lucide-react";
 
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import { formatNumber, getRelativeTime } from "@/lib/utils";
-import { absoluteUrl, SITE_NAME } from "@/lib/seo";
+import { absoluteUrl, SITE_NAME, safeJsonLd } from "@/lib/seo";
+import { buildRepoPageSchemas } from "@/lib/seo-repo-schemas";
 import { buildCanonicalRepoProfile } from "@/lib/api/repo-profile";
 // Data-store refresh hooks. The repo detail page consumes signal data from
 // many sources; we refresh all of them in parallel before the canonical
@@ -49,10 +50,12 @@ import { refreshProducthuntLaunchesFromStore } from "@/lib/producthunt";
 // Group C (funding + profiles + revenue) is refreshed inside
 // buildCanonicalRepoProfile() — no need to re-call here.
 
+import { TerminalBar, MonoLabel, BarcodeTicker } from "@/components/v2";
 import { RepoDetailHeader } from "@/components/repo-detail/RepoDetailHeader";
 import { RepoDetailStats } from "@/components/repo-detail/RepoDetailStats";
 import { RepoDetailStatsStrip } from "@/components/repo-detail/RepoDetailStatsStrip";
 import { RepoDetailChartLazy } from "@/components/repo-detail/RepoDetailChartLazy";
+import { ErrorBoundary } from "@/components/shared/ErrorBoundary";
 import { buildMentionMarkers } from "@/components/repo-detail/MentionMarkers";
 import { CrossSignalBreakdown } from "@/components/repo-detail/CrossSignalBreakdown";
 import { RecentMentionsFeed } from "@/components/repo-detail/RecentMentionsFeed";
@@ -65,7 +68,7 @@ import { RepoSignalSnapshot } from "@/components/repo-detail/RepoSignalSnapshot"
 import { ProjectSurfaceMap } from "@/components/repo-detail/ProjectSurfaceMap";
 import { NpmAdoptionPanel } from "@/components/repo-detail/NpmAdoptionPanel";
 import { RepoActionRow } from "@/components/repo-detail/RepoActionRow";
-import { RepoReactions } from "@/components/reactions/RepoReactions";
+import { ObjectReactions } from "@/components/reactions/ObjectReactions";
 import {
   countReactions,
   listReactionsForObject,
@@ -220,37 +223,36 @@ export default async function RepoDetailPage({ params }: PageProps) {
   const markers = buildMentionMarkers(repo.fullName, 30);
   const lastRefresh = getRelativeTime(new Date().toISOString());
 
-  // SoftwareSourceCode JSON-LD — kept identical to the previous version so
-  // search engines see no schema regression on the URL.
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "SoftwareSourceCode",
-    name: repo.fullName,
+  // JSON-LD entity graph for the repo page. Replaces the previous hand-rolled
+  // SoftwareSourceCode + BreadcrumbList pair with a richer set:
+  //   SoftwareSourceCode, SoftwareApplication, BreadcrumbList,
+  //   and (when momentum + stars are present) AggregateRating.
+  // All schemas are anchored to the global Organization (#organization) and
+  // Website (#website) entities defined on the homepage.
+  const jsonLdSchemas = buildRepoPageSchemas({
+    owner: repo.owner,
+    name: repo.name,
     description: repo.description,
-    codeRepository: repo.url,
-    programmingLanguage: repo.language ?? undefined,
-    url: absoluteUrl(`/repo/${repo.owner}/${repo.name}`),
-    author: {
-      "@type": "Organization",
-      name: repo.owner,
-      url: `https://github.com/${repo.owner}`,
-    },
-    interactionStatistic: {
-      "@type": "InteractionCounter",
-      interactionType: "https://schema.org/LikeAction",
-      userInteractionCount: repo.stars,
-    },
-    keywords: [repo.language, ...(repo.topics ?? [])]
-      .filter(Boolean)
-      .join(", "),
-  };
+    language: repo.language,
+    topics: repo.topics,
+    stars: repo.stars,
+    forks: repo.forks,
+    lastCommitAt: repo.lastCommitAt,
+    createdAt: repo.createdAt,
+    momentumScore: repo.momentumScore,
+  });
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      {jsonLdSchemas.map((schema, idx) => (
+        <script
+          // Index-based key is fine: the array length only varies based on
+          // whether AggregateRating is appended (deterministic per render).
+          key={`repo-jsonld-${idx}`}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(schema) }}
+        />
+      ))}
 
       {/* Sticky breadcrumb strip — unchanged behavior, terminal tone. */}
       <div className="sticky top-14 z-30 bg-bg-primary/90 backdrop-blur-md border-b border-border-primary">
@@ -302,6 +304,15 @@ export default async function RepoDetailPage({ params }: PageProps) {
           to match /breakouts and the rest of the modernized surfaces. */}
       <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6">
+          {/* V2 terminal-bar header — operator identity + live status */}
+          <div className="v2-frame overflow-hidden">
+            <TerminalBar
+              label={`// REPO · ${repo.fullName.toUpperCase()}`}
+              status={`${formatNumber(repo.stars)} ★ · LIVE`}
+              live
+            />
+            <BarcodeTicker count={120} height={12} seed={repo.stars} />
+          </div>
           {/* Completeness strip — audit finding #1 trust fix.
               Answers "how much of this profile is actually populated?"
               before the user scrolls through modules that might be empty
@@ -323,8 +334,9 @@ export default async function RepoDetailPage({ params }: PageProps) {
             />
           </div>
           <RepoActionRow repo={repo} />
-          <RepoReactions
-            repoFullName={repo.fullName}
+          <ObjectReactions
+            objectType="repo"
+            objectId={repo.fullName}
             initialCounts={initialReactionCounts}
           />
           {/*
@@ -379,7 +391,9 @@ export default async function RepoDetailPage({ params }: PageProps) {
           />
           <RelatedReposPanel items={profile.related} />
           <RelatedIdeasPanel items={profile.ideas} />
-          <RepoDetailChartLazy repo={repo} markers={markers} />
+          <ErrorBoundary>
+            <RepoDetailChartLazy repo={repo} markers={markers} />
+          </ErrorBoundary>
           {profile.twitter ? <TwitterSignalPanel panel={profile.twitter} /> : null}
         </div>
       </main>

@@ -32,6 +32,8 @@ import {
   type UsageSummary,
 } from "@/lib/mcp/usage";
 
+export const runtime = "nodejs";
+
 const MAX_RECORDS = 1000;
 
 const RESPONSE_HEADERS = {

@@ -126,7 +126,7 @@ export default async function CollectionDetailPage({ params }: PageProps) {
         </a>{" "}
         (Apache 2.0) —{" "}
         <a
-          href="https://github.com/0motionguy/starscreener/blob/main/data/collections/NOTICE.md"
+          href="https://github.com/Kermit457/starscreener/blob/main/data/collections/NOTICE.md"
           className="underline hover:text-text-secondary"
           rel="noopener noreferrer"
           target="_blank"

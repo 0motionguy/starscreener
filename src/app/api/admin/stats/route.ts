@@ -21,6 +21,8 @@ import { collectionRankingsFetchedAt } from "@/lib/collection-rankings";
 import { recentReposFetchedAt } from "@/lib/recent-repos";
 import { repoMetadataFetchedAt } from "@/lib/repo-metadata";
 
+export const runtime = "nodejs";
+
 export const dynamic = "force-dynamic";
 
 // status/route.ts inlines this constant; replicate locally rather than reach
@@ -69,7 +71,7 @@ async function fetchRateLimit(): Promise<AdminStatsResponse["rateLimit"]> {
   try {
     const headers: Record<string, string> = {
       Accept: "application/vnd.github+json",
-      "User-Agent": "starscreener-admin-stats",
+      "User-Agent": "trendingrepo-admin-stats",
     };
     const token = process.env.GITHUB_TOKEN;
     if (token) headers.Authorization = `Bearer ${token}`;
@@ -95,7 +97,23 @@ async function fetchRateLimit(): Promise<AdminStatsResponse["rateLimit"]> {
   }
 }
 
+// APP-16: cache the recursive size walk per directory for 60s in module
+// memory. The admin dashboard polls this on every refresh; .data/ holds
+// growing JSONL/log files so an unbounded recursive lstat over thousands
+// of entries was the dominant cost of the admin/stats endpoint.
+const DIR_SIZE_TTL_MS = 60_000;
+const dirSizeCache = new Map<string, { value: number; expiresAt: number }>();
+
 async function dirSizeBytes(absDir: string): Promise<number> {
+  const now = Date.now();
+  const cached = dirSizeCache.get(absDir);
+  if (cached && cached.expiresAt > now) return cached.value;
+  const value = await dirSizeBytesUncached(absDir);
+  dirSizeCache.set(absDir, { value, expiresAt: now + DIR_SIZE_TTL_MS });
+  return value;
+}
+
+async function dirSizeBytesUncached(absDir: string): Promise<number> {
   let total = 0;
   let names: string[] = [];
   try {

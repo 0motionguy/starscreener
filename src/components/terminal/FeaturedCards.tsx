@@ -141,13 +141,23 @@ export function FeaturedCards({
   return (
     <section className="space-y-3">
       <div className="flex items-center justify-between px-1">
-        <h2 className="flex items-center gap-2 label-section">
-          <Flame size={14} className="text-brand" />
-          {title ?? "Featured Now"}
+        <h2
+          className="flex items-center gap-2 font-mono uppercase text-[11px] tracking-[0.18em]"
+          style={{ color: "var(--v3-ink-300)" }}
+        >
+          <Flame
+            size={12}
+            style={{ color: "var(--v3-acc)" }}
+            aria-hidden="true"
+          />
+          <span>{`// ${(title ?? "FEATURED NOW").toUpperCase()}`}</span>
         </h2>
         {lastRefresh && (
-          <span className="text-[10px] font-mono text-text-muted">
-            Updated {getRelativeTime(lastRefresh)}
+          <span
+            className="text-[10px] font-mono tabular-nums tracking-[0.14em]"
+            style={{ color: "var(--v3-ink-400)" }}
+          >
+            UPDATED {getRelativeTime(lastRefresh).toUpperCase()}
           </span>
         )}
       </div>
@@ -155,25 +165,44 @@ export function FeaturedCards({
       {showSkeleton ? (
         <FeaturedCardsSkeleton />
       ) : showEmpty ? (
-        <div className="flex items-center gap-4 w-full h-[160px] bg-bg-card border border-border-primary rounded-xl p-6">
-          <div className="flex-shrink-0 flex items-center justify-center size-12 rounded-full bg-brand-subtle text-brand">
-            <TrendingUp size={22} />
+        <div
+          className="flex items-center gap-4 w-full h-[160px] p-5 rounded-[2px]"
+          style={{
+            background: "var(--v3-bg-050)",
+            border: "1px solid var(--v3-line-200)",
+          }}
+        >
+          <div
+            className="flex-shrink-0 flex items-center justify-center size-10 rounded-[2px]"
+            style={{
+              background: "var(--v3-acc-soft)",
+              border: "1px solid var(--v3-acc-dim)",
+              color: "var(--v3-acc)",
+            }}
+          >
+            <TrendingUp size={18} />
           </div>
           <div className="flex-1 min-w-0">
-            <div className="font-semibold text-sm text-text-primary">
-              No trending repos yet
+            <div
+              className="font-semibold text-sm"
+              style={{ color: "var(--v3-ink-000)" }}
+            >
+              NO TRENDING REPOS YET
             </div>
-            <div className="mt-0.5 text-xs text-text-secondary">
-              Run the pipeline to compute fresh featured cards.
+            <div
+              className="mt-1 text-[11px] font-mono tracking-[0.14em] uppercase"
+              style={{ color: "var(--v3-ink-300)" }}
+            >
+              {`// RUN THE PIPELINE TO COMPUTE FRESH FEATURED CARDS`}
             </div>
           </div>
           <button
             type="button"
             onClick={handleRecompute}
             disabled={recomputing}
-            className="px-3 py-1.5 rounded-md text-xs font-mono font-medium uppercase tracking-wider bg-brand text-text-inverse hover:bg-brand-hover disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+            className="v3-button v3-button-primary disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            {recomputing ? "Running…" : "Run recompute"}
+            {recomputing ? "RUNNING…" : "RUN RECOMPUTE"}
           </button>
         </div>
       ) : (

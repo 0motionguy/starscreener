@@ -95,28 +95,61 @@ export default function ScanLogViewer({
       <button
         type="button"
         onClick={onToggle}
-        className="inline-flex items-center gap-1.5 rounded-md border border-border-primary bg-bg-muted px-2.5 py-1 text-xs uppercase tracking-wider text-text-secondary hover:bg-bg-card-hover transition-colors"
+        className="inline-flex items-center gap-1.5 rounded-[2px] px-2 py-1 font-mono text-[10px] uppercase tracking-[0.16em] transition-colors"
+        style={{
+          background: "var(--v3-bg-050)",
+          border: "1px solid var(--v3-line-200)",
+          color: "var(--v3-ink-200)",
+        }}
         aria-expanded={open}
         aria-controls={`scan-log-panel-${sourceId}`}
       >
-        <ScrollText className="size-3.5" aria-hidden />
+        <ScrollText className="size-3" aria-hidden />
         Log
       </button>
 
       {open ? (
         <div
           id={`scan-log-panel-${sourceId}`}
-          className="mt-2 rounded-md border border-border-primary bg-bg-muted p-3"
+          className="mt-2 rounded-[2px] p-3"
+          style={{
+            background: "var(--v3-bg-025)",
+            border: "1px solid var(--v3-line-200)",
+          }}
         >
-          <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
-            <div className="text-xs uppercase tracking-wider text-text-tertiary">
-              {sourceLabel} · most recent run
-            </div>
+          <div
+            className="-mx-3 -mt-3 mb-3 flex flex-wrap items-center justify-between gap-2 px-3 py-2"
+            style={{
+              background: "var(--v3-bg-050)",
+              borderBottom: "1px solid var(--v3-line-100)",
+            }}
+          >
+            <span
+              className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.18em]"
+              style={{ color: "var(--v3-ink-300)" }}
+            >
+              <span
+                aria-hidden
+                className="inline-block"
+                style={{
+                  width: 6,
+                  height: 6,
+                  background: "var(--v3-acc)",
+                  borderRadius: 1,
+                }}
+              />
+              {`${sourceLabel} · MOST RECENT RUN`}
+            </span>
             <button
               type="button"
               onClick={() => void fetchLog()}
               disabled={loading}
-              className="inline-flex items-center gap-1.5 rounded-md border border-border-primary bg-bg-muted px-2 py-0.5 text-[11px] uppercase tracking-wider text-text-secondary hover:bg-bg-card-hover transition-colors disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 rounded-[2px] px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.16em] transition-colors disabled:opacity-50"
+              style={{
+                background: "var(--v3-bg-050)",
+                border: "1px solid var(--v3-line-200)",
+                color: "var(--v3-ink-200)",
+              }}
             >
               {loading ? (
                 <LoaderCircle className="size-3 animate-spin" aria-hidden />
@@ -128,46 +161,92 @@ export default function ScanLogViewer({
           </div>
 
           {error ? (
-            <div className="rounded-md border border-border-primary bg-bg-muted p-2 text-xs text-error">
-              {error}
+            <div
+              className="mb-2 rounded-[2px] px-2 py-2 font-mono text-[11px]"
+              style={{
+                color: "var(--v3-sig-red)",
+                border: "1px solid var(--v3-sig-red)",
+                background: "var(--v3-sig-red-soft)",
+              }}
+            >
+              {`// ERROR · ${error}`}
             </div>
           ) : null}
 
           {!error && loading && !data ? (
-            <div className="text-xs text-text-tertiary">loading…</div>
+            <div
+              className="font-mono text-[11px] uppercase tracking-[0.16em]"
+              style={{ color: "var(--v3-ink-400)" }}
+            >
+              {"// LOADING…"}
+            </div>
           ) : null}
 
           {!error && data ? (
             data.file === null ? (
-              <div className="text-xs text-text-tertiary">
-                no runs yet — click Scan Now first
+              <div
+                className="font-mono text-[11px] uppercase tracking-[0.16em]"
+                style={{ color: "var(--v3-ink-400)" }}
+              >
+                {"// NO RUNS YET — CLICK SCAN NOW FIRST"}
               </div>
             ) : (
               <>
-                <div className="mb-2 grid grid-cols-1 gap-1 text-[11px] text-text-tertiary sm:grid-cols-3">
-                  <div>
-                    <span className="uppercase tracking-wider">file:</span>{" "}
-                    <span className="font-mono text-text-secondary">
+                <div className="mb-2 grid grid-cols-1 gap-1 sm:grid-cols-3">
+                  <div
+                    className="font-mono text-[10px] tracking-[0.14em]"
+                    style={{ color: "var(--v3-ink-400)" }}
+                  >
+                    <span className="uppercase">FILE:</span>{" "}
+                    <span
+                      className="tabular-nums"
+                      style={{ color: "var(--v3-ink-200)" }}
+                    >
                       {data.file}
                     </span>
                   </div>
-                  <div>
-                    <span className="uppercase tracking-wider">size:</span>{" "}
-                    <span className="font-mono text-text-secondary">
+                  <div
+                    className="font-mono text-[10px] tracking-[0.14em]"
+                    style={{ color: "var(--v3-ink-400)" }}
+                  >
+                    <span className="uppercase">SIZE:</span>{" "}
+                    <span
+                      className="tabular-nums"
+                      style={{ color: "var(--v3-ink-200)" }}
+                    >
                       {formatBytes(data.sizeBytes)}
                     </span>
                   </div>
-                  <div>
-                    <span className="uppercase tracking-wider">started:</span>{" "}
-                    <span className="font-mono text-text-secondary">
+                  <div
+                    className="font-mono text-[10px] tracking-[0.14em]"
+                    style={{ color: "var(--v3-ink-400)" }}
+                  >
+                    <span className="uppercase">STARTED:</span>{" "}
+                    <span
+                      className="tabular-nums"
+                      style={{ color: "var(--v3-ink-200)" }}
+                    >
                       {formatStartedAt(data.startedAt)}
                     </span>
                   </div>
                 </div>
                 {data.lines.length === 0 ? (
-                  <div className="text-xs text-text-tertiary">(empty log)</div>
+                  <div
+                    className="font-mono text-[11px] uppercase tracking-[0.16em]"
+                    style={{ color: "var(--v3-ink-400)" }}
+                  >
+                    {"// (EMPTY LOG)"}
+                  </div>
                 ) : (
-                  <pre className="font-mono text-[11px] text-text-secondary bg-bg-muted p-3 rounded-md max-h-80 overflow-auto whitespace-pre">
+                  <pre
+                    className="overflow-auto whitespace-pre rounded-[2px] p-3 font-mono text-[11px] tabular-nums"
+                    style={{
+                      maxHeight: 320,
+                      background: "var(--v3-bg-000)",
+                      border: "1px solid var(--v3-line-100)",
+                      color: "var(--v3-ink-200)",
+                    }}
+                  >
                     {data.lines.join("\n")}
                   </pre>
                 )}

@@ -11,7 +11,6 @@ import {
   deltaPctForNpmWindow,
   downloadsForNpmWindow,
   getNpmCold,
-  getNpmFetchedAt,
   getNpmPackagesFile,
   getTopNpmPackages,
   refreshNpmFromStore,
@@ -19,6 +18,14 @@ import {
   type NpmWindow,
 } from "@/lib/npm";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
+import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
+import { buildNpmHeader } from "@/components/npm/npmTopMetrics";
+import { TerminalFeedTable, type FeedColumn } from "@/components/feed/TerminalFeedTable";
+import { EntityLogo } from "@/components/ui/EntityLogo";
+import { npmLogoUrl } from "@/lib/logos";
+
+const NPM_ACCENT = "rgba(203, 56, 55, 0.85)";
+const NPM_RED = "#cb3837";
 
 const WINDOWS: NpmWindow[] = ["24h", "7d", "30d"];
 const DEFAULT_WINDOW: NpmWindow = "24h";
@@ -41,20 +48,6 @@ function parseWindow(raw: string | string[] | undefined): NpmWindow {
   return (WINDOWS as readonly string[]).includes(candidate ?? "")
     ? (candidate as NpmWindow)
     : DEFAULT_WINDOW;
-}
-
-function formatRelative(iso: string | null | undefined): string {
-  if (!iso) return "never";
-  const t = new Date(iso).getTime();
-  if (!Number.isFinite(t)) return "unknown";
-  const diff = Date.now() - t;
-  if (diff < 60_000) return "just now";
-  const mins = Math.floor(diff / 60_000);
-  if (mins < 60) return `${mins}m ago`;
-  const hours = Math.floor(mins / 60);
-  if (hours < 24) return `${hours}h ago`;
-  const days = Math.floor(hours / 24);
-  return `${days}d ago`;
 }
 
 function formatCompact(n: number): string {
@@ -86,69 +79,37 @@ export default async function NpmPage({ searchParams }: NpmPageProps) {
   const activeWindow = parseWindow(range);
   const file = getNpmPackagesFile();
   const packages = getTopNpmPackages(activeWindow, 100);
-  const npmFetchedAt = getNpmFetchedAt();
-  const top = packages[0];
   const cold = getNpmCold() || packages.length === 0;
+  const header = buildNpmHeader(packages, file);
 
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
       <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        <header className="mb-6 border-b border-border-primary pb-6">
-          <div className="flex items-baseline gap-3 flex-wrap">
-            <h1 className="text-2xl font-bold uppercase tracking-wider">
-              NPM / TOP PACKAGES
-            </h1>
-            <span className="text-xs text-text-tertiary">
-              {"// 24h / 7d / 30d repo-linked package movement"}
-            </span>
-          </div>
-          <p className="mt-2 text-sm text-text-secondary max-w-3xl">
-            Top npm packages are discovered through npm registry search, then
-            filtered to packages with a GitHub repository attached. The table
-            ranks public download movement against the previous equivalent
-            window; npm stats usually lag by 24-48 hours.
-          </p>
-        </header>
-
         {cold ? (
           <ColdState />
         ) : (
           <>
-            <TabNav active={activeWindow} />
+            <div className="mb-6">
+              <NewsTopHeaderV3
+                routeTitle="NPM · TOP PACKAGES"
+                liveLabel={`LIVE · ${activeWindow.toUpperCase()}`}
+                eyebrow="// NPM · REGISTRY · TRENDING"
+                meta={[
+                  { label: "TRACKED", value: packages.length.toLocaleString("en-US") },
+                  { label: "WINDOW", value: activeWindow.toUpperCase() },
+                ]}
+                cards={header.cards}
+                topStories={header.topStories}
+                accent={NPM_ACCENT}
+                caption={[
+                  "// LAYOUT compact-v1",
+                  "· 3-COL · 320 / 1FR / 1FR",
+                  "· DATA UNCHANGED",
+                ]}
+              />
+            </div>
 
-            <section className="mb-6 grid grid-cols-2 md:grid-cols-4 gap-3">
-              <StatTile
-                label="LAST SCRAPE"
-                value={formatRelative(npmFetchedAt)}
-                hint={
-                  npmFetchedAt
-                    ? new Date(npmFetchedAt)
-                        .toISOString()
-                        .slice(0, 16)
-                        .replace("T", " ")
-                    : undefined
-                }
-              />
-              <StatTile
-                label={`TOP ${activeWindow.toUpperCase()} MOVE`}
-                value={top ? formatDeltaPct(deltaPctForNpmWindow(top, activeWindow)) : "0.0%"}
-                hint={
-                  top
-                    ? `${top.name} - ${formatSignedCompact(deltaForNpmWindow(top, activeWindow))}`
-                    : undefined
-                }
-              />
-              <StatTile
-                label="REPOS LINKED"
-                value={file.counts.linkedRepos.toLocaleString("en-US")}
-                hint={`${file.discovery.candidatesFound.toLocaleString("en-US")} search candidates`}
-              />
-              <StatTile
-                label="DISCOVERY"
-                value={file.discovery.queries.length.toLocaleString("en-US")}
-                hint={`queries x ${file.discovery.searchSize} results`}
-              />
-            </section>
+            <TabNav active={activeWindow} />
 
             <PackageFeed packages={packages} activeWindow={activeWindow} />
           </>
@@ -162,7 +123,8 @@ function TabNav({ active }: { active: NpmWindow }) {
   return (
     <nav
       aria-label="npm time windows"
-      className="mb-6 flex items-center gap-1 border-b border-border-primary overflow-x-auto scrollbar-hide"
+      className="mb-6 flex items-center gap-1 overflow-x-auto scrollbar-hide"
+      style={{ borderBottom: "1px solid var(--v3-line-100)" }}
     >
       {WINDOWS.map((window) => {
         const isActive = window === active;
@@ -171,11 +133,13 @@ function TabNav({ active }: { active: NpmWindow }) {
             key={window}
             href={`/npm?range=${window}`}
             aria-current={isActive ? "page" : undefined}
-            className={`inline-flex items-center gap-2 px-3 min-h-[40px] text-xs uppercase tracking-wider whitespace-nowrap transition-colors ${
-              isActive
-                ? "text-text-primary border-b-2 border-accent-green"
-                : "text-text-tertiary hover:text-text-secondary border-b-2 border-transparent"
-            }`}
+            className="v2-mono inline-flex min-h-[40px] items-center gap-2 px-3 text-[11px] uppercase tracking-[0.18em] whitespace-nowrap transition-colors"
+            style={{
+              color: isActive ? "var(--v3-ink-100)" : "var(--v3-ink-400)",
+              borderBottom: isActive
+                ? `2px solid ${NPM_RED}`
+                : "2px solid transparent",
+            }}
           >
             Top {window}
           </Link>
@@ -192,98 +156,140 @@ function PackageFeed({
   packages: NpmPackageRow[];
   activeWindow: NpmWindow;
 }) {
+  const moveLabel = (window: NpmWindow) => `${window.toUpperCase()} Move`;
+
+  const columns: FeedColumn<NpmPackageRow>[] = [
+    {
+      id: "rank",
+      header: "#",
+      width: "44px",
+      render: (_, i) => (
+        <span
+          className="font-mono text-[12px] tabular-nums font-semibold"
+          style={{ color: i < 10 ? NPM_RED : "var(--v3-ink-400)" }}
+        >
+          {String(i + 1).padStart(2, "0")}
+        </span>
+      ),
+    },
+    {
+      id: "package",
+      header: "Package",
+      render: (pkg) => <PackageIdentity pkg={pkg} />,
+    },
+    {
+      id: "repo",
+      header: "Repo",
+      hideBelow: "md",
+      render: (pkg) => <RepoLink pkg={pkg} />,
+    },
+    {
+      id: "move-24h",
+      header: moveLabel("24h"),
+      width: "110px",
+      align: "right",
+      hideBelow: "md",
+      render: (pkg) => (
+        <Metric
+          current={pkg.downloads24h}
+          delta={pkg.delta24h}
+          deltaPct={pkg.deltaPct24h}
+          active={activeWindow === "24h"}
+        />
+      ),
+    },
+    {
+      id: "move-7d",
+      header: moveLabel("7d"),
+      width: "110px",
+      align: "right",
+      hideBelow: "lg",
+      render: (pkg) => (
+        <Metric
+          current={pkg.downloads7d}
+          delta={pkg.delta7d}
+          deltaPct={pkg.deltaPct7d}
+          active={activeWindow === "7d"}
+        />
+      ),
+    },
+    {
+      id: "move-30d",
+      header: moveLabel("30d"),
+      width: "110px",
+      align: "right",
+      hideBelow: "lg",
+      render: (pkg) => (
+        <Metric
+          current={pkg.downloads30d}
+          delta={pkg.delta30d}
+          deltaPct={pkg.deltaPct30d}
+          active={activeWindow === "30d"}
+        />
+      ),
+    },
+    {
+      id: "active-mobile",
+      header: `${activeWindow.toUpperCase()} Move`,
+      width: "100px",
+      align: "right",
+      hideAbove: "md",
+      render: (pkg) => (
+        <Metric
+          current={downloadsForNpmWindow(pkg, activeWindow)}
+          delta={deltaForNpmWindow(pkg, activeWindow)}
+          deltaPct={deltaPctForNpmWindow(pkg, activeWindow)}
+          active
+        />
+      ),
+    },
+    {
+      id: "version",
+      header: "Version",
+      width: "100px",
+      hideBelow: "lg",
+      render: (pkg) => <VersionPill pkg={pkg} />,
+    },
+  ];
+
   return (
-    <section className="border border-border-primary rounded-md bg-bg-secondary overflow-hidden">
-      <div className="hidden md:grid grid-cols-[40px_minmax(0,1.3fr)_minmax(0,1fr)_100px_100px_100px_110px] gap-3 items-center px-3 h-9 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
-        <div>#</div>
-        <div>PACKAGE</div>
-        <div>REPO</div>
-        <div className="text-right">24H MOVE</div>
-        <div className="text-right">7D MOVE</div>
-        <div className="text-right">30D MOVE</div>
-        <div>VERSION</div>
-      </div>
-      <div className="grid md:hidden grid-cols-[32px_1fr_86px] gap-2 items-center px-3 h-9 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
-        <div>#</div>
-        <div>PACKAGE</div>
-        <div className="text-right">{activeWindow.toUpperCase()} MOVE</div>
-      </div>
-
-      <ul>
-        {packages.map((pkg, i) => (
-          <li
-            key={pkg.name}
-            className="border-b border-border-primary/40 last:border-b-0"
-          >
-            <div className="hidden md:grid grid-cols-[40px_minmax(0,1.3fr)_minmax(0,1fr)_100px_100px_100px_110px] gap-3 items-center px-3 py-2 min-h-[58px] hover:bg-bg-card-hover transition-colors">
-              <Rank index={i} />
-              <PackageIdentity pkg={pkg} />
-              <RepoLink pkg={pkg} />
-              <Metric
-                current={pkg.downloads24h}
-                delta={pkg.delta24h}
-                deltaPct={pkg.deltaPct24h}
-                active={activeWindow === "24h"}
-              />
-              <Metric
-                current={pkg.downloads7d}
-                delta={pkg.delta7d}
-                deltaPct={pkg.deltaPct7d}
-                active={activeWindow === "7d"}
-              />
-              <Metric
-                current={pkg.downloads30d}
-                delta={pkg.delta30d}
-                deltaPct={pkg.deltaPct30d}
-                active={activeWindow === "30d"}
-              />
-              <VersionPill pkg={pkg} />
-            </div>
-
-            <div className="grid md:hidden grid-cols-[32px_1fr_86px] gap-2 items-center px-3 py-2 min-h-[64px] hover:bg-bg-card-hover transition-colors">
-              <Rank index={i} />
-              <div className="min-w-0">
-                <PackageIdentity pkg={pkg} />
-                <div className="mt-1 flex items-center gap-2">
-                  <VersionPill pkg={pkg} />
-                </div>
-              </div>
-              <Metric
-                current={downloadsForNpmWindow(pkg, activeWindow)}
-                delta={deltaForNpmWindow(pkg, activeWindow)}
-                deltaPct={deltaPctForNpmWindow(pkg, activeWindow)}
-                active
-              />
-            </div>
-          </li>
-        ))}
-      </ul>
-    </section>
-  );
-}
-
-function Rank({ index }: { index: number }) {
-  return (
-    <div className="text-xs tabular-nums font-semibold text-accent-green">
-      #{index + 1}
-    </div>
+    <TerminalFeedTable
+      rows={packages}
+      columns={columns}
+      rowKey={(pkg) => pkg.name}
+      accent={NPM_RED}
+      caption="Top npm packages by download movement, repo-linked only"
+    />
   );
 }
 
 function PackageIdentity({ pkg }: { pkg: NpmPackageRow }) {
   return (
-    <div className="min-w-0">
-      <a
-        href={pkg.npmUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-sm text-text-primary font-semibold hover:text-accent-green truncate block"
-        title={pkg.name}
-      >
-        {pkg.name}
-      </a>
-      <div className="text-[11px] text-text-tertiary truncate">
-        {pkg.description ?? "repo-linked npm package"}
+    <div className="flex min-w-0 items-center gap-2.5">
+      <EntityLogo
+        src={npmLogoUrl(pkg.linkedRepo)}
+        name={pkg.linkedRepo ?? pkg.name}
+        size={24}
+        shape="square"
+        alt=""
+      />
+      <div className="min-w-0">
+        <a
+          href={pkg.npmUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block truncate text-[13px] font-semibold transition-colors hover:text-[color:var(--v3-acc)]"
+          style={{ color: "var(--v3-ink-100)" }}
+          title={pkg.name}
+        >
+          {pkg.name}
+        </a>
+        <div
+          className="truncate text-[11px]"
+          style={{ color: "var(--v3-ink-400)" }}
+        >
+          {pkg.description ?? "repo-linked npm package"}
+        </div>
       </div>
     </div>
   );
@@ -295,20 +301,21 @@ function RepoLink({ pkg }: { pkg: NpmPackageRow }) {
     return (
       <Link
         href={`/repo/${derived.owner}/${derived.name}`}
-        className="text-xs text-text-primary hover:text-accent-green truncate block"
+        className="block truncate text-xs transition-colors hover:text-[color:var(--v3-acc)]"
+        style={{ color: "var(--v3-ink-100)" }}
         title={pkg.linkedRepo}
       >
         {pkg.linkedRepo}
       </Link>
     );
   }
-
   return (
     <a
       href={pkg.repositoryUrl ?? `https://github.com/${pkg.linkedRepo}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-xs text-text-secondary hover:text-accent-green truncate block"
+      className="block truncate text-xs transition-colors hover:text-[color:var(--v3-acc)]"
+      style={{ color: "var(--v3-ink-300)" }}
       title={pkg.linkedRepo}
     >
       {pkg.linkedRepo}
@@ -328,35 +335,50 @@ function Metric({
   active?: boolean;
 }) {
   const pct = Number(deltaPct) || 0;
+  const deltaColor =
+    delta > 0
+      ? "var(--v3-sig-green)"
+      : delta < 0
+        ? "var(--v3-sig-red)"
+        : "var(--v3-ink-300)";
+  const pctColor =
+    pct > 0
+      ? "var(--v3-sig-green)"
+      : pct < 0
+        ? "var(--v3-sig-red)"
+        : "var(--v3-ink-400)";
   return (
-    <div
-      className={`text-right text-xs tabular-nums ${
-        active ? "text-text-primary font-semibold" : "text-text-secondary"
-      }`}
-    >
+    <div className="text-right text-xs tabular-nums">
+      {/* Total installs — primary, large, ink-100. NPM's whole point is
+          "how many installs?" so this beats the delta in visual weight.
+          Active window goes brighter (ink-000 + 600 weight). */}
       <div
-        className={
-          delta > 0
-            ? "text-accent-green"
-            : delta < 0
-              ? "text-accent-red"
-              : undefined
-        }
+        className="font-mono text-[13px]"
+        style={{
+          color: active ? "var(--v3-ink-000)" : "var(--v3-ink-100)",
+          fontWeight: active ? 600 : 500,
+        }}
+      >
+        {formatCompact(current)}
+        <span
+          className="ml-0.5 text-[10px]"
+          style={{ color: "var(--v3-ink-400)" }}
+        >
+          {" "}dl
+        </span>
+      </div>
+      {/* Signed delta — secondary, color-coded green/red. */}
+      <div
+        className="mt-0.5 text-[11px] font-medium"
+        style={{ color: deltaColor }}
       >
         {formatSignedCompact(delta)}
       </div>
-      <div className="mt-0.5 text-[10px] font-normal text-text-tertiary">
-        {formatCompact(current)} dl
-      </div>
+      {/* Pct change — tertiary. */}
       {typeof deltaPct === "number" ? (
         <div
-          className={`mt-0.5 text-[10px] font-normal ${
-            pct > 0
-              ? "text-accent-green"
-              : pct < 0
-                ? "text-accent-red"
-                : "text-text-tertiary"
-          }`}
+          className="mt-0.5 text-[10px] font-normal"
+          style={{ color: pctColor }}
         >
           {formatDeltaPct(pct)}
         </div>
@@ -368,7 +390,13 @@ function Metric({
 function VersionPill({ pkg }: { pkg: NpmPackageRow }) {
   return (
     <span
-      className="inline-flex max-w-full items-center rounded-sm border border-accent-green/40 bg-accent-green/10 px-1.5 py-0.5 text-[10px] uppercase tracking-wider text-accent-green"
+      className="v2-mono inline-flex max-w-full items-center px-1.5 py-0.5 text-[10px] uppercase tracking-[0.14em]"
+      style={{
+        border: `1px solid ${NPM_RED}4D`,
+        background: `${NPM_RED}0D`,
+        color: NPM_RED,
+        borderRadius: 2,
+      }}
       title={pkg.publishedAt ?? undefined}
     >
       <span className="truncate">
@@ -378,41 +406,30 @@ function VersionPill({ pkg }: { pkg: NpmPackageRow }) {
   );
 }
 
-function StatTile({
-  label,
-  value,
-  hint,
-}: {
-  label: string;
-  value: string;
-  hint?: string;
-}) {
-  return (
-    <div className="border border-border-primary rounded-md px-4 py-3 bg-bg-secondary">
-      <div className="text-[10px] uppercase tracking-wider text-text-tertiary">
-        {label}
-      </div>
-      <div className="mt-1 text-xl font-bold truncate">{value}</div>
-      {hint ? (
-        <div className="mt-0.5 text-[11px] text-text-tertiary truncate">
-          {hint}
-        </div>
-      ) : null}
-    </div>
-  );
-}
-
 function ColdState() {
   return (
-    <section className="border border-dashed border-border-primary rounded-md p-8 bg-bg-secondary/40">
-      <h2 className="text-lg font-bold uppercase tracking-wider text-accent-green">
+    <section
+      className="p-8"
+      style={{
+        background: "var(--v3-bg-025)",
+        border: "1px dashed var(--v3-line-100)",
+        borderRadius: 2,
+      }}
+    >
+      <h2
+        className="v2-mono text-lg font-bold uppercase tracking-[0.18em]"
+        style={{ color: NPM_RED }}
+      >
         {"// no repo-linked npm data yet"}
       </h2>
-      <p className="mt-3 text-sm text-text-secondary max-w-xl">
-        Run <code className="text-text-primary">npm run scrape:npm</code> to
-        discover npm packages, keep only packages with GitHub repos attached,
+      <p
+        className="mt-3 max-w-xl text-sm"
+        style={{ color: "var(--v3-ink-300)" }}
+      >
+        Run <code style={{ color: "var(--v3-ink-100)" }}>npm run scrape:npm</code>{" "}
+        to discover npm packages, keep only packages with GitHub repos attached,
         and populate{" "}
-        <code className="text-text-primary">data/npm-packages.json</code>.
+        <code style={{ color: "var(--v3-ink-100)" }}>data/npm-packages.json</code>.
       </p>
     </section>
   );

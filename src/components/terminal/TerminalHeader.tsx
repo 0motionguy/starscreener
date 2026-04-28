@@ -56,9 +56,24 @@ export function TerminalHeader({
   const density = useFilterStore((s) => s.density);
   const setDensity = useFilterStore((s) => s.setDensity);
 
+  // Inline V2 styling kept on the th itself so sticky positioning + the
+  // hairline border survive the parent's `border-collapse: separate`
+  // table model (Tailwind `border-b` doesn't render reliably on <th>
+  // with that collapse mode).
+  const headRowStyle = {
+    background: "var(--v2-bg-050)",
+  } as const;
+  const thBaseStyle = {
+    background: "var(--v2-bg-050)",
+    borderBottom: "1px solid var(--v2-line-200)",
+  } as const;
+
   return (
-    <thead className="sticky top-0 z-20 bg-bg-primary/85 backdrop-blur-md">
-      <tr className="border-b border-border-primary">
+    <thead
+      className="sticky top-0 z-20 backdrop-blur-md"
+      style={{ background: "var(--v2-bg-050)" }}
+    >
+      <tr style={headRowStyle}>
         {visibleColumns.map((col) => {
           const isActive = sortColumn === col.id && sortDirection !== null;
           const aria =
@@ -68,34 +83,57 @@ export function TerminalHeader({
                 ? "descending"
                 : "none";
 
-          const style =
-            col.width > 0
+          const style = {
+            ...thBaseStyle,
+            ...(col.width > 0
               ? { width: col.width, minWidth: col.width }
-              : { minWidth: 240 };
+              : { minWidth: 240 }),
+          };
 
           const sortGlyph = isActive ? (
             sortDirection === "asc" ? (
-              <ChevronUp size={11} strokeWidth={2.5} className="shrink-0" />
+              <ChevronUp
+                size={11}
+                strokeWidth={2}
+                className="shrink-0"
+                style={{ color: "var(--v2-acc)" }}
+              />
             ) : (
-              <ChevronDown size={11} strokeWidth={2.5} className="shrink-0" />
+              <ChevronDown
+                size={11}
+                strokeWidth={2}
+                className="shrink-0"
+                style={{ color: "var(--v2-acc)" }}
+              />
             )
           ) : col.sortable && !disableSort ? (
             <ArrowUpDown
               size={10}
-              strokeWidth={2}
-              className="shrink-0 opacity-40"
+              strokeWidth={1.5}
+              className="shrink-0"
+              style={{ color: "var(--v2-ink-400)" }}
             />
           ) : null;
+
+          // V2 header cell: mono uppercase, 0.18em tracking (via .v2-mono),
+          // 10px, ink-300 inactive / acc active. Active sort gets a soft
+          // accent fill so the column reads as the focused axis.
+          const labelStyle = {
+            color: isActive ? "var(--v2-acc)" : "var(--v2-ink-300)",
+            fontSize: 10,
+            background: isActive ? "var(--v2-acc-soft)" : undefined,
+            padding: "10px 12px",
+          } as const;
 
           const content = col.sortable && !disableSort ? (
             <button
               type="button"
               onClick={() => onSort(col.id)}
               title={col.description ?? col.label}
+              style={labelStyle}
               className={cn(
-                "label-micro inline-flex w-full items-center gap-1 px-2 py-2 hover:text-text-primary transition-colors",
+                "v2-mono inline-flex w-full items-center gap-1 transition-colors",
                 alignClass(col.align),
-                isActive && "text-functional",
               )}
             >
               <span className="truncate">{col.label}</span>
@@ -103,10 +141,10 @@ export function TerminalHeader({
             </button>
           ) : (
             <span
+              style={labelStyle}
               className={cn(
-                "label-micro inline-flex w-full items-center gap-1 px-2 py-2",
+                "v2-mono inline-flex w-full items-center gap-1",
                 alignClass(col.align),
-                isActive && "text-functional",
               )}
               title={col.description ?? col.label}
             >
@@ -122,7 +160,7 @@ export function TerminalHeader({
               aria-sort={aria}
               style={style}
               className={cn(
-                "select-none bg-bg-primary",
+                "select-none",
                 col.sticky === "left" && "sticky left-0 z-10",
               )}
             >
@@ -134,8 +172,7 @@ export function TerminalHeader({
         {/* Controls cell — density toggle + column picker gear */}
         <th
           scope="col"
-          style={{ width: 80, minWidth: 80 }}
-          className="bg-bg-primary"
+          style={{ width: 80, minWidth: 80, ...thBaseStyle }}
         >
           <div className="flex items-center justify-end gap-1 px-2 py-1.5">
             <button
@@ -143,36 +180,48 @@ export function TerminalHeader({
               onClick={() => setDensity("compact")}
               aria-label="Compact density"
               aria-pressed={density === "compact"}
-              className={cn(
-                "inline-flex size-6 items-center justify-center rounded hover:bg-bg-tertiary transition-colors",
-                density === "compact"
-                  ? "text-functional"
-                  : "text-text-tertiary",
-              )}
+              className="inline-flex size-6 items-center justify-center transition-colors"
+              style={{
+                color:
+                  density === "compact"
+                    ? "var(--v2-acc)"
+                    : "var(--v2-ink-400)",
+                background:
+                  density === "compact" ? "var(--v2-acc-soft)" : "transparent",
+                borderRadius: 2,
+              }}
             >
-              <Rows3 size={13} strokeWidth={2} />
+              <Rows3 size={13} strokeWidth={1.75} />
             </button>
             <button
               type="button"
               onClick={() => setDensity("spacious")}
               aria-label="Spacious density"
               aria-pressed={density === "spacious"}
-              className={cn(
-                "inline-flex size-6 items-center justify-center rounded hover:bg-bg-tertiary transition-colors",
-                density === "spacious"
-                  ? "text-functional"
-                  : "text-text-tertiary",
-              )}
+              className="inline-flex size-6 items-center justify-center transition-colors"
+              style={{
+                color:
+                  density === "spacious"
+                    ? "var(--v2-acc)"
+                    : "var(--v2-ink-400)",
+                background:
+                  density === "spacious" ? "var(--v2-acc-soft)" : "transparent",
+                borderRadius: 2,
+              }}
             >
-              <StretchHorizontal size={13} strokeWidth={2} />
+              <StretchHorizontal size={13} strokeWidth={1.75} />
             </button>
             <button
               type="button"
               onClick={onOpenColumnPicker}
               aria-label="Configure columns"
-              className="inline-flex size-6 items-center justify-center rounded text-text-tertiary hover:bg-bg-tertiary hover:text-text-primary transition-colors"
+              className="inline-flex size-6 items-center justify-center transition-colors"
+              style={{
+                color: "var(--v2-ink-400)",
+                borderRadius: 2,
+              }}
             >
-              <Settings2 size={13} strokeWidth={2} />
+              <Settings2 size={13} strokeWidth={1.75} />
             </button>
           </div>
         </th>

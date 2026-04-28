@@ -163,12 +163,36 @@ export async function recordUsage(
       await fs.appendFile(filePath, JSON.stringify(built) + "\n", "utf8");
     });
   } catch (err) {
-
-    console.warn(
-      `[mcp-usage] recordUsage failed (best-effort — dropped): ${
-        err instanceof Error ? err.message : String(err)
-      }`,
-    );
+    // LIB-14: bucket failure types so operators can tell "we're losing
+    // metering because the disk is full" from "metering is throwing
+    // because the data dir was deleted". All paths still swallow — the
+    // contract is best-effort — but the log message + level reflects
+    // severity so monitoring can alert on the hot ones.
+    const errno = (err as NodeJS.ErrnoException | null)?.code;
+    const message = err instanceof Error ? err.message : String(err);
+    if (errno === "ENOSPC") {
+      // Disk full — operator should care. ENOSPC also implies follow-up
+      // writes will fail until something is freed.
+      console.error(
+        `[mcp-usage] disk full (ENOSPC) — metering writes paused: ${message}`,
+      );
+    } else if (errno === "EACCES" || errno === "EPERM") {
+      // Permissions — likely deploy/config bug. Loud but not fatal.
+      console.error(
+        `[mcp-usage] permission denied (${errno}) writing to ${filePath}: ${message}`,
+      );
+    } else if (errno === "ENOENT") {
+      // Data dir disappeared between mkdir and appendFile (rotation race
+      // or operator action). Single warn — next call's mkdir recreates.
+      console.warn(
+        `[mcp-usage] data dir vanished mid-write (ENOENT); next call will recreate: ${message}`,
+      );
+    } else {
+      // Unknown — keep the original log line for compatibility.
+      console.warn(
+        `[mcp-usage] recordUsage failed (best-effort — dropped): ${message}`,
+      );
+    }
   }
 }
 

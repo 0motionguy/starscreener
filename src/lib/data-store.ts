@@ -82,6 +82,12 @@ export interface DataStore {
   writtenAt(key: string): Promise<string | null>;
   /** Test/admin — drop a key from every tier. */
   reset(key: string): Promise<void>;
+  /**
+   * Raw Redis client for non-payload primitives (e.g. SETNX-based
+   * idempotency locks for Stripe events). Returns `null` when Redis is
+   * disabled — callers must handle the no-Redis fallback themselves.
+   */
+  redisClient(): RedisClientLike | null;
 }
 
 // ---------------------------------------------------------------------------
@@ -116,6 +122,20 @@ interface MemoryEntry<T = unknown> {
   cachedAtMs: number;
 }
 
+/**
+ * Process-level last-known-good cache for the data-store reads.
+ *
+ * **PUBLIC-DATA INVARIANT (LIB-16):** every payload routed through this
+ * cache MUST be globally public — trending repos, news scans, leaderboards,
+ * etc. The cache key is bare slug (no tenant prefix), and the in-memory
+ * Map is shared across all requests in the same Node process. The moment
+ * a tenant-scoped or user-private payload lands in this layer it leaks
+ * across requests.
+ *
+ * If you need to cache scoped data, namespace the key (e.g.
+ * `user:<id>:<slug>`) AND clear on auth boundaries. Don't reuse this
+ * primitive directly.
+ */
 class MemoryCache {
   private readonly entries = new Map<string, MemoryEntry>();
 
@@ -147,7 +167,7 @@ export interface RedisClientLike {
   set(
     key: string,
     value: string,
-    opts?: { ex?: number },
+    opts?: { ex?: number; nx?: boolean },
   ): Promise<unknown>;
   del(...keys: string[]): Promise<number>;
 }
@@ -353,6 +373,10 @@ class DefaultDataStore implements DataStore {
       }
     }
   }
+
+  redisClient(): RedisClientLike | null {
+    return this.redis;
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -529,15 +553,20 @@ function defaultRedisFactory(url: string, token?: string): RedisClientLike {
   });
 
   // Adapt ioredis's positional set("key", "val", "EX", ttl) to the
-  // `{ ex: number }` opts shape used by RedisClientLike. Read + del
-  // signatures already match.
+  // `{ ex: number; nx?: boolean }` opts shape used by RedisClientLike.
+  // ioredis SET supports any combination of EX/NX/XX positional flags;
+  // returns "OK" on success or null when SET NX doesn't acquire the key.
   return {
     get: (key) => client.get(key),
     set: (key, value, opts) => {
-      if (opts && typeof opts.ex === "number" && opts.ex > 0) {
-        return client.set(key, value, "EX", opts.ex);
-      }
-      return client.set(key, value);
+      const hasEx = opts && typeof opts.ex === "number" && opts.ex > 0;
+      const hasNx = opts?.nx === true;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const setFn = client.set as any;
+      if (hasEx && hasNx) return setFn(key, value, "EX", opts!.ex, "NX");
+      if (hasEx) return setFn(key, value, "EX", opts!.ex);
+      if (hasNx) return setFn(key, value, "NX");
+      return setFn(key, value);
     },
     del: (...keys) => client.del(...keys),
   };

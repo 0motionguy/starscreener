@@ -33,6 +33,7 @@ import fundingNews from './fetchers/funding-news/index.js';
 import trustmrr from './fetchers/trustmrr/index.js';
 import revenueBenchmarks from './fetchers/revenue-benchmarks/index.js';
 import redditBaselines from './fetchers/reddit-baselines/index.js';
+import engagementComposite from './fetchers/engagement-composite/index.js';
 // Phase B Group 2 (social) - lobsters is the only NEW name; bluesky/devto/
 // hackernews/producthunt/reddit replaced their stub bodies in place and so
 // their existing imports above pick up the real implementations transparently.
@@ -42,22 +43,6 @@ import lobsters from './fetchers/lobsters/index.js';
 // consumed-but-never-produced under worker-only mode).
 import manualRepos from './fetchers/manual-repos/index.js';
 import revenueManualMatches from './fetchers/revenue-manual-matches/index.js';
-// Phase 0 of the research-layer signal: arxiv submissions in cs.AI/CL/LG/MA.
-import arxiv from './fetchers/arxiv/index.js';
-// Phase 3.4 (funding source coverage) — Crunchbase RSS + X funding hashtags.
-// Both produce funding-news-shape signals to separate slugs; consumer
-// merge in src/lib/funding-news.ts is a follow-up.
-import crunchbase from './fetchers/crunchbase/index.js';
-import xFunding from './fetchers/x-funding/index.js';
-// Phase 3.1 — engagement composite scoring. Joins 7 upstream signal slugs
-// into a 0-100 leaderboard score per repo. Hourly :45 (after the staggered
-// upstream cluster ends at :40 with deltas).
-import engagementComposite from './fetchers/engagement-composite/index.js';
-// Phase 3.3 — GitHub Events firehose. Polls top-50 watchlist every 5 min
-// using the 10-PAT pool (50K req/hr, comfortable headroom for 600 calls/hr).
-// Sub-minute latency goal — 5 min is the realistic floor given GH rate
-// limits + worker tick budget.
-import githubEvents from './fetchers/github-events/index.js';
 
 export const FETCHERS: Fetcher[] = [
   hnPulse,
@@ -74,6 +59,7 @@ export const FETCHERS: Fetcher[] = [
   trustmrr,
   revenueBenchmarks,
   redditBaselines,
+  engagementComposite,
   lobsters,
   huggingface,
   bluesky,
@@ -90,11 +76,6 @@ export const FETCHERS: Fetcher[] = [
   producthunt,
   devto,
   reddit,
-  arxiv,
-  crunchbase,
-  xFunding,
-  engagementComposite,
-  githubEvents,
 ];
 
 export function getFetcher(name: string): Fetcher | undefined {

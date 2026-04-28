@@ -29,7 +29,9 @@
 import { readFile, writeFile, mkdir, stat } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 import { fetchJsonWithRetry, HttpStatusError, sleep } from "./_fetch-json.mjs";
+import { writeDataStore } from "./_data-store-write.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = resolve(__dirname, "..");
@@ -275,10 +277,19 @@ export async function main({ argv = process.argv.slice(2), log = console.log, fe
   await writeFile(OUT_JSONL, serializeJsonl(existing), "utf8");
   await writeFile(OUT_DEPENDENTS, `${JSON.stringify(dependents, null, 2)}\n`, "utf8");
 
+  // SCR-04: dual-write to data-store so live readers see the dependents
+  // map without waiting for the next deploy. JSONL stays on disk for the
+  // append-only history; only the dependents snapshot is small enough to
+  // fit in Redis comfortably.
+  const dsResult = await writeDataStore("npm-dependents", {
+    fetchedAt: new Date().toISOString(),
+    dependents,
+  });
+
   const sizeJsonl = (await stat(OUT_JSONL)).size;
   const sizeDeps = (await stat(OUT_DEPENDENTS)).size;
   log(`wrote ${OUT_JSONL} (${sizeJsonl} bytes, ${existing.size} rows)`);
-  log(`wrote ${OUT_DEPENDENTS} (${sizeDeps} bytes, ${Object.keys(dependents).length} packages)`);
+  log(`wrote ${OUT_DEPENDENTS} (${sizeDeps} bytes, ${Object.keys(dependents).length} packages) [redis: ${dsResult.source}]`);
   log(`done: ok=${ok} skipped=${skipped} failed=${failed}`);
   return { ok, skipped, failed };
 }
@@ -290,8 +301,32 @@ const isDirectRun =
     import.meta.url.endsWith(argv1.replace(/\\/g, "/")));
 
 if (isDirectRun) {
-  main().catch((err) => {
-    console.error("scrape-npm-daily failed:", err.message ?? err);
-    process.exit(1);
-  });
+  // T2.6: metadata sidecar — distinguishes outage from quiet day.
+  const startedAt = Date.now();
+  main()
+    .then(async () => {
+      try {
+        await writeSourceMetaFromOutcome({
+          source: "npm-daily",
+          count: 1,
+          durationMs: Date.now() - startedAt,
+        });
+      } catch (metaErr) {
+        console.error("[meta] npm-daily.json write failed:", metaErr);
+      }
+    })
+    .catch(async (err) => {
+      console.error("scrape-npm-daily failed:", err.message ?? err);
+      try {
+        await writeSourceMetaFromOutcome({
+          source: "npm-daily",
+          count: 0,
+          durationMs: Date.now() - startedAt,
+          error: err,
+        });
+      } catch (metaErr) {
+        console.error("[meta] npm-daily.json error-write failed:", metaErr);
+      }
+      process.exit(1);
+    });
 }

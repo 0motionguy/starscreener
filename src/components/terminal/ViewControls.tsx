@@ -37,13 +37,13 @@ export function ViewControls() {
       <div
         role="group"
         aria-label="Row density"
-        className={cn(
-          "flex items-center",
-          "border border-border-primary rounded-md",
-          "divide-x divide-border-primary overflow-hidden",
-        )}
+        className="flex items-center overflow-hidden"
+        style={{
+          border: "1px solid var(--v2-line-300)",
+          borderRadius: 2,
+        }}
       >
-        {DENSITY_OPTIONS.map((opt) => {
+        {DENSITY_OPTIONS.map((opt, idx) => {
           const isActive = density === opt.id;
           return (
             <button
@@ -55,15 +55,17 @@ export function ViewControls() {
               onClick={() => setDensity(opt.id)}
               className={cn(
                 "inline-flex items-center justify-center",
-                "size-7",
-                "transition-colors duration-150",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-functional/40 focus-visible:z-10",
-                isActive
-                  ? "bg-functional-glow text-functional"
-                  : "text-text-tertiary hover:text-text-primary hover:bg-bg-secondary",
+                "size-7 transition-colors duration-150",
+                "focus-visible:outline-none focus-visible:z-10",
               )}
+              style={{
+                borderLeft:
+                  idx > 0 ? "1px solid var(--v2-line-300)" : undefined,
+                background: isActive ? "var(--v2-acc-soft)" : "transparent",
+                color: isActive ? "var(--v2-acc)" : "var(--v2-ink-300)",
+              }}
             >
-              <opt.Icon size={14} aria-hidden="true" />
+              <opt.Icon size={13} aria-hidden="true" strokeWidth={1.75} />
             </button>
           );
         })}
@@ -77,15 +79,18 @@ export function ViewControls() {
           aria-expanded={pickerOpen}
           onClick={() => setPickerOpen((v) => !v)}
           className={cn(
-            "inline-flex items-center justify-center size-7 rounded-md",
-            "border border-border-primary text-text-tertiary",
-            "transition-colors duration-150",
-            "hover:text-text-primary hover:border-brand",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40",
-            pickerOpen && "border-brand text-brand",
+            "inline-flex items-center justify-center size-7 transition-colors duration-150",
+            "focus-visible:outline-none",
           )}
+          style={{
+            border: "1px solid",
+            borderRadius: 2,
+            borderColor: pickerOpen ? "var(--v2-acc)" : "var(--v2-line-300)",
+            background: pickerOpen ? "var(--v2-acc-soft)" : "transparent",
+            color: pickerOpen ? "var(--v2-acc)" : "var(--v2-ink-300)",
+          }}
         >
-          <Settings2 size={14} aria-hidden="true" />
+          <Settings2 size={13} aria-hidden="true" strokeWidth={1.75} />
         </button>
 
         {pickerOpen && <ColumnPicker onClose={() => setPickerOpen(false)} />}

@@ -25,6 +25,12 @@ import {
   type TwitterWebPost,
 } from "./_twitter-web-provider";
 import { ApifyTwitterProvider } from "./_apify-twitter-provider";
+
+// Brand-migration shim: prefer the new TRENDINGREPO_* env name, fall back
+// to the legacy STARSCREENER_*. Inlined here (no warn) because scripts run
+// in CI; the deprecation chatter belongs in the app's boot path.
+const readEnv = (newName: string, oldName: string): string | undefined =>
+  process.env[newName] ?? process.env[oldName];
 import {
   buildTwitterQueryBundle,
   getTwitterScanCandidates,
@@ -127,11 +133,15 @@ function takeFlagValue(args: string[], index: number): string {
 
 function parseArgs(argv: string[]): CliOptions {
   const out: CliOptions = {
-    provider: (process.env.TWITTER_COLLECTOR_PROVIDER as CollectorProvider) || "nitter",
-    mode: (process.env.TWITTER_COLLECTOR_MODE as CollectorMode) || "api",
+    // Defaults reflect the only working production path per CLAUDE.md.
+    // Nitter is dead post-2026 anti-bot; Apify is the supported provider.
+    // `api` mode silently fails on Vercel's ephemeral filesystem; `direct`
+    // is the GH-Actions-tested write path. Local invocations now match.
+    provider: (process.env.TWITTER_COLLECTOR_PROVIDER as CollectorProvider) || "apify",
+    mode: (process.env.TWITTER_COLLECTOR_MODE as CollectorMode) || "direct",
     baseUrl:
       process.env.TWITTER_COLLECTOR_BASE_URL ||
-      process.env.STARSCREENER_URL ||
+      readEnv("TRENDINGREPO_URL", "STARSCREENER_URL") ||
       process.env.NEXT_PUBLIC_APP_URL ||
       DEFAULT_BASE_URL,
     token:
@@ -301,9 +311,12 @@ function printHelp(): void {
   console.log(`Usage: npm run collect:twitter -- [options]
 
 Options:
-  --provider nitter|fixture|web|apify
-                                  Source provider. Default: nitter
-  --mode direct|api               Direct writes JSONL via service; api posts to running app. Default: api
+  --provider apify|fixture        Source provider. Default: apify (the only
+                                  working production path; nitter + web are
+                                  retained for offline replay only).
+  --mode direct|api               Direct writes JSONL via service; api posts
+                                  to running app. Default: direct (api silently
+                                  fails on Vercel's ephemeral filesystem).
   --limit N                       Candidate repos to scan. Default: 25
   --queries-per-repo N            Query cap per repo. Default: 4
   --posts-per-query N             Accepted source posts per query. 0 = all returned posts. Default: 0
@@ -312,14 +325,14 @@ Options:
   --window-hours N                Freshness window. Default: 24
   --max-tier 1|2|3                Highest query tier to run. Default: 2
   --repo owner/name               Restrict collection to one repo. Repeatable
-  --nitter-instances a,b,c        Comma-separated Nitter instance bases
+  --nitter-instances a,b,c        Comma-separated Nitter instance bases (legacy)
   --include-aliases               Include tier-3 alias queries
   --dry-run                       Build payloads without ingesting
   --ingest-empty                  Write zero-post scans too
   --output path                   Write built payloads as JSON for review
   --fixture-file path             Provider fixture input
 
-Default Nitter instances:
+Default Nitter instances (legacy, only used when --provider nitter):
   ${DEFAULT_NITTER_INSTANCES.join(", ")}
 `);
 }
@@ -848,7 +861,7 @@ async function main(): Promise<void> {
     );
 
     const payload = buildTwitterCollectorPayload(candidate, queries, postsByQuery, {
-      agentName: "starscreener-twitter-collector",
+      agentName: "trendingrepo-twitter-collector",
       agentVersion: "0.1.0",
       runId: options.runId,
       triggeredBy: "scheduled_refresh",

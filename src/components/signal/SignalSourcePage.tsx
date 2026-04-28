@@ -58,6 +58,13 @@ interface SignalSourcePageProps {
   tabs: SignalTabSpec[];
   /** Optional right-rail content (lg+). */
   rightRail?: React.ReactNode;
+  /**
+   * Optional content rendered between the header strip and the metric
+   * grid. /signals uses this to inject the V3 cross-source summary
+   * (3 charts + 3 hero stories). Server-rendered ReactNode only —
+   * functions would cross the client boundary.
+   */
+  topSlot?: React.ReactNode;
 }
 
 export function SignalSourcePage({
@@ -70,6 +77,7 @@ export function SignalSourcePage({
   metrics,
   tabs,
   rightRail,
+  topSlot,
 }: SignalSourcePageProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -95,25 +103,47 @@ export function SignalSourcePage({
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-6 md:py-8">
-        <header className="mb-6 border-b border-border-primary pb-5">
-          <div className="flex flex-wrap items-baseline gap-3">
-            <h1 className="text-2xl font-bold uppercase tracking-[0.16em]">
-              <span>{sourceLabel}</span>
-              <span className="mx-2 text-text-tertiary">/</span>
-              <span className="text-text-secondary">{mode}</span>
-            </h1>
-            <ScrapeAge
-              status={freshnessStatus}
-              ageLabel={ageLabel}
-              fetchedAt={fetchedAt}
-            />
-          </div>
-          {subtitle ? (
-            <p className="mt-2 max-w-3xl text-sm text-text-secondary">
-              {subtitle}
-            </p>
-          ) : null}
-        </header>
+        {/* Compact eyebrow line — replaces the legacy H1+subtitle hero.
+            The sidebar nav already names the page; this strip carries the
+            freshness pill so readers can spot stale data at a glance. */}
+        <div
+          className="v2-mono mb-4 flex flex-wrap items-center justify-between gap-3 px-3 py-2"
+          style={{
+            background: "var(--v3-bg-025)",
+            border: "1px solid var(--v3-line-100)",
+            borderRadius: 2,
+          }}
+        >
+          <span
+            className="truncate text-[11px] uppercase tracking-[0.18em]"
+            style={{ color: "var(--v3-ink-200)" }}
+          >
+            <span aria-hidden style={{ color: "var(--v3-ink-400)" }}>
+              {"// "}
+            </span>
+            {sourceLabel}
+            <span aria-hidden className="mx-1.5" style={{ color: "var(--v3-ink-500)" }}>
+              ·
+            </span>
+            <span style={{ color: "var(--v3-ink-300)" }}>{mode}</span>
+            {subtitle ? (
+              <span
+                aria-hidden
+                className="ml-2 hidden truncate sm:inline"
+                style={{ color: "var(--v3-ink-400)" }}
+              >
+                / {subtitle}
+              </span>
+            ) : null}
+          </span>
+          <ScrapeAge
+            status={freshnessStatus}
+            ageLabel={ageLabel}
+            fetchedAt={fetchedAt}
+          />
+        </div>
+
+        {topSlot ? <div className="mb-6">{topSlot}</div> : null}
 
         <SignalMetricStrip metrics={metrics} />
 
@@ -126,16 +156,23 @@ export function SignalSourcePage({
                 key={t.id}
                 type="button"
                 onClick={() => switchTab(t.id)}
-                className={
-                  "rounded-md border px-3 py-1.5 font-mono text-xs uppercase tracking-[0.12em] transition " +
-                  (active
-                    ? "border-brand bg-brand/10 text-text-primary"
-                    : "border-border-primary bg-bg-card text-text-secondary hover:text-text-primary hover:border-text-tertiary")
-                }
+                className="v2-mono px-3 py-1.5 text-[11px] uppercase tracking-[0.16em] transition"
+                style={{
+                  border: active
+                    ? "1px solid var(--v3-acc)"
+                    : "1px solid var(--v3-line-200)",
+                  background: active
+                    ? "rgba(146, 151, 246, 0.1)"
+                    : "var(--v3-bg-100)",
+                  color: active ? "var(--v3-ink-000)" : "var(--v3-ink-300)",
+                  borderRadius: 2,
+                }}
               >
                 {t.label}
                 {count !== null ? (
-                  <span className="ml-1.5 text-text-tertiary">({count})</span>
+                  <span className="ml-1.5" style={{ color: "var(--v3-ink-400)" }}>
+                    ({count})
+                  </span>
                 ) : null}
               </button>
             );

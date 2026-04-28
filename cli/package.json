@@ -1,7 +1,7 @@
 {
-  "name": "starscreener-cli",
-  "version": "0.1.0",
-  "description": "TrendingRepo CLI (ss) - read-only terminal client for open-source trend intelligence.",
+  "name": "trendingrepo-cli",
+  "version": "0.2.0",
+  "description": "TrendingRepo CLI (ss) — read-only terminal client for the TrendingRepo GitHub trend API.",
   "type": "module",
   "bin": {
     "ss": "./ss.mjs"
@@ -11,19 +11,16 @@
     "README.md"
   ],
   "keywords": [
-    "starscreener",
     "trendingrepo",
     "github",
     "trending",
     "cli",
-    "mcp",
-    "ai-agents",
     "repos",
     "stars"
   ],
   "license": "MIT",
   "author": "Mirko Basil Dolger",
-  "homepage": "https://github.com/0motionguy/starscreener#readme",
+  "homepage": "https://trendingrepo.com",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/0motionguy/starscreener.git",
@@ -31,6 +28,9 @@
   },
   "bugs": {
     "url": "https://github.com/0motionguy/starscreener/issues"
+  },
+  "scripts": {
+    "postinstall": "node -e \"console.warn('\\n[trendingrepo-cli] Successfully installed v' + process.env.npm_package_version + '. The CLI binary is still \\'ss\\'. If you used \\'starscreener-cli\\' before, that name is now deprecated.\\n')\""
   },
   "engines": {
     "node": ">=18"

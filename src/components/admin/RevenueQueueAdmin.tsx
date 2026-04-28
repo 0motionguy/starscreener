@@ -217,14 +217,21 @@ function ModerationRow({
   const isPending = row.status === "pending_moderation";
   return (
     <article
-      className={
-        "rounded-card border p-4 shadow-card " +
-        (row.status === "approved"
-          ? "border-up/50 bg-up/5"
-          : row.status === "rejected"
-            ? "border-down/50 bg-down/5"
-            : "border-border-primary bg-bg-card")
-      }
+      className="v2-card p-4"
+      style={{
+        background:
+          row.status === "approved"
+            ? "var(--v2-sig-green-soft)"
+            : row.status === "rejected"
+              ? "var(--v2-sig-red-soft)"
+              : "var(--v2-bg-050)",
+        borderColor:
+          row.status === "approved"
+            ? "var(--v2-sig-green)"
+            : row.status === "rejected"
+              ? "var(--v2-sig-red)"
+              : "var(--v2-line-std)",
+      }}
     >
       <header className="flex flex-wrap items-start justify-between gap-3">
         <div>
@@ -243,7 +250,7 @@ function ModerationRow({
         </div>
         <span
           className={
-            "rounded-full border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider " +
+            "rounded-[2px] border px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] " +
             (row.status === "approved"
               ? "border-up/60 bg-up/10 text-up"
               : row.status === "rejected"

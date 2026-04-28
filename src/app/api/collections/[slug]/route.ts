@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { errorEnvelope } from "@/lib/api/error-response";
 import type { Repo } from "@/lib/types";
 import { READ_CACHE_HEADERS } from "@/lib/api/cache";
 import { loadCollection, loadAllCollections, indexReposByFullName, liveCountFor } from "@/lib/collections";
@@ -16,6 +17,8 @@ import {
   refreshCollectionRankingsFromStore,
   type CollectionRankingRow,
 } from "@/lib/collection-rankings";
+
+export const runtime = "nodejs";
 
 function parseLimit(value: string | null): number {
   const parsed = Number.parseInt(value ?? "25", 10);
@@ -63,7 +66,7 @@ export async function GET(
   const { slug } = await params;
   const collection = loadCollection(slug);
   if (!collection) {
-    return NextResponse.json({ error: "Collection not found" }, { status: 404 });
+    return NextResponse.json(errorEnvelope("Collection not found"), { status: 404 });
   }
 
   // Refresh in-memory caches from the data-store before reading sync getters.

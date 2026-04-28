@@ -36,6 +36,7 @@ import { refreshRepoMetadataFromStore } from "@/lib/repo-metadata";
 import { refreshNpmFromStore } from "@/lib/npm";
 
 export const runtime = "nodejs";
+
 export const dynamic = "force-dynamic";
 
 const FULL_NAME_RE = /^[A-Za-z0-9._-]+\/[A-Za-z0-9._-]+$/;

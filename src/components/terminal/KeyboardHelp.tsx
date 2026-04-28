@@ -69,7 +69,7 @@ export function KeyboardHelp({ onClose }: KeyboardHelpProps) {
       <div
         ref={ref}
         className={cn(
-          "w-full max-w-md rounded-card border border-border-primary bg-bg-card",
+          "w-full max-w-md v2-card",
           "shadow-[var(--shadow-overlay)] animate-slide-up",
         )}
       >

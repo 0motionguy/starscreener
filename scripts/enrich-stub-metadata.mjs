@@ -58,10 +58,17 @@
 //
 // Env:
 //   GITHUB_TOKEN — used for live lookups to raise the rate-limit ceiling.
-//   STARSCREENER_GITHUB_HOMEPAGE_LOOKUP=false — hard-disables live lookups.
+//   TRENDINGREPO_GITHUB_HOMEPAGE_LOOKUP=false — hard-disables live lookups.
+//   STARSCREENER_GITHUB_HOMEPAGE_LOOKUP=false — legacy alias, still honored.
 
 import { existsSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
+
+// Brand-migration shim: prefer the new TRENDINGREPO_* env name, fall back
+// to the legacy STARSCREENER_*. Inlined (no warn) because this is a CI
+// script — deprecation chatter belongs in the app's boot path.
+const readEnv = (newName, oldName) =>
+  process.env[newName] ?? process.env[oldName];
 import { fileURLToPath } from "node:url";
 
 // Lazy, side-effect-free env loader. Only touches process.env when --live
@@ -212,7 +219,13 @@ function cleanHomepage(value) {
 }
 
 async function liveLookupHomepage(fullName) {
-  if (process.env.STARSCREENER_GITHUB_HOMEPAGE_LOOKUP === "false") return null;
+  if (
+    readEnv(
+      "TRENDINGREPO_GITHUB_HOMEPAGE_LOOKUP",
+      "STARSCREENER_GITHUB_HOMEPAGE_LOOKUP",
+    ) === "false"
+  )
+    return null;
   const [owner, name] = fullName.split("/");
   if (!owner || !name) return null;
   if (!/^[A-Za-z0-9-]+$/.test(owner) || !/^[A-Za-z0-9._-]+$/.test(name)) {

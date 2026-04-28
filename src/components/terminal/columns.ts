@@ -10,7 +10,7 @@
 
 import type { ReactNode } from "react";
 import { createElement } from "react";
-import { ArrowLeftRight, Bookmark, Star, Zap } from "lucide-react";
+import { Eye, GitCompareArrows, Star, Zap } from "lucide-react";
 
 import { MomentumBadge } from "@/components/shared/MomentumBadge";
 import { RankBadge } from "@/components/shared/RankBadge";
@@ -83,7 +83,11 @@ function freshnessDotClass(isoDate: string | null): string {
 }
 
 function renderDash(): ReactNode {
-  return createElement("span", { className: "text-text-muted" }, "—");
+  return createElement(
+    "span",
+    { className: "text-[color:var(--v2-ink-500)]" },
+    "—",
+  );
 }
 
 /**
@@ -126,12 +130,14 @@ function deriveRankChange(repo: Repo): number {
  */
 function renderStackedDelta(gain: number, denominator: number): ReactNode {
   const pct = denominator > 0 ? (gain / denominator) * 100 : 0;
+  // V2: green/red ramp uses --v2-sig-* tokens; zero shows as a dim
+  // ink-400 dash via the muted leaf style.
   const colorClass =
     gain > 0
-      ? "text-up"
+      ? "text-[color:var(--v2-sig-green)]"
       : gain < 0
-        ? "text-down"
-        : "text-text-tertiary";
+        ? "text-[color:var(--v2-sig-red)]"
+        : "text-[color:var(--v2-ink-400)]";
   const sign = gain > 0 ? "+" : gain < 0 ? "" : "";
   const pctSign = pct > 0 ? "+" : pct < 0 ? "" : "";
 
@@ -145,12 +151,14 @@ function renderStackedDelta(gain: number, denominator: number): ReactNode {
     },
     createElement(
       "span",
-      { className: "text-[13px] font-semibold" },
+      { className: "text-[13px] font-medium" },
       `${sign}${formatNumber(gain)}`,
     ),
     createElement(
       "span",
-      { className: "text-[10px] opacity-80" },
+      {
+        className: "text-[10px] text-[color:var(--v2-ink-400)]",
+      },
       `${pctSign}${pct.toFixed(1)}%`,
     ),
   );
@@ -176,6 +184,7 @@ export const COLUMNS: Column[] = [
     description: "Position in the current sort order.",
     render: (repo, ctx) => {
       const isBreakout = repo.movementStatus === "breakout";
+      const isTop = ctx.rank === 1;
       const isTop3 = ctx.rank <= 3;
       const rankChange = deriveRankChange(repo);
 
@@ -183,7 +192,7 @@ export const COLUMNS: Column[] = [
         ? createElement(RankBadge, { rank: ctx.rank, size: "sm" })
         : createElement(
             "span",
-            { className: "text-xs text-text-tertiary tabular-nums" },
+            { className: "text-xs tabular-nums text-[color:var(--v2-ink-300)]" },
             `#${ctx.rank}`,
           );
 
@@ -193,7 +202,7 @@ export const COLUMNS: Column[] = [
               "span",
               {
                 className:
-                  "inline-flex items-center gap-0.5 text-[9px] text-up font-mono tabular-nums leading-none",
+                  "inline-flex items-center gap-0.5 text-[9px] font-mono tabular-nums leading-none text-[color:var(--v2-sig-green)]",
                 title: `Climbed ${rankChange} ${rankChange === 1 ? "position" : "positions"}`,
               },
               createElement(
@@ -208,7 +217,7 @@ export const COLUMNS: Column[] = [
                 "span",
                 {
                   className:
-                    "inline-flex items-center gap-0.5 text-[9px] text-down font-mono tabular-nums leading-none",
+                    "inline-flex items-center gap-0.5 text-[9px] font-mono tabular-nums leading-none text-[color:var(--v2-sig-red)]",
                   title: `Dropped ${Math.abs(rankChange)} ${Math.abs(rankChange) === 1 ? "position" : "positions"}`,
                 },
                 createElement(
@@ -223,17 +232,30 @@ export const COLUMNS: Column[] = [
       return createElement(
         "span",
         {
-          className:
+          // `.v2-bracket` paints two filled accent corners via pseudo-
+          // elements. Scoped to the #1 rank cell so it declares the
+          // focused object without spanning the full row.
+          className: cn(
             "relative inline-flex items-center justify-center gap-1.5 font-mono",
+            isTop && "v2-bracket",
+          ),
+          style: isTop ? { padding: "4px 8px" } : undefined,
         },
         rankEl,
         arrowEl,
+        // Breakout marker — V2 hairline tag (accent border + accent-soft
+        // fill). Replaces the V1 orange halo + drop shadow.
         isBreakout
           ? createElement(
               "span",
               {
                 className:
-                  "absolute -top-2 -right-1 rounded-sm bg-brand/90 px-1 py-[1px] text-[8px] font-bold uppercase tracking-widest text-white shadow-[0_0_8px_rgba(245,110,15,0.5)]",
+                  "absolute -top-2 -right-1 px-1 py-[1px] text-[8px] font-bold uppercase tracking-[0.18em] text-[color:var(--v2-acc)]",
+                style: {
+                  border: "1px solid var(--v2-acc)",
+                  background: "var(--v2-acc-soft)",
+                  borderRadius: 1,
+                },
                 "aria-hidden": true,
               },
               "BRK",
@@ -267,18 +289,22 @@ export const COLUMNS: Column[] = [
           className: cn(
             "flex min-w-0 items-center gap-2.5 pl-2",
             ctx.isWatched &&
-              "shadow-[inset_2px_0_0_var(--color-functional)]",
+              "shadow-[inset_2px_0_0_var(--v2-acc)]",
           ),
         },
-        // Avatar
+        // Avatar — V2: sharp 1px corner radius + V2 hairline border.
         createElement("img", {
           src: repo.ownerAvatarUrl,
           alt: "",
-          width: 24,
-          height: 24,
+          width: 22,
+          height: 22,
           loading: "lazy",
-          className:
-            "size-6 shrink-0 rounded-full border border-border-primary bg-bg-tertiary",
+          className: "size-[22px] shrink-0",
+          style: {
+            border: "1px solid var(--v2-line-200)",
+            background: "var(--v2-bg-100)",
+            borderRadius: 1,
+          },
         }),
         // Right stack: line1 + optional line2 (spacious)
         createElement(
@@ -291,7 +317,8 @@ export const COLUMNS: Column[] = [
               "span",
               {
                 className:
-                  "truncate font-semibold text-text-primary text-[13px] leading-tight",
+                  "truncate font-mono font-medium text-[13px] leading-tight text-[color:var(--v2-ink-100)] group-hover:text-[color:var(--v2-acc)] transition-colors duration-200",
+                style: { letterSpacing: "0.02em" },
               },
               repo.fullName,
             ),
@@ -321,7 +348,7 @@ export const COLUMNS: Column[] = [
                 "p",
                 {
                   className:
-                    "mt-0.5 line-clamp-1 text-[11px] text-text-tertiary",
+                    "mt-0.5 line-clamp-1 text-[11px] text-[color:var(--v2-ink-300)]",
                 },
                 repo.description,
               )
@@ -371,13 +398,13 @@ export const COLUMNS: Column[] = [
         "span",
         {
           className:
-            "inline-flex items-center justify-end gap-1 font-mono tabular-nums text-text-primary",
+            "inline-flex items-center justify-end gap-1 font-mono tabular-nums text-[color:var(--v2-ink-100)]",
         },
         createElement(Star, {
-          size: 11,
-          className: "text-warning shrink-0",
+          size: 10,
+          className: "shrink-0 text-[color:var(--v2-ink-400)]",
           "aria-hidden": true,
-          fill: "currentColor",
+          strokeWidth: 1.5,
         }),
         formatNumber(repo.stars),
       ),
@@ -407,12 +434,13 @@ export const COLUMNS: Column[] = [
         "span",
         {
           className:
-            "inline-flex items-center justify-end gap-1 font-mono tabular-nums text-up",
+            "inline-flex items-center justify-end gap-1 font-mono tabular-nums text-[color:var(--v2-ink-100)]",
         },
         createElement(Zap, {
-          size: 11,
-          className: "text-up shrink-0",
+          size: 10,
+          className: "shrink-0 text-[color:var(--v2-acc)]",
           "aria-hidden": true,
+          strokeWidth: 1.5,
         }),
         formatNumber(Math.round(score)),
       );
@@ -512,7 +540,10 @@ export const COLUMNS: Column[] = [
     render: (repo) =>
       createElement(
         "span",
-        { className: "font-mono tabular-nums text-text-secondary" },
+        {
+          className:
+            "font-mono tabular-nums text-[color:var(--v2-ink-200)]",
+        },
         formatNumber(repo.forks),
       ),
   },
@@ -757,15 +788,17 @@ export const COLUMNS: Column[] = [
               ? "Remove from watchlist"
               : "Add to watchlist",
             className: cn(
-              "inline-flex size-6 items-center justify-center rounded hover:bg-bg-tertiary transition-colors",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-functional/40",
-              ctx.isWatched ? "text-functional" : "text-text-tertiary",
+              "inline-flex size-6 items-center justify-center transition-colors",
+              "focus-visible:outline-none",
+              ctx.isWatched
+                ? "text-[color:var(--v2-acc)]"
+                : "text-[color:var(--v2-ink-500)] hover:text-[color:var(--v2-ink-200)]",
             ),
+            style: { borderRadius: 1 },
           },
-          createElement(Bookmark, {
+          createElement(Eye, {
             size: 14,
-            strokeWidth: 2,
-            fill: ctx.isWatched ? "currentColor" : "none",
+            strokeWidth: 1.5,
             className: "shrink-0",
           }),
         ),
@@ -791,18 +824,19 @@ export const COLUMNS: Column[] = [
                 ? "Remove from compare"
                 : "Add to compare",
             className: cn(
-              "inline-flex size-6 items-center justify-center rounded transition-colors",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40",
+              "inline-flex size-6 items-center justify-center transition-colors",
+              "focus-visible:outline-none",
               ctx.isComparing
-                ? "text-brand hover:bg-bg-tertiary"
+                ? "text-[color:var(--v2-acc)]"
                 : ctx.compareDisabled
-                  ? "text-text-muted opacity-50 cursor-not-allowed"
-                  : "text-text-tertiary hover:bg-bg-tertiary",
+                  ? "text-[color:var(--v2-ink-500)] opacity-50 cursor-not-allowed"
+                  : "text-[color:var(--v2-ink-500)] hover:text-[color:var(--v2-ink-200)]",
             ),
+            style: { borderRadius: 1 },
           },
-          createElement(ArrowLeftRight, {
+          createElement(GitCompareArrows, {
             size: 14,
-            strokeWidth: 2,
+            strokeWidth: 1.5,
             className: "shrink-0",
           }),
         ),

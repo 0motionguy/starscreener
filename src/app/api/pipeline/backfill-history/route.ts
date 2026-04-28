@@ -21,6 +21,7 @@ import { stores } from "@/lib/pipeline/storage/singleton";
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 
 export const runtime = "nodejs";
+
 export const maxDuration = 300;
 
 const FULL_NAME_PATTERN = /^[A-Za-z0-9._-]+\/[A-Za-z0-9._-]+$/;

@@ -16,8 +16,6 @@
 // rather than treating them as "normal".
 
 import baselinesData from "../../data/reddit-baselines.json";
-import { getDataStore } from "./data-store";
-
 export type BaselineConfidence = "high" | "medium" | "low";
 
 export type BaselineTier =
@@ -131,6 +129,7 @@ export async function refreshRedditBaselinesFromStore(): Promise<{
     return { source: "memory", ageMs: Date.now() - lastRefreshMs };
   }
   inflight = (async () => {
+    const { getDataStore } = await import("./data-store");
     const result = await getDataStore().read<BaselinesFile>("reddit-baselines");
     if (result.data && result.source !== "missing") {
       data = result.data;

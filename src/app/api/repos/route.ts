@@ -3,11 +3,14 @@ import type { Repo } from "@/lib/types";
 import type { TrendFilter, TrendWindow } from "@/lib/pipeline/types";
 import { slugToId } from "@/lib/utils";
 import { READ_CACHE_HEADERS } from "@/lib/api/cache";
+import { errorEnvelope } from "@/lib/api/error-response";
 import { isHotRepo, trendScoreForTimeRange } from "@/lib/filters";
 import {
   getDerivedRepoById,
   getDerivedRepos,
 } from "@/lib/derived-repos";
+
+export const runtime = "nodejs";
 
 // ---------------------------------------------------------------------------
 // Param validation
@@ -177,13 +180,14 @@ export async function GET(request: NextRequest) {
   ];
   if (!validSorts.includes(sortParam)) {
     return NextResponse.json(
-      { error: `Invalid sort: ${sortParam}`, valid: validSorts },
+      { ok: false, error: `Invalid sort: ${sortParam}`, valid: validSorts },
       { status: 400 },
     );
   }
   if (!VALID_PERIODS.has(periodParam as TrendWindow)) {
     return NextResponse.json(
       {
+        ok: false,
         error: `Invalid period: ${periodParam}`,
         valid: Array.from(VALID_PERIODS),
       },
@@ -193,6 +197,7 @@ export async function GET(request: NextRequest) {
   if (!VALID_FILTERS.has(filterParam as TrendFilter)) {
     return NextResponse.json(
       {
+        ok: false,
         error: `Invalid filter: ${filterParam}`,
         valid: Array.from(VALID_FILTERS),
       },
@@ -219,7 +224,7 @@ export async function GET(request: NextRequest) {
     const tag = tagParam.trim().toLowerCase();
     if (!tag || !/^[a-z0-9-]+$/.test(tag)) {
       return NextResponse.json(
-        { error: `Invalid tag: ${tagParam}` },
+        errorEnvelope(`Invalid tag: ${tagParam}`),
         { status: 400 },
       );
     }

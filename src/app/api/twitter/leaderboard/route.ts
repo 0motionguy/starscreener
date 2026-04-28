@@ -5,7 +5,10 @@ import {
   getTwitterTrendingRepoLeaderboard,
 } from "@/lib/twitter/service";
 import { READ_CACHE_HEADERS } from "@/lib/api/cache";
+import { errorEnvelope } from "@/lib/api/error-response";
 import { checkRateLimitAsync } from "@/lib/api/rate-limit";
+
+export const runtime = "nodejs";
 
 type TwitterLeaderboardMode = "trending" | "global";
 
@@ -21,17 +24,11 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   const mode = parseMode(request.nextUrl.searchParams.get("mode"));
 
   if (!Number.isFinite(limit) || !Number.isInteger(limit) || limit < 1 || limit > 100) {
-    return NextResponse.json(
-      { error: "limit must be an integer between 1 and 100" },
-      { status: 400 },
-    );
+    return NextResponse.json(errorEnvelope("limit must be an integer between 1 and 100"), { status: 400 });
   }
 
   if (!mode) {
-    return NextResponse.json(
-      { error: "mode must be one of: trending, global" },
-      { status: 400 },
-    );
+    return NextResponse.json(errorEnvelope("mode must be one of: trending, global"), { status: 400 });
   }
 
   const rateLimit = await checkRateLimitAsync(request, {
@@ -41,7 +38,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   if (!rateLimit.allowed) {
     const retryAfterSec = Math.max(1, Math.ceil(rateLimit.retryAfterMs / 1000));
     return NextResponse.json(
-      { error: "rate limit exceeded" },
+      errorEnvelope("rate limit exceeded", "RATE_LIMITED"),
       {
         status: 429,
         headers: {

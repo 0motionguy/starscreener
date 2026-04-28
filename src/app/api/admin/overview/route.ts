@@ -28,6 +28,8 @@ import {
 import { pipeline, repoStore, snapshotStore } from "@/lib/pipeline/pipeline";
 import { lastFetchedAt, deltasComputedAt } from "@/lib/trending";
 
+export const runtime = "nodejs";
+
 export const dynamic = "force-dynamic";
 
 export interface AdminOverviewResponse {

@@ -65,15 +65,17 @@ export function RepoActionRow({ repo }: RepoActionRowProps) {
         type="button"
         onClick={handleWatch}
         className={cn(
-          "inline-flex items-center gap-2 px-4 py-2 rounded-button border text-sm font-medium font-mono transition-colors min-h-[44px]",
-          isWatched
-            ? "bg-accent-green/10 border-accent-green text-accent-green"
-            : "bg-bg-card border-border-primary text-text-secondary hover:bg-bg-card-hover",
+          "v2-btn min-h-[44px]",
+          isWatched ? "v2-btn-primary" : "v2-btn-ghost",
         )}
         aria-pressed={isWatched}
       >
-        {isWatched ? <EyeOff size={16} aria-hidden /> : <Eye size={16} aria-hidden />}
-        {isWatched ? "Watching" : "Watch"}
+        {isWatched ? (
+          <EyeOff size={14} aria-hidden style={{ marginRight: 8 }} />
+        ) : (
+          <Eye size={14} aria-hidden style={{ marginRight: 8 }} />
+        )}
+        {isWatched ? "WATCHING" : "WATCH"}
       </button>
 
       <button
@@ -88,27 +90,27 @@ export function RepoActionRow({ repo }: RepoActionRowProps) {
               : "Add to compare"
         }
         className={cn(
-          "inline-flex items-center gap-2 px-4 py-2 rounded-button border text-sm font-medium font-mono transition-colors min-h-[44px]",
+          "v2-btn min-h-[44px]",
           isComparing
-            ? "bg-accent-blue/10 border-accent-blue text-accent-blue"
-            : compareDisabled
-              ? "bg-bg-card border-border-primary text-text-muted cursor-not-allowed opacity-50"
-              : "bg-bg-card border-border-primary text-text-secondary hover:bg-bg-card-hover",
+            ? "v2-btn-primary"
+            : "v2-btn-ghost",
+          compareDisabled && "cursor-not-allowed opacity-50",
         )}
         aria-pressed={isComparing}
       >
-        <GitCompareArrows size={16} aria-hidden />
-        {isComparing ? "In compare" : "Compare"}
+        <GitCompareArrows size={14} aria-hidden style={{ marginRight: 8 }} />
+        {isComparing ? "IN COMPARE" : "COMPARE"}
       </button>
 
       <a
         href={repo.url || `https://github.com/${repo.fullName}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="ml-auto inline-flex items-center gap-2 px-4 py-2 rounded-button border border-border-primary bg-bg-card text-text-secondary hover:bg-bg-card-hover hover:text-text-primary text-sm font-medium font-mono transition-colors min-h-[44px]"
+        className="v2-btn v2-btn-ghost ml-auto min-h-[44px]"
       >
-        <ExternalLink size={16} aria-hidden />
-        Open on GitHub
+        <ExternalLink size={14} aria-hidden style={{ marginRight: 8 }} />
+        OPEN ON GITHUB
+        <span aria-hidden style={{ marginLeft: 8 }}>→</span>
       </a>
     </div>
   );

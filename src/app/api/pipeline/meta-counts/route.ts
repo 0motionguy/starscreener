@@ -5,8 +5,11 @@
 // repo in a single pass.
 
 import { NextResponse } from "next/server";
+import { errorEnvelope } from "@/lib/api/error-response";
 import { getDerivedMetaCounts } from "@/lib/derived-insights";
 import type { MetaCounts } from "@/lib/types";
+
+export const runtime = "nodejs";
 
 export interface MetaCountsResponse {
   counts: MetaCounts;
@@ -23,6 +26,6 @@ export async function GET(): Promise<
     );
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
-    return NextResponse.json({ error: message }, { status: 500 });
+    return NextResponse.json(errorEnvelope(message), { status: 500 });
   }
 }

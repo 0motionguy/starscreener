@@ -15,6 +15,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { pipeline } from "@/lib/pipeline/pipeline";
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 
+export const runtime = "nodejs";
+
 export interface RecomputeResponse {
   ok: true;
   reposRecomputed: number;

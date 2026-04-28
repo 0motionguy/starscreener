@@ -25,8 +25,10 @@
 // `@/lib/pricing/entitlements` — the parallel pricing agent's helper.
 
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 
 import { userAuthFailureResponse, verifyUserAuth } from "@/lib/api/auth";
+import { parseBody } from "@/lib/api/parse-body";
 import { canUseFeature } from "@/lib/pricing/entitlements";
 import {
   deletePrivateWatchlist,
@@ -36,6 +38,17 @@ import {
   setPrivateWatchlist,
   type PrivateWatchlistEntry,
 } from "@/lib/watchlist/private-store";
+
+export const runtime = "nodejs";
+
+// MAX_PRIVATE_WATCHLIST_REPOS is checked post-parse to preserve the
+// discrete `code: TOO_MANY_REPOS` discriminator (asserted by
+// pipeline/__tests__/private-watchlist.test.ts:284).
+const PrivateWatchlistPutSchema = z.object({
+  fullNames: z.array(z.string(), {
+    message: "fullNames must be an array of strings",
+  }),
+});
 
 // ---------------------------------------------------------------------------
 // Headers
@@ -127,31 +140,14 @@ export async function PUT(request: NextRequest): Promise<NextResponse> {
   const gate = await authorize(request);
   if (gate instanceof NextResponse) return gate;
 
-  let raw: unknown;
-  try {
-    raw = await request.json();
-  } catch {
-    return jsonNoStore(
-      { ok: false, error: "body must be valid JSON", code: "BAD_REQUEST" },
-      { status: 400 },
-    );
+  const parsed = await parseBody(request, PrivateWatchlistPutSchema);
+  if (!parsed.ok) {
+    // Re-shape parseBody's response onto the per-route private headers.
+    // Body shape stays { ok:false, error, code? } from the canonical helper.
+    const errBody = await parsed.response.json();
+    return jsonNoStore(errBody, { status: parsed.response.status });
   }
-
-  if (raw === null || typeof raw !== "object") {
-    return jsonNoStore(
-      { ok: false, error: "body must be a JSON object", code: "BAD_REQUEST" },
-      { status: 400 },
-    );
-  }
-
-  const body = raw as Record<string, unknown>;
-  if (!Array.isArray(body.fullNames)) {
-    return jsonNoStore(
-      { ok: false, error: "fullNames must be an array of strings", code: "BAD_REQUEST" },
-      { status: 400 },
-    );
-  }
-  if (body.fullNames.length > MAX_PRIVATE_WATCHLIST_REPOS) {
+  if (parsed.data.fullNames.length > MAX_PRIVATE_WATCHLIST_REPOS) {
     return jsonNoStore(
       {
         ok: false,
@@ -162,21 +158,7 @@ export async function PUT(request: NextRequest): Promise<NextResponse> {
     );
   }
 
-  const rawList: string[] = [];
-  for (const entry of body.fullNames as unknown[]) {
-    if (typeof entry !== "string") {
-      return jsonNoStore(
-        {
-          ok: false,
-          error: "fullNames entries must be strings",
-          code: "BAD_REQUEST",
-        },
-        { status: 400 },
-      );
-    }
-    rawList.push(entry);
-  }
-
+  const { fullNames: rawList } = parsed.data;
   const { valid: _valid, invalid } = normalizeFullNames(rawList);
   // Normalization / validation happens inside setPrivateWatchlist too; we
   // call it here only to expose the `dropped` list in the response so

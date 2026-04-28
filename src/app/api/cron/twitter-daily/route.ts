@@ -24,6 +24,8 @@ import { recordOutboundRun } from "@/lib/twitter/outbound/audit";
 import { selectOutboundAdapter } from "@/lib/twitter/outbound/adapters";
 import { composeDailyBreakouts } from "@/lib/twitter/outbound/composer";
 
+export const runtime = "nodejs";
+
 interface DailyResponse {
   ok: true;
   adapter: string;

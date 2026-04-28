@@ -24,6 +24,7 @@
 import { writeFile, mkdir, readFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 import {
   fetchArticleList,
   fetchDetailsBatched,
@@ -413,8 +414,32 @@ const isDirectRun =
     import.meta.url.endsWith(argv1.replace(/\\/g, "/")));
 
 if (isDirectRun) {
-  main().catch((err) => {
-    console.error("scrape-devto failed:", err.message ?? err);
-    process.exit(1);
-  });
+  // T2.6: metadata sidecar — distinguishes outage from quiet day.
+  const startedAt = Date.now();
+  main()
+    .then(async () => {
+      try {
+        await writeSourceMetaFromOutcome({
+          source: "devto",
+          count: 1,
+          durationMs: Date.now() - startedAt,
+        });
+      } catch (metaErr) {
+        console.error("[meta] devto.json write failed:", metaErr);
+      }
+    })
+    .catch(async (err) => {
+      console.error("scrape-devto failed:", err.message ?? err);
+      try {
+        await writeSourceMetaFromOutcome({
+          source: "devto",
+          count: 0,
+          durationMs: Date.now() - startedAt,
+          error: err,
+        });
+      } catch (metaErr) {
+        console.error("[meta] devto.json error-write failed:", metaErr);
+      }
+      process.exit(1);
+    });
 }

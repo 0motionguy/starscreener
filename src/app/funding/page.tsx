@@ -11,13 +11,17 @@
 import type { Metadata } from "next";
 import {
   getFundingFile,
-  getFundingFetchedAt,
   getFundingSignals,
   getFundingStats,
   isFundingCold,
   refreshFundingNewsFromStore,
 } from "@/lib/funding-news";
 import { FundingCard } from "@/components/funding/FundingCard";
+import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
+import { buildFundingHeader } from "@/components/funding/fundingTopMetrics";
+
+const FUNDING_ACCENT = "rgba(245, 110, 15, 0.85)";
+const FUNDING_BRAND = "#f56e0f";
 
 export const dynamic = "force-dynamic";
 
@@ -29,24 +33,6 @@ export const metadata: Metadata = {
 };
 
 // ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
-function formatRelative(iso: string | null | undefined): string {
-  if (!iso) return "never";
-  const t = new Date(iso).getTime();
-  if (!Number.isFinite(t)) return "unknown";
-  const diff = Date.now() - t;
-  if (diff < 60_000) return "just now";
-  const mins = Math.floor(diff / 60_000);
-  if (mins < 60) return `${mins}m ago`;
-  const hours = Math.floor(mins / 60);
-  if (hours < 24) return `${hours}h ago`;
-  const days = Math.floor(hours / 24);
-  return `${days}d ago`;
-}
-
-// ---------------------------------------------------------------------------
 // Page
 // ---------------------------------------------------------------------------
 
@@ -56,66 +42,52 @@ export default async function FundingPage() {
   const signals = getFundingSignals();
   const stats = getFundingStats();
   const cold = isFundingCold(file);
+  const { cards, topStories } = buildFundingHeader(signals, stats);
 
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
       <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        {/* Header */}
-        <header className="mb-6 border-b border-border-primary pb-6">
-          <div className="flex items-baseline gap-3 flex-wrap">
-            <h1 className="text-2xl font-bold uppercase tracking-wider">
-              FUNDING RADAR
-            </h1>
-            <span className="text-xs text-text-tertiary">
-              {"// ai & tech startup rounds"}
-            </span>
-          </div>
-          <p className="mt-2 text-sm text-text-secondary max-w-2xl">
-            Funding signals aggregated from TechCrunch, VentureBeat, and other
-            sources. Structured extraction uses regex heuristics — confidence
-            indicators show how reliably each field was parsed.
-          </p>
-        </header>
-
         {cold ? (
           <ColdState />
         ) : (
           <>
-            {/* Stat tiles */}
-            <section className="mb-6 grid grid-cols-2 md:grid-cols-4 gap-3">
-              <StatTile
-                label="Last Scrape"
-                value={formatRelative(getFundingFetchedAt())}
-                hint={getFundingFetchedAt()
-                  ? new Date(getFundingFetchedAt()!)
-                      .toISOString()
-                      .slice(0, 16)
-                      .replace("T", " ")
-                  : undefined}
+            <div className="mb-6">
+              <NewsTopHeaderV3
+                routeTitle="FUNDING · TOP ROUNDS"
+                liveLabel="LIVE · 7D"
+                eyebrow="// FUNDING · ALL SOURCES · 7D"
+                meta={[
+                  { label: "SIGNALS", value: signals.length.toLocaleString("en-US") },
+                  { label: "WINDOW", value: "7D" },
+                ]}
+                cards={cards}
+                topStories={topStories}
+                accent={FUNDING_ACCENT}
+                caption={[
+                  "// LAYOUT compact-v1",
+                  "· 3-COL · 320 / 1FR / 1FR",
+                  "· DATA UNCHANGED",
+                ]}
               />
-              <StatTile
-                label="Signals"
-                value={stats.totalSignals.toLocaleString("en-US")}
-                hint={`${stats.extractedSignals} with extraction`}
-              />
-              <StatTile
-                label="This Week"
-                value={stats.thisWeekCount.toLocaleString("en-US")}
-                hint="last 7 days"
-              />
-              <StatTile
-                label="Top Round"
-                value={stats.topRound?.extracted?.amountDisplay ?? "—"}
-                hint={stats.topRound?.extracted?.companyName ?? "no data"}
-              />
-            </section>
+            </div>
 
             {/* Signals feed */}
             {signals.length > 0 ? (
-              <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-                {signals.map((signal) => (
-                  <FundingCard key={signal.id} signal={signal} />
-                ))}
+              <section className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+                {signals.map((signal, i) => {
+                  const stagger = Math.min(i, 6) * 50;
+                  return (
+                    <div
+                      key={signal.id}
+                      style={{
+                        animation: "slide-up 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both",
+                        animationDelay: stagger > 0 ? `${stagger}ms` : undefined,
+                      }}
+                    >
+                      <FundingCard signal={signal} />
+                    </div>
+                  );
+                })}
               </section>
             ) : (
               <EmptyState />
@@ -131,40 +103,31 @@ export default async function FundingPage() {
 // Pieces
 // ---------------------------------------------------------------------------
 
-function StatTile({
-  label,
-  value,
-  hint,
-}: {
-  label: string;
-  value: string;
-  hint?: string;
-}) {
-  return (
-    <div className="border border-border-primary rounded-md px-4 py-3 bg-bg-secondary">
-      <div className="text-[10px] uppercase tracking-wider text-text-tertiary">
-        {label}
-      </div>
-      <div className="mt-1 text-xl font-bold truncate">{value}</div>
-      {hint ? (
-        <div className="mt-0.5 text-[11px] text-text-tertiary truncate">{hint}</div>
-      ) : null}
-    </div>
-  );
-}
-
 function ColdState() {
   return (
-    <section className="border border-dashed border-border-primary rounded-md p-8 bg-bg-secondary/40">
-      <h2 className="text-lg font-bold uppercase tracking-wider text-brand">
+    <section
+      className="p-8"
+      style={{
+        background: "var(--v3-bg-025)",
+        border: "1px dashed var(--v3-line-100)",
+        borderRadius: 2,
+      }}
+    >
+      <h2
+        className="v2-mono text-lg font-bold uppercase tracking-[0.18em]"
+        style={{ color: FUNDING_BRAND }}
+      >
         {"// no funding data yet"}
       </h2>
-      <p className="mt-3 text-sm text-text-secondary max-w-xl">
+      <p
+        className="mt-3 max-w-xl text-sm"
+        style={{ color: "var(--v3-ink-300)" }}
+      >
         The funding scraper has not run yet. Run{" "}
-        <code className="text-text-primary">npm run scrape:funding</code> locally
-        to populate{" "}
-        <code className="text-text-primary">data/funding-news.json</code>, then
-        refresh this page.
+        <code style={{ color: "var(--v3-ink-100)" }}>npm run scrape:funding</code>{" "}
+        locally to populate{" "}
+        <code style={{ color: "var(--v3-ink-100)" }}>data/funding-news.json</code>,
+        then refresh this page.
       </p>
     </section>
   );
@@ -172,11 +135,24 @@ function ColdState() {
 
 function EmptyState() {
   return (
-    <section className="border border-dashed border-border-primary rounded-md p-8 bg-bg-secondary/40">
-      <h2 className="text-lg font-bold uppercase tracking-wider text-brand">
+    <section
+      className="p-8"
+      style={{
+        background: "var(--v3-bg-025)",
+        border: "1px dashed var(--v3-line-100)",
+        borderRadius: 2,
+      }}
+    >
+      <h2
+        className="v2-mono text-lg font-bold uppercase tracking-[0.18em]"
+        style={{ color: FUNDING_BRAND }}
+      >
         {"// no signals in window"}
       </h2>
-      <p className="mt-3 text-sm text-text-secondary max-w-xl">
+      <p
+        className="mt-3 max-w-xl text-sm"
+        style={{ color: "var(--v3-ink-300)" }}
+      >
         The scraper ran but found no funding-related headlines in the last 7
         days. This can happen on quiet news days or when RSS feeds change format.
       </p>

@@ -1,6 +1,6 @@
 "use client";
 
-// StarScreener - /portal/docs client shell.
+// TrendingRepo - /portal/docs client shell.
 //
 // Tab state + copy-to-clipboard lives here. The tool list is passed from the
 // server wrapper as plain metadata so this client bundle stays free of any
@@ -9,6 +9,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Plug, Terminal, Copy, Check } from "lucide-react";
+
+import { APP_VERSION } from "@/lib/app-meta";
 
 type Tab = "mcp" | "rest";
 
@@ -23,14 +25,14 @@ export interface PortalDocsTool {
 
 // Portal v0.1 wire format calls the method key "tool", not "method".
 // Matches src/portal/dispatcher.ts — keep these strings in lock-step.
-const LIVE_BASE = "https://starscreener.vercel.app";
+const LIVE_BASE = "https://trendingrepo.com";
 
 const VISIT_CLI = `# Portal visitor CLI (spec-native, works against any /portal endpoint)
 npx @visitportal/visit ${LIVE_BASE}/portal top_gainers --limit=10`;
 
 const MCP_INSTALL = `# Claude Code — register TrendingRepo as an HTTP MCP bridge
 # via the Portal adapter. No local checkout required.
-claude mcp add starscreener \\
+claude mcp add trendingrepo \\
   --transport http \\
   --url ${LIVE_BASE}/portal
 
@@ -52,6 +54,24 @@ export default function PortalDocsClient({
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
       <header className="mb-8">
         <span className="label-micro">MCP Portal · v0.1</span>
+        {/* Wire-protocol vs app-build clarifier. The `v0.1` above is the
+            Portal protocol — the shape of /portal request + response
+            envelopes — and only bumps on a breaking schema change. The
+            TrendingRepo web app itself ships separate semver builds via
+            package.json (linked below). */}
+        <p
+          className="mt-1 text-[11px] font-mono uppercase tracking-[0.18em]"
+          style={{ color: "var(--v3-ink-400)" }}
+        >
+          Wire protocol version · App build v{APP_VERSION} ·{" "}
+          <Link
+            href="/api/health/portal"
+            className="hover:text-[color:var(--v3-acc)]"
+            style={{ color: "var(--v3-ink-300)" }}
+          >
+            /api/health/portal
+          </Link>
+        </p>
         <h1 className="font-display text-4xl sm:text-5xl mt-2 mb-3">
           Plug TrendingRepo into any agent.
         </h1>
@@ -125,7 +145,7 @@ function McpTab({ tools }: { tools: PortalDocsTool[] }) {
           (<span className="font-mono">INVALID_PARAMS</span>,{" "}
           <span className="font-mono">NOT_FOUND</span>).
         </p>
-        <ul className="divide-y divide-border-secondary border border-border-primary rounded-md overflow-hidden bg-bg-card">
+        <ul className="v2-card divide-y divide-[color:var(--v2-line-std)] overflow-hidden">
           {tools.map((tool) => (
             <li key={tool.name} className="p-4">
               <div className="font-mono text-sm text-brand mb-1">
@@ -232,12 +252,13 @@ function TabButton({
       role="tab"
       aria-selected={active}
       onClick={onClick}
-      className={
-        "flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono uppercase tracking-wider rounded-sm transition-colors " +
-        (active
-          ? "bg-brand text-black"
-          : "text-text-secondary hover:text-text-primary")
-      }
+      className="v2-mono flex items-center gap-1.5 px-3 py-1.5 transition-colors"
+      style={{
+        fontSize: 11,
+        background: active ? "var(--v2-acc-soft)" : "transparent",
+        color: active ? "var(--v2-acc)" : "var(--v2-ink-300)",
+        borderRadius: 2,
+      }}
     >
       {children}
     </button>

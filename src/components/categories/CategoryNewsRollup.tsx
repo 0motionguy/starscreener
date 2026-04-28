@@ -80,7 +80,7 @@ export function CategoryNewsRollup({
   if (totalLit === 0) return null;
 
   return (
-    <section className="rounded-card border border-border-primary bg-bg-card p-4 mb-6">
+    <section className="v2-card p-4 mb-6">
       <h2 className="mb-3 font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
         {categoryLabel} · talked about across news sources (7d)
       </h2>

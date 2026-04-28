@@ -23,6 +23,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 
+import { errorEnvelope } from "@/lib/api/error-response";
 import { getDefaultSocialAdapters } from "@/lib/pipeline/adapters/social-adapters";
 import {
   NitterAdapter,
@@ -40,6 +41,8 @@ import { getTwitterRepoPanel } from "@/lib/twitter/service";
 import { buildCanonicalRepoProfile } from "@/lib/api/repo-profile";
 import { refreshRepoMetadataFromStore } from "@/lib/repo-metadata";
 import { refreshNpmFromStore } from "@/lib/npm";
+
+export const runtime = "nodejs";
 
 const SLUG_PART_PATTERN = /^[A-Za-z0-9._-]+$/;
 
@@ -98,6 +101,9 @@ export async function GET(
   const useLegacyShape = versionParam === "1";
 
   if (useLegacyShape) {
+    // APP-17: track sunset criterion — log every legacy hit so we can tell
+    // when ?v=1 traffic has dropped to zero and the branch is safe to remove.
+    console.warn("[api/repos] legacy v=1 path hit", { owner, name });
     return handleV1(owner, name);
   }
   return handleV2(owner, name);
@@ -139,6 +145,9 @@ async function handleV2(owner: string, name: string) {
 async function handleV1(owner: string, name: string) {
   const repo = getDerivedRepoByFullName(`${owner}/${name}`);
   if (!repo) {
+    // Legacy v=1 contract is intentionally byte-compatible with the
+    // pre-canonical endpoint: bare `{ error }`, no `ok` discriminator.
+    // CLI tools + MCP consumers pinned to v=1 rely on this shape.
     return NextResponse.json({ error: "Repo not found" }, { status: 404 });
   }
 

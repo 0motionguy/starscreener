@@ -13,11 +13,23 @@
 
 import { Eye } from "lucide-react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import type { Repo } from "@/lib/types";
 import { useWatchlistStore } from "@/lib/store";
 import { TerminalLayout } from "@/components/terminal/TerminalLayout";
-import { AlertConfig } from "@/components/watchlist/AlertConfig";
+
+// AlertConfig is 868 lines of browser-alert plumbing, threshold sliders, and
+// a repo picker — none of which is needed for the first paint of the
+// terminal table. Defer it from the watchlist first-load chunk; ssr:false
+// because it renders below the fold and is fully client-driven.
+const AlertConfig = dynamic(
+  () =>
+    import("@/components/watchlist/AlertConfig").then((m) => ({
+      default: m.AlertConfig,
+    })),
+  { ssr: false },
+);
 
 export default function WatchlistPage() {
   useEffect(() => {
@@ -71,14 +83,47 @@ export default function WatchlistPage() {
   }, [watchlist, hasHydrated]);
 
   const heading = (
-    <div className="px-4 sm:px-6 pt-6 pb-2">
-      <h1 className="font-display text-2xl sm:text-3xl font-bold text-text-primary flex items-center gap-3">
+    <div className="px-4 sm:px-6 pt-6 pb-2 space-y-3">
+      <div
+        className="flex items-center justify-between gap-3 pb-1"
+        style={{ borderBottom: "1px solid var(--v2-line-std)" }}
+      >
+        <span
+          className="v2-mono"
+          style={{ fontSize: 10, color: "var(--v2-ink-400)" }}
+        >
+          {"// 01 · WATCHLIST · TRACKED REPOS"}
+        </span>
+        <span
+          className="v2-mono v2-stat tabular-nums"
+          style={{ fontSize: 10, color: "var(--v2-ink-300)" }}
+        >
+          <span className="v2-live-dot mr-2 inline-block" aria-hidden />
+          {repos.length} TRACKED
+        </span>
+      </div>
+      <h1
+        className="flex items-center gap-3"
+        style={{
+          fontFamily: "var(--font-geist), Inter, sans-serif",
+          fontSize: "clamp(24px, 3vw, 32px)",
+          fontWeight: 510,
+          letterSpacing: "-0.022em",
+          color: "var(--v2-ink-000)",
+          lineHeight: 1.1,
+        }}
+      >
         Watchlist
-        <span className="text-sm font-mono font-normal text-text-tertiary px-2 py-1 bg-bg-tertiary rounded-full">
+        <span
+          className="v2-tag tabular-nums"
+          style={{ fontSize: 11, color: "var(--v2-ink-100)" }}
+        >
           {repos.length}
         </span>
       </h1>
-      <p className="mt-2 text-text-secondary">Track repos you care about.</p>
+      <p style={{ fontSize: 14, color: "var(--v2-ink-300)" }}>
+        Track repos you care about.
+      </p>
     </div>
   );
 
@@ -118,14 +163,27 @@ export default function WatchlistPage() {
 function WatchlistLoadingState() {
   return (
     <div className="text-center py-20 px-4">
-      <div className="mx-auto mb-4 inline-flex items-center justify-center p-4 rounded-full bg-bg-card border border-border-primary">
+      <div
+        className="mx-auto mb-4 inline-flex items-center justify-center p-3"
+        style={{
+          background: "var(--v2-bg-050)",
+          border: "1px solid var(--v2-line-200)",
+          borderRadius: 2,
+        }}
+      >
         <Eye
-          size={28}
-          className="text-text-tertiary animate-pulse"
+          size={24}
+          className="animate-pulse"
+          style={{ color: "var(--v2-acc)" }}
           aria-hidden="true"
         />
       </div>
-      <p className="text-text-secondary text-lg">Loading watchlist&hellip;</p>
+      <p
+        className="v2-mono"
+        style={{ fontSize: 12, color: "var(--v2-ink-200)" }}
+      >
+        {"// LOADING WATCHLIST …"}
+      </p>
     </div>
   );
 }
@@ -133,21 +191,36 @@ function WatchlistLoadingState() {
 function EmptyWatchlistState() {
   return (
     <div className="text-center py-20 px-4">
-      <div className="mx-auto mb-4 inline-flex items-center justify-center p-4 rounded-full bg-bg-card border border-border-primary">
-        <Eye size={28} className="text-text-tertiary" aria-hidden="true" />
+      <div
+        className="mx-auto mb-4 inline-flex items-center justify-center p-3"
+        style={{
+          background: "var(--v2-bg-050)",
+          border: "1px solid var(--v2-line-200)",
+          borderRadius: 2,
+        }}
+      >
+        <Eye
+          size={24}
+          style={{ color: "var(--v2-ink-300)" }}
+          aria-hidden="true"
+        />
       </div>
-      <p className="text-text-secondary text-lg">
-        Your watchlist is empty
+      <p
+        className="v2-mono"
+        style={{ fontSize: 12, color: "var(--v2-ink-200)" }}
+      >
+        {"// WATCHLIST IS EMPTY"}
       </p>
-      <p className="text-text-muted text-sm mt-2 max-w-md mx-auto">
+      <p
+        className="mt-2 max-w-md mx-auto"
+        style={{ fontSize: 12, color: "var(--v2-ink-400)" }}
+      >
         Click the eye icon on any repo to add it here. You&rsquo;ll get a
         quick-glance view of movement across everything you&rsquo;re tracking.
       </p>
-      <Link
-        href="/"
-        className="inline-block mt-6 px-4 py-2 rounded-[var(--radius-md)] bg-brand text-text-inverse font-medium text-sm hover:bg-brand-hover transition-colors"
-      >
-        Browse trending repos
+      <Link href="/" className="v2-btn v2-btn-primary inline-flex mt-6">
+        BROWSE TRENDING REPOS
+        <span aria-hidden style={{ marginLeft: 8 }}>→</span>
       </Link>
     </div>
   );

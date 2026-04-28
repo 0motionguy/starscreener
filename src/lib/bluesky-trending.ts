@@ -11,7 +11,6 @@
 // scraper builds — mirrors hackernews-trending.ts.
 
 import bskyTrendingData from "../../data/bluesky-trending.json";
-import { getDataStore } from "./data-store";
 import type { BskyPost, BskyTrendingFile } from "./bluesky";
 
 // Mutable in-memory cache — seeded from bundled JSON, replaced via
@@ -106,6 +105,7 @@ export async function refreshBlueskyTrendingFromStore(): Promise<{
     return { source: "memory", ageMs: Date.now() - lastRefreshMs };
   }
   inflight = (async () => {
+    const { getDataStore } = await import("./data-store");
     const result = await getDataStore().read<BskyTrendingFile>(
       "bluesky-trending",
     );

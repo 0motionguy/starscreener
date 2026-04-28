@@ -6,8 +6,6 @@
 
 import npmData from "../../data/npm-packages.json";
 import npmManualData from "../../data/npm-manual-packages.json";
-import { getDataStore } from "./data-store";
-
 export type NpmWindow = "24h" | "7d" | "30d";
 
 export interface NpmDownloadDay {
@@ -209,6 +207,7 @@ export async function refreshNpmFromStore(): Promise<RefreshResult> {
   }
 
   inflight = (async (): Promise<RefreshResult> => {
+    const { getDataStore } = await import("./data-store");
     const result = await getDataStore().read<NpmPackagesFile>("npm-packages");
     if (result.data && result.source !== "missing") {
       file = result.data;

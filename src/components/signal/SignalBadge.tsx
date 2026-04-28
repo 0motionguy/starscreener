@@ -63,7 +63,7 @@ const STYLES: Record<SignalBadgeKind, { label: string; cls: string }> = {
     cls: "border-border-primary bg-bg-muted text-text-secondary",
   },
   verified: {
-    label: "✓ OFFICIAL",
+    label: "VERIFIED",
     cls: "border-up/60 bg-up/10 text-up",
   },
 };

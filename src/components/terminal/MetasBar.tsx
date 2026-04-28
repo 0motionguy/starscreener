@@ -8,76 +8,66 @@ interface MetasBarProps {
   counts: MetaCounts;
 }
 
-type MetaColor = "brand" | "amber" | "green" | "purple" | "cyan";
-
 interface MetaDef {
   id: MetaFilter;
-  icon: string;
   label: string;
-  color: MetaColor;
+  /** CSS color value driving the dot + active-state tint. */
+  color: string;
   countKey: keyof MetaCounts;
 }
 
 const METAS: MetaDef[] = [
   {
     id: "hot",
-    icon: "🔥",
-    label: "Hot This Week",
-    color: "brand",
+    label: "HOT THIS WEEK",
+    color: "var(--v3-acc)",
     countKey: "hot",
   },
   {
     id: "breakouts",
-    icon: "🚀",
-    label: "Breakouts",
-    color: "amber",
+    label: "BREAKOUTS",
+    color: "var(--v3-sig-amber)",
     countKey: "breakouts",
   },
   {
     id: "quiet-killers",
-    icon: "💎",
-    label: "Quiet Killers",
-    color: "purple",
+    label: "QUIET KILLERS",
+    color: "#A78BFA",
     countKey: "quietKillers",
   },
   {
     id: "new",
-    icon: "🆕",
-    label: "New <30d",
-    color: "cyan",
+    label: "NEW <30D",
+    color: "var(--v3-sig-cyan)",
     countKey: "new",
   },
   {
     id: "discussed",
-    icon: "💬",
-    label: "Most Discussed",
-    color: "brand",
+    label: "MOST DISCUSSED",
+    color: "var(--v3-acc)",
     countKey: "discussed",
   },
   {
     id: "rank-climbers",
-    icon: "🏆",
-    label: "Rank Climbers",
-    color: "amber",
+    label: "RANK CLIMBERS",
+    color: "var(--v3-sig-amber)",
     countKey: "rankClimbers",
   },
   {
     id: "fresh-releases",
-    icon: "⚡",
-    label: "Fresh Releases",
-    color: "green",
+    label: "FRESH RELEASES",
+    color: "var(--v3-sig-green)",
     countKey: "freshReleases",
   },
 ];
 
 /**
- * MetasBar — horizontal row of 7 meta narrative filter pills.
+ * V3 meta-narrative filter row.
  *
- * Each pill toggles `activeMetaFilter` in the filter store. Setting a meta
- * filter is a peer of `activeTab` (they clear each other — see store).
- *
- * Layout: wraps on desktop, scrolls horizontally with snap on mobile.
- * Disabled when the count for a meta is 0.
+ * Each chip is a sharp-cornered mono tag with a color-coded square dot.
+ * Active state floods the chip with the meta's color (border + tint + text);
+ * inactive state is a hairline frame on the V3 panel surface. Counts ride
+ * the right edge in a tabular-nums slot so column alignment stays stable.
  */
 export function MetasBar({ counts }: MetasBarProps) {
   const active = useFilterStore((s) => s.activeMetaFilter);
@@ -108,26 +98,42 @@ export function MetasBar({ counts }: MetasBarProps) {
             className={cn(
               "group shrink-0 snap-start",
               "inline-flex items-center gap-2",
-              "h-8 px-3 rounded-full",
-              "text-xs font-medium",
+              "h-7 px-2.5 rounded-[2px]",
+              "font-mono uppercase tracking-[0.16em]",
+              "text-[10px] font-medium",
               "border transition-colors duration-150",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-functional/40",
-              isActive
-                ? "border-functional bg-functional-glow text-functional shadow-[inset_4px_0_0_var(--color-functional)]"
-                : "border-border-primary/60 bg-bg-secondary text-text-secondary hover:border-brand/50 hover:bg-brand-subtle hover:text-text-primary",
+              "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-offset-0",
               disabled && "opacity-40 pointer-events-none",
             )}
+            style={{
+              background: isActive
+                ? `color-mix(in oklab, ${meta.color} 14%, transparent)`
+                : "var(--v3-bg-050)",
+              borderColor: isActive
+                ? meta.color
+                : "var(--v3-line-200)",
+              color: isActive ? meta.color : "var(--v3-ink-200)",
+            }}
           >
-            <span aria-hidden="true" className="text-[12px] leading-none">
-              {meta.icon}
-            </span>
+            <span
+              aria-hidden="true"
+              className="shrink-0 size-1.5"
+              style={{
+                background: meta.color,
+                boxShadow: isActive
+                  ? `0 0 6px color-mix(in oklab, ${meta.color} 60%, transparent)`
+                  : undefined,
+              }}
+            />
             <span className="whitespace-nowrap">{meta.label}</span>
             <span
-              className={cn(
-                "font-mono text-[10px] px-1.5 py-0.5 rounded-full",
-                "bg-bg-tertiary text-text-tertiary tabular-nums",
-                isActive && "bg-functional/15 text-functional",
-              )}
+              className="font-mono text-[10px] tabular-nums tracking-[0.12em] px-1 rounded-[1px]"
+              style={{
+                color: isActive ? meta.color : "var(--v3-ink-400)",
+                background: isActive
+                  ? `color-mix(in oklab, ${meta.color} 18%, transparent)`
+                  : "var(--v3-bg-100)",
+              }}
             >
               {count}
             </span>

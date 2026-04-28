@@ -23,9 +23,9 @@ export type NewsSource =
   | "lobsters"
   | "producthunt"
   | "twitter"
+  | "npm"
   | "mcp"
-  | "skills"
-  | "npm";
+  | "skills";
 
 export type FreshnessStatus = "live" | "warn" | "cold";
 
@@ -45,13 +45,16 @@ export const SOURCE_STALE_MS: Record<NewsSource, number> = {
   devto: DEVTO_STALE_THRESHOLD_MS,
   producthunt: PRODUCTHUNT_STALE_THRESHOLD_MS,
   npm: NPM_STALE_THRESHOLD_MS,
-  mcp: FAST_DATA_STALE_THRESHOLD_MS,
-  skills: FAST_DATA_STALE_THRESHOLD_MS,
   // Twitter freshness is reported through the scan-ingestion system, not
   // a JSON file — the page passes its own age in directly. Default to
   // the fast threshold so a missing twitter timestamp behaves like a
   // missing reddit one.
   twitter: FAST_DATA_STALE_THRESHOLD_MS,
+  // MCP + Skills publish from the worker fleet on a 6h cadence (12h budget
+  // = 6h cron + 6h grace). Reuse the npm threshold since it's the closest
+  // existing match for slow-cron Redis-published feeds.
+  mcp: NPM_STALE_THRESHOLD_MS,
+  skills: NPM_STALE_THRESHOLD_MS,
 };
 
 /** Soft warn threshold = 50% of the stale threshold. Past it the badge

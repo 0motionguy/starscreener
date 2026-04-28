@@ -1,11 +1,13 @@
-// StarScreener MCP - Portal /portal/call client.
+// TrendingRepo MCP — Portal /portal/call client.
 //
 // The three Portal-canonical tools (top_gainers, search_repos,
-// maintainer_profile) route through the Star Screener Next.js app's
+// maintainer_profile) route through the TrendingRepo Next.js app's
 // `/portal/call` endpoint rather than the legacy REST routes so the
 // MCP server and the Portal manifest are backed by identical handlers.
 // The drift-free guarantee of the Phase-1 shared src/tools/ layer
 // depends on this.
+
+import { readEnv } from "./client.js";
 
 export interface CallEnvelopeOk<T> {
   ok: true;
@@ -43,13 +45,13 @@ export class PortalClient {
   constructor(opts: { baseUrl?: string; fetchImpl?: typeof fetch } = {}) {
     const raw =
       opts.baseUrl ??
-      process.env.STARSCREENER_API_URL ??
-      "https://trendingrepo.com";
+      readEnv("TRENDINGREPO_API_URL", "STARSCREENER_API_URL") ??
+      "http://localhost:3023";
     this.baseUrl = raw.replace(/\/+$/, "");
     this.fetchImpl = opts.fetchImpl ?? globalThis.fetch;
     if (typeof this.fetchImpl !== "function") {
       throw new Error(
-        "global fetch is not available - this MCP server requires Node 20+",
+        "global fetch is not available — this MCP server requires Node 20+",
       );
     }
   }

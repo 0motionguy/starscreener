@@ -1,13 +1,14 @@
 /**
- * HTTP client for the StarScreener REST API.
+ * HTTP client for the TrendingRepo REST API.
  *
  * Wraps the public read endpoints served by the Next.js app at
- * STARSCREENER_API_URL (default https://trendingrepo.com) and exposes small,
- * typed helpers that the MCP tool handlers delegate to. No response caching -
- * the pipeline is already the single source of truth for momentum/deltas and
- * recomputes on ensureReady(), so every tool call hits fresh data.
+ * TRENDINGREPO_API_URL (legacy: STARSCREENER_API_URL; default
+ * http://localhost:3023) and exposes small, typed helpers that the MCP tool
+ * handlers delegate to. No response caching — the pipeline is already the
+ * single source of truth for momentum/deltas and recomputes on
+ * ensureReady(), so every tool call hits fresh data.
  *
- * All helpers throw StarScreenerApiError on non-2xx so the MCP layer can
+ * All helpers throw TrendingRepoApiError on non-2xx so the MCP layer can
  * surface a clean `isError: true` result with the status + body.
  */
 
@@ -17,67 +18,94 @@
 // decoder here would double-validate every field when the upstream Next.js
 // routes already enforce their own contracts.
 
-export interface StarScreenerClientOptions {
+// Tiny inline back-compat helper. The MCP package is published standalone
+// and cannot import from `@/lib/env`, so we duplicate the readEnv shim
+// here. Resolution: new name first, then legacy. Returns undefined when
+// neither is set.
+const readEnv = (newName: string, oldName: string): string | undefined =>
+  process.env[newName] ?? process.env[oldName];
+
+export interface TrendingRepoClientOptions {
   baseUrl?: string;
   token?: string;
-  /**
-   * Self-serve API key created in the web portal. Preferred for paid MCP
-   * metering and sent as `x-api-key: <value>`.
-   */
-  apiKey?: string;
   /**
    * Per-user bearer that, when present, is sent as `x-user-token: <value>`
    * on every request. Resolves to a userId server-side (verifyUserAuth)
    * so usage metering can attribute each MCP call. Default:
-   * `process.env.STARSCREENER_USER_TOKEN`. Back-compat: omitting this
-   * simply skips the header, which is what pre-metering installs want.
+   * `process.env.TRENDINGREPO_USER_TOKEN` (legacy: `STARSCREENER_USER_TOKEN`).
+   * Back-compat: omitting this simply skips the header, which is what
+   * pre-metering installs want.
    */
   userToken?: string;
   fetchImpl?: typeof fetch;
 }
 
-export class StarScreenerApiError extends Error {
+export class TrendingRepoApiError extends Error {
   readonly status: number;
   readonly body: string;
   readonly url: string;
 
   constructor(status: number, body: string, url: string) {
     super(
-      `StarScreener API ${status} for ${url}: ${body.slice(0, 500)}`,
+      `TrendingRepo API ${status} for ${url}: ${body.slice(0, 500)}`,
     );
-    this.name = "StarScreenerApiError";
+    this.name = "TrendingRepoApiError";
     this.status = status;
     this.body = body;
     this.url = url;
   }
 }
 
-export class StarScreenerClient {
+export class TrendingRepoClient {
   private readonly baseUrl: string;
   private readonly token: string | undefined;
-  private readonly apiKey: string | undefined;
   private readonly userToken: string | undefined;
   private readonly fetchImpl: typeof fetch;
 
-  constructor(opts: StarScreenerClientOptions = {}) {
+  constructor(opts: TrendingRepoClientOptions = {}) {
     const raw =
       opts.baseUrl ??
-      process.env.STARSCREENER_API_URL ??
-      "https://trendingrepo.com";
+      readEnv("TRENDINGREPO_API_URL", "STARSCREENER_API_URL") ??
+      "http://localhost:3023";
+    // SCR-12 (mirrored on the constructor surface): refuse non-https
+    // base URLs except loopback. TRENDINGREPO_API_TOKEN +
+    // TRENDINGREPO_USER_TOKEN are passed as headers on every request;
+    // a misconfigured `http://evil.test` base URL would leak both in
+    // cleartext. We fail fast at construction so the misconfig
+    // surfaces in the operator's first MCP call rather than silently
+    // exfiltrating tokens for the lifetime of the process.
+    let parsed: URL;
+    try {
+      parsed = new URL(raw);
+    } catch {
+      throw new Error(
+        `TRENDINGREPO_API_URL / STARSCREENER_API_URL is not a valid URL: ${raw}`,
+      );
+    }
+    const isLoopback =
+      parsed.hostname === "localhost" ||
+      parsed.hostname === "127.0.0.1" ||
+      parsed.hostname === "::1";
+    if (parsed.protocol !== "https:" && !isLoopback) {
+      throw new Error(
+        `TRENDINGREPO_API_URL / STARSCREENER_API_URL must be https or a loopback host (got ${parsed.protocol}//${parsed.hostname}). Refusing to send tokens over plaintext.`,
+      );
+    }
     // Strip trailing slash so we can always concat `${baseUrl}/api/...`.
     this.baseUrl = raw.replace(/\/+$/, "");
-    this.token = opts.token ?? process.env.STARSCREENER_API_TOKEN;
-    // Self-serve paid API key. NEVER log this value.
-    this.apiKey = opts.apiKey ?? process.env.STARSCREENER_API_KEY ?? undefined;
-    // Per-user bearer for MCP usage metering; back-compat: unset = no header.
+    this.token =
+      opts.token ?? readEnv("TRENDINGREPO_API_TOKEN", "STARSCREENER_API_TOKEN");
+    // Per-user bearer for MCP usage metering — back-compat: unset = no header.
     // NEVER log this value.
     this.userToken =
-      opts.userToken ?? process.env.STARSCREENER_USER_TOKEN ?? undefined;
+      opts.userToken ??
+      readEnv("TRENDINGREPO_USER_TOKEN", "STARSCREENER_USER_TOKEN") ??
+      undefined;
     // Node 20+ has a global fetch. Accept an override for tests.
     this.fetchImpl = opts.fetchImpl ?? globalThis.fetch;
     if (typeof this.fetchImpl !== "function") {
       throw new Error(
-        "global fetch is not available - this MCP server requires Node 20+",
+        "global fetch is not available — this MCP server requires Node 20+",
       );
     }
   }
@@ -85,13 +113,6 @@ export class StarScreenerClient {
   /** Exposed for the metering middleware in server.ts; never logs the value. */
   getUserToken(): string | undefined {
     return this.userToken;
-  }
-
-  /** Header used for paid metering. API keys take precedence over user tokens. */
-  getMeteringAuthHeader(): { name: "x-api-key" | "x-user-token"; value: string } | null {
-    if (this.apiKey) return { name: "x-api-key", value: this.apiKey };
-    if (this.userToken) return { name: "x-user-token", value: this.userToken };
-    return null;
   }
 
   /** Exposed for the metering middleware in server.ts. */
@@ -109,26 +130,43 @@ export class StarScreenerClient {
     if (this.token && !headers.has("authorization")) {
       headers.set("authorization", `Bearer ${this.token}`);
     }
-    if (this.apiKey && !headers.has("x-api-key")) {
-      headers.set("x-api-key", this.apiKey);
-    } else if (this.userToken && !headers.has("x-user-token")) {
+    if (this.userToken && !headers.has("x-user-token")) {
       headers.set("x-user-token", this.userToken);
     }
     const res = await this.fetchImpl(url, { ...init, headers });
     const text = await res.text();
     if (!res.ok) {
-      throw new StarScreenerApiError(res.status, text, url);
+      throw new TrendingRepoApiError(res.status, text, url);
     }
     if (!text) return {} as T;
+    let parsed: unknown;
     try {
-      return JSON.parse(text) as T;
+      parsed = JSON.parse(text);
     } catch (err) {
-      throw new StarScreenerApiError(
+      throw new TrendingRepoApiError(
         res.status,
         `invalid JSON body: ${(err as Error).message}`,
         url,
       );
     }
+    // SCR-08: minimal envelope sanity. Every documented TrendingRepo
+    // endpoint returns a JSON object or array — string/number/null/boolean
+    // payloads indicate the route went wrong (proxy intercept, cached HTML
+    // error page, misconfigured edge). Surface as a structured 200-error
+    // rather than passing gibberish to the LLM.
+    if (
+      parsed === null ||
+      typeof parsed === "string" ||
+      typeof parsed === "number" ||
+      typeof parsed === "boolean"
+    ) {
+      throw new TrendingRepoApiError(
+        res.status,
+        `unexpected JSON shape (got ${parsed === null ? "null" : typeof parsed}, expected object/array)`,
+        url,
+      );
+    }
+    return parsed as T;
   }
 
   // ---------------------------------------------------------------------
@@ -201,7 +239,7 @@ export class StarScreenerClient {
   }
 
   /**
-   * Full repo detail - hits the slug route /api/repos/[owner]/[name] which
+   * Full repo detail — hits the slug route /api/repos/[owner]/[name] which
    * returns repo + score + category + reasons + social + related.
    */
   async getRepo(params: { fullName: string }): Promise<unknown> {
@@ -218,7 +256,7 @@ export class StarScreenerClient {
   }
 
   /**
-   * Canonical profile for a single repo - /api/repos/[owner]/[name]?v=2.
+   * Canonical profile for a single repo — /api/repos/[owner]/[name]?v=2.
    *
    * Returns one stitched shape with:
    *   repo, score, reasons, mentions{recent,nextCursor,countsBySource},
@@ -229,7 +267,7 @@ export class StarScreenerClient {
    * Consumers get everything in one tool call instead of stitching six or
    * seven legacy endpoints. The canonical route answers 404 { ok:false,
    * error:"Repo not found", code:"repo_not_found" } for unknown repos;
-   * that is surfaced as StarScreenerApiError by request() below.
+   * that is surfaced as TrendingRepoApiError by request() below.
    */
   async getRepoProfileFull(params: { fullName: string }): Promise<unknown> {
     const { owner, name } = splitFullName(params.fullName);
@@ -239,7 +277,7 @@ export class StarScreenerClient {
   }
 
   /**
-   * Paginated evidence feed for a repo - /api/repos/[owner]/[name]/mentions.
+   * Paginated evidence feed for a repo — /api/repos/[owner]/[name]/mentions.
    *
    * `source` narrows to a single SocialPlatform. `cursor` is an opaque
    * base64url token returned by the previous page; callers must pass it back
@@ -268,12 +306,12 @@ export class StarScreenerClient {
   }
 
   /**
-   * Per-repo freshness chips - /api/repos/[owner]/[name]/freshness.
+   * Per-repo freshness chips — /api/repos/[owner]/[name]/freshness.
    *
    * The freshness snapshot itself is global (scanners are per-source, not
    * per-repo); the route's owner/name in the URL is used purely to validate
    * that the repo exists. A 404 from the route surfaces as
-   * StarScreenerApiError on the MCP side.
+   * TrendingRepoApiError on the MCP side.
    */
   async getRepoFreshness(params: { fullName: string }): Promise<unknown> {
     const { owner, name } = splitFullName(params.fullName);
@@ -283,14 +321,14 @@ export class StarScreenerClient {
   }
 
   /**
-   * AISO scan status for a repo - GET /api/repos/[owner]/[name]/aiso.
+   * AISO scan status for a repo — GET /api/repos/[owner]/[name]/aiso.
    *
    * Returns { ok, status: "scanned"|"queued"|"rate_limited"|"failed"|"none",
    * score, tier, dimensions, topDimensions, lastScanAt, signals,
    * engineCitations, resultUrl }. `status:"none"` means the repo is
    * known but has never been scanned (no website or never queued).
    *
-   * Read-only - POST (rescan enqueue) is intentionally NOT exposed via MCP.
+   * Read-only — POST (rescan enqueue) is intentionally NOT exposed via MCP.
    */
   async getRepoAiso(params: { fullName: string }): Promise<unknown> {
     const { owner, name } = splitFullName(params.fullName);
@@ -300,7 +338,7 @@ export class StarScreenerClient {
   }
 
   /**
-   * Side-by-side compare of 2-4 repos. The REST route accepts either
+   * Side-by-side compare of 2–4 repos. The REST route accepts either
    * "owner/name" or "owner--name"; we pass through unchanged.
    */
   async compareRepos(params: { fullNames: string[] }): Promise<unknown> {
@@ -330,6 +368,9 @@ export class StarScreenerClient {
   }
 }
 
+// Re-export readEnv so portal-client.ts can reuse the same shim.
+export { readEnv };
+
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
@@ -337,7 +378,7 @@ export class StarScreenerClient {
 /**
  * Split a `"owner/name"` slug into parts, throwing a plain Error on malformed
  * input so the MCP run() wrapper surfaces the message (rather than emitting
- * a StarScreenerApiError that would imply the API was contacted).
+ * a TrendingRepoApiError that would imply the API was contacted).
  */
 function splitFullName(fullName: string): { owner: string; name: string } {
   const slug = (fullName ?? "").trim();

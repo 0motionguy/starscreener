@@ -11,7 +11,11 @@
 // repo lookup, leaderboard accessor, fetched-at exposure.
 
 import devtoMentionsData from "../../data/devto-mentions.json";
-import { getDataStore } from "./data-store";
+
+// data-store import is dynamic: pulling it statically here drags ioredis
+// (Node-only `dns` dep) into client bundles whenever a client component
+// imports `getDevtoBadgeRollup`. The refresh function below is server-only
+// and resolves the dep at runtime.
 
 // ---------------------------------------------------------------------------
 // Types
@@ -218,6 +222,7 @@ export async function refreshDevtoMentionsFromStore(): Promise<{
     return { source: "memory", ageMs: Date.now() - lastRefreshMs };
   }
   inflight = (async () => {
+    const { getDataStore } = await import("./data-store");
     const result = await getDataStore().read<DevtoMentionsFile>(
       "devto-mentions",
     );

@@ -12,6 +12,7 @@
 // Reads from committed JSON so the homepage renders on cold lambdas.
 
 import { NextRequest, NextResponse } from "next/server";
+import { errorEnvelope } from "@/lib/api/error-response";
 import { applyTerminalTabFilter, trendScoreForTimeRange } from "@/lib/filters";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import type {
@@ -22,6 +23,8 @@ import type {
   TerminalTab,
   TimeRange,
 } from "@/lib/types";
+
+export const runtime = "nodejs";
 
 const KNOWN_META_FILTERS: ReadonlyArray<MetaFilter> = [
   "hot",
@@ -254,16 +257,10 @@ export async function GET(
   if (limitParam !== null) {
     const parsed = Number(limitParam);
     if (!Number.isFinite(parsed) || !Number.isInteger(parsed)) {
-      return NextResponse.json(
-        { error: "limit must be an integer" },
-        { status: 400 },
-      );
+      return NextResponse.json(errorEnvelope("limit must be an integer"), { status: 400 });
     }
     if (parsed < 1 || parsed > 20) {
-      return NextResponse.json(
-        { error: "limit must be between 1 and 20" },
-        { status: 400 },
-      );
+      return NextResponse.json(errorEnvelope("limit must be between 1 and 20"), { status: 400 });
     }
     limit = parsed;
   }
@@ -281,9 +278,9 @@ export async function GET(
   if (metaFilterParam !== null && metaFilterParam !== "") {
     if (!KNOWN_META_FILTERS.includes(metaFilterParam as MetaFilter)) {
       return NextResponse.json(
-        {
-          error: `metaFilter must be one of: ${KNOWN_META_FILTERS.join(", ")}`,
-        },
+        errorEnvelope(
+          `metaFilter must be one of: ${KNOWN_META_FILTERS.join(", ")}`,
+        ),
         { status: 400 },
       );
     }
@@ -293,7 +290,7 @@ export async function GET(
   const tabParam = searchParams.get("tab") ?? "trending";
   if (!KNOWN_TABS.includes(tabParam as TerminalTab)) {
     return NextResponse.json(
-      { error: `tab must be one of: ${KNOWN_TABS.join(", ")}` },
+      errorEnvelope(`tab must be one of: ${KNOWN_TABS.join(", ")}`),
       { status: 400 },
     );
   }
@@ -302,7 +299,9 @@ export async function GET(
   const timeRangeParam = searchParams.get("timeRange") ?? "7d";
   if (!KNOWN_TIME_RANGES.includes(timeRangeParam as TimeRange)) {
     return NextResponse.json(
-      { error: `timeRange must be one of: ${KNOWN_TIME_RANGES.join(", ")}` },
+      errorEnvelope(
+        `timeRange must be one of: ${KNOWN_TIME_RANGES.join(", ")}`,
+      ),
       { status: 400 },
     );
   }
@@ -335,6 +334,6 @@ export async function GET(
     );
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
-    return NextResponse.json({ error: message }, { status: 500 });
+    return NextResponse.json(errorEnvelope(message), { status: 500 });
   }
 }

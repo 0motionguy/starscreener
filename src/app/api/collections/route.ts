@@ -16,6 +16,8 @@ import {
   refreshCollectionRankingsFromStore,
 } from "@/lib/collection-rankings";
 
+export const runtime = "nodejs";
+
 export async function GET() {
   // Refresh in-memory caches from the data-store before reading sync getters.
   await Promise.all([

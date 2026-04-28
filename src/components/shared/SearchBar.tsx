@@ -2,6 +2,7 @@
 
 import { useRef, useState, useCallback, useEffect } from "react";
 import { createPortal } from "react-dom";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Search, Star, X } from "lucide-react";
 import { cn, formatNumber } from "@/lib/utils";
@@ -270,7 +271,7 @@ export function SearchBar({
               zIndex: 9999,
             }}
             className={cn(
-              "bg-bg-card border border-border-primary rounded-card shadow-popover",
+              "v2-card shadow-popover",
               "overflow-hidden",
             )}
           >
@@ -300,12 +301,11 @@ export function SearchBar({
                           : "hover:bg-bg-tertiary/60",
                       )}
                     >
-                      <img
+                      <Image
                         src={repo.ownerAvatarUrl}
                         alt=""
                         width={20}
                         height={20}
-                        loading="lazy"
                         className="size-5 shrink-0 rounded-full border border-border-primary bg-bg-tertiary"
                       />
                       <span className="min-w-0 flex-1 truncate text-[13px] font-medium text-text-primary">

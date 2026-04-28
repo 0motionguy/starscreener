@@ -152,25 +152,39 @@ export function CrossSignalBreakdown({
   return (
     <section
       aria-label="Cross-signal breakdown"
-      className="rounded-card border border-border-primary bg-bg-card p-4 shadow-card"
+      className="v2-card overflow-hidden"
     >
-      <header className="flex items-baseline justify-between gap-3 mb-3 flex-wrap">
-        <h2 className="font-mono text-[11px] uppercase tracking-wider text-text-secondary">
-          Cross-signal breakdown
-          <span className="ml-2 text-text-tertiary">
-            {"// per-channel components"}
-          </span>
-        </h2>
+      <div className="v2-term-bar">
+        <span aria-hidden className="flex items-center gap-1.5">
+          <span className="block h-1.5 w-1.5 rounded-full v2-live-dot" />
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-line-200)" }}
+          />
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-line-200)" }}
+          />
+        </span>
         <span
-          className="font-mono text-[11px] text-text-tertiary tabular-nums"
+          className="flex-1 truncate"
+          style={{ color: "var(--v2-ink-200)" }}
+        >
+          {"// CROSS-SIGNAL BREAKDOWN · PER-CHANNEL COMPONENTS"}
+        </span>
+        <span
+          className="v2-stat shrink-0 tabular-nums"
+          style={{ color: "var(--v2-ink-300)" }}
           title="Cross-signal score (0-5): weighted sum of per-channel components. 5.0 = strong signal across >=4 channels in 7d. 4.0 = strong on >=3. 3.0 = strong on >=2. 2.0+ = active on 1+. Below 1.0 = low or no cross-channel activity."
         >
-          score{" "}
-          <span className="text-text-primary">{score.toFixed(2)}</span>
-          {" / 5.0  ·  "}
-          <span className="text-text-primary">{firing}</span>/5 firing
+          <span style={{ color: "var(--v2-acc)" }}>{score.toFixed(2)}</span>
+          {"/5.0 · "}
+          <span style={{ color: "var(--v2-ink-100)" }}>{firing}</span>
+          {"/5 FIRING"}
         </span>
-      </header>
+      </div>
+
+      <div className="p-4">
 
       {/* Scoring rubric — collapsed by default so the card stays compact.
           Users who want to know how 0.80 / 5.0 was derived click the
@@ -244,12 +258,16 @@ export function CrossSignalBreakdown({
         ))}
       </ul>
 
-      <p className="mt-3 text-[10px] text-text-tertiary leading-snug">
+      <p
+        className="mt-3 leading-snug"
+        style={{ fontSize: 10, color: "var(--v2-ink-400)" }}
+      >
         <span className="font-mono">*</span> Reddit bar shows a per-repo
         velocity proxy (raw score / 100); the score formula uses the
         corpus-normalized version so a single repo&apos;s bar may not match
         its contribution to the corpus-wide ranking.
       </p>
+      </div>
     </section>
   );
 }

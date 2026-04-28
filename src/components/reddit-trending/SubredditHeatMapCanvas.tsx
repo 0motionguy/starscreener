@@ -23,7 +23,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Sparkline } from "@/components/shared/Sparkline";
 import { formatNumber, cn } from "@/lib/utils";
@@ -188,9 +188,9 @@ function truncate(s: string, max: number): string {
 }
 
 function deltaColor(ratio: number): { color: string; arrow: "↑" | "↓" | "→" } {
-  if (ratio > 1.3) return { color: "#86efac", arrow: "↑" };
+  if (ratio > 1.3) return { color: "var(--v3-sig-green)", arrow: "↑" };
   if (ratio >= 0.7) return { color: "rgba(255,255,255,0.65)", arrow: "→" };
-  return { color: "#fca5a5", arrow: "↓" };
+  return { color: "var(--v3-sig-red)", arrow: "↓" };
 }
 
 function deltaText(ratio: number): string {
@@ -453,6 +453,7 @@ function Cell({
   onLeave,
   onClick,
 }: CellProps) {
+  const reduceMotion = useReducedMotion();
   const typo = typographyFor(rect.w, rect.h);
   const delta = deltaColor(cell.momentumRatio);
   const isBreakout = cell.tier === "breakout";
@@ -462,7 +463,7 @@ function Cell({
   // (rgba 0.06) on normal cells, Reddit orange on breakouts.
   const background = `linear-gradient(135deg, ${cell.fill} 0%, ${cell.gradientEnd} 100%)`;
   const borderColor = isBreakout
-    ? "#ff4500"
+    ? "var(--v3-tier-breakout-end)"
     : active
       ? "rgba(255, 255, 255, 0.45)"
       : "rgba(255, 255, 255, 0.06)";
@@ -480,8 +481,12 @@ function Cell({
         width: rect.w,
         height: rect.h,
       }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      whileHover={{ scale: 1.02, zIndex: 10 }}
+      transition={
+        reduceMotion
+          ? { duration: 0 }
+          : { duration: 0.5, ease: [0.22, 1, 0.36, 1] }
+      }
+      whileHover={reduceMotion ? undefined : { scale: 1.02, zIndex: 10 }}
       style={{
         position: "absolute",
         background,
@@ -495,9 +500,10 @@ function Cell({
         filter: hovered ? "brightness(1.08)" : "brightness(1)",
         cursor: "pointer",
         overflow: "hidden",
-        animation: isBreakout
-          ? "heatmap-breakout-pulse 3s ease-in-out infinite"
-          : undefined,
+        animation:
+          isBreakout && !reduceMotion
+            ? "heatmap-breakout-pulse 3s ease-in-out infinite"
+            : undefined,
       }}
       onPointerEnter={(e) => onEnter(cell, e)}
       onPointerMove={onMove}
@@ -617,8 +623,8 @@ function CellContent({ cell, typo, delta, isBreakout }: CellContentProps) {
             width: 6,
             height: 6,
             borderRadius: "50%",
-            backgroundColor: "#ff4500",
-            boxShadow: "0 0 6px rgba(255, 69, 0, 0.8)",
+            backgroundColor: "var(--v3-tier-breakout-end)",
+            boxShadow: "0 0 6px var(--v3-tier-breakout-glow)",
           }}
         />
       )}
@@ -637,12 +643,12 @@ function Legend() {
         className="h-2 flex-1 rounded-sm border border-border-primary/60"
         style={{
           background:
-            "linear-gradient(90deg, #4A5568 0%, #6B7B8D 22%, #2D5A3D 38%, #22c55e 58%, #10B981 72%, #ff6600 88%, #ff4500 100%)",
+            "linear-gradient(90deg, var(--v3-tier-cooling-fill) 0%, var(--v3-tier-cooling-end) 22%, var(--v3-tier-stable-fill) 38%, var(--v3-tier-stable-end) 58%, var(--v3-tier-heating-fill) 72%, var(--v3-tier-breakout-fill) 88%, var(--v3-tier-breakout-end) 100%)",
         }}
         aria-hidden="true"
       />
       <span>HEATING</span>
-      <span style={{ color: "#ff6600" }}>BREAKOUT</span>
+      <span style={{ color: "var(--v3-tier-breakout-fill)" }}>BREAKOUT</span>
     </div>
   );
 }

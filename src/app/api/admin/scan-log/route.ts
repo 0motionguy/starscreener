@@ -25,6 +25,8 @@ import path from "node:path";
 
 import { adminAuthFailureResponse, verifyAdminAuth } from "@/lib/api/auth";
 
+export const runtime = "nodejs";
+
 export const dynamic = "force-dynamic";
 
 // Mirrors the scan endpoint's source whitelist. Update both lists in

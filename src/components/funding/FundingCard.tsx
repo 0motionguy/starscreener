@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import type { FundingSignal } from "@/lib/funding/types";
 import { resolveLogoUrl } from "@/lib/logo-url";
@@ -151,15 +152,13 @@ function CompanyLogo({
         className="shrink-0 rounded-lg overflow-hidden border border-border-primary/50 bg-bg-muted"
         style={{ width: size, height: size }}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src={resolved}
           alt={name}
           width={size}
           height={size}
           className="w-full h-full object-contain"
           onError={() => setFailed(true)}
-          loading="lazy"
         />
       </div>
     );
@@ -192,15 +191,13 @@ function InvestorBadge({ name }: { name: string }) {
   return (
     <span className="inline-flex items-center gap-1.5 rounded-full border border-border-primary bg-bg-tertiary px-2.5 py-1 text-xs text-text-secondary">
       {logoUrl && !failed ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
+        <Image
           src={logoUrl}
           alt=""
           width={16}
           height={16}
           className="rounded-full object-contain bg-bg-muted"
           onError={() => setFailed(true)}
-          loading="lazy"
         />
       ) : (
         <span
@@ -274,7 +271,14 @@ export function FundingCard({ signal }: FundingCardProps) {
   }
 
   return (
-    <article className="border border-border-primary rounded-lg bg-bg-secondary overflow-hidden hover:border-brand/30 transition-colors">
+    <article
+      className="overflow-hidden transition-colors"
+      style={{
+        background: "var(--v2-bg-050)",
+        border: "1px solid var(--v2-line-std)",
+        borderRadius: 2,
+      }}
+    >
       {/* Top row: Logo + Company | Raised Amount */}
       <div className="px-5 pt-5 pb-4 flex items-center gap-4">
         {/* Left: Logo + Company */}
@@ -351,7 +355,8 @@ export function FundingCard({ signal }: FundingCardProps) {
             {signal.tags.map((tag) => (
               <span
                 key={tag}
-                className="text-[9px] font-mono uppercase tracking-wider rounded-sm px-1 py-px bg-brand/15 text-brand"
+                className="v2-tag"
+                style={{ fontSize: 9, padding: "1px 4px" }}
               >
                 {tag}
               </span>

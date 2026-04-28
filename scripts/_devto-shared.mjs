@@ -14,7 +14,7 @@
 import { fetchJsonWithRetry } from "./_fetch-json.mjs";
 
 export const USER_AGENT =
-  "StarScreener/0.1 (+https://github.com/0motionguy/starscreener; daily-devto-scrape)";
+  "TrendingRepo/0.2 (+https://github.com/0motionguy/starscreener; daily-devto-scrape)";
 
 export const DEVTO_BASE = "https://dev.to/api";
 export const DEVTO_PAUSE_MS = 200; // 5 req/sec

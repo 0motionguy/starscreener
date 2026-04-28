@@ -21,6 +21,7 @@
 // selected id, we synthesize a fallback ok:false bundle so the banner card
 // still renders in error state — per-repo failures never block siblings.
 
+import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useEffect, useMemo, useState } from "react";
@@ -33,6 +34,7 @@ import {
   Plus,
 } from "lucide-react";
 import { useCompareStore } from "@/lib/store";
+import { useCompareRepos } from "@/hooks/useCompareRepos";
 import { CompareSelector } from "@/components/compare/CompareSelector";
 import { RepoBannerCard } from "@/components/compare/RepoBannerCard";
 import { CompareHeatmap } from "@/components/compare/CompareHeatmap";
@@ -47,6 +49,7 @@ import {
 import type { CompareRepoBundle } from "@/lib/github-compare";
 import type { Repo } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import { COMPARE_PALETTE, COMPARE_MAX_SLOTS } from "./palette";
 
 // Recharts weighs ~100KB gzipped. The compare chart sits in section 4 of a
 // deep-dive page with several sections above the fold — defer loading its
@@ -63,11 +66,11 @@ const CompareChart = dynamic(
   },
 );
 
-// Palette mirrors CompareChart's LINE_COLORS so banner accents, chart lines,
-// and heatmap series all line up slot-for-slot with the selector pills.
-const PALETTE = ["#22c55e", "#3b82f6", "#a855f7", "#f59e0b"] as const;
-
-const MAX_SLOTS = 4;
+// Local aliases keep call sites short. Palette + slot count are defined
+// once in ./palette and imported by every compare-page sibling so banner
+// accents, chart lines, and heatmap series stay in lockstep.
+const PALETTE = COMPARE_PALETTE;
+const MAX_SLOTS = COMPARE_MAX_SLOTS;
 
 /** Synthesize a well-typed ok:false bundle for IDs /api/compare didn't return. */
 function fallbackBundle(fullName: string): CompareRepoBundle {
@@ -141,11 +144,28 @@ export interface CompareClientProps {
 
 export function CompareClient({ embedded = false }: CompareClientProps = {}) {
   const repoIds = useCompareStore((s) => s.repos);
-  const [repos, setRepos] = useState<Repo[]>([]);
   const [bundles, setBundles] = useState<CompareRepoBundle[]>([]);
-  const [reposLoading, setReposLoading] = useState(false);
   const [bundlesLoading, setBundlesLoading] = useState(false);
   const [hasHydrated, setHasHydrated] = useState(false);
+  // UI-06: shared `/api/repos` fetcher with cross-component dedup.
+  // Replaces a private fetch + Repo[] state that mirrored
+  // CompareProfileGrid's identical fetch on /compare.
+  const { repos, loading: reposLoading } = useCompareRepos(
+    repoIds,
+    hasHydrated,
+  );
+  const reposById = useMemo(() => {
+    const map = new Map<string, Repo>();
+    for (const r of repos) map.set(r.id, r);
+    return map;
+  }, [repos]);
+  const orderedRepos = useMemo(
+    () =>
+      repoIds
+        .map((id) => reposById.get(id))
+        .filter((r): r is Repo => r !== undefined),
+    [repoIds, reposById],
+  );
 
   useEffect(() => {
     // Only own the tab title in page mode; embedded mode is a section
@@ -168,50 +188,23 @@ export function CompareClient({ embedded = false }: CompareClientProps = {}) {
     return unsubscribe;
   }, []);
 
-  // --- Dual fetch: /api/repos and /api/compare ------------------------
+  // --- Bundle fetch: `/api/compare/github` ----------------------------
+  // UI-06: the legacy `/api/repos` fetch lives in useCompareRepos now.
+  // Only the `/api/compare/github` rich-bundle fetch is owned here.
   useEffect(() => {
     if (!hasHydrated) {
-      setReposLoading(true);
       setBundlesLoading(true);
       return;
     }
     if (repoIds.length === 0) {
-      setRepos([]);
       setBundles([]);
-      setReposLoading(false);
       setBundlesLoading(false);
       return;
     }
 
     const controller = new AbortController();
-    setReposLoading(true);
     setBundlesLoading(true);
     setBundles([]);
-
-    // Fetch 1: legacy Repo[] for CompareChart.
-    (async () => {
-      try {
-        const res = await fetch(
-          `/api/repos?ids=${encodeURIComponent(repoIds.join(","))}`,
-          { signal: controller.signal },
-        );
-        if (!res.ok) throw new Error(`status ${res.status}`);
-        const data = (await res.json()) as { repos?: Repo[] };
-        const byId = new Map(
-          (Array.isArray(data.repos) ? data.repos : []).map((r) => [r.id, r]),
-        );
-        const ordered = repoIds
-          .map((id) => byId.get(id))
-          .filter((r): r is Repo => r !== undefined);
-        setRepos(ordered);
-      } catch (err) {
-        if ((err as { name?: string }).name === "AbortError") return;
-        console.error("[compare] /api/repos failed", err);
-        setRepos([]);
-      } finally {
-        setReposLoading(false);
-      }
-    })();
 
     // Fetch 2: rich GitHub bundle from `/api/compare/github`. The route
     // accepts owner/name; store IDs are owner--name — normalize via
@@ -251,8 +244,8 @@ export function CompareClient({ embedded = false }: CompareClientProps = {}) {
   }, [bundles]);
 
   const selectedFullNames = useMemo(
-    () => resolveCompareFullNames(repoIds, repos),
-    [repoIds, repos],
+    () => resolveCompareFullNames(repoIds, orderedRepos),
+    [repoIds, orderedRepos],
   );
 
   // Ordered bundles mirroring selector order. Prefer the API response slot
@@ -340,10 +333,10 @@ export function CompareClient({ embedded = false }: CompareClientProps = {}) {
          ------------------------------------------------------------- */}
       <section aria-label="Star activity">
         <h2 className="label-section mb-3">STAR ACTIVITY · 30 DAYS</h2>
-        {isLoading && repos.length < 2 ? (
+        {isLoading && orderedRepos.length < 2 ? (
           <div className="skeleton-shimmer rounded-card h-[300px] w-full" />
-        ) : repos.length >= 2 ? (
-          <CompareChart repos={repos} />
+        ) : orderedRepos.length >= 2 ? (
+          <CompareChart repos={orderedRepos} />
         ) : (
           <EmptyPanel message="Need at least 2 resolved repos to render the chart." />
         )}
@@ -509,7 +502,7 @@ function BannerSkeleton() {
 function HeatmapSkeleton() {
   // 52×7 grid of muted cells to match CompareHeatmap's geometry.
   return (
-    <div className="bg-bg-card rounded-card border border-border-primary p-4">
+    <div className="v2-card p-4">
       <div className="grid grid-cols-[repeat(52,minmax(0,1fr))] gap-[2px]">
         {Array.from({ length: 52 * 7 }).map((_, i) => (
           <div
@@ -524,7 +517,7 @@ function HeatmapSkeleton() {
 
 function PulseSkeleton() {
   return (
-    <div className="bg-bg-card rounded-card border border-border-primary p-4 space-y-3">
+    <div className="v2-card p-4 space-y-3">
       <div className="flex items-center gap-2">
         <div className="skeleton-shimmer size-6 rounded-full shrink-0" />
         <div className="skeleton-shimmer h-4 w-2/3 rounded-sm" />
@@ -543,7 +536,7 @@ function PulseSkeleton() {
 
 function SectionRowSkeleton() {
   return (
-    <div className="bg-bg-card rounded-card border border-border-primary p-4 space-y-3">
+    <div className="v2-card p-4 space-y-3">
       <div className="flex items-center gap-2">
         <div className="skeleton-shimmer size-6 rounded-full shrink-0" />
         <div className="skeleton-shimmer h-5 w-64 max-w-[70%] rounded-sm" />
@@ -570,7 +563,7 @@ function WinnerSkeleton() {
 
 function EmptyPanel({ message }: { message: string }) {
   return (
-    <div className="bg-bg-card rounded-card border border-border-primary p-4 text-sm text-text-tertiary">
+    <div className="v2-card p-4 text-sm text-text-tertiary">
       {message}
     </div>
   );
@@ -592,7 +585,7 @@ function PulseCard({ bundle, accent }: BundleWithAccent) {
   if (!bundle.ok) {
     return (
       <div
-        className="bg-bg-card rounded-card border border-border-primary p-4 space-y-2"
+        className="v2-card p-4 space-y-2"
         style={{ borderLeft: `3px solid ${accent}` }}
       >
         <p className="text-sm font-medium text-text-primary truncate">
@@ -617,18 +610,16 @@ function PulseCard({ bundle, accent }: BundleWithAccent) {
 
   return (
     <div
-      className="bg-bg-card rounded-card border border-border-primary p-4 space-y-3"
+      className="v2-card p-4 space-y-3"
       style={{ borderLeft: `3px solid ${accent}` }}
     >
       <div className="flex items-center gap-2 min-w-0">
         {bundle.avatarUrl ? (
-          /* eslint-disable-next-line @next/next/no-img-element */
-          <img
+          <Image
             src={bundle.avatarUrl}
             alt=""
             width={24}
             height={24}
-            loading="lazy"
             className="size-6 rounded-full bg-bg-card-hover shrink-0"
           />
         ) : (
@@ -682,18 +673,16 @@ function RepoSubHeader({
 
   return (
     <div
-      className="bg-bg-card rounded-card border border-border-primary p-4"
+      className="v2-card p-4"
       style={{ borderLeft: `3px solid ${accent}` }}
     >
       <div className="flex items-center gap-2 mb-3 min-w-0">
         {bundle.avatarUrl ? (
-          /* eslint-disable-next-line @next/next/no-img-element */
-          <img
+          <Image
             src={bundle.avatarUrl}
             alt=""
             width={24}
             height={24}
-            loading="lazy"
             className="size-6 rounded-full bg-bg-card-hover shrink-0"
           />
         ) : (

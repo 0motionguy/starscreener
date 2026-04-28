@@ -65,3 +65,24 @@ next-env.d.ts
 
 # dogfood script output
 dogfood-output/
+
+# playwright-mcp local capture / trace output
+.playwright-mcp/
+
+# playwright e2e — install reports, traces, screenshots
+/playwright-report/
+/test-results/
+/blob-report/
+/.cache/playwright/
+
+# local build / typecheck logs
+build_*.log
+build-*.log
+typecheck_*.log
+dev_server*.log
+
+# scratch probe directories from local debug sessions
+tmp_probe/
+
+# embedded clones (not submodules)
+awesome-codex-skills/

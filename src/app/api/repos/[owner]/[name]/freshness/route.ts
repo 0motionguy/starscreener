@@ -9,8 +9,11 @@
 
 import { NextRequest, NextResponse } from "next/server";
 
+import { errorEnvelope } from "@/lib/api/error-response";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import { getFreshnessSnapshot } from "@/lib/source-health";
+
+export const runtime = "nodejs";
 
 const SLUG_PART_PATTERN = /^[A-Za-z0-9._-]+$/;
 
@@ -25,12 +28,12 @@ export async function GET(
   const { owner, name } = await params;
 
   if (!SLUG_PART_PATTERN.test(owner) || !SLUG_PART_PATTERN.test(name)) {
-    return NextResponse.json({ error: "Invalid repo slug" }, { status: 400 });
+    return NextResponse.json(errorEnvelope("Invalid repo slug"), { status: 400 });
   }
 
   const repo = getDerivedRepoByFullName(`${owner}/${name}`);
   if (!repo) {
-    return NextResponse.json({ error: "Repo not found" }, { status: 404 });
+    return NextResponse.json(errorEnvelope("Repo not found"), { status: 404 });
   }
 
   const snapshot = getFreshnessSnapshot();

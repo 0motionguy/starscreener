@@ -19,6 +19,20 @@ import { triggerScanIfStale } from "@/lib/news/auto-rescrape";
 import Link from "next/link";
 
 import {
+  NewsTopHeaderV3,
+  type NewsHeroStory,
+  type NewsMetricCard,
+} from "@/components/news/NewsTopHeaderV3";
+import {
+  activityBars,
+  applyCompactV1,
+  compactNumber,
+  sourceVolumeBars,
+  topicBars,
+  type SourceVolumeInput,
+} from "@/components/news/newsTopMetrics";
+
+import {
   getAllRedditMentions,
   getAllRedditPosts,
   getRedditFetchedAt,
@@ -442,7 +456,7 @@ export default function SignalsPage() {
 
   const rightRail = (
     <aside className="flex flex-col gap-4">
-      <div className="rounded-card border border-border-primary bg-bg-card p-3">
+      <div className="v2-card p-3">
         <h3 className="font-mono text-[10px] uppercase tracking-[0.16em] text-text-tertiary">
           Top Topics
         </h3>
@@ -465,7 +479,7 @@ export default function SignalsPage() {
         )}
       </div>
 
-      <div className="rounded-card border border-border-primary bg-bg-card p-3">
+      <div className="v2-card p-3">
         <h3 className="font-mono text-[10px] uppercase tracking-[0.16em] text-text-tertiary">
           Top Linked Repos
         </h3>
@@ -500,6 +514,179 @@ export default function SignalsPage() {
     </aside>
   );
 
+  // ─── V3 cross-source summary header ────────────────────────────────
+  // The shared 3-card header used on every news page, but here the
+  // numbers are aggregated across ALL sources so /signals reads as the
+  // overall stats roll-up of /news, /hackernews/trending,
+  // /bluesky/trending, /devto, /lobsters, and /producthunt.
+
+  // Build per-source `SourceVolumeInput` rows for the middle card.
+  // Source colours match the `SOURCE_COLORS` palette used elsewhere on
+  // /news — same chrome regardless of which page you're reading from.
+  // Brand favicons for each source — kept beside the per-source volume row
+  // so the bar rail reads as "logo · code · count" instead of bare text.
+  const SRC_FAVICON = (domain: string) =>
+    `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
+  const sourceVolumeRows: SourceVolumeInput[] = [
+    {
+      code: "HN",
+      label: "HACKERNEWS",
+      color: "rgba(245, 110, 15, 0.85)",
+      itemCount: hnTop.length,
+      totalScore: hnTop.reduce((s, x) => s + (x.score ?? 0), 0),
+      logoUrl: SRC_FAVICON("news.ycombinator.com"),
+    },
+    {
+      code: "BS",
+      label: "BLUESKY",
+      color: "rgba(58, 214, 197, 0.85)",
+      itemCount: bskyTop.length,
+      totalScore: bskyTop.reduce((s, x) => s + (x.likeCount ?? 0), 0),
+      logoUrl: SRC_FAVICON("bsky.app"),
+    },
+    {
+      code: "DV",
+      label: "DEV.TO",
+      color: "rgba(102, 153, 255, 0.85)",
+      itemCount: devtoTop.length,
+      totalScore: devtoTop.reduce((s, x) => s + (x.reactionsCount ?? 0), 0),
+      logoUrl: SRC_FAVICON("dev.to"),
+    },
+    {
+      code: "LZ",
+      label: "LOBSTERS",
+      color: "rgba(172, 19, 13, 0.85)",
+      itemCount: lobstersTop.length,
+      totalScore: lobstersTop.reduce((s, x) => s + (x.score ?? 0), 0),
+      logoUrl: SRC_FAVICON("lobste.rs"),
+    },
+    {
+      code: "R",
+      label: "REDDIT",
+      color: "rgba(255, 77, 77, 0.85)",
+      itemCount: redditPostsAll.length,
+      totalScore: redditPostsAll.reduce((s, x) => s + (x.score ?? 0), 0),
+      logoUrl: SRC_FAVICON("reddit.com"),
+    },
+  ];
+
+  const totalItemsAll = sourceVolumeRows.reduce(
+    (s, r) => s + r.itemCount,
+    0,
+  );
+  const totalScoreAll = sourceVolumeRows.reduce(
+    (s, r) => s + r.totalScore,
+    0,
+  );
+  const topItemAll = allMerged[0];
+
+  // Topic bars — pulled from titles/text across every source so the
+  // most-mentioned tokens reflect the cross-source conversation.
+  const allTitles: string[] = [];
+  for (const s of hnTop) allTitles.push(s.title);
+  for (const p of bskyTop) allTitles.push(p.text ?? "");
+  for (const a of devtoTop) allTitles.push(a.title);
+  for (const s of lobstersTop) allTitles.push(s.title);
+  for (const p of redditPostsAll) allTitles.push(p.title ?? "");
+
+  const signalsTopicBars = topicBars(allTitles, 6);
+  const summaryCards: [NewsMetricCard, NewsMetricCard, NewsMetricCard] = applyCompactV1(
+    [
+      {
+        variant: "snapshot",
+        title: "// SNAPSHOT · NOW",
+        rightLabel: `${totalItemsAll} SIGNALS`,
+        label: "SIGNALS TRACKED",
+        value: compactNumber(totalItemsAll),
+        hint: `ACROSS ${activeSourceCount}/${TOTAL_SOURCES} SOURCES`,
+        rows: [
+          { label: "TOTAL SCORE", value: compactNumber(totalScoreAll) },
+          {
+            label: "TOP SIGNAL",
+            value: compactNumber(topItemAll?.engagement ?? 0),
+            tone: "accent",
+          },
+          {
+            label: "CROSS-CHANNEL",
+            value: `${mentionRepos.length} REPOS`,
+          },
+        ],
+      },
+      {
+        variant: "bars",
+        title: "// VOLUME · PER SOURCE",
+        rightLabel: `${activeSourceCount} CHANNELS`,
+        bars: sourceVolumeBars(sourceVolumeRows),
+        labelWidth: 36,
+        emptyText: "NO LIVE SOURCES",
+      },
+      {
+        variant: "bars",
+        title: "// TOPICS · MENTIONED MOST",
+        rightLabel: "TOP 6",
+        bars: signalsTopicBars,
+        labelWidth: 96,
+        emptyText: "NOT ENOUGH SIGNAL YET",
+      },
+    ],
+    { topics: signalsTopicBars, totalItems: totalItemsAll },
+  );
+
+  // Top 3 signals across all sources — already sorted in `allMerged`.
+  const summaryTopStories: NewsHeroStory[] = allMerged.slice(0, 3).map((row) => {
+    const sourceCode =
+      row.source === "hackernews"
+        ? "HN"
+        : row.source === "bluesky"
+          ? "BS"
+          : row.source === "devto"
+            ? "DV"
+            : row.source === "lobsters"
+              ? "LZ"
+              : row.source === "reddit"
+                ? "R"
+                : "—";
+    const ageHours = row.postedAt
+      ? Math.max(0, (Date.now() - Date.parse(row.postedAt)) / 3_600_000)
+      : null;
+    return {
+      title: row.title,
+      href: row.href ?? "#",
+      external: row.external ?? false,
+      sourceCode,
+      byline: row.attribution ?? undefined,
+      scoreLabel: `${compactNumber(row.engagement ?? 0)} ${
+        row.engagementLabel?.toUpperCase() ?? "SCORE"
+      }`,
+      ageHours,
+    };
+  });
+
+  // Silence the activityBars import while keeping it available — the
+  // helper is used by every per-source builder; /signals leans on the
+  // VOLUME · PER SOURCE breakdown instead, so it isn't called here.
+  void activityBars;
+
+  const summaryTopSlot = (
+    <NewsTopHeaderV3
+      routeTitle="SIGNALS · CROSS-SOURCE"
+      liveLabel="LIVE"
+      eyebrow="// MARKET SIGNALS · ALL SOURCES"
+      meta={[
+        { label: "SIGNALS", value: totalItemsAll.toLocaleString("en-US") },
+        { label: "SOURCES", value: `${activeSourceCount}/${TOTAL_SOURCES}` },
+        { label: "REPOS", value: mentionRepos.length.toLocaleString("en-US") },
+      ]}
+      cards={summaryCards}
+      topStories={summaryTopStories}
+      caption={[
+        "// LAYOUT compact-v1",
+        "· 3-COL · 320 / 1FR / 1FR",
+        "· DATA UNCHANGED",
+      ]}
+    />
+  );
+
   return (
     <SignalSourcePage
       source="signals"
@@ -512,6 +699,7 @@ export default function SignalsPage() {
       metrics={metrics}
       tabs={tabs}
       rightRail={rightRail}
+      topSlot={summaryTopSlot}
     />
   );
 }

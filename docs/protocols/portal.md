@@ -1,6 +1,6 @@
 # Portal v0.1 integration
 
-Star Screener speaks the [Portal v0.1 protocol](https://visitportal.dev) so any LLM client with a Portal visitor SDK can discover and call Star Screener's tools without installation.
+TrendingRepo speaks the [Portal v0.1 protocol](https://visitportal.dev) so any LLM client with a Portal visitor SDK can discover and call TrendingRepo's tools without installation.
 
 ## Try it in 60 seconds
 

@@ -1,19 +1,18 @@
 "use client";
 
 /**
- * Sidebar — desktop persistent left rail.
+ * Sidebar — desktop persistent left rail (V2 chrome).
  *
  * Fetches the sidebar data bundle on mount (one HTTP round-trip to
  * /api/pipeline/sidebar-data) and feeds it into the shared
- * <SidebarContent>. When the AppShell applies `data-mode="focused"` on
- * repo-detail routes, the parent grid column shrinks to 56px and we
- * switch to a compact <IconRail> variant instead.
+ * <SidebarContent>. The chrome is the V2 Node/01 industrial rail:
+ * translucent gray-blue surface, hairline V2 borders, a `// TRENDINGREPO`
+ * mono status row at the top, and the V2 launchpad tiles below.
  *
- * The rail fetch is client-side because the root layout is a server
- * component that can't easily thread props through to a client sidebar
- * sitting as a sibling of the page `<main>`. The tradeoff — a one-shot
- * fetch on mount — is negligible compared to the complexity of a
- * server-component wrapper.
+ * Width matches the AppShell grid column (280px in `data-mode="full"`,
+ * 56px when AppShell flips to `data-mode="focused"`). The CSS handles the
+ * column width — this component renders the same chrome at both widths,
+ * and the inner content overflows-hidden when narrow.
  */
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
@@ -22,6 +21,8 @@ import { Plug, Terminal, User } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useWatchlistStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
+import { APP_VERSION } from "@/lib/app-meta";
+import { SystemMark } from "@/components/v3";
 import { SidebarContent } from "./SidebarContent";
 import { SidebarSkeleton } from "./SidebarSkeleton";
 import type {
@@ -31,7 +32,7 @@ import type {
 import type { SidebarWatchlistPreviewRepo } from "./SidebarWatchlistPreview";
 
 // ---------------------------------------------------------------------------
-// LaunchpadStrip — 3-tile shortcut row for power-user integrations
+// LaunchpadStrip — 3-tile shortcut row, V2-styled.
 // ---------------------------------------------------------------------------
 
 interface LaunchpadTile {
@@ -57,7 +58,8 @@ function LaunchpadStrip() {
   return (
     <nav
       aria-label="Launchpad"
-      className="grid grid-cols-3 gap-1.5 px-3 pt-3 pb-2 border-b border-border-primary"
+      className="grid grid-cols-3 gap-1.5 px-3 pt-3 pb-3 border-b"
+      style={{ borderColor: "var(--v2-line-100)" }}
     >
       {LAUNCHPAD_TILES.map((tile) => {
         const active = pathname === tile.href
@@ -69,19 +71,50 @@ function LaunchpadStrip() {
             href={tile.href}
             aria-label={tile.label}
             className={cn(
-              "h-9 flex items-center justify-center gap-1.5 rounded-button border transition-all",
-              "text-[11px] font-mono uppercase tracking-wider",
-              active
-                ? "bg-brand border-brand text-black"
-                : "border-border-primary text-text-secondary hover:text-text-primary hover:border-brand hover:shadow-[0_0_12px_var(--color-brand-glow)]",
+              "v2-mono relative h-9 flex items-center justify-center gap-1.5",
+              "text-[10px] transition-colors duration-150",
+              active && "v2-bracket",
             )}
+            style={{
+              background: active ? "var(--v2-acc-soft)" : "var(--v2-bg-050)",
+              border: `1px solid ${active ? "var(--v2-acc)" : "var(--v2-line-200)"}`,
+              borderRadius: 2,
+              color: active ? "var(--v2-acc)" : "var(--v2-ink-200)",
+            }}
           >
-            <Icon className="w-3.5 h-3.5" strokeWidth={2} />
+            <Icon className="w-3.5 h-3.5" strokeWidth={2} aria-hidden />
             <span>{tile.label}</span>
           </Link>
         );
       })}
     </nav>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Top status block — system identity (`// TRENDINGREPO` + version).
+// ---------------------------------------------------------------------------
+
+function SidebarStatusHeader() {
+  return (
+    <div
+      className="px-3 py-2.5 border-b flex items-center justify-between shrink-0"
+      style={{ borderColor: "var(--v2-line-100)" }}
+    >
+      <span
+        className="v2-mono inline-flex items-center gap-2"
+        style={{ color: "var(--v2-ink-300)", fontSize: 10 }}
+      >
+        <SystemMark size={12} />
+        {"// TRENDINGREPO"}
+      </span>
+      <span
+        className="v2-mono tabular-nums"
+        style={{ color: "var(--v2-ink-500)", fontSize: 9 }}
+      >
+        v{APP_VERSION}
+      </span>
+    </div>
   );
 }
 
@@ -95,7 +128,21 @@ export interface SidebarData {
   availableLanguages: SidebarDataResponse["availableLanguages"];
   reposById: Record<string, SidebarDataRepo>;
   unreadAlerts: number;
+  sourceCounts: SidebarDataResponse["sourceCounts"];
+  trendingReposCount: number;
 }
+
+const EMPTY_SOURCE_COUNTS: SidebarDataResponse["sourceCounts"] = {
+  hackernewsStories: 0,
+  lobstersStories: 0,
+  devtoArticles: 0,
+  blueskyPosts: 0,
+  redditPosts: 0,
+  producthuntLaunches: 0,
+  fundingSignals: 0,
+  revenueOverlays: 0,
+  npmPackages: 0,
+};
 
 export function useSidebarData(): SidebarData | null {
   const [data, setData] = useState<SidebarData | null>(null);
@@ -112,6 +159,8 @@ export function useSidebarData(): SidebarData | null {
           availableLanguages: json.availableLanguages,
           reposById: json.reposById,
           unreadAlerts: json.unreadAlerts ?? 0,
+          sourceCounts: json.sourceCounts ?? EMPTY_SOURCE_COUNTS,
+          trendingReposCount: json.trendingReposCount ?? 0,
         });
       })
       .catch(() => {
@@ -160,12 +209,18 @@ export function Sidebar() {
   const data = useSidebarData();
   const watchlistPreview = useWatchlistPreview(data?.reposById);
 
-  // Full sidebar everywhere — including repo detail pages. The old
-  // focused-mode collapse to a 56px IconRail created a 224px empty gap
-  // because AppShell's grid column stays 280px, which read as "the menu
-  // disappeared" on repo detail. Keep the terminal chrome always visible.
+  // Width is driven by the parent `.app-shell` grid column (280px full /
+  // 56px focused). We render the same chrome at both widths and let the
+  // outer aside clip overflow when the column is narrow.
   return (
-    <aside className="hidden md:flex md:flex-col w-[280px] h-[calc(100vh-56px)] sticky top-14 border-r border-border-primary bg-bg-primary">
+    <aside
+      className="v3-chrome hidden md:flex md:flex-col w-full h-[calc(100vh-56px)] sticky top-14 border-r overflow-hidden"
+      style={{
+        borderColor: "var(--v3-line-200)",
+        backdropFilter: "blur(8px)",
+      }}
+    >
+      <SidebarStatusHeader />
       <LaunchpadStrip />
       {data ? (
         <SidebarContent
@@ -174,6 +229,8 @@ export function Sidebar() {
           availableLanguages={data.availableLanguages}
           watchlistPreview={watchlistPreview}
           unreadAlerts={data.unreadAlerts}
+          sourceCounts={data.sourceCounts}
+          trendingReposCount={data.trendingReposCount}
         />
       ) : (
         <SidebarSkeleton />

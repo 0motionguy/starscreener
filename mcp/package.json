@@ -1,9 +1,10 @@
 {
-  "name": "starscreener-mcp",
-  "version": "0.1.0",
-  "description": "MCP server exposing TrendingRepo open-source trend intelligence to AI agents via stdio.",
+  "name": "trendingrepo-mcp",
+  "version": "0.2.0",
+  "description": "MCP server exposing the TrendingRepo GitHub trend REST API to AI agents via stdio.",
   "type": "module",
   "bin": {
+    "trendingrepo-mcp": "dist/server.js",
     "starscreener-mcp": "dist/server.js"
   },
   "main": "./dist/server.js",
@@ -14,17 +15,15 @@
   "keywords": [
     "mcp",
     "model-context-protocol",
-    "starscreener",
     "trendingrepo",
     "github",
     "trending",
-    "open-source-intelligence",
     "ai-agents",
     "claude"
   ],
   "license": "MIT",
   "author": "Mirko Basil Dolger",
-  "homepage": "https://github.com/0motionguy/starscreener#readme",
+  "homepage": "https://trendingrepo.com",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/0motionguy/starscreener.git",
@@ -42,7 +41,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.4",
-    "zod": "^3.23.8"
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@types/node": "^20.14.0",

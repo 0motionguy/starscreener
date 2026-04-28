@@ -8,6 +8,7 @@
 // error placeholder — the grid keeps every slot populated so the layout
 // doesn't jitter when one lookup fails.
 
+import Image from "next/image";
 import Link from "next/link";
 import { Star } from "lucide-react";
 import type { CompareRepoRow, DiffTone } from "./CompareProfileGrid";
@@ -19,6 +20,7 @@ import { FundingCompact } from "./FundingCompact";
 import { NpmCompact } from "./NpmCompact";
 import { MentionsRecentCompact } from "./MentionsRecentCompact";
 import { cn } from "@/lib/utils";
+import { COMPARE_PALETTE as PALETTE } from "./palette";
 
 interface RepoProfileColumnProps {
   row: CompareRepoRow;
@@ -31,8 +33,6 @@ interface RepoProfileColumnProps {
     npmDownloads7d: DiffTone;
   };
 }
-
-const PALETTE = ["#22c55e", "#3b82f6", "#a855f7", "#f59e0b"] as const;
 
 function formatCompact(n: number): string {
   if (n < 1000) return String(n);
@@ -57,7 +57,7 @@ export function RepoProfileColumn({
   if (!profile) {
     return (
       <article
-        className="bg-bg-card rounded-card border border-border-primary p-4 space-y-2 min-h-[140px]"
+        className="v2-card p-4 space-y-2 min-h-[140px]"
         style={{ borderLeft: `3px solid ${accent}` }}
       >
         <p className="text-sm font-medium text-text-primary truncate">
@@ -65,7 +65,7 @@ export function RepoProfileColumn({
         </p>
         <p className="text-xs text-text-tertiary">
           {error === "not_found"
-            ? "Repo not in the StarScreener index yet."
+            ? "Repo not in the TrendingRepo index yet."
             : "Couldn't load this repo."}
         </p>
       </article>
@@ -77,16 +77,17 @@ export function RepoProfileColumn({
 
   return (
     <article
-      className="bg-bg-card rounded-card border border-border-primary p-4 space-y-4"
+      className="v2-card p-4 space-y-4"
       style={{ borderLeft: `3px solid ${accent}` }}
     >
       {/* Header */}
       <header className="flex items-center gap-2 min-w-0">
         {repo.ownerAvatarUrl ? (
-          /* eslint-disable-next-line @next/next/no-img-element */
-          <img
+          <Image
             src={repo.ownerAvatarUrl}
             alt=""
+            width={28}
+            height={28}
             className="size-7 rounded-full bg-bg-card-hover shrink-0"
           />
         ) : (
@@ -155,7 +156,7 @@ function ColumnSkeleton({ accent }: { accent: string }) {
   return (
     <div
       className={cn(
-        "bg-bg-card rounded-card border border-border-primary p-4 space-y-4",
+        "v2-card p-4 space-y-4",
       )}
       style={{ borderLeft: `3px solid ${accent}` }}
     >

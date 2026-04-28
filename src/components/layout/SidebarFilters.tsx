@@ -65,9 +65,19 @@ export function SidebarFilters({ languages }: SidebarFiltersProps) {
                     "px-2 h-6 rounded-full border text-[11px] font-medium",
                     "transition-colors duration-150",
                     selected
-                      ? "bg-functional-glow text-functional border-functional/40"
+                      ? ""
                       : "bg-bg-tertiary text-text-tertiary border-border-secondary hover:text-text-secondary hover:border-border-strong",
                   )}
+                  style={
+                    selected
+                      ? {
+                          borderColor: "var(--v3-sig-green)",
+                          background:
+                            "color-mix(in srgb, var(--v3-sig-green) 12%, transparent)",
+                          color: "var(--v3-sig-green)",
+                        }
+                      : undefined
+                  }
                 >
                   {lang}
                 </button>
@@ -93,9 +103,19 @@ export function SidebarFilters({ languages }: SidebarFiltersProps) {
                   "h-7 text-[10px] font-mono tabular-nums rounded-sm border",
                   "transition-colors duration-150",
                   active
-                    ? "bg-functional-glow text-functional border-functional/40"
+                    ? ""
                     : "bg-bg-tertiary text-text-tertiary border-border-secondary hover:text-text-secondary hover:border-border-strong",
                 )}
+                style={
+                  active
+                    ? {
+                        borderColor: "var(--v3-sig-green)",
+                        background:
+                          "color-mix(in srgb, var(--v3-sig-green) 12%, transparent)",
+                        color: "var(--v3-sig-green)",
+                      }
+                    : undefined
+                }
               >
                 {preset.label}
               </button>
@@ -167,10 +187,16 @@ function ToggleRow({
         className={cn(
           "w-[14px] h-[14px] rounded-sm border flex items-center justify-center shrink-0",
           "transition-colors duration-150",
-          checked
-            ? "bg-functional border-functional"
-            : "bg-bg-tertiary border-border-strong",
+          checked ? "" : "bg-bg-tertiary border-border-strong",
         )}
+        style={
+          checked
+            ? {
+                borderColor: "var(--v3-sig-green)",
+                background: "var(--v3-sig-green)",
+              }
+            : undefined
+        }
       >
         {checked && (
           <Check className="w-3 h-3 text-bg-primary" strokeWidth={3} />
@@ -217,7 +243,13 @@ export function SidebarFiltersHeader() {
 
   return (
     <span className="flex items-center gap-1.5">
-      <span className="font-mono text-[10px] px-1.5 py-0.5 rounded-full bg-functional-glow text-functional tabular-nums">
+      <span
+        className="font-mono text-[10px] px-1.5 py-0.5 rounded-[2px] tabular-nums tracking-[0.14em]"
+        style={{
+          background: "color-mix(in srgb, var(--v3-sig-green) 12%, transparent)",
+          color: "var(--v3-sig-green)",
+        }}
+      >
         {activeCount}
       </span>
       <button

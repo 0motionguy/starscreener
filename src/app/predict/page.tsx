@@ -1,12 +1,15 @@
-// /predict — standalone repo forecasting tool. Wraps the PredictTool
-// client component with the same chrome conventions used by
-// /tools/revenue-estimate.
+// /predict — standalone repo forecasting tool (v2-styled).
+//
+// Wraps the PredictTool client component. When a ?repo= parameter is
+// present, the server fetches the repo's sparkline so the v2 forecast
+// cards can render a real past-to-future sparkline band.
 
 import type { Metadata } from "next";
 import { LineChart, ShieldAlert } from "lucide-react";
 
 import { PredictTool } from "@/components/predict/PredictTool";
 import { PREDICTION_MODEL_VERSION } from "@/lib/predictions";
+import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -32,6 +35,11 @@ interface PageProps {
 
 export default async function PredictPage({ searchParams }: PageProps) {
   const { repo } = await searchParams;
+
+  // If a repo is pre-selected, pull its sparkline so the v2 forecast
+  // cards can render the past→future SVG band with real data.
+  const baseRepo = repo ? getDerivedRepoByFullName(repo.trim()) : null;
+  const sparklineData = baseRepo?.sparklineData ?? null;
 
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
@@ -72,7 +80,7 @@ export default async function PredictPage({ searchParams }: PageProps) {
           </div>
         </aside>
 
-        <PredictTool initialRepo={repo ?? ""} />
+        <PredictTool initialRepo={repo ?? ""} sparklineData={sparklineData} />
       </div>
     </main>
   );

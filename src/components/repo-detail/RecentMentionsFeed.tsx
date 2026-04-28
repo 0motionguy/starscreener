@@ -92,94 +92,151 @@ export function RecentMentionsFeed({
   return (
     <section
       aria-label="All mentions"
-      className="rounded-card border border-border-primary bg-bg-card p-4 shadow-card"
+      className="v2-card overflow-hidden"
     >
-      <header className="flex items-baseline justify-between gap-3 mb-3 flex-wrap">
-        <h2 className="font-mono text-[11px] uppercase tracking-wider text-text-secondary">
-          All mentions
-          <span className="ml-2 text-text-tertiary">{"// evidence feed"}</span>
-        </h2>
-        <span className="font-mono text-[11px] text-text-tertiary tabular-nums">
-          {visible.length} shown / {totalCount} total
+      <div className="v2-term-bar">
+        <span aria-hidden className="flex items-center gap-1.5">
+          <span className="block h-1.5 w-1.5 rounded-full v2-live-dot" />
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-line-200)" }}
+          />
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-line-200)" }}
+          />
         </span>
-      </header>
-
-      {/* Freshness chips — per-source "last scan" strip. Renders only when
-          a freshness snapshot is passed in, so existing callers stay
-          unaffected. Placed above the tab bar so the chips read as a
-          legend for the tabs directly below. */}
-      {freshness ? (
-        <div className="mb-2">
-          <FreshnessChips sources={freshness.sources} />
-        </div>
-      ) : null}
-
-      {/* Tabs — horizontal scroll on narrow viewports so they don't wrap
-          mid-label. Touch targets ≥ 36px high which keeps the row reachable
-          on mobile without dwarfing the surrounding content. */}
-      <div className="flex gap-1 overflow-x-auto bg-bg-secondary rounded-badge p-0.5 -mx-1 px-1 scrollbar-hide">
-        {MENTION_TABS.map((key) => {
-          const active = key === tab;
-          const count =
-            key === "all" ? totalCount : counts[key as MentionSource];
-          const disabled = count === 0;
-          const tabTitle =
-            key === "all"
-              ? MENTION_ALL_DESCRIPTION
-              : MENTION_SOURCE_DESCRIPTIONS[key as MentionSource];
-          return (
-            <button
-              key={key}
-              type="button"
-              onClick={() => !disabled && setTab(key)}
-              disabled={disabled}
-              aria-pressed={active}
-              title={tabTitle}
-              className={`min-h-[36px] inline-flex items-center gap-1.5 px-3 py-1.5 rounded-badge text-[11px] font-mono uppercase tracking-wider whitespace-nowrap transition-colors ${
-                active
-                  ? "bg-bg-card text-text-primary shadow-card"
-                  : disabled
-                    ? "text-text-tertiary/50 cursor-not-allowed"
-                    : "text-text-tertiary hover:text-text-secondary"
-              }`}
-            >
-              {MENTION_TAB_LABELS[key]}
-              <span className="tabular-nums opacity-60">{count}</span>
-            </button>
-          );
-        })}
+        <span
+          className="flex-1 truncate"
+          style={{ color: "var(--v2-ink-200)" }}
+        >
+          {"// MENTIONS · EVIDENCE FEED"}
+        </span>
+        <span
+          className="v2-stat shrink-0 tabular-nums"
+          style={{ color: "var(--v2-ink-300)" }}
+        >
+          {visible.length} / {totalCount}
+        </span>
       </div>
 
-      {/* List */}
-      {visible.length === 0 ? (
-        <div className="mt-4 border border-dashed border-border-primary rounded-md p-6 bg-bg-secondary/40">
-          <p className="text-sm text-text-secondary">
-            No mentions on this channel in the last 7 days.
-          </p>
-          <p className="mt-1 text-[11px] text-text-tertiary">
-            {"// quiet here doesn't mean the repo is dead — check the other tabs"}
-          </p>
-        </div>
-      ) : (
-        <ul className="mt-3 divide-y divide-border-primary/40">
-          {visible.map((m) => (
-            <MentionRow key={m.id} item={m} />
-          ))}
-        </ul>
-      )}
+      <div className="p-4">
+        {/* Freshness chips */}
+        {freshness ? (
+          <div className="mb-3">
+            <FreshnessChips sources={freshness.sources} />
+          </div>
+        ) : null}
 
-      {/* Paginated tail — the button vanishes when the server says there
-          are no more pages (null cursor), and resets on every tab switch
-          via the `key` so per-source paging starts from page 1. Only
-          renders when the parent opted in by passing both props. */}
-      {repoFullName && visible.length > 0 ? (
-        <MentionsLoadMore
-          key={tab}
-          repoFullName={repoFullName}
-          source={tab}
-          initialCursor={tab === "all" ? (initialCursor ?? null) : undefined}
-        />
-      ) : null}
+        {/* V2 tabs — sharp 2px corners, hairline borders, no pill backgrounds */}
+        <div
+          className="flex gap-0 overflow-x-auto scrollbar-hide"
+          style={{
+            border: "1px solid var(--v2-line-std)",
+            borderRadius: 2,
+            background: "var(--v2-bg-050)",
+          }}
+        >
+          {MENTION_TABS.map((key, i) => {
+            const active = key === tab;
+            const count =
+              key === "all" ? totalCount : counts[key as MentionSource];
+            const disabled = count === 0;
+            const tabTitle =
+              key === "all"
+                ? MENTION_ALL_DESCRIPTION
+                : MENTION_SOURCE_DESCRIPTIONS[key as MentionSource];
+            return (
+              <button
+                key={key}
+                type="button"
+                onClick={() => !disabled && setTab(key)}
+                disabled={disabled}
+                aria-pressed={active}
+                title={tabTitle}
+                className="v2-mono inline-flex items-center gap-1.5 whitespace-nowrap transition-colors"
+                style={{
+                  minHeight: 36,
+                  padding: "0 12px",
+                  fontSize: 10,
+                  background: active
+                    ? "var(--v2-acc-soft)"
+                    : "transparent",
+                  color: active
+                    ? "var(--v2-acc)"
+                    : disabled
+                      ? "var(--v2-ink-400)"
+                      : "var(--v2-ink-300)",
+                  borderRight:
+                    i < MENTION_TABS.length - 1
+                      ? "1px solid var(--v2-line-std)"
+                      : "none",
+                  cursor: disabled ? "not-allowed" : "pointer",
+                  opacity: disabled ? 0.5 : 1,
+                }}
+              >
+                {MENTION_TAB_LABELS[key]}
+                <span
+                  className="tabular-nums"
+                  style={{
+                    color: active ? "var(--v2-acc)" : "var(--v2-ink-400)",
+                  }}
+                >
+                  {count}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* List */}
+        {visible.length === 0 ? (
+          <div
+            className="mt-4 p-6"
+            style={{
+              border: "1px dashed var(--v2-line-200)",
+              borderRadius: 2,
+              background: "var(--v2-bg-050)",
+            }}
+          >
+            <p
+              style={{
+                fontSize: 13,
+                color: "var(--v2-ink-200)",
+              }}
+            >
+              No mentions on this channel in the last 7 days.
+            </p>
+            <p
+              className="v2-mono mt-1"
+              style={{ fontSize: 10, color: "var(--v2-ink-400)" }}
+            >
+              {"// QUIET HERE DOESN'T MEAN THE REPO IS DEAD — CHECK OTHER TABS"}
+            </p>
+          </div>
+        ) : (
+          <ul
+            className="mt-3"
+            style={{
+              borderTop: "1px solid var(--v2-line-std)",
+            }}
+          >
+            {visible.map((m) => (
+              <MentionRow key={m.id} item={m} />
+            ))}
+          </ul>
+        )}
+
+        {/* Paginated tail */}
+        {repoFullName && visible.length > 0 ? (
+          <MentionsLoadMore
+            key={tab}
+            repoFullName={repoFullName}
+            source={tab}
+            initialCursor={tab === "all" ? (initialCursor ?? null) : undefined}
+          />
+        ) : null}
+      </div>
     </section>
   );
 }
@@ -195,12 +252,17 @@ export function RecentMentionsFeed({
  */
 export function MentionRow({ item: m }: { item: MentionItem }) {
   return (
-    <li>
+    <li
+      style={{
+        borderBottom: "1px solid var(--v2-line-std)",
+      }}
+      className="last:border-b-0"
+    >
       <a
         href={m.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="group flex items-start gap-3 py-3 min-h-[44px] hover:bg-bg-card-hover/60 -mx-2 px-2 rounded-md transition-colors"
+        className="group flex items-start gap-3 py-3 min-h-[44px] v2-row -mx-2 px-2 transition-colors"
       >
         <SourceBadge source={m.source} />
         <div className="min-w-0 flex-1">

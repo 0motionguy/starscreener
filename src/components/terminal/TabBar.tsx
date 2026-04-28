@@ -10,10 +10,10 @@ interface TabDef {
 }
 
 const TABS: TabDef[] = [
-  { id: "trending", label: "Trending" },
-  { id: "gainers", label: "Gainers" },
-  { id: "new", label: "New" },
-  { id: "watchlisted", label: "Watchlisted" },
+  { id: "trending", label: "TRENDING" },
+  { id: "gainers", label: "GAINERS" },
+  { id: "new", label: "NEW" },
+  { id: "watchlisted", label: "WATCHLIST" },
 ];
 
 /**
@@ -59,25 +59,35 @@ export function TabBar() {
             }
             onClick={() => setActiveTab(tab.id)}
             className={cn(
-              "px-3 py-1.5 rounded-md text-sm font-medium",
-              "transition-colors duration-150",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-functional/40",
-              isActive
-                ? "bg-functional-glow text-functional ring-1 ring-functional/30"
-                : "text-text-secondary hover:text-text-primary",
-              watchlistEmpty && "opacity-50 cursor-not-allowed hover:text-text-secondary",
+              "v2-mono inline-flex items-center gap-1.5",
+              "px-2.5 py-1 transition-colors duration-150",
+              "focus-visible:outline-none",
+              watchlistEmpty && "opacity-40 cursor-not-allowed",
             )}
+            style={{
+              fontSize: 10,
+              borderRadius: 2,
+              border: "1px solid",
+              borderColor: isActive
+                ? "var(--v2-acc)"
+                : "var(--v2-line-300)",
+              background: isActive ? "var(--v2-acc-soft)" : "transparent",
+              color: isActive ? "var(--v2-acc)" : "var(--v2-ink-200)",
+            }}
           >
             {tab.label}
             {isWatchlisted && watchedCount > 0 && (
               <span
-                className={cn(
-                  "ml-1.5 font-mono text-[10px] tabular-nums",
-                  "px-1.5 py-0.5 rounded-full",
-                  isActive
-                    ? "bg-functional/15 text-functional"
-                    : "bg-bg-tertiary text-text-tertiary",
-                )}
+                className="tabular-nums"
+                style={{
+                  fontSize: 9,
+                  padding: "1px 4px",
+                  borderRadius: 1,
+                  background: isActive
+                    ? "var(--v2-acc)"
+                    : "var(--v2-bg-200)",
+                  color: isActive ? "#08090a" : "var(--v2-ink-300)",
+                }}
               >
                 {watchedCount}
               </span>

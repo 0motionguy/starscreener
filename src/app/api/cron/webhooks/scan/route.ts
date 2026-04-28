@@ -31,6 +31,8 @@ import type {
   WebhookFundingEvent,
 } from "@/lib/webhooks/types";
 
+export const runtime = "nodejs";
+
 const BREAKOUT_COMMIT_WINDOW_HOURS = 6;
 const FUNDING_WINDOW_HOURS = 48;
 
@@ -50,24 +52,29 @@ export interface WebhookScanTestOverrides {
   now?: number;
 }
 
-const WEBHOOK_SCAN_TEST_KEY = Symbol.for("starscreener.webhooks.scan.test");
+// APP-14: prod skips the global-registry walk; only NODE_ENV=test sees
+// any override surface. See sibling route for full rationale.
+const WEBHOOK_SCAN_TEST_KEY = Symbol.for("trendingrepo.webhooks.scan.test");
 
 interface OverrideBag {
   overrides?: WebhookScanTestOverrides;
 }
 
 function getOverrides(): WebhookScanTestOverrides {
+  if (process.env.NODE_ENV !== "test") return {};
   const bag = (globalThis as unknown as Record<symbol, OverrideBag | undefined>)[
     WEBHOOK_SCAN_TEST_KEY
   ];
   return bag?.overrides ?? {};
 }
 
-(globalThis as unknown as Record<symbol, OverrideBag>)[
-  WEBHOOK_SCAN_TEST_KEY
-] = (globalThis as unknown as Record<symbol, OverrideBag>)[
-  WEBHOOK_SCAN_TEST_KEY
-] ?? {};
+if (process.env.NODE_ENV === "test") {
+  (globalThis as unknown as Record<symbol, OverrideBag>)[
+    WEBHOOK_SCAN_TEST_KEY
+  ] = (globalThis as unknown as Record<symbol, OverrideBag>)[
+    WEBHOOK_SCAN_TEST_KEY
+  ] ?? {};
+}
 
 // ---------------------------------------------------------------------------
 // Helpers

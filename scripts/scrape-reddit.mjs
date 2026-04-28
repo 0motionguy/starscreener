@@ -24,10 +24,12 @@
 import { writeFile, mkdir, readFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 import "./_load-env.mjs";
 import {
   SUBREDDITS,
   REQUEST_PAUSE_MS,
+  GENERIC_TERMS,
   sleep,
   fetchRedditJson,
   getRedditFetchRuntime,
@@ -69,65 +71,6 @@ const ALL_POSTS_TOP_K_PER_SUB = 100;
 const SELFTEXT_MAX_CHARS = 500;
 
 const IDENTIFIER_SPLIT_RE = /([a-z0-9])([A-Z])/g;
-const GENERIC_TERMS = new Set([
-  "ai",
-  "agent",
-  "agents",
-  "app",
-  "apps",
-  "api",
-  "assistant",
-  "assistants",
-  "awesome",
-  "bot",
-  "career",
-  "careers",
-  "chat",
-  "cli",
-  "client",
-  "code",
-  "content",
-  "core",
-  "context",
-  "contexts",
-  "data",
-  "docs",
-  "engine",
-  "framework",
-  "flow",
-  "flows",
-  "gallery",
-  "kit",
-  "lib",
-  "library",
-  "llm",
-  "llms",
-  "local",
-  "manifest",
-  "memory",
-  "model",
-  "models",
-  "mode",
-  "modes",
-  "plugin",
-  "prompt",
-  "prompts",
-  "project",
-  "repo",
-  "sdk",
-  "server",
-  "service",
-  "skill",
-  "skills",
-  "tool",
-  "tools",
-  "ui",
-  "usage",
-  "utils",
-  "voice",
-  "web",
-  "wiki",
-]);
 const MATCH_TYPE_PRIORITY = {
   url: 5,
   repo_slug: 4,
@@ -1052,8 +995,32 @@ const invokedPath = process.argv[1] ? resolve(process.argv[1]) : null;
 const modulePath = fileURLToPath(import.meta.url);
 
 if (invokedPath && resolve(invokedPath) === resolve(modulePath)) {
-  main().catch((err) => {
-    console.error("scrape-reddit failed:", err.message ?? err);
-    process.exit(1);
-  });
+  // T2.6: metadata sidecar — distinguishes outage from quiet day.
+  const startedAt = Date.now();
+  main()
+    .then(async () => {
+      try {
+        await writeSourceMetaFromOutcome({
+          source: "reddit",
+          count: 1,
+          durationMs: Date.now() - startedAt,
+        });
+      } catch (metaErr) {
+        console.error("[meta] reddit.json write failed:", metaErr);
+      }
+    })
+    .catch(async (err) => {
+      console.error("scrape-reddit failed:", err.message ?? err);
+      try {
+        await writeSourceMetaFromOutcome({
+          source: "reddit",
+          count: 0,
+          durationMs: Date.now() - startedAt,
+          error: err,
+        });
+      } catch (metaErr) {
+        console.error("[meta] reddit.json error-write failed:", metaErr);
+      }
+      process.exit(1);
+    });
 }

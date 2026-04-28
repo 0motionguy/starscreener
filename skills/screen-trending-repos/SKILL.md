@@ -1,15 +1,15 @@
 ---
 name: screen-trending-repos
-description: Use when the user asks what's trending on GitHub this week, what breakout repos to look at, or for a prioritized list of movers in a specific language. Produces a ranked shortlist with one-line takes on each repo's momentum, filtered to skip low-signal noise. Requires the Star Screener Portal or @starscreener/mcp to be reachable.
+description: Use when the user asks what's trending on GitHub this week, what breakout repos to look at, or for a prioritized list of movers in a specific language. Produces a ranked shortlist with one-line takes on each repo's momentum, filtered to skip low-signal noise. Requires the TrendingRepo Portal or trendingrepo-mcp to be reachable.
 license: MIT
 metadata:
   version: "0.1.0"
-  source: starscreener.xyz
+  source: trendingrepo.com
 ---
 
 # Screen trending GitHub repos
 
-This skill is the fast path to answering "what's moving this week" with real data from Star Screener. It combines three tools and a filtering discipline so the user gets a prioritized shortlist, not a dump.
+This skill is the fast path to answering "what's moving this week" with real data from TrendingRepo. It combines three tools and a filtering discipline so the user gets a prioritized shortlist, not a dump.
 
 ## When to use it
 
@@ -22,15 +22,15 @@ Trigger on questions like:
 
 Do **not** use this skill for:
 
-- A specific named repo ("tell me about vercel/next.js") — call `get_repo` from `@starscreener/mcp` directly.
+- A specific named repo ("tell me about vercel/next.js") — call `get_repo` from `trendingrepo-mcp` directly.
 - A maintainer deep-dive — use the `investigate-maintainer` skill instead.
 
 ## Tools it calls
 
 All names are Portal-canonical. They're callable in two ways:
 
-1. **Installed**: user has `@starscreener/mcp` in their Claude Desktop / Claude Code config. The skill invokes the tool directly.
-2. **Drive-by**: fetch `https://starscreener.xyz/portal` to discover the manifest, then `POST https://starscreener.xyz/portal/call` with `{ tool, params }`.
+1. **Installed**: user has `trendingrepo-mcp` in their Claude Desktop / Claude Code config. The skill invokes the tool directly.
+2. **Drive-by**: fetch `https://trendingrepo.com/portal` to discover the manifest, then `POST https://trendingrepo.com/portal/call` with `{ tool, params }`.
 
 | Tool | Role in this skill |
 |---|---|
@@ -59,8 +59,8 @@ All names are Portal-canonical. They're callable in two ways:
 ## What to refuse
 
 - Do **not** invent repos. If the tool returns fewer than expected, present fewer.
-- Do **not** extrapolate star counts or predict future growth. Star Screener measures past movement; don't forecast.
-- Do **not** bypass the rate limit — if a `RATE_LIMITED` envelope comes back, stop and tell the user: "Star Screener rate-limited this request (10/min unauth). Retry in a minute or use an API key."
+- Do **not** extrapolate star counts or predict future growth. TrendingRepo measures past movement; don't forecast.
+- Do **not** bypass the rate limit — if a `RATE_LIMITED` envelope comes back, stop and tell the user: "TrendingRepo rate-limited this request (10/min unauth). Retry in a minute or use an API key."
 
 ## Example output shape
 
@@ -80,4 +80,4 @@ Signal: Rust infra is dominating; all three top breakouts are database/HTTP plum
 ## Reference
 
 - Portal spec: https://visitportal.dev
-- Star Screener docs: https://starscreener.xyz/docs/protocols/portal
+- TrendingRepo docs: https://trendingrepo.com/docs/protocols/portal

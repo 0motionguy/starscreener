@@ -16,6 +16,9 @@ import {
   refreshRedditMentionsFromStore,
 } from "@/lib/reddit-data";
 import { RedditTabsClient } from "@/components/reddit/RedditTabsClient";
+import { StatStrip } from "@/components/ui/StatStrip";
+
+const REDDIT_ORANGE = "#ff4500";
 
 export const dynamic = "force-dynamic";
 
@@ -44,62 +47,51 @@ export default async function RedditPage() {
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
       <div className="max-w-[1400px] mx-auto px-6 py-8">
-        <header className="mb-8 border-b border-border-primary pb-6">
-          <div className="flex items-baseline gap-3">
-            <h1 className="text-2xl font-bold uppercase tracking-wider">
-              REDDIT
-            </h1>
-            <span className="text-xs text-text-tertiary">
-              {"// r/AI-signal · local preview"}
-            </span>
-          </div>
-          <p className="mt-2 text-sm text-text-secondary max-w-2xl">
-            GitHub repo mentions aggregated across {subreddits.length} AI-dev
-            subreddits (mirrors the agnt.newsroom watcher list). Scans the
-            most recent ~100 posts per sub, matches
-            github.com/&lt;owner&gt;/&lt;name&gt; against tracked repos.
-          </p>
-        </header>
-
-        <section className="mb-6 grid grid-cols-2 md:grid-cols-4 gap-3">
-          <StatTile
-            label="LAST SCRAPE"
-            value={
-              redditCold || !redditFetchedAt
-                ? "—"
-                : formatRelative(redditFetchedAt)
-            }
-            hint={
-              redditCold || !redditFetchedAt
-                ? "run scraper"
-                : new Date(redditFetchedAt)
-                    .toISOString()
-                    .slice(0, 16)
-                    .replace("T", " ")
-            }
+        <div className="mb-6">
+          <StatStrip
+            eyebrow={`// REDDIT · ${subreddits.length} SUBS · 24H`}
+            status={`${stats.totalMentions} MENTIONS · ${redditCold ? "COLD" : "LIVE"}`}
+            accent={REDDIT_ORANGE}
+            stats={[
+              {
+                label: "Repos Hit",
+                value: stats.reposWithMentions.toLocaleString("en-US"),
+                hint: `${stats.totalMentions} total mentions`,
+                tone: "accent",
+              },
+              {
+                label: "Posts Scanned",
+                value: stats.postsScanned.toLocaleString("en-US"),
+                hint: `across ${stats.subredditsScanned} subs`,
+              },
+              {
+                label: "Breakouts 24H",
+                value: breakouts24h.toLocaleString("en-US"),
+                hint:
+                  breakouts24h > 0
+                    ? "≥10x sub baseline"
+                    : stats.topRepos[0]
+                      ? `top: ${stats.topRepos[0].fullName.split("/")[1]}`
+                      : "no data yet",
+                tone: breakouts24h > 0 ? "up" : "default",
+              },
+              {
+                label: "Last Scrape",
+                value:
+                  redditCold || !redditFetchedAt
+                    ? "—"
+                    : formatRelative(redditFetchedAt),
+                hint:
+                  redditCold || !redditFetchedAt
+                    ? "run scraper"
+                    : new Date(redditFetchedAt)
+                        .toISOString()
+                        .slice(0, 16)
+                        .replace("T", " "),
+              },
+            ]}
           />
-          <StatTile
-            label="REPOS HIT"
-            value={String(stats.reposWithMentions)}
-            hint={`${stats.totalMentions} total mentions`}
-          />
-          <StatTile
-            label="POSTS SCANNED"
-            value={String(stats.postsScanned)}
-            hint={`across ${stats.subredditsScanned} subs`}
-          />
-          <StatTile
-            label="BREAKOUTS 24H"
-            value={String(breakouts24h)}
-            hint={
-              breakouts24h > 0
-                ? "posts >=10x sub baseline"
-                : stats.topRepos[0]
-                  ? `top: ${stats.topRepos[0].fullName.split("/")[1]}`
-                  : "no data yet"
-            }
-          />
-        </section>
+        </div>
 
         {redditCold ? (
           <ColdStart subreddits={subreddits} />
@@ -116,53 +108,58 @@ export default async function RedditPage() {
   );
 }
 
-function StatTile({
-  label,
-  value,
-  hint,
-}: {
-  label: string;
-  value: string;
-  hint?: string;
-}) {
-  return (
-    <div className="border border-border-primary rounded-md px-4 py-3 bg-bg-secondary">
-      <div className="text-[10px] uppercase tracking-wider text-text-tertiary">
-        {label}
-      </div>
-      <div className="mt-1 text-xl font-bold truncate">{value}</div>
-      {hint ? (
-        <div className="mt-0.5 text-[11px] text-text-tertiary truncate">
-          {hint}
-        </div>
-      ) : null}
-    </div>
-  );
-}
-
 function ColdStart({ subreddits }: { subreddits: string[] }) {
   return (
-    <section className="border border-dashed border-border-primary rounded-md p-8 bg-bg-secondary/40">
+    <section
+      className="p-8"
+      style={{
+        background: "var(--v3-bg-025)",
+        border: "1px dashed var(--v3-line-100)",
+        borderRadius: 2,
+      }}
+    >
       <div className="max-w-2xl">
-        <h2 className="text-lg font-bold uppercase tracking-wider text-accent-green">
+        <h2
+          className="v2-mono text-lg font-bold uppercase tracking-[0.18em]"
+          style={{ color: REDDIT_ORANGE }}
+        >
           {"// no data yet"}
         </h2>
-        <p className="mt-3 text-sm text-text-secondary leading-relaxed">
+        <p
+          className="mt-3 text-sm leading-relaxed"
+          style={{ color: "var(--v3-ink-300)" }}
+        >
           The Reddit scraper has not run yet. It uses Reddit&apos;s public JSON
           endpoints (no OAuth, no app registration required) and scans the most
           recent 100 posts from each subreddit below for GitHub repo mentions.
         </p>
 
-        <div className="mt-6 rounded border border-border-primary bg-bg-primary p-4">
-          <div className="text-[11px] uppercase tracking-wider text-text-tertiary mb-2">
+        <div
+          className="mt-6 p-4"
+          style={{
+            background: "var(--v3-bg-000)",
+            border: "1px solid var(--v3-line-200)",
+            borderRadius: 2,
+          }}
+        >
+          <div
+            className="v2-mono mb-2 text-[11px] uppercase tracking-[0.18em]"
+            style={{ color: "var(--v3-ink-400)" }}
+          >
             run locally
           </div>
-          <pre className="text-xs text-text-primary overflow-x-auto">
+          <pre
+            className="overflow-x-auto text-xs"
+            style={{ color: "var(--v3-ink-100)" }}
+          >
 {`node scripts/scrape-reddit.mjs
 # or
 npm run scrape:reddit`}
           </pre>
-          <p className="mt-3 text-[11px] text-text-tertiary">
+          <p
+            className="mt-3 text-[11px]"
+            style={{ color: "var(--v3-ink-400)" }}
+          >
             Takes about 4 minutes ({subreddits.length} subs x 5s pause each),
             plus request time. Writes `data/reddit-mentions.json`. Refresh this
             page after.
@@ -170,7 +167,10 @@ npm run scrape:reddit`}
         </div>
 
         <div className="mt-6">
-          <div className="text-[11px] uppercase tracking-wider text-text-tertiary mb-2">
+          <div
+            className="v2-mono mb-2 text-[11px] uppercase tracking-[0.18em]"
+            style={{ color: "var(--v3-ink-400)" }}
+          >
             subreddits scanned ({subreddits.length})
           </div>
           <div className="flex flex-wrap gap-1.5">
@@ -180,20 +180,18 @@ npm run scrape:reddit`}
                 href={`https://www.reddit.com/r/${subreddit}/new/`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[11px] px-2 py-1 rounded border border-border-primary text-text-secondary hover:text-brand hover:border-brand transition-colors"
+                className="v2-mono px-2 py-1 text-[11px] tracking-[0.14em] uppercase transition-colors"
+                style={{
+                  border: "1px solid var(--v3-line-200)",
+                  color: "var(--v3-ink-300)",
+                  borderRadius: 2,
+                }}
               >
                 r/{subreddit}
               </a>
             ))}
           </div>
         </div>
-
-        <p className="mt-6 text-[11px] text-text-tertiary leading-relaxed">
-          GitHub Actions can refresh this feed on a schedule. If Reddit tightens
-          anonymous limits later, the next step is an installed-app OAuth flow
-          with a descriptive client id; the scraper already uses a custom
-          User-Agent, so that upgrade stays isolated to the fetch layer.
-        </p>
       </div>
     </section>
   );
@@ -201,7 +199,15 @@ npm run scrape:reddit`}
 
 function FeedSkeleton() {
   return (
-    <div className="border border-border-primary rounded-md p-6 bg-bg-secondary/40 text-sm text-text-tertiary">
+    <div
+      className="p-6 text-sm"
+      style={{
+        background: "var(--v3-bg-025)",
+        border: "1px solid var(--v3-line-200)",
+        borderRadius: 2,
+        color: "var(--v3-ink-400)",
+      }}
+    >
       Loading feed...
     </div>
   );
@@ -215,33 +221,55 @@ function Leaderboard({
   if (repos.length === 0) return null;
   return (
     <aside>
-      <h2 className="text-sm uppercase tracking-wider text-text-tertiary mb-3">
+      <h2
+        className="v2-mono mb-3 text-[11px] uppercase tracking-[0.18em]"
+        style={{ color: "var(--v3-ink-400)" }}
+      >
         {"// repo leaderboard"}
       </h2>
       <ol className="space-y-1.5">
-        {repos.map((repo, index) => (
-          <li
-            key={repo.fullName}
-            className="border border-border-primary rounded-md px-3 py-2 bg-bg-secondary hover:border-brand transition-colors"
-          >
-            <Link
-              href={repoFullNameToHref(repo.fullName)}
-              className="flex items-center justify-between gap-2 text-xs"
+        {repos.map((repo, index) => {
+          const stagger = Math.min(index, 6) * 50;
+          return (
+            <li
+              key={repo.fullName}
+              className="v2-row group px-3 py-2"
+              style={{
+                background: "var(--v3-bg-050)",
+                border: "1px solid var(--v3-line-200)",
+                borderRadius: 2,
+                animation: "slide-up 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both",
+                animationDelay: stagger > 0 ? `${stagger}ms` : undefined,
+              }}
             >
-              <span className="flex items-center gap-2 min-w-0">
-                <span className="text-text-tertiary tabular-nums w-5 text-right">
-                  {index + 1}
+              <Link
+                href={repoFullNameToHref(repo.fullName)}
+                className="flex items-center justify-between gap-2 text-xs"
+              >
+                <span className="flex min-w-0 items-center gap-2">
+                  <span
+                    className="w-5 text-right tabular-nums"
+                    style={{ color: "var(--v3-ink-400)" }}
+                  >
+                    {index + 1}
+                  </span>
+                  <span
+                    className="truncate transition-colors group-hover:text-[color:var(--v3-acc)]"
+                    style={{ color: "var(--v3-ink-100)" }}
+                  >
+                    {repo.fullName}
+                  </span>
                 </span>
-                <span className="text-text-primary truncate">
-                  {repo.fullName}
+                <span
+                  className="flex-shrink-0 tabular-nums"
+                  style={{ color: "var(--v3-ink-400)" }}
+                >
+                  {repo.upvotes7d}↑ · {repo.count7d}x
                 </span>
-              </span>
-              <span className="flex-shrink-0 text-text-tertiary tabular-nums">
-                {repo.upvotes7d}↑ · {repo.count7d}x
-              </span>
-            </Link>
-          </li>
-        ))}
+              </Link>
+            </li>
+          );
+        })}
       </ol>
     </aside>
   );

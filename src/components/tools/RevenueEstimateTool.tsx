@@ -90,7 +90,7 @@ export function RevenueEstimateTool({
 
   return (
     <section className="space-y-6">
-      <div className="rounded-card border border-border-primary bg-bg-card p-5 shadow-card">
+      <div className="v2-card p-5">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Field label="Category" required>
             <select
@@ -195,7 +195,7 @@ function ResultCard({
 }) {
   if (!result.range || !result.bucket) {
     return (
-      <div className="rounded-card border border-border-primary bg-bg-card p-5 shadow-card">
+      <div className="v2-card p-5">
         <p className="text-sm text-text-secondary">
           {FALLBACK_COPY[result.fallback]}
         </p>

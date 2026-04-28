@@ -38,23 +38,64 @@ export function ProfileView({
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
       <div className="max-w-[1000px] mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6">
-        <header className="border-b border-border-primary pb-6">
-          <div className="flex flex-wrap items-baseline gap-3">
-            <h1 className="text-2xl font-bold uppercase tracking-wider inline-flex items-center gap-2">
-              <User2 className="size-5 text-brand" aria-hidden />
-              @{handle}
-            </h1>
-            {!exists ? (
-              <span className="font-mono text-[11px] uppercase tracking-wider text-text-tertiary">
-                no activity yet
+        <header
+          className="pb-6 space-y-3"
+          style={{ borderBottom: "1px solid var(--v2-line-std)" }}
+        >
+          <div
+            className="flex items-center justify-between gap-3 pb-1"
+            style={{ borderBottom: "1px solid var(--v2-line-std)" }}
+          >
+            <span
+              className="v2-mono"
+              style={{ fontSize: 10, color: "var(--v2-ink-400)" }}
+            >
+              {`// 01 · PROFILE · @${handle.toUpperCase()}`}
+            </span>
+            {exists ? (
+              <span
+                className="v2-mono v2-stat tabular-nums"
+                style={{ fontSize: 10, color: "var(--v2-ink-300)" }}
+              >
+                <span className="v2-live-dot mr-2 inline-block" aria-hidden />
+                ACTIVE
               </span>
-            ) : null}
+            ) : (
+              <span
+                className="v2-mono"
+                style={{ fontSize: 10, color: "var(--v2-ink-400)" }}
+              >
+                NO ACTIVITY YET
+              </span>
+            )}
           </div>
+          <h1
+            className="inline-flex items-center gap-2"
+            style={{
+              fontFamily: "var(--font-geist), Inter, sans-serif",
+              fontSize: "clamp(24px, 3vw, 32px)",
+              fontWeight: 510,
+              letterSpacing: "-0.022em",
+              color: "var(--v2-ink-000)",
+              lineHeight: 1.1,
+            }}
+          >
+            <User2 className="size-5" aria-hidden style={{ color: "var(--v2-acc)" }} />
+            @{handle}
+          </h1>
           {exists ? (
-            <p className="mt-2 font-mono text-[11px] text-text-tertiary">
-              {ideas.length} idea{ideas.length === 1 ? "" : "s"} · {shippedRepos.length}{" "}
-              shipped · {reactionsGiven.total} reaction
-              {reactionsGiven.total === 1 ? "" : "s"} given
+            <p
+              className="v2-mono-tight tabular-nums"
+              style={{ fontSize: 11, color: "var(--v2-ink-300)" }}
+            >
+              <span style={{ color: "var(--v2-ink-100)" }}>{ideas.length}</span>{" "}
+              idea{ideas.length === 1 ? "" : "s"}
+              <span style={{ color: "var(--v2-line-300)", margin: "0 8px" }}>·</span>
+              <span style={{ color: "var(--v2-ink-100)" }}>{shippedRepos.length}</span>{" "}
+              shipped
+              <span style={{ color: "var(--v2-line-300)", margin: "0 8px" }}>·</span>
+              <span style={{ color: "var(--v2-acc)" }}>{reactionsGiven.total}</span>{" "}
+              reaction{reactionsGiven.total === 1 ? "" : "s"} given
             </p>
           ) : null}
         </header>
@@ -101,7 +142,11 @@ export function ProfileView({
               {shippedRepos.map((ref) => (
                 <li
                   key={ref.ideaId}
-                  className="rounded-card border border-up/40 bg-up/5 p-3"
+                  className="v2-card p-3"
+                  style={{
+                    background: "var(--v2-sig-green-soft)",
+                    borderColor: "var(--v2-sig-green)",
+                  }}
                 >
                   <div className="flex flex-wrap items-baseline justify-between gap-2">
                     <Link
@@ -153,7 +198,15 @@ export function ProfileView({
         ) : null}
 
         {!exists ? (
-          <div className="rounded-card border border-dashed border-border-primary bg-bg-muted/40 px-4 py-12 text-center text-sm text-text-tertiary">
+          <div
+            className="v2-card px-4 py-12 text-center"
+            style={{
+              borderStyle: "dashed",
+              background: "var(--v2-bg-100)",
+              fontSize: 12,
+              color: "var(--v2-ink-400)",
+            }}
+          >
             <User2 className="size-6 mx-auto mb-3 opacity-50" aria-hidden />
             No posts or reactions from @{handle} yet.
           </div>
@@ -173,7 +226,7 @@ function ReactionTile({
   icon: typeof Hammer;
 }): JSX.Element {
   return (
-    <div className="rounded-card border border-border-primary bg-bg-card p-3 shadow-card">
+    <div className="v2-card p-3">
       <div className="flex items-center gap-1.5">
         <Icon className="size-3.5 text-text-tertiary" aria-hidden />
         <span className="font-mono text-[10px] uppercase tracking-wider text-text-tertiary">

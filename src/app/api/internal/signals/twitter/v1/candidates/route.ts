@@ -5,6 +5,8 @@ import {
 } from "@/lib/api/auth";
 import { getTwitterScanCandidates } from "@/lib/twitter/service";
 
+export const runtime = "nodejs";
+
 function errorResponse(
   status: number,
   code: string,

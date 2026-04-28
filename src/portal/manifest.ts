@@ -4,6 +4,7 @@
 // served at GET /portal. Validates at module load so a drift between the
 // registry and the spec fails the Next.js build, not a runtime call.
 
+import { readEnv } from "@/lib/env-helpers";
 import { TOOLS } from "../tools";
 import { validateManifest } from "./validate";
 
@@ -35,7 +36,7 @@ const BRIEF =
 export function buildManifest(baseUrl?: string): PortalManifest {
   const base =
     baseUrl ??
-    process.env.STARSCREENER_PUBLIC_URL ??
+    readEnv("TRENDINGREPO_PUBLIC_URL", "STARSCREENER_PUBLIC_URL") ??
     process.env.NEXT_PUBLIC_SITE_URL ??
     "http://localhost:3023";
   const callEndpoint = `${base.replace(/\/$/, "")}/portal/call`;
@@ -65,7 +66,7 @@ export function buildManifest(baseUrl?: string): PortalManifest {
   const check = validateManifest(probe);
   if (!check.ok) {
     throw new Error(
-      `[starscreener/portal] manifest fails v0.1 schema: ${check.errors.join("; ")}`,
+      `[trendingrepo/portal] manifest fails v0.1 schema: ${check.errors.join("; ")}`,
     );
   }
 }

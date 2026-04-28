@@ -225,11 +225,9 @@ function EmptyState() {
         Watch a repo, pick a few for side-by-side compare, or drop filters
         on the terminal. Everything you do shows up here.
       </p>
-      <Link
-        href="/"
-        className="inline-flex items-center gap-2 bg-brand text-black px-4 py-2 rounded-button text-sm font-medium hover:bg-brand-hover transition-colors"
-      >
-        Open the terminal <ArrowRight className="w-4 h-4" />
+      <Link href="/" className="v2-btn v2-btn-primary inline-flex">
+        OPEN THE TERMINAL
+        <ArrowRight className="w-4 h-4" style={{ marginLeft: 8 }} />
       </Link>
     </div>
   );

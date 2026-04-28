@@ -11,7 +11,7 @@
 // ever an abuse concern. No browser-default UAs.
 
 export const USER_AGENT =
-  "StarScreener/0.1 (+https://github.com/0motionguy/starscreener; local-dev-scrape)";
+  "TrendingRepo/0.2 (+https://github.com/0motionguy/starscreener; local-dev-scrape)";
 
 // Window-batch concurrency: 5 parallel in-flight requests, then a pause.
 // Effective rate: batch_size / (avg_latency + pause). With typical 100-200ms
@@ -30,10 +30,27 @@ const FETCH_TIMEOUT_MS = 10_000;
 // Retries for 5xx / network errors. HN's infra has occasional 502 spikes
 // during traffic peaks; a single retry after a backoff clears almost all
 // of them without a full re-run.
+//
+// T2.4: 429 added to retry set. Algolia (the search endpoint at line 132)
+// returns 429 when we exceed its free-tier rate limit, and previously this
+// scraper would hard-fail on 429 instead of backing off — the cron would
+// then hammer Algolia every 40min, risking IP-level bans.
 const FETCH_MAX_ATTEMPTS = 3;
-const RETRY_STATUSES = new Set([500, 502, 503, 504]);
+const RETRY_STATUSES = new Set([429, 500, 502, 503, 504]);
 
 export const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+// T2.4: parse `Retry-After` header on 429/503 responses. Spec allows two
+// forms — seconds (integer) or HTTP-date. We normalize both to ms and
+// fall back to the scheduled backoff when the header is missing/garbled.
+function parseRetryAfterMs(value, nowMs = Date.now()) {
+  if (!value) return null;
+  const seconds = Number.parseInt(value, 10);
+  if (Number.isFinite(seconds) && seconds >= 0) return seconds * 1000;
+  const ts = Date.parse(value);
+  if (Number.isFinite(ts)) return Math.max(0, ts - nowMs);
+  return null;
+}
 
 const FIREBASE_BASE = "https://hacker-news.firebaseio.com/v0";
 const ALGOLIA_BASE = "https://hn.algolia.com/api/v1";
@@ -65,7 +82,11 @@ async function fetchJson(url) {
     if (!res.ok) {
       if (RETRY_STATUSES.has(res.status) && attempt < FETCH_MAX_ATTEMPTS) {
         lastErr = new Error(`HTTP ${res.status}`);
-        await sleep(500 * attempt);
+        // T2.4: respect the upstream's hint when present (Algolia 429
+        // and Firebase 503 both set this); otherwise back off linearly.
+        const retryAfterMs = parseRetryAfterMs(res.headers.get("retry-after"));
+        const scheduledMs = 500 * attempt;
+        await sleep(Math.max(scheduledMs, retryAfterMs ?? 0));
         continue;
       }
       const err = new Error(`HTTP ${res.status} ${res.statusText} — ${url}`);

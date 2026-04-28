@@ -10,6 +10,7 @@
 // scrape lands.
 
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { MessageSquare, ChevronUp } from "lucide-react";
 import { LaunchLinkIcons } from "@/components/producthunt/LaunchLinkIcons";
@@ -17,11 +18,15 @@ import {
   getAiLaunches,
   getRecentLaunches,
   producthuntCold,
-  producthuntFetchedAt,
   refreshProducthuntLaunchesFromStore,
   type Launch,
+  type ProductHuntFile,
 } from "@/lib/producthunt";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
+import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
+import { buildProductHuntHeader } from "@/components/news/newsTopMetrics";
+
+const PH_ACCENT = "rgba(218, 85, 47, 0.85)";
 
 type PhTab = "ai" | "all";
 const VALID_TABS: PhTab[] = ["ai", "all"];
@@ -90,8 +95,9 @@ export default async function ProductHuntPage({
   const ai7d = getAiLaunches(7);
   const current = activeTab === "ai" ? ai7d : all7d;
 
-  const launches24h = current.filter((l) => l.daysSinceLaunch <= 1);
-  const reposLinkedCount = current.filter((l) => l.linkedRepo).length;
+  // Only `current` (the filtered tab feed) and `topLaunches` are read
+  // below now that the legacy stat tiles are gone. The 24h/linked-repo
+  // counts are exposed by the V3 snapshot card via the builder math.
   const cold = producthuntCold;
 
   // Top 50 of the current tab, sorted by votes desc. Getter preserves
@@ -103,71 +109,40 @@ export default async function ProductHuntPage({
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
       <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        {/* Header */}
-        <header className="mb-6 border-b border-border-primary pb-6">
-          <div className="flex items-baseline gap-3 flex-wrap">
-            <h1 className="text-2xl font-bold uppercase tracking-wider inline-flex items-center gap-2">
-              <span style={{ color: PH_RED }} aria-hidden>
-                ▲
-              </span>
-              PRODUCTHUNT / LAUNCHES
-            </h1>
-            <span className="text-xs text-text-tertiary">
-              {"// devs shipping side projects + AI tools"}
-            </span>
-          </div>
-          <p className="mt-2 text-sm text-text-secondary max-w-2xl">
-            Daily launches pulled via the ProductHunt API across AI / dev-tools
-            topics, scored by{" "}
-            <code className="text-text-primary">votesCount</code> and{" "}
-            <code className="text-text-primary">commentsCount</code>. Each launch
-            is cross-linked to its GitHub repo when the maker mentions one in
-            the description, so an OSS launch can be traced back to its tracked
-            star momentum here on TrendingRepo.
-          </p>
-        </header>
-
         {cold ? (
           <ColdState />
         ) : (
           <>
-            {/* Tab nav — AI Launches (filtered) vs All (full PH feed) */}
-            <TabNav active={activeTab} aiCount={ai7d.length} allCount={all7d.length} />
+            {/* V3 top header — 3 charts + 3 hero launches. Reflects the
+                currently-selected tab (`ai` or `all`) by passing a file-
+                shaped wrapper around `current` so the metric math sees
+                only what the user is actually looking at. */}
+            <div className="mb-6">
+              <NewsTopHeaderV3
+                routeTitle={`PRODUCTHUNT · ${activeTab === "ai" ? "AI LAUNCHES" : "ALL LAUNCHES"}`}
+                liveLabel="LIVE · 7D"
+                eyebrow="// PRODUCTHUNT · LIVE FIREHOSE"
+                meta={[
+                  { label: "TRACKED", value: current.length.toLocaleString("en-US") },
+                  { label: "WINDOW", value: "7D" },
+                ]}
+                {...buildProductHuntHeader(
+                  ({ launches: current } as Pick<ProductHuntFile, "launches">) as ProductHuntFile,
+                  topLaunches.slice(0, 3),
+                )}
+                accent={PH_ACCENT}
+                caption={[
+                  "// LAYOUT compact-v1",
+                  "· 3-COL · 320 / 1FR / 1FR",
+                  "· DATA UNCHANGED",
+                ]}
+              />
+            </div>
 
-            {/* Stat tiles */}
-            <section className="mb-6 grid grid-cols-2 md:grid-cols-4 gap-3">
-              <StatTile
-                label="LAST SCRAPE"
-                value={formatRelative(producthuntFetchedAt)}
-                hint={
-                  producthuntFetchedAt
-                    ? new Date(producthuntFetchedAt)
-                        .toISOString()
-                        .slice(0, 16)
-                        .replace("T", " ")
-                    : undefined
-                }
-              />
-              <StatTile
-                label="LAUNCHES 7D"
-                value={current.length.toLocaleString("en-US")}
-                hint={
-                  activeTab === "ai"
-                    ? "ai-adjacent · last 7 days"
-                    : `all launches · ${ai7d.length} ai-adjacent`
-                }
-              />
-              <StatTile
-                label="LAUNCHES 24H"
-                value={launches24h.length.toLocaleString("en-US")}
-                hint="last 24 hours"
-              />
-              <StatTile
-                label="REPOS LINKED"
-                value={reposLinkedCount.toLocaleString("en-US")}
-                hint="github links extracted"
-              />
-            </section>
+            {/* Tab nav — AI Launches (filtered) vs All (full PH feed) */}
+            <div className="mb-6">
+              <TabNav active={activeTab} aiCount={ai7d.length} allCount={all7d.length} />
+            </div>
 
             {/* Main feed */}
             {topLaunches.length > 0 ? (
@@ -294,13 +269,11 @@ function ThumbLink({ launch }: { launch: Launch }) {
         className="shrink-0 block"
         aria-label={`${launch.name} on ProductHunt`}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src={launch.thumbnail}
           alt=""
           width={40}
           height={40}
-          loading="lazy"
           className="size-10 rounded-md border border-border-primary bg-bg-tertiary object-cover"
         />
       </a>
@@ -374,7 +347,7 @@ function NameTagline({ launch }: { launch: Launch }) {
 
 function CrossLinkedReposPanel({ launches }: { launches: Launch[] }) {
   // Filter to launches that both (a) have a linkedRepo extracted from the
-  // description AND (b) match a repo currently tracked by StarScreener.
+  // description AND (b) match a repo currently tracked by TrendingRepo.
   // Drop the panel entirely when zero matches — empty crosslink boxes look
   // broken on a fresh scrape day where nobody linked GitHub.
   const rows = launches
@@ -436,29 +409,6 @@ function CrossLinkedReposPanel({ launches }: { launches: Launch[] }) {
   );
 }
 
-function StatTile({
-  label,
-  value,
-  hint,
-}: {
-  label: string;
-  value: string;
-  hint?: string;
-}) {
-  return (
-    <div className="border border-border-primary rounded-md px-4 py-3 bg-bg-secondary">
-      <div className="text-[10px] uppercase tracking-wider text-text-tertiary">
-        {label}
-      </div>
-      <div className="mt-1 text-xl font-bold truncate">{value}</div>
-      {hint ? (
-        <div className="mt-0.5 text-[11px] text-text-tertiary truncate">
-          {hint}
-        </div>
-      ) : null}
-    </div>
-  );
-}
 
 function ColdState() {
   return (

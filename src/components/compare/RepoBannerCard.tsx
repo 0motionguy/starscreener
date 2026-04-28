@@ -1,4 +1,5 @@
 import type { JSX } from "react";
+import Image from "next/image";
 import {
   Star,
   GitFork,
@@ -39,7 +40,7 @@ export function RepoBannerCard({
   if (!bundle.ok) {
     return (
       <div
-        className="relative overflow-hidden rounded-card border border-border-primary bg-bg-card p-4 shadow-card"
+        className="v2-card relative overflow-hidden p-4"
         style={{ borderLeft: `3px solid ${accentStripe}` }}
       >
         <div className="flex items-center gap-2 mb-2">
@@ -62,18 +63,16 @@ export function RepoBannerCard({
   const phLaunch = getLaunchForRepo(bundle.fullName);
   return (
     <div
-      className="relative overflow-hidden rounded-card border border-border-primary bg-bg-card p-4 shadow-card"
+      className="v2-card relative overflow-hidden p-4"
       style={{ borderLeft: `3px solid ${accentStripe}` }}
     >
       {/* Header row: avatar + owner/name + license + language chips */}
       <div className="flex items-start gap-3 mb-2">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src={bundle.avatarUrl}
           alt={bundle.owner}
           width={36}
           height={36}
-          loading="lazy"
           className="size-9 shrink-0 rounded-full border border-border-primary object-cover"
         />
         <div className="flex-1 min-w-0">

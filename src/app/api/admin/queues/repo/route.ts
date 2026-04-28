@@ -7,9 +7,18 @@
 // Auth: ADMIN_TOKEN bearer or ss_admin cookie (verifyAdminAuth handles both).
 
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 
 import { adminAuthFailureResponse, verifyAdminAuth } from "@/lib/api/auth";
+import { parseBody } from "@/lib/api/parse-body";
 import { readQueue } from "@/lib/aiso-queue";
+
+export const runtime = "nodejs";
+
+const DrainBodySchema = z.object({
+  drain: z.literal(true, { message: "only { drain: true } is supported" }),
+  limit: z.number().finite().positive().optional(),
+});
 
 export const dynamic = "force-dynamic";
 
@@ -69,31 +78,24 @@ export async function POST(
   const deny = adminAuthFailureResponse(verifyAdminAuth(request));
   if (deny) return deny as NextResponse<Err>;
 
-  let body: { drain?: unknown; limit?: unknown } = {};
-  try {
-    body = (await request.json()) as { drain?: unknown; limit?: unknown };
-  } catch {
-    return NextResponse.json(
-      { ok: false, error: "body must be valid JSON" },
-      { status: 400 },
-    );
-  }
-  if (body.drain !== true) {
-    return NextResponse.json(
-      { ok: false, error: "only { drain: true } is supported" },
-      { status: 400 },
-    );
-  }
+  const parsed = await parseBody(request, DrainBodySchema);
+  if (!parsed.ok) return parsed.response as NextResponse<Err>;
+  const body = parsed.data;
 
   const cronSecret = process.env.CRON_SECRET;
-  if (!cronSecret && process.env.NODE_ENV === "production") {
+  // APP-07: only allow CRON_SECRET-less drains in `development`. Earlier
+  // versions checked NODE_ENV === "production" only, which silently
+  // accepted unauthenticated drain calls in `staging`/`preview`/`test`/
+  // anything-not-production. Tighten to fail-closed everywhere except
+  // explicit local dev.
+  if (!cronSecret && process.env.NODE_ENV !== "development") {
     return NextResponse.json(
       { ok: false, error: "CRON_SECRET not configured; cannot drain" },
       { status: 503 },
     );
   }
 
-  const limit = typeof body.limit === "number" ? body.limit : undefined;
+  const limit = body.limit;
   const origin = request.nextUrl.origin;
   const drainUrl = `${origin}/api/cron/aiso-drain`;
 

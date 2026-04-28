@@ -48,6 +48,8 @@ import {
   type DeltaCoverageQuality,
 } from "@/lib/trending";
 
+export const runtime = "nodejs";
+
 const RANKINGS_STALE_THRESHOLD_MS = 12 * 60 * 60 * 1000;
 const COVERAGE_WARN_PCT = 50;
 
@@ -158,6 +160,18 @@ function ageMs(iso: string | null): number | null {
 export async function GET(request: NextRequest): Promise<NextResponse<HealthBody>> {
   try {
     const soft = request.nextUrl.searchParams.get("soft") === "1";
+    // APP-12: detail payload (per-source freshness, circuit-breaker state,
+    // failure counts, etc.) is reconnaissance surface for an attacker
+    // probing the deploy. Gate behind ?detail=1 + the cron-secret bearer
+    // so cron jobs + monitoring tools still get the rich body, public
+    // probes get the minimal status/computedAt envelope.
+    const wantsDetail =
+      request.nextUrl.searchParams.get("detail") === "1";
+    const auth = request.headers.get("authorization") ?? "";
+    const cronSecret = process.env.CRON_SECRET ?? "";
+    const detailAuthorized =
+      cronSecret.length > 0 && auth === `Bearer ${cronSecret}`;
+    const includeDetail = wantsDetail && detailAuthorized;
 
     // Refresh in-memory caches from the data-store so per-source freshness
     // reflects the live Redis payload, not the bundled JSON snapshot. Each
@@ -324,6 +338,22 @@ export async function GET(request: NextRequest): Promise<NextResponse<HealthBody
     } else if (!anyStale && coverageLow) {
       body.warning =
         `delta coverage ${body.coveragePct}% < ${COVERAGE_WARN_PCT}% - expected during 30-day cold-start window`;
+    }
+
+    // APP-12: strip recon-surface fields for unauthorized callers. Status,
+    // overall coverage, and computedAt timestamps stay public so uptime
+    // monitors keep working; per-source breakdown + circuit breaker state
+    // require the bearer.
+    if (!includeDetail) {
+      const minimal = body as unknown as Record<string, unknown>;
+      delete minimal.sources;
+      delete minimal.circuitBreakers;
+      delete minimal.degradedSources;
+      delete minimal.stale;
+      delete minimal.ageSeconds;
+      delete minimal.thresholdSeconds;
+      delete minimal.collectionCoverage;
+      delete minimal.repoMetadata;
     }
 
     return NextResponse.json(body, { status: anyStale && !soft ? 503 : 200 });

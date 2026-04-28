@@ -15,7 +15,6 @@
 
 import trending from "../../data/trending.json";
 import deltasData from "../../data/deltas.json";
-import { getDataStore } from "./data-store";
 import type { Repo } from "./types";
 
 export type TrendingPeriod = "past_24_hours" | "past_week" | "past_month";
@@ -199,6 +198,7 @@ export async function refreshTrendingFromStore(): Promise<RefreshResult> {
   }
 
   inflight = (async (): Promise<RefreshResult> => {
+    const { getDataStore } = await import("./data-store");
     const store = getDataStore();
     const [trendingResult, deltasResult] = await Promise.all([
       store.read<TrendingFile>("trending"),

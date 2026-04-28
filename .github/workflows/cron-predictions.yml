@@ -8,7 +8,7 @@ name: Cron - predictions
 #
 # Required repo config:
 #   secrets.CRON_SECRET     — must match server CRON_SECRET env
-#   vars.STARSCREENER_URL   — optional; defaults to prod URL
+#   vars.TRENDINGREPO_URL  — optional; defaults to prod URL (legacy: vars.STARSCREENER_URL)
 
 on:
   schedule:
@@ -23,7 +23,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  BASE_URL: ${{ vars.STARSCREENER_URL || 'https://trendingrepo.com' }}
+  BASE_URL: ${{ vars.TRENDINGREPO_URL || vars.STARSCREENER_URL || 'https://trendingrepo.com' }}
 
 jobs:
   run:

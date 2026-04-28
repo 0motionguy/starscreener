@@ -110,39 +110,71 @@ function SearchPageInner() {
 
   const heading = (
     <div className="px-4 sm:px-6 pt-6 pb-2 space-y-4">
-      <nav
-        aria-label="Breadcrumb"
-        className="flex items-center gap-1.5 text-xs text-text-tertiary"
+      {/* V2 operator eyebrow */}
+      <div
+        className="flex items-center gap-3 pb-1"
+        style={{ borderBottom: "1px solid var(--v2-line-std)" }}
       >
-        <Link href="/" className="hover:text-text-primary transition-colors">
-          Home
-        </Link>
-        <span aria-hidden="true">›</span>
-        <span className="text-text-primary">Search</span>
-      </nav>
+        <span
+          className="v2-mono"
+          style={{ fontSize: 10, color: "var(--v2-ink-400)" }}
+        >
+          {"// 01 · SEARCH · GLOBAL · OPERATOR-LEVEL"}
+        </span>
+        <nav
+          aria-label="Breadcrumb"
+          className="ml-auto flex items-center gap-1.5"
+          style={{ fontSize: 11, color: "var(--v2-ink-400)" }}
+        >
+          <Link
+            href="/"
+            className="transition-colors v2-mono"
+            style={{ fontSize: 10, color: "var(--v2-ink-300)" }}
+          >
+            HOME
+          </Link>
+          <span aria-hidden style={{ color: "var(--v2-line-300)" }}>
+            ›
+          </span>
+          <span
+            className="v2-mono"
+            style={{ fontSize: 10, color: "var(--v2-ink-200)" }}
+          >
+            SEARCH
+          </span>
+        </nav>
+      </div>
+
       <SearchBar
         fullWidth
         autoFocus
         placeholder="Search repos by name, language, topic..."
         onSearch={handleSearch}
       />
+
       {query && (
-        <p className="text-sm text-text-tertiary" aria-live="polite">
+        <p
+          className="v2-mono tabular-nums"
+          style={{ fontSize: 11, color: "var(--v2-ink-300)" }}
+          aria-live="polite"
+        >
           {loading ? (
             <span className="inline-flex items-center gap-2">
-              <span
-                className="size-1.5 rounded-full bg-text-tertiary animate-pulse"
-                aria-hidden
-              />
-              Searching for{" "}
-              <span className="text-text-primary font-medium">
+              <span className="v2-live-dot" aria-hidden />
+              {"// SEARCHING FOR "}
+              <span style={{ color: "var(--v2-acc)" }}>
                 &ldquo;{query}&rdquo;
               </span>
             </span>
           ) : (
             <>
-              {results.length} result{results.length !== 1 ? "s" : ""} for{" "}
-              <span className="text-text-primary font-medium">
+              <span style={{ color: "var(--v2-ink-100)" }}>
+                {results.length}
+              </span>
+              {" RESULT"}
+              {results.length !== 1 ? "S" : ""}
+              {" FOR "}
+              <span style={{ color: "var(--v2-acc)" }}>
                 &ldquo;{query}&rdquo;
               </span>
             </>
@@ -197,12 +229,16 @@ function SearchLoading({ query }: { query: string }) {
   return (
     <div className="text-center py-20 px-4">
       <SearchIcon
-        size={40}
-        className="mx-auto mb-4 text-text-muted animate-pulse"
+        size={32}
+        className="mx-auto mb-4 animate-pulse"
+        style={{ color: "var(--v2-acc)" }}
         aria-hidden="true"
       />
-      <p className="text-text-secondary text-lg">
-        Searching for &lsquo;{query}&rsquo;&hellip;
+      <p
+        className="v2-mono"
+        style={{ fontSize: 12, color: "var(--v2-ink-200)" }}
+      >
+        {`// SEARCHING FOR "${query}" …`}
       </p>
     </div>
   );
@@ -212,16 +248,23 @@ function SearchEmpty({ query }: { query: string }) {
   return (
     <div className="text-center py-20 px-4">
       <SearchIcon
-        size={40}
-        className="mx-auto mb-4 text-text-muted"
+        size={32}
+        className="mx-auto mb-4"
+        style={{ color: "var(--v2-ink-400)" }}
         aria-hidden="true"
       />
-      <p className="text-text-tertiary text-lg">
-        No repos found for &lsquo;{query}&rsquo;
+      <p
+        className="v2-mono"
+        style={{ fontSize: 12, color: "var(--v2-ink-300)" }}
+      >
+        {`// NO REPOS FOUND FOR "${query}"`}
       </p>
-      <p className="text-text-muted text-sm mt-2 max-w-md mx-auto">
-        Try searching for a repo name, programming language, or topic like
-        &ldquo;rust&rdquo;, &ldquo;llm&rdquo;, or &ldquo;database&rdquo;.
+      <p
+        className="mt-2 max-w-md mx-auto"
+        style={{ fontSize: 12, color: "var(--v2-ink-400)" }}
+      >
+        Try a repo name, language, or topic like &ldquo;rust&rdquo;,
+        &ldquo;llm&rdquo;, or &ldquo;database&rdquo;.
       </p>
     </div>
   );
@@ -231,15 +274,22 @@ function SearchPrompt() {
   return (
     <div className="text-center py-20 px-4">
       <SearchIcon
-        size={40}
-        className="mx-auto mb-4 text-text-muted"
+        size={32}
+        className="mx-auto mb-4"
+        style={{ color: "var(--v2-ink-400)" }}
         aria-hidden="true"
       />
-      <p className="text-text-secondary text-lg">
-        Start typing to search across all repos
+      <p
+        className="v2-mono"
+        style={{ fontSize: 12, color: "var(--v2-ink-200)" }}
+      >
+        {"// START TYPING TO SEARCH ACROSS ALL REPOS"}
       </p>
-      <p className="text-text-muted text-sm mt-1">
-        Search by name, owner, language, topic, or description
+      <p
+        className="mt-1"
+        style={{ fontSize: 11, color: "var(--v2-ink-400)" }}
+      >
+        Search by name, owner, language, topic, or description.
       </p>
     </div>
   );

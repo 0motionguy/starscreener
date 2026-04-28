@@ -3,8 +3,16 @@
 // Centralised site-URL resolution + absolute-URL helpers so every page can
 // emit a correct canonical + metadataBase without duplicating logic.
 
-export const SITE_URL: string =
-  process.env.NEXT_PUBLIC_APP_URL ?? "https://trendingrepo.com";
+// `.trim()` defends against env vars set with a trailing newline on
+// Vercel — a common copy-paste foot-gun that silently corrupts every
+// `${SITE_URL}${path}` concatenation downstream (sitemap, robots,
+// JSON-LD, OG metadata). Strip the leading `https://` is left intact;
+// only whitespace + trailing slashes are normalized.
+export const SITE_URL: string = (
+  process.env.NEXT_PUBLIC_APP_URL ?? "https://trendingrepo.com"
+)
+  .trim()
+  .replace(/\/+$/, "");
 
 export const SITE_NAME = "TrendingRepo";
 export const SITE_TAGLINE = "The trend map for open source";
@@ -18,9 +26,28 @@ export const SITE_DESCRIPTION =
  */
 export function absoluteUrl(path: string = "/"): string {
   if (path.startsWith("http://") || path.startsWith("https://")) return path;
-  const base = SITE_URL.replace(/\/+$/, "");
   const rel = path.startsWith("/") ? path : `/${path}`;
-  return `${base}${rel}`;
+  return `${SITE_URL}${rel}`;
+}
+
+/**
+ * Safe stringifier for JSON-LD bodies that get written into a `<script>` tag
+ * via `dangerouslySetInnerHTML`. JSON.stringify by itself does NOT escape
+ * `</script>` (it leaves `<` and `>` raw), so a future contributor who pipes
+ * a user-controlled string into one of these blobs would silently introduce
+ * XSS. Today every interpolated value is allowlisted (static SITE_*
+ * constants or repo slugs that already passed `/^[A-Za-z0-9._-]+$/`), so
+ * this is defense-in-depth — pin the safe pattern in one helper so the four
+ * call sites can't drift. Also escapes U+2028/U+2029 which break JS string
+ * literals in some legacy parsers.
+ */
+export function safeJsonLd(obj: unknown): string {
+  return JSON.stringify(obj)
+    .replace(/</g, "\\u003c")
+    .replace(/>/g, "\\u003e")
+    .replace(/&/g, "\\u0026")
+    .replace(/\u2028/g, "\\u2028")
+    .replace(/\u2029/g, "\\u2029");
 }
 
 /**

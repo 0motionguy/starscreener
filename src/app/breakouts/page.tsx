@@ -145,11 +145,15 @@ export default async function BreakoutsPage({
                 key={key}
                 href={`/breakouts?filter=${key}`}
                 scroll={false}
-                className={`px-3 min-h-[40px] inline-flex items-center rounded-badge border text-[11px] uppercase tracking-wider transition-colors shrink-0 ${
-                  active
-                    ? "border-brand bg-brand-subtle text-brand"
-                    : "border-border-primary text-text-secondary hover:bg-bg-card-hover"
-                }`}
+                className="v2-mono px-3 min-h-[40px] inline-flex items-center transition-colors shrink-0"
+                style={{
+                  fontSize: 11,
+                  border: "1px solid",
+                  borderRadius: 2,
+                  background: active ? "var(--v2-acc-soft)" : "transparent",
+                  color: active ? "var(--v2-acc)" : "var(--v2-ink-300)",
+                  borderColor: active ? "var(--v2-acc)" : "var(--v2-line-200)",
+                }}
                 aria-current={active ? "page" : undefined}
               >
                 {FILTER_LABELS[key]}
@@ -165,7 +169,7 @@ export default async function BreakoutsPage({
         {view.length === 0 ? (
           <EmptyState />
         ) : (
-          <section className="rounded-card border border-border-primary bg-bg-card overflow-hidden">
+          <section className="v2-card overflow-hidden">
             {/* Header row — hidden on mobile (the row contents are
                 self-describing and the column packing is too tight for
                 phones). */}

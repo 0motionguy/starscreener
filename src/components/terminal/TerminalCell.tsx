@@ -55,6 +55,7 @@ export function TerminalCell({ column, repo, rowContext }: TerminalCellProps) {
       className={cn(
         "px-2 align-middle overflow-hidden",
         alignClass(column.align),
+        // Tabular nums on every numeric cell — V2 brief.
         numeric && "tabular-nums font-mono",
         column.sticky === "left" && "sticky left-0 bg-inherit z-[1]",
       )}

@@ -29,37 +29,38 @@ const MIN_RADIUS = 26;
 const MAX_RADIUS = 84;
 
 // Tier color tokens — matches BaselinePill exactly so the legend reads
-// the same as per-post pills.
+// the same as per-post pills. Routes through --v3-tier-* tokens so creme
+// and linen themes can retune the ramp for paper-friendly contrast.
 const TIER_COLORS: Record<BaselineTier, { fill: string; stroke: string; glow: string; text: string }> = {
   breakout: {
-    fill: "#f97316", // brand-ish
-    stroke: "rgba(249, 115, 22, 0.85)",
-    glow: "rgba(249, 115, 22, 0.12)",
-    text: "#f6f9fc",
+    fill: "var(--v3-tier-breakout-fill)",
+    stroke: "var(--v3-tier-breakout-end)",
+    glow: "var(--v3-tier-breakout-glow)",
+    text: "var(--v3-tier-text)",
   },
   "above-average": {
-    fill: "#22c55e",
-    stroke: "rgba(34, 197, 94, 0.8)",
-    glow: "rgba(34, 197, 94, 0.10)",
-    text: "#f6f9fc",
+    fill: "var(--v3-tier-heating-fill)",
+    stroke: "var(--v3-tier-heating-end)",
+    glow: "var(--v3-tier-heating-glow)",
+    text: "var(--v3-tier-text)",
   },
   normal: {
-    fill: "#6b7280",
-    stroke: "rgba(107, 114, 128, 0.6)",
-    glow: "rgba(107, 114, 128, 0.08)",
-    text: "#f6f9fc",
+    fill: "var(--v3-tier-stable-fill)",
+    stroke: "var(--v3-tier-stable-end)",
+    glow: "var(--v3-tier-stable-glow)",
+    text: "var(--v3-tier-text)",
   },
   "below-average": {
-    fill: "#4b5563",
-    stroke: "rgba(75, 85, 99, 0.5)",
-    glow: "rgba(75, 85, 99, 0.06)",
-    text: "#d1d5db",
+    fill: "var(--v3-tier-cooling-fill)",
+    stroke: "var(--v3-tier-cooling-end)",
+    glow: "var(--v3-tier-cooling-glow)",
+    text: "var(--v3-tier-text)",
   },
   "no-baseline": {
-    fill: "#374151",
-    stroke: "rgba(148, 163, 184, 0.4)",
-    glow: "rgba(148, 163, 184, 0.05)",
-    text: "#cbd5e1",
+    fill: "var(--v3-tier-dormant-fill)",
+    stroke: "var(--v3-tier-dormant-end)",
+    glow: "var(--v3-tier-dormant-glow)",
+    text: "var(--v3-tier-text)",
   },
 };
 

@@ -17,6 +17,7 @@
 //           `unreadAlerts` count for that user.
 
 import { NextRequest, NextResponse } from "next/server";
+import { errorEnvelope } from "@/lib/api/error-response";
 import { pipeline } from "@/lib/pipeline/pipeline";
 import {
   getDerivedAvailableLanguages,
@@ -24,8 +25,15 @@ import {
   getDerivedMetaCounts,
 } from "@/lib/derived-insights";
 import { getDerivedRepos } from "@/lib/derived-repos";
+import {
+  getSidebarSourceCounts,
+  emptySidebarSourceCounts,
+  type SidebarSourceCounts,
+} from "@/lib/sidebar-source-counts";
 import type { MetaCounts, MovementStatus } from "@/lib/types";
 import type { CategoryStats } from "@/lib/pipeline/queries/aggregate";
+
+export const runtime = "nodejs";
 
 export interface SidebarDataRepo {
   id: string;
@@ -47,6 +55,8 @@ export interface SidebarDataResponse {
   availableLanguages: string[];
   reposById: Record<string, SidebarDataRepo>;
   unreadAlerts: number;
+  sourceCounts: SidebarSourceCounts;
+  trendingReposCount: number;
   generatedAt: string;
 }
 
@@ -90,6 +100,15 @@ export async function GET(
       unreadAlerts = 0;
     }
 
+    // Per-source counts for the sidebar count badges. Degrade to zeros
+    // on cold data-store / read error so the sidebar still renders.
+    let sourceCounts: SidebarSourceCounts;
+    try {
+      sourceCounts = await getSidebarSourceCounts();
+    } catch {
+      sourceCounts = emptySidebarSourceCounts();
+    }
+
     return NextResponse.json(
       {
         categoryStats,
@@ -97,12 +116,14 @@ export async function GET(
         availableLanguages,
         reposById,
         unreadAlerts,
+        sourceCounts,
+        trendingReposCount: repos.length,
         generatedAt: new Date().toISOString(),
       },
       { headers: { "Content-Type": "application/json; charset=utf-8" } },
     );
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
-    return NextResponse.json({ error: message }, { status: 500 });
+    return NextResponse.json(errorEnvelope(message), { status: 500 });
   }
 }

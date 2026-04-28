@@ -73,6 +73,43 @@ export async function listReactionsForObject(
   );
 }
 
+/**
+ * Batched read for N target objects of the same type. Reads the JSONL
+ * once, groups by lowercased objectId, returns a Map keyed on the
+ * caller-supplied (un-lowercased) ids so the result is index-friendly.
+ *
+ * Replaces the N-times-`listReactionsForObject` pattern in
+ * /api/ideas — that one read the whole reactions file once per visible
+ * idea (APP-08).
+ */
+export async function listReactionsForObjects(
+  objectType: ReactionObjectType,
+  objectIds: ReadonlyArray<string>,
+): Promise<Map<string, ReactionRecord[]>> {
+  const out = new Map<string, ReactionRecord[]>();
+  if (objectIds.length === 0) return out;
+
+  const wantedKeys = new Set<string>();
+  const idByKey = new Map<string, string>();
+  for (const id of objectIds) {
+    const key = id.toLowerCase();
+    wantedKeys.add(key);
+    if (!idByKey.has(key)) idByKey.set(key, id);
+    out.set(id, []);
+  }
+
+  const records = await listReactions();
+  for (const record of records) {
+    if (record.objectType !== objectType) continue;
+    const key = record.objectId.toLowerCase();
+    if (!wantedKeys.has(key)) continue;
+    const callerId = idByKey.get(key)!;
+    const bucket = out.get(callerId);
+    if (bucket) bucket.push(record);
+  }
+  return out;
+}
+
 export function countReactions(records: ReactionRecord[]): ReactionCounts {
   const out = emptyReactionCounts();
   for (const record of records) {

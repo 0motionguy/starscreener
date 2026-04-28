@@ -43,27 +43,56 @@ export function FundingPanel({ events }: FundingPanelProps): JSX.Element | null 
   return (
     <section
       aria-label="Funding & M&A"
-      className="rounded-card border border-border-primary bg-bg-card p-4 shadow-card"
+      className="v2-card overflow-hidden"
     >
-      <header className="flex items-center gap-2">
-        <Landmark className="size-4 text-text-primary" aria-hidden />
-        <h3 className="font-mono text-[11px] uppercase tracking-wider text-text-tertiary">
-          Funding & M&A
-        </h3>
-        <span className="ml-auto font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
-          {events.length} {events.length === 1 ? "event" : "events"}
+      <div className="v2-term-bar">
+        <span aria-hidden className="flex items-center gap-1.5">
+          <span className="block h-1.5 w-1.5 rounded-full v2-live-dot" />
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-line-200)" }}
+          />
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-line-200)" }}
+          />
         </span>
-      </header>
+        <Landmark
+          size={12}
+          className="shrink-0"
+          style={{ color: "var(--v2-acc)" }}
+          aria-hidden
+        />
+        <span
+          className="flex-1 truncate"
+          style={{ color: "var(--v2-ink-200)" }}
+        >
+          {"// FUNDING · M&A"}
+        </span>
+        <span
+          className="v2-stat shrink-0"
+          style={{ color: "var(--v2-ink-300)" }}
+        >
+          {events.length} EVENT{events.length === 1 ? "" : "S"}
+        </span>
+      </div>
 
-      <ul className="mt-3 divide-y divide-border-primary/60">
-        {visible.map((event) => (
-          <FundingRow key={event.signal.id} event={event} />
+      <ul className="px-4 py-2">
+        {visible.map((event, i) => (
+          <FundingRow
+            key={event.signal.id}
+            event={event}
+            isLast={i === visible.length - 1 && hiddenCount === 0}
+          />
         ))}
       </ul>
 
       {hiddenCount > 0 ? (
-        <footer className="mt-3 font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
-          +{hiddenCount} more
+        <footer
+          className="v2-mono px-4 pb-3 pt-1"
+          style={{ fontSize: 10, color: "var(--v2-ink-400)" }}
+        >
+          {`// +${hiddenCount} MORE EVENT${hiddenCount === 1 ? "" : "S"}`}
         </footer>
       ) : null}
     </section>
@@ -74,7 +103,13 @@ export function FundingPanel({ events }: FundingPanelProps): JSX.Element | null 
 // Row
 // ---------------------------------------------------------------------------
 
-function FundingRow({ event }: { event: RepoFundingEvent }): JSX.Element {
+function FundingRow({
+  event,
+  isLast,
+}: {
+  event: RepoFundingEvent;
+  isLast: boolean;
+}): JSX.Element {
   const { signal, match } = event;
   const extracted = signal.extracted;
   const roundLabel = extracted
@@ -94,32 +129,52 @@ function FundingRow({ event }: { event: RepoFundingEvent }): JSX.Element {
   const confidenceLabel = formatConfidenceLabel(match);
 
   return (
-    <li className="flex flex-wrap items-baseline gap-x-3 gap-y-1 py-3 first:pt-0 last:pb-0">
-      <span className="inline-flex shrink-0 items-center rounded-full border border-border-primary bg-bg-muted px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-text-secondary">
-        {roundLabel}
-      </span>
+    <li
+      className="flex flex-wrap items-baseline gap-x-3 gap-y-1 py-3"
+      style={{
+        borderBottom: isLast ? "none" : "1px solid var(--v2-line-std)",
+      }}
+    >
+      <span className="v2-tag shrink-0">{roundLabel.toUpperCase()}</span>
 
-      <span className="font-mono text-sm font-semibold tabular-nums text-text-primary">
+      <span
+        className="v2-stat tabular-nums"
+        style={{
+          fontSize: 14,
+          fontWeight: 510,
+          color: amount === "Undisclosed" ? "var(--v2-ink-300)" : "var(--v2-acc)",
+        }}
+      >
         {amount}
       </span>
 
-      <span className="font-mono text-[11px] text-text-tertiary">
+      <span
+        className="v2-mono-tight tabular-nums"
+        style={{ fontSize: 11, color: "var(--v2-ink-400)" }}
+      >
         {getRelativeTime(announcedAt)}
       </span>
 
       {visibleInvestors.length > 0 ? (
-        <span className="font-mono text-[11px] text-text-secondary">
+        <span
+          style={{
+            fontSize: 11,
+            color: "var(--v2-ink-200)",
+            fontFamily: "var(--font-geist-mono), monospace",
+          }}
+        >
           {visibleInvestors.join(", ")}
-          {extraInvestors > 0 ? ` and ${extraInvestors} more` : ""}
+          {extraInvestors > 0 ? ` +${extraInvestors}` : ""}
         </span>
       ) : null}
 
       {showConfidence && confidenceLabel ? (
         <span
-          className="inline-flex shrink-0 items-center rounded-full border border-border-primary/70 bg-bg-muted/60 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-text-tertiary"
+          className="v2-tag shrink-0"
+          style={{ color: "var(--v2-ink-400)" }}
           title={`Matched via ${match.reason.replace(/_/g, " ")} — confidence ${match.confidence.toFixed(2)}`}
         >
-          {confidenceLabel}
+          {confidenceLabel.toUpperCase()}
         </span>
       ) : null}
 
@@ -127,10 +182,11 @@ function FundingRow({ event }: { event: RepoFundingEvent }): JSX.Element {
         href={signal.sourceUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="ml-auto inline-flex items-center gap-1 font-mono text-[11px] text-text-secondary hover:text-text-primary hover:underline"
+        className="v2-mono ml-auto inline-flex items-center gap-1 transition-colors"
+        style={{ fontSize: 10, color: "var(--v2-ink-300)" }}
       >
-        source
-        <ArrowUpRight className="size-3" aria-hidden />
+        SOURCE
+        <ArrowUpRight size={11} aria-hidden />
       </a>
     </li>
   );

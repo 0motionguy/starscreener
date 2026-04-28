@@ -20,8 +20,9 @@ import {
   refreshRepoProfilesFromStore,
 } from "@/lib/repo-profiles";
 
-export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
+
+export const dynamic = "force-dynamic";
 export const maxDuration = 300;
 
 type EnrichMode = "top" | "catchup" | "incremental";

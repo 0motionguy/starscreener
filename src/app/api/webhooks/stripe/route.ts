@@ -18,6 +18,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
+import { getDataStore } from "@/lib/data-store";
+import { setUserTier } from "@/lib/pricing/user-tiers";
 import {
   getStripeClient,
   getStripeWebhookSecret,
@@ -26,66 +28,18 @@ import {
 import {
   handleStripeEvent,
   type HandleStripeEventDeps,
-  type SetUserTierFn,
 } from "@/lib/stripe/events";
+import { acquireStripeEventLock } from "@/lib/stripe/idempotency";
 
-// -----------------------------------------------------------------------------
-// setUserTier wiring.
-//
-// The parallel agent owns `src/lib/pricing/user-tiers.ts`. When that file
-// exists, import `setUserTier` from it at module load (Node ESM, statically
-// analyzable). Until it lands, we use a local stub that logs every call —
-// the webhook still returns 200 so Stripe doesn't retry, but no store is
-// actually updated.
-//
-// We use a dynamic import guard so the route handler file still type-checks
-// whether or not the parallel agent's file exists. When the file lands, the
-// integration is: swap the stub for `import { setUserTier } from "@/lib/pricing/user-tiers"`.
-// -----------------------------------------------------------------------------
+export const runtime = "nodejs";
 
-async function resolveSetUserTier(): Promise<SetUserTierFn> {
-  // Attempt to load the parallel agent's real implementation. The try/catch
-  // keeps the webhook functional during parallel development — if the
-  // module isn't present yet, we fall back to the logging stub.
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const mod: any = await import("@/lib/pricing/user-tiers" as string).catch(
-      () => null,
-    );
-    if (mod && typeof mod.setUserTier === "function") {
-      return mod.setUserTier as SetUserTierFn;
-    }
-  } catch {
-    // ignore — fall through to stub
-  }
-  return setUserTierStub;
-}
-
-/** Temporary stub — replaced at integration time when the parallel agent ships `setUserTier`. */
-const setUserTierStub: SetUserTierFn = async (userId, tier, expiresAt, extras) => {
-  // Keep the log terse but informative. No secrets. No raw event body.
-  console.log(
-    `[stripe:stub] setUserTier userId=${userId} tier=${tier} expires=${expiresAt ?? "null"} source=${
-      extras?.source ?? "unknown"
-    }`,
-  );
-};
-
-// Cached — one resolve per cold start is fine.
-let _cachedSetUserTier: SetUserTierFn | null = null;
-async function getSetUserTier(): Promise<SetUserTierFn> {
-  if (_cachedSetUserTier) return _cachedSetUserTier;
-  _cachedSetUserTier = await resolveSetUserTier();
-  return _cachedSetUserTier;
-}
-
-// Test-only hook — attached on globalThis so Next's route-export validator
-// doesn't reject us. (Next 15 rejects any export that isn't an HTTP verb
-// or recognized config symbol on a route file.)
-const __testHookSymbol = Symbol.for("starscreener.stripe.route.test");
-(globalThis as Record<symbol, unknown>)[__testHookSymbol] = (): void => {
-  _cachedSetUserTier = null;
-};
+// setUserTier is now a static import from `@/lib/pricing/user-tiers`. Earlier
+// versions of this file used a dynamic-import stub guard while that module
+// was being landed in parallel — that guard silently 200-ed every Stripe
+// event during the integration window, so paying customers received receipts
+// without entitlements. Static import means the webhook fails to build if
+// the module is missing, which is correct behaviour: a deploy without
+// user-tiers should never accept Stripe events.
 
 // -----------------------------------------------------------------------------
 // Route handler
@@ -148,11 +102,34 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     );
   }
 
-  // 4. Dispatch.
-  const setUserTier = await getSetUserTier();
+  // 4. Cross-instance idempotency gate. Stripe is at-least-once; without a
+  //    shared lock, two concurrent Lambdas can both process the same event
+  //    and call `setUserTier` twice. SETNX in Redis means the first claimant
+  //    runs the handler and the rest 200-with-skipReason.
+  const dataStore = getDataStore();
+  const fresh = await acquireStripeEventLock(dataStore.redisClient(), event.id);
+  if (!fresh) {
+    return NextResponse.json({
+      ok: true,
+      handled: false,
+      type: event.type,
+      skipReason: "duplicate",
+    });
+  }
+
+  // 5. Dispatch.
   const priceMap = loadPriceIds();
   const deps: HandleStripeEventDeps = {
-    setUserTier,
+    // Adapter: events.ts wants `Promise<void>` and only consumes
+    // stripeCustomerId/stripeSubscriptionId from extras; the user-tiers
+    // setUserTier returns the upserted record and accepts the same two
+    // fields. Discard the return + project the options shape explicitly.
+    setUserTier: async (userId, tier, expiresAt, extras) => {
+      await setUserTier(userId, tier, expiresAt, {
+        stripeCustomerId: extras?.stripeCustomerId,
+        stripeSubscriptionId: extras?.stripeSubscriptionId,
+      });
+    },
     priceMap,
     retrieveSubscription: (id) => stripe.subscriptions.retrieve(id),
   };

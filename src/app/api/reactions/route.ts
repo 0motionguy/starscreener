@@ -11,19 +11,30 @@
 // silently ignored (mirrors the alerts/rules contract).
 
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 
 import { userAuthFailureResponse, verifyUserAuth } from "@/lib/api/auth";
+import { parseBody } from "@/lib/api/parse-body";
 import {
   countReactions,
   emptyReactionCounts,
   isReactionObjectType,
-  isReactionType,
   listReactionsForObject,
+  REACTION_OBJECT_TYPES,
+  REACTION_TYPES,
   toggleReaction,
   userReactionsFor,
   type ReactionCounts,
   type UserReactionState,
 } from "@/lib/reactions";
+
+const ReactionsPostSchema = z.object({
+  objectType: z.enum(REACTION_OBJECT_TYPES),
+  objectId: z.string().trim().min(1, "objectId must be a non-empty string"),
+  reactionType: z.enum(REACTION_TYPES),
+});
+
+export const runtime = "nodejs";
 
 export interface ReactionsGetResponse {
   ok: true;
@@ -109,47 +120,9 @@ export async function POST(
   }
   const { userId } = auth;
 
-  let raw: unknown;
-  try {
-    raw = await request.json();
-  } catch {
-    return NextResponse.json(
-      { ok: false, error: "request body is not valid JSON" },
-      { status: 400 },
-    );
-  }
-  if (!raw || typeof raw !== "object") {
-    return NextResponse.json(
-      { ok: false, error: "body must be a JSON object" },
-      { status: 400 },
-    );
-  }
-  const body = raw as Record<string, unknown>;
-  const objectType = body.objectType;
-  const objectId = body.objectId;
-  const reactionType = body.reactionType;
-
-  if (!isReactionObjectType(objectType)) {
-    return NextResponse.json(
-      { ok: false, error: "objectType must be 'repo' or 'idea'" },
-      { status: 400 },
-    );
-  }
-  if (typeof objectId !== "string" || !objectId.trim()) {
-    return NextResponse.json(
-      { ok: false, error: "objectId must be a non-empty string" },
-      { status: 400 },
-    );
-  }
-  if (!isReactionType(reactionType)) {
-    return NextResponse.json(
-      {
-        ok: false,
-        error: "reactionType must be one of: build, use, buy, invest",
-      },
-      { status: 400 },
-    );
-  }
+  const parsed = await parseBody(request, ReactionsPostSchema);
+  if (!parsed.ok) return parsed.response as NextResponse<ReactionsErrorResponse>;
+  const { objectType, objectId, reactionType } = parsed.data;
   // userId is INTENTIONALLY not read from the body — it is derived from the
   // authenticated caller.
 
@@ -157,16 +130,13 @@ export async function POST(
     const result = await toggleReaction({
       userId,
       objectType,
-      objectId: objectId.trim(),
+      objectId,
       reactionType,
     });
 
     // Re-derive counts + mine from the post-toggle state so the response is
     // a complete snapshot. Saves the client one round-trip.
-    const records = await listReactionsForObject(
-      objectType,
-      objectId.trim(),
-    );
+    const records = await listReactionsForObject(objectType, objectId);
     return NextResponse.json({
       ok: true,
       toggled: result.kind === "added" ? "added" : "removed",
@@ -175,9 +145,11 @@ export async function POST(
       mine: userReactionsFor(userId, records),
     });
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
+    // Server-side log includes raw err; response carries empty counts so the
+    // client UI can keep rendering buttons without crashing on a missing key.
+    console.error("[reactions:POST] toggle failed", { err });
     return NextResponse.json(
-      { ok: false, error: message, counts: emptyReactionCounts() },
+      { ok: false, error: "server error", counts: emptyReactionCounts() },
       { status: 500 },
     );
   }

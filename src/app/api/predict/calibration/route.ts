@@ -26,6 +26,8 @@ import type { PredictionRow } from "@/lib/predictions-writer";
 import { PREDICTIONS_FILE } from "@/lib/repo-predictions";
 import { readJsonlFile } from "@/lib/pipeline/storage/file-persistence";
 
+export const runtime = "nodejs";
+
 interface SuccessResponse {
   ok: true;
   fetchedAt: string;

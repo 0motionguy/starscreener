@@ -20,7 +20,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { timingSafeEqual } from "node:crypto";
 import { verifySession } from "./session";
 import { readAdminSessionCookie, verifyAdminSession } from "./admin-session";
-import { verifyApiKeyTokenSync } from "./api-keys";
 import type { UserTier } from "@/lib/pricing/tiers";
 
 /** Name of the HMAC-signed session cookie set by /api/auth/session. */
@@ -288,10 +287,9 @@ function readSessionCookie(request: NextRequest): string | null {
  * Per-user auth for endpoints that mutate user-scoped state (alert rules,
  * read-markers). Accepts, in priority order:
  *
- *   1. `x-api-key: sskey_...`                         (self-serve API key)
- *   2. `x-user-token: <token>`                        (server-to-server / CLI)
- *   3. `Authorization: Bearer <token>` / raw          (server-to-server / CLI)
- *   4. `Cookie: ss_user=<signed-session>`             (browser UI)
+ *   1. `x-user-token: <token>`                        (server-to-server / CLI)
+ *   2. `Authorization: Bearer <token>` / raw          (server-to-server / CLI)
+ *   3. `Cookie: ss_user=<signed-session>`             (browser UI)
  *
  * Header auth wins when both a header and a cookie are present — used for
  * test rigs and server-to-server calls that know a USER_TOKEN.
@@ -313,9 +311,7 @@ function readSessionCookie(request: NextRequest): string | null {
 export function verifyUserAuth(request: NextRequest): UserAuthVerdict {
   const multi = parseUserTokens();
   const singleToken = process.env.USER_TOKEN?.trim();
-  const explicitApiKey = request.headers.get("x-api-key")?.trim() ?? null;
   const headerBearer = extractBearer(request, "x-user-token");
-  const presentedToken = explicitApiKey ?? headerBearer;
 
   // 1. Cookie — HMAC-signed ss_user. verifySession returns null when
   //    SESSION_SECRET is unset or the cookie is malformed/expired/tampered.
@@ -330,19 +326,14 @@ export function verifyUserAuth(request: NextRequest): UserAuthVerdict {
   //    IF it matches a configured env token. This matches the pre-cookie
   //    contract: server-to-server callers with a valid USER_TOKEN should
   //    see their mapped userId, not a browser session's.
-  if (presentedToken) {
-    const apiKeyUserId = verifyApiKeyTokenSync(presentedToken);
-    if (apiKeyUserId) {
-      return { kind: "ok", userId: apiKeyUserId };
-    }
-
+  if (headerBearer) {
     if (multi.size > 0) {
       for (const [token, userId] of multi.entries()) {
-        if (timingSafeEqualStr(presentedToken, token)) {
+        if (timingSafeEqualStr(headerBearer, token)) {
           return { kind: "ok", userId };
         }
       }
-    } else if (singleToken && timingSafeEqualStr(presentedToken, singleToken)) {
+    } else if (singleToken && timingSafeEqualStr(headerBearer, singleToken)) {
       return { kind: "ok", userId: "local" };
     }
     // Header didn't match any env token. If we have a valid cookie AND

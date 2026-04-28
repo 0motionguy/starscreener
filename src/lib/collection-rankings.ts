@@ -1,7 +1,5 @@
 import collectionRankingsJson from "../../data/collection-rankings.json";
 import { loadAllCollections, type CollectionFile } from "./collections";
-import { getDataStore } from "./data-store";
-
 export type CollectionRankingMetric = "stars" | "issues";
 
 export interface CollectionRankingRow {
@@ -156,6 +154,7 @@ export async function refreshCollectionRankingsFromStore(): Promise<RefreshResul
   }
 
   inflight = (async (): Promise<RefreshResult> => {
+    const { getDataStore } = await import("./data-store");
     const result = await getDataStore().read<CollectionRankingsFile>(
       "collection-rankings",
     );

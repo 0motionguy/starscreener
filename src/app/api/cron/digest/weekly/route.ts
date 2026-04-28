@@ -48,6 +48,8 @@ import { getDerivedRepos } from "@/lib/derived-repos";
 import { getEmailProvider, resolveEmailFrom } from "@/lib/email/send";
 import { renderDigestEmail } from "@/lib/email/render-digest";
 
+export const runtime = "nodejs";
+
 const POST_CACHE_HEADERS = {
   "Cache-Control": "no-store",
 } as const;

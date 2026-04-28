@@ -7,7 +7,6 @@
 // their bundle. The future /news dev.to tab imports from here.
 
 import devtoTrendingData from "../../data/devto-trending.json";
-import { getDataStore } from "./data-store";
 import type { DevtoArticle, DevtoBodyFetchMode } from "./devto";
 
 export interface DevtoTrendingFile {
@@ -62,6 +61,7 @@ export async function refreshDevtoTrendingFromStore(): Promise<{
     return { source: "memory", ageMs: Date.now() - lastRefreshMs };
   }
   inflight = (async () => {
+    const { getDataStore } = await import("./data-store");
     const result = await getDataStore().read<DevtoTrendingFile>(
       "devto-trending",
     );

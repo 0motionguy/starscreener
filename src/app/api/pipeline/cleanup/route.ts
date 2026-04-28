@@ -23,6 +23,8 @@ import { pipeline, repoStore } from "@/lib/pipeline/pipeline";
 import { createGitHubAdapter } from "@/lib/pipeline/ingestion/ingest";
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 
+export const runtime = "nodejs";
+
 export const dynamic = "force-dynamic";
 export const maxDuration = 300;
 

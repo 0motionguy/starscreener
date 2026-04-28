@@ -105,13 +105,32 @@ function normalizeUrl(url: string): string {
   }
 }
 
-function stableStringify(value: unknown): string {
+// Recursive stable serializer used for payload hashing. Bounded depth +
+// cycle detection prevent OOM on hostile/cyclic ingest payloads — without
+// these, a Twitter ingest with a deep object graph could exhaust the heap
+// before the hash even completes (LIB-12 in TECH_DEBT_AUDIT.md).
+const STABLE_STRINGIFY_MAX_DEPTH = 32;
+const STABLE_STRINGIFY_TRUNCATED = '"__truncated__"';
+
+function stableStringify(value: unknown, depth = 0, seen?: WeakSet<object>): string {
   if (value === null || typeof value !== "object") {
     return JSON.stringify(value);
   }
+  if (depth >= STABLE_STRINGIFY_MAX_DEPTH) {
+    return STABLE_STRINGIFY_TRUNCATED;
+  }
+
+  // Lazy WeakSet allocation — avoids cost when the typical small payload
+  // never recurses past depth 1 or 2.
+  const cycleGuard = seen ?? new WeakSet<object>();
+  const obj = value as object;
+  if (cycleGuard.has(obj)) {
+    return STABLE_STRINGIFY_TRUNCATED;
+  }
+  cycleGuard.add(obj);
 
   if (Array.isArray(value)) {
-    return `[${value.map((item) => stableStringify(item)).join(",")}]`;
+    return `[${value.map((item) => stableStringify(item, depth + 1, cycleGuard)).join(",")}]`;
   }
 
   const entries = Object.entries(value as Record<string, unknown>)
@@ -119,7 +138,7 @@ function stableStringify(value: unknown): string {
     .sort(([a], [b]) => a.localeCompare(b));
 
   return `{${entries
-    .map(([key, nested]) => `${JSON.stringify(key)}:${stableStringify(nested)}`)
+    .map(([key, nested]) => `${JSON.stringify(key)}:${stableStringify(nested, depth + 1, cycleGuard)}`)
     .join(",")}}`;
 }
 
@@ -797,19 +816,16 @@ export async function getTwitterAdminReview(
   };
 }
 
-interface LeaderboardCache {
-  data: TwitterLeaderboardRow[];
-  generatedAt: number;
-  limit: number;
-}
-
-let leaderboardCache: LeaderboardCache | null = null;
-let trendingRepoLeaderboardCache: LeaderboardCache | null = null;
-const LEADERBOARD_CACHE_TTL_MS = 60_000;
-
+// LIB-02: dropped the leaderboardCache / trendingRepoLeaderboardCache
+// pair. Every upsertRepoSignal during a scan invalidated both caches,
+// so the steady-state hit rate was ~0% — the 60s TTL never had a chance
+// to settle while ingest was running, and the read path's overhead of
+// a sort over an in-memory map (tens to low-hundreds of entries) is
+// well under a millisecond. Removing the cache simplifies the
+// invalidation contract to "no contract"; recomputation is cheap.
 function invalidateTwitterLeaderboardCaches(): void {
-  leaderboardCache = null;
-  trendingRepoLeaderboardCache = null;
+  // intentionally empty — kept to avoid churn at the call site (ingest
+  // path); will be removed in a follow-up alongside the caller.
 }
 
 function toTwitterLeaderboardRow(
@@ -852,16 +868,10 @@ export async function getTwitterLeaderboard(
 ): Promise<TwitterLeaderboardRow[]> {
   await ensureTwitterReady();
 
-  const now = Date.now();
-  if (
-    leaderboardCache &&
-    leaderboardCache.limit === limit &&
-    now - leaderboardCache.generatedAt < LEADERBOARD_CACHE_TTL_MS
-  ) {
-    return leaderboardCache.data;
-  }
-
-  const rows = twitterStore
+  // LIB-02: recomputed on every call. The previous module-level cache
+  // was invalidated on every ingest, so the hit rate was ~0%. Sort over
+  // an in-memory list of <500 signals is sub-millisecond.
+  return twitterStore
     .listRepoSignals()
     .filter((signal) => signal.metrics.mentionCount24h > 0)
     .sort((a, b) => {
@@ -875,9 +885,6 @@ export async function getTwitterLeaderboard(
     })
     .slice(0, Math.max(0, limit))
     .map((signal) => toTwitterLeaderboardRow(signal));
-
-  leaderboardCache = { data: rows, generatedAt: now, limit };
-  return rows;
 }
 
 export async function getTwitterTrendingRepoLeaderboard(
@@ -885,15 +892,7 @@ export async function getTwitterTrendingRepoLeaderboard(
 ): Promise<TwitterLeaderboardRow[]> {
   await ensureTwitterReady();
 
-  const now = Date.now();
-  if (
-    trendingRepoLeaderboardCache &&
-    trendingRepoLeaderboardCache.limit === limit &&
-    now - trendingRepoLeaderboardCache.generatedAt < LEADERBOARD_CACHE_TTL_MS
-  ) {
-    return trendingRepoLeaderboardCache.data;
-  }
-
+  // LIB-02: cache dropped (see getTwitterLeaderboard rationale).
   const rows: TwitterLeaderboardRow[] = [];
   const seenRepoIds = new Set<string>();
   const cappedLimit = Math.max(0, limit);
@@ -913,7 +912,6 @@ export async function getTwitterTrendingRepoLeaderboard(
     if (rows.length >= cappedLimit) break;
   }
 
-  trendingRepoLeaderboardCache = { data: rows, generatedAt: now, limit };
   return rows;
 }
 

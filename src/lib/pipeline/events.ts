@@ -63,7 +63,7 @@ export type PipelineEvent =
 // Node.js process. Vercel serverless functions each get their own process
 // so this stream only works with a persistent deploy (Railway/Fly/self-host)
 // or within a single long-lived dev server. Documented in /api/stream.
-const globalKey = Symbol.for("starscreener.pipeline.events");
+const globalKey = Symbol.for("trendingrepo.pipeline.events");
 type GlobalWithEmitter = typeof globalThis & {
   [globalKey]?: EventEmitter;
 };

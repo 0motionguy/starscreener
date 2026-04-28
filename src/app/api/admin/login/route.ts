@@ -11,15 +11,24 @@
 // without removing the first.
 
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 
 import { timingSafeEqualStr } from "@/lib/api/auth";
+import { parseBody } from "@/lib/api/parse-body";
 import {
   ADMIN_SESSION_COOKIE_NAME,
   ADMIN_SESSION_MAX_AGE_SECONDS,
   signAdminSession,
 } from "@/lib/api/admin-session";
+import { checkRateLimitAsync } from "@/lib/api/rate-limit";
+
+export const runtime = "nodejs";
 
 export const dynamic = "force-dynamic";
+
+// Brute-force lockout. 5 attempts per IP per minute. Cross-instance because
+// the rate-limit store is Upstash-backed when configured. Audit finding APP-11.
+const LOGIN_RATE_LIMIT = { windowMs: 60_000, maxRequests: 5 } as const;
 
 interface LoginOk {
   ok: true;
@@ -28,7 +37,7 @@ interface LoginOk {
 
 interface LoginErr {
   ok: false;
-  reason: "unauthorized" | "not_configured" | "bad_request";
+  reason: "unauthorized" | "not_configured" | "bad_request" | "rate_limited";
   error?: string;
 }
 
@@ -47,6 +56,26 @@ function configured(): {
 export async function POST(
   request: NextRequest,
 ): Promise<NextResponse<LoginOk | LoginErr>> {
+  // Rate-limit BEFORE config gate so probing a misconfigured deploy still
+  // counts toward the per-IP budget. The constant-time comparison below
+  // already protects timing; this protects volume.
+  const rate = await checkRateLimitAsync(request, LOGIN_RATE_LIMIT);
+  if (!rate.allowed) {
+    return NextResponse.json(
+      {
+        ok: false,
+        reason: "rate_limited",
+        error: "too many login attempts; try again shortly",
+      },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(Math.ceil(rate.retryAfterMs / 1000)),
+        },
+      },
+    );
+  }
+
   const config = configured();
   if (!config) {
     return NextResponse.json(
@@ -60,30 +89,33 @@ export async function POST(
     );
   }
 
-  let body: { username?: unknown; password?: unknown } = {};
-  try {
-    body = (await request.json()) as typeof body;
-  } catch {
-    return NextResponse.json(
-      { ok: false, reason: "bad_request", error: "body must be valid JSON" },
-      { status: 400 },
-    );
-  }
-
-  const providedUsername =
-    typeof body.username === "string" ? body.username.trim() : "";
-  const providedPassword =
-    typeof body.password === "string" ? body.password : "";
-  if (!providedUsername || !providedPassword) {
+  const LoginSchema = z.object({
+    username: z.string().min(1).transform((s) => s.trim()),
+    password: z.string().min(1),
+  });
+  const parsed = await parseBody(request, LoginSchema, {
+    publicMessage: "username and password are required",
+    includeDetails: false,
+  });
+  if (!parsed.ok) {
+    // parseBody returns the canonical { ok:false, error } envelope; admin
+    // login wants { ok:false, reason, error } so the dashboard can branch
+    // on `reason`. Read the underlying body, re-shape minimally.
+    const status = parsed.response.status;
     return NextResponse.json(
       {
         ok: false,
         reason: "bad_request",
-        error: "username and password are required",
+        error:
+          status === 400
+            ? "username and password are required"
+            : "body must be valid JSON",
       },
       { status: 400 },
     );
   }
+  const { username: providedUsername, password: providedPassword } =
+    parsed.data;
 
   // Always run BOTH comparisons even if the first mismatches, so a wrong
   // username can't be distinguished from a wrong password by response time.

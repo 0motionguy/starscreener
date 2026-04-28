@@ -41,6 +41,8 @@ import { backfillStargazerHistory } from "@/lib/pipeline/ingestion/stargazer-bac
 import { backfillFromEvents } from "@/lib/pipeline/ingestion/events-backfill";
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 
+export const runtime = "nodejs";
+
 export const dynamic = "force-dynamic";
 export const maxDuration = 300;
 

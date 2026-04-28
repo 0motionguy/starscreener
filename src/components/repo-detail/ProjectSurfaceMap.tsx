@@ -258,42 +258,86 @@ export async function ProjectSurfaceMap({
   ];
 
   return (
-    <section className="rounded-card border border-border-primary bg-bg-card p-4 shadow-card">
-      <header className="flex items-start justify-between gap-3 mb-4">
-        <div>
-          <h2 className="font-mono text-[11px] uppercase tracking-wider text-text-secondary">
-            Project surface map
-            <span className="ml-2 text-text-tertiary">{"// entity links"}</span>
-          </h2>
-          <p className="mt-1 text-sm text-text-tertiary">
-            Known repo, package, launch, and site surfaces.
-          </p>
-        </div>
-        <span className="rounded-md border border-border-primary bg-bg-secondary px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
-          {aisoScan
-            ? "profile scan"
-            : profile?.status === "scan_pending" || profile?.status === "scan_running"
-              ? "scan queued"
-              : "surfaces only"}
+    <section className="v2-card overflow-hidden">
+      <div className="v2-term-bar">
+        <span aria-hidden className="flex items-center gap-1.5">
+          <span className="block h-1.5 w-1.5 rounded-full v2-live-dot" />
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-line-200)" }}
+          />
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-line-200)" }}
+          />
         </span>
-      </header>
+        <span
+          className="flex-1 truncate"
+          style={{ color: "var(--v2-ink-200)" }}
+        >
+          {"// PROJECT SURFACE MAP · ENTITY LINKS"}
+        </span>
+        <span
+          className="v2-stat shrink-0"
+          style={{ color: "var(--v2-ink-300)" }}
+        >
+          {aisoScan
+            ? "PROFILE SCAN"
+            : profile?.status === "scan_pending" ||
+                profile?.status === "scan_running"
+              ? "SCAN QUEUED"
+              : "SURFACES ONLY"}
+        </span>
+      </div>
+
+      <div className="p-4">
+        <p
+          className="mb-4 font-mono text-[10px] uppercase tracking-[0.16em]"
+          style={{ color: "var(--v3-ink-300)" }}
+        >
+          {"// KNOWN REPO · PACKAGE · LAUNCH · SITE SURFACES"}
+        </p>
 
       {aisoHighScore && aisoScan && aisoScan.score != null && (
         <section
           aria-label="AI discoverability (AISO)"
-          className="mb-4 rounded-md border border-up/30 bg-up/5 p-3"
+          className="mb-4 rounded-[2px] p-3"
+          style={{
+            background: "var(--v3-bg-025)",
+            border: "1px solid var(--v3-line-200)",
+            boxShadow: "inset 2px 0 0 var(--v3-sig-green)",
+          }}
         >
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
-              <p className="font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
+              <p
+                className="font-mono text-[10px] uppercase tracking-[0.16em]"
+                style={{ color: "var(--v3-ink-300)" }}
+              >
                 AI discoverability
-                <span className="ml-2 text-text-tertiary">{"// AISO"}</span>
+                <span
+                  className="ml-2"
+                  style={{ color: "var(--v3-ink-400)" }}
+                >
+                  {"// AISO"}
+                </span>
               </p>
-              <p className="mt-1 font-mono text-3xl font-semibold text-up tabular-nums">
+              <p
+                className="mt-1 font-mono text-3xl font-semibold tabular-nums"
+                style={{ color: "var(--v3-sig-green)" }}
+              >
                 {aisoScan.score}
-                <span className="ml-1 text-sm text-text-tertiary">/100</span>
+                <span
+                  className="ml-1 text-sm"
+                  style={{ color: "var(--v3-ink-400)" }}
+                >
+                  /100
+                </span>
               </p>
-              <p className="mt-1 text-[11px] text-text-tertiary">
+              <p
+                className="mt-1 text-[11px]"
+                style={{ color: "var(--v3-ink-300)" }}
+              >
                 Strong surface for AI agents and citation engines.
               </p>
             </div>
@@ -301,7 +345,7 @@ export async function ProjectSurfaceMap({
               href={aisoScan.resultUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 rounded-md border border-border-primary bg-bg-secondary/60 px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-text-secondary transition-colors hover:border-brand/40 hover:text-brand"
+              className="v3-button"
             >
               View report
               <ExternalLink className="size-3" aria-hidden />
@@ -312,10 +356,17 @@ export async function ProjectSurfaceMap({
               {aisoTopDimensions.map((dimension) => (
                 <div
                   key={dimension.key}
-                  className="rounded-md border border-border-primary bg-bg-primary/40 px-2.5 py-2"
+                  className="rounded-[2px] px-2.5 py-2"
+                  style={{
+                    background: "var(--v3-bg-050)",
+                    border: "1px solid var(--v3-line-100)",
+                  }}
                 >
                   <div className="flex items-center justify-between gap-2">
-                    <span className="truncate text-[11px] text-text-secondary">
+                    <span
+                      className="truncate text-[11px]"
+                      style={{ color: "var(--v3-ink-200)" }}
+                    >
                       {dimension.label}
                     </span>
                     <span
@@ -326,16 +377,21 @@ export async function ProjectSurfaceMap({
                         : dimension.score}
                     </span>
                   </div>
-                  <div className="mt-1 h-1 overflow-hidden rounded-full bg-bg-secondary">
+                  <div
+                    className="mt-1 h-1 overflow-hidden rounded-[1px]"
+                    style={{ background: "var(--v3-bg-200)" }}
+                  >
                     <div
-                      className={
-                        dimension.status === "pass"
-                          ? "h-full rounded-full bg-up"
-                          : dimension.status === "warn"
-                            ? "h-full rounded-full bg-warning"
-                            : "h-full rounded-full bg-down"
-                      }
-                      style={{ width: `${pctOfWeight(dimension)}%` }}
+                      className="h-full rounded-full"
+                      style={{
+                        width: `${pctOfWeight(dimension)}%`,
+                        background:
+                          dimension.status === "pass"
+                            ? "var(--v3-sig-green)"
+                            : dimension.status === "warn"
+                              ? "var(--v3-sig-amber)"
+                              : "var(--v3-sig-red)",
+                      }}
                     />
                   </div>
                 </div>
@@ -351,33 +407,53 @@ export async function ProjectSurfaceMap({
           const content = (
             <>
               <span
-                className={
+                className="flex size-7 shrink-0 items-center justify-center rounded-[2px]"
+                style={
                   surface.active
-                    ? "flex size-7 shrink-0 items-center justify-center rounded-md bg-brand/10 text-brand"
-                    : "flex size-7 shrink-0 items-center justify-center rounded-md bg-bg-secondary text-text-tertiary"
+                    ? {
+                        background: "var(--v3-acc-soft)",
+                        border: "1px solid var(--v3-acc-dim)",
+                        color: "var(--v3-acc)",
+                      }
+                    : {
+                        background: "var(--v3-bg-100)",
+                        border: "1px solid var(--v3-line-100)",
+                        color: "var(--v3-ink-400)",
+                      }
                 }
               >
                 <Icon className="size-3.5" aria-hidden />
               </span>
               <span className="min-w-0 flex-1">
-                <span className="block font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
+                <span
+                  className="block font-mono text-[10px] uppercase tracking-[0.16em]"
+                  style={{ color: "var(--v3-ink-400)" }}
+                >
                   {surface.label}
                 </span>
                 <span
-                  className={
-                    surface.active
-                      ? "block truncate text-sm text-text-primary"
-                      : "block truncate text-sm text-text-tertiary"
-                  }
+                  className="block truncate text-sm"
+                  style={{
+                    color: surface.active
+                      ? "var(--v3-ink-100)"
+                      : "var(--v3-ink-400)",
+                  }}
                 >
                   {surface.value}
                 </span>
-                <span className="block truncate text-[11px] text-text-tertiary">
+                <span
+                  className="block truncate text-[11px]"
+                  style={{ color: "var(--v3-ink-400)" }}
+                >
                   {surface.detail}
                 </span>
               </span>
               {surface.href && (
-                <ExternalLink className="size-3 text-text-tertiary" aria-hidden />
+                <ExternalLink
+                  className="size-3"
+                  style={{ color: "var(--v3-ink-400)" }}
+                  aria-hidden
+                />
               )}
             </>
           );
@@ -388,14 +464,22 @@ export async function ProjectSurfaceMap({
               href={surface.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2.5 rounded-md border border-border-primary bg-bg-secondary/60 p-2.5 transition-colors hover:bg-bg-card-hover"
+              className="flex items-center gap-2.5 rounded-[2px] p-2.5 transition-colors hover:[background:var(--v3-bg-100)] hover:[border-color:var(--v3-line-300)]"
+              style={{
+                background: "var(--v3-bg-050)",
+                border: "1px solid var(--v3-line-100)",
+              }}
             >
               {content}
             </a>
           ) : (
             <div
               key={surface.label}
-              className="flex items-center gap-2.5 rounded-md border border-border-primary bg-bg-secondary/40 p-2.5 opacity-80"
+              className="flex items-center gap-2.5 rounded-[2px] p-2.5 opacity-70"
+              style={{
+                background: "var(--v3-bg-025)",
+                border: "1px dashed var(--v3-line-100)",
+              }}
             >
               {content}
             </div>
@@ -404,9 +488,18 @@ export async function ProjectSurfaceMap({
       </div>
 
       {!aisoScan && aisoUiStatus !== "scanned" && aisoUiStatus !== "none" && aisoOwner && aisoName && (
-        <div className="mt-4 flex items-center justify-between gap-3 rounded-md border border-border-primary bg-bg-secondary/60 p-3">
+        <div
+          className="mt-4 flex items-center justify-between gap-3 rounded-[2px] p-3"
+          style={{
+            background: "var(--v3-bg-025)",
+            border: "1px solid var(--v3-line-100)",
+          }}
+        >
           <div className="min-w-0">
-            <p className="font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
+            <p
+              className="font-mono text-[10px] uppercase tracking-[0.16em]"
+              style={{ color: "var(--v3-ink-400)" }}
+            >
               AISO scan
             </p>
             <p className={`mt-1 text-[11px] ${aisoStatusTone(aisoUiStatus)}`}>
@@ -426,25 +519,42 @@ export async function ProjectSurfaceMap({
       )}
 
           {aisoScan && (
-        <div className="mt-4 rounded-md border border-border-primary bg-bg-secondary/60 p-3">
+        <div
+          className="mt-4 rounded-[2px] p-3"
+          style={{
+            background: "var(--v3-bg-025)",
+            border: "1px solid var(--v3-line-100)",
+          }}
+        >
           <div className="flex items-center justify-between gap-3">
             <a
               href={aisoScan.resultUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-text-secondary hover:text-brand transition-colors"
+              className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em] transition-colors"
+              style={{ color: "var(--v3-ink-200)" }}
             >
-              <Search className="size-3.5 text-brand" aria-hidden />
+              <Search
+                className="size-3.5"
+                style={{ color: "var(--v3-acc)" }}
+                aria-hidden
+              />
               AISO real website scan
               <ExternalLink className="size-3" aria-hidden />
             </a>
             <div className="flex items-center gap-2">
               <span
-                className={`font-mono text-sm font-semibold tabular-nums ${
-                  aisoScan.score != null
-                    ? "text-text-primary"
-                    : aisoStatusTone(aisoUiStatus)
-                }`}
+                className="font-mono text-sm font-semibold tabular-nums"
+                style={{
+                  color:
+                    aisoScan.score != null
+                      ? "var(--v3-ink-100)"
+                      : aisoUiStatus === "failed"
+                        ? "var(--v3-sig-red)"
+                        : aisoUiStatus === "rate_limited" || aisoUiStatus === "queued"
+                          ? "var(--v3-sig-amber)"
+                          : "var(--v3-ink-400)",
+                }}
               >
                 {aisoScan.score != null
                   ? `${aisoScan.score}/100`
@@ -461,10 +571,17 @@ export async function ProjectSurfaceMap({
           </div>
 
           {aisoScan.score != null && (
-            <div className="mt-2 h-2 overflow-hidden rounded-full bg-bg-primary">
+            <div
+              className="mt-2 h-2 overflow-hidden rounded-[1px]"
+              style={{ background: "var(--v3-bg-200)" }}
+            >
               <div
-                className="h-full rounded-full bg-brand"
-                style={{ width: `${aisoScan.score}%` }}
+                className="h-full rounded-full"
+                style={{
+                  width: `${aisoScan.score}%`,
+                  background: "var(--v3-acc)",
+                  boxShadow: "0 0 8px var(--v3-acc-glow)",
+                }}
               />
             </div>
           )}
@@ -473,10 +590,17 @@ export async function ProjectSurfaceMap({
             {aisoScan.dimensions.slice(0, 9).map((dimension) => (
               <div
                 key={dimension.key}
-                className="rounded-md border border-border-primary bg-bg-primary/40 px-2.5 py-2"
+                className="rounded-[2px] px-2.5 py-2"
+                style={{
+                  background: "var(--v3-bg-050)",
+                  border: "1px solid var(--v3-line-100)",
+                }}
               >
                 <div className="flex items-center justify-between gap-2">
-                  <span className="truncate text-[11px] text-text-secondary">
+                  <span
+                    className="truncate text-[11px]"
+                    style={{ color: "var(--v3-ink-200)" }}
+                  >
                     {dimension.label}
                   </span>
                   <span
@@ -487,20 +611,28 @@ export async function ProjectSurfaceMap({
                       : dimension.score}
                   </span>
                 </div>
-                <div className="mt-1 h-1 overflow-hidden rounded-full bg-bg-secondary">
+                <div
+                  className="mt-1 h-1 overflow-hidden rounded-[1px]"
+                  style={{ background: "var(--v3-bg-200)" }}
+                >
                   <div
-                    className={
-                      dimension.status === "pass"
-                        ? "h-full rounded-full bg-up"
-                        : dimension.status === "warn"
-                          ? "h-full rounded-full bg-warning"
-                          : "h-full rounded-full bg-down"
-                    }
-                    style={{ width: `${pctOfWeight(dimension)}%` }}
+                    className="h-full rounded-full"
+                    style={{
+                      width: `${pctOfWeight(dimension)}%`,
+                      background:
+                        dimension.status === "pass"
+                          ? "var(--v3-sig-green)"
+                          : dimension.status === "warn"
+                            ? "var(--v3-sig-amber)"
+                            : "var(--v3-sig-red)",
+                    }}
                   />
                 </div>
                 {dimension.issuesCount > 0 && (
-                  <p className="mt-1 text-[10px] text-text-tertiary">
+                  <p
+                    className="mt-1 text-[10px]"
+                    style={{ color: "var(--v3-ink-400)" }}
+                  >
                     {dimension.issuesCount} issue{dimension.issuesCount === 1 ? "" : "s"}
                   </p>
                 )}
@@ -508,8 +640,17 @@ export async function ProjectSurfaceMap({
             ))}
           </div>
 
-          <div className="mt-3 rounded-md border border-border-primary bg-bg-primary/40 p-2.5">
-            <p className="font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
+          <div
+            className="mt-3 rounded-[2px] p-2.5"
+            style={{
+              background: "var(--v3-bg-050)",
+              border: "1px solid var(--v3-line-100)",
+            }}
+          >
+            <p
+              className="font-mono text-[10px] uppercase tracking-[0.16em]"
+              style={{ color: "var(--v3-ink-400)" }}
+            >
               Technical signal board
             </p>
             <div className="mt-2 grid grid-cols-2 sm:grid-cols-5 gap-2">
@@ -543,9 +684,18 @@ export async function ProjectSurfaceMap({
           </div>
 
           {agentDimension && (
-            <div className="mt-3 rounded-md border border-border-primary bg-bg-primary/40 p-2.5">
+            <div
+              className="mt-3 rounded-[2px] p-2.5"
+              style={{
+                background: "var(--v3-bg-050)",
+                border: "1px solid var(--v3-line-100)",
+              }}
+            >
               <div className="flex items-center justify-between gap-3">
-                <p className="font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
+                <p
+                  className="font-mono text-[10px] uppercase tracking-[0.16em]"
+                  style={{ color: "var(--v3-ink-400)" }}
+                >
                   Agent readiness
                 </p>
                 <span
@@ -558,12 +708,30 @@ export async function ProjectSurfaceMap({
                 {agentSignals(agentDimension).map((signal) => (
                   <span
                     key={signal.label}
-                    className={
+                    className="inline-flex items-center gap-1.5 rounded-[2px] px-2 py-1 font-mono text-[10px] uppercase tracking-[0.16em]"
+                    style={
                       signal.active
-                        ? "rounded-md border border-up/30 bg-up/10 px-2 py-1 font-mono text-[10px] text-up"
-                        : "rounded-md border border-border-primary bg-bg-secondary px-2 py-1 font-mono text-[10px] text-text-tertiary"
+                        ? {
+                            background: "var(--v3-bg-100)",
+                            border: "1px solid var(--v3-line-200)",
+                            color: "var(--v3-sig-green)",
+                          }
+                        : {
+                            background: "var(--v3-bg-025)",
+                            border: "1px solid var(--v3-line-100)",
+                            color: "var(--v3-ink-400)",
+                          }
                     }
                   >
+                    <span
+                      className="shrink-0 size-1.5"
+                      style={{
+                        background: signal.active
+                          ? "var(--v3-sig-green)"
+                          : "var(--v3-ink-500)",
+                      }}
+                      aria-hidden
+                    />
                     {signal.label}: {signal.value}
                   </span>
                 ))}
@@ -572,29 +740,50 @@ export async function ProjectSurfaceMap({
           )}
 
           {engines.some((engine) => engine.total > 0) && (
-            <div className="mt-3 rounded-md border border-border-primary bg-bg-primary/40 p-2.5">
-              <p className="font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
+            <div
+              className="mt-3 rounded-[2px] p-2.5"
+              style={{
+                background: "var(--v3-bg-050)",
+                border: "1px solid var(--v3-line-100)",
+              }}
+            >
+              <p
+                className="font-mono text-[10px] uppercase tracking-[0.16em]"
+                style={{ color: "var(--v3-ink-400)" }}
+              >
                 AI citation engines
               </p>
               <div className="mt-2 grid grid-cols-2 sm:grid-cols-4 gap-2">
                 {engines.map((engine) => (
                   <div
                     key={engine.engine}
-                    className="rounded-md border border-border-primary bg-bg-secondary/70 px-2 py-2"
+                    className="rounded-[2px] px-2 py-2"
+                    style={{
+                      background: "var(--v3-bg-025)",
+                      border: "1px solid var(--v3-line-100)",
+                    }}
                   >
-                    <p className="truncate text-[11px] text-text-secondary">
+                    <p
+                      className="truncate font-mono text-[10px] uppercase tracking-[0.16em]"
+                      style={{ color: "var(--v3-ink-300)" }}
+                    >
                       {engine.engine}
                     </p>
                     <p
-                      className={
-                        engine.cited > 0
-                          ? "mt-1 font-mono text-sm text-up tabular-nums"
-                          : "mt-1 font-mono text-sm text-text-tertiary tabular-nums"
-                      }
+                      className="mt-1 font-mono text-sm tabular-nums"
+                      style={{
+                        color:
+                          engine.cited > 0
+                            ? "var(--v3-sig-green)"
+                            : "var(--v3-ink-400)",
+                      }}
                     >
                       {engine.cited}/{engine.total || 0} cited
                     </p>
-                    <p className="mt-0.5 text-[10px] text-text-tertiary">
+                    <p
+                      className="mt-0.5 text-[10px]"
+                      style={{ color: "var(--v3-ink-400)" }}
+                    >
                       {engine.mentioned} mentions | pos {engine.bestPosition || "-"}
                     </p>
                   </div>
@@ -608,24 +797,32 @@ export async function ProjectSurfaceMap({
               {aisoScan.issues.slice(0, 3).map((issue) => (
                 <li
                   key={`${issue.severity}-${issue.title}`}
-                  className="text-[11px] leading-snug text-text-tertiary"
+                  className="text-[11px] leading-snug"
+                  style={{ color: "var(--v3-ink-300)" }}
                 >
-                  <span className="font-mono uppercase text-warning">
+                  <span
+                    className="font-mono uppercase tracking-[0.16em]"
+                    style={{ color: "var(--v3-sig-amber)" }}
+                  >
                     {issue.severity}
                   </span>{" "}
-                  <span className="text-text-secondary">{issue.title}</span>
+                  <span style={{ color: "var(--v3-ink-200)" }}>{issue.title}</span>
                 </li>
               ))}
             </ul>
           )}
 
-          <p className="mt-3 text-[10px] text-text-tertiary">
+          <p
+            className="mt-3 font-mono text-[10px] uppercase tracking-[0.16em]"
+            style={{ color: "var(--v3-ink-400)" }}
+          >
             {aisoScan.completedAt
               ? `scanned ${getRelativeTime(aisoScan.completedAt)}`
               : `scan status: ${aisoScan.status}`}
           </p>
         </div>
       )}
+      </div>
     </section>
   );
 }
@@ -651,16 +848,24 @@ function TechSignal({
         ? raw > 0
         : Boolean(raw);
   return (
-    <div className="rounded-md border border-border-primary bg-bg-secondary/70 px-2 py-2">
-      <p className="truncate text-[10px] uppercase tracking-wider text-text-tertiary">
+    <div
+      className="rounded-[2px] px-2 py-2"
+      style={{
+        background: "var(--v3-bg-025)",
+        border: "1px solid var(--v3-line-100)",
+      }}
+    >
+      <p
+        className="truncate font-mono text-[10px] uppercase tracking-[0.16em]"
+        style={{ color: "var(--v3-ink-400)" }}
+      >
         {label}
       </p>
       <p
-        className={
-          positive
-            ? "mt-1 font-mono text-xs text-up"
-            : "mt-1 font-mono text-xs text-warning"
-        }
+        className="mt-1 font-mono text-xs tabular-nums"
+        style={{
+          color: positive ? "var(--v3-sig-green)" : "var(--v3-sig-amber)",
+        }}
       >
         {formatDetailValue(raw)}
       </p>

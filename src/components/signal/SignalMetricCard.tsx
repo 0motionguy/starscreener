@@ -47,7 +47,7 @@ export function SignalMetricCard({
         : "text-text-tertiary";
 
   return (
-    <div className="rounded-card border border-border-primary bg-bg-card px-3 py-2.5 transition hover:border-brand/30">
+    <div className="v2-card px-3 py-2.5 transition hover:border-brand/30">
       <div className="text-[9px] font-mono uppercase tracking-[0.12em] text-text-tertiary">
         {label}
       </div>

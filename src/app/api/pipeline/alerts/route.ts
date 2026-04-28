@@ -16,6 +16,8 @@ import { persistPipeline, pipeline } from "@/lib/pipeline/pipeline";
 import type { AlertEvent } from "@/lib/pipeline/types";
 import { userAuthFailureResponse, verifyUserAuth } from "@/lib/api/auth";
 
+export const runtime = "nodejs";
+
 export interface AlertsListResponse {
   ok: true;
   events: AlertEvent[];

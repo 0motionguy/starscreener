@@ -28,6 +28,8 @@ import type {
 } from "@/lib/pipeline/storage/memory-stores";
 import type { SocialPlatform } from "@/lib/types";
 
+export const runtime = "nodejs";
+
 const SLUG_PART_PATTERN = /^[A-Za-z0-9._-]+$/;
 
 const MENTIONS_CACHE_HEADERS = {

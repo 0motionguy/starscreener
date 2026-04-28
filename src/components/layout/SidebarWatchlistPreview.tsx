@@ -7,19 +7,17 @@
  * Parent resolves the top 5 from the watchlist store + repo data before
  * passing them in — this component is a pure presentation layer.
  */
+import Image from "next/image";
 import Link from "next/link";
 import { EyeOff } from "lucide-react";
 import type { MovementStatus } from "@/lib/types";
 import { cn, formatNumber } from "@/lib/utils";
-import { HnBadge } from "@/components/hackernews/HnBadge";
 import { ChannelDots } from "@/components/cross-signal/ChannelDots";
-import { getHnMentions } from "@/lib/hackernews";
-import { BskyBadge } from "@/components/bluesky/BskyBadge";
-import { getBlueskyMentions } from "@/lib/bluesky";
-import { PhBadge } from "@/components/producthunt/PhBadge";
-import { getLaunchForRepo } from "@/lib/producthunt";
-import { DevtoBadge } from "@/components/devto/DevtoBadge";
-import { getDevtoBadgeRollup } from "@/lib/devto";
+
+// Per-source badges (HnBadge / BskyBadge / PhBadge / DevtoBadge) intentionally
+// removed from this preview: their lib imports drag ioredis (a Node-only
+// dep) into the client bundle via the data-store, breaking the dev build.
+// `ChannelDots` already conveys per-source signal in a single 28px dot row.
 
 export interface SidebarWatchlistPreviewRepo {
   id: string;
@@ -94,12 +92,11 @@ export function SidebarWatchlistPreview({
             className="grid grid-cols-[20px_1fr_auto] gap-2 items-center px-3 h-10 hover:bg-bg-card-hover transition-colors"
             title={`${repo.fullName} — ${deltaLabel} stars / 24h`}
           >
-            <img
+            <Image
               src={repo.ownerAvatarUrl}
               alt=""
               width={20}
               height={20}
-              loading="lazy"
               className="size-5 shrink-0 rounded-full border border-border-primary bg-bg-tertiary"
             />
             <div className="flex items-center gap-1.5 min-w-0">
@@ -111,10 +108,6 @@ export function SidebarWatchlistPreview({
                 hideWhenEmpty
                 size="sm"
               />
-              <HnBadge mention={getHnMentions(repo.fullName)} size="sm" />
-              <BskyBadge mention={getBlueskyMentions(repo.fullName)} size="sm" />
-              <PhBadge launch={getLaunchForRepo(repo.fullName)} size="sm" />
-              <DevtoBadge mention={getDevtoBadgeRollup(repo.fullName)} size="sm" />
             </div>
             <span
               className={cn(

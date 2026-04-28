@@ -1,6 +1,6 @@
 # Agent Skills integration
 
-Star Screener ships three [Anthropic Agent Skills](https://agentskills.io) — portable markdown playbooks that teach Claude (and any other spec-compliant agent) how to combine Star Screener's tools for the common high-signal workflows.
+TrendingRepo ships three [Anthropic Agent Skills](https://agentskills.io) — portable markdown playbooks that teach Claude (and any other spec-compliant agent) how to combine TrendingRepo's tools for the common high-signal workflows.
 
 Skills live under [skills/](../../skills/). Each skill is a folder containing a `SKILL.md` with YAML frontmatter + markdown body.
 
@@ -12,7 +12,7 @@ Skills live under [skills/](../../skills/). Each skill is a folder containing a 
 | [`investigate-maintainer`](../../skills/investigate-maintainer/SKILL.md) | "Who's behind `<handle>`?" | `maintainer_profile`, `search_repos`, `top_gainers` |
 | [`weekly-report`](../../skills/weekly-report/SKILL.md) | "Give me a weekly brief." | `top_gainers`, `maintainer_profile` |
 
-Each skill uses the Portal-canonical tool names so it works whether the agent has `starscreener-mcp` installed OR uses Portal drive-by to `trendingrepo.com/portal`.
+Each skill uses the Portal-canonical tool names so it works whether the agent has `trendingrepo-mcp` installed OR uses Portal drive-by to `trendingrepo.com/portal`.
 
 ## Try it in 60 seconds — Claude Code
 
@@ -47,14 +47,14 @@ metadata:                     # optional
 ---
 ```
 
-The `description` field is the only thing most agents use for auto-invoke, so it matters. Star Screener's skill descriptions all begin with "Use when…" followed by a comma-separated set of user intents.
+The `description` field is the only thing most agents use for auto-invoke, so it matters. TrendingRepo's skill descriptions all begin with "Use when…" followed by a comma-separated set of user intents.
 
 ## Design principles
 
 1. **Callable everywhere.** Skills don't hard-code how they reach the tools. They name the tool and trust the agent runtime to have either MCP or Portal access.
 2. **Filtering discipline.** Every skill includes "what to filter out" guidance — noise floors, dedup rules, refusal criteria — so the agent doesn't dump raw tool output on the user.
 3. **Honest bounds.** The `maintainer_profile` scope note, the no-mock rule, and the rate-limit advice are all called out explicitly in the relevant skill so agents don't overclaim.
-4. **No emoji, no filler.** Consistent with Star Screener's voice.
+4. **No emoji, no filler.** Consistent with TrendingRepo's voice.
 
 ## Authoring a new skill
 

@@ -49,25 +49,21 @@ function git(args) {
   });
 }
 
-// List every commit touching data/trending.json within [since, until] as
-// `{ sha, ts }` tuples. Timestamps are committer-time seconds (%ct).
-function listCommitsInWindow(sinceEpoch, untilEpoch) {
-  const out = git([
-    "log",
-    `--since=${sinceEpoch}`,
-    `--until=${untilEpoch}`,
-    "--format=%H %ct",
-    "--",
-    TRENDING_REL,
-  ]);
-  return parseCommitList(out);
-}
-
-// Every commit touching data/trending.json. Used for cold-start fallback
-// when no commit falls inside a window's buffer.
+// Every commit touching data/trending.json, returned as `{ sha, ts }` tuples
+// with committer-time seconds (%ct). One spawn covers every window — we
+// partition in JS via `commitsInWindow` rather than re-spawning git per
+// window with --since/--until.
 function listAllCommits() {
   const out = git(["log", "--format=%H %ct", "--", TRENDING_REL]);
   return parseCommitList(out);
+}
+
+// Filter the cached full history to a [sinceEpoch, untilEpoch] inclusive
+// window. Equivalent to `git log --since=... --until=...` but in-memory.
+function commitsInWindow(allCommits, sinceEpoch, untilEpoch) {
+  return allCommits.filter(
+    (c) => c.ts >= sinceEpoch && c.ts <= untilEpoch,
+  );
 }
 
 function parseCommitList(stdout) {
@@ -158,7 +154,7 @@ async function main() {
     const target = now - w.seconds;
     const since = target - w.buffer_s;
     const until = target + w.buffer_s;
-    const candidates = listCommitsInWindow(since, until);
+    const candidates = commitsInWindow(allCommits, since, until);
     let picked = pickNearest(candidates, target);
     let basis;
     if (picked) {
@@ -257,6 +253,78 @@ async function main() {
       `  ${w.key.padStart(3)}: exact=${c.exact} (${pct(c.exact)}%)  nearest=${c.nearest} (${pct(c.nearest)}%)  cold-start=${c["cold-start"]} (${pct(c["cold-start"])}%)  no-history=${c["no-history"]}  repo-not-tracked=${c["repo-not-tracked"]}`,
     );
   }
+
+  // IndexNow ping — trending refresh just wrapped, so push the homepage,
+  // breakouts, and top-30 repo detail pages to Bing/Yandex/Seznam (and
+  // Google indirectly via the Bing index). Fire-and-forget: a failed ping
+  // never breaks the workflow. See src/lib/indexnow.ts for the runtime
+  // counterpart used by request handlers.
+  pingIndexNowFromTrending(currentJson);
+}
+
+// Inline IndexNow ping. Mirrors src/lib/indexnow.ts but stays in this .mjs
+// because compute-deltas runs as plain `node` (no tsx in this script's
+// pipeline) and we don't want to add a transpile step just for one call.
+// The .ts helper remains the canonical surface for request handlers.
+function pingIndexNowFromTrending(trendingJson) {
+  const rawKey = process.env.INDEXNOW_KEY?.trim();
+  if (!rawKey) return; // not configured — silent no-op
+  if (!/^[a-zA-Z0-9-]{8,128}$/.test(rawKey)) {
+    console.warn("[indexnow] INDEXNOW_KEY env var is set but malformed");
+    return;
+  }
+  const siteUrl = (process.env.NEXT_PUBLIC_APP_URL ?? "https://trendingrepo.com")
+    .trim()
+    .replace(/\/+$/, "");
+
+  // Top-30 repos from the default UI bucket (past_24_hours / All) — the
+  // bucket whose lite snapshot powers the homepage first paint. If absent,
+  // fall back to the first available rows.
+  const buckets = trendingJson?.buckets ?? {};
+  let rows = buckets?.past_24_hours?.All;
+  if (!Array.isArray(rows) || rows.length === 0) {
+    outer: for (const langMap of Object.values(buckets)) {
+      for (const candidate of Object.values(langMap ?? {})) {
+        if (Array.isArray(candidate) && candidate.length > 0) {
+          rows = candidate;
+          break outer;
+        }
+      }
+    }
+  }
+  const repoUrls = (Array.isArray(rows) ? rows : [])
+    .slice(0, 30)
+    .map((r) => r?.repo_id)
+    .filter((id) => typeof id === "string" && /^[^/\s]+\/[^/\s]+$/.test(id))
+    .map((id) => `${siteUrl}/repo/${id}`);
+
+  const urls = [
+    `${siteUrl}/`,
+    `${siteUrl}/breakouts`,
+    ...repoUrls,
+  ];
+
+  const host = new URL(siteUrl).host;
+  const keyLocation = `${siteUrl}/${rawKey}.txt`;
+  const body = JSON.stringify({ host, key: rawKey, keyLocation, urlList: urls.slice(0, 100) });
+
+  // Fire-and-forget. Don't await — the script's success path must not
+  // depend on a third-party endpoint.
+  fetch("https://api.indexnow.org/indexnow", {
+    method: "POST",
+    headers: { "content-type": "application/json; charset=utf-8" },
+    body,
+  })
+    .then((res) => {
+      if (res.ok || res.status === 202) {
+        console.log(`[indexnow] pinged ${urls.length} urls (status ${res.status})`);
+      } else {
+        console.warn(`[indexnow] ping failed: HTTP ${res.status} (${urls.length} urls)`);
+      }
+    })
+    .catch((err) => {
+      console.warn(`[indexnow] ping error: ${err?.message ?? err}`);
+    });
 }
 
 main().catch((err) => {

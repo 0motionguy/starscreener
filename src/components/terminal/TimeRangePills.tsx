@@ -18,18 +18,18 @@ interface PillDef {
 const PILLS: PillDef[] = [
   {
     id: "24h",
-    label: "24h",
+    label: "24H",
     tooltip:
       "24h star deltas are warming up — coverage is partial while the scraper accumulates 24 h of history. 7d and 30d are more reliable right now.",
   },
   {
     id: "7d",
-    label: "7d",
+    label: "7D",
     tooltip: "Weekly star change — the most reliable window in the current data.",
   },
   {
     id: "30d",
-    label: "30d",
+    label: "30D",
     tooltip: "Monthly star change — broadest signal, smooths out short-term noise.",
   },
 ];
@@ -48,13 +48,13 @@ export function TimeRangePills() {
     <div
       role="group"
       aria-label="Time range"
-      className={cn(
-        "flex items-center",
-        "border border-border-primary rounded-md",
-        "divide-x divide-border-primary overflow-hidden",
-      )}
+      className="flex items-center overflow-hidden"
+      style={{
+        border: "1px solid var(--v2-line-300)",
+        borderRadius: 2,
+      }}
     >
-      {PILLS.map((pill) => {
+      {PILLS.map((pill, idx) => {
         const isActive = timeRange === pill.id;
         return (
           <button
@@ -64,13 +64,16 @@ export function TimeRangePills() {
             onClick={() => setTimeRange(pill.id)}
             title={pill.tooltip}
             className={cn(
-              "px-2.5 py-1 text-[11px] font-mono",
-              "transition-colors duration-150",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-functional/40 focus-visible:z-10",
-              isActive
-                ? "bg-functional-glow text-functional"
-                : "text-text-tertiary hover:text-text-primary hover:bg-bg-secondary",
+              "v2-mono px-2.5 py-1 transition-colors duration-150",
+              "focus-visible:outline-none focus-visible:z-10",
             )}
+            style={{
+              fontSize: 10,
+              borderLeft:
+                idx > 0 ? "1px solid var(--v2-line-300)" : undefined,
+              background: isActive ? "var(--v2-acc-soft)" : "transparent",
+              color: isActive ? "var(--v2-acc)" : "var(--v2-ink-300)",
+            }}
           >
             {pill.label}
           </button>

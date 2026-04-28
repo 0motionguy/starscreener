@@ -15,12 +15,11 @@
 //        (src/lib/aiso-tools.ts). This route never touches the scanner
 //        state directly — the scanner stays the source of truth.
 //
-// Rate-limiting (POST): per-IP fixed window, 1 request / 60s, backed by
-// Upstash Redis (shared across every Vercel Lambda) when configured, with
-// in-process memory fallback otherwise. Migrated from the previous local
-// rateLimitMap because cold starts on Vercel cycle Lambdas frequently
-// enough that a determined attacker could exceed the cap by spraying
-// requests across instances.
+// Rate-limiting (POST): per-IP token bucket, 1 request / 60s. Keyed on the
+// first address in `x-forwarded-for` falling back to the socket address.
+// Memory-local — intentional: a single Vercel Lambda handles bursts from a
+// client cooldown, and a distributed limit isn't needed for a per-profile
+// refresh button.
 //
 // Auth: none. The button is a visible, idempotent-ish affordance on a
 // public profile page. The per-IP cooldown + the client-side 60s button
@@ -31,7 +30,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import path from "node:path";
 
-import { checkRateLimitAsync } from "@/lib/api/rate-limit";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import {
   getRepoProfile,
@@ -45,6 +43,8 @@ import type {
   AisoToolsDimension,
   AisoToolsScan,
 } from "@/lib/aiso-tools";
+
+export const runtime = "nodejs";
 
 const SLUG_PART_PATTERN = /^[A-Za-z0-9._-]+$/;
 
@@ -93,10 +93,52 @@ function topDimensions(
     .slice(0, n);
 }
 
-// Rate-limiting now lives in src/lib/api/rate-limit.ts via checkRateLimitAsync.
-// Keep the AISO_RATE_LIMIT constants here so the per-route policy stays visible
-// at the top of the file — only the storage layer moved.
-const AISO_RATE_LIMIT = { windowMs: 60_000, maxRequests: 1 } as const;
+// ---------------------------------------------------------------------------
+// Rate limiting (per-IP, in-memory)
+// ---------------------------------------------------------------------------
+
+const RATE_LIMIT_MS = 60_000;
+const rateLimitMap = new Map<string, number>();
+
+function clientIp(request: NextRequest): string {
+  const xff = request.headers.get("x-forwarded-for");
+  if (xff) {
+    const first = xff.split(",")[0]?.trim();
+    if (first) return first;
+  }
+  const real = request.headers.get("x-real-ip");
+  if (real) return real;
+  return "unknown";
+}
+
+function pruneRateLimit(now: number): void {
+  // Prevent unbounded growth — drop entries older than two windows.
+  if (rateLimitMap.size < 1024) return;
+  const cutoff = now - RATE_LIMIT_MS * 2;
+  for (const [key, last] of rateLimitMap.entries()) {
+    if (last < cutoff) rateLimitMap.delete(key);
+  }
+}
+
+function checkRateLimit(ip: string): { ok: true } | { ok: false; retryAfterMs: number } {
+  const now = Date.now();
+  const last = rateLimitMap.get(ip);
+  if (last !== undefined && now - last < RATE_LIMIT_MS) {
+    return { ok: false, retryAfterMs: RATE_LIMIT_MS - (now - last) };
+  }
+  rateLimitMap.set(ip, now);
+  pruneRateLimit(now);
+  return { ok: true };
+}
+
+// Test-only escape hatch — Next.js forbids extra named exports in route
+// files, so we publish the reset hook on `globalThis` under a symbol key.
+// Tests import the route then call `(globalThis as any)[AISO_TEST_RESET]()`
+// without polluting the route's public type surface.
+const AISO_TEST_RESET = Symbol.for("trendingrepo.aiso.test.reset");
+(globalThis as unknown as Record<symbol, () => void>)[AISO_TEST_RESET] = () => {
+  rateLimitMap.clear();
+};
 
 // ---------------------------------------------------------------------------
 // Rescan queue
@@ -207,8 +249,9 @@ export async function POST(
     );
   }
 
-  const rl = await checkRateLimitAsync(request, AISO_RATE_LIMIT);
-  if (!rl.allowed) {
+  const ip = clientIp(request);
+  const rl = checkRateLimit(ip);
+  if (!rl.ok) {
     const retryAfterSec = Math.max(1, Math.ceil(rl.retryAfterMs / 1000));
     return NextResponse.json(
       {
@@ -231,18 +274,12 @@ export async function POST(
   const websiteUrl = profile?.websiteUrl ?? null;
   const queuedAt = new Date().toISOString();
 
-  // Recover the client IP for the queue trace. The rate-limit module extracts
-  // it internally from x-forwarded-for; we just mirror that header read here
-  // so the queued row carries the same value.
-  const xff = request.headers.get("x-forwarded-for");
-  const requestIp = xff ? (xff.split(",")[0]?.trim() ?? "unknown") : "unknown";
-
   try {
     await enqueueRescan({
       fullName: repo.fullName,
       websiteUrl,
       requestedAt: queuedAt,
-      requestIp,
+      requestIp: ip,
       source: "user-retry",
     });
   } catch (err) {

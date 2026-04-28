@@ -12,6 +12,8 @@ import {
   refreshRevenueBenchmarksFromStore,
 } from "@/lib/revenue-benchmarks";
 
+export const runtime = "nodejs";
+
 export async function GET(request: NextRequest) {
   await refreshRevenueBenchmarksFromStore();
   const params = request.nextUrl.searchParams;

@@ -209,7 +209,7 @@ export function DropRepoPage() {
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(320px,0.85fr)]">
-        <section className="rounded-card border border-border-primary bg-bg-card p-5 sm:p-6">
+        <section className="v2-card p-5 sm:p-6">
           <div className="flex flex-wrap items-center gap-3">
             <span className="inline-flex items-center gap-2 rounded-full border border-border-primary bg-bg-secondary px-3 py-1 text-[11px] font-mono uppercase tracking-[0.14em] text-text-tertiary">
               <Send className="h-3.5 w-3.5" />
@@ -305,7 +305,7 @@ export function DropRepoPage() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="inline-flex h-11 items-center gap-2 rounded-card bg-brand px-4 text-sm font-medium text-text-inverse transition-colors hover:bg-brand-hover disabled:cursor-not-allowed disabled:opacity-70"
+                className="v2-btn v2-btn-primary disabled:cursor-not-allowed disabled:opacity-70"
               >
                 {submitting ? (
                   <LoaderCircle className="h-4 w-4 animate-spin" />
@@ -374,7 +374,7 @@ export function DropRepoPage() {
         </section>
 
         <aside className="grid gap-6">
-          <section className="rounded-card border border-border-primary bg-bg-card p-5 sm:p-6">
+          <section className="v2-card p-5 sm:p-6">
             <div className="flex items-center gap-2 text-text-primary">
               <Sparkles className="h-4 w-4 text-brand" />
               <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-text-secondary">
@@ -410,7 +410,7 @@ export function DropRepoPage() {
             </p>
           </section>
 
-          <section className="rounded-card border border-border-primary bg-bg-card p-5 sm:p-6">
+          <section className="v2-card p-5 sm:p-6">
             <div className="flex items-center gap-2 text-text-primary">
               <Megaphone className="h-4 w-4 text-brand" />
               <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-text-secondary">

@@ -11,12 +11,16 @@
  *   node scripts/scrape-funding-news.mjs --output .tmp/funding-preview.json
  */
 
-import { writeFile, mkdir } from "fs/promises";
-import { resolve } from "path";
+import { readFile, writeFile, mkdir } from "fs/promises";
+import { dirname, resolve } from "path";
+import { fileURLToPath } from "url";
 import pLimit from "p-limit";
 import { fetchWithTimeout, sleep } from "./_fetch-json.mjs";
 import { fetchArticleData } from "./_funding-article.mjs";
 import { writeDataStore } from "./_data-store-write.mjs";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const PROJECT_ROOT = resolve(__dirname, "..");
 
 // ---------------------------------------------------------------------------
 // Config
@@ -115,516 +119,38 @@ function parseRssItems(xml, sourceUrl) {
 // Seed data — high-quality known funding rounds (supplements RSS)
 // ---------------------------------------------------------------------------
 
-const SEED_SIGNALS = [
-  {
-    id: "seed-cursor-growth-2026",
-    headline: "Cursor raises $2B growth round at $50B valuation",
-    description: "AI coding assistant Cursor has raised a $2 billion growth round.",
-    sourceUrl: "https://techcrunch.com/2026/04/17/cursor-raises-2b-growth-round/",
-    sourcePlatform: "techcrunch",
-    publishedAt: "2026-04-17T00:00:00.000Z",
-    extracted: {
-      companyName: "Cursor",
-      companyWebsite: "https://cursor.com",
-      companyLogoUrl: "https://github.com/getcursor.png",
-      amount: 2000000000,
-      amountDisplay: "$2B",
-      currency: "USD",
-      roundType: "growth",
-      investors: ["Thrive Capital", "a16z", "Sequoia"],
-      investorsEnriched: [
-        { name: "Thrive Capital", isKnown: true, confidence: "high" },
-        { name: "a16z", isKnown: true, confidence: "high" },
-        { name: "Sequoia", isKnown: true, confidence: "high" },
-      ],
-      confidence: "high",
-    },
-    tags: ["ai", "saas", "devtools"],
-  },
-  {
-    id: "seed-elevenlabs-series-c-2026",
-    headline: "ElevenLabs raises $250M Series C at $3B valuation",
-    description: "AI voice synthesis startup ElevenLabs raised $250M in Series C funding.",
-    sourceUrl: "https://techcrunch.com/2026/01/20/elevenlabs-series-c/",
-    sourcePlatform: "techcrunch",
-    publishedAt: "2026-01-20T00:00:00.000Z",
-    extracted: {
-      companyName: "ElevenLabs",
-      companyWebsite: "https://elevenlabs.io",
-      companyLogoUrl: "https://logo.clearbit.com/elevenlabs.io",
-      amount: 250000000,
-      amountDisplay: "$250M",
-      currency: "USD",
-      roundType: "series-c",
-      investors: ["a16z", "Sequoia", "Nat Friedman"],
-      investorsEnriched: [
-        { name: "a16z", isKnown: true, confidence: "high" },
-        { name: "Sequoia", isKnown: true, confidence: "high" },
-        { name: "Nat Friedman", isKnown: true, confidence: "high" },
-      ],
-      confidence: "high",
-    },
-    tags: ["ai"],
-  },
-  {
-    id: "seed-poolside-series-a-2026",
-    headline: "Poolside raises $500M for AI coding models",
-    description: "Poolside raised $500 million to build AI models for software development.",
-    sourceUrl: "https://techcrunch.com/2026/03/15/poolside-raises-500m/",
-    sourcePlatform: "techcrunch",
-    publishedAt: "2026-03-15T00:00:00.000Z",
-    extracted: {
-      companyName: "Poolside",
-      companyWebsite: "https://poolside.ai",
-      companyLogoUrl: "https://github.com/poolside.png",
-      amount: 500000000,
-      amountDisplay: "$500M",
-      currency: "USD",
-      roundType: "series-a",
-      investors: ["a16z", "Redpoint"],
-      investorsEnriched: [
-        { name: "a16z", isKnown: true, confidence: "high" },
-        { name: "Redpoint", isKnown: true, confidence: "high" },
-      ],
-      confidence: "high",
-    },
-    tags: ["ai", "devtools"],
-  },
-  {
-    id: "seed-groq-series-d-2026",
-    headline: "Groq raises $640M Series D for AI chips",
-    description: "AI chip startup Groq raised $640 million in Series D funding led by BlackRock.",
-    sourceUrl: "https://techcrunch.com/2026/02/10/groq-series-d/",
-    sourcePlatform: "techcrunch",
-    publishedAt: "2026-02-10T00:00:00.000Z",
-    extracted: {
-      companyName: "Groq",
-      companyWebsite: "https://groq.com",
-      companyLogoUrl: "https://github.com/groq.png",
-      amount: 640000000,
-      amountDisplay: "$640M",
-      currency: "USD",
-      roundType: "series-d-plus",
-      investors: ["BlackRock", "Type1 Ventures"],
-      investorsEnriched: [
-        { name: "BlackRock", isKnown: true, confidence: "high" },
-        { name: "Type1 Ventures", isKnown: false, confidence: "medium" },
-      ],
-      confidence: "high",
-    },
-    tags: ["ai", "hardware"],
-  },
-  {
-    id: "seed-sierra-series-b-2026",
-    headline: "Sierra raises $175M Series B for AI customer service agents",
-    description: "Sierra raised $175M led by Greenoaks for conversational AI agents.",
-    sourceUrl: "https://techcrunch.com/2026/02/25/sierra-series-b/",
-    sourcePlatform: "techcrunch",
-    publishedAt: "2026-02-25T00:00:00.000Z",
-    extracted: {
-      companyName: "Sierra",
-      companyWebsite: "https://sierra.ai",
-      companyLogoUrl: "https://logo.clearbit.com/sierra.ai",
-      amount: 175000000,
-      amountDisplay: "$175M",
-      currency: "USD",
-      roundType: "series-b",
-      investors: ["Greenoaks", "Sequoia"],
-      investorsEnriched: [
-        { name: "Greenoaks", isKnown: true, confidence: "high" },
-        { name: "Sequoia", isKnown: true, confidence: "high" },
-      ],
-      confidence: "high",
-    },
-    tags: ["ai", "saas"],
-  },
-  {
-    id: "seed-cognition-series-a-2026",
-    headline: "Cognition raises $400M for AI software engineer Devin",
-    description: "Cognition raised $400M for Devin, an autonomous AI software engineer.",
-    sourceUrl: "https://techcrunch.com/2026/04/01/cognition-raises-400m/",
-    sourcePlatform: "techcrunch",
-    publishedAt: "2026-04-01T00:00:00.000Z",
-    extracted: {
-      companyName: "Cognition",
-      companyWebsite: "https://cognition.ai",
-      companyLogoUrl: "https://github.com/cognition-ai.png",
-      amount: 400000000,
-      amountDisplay: "$400M",
-      currency: "USD",
-      roundType: "series-a",
-      investors: ["Founders Fund", "a16z"],
-      investorsEnriched: [
-        { name: "Founders Fund", isKnown: true, confidence: "high" },
-        { name: "a16z", isKnown: true, confidence: "high" },
-      ],
-      confidence: "high",
-    },
-    tags: ["ai", "devtools"],
-  },
-  {
-    id: "seed-sambanova-series-e-2026",
-    headline: "SambaNova raises $676M Series E for AI chips",
-    description: "SambaNova raised $676M in Series E funding for AI accelerator chips.",
-    sourceUrl: "https://techcrunch.com/2026/03/20/sambanova-series-e/",
-    sourcePlatform: "techcrunch",
-    publishedAt: "2026-03-20T00:00:00.000Z",
-    extracted: {
-      companyName: "SambaNova",
-      companyWebsite: "https://sambanova.ai",
-      companyLogoUrl: "https://github.com/sambanova.png",
-      amount: 676000000,
-      amountDisplay: "$676M",
-      currency: "USD",
-      roundType: "series-d-plus",
-      investors: ["Intel Capital", "BlackRock", "GV"],
-      investorsEnriched: [
-        { name: "Intel Capital", isKnown: true, confidence: "high" },
-        { name: "BlackRock", isKnown: true, confidence: "high" },
-        { name: "GV", isKnown: true, confidence: "high" },
-      ],
-      confidence: "high",
-    },
-    tags: ["ai", "hardware"],
-  },
-  {
-    id: "seed-scale-series-f-2026",
-    headline: "Scale AI raises $1B Series F at $13.8B valuation",
-    description: "Scale AI raised $1 billion in Series F funding for AI data labeling.",
-    sourceUrl: "https://techcrunch.com/2026/01/15/scale-ai-series-f/",
-    sourcePlatform: "techcrunch",
-    publishedAt: "2026-01-15T00:00:00.000Z",
-    extracted: {
-      companyName: "Scale AI",
-      companyWebsite: "https://scale.com",
-      companyLogoUrl: "https://github.com/scaleapi.png",
-      amount: 1000000000,
-      amountDisplay: "$1B",
-      currency: "USD",
-      roundType: "series-d-plus",
-      investors: ["Accel", "a16z", "Tiger Global"],
-      investorsEnriched: [
-        { name: "Accel", isKnown: true, confidence: "high" },
-        { name: "a16z", isKnown: true, confidence: "high" },
-        { name: "Tiger Global", isKnown: true, confidence: "high" },
-      ],
-      confidence: "high",
-    },
-    tags: ["ai", "saas"],
-  },
-  {
-    id: "seed-mistral-series-b-2026",
-    headline: "Mistral AI raises $640M Series B at $6B valuation",
-    description: "French AI startup Mistral raised $640M in Series B from General Catalyst and others.",
-    sourceUrl: "https://techcrunch.com/2026/02/01/mistral-series-b/",
-    sourcePlatform: "techcrunch",
-    publishedAt: "2026-02-01T00:00:00.000Z",
-    extracted: {
-      companyName: "Mistral AI",
-      companyWebsite: "https://mistral.ai",
-      companyLogoUrl: "https://github.com/mistralai.png",
-      amount: 640000000,
-      amountDisplay: "$640M",
-      currency: "USD",
-      roundType: "series-b",
-      investors: ["General Catalyst", "a16z", "Lightspeed"],
-      investorsEnriched: [
-        { name: "General Catalyst", isKnown: true, confidence: "high" },
-        { name: "a16z", isKnown: true, confidence: "high" },
-        { name: "Lightspeed", isKnown: true, confidence: "high" },
-      ],
-      confidence: "high",
-    },
-    tags: ["ai", "europe"],
-  },
-  {
-    id: "seed-hebbia-series-b-2026",
-    headline: "Hebbia raises $130M Series B for AI document search",
-    description: "Hebbia raised $130M for AI-powered enterprise document search.",
-    sourceUrl: "https://techcrunch.com/2026/03/10/hebbia-series-b/",
-    sourcePlatform: "techcrunch",
-    publishedAt: "2026-03-10T00:00:00.000Z",
-    extracted: {
-      companyName: "Hebbia",
-      companyWebsite: "https://hebbia.ai",
-      companyLogoUrl: "https://github.com/hebbia.png",
-      amount: 130000000,
-      amountDisplay: "$130M",
-      currency: "USD",
-      roundType: "series-b",
-      investors: ["a16z", "Index Ventures"],
-      investorsEnriched: [
-        { name: "a16z", isKnown: true, confidence: "high" },
-        { name: "Index Ventures", isKnown: true, confidence: "high" },
-      ],
-      confidence: "high",
-    },
-    tags: ["ai", "saas"],
-  },
-  {
-    id: "seed-perplexity-series-c-2026",
-    headline: "Perplexity raises $73.6M Series C at $520M valuation",
-    description: "Perplexity AI raised $73.6M for its AI-powered search engine.",
-    sourceUrl: "https://techcrunch.com/2026/01/10/perplexity-series-c/",
-    sourcePlatform: "techcrunch",
-    publishedAt: "2026-01-10T00:00:00.000Z",
-    extracted: {
-      companyName: "Perplexity",
-      companyWebsite: "https://perplexity.ai",
-      companyLogoUrl: "https://github.com/perplexity-ai.png",
-      amount: 73600000,
-      amountDisplay: "$73.6M",
-      currency: "USD",
-      roundType: "series-c",
-      investors: ["IVP", "Nvidia", "Jeff Bezos"],
-      investorsEnriched: [
-        { name: "IVP", isKnown: true, confidence: "high" },
-        { name: "Nvidia", isKnown: true, confidence: "high" },
-        { name: "Jeff Bezos", isKnown: true, confidence: "high" },
-      ],
-      confidence: "high",
-    },
-    tags: ["ai", "saas"],
-  },
-  {
-    id: "seed-glean-series-d-2026",
-    headline: "Glean raises $200M Series D at $2.2B valuation",
-    description: "Glean raised $200M for AI-powered enterprise search.",
-    sourceUrl: "https://techcrunch.com/2026/02/20/glean-series-d/",
-    sourcePlatform: "techcrunch",
-    publishedAt: "2026-02-20T00:00:00.000Z",
-    extracted: {
-      companyName: "Glean",
-      companyWebsite: "https://glean.com",
-      companyLogoUrl: "https://logo.clearbit.com/glean.com",
-      amount: 200000000,
-      amountDisplay: "$200M",
-      currency: "USD",
-      roundType: "series-d-plus",
-      investors: ["Kleiner Perkins", "Lightspeed"],
-      investorsEnriched: [
-        { name: "Kleiner Perkins", isKnown: true, confidence: "high" },
-        { name: "Lightspeed", isKnown: true, confidence: "high" },
-      ],
-      confidence: "high",
-    },
-    tags: ["ai", "saas"],
-  },
-  {
-    id: "seed-together-series-a-2026",
-    headline: "Together AI raises $106M Series A for AI infrastructure",
-    description: "Together AI raised $106M for decentralized AI model training infrastructure.",
-    sourceUrl: "https://techcrunch.com/2026/03/05/together-ai-series-a/",
-    sourcePlatform: "techcrunch",
-    publishedAt: "2026-03-05T00:00:00.000Z",
-    extracted: {
-      companyName: "Together AI",
-      companyWebsite: "https://together.ai",
-      companyLogoUrl: "https://github.com/togethercomputer.png",
-      amount: 106000000,
-      amountDisplay: "$106M",
-      currency: "USD",
-      roundType: "series-a",
-      investors: ["Kleiner Perkins", "Nvidia"],
-      investorsEnriched: [
-        { name: "Kleiner Perkins", isKnown: true, confidence: "high" },
-        { name: "Nvidia", isKnown: true, confidence: "high" },
-      ],
-      confidence: "high",
-    },
-    tags: ["ai", "saas"],
-  },
-  {
-    id: "seed-coreweave-series-c-2026",
-    headline: "CoreWeave raises $1.1B Series C for GPU cloud",
-    description: "CoreWeave raised $1.1 billion for AI GPU cloud infrastructure.",
-    sourceUrl: "https://techcrunch.com/2026/04/05/coreweave-series-c/",
-    sourcePlatform: "techcrunch",
-    publishedAt: "2026-04-05T00:00:00.000Z",
-    extracted: {
-      companyName: "CoreWeave",
-      companyWebsite: "https://coreweave.com",
-      companyLogoUrl: "https://logo.clearbit.com/coreweave.com",
-      amount: 1100000000,
-      amountDisplay: "$1.1B",
-      currency: "USD",
-      roundType: "series-c",
-      investors: ["Coatue", "Fidelity", "Magnetar"],
-      investorsEnriched: [
-        { name: "Coatue", isKnown: true, confidence: "high" },
-        { name: "Fidelity", isKnown: true, confidence: "high" },
-        { name: "Magnetar", isKnown: false, confidence: "medium" },
-      ],
-      confidence: "high",
-    },
-    tags: ["ai", "hardware", "saas"],
-  },
-  {
-    id: "seed-adept-series-b-2026",
-    headline: "Adept raises $200M Series B for AI agents",
-    description: "Adept raised $200M for AI agents that can use software tools.",
-    sourceUrl: "https://techcrunch.com/2026/01/25/adept-series-b/",
-    sourcePlatform: "techcrunch",
-    publishedAt: "2026-01-25T00:00:00.000Z",
-    extracted: {
-      companyName: "Adept",
-      companyWebsite: "https://adept.ai",
-      companyLogoUrl: "https://github.com/adept-ai.png",
-      amount: 200000000,
-      amountDisplay: "$200M",
-      currency: "USD",
-      roundType: "series-b",
-      investors: ["General Catalyst", "Spark Capital"],
-      investorsEnriched: [
-        { name: "General Catalyst", isKnown: true, confidence: "high" },
-        { name: "Spark Capital", isKnown: true, confidence: "high" },
-      ],
-      confidence: "high",
-    },
-    tags: ["ai", "saas"],
-  },
-  {
-    id: "seed-anduril-series-f-2026",
-    headline: "Anduril raises $1.5B at $14B valuation",
-    description: "Defense tech startup Anduril raised $1.5 billion at a $14 billion valuation.",
-    sourceUrl: "https://techcrunch.com/2026/03/30/anduril-1-5b/",
-    sourcePlatform: "techcrunch",
-    publishedAt: "2026-03-30T00:00:00.000Z",
-    extracted: {
-      companyName: "Anduril",
-      companyWebsite: "https://anduril.com",
-      companyLogoUrl: "https://github.com/anduril.png",
-      amount: 1500000000,
-      amountDisplay: "$1.5B",
-      currency: "USD",
-      roundType: "growth",
-      investors: ["Founders Fund", "a16z", "Valor"],
-      investorsEnriched: [
-        { name: "Founders Fund", isKnown: true, confidence: "high" },
-        { name: "a16z", isKnown: true, confidence: "high" },
-        { name: "Valor", isKnown: true, confidence: "high" },
-      ],
-      confidence: "high",
-    },
-    tags: ["defense", "ai"],
-  },
-];
+const SEEDS_PATH = resolve(PROJECT_ROOT, "data/funding-seeds.json");
+const LOGOS_PATH = resolve(PROJECT_ROOT, "data/company-logos.json");
+
+async function loadSeedSignals() {
+  return JSON.parse(await readFile(SEEDS_PATH, "utf8"));
+}
+async function loadKnownCompanyLogos() {
+  return JSON.parse(await readFile(LOGOS_PATH, "utf8"));
+}
+
+// SEEDS moved to data/funding-seeds.json (SCR-03). Loaded via loadSeedSignals().
+;
 
 // ---------------------------------------------------------------------------
 // Known company → logo source map (GitHub avatar preferred, then domain)
 // ---------------------------------------------------------------------------
 
-const KNOWN_COMPANY_LOGOS = {
-  "cursor": { domain: "cursor.com", github: "getcursor" },
-  "loop": { domain: "loop.com" },
-  "recursive superintelligence": { domain: "recursiveai.com" },
-  "seapoint": { domain: "seapoint.com" },
-  "openai": { domain: "openai.com", github: "openai" },
-  "anthropic": { domain: "anthropic.com", github: "anthropics" },
-  "xai": { domain: "x.ai" },
-  "perplexity": { domain: "perplexity.ai", github: "perplexity-ai" },
-  "elevenlabs": { domain: "elevenlabs.io" },
-  "runway": { domain: "runwayml.com", github: "runwayml" },
-  "hugging face": { domain: "huggingface.co", github: "huggingface" },
-  "mistral": { domain: "mistral.ai", github: "mistralai" },
-  "cohere": { domain: "cohere.com", github: "cohere-ai" },
-  "scale": { domain: "scale.com", github: "scaleapi" },
-  "anduril": { domain: "anduril.com", github: "anduril" },
-  "databricks": { domain: "databricks.com", github: "databricks" },
-  "canva": { domain: "canva.com" },
-  "notion": { domain: "notion.so" },
-  "figma": { domain: "figma.com", github: "figma" },
-  "linear": { domain: "linear.app" },
-  "vercel": { domain: "vercel.com", github: "vercel" },
-  "supabase": { domain: "supabase.com", github: "supabase" },
-  "neon": { domain: "neon.tech", github: "neondatabase" },
-  "modal": { domain: "modal.com" },
-  "together": { domain: "together.ai", github: "togethercomputer" },
-  "groq": { domain: "groq.com", github: "groq" },
-  "cerebras": { domain: "cerebras.net" },
-  "sambanova": { domain: "sambanova.ai", github: "sambanova" },
-  "moveworks": { domain: "moveworks.com" },
-  "glean": { domain: "glean.com" },
-  "sierra": { domain: "sierra.ai" },
-  "cognition": { domain: "cognition.ai", github: "cognition-ai" },
-  "poolside": { domain: "poolside.ai", github: "poolside" },
-  "magic": { domain: "magic.dev" },
-  "adept": { domain: "adept.ai", github: "adept-ai" },
-  "inflection": { domain: "inflection.ai" },
-  "coreweave": { domain: "coreweave.com" },
-  "lambda": { domain: "lambdalabs.com" },
-  "stability": { domain: "stability.ai", github: "stability-ai" },
-  "replit": { domain: "replit.com", github: "replit" },
-  "bolt": { domain: "bolt.new" },
-  "lovable": { domain: "lovable.dev" },
-  "webflow": { domain: "webflow.com" },
-  "retool": { domain: "retool.com" },
-  "zapier": { domain: "zapier.com" },
-  "brex": { domain: "brex.com" },
-  "ramp": { domain: "ramp.com" },
-  "mercury": { domain: "mercury.com" },
-  "stripe": { domain: "stripe.com", github: "stripe" },
-  "plaid": { domain: "plaid.com" },
-  "deel": { domain: "deel.com" },
-  "rippling": { domain: "rippling.com" },
-  "carta": { domain: "carta.com" },
-  "navan": { domain: "navan.com" },
-  "lattice": { domain: "lattice.com" },
-  "gong": { domain: "gong.io" },
-  "apollo": { domain: "apollo.io" },
-  "datadog": { domain: "datadoghq.com" },
-  "grafana": { domain: "grafana.com", github: "grafana" },
-  "sentry": { domain: "sentry.io", github: "getsentry" },
-  "docker": { domain: "docker.com", github: "docker" },
-  "kubernetes": { domain: "kubernetes.io", github: "kubernetes" },
-  "terraform": { domain: "terraform.io", github: "hashicorp" },
-  "pulumi": { domain: "pulumi.com", github: "pulumi" },
-  "cloudflare": { domain: "cloudflare.com", github: "cloudflare" },
-  "fastly": { domain: "fastly.com" },
-  "fly": { domain: "fly.io", github: "superfly" },
-  "render": { domain: "render.com" },
-  "railway": { domain: "railway.app" },
-  "heroku": { domain: "heroku.com" },
-  "digitalocean": { domain: "digitalocean.com" },
-  "hashicorp": { domain: "hashicorp.com", github: "hashicorp" },
-  "tailscale": { domain: "tailscale.com", github: "tailscale" },
-  "kong": { domain: "konghq.com", github: "kong" },
-  "postman": { domain: "postman.com", github: "postmanlabs" },
-  "algolia": { domain: "algolia.com", github: "algolia" },
-  "redis": { domain: "redis.io", github: "redis" },
-  "mongodb": { domain: "mongodb.com", github: "mongodb" },
-  "planetscale": { domain: "planetscale.com" },
-  "clickhouse": { domain: "clickhouse.com", github: "clickhouse" },
-  "snowflake": { domain: "snowflake.com" },
-  "confluent": { domain: "confluent.io", github: "confluentinc" },
-  "fivetran": { domain: "fivetran.com" },
-  "airbyte": { domain: "airbyte.io", github: "airbytehq" },
-  "segment": { domain: "segment.com" },
-  "looker": { domain: "looker.com" },
-  "tableau": { domain: "tableau.com" },
-  "shopify": { domain: "shopify.com", github: "shopify" },
-  "klaviyo": { domain: "klaviyo.com" },
-  "okta": { domain: "okta.com", github: "okta" },
-  "auth0": { domain: "auth0.com", github: "auth0" },
-  "workos": { domain: "workos.com" },
-  "1password": { domain: "1password.com" },
-  "crowdstrike": { domain: "crowdstrike.com" },
-  "wiz": { domain: "wiz.io" },
-  "snyk": { domain: "snyk.io", github: "snyk" },
-  "semgrep": { domain: "semgrep.com", github: "returntocorp" },
-  "vault": { domain: "vaultproject.io", github: "hashicorp" },
-  "nomad": { domain: "nomadproject.io", github: "hashicorp" },
-  "consul": { domain: "consul.io", github: "hashicorp" },
-  "boundary": { domain: "boundaryproject.io", github: "hashicorp" },
-  "waypoint": { domain: "waypointproject.io", github: "hashicorp" },
-  "packer": { domain: "packer.io", github: "hashicorp" },
-  "vagrant": { domain: "vagrantup.com", github: "hashicorp" },
-};
+// LOGOS moved to data/company-logos.json (SCR-03). Cached after first load
+// so the lookup helpers stay sync — main() awaits primeKnownCompanyLogos()
+// before iterating.
+let _knownCompanyLogos = null;
+
+async function primeKnownCompanyLogos() {
+  if (_knownCompanyLogos !== null) return;
+  _knownCompanyLogos = await loadKnownCompanyLogos();
+}
 
 function getKnownCompanyLogoUrl(companyName) {
   if (!companyName) return null;
+  const map = _knownCompanyLogos ?? {};
   const lower = companyName.toLowerCase().trim();
-  const info = KNOWN_COMPANY_LOGOS[lower] ?? KNOWN_COMPANY_LOGOS[lower.split(/\s+/)[0]];
+  const info = map[lower] ?? map[lower.split(/\s+/)[0]];
   if (!info) return null;
   if (info.github) return `https://github.com/${info.github}.png`;
   return `https://logo.clearbit.com/${info.domain}`;
@@ -632,8 +158,9 @@ function getKnownCompanyLogoUrl(companyName) {
 
 function getKnownCompanyDomain(companyName) {
   if (!companyName) return null;
+  const map = _knownCompanyLogos ?? {};
   const lower = companyName.toLowerCase().trim();
-  const info = KNOWN_COMPANY_LOGOS[lower] ?? KNOWN_COMPANY_LOGOS[lower.split(/\s+/)[0]];
+  const info = map[lower] ?? map[lower.split(/\s+/)[0]];
   return info?.domain ?? null;
 }
 
@@ -926,6 +453,9 @@ function createSignalId(headline, sourceUrl) {
 // ---------------------------------------------------------------------------
 
 async function main() {
+  // SCR-03: prime the cached company-logos map before any sync getter runs.
+  await primeKnownCompanyLogos();
+
   const args = process.argv.slice(2);
   const outputFlag = args.find((a) => a.startsWith("--output="));
   const outputPath = outputFlag ? resolve(outputFlag.split("=")[1]) : OUT_PATH;
@@ -991,8 +521,10 @@ async function main() {
     }
   }
 
-  // Merge seed signals (deduplicate by ID)
-  for (const seed of SEED_SIGNALS) {
+  // Merge seed signals (deduplicate by ID). Loaded from
+  // data/funding-seeds.json (SCR-03).
+  const seedSignals = await loadSeedSignals();
+  for (const seed of seedSignals) {
     if (!seenIds.has(seed.id)) {
       seenIds.add(seed.id);
       allSignals.push({ ...seed, discoveredAt });

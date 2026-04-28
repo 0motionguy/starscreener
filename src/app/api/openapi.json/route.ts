@@ -20,6 +20,7 @@ import path from "node:path";
 import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
+
 // The spec reads from the repo-rooted `docs/openapi.json`; that file is not
 // a Next.js asset so we need the nodejs runtime (edge has no fs access).
 // Keep this as a lambda: Vercel can fail to package static API routes that
@@ -106,7 +107,7 @@ export async function GET(): Promise<NextResponse> {
 // Next.js forbids additional named exports from a route file, so we publish
 // the reset hook on `globalThis` under a symbol key (same pattern as
 // `src/app/api/repos/[owner]/[name]/aiso/route.ts`).
-const OPENAPI_TEST_RESET = Symbol.for("starscreener.openapi.test.reset");
+const OPENAPI_TEST_RESET = Symbol.for("trendingrepo.openapi.test.reset");
 (globalThis as unknown as Record<symbol, () => void>)[OPENAPI_TEST_RESET] =
   () => {
     cachedSpec = null;

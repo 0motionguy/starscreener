@@ -87,6 +87,10 @@ test("devtoComponent: returns 0 for an unknown repo", () => {
 });
 
 test("devtoComponent: real repo with mentions ≥1 lights at least 0.4", () => {
+  // Pick whichever repo currently leads the dev.to leaderboard with
+  // count7d >= 1 — committed data rotates as the scraper refreshes, so
+  // hardcoding a single repo (e.g. an early "NousResearch/hermes-agent"
+  // pick) bit-rots within days.
   const row = getDevtoLeaderboard().find((entry) => entry.count7d >= 1);
   assert.ok(row, "expected committed dev.to data to include a leaderboard row");
   const score = devtoComponent(row.fullName);

@@ -1,21 +1,44 @@
 #!/usr/bin/env node
-// TrendingRepo CLI (`ss`) - read-only terminal client for the TrendingRepo API.
+// TrendingRepo CLI (`ss`) — read-only terminal client for the TrendingRepo API.
 // Native Node 18+ only. No external dependencies.
 
 "use strict";
+
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, resolve as resolvePath } from "node:path";
+
+import {
+  pad,
+  fmtNum,
+  fmtDelta,
+  fmtMomentum,
+  renderTable,
+  buildRepoTable,
+} from "../src/lib/cli-table-format.mjs";
 
 // ---------------------------------------------------------------------------
 // Config
 // ---------------------------------------------------------------------------
 
+// Tiny inline back-compat helper. Resolves the new env name first, falling
+// back to the legacy STARSCREENER_* equivalent. The CLI is a separate
+// published package and cannot import from `@/lib/env`, so we duplicate
+// the shim here.
+const readEnv = (newName, oldName) =>
+  process.env[newName] ?? process.env[oldName];
+
 const BASE_URL = (
-  process.env.STARSCREENER_API_URL || "https://trendingrepo.com"
+  readEnv("TRENDINGREPO_API_URL", "STARSCREENER_API_URL") ||
+  "http://localhost:3023"
 ).replace(/\/+$/, "");
 
-const API_KEY = process.env.STARSCREENER_API_KEY || "";
-const USER_TOKEN = process.env.STARSCREENER_USER_TOKEN || "";
-
-const CLI_VERSION = "0.1.0";
+// Single source of truth: cli/package.json. Bump there, the --version /
+// --help banner / postinstall banner all follow on the next install.
+const __cliDir = dirname(fileURLToPath(import.meta.url));
+const CLI_VERSION = JSON.parse(
+  readFileSync(resolvePath(__cliDir, "package.json"), "utf8"),
+).version;
 
 // Map our --window values to the API's `period` param.
 const WINDOW_TO_PERIOD = {
@@ -30,9 +53,9 @@ const WINDOW_TO_PERIOD = {
 // ---------------------------------------------------------------------------
 // Argv parser
 // Tiny handwritten parser. Supports:
-//   --flag            -> { flag: true }
-//   --key=value       -> { key: "value" }
-//   --key value       -> { key: "value" }   (only if value doesn't start with --)
+//   --flag            → { flag: true }
+//   --key=value       → { key: "value" }
+//   --key value       → { key: "value" }   (only if value doesn't start with --)
 // Positional args accumulate in `_`.
 // ---------------------------------------------------------------------------
 
@@ -67,17 +90,11 @@ function parseArgs(argv) {
 
 async function apiGet(path) {
   const url = `${BASE_URL}${path}`;
-  const headers = { accept: "application/json" };
-  if (API_KEY) {
-    headers["x-api-key"] = API_KEY;
-  } else if (USER_TOKEN) {
-    headers["x-user-token"] = USER_TOKEN;
-  }
   let res;
   try {
-    res = await fetch(url, { headers });
+    res = await fetch(url, { headers: { accept: "application/json" } });
   } catch (err) {
-    fail(`network error: ${err.message}\n  (is the API reachable at ${BASE_URL}?)`);
+    fail(`network error: ${err.message}\n  (is the dev server running at ${BASE_URL}?)`);
   }
   if (!res.ok) {
     let body = "";
@@ -112,73 +129,9 @@ function printJson(obj) {
   process.stdout.write(JSON.stringify(obj, null, 2) + "\n");
 }
 
-function pad(str, width, align = "left") {
-  const s = String(str);
-  if (s.length >= width) return s.slice(0, width);
-  const gap = " ".repeat(width - s.length);
-  return align === "right" ? gap + s : s + gap;
-}
-
-function fmtNum(n) {
-  if (n == null || Number.isNaN(n)) return "-";
-  const v = Number(n);
-  if (!Number.isFinite(v)) return "-";
-  return v.toLocaleString("en-US");
-}
-
-function fmtDelta(n) {
-  if (n == null || Number.isNaN(n)) return "-";
-  const v = Number(n);
-  if (!Number.isFinite(v)) return "-";
-  if (v === 0) return "0";
-  const sign = v > 0 ? "+" : "";
-  return sign + v.toLocaleString("en-US");
-}
-
-function fmtMomentum(n) {
-  if (n == null || Number.isNaN(n)) return "-";
-  const v = Number(n);
-  if (!Number.isFinite(v)) return "-";
-  return v.toFixed(1);
-}
-
-function renderTable(headers, rows, aligns = []) {
-  const widths = headers.map((h, i) =>
-    Math.max(h.length, ...rows.map((r) => String(r[i] ?? "").length)),
-  );
-  const line = (cells) =>
-    cells.map((c, i) => pad(c, widths[i], aligns[i] || "left")).join("  ");
-  process.stdout.write(line(headers) + "\n");
-  process.stdout.write(
-    widths.map((w) => "-".repeat(w)).join("  ") + "\n",
-  );
-  for (const r of rows) process.stdout.write(line(r) + "\n");
-}
-
 // ---------------------------------------------------------------------------
 // Commands
 // ---------------------------------------------------------------------------
-
-function buildRepoTable(repos, { showRank = true } = {}) {
-  const headers = showRank
-    ? ["#", "REPO", "STARS", "24H", "7D", "MOMENTUM", "STATUS"]
-    : ["REPO", "STARS", "24H", "7D", "MOMENTUM", "STATUS"];
-  const aligns = showRank
-    ? ["right", "left", "right", "right", "right", "right", "left"]
-    : ["left", "right", "right", "right", "right", "left"];
-  const rows = repos.map((r, i) => {
-    const base = [
-      pad(r.fullName || "-", 30),
-      fmtNum(r.stars),
-      fmtDelta(r.starsDelta24h),
-      fmtDelta(r.starsDelta7d),
-      fmtMomentum(r.momentumScore),
-      r.movementStatus || "-",
-    ];
-    return showRank ? [String(i + 1), ...base] : base;
-  });
-  renderTable(headers, rows, aligns);
-}
 
 async function cmdTrending(args) {
   const windowArg = args.window || "7d";
@@ -201,7 +154,7 @@ async function cmdTrending(args) {
   process.stdout.write(
     `Trending repos (window=${windowArg}, showing ${repos.length} of ${data.meta?.total ?? repos.length})\n\n`,
   );
-  buildRepoTable(repos);
+  process.stdout.write(buildRepoTable(repos));
 }
 
 async function cmdBreakouts(args) {
@@ -216,7 +169,7 @@ async function cmdBreakouts(args) {
     return;
   }
   process.stdout.write(`Breakouts (${repos.length})\n\n`);
-  buildRepoTable(repos);
+  process.stdout.write(buildRepoTable(repos));
 }
 
 async function cmdNew(args) {
@@ -232,7 +185,7 @@ async function cmdNew(args) {
     return;
   }
   process.stdout.write(`New repos under 30 days old (${repos.length})\n\n`);
-  buildRepoTable(repos);
+  process.stdout.write(buildRepoTable(repos));
 }
 
 async function cmdSearch(args) {
@@ -251,14 +204,14 @@ async function cmdSearch(args) {
   process.stdout.write(
     `Search results for "${query}" (${results.length} of ${data.meta?.total ?? results.length})\n\n`,
   );
-  buildRepoTable(results);
+  process.stdout.write(buildRepoTable(results));
 }
 
 async function cmdRepo(args) {
   const spec = args._[0];
   if (!spec) fail("repo: missing owner/name. usage: ss repo <owner/name>");
   const [owner, name] = spec.split("/");
-  if (!owner || !name) fail(`repo: invalid spec "${spec}" - expected owner/name`);
+  if (!owner || !name) fail(`repo: invalid spec "${spec}" — expected owner/name`);
 
   // Primary path: /api/repos/:owner/:name (returns full summary).
   const path = `/api/repos/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`;
@@ -280,9 +233,9 @@ async function cmdRepo(args) {
   lines.push(`  Contributors ${fmtNum(r.contributors)}`);
   lines.push(`  Open issues  ${fmtNum(r.openIssues)}`);
   lines.push("");
-  lines.push(`  Delta 24h    ${fmtDelta(r.starsDelta24h)}`);
-  lines.push(`  Delta 7d     ${fmtDelta(r.starsDelta7d)}`);
-  lines.push(`  Delta 30d    ${fmtDelta(r.starsDelta30d)}`);
+  lines.push(`  Δ 24h        ${fmtDelta(r.starsDelta24h)}`);
+  lines.push(`  Δ 7d         ${fmtDelta(r.starsDelta7d)}`);
+  lines.push(`  Δ 30d        ${fmtDelta(r.starsDelta30d)}`);
   lines.push(`  Momentum     ${fmtMomentum(r.momentumScore)}  (${r.movementStatus || "-"})`);
   lines.push(`  Rank         #${r.rank ?? "-"}`);
   if (r.lastCommitAt) lines.push(`  Last commit  ${r.lastCommitAt}`);
@@ -305,13 +258,13 @@ async function cmdCompare(args) {
   if (specs.length < 2) {
     fail("compare: need at least 2 repos. usage: ss compare <owner/name> <owner/name> [...]");
   }
-  // Fetch each repo via /api/repos/:owner/:name; the id-slug rules (dots ->
+  // Fetch each repo via /api/repos/:owner/:name — the id-slug rules (dots →
   // hyphens) are nontrivial, so per-repo lookup is more reliable than
   // building `?ids=` manually.
   const repos = [];
   for (const spec of specs) {
     const [owner, name] = spec.split("/");
-    if (!owner || !name) fail(`compare: invalid spec "${spec}" - expected owner/name`);
+    if (!owner || !name) fail(`compare: invalid spec "${spec}" — expected owner/name`);
     const data = await apiGet(
       `/api/repos/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`,
     );
@@ -336,7 +289,7 @@ async function cmdCompare(args) {
     fmtMomentum(r.momentumScore),
     r.movementStatus || "-",
   ]);
-  renderTable(headers, rows, aligns);
+  process.stdout.write(renderTable(headers, rows, aligns));
 }
 
 async function cmdCategories(args) {
@@ -356,35 +309,13 @@ async function cmdCategories(args) {
     fmtMomentum(c.avgMomentum),
     c.topMoverId || "-",
   ]);
-  renderTable(headers, rows, aligns);
-}
-
-async function cmdStatus(args) {
-  const data = await apiGet("/api/health?soft=1");
-  if (args.json) return printJson(data);
-
-  const status = data.status || (data.ok ? "ok" : "unknown");
-  process.stdout.write(`TrendingRepo API status: ${status}\n`);
-  if (data.time) process.stdout.write(`Time: ${data.time}\n`);
-  if (data.checks && typeof data.checks === "object") {
-    const rows = Object.entries(data.checks).map(([name, value]) => [
-      name,
-      typeof value === "object" && value !== null
-        ? JSON.stringify(value)
-        : String(value),
-    ]);
-    if (rows.length > 0) {
-      process.stdout.write("\nChecks\n\n");
-      renderTable(["CHECK", "VALUE"], rows);
-    }
-  }
+  process.stdout.write(renderTable(headers, rows, aligns));
 }
 
 function cmdHelp() {
   const text = `
 TrendingRepo CLI (ss) v${CLI_VERSION}
-API: ${BASE_URL}    (override with STARSCREENER_API_URL)
-Auth: STARSCREENER_API_KEY preferred; STARSCREENER_USER_TOKEN still supported
+API: ${BASE_URL}    (override with TRENDINGREPO_API_URL)
 
 USAGE
   ss <command> [options]
@@ -411,9 +342,6 @@ COMMANDS
   categories  [--json]
                 List of categories with repo counts and average momentum.
 
-  status      [--json]
-                Check API health.
-
   stream      [--types=rank_changed,snapshot_captured,breakout_detected,alert_triggered]
                 Tail the live SSE event stream. Ctrl+C to stop.
 
@@ -425,7 +353,6 @@ EXAMPLES
   ss search "rust database" --limit=5
   ss repo vercel/next.js
   ss compare vercel/next.js ollama/ollama
-  ss status
   ss trending --json | jq '.repos[].fullName'
 `;
   process.stdout.write(text);
@@ -439,7 +366,7 @@ function clampLimit(raw, defaultVal) {
   if (raw === undefined) return defaultVal;
   const n = Number(raw);
   if (!Number.isFinite(n) || n <= 0) {
-    fail(`invalid --limit "${raw}" - must be a positive integer`);
+    fail(`invalid --limit "${raw}" — must be a positive integer`);
   }
   return Math.min(Math.max(Math.floor(n), 1), 100);
 }
@@ -462,13 +389,12 @@ const COMMANDS = {
   repo: cmdRepo,
   compare: cmdCompare,
   categories: cmdCategories,
-  status: cmdStatus,
   stream: cmdStream,
   help: () => cmdHelp(),
 };
 
 // ---------------------------------------------------------------------------
-// Stream command - tails /api/stream (Server-Sent Events) and prints one
+// Stream command — tails /api/stream (Server-Sent Events) and prints one
 // event per line. No deps: small incremental parser for the `event:`/`data:`
 // frame format separated by blank lines.
 // ---------------------------------------------------------------------------
@@ -521,7 +447,7 @@ async function cmdStream(args) {
           if (event === "snapshot_captured") {
             summary = `${p.fullName} stars=${p.stars} 24h=${p.starsDelta24h ?? "-"}`;
           } else if (event === "rank_changed") {
-            summary = `${p.fullName} ${p.fromRank ?? "-"} -> ${p.toRank}`;
+            summary = `${p.fullName} ${p.fromRank ?? "-"} → ${p.toRank}`;
           } else if (event === "breakout_detected") {
             summary = `${p.fullName} score=${p.score.toFixed(1)}`;
           } else if (event === "alert_triggered") {

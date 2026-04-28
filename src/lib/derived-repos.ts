@@ -9,14 +9,8 @@
 // compare + category OG cards). MCP tools + admin pipeline routes continue
 // to read the in-memory stores.
 
-import { existsSync, readFileSync, statSync } from "node:fs";
-import { join } from "node:path";
-
 import type { Repo } from "./types";
-import {
-  getRepoMetadata,
-  type RepoMetadata,
-} from "./repo-metadata";
+import { getRepoMetadata } from "./repo-metadata";
 import { slugToId } from "./utils";
 import {
   buildBaseRepoFromRecent,
@@ -29,377 +23,72 @@ import {
 import {
   assembleRepoFromTrending,
   getDeltas,
-  getTrending,
   lastFetchedAt,
   type DeltaValue,
-  type TrendingLanguage,
-  type TrendingPeriod,
-  type TrendingRow,
 } from "./trending";
 import { scoreBatch } from "./pipeline/scoring/engine";
 import {
   classifyBatch,
   deriveTags,
 } from "./pipeline/classification/classifier";
-import { attachCrossSignal } from "./pipeline/cross-signal";
-import { currentDataDir, FILES } from "./pipeline/storage/file-persistence";
-import { getLaunchForRepo } from "./producthunt";
+import { decorateWithCrossSignal } from "./derived-repos/decorators/cross-signal";
+import { decorateWithProductHunt } from "./derived-repos/decorators/producthunt";
+import { decorateWithTwitter } from "./derived-repos/decorators/twitter";
 import { getRedditDataVersion } from "./reddit-data";
+import { getTwitterSignalsDataVersion } from "./twitter/signal-data";
 import {
-  getTwitterSignalSync,
-  getTwitterSignalsDataVersion,
-} from "./twitter/signal-data";
+  __resetPipelineReposCacheForTests,
+  getPipelineRepos,
+  getPipelineReposDataVersion,
+} from "./derived-repos/loaders/pipeline-jsonl";
+import {
+  baseRepoFromTrending,
+  buildTrendingAggregates,
+} from "./derived-repos/loaders/trending-aggregates";
+import {
+  synthesizeRecentRepoSparkline,
+  synthesizeSparkline,
+} from "./derived-repos/sparkline";
 
+// Process-global derived-repos cache (LIB-17).
+//
+// Cache key composition lives in computeCacheKey(): a colon-joined string
+// of getXxxDataVersion() outputs (one per upstream JSON file). The cache
+// returns the prior result whenever every upstream's data version is
+// unchanged — this is what makes warm Lambda calls O(1).
+//
+// Test-time invalidation: tests that mutate underlying data versions MUST
+// call __resetDerivedReposCache() between cases. The function is exported
+// purely for that purpose. Forgetting to reset = cross-test pollution
+// where case B sees stale data from case A.
+//
+// Production invalidation: the cache key tracks file mtimes via
+// getXxxDataVersion(); a fresh collector write bumps the version on the
+// next cache-key floor expiration, no manual reset needed.
 let _cache: Repo[] | null = null;
 let _cacheKey: string | null = null;
 let _byFullName: Map<string, Repo> | null = null;
 let _byId: Map<string, Repo> | null = null;
 
-// ---------------------------------------------------------------------------
-// Pipeline repos.jsonl fallback loader (mtime-cached)
-// ---------------------------------------------------------------------------
-//
-// `.data/repos.jsonl` is the pipeline's persisted repo store — it carries
-// every repo the in-memory `repoStore` has ever tracked, including mature
-// projects (ollama, vercel/next.js, huggingface/transformers, etc.) that
-// have aged out of OSSInsights's trending lists and aren't in the supplemental
-// recent-repos / manual-repos feeds.
-//
-// On cold Vercel Lambdas the in-memory store is empty, so without this
-// fallback those repos would 404 on `/repo/[owner]/[name]`. Reading the
-// JSONL at request time and supplementing `getDerivedRepos()` restores
-// coverage parity with the persisted pipeline state.
-//
-// Cached by mtime (same pattern as repo-reasons.ts). The JSONL is rewritten
-// in bulk by the pipeline store, so a single mtime stamp invalidates safely.
+// Cache-key-of-cache-key: each getXxxDataVersion() does its own statSync.
+// Without this, every getDerivedRepos() call on a warm Lambda re-stats
+// four files even when nothing has changed in the last few milliseconds.
+// 5-second floor matches the audit recommendation (LIB-01) — short enough
+// that a fresh collector write surfaces within one render tick, long
+// enough that homepage rendering doesn't fan out to four `stat` syscalls
+// on every request.
+const CACHE_KEY_FLOOR_MS = 5_000;
+let _cacheKeyComputedAtMs = 0;
+let _cacheKeyComputed = "";
 
-let _pipelineReposCache:
-  | {
-      mtimeMs: number;
-      size: number;
-      rows: Repo[];
-    }
-  | null = null;
-
-function pipelineReposFilePath(): string {
-  return join(currentDataDir(), FILES.repos);
-}
-
-function loadPipelineReposFromDisk(): Repo[] {
-  const path = pipelineReposFilePath();
-  if (!existsSync(path)) return [];
-  let raw: string;
-  try {
-    raw = readFileSync(path, "utf8");
-  } catch {
-    return [];
+function computeCacheKey(): string {
+  const now = Date.now();
+  if (_cacheKeyComputed && now - _cacheKeyComputedAtMs < CACHE_KEY_FLOOR_MS) {
+    return _cacheKeyComputed;
   }
-
-  const out: Repo[] = [];
-  for (const line of raw.split(/\r?\n/)) {
-    const trimmed = line.trim();
-    if (!trimmed) continue;
-    try {
-      const record = JSON.parse(trimmed) as Repo;
-      if (record && typeof record.fullName === "string" && record.fullName.includes("/")) {
-        out.push(record);
-      }
-    } catch {
-      // Skip malformed lines — the rest of the file is still usable.
-    }
-  }
-  return out;
-}
-
-function getPipelineRepos(): Repo[] {
-  const path = pipelineReposFilePath();
-  let mtimeMs = -1;
-  let size = -1;
-  try {
-    const stat = statSync(path);
-    mtimeMs = stat.mtimeMs;
-    size = stat.size;
-  } catch {
-    mtimeMs = -1;
-    size = -1;
-  }
-  if (
-    _pipelineReposCache &&
-    _pipelineReposCache.mtimeMs === mtimeMs &&
-    _pipelineReposCache.size === size
-  ) {
-    return _pipelineReposCache.rows;
-  }
-  const rows = loadPipelineReposFromDisk();
-  _pipelineReposCache = { mtimeMs, size, rows };
-  return rows;
-}
-
-function getPipelineReposDataVersion(): string {
-  const path = pipelineReposFilePath();
-  try {
-    const stat = statSync(path);
-    return `jsonl:${stat.mtimeMs}:${stat.size}`;
-  } catch {
-    return "jsonl:none";
-  }
-}
-
-const PERIODS: TrendingPeriod[] = [
-  "past_24_hours",
-  "past_week",
-  "past_month",
-];
-const LANGS: TrendingLanguage[] = ["All", "Python", "TypeScript", "Rust", "Go"];
-
-interface TrendingRepoAggregate {
-  row: TrendingRow;
-  stars24h: number;
-  stars7d: number;
-  stars30d: number;
-  trendScore24h: number;
-  trendScore7d: number;
-  trendScore30d: number;
-  activityStars: number;
-  forks: number;
-  contributors: number;
-  has24h: boolean;
-  has7d: boolean;
-  has30d: boolean;
-  collectionNames: Set<string>;
-}
-
-function parseMetric(value: string | null | undefined): number {
-  const parsed = Number.parseInt(value ?? "0", 10);
-  return Number.isFinite(parsed) ? parsed : 0;
-}
-
-function parseScore(value: string | null | undefined): number {
-  const parsed = Number.parseFloat(value ?? "0");
-  return Number.isFinite(parsed) ? parsed : 0;
-}
-
-function contributorCount(row: TrendingRow): number {
-  return row.contributor_logins
-    ? row.contributor_logins.split(",").filter(Boolean).length
-    : 0;
-}
-
-function parseCollectionNames(value: string | null | undefined): string[] {
-  if (!value) return [];
-  return value
-    .split(",")
-    .map((name) => name.trim())
-    .filter(Boolean);
-}
-
-/**
- * Synthesize a 30-point daily sparkline from known deltas + stars_now.
- *
- * Anchors: today = stars_now, -1d = stars_now - delta_24h, -7d = stars_now -
- * delta_7d, -30d shrunk to -29d proportionally so the curve stays inside a
- * 30-point window. Intermediate days are linearly interpolated. This
- * is a cold-start-friendly stand-in for real snapshot history; once the
- * in-memory snapshotter accumulates real datapoints those override.
- */
-function synthesizeSparkline(
-  starsNow: number,
-  delta24h: number,
-  delta7d: number,
-  delta30d: number,
-): number[] {
-  if (starsNow <= 0) return [];
-
-  // Anchor points keyed by days-ago (0 = today).
-  const anchors = new Map<number, number>();
-  anchors.set(0, starsNow);
-  anchors.set(1, Math.max(0, starsNow - Math.max(0, delta24h)));
-  anchors.set(7, Math.max(0, starsNow - Math.max(0, delta7d)));
-  // Compress 30d onto the 29-days-ago slot so the curve shows the longer-term
-  // slope while keeping exactly 30 points for the detail chart.
-  const delta29d = Math.round(delta30d * (29 / 30));
-  anchors.set(29, Math.max(0, starsNow - Math.max(0, delta29d)));
-
-  const sortedKeys = Array.from(anchors.keys()).sort((a, b) => a - b);
-
-  const series: number[] = [];
-  for (let day = 29; day >= 0; day--) {
-    // Find surrounding anchors for linear interpolation.
-    let lower = sortedKeys[0];
-    let upper = sortedKeys[sortedKeys.length - 1];
-    for (const k of sortedKeys) {
-      if (k <= day) lower = k;
-      if (k >= day) {
-        upper = k;
-        break;
-      }
-    }
-    const lo = anchors.get(lower)!;
-    const hi = anchors.get(upper)!;
-    if (lower === upper) {
-      series.push(lo);
-    } else {
-      const t = (day - lower) / (upper - lower);
-      series.push(Math.round(lo + (hi - lo) * t));
-    }
-  }
-  return series;
-}
-
-function synthesizeRecentRepoSparkline(starsNow: number, createdAt: string): number[] {
-  if (starsNow <= 0) return [];
-
-  const created = Date.parse(createdAt);
-  const ageDays = Number.isFinite(created)
-    ? Math.max(1, Math.ceil((Date.now() - created) / 86_400_000))
-    : 29;
-  const activeSpan = Math.min(29, ageDays);
-  const series: number[] = [];
-
-  for (let dayAgo = 29; dayAgo >= 0; dayAgo--) {
-    if (dayAgo > activeSpan) {
-      series.push(0);
-      continue;
-    }
-    const progress = activeSpan <= 0 ? 1 : (activeSpan - dayAgo) / activeSpan;
-    series.push(Math.round(starsNow * Math.pow(progress, 0.85)));
-  }
-
-  series[series.length - 1] = starsNow;
-  return series;
-}
-
-function setPeriodMetrics(
-  aggregate: TrendingRepoAggregate,
-  period: TrendingPeriod,
-  stars: number,
-  totalScore: number,
-): void {
-  if (period === "past_24_hours") {
-    aggregate.stars24h = Math.max(aggregate.stars24h, stars);
-    aggregate.trendScore24h = Math.max(aggregate.trendScore24h, totalScore);
-    aggregate.has24h = true;
-  } else if (period === "past_week") {
-    aggregate.stars7d = Math.max(aggregate.stars7d, stars);
-    aggregate.trendScore7d = Math.max(aggregate.trendScore7d, totalScore);
-    aggregate.has7d = true;
-  } else if (period === "past_month") {
-    aggregate.stars30d = Math.max(aggregate.stars30d, stars);
-    aggregate.trendScore30d = Math.max(aggregate.trendScore30d, totalScore);
-    aggregate.has30d = true;
-  }
-}
-
-function buildTrendingAggregates(): Map<string, TrendingRepoAggregate> {
-  const aggregates = new Map<string, TrendingRepoAggregate>();
-
-  for (const period of PERIODS) {
-    for (const lang of LANGS) {
-      for (const row of getTrending(period, lang)) {
-        if (!row.repo_name || !row.repo_name.includes("/")) continue;
-
-        const stars = parseMetric(row.stars);
-        const totalScore = parseScore(row.total_score);
-        const forks = parseMetric(row.forks);
-        const contributors = contributorCount(row);
-        const collectionNames = parseCollectionNames(row.collection_names);
-
-        let aggregate = aggregates.get(row.repo_name);
-        if (!aggregate) {
-          aggregate = {
-            row,
-            stars24h: 0,
-            stars7d: 0,
-            stars30d: 0,
-            trendScore24h: 0,
-            trendScore7d: 0,
-            trendScore30d: 0,
-            activityStars: 0,
-            forks: 0,
-            contributors: 0,
-            has24h: false,
-            has7d: false,
-            has30d: false,
-            collectionNames: new Set(collectionNames),
-          };
-          aggregates.set(row.repo_name, aggregate);
-        } else if (
-          (!aggregate.row.description && row.description) ||
-          (!aggregate.row.primary_language && row.primary_language)
-        ) {
-          aggregate.row = { ...aggregate.row, ...row };
-        }
-
-        setPeriodMetrics(aggregate, period, stars, totalScore);
-        aggregate.activityStars = Math.max(aggregate.activityStars, stars);
-        aggregate.forks = Math.max(aggregate.forks, forks);
-        aggregate.contributors = Math.max(aggregate.contributors, contributors);
-        for (const name of collectionNames) aggregate.collectionNames.add(name);
-      }
-    }
-  }
-
-  return aggregates;
-}
-
-/**
- * Build a best-effort base Repo from aggregated OSS Insight rows. The trending
- * feed doesn't carry topics / createdAt / lastReleaseAt / openIssues, so
- * those fall back to safe zero / empty values. `lastCommitAt` is set to
- * the trending fetch timestamp — appearing in OSS Insight's trending list
- * implies recent activity, so this is a reasonable floor that avoids
- * zeroing out every repo's commit-freshness score.
- */
-function baseRepoFromTrending(
-  aggregate: TrendingRepoAggregate,
-  fetchedAt: string,
-  metadata: RepoMetadata | null,
-): Repo {
-  const row = aggregate.row;
-  const parts = row.repo_name.split("/");
-  const owner = parts[0] ?? "";
-  const name = parts[1] ?? row.repo_name;
-  const lastCommitAt =
-    metadata?.pushedAt || metadata?.updatedAt || metadata?.createdAt || fetchedAt;
-  return {
-    id: slugToId(row.repo_name),
-    fullName: metadata?.fullName ?? row.repo_name,
-    name: metadata?.name ?? name,
-    owner: metadata?.owner ?? owner,
-    ownerAvatarUrl:
-      metadata?.ownerAvatarUrl || (owner ? `https://github.com/${owner}.png` : ""),
-    description: metadata?.description || row.description || "",
-    url: metadata?.url ?? `https://github.com/${row.repo_name}`,
-    language: row.primary_language || metadata?.language || null,
-    topics: metadata?.topics ?? [],
-    categoryId: "other",
-    stars: metadata?.stars ?? aggregate.activityStars,
-    forks: metadata?.forks ?? aggregate.forks,
-    contributors: aggregate.contributors,
-    openIssues: metadata?.openIssues ?? 0,
-    lastCommitAt,
-    lastReleaseAt: null,
-    lastReleaseTag: null,
-    createdAt: metadata?.createdAt ?? "",
-    starsDelta24h: 0,
-    starsDelta7d: 0,
-    starsDelta30d: 0,
-    trendScore24h: 0,
-    trendScore7d: 0,
-    trendScore30d: 0,
-    forksDelta7d: 0,
-    contributorsDelta30d: 0,
-    momentumScore: 0,
-    movementStatus: "stable",
-    rank: 0,
-    categoryRank: 0,
-    sparklineData: [],
-    socialBuzzScore: 0,
-    mentionCount24h: 0,
-    tags: [],
-    collectionNames: Array.from(aggregate.collectionNames).sort(),
-    archived: metadata?.archived,
-  };
+  _cacheKeyComputed = `${getRedditDataVersion()}:${getManualReposDataVersion()}:${getTwitterSignalsDataVersion()}:${getPipelineReposDataVersion()}`;
+  _cacheKeyComputedAtMs = now;
+  return _cacheKeyComputed;
 }
 
 /**
@@ -409,7 +98,7 @@ function baseRepoFromTrending(
  * call.
  */
 export function getDerivedRepos(): Repo[] {
-  const cacheKey = `${getRedditDataVersion()}:${getManualReposDataVersion()}:${getTwitterSignalsDataVersion()}:${getPipelineReposDataVersion()}`;
+  const cacheKey = computeCacheKey();
   if (_cache && _cacheKey === cacheKey) return _cache;
   _byFullName = null;
   _byId = null;
@@ -642,57 +331,14 @@ export function getDerivedRepos(): Repo[] {
   // 3.5 Four-channel cross-signal fusion (GitHub + Reddit + HN + Bluesky).
   // Two-pass internally so the reddit component is min-max normalized
   // across the full corpus. Must run after scoreBatch — the github
-  // component reads movementStatus. Also attaches the per-repo
-  // `bluesky` rollup so surfaces can render the BskyBadge without
-  // re-querying the mentions JSON.
-  repos = attachCrossSignal(repos);
+  // component reads movementStatus.
+  repos = decorateWithCrossSignal(repos);
 
-  // 3.6 Attach the latest Twitter/X row rollup from .data/twitter-repo-signals.
-  // This keeps the client terminal free of server-only storage imports while
-  // letting rows render the same X mention counts as /twitter.
-  repos = repos.map((r) => {
-    const signal = getTwitterSignalSync(r.fullName);
-    if (!signal) {
-      return {
-        ...r,
-        twitter: null,
-      };
-    }
-    return {
-      ...r,
-      twitter: {
-        mentionCount24h: signal.metrics.mentionCount24h,
-        uniqueAuthors24h: signal.metrics.uniqueAuthors24h,
-        finalTwitterScore: signal.score.finalTwitterScore,
-        badgeState: signal.badge.state,
-        topPostUrl: signal.metrics.topPostUrl,
-        lastScannedAt: signal.updatedAt,
-      },
-    };
-  });
+  // 3.6 Twitter/X row rollup (.data/twitter-repo-signals).
+  repos = decorateWithTwitter(repos);
 
-  // 3.7 Attach ProductHunt launch for tracked repos that have a recent (7d)
-  // PH match. Sparse by design — only repos whose github.com URL appeared
-  // in a PH launch's website/description get this field set. Most repos
-  // keep producthunt = undefined. Used by PhBadge and the "Hot launch"
-  // cross-signal highlight.
-  repos = repos.map((r) => {
-    const launch = getLaunchForRepo(r.fullName);
-    if (!launch) return r;
-    return {
-      ...r,
-      producthunt: {
-        launchedOnPH: true,
-        launch: {
-          id: launch.id,
-          name: launch.name,
-          votesCount: launch.votesCount,
-          daysSinceLaunch: launch.daysSinceLaunch,
-          url: launch.url,
-        },
-      },
-    };
-  });
+  // 3.7 ProductHunt launch (sparse — most repos keep producthunt undefined).
+  repos = decorateWithProductHunt(repos);
 
   // 4. Rank by momentum desc, tracking per-category position.
   const sorted = [...repos].sort((a, b) => b.momentumScore - a.momentumScore);
@@ -744,11 +390,15 @@ export function getDerivedRepoCount(): number {
   return getDerivedRepos().length;
 }
 
-// Test-only cache reset.
+// Test-only cache reset. Also clears the pipeline-jsonl loader's mtime
+// cache via its dedicated reset hook so a test can reset everything in
+// one call.
 export function __resetDerivedReposCache(): void {
   _cache = null;
   _cacheKey = null;
   _byFullName = null;
   _byId = null;
-  _pipelineReposCache = null;
+  _cacheKeyComputed = "";
+  _cacheKeyComputedAtMs = 0;
+  __resetPipelineReposCacheForTests();
 }

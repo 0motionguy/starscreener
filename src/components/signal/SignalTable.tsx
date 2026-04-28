@@ -7,6 +7,7 @@ import Link from "next/link";
 
 import { SignalBadge, type SignalBadgeKind } from "./SignalBadge";
 import { SourceMonogram, type MonoSource } from "./SourceMonogram";
+import { EntityLogo } from "@/components/ui/EntityLogo";
 
 export type SignalColumn =
   | "rank"
@@ -65,10 +66,9 @@ export interface SignalRow {
   /** Optional inline badges (max 3 enforced visually). */
   badges?: SignalBadgeKind[];
 
-  /** Optional vendor product logo (16-20px, leading the title). */
+  /** Optional avatar / logo URL for the row (renders next to the title).
+   *  Falls back to a deterministic monogram tile when missing. */
   logoUrl?: string | null;
-  /** Brand color hex (no #) used as the logo's background tile. */
-  brandColor?: string | null;
 }
 
 interface SignalTableProps {
@@ -138,10 +138,26 @@ export function SignalTable({
 }: SignalTableProps) {
   if (rows.length === 0) {
     return (
-      <div className="rounded-card border border-dashed border-border-primary bg-bg-muted/30 px-4 py-10 text-center">
-        <p className="font-mono text-sm text-text-tertiary">{emptyTitle}</p>
+      <div
+        className="rounded-[2px] border border-dashed px-4 py-10 text-center"
+        style={{
+          borderColor: "var(--v3-line-100)",
+          background: "var(--v3-bg-025)",
+        }}
+      >
+        <p
+          className="v2-mono text-[11px] tracking-[0.18em] uppercase"
+          style={{ color: "var(--v3-ink-300)" }}
+        >
+          {emptyTitle}
+        </p>
         {emptySubtitle ? (
-          <p className="mt-1 text-[11px] text-text-tertiary">{emptySubtitle}</p>
+          <p
+            className="mt-1 text-[11px]"
+            style={{ color: "var(--v3-ink-400)" }}
+          >
+            {emptySubtitle}
+          </p>
         ) : null}
       </div>
     );
@@ -151,10 +167,22 @@ export function SignalTable({
   const engagementLabel = rows[0]?.engagementLabel ?? "Engagement";
 
   return (
-    <div className="overflow-x-auto rounded-card border border-border-primary bg-bg-card">
-      <table className="w-full text-xs">
-        <thead className="text-left text-text-tertiary">
-          <tr className="border-b border-border-primary bg-bg-muted/40">
+    <div
+      className="overflow-x-auto"
+      style={{
+        background: "var(--v3-bg-050)",
+        border: "1px solid var(--v3-line-200)",
+        borderRadius: 2,
+      }}
+    >
+      <table className="w-full text-xs" style={{ borderCollapse: "collapse" }}>
+        <thead className="text-left">
+          <tr
+            style={{
+              borderBottom: "1px solid var(--v3-line-100)",
+              background: "var(--v3-bg-025)",
+            }}
+          >
             {cols.map((c) => {
               const header = c === "engagement" ? engagementLabel : COLUMN_HEADERS[c];
               const widthCls =
@@ -178,7 +206,9 @@ export function SignalTable({
               return (
                 <th
                   key={c}
-                  className={`px-2 py-2 font-mono text-[10px] uppercase tracking-[0.12em] ${widthCls}`}
+                  scope="col"
+                  className={`v2-mono px-3 py-2 text-[10px] uppercase tracking-[0.18em] ${widthCls}`}
+                  style={{ color: "var(--v3-ink-400)", fontWeight: 500 }}
                 >
                   {header}
                 </th>
@@ -189,72 +219,78 @@ export function SignalTable({
         <tbody>
           {rows.map((row, idx) => {
             const old = row.postedAt ? Date.now() - Date.parse(row.postedAt) > 3 * 86_400_000 : false;
+            const stagger = Math.min(idx, 6) * 50;
             return (
               <tr
                 key={row.id}
-                className={
-                  "border-b border-border-primary/40 last:border-b-0 hover:bg-bg-muted/20 " +
-                  (old ? "opacity-60" : "")
-                }
+                className={"v2-row group " + (old ? "opacity-60" : "")}
+                style={{
+                  borderBottom: "1px dashed var(--v3-line-100)",
+                  animation: "slide-up 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both",
+                  animationDelay: stagger > 0 ? `${stagger}ms` : undefined,
+                }}
               >
                 {cols.map((c) => {
                   if (c === "rank") {
                     return (
                       <td
                         key={c}
-                        className="px-2 py-2 align-top font-mono text-text-tertiary tabular-nums"
+                        className="px-3 py-2.5 align-top font-mono tabular-nums"
+                        style={{ color: "var(--v3-ink-300)" }}
                       >
                         {idx + 1}
                       </td>
                     );
                   }
                   if (c === "title") {
+                    const titleClass =
+                      "line-clamp-2 font-medium transition-colors hover:text-[color:var(--v3-acc)]";
+                    const titleStyle = { color: "var(--v3-ink-100)" };
                     const titleNode = row.href ? (
                       row.external ? (
                         <a
                           href={row.href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="line-clamp-2 font-medium text-text-primary hover:underline"
+                          className={titleClass}
+                          style={titleStyle}
                         >
                           {row.title}
                         </a>
                       ) : (
                         <Link
                           href={row.href}
-                          className="line-clamp-2 font-medium text-text-primary hover:underline"
+                          className={titleClass}
+                          style={titleStyle}
                         >
                           {row.title}
                         </Link>
                       )
                     ) : (
-                      <span className="line-clamp-2 font-medium text-text-primary">
+                      <span
+                        className="line-clamp-2 font-medium"
+                        style={{ color: "var(--v3-ink-100)" }}
+                      >
                         {row.title}
                       </span>
                     );
                     return (
-                      <td key={c} className="px-2 py-2 align-top">
-                        <div className="flex items-start gap-2">
-                          {row.logoUrl ? (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img
-                              src={row.logoUrl}
-                              alt=""
-                              loading="lazy"
-                              width={20}
-                              height={20}
-                              className="mt-0.5 h-5 w-5 flex-none rounded-sm object-contain"
-                              style={
-                                row.brandColor
-                                  ? { backgroundColor: `#${row.brandColor}1A` }
-                                  : undefined
-                              }
-                            />
-                          ) : null}
-                          <div className="min-w-0 flex-1">
+                      <td key={c} className="px-3 py-2.5 align-top">
+                        <div className="flex min-w-0 items-start gap-2">
+                          <EntityLogo
+                            src={row.logoUrl ?? null}
+                            name={row.linkedRepo ?? row.attribution ?? row.title}
+                            size={20}
+                            shape="square"
+                            alt=""
+                          />
+                          <div className="min-w-0">
                             {titleNode}
                             {row.attribution || (row.badges && row.badges.length) ? (
-                              <div className="mt-0.5 flex flex-wrap items-center gap-1.5 text-[10px] text-text-tertiary">
+                              <div
+                                className="mt-0.5 flex flex-wrap items-center gap-1.5 text-[10px]"
+                                style={{ color: "var(--v3-ink-400)" }}
+                              >
                                 {row.attribution ? <span>{row.attribution}</span> : null}
                                 {row.badges?.slice(0, 3).map((b) => (
                                   <SignalBadge key={b} kind={b} />
@@ -268,37 +304,46 @@ export function SignalTable({
                   }
                   if (c === "source") {
                     return (
-                      <td key={c} className="px-2 py-2 align-top">
+                      <td key={c} className="px-3 py-2.5 align-top">
                         {row.source ? <SourceMonogram source={row.source} /> : null}
                       </td>
                     );
                   }
                   if (c === "topic") {
                     return (
-                      <td key={c} className="px-2 py-2 align-top hidden md:table-cell">
+                      <td key={c} className="px-3 py-2.5 align-top hidden md:table-cell">
                         {row.topic ? (
-                          <span className="rounded-full border border-border-primary bg-bg-muted px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-text-secondary">
+                          <span
+                            className="v2-mono inline-flex items-center px-2 py-0.5 text-[10px] uppercase tracking-[0.16em]"
+                            style={{
+                              border: "1px solid var(--v3-line-200)",
+                              background: "var(--v3-bg-100)",
+                              color: "var(--v3-ink-200)",
+                              borderRadius: 2,
+                            }}
+                          >
                             {row.topic}
                           </span>
                         ) : (
-                          <span className="text-text-tertiary">—</span>
+                          <span style={{ color: "var(--v3-ink-500)" }}>—</span>
                         )}
                       </td>
                     );
                   }
                   if (c === "linkedRepo") {
                     return (
-                      <td key={c} className="px-2 py-2 align-top hidden lg:table-cell">
+                      <td key={c} className="px-3 py-2.5 align-top hidden lg:table-cell">
                         {row.linkedRepo ? (
                           <Link
                             href={`/repo/${row.linkedRepo}`}
-                            className="inline-flex items-center gap-1.5 font-mono text-[11px] text-functional hover:underline"
+                            className="inline-flex items-center gap-1.5 font-mono text-[11px] hover:underline"
+                            style={{ color: "var(--v3-sig-green)" }}
                           >
                             <SignalBadge kind="linked-repo" override="↳" />
                             <span className="truncate">{row.linkedRepo}</span>
                           </Link>
                         ) : (
-                          <span className="text-text-tertiary">—</span>
+                          <span style={{ color: "var(--v3-ink-500)" }}>—</span>
                         )}
                       </td>
                     );
@@ -307,7 +352,8 @@ export function SignalTable({
                     return (
                       <td
                         key={c}
-                        className="px-2 py-2 align-top text-text-secondary tabular-nums hidden md:table-cell"
+                        className="px-3 py-2.5 align-top tabular-nums hidden md:table-cell"
+                        style={{ color: "var(--v3-ink-200)" }}
                       >
                         {fmtNum(row.engagement)}
                       </td>
@@ -317,7 +363,8 @@ export function SignalTable({
                     return (
                       <td
                         key={c}
-                        className="px-2 py-2 align-top text-text-secondary tabular-nums hidden md:table-cell"
+                        className="px-3 py-2.5 align-top tabular-nums hidden md:table-cell"
+                        style={{ color: "var(--v3-ink-200)" }}
                       >
                         {fmtNum(row.comments)}
                       </td>
@@ -325,7 +372,7 @@ export function SignalTable({
                   }
                   if (c === "velocity") {
                     return (
-                      <td key={c} className="px-2 py-2 align-top">
+                      <td key={c} className="px-3 py-2.5 align-top">
                         {velocityBadge(row.velocity)}
                       </td>
                     );
@@ -334,7 +381,8 @@ export function SignalTable({
                     return (
                       <td
                         key={c}
-                        className="px-2 py-2 align-top font-mono text-text-tertiary tabular-nums"
+                        className="px-3 py-2.5 align-top font-mono tabular-nums"
+                        style={{ color: "var(--v3-ink-300)" }}
                       >
                         {fmtAge(row.postedAt)}
                       </td>
@@ -344,7 +392,8 @@ export function SignalTable({
                     return (
                       <td
                         key={c}
-                        className="px-2 py-2 align-top font-mono font-semibold tabular-nums"
+                        className="px-3 py-2.5 align-top font-mono font-semibold tabular-nums"
+                        style={{ color: "var(--v3-ink-000)" }}
                       >
                         {row.signalScore !== null && row.signalScore !== undefined
                           ? Math.round(row.signalScore)

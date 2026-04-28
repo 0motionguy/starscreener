@@ -2,8 +2,8 @@
 //
 // Reads the same Repo[] the rest of the page uses, picks the top by
 // channelsFiring DESC then crossSignalScore DESC, renders one row per
-// repo with 5 channel chips lit (GH/R/HN/BL/DT) per the precomputed
-// Repo.channelStatus.
+// repo as a Node/01 instrument-panel "signal bar" with per-source
+// mention chips and a tabular total.
 //
 // Server component — no fetching. Just renders what getDerivedRepos
 // already computed via attachCrossSignal().
@@ -16,17 +16,21 @@ interface CrossSourceBuzzProps {
   repos: Repo[];
   /** How many to show. Default 10. */
   limit?: number;
+  /** ISO timestamp of the last data refresh — used by the terminal bar. */
+  lastFetchedAt?: string | number;
 }
 
-const CHANNEL_LABEL: Record<keyof NonNullable<Repo["channelStatus"]>, string> = {
+type ChannelKey = keyof NonNullable<Repo["channelStatus"]>;
+
+const CHANNEL_LABEL: Record<ChannelKey, string> = {
   github: "GH",
-  reddit: "R",
+  reddit: "REDDIT",
   hn: "HN",
-  bluesky: "BL",
-  devto: "DT",
+  bluesky: "BSKY",
+  devto: "DEVTO",
 };
 
-const CHANNEL_HREF: Record<keyof NonNullable<Repo["channelStatus"]>, string> = {
+const CHANNEL_HREF: Record<ChannelKey, string> = {
   github: "",
   reddit: "/reddit",
   hn: "/hackernews/trending",
@@ -34,7 +38,33 @@ const CHANNEL_HREF: Record<keyof NonNullable<Repo["channelStatus"]>, string> = {
   devto: "/devto",
 };
 
-export function CrossSourceBuzz({ repos, limit = 10 }: CrossSourceBuzzProps) {
+const CHANNEL_ORDER: ChannelKey[] = [
+  "github",
+  "reddit",
+  "hn",
+  "bluesky",
+  "devto",
+];
+
+function formatAgo(ts?: string | number): string {
+  if (ts === undefined) return "—";
+  const t = typeof ts === "number" ? ts : Date.parse(ts);
+  if (!Number.isFinite(t)) return "—";
+  const diff = Date.now() - t;
+  if (diff < 0) return "0s";
+  const m = Math.floor(diff / 60_000);
+  if (m < 1) return `${Math.floor(diff / 1000)}s`;
+  if (m < 60) return `${m}m`;
+  const h = Math.floor(m / 60);
+  if (h < 24) return `${h}h`;
+  return `${Math.floor(h / 24)}d`;
+}
+
+export function CrossSourceBuzz({
+  repos,
+  limit = 10,
+  lastFetchedAt,
+}: CrossSourceBuzzProps) {
   const ranked = [...repos]
     .filter((r) => (r.channelsFiring ?? 0) >= 2)
     .sort((a, b) => {
@@ -47,71 +77,164 @@ export function CrossSourceBuzz({ repos, limit = 10 }: CrossSourceBuzzProps) {
 
   if (ranked.length === 0) return null;
 
+  const ago = formatAgo(lastFetchedAt);
+
   return (
-    <section className="px-4 sm:px-6 py-3 border-y border-border-primary bg-bg-secondary/40">
-      <div className="max-w-[1400px] mx-auto">
-        <div className="mb-2 flex items-baseline justify-between gap-2">
-          <h2 className="font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
-            Cross-source buzz
-          </h2>
-          <span className="font-mono text-[10px] text-text-tertiary">
-            {"// repos lit on ≥2 sources right now"}
+    <section
+      aria-label="Cross-source buzz"
+      className="border-y"
+      style={{
+        borderColor: "var(--v2-line-100)",
+        background: "var(--v2-bg-050)",
+      }}
+    >
+      <div className="v2-frame mx-4 sm:mx-6 my-3 max-w-[1400px] xl:mx-auto overflow-hidden">
+        {/* Terminal-bar header */}
+        <div className="v2-term-bar flex items-center gap-3">
+          <span aria-hidden className="flex items-center gap-1.5">
+            <span className="v2-live-dot block" />
+            <span
+              className="block h-1.5 w-1.5 rounded-full"
+              style={{ background: "var(--v2-line-200)" }}
+            />
+            <span
+              className="block h-1.5 w-1.5 rounded-full"
+              style={{ background: "var(--v2-line-200)" }}
+            />
+          </span>
+          <span
+            className="flex-1 truncate"
+            style={{ color: "var(--v2-ink-200)" }}
+          >
+            <span aria-hidden>{"// "}</span>
+            CROSS-SOURCE · BUZZ · 24H
+          </span>
+          <span
+            className="v2-stat shrink-0 hidden sm:inline-flex items-center gap-1.5"
+            style={{ color: "var(--v2-ink-300)" }}
+          >
+            <span style={{ color: "var(--v2-sig-green)" }}>LIVE</span>
+            <span aria-hidden style={{ color: "var(--v2-line-300)" }}>
+              ·
+            </span>
+            <span className="tabular-nums">T-{ago}</span>
           </span>
         </div>
-        <ul className="grid grid-cols-1 gap-1.5 lg:grid-cols-2">
-          {ranked.map((repo) => (
-            <li
-              key={repo.fullName}
-              className="flex items-center gap-3 rounded-md border border-border-primary bg-bg-card px-3 py-2"
-            >
-              <Link
-                href={`/repo/${repo.fullName}`}
-                className="min-w-0 flex-1 truncate font-mono text-xs font-semibold text-text-primary hover:underline"
+
+        {/* Signal bars */}
+        <ul role="list" className="divide-y" style={{ borderColor: "var(--v2-line-100)" }}>
+          {ranked.map((repo, idx) => {
+            const isTop = idx === 0;
+            const isBreakout =
+              repo.movementStatus === "breakout" ||
+              repo.movementStatus === "hot";
+            const total = repo.channelsFiring ?? 0;
+            const lit = CHANNEL_ORDER.filter(
+              (k) => repo.channelStatus?.[k] === true,
+            );
+            const totalColor = isBreakout
+              ? "var(--v2-acc)"
+              : "var(--v2-ink-100)";
+
+            return (
+              <li
+                key={repo.fullName}
+                className={`v2-row ${isTop ? "v2-bracket" : ""}`.trim()}
+                style={{
+                  borderTopColor: "var(--v2-line-100)",
+                  background: isTop ? "var(--v2-bg-000)" : "transparent",
+                }}
               >
-                {repo.fullName}
-              </Link>
-              <span className="font-mono text-[10px] tabular-nums text-text-tertiary">
-                {(repo.starsDelta24h ?? 0) >= 0 ? "+" : ""}
-                {repo.starsDelta24h ?? 0}★ 24h
-              </span>
-              <div className="flex items-center gap-0.5">
-                {(["github", "reddit", "hn", "bluesky", "devto"] as const).map(
-                  (key) => {
-                    const lit = repo.channelStatus?.[key] === true;
-                    const label = CHANNEL_LABEL[key];
-                    const href = CHANNEL_HREF[key];
-                    const chip = (
-                      <span
-                        className={
-                          "inline-flex h-5 min-w-[24px] items-center justify-center rounded-full border px-1.5 font-mono text-[9px] uppercase tracking-wider transition " +
-                          (lit
-                            ? "border-functional/60 bg-functional/10 text-functional"
-                            : "border-border-primary bg-bg-muted text-text-tertiary opacity-40")
-                        }
-                        title={
-                          lit
-                            ? `Live signal on ${key}`
-                            : `No signal on ${key}`
-                        }
-                      >
-                        {label}
-                      </span>
-                    );
-                    if (lit && href) {
-                      return (
-                        <Link key={key} href={href} aria-label={`Open ${key}`}>
+                <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 px-3 py-2.5">
+                  {/* Rank + repo name */}
+                  <div className="flex items-baseline gap-3 min-w-0 md:flex-1">
+                    <span
+                      className="v2-stat shrink-0 tabular-nums text-[10px]"
+                      style={{ color: "var(--v2-ink-400)" }}
+                    >
+                      {String(idx + 1).padStart(2, "0")}
+                    </span>
+                    <Link
+                      href={`/repo/${repo.fullName}`}
+                      className="v2-mono min-w-0 truncate text-[12px] transition-colors"
+                      style={{ color: "var(--v2-ink-100)" }}
+                      data-cs-buzz-link
+                    >
+                      {repo.fullName}
+                    </Link>
+                    <span
+                      className="v2-stat shrink-0 hidden md:inline tabular-nums text-[10px]"
+                      style={{ color: "var(--v2-ink-400)" }}
+                    >
+                      {(repo.starsDelta24h ?? 0) >= 0 ? "+" : ""}
+                      {repo.starsDelta24h ?? 0}★ 24H
+                    </span>
+                  </div>
+
+                  {/* Per-source chips */}
+                  <div className="flex flex-wrap items-center gap-1.5 md:justify-end">
+                    {lit.map((key) => {
+                      const label = CHANNEL_LABEL[key];
+                      const href = CHANNEL_HREF[key];
+                      const count = repo.channelStatus?.[key] === true ? 1 : 0;
+                      const chip = (
+                        <span
+                          className="v2-tag tabular-nums"
+                          style={{
+                            color: "var(--v2-ink-200)",
+                            borderColor: "var(--v2-line-200)",
+                          }}
+                          title={`Live signal on ${key}`}
+                        >
+                          <span aria-hidden style={{ color: "var(--v2-ink-400)" }}>
+                            [&nbsp;
+                          </span>
+                          <span style={{ color: "var(--v2-ink-100)" }}>
+                            {label}
+                          </span>
+                          <span aria-hidden>&nbsp;</span>
+                          <span style={{ color: "var(--v2-acc)" }}>
+                            {count}
+                          </span>
+                          <span aria-hidden style={{ color: "var(--v2-ink-400)" }}>
+                            &nbsp;]
+                          </span>
+                        </span>
+                      );
+                      return href ? (
+                        <Link
+                          key={key}
+                          href={href}
+                          aria-label={`Open ${key}`}
+                          className="inline-flex"
+                        >
                           {chip}
                         </Link>
+                      ) : (
+                        <span key={key}>{chip}</span>
                       );
-                    }
-                    return <span key={key}>{chip}</span>;
-                  },
-                )}
-              </div>
-            </li>
-          ))}
+                    })}
+
+                    {/* Total mention count */}
+                    <span
+                      className="v2-stat shrink-0 ml-1 text-[12px] tabular-nums"
+                      style={{ color: totalColor }}
+                      aria-label={`${total} channels firing`}
+                    >
+                      ×{total}
+                    </span>
+                  </div>
+                </div>
+              </li>
+            );
+          })}
         </ul>
       </div>
+
+      {/* Hover accent for repo links — scoped via data-attr to avoid touching globals. */}
+      <style>{`
+        [data-cs-buzz-link]:hover { color: var(--v2-acc) !important; }
+      `}</style>
     </section>
   );
 }

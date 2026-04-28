@@ -11,7 +11,6 @@
 // mirrors the hydrateRedditPost backwards-compat philosophy.
 
 import hnTrendingData from "../../data/hackernews-trending.json";
-import { getDataStore } from "./data-store";
 import type { HnStory, HnTrendingFile } from "./hackernews";
 
 // Mutable in-memory cache — seeded from the bundled JSON, replaced by Redis
@@ -90,6 +89,7 @@ export async function refreshHackernewsTrendingFromStore(): Promise<{
     return { source: "memory", ageMs: Date.now() - lastRefreshMs };
   }
   inflight = (async () => {
+    const { getDataStore } = await import("./data-store");
     const result = await getDataStore().read<HnTrendingFile>(
       "hackernews-trending",
     );

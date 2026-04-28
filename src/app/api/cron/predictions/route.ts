@@ -27,8 +27,11 @@
 //                           Only 7/30/90 are accepted — anything else 400s.
 
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
+import { parseBody } from "@/lib/api/parse-body";
+import { errorEnvelope } from "@/lib/api/error-response";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import {
   generatePredictionsBatch,
@@ -43,6 +46,8 @@ import { PREDICTIONS_FILE } from "@/lib/repo-predictions";
 import { mutateJsonlFile } from "@/lib/pipeline/storage/file-persistence";
 import type { Repo } from "@/lib/types";
 
+export const runtime = "nodejs";
+
 interface SuccessResponse {
   ok: true;
   repos: number;
@@ -56,45 +61,29 @@ interface ErrorResponse {
   error: string;
 }
 
-interface RequestBody {
-  fullNames?: string[];
-  topN?: number;
-  horizons?: number[];
-}
+// Cron-friendly schema: every field is optional + permissive on bad
+// values (filtered, not rejected) so a malformed override doesn't 400
+// the whole job. The endpoint is designed to be called by a cron
+// trigger that may send Content-Length: 0 (allowEmpty handles that).
+const RequestBodySchema = z
+  .object({
+    fullNames: z
+      .array(z.string().min(1))
+      .optional(),
+    topN: z
+      .number()
+      .finite()
+      .transform((n) => Math.max(1, Math.floor(n)))
+      .optional(),
+    horizons: z
+      .array(z.number().finite())
+      .optional(),
+  })
+  .passthrough();
+
+type RequestBody = z.infer<typeof RequestBodySchema>;
 
 const DEFAULT_TOP_N = 300;
-
-/**
- * Minimal typed parse of the POST body. Missing body / non-JSON is
- * tolerated (handled as "no overrides") — the endpoint is designed to be
- * called by a cron trigger that may send `Content-Length: 0`.
- */
-async function parseBody(request: NextRequest): Promise<RequestBody> {
-  try {
-    const raw = await request.text();
-    if (!raw.trim()) return {};
-    const parsed: unknown = JSON.parse(raw);
-    if (!parsed || typeof parsed !== "object") return {};
-    const body = parsed as Record<string, unknown>;
-    const out: RequestBody = {};
-    if (Array.isArray(body.fullNames)) {
-      out.fullNames = body.fullNames.filter(
-        (x): x is string => typeof x === "string" && x.length > 0,
-      );
-    }
-    if (typeof body.topN === "number" && Number.isFinite(body.topN)) {
-      out.topN = Math.max(1, Math.floor(body.topN));
-    }
-    if (Array.isArray(body.horizons)) {
-      out.horizons = body.horizons.filter(
-        (x): x is number => typeof x === "number" && Number.isFinite(x),
-      );
-    }
-    return out;
-  } catch {
-    return {};
-  }
-}
 
 function pickRepos(body: RequestBody): Repo[] {
   const all = getDerivedRepos();
@@ -123,7 +112,11 @@ export async function POST(
   if (deny) return deny as NextResponse<ErrorResponse>;
 
   const startedAt = Date.now();
-  const body = await parseBody(request);
+  const parsedBody = await parseBody(request, RequestBodySchema, {
+    allowEmpty: true,
+  });
+  if (!parsedBody.ok) return parsedBody.response as NextResponse<ErrorResponse>;
+  const body = parsedBody.data;
 
   // Validate horizons before we start work. `undefined` → writer uses
   // default [7, 30]; a caller-provided list must be all-valid.
@@ -132,10 +125,9 @@ export async function POST(
     const valid = body.horizons.filter(isPredictionHorizon);
     if (valid.length !== body.horizons.length) {
       return NextResponse.json(
-        {
-          ok: false,
-          error: `horizons must all be one of: ${PREDICTION_HORIZONS.join(", ")}`,
-        },
+        errorEnvelope(
+          `horizons must all be one of: ${PREDICTION_HORIZONS.join(", ")}`,
+        ),
         { status: 400 },
       );
     }

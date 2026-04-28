@@ -1,13 +1,54 @@
 import type { NextConfig } from "next";
+import bundleAnalyzer from "@next/bundle-analyzer";
+import { withSentryConfig } from "@sentry/nextjs";
+import pkg from "./package.json";
+
+// Bundle-size visualization: `npm run analyze` sets ANALYZE=true and runs a
+// production build, dumping interactive HTML reports to .next/analyze/.
+// No-op on default builds (the wrapper short-circuits when enabled=false).
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === "true",
+  openAnalyzer: false,
+});
+
+// Note on Windows + OneDrive: this project lives under a synced folder
+// and OneDrive can race Turbopack's `.next/static/development/_buildManifest.js.tmp`
+// writes on cold-start (ENOENT loops). Two mitigations are baked in:
+//   1. We avoid touching `.next` between dev runs (no rm -rf in scripts);
+//      once the cache is populated Turbopack rewrites are atomic enough
+//      to coexist with OneDrive.
+//   2. If you need a clean slate, replace `.next` with a directory
+//      junction pointing outside the synced tree:
+//        rmdir /S /Q .next
+//        mklink /J .next %TEMP%\trendingrepo-next-dev
+//      Turbopack's "stay inside project root" check is satisfied because
+//      the junction is inside the project; the writes land outside it.
+//      Production builds on Vercel ignore the junction (the runner
+//      builds on a fresh ext4 lambda).
 
 const nextConfig: NextConfig = {
   // Next 15 bundler optimization: rewrite barrel imports so only the
   // named exports actually used end up in the bundle. lucide-react alone
   // exports ~1.5k icons via a barrel — without this, a naive build can
   // ship hundreds of unused icon modules when any file imports even one
-  // icon from it. framer-motion + recharts also benefit.
+  // icon from it.
+  //
+  // framer-motion is INTENTIONALLY excluded: its 12.x ESM barrel re-exports
+  // from motion-dom/motion-utils break Next 15's RSC chunk graph during the
+  // `/_not-found` static prerender (TypeError: Cannot read properties of
+  // undefined (reading 'call') at webpack-runtime). lucide-react and recharts
+  // are already in Next 15's built-in optimized list — listing them here is
+  // a no-op but documents intent and protects against the default-list
+  // changing in a future Next minor.
   experimental: {
-    optimizePackageImports: ["lucide-react", "framer-motion", "recharts"],
+    optimizePackageImports: ["lucide-react", "recharts"],
+  },
+  // Inject the root package.json version into the client bundle as
+  // NEXT_PUBLIC_APP_VERSION so any client component can read the release
+  // version without re-importing the manifest. Server components import
+  // APP_VERSION from `@/lib/app-meta` (same source).
+  env: {
+    NEXT_PUBLIC_APP_VERSION: pkg.version,
   },
   images: {
     remotePatterns: [
@@ -18,6 +59,7 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "abs.twimg.com" },
       { protocol: "https", hostname: "unavatar.io" },
       { protocol: "https", hostname: "www.google.com" },
+      { protocol: "https", hostname: "ph-files.imgix.net" },
     ],
   },
   // Uncomment for Docker/Railway/Fly deployments that need a self-contained
@@ -27,10 +69,17 @@ const nextConfig: NextConfig = {
     "/*": ["./.data/twitter-*.jsonl"],
     "/api/openapi.json": ["./docs/openapi.json"],
   },
+  // NOTE: Do NOT add "./.next/**/*" here. It looks redundant (the .next dir
+  // is the build output, not source) but Next.js resolves trace entries
+  // (e.g. ../../chunks/*.js relative to .next/server/app/<route>) into
+  // absolute paths under /<repo>/.next/... before applying these globs.
+  // Excluding ".next/**/*" therefore strips the route's own server chunk
+  // graph from the lambda manifest and prod 500s with
+  // "Cannot find module .../page.js" at runtime. Confirmed regression
+  // from 290a502.
   outputFileTracingExcludes: {
     "/**": [
       "./.claude/**/*",
-      "./.next/**/*",
       "./.vercel/**/*",
       "./.data/backup*/**/*",
       "./awesome-codex-skills/**/*",
@@ -68,6 +117,36 @@ const nextConfig: NextConfig = {
     }
     return config;
   },
+  // Turbopack equivalent of the webpack fallback above. `next dev --turbopack`
+  // doesn't honor the `webpack:` block, so the same Node-builtin stubs need
+  // to be declared here. Without this, importing data-store.ts (which lazily
+  // requires ioredis -> dns) from any client component crashes the dev build
+  // with "Module not found: Can't resolve 'dns'". `src/lib/empty-module.js`
+  // is the Turbopack-idiomatic equivalent of webpack's `dns: false`.
+  //
+  // Path is resolved relative to project root. The `browser` condition only
+  // applies these stubs to client bundles — server bundles see the real
+  // Node built-ins as expected. In Next.js 15.5 the conditional resolveAlias
+  // (Record<string, Record<string,string>>) is recognized.
+  turbopack: {
+    resolveAlias: {
+      fs: { browser: "./src/lib/empty-module.js" },
+      path: { browser: "./src/lib/empty-module.js" },
+      net: { browser: "./src/lib/empty-module.js" },
+      tls: { browser: "./src/lib/empty-module.js" },
+      dns: { browser: "./src/lib/empty-module.js" },
+      os: { browser: "./src/lib/empty-module.js" },
+      crypto: { browser: "./src/lib/empty-module.js" },
+      stream: { browser: "./src/lib/empty-module.js" },
+      zlib: { browser: "./src/lib/empty-module.js" },
+    },
+  },
+  // Ioredis + Upstash Redis are server-only Redis clients. Marking them as
+  // serverExternalPackages tells Next not to bundle them on the server (they
+  // resolve as Node externals at runtime), which also keeps their transitive
+  // `require("dns")`/`require("net")` calls from being scanned during the
+  // server build. Client bundles still have the resolveAlias stub above.
+  serverExternalPackages: ["ioredis", "@upstash/redis"],
   // Canonical host = apex (trendingrepo.com). Every other host attached to
   // this project 308s to the apex so Google + shared links consolidate on
   // one URL. The redirect ships with the build, so there's no DNS/dashboard
@@ -86,18 +165,41 @@ const nextConfig: NextConfig = {
         destination: "https://trendingrepo.com/:path*",
         permanent: true,
       },
-      // /news → /signals: News Terminal was renamed to Signal Terminal and
-      // the consolidated /news view replaced by the cross-source /signals
-      // aggregator. Config-level redirect emits a real 307 (dev server's
-      // App Router redirect() falls back to meta-refresh which breaks
-      // CLI / preview tools).
-      {
-        source: "/news",
-        destination: "/signals",
-        permanent: false,
-      },
+      // /news is now the primary News Terminal (v2-styled tabbed overview).
+      // /signals remains the cross-source aggregator.
     ];
   },
 };
 
-export default nextConfig;
+// Sentry wrap — outermost so source-map upload + auto-instrumentation
+// run after bundle analyzer + base config. SENTRY_AUTH_TOKEN gates the
+// upload (set in CI / Vercel prod build env only).
+//
+// Migrated to @sentry/nextjs ≥10 shape: disableLogger and
+// automaticVercelMonitors moved under the new `webpack` namespace
+// (the wizard's defaults still emit the deprecation warnings on every
+// build until this lands).
+const sentryWebpackPluginOptions = {
+  org: process.env.SENTRY_ORG,
+  project: process.env.SENTRY_PROJECT,
+  authToken: process.env.SENTRY_AUTH_TOKEN,
+  silent: !process.env.CI,
+  widenClientFileUpload: true,
+  hideSourceMaps: true,
+  tunnelRoute: "/api/_sentry-tunnel",
+  webpack: {
+    treeshake: { removeDebugLogging: true },
+    automaticVercelMonitors: false,
+  },
+};
+
+// Skip Sentry's Next plugin wrap during local `next dev` (Turbopack 15.5
+// + @sentry/nextjs 10.50 produces a MODULE_UNPARSABLE stub for the
+// instrumentation hook even on a no-op source file). Production builds on
+// Vercel run with NODE_ENV=production via webpack and are unaffected; the
+// Sentry runtime config files (sentry.{server,edge,client}.config.ts)
+// still init at boot when SENTRY_DSN is set.
+const wrapped = withBundleAnalyzer(nextConfig);
+export default process.env.NODE_ENV === "production"
+  ? withSentryConfig(wrapped, sentryWebpackPluginOptions)
+  : wrapped;

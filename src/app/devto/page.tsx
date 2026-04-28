@@ -14,8 +14,6 @@
 import Link from "next/link";
 import {
   devtoArticleHref,
-  devtoBodyFetchMode,
-  devtoFetchedAt,
   getDevtoLeaderboard,
   refreshDevtoMentionsFromStore,
 } from "@/lib/devto";
@@ -25,26 +23,20 @@ import {
   refreshDevtoTrendingFromStore,
 } from "@/lib/devto-trending";
 import { repoFullNameToHref } from "@/lib/hackernews";
+import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
+import { buildDevtoHeaderFromArticles } from "@/components/news/newsTopMetrics";
+import { TerminalFeedTable, type FeedColumn } from "@/components/feed/TerminalFeedTable";
+import { EntityLogo } from "@/components/ui/EntityLogo";
+import { userLogoUrl, resolveLogoUrl } from "@/lib/logos";
+
+const DEVTO_ACCENT = "rgba(102, 153, 255, 0.85)";
+const DEVTO_BLUE = "#6699ff";
 
 export const dynamic = "force-static";
 
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
-
-function formatRelative(iso: string | null | undefined): string {
-  if (!iso) return "never";
-  const t = new Date(iso).getTime();
-  if (!Number.isFinite(t)) return "unknown";
-  const diff = Date.now() - t;
-  if (diff < 60_000) return "just now";
-  const mins = Math.floor(diff / 60_000);
-  if (mins < 60) return `${mins}m ago`;
-  const hours = Math.floor(mins / 60);
-  if (hours < 24) return `${hours}h ago`;
-  const days = Math.floor(hours / 24);
-  return `${days}d ago`;
-}
 
 function formatAgeFromIso(iso: string): string {
   const t = new Date(iso).getTime();
@@ -71,72 +63,38 @@ export default async function DevtoPage() {
 
   const totalArticles = trendingFile.articles.length;
   const reposLinked = leaderboard.length;
-  const sliceCount = trendingFile.discoverySlices?.length ?? 0;
-  const tagCount = trendingFile.priorityTags?.length ?? 0;
   const cold = totalArticles === 0 && reposLinked === 0;
 
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
       <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        {/* Header */}
-        <header className="mb-6 border-b border-border-primary pb-6">
-          <div className="flex items-baseline gap-3 flex-wrap">
-            <h1 className="text-2xl font-bold uppercase tracking-wider">
-              DEV.TO / ARTICLES
-            </h1>
-            <span className="text-xs text-text-tertiary">
-              {"// long-form developer writing + tutorials"}
-            </span>
-          </div>
-          <p className="mt-2 text-sm text-text-secondary max-w-3xl">
-            Top dev.to articles scraped via the public dev.to API and ranked by
-            a velocity score that blends reactions, comments, and post age.
-            Discovery now combines global popularity slices plus curated AI/dev
-            tag slices ({tagCount} tags, {sliceCount} total slices). Article
-            bodies are scanned for GitHub links so each piece is cross-referenced
-            back to the tracked repo set — useful for spotting which projects
-            are getting written-up in tutorial form, not just starred.
-          </p>
-        </header>
-
         {cold ? (
           <ColdState />
         ) : (
           <>
-            {/* Stat tiles */}
-            <section className="mb-6 grid grid-cols-2 md:grid-cols-4 gap-3">
-              <StatTile
-                label="LAST SCRAPE"
-                value={formatRelative(devtoFetchedAt)}
-                hint={
-                  devtoFetchedAt
-                    ? new Date(devtoFetchedAt)
-                        .toISOString()
-                        .slice(0, 16)
-                        .replace("T", " ")
-                    : undefined
-                }
+            {/* V3 top header — 3 charts + 3 hero articles. The legacy stat
+                tiles below this were dropped — covered by the V3 snapshot. */}
+            <div className="mb-6">
+              <NewsTopHeaderV3
+                routeTitle="DEV.TO · TOP ARTICLES"
+                liveLabel={`LIVE · ${trendingFile.windowDays}D`}
+                eyebrow="// DEV.TO · LIVE FIREHOSE"
+                meta={[
+                  { label: "TRACKED", value: totalArticles.toLocaleString("en-US") },
+                  { label: "WINDOW", value: `${trendingFile.windowDays}D` },
+                ]}
+                {...buildDevtoHeaderFromArticles(
+                  trendingFile.articles,
+                  leaderboard,
+                )}
+                accent={DEVTO_ACCENT}
+                caption={[
+                  "// LAYOUT compact-v1",
+                  "· 3-COL · 320 / 1FR / 1FR",
+                  "· DATA UNCHANGED",
+                ]}
               />
-              <StatTile
-                label="ARTICLES TRACKED"
-                value={totalArticles.toLocaleString("en-US")}
-                hint={`${trendingFile.windowDays}d window · ${trendingFile.scannedArticles.toLocaleString("en-US")} scanned`}
-              />
-              <StatTile
-                label="REPOS LINKED"
-                value={reposLinked.toLocaleString("en-US")}
-                hint="github mentions in body/tags"
-              />
-              <StatTile
-                label="DISCOVERY"
-                value={sliceCount.toLocaleString("en-US")}
-                hint={
-                  sliceCount > 0
-                    ? `${tagCount} tags + rising/fresh + top`
-                    : devtoBodyFetchMode
-                }
-              />
-            </section>
+            </div>
 
             {/* Two-column layout */}
             <div className="grid grid-cols-1 md:grid-cols-[1fr_320px] gap-6">
@@ -164,78 +122,154 @@ export default async function DevtoPage() {
 // Articles feed
 // ---------------------------------------------------------------------------
 
-function ArticlesFeed({
-  articles,
-}: {
-  articles: ReturnType<typeof getDevtoTopArticles>;
-}) {
+type DevtoArticle = ReturnType<typeof getDevtoTopArticles>[number];
+
+function ArticlesFeed({ articles }: { articles: DevtoArticle[] }) {
+  const columns: FeedColumn<DevtoArticle>[] = [
+    {
+      id: "rank",
+      header: "#",
+      width: "44px",
+      render: (_, i) => (
+        <span
+          className="font-mono text-[12px] tabular-nums font-semibold"
+          style={{ color: i < 10 ? DEVTO_BLUE : "var(--v3-ink-400)" }}
+        >
+          {String(i + 1).padStart(2, "0")}
+        </span>
+      ),
+    },
+    {
+      id: "title",
+      header: "Title · Author",
+      render: (a) => (
+        <div className="flex min-w-0 items-center gap-2">
+          <EntityLogo
+            src={
+              userLogoUrl(
+                (
+                  a.author as {
+                    profile_image?: string | null;
+                    profile_image_90?: string | null;
+                  } | null
+                )?.profile_image ??
+                  (
+                    a.author as {
+                      profile_image_90?: string | null;
+                    } | null
+                  )?.profile_image_90 ??
+                  null,
+              ) ??
+              (a.author?.username
+                ? `https://dev.to/${encodeURIComponent(a.author.username)}.png`
+                : null) ??
+              resolveLogoUrl(a.url ?? null, a.title, 64)
+            }
+            name={a.author?.username ?? a.title}
+            size={20}
+            shape="circle"
+            alt=""
+          />
+          <div className="min-w-0">
+          <a
+            href={devtoArticleHref(a.url)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block truncate text-[13px] font-medium transition-colors hover:text-[color:var(--v3-acc)]"
+            style={{ color: "var(--v3-ink-100)" }}
+            title={a.title}
+          >
+            {a.title}
+          </a>
+          <div
+            className="truncate text-[11px]"
+            style={{ color: "var(--v3-ink-400)" }}
+          >
+            by @{a.author.username} · {a.readingTime} min read
+          </div>
+          </div>
+        </div>
+      ),
+    },
+    {
+      id: "reactions",
+      header: "React",
+      width: "84px",
+      align: "right",
+      render: (a) => (
+        <span
+          className="inline-flex items-center justify-end gap-1 font-mono text-[12px] tabular-nums"
+          style={{
+            color: a.reactionsCount >= 50 ? "var(--v3-sig-green)" : "var(--v3-ink-200)",
+          }}
+        >
+          <HeartIcon className="h-3 w-3" />
+          {a.reactionsCount.toLocaleString("en-US")}
+        </span>
+      ),
+    },
+    {
+      id: "comments",
+      header: "Cmts",
+      width: "60px",
+      align: "right",
+      hideBelow: "md",
+      render: (a) => (
+        <span
+          className="font-mono text-[12px] tabular-nums"
+          style={{ color: "var(--v3-ink-300)" }}
+        >
+          {a.commentsCount.toLocaleString("en-US")}
+        </span>
+      ),
+    },
+    {
+      id: "tag",
+      header: "Tag",
+      width: "100px",
+      hideBelow: "md",
+      render: (a) => {
+        const tag = a.tags?.[0];
+        if (!tag) return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+        return (
+          <span
+            className="v2-mono inline-block max-w-full truncate px-1.5 py-0.5 text-[10px] tracking-[0.14em] uppercase"
+            style={{
+              border: "1px solid var(--v3-line-200)",
+              color: "var(--v3-ink-400)",
+              borderRadius: 2,
+            }}
+            title={a.tags.join(", ")}
+          >
+            #{tag}
+          </span>
+        );
+      },
+    },
+    {
+      id: "age",
+      header: "Posted",
+      width: "70px",
+      align: "right",
+      render: (a) => (
+        <span
+          className="font-mono text-[12px] tabular-nums"
+          style={{ color: "var(--v3-ink-400)" }}
+        >
+          {formatAgeFromIso(a.publishedAt)}
+        </span>
+      ),
+    },
+  ];
+
   return (
-    <div className="border border-border-primary rounded-md bg-bg-secondary overflow-hidden">
-      <div className="grid grid-cols-[40px_1fr_60px_60px_80px] md:grid-cols-[40px_1fr_80px_60px_60px_80px] gap-3 items-center px-3 h-9 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
-        <div>#</div>
-        <div>TITLE · AUTHOR</div>
-        <div className="text-right">REACT</div>
-        <div className="text-right">CMTS</div>
-        <div className="hidden md:block">TAG</div>
-        <div className="text-right">POSTED</div>
-      </div>
-      <ul>
-        {articles.map((a, i) => {
-          const tag = a.tags?.[0];
-          const isHigh = a.reactionsCount >= 50;
-          return (
-            <li
-              key={a.id}
-              className="grid grid-cols-[40px_1fr_60px_60px_80px] md:grid-cols-[40px_1fr_80px_60px_60px_80px] gap-3 items-center px-3 h-12 hover:bg-bg-card-hover transition-colors border-b border-border-primary/40 last:border-b-0"
-            >
-              <div className="text-text-tertiary text-xs tabular-nums">
-                {i + 1}
-              </div>
-              <div className="min-w-0">
-                <a
-                  href={devtoArticleHref(a.url)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-text-primary hover:text-accent-green truncate block"
-                  title={a.title}
-                >
-                  {a.title}
-                </a>
-                <div className="text-[11px] text-text-tertiary truncate">
-                  by @{a.author.username} · {a.readingTime} min read
-                </div>
-              </div>
-              <div
-                className={`text-right text-xs tabular-nums inline-flex items-center justify-end gap-1 ${
-                  isHigh ? "text-up font-semibold" : "text-text-secondary"
-                }`}
-              >
-                <HeartIcon className="w-3 h-3" />
-                <span>{a.reactionsCount.toLocaleString("en-US")}</span>
-              </div>
-              <div className="text-right text-xs tabular-nums text-text-secondary">
-                {a.commentsCount.toLocaleString("en-US")}
-              </div>
-              <div className="hidden md:block min-w-0">
-                {tag ? (
-                  <span
-                    className="inline-block max-w-full truncate text-[10px] px-1.5 py-0.5 rounded border border-border-primary text-text-tertiary"
-                    title={a.tags.join(", ")}
-                  >
-                    #{tag}
-                  </span>
-                ) : (
-                  <span className="text-text-tertiary text-[10px]">—</span>
-                )}
-              </div>
-              <div className="text-right text-xs tabular-nums text-text-tertiary">
-                {formatAgeFromIso(a.publishedAt)}
-              </div>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+    <TerminalFeedTable
+      rows={articles}
+      columns={columns}
+      rowKey={(a) => String(a.id)}
+      accent={DEVTO_BLUE}
+      caption="Top dev.to articles ranked by velocity score"
+    />
   );
 }
 
@@ -252,11 +286,24 @@ function Leaderboard({
 }) {
   if (entries.length === 0) {
     return (
-      <div className="border border-dashed border-border-primary rounded-md p-4 bg-bg-secondary/40">
-        <h3 className="text-[11px] uppercase tracking-wider text-text-tertiary">
+      <div
+        className="p-4"
+        style={{
+          background: "var(--v3-bg-025)",
+          border: "1px dashed var(--v3-line-100)",
+          borderRadius: 2,
+        }}
+      >
+        <h3
+          className="v2-mono text-[11px] uppercase tracking-[0.18em]"
+          style={{ color: "var(--v3-ink-300)" }}
+        >
           REPO LEADERBOARD
         </h3>
-        <p className="mt-2 text-[11px] text-text-tertiary">
+        <p
+          className="mt-2 text-[11px]"
+          style={{ color: "var(--v3-ink-400)" }}
+        >
           {"// no articles cross-linked to tracked repos yet — broaden the scrape window or wait for fresh data"}
         </p>
       </div>
@@ -264,48 +311,91 @@ function Leaderboard({
   }
 
   return (
-    <div className="border border-border-primary rounded-md bg-bg-secondary overflow-hidden">
-      <div className="px-3 h-9 border-b border-border-primary flex items-center justify-between">
-        <span className="text-[10px] uppercase tracking-wider text-text-tertiary">
+    <div
+      className="overflow-hidden"
+      style={{
+        background: "var(--v3-bg-050)",
+        border: "1px solid var(--v3-line-200)",
+        borderRadius: 2,
+      }}
+    >
+      <div
+        className="v2-mono flex h-9 items-center justify-between px-3"
+        style={{
+          borderBottom: "1px solid var(--v3-line-100)",
+          background: "var(--v3-bg-025)",
+        }}
+      >
+        <span
+          className="text-[10px] uppercase tracking-[0.18em]"
+          style={{ color: "var(--v3-ink-300)" }}
+        >
           REPO LEADERBOARD
         </span>
-        <span className="text-[10px] text-text-tertiary tabular-nums">
+        <span
+          className="text-[10px] tabular-nums tracking-[0.14em]"
+          style={{ color: "var(--v3-ink-400)" }}
+        >
           {entries.length}/{totalRepos}
         </span>
       </div>
-      <div className="grid grid-cols-[28px_1fr_40px_50px] gap-2 items-center px-3 h-7 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
+      <div
+        className="v2-mono grid h-7 grid-cols-[28px_1fr_40px_50px] items-center gap-2 px-3 text-[10px] uppercase tracking-[0.18em]"
+        style={{
+          borderBottom: "1px solid var(--v3-line-100)",
+          color: "var(--v3-ink-400)",
+        }}
+      >
         <div>#</div>
         <div>REPO</div>
         <div className="text-right">ART</div>
         <div className="text-right">REACT</div>
       </div>
       <ul>
-        {entries.map((entry, i) => (
-          <li
-            key={entry.fullName}
-            className="grid grid-cols-[28px_1fr_40px_50px] gap-2 items-center px-3 h-9 hover:bg-bg-card-hover transition-colors border-b border-border-primary/40 last:border-b-0"
-          >
-            <div className="text-text-tertiary text-xs tabular-nums">
-              {i + 1}
-            </div>
-            <div className="min-w-0">
-              <Link
-                href={repoFullNameToHref(entry.fullName)}
-                className="text-xs text-text-primary hover:text-accent-green truncate block"
-                title={entry.fullName}
+        {entries.map((entry, i) => {
+          const stagger = Math.min(i, 6) * 50;
+          return (
+            <li
+              key={entry.fullName}
+              className="v2-row group grid h-9 grid-cols-[28px_1fr_40px_50px] items-center gap-2 px-3"
+              style={{
+                borderBottom: "1px dashed var(--v3-line-100)",
+                animation: "slide-up 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both",
+                animationDelay: stagger > 0 ? `${stagger}ms` : undefined,
+              }}
+            >
+              <div
+                className="font-mono text-xs tabular-nums"
+                style={{ color: "var(--v3-ink-400)" }}
               >
-                {entry.fullName}
-              </Link>
-            </div>
-            <div className="text-right text-xs tabular-nums text-text-secondary">
-              {entry.count7d.toLocaleString("en-US")}
-            </div>
-            <div className="text-right text-xs tabular-nums text-text-tertiary inline-flex items-center justify-end gap-1">
-              <HeartIcon className="w-2.5 h-2.5" />
-              {entry.reactionsSum7d.toLocaleString("en-US")}
-            </div>
-          </li>
-        ))}
+                {i + 1}
+              </div>
+              <div className="min-w-0">
+                <Link
+                  href={repoFullNameToHref(entry.fullName)}
+                  className="block truncate text-xs transition-colors hover:text-[color:var(--v3-acc)]"
+                  style={{ color: "var(--v3-ink-100)" }}
+                  title={entry.fullName}
+                >
+                  {entry.fullName}
+                </Link>
+              </div>
+              <div
+                className="text-right text-xs tabular-nums"
+                style={{ color: "var(--v3-ink-200)" }}
+              >
+                {entry.count7d.toLocaleString("en-US")}
+              </div>
+              <div
+                className="inline-flex items-center justify-end gap-1 text-right text-xs tabular-nums"
+                style={{ color: "var(--v3-ink-400)" }}
+              >
+                <HeartIcon className="h-2.5 w-2.5" />
+                {entry.reactionsSum7d.toLocaleString("en-US")}
+              </div>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
@@ -315,42 +405,32 @@ function Leaderboard({
 // Pieces
 // ---------------------------------------------------------------------------
 
-function StatTile({
-  label,
-  value,
-  hint,
-}: {
-  label: string;
-  value: string;
-  hint?: string;
-}) {
-  return (
-    <div className="border border-border-primary rounded-md px-4 py-3 bg-bg-secondary">
-      <div className="text-[10px] uppercase tracking-wider text-text-tertiary">
-        {label}
-      </div>
-      <div className="mt-1 text-xl font-bold truncate">{value}</div>
-      {hint ? (
-        <div className="mt-0.5 text-[11px] text-text-tertiary truncate">
-          {hint}
-        </div>
-      ) : null}
-    </div>
-  );
-}
-
 function ColdState() {
   return (
-    <section className="border border-dashed border-border-primary rounded-md p-8 bg-bg-secondary/40">
-      <h2 className="text-lg font-bold uppercase tracking-wider text-accent-green">
+    <section
+      className="p-8"
+      style={{
+        background: "var(--v3-bg-025)",
+        border: "1px dashed var(--v3-line-100)",
+        borderRadius: 2,
+      }}
+    >
+      <h2
+        className="v2-mono text-lg font-bold uppercase tracking-[0.18em]"
+        style={{ color: DEVTO_BLUE }}
+      >
         {"// no dev.to data yet"}
       </h2>
-      <p className="mt-3 text-sm text-text-secondary max-w-xl">
+      <p
+        className="mt-3 max-w-xl text-sm"
+        style={{ color: "var(--v3-ink-300)" }}
+      >
         The dev.to scraper hasn&apos;t produced data yet. Run{" "}
-        <code className="text-text-primary">npm run scrape:devto</code> locally
-        to populate{" "}
-        <code className="text-text-primary">data/devto-mentions.json</code> and{" "}
-        <code className="text-text-primary">data/devto-trending.json</code>,
+        <code style={{ color: "var(--v3-ink-100)" }}>npm run scrape:devto</code>{" "}
+        locally to populate{" "}
+        <code style={{ color: "var(--v3-ink-100)" }}>data/devto-mentions.json</code>{" "}
+        and{" "}
+        <code style={{ color: "var(--v3-ink-100)" }}>data/devto-trending.json</code>,
         then refresh this page.
       </p>
     </section>

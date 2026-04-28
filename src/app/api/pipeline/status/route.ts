@@ -4,6 +4,7 @@
 // top of the same committed JSON freshness signals /api/health enforces.
 
 import { NextResponse } from "next/server";
+import { errorEnvelope } from "@/lib/api/error-response";
 import { pipeline, repoStore, scoreStore, snapshotStore } from "@/lib/pipeline/pipeline";
 import { createGitHubAdapter } from "@/lib/pipeline/ingestion/ingest";
 import { getDerivedMetaCounts } from "@/lib/derived-insights";
@@ -42,6 +43,8 @@ import {
   type ScannerSourceHealth,
 } from "@/lib/source-health";
 import { getDerivedRepoCount, getDerivedRepos } from "@/lib/derived-repos";
+
+export const runtime = "nodejs";
 
 const RANKINGS_STALE_THRESHOLD_MS = 12 * 60 * 60 * 1000;
 
@@ -231,6 +234,6 @@ export async function GET(): Promise<NextResponse<PipelineStatusResponse | { err
     return NextResponse.json(body, { status: httpStatus });
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
-    return NextResponse.json({ error: message }, { status: 500 });
+    return NextResponse.json(errorEnvelope(message), { status: 500 });
   }
 }

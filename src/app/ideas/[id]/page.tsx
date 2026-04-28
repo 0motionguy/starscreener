@@ -82,15 +82,25 @@ export default async function IdeaDetailPage({ params }: PageProps) {
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
       <div className="max-w-[900px] mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-4">
-        <nav className="flex items-center">
+        <div
+          className="flex items-center justify-between gap-3 pb-1"
+          style={{ borderBottom: "1px solid var(--v2-line-std)" }}
+        >
+          <span
+            className="v2-mono"
+            style={{ fontSize: 10, color: "var(--v2-ink-400)" }}
+          >
+            {`// IDEA · ${record.id.toUpperCase()} · @${record.authorHandle.toUpperCase()}`}
+          </span>
           <Link
             href="/ideas"
-            className="inline-flex items-center gap-1.5 text-xs text-text-tertiary hover:text-text-primary"
+            className="v2-mono inline-flex items-center gap-1.5 transition-colors"
+            style={{ fontSize: 10, color: "var(--v2-ink-300)" }}
           >
-            <ArrowLeft className="size-3.5" aria-hidden />
-            Back to ideas
+            <ArrowLeft className="size-3" aria-hidden />
+            BACK TO IDEAS
           </Link>
-        </nav>
+        </div>
         <IdeaCard idea={toPublicIdea(record)} reactionCounts={counts} linkToDetail={false} />
       </div>
     </main>

@@ -46,7 +46,7 @@ function requestHeaders(token) {
   const headers = {
     Accept: "application/vnd.github+json",
     "X-GitHub-Api-Version": API_VERSION,
-    "User-Agent": "starscreener-discovery-bot",
+    "User-Agent": "trendingrepo-discovery-bot",
   };
   if (token) {
     headers.Authorization = `Bearer ${token}`;

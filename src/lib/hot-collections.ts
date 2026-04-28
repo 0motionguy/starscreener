@@ -1,7 +1,5 @@
 import hotCollectionsJson from "../../data/hot-collections.json";
 import { loadAllCollections, type CollectionFile } from "./collections";
-import { getDataStore } from "./data-store";
-
 export interface HotCollectionRepo {
   repoId: number | null;
   repoName: string;
@@ -117,6 +115,7 @@ export async function refreshHotCollectionsFromStore(): Promise<RefreshResult> {
   }
 
   inflight = (async (): Promise<RefreshResult> => {
+    const { getDataStore } = await import("./data-store");
     const result = await getDataStore().read<HotCollectionsFile>("hot-collections");
     if (result.data && result.source !== "missing") {
       data = result.data;

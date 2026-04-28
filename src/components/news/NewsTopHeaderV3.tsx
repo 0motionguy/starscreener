@@ -239,14 +239,33 @@ export function NewsTopHeaderV3({
         </div>
       ) : null}
 
-      {/* Featured strip — `// FEATURED · TODAY · 3 PICKS` + 3 cards */}
-      <div className="pt-2">
-        <div
-          className="v2-mono mb-2 px-1 text-[11px] tracking-[0.18em]"
-          style={{ color: "var(--v3-ink-400)" }}
-        >
-          {`// FEATURED · TODAY · 3 PICKS`}
-        </div>
+      {/* Featured strip — eyebrow now wears the same corner-tick chrome
+          as the titlebar / topbar so the hero block reads as one piece
+          with the compact-v1 stats above (was a bare mono label before). */}
+      <div className="flex flex-col gap-3">
+        <CornerTickBar accent={accentVar} dense>
+          <span className="flex items-center gap-2 min-w-0 truncate">
+            <span aria-hidden className="flex items-center gap-1">
+              <Square color={accentVar} glow={accentGlow} />
+              <Square color="var(--v3-line-300)" />
+              <Square color="var(--v3-line-300)" />
+            </span>
+            <span
+              className="v2-mono truncate text-[11px] tracking-[0.18em]"
+              style={{ color: "var(--v3-ink-200)" }}
+            >
+              <span style={{ color: "var(--v3-ink-400)" }}>{"// "}</span>
+              <b style={{ color: "var(--v3-ink-000)", fontWeight: 600 }}>FEATURED</b>
+              <span style={{ color: "var(--v3-ink-400)" }}>{" · TODAY"}</span>
+            </span>
+          </span>
+          <span
+            className="v2-mono shrink-0 text-[10px] tabular-nums tracking-[0.14em]"
+            style={{ color: "var(--v3-ink-400)" }}
+          >
+            <b style={{ color: "var(--v3-ink-000)", fontWeight: 600 }}>3</b> PICKS
+          </span>
+        </CornerTickBar>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {[0, 1, 2].map((slot) => {
             const story = topStories[slot];

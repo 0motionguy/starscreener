@@ -32,11 +32,11 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "next-env.d.ts",
-    "../../../AppData/Local/Temp/starscreener-next-dev/types/**/*.ts"
+    "next-env.d.ts"
   ],
   "exclude": [
     "node_modules",
-    "mcp"
+    "mcp",
+    "apps"
   ]
 }

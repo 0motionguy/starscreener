@@ -170,6 +170,8 @@ export function MobileDrawer() {
                   availableLanguages={data.availableLanguages}
                   watchlistPreview={watchlistPreview}
                   unreadAlerts={data.unreadAlerts}
+                  sourceCounts={data.sourceCounts}
+                  trendingReposCount={data.trendingReposCount}
                   onClose={close}
                 />
               ) : (

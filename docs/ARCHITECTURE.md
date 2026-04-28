@@ -1,4 +1,4 @@
-# StarScreener — Architecture
+# TrendingRepo — Architecture
 
 High-level walkthrough of how data flows from GitHub into the terminal UI.
 

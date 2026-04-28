@@ -109,40 +109,6 @@ export default async function ProductHuntPage({
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
       <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        {/* V3 page header — mono eyebrow + title + tight subtitle. */}
-        <header
-          className="mb-5 pb-4 border-b"
-          style={{ borderColor: "var(--v3-line-100)" }}
-        >
-          <div
-            className="v2-mono mb-2 text-[10px] tracking-[0.18em] uppercase"
-            style={{ color: "var(--v3-ink-400)" }}
-          >
-            {"// DEVS SHIPPING SIDE PROJECTS + AI TOOLS"}
-          </div>
-          <h1
-            className="text-2xl font-bold uppercase tracking-wider inline-flex items-center gap-2"
-            style={{ color: "var(--v3-ink-000)" }}
-          >
-            <span style={{ color: PH_RED }} aria-hidden>
-              ▲
-            </span>
-            PRODUCTHUNT / LAUNCHES
-          </h1>
-          <p
-            className="mt-2 text-[13px] leading-relaxed max-w-2xl"
-            style={{ color: "var(--v3-ink-300)" }}
-          >
-            Daily launches pulled via the ProductHunt API across AI / dev-tools
-            topics, scored by{" "}
-            <code style={{ color: "var(--v3-ink-100)" }}>votesCount</code> and{" "}
-            <code style={{ color: "var(--v3-ink-100)" }}>commentsCount</code>. Each
-            launch is cross-linked to its GitHub repo when the maker mentions
-            one in the description, so an OSS launch can be traced back to its
-            tracked star momentum here on TrendingRepo.
-          </p>
-        </header>
-
         {cold ? (
           <ColdState />
         ) : (
@@ -153,13 +119,23 @@ export default async function ProductHuntPage({
                 only what the user is actually looking at. */}
             <div className="mb-6">
               <NewsTopHeaderV3
-                eyebrow={`// PRODUCTHUNT · ${activeTab === "ai" ? "AI LAUNCHES" : "ALL LAUNCHES"}`}
-                status={`${current.length.toLocaleString("en-US")} TRACKED · 7D`}
+                routeTitle={`PRODUCTHUNT · ${activeTab === "ai" ? "AI LAUNCHES" : "ALL LAUNCHES"}`}
+                liveLabel="LIVE · 7D"
+                eyebrow="// PRODUCTHUNT · LIVE FIREHOSE"
+                meta={[
+                  { label: "TRACKED", value: current.length.toLocaleString("en-US") },
+                  { label: "WINDOW", value: "7D" },
+                ]}
                 {...buildProductHuntHeader(
                   ({ launches: current } as Pick<ProductHuntFile, "launches">) as ProductHuntFile,
                   topLaunches.slice(0, 3),
                 )}
                 accent={PH_ACCENT}
+                caption={[
+                  "// LAYOUT compact-v1",
+                  "· 3-COL · 320 / 1FR / 1FR",
+                  "· DATA UNCHANGED",
+                ]}
               />
             </div>
 
@@ -371,7 +347,7 @@ function NameTagline({ launch }: { launch: Launch }) {
 
 function CrossLinkedReposPanel({ launches }: { launches: Launch[] }) {
   // Filter to launches that both (a) have a linkedRepo extracted from the
-  // description AND (b) match a repo currently tracked by StarScreener.
+  // description AND (b) match a repo currently tracked by TrendingRepo.
   // Drop the panel entirely when zero matches — empty crosslink boxes look
   // broken on a fresh scrape day where nobody linked GitHub.
   const rows = launches

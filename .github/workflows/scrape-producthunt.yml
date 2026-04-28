@@ -32,13 +32,16 @@ jobs:
 
       - name: Scrape ProductHunt
         env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
           PRODUCTHUNT_TOKEN: ${{ secrets.PRODUCTHUNT_TOKEN }}
+          PRODUCTHUNT_TOKENS: ${{ secrets.PRODUCTHUNT_TOKENS }}
+          GITHUB_TOKEN: ${{ github.token }}
         run: node scripts/scrape-producthunt.mjs
 
       - name: Commit if changed
         run: |
-          git config user.name  "starscreener-bot"
-          git config user.email "bot@starscreener.local"
+          git config user.name  "trendingrepo-bot"
+          git config user.email "bot@trendingrepo.local"
           git add data/producthunt-launches.json
           if git diff --quiet --staged; then
             echo "no changes - skipping commit"

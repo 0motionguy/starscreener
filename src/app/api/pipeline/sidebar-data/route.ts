@@ -25,6 +25,11 @@ import {
   getDerivedMetaCounts,
 } from "@/lib/derived-insights";
 import { getDerivedRepos } from "@/lib/derived-repos";
+import {
+  getSidebarSourceCounts,
+  emptySidebarSourceCounts,
+  type SidebarSourceCounts,
+} from "@/lib/sidebar-source-counts";
 import type { MetaCounts, MovementStatus } from "@/lib/types";
 import type { CategoryStats } from "@/lib/pipeline/queries/aggregate";
 
@@ -50,6 +55,8 @@ export interface SidebarDataResponse {
   availableLanguages: string[];
   reposById: Record<string, SidebarDataRepo>;
   unreadAlerts: number;
+  sourceCounts: SidebarSourceCounts;
+  trendingReposCount: number;
   generatedAt: string;
 }
 
@@ -93,6 +100,15 @@ export async function GET(
       unreadAlerts = 0;
     }
 
+    // Per-source counts for the sidebar count badges. Degrade to zeros
+    // on cold data-store / read error so the sidebar still renders.
+    let sourceCounts: SidebarSourceCounts;
+    try {
+      sourceCounts = await getSidebarSourceCounts();
+    } catch {
+      sourceCounts = emptySidebarSourceCounts();
+    }
+
     return NextResponse.json(
       {
         categoryStats,
@@ -100,6 +116,8 @@ export async function GET(
         availableLanguages,
         reposById,
         unreadAlerts,
+        sourceCounts,
+        trendingReposCount: repos.length,
         generatedAt: new Date().toISOString(),
       },
       { headers: { "Content-Type": "application/json; charset=utf-8" } },

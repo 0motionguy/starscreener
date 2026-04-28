@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { Analytics } from "@vercel/analytics/next";
 // Trimmed from 4 fonts to 3: Instrument Serif (--font-editorial) was
 // defined but not referenced anywhere in src/components or src/app.
 // Dropping it saves ~30 KB of font payload + one <link rel="preload">.
@@ -10,6 +9,7 @@ import { Toaster } from "sonner";
 import "@/lib/bootstrap";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { StoreProvider } from "@/components/providers/StoreProvider";
+import { PostHogProvider } from "@/components/providers/PostHogProvider";
 import { AppShell } from "@/components/layout/AppShell";
 import { Header } from "@/components/layout/Header";
 import { Sidebar } from "@/components/layout/Sidebar";
@@ -102,10 +102,23 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: "/",
+    types: {
+      "application/rss+xml": [
+        { url: "/feeds/breakouts.xml", title: `${SITE_NAME} — Cross-signal breakout repos` },
+        { url: "/feeds/funding.xml", title: `${SITE_NAME} — Open-source funding signals` },
+      ],
+    },
   },
   robots: {
     index: true,
     follow: true,
+  },
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION,
+    yandex: process.env.YANDEX_VERIFICATION,
+    other: {
+      "msvalidate.01": process.env.BING_SITE_VERIFICATION ?? "",
+    },
   },
 };
 
@@ -133,10 +146,11 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             // Reads the new key first, falls back to the legacy
-            // "starscreener-theme" entry for one release so existing
-            // users don't get their theme wiped. Also migrates the value
-            // forward so next-themes finds it on the new key next render.
-            __html: `(function(){try{var K="trendingrepo-theme",L="starscreener-theme",t=localStorage.getItem(K);if(!t){var old=localStorage.getItem(L);if(old){localStorage.setItem(K,old);t=old;}}if(t==="light")document.documentElement.classList.add("light");else document.documentElement.classList.add("dark")}catch(e){document.documentElement.classList.add("dark")}})();`,
+            // "starscreener-*" entries for one release so existing users
+            // don't lose state. Migrates the value forward so subsequent
+            // reads (next-themes, Zustand persist middleware, browser
+            // alerts) find it on the new key next render.
+            __html: `(function(){try{var pairs=[["trendingrepo-theme","starscreener-theme"],["trendingrepo-watchlist","starscreener-watchlist"],["trendingrepo-compare","starscreener-compare"],["trendingrepo-filters","starscreener-filters"],["trendingrepo-sidebar","starscreener-sidebar"],["trendingrepo-browser-alerts-enabled","starscreener-browser-alerts-enabled"],["trendingrepo-browser-alerts-seen","starscreener-browser-alerts-seen"],["trendingrepo-browser-alerts-changed","starscreener-browser-alerts-changed"]];for(var i=0;i<pairs.length;i++){var nk=pairs[i][0],ok=pairs[i][1];if(localStorage.getItem(nk)===null){var v=localStorage.getItem(ok);if(v!==null){localStorage.setItem(nk,v);}}}var t=localStorage.getItem("trendingrepo-theme");if(t==="light")document.documentElement.classList.add("light");else document.documentElement.classList.add("dark")}catch(e){document.documentElement.classList.add("dark")}})();`,
           }}
         />
         <script
@@ -156,8 +170,9 @@ export default function RootLayout({
       </head>
       <body>
         <ThemeProvider>
-          <StoreProvider>
-            <DesignSystemProvider>
+          <PostHogProvider>
+            <StoreProvider>
+              <DesignSystemProvider>
               <Header />
               <MobileDrawerLazy />
               <AppShell>
@@ -189,10 +204,10 @@ export default function RootLayout({
                   },
                 }}
               />
-            </DesignSystemProvider>
-          </StoreProvider>
+              </DesignSystemProvider>
+            </StoreProvider>
+          </PostHogProvider>
         </ThemeProvider>
-        <Analytics />
       </body>
     </html>
   );

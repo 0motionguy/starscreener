@@ -98,36 +98,36 @@ function momentumColor(ratio: number, breakoutCount: number): MomentumStyle {
   // BREAKOUT supersedes (≥3 breakouts OR ratio > 5)
   if (breakoutCount >= 3 || ratio > 5) {
     return {
-      fill: "#ff6600",
-      gradientEnd: "#ff4500",
-      glow: "rgba(255, 102, 0, 0.25)",
-      textColor: "#ffffff",
+      fill: "var(--v3-tier-breakout-fill)",
+      gradientEnd: "var(--v3-tier-breakout-end)",
+      glow: "var(--v3-tier-breakout-glow)",
+      textColor: "var(--v3-tier-text)",
     };
   }
   // HEATING (1.3 - 5)
   if (ratio > 1.3) {
     return {
-      fill: "#10B981",
-      gradientEnd: "#22c55e",
-      glow: "rgba(16, 185, 129, 0.20)",
-      textColor: "#ffffff",
+      fill: "var(--v3-tier-heating-fill)",
+      gradientEnd: "var(--v3-tier-heating-end)",
+      glow: "var(--v3-tier-heating-glow)",
+      textColor: "var(--v3-tier-text)",
     };
   }
   // STABLE (0.7 - 1.3)
   if (ratio >= 0.7) {
     return {
-      fill: "#2D5A3D",
-      gradientEnd: "#22c55e",
-      glow: "rgba(45, 90, 61, 0.15)",
-      textColor: "#ffffff",
+      fill: "var(--v3-tier-stable-fill)",
+      gradientEnd: "var(--v3-tier-stable-end)",
+      glow: "var(--v3-tier-stable-glow)",
+      textColor: "var(--v3-tier-text)",
     };
   }
   // COOLING (< 0.7)
   return {
-    fill: "#4A5568",
-    gradientEnd: "#6B7B8D",
-    glow: "rgba(74, 85, 104, 0.20)",
-    textColor: "#ffffff",
+    fill: "var(--v3-tier-cooling-fill)",
+    gradientEnd: "var(--v3-tier-cooling-end)",
+    glow: "var(--v3-tier-cooling-glow)",
+    textColor: "var(--v3-tier-text)",
   };
 }
 

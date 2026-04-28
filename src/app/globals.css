@@ -70,11 +70,13 @@
   --color-heat-neutral: #878787;
   --color-heat-cool: #60a5fa;
 
-  /* ── Chart series ──────────────────────────────────────────────────────── */
-  --color-series-1: #60a5fa;
-  --color-series-2: #a855f7;
-  --color-series-3: #f59e0b;
-  --color-series-4: #14b8a6;
+  /* ── Chart series — 4-slot rotating palette for compare/heatmap/multi-line.
+     Slot order matches the compare-page selector pills + repo-profile columns
+     so chart strokes, banner accents, and column headers line up by index. */
+  --color-series-1: #22c55e;  /* green  — slot 0 */
+  --color-series-2: #3b82f6;  /* blue   — slot 1 */
+  --color-series-3: #a855f7;  /* purple — slot 2 */
+  --color-series-4: #f59e0b;  /* amber  — slot 3 */
 
   /* ── Terminal surfaces ─────────────────────────────────────────────────── */
   --color-terminal-row-hover: rgba(245, 110, 15, 0.04);
@@ -261,6 +263,42 @@
   --v3-sig-red: #ff4d4d;
   --v3-sig-cyan: #3ad6c5;
 
+  /* Signal soft fills — admin error/warning row backgrounds, badge tints.
+     `soft` = ~6% alpha for row tints, `glow` = ~14% for hover/banner. */
+  --v3-sig-green-soft: rgba(34, 197, 94, 0.06);
+  --v3-sig-green-glow: rgba(34, 197, 94, 0.14);
+  --v3-sig-red-soft: rgba(255, 77, 77, 0.06);
+  --v3-sig-red-glow: rgba(255, 77, 77, 0.14);
+  --v3-sig-amber-soft: rgba(255, 181, 71, 0.06);
+  --v3-sig-amber-glow: rgba(255, 181, 71, 0.14);
+
+  /* Momentum tiers — heatmaps + bubble maps + baseline pills. Each tier has
+     a `fill` (gradient inner stop) and `end` (gradient outer stop). The
+     vocabulary spans both naming conventions:
+       breakout    — explosive growth (orange, Reddit-flavored)
+       heating     — strong growth (vivid green) — alias: above-average
+       stable      — steady (deep green) — alias: normal
+       cooling     — fading (slate gray) — alias: below-average
+       dormant     — no signal (very dim gray) — alias: no-baseline
+     Light themes (linen) override these with paper-friendly tones so
+     "cooling" cells don't read as black blobs on cream. */
+  --v3-tier-breakout-fill: #ff6600;
+  --v3-tier-breakout-end: #ff4500;
+  --v3-tier-breakout-glow: rgba(255, 102, 0, 0.25);
+  --v3-tier-heating-fill: #10b981;
+  --v3-tier-heating-end: #22c55e;
+  --v3-tier-heating-glow: rgba(16, 185, 129, 0.20);
+  --v3-tier-stable-fill: #2d5a3d;
+  --v3-tier-stable-end: #22c55e;
+  --v3-tier-stable-glow: rgba(45, 90, 61, 0.15);
+  --v3-tier-cooling-fill: #4a5568;
+  --v3-tier-cooling-end: #6b7b8d;
+  --v3-tier-cooling-glow: rgba(74, 85, 104, 0.20);
+  --v3-tier-dormant-fill: #374151;
+  --v3-tier-dormant-end: #4b5563;
+  --v3-tier-dormant-glow: rgba(55, 65, 81, 0.15);
+  --v3-tier-text: #ffffff;
+
   --v3-tracking-mono: 0.18em;
   --v3-tracking-mono-tight: 0.12em;
   --v3-tracking-display: -0.028em;
@@ -290,6 +328,28 @@
   --v2-sig-amber: var(--v3-sig-amber);
   --v2-sig-cyan: var(--v3-sig-cyan);
   --v2-sig-green: var(--v3-sig-green);
+  --v2-sig-red-soft: var(--v3-sig-red-soft);
+  --v2-sig-red-glow: var(--v3-sig-red-glow);
+  --v2-sig-green-soft: var(--v3-sig-green-soft);
+  --v2-sig-green-glow: var(--v3-sig-green-glow);
+  --v2-sig-amber-soft: var(--v3-sig-amber-soft);
+  --v2-sig-amber-glow: var(--v3-sig-amber-glow);
+  --v2-tier-breakout-fill: var(--v3-tier-breakout-fill);
+  --v2-tier-breakout-end: var(--v3-tier-breakout-end);
+  --v2-tier-breakout-glow: var(--v3-tier-breakout-glow);
+  --v2-tier-heating-fill: var(--v3-tier-heating-fill);
+  --v2-tier-heating-end: var(--v3-tier-heating-end);
+  --v2-tier-heating-glow: var(--v3-tier-heating-glow);
+  --v2-tier-stable-fill: var(--v3-tier-stable-fill);
+  --v2-tier-stable-end: var(--v3-tier-stable-end);
+  --v2-tier-stable-glow: var(--v3-tier-stable-glow);
+  --v2-tier-cooling-fill: var(--v3-tier-cooling-fill);
+  --v2-tier-cooling-end: var(--v3-tier-cooling-end);
+  --v2-tier-cooling-glow: var(--v3-tier-cooling-glow);
+  --v2-tier-dormant-fill: var(--v3-tier-dormant-fill);
+  --v2-tier-dormant-end: var(--v3-tier-dormant-end);
+  --v2-tier-dormant-glow: var(--v3-tier-dormant-glow);
+  --v2-tier-text: var(--v3-tier-text);
   --v2-tracking-display: var(--v3-tracking-display);
   --v2-tracking-mono: var(--v3-tracking-mono);
   --v2-tracking-mono-tight: var(--v3-tracking-mono-tight);
@@ -298,12 +358,13 @@
 /* ---------------------------------------------------------------------------
    Background themes — 5 swatches:
      black     (default) — Void dark, current trendingrepo.com look
-     graphite  — Cool blue-leaning dark (existing)
+     graphite  — Cool blue-leaning dark
      slate     — Warm-gray "in between" dark, lighter than graphite
-     creme     — PostHog-style warm off-white, yellow undertone
-     linen     — Softer beige off-white, neutral warm
-   The first three keep all V3 ink tokens dark-mode; the last two flip
-   the ink ramp so text remains legible on the warm backgrounds.
+     creme     — Warm dark with cream text (uniform-surface, dark family)
+     linen     — Soft beige off-white (uniform-surface, light family)
+   The first four keep dark surfaces; only linen flips to a true light
+   canvas. Creme + linen both collapse the surface ramp so chrome reads
+   as one tone — internal structure comes from hairlines + typography.
    --------------------------------------------------------------------------- */
 
 html[data-bg-theme="graphite"] {
@@ -338,40 +399,6 @@ html[data-bg-theme="graphite"] {
   --v2-line-200: #2a2a36;
   --v2-line-300: #383844;
   --v2-line-400: #4a4a56;
-}
-
-html[data-bg-theme="charcoal"] {
-  --color-bg-primary: #14141c;
-  --color-bg-secondary: #1e1e28;
-  --color-bg-tertiary: #282836;
-  --color-bg-card: #181824;
-  --color-bg-card-hover: #282836;
-  --color-bg-row-hover: #1e1e28;
-  --color-bg-elevated: #323240;
-  --color-bg-inset: #14141c;
-  --color-bg-overlay: rgba(20, 20, 28, 0.82);
-  --color-border-primary: #363644;
-  --color-border-secondary: #262632;
-  --color-text-inverse: #14141c;
-  --v3-bg-000: #14141c;
-  --v3-bg-025: #181824;
-  --v3-bg-050: #1c1c26;
-  --v3-bg-100: #242430;
-  --v3-bg-200: #2e2e3a;
-  --v3-bg-300: #3a3a48;
-  --v3-line-100: #262632;
-  --v3-line-200: #363644;
-  --v3-line-300: #464654;
-  --v3-line-400: #585866;
-  --v2-bg-000: #14141c;
-  --v2-bg-050: #1c1c26;
-  --v2-bg-100: #242430;
-  --v2-bg-200: #2e2e3a;
-  --v2-bg-300: #3a3a48;
-  --v2-line-100: #262632;
-  --v2-line-200: #363644;
-  --v2-line-300: #464654;
-  --v2-line-400: #585866;
 }
 
 /* "Slate" — warm-gray dark, the "in between" stop. Lighter than
@@ -449,9 +476,6 @@ html[data-bg-theme="creme"] {
   --color-warning-bg: rgba(176, 113, 3, 0.14);
   --color-info: #1d6cb1;
   --color-info-bg: rgba(29, 108, 177, 0.14);
-  --v3-acc: #f7f1de;
-  --v3-acc-soft: rgba(247, 241, 222, 0.14);
-  --v3-acc-glow: rgba(247, 241, 222, 0.40);
   --v3-bg-000: #1a1a1f;
   --v3-bg-025: #1a1a1f;
   --v3-bg-050: #1a1a1f;
@@ -489,19 +513,20 @@ html[data-bg-theme="creme"] {
   --v2-ink-500: #968a64;
 }
 
-/* "Linen" — softer light beige, more neutral than creme. Same flipped
-   ink ramp; slightly cooler tans on the hairlines so the surface
-   reads as paper rather than parchment. */
+/* "Linen" — paper-light surface, the lightest of the family. Uniform
+   single-tone canvas (sidebar, header, panels, main all share one cream
+   tone) — internal structure comes from hairlines + typography, not
+   luminance differential. Matches creme's uniform-surface treatment. */
 html[data-bg-theme="linen"] {
   color-scheme: light;
   --color-bg-primary: #f4eee2;
-  --color-bg-secondary: #ebe5d6;
-  --color-bg-tertiary: #e1dac8;
-  --color-bg-card: #fbf6ea;
-  --color-bg-card-hover: #ede7d8;
-  --color-bg-row-hover: #ebe5d6;
-  --color-bg-elevated: #fbf6ea;
-  --color-bg-inset: #e8e1cf;
+  --color-bg-secondary: #f4eee2;
+  --color-bg-tertiary: #ede6d4;
+  --color-bg-card: #f4eee2;
+  --color-bg-card-hover: #ede6d4;
+  --color-bg-row-hover: #ede6d4;
+  --color-bg-elevated: #f4eee2;
+  --color-bg-inset: #f4eee2;
   --color-bg-overlay: rgba(40, 35, 25, 0.55);
   --color-border-primary: #d4cab2;
   --color-border-secondary: #ddd3bc;
@@ -529,11 +554,11 @@ html[data-bg-theme="linen"] {
   --color-info: #1c609f;
   --color-info-bg: rgba(28, 96, 159, 0.14);
   --v3-bg-000: #f4eee2;
-  --v3-bg-025: #ebe5d6;
-  --v3-bg-050: #e3dccb;
-  --v3-bg-100: #d9d2bd;
-  --v3-bg-200: #cac0a4;
-  --v3-bg-300: #b1a484;
+  --v3-bg-025: #f4eee2;
+  --v3-bg-050: #f4eee2;
+  --v3-bg-100: #ede6d4;
+  --v3-bg-200: #ede6d4;
+  --v3-bg-300: #ede6d4;
   --v3-line-soft: rgba(24, 20, 11, 0.06);
   --v3-line-std: rgba(24, 20, 11, 0.10);
   --v3-line-100: #dcd2b6;
@@ -547,10 +572,10 @@ html[data-bg-theme="linen"] {
   --v3-ink-400: #8e8260;
   --v3-ink-500: #b1a484;
   --v2-bg-000: #f4eee2;
-  --v2-bg-050: #e3dccb;
-  --v2-bg-100: #d9d2bd;
-  --v2-bg-200: #cac0a4;
-  --v2-bg-300: #b1a484;
+  --v2-bg-050: #f4eee2;
+  --v2-bg-100: #ede6d4;
+  --v2-bg-200: #ede6d4;
+  --v2-bg-300: #ede6d4;
   --v2-line-soft: rgba(24, 20, 11, 0.06);
   --v2-line-std: rgba(24, 20, 11, 0.10);
   --v2-line-100: #dcd2b6;
@@ -565,13 +590,18 @@ html[data-bg-theme="linen"] {
   --v2-ink-500: #b1a484;
 }
 
+/* Flatten chrome + panels for creme + linen — no gradient, just the page
+   tone + a single hairline border so the page reads as one surface. */
 html[data-bg-theme="creme"] .v3-chrome,
-html[data-bg-theme="creme"] .v3-panel {
+html[data-bg-theme="creme"] .v3-panel,
+html[data-bg-theme="linen"] .v3-chrome,
+html[data-bg-theme="linen"] .v3-panel {
   background: var(--v3-bg-000);
   box-shadow: none;
 }
 
-html[data-bg-theme="creme"] .v3-panel {
+html[data-bg-theme="creme"] .v3-panel,
+html[data-bg-theme="linen"] .v3-panel {
   border: 1px solid var(--v3-line-200);
 }
 
@@ -585,41 +615,28 @@ html[data-bg-theme="creme"] body::before {
   background-position: 0 0, 0 0;
 }
 
-/* Linen uniform-surface overrides — collapse the 6-step bg ramp so the
-   sidebar, header, panels and main canvas share one cream tone. Internal
-   structure comes from hairlines + typography, not luminance differential. */
+/* Linen retunes the momentum tier ramp so cooling/dormant cells don't
+   read as near-black blobs on the cream canvas. Breakout + heating stay
+   vivid (they're the "look here" cells); stable/cooling/dormant lift to
+   warm mid-grays that sit naturally on paper. Text flips to dark so the
+   cell labels stay legible against the lighter fills. */
 html[data-bg-theme="linen"] {
-  --v3-bg-000: #f4eee2;
-  --v3-bg-025: #f4eee2;
-  --v3-bg-050: #f4eee2;
-  --v3-bg-100: #ede6d4; /* row hover only */
-  --v3-bg-200: #ede6d4;
-  --v3-bg-300: #ede6d4;
-  --v2-bg-000: #f4eee2;
-  --v2-bg-050: #f4eee2;
-  --v2-bg-100: #ede6d4;
-  --v2-bg-200: #ede6d4;
-  --v2-bg-300: #ede6d4;
-  --color-bg-primary: #f4eee2;
-  --color-bg-secondary: #f4eee2;
-  --color-bg-tertiary: #ede6d4;
-  --color-bg-card: #f4eee2;
-  --color-bg-card-hover: #ede6d4;
-  --color-bg-row-hover: #ede6d4;
-  --color-bg-elevated: #f4eee2;
-  --color-bg-inset: #f4eee2;
-}
-
-/* Flatten chrome + panels for linen — no gradient, just the page tone +
-   a single hairline border so the page reads as one paper surface. */
-html[data-bg-theme="linen"] .v3-chrome,
-html[data-bg-theme="linen"] .v3-panel {
-  background: var(--v3-bg-000);
-  box-shadow: none;
-}
-
-html[data-bg-theme="linen"] .v3-panel {
-  border: 1px solid var(--v3-line-200);
+  --v3-tier-breakout-fill: #e85d00;
+  --v3-tier-breakout-end: #c84e00;
+  --v3-tier-breakout-glow: rgba(232, 93, 0, 0.18);
+  --v3-tier-heating-fill: #2c8049;
+  --v3-tier-heating-end: #379c58;
+  --v3-tier-heating-glow: rgba(44, 128, 73, 0.16);
+  --v3-tier-stable-fill: #8aab8e;
+  --v3-tier-stable-end: #a3bda5;
+  --v3-tier-stable-glow: rgba(138, 171, 142, 0.18);
+  --v3-tier-cooling-fill: #aea48a;
+  --v3-tier-cooling-end: #c2b89e;
+  --v3-tier-cooling-glow: rgba(174, 164, 138, 0.16);
+  --v3-tier-dormant-fill: #c2b89e;
+  --v3-tier-dormant-end: #d4cab2;
+  --v3-tier-dormant-glow: rgba(194, 184, 158, 0.14);
+  --v3-tier-text: #18140b;
 }
 
 /* Replace the dark dot/line grid + radial glows for linen with a barely
@@ -890,6 +907,7 @@ body::before {
 .app-shell {
   display: grid;
   grid-template-columns: 280px 1fr;
+  column-gap: 16px;
   min-height: calc(100vh - 56px);
 }
 
@@ -1216,11 +1234,20 @@ body::before {
 }
 
 .v2-row {
-  transition: background-color 120ms ease-out;
+  transition:
+    background-color 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .v2-row:hover {
   background: var(--v2-bg-100);
+  /* Two-layer hover: 2px accent rail slides in on the left edge,
+     and a subtle hairline appears at the bottom — the row "lifts"
+     toward the cursor without translating, so dense rows don't
+     reflow on mouseover. */
+  box-shadow:
+    inset 2px 0 0 var(--v2-acc),
+    inset 0 -1px 0 var(--v2-line-300);
 }
 
 .v2-bracket {

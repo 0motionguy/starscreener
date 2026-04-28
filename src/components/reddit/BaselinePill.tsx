@@ -94,11 +94,12 @@ export function BaselinePill({
     // Inline style so the gradient + glow pulse don't depend on a tailwind
     // arbitrary-class build. Reuses existing `pulse-glow` keyframe.
     const style: CSSProperties = {
-      background: "linear-gradient(135deg, #ff6600 0%, #ff4500 100%)",
+      background:
+        "linear-gradient(135deg, var(--v3-tier-breakout-fill) 0%, var(--v3-tier-breakout-end) 100%)",
       animation: "pulse-glow 2.5s ease-in-out infinite",
       boxShadow: isHyperviral
-        ? "0 0 0 1px rgba(220, 38, 38, 0.85), 0 0 14px rgba(255, 102, 0, 0.55)"
-        : "0 0 8px rgba(255, 102, 0, 0.5)",
+        ? "0 0 0 1px rgba(220, 38, 38, 0.85), 0 0 14px var(--v3-tier-breakout-glow)"
+        : "0 0 8px var(--v3-tier-breakout-glow)",
     };
 
     return (

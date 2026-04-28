@@ -212,6 +212,7 @@ test("generatePredictionsBatch: throws on unsupported horizon", () => {
 interface PostArg {
   headers: Headers;
   text(): Promise<string>;
+  json(): Promise<Record<string, unknown>>;
 }
 
 function mkRequest(
@@ -223,6 +224,14 @@ function mkRequest(
     headers: new Headers(headers),
     async text() {
       return payload;
+    },
+    async json() {
+      // The predictions cron handler uses the generic parseBody() helper
+      // which calls request.json() (not request.text()). Without this
+      // method, parseBody() catches the missing-method error and returns
+      // {} — losing fullNames and horizons fields that drive the test
+      // assertions for empty-slate (645) and invalid-horizon (646).
+      return body === null ? {} : JSON.parse(payload);
     },
   };
 }

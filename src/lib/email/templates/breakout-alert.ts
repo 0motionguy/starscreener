@@ -12,7 +12,7 @@
 import type { AlertEvent } from "../../pipeline/types";
 import type { Repo } from "../../types";
 
-const SITE = "https://starscreener-production.up.railway.app";
+const SITE = "https://trendingrepo.com";
 
 function formatNumber(n: number | undefined | null): string {
   if (n == null) return "—";

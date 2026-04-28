@@ -54,7 +54,7 @@ export interface WebhookScanTestOverrides {
 
 // APP-14: prod skips the global-registry walk; only NODE_ENV=test sees
 // any override surface. See sibling route for full rationale.
-const WEBHOOK_SCAN_TEST_KEY = Symbol.for("starscreener.webhooks.scan.test");
+const WEBHOOK_SCAN_TEST_KEY = Symbol.for("trendingrepo.webhooks.scan.test");
 
 interface OverrideBag {
   overrides?: WebhookScanTestOverrides;

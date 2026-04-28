@@ -9,6 +9,20 @@
  * V2 visual treatment: terminal-bar mono section headers (`// LABEL`),
  * mono uppercase 11px nav rows, accent bracket markers on active rows,
  * accent-soft pill chips for live counts.
+ *
+ * Sections:
+ *   1. TREND TERMINAL    — Repos, Skills, MCP, AGNT, Breakouts, Top 100
+ *   2. SIGNAL TERMINAL   — HN / Lobsters / Dev.to / Bluesky / Reddit / X / PH
+ *   3. LLM / PACK TERMINAL — NPM / Hugging Face / LLM Charts
+ *   4. LAUNCH TERMINAL   — Funding / Revenue / Hackathons / Launch
+ *   5. RESEARCH TERMINAL — arXiv Papers / Cited Repos
+ *   6. TOOLS             — Watchlist / Compare / Signal Radar
+ *   7. WATCHING          — top 5 watchlist preview cards
+ *
+ * Three badge tones:
+ *   - `delta`   — green `+N` pill for rolling-window feeds.
+ *   - `default` — neutral total for cumulative inventories.
+ *   - `accent`  — purple pill for the user's own counts.
  */
 import { useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
@@ -18,18 +32,21 @@ import {
   BadgeCheck,
   BarChart3,
   Bot,
-  Bookmark,
+  Brain,
+  Cpu,
   DollarSign,
+  Eye,
+  FileText,
   GitCompareArrows,
-  LifeBuoy,
-  Lightbulb,
+  GraduationCap,
   Package,
+  Plug,
   Radar,
   Rocket,
-  Sparkles,
   TrendingUp,
   Trophy,
   X,
+  Zap,
 } from "lucide-react";
 import {
   RedditIcon,
@@ -43,6 +60,7 @@ import {
 import type { SidebarIconComponent } from "./SidebarNavItem";
 import type { CategoryStats } from "@/lib/pipeline/queries/aggregate";
 import type { MetaCounts } from "@/lib/types";
+import type { SidebarSourceCounts } from "@/lib/sidebar-source-counts";
 import { APP_NAME } from "@/lib/app-meta";
 import { useFilterStore, useWatchlistStore, useCompareStore } from "@/lib/store";
 import {
@@ -53,9 +71,6 @@ import { SidebarFooter } from "./SidebarFooter";
 import { cn } from "@/lib/utils";
 import { CursorRail } from "@/components/v3";
 
-// Monochrome wrappers — use the REAL brand glyph (Snoo / HN-Y / butterfly
-// / PH-cat / dev.to) but force `monochrome` so the fill inherits the
-// sidebar's V2 ink color (or the V2 accent on active).
 const RedditSidebarIcon: SidebarIconComponent = (p) => (
   <RedditIcon {...p} monochrome />
 );
@@ -82,12 +97,24 @@ export interface SidebarContentProps {
   availableLanguages: string[];
   watchlistPreview: SidebarWatchlistPreviewRepo[];
   unreadAlerts?: number;
+  /** Per-source counts for badge chips. */
+  sourceCounts?: SidebarSourceCounts;
+  /** Total trending repos count (the big "Trending Repos" badge). */
+  trendingReposCount?: number;
   onClose?: () => void;
 }
 
-// ---------------------------------------------------------------------------
-// V2 section wrapper — terminal-bar header (`// LABEL`) + hairline divider.
-// ---------------------------------------------------------------------------
+function compactCount(n: number): string {
+  if (!Number.isFinite(n) || n <= 0) return "";
+  if (n < 1000) return String(n);
+  if (n < 10_000) return `${(n / 1000).toFixed(1).replace(/\.0$/, "")}K`;
+  return `${Math.round(n / 1000)}K`;
+}
+
+function deltaChip(n: number): string {
+  if (!Number.isFinite(n) || n <= 0) return "";
+  return `+${compactCount(n)}`;
+}
 
 interface V2SectionProps {
   label: string;
@@ -129,10 +156,7 @@ function V2Section({ label, children, rightSlot, maxHeightPx }: V2SectionProps) 
   );
 }
 
-// ---------------------------------------------------------------------------
-// V2 nav row — mono uppercase label, optional badge chip, active = bracket
-// frame + accent left rail (3px).
-// ---------------------------------------------------------------------------
+type BadgeTone = "default" | "accent" | "danger" | "delta";
 
 interface V2NavRowProps {
   href?: string;
@@ -140,7 +164,7 @@ interface V2NavRowProps {
   icon: SidebarIconComponent;
   label: string;
   badge?: string | number;
-  badgeTone?: "default" | "accent" | "danger";
+  badgeTone?: BadgeTone;
   active?: boolean;
   disabled?: boolean;
 }
@@ -187,8 +211,6 @@ function V2NavRow({
     boxShadow: isActive ? "inset 3px 0 0 var(--v2-acc)" : undefined,
   };
 
-  // Wrapper span carries `color` so both Lucide (stroke=currentColor) and
-  // BrandIcons (monochrome fill=currentColor) pick up the V2 ink/accent.
   const content = (
     <>
       <span
@@ -229,23 +251,21 @@ function V2NavRow({
   );
 }
 
-// ---------------------------------------------------------------------------
-// V2 chip — accent-soft pill for live counts.
-// ---------------------------------------------------------------------------
-
 function V2Chip({
   value,
   tone = "default",
 }: {
   value: string | number;
-  tone?: "default" | "accent" | "danger";
+  tone?: BadgeTone;
 }) {
   const palette =
     tone === "accent"
       ? { bg: "var(--v2-acc-soft)", color: "var(--v2-acc)" }
       : tone === "danger"
         ? { bg: "rgba(239, 68, 68, 0.14)", color: "#ef4444" }
-        : { bg: "var(--v2-bg-200)", color: "var(--v2-ink-300)" };
+        : tone === "delta"
+          ? { bg: "var(--color-up-bg)", color: "var(--color-up)" }
+          : { bg: "var(--v2-bg-200)", color: "var(--v2-ink-300)" };
 
   return (
     <span
@@ -265,13 +285,11 @@ function V2Chip({
   );
 }
 
-// ---------------------------------------------------------------------------
-// SidebarContent
-// ---------------------------------------------------------------------------
-
 export function SidebarContent({
   metaCounts,
   watchlistPreview,
+  sourceCounts,
+  trendingReposCount,
   onClose,
 }: SidebarContentProps) {
   const router = useRouter();
@@ -291,9 +309,6 @@ export function SidebarContent({
     setNewsTab(new URLSearchParams(window.location.search).get("tab"));
   }, [pathname]);
 
-  // Repos terminal: the homepage `/` with a meta-filter applied. Trending,
-  // Breakouts, and New Repos all route back to `/`; Agent Repos is a
-  // dedicated fixed-ranking page.
   function goToReposTerminal(filter: "breakouts" | "new" | null) {
     setActiveTag(null);
     if (filter) {
@@ -322,7 +337,6 @@ export function SidebarContent({
 
   return (
     <div className="flex flex-col h-full">
-      {/* Mobile-only header strip ---------------------------------------- */}
       {onClose && (
         <div
           className="md:hidden flex items-center justify-between p-3 border-b shrink-0"
@@ -356,62 +370,73 @@ export function SidebarContent({
         </div>
       )}
 
-      {/* Scrollable body ------------------------------------------------- */}
       <CursorRail className="flex-1 overflow-y-auto scrollbar-hide">
-        {/* TREND TERMINAL — Stage 1: discover ideas + repos ----------- */}
+        {/* TREND TERMINAL */}
         <V2Section label="TREND TERMINAL">
-          <V2NavRow
-            href="/ideas"
-            icon={Lightbulb}
-            label="Trending Ideas"
-            active={pathname === "/ideas" || pathname.startsWith("/ideas/")}
-          />
           <V2NavRow
             onClick={() => goToReposTerminal(null)}
             icon={TrendingUp}
             label="Trending Repos"
+            badge={
+              trendingReposCount && trendingReposCount > 0
+                ? compactCount(trendingReposCount)
+                : undefined
+            }
+            badgeTone="default"
             active={pathname === "/" && activeMetaFilter === null}
+          />
+          <V2NavRow
+            href="/skills"
+            icon={GraduationCap}
+            label="Trending Skills"
+            active={pathname === "/skills" || pathname.startsWith("/skills/")}
+          />
+          <V2NavRow
+            href="/mcp"
+            icon={Plug}
+            label="Trending MCP"
+            active={pathname === "/mcp" || pathname.startsWith("/mcp/")}
+          />
+          <V2NavRow
+            onClick={goToAgentRepos}
+            icon={Cpu}
+            label="Trending AGNT"
+            active={pathname === "/agent-repos"}
           />
           <V2NavRow
             href="/breakouts"
             icon={Rocket}
             label="Breakouts"
-            badge={metaCounts.breakouts}
+            badge={metaCounts.breakouts > 0 ? metaCounts.breakouts : undefined}
             badgeTone="accent"
             active={pathname === "/breakouts"}
-          />
-          <V2NavRow
-            icon={Sparkles}
-            label="New Repos"
-            badge="Soon"
-            disabled
-          />
-          <V2NavRow
-            onClick={goToAgentRepos}
-            icon={Bot}
-            label="Agent Repos"
-            active={pathname === "/agent-repos"}
           />
           <V2NavRow
             href="/search?sort=stars-total&limit=100"
             icon={Trophy}
             label="Top 100"
+            badge="100"
+            badgeTone="default"
             active={pathname === "/search"}
           />
         </V2Section>
 
-        {/* SIGNAL TERMINAL — Stage 2: validate market signal ---------- */}
+        {/* SIGNAL TERMINAL */}
         <V2Section label="SIGNAL TERMINAL">
           <V2NavRow
             href="/signals"
             icon={Activity}
             label="Market Signals"
+            badge="ALL"
+            badgeTone="accent"
             active={pathname === "/signals" || pathname.startsWith("/signals/")}
           />
           <V2NavRow
             href="/hackernews/trending"
             icon={HackerNewsSidebarIcon}
             label="Hacker News"
+            badge={deltaChip(sourceCounts?.hackernewsStories ?? 0) || undefined}
+            badgeTone="delta"
             active={
               pathname === "/hackernews" ||
               pathname.startsWith("/hackernews/") ||
@@ -419,13 +444,48 @@ export function SidebarContent({
             }
           />
           <V2NavRow
+            href="/lobsters"
+            icon={LobstersSidebarIcon}
+            label="Lobsters"
+            badge={deltaChip(sourceCounts?.lobstersStories ?? 0) || undefined}
+            badgeTone="delta"
+            active={
+              pathname === "/lobsters" ||
+              pathname.startsWith("/lobsters/") ||
+              (pathname === "/news" && newsTab === "lobsters")
+            }
+          />
+          <V2NavRow
+            href="/devto"
+            icon={DevtoSidebarIcon}
+            label="Dev.to"
+            badge={deltaChip(sourceCounts?.devtoArticles ?? 0) || undefined}
+            badgeTone="delta"
+            active={
+              pathname === "/devto" ||
+              pathname.startsWith("/devto/") ||
+              (pathname === "/news" && newsTab === "devto")
+            }
+          />
+          <V2NavRow
+            href="/bluesky/trending"
+            icon={BlueskySidebarIcon}
+            label="Bluesky"
+            badge={deltaChip(sourceCounts?.blueskyPosts ?? 0) || undefined}
+            badgeTone="delta"
+            active={
+              pathname === "/bluesky" ||
+              pathname.startsWith("/bluesky/") ||
+              (pathname === "/news" && newsTab === "bluesky")
+            }
+          />
+          <V2NavRow
             href="/reddit/trending"
             icon={RedditSidebarIcon}
             label="Reddit"
-            active={
-              pathname === "/reddit" ||
-              pathname.startsWith("/reddit/")
-            }
+            badge={deltaChip(sourceCounts?.redditPosts ?? 0) || undefined}
+            badgeTone="delta"
+            active={pathname === "/reddit" || pathname.startsWith("/reddit/")}
           />
           <V2NavRow
             href="/twitter"
@@ -437,54 +497,34 @@ export function SidebarContent({
             href="/producthunt"
             icon={ProductHuntSidebarIcon}
             label="Product Hunt"
+            badge={
+              deltaChip(sourceCounts?.producthuntLaunches ?? 0) || undefined
+            }
+            badgeTone="delta"
             active={
               pathname === "/producthunt" ||
               pathname.startsWith("/producthunt/") ||
               (pathname === "/news" && newsTab === "producthunt")
             }
           />
-          <V2NavRow
-            href="/bluesky/trending"
-            icon={BlueskySidebarIcon}
-            label="Bluesky"
-            active={
-              pathname === "/bluesky" ||
-              pathname.startsWith("/bluesky/") ||
-              (pathname === "/news" && newsTab === "bluesky")
-            }
-          />
-          <V2NavRow
-            href="/devto"
-            icon={DevtoSidebarIcon}
-            label="Dev.to"
-            active={
-              pathname === "/devto" ||
-              pathname.startsWith("/devto/") ||
-              (pathname === "/news" && newsTab === "devto")
-            }
-          />
-          <V2NavRow
-            href="/lobsters"
-            icon={LobstersSidebarIcon}
-            label="Lobsters"
-            active={
-              pathname === "/lobsters" ||
-              pathname.startsWith("/lobsters/") ||
-              (pathname === "/news" && newsTab === "lobsters")
-            }
-          />
         </V2Section>
 
-        {/* ECOSYSTEM TERMINAL — Stage 3: check ecosystem traction ----- */}
-        <V2Section label="ECOSYSTEM TERMINAL">
+        {/* LLM / PACK TERMINAL */}
+        <V2Section label="LLM / PACK TERMINAL">
           <V2NavRow
             href="/npm"
             icon={Package}
             label="NPM Packages"
+            badge={
+              sourceCounts && sourceCounts.npmPackages > 0
+                ? compactCount(sourceCounts.npmPackages)
+                : undefined
+            }
+            badgeTone="default"
             active={pathname === "/npm" || pathname.startsWith("/npm/")}
           />
           <V2NavRow
-            icon={Sparkles}
+            icon={Brain}
             label="Hugging Face"
             badge="Soon"
             disabled
@@ -497,18 +537,30 @@ export function SidebarContent({
           />
         </V2Section>
 
-        {/* LAUNCH TERMINAL — Stage 4-5: prepare + track outcomes ------ */}
+        {/* LAUNCH TERMINAL */}
         <V2Section label="LAUNCH TERMINAL">
           <V2NavRow
             href="/funding"
             icon={DollarSign}
             label="Funding Radar"
+            badge={
+              sourceCounts && sourceCounts.fundingSignals > 0
+                ? compactCount(sourceCounts.fundingSignals)
+                : undefined
+            }
+            badgeTone="default"
             active={pathname === "/funding" || pathname.startsWith("/funding/")}
           />
           <V2NavRow
             href="/revenue"
             icon={BadgeCheck}
             label="Revenue"
+            badge={
+              sourceCounts && sourceCounts.revenueOverlays > 0
+                ? compactCount(sourceCounts.revenueOverlays)
+                : undefined
+            }
+            badgeTone="default"
             active={pathname === "/revenue" || pathname.startsWith("/revenue/")}
           />
           <V2NavRow
@@ -518,18 +570,34 @@ export function SidebarContent({
             disabled
           />
           <V2NavRow
-            icon={LifeBuoy}
-            label="Launch Support"
+            icon={Zap}
+            label="Launch"
             badge="Soon"
             disabled
           />
         </V2Section>
 
-        {/* ALERTS TERMINAL — watchlist + compare + radar -------------- */}
-        <V2Section label="ALERTS TERMINAL">
+        {/* RESEARCH TERMINAL */}
+        <V2Section label="RESEARCH TERMINAL">
+          <V2NavRow
+            href="/papers"
+            icon={FileText}
+            label="arXiv Papers"
+            active={pathname === "/papers" || pathname.startsWith("/papers/")}
+          />
+          <V2NavRow
+            href="/research"
+            icon={Bot}
+            label="Cited Repos"
+            active={pathname === "/research" || pathname.startsWith("/research/")}
+          />
+        </V2Section>
+
+        {/* TOOLS */}
+        <V2Section label="TOOLS">
           <V2NavRow
             href="/watchlist"
-            icon={Bookmark}
+            icon={Eye}
             label="Watchlist"
             badge={watchCount > 0 ? watchCount : undefined}
             badgeTone="accent"
@@ -544,20 +612,21 @@ export function SidebarContent({
             active={pathname === "/compare"}
           />
           <V2NavRow
-            href="/#signals"
+            href="/signals"
             icon={Radar}
             label="Signal Radar"
-            active={false}
+            active={
+              pathname === "/signals" || pathname.startsWith("/signals/")
+            }
           />
         </V2Section>
 
-        {/* WATCHING ---------------------------------------------------- */}
+        {/* WATCHING */}
         <V2Section label="WATCHING">
           <SidebarWatchlistPreview repos={watchlistPreview} />
         </V2Section>
       </CursorRail>
 
-      {/* Footer ---------------------------------------------------------- */}
       <SidebarFooter />
     </div>
   );

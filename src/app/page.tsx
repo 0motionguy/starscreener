@@ -12,15 +12,17 @@
 
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { lastFetchedAt } from "@/lib/trending";
+import {
+  getSkillsSignalData,
+  getMcpSignalData,
+} from "@/lib/ecosystem-leaderboards";
 import { TerminalLayout } from "@/components/terminal/TerminalLayout";
 import { BubbleMap } from "@/components/terminal/BubbleMap";
 import { MomentumHeadline } from "@/components/home/MomentumHeadline";
-import { HomeCtaRow } from "@/components/home/HomeCtaRow";
 import { HomeEmptyState } from "@/components/home/HomeEmptyState";
-import { CrossSourceBuzz } from "@/components/home/CrossSourceBuzz";
+import { CrossSourceTriBoxes } from "@/components/home/CrossSourceTriBoxes";
 import {
   MonoLabel,
-  SpiderNode,
   AsciiInterstitial,
   BarcodeTicker,
 } from "@/components/v2";
@@ -71,6 +73,25 @@ const HOMEPAGE_FAQ: ReadonlyArray<{ q: string; a: string }> = [
 
 export default async function HomePage() {
   const repos = getDerivedRepos();
+  // Pull skills + mcp ecosystem signals so the cross-source tri-box can
+  // surface their respective top movers alongside repo gainers. Both
+  // helpers are Redis-backed; in local dev without Redis they return
+  // empty boards (no `data/trending-skill*.json` ships in the repo).
+  // Promise.allSettled keeps a partial outage from blocking the page —
+  // CrossSourceTriBoxes falls back to derived repo views when null.
+  const [skillsRes, mcpRes] = await Promise.allSettled([
+    getSkillsSignalData(),
+    getMcpSignalData(),
+  ]);
+  const skillsItems =
+    skillsRes.status === "fulfilled" &&
+    skillsRes.value.combined.items.length > 0
+      ? skillsRes.value.combined.items
+      : null;
+  const mcpItems =
+    mcpRes.status === "fulfilled" && mcpRes.value.board.items.length > 0
+      ? mcpRes.value.board.items
+      : null;
 
   // Cold lambda / broken data file → show a branded empty state instead
   // of the generic "no repos match filters" inner message. Preserves the
@@ -80,12 +101,12 @@ export default async function HomePage() {
   if (repos.length === 0) {
     return (
       <>
-        <section className="px-4 sm:px-6 pt-4 pb-2">
-          <h1 className="font-display text-xl sm:text-2xl font-bold text-text-primary leading-tight">
-            TrendingRepo is a trend radar that surfaces breakout open-source repos
-            from live social signals.
-          </h1>
-        </section>
+        {/* sr-only H1 keeps SEO + structured-data flow intact while the
+            visible hero is dropped on degraded-data branches too. */}
+        <h1 className="sr-only">
+          TrendingRepo is a trend radar that surfaces breakout open-source
+          repos from live social signals.
+        </h1>
         <HomeEmptyState />
       </>
     );
@@ -105,9 +126,13 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* H1 + Claims — definition-lead opener with authoritative citations */}
+      {/* Compact operator eyebrow + CTAs — replaces the legacy H1/blurb hero.
+          The sidebar already names the page; the visit-by-visit ROI lives
+          in the MomentumHeadline (top mover + breakout count) and the
+          three-pane CrossSourceTriBoxes directly below. SEO-bearing H1 is
+          preserved as visually-hidden so structured data + screen-reader
+          flow stay intact. */}
       <section className="px-4 sm:px-6 pt-4 pb-2 space-y-3">
-        {/* V2 operator eyebrow — scoped to this section only, additive to V1 chrome */}
         <div className="flex items-center justify-between gap-3 pb-1 border-b border-[var(--v2-line-std)]">
           <MonoLabel
             index="01"
@@ -121,65 +146,24 @@ export default async function HomePage() {
           </span>
         </div>
 
+        <h1 className="sr-only">
+          TrendingRepo is a trend radar that surfaces breakout open-source
+          repos from live social signals.
+        </h1>
+
         <MomentumHeadline repos={repos} lastFetchedAt={lastFetchedAt} />
 
-        <div className="grid md:grid-cols-[1fr_auto] gap-6 items-start">
-          <div className="space-y-3">
-            <h1 className="font-display text-xl sm:text-2xl font-bold text-text-primary leading-tight">
-              TrendingRepo is a trend radar that surfaces breakout open-source
-              repos from live social signals.
-            </h1>
-            <p className="text-sm text-text-secondary max-w-3xl">
-              GitHub now hosts{" "}
-              <a
-                href="https://github.blog/news-insights/company-news/github-now-has-100-million-developers/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline decoration-brand/50 hover:decoration-brand text-text-primary"
-              >
-                over 100 million developers
-              </a>{" "}
-              — the fastest-growing open-source ecosystem in history. We ingest
-              GitHub, Reddit, Hacker News, ProductHunt, Bluesky, and dev.to
-              every few hours, score momentum across 15 categories, and
-              surface the movers before they plateau.{" "}
-              <a
-                href="https://en.wikipedia.org/wiki/Open-source_software"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline decoration-brand/50 hover:decoration-brand text-text-primary"
-              >
-                Open-source software
-              </a>{" "}
-              now powers 96% of the world&apos;s codebases, per{" "}
-              <a
-                href="https://www.synopsys.com/software-integrity/resources/analyst-reports/open-source-security-risk-analysis.html"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline decoration-brand/50 hover:decoration-brand text-text-primary"
-              >
-                Synopsys 2024
-              </a>
-              .
-            </p>
-            <HomeCtaRow />
-          </div>
-
-          {/* V2 spider-node hero accent — desktop only, decorative, no interaction */}
-          <div className="hidden lg:block self-center">
-            <div className="v2-frame p-2">
-              <SpiderNode width={180} height={180} peripheral={9} />
-            </div>
-          </div>
-        </div>
-
-        {/* V2 barcode ticker — "live data flow" accent under the hero */}
-        <div className="pt-3">
+        {/* V2 barcode ticker — "live data flow" accent. */}
+        <div className="pt-2">
           <BarcodeTicker count={96} height={14} seed={repos.length} />
         </div>
       </section>
 
-      <CrossSourceBuzz repos={repos} limit={10} />
+      <CrossSourceTriBoxes
+        repos={repos}
+        skills={skillsItems}
+        mcp={mcpItems}
+      />
 
       <TerminalLayout
         repos={repos}

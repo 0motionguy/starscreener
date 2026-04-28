@@ -19,6 +19,7 @@
 import { writeFile, mkdir, readFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 import "./_load-env.mjs";
 import {
   phGraphQL,
@@ -483,8 +484,32 @@ const isDirectRun = invokedPath
   : false;
 
 if (isDirectRun) {
-  main().catch((err) => {
-    console.error("scrape-producthunt failed:", err.message ?? err);
-    process.exit(1);
-  });
+  // T2.6: metadata sidecar — distinguishes outage from quiet day.
+  const startedAt = Date.now();
+  main()
+    .then(async () => {
+      try {
+        await writeSourceMetaFromOutcome({
+          source: "producthunt",
+          count: 1,
+          durationMs: Date.now() - startedAt,
+        });
+      } catch (metaErr) {
+        console.error("[meta] producthunt.json write failed:", metaErr);
+      }
+    })
+    .catch(async (err) => {
+      console.error("scrape-producthunt failed:", err.message ?? err);
+      try {
+        await writeSourceMetaFromOutcome({
+          source: "producthunt",
+          count: 0,
+          durationMs: Date.now() - startedAt,
+          error: err,
+        });
+      } catch (metaErr) {
+        console.error("[meta] producthunt.json error-write failed:", metaErr);
+      }
+      process.exit(1);
+    });
 }

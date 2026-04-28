@@ -20,6 +20,15 @@ const HOT_COLLECTIONS_URL = "https://api.ossinsight.io/v1/collections/hot/";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const TRENDS_OUT = resolve(__dirname, "..", "data", "trending.json");
+// T3.4: lite/fast-path output. Default UI view = past_24_hours / All
+// (one bucket of 100 rows, ~32 KB JSON). Serving the full 551 KB grid
+// for first paint hurts 3G clients badly; the lite file lets the UI
+// render immediately + lazy-load the full grid on filter change.
+const TRENDS_LITE_OUT = resolve(__dirname, "..", "data", "trending-lite.json");
+// Lite-bucket selection — keep in sync with the homepage default filter.
+// If the UI ever defaults to a different period/language, update both.
+const TRENDS_LITE_PERIOD = "past_24_hours";
+const TRENDS_LITE_LANGUAGE = "All";
 const HOT_COLLECTIONS_OUT = resolve(__dirname, "..", "data", "hot-collections.json");
 const COLLECTIONS_ROOT = resolve(__dirname, "..", "data", "collections");
 const COLLECTION_RANKINGS_OUT = resolve(__dirname, "..", "data", "collection-rankings.json");
@@ -179,14 +188,44 @@ async function main() {
       "utf8",
     );
 
+    // T3.4: lite/fast-path slice for first paint. The default homepage
+    // view is past_24_hours / All — one bucket out of 15. Serving just
+    // that bucket as a separate file drops first-paint payload from
+    // ~551 KB → ~32 KB. UI fetches lite for the initial render, then
+    // hydrates the full grid lazily when the user switches filters.
+    // Falls through cleanly if the bucket isn't present (e.g. a future
+    // PERIODS/LANGUAGES change without updating the lite constants).
+    const liteRows =
+      buckets[TRENDS_LITE_PERIOD]?.[TRENDS_LITE_LANGUAGE] ?? [];
+    const trendsLitePayload = {
+      fetchedAt,
+      period: TRENDS_LITE_PERIOD,
+      language: TRENDS_LITE_LANGUAGE,
+      rows: liteRows,
+      // Pointer back to the full grid for clients that follow links.
+      fullPath: "/data/trending.json",
+    };
+    await writeFile(
+      TRENDS_LITE_OUT,
+      JSON.stringify(trendsLitePayload, null, 2) + "\n",
+      "utf8",
+    );
+
     // Dual-write: also push to data-store so live readers see fresh data
     // without waiting for a deploy. Throws if Redis is configured but
     // unreachable — workflow goes red, operator notices.
     const trendsRedis = await writeDataStore("trending", trendsPayload);
+    const trendsLiteRedis = await writeDataStore(
+      "trending-lite",
+      trendsLitePayload,
+    );
     const hotRedis = await writeDataStore("hot-collections", hotCollectionsPayload);
 
     console.log(
       `wrote ${TRENDS_OUT} (${totalRows} rows across ${PERIODS.length * LANGUAGES.length} buckets) [redis: ${trendsRedis.source}]`,
+    );
+    console.log(
+      `wrote ${TRENDS_LITE_OUT} (${liteRows.length} rows · ${TRENDS_LITE_PERIOD}/${TRENDS_LITE_LANGUAGE}) [redis: ${trendsLiteRedis.source}]`,
     );
     console.log(
       `wrote ${HOT_COLLECTIONS_OUT} (${hotCollections.length} rows) [redis: ${hotRedis.source}]`,

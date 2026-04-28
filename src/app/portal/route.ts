@@ -11,6 +11,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 
+import { readEnv } from "@/lib/env-helpers";
 import { buildManifest } from "@/portal/manifest";
 import { consumeToken } from "@/portal/rate-limit";
 import { validateManifest } from "@/portal/validate";
@@ -25,7 +26,8 @@ function clientKey(req: NextRequest): string {
 
 function publicBaseUrl(req: NextRequest): string {
   const envBase =
-    process.env.STARSCREENER_PUBLIC_URL ?? process.env.NEXT_PUBLIC_SITE_URL;
+    readEnv("TRENDINGREPO_PUBLIC_URL", "STARSCREENER_PUBLIC_URL") ??
+    process.env.NEXT_PUBLIC_SITE_URL;
   if (envBase) return envBase;
   const host = req.headers.get("host");
   if (host) {

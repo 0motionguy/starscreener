@@ -96,3 +96,72 @@ export function percentileRank(value: number, allValues: number[]): number {
   }
   return clamp((below / allValues.length) * 100, 0, 100);
 }
+
+// ---------------------------------------------------------------------------
+// Cross-domain normalization (per-domain raw -> 0..100 momentum).
+// ---------------------------------------------------------------------------
+
+export interface DomainPercentileOptions {
+  /**
+   * Below this corpus size, blend percentile against absolute. Default 200.
+   * For N >= bootstrapN: pure percentile rank.
+   * For N < bootstrapN: result = pct * (N/bootstrapN) + abs * (1 - N/bootstrapN)
+   * where `abs` = the input score itself (treated as already 0..100).
+   */
+  bootstrapN?: number;
+}
+
+/**
+ * Cross-domain normalization: convert a per-domain raw-score array into
+ * a 0..100 momentum array that is comparable across domains.
+ *
+ * Algorithm (matches plan §2):
+ *   if N >= bootstrapN:    momentum[i] = percentileRank(raw[i], raw[*])     // already 0..100
+ *   else:                  blend = N / bootstrapN
+ *                          pct   = percentileRank(raw[i], raw[*])
+ *                          abs   = clamp(raw[i], 0, 100)
+ *                          momentum[i] = pct * blend + abs * (1 - blend)
+ *
+ * Edge cases:
+ *   - Empty input: return [].
+ *   - Single item: percentile is undefined; return [clamp(raw[0], 0, 100)] for stability.
+ *   - All identical inputs: percentile would be 100 for all; that's correct behavior.
+ *   - NaN / non-finite raw scores: treat as 0. (Don't propagate NaN.)
+ *
+ * @param rawScores - per-domain raw scores, each 0..100 (the weighted sum from a DomainScorer).
+ * @param opts.bootstrapN - corpus size threshold for pure-percentile mode. Default 200.
+ * @returns array of momentum values, same length as input, each 0..100.
+ */
+export function domainPercentileRank(
+  rawScores: number[],
+  opts?: DomainPercentileOptions,
+): number[] {
+  if (!Array.isArray(rawScores) || rawScores.length === 0) return [];
+
+  const bootstrapN =
+    opts?.bootstrapN !== undefined && Number.isFinite(opts.bootstrapN) && opts.bootstrapN > 0
+      ? opts.bootstrapN
+      : 200;
+
+  // Sanitize: NaN / non-finite -> 0. Use the sanitized array everywhere so
+  // percentileRank sees clean values too.
+  const clean = rawScores.map((v) => (Number.isFinite(v) ? (v as number) : 0));
+  const n = clean.length;
+
+  // Single-item stability case: percentile is degenerate, fall back to abs.
+  if (n === 1) {
+    return [clamp(clean[0], 0, 100)];
+  }
+
+  if (n >= bootstrapN) {
+    return clean.map((v) => percentileRank(v, clean));
+  }
+
+  const blend = n / bootstrapN;
+  const inv = 1 - blend;
+  return clean.map((v) => {
+    const pct = percentileRank(v, clean);
+    const abs = clamp(v, 0, 100);
+    return clamp(pct * blend + abs * inv, 0, 100);
+  });
+}

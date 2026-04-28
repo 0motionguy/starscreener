@@ -1,8 +1,8 @@
-# StarScreener Ingestion — Operator Guide
+# TrendingRepo Ingestion — Operator Guide
 
 ## Ingestion
 
-StarScreener pulls a trending-repo universe from OSS Insight and computes
+TrendingRepo pulls a trending-repo universe from OSS Insight and computes
 per-window star deltas from the git history of that universe. Both outputs
 are committed JSON files and ship with the build.
 

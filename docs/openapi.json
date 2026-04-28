@@ -1,10 +1,10 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "StarScreener / TrendingRepo API",
+    "title": "TrendingRepo API",
     "version": "2.0.0",
     "summary": "Trending-repo intelligence platform — canonical profile + discovery + alerts.",
-    "description": "Public + authenticated REST surface for [TrendingRepo](https://trendingrepo.com)\n(the StarScreener codebase). The canonical single-repo endpoint is\n`GET /api/repos/{owner}/{name}?v=2`; it returns the full profile (score,\nreasons, mentions, freshness, twitter, npm, ProductHunt, revenue, funding,\nrelated, prediction, ideas) in one round-trip. Every other `/api/repos/*`\npath returns a subset of the same data, optimised for a narrower caller.\n\n**Auth summary.** Public reads have no auth. Write endpoints use one of:\n\n  - `Authorization: Bearer <CRON_SECRET>` — scheduled-job / operator routes\n  - `Authorization: Bearer <ADMIN_TOKEN>` — admin moderation surface\n  - `Authorization: Bearer <USER_TOKEN>` / `x-user-token: <USER_TOKEN>`\n    — per-user endpoints (alerts, rules, reactions, ideas)\n  - `Cookie: ss_user=<signed-session>` — HMAC-signed browser session\n    issued by `POST /api/auth/session`; same userId scope as USER_TOKEN\n",
+    "description": "Public + authenticated REST surface for [TrendingRepo](https://trendingrepo.com).\nThe canonical single-repo endpoint is\n`GET /api/repos/{owner}/{name}?v=2`; it returns the full profile (score,\nreasons, mentions, freshness, twitter, npm, ProductHunt, revenue, funding,\nrelated, prediction, ideas) in one round-trip. Every other `/api/repos/*`\npath returns a subset of the same data, optimised for a narrower caller.\n\n**Auth summary.** Public reads have no auth. Write endpoints use one of:\n\n  - `Authorization: Bearer <CRON_SECRET>` — scheduled-job / operator routes\n  - `Authorization: Bearer <ADMIN_TOKEN>` — admin moderation surface\n  - `Authorization: Bearer <USER_TOKEN>` / `x-user-token: <USER_TOKEN>`\n    — per-user endpoints (alerts, rules, reactions, ideas)\n  - `Cookie: ss_user=<signed-session>` — HMAC-signed browser session\n    issued by `POST /api/auth/session`; same userId scope as USER_TOKEN\n",
     "contact": {
       "name": "TrendingRepo",
       "url": "https://github.com/0motionguy/starscreener"
@@ -17,11 +17,11 @@
   "servers": [
     {
       "url": "https://trendingrepo.com",
-      "description": "Production"
+      "description": "TrendingRepo production"
     },
     {
       "url": "https://starscreener.vercel.app",
-      "description": "Vercel canonical"
+      "description": "Vercel canonical (legacy host; 308 redirects to trendingrepo.com)"
     },
     {
       "url": "http://localhost:3023",

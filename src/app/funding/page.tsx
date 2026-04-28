@@ -17,11 +17,11 @@ import {
   refreshFundingNewsFromStore,
 } from "@/lib/funding-news";
 import { FundingCard } from "@/components/funding/FundingCard";
-import { TerminalBar, MonoLabel, BarcodeTicker } from "@/components/v2";
 import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
 import { buildFundingHeader } from "@/components/funding/fundingTopMetrics";
 
 const FUNDING_ACCENT = "rgba(245, 110, 15, 0.85)";
+const FUNDING_BRAND = "#f56e0f";
 
 export const dynamic = "force-dynamic";
 
@@ -47,54 +47,47 @@ export default async function FundingPage() {
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
       <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        {/* V2 terminal-bar — operator chrome */}
-        <div className="v2-frame overflow-hidden mb-4">
-          <TerminalBar
-            label="// FUNDING · RADAR · 24H"
-            status={`${signals.length} SIGNALS · ${cold ? "COLD" : "LIVE"}`}
-            live={!cold}
-          />
-          <BarcodeTicker count={140} height={12} seed={signals.length || 88} />
-        </div>
-
-        {/* Header */}
-        <header className="mb-6 border-b border-[var(--v2-line-std)] pb-6 space-y-3">
-          <MonoLabel index="01" name="FUNDING" hint="AI · TECH" tone="muted" />
-          <div className="flex items-baseline gap-3 flex-wrap">
-            <h1 className="font-display text-2xl font-bold uppercase tracking-wider">
-              FUNDING RADAR
-            </h1>
-            <span className="text-xs text-text-tertiary">
-              {"// ai & tech startup rounds"}
-            </span>
-          </div>
-          <p className="text-sm text-text-secondary max-w-2xl">
-            Funding signals aggregated from TechCrunch, VentureBeat, and other
-            sources. Structured extraction uses regex heuristics — confidence
-            indicators show how reliably each field was parsed.
-          </p>
-        </header>
-
         {cold ? (
           <ColdState />
         ) : (
           <>
             <div className="mb-6">
               <NewsTopHeaderV3
-                eyebrow="// FUNDING · TOP ROUNDS"
-                status={`${signals.length.toLocaleString("en-US")} SIGNALS · 7D`}
+                routeTitle="FUNDING · TOP ROUNDS"
+                liveLabel="LIVE · 7D"
+                eyebrow="// FUNDING · ALL SOURCES · 7D"
+                meta={[
+                  { label: "SIGNALS", value: signals.length.toLocaleString("en-US") },
+                  { label: "WINDOW", value: "7D" },
+                ]}
                 cards={cards}
                 topStories={topStories}
                 accent={FUNDING_ACCENT}
+                caption={[
+                  "// LAYOUT compact-v1",
+                  "· 3-COL · 320 / 1FR / 1FR",
+                  "· DATA UNCHANGED",
+                ]}
               />
             </div>
 
             {/* Signals feed */}
             {signals.length > 0 ? (
-              <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-                {signals.map((signal) => (
-                  <FundingCard key={signal.id} signal={signal} />
-                ))}
+              <section className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+                {signals.map((signal, i) => {
+                  const stagger = Math.min(i, 6) * 50;
+                  return (
+                    <div
+                      key={signal.id}
+                      style={{
+                        animation: "slide-up 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both",
+                        animationDelay: stagger > 0 ? `${stagger}ms` : undefined,
+                      }}
+                    >
+                      <FundingCard signal={signal} />
+                    </div>
+                  );
+                })}
               </section>
             ) : (
               <EmptyState />
@@ -112,16 +105,29 @@ export default async function FundingPage() {
 
 function ColdState() {
   return (
-    <section className="border border-dashed border-border-primary rounded-md p-8 bg-bg-secondary/40">
-      <h2 className="text-lg font-bold uppercase tracking-wider text-brand">
+    <section
+      className="p-8"
+      style={{
+        background: "var(--v3-bg-025)",
+        border: "1px dashed var(--v3-line-100)",
+        borderRadius: 2,
+      }}
+    >
+      <h2
+        className="v2-mono text-lg font-bold uppercase tracking-[0.18em]"
+        style={{ color: FUNDING_BRAND }}
+      >
         {"// no funding data yet"}
       </h2>
-      <p className="mt-3 text-sm text-text-secondary max-w-xl">
+      <p
+        className="mt-3 max-w-xl text-sm"
+        style={{ color: "var(--v3-ink-300)" }}
+      >
         The funding scraper has not run yet. Run{" "}
-        <code className="text-text-primary">npm run scrape:funding</code> locally
-        to populate{" "}
-        <code className="text-text-primary">data/funding-news.json</code>, then
-        refresh this page.
+        <code style={{ color: "var(--v3-ink-100)" }}>npm run scrape:funding</code>{" "}
+        locally to populate{" "}
+        <code style={{ color: "var(--v3-ink-100)" }}>data/funding-news.json</code>,
+        then refresh this page.
       </p>
     </section>
   );
@@ -129,11 +135,24 @@ function ColdState() {
 
 function EmptyState() {
   return (
-    <section className="border border-dashed border-border-primary rounded-md p-8 bg-bg-secondary/40">
-      <h2 className="text-lg font-bold uppercase tracking-wider text-brand">
+    <section
+      className="p-8"
+      style={{
+        background: "var(--v3-bg-025)",
+        border: "1px dashed var(--v3-line-100)",
+        borderRadius: 2,
+      }}
+    >
+      <h2
+        className="v2-mono text-lg font-bold uppercase tracking-[0.18em]"
+        style={{ color: FUNDING_BRAND }}
+      >
         {"// no signals in window"}
       </h2>
-      <p className="mt-3 text-sm text-text-secondary max-w-xl">
+      <p
+        className="mt-3 max-w-xl text-sm"
+        style={{ color: "var(--v3-ink-300)" }}
+      >
         The scraper ran but found no funding-related headlines in the last 7
         days. This can happen on quiet news days or when RSS feeds change format.
       </p>

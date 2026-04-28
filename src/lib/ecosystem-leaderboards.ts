@@ -87,15 +87,79 @@ export interface McpSignalData {
 const SKILLS_SH_KEY = "trending-skill-sh";
 const GITHUB_SKILLS_KEY = "trending-skill";
 const MCP_KEY = "trending-mcp";
+const MCP_LIVENESS_KEY = "mcp-liveness";
+const AWESOME_SKILLS_KEY = "awesome-skills";
+
+// ---------------------------------------------------------------------------
+// Side-channel signal joins
+//
+// `mcp-liveness` (populated by scripts/ping-mcp-liveness.mjs every 6h):
+//   { fetchedAt, summary: { [slug]: { uptime7d, p50LatencyMs, toolCount,
+//                                     isStdio, livenessInferred } } }
+//
+// `awesome-skills` (populated by scripts/scrape-awesome-skills.mjs daily):
+//   { fetchedAt, lists: string[], indexBySkill: { [ownerRepoLower]: string[] } }
+//
+// Both keys are OPTIONAL. When absent (cold start, before the corresponding
+// workflow has run), the readers below return empty maps and the scorers
+// drop their dependent terms cleanly via the existing weight-renormalize
+// path. UI behavior is unchanged from current MVP.
+// ---------------------------------------------------------------------------
+
+interface McpLivenessSummaryEntry {
+  uptime7d?: number;
+  p50LatencyMs?: number;
+  toolCount?: number;
+  isStdio?: boolean;
+  livenessInferred?: boolean;
+}
+
+async function loadMcpLivenessSummary(): Promise<Record<string, McpLivenessSummaryEntry>> {
+  const store = getDataStore();
+  const result = await store.read<unknown>(MCP_LIVENESS_KEY);
+  const obj = asRecord(result.data);
+  const summary = asRecord(obj?.summary);
+  if (!summary) return {};
+  const out: Record<string, McpLivenessSummaryEntry> = {};
+  for (const [slug, raw] of Object.entries(summary)) {
+    const entry = asRecord(raw);
+    if (!entry) continue;
+    out[slug] = {
+      uptime7d: asNumber(entry.uptime7d) ?? undefined,
+      p50LatencyMs: asNumber(entry.p50LatencyMs) ?? undefined,
+      toolCount: asNumber(entry.toolCount) ?? undefined,
+      isStdio: asBoolean(entry.isStdio),
+      livenessInferred: asBoolean(entry.livenessInferred),
+    };
+  }
+  return out;
+}
+
+async function loadAwesomeSkillsIndex(): Promise<Record<string, string[]>> {
+  const store = getDataStore();
+  const result = await store.read<unknown>(AWESOME_SKILLS_KEY);
+  const obj = asRecord(result.data);
+  const idx = asRecord(obj?.indexBySkill);
+  if (!idx) return {};
+  const out: Record<string, string[]> = {};
+  for (const [skill, lists] of Object.entries(idx)) {
+    if (Array.isArray(lists)) {
+      const clean = lists.map((l) => asString(l)).filter((l): l is string => l !== null);
+      if (clean.length > 0) out[skill.toLowerCase()] = clean;
+    }
+  }
+  return out;
+}
 
 export async function getSkillsSignalData(): Promise<SkillsSignalData> {
   const store = getDataStore();
-  const [skillsShRaw, githubRaw] = await Promise.all([
+  const [skillsShRaw, githubRaw, awesomeIndex] = await Promise.all([
     store.read<unknown>(SKILLS_SH_KEY),
     store.read<unknown>(GITHUB_SKILLS_KEY),
+    loadAwesomeSkillsIndex(),
   ]);
-  const skillsSh = coerceSkillsShBoard(skillsShRaw);
-  const github = coerceGithubSkillsBoard(githubRaw);
+  const skillsSh = coerceSkillsShBoard(skillsShRaw, awesomeIndex);
+  const github = coerceGithubSkillsBoard(githubRaw, awesomeIndex);
   const combinedItems = dedupeItems([...skillsSh.items, ...github.items])
     .sort((a, b) => b.signalScore - a.signalScore)
     .map((item, idx) => ({ ...item, rank: idx + 1 }));
@@ -127,8 +191,11 @@ export async function getSkillsSignalData(): Promise<SkillsSignalData> {
 
 export async function getMcpSignalData(): Promise<McpSignalData> {
   const store = getDataStore();
-  const raw = await store.read<unknown>(MCP_KEY);
-  const board = coerceMcpBoard(raw);
+  const [raw, livenessSummary] = await Promise.all([
+    store.read<unknown>(MCP_KEY),
+    loadMcpLivenessSummary(),
+  ]);
+  const board = coerceMcpBoard(raw, livenessSummary);
   return {
     fetchedAt: board.fetchedAt,
     source: board.source,
@@ -181,14 +248,17 @@ export function formatCompact(value: number | null | undefined): string {
   }).format(value);
 }
 
-function coerceSkillsShBoard(result: DataReadResult<unknown>): EcosystemBoard {
+function coerceSkillsShBoard(
+  result: DataReadResult<unknown>,
+  awesomeIndex: Record<string, string[]> = {},
+): EcosystemBoard {
   const obj = asRecord(result.data);
   const fetchedAt = asString(obj?.fetchedAt) ?? result.writtenAt ?? null;
   const rows = Array.isArray(obj?.items) ? obj.items : [];
   const pairs = rows
     .map((item, idx) => coerceSkillsShItem(item, idx + 1, fetchedAt))
     .filter((p): p is { item: EcosystemLeaderboardItem; raw: Record<string, unknown> } => p !== null);
-  const items = applySkillMomentum(pairs);
+  const items = applySkillMomentum(pairs, awesomeIndex);
   const sources = asRecord(obj?.sources);
   const views = asRecord(obj?.views);
 
@@ -210,14 +280,17 @@ function coerceSkillsShBoard(result: DataReadResult<unknown>): EcosystemBoard {
   };
 }
 
-function coerceGithubSkillsBoard(result: DataReadResult<unknown>): EcosystemBoard {
+function coerceGithubSkillsBoard(
+  result: DataReadResult<unknown>,
+  awesomeIndex: Record<string, string[]> = {},
+): EcosystemBoard {
   const obj = asRecord(result.data);
   const fetchedAt = asString(obj?.fetchedAt) ?? result.writtenAt ?? null;
   const rows = Array.isArray(obj?.items) ? obj.items : [];
   const pairs = rows
     .map((item, idx) => coerceGithubSkillItem(item, idx + 1))
     .filter((p): p is { item: EcosystemLeaderboardItem; raw: Record<string, unknown> } => p !== null);
-  const items = applySkillMomentum(pairs);
+  const items = applySkillMomentum(pairs, awesomeIndex);
   const sources = asRecord(obj?.sources);
 
   return {
@@ -235,13 +308,16 @@ function coerceGithubSkillsBoard(result: DataReadResult<unknown>): EcosystemBoar
   };
 }
 
-function coerceMcpBoard(result: DataReadResult<unknown>): EcosystemBoard {
+function coerceMcpBoard(
+  result: DataReadResult<unknown>,
+  livenessSummary: Record<string, McpLivenessSummaryEntry> = {},
+): EcosystemBoard {
   const obj = asRecord(result.data);
   const fetchedAt =
     asString(obj?.generatedAt) ?? asString(obj?.fetchedAt) ?? result.writtenAt ?? null;
   const rows = Array.isArray(obj?.items) ? obj.items : [];
   const pairs = rows
-    .map((item, idx) => coerceMcpItem(item, idx + 1, fetchedAt))
+    .map((item, idx) => coerceMcpItem(item, idx + 1, fetchedAt, livenessSummary))
     .filter((p): p is { item: EcosystemLeaderboardItem; raw: Record<string, unknown> } => p !== null);
   const items = applyMcpMomentum(pairs);
 
@@ -356,6 +432,7 @@ function coerceMcpItem(
   raw: unknown,
   fallbackRank: number,
   fallbackDate: string | null,
+  livenessSummary: Record<string, McpLivenessSummaryEntry> = {},
 ): { item: EcosystemLeaderboardItem; raw: Record<string, unknown> } | null {
   const item = asRecord(raw);
   if (!item) return null;
@@ -391,6 +468,26 @@ function coerceMcpItem(
   if (verified) tags.push("official");
   if (crossSourceCount >= 2) tags.push(`${crossSourceCount}× sources`);
 
+  // Side-channel liveness lookup. `summary[slug]` is undefined when the
+  // pinger hasn't seen this server yet → liveness stays undefined → UI
+  // shows the "pending" pill (existing behavior). When present, we copy
+  // both into the user-facing `liveness` field AND stash the full entry
+  // on the raw record so buildMcpItem() can plumb the per-component
+  // numeric inputs into the scorer.
+  const livenessKey = slug ?? id;
+  const livenessEntry = livenessKey ? livenessSummary[livenessKey] : undefined;
+  const liveness: LivenessInfo | undefined = livenessEntry
+    ? {
+        uptime7d: livenessEntry.uptime7d,
+        isStdio: livenessEntry.isStdio,
+        isInferred: livenessEntry.livenessInferred,
+      }
+    : undefined;
+  // Mutate a shallow copy so we don't pollute the cached payload object.
+  const enrichedRaw: Record<string, unknown> = livenessEntry
+    ? { ...item, __liveness: livenessEntry }
+    : item;
+
   return {
     item: {
       id,
@@ -414,11 +511,9 @@ function coerceMcpItem(
       brandColor,
       verified,
       crossSourceCount,
-      // Liveness intentionally undefined for MVP — UI shows "pending" pill.
-      // Chunk C's MCP-ping job will populate this.
-      liveness: undefined,
+      liveness,
     },
-    raw: item,
+    raw: enrichedRaw,
   };
 }
 

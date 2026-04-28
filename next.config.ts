@@ -178,4 +178,13 @@ const sentryWebpackPluginOptions = {
   tunnelRoute: "/api/_sentry-tunnel",
 };
 
-export default withSentryConfig(withBundleAnalyzer(nextConfig), sentryWebpackPluginOptions);
+// Skip Sentry's Next plugin wrap during local `next dev` (Turbopack 15.5
+// + @sentry/nextjs 10.50 produces a MODULE_UNPARSABLE stub for the
+// instrumentation hook even on a no-op source file). Production builds on
+// Vercel run with NODE_ENV=production via webpack and are unaffected; the
+// Sentry runtime config files (sentry.{server,edge,client}.config.ts)
+// still init at boot when SENTRY_DSN is set.
+const wrapped = withBundleAnalyzer(nextConfig);
+export default process.env.NODE_ENV === "production"
+  ? withSentryConfig(wrapped, sentryWebpackPluginOptions)
+  : wrapped;

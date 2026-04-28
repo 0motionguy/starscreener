@@ -32,6 +32,7 @@
   },
   "scripts": {
     "cli:dev": "node bin/ss.mjs",
+    "prepare": "husky",
     "dev": "next dev --turbopack -p 3023",
     "build": "next build",
     "postbuild": "node scripts/sanitize-next-traces.mjs",
@@ -134,6 +135,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.5.15",
     "happy-dom": "^15.11.7",
+    "husky": "^9.1.7",
     "tailwindcss": "^4",
     "tsx": "^4.21.0",
     "typescript": "^5",

@@ -12,7 +12,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { persistPipeline, pipeline } from "@/lib/pipeline/pipeline";
 import {
-  DATA_DIR,
+  currentDataDir,
   FILES,
   isPersistenceEnabled,
 } from "@/lib/pipeline/storage/file-persistence";
@@ -40,9 +40,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       await persistPipeline();
     }
 
+    const dataDir = currentDataDir();
     const files: Record<string, number> = {};
     for (const filename of Object.values(FILES)) {
-      const fullPath = path.join(DATA_DIR, filename);
+      const fullPath = path.join(dataDir, filename);
       try {
         const stat = await fs.stat(fullPath);
         files[filename] = stat.size;
@@ -57,7 +58,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       ok: true,
       enabled,
       durationMs: Date.now() - startedAt,
-      dataDir: DATA_DIR,
+      dataDir,
       files,
     });
   } catch (err) {

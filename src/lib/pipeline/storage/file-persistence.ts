@@ -61,13 +61,11 @@ export function currentDataDir(): string {
   return path.resolve(raw);
 }
 
-/**
- * Directory where JSONL files live. Captured at module-load for display /
- * diagnostic use (e.g., `/api/pipeline/persist` echoes it to operators);
- * all internal I/O resolves `currentDataDir()` at call time so runtime env
- * changes are honoured.
- */
-export const DATA_DIR: string = currentDataDir();
+// Note: `DATA_DIR` is intentionally NOT exported as an eager const. Tests
+// stub `STARSCREENER_DATA_DIR` after import to exercise the rejection path,
+// and a module-load `currentDataDir()` invocation throws before any test
+// assertion can run. Consumers call `currentDataDir()` directly each time;
+// it's cheap and safe.
 
 /** Canonical filename for each store. Kept as a const-object for type safety. */
 export const FILES = {

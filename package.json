@@ -75,6 +75,7 @@
     "scrape:devto": "node scripts/scrape-devto.mjs",
     "scrape:lobsters": "node scripts/scrape-lobsters.mjs",
     "scrape:arxiv": "node scripts/scrape-arxiv.mjs",
+    "scrape:huggingface": "node scripts/scrape-huggingface.mjs",
     "ingest:arxiv-cited": "node scripts/ingest-arxiv-cited-repos.mjs",
     "scrape:npm": "node scripts/scrape-npm.mjs",
     "collect:twitter": "tsx scripts/collect-twitter-signals.ts",

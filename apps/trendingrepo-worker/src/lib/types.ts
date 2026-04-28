@@ -85,6 +85,7 @@ export interface NormalizedItem {
 }
 
 export interface NormalizedMetric {
+  captured_date?: string;
   downloads_total?: number;
   downloads_7d?: number;
   stars_total?: number;

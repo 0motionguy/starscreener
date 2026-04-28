@@ -103,6 +103,13 @@ jobs:
       # default). Wait until the port answers before we kick off the test
       # run; gives the runtime up to 60s to come up.
       - name: Start production server
+        env:
+          # Smoke harness has no GITHUB_TOKEN / CRON_SECRET — env.ts's
+          # production fail-closed would 500 every page request without
+          # this override. Read by both the legacy STARSCREENER_* and new
+          # TRENDINGREPO_* names during the brand migration.
+          TRENDINGREPO_ALLOW_MISSING_ENV: "true"
+          STARSCREENER_ALLOW_MISSING_ENV: "true"
         run: |
           STARSCREENER_BASE_URL=http://localhost:3023 npx next start -p 3023 &
           echo $! > .next-pid

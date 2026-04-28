@@ -141,7 +141,9 @@ function TerminalRowBase({
         // border-collapse: separate / border-spacing-0 table model used
         // by the parent.
         borderBottom: "1px dashed var(--v2-line-100)",
-        background: focused ? "var(--v2-bg-100)" : "transparent",
+        // Leave background unset when not focused so the CSS `.v2-row:hover`
+        // rule can paint the luminance step + accent rail on hover.
+        background: focused ? "var(--v2-bg-100)" : undefined,
         // Single-side outline mark for the focused row, drawn as a
         // pseudo border-left via box-shadow so we don't double up with
         // the dashed bottom border.

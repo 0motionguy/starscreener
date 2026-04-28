@@ -4,6 +4,8 @@
 // snapshots do not contain it. This fallback lets website/AISO enrichment work
 // immediately while still returning null on API errors or rate limits.
 
+import { readEnv } from "@/lib/env-helpers";
+
 const GITHUB_API = "https://api.github.com";
 const REVALIDATE_SECONDS = 6 * 60 * 60;
 
@@ -32,7 +34,12 @@ function cleanHomepage(value: unknown): string | null {
 export async function fetchGithubRepoHomepageUrl(
   fullName: string,
 ): Promise<string | null> {
-  if (process.env.STARSCREENER_GITHUB_HOMEPAGE_LOOKUP === "false") {
+  if (
+    readEnv(
+      "TRENDINGREPO_GITHUB_HOMEPAGE_LOOKUP",
+      "STARSCREENER_GITHUB_HOMEPAGE_LOOKUP",
+    ) === "false"
+  ) {
     return null;
   }
 

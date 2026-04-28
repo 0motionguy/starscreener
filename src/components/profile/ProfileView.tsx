@@ -144,7 +144,7 @@ export function ProfileView({
                   key={ref.ideaId}
                   className="v2-card p-3"
                   style={{
-                    background: "rgba(34, 197, 94, 0.06)",
+                    background: "var(--v2-sig-green-soft)",
                     borderColor: "var(--v2-sig-green)",
                   }}
                 >

@@ -1,0 +1,58 @@
+name: Enrich arXiv signals
+
+# Every 6h at :13. Staggered from scrape-arxiv (:43) so the enrichment
+# job sees the freshly-pulled papers from the same UTC window. arXiv
+# announces new papers daily (UTC evening) and citation counts move
+# slowly — 6h is comfortable headroom.
+#
+# Semantic Scholar free tier is 5000 req per 5 min shared; we pace at
+# ~1 req/s and cap at top 200 papers/run. With a 24h skip-fresh cache
+# steady-state is well under 100 fetches/run.
+on:
+  schedule:
+    - cron: "13 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: arxiv-enrich
+  cancel-in-progress: false
+
+jobs:
+  enrich:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Enrich arXiv with citations + social mentions
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+        run: node scripts/enrich-arxiv.mjs
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "trendingrepo-bot"
+          git config user.email "bot@trendingrepo.com"
+          git add data/arxiv-enriched.json
+          if git diff --quiet --staged; then
+            echo "no changes - skipping commit"
+            exit 0
+          fi
+          TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          git commit -m "chore(data): refresh arxiv enrichment ${TS}"
+          git pull --rebase origin main
+          git push

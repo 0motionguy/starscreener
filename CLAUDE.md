@@ -20,21 +20,29 @@ Real-time trend-discovery scanner. Aggregates GitHub stars, Twitter buzz, Reddit
 - `mcp/` — MCP server source for code-review-graph integration
 - `docs/` — `ARCHITECTURE.md`, `DATABASE.md`, `DEPLOY.md`, `INGESTION.md`, `TWITTER_SIGNAL_LAYER.md`, `SOURCE_DISCOVERY.md`, plus protocols/ and review/ subdirs
 
+## Setup
+- `npm install` (Node 22.x — pinned via `engines` in package.json)
+- Copy `.env.example` to `.env.local`. Required for prod: `GITHUB_TOKEN`, `CRON_SECRET`. Pick exactly ONE Redis pair: `REDIS_URL` (Railway) OR `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` (Upstash) — never both. Without either, the data-store gracefully falls back to bundled JSON + memory.
+- Windows + OneDrive gotcha: dev server hits ENOENT loops without the `.next` junction workaround in `next.config.ts:12-25`. CSS edits can also be silently reverted by OneDrive sync — see memory note `project_onedrive_dev_server_block`.
+
 ## Critical Conventions
 - **Data reads MUST go through the data-store.** Server components / route handlers call the per-source `refreshXxxFromStore()` (async) once at the top, then sync getters in the rest of the file return whatever's in the in-memory cache. Each refresh hook has internal 30s rate-limit + in-flight dedupe so calling it on every render is cheap. Pattern reference: [src/lib/trending.ts:refreshTrendingFromStore](src/lib/trending.ts) and [src/app/page.tsx](src/app/page.tsx). Plan + provisioning: [tasks/data-api.md](tasks/data-api.md).
 - **Collectors dual-write file + Redis** during transition via [scripts/_data-store-write.mjs](scripts/_data-store-write.mjs). When `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` are missing, the Redis write is skipped silently and the file write stays — graceful degradation by design.
 - **Collectors run in `direct` mode**, NOT `api` mode. Vercel's serverless filesystem is ephemeral — API-mode writes vanish. GitHub Actions writes locally to `.data/*.jsonl` and `git push` from the workflow. See `.github/workflows/collect-twitter.yml` (committed fix `edf99d2`).
-- **Twitter** uses Apify `apidojo~tweet-scraper` actor. Cookie-based providers are dead post-2026 anti-bot. Bundle = 4 queries per repo for tier-1 coverage.
+- **Twitter** uses Apify `apidojo~tweet-scraper` actor. Cookie-based providers are dead post-2026 anti-bot. Apify actor runs 4 query templates per tracked repo per scan.
 - **Append-only JSONL.** Each scan adds new lines, never replaces. Aggregator dedupes downstream.
-- **Production page** renders skeleton SSR + client hydration. Fresh data only appears after JS execution.
+- **Home page (`/`) is ISR-cached at 30 min** (`revalidate=1800`). Bundled JSON seeds the cold start; client refresh hooks repopulate the in-memory cache on navigation. Don't expect fresh data on first paint.
 
 ## Common Tasks
-- Dev: `npm run dev` (Turbopack)
-- Lint/typecheck: `npm run lint` / `npm run typecheck`
-- Tests: `npm test` (where present in `scripts/__tests__/` and route-level)
-- Local scrape: `npm run scrape:twitter` / `:reddit` / `:hn` / `:bsky` / `:ph` / `:devto`
+- Dev: `npm run dev` (Turbopack, port 3023)
+- Lint: `npm run lint` / `npm run lint:guards` (the meta-lint catches Zod-on-mutating-routes, error envelopes, runtime drift)
+- Typecheck: `npm run typecheck` (run before every commit per ICM Motion "Verification Before Done")
+- Tests: `npm test` runs node:test + tsx + vitest in serial. Subsuites: `npm run test:hooks` / `:hooks:watch` (vitest), `npm run test:e2e` / `:e2e:ui` (Playwright)
+- Build/start: `npm run build` / `npm start` (production path)
+- Local collectors: `npm run collect:twitter` (Apify, NOT scrape:twitter), `npm run scrape:reddit` / `:hn` / `:bsky` / `:ph` / `:devto` / `:lobsters` / `:arxiv` / `:npm`
+- Intake: `npm run ingest:arxiv-cited` (intake pipeline for arXiv-cited repos)
 - Trigger workflow: `gh workflow run collect-twitter.yml`
-- Build graph: `code-review-graph build` (run once after major refactor; auto-updates on Edit/Write/Bash via project hook)
+- Build graph: `code-review-graph build` (auto-runs via project hook on Edit/Write/Bash; pre-commit hook also runs `code-review-graph detect-changes`)
 - Verify Redis data-store: `npm run verify:data-store` (requires `REDIS_URL` for Railway, OR `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` for Upstash)
 
 ## Where to Look First
@@ -43,6 +51,7 @@ Real-time trend-discovery scanner. Aggregates GitHub stars, Twitter buzz, Reddit
 - Ingest pipeline? `docs/INGESTION.md` + `docs/TWITTER_SIGNAL_LAYER.md`
 - Deploy issues? `docs/DEPLOY.md`
 - Adding a signal source? `docs/SOURCE_DISCOVERY.md`
+- See `apps/trendingrepo-worker/` referenced in code? Sister Railway service hosting ~37 fetchers (MCP registries, funding sources, scoring) — lives in worktree branches not yet in main. See memory `project_trendingrepo_worker.md`.
 
 ## Anti-Patterns Already Burned
 - Don't switch Twitter collector back to API mode — it silently fails on Vercel.

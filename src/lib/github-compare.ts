@@ -156,7 +156,7 @@ function authHeaders(token?: string): HeadersInit {
   const h: Record<string, string> = {
     Accept: "application/vnd.github+json",
     "X-GitHub-Api-Version": "2022-11-28",
-    "User-Agent": "starscreener-compare",
+    "User-Agent": "trendingrepo-compare",
   };
   if (token) h.Authorization = `Bearer ${token}`;
   return h;

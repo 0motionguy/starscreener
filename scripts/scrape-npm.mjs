@@ -20,6 +20,7 @@
 import { writeFile, mkdir } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 import { fetchJsonWithRetry, HttpStatusError, sleep } from "./_fetch-json.mjs";
 import { writeDataStore } from "./_data-store-write.mjs";
 
@@ -574,8 +575,32 @@ const isDirectRun =
     import.meta.url.endsWith(argv1.replace(/\\/g, "/")));
 
 if (isDirectRun) {
-  main().catch((err) => {
-    console.error("scrape-npm failed:", err.message ?? err);
-    process.exit(1);
-  });
+  // T2.6: metadata sidecar — distinguishes outage from quiet day.
+  const startedAt = Date.now();
+  main()
+    .then(async () => {
+      try {
+        await writeSourceMetaFromOutcome({
+          source: "npm",
+          count: 1,
+          durationMs: Date.now() - startedAt,
+        });
+      } catch (metaErr) {
+        console.error("[meta] npm.json write failed:", metaErr);
+      }
+    })
+    .catch(async (err) => {
+      console.error("scrape-npm failed:", err.message ?? err);
+      try {
+        await writeSourceMetaFromOutcome({
+          source: "npm",
+          count: 0,
+          durationMs: Date.now() - startedAt,
+          error: err,
+        });
+      } catch (metaErr) {
+        console.error("[meta] npm.json error-write failed:", metaErr);
+      }
+      process.exit(1);
+    });
 }

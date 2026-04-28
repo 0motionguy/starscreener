@@ -687,18 +687,28 @@ function renderTabHeader(
   source: { code: string; color: string; label: string },
 ) {
   // Pull the headline number out of the snapshot card for the
-  // eyebrow status pill — keeps the chrome readable above the fold.
+  // breadcrumb meta — keeps the chrome readable above the fold.
   const snapshot = data.cards[0];
   const itemCount =
     snapshot.variant === "snapshot" ? snapshot.value : "0";
   return (
     <div className="my-4">
       <NewsTopHeaderV3
+        routeTitle={`${source.label} · TRENDING`}
+        liveLabel="LIVE · 24H"
         eyebrow={`// ${source.label} · LIVE FIREHOSE`}
-        status={`${itemCount} TRACKED · ${tabId.toUpperCase()}`}
+        meta={[
+          { label: "TRACKED", value: itemCount },
+          { label: "TAB", value: tabId.toUpperCase() },
+        ]}
         cards={data.cards}
         topStories={data.topStories}
         accent={source.color}
+        caption={[
+          "// LAYOUT compact-v1",
+          "· 3-COL · 320 / 1FR / 1FR",
+          "· DATA UNCHANGED",
+        ]}
       />
     </div>
   );

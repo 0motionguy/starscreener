@@ -253,7 +253,13 @@ describe("buildHackerNewsHeader", () => {
       expect(result.cards[0].rows).toHaveLength(3);
     }
     if (result.cards[1].variant === "bars") {
-      expect(result.cards[1].bars).toHaveLength(6);
+      // Compact-v1: the volume card no longer renders the 6×4h activity
+      // bars — it now shows the synthesised minute heatmap + 24h hourly
+      // distribution instead. Empty `bars`, populated `minuteHeatmap` +
+      // `hourlyDistribution`.
+      expect(result.cards[1].bars).toHaveLength(0);
+      expect(result.cards[1].minuteHeatmap?.values).toHaveLength(30);
+      expect(result.cards[1].hourlyDistribution?.values).toHaveLength(24);
     }
     expect(result.topStories).toHaveLength(1);
     expect(result.topStories[0].sourceCode).toBe("HN");

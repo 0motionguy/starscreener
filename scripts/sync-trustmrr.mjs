@@ -156,6 +156,24 @@ async function runIncremental() {
     );
     return;
   }
+  const fetchedAt =
+    typeof catalog.generatedAt === "string"
+      ? catalog.generatedAt
+      : new Date().toISOString();
+  const serialized = JSON.stringify(catalog);
+  const catalogRedis = await writeDataStore("trustmrr-startups", catalog);
+  const metaRedis = await writeDataStore("trustmrr-startups:meta", {
+    generatedAt: fetchedAt,
+    startupCount: catalog.startups.length,
+    totalReported: Number.isFinite(catalog.total)
+      ? catalog.total
+      : catalog.startups.length,
+    totalSize: serialized.length,
+    fetchedAt,
+  });
+  console.log(
+    `[sync-trustmrr] data-store: catalog=${catalogRedis.source} meta=${metaRedis.source} (size=${serialized.length} bytes)`,
+  );
   await deriveOverlays({ catalogGeneratedAt: catalog.generatedAt ?? null });
 }
 

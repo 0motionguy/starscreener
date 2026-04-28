@@ -1,9 +1,9 @@
 import type { AlertEvent } from "@/lib/pipeline/types";
 
-export const BROWSER_ALERTS_ENABLED_KEY = "starscreener-browser-alerts-enabled";
-export const BROWSER_ALERTS_SEEN_KEY = "starscreener-browser-alerts-seen";
+export const BROWSER_ALERTS_ENABLED_KEY = "trendingrepo-browser-alerts-enabled";
+export const BROWSER_ALERTS_SEEN_KEY = "trendingrepo-browser-alerts-seen";
 export const BROWSER_ALERTS_CHANGE_EVENT =
-  "starscreener-browser-alerts-changed";
+  "trendingrepo-browser-alerts-changed";
 
 const MAX_SEEN_ALERT_IDS = 250;
 

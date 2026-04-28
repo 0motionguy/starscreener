@@ -1,8 +1,8 @@
-# StarScreener MCP server
+# TrendingRepo MCP server
 
-A [Model Context Protocol](https://modelcontextprotocol.io) server that exposes the StarScreener live-GitHub-trend REST API to AI agents over stdio.
+A [Model Context Protocol](https://modelcontextprotocol.io) server that exposes the TrendingRepo live-GitHub-trend REST API to AI agents over stdio.
 
-All tools are **read-only** — the server never writes back to StarScreener.
+All tools are **read-only** — the server never writes back to TrendingRepo.
 
 ## Install and build
 
@@ -25,10 +25,10 @@ The build output lands in `mcp/dist/server.js`.
 
 | Variable                  | Required | Default                   | Notes                                     |
 | ------------------------- | -------- | ------------------------- | ----------------------------------------- |
-| `STARSCREENER_API_URL`    | no       | `http://localhost:3023`   | Base URL of the StarScreener Next.js app. |
-| `STARSCREENER_API_TOKEN`  | no       | —                         | Sent as `Authorization: Bearer <token>` when set. Reserved for future auth; the public REST endpoints don't require it today. |
+| `TRENDINGREPO_API_URL`    | no       | `http://localhost:3023`   | Base URL of the TrendingRepo Next.js app. Legacy alias `STARSCREENER_API_URL` is still accepted for one release. |
+| `TRENDINGREPO_API_TOKEN`  | no       | —                         | Sent as `Authorization: Bearer <token>` when set. Reserved for future auth; the public REST endpoints don't require it today. Legacy alias `STARSCREENER_API_TOKEN` is still accepted. |
 
-The StarScreener Next.js dev server must be reachable at that URL for the tools to return data.
+The TrendingRepo Next.js dev server must be reachable at that URL for the tools to return data.
 
 ## Tools
 
@@ -67,7 +67,7 @@ The three Portal-canonical tools (`top_gainers`, `search_repos`, `maintainer_pro
 
 ## Local test
 
-In one terminal run the StarScreener app:
+In one terminal run the TrendingRepo app:
 
 ```bash
 npm run dev   # serves on http://localhost:3023
@@ -91,11 +91,11 @@ Add an entry to `claude_desktop_config.json`:
 ```json
 {
   "mcpServers": {
-    "starscreener": {
+    "trendingrepo": {
       "command": "node",
       "args": ["C:/Users/mirko/OneDrive/Desktop/STARSCREENER/mcp/dist/server.js"],
       "env": {
-        "STARSCREENER_API_URL": "http://localhost:3023"
+        "TRENDINGREPO_API_URL": "http://localhost:3023"
       }
     }
   }
@@ -107,11 +107,11 @@ Alternatively, once published to npm (see Phase 8 in the repo plan), you can use
 ```json
 {
   "mcpServers": {
-    "starscreener": {
+    "trendingrepo": {
       "command": "npx",
-      "args": ["-y", "starscreener-mcp"],
+      "args": ["-y", "trendingrepo-mcp"],
       "env": {
-        "STARSCREENER_API_URL": "https://starscreener.xyz"
+        "TRENDINGREPO_API_URL": "https://trendingrepo.com"
       }
     }
   }
@@ -122,4 +122,4 @@ Restart Claude Desktop. All tools above should appear in the tool picker.
 
 ## Claude Code / other MCP clients
 
-Any MCP-compatible client that supports stdio transport works the same way — point it at `node /absolute/path/to/mcp/dist/server.js` and set `STARSCREENER_API_URL` in its env.
+Any MCP-compatible client that supports stdio transport works the same way — point it at `node /absolute/path/to/mcp/dist/server.js` and set `TRENDINGREPO_API_URL` (or legacy `STARSCREENER_API_URL`) in its env.

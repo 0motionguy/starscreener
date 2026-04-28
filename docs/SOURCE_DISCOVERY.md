@@ -1,6 +1,6 @@
 # Source Discovery
 
-How StarScreener decides what to watch on Bluesky and DEV when hunting for AI-dev momentum.
+How TrendingRepo decides what to watch on Bluesky and DEV when hunting for AI-dev momentum.
 
 ## Why this exists
 

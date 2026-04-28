@@ -32,10 +32,10 @@ import {
   BadgeCheck,
   BarChart3,
   Bot,
-  Bookmark,
   Brain,
   Cpu,
   DollarSign,
+  Eye,
   FileText,
   GitCompareArrows,
   GraduationCap,
@@ -597,7 +597,7 @@ export function SidebarContent({
         <V2Section label="TOOLS">
           <V2NavRow
             href="/watchlist"
-            icon={Bookmark}
+            icon={Eye}
             label="Watchlist"
             badge={watchCount > 0 ? watchCount : undefined}
             badgeTone="accent"

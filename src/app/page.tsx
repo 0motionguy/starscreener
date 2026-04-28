@@ -19,12 +19,10 @@ import {
 import { TerminalLayout } from "@/components/terminal/TerminalLayout";
 import { BubbleMap } from "@/components/terminal/BubbleMap";
 import { MomentumHeadline } from "@/components/home/MomentumHeadline";
-import { HomeCtaRow } from "@/components/home/HomeCtaRow";
 import { HomeEmptyState } from "@/components/home/HomeEmptyState";
 import { CrossSourceTriBoxes } from "@/components/home/CrossSourceTriBoxes";
 import {
   MonoLabel,
-  SpiderNode,
   AsciiInterstitial,
   BarcodeTicker,
 } from "@/components/v2";
@@ -143,17 +141,6 @@ export default async function HomePage() {
         </h1>
 
         <MomentumHeadline repos={repos} lastFetchedAt={lastFetchedAt} />
-
-        <div className="grid md:grid-cols-[1fr_auto] gap-6 items-center">
-          <HomeCtaRow />
-
-          {/* V2 spider-node hero accent — desktop only, decorative. */}
-          <div className="hidden lg:block">
-            <div className="v2-frame p-2">
-              <SpiderNode width={140} height={140} peripheral={9} />
-            </div>
-          </div>
-        </div>
 
         {/* V2 barcode ticker — "live data flow" accent. */}
         <div className="pt-2">

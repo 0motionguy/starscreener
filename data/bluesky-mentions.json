@@ -1,10 +1,61 @@
 {
-  "fetchedAt": "2026-04-27T23:12:25.870Z",
+  "fetchedAt": "2026-04-28T00:08:35.777Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
+    "getagentseal/codeburn": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3mkjaxxptwv2a",
+        "cid": "bafyreia27o6ty3z2tjawpbwrc6wh6jfgjdzvagida2eji4bhmf6rulgozi",
+        "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3mkjaxxptwv2a",
+        "text": "GitHub - getagentseal/codeburn: See where your AI coding tokens go. Interactive TUI dashboard for Claude Code, Codex, and Cursor cost observability. https://github.com/getagentseal/codeburn",
+        "author": {
+          "handle": "tech-trending.bsky.social",
+          "displayName": "Tech Trending"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-27T23:47:13.178Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3mkjaxxptwv2a",
+          "cid": "bafyreia27o6ty3z2tjawpbwrc6wh6jfgjdzvagida2eji4bhmf6rulgozi",
+          "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3mkjaxxptwv2a",
+          "text": "GitHub - getagentseal/codeburn: See where your AI coding tokens go. Interactive TUI dashboard for Claude Code, Codex, and Cursor cost observability. https://github.com/getagentseal/codeburn",
+          "author": {
+            "handle": "tech-trending.bsky.social",
+            "displayName": "Tech Trending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-27T23:47:13.178Z",
+          "createdUtc": 1777333633,
+          "ageHours": 0.5,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "getagentseal/codeburn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "JuliusBrussee/caveman": {
       "count7d": 1,
       "likesSum7d": 1,
@@ -23,7 +74,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-04-27T22:58:16.101Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.17
       },
       "posts": [
         {
@@ -40,7 +91,7 @@
           "replyCount": 1,
           "createdAt": "2026-04-27T22:58:16.101Z",
           "createdUtc": 1777330696,
-          "ageHours": 0.5,
+          "ageHours": 1.17,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -58,7 +109,7 @@
     },
     "endevco/aube": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -70,11 +121,11 @@
           "handle": "gautier.dev",
           "displayName": "Gautier"
         },
-        "likeCount": 0,
+        "likeCount": 2,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-27T21:59:30.127Z",
-        "hoursSincePosted": 1.22
+        "hoursSincePosted": 2.15
       },
       "posts": [
         {
@@ -86,13 +137,13 @@
             "handle": "gautier.dev",
             "displayName": "Gautier"
           },
-          "likeCount": 0,
+          "likeCount": 2,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-04-27T21:59:30.127Z",
           "createdUtc": 1777327170,
-          "ageHours": 1.22,
-          "trendingScore": 0,
+          "ageHours": 2.15,
+          "trendingScore": 2,
           "content_tags": [
             "has-github-repo"
           ],
@@ -124,7 +175,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-27T20:16:23.574787+00:00",
-        "hoursSincePosted": 2.93
+        "hoursSincePosted": 3.87
       },
       "posts": [
         {
@@ -140,7 +191,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-27T20:16:23.574787+00:00",
           "createdUtc": 1777320983,
-          "ageHours": 2.93,
+          "ageHours": 3.87,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -167,7 +218,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-27T20:00:17.877739+00:00",
           "createdUtc": 1777320017,
-          "ageHours": 3.2,
+          "ageHours": 4.14,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -194,7 +245,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-27T19:44:02.005050+00:00",
           "createdUtc": 1777319042,
-          "ageHours": 3.47,
+          "ageHours": 4.41,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -221,7 +272,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-27T19:28:04.233468+00:00",
           "createdUtc": 1777318084,
-          "ageHours": 3.74,
+          "ageHours": 4.68,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -248,7 +299,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-27T19:11:59.076316+00:00",
           "createdUtc": 1777317119,
-          "ageHours": 4.01,
+          "ageHours": 4.94,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -275,7 +326,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-27T19:08:22.275025+00:00",
           "createdUtc": 1777316902,
-          "ageHours": 4.07,
+          "ageHours": 5,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -293,7 +344,7 @@
     },
     "vercel-labs/skills": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
@@ -305,11 +356,11 @@
           "handle": "jays.name",
           "displayName": "Jay Gruber"
         },
-        "likeCount": 1,
+        "likeCount": 2,
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-04-27T19:37:32.242Z",
-        "hoursSincePosted": 3.58
+        "hoursSincePosted": 4.52
       },
       "posts": [
         {
@@ -321,13 +372,13 @@
             "handle": "jays.name",
             "displayName": "Jay Gruber"
           },
-          "likeCount": 1,
+          "likeCount": 2,
           "repostCount": 0,
           "replyCount": 1,
           "createdAt": "2026-04-27T19:37:32.242Z",
           "createdUtc": 1777318652,
-          "ageHours": 3.58,
-          "trendingScore": 1.5,
+          "ageHours": 4.52,
+          "trendingScore": 2.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -360,7 +411,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-27T19:09:37.000Z",
-        "hoursSincePosted": 4.05
+        "hoursSincePosted": 4.98
       },
       "posts": [
         {
@@ -377,7 +428,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-27T19:09:37.000Z",
           "createdUtc": 1777316977,
-          "ageHours": 4.05,
+          "ageHours": 4.98,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -411,7 +462,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-27T19:04:48.613Z",
-        "hoursSincePosted": 4.13
+        "hoursSincePosted": 5.06
       },
       "posts": [
         {
@@ -428,7 +479,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-27T19:04:48.613Z",
           "createdUtc": 1777316688,
-          "ageHours": 4.13,
+          "ageHours": 5.06,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -447,23 +498,28 @@
   },
   "leaderboard": [
     {
-      "fullName": "JuliusBrussee/caveman",
+      "fullName": "endevco/aube",
+      "count7d": 1,
+      "likesSum7d": 2
+    },
+    {
+      "fullName": "vercel-labs/skills",
+      "count7d": 1,
+      "likesSum7d": 2
+    },
+    {
+      "fullName": "getagentseal/codeburn",
       "count7d": 1,
       "likesSum7d": 1
     },
     {
-      "fullName": "vercel-labs/skills",
+      "fullName": "JuliusBrussee/caveman",
       "count7d": 1,
       "likesSum7d": 1
     },
     {
       "fullName": "ggml-org/llama.cpp",
       "count7d": 6,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "endevco/aube",
-      "count7d": 1,
       "likesSum7d": 0
     },
     {

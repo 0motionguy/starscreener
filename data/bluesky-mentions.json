@@ -1,10 +1,317 @@
 {
-  "fetchedAt": "2026-04-28T09:26:28.714Z",
+  "fetchedAt": "2026-04-28T11:40:41.838Z",
   "windowDays": 7,
-  "scannedPosts": 300,
+  "scannedPosts": 297,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
+    "run-llama/liteparse": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkkhmihhrh2d",
+        "cid": "bafyreih55lzxydcvcxqzfeipzec7hdpqybwdnyqs2nsv37telnkszwn22a",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkkhmihhrh2d",
+        "text": "https://github.com/run-llama/liteparse",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-28T11:18:43Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkkhmihhrh2d",
+          "cid": "bafyreih55lzxydcvcxqzfeipzec7hdpqybwdnyqs2nsv37telnkszwn22a",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkkhmihhrh2d",
+          "text": "https://github.com/run-llama/liteparse",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-28T11:18:43Z",
+          "createdUtc": 1777375123,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "run-llama/liteparse",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "jdx/mise": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:cb34r4htgqlkp7adfyee56je/app.bsky.feed.post/3mkkgvvfk722o",
+        "cid": "bafyreibxuyrubhgrb6xrprhen6iksgeuogtblcatwub7x6gyk5ofiolaxu",
+        "bskyUrl": "https://bsky.app/profile/eregon.me/post/3mkkgvvfk722o",
+        "text": "There are some issues reported at github.com/jdx/mise/dis... but they seem to have been fixed.",
+        "author": {
+          "handle": "eregon.me",
+          "displayName": "Benoit Daloze"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-28T11:06:05.079Z",
+        "hoursSincePosted": 0.58
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:cb34r4htgqlkp7adfyee56je/app.bsky.feed.post/3mkkgvvfk722o",
+          "cid": "bafyreibxuyrubhgrb6xrprhen6iksgeuogtblcatwub7x6gyk5ofiolaxu",
+          "bskyUrl": "https://bsky.app/profile/eregon.me/post/3mkkgvvfk722o",
+          "text": "There are some issues reported at github.com/jdx/mise/dis... but they seem to have been fixed.",
+          "author": {
+            "handle": "eregon.me",
+            "displayName": "Benoit Daloze"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-28T11:06:05.079Z",
+          "createdUtc": 1777374365,
+          "ageHours": 0.58,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "jdx/mise",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "WeebLabs/DSPi": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:3fe25qalw4rfzrty3xyutj7c/app.bsky.feed.post/3mkkfk3lte62h",
+        "cid": "bafyreiaw444j5b6uor6lp6ayy2sl36ouu7g7emsmxlikxjs33jzolvqlma",
+        "bskyUrl": "https://bsky.app/profile/topickapp.bsky.social/post/3mkkfk3lte62h",
+        "text": "https://github.com/WeebLabs/DSPi Raspberry Pi Picoを高性能なデジタルオーディオプロセッサに変える「DSPi」のご紹介です。 ルームコレクションやEQなど高度なオーディオ調整機能を、安価に実現できます。 USBサウンドカードとしても動作し、PCやスマホと簡単に接続可能です。",
+        "author": {
+          "handle": "topickapp.bsky.social",
+          "displayName": "topickapp (IT技術系ニュースサイト)"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-28T10:41:35.889237+00:00",
+        "hoursSincePosted": 0.99
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:3fe25qalw4rfzrty3xyutj7c/app.bsky.feed.post/3mkkfk3lte62h",
+          "cid": "bafyreiaw444j5b6uor6lp6ayy2sl36ouu7g7emsmxlikxjs33jzolvqlma",
+          "bskyUrl": "https://bsky.app/profile/topickapp.bsky.social/post/3mkkfk3lte62h",
+          "text": "https://github.com/WeebLabs/DSPi Raspberry Pi Picoを高性能なデジタルオーディオプロセッサに変える「DSPi」のご紹介です。 ルームコレクションやEQなど高度なオーディオ調整機能を、安価に実現できます。 USBサウンドカードとしても動作し、PCやスマホと簡単に接続可能です。",
+          "author": {
+            "handle": "topickapp.bsky.social",
+            "displayName": "topickapp (IT技術系ニュースサイト)"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-28T10:41:35.889237+00:00",
+          "createdUtc": 1777372895,
+          "ageHours": 0.99,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "WeebLabs/DSPi",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "openai/symphony": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:qw3rlslzugmkitgpr5p4nned/app.bsky.feed.post/3mkke3un2oc22",
+        "cid": "bafyreigszezwvlokpaorencsjgd3ldu4bdoefszqb2dnw5jkhm3ofy5amm",
+        "bskyUrl": "https://bsky.app/profile/ai-nerd.bsky.social/post/3mkke3un2oc22",
+        "text": "neat: openai shipped a whole codex orchestration framework as a single SPEC.md, then had codex implement it. the reference is in elixir because OTP is good at supervising concurrent agents — the language was chosen for its strengths, not the team's familiarity https://github.com/openai/symphony",
+        "author": {
+          "handle": "ai-nerd.bsky.social",
+          "displayName": "ai-nerd.bsky.social"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-28T10:15:44.982990+00:00",
+        "hoursSincePosted": 1.42
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:qw3rlslzugmkitgpr5p4nned/app.bsky.feed.post/3mkke3un2oc22",
+          "cid": "bafyreigszezwvlokpaorencsjgd3ldu4bdoefszqb2dnw5jkhm3ofy5amm",
+          "bskyUrl": "https://bsky.app/profile/ai-nerd.bsky.social/post/3mkke3un2oc22",
+          "text": "neat: openai shipped a whole codex orchestration framework as a single SPEC.md, then had codex implement it. the reference is in elixir because OTP is good at supervising concurrent agents — the language was chosen for its strengths, not the team's familiarity https://github.com/openai/symphony",
+          "author": {
+            "handle": "ai-nerd.bsky.social",
+            "displayName": "ai-nerd.bsky.social"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-28T10:15:44.982990+00:00",
+          "createdUtc": 1777371344,
+          "ageHours": 1.42,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "openai/symphony",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "VoltAgent/awesome-design-md": {
+      "count7d": 1,
+      "likesSum7d": 4,
+      "repostsSum7d": 2,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wkzjtd4gogevarp2qsr4z47m/app.bsky.feed.post/3mkkcvgevms27",
+        "cid": "bafyreifhpcki4eyiy22p4bn6cehgzxemegfli7bjumcdfsxrm4olnkqnba",
+        "bskyUrl": "https://bsky.app/profile/bruces.bsky.social/post/3mkkcvgevms27",
+        "text": "*Agents doing interface-design-slop with \"design.md\" #Agentic github.com/VoltAgent/aw...",
+        "author": {
+          "handle": "bruces.bsky.social",
+          "displayName": "#BruceSterling"
+        },
+        "likeCount": 4,
+        "repostCount": 2,
+        "replyCount": 0,
+        "createdAt": "2026-04-28T09:54:15.142Z",
+        "hoursSincePosted": 1.77
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wkzjtd4gogevarp2qsr4z47m/app.bsky.feed.post/3mkkcvgevms27",
+          "cid": "bafyreifhpcki4eyiy22p4bn6cehgzxemegfli7bjumcdfsxrm4olnkqnba",
+          "bskyUrl": "https://bsky.app/profile/bruces.bsky.social/post/3mkkcvgevms27",
+          "text": "*Agents doing interface-design-slop with \"design.md\" #Agentic github.com/VoltAgent/aw...",
+          "author": {
+            "handle": "bruces.bsky.social",
+            "displayName": "#BruceSterling"
+          },
+          "likeCount": 4,
+          "repostCount": 2,
+          "replyCount": 0,
+          "createdAt": "2026-04-28T09:54:15.142Z",
+          "createdUtc": 1777370055,
+          "ageHours": 1.77,
+          "trendingScore": 8,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "VoltAgent/awesome-design-md",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "memvid/memvid": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkkcpxg2r52v",
+        "cid": "bafyreigz6ucqfd3l6oaiqnzs2eti4ez2nyxkncrxfzrwhojpz3cx52mdvm",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkkcpxg2r52v",
+        "text": "memvid: Memory layer for AI Agents. Replace complex RAG pipelines with a serverless, single-file memory layer. Give your agents instant retrieval and long-term memory. ★15242 https://github.com/memvid/memvid",
+        "author": {
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-28T09:51:11.569659Z",
+        "hoursSincePosted": 1.83
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkkcpxg2r52v",
+          "cid": "bafyreigz6ucqfd3l6oaiqnzs2eti4ez2nyxkncrxfzrwhojpz3cx52mdvm",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkkcpxg2r52v",
+          "text": "memvid: Memory layer for AI Agents. Replace complex RAG pipelines with a serverless, single-file memory layer. Give your agents instant retrieval and long-term memory. ★15242 https://github.com/memvid/memvid",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-28T09:51:11.569659Z",
+          "createdUtc": 1777369871,
+          "ageHours": 1.83,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "memvid/memvid",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "niri-wm/niri": {
       "count7d": 1,
       "likesSum7d": 0,
@@ -23,7 +330,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-28T12:23:24+03:00",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 2.29
       },
       "posts": [
         {
@@ -40,7 +347,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-28T12:23:24+03:00",
           "createdUtc": 1777368204,
-          "ageHours": 0.5,
+          "ageHours": 2.29,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -49,6 +356,57 @@
           "linkedRepos": [
             {
               "fullName": "niri-wm/niri",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "HKUDS-AI/polymarket-ai-trading": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:a2anbsoy6odyey6geqvld42l/app.bsky.feed.post/3mkk66lizx72w",
+        "cid": "bafyreihsipv5mc6sbhrtmrm4fwqibt5smpezpmzmqsslyf2w64vjkmqg2a",
+        "bskyUrl": "https://bsky.app/profile/projectnothing.bsky.social/post/3mkk66lizx72w",
+        "text": "When AI meets prediction markets, devs aren’t just automating trades—they’re building research-grade DeFi tools to outthink the crowd. https://github.com/HKUDS-AI/polymarket-ai-trading https://www.projectnothing.ai/experiments/signal-from-the-void",
+        "author": {
+          "handle": "projectnothing.bsky.social",
+          "displayName": "Project Nothing"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-28T08:29:46.573Z",
+        "hoursSincePosted": 3.18
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:a2anbsoy6odyey6geqvld42l/app.bsky.feed.post/3mkk66lizx72w",
+          "cid": "bafyreihsipv5mc6sbhrtmrm4fwqibt5smpezpmzmqsslyf2w64vjkmqg2a",
+          "bskyUrl": "https://bsky.app/profile/projectnothing.bsky.social/post/3mkk66lizx72w",
+          "text": "When AI meets prediction markets, devs aren’t just automating trades—they’re building research-grade DeFi tools to outthink the crowd. https://github.com/HKUDS-AI/polymarket-ai-trading https://www.projectnothing.ai/experiments/signal-from-the-void",
+          "author": {
+            "handle": "projectnothing.bsky.social",
+            "displayName": "Project Nothing"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-28T08:29:46.573Z",
+          "createdUtc": 1777364986,
+          "ageHours": 3.18,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "HKUDS-AI/polymarket-ai-trading",
               "matchType": "url",
               "confidence": 1
             }
@@ -74,7 +432,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-04-28T08:01:53Z",
-        "hoursSincePosted": 1.41
+        "hoursSincePosted": 3.65
       },
       "posts": [
         {
@@ -91,7 +449,7 @@
           "replyCount": 1,
           "createdAt": "2026-04-28T08:01:53Z",
           "createdUtc": 1777363313,
-          "ageHours": 1.41,
+          "ageHours": 3.65,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -100,6 +458,57 @@
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "dirac-run/dirac": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:3tadq4w54a5yc27m6azfghwe/app.bsky.feed.post/3mkk4jlerew22",
+        "cid": "bafyreifok2l7jhyadi5vbfbqcid4iruousyigkdi6w4pm77ahi7fwvxl3u",
+        "bskyUrl": "https://bsky.app/profile/hnbest.bsky.social/post/3mkk4jlerew22",
+        "text": "Show HN: OSS Agent I built topped the TerminalBench on Gemini-3-flash-preview https://github.com/dirac-run/dirac comments #github.com",
+        "author": {
+          "handle": "hnbest.bsky.social",
+          "displayName": "Hacker News Best"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-28T08:00:15.232605+00:00",
+        "hoursSincePosted": 3.67
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:3tadq4w54a5yc27m6azfghwe/app.bsky.feed.post/3mkk4jlerew22",
+          "cid": "bafyreifok2l7jhyadi5vbfbqcid4iruousyigkdi6w4pm77ahi7fwvxl3u",
+          "bskyUrl": "https://bsky.app/profile/hnbest.bsky.social/post/3mkk4jlerew22",
+          "text": "Show HN: OSS Agent I built topped the TerminalBench on Gemini-3-flash-preview https://github.com/dirac-run/dirac comments #github.com",
+          "author": {
+            "handle": "hnbest.bsky.social",
+            "displayName": "Hacker News Best"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-28T08:00:15.232605+00:00",
+          "createdUtc": 1777363215,
+          "ageHours": 3.67,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "dirac-run/dirac",
               "matchType": "url",
               "confidence": 1
             }
@@ -125,7 +534,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-28T07:35:28.000Z",
-        "hoursSincePosted": 1.85
+        "hoursSincePosted": 4.09
       },
       "posts": [
         {
@@ -142,7 +551,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-28T07:35:28.000Z",
           "createdUtc": 1777361728,
-          "ageHours": 1.85,
+          "ageHours": 4.09,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -160,7 +569,7 @@
     },
     "mandiant/gopacket": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -172,11 +581,11 @@
           "handle": "r1cksec.bsky.social",
           "displayName": "r1cksec"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-28T06:57:11.112Z",
-        "hoursSincePosted": 2.49
+        "hoursSincePosted": 4.72
       },
       "posts": [
         {
@@ -188,13 +597,13 @@
             "handle": "r1cksec.bsky.social",
             "displayName": "r1cksec"
           },
-          "likeCount": 0,
+          "likeCount": 1,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-04-28T06:57:11.112Z",
           "createdUtc": 1777359431,
-          "ageHours": 2.49,
-          "trendingScore": 0,
+          "ageHours": 4.72,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
           ],
@@ -208,280 +617,26 @@
           ]
         }
       ]
-    },
-    "openai/codex": {
-      "count7d": 1,
-      "likesSum7d": 3,
-      "repostsSum7d": 1,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:kdyelf4vsmhrkvhueghesbiu/app.bsky.feed.post/3mkjyakeg7p2z",
-        "cid": "bafyreigmkcliyideutq3r3uf3lc7s7iusy542d3aio6nl2gjzsw47ewoc4",
-        "bskyUrl": "https://bsky.app/profile/davidmanheim.alter.org.il/post/3mkjyakeg7p2z",
-        "text": "It's not just in the prompt, it's there twice! (Mistake, or necessary overkill? Who knows!) bsky.app/profile/emol... github.com/openai/codex...",
-        "author": {
-          "handle": "davidmanheim.alter.org.il",
-          "displayName": "David Manheim"
-        },
-        "likeCount": 3,
-        "repostCount": 1,
-        "replyCount": 0,
-        "createdAt": "2026-04-28T06:43:37.378Z",
-        "hoursSincePosted": 2.71
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:kdyelf4vsmhrkvhueghesbiu/app.bsky.feed.post/3mkjyakeg7p2z",
-          "cid": "bafyreigmkcliyideutq3r3uf3lc7s7iusy542d3aio6nl2gjzsw47ewoc4",
-          "bskyUrl": "https://bsky.app/profile/davidmanheim.alter.org.il/post/3mkjyakeg7p2z",
-          "text": "It's not just in the prompt, it's there twice! (Mistake, or necessary overkill? Who knows!) bsky.app/profile/emol... github.com/openai/codex...",
-          "author": {
-            "handle": "davidmanheim.alter.org.il",
-            "displayName": "David Manheim"
-          },
-          "likeCount": 3,
-          "repostCount": 1,
-          "replyCount": 0,
-          "createdAt": "2026-04-28T06:43:37.378Z",
-          "createdUtc": 1777358617,
-          "ageHours": 2.71,
-          "trendingScore": 5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "openai/codex",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "anthropics/claude-code": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:jl5xc6vsmnmo4lhbvzb43ykc/app.bsky.feed.post/3mkjwdf37cs2s",
-        "cid": "bafyreihtc4yvfh4a5dojx7vxgavg676c6hdhzpet6s2bmxgrdpjomujqdi",
-        "bskyUrl": "https://bsky.app/profile/georgesl.bsky.social/post/3mkjwdf37cs2s",
-        "text": "Claude Code 2.1.121 release change log github.com/anthropics/c...",
-        "author": {
-          "handle": "georgesl.bsky.social",
-          "displayName": "George"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-28T06:09:24.896Z",
-        "hoursSincePosted": 3.28
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:jl5xc6vsmnmo4lhbvzb43ykc/app.bsky.feed.post/3mkjwdf37cs2s",
-          "cid": "bafyreihtc4yvfh4a5dojx7vxgavg676c6hdhzpet6s2bmxgrdpjomujqdi",
-          "bskyUrl": "https://bsky.app/profile/georgesl.bsky.social/post/3mkjwdf37cs2s",
-          "text": "Claude Code 2.1.121 release change log github.com/anthropics/c...",
-          "author": {
-            "handle": "georgesl.bsky.social",
-            "displayName": "George"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-28T06:09:24.896Z",
-          "createdUtc": 1777356564,
-          "ageHours": 3.28,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo",
-            "has-md-file"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "luongnv89/claude-howto": {
-      "count7d": 1,
-      "likesSum7d": 34,
-      "repostsSum7d": 6,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:4q4wdaknunskbt47bzsi2qbv/app.bsky.feed.post/3mkjt2syctc2m",
-        "cid": "bafyreigvbip2tcu7jxpy35xedzurhwsqqchutvk66geec7qhpgd543gsua",
-        "bskyUrl": "https://bsky.app/profile/ponceto91.bsky.social/post/3mkjt2syctc2m",
-        "text": "Pour celles et ceux qui veulent se mettre à Claude code, voici un dépôt qui pourra vous y aider, en partant des concepts de bases et en allant crescendo ⬇️ github.com/luongnv89/cl...",
-        "author": {
-          "handle": "ponceto91.bsky.social",
-          "displayName": "Olivier Poncet 🦝"
-        },
-        "likeCount": 34,
-        "repostCount": 6,
-        "replyCount": 1,
-        "createdAt": "2026-04-28T05:10:56.266Z",
-        "hoursSincePosted": 4.26
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:4q4wdaknunskbt47bzsi2qbv/app.bsky.feed.post/3mkjt2syctc2m",
-          "cid": "bafyreigvbip2tcu7jxpy35xedzurhwsqqchutvk66geec7qhpgd543gsua",
-          "bskyUrl": "https://bsky.app/profile/ponceto91.bsky.social/post/3mkjt2syctc2m",
-          "text": "Pour celles et ceux qui veulent se mettre à Claude code, voici un dépôt qui pourra vous y aider, en partant des concepts de bases et en allant crescendo ⬇️ github.com/luongnv89/cl...",
-          "author": {
-            "handle": "ponceto91.bsky.social",
-            "displayName": "Olivier Poncet 🦝"
-          },
-          "likeCount": 34,
-          "repostCount": 6,
-          "replyCount": 1,
-          "createdAt": "2026-04-28T05:10:56.266Z",
-          "createdUtc": 1777353056,
-          "ageHours": 4.26,
-          "trendingScore": 46.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "luongnv89/claude-howto",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "getagentseal/codeburn": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:qddwg3fp67n2wqdtwxf3ghpx/app.bsky.feed.post/3mkjslweq2c26",
-        "cid": "bafyreifdafhy4lwipawzwnh22bjv6uxfbboykrpmoe2ecfykpskkiixqx4",
-        "bskyUrl": "https://bsky.app/profile/nunocky.bsky.social/post/3mkjslweq2c26",
-        "text": "こういうの眺めていたい github.com/getagentseal...",
-        "author": {
-          "handle": "nunocky.bsky.social",
-          "displayName": "NUNOKAWA Masato"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-28T05:02:36.499Z",
-        "hoursSincePosted": 4.4
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:qddwg3fp67n2wqdtwxf3ghpx/app.bsky.feed.post/3mkjslweq2c26",
-          "cid": "bafyreifdafhy4lwipawzwnh22bjv6uxfbboykrpmoe2ecfykpskkiixqx4",
-          "bskyUrl": "https://bsky.app/profile/nunocky.bsky.social/post/3mkjslweq2c26",
-          "text": "こういうの眺めていたい github.com/getagentseal...",
-          "author": {
-            "handle": "nunocky.bsky.social",
-            "displayName": "NUNOKAWA Masato"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-28T05:02:36.499Z",
-          "createdUtc": 1777352556,
-          "ageHours": 4.4,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "getagentseal/codeburn",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "remotion-dev/remotion": {
-      "count7d": 1,
-      "likesSum7d": 2,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:3icbr7tmasq5cqevlb2sorfb/app.bsky.feed.post/3mkjqxatazk23",
-        "cid": "bafyreicwsejdm3vrf3vda66uey7ffl24jgasmbrhwgg76fsubb5zm3z35i",
-        "bskyUrl": "https://bsky.app/profile/arielfrischer.bsky.social/post/3mkjqxatazk23",
-        "text": "AI can efficiently generate code that renders videos. Recommend: github.com/remotion-dev... It does take a bit of iteration but its worth it. Long term you'll have a solid setup to generate #saas demo style vids for a fraction of the usual price. Heres an example for my Saas rentalot.ai",
-        "author": {
-          "handle": "arielfrischer.bsky.social"
-        },
-        "likeCount": 2,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-28T04:33:09.079Z",
-        "hoursSincePosted": 4.89
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:3icbr7tmasq5cqevlb2sorfb/app.bsky.feed.post/3mkjqxatazk23",
-          "cid": "bafyreicwsejdm3vrf3vda66uey7ffl24jgasmbrhwgg76fsubb5zm3z35i",
-          "bskyUrl": "https://bsky.app/profile/arielfrischer.bsky.social/post/3mkjqxatazk23",
-          "text": "AI can efficiently generate code that renders videos. Recommend: github.com/remotion-dev... It does take a bit of iteration but its worth it. Long term you'll have a solid setup to generate #saas demo style vids for a fraction of the usual price. Heres an example for my Saas rentalot.ai",
-          "author": {
-            "handle": "arielfrischer.bsky.social"
-          },
-          "likeCount": 2,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-28T04:33:09.079Z",
-          "createdUtc": 1777350789,
-          "ageHours": 4.89,
-          "trendingScore": 2,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "remotion-dev/remotion",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "luongnv89/claude-howto",
+      "fullName": "VoltAgent/awesome-design-md",
       "count7d": 1,
-      "likesSum7d": 34
+      "likesSum7d": 4
     },
     {
-      "fullName": "openai/codex",
+      "fullName": "mandiant/gopacket",
       "count7d": 1,
-      "likesSum7d": 3
+      "likesSum7d": 1
     },
     {
-      "fullName": "remotion-dev/remotion",
+      "fullName": "openai/symphony",
       "count7d": 1,
-      "likesSum7d": 2
+      "likesSum7d": 1
     },
     {
-      "fullName": "anthropics/claude-code",
+      "fullName": "dirac-run/dirac",
       "count7d": 1,
       "likesSum7d": 0
     },
@@ -491,12 +646,17 @@
       "likesSum7d": 0
     },
     {
-      "fullName": "getagentseal/codeburn",
+      "fullName": "HKUDS-AI/polymarket-ai-trading",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "mandiant/gopacket",
+      "fullName": "jdx/mise",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "memvid/memvid",
       "count7d": 1,
       "likesSum7d": 0
     },
@@ -507,6 +667,16 @@
     },
     {
       "fullName": "openclaw/openclaw",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "run-llama/liteparse",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "WeebLabs/DSPi",
       "count7d": 1,
       "likesSum7d": 0
     }

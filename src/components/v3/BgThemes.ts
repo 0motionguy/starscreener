@@ -50,10 +50,10 @@ export const V3_BG_THEMES: V3BgTheme[] = [
   {
     id: "creme",
     label: "Creme",
-    family: "light",
-    bg: "#f7f1de",
-    bgEdge: "#d8cfac",
-    ink: "#1a160a",
+    family: "dark",
+    bg: "#1a1a1f",
+    bgEdge: "#3a3a44",
+    ink: "#f7f1de",
   },
   {
     id: "linen",

@@ -12,12 +12,11 @@ import {
 } from "recharts";
 import type { Repo } from "@/lib/types";
 import { formatNumber } from "@/lib/utils";
+import { COMPARE_PALETTE } from "./palette";
 
 interface CompareChartProps {
   repos: Repo[];
 }
-
-const LINE_COLORS = ["#22c55e", "#3b82f6", "#a855f7", "#f59e0b"];
 
 const MIN_HISTORY_DAYS = 7;
 
@@ -178,7 +177,7 @@ export function CompareChart({ repos }: CompareChartProps) {
                 type="monotone"
                 dataKey={repo.id}
                 name={repo.fullName}
-                stroke={LINE_COLORS[i]}
+                stroke={COMPARE_PALETTE[i]}
                 strokeWidth={2}
                 dot={false}
                 activeDot={{ r: 4, strokeWidth: 0 }}
@@ -238,7 +237,7 @@ export function CompareChart({ repos }: CompareChartProps) {
                 type="monotone"
                 dataKey={repo.id}
                 name={repo.fullName}
-                stroke={LINE_COLORS[i]}
+                stroke={COMPARE_PALETTE[i]}
                 strokeWidth={1.5}
                 dot={false}
                 activeDot={{ r: 3, strokeWidth: 0 }}

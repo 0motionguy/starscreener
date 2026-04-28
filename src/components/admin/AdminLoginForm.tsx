@@ -161,7 +161,7 @@ export function AdminLoginForm() {
                   padding: "8px 12px",
                   border: "1px solid var(--v2-sig-red)",
                   borderRadius: 2,
-                  background: "rgba(255, 77, 77, 0.06)",
+                  background: "var(--v2-sig-red-soft)",
                 }}
               >
                 {`// AUTH FAILED · ${error}`}

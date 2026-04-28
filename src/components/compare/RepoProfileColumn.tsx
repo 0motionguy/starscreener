@@ -20,6 +20,7 @@ import { FundingCompact } from "./FundingCompact";
 import { NpmCompact } from "./NpmCompact";
 import { MentionsRecentCompact } from "./MentionsRecentCompact";
 import { cn } from "@/lib/utils";
+import { COMPARE_PALETTE as PALETTE } from "./palette";
 
 interface RepoProfileColumnProps {
   row: CompareRepoRow;
@@ -32,8 +33,6 @@ interface RepoProfileColumnProps {
     npmDownloads7d: DiffTone;
   };
 }
-
-const PALETTE = ["#22c55e", "#3b82f6", "#a855f7", "#f59e0b"] as const;
 
 function formatCompact(n: number): string {
   if (n < 1000) return String(n);

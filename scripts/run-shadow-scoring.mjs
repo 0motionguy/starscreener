@@ -33,7 +33,8 @@ import { resolve } from "node:path";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 
 const NAMESPACE = "ss:data:v1";
-const META_NAMESPACE = "ss:meta:v1";
+// META_NAMESPACE is owned by writeDataStore() — we don't read meta here,
+// the shadow runner only consumes the payload itself.
 
 /**
  * Domains the harness compares. Each entry maps a logical domain key (used

@@ -77,3 +77,30 @@ for await (const tracePath of walk(serverDir)) {
 console.log(
   `[sanitize-next-traces] updated ${tracesChanged} trace files; removed ${filesRemoved} local entries`,
 );
+
+// Next 15.5 occasionally emits routes-manifest.json without `dataRoutes`,
+// `dynamicRoutes`, `staticRoutes`, or `rsc` fields when the build doesn't
+// need them. `next start` then throws `routesManifest.dataRoutes is not
+// iterable` at boot, blocking the Playwright e2e step. Patch in the
+// missing arrays so the runtime is happy. Idempotent — leaves populated
+// fields alone.
+try {
+  const routesManifestPath = path.join(root, ".next", "routes-manifest.json");
+  const raw = await readFile(routesManifestPath, "utf8");
+  const manifest = JSON.parse(raw);
+  let patched = false;
+  for (const key of ["dataRoutes", "dynamicRoutes", "staticRoutes"]) {
+    if (!Array.isArray(manifest[key])) {
+      manifest[key] = [];
+      patched = true;
+    }
+  }
+  if (patched) {
+    await writeFile(routesManifestPath, JSON.stringify(manifest), "utf8");
+    console.log(
+      `[sanitize-next-traces] patched routes-manifest.json: added missing route arrays`,
+    );
+  }
+} catch (err) {
+  if (err && typeof err === "object" && err.code !== "ENOENT") throw err;
+}

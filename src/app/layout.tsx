@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { Analytics } from "@vercel/analytics/next";
 // Trimmed from 4 fonts to 3: Instrument Serif (--font-editorial) was
 // defined but not referenced anywhere in src/components or src/app.
 // Dropping it saves ~30 KB of font payload + one <link rel="preload">.
@@ -10,6 +9,7 @@ import { Toaster } from "sonner";
 import "@/lib/bootstrap";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { StoreProvider } from "@/components/providers/StoreProvider";
+import { PostHogProvider } from "@/components/providers/PostHogProvider";
 import { AppShell } from "@/components/layout/AppShell";
 import { Header } from "@/components/layout/Header";
 import { Sidebar } from "@/components/layout/Sidebar";
@@ -156,8 +156,9 @@ export default function RootLayout({
       </head>
       <body>
         <ThemeProvider>
-          <StoreProvider>
-            <DesignSystemProvider>
+          <PostHogProvider>
+            <StoreProvider>
+              <DesignSystemProvider>
               <Header />
               <MobileDrawerLazy />
               <AppShell>
@@ -189,10 +190,10 @@ export default function RootLayout({
                   },
                 }}
               />
-            </DesignSystemProvider>
-          </StoreProvider>
+              </DesignSystemProvider>
+            </StoreProvider>
+          </PostHogProvider>
         </ThemeProvider>
-        <Analytics />
       </body>
     </html>
   );

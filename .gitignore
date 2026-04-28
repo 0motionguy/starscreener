@@ -79,6 +79,10 @@ dogfood-output/
 build_*.log
 build-*.log
 typecheck_*.log
+dev_server*.log
+
+# scratch probe directories from local debug sessions
+tmp_probe/
 
 # embedded clones (not submodules)
 awesome-codex-skills/

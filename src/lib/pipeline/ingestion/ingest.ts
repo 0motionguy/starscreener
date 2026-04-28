@@ -9,6 +9,7 @@ import { GitHubApiAdapter } from "../adapters/github-adapter";
 import { MockGitHubAdapter } from "../adapters/mock-github-adapter";
 import { emitPipelineEvent } from "../events";
 import { normalizeGitHubRepo } from "../adapters/normalizer";
+import { readEnv } from "@/lib/env-helpers";
 import type {
   GitHubAdapter,
   IngestBatchResult,
@@ -231,19 +232,21 @@ async function runIngestBatch(
 /**
  * Factory returning the right GitHub adapter. Production default is the live
  * GitHubApiAdapter — a missing token is a hard error, not a silent mock. The
- * mock path is only reachable when STARSCREENER_ALLOW_MOCK=true (local dev).
+ * mock path is only reachable when TRENDINGREPO_ALLOW_MOCK=true (legacy:
+ * STARSCREENER_ALLOW_MOCK=true) — local dev only.
  */
 export function createGitHubAdapter(
   opts: { useMock?: boolean; token?: string } = {},
 ): GitHubAdapter {
   const token = opts.token ?? process.env.GITHUB_TOKEN ?? undefined;
-  const allowMock = process.env.STARSCREENER_ALLOW_MOCK === "true";
+  const allowMock =
+    readEnv("TRENDINGREPO_ALLOW_MOCK", "STARSCREENER_ALLOW_MOCK") === "true";
   const useMock = opts.useMock ?? false;
   if (useMock) {
     if (!allowMock) {
       throw new Error(
-        "createGitHubAdapter: useMock=true but STARSCREENER_ALLOW_MOCK is not set. " +
-          "Mock adapter is disabled in production. Set STARSCREENER_ALLOW_MOCK=true for local dev.",
+        "createGitHubAdapter: useMock=true but TRENDINGREPO_ALLOW_MOCK is not set. " +
+          "Mock adapter is disabled in production. Set TRENDINGREPO_ALLOW_MOCK=true for local dev.",
       );
     }
     return new MockGitHubAdapter();

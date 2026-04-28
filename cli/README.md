@@ -1,25 +1,26 @@
-# starscreener-cli (`ss`)
+# trendingrepo-cli (`ss`)
 
-Read-only terminal client for the [StarScreener](https://github.com/Kermit457/STARSCREENER) GitHub trend API. Native Node 18+, no external dependencies.
+Read-only terminal client for the [TrendingRepo](https://github.com/0motionguy/starscreener) GitHub trend API. Native Node 18+, no external dependencies.
 
 ## Install
 
 ```bash
-npm install -g starscreener-cli
+npm install -g trendingrepo-cli
 ```
 
 Or run without installing:
 
 ```bash
-npx starscreener-cli trending
+npx trendingrepo-cli trending
 ```
 
 ## Configure
 
-Point the CLI at a running StarScreener backend via env var:
+Point the CLI at a running TrendingRepo backend via env var:
 
 ```bash
-export STARSCREENER_API_URL="http://localhost:3004"   # default
+export TRENDINGREPO_API_URL="http://localhost:3004"   # default
+# Legacy alias STARSCREENER_API_URL is still accepted for one release.
 ```
 
 If not set, it falls back to `http://localhost:3004`.
@@ -51,7 +52,7 @@ ss trending --json | jq '.repos[].fullName'
 
 ## Related
 
-- [`starscreener-mcp`](https://www.npmjs.com/package/starscreener-mcp) — MCP server exposing the same API to AI agents.
+- [`trendingrepo-mcp`](https://www.npmjs.com/package/trendingrepo-mcp) — MCP server exposing the same API to AI agents.
 
 ## License
 

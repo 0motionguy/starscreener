@@ -27,6 +27,7 @@ import type { Launch, ProductHuntFile } from "@/lib/producthunt";
 import type { LobstersStory } from "@/lib/lobsters";
 import type { LobstersTrendingFile } from "@/lib/lobsters-trending";
 import type { RedditAllPost, AllPostsStats } from "@/lib/reddit-all";
+import { repoLogoUrl, userLogoUrl } from "@/lib/logos";
 
 // ---------------------------------------------------------------------------
 // Topic palette — cycled through the topic bars. 8 colours × 6 visible
@@ -252,15 +253,20 @@ export function buildHackerNewsHeader(
     },
   ];
 
-  const heroStories: NewsHeroStory[] = topStories.slice(0, 3).map((s) => ({
-    title: s.title,
-    href: hnItemHref(s.id),
-    external: true,
-    sourceCode: "HN",
-    byline: s.by ? `@${s.by}` : undefined,
-    scoreLabel: `${compactNumber(s.score ?? 0)} pts · ${compactNumber(s.descendants ?? 0)} cmts`,
-    ageHours: s.ageHours ?? null,
-  }));
+  const heroStories: NewsHeroStory[] = topStories.slice(0, 3).map((s) => {
+    const linkedRepo = s.linkedRepos?.[0]?.fullName ?? null;
+    return {
+      title: s.title,
+      href: hnItemHref(s.id),
+      external: true,
+      sourceCode: "HN",
+      byline: s.by ? `@${s.by}` : undefined,
+      scoreLabel: `${compactNumber(s.score ?? 0)} pts · ${compactNumber(s.descendants ?? 0)} cmts`,
+      ageHours: s.ageHours ?? null,
+      logoUrl: repoLogoUrl(linkedRepo),
+      logoName: linkedRepo ?? s.by ?? s.title,
+    };
+  });
 
   return { cards, topStories: heroStories };
 }
@@ -315,17 +321,23 @@ export function buildBlueskyHeader(
     },
   ];
 
-  const heroStories: NewsHeroStory[] = topPosts.slice(0, 3).map((p) => ({
-    title: (p.text ?? "").length > 110
-      ? `${p.text.slice(0, 110)}…`
-      : (p.text ?? "(post)"),
-    href: bskyPostHref(p.uri, p.author?.handle),
-    external: true,
-    sourceCode: "BS",
-    byline: p.author?.handle ? `@${p.author.handle}` : undefined,
-    scoreLabel: `${compactNumber(p.likeCount ?? 0)} ♥ · ${compactNumber(p.repostCount ?? 0)} rt`,
-    ageHours: p.ageHours ?? null,
-  }));
+  const heroStories: NewsHeroStory[] = topPosts.slice(0, 3).map((p) => {
+    const linkedRepo = p.linkedRepos?.[0]?.fullName ?? null;
+    const authorAvatar = (p.author as { avatar?: string | null } | null)?.avatar ?? null;
+    return {
+      title: (p.text ?? "").length > 110
+        ? `${p.text.slice(0, 110)}…`
+        : (p.text ?? "(post)"),
+      href: bskyPostHref(p.uri, p.author?.handle),
+      external: true,
+      sourceCode: "BS",
+      byline: p.author?.handle ? `@${p.author.handle}` : undefined,
+      scoreLabel: `${compactNumber(p.likeCount ?? 0)} ♥ · ${compactNumber(p.repostCount ?? 0)} rt`,
+      ageHours: p.ageHours ?? null,
+      logoUrl: repoLogoUrl(linkedRepo) ?? userLogoUrl(authorAvatar),
+      logoName: linkedRepo ?? p.author?.handle ?? p.text,
+    };
+  });
 
   return { cards, topStories: heroStories };
 }
@@ -401,17 +413,24 @@ export function buildDevtoHeaderFromArticles(
     .slice()
     .sort((a, b) => (b.reactionsCount ?? 0) - (a.reactionsCount ?? 0))
     .slice(0, 3);
-  const heroStories: NewsHeroStory[] = topArticles.map((a) => ({
-    title: a.title,
-    href: a.url,
-    external: true,
-    sourceCode: "DV",
-    byline: a.author?.username ? `@${a.author.username}` : undefined,
-    scoreLabel: `${compactNumber(a.reactionsCount ?? 0)} ♥ · ${compactNumber(a.commentsCount ?? 0)} cmts`,
-    ageHours: a.publishedAt
-      ? Math.max(0, (Date.now() - Date.parse(a.publishedAt)) / 3_600_000)
-      : null,
-  }));
+  const heroStories: NewsHeroStory[] = topArticles.map((a) => {
+    const authorAvatar =
+      (a.author as { profile_image?: string | null } | null)?.profile_image ??
+      null;
+    return {
+      title: a.title,
+      href: a.url,
+      external: true,
+      sourceCode: "DV",
+      byline: a.author?.username ? `@${a.author.username}` : undefined,
+      scoreLabel: `${compactNumber(a.reactionsCount ?? 0)} ♥ · ${compactNumber(a.commentsCount ?? 0)} cmts`,
+      ageHours: a.publishedAt
+        ? Math.max(0, (Date.now() - Date.parse(a.publishedAt)) / 3_600_000)
+        : null,
+      logoUrl: userLogoUrl(authorAvatar),
+      logoName: a.author?.username ?? a.title,
+    };
+  });
 
   return { cards, topStories: heroStories };
 }
@@ -495,6 +514,8 @@ export function buildProductHuntHeader(
     ageHours: l.createdAt
       ? Math.max(0, (Date.now() - Date.parse(l.createdAt)) / 3_600_000)
       : null,
+    logoUrl: l.thumbnail ?? null,
+    logoName: l.name,
   }));
 
   return { cards, topStories: heroStories };
@@ -553,17 +574,24 @@ export function buildRedditHeader(
     .slice()
     .sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
     .slice(0, 3);
-  const heroStories: NewsHeroStory[] = heroes.map((p) => ({
-    title: p.title,
-    href: p.url || `https://www.reddit.com${p.permalink}`,
-    external: true,
-    sourceCode: "R",
-    byline: p.subreddit ? `r/${p.subreddit}` : undefined,
-    scoreLabel: `${compactNumber(p.score ?? 0)} ↑ · ${compactNumber(p.numComments ?? 0)} cmts`,
-    ageHours: p.createdUtc
-      ? Math.max(0, (Date.now() / 1000 - p.createdUtc) / 3600)
-      : null,
-  }));
+  const heroStories: NewsHeroStory[] = heroes.map((p) => {
+    const linkedRepo =
+      (p as { linkedRepos?: { fullName: string }[] }).linkedRepos?.[0]
+        ?.fullName ?? null;
+    return {
+      title: p.title,
+      href: p.url || `https://www.reddit.com${p.permalink}`,
+      external: true,
+      sourceCode: "R",
+      byline: p.subreddit ? `r/${p.subreddit}` : undefined,
+      scoreLabel: `${compactNumber(p.score ?? 0)} ↑ · ${compactNumber(p.numComments ?? 0)} cmts`,
+      ageHours: p.createdUtc
+        ? Math.max(0, (Date.now() / 1000 - p.createdUtc) / 3600)
+        : null,
+      logoUrl: repoLogoUrl(linkedRepo),
+      logoName: linkedRepo ?? `r/${p.subreddit ?? "reddit"}`,
+    };
+  });
 
   return { cards, topStories: heroStories };
 }
@@ -621,15 +649,20 @@ export function buildLobstersHeader(
     },
   ];
 
-  const heroStories: NewsHeroStory[] = topStories.slice(0, 3).map((s) => ({
-    title: s.title,
-    href: s.url || `https://lobste.rs/s/${s.shortId ?? ""}`,
-    external: true,
-    sourceCode: "LZ",
-    byline: s.by ? `@${s.by}` : undefined,
-    scoreLabel: `${compactNumber(s.score ?? 0)} pts · ${compactNumber(s.commentCount ?? 0)} cmts`,
-    ageHours: s.ageHours ?? null,
-  }));
+  const heroStories: NewsHeroStory[] = topStories.slice(0, 3).map((s) => {
+    const linkedRepo = s.linkedRepos?.[0]?.fullName ?? null;
+    return {
+      title: s.title,
+      href: s.url || `https://lobste.rs/s/${s.shortId ?? ""}`,
+      external: true,
+      sourceCode: "LZ",
+      byline: s.by ? `@${s.by}` : undefined,
+      scoreLabel: `${compactNumber(s.score ?? 0)} pts · ${compactNumber(s.commentCount ?? 0)} cmts`,
+      ageHours: s.ageHours ?? null,
+      logoUrl: repoLogoUrl(linkedRepo),
+      logoName: linkedRepo ?? s.by ?? s.title,
+    };
+  });
 
   return { cards, topStories: heroStories };
 }

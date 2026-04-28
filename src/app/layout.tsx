@@ -133,10 +133,11 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             // Reads the new key first, falls back to the legacy
-            // "starscreener-theme" entry for one release so existing
-            // users don't get their theme wiped. Also migrates the value
-            // forward so next-themes finds it on the new key next render.
-            __html: `(function(){try{var K="trendingrepo-theme",L="starscreener-theme",t=localStorage.getItem(K);if(!t){var old=localStorage.getItem(L);if(old){localStorage.setItem(K,old);t=old;}}if(t==="light")document.documentElement.classList.add("light");else document.documentElement.classList.add("dark")}catch(e){document.documentElement.classList.add("dark")}})();`,
+            // "starscreener-*" entries for one release so existing users
+            // don't lose state. Migrates the value forward so subsequent
+            // reads (next-themes, Zustand persist middleware, browser
+            // alerts) find it on the new key next render.
+            __html: `(function(){try{var pairs=[["trendingrepo-theme","starscreener-theme"],["trendingrepo-watchlist","starscreener-watchlist"],["trendingrepo-compare","starscreener-compare"],["trendingrepo-filters","starscreener-filters"],["trendingrepo-sidebar","starscreener-sidebar"],["trendingrepo-browser-alerts-enabled","starscreener-browser-alerts-enabled"],["trendingrepo-browser-alerts-seen","starscreener-browser-alerts-seen"],["trendingrepo-browser-alerts-changed","starscreener-browser-alerts-changed"]];for(var i=0;i<pairs.length;i++){var nk=pairs[i][0],ok=pairs[i][1];if(localStorage.getItem(nk)===null){var v=localStorage.getItem(ok);if(v!==null){localStorage.setItem(nk,v);}}}var t=localStorage.getItem("trendingrepo-theme");if(t==="light")document.documentElement.classList.add("light");else document.documentElement.classList.add("dark")}catch(e){document.documentElement.classList.add("dark")}})();`,
           }}
         />
         <script

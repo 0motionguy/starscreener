@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// StarScreener CLI (`ss`) — read-only terminal client for the StarScreener API.
+// TrendingRepo CLI (`ss`) — read-only terminal client for the TrendingRepo API.
 // Native Node 18+ only. No external dependencies.
 
 "use strict";
@@ -8,11 +8,19 @@
 // Config
 // ---------------------------------------------------------------------------
 
+// Tiny inline back-compat helper. Resolves the new env name first, falling
+// back to the legacy STARSCREENER_* equivalent. The CLI is a separate
+// published package and cannot import from `@/lib/env`, so we duplicate
+// the shim here.
+const readEnv = (newName, oldName) =>
+  process.env[newName] ?? process.env[oldName];
+
 const BASE_URL = (
-  process.env.STARSCREENER_API_URL || "http://localhost:3023"
+  readEnv("TRENDINGREPO_API_URL", "STARSCREENER_API_URL") ||
+  "http://localhost:3023"
 ).replace(/\/+$/, "");
 
-const CLI_VERSION = "0.1.0";
+const CLI_VERSION = "0.2.0";
 
 // Map our --window values to the API's `period` param.
 const WINDOW_TO_PERIOD = {
@@ -352,8 +360,8 @@ async function cmdCategories(args) {
 
 function cmdHelp() {
   const text = `
-StarScreener CLI (ss) v${CLI_VERSION}
-API: ${BASE_URL}    (override with STARSCREENER_API_URL)
+TrendingRepo CLI (ss) v${CLI_VERSION}
+API: ${BASE_URL}    (override with TRENDINGREPO_API_URL)
 
 USAGE
   ss <command> [options]

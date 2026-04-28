@@ -1,6 +1,6 @@
 "use client";
 
-// StarScreener - /portal/docs client shell.
+// TrendingRepo - /portal/docs client shell.
 //
 // Tab state + copy-to-clipboard lives here. The tool list is passed from the
 // server wrapper as plain metadata so this client bundle stays free of any
@@ -23,14 +23,14 @@ export interface PortalDocsTool {
 
 // Portal v0.1 wire format calls the method key "tool", not "method".
 // Matches src/portal/dispatcher.ts — keep these strings in lock-step.
-const LIVE_BASE = "https://starscreener.vercel.app";
+const LIVE_BASE = "https://trendingrepo.com";
 
 const VISIT_CLI = `# Portal visitor CLI (spec-native, works against any /portal endpoint)
 npx @visitportal/visit ${LIVE_BASE}/portal top_gainers --limit=10`;
 
 const MCP_INSTALL = `# Claude Code — register TrendingRepo as an HTTP MCP bridge
 # via the Portal adapter. No local checkout required.
-claude mcp add starscreener \\
+claude mcp add trendingrepo \\
   --transport http \\
   --url ${LIVE_BASE}/portal
 

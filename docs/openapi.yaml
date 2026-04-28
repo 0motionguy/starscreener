@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------------------
-# StarScreener / TrendingRepo — public + auth-gated API surface.
+# TrendingRepo — public + auth-gated API surface.
 #
 # SYNC CONTRACT
 # -------------
@@ -32,12 +32,12 @@
 # ---------------------------------------------------------------------------
 openapi: 3.1.0
 info:
-  title: StarScreener / TrendingRepo API
+  title: TrendingRepo API
   version: 2.0.0
   summary: Trending-repo intelligence platform — canonical profile + discovery + alerts.
   description: |
-    Public + authenticated REST surface for [TrendingRepo](https://trendingrepo.com)
-    (the StarScreener codebase). The canonical single-repo endpoint is
+    Public + authenticated REST surface for [TrendingRepo](https://trendingrepo.com).
+    The canonical single-repo endpoint is
     `GET /api/repos/{owner}/{name}?v=2`; it returns the full profile (score,
     reasons, mentions, freshness, twitter, npm, ProductHunt, revenue, funding,
     related, prediction, ideas) in one round-trip. Every other `/api/repos/*`
@@ -60,9 +60,9 @@ info:
 
 servers:
   - url: https://trendingrepo.com
-    description: Production
+    description: TrendingRepo production
   - url: https://starscreener.vercel.app
-    description: Vercel canonical
+    description: Vercel canonical (legacy host; 308 redirects to trendingrepo.com)
   - url: http://localhost:3023
     description: Local dev (`npm run dev`)
 

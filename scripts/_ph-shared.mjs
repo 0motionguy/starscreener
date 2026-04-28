@@ -22,7 +22,7 @@ import {
 } from "./_github-repo-links.mjs";
 
 export const USER_AGENT =
-  "StarScreener/0.1 (+https://github.com/0motionguy/starscreener)";
+  "TrendingRepo/0.2 (+https://github.com/0motionguy/starscreener)";
 export const PH_GRAPHQL_URL = "https://api.producthunt.com/v2/api/graphql";
 
 // Kept stable so dedupe works across runs. Order doesn't matter — we merge

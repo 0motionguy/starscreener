@@ -29,7 +29,7 @@ async function invokeGet(): Promise<Response> {
 
 function resetCache(): void {
   // Symbol-keyed hook published by the route module.
-  const key = Symbol.for("starscreener.openapi.test.reset");
+  const key = Symbol.for("trendingrepo.openapi.test.reset");
   const fn = (globalThis as unknown as Record<symbol, (() => void) | undefined>)[
     key
   ];

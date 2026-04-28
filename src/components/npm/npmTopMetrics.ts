@@ -14,6 +14,7 @@ import type {
   NewsMetricCard,
 } from "@/components/news/NewsTopHeaderV3";
 import { compactNumber, topicBars } from "@/components/news/newsTopMetrics";
+import { npmLogoUrl } from "@/lib/logos";
 import type { NpmPackageRow, NpmPackagesFile } from "@/lib/npm";
 
 const PKG_PALETTE = [
@@ -129,6 +130,8 @@ export function buildNpmHeader(
       byline: p.linkedRepo ? p.linkedRepo : undefined,
       scoreLabel: `${compactNumber(p.downloads7d ?? 0)} dl/wk · ${version}`,
       ageHours,
+      logoUrl: npmLogoUrl(p.linkedRepo),
+      logoName: p.linkedRepo ?? p.name,
     };
   });
 

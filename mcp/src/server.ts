@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 /**
- * StarScreener MCP server.
+ * TrendingRepo MCP server.
  *
- * Exposes the StarScreener GitHub trend platform to AI agents over stdio.
- * Reads from the Next.js REST API at STARSCREENER_API_URL (default
- * http://localhost:3023). All tools are read-only.
+ * Exposes the TrendingRepo GitHub trend platform to AI agents over stdio.
+ * Reads from the Next.js REST API at TRENDINGREPO_API_URL (legacy:
+ * STARSCREENER_API_URL; default http://localhost:3023). All tools are
+ * read-only.
  *
  * Run: `node dist/server.js` (after `npm run build`) or `npm run dev`.
  */
@@ -13,7 +14,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 
-import { StarScreenerClient } from "./client.js";
+import { TrendingRepoClient } from "./client.js";
 import { PortalClient } from "./portal-client.js";
 import {
   UNTRUSTED_CONTENT_NOTICE,
@@ -54,14 +55,14 @@ const FullNameField = z
 
 const server = new McpServer(
   {
-    name: "starscreener",
+    name: "trendingrepo",
     version: "0.1.0",
   },
   {
     instructions:
-      "StarScreener exposes live GitHub trend data (momentum score 0-100, " +
+      "TrendingRepo exposes live GitHub trend data (momentum score 0-100, " +
       "movement status, breakout detection, 30-day sparklines) for the " +
-      "repos tracked by the StarScreener platform. All tools are read-only. " +
+      "repos tracked by the TrendingRepo platform. All tools are read-only. " +
       "PRIMARY single-repo tool: repo_profile_full — one call returns the " +
       "full canonical profile (repo, score, reasons, mentions, freshness, " +
       "twitter, npm, productHunt, revenue, funding, related, prediction, " +
@@ -76,11 +77,11 @@ const server = new McpServer(
   },
 );
 
-const client = new StarScreenerClient();
+const client = new TrendingRepoClient();
 const portal = new PortalClient();
 
 // withMetering / run / UNTRUSTED_CONTENT_NOTICE live in ./runtime.ts.
-// The thin wrapper below pins the StarScreenerClient instance so each
+// The thin wrapper below pins the TrendingRepoClient instance so each
 // tool registration just calls withMetering(name, () => run(...)).
 function withMetering<T>(tool: string, fn: () => Promise<T>): Promise<T> {
   return withMeteringRaw(client, tool, fn);
@@ -96,7 +97,7 @@ server.registerTool(
     title: "Get trending repos",
     description:
       "[DEPRECATED — prefer top_gainers] Top-momentum repositories on " +
-      "StarScreener over a time window. Returns { repos: Repo[], meta } where " +
+      "TrendingRepo over a time window. Returns { repos: Repo[], meta } where " +
       "each Repo includes momentumScore, movementStatus, stars deltas, " +
       "sparklineData, categoryId and rank.",
     inputSchema: {
@@ -121,7 +122,7 @@ server.registerTool(
     title: "Top gainers",
     description:
       "Return trending GitHub repos sorted by star delta over the chosen time " +
-      "window. Optional language filter. Routes through the Star Screener " +
+      "window. Optional language filter. Routes through the TrendingRepo " +
       "Portal v0.1 endpoint so MCP and Portal visitors see identical results.",
     inputSchema: {
       limit: z
@@ -161,8 +162,8 @@ server.registerTool(
   {
     title: "Maintainer profile",
     description:
-      "Aggregate profile for a GitHub handle, composed from repos Star " +
-      "Screener already tracks where owner == handle. Returns total stars, " +
+      "Aggregate profile for a GitHub handle, composed from repos TrendingRepo " +
+      "already tracks where owner == handle. Returns total stars, " +
       "weekly velocity, languages, and top-momentum repos. NOT_FOUND when " +
       "the handle has no owned repos in the index. Does not make live " +
       "GitHub API calls.",
@@ -293,7 +294,7 @@ server.registerTool(
       "overlays (verified / self-reported / trustmrr claim), funding " +
       "events, related repos, 30d prediction, and ideas. Use this as the " +
       "primary lookup for any question about a specific repo on " +
-      "StarScreener / TrendingRepo. Returns 404 when the repo is unknown.",
+      "TrendingRepo. Returns 404 when the repo is unknown.",
     inputSchema: {
       fullName: FullNameField,
     },
@@ -472,7 +473,7 @@ async function main(): Promise<void> {
   await server.connect(transport);
   // stdout is reserved for the MCP JSON-RPC stream — log banner to stderr.
   console.error(
-    `[starscreener-mcp] connected — API base: ${process.env.STARSCREENER_API_URL ?? "http://localhost:3023"}`,
+    `[trendingrepo-mcp] connected — API base: ${process.env.TRENDINGREPO_API_URL ?? process.env.STARSCREENER_API_URL ?? "http://localhost:3023"}`,
   );
 }
 
@@ -486,6 +487,6 @@ process.on("SIGTERM", async () => {
 });
 
 main().catch((err) => {
-  console.error("[starscreener-mcp] fatal:", err);
+  console.error("[trendingrepo-mcp] fatal:", err);
   process.exit(1);
 });

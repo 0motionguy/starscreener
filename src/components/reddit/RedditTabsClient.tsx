@@ -71,6 +71,8 @@ export function RedditTabsClient({ posts }: { posts: RedditPost[] }) {
   );
   const filtered = getPostsByTab(chipFiltered, activeTab);
 
+  const REDDIT_ORANGE = "#ff4500";
+
   return (
     <section>
       {/* Content-type chips */}
@@ -79,7 +81,8 @@ export function RedditTabsClient({ posts }: { posts: RedditPost[] }) {
       {/* Tabs strip */}
       <div
         role="tablist"
-        className="flex gap-1 mb-4 border-b border-border-primary"
+        className="mb-4 flex gap-1"
+        style={{ borderBottom: "1px solid var(--v3-line-100)" }}
       >
         {REDDIT_TAB_IDS.map((tab) => {
           const active = tab === activeTab;
@@ -91,12 +94,14 @@ export function RedditTabsClient({ posts }: { posts: RedditPost[] }) {
               href={`${pathname}?tab=${tab}`}
               scroll={false}
               className={cn(
-                "px-3 py-2 text-xs font-mono uppercase tracking-wider transition-colors",
-                "border-b-2 -mb-[2px]",
-                active
-                  ? "border-brand text-brand"
-                  : "border-transparent text-text-tertiary hover:text-text-primary",
+                "v2-mono -mb-[2px] px-3 py-2 text-[11px] uppercase tracking-[0.18em] transition-colors",
               )}
+              style={{
+                color: active ? "var(--v3-ink-100)" : "var(--v3-ink-400)",
+                borderBottom: active
+                  ? `2px solid ${REDDIT_ORANGE}`
+                  : "2px solid transparent",
+              }}
             >
               {REDDIT_TAB_LABELS[tab]}
             </Link>
@@ -106,64 +111,96 @@ export function RedditTabsClient({ posts }: { posts: RedditPost[] }) {
 
       {/* Feed */}
       {filtered.length === 0 ? (
-        <div className="border border-dashed border-border-primary rounded-md p-6 bg-bg-secondary/40 text-sm text-text-tertiary">
-          No posts in this window. Try another tab or re-run
-          <code className="mx-1 px-1 text-text-secondary">npm run scrape:reddit</code>.
+        <div
+          className="p-6 text-sm"
+          style={{
+            background: "var(--v3-bg-025)",
+            border: "1px dashed var(--v3-line-100)",
+            borderRadius: 2,
+            color: "var(--v3-ink-400)",
+          }}
+        >
+          No posts in this window. Try another tab or re-run{" "}
+          <code style={{ color: "var(--v3-ink-100)" }}>npm run scrape:reddit</code>.
         </div>
       ) : (
         <ul className="space-y-2">
-          {filtered.map((p) => (
-            <li
-              key={`${p.id}-${p.repoFullName ?? "nomatch"}`}
-              className="border border-border-primary rounded-md px-4 py-3 bg-bg-secondary hover:border-brand transition-colors"
-            >
-              <div className="flex items-start justify-between gap-3">
-                <div className="min-w-0 flex-1">
-                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-text-tertiary mb-1.5">
-                    <span className="text-brand font-semibold">
-                      r/{p.subreddit}
-                    </span>
-                    <span>·</span>
-                    <span>u/{p.author}</span>
-                    <span>·</span>
-                    <span>{formatPostAge(p.ageHours)}</span>
-                    <VelocityIndicator trendingScore={p.trendingScore} />
-                    <BaselinePill
-                      sub={p.subreddit}
-                      ratio={p.baselineRatio}
-                      tier={p.baselineTier}
-                      confidence={p.baselineConfidence}
-                    />
-                    {p.repoFullName ? (
-                      <>
-                        <span>·</span>
-                        <Link
-                          href={repoFullNameToHref(p.repoFullName)}
-                          className="text-accent-green hover:underline truncate"
-                        >
-                          {p.repoFullName}
-                        </Link>
-                      </>
-                    ) : null}
+          {filtered.map((p, i) => {
+            const stagger = Math.min(i, 6) * 50;
+            return (
+              <li
+                key={`${p.id}-${p.repoFullName ?? "nomatch"}`}
+                className="v2-row group px-4 py-3"
+                style={{
+                  background: "var(--v3-bg-050)",
+                  border: "1px solid var(--v3-line-200)",
+                  borderRadius: 2,
+                  animation: "slide-up 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both",
+                  animationDelay: stagger > 0 ? `${stagger}ms` : undefined,
+                }}
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0 flex-1">
+                    <div
+                      className="mb-1.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px]"
+                      style={{ color: "var(--v3-ink-400)" }}
+                    >
+                      <span
+                        className="font-semibold"
+                        style={{ color: REDDIT_ORANGE }}
+                      >
+                        r/{p.subreddit}
+                      </span>
+                      <span aria-hidden style={{ color: "var(--v3-line-300)" }}>·</span>
+                      <span>u/{p.author}</span>
+                      <span aria-hidden style={{ color: "var(--v3-line-300)" }}>·</span>
+                      <span>{formatPostAge(p.ageHours)}</span>
+                      <VelocityIndicator trendingScore={p.trendingScore} />
+                      <BaselinePill
+                        sub={p.subreddit}
+                        ratio={p.baselineRatio}
+                        tier={p.baselineTier}
+                        confidence={p.baselineConfidence}
+                      />
+                      {p.repoFullName ? (
+                        <>
+                          <span aria-hidden style={{ color: "var(--v3-line-300)" }}>·</span>
+                          <Link
+                            href={repoFullNameToHref(p.repoFullName)}
+                            className="truncate hover:underline"
+                            style={{ color: "var(--v3-sig-green)" }}
+                          >
+                            {p.repoFullName}
+                          </Link>
+                        </>
+                      ) : null}
+                    </div>
+                    <a
+                      href={redditPostHref(p.permalink, p.url)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="line-clamp-2 text-sm font-medium transition-colors hover:text-[color:var(--v3-acc)]"
+                      style={{ color: "var(--v3-ink-100)" }}
+                    >
+                      {p.title}
+                    </a>
                   </div>
-                  <a
-                    href={redditPostHref(p.permalink, p.url)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-text-primary hover:text-brand line-clamp-2"
+                  <div
+                    className="flex flex-shrink-0 flex-col items-end text-[11px] tabular-nums"
+                    style={{ color: "var(--v3-ink-400)" }}
                   >
-                    {p.title}
-                  </a>
+                    <span
+                      className="text-sm font-bold"
+                      style={{ color: "var(--v3-ink-100)" }}
+                    >
+                      ▲ {p.score}
+                    </span>
+                    <span>{p.numComments} comments</span>
+                  </div>
                 </div>
-                <div className="flex-shrink-0 flex flex-col items-end text-[11px] text-text-tertiary">
-                  <span className="text-sm font-bold text-text-primary">
-                    ▲ {p.score}
-                  </span>
-                  <span>{p.numComments} comments</span>
-                </div>
-              </div>
-            </li>
-          ))}
+              </li>
+            );
+          })}
         </ul>
       )}
     </section>

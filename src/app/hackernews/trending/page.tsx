@@ -15,9 +15,13 @@ import {
   hnItemHref,
   refreshHackernewsMentionsFromStore,
   repoFullNameToHref,
+  type HnStory,
 } from "@/lib/hackernews";
 import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
 import { buildHackerNewsHeader } from "@/components/news/newsTopMetrics";
+import { TerminalFeedTable, type FeedColumn } from "@/components/feed/TerminalFeedTable";
+import { EntityLogo } from "@/components/ui/EntityLogo";
+import { repoLogoUrl } from "@/lib/logos";
 
 const HN_ACCENT = "rgba(245, 110, 15, 0.85)";
 
@@ -45,43 +49,10 @@ export default async function HackerNewsTrendingPage() {
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
       <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        {/* V3 page header — mono eyebrow + title + tight subtitle. */}
-        <header
-          className="mb-5 pb-4 border-b"
-          style={{ borderColor: "var(--v3-line-100)" }}
-        >
-          <div
-            className="v2-mono mb-2 text-[10px] tracking-[0.18em] uppercase"
-            style={{ color: "var(--v3-ink-400)" }}
-          >
-            {"// FIREBASE TOP 500 · ALGOLIA 7D · GITHUB MENTIONS"}
-          </div>
-          <h1
-            className="text-2xl font-bold uppercase tracking-wider"
-            style={{ color: "var(--v3-ink-000)" }}
-          >
-            HACKERNEWS / ALL TRENDING
-          </h1>
-          <p
-            className="mt-2 text-[13px] leading-relaxed max-w-2xl"
-            style={{ color: "var(--v3-ink-300)" }}
-          >
-            Every Hacker News story from the dual-source scrape: Firebase top
-            500 (front page + new) merged with Algolia&apos;s 7d sweep for
-            github-linked submissions. Stories are ranked by{" "}
-            <code style={{ color: "var(--v3-ink-100)" }}>trendingScore</code> —
-            velocity (points/hour) weighted by log10(score) so a 200-pt rocket
-            outranks a 1500-pt 3-day-old whale.
-          </p>
-        </header>
-
         {cold ? (
           <ColdState />
         ) : (
           <>
-            {/* V3 top header — 3 chart cards + 3 hero stories. The legacy
-                4-tile stat row that used to live below this is dropped: the
-                snapshot card + activity bars cover every metric it carried. */}
             <div className="mb-6">
               <NewsTopHeaderV3
                 eyebrow="// HACKERNEWS · TOP STORIES"
@@ -91,87 +62,144 @@ export default async function HackerNewsTrendingPage() {
               />
             </div>
 
-            {/* Feed */}
-            <section className="border border-border-primary rounded-md bg-bg-secondary overflow-hidden">
-              <div className="grid grid-cols-[40px_1fr_auto_60px_60px_80px] gap-3 items-center px-3 h-9 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
-                <div>#</div>
-                <div>TITLE</div>
-                <div>FP</div>
-                <div className="text-right">SCORE</div>
-                <div className="text-right">CMTS</div>
-                <div className="text-right">AGE</div>
-              </div>
-              <ul>
-                {stories.map((s, i) => {
-                  const linkedRepo = s.linkedRepos?.[0]?.fullName;
-                  const scoreClass =
-                    s.score >= 100 ? "" : "text-text-secondary";
-                  return (
-                    <li
-                      key={s.id}
-                      className="grid grid-cols-[40px_1fr_auto_60px_60px_80px] gap-3 items-center px-3 h-10 hover:bg-bg-card-hover border-b border-border-primary/40 last:border-b-0"
-                    >
-                      <div className="text-text-tertiary text-xs tabular-nums">
-                        {i + 1}
-                      </div>
-                      <div className="min-w-0 flex items-center gap-2">
-                        <a
-                          href={hnItemHref(s.id)}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-sm text-text-primary hover:text-accent-green truncate"
-                          title={s.title}
-                        >
-                          {s.title}
-                        </a>
-                        {linkedRepo ? (
-                          <a
-                            href={repoFullNameToHref(linkedRepo)}
-                            className="shrink-0 text-[10px] px-1.5 py-0.5 rounded border border-border-primary text-text-tertiary hover:text-accent-green hover:border-accent-green/50 transition-colors"
-                            title={`Linked repo: ${linkedRepo}`}
-                          >
-                            {linkedRepo}
-                          </a>
-                        ) : null}
-                      </div>
-                      <div>
-                        {s.everHitFrontPage ? (
-                          <span
-                            className="inline-flex items-center justify-center text-[8px] font-bold w-3.5 h-3.5 rounded-sm text-white"
-                            style={{ backgroundColor: HN_ORANGE }}
-                            title="Hit the HN front page"
-                          >
-                            Y
-                          </span>
-                        ) : (
-                          <span className="text-text-tertiary text-[10px]">
-                            —
-                          </span>
-                        )}
-                      </div>
-                      <div
-                        className={`text-right text-xs tabular-nums ${scoreClass}`}
-                        style={
-                          s.score >= 100 ? { color: HN_ORANGE } : undefined
-                        }
-                      >
-                        {s.score.toLocaleString("en-US")}
-                      </div>
-                      <div className="text-right text-xs tabular-nums text-text-secondary">
-                        {s.descendants.toLocaleString("en-US")}
-                      </div>
-                      <div className="text-right text-xs tabular-nums text-text-tertiary">
-                        {formatAgeHours(s.ageHours)}
-                      </div>
-                    </li>
-                  );
-                })}
-              </ul>
-            </section>
+            <HnStoryFeed stories={stories} />
           </>
         )}
       </div>
     </main>
+  );
+}
+
+function HnStoryFeed({ stories }: { stories: HnStory[] }) {
+  const columns: FeedColumn<HnStory>[] = [
+    {
+      id: "rank",
+      header: "#",
+      width: "44px",
+      render: (_, i) => (
+        <span
+          className="font-mono text-[12px] tabular-nums font-semibold"
+          style={{ color: i < 10 ? HN_ORANGE : "var(--v3-ink-400)" }}
+        >
+          {String(i + 1).padStart(2, "0")}
+        </span>
+      ),
+    },
+    {
+      id: "title",
+      header: "Title",
+      render: (s) => {
+        const linkedRepo = s.linkedRepos?.[0]?.fullName;
+        return (
+          <div className="flex min-w-0 items-center gap-2">
+            <EntityLogo
+              src={repoLogoUrl(linkedRepo)}
+              name={linkedRepo ?? s.by ?? s.title}
+              size={20}
+              shape="square"
+              alt=""
+            />
+            <a
+              href={hnItemHref(s.id)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="truncate text-[13px] font-medium transition-colors hover:text-[color:var(--v3-acc)]"
+              style={{ color: "var(--v3-ink-100)" }}
+              title={s.title}
+            >
+              {s.title}
+            </a>
+            {linkedRepo ? (
+              <a
+                href={repoFullNameToHref(linkedRepo)}
+                className="v2-mono shrink-0 px-1.5 py-0.5 text-[10px] tracking-[0.14em] uppercase transition-colors hover:text-[color:var(--v3-acc)]"
+                style={{
+                  border: "1px solid var(--v3-line-200)",
+                  background: "var(--v3-bg-100)",
+                  color: "var(--v3-ink-300)",
+                  borderRadius: 2,
+                }}
+                title={`Linked repo: ${linkedRepo}`}
+              >
+                ↳ {linkedRepo}
+              </a>
+            ) : null}
+          </div>
+        );
+      },
+    },
+    {
+      id: "fp",
+      header: "FP",
+      width: "44px",
+      hideBelow: "sm",
+      render: (s) =>
+        s.everHitFrontPage ? (
+          <span
+            className="inline-flex h-4 w-4 items-center justify-center text-[9px] font-bold text-white"
+            style={{ backgroundColor: HN_ORANGE, borderRadius: 2 }}
+            title="Hit the HN front page"
+          >
+            Y
+          </span>
+        ) : (
+          <span style={{ color: "var(--v3-ink-500)" }}>—</span>
+        ),
+    },
+    {
+      id: "score",
+      header: "Score",
+      width: "70px",
+      align: "right",
+      render: (s) => (
+        <span
+          className="font-mono text-[12px] tabular-nums"
+          style={{ color: s.score >= 100 ? HN_ORANGE : "var(--v3-ink-100)" }}
+        >
+          {s.score.toLocaleString("en-US")}
+        </span>
+      ),
+    },
+    {
+      id: "comments",
+      header: "Cmts",
+      width: "60px",
+      align: "right",
+      hideBelow: "md",
+      render: (s) => (
+        <span
+          className="font-mono text-[12px] tabular-nums"
+          style={{ color: "var(--v3-ink-300)" }}
+        >
+          {s.descendants.toLocaleString("en-US")}
+        </span>
+      ),
+    },
+    {
+      id: "age",
+      header: "Age",
+      width: "60px",
+      align: "right",
+      hideBelow: "md",
+      render: (s) => (
+        <span
+          className="font-mono text-[12px] tabular-nums"
+          style={{ color: "var(--v3-ink-400)" }}
+        >
+          {formatAgeHours(s.ageHours)}
+        </span>
+      ),
+    },
+  ];
+
+  return (
+    <TerminalFeedTable
+      rows={stories}
+      columns={columns}
+      rowKey={(s) => String(s.id)}
+      accent={HN_ORANGE}
+      caption="Hacker News top stories ranked by velocity-weighted trending score"
+    />
   );
 }
 
@@ -181,15 +209,28 @@ export default async function HackerNewsTrendingPage() {
 
 function ColdState() {
   return (
-    <section className="border border-dashed border-border-primary rounded-md p-8 bg-bg-secondary/40">
-      <h2 className="text-lg font-bold uppercase tracking-wider text-accent-green">
+    <section
+      className="p-8"
+      style={{
+        background: "var(--v3-bg-025)",
+        border: "1px dashed var(--v3-line-100)",
+        borderRadius: 2,
+      }}
+    >
+      <h2
+        className="v2-mono text-lg font-bold uppercase tracking-[0.18em]"
+        style={{ color: HN_ORANGE }}
+      >
         {"// no data yet"}
       </h2>
-      <p className="mt-3 text-sm text-text-secondary max-w-xl">
+      <p
+        className="mt-3 max-w-xl text-sm"
+        style={{ color: "var(--v3-ink-300)" }}
+      >
         The Hacker News scraper hasn&apos;t run yet. Run{" "}
-        <code className="text-text-primary">npm run scrape:hn</code> locally to
-        populate{" "}
-        <code className="text-text-primary">
+        <code style={{ color: "var(--v3-ink-100)" }}>npm run scrape:hn</code>{" "}
+        locally to populate{" "}
+        <code style={{ color: "var(--v3-ink-100)" }}>
           data/hackernews-trending.json
         </code>
         , then refresh this page.

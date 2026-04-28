@@ -5,15 +5,17 @@ import {
   SignalSourcePage,
   type SignalTabSpec,
 } from "@/components/signal/SignalSourcePage";
-import type { SignalMetricCardProps } from "@/components/signal/SignalMetricCard";
 import {
   ecosystemBoardToRows,
-  formatCompact,
   getSkillsSignalData,
   type EcosystemBoard,
 } from "@/lib/ecosystem-leaderboards";
 import { classifyFreshness } from "@/lib/news/freshness";
 import { absoluteUrl } from "@/lib/seo";
+import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
+import { buildEcosystemHeader } from "@/components/signal/ecosystemTopHeader";
+
+const SKILLS_ACCENT = "rgba(167, 139, 250, 0.85)";
 
 export const dynamic = "force-dynamic";
 
@@ -38,46 +40,31 @@ export default async function SkillsPage() {
   const skillsShRows = ecosystemBoardToRows(data.skillsSh);
   const githubRows = ecosystemBoardToRows(data.github);
 
-  const topItem = data.combined.items[0];
+  // V3 3-card top header — replaces the legacy 6-tile mini-strip with the
+  // same chrome the news pages use (snapshot + per-source bars + topics).
+  const { cards, topStories } = buildEcosystemHeader({
+    items: data.combined.items,
+    snapshotEyebrow: "// SNAPSHOT · NOW",
+    snapshotLabel: "SKILLS TRACKED",
+    snapshotRight: `${data.combined.items.length.toLocaleString("en-US")} ITEMS`,
+    volumeEyebrow: "// VOLUME · PER SOURCE",
+    topicsEyebrow: "// TOPICS · MENTIONED MOST",
+    sourceLabelMap: {
+      "skills.sh": "SKLSH",
+      "github": "GH",
+      "GitHub": "GH",
+    },
+  });
 
-  const metrics: SignalMetricCardProps[] = [
-    {
-      label: "All Skills",
-      value: data.combined.items.length,
-      helper: `${data.skillsSh.items.length} skills.sh / ${data.github.items.length} github`,
-      sparkTone: "brand",
-    },
-    {
-      label: "Top Signal",
-      value: signalValue(topItem),
-      helper: topItem?.title ?? "no rows",
-      sparkTone: "up",
-    },
-    {
-      label: "Top Popularity",
-      value: formatCompact(maxPopularity(data.combined)),
-      helper: topItem?.popularityLabel ?? "skill signal",
-      sparkTone: "warning",
-    },
-    {
-      label: "Surface",
-      value: "2",
-      helper: "skills.sh / github",
-      sparkTone: "info",
-    },
-    {
-      label: "Worker Key",
-      value: "SKILLS",
-      helper: "trending-skill",
-      sparkTone: "brand",
-    },
-    {
-      label: "Data Tier",
-      value: data.source.toUpperCase(),
-      helper: data.fetchedAt ? freshness.ageLabel : "missing",
-      sparkTone: data.source === "redis" ? "up" : "warning",
-    },
-  ];
+  const topHeader = (
+    <NewsTopHeaderV3
+      eyebrow={`// SKILLS · ${data.source.toUpperCase()} · ${freshness.ageLabel.toUpperCase()}`}
+      status={`${data.combined.items.length.toLocaleString("en-US")} TRACKED · ${data.skillsSh.items.length} SKLSH · ${data.github.items.length} GH`}
+      cards={cards}
+      topStories={topStories}
+      accent={SKILLS_ACCENT}
+    />
+  );
 
   const tabs: SignalTabSpec[] = [
     {
@@ -111,11 +98,11 @@ export default async function SkillsPage() {
       source="skills"
       sourceLabel="SKILLS"
       mode="TRENDING"
-      subtitle="Merged AI agent skill momentum across skills.sh and GitHub topic feeds (claude-skill, agent-skill, claude-code-skill)."
       fetchedAt={data.fetchedAt}
       freshnessStatus={freshness.status}
       ageLabel={freshness.ageLabel}
-      metrics={metrics}
+      metrics={[]}
+      topSlot={topHeader}
       tabs={tabs}
       rightRail={<SkillsRightRail board={data.combined} />}
     />
@@ -192,13 +179,3 @@ function SkillsRightRail({ board }: { board: EcosystemBoard }) {
   );
 }
 
-function signalValue(item: { signalScore: number } | undefined): string {
-  return item ? String(Math.round(item.signalScore)) : "-";
-}
-
-function maxPopularity(board: EcosystemBoard): number | null {
-  const values = board.items
-    .map((item) => item.popularity)
-    .filter((value): value is number => value !== null);
-  return values.length > 0 ? Math.max(...values) : null;
-}

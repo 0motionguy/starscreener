@@ -1,11 +1,11 @@
-# Deploying StarScreener
+# Deploying TrendingRepo
 
-StarScreener runs on two environments in parallel:
+TrendingRepo runs on two environments in parallel:
 
 | Deploy    | URL                                            | Role                                      |
 |-----------|------------------------------------------------|-------------------------------------------|
-| Vercel    | https://starscreener.vercel.app                | Primary UI + REST API + daily cron        |
-| Railway   | https://starscreener-production.up.railway.app | Full platform including persistent SSE    |
+| Vercel    | https://trendingrepo.com                       | Primary UI + REST API + daily cron        |
+| Railway   | https://starscreener-production.up.railway.app | Full platform including persistent SSE (Railway hostname unchanged — DNS rename deferred). |
 
 **Why two?** SSE (`/api/stream`) needs a long-lived Node process. Vercel serverless
 functions time out after 10-60s, so SSE works only on Railway. The Vercel UI can
@@ -20,8 +20,8 @@ SSE client at the Railway host if live updates are needed.
 |---------------------------|----------|------------------------------|-----------------|
 | `GITHUB_TOKEN`            | Yes      | PAT (public_repo scope)      | Same PAT        |
 | `CRON_SECRET`             | Yes      | Shared random 24-byte token  | Same token      |
-| `STARSCREENER_PERSIST`    | Yes      | `true`                       | `true`          |
-| `STARSCREENER_DATA_DIR`   | Yes      | `/tmp/.data`                 | `/data`         |
+| `TRENDINGREPO_PERSIST`    | Yes      | `true`                       | `true`          |
+| `TRENDINGREPO_DATA_DIR`   | Yes      | `/tmp/.data`                 | `/data`         |
 | `NEXT_PUBLIC_APP_URL`     | Yes      | Vercel URL                   | Vercel URL      |
 | `NODE_ENV`                | Yes      | `production` (auto)          | `production`    |
 
@@ -57,16 +57,16 @@ Add `REDDIT_CLIENT_ID`, `REDDIT_CLIENT_SECRET`, and optionally
 
 ## Vercel deploy
 
-Project: `starscreener` (scope: `kermits-projects-6330acd4`).
+Project: `starscreener` (scope: `kermits-projects-6330acd4`). Vercel project name not yet renamed; the deployed app serves `trendingrepo.com`.
 
 ```bash
 # one-time link
 vercel link --yes --project starscreener
 
 # non-secret vars (already set in the project)
-vercel env add STARSCREENER_PERSIST  production   # = true
-vercel env add STARSCREENER_DATA_DIR production   # = /tmp/.data
-vercel env add NEXT_PUBLIC_APP_URL   production   # = https://starscreener.vercel.app
+vercel env add TRENDINGREPO_PERSIST  production   # = true   (legacy STARSCREENER_PERSIST also accepted)
+vercel env add TRENDINGREPO_DATA_DIR production   # = /tmp/.data
+vercel env add NEXT_PUBLIC_APP_URL   production   # = https://trendingrepo.com
 vercel env add CRON_SECRET           production   # <paste token>
 
 # secret — paste manually:
@@ -98,11 +98,11 @@ Project: `starscreener`, service: `starscreener`
 ```bash
 railway login                # one-time, opens browser
 railway link                 # select 'starscreener' project + service
-railway variables --set "STARSCREENER_PERSIST=true"
-MSYS_NO_PATHCONV=1 railway variables --set "STARSCREENER_DATA_DIR=/data"
+railway variables --set "TRENDINGREPO_PERSIST=true"  # legacy STARSCREENER_PERSIST also accepted
+MSYS_NO_PATHCONV=1 railway variables --set "TRENDINGREPO_DATA_DIR=/data"
 railway variables --set "NODE_ENV=production"
 railway variables --set "CRON_SECRET=<paste token>"
-railway variables --set "NEXT_PUBLIC_APP_URL=https://starscreener.vercel.app"
+railway variables --set "NEXT_PUBLIC_APP_URL=https://trendingrepo.com"
 railway variables --set "GITHUB_TOKEN=<paste PAT>"
 
 # attach a persistent volume (via dashboard):

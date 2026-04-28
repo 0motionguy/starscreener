@@ -54,7 +54,7 @@ const DEFAULTS = {
 const PRODUCTS = [
   {
     tier: "pro",
-    name: "StarScreener Pro",
+    name: "TrendingRepo Pro",
     description:
       "Momentum alerts, rule engine, and weekly digest for a single analyst.",
     prices: [
@@ -64,7 +64,7 @@ const PRODUCTS = [
   },
   {
     tier: "team",
-    name: "StarScreener Team",
+    name: "TrendingRepo Team",
     description:
       "Pro features plus shared watchlists, team digests, and per-seat billing.",
     prices: [

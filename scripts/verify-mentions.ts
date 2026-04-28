@@ -16,6 +16,12 @@ import { promises as fs } from "fs";
 import path from "path";
 import { loadEnvConfig } from "@next/env";
 
+// Brand-migration shim: prefer the new TRENDINGREPO_* env name, fall back
+// to the legacy STARSCREENER_*. Inlined here (no warn) because scripts run
+// in CI; the deprecation chatter belongs in the app's boot path.
+const readEnv = (newName: string, oldName: string): string | undefined =>
+  process.env[newName] ?? process.env[oldName];
+
 // Load .env / .env.local the same way scripts/_load-env.mjs does, so
 // GITHUB_TOKEN + STARSCREENER_PERSIST + STARSCREENER_DATA_DIR are all
 // picked up for this one-off harness.
@@ -89,8 +95,11 @@ async function main(): Promise<void> {
   // GitHub issue-search adapter degrades gracefully on rate-limit).
   const token = process.env.GITHUB_TOKEN;
   const useMock = !token;
-  if (useMock && process.env.STARSCREENER_ALLOW_MOCK !== "true") {
-    process.env.STARSCREENER_ALLOW_MOCK = "true";
+  if (
+    useMock &&
+    readEnv("TRENDINGREPO_ALLOW_MOCK", "STARSCREENER_ALLOW_MOCK") !== "true"
+  ) {
+    process.env.TRENDINGREPO_ALLOW_MOCK = "true";
   }
   const githubAdapter = createGitHubAdapter({ useMock, token });
 

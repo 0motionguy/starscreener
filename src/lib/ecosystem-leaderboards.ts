@@ -526,9 +526,12 @@ function coerceMcpItem(
 
 function applySkillMomentum(
   pairs: Array<{ item: EcosystemLeaderboardItem; raw: Record<string, unknown> }>,
+  awesomeIndex: Record<string, string[]> = {},
 ): EcosystemLeaderboardItem[] {
   if (pairs.length === 0) return [];
-  const skillItems: SkillItem[] = pairs.map(({ item, raw }) => buildSkillItem(item, raw));
+  const skillItems: SkillItem[] = pairs.map(({ item, raw }) =>
+    buildSkillItem(item, raw, awesomeIndex),
+  );
   const scored = skillScorer.computeRaw(skillItems);
   const perDomain = new Map<DomainKey, ScoredItem<DomainItem>[]>([
     ["skill", scored as unknown as ScoredItem<DomainItem>[]],
@@ -585,6 +588,7 @@ function applyMcpMomentum(
 function buildSkillItem(
   item: EcosystemLeaderboardItem,
   raw: Record<string, unknown>,
+  awesomeIndex: Record<string, string[]> = {},
 ): SkillItem {
   const installs7d = asNumber(raw.installs); // skills.sh
   const stars = asNumber(raw.stars); // both shapes (when present)
@@ -594,6 +598,13 @@ function buildSkillItem(
     asString(raw.pushed_at) ??
     item.postedAt ??
     undefined;
+  // Reverse-lookup which awesome-* lists mention this skill repo. Empty
+  // → undefined so the scorer treats it as 0 contribution (same as before).
+  const linkedRepoLower = item.linkedRepo ? item.linkedRepo.toLowerCase() : null;
+  const inAwesomeLists =
+    linkedRepoLower && awesomeIndex[linkedRepoLower]
+      ? awesomeIndex[linkedRepoLower]
+      : undefined;
   return {
     domainKey: "skill",
     id: item.id,
@@ -603,7 +614,7 @@ function buildSkillItem(
     stars: stars !== null ? stars : undefined,
     forks: forks !== null ? forks : undefined,
     agents: item.agents,
-    inAwesomeLists: undefined,
+    inAwesomeLists,
     commitVelocity30d: undefined,
     lastPushedAt: lastPushedAt ?? undefined,
   };
@@ -631,21 +642,25 @@ function buildMcpItem(
   const npmName = item.linkedRepo
     ? leafName(item.linkedRepo) ?? undefined
     : undefined;
+  // Liveness data was stashed under raw.__liveness by coerceMcpItem when
+  // the mcp-liveness Redis key existed. Cold-start: stays undefined and
+  // the scorer drops every term except crossSourceCount + downloads.
+  const liveness = asRecord(raw.__liveness);
   return {
     domainKey: "mcp",
     id: item.id,
     joinKeys: { npmName, repoFullName: item.linkedRepo ?? undefined },
     npmDownloads7d: downloads7d !== null ? downloads7d : undefined,
     pypiDownloads7d: undefined,
-    livenessUptime7d: undefined,
-    livenessInferred: false,
-    toolCount: undefined,
+    livenessUptime7d: liveness ? asNumber(liveness.uptime7d) ?? undefined : undefined,
+    livenessInferred: liveness ? asBoolean(liveness.livenessInferred) : false,
+    toolCount: liveness ? asNumber(liveness.toolCount) ?? undefined : undefined,
     smitheryRank: undefined,
     smitheryTotal: undefined,
     npmDependents: undefined,
     crossSourceCount: item.crossSourceCount,
-    p50LatencyMs: undefined,
-    isStdio: false,
+    p50LatencyMs: liveness ? asNumber(liveness.p50LatencyMs) ?? undefined : undefined,
+    isStdio: liveness ? asBoolean(liveness.isStdio) : false,
   };
 }
 

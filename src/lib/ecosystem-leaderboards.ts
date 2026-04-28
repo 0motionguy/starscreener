@@ -1,5 +1,6 @@
 import type { SignalRow } from "@/components/signal/SignalTable";
 import { getDataStore, type DataReadResult, type DataSource } from "./data-store";
+import { resolveLogoUrl } from "./logo-url";
 
 export type EcosystemLeaderboardKind = "skill" | "mcp";
 export type SkillBoardId = "skills-sh" | "github";
@@ -115,6 +116,16 @@ export function ecosystemBoardToRows(board: EcosystemBoard): SignalRow[] {
     const badges: SignalRow["badges"] = [];
     if (item.verified) badges.push("verified");
     if (item.crossSourceCount >= 2) badges.push("linked-repo");
+    // Prefer the explicit logoUrl if present; otherwise derive a logo from
+    // the linked repo (GitHub owner avatar) or the item URL's hostname
+    // (Google Favicons). Most skills/mcp items don't ship a logoUrl, so
+    // this layered fallback is what makes the rows look alive instead of
+    // monogram-only.
+    const repoAvatar = item.linkedRepo
+      ? `https://github.com/${encodeURIComponent(item.linkedRepo.split("/", 1)[0] ?? "")}.png?size=40`
+      : null;
+    const urlFavicon = resolveLogoUrl(item.url, item.title, 64);
+    const resolvedLogo = item.logoUrl ?? repoAvatar ?? urlFavicon;
     return {
       id: `${board.kind}:${item.id}`,
       title: item.title,
@@ -130,7 +141,7 @@ export function ecosystemBoardToRows(board: EcosystemBoard): SignalRow[] {
       postedAt: item.postedAt,
       signalScore: item.signalScore,
       badges: badges.length > 0 ? badges : undefined,
-      logoUrl: item.logoUrl,
+      logoUrl: resolvedLogo,
       brandColor: item.brandColor,
     };
   });

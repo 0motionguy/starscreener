@@ -75,12 +75,23 @@ export default async function HomePage() {
   const repos = getDerivedRepos();
   // Pull skills + mcp ecosystem signals so the cross-source tri-box can
   // surface their respective top movers alongside repo gainers. Both
-  // helpers are Redis-backed with internal rate-limiting; safe to call
-  // every render.
-  const [skillsData, mcpData] = await Promise.all([
+  // helpers are Redis-backed; in local dev without Redis they return
+  // empty boards (no `data/trending-skill*.json` ships in the repo).
+  // Promise.allSettled keeps a partial outage from blocking the page —
+  // CrossSourceTriBoxes falls back to derived repo views when null.
+  const [skillsRes, mcpRes] = await Promise.allSettled([
     getSkillsSignalData(),
     getMcpSignalData(),
   ]);
+  const skillsItems =
+    skillsRes.status === "fulfilled" &&
+    skillsRes.value.combined.items.length > 0
+      ? skillsRes.value.combined.items
+      : null;
+  const mcpItems =
+    mcpRes.status === "fulfilled" && mcpRes.value.board.items.length > 0
+      ? mcpRes.value.board.items
+      : null;
 
   // Cold lambda / broken data file → show a branded empty state instead
   // of the generic "no repos match filters" inner message. Preserves the
@@ -150,8 +161,8 @@ export default async function HomePage() {
 
       <CrossSourceTriBoxes
         repos={repos}
-        skills={skillsData.combined.items}
-        mcp={mcpData.board.items}
+        skills={skillsItems}
+        mcp={mcpItems}
       />
 
       <TerminalLayout

@@ -13,7 +13,7 @@ import type {
   NewsMetricBar,
   NewsMetricCard,
 } from "@/components/news/NewsTopHeaderV3";
-import { compactNumber } from "@/components/news/newsTopMetrics";
+import { applyCompactV1, compactNumber } from "@/components/news/newsTopMetrics";
 import { CATEGORIES } from "@/lib/constants";
 import type { Repo } from "@/lib/types";
 
@@ -92,37 +92,40 @@ export function buildBreakoutsHeader({
       };
     });
 
-  const cards: [NewsMetricCard, NewsMetricCard, NewsMetricCard] = [
-    {
-      variant: "snapshot",
-      title: "// SNAPSHOT · NOW",
-      rightLabel: `${totalFiring} FIRING`,
-      label: "MULTI-CHANNEL",
-      value: compactNumber(multiChannel),
-      hint: `OF ${compactNumber(totalFiring)} TOTAL FIRING`,
-      rows: [
-        { label: "ALL THREE", value: compactNumber(allThree), tone: "accent" },
-        { label: "TOP SCORE", value: topScore.toFixed(2) },
-        { label: "1-CHANNEL NOISE", value: compactNumber(oneChannel) },
-      ],
-    },
-    {
-      variant: "bars",
-      title: "// CHANNELS · DISTRIBUTION",
-      rightLabel: "FIRING COUNT",
-      bars: channelBars,
-      labelWidth: 40,
-      emptyText: "NO FIRING REPOS",
-    },
-    {
-      variant: "bars",
-      title: "// TOPICS · TOP CATEGORIES",
-      rightLabel: `TOP ${topicBars.length}`,
-      bars: topicBars,
-      labelWidth: 96,
-      emptyText: "NOT ENOUGH SIGNAL YET",
-    },
-  ];
+  const cards: [NewsMetricCard, NewsMetricCard, NewsMetricCard] = applyCompactV1(
+    [
+      {
+        variant: "snapshot",
+        title: "// SNAPSHOT · NOW",
+        rightLabel: `${totalFiring} FIRING`,
+        label: "MULTI-CHANNEL",
+        value: compactNumber(multiChannel),
+        hint: `OF ${compactNumber(totalFiring)} TOTAL FIRING`,
+        rows: [
+          { label: "ALL THREE", value: compactNumber(allThree), tone: "accent" },
+          { label: "TOP SCORE", value: topScore.toFixed(2) },
+          { label: "1-CHANNEL NOISE", value: compactNumber(oneChannel) },
+        ],
+      },
+      {
+        variant: "bars",
+        title: "// CHANNELS · DISTRIBUTION",
+        rightLabel: "FIRING COUNT",
+        bars: channelBars,
+        labelWidth: 40,
+        emptyText: "NO FIRING REPOS",
+      },
+      {
+        variant: "bars",
+        title: "// TOPICS · TOP CATEGORIES",
+        rightLabel: `TOP ${topicBars.length}`,
+        bars: topicBars,
+        labelWidth: 96,
+        emptyText: "NOT ENOUGH SIGNAL YET",
+      },
+    ],
+    { topics: topicBars, totalItems: multi.length },
+  );
 
   const heroes = multi
     .slice()

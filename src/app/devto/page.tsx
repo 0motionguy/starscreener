@@ -27,7 +27,7 @@ import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
 import { buildDevtoHeaderFromArticles } from "@/components/news/newsTopMetrics";
 import { TerminalFeedTable, type FeedColumn } from "@/components/feed/TerminalFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
-import { userLogoUrl } from "@/lib/logos";
+import { userLogoUrl, resolveLogoUrl } from "@/lib/logos";
 
 const DEVTO_ACCENT = "rgba(102, 153, 255, 0.85)";
 const DEVTO_BLUE = "#6699ff";
@@ -76,13 +76,23 @@ export default async function DevtoPage() {
                 tiles below this were dropped — covered by the V3 snapshot. */}
             <div className="mb-6">
               <NewsTopHeaderV3
-                eyebrow="// DEV.TO · TOP ARTICLES"
-                status={`${totalArticles.toLocaleString("en-US")} TRACKED · ${trendingFile.windowDays}D`}
+                routeTitle="DEV.TO · TOP ARTICLES"
+                liveLabel={`LIVE · ${trendingFile.windowDays}D`}
+                eyebrow="// DEV.TO · LIVE FIREHOSE"
+                meta={[
+                  { label: "TRACKED", value: totalArticles.toLocaleString("en-US") },
+                  { label: "WINDOW", value: `${trendingFile.windowDays}D` },
+                ]}
                 {...buildDevtoHeaderFromArticles(
                   trendingFile.articles,
                   leaderboard,
                 )}
                 accent={DEVTO_ACCENT}
+                caption={[
+                  "// LAYOUT compact-v1",
+                  "· 3-COL · 320 / 1FR / 1FR",
+                  "· DATA UNCHANGED",
+                ]}
               />
             </div>
 
@@ -135,10 +145,26 @@ function ArticlesFeed({ articles }: { articles: DevtoArticle[] }) {
       render: (a) => (
         <div className="flex min-w-0 items-center gap-2">
           <EntityLogo
-            src={userLogoUrl(
-              (a.author as { profile_image?: string | null } | null)
-                ?.profile_image ?? null,
-            )}
+            src={
+              userLogoUrl(
+                (
+                  a.author as {
+                    profile_image?: string | null;
+                    profile_image_90?: string | null;
+                  } | null
+                )?.profile_image ??
+                  (
+                    a.author as {
+                      profile_image_90?: string | null;
+                    } | null
+                  )?.profile_image_90 ??
+                  null,
+              ) ??
+              (a.author?.username
+                ? `https://dev.to/${encodeURIComponent(a.author.username)}.png`
+                : null) ??
+              resolveLogoUrl(a.url ?? null, a.title, 64)
+            }
             name={a.author?.username ?? a.title}
             size={20}
             shape="circle"

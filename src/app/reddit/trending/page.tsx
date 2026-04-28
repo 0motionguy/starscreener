@@ -46,12 +46,27 @@ export default async function RedditTrendingPage() {
           <>
             <div className="mb-6">
               <NewsTopHeaderV3
-                eyebrow="// REDDIT · TOP POSTS"
-                status={`${stats.totalPosts.toLocaleString("en-US")} TRACKED · 7D · ${
-                  allPostsFetchedAt ? formatRelative(allPostsFetchedAt).toUpperCase() : "COLD"
+                routeTitle="REDDIT · TOP POSTS"
+                liveLabel="LIVE · 7D"
+                eyebrow={`// REDDIT · LIVE FIREHOSE · ${
+                  allPostsFetchedAt
+                    ? formatRelative(allPostsFetchedAt).toUpperCase()
+                    : "COLD"
                 }`}
+                meta={[
+                  {
+                    label: "TRACKED",
+                    value: stats.totalPosts.toLocaleString("en-US"),
+                  },
+                  { label: "WINDOW", value: "7D" },
+                ]}
                 {...buildRedditHeader(posts, stats)}
                 accent={REDDIT_ACCENT}
+                caption={[
+                  "// LAYOUT compact-v1",
+                  "· 3-COL · 320 / 1FR / 1FR",
+                  "· DATA UNCHANGED",
+                ]}
               />
             </div>
 

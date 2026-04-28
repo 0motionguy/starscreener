@@ -25,6 +25,7 @@ import {
 } from "@/components/news/NewsTopHeaderV3";
 import {
   activityBars,
+  applyCompactV1,
   compactNumber,
   sourceVolumeBars,
   topicBars,
@@ -579,44 +580,48 @@ export default function SignalsPage() {
   for (const s of lobstersTop) allTitles.push(s.title);
   for (const p of redditPostsAll) allTitles.push(p.title ?? "");
 
-  const summaryCards: [NewsMetricCard, NewsMetricCard, NewsMetricCard] = [
-    {
-      variant: "snapshot",
-      title: "// SNAPSHOT · NOW",
-      rightLabel: `${totalItemsAll} SIGNALS`,
-      label: "SIGNALS TRACKED",
-      value: compactNumber(totalItemsAll),
-      hint: `ACROSS ${activeSourceCount}/${TOTAL_SOURCES} SOURCES`,
-      rows: [
-        { label: "TOTAL SCORE", value: compactNumber(totalScoreAll) },
-        {
-          label: "TOP SIGNAL",
-          value: compactNumber(topItemAll?.engagement ?? 0),
-          tone: "accent",
-        },
-        {
-          label: "CROSS-CHANNEL",
-          value: `${mentionRepos.length} REPOS`,
-        },
-      ],
-    },
-    {
-      variant: "bars",
-      title: "// VOLUME · PER SOURCE",
-      rightLabel: `${activeSourceCount} CHANNELS`,
-      bars: sourceVolumeBars(sourceVolumeRows),
-      labelWidth: 36,
-      emptyText: "NO LIVE SOURCES",
-    },
-    {
-      variant: "bars",
-      title: "// TOPICS · MENTIONED MOST",
-      rightLabel: "TOP 6",
-      bars: topicBars(allTitles, 6),
-      labelWidth: 96,
-      emptyText: "NOT ENOUGH SIGNAL YET",
-    },
-  ];
+  const signalsTopicBars = topicBars(allTitles, 6);
+  const summaryCards: [NewsMetricCard, NewsMetricCard, NewsMetricCard] = applyCompactV1(
+    [
+      {
+        variant: "snapshot",
+        title: "// SNAPSHOT · NOW",
+        rightLabel: `${totalItemsAll} SIGNALS`,
+        label: "SIGNALS TRACKED",
+        value: compactNumber(totalItemsAll),
+        hint: `ACROSS ${activeSourceCount}/${TOTAL_SOURCES} SOURCES`,
+        rows: [
+          { label: "TOTAL SCORE", value: compactNumber(totalScoreAll) },
+          {
+            label: "TOP SIGNAL",
+            value: compactNumber(topItemAll?.engagement ?? 0),
+            tone: "accent",
+          },
+          {
+            label: "CROSS-CHANNEL",
+            value: `${mentionRepos.length} REPOS`,
+          },
+        ],
+      },
+      {
+        variant: "bars",
+        title: "// VOLUME · PER SOURCE",
+        rightLabel: `${activeSourceCount} CHANNELS`,
+        bars: sourceVolumeBars(sourceVolumeRows),
+        labelWidth: 36,
+        emptyText: "NO LIVE SOURCES",
+      },
+      {
+        variant: "bars",
+        title: "// TOPICS · MENTIONED MOST",
+        rightLabel: "TOP 6",
+        bars: signalsTopicBars,
+        labelWidth: 96,
+        emptyText: "NOT ENOUGH SIGNAL YET",
+      },
+    ],
+    { topics: signalsTopicBars, totalItems: totalItemsAll },
+  );
 
   // Top 3 signals across all sources — already sorted in `allMerged`.
   const summaryTopStories: NewsHeroStory[] = allMerged.slice(0, 3).map((row) => {
@@ -655,10 +660,21 @@ export default function SignalsPage() {
 
   const summaryTopSlot = (
     <NewsTopHeaderV3
+      routeTitle="SIGNALS · CROSS-SOURCE"
+      liveLabel="LIVE"
       eyebrow="// MARKET SIGNALS · ALL SOURCES"
-      status={`${totalItemsAll.toLocaleString("en-US")} SIGNALS · ${activeSourceCount}/${TOTAL_SOURCES} LIVE`}
+      meta={[
+        { label: "SIGNALS", value: totalItemsAll.toLocaleString("en-US") },
+        { label: "SOURCES", value: `${activeSourceCount}/${TOTAL_SOURCES}` },
+        { label: "REPOS", value: mentionRepos.length.toLocaleString("en-US") },
+      ]}
       cards={summaryCards}
       topStories={summaryTopStories}
+      caption={[
+        "// LAYOUT compact-v1",
+        "· 3-COL · 320 / 1FR / 1FR",
+        "· DATA UNCHANGED",
+      ]}
     />
   );
 

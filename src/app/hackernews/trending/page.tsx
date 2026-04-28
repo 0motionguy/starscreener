@@ -21,7 +21,7 @@ import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
 import { buildHackerNewsHeader } from "@/components/news/newsTopMetrics";
 import { TerminalFeedTable, type FeedColumn } from "@/components/feed/TerminalFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
-import { repoLogoUrl } from "@/lib/logos";
+import { repoLogoUrl, resolveLogoUrl } from "@/lib/logos";
 
 const HN_ACCENT = "rgba(245, 110, 15, 0.85)";
 
@@ -55,10 +55,20 @@ export default async function HackerNewsTrendingPage() {
           <>
             <div className="mb-6">
               <NewsTopHeaderV3
-                eyebrow="// HACKERNEWS · TOP STORIES"
-                status={`${allStories.length.toLocaleString("en-US")} TRACKED · ${trendingFile.windowHours}H`}
+                routeTitle="HACKERNEWS · TRENDING"
+                liveLabel={`LIVE · ${trendingFile.windowHours}H`}
+                eyebrow="// HACKERNEWS · LIVE FIREHOSE"
+                meta={[
+                  { label: "TRACKED", value: allStories.length.toLocaleString("en-US") },
+                  { label: "WINDOW", value: `${trendingFile.windowHours}H` },
+                ]}
                 {...buildHackerNewsHeader(trendingFile, getHnTopStories(3))}
                 accent={HN_ACCENT}
+                caption={[
+                  "// LAYOUT compact-v1",
+                  "· 3-COL · 320 / 1FR / 1FR",
+                  "· DATA UNCHANGED",
+                ]}
               />
             </div>
 
@@ -90,10 +100,11 @@ function HnStoryFeed({ stories }: { stories: HnStory[] }) {
       header: "Title",
       render: (s) => {
         const linkedRepo = s.linkedRepos?.[0]?.fullName;
+        const fallbackLogo = resolveLogoUrl(s.url ?? null, s.title, 64);
         return (
           <div className="flex min-w-0 items-center gap-2">
             <EntityLogo
-              src={repoLogoUrl(linkedRepo)}
+              src={repoLogoUrl(linkedRepo) ?? fallbackLogo}
               name={linkedRepo ?? s.by ?? s.title}
               size={20}
               shape="square"

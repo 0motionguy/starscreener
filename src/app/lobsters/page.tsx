@@ -21,7 +21,7 @@ import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
 import { buildLobstersHeader } from "@/components/news/newsTopMetrics";
 import { TerminalFeedTable, type FeedColumn } from "@/components/feed/TerminalFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
-import { repoLogoUrl } from "@/lib/logos";
+import { repoLogoUrl, resolveLogoUrl } from "@/lib/logos";
 
 const LOBSTERS_ACCENT = "rgba(172, 19, 13, 0.85)";
 
@@ -64,10 +64,20 @@ export default async function LobstersPage() {
                 tiles below this were dropped — covered by the V3 snapshot. */}
             <div className="mb-6">
               <NewsTopHeaderV3
-                eyebrow="// LOBSTERS · TOP STORIES"
-                status={`${allStories.length.toLocaleString("en-US")} TRACKED · ${file.windowHours}H`}
+                routeTitle="LOBSTERS · TOP STORIES"
+                liveLabel={`LIVE · ${file.windowHours}H`}
+                eyebrow="// LOBSTE.RS · LIVE FIREHOSE"
+                meta={[
+                  { label: "TRACKED", value: allStories.length.toLocaleString("en-US") },
+                  { label: "WINDOW", value: `${file.windowHours}H` },
+                ]}
                 {...buildLobstersHeader(file, getLobstersTopStories(3))}
                 accent={LOBSTERS_ACCENT}
+                caption={[
+                  "// LAYOUT compact-v1",
+                  "· 3-COL · 320 / 1FR / 1FR",
+                  "· DATA UNCHANGED",
+                ]}
               />
             </div>
 
@@ -113,11 +123,12 @@ function StoryFeed({ stories }: { stories: LobstersStory[] }) {
       render: (story) => {
         const commentsHref = story.commentsUrl || lobstersStoryHref(story.shortId);
         const linkedRepo = story.linkedRepos?.[0]?.fullName;
+        const fallbackLogo = resolveLogoUrl(story.url ?? null, story.title, 64);
         return (
           <div className="flex min-w-0 items-center gap-2">
             <EntityLogo
-              src={repoLogoUrl(linkedRepo)}
-              name={linkedRepo ?? story.by ?? story.title}
+              src={repoLogoUrl(linkedRepo) ?? fallbackLogo}
+              name={linkedRepo ?? story.title}
               size={20}
               shape="square"
               alt=""

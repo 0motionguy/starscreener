@@ -13,7 +13,7 @@ import type {
   NewsMetricBar,
   NewsMetricCard,
 } from "@/components/news/NewsTopHeaderV3";
-import { compactNumber } from "@/components/news/newsTopMetrics";
+import { applyCompactV1, compactNumber } from "@/components/news/newsTopMetrics";
 import type {
   TwitterLeaderboardRow,
   TwitterOverviewStats,
@@ -87,48 +87,51 @@ export function buildTwitterHeader(
     },
   ];
 
-  const cards: [NewsMetricCard, NewsMetricCard, NewsMetricCard] = [
-    {
-      variant: "snapshot",
-      title: "// SNAPSHOT · NOW",
-      rightLabel: `${stats.reposWithMentions} REPOS`,
-      label: "REPOS WITH BUZZ",
-      value: compactNumber(stats.reposWithMentions),
-      hint: `${stats.scansStored} SCANS STORED`,
-      rows: [
-        {
-          label: "MENTIONS 24H",
-          value: compactNumber(stats.totalMentions24h),
-        },
-        {
-          label: "TOP SCORE",
-          value:
-            stats.topRepoScore !== null ? stats.topRepoScore.toFixed(1) : "—",
-          tone: "accent",
-        },
-        {
-          label: "BREAKOUTS",
-          value: compactNumber(stats.breakoutRepos),
-        },
-      ],
-    },
-    {
-      variant: "bars",
-      title: "// ENGAGE · TOP REPOS",
-      rightLabel: "MENTIONS 24H",
-      bars: engageBars,
-      labelWidth: 96,
-      emptyText: "NO MENTIONS YET",
-    },
-    {
-      variant: "bars",
-      title: "// BADGES · DISTRIBUTION",
-      rightLabel: `${rows.length} ROWS`,
-      bars: badgeBars,
-      labelWidth: 56,
-      emptyText: "NO BADGED REPOS",
-    },
-  ];
+  const cards: [NewsMetricCard, NewsMetricCard, NewsMetricCard] = applyCompactV1(
+    [
+      {
+        variant: "snapshot",
+        title: "// SNAPSHOT · NOW",
+        rightLabel: `${stats.reposWithMentions} REPOS`,
+        label: "REPOS WITH BUZZ",
+        value: compactNumber(stats.reposWithMentions),
+        hint: `${stats.scansStored} SCANS STORED`,
+        rows: [
+          {
+            label: "MENTIONS 24H",
+            value: compactNumber(stats.totalMentions24h),
+          },
+          {
+            label: "TOP SCORE",
+            value:
+              stats.topRepoScore !== null ? stats.topRepoScore.toFixed(1) : "—",
+            tone: "accent",
+          },
+          {
+            label: "BREAKOUTS",
+            value: compactNumber(stats.breakoutRepos),
+          },
+        ],
+      },
+      {
+        variant: "bars",
+        title: "// ENGAGE · TOP REPOS",
+        rightLabel: "MENTIONS 24H",
+        bars: engageBars,
+        labelWidth: 96,
+        emptyText: "NO MENTIONS YET",
+      },
+      {
+        variant: "bars",
+        title: "// BADGES · DISTRIBUTION",
+        rightLabel: `${rows.length} ROWS`,
+        bars: badgeBars,
+        labelWidth: 56,
+        emptyText: "NO BADGED REPOS",
+      },
+    ],
+    { topics: badgeBars, totalItems: rows.length },
+  );
 
   const topStories = buildTwitterHeroes(rows);
 

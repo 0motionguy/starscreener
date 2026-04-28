@@ -7,6 +7,7 @@ import Link from "next/link";
 
 import { SignalBadge, type SignalBadgeKind } from "./SignalBadge";
 import { SourceMonogram, type MonoSource } from "./SourceMonogram";
+import { EntityLogo } from "@/components/ui/EntityLogo";
 
 export type SignalColumn =
   | "rank"
@@ -275,18 +276,29 @@ export function SignalTable({
                     );
                     return (
                       <td key={c} className="px-3 py-2.5 align-top">
-                        {titleNode}
-                        {row.attribution || (row.badges && row.badges.length) ? (
-                          <div
-                            className="mt-0.5 flex flex-wrap items-center gap-1.5 text-[10px]"
-                            style={{ color: "var(--v3-ink-400)" }}
-                          >
-                            {row.attribution ? <span>{row.attribution}</span> : null}
-                            {row.badges?.slice(0, 3).map((b) => (
-                              <SignalBadge key={b} kind={b} />
-                            ))}
+                        <div className="flex min-w-0 items-start gap-2">
+                          <EntityLogo
+                            src={row.logoUrl ?? null}
+                            name={row.linkedRepo ?? row.attribution ?? row.title}
+                            size={20}
+                            shape="square"
+                            alt=""
+                          />
+                          <div className="min-w-0">
+                            {titleNode}
+                            {row.attribution || (row.badges && row.badges.length) ? (
+                              <div
+                                className="mt-0.5 flex flex-wrap items-center gap-1.5 text-[10px]"
+                                style={{ color: "var(--v3-ink-400)" }}
+                              >
+                                {row.attribution ? <span>{row.attribution}</span> : null}
+                                {row.badges?.slice(0, 3).map((b) => (
+                                  <SignalBadge key={b} kind={b} />
+                                ))}
+                              </div>
+                            ) : null}
                           </div>
-                        ) : null}
+                        </div>
                       </td>
                     );
                   }

@@ -8,7 +8,11 @@ import type {
   NewsMetricCard,
   NewsMetricBar,
 } from "../news/NewsTopHeaderV3";
-import { compactNumber, topicBars } from "../news/newsTopMetrics";
+import {
+  applyCompactV1,
+  compactNumber,
+  topicBars,
+} from "../news/newsTopMetrics";
 import { resolveLogoUrl } from "@/lib/logo-url";
 import type { EcosystemLeaderboardItem } from "@/lib/ecosystem-leaderboards";
 
@@ -148,7 +152,10 @@ export function buildEcosystemHeader({
   });
 
   return {
-    cards: [snapshotCard, volumeCard, topicsCard],
+    cards: applyCompactV1([snapshotCard, volumeCard, topicsCard], {
+      topics: topicRows,
+      totalItems: total,
+    }),
     topStories,
   };
 }

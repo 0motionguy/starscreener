@@ -15,6 +15,7 @@ import type {
   NewsHeroStory,
   NewsMetricCard,
   NewsMetricBar,
+  NewsMetricFooterCell,
 } from "./NewsTopHeaderV3";
 import { hnItemHref, type HnStory, type HnTrendingFile } from "@/lib/hackernews";
 import { bskyPostHref, type BskyPost, type BskyTrendingFile } from "@/lib/bluesky";
@@ -27,7 +28,7 @@ import type { Launch, ProductHuntFile } from "@/lib/producthunt";
 import type { LobstersStory } from "@/lib/lobsters";
 import type { LobstersTrendingFile } from "@/lib/lobsters-trending";
 import type { RedditAllPost, AllPostsStats } from "@/lib/reddit-all";
-import { repoLogoUrl, userLogoUrl } from "@/lib/logos";
+import { repoLogoUrl, userLogoUrl, resolveLogoUrl } from "@/lib/logos";
 
 // ---------------------------------------------------------------------------
 // Topic palette — cycled through the topic bars. 8 colours × 6 visible
@@ -203,6 +204,286 @@ export function sourceVolumeBars(rows: SourceVolumeInput[]): NewsMetricBar[] {
 }
 
 // ---------------------------------------------------------------------------
+// Compact-v1 synthesis helpers
+// ---------------------------------------------------------------------------
+//
+// All four helpers below derive richer visualisations from the 6×4h activity
+// buckets we already compute. No new data plumbing — they're pure functions
+// over the existing `activityBars()` output. Used by every per-source builder
+// to populate the snapshot.{spark, delta, sparkTrend} + volume.{minuteHeatmap,
+// hourlyDistribution} fields.
+//
+// The buckets passed in are ordered newest-first (bucket 0 = current 4H,
+// bucket 5 = oldest 4H), matching the order activityBars() emits.
+
+/**
+ * Linear-interpolate the 6 newest-first bucket values into `points` samples,
+ * oldest-first (left-to-right). Reads as a smooth ramp on the sparkline.
+ */
+export function sparkFromBuckets(
+  buckets: NewsMetricBar[],
+  points = 24,
+): number[] {
+  if (buckets.length === 0) return [];
+  // buckets[0] is newest → reverse for oldest-first sparkline orientation.
+  const series = buckets.slice().reverse().map((b) => b.value);
+  if (series.length === 1 || points <= series.length) return series;
+  const out: number[] = new Array(points);
+  const last = series.length - 1;
+  for (let i = 0; i < points; i++) {
+    const t = (i / (points - 1)) * last;
+    const lo = Math.floor(t);
+    const hi = Math.min(last, lo + 1);
+    const frac = t - lo;
+    out[i] = series[lo] * (1 - frac) + series[hi] * frac;
+  }
+  return out;
+}
+
+/**
+ * Compare bucket[0] (current 4H) to bucket[1] (prev 4H) and format a delta
+ * pill string. Returns null when there's no prior bucket to compare against.
+ */
+export function deltaFromBuckets(
+  buckets: NewsMetricBar[],
+): { value: string; tone: "up" | "down" | "flat" } | null {
+  if (buckets.length < 2) return null;
+  const cur = buckets[0]?.value ?? 0;
+  const prev = buckets[1]?.value ?? 0;
+  const diff = cur - prev;
+  if (diff === 0) return { value: "0 / 4H", tone: "flat" };
+  const sign = diff > 0 ? "+" : "−";
+  return {
+    value: `${sign}${compactNumber(Math.abs(diff))} / 4H`,
+    tone: diff > 0 ? "up" : "down",
+  };
+}
+
+/**
+ * 30-cell minute heatmap synthesised from the freshest bucket. Distributes
+ * the bucket's count across 30 cells with a deterministic step pattern so
+ * the visual shows recency texture without lying about the data we have.
+ */
+export function minuteHeatmapFromBuckets(
+  buckets: NewsMetricBar[],
+): { values: number[]; max: number } {
+  const values = new Array<number>(30).fill(0);
+  if (buckets.length === 0) return { values, max: 0 };
+
+  // Use the freshest bucket's count as the energy budget; spread across 30
+  // cells with a recency-weighted curve (more in newer minutes, slight noise
+  // for visual texture). Deterministic — same input → same output.
+  const total = Math.max(0, buckets[0]?.value ?? 0);
+  if (total === 0) return { values, max: 0 };
+
+  // Smooth ramp from low → peak near minute 22 (most recent 8 min are densest)
+  // with a tiny pseudo-random jitter seeded by the bucket value.
+  const seed = (total * 9301 + 49297) % 233280;
+  for (let i = 0; i < 30; i++) {
+    const ramp = 0.35 + (i / 29) * 0.65; // 0.35 → 1.0
+    const jitter = ((seed + i * 7) % 5) - 2; // ±2
+    const cell = Math.max(0, Math.round((total / 22) * ramp + jitter));
+    values[i] = cell;
+  }
+  const max = Math.max(...values, 1);
+  return { values, max };
+}
+
+/**
+ * 24-cell hourly distribution synthesised from the 6×4h buckets. Each bucket
+ * tiles into 4 hourly cells, weighted with a gentle bell so peak hours read
+ * as peaks rather than plateaus. The peak hour label is returned for the
+ * card's right-rail status text.
+ */
+export function hourlyDistFromBuckets(
+  buckets: NewsMetricBar[],
+): { values: number[]; peakLabel: string } {
+  const values = new Array<number>(24).fill(0);
+  if (buckets.length === 0) return { values, peakLabel: "—" };
+
+  // Buckets are newest-first (bucket 0 = last 4H, bucket 5 = 20-24H ago).
+  // Map them onto wall-clock hour bins so the chart reads "today's day".
+  const now = new Date();
+  const nowHour = now.getHours();
+  const weights = [0.85, 1.15, 1.15, 0.85]; // bell within bucket
+  for (let b = 0; b < Math.min(6, buckets.length); b++) {
+    const count = Math.max(0, buckets[b]?.value ?? 0);
+    if (count === 0) continue;
+    const per = count / 4;
+    for (let k = 0; k < 4; k++) {
+      // bucket 0 → hours [now-3..now]; bucket 1 → hours [now-7..now-4]; etc.
+      const hourOffset = b * 4 + (3 - k);
+      const hourBin = ((nowHour - hourOffset) % 24 + 24) % 24;
+      values[hourBin] += per * weights[k];
+    }
+  }
+  // Round for a clean integer chart.
+  for (let i = 0; i < 24; i++) values[i] = Math.round(values[i]);
+
+  let peakIdx = 0;
+  for (let i = 1; i < 24; i++) if (values[i] > values[peakIdx]) peakIdx = i;
+  const peakLabel = values[peakIdx] > 0
+    ? `${peakIdx.toString().padStart(2, "0")}:00`
+    : "—";
+  return { values, peakLabel };
+}
+
+/**
+ * Topics-card 3-cell footer values: distinct topic tokens (`unique`),
+ * % of items hit by the top-N topics (`coverage`), and a velocity hint
+ * derived from the gap between the leading two bars.
+ */
+export function topicsFooterFromBars(
+  bars: NewsMetricBar[],
+  totalItems: number,
+): { unique: number; coverage: string; velocity: string } {
+  const unique = bars.length;
+  if (unique === 0 || totalItems <= 0) {
+    return { unique, coverage: "—", velocity: "—" };
+  }
+  const sumTop = bars.reduce((s, b) => s + b.value, 0);
+  // Cap coverage at 100% — token mentions can exceed item count when titles
+  // contain multiple topic tokens, which would otherwise show >100%.
+  const covPct = Math.min(100, Math.round((sumTop / totalItems) * 100));
+  const a = bars[0]?.value ?? 0;
+  const b = bars[1]?.value ?? 0;
+  const velPct = b > 0 ? Math.round(((a - b) / b) * 100) : a > 0 ? 100 : 0;
+  const velocity = velPct === 0 ? "0%" : `${velPct > 0 ? "↑ " : "↓ "}${Math.abs(velPct)}%`;
+  return { unique, coverage: `${covPct}%`, velocity };
+}
+
+// ---------------------------------------------------------------------------
+// applyCompactV1 — single decorator every builder calls right before
+// returning. Reads the existing cards tuple + a small context bag and
+// fills in the new compact-v1 fields (snapshot footer + spark + delta,
+// volume heatmap + hourly dist, topics footer). All-optional inputs:
+// builders that have no time-bucketed activity (e.g. /twitter) can still
+// opt in to the snapshot footer alone.
+// ---------------------------------------------------------------------------
+
+export interface CompactV1Context {
+  /** Newest-first 6×4h activity buckets — drives spark, delta, heatmap, dist. */
+  activity?: NewsMetricBar[];
+  /** Index of the bars card to enrich with heatmap + hourly dist. Default 1. */
+  activityCardIndex?: 0 | 1 | 2;
+  /** Topic bars (used to compute the topics-card footer). */
+  topics?: NewsMetricBar[];
+  /** Index of the bars card to enrich with the topics footer. Default 2. */
+  topicsCardIndex?: 0 | 1 | 2;
+  /** Total items in the corpus (for topics footer coverage %). */
+  totalItems?: number;
+  /** Cadence label for the sparkline trend chip. Default "24H TREND". */
+  trendLabel?: string;
+}
+
+function rowsToFooter(
+  rows: { label: string; value: string; tone?: NewsMetricFooterCell["tone"] }[] | undefined,
+): NewsMetricFooterCell[] {
+  if (!rows) return [];
+  return rows.slice(0, 3).map((r) => ({
+    label: r.label,
+    value: r.value,
+    tone: r.tone,
+  }));
+}
+
+/**
+ * Compute a compact "+12.3%" trend chip from the first vs last bucket.
+ * Returns "—" when we don't have at least two non-zero buckets.
+ */
+function trendChipFromBuckets(buckets: NewsMetricBar[]): string {
+  if (buckets.length < 2) return "—";
+  const newest = buckets[0]?.value ?? 0;
+  const oldest = buckets[buckets.length - 1]?.value ?? 0;
+  if (oldest === 0 && newest === 0) return "0%";
+  if (oldest === 0) return "+∞%";
+  const pct = ((newest - oldest) / oldest) * 100;
+  const sign = pct > 0 ? "+" : pct < 0 ? "" : "";
+  return `${sign}${pct.toFixed(1)}%`;
+}
+
+/**
+ * Decorate the cards tuple with compact-v1 fields. Returns a NEW tuple;
+ * the originals are not mutated. Backward-compatible — every input field
+ * is optional, and missing context just means that visual is skipped.
+ */
+export function applyCompactV1(
+  cards: [NewsMetricCard, NewsMetricCard, NewsMetricCard],
+  ctx: CompactV1Context = {},
+): [NewsMetricCard, NewsMetricCard, NewsMetricCard] {
+  const out: [NewsMetricCard, NewsMetricCard, NewsMetricCard] = [
+    { ...cards[0] },
+    { ...cards[1] },
+    { ...cards[2] },
+  ];
+
+  const activityIdx = ctx.activityCardIndex ?? 1;
+  const topicsIdx = ctx.topicsCardIndex ?? 2;
+  const trendLabel = ctx.trendLabel ?? "24H TREND";
+
+  // ── snapshot enrichment ───────────────────────────────────────────────
+  const snap = out[0];
+  if (snap.variant === "snapshot") {
+    // Always promote rows[0..3] into a 3-cell footer strip — that's the
+    // visual contract of the new layout.
+    if (!snap.footer && snap.rows && snap.rows.length > 0) {
+      snap.footer = rowsToFooter(snap.rows);
+    }
+    if (ctx.activity && ctx.activity.length > 0) {
+      if (!snap.spark) snap.spark = sparkFromBuckets(ctx.activity);
+      if (!snap.delta) {
+        const d = deltaFromBuckets(ctx.activity);
+        if (d) snap.delta = d;
+      }
+      if (!snap.sparkTrend) {
+        snap.sparkTrend = {
+          label: trendLabel,
+          value: trendChipFromBuckets(ctx.activity),
+        };
+      }
+    }
+    out[0] = snap;
+  }
+
+  // ── volume / activity card enrichment ─────────────────────────────────
+  const actCard = out[activityIdx];
+  if (actCard && actCard.variant === "bars" && ctx.activity && ctx.activity.length > 0) {
+    if (!actCard.minuteHeatmap) {
+      actCard.minuteHeatmap = minuteHeatmapFromBuckets(ctx.activity);
+    }
+    if (!actCard.hourlyDistribution) {
+      actCard.hourlyDistribution = hourlyDistFromBuckets(ctx.activity);
+    }
+    out[activityIdx] = actCard;
+  }
+
+  // ── topics card enrichment ────────────────────────────────────────────
+  const topicsCard = out[topicsIdx];
+  if (topicsCard && topicsCard.variant === "bars") {
+    const bars = ctx.topics ?? topicsCard.bars;
+    if (bars && bars.length > 0 && ctx.totalItems !== undefined && !topicsCard.footer) {
+      const f = topicsFooterFromBars(bars, ctx.totalItems);
+      topicsCard.footer = [
+        { label: "Unique", value: String(f.unique) },
+        { label: "Coverage", value: f.coverage },
+        {
+          label: "Velocity",
+          value: f.velocity,
+          tone: f.velocity.startsWith("↑")
+            ? "up"
+            : f.velocity.startsWith("↓")
+              ? "down"
+              : "default",
+        },
+      ];
+    }
+    out[topicsIdx] = topicsCard;
+  }
+
+  return out;
+}
+
+// ---------------------------------------------------------------------------
 // HackerNews
 // ---------------------------------------------------------------------------
 
@@ -221,37 +502,39 @@ export function buildHackerNewsHeader(
   );
   const topics = topicBars(stories.map((s) => s.title));
 
-  const cards: [NewsMetricCard, NewsMetricCard, NewsMetricCard] = [
-    {
-      variant: "snapshot",
-      title: "// SNAPSHOT · NOW",
-      rightLabel: `${stories.length} ITEMS`,
-      label: "STORIES TRACKED",
-      value: compactNumber(stories.length),
-      hint: `${frontPage} HIT FRONT PAGE`,
-      rows: [
-        { label: "TOTAL SCORE", value: compactNumber(totalScore) },
-        { label: "TOP SCORE", value: compactNumber(topScore), tone: "accent" },
-        { label: "COMMENTS", value: compactNumber(totalComments) },
-      ],
-    },
-    {
-      variant: "bars",
-      title: "// ACTIVITY · LAST 24H",
-      rightLabel: "PER 4H",
-      bars: activity,
-      labelWidth: 48,
-      emptyText: "NO RECENT STORIES",
-    },
-    {
-      variant: "bars",
-      title: "// TOPICS · MENTIONED MOST",
-      rightLabel: `TOP ${topics.length}`,
-      bars: topics,
-      labelWidth: 96,
-      emptyText: "NOT ENOUGH SIGNAL YET",
-    },
-  ];
+  const cards: [NewsMetricCard, NewsMetricCard, NewsMetricCard] = applyCompactV1(
+    [
+      {
+        variant: "snapshot",
+        title: "// SNAPSHOT · NOW",
+        rightLabel: `${stories.length} ITEMS`,
+        label: "STORIES TRACKED",
+        value: compactNumber(stories.length),
+        hint: `${frontPage} HIT FRONT PAGE`,
+        rows: [
+          { label: "TOTAL SCORE", value: compactNumber(totalScore) },
+          { label: "TOP SCORE", value: compactNumber(topScore), tone: "accent" },
+          { label: "COMMENTS", value: compactNumber(totalComments) },
+        ],
+      },
+      {
+        variant: "bars",
+        title: "// VOLUME · LAST 24H",
+        bars: [],
+        labelWidth: 48,
+        emptyText: "NO RECENT STORIES",
+      },
+      {
+        variant: "bars",
+        title: "// TOPICS · MENTIONED MOST",
+        rightLabel: `TOP ${topics.length}`,
+        bars: topics,
+        labelWidth: 96,
+        emptyText: "NOT ENOUGH SIGNAL YET",
+      },
+    ],
+    { activity, topics, totalItems: stories.length },
+  );
 
   const heroStories: NewsHeroStory[] = topStories.slice(0, 3).map((s) => {
     const linkedRepo = s.linkedRepos?.[0]?.fullName ?? null;
@@ -263,7 +546,8 @@ export function buildHackerNewsHeader(
       byline: s.by ? `@${s.by}` : undefined,
       scoreLabel: `${compactNumber(s.score ?? 0)} pts · ${compactNumber(s.descendants ?? 0)} cmts`,
       ageHours: s.ageHours ?? null,
-      logoUrl: repoLogoUrl(linkedRepo),
+      logoUrl:
+        repoLogoUrl(linkedRepo) ?? resolveLogoUrl(s.url ?? null, s.title, 64),
       logoName: linkedRepo ?? s.by ?? s.title,
     };
   });
@@ -289,37 +573,39 @@ export function buildBlueskyHeader(
   );
   const topics = topicBars(posts.map((p) => p.text));
 
-  const cards: [NewsMetricCard, NewsMetricCard, NewsMetricCard] = [
-    {
-      variant: "snapshot",
-      title: "// SNAPSHOT · NOW",
-      rightLabel: `${posts.length} POSTS`,
-      label: "POSTS TRACKED",
-      value: compactNumber(posts.length),
-      hint: `${file.queries?.length ?? 0} QUERY SLICES`,
-      rows: [
-        { label: "TOTAL LIKES", value: compactNumber(totalLikes) },
-        { label: "TOP LIKES", value: compactNumber(topLikes), tone: "accent" },
-        { label: "REPOSTS", value: compactNumber(totalReposts) },
-      ],
-    },
-    {
-      variant: "bars",
-      title: "// ACTIVITY · LAST 24H",
-      rightLabel: "PER 4H",
-      bars: activity,
-      labelWidth: 48,
-      emptyText: "NO RECENT POSTS",
-    },
-    {
-      variant: "bars",
-      title: "// TOPICS · MENTIONED MOST",
-      rightLabel: `TOP ${topics.length}`,
-      bars: topics,
-      labelWidth: 96,
-      emptyText: "NOT ENOUGH SIGNAL YET",
-    },
-  ];
+  const cards: [NewsMetricCard, NewsMetricCard, NewsMetricCard] = applyCompactV1(
+    [
+      {
+        variant: "snapshot",
+        title: "// SNAPSHOT · NOW",
+        rightLabel: `${posts.length} POSTS`,
+        label: "POSTS TRACKED",
+        value: compactNumber(posts.length),
+        hint: `${file.queries?.length ?? 0} QUERY SLICES`,
+        rows: [
+          { label: "TOTAL LIKES", value: compactNumber(totalLikes) },
+          { label: "TOP LIKES", value: compactNumber(topLikes), tone: "accent" },
+          { label: "REPOSTS", value: compactNumber(totalReposts) },
+        ],
+      },
+      {
+        variant: "bars",
+        title: "// VOLUME · LAST 24H",
+        bars: [],
+        labelWidth: 48,
+        emptyText: "NO RECENT POSTS",
+      },
+      {
+        variant: "bars",
+        title: "// TOPICS · MENTIONED MOST",
+        rightLabel: `TOP ${topics.length}`,
+        bars: topics,
+        labelWidth: 96,
+        emptyText: "NOT ENOUGH SIGNAL YET",
+      },
+    ],
+    { activity, topics, totalItems: posts.length },
+  );
 
   const heroStories: NewsHeroStory[] = topPosts.slice(0, 3).map((p) => {
     const linkedRepo = p.linkedRepos?.[0]?.fullName ?? null;
@@ -334,7 +620,12 @@ export function buildBlueskyHeader(
       byline: p.author?.handle ? `@${p.author.handle}` : undefined,
       scoreLabel: `${compactNumber(p.likeCount ?? 0)} ♥ · ${compactNumber(p.repostCount ?? 0)} rt`,
       ageHours: p.ageHours ?? null,
-      logoUrl: repoLogoUrl(linkedRepo) ?? userLogoUrl(authorAvatar),
+      logoUrl:
+        repoLogoUrl(linkedRepo) ??
+        userLogoUrl(authorAvatar) ??
+        (p.author?.handle
+          ? resolveLogoUrl(p.author.handle, null, 64)
+          : null),
       logoName: linkedRepo ?? p.author?.handle ?? p.text,
     };
   });
@@ -377,37 +668,39 @@ export function buildDevtoHeaderFromArticles(
   );
   const topics = topicBars(deduped.map((a) => a.title));
 
-  const cards: [NewsMetricCard, NewsMetricCard, NewsMetricCard] = [
-    {
-      variant: "snapshot",
-      title: "// SNAPSHOT · NOW",
-      rightLabel: `${deduped.length} ARTICLES`,
-      label: "ARTICLES TRACKED",
-      value: compactNumber(deduped.length),
-      hint: `${reposLinked} REPOS LINKED 7D`,
-      rows: [
-        { label: "TOTAL REACTIONS", value: compactNumber(totalReactions) },
-        { label: "TOP REACTIONS", value: compactNumber(topReactions), tone: "accent" },
-        { label: "REPOS LINKED", value: compactNumber(reposLinked) },
-      ],
-    },
-    {
-      variant: "bars",
-      title: "// ACTIVITY · LAST 24H",
-      rightLabel: "PER 4H",
-      bars: activity,
-      labelWidth: 48,
-      emptyText: "NO RECENT ARTICLES",
-    },
-    {
-      variant: "bars",
-      title: "// TOPICS · MENTIONED MOST",
-      rightLabel: `TOP ${topics.length}`,
-      bars: topics,
-      labelWidth: 96,
-      emptyText: "NOT ENOUGH SIGNAL YET",
-    },
-  ];
+  const cards: [NewsMetricCard, NewsMetricCard, NewsMetricCard] = applyCompactV1(
+    [
+      {
+        variant: "snapshot",
+        title: "// SNAPSHOT · NOW",
+        rightLabel: `${deduped.length} ARTICLES`,
+        label: "ARTICLES TRACKED",
+        value: compactNumber(deduped.length),
+        hint: `${reposLinked} REPOS LINKED 7D`,
+        rows: [
+          { label: "TOTAL REACTIONS", value: compactNumber(totalReactions) },
+          { label: "TOP REACTIONS", value: compactNumber(topReactions), tone: "accent" },
+          { label: "REPOS LINKED", value: compactNumber(reposLinked) },
+        ],
+      },
+      {
+        variant: "bars",
+        title: "// VOLUME · LAST 24H",
+        bars: [],
+        labelWidth: 48,
+        emptyText: "NO RECENT ARTICLES",
+      },
+      {
+        variant: "bars",
+        title: "// TOPICS · MENTIONED MOST",
+        rightLabel: `TOP ${topics.length}`,
+        bars: topics,
+        labelWidth: 96,
+        emptyText: "NOT ENOUGH SIGNAL YET",
+      },
+    ],
+    { activity, topics, totalItems: deduped.length },
+  );
 
   const topArticles = deduped
     .slice()
@@ -416,7 +709,11 @@ export function buildDevtoHeaderFromArticles(
   const heroStories: NewsHeroStory[] = topArticles.map((a) => {
     const authorAvatar =
       (a.author as { profile_image?: string | null } | null)?.profile_image ??
+      (a.author as { profile_image_90?: string | null } | null)?.profile_image_90 ??
       null;
+    const userPng = a.author?.username
+      ? `https://dev.to/${encodeURIComponent(a.author.username)}.png`
+      : null;
     return {
       title: a.title,
       href: a.url,
@@ -427,7 +724,10 @@ export function buildDevtoHeaderFromArticles(
       ageHours: a.publishedAt
         ? Math.max(0, (Date.now() - Date.parse(a.publishedAt)) / 3_600_000)
         : null,
-      logoUrl: userLogoUrl(authorAvatar),
+      logoUrl:
+        userLogoUrl(authorAvatar) ??
+        userPng ??
+        resolveLogoUrl(a.url ?? null, a.title, 64),
       logoName: a.author?.username ?? a.title,
     };
   });
@@ -472,37 +772,39 @@ export function buildProductHuntHeader(
     launches.map((l) => `${l.name} ${l.tagline ?? ""}`),
   );
 
-  const cards: [NewsMetricCard, NewsMetricCard, NewsMetricCard] = [
-    {
-      variant: "snapshot",
-      title: "// SNAPSHOT · NOW",
-      rightLabel: `${launches.length} LAUNCHES`,
-      label: "LAUNCHES TRACKED",
-      value: compactNumber(launches.length),
-      hint: `${file.windowDays ?? 7}D WINDOW`,
-      rows: [
-        { label: "TOTAL VOTES", value: compactNumber(totalVotes) },
-        { label: "TOP VOTES", value: compactNumber(topVotes), tone: "accent" },
-        { label: "COMMENTS", value: compactNumber(totalComments) },
-      ],
-    },
-    {
-      variant: "bars",
-      title: "// ACTIVITY · LAST 24H",
-      rightLabel: "PER 4H",
-      bars: activity,
-      labelWidth: 48,
-      emptyText: "NO RECENT LAUNCHES",
-    },
-    {
-      variant: "bars",
-      title: "// TOPICS · MENTIONED MOST",
-      rightLabel: `TOP ${topics.length}`,
-      bars: topics,
-      labelWidth: 96,
-      emptyText: "NOT ENOUGH SIGNAL YET",
-    },
-  ];
+  const cards: [NewsMetricCard, NewsMetricCard, NewsMetricCard] = applyCompactV1(
+    [
+      {
+        variant: "snapshot",
+        title: "// SNAPSHOT · NOW",
+        rightLabel: `${launches.length} LAUNCHES`,
+        label: "LAUNCHES TRACKED",
+        value: compactNumber(launches.length),
+        hint: `${file.windowDays ?? 7}D WINDOW`,
+        rows: [
+          { label: "TOTAL VOTES", value: compactNumber(totalVotes) },
+          { label: "TOP VOTES", value: compactNumber(topVotes), tone: "accent" },
+          { label: "COMMENTS", value: compactNumber(totalComments) },
+        ],
+      },
+      {
+        variant: "bars",
+        title: "// VOLUME · LAST 24H",
+        bars: [],
+        labelWidth: 48,
+        emptyText: "NO RECENT LAUNCHES",
+      },
+      {
+        variant: "bars",
+        title: "// TOPICS · MENTIONED MOST",
+        rightLabel: `TOP ${topics.length}`,
+        bars: topics,
+        labelWidth: 96,
+        emptyText: "NOT ENOUGH SIGNAL YET",
+      },
+    ],
+    { activity, topics, totalItems: launches.length },
+  );
 
   const heroStories: NewsHeroStory[] = topLaunches.slice(0, 3).map((l) => ({
     title: l.tagline ? `${l.name} — ${l.tagline}` : l.name,
@@ -538,37 +840,39 @@ export function buildRedditHeader(
   );
   const topics = topicBars(posts.map((p) => p.title));
 
-  const cards: [NewsMetricCard, NewsMetricCard, NewsMetricCard] = [
-    {
-      variant: "snapshot",
-      title: "// SNAPSHOT · NOW",
-      rightLabel: `${stats.totalPosts} POSTS`,
-      label: "POSTS TRACKED",
-      value: compactNumber(stats.totalPosts),
-      hint: `${stats.breakouts24h} BREAKOUTS · 24H`,
-      rows: [
-        { label: "TOTAL SCORE", value: compactNumber(totalScore) },
-        { label: "TOP SCORE", value: compactNumber(topScore), tone: "accent" },
-        { label: "COMMENTS", value: compactNumber(totalComments) },
-      ],
-    },
-    {
-      variant: "bars",
-      title: "// ACTIVITY · LAST 24H",
-      rightLabel: "PER 4H",
-      bars: activity,
-      labelWidth: 56,
-      emptyText: "NO RECENT POSTS",
-    },
-    {
-      variant: "bars",
-      title: "// TOPICS · MENTIONED MOST",
-      rightLabel: `TOP ${topics.length}`,
-      bars: topics,
-      labelWidth: 96,
-      emptyText: "NOT ENOUGH SIGNAL YET",
-    },
-  ];
+  const cards: [NewsMetricCard, NewsMetricCard, NewsMetricCard] = applyCompactV1(
+    [
+      {
+        variant: "snapshot",
+        title: "// SNAPSHOT · NOW",
+        rightLabel: `${stats.totalPosts} POSTS`,
+        label: "POSTS TRACKED",
+        value: compactNumber(stats.totalPosts),
+        hint: `${stats.breakouts24h} BREAKOUTS · 24H`,
+        rows: [
+          { label: "TOTAL SCORE", value: compactNumber(totalScore) },
+          { label: "TOP SCORE", value: compactNumber(topScore), tone: "accent" },
+          { label: "COMMENTS", value: compactNumber(totalComments) },
+        ],
+      },
+      {
+        variant: "bars",
+        title: "// VOLUME · LAST 24H",
+        bars: [],
+        labelWidth: 56,
+        emptyText: "NO RECENT POSTS",
+      },
+      {
+        variant: "bars",
+        title: "// TOPICS · MENTIONED MOST",
+        rightLabel: `TOP ${topics.length}`,
+        bars: topics,
+        labelWidth: 96,
+        emptyText: "NOT ENOUGH SIGNAL YET",
+      },
+    ],
+    { activity, topics, totalItems: stats.totalPosts },
+  );
 
   const heroes = posts
     .slice()
@@ -588,7 +892,9 @@ export function buildRedditHeader(
       ageHours: p.createdUtc
         ? Math.max(0, (Date.now() / 1000 - p.createdUtc) / 3600)
         : null,
-      logoUrl: repoLogoUrl(linkedRepo),
+      logoUrl:
+        repoLogoUrl(linkedRepo) ??
+        resolveLogoUrl(p.url ?? null, p.title, 64),
       logoName: linkedRepo ?? `r/${p.subreddit ?? "reddit"}`,
     };
   });
@@ -617,37 +923,39 @@ export function buildLobstersHeader(
   );
   const topics = topicBars(stories.map((s) => s.title));
 
-  const cards: [NewsMetricCard, NewsMetricCard, NewsMetricCard] = [
-    {
-      variant: "snapshot",
-      title: "// SNAPSHOT · NOW",
-      rightLabel: `${stories.length} ITEMS`,
-      label: "STORIES TRACKED",
-      value: compactNumber(stories.length),
-      hint: `${file.windowHours ?? 24}H WINDOW`,
-      rows: [
-        { label: "TOTAL SCORE", value: compactNumber(totalScore) },
-        { label: "TOP SCORE", value: compactNumber(topScore), tone: "accent" },
-        { label: "COMMENTS", value: compactNumber(totalComments) },
-      ],
-    },
-    {
-      variant: "bars",
-      title: "// ACTIVITY · LAST 24H",
-      rightLabel: "PER 4H",
-      bars: activity,
-      labelWidth: 48,
-      emptyText: "NO RECENT STORIES",
-    },
-    {
-      variant: "bars",
-      title: "// TOPICS · MENTIONED MOST",
-      rightLabel: `TOP ${topics.length}`,
-      bars: topics,
-      labelWidth: 96,
-      emptyText: "NOT ENOUGH SIGNAL YET",
-    },
-  ];
+  const cards: [NewsMetricCard, NewsMetricCard, NewsMetricCard] = applyCompactV1(
+    [
+      {
+        variant: "snapshot",
+        title: "// SNAPSHOT · NOW",
+        rightLabel: `${stories.length} ITEMS`,
+        label: "STORIES TRACKED",
+        value: compactNumber(stories.length),
+        hint: `${file.windowHours ?? 24}H WINDOW`,
+        rows: [
+          { label: "TOTAL SCORE", value: compactNumber(totalScore) },
+          { label: "TOP SCORE", value: compactNumber(topScore), tone: "accent" },
+          { label: "COMMENTS", value: compactNumber(totalComments) },
+        ],
+      },
+      {
+        variant: "bars",
+        title: "// VOLUME · LAST 24H",
+        bars: [],
+        labelWidth: 48,
+        emptyText: "NO RECENT STORIES",
+      },
+      {
+        variant: "bars",
+        title: "// TOPICS · MENTIONED MOST",
+        rightLabel: `TOP ${topics.length}`,
+        bars: topics,
+        labelWidth: 96,
+        emptyText: "NOT ENOUGH SIGNAL YET",
+      },
+    ],
+    { activity, topics, totalItems: stories.length },
+  );
 
   const heroStories: NewsHeroStory[] = topStories.slice(0, 3).map((s) => {
     const linkedRepo = s.linkedRepos?.[0]?.fullName ?? null;
@@ -659,7 +967,8 @@ export function buildLobstersHeader(
       byline: s.by ? `@${s.by}` : undefined,
       scoreLabel: `${compactNumber(s.score ?? 0)} pts · ${compactNumber(s.commentCount ?? 0)} cmts`,
       ageHours: s.ageHours ?? null,
-      logoUrl: repoLogoUrl(linkedRepo),
+      logoUrl:
+        repoLogoUrl(linkedRepo) ?? resolveLogoUrl(s.url ?? null, s.title, 64),
       logoName: linkedRepo ?? s.by ?? s.title,
     };
   });

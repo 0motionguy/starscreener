@@ -119,11 +119,24 @@ export default async function RevenuePage({ searchParams }: PageProps) {
       <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
         <div className="mb-6">
           <NewsTopHeaderV3
-            eyebrow="// REVENUE · VERIFIED MRR"
-            status={`${leaderboard.totalInFilter.toLocaleString("en-US")} STARTUPS · ${tracked.length} TRACKED`}
+            routeTitle="REVENUE · VERIFIED MRR"
+            liveLabel="LIVE"
+            eyebrow="// REVENUE · TRUSTMRR · LIVE"
+            meta={[
+              {
+                label: "STARTUPS",
+                value: leaderboard.totalInFilter.toLocaleString("en-US"),
+              },
+              { label: "TRACKED", value: tracked.length.toLocaleString("en-US") },
+            ]}
             cards={cards}
             topStories={topStories}
             accent={REVENUE_ACCENT}
+            caption={[
+              "// LAYOUT compact-v1",
+              "· 3-COL · 320 / 1FR / 1FR",
+              "· DATA UNCHANGED",
+            ]}
           />
         </div>
 

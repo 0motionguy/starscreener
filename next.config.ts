@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 import bundleAnalyzer from "@next/bundle-analyzer";
 import { withSentryConfig } from "@sentry/nextjs";
+import pkg from "./package.json";
 
 // Bundle-size visualization: `npm run analyze` sets ANALYZE=true and runs a
 // production build, dumping interactive HTML reports to .next/analyze/.
@@ -41,6 +42,13 @@ const nextConfig: NextConfig = {
   // changing in a future Next minor.
   experimental: {
     optimizePackageImports: ["lucide-react", "recharts"],
+  },
+  // Inject the root package.json version into the client bundle as
+  // NEXT_PUBLIC_APP_VERSION so any client component can read the release
+  // version without re-importing the manifest. Server components import
+  // APP_VERSION from `@/lib/app-meta` (same source).
+  env: {
+    NEXT_PUBLIC_APP_VERSION: pkg.version,
   },
   images: {
     remotePatterns: [

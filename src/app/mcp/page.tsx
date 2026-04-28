@@ -58,11 +58,24 @@ export default async function McpPage() {
 
   const topHeader = (
     <NewsTopHeaderV3
+      routeTitle="MCP · TRENDING"
+      liveLabel="LIVE · 30M"
       eyebrow={`// MCP · ${data.source.toUpperCase()} · ${freshness.ageLabel.toUpperCase()}`}
-      status={`${data.board.items.length.toLocaleString("en-US")} TRACKED · 4 REGISTRIES`}
+      meta={[
+        {
+          label: "TRACKED",
+          value: data.board.items.length.toLocaleString("en-US"),
+        },
+        { label: "REGISTRIES", value: "4" },
+      ]}
       cards={cards}
       topStories={topStories}
       accent={MCP_ACCENT}
+      caption={[
+        "// LAYOUT compact-v1",
+        "· 3-COL · 320 / 1FR / 1FR",
+        "· DATA UNCHANGED",
+      ]}
     />
   );
 

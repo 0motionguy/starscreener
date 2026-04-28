@@ -58,11 +58,28 @@ export default async function SkillsPage() {
 
   const topHeader = (
     <NewsTopHeaderV3
+      routeTitle="SKILLS · TRENDING"
+      liveLabel="LIVE · 30M"
       eyebrow={`// SKILLS · ${data.source.toUpperCase()} · ${freshness.ageLabel.toUpperCase()}`}
-      status={`${data.combined.items.length.toLocaleString("en-US")} TRACKED · ${data.skillsSh.items.length} SKLSH · ${data.github.items.length} GH`}
+      meta={[
+        {
+          label: "TRACKED",
+          value: data.combined.items.length.toLocaleString("en-US"),
+        },
+        {
+          label: "SKLSH",
+          value: data.skillsSh.items.length.toLocaleString("en-US"),
+        },
+        { label: "GH", value: data.github.items.length.toLocaleString("en-US") },
+      ]}
       cards={cards}
       topStories={topStories}
       accent={SKILLS_ACCENT}
+      caption={[
+        "// LAYOUT compact-v1",
+        "· 3-COL · 320 / 1FR / 1FR",
+        "· DATA UNCHANGED",
+      ]}
     />
   );
 

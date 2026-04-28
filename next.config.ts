@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 import bundleAnalyzer from "@next/bundle-analyzer";
 import { withSentryConfig } from "@sentry/nextjs";
+import pkg from "./package.json";
 
 // Bundle-size visualization: `npm run analyze` sets ANALYZE=true and runs a
 // production build, dumping interactive HTML reports to .next/analyze/.
@@ -41,6 +42,13 @@ const nextConfig: NextConfig = {
   // changing in a future Next minor.
   experimental: {
     optimizePackageImports: ["lucide-react", "recharts"],
+  },
+  // Inject the root package.json version into the client bundle as
+  // NEXT_PUBLIC_APP_VERSION so any client component can read the release
+  // version without re-importing the manifest. Server components import
+  // APP_VERSION from `@/lib/app-meta` (same source).
+  env: {
+    NEXT_PUBLIC_APP_VERSION: pkg.version,
   },
   images: {
     remotePatterns: [
@@ -185,4 +193,13 @@ const sentryWebpackPluginOptions = {
   },
 };
 
-export default withSentryConfig(withBundleAnalyzer(nextConfig), sentryWebpackPluginOptions);
+// Skip Sentry's Next plugin wrap during local `next dev` (Turbopack 15.5
+// + @sentry/nextjs 10.50 produces a MODULE_UNPARSABLE stub for the
+// instrumentation hook even on a no-op source file). Production builds on
+// Vercel run with NODE_ENV=production via webpack and are unaffected; the
+// Sentry runtime config files (sentry.{server,edge,client}.config.ts)
+// still init at boot when SENTRY_DSN is set.
+const wrapped = withBundleAnalyzer(nextConfig);
+export default process.env.NODE_ENV === "production"
+  ? withSentryConfig(wrapped, sentryWebpackPluginOptions)
+  : wrapped;

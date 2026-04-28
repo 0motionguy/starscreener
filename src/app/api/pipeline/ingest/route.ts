@@ -8,6 +8,7 @@
 // adapter so developers can exercise the pipeline end-to-end offline.
 
 import { NextRequest, NextResponse } from "next/server";
+import * as Sentry from "@sentry/nextjs";
 import { pipeline } from "@/lib/pipeline/pipeline";
 import { createGitHubAdapter } from "@/lib/pipeline/ingestion/ingest";
 import { getExtendedSocialAdapters } from "@/lib/pipeline/adapters/extended-social";
@@ -257,6 +258,8 @@ export interface IngestUsageResponse {
 interface SocialAdapterCounter {
   mentions: number;
   failures: number;
+  consecutiveFailures: number;
+  alarmFired: boolean;
 }
 
 interface WrappedSocialAdapters {
@@ -264,16 +267,28 @@ interface WrappedSocialAdapters {
   counters: Record<string, SocialAdapterCounter>;
 }
 
+// T2.5: 2 consecutive per-repo failures within a single batch is a strong
+// signal the upstream is down (network blip, API outage, auth expiry,
+// schema drift). Tripping at 2 (vs 5+) keeps the alarm noise low without
+// waiting for the 15-min freshness probe to surface the incident.
+const CIRCUIT_BREAKER_THRESHOLD = 2;
+
 /**
  * Wrap each social adapter so (a) per-source throws are caught and logged with
  * a `[ingest:social:<source>]` prefix (one flaky source can't take down the
- * GitHub ingest path), and (b) per-source mention counts + failure counts are
- * accumulated for the post-batch summary log.
+ * GitHub ingest path), (b) per-source mention counts + failure counts are
+ * accumulated for the post-batch summary log, and (c) consecutive-failure
+ * tripwires emit a structured Sentry event the moment an adapter goes dark.
  */
 function wrapSocialAdapters(source: SocialAdapter[]): WrappedSocialAdapters {
   const counters: Record<string, SocialAdapterCounter> = {};
   const adapters: SocialAdapter[] = source.map((inner) => {
-    counters[inner.id] = { mentions: 0, failures: 0 };
+    counters[inner.id] = {
+      mentions: 0,
+      failures: 0,
+      consecutiveFailures: 0,
+      alarmFired: false,
+    };
     const counter = counters[inner.id];
     return {
       id: inner.id,
@@ -282,13 +297,42 @@ function wrapSocialAdapters(source: SocialAdapter[]): WrappedSocialAdapters {
         try {
           const mentions = await inner.fetchMentionsForRepo(fullName, since);
           counter.mentions += mentions.length;
+          counter.consecutiveFailures = 0;
           return mentions;
         } catch (err) {
           counter.failures += 1;
+          counter.consecutiveFailures += 1;
+          const message = err instanceof Error ? err.message : String(err);
           console.error(
             `[ingest:social:${inner.id}] error for ${fullName}`,
-            err instanceof Error ? err.message : String(err),
+            message,
           );
+          // T2.5: fire one circuit-breaker event per batch per adapter so
+          // we don't spam Sentry on every subsequent failure in a dead-API
+          // run. Reset is implicit — a fresh route invocation creates a
+          // fresh counter map.
+          if (
+            counter.consecutiveFailures >= CIRCUIT_BREAKER_THRESHOLD &&
+            !counter.alarmFired
+          ) {
+            counter.alarmFired = true;
+            Sentry.captureMessage(
+              `[circuit-breaker] ${inner.id} tripped (${counter.consecutiveFailures} consecutive failures)`,
+              {
+                level: "error",
+                tags: {
+                  source: inner.id,
+                  platform: inner.platform,
+                  kind: "circuit-breaker",
+                },
+                extra: {
+                  repo: fullName,
+                  lastError: message,
+                  totalFailuresInBatch: counter.failures,
+                },
+              },
+            );
+          }
           return [];
         }
       },

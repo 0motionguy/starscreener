@@ -13,7 +13,7 @@ import type {
   NewsMetricBar,
   NewsMetricCard,
 } from "@/components/news/NewsTopHeaderV3";
-import { compactNumber } from "@/components/news/newsTopMetrics";
+import { applyCompactV1, compactNumber } from "@/components/news/newsTopMetrics";
 import type {
   TwitterLeaderboardRow,
   TwitterOverviewStats,
@@ -46,15 +46,22 @@ export function buildTwitterHeader(
     .slice()
     .sort((a, b) => b.mentionCount24h - a.mentionCount24h)
     .slice(0, 6)
-    .map((r, i) => ({
-      label: r.githubFullName.split("/")[1]?.toUpperCase() ?? r.githubFullName.toUpperCase(),
-      value: r.mentionCount24h,
-      valueLabel: compactNumber(r.mentionCount24h),
-      // Prefix with ♥ so the secondary value can't be misread as a second
-      // mention count when stacked next to the primary mentions number.
-      hintLabel: `♥ ${compactNumber(r.totalLikes24h)}`,
-      color: REPO_PALETTE[i % REPO_PALETTE.length],
-    }));
+    .map((r, i) => {
+      const owner = r.githubFullName.split("/")[0];
+      return {
+        label: r.githubFullName.split("/")[1]?.toUpperCase() ?? r.githubFullName.toUpperCase(),
+        value: r.mentionCount24h,
+        valueLabel: compactNumber(r.mentionCount24h),
+        // Prefix with ♥ so the secondary value can't be misread as a second
+        // mention count when stacked next to the primary mentions number.
+        hintLabel: `♥ ${compactNumber(r.totalLikes24h)}`,
+        color: REPO_PALETTE[i % REPO_PALETTE.length],
+        logoUrl:
+          r.ownerAvatarUrl ??
+          (owner ? `https://github.com/${encodeURIComponent(owner)}.png?size=40` : null),
+        logoName: r.githubFullName,
+      };
+    });
 
   // Badge distribution.
   const badgeCounts = { x_fire: 0, x: 0, none: 0 };
@@ -87,48 +94,51 @@ export function buildTwitterHeader(
     },
   ];
 
-  const cards: [NewsMetricCard, NewsMetricCard, NewsMetricCard] = [
-    {
-      variant: "snapshot",
-      title: "// SNAPSHOT · NOW",
-      rightLabel: `${stats.reposWithMentions} REPOS`,
-      label: "REPOS WITH BUZZ",
-      value: compactNumber(stats.reposWithMentions),
-      hint: `${stats.scansStored} SCANS STORED`,
-      rows: [
-        {
-          label: "MENTIONS 24H",
-          value: compactNumber(stats.totalMentions24h),
-        },
-        {
-          label: "TOP SCORE",
-          value:
-            stats.topRepoScore !== null ? stats.topRepoScore.toFixed(1) : "—",
-          tone: "accent",
-        },
-        {
-          label: "BREAKOUTS",
-          value: compactNumber(stats.breakoutRepos),
-        },
-      ],
-    },
-    {
-      variant: "bars",
-      title: "// ENGAGE · TOP REPOS",
-      rightLabel: "MENTIONS 24H",
-      bars: engageBars,
-      labelWidth: 96,
-      emptyText: "NO MENTIONS YET",
-    },
-    {
-      variant: "bars",
-      title: "// BADGES · DISTRIBUTION",
-      rightLabel: `${rows.length} ROWS`,
-      bars: badgeBars,
-      labelWidth: 56,
-      emptyText: "NO BADGED REPOS",
-    },
-  ];
+  const cards: [NewsMetricCard, NewsMetricCard, NewsMetricCard] = applyCompactV1(
+    [
+      {
+        variant: "snapshot",
+        title: "// SNAPSHOT · NOW",
+        rightLabel: `${stats.reposWithMentions} REPOS`,
+        label: "REPOS WITH BUZZ",
+        value: compactNumber(stats.reposWithMentions),
+        hint: `${stats.scansStored} SCANS STORED`,
+        rows: [
+          {
+            label: "MENTIONS 24H",
+            value: compactNumber(stats.totalMentions24h),
+          },
+          {
+            label: "TOP SCORE",
+            value:
+              stats.topRepoScore !== null ? stats.topRepoScore.toFixed(1) : "—",
+            tone: "accent",
+          },
+          {
+            label: "BREAKOUTS",
+            value: compactNumber(stats.breakoutRepos),
+          },
+        ],
+      },
+      {
+        variant: "bars",
+        title: "// ENGAGE · TOP REPOS",
+        rightLabel: "MENTIONS 24H",
+        bars: engageBars,
+        labelWidth: 96,
+        emptyText: "NO MENTIONS YET",
+      },
+      {
+        variant: "bars",
+        title: "// BADGES · DISTRIBUTION",
+        rightLabel: `${rows.length} ROWS`,
+        bars: badgeBars,
+        labelWidth: 56,
+        emptyText: "NO BADGED REPOS",
+      },
+    ],
+    { topics: badgeBars, totalItems: rows.length },
+  );
 
   const topStories = buildTwitterHeroes(rows);
 
@@ -145,6 +155,7 @@ export function buildTwitterHeroes(
     repoFullName: string;
     repoShortName: string;
     authorHandle: string;
+    authorAvatarUrl: string | null;
     postUrl: string;
     engagement: number;
   };
@@ -159,6 +170,7 @@ export function buildTwitterHeroes(
         repoFullName: r.githubFullName,
         repoShortName,
         authorHandle: a.authorHandle,
+        authorAvatarUrl: a.avatarUrl ?? null,
         postUrl: a.postUrl,
         engagement: a.engagement,
       });
@@ -175,13 +187,23 @@ export function buildTwitterHeroes(
     })
     .slice(0, 3);
 
-  return top.map((c) => ({
-    title: `@${c.authorHandle} on ${c.repoShortName}`,
-    href: c.postUrl,
-    external: true,
-    sourceCode: "X",
-    byline: `@${c.authorHandle}`,
-    scoreLabel: `${c.engagement} eng · @${c.repoShortName}`,
-    ageHours: null,
-  }));
+  return top.map((c) => {
+    const owner = c.repoFullName.split("/")[0];
+    return {
+      title: `@${c.authorHandle} on ${c.repoShortName}`,
+      href: c.postUrl,
+      external: true,
+      sourceCode: "X",
+      byline: `@${c.authorHandle}`,
+      scoreLabel: `${c.engagement} eng · @${c.repoShortName}`,
+      ageHours: null,
+      // Author X avatar first; fall back to the repo owner's GitHub avatar
+      // so a missing X avatar still produces a recognisable tile instead
+      // of a monogram.
+      logoUrl:
+        c.authorAvatarUrl ??
+        (owner ? `https://github.com/${encodeURIComponent(owner)}.png?size=64` : null),
+      logoName: c.authorHandle,
+    };
+  });
 }

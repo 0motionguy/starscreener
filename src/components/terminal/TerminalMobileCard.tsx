@@ -9,9 +9,9 @@
 
 import { useRouter } from "next/navigation";
 import {
-  ArrowLeftRight,
   ChevronDown,
   Eye,
+  GitCompareArrows,
   GitFork,
   MessageCircle,
   Package,
@@ -212,7 +212,7 @@ export function TerminalMobileCard({
                   : "text-text-tertiary hover:bg-bg-tertiary",
             )}
           >
-            <ArrowLeftRight size={15} strokeWidth={2} />
+            <GitCompareArrows size={15} strokeWidth={2} />
           </button>
           <button
             type="button"

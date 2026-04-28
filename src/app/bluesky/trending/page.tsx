@@ -22,7 +22,7 @@ import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
 import { buildBlueskyHeader } from "@/components/news/newsTopMetrics";
 import { TerminalFeedTable, type FeedColumn } from "@/components/feed/TerminalFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
-import { repoLogoUrl, userLogoUrl } from "@/lib/logos";
+import { repoLogoUrl, userLogoUrl, resolveLogoUrl } from "@/lib/logos";
 
 const BSKY_ACCENT = "rgba(58, 214, 197, 0.85)";
 
@@ -61,10 +61,20 @@ export default async function BlueskyTrendingPage() {
           <>
             <div className="mb-6">
               <NewsTopHeaderV3
-                eyebrow="// BLUESKY · TOP POSTS"
-                status={`${allPosts.length.toLocaleString("en-US")} TRACKED · 24H`}
+                routeTitle="BLUESKY · TOP POSTS"
+                liveLabel="LIVE · 24H"
+                eyebrow="// BLUESKY · LIVE FIREHOSE"
+                meta={[
+                  { label: "TRACKED", value: allPosts.length.toLocaleString("en-US") },
+                  { label: "WINDOW", value: "24H" },
+                ]}
                 {...buildBlueskyHeader(trendingFile, getBlueskyTopPosts(3))}
                 accent={BSKY_ACCENT}
+                caption={[
+                  "// LAYOUT compact-v1",
+                  "· 3-COL · 320 / 1FR / 1FR",
+                  "· DATA UNCHANGED",
+                ]}
               />
             </div>
 
@@ -98,11 +108,24 @@ function BskyPostFeed({ posts }: { posts: BskyPost[] }) {
         const linkedRepo = p.linkedRepos?.[0]?.fullName;
         const snippet = p.text.length > 140 ? `${p.text.slice(0, 140)}…` : p.text;
         const authorAvatar =
-          (p.author as { avatar?: string | null } | null)?.avatar ?? null;
+          (p.author as { avatar?: string | null; avatarUrl?: string | null } | null)
+            ?.avatar ??
+          (p.author as { avatarUrl?: string | null } | null)?.avatarUrl ??
+          null;
+        // Author handle has a domain shape (handle.bsky.social or custom). The
+        // favicon service returns a real site icon for custom domains and a
+        // generic Bluesky butterfly for `*.bsky.social` — better than nothing.
+        const handleFavicon = p.author?.handle
+          ? resolveLogoUrl(p.author.handle, null, 64)
+          : null;
         return (
           <div className="flex min-w-0 items-start gap-2">
             <EntityLogo
-              src={repoLogoUrl(linkedRepo) ?? userLogoUrl(authorAvatar)}
+              src={
+                repoLogoUrl(linkedRepo) ??
+                userLogoUrl(authorAvatar) ??
+                handleFavicon
+              }
               name={linkedRepo ?? p.author?.handle ?? p.text}
               size={20}
               shape="circle"

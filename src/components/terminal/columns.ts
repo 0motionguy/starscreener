@@ -10,7 +10,7 @@
 
 import type { ReactNode } from "react";
 import { createElement } from "react";
-import { ArrowLeftRight, Bookmark, Star, Zap } from "lucide-react";
+import { Eye, GitCompareArrows, Star, Zap } from "lucide-react";
 
 import { MomentumBadge } from "@/components/shared/MomentumBadge";
 import { RankBadge } from "@/components/shared/RankBadge";
@@ -796,10 +796,9 @@ export const COLUMNS: Column[] = [
             ),
             style: { borderRadius: 1 },
           },
-          createElement(Bookmark, {
-            size: 13,
+          createElement(Eye, {
+            size: 14,
             strokeWidth: 1.5,
-            fill: ctx.isWatched ? "currentColor" : "none",
             className: "shrink-0",
           }),
         ),
@@ -835,8 +834,8 @@ export const COLUMNS: Column[] = [
             ),
             style: { borderRadius: 1 },
           },
-          createElement(ArrowLeftRight, {
-            size: 13,
+          createElement(GitCompareArrows, {
+            size: 14,
             strokeWidth: 1.5,
             className: "shrink-0",
           }),

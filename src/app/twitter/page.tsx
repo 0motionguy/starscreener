@@ -293,8 +293,18 @@ export default async function TwitterPage({
             cards={cards}
             topStories={topStories}
             accent={TWITTER_ACCENT}
-            eyebrow="// X · TOP TWEETS · 24H"
-            status={`${rows.length} ROWS · LIVE`}
+            routeTitle="X · TOP TWEETS"
+            liveLabel="LIVE · 24H"
+            eyebrow="// X · TWITTER · LIVE FIREHOSE"
+            meta={[
+              { label: "ROWS", value: rows.length.toLocaleString("en-US") },
+              { label: "WINDOW", value: "24H" },
+            ]}
+            caption={[
+              "// LAYOUT compact-v1",
+              "· 3-COL · 320 / 1FR / 1FR",
+              "· DATA UNCHANGED",
+            ]}
           />
         </div>
 

@@ -9,6 +9,7 @@ import {
   fetchJsonWithRetry,
   fetchWithTimeout,
   HttpStatusError,
+  parseRetryAfterMs,
 } from "./_fetch-json.mjs";
 
 // Real-browser UA — Reddit's anti-bot started 403'ing the previous
@@ -403,7 +404,11 @@ async function fetchTextWithRetry(
         const err = new HttpStatusError(res, url, text);
         if (attempt < attempts && (res.status >= 500 || res.status === 429)) {
           lastErr = err;
-          await sleep(retryDelayMs * attempt);
+          // T2.4: respect Retry-After when the server signals it (Reddit
+          // does on 429s) — falling back to retryDelayMs * attempt otherwise.
+          const retryAfterMs = parseRetryAfterMs(res.headers.get("retry-after"));
+          const scheduledMs = retryDelayMs * attempt;
+          await sleep(Math.max(scheduledMs, retryAfterMs ?? 0));
           continue;
         }
         throw err;

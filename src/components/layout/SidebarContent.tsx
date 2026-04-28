@@ -32,10 +32,10 @@ import {
   BadgeCheck,
   BarChart3,
   Bot,
-  Bookmark,
   Brain,
   Cpu,
   DollarSign,
+  Eye,
   FileText,
   GitCompareArrows,
   GraduationCap,
@@ -262,7 +262,7 @@ function V2Chip({
     tone === "accent"
       ? { bg: "var(--v2-acc-soft)", color: "var(--v2-acc)" }
       : tone === "danger"
-        ? { bg: "var(--v2-sig-red-glow)", color: "var(--v2-sig-red)" }
+        ? { bg: "rgba(239, 68, 68, 0.14)", color: "#ef4444" }
         : tone === "delta"
           ? { bg: "var(--color-up-bg)", color: "var(--color-up)" }
           : { bg: "var(--v2-bg-200)", color: "var(--v2-ink-300)" };
@@ -597,7 +597,7 @@ export function SidebarContent({
         <V2Section label="TOOLS">
           <V2NavRow
             href="/watchlist"
-            icon={Bookmark}
+            icon={Eye}
             label="Watchlist"
             badge={watchCount > 0 ? watchCount : undefined}
             badgeTone="accent"

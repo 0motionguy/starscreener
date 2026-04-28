@@ -58,11 +58,28 @@ export default async function SkillsPage() {
 
   const topHeader = (
     <NewsTopHeaderV3
+      routeTitle="SKILLS · TRENDING"
+      liveLabel="LIVE · 30M"
       eyebrow={`// SKILLS · ${data.source.toUpperCase()} · ${freshness.ageLabel.toUpperCase()}`}
-      status={`${data.combined.items.length.toLocaleString("en-US")} TRACKED · ${data.skillsSh.items.length} SKLSH · ${data.github.items.length} GH`}
+      meta={[
+        {
+          label: "TRACKED",
+          value: data.combined.items.length.toLocaleString("en-US"),
+        },
+        {
+          label: "SKLSH",
+          value: data.skillsSh.items.length.toLocaleString("en-US"),
+        },
+        { label: "GH", value: data.github.items.length.toLocaleString("en-US") },
+      ]}
       cards={cards}
       topStories={topStories}
       accent={SKILLS_ACCENT}
+      caption={[
+        "// LAYOUT compact-v1",
+        "· 3-COL · 320 / 1FR / 1FR",
+        "· DATA UNCHANGED",
+      ]}
     />
   );
 
@@ -149,6 +166,7 @@ function SkillsRightRail({ board }: { board: EcosystemBoard }) {
                     ✓
                   </span>
                 ) : null}
+                <MomentumBar value={item.signalScore} />
                 <span className="font-mono tabular-nums text-text-secondary">
                   {item.signalScore}
                 </span>
@@ -179,3 +197,32 @@ function SkillsRightRail({ board }: { board: EcosystemBoard }) {
   );
 }
 
+// Tiny inline momentum bar, mirrors the HF/arXiv pages' MomentumBar shape so
+// the visual language is consistent across all four trending domains.
+const SKILLS_BAR_ACCENT = "rgba(167, 139, 250, 0.85)";
+function MomentumBar({ value }: { value: number }) {
+  const pct = Math.max(0, Math.min(100, value));
+  return (
+    <span
+      aria-label={`Momentum ${pct}`}
+      className="inline-block"
+      style={{
+        width: 28,
+        height: 6,
+        background: "var(--v3-bg-100)",
+        borderRadius: 1,
+        overflow: "hidden",
+      }}
+    >
+      <span
+        className="block"
+        style={{
+          width: `${pct}%`,
+          height: "100%",
+          background: SKILLS_BAR_ACCENT,
+          boxShadow: pct > 0 ? `0 0 4px ${SKILLS_BAR_ACCENT}66` : undefined,
+        }}
+      />
+    </span>
+  );
+}

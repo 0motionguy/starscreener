@@ -13,7 +13,11 @@ import type {
   NewsMetricBar,
   NewsMetricCard,
 } from "@/components/news/NewsTopHeaderV3";
-import { compactNumber, topicBars } from "@/components/news/newsTopMetrics";
+import {
+  applyCompactV1,
+  compactNumber,
+  topicBars,
+} from "@/components/news/newsTopMetrics";
 import { npmLogoUrl } from "@/lib/logos";
 import type { NpmPackageRow, NpmPackagesFile } from "@/lib/npm";
 
@@ -62,59 +66,64 @@ export function buildNpmHeader(
             ? `-${compactNumber(Math.abs(p.delta24h ?? 0))}`
             : "0",
       color: PKG_PALETTE[i % PKG_PALETTE.length],
+      logoUrl: npmLogoUrl(p.linkedRepo),
+      logoName: p.linkedRepo ?? p.name,
     }));
 
   const topics = topicBars(
     packages.map((p) => `${p.name} ${p.description ?? ""}`),
   );
 
-  const cards: [NewsMetricCard, NewsMetricCard, NewsMetricCard] = [
-    {
-      variant: "snapshot",
-      title: "// SNAPSHOT · NOW",
-      rightLabel: `${packages.length} PKGS`,
-      label: "PACKAGES TRACKED",
-      value: compactNumber(packages.length),
-      hint: `${file.counts?.linkedRepos ?? 0} REPOS LINKED`,
-      rows: [
-        {
-          label: "TOP WEEKLY",
-          value: top ? compactNumber(top.downloads7d ?? 0) : "—",
-          tone: "accent",
-        },
-        {
-          label: "AGG WEEKLY",
-          value: compactNumber(totalWeekly),
-        },
-        {
-          label: "Δ 24H",
-          value:
-            totalDelta24h > 0
-              ? `+${compactNumber(totalDelta24h)}`
-              : totalDelta24h < 0
-                ? `-${compactNumber(Math.abs(totalDelta24h))}`
-                : "0",
-          tone: totalDelta24h > 0 ? "up" : totalDelta24h < 0 ? "down" : "default",
-        },
-      ],
-    },
-    {
-      variant: "bars",
-      title: "// VOLUME · TOP PACKAGES",
-      rightLabel: "DL 24H",
-      bars: volumeBars,
-      labelWidth: 96,
-      emptyText: "NO DOWNLOAD DATA",
-    },
-    {
-      variant: "bars",
-      title: "// TOPICS · MENTIONED MOST",
-      rightLabel: `TOP ${topics.length}`,
-      bars: topics,
-      labelWidth: 96,
-      emptyText: "NOT ENOUGH SIGNAL YET",
-    },
-  ];
+  const cards: [NewsMetricCard, NewsMetricCard, NewsMetricCard] = applyCompactV1(
+    [
+      {
+        variant: "snapshot",
+        title: "// SNAPSHOT · NOW",
+        rightLabel: `${packages.length} PKGS`,
+        label: "PACKAGES TRACKED",
+        value: compactNumber(packages.length),
+        hint: `${file.counts?.linkedRepos ?? 0} REPOS LINKED`,
+        rows: [
+          {
+            label: "TOP WEEKLY",
+            value: top ? compactNumber(top.downloads7d ?? 0) : "—",
+            tone: "accent",
+          },
+          {
+            label: "AGG WEEKLY",
+            value: compactNumber(totalWeekly),
+          },
+          {
+            label: "Δ 24H",
+            value:
+              totalDelta24h > 0
+                ? `+${compactNumber(totalDelta24h)}`
+                : totalDelta24h < 0
+                  ? `-${compactNumber(Math.abs(totalDelta24h))}`
+                  : "0",
+            tone: totalDelta24h > 0 ? "up" : totalDelta24h < 0 ? "down" : "default",
+          },
+        ],
+      },
+      {
+        variant: "bars",
+        title: "// VOLUME · TOP PACKAGES",
+        rightLabel: "DL 24H",
+        bars: volumeBars,
+        labelWidth: 96,
+        emptyText: "NO DOWNLOAD DATA",
+      },
+      {
+        variant: "bars",
+        title: "// TOPICS · MENTIONED MOST",
+        rightLabel: `TOP ${topics.length}`,
+        bars: topics,
+        labelWidth: 96,
+        emptyText: "NOT ENOUGH SIGNAL YET",
+      },
+    ],
+    { topics, totalItems: packages.length },
+  );
 
   const heroes = packages.slice(0, 3);
   const topStories: NewsHeroStory[] = heroes.map((p) => {

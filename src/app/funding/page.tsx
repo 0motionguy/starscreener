@@ -53,11 +53,21 @@ export default async function FundingPage() {
           <>
             <div className="mb-6">
               <NewsTopHeaderV3
-                eyebrow="// FUNDING · TOP ROUNDS"
-                status={`${signals.length.toLocaleString("en-US")} SIGNALS · 7D`}
+                routeTitle="FUNDING · TOP ROUNDS"
+                liveLabel="LIVE · 7D"
+                eyebrow="// FUNDING · ALL SOURCES · 7D"
+                meta={[
+                  { label: "SIGNALS", value: signals.length.toLocaleString("en-US") },
+                  { label: "WINDOW", value: "7D" },
+                ]}
                 cards={cards}
                 topStories={topStories}
                 accent={FUNDING_ACCENT}
+                caption={[
+                  "// LAYOUT compact-v1",
+                  "· 3-COL · 320 / 1FR / 1FR",
+                  "· DATA UNCHANGED",
+                ]}
               />
             </div>
 

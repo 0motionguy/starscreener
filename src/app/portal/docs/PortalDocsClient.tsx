@@ -10,6 +10,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { Plug, Terminal, Copy, Check } from "lucide-react";
 
+import { APP_VERSION } from "@/lib/app-meta";
+
 type Tab = "mcp" | "rest";
 
 export interface PortalDocsTool {
@@ -52,6 +54,24 @@ export default function PortalDocsClient({
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
       <header className="mb-8">
         <span className="label-micro">MCP Portal · v0.1</span>
+        {/* Wire-protocol vs app-build clarifier. The `v0.1` above is the
+            Portal protocol — the shape of /portal request + response
+            envelopes — and only bumps on a breaking schema change. The
+            TrendingRepo web app itself ships separate semver builds via
+            package.json (linked below). */}
+        <p
+          className="mt-1 text-[11px] font-mono uppercase tracking-[0.18em]"
+          style={{ color: "var(--v3-ink-400)" }}
+        >
+          Wire protocol version · App build v{APP_VERSION} ·{" "}
+          <Link
+            href="/api/health/portal"
+            className="hover:text-[color:var(--v3-acc)]"
+            style={{ color: "var(--v3-ink-300)" }}
+          >
+            /api/health/portal
+          </Link>
+        </p>
         <h1 className="font-display text-4xl sm:text-5xl mt-2 mb-3">
           Plug TrendingRepo into any agent.
         </h1>

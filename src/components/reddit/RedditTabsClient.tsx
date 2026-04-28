@@ -26,6 +26,8 @@ import {
   parseActiveChips,
 } from "./ContentTagChips";
 import { cn } from "@/lib/utils";
+import { EntityLogo } from "@/components/ui/EntityLogo";
+import { repoLogoUrl, resolveLogoUrl } from "@/lib/logos";
 
 function formatPostAge(hours: number | undefined): string {
   if (hours == null) return "—";
@@ -139,7 +141,17 @@ export function RedditTabsClient({ posts }: { posts: RedditPost[] }) {
                   animationDelay: stagger > 0 ? `${stagger}ms` : undefined,
                 }}
               >
-                <div className="flex items-start justify-between gap-3">
+                <div className="flex items-start gap-3">
+                  <EntityLogo
+                    src={
+                      repoLogoUrl(p.repoFullName) ??
+                      resolveLogoUrl(p.url ?? null, p.title, 64)
+                    }
+                    name={p.repoFullName ?? `r/${p.subreddit}`}
+                    size={28}
+                    shape="square"
+                    alt=""
+                  />
                   <div className="min-w-0 flex-1">
                     <div
                       className="mb-1.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px]"

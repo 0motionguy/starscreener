@@ -91,11 +91,21 @@ export default async function NpmPage({ searchParams }: NpmPageProps) {
           <>
             <div className="mb-6">
               <NewsTopHeaderV3
-                eyebrow="// NPM · TOP PACKAGES"
-                status={`${packages.length.toLocaleString("en-US")} TRACKED · ${activeWindow.toUpperCase()}`}
+                routeTitle="NPM · TOP PACKAGES"
+                liveLabel={`LIVE · ${activeWindow.toUpperCase()}`}
+                eyebrow="// NPM · REGISTRY · TRENDING"
+                meta={[
+                  { label: "TRACKED", value: packages.length.toLocaleString("en-US") },
+                  { label: "WINDOW", value: activeWindow.toUpperCase() },
+                ]}
                 cards={header.cards}
                 topStories={header.topStories}
                 accent={NPM_ACCENT}
+                caption={[
+                  "// LAYOUT compact-v1",
+                  "· 3-COL · 320 / 1FR / 1FR",
+                  "· DATA UNCHANGED",
+                ]}
               />
             </div>
 
@@ -176,7 +186,7 @@ function PackageFeed({
     {
       id: "move-24h",
       header: moveLabel("24h"),
-      width: "100px",
+      width: "110px",
       align: "right",
       hideBelow: "md",
       render: (pkg) => (
@@ -191,7 +201,7 @@ function PackageFeed({
     {
       id: "move-7d",
       header: moveLabel("7d"),
-      width: "100px",
+      width: "110px",
       align: "right",
       hideBelow: "lg",
       render: (pkg) => (
@@ -206,7 +216,7 @@ function PackageFeed({
     {
       id: "move-30d",
       header: moveLabel("30d"),
-      width: "100px",
+      width: "110px",
       align: "right",
       hideBelow: "lg",
       render: (pkg) => (
@@ -340,7 +350,8 @@ function Metric({
   return (
     <div className="text-right text-xs tabular-nums">
       {/* Total installs — primary, large, ink-100. NPM's whole point is
-          "how many installs?" so this beats the delta in visual weight. */}
+          "how many installs?" so this beats the delta in visual weight.
+          Active window goes brighter (ink-000 + 600 weight). */}
       <div
         className="font-mono text-[13px]"
         style={{
@@ -356,7 +367,7 @@ function Metric({
           {" "}dl
         </span>
       </div>
-      {/* Signed delta — secondary, color-coded. */}
+      {/* Signed delta — secondary, color-coded green/red. */}
       <div
         className="mt-0.5 text-[11px] font-medium"
         style={{ color: deltaColor }}

@@ -10,6 +10,7 @@ import {
   getMcpSignalData,
   type EcosystemBoard,
 } from "@/lib/ecosystem-leaderboards";
+import { LivenessPill } from "@/components/signal/LivenessPill";
 import { classifyFreshness } from "@/lib/news/freshness";
 import { absoluteUrl } from "@/lib/seo";
 import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
@@ -58,11 +59,24 @@ export default async function McpPage() {
 
   const topHeader = (
     <NewsTopHeaderV3
+      routeTitle="MCP · TRENDING"
+      liveLabel="LIVE · 30M"
       eyebrow={`// MCP · ${data.source.toUpperCase()} · ${freshness.ageLabel.toUpperCase()}`}
-      status={`${data.board.items.length.toLocaleString("en-US")} TRACKED · 4 REGISTRIES`}
+      meta={[
+        {
+          label: "TRACKED",
+          value: data.board.items.length.toLocaleString("en-US"),
+        },
+        { label: "REGISTRIES", value: "4" },
+      ]}
       cards={cards}
       topStories={topStories}
       accent={MCP_ACCENT}
+      caption={[
+        "// LAYOUT compact-v1",
+        "· 3-COL · 320 / 1FR / 1FR",
+        "· DATA UNCHANGED",
+      ]}
     />
   );
 
@@ -133,6 +147,7 @@ function McpRightRail({ board }: { board: EcosystemBoard }) {
                     ✓
                   </span>
                 ) : null}
+                <LivenessPill liveness={item.liveness} />
                 <span className="font-mono tabular-nums text-text-secondary">
                   {item.signalScore}
                 </span>

@@ -119,13 +119,23 @@ export default async function ProductHuntPage({
                 only what the user is actually looking at. */}
             <div className="mb-6">
               <NewsTopHeaderV3
-                eyebrow={`// PRODUCTHUNT · ${activeTab === "ai" ? "AI LAUNCHES" : "ALL LAUNCHES"}`}
-                status={`${current.length.toLocaleString("en-US")} TRACKED · 7D`}
+                routeTitle={`PRODUCTHUNT · ${activeTab === "ai" ? "AI LAUNCHES" : "ALL LAUNCHES"}`}
+                liveLabel="LIVE · 7D"
+                eyebrow="// PRODUCTHUNT · LIVE FIREHOSE"
+                meta={[
+                  { label: "TRACKED", value: current.length.toLocaleString("en-US") },
+                  { label: "WINDOW", value: "7D" },
+                ]}
                 {...buildProductHuntHeader(
                   ({ launches: current } as Pick<ProductHuntFile, "launches">) as ProductHuntFile,
                   topLaunches.slice(0, 3),
                 )}
                 accent={PH_ACCENT}
+                caption={[
+                  "// LAYOUT compact-v1",
+                  "· 3-COL · 320 / 1FR / 1FR",
+                  "· DATA UNCHANGED",
+                ]}
               />
             </div>
 

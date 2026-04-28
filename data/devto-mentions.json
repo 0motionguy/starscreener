@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-04-28T10:30:54.818Z",
+  "fetchedAt": "2026-04-28T07:48:34.777Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1293,
+  "scannedArticles": 1287,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -192,7 +192,7 @@
     "tag-llm-top-7d": 100,
     "tag-llms-top-7d": 11,
     "tag-mcp-top-7d": 100,
-    "tag-rag-top-7d": 76,
+    "tag-rag-top-7d": 75,
     "tag-promptengineering-top-7d": 66,
     "tag-workflow-top-7d": 18,
     "tag-workflows-top-7d": 1,
@@ -201,12 +201,12 @@
     "tag-tooling-top-7d": 100,
     "tag-devtools-top-7d": 100,
     "tag-langchain-top-7d": 26,
-    "tag-n8n-top-7d": 38,
+    "tag-n8n-top-7d": 41,
     "tag-opensource-top-7d": 100
   },
   "mentions": {
     "openclaw/openclaw": {
-      "count7d": 5,
+      "count7d": 7,
       "reactionsSum7d": 86,
       "commentsSum7d": 36,
       "topArticle": {
@@ -216,7 +216,7 @@
         "author": "francistrdev",
         "reactions": 76,
         "comments": 36,
-        "hoursSincePosted": 154.9,
+        "hoursSincePosted": 152.2,
         "readingTime": 8
       },
       "articles": [
@@ -240,7 +240,7 @@
             "discuss",
             "ai"
           ],
-          "trendingScore": 4.24,
+          "trendingScore": 4.32,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
@@ -268,11 +268,15 @@
             "openclaw",
             "llm"
           ],
-          "trendingScore": 0.16,
+          "trendingScore": 0.18,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
               "location": "tag"
+            },
+            {
+              "fullName": "openclaw/clawhub",
+              "location": "body"
             }
           ]
         },
@@ -296,11 +300,37 @@
             "ai",
             "memory"
           ],
-          "trendingScore": 0.15,
+          "trendingScore": 0.17,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
               "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3559803,
+          "title": "One Command Equips Your OpenClaw with an X-ray Machine - Alibaba Cloud Observability Makes Farming Lobsters Cheaper and Safer",
+          "description": "One-command observability integration makes OpenClaw AI agent operations transparent via Alibaba...",
+          "url": "https://dev.to/observabilityguy/one-command-equips-your-openclaw-with-an-x-ray-machine-alibaba-cloud-observability-makes-farming-4ab9",
+          "author": {
+            "username": "observabilityguy",
+            "name": "ObservabilityGuy",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3433708%2Faf43ef59-cf80-46ad-930d-f76811e673a2.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 13,
+          "publishedAt": "2026-04-28T02:08:48Z",
+          "tags": [
+            "observability",
+            "openclaw"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "location": "tag"
             }
           ]
         },
@@ -373,7 +403,7 @@
         "author": "blackgirlbytes",
         "reactions": 7,
         "comments": 0,
-        "hoursSincePosted": 65.5,
+        "hoursSincePosted": 62.8,
         "readingTime": 6
       },
       "articles": [
@@ -407,45 +437,136 @@
         }
       ]
     },
-    "VectifyAI/PageIndex": {
+    "0x0funky/agent-sprite-forge": {
       "count7d": 1,
-      "reactionsSum7d": 0,
+      "reactionsSum7d": 1,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3560255,
-        "title": "RAG in Practice — Part 8: RAG in Production — What Breaks After Launch",
-        "url": "https://dev.to/gursharansingh/rag-in-production-what-breaks-after-launch-5912",
-        "author": "gursharansingh",
-        "reactions": 0,
+        "id": 3559624,
+        "title": "How to Stop Getting Garbage Sprite Sheets from AI Image Generators",
+        "url": "https://dev.to/alanwest/how-to-stop-getting-garbage-sprite-sheets-from-ai-image-generators-3pli",
+        "author": "alanwest",
+        "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 5,
-        "readingTime": 13
+        "hoursSincePosted": 6.8,
+        "readingTime": 5
       },
       "articles": [
         {
-          "id": 3560255,
-          "title": "RAG in Practice — Part 8: RAG in Production — What Breaks After Launch",
-          "description": "Why production RAG drifts, degrades, and quietly fails — and the patterns and discipline that prevent it.",
-          "url": "https://dev.to/gursharansingh/rag-in-production-what-breaks-after-launch-5912",
+          "id": 3559624,
+          "title": "How to Stop Getting Garbage Sprite Sheets from AI Image Generators",
+          "description": "AI image generators produce unusable sprite sheets. Here's how to build a pipeline that enforces structure, handles transparency, and outputs game-ready assets.",
+          "url": "https://dev.to/alanwest/how-to-stop-getting-garbage-sprite-sheets-from-ai-image-generators-3pli",
           "author": {
-            "username": "gursharansingh",
-            "name": "Gursharan Singh",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2006864%2F3ba8a570-b463-4a98-91da-ec0ebcc29f56.png"
+            "username": "alanwest",
+            "name": "Alan West",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3834047%2F6413d0cf-9d90-4ccc-80a9-123656fd78ba.png"
           },
-          "reactionsCount": 0,
+          "reactionsCount": 1,
           "commentsCount": 0,
-          "readingTime": 13,
-          "publishedAt": "2026-04-28T05:28:39Z",
+          "readingTime": 5,
+          "publishedAt": "2026-04-28T01:03:34Z",
           "tags": [
-            "rag",
+            "gamedev",
+            "python",
             "ai",
-            "architecture",
-            "webdev"
+            "opensource"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "VectifyAI/PageIndex",
+              "fullName": "0x0funky/agent-sprite-forge",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "superset-sh/superset": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3559574,
+        "title": "If You're Running Multiple Coding Agents, Superset Is the IDE You Want",
+        "url": "https://dev.to/passandscore/if-youre-running-multiple-coding-agents-superset-is-the-ide-you-want-4jbn",
+        "author": "passandscore",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 6.3,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3559574,
+          "title": "If You're Running Multiple Coding Agents, Superset Is the IDE You Want",
+          "description": "A look at Superset, the open-source IDE built for orchestrating parallel AI coding agents in isolated git worktrees.",
+          "url": "https://dev.to/passandscore/if-youre-running-multiple-coding-agents-superset-is-the-ide-you-want-4jbn",
+          "author": {
+            "username": "passandscore",
+            "name": "Jason Schwarz",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F619113%2Fb9a02f97-ceb2-4ef7-af76-2d4a9e3a3c07.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-04-28T01:27:59Z",
+          "tags": [
+            "rag",
+            "ai",
+            "tutorial",
+            "productivity",
+            "tooling"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "superset-sh/superset",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "TauricResearch/TradingAgents": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3559728,
+        "title": "TradingAgents v0.2.4: A Multi-Agent LLM Framework That Simulates an Entire Trading Firm",
+        "url": "https://dev.to/_46ea277e677b888e0cd13/tradingagents-v024-a-multi-agent-llm-framework-that-simulates-an-entire-trading-firm-g2e",
+        "author": "_46ea277e677b888e0cd13",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 6.2,
+        "readingTime": 4
+      },
+      "articles": [
+        {
+          "id": 3559728,
+          "title": "TradingAgents v0.2.4: A Multi-Agent LLM Framework That Simulates an Entire Trading Firm",
+          "description": "TL;DR   UCLA Tauric Research released TradingAgents v0.2.4 (2026-04-25) — a LangGraph-based...",
+          "url": "https://dev.to/_46ea277e677b888e0cd13/tradingagents-v024-a-multi-agent-llm-framework-that-simulates-an-entire-trading-firm-g2e",
+          "author": {
+            "username": "_46ea277e677b888e0cd13",
+            "name": "정상록",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3798483%2F5958ee10-90dd-45e5-815a-91d3f8196156.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-04-28T01:35:34Z",
+          "tags": [
+            "agents",
+            "ai",
+            "llm",
+            "machinelearning"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "TauricResearch/TradingAgents",
               "location": "body"
             }
           ]
@@ -463,7 +584,7 @@
         "author": "reneza",
         "reactions": 7,
         "comments": 1,
-        "hoursSincePosted": 126.4,
+        "hoursSincePosted": 123.7,
         "readingTime": 3
       },
       "articles": [
@@ -508,7 +629,7 @@
         "author": "094459",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 26.4,
+        "hoursSincePosted": 23.7,
         "readingTime": 3
       },
       "articles": [
@@ -532,7 +653,7 @@
             "coding",
             "llm"
           ],
-          "trendingScore": 0.05,
+          "trendingScore": 0.06,
           "linkedRepos": [
             {
               "fullName": "getagentseal/codeburn",
@@ -557,7 +678,7 @@
         "author": "094459",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 26.4,
+        "hoursSincePosted": 23.7,
         "readingTime": 3
       },
       "articles": [
@@ -581,7 +702,7 @@
             "coding",
             "llm"
           ],
-          "trendingScore": 0.05,
+          "trendingScore": 0.06,
           "linkedRepos": [
             {
               "fullName": "getagentseal/codeburn",
@@ -595,45 +716,49 @@
         }
       ]
     },
-    "badlogic/pi-mono": {
+    "openclaw/clawhub": {
       "count7d": 1,
-      "reactionsSum7d": 3,
+      "reactionsSum7d": 5,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3555733,
-        "title": "How to Build Production-Grade AI Agents",
-        "url": "https://dev.to/mukeshswamy/how-to-build-production-grade-ai-agents-27of",
-        "author": "mukeshswamy",
-        "reactions": 3,
+        "id": 3557468,
+        "title": "Harness Engineering in Practice: Building a 6-Agent System That Runs Itself",
+        "url": "https://dev.to/seekdb/harness-engineering-in-practice-building-a-6-agent-system-that-runs-itself-31b",
+        "author": "_4f268336f6580845cdc475",
+        "reactions": 5,
         "comments": 0,
-        "hoursSincePosted": 24.1,
-        "readingTime": 9
+        "hoursSincePosted": 19.3,
+        "readingTime": 8
       },
       "articles": [
         {
-          "id": 3555733,
-          "title": "How to Build Production-Grade AI Agents",
-          "description": "Most AI agent demos look impressive for five minutes and painful in the long run.  They can call a...",
-          "url": "https://dev.to/mukeshswamy/how-to-build-production-grade-ai-agents-27of",
+          "id": 3557468,
+          "title": "Harness Engineering in Practice: Building a 6-Agent System That Runs Itself",
+          "description": "“Six agents” here means one orchestrator (Zoe) plus five specialist agents. Six ACP coding experts...",
+          "url": "https://dev.to/seekdb/harness-engineering-in-practice-building-a-6-agent-system-that-runs-itself-31b",
           "author": {
-            "username": "mukeshswamy",
-            "name": "Mukesh Swamy",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3899227%2F8dd78ee4-93dd-4bf4-b2af-7c92c036a457.jpeg"
+            "username": "_4f268336f6580845cdc475",
+            "name": "Charles Wu",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3805236%2Fc2ca81a3-8882-48ac-9ce7-046a056995ab.jpg"
           },
-          "reactionsCount": 3,
+          "reactionsCount": 5,
           "commentsCount": 0,
-          "readingTime": 9,
-          "publishedAt": "2026-04-27T10:23:09Z",
+          "readingTime": 8,
+          "publishedAt": "2026-04-27T12:28:30Z",
           "tags": [
             "ai",
-            "webdev",
-            "typescript",
-            "agents"
+            "agents",
+            "openclaw",
+            "llm"
           ],
-          "trendingScore": 0.06,
+          "trendingScore": 0.18,
           "linkedRepos": [
             {
-              "fullName": "badlogic/pi-mono",
+              "fullName": "openclaw/openclaw",
+              "location": "tag"
+            },
+            {
+              "fullName": "openclaw/clawhub",
               "location": "body"
             }
           ]
@@ -651,7 +776,7 @@
         "author": "gounthar",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 146.8,
+        "hoursSincePosted": 144.1,
         "readingTime": 9
       },
       "articles": [
@@ -685,8 +810,53 @@
         }
       ]
     },
+    "badlogic/pi-mono": {
+      "count7d": 1,
+      "reactionsSum7d": 3,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3555733,
+        "title": "How to Build Production-Grade AI Agents",
+        "url": "https://dev.to/mukeshswamy/how-to-build-production-grade-ai-agents-27of",
+        "author": "mukeshswamy",
+        "reactions": 3,
+        "comments": 0,
+        "hoursSincePosted": 21.4,
+        "readingTime": 9
+      },
+      "articles": [
+        {
+          "id": 3555733,
+          "title": "How to Build Production-Grade AI Agents",
+          "description": "Most AI agent demos look impressive for five minutes and painful in the long run.  They can call a...",
+          "url": "https://dev.to/mukeshswamy/how-to-build-production-grade-ai-agents-27of",
+          "author": {
+            "username": "mukeshswamy",
+            "name": "Mukesh Swamy",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3899227%2F8dd78ee4-93dd-4bf4-b2af-7c92c036a457.jpeg"
+          },
+          "reactionsCount": 3,
+          "commentsCount": 0,
+          "readingTime": 9,
+          "publishedAt": "2026-04-27T10:23:09Z",
+          "tags": [
+            "ai",
+            "webdev",
+            "typescript",
+            "agents"
+          ],
+          "trendingScore": 0.07,
+          "linkedRepos": [
+            {
+              "fullName": "badlogic/pi-mono",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "anthropics/claude-code": {
-      "count7d": 10,
+      "count7d": 11,
       "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
@@ -696,7 +866,7 @@
         "author": "recca0120",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 58.1,
+        "hoursSincePosted": 55.4,
         "readingTime": 7
       },
       "articles": [
@@ -922,6 +1092,34 @@
           ]
         },
         {
+          "id": 3557078,
+          "title": "Claude Code's Prompt Cache TTL Dropped From 1h to 5m",
+          "description": "A TTL change on Claude Code's prompt cache rewrote billing for affected sessions. The instrumentation that catches it before payday.",
+          "url": "https://dev.to/gabrielanhaia/claude-codes-prompt-cache-ttl-dropped-from-1h-to-5m-35g",
+          "author": {
+            "username": "gabrielanhaia",
+            "name": "Gabriel Anhaia",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F425693%2F531a245a-bc24-453e-bb2b-eb7077a3da8b.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 6,
+          "publishedAt": "2026-04-27T11:14:43Z",
+          "tags": [
+            "ai",
+            "llm",
+            "observability",
+            "devops"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
+        },
+        {
           "id": 3550670,
           "title": "Claude Code Ecosystem 2026: Memory, Sync, and Mobile Tools",
           "description": "Claude Code is one of the most capable AI coding agents available today, but it ships with three...",
@@ -979,6 +1177,51 @@
         }
       ]
     },
+    "mattpocock/skills": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3560457,
+        "title": "One Open Source Project a Day (No.50): The TypeScript Wizard Pushed His .claude Directory to GitHub and Hit #1 Worldwide Overnight",
+        "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no50-the-typescript-wizard-pushed-his-claude-directory-to-github-41jj",
+        "author": "wonderlab",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 1.7,
+        "readingTime": 9
+      },
+      "articles": [
+        {
+          "id": 3560457,
+          "title": "One Open Source Project a Day (No.50): The TypeScript Wizard Pushed His .claude Directory to GitHub and Hit #1 Worldwide Overnight",
+          "description": "Introduction    \"My agent skills that I use every day to do real engineering — not vibe...",
+          "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no50-the-typescript-wizard-pushed-his-claude-directory-to-github-41jj",
+          "author": {
+            "username": "wonderlab",
+            "name": "WonderLab",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 9,
+          "publishedAt": "2026-04-28T06:06:26Z",
+          "tags": [
+            "ai",
+            "opensource",
+            "agents",
+            "skill"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "mattpocock/skills",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "safishamsi/graphify": {
       "count7d": 2,
       "reactionsSum7d": 0,
@@ -990,7 +1233,7 @@
         "author": "liran_baba",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 113,
+        "hoursSincePosted": 110.3,
         "readingTime": 14
       },
       "articles": [
@@ -1066,7 +1309,7 @@
         "author": "stevengonsalvez",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 38.7,
+        "hoursSincePosted": 36,
         "readingTime": 12
       },
       "articles": [
@@ -1111,7 +1354,7 @@
         "author": "arnaldo_delisio_5e35889d",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 98.3,
+        "hoursSincePosted": 95.6,
         "readingTime": 3
       },
       "articles": [
@@ -1156,7 +1399,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 78.3,
+        "hoursSincePosted": 75.6,
         "readingTime": 5
       },
       "articles": [
@@ -1205,7 +1448,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 78.3,
+        "hoursSincePosted": 75.6,
         "readingTime": 5
       },
       "articles": [
@@ -1254,7 +1497,7 @@
         "author": "recca0120",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 158.7,
+        "hoursSincePosted": 156,
         "readingTime": 6
       },
       "articles": [
@@ -1299,7 +1542,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 126.9,
+        "hoursSincePosted": 124.2,
         "readingTime": 9
       },
       "articles": [
@@ -1352,7 +1595,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 126.9,
+        "hoursSincePosted": 124.2,
         "readingTime": 9
       },
       "articles": [
@@ -1437,7 +1680,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 126.9,
+        "hoursSincePosted": 124.2,
         "readingTime": 9
       },
       "articles": [
@@ -1490,7 +1733,7 @@
         "author": "hyhmrright",
         "reactions": 1,
         "comments": 1,
-        "hoursSincePosted": 163.6,
+        "hoursSincePosted": 160.9,
         "readingTime": 3
       },
       "articles": [
@@ -1535,7 +1778,7 @@
         "author": "_cbd692d476c5faf3b61bcf",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 169,
+        "hoursSincePosted": 166.3,
         "readingTime": 3
       },
       "articles": [
@@ -1584,7 +1827,7 @@
         "author": "_cbd692d476c5faf3b61bcf",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 169,
+        "hoursSincePosted": 166.3,
         "readingTime": 3
       },
       "articles": [
@@ -1633,7 +1876,7 @@
         "author": "asynchronope",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 117.4,
+        "hoursSincePosted": 114.7,
         "readingTime": 4
       },
       "articles": [
@@ -1706,7 +1949,7 @@
         "author": "emgiezet",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 134,
+        "hoursSincePosted": 131.3,
         "readingTime": 4
       },
       "articles": [
@@ -1740,51 +1983,6 @@
         }
       ]
     },
-    "nextlevelbuilder/goclaw": {
-      "count7d": 1,
-      "reactionsSum7d": 5,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3561446,
-        "title": "🦊GoClaw Deep Dive 🤖 — A Builder's Guide to a Multi-Tenant AI Agent Platform 📘",
-        "url": "https://dev.to/truongpx396/goclaw-deep-dive-a-builders-guide-to-a-multi-tenant-ai-agent-platform-5d6c",
-        "author": "truongpx396",
-        "reactions": 5,
-        "comments": 0,
-        "hoursSincePosted": 1,
-        "readingTime": 23
-      },
-      "articles": [
-        {
-          "id": 3561446,
-          "title": "🦊GoClaw Deep Dive 🤖 — A Builder's Guide to a Multi-Tenant AI Agent Platform 📘",
-          "description": "Source: https://github.com/nextlevelbuilder/goclaw — a Go-based, multi-tenant AI agent gateway with...",
-          "url": "https://dev.to/truongpx396/goclaw-deep-dive-a-builders-guide-to-a-multi-tenant-ai-agent-platform-5d6c",
-          "author": {
-            "username": "truongpx396",
-            "name": "Truong Phung",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2215325%2Ff0dca1b8-525d-45b6-bafc-f3d3141bc934.jpg"
-          },
-          "reactionsCount": 5,
-          "commentsCount": 0,
-          "readingTime": 23,
-          "publishedAt": "2026-04-28T09:29:56Z",
-          "tags": [
-            "ai",
-            "llm",
-            "webdev",
-            "tutorial"
-          ],
-          "trendingScore": 3.44,
-          "linkedRepos": [
-            {
-              "fullName": "nextlevelbuilder/goclaw",
-              "location": "description"
-            }
-          ]
-        }
-      ]
-    },
     "BerriAI/litellm": {
       "count7d": 2,
       "reactionsSum7d": 9,
@@ -1796,7 +1994,7 @@
         "author": "truongpx396",
         "reactions": 5,
         "comments": 0,
-        "hoursSincePosted": 3.9,
+        "hoursSincePosted": 1.2,
         "readingTime": 31
       },
       "articles": [
@@ -1820,10 +2018,14 @@
             "webdev",
             "tutorial"
           ],
-          "trendingScore": 0.9,
+          "trendingScore": 2.92,
           "linkedRepos": [
             {
               "fullName": "BerriAI/litellm",
+              "location": "body"
+            },
+            {
+              "fullName": "SWE-agent/mini-swe-agent",
               "location": "body"
             }
           ]
@@ -1848,10 +2050,59 @@
             "webdev",
             "tutorial"
           ],
-          "trendingScore": 0.51,
+          "trendingScore": 1.21,
           "linkedRepos": [
             {
               "fullName": "BerriAI/litellm",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "SWE-agent/mini-swe-agent": {
+      "count7d": 1,
+      "reactionsSum7d": 5,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3560635,
+        "title": "🤖 SWE-agent — Deep Dive & Build-Your-Own Guide 📘",
+        "url": "https://dev.to/truongpx396/swe-agent-deep-dive-build-your-own-guide-ade",
+        "author": "truongpx396",
+        "reactions": 5,
+        "comments": 0,
+        "hoursSincePosted": 1.2,
+        "readingTime": 31
+      },
+      "articles": [
+        {
+          "id": 3560635,
+          "title": "🤖 SWE-agent — Deep Dive & Build-Your-Own Guide 📘",
+          "description": "A practical, code-level walkthrough of how SWE-agent (Princeton NLP / Stanford, NeurIPS 2024)...",
+          "url": "https://dev.to/truongpx396/swe-agent-deep-dive-build-your-own-guide-ade",
+          "author": {
+            "username": "truongpx396",
+            "name": "Truong Phung",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2215325%2Ff0dca1b8-525d-45b6-bafc-f3d3141bc934.jpg"
+          },
+          "reactionsCount": 5,
+          "commentsCount": 0,
+          "readingTime": 31,
+          "publishedAt": "2026-04-28T06:36:41Z",
+          "tags": [
+            "ai",
+            "llm",
+            "webdev",
+            "tutorial"
+          ],
+          "trendingScore": 2.92,
+          "linkedRepos": [
+            {
+              "fullName": "BerriAI/litellm",
+              "location": "body"
+            },
+            {
+              "fullName": "SWE-agent/mini-swe-agent",
               "location": "body"
             }
           ]
@@ -1869,7 +2120,7 @@
         "author": "truongpx396",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 73.9,
+        "hoursSincePosted": 71.2,
         "readingTime": 6
       },
       "articles": [
@@ -1893,55 +2144,10 @@
             "programming",
             "llm"
           ],
-          "trendingScore": 0.06,
+          "trendingScore": 0.07,
           "linkedRepos": [
             {
               "fullName": "shareAI-lab/learn-claude-code",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "HKUDS/nanobot": {
-      "count7d": 1,
-      "reactionsSum7d": 4,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3560916,
-        "title": "🤖 nanobot: A Comprehensive Build-Your-Own Guide 📚",
-        "url": "https://dev.to/truongpx396/nanobot-a-comprehensive-build-your-own-guide-39f",
-        "author": "truongpx396",
-        "reactions": 4,
-        "comments": 0,
-        "hoursSincePosted": 2.9,
-        "readingTime": 18
-      },
-      "articles": [
-        {
-          "id": 3560916,
-          "title": "🤖 nanobot: A Comprehensive Build-Your-Own Guide 📚",
-          "description": "A deep, actionable breakdown of HKUDS/nanobot — the ~4k-line ultra-lightweight personal AI agent —...",
-          "url": "https://dev.to/truongpx396/nanobot-a-comprehensive-build-your-own-guide-39f",
-          "author": {
-            "username": "truongpx396",
-            "name": "Truong Phung",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2215325%2Ff0dca1b8-525d-45b6-bafc-f3d3141bc934.jpg"
-          },
-          "reactionsCount": 4,
-          "commentsCount": 0,
-          "readingTime": 18,
-          "publishedAt": "2026-04-28T07:38:26Z",
-          "tags": [
-            "ai",
-            "llm",
-            "webdev",
-            "tutorial"
-          ],
-          "trendingScore": 0.84,
-          "linkedRepos": [
-            {
-              "fullName": "HKUDS/nanobot",
               "location": "body"
             }
           ]
@@ -1959,7 +2165,7 @@
         "author": "truongpx396",
         "reactions": 5,
         "comments": 0,
-        "hoursSincePosted": 23.9,
+        "hoursSincePosted": 21.1,
         "readingTime": 31
       },
       "articles": [
@@ -1983,7 +2189,7 @@
             "webdev",
             "tutorial"
           ],
-          "trendingScore": 0.15,
+          "trendingScore": 0.17,
           "linkedRepos": [
             {
               "fullName": "alejandrobalderas/claude-code-from-source",
@@ -1993,26 +2199,26 @@
         }
       ]
     },
-    "sipeed/picoclaw": {
+    "HKUDS/nanobot": {
       "count7d": 1,
       "reactionsSum7d": 4,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3561261,
-        "title": "🦀 PicoClaw Deep Dive 🤖 — A Field Guide to Building an Ultra-Light AI Agent in Go 🐹",
-        "url": "https://dev.to/truongpx396/picoclaw-deep-dive-a-field-guide-to-building-an-ultra-light-ai-agent-in-go-ojd",
+        "id": 3560916,
+        "title": "🤖 nanobot: A Comprehensive Build-Your-Own Guide 📚",
+        "url": "https://dev.to/truongpx396/nanobot-a-comprehensive-build-your-own-guide-39f",
         "author": "truongpx396",
         "reactions": 4,
         "comments": 0,
-        "hoursSincePosted": 1.6,
-        "readingTime": 22
+        "hoursSincePosted": 0.2,
+        "readingTime": 18
       },
       "articles": [
         {
-          "id": 3561261,
-          "title": "🦀 PicoClaw Deep Dive 🤖 — A Field Guide to Building an Ultra-Light AI Agent in Go 🐹",
-          "description": "A comprehensive, actionable guide to the principles, techniques, and architecture behind...",
-          "url": "https://dev.to/truongpx396/picoclaw-deep-dive-a-field-guide-to-building-an-ultra-light-ai-agent-in-go-ojd",
+          "id": 3560916,
+          "title": "🤖 nanobot: A Comprehensive Build-Your-Own Guide 📚",
+          "description": "A deep, actionable breakdown of HKUDS/nanobot — the ~4k-line ultra-lightweight personal AI agent —...",
+          "url": "https://dev.to/truongpx396/nanobot-a-comprehensive-build-your-own-guide-39f",
           "author": {
             "username": "truongpx396",
             "name": "Truong Phung",
@@ -2020,63 +2226,18 @@
           },
           "reactionsCount": 4,
           "commentsCount": 0,
-          "readingTime": 22,
-          "publishedAt": "2026-04-28T08:54:54Z",
+          "readingTime": 18,
+          "publishedAt": "2026-04-28T07:38:26Z",
           "tags": [
             "ai",
             "llm",
             "webdev",
             "tutorial"
           ],
-          "trendingScore": 1.5,
+          "trendingScore": 4.82,
           "linkedRepos": [
             {
-              "fullName": "sipeed/picoclaw",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "Agent-FM/agentfm-core": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3559085,
-        "title": "I pointed the OpenAI SDK at my friend's gaming PC. It just worked.",
-        "url": "https://dev.to/saifrehman/i-pointed-the-openai-sdk-at-my-friends-gaming-pc-it-just-worked-55kp",
-        "author": "saifrehman",
-        "reactions": 1,
-        "comments": 0,
-        "hoursSincePosted": 13.7,
-        "readingTime": 6
-      },
-      "articles": [
-        {
-          "id": 3559085,
-          "title": "I pointed the OpenAI SDK at my friend's gaming PC. It just worked.",
-          "description": "I changed two strings in a Python script — base_url and api_key — and it stopped calling...",
-          "url": "https://dev.to/saifrehman/i-pointed-the-openai-sdk-at-my-friends-gaming-pc-it-just-worked-55kp",
-          "author": {
-            "username": "saifrehman",
-            "name": "SaifRehman",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1393359%2F4ae8683c-19ab-4b63-94e6-a332b543c6bd.jpeg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 6,
-          "publishedAt": "2026-04-27T20:46:46Z",
-          "tags": [
-            "opensource",
-            "p2p",
-            "llm",
-            "ai"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "Agent-FM/agentfm-core",
+              "fullName": "HKUDS/nanobot",
               "location": "body"
             }
           ]
@@ -2094,7 +2255,7 @@
         "author": "franciscoferreiraff",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 113.8,
+        "hoursSincePosted": 111.1,
         "readingTime": 4
       },
       "articles": [
@@ -2128,6 +2289,79 @@
         }
       ]
     },
+    "ggml-org/llama.cpp": {
+      "count7d": 2,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3557067,
+        "title": "Google's TurboQuant: 6x KV Cache Compression Without Retraining",
+        "url": "https://dev.to/gabrielanhaia/googles-turboquant-6x-kv-cache-compression-without-retraining-1f3g",
+        "author": "gabrielanhaia",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 20.6,
+        "readingTime": 8
+      },
+      "articles": [
+        {
+          "id": 3557067,
+          "title": "Google's TurboQuant: 6x KV Cache Compression Without Retraining",
+          "description": "TurboQuant pairs PolarQuant with a QJL residual to shrink KV cache 6x at near-zero quality loss. What it changes for long-context self-hosting.",
+          "url": "https://dev.to/gabrielanhaia/googles-turboquant-6x-kv-cache-compression-without-retraining-1f3g",
+          "author": {
+            "username": "gabrielanhaia",
+            "name": "Gabriel Anhaia",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F425693%2F531a245a-bc24-453e-bb2b-eb7077a3da8b.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 8,
+          "publishedAt": "2026-04-27T11:12:24Z",
+          "tags": [
+            "ai",
+            "llm",
+            "architecture",
+            "observability"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "ggml-org/llama.cpp",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3538895,
+          "title": "Gemma 4 VLA chạy cục bộ trên Jetson Orin Nano 8GB",
+          "description": "Tổng quan hệ thống, tối ưu và cách triển khai   Chạy một mô hình Vision-Language-Action...",
+          "url": "https://dev.to/david_chan_1994/gemma-4-vla-chay-cuc-bo-tren-jetson-orin-nano-8gb-1ng0",
+          "author": {
+            "username": "david_chan_1994",
+            "name": "David Chan",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3848717%2Fa1478b9c-a211-4b5a-be15-389083ff5b42.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 20,
+          "publishedAt": "2026-04-23T04:13:03Z",
+          "tags": [
+            "ai",
+            "google",
+            "iot",
+            "llm"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "ggml-org/llama.cpp",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "github/github-mcp-server": {
       "count7d": 2,
       "reactionsSum7d": 1,
@@ -2139,7 +2373,7 @@
         "author": "aigal",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 17.9,
+        "hoursSincePosted": 15.2,
         "readingTime": 4
       },
       "articles": [
@@ -2200,51 +2434,6 @@
         }
       ]
     },
-    "ggml-org/llama.cpp": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3557067,
-        "title": "Google's TurboQuant: 6x KV Cache Compression Without Retraining",
-        "url": "https://dev.to/gabrielanhaia/googles-turboquant-6x-kv-cache-compression-without-retraining-1f3g",
-        "author": "gabrielanhaia",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 23.3,
-        "readingTime": 8
-      },
-      "articles": [
-        {
-          "id": 3557067,
-          "title": "Google's TurboQuant: 6x KV Cache Compression Without Retraining",
-          "description": "TurboQuant pairs PolarQuant with a QJL residual to shrink KV cache 6x at near-zero quality loss. What it changes for long-context self-hosting.",
-          "url": "https://dev.to/gabrielanhaia/googles-turboquant-6x-kv-cache-compression-without-retraining-1f3g",
-          "author": {
-            "username": "gabrielanhaia",
-            "name": "Gabriel Anhaia",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F425693%2F531a245a-bc24-453e-bb2b-eb7077a3da8b.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 8,
-          "publishedAt": "2026-04-27T11:12:24Z",
-          "tags": [
-            "ai",
-            "llm",
-            "architecture",
-            "observability"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "ggml-org/llama.cpp",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "garrytan/gbrain": {
       "count7d": 2,
       "reactionsSum7d": 2,
@@ -2256,7 +2445,7 @@
         "author": "wonderlab",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 122.7,
+        "hoursSincePosted": 120,
         "readingTime": 7
       },
       "articles": [
@@ -2280,7 +2469,7 @@
             "mcp",
             "yc"
           ],
-          "trendingScore": 0,
+          "trendingScore": 0.01,
           "linkedRepos": [
             {
               "fullName": "garrytan/gbrain",
@@ -2329,7 +2518,7 @@
         "author": "bradleymatera",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 29.8,
+        "hoursSincePosted": 27.1,
         "readingTime": 16
       },
       "articles": [
@@ -2374,7 +2563,7 @@
         "author": "dharshan_a_23835c7dc05682",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 4,
+        "hoursSincePosted": 1.3,
         "readingTime": 4
       },
       "articles": [
@@ -2408,6 +2597,51 @@
         }
       ]
     },
+    "VectifyAI/PageIndex": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3560255,
+        "title": "RAG in Practice — Part 8: RAG in Production — What Breaks After Launch",
+        "url": "https://dev.to/gursharansingh/rag-in-production-what-breaks-after-launch-5912",
+        "author": "gursharansingh",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 2.3,
+        "readingTime": 13
+      },
+      "articles": [
+        {
+          "id": 3560255,
+          "title": "RAG in Practice — Part 8: RAG in Production — What Breaks After Launch",
+          "description": "Why production RAG drifts, degrades, and quietly fails — and the patterns and discipline that prevent it.",
+          "url": "https://dev.to/gursharansingh/rag-in-production-what-breaks-after-launch-5912",
+          "author": {
+            "username": "gursharansingh",
+            "name": "Gursharan Singh",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2006864%2F3ba8a570-b463-4a98-91da-ec0ebcc29f56.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 13,
+          "publishedAt": "2026-04-28T05:28:39Z",
+          "tags": [
+            "rag",
+            "ai",
+            "architecture",
+            "webdev"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "VectifyAI/PageIndex",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "HKUDS/LightRAG": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -2419,7 +2653,7 @@
         "author": "gabrielanhaia",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 37.9,
+        "hoursSincePosted": 35.2,
         "readingTime": 8
       },
       "articles": [
@@ -2464,7 +2698,7 @@
         "author": "sourcier",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 145.3,
+        "hoursSincePosted": 142.6,
         "readingTime": 5
       },
       "articles": [
@@ -2508,7 +2742,7 @@
         "author": "higorae",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 166.1,
+        "hoursSincePosted": 163.4,
         "readingTime": 4
       },
       "articles": [
@@ -2553,7 +2787,7 @@
         "author": "kalpesh47",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 45.8,
+        "hoursSincePosted": 43.1,
         "readingTime": 4
       },
       "articles": [
@@ -2587,51 +2821,6 @@
         }
       ]
     },
-    "superset-sh/superset": {
-      "count7d": 1,
-      "reactionsSum7d": 5,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3559574,
-        "title": "If You're Running Multiple Coding Agents, Superset Is the IDE You Want",
-        "url": "https://dev.to/passandscore/if-youre-running-multiple-coding-agents-superset-is-the-ide-you-want-4jbn",
-        "author": "passandscore",
-        "reactions": 5,
-        "comments": 0,
-        "hoursSincePosted": 9,
-        "readingTime": 3
-      },
-      "articles": [
-        {
-          "id": 3559574,
-          "title": "If You're Running Multiple Coding Agents, Superset Is the IDE You Want",
-          "description": "A look at Superset, the open-source IDE built for orchestrating parallel AI coding agents in isolated git worktrees.",
-          "url": "https://dev.to/passandscore/if-youre-running-multiple-coding-agents-superset-is-the-ide-you-want-4jbn",
-          "author": {
-            "username": "passandscore",
-            "name": "Jason Schwarz",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F619113%2Fb9a02f97-ceb2-4ef7-af76-2d4a9e3a3c07.png"
-          },
-          "reactionsCount": 5,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-04-28T01:27:59Z",
-          "tags": [
-            "ai",
-            "tutorial",
-            "productivity",
-            "tooling"
-          ],
-          "trendingScore": 0.39,
-          "linkedRepos": [
-            {
-              "fullName": "superset-sh/superset",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "openai/euphony": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -2643,7 +2832,7 @@
         "author": "_46ea277e677b888e0cd13",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 152.9,
+        "hoursSincePosted": 150.2,
         "readingTime": 3
       },
       "articles": [
@@ -2688,7 +2877,7 @@
         "author": "mitsuru",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 72.5,
+        "hoursSincePosted": 69.8,
         "readingTime": 8
       },
       "articles": [
@@ -2726,7 +2915,7 @@
   "leaderboard": [
     {
       "fullName": "openclaw/openclaw",
-      "count7d": 5,
+      "count7d": 7,
       "reactionsSum7d": 86
     },
     {
@@ -2755,22 +2944,17 @@
       "reactionsSum7d": 5
     },
     {
-      "fullName": "nextlevelbuilder/goclaw",
+      "fullName": "openclaw/clawhub",
       "count7d": 1,
       "reactionsSum7d": 5
     },
     {
-      "fullName": "superset-sh/superset",
+      "fullName": "SWE-agent/mini-swe-agent",
       "count7d": 1,
       "reactionsSum7d": 5
     },
     {
       "fullName": "HKUDS/nanobot",
-      "count7d": 1,
-      "reactionsSum7d": 4
-    },
-    {
-      "fullName": "sipeed/picoclaw",
       "count7d": 1,
       "reactionsSum7d": 4
     },
@@ -2810,7 +2994,7 @@
       "reactionsSum7d": 1
     },
     {
-      "fullName": "Agent-FM/agentfm-core",
+      "fullName": "0x0funky/agent-sprite-forge",
       "count7d": 1,
       "reactionsSum7d": 1
     },
@@ -2826,7 +3010,12 @@
     },
     {
       "fullName": "anthropics/claude-code",
-      "count7d": 10,
+      "count7d": 11,
+      "reactionsSum7d": 0
+    },
+    {
+      "fullName": "ggml-org/llama.cpp",
+      "count7d": 2,
       "reactionsSum7d": 0
     },
     {
@@ -2875,11 +3064,6 @@
       "reactionsSum7d": 0
     },
     {
-      "fullName": "ggml-org/llama.cpp",
-      "count7d": 1,
-      "reactionsSum7d": 0
-    },
-    {
       "fullName": "github/awesome-copilot",
       "count7d": 1,
       "reactionsSum7d": 0
@@ -2891,6 +3075,11 @@
     },
     {
       "fullName": "HKUDS/LightRAG",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
+      "fullName": "mattpocock/skills",
       "count7d": 1,
       "reactionsSum7d": 0
     },
@@ -2916,6 +3105,16 @@
     },
     {
       "fullName": "shanraisshan/claude-code-best-practice",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
+      "fullName": "superset-sh/superset",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
+      "fullName": "TauricResearch/TradingAgents",
       "count7d": 1,
       "reactionsSum7d": 0
     },

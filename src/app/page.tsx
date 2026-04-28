@@ -19,12 +19,10 @@ import {
 import { TerminalLayout } from "@/components/terminal/TerminalLayout";
 import { BubbleMap } from "@/components/terminal/BubbleMap";
 import { MomentumHeadline } from "@/components/home/MomentumHeadline";
-import { HomeCtaRow } from "@/components/home/HomeCtaRow";
 import { HomeEmptyState } from "@/components/home/HomeEmptyState";
 import { CrossSourceTriBoxes } from "@/components/home/CrossSourceTriBoxes";
 import {
   MonoLabel,
-  SpiderNode,
   AsciiInterstitial,
   BarcodeTicker,
 } from "@/components/v2";
@@ -77,12 +75,23 @@ export default async function HomePage() {
   const repos = getDerivedRepos();
   // Pull skills + mcp ecosystem signals so the cross-source tri-box can
   // surface their respective top movers alongside repo gainers. Both
-  // helpers are Redis-backed with internal rate-limiting; safe to call
-  // every render.
-  const [skillsData, mcpData] = await Promise.all([
+  // helpers are Redis-backed; in local dev without Redis they return
+  // empty boards (no `data/trending-skill*.json` ships in the repo).
+  // Promise.allSettled keeps a partial outage from blocking the page —
+  // CrossSourceTriBoxes falls back to derived repo views when null.
+  const [skillsRes, mcpRes] = await Promise.allSettled([
     getSkillsSignalData(),
     getMcpSignalData(),
   ]);
+  const skillsItems =
+    skillsRes.status === "fulfilled" &&
+    skillsRes.value.combined.items.length > 0
+      ? skillsRes.value.combined.items
+      : null;
+  const mcpItems =
+    mcpRes.status === "fulfilled" && mcpRes.value.board.items.length > 0
+      ? mcpRes.value.board.items
+      : null;
 
   // Cold lambda / broken data file → show a branded empty state instead
   // of the generic "no repos match filters" inner message. Preserves the
@@ -144,17 +153,6 @@ export default async function HomePage() {
 
         <MomentumHeadline repos={repos} lastFetchedAt={lastFetchedAt} />
 
-        <div className="grid md:grid-cols-[1fr_auto] gap-6 items-center">
-          <HomeCtaRow />
-
-          {/* V2 spider-node hero accent — desktop only, decorative. */}
-          <div className="hidden lg:block">
-            <div className="v2-frame p-2">
-              <SpiderNode width={140} height={140} peripheral={9} />
-            </div>
-          </div>
-        </div>
-
         {/* V2 barcode ticker — "live data flow" accent. */}
         <div className="pt-2">
           <BarcodeTicker count={96} height={14} seed={repos.length} />
@@ -163,8 +161,8 @@ export default async function HomePage() {
 
       <CrossSourceTriBoxes
         repos={repos}
-        skills={skillsData.combined.items}
-        mcp={mcpData.board.items}
+        skills={skillsItems}
+        mcp={mcpItems}
       />
 
       <TerminalLayout

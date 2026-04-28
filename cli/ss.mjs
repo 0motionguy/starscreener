@@ -4,6 +4,19 @@
 
 "use strict";
 
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, resolve as resolvePath } from "node:path";
+
+import {
+  pad,
+  fmtNum,
+  fmtDelta,
+  fmtMomentum,
+  renderTable,
+  buildRepoTable,
+} from "../src/lib/cli-table-format.mjs";
+
 // ---------------------------------------------------------------------------
 // Config
 // ---------------------------------------------------------------------------
@@ -20,7 +33,12 @@ const BASE_URL = (
   "http://localhost:3023"
 ).replace(/\/+$/, "");
 
-const CLI_VERSION = "0.2.0";
+// Single source of truth: cli/package.json. Bump there, the --version /
+// --help banner / postinstall banner all follow on the next install.
+const __cliDir = dirname(fileURLToPath(import.meta.url));
+const CLI_VERSION = JSON.parse(
+  readFileSync(resolvePath(__cliDir, "package.json"), "utf8"),
+).version;
 
 // Map our --window values to the API's `period` param.
 const WINDOW_TO_PERIOD = {
@@ -111,73 +129,9 @@ function printJson(obj) {
   process.stdout.write(JSON.stringify(obj, null, 2) + "\n");
 }
 
-function pad(str, width, align = "left") {
-  const s = String(str);
-  if (s.length >= width) return s.slice(0, width);
-  const gap = " ".repeat(width - s.length);
-  return align === "right" ? gap + s : s + gap;
-}
-
-function fmtNum(n) {
-  if (n == null || Number.isNaN(n)) return "-";
-  const v = Number(n);
-  if (!Number.isFinite(v)) return "-";
-  return v.toLocaleString("en-US");
-}
-
-function fmtDelta(n) {
-  if (n == null || Number.isNaN(n)) return "-";
-  const v = Number(n);
-  if (!Number.isFinite(v)) return "-";
-  if (v === 0) return "0";
-  const sign = v > 0 ? "+" : "";
-  return sign + v.toLocaleString("en-US");
-}
-
-function fmtMomentum(n) {
-  if (n == null || Number.isNaN(n)) return "-";
-  const v = Number(n);
-  if (!Number.isFinite(v)) return "-";
-  return v.toFixed(1);
-}
-
-function renderTable(headers, rows, aligns = []) {
-  const widths = headers.map((h, i) =>
-    Math.max(h.length, ...rows.map((r) => String(r[i] ?? "").length)),
-  );
-  const line = (cells) =>
-    cells.map((c, i) => pad(c, widths[i], aligns[i] || "left")).join("  ");
-  process.stdout.write(line(headers) + "\n");
-  process.stdout.write(
-    widths.map((w) => "-".repeat(w)).join("  ") + "\n",
-  );
-  for (const r of rows) process.stdout.write(line(r) + "\n");
-}
-
 // ---------------------------------------------------------------------------
 // Commands
 // ---------------------------------------------------------------------------
-
-function buildRepoTable(repos, { showRank = true } = {}) {
-  const headers = showRank
-    ? ["#", "REPO", "STARS", "24H", "7D", "MOMENTUM", "STATUS"]
-    : ["REPO", "STARS", "24H", "7D", "MOMENTUM", "STATUS"];
-  const aligns = showRank
-    ? ["right", "left", "right", "right", "right", "right", "left"]
-    : ["left", "right", "right", "right", "right", "left"];
-  const rows = repos.map((r, i) => {
-    const base = [
-      pad(r.fullName || "-", 30),
-      fmtNum(r.stars),
-      fmtDelta(r.starsDelta24h),
-      fmtDelta(r.starsDelta7d),
-      fmtMomentum(r.momentumScore),
-      r.movementStatus || "-",
-    ];
-    return showRank ? [String(i + 1), ...base] : base;
-  });
-  renderTable(headers, rows, aligns);
-}
 
 async function cmdTrending(args) {
   const windowArg = args.window || "7d";
@@ -200,7 +154,7 @@ async function cmdTrending(args) {
   process.stdout.write(
     `Trending repos (window=${windowArg}, showing ${repos.length} of ${data.meta?.total ?? repos.length})\n\n`,
   );
-  buildRepoTable(repos);
+  process.stdout.write(buildRepoTable(repos));
 }
 
 async function cmdBreakouts(args) {
@@ -215,7 +169,7 @@ async function cmdBreakouts(args) {
     return;
   }
   process.stdout.write(`Breakouts (${repos.length})\n\n`);
-  buildRepoTable(repos);
+  process.stdout.write(buildRepoTable(repos));
 }
 
 async function cmdNew(args) {
@@ -231,7 +185,7 @@ async function cmdNew(args) {
     return;
   }
   process.stdout.write(`New repos under 30 days old (${repos.length})\n\n`);
-  buildRepoTable(repos);
+  process.stdout.write(buildRepoTable(repos));
 }
 
 async function cmdSearch(args) {
@@ -250,7 +204,7 @@ async function cmdSearch(args) {
   process.stdout.write(
     `Search results for "${query}" (${results.length} of ${data.meta?.total ?? results.length})\n\n`,
   );
-  buildRepoTable(results);
+  process.stdout.write(buildRepoTable(results));
 }
 
 async function cmdRepo(args) {
@@ -335,7 +289,7 @@ async function cmdCompare(args) {
     fmtMomentum(r.momentumScore),
     r.movementStatus || "-",
   ]);
-  renderTable(headers, rows, aligns);
+  process.stdout.write(renderTable(headers, rows, aligns));
 }
 
 async function cmdCategories(args) {
@@ -355,7 +309,7 @@ async function cmdCategories(args) {
     fmtMomentum(c.avgMomentum),
     c.topMoverId || "-",
   ]);
-  renderTable(headers, rows, aligns);
+  process.stdout.write(renderTable(headers, rows, aligns));
 }
 
 function cmdHelp() {

@@ -11,6 +11,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Microscope } from "lucide-react";
 import { StatStrip } from "@/components/ui/StatStrip";
+import {
+  getArxivRecent,
+  getHuggingFaceTrending,
+  refreshResearchSignalsFromStore,
+} from "@/lib/research-signals";
 
 const RESEARCH_GREEN = "#22c55e";
 
@@ -134,7 +139,7 @@ export default async function ResearchPage() {
           >
             {"// no ETA — scoping after the cross-signal v1 + Bluesky integration land"}
           </div>
-        )}
+        </section>
 
         <p
           className="mt-6 text-xs"

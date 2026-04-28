@@ -66,6 +66,8 @@ export function buildNpmHeader(
             ? `-${compactNumber(Math.abs(p.delta24h ?? 0))}`
             : "0",
       color: PKG_PALETTE[i % PKG_PALETTE.length],
+      logoUrl: npmLogoUrl(p.linkedRepo),
+      logoName: p.linkedRepo ?? p.name,
     }));
 
   const topics = topicBars(

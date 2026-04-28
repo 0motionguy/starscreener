@@ -523,6 +523,10 @@ export default function SignalsPage() {
   // Build per-source `SourceVolumeInput` rows for the middle card.
   // Source colours match the `SOURCE_COLORS` palette used elsewhere on
   // /news — same chrome regardless of which page you're reading from.
+  // Brand favicons for each source — kept beside the per-source volume row
+  // so the bar rail reads as "logo · code · count" instead of bare text.
+  const SRC_FAVICON = (domain: string) =>
+    `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
   const sourceVolumeRows: SourceVolumeInput[] = [
     {
       code: "HN",
@@ -530,6 +534,7 @@ export default function SignalsPage() {
       color: "rgba(245, 110, 15, 0.85)",
       itemCount: hnTop.length,
       totalScore: hnTop.reduce((s, x) => s + (x.score ?? 0), 0),
+      logoUrl: SRC_FAVICON("news.ycombinator.com"),
     },
     {
       code: "BS",
@@ -537,6 +542,7 @@ export default function SignalsPage() {
       color: "rgba(58, 214, 197, 0.85)",
       itemCount: bskyTop.length,
       totalScore: bskyTop.reduce((s, x) => s + (x.likeCount ?? 0), 0),
+      logoUrl: SRC_FAVICON("bsky.app"),
     },
     {
       code: "DV",
@@ -544,6 +550,7 @@ export default function SignalsPage() {
       color: "rgba(102, 153, 255, 0.85)",
       itemCount: devtoTop.length,
       totalScore: devtoTop.reduce((s, x) => s + (x.reactionsCount ?? 0), 0),
+      logoUrl: SRC_FAVICON("dev.to"),
     },
     {
       code: "LZ",
@@ -551,6 +558,7 @@ export default function SignalsPage() {
       color: "rgba(172, 19, 13, 0.85)",
       itemCount: lobstersTop.length,
       totalScore: lobstersTop.reduce((s, x) => s + (x.score ?? 0), 0),
+      logoUrl: SRC_FAVICON("lobste.rs"),
     },
     {
       code: "R",
@@ -558,6 +566,7 @@ export default function SignalsPage() {
       color: "rgba(255, 77, 77, 0.85)",
       itemCount: redditPostsAll.length,
       totalScore: redditPostsAll.reduce((s, x) => s + (x.score ?? 0), 0),
+      logoUrl: SRC_FAVICON("reddit.com"),
     },
   ];
 

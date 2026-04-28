@@ -50,7 +50,6 @@ const CONCURRENCY = 50;
 const PING_TIMEOUT_MS = 5_000;
 const ROLLING_WINDOW_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 const NAMESPACE = "ss:data:v1";
-const META_NAMESPACE = "ss:meta:v1";
 const USER_AGENT = "TrendingRepo-MCP-Liveness/1.0 (+https://trendingrepo.com)";
 
 function log(msg) {

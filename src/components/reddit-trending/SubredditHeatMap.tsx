@@ -76,32 +76,32 @@ interface MomentumStyle {
 function momentumColor(ratio: number, breakoutCount: number): MomentumStyle {
   if (breakoutCount >= 3 || ratio > 5) {
     return {
-      fill: "#ff6600",
-      gradientEnd: "#ff4500",
-      textColor: "#ffffff",
+      fill: "var(--v3-tier-breakout-fill)",
+      gradientEnd: "var(--v3-tier-breakout-end)",
+      textColor: "var(--v3-tier-text)",
       tier: "breakout",
     };
   }
   if (ratio > 1.3) {
     return {
-      fill: "#10B981",
-      gradientEnd: "#22c55e",
-      textColor: "#ffffff",
+      fill: "var(--v3-tier-heating-fill)",
+      gradientEnd: "var(--v3-tier-heating-end)",
+      textColor: "var(--v3-tier-text)",
       tier: "heating",
     };
   }
   if (ratio >= 0.7) {
     return {
-      fill: "#2D5A3D",
-      gradientEnd: "#22c55e",
-      textColor: "#ffffff",
+      fill: "var(--v3-tier-stable-fill)",
+      gradientEnd: "var(--v3-tier-stable-end)",
+      textColor: "var(--v3-tier-text)",
       tier: "stable",
     };
   }
   return {
-    fill: "#4A5568",
-    gradientEnd: "#6B7B8D",
-    textColor: "#ffffff",
+    fill: "var(--v3-tier-cooling-fill)",
+    gradientEnd: "var(--v3-tier-cooling-end)",
+    textColor: "var(--v3-tier-text)",
     tier: "cooling",
   };
 }

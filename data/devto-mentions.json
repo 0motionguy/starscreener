@@ -363,34 +363,6 @@
           ]
         },
         {
-          "id": 3543444,
-          "title": "How I'd Build a Multi-Tenant Digital Employee Platform: Multi-LLM Routing, Approval Gates, MCP, and SOC2-Ready Audit Trails",
-          "description": "Why I wouldn't pick a single LLM — and the platform layer (Claude + GPT + Gemini + Grok, with...",
-          "url": "https://dev.to/chen115y/how-id-build-a-multi-tenant-digital-employee-platform-multi-llm-routing-approval-gates-mcp-and-3fg0",
-          "author": {
-            "username": "chen115y",
-            "name": "Yaohua Chen",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2671324%2F3ca83c79-d0fd-40c0-b5ac-349326e71725.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 25,
-          "publishedAt": "2026-04-24T00:43:12Z",
-          "tags": [
-            "ai",
-            "architecture",
-            "agents",
-            "openai"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "openclaw/openclaw",
-              "location": "body"
-            }
-          ]
-        },
-        {
           "id": 3537993,
           "title": "Anthropic Broke My OpenClaw Stack. GPT 5.4 Put It Back Together",
           "description": "If you quit OpenClaw after Anthropic pulled third-party harness support, I don't blame you.  That...",
@@ -540,6 +512,7 @@
           "readingTime": 3,
           "publishedAt": "2026-04-28T01:27:59Z",
           "tags": [
+            "rag",
             "ai",
             "tutorial",
             "productivity",

@@ -22,6 +22,8 @@ const eslintConfig = [
       // and nested node_modules; ignore the whole tree so lint only
       // inspects real source files.
       ".claude/**",
+      "tmp_probe/**",
+      "dev_server*.log",
       "next-env.d.ts",
     ],
   },

@@ -4,6 +4,85 @@
   "scannedAlgoliaHits": 760,
   "scannedFirebaseItems": 500,
   "mentions": {
+    "dirac-run/dirac": {
+      "count7d": 1,
+      "scoreSum7d": 343,
+      "topStory": {
+        "id": 47920787,
+        "title": "Show HN: OSS Agent I built topped the TerminalBench on Gemini-3-flash-preview",
+        "score": 343,
+        "url": "https://github.com/dirac-run/dirac",
+        "hoursSincePosted": 21.12
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 47920787,
+          "title": "Show HN: OSS Agent I built topped the TerminalBench on Gemini-3-flash-preview",
+          "url": "https://github.com/dirac-run/dirac",
+          "by": "GodelNumbering",
+          "score": 343,
+          "descendants": 126,
+          "createdUtc": 1777293355,
+          "ageHours": 21.12,
+          "velocity": 16.24,
+          "trendingScore": 559.96,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo",
+            "is-show-hn"
+          ],
+          "value_score": 3,
+          "storyText": "Scored 65.2% vs google's official 47.8%, and the existing top closed source model Junie CLI's 64.3%. Since there are a lot of reports of deliberate cheating on TerminalBench 2.0 lately ( https://debugml.github.io/cheating-agents/ ), I would like to also clarify a few things 1. Absolutely no {agents/skills}.md files were inserted at any point. No cheating mechanisms whatsoever 2. The cli agent was run in leaderboard compliant way (no modification of resources or timeouts) 3. The full terminal ben",
+          "linkedRepos": [
+            {
+              "fullName": "dirac-run/dirac",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "WeebLabs/DSPi": {
+      "count7d": 1,
+      "scoreSum7d": 291,
+      "topStory": {
+        "id": 47901433,
+        "title": "Fully Featured Audio DSP Firmware for the Raspberry Pi Pico",
+        "score": 291,
+        "url": "https://github.com/WeebLabs/DSPi",
+        "hoursSincePosted": 68.24
+      },
+      "everHitFrontPage": true,
+      "stories": [
+        {
+          "id": 47901433,
+          "title": "Fully Featured Audio DSP Firmware for the Raspberry Pi Pico",
+          "url": "https://github.com/WeebLabs/DSPi",
+          "by": "BoingBoomTschak",
+          "score": 291,
+          "descendants": 81,
+          "createdUtc": 1777123709,
+          "ageHours": 68.24,
+          "velocity": 4.26,
+          "trendingScore": 95.52,
+          "everHitFrontPage": true,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "WeebLabs/DSPi",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "niri-wm/niri": {
       "count7d": 1,
       "scoreSum7d": 250,
@@ -43,7 +122,7 @@
         }
       ]
     },
-    "evanklem/evanflow": {
+    "hpennington/agentswift": {
       "count7d": 1,
       "scoreSum7d": 106,
       "topStory": {
@@ -108,11 +187,10 @@
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
-            "has-mcp",
             "is-show-hn"
           ],
-          "value_score": 4,
-          "storyText": "Most RAG setups fail because they treat memory like a static filing cabinet. When every transient bug fix or abandoned rule is stored forever, the context window eventually chokes on noise, spiking token costs and degrading the agent's reasoning. This implementation experiments with a biological approach by using the Ebbinghaus forgetting curve to manage context as a living substrate. Memories are assigned a \"strength\" score where each recall reinforces the data and flattens its decay curve (spa",
+          "value_score": 3,
+          "storyText": "I'm working on a coding agent for building iOS apps. It's built on openspec and xcodebuildmcp. It's free and open source.",
           "linkedRepos": [
             {
               "fullName": "sachitrafa/YourMemory",
@@ -682,6 +760,47 @@
         }
       ]
     },
+    "nex-crm/wuphf": {
+      "count7d": 1,
+      "scoreSum7d": 258,
+      "topStory": {
+        "id": 47899844,
+        "title": "Show HN: A Karpathy-style LLM wiki your agents maintain (Markdown and Git)",
+        "score": 258,
+        "url": "https://github.com/nex-crm/wuphf",
+        "hoursSincePosted": 72.82
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 47899844,
+          "title": "Show HN: A Karpathy-style LLM wiki your agents maintain (Markdown and Git)",
+          "url": "https://github.com/nex-crm/wuphf",
+          "by": "najmuzzaman",
+          "score": 258,
+          "descendants": 114,
+          "createdUtc": 1777107233,
+          "ageHours": 72.82,
+          "velocity": 3.54,
+          "trendingScore": 105.86,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent",
+            "is-show-hn"
+          ],
+          "value_score": 4,
+          "storyText": "I shipped a wiki layer for AI agents that uses markdown + git as the source of truth, with a bleve (BM25) + SQLite index on top. No vector or graph db yet. It runs locally in ~/.wuphf/wiki/ and you can git clone it out if you want to take your knowledge with you. The shape is the one Karpathy has been circling for a while: an LLM-native knowledge substrate that agents both read from and write into, so context compounds across sessions rather than getting re-pasted every morning. Most implementat",
+          "linkedRepos": [
+            {
+              "fullName": "nex-crm/wuphf",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "Infisical/agent-vault": {
       "count7d": 1,
       "scoreSum7d": 156,
@@ -1202,6 +1321,46 @@
         }
       ]
     },
+    "kpolley/redai": {
+      "count7d": 1,
+      "scoreSum7d": 2,
+      "topStory": {
+        "id": 47869732,
+        "title": "Show HN: RedAI – AI-driven vulnerability discovery and live validation",
+        "score": 2,
+        "url": "https://github.com/kpolley/redai",
+        "hoursSincePosted": 131.87
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 47869732,
+          "title": "Show HN: RedAI – AI-driven vulnerability discovery and live validation",
+          "url": "https://github.com/kpolley/redai",
+          "by": "kpolls",
+          "score": 2,
+          "descendants": 0,
+          "createdUtc": 1776894645,
+          "ageHours": 131.87,
+          "velocity": 0.02,
+          "trendingScore": 0.01,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo",
+            "is-show-hn"
+          ],
+          "value_score": 3,
+          "storyText": "Most AI security tools stop at flagging code that looks vulnerable. You end up with a wall of \"potential\" findings and no way to know which ones are real without manually reproducing each one. Finding and fixing are both cheap now; actually proving which findings are real and impactful is the last remaining hurdle. RedAI is built to close that gap. After scanner agents surface candidates, validator agents take each one into a live environment — a running instance of the target — and try to prove",
+          "linkedRepos": [
+            {
+              "fullName": "kpolley/redai",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "backnotprop/plannotator": {
       "count7d": 1,
       "scoreSum7d": 2,
@@ -1491,12 +1650,12 @@
       "scoreSum7d": 3
     },
     {
-      "fullName": "waybarrios/opencode-power-pack",
+      "fullName": "0x0funky/agent-sprite-forge",
       "count7d": 1,
-      "scoreSum7d": 3
+      "scoreSum7d": 2
     },
     {
-      "fullName": "0x0funky/agent-sprite-forge",
+      "fullName": "a-agmon/rs-graph-llm",
       "count7d": 1,
       "scoreSum7d": 2
     },

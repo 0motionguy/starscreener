@@ -145,7 +145,10 @@ async function handleV2(owner: string, name: string) {
 async function handleV1(owner: string, name: string) {
   const repo = getDerivedRepoByFullName(`${owner}/${name}`);
   if (!repo) {
-    return NextResponse.json(errorEnvelope("Repo not found"), { status: 404 });
+    // Legacy v=1 contract is intentionally byte-compatible with the
+    // pre-canonical endpoint: bare `{ error }`, no `ok` discriminator.
+    // CLI tools + MCP consumers pinned to v=1 rely on this shape.
+    return NextResponse.json({ error: "Repo not found" }, { status: 404 });
   }
 
   // Fan out to the live social adapters. Each adapter swallows its own

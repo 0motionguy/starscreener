@@ -105,7 +105,12 @@ test("reddit shared: fetchRedditJson uses public endpoint without oauth creds", 
         },
       );
 
-      assert.deepEqual(body, { data: { children: [] } });
+      // Listing URLs (`/r/X/new.json`) are routed through the RSS variant
+      // (`/r/X/new/.rss`) on the public-json path — the JSON listing endpoint
+      // is blocked at the Reddit edge for GH Actions IPs while the RSS feed
+      // serves the same listing unauthenticated. parseRedditAtomFeed is
+      // tolerant of non-Atom input and returns the empty-children shape.
+      assert.deepEqual(body, { data: { children: [], after: null, before: null } });
       assert.equal(calls.length, 1);
       // 2026-04-23 anti-bot fix: public-JSON path now hits old.reddit.com
       // (markedly more permissive than www.reddit.com from cron IPs).

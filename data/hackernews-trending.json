@@ -267,6 +267,23 @@
       "linkedRepos": []
     },
     {
+      "id": 47920315,
+      "title": "China blocks Meta's acquisition of AI startup Manus",
+      "url": "https://www.cnbc.com/2026/04/27/meta-manus-china-blocks-acquisition-ai-startup.html",
+      "by": "yakkomajuri",
+      "score": 370,
+      "descendants": 268,
+      "createdUtc": 1777290239,
+      "ageHours": 21.98,
+      "velocity": 16.83,
+      "trendingScore": 1201.59,
+      "everHitFrontPage": false,
+      "content_tags": [],
+      "value_score": 0,
+      "storyText": "https://www.reuters.com/world/asia-pacific/china-blocks-fore... https://www.bbc.com/news/articles/cj0v0gr2yz7o",
+      "linkedRepos": []
+    },
+    {
       "id": 47919997,
       "title": "Pgbackrest is no longer being maintained",
       "url": "https://github.com/pgbackrest/pgbackrest",
@@ -475,6 +492,29 @@
       ],
       "value_score": 3,
       "storyText": "Scored 65.2% vs google's official 47.8%, and the existing top closed source model Junie CLI's 64.3%. Since there are a lot of reports of deliberate cheating on TerminalBench 2.0 lately ( https://debugml.github.io/cheating-agents/ ), I would like to also clarify a few things 1. Absolutely no {agents/skills}.md files were inserted at any point. No cheating mechanisms whatsoever 2. The cli agent was run in leaderboard compliant way (no modification of resources or timeouts) 3. The full terminal ben",
+      "linkedRepos": [
+        {
+          "fullName": "dirac-run/dirac",
+          "matchType": "url",
+          "confidence": 1
+        }
+      ]
+    },
+    {
+      "id": 47906253,
+      "title": "Tell HN: An app is silently installing itself on my iPhone every day",
+      "url": "",
+      "by": "_-x-_",
+      "score": 570,
+      "descendants": 186,
+      "createdUtc": 1777164656,
+      "ageHours": 56.87,
+      "velocity": 10.02,
+      "trendingScore": 541.23,
+      "everHitFrontPage": false,
+      "content_tags": [],
+      "value_score": 0,
+      "storyText": "Every day for the past 3 days around 1pm EST the 'Headspace' app has been silently appearing on my iPhone (13 Pro). Automatic downloads are turned off and I've updated to the latest iOS since this started happening. I googled around and found a couple reddit threads with people reporting the exact same thing starting 2 or 3 days ago. There were reports from people on iPhone 12 and iPhone 17 so it doesn't seem device-specific. Anyone else seeing this? Does anyone understand how or why this is hap",
       "linkedRepos": []
     },
     {
@@ -3692,9 +3732,11 @@
       "velocity": 0.67,
       "trendingScore": 1.39,
       "everHitFrontPage": false,
-      "content_tags": [],
-      "value_score": 0,
-      "storyText": "",
+      "content_tags": [
+        "is-show-hn"
+      ],
+      "value_score": 2,
+      "storyText": "Forkle (forkle.co.uk) is a daily word game where two thematically linked crosswords occupy the same grid simultaneously. Every tile contains two letters - one belonging to each puzzle - displayed as a diagonal colour split. Where the two puzzles intersect, some tiles share the same letter, giving you a foothold into both crosswords at once. The mechanic has two layers: the shared grid, and the connected themes. Each day's two crosswords are thematically paired around a central idea. For example,",
       "linkedRepos": []
     },
     {
@@ -7306,6 +7348,223 @@
       "linkedRepos": []
     },
     {
+      "id": 47925510,
+      "title": "Open source tooling for rootless security testing of Android devices",
+      "url": "https://github.com/ivision-research/dtu",
+      "by": "fbcd84f4335e568",
+      "score": 2,
+      "descendants": 1,
+      "createdUtc": 1777315304,
+      "ageHours": 15.02,
+      "velocity": 0.13,
+      "trendingScore": 0.04,
+      "everHitFrontPage": false,
+      "content_tags": [
+        "has-github-repo"
+      ],
+      "value_score": 1,
+      "storyText": "",
+      "linkedRepos": []
+    },
+    {
+      "id": 47925837,
+      "title": "Show HN: Open-source control layer for AI safely access production",
+      "url": "https://github.com/hoophq/hoop",
+      "by": "luisfdias",
+      "score": 2,
+      "descendants": 0,
+      "createdUtc": 1777316716,
+      "ageHours": 14.63,
+      "velocity": 0.14,
+      "trendingScore": 0.04,
+      "everHitFrontPage": false,
+      "content_tags": [
+        "has-github-repo",
+        "is-show-hn"
+      ],
+      "value_score": 3,
+      "storyText": "",
+      "linkedRepos": []
+    },
+    {
+      "id": 47925189,
+      "title": "I built an AI code reviewer bot for GitHub – no external APIs",
+      "url": "https://github.com/basilevincenzo/ai-code-reviewer",
+      "by": "basilevincenzo",
+      "score": 2,
+      "descendants": 0,
+      "createdUtc": 1777313708,
+      "ageHours": 15.46,
+      "velocity": 0.13,
+      "trendingScore": 0.04,
+      "everHitFrontPage": false,
+      "content_tags": [
+        "has-github-repo"
+      ],
+      "value_score": 1,
+      "storyText": "",
+      "linkedRepos": []
+    },
+    {
+      "id": 47924858,
+      "title": "SharkMCP: A Swiss-knife MCP server for analysing PCAP files",
+      "url": "https://github.com/weirdmachine64/SharkMCP",
+      "by": "zerodaysbroker",
+      "score": 2,
+      "descendants": 0,
+      "createdUtc": 1777312100,
+      "ageHours": 15.91,
+      "velocity": 0.13,
+      "trendingScore": 0.04,
+      "everHitFrontPage": false,
+      "content_tags": [
+        "has-github-repo",
+        "has-mcp"
+      ],
+      "value_score": 2,
+      "storyText": "",
+      "linkedRepos": []
+    },
+    {
+      "id": 47924769,
+      "title": "Show HN: RedSOC – 100% prompt injection success on AI SoC assistants",
+      "url": "https://github.com/krishnakaanthreddyy1510-cell/RedSOC",
+      "by": "krishna3145",
+      "score": 2,
+      "descendants": 0,
+      "createdUtc": 1777311707,
+      "ageHours": 16.02,
+      "velocity": 0.12,
+      "trendingScore": 0.04,
+      "everHitFrontPage": false,
+      "content_tags": [
+        "has-github-repo",
+        "is-show-hn"
+      ],
+      "value_score": 3,
+      "storyText": "",
+      "linkedRepos": []
+    },
+    {
+      "id": 47924053,
+      "title": "Show HN: Pylon – Sentry Errors to PRs via Claude Code, with Telegram Approval",
+      "url": "https://github.com/pylonto/pylon",
+      "by": "bojanstef",
+      "score": 2,
+      "descendants": 0,
+      "createdUtc": 1777308575,
+      "ageHours": 16.89,
+      "velocity": 0.12,
+      "trendingScore": 0.04,
+      "everHitFrontPage": false,
+      "content_tags": [
+        "has-github-repo",
+        "is-show-hn"
+      ],
+      "value_score": 3,
+      "storyText": "",
+      "linkedRepos": []
+    },
+    {
+      "id": 47907472,
+      "title": "Stt.ai MCP Server",
+      "url": "https://pypi.org/project/sttai-mcp/0.1.0/",
+      "by": "nadermx",
+      "score": 3,
+      "descendants": 0,
+      "createdUtc": 1777179175,
+      "ageHours": 52.83,
+      "velocity": 0.06,
+      "trendingScore": 0.03,
+      "everHitFrontPage": false,
+      "content_tags": [
+        "has-mcp"
+      ],
+      "value_score": 1,
+      "storyText": "",
+      "linkedRepos": []
+    },
+    {
+      "id": 47903587,
+      "title": "Show HN: I benchmarked how good LLMs are at proofreading English",
+      "url": "https://github.com/reviseio/errata-bench",
+      "by": "artursapek",
+      "score": 3,
+      "descendants": 2,
+      "createdUtc": 1777142825,
+      "ageHours": 62.93,
+      "velocity": 0.05,
+      "trendingScore": 0.03,
+      "everHitFrontPage": false,
+      "content_tags": [
+        "has-github-repo",
+        "is-show-hn"
+      ],
+      "value_score": 3,
+      "storyText": "",
+      "linkedRepos": []
+    },
+    {
+      "id": 47902633,
+      "title": "Show HN: 1gbps Tokenizer written in Assembly. 20x faster than HuggingFace",
+      "url": "https://github.com/dogmaticdev/SIMD-Tokenizer",
+      "by": "dogmaticdev",
+      "score": 3,
+      "descendants": 2,
+      "createdUtc": 1777134544,
+      "ageHours": 65.23,
+      "velocity": 0.05,
+      "trendingScore": 0.03,
+      "everHitFrontPage": false,
+      "content_tags": [
+        "has-github-repo",
+        "is-show-hn"
+      ],
+      "value_score": 3,
+      "storyText": "",
+      "linkedRepos": []
+    },
+    {
+      "id": 47909261,
+      "title": "Show HN: A template to build desktop, web and mobile apps from the same codebase",
+      "url": "https://github.com/odest/tntstack",
+      "by": "odest",
+      "score": 3,
+      "descendants": 1,
+      "createdUtc": 1777201023,
+      "ageHours": 46.76,
+      "velocity": 0.06,
+      "trendingScore": 0.03,
+      "everHitFrontPage": false,
+      "content_tags": [
+        "has-github-repo",
+        "is-show-hn"
+      ],
+      "value_score": 3,
+      "storyText": "",
+      "linkedRepos": []
+    },
+    {
+      "id": 47905223,
+      "title": "Show HN: LLM-wiki – One command Karpathy's wiki with QMD search for Claude/Codex",
+      "url": "https://github.com/ivankuznetsov/llm-wiki",
+      "by": "ivankuznetsov11",
+      "score": 3,
+      "descendants": 1,
+      "createdUtc": 1777156153,
+      "ageHours": 59.23,
+      "velocity": 0.05,
+      "trendingScore": 0.03,
+      "everHitFrontPage": false,
+      "content_tags": [
+        "has-github-repo",
+        "is-show-hn"
+      ],
+      "value_score": 3,
+      "storyText": "",
+      "linkedRepos": []
+    },
+    {
       "id": 47912097,
       "title": "OpenCode-power-pack – Claude Code skills ported to OpenCode",
       "url": "https://github.com/waybarrios/opencode-power-pack",
@@ -7322,13 +7581,7 @@
       ],
       "value_score": 1,
       "storyText": "",
-      "linkedRepos": [
-        {
-          "fullName": "waybarrios/opencode-power-pack",
-          "matchType": "url",
-          "confidence": 1
-        }
-      ]
+      "linkedRepos": []
     },
     {
       "id": 47925837,
@@ -10355,7 +10608,13 @@
       ],
       "value_score": 1,
       "storyText": "",
-      "linkedRepos": []
+      "linkedRepos": [
+        {
+          "fullName": "markoglasgow/gemma_crackme_tutorial",
+          "matchType": "url",
+          "confidence": 1
+        }
+      ]
     },
     {
       "id": 47921606,

@@ -1,0 +1,54 @@
+name: Ping MCP liveness
+
+# Cadence: every 6h at :47. Staggered minute so we don't pile up onto other
+# data refresh workflows. The plan calls for a 6h cadence — frequent enough
+# that the rolling 7d window has ~28 datapoints per server, infrequent
+# enough that we don't flood downstream MCP HTTP endpoints.
+on:
+  schedule:
+    - cron: "47 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: mcp-liveness-ping
+  cancel-in-progress: false
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Ping MCP servers + record uptime
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+        run: node scripts/ping-mcp-liveness.mjs
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "trendingrepo-bot"
+          git config user.email "bot@trendingrepo.com"
+          git add data/mcp-liveness.json
+          if git diff --quiet --staged; then
+            echo "no changes - skipping commit"
+            exit 0
+          fi
+          TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          git commit -m "chore(data): refresh mcp liveness ${TS}"
+          git pull --rebase origin main
+          git push

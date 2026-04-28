@@ -1,0 +1,54 @@
+name: Refresh HuggingFace space signals
+
+# Every 3h at :35. Staggered from huggingface models (:13), datasets (:25),
+# and arxiv (:43) so we don't all hit the HF API + git push at the same
+# minute. HF's API is generous; 3h matches the trending half-life on the
+# site without burning rate budget.
+on:
+  schedule:
+    - cron: "35 */3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: huggingface-spaces-refresh
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Refresh HuggingFace trending spaces
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+        run: node scripts/scrape-huggingface-spaces.mjs
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "trendingrepo-bot"
+          git config user.email "bot@trendingrepo.com"
+          git add data/huggingface-spaces.json
+          if git diff --quiet --staged; then
+            echo "no changes - skipping commit"
+            exit 0
+          fi
+          TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          git commit -m "chore(data): refresh huggingface space signals ${TS}"
+          git pull --rebase origin main
+          git push

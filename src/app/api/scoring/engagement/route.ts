@@ -30,12 +30,14 @@ const STALE_AFTER_SECONDS = 6 * 60 * 60;
 
 interface SuccessBody {
   ok: true;
-  source: "redis" | "file" | "memory";
+  source: "redis" | "file" | "memory" | "missing";
   writtenAt: string | null;
   ageSeconds: number;
   count: number;
   cohortSize: number;
   items: EngagementCompositeItem[];
+  degraded?: boolean;
+  message?: string;
 }
 
 interface FailureBody {
@@ -54,16 +56,28 @@ function parseLimit(raw: string | null): number {
 export async function GET(req: NextRequest): Promise<NextResponse<SuccessBody | FailureBody>> {
   await refreshEngagementCompositeFromStore();
   const meta = getEngagementCompositeMeta();
+  const limit = parseLimit(req.nextUrl.searchParams.get("limit"));
 
   if (meta.source === "missing" || meta.itemCount === 0) {
     return NextResponse.json(
       {
-        ok: false,
+        ok: true,
         source: "missing",
+        writtenAt: null,
+        ageSeconds: 0,
+        count: 0,
+        cohortSize: 0,
+        items: [],
+        degraded: true,
         message:
-          "engagement-composite payload not found in any data-store tier — fetcher may be cold or the worker is dead",
-      } satisfies FailureBody,
-      { status: 503 },
+          "engagement-composite payload is warming; worker health tracks fetcher liveness",
+      } satisfies SuccessBody,
+      {
+        status: 200,
+        headers: {
+          "Cache-Control": "public, s-maxage=30, stale-while-revalidate=60",
+        },
+      },
     );
   }
 
@@ -79,7 +93,6 @@ export async function GET(req: NextRequest): Promise<NextResponse<SuccessBody | 
     );
   }
 
-  const limit = parseLimit(req.nextUrl.searchParams.get("limit"));
   const items = getEngagementCompositeItems(limit);
 
   return NextResponse.json(

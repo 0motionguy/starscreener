@@ -140,7 +140,7 @@ async function resetRateLimit(): Promise<void> {
   // Force the route module to load so its side-effect assignment onto
   // `globalThis[AISO_TEST_RESET]` runs before we invoke the hook.
   await import("../../../app/api/repos/[owner]/[name]/aiso/route");
-  const key = Symbol.for("starscreener.aiso.test.reset");
+  const key = Symbol.for("trendingrepo.aiso.test.reset");
   const fn = (globalThis as unknown as Record<symbol, (() => void) | undefined>)[key];
   if (typeof fn === "function") fn();
 }

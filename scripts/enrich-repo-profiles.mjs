@@ -318,7 +318,7 @@ async function fetchGithubHomepage(fullName) {
 
   const headers = {
     Accept: "application/vnd.github+json",
-    "User-Agent": "starscreener-profile-enricher",
+    "User-Agent": "trendingrepo-profile-enricher",
     "X-GitHub-Api-Version": "2022-11-28",
   };
   if (process.env.GITHUB_TOKEN) {

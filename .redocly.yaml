@@ -13,8 +13,9 @@
 #     anyOf/oneOf reference from the canonical profile path. Silence until
 #     the spec grows the surface that legitimately exercises the rule.
 #
-#   - no-server-example.com — one of our dev servers (starscreener.vercel.app)
-#     trips a heuristic intended to flag literal "example.com" placeholders.
+#   - no-server-example.com — starscreener.vercel.app -> trendingrepo.com
+#     (308 redirect; legacy host) trips a heuristic intended to flag literal
+#     "example.com" placeholders.
 extends:
   - minimal
 rules:

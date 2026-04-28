@@ -5,7 +5,7 @@ import { ThemeToggle } from "@/components/shared/ThemeToggle";
 import { APP_VERSION } from "@/lib/app-meta";
 import { AccentPicker, BgThemePicker, SystemBarcode } from "@/components/v3";
 
-const STARSCREENER_REPO_URL = "https://github.com/0motionguy/starscreener";
+const REPO_URL = "https://github.com/0motionguy/starscreener";
 const AUTHOR_TWITTER_URL = "https://x.com/0motionguy";
 
 export function SidebarFooter() {
@@ -25,7 +25,7 @@ export function SidebarFooter() {
       <div className="flex items-center gap-2">
         <ThemeToggle />
         <a
-          href={STARSCREENER_REPO_URL}
+          href={REPO_URL}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="GitHub repository"

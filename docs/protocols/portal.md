@@ -1,25 +1,25 @@
 # Portal v0.1 integration
 
-Star Screener speaks the [Portal v0.1 protocol](https://visitportal.dev) so any LLM client with a Portal visitor SDK can discover and call Star Screener's tools without installation.
+TrendingRepo speaks the [Portal v0.1 protocol](https://visitportal.dev) so any LLM client with a Portal visitor SDK can discover and call TrendingRepo's tools without installation.
 
 ## Try it in 60 seconds
 
 ```bash
 # 1. Fetch the manifest.
-curl -s https://starscreener.xyz/portal | jq '.portal_version, .tools[].name'
+curl -s https://trendingrepo.com/portal | jq '.portal_version, .tools[].name'
 
 # 2. Call a tool.
-curl -s -X POST https://starscreener.xyz/portal/call \
+curl -s -X POST https://trendingrepo.com/portal/call \
   -H 'Content-Type: application/json' \
   -d '{"tool":"top_gainers","params":{"limit":3,"window":"7d"}}' | jq .
 
 # 3. Call with a language filter.
-curl -s -X POST https://starscreener.xyz/portal/call \
+curl -s -X POST https://trendingrepo.com/portal/call \
   -H 'Content-Type: application/json' \
   -d '{"tool":"top_gainers","params":{"language":"Rust","limit":5}}' | jq .
 
 # 4. Maintainer lookup.
-curl -s -X POST https://starscreener.xyz/portal/call \
+curl -s -X POST https://trendingrepo.com/portal/call \
   -H 'Content-Type: application/json' \
   -d '{"tool":"maintainer_profile","params":{"handle":"anthropics"}}' | jq .
 ```

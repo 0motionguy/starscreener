@@ -25,6 +25,12 @@ import {
   type TwitterWebPost,
 } from "./_twitter-web-provider";
 import { ApifyTwitterProvider } from "./_apify-twitter-provider";
+
+// Brand-migration shim: prefer the new TRENDINGREPO_* env name, fall back
+// to the legacy STARSCREENER_*. Inlined here (no warn) because scripts run
+// in CI; the deprecation chatter belongs in the app's boot path.
+const readEnv = (newName: string, oldName: string): string | undefined =>
+  process.env[newName] ?? process.env[oldName];
 import {
   buildTwitterQueryBundle,
   getTwitterScanCandidates,
@@ -135,7 +141,7 @@ function parseArgs(argv: string[]): CliOptions {
     mode: (process.env.TWITTER_COLLECTOR_MODE as CollectorMode) || "direct",
     baseUrl:
       process.env.TWITTER_COLLECTOR_BASE_URL ||
-      process.env.STARSCREENER_URL ||
+      readEnv("TRENDINGREPO_URL", "STARSCREENER_URL") ||
       process.env.NEXT_PUBLIC_APP_URL ||
       DEFAULT_BASE_URL,
     token:
@@ -855,7 +861,7 @@ async function main(): Promise<void> {
     );
 
     const payload = buildTwitterCollectorPayload(candidate, queries, postsByQuery, {
-      agentName: "starscreener-twitter-collector",
+      agentName: "trendingrepo-twitter-collector",
       agentVersion: "0.1.0",
       runId: options.runId,
       triggeredBy: "scheduled_refresh",

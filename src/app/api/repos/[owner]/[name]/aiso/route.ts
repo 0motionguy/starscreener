@@ -135,7 +135,7 @@ function checkRateLimit(ip: string): { ok: true } | { ok: false; retryAfterMs: n
 // files, so we publish the reset hook on `globalThis` under a symbol key.
 // Tests import the route then call `(globalThis as any)[AISO_TEST_RESET]()`
 // without polluting the route's public type surface.
-const AISO_TEST_RESET = Symbol.for("starscreener.aiso.test.reset");
+const AISO_TEST_RESET = Symbol.for("trendingrepo.aiso.test.reset");
 (globalThis as unknown as Record<symbol, () => void>)[AISO_TEST_RESET] = () => {
   rateLimitMap.clear();
 };

@@ -39,14 +39,51 @@ test("buildManifest strips a trailing slash from the base URL", () => {
   assert.equal(m.call_endpoint, "https://starscreener.xyz/portal/call");
 });
 
-test("buildManifest falls back to localhost:3023 when no base URL given", () => {
+test("buildManifest falls back to localhost:3023 when no base URL given (legacy STARSCREENER_PUBLIC_URL unset)", () => {
   // Preserve env around the test.
-  const save = process.env.STARSCREENER_PUBLIC_URL;
+  const saveLegacy = process.env.STARSCREENER_PUBLIC_URL;
+  const saveNew = process.env.TRENDINGREPO_PUBLIC_URL;
   delete process.env.STARSCREENER_PUBLIC_URL;
+  delete process.env.TRENDINGREPO_PUBLIC_URL;
   try {
     const m = buildManifest();
     assert.equal(m.call_endpoint, "http://localhost:3023/portal/call");
   } finally {
-    if (save !== undefined) process.env.STARSCREENER_PUBLIC_URL = save;
+    if (saveLegacy !== undefined)
+      process.env.STARSCREENER_PUBLIC_URL = saveLegacy;
+    if (saveNew !== undefined) process.env.TRENDINGREPO_PUBLIC_URL = saveNew;
+  }
+});
+
+test("buildManifest reads TRENDINGREPO_PUBLIC_URL when set (preferred over legacy)", () => {
+  const saveLegacy = process.env.STARSCREENER_PUBLIC_URL;
+  const saveNew = process.env.TRENDINGREPO_PUBLIC_URL;
+  delete process.env.STARSCREENER_PUBLIC_URL;
+  process.env.TRENDINGREPO_PUBLIC_URL = "https://example.test";
+  try {
+    const m = buildManifest();
+    assert.equal(m.call_endpoint, "https://example.test/portal/call");
+  } finally {
+    if (saveLegacy !== undefined)
+      process.env.STARSCREENER_PUBLIC_URL = saveLegacy;
+    else delete process.env.STARSCREENER_PUBLIC_URL;
+    if (saveNew !== undefined) process.env.TRENDINGREPO_PUBLIC_URL = saveNew;
+    else delete process.env.TRENDINGREPO_PUBLIC_URL;
+  }
+});
+
+test("buildManifest reads legacy STARSCREENER_PUBLIC_URL when only the old name is set", () => {
+  const saveLegacy = process.env.STARSCREENER_PUBLIC_URL;
+  const saveNew = process.env.TRENDINGREPO_PUBLIC_URL;
+  delete process.env.TRENDINGREPO_PUBLIC_URL;
+  process.env.STARSCREENER_PUBLIC_URL = "https://legacy.test";
+  try {
+    const m = buildManifest();
+    assert.equal(m.call_endpoint, "https://legacy.test/portal/call");
+  } finally {
+    if (saveLegacy !== undefined)
+      process.env.STARSCREENER_PUBLIC_URL = saveLegacy;
+    else delete process.env.STARSCREENER_PUBLIC_URL;
+    if (saveNew !== undefined) process.env.TRENDINGREPO_PUBLIC_URL = saveNew;
   }
 });

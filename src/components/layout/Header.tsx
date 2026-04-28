@@ -36,7 +36,7 @@ export function Header() {
                 aria-hidden="true"
                 className="v3-label mt-0.5 hidden leading-none sm:inline"
               >
-                {"// V3 SYSTEM / TREND MAP FOR OPEN SOURCE"}
+                {"// TRENDINGREPO / TREND MAP FOR OPEN SOURCE"}
               </span>
             </span>
           </Link>

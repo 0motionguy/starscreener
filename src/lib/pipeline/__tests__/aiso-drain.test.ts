@@ -87,7 +87,7 @@ function clearQueue(): void {
 // Scanner override plumbing
 // ---------------------------------------------------------------------------
 
-const DRAIN_OVERRIDE_KEY = Symbol.for("starscreener.aiso.drain.test");
+const DRAIN_OVERRIDE_KEY = Symbol.for("trendingrepo.aiso.drain.test");
 interface OverrideBag {
   overrides?: {
     scanner?: (url: string | null) => Promise<AisoToolsScan | null>;

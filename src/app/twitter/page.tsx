@@ -3,7 +3,6 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { Globe } from "lucide-react";
 import { GithubIcon, XIcon } from "@/components/brand/BrandIcons";
-import { TerminalBar, MonoLabel, BarcodeTicker } from "@/components/v2";
 import { formatNumber } from "@/lib/utils";
 import type {
   TwitterLeaderboardRow,
@@ -96,7 +95,12 @@ function RepoActionLinks({ row }: { row: TwitterLeaderboardRow }) {
           href={row.topPostUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-border-primary bg-bg-secondary text-text-tertiary transition-colors hover:border-brand/40 hover:text-brand"
+          className="inline-flex h-6 w-6 items-center justify-center rounded-full transition-colors"
+          style={{
+            border: "1px solid var(--v3-line-200)",
+            background: "var(--v3-bg-100)",
+            color: "var(--v3-ink-400)",
+          }}
           aria-label={`Open the strongest X mention for ${row.githubFullName}`}
           title={`Open the strongest X mention for ${row.githubFullName}`}
         >
@@ -118,7 +122,12 @@ function RepoActionLinks({ row }: { row: TwitterLeaderboardRow }) {
           href={websiteUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-border-primary bg-bg-secondary text-text-tertiary transition-colors hover:border-brand/40 hover:text-brand"
+          className="inline-flex h-6 w-6 items-center justify-center rounded-full transition-colors"
+          style={{
+            border: "1px solid var(--v3-line-200)",
+            background: "var(--v3-bg-100)",
+            color: "var(--v3-ink-400)",
+          }}
           aria-label={
             row.homepageUrl
               ? `Open the project website for ${row.githubFullName}`
@@ -209,10 +218,12 @@ function TwitterTabNav({
     },
   ];
 
+  const TWITTER_BLUE = "#1d9bf0";
   return (
     <nav
       aria-label="Twitter leaderboard tabs"
-      className="mb-6 flex items-center gap-1 border-b border-border-primary overflow-x-auto scrollbar-hide"
+      className="mb-6 flex items-center gap-1 overflow-x-auto scrollbar-hide"
+      style={{ borderBottom: "1px solid var(--v3-line-100)" }}
     >
       {tabs.map((tab) => {
         const isActive = tab.id === activeTab;
@@ -221,14 +232,24 @@ function TwitterTabNav({
             key={tab.id}
             href={tab.href}
             aria-current={isActive ? "page" : undefined}
-            className={`inline-flex min-h-[40px] shrink-0 items-center gap-2 border-b-2 px-3 text-xs uppercase tracking-wider transition-colors ${
-              isActive
-                ? "border-brand text-brand"
-                : "border-transparent text-text-tertiary hover:text-text-secondary"
-            }`}
+            className="v2-mono inline-flex min-h-[40px] shrink-0 items-center gap-2 px-3 text-[11px] uppercase tracking-[0.18em] transition-colors"
+            style={{
+              color: isActive ? "var(--v3-ink-100)" : "var(--v3-ink-400)",
+              borderBottom: isActive
+                ? `2px solid ${TWITTER_BLUE}`
+                : "2px solid transparent",
+            }}
           >
             <span>{tab.label}</span>
-            <span className="inline-flex h-[18px] min-w-[22px] items-center justify-center rounded border border-border-primary bg-bg-secondary px-1 text-[10px] tabular-nums text-text-tertiary">
+            <span
+              className="inline-flex h-[18px] min-w-[22px] items-center justify-center px-1 text-[10px] tabular-nums"
+              style={{
+                border: "1px solid var(--v3-line-200)",
+                background: "var(--v3-bg-100)",
+                color: "var(--v3-ink-400)",
+                borderRadius: 2,
+              }}
+            >
               {tab.count}
             </span>
           </Link>
@@ -261,33 +282,6 @@ export default async function TwitterPage({
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
       <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        {/* V2 terminal-bar header — operator chrome above the page header */}
-        <div className="v2-frame overflow-hidden mb-4">
-          <TerminalBar
-            label="// X · TRENDING REPO MENTIONS · 24H"
-            status={`${trendingRows.length} ROWS · LIVE`}
-            live
-          />
-          <BarcodeTicker count={140} height={12} seed={trendingRows.length || 220} />
-        </div>
-
-        <header className="mb-6 border-b border-[var(--v2-line-std)] pb-6 space-y-3">
-          <MonoLabel index="01" name="TWITTER" hint="MAIN-RANK FILTER" tone="muted" />
-          <div className="flex items-baseline gap-3 flex-wrap">
-            <h1 className="font-display text-2xl font-bold uppercase tracking-wider">
-              X / TRENDING REPO MENTIONS
-            </h1>
-            <span className="text-xs text-text-tertiary">
-              {"// main repo rank plus real X buzz - last 24h"}
-            </span>
-          </div>
-          <p className="text-sm text-text-secondary max-w-2xl">
-            Default view follows the main TrendingRepo ranking and filters to
-            repos with accepted X mentions. The global tab keeps the raw X-only
-            score as a separate signal.
-          </p>
-        </header>
-
         <TwitterTabNav
           activeTab={activeTab}
           trendingCount={trendingRows.length}
@@ -305,24 +299,51 @@ export default async function TwitterPage({
         </div>
 
         {rows.length === 0 ? (
-          <section className="border border-dashed border-border-primary rounded-md p-8 bg-bg-secondary/40">
-            <h2 className="text-lg font-bold uppercase tracking-wider text-brand">
+          <section
+            className="p-8"
+            style={{
+              background: "var(--v3-bg-025)",
+              border: "1px dashed var(--v3-line-100)",
+              borderRadius: 2,
+            }}
+          >
+            <h2
+              className="v2-mono text-lg font-bold uppercase tracking-[0.18em]"
+              style={{ color: "var(--v3-acc)" }}
+            >
               {activeTab === "global"
                 ? "// no global X findings yet"
                 : "// no trending repo X findings yet"}
             </h2>
-            <p className="mt-3 text-sm text-text-secondary max-w-xl">
+            <p
+              className="mt-3 max-w-xl text-sm"
+              style={{ color: "var(--v3-ink-300)" }}
+            >
               Post a completed OpenClaw scan to{" "}
-              <code className="text-text-primary">
+              <code style={{ color: "var(--v3-ink-100)" }}>
                 /api/internal/signals/twitter/v1/ingest
               </code>{" "}
               to populate this leaderboard.
             </p>
           </section>
         ) : (
-          <section className="border border-border-primary rounded-md bg-bg-secondary overflow-x-auto">
+          <section
+            className="overflow-x-auto"
+            style={{
+              background: "var(--v3-bg-050)",
+              border: "1px solid var(--v3-line-200)",
+              borderRadius: 2,
+            }}
+          >
             <div className="min-w-[840px]">
-              <div className="grid grid-cols-[36px_56px_minmax(260px,1.7fr)_72px_72px_72px_72px_88px] gap-3 items-center px-3 h-8 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
+              <div
+                className="v2-mono grid h-9 grid-cols-[36px_56px_minmax(260px,1.7fr)_72px_72px_72px_72px_88px] items-center gap-3 px-3 text-[10px] uppercase tracking-[0.18em]"
+                style={{
+                  borderBottom: "1px solid var(--v3-line-100)",
+                  background: "var(--v3-bg-025)",
+                  color: "var(--v3-ink-400)",
+                }}
+              >
                 <div>{activeTab === "global" ? "#" : "TR"}</div>
                 <div className="text-center">Top</div>
                 <div>Repo</div>
@@ -345,20 +366,48 @@ export default async function TwitterPage({
                     activeTab === "trending" && row.trendingRank
                       ? `#${row.trendingRank}`
                       : `#${index + 1}`;
+                  const stagger = Math.min(index, 6) * 50;
+
+                  const badgeStyle =
+                    row.badgeState === "x_fire"
+                      ? {
+                          border: "1px solid rgba(245, 110, 15, 0.4)",
+                          background: "rgba(245, 110, 15, 0.1)",
+                          color: "var(--v3-acc)",
+                        }
+                      : row.badgeState === "x"
+                        ? {
+                            border: "1px solid rgba(29, 155, 240, 0.4)",
+                            background: "rgba(29, 155, 240, 0.1)",
+                            color: "#4db7ff",
+                          }
+                        : {
+                            border: "1px solid var(--v3-line-200)",
+                            color: "var(--v3-ink-400)",
+                          };
 
                   return (
                     <li
                       key={row.repoId}
-                      className="grid grid-cols-[36px_56px_minmax(260px,1.7fr)_72px_72px_72px_72px_88px] gap-3 items-center px-3 py-2 border-b border-border-primary/40 last:border-b-0 hover:bg-bg-card-hover"
+                      className="v2-row group grid grid-cols-[36px_56px_minmax(260px,1.7fr)_72px_72px_72px_72px_88px] items-center gap-3 px-3 py-2"
+                      style={{
+                        borderBottom: "1px dashed var(--v3-line-100)",
+                        animation:
+                          "slide-up 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both",
+                        animationDelay: stagger > 0 ? `${stagger}ms` : undefined,
+                      }}
                     >
-                      <div className="text-text-tertiary text-xs tabular-nums">
+                      <div
+                        className="text-xs tabular-nums"
+                        style={{ color: "var(--v3-ink-400)" }}
+                      >
                         {rankLabel}
                       </div>
                       <div className="flex items-center justify-center">
                         <MentionAuthorBubbles authors={row.topMentionAuthors} />
                       </div>
                       <div className="min-w-0">
-                        <div className="flex items-center justify-between gap-2 min-w-0">
+                        <div className="flex min-w-0 items-center justify-between gap-2">
                           <div className="flex min-w-0 items-center gap-2">
                             <Image
                               src={getRepoAvatarUrl(row)}
@@ -366,11 +415,16 @@ export default async function TwitterPage({
                               width={18}
                               height={18}
                               unoptimized
-                              className="h-[18px] w-[18px] shrink-0 rounded-full border border-border-primary bg-bg-tertiary"
+                              className="h-[18px] w-[18px] shrink-0 rounded-full"
+                              style={{
+                                border: "1px solid var(--v3-line-200)",
+                                background: "var(--v3-bg-100)",
+                              }}
                             />
                             <Link
                               href={`/repo/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`}
-                              className="truncate text-sm text-text-primary hover:text-brand transition-colors"
+                              className="truncate text-sm font-medium transition-colors hover:text-[color:var(--v3-acc)]"
+                              style={{ color: "var(--v3-ink-100)" }}
                             >
                               {row.githubFullName}
                             </Link>
@@ -378,11 +432,12 @@ export default async function TwitterPage({
                           <RepoActionLinks row={row} />
                         </div>
                         {activeTab === "trending" ? (
-                          <div className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[10px] text-text-tertiary">
+                          <div
+                            className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[10px]"
+                            style={{ color: "var(--v3-ink-400)" }}
+                          >
                             {row.momentumScore !== undefined ? (
-                              <span>
-                                {row.momentumScore.toFixed(1)} momentum
-                              </span>
+                              <span>{row.momentumScore.toFixed(1)} momentum</span>
                             ) : null}
                             {row.starsDelta24h !== undefined ? (
                               <span>
@@ -395,27 +450,34 @@ export default async function TwitterPage({
                           </div>
                         ) : null}
                       </div>
-                      <div className="text-right text-xs tabular-nums text-text-primary">
+                      <div
+                        className="text-right text-xs tabular-nums"
+                        style={{ color: "var(--v3-ink-100)" }}
+                      >
                         {formatNumber(row.mentionCount24h)}
                       </div>
-                      <div className="text-right text-xs tabular-nums text-text-primary">
+                      <div
+                        className="text-right text-xs tabular-nums"
+                        style={{ color: "var(--v3-ink-100)" }}
+                      >
                         {formatNumber(row.totalLikes24h)}
                       </div>
-                      <div className="text-right text-xs tabular-nums text-text-primary">
+                      <div
+                        className="text-right text-xs tabular-nums"
+                        style={{ color: "var(--v3-ink-100)" }}
+                      >
                         {formatNumber(row.totalReposts24h)}
                       </div>
-                      <div className="text-right text-xs tabular-nums text-brand">
+                      <div
+                        className="text-right text-xs font-semibold tabular-nums"
+                        style={{ color: "var(--v3-acc)" }}
+                      >
                         {row.finalTwitterScore.toFixed(1)}
                       </div>
                       <div>
                         <span
-                          className={`inline-flex items-center rounded-md border px-2 py-0.5 text-[10px] uppercase tracking-wider ${
-                            row.badgeState === "x_fire"
-                              ? "border-brand/40 bg-brand/10 text-brand"
-                              : row.badgeState === "x"
-                                ? "border-[#1d9bf0]/40 bg-[#1d9bf0]/10 text-[#4db7ff]"
-                                : "border-border-primary text-text-tertiary"
-                          }`}
+                          className="v2-mono inline-flex items-center px-2 py-0.5 text-[10px] uppercase tracking-[0.16em]"
+                          style={{ ...badgeStyle, borderRadius: 2 }}
                         >
                           {badgeLabel}
                         </span>

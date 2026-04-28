@@ -342,7 +342,7 @@ test("non-https or non-provider-domain URLs are silently dropped", async () => {
 // Drain route — success / fail / dead-letter
 // ---------------------------------------------------------------------------
 
-const FLUSH_KEY = Symbol.for("starscreener.webhooks.flush.test");
+const FLUSH_KEY = Symbol.for("trendingrepo.webhooks.flush.test");
 interface FlushOverrideBag {
   overrides?: {
     fetcher?: (
@@ -527,7 +527,7 @@ test("flush respects inter-post delay", async () => {
 // Scan endpoint — idempotency
 // ---------------------------------------------------------------------------
 
-const SCAN_KEY = Symbol.for("starscreener.webhooks.scan.test");
+const SCAN_KEY = Symbol.for("trendingrepo.webhooks.scan.test");
 interface ScanOverrideBag {
   overrides?: {
     repos?: WebhookBreakoutRepo[];

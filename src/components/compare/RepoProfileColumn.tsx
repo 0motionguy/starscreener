@@ -66,7 +66,7 @@ export function RepoProfileColumn({
         </p>
         <p className="text-xs text-text-tertiary">
           {error === "not_found"
-            ? "Repo not in the StarScreener index yet."
+            ? "Repo not in the TrendingRepo index yet."
             : "Couldn't load this repo."}
         </p>
       </article>

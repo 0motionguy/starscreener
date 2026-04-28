@@ -88,6 +88,20 @@ entries required.
 populated. To force an immediate refresh, trigger the workflow manually:
 Actions → "Scrape OSS Insight trending" → Run workflow.
 
+### Preview deployments (Vercel)
+
+Preview deployments inherit only env vars scoped to the **Preview** environment in the Vercel dashboard. By default that's NOT the production tokens — so `src/lib/env.ts` will throw `Production boot aborted: missing required env vars: GITHUB_TOKEN, CRON_SECRET` and every dynamic page route returns 500. APIs and the prerendered home page (`/`) still work because they don't initialize the env-validating modules at lambda cold-start.
+
+Two ways to fix (one-time setup per project):
+
+- **Quickest** — add `TRENDINGREPO_ALLOW_MISSING_ENV=true` to the Preview scope only:
+  ```bash
+  vercel env add TRENDINGREPO_ALLOW_MISSING_ENV preview  # paste: true
+  ```
+- **Full** — add a low-permission `GITHUB_TOKEN` + a throwaway `CRON_SECRET` to Preview scope.
+
+Production scope must keep the real tokens; the override is preview-only.
+
 ---
 
 ## Railway deploy

@@ -13,11 +13,36 @@ import { createGitHubAdapter } from "@/lib/pipeline/ingestion/ingest";
 import { getExtendedSocialAdapters } from "@/lib/pipeline/adapters/extended-social";
 import type { IngestBatchResult, SocialAdapter } from "@/lib/pipeline/types";
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
+import { getDerivedRepos } from "@/lib/derived-repos";
+import { trendScoreForTimeRange } from "@/lib/filters";
 
 export const runtime = "nodejs";
 
 const FULL_NAME_PATTERN = /^[A-Za-z0-9._-]+\/[A-Za-z0-9._-]+$/;
 const MAX_BATCH_SIZE = 50;
+
+/**
+ * When the cron POSTs `{}` (the documented contract — see the GET-handler
+ * note further down), we auto-discover the most-trending tracked repos and
+ * feed those into the batch ingest. Without this, the cron deadlocks against
+ * the post-2026-04-17 strict-validation rule and `data/trending.json` goes
+ * stale silently, which is exactly what happened for ~14h before this fix.
+ *
+ * We pick the top-50 by 24h trend score (matches the home page + /cli
+ * page's selection) because those are the rows where stale data would
+ * embarrass us first. Other repos still get refreshed on subsequent cron
+ * fires as their relative ranking shifts.
+ */
+function autoDiscoverFullNames(): string[] {
+  const repos = getDerivedRepos();
+  return [...repos]
+    .sort(
+      (a, b) =>
+        trendScoreForTimeRange(b, "24h") - trendScoreForTimeRange(a, "24h"),
+    )
+    .slice(0, MAX_BATCH_SIZE)
+    .map((r) => r.fullName);
+}
 
 // P0 fix (F-DATA-social-persist): without social adapters the batch ingest
 // never populates `.data/mentions.jsonl`, so historical mention timelines,
@@ -53,42 +78,51 @@ export interface IngestErrorResponse {
   details?: string[];
 }
 
-/** Validate and normalize the inbound JSON body. */
+/** Validate and normalize the inbound JSON body.
+ *
+ * `fullNames` is OPTIONAL. When missing/empty, the caller is asking for
+ * an auto-discovered batch (see autoDiscoverFullNames above) — which is
+ * the case the GH Actions cron has been hitting since 2026-04-17. When
+ * provided, it must satisfy the strict-validation contract callers added
+ * for the public endpoint. */
 function parseBody(raw: unknown): {
   ok: true;
-  value: { fullNames: string[]; useMock?: boolean; recomputeAfter?: boolean };
+  value: { fullNames?: string[]; useMock?: boolean; recomputeAfter?: boolean };
 } | { ok: false; error: string; details?: string[] } {
   if (raw === null || typeof raw !== "object") {
     return { ok: false, error: "body must be a JSON object" };
   }
   const body = raw as Record<string, unknown>;
 
-  const fullNames = body.fullNames;
-  if (!Array.isArray(fullNames)) {
-    return { ok: false, error: "fullNames must be an array of strings" };
-  }
-  if (fullNames.length < 1) {
-    return { ok: false, error: "fullNames must contain at least 1 entry" };
-  }
-  if (fullNames.length > MAX_BATCH_SIZE) {
-    return {
-      ok: false,
-      error: `fullNames must contain at most ${MAX_BATCH_SIZE} entries`,
-    };
-  }
-
-  const invalid: string[] = [];
-  for (const n of fullNames) {
-    if (typeof n !== "string" || !FULL_NAME_PATTERN.test(n)) {
-      invalid.push(String(n));
+  const fullNamesRaw = body.fullNames;
+  let fullNames: string[] | undefined;
+  if (fullNamesRaw !== undefined) {
+    if (!Array.isArray(fullNamesRaw)) {
+      return { ok: false, error: "fullNames must be an array of strings" };
     }
-  }
-  if (invalid.length > 0) {
-    return {
-      ok: false,
-      error: "fullNames contains invalid entries",
-      details: invalid.map((n) => `"${n}" is not owner/repo`),
-    };
+    if (fullNamesRaw.length > MAX_BATCH_SIZE) {
+      return {
+        ok: false,
+        error: `fullNames must contain at most ${MAX_BATCH_SIZE} entries`,
+      };
+    }
+    const invalid: string[] = [];
+    for (const n of fullNamesRaw) {
+      if (typeof n !== "string" || !FULL_NAME_PATTERN.test(n)) {
+        invalid.push(String(n));
+      }
+    }
+    if (invalid.length > 0) {
+      return {
+        ok: false,
+        error: "fullNames contains invalid entries",
+        details: invalid.map((n) => `"${n}" is not owner/repo`),
+      };
+    }
+    // Empty array → fall through to auto-discover (treat same as missing).
+    if (fullNamesRaw.length > 0) {
+      fullNames = fullNamesRaw as string[];
+    }
   }
 
   const useMock =
@@ -101,7 +135,7 @@ function parseBody(raw: unknown): {
   return {
     ok: true,
     value: {
-      fullNames: fullNames as string[],
+      fullNames,
       useMock,
       recomputeAfter,
     },
@@ -132,7 +166,20 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     );
   }
 
-  const { fullNames, useMock, recomputeAfter } = parsed.value;
+  const { fullNames: explicitFullNames, useMock, recomputeAfter } = parsed.value;
+  const fullNames = explicitFullNames ?? autoDiscoverFullNames();
+  const autoDiscovered = explicitFullNames === undefined;
+
+  if (fullNames.length === 0) {
+    return NextResponse.json(
+      {
+        ok: false,
+        error:
+          "no repos to ingest — autoDiscover returned 0 (getDerivedRepos may be empty on a cold lambda)",
+      },
+      { status: 503 },
+    );
+  }
 
   try {
     await pipeline.ensureReady();
@@ -163,7 +210,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         .map(([id, c]) => `${id}=${c.mentions}${c.failures > 0 ? `(${c.failures} fail)` : ""}`)
         .join(" ");
       console.log(
-        `[pipeline:ingest] social adapters summary repos=${fullNames.length} ${summary}`,
+        `[pipeline:ingest] social adapters summary repos=${fullNames.length}${autoDiscovered ? " auto" : ""} ${summary}`,
       );
     }
 
@@ -257,10 +304,9 @@ export async function GET(
   // Vercel-Cron config registers this route as `/api/pipeline/ingest?cron=1`
   // so an operator manually hitting `GET /api/pipeline/ingest` still gets
   // the usage docs, but a cron invocation trips the same ingest pipeline as
-  // the GitHub Actions POST cron. Body parity matters: the GH Actions
-  // workflow POSTs `{}`, so the cron-delegated POST call here does the
-  // same — any shape/validation failure happens identically across both
-  // schedulers (bug parity beats silent divergence).
+  // the GitHub Actions POST cron. The GH Actions workflow POSTs `{}`, which
+  // the POST handler resolves to "auto-discover the top-50 by 24h trend
+  // score" — see autoDiscoverFullNames() above.
   if (request.nextUrl.searchParams.get("cron") === "1") {
     return POST(request);
   }
@@ -269,7 +315,7 @@ export async function GET(
     methods: ["POST"],
     body: {
       fullNames:
-        "string[] of owner/repo names (1-50 entries, matches /^[A-Za-z0-9._-]+\\/[A-Za-z0-9._-]+$/)",
+        "string[] of owner/repo names (optional, 0-50 entries, matches /^[A-Za-z0-9._-]+\\/[A-Za-z0-9._-]+$/). When missing or empty the route auto-discovers the top-50 by 24h trend score — what the cron contract expects.",
       useMock:
         "boolean (optional) — force the mock adapter. Defaults to !process.env.GITHUB_TOKEN.",
       recomputeAfter:

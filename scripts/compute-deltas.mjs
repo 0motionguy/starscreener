@@ -22,7 +22,7 @@ import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { execFileSync } from "node:child_process";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { writeDataStore } from "./_data-store-write.mjs";
+import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
@@ -327,7 +327,11 @@ function pingIndexNowFromTrending(trendingJson) {
     });
 }
 
-main().catch((err) => {
-  console.error("compute-deltas failed:", err.stack ?? err.message ?? err);
-  process.exit(1);
-});
+main()
+  .catch((err) => {
+    console.error("compute-deltas failed:", err.stack ?? err.message ?? err);
+    process.exitCode = 1;
+  })
+  .finally(async () => {
+    await closeDataStore();
+  });

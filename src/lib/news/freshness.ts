@@ -97,11 +97,22 @@ export interface FreshnessVerdict {
  * Classify a source's freshness given its last `fetchedAt`. Used by
  * `NewsSourceLayout` to decide between rendering the page and rendering
  * the SourceDown empty state.
+ *
+ * @param oldestRecordAt Optional ISO of the OLDEST per-record `lastRefreshedAt`
+ *   in the payload. When passed, freshness uses
+ *   `max(now - fetchedAt, now - oldestRecordAt)` so a cron that emits stale
+ *   data with a fresh top-level timestamp still trips the badge. When the
+ *   oldest record is past `cadence × 2` (i.e. 2× the stale threshold) the
+ *   badge is forced to STALE/cold regardless of fetchedAt.
+ *
+ *   Sources that don't track per-record state pass `undefined` and keep the
+ *   old fetchedAt-only behavior. Pre-existing callers stay green.
  */
 export function classifyFreshness(
   source: NewsSource,
   fetchedAt: string | null | undefined,
   nowMs: number = Date.now(),
+  oldestRecordAt?: string | null | undefined,
 ): FreshnessVerdict {
   const staleAfterMs = SOURCE_STALE_MS[source];
 
@@ -124,9 +135,31 @@ export function classifyFreshness(
     };
   }
 
-  const ageMs = Math.max(0, nowMs - ts);
-  const status: FreshnessStatus =
-    ageMs > staleAfterMs
+  const fetchedAge = Math.max(0, nowMs - ts);
+
+  // Optional per-record floor. Only applied when caller provided a parseable
+  // oldestRecordAt — undefined / null / unparseable → fall through to the
+  // old fetchedAt-only path.
+  let oldestAge: number | null = null;
+  if (oldestRecordAt) {
+    const oldestTs = Date.parse(oldestRecordAt);
+    if (Number.isFinite(oldestTs)) {
+      oldestAge = Math.max(0, nowMs - oldestTs);
+    }
+  }
+
+  const ageMs = oldestAge !== null ? Math.max(fetchedAge, oldestAge) : fetchedAge;
+
+  // Hard force-cold when the oldest record is past 2× the stale threshold.
+  // This catches the silent-emit-same-data failure mode that motivated B4:
+  // top-level fetchedAt advances every 20m but the underlying records are
+  // hours old. cadence × 2 = STALE_THRESHOLD × 2 since the stale threshold
+  // is already cron-cadence × grace.
+  const oldestForcesCold = oldestAge !== null && oldestAge > staleAfterMs * 2;
+
+  const status: FreshnessStatus = oldestForcesCold
+    ? "cold"
+    : ageMs > staleAfterMs
       ? "cold"
       : ageMs > warnMs(staleAfterMs)
         ? "warn"
@@ -149,6 +182,51 @@ export function isSourceCold(
   source: NewsSource,
   fetchedAt: string | null | undefined,
   nowMs: number = Date.now(),
+  oldestRecordAt?: string | null | undefined,
 ): boolean {
-  return classifyFreshness(source, fetchedAt, nowMs).status === "cold";
+  return classifyFreshness(source, fetchedAt, nowMs, oldestRecordAt).status === "cold";
+}
+
+/**
+ * Walk a payload and find the oldest `lastRefreshedAt` ISO string anywhere
+ * in nested objects/arrays. Returns null when nothing is stamped.
+ *
+ * Used by source loaders to pass an oldestRecordAt floor into classifyFreshness
+ * — see `scripts/_data-store-write.mjs` (the writer that stamps tracked-repo
+ * records) for the producer side. Bounded recursion (depth 6) so a malformed
+ * payload can't infinite-loop the loader.
+ */
+export function findOldestRecordAt(value: unknown, depth = 0): string | null {
+  if (depth > 6 || value === null || typeof value !== "object") return null;
+  let oldest: string | null = null;
+  let oldestTs = Number.POSITIVE_INFINITY;
+
+  const considerCandidate = (candidate: unknown): void => {
+    if (typeof candidate !== "string") return;
+    const ts = Date.parse(candidate);
+    if (!Number.isFinite(ts)) return;
+    if (ts < oldestTs) {
+      oldestTs = ts;
+      oldest = candidate;
+    }
+  };
+
+  if (Array.isArray(value)) {
+    for (const item of value) {
+      const child = findOldestRecordAt(item, depth + 1);
+      considerCandidate(child);
+    }
+    return oldest;
+  }
+
+  const obj = value as Record<string, unknown>;
+  if (typeof obj.lastRefreshedAt === "string") {
+    considerCandidate(obj.lastRefreshedAt);
+  }
+  for (const child of Object.values(obj)) {
+    if (child === null || typeof child !== "object") continue;
+    const found = findOldestRecordAt(child, depth + 1);
+    considerCandidate(found);
+  }
+  return oldest;
 }

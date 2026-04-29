@@ -34,6 +34,8 @@ import trustmrr from './fetchers/trustmrr/index.js';
 import revenueBenchmarks from './fetchers/revenue-benchmarks/index.js';
 import redditBaselines from './fetchers/reddit-baselines/index.js';
 import engagementComposite from './fetchers/engagement-composite/index.js';
+import trendshiftDaily from './fetchers/trendshift-daily/index.js';
+import consensusTrending from './fetchers/consensus-trending/index.js';
 // Phase B Group 2 (social) - lobsters is the only NEW name; bluesky/devto/
 // hackernews/producthunt/reddit replaced their stub bodies in place and so
 // their existing imports above pick up the real implementations transparently.
@@ -43,6 +45,21 @@ import lobsters from './fetchers/lobsters/index.js';
 // consumed-but-never-produced under worker-only mode).
 import manualRepos from './fetchers/manual-repos/index.js';
 import revenueManualMatches from './fetchers/revenue-manual-matches/index.js';
+// Chunk C — MCP & Skill enrichment side-channels. These fetchers don't
+// produce primary leaderboard items; they populate side-channel Redis keys
+// (`mcp-downloads`, `mcp-dependents`, `mcp-smithery-rank`,
+// `skill-derivative-count`, `skill-install-snapshot:<date>`) that
+// buildMcpItem / buildSkillItem in src/lib/ecosystem-leaderboards.ts read
+// at request time. Each fetcher renormalizes gracefully when its env
+// dependency is missing.
+import npmDownloads from './fetchers/npm-downloads/index.js';
+import pypiDownloads from './fetchers/pypi-downloads/index.js';
+import npmDependents from './fetchers/npm-dependents/index.js';
+import mcpSmitheryRank from './fetchers/mcp-smithery-rank/index.js';
+import skillDerivatives from './fetchers/skill-derivatives/index.js';
+import skillInstallSnapshot from './fetchers/skill-install-snapshot/index.js';
+import skillForksSnapshot from './fetchers/skill-forks-snapshot/index.js';
+import hotnessSnapshot from './fetchers/hotness-snapshot/index.js';
 
 export const FETCHERS: Fetcher[] = [
   hnPulse,
@@ -59,7 +76,9 @@ export const FETCHERS: Fetcher[] = [
   trustmrr,
   revenueBenchmarks,
   redditBaselines,
+  trendshiftDaily,
   engagementComposite,
+  consensusTrending,
   lobsters,
   huggingface,
   bluesky,
@@ -76,6 +95,14 @@ export const FETCHERS: Fetcher[] = [
   producthunt,
   devto,
   reddit,
+  npmDownloads,
+  pypiDownloads,
+  npmDependents,
+  mcpSmitheryRank,
+  skillDerivatives,
+  skillInstallSnapshot,
+  skillForksSnapshot,
+  hotnessSnapshot,
 ];
 
 export function getFetcher(name: string): Fetcher | undefined {

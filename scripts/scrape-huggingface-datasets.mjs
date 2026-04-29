@@ -29,7 +29,7 @@ import { writeFile, mkdir } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { fetchJsonWithRetry } from "./_fetch-json.mjs";
-import { writeDataStore } from "./_data-store-write.mjs";
+import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
@@ -130,13 +130,19 @@ const isDirectRun = invokedPath
   : false;
 
 if (isDirectRun) {
-  main().catch((err) => {
-    console.error(
-      "scrape-huggingface-datasets failed:",
-      err.message ?? err,
-    );
-    process.exit(1);
-  });
+  // Always close the Redis client — ioredis otherwise keeps the event loop
+  // alive and the workflow hangs until cancellation. B6 root cause.
+  main()
+    .catch((err) => {
+      console.error(
+        "scrape-huggingface-datasets failed:",
+        err.message ?? err,
+      );
+      process.exitCode = 1;
+    })
+    .finally(async () => {
+      await closeDataStore();
+    });
 }
 
 export { normalizeDataset };

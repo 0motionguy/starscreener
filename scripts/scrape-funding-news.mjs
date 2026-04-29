@@ -17,7 +17,7 @@ import { fileURLToPath } from "url";
 import pLimit from "p-limit";
 import { fetchWithTimeout, sleep } from "./_fetch-json.mjs";
 import { fetchArticleData } from "./_funding-article.mjs";
-import { writeDataStore } from "./_data-store-write.mjs";
+import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = resolve(__dirname, "..");
@@ -667,10 +667,14 @@ function extractCompanyNameFromArticle(text, currentName) {
 
 // Guard so tests can import without auto-running
 if (process.argv[1] && process.argv[1].includes("scrape-funding-news")) {
-  main().catch((err) => {
-    console.error("[funding] fatal:", err);
-    process.exit(1);
-  });
+  main()
+    .catch((err) => {
+      console.error("[funding] fatal:", err);
+      process.exitCode = 1;
+    })
+    .finally(async () => {
+      await closeDataStore();
+    });
 }
 
 export {

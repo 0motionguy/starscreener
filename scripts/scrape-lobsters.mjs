@@ -37,7 +37,7 @@ import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 import { fetchJsonWithRetry } from "./_fetch-json.mjs";
 import { extractGithubRepoFullNames } from "./_github-repo-links.mjs";
 import { loadTrackedReposFromFiles } from "./_tracked-repos.mjs";
-import { writeDataStore } from "./_data-store-write.mjs";
+import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
@@ -307,7 +307,10 @@ if (isDirectRun) {
       } catch (metaErr) {
         console.error("[meta] lobsters.json error-write failed:", metaErr);
       }
-      process.exit(1);
+      process.exitCode = 1;
+    })
+    .finally(async () => {
+      await closeDataStore();
     });
 }
 

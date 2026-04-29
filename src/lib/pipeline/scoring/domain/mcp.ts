@@ -26,6 +26,8 @@ export interface McpItem extends DomainItem {
   crossSourceCount?: number;
   p50LatencyMs?: number;
   isStdio?: boolean;
+  /** ISO timestamp of the last npm/pypi release — feeds lastReleaseRecency. */
+  lastReleaseAt?: string;
 }
 
 const COMPONENT_LABELS: Record<string, string> = {
@@ -36,6 +38,7 @@ const COMPONENT_LABELS: Record<string, string> = {
   npmDependents: "dependents",
   crossSourceCount: "sources",
   latencyInverse: "latency",
+  lastReleaseRecency: "release recency",
 };
 
 const DEFAULT_WEIGHTS: Readonly<Record<string, number>> = Object.freeze({
@@ -44,14 +47,31 @@ const DEFAULT_WEIGHTS: Readonly<Record<string, number>> = Object.freeze({
   toolCount: 0.15,
   smitheryRankInverse: 0.15,
   npmDependents: 0.10,
-  crossSourceCount: 0.10,
+  crossSourceCount: 0.05,
   latencyInverse: 0.05,
+  lastReleaseRecency: 0.05,
 });
 
 function toolCountScore(toolCount: number): number {
   const safe = Math.max(0, toolCount);
   const score = (Math.log(safe + 1) / Math.log(20)) * 100;
   return clamp(score, 0, 100);
+}
+
+/**
+ * lastReleaseRecency: 100 if last release within 30 days, then linear
+ * taper to 0 at 365 days. Returns null when the timestamp is unparseable
+ * so callers can drop the term and renormalize.
+ */
+function lastReleaseRecencyScore(isoDate: string): number | null {
+  const ts = Date.parse(isoDate);
+  if (!Number.isFinite(ts)) return null;
+  const days = (Date.now() - ts) / (1000 * 60 * 60 * 24);
+  if (days <= 30) return 100;
+  if (days >= 365) return 0;
+  // Linear taper from 100 at day 30 to 0 at day 365.
+  const frac = (365 - days) / (365 - 30);
+  return clamp(frac * 100, 0, 100);
 }
 
 function computeOne(item: McpItem): ScoredItem<McpItem> {
@@ -110,6 +130,15 @@ function computeOne(item: McpItem): ScoredItem<McpItem> {
     const norm = clamp(item.p50LatencyMs / 2000, 0, 1);
     components.latencyInverse = (1 - norm) * 100;
     activeWeights.latencyInverse = DEFAULT_WEIGHTS.latencyInverse;
+  }
+
+  // lastReleaseRecency (0.05): drop when timestamp absent or unparseable.
+  if (item.lastReleaseAt !== undefined) {
+    const score = lastReleaseRecencyScore(item.lastReleaseAt);
+    if (score !== null) {
+      components.lastReleaseRecency = score;
+      activeWeights.lastReleaseRecency = DEFAULT_WEIGHTS.lastReleaseRecency;
+    }
   }
 
   const weights = normalizeWeights(activeWeights);

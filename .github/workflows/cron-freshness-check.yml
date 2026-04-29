@@ -8,6 +8,19 @@ name: Cron - freshness check
 #
 # Required repo config:
 #   vars.TRENDINGREPO_URL  — optional; defaults to prod URL (legacy: vars.STARSCREENER_URL)
+#   secrets.OPS_ALERT_WEBHOOK — optional Discord/Slack webhook URL.
+#     When set, the workflow POSTs a one-line JSON message on state changes
+#     (healthy → stale and stale → healthy). Email-on-fail is too quiet,
+#     ops were missing alerts for days. State-change-only keeps it from
+#     becoming a 96-message/day spam-channel.
+#
+# State persistence: a single-line file `data/.cron-health-status` is
+# committed back to main on every transition. Picked over `actions/cache`
+# + artifacts because:
+#   1. The repo is already the source of truth for collector state.
+#   2. Cache keys can race / evict; a committed file cannot.
+#   3. One file vs. configuring artifact upload+download steps. K2/K3.
+# The file holds exactly one of: ok | stale | error  (no trailing newline).
 
 on:
   schedule:
@@ -15,7 +28,7 @@ on:
   workflow_dispatch: {}
 
 permissions:
-  contents: read
+  contents: write  # needed to commit the .cron-health-status flip-file
 
 concurrency:
   group: cron-freshness-check
@@ -23,34 +36,132 @@ concurrency:
 
 env:
   BASE_URL: ${{ vars.TRENDINGREPO_URL || vars.STARSCREENER_URL || 'https://trendingrepo.com' }}
+  STATUS_FILE: data/.cron-health-status
 
 jobs:
   run:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
       - name: GET /api/health
+        id: probe
+        # Probe outputs:
+        #   status: "ok" | "stale" | "error"
+        #   message: short human description for the alert payload
         run: |
+          set +e
           code=$(curl -sS -o /tmp/out -w "%{http_code}" \
             "$BASE_URL/api/health")
-          echo "HTTP $code"
+          curl_rc=$?
+          set -e
+          echo "HTTP $code (curl_rc=$curl_rc)"
           if command -v jq >/dev/null 2>&1 && jq . /tmp/out >/dev/null 2>&1; then
             jq . /tmp/out | head -c 2000
           else
             head -c 2000 /tmp/out
           fi
           echo
-          if [ "$code" != "200" ]; then
-            echo "::error::health probe failed ($code)"
-            exit 1
+
+          if [ "$curl_rc" != "0" ] || [ "$code" != "200" ]; then
+            echo "status=error" >> "$GITHUB_OUTPUT"
+            echo "message=health probe failed (HTTP $code, curl_rc=$curl_rc)" >> "$GITHUB_OUTPUT"
+            exit 0
           fi
-          # Fail if body.status != "ok" so "stale" / "error" surface as
-          # red workflow runs, not silent passes.
+
           if command -v jq >/dev/null 2>&1; then
-            status=$(jq -r '.status // "missing"' /tmp/out)
-            echo "status=$status"
-            if [ "$status" != "ok" ]; then
-              echo "::error::health status is '$status' (expected 'ok')"
-              exit 1
+            body_status=$(jq -r '.status // "missing"' /tmp/out)
+            echo "body_status=$body_status"
+            if [ "$body_status" = "ok" ]; then
+              echo "status=ok" >> "$GITHUB_OUTPUT"
+              echo "message=health ok" >> "$GITHUB_OUTPUT"
+            else
+              echo "status=stale" >> "$GITHUB_OUTPUT"
+              echo "message=health status='$body_status' (expected 'ok')" >> "$GITHUB_OUTPUT"
             fi
+          else
+            # No jq available — assume ok if HTTP 200, since the body parse
+            # would also have failed and we don't want to spam on infra blips.
+            echo "status=ok" >> "$GITHUB_OUTPUT"
+            echo "message=health ok (jq unavailable, HTTP 200 only)" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Read previous status
+        id: previous
+        # Defaults to 'unknown' so the very first run after this workflow
+        # ships emits exactly one alert (unknown → whatever the current state is).
+        run: |
+          if [ -f "$STATUS_FILE" ]; then
+            prev=$(cat "$STATUS_FILE" | tr -d '[:space:]')
+          else
+            prev="unknown"
+          fi
+          [ -z "$prev" ] && prev="unknown"
+          echo "prev=$prev"
+          echo "prev=$prev" >> "$GITHUB_OUTPUT"
+
+      - name: Notify on state change
+        if: ${{ steps.previous.outputs.prev != steps.probe.outputs.status }}
+        env:
+          OPS_ALERT_WEBHOOK: ${{ secrets.OPS_ALERT_WEBHOOK }}
+          PREV: ${{ steps.previous.outputs.prev }}
+          NEXT: ${{ steps.probe.outputs.status }}
+          DETAIL: ${{ steps.probe.outputs.message }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        # Discord-compatible / Slack-compatible-enough single-field payload.
+        # No-op (with a warning) if the webhook secret isn't configured —
+        # the workflow still updates the status file so future transitions
+        # won't be skipped.
+        run: |
+          if [ -z "${OPS_ALERT_WEBHOOK:-}" ]; then
+            echo "::warning::OPS_ALERT_WEBHOOK secret not set — skipping notification (state $PREV -> $NEXT)"
+            exit 0
+          fi
+          # Minimal Discord-shaped payload. Slack + Mattermost also accept
+          # a top-level `content` field for plain-text webhooks.
+          msg="[trendingrepo cron] $PREV -> $NEXT — $DETAIL ($RUN_URL)"
+          # Escape backslashes + double-quotes for safe JSON embedding.
+          esc=$(printf '%s' "$msg" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read()))')
+          curl -sS -X POST -H "Content-Type: application/json" \
+            -d "{\"content\": $esc}" \
+            "$OPS_ALERT_WEBHOOK" || echo "::warning::webhook POST failed (non-fatal)"
+
+      - name: Persist status
+        if: ${{ steps.previous.outputs.prev != steps.probe.outputs.status }}
+        env:
+          NEXT: ${{ steps.probe.outputs.status }}
+        # Commit the flip-file so the *next* run sees the new state.
+        # Skipped when state didn't change — avoids an empty-commit per cycle.
+        run: |
+          mkdir -p "$(dirname "$STATUS_FILE")"
+          printf '%s' "$NEXT" > "$STATUS_FILE"
+          git config user.name  "trendingrepo-bot"
+          git config user.email "bot@trendingrepo.com"
+          git add "$STATUS_FILE"
+          if git diff --quiet --staged; then
+            echo "no-op (file already at target state)"
+            exit 0
+          fi
+          git commit -m "chore(ops): cron health $NEXT"
+          # Retry-rebase loop: another concurrent commit on main is rare but
+          # not impossible during a 15-min cron tick.
+          for i in 1 2 3; do
+            if git pull --rebase origin main && git push; then
+              exit 0
+            fi
+            echo "push attempt $i failed; retrying"
+            sleep 2
+          done
+          echo "::warning::failed to persist status file after 3 retries"
+
+      - name: Fail loud on stale/error
+        # Keep the existing red-X behavior so anyone watching the workflow
+        # tab still sees the failure. Webhook is additive, not replacement.
+        if: ${{ steps.probe.outputs.status != 'ok' }}
+        run: |
+          echo "::error::health status is '${{ steps.probe.outputs.status }}': ${{ steps.probe.outputs.message }}"
+          exit 1

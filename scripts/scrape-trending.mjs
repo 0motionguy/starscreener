@@ -7,7 +7,7 @@ import { writeFile, mkdir, readdir, readFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { fetchJsonWithRetry } from "./_fetch-json.mjs";
-import { writeDataStore } from "./_data-store-write.mjs";
+import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 
 const PERIODS = ["past_24_hours", "past_week", "past_month"];
 const LANGUAGES = ["All", "Python", "TypeScript", "Rust", "Go"];
@@ -274,7 +274,11 @@ async function main() {
   }
 }
 
-main().catch((err) => {
-  console.error("scrape-trending failed:", err.message ?? err);
-  process.exit(1);
-});
+main()
+  .catch((err) => {
+    console.error("scrape-trending failed:", err.message ?? err);
+    process.exitCode = 1;
+  })
+  .finally(async () => {
+    await closeDataStore();
+  });

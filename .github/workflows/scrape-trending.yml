@@ -25,6 +25,15 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        # Required for `_data-store-write.mjs` to import `ioredis` (Railway path).
+        # The script does a dynamic `await import("ioredis")` and fails the
+        # whole job if the module is missing — which silently broke this
+        # workflow for ~24h after the Redis backend switched from Upstash REST
+        # to ioredis (commit 89273868).
+        run: npm ci
 
       - name: Refresh OSSInsight trending + hot collections
         env:

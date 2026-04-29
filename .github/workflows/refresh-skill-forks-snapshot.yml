@@ -1,0 +1,46 @@
+name: Refresh skill forks snapshot
+
+# Daily at 03:13 UTC (staggered from skill-install-snapshot's 03:00).
+# Reads `trending-skill` and `trending-skill-sh`, extracts the `forks`
+# (or `forks_count`) field per skill, writes to
+# `skill-forks-snapshot:<YYYY-MM-DD>` so the app's buildSkillItem can
+# join against the 7d-old snapshot to populate `forks7dAgo`.
+# 7-day rolling window — snapshots older than 8d are auto-expired by TTL.
+on:
+  schedule:
+    - cron: "13 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: skill-forks-snapshot
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/trendingrepo-worker
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: apps/trendingrepo-worker/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run skill-forks-snapshot fetcher
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+        run: npx tsx src/index.ts skill-forks-snapshot

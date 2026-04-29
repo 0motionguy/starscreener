@@ -14,7 +14,7 @@ import {
 } from "@/components/signal/SignalSourcePage";
 import type { SignalRow } from "@/components/signal/SignalTable";
 import type { SignalMetricCardProps } from "@/components/signal/SignalMetricCard";
-import { classifyFreshness } from "@/lib/news/freshness";
+import { classifyFreshness, findOldestRecordAt } from "@/lib/news/freshness";
 import { triggerScanIfStale } from "@/lib/news/auto-rescrape";
 import Link from "next/link";
 
@@ -36,9 +36,11 @@ import {
   getAllRedditMentions,
   getAllRedditPosts,
   getRedditFetchedAt,
+  getRedditFile,
 } from "@/lib/reddit-data";
 import {
   getAllHnMentions,
+  getHnFile,
   hnFetchedAt,
   hnItemHref,
   type HnStory,
@@ -48,17 +50,20 @@ import {
   getAllBlueskyMentions,
   blueskyFetchedAt,
   bskyPostHref,
+  getBlueskyFile,
   type BskyPost,
 } from "@/lib/bluesky";
 import { getBlueskyTopPosts } from "@/lib/bluesky-trending";
 import {
   getAllDevtoMentions,
   devtoFetchedAt,
+  getDevtoFile,
   type DevtoArticle,
 } from "@/lib/devto";
 import { getDevtoTopArticles } from "@/lib/devto-trending";
 import {
   getAllLobstersMentions,
+  getLobstersFile,
   lobstersFetchedAt,
   lobstersStoryHref,
   type LobstersStory,
@@ -123,12 +128,23 @@ export default function SignalsPage() {
   const devtoAt = devtoFetchedAt || null;
   const lobstersAt = lobstersFetchedAt || null;
 
+  // Per-record freshness floor (B4). Reading from the in-memory cache that
+  // refreshXxxFromStore() populates from Redis — records there carry
+  // `lastRefreshedAt` (stamped by scripts/_data-store-write.mjs). When the
+  // cache is still seeded from bundled JSON these will be null and the
+  // classifier falls back to fetchedAt-only behavior.
+  const redditOldest = findOldestRecordAt(getRedditFile().mentions);
+  const hnOldest = findOldestRecordAt(getHnFile().mentions);
+  const bskyOldest = findOldestRecordAt(getBlueskyFile().mentions);
+  const devtoOldest = findOldestRecordAt(getDevtoFile().mentions);
+  const lobstersOldest = findOldestRecordAt(getLobstersFile().mentions);
+
   const sourceVerdicts: Array<{ source: Parameters<typeof triggerScanIfStale>[0]; at: string | null; status: "live" | "warn" | "cold" }> = [
-    { source: "reddit", at: redditAt, status: classifyFreshness("reddit", redditAt).status },
-    { source: "hackernews", at: hnAt, status: classifyFreshness("hackernews", hnAt).status },
-    { source: "bluesky", at: bskyAt, status: classifyFreshness("bluesky", bskyAt).status },
-    { source: "devto", at: devtoAt, status: classifyFreshness("devto", devtoAt).status },
-    { source: "lobsters", at: lobstersAt, status: classifyFreshness("lobsters", lobstersAt).status },
+    { source: "reddit", at: redditAt, status: classifyFreshness("reddit", redditAt, undefined, redditOldest).status },
+    { source: "hackernews", at: hnAt, status: classifyFreshness("hackernews", hnAt, undefined, hnOldest).status },
+    { source: "bluesky", at: bskyAt, status: classifyFreshness("bluesky", bskyAt, undefined, bskyOldest).status },
+    { source: "devto", at: devtoAt, status: classifyFreshness("devto", devtoAt, undefined, devtoOldest).status },
+    { source: "lobsters", at: lobstersAt, status: classifyFreshness("lobsters", lobstersAt, undefined, lobstersOldest).status },
   ];
 
   for (const v of sourceVerdicts) {

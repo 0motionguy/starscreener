@@ -36,7 +36,7 @@ import { fileURLToPath } from "node:url";
 import { fetchWithTimeout, sleep, parseRetryAfterMs } from "./_fetch-json.mjs";
 import { extractGithubRepoFullNames } from "./_github-repo-links.mjs";
 import { loadTrackedReposFromFiles } from "./_tracked-repos.mjs";
-import { writeDataStore } from "./_data-store-write.mjs";
+import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
@@ -270,10 +270,14 @@ const isDirectRun = invokedPath
   : false;
 
 if (isDirectRun) {
-  main().catch((err) => {
-    console.error("scrape-arxiv failed:", err.message ?? err);
-    process.exit(1);
-  });
+  main()
+    .catch((err) => {
+      console.error("scrape-arxiv failed:", err.message ?? err);
+      process.exitCode = 1;
+    })
+    .finally(async () => {
+      await closeDataStore();
+    });
 }
 
 export { parseEntry, splitEntries };

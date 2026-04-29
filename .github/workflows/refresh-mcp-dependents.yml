@@ -1,0 +1,46 @@
+name: Refresh MCP dependents
+
+# Daily at 04:53 UTC. Polls libraries.io for `dependent_repos_count` per
+# tracked MCP npm package and writes to Redis `mcp-dependents` (aggregate)
+# plus per-package cache `mcp-dependents:<pkg>` (7d TTL). When the
+# LIBRARIES_IO_API_KEY secret is missing the fetcher logs a warning and
+# exits cleanly — the scorer drops the term.
+on:
+  schedule:
+    - cron: "53 4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mcp-dependents
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/trendingrepo-worker
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: apps/trendingrepo-worker/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run npm-dependents fetcher
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+          LIBRARIES_IO_API_KEY: ${{ secrets.LIBRARIES_IO_API_KEY }}
+        run: npx tsx src/index.ts npm-dependents

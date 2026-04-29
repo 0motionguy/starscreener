@@ -156,6 +156,7 @@ function TierRow({
   return (
     <div
       ref={setNodeRef}
+      className="group/tier"
       style={{
         display: "flex",
         minHeight: 88,
@@ -194,10 +195,15 @@ function TierRow({
             textAlign: "center",
           }}
         />
+        {/* Chrome buttons (⋯ ▲ ▼ ×) sit invisible at rest and fade in when
+            the row is hovered or one of the buttons is focused. Keeps the
+            colored swatch reading as a clean letter chip while the controls
+            remain reachable. */}
         <button
           type="button"
           onClick={() => setPickerOpen((o) => !o)}
           aria-label="Change tier color"
+          className="opacity-0 group-hover/tier:opacity-100 focus-visible:opacity-100 transition-opacity"
           style={{
             position: "absolute",
             top: 4,
@@ -221,6 +227,7 @@ function TierRow({
             onClick={() => removeTier(tierId)}
             aria-label={`Remove tier ${label}`}
             title="Remove tier (items move back to pool)"
+            className="opacity-0 group-hover/tier:opacity-100 focus-visible:opacity-100 transition-opacity"
             style={{
               position: "absolute",
               bottom: 4,
@@ -246,6 +253,7 @@ function TierRow({
             onClick={() => moveTier(tierId, "up")}
             aria-label={`Move tier ${label} up`}
             title="Move row up"
+            className="opacity-0 group-hover/tier:opacity-100 focus-visible:opacity-100 transition-opacity"
             style={tierReorderButtonStyle({ position: "top" })}
           >
             ▲
@@ -257,6 +265,7 @@ function TierRow({
             onClick={() => moveTier(tierId, "down")}
             aria-label={`Move tier ${label} down`}
             title="Move row down"
+            className="opacity-0 group-hover/tier:opacity-100 focus-visible:opacity-100 transition-opacity"
             style={tierReorderButtonStyle({ position: "bottom" })}
           >
             ▼

@@ -14,6 +14,7 @@ import type {
 } from "@/lib/ecosystem-leaderboards";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { LivenessPill, classifyLiveness } from "@/components/signal/LivenessPill";
+import { mcpEntityLogoUrl } from "@/lib/logos";
 
 // ---------------------------------------------------------------------------
 // Slug helper for the per-MCP detail route. Mirrors `slugForMcp` in
@@ -78,7 +79,7 @@ export function TerminalCellTitle({ item }: { item: EcosystemLeaderboardItem }) 
   return (
     <div className="flex min-w-0 items-center gap-2.5">
       <EntityLogo
-        src={item.logoUrl ?? null}
+        src={mcpEntityLogoUrl(item, 24)}
         name={item.title}
         size={24}
         shape="square"
@@ -139,43 +140,154 @@ export function TerminalCellPackage({ mcp }: { mcp: McpDisplayFields | undefined
 
 /**
  * Weekly downloads cell. Compact number + tiny stack-bar showing the
- * npm/pypi split when both are present. Falls back to dash when nothing
- * is known.
+ * npm/pypi split when both are present.
+ *
+ * Fallback ladder for day-1-of-deployment when the 7d window hasn't
+ * accumulated yet (`downloadsCombined7d === null`):
+ *   1. Sum of any per-registry 7d fields when at least one is defined.
+ *   2. `npmDependents` as a usage-proxy snapshot.
+ * Both fallbacks render with an "abs" subtitle so the operator knows it
+ * is not a delta. Only `—` when ALL three are missing.
  */
 export function TerminalCellWeeklyDownloads({
   mcp,
 }: {
   mcp: McpDisplayFields | undefined;
 }) {
-  if (!mcp || mcp.downloadsCombined7d === null) {
+  if (!mcp) {
     return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
   }
-  const npm = mcp.npmDownloads7d ?? 0;
-  const pypi = mcp.pypiDownloads7d ?? 0;
-  const total = npm + pypi;
-  const showSplit = npm > 0 && pypi > 0 && total > 0;
-  const npmPct = showSplit ? (npm / total) * 100 : 0;
 
-  return (
-    <div className="flex flex-col items-end gap-1 tabular-nums">
-      <span
-        className="font-mono text-[12px] font-semibold"
-        style={{ color: "var(--v3-ink-100)" }}
-      >
-        {fmtCompact(mcp.downloadsCombined7d)}
-      </span>
-      {showSplit ? (
-        <div
-          className="flex h-1 w-14 overflow-hidden rounded-sm"
-          style={{ background: "var(--v3-bg-100)" }}
-          title={`npm ${fmtCompact(npm)} · pypi ${fmtCompact(pypi)}`}
+  // Primary path: combined 7d downloads available.
+  if (mcp.downloadsCombined7d !== null && Number.isFinite(mcp.downloadsCombined7d)) {
+    const npm = mcp.npmDownloads7d ?? 0;
+    const pypi = mcp.pypiDownloads7d ?? 0;
+    const total = npm + pypi;
+    const showSplit = npm > 0 && pypi > 0 && total > 0;
+    const npmPct = showSplit ? (npm / total) * 100 : 0;
+
+    return (
+      <div className="flex flex-col items-end gap-1 tabular-nums">
+        <span
+          className="font-mono text-[12px] font-semibold"
+          style={{ color: "var(--v3-ink-100)" }}
         >
-          <span style={{ width: `${npmPct}%`, background: "#cb3837" }} />
-          <span style={{ width: `${100 - npmPct}%`, background: "#3776ab" }} />
-        </div>
-      ) : null}
-    </div>
-  );
+          {fmtCompact(mcp.downloadsCombined7d)}
+        </span>
+        {showSplit ? (
+          <div
+            className="flex h-1 w-14 overflow-hidden rounded-sm"
+            style={{ background: "var(--v3-bg-100)" }}
+            title={`npm ${fmtCompact(npm)} · pypi ${fmtCompact(pypi)}`}
+          >
+            <span style={{ width: `${npmPct}%`, background: "#cb3837" }} />
+            <span style={{ width: `${100 - npmPct}%`, background: "#3776ab" }} />
+          </div>
+        ) : null}
+      </div>
+    );
+  }
+
+  // Fallback 1: per-registry 7d when at least one is present.
+  const hasNpm =
+    typeof mcp.npmDownloads7d === "number" &&
+    Number.isFinite(mcp.npmDownloads7d) &&
+    mcp.npmDownloads7d > 0;
+  const hasPypi =
+    typeof mcp.pypiDownloads7d === "number" &&
+    Number.isFinite(mcp.pypiDownloads7d) &&
+    mcp.pypiDownloads7d > 0;
+  if (hasNpm || hasPypi) {
+    const sum = (mcp.npmDownloads7d ?? 0) + (mcp.pypiDownloads7d ?? 0);
+    return (
+      <span
+        className="font-mono text-[12px] tabular-nums"
+        style={{ color: "var(--v3-ink-300)" }}
+      >
+        {fmtCompact(sum)}
+        <span
+          className="ml-1 text-[9px] uppercase tracking-[0.16em]"
+          style={{ color: "var(--v3-ink-500)" }}
+        >
+          abs
+        </span>
+      </span>
+    );
+  }
+
+  // Fallback 2: npm dependents as a usage-proxy.
+  if (
+    typeof mcp.npmDependents === "number" &&
+    Number.isFinite(mcp.npmDependents) &&
+    mcp.npmDependents > 0
+  ) {
+    return (
+      <span
+        className="font-mono text-[12px] tabular-nums"
+        style={{ color: "var(--v3-ink-300)" }}
+      >
+        {fmtCompact(mcp.npmDependents)}
+        <span
+          className="ml-1 text-[9px] uppercase tracking-[0.16em]"
+          style={{ color: "var(--v3-ink-500)" }}
+        >
+          abs
+        </span>
+      </span>
+    );
+  }
+
+  // Q3 escalation: lifetime installs from the publish payload. This is the
+  // most-populated absolute snapshot today (the user's TOP-MCP sidebar
+  // already proves it's there) so it rescues the largest pool of rows from
+  // rendering `—`.
+  if (
+    typeof mcp.installsTotal === "number" &&
+    Number.isFinite(mcp.installsTotal) &&
+    mcp.installsTotal > 0
+  ) {
+    return (
+      <span
+        className="font-mono text-[12px] tabular-nums"
+        style={{ color: "var(--v3-ink-300)" }}
+      >
+        {fmtCompact(mcp.installsTotal)}
+        <span
+          className="ml-1 text-[9px] uppercase tracking-[0.16em]"
+          style={{ color: "var(--v3-ink-500)" }}
+          title="lifetime installs (cold-start fallback)"
+        >
+          abs
+        </span>
+      </span>
+    );
+  }
+
+  // Final fallback: GitHub stars. Coarsest proxy, but better than `—` when
+  // no install/download data is reachable for this row.
+  if (
+    typeof mcp.starsTotal === "number" &&
+    Number.isFinite(mcp.starsTotal) &&
+    mcp.starsTotal > 0
+  ) {
+    return (
+      <span
+        className="font-mono text-[12px] tabular-nums"
+        style={{ color: "var(--v3-ink-300)" }}
+      >
+        {fmtCompact(mcp.starsTotal)}
+        <span
+          className="ml-1 text-[9px] uppercase tracking-[0.16em]"
+          style={{ color: "var(--v3-ink-500)" }}
+          title="GitHub stars (final fallback)"
+        >
+          stars
+        </span>
+      </span>
+    );
+  }
+
+  return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
 }
 
 export function TerminalCellToolCount({

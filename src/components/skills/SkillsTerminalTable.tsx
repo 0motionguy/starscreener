@@ -79,7 +79,7 @@ const SKILL_COLUMNS: FeedColumn<EcosystemLeaderboardItem>[] = [
     width: "80px",
     align: "right",
     hideBelow: "md",
-    render: (row) => <TerminalCellSkillNumber value={row.forkVelocity7d} signed />,
+    render: (row) => <TerminalCellForksWithFallback row={row} />,
   },
   {
     id: "derivative-count",
@@ -95,7 +95,7 @@ const SKILL_COLUMNS: FeedColumn<EcosystemLeaderboardItem>[] = [
     width: "104px",
     align: "right",
     hideBelow: "lg",
-    render: (row) => <TerminalCellSkillNumber value={row.installsDelta7d} signed />,
+    render: (row) => <TerminalCellInstallsWithFallback row={row} />,
   },
   {
     id: "last-commit",
@@ -213,6 +213,49 @@ function TerminalCellSkillNumber({
       {formatted}
     </span>
   );
+}
+
+function TerminalCellForksWithFallback({ row }: { row: EcosystemLeaderboardItem }) {
+  // Prefer the 7d delta when available; fall through to the absolute snapshot
+  // so day-1 of deployment shows "12.4K" instead of "—". The "abs" subtitle
+  // signals to the operator that this is a snapshot, not a delta.
+  if (typeof row.forkVelocity7d === "number" && Number.isFinite(row.forkVelocity7d)) {
+    return <TerminalCellSkillNumber value={row.forkVelocity7d} signed />;
+  }
+  if (typeof row.forks === "number" && Number.isFinite(row.forks) && row.forks > 0) {
+    return (
+      <span className="font-mono tabular-nums" style={{ color: "var(--v3-ink-300)" }}>
+        {formatCompactNumber(row.forks)}
+        <span
+          className="ml-1 text-[9px] uppercase tracking-[0.16em]"
+          style={{ color: "var(--v3-ink-500)" }}
+        >
+          abs
+        </span>
+      </span>
+    );
+  }
+  return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+}
+
+function TerminalCellInstallsWithFallback({ row }: { row: EcosystemLeaderboardItem }) {
+  if (typeof row.installsDelta7d === "number" && Number.isFinite(row.installsDelta7d)) {
+    return <TerminalCellSkillNumber value={row.installsDelta7d} signed />;
+  }
+  if (typeof row.installs7d === "number" && Number.isFinite(row.installs7d) && row.installs7d > 0) {
+    return (
+      <span className="font-mono tabular-nums" style={{ color: "var(--v3-ink-300)" }}>
+        {formatCompactNumber(row.installs7d)}
+        <span
+          className="ml-1 text-[9px] uppercase tracking-[0.16em]"
+          style={{ color: "var(--v3-ink-500)" }}
+        >
+          abs
+        </span>
+      </span>
+    );
+  }
+  return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
 }
 
 function TerminalCellSkillDerivative({ row }: { row: EcosystemLeaderboardItem }) {

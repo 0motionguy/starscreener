@@ -7,12 +7,13 @@
  * Parent resolves the top 5 from the watchlist store + repo data before
  * passing them in — this component is a pure presentation layer.
  */
-import Image from "next/image";
 import Link from "next/link";
 import { EyeOff } from "lucide-react";
 import type { MovementStatus } from "@/lib/types";
 import { cn, formatNumber } from "@/lib/utils";
 import { ChannelDots } from "@/components/cross-signal/ChannelDots";
+import { EntityLogo } from "@/components/ui/EntityLogo";
+import { repoDisplayLogoUrl } from "@/lib/logos";
 
 // Per-source badges (HnBadge / BskyBadge / PhBadge / DevtoBadge) intentionally
 // removed from this preview: their lib imports drag ioredis (a Node-only
@@ -92,12 +93,12 @@ export function SidebarWatchlistPreview({
             className="grid grid-cols-[20px_1fr_auto] gap-2 items-center px-3 h-10 hover:bg-bg-card-hover transition-colors"
             title={`${repo.fullName} — ${deltaLabel} stars / 24h`}
           >
-            <Image
-              src={repo.ownerAvatarUrl}
+            <EntityLogo
+              src={repoDisplayLogoUrl(repo.fullName, repo.ownerAvatarUrl, 20)}
+              name={repo.fullName}
+              size={20}
+              shape="circle"
               alt=""
-              width={20}
-              height={20}
-              className="size-5 shrink-0 rounded-full border border-border-primary bg-bg-tertiary"
             />
             <div className="flex items-center gap-1.5 min-w-0">
               <span className="text-[12px] text-text-secondary truncate">

@@ -2,12 +2,13 @@
 
 import { useRef, useState, useCallback, useEffect } from "react";
 import { createPortal } from "react-dom";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Search, Star, X } from "lucide-react";
 import { cn, formatNumber } from "@/lib/utils";
 import { ROUTES } from "@/lib/constants";
 import type { Repo } from "@/lib/types";
+import { EntityLogo } from "@/components/ui/EntityLogo";
+import { repoDisplayLogoUrl } from "@/lib/logos";
 
 interface SearchBarProps {
   placeholder?: string;
@@ -301,12 +302,12 @@ export function SearchBar({
                           : "hover:bg-bg-tertiary/60",
                       )}
                     >
-                      <Image
-                        src={repo.ownerAvatarUrl}
+                      <EntityLogo
+                        src={repoDisplayLogoUrl(repo.fullName, repo.ownerAvatarUrl, 20)}
+                        name={repo.fullName}
+                        size={20}
+                        shape="circle"
                         alt=""
-                        width={20}
-                        height={20}
-                        className="size-5 shrink-0 rounded-full border border-border-primary bg-bg-tertiary"
                       />
                       <span className="min-w-0 flex-1 truncate text-[13px] font-medium text-text-primary">
                         {repo.fullName}

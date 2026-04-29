@@ -6,9 +6,9 @@
 // this page), and unified cross-signal strip carried forward.
 
 import type { JSX } from "react";
-import Image from "next/image";
 import { ExternalLink } from "lucide-react";
 import type { Repo } from "@/lib/types";
+import { EntityLogo } from "@/components/ui/EntityLogo";
 import { ChannelDots } from "@/components/cross-signal/ChannelDots";
 import { HnBadge } from "@/components/hackernews/HnBadge";
 import { BskyBadge } from "@/components/bluesky/BskyBadge";
@@ -21,6 +21,7 @@ import { getRepoMetadata } from "@/lib/repo-metadata";
 import type { TwitterRepoRowBadge } from "@/lib/twitter/types";
 import { XSignalBadge } from "@/components/twitter/XSignalBadge";
 import { TerminalBar, BracketMarkers } from "@/components/v2";
+import { repoDisplayLogoUrl } from "@/lib/logos";
 
 interface RepoDetailHeaderProps {
   repo: Repo;
@@ -97,17 +98,13 @@ export function RepoDetailHeader({
       <div className="p-4 sm:p-5 space-y-4">
         {/* Identity row */}
         <div className="flex items-start gap-3 sm:gap-4">
-          <Image
-            src={repo.ownerAvatarUrl}
+          <EntityLogo
+            src={repoDisplayLogoUrl(repo.fullName, repo.ownerAvatarUrl, 56)}
+            name={repo.fullName}
+            size={48}
+            shape="square"
             alt={repo.owner}
-            width={56}
-            height={56}
-            priority
             className="size-12 sm:size-14 shrink-0 object-cover"
-            style={{
-              borderRadius: 2,
-              border: "1px solid var(--v2-line-200)",
-            }}
           />
           <div className="flex-1 min-w-0">
             <h1

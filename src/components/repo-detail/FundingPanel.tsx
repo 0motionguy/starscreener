@@ -14,6 +14,8 @@ import { ArrowUpRight, Landmark } from "lucide-react";
 import { getRelativeTime } from "@/lib/utils";
 import type { RepoFundingEvent } from "@/lib/funding/repo-events";
 import type { FundingRoundType } from "@/lib/funding/types";
+import { EntityLogo } from "@/components/ui/EntityLogo";
+import { resolveLogoUrl } from "@/lib/logos";
 
 interface FundingPanelProps {
   events: RepoFundingEvent[];
@@ -123,6 +125,12 @@ function FundingRow({
     investors.length - visibleInvestors.length,
   );
   const announcedAt = signal.publishedAt;
+  const companyName = extracted?.companyName ?? signal.headline;
+  const companyLogo = resolveLogoUrl(
+    extracted?.companyWebsite ?? extracted?.companyLogoUrl ?? signal.sourceUrl,
+    companyName,
+    64,
+  );
 
   const showConfidence =
     match.reason !== "domain" || match.confidence < 0.99;
@@ -135,6 +143,14 @@ function FundingRow({
         borderBottom: isLast ? "none" : "1px solid var(--v2-line-std)",
       }}
     >
+      <EntityLogo
+        src={companyLogo}
+        name={companyName}
+        size={24}
+        shape="square"
+        alt=""
+      />
+
       <span className="v2-tag shrink-0">{roundLabel.toUpperCase()}</span>
 
       <span
@@ -163,7 +179,19 @@ function FundingRow({
             fontFamily: "var(--font-geist-mono), monospace",
           }}
         >
-          {visibleInvestors.join(", ")}
+          {visibleInvestors.map((investor, idx) => (
+            <span key={`${investor}-${idx}`} className="inline-flex items-center gap-1.5">
+              <EntityLogo
+                src={resolveLogoUrl(null, investor, 32)}
+                name={investor}
+                size={16}
+                shape="circle"
+                alt=""
+              />
+              {investor}
+              {idx < visibleInvestors.length - 1 ? "," : ""}
+            </span>
+          ))}
           {extraInvestors > 0 ? ` +${extraInvestors}` : ""}
         </span>
       ) : null}

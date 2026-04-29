@@ -17,12 +17,13 @@
 // scorer produces no candidates.
 
 import type { JSX } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { Network } from "lucide-react";
 
 import { formatNumber } from "@/lib/utils";
 import type { RelatedRepoItem } from "@/lib/repo-related";
+import { EntityLogo } from "@/components/ui/EntityLogo";
+import { repoDisplayLogoUrl } from "@/lib/logos";
 
 interface RelatedReposPanelProps {
   items: RelatedRepoItem[];
@@ -119,30 +120,13 @@ function RelatedRepoCard({ item }: { item: RelatedRepoItem }): JSX.Element {
         aria-label={`Open ${item.fullName}`}
       >
         <div className="flex items-center gap-2">
-          {item.ownerAvatarUrl ? (
-            <Image
-              src={item.ownerAvatarUrl}
-              alt=""
-              width={20}
-              height={20}
-              className="size-5 shrink-0"
-              style={{
-                borderRadius: 2,
-                border: "1px solid var(--v2-line-200)",
-              }}
-              unoptimized
-            />
-          ) : (
-            <span
-              aria-hidden
-              className="size-5 shrink-0"
-              style={{
-                background: "var(--v2-bg-100)",
-                border: "1px solid var(--v2-line-200)",
-                borderRadius: 2,
-              }}
-            />
-          )}
+          <EntityLogo
+            src={repoDisplayLogoUrl(item.fullName, item.ownerAvatarUrl, 20)}
+            name={item.fullName}
+            size={20}
+            shape="square"
+            alt=""
+          />
           <span
             className="truncate"
             style={{

@@ -12,6 +12,8 @@ import { RankBadge } from "@/components/shared/RankBadge";
 import { RepoMentionBadges } from "@/components/repo-signals/RepoMentionBadges";
 import { NpmBadge } from "@/components/npm/NpmBadge";
 import { getNpmPackagesForRepo } from "@/lib/npm";
+import { EntityLogo } from "@/components/ui/EntityLogo";
+import { repoDisplayLogoUrl } from "@/lib/logos";
 
 interface RepoCardProps {
   repo: Repo;
@@ -41,6 +43,13 @@ export function RepoCard({ repo, index = 0, showRank = false }: RepoCardProps) {
         {showRank && (
           <RankBadge rank={repo.rank} size="sm" className="shrink-0" />
         )}
+        <EntityLogo
+          src={repoDisplayLogoUrl(repo.fullName, repo.ownerAvatarUrl, 24)}
+          name={repo.fullName}
+          size={24}
+          shape="square"
+          alt=""
+        />
         <span className="font-semibold text-text-primary truncate text-sm">
           {repo.fullName}
         </span>

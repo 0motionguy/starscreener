@@ -7,6 +7,8 @@ import {
   type ConsensusBadge,
   type ConsensusItem,
 } from "@/lib/consensus-trending";
+import { EntityLogo } from "@/components/ui/EntityLogo";
+import { repoLogoUrl } from "@/lib/logos";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -154,14 +156,23 @@ export default async function ConsensusPage() {
                     <span className="text-[11px] text-text-tertiary tabular-nums">
                       {item.rank}
                     </span>
-                    <span className="min-w-0">
-                      <span className="block truncate text-sm font-semibold text-text-primary">
-                        {item.fullName}
-                      </span>
+                    <span className="flex min-w-0 items-center gap-2">
+                      <EntityLogo
+                        src={repoLogoUrl(item.fullName, 24)}
+                        name={item.fullName}
+                        size={24}
+                        shape="square"
+                        alt=""
+                      />
+                      <span className="min-w-0">
+                        <span className="block truncate text-sm font-semibold text-text-primary">
+                          {item.fullName}
+                        </span>
                       <span className="mt-1 flex gap-2 text-[10px] uppercase tracking-wider text-text-tertiary md:hidden">
                         <span>O {sourceMark(item, "ours")}</span>
                         <span>OSS {sourceMark(item, "oss")}</span>
                         <span>TS {sourceMark(item, "trendshift")}</span>
+                      </span>
                       </span>
                     </span>
                     <span className="text-right text-sm font-bold tabular-nums text-text-primary">

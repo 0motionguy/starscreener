@@ -17,6 +17,8 @@ import { formatNumber } from "@/lib/utils";
 import { ChannelDots } from "./ChannelDots";
 import { HnBadge } from "@/components/hackernews/HnBadge";
 import { getHnMentions } from "@/lib/hackernews";
+import { EntityLogo } from "@/components/ui/EntityLogo";
+import { repoDisplayLogoUrl } from "@/lib/logos";
 
 interface CrossSignalBreakoutsProps {
   repos: Repo[];
@@ -99,7 +101,13 @@ export function CrossSignalBreakouts({
                 <span className="font-mono text-[10px] text-text-tertiary tabular-nums">
                   {i + 1}
                 </span>
-                <ChannelDots repo={repo} size="md" />
+                <EntityLogo
+                  src={repoDisplayLogoUrl(repo.fullName, repo.ownerAvatarUrl, 20)}
+                  name={repo.fullName}
+                  size={20}
+                  shape="square"
+                  alt=""
+                />
                 <span className="text-[12px] text-text-primary truncate font-medium inline-flex items-center gap-2 min-w-0">
                   {hotLaunch ? (
                     <span
@@ -117,6 +125,9 @@ export function CrossSignalBreakouts({
                     </span>
                   ) : null}
                   <span className="truncate">{repo.fullName}</span>
+                </span>
+                <span className="hidden sm:inline-flex">
+                  <ChannelDots repo={repo} size="md" />
                 </span>
                 {/* HN badge + stars hidden on mobile to keep rows from
                     overflowing. The 24h delta is the load-bearing signal. */}

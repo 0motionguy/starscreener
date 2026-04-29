@@ -18,6 +18,8 @@ import { getRepoProfile, type RepoProfileStatus } from "@/lib/repo-profiles";
 import { fetchGithubRepoHomepageUrl } from "@/lib/github-repo-homepage";
 import { formatNumber, getRelativeTime } from "@/lib/utils";
 import { AisoRetryButton } from "./AisoRetryButton";
+import { EntityLogo } from "@/components/ui/EntityLogo";
+import { repoDisplayLogoUrl, resolveLogoUrl } from "@/lib/logos";
 
 type AisoUiStatus =
   | "scanned"
@@ -58,6 +60,8 @@ interface Surface {
   value: string;
   href?: string;
   icon: LucideIcon;
+  logoUrl?: string | null;
+  logoName?: string;
   active: boolean;
   detail: string;
 }
@@ -201,6 +205,8 @@ export async function ProjectSurfaceMap({
       value: repo.fullName,
       href: repo.url || `https://github.com/${repo.fullName}`,
       icon: Boxes,
+      logoUrl: repoDisplayLogoUrl(repo.fullName, repo.ownerAvatarUrl, 28),
+      logoName: repo.fullName,
       active: true,
       detail: `${formatNumber(repo.stars)} stars`,
     },
@@ -209,6 +215,8 @@ export async function ProjectSurfaceMap({
       value: websiteUrl ? hostname(websiteUrl) : "not linked",
       href: websiteUrl ?? undefined,
       icon: Globe2,
+      logoUrl: resolveLogoUrl(websiteUrl, repo.fullName, 32),
+      logoName: websiteUrl ? hostname(websiteUrl) : repo.fullName,
       active: websiteUrl != null,
       detail: websiteUrl
         ? aisoScan?.score != null
@@ -225,6 +233,8 @@ export async function ProjectSurfaceMap({
       value: docsUrl ? hostname(docsUrl) : "pending",
       href: docsUrl ?? undefined,
       icon: BookOpen,
+      logoUrl: resolveLogoUrl(docsUrl, repo.fullName, 32),
+      logoName: docsUrl ? hostname(docsUrl) : "docs",
       active: docsUrl != null,
       detail: docsUrl ? "docs surface detected" : "docs scanner pending",
     },
@@ -233,6 +243,8 @@ export async function ProjectSurfaceMap({
       value: topPackage ? topPackage.name : "none",
       href: topPackage?.npmUrl,
       icon: Boxes,
+      logoUrl: repoDisplayLogoUrl(repo.fullName, repo.ownerAvatarUrl, 32),
+      logoName: topPackage?.name ?? repo.fullName,
       active: topPackage != null,
       detail: topPackage
         ? `${formatNumber(topPackage.downloads7d)} downloads / 7d`
@@ -243,6 +255,8 @@ export async function ProjectSurfaceMap({
       value: productHuntLaunch ? productHuntLaunch.name : "none",
       href: productHuntLaunch?.url,
       icon: Rocket,
+      logoUrl: resolveLogoUrl(productHuntLaunch?.website, productHuntLaunch?.name, 32),
+      logoName: productHuntLaunch?.name ?? "ProductHunt",
       active: productHuntLaunch != null,
       detail: productHuntLaunch
         ? `${formatNumber(productHuntLaunch.votesCount)} votes`
@@ -252,6 +266,8 @@ export async function ProjectSurfaceMap({
       label: "Paper/model",
       value: "pending",
       icon: FileText,
+      logoUrl: null,
+      logoName: "Paper/model",
       active: false,
       detail: "HF/arXiv resolver not attached yet",
     },
@@ -406,23 +422,25 @@ export async function ProjectSurfaceMap({
           const Icon = surface.icon;
           const content = (
             <>
-              <span
-                className="flex size-7 shrink-0 items-center justify-center rounded-[2px]"
-                style={
-                  surface.active
-                    ? {
-                        background: "var(--v3-acc-soft)",
-                        border: "1px solid var(--v3-acc-dim)",
-                        color: "var(--v3-acc)",
-                      }
-                    : {
-                        background: "var(--v3-bg-100)",
-                        border: "1px solid var(--v3-line-100)",
-                        color: "var(--v3-ink-400)",
-                      }
-                }
-              >
-                <Icon className="size-3.5" aria-hidden />
+              <span className="relative flex size-7 shrink-0 items-center justify-center">
+                <EntityLogo
+                  src={surface.logoUrl ?? null}
+                  name={surface.logoName ?? surface.value}
+                  size={28}
+                  shape="square"
+                  alt=""
+                />
+                {!surface.logoUrl ? (
+                  <Icon
+                    className="absolute size-3.5"
+                    aria-hidden
+                    style={{
+                      color: surface.active
+                        ? "var(--v3-acc)"
+                        : "var(--v3-ink-400)",
+                    }}
+                  />
+                ) : null}
               </span>
               <span className="min-w-0 flex-1">
                 <span

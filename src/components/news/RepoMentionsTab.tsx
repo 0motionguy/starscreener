@@ -4,6 +4,8 @@
 // this component stays source-agnostic.
 
 import Link from "next/link";
+import { EntityLogo } from "@/components/ui/EntityLogo";
+import { repoLogoUrl } from "@/lib/logos";
 
 export interface RepoMentionRow {
   fullName: string;
@@ -98,8 +100,15 @@ export function RepoMentionsTab({
               <td className="px-2 py-2 font-semibold">
                 <Link
                   href={`/repo/${row.fullName}`}
-                  className="text-text-primary hover:underline"
+                  className="inline-flex min-w-0 items-center gap-2 text-text-primary hover:underline"
                 >
+                  <EntityLogo
+                    src={repoLogoUrl(row.fullName, 20)}
+                    name={row.fullName}
+                    size={20}
+                    shape="square"
+                    alt=""
+                  />
                   {row.fullName}
                 </Link>
               </td>

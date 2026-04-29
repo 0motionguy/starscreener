@@ -7,6 +7,8 @@
 // 1-letter monogram tile otherwise — so a missing logo never leaves a
 // blank slot on the page.
 
+import { extractDomain, resolveLogoUrl } from "./logo-url";
+
 /**
  * GitHub owner avatar — 40px is the canonical small size; pass other
  * sizes for different surface densities. Public, no auth, very stable.
@@ -26,6 +28,117 @@ export function repoLogoUrl(fullName: string | null | undefined, size = 40): str
 export function repoOwnerLogoUrl(owner: string | null | undefined, size = 40): string | null {
   if (!owner) return null;
   return `https://github.com/${encodeURIComponent(owner)}.png?size=${size}`;
+}
+
+/**
+ * Repo logo for display surfaces. Prefer a captured/enriched avatar when the
+ * pipeline already has one; otherwise fall back to the public GitHub owner
+ * avatar derived from `owner/name`.
+ */
+export function repoDisplayLogoUrl(
+  fullName: string | null | undefined,
+  providedUrl: string | null | undefined,
+  size = 40,
+): string | null {
+  const trimmed = typeof providedUrl === "string" ? providedUrl.trim() : "";
+  if (trimmed) return trimmed;
+  return repoLogoUrl(fullName, size);
+}
+
+/**
+ * Profile avatar for local profile pages. Handles may arrive with or without
+ * `@`; we use the GitHub avatar endpoint because STARSCREENER identities are
+ * repo/maintainer centric and the endpoint has a stable monogram fallback.
+ */
+export function profileLogoUrl(handle: string | null | undefined, size = 40): string | null {
+  if (!handle) return null;
+  const clean = handle.trim().replace(/^@+/, "");
+  if (!clean) return null;
+  return repoOwnerLogoUrl(clean, size);
+}
+
+const HUGGING_FACE_MARK =
+  "https://huggingface.co/front/assets/huggingface_logo-noborder.svg";
+
+/**
+ * Hugging Face entity logo. We deliberately do NOT use
+ * `https://huggingface.co/<author>/avatar.png`: many authors/orgs do not
+ * expose that endpoint consistently, which leaves the three feature cards
+ * and feed rows with broken image icons. The platform mark is stable and
+ * still gives every HF row a recognizable logo.
+ */
+export function huggingFaceLogoUrl(): string {
+  return HUGGING_FACE_MARK;
+}
+
+export interface McpLogoInput {
+  logoUrl?: string | null;
+  linkedRepo?: string | null;
+  url?: string | null;
+  title?: string | null;
+  vendor?: string | null;
+  sourceLabel?: string | null;
+}
+
+function hasInvalidLogoDomain(input: string | null | undefined): boolean {
+  if (typeof input !== "string") return false;
+  const trimmed = input.trim();
+  if (!trimmed) return false;
+  if (/\.invalid(?:[/?#]|$)/i.test(trimmed)) return true;
+  try {
+    const url = new URL(trimmed);
+    const faviconDomain = url.searchParams.get("domain");
+    const extracted = extractDomain(faviconDomain);
+    return Boolean(extracted?.endsWith(".invalid"));
+  } catch {
+    return false;
+  }
+}
+
+function cleanLogoInput(input: string | null | undefined): string | null {
+  const trimmed = typeof input === "string" ? input.trim() : "";
+  if (!trimmed || hasInvalidLogoDomain(trimmed)) return null;
+  return trimmed;
+}
+
+function mcpSourceHomepage(sourceLabel: string | null | undefined): string | null {
+  const lower = sourceLabel?.trim().toLowerCase();
+  if (!lower) return null;
+  if (lower === "mcp" || lower === "mcp.so" || lower === "mcp registries") {
+    return "https://mcp.so";
+  }
+  if (lower === "smithery" || lower === "smthy") return "https://smithery.ai";
+  if (lower === "glama") return "https://glama.ai";
+  if (lower === "pulsemcp" || lower === "pulse") return "https://pulsemcp.com";
+  return null;
+}
+
+/**
+ * MCP logo resolver for leaderboards, detail pages, and feature cards.
+ * Order: explicit logo, linked GitHub repo owner, registry/favicon URL,
+ * vendor-name favicon, protocol homepage favicon.
+ */
+export function mcpEntityLogoUrl(
+  item: McpLogoInput,
+  size = 40,
+): string | null {
+  const explicit = cleanLogoInput(item.logoUrl);
+  if (explicit) return explicit;
+
+  const repoAvatar = repoLogoUrl(item.linkedRepo, size);
+  if (repoAvatar) return repoAvatar;
+
+  const urlFavicon = resolveLogoUrl(
+    cleanLogoInput(item.url),
+    null,
+    size,
+  );
+  if (urlFavicon) return urlFavicon;
+
+  const sourceFavicon = resolveLogoUrl(mcpSourceHomepage(item.sourceLabel), "MCP", size);
+  if (sourceFavicon) return sourceFavicon;
+
+  return resolveLogoUrl("https://modelcontextprotocol.io", "MCP", size);
 }
 
 /**

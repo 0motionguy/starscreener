@@ -1,11 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { GitFork, Users } from "lucide-react";
 import { Sparkline } from "@/components/shared/Sparkline";
 import { cn, formatNumber } from "@/lib/utils";
 import type { FeaturedCard as FeaturedCardType } from "@/lib/types";
+import { EntityLogo } from "@/components/ui/EntityLogo";
+import { repoDisplayLogoUrl } from "@/lib/logos";
 
 interface FeaturedCardProps {
   card: FeaturedCardType;
@@ -110,13 +111,12 @@ export function FeaturedCard({ card, index = 0 }: FeaturedCardProps) {
       <div className="flex flex-1 flex-col gap-2 p-3 min-w-0">
         {/* Row 1: avatar + repo name + reason */}
         <div className="flex items-start gap-2.5 min-w-0">
-          <Image
-            src={repo.ownerAvatarUrl}
+          <EntityLogo
+            src={repoDisplayLogoUrl(repo.fullName, repo.ownerAvatarUrl, 24)}
+            name={repo.fullName}
+            size={24}
+            shape="square"
             alt=""
-            width={24}
-            height={24}
-            className="size-6 shrink-0 rounded-sm border bg-[color:var(--v2-bg-100)]"
-            style={{ borderColor: "var(--v2-line-200)" }}
           />
           <div className="flex-1 min-w-0">
             <div

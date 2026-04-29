@@ -22,6 +22,8 @@ import {
 import type { Profile } from "@/lib/profile";
 import type { ReactionCounts } from "@/lib/reactions-shape";
 import { IdeaCard } from "@/components/ideas/IdeaCard";
+import { EntityLogo } from "@/components/ui/EntityLogo";
+import { profileLogoUrl, repoDisplayLogoUrl } from "@/lib/logos";
 
 interface ProfileViewProps {
   profile: Profile;
@@ -70,7 +72,7 @@ export function ProfileView({
             )}
           </div>
           <h1
-            className="inline-flex items-center gap-2"
+            className="inline-flex items-center gap-3"
             style={{
               fontFamily: "var(--font-geist), Inter, sans-serif",
               fontSize: "clamp(24px, 3vw, 32px)",
@@ -80,8 +82,14 @@ export function ProfileView({
               lineHeight: 1.1,
             }}
           >
-            <User2 className="size-5" aria-hidden style={{ color: "var(--v2-acc)" }} />
-            @{handle}
+            <EntityLogo
+              src={profileLogoUrl(handle, 40)}
+              name={handle}
+              size={40}
+              shape="circle"
+              alt=""
+            />
+            <span>@{handle}</span>
           </h1>
           {exists ? (
             <p
@@ -148,13 +156,22 @@ export function ProfileView({
                     borderColor: "var(--v2-sig-green)",
                   }}
                 >
-                  <div className="flex flex-wrap items-baseline justify-between gap-2">
-                    <Link
-                      href={`/ideas/${ref.ideaId}`}
-                      className="font-mono text-sm font-semibold text-text-primary hover:underline"
-                    >
-                      {ref.ideaTitle}
-                    </Link>
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="flex min-w-0 items-center gap-2">
+                      <EntityLogo
+                        src={repoDisplayLogoUrl(repoFullNameFromUrl(ref.repoUrl), null, 24)}
+                        name={repoFullNameFromUrl(ref.repoUrl) ?? ref.ideaTitle}
+                        size={24}
+                        shape="square"
+                        alt=""
+                      />
+                      <Link
+                        href={`/ideas/${ref.ideaId}`}
+                        className="truncate font-mono text-sm font-semibold text-text-primary hover:underline"
+                      >
+                        {ref.ideaTitle}
+                      </Link>
+                    </div>
                     <a
                       href={ref.repoUrl}
                       target="_blank"
@@ -238,6 +255,17 @@ function ReactionTile({
       </div>
     </div>
   );
+}
+
+function repoFullNameFromUrl(url: string): string | null {
+  try {
+    const parsed = new URL(url);
+    if (!/github\.com$/i.test(parsed.hostname)) return null;
+    const [owner, name] = parsed.pathname.split("/").filter(Boolean);
+    return owner && name ? `${owner}/${name.replace(/\.git$/i, "")}` : null;
+  } catch {
+    return null;
+  }
 }
 
 export default ProfileView;

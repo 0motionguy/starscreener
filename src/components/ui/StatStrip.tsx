@@ -7,6 +7,7 @@
 // NewsTopHeaderV3.tsx).
 
 import type { ReactNode } from "react";
+import { Metric, MetricGrid, type MetricTone } from "@/components/ui/Metric";
 
 export interface StatStripStat {
   /** Mono uppercase label above the value. */
@@ -32,16 +33,16 @@ interface StatStripProps {
   accent?: string;
 }
 
-function toneColor(tone: StatStripStat["tone"]): string {
+function metricTone(tone: StatStripStat["tone"]): MetricTone {
   switch (tone) {
     case "up":
-      return "var(--v3-sig-green)";
+      return "positive";
     case "down":
-      return "var(--v3-sig-red)";
+      return "negative";
     case "accent":
-      return "var(--v3-acc)";
+      return "accent";
     default:
-      return "var(--v3-ink-000)";
+      return "neutral";
   }
 }
 
@@ -97,42 +98,23 @@ export function StatStrip({
       </div>
 
       {/* Stats row */}
-      <div className="flex flex-col gap-3 px-4 py-4 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
-        <div className="flex flex-1 flex-wrap gap-x-8 gap-y-4">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <MetricGrid
+          columns={Math.min(Math.max(stats.length, 4), 6) as 4 | 5 | 6}
+          className="mb-0 flex-1 border-x-0 border-b-0"
+        >
           {stats.map((stat, i) => (
-            <div key={i} className="min-w-[88px]">
-              <div
-                className="v2-mono text-[10px] uppercase tracking-[0.18em]"
-                style={{ color: "var(--v3-ink-400)" }}
-              >
-                {stat.label}
-              </div>
-              <div
-                className="mt-1 tabular-nums"
-                style={{
-                  fontFamily: "var(--font-geist), Inter, sans-serif",
-                  fontWeight: 300,
-                  fontSize: "clamp(28px, 3vw, 36px)",
-                  letterSpacing: "-0.025em",
-                  lineHeight: 1,
-                  color: toneColor(stat.tone),
-                }}
-              >
-                {stat.value}
-              </div>
-              {stat.hint ? (
-                <div
-                  className="v2-mono mt-1 text-[10px] uppercase tracking-[0.14em]"
-                  style={{ color: "var(--v3-ink-400)" }}
-                >
-                  {stat.hint}
-                </div>
-              ) : null}
-            </div>
+            <Metric
+              key={i}
+              label={stat.label}
+              value={stat.value}
+              sub={stat.hint}
+              tone={metricTone(stat.tone)}
+            />
           ))}
-        </div>
+        </MetricGrid>
         {rightSlot ? (
-          <div className="shrink-0 self-start sm:self-end">{rightSlot}</div>
+          <div className="shrink-0 self-start px-4 pb-4 sm:self-end">{rightSlot}</div>
         ) : null}
       </div>
     </section>

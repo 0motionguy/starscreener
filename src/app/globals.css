@@ -1719,6 +1719,167 @@ body::before {
   margin-left: auto;
 }
 
+.ds-metric-grid,
+.kpi-strip,
+.kpi-band,
+.stat-strip,
+.ranking-meta {
+  display: grid;
+  grid-template-columns: repeat(var(--metric-columns, 6), minmax(0, 1fr));
+  margin-bottom: 14px;
+  border: 1px solid var(--line-200);
+  background: var(--bg-025);
+}
+
+.kpi-band {
+  --metric-columns: 5;
+}
+
+.stat-strip,
+.ranking-meta {
+  --metric-columns: 4;
+  margin-bottom: 0;
+}
+
+.ds-metric,
+.kpi,
+.stat-strip > div,
+.ranking-meta > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  padding: 10px 14px;
+  border-right: 1px solid var(--line-200);
+}
+
+.ds-metric:last-child,
+.kpi:last-child,
+.stat-strip > div:last-child,
+.ranking-meta > div:last-child {
+  border-right: none;
+}
+
+.ds-metric .lbl,
+.kpi .lbl,
+.stat-strip .lbl,
+.ranking-meta .lbl {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink-400);
+  font-size: var(--font-size-sm);
+  letter-spacing: var(--tracking-ui);
+  text-transform: uppercase;
+}
+
+.ds-metric .pip,
+.kpi .lbl .pip {
+  width: 5px;
+  height: 5px;
+  flex: none;
+  background: currentColor;
+}
+
+.ds-metric .val,
+.kpi .val,
+.kpi .v,
+.stat-strip .v,
+.ranking-meta .v {
+  overflow: hidden;
+  color: var(--ink-000);
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: var(--font-weight-medium);
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.kpi-band .kpi .val,
+.kpi-band .ds-metric .val {
+  font-size: 24px;
+}
+
+.ds-metric .sub,
+.kpi .sub,
+.stat-strip .sub,
+.ranking-meta .sub {
+  color: var(--ink-300);
+  font-size: var(--font-size-md);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.ds-metric .delta,
+.kpi .delta {
+  color: var(--sig-green);
+  font-size: var(--font-size-lg);
+  letter-spacing: var(--tracking-wide);
+}
+
+.ds-metric .delta.dn,
+.kpi .delta.dn {
+  color: var(--sig-red);
+}
+
+.ds-metric-positive .lbl,
+.ds-metric-positive .val,
+.kpi.k-money .val {
+  color: var(--money);
+}
+
+.ds-metric-accent .lbl,
+.ds-metric-accent .val,
+.kpi.k-mega .val {
+  color: var(--acc);
+}
+
+.ds-metric-negative .lbl,
+.ds-metric-negative .val {
+  color: var(--sig-red);
+}
+
+.ds-metric-warning .lbl,
+.ds-metric-warning .val {
+  color: var(--sig-amber);
+}
+
+.ds-metric-consensus .lbl,
+.ds-metric-consensus .val,
+.kpi.k-cons .val {
+  color: var(--b-cons);
+}
+
+.ds-metric-early .lbl,
+.ds-metric-early .val,
+.kpi.k-early .val {
+  color: var(--b-early);
+}
+
+.ds-metric-divergence .lbl,
+.ds-metric-divergence .val,
+.kpi.k-div .val {
+  color: var(--b-div);
+}
+
+.ds-metric-external .lbl,
+.ds-metric-external .val {
+  color: var(--b-ext);
+}
+
+.ds-metric .live::before,
+.kpi .live::before {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: var(--radius-pill);
+  background: var(--sig-green);
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.18);
+}
+
 .ds-input-wrap,
 .search,
 .sh-search {

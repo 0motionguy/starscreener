@@ -26,7 +26,7 @@ export type SkillBoardId = "skills-sh" | "github";
  * old shape comes back without a revert PR. Tests in shadow CI verify
  * the flag wires through.
  */
-function useLegacyScoring(): boolean {
+function legacyScoringEnabled(): boolean {
   const v = process.env.SCORING_USE_LEGACY;
   return v === "1" || v === "true";
 }
@@ -301,11 +301,6 @@ interface McpSmitheryRankEntry {
   total?: number;
 }
 
-interface SkillDerivativeEntry {
-  count?: number;
-  sampledAt?: string;
-}
-
 async function loadMcpDownloadsSummary(): Promise<Record<string, McpDownloadsEntry>> {
   const store = getDataStore();
   const [npm, pypi] = await Promise.all([
@@ -380,7 +375,7 @@ async function loadSkillDerivatives(): Promise<{
   counts: Record<string, number>;
   meta: Record<string, SkillDerivativeMeta>;
 }> {
-  if (useLegacyScoring()) return { counts: {}, meta: {} };
+  if (legacyScoringEnabled()) return { counts: {}, meta: {} };
   const store = getDataStore();
   const result = await store.read<unknown>(SKILL_DERIVATIVES_KEY);
   const obj = asRecord(asRecord(result.data)?.summary);
@@ -406,7 +401,7 @@ async function loadSkillDerivatives(): Promise<{
 }
 
 async function loadSkillInstallsPrev7d(): Promise<Record<string, number>> {
-  if (useLegacyScoring()) return {};
+  if (legacyScoringEnabled()) return {};
   // 7-day-old snapshot. When the snapshot key isn't present yet (first 7
   // days of the rolling window) we return an empty map and the scorer drops
   // installsDelta7d via existing renormalization.
@@ -427,7 +422,7 @@ async function loadSkillInstallsPrev7d(): Promise<Record<string, number>> {
 }
 
 async function loadSkillForksPrev7d(): Promise<Record<string, number>> {
-  if (useLegacyScoring()) return {};
+  if (legacyScoringEnabled()) return {};
   // 7-day-old snapshot. When the snapshot key isn't present yet (first 7
   // days of the rolling window) we return an empty map and the scorer drops
   // forkVelocity7d via existing renormalization.
@@ -454,13 +449,13 @@ async function loadSkillForksPrev7d(): Promise<Record<string, number>> {
  * whenever the snapshot key is missing — callers must treat the absence
  * as "no prior" and fall back to absolute hotness.
  *
- * Gated by `useLegacyScoring()` so the rollback flag also strips the
+ * Gated by `legacyScoringEnabled()` so the rollback flag also strips the
  * velocity ordering.
  */
 export async function loadHotnessPrev7d(
   domain: HotnessSnapshotDomain,
 ): Promise<Record<string, number>> {
-  if (useLegacyScoring()) return {};
+  if (legacyScoringEnabled()) return {};
   const d = new Date();
   d.setUTCDate(d.getUTCDate() - 7);
   const dateKey = d.toISOString().slice(0, 10);
@@ -884,7 +879,7 @@ function coerceMcpItem(
     .map((k) => k.toLowerCase());
   // SCORING_USE_LEGACY=1 → drop the new wave's side-channels so the MCP
   // scorer renormalizes back to the pre-wave subset of weights.
-  const legacy = useLegacyScoring();
+  const legacy = legacyScoringEnabled();
   const downloadsEntry = legacy
     ? undefined
     : pickByKeys(sideChannels.downloadsSummary, lookupKeys);

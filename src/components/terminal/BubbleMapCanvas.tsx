@@ -13,7 +13,7 @@
 // 60fps loop stays outside the reconciler. Click-without-drag still
 // navigates to the repo detail page.
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type CSSProperties } from "react";
 import { useRouter } from "next/navigation";
 import { formatNumber } from "@/lib/utils";
 import { CATEGORIES } from "@/lib/constants";
@@ -257,14 +257,14 @@ export function BubbleMapCanvas({ windows, width, height }: BubbleMapCanvasProps
     <section
       aria-label="Trending bubble map — drag to rearrange, click to open"
       className="relative select-none"
-      style={{ background: "var(--v2-bg-000)" }}
+      style={{ background: "var(--bg-025)" }}
     >
       {/* Spider-strip — mono telemetry above the map, mirrors Node/01's
           `tags → key=value` pattern from SignalRadarV2. Border-bottom
           uses var(--v2-line-200) per spec. */}
       <div
         aria-label="Radar telemetry"
-        className="flex items-center flex-wrap gap-x-4 gap-y-1 px-3 py-2"
+        className="chart-toggle"
         style={{
           borderBottom: "1px solid var(--v2-line-200)",
           fontFamily:
@@ -325,7 +325,7 @@ export function BubbleMapCanvas({ windows, width, height }: BubbleMapCanvasProps
                 aria-label={`Show ${tab.label} window (${count} repos)`}
                 disabled={disabled}
                 onClick={() => setActiveTab(tab.key)}
-                className="px-2 py-0.5 transition-colors tabular-nums"
+                className={active ? "tg on tabular-nums" : "tg tabular-nums"}
                 style={{
                   fontFamily:
                     "var(--font-geist-mono), var(--font-jetbrains-mono), monospace",
@@ -354,7 +354,7 @@ export function BubbleMapCanvas({ windows, width, height }: BubbleMapCanvasProps
       </div>
       {/* Canvas wrapper — dot-field background sits behind the SVG. */}
       <div
-        className="relative"
+        className="map-wrap"
         style={{
           background: "var(--v2-bg-000)",
           backgroundImage:
@@ -369,7 +369,7 @@ export function BubbleMapCanvas({ windows, width, height }: BubbleMapCanvasProps
         {legendEntries.length > 0 && (
           <div
             aria-label="Category legend"
-            className="px-3 pt-2 pb-1 flex items-center flex-wrap gap-x-3 gap-y-1"
+            className="map-legend px-0 pt-0"
             style={{
               fontFamily:
                 "var(--font-geist-mono), var(--font-jetbrains-mono), monospace",
@@ -440,6 +440,31 @@ export function BubbleMapCanvas({ windows, width, height }: BubbleMapCanvasProps
           <style>{`.v2-bubble:hover .v2-bubble-disk{fill:var(--v2-bg-300);stroke:var(--v2-line-400);}`}</style>
           {bubbleElements}
         </svg>
+        <div
+          className="map-stats"
+          style={{ "--chart-stat-columns": 4 } as CSSProperties}
+        >
+          <div>
+            <div className="lbl">Window</div>
+            <div className="val">{activeTab}</div>
+            <div className="sub">Live range</div>
+          </div>
+          <div>
+            <div className="lbl">Nodes</div>
+            <div className="val">{formatNumber(seeds.length)}</div>
+            <div className="sub">Visible repos</div>
+          </div>
+          <div>
+            <div className="lbl">Momentum</div>
+            <div className="val">{momentum}</div>
+            <div className="sub">Field state</div>
+          </div>
+          <div>
+            <div className="lbl">Delta</div>
+            <div className="val">{totalDeltaLabel}</div>
+            <div className="sub">Stars gained</div>
+          </div>
+        </div>
         {/* Bottom legend — scale label + horizontal gradient bar showing
             the small→large bubble mapping (delta → radius, log-scaled
             upstream by the circle-pack). Mirrors the spec's

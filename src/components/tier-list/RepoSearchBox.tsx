@@ -83,25 +83,24 @@ export function RepoSearchBox() {
         width: "100%",
       }}
     >
-      <input
-        type="search"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Search repos to add (e.g. claude, langchain, cursor)..."
-        aria-label="Search repos"
-        style={{
-          width: "100%",
-          padding: "10px 14px",
-          fontSize: 14,
-          fontFamily:
-            "ui-monospace, SFMono-Regular, Menlo, monospace",
-          backgroundColor: "#1b1b1e",
-          color: "#FBFBFB",
-          border: "1px solid #2B2B2F",
-          borderRadius: 4,
-          outline: "none",
-        }}
-      />
+      <div className="flex items-stretch w-full rounded-[3px] border border-border-primary bg-bg-secondary overflow-hidden focus-within:border-text-secondary transition-colors">
+        <span className="flex items-center px-3 font-mono uppercase tracking-[0.14em] text-[11px] text-text-tertiary border-r border-border-primary bg-bg-secondary">
+          POOL
+        </span>
+        <input
+          type="search"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search repos to add (e.g. claude, langchain, cursor)…"
+          aria-label="Search repos"
+          className="flex-1 bg-transparent border-0 outline-none px-3 text-text-primary placeholder:text-text-muted"
+          style={{
+            fontSize: 14,
+            fontFamily:
+              "ui-monospace, SFMono-Regular, Menlo, monospace",
+          }}
+        />
+      </div>
       {query.trim().length >= 2 && (
         <div
           role="listbox"

@@ -21,7 +21,6 @@ import { CSS } from "@dnd-kit/utilities";
 import { useState } from "react";
 
 import {
-  MAX_TIERS,
   MIN_TIERS,
   TIER_COLORS,
   type TierColor,
@@ -44,7 +43,6 @@ export function TierBoard() {
   const unranked = useTierListEditor((s) => s.unrankedItems);
   const itemMeta = useTierListEditor((s) => s.itemMeta);
   const moveItem = useTierListEditor((s) => s.moveItem);
-  const addTier = useTierListEditor((s) => s.addTier);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 4 } }),
@@ -94,26 +92,6 @@ export function TierBoard() {
             />
           ))}
         </div>
-        <button
-          type="button"
-          onClick={addTier}
-          disabled={tiers.length >= MAX_TIERS}
-          style={{
-            alignSelf: "flex-start",
-            padding: "4px 10px",
-            backgroundColor: "#262626",
-            color: "#FBFBFB",
-            border: "1px dashed #2B2B2F",
-            borderRadius: 2,
-            fontFamily:
-              "ui-monospace, SFMono-Regular, Menlo, monospace",
-            fontSize: 11,
-            cursor: tiers.length >= MAX_TIERS ? "not-allowed" : "pointer",
-            opacity: tiers.length >= MAX_TIERS ? 0.4 : 1,
-          }}
-        >
-          + add row
-        </button>
         <Pool items={unranked} itemMeta={itemMeta} />
       </div>
     </DndContext>

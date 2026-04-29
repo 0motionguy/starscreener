@@ -4,6 +4,7 @@ import { useState } from "react";
 import {
   LineChart,
   Line,
+  Area,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -11,6 +12,7 @@ import {
   Legend,
   LabelList,
   ResponsiveContainer,
+  ComposedChart,
 } from "recharts";
 import type { Repo } from "@/lib/types";
 import {
@@ -25,6 +27,11 @@ import {
 } from "@/lib/star-activity";
 import { formatNumber } from "@/lib/utils";
 import { COMPARE_PALETTE } from "./palette";
+import {
+  CHART_THEME_OPTIONS,
+  getThemeConfig,
+  type ChartTheme,
+} from "./themes";
 
 interface CompareChartProps {
   repos: Repo[];
@@ -42,10 +49,13 @@ interface CompareChartProps {
   window?: StarActivityWindow;
   /** Controlled metric. Defaults to internal state, default "stars". */
   metric?: StarActivityMetric;
+  /** Controlled theme. Defaults to internal state, default "terminal". */
+  theme?: ChartTheme;
   onModeChange?: (mode: StarActivityMode) => void;
   onScaleChange?: (scale: StarActivityScale) => void;
   onWindowChange?: (window: StarActivityWindow) => void;
   onMetricChange?: (metric: StarActivityMetric) => void;
+  onThemeChange?: (theme: ChartTheme) => void;
 }
 
 const MIN_HISTORY_DAYS = 7;
@@ -389,23 +399,32 @@ export function CompareChart({
   scale: scaleProp,
   window: windowProp,
   metric: metricProp,
+  theme: themeProp,
   onModeChange,
   onScaleChange,
   onWindowChange,
   onMetricChange,
+  onThemeChange,
 }: CompareChartProps) {
-  // Controlled-or-uncontrolled — caller can either drive mode/scale/window/metric
-  // from URL state or let the chart own it.
+  // Controlled-or-uncontrolled — caller can either drive state from URL or
+  // let the chart own it.
   const [internalMode, setInternalMode] = useState<StarActivityMode>("date");
   const [internalScale, setInternalScale] = useState<StarActivityScale>("lin");
   const [internalWindow, setInternalWindow] =
     useState<StarActivityWindow>("all");
   const [internalMetric, setInternalMetric] =
     useState<StarActivityMetric>("stars");
+  const [internalTheme, setInternalTheme] = useState<ChartTheme>("terminal");
   const mode = modeProp ?? internalMode;
   const scale = scaleProp ?? internalScale;
   const window = windowProp ?? internalWindow;
   const metric = metricProp ?? internalMetric;
+  const theme = themeProp ?? internalTheme;
+  const themeConfig = getThemeConfig(theme);
+  // Theme overrides the default 5-slot palette. Falls back to COMPARE_PALETTE
+  // for any caller that legitimately doesn't pass a theme — keeping the old
+  // surface look unchanged.
+  const palette = themeConfig?.palette ?? COMPARE_PALETTE;
 
   const setMode = (m: StarActivityMode) => {
     onModeChange?.(m);
@@ -422,6 +441,10 @@ export function CompareChart({
   const setMetric = (m: StarActivityMetric) => {
     onMetricChange?.(m);
     if (metricProp === undefined) setInternalMetric(m);
+  };
+  const setTheme = (t: ChartTheme) => {
+    onThemeChange?.(t);
+    if (themeProp === undefined) setInternalTheme(t);
   };
 
   // Single-repo callers (e.g. /repo/[owner]/[name]/star-activity) render the
@@ -494,10 +517,28 @@ export function CompareChart({
   const title = anyFromPayload ? "Star Activity" : "Star Activity (30 days)";
 
   return (
-    <div className="v2-card p-4 animate-fade-in">
+    <div
+      className="rounded-card p-4 animate-fade-in relative"
+      style={{
+        backgroundColor: themeConfig.cardBg,
+        border: `1px solid ${themeConfig.cardBorder}`,
+      }}
+    >
       <div className="flex items-center justify-between gap-2 mb-3 flex-wrap">
-        <h3 className="text-sm font-medium text-text-secondary">{title}</h3>
+        <h3
+          className="text-sm font-medium"
+          style={{
+            color: themeConfig.light ? "#1f1f1f" : "var(--color-text-secondary)",
+          }}
+        >
+          {title}
+        </h3>
         <div className="flex items-center gap-2 flex-wrap">
+          <ToggleGroup<ChartTheme>
+            value={theme}
+            options={[...CHART_THEME_OPTIONS]}
+            onChange={setTheme}
+          />
           <ToggleGroup<StarActivityMetric>
             value={metric}
             options={[
@@ -558,25 +599,42 @@ export function CompareChart({
       {allSparse && <CompareChartPlaceholder />}
 
       {!allSparse && (
-        <div className="hidden sm:block h-[300px]">
+        <div className="hidden sm:block h-[300px] relative">
+          {themeConfig.overlayPattern && (
+            <div
+              aria-hidden
+              className="absolute inset-0 pointer-events-none rounded-card"
+              style={{ backgroundImage: themeConfig.overlayPattern }}
+            />
+          )}
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart margin={{ top: 8, right: 12, bottom: 4, left: 4 }}>
-              <CartesianGrid
-                strokeDasharray="3 3"
-                stroke="var(--v3-line-200)"
-                opacity={0.35}
-                vertical={false}
-              />
+            <ComposedChart margin={{ top: 8, right: 12, bottom: 4, left: 4 }}>
+              {themeConfig.gridDensity !== "none" && (
+                <CartesianGrid
+                  strokeDasharray={themeConfig.gridDash}
+                  stroke={themeConfig.light ? "#1f1f1f" : "var(--v3-line-200)"}
+                  opacity={themeConfig.light ? 0.15 : 0.35}
+                  vertical={false}
+                />
+              )}
               <XAxis
                 {...xAxisProps}
                 tick={{
-                  fontSize: 10,
-                  fill: "var(--v3-ink-400)",
+                  fontSize: themeConfig.light ? 12 : 10,
+                  fill: themeConfig.axisColor,
                   fontFamily: "var(--font-geist-mono), monospace",
                   letterSpacing: "0.12em",
+                  fontWeight: themeConfig.light ? 600 : 400,
                 }}
               />
-              <YAxis {...yAxisProps} />
+              <YAxis
+                {...yAxisProps}
+                tick={{
+                  ...yAxisProps.tick,
+                  fill: themeConfig.axisColor,
+                  fontWeight: themeConfig.light ? 600 : 400,
+                }}
+              />
               <Tooltip content={<ChartTooltip mode={mode} />} />
               <Legend
                 verticalAlign="top"
@@ -584,9 +642,49 @@ export function CompareChart({
                 iconType="circle"
                 iconSize={8}
                 formatter={(value: string) => (
-                  <span className="text-xs text-text-secondary">{value}</span>
+                  <span
+                    className="text-xs"
+                    style={{
+                      color: themeConfig.light ? "#1f1f1f" : "var(--color-text-secondary)",
+                    }}
+                  >
+                    {value}
+                  </span>
                 )}
               />
+              {/* Area fills (gradient theme) — render BEFORE the lines so the
+                  stroke sits on top of the fill. */}
+              {themeConfig.areaFill &&
+                series.map((s, i) => (
+                  <Area
+                    key={`area-${s.repoId}`}
+                    data={s.data}
+                    type="monotone"
+                    dataKey="y"
+                    fill={palette[i]}
+                    fillOpacity={themeConfig.areaFillOpacity}
+                    stroke="none"
+                    isAnimationActive={false}
+                    legendType="none"
+                  />
+                ))}
+              {/* Outer-glow stroke pass (neon / crt) — wider + low opacity. */}
+              {themeConfig.outerGlow &&
+                series.map((s, i) => (
+                  <Line
+                    key={`glow-${s.repoId}`}
+                    data={s.data}
+                    type="monotone"
+                    dataKey="y"
+                    stroke={palette[i]}
+                    strokeWidth={themeConfig.outerGlowWidth}
+                    strokeOpacity={themeConfig.outerGlowOpacity}
+                    dot={false}
+                    activeDot={false}
+                    isAnimationActive={false}
+                    legendType="none"
+                  />
+                ))}
               {series.map((s, i) => (
                 <Line
                   key={s.repoId}
@@ -594,8 +692,8 @@ export function CompareChart({
                   type="monotone"
                   dataKey="y"
                   name={s.fullName}
-                  stroke={COMPARE_PALETTE[i]}
-                  strokeWidth={2}
+                  stroke={palette[i]}
+                  strokeWidth={themeConfig.strokeWidth}
                   dot={false}
                   activeDot={{ r: 4, strokeWidth: 0 }}
                   isAnimationActive={false}
@@ -605,7 +703,7 @@ export function CompareChart({
                       dataKey="y"
                       content={makeEndLabel({
                         shortName: shortNameOf(s.fullName),
-                        color: COMPARE_PALETTE[i],
+                        color: palette[i],
                         metric,
                         lastIndex: s.data.length - 1,
                       })}
@@ -613,35 +711,44 @@ export function CompareChart({
                   )}
                 </Line>
               ))}
-            </LineChart>
+            </ComposedChart>
           </ResponsiveContainer>
         </div>
       )}
 
       {!allSparse && (
-        <div className="block sm:hidden h-[200px]">
+        <div className="block sm:hidden h-[200px] relative">
+          {themeConfig.overlayPattern && (
+            <div
+              aria-hidden
+              className="absolute inset-0 pointer-events-none rounded-card"
+              style={{ backgroundImage: themeConfig.overlayPattern }}
+            />
+          )}
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart margin={{ top: 8, right: 8, bottom: 4, left: 0 }}>
-              <CartesianGrid
-                strokeDasharray="3 3"
-                stroke="var(--v3-line-200)"
-                opacity={0.35}
-                vertical={false}
-              />
+            <ComposedChart margin={{ top: 8, right: 8, bottom: 4, left: 0 }}>
+              {themeConfig.gridDensity !== "none" && (
+                <CartesianGrid
+                  strokeDasharray={themeConfig.gridDash}
+                  stroke={themeConfig.light ? "#1f1f1f" : "var(--v3-line-200)"}
+                  opacity={themeConfig.light ? 0.15 : 0.35}
+                  vertical={false}
+                />
+              )}
               <XAxis
                 {...xAxisProps}
                 tick={{
                   fontSize: 9,
-                  fill: "var(--v3-ink-400)",
+                  fill: themeConfig.axisColor,
                   fontFamily: "var(--font-geist-mono), monospace",
                 }}
               />
               <YAxis
                 {...yAxisProps}
                 tick={{
+                  ...yAxisProps.tick,
                   fontSize: 9,
-                  fill: "var(--v3-ink-400)",
-                  fontFamily: "var(--font-geist-mono), monospace",
+                  fill: themeConfig.axisColor,
                 }}
                 width={44}
               />
@@ -652,9 +759,48 @@ export function CompareChart({
                 iconType="circle"
                 iconSize={6}
                 formatter={(value: string) => (
-                  <span className="text-[10px] text-text-secondary">{value}</span>
+                  <span
+                    className="text-[10px]"
+                    style={{
+                      color: themeConfig.light
+                        ? "#1f1f1f"
+                        : "var(--color-text-secondary)",
+                    }}
+                  >
+                    {value}
+                  </span>
                 )}
               />
+              {themeConfig.areaFill &&
+                series.map((s, i) => (
+                  <Area
+                    key={`area-${s.repoId}`}
+                    data={s.data}
+                    type="monotone"
+                    dataKey="y"
+                    fill={palette[i]}
+                    fillOpacity={themeConfig.areaFillOpacity}
+                    stroke="none"
+                    isAnimationActive={false}
+                    legendType="none"
+                  />
+                ))}
+              {themeConfig.outerGlow &&
+                series.map((s, i) => (
+                  <Line
+                    key={`glow-${s.repoId}`}
+                    data={s.data}
+                    type="monotone"
+                    dataKey="y"
+                    stroke={palette[i]}
+                    strokeWidth={Math.max(2, themeConfig.outerGlowWidth - 2)}
+                    strokeOpacity={themeConfig.outerGlowOpacity}
+                    dot={false}
+                    activeDot={false}
+                    isAnimationActive={false}
+                    legendType="none"
+                  />
+                ))}
               {series.map((s, i) => (
                 <Line
                   key={s.repoId}
@@ -662,8 +808,8 @@ export function CompareChart({
                   type="monotone"
                   dataKey="y"
                   name={s.fullName}
-                  stroke={COMPARE_PALETTE[i]}
-                  strokeWidth={1.5}
+                  stroke={palette[i]}
+                  strokeWidth={Math.max(1, themeConfig.strokeWidth - 0.5)}
                   dot={false}
                   activeDot={{ r: 3, strokeWidth: 0 }}
                   isAnimationActive={false}
@@ -673,7 +819,7 @@ export function CompareChart({
                       dataKey="y"
                       content={makeEndLabel({
                         shortName: shortNameOf(s.fullName),
-                        color: COMPARE_PALETTE[i],
+                        color: palette[i],
                         metric,
                         lastIndex: s.data.length - 1,
                         compact: true,
@@ -682,7 +828,7 @@ export function CompareChart({
                   )}
                 </Line>
               ))}
-            </LineChart>
+            </ComposedChart>
           </ResponsiveContainer>
         </div>
       )}

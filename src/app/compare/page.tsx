@@ -18,6 +18,7 @@ import type { Metadata } from "next";
 
 import { CompareProfileGrid } from "@/components/compare/CompareProfileGrid";
 import { CompareClient } from "@/components/compare/CompareClient";
+import { CompareWaveTop } from "@/components/compare/CompareWaveTop";
 import { ShareBar } from "@/components/share/ShareBar";
 import { absoluteUrl } from "@/lib/seo";
 import {
@@ -84,6 +85,16 @@ export default async function ComparePage({ searchParams }: ComparePageProps) {
 
   return (
     <>
+      {/* W3 — Star History Chart wave: redesigned headline section.
+          Owns the new 5-series chart, metric/window/mode/scale/theme
+          toggles, starter-pack chips, bottom stat-card strip, and the
+          right-rail multi-format SHARE panel. */}
+      <CompareWaveTop />
+
+      {/* Existing canonical-profile grid: deeper-dive per-repo signals
+          (momentum, why-trending, cross-signal, npm, mentions). Kept
+          as-is below the new wave so existing inbound links still
+          resolve to a useful surface. */}
       <CompareProfileGrid />
 
       <section

@@ -75,7 +75,7 @@ import { CATEGORIES } from "@/lib/constants";
 import type { MonoSource } from "@/components/signal/SourceMonogram";
 import type { RedditPost } from "@/lib/reddit";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 const SUBTITLE =
   "Live developer and startup conversations ranked by repo mentions, topic momentum, and builder attention.";

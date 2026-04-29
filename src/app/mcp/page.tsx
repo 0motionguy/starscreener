@@ -55,7 +55,7 @@ import {
 const MCP_ACCENT = "rgba(58, 214, 197, 0.85)";
 const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
 
-export const dynamic = "force-dynamic";
+export const revalidate = 600;
 
 export const metadata: Metadata = {
   title: "Trending MCP - TrendingRepo",

@@ -40,10 +40,11 @@ export const metadata: Metadata = {
   },
 };
 
-// Pages served via the app router do not allow `dynamic = "force-static"`
-// unless the route has no search-param reads. We keep this one server-
-// rendered so the cadence toggle resolves from the URL on every request.
-export const dynamic = "force-dynamic";
+// ISR with hourly revalidate. Pricing changes rarely; the `?cadence=`
+// searchParam variants get their own cache entries automatically (ISR
+// keys by URL incl. query string), so the cadence toggle still works on
+// every request without paying full SSR cost per hit.
+export const revalidate = 3600;
 
 interface PricingPageProps {
   searchParams?: Promise<{ cadence?: string | string[] }>;

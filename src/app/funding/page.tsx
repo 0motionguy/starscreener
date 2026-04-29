@@ -23,7 +23,7 @@ import { buildFundingHeader } from "@/components/funding/fundingTopMetrics";
 const FUNDING_ACCENT = "rgba(245, 110, 15, 0.85)";
 const FUNDING_BRAND = "#f56e0f";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 600;
 
 export const metadata: Metadata = {
   title: "TrendingRepo — Funding Radar",

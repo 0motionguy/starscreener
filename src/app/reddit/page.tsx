@@ -20,7 +20,7 @@ import { StatStrip } from "@/components/ui/StatStrip";
 
 const REDDIT_ORANGE = "#ff4500";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 function formatRelative(iso: string): string {
   const t = new Date(iso).getTime();

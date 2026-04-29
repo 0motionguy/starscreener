@@ -394,6 +394,22 @@ export default async function RepoDetailPage({ params }: PageProps) {
           <ErrorBoundary>
             <RepoDetailChartLazy repo={repo} markers={markers} />
           </ErrorBoundary>
+          <Link
+            href={`/repo/${repo.owner}/${repo.name}/star-activity`}
+            className="block rounded-card border border-border-primary bg-bg-secondary px-4 py-3 hover:bg-bg-tertiary transition-colors"
+          >
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <div className="text-[10px] font-mono uppercase tracking-[0.14em] text-text-tertiary">
+                  {"// STAR ACTIVITY · FULL HISTORY"}
+                </div>
+                <div className="text-sm text-text-secondary mt-1">
+                  Open the dedicated chart with toggles + share card.
+                </div>
+              </div>
+              <span className="text-text-tertiary font-mono">→</span>
+            </div>
+          </Link>
           {profile.twitter ? <TwitterSignalPanel panel={profile.twitter} /> : null}
         </div>
       </main>

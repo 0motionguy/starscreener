@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   LineChart,
   Line,
@@ -11,11 +12,28 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import type { Repo } from "@/lib/types";
+import type {
+  StarActivityMode,
+  StarActivityPayload,
+  StarActivityScale,
+} from "@/lib/star-activity";
 import { formatNumber } from "@/lib/utils";
 import { COMPARE_PALETTE } from "./palette";
 
 interface CompareChartProps {
   repos: Repo[];
+  /**
+   * Per-repo full-history payloads keyed by lowercased fullName. When present,
+   * the chart plots the full series; when absent, it falls back to each
+   * repo's bundled 30-day sparklineData (legacy behaviour).
+   */
+  payloads?: Record<string, StarActivityPayload>;
+  /** Controlled mode. Defaults to internal state, default "date". */
+  mode?: StarActivityMode;
+  /** Controlled scale. Defaults to internal state, default "lin". */
+  scale?: StarActivityScale;
+  onModeChange?: (mode: StarActivityMode) => void;
+  onScaleChange?: (scale: StarActivityScale) => void;
 }
 
 const MIN_HISTORY_DAYS = 7;
@@ -25,8 +43,6 @@ function nonZeroDays(series: number[]): number {
 }
 
 function isFlat(series: number[]): boolean {
-  // All values identical → no real history, just today's value carried back
-  // across every slot. Treat the same as "no history yet".
   return series.length > 0 && new Set(series).size <= 1;
 }
 
@@ -34,25 +50,80 @@ function hasHistory(series: number[]): boolean {
   return nonZeroDays(series) >= MIN_HISTORY_DAYS && !isFlat(series);
 }
 
-/**
- * Build chart data: merge each repo's sparklineData into a unified array of
- * { day, repoId1: value, repoId2: value, ... } rows.
- */
-function buildChartData(repos: Repo[]) {
-  const length = repos[0]?.sparklineData.length ?? 30;
-  const data: Record<string, string | number>[] = [];
+interface SeriesPoint {
+  x: number;
+  y: number;
+  stars: number;
+}
 
-  for (let i = 0; i < length; i++) {
-    const point: Record<string, string | number> = {
-      day: `Day ${i + 1}`,
-    };
-    for (const repo of repos) {
-      point[repo.id] = repo.sparklineData[i] ?? 0;
-    }
-    data.push(point);
+interface RepoSeries {
+  repoId: string;
+  fullName: string;
+  data: SeriesPoint[];
+  /** True if drawn from a full StarActivityPayload (vs. legacy sparklineData). */
+  fromPayload: boolean;
+}
+
+function lookupPayload(
+  payloads: Record<string, StarActivityPayload> | undefined,
+  fullName: string,
+): StarActivityPayload | null {
+  if (!payloads) return null;
+  return payloads[fullName.toLowerCase()] ?? null;
+}
+
+function logFloor(value: number, scale: StarActivityScale): number {
+  // Recharts' log scale fails on 0/negative — clamp to 1 only when in log mode.
+  return scale === "log" ? Math.max(1, value) : value;
+}
+
+function buildSeriesForRepo(
+  repo: Repo,
+  payloads: Record<string, StarActivityPayload> | undefined,
+  mode: StarActivityMode,
+  scale: StarActivityScale,
+): RepoSeries {
+  const payload = lookupPayload(payloads, repo.fullName);
+
+  if (payload && payload.points.length > 0) {
+    const data = payload.points.map((pt, i) => ({
+      x:
+        mode === "timeline"
+          ? i
+          : Date.parse(`${pt.d}T00:00:00Z`),
+      y: logFloor(pt.s, scale),
+      stars: pt.s,
+    }));
+    return { repoId: repo.id, fullName: repo.fullName, data, fromPayload: true };
   }
 
-  return data;
+  // Legacy fallback — convert the 30-element sparkline into per-day points.
+  const sparkline = repo.sparklineData ?? [];
+  const len = sparkline.length;
+  const todayMs = Date.now();
+  const data = sparkline.map((s, i) => {
+    const daysAgo = len - 1 - i;
+    return {
+      x: mode === "timeline" ? i : todayMs - daysAgo * 86_400_000,
+      y: logFloor(s, scale),
+      stars: s,
+    };
+  });
+  return { repoId: repo.id, fullName: repo.fullName, data, fromPayload: false };
+}
+
+function formatDateTick(epochMs: number): string {
+  const d = new Date(epochMs);
+  // Sparse YYYY-MM ticks — chart period is usually months/years.
+  const year = d.getUTCFullYear();
+  const month = String(d.getUTCMonth() + 1).padStart(2, "0");
+  return `${year}-${month}`;
+}
+
+function formatTimelineTick(daysSinceStart: number): string {
+  if (daysSinceStart < 30) return `d${Math.round(daysSinceStart)}`;
+  if (daysSinceStart < 365) return `${Math.round(daysSinceStart / 30)}mo`;
+  return `${(daysSinceStart / 365).toFixed(1)}y`;
 }
 
 interface CustomTooltipProps {
@@ -62,52 +133,193 @@ interface CustomTooltipProps {
     value: number;
     color: string;
     name: string;
+    payload?: SeriesPoint;
   }>;
-  label?: string;
+  label?: number;
+  mode: StarActivityMode;
 }
 
-function ChartTooltip({ active, payload, label }: CustomTooltipProps) {
-  if (!active || !payload?.length) return null;
+function ChartTooltip({ active, payload, label, mode }: CustomTooltipProps) {
+  if (!active || !payload?.length || label === undefined) return null;
+
+  const heading =
+    mode === "timeline"
+      ? formatTimelineTick(label)
+      : new Date(label).toISOString().slice(0, 10);
 
   return (
     <div className="v2-card px-3 py-2 shadow-card">
-      <p className="text-xs text-text-tertiary font-mono mb-1.5">{label}</p>
-      {payload.map((entry) => (
-        <div key={entry.dataKey} className="flex items-center gap-2 text-sm">
-          <span
-            className="size-2 rounded-full shrink-0"
-            style={{ backgroundColor: entry.color }}
-          />
-          <span className="text-text-secondary truncate max-w-[120px]">
-            {entry.name}
-          </span>
-          <span className="font-mono font-bold text-text-primary ml-auto">
-            {formatNumber(entry.value)}
-          </span>
-        </div>
+      <p className="text-xs text-text-tertiary font-mono mb-1.5">{heading}</p>
+      {payload.map((entry) => {
+        // Prefer the original star count from the data point payload over the
+        // y value (which may be log-transformed when scale=log).
+        const stars = entry.payload?.stars ?? entry.value;
+        return (
+          <div key={entry.dataKey} className="flex items-center gap-2 text-sm">
+            <span
+              className="size-2 rounded-full shrink-0"
+              style={{ backgroundColor: entry.color }}
+            />
+            <span className="text-text-secondary truncate max-w-[120px]">
+              {entry.name}
+            </span>
+            <span className="font-mono font-bold text-text-primary ml-auto">
+              {formatNumber(stars)}
+            </span>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+interface ToggleButtonProps {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}
+
+function ToggleButton({ active, onClick, children }: ToggleButtonProps) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`px-2 py-1 text-[10px] font-mono uppercase tracking-[0.14em] transition-colors ${
+        active
+          ? "bg-bg-tertiary text-text-primary"
+          : "bg-bg-secondary text-text-tertiary hover:text-text-secondary"
+      }`}
+      aria-pressed={active}
+    >
+      {children}
+    </button>
+  );
+}
+
+interface ToggleGroupProps<T extends string> {
+  value: T;
+  options: Array<{ label: string; value: T }>;
+  onChange: (next: T) => void;
+}
+
+function ToggleGroup<T extends string>({
+  value,
+  options,
+  onChange,
+}: ToggleGroupProps<T>) {
+  return (
+    <div className="inline-flex gap-px rounded-[3px] border border-border-primary overflow-hidden">
+      {options.map((opt) => (
+        <ToggleButton
+          key={opt.value}
+          active={value === opt.value}
+          onClick={() => onChange(opt.value)}
+        >
+          {opt.label}
+        </ToggleButton>
       ))}
     </div>
   );
 }
 
-export function CompareChart({ repos }: CompareChartProps) {
-  if (repos.length < 2) return null;
+export function CompareChart({
+  repos,
+  payloads,
+  mode: modeProp,
+  scale: scaleProp,
+  onModeChange,
+  onScaleChange,
+}: CompareChartProps) {
+  // Controlled-or-uncontrolled — caller can either drive mode/scale from URL
+  // state (Chunk D) or let the chart own it.
+  const [internalMode, setInternalMode] = useState<StarActivityMode>("date");
+  const [internalScale, setInternalScale] = useState<StarActivityScale>("lin");
+  const mode = modeProp ?? internalMode;
+  const scale = scaleProp ?? internalScale;
 
-  // Detect sparse histories so we can surface a "still collecting" banner
-  // instead of letting Recharts draw near-empty or dead-flat lines for
-  // newly-tracked repos.
-  const sparseRepos = repos.filter((r) => !hasHistory(r.sparklineData));
+  const setMode = (m: StarActivityMode) => {
+    onModeChange?.(m);
+    if (modeProp === undefined) setInternalMode(m);
+  };
+  const setScale = (s: StarActivityScale) => {
+    onScaleChange?.(s);
+    if (scaleProp === undefined) setInternalScale(s);
+  };
+
+  // Single-repo callers (e.g. /repo/[owner]/[name]/star-activity) render the
+  // same chart with one series; the prior `repos.length < 2` guard belonged
+  // to /compare's empty-state UX which is now handled by CompareClient itself.
+  if (repos.length === 0) return null;
+
+  const series = repos.map((r) => buildSeriesForRepo(r, payloads, mode, scale));
+  const anyFromPayload = series.some((s) => s.fromPayload);
+
+  // Sparseness check — only meaningful for the legacy sparkline path.
+  // Repos with payloads always have something useful to draw, even if short.
+  const sparseRepos = repos.filter(
+    (r, i) => !series[i].fromPayload && !hasHistory(r.sparklineData),
+  );
   const allSparse = sparseRepos.length === repos.length;
 
-  const data = buildChartData(repos);
+  const xAxisProps = {
+    type: "number" as const,
+    dataKey: "x",
+    domain: ["dataMin", "dataMax"] as ["dataMin", "dataMax"],
+    tickFormatter:
+      mode === "timeline"
+        ? (v: number) => formatTimelineTick(v)
+        : (v: number) => formatDateTick(v),
+    tickLine: false,
+    axisLine: { stroke: "var(--v3-line-200)" },
+  };
+
+  const yAxisProps = {
+    tick: {
+      fontSize: 10,
+      fill: "var(--v3-ink-400)",
+      fontFamily: "var(--font-geist-mono), monospace",
+      letterSpacing: "0.12em",
+    },
+    tickLine: false,
+    axisLine: false,
+    tickFormatter: (v: number) => formatNumber(v),
+    width: 56,
+    scale: scale === "log" ? ("log" as const) : ("auto" as const),
+    // Recharts requires an explicit numeric domain for log scales.
+    domain:
+      scale === "log"
+        ? ([1, "dataMax"] as [number, "dataMax"])
+        : (["auto", "auto"] as ["auto", "auto"]),
+    allowDataOverflow: scale === "log",
+  };
+
+  const title = anyFromPayload ? "Star Activity" : "Star Activity (30 days)";
 
   return (
     <div className="v2-card p-4 animate-fade-in">
-      <h3 className="text-sm font-medium text-text-secondary mb-3">
-        Star Activity (30 days)
-      </h3>
+      <div className="flex items-center justify-between gap-2 mb-3 flex-wrap">
+        <h3 className="text-sm font-medium text-text-secondary">{title}</h3>
+        <div className="flex items-center gap-2">
+          <ToggleGroup<StarActivityMode>
+            value={mode}
+            options={[
+              { label: "Date", value: "date" },
+              { label: "Timeline", value: "timeline" },
+            ]}
+            onChange={setMode}
+          />
+          <ToggleGroup<StarActivityScale>
+            value={scale}
+            options={[
+              { label: "Lin", value: "lin" },
+              { label: "Log", value: "log" },
+            ]}
+            onChange={setScale}
+          />
+        </div>
+      </div>
 
-      {sparseRepos.length > 0 && (
+      {sparseRepos.length > 0 && !anyFromPayload && (
         <div
           className="mb-3 rounded-card border border-border-primary bg-bg-secondary px-3 py-2 text-xs text-text-tertiary"
           role="status"
@@ -126,126 +338,109 @@ export function CompareChart({ repos }: CompareChartProps) {
 
       {allSparse && <CompareChartPlaceholder />}
 
-      {/* Desktop height */}
       {!allSparse && (
-      <div className="hidden sm:block h-[300px]">
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={data} margin={{ top: 8, right: 12, bottom: 4, left: 4 }}>
-            <CartesianGrid
-              strokeDasharray="3 3"
-              stroke="var(--v3-line-200)"
-              opacity={0.35}
-              vertical={false}
-            />
-            <XAxis
-              dataKey="day"
-              tick={{
-                fontSize: 10,
-                fill: "var(--v3-ink-400)",
-                fontFamily: "var(--font-geist-mono), monospace",
-                letterSpacing: "0.12em",
-              }}
-              tickLine={false}
-              axisLine={{ stroke: "var(--v3-line-200)" }}
-              interval={4}
-            />
-            <YAxis
-              tick={{
-                fontSize: 10,
-                fill: "var(--v3-ink-400)",
-                fontFamily: "var(--font-geist-mono), monospace",
-                letterSpacing: "0.12em",
-              }}
-              tickLine={false}
-              axisLine={false}
-              tickFormatter={(v: number) => formatNumber(v)}
-              width={48}
-            />
-            <Tooltip content={<ChartTooltip />} />
-            <Legend
-              verticalAlign="top"
-              height={28}
-              iconType="circle"
-              iconSize={8}
-              formatter={(value: string) => (
-                <span className="text-xs text-text-secondary">{value}</span>
-              )}
-            />
-            {repos.map((repo, i) => (
-              <Line
-                key={repo.id}
-                type="monotone"
-                dataKey={repo.id}
-                name={repo.fullName}
-                stroke={COMPARE_PALETTE[i]}
-                strokeWidth={2}
-                dot={false}
-                activeDot={{ r: 4, strokeWidth: 0 }}
+        <div className="hidden sm:block h-[300px]">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart margin={{ top: 8, right: 12, bottom: 4, left: 4 }}>
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke="var(--v3-line-200)"
+                opacity={0.35}
+                vertical={false}
               />
-            ))}
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
+              <XAxis
+                {...xAxisProps}
+                tick={{
+                  fontSize: 10,
+                  fill: "var(--v3-ink-400)",
+                  fontFamily: "var(--font-geist-mono), monospace",
+                  letterSpacing: "0.12em",
+                }}
+              />
+              <YAxis {...yAxisProps} />
+              <Tooltip content={<ChartTooltip mode={mode} />} />
+              <Legend
+                verticalAlign="top"
+                height={28}
+                iconType="circle"
+                iconSize={8}
+                formatter={(value: string) => (
+                  <span className="text-xs text-text-secondary">{value}</span>
+                )}
+              />
+              {series.map((s, i) => (
+                <Line
+                  key={s.repoId}
+                  data={s.data}
+                  type="monotone"
+                  dataKey="y"
+                  name={s.fullName}
+                  stroke={COMPARE_PALETTE[i]}
+                  strokeWidth={2}
+                  dot={false}
+                  activeDot={{ r: 4, strokeWidth: 0 }}
+                  isAnimationActive={false}
+                />
+              ))}
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
       )}
 
-      {/* Mobile height */}
       {!allSparse && (
-      <div className="block sm:hidden h-[200px]">
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={data} margin={{ top: 8, right: 8, bottom: 4, left: 0 }}>
-            <CartesianGrid
-              strokeDasharray="3 3"
-              stroke="var(--v3-line-200)"
-              opacity={0.35}
-              vertical={false}
-            />
-            <XAxis
-              dataKey="day"
-              tick={{
-                fontSize: 9,
-                fill: "var(--v3-ink-400)",
-                fontFamily: "var(--font-geist-mono), monospace",
-              }}
-              tickLine={false}
-              axisLine={{ stroke: "var(--v3-line-200)" }}
-              interval={9}
-            />
-            <YAxis
-              tick={{
-                fontSize: 9,
-                fill: "var(--v3-ink-400)",
-                fontFamily: "var(--font-geist-mono), monospace",
-              }}
-              tickLine={false}
-              axisLine={false}
-              tickFormatter={(v: number) => formatNumber(v)}
-              width={36}
-            />
-            <Tooltip content={<ChartTooltip />} />
-            <Legend
-              verticalAlign="top"
-              height={24}
-              iconType="circle"
-              iconSize={6}
-              formatter={(value: string) => (
-                <span className="text-[10px] text-text-secondary">{value}</span>
-              )}
-            />
-            {repos.map((repo, i) => (
-              <Line
-                key={repo.id}
-                type="monotone"
-                dataKey={repo.id}
-                name={repo.fullName}
-                stroke={COMPARE_PALETTE[i]}
-                strokeWidth={1.5}
-                dot={false}
-                activeDot={{ r: 3, strokeWidth: 0 }}
+        <div className="block sm:hidden h-[200px]">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart margin={{ top: 8, right: 8, bottom: 4, left: 0 }}>
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke="var(--v3-line-200)"
+                opacity={0.35}
+                vertical={false}
               />
-            ))}
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
+              <XAxis
+                {...xAxisProps}
+                tick={{
+                  fontSize: 9,
+                  fill: "var(--v3-ink-400)",
+                  fontFamily: "var(--font-geist-mono), monospace",
+                }}
+              />
+              <YAxis
+                {...yAxisProps}
+                tick={{
+                  fontSize: 9,
+                  fill: "var(--v3-ink-400)",
+                  fontFamily: "var(--font-geist-mono), monospace",
+                }}
+                width={44}
+              />
+              <Tooltip content={<ChartTooltip mode={mode} />} />
+              <Legend
+                verticalAlign="top"
+                height={24}
+                iconType="circle"
+                iconSize={6}
+                formatter={(value: string) => (
+                  <span className="text-[10px] text-text-secondary">{value}</span>
+                )}
+              />
+              {series.map((s, i) => (
+                <Line
+                  key={s.repoId}
+                  data={s.data}
+                  type="monotone"
+                  dataKey="y"
+                  name={s.fullName}
+                  stroke={COMPARE_PALETTE[i]}
+                  strokeWidth={1.5}
+                  dot={false}
+                  activeDot={{ r: 3, strokeWidth: 0 }}
+                  isAnimationActive={false}
+                />
+              ))}
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
       )}
     </div>
   );

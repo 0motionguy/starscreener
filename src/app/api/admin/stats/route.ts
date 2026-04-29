@@ -14,6 +14,7 @@ import path from "node:path";
 import { NextRequest, NextResponse } from "next/server";
 
 import { adminAuthFailureResponse, verifyAdminAuth } from "@/lib/api/auth";
+import { githubFetch } from "@/lib/github-fetch";
 import { FAST_DATA_STALE_THRESHOLD_MS } from "@/lib/source-health";
 import { lastFetchedAt, deltasComputedAt } from "@/lib/trending";
 import { hotCollectionsFetchedAt } from "@/lib/hot-collections";
@@ -68,19 +69,10 @@ function ageMs(iso: string | null): number | null {
 
 async function fetchRateLimit(): Promise<AdminStatsResponse["rateLimit"]> {
   const fallback = { remaining: null, limit: null, resetAt: null };
+  const result = await githubFetch("/rate_limit");
+  if (!result || !result.response.ok) return fallback;
   try {
-    const headers: Record<string, string> = {
-      Accept: "application/vnd.github+json",
-      "User-Agent": "trendingrepo-admin-stats",
-    };
-    const token = process.env.GITHUB_TOKEN;
-    if (token) headers.Authorization = `Bearer ${token}`;
-    const res = await fetch("https://api.github.com/rate_limit", {
-      headers,
-      cache: "no-store",
-    });
-    if (!res.ok) return fallback;
-    const data = (await res.json()) as {
+    const data = (await result.response.json()) as {
       resources?: { core?: { remaining?: number; limit?: number; reset?: number } };
     };
     const core = data.resources?.core;

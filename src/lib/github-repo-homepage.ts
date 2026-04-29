@@ -5,8 +5,8 @@
 // immediately while still returning null on API errors or rate limits.
 
 import { readEnv } from "@/lib/env-helpers";
+import { githubFetch } from "@/lib/github-fetch";
 
-const GITHUB_API = "https://api.github.com";
 const REVALIDATE_SECONDS = 6 * 60 * 60;
 
 interface RawGithubRepoResponse {
@@ -49,27 +49,14 @@ export async function fetchGithubRepoHomepageUrl(
     return null;
   }
 
-  const headers: Record<string, string> = {
-    Accept: "application/vnd.github+json",
-    "X-GitHub-Api-Version": "2022-11-28",
-  };
-  const token = process.env.GITHUB_TOKEN;
-  if (token) headers.Authorization = `Bearer ${token}`;
-
-  let response: Response;
-  try {
-    response = await fetch(`${GITHUB_API}/repos/${owner}/${name}`, {
-      headers,
-      next: { revalidate: REVALIDATE_SECONDS },
-    });
-  } catch {
-    return null;
-  }
-
-  if (!response.ok) return null;
+  const result = await githubFetch(`/repos/${owner}/${name}`, {
+    next: { revalidate: REVALIDATE_SECONDS },
+    cache: "default",
+  });
+  if (!result || !result.response.ok) return null;
 
   try {
-    const raw = (await response.json()) as RawGithubRepoResponse;
+    const raw = (await result.response.json()) as RawGithubRepoResponse;
     return cleanHomepage(raw.homepage);
   } catch {
     return null;

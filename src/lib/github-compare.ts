@@ -9,8 +9,13 @@
 // Public surface: `CompareRepoBundle`, `fetchCompareBundle`,
 // `fetchCompareBundles`. Sibling agents consume the type from this module —
 // do not change field names/shapes without coordinating.
+//
+// All GitHub calls route through `githubFetch` — the per-repo bundle issues
+// 7+ requests, so without the pool's per-token rotation a single Compare
+// page load could burn through one PAT's quota in seconds.
 
-const GITHUB_API = "https://api.github.com";
+import { githubFetch } from "./github-fetch";
+
 const DEFAULT_TIMEOUT_MS = 8_000;
 const DAY_MS = 24 * 60 * 60 * 1000;
 const THIRTY_DAYS_MS = 30 * DAY_MS;
@@ -152,36 +157,23 @@ function zeroBundle(fullName: string): CompareRepoBundle {
   };
 }
 
-function authHeaders(token?: string): HeadersInit {
-  const h: Record<string, string> = {
-    Accept: "application/vnd.github+json",
-    "X-GitHub-Api-Version": "2022-11-28",
-    "User-Agent": "trendingrepo-compare",
-  };
-  if (token) h.Authorization = `Bearer ${token}`;
-  return h;
-}
-
 /** Fetch with timeout. Never throws on non-2xx — returns the Response so callers
- *  can branch on status (404/403/202 matter here). */
+ *  can branch on status (404/403/202 matter here). All requests route through
+ *  the pool-aware helper. A null result (pool exhausted, persistent network
+ *  error) surfaces as a synthetic 503 Response so call sites can keep their
+ *  existing branch-on-status shape. */
 async function ghFetch(
-  url: string,
-  token: string | undefined,
+  path: string,
   timeoutMs = DEFAULT_TIMEOUT_MS,
 ): Promise<Response> {
-  const controller = new AbortController();
-  const t = setTimeout(() => controller.abort(), timeoutMs);
-  try {
-    return await fetch(url, {
-      headers: authHeaders(token),
-      signal: controller.signal,
-      // Let Next.js revalidate via the route-level cache header; avoid Next's
-      // dedupe cache so concurrent requests don't collide on the same key.
-      cache: "no-store",
-    });
-  } finally {
-    clearTimeout(t);
+  const result = await githubFetch(path, {
+    timeoutMs,
+    headers: { "User-Agent": "trendingrepo-compare" },
+  });
+  if (!result) {
+    return new Response(null, { status: 503, statusText: "pool_unavailable" });
   }
+  return result.response;
 }
 
 /** A class of response we treat as "upstream refused" → propagate so the caller
@@ -194,11 +186,8 @@ class GhStatusError extends Error {
   }
 }
 
-async function ghJson<T>(
-  url: string,
-  token: string | undefined,
-): Promise<T> {
-  const res = await ghFetch(url, token);
+async function ghJson<T>(path: string): Promise<T> {
+  const res = await ghFetch(path);
   if (res.status === 404) throw new GhStatusError(404, "not_found");
   if (res.status === 403) throw new GhStatusError(403, "rate_limited");
   if (!res.ok) throw new GhStatusError(res.status, `http_${res.status}`);
@@ -233,9 +222,8 @@ function parseLastPageFromLink(link: string | null): number | null {
 async function fetchRepo(
   owner: string,
   name: string,
-  token: string | undefined,
 ): Promise<GhRepo> {
-  return ghJson<GhRepo>(`${GITHUB_API}/repos/${owner}/${name}`, token);
+  return ghJson<GhRepo>(`/repos/${owner}/${name}`);
 }
 
 function emptyCommitDays(): [number, number, number, number, number, number, number] {
@@ -262,17 +250,15 @@ function recentCommitBuckets(): CompareRepoBundle["commitActivity"] {
 async function fetchRecentCommitActivityFallback(
   owner: string,
   name: string,
-  token: string | undefined,
 ): Promise<CompareRepoBundle["commitActivity"]> {
   const weeks = recentCommitBuckets();
   const firstWeekMs = weeks[0].weekStart * 1000;
   const byWeek = new Map(weeks.map((week, i) => [week.weekStart, i]));
   const since = new Date(firstWeekMs).toISOString();
   const res = await ghFetch(
-    `${GITHUB_API}/repos/${owner}/${name}/commits?since=${encodeURIComponent(
+    `/repos/${owner}/${name}/commits?since=${encodeURIComponent(
       since,
     )}&per_page=100`,
-    token,
   );
 
   if (res.status === 404) throw new GhStatusError(404, "not_found");
@@ -311,35 +297,34 @@ async function fetchRecentCommitActivityFallback(
 async function fetchCommitActivity(
   owner: string,
   name: string,
-  token: string | undefined,
 ): Promise<CompareRepoBundle["commitActivity"]> {
-  const url = `${GITHUB_API}/repos/${owner}/${name}/stats/commit_activity`;
-  let res = await ghFetch(url, token);
+  const url = `/repos/${owner}/${name}/stats/commit_activity`;
+  let res = await ghFetch(url);
   for (const delayMs of COMMIT_ACTIVITY_RETRY_DELAYS_MS) {
     if (res.status !== 202) break;
     await new Promise((r) => setTimeout(r, delayMs));
-    res = await ghFetch(url, token);
+    res = await ghFetch(url);
   }
   if (res.status === 202) {
-    return fetchRecentCommitActivityFallback(owner, name, token);
+    return fetchRecentCommitActivityFallback(owner, name);
   }
   if (res.status === 404) throw new GhStatusError(404, "not_found");
   if (res.status === 403) {
-    return fetchRecentCommitActivityFallback(owner, name, token);
+    return fetchRecentCommitActivityFallback(owner, name);
   }
-  if (!res.ok) return fetchRecentCommitActivityFallback(owner, name, token);
+  if (!res.ok) return fetchRecentCommitActivityFallback(owner, name);
   // 204 (no content) for brand-new/empty repos.
   if (res.status === 204) return [];
   const text = await res.text();
-  if (!text) return fetchRecentCommitActivityFallback(owner, name, token);
+  if (!text) return fetchRecentCommitActivityFallback(owner, name);
   let body: unknown;
   try {
     body = JSON.parse(text);
   } catch {
-    return fetchRecentCommitActivityFallback(owner, name, token);
+    return fetchRecentCommitActivityFallback(owner, name);
   }
   if (!Array.isArray(body) || body.length === 0) {
-    return fetchRecentCommitActivityFallback(owner, name, token);
+    return fetchRecentCommitActivityFallback(owner, name);
   }
   const weeks = body as GhCommitActivityWeek[];
   const normalized = weeks.map((w) => {
@@ -361,17 +346,15 @@ async function fetchCommitActivity(
   );
   return total > 0
     ? normalized
-    : fetchRecentCommitActivityFallback(owner, name, token);
+    : fetchRecentCommitActivityFallback(owner, name);
 }
 
 async function fetchLanguages(
   owner: string,
   name: string,
-  token: string | undefined,
 ): Promise<CompareRepoBundle["languages"]> {
   const map = await ghJson<Record<string, number>>(
-    `${GITHUB_API}/repos/${owner}/${name}/languages`,
-    token,
+    `/repos/${owner}/${name}/languages`,
   );
   const entries = Object.entries(map ?? {}).filter(
     ([, v]) => typeof v === "number" && v > 0,
@@ -389,12 +372,10 @@ async function fetchLanguages(
 async function fetchContributors(
   owner: string,
   name: string,
-  token: string | undefined,
 ): Promise<CompareRepoBundle["contributors"]> {
   // `anon=0` (default) excludes anonymous; explicit for clarity.
   const res = await ghFetch(
-    `${GITHUB_API}/repos/${owner}/${name}/contributors?per_page=20&anon=0`,
-    token,
+    `/repos/${owner}/${name}/contributors?per_page=20&anon=0`,
   );
   // 204 when a repo has no contributors yet (e.g., only auto-generated commits).
   if (res.status === 204) return [];
@@ -413,11 +394,9 @@ async function fetchContributors(
 async function fetchPullsOpenCount(
   owner: string,
   name: string,
-  token: string | undefined,
 ): Promise<number> {
   const res = await ghFetch(
-    `${GITHUB_API}/repos/${owner}/${name}/pulls?state=open&per_page=1`,
-    token,
+    `/repos/${owner}/${name}/pulls?state=open&per_page=1`,
   );
   if (res.status === 404) throw new GhStatusError(404, "not_found");
   if (res.status === 403) throw new GhStatusError(403, "rate_limited");
@@ -432,13 +411,11 @@ async function fetchPullsOpenCount(
 async function fetchRecentClosedPulls(
   owner: string,
   name: string,
-  token: string | undefined,
 ): Promise<{ merged: number; closedNotMerged: number }> {
   // Closed PRs are sorted by `created` by default; switch to updated desc so the
   // first page is more likely to contain the recent churn we care about.
   const body = await ghJson<GhPull[]>(
-    `${GITHUB_API}/repos/${owner}/${name}/pulls?state=closed&per_page=100&sort=updated&direction=desc`,
-    token,
+    `/repos/${owner}/${name}/pulls?state=closed&per_page=100&sort=updated&direction=desc`,
   );
   const cutoff = Date.now() - THIRTY_DAYS_MS;
   let merged = 0;
@@ -455,12 +432,10 @@ async function fetchRecentClosedPulls(
 async function fetchRecentClosedIssues(
   owner: string,
   name: string,
-  token: string | undefined,
 ): Promise<number> {
   const since = new Date(Date.now() - THIRTY_DAYS_MS).toISOString();
   const body = await ghJson<GhIssue[]>(
-    `${GITHUB_API}/repos/${owner}/${name}/issues?state=closed&since=${encodeURIComponent(since)}&per_page=100`,
-    token,
+    `/repos/${owner}/${name}/issues?state=closed&since=${encodeURIComponent(since)}&per_page=100`,
   );
   // The issues endpoint returns PRs too — filter them out via `pull_request`.
   let count = 0;
@@ -474,14 +449,12 @@ async function fetchRecentClosedIssues(
 async function fetchReleases(
   owner: string,
   name: string,
-  token: string | undefined,
 ): Promise<{
   releases: CompareRepoBundle["releases"];
   latest: CompareRepoBundle["latestRelease"];
 }> {
   const body = await ghJson<GhRelease[]>(
-    `${GITHUB_API}/repos/${owner}/${name}/releases?per_page=10`,
-    token,
+    `/repos/${owner}/${name}/releases?per_page=10`,
   );
   const releases = body.map((r) => ({
     tag: r.tag_name ?? "",
@@ -499,10 +472,8 @@ async function fetchReleases(
 
 export async function fetchCompareBundle(
   fullName: string,
-  opts?: { token?: string },
 ): Promise<CompareRepoBundle> {
   const started = Date.now();
-  const token = opts?.token ?? process.env.GITHUB_TOKEN;
 
   const slashIdx = fullName.indexOf("/");
   if (slashIdx <= 0 || slashIdx === fullName.length - 1) {
@@ -525,7 +496,7 @@ export async function fetchCompareBundle(
   try {
     // Fetch the repo first — we need the owner avatar + canonical fields, and
     // 404 / 403 here means we can bail cheaply without issuing 7 more calls.
-    const repo = await fetchRepo(owner, name, token);
+    const repo = await fetchRepo(owner, name);
 
     const [
       commitActivityRes,
@@ -536,16 +507,16 @@ export async function fetchCompareBundle(
       issuesClosedRes,
       releasesRes,
     ] = await Promise.all([
-      withDefault(fetchCommitActivity(owner, name, token), []),
-      withDefault(fetchLanguages(owner, name, token), []),
-      withDefault(fetchContributors(owner, name, token), []),
-      withDefault(fetchPullsOpenCount(owner, name, token), 0),
-      withDefault(fetchRecentClosedPulls(owner, name, token), {
+      withDefault(fetchCommitActivity(owner, name), []),
+      withDefault(fetchLanguages(owner, name), []),
+      withDefault(fetchContributors(owner, name), []),
+      withDefault(fetchPullsOpenCount(owner, name), 0),
+      withDefault(fetchRecentClosedPulls(owner, name), {
         merged: 0,
         closedNotMerged: 0,
       }),
-      withDefault(fetchRecentClosedIssues(owner, name, token), 0),
-      withDefault(fetchReleases(owner, name, token), {
+      withDefault(fetchRecentClosedIssues(owner, name), 0),
+      withDefault(fetchReleases(owner, name), {
         releases: [],
         latest: null,
       }),
@@ -631,14 +602,12 @@ async function withDefault<T>(p: Promise<T>, fallback: T): Promise<T> {
 
 export async function fetchCompareBundles(
   fullNames: string[],
-  opts?: { token?: string },
 ): Promise<CompareRepoBundle[]> {
-  const token = opts?.token ?? process.env.GITHUB_TOKEN;
   // Use allSettled defensively — `fetchCompareBundle` already converts errors
   // into `ok:false` bundles, but allSettled guarantees the batch completes
   // even if a surprise throws past that guard.
   const settled = await Promise.allSettled(
-    fullNames.map((fn) => fetchCompareBundle(fn, { token })),
+    fullNames.map((fn) => fetchCompareBundle(fn)),
   );
   return settled.map((s, i) => {
     if (s.status === "fulfilled") return s.value;

@@ -69,8 +69,9 @@ export async function runRepoIntakeForSubmission(
       lastScanAt: triggeredAt,
     });
 
-    const token = process.env.GITHUB_TOKEN;
-    const githubAdapter = createGitHubAdapter({ token });
+    // Pool path: createGitHubAdapter() uses the singleton pool when no
+    // explicit token is passed.
+    const githubAdapter = createGitHubAdapter();
     const ingest = await pipeline.ingestRepo(submission.fullName, {
       githubAdapter,
       socialAdapters: getDefaultSocialAdapters(),

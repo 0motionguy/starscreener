@@ -19,7 +19,8 @@
 // MaintainerCard needs exactly one endpoint and survives a miss — keep
 // the surface tiny.
 
-const GITHUB_API = "https://api.github.com";
+import { githubFetch } from "./github-fetch";
+
 const REVALIDATE_SECONDS = 24 * 60 * 60; // 24h ISR window
 
 export type GithubAccountType = "User" | "Organization";
@@ -85,32 +86,17 @@ export async function fetchGithubUserProfile(
     return null;
   }
 
-  const headers: Record<string, string> = {
-    Accept: "application/vnd.github+json",
-    "X-GitHub-Api-Version": "2022-11-28",
-  };
-  const token = process.env.GITHUB_TOKEN;
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
-  }
-
-  let res: Response;
-  try {
-    res = await fetch(`${GITHUB_API}/users/${login}`, {
-      headers,
-      next: { revalidate: REVALIDATE_SECONDS },
-    });
-  } catch {
-    return null;
-  }
-
-  if (!res.ok) {
+  const result = await githubFetch(`/users/${login}`, {
+    next: { revalidate: REVALIDATE_SECONDS },
+    cache: "default",
+  });
+  if (!result || !result.response.ok) {
     return null;
   }
 
   let raw: RawGithubUserResponse;
   try {
-    raw = (await res.json()) as RawGithubUserResponse;
+    raw = (await result.response.json()) as RawGithubUserResponse;
   } catch {
     return null;
   }

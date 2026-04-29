@@ -3,11 +3,18 @@
 /**
  * Sidebar — desktop persistent left rail (V2 chrome).
  *
- * Fetches the sidebar data bundle on mount (one HTTP round-trip to
- * /api/pipeline/sidebar-data) and feeds it into the shared
- * <SidebarContent>. The chrome is the V2 Node/01 industrial rail:
- * translucent gray-blue surface, hairline V2 borders, a `// TRENDINGREPO`
- * mono status row at the top, and the V2 launchpad tiles below.
+ * Receives the sidebar data bundle from the root layout via `initialData`
+ * (server-rendered, no client fetch). The chrome is the V2 Node/01
+ * industrial rail: translucent gray-blue surface, hairline V2 borders,
+ * a `// TRENDINGREPO` mono status row at the top, and the V2 launchpad
+ * tiles below.
+ *
+ * The hooks `useSidebarData()` and `useWatchlistPreview()` are still
+ * exported — `MobileDrawer` uses them to fetch lazily when the user
+ * opens the drawer (off the critical path because the drawer is dynamic'd
+ * with ssr:false). When called with no arg, the hook fetches on mount;
+ * when seeded with `initialData`, it returns immediately and skips the
+ * round-trip.
  *
  * Width matches the AppShell grid column (280px in `data-mode="full"`,
  * 56px when AppShell flips to `data-mode="focused"`). The CSS handles the
@@ -28,7 +35,7 @@ import { SidebarSkeleton } from "./SidebarSkeleton";
 import type {
   SidebarDataRepo,
   SidebarDataResponse,
-} from "@/app/api/pipeline/sidebar-data/route";
+} from "@/lib/sidebar-data";
 import type { SidebarWatchlistPreviewRepo } from "./SidebarWatchlistPreview";
 
 // ---------------------------------------------------------------------------
@@ -144,10 +151,30 @@ const EMPTY_SOURCE_COUNTS: SidebarDataResponse["sourceCounts"] = {
   npmPackages: 0,
 };
 
-export function useSidebarData(): SidebarData | null {
-  const [data, setData] = useState<SidebarData | null>(null);
+/**
+ * Sidebar data hook. When called with `initialData` (the desktop path,
+ * fed by the root layout's server-side build), returns it directly and
+ * never fires a network request. When called bare (the MobileDrawer
+ * path), fetches `/api/pipeline/sidebar-data` once on mount.
+ */
+export function useSidebarData(
+  initialData?: SidebarDataResponse | null,
+): SidebarData | null {
+  const seed: SidebarData | null = initialData
+    ? {
+        categoryStats: initialData.categoryStats,
+        metaCounts: initialData.metaCounts,
+        availableLanguages: initialData.availableLanguages,
+        reposById: initialData.reposById,
+        unreadAlerts: initialData.unreadAlerts ?? 0,
+        sourceCounts: initialData.sourceCounts ?? EMPTY_SOURCE_COUNTS,
+        trendingReposCount: initialData.trendingReposCount ?? 0,
+      }
+    : null;
+  const [data, setData] = useState<SidebarData | null>(seed);
 
   useEffect(() => {
+    if (initialData) return; // Already seeded server-side; skip the round-trip.
     let cancelled = false;
     fetch("/api/pipeline/sidebar-data")
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error(r.statusText))))
@@ -170,7 +197,7 @@ export function useSidebarData(): SidebarData | null {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [initialData]);
 
   return data;
 }
@@ -205,8 +232,12 @@ export function useWatchlistPreview(
 // Sidebar root
 // ---------------------------------------------------------------------------
 
-export function Sidebar() {
-  const data = useSidebarData();
+export function Sidebar({
+  initialData,
+}: {
+  initialData?: SidebarDataResponse | null;
+} = {}) {
+  const data = useSidebarData(initialData);
   const watchlistPreview = useWatchlistPreview(data?.reposById);
 
   // Width is driven by the parent `.app-shell` grid column (280px full /

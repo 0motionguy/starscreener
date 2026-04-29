@@ -8,6 +8,7 @@ import { cn, formatNumber } from "@/lib/utils";
 import { ROUTES } from "@/lib/constants";
 import type { Repo } from "@/lib/types";
 import { EntityLogo } from "@/components/ui/EntityLogo";
+import { Input } from "@/components/ui/Input";
 import { repoDisplayLogoUrl } from "@/lib/logos";
 
 interface SearchBarProps {
@@ -211,9 +212,7 @@ export function SearchBar({
       ref={containerRef}
       className={cn("relative", fullWidth ? "w-full" : "w-64")}
     >
-      <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted pointer-events-none" />
-
-      <input
+      <Input
         ref={inputRef}
         type="text"
         value={value}
@@ -231,26 +230,21 @@ export function SearchBar({
         aria-expanded={showPreview ? previewOpen : undefined}
         aria-controls={showPreview ? "search-preview" : undefined}
         aria-autocomplete={showPreview ? "list" : undefined}
-        className={cn(
-          "w-full h-9 pl-9 pr-8",
-          "bg-bg-secondary border border-border-primary rounded-card",
-          "text-sm font-mono text-text-primary placeholder:text-text-muted",
-          "outline-none",
-          "focus:border-accent-green/50 focus:ring-1 focus:ring-accent-green/20",
-          "transition-colors"
-        )}
+        wrapperClassName="search"
+        leftIcon={<Search className="size-3.5" />}
+        rightSlot={
+          value ? (
+            <button
+              type="button"
+              onClick={handleClear}
+              aria-label="Clear search"
+              className="ds-input-clear"
+            >
+              <X className="size-3.5" />
+            </button>
+          ) : null
+        }
       />
-
-      {value && (
-        <button
-          type="button"
-          onClick={handleClear}
-          aria-label="Clear search"
-          className="absolute right-2 top-1/2 -translate-y-1/2 p-0.5 text-text-muted hover:text-text-secondary transition-colors cursor-pointer"
-        >
-          <X className="w-3.5 h-3.5" />
-        </button>
-      )}
 
       {showPreview &&
         previewOpen &&

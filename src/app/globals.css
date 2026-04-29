@@ -1564,6 +1564,137 @@ body::before {
   background: var(--bg-025);
 }
 
+.ds-input-wrap,
+.search,
+.sh-search {
+  position: relative;
+  min-width: 0;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: var(--layout-search-width);
+  height: 30px;
+  border: 1px solid var(--line-200);
+  background: var(--bg-050);
+  color: var(--ink-400);
+}
+
+.ds-input,
+.sh-search input,
+.share-meta input {
+  width: 100%;
+  height: 30px;
+  border: 1px solid var(--line-300);
+  border-radius: var(--radius-none);
+  background: var(--bg-050);
+  color: var(--ink-100);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-3xl);
+  line-height: 1;
+  outline: none;
+  transition:
+    border-color var(--motion-duration-fast) ease-out,
+    color var(--motion-duration-fast) ease-out,
+    background-color var(--motion-duration-fast) ease-out;
+}
+
+.ds-input {
+  padding: 0 10px;
+}
+
+.search .ds-input {
+  height: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--ink-100);
+}
+
+.has-left-icon .ds-input,
+.sh-search input {
+  padding-left: 28px;
+}
+
+.has-right-slot .ds-input {
+  padding-right: 34px;
+}
+
+.ds-input::placeholder,
+.sh-search input::placeholder {
+  color: var(--ink-400);
+}
+
+.ds-input:focus,
+.sh-search input:focus,
+.share-meta input:focus {
+  border-color: var(--acc);
+}
+
+.search:focus-within {
+  border-color: var(--acc);
+}
+
+.ds-input-icon,
+.sh-search .ic {
+  position: absolute;
+  left: 9px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-300);
+  font-size: 13px;
+  pointer-events: none;
+}
+
+.ds-input-slot {
+  position: absolute;
+  right: 7px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+}
+
+.ds-input-clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: 0;
+  background: transparent;
+  color: var(--ink-400);
+  cursor: pointer;
+}
+
+.ds-input-clear:hover {
+  color: var(--ink-100);
+}
+
+.search .key {
+  margin-left: auto;
+  color: var(--ink-500);
+  font-size: var(--font-size-md);
+  letter-spacing: var(--tracking-wide);
+}
+
+.sh-search {
+  flex: 1;
+  min-width: 240px;
+  max-width: 380px;
+}
+
+.share-meta input {
+  flex: 1;
+  height: auto;
+  padding: 5px 8px;
+  font-size: var(--font-size-lg);
+}
+
 .ds-button,
 .pill,
 .share-actions .b,

@@ -17,7 +17,11 @@ import type { ReactionCounts } from "@/lib/reactions-shape";
 import { ProfileView } from "@/components/profile/ProfileView";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 
-export const dynamic = "force-dynamic";
+// ISR with 10-min revalidate. Public profile, no cookies/headers, each
+// handle gets its own ISR cache entry. Activity (ideas, reactions)
+// updates on the cron cadence — 10 min freshness is plenty for a
+// public profile view.
+export const revalidate = 600;
 
 // Loose handle validation — same character set as the idea authorHandle
 // intake (USER_TOKENS_JSON can carry arbitrary ids, but browser URLs

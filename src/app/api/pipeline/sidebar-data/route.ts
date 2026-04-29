@@ -1,16 +1,10 @@
 // GET /api/pipeline/sidebar-data
 //
-// One-shot bundle for every piece of data the sidebar needs:
-//   - categoryStats   — per-category repoCount + avgMomentum
-//   - metaCounts      — 7 meta-bar counters
-//   - availableLanguages — unique languages across all tracked repos
-//   - reposById       — compact repo map (id, fullName, momentumScore,
-//                       sparklineData, starsDelta24h) so the client can
-//                       build the Watching preview by intersecting the
-//                       local watchlist store with this map.
-//
-// Keeping this route in one place means the sidebar (desktop + mobile
-// drawer) only makes a single round-trip on mount.
+// One-shot bundle for every piece of data the sidebar needs. Single
+// source of truth lives in `@/lib/sidebar-data` so the desktop sidebar
+// (rendered inside the root layout via `initialData`) and the mobile
+// drawer (which fetches lazily on user-open through this endpoint) stay
+// in sync.
 //
 // Query params:
 //   userId  optional — when supplied, the response includes an
@@ -18,110 +12,26 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { errorEnvelope } from "@/lib/api/error-response";
-import { pipeline } from "@/lib/pipeline/pipeline";
-import {
-  getDerivedAvailableLanguages,
-  getDerivedCategoryStats,
-  getDerivedMetaCounts,
-} from "@/lib/derived-insights";
-import { getDerivedRepos } from "@/lib/derived-repos";
-import {
-  getSidebarSourceCounts,
-  emptySidebarSourceCounts,
-  type SidebarSourceCounts,
-} from "@/lib/sidebar-source-counts";
-import type { MetaCounts, MovementStatus } from "@/lib/types";
-import type { CategoryStats } from "@/lib/pipeline/queries/aggregate";
+import { buildSidebarData } from "@/lib/sidebar-data";
+
+// Re-export the wire types so existing import paths keep working.
+export type {
+  SidebarDataRepo,
+  SidebarDataResponse,
+} from "@/lib/sidebar-data";
 
 export const runtime = "nodejs";
 
-export interface SidebarDataRepo {
-  id: string;
-  fullName: string;
-  owner: string;
-  name: string;
-  ownerAvatarUrl: string;
-  momentumScore: number;
-  movementStatus: MovementStatus;
-  sparklineData: number[];
-  stars: number;
-  starsDelta24h: number;
-  starsDelta24hMissing?: boolean;
-}
-
-export interface SidebarDataResponse {
-  categoryStats: CategoryStats[];
-  metaCounts: MetaCounts;
-  availableLanguages: string[];
-  reposById: Record<string, SidebarDataRepo>;
-  unreadAlerts: number;
-  sourceCounts: SidebarSourceCounts;
-  trendingReposCount: number;
-  generatedAt: string;
-}
-
-export async function GET(
-  request: NextRequest,
-): Promise<NextResponse<SidebarDataResponse | { error: string }>> {
+export async function GET(request: NextRequest) {
   try {
-    const repos = getDerivedRepos();
-    const categoryStats = getDerivedCategoryStats(repos);
-    const metaCounts = getDerivedMetaCounts(repos);
-
-    // Build a compact repo map keyed by id. Only the fields the sidebar
-    // actually renders travel over the wire so the payload stays small
-    // even with 80+ repos.
-    const reposById: Record<string, SidebarDataRepo> = {};
-    for (const r of repos) {
-      reposById[r.id] = {
-        id: r.id,
-        fullName: r.fullName,
-        owner: r.owner,
-        name: r.name,
-        ownerAvatarUrl: r.ownerAvatarUrl,
-        momentumScore: r.momentumScore,
-        movementStatus: r.movementStatus,
-        sparklineData: r.sparklineData,
-        stars: r.stars,
-        starsDelta24h: r.starsDelta24h,
-        starsDelta24hMissing: r.starsDelta24hMissing,
-      };
-    }
-    const availableLanguages = getDerivedAvailableLanguages(repos);
-
-    // Unread alerts — optional, keyed by userId. Default to 0 when absent.
     const userId = request.nextUrl.searchParams.get("userId") ?? undefined;
-    let unreadAlerts = 0;
-    try {
-      await pipeline.ensureReady();
-      const events = pipeline.getAlerts(userId);
-      unreadAlerts = events.filter((e) => e.readAt === null).length;
-    } catch {
-      unreadAlerts = 0;
-    }
-
-    // Per-source counts for the sidebar count badges. Degrade to zeros
-    // on cold data-store / read error so the sidebar still renders.
-    let sourceCounts: SidebarSourceCounts;
-    try {
-      sourceCounts = await getSidebarSourceCounts();
-    } catch {
-      sourceCounts = emptySidebarSourceCounts();
-    }
-
-    return NextResponse.json(
-      {
-        categoryStats,
-        metaCounts,
-        availableLanguages,
-        reposById,
-        unreadAlerts,
-        sourceCounts,
-        trendingReposCount: repos.length,
-        generatedAt: new Date().toISOString(),
-      },
-      { headers: { "Content-Type": "application/json; charset=utf-8" } },
-    );
+    // No reposById cap on the API path: the mobile drawer (the only
+    // remaining consumer post-B1) reads watchlist tiles and may target
+    // repos outside the top-N momentum slice the layout passes inline.
+    const data = await buildSidebarData({ userId });
+    return NextResponse.json(data, {
+      headers: { "Content-Type": "application/json; charset=utf-8" },
+    });
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     return NextResponse.json(errorEnvelope(message), { status: 500 });

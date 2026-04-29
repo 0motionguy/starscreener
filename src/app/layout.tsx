@@ -7,16 +7,20 @@ import type { Metadata, Viewport } from "next";
 // named "Inter" / "JetBrains Mono" strings remain in the font-family
 // chains so locally-installed copies still work as system fallbacks.
 import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
-import { Toaster } from "sonner";
 // Validate environment variables at server boot. Must stay first so misconfig
 // crashes the app before any routes load.
 import "@/lib/bootstrap";
+import { ToasterLazy } from "@/components/feedback/ToasterLazy";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { StoreProvider } from "@/components/providers/StoreProvider";
 import { PostHogProvider } from "@/components/providers/PostHogProvider";
 import { AppShell } from "@/components/layout/AppShell";
 import { Header } from "@/components/layout/Header";
 import { Sidebar } from "@/components/layout/Sidebar";
+import {
+  buildSidebarData,
+  type SidebarDataResponse,
+} from "@/lib/sidebar-data";
 // MobileDrawer is deferred via a thin client wrapper so framer-motion (the
 // drawer's biggest dep, ~30 kB gzipped) lands in its own chunk instead of
 // the shared bundle. The win propagates to every route. The wrapper file
@@ -125,11 +129,28 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Build the desktop sidebar payload server-side and pass it to <Sidebar>
+  // as initialData. Eliminates the post-hydration fetch + skeleton flash
+  // that used to delay every desktop page paint. Cap reposById at top-200
+  // by momentum: the layout inlines this payload into every page's RSC
+  // stream (mobile included, even though the sidebar is desktop-only).
+  // The mobile-drawer API path stays uncapped for backward compat — that
+  // fetch only fires on user-tap and isn't on any critical path. Wrapped
+  // in try/catch so a transient pipeline / data-store hiccup doesn't take
+  // the whole site down — if it fails we pass null and Sidebar falls back
+  // to its existing client-fetch path.
+  let initialSidebarData: SidebarDataResponse | null = null;
+  try {
+    initialSidebarData = await buildSidebarData({ reposByIdTopN: 200 });
+  } catch {
+    initialSidebarData = null;
+  }
+
   return (
     <html
       lang="en"
@@ -170,34 +191,12 @@ export default function RootLayout({
               <Header />
               <MobileDrawerLazy />
               <AppShell>
-                <Sidebar />
+                <Sidebar initialData={initialSidebarData} />
                 <main className="app-main">{children}</main>
               </AppShell>
               <MobileNav />
               <BrowserAlertBridge />
-              <Toaster
-                theme="dark"
-                position="bottom-right"
-                richColors={false}
-                closeButton={false}
-                toastOptions={{
-                  classNames: {
-                    toast:
-                      "!bg-[var(--v3-bg-050)] !border !border-[var(--v3-line-200)] !text-[var(--v3-ink-100)] !rounded-[2px] !shadow-[var(--shadow-popover)] !font-sans !text-[13px]",
-                    title:
-                      "!text-[var(--v3-ink-000)] !font-medium !tracking-[-0.005em]",
-                    description: "!text-[var(--v3-ink-300)] !text-[12px]",
-                    success:
-                      "!border-l-[3px] !border-l-[var(--v3-sig-green)]",
-                    error:
-                      "!border-l-[3px] !border-l-[var(--v3-sig-red)]",
-                    info:
-                      "!border-l-[3px] !border-l-[var(--v3-acc)]",
-                    warning:
-                      "!border-l-[3px] !border-l-[var(--v3-sig-amber)]",
-                  },
-                }}
-              />
+              <ToasterLazy />
               </DesignSystemProvider>
             </StoreProvider>
           </PostHogProvider>

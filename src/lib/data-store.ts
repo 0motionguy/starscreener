@@ -556,17 +556,24 @@ function defaultRedisFactory(url: string, token?: string): RedisClientLike {
   // `{ ex: number; nx?: boolean }` opts shape used by RedisClientLike.
   // ioredis SET supports any combination of EX/NX/XX positional flags;
   // returns "OK" on success or null when SET NX doesn't acquire the key.
+  //
+  // ioredis methods reference `this.options` internally, so we MUST call
+  // `client.set(...)` as a method (not via a stored `const setFn = client.set`,
+  // which would unbind `this` and explode with
+  // "Cannot read properties of undefined (reading 'options')" on the first
+  // write that has no opts).
   return {
     get: (key) => client.get(key),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     set: (key, value, opts) => {
       const hasEx = opts && typeof opts.ex === "number" && opts.ex > 0;
       const hasNx = opts?.nx === true;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const setFn = client.set as any;
-      if (hasEx && hasNx) return setFn(key, value, "EX", opts!.ex, "NX");
-      if (hasEx) return setFn(key, value, "EX", opts!.ex);
-      if (hasNx) return setFn(key, value, "NX");
-      return setFn(key, value);
+      const c = client as any;
+      if (hasEx && hasNx) return c.set(key, value, "EX", opts!.ex, "NX");
+      if (hasEx) return c.set(key, value, "EX", opts!.ex);
+      if (hasNx) return c.set(key, value, "NX");
+      return c.set(key, value);
     },
     del: (...keys) => client.del(...keys),
   };

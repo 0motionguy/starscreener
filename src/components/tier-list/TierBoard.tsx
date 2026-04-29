@@ -430,64 +430,76 @@ function DraggableCell({
     transform: CSS.Translate.toString(transform),
     opacity: isDragging ? 0.5 : 1,
     cursor: "grab",
-    display: "flex",
-    flexDirection: "column",
+    display: "inline-flex",
     alignItems: "center",
-    gap: 4,
-    padding: 6,
-    width: 96,
-    backgroundColor: "#1b1b1e",
-    border: "1px solid #2B2B2F",
-    borderRadius: 4,
+    gap: 8,
+    padding: "4px 6px 4px 4px",
+    backgroundColor: "#13161a",
+    border: "1px solid #272c33",
+    borderRadius: 3,
     touchAction: "none",
+    height: 32,
   };
 
-  const displayName = meta?.displayName ?? repoId.split("/").pop() ?? repoId;
-
   return (
-    <div ref={setNodeRef} style={style} {...attributes}>
-      {/* Desktop: drag handle (md and up). Mobile: dnd-kit's pointer sensor
-          on touch is unreliable, so we render a tap button that opens the
-          picker bottom-sheet instead. Same Avatar both ways. */}
+    <div ref={setNodeRef} style={style} {...attributes} className="group">
+      {/* Desktop: drag handle. Mobile: tap button → picker bottom-sheet. */}
       <button
         type="button"
         aria-label={`Drag handle for ${repoId}`}
         {...listeners}
-        className="hidden md:block"
-        style={{
-          all: "unset",
-          cursor: "grab",
-        }}
+        className="hidden md:inline-flex items-center bg-transparent border-0 p-0 cursor-grab"
       >
-        <Avatar repoId={repoId} avatarUrl={meta?.avatarUrl} size={48} />
+        <Avatar repoId={repoId} avatarUrl={meta?.avatarUrl} size={24} rounded={3} />
       </button>
       <button
         type="button"
         aria-label={`Place ${repoId} into a tier`}
         onClick={() => openPicker(repoId)}
-        className="block md:hidden"
-        style={{
-          all: "unset",
-          cursor: "pointer",
-        }}
+        className="inline-flex md:hidden items-center bg-transparent border-0 p-0 cursor-pointer"
       >
-        <Avatar repoId={repoId} avatarUrl={meta?.avatarUrl} size={48} />
+        <Avatar repoId={repoId} avatarUrl={meta?.avatarUrl} size={24} rounded={3} />
       </button>
       <span
         style={{
           fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
-          fontSize: 11,
+          fontSize: 12,
           color: "#FBFBFB",
-          maxWidth: 88,
+          maxWidth: 220,
           overflow: "hidden",
           textOverflow: "ellipsis",
           whiteSpace: "nowrap",
         }}
         title={repoId}
       >
-        {displayName}
+        {repoId}
       </span>
-      <div style={{ display: "flex", gap: 4 }}>
+      {typeof meta?.stars === "number" && meta.stars > 0 && (
+        <span
+          style={{
+            fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
+            fontSize: 11,
+            color: "#7d848c",
+            paddingLeft: 6,
+            borderLeft: "1px solid #272c33",
+          }}
+        >
+          {compactStars(meta.stars)}
+        </span>
+      )}
+      {/* Controls — hidden until hover/focus to keep the pill clean.
+          On touch devices `:hover` doesn't fire, so the picker bottom-sheet
+          is the primary touch path; these stay tucked away there. */}
+      <div
+        className="hidden group-hover:flex group-focus-within:flex"
+        style={{
+          alignItems: "center",
+          gap: 4,
+          marginLeft: 2,
+          paddingLeft: 6,
+          borderLeft: "1px solid #272c33",
+        }}
+      >
         <select
           aria-label={`Place ${repoId} in tier`}
           value=""
@@ -501,14 +513,14 @@ function DraggableCell({
             fontFamily:
               "ui-monospace, SFMono-Regular, Menlo, monospace",
             fontSize: 10,
-            backgroundColor: "#262626",
+            backgroundColor: "#1b1b1e",
             color: "#FBFBFB",
-            border: "1px solid #2B2B2F",
+            border: "1px solid #272c33",
             borderRadius: 2,
             padding: "1px 2px",
           }}
         >
-          <option value="">→ tier</option>
+          <option value="">→</option>
           {tiers.map((tier) => (
             <option key={tier.id} value={tier.id}>
               {tier.label}
@@ -526,7 +538,7 @@ function DraggableCell({
             fontSize: 10,
             backgroundColor: "transparent",
             color: "#878787",
-            border: "1px solid #2B2B2F",
+            border: "1px solid #272c33",
             borderRadius: 2,
             padding: "1px 4px",
             cursor: "pointer",
@@ -542,6 +554,12 @@ function DraggableCell({
 // ---------------------------------------------------------------------------
 // Style helpers
 // ---------------------------------------------------------------------------
+
+function compactStars(n: number): string {
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
+  if (n >= 1_000) return `${(n / 1_000).toFixed(1)}K`;
+  return String(n);
+}
 
 function tierReorderButtonStyle(opts: {
   position: "top" | "bottom";

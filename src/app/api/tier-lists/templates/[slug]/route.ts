@@ -37,6 +37,7 @@ export async function GET(_request: Request, { params }: RouteParams) {
       owner: repo.owner,
       displayName: repo.name,
       avatarUrl: repo.ownerAvatarUrl,
+      stars: repo.stars,
     };
   });
 

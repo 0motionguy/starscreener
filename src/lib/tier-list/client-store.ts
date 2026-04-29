@@ -28,6 +28,8 @@ export interface PoolItem {
   displayName: string;
   /** Owner ("vercel") */
   owner: string;
+  /** Stargazer count, when known. Rendered on the right edge of each pill. */
+  stars?: number;
 }
 
 export interface TierListEditorState {

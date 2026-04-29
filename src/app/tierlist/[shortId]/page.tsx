@@ -39,6 +39,7 @@ function buildItemMeta(repoIds: string[]): Record<string, PoolItem> {
       owner: repo.owner,
       displayName: repo.name,
       avatarUrl: repo.ownerAvatarUrl,
+      stars: repo.stars,
     };
   }
   return meta;

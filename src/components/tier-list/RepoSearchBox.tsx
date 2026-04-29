@@ -25,6 +25,7 @@ function repoToPoolItem(repo: Repo): PoolItem {
     displayName: repo.name,
     owner: repo.owner,
     avatarUrl: repo.ownerAvatarUrl,
+    stars: repo.stars,
   };
 }
 

@@ -31,7 +31,9 @@ import {
   LivenessPill,
   classifyLiveness,
 } from "@/components/signal/LivenessPill";
+import { EntityLogo } from "@/components/ui/EntityLogo";
 import { classifyFreshness } from "@/lib/news/freshness";
+import { mcpEntityLogoUrl } from "@/lib/logos";
 import { absoluteUrl } from "@/lib/seo";
 import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
 import { buildEcosystemHeader } from "@/components/signal/ecosystemTopHeader";
@@ -149,28 +151,49 @@ const MCP_COLUMNS: FeedColumn<EcosystemLeaderboardItem>[] = [
 // ---------------------------------------------------------------------------
 
 function sortByDownloads(items: EcosystemLeaderboardItem[]): EcosystemLeaderboardItem[] {
-  return [...items].sort(
-    (a, b) =>
-      (b.mcp?.downloadsCombined7d ?? -1) - (a.mcp?.downloadsCombined7d ?? -1),
-  );
+  // Primary: combined npm + pypi 7-day downloads. Cold-start: the
+  // mcp-downloads / mcp-downloads-pypi fetchers haven't shipped data yet,
+  // so most rows have downloadsCombined7d === null. Fall through to the
+  // publish payload's absolutes (popularity = installs_total ?? downloads_7d
+  // ?? stars_total — populated by coerceMcpItem), then signalScore as a
+  // final tiebreak. Without this chain the tab renders in arbitrary
+  // insertion order, which is what the screenshot showed.
+  return [...items].sort((a, b) => {
+    const aDl = a.mcp?.downloadsCombined7d;
+    const bDl = b.mcp?.downloadsCombined7d;
+    if (aDl !== null && aDl !== undefined && bDl !== null && bDl !== undefined && aDl !== bDl) {
+      return bDl - aDl;
+    }
+    if ((aDl ?? null) !== null && (bDl ?? null) === null) return -1;
+    if ((aDl ?? null) === null && (bDl ?? null) !== null) return 1;
+    const aPop = a.popularity ?? 0;
+    const bPop = b.popularity ?? 0;
+    if (aPop !== bPop) return bPop - aPop;
+    return (b.signalScore ?? 0) - (a.signalScore ?? 0);
+  });
 }
 
 function sortByHotness(items: EcosystemLeaderboardItem[]): EcosystemLeaderboardItem[] {
-  // Hottest by velocity: rank by Δhotness (current - 7d-prior) when both
-  // values are present. Falls back to absolute `hotness` (raw scorer
-  // output) and finally `signalScore` so cold-start rows still place. The
-  // 7d snapshot is populated by the `hotness-snapshot` worker fetcher; for
-  // the first 7 days of the rolling window everything sorts on absolute.
+  // Hottest by velocity: rank by Δhotness (current - 7d-prior) when EITHER
+  // side has a 7d-ago snapshot. Cold-start (first 7d of the rolling window):
+  // no row has a snapshot, so the delta branch is skipped entirely and we
+  // drop straight to absolute `hotness` desc, then `signalScore`, then
+  // last-release as final tiebreak so the day-1 list still ranks usefully.
   return [...items].sort((a, b) => {
-    const av =
-      a.hotness !== undefined && a.hotnessPrev7d !== undefined
-        ? a.hotness - a.hotnessPrev7d
-        : (a.hotness ?? a.signalScore);
-    const bv =
-      b.hotness !== undefined && b.hotnessPrev7d !== undefined
-        ? b.hotness - b.hotnessPrev7d
-        : (b.hotness ?? b.signalScore);
-    return bv - av;
+    const aHasPrev = a.hotnessPrev7d !== undefined;
+    const bHasPrev = b.hotnessPrev7d !== undefined;
+    if (aHasPrev || bHasPrev) {
+      const aDelta = (a.hotness ?? 0) - (a.hotnessPrev7d ?? a.hotness ?? 0);
+      const bDelta = (b.hotness ?? 0) - (b.hotnessPrev7d ?? b.hotness ?? 0);
+      if (aDelta !== bDelta) return bDelta - aDelta;
+    }
+    const aH = a.hotness ?? a.signalScore ?? 0;
+    const bH = b.hotness ?? b.signalScore ?? 0;
+    if (aH !== bH) return bH - aH;
+    return (
+      (Date.parse(b.mcp?.lastReleaseAt ?? "") || 0) -
+      (Date.parse(a.mcp?.lastReleaseAt ?? "") || 0)
+    );
   });
 }
 
@@ -355,19 +378,13 @@ function McpRightRail({ board }: { board: EcosystemBoard }) {
           <ul className="mt-2 space-y-1.5">
             {board.items.slice(0, 10).map((item) => (
               <li key={item.id} className="flex items-center gap-2 text-[11px]">
-                {item.logoUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={item.logoUrl}
-                    alt=""
-                    width={16}
-                    height={16}
-                    loading="lazy"
-                    className="h-4 w-4 flex-none rounded-sm object-contain"
-                  />
-                ) : (
-                  <span className="h-4 w-4 flex-none rounded-sm bg-bg-muted" />
-                )}
+                <EntityLogo
+                  src={mcpEntityLogoUrl(item, 16)}
+                  name={item.title}
+                  size={16}
+                  shape="square"
+                  alt=""
+                />
                 <a
                   href={item.url}
                   target="_blank"

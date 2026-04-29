@@ -51,33 +51,52 @@ export default async function SkillsPage() {
   const items = data.combined.items;
   const now = Date.now();
 
-  // 1. Hottest This Week — rank by Δhotness (current - 7d-prior) when both
-  //    values are present; fall back to absolute hotness, then signalScore
-  //    so cold-start rows still place. The 7d snapshot comes from the
-  //    `hotness-snapshot` worker fetcher; first 7 days of the rolling
-  //    window everything sorts on absolute.
+  // 1. Hottest This Week — rank by Δhotness (current - 7d-prior) when EITHER
+  //    side has a 7d-ago snapshot (cold-start: usually neither does, in which
+  //    case all deltas collapse to 0 and we drop to the absolute fallback
+  //    chain). Falls through to absolute hotness, then signalScore, then
+  //    most-recently-pushed as the final tiebreak so day-1 ranking is useful
+  //    instead of a flat list.
   const hottest = [...items]
     .sort((a, b) => {
-      const av =
-        a.hotness !== undefined && a.hotnessPrev7d !== undefined
-          ? a.hotness - a.hotnessPrev7d
-          : (a.hotness ?? a.signalScore);
-      const bv =
-        b.hotness !== undefined && b.hotnessPrev7d !== undefined
-          ? b.hotness - b.hotnessPrev7d
-          : (b.hotness ?? b.signalScore);
-      return bv - av;
+      const aHasPrev = a.hotnessPrev7d !== undefined;
+      const bHasPrev = b.hotnessPrev7d !== undefined;
+      if (aHasPrev || bHasPrev) {
+        const aDelta = (a.hotness ?? 0) - (a.hotnessPrev7d ?? a.hotness ?? 0);
+        const bDelta = (b.hotness ?? 0) - (b.hotnessPrev7d ?? b.hotness ?? 0);
+        if (aDelta !== bDelta) return bDelta - aDelta;
+      }
+      const aH = a.hotness ?? a.signalScore ?? 0;
+      const bH = b.hotness ?? b.signalScore ?? 0;
+      if (aH !== bH) return bH - aH;
+      return (
+        (Date.parse(b.lastPushedAt ?? "") || 0) -
+        (Date.parse(a.lastPushedAt ?? "") || 0)
+      );
     })
     .map((item, idx) => ({ ...item, rank: idx + 1 }));
 
-  // 2. Most Forked This Week — sort by forkVelocity7d desc; rows without
-  //    that signal go to the bottom (kept visible, not filtered out, since
-  //    forkVelocity7d isn't wired yet upstream — empty state would mislead).
+  // 2. Most Forked This Week — primary sort is forkVelocity7d (delta from
+  //    7d-prior snapshot). Cold-start: nobody has a snapshot yet so velocity
+  //    is uniformly undefined; in that case fall back to absolute `forks`
+  //    desc so the most-forked repos still surface. Final tiebreak: most-
+  //    recent push wins (so dormant whales sink under live activity).
   const mostForked = [...items]
     .sort((a, b) => {
-      const av = a.forkVelocity7d ?? -Infinity;
-      const bv = b.forkVelocity7d ?? -Infinity;
-      return bv - av;
+      const aVel = a.forkVelocity7d;
+      const bVel = b.forkVelocity7d;
+      if (aVel !== undefined && bVel !== undefined && aVel !== bVel) {
+        return bVel - aVel;
+      }
+      if (aVel !== undefined && bVel === undefined) return -1;
+      if (aVel === undefined && bVel !== undefined) return 1;
+      const aF = a.forks ?? 0;
+      const bF = b.forks ?? 0;
+      if (aF !== bF) return bF - aF;
+      return (
+        (Date.parse(b.lastPushedAt ?? "") || 0) -
+        (Date.parse(a.lastPushedAt ?? "") || 0)
+      );
     })
     .map((item, idx) => ({ ...item, rank: idx + 1 }));
 
@@ -98,10 +117,28 @@ export default async function SkillsPage() {
     })
     .map((item, idx) => ({ ...item, rank: idx + 1 }));
 
-  // 4. Most Adopted in Collections — sort by derivativeRepoCount desc.
-  //    Rows without a count drop to bottom.
+  // 4. Most Adopted in Collections — primary sort is derivativeRepoCount
+  //    desc. Cold-start: derivative-count fetcher publishes every 12h and
+  //    may not have run yet; rows without a count fall through to
+  //    signalScore desc, then most-recently-pushed, so day-1 still produces
+  //    a useful ranking instead of a flat list.
   const mostAdopted = [...items]
-    .sort((a, b) => (b.derivativeRepoCount ?? -1) - (a.derivativeRepoCount ?? -1))
+    .sort((a, b) => {
+      const aD = a.derivativeRepoCount;
+      const bD = b.derivativeRepoCount;
+      if (aD !== undefined && bD !== undefined && aD !== bD) {
+        return bD - aD;
+      }
+      if (aD !== undefined && bD === undefined) return -1;
+      if (aD === undefined && bD !== undefined) return 1;
+      const aS = a.signalScore ?? 0;
+      const bS = b.signalScore ?? 0;
+      if (aS !== bS) return bS - aS;
+      return (
+        (Date.parse(b.lastPushedAt ?? "") || 0) -
+        (Date.parse(a.lastPushedAt ?? "") || 0)
+      );
+    })
     .map((item, idx) => ({ ...item, rank: idx + 1 }));
 
   // V3 3-card top header — replaces the legacy 6-tile mini-strip with the

@@ -62,11 +62,22 @@ export interface ScrapeResult {
 }
 
 export interface ScrapeDeps {
-  firecrawl: FirecrawlLike;
+  /**
+   * Firecrawl client. When null (FIRECRAWL_API_KEY unset), the scraper falls
+   * back to a direct `http.text()` fetch + cheerio/regex parse. skills.sh is
+   * server-side-rendered so the static HTML has the full leaderboard;
+   * Firecrawl is only the *preferred* path because LLM extract is more
+   * resilient to UI/class-name churn.
+   */
+  firecrawl: FirecrawlLike | null;
   http: HttpClient;
   log: Logger;
   fetchedAt: string;
 }
+
+/** Match the desktop UA skills.sh expects; some CDNs 403 generic Node UAs. */
+const SKILLS_SH_USER_AGENT =
+  'Mozilla/5.0 (compatible; trendingrepo-worker/1.0; +https://trendingrepo.com)';
 
 /**
  * Choose which views to fetch given the current UTC hour. See plan
@@ -149,6 +160,13 @@ async function fetchOneView(
   view: SkillView,
   waitMs?: number,
 ): Promise<SkillRow[]> {
+  // No-Firecrawl path: skip JSON extract entirely, fetch the SSR HTML
+  // directly via the worker http client and parse with cheerio/regex. This
+  // is the production path on Railway when FIRECRAWL_API_KEY is unset.
+  if (!deps.firecrawl) {
+    return fetchOneViewDirect(deps, url, view);
+  }
+
   let rows: SkillRow[] = [];
   try {
     const { data, warning } = await deps.firecrawl.scrapeJson(
@@ -173,9 +191,47 @@ async function fetchOneView(
   }
 
   const { html } = await deps.firecrawl.scrapeHtml(url, waitMs);
-  if (!html) return rows;
+  if (!html) {
+    // Firecrawl HTML scrape failed too — last-resort direct fetch before
+    // giving up. Empty result is still allowed (caller logs perView=0).
+    const directRows = await fetchOneViewDirect(deps, url, view).catch(() => [] as SkillRow[]);
+    return directRows.length > rows.length ? directRows : rows;
+  }
   const htmlRows = parseFromHtml({ html, view, fetchedAt: deps.fetchedAt });
   return htmlRows.length > rows.length ? htmlRows : rows;
+}
+
+/**
+ * Direct HTTP fallback. Hits the public skills.sh URL with a desktop User
+ * Agent and parses the SSR-rendered HTML with cheerio (with the regex
+ * backstop). Used when Firecrawl is unavailable. Returns [] on transport
+ * failure rather than throwing — the caller treats 0 rows for one view as
+ * non-fatal (the published payload just shows perView=0 for that view).
+ */
+async function fetchOneViewDirect(
+  deps: ScrapeDeps,
+  url: string,
+  view: SkillView,
+): Promise<SkillRow[]> {
+  try {
+    const { data: html } = await deps.http.text(url, {
+      useEtagCache: false,
+      timeoutMs: 30_000,
+      maxRetries: 1,
+      headers: {
+        'user-agent': SKILLS_SH_USER_AGENT,
+        accept: 'text/html,application/xhtml+xml',
+      },
+    });
+    if (!html) return [];
+    return parseFromHtml({ html, view, fetchedAt: deps.fetchedAt });
+  } catch (err) {
+    deps.log.warn(
+      { view, url, err: (err as Error).message },
+      'skills-sh direct http fetch failed',
+    );
+    return [];
+  }
 }
 
 /**

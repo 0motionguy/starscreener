@@ -1,6 +1,6 @@
 "use client";
 
-import { TrendingUp, TrendingDown } from "lucide-react";
+import { Badge } from "@/components/ui/Badge";
 
 interface DeltaBadgeProps {
   value: number;
@@ -15,8 +15,8 @@ interface DeltaBadgeProps {
 }
 
 /**
- * Percentage change badge with color coding and directional arrow.
- * Green for positive, red for negative, gray for zero.
+ * Percentage change badge with the square mono delta treatment from the
+ * mockups. Green for positive, red for negative, muted for zero.
  */
 export function DeltaBadge({
   value,
@@ -27,54 +27,44 @@ export function DeltaBadge({
 }: DeltaBadgeProps) {
   const isPositive = value > 0;
   const isNegative = value < 0;
-  const isZero = value === 0;
 
   const formatted = `${isPositive ? "+" : ""}${value.toFixed(1)}%`;
-
+  const tone = isPositive ? "positive" : isNegative ? "danger" : "neutral";
   const textColor = isPositive
-    ? "text-accent-green"
+    ? "text-[var(--sig-green)]"
     : isNegative
-      ? "text-accent-red"
-      : "text-text-tertiary";
-
-  const bgClass =
-    showBackground && !isZero
-      ? isPositive
-        ? "bg-accent-green/10"
-        : "bg-accent-red/10"
-      : showBackground && isZero
-        ? "bg-text-tertiary/10"
-        : "";
+      ? "text-[var(--sig-red)]"
+      : "text-[var(--ink-400)]";
 
   const sizeClasses = size === "sm" ? "text-xs" : "text-sm";
-  const iconSize = size === "sm" ? 10 : 12;
+  const content = (
+    <>
+      {formatted}
+      {window ? (
+        <span className="ml-1 font-normal text-[var(--ink-400)]">
+          / {window}
+        </span>
+      ) : null}
+    </>
+  );
 
-  const pillPadding = showBackground ? "px-2 py-0.5 rounded-badge" : "";
+  if (showBackground) {
+    return (
+      <Badge
+        tone={tone}
+        size={size === "sm" ? "xs" : "sm"}
+        className={className}
+      >
+        {content}
+      </Badge>
+    );
+  }
 
   return (
     <span
-      className={`inline-flex items-center gap-0.5 font-mono font-bold ${textColor} ${sizeClasses} ${bgClass} ${pillPadding} ${className}`}
+      className={`delta inline-flex items-center font-mono font-bold ${textColor} ${sizeClasses} ${className}`}
     >
-      {isPositive && (
-        <TrendingUp
-          size={iconSize}
-          strokeWidth={2.5}
-          className="shrink-0"
-        />
-      )}
-      {isNegative && (
-        <TrendingDown
-          size={iconSize}
-          strokeWidth={2.5}
-          className="shrink-0"
-        />
-      )}
-      {formatted}
-      {window && (
-        <span className="ml-1 font-normal text-text-tertiary/75">
-          · {window}
-        </span>
-      )}
+      {content}
     </span>
   );
 }

@@ -3,6 +3,7 @@
 import { useFilterStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import type { MetaCounts, MetaFilter } from "@/lib/types";
+import { Chip } from "@/components/ui/Badge";
 
 interface MetasBarProps {
   counts: MetaCounts;
@@ -89,19 +90,17 @@ export function MetasBar({ counts }: MetasBarProps) {
         const disabled = count === 0;
 
         return (
-          <button
+          <Chip
             key={meta.id}
-            type="button"
             onClick={() => setActive(isActive ? null : meta.id)}
             disabled={disabled}
             aria-pressed={isActive}
+            active={isActive}
+            dot
+            count={count}
             className={cn(
               "group shrink-0 snap-start",
-              "inline-flex items-center gap-2",
-              "h-7 px-2.5 rounded-[2px]",
-              "font-mono uppercase tracking-[0.16em]",
-              "text-[10px] font-medium",
-              "border transition-colors duration-150",
+              "h-7 px-2.5 text-[10px]",
               "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-offset-0",
               disabled && "opacity-40 pointer-events-none",
             )}
@@ -114,30 +113,15 @@ export function MetasBar({ counts }: MetasBarProps) {
                 : "var(--v3-line-200)",
               color: isActive ? meta.color : "var(--v3-ink-200)",
             }}
+            dotStyle={{
+              background: meta.color,
+              boxShadow: isActive
+                ? `0 0 6px color-mix(in oklab, ${meta.color} 60%, transparent)`
+                : undefined,
+            }}
           >
-            <span
-              aria-hidden="true"
-              className="shrink-0 size-1.5"
-              style={{
-                background: meta.color,
-                boxShadow: isActive
-                  ? `0 0 6px color-mix(in oklab, ${meta.color} 60%, transparent)`
-                  : undefined,
-              }}
-            />
-            <span className="whitespace-nowrap">{meta.label}</span>
-            <span
-              className="font-mono text-[10px] tabular-nums tracking-[0.12em] px-1 rounded-[1px]"
-              style={{
-                color: isActive ? meta.color : "var(--v3-ink-400)",
-                background: isActive
-                  ? `color-mix(in oklab, ${meta.color} 18%, transparent)`
-                  : "var(--v3-bg-100)",
-              }}
-            >
-              {count}
-            </span>
-          </button>
+            {meta.label}
+          </Chip>
         );
       })}
     </div>

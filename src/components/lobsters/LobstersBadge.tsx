@@ -1,5 +1,7 @@
 "use client";
 
+import { Chip } from "@/components/ui/Badge";
+
 // Small inline Lobsters badge for repo rows. Mirrors HnBadge shape so
 // the terminal row renders a uniform chip pattern across sources.
 // Renders null when mention is missing or count7d === 0 so quiet repos
@@ -49,13 +51,13 @@ export function LobstersBadge({ mention, size = "sm" }: LobstersBadgeProps) {
     ? mention.topStory.commentsUrl
     : "https://lobste.rs/";
 
-  const sizeClasses = size === "md" ? "px-2 py-1 text-xs" : "px-1.5 py-0.5";
+  const sizeClasses =
+    size === "md" ? "h-6 px-2 text-xs" : "h-5 px-1.5 text-[10px]";
 
   // <button> not <a> — badges render inside parent <Link> rows in the
   // terminal grid; nested <a> is invalid and breaks Next hydration.
   return (
-    <button
-      type="button"
+    <Chip
       onClick={(e) => {
         e.stopPropagation();
         e.preventDefault();
@@ -63,20 +65,21 @@ export function LobstersBadge({ mention, size = "sm" }: LobstersBadgeProps) {
       }}
       title={buildTooltip(mention)}
       aria-label={`${mention.count7d} Lobsters mentions, top story ${mention.topStory?.title ?? ""}`}
-      className={`inline-flex items-center gap-1 rounded-md text-[10px] font-mono border transition-colors cursor-pointer ${sizeClasses}`}
+      className={sizeClasses}
       style={{
         color: LOBSTERS_RED,
-        borderColor: `${LOBSTERS_RED}4D`,
+        borderColor: "rgba(255, 77, 77, 0.4)",
+        background: "var(--bg-050)",
       }}
     >
       <span
-        className="text-white text-[8px] font-bold w-3 h-3 leading-none rounded-sm flex items-center justify-center"
+        className="flex size-3 items-center justify-center text-[8px] font-bold leading-none text-white"
         style={{ backgroundColor: LOBSTERS_RED }}
       >
         L
       </span>
       {mention.count7d}
-    </button>
+    </Chip>
   );
 }
 

@@ -16,6 +16,7 @@ import { RepoSearchBox } from "./RepoSearchBox";
 import { ShareBar } from "./ShareBar";
 import { TemplatePicker } from "./TemplatePicker";
 import { TierBoard } from "./TierBoard";
+import { TopSharePngButton } from "./TopSharePngButton";
 
 export interface TierListEditorProps {
   initial?: {
@@ -73,25 +74,28 @@ export function TierListEditor({ initial }: TierListEditorProps) {
           }}
         >
           <span>{"// 01 · TIER LIST"}</span>
-          <button
-            type="button"
-            onClick={() => {
-              if (confirm("Clear the whole list?")) resetAll();
-            }}
-            style={{
-              background: "transparent",
-              color: "#878787",
-              border: "1px solid #2B2B2F",
-              borderRadius: 2,
-              padding: "2px 8px",
-              fontFamily:
-                "ui-monospace, SFMono-Regular, Menlo, monospace",
-              fontSize: 11,
-              cursor: "pointer",
-            }}
-          >
-            reset all
-          </button>
+          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+            <button
+              type="button"
+              onClick={() => {
+                if (confirm("Clear the whole list?")) resetAll();
+              }}
+              style={{
+                background: "transparent",
+                color: "#878787",
+                border: "1px solid #2B2B2F",
+                borderRadius: 2,
+                padding: "2px 8px",
+                fontFamily:
+                  "ui-monospace, SFMono-Regular, Menlo, monospace",
+                fontSize: 11,
+                cursor: "pointer",
+              }}
+            >
+              reset all
+            </button>
+            <TopSharePngButton />
+          </div>
         </div>
         <input
           type="text"

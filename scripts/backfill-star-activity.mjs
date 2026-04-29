@@ -21,8 +21,22 @@
 
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+import {
+  writeDataStore,
+  readDataStore,
+  closeDataStore,
+} from "./_data-store-write.mjs";
 import { loadTrackedReposFromFiles } from "./_tracked-repos.mjs";
+
+// A long backfill (~hours) is killed by any transient unhandled rejection.
+// Log + survive so the loop continues; per-repo errors are caught inside
+// main() and reported as `[fail]` lines.
+process.on("unhandledRejection", (err) => {
+  console.error("[backfill-star-activity] unhandledRejection:", err);
+});
+process.on("uncaughtException", (err) => {
+  console.error("[backfill-star-activity] uncaughtException:", err);
+});
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
@@ -41,11 +55,18 @@ const RATE_LIMIT_FLOOR = 200;
 const PAGE_DELAY_MS = 50;
 
 function parseArgs() {
-  const args = { repos: null, limit: null, dryRun: false };
+  const args = {
+    repos: null,
+    limit: null,
+    offset: 0,
+    dryRun: false,
+    skipExisting: false,
+  };
   const argv = process.argv.slice(2);
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === "--dry-run") args.dryRun = true;
+    else if (a === "--skip-existing") args.skipExisting = true;
     else if (a === "--repos" && argv[i + 1]) {
       args.repos = argv[++i]
         .split(",")
@@ -54,6 +75,9 @@ function parseArgs() {
     } else if (a === "--limit" && argv[i + 1]) {
       const n = Number.parseInt(argv[++i], 10);
       if (Number.isFinite(n) && n > 0) args.limit = n;
+    } else if (a === "--offset" && argv[i + 1]) {
+      const n = Number.parseInt(argv[++i], 10);
+      if (Number.isFinite(n) && n >= 0) args.offset = n;
     }
   }
   return args;
@@ -238,21 +262,39 @@ async function main() {
     });
     repos = Array.from(tracked.values());
   }
+  if (args.offset > 0) repos = repos.slice(args.offset);
   if (args.limit && repos.length > args.limit) {
     repos = repos.slice(0, args.limit);
   }
 
   console.log(
-    `[backfill-star-activity] starting (${repos.length} repos, dry-run=${args.dryRun})`,
+    `[backfill-star-activity] starting (${repos.length} repos, dry-run=${args.dryRun}, skip-existing=${args.skipExisting})`,
   );
 
   const startedAt = Date.now();
   let ok = 0;
   let skipped = 0;
   let failed = 0;
+  let alreadyDone = 0;
 
   for (const fullName of repos) {
     try {
+      // Resume support — if the repo already has a real backfilled payload
+      // (>0 points OR explicitly snapshot-only), skip the API walk. The
+      // operator can force a re-walk by omitting --skip-existing.
+      if (args.skipExisting) {
+        const existing = await readDataStore(payloadSlug(fullName));
+        if (
+          existing &&
+          typeof existing === "object" &&
+          (Array.isArray(existing.points) && existing.points.length > 0 ||
+            existing.backfillSource === "snapshot-only")
+        ) {
+          alreadyDone += 1;
+          console.log(`[done] ${fullName} already has payload — skipping`);
+          continue;
+        }
+      }
       const result = await backfillOne(fullName, token);
       if (result.payload.backfillSource === "snapshot-only") {
         skipped += 1;
@@ -281,10 +323,10 @@ async function main() {
 
   const elapsedSec = Math.round((Date.now() - startedAt) / 1000);
   console.log(
-    `[backfill-star-activity] done in ${elapsedSec}s — ok=${ok} skipped=${skipped} failed=${failed}`,
+    `[backfill-star-activity] done in ${elapsedSec}s — ok=${ok} skipped=${skipped} failed=${failed} already=${alreadyDone}`,
   );
   await closeDataStore();
-  if (failed > 0 && ok === 0) process.exitCode = 1;
+  if (failed > 0 && ok === 0 && alreadyDone === 0) process.exitCode = 1;
 }
 
 main().catch((err) => {

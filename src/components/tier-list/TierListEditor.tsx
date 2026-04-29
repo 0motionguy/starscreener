@@ -55,17 +55,10 @@ export function TierListEditor({ initial }: TierListEditorProps) {
 
   return (
     <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "minmax(0, 1fr) 280px",
-        gap: 24,
-        padding: 24,
-        maxWidth: 1280,
-        margin: "0 auto",
-        color: "#FBFBFB",
-        fontFamily:
-          "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
-      }}
+      // Single column on mobile (<768px) so the right rail (Share /
+      // Templates / Hint) stacks below the main editor instead of squeezing
+      // the tier grid. Two-column at md+ keeps the desktop layout we had.
+      className="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_280px] gap-4 md:gap-6 p-4 md:p-6 mx-auto max-w-[1280px] text-text-primary font-sans"
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         <div

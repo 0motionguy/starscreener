@@ -33,10 +33,11 @@ import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 import { TerminalBar } from "@/components/v2";
 import { McpDownloadsSparklineLazy } from "./_components/McpDownloadsSparklineLazy";
 
-// force-dynamic mirrors the /mcp index page's posture: data is read at
-// request time from the publish payload, which is small (~few KB) and
-// cheap to refresh.
-export const dynamic = "force-dynamic";
+// ISR mirrors the /mcp index page's revalidate cadence (10 min). Data
+// is read at request time from the publish payload, which is small
+// (~few KB); ISR caches the rendered HTML per-slug so repeat hits to
+// popular MCPs serve from edge.
+export const revalidate = 600;
 
 interface PageProps {
   params: Promise<{ slug: string }>;

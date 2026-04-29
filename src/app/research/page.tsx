@@ -22,7 +22,7 @@ import {
 } from "@/lib/research-signals";
 import { TerminalBar, MonoLabel, BarcodeTicker } from "@/components/v2";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 600;
 
 export const metadata: Metadata = {
   title: "Research - TrendingRepo",

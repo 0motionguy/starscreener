@@ -46,12 +46,14 @@ export interface ThemeConfig {
 }
 
 // High-contrast green/blue/purple/amber/red — the operator-terminal default.
+// HEX literals so the OG renderer (Satori) can resolve them; CSS vars don't
+// flow through ImageResponse. Values mirror --color-series-N in globals.css.
 const TERMINAL_PALETTE = [
-  "var(--color-series-1)",
-  "var(--color-series-2)",
-  "var(--color-series-3)",
-  "var(--color-series-4)",
-  "var(--color-series-5)",
+  "#22c55e", // green  — slot 0
+  "#3b82f6", // blue   — slot 1
+  "#a855f7", // purple — slot 2
+  "#f59e0b", // amber  — slot 3
+  "#ef4444", // red    — slot 4
 ] as const;
 
 // Saturated neon hues optimized for visibility against near-black + glow.

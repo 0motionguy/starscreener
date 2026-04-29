@@ -26,38 +26,69 @@ import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import { OG_COLORS } from "@/lib/seo";
 import { StarMark } from "@/lib/og-primitives";
 import {
-  deriveChartSeries,
+  computeMindshareSeries,
+  computeVelocitySeries,
+  filterPayloadByWindow,
+  type StarActivityMetric,
   type StarActivityMode,
   type StarActivityPayload,
   type StarActivityScale,
+  type StarActivityWindow,
 } from "@/lib/star-activity";
+import {
+  CHART_THEMES,
+  type ChartTheme,
+} from "@/components/compare/themes";
 import type { Repo } from "@/lib/types";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const FULL_NAME_RE = /^[A-Za-z0-9._-]+\/[A-Za-z0-9._-]+$/;
-const MAX_REPOS = 4;
-
-// High-contrast palette for thumbnail legibility on X feeds. Matches
-// CompareChart's COMPARE_PALETTE so the share card and the live chart
-// look like the same artifact.
-const SHARE_PALETTE = ["#22C55E", "#3B82F6", "#A855F7", "#F59E0B"] as const;
+const MAX_REPOS = 5;
 
 const ASPECT_DIMENSIONS = {
-  h: { width: 1200, height: 675 },
-  v: { width: 1080, height: 1350 },
+  h: { width: 1200, height: 675 },   // X / Twitter summary_large_image
+  v: { width: 1080, height: 1350 },  // Instagram portrait 4:5
+  yt: { width: 1280, height: 720 },  // YouTube thumbnail 16:9
 } as const;
 
 const CACHE_HEADER = "public, s-maxage=300, stale-while-revalidate=3600";
+
+type AspectKey = keyof typeof ASPECT_DIMENSIONS;
 
 interface ParsedQuery {
   repos: string[];
   mode: StarActivityMode;
   scale: StarActivityScale;
-  aspect: "h" | "v";
+  aspect: AspectKey;
   format: "png" | "svg";
+  metric: StarActivityMetric;
+  window: StarActivityWindow;
+  theme: ChartTheme;
+  watermark: boolean;
 }
+
+const VALID_METRIC: ReadonlySet<StarActivityMetric> = new Set([
+  "stars",
+  "velocity",
+  "mindshare",
+]);
+const VALID_WINDOW: ReadonlySet<StarActivityWindow> = new Set([
+  "7d",
+  "30d",
+  "90d",
+  "6m",
+  "1y",
+  "all",
+]);
+const VALID_THEME: ReadonlySet<ChartTheme> = new Set([
+  "terminal",
+  "neon",
+  "gradient",
+  "crt",
+  "poster",
+]);
 
 function parseQuery(
   searchParams: URLSearchParams,
@@ -77,12 +108,46 @@ function parseQuery(
     searchParams.get("mode") === "timeline" ? "timeline" : "date";
   const scale: StarActivityScale =
     searchParams.get("scale") === "log" ? "log" : "lin";
-  const aspect: "h" | "v" =
-    searchParams.get("aspect") === "v" ? "v" : "h";
+  const aspectRaw = searchParams.get("aspect") ?? "h";
+  const aspect: AspectKey =
+    aspectRaw in ASPECT_DIMENSIONS ? (aspectRaw as AspectKey) : "h";
   const format: "png" | "svg" =
     searchParams.get("format") === "svg" ? "svg" : "png";
 
-  return { repos, mode, scale, aspect, format };
+  const metricRaw = searchParams.get("metric") ?? "stars";
+  const metric: StarActivityMetric = VALID_METRIC.has(
+    metricRaw as StarActivityMetric,
+  )
+    ? (metricRaw as StarActivityMetric)
+    : "stars";
+
+  const windowRaw = searchParams.get("window") ?? "all";
+  const window: StarActivityWindow = VALID_WINDOW.has(
+    windowRaw as StarActivityWindow,
+  )
+    ? (windowRaw as StarActivityWindow)
+    : "all";
+
+  const themeRaw = searchParams.get("theme") ?? "terminal";
+  const theme: ChartTheme = VALID_THEME.has(themeRaw as ChartTheme)
+    ? (themeRaw as ChartTheme)
+    : "terminal";
+
+  // Watermark default ON — the share dropdown's "WATERMARKED" preset.
+  // Operators / paid tier hint pass watermark=0 to get the bare chart.
+  const watermark = searchParams.get("watermark") !== "0";
+
+  return {
+    repos,
+    mode,
+    scale,
+    aspect,
+    format,
+    metric,
+    window,
+    theme,
+    watermark,
+  };
 }
 
 function payloadSlug(fullName: string): string {
@@ -139,32 +204,70 @@ function buildAllSeries(
   bundles: RepoBundle[],
   mode: StarActivityMode,
   scale: StarActivityScale,
+  metric: StarActivityMetric,
+  window: StarActivityWindow,
+  theme: ChartTheme,
 ): SeriesBundle {
+  const palette = CHART_THEMES[theme].palette;
   const series: RenderSeries[] = [];
   let xMin = Infinity;
   let xMax = -Infinity;
   let yMin = Infinity;
   let yMax = -Infinity;
 
-  bundles.forEach((bundle, i) => {
-    const color = SHARE_PALETTE[i % SHARE_PALETTE.length];
+  // Pre-filter every bundle's payload by the chosen window once.
+  const filtered = bundles.map((b) =>
+    b.payload ? filterPayloadByWindow(b.payload, window) : null,
+  );
 
-    if (bundle.payload && bundle.payload.points.length > 0) {
-      const cs = deriveChartSeries(bundle.payload, mode, scale);
-      if (cs.points.length === 0) return;
-      series.push({
-        fullName: bundle.fullName,
-        color,
-        points: cs.points.map((p) => ({ x: p.x, y: p.y, stars: p.stars })),
+  // For MINDSHARE we need the union of sibling payloads to compute the
+  // share denominator. Build that once.
+  const siblingPayloads = filtered.filter(
+    (p): p is StarActivityPayload => p !== null && p.points.length > 0,
+  );
+
+  bundles.forEach((bundle, i) => {
+    const color = palette[i % palette.length];
+    const payload = filtered[i];
+
+    if (payload && payload.points.length > 0) {
+      let yByPoint: number[];
+      if (metric === "velocity") {
+        yByPoint = computeVelocitySeries(payload);
+      } else if (metric === "mindshare") {
+        const shareByDay = computeMindshareSeries(payload, siblingPayloads);
+        yByPoint = payload.points.map((p) => shareByDay.get(p.d) ?? 0);
+      } else {
+        yByPoint = payload.points.map((p) => p.s);
+      }
+      const points: RenderPoint[] = payload.points.map((pt, j) => {
+        const display = yByPoint[j];
+        // Mindshare is already 0..100; never log-scale that.
+        const effectiveScale = metric === "mindshare" ? "lin" : scale;
+        const y =
+          effectiveScale === "log" ? Math.log10(Math.max(1, display)) : display;
+        return {
+          x:
+            mode === "timeline"
+              ? j
+              : Date.parse(`${pt.d}T00:00:00Z`),
+          y,
+          stars: pt.s,
+        };
       });
-      if (cs.xMin < xMin) xMin = cs.xMin;
-      if (cs.xMax > xMax) xMax = cs.xMax;
-      if (cs.yMin < yMin) yMin = cs.yMin;
-      if (cs.yMax > yMax) yMax = cs.yMax;
+      if (points.length === 0) return;
+      series.push({ fullName: bundle.fullName, color, points });
+      for (const p of points) {
+        if (p.x < xMin) xMin = p.x;
+        if (p.x > xMax) xMax = p.x;
+        if (p.y < yMin) yMin = p.y;
+        if (p.y > yMax) yMax = p.y;
+      }
       return;
     }
 
-    // Legacy fallback — sparklineData is a 30-element cumulative series.
+    // Legacy fallback — only meaningful for STARS metric.
+    if (metric !== "stars") return;
     const sl = bundle.repo?.sparklineData ?? [];
     if (sl.length === 0) return;
     const today = Date.now();
@@ -358,21 +461,39 @@ function StarActivityCard({
   mode,
   scale,
   aspect,
+  theme,
+  watermark,
 }: {
   bundles: RepoBundle[];
   seriesBundle: SeriesBundle;
   mode: StarActivityMode;
   scale: StarActivityScale;
-  aspect: "h" | "v";
+  aspect: AspectKey;
+  theme: ChartTheme;
+  watermark: boolean;
 }) {
   const isVertical = aspect === "v";
   const { width, height } = ASPECT_DIMENSIONS[aspect];
+  const themeConfig = CHART_THEMES[theme];
+  const isLight = themeConfig.light;
+  const textPrimary = isLight ? "#1f1f1f" : OG_COLORS.textPrimary;
+  const textSecondary = isLight ? "#3a3a3a" : OG_COLORS.textSecondary;
+  const textTertiary = isLight ? "#5a5a5a" : OG_COLORS.textTertiary;
+  const cardBg = themeConfig.cardBg.startsWith("var(")
+    ? OG_COLORS.bg
+    : themeConfig.cardBg;
+  const accentColor = isLight ? "#1f1f1f" : OG_COLORS.brand;
 
-  const padding = isVertical ? "56px 64px 64px 64px" : "48px 72px 56px 72px";
+  const padding = isVertical
+    ? "56px 64px 64px 64px"
+    : aspect === "yt"
+      ? "44px 64px 52px 64px"
+      : "48px 72px 56px 72px";
 
   // Chart area sizing — leaves room for header, legend, stats, footer.
-  const chartW = width - (isVertical ? 128 : 144);
-  const chartH = isVertical ? 640 : 360;
+  const chartW =
+    width - (isVertical ? 128 : aspect === "yt" ? 128 : 144);
+  const chartH = isVertical ? 640 : aspect === "yt" ? 380 : 360;
 
   const isCompare = bundles.length > 1;
   const headerLabel = isCompare
@@ -408,13 +529,42 @@ function StarActivityCard({
         height: "100%",
         display: "flex",
         flexDirection: "column",
-        backgroundColor: OG_COLORS.bg,
-        color: OG_COLORS.textPrimary,
+        backgroundColor: cardBg,
+        color: textPrimary,
         padding,
         fontFamily: "sans-serif",
         position: "relative",
       }}
     >
+      {/* Watermark — faint text band behind the chart. Reads as brand
+          attribution at thumbnail size; ignored at full size by viewers
+          focused on the curves. Toggle with ?watermark=0 for the bare
+          variant. Rendered as a div (not SVG <text>) because Satori
+          doesn't render raw SVG <text> nodes. */}
+      {watermark && (
+        <div
+          style={{
+            position: "absolute",
+            top: "30%",
+            left: 0,
+            right: 0,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            fontFamily: "monospace",
+            fontSize: isVertical ? 80 : 96,
+            fontWeight: 800,
+            letterSpacing: "0.08em",
+            color: isLight ? "rgba(0,0,0,0.04)" : "rgba(255,255,255,0.03)",
+            pointerEvents: "none",
+            userSelect: "none",
+            transform: "rotate(-8deg)",
+            zIndex: 0,
+          }}
+        >
+          {"// TRENDINGREPO"}
+        </div>
+      )}
       {/* Header strip */}
       <div
         style={{
@@ -425,7 +575,8 @@ function StarActivityCard({
           fontFamily: "monospace",
           fontSize: 22,
           letterSpacing: 1.4,
-          color: OG_COLORS.textTertiary,
+          color: textTertiary,
+          zIndex: 1,
         }}
       >
         <span>{headerLabel}</span>
@@ -519,7 +670,7 @@ function StarActivityCard({
                   width: 14,
                   height: 14,
                   borderRadius: 999,
-                  backgroundColor: SHARE_PALETTE[i % SHARE_PALETTE.length],
+                  backgroundColor: themeConfig.palette[i % themeConfig.palette.length],
                 }}
               />
               <span style={{ display: "flex" }}>{b.fullName}</span>
@@ -553,19 +704,21 @@ function StarActivityCard({
           viewBox={`0 0 ${chartW} ${chartH}`}
           xmlns="http://www.w3.org/2000/svg"
         >
-          {/* Sparse horizontal grid: 4 lines so the chart stays uncluttered */}
-          {[0.25, 0.5, 0.75].map((frac) => (
-            <line
-              key={frac}
-              x1={8}
-              x2={chartW - 8}
-              y1={chartH * frac}
-              y2={chartH * frac}
-              stroke={OG_COLORS.border}
-              strokeWidth={1}
-              strokeDasharray="4 6"
-            />
-          ))}
+          {/* Theme-aware horizontal grid */}
+          {themeConfig.gridDensity !== "none" &&
+            [0.25, 0.5, 0.75].map((frac) => (
+              <line
+                key={frac}
+                x1={8}
+                x2={chartW - 8}
+                y1={chartH * frac}
+                y2={chartH * frac}
+                stroke={isLight ? "#1f1f1f" : OG_COLORS.border}
+                strokeWidth={1}
+                strokeDasharray={themeConfig.gridDash}
+                opacity={isLight ? 0.15 : 0.5}
+              />
+            ))}
           {seriesBundle.series.map((s) => {
             const path = buildLinePath(
               s.points,
@@ -576,20 +729,48 @@ function StarActivityCard({
               chartW,
               chartH,
             );
+            const lineStroke = !isCompare && theme === "terminal"
+              ? OG_COLORS.brand
+              : s.color;
             return (
               <g key={s.fullName}>
-                {!isCompare && (
+                {/* Gradient theme: stacked area fill underneath each line */}
+                {themeConfig.areaFill && (
                   <path
                     d={path.area}
-                    fill={OG_COLORS.brandDim}
+                    fill={s.color}
+                    fillOpacity={themeConfig.areaFillOpacity}
                     stroke="none"
+                  />
+                )}
+                {/* Single-repo terminal default: brand-orange dim fill —
+                    legacy look preserved when theme=terminal AND single repo. */}
+                {!isCompare &&
+                  theme === "terminal" &&
+                  !themeConfig.areaFill && (
+                    <path
+                      d={path.area}
+                      fill={OG_COLORS.brandDim}
+                      stroke="none"
+                    />
+                  )}
+                {/* Outer glow stroke (neon / crt) — wider + low opacity */}
+                {themeConfig.outerGlow && (
+                  <path
+                    d={path.line}
+                    fill="none"
+                    stroke={s.color}
+                    strokeWidth={themeConfig.outerGlowWidth}
+                    strokeOpacity={themeConfig.outerGlowOpacity}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                 )}
                 <path
                   d={path.line}
                   fill="none"
-                  stroke={!isCompare ? OG_COLORS.brand : s.color}
-                  strokeWidth={3}
+                  stroke={lineStroke}
+                  strokeWidth={themeConfig.strokeWidth}
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
@@ -715,7 +896,14 @@ export async function GET(request: NextRequest) {
 
   const dim = ASPECT_DIMENSIONS[parsed.aspect];
   const bundles = await loadRepos(parsed.repos);
-  const seriesBundle = buildAllSeries(bundles, parsed.mode, parsed.scale);
+  const seriesBundle = buildAllSeries(
+    bundles,
+    parsed.mode,
+    parsed.scale,
+    parsed.metric,
+    parsed.window,
+    parsed.theme,
+  );
 
   if (parsed.format === "svg") {
     const body = buildSvgDocument(seriesBundle, dim.width, dim.height);
@@ -759,6 +947,8 @@ export async function GET(request: NextRequest) {
         mode={parsed.mode}
         scale={parsed.scale}
         aspect={parsed.aspect}
+        theme={parsed.theme}
+        watermark={parsed.watermark}
       />
     ),
     {

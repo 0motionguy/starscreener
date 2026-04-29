@@ -277,11 +277,15 @@ export default async function McpPage() {
   );
 
   // Pre-rendered tab content. Each is a TerminalFeedTable bound to the
-  // matching sort/filter slice.
-  const mostDownloaded = sortByDownloads(items);
-  const hottest = sortByHotness(items);
-  const livenessChamps = filterLivenessChampions(items);
-  const newThisWeek = filterNewThisWeek(items);
+  // matching sort/filter slice. Capped at TOP_N because /mcp now ships
+  // 500 items per the worker's enriched publish payload, and rendering
+  // all 500 across 4 tabs (= 2000 row renders) made SSR take 47s + 17MB.
+  // Top-N keeps the tabs feeling like a leaderboard, not a database dump.
+  const TOP_N = 50;
+  const mostDownloaded = sortByDownloads(items).slice(0, TOP_N);
+  const hottest = sortByHotness(items).slice(0, TOP_N);
+  const livenessChamps = filterLivenessChampions(items).slice(0, TOP_N);
+  const newThisWeek = filterNewThisWeek(items).slice(0, TOP_N);
 
   const tabs: SignalTabSpec[] = [
     {

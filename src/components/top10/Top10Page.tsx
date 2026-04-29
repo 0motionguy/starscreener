@@ -17,6 +17,13 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 import { Sparkline } from "@/components/shared/Sparkline";
 import {
+  ShareExportPanel,
+  ShareFormatButton,
+  ShareFormatGrid,
+  ShareMetaBlock,
+  ShareMetaRow,
+} from "@/components/ui/ShareExport";
+import {
   buildAgentTop10FromSlice,
   buildMoversTop10FromSlice,
   buildRepoTop10FromSlice,
@@ -1229,12 +1236,7 @@ function ShareStack({
       className="flex flex-col gap-3 share-stack"
       style={{ position: "sticky", top: 14 }}
     >
-      <section
-        style={{
-          border: "1px solid var(--v3-line-200, #29323b)",
-          background: "var(--v3-bg-025, #0b0d0f)",
-        }}
-      >
+      <ShareExportPanel>
         <div
           className="v2-mono flex items-center gap-2 px-3 py-2"
           style={{
@@ -1286,7 +1288,7 @@ function ShareStack({
           permalink={utmPageUrl}
           embedSrc={`<iframe src="${absImageUrl}" width="100%" height="${aspect === "v" ? 600 : 400}" style="border:0"></iframe>`}
         />
-      </section>
+      </ShareExportPanel>
       {/* On <md the share stack stops being sticky so the page can scroll
           past the rankings and land on the share controls without losing
           the chart context. */}
@@ -1384,57 +1386,21 @@ function FormatPicker({
   onAspect: (a: ShareAspect) => void;
 }) {
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(4, 1fr)",
-        gap: 4,
-        padding: 10,
-      }}
-    >
+    <ShareFormatGrid>
       {(["h", "sq", "v", "yt"] as ShareAspect[]).map((a) => {
         const t = ASPECT_LABEL[a];
         const on = a === aspect;
         return (
-          <button
+          <ShareFormatButton
             key={a}
-            type="button"
             onClick={() => onAspect(a)}
-            className="v2-mono"
-            style={{
-              height: 46,
-              border: on
-                ? "1px solid var(--v2-acc, #f56e0f)"
-                : "1px solid var(--v3-line-300, #3a444f)",
-              background: on
-                ? "var(--v2-acc, #f56e0f)"
-                : "var(--v3-bg-050, #101418)",
-              color: on ? "#1a0a04" : "var(--v3-ink-300, #84909b)",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 2,
-              fontSize: 9.5,
-              letterSpacing: "0.14em",
-              textTransform: "uppercase",
-              cursor: "pointer",
-              fontWeight: on ? 700 : 400,
-            }}
-          >
-            {t.label}
-            <span
-              style={{
-                fontSize: 8.5,
-                opacity: on ? 0.75 : 0.65,
-              }}
-            >
-              {t.px}
-            </span>
-          </button>
+            active={on}
+            label={t.label}
+            size={t.px}
+          />
         );
       })}
-    </div>
+    </ShareFormatGrid>
   );
 }
 
@@ -1460,14 +1426,7 @@ function CardPreview({
   const frameBg =
     theme === "light" ? "#fafaf7" : theme === "mono" ? "#000" : "#0a0b0d";
   return (
-    <div
-      style={{
-        padding: 14,
-        borderTop: "1px solid var(--v3-line-200, #29323b)",
-        background:
-          "repeating-linear-gradient(45deg, transparent 0 6px, rgba(255,255,255,0.015) 6px 12px)",
-      }}
-    >
+    <div className="card-preview">
       <div
         style={{
           width: "100%",
@@ -1598,17 +1557,7 @@ function ShareMeta({
   embedSrc: string;
 }) {
   return (
-    <div
-      style={{
-        padding: "10px 12px",
-        borderTop: "1px solid var(--v3-line-200, #29323b)",
-        display: "flex",
-        flexDirection: "column",
-        gap: 6,
-        fontSize: 10,
-        color: "var(--v3-ink-300, #84909b)",
-      }}
-    >
+    <ShareMetaBlock>
       <MetaRow label="PERMALINK" value={permalink} />
       <MetaRow label="EMBED" value={embedSrc} />
       <MetaRow
@@ -1616,7 +1565,7 @@ function ShareMeta({
         value="?utm_source=top10&utm_medium=share"
         readOnly
       />
-    </div>
+    </ShareMetaBlock>
   );
 }
 
@@ -1630,18 +1579,7 @@ function MetaRow({
   readOnly?: boolean;
 }) {
   return (
-    <div className="v2-mono flex items-center gap-2">
-      <span
-        style={{
-          color: "var(--v3-ink-400, #909caa)",
-          fontSize: 9.5,
-          letterSpacing: "0.16em",
-          textTransform: "uppercase",
-          minWidth: 60,
-        }}
-      >
-        {label}
-      </span>
+    <ShareMetaRow label={label}>
       {readOnly ? (
         <span style={{ color: "var(--v3-ink-200, #b8c0c8)" }}>{value}</span>
       ) : (
@@ -1659,7 +1597,7 @@ function MetaRow({
           }}
         />
       )}
-    </div>
+    </ShareMetaRow>
   );
 }
 

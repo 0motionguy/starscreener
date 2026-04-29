@@ -45,70 +45,43 @@ export function TemplatePicker() {
   }
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: 8,
-        padding: 12,
-        border: "1px solid #2B2B2F",
-        borderRadius: 4,
-        backgroundColor: "#1b1b1e",
-      }}
-    >
-      <div
-        style={{
-          fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
-          fontSize: 11,
-          color: "#878787",
-          textTransform: "uppercase",
-          letterSpacing: "0.06em",
-        }}
-      >
-        {"// templates"}
-      </div>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: 6,
-        }}
-      >
-        {TIER_LIST_TEMPLATES.map((template) => {
-          const isLoading = loadingSlug === template.slug;
-          const failed = errorSlug === template.slug;
-          return (
-            <button
-              key={template.slug}
-              type="button"
-              onClick={() => loadTemplate(template)}
-              disabled={isLoading}
-              title={template.description}
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-start",
-                gap: 2,
-                padding: "8px 10px",
-                backgroundColor: "#262626",
-                color: "#FBFBFB",
-                border: failed ? "1px solid #EF4444" : "1px solid #2B2B2F",
-                borderRadius: 2,
-                fontFamily:
-                  "ui-monospace, SFMono-Regular, Menlo, monospace",
-                fontSize: 11,
-                cursor: isLoading ? "wait" : "pointer",
-                textAlign: "left",
-              }}
-            >
-              <span>{isLoading ? "loading…" : template.name}</span>
-              <span style={{ color: "#5A5A5C", fontSize: 10 }}>
-                {template.repos.length} repos
-              </span>
-            </button>
-          );
-        })}
-      </div>
+    <div className="flex flex-wrap items-center gap-2">
+      <span className="font-mono uppercase tracking-[0.14em] text-[11px] text-text-tertiary shrink-0">
+        TEMPLATES
+      </span>
+      {TIER_LIST_TEMPLATES.map((template) => {
+        const isLoading = loadingSlug === template.slug;
+        const failed = errorSlug === template.slug;
+        return (
+          <button
+            key={template.slug}
+            type="button"
+            onClick={() => loadTemplate(template)}
+            disabled={isLoading}
+            title={`${template.description} · ${template.repos.length} repos`}
+            className={`inline-flex items-center gap-1.5 rounded-[3px] border bg-bg-secondary px-2.5 py-1 font-mono uppercase tracking-[0.14em] text-[11px] text-text-secondary transition-colors hover:bg-bg-tertiary hover:text-text-primary ${
+              failed ? "border-down" : "border-border-primary"
+            } ${isLoading ? "cursor-wait opacity-60" : "cursor-pointer"}`}
+          >
+            <span>{isLoading ? "LOADING…" : shortLabel(template.slug)}</span>
+            <span className="text-text-tertiary text-[10px]">
+              {template.repos.length}
+            </span>
+          </button>
+        );
+      })}
     </div>
   );
+}
+
+// Compact uppercase chip label per the meme-format reference.
+const SHORT_LABELS: Record<string, string> = {
+  "ai-agent-frameworks": "AI AGENTS",
+  "code-editor-agents": "CODE EDITORS",
+  "rag-stacks": "RAG STACKS",
+  "local-inference": "LOCAL INFER",
+};
+
+function shortLabel(slug: string): string {
+  return SHORT_LABELS[slug] ?? slug.toUpperCase().replace(/-/g, " ");
 }

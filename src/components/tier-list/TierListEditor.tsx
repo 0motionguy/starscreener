@@ -113,11 +113,11 @@ export function TierListEditor({ initial }: TierListEditorProps) {
           }}
         />
         <RepoSearchBox />
+        <TemplatePicker />
         <TierBoard />
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         <ShareBar />
-        <TemplatePicker />
         <Hint />
       </div>
       {/* Modal — only renders when pickerTarget !== null. Mobile-only path

@@ -25,6 +25,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        # Defensive: scripts/scrape-trending.mjs imports _data-store-write.mjs
+        # which dynamic-imports `ioredis` when REDIS_URL is set. (PR #9
+        # boundary.)
+        run: npm ci
 
       - name: Refresh OSSInsight collection rankings
         run: node scripts/scrape-trending.mjs --only-collection-rankings

@@ -500,11 +500,120 @@ async function loadAwesomeSkillsIndex(): Promise<Record<string, string[]>> {
   return out;
 }
 
+// Phase-4 escalation 2026-04-29: the skills page was reading only 2 of the
+// 5 worker-side skill fetchers (skills-sh + claude-skills via GITHUB key),
+// capping the leaderboard at ~500 items vs the ~91k+ user reference. These
+// 3 keys are now wired into the combined board: skillsmp (1M+ catalog),
+// lobehub-skills, smithery-skills. Each new source flows through the
+// existing skill scorer + dedupe.
+const SKILLSMP_KEY = "trending-skill-skillsmp";
+const LOBEHUB_SKILLS_KEY = "trending-skill-lobehub";
+const SMITHERY_SKILLS_KEY = "trending-skill-smithery";
+
+/**
+ * Adapter that maps each new fetcher's row shape into the
+ * `coerceGithubSkillItem` input shape (which only requires
+ * `full_name`, `title`, `url`). Field union covers skillsmp /
+ * lobehub-skills / smithery-skills row variants.
+ */
+function adaptExtraSkillRow(raw: unknown): Record<string, unknown> | null {
+  const r = asRecord(raw);
+  if (!r) return null;
+  // Resolve title across the 3 shapes: skillsmp `name`, lobehub `title`,
+  // smithery `displayName` / `slug`.
+  const title =
+    asString(r.title) ??
+    asString(r.name) ??
+    asString(r.displayName) ??
+    asString(r.slug) ??
+    asString(r.id);
+  // Resolve linkedRepo (full_name owner/name) across `githubUrl`,
+  // `gitUrl`, or fall through to `id` / `source_id` when they're slug-shaped.
+  const candidateUrls = [
+    asString(r.githubUrl),
+    asString(r.gitUrl),
+    asString(r.repository),
+  ].filter((s): s is string => Boolean(s));
+  let fullName: string | null = null;
+  for (const u of candidateUrls) {
+    const m = u.match(/github\.com\/([^/\s]+\/[^/\s?#]+)/i);
+    if (m) {
+      fullName = m[1].replace(/\.git$/i, "");
+      break;
+    }
+  }
+  // Smithery `namespace/slug` is the canonical id; fall back to a
+  // composed slug-like full_name when no GitHub URL exists, so the row
+  // still has a stable id/title.
+  const namespace = asString(r.namespace);
+  const slug = asString(r.slug);
+  if (!fullName && namespace && slug) {
+    fullName = `${namespace}/${slug}`;
+  }
+  if (!fullName) {
+    fullName = asString(r.source_id) ?? asString(r.id) ?? null;
+  }
+  if (!fullName || !title) return null;
+  const url = asString(r.url) ?? `https://github.com/${fullName}`;
+  // Lobehub carries `installs` directly — map onto the field
+  // coerceSkillsShItem already uses.
+  const installs = asNumber(r.installs) ?? asNumber(r.totalActivations) ?? null;
+  return {
+    full_name: fullName,
+    title,
+    url,
+    description: asString(r.description) ?? null,
+    author: asString(r.author) ?? asString(r.namespace) ?? fullName.split("/")[0],
+    rank: asNumber(r.rank) ?? null,
+    stars: asNumber(r.stars) ?? null,
+    forks: asNumber(r.forks) ?? null,
+    pushed_at: asString(r.updatedAt) ?? null,
+    source_topics: Array.isArray(r.categories) ? r.categories : [],
+    installs,
+  };
+}
+
+function coerceExtraSkillsBoard(
+  result: DataReadResult<unknown>,
+  key: string,
+  label: string,
+  sideChannels: SkillSideChannels,
+): EcosystemBoard {
+  const obj = asRecord(result.data);
+  const fetchedAt = asString(obj?.fetchedAt) ?? result.writtenAt ?? null;
+  const rows = Array.isArray(obj?.items) ? obj.items : [];
+  const pairs = rows
+    .map((row, idx) =>
+      coerceGithubSkillItem(adaptExtraSkillRow(row) ?? row, idx + 1),
+    )
+    .filter((p): p is { item: EcosystemLeaderboardItem; raw: Record<string, unknown> } => p !== null);
+  const items = applySkillMomentum(pairs, sideChannels);
+  return {
+    id: "github",
+    kind: "skill",
+    label,
+    key,
+    fetchedAt,
+    source: result.source,
+    ageMs: result.ageMs,
+    items,
+    meta: {
+      seen: rows.length,
+      // Surface the upstream total when the fetcher reports it (skillsmp
+      // pagination.total exposes the full catalog size — 1M+).
+      total: asNumber(asRecord(obj?.pagination)?.total) ?? null,
+    },
+  };
+}
+
 export async function getSkillsSignalData(): Promise<SkillsSignalData> {
   const store = getDataStore();
   const [
     skillsShRaw,
     githubRaw,
+    skillsmpRaw,
+    lobehubRaw,
+    smitheryRaw,
     awesomeIndex,
     derivativeBundle,
     installsPrev7d,
@@ -514,6 +623,9 @@ export async function getSkillsSignalData(): Promise<SkillsSignalData> {
   ] = await Promise.all([
     store.read<unknown>(SKILLS_SH_KEY),
     store.read<unknown>(GITHUB_SKILLS_KEY),
+    store.read<unknown>(SKILLSMP_KEY),
+    store.read<unknown>(LOBEHUB_SKILLS_KEY),
+    store.read<unknown>(SMITHERY_SKILLS_KEY),
     loadAwesomeSkillsIndex(),
     loadSkillDerivatives(),
     loadSkillInstallsPrev7d(),
@@ -538,22 +650,60 @@ export async function getSkillsSignalData(): Promise<SkillsSignalData> {
   };
   const skillsSh = coerceSkillsShBoard(skillsShRaw, sideChannels);
   const github = coerceGithubSkillsBoard(githubRaw, sideChannels);
-  const combinedItems = dedupeItems([...skillsSh.items, ...github.items])
+  const skillsmp = coerceExtraSkillsBoard(skillsmpRaw, SKILLSMP_KEY, "skillsmp", sideChannels);
+  const lobehub = coerceExtraSkillsBoard(lobehubRaw, LOBEHUB_SKILLS_KEY, "lobehub", sideChannels);
+  const smithery = coerceExtraSkillsBoard(smitheryRaw, SMITHERY_SKILLS_KEY, "smithery", sideChannels);
+  const combinedItems = dedupeItems([
+    ...skillsSh.items,
+    ...github.items,
+    ...skillsmp.items,
+    ...lobehub.items,
+    ...smithery.items,
+  ])
     .sort((a, b) => b.signalScore - a.signalScore)
     .map((item, idx) => ({ ...item, rank: idx + 1 }));
+
+  const totalSeen =
+    (asNumber(skillsmp.meta?.total) ?? skillsmp.items.length) +
+    skillsSh.items.length +
+    github.items.length +
+    lobehub.items.length +
+    smithery.items.length;
 
   const combined: EcosystemBoard = {
     id: "skills-sh",
     kind: "skill",
     label: "All Skills",
-    key: `${SKILLS_SH_KEY}+${GITHUB_SKILLS_KEY}`,
-    fetchedAt: freshestIso([skillsSh.fetchedAt, github.fetchedAt]),
-    source: bestSource([skillsSh.source, github.source]),
-    ageMs: minFinite([skillsSh.ageMs, github.ageMs]),
+    key: `${SKILLS_SH_KEY}+${GITHUB_SKILLS_KEY}+${SKILLSMP_KEY}+${LOBEHUB_SKILLS_KEY}+${SMITHERY_SKILLS_KEY}`,
+    fetchedAt: freshestIso([
+      skillsSh.fetchedAt,
+      github.fetchedAt,
+      skillsmp.fetchedAt,
+      lobehub.fetchedAt,
+      smithery.fetchedAt,
+    ]),
+    source: bestSource([
+      skillsSh.source,
+      github.source,
+      skillsmp.source,
+      lobehub.source,
+      smithery.source,
+    ]),
+    ageMs: minFinite([
+      skillsSh.ageMs,
+      github.ageMs,
+      skillsmp.ageMs,
+      lobehub.ageMs,
+      smithery.ageMs,
+    ]),
     items: combinedItems,
     meta: {
       skillsSh: skillsSh.items.length,
       github: github.items.length,
+      skillsmp: skillsmp.items.length,
+      lobehub: lobehub.items.length,
+      smithery: smithery.items.length,
+      total: totalSeen,
     },
   };
 

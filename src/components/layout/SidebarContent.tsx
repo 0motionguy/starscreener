@@ -13,10 +13,10 @@
  * Sections:
  *   1. TREND TERMINAL    — Repos, Skills, MCP, AGNT, Breakouts, Top 100
  *   2. SIGNAL TERMINAL   — HN / Lobsters / Dev.to / Bluesky / Reddit / X / PH
- *   3. LLM / PACK TERMINAL — NPM / Hugging Face / LLM Charts
+ *   3. LLM / PACK TERMINAL — NPM / Hugging Face / Datasets / Spaces
  *   4. LAUNCH TERMINAL   — Funding / Revenue / Hackathons / Launch
  *   5. RESEARCH TERMINAL — arXiv Papers / Cited Repos
- *   6. TOOLS             — Watchlist / Compare / Signal Radar
+ *   6. TOOLS             — Watchlist / Compare / Tier List / Signal Radar
  *   7. WATCHING          — top 5 watchlist preview cards
  *
  * Three badge tones:
@@ -532,10 +532,27 @@ export function SidebarContent({
             active={pathname === "/npm" || pathname.startsWith("/npm/")}
           />
           <V2NavRow
+            href="/huggingface/trending"
             icon={Brain}
-            label="Hugging Face"
-            badge="Soon"
-            disabled
+            label="HF Models"
+            badge="Live"
+            badgeTone="delta"
+            active={
+              pathname === "/huggingface" ||
+              pathname === "/huggingface/trending"
+            }
+          />
+          <V2NavRow
+            href="/huggingface/datasets"
+            icon={FileText}
+            label="HF Datasets"
+            active={pathname === "/huggingface/datasets"}
+          />
+          <V2NavRow
+            href="/huggingface/spaces"
+            icon={Rocket}
+            label="HF Spaces"
+            active={pathname === "/huggingface/spaces"}
           />
           <V2NavRow
             icon={BarChart3}
@@ -588,10 +605,16 @@ export function SidebarContent({
         {/* RESEARCH TERMINAL */}
         <V2Section label="RESEARCH TERMINAL">
           <V2NavRow
-            href="/papers"
+            href="/arxiv/trending"
             icon={FileText}
             label="arXiv Papers"
-            active={pathname === "/papers" || pathname.startsWith("/papers/")}
+            active={
+              pathname === "/papers" ||
+              pathname === "/arxiv" ||
+              pathname === "/arxiv/trending" ||
+              pathname.startsWith("/papers/") ||
+              pathname.startsWith("/arxiv/")
+            }
           />
           <V2NavRow
             href="/research"
@@ -618,6 +641,14 @@ export function SidebarContent({
             badge={compareCount > 0 ? compareCount : undefined}
             badgeTone="accent"
             active={pathname === "/compare"}
+          />
+          <V2NavRow
+            href="/tierlist"
+            icon={Trophy}
+            label="Tier List"
+            active={
+              pathname === "/tierlist" || pathname.startsWith("/tierlist/")
+            }
           />
           <V2NavRow
             href="/signals"

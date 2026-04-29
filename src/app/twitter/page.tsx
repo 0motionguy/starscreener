@@ -18,7 +18,7 @@ import { buildTwitterHeader } from "@/components/twitter/twitterTopMetrics";
 
 const TWITTER_ACCENT = "rgba(29, 155, 240, 0.85)";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "Trending Repos on X",

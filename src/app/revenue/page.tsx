@@ -33,7 +33,7 @@ import { buildRevenueHeader } from "@/components/revenue/revenueTopMetrics";
 
 const REVENUE_ACCENT = "rgba(34, 197, 94, 0.85)";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 600;
 
 export const metadata: Metadata = {
   title: "TrendingRepo — Revenue Terminal",

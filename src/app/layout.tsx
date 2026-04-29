@@ -1,8 +1,12 @@
 import type { Metadata, Viewport } from "next";
-// Trimmed from 4 fonts to 3: Instrument Serif (--font-editorial) was
-// defined but not referenced anywhere in src/components or src/app.
-// Dropping it saves ~30 KB of font payload + one <link rel="preload">.
-import { Geist, Geist_Mono, Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
+// Trimmed to 3 actively-rendered fonts (Geist sans, Geist Mono, Space
+// Grotesk display). Inter and JetBrains Mono lived only as CSS-fallback
+// strings in globals.css after `var(--font-geist*)` and never painted
+// when geist loaded successfully — dropping the next/font loads saves
+// ~60 KB of font payload + 2 <link rel="preload"> head entries. The
+// named "Inter" / "JetBrains Mono" strings remain in the font-family
+// chains so locally-installed copies still work as system fallbacks.
+import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
 import { Toaster } from "sonner";
 // Validate environment variables at server boot. Must stay first so misconfig
 // crashes the app before any routes load.
@@ -36,23 +40,13 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
-  subsets: ["latin"],
-  display: "swap",
-});
-
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
   subsets: ["latin"],
   display: "swap",
-  weight: ["400", "500", "600", "700"],
+  // Only 400 (default body), 600 (font-semibold), and 700 (font-bold)
+  // are referenced via `font-display` utilities — 500 was unused.
+  weight: ["400", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -139,7 +133,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geist.variable} ${geistMono.variable} ${inter.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable}`}
+      className={`${geist.variable} ${geistMono.variable} ${spaceGrotesk.variable}`}
       suppressHydrationWarning
     >
       <head>
@@ -150,7 +144,7 @@ export default function RootLayout({
             // don't lose state. Migrates the value forward so subsequent
             // reads (next-themes, Zustand persist middleware, browser
             // alerts) find it on the new key next render.
-            __html: `(function(){try{var pairs=[["trendingrepo-theme","starscreener-theme"],["trendingrepo-watchlist","starscreener-watchlist"],["trendingrepo-compare","starscreener-compare"],["trendingrepo-filters","starscreener-filters"],["trendingrepo-sidebar","starscreener-sidebar"],["trendingrepo-browser-alerts-enabled","starscreener-browser-alerts-enabled"],["trendingrepo-browser-alerts-seen","starscreener-browser-alerts-seen"],["trendingrepo-browser-alerts-changed","starscreener-browser-alerts-changed"]];for(var i=0;i<pairs.length;i++){var nk=pairs[i][0],ok=pairs[i][1];if(localStorage.getItem(nk)===null){var v=localStorage.getItem(ok);if(v!==null){localStorage.setItem(nk,v);}}}var t=localStorage.getItem("trendingrepo-theme");if(t==="light")document.documentElement.classList.add("light");else document.documentElement.classList.add("dark")}catch(e){document.documentElement.classList.add("dark")}})();`,
+            __html: `(function(){try{var MIG="trendingrepo-migrated-v1";if(!localStorage.getItem(MIG)){var pairs=[["trendingrepo-theme","starscreener-theme"],["trendingrepo-watchlist","starscreener-watchlist"],["trendingrepo-compare","starscreener-compare"],["trendingrepo-filters","starscreener-filters"],["trendingrepo-sidebar","starscreener-sidebar"],["trendingrepo-browser-alerts-enabled","starscreener-browser-alerts-enabled"],["trendingrepo-browser-alerts-seen","starscreener-browser-alerts-seen"],["trendingrepo-browser-alerts-changed","starscreener-browser-alerts-changed"]];for(var i=0;i<pairs.length;i++){var nk=pairs[i][0],ok=pairs[i][1];if(localStorage.getItem(nk)===null){var v=localStorage.getItem(ok);if(v!==null){localStorage.setItem(nk,v);}}}localStorage.setItem(MIG,"1")}var t=localStorage.getItem("trendingrepo-theme");if(t==="light")document.documentElement.classList.add("light");else document.documentElement.classList.add("dark")}catch(e){document.documentElement.classList.add("dark")}})();`,
           }}
         />
         <script

@@ -12,7 +12,8 @@ import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 import { isShortId } from "@/lib/tier-list/short-id";
 import { getTierList } from "@/lib/tier-list/store";
-import { stateHash } from "@/lib/tier-list/url";
+import { encodeTierListUrl, stateHash } from "@/lib/tier-list/url";
+import type { TierListPayload } from "@/lib/types/tier-list";
 
 export const dynamic = "force-dynamic";
 
@@ -99,6 +100,7 @@ export default async function SavedTierListPage({ params }: Params) {
 
   return (
     <main style={{ minHeight: "100vh", backgroundColor: "#151419" }}>
+      <RemixBanner payload={payload} />
       <TierListEditor
         initial={{
           title: payload.title,
@@ -108,5 +110,65 @@ export default async function SavedTierListPage({ params }: Params) {
         }}
       />
     </main>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Remix banner — shown at the top of any saved-list page so the visitor can
+// fork the list into a fresh editable draft. Hitting Save & Share on the
+// remix produces a NEW shortId (the original is never overwritten — POST
+// always creates).
+// ---------------------------------------------------------------------------
+
+function RemixBanner({ payload }: { payload: TierListPayload }) {
+  const remixHref = `/tierlist?${encodeTierListUrl({
+    title: `${payload.title} — remix`,
+    tiers: payload.tiers,
+    unrankedItems: payload.unrankedItems,
+  }).toString()}`;
+  const author = payload.ownerHandle
+    ? `@${payload.ownerHandle}`
+    : "an anonymous author";
+  return (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: 12,
+        flexWrap: "wrap",
+        padding: "10px 24px",
+        borderBottom: "1px solid #2B2B2F",
+        backgroundColor: "#13161a",
+        fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
+        fontSize: 12,
+        color: "#aab0b6",
+        letterSpacing: "0.04em",
+      }}
+    >
+      <span>
+        {"// "}viewing tier list{" "}
+        <span style={{ color: "#FBFBFB" }}>{payload.shortId}</span>
+        {" · made by "}
+        <span style={{ color: "#FBFBFB" }}>{author}</span>
+      </span>
+      <a
+        href={remixHref}
+        style={{
+          padding: "6px 12px",
+          border: "1px solid #272c33",
+          borderRadius: 3,
+          backgroundColor: "#1b1b1e",
+          color: "#FBFBFB",
+          textDecoration: "none",
+          fontWeight: 700,
+          textTransform: "uppercase",
+          letterSpacing: "0.14em",
+          fontSize: 11,
+        }}
+      >
+        ↻ Remix
+      </a>
+    </div>
   );
 }

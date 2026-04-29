@@ -12,10 +12,12 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import type { Repo } from "@/lib/types";
-import type {
-  StarActivityMode,
-  StarActivityPayload,
-  StarActivityScale,
+import {
+  filterPayloadByWindow,
+  type StarActivityMode,
+  type StarActivityPayload,
+  type StarActivityScale,
+  type StarActivityWindow,
 } from "@/lib/star-activity";
 import { formatNumber } from "@/lib/utils";
 import { COMPARE_PALETTE } from "./palette";
@@ -32,8 +34,11 @@ interface CompareChartProps {
   mode?: StarActivityMode;
   /** Controlled scale. Defaults to internal state, default "lin". */
   scale?: StarActivityScale;
+  /** Controlled window. Defaults to internal state, default "all". */
+  window?: StarActivityWindow;
   onModeChange?: (mode: StarActivityMode) => void;
   onScaleChange?: (scale: StarActivityScale) => void;
+  onWindowChange?: (window: StarActivityWindow) => void;
 }
 
 const MIN_HISTORY_DAYS = 7;
@@ -82,8 +87,12 @@ function buildSeriesForRepo(
   payloads: Record<string, StarActivityPayload> | undefined,
   mode: StarActivityMode,
   scale: StarActivityScale,
+  window: StarActivityWindow,
 ): RepoSeries {
-  const payload = lookupPayload(payloads, repo.fullName);
+  const rawPayload = lookupPayload(payloads, repo.fullName);
+  const payload = rawPayload
+    ? filterPayloadByWindow(rawPayload, window)
+    : null;
 
   if (payload && payload.points.length > 0) {
     const data = payload.points.map((pt, i) => ({
@@ -227,15 +236,20 @@ export function CompareChart({
   payloads,
   mode: modeProp,
   scale: scaleProp,
+  window: windowProp,
   onModeChange,
   onScaleChange,
+  onWindowChange,
 }: CompareChartProps) {
-  // Controlled-or-uncontrolled — caller can either drive mode/scale from URL
-  // state (Chunk D) or let the chart own it.
+  // Controlled-or-uncontrolled — caller can either drive mode/scale/window
+  // from URL state or let the chart own it.
   const [internalMode, setInternalMode] = useState<StarActivityMode>("date");
   const [internalScale, setInternalScale] = useState<StarActivityScale>("lin");
+  const [internalWindow, setInternalWindow] =
+    useState<StarActivityWindow>("all");
   const mode = modeProp ?? internalMode;
   const scale = scaleProp ?? internalScale;
+  const window = windowProp ?? internalWindow;
 
   const setMode = (m: StarActivityMode) => {
     onModeChange?.(m);
@@ -245,13 +259,19 @@ export function CompareChart({
     onScaleChange?.(s);
     if (scaleProp === undefined) setInternalScale(s);
   };
+  const setWindow = (w: StarActivityWindow) => {
+    onWindowChange?.(w);
+    if (windowProp === undefined) setInternalWindow(w);
+  };
 
   // Single-repo callers (e.g. /repo/[owner]/[name]/star-activity) render the
   // same chart with one series; the prior `repos.length < 2` guard belonged
   // to /compare's empty-state UX which is now handled by CompareClient itself.
   if (repos.length === 0) return null;
 
-  const series = repos.map((r) => buildSeriesForRepo(r, payloads, mode, scale));
+  const series = repos.map((r) =>
+    buildSeriesForRepo(r, payloads, mode, scale, window),
+  );
   const anyFromPayload = series.some((s) => s.fromPayload);
 
   // Sparseness check — only meaningful for the legacy sparkline path.
@@ -299,7 +319,19 @@ export function CompareChart({
     <div className="v2-card p-4 animate-fade-in">
       <div className="flex items-center justify-between gap-2 mb-3 flex-wrap">
         <h3 className="text-sm font-medium text-text-secondary">{title}</h3>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
+          <ToggleGroup<StarActivityWindow>
+            value={window}
+            options={[
+              { label: "7D", value: "7d" },
+              { label: "30D", value: "30d" },
+              { label: "90D", value: "90d" },
+              { label: "6M", value: "6m" },
+              { label: "1Y", value: "1y" },
+              { label: "ALL", value: "all" },
+            ]}
+            onChange={setWindow}
+          />
           <ToggleGroup<StarActivityMode>
             value={mode}
             options={[

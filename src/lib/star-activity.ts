@@ -116,6 +116,40 @@ export async function refreshStarActivityFromStore(
 
 export type StarActivityMode = "date" | "timeline";
 export type StarActivityScale = "lin" | "log";
+export type StarActivityWindow =
+  | "7d"
+  | "30d"
+  | "90d"
+  | "6m"
+  | "1y"
+  | "all";
+
+const WINDOW_DAYS: Record<StarActivityWindow, number | null> = {
+  "7d": 7,
+  "30d": 30,
+  "90d": 90,
+  "6m": 180,
+  "1y": 365,
+  all: null,
+};
+
+/**
+ * Slice a payload's points to only those within the chosen time window.
+ * Returns the same payload shape with a filtered points array. `all` is a
+ * pass-through. Used by the chart and the OG renderer so window selection
+ * happens in one place.
+ */
+export function filterPayloadByWindow(
+  payload: StarActivityPayload,
+  window: StarActivityWindow,
+): StarActivityPayload {
+  const days = WINDOW_DAYS[window];
+  if (days === null || payload.points.length === 0) return payload;
+  const cutoffMs = Date.now() - days * 86_400_000;
+  const cutoff = new Date(cutoffMs).toISOString().slice(0, 10);
+  const filtered = payload.points.filter((p) => p.d >= cutoff);
+  return { ...payload, points: filtered };
+}
 
 export interface ChartPoint {
   /**

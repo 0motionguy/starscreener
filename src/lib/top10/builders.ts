@@ -274,6 +274,7 @@ export function buildRepoTop10(
   repos: Repo[],
   window: Top10Window = "7d",
   metric: Top10Metric = "cross-signal",
+  extras?: BuildExtras,
 ): Top10Bundle {
   const sorted = [...repos]
     .filter((r) => !r.archived && !r.deleted)
@@ -283,7 +284,10 @@ export function buildRepoTop10(
         b.momentumScore - a.momentumScore,
     )
     .slice(0, 10);
-  const items = sorted.map((r, i) => repoToItem(r, i + 1, window));
+  const items = decorateItems(
+    sorted.map((r, i) => repoToItem(r, i + 1, window)),
+    extras,
+  );
   return {
     items,
     meta: buildMeta(items, windowLabel(window)),

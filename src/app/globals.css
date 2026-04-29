@@ -1880,6 +1880,162 @@ body::before {
   box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.18);
 }
 
+.ds-list,
+.leaderboard,
+.feed,
+.rankings,
+.table-shell {
+  overflow: hidden;
+  border: 1px solid var(--line-200);
+  background: var(--bg-025);
+}
+
+.ds-list-head,
+.lb-head {
+  display: grid;
+  align-items: center;
+  min-height: 32px;
+  border-bottom: 1px solid var(--line-100);
+  background: var(--bg-025);
+  color: var(--ink-400);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--tracking-ui);
+  text-transform: uppercase;
+}
+
+.ds-list-row,
+.repo-row,
+.feed-row,
+.lb-row,
+.rk-row,
+.mover-row,
+.arr-row,
+.tweet-row,
+.v2-row {
+  position: relative;
+  border-bottom: 1px solid var(--line-100);
+  background: transparent;
+  transition:
+    background-color var(--motion-duration-fast) ease-out,
+    box-shadow var(--motion-duration-base) ease-out,
+    color var(--motion-duration-fast) ease-out;
+}
+
+.ds-list-row:last-child,
+.repo-row:last-child,
+.feed-row:last-child,
+.lb-row:last-child,
+.rk-row:last-child,
+.mover-row:last-child,
+.arr-row:last-child,
+.tweet-row:last-child {
+  border-bottom: none;
+}
+
+.ds-list-row:hover,
+.repo-row:hover,
+.feed-row:hover,
+.lb-row:hover,
+.rk-row:hover,
+.mover-row:hover,
+.arr-row:hover,
+.tweet-row:hover,
+.v2-row:hover {
+  background: var(--bg-050);
+}
+
+.ds-list-row.first,
+.repo-row.first,
+.feed-row.first,
+.lb-row.first,
+.mover-row.first,
+.arr-row.first {
+  border-left: 2px solid var(--acc);
+  background: linear-gradient(90deg, var(--acc-soft), transparent 70%);
+}
+
+.ds-list-row .rk,
+.repo-row .rk,
+.feed-row .rk,
+.lb-row .rk,
+.mover-row .rk,
+.arr-row .rk {
+  color: var(--ink-400);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-lg);
+}
+
+.ds-list-row.first .rk,
+.repo-row.first .rk,
+.feed-row.first .rk,
+.lb-row.first .rk,
+.mover-row.first .rk,
+.arr-row.first .rk {
+  color: var(--acc);
+  font-weight: var(--font-weight-bold);
+}
+
+.repo-row .nm,
+.feed-row .ttl,
+.lb-row .repo .nm,
+.mover-row .nm .h,
+.arr-row .nm .h,
+.tweet-row .who .nm {
+  overflow: hidden;
+  color: var(--ink-100);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.repo-row .delta,
+.feed-row .delta,
+.mover-row .amt,
+.arr-row .pct {
+  color: var(--sig-green);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+}
+
+.repo-row .score,
+.lb-row .score,
+.arr-row .arr,
+.tweet-row .stats {
+  color: var(--ink-200);
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.rb,
+.lb-row .rb {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 5px;
+  border: 1px solid var(--line-200);
+  background: var(--bg-100);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-md);
+}
+
+.conf-bar,
+.conf .bar,
+.arr-row .bar {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-200);
+}
+
+.conf-bar i,
+.conf .bar i,
+.arr-row .bar i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: linear-gradient(90deg, var(--acc), var(--sig-amber));
+}
+
 .ds-input-wrap,
 .search,
 .sh-search {

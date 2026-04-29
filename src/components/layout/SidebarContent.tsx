@@ -134,17 +134,11 @@ interface V2SectionProps {
 
 function V2Section({ label, children, rightSlot, maxHeightPx }: V2SectionProps) {
   return (
-    <section
-      className="border-t"
-      style={{ borderColor: "var(--v2-line-std)" }}
-    >
-      <div
-        className="flex items-center justify-between px-3 pt-3 pb-2"
-        style={{ borderBottom: "1px dashed var(--v2-line-200)" }}
-      >
+    <section className="group">
+      <div className="group-label">
         <span
-          className="v2-mono"
-          style={{ color: "var(--v2-ink-400)", fontSize: 9 }}
+          className="font-mono"
+          style={{ color: "var(--ink-400)", fontSize: 9 }}
         >
           {`// ${label}`}
         </span>
@@ -154,7 +148,7 @@ function V2Section({ label, children, rightSlot, maxHeightPx }: V2SectionProps) 
       </div>
       <div
         className={cn(
-          "px-1.5 py-1.5",
+          "px-0 py-0.5",
           maxHeightPx ? "overflow-y-auto scrollbar-hide" : undefined,
         )}
         style={maxHeightPx ? { maxHeight: `${maxHeightPx}px` } : undefined}
@@ -190,41 +184,31 @@ function V2NavRow({
 }: V2NavRowProps) {
   const isActive = active && !disabled;
 
-  const labelColor = disabled
-    ? "var(--v2-ink-500)"
-    : isActive
-      ? "var(--v2-ink-100)"
-      : "var(--v2-ink-300)";
-  const iconColor = disabled
-    ? "var(--v2-ink-500)"
-    : isActive
-      ? "var(--v2-acc)"
-      : "var(--v2-ink-400)";
-
   const className = cn(
-    "v2-mono relative w-full h-8 flex items-center gap-2 pl-3 pr-2",
-    "text-[11px] transition-colors duration-150",
-    isActive && "v2-bracket",
-    disabled
-      ? "cursor-not-allowed opacity-60"
-      : !isActive && "hover:bg-[var(--v2-bg-100)]",
+    "nav relative w-full",
+    isActive && "active",
+    disabled && "cursor-not-allowed opacity-60",
   );
 
   const style: React.CSSProperties = {
-    color: labelColor,
-    background: isActive ? "var(--v2-bg-100)" : "transparent",
-    border: isActive
-      ? "1px solid var(--v2-line-200)"
-      : "1px solid transparent",
-    borderRadius: 1,
-    boxShadow: isActive ? "inset 3px 0 0 var(--v2-acc)" : undefined,
+    color: disabled
+      ? "var(--ink-500)"
+      : isActive
+        ? "var(--ink-000)"
+        : "var(--ink-200)",
   };
 
   const content = (
     <>
       <span
-        className="inline-flex shrink-0"
-        style={{ color: iconColor, width: 14, height: 14 }}
+        className="ic"
+        style={{
+          color: disabled
+            ? "var(--ink-500)"
+            : isActive
+              ? "var(--acc)"
+              : "var(--ink-300)",
+        }}
       >
         <Icon size={14} />
       </span>
@@ -269,24 +253,19 @@ function V2Chip({
 }) {
   const palette =
     tone === "accent"
-      ? { bg: "var(--v2-acc-soft)", color: "var(--v2-acc)" }
+      ? { bg: "var(--acc-soft)", color: "var(--acc)" }
       : tone === "danger"
-        ? { bg: "var(--v2-sig-red-glow)", color: "var(--v2-sig-red)" }
+        ? { bg: "rgba(255, 77, 77, 0.14)", color: "var(--sig-red)" }
         : tone === "delta"
-          ? { bg: "var(--color-up-bg)", color: "var(--color-up)" }
-          : { bg: "var(--v2-bg-200)", color: "var(--v2-ink-300)" };
+          ? { bg: "var(--money-soft)", color: "var(--sig-green)" }
+          : { bg: "var(--bg-100)", color: "var(--ink-300)" };
 
   return (
     <span
-      className="v2-mono tabular-nums shrink-0 inline-flex items-center justify-center"
+      className="badge shrink-0 tabular-nums"
       style={{
         background: palette.bg,
         color: palette.color,
-        height: 16,
-        minWidth: 20,
-        padding: "0 5px",
-        fontSize: 9,
-        borderRadius: 1,
       }}
     >
       {value}

@@ -11,6 +11,7 @@
 import Link from "next/link";
 import type { ComponentType } from "react";
 import { cn } from "@/lib/utils";
+import { Badge as UiBadge } from "@/components/ui/Badge";
 
 /**
  * Any React icon component that accepts `className` + optional `size`.
@@ -44,21 +45,16 @@ function Badge({
   value: string | number;
   variant?: "default" | "accent" | "danger";
 }) {
-  const variantClass =
-    variant === "accent"
-      ? "bg-functional-glow text-functional"
-      : variant === "danger"
-        ? "bg-down-bg text-down"
-        : "bg-bg-tertiary text-text-tertiary";
+  const tone =
+    variant === "accent" ? "accent" : variant === "danger" ? "danger" : "neutral";
   return (
-    <span
-      className={cn(
-        "ml-auto text-[10px] font-mono px-1.5 py-0.5 rounded-full tabular-nums shrink-0",
-        variantClass,
-      )}
+    <UiBadge
+      tone={tone}
+      size="xs"
+      className="ml-auto shrink-0 tabular-nums"
     >
       {value}
-    </span>
+    </UiBadge>
   );
 }
 
@@ -76,34 +72,26 @@ export function SidebarNavItem({
 }: SidebarNavItemProps) {
   const isActive = active && !disabled;
   const baseClass = cn(
-    "relative w-full h-9 flex items-center gap-2.5 pl-3 pr-2",
-    "text-[13px] font-medium",
-    "transition-colors duration-150",
-    disabled
-      ? "cursor-not-allowed text-text-tertiary/55 opacity-65"
-      : isActive
-      ? "bg-functional-subtle text-functional"
-      : "text-text-secondary hover:bg-bg-card-hover",
+    "nav relative w-full",
+    isActive && "active",
+    disabled && "cursor-not-allowed opacity-65",
     className,
   );
 
-  const activeStyle =
-    isActive && accentColor
-      ? { boxShadow: `inset 2px 0 0 ${accentColor}` }
-      : isActive
-        ? { boxShadow: "inset 2px 0 0 var(--color-functional)" }
-        : undefined;
+  const activeStyle = isActive && accentColor
+    ? { borderLeftColor: accentColor }
+    : undefined;
 
   const content = (
     <>
       <Icon
         className={cn(
-          "w-4 h-4 shrink-0",
+          "ic shrink-0",
           disabled
-            ? "text-text-tertiary/55"
+            ? "text-[var(--ink-500)]"
             : isActive
-              ? "text-functional"
-              : "text-text-tertiary",
+              ? "text-[var(--acc)]"
+              : "text-[var(--ink-300)]",
         )}
       />
       <span className="flex-1 truncate text-left">{label}</span>

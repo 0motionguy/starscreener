@@ -48,7 +48,12 @@ interface LobehubPayload {
 const fetcher: Fetcher = {
   name: 'lobehub-skills',
   schedule: '45 */12 * * *',
-  requiresFirecrawl: true,
+  // Phase-5 escalation 2026-04-29: dropped `requiresFirecrawl: true` (the
+  // shared runner short-circuits on that flag without the key, leaving the
+  // page empty). When FIRECRAWL_API_KEY is set we still prefer Firecrawl
+  // (richer hydrated payload, ~200 items); otherwise we fall back to direct
+  // HTTP and parse the SSR'd HTML for ~30-50 items. Same Q2 pattern that
+  // unblocked skills-sh in commit eacb5ce2.
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
     if (ctx.dryRun) {
@@ -56,29 +61,45 @@ const fetcher: Fetcher = {
       return done(startedAt, 0, false);
     }
     const env = loadEnv();
-    if (!env.FIRECRAWL_API_KEY) {
-      ctx.log.warn('FIRECRAWL_API_KEY not set - lobehub-skills skipped');
-      return done(startedAt, 0, false);
-    }
 
     const errors: RunResult['errors'] = [];
-    let markdown = '';
+    let rows: ParsedRow[] = [];
+    let mode: 'firecrawl' | 'direct' = 'direct';
 
-    try {
-      const { data } = await ctx.http.json<FirecrawlScrapeResponse>(`${FIRECRAWL_BASE}/v1/scrape`, {
-        method: 'POST',
-        headers: { authorization: `Bearer ${env.FIRECRAWL_API_KEY}`, 'content-type': 'application/json' },
-        body: { url: PAGE_URL, formats: ['markdown'], waitFor: WAIT_MS, onlyMainContent: true },
-        timeoutMs: 60_000,
-        maxRetries: 2,
-        useEtagCache: false,
-      });
-      markdown = data?.data?.markdown ?? '';
-    } catch (err) {
-      errors.push({ stage: 'firecrawl', message: (err as Error).message });
+    if (env.FIRECRAWL_API_KEY) {
+      mode = 'firecrawl';
+      try {
+        const { data } = await ctx.http.json<FirecrawlScrapeResponse>(`${FIRECRAWL_BASE}/v1/scrape`, {
+          method: 'POST',
+          headers: { authorization: `Bearer ${env.FIRECRAWL_API_KEY}`, 'content-type': 'application/json' },
+          body: { url: PAGE_URL, formats: ['markdown'], waitFor: WAIT_MS, onlyMainContent: true },
+          timeoutMs: 60_000,
+          maxRetries: 2,
+          useEtagCache: false,
+        });
+        rows = parseLobehubMarkdown(data?.data?.markdown ?? '');
+      } catch (err) {
+        errors.push({ stage: 'firecrawl', message: (err as Error).message });
+      }
     }
 
-    const rows = parseLobehubMarkdown(markdown);
+    // Direct-HTTP fallback: triggered when Firecrawl is absent OR when its
+    // call errored / returned zero rows. lobehub.com SSRs ~30-50 skill rows
+    // straight into the HTML — fewer than the post-hydration Firecrawl
+    // payload, but better than the zero rows the prior gate produced.
+    if (rows.length === 0) {
+      try {
+        const html = await ctx.http.text(PAGE_URL, {
+          timeoutMs: 30_000,
+          useEtagCache: false,
+          headers: { 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) Gecko/20100101 Firefox/120.0' },
+        });
+        rows = parseLobehubHtml(html);
+        if (mode === 'firecrawl' && rows.length > 0) mode = 'direct';
+      } catch (err) {
+        errors.push({ stage: 'direct-http', message: (err as Error).message });
+      }
+    }
     const ranked = rows
       .map(scoreRow)
       .sort((a, b) => b.trending_score - a.trending_score)
@@ -94,7 +115,7 @@ const fetcher: Fetcher = {
 
     const result = await writeDataStore('trending-skill-lobehub', payload);
     ctx.log.info(
-      { items: ranked.length, totalSeen: rows.length, redisSource: result.source, writtenAt: result.writtenAt, errors: errors.length },
+      { mode, items: ranked.length, totalSeen: rows.length, redisSource: result.source, writtenAt: result.writtenAt, errors: errors.length },
       'lobehub-skills published',
     );
 
@@ -159,6 +180,48 @@ export function parseLobehubMarkdown(markdown: string): ParsedRow[] {
       title: title.slice(0, 200),
       url: `https://lobehub.com/skills/${sourceId}`,
       installs,
+      stars: null,
+    });
+  }
+  return out;
+}
+
+/**
+ * Parse the raw SSR'd HTML from lobehub.com/skills. Direct-HTTP fallback
+ * when FIRECRAWL_API_KEY is absent. lobehub uses Next.js App Router so
+ * there's no `__NEXT_DATA__` blob — instead the HTML carries skill paths
+ * as anchor `href`s and install counts as `installCount":<N>` JSON
+ * fragments embedded in RSC flight payloads. We pair each path with the
+ * first install count appearing within ~600 chars after it.
+ */
+const HREF_RE = /href="\/skills\/([a-z0-9_-]+\/[a-z0-9_-]+)"/gi;
+const INSTALL_RE = /"installCount":(\d+)/g;
+
+export function parseLobehubHtml(html: string): ParsedRow[] {
+  if (!html) return [];
+  const out: ParsedRow[] = [];
+  const seen = new Set<string>();
+  // Build a sorted index of installCount positions so each path can pick
+  // the nearest-following count.
+  const installs: Array<{ idx: number; value: number }> = [];
+  for (const m of html.matchAll(INSTALL_RE)) {
+    installs.push({ idx: m.index ?? 0, value: Number(m[1]) });
+  }
+  for (const match of html.matchAll(HREF_RE)) {
+    const path = (match[1] ?? '').trim();
+    if (!path || path === 'tree/main') continue; // GH-tree paths leak in
+    if (seen.has(path)) continue;
+    seen.add(path);
+    const matchIdx = match.index ?? 0;
+    // Pick the first installCount within 800 chars after the href.
+    const near = installs.find(
+      (e) => e.idx >= matchIdx && e.idx - matchIdx <= 800,
+    );
+    out.push({
+      source_id: path,
+      title: path.split('/').slice(-1)[0]?.replace(/-/g, ' ') ?? path,
+      url: `https://lobehub.com/skills/${path}`,
+      installs: near?.value ?? null,
       stars: null,
     });
   }

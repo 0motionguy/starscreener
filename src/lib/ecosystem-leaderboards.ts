@@ -1470,7 +1470,15 @@ function dedupeItems(items: EcosystemLeaderboardItem[]): EcosystemLeaderboardIte
   const seen = new Set<string>();
   const out: EcosystemLeaderboardItem[] = [];
   for (const item of items) {
-    const key = (item.linkedRepo ?? item.id).toLowerCase();
+    // Phase-5 escalation: previously keyed only on linkedRepo, which
+    // collapsed every individual SKILL.md inside a multi-skill collection
+    // (e.g. mattpocock/skills has ~13 children) to a single row. The new
+    // key uses linkedRepo + the per-skill `id` so siblings survive while
+    // true cross-source duplicates (same skill seen by both skillsmp
+    // and skills-sh) still collapse on shared id.
+    const repo = (item.linkedRepo ?? "").toLowerCase();
+    const id = item.id.toLowerCase();
+    const key = repo ? `${repo}::${id}` : id;
     if (seen.has(key)) continue;
     seen.add(key);
     out.push(item);

@@ -80,7 +80,7 @@ export function TierBoard() {
             overflow: "hidden",
           }}
         >
-          {tiers.map((tier) => (
+          {tiers.map((tier, index) => (
             <TierRow
               key={tier.id}
               tierId={tier.id}
@@ -89,6 +89,8 @@ export function TierBoard() {
               items={tier.items}
               itemMeta={itemMeta}
               canRemove={tiers.length > MIN_TIERS}
+              canMoveUp={index > 0}
+              canMoveDown={index < tiers.length - 1}
             />
           ))}
         </div>
@@ -129,6 +131,8 @@ function TierRow({
   items,
   itemMeta,
   canRemove,
+  canMoveUp,
+  canMoveDown,
 }: {
   tierId: string;
   label: string;
@@ -136,6 +140,8 @@ function TierRow({
   items: string[];
   itemMeta: Record<string, PoolItem>;
   canRemove: boolean;
+  canMoveUp: boolean;
+  canMoveDown: boolean;
 }) {
   const { setNodeRef, isOver } = useDroppable({
     id: tierId,
@@ -144,6 +150,7 @@ function TierRow({
   const setColor = useTierListEditor((s) => s.setTierColor);
   const setLabel = useTierListEditor((s) => s.setTierLabel);
   const removeTier = useTierListEditor((s) => s.removeTier);
+  const moveTier = useTierListEditor((s) => s.moveTier);
   const [pickerOpen, setPickerOpen] = useState(false);
 
   return (
@@ -231,6 +238,28 @@ function TierRow({
             }}
           >
             ×
+          </button>
+        )}
+        {canMoveUp && (
+          <button
+            type="button"
+            onClick={() => moveTier(tierId, "up")}
+            aria-label={`Move tier ${label} up`}
+            title="Move row up"
+            style={tierReorderButtonStyle({ position: "top" })}
+          >
+            ▲
+          </button>
+        )}
+        {canMoveDown && (
+          <button
+            type="button"
+            onClick={() => moveTier(tierId, "down")}
+            aria-label={`Move tier ${label} down`}
+            title="Move row down"
+            style={tierReorderButtonStyle({ position: "bottom" })}
+          >
+            ▼
           </button>
         )}
         {pickerOpen && (
@@ -508,4 +537,31 @@ function DraggableCell({
       </div>
     </div>
   );
+}
+
+// ---------------------------------------------------------------------------
+// Style helpers
+// ---------------------------------------------------------------------------
+
+function tierReorderButtonStyle(opts: {
+  position: "top" | "bottom";
+}): React.CSSProperties {
+  return {
+    position: "absolute",
+    [opts.position]: 4,
+    left: 4,
+    width: 18,
+    height: 18,
+    borderRadius: 9,
+    border: "1px solid rgba(0,0,0,0.3)",
+    backgroundColor: "rgba(0,0,0,0.15)",
+    color: "#0a0a0a",
+    fontSize: 9,
+    lineHeight: 1,
+    cursor: "pointer",
+    padding: 0,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  };
 }

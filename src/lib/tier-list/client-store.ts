@@ -72,6 +72,8 @@ export interface TierListEditorActions {
   setTierLabel: (tierId: string, label: string) => void;
   addTier: () => void;
   removeTier: (tierId: string) => void;
+  /** Move a tier up or down in the visual order. No-op at the boundaries. */
+  moveTier: (tierId: string, direction: "up" | "down") => void;
   openPicker: (repoId: string) => void;
   closePicker: () => void;
 }
@@ -240,6 +242,18 @@ export const useTierListEditor = create<
         unrankedItems: [...state.unrankedItems, ...target.items],
         saveState: { kind: "idle" },
       };
+    });
+  },
+
+  moveTier(tierId, direction) {
+    set((state) => {
+      const idx = state.tiers.findIndex((t) => t.id === tierId);
+      if (idx < 0) return state;
+      const swapWith = direction === "up" ? idx - 1 : idx + 1;
+      if (swapWith < 0 || swapWith >= state.tiers.length) return state;
+      const next = [...state.tiers];
+      [next[idx], next[swapWith]] = [next[swapWith], next[idx]];
+      return { tiers: next, saveState: { kind: "idle" } };
     });
   },
 

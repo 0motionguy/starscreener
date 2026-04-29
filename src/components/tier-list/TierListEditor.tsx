@@ -11,6 +11,7 @@ import { useTierListEditor, type PoolItem } from "@/lib/tier-list/client-store";
 import { decodeTierListUrl } from "@/lib/tier-list/url";
 import type { TierRow } from "@/lib/types/tier-list";
 
+import { MobileTierPicker } from "./MobileTierPicker";
 import { RepoSearchBox } from "./RepoSearchBox";
 import { ShareBar } from "./ShareBar";
 import { TemplatePicker } from "./TemplatePicker";
@@ -126,6 +127,9 @@ export function TierListEditor({ initial }: TierListEditorProps) {
         <TemplatePicker />
         <Hint />
       </div>
+      {/* Modal — only renders when pickerTarget !== null. Mobile-only path
+          but cheap enough to mount at the editor root regardless. */}
+      <MobileTierPicker />
     </div>
   );
 }

@@ -389,6 +389,7 @@ function DraggableCell({
   const tiers = useTierListEditor((s) => s.tiers);
   const moveItem = useTierListEditor((s) => s.moveItem);
   const removeItem = useTierListEditor((s) => s.removeItem);
+  const openPicker = useTierListEditor((s) => s.openPicker);
   const data: DragItemData = { repoId };
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({
@@ -416,13 +417,29 @@ function DraggableCell({
 
   return (
     <div ref={setNodeRef} style={style} {...attributes}>
+      {/* Desktop: drag handle (md and up). Mobile: dnd-kit's pointer sensor
+          on touch is unreliable, so we render a tap button that opens the
+          picker bottom-sheet instead. Same Avatar both ways. */}
       <button
         type="button"
         aria-label={`Drag handle for ${repoId}`}
         {...listeners}
+        className="hidden md:block"
         style={{
           all: "unset",
           cursor: "grab",
+        }}
+      >
+        <Avatar repoId={repoId} avatarUrl={meta?.avatarUrl} size={48} />
+      </button>
+      <button
+        type="button"
+        aria-label={`Place ${repoId} into a tier`}
+        onClick={() => openPicker(repoId)}
+        className="block md:hidden"
+        style={{
+          all: "unset",
+          cursor: "pointer",
         }}
       >
         <Avatar repoId={repoId} avatarUrl={meta?.avatarUrl} size={48} />

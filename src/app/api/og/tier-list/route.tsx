@@ -22,9 +22,6 @@ import {
   StarMark,
 } from "@/lib/og-primitives";
 import { OG_COLORS, SITE_URL } from "@/lib/seo";
-import {
-  MAX_ITEMS_PER_TIER,
-} from "@/lib/tier-list/constants";
 import { tierListPayloadSchema } from "@/lib/tier-list/schema";
 import { isShortId } from "@/lib/tier-list/short-id";
 import { getTierList } from "@/lib/tier-list/store";
@@ -556,7 +553,3 @@ function stripProtocol(href: string): string {
   return href.replace(/^https?:\/\//, "");
 }
 
-// `MAX_ITEMS_PER_TIER` import is the canonical cap; expose locally so callers
-// can import this module to get the renderer's idea of "row is full". Keeps
-// the constant single-sourced from the schema.
-export const OG_TIER_LIST_MAX_ITEMS_PER_TIER = MAX_ITEMS_PER_TIER;

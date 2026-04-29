@@ -24,8 +24,10 @@ const BASE = 'https://api.smithery.ai/skills';
 // what the API will give us. With pageSize=100 we collect 200+ skills in
 // 2-3 calls, well under their rate budget.
 const PAGE_SIZE = 100;
-const MAX_PAGES = 3;
-const TOP_KEEP = 200;
+// Sprint bump: 3→20 pages, 200→1000 keep. Smithery rate budget is generous;
+// 20 sequential pages with the existing inter-page sleep is ~10s wall.
+const MAX_PAGES = 20;
+const TOP_KEEP = 1000;
 const RECENCY_HALF_LIFE_DAYS = 30;
 const QUALITY_WEIGHT = 0.5;
 

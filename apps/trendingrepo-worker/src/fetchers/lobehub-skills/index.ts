@@ -17,7 +17,9 @@ import { loadEnv } from '../../lib/env.js';
 const PAGE_URL = 'https://lobehub.com/skills';
 const FIRECRAWL_BASE = 'https://api.firecrawl.dev';
 const WAIT_MS = 10_000;
-const TOP_KEEP = 200;
+// Sprint bump: 200→1000 keep. The Firecrawl path can yield ~1000 rows
+// with waitFor=10s, so the prior cap was the bottleneck not the upstream.
+const TOP_KEEP = 1000;
 const RECENCY_HALF_LIFE_DAYS = 30;
 
 interface FirecrawlScrapeResponse {

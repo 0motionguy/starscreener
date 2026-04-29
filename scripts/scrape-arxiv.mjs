@@ -46,8 +46,8 @@ const OUT_PATH = resolve(DATA_DIR, "arxiv-recent.json");
 
 const ENDPOINT =
   "https://export.arxiv.org/api/query?" +
-  "search_query=cat:cs.AI+OR+cat:cs.CL+OR+cat:cs.LG" +
-  "&sortBy=submittedDate&sortOrder=descending&max_results=100";
+  "search_query=cat:cs.AI+OR+cat:cs.CL+OR+cat:cs.LG+OR+cat:cs.CV+OR+cat:cs.MA+OR+cat:stat.ML" +
+  "&sortBy=submittedDate&sortOrder=descending&max_results=1000";
 
 const USER_AGENT = "TrendingRepo/1.0 (+https://trendingrepo.com)";
 

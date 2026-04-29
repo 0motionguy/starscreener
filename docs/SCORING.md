@@ -169,3 +169,71 @@ From repo root:
 ```
 npm run typecheck
 ```
+
+---
+
+## Consensus Trending (0-100)
+
+**Slug:** `ss:data:v1:consensus-trending`
+**Worker fetchers:**
+- `apps/trendingrepo-worker/src/fetchers/trendshift-daily/`
+- `apps/trendingrepo-worker/src/fetchers/consensus-trending/`
+**Schedule:** hourly at minute `:50`
+**Public route:** `GET /api/scoring/consensus?limit=N` (default 50, max 200)
+**App-side reader:** `src/lib/consensus-trending.ts`
+
+### Purpose
+
+A source-fusion leaderboard for repos that are rising across independent
+discovery engines. It does not replace the engagement composite; it uses the
+engagement composite as the internal STARSCREENER signal, then cross-checks it
+against OSS Insight and Trendshift.
+
+### Inputs
+
+| Source | Upstream slug | Field / derivation |
+|---|---|---|
+| `ours` | `engagement-composite` | `items[].compositeScore` and rank |
+| `oss` | `trending` | `buckets.past_24_hours.All[]` from OSS Insight |
+| `trendshift` | `trendshift-daily` | Trendshift daily repository order scraped from public repository links |
+
+### Composition
+
+Weights sum to **1.00** and are asserted in
+`tests/fetchers/consensus-trending/scoring.test.ts`.
+
+| Source | Weight |
+|---|---:|
+| `ours` | 0.45 |
+| `oss` | 0.25 |
+| `trendshift` | 0.30 |
+
+`ours` uses the 0-100 engagement score directly. External sources use rank
+normalization:
+
+```
+rankScore = 1 / sqrt(rank)
+```
+
+A coverage bonus is added after the weighted sum:
+
+| Sources present | Bonus |
+|---|---:|
+| 3 | +12 points |
+| 2 | +6 points |
+| 1 | +0 points |
+
+Final score:
+
+```
+consensusScore = round(clamp01(weightedSourceScore + coverageBonus) * 100, 1 decimal)
+```
+
+### Badges
+
+| Badge | Meaning |
+|---|---|
+| `consensus_pick` | Present in STARSCREENER, OSS Insight, and Trendshift |
+| `our_early_signal` | Strong STARSCREENER score, absent from both external feeds |
+| `external_breakout` | Present in OSS Insight and Trendshift, absent from STARSCREENER |
+| `divergence` | Present in all feeds but weak internally, useful for manual inspection |

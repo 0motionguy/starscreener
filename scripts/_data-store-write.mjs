@@ -214,6 +214,34 @@ export async function writeDataStore(key, value, opts = {}) {
 }
 
 /**
+ * Read a JSON payload from the data-store under the same `ss:data:v1:<slug>`
+ * namespace `writeDataStore` writes to. Returns `null` when Redis is disabled,
+ * the key is missing, or the value cannot be parsed back to JSON. Used by
+ * collectors that need to read-modify-write (e.g. star-activity append).
+ *
+ * @param {string} key Slug, e.g. "star-activity:vercel__next.js"
+ * @returns {Promise<unknown | null>}
+ */
+export async function readDataStore(key) {
+  const client = await getClient();
+  if (!client) return null;
+  const raw = await client.get(`${NAMESPACE}:${key}`);
+  if (raw === null || raw === undefined) return null;
+  if (typeof raw === "string") {
+    try {
+      return JSON.parse(raw);
+    } catch {
+      return null;
+    }
+  }
+  // ioredis returns string-or-null. Upstash REST may auto-decode JSON to an
+  // object — pass that through unchanged so the caller doesn't have to know
+  // which backend is wired.
+  if (typeof raw === "object") return raw;
+  return null;
+}
+
+/**
  * Gracefully close the underlying Redis connection. Optional — ioredis lets
  * the process exit cleanly even with a live client. Useful in long-running
  * scripts (e.g. test harness) that want explicit cleanup.

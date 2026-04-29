@@ -1,0 +1,43 @@
+name: Refresh star activity
+
+# Daily forward-append: one new (date, cumulative_stars) point per tracked
+# repo. Cheap — one /repos/{owner}/{name} call per repo (no pagination).
+# The one-shot full-history backfill is a separate script that runs manually.
+
+on:
+  schedule:
+    # 03:17 UTC daily — after the metadata cron at 03:00 has populated
+    # the latest stargazers_count, before the European morning surge.
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: star-activity-append
+  cancel-in-progress: false
+
+jobs:
+  append:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        # _data-store-write.mjs dynamically imports `ioredis` on demand;
+        # without node_modules the import throws ERR_MODULE_NOT_FOUND.
+        run: npm ci
+
+      - name: Append today's star-activity point per tracked repo
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/append-star-activity.mjs

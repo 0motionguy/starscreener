@@ -386,6 +386,14 @@ export function SidebarContent({
             active={pathname === "/" && activeMetaFilter === null}
           />
           <V2NavRow
+            href="/consensus"
+            icon={Radar}
+            label="Consensus"
+            badge="3X"
+            badgeTone="accent"
+            active={pathname === "/consensus"}
+          />
+          <V2NavRow
             href="/skills"
             icon={GraduationCap}
             label="Trending Skills"

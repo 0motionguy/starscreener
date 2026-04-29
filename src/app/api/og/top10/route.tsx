@@ -468,7 +468,7 @@ function CardJSX({
               fontSize: subSize,
             }}
           >
-            // no entries yet — check back after the next refresh
+            {"// no entries yet — check back after the next refresh"}
           </span>
         )}
       </div>

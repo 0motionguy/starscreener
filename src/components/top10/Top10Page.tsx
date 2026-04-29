@@ -312,7 +312,7 @@ function PageHead() {
           }}
         >
           <b style={{ color: "var(--v2-acc, #f56e0f)" }}>TOOL · 05</b>{" "}
-          // TOP 10 · SHAREABLE RANKINGS
+          {"// TOP 10 · SHAREABLE RANKINGS"}
         </div>
         <h1
           className="font-display"
@@ -1060,7 +1060,7 @@ function EmptyRows() {
         letterSpacing: "0.14em",
       }}
     >
-      // no entries yet — check back after the next refresh
+      {"// no entries yet — check back after the next refresh"}
     </div>
   );
 }
@@ -1249,7 +1249,7 @@ function ShareStack({
         >
           <CornerDots />
           <span style={{ color: "var(--v3-ink-100, #eef0f2)", fontWeight: 600 }}>
-            // SHARE
+            {"// SHARE"}
           </span>
           <span
             style={{
@@ -1761,7 +1761,7 @@ function Mini({
             padding: "10px 0",
           }}
         >
-          // empty
+          {"// empty"}
         </div>
       ) : (
         <ol

@@ -15,11 +15,15 @@ import {
   MAX_TIERS,
   MAX_TITLE_CHARS,
   MIN_TIERS,
+  type TierColor,
   TIER_COLORS,
 } from "@/lib/tier-list/constants";
 
+// `TIER_COLORS` is a `readonly [...] as const` tuple. Zod's `z.enum` needs a
+// mutable `[T, ...T[]]` shape, so we cast — but preserve the literal element
+// type so the inferred output is the `TierColor` union, not `string`.
 const tierColorSchema = z.enum(
-  TIER_COLORS as unknown as [string, ...string[]],
+  TIER_COLORS as unknown as [TierColor, ...TierColor[]],
 );
 
 // "vercel/next.js" — owner and name segments restricted to GitHub's safe chars.

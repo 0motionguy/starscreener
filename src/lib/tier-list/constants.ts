@@ -41,9 +41,12 @@ export const MAX_TITLE_CHARS = 80;
 export const MAX_DESCRIPTION_CHARS = 200;
 export const MAX_LABEL_CHARS = 8;
 
-/** Redis namespace slug — combined with `ss:data:v1:` by the data-store. */
+// Data-store key uses "/" between the namespace slug and the shortId so the
+// optional file-mirror writes a valid path on every OS (`data/tier-lists/X.json`).
+// The data-store prepends `ss:data:v1:` to the bare key — the Redis key ends up
+// `ss:data:v1:tier-lists/<shortId>`, which Redis treats as opaque bytes.
 export const TIER_LIST_KEY_PREFIX = "tier-lists";
 
 export function tierListStoreKey(shortId: string): string {
-  return `${TIER_LIST_KEY_PREFIX}:${shortId}`;
+  return `${TIER_LIST_KEY_PREFIX}/${shortId}`;
 }

@@ -242,4 +242,12 @@ export const useTierListEditor = create<
       };
     });
   },
+
+  openPicker(repoId) {
+    set({ pickerTarget: repoId });
+  },
+
+  closePicker() {
+    set({ pickerTarget: null });
+  },
 }));

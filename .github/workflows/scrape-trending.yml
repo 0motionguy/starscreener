@@ -28,11 +28,10 @@ jobs:
           cache: "npm"
 
       - name: Install dependencies
-        # Required for `_data-store-write.mjs` to import `ioredis` (Railway path).
-        # The script does a dynamic `await import("ioredis")` and fails the
-        # whole job if the module is missing — which silently broke this
-        # workflow for ~24h after the Redis backend switched from Upstash REST
-        # to ioredis (commit 89273868).
+        # _data-store-write.mjs dynamically imports `ioredis` when REDIS_URL
+        # is set on a step. Without node_modules the import throws
+        # ERR_MODULE_NOT_FOUND and the whole pipeline fails. (Boundary:
+        # PR #9 / 89273868, 2026-04-28T12:00Z added the import.)
         run: npm ci
 
       - name: Refresh OSSInsight trending + hot collections

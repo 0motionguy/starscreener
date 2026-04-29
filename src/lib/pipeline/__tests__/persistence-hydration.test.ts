@@ -522,6 +522,7 @@ test("debounced persist coalesces a burst of mutations into one flush", async ()
   const { memoryStores, filePersistence } = harness;
 
   let persistTimer: ReturnType<typeof setTimeout> | null = null;
+  let persistDone: Promise<void> | null = null;
   let persistsFired = 0;
   const store = new memoryStores.InMemoryRepoStore();
 
@@ -532,7 +533,7 @@ test("debounced persist coalesces a burst of mutations into one flush", async ()
       persistsFired += 1;
       // Use the fresh file-persistence module so DATA_DIR reads this
       // test's STARSCREENER_DATA_DIR.
-      void store.persist();
+      persistDone = store.persist();
     }, delayMs);
   };
 
@@ -551,6 +552,7 @@ test("debounced persist coalesces a burst of mutations into one flush", async ()
       1,
       "three upserts should coalesce into one persist",
     );
+    await persistDone;
 
     const filePath = path.join(harness.dir, filePersistence.FILES.repos);
     const raw = await fs.readFile(filePath, "utf8");

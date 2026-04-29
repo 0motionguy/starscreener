@@ -734,6 +734,14 @@ export function SidebarContent({
             active={pathname === "/mindshare"}
           />
           <V2NavRow
+            href="/top10"
+            icon={BarChart3}
+            label="Top 10"
+            badge="New"
+            badgeTone="accent"
+            active={pathname === "/top10" || pathname.startsWith("/top10/")}
+          />
+          <V2NavRow
             href="/signals"
             icon={Radar}
             label="Signal Radar"

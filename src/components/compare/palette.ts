@@ -1,13 +1,14 @@
-// Single source of truth for the 4-slot compare palette. Banner accents,
+// Single source of truth for the 5-slot compare palette. Banner accents,
 // chart strokes, repo-profile column headers, and heatmap series all index
 // into the same slot, so swapping or extending the palette stays in one
 // place. Resolves to `var(--color-series-N)` so theme overrides flow
-// through automatically.
+// through automatically. Bumped 4→5 in Wave 3 (/compare redesign).
 export const COMPARE_PALETTE: readonly string[] = [
   "var(--color-series-1)",
   "var(--color-series-2)",
   "var(--color-series-3)",
   "var(--color-series-4)",
+  "var(--color-series-5)",
 ];
 
-export const COMPARE_MAX_SLOTS = 4;
+export const COMPARE_MAX_SLOTS = 5;

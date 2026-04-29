@@ -70,13 +70,14 @@
   --color-heat-neutral: #878787;
   --color-heat-cool: #60a5fa;
 
-  /* ── Chart series — 4-slot rotating palette for compare/heatmap/multi-line.
+  /* ── Chart series — 5-slot rotating palette for compare/heatmap/multi-line.
      Slot order matches the compare-page selector pills + repo-profile columns
      so chart strokes, banner accents, and column headers line up by index. */
   --color-series-1: #22c55e;  /* green  — slot 0 */
   --color-series-2: #3b82f6;  /* blue   — slot 1 */
   --color-series-3: #a855f7;  /* purple — slot 2 */
   --color-series-4: #f59e0b;  /* amber  — slot 3 */
+  --color-series-5: #ef4444;  /* red    — slot 4 (compare cap bumped 4→5 in W3) */
 
   /* ── Terminal surfaces ─────────────────────────────────────────────────── */
   --color-terminal-row-hover: rgba(245, 110, 15, 0.04);

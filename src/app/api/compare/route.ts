@@ -41,7 +41,7 @@ export const dynamic = "force-dynamic";
 
 const FULL_NAME_RE = /^[A-Za-z0-9._-]+\/[A-Za-z0-9._-]+$/;
 const ID_RE = /^[A-Za-z0-9._-]+--[A-Za-z0-9._-]+$/;
-const MAX_REPOS = 4;
+const MAX_REPOS = 5;
 
 interface CompareRepoRow {
   fullName: string;

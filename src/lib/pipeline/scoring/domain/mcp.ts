@@ -28,10 +28,23 @@ export interface McpItem extends DomainItem {
   isStdio?: boolean;
   /** ISO timestamp of the last npm/pypi release — feeds lastReleaseRecency. */
   lastReleaseAt?: string;
+  /**
+   * Absolute install count snapshot (lifetime, not delta). Cold-start
+   * fallback for `installsAbs` component — fires only when both
+   * npmDownloads7d and pypiDownloads7d are undefined.
+   */
+  installsTotal?: number;
+  /**
+   * Absolute star count for the MCP's GitHub repo. Cold-start fallback
+   * for `starsAbs` — fires only when downloads + dependents are absent.
+   */
+  stars?: number;
 }
 
 const COMPONENT_LABELS: Record<string, string> = {
   downloadsCombined7d: "downloads 7d",
+  installsAbs: "installs abs",
+  starsAbs: "stars abs",
   livenessUptime7d: "uptime",
   toolCount: "tools",
   smitheryRankInverse: "smithery rank",
@@ -41,8 +54,13 @@ const COMPONENT_LABELS: Record<string, string> = {
   lastReleaseRecency: "release recency",
 };
 
+// `installsAbs` and `starsAbs` are cold-start fallbacks — they fire only
+// when their stronger counterparts are absent. Smaller weights than the
+// primary signals because absolute snapshots are noisier than 7d deltas.
 const DEFAULT_WEIGHTS: Readonly<Record<string, number>> = Object.freeze({
   downloadsCombined7d: 0.25,
+  installsAbs: 0.15,
+  starsAbs: 0.10,
   livenessUptime7d: 0.20,
   toolCount: 0.15,
   smitheryRankInverse: 0.15,
@@ -85,6 +103,16 @@ function computeOne(item: McpItem): ScoredItem<McpItem> {
   if (hasNpm || hasPypi) {
     components.downloadsCombined7d = logNorm(downloadsSum, 50000);
     activeWeights.downloadsCombined7d = DEFAULT_WEIGHTS.downloadsCombined7d;
+  } else if (item.installsTotal !== undefined && item.installsTotal > 0) {
+    // installsAbs (0.15): cold-start fallback when neither npm nor pypi 7d
+    // delta is available. Mutually exclusive with downloadsCombined7d.
+    components.installsAbs = logNorm(item.installsTotal, 50_000);
+    activeWeights.installsAbs = DEFAULT_WEIGHTS.installsAbs;
+  } else if (item.stars !== undefined && item.stars > 0) {
+    // starsAbs (0.10): final fallback when no install/download signal at
+    // all. Lets brand-new MCPs with a popular GitHub repo still rank.
+    components.starsAbs = logNorm(item.stars, 5_000);
+    activeWeights.starsAbs = DEFAULT_WEIGHTS.starsAbs;
   }
 
   // livenessUptime7d (0.20): drop for stdio servers
@@ -147,9 +175,13 @@ function computeOne(item: McpItem): ScoredItem<McpItem> {
   const primaryMetric =
     hasNpm || hasPypi
       ? { name: "downloads_7d", value: downloadsSum, label: "Downloads" }
-      : item.toolCount !== undefined
-        ? { name: "tool_count", value: item.toolCount, label: "Tools" }
-        : { name: "none", value: 0, label: "—" };
+      : item.installsTotal !== undefined && item.installsTotal > 0
+        ? { name: "installs_total", value: item.installsTotal, label: "Installs" }
+        : item.stars !== undefined && item.stars > 0
+          ? { name: "stars", value: item.stars, label: "Stars" }
+          : item.toolCount !== undefined
+            ? { name: "tool_count", value: item.toolCount, label: "Tools" }
+            : { name: "none", value: 0, label: "—" };
 
   const explanation = topContributorsExplanation(
     components,

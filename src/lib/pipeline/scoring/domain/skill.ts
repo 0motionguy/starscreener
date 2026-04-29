@@ -30,7 +30,9 @@ export interface SkillItem extends DomainItem {
 
 const COMPONENT_LABELS: Record<string, string> = {
   installsDelta7d: "installs Δ7d",
+  installsAbs: "installs abs",
   forkVelocity7d: "forks Δ7d",
+  forksAbs: "forks abs",
   forkRatio: "fork ratio",
   derivativeRepoCount: "derivatives",
   awesomeListInclusion: "awesome lists",
@@ -39,9 +41,17 @@ const COMPONENT_LABELS: Record<string, string> = {
   freshness: "freshness",
 };
 
+// Day-1 deployment defect: with no 7d-ago snapshot, every delta-based
+// component drops and the scorer falls back to {freshness, agentSupport}
+// only — producing a useless 25-28 spread. The `installsAbs` and
+// `forksAbs` fallbacks fire ONLY when their delta counterparts cannot
+// (mutually exclusive). Smaller weight than the deltas because absolute
+// snapshots are noisier signal.
 const DEFAULT_WEIGHTS: Readonly<Record<string, number>> = Object.freeze({
   installsDelta7d: 0.30,
+  installsAbs: 0.20,
   forkVelocity7d: 0.10,
+  forksAbs: 0.12,
   forkRatio: 0.10,
   derivativeRepoCount: 0.10,
   awesomeListInclusion: 0.15,
@@ -59,6 +69,11 @@ function computeOne(item: SkillItem): ScoredItem<SkillItem> {
     const delta = item.installs7d - item.installsPrev7d;
     components.installsDelta7d = logNorm(delta, 1000);
     activeWeights.installsDelta7d = DEFAULT_WEIGHTS.installsDelta7d;
+  } else if (item.installs7d !== undefined && item.installs7d > 0) {
+    // installsAbs (0.20): mutually exclusive with installsDelta7d. Fires only
+    // when there's no 7d-ago snapshot to subtract (cold-start window).
+    components.installsAbs = logNorm(item.installs7d, 50_000);
+    activeWeights.installsAbs = DEFAULT_WEIGHTS.installsAbs;
   }
 
   // forkVelocity7d (0.10): drop if either field missing. Negative deltas
@@ -67,6 +82,11 @@ function computeOne(item: SkillItem): ScoredItem<SkillItem> {
     const delta = item.forks - item.forks7dAgo;
     components.forkVelocity7d = logNorm(delta, 100);
     activeWeights.forkVelocity7d = DEFAULT_WEIGHTS.forkVelocity7d;
+  } else if (item.forks !== undefined && item.forks > 0) {
+    // forksAbs (0.12): mutually exclusive with forkVelocity7d. Cold-start
+    // fallback so a skill with 12K forks gets meaningful Hotness on day-1.
+    components.forksAbs = logNorm(item.forks, 5_000);
+    activeWeights.forksAbs = DEFAULT_WEIGHTS.forksAbs;
   }
 
   // forkRatio (0.10): requires both forks and stars

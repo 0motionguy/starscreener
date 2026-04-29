@@ -9,7 +9,7 @@
 //   - 3 big stats: stars total, 24h delta (colored), momentum score
 //   - sparkline (SVG polyline) when sparklineData has ≥7 points AND >1 unique
 //     value — skipped when flat so we don't show a meaningless horizontal line
-//   - STARSCREENER wordmark bottom-left, URL bottom-right
+//   - TRENDINGREPO wordmark bottom-left, URL bottom-right
 
 import { ImageResponse } from "next/og";
 import { CATEGORIES } from "@/lib/constants";
@@ -270,7 +270,7 @@ export default async function RepoOGImage({ params }: RouteParams) {
             }}
           >
             <StarMark size={24} color={OG_COLORS.brand} />
-            <span>STARSCREENER</span>
+            <span>TRENDINGREPO</span>
           </div>
           <div
             style={{

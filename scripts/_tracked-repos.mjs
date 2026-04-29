@@ -1,6 +1,12 @@
 import { readFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 
+// Brand-migration shim: prefer the new TRENDINGREPO_* env name, fall back
+// to the legacy STARSCREENER_*. Inlined (no warn) — CI script, deprecation
+// chatter belongs in the app's boot path.
+const readEnv = (newName, oldName) =>
+  process.env[newName] ?? process.env[oldName];
+
 function addFullName(out, raw) {
   if (typeof raw !== "string") return;
   const full = raw.trim();
@@ -47,9 +53,8 @@ export function collectTrackedRepos({ trending, recent, manual } = {}) {
 
 function defaultManualJsonlPath(trendingPath) {
   const root = trendingPath ? resolve(dirname(trendingPath), "..") : process.cwd();
-  const dataDir = process.env.STARSCREENER_DATA_DIR
-    ? resolve(process.env.STARSCREENER_DATA_DIR)
-    : resolve(root, ".data");
+  const dataDirEnv = readEnv("TRENDINGREPO_DATA_DIR", "STARSCREENER_DATA_DIR");
+  const dataDir = dataDirEnv ? resolve(dataDirEnv) : resolve(root, ".data");
   return resolve(dataDir, "manual-repos.jsonl");
 }
 

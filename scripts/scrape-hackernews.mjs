@@ -21,6 +21,7 @@
 import { writeFile, mkdir, readFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 import {
   fetchTopStoryIds,
   fetchItemsBatched,
@@ -469,8 +470,36 @@ const isDirectRun = invokedPath
   : false;
 
 if (isDirectRun) {
-  main().catch((err) => {
-    console.error("scrape-hackernews failed:", err.message ?? err);
-    process.exit(1);
-  });
+  // T2.6: write data/_meta/hackernews.json after every run so the SRE
+  // freshness probe can distinguish "Algolia is down" from "quiet day".
+  // The wrapper times the run + classifies the outcome (ok / empty /
+  // network_error / partial) and never throws — its failure must not
+  // mask the underlying scrape error.
+  const startedAt = Date.now();
+  main()
+    .then(async () => {
+      try {
+        await writeSourceMetaFromOutcome({
+          source: "hackernews",
+          count: 1, // success path; precise per-output counts are in the JSONs
+          durationMs: Date.now() - startedAt,
+        });
+      } catch (metaErr) {
+        console.error("[meta] hackernews.json write failed:", metaErr);
+      }
+    })
+    .catch(async (err) => {
+      console.error("scrape-hackernews failed:", err.message ?? err);
+      try {
+        await writeSourceMetaFromOutcome({
+          source: "hackernews",
+          count: 0,
+          durationMs: Date.now() - startedAt,
+          error: err,
+        });
+      } catch (metaErr) {
+        console.error("[meta] hackernews.json error-write failed:", metaErr);
+      }
+      process.exit(1);
+    });
 }

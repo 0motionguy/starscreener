@@ -1,0 +1,48 @@
+{
+  "name": "@trendingrepo/worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Cross-source trending leaderboard worker for trendingrepo.com (skills, MCP servers, HuggingFace assets, GitHub repos, ideas).",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "node --enable-source-maps --max-old-space-size=512 dist/index.js --cron",
+    "build": "tsc -p tsconfig.json",
+    "fetcher": "tsx src/index.ts",
+    "fetcher:hf": "tsx src/index.ts huggingface",
+    "fetcher:github": "tsx src/index.ts github",
+    "job:recompute": "tsx src/jobs/recompute-scores.ts",
+    "job:publish": "tsx src/jobs/publish-leaderboards.ts",
+    "test": "vitest run",
+    "test:sql": "vitest run tests/sql",
+    "typecheck": "tsc --noEmit",
+    "supabase:start": "supabase start",
+    "supabase:reset": "supabase db reset",
+    "supabase:diff": "supabase db diff -f new_migration"
+  },
+  "dependencies": {
+    "@atproto/api": "^0.13.0",
+    "@mendable/firecrawl-js": "^1.29.3",
+    "@octokit/rest": "^21.0.2",
+    "@sentry/node": "^8.40.0",
+    "@supabase/supabase-js": "^2.45.0",
+    "@upstash/redis": "^1.37.0",
+    "cheerio": "^1.2.0",
+    "croner": "^9.1.0",
+    "ioredis": "^5.10.1",
+    "js-yaml": "^4.1.1",
+    "pino": "^9.5.0",
+    "undici": "^7.0.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^20",
+    "tsx": "^4.21.0",
+    "typescript": "^5",
+    "vitest": "^2.1.0"
+  }
+}

@@ -65,7 +65,7 @@ export const useWatchlistStore = create<WatchlistState>()(
       },
     }),
     {
-      name: "starscreener-watchlist",
+      name: "trendingrepo-watchlist",
     },
   ),
 );
@@ -111,7 +111,7 @@ export const useCompareStore = create<CompareState>()(
       },
     }),
     {
-      name: "starscreener-compare",
+      name: "trendingrepo-compare",
     },
   ),
 );
@@ -317,7 +317,7 @@ export const useFilterStore = create<FilterState>()(
       resetAll: () => set({ ...ALL_DEFAULTS }),
     }),
     {
-      name: "starscreener-filters",
+      name: "trendingrepo-filters",
       // v6 — new layout: rank, repo, STARS (lifetime total) right after
       // the name, then 24h/7d/30d windows, CHART, TREND, FORKS, actions.
       // Bump forces any v3-v5 persisted state to pick up the corrected
@@ -411,7 +411,7 @@ export const useSidebarStore = create<SidebarState>()(
       },
     }),
     {
-      name: "starscreener-sidebar",
+      name: "trendingrepo-sidebar",
       partialize: (state) => ({
         collapsedSections: state.collapsedSections,
       }),

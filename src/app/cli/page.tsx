@@ -7,6 +7,17 @@
 // handle tab naming.
 
 import type { Metadata } from "next";
+import { getDerivedRepos } from "@/lib/derived-repos";
+import { lastFetchedAt } from "@/lib/trending";
+import { trendScoreForTimeRange } from "@/lib/filters";
+import { getRelativeTime } from "@/lib/utils";
+import { formatTrendingSession } from "@/lib/cli-table-format.mjs";
+
+// ISR: the rendered transcript is computed from the same in-memory derived
+// Repo[] cache the homepage uses. Match the homepage's 30-min revalidate so
+// /cli never claims to be more current than what the rest of the site is
+// serving — and so the "last refresh" stamp under the <pre> stays honest.
+export const revalidate = 1800;
 
 export const metadata: Metadata = {
   title: "CLI — TrendingRepo",
@@ -56,41 +67,48 @@ const CLI_COMMANDS: CliCommand[] = [
   },
 ];
 
-// Live prod endpoint — the CLI reads STARSCREENER_API_URL, so a one-line
-// export gets you real data immediately. Portal v0.1 /portal + /portal/call
-// run against the same base.
-const LIVE_BASE = "https://starscreener.vercel.app";
+// Live prod endpoint — the CLI reads TRENDINGREPO_API_URL (legacy
+// STARSCREENER_API_URL also accepted), so a one-line export gets you real
+// data immediately. Portal v0.1 /portal + /portal/call run against the
+// same base.
+const LIVE_BASE = "https://trendingrepo.com";
 
-const INSTALL_LIVE = `# Pipe straight from the live Vercel deployment
+const INSTALL_LIVE = `# Pipe straight from the live deployment
 npx github:0motionguy/starscreener \\
   trending --window=24h --limit=10
 
 # Or export the API base and keep the command short across a session
-export STARSCREENER_API_URL=${LIVE_BASE}
+export TRENDINGREPO_API_URL=${LIVE_BASE}
+# (legacy STARSCREENER_API_URL also accepted)
 npx github:0motionguy/starscreener trending --limit=5`;
 
 const INSTALL_DEV = `# From a local checkout against npm run dev
 npm run cli:dev -- trending --window=24h --limit=10
 
 # Or run the bin directly
-STARSCREENER_API_URL=${LIVE_BASE} node bin/ss.mjs trending`;
+TRENDINGREPO_API_URL=${LIVE_BASE} node bin/ss.mjs trending`;
 
 const PORTAL_CLI = `# Spec-native Portal v0.1 visitor CLI — works against /portal
 # on any provider that publishes a manifest, not just TrendingRepo.
 npx @visitportal/visit ${LIVE_BASE}/portal top_gainers --limit=5`;
 
-const TRANSCRIPT = `$ ss trending --window=24h --limit=5
-Trending repos (window=24h, showing 5 of 212)
+export default async function CliPage() {
+  // Pull the derived Repo[] (same cache the homepage uses) and compute the
+  // top-5 24h trending list using the SAME sort key /api/repos applies for
+  // ?period=today. Guarantees row-order parity with what `ss trending
+  // --window=24h --limit=5` would actually print against this server.
+  const repos = getDerivedRepos();
+  const top5 = [...repos]
+    .sort(
+      (a, b) =>
+        trendScoreForTimeRange(b, "24h") - trendScoreForTimeRange(a, "24h"),
+    )
+    .slice(0, 5);
+  const transcript = formatTrendingSession(top5, {
+    windowArg: "24h",
+    total: repos.length,
+  });
 
-#  REPO                            STARS    24H      7D      MOMENTUM  STATUS
--  ------------------------------  -------  -------  ------  --------  --------
-1  anthropics/claude-code          48,214   +1,204   +6,880  94.2      hot
-2  microsoft/vscode-copilot        92,101   +874     +3,120  88.7      breakout
-3  mlabonne/llm-course             41,502   +612     +2,045  81.3      rising
-4  ollama/ollama                   112,880  +548     +1,982  79.1      rising
-5  vercel/ai                       12,044   +421     +1,210  74.8      rising`;
-
-export default function CliPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
       {/* Heading ------------------------------------------------------ */}
@@ -140,7 +158,7 @@ export default function CliPage() {
         <p className="text-text-tertiary text-xs mt-2">
           Every command accepts{" "}
           <span className="font-mono text-text-secondary">
-            STARSCREENER_API_URL=https://…
+            TRENDINGREPO_API_URL=https://…
           </span>{" "}
           to point at a non-default API.
         </p>
@@ -187,8 +205,12 @@ export default function CliPage() {
           terminal:
         </p>
         <pre className="bg-bg-card border border-border-primary rounded-md p-3 font-mono text-[13px] overflow-x-auto whitespace-pre text-text-primary">
-          {TRANSCRIPT}
+          {transcript}
         </pre>
+        <p className="mt-2 font-mono text-[11px] text-text-tertiary">
+          Live · refreshed every 30 min · last refresh{" "}
+          {getRelativeTime(lastFetchedAt)}
+        </p>
       </section>
     </div>
   );

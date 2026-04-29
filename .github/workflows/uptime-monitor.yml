@@ -1,0 +1,99 @@
+name: Uptime monitor (every 5 minutes)
+
+# Pings 4 production hosts every 5 minutes, sends one PostHog `uptime_check`
+# event per host with status_code + latency_ms. The job exits non-zero if ANY
+# host returns a non-2xx, which surfaces in GitHub Actions notifications +
+# the workflow run UI.
+#
+# Why here (starscreener), not agnt: starscreener is a public repo on the
+# free GitHub plan, so Actions minutes are unlimited. The agnt repo is
+# private and currently over its 2000-min monthly Actions budget — putting
+# uptime checks there would mean they don't run when the quota resets to a
+# fresh month and immediately gets eaten by CI. Public repo = always-on.
+#
+# PostHog tile to read this from:
+#   SELECT properties.host, properties.status_code, count()
+#   FROM events WHERE event = 'uptime_check' AND timestamp >= now() - INTERVAL 24 HOUR
+#   GROUP BY 1, 2 ORDER BY 3 DESC
+#
+# To add an absence alert: in PostHog → create insight on `uptime_check`
+# event count per 5-min interval, set alert "lower bound = 3" (expect 4
+# checks per 5-min window across 4 hosts; alert if fewer than 3 land
+# meaning the runner itself broke).
+
+on:
+  schedule:
+    # */5 * * * * = every 5 minutes
+    - cron: "*/5 * * * *"
+  workflow_dispatch: # also allow manual trigger from Actions tab
+
+permissions:
+  contents: read
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    strategy:
+      fail-fast: false
+      matrix:
+        host:
+          - { name: aiso, url: "https://aiso.tools/" }
+          - { name: trendingrepo, url: "https://trendingrepo.com/" }
+          - { name: agntdot, url: "https://agntdot.com/" }
+          - { name: agnt-api, url: "https://api.agntdot.com/health" }
+          # Positive control: the Railway-default hostname always points at
+          # the same Railway service. If `agnt-api` (custom domain) is RED
+          # but `agnt-api-railway` is GREEN, the backend is fine and only
+          # the custom-domain cert/edge route is broken — that's a 5-min
+          # dashboard fix (Railway → api → Settings → Domains → re-add).
+          # Found on 2026-04-28: api.agntdot.com had a stale CNAME with no
+          # matching Railway custom-domain registration, hence HTTP 000.
+          - { name: agnt-api-railway, url: "https://api-production-870c.up.railway.app/health" }
+    steps:
+      - name: Curl + PostHog ingest
+        env:
+          # Project ingest key (write-only, also embedded in browser bundles —
+          # safe to expose in a public-repo workflow).
+          POSTHOG_KEY: phc_oDeVTBdCyqdoepUZRiLL7a6DanRzuZ33Td2UdLfBqwMz
+        run: |
+          set +e
+          host="${{ matrix.host.name }}"
+          url="${{ matrix.host.url }}"
+          start=$(date +%s%3N)
+          status=$(curl -s -o /dev/null -w "%{http_code}" --max-time 15 "$url")
+          end=$(date +%s%3N)
+          latency=$((end - start))
+
+          ok=true
+          if [ -z "$status" ] || [ "$status" -lt 200 ] || [ "$status" -ge 400 ]; then
+            ok=false
+          fi
+
+          curl -s -X POST "https://us.i.posthog.com/capture/" \
+            -H "Content-Type: application/json" \
+            -d "$(cat <<JSON
+          {
+            "api_key": "$POSTHOG_KEY",
+            "event": "uptime_check",
+            "distinct_id": "uptime-monitor-github-actions",
+            "properties": {
+              "host": "$host",
+              "url": "$url",
+              "status_code": $([ -z "$status" ] && echo 0 || echo "$status"),
+              "latency_ms": $latency,
+              "ok": $ok,
+              "source": "github-actions-cron",
+              "project": "uptime"
+            }
+          }
+          JSON
+          )" > /dev/null
+
+          echo "  $host  status=$status  latency=${latency}ms  ok=$ok"
+
+          # Exit non-zero so the job is RED in Actions when ANY host is down.
+          # GitHub sends an email to the repo owner on workflow failure by default.
+          if [ "$ok" != "true" ]; then
+            exit 1
+          fi

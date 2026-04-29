@@ -29,9 +29,10 @@ async function expectAllJsonLdParse(
   await expect.poll(async () => locator.count(), { timeout: 15_000 })
     .toBeGreaterThanOrEqual(minCount);
 
-  const count = await locator.count();
-  for (let i = 0; i < count; i += 1) {
-    const raw = (await locator.nth(i).textContent()) ?? "";
+  const scripts = await locator.evaluateAll((nodes) =>
+    nodes.map((node) => node.textContent ?? ""),
+  );
+  for (const raw of scripts) {
     expect(raw.trim().length).toBeGreaterThan(0);
     // Throws on malformed JSON — that's the assertion.
     const parsed = JSON.parse(raw);

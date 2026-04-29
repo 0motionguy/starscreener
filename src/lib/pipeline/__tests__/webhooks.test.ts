@@ -32,6 +32,11 @@ const TMP_DATA_DIR = mkdtempSync(path.join(os.tmpdir(), "ss-webhooks-"));
 process.env.STARSCREENER_DATA_DIR = TMP_DATA_DIR;
 process.env.STARSCREENER_PERSIST = "false";
 process.env.CRON_SECRET = "test-cron-secret-0123456789abcdef";
+// Webhook flush/scan routes gate their test-only override symbol bags on
+// NODE_ENV === "test"; without this, mocked fetchers + injected repos are
+// silently ignored and the route attempts real network/data lookups.
+// NodeJS.ProcessEnv types NODE_ENV as readonly; cast to bypass for tests.
+(process.env as Record<string, string | undefined>).NODE_ENV = "test";
 
 const TARGETS_FILE = path.join(TMP_DATA_DIR, "webhook-targets.json");
 process.env.WEBHOOK_TARGETS_PATH = TARGETS_FILE;
@@ -337,7 +342,7 @@ test("non-https or non-provider-domain URLs are silently dropped", async () => {
 // Drain route — success / fail / dead-letter
 // ---------------------------------------------------------------------------
 
-const FLUSH_KEY = Symbol.for("starscreener.webhooks.flush.test");
+const FLUSH_KEY = Symbol.for("trendingrepo.webhooks.flush.test");
 interface FlushOverrideBag {
   overrides?: {
     fetcher?: (
@@ -522,7 +527,7 @@ test("flush respects inter-post delay", async () => {
 // Scan endpoint — idempotency
 // ---------------------------------------------------------------------------
 
-const SCAN_KEY = Symbol.for("starscreener.webhooks.scan.test");
+const SCAN_KEY = Symbol.for("trendingrepo.webhooks.scan.test");
 interface ScanOverrideBag {
   overrides?: {
     repos?: WebhookBreakoutRepo[];

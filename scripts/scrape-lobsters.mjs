@@ -33,6 +33,7 @@
 import { writeFile, mkdir } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 import { fetchJsonWithRetry } from "./_fetch-json.mjs";
 import { extractGithubRepoFullNames } from "./_github-repo-links.mjs";
 import { loadTrackedReposFromFiles } from "./_tracked-repos.mjs";
@@ -280,10 +281,34 @@ const isDirectRun = invokedPath
   : false;
 
 if (isDirectRun) {
-  main().catch((err) => {
-    console.error("scrape-lobsters failed:", err.message ?? err);
-    process.exit(1);
-  });
+  // T2.6: metadata sidecar — distinguishes outage from quiet day.
+  const startedAt = Date.now();
+  main()
+    .then(async () => {
+      try {
+        await writeSourceMetaFromOutcome({
+          source: "lobsters",
+          count: 1,
+          durationMs: Date.now() - startedAt,
+        });
+      } catch (metaErr) {
+        console.error("[meta] lobsters.json write failed:", metaErr);
+      }
+    })
+    .catch(async (err) => {
+      console.error("scrape-lobsters failed:", err.message ?? err);
+      try {
+        await writeSourceMetaFromOutcome({
+          source: "lobsters",
+          count: 0,
+          durationMs: Date.now() - startedAt,
+          error: err,
+        });
+      } catch (metaErr) {
+        console.error("[meta] lobsters.json error-write failed:", metaErr);
+      }
+      process.exit(1);
+    });
 }
 
 export { normalizeStory, extractRepoMentions };

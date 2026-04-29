@@ -225,6 +225,24 @@ export interface Repo {
       announcedAt: string;
     };
   } | null;
+
+  /**
+   * Cross-domain joins — bare arxivIds (no version suffix) of papers
+   * whose `linkedRepos` includes this repo. Populated by
+   * `attachCrossDomainJoins()` (src/lib/pipeline/cross-domain-joins.ts).
+   * Sparse / additive — undefined or empty array when no paper joins
+   * are known. Listing rows can branch on `.length` to render badges.
+   */
+  linkedArxivIds?: string[];
+
+  /**
+   * Cross-domain joins — HF model ids ("org/model") linked to this repo
+   * either directly via a `repository:` tag (rare) or transitively via
+   * a paper that cites both. Populated by `attachCrossDomainJoins()`.
+   * Sparse / additive — undefined or empty array when no HF joins are
+   * known.
+   */
+  linkedHfModels?: string[];
 }
 
 // ---------------------------------------------------------------------------

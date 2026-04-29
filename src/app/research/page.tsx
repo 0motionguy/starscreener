@@ -25,7 +25,7 @@ import { TerminalBar, MonoLabel, BarcodeTicker } from "@/components/v2";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Research — TrendingRepo",
+  title: "Research - TrendingRepo",
   description:
     "HuggingFace trending models + arXiv cs.AI / cs.CL / cs.LG recent papers, with cross-links to tracked GitHub repos.",
   alternates: { canonical: "/research" },

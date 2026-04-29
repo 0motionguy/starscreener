@@ -48,7 +48,7 @@ export function CrossSignalStrip({ mentions }: CrossSignalStripProps) {
         status={status}
         size="md"
         tooltips={{
-          github: "Indexed on StarScreener",
+          github: "Indexed on TrendingRepo",
           reddit: redditCount
             ? `Reddit: ${redditCount} mention(s)`
             : "Reddit: not firing",

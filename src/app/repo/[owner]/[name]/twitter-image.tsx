@@ -259,7 +259,7 @@ export default async function RepoTwitterImage({ params }: RouteParams) {
             }}
           >
             <StarMark size={22} color={OG_COLORS.brand} />
-            <span>STARSCREENER</span>
+            <span>TRENDINGREPO</span>
           </div>
           <div
             style={{

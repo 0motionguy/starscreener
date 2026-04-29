@@ -1,6 +1,6 @@
 "use client";
 
-// StarScreener - /portal/docs client shell.
+// TrendingRepo - /portal/docs client shell.
 //
 // Tab state + copy-to-clipboard lives here. The tool list is passed from the
 // server wrapper as plain metadata so this client bundle stays free of any
@@ -9,6 +9,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Plug, Terminal, Copy, Check } from "lucide-react";
+
+import { APP_VERSION } from "@/lib/app-meta";
 
 type Tab = "mcp" | "rest";
 
@@ -23,14 +25,14 @@ export interface PortalDocsTool {
 
 // Portal v0.1 wire format calls the method key "tool", not "method".
 // Matches src/portal/dispatcher.ts — keep these strings in lock-step.
-const LIVE_BASE = "https://starscreener.vercel.app";
+const LIVE_BASE = "https://trendingrepo.com";
 
 const VISIT_CLI = `# Portal visitor CLI (spec-native, works against any /portal endpoint)
 npx @visitportal/visit ${LIVE_BASE}/portal top_gainers --limit=10`;
 
 const MCP_INSTALL = `# Claude Code — register TrendingRepo as an HTTP MCP bridge
 # via the Portal adapter. No local checkout required.
-claude mcp add starscreener \\
+claude mcp add trendingrepo \\
   --transport http \\
   --url ${LIVE_BASE}/portal
 
@@ -52,6 +54,24 @@ export default function PortalDocsClient({
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
       <header className="mb-8">
         <span className="label-micro">MCP Portal · v0.1</span>
+        {/* Wire-protocol vs app-build clarifier. The `v0.1` above is the
+            Portal protocol — the shape of /portal request + response
+            envelopes — and only bumps on a breaking schema change. The
+            TrendingRepo web app itself ships separate semver builds via
+            package.json (linked below). */}
+        <p
+          className="mt-1 text-[11px] font-mono uppercase tracking-[0.18em]"
+          style={{ color: "var(--v3-ink-400)" }}
+        >
+          Wire protocol version · App build v{APP_VERSION} ·{" "}
+          <Link
+            href="/api/health/portal"
+            className="hover:text-[color:var(--v3-acc)]"
+            style={{ color: "var(--v3-ink-300)" }}
+          >
+            /api/health/portal
+          </Link>
+        </p>
         <h1 className="font-display text-4xl sm:text-5xl mt-2 mb-3">
           Plug TrendingRepo into any agent.
         </h1>

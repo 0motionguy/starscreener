@@ -49,6 +49,7 @@ import {
 import type { CompareRepoBundle } from "@/lib/github-compare";
 import type { Repo } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import { COMPARE_PALETTE, COMPARE_MAX_SLOTS } from "./palette";
 
 // Recharts weighs ~100KB gzipped. The compare chart sits in section 4 of a
 // deep-dive page with several sections above the fold — defer loading its
@@ -65,11 +66,11 @@ const CompareChart = dynamic(
   },
 );
 
-// Palette mirrors CompareChart's LINE_COLORS so banner accents, chart lines,
-// and heatmap series all line up slot-for-slot with the selector pills.
-const PALETTE = ["#22c55e", "#3b82f6", "#a855f7", "#f59e0b"] as const;
-
-const MAX_SLOTS = 4;
+// Local aliases keep call sites short. Palette + slot count are defined
+// once in ./palette and imported by every compare-page sibling so banner
+// accents, chart lines, and heatmap series stay in lockstep.
+const PALETTE = COMPARE_PALETTE;
+const MAX_SLOTS = COMPARE_MAX_SLOTS;
 
 /** Synthesize a well-typed ok:false bundle for IDs /api/compare didn't return. */
 function fallbackBundle(fullName: string): CompareRepoBundle {

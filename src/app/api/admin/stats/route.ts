@@ -71,7 +71,7 @@ async function fetchRateLimit(): Promise<AdminStatsResponse["rateLimit"]> {
   try {
     const headers: Record<string, string> = {
       Accept: "application/vnd.github+json",
-      "User-Agent": "starscreener-admin-stats",
+      "User-Agent": "trendingrepo-admin-stats",
     };
     const token = process.env.GITHUB_TOKEN;
     if (token) headers.Authorization = `Bearer ${token}`;

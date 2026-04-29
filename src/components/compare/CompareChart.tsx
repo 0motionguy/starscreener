@@ -9,6 +9,7 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
+  LabelList,
   ResponsiveContainer,
 } from "recharts";
 import type { Repo } from "@/lib/types";
@@ -63,7 +64,12 @@ function hasHistory(series: number[]): boolean {
 
 interface SeriesPoint {
   x: number;
+  /** Plotted Y value — log-floored when scale === "log", else === display. */
   y: number;
+  /** Metric-natural value (stars / velocity / mindshare%) — for end-of-line
+   *  labels and tooltips, regardless of log transform. */
+  display: number;
+  /** Raw cumulative star count, preserved across all metric modes. */
   stars: number;
 }
 
@@ -137,6 +143,7 @@ function buildAllSeries(
             ? i
             : Date.parse(`${pt.d}T00:00:00Z`),
         y: logFloor(yByPoint[i], scale),
+        display: yByPoint[i],
         stars: pt.s,
       }));
       return {
@@ -166,6 +173,7 @@ function buildAllSeries(
       return {
         x: mode === "timeline" ? i : todayMs - daysAgo * 86_400_000,
         y: logFloor(s, scale),
+        display: s,
         stars: s,
       };
     });
@@ -190,6 +198,92 @@ function formatTimelineTick(daysSinceStart: number): string {
   if (daysSinceStart < 30) return `d${Math.round(daysSinceStart)}`;
   if (daysSinceStart < 365) return `${Math.round(daysSinceStart / 30)}mo`;
   return `${(daysSinceStart / 365).toFixed(1)}y`;
+}
+
+function formatEndLabelValue(
+  display: number,
+  metric: StarActivityMetric,
+): string {
+  if (metric === "velocity") {
+    const sign = display >= 0 ? "+" : "";
+    return `${sign}${formatNumber(Math.round(display))}/d`;
+  }
+  if (metric === "mindshare") return `${display.toFixed(0)}%`;
+  return formatNumber(display);
+}
+
+interface EndLabelProps {
+  shortName: string;
+  color: string;
+  metric: StarActivityMetric;
+  lastIndex: number;
+  /** Compact = mobile breakpoint, smaller font + only the value (no name). */
+  compact?: boolean;
+}
+
+/**
+ * Recharts LabelList content renderer that draws each series' label off
+ * the right edge of the chart, but ONLY at the last data point. The line
+ * colour carries through so the reader can map label → series without
+ * scanning the legend.
+ */
+function makeEndLabel({
+  shortName,
+  color,
+  metric,
+  lastIndex,
+  compact = false,
+}: EndLabelProps) {
+  return function EndOfLineLabel(rawProps: unknown) {
+    const props = rawProps as {
+      x?: number;
+      y?: number;
+      index?: number;
+      value?: number;
+      payload?: SeriesPoint;
+    };
+    if (props.index !== lastIndex) return null;
+    if (typeof props.x !== "number" || typeof props.y !== "number") return null;
+    const display = props.payload?.display ?? props.value ?? 0;
+    const valueText = formatEndLabelValue(display, metric);
+    const nameSize = compact ? 10 : 11;
+    const valueSize = compact ? 9 : 10;
+    return (
+      <g>
+        {!compact && (
+          <text
+            x={props.x + 6}
+            y={props.y - 6}
+            fill={color}
+            fontSize={nameSize}
+            fontFamily="var(--font-geist-mono), monospace"
+            fontWeight={600}
+            textAnchor="start"
+            dominantBaseline="middle"
+          >
+            {shortName}
+          </text>
+        )}
+        <text
+          x={props.x + 6}
+          y={props.y + (compact ? 0 : 8)}
+          fill={color}
+          opacity={0.75}
+          fontSize={valueSize}
+          fontFamily="var(--font-geist-mono), monospace"
+          textAnchor="start"
+          dominantBaseline="middle"
+        >
+          {valueText}
+        </text>
+      </g>
+    );
+  };
+}
+
+function shortNameOf(fullName: string): string {
+  const parts = fullName.split("/");
+  return parts[1] ?? fullName;
 }
 
 interface CustomTooltipProps {
@@ -505,7 +599,19 @@ export function CompareChart({
                   dot={false}
                   activeDot={{ r: 4, strokeWidth: 0 }}
                   isAnimationActive={false}
-                />
+                >
+                  {s.data.length > 0 && (
+                    <LabelList
+                      dataKey="y"
+                      content={makeEndLabel({
+                        shortName: shortNameOf(s.fullName),
+                        color: COMPARE_PALETTE[i],
+                        metric,
+                        lastIndex: s.data.length - 1,
+                      })}
+                    />
+                  )}
+                </Line>
               ))}
             </LineChart>
           </ResponsiveContainer>
@@ -561,7 +667,20 @@ export function CompareChart({
                   dot={false}
                   activeDot={{ r: 3, strokeWidth: 0 }}
                   isAnimationActive={false}
-                />
+                >
+                  {s.data.length > 0 && (
+                    <LabelList
+                      dataKey="y"
+                      content={makeEndLabel({
+                        shortName: shortNameOf(s.fullName),
+                        color: COMPARE_PALETTE[i],
+                        metric,
+                        lastIndex: s.data.length - 1,
+                        compact: true,
+                      })}
+                    />
+                  )}
+                </Line>
               ))}
             </LineChart>
           </ResponsiveContainer>

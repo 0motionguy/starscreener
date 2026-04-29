@@ -380,7 +380,15 @@ function StarActivityCard({
     : "// STAR ACTIVITY";
 
   const single = !isCompare ? bundles[0] : null;
-  const singleStars = single?.repo?.stars ?? 0;
+  // Prefer payload's latest cumulative for the star count — repos in
+  // star-activity Redis but not in our `derived-repos` index (e.g. when an
+  // operator backfilled an untracked repo on demand) would otherwise render
+  // as "★ 0" because getDerivedRepoByFullName() returns null.
+  const payloadLatest =
+    single?.payload && single.payload.points.length > 0
+      ? single.payload.points[single.payload.points.length - 1].s
+      : 0;
+  const singleStars = single?.repo?.stars ?? payloadLatest;
   const singleDescription = single?.repo?.description ?? "";
 
   // Find peak daily delta and "since" date for the single-repo footer band.

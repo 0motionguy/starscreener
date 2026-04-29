@@ -1,6 +1,7 @@
 import type { SignalRow } from "@/components/signal/SignalTable";
 import { getDataStore, type DataReadResult, type DataSource } from "./data-store";
 import { resolveLogoUrl } from "./logo-url";
+import { repoLogoUrl } from "./logos";
 import { skillScorer, type SkillItem } from "./pipeline/scoring/domain/skill";
 import { mcpScorer, type McpItem } from "./pipeline/scoring/domain/mcp";
 import { computeCrossDomainMomentum } from "./pipeline/scoring/cross-domain";
@@ -766,7 +767,12 @@ function coerceSkillsShItem(
       postedAt: asString(item.last_pushed_at) ?? fallbackDate,
       sourceLabel: "skills.sh",
       vendor: null,
-      logoUrl: null,
+      // Resolve the GitHub owner avatar from the linked repo when present;
+      // fall back to a favicon derived from the entry's URL host. Skills.sh
+      // doesn't ship logo_url, so this is what makes /skills render avatars
+      // instead of blank monogram tiles.
+      logoUrl:
+        repoLogoUrl(linkedRepo, 80) ?? resolveLogoUrl(url, skillName, 64),
       brandColor: null,
       verified: false,
       crossSourceCount: 1,
@@ -805,7 +811,9 @@ function coerceGithubSkillItem(
       postedAt: asString(item.pushed_at) ?? asString(item.created_at),
       sourceLabel: "GitHub topics",
       vendor: null,
-      logoUrl: null,
+      // Always derivable here — `fullName` is always "owner/repo" for the
+      // GitHub topic feed, so the GitHub owner avatar is the right logo.
+      logoUrl: repoLogoUrl(fullName, 80),
       brandColor: null,
       verified: false,
       crossSourceCount: 1,

@@ -1,7 +1,7 @@
 import type { SignalRow } from "@/components/signal/SignalTable";
 import { getDataStore, type DataReadResult, type DataSource } from "./data-store";
 import { resolveLogoUrl } from "./logo-url";
-import { repoLogoUrl } from "./logos";
+import { mcpEntityLogoUrl, repoLogoUrl } from "./logos";
 import { skillScorer, type SkillItem } from "./pipeline/scoring/domain/skill";
 import { mcpScorer, type McpItem } from "./pipeline/scoring/domain/mcp";
 import { computeCrossDomainMomentum } from "./pipeline/scoring/cross-domain";
@@ -70,6 +70,15 @@ export interface McpDisplayFields {
   smitheryRank: number | null;
   smitheryTotal: number | null;
   npmDependents: number | null;
+  /**
+   * Q3 escalation (2026-04-29): absolute snapshots from the publish
+   * payload (`metrics.installs_total`, `metrics.stars_total`). Surfaced
+   * here so the Weekly DL cell can fall through to them when no per-
+   * registry 7d delta or dependents count is available — fixes the
+   * day-1 cold-start blackout where every row rendered `—`.
+   */
+  installsTotal: number | null;
+  starsTotal: number | null;
   /**
    * Per-registry source tags from the merger's `raw.sources` array. Each
    * entry is one of "official" (Anthropic), "smithery", "glama",
@@ -605,7 +614,10 @@ export function ecosystemBoardToRows(board: EcosystemBoard): SignalRow[] {
       ? `https://github.com/${encodeURIComponent(item.linkedRepo.split("/", 1)[0] ?? "")}.png?size=40`
       : null;
     const urlFavicon = resolveLogoUrl(item.url, item.title, 64);
-    const resolvedLogo = item.logoUrl ?? repoAvatar ?? urlFavicon;
+    const resolvedLogo =
+      board.kind === "mcp"
+        ? mcpEntityLogoUrl(item, 40)
+        : item.logoUrl ?? repoAvatar ?? urlFavicon;
     return {
       id: `${board.kind}:${item.id}`,
       title: item.title,
@@ -1011,6 +1023,11 @@ function buildMcpDisplayFields(args: {
         .filter((s): s is string => Boolean(s))
     : [];
 
+  // Q3 escalation: surface absolute snapshots so the Weekly DL cell can
+  // gracefully fall back when no per-registry 7d delta is available.
+  const installsTotal = asNumber(metrics?.installs_total) ?? null;
+  const starsTotal = asNumber(metrics?.stars_total) ?? null;
+
   return {
     transport,
     isStdio,
@@ -1026,6 +1043,8 @@ function buildMcpDisplayFields(args: {
     smitheryRank: smitheryRankEntry?.rank ?? null,
     smitheryTotal: smitheryRankEntry?.total ?? null,
     npmDependents: dependentsCount ?? null,
+    installsTotal,
+    starsTotal,
     sources: rawSources,
   };
 }
@@ -1270,6 +1289,12 @@ function buildMcpItem(
     ? leafName(item.linkedRepo) ?? undefined
     : undefined;
 
+  // Q3+Q4 escalation (2026-04-29): pass through absolute snapshots from the
+  // publish payload so the scorer can fall back to `installsAbs` / `starsAbs`
+  // during the day-1 cold-start window when no 7d-ago snapshot exists yet.
+  const installsTotalAbs = asNumber(metrics?.installs_total) ?? undefined;
+  const starsTotalAbs = asNumber(metrics?.stars_total) ?? undefined;
+
   return {
     domainKey: "mcp",
     id: item.id,
@@ -1286,6 +1311,8 @@ function buildMcpItem(
     p50LatencyMs: liveness ? asNumber(liveness.p50LatencyMs) ?? undefined : undefined,
     isStdio: liveness ? asBoolean(liveness.isStdio) : false,
     lastReleaseAt,
+    installsTotal: installsTotalAbs,
+    stars: starsTotalAbs,
   };
 }
 

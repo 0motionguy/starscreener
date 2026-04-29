@@ -13,7 +13,10 @@ import {
 } from "recharts";
 import type { Repo } from "@/lib/types";
 import {
+  computeMindshareSeries,
+  computeVelocitySeries,
   filterPayloadByWindow,
+  type StarActivityMetric,
   type StarActivityMode,
   type StarActivityPayload,
   type StarActivityScale,
@@ -36,9 +39,12 @@ interface CompareChartProps {
   scale?: StarActivityScale;
   /** Controlled window. Defaults to internal state, default "all". */
   window?: StarActivityWindow;
+  /** Controlled metric. Defaults to internal state, default "stars". */
+  metric?: StarActivityMetric;
   onModeChange?: (mode: StarActivityMode) => void;
   onScaleChange?: (scale: StarActivityScale) => void;
   onWindowChange?: (window: StarActivityWindow) => void;
+  onMetricChange?: (metric: StarActivityMetric) => void;
 }
 
 const MIN_HISTORY_DAYS = 7;
@@ -82,43 +88,94 @@ function logFloor(value: number, scale: StarActivityScale): number {
   return scale === "log" ? Math.max(1, value) : value;
 }
 
-function buildSeriesForRepo(
-  repo: Repo,
+/**
+ * Build per-repo series across all metric modes. STARS / VELOCITY are
+ * computed per-repo from the repo's own payload; MINDSHARE depends on
+ * the OTHER selected repos so the function loops once over the full set
+ * before composing each repo's series.
+ *
+ * Returns one RepoSeries per input repo, in the same order as `repos`.
+ * Repos with no payload AND no sparklineData get an empty series so the
+ * upstream sparseness check still finds them.
+ */
+function buildAllSeries(
+  repos: Repo[],
   payloads: Record<string, StarActivityPayload> | undefined,
   mode: StarActivityMode,
   scale: StarActivityScale,
   window: StarActivityWindow,
-): RepoSeries {
-  const rawPayload = lookupPayload(payloads, repo.fullName);
-  const payload = rawPayload
-    ? filterPayloadByWindow(rawPayload, window)
-    : null;
+  metric: StarActivityMetric,
+): RepoSeries[] {
+  // Pre-filter every repo's payload by the chosen window once.
+  const filtered = repos.map((r) => {
+    const raw = lookupPayload(payloads, r.fullName);
+    return raw ? filterPayloadByWindow(raw, window) : null;
+  });
 
-  if (payload && payload.points.length > 0) {
-    const data = payload.points.map((pt, i) => ({
-      x:
-        mode === "timeline"
-          ? i
-          : Date.parse(`${pt.d}T00:00:00Z`),
-      y: logFloor(pt.s, scale),
-      stars: pt.s,
-    }));
-    return { repoId: repo.id, fullName: repo.fullName, data, fromPayload: true };
-  }
+  // For MINDSHARE we need the union of sibling payloads to compute the
+  // share denominator. Build that once.
+  const siblingPayloads = filtered.filter(
+    (p): p is StarActivityPayload => p !== null && p.points.length > 0,
+  );
 
-  // Legacy fallback — convert the 30-element sparkline into per-day points.
-  const sparkline = repo.sparklineData ?? [];
-  const len = sparkline.length;
-  const todayMs = Date.now();
-  const data = sparkline.map((s, i) => {
-    const daysAgo = len - 1 - i;
+  return repos.map((repo, idx) => {
+    const payload = filtered[idx];
+
+    if (payload && payload.points.length > 0) {
+      let yByPoint: number[];
+      if (metric === "velocity") {
+        yByPoint = computeVelocitySeries(payload);
+      } else if (metric === "mindshare") {
+        const shareByDay = computeMindshareSeries(payload, siblingPayloads);
+        yByPoint = payload.points.map((p) => shareByDay.get(p.d) ?? 0);
+      } else {
+        yByPoint = payload.points.map((p) => p.s);
+      }
+      const data = payload.points.map((pt, i) => ({
+        x:
+          mode === "timeline"
+            ? i
+            : Date.parse(`${pt.d}T00:00:00Z`),
+        y: logFloor(yByPoint[i], scale),
+        stars: pt.s,
+      }));
+      return {
+        repoId: repo.id,
+        fullName: repo.fullName,
+        data,
+        fromPayload: true,
+      };
+    }
+
+    // Legacy fallback — only meaningful for STARS metric. VELOCITY and
+    // MINDSHARE both require the full payload; without it we render an
+    // empty series and let the sparseness banner surface the issue.
+    if (metric !== "stars") {
+      return {
+        repoId: repo.id,
+        fullName: repo.fullName,
+        data: [],
+        fromPayload: false,
+      };
+    }
+    const sparkline = repo.sparklineData ?? [];
+    const len = sparkline.length;
+    const todayMs = Date.now();
+    const data = sparkline.map((s, i) => {
+      const daysAgo = len - 1 - i;
+      return {
+        x: mode === "timeline" ? i : todayMs - daysAgo * 86_400_000,
+        y: logFloor(s, scale),
+        stars: s,
+      };
+    });
     return {
-      x: mode === "timeline" ? i : todayMs - daysAgo * 86_400_000,
-      y: logFloor(s, scale),
-      stars: s,
+      repoId: repo.id,
+      fullName: repo.fullName,
+      data,
+      fromPayload: false,
     };
   });
-  return { repoId: repo.id, fullName: repo.fullName, data, fromPayload: false };
 }
 
 function formatDateTick(epochMs: number): string {
@@ -237,19 +294,24 @@ export function CompareChart({
   mode: modeProp,
   scale: scaleProp,
   window: windowProp,
+  metric: metricProp,
   onModeChange,
   onScaleChange,
   onWindowChange,
+  onMetricChange,
 }: CompareChartProps) {
-  // Controlled-or-uncontrolled — caller can either drive mode/scale/window
+  // Controlled-or-uncontrolled — caller can either drive mode/scale/window/metric
   // from URL state or let the chart own it.
   const [internalMode, setInternalMode] = useState<StarActivityMode>("date");
   const [internalScale, setInternalScale] = useState<StarActivityScale>("lin");
   const [internalWindow, setInternalWindow] =
     useState<StarActivityWindow>("all");
+  const [internalMetric, setInternalMetric] =
+    useState<StarActivityMetric>("stars");
   const mode = modeProp ?? internalMode;
   const scale = scaleProp ?? internalScale;
   const window = windowProp ?? internalWindow;
+  const metric = metricProp ?? internalMetric;
 
   const setMode = (m: StarActivityMode) => {
     onModeChange?.(m);
@@ -263,15 +325,17 @@ export function CompareChart({
     onWindowChange?.(w);
     if (windowProp === undefined) setInternalWindow(w);
   };
+  const setMetric = (m: StarActivityMetric) => {
+    onMetricChange?.(m);
+    if (metricProp === undefined) setInternalMetric(m);
+  };
 
   // Single-repo callers (e.g. /repo/[owner]/[name]/star-activity) render the
   // same chart with one series; the prior `repos.length < 2` guard belonged
   // to /compare's empty-state UX which is now handled by CompareClient itself.
   if (repos.length === 0) return null;
 
-  const series = repos.map((r) =>
-    buildSeriesForRepo(r, payloads, mode, scale, window),
-  );
+  const series = buildAllSeries(repos, payloads, mode, scale, window, metric);
   const anyFromPayload = series.some((s) => s.fromPayload);
 
   // Sparseness check — only meaningful for the legacy sparkline path.
@@ -293,6 +357,25 @@ export function CompareChart({
     axisLine: { stroke: "var(--v3-line-200)" },
   };
 
+  // Y-axis tick formatter swaps per metric — STARS shows compacted counts,
+  // VELOCITY shows "+N/d" and MINDSHARE shows "N%" so the reader doesn't
+  // confuse a 4.2% mindshare with 4 stars.
+  const yTickFormatter = (v: number) => {
+    if (metric === "velocity") {
+      const sign = v >= 0 ? "+" : "";
+      return `${sign}${formatNumber(Math.round(v))}/d`;
+    }
+    if (metric === "mindshare") {
+      return `${v.toFixed(0)}%`;
+    }
+    return formatNumber(v);
+  };
+
+  // MINDSHARE is a percentage 0..100 — log scale doesn't make sense and
+  // would distort the read. Force-disable for that metric.
+  const effectiveScale: StarActivityScale =
+    metric === "mindshare" ? "lin" : scale;
+
   const yAxisProps = {
     tick: {
       fontSize: 10,
@@ -302,15 +385,16 @@ export function CompareChart({
     },
     tickLine: false,
     axisLine: false,
-    tickFormatter: (v: number) => formatNumber(v),
-    width: 56,
-    scale: scale === "log" ? ("log" as const) : ("auto" as const),
+    tickFormatter: yTickFormatter,
+    width: 64,
+    scale:
+      effectiveScale === "log" ? ("log" as const) : ("auto" as const),
     // Recharts requires an explicit numeric domain for log scales.
     domain:
-      scale === "log"
+      effectiveScale === "log"
         ? ([1, "dataMax"] as [number, "dataMax"])
         : (["auto", "auto"] as ["auto", "auto"]),
-    allowDataOverflow: scale === "log",
+    allowDataOverflow: effectiveScale === "log",
   };
 
   const title = anyFromPayload ? "Star Activity" : "Star Activity (30 days)";
@@ -320,6 +404,15 @@ export function CompareChart({
       <div className="flex items-center justify-between gap-2 mb-3 flex-wrap">
         <h3 className="text-sm font-medium text-text-secondary">{title}</h3>
         <div className="flex items-center gap-2 flex-wrap">
+          <ToggleGroup<StarActivityMetric>
+            value={metric}
+            options={[
+              { label: "Stars", value: "stars" },
+              { label: "Velocity", value: "velocity" },
+              { label: "Mindshare", value: "mindshare" },
+            ]}
+            onChange={setMetric}
+          />
           <ToggleGroup<StarActivityWindow>
             value={window}
             options={[

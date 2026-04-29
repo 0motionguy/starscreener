@@ -52,11 +52,12 @@ export interface LeaderboardPayload {
   items: LeaderboardItem[];
 }
 
-// Default top-N to publish per type. 500 keeps the JSON under a few hundred
-// KB while giving the front-end enough headroom to render multiple
-// sub-leaderboards (Hottest / Most Downloaded / Liveness Champions / New)
-// from the same payload without re-querying. Override per-call when needed.
-const DEFAULT_LIMIT = 500;
+// Default top-N to publish per type. Sprint bump 500→3000 (Phase-5
+// escalation 2026-04-29): same calculus that lifted skillsmp 200→5000 —
+// the front-end can now show "All Time (N)" leaderboards that read like
+// a real catalog, not a top-N teaser. Payload still ~few MB, in line
+// with /skills' bundled output.
+const DEFAULT_LIMIT = 3000;
 
 export async function publishLeaderboard(
   db: SupabaseClient,

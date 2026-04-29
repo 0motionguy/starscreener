@@ -558,8 +558,20 @@ function adaptExtraSkillRow(raw: unknown): Record<string, unknown> | null {
   // Lobehub carries `installs` directly — map onto the field
   // coerceSkillsShItem already uses.
   const installs = asNumber(r.installs) ?? asNumber(r.totalActivations) ?? null;
+  // Phase-5 escalation 2026-04-29: per-skill identity. skillsmp's adapter
+  // previously emitted full_name = parent repo URL for every child SKILL.md,
+  // so 13 siblings under mattpocock/skills all collapsed to one row at
+  // dedupe time. We now build a composite source-id from the parent +
+  // slug so siblings survive while linkedRepo stays the parent.
+  const skillSlug =
+    asString(r.slug) ?? asString(r.id) ?? asString(r.source_id);
+  const sourceUid =
+    skillSlug && !skillSlug.includes("/")
+      ? `${fullName}#${skillSlug}`
+      : fullName;
   return {
     full_name: fullName,
+    source_id: sourceUid,
     title,
     url,
     description: asString(r.description) ?? null,
@@ -954,9 +966,16 @@ function coerceGithubSkillItem(
   const url = asString(item.url);
   if (!fullName || !title || !url) return null;
 
+  // Phase-5 escalation: source_id is set by adaptExtraSkillRow for adapter-
+  // routed feeds (skillsmp / lobehub / smithery) so individual SKILL.md
+  // children get a per-skill identity (`owner/repo#slug`) instead of all
+  // collapsing to the parent repo's full_name. Original GitHub-topic feed
+  // doesn't set source_id and falls back to the prior behavior.
+  const sourceUid = asString(item.source_id) ?? fullName;
+
   return {
     item: {
-      id: fullName,
+      id: sourceUid,
       title,
       url,
       author: asString(item.author) ?? fullName.split("/")[0] ?? null,
@@ -966,8 +985,8 @@ function coerceGithubSkillItem(
       tags: asStringArray(item.source_topics).slice(0, 4),
       agents: [],
       linkedRepo: fullName,
-      popularity: asNumber(item.stars),
-      popularityLabel: "Stars",
+      popularity: asNumber(item.stars) ?? asNumber(item.installs),
+      popularityLabel: asNumber(item.installs) !== null ? "Installs" : "Stars",
       // Placeholder — overwritten by applySkillMomentum below.
       signalScore: 0,
       postedAt: asString(item.pushed_at) ?? asString(item.created_at),

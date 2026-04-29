@@ -10,6 +10,7 @@
 // TerminalFeedTable. Cell helpers are prefixed `TerminalCellSkill*` to
 // avoid colliding with sibling MCP/repo primitives.
 
+import type { ReactNode } from "react";
 import Link from "next/link";
 
 import { TerminalFeedTable, type FeedColumn } from "@/components/feed/TerminalFeedTable";
@@ -36,16 +37,167 @@ export function SkillsTerminalTable({
   emptySubtitle,
 }: SkillsTerminalTableProps) {
   const filtered = filterBySource(items, sourceFilter);
+  // Phase-5 escalation 2026-04-29: group by parent collection (linkedRepo
+  // owner/name). Siblings under the same collection — e.g. mattpocock/skills
+  // has ~13 children — are pre-collapsed so the visible feed reads like the
+  // user's reference UI: top item per collection, then a "+N more from
+  // owner/repo" disclosure inline.
+  const flattened = flattenWithCollectionMarkers(filtered);
+  // Build adapter columns lazily so SKILL_COLUMNS (declared further below)
+  // is initialized by the time this runs.
+  const columns = buildAdapterColumns();
   return (
-    <TerminalFeedTable<EcosystemLeaderboardItem>
-      rows={filtered}
-      columns={SKILL_COLUMNS}
-      rowKey={(row) => row.id}
+    <TerminalFeedTable<SkillRow>
+      rows={flattened}
+      columns={columns}
+      rowKey={rowKey}
       accent={accent}
       caption="Trending skills leaderboard"
       emptyTitle={emptyTitle}
       emptySubtitle={emptySubtitle}
     />
+  );
+}
+
+// Row variant: either an individual skill row OR a "+N more from
+// owner/repo" collection-summary marker row that the table renders
+// with a special full-width cell.
+type SkillRow =
+  | { kind: "item"; item: EcosystemLeaderboardItem }
+  | {
+      kind: "collection-summary";
+      parentRepo: string;
+      siblingCount: number;
+      siblingTotal: number; // sum of popularity across siblings
+      siblings: EcosystemLeaderboardItem[];
+    };
+
+function rowKey(row: SkillRow, idx: number): string {
+  if (row.kind === "item") return row.item.id;
+  return `cs:${row.parentRepo}:${idx}`;
+}
+
+function flattenWithCollectionMarkers(
+  items: EcosystemLeaderboardItem[],
+): SkillRow[] {
+  // Group by linkedRepo while preserving the input order (which is already
+  // ranked). For each collection, the FIRST item we see becomes the primary;
+  // remaining items become siblings stowed under a marker row.
+  const seen = new Set<string>();
+  const groups = new Map<string, EcosystemLeaderboardItem[]>();
+  for (const it of items) {
+    const repo = it.linkedRepo?.toLowerCase();
+    if (!repo) continue;
+    const arr = groups.get(repo) ?? [];
+    arr.push(it);
+    groups.set(repo, arr);
+  }
+  const out: SkillRow[] = [];
+  for (const it of items) {
+    const repo = it.linkedRepo?.toLowerCase();
+    if (!repo) {
+      // Items without a parent repo (rare) just render as standalone rows.
+      out.push({ kind: "item", item: it });
+      continue;
+    }
+    if (seen.has(repo)) continue;
+    seen.add(repo);
+    const group = groups.get(repo) ?? [it];
+    out.push({ kind: "item", item: group[0] });
+    if (group.length > 1) {
+      const siblings = group.slice(1);
+      const siblingTotal = siblings.reduce(
+        (acc, s) => acc + (s.popularity ?? 0),
+        0,
+      );
+      out.push({
+        kind: "collection-summary",
+        parentRepo: it.linkedRepo!, // keep original casing for display
+        siblingCount: siblings.length,
+        siblingTotal,
+        siblings,
+      });
+    }
+  }
+  return out;
+}
+
+// Adapter column set: every column extracts row.item when row.kind is
+// "item"; when row.kind is "collection-summary" the title cell renders
+// the disclosure and other cells render null. Built lazily by the
+// component so the SKILL_COLUMNS forward-ref resolves.
+function buildAdapterColumns(): FeedColumn<SkillRow>[] {
+  return SKILL_COLUMNS.map((col) => {
+    if (col.id === "title") {
+      return {
+        ...col,
+        render: (row: SkillRow, idx: number): ReactNode => {
+          if (row.kind === "item") return col.render(row.item, idx);
+          return <CollectionSummaryRow row={row} />;
+        },
+      };
+    }
+    return {
+      ...col,
+      render: (row: SkillRow, idx: number): ReactNode => {
+        if (row.kind === "item") return col.render(row.item, idx);
+        return null;
+      },
+    };
+  });
+}
+
+function CollectionSummaryRow({
+  row,
+}: {
+  row: Extract<SkillRow, { kind: "collection-summary" }>;
+}) {
+  const totalLabel =
+    row.siblingTotal > 0
+      ? formatCompactNumber(row.siblingTotal) + " total"
+      : `${row.siblingCount} more`;
+  return (
+    <details className="group">
+      <summary
+        className="cursor-pointer list-none font-mono text-[11px] uppercase tracking-[0.16em] hover:underline"
+        style={{ color: "var(--v3-ink-300)" }}
+      >
+        +{row.siblingCount} more from{" "}
+        <span style={{ color: "var(--v3-ink-200)" }}>{row.parentRepo}</span>{" "}
+        ({totalLabel}) ▾
+      </summary>
+      <ul className="mt-1 ml-4 space-y-1 text-[11px]">
+        {row.siblings.slice(0, 30).map((s) => (
+          <li key={s.id} className="flex items-center gap-2">
+            <a
+              href={s.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-mono hover:underline"
+              style={{ color: "var(--v3-ink-200)" }}
+            >
+              {s.title}
+            </a>
+            {s.popularity !== null ? (
+              <span
+                className="font-mono tabular-nums"
+                style={{ color: "var(--v3-ink-400)" }}
+              >
+                {formatCompactNumber(s.popularity)}
+              </span>
+            ) : null}
+          </li>
+        ))}
+        {row.siblings.length > 30 ? (
+          <li
+            className="font-mono italic"
+            style={{ color: "var(--v3-ink-500)" }}
+          >
+            +{row.siblings.length - 30} more not shown
+          </li>
+        ) : null}
+      </ul>
+    </details>
   );
 }
 

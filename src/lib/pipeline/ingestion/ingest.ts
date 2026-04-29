@@ -10,6 +10,7 @@ import { MockGitHubAdapter } from "../adapters/mock-github-adapter";
 import { emitPipelineEvent } from "../events";
 import { normalizeGitHubRepo } from "../adapters/normalizer";
 import { readEnv } from "@/lib/env-helpers";
+import { getGitHubTokenPool } from "@/lib/github-token-pool";
 import type {
   GitHubAdapter,
   IngestBatchResult,
@@ -238,7 +239,6 @@ async function runIngestBatch(
 export function createGitHubAdapter(
   opts: { useMock?: boolean; token?: string } = {},
 ): GitHubAdapter {
-  const token = opts.token ?? process.env.GITHUB_TOKEN ?? undefined;
   const allowMock =
     readEnv("TRENDINGREPO_ALLOW_MOCK", "STARSCREENER_ALLOW_MOCK") === "true";
   const useMock = opts.useMock ?? false;
@@ -251,13 +251,17 @@ export function createGitHubAdapter(
     }
     return new MockGitHubAdapter();
   }
-  if (!token) {
+  // Pool path: when no explicit token is passed, the adapter uses the
+  // singleton pool (parsed from GITHUB_TOKEN + GH_TOKEN_POOL). An explicit
+  // token is preserved as a per-instance override for tests; the legacy
+  // env-var fallback is gone so the singleton is the single source of truth.
+  if (!opts.token && getGitHubTokenPool().size() === 0) {
     throw new Error(
-      "createGitHubAdapter: GITHUB_TOKEN is required. Set it in your environment " +
-        "(GitHub PAT with public_repo scope). Silent mock fallback is disabled.",
+      "createGitHubAdapter: GitHub token pool is empty. Set GITHUB_TOKEN and/or " +
+        "GH_TOKEN_POOL (comma-separated PATs). Silent mock fallback is disabled.",
     );
   }
-  return new GitHubApiAdapter({ token });
+  return new GitHubApiAdapter({ token: opts.token });
 }
 
 // ---------------------------------------------------------------------------

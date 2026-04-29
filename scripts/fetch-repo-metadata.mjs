@@ -7,7 +7,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { fetchJsonWithRetry } from "./_fetch-json.mjs";
-import { writeDataStore } from "./_data-store-write.mjs";
+import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
@@ -308,7 +308,11 @@ async function main() {
   );
 }
 
-main().catch((err) => {
-  console.error("fetch-repo-metadata failed:", err.message ?? err);
-  process.exit(1);
-});
+main()
+  .catch((err) => {
+    console.error("fetch-repo-metadata failed:", err.message ?? err);
+    process.exitCode = 1;
+  })
+  .finally(async () => {
+    await closeDataStore();
+  });

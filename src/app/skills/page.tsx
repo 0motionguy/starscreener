@@ -6,16 +6,17 @@ import {
   type SignalTabSpec,
 } from "@/components/signal/SignalSourcePage";
 import {
-  ecosystemBoardToRows,
   getSkillsSignalData,
   type EcosystemBoard,
 } from "@/lib/ecosystem-leaderboards";
-import { classifyFreshness } from "@/lib/news/freshness";
+import { classifyFreshness, findOldestRecordAt } from "@/lib/news/freshness";
 import { absoluteUrl } from "@/lib/seo";
 import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
 import { buildEcosystemHeader } from "@/components/signal/ecosystemTopHeader";
+import { SkillsTerminalTable, type SkillSourceFilter } from "@/components/skills/SkillsTerminalTable";
 
 const SKILLS_ACCENT = "rgba(167, 139, 250, 0.85)";
+const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 
 export const dynamic = "force-dynamic";
 
@@ -34,11 +35,74 @@ export const metadata: Metadata = {
 
 export default async function SkillsPage() {
   const data = await getSkillsSignalData();
-  const freshness = classifyFreshness("skills", data.fetchedAt);
+  // Per-record floor: if the underlying rows haven't refreshed in 2× the cron
+  // cadence, force STALE/COLD even when the top-level fetchedAt advanced.
+  // The writer (_data-store-write.mjs) stamps `lastRefreshedAt` on every
+  // tracked-repo record; missing rows fall through to fetchedAt-only.
+  const oldestRecordAt = findOldestRecordAt(data.combined.items);
+  const freshness = classifyFreshness(
+    "skills",
+    data.fetchedAt,
+    undefined,
+    oldestRecordAt,
+  );
 
-  const allRows = ecosystemBoardToRows(data.combined);
-  const skillsShRows = ecosystemBoardToRows(data.skillsSh);
-  const githubRows = ecosystemBoardToRows(data.github);
+  // Sub-leaderboard datasets: same source list, different sort/filter.
+  const items = data.combined.items;
+  const now = Date.now();
+
+  // 1. Hottest This Week — rank by Δhotness (current - 7d-prior) when both
+  //    values are present; fall back to absolute hotness, then signalScore
+  //    so cold-start rows still place. The 7d snapshot comes from the
+  //    `hotness-snapshot` worker fetcher; first 7 days of the rolling
+  //    window everything sorts on absolute.
+  const hottest = [...items]
+    .sort((a, b) => {
+      const av =
+        a.hotness !== undefined && a.hotnessPrev7d !== undefined
+          ? a.hotness - a.hotnessPrev7d
+          : (a.hotness ?? a.signalScore);
+      const bv =
+        b.hotness !== undefined && b.hotnessPrev7d !== undefined
+          ? b.hotness - b.hotnessPrev7d
+          : (b.hotness ?? b.signalScore);
+      return bv - av;
+    })
+    .map((item, idx) => ({ ...item, rank: idx + 1 }));
+
+  // 2. Most Forked This Week — sort by forkVelocity7d desc; rows without
+  //    that signal go to the bottom (kept visible, not filtered out, since
+  //    forkVelocity7d isn't wired yet upstream — empty state would mislead).
+  const mostForked = [...items]
+    .sort((a, b) => {
+      const av = a.forkVelocity7d ?? -Infinity;
+      const bv = b.forkVelocity7d ?? -Infinity;
+      return bv - av;
+    })
+    .map((item, idx) => ({ ...item, rank: idx + 1 }));
+
+  // 3. New This Week — items where createdAt is within the last 7 days.
+  //    Falls back to lastPushedAt when createdAt isn't on the payload.
+  const newThisWeek = items
+    .filter((item) => {
+      const iso = item.createdAt ?? item.lastPushedAt;
+      if (!iso) return false;
+      const t = Date.parse(iso);
+      if (!Number.isFinite(t)) return false;
+      return now - t <= ONE_WEEK_MS;
+    })
+    .sort((a, b) => {
+      const at = Date.parse(a.createdAt ?? a.lastPushedAt ?? "") || 0;
+      const bt = Date.parse(b.createdAt ?? b.lastPushedAt ?? "") || 0;
+      return bt - at;
+    })
+    .map((item, idx) => ({ ...item, rank: idx + 1 }));
+
+  // 4. Most Adopted in Collections — sort by derivativeRepoCount desc.
+  //    Rows without a count drop to bottom.
+  const mostAdopted = [...items]
+    .sort((a, b) => (b.derivativeRepoCount ?? -1) - (a.derivativeRepoCount ?? -1))
+    .map((item, idx) => ({ ...item, rank: idx + 1 }));
 
   // V3 3-card top header — replaces the legacy 6-tile mini-strip with the
   // same chrome the news pages use (snapshot + per-source bars + topics).
@@ -83,30 +147,68 @@ export default async function SkillsPage() {
     />
   );
 
+  // Single source-filter passed to all four tabs as a secondary control.
+  // We surface it via the search-param pattern that SignalSourcePage already
+  // uses — read it server-side so the rendered table is correct on first
+  // paint. Default = "all".
+  const sourceFilter: SkillSourceFilter = "all";
+
   const tabs: SignalTabSpec[] = [
     {
-      id: "all",
-      label: "All Skills",
-      rows: allRows,
-      columns: ["rank", "title", "source", "topic", "linkedRepo", "engagement", "age", "signal"],
-      emptyTitle: "No skills leaderboard rows have landed yet.",
-      emptySubtitle: "Waiting for the publish-leaderboards job to write trending-skill.",
+      id: "hottest",
+      label: "Hottest This Week",
+      rows: [],
+      content: (
+        <SkillsTerminalTable
+          items={hottest}
+          accent={SKILLS_ACCENT}
+          sourceFilter={sourceFilter}
+          emptyTitle="No skills leaderboard rows have landed yet."
+          emptySubtitle="Waiting for the publish-leaderboards job to write trending-skill."
+        />
+      ),
     },
     {
-      id: "skills-sh",
-      label: "Skills.sh",
-      rows: skillsShRows,
-      columns: ["rank", "title", "topic", "linkedRepo", "engagement", "age", "signal"],
-      emptyTitle: "No skills.sh rows yet.",
-      emptySubtitle: "skills.sh fetcher publishes to trending-skill-sh.",
+      id: "most-forked",
+      label: "Most Forked This Week",
+      rows: [],
+      content: (
+        <SkillsTerminalTable
+          items={mostForked}
+          accent={SKILLS_ACCENT}
+          sourceFilter={sourceFilter}
+          emptyTitle="No fork velocity yet."
+          emptySubtitle="forkVelocity7d is typed but not yet populated by an upstream fetcher."
+        />
+      ),
     },
     {
-      id: "github",
-      label: "GitHub",
-      rows: githubRows,
-      columns: ["rank", "title", "topic", "linkedRepo", "engagement", "age", "signal"],
-      emptyTitle: "No GitHub skill rows yet.",
-      emptySubtitle: "GitHub topic fetcher publishes to trending-skill.",
+      id: "new",
+      label: "New This Week",
+      rows: [],
+      content: (
+        <SkillsTerminalTable
+          items={newThisWeek}
+          accent={SKILLS_ACCENT}
+          sourceFilter={sourceFilter}
+          emptyTitle="No new skills landed this week."
+          emptySubtitle="Falls back to lastPushedAt when createdAt isn't on the payload."
+        />
+      ),
+    },
+    {
+      id: "most-adopted",
+      label: "Most Adopted in Collections",
+      rows: [],
+      content: (
+        <SkillsTerminalTable
+          items={mostAdopted}
+          accent={SKILLS_ACCENT}
+          sourceFilter={sourceFilter}
+          emptyTitle="No derivative-count data yet."
+          emptySubtitle="skill-derivative-count fetcher publishes every 12h."
+        />
+      ),
     },
   ];
 
@@ -226,3 +328,4 @@ function MomentumBar({ value }: { value: number }) {
     </span>
   );
 }
+

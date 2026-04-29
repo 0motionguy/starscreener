@@ -14,6 +14,7 @@ import { createGitHubAdapter } from "@/lib/pipeline/ingestion/ingest";
 import { getExtendedSocialAdapters } from "@/lib/pipeline/adapters/extended-social";
 import type { IngestBatchResult, SocialAdapter } from "@/lib/pipeline/types";
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
+import { getGitHubTokenPool } from "@/lib/github-token-pool";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { trendScoreForTimeRange } from "@/lib/filters";
 
@@ -185,11 +186,13 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     await pipeline.ensureReady();
 
-    const token = process.env.GITHUB_TOKEN;
-    const resolvedUseMock = useMock ?? !token;
+    // Pool path: createGitHubAdapter() reaches for the singleton when no
+    // explicit token is passed. useMock defaults to "no PATs in pool" so
+    // legacy "GITHUB_TOKEN absent" behaviour is preserved.
+    const poolEmpty = getGitHubTokenPool().size() === 0;
+    const resolvedUseMock = useMock ?? poolEmpty;
     const adapter = createGitHubAdapter({
       useMock: resolvedUseMock,
-      token,
     });
 
     // Build per-source throw-guarded wrappers so one flaky social source
@@ -361,7 +364,7 @@ export async function GET(
       fullNames:
         "string[] of owner/repo names (optional, 0-50 entries, matches /^[A-Za-z0-9._-]+\\/[A-Za-z0-9._-]+$/). When missing or empty the route auto-discovers the top-50 by 24h trend score — what the cron contract expects.",
       useMock:
-        "boolean (optional) — force the mock adapter. Defaults to !process.env.GITHUB_TOKEN.",
+        "boolean (optional) — force the mock adapter. Defaults to true when the GitHub token pool is empty.",
       recomputeAfter:
         "boolean (optional, default true) — re-score the whole pipeline after ingestion.",
     },

@@ -80,6 +80,65 @@ test("mcp drops latencyInverse when undefined; high latency → low score", () =
   assert.equal(missing.weights.latencyInverse, undefined);
 });
 
+test("mcp lastReleaseRecency: 10d ago outscores 200d ago; undefined drops term", () => {
+  const tenDaysAgo = new Date(Date.now() - 10 * 24 * 3600 * 1000).toISOString();
+  const twoHundredDaysAgo = new Date(
+    Date.now() - 200 * 24 * 3600 * 1000,
+  ).toISOString();
+  const [fresh] = mcpScorer.computeRaw([mk({ lastReleaseAt: tenDaysAgo })]);
+  const [stale] = mcpScorer.computeRaw([
+    mk({ lastReleaseAt: twoHundredDaysAgo }),
+  ]);
+  assert.ok(
+    fresh.rawComponents.lastReleaseRecency >
+      stale.rawComponents.lastReleaseRecency,
+    `fresh ${fresh.rawComponents.lastReleaseRecency} should beat stale ${stale.rawComponents.lastReleaseRecency}`,
+  );
+  assert.equal(fresh.rawComponents.lastReleaseRecency, 100);
+
+  const [missing] = mcpScorer.computeRaw([mk({ lastReleaseAt: undefined })]);
+  assert.equal(missing.weights.lastReleaseRecency, undefined);
+  assert.equal(missing.rawComponents.lastReleaseRecency, undefined);
+  assert.ok(Math.abs(weightSum(missing.weights) - 1) < 1e-9);
+});
+
+test("mcp weights total to 1.0 with all fields present", () => {
+  const recent = new Date(Date.now() - 5 * 24 * 3600 * 1000).toISOString();
+  const [s] = mcpScorer.computeRaw([mk({ lastReleaseAt: recent })]);
+  const expectedKeys = [
+    "downloadsCombined7d",
+    "livenessUptime7d",
+    "toolCount",
+    "smitheryRankInverse",
+    "npmDependents",
+    "crossSourceCount",
+    "latencyInverse",
+    "lastReleaseRecency",
+  ];
+  for (const k of expectedKeys) {
+    assert.ok(
+      s.weights[k] !== undefined,
+      `expected weight for ${k} to be defined`,
+    );
+  }
+  assert.ok(Math.abs(weightSum(s.weights) - 1) < 1e-9);
+});
+
+test("mcp renormalization invariant: all optionals undefined → score in [0,100], weights sum to 1", () => {
+  const [s] = mcpScorer.computeRaw([
+    {
+      domainKey: "mcp",
+      id: "bare",
+      joinKeys: {},
+    },
+  ]);
+  assert.ok(s.rawScore >= 0 && s.rawScore <= 100, `score=${s.rawScore}`);
+  assert.ok(
+    Math.abs(weightSum(s.weights) - 1) < 1e-9,
+    `weights=${JSON.stringify(s.weights)}`,
+  );
+});
+
 test("mcp ranking: high downloads + uptime + tools beats stub", () => {
   const items: McpItem[] = [
     mk({

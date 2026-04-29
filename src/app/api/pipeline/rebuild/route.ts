@@ -40,6 +40,7 @@ import { stores as pipelineStores } from "@/lib/pipeline/storage/singleton";
 import { backfillStargazerHistory } from "@/lib/pipeline/ingestion/stargazer-backfill";
 import { backfillFromEvents } from "@/lib/pipeline/ingestion/events-backfill";
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
+import { getGitHubTokenPool } from "@/lib/github-token-pool";
 
 export const runtime = "nodejs";
 
@@ -77,17 +78,21 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   const deny = authFailureResponse(verifyCronAuth(req));
   if (deny) return deny;
 
-  const token = process.env.GITHUB_TOKEN;
-  if (!token) {
+  // Pass empty string to the backfill helpers so they activate the
+  // pool-aware path (`pool = token ? null : getGitHubTokenPool()`).
+  // Pool emptiness is the operator-facing precondition now, not the
+  // legacy single-token env var.
+  if (getGitHubTokenPool().size() === 0) {
     return NextResponse.json(
       {
         ok: false,
         reason:
-          "GITHUB_TOKEN not set. Rebuild requires a real token — no mock fallback.",
+          "GitHub token pool is empty. Set GITHUB_TOKEN or GH_TOKEN_POOL — rebuild requires real tokens.",
       },
       { status: 500 },
     );
   }
+  const token = "";
 
   let body: RebuildBody = {};
   try {

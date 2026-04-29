@@ -19,6 +19,7 @@ import { ensureSeededAsync } from "@/lib/pipeline/pipeline";
 import { backfillStargazerHistory } from "@/lib/pipeline/ingestion/stargazer-backfill";
 import { stores } from "@/lib/pipeline/storage/singleton";
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
+import { getGitHubTokenPool } from "@/lib/github-token-pool";
 
 export const runtime = "nodejs";
 
@@ -83,18 +84,20 @@ export async function POST(
       ? Math.min(Math.floor(maxPages), 200)
       : undefined;
 
-  const token = process.env.GITHUB_TOKEN;
-  if (!token) {
+  // Empty string activates the pool-aware path inside the backfill helpers
+  // (`pool = token ? null : getGitHubTokenPool()` at stargazer-backfill.ts:287).
+  if (getGitHubTokenPool().size() === 0) {
     return NextResponse.json(
       {
         ok: false,
         reason:
-          "GITHUB_TOKEN is not set — stargazer backfill requires a PAT with public_repo scope",
+          "GitHub token pool is empty — stargazer backfill requires a PAT (set GITHUB_TOKEN or GH_TOKEN_POOL).",
         durationMs: Date.now() - startedAt,
       },
       { status: 500 },
     );
   }
+  const token = "";
 
   try {
     await ensureSeededAsync();

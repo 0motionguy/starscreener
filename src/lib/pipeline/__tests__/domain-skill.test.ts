@@ -74,6 +74,75 @@ test("skill crossAgentSupport caps at 4 agents", () => {
   assert.equal(s.rawComponents.crossAgentSupport, 100);
 });
 
+test("skill forkVelocity7d: forks=200, forks7dAgo=50 → non-zero component", () => {
+  const [s] = skillScorer.computeRaw([mk({ forks: 200, forks7dAgo: 50 })]);
+  assert.ok(
+    s.rawComponents.forkVelocity7d > 0,
+    `expected forkVelocity7d > 0, got ${s.rawComponents.forkVelocity7d}`,
+  );
+  assert.ok(s.weights.forkVelocity7d !== undefined);
+});
+
+test("skill forkVelocity7d: forks7dAgo undefined drops term and renormalizes", () => {
+  const [s] = skillScorer.computeRaw([mk({ forks7dAgo: undefined })]);
+  assert.equal(s.weights.forkVelocity7d, undefined);
+  assert.equal(s.rawComponents.forkVelocity7d, undefined);
+  assert.ok(Math.abs(weightSum(s.weights) - 1) < 1e-9);
+});
+
+test("skill derivativeRepoCount: 20 outscores 0 with otherwise identical input", () => {
+  const base: Partial<SkillItem> = { id: "deriv" };
+  const [hi] = skillScorer.computeRaw([mk({ ...base, derivativeRepoCount: 20 })]);
+  const [lo] = skillScorer.computeRaw([mk({ ...base, derivativeRepoCount: 0 })]);
+  assert.ok(
+    hi.rawScore > lo.rawScore,
+    `derivative=20 ${hi.rawScore} should beat derivative=0 ${lo.rawScore}`,
+  );
+});
+
+test("skill weights total to 1.0 with all fields present", () => {
+  const [s] = skillScorer.computeRaw([
+    mk({
+      forks7dAgo: 50,
+      derivativeRepoCount: 10,
+    }),
+  ]);
+  // All 8 weights should be active.
+  const expectedKeys = [
+    "installsDelta7d",
+    "forkVelocity7d",
+    "forkRatio",
+    "derivativeRepoCount",
+    "awesomeListInclusion",
+    "commitVelocity30d",
+    "crossAgentSupport",
+    "freshness",
+  ];
+  for (const k of expectedKeys) {
+    assert.ok(
+      s.weights[k] !== undefined,
+      `expected weight for ${k} to be defined`,
+    );
+  }
+  assert.ok(Math.abs(weightSum(s.weights) - 1) < 1e-9);
+});
+
+test("skill renormalization invariant: all optionals undefined → score in [0,100], weights sum to 1", () => {
+  const [s] = skillScorer.computeRaw([
+    {
+      domainKey: "skill",
+      id: "bare",
+      joinKeys: {},
+      agents: [],
+    },
+  ]);
+  assert.ok(s.rawScore >= 0 && s.rawScore <= 100, `score=${s.rawScore}`);
+  assert.ok(
+    Math.abs(weightSum(s.weights) - 1) < 1e-9,
+    `weights=${JSON.stringify(s.weights)}`,
+  );
+});
+
 test("skill ranking: high installs+forks beats low-stars-only repo", () => {
   const items: SkillItem[] = [
     mk({

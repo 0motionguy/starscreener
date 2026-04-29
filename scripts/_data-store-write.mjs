@@ -121,15 +121,74 @@ function makeIoRedisAdapter(client) {
 }
 
 /**
+ * Heuristic: does this object look like a tracked-repo record? We tag those
+ * with a per-record `lastRefreshedAt` so the freshness UI can compute "data X
+ * ago" from the *oldest* per-row timestamp rather than a single top-level
+ * `fetchedAt` (which lies if the cron emits the same data twice).
+ *
+ * Conservative — only stamps records that clearly identify as tracked repos.
+ * Doesn't touch posts, launches, articles, etc.
+ */
+function looksLikeTrackedRepo(record) {
+  if (!record || typeof record !== "object" || Array.isArray(record)) return false;
+  // owner/name shape (most explicit)
+  if (typeof record.fullName === "string" && record.fullName.includes("/")) return true;
+  if (typeof record.repo_name === "string" && record.repo_name.includes("/")) return true;
+  // OSS Insight shape (id + stars on the record)
+  if (
+    (typeof record.id === "string" || typeof record.id === "number") &&
+    (typeof record.stars === "number" ||
+      typeof record.stars === "string" ||
+      typeof record.stargazers_count === "number")
+  ) {
+    return true;
+  }
+  return false;
+}
+
+/**
+ * Walk a payload and stamp `lastRefreshedAt` on every nested record that
+ * looks like a tracked repo. Mutates in-place — the writer constructs the
+ * payload fresh each scan, so mutation is safe.
+ *
+ * Walks objects + arrays; preserves non-record children. Caps recursion depth
+ * at 6 to avoid runaway walks on pathological structures.
+ */
+function stampTrackedRepos(value, ts, depth = 0) {
+  if (depth > 6 || value === null || typeof value !== "object") return;
+  if (Array.isArray(value)) {
+    for (const item of value) stampTrackedRepos(item, ts, depth + 1);
+    return;
+  }
+  if (looksLikeTrackedRepo(value) && !("lastRefreshedAt" in value)) {
+    value.lastRefreshedAt = ts;
+  }
+  for (const child of Object.values(value)) {
+    stampTrackedRepos(child, ts, depth + 1);
+  }
+}
+
+/**
  * Write a JSON payload to the data-store.
+ *
+ * Side-effect: every nested record that looks like a tracked repo (owner/name
+ * shape OR id+stars shape) gets a `lastRefreshedAt` field set to writtenAt.
+ * Other records (posts, articles, launches) pass through unmodified.
  *
  * @param {string} key       Slug, e.g. "trending" → ss:data:v1:trending
  * @param {unknown} value    Any JSON-serializable value
- * @param {{ ttlSeconds?: number }} [opts]
+ * @param {{ ttlSeconds?: number; stampPerRecord?: boolean }} [opts]
+ *   stampPerRecord defaults to true; pass false to opt out for sources that
+ *   manage their own per-record timestamps.
  * @returns {Promise<{ source: "redis" | "skipped"; writtenAt: string }>}
  */
 export async function writeDataStore(key, value, opts = {}) {
   const writtenAt = new Date().toISOString();
+
+  if (opts.stampPerRecord !== false && value && typeof value === "object") {
+    stampTrackedRepos(value, writtenAt);
+  }
+
   const client = await getClient();
   if (!client) {
     return { source: "skipped", writtenAt };

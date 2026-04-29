@@ -1,0 +1,48 @@
+name: Refresh hotness snapshot
+
+# Daily at 03:25 UTC. Reads `trending-skill`, `trending-skill-sh`, and
+# `trending-mcp`, snapshots each item's `hotness` (or fallback signalScore)
+# to `hotness-snapshot:<domain>:<YYYY-MM-DD>` so the /skills + /mcp
+# leaderboard readers can join against the 7d-old snapshot to surface
+# Δhotness-style velocity ordering.
+# 7-day rolling window — snapshots older than 8d are auto-expired by TTL.
+# Staggered from skill-install-snapshot (03:00 UTC) and forks-snapshot
+# (03:13 UTC) to avoid hammering the same Redis instance simultaneously.
+on:
+  schedule:
+    - cron: "25 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: hotness-snapshot
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/trendingrepo-worker
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: apps/trendingrepo-worker/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run hotness-snapshot fetcher
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+        run: npx tsx src/index.ts hotness-snapshot

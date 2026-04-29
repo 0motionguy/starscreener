@@ -96,6 +96,55 @@ test("writeDataStore: handles non-trivial payload shapes without throwing", asyn
   });
 });
 
+test("writeDataStore: stamps lastRefreshedAt on tracked-repo records", async () => {
+  await withClearedEnv(async () => {
+    _resetForTests();
+    // Mixed payload — tracked repos (owner/name + id+stars) interleaved with
+    // posts (no fullName, no stars) that should NOT be stamped.
+    const payload = {
+      fetchedAt: new Date().toISOString(),
+      profiles: [
+        { fullName: "vercel/next.js", rank: 1 },
+        { repo_name: "facebook/react", stars: "200000" },
+      ],
+      // Stripe-shaped post — fewer "tracked repo" markers, leave alone.
+      posts: [
+        { id: 1, title: "Show HN: foo", url: "https://example.com" },
+      ],
+      meta: { count: 3 },
+    };
+    await writeDataStore("scr11-stamp-test", payload);
+    assert.ok(
+      typeof payload.profiles[0].lastRefreshedAt === "string",
+      "profiles[0] should be stamped",
+    );
+    assert.ok(
+      typeof payload.profiles[1].lastRefreshedAt === "string",
+      "profiles[1] should be stamped",
+    );
+    assert.equal(
+      payload.posts[0].lastRefreshedAt,
+      undefined,
+      "posts (no fullName/stars) should NOT be stamped",
+    );
+  });
+});
+
+test("writeDataStore: stampPerRecord:false opt-out preserves payload", async () => {
+  await withClearedEnv(async () => {
+    _resetForTests();
+    const payload = { profiles: [{ fullName: "owner/repo" }] };
+    await writeDataStore("scr11-stamp-opt-out", payload, {
+      stampPerRecord: false,
+    });
+    assert.equal(
+      payload.profiles[0].lastRefreshedAt,
+      undefined,
+      "stampPerRecord:false should leave payload unmodified",
+    );
+  });
+});
+
 // Cleanup after the suite — the disabled-cache state shouldn't leak to other
 // tests in the runner (they each call _resetForTests anyway, but be explicit).
 test.after(async () => {

@@ -31,7 +31,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 import { fetchJsonWithRetry, HttpStatusError, sleep } from "./_fetch-json.mjs";
-import { writeDataStore } from "./_data-store-write.mjs";
+import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = resolve(__dirname, "..");
@@ -327,6 +327,9 @@ if (isDirectRun) {
       } catch (metaErr) {
         console.error("[meta] npm-daily.json error-write failed:", metaErr);
       }
-      process.exit(1);
+      process.exitCode = 1;
+    })
+    .finally(async () => {
+      await closeDataStore();
     });
 }

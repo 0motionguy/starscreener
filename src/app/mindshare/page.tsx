@@ -21,7 +21,7 @@ import {
   absoluteUrl,
   OG_COLORS,
 } from "@/lib/seo";
-import { buildAbsoluteShareImageUrl } from "@/lib/star-activity-url";
+import { ShareBar } from "@/components/share/ShareBar";
 import type { Repo } from "@/lib/types";
 
 // 30-min ISR — same cadence as homepage; underlying derived-repos changes
@@ -31,6 +31,8 @@ export const revalidate = 1800;
 const TITLE = `MindShare — ${SITE_NAME}`;
 const DESCRIPTION =
   "Who's getting talked about, and where. Cross-source attention map across GitHub, Reddit, Hacker News, Bluesky, and dev.to.";
+
+const OG_IMAGE = absoluteUrl("/api/og/mindshare");
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -42,11 +44,21 @@ export const metadata: Metadata = {
     title: TITLE,
     description: DESCRIPTION,
     siteName: SITE_NAME,
-    // Reuse the star-activity OG card pipeline for v1 — sharing /mindshare
-    // surfaces the top-by-attention repo rather than the bubble map itself.
-    // M2 ships /api/og/mindshare with a real bubble-map render.
+    images: [
+      {
+        url: OG_IMAGE,
+        width: 1200,
+        height: 675,
+        alt: "TrendingRepo MindShare — cross-source attention map",
+      },
+    ],
   },
-  twitter: { card: "summary_large_image" },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+    images: [OG_IMAGE],
+  },
 };
 
 const MAP_WIDTH = 1200;
@@ -224,6 +236,27 @@ export default function MindSharePage() {
           {"// no repos firing on 2+ channels right now — check back after the next scrape"}
         </div>
       )}
+
+      {rows.length > 0 && (
+        <div className="mt-4">
+          {/* ShareBar wired with the top repo IDs so Copy Link / Share-on-X
+              carry the exact set captured in the bubble field. CSV omitted
+              for the v1 — there's no per-day series here, just current
+              snapshot scores; the markdown / iframe / PNG / SVG embeds
+              are the meaningful share surfaces. */}
+          <ShareBar
+            state={{
+              repos: rows.slice(0, 4).map((r) => r.fullName),
+              mode: "date",
+              scale: "lin",
+              legend: "tr",
+            }}
+            pagePath="/mindshare"
+            imageEndpoint="/api/og/mindshare"
+            hideCsv
+          />
+        </div>
+      )}
     </main>
   );
 }
@@ -308,6 +341,3 @@ function BubbleSvg({ row }: { row: BubbleRow }) {
   );
 }
 
-// Suppress an unused-import warning when buildAbsoluteShareImageUrl isn't
-// referenced yet; M2 will use it for og:image once /api/og/mindshare lands.
-void buildAbsoluteShareImageUrl;

@@ -33,16 +33,25 @@ import {
   BarChart3,
   Bot,
   Brain,
+  Calculator,
+  CalendarDays,
   Cpu,
   DollarSign,
   Eye,
   FileText,
   GitCompareArrows,
   GraduationCap,
+  Layers,
+  Library,
+  Lightbulb,
+  LineChart,
+  Newspaper,
+  Network,
   Package,
   Plug,
   Radar,
   Rocket,
+  Tags,
   TrendingUp,
   Trophy,
   X,
@@ -420,12 +429,12 @@ export function SidebarContent({
             active={pathname === "/breakouts"}
           />
           <V2NavRow
-            href="/search?sort=stars-total&limit=100"
+            href="/top"
             icon={Trophy}
             label="Top 100"
             badge="100"
             badgeTone="default"
-            active={pathname === "/search"}
+            active={pathname === "/top"}
           />
         </V2Section>
 
@@ -589,6 +598,12 @@ export function SidebarContent({
             active={pathname === "/revenue" || pathname.startsWith("/revenue/")}
           />
           <V2NavRow
+            href="/submit/revenue"
+            icon={Zap}
+            label="Drop Revenue"
+            active={pathname === "/submit/revenue"}
+          />
+          <V2NavRow
             icon={Trophy}
             label="Hackathons"
             badge="Soon"
@@ -624,6 +639,66 @@ export function SidebarContent({
           />
         </V2Section>
 
+        {/* EXPLORE */}
+        <V2Section label="EXPLORE">
+          <V2NavRow
+            href="/news"
+            icon={Newspaper}
+            label="News Desk"
+            active={pathname === "/news"}
+          />
+          <V2NavRow
+            href="/digest"
+            icon={CalendarDays}
+            label="Digest"
+            active={pathname === "/digest" || pathname.startsWith("/digest/")}
+          />
+          <V2NavRow
+            href="/ideas"
+            icon={Lightbulb}
+            label="Ideas"
+            active={pathname === "/ideas" || pathname.startsWith("/ideas/")}
+          />
+          <V2NavRow
+            href="/predict"
+            icon={LineChart}
+            label="Predict"
+            badge="V1"
+            badgeTone="default"
+            active={pathname === "/predict"}
+          />
+          <V2NavRow
+            href="/categories"
+            icon={Tags}
+            label="Categories"
+            active={
+              pathname === "/categories" ||
+              pathname.startsWith("/categories/")
+            }
+          />
+          <V2NavRow
+            href="/collections"
+            icon={Library}
+            label="Collections"
+            active={
+              pathname === "/collections" ||
+              pathname.startsWith("/collections/")
+            }
+          />
+          <V2NavRow
+            href="/pricing"
+            icon={Layers}
+            label="Plans"
+            active={pathname === "/pricing"}
+          />
+          <V2NavRow
+            href="/tools/revenue-estimate"
+            icon={Calculator}
+            label="Revenue Tool"
+            active={pathname === "/tools/revenue-estimate"}
+          />
+        </V2Section>
+
         {/* TOOLS */}
         <V2Section label="TOOLS">
           <V2NavRow
@@ -649,6 +724,14 @@ export function SidebarContent({
             active={
               pathname === "/tierlist" || pathname.startsWith("/tierlist/")
             }
+          />
+          <V2NavRow
+            href="/mindshare"
+            icon={Network}
+            label="MindShare"
+            badge="New"
+            badgeTone="accent"
+            active={pathname === "/mindshare"}
           />
           <V2NavRow
             href="/signals"

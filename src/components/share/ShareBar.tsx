@@ -52,6 +52,16 @@ interface ShareBarProps {
    * data once the chart has loaded.
    */
   csvSeries?: CsvSeries[];
+  /**
+   * Override the share-image endpoint. Defaults to `/api/og/star-activity`
+   * (the original consumer). Surfaces with their own card endpoint —
+   * MindShare → `/api/og/mindshare`, future bubble maps, etc. — pass
+   * their endpoint here so PNG / SVG download + og:image hit the right
+   * renderer.
+   */
+  imageEndpoint?: string;
+  /** Hide the CSV button on surfaces that don't have row-by-row data. */
+  hideCsv?: boolean;
   /** Compact = no labels, icon-only buttons. Used in tight inline rows. */
   compact?: boolean;
   className?: string;
@@ -64,6 +74,8 @@ export function ShareBar({
   state,
   pagePath,
   csvSeries,
+  imageEndpoint,
+  hideCsv = false,
   compact = false,
   className,
 }: ShareBarProps) {
@@ -77,12 +89,33 @@ export function ShareBar({
     ...state,
     aspect: "h",
   };
-  const pngUrl = buildShareImageUrl(horizontalImage);
-  const svgUrl = buildShareImageUrl(horizontalImage, {
-    format: "svg",
-    download: true,
-  });
-  const absoluteImageUrl = buildAbsoluteShareImageUrl(horizontalImage);
+  // Default endpoint is the star-activity card; surfaces with their own
+  // renderer override via the imageEndpoint prop. The state is still
+  // passed through as querystring — the server can read what it needs and
+  // ignore the rest, so this stays generic.
+  const buildEndpointUrl = (
+    opts: { format?: "png" | "svg"; download?: boolean } = {},
+  ) => {
+    if (!imageEndpoint) {
+      return buildShareImageUrl(horizontalImage, opts);
+    }
+    const params = new URLSearchParams();
+    if (state.repos.length > 0) params.set("repos", state.repos.join(","));
+    if (state.mode !== "date") params.set("mode", state.mode);
+    if (state.scale !== "lin") params.set("scale", state.scale);
+    if (horizontalImage.aspect && horizontalImage.aspect !== "h") {
+      params.set("aspect", horizontalImage.aspect);
+    }
+    if (opts.format && opts.format !== "png") params.set("format", opts.format);
+    if (opts.download) params.set("download", "1");
+    const qs = params.toString();
+    return qs ? `${imageEndpoint}?${qs}` : imageEndpoint;
+  };
+  const pngUrl = buildEndpointUrl();
+  const svgUrl = buildEndpointUrl({ format: "svg", download: true });
+  const absoluteImageUrl = imageEndpoint
+    ? absoluteUrl(buildEndpointUrl())
+    : buildAbsoluteShareImageUrl(horizontalImage);
   const intentUrl = buildShareToXUrl({
     text: tweetText(state),
     url: absolutePageUrl,
@@ -128,18 +161,20 @@ export function ShareBar({
           {!compact && <span>SVG</span>}
         </a>
 
-        <button
-          type="button"
-          onClick={() => {
-            const csv = buildCsv(csvSeries ?? []);
-            void copyToClipboard(csv, "CSV copied to clipboard");
-          }}
-          className={cn(BUTTON_BASE, padding)}
-          aria-label="Copy CSV"
-        >
-          <FileSpreadsheet size={12} aria-hidden />
-          {!compact && <span>CSV</span>}
-        </button>
+        {!hideCsv && (
+          <button
+            type="button"
+            onClick={() => {
+              const csv = buildCsv(csvSeries ?? []);
+              void copyToClipboard(csv, "CSV copied to clipboard");
+            }}
+            className={cn(BUTTON_BASE, padding)}
+            aria-label="Copy CSV"
+          >
+            <FileSpreadsheet size={12} aria-hidden />
+            {!compact && <span>CSV</span>}
+          </button>
+        )}
 
         <button
           type="button"

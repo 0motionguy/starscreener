@@ -29,6 +29,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        # Defensive: the scrape script imports _data-store-write.mjs which
+        # dynamic-imports `ioredis` when REDIS_URL is set. Lobsters doesn't
+        # currently pass REDIS_URL but the import would break the moment
+        # someone adds it. (PR #9 / 89273868 boundary.)
+        run: npm ci
 
       - name: Refresh Lobsters mentions + trending snapshot
         # No auth required — Lobsters exposes hottest/active/newest as
@@ -40,7 +48,7 @@ jobs:
         run: |
           git config user.name  "trendingrepo-bot"
           git config user.email "bot@trendingrepo.com"
-          git add data/lobsters-mentions.json data/lobsters-trending.json
+          git add data/lobsters-mentions.json data/lobsters-trending.json data/_meta/lobsters-*.json
           if git diff --quiet --staged; then
             echo "no changes - skipping commit"
             exit 0

@@ -36,6 +36,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        # _data-store-write.mjs dynamically imports `ioredis` when REDIS_URL
+        # is set on a step. Without node_modules the import throws
+        # ERR_MODULE_NOT_FOUND. (Boundary: PR #9 / 89273868.)
+        run: npm ci
 
       - name: Decide mode
         id: mode

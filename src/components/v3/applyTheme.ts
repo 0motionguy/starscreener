@@ -10,7 +10,14 @@ export function applyV3AccentTheme(theme: V3AccentTheme) {
   root.style.setProperty("--v3-acc-soft", theme.accSoft);
   root.style.setProperty("--v3-acc-glow", theme.accGlow);
 
+  root.style.setProperty("--color-accent", theme.acc);
+  root.style.setProperty("--color-accent-hover", theme.accHover);
+  root.style.setProperty("--color-accent-dim", theme.accDim);
+  root.style.setProperty("--color-accent-soft", theme.accSoft);
+  root.style.setProperty("--color-accent-glow", theme.accGlow);
+
   root.style.setProperty("--v2-acc", theme.acc);
+  root.style.setProperty("--v2-acc-hover", theme.accHover);
   root.style.setProperty("--v2-acc-soft", theme.accSoft);
   root.style.setProperty("--v2-acc-glow", theme.accGlow);
   root.style.setProperty("--v2-acc-dim", theme.accDim);

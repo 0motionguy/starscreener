@@ -1,0 +1,44 @@
+{
+  "_comment": "Captured from https://registry.smithery.ai/servers?pageSize=1 on 2026-04-29 plus a synthetic null-score row to guard the optional path. Fields useCount + score are the only numeric signals Smithery's /servers list endpoint exposes; the per-server /servers/{name} detail endpoint exposes none. Keep this fixture aligned with whatever shape the live API returns.",
+  "servers": [
+    {
+      "id": "b11dd2a9-0896-4133-a57f-2b654f9d80d4",
+      "qualifiedName": "exa",
+      "namespace": "exa",
+      "slug": "",
+      "displayName": "Exa Search",
+      "description": "Fast, intelligent web search and web crawling.",
+      "iconUrl": "https://api.smithery.ai/servers/exa/icon",
+      "verified": true,
+      "useCount": 56917,
+      "remote": true,
+      "isDeployed": true,
+      "createdAt": "2024-12-13T15:46:50.750Z",
+      "homepage": "https://exa.ai",
+      "bySmithery": false,
+      "owner": "org_01KNB3A514RX0G4KHMMZAXTRA2",
+      "score": 0.4321
+    },
+    {
+      "id": "412fd9d7-ccae-4a16-b6e3-13ef6b8a71a5",
+      "qualifiedName": "trendsmcp/trends-mcp",
+      "namespace": "trendsmcp",
+      "slug": "trends-mcp",
+      "displayName": "Trends MCP",
+      "description": "Real-time trend data via one MCP connection.",
+      "verified": false,
+      "useCount": 0,
+      "remote": true,
+      "isDeployed": true,
+      "createdAt": "2026-03-29T19:44:31.831Z",
+      "homepage": "https://www.trendsmcp.ai/",
+      "score": null
+    }
+  ],
+  "pagination": {
+    "currentPage": 1,
+    "pageSize": 2,
+    "totalPages": 1,
+    "totalCount": 2
+  }
+}

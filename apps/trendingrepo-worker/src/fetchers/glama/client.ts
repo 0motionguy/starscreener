@@ -6,6 +6,14 @@ const BASE = 'https://glama.ai/api/mcp/v1';
 const PAGE_LIMIT = 100;
 const MAX_PAGES = 50;
 
+// Glama exposes a server-listing endpoint (`/servers`) that returns the
+// metadata captured below, plus a separate ranking endpoint that surfaces
+// install/visitor counts. Some tenants also see install/usage counts inline
+// on `/servers` entries. As of 2026-04-29 Glama's public docs only formally
+// document the basic listing fields; the visitor/install/popularity fields
+// below are speculative — we forward them only when upstream emits them as
+// finite numbers. Unknown fields fall through `[k: string]: unknown` and stay
+// in `raw` as-is.
 export interface GlamaServerEntry {
   id?: string;
   name?: string;
@@ -23,7 +31,40 @@ export interface GlamaServerEntry {
   github_stars?: number;
   stars?: number;
   downloads?: number;
+  // Speculative numeric fields — Glama probes. Only forwarded into the
+  // metrics subobject when upstream returns finite numbers.
+  visitors?: number;
+  visitors_4w?: number;
+  visitorsLastFourWeeks?: number;
+  visitors_last_four_weeks?: number;
+  use_count?: number;
+  useCount?: number;
+  installs?: number;
+  install_count?: number;
+  popularity?: number;
+  popularity_24h?: number;
+  popularity_7d?: number;
+  popularity_30d?: number;
+  last24Hours?: number;
+  last7Days?: number;
+  last30Days?: number;
   [k: string]: unknown;
+}
+
+// Unified metrics subobject persisted at `trending_items.raw.glama.metrics`.
+// Field names are the contract M4 (publish/projection) consumes. Mirrors the
+// pulsemcp shape so the UI can read either source uniformly.
+export interface GlamaMetrics {
+  /** Glama 4-week visitor count if upstream returns one (gap as of 2026-04-29). */
+  visitors_4w?: number;
+  /** Total install/use count when Glama exposes it. */
+  use_count?: number;
+  /** Trailing-24h popularity (gap upstream — kept for forward compat). */
+  popularity_24h?: number;
+  /** Trailing-7d popularity (gap upstream — kept for forward compat). */
+  popularity_7d?: number;
+  /** Trailing-30d popularity (gap upstream — kept for forward compat). */
+  popularity_30d?: number;
 }
 
 interface ListResponse {
@@ -72,6 +113,16 @@ export function normalizeGlama(s: GlamaServerEntry): McpServerNormalized | null 
   const isRemote =
     Array.isArray(s.attributes) && s.attributes.some((a) => a.toLowerCase().startsWith('hosting:remote'));
 
+  const metrics = buildMetrics(s);
+
+  // Preserve upstream entry verbatim AND add a normalized `metrics` sibling.
+  // Existing readers that walk `raw.glama.*` keep working; M4's projection
+  // layer reads `raw.glama.metrics.*`.
+  const rawWithMetrics: Record<string, unknown> = {
+    ...(s as unknown as Record<string, unknown>),
+    metrics,
+  };
+
   return {
     source: 'glama',
     source_id: s.id ?? qualified,
@@ -87,8 +138,43 @@ export function normalizeGlama(s: GlamaServerEntry): McpServerNormalized | null 
     security_grade: parseGrade(s.security_grade ?? s.grade),
     is_remote: isRemote,
     description: s.description?.trim() ?? null,
-    raw: s as unknown as Record<string, unknown>,
+    raw: rawWithMetrics,
   };
+}
+
+// Build the unified metrics subobject. Each field is only set when the
+// upstream payload contains a finite number — we never coerce nulls/strings.
+// Missing fields stay `undefined`, NOT 0, so consumers can distinguish
+// "Glama doesn't expose this" from "metric is zero".
+export function buildMetrics(s: GlamaServerEntry): GlamaMetrics {
+  const out: GlamaMetrics = {};
+  const visitors4w =
+    pickFinite(s.visitors_4w) ??
+    pickFinite(s.visitorsLastFourWeeks) ??
+    pickFinite(s.visitors_last_four_weeks) ??
+    pickFinite(s.visitors);
+  if (visitors4w !== undefined) out.visitors_4w = visitors4w;
+
+  const useCount =
+    pickFinite(s.use_count) ??
+    pickFinite(s.useCount) ??
+    pickFinite(s.installs) ??
+    pickFinite(s.install_count) ??
+    pickFinite(s.downloads);
+  if (useCount !== undefined) out.use_count = useCount;
+
+  const pop24 = pickFinite(s.popularity_24h) ?? pickFinite(s.last24Hours);
+  if (pop24 !== undefined) out.popularity_24h = pop24;
+  const pop7 = pickFinite(s.popularity_7d) ?? pickFinite(s.last7Days);
+  if (pop7 !== undefined) out.popularity_7d = pop7;
+  const pop30 = pickFinite(s.popularity_30d) ?? pickFinite(s.last30Days);
+  if (pop30 !== undefined) out.popularity_30d = pop30;
+
+  return out;
+}
+
+function pickFinite(v: unknown): number | undefined {
+  return typeof v === 'number' && Number.isFinite(v) ? v : undefined;
 }
 
 function parseGrade(g: string | undefined): SecurityGrade | null {

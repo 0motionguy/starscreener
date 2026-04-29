@@ -290,6 +290,53 @@ export function TerminalCellWeeklyDownloads({
   return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
 }
 
+// ---------------------------------------------------------------------------
+// Install-window cells (24h / 7d / 30d). Pre-aggregated by the worker's
+// `pickMcpUsage` (MAX across pulsemcp / smithery / glama / official) and
+// surfaced via McpDisplayFields.installs24h / installs7d / installs30d.
+// All three render the dash fallback when null — they're the unified
+// shape but each source only fills the windows it natively exposes, so
+// most rows will populate one or two windows during the cold-start.
+// ---------------------------------------------------------------------------
+
+function renderInstallWindow(value: number | null | undefined) {
+  if (value === null || value === undefined || !Number.isFinite(value)) {
+    return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+  }
+  return (
+    <span
+      className="font-mono text-[12px] tabular-nums"
+      style={{ color: "var(--v3-ink-100)" }}
+    >
+      {fmtCompact(value)}
+    </span>
+  );
+}
+
+export function TerminalCellInstalls24h({
+  mcp,
+}: {
+  mcp: McpDisplayFields | undefined;
+}) {
+  return renderInstallWindow(mcp?.installs24h);
+}
+
+export function TerminalCellInstalls7d({
+  mcp,
+}: {
+  mcp: McpDisplayFields | undefined;
+}) {
+  return renderInstallWindow(mcp?.installs7d);
+}
+
+export function TerminalCellInstalls30d({
+  mcp,
+}: {
+  mcp: McpDisplayFields | undefined;
+}) {
+  return renderInstallWindow(mcp?.installs30d);
+}
+
 export function TerminalCellToolCount({
   mcp,
 }: {

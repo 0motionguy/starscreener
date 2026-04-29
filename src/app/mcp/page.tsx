@@ -43,6 +43,9 @@ import {
 } from "@/components/feed/TerminalFeedTable";
 import {
   TerminalCellHotness,
+  TerminalCellInstalls24h,
+  TerminalCellInstalls30d,
+  TerminalCellInstalls7d,
   TerminalCellLastRelease,
   TerminalCellLiveness,
   TerminalCellPackage,
@@ -94,6 +97,34 @@ const MCP_COLUMNS: FeedColumn<EcosystemLeaderboardItem>[] = [
     width: "180px",
     hideBelow: "md",
     render: (row) => <TerminalCellPackage mcp={row.mcp} />,
+  },
+  // MCP install windows. Surfaced ahead of "Weekly DL" so the table reads
+  // 24h | 7d | 30d | Weekly DL — operator can scan the velocity columns
+  // first and use Weekly DL as the absolute-volume tiebreak. 24h + 30d
+  // hide on small screens so the mobile/tablet views don't overflow; 7d
+  // is the canonical "is this hot right now" window and stays visible.
+  {
+    id: "installs-24h",
+    header: "24h",
+    width: "70px",
+    align: "right",
+    hideBelow: "lg",
+    render: (row) => <TerminalCellInstalls24h mcp={row.mcp} />,
+  },
+  {
+    id: "installs-7d",
+    header: "7d",
+    width: "70px",
+    align: "right",
+    render: (row) => <TerminalCellInstalls7d mcp={row.mcp} />,
+  },
+  {
+    id: "installs-30d",
+    header: "30d",
+    width: "70px",
+    align: "right",
+    hideBelow: "lg",
+    render: (row) => <TerminalCellInstalls30d mcp={row.mcp} />,
   },
   {
     id: "weekly-downloads",

@@ -80,6 +80,20 @@ export interface McpDisplayFields {
   installsTotal: number | null;
   starsTotal: number | null;
   /**
+   * MCP usage telemetry windowed at 24h / 7d / 30d. Aggregated by the
+   * worker's publish layer (`pickMcpUsage`) — MAX across the 4 registry
+   * source fetchers (pulsemcp, smithery, glama, official). null when no
+   * source reported the corresponding window. Populated from the publish
+   * payload's `metrics.installs_24h / installs_7d / installs_30d`.
+   */
+  installs24h: number | null;
+  installs7d: number | null;
+  installs30d: number | null;
+  /** Monthly-ish visitor estimate (~4w window) — pulsemcp / glama. */
+  visitors4w: number | null;
+  /** Lifetime use / activation counter — smithery / glama. */
+  useCount: number | null;
+  /**
    * Per-registry source tags from the merger's `raw.sources` array. Each
    * entry is one of "official" (Anthropic), "smithery", "glama",
    * "pulsemcp", "awesome-mcp" — matches `McpSource` in the worker's
@@ -1197,6 +1211,15 @@ function buildMcpDisplayFields(args: {
   const installsTotal = asNumber(metrics?.installs_total) ?? null;
   const starsTotal = asNumber(metrics?.stars_total) ?? null;
 
+  // MCP install windows + usage counters. Pre-aggregated by the worker's
+  // `pickMcpUsage` (MAX across all 4 MCP source fetchers). snake_case in
+  // the publish payload, camelCase on display.
+  const installs24h = asNumber(metrics?.installs_24h) ?? null;
+  const installs7d = asNumber(metrics?.installs_7d) ?? null;
+  const installs30d = asNumber(metrics?.installs_30d) ?? null;
+  const visitors4w = asNumber(metrics?.visitors_4w) ?? null;
+  const useCount = asNumber(metrics?.use_count) ?? null;
+
   return {
     transport,
     isStdio,
@@ -1214,6 +1237,11 @@ function buildMcpDisplayFields(args: {
     npmDependents: dependentsCount ?? null,
     installsTotal,
     starsTotal,
+    installs24h,
+    installs7d,
+    installs30d,
+    visitors4w,
+    useCount,
     sources: rawSources,
   };
 }

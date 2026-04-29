@@ -209,6 +209,7 @@ const MCP_DOWNLOADS_KEY = "mcp-downloads";
 const MCP_DOWNLOADS_PYPI_KEY = "mcp-downloads-pypi";
 const MCP_DEPENDENTS_KEY = "mcp-dependents";
 const MCP_SMITHERY_RANK_KEY = "mcp-smithery-rank";
+const MCP_USAGE_SNAPSHOT_PREFIX = "mcp-usage-snapshot";
 const SKILL_DERIVATIVES_KEY = "skill-derivative-count";
 const SKILL_INSTALL_SNAPSHOT_PREFIX = "skill-install-snapshot";
 const SKILL_FORKS_SNAPSHOT_PREFIX = "skill-forks-snapshot";
@@ -265,6 +266,25 @@ interface McpSideChannels {
    * absolute hotness in the UI.
    */
   hotnessPrev7d: Record<string, number>;
+  /**
+   * Per-MCP usage totals from 1d / 7d / 30d ago, keyed by lowercased
+   * slug. Sourced from `mcp-usage-snapshot:<YYYY-MM-DD>` keys captured
+   * daily by the mcp-usage-snapshot fetcher. The reader subtracts these
+   * from today's totals to synthesize installs_24h / installs_7d /
+   * installs_30d windows the upstream MCP registries don't expose.
+   * Each entry is { installs_total, use_count, visitors_4w, downloads_7d }
+   * with finite numbers when present, undefined otherwise.
+   */
+  usagePrev1d: Record<string, McpUsageSnapshotEntry>;
+  usagePrev7d: Record<string, McpUsageSnapshotEntry>;
+  usagePrev30d: Record<string, McpUsageSnapshotEntry>;
+}
+
+interface McpUsageSnapshotEntry {
+  installs_total?: number;
+  use_count?: number;
+  visitors_4w?: number;
+  downloads_7d?: number;
 }
 
 interface SkillDerivativeMeta {
@@ -752,6 +772,9 @@ export async function getMcpSignalData(): Promise<McpSignalData> {
     dependentsSummary,
     smitheryRankSummary,
     hotnessPrev7d,
+    usagePrev1d,
+    usagePrev7d,
+    usagePrev30d,
   ] = await Promise.all([
     store.read<unknown>(MCP_KEY),
     loadMcpLivenessSummary(),
@@ -759,6 +782,9 @@ export async function getMcpSignalData(): Promise<McpSignalData> {
     loadMcpDependentsSummary(),
     loadMcpSmitheryRankSummary(),
     loadHotnessPrev7d("trending-mcp"),
+    loadMcpUsageSnapshot(1),
+    loadMcpUsageSnapshot(7),
+    loadMcpUsageSnapshot(30),
   ]);
   const sideChannels: McpSideChannels = {
     livenessSummary,
@@ -766,6 +792,9 @@ export async function getMcpSignalData(): Promise<McpSignalData> {
     dependentsSummary,
     smitheryRankSummary,
     hotnessPrev7d,
+    usagePrev1d,
+    usagePrev7d,
+    usagePrev30d,
   };
   const board = coerceMcpBoard(raw, sideChannels);
   return {
@@ -1103,6 +1132,22 @@ function coerceMcpItem(
   // UI-shaped mirror of the same side-channel data. Lets the /mcp page
   // render columns without re-doing the lookups. Kept separate from
   // buildMcpItem (the scorer-input mapper) per chunk ownership.
+  // Daily-snapshot side-channels for synthesized 24h/7d/30d windows.
+  // The reader joins today's `metrics.installs_total` against snapshots
+  // captured 1d / 7d / 30d ago by the mcp-usage-snapshot fetcher. Until
+  // those snapshots accrue (one tick per day), the resulting deltas
+  // are undefined and the column falls through to the publish-side
+  // pickMcpUsage value (which itself is undefined today).
+  const usagePrev1dEntry = legacy
+    ? undefined
+    : pickByKeys(sideChannels.usagePrev1d, lookupKeys);
+  const usagePrev7dEntry = legacy
+    ? undefined
+    : pickByKeys(sideChannels.usagePrev7d, lookupKeys);
+  const usagePrev30dEntry = legacy
+    ? undefined
+    : pickByKeys(sideChannels.usagePrev30d, lookupKeys);
+
   const mcpDisplay = buildMcpDisplayFields({
     raw: item,
     metrics,
@@ -1110,6 +1155,9 @@ function coerceMcpItem(
     downloadsEntry,
     dependentsCount,
     smitheryRankEntry,
+    usagePrev1d: usagePrev1dEntry,
+    usagePrev7d: usagePrev7dEntry,
+    usagePrev30d: usagePrev30dEntry,
   });
 
   return {
@@ -1154,8 +1202,11 @@ function buildMcpDisplayFields(args: {
   downloadsEntry: McpDownloadsEntry | undefined;
   dependentsCount: number | undefined;
   smitheryRankEntry: McpSmitheryRankEntry | undefined;
+  usagePrev1d?: McpUsageSnapshotEntry;
+  usagePrev7d?: McpUsageSnapshotEntry;
+  usagePrev30d?: McpUsageSnapshotEntry;
 }): McpDisplayFields {
-  const { raw, metrics, livenessEntry, downloadsEntry, dependentsCount, smitheryRankEntry } = args;
+  const { raw, metrics, livenessEntry, downloadsEntry, dependentsCount, smitheryRankEntry, usagePrev1d, usagePrev7d, usagePrev30d } = args;
 
   const npm7d = downloadsEntry?.npm7d ?? null;
   const pypi7d = downloadsEntry?.pypi7d ?? null;
@@ -1214,11 +1265,35 @@ function buildMcpDisplayFields(args: {
   // MCP install windows + usage counters. Pre-aggregated by the worker's
   // `pickMcpUsage` (MAX across all 4 MCP source fetchers). snake_case in
   // the publish payload, camelCase on display.
-  const installs24h = asNumber(metrics?.installs_24h) ?? null;
-  const installs7d = asNumber(metrics?.installs_7d) ?? null;
-  const installs30d = asNumber(metrics?.installs_30d) ?? null;
+  const installs24hPub = asNumber(metrics?.installs_24h);
+  const installs7dPub = asNumber(metrics?.installs_7d);
+  const installs30dPub = asNumber(metrics?.installs_30d);
   const visitors4w = asNumber(metrics?.visitors_4w) ?? null;
   const useCount = asNumber(metrics?.use_count) ?? null;
+
+  // Snapshot-based fallback: when the publish layer's installs_24h /
+  // installs_7d / installs_30d aren't populated yet (waiting on M1-M3
+  // metrics writes + Railway cron), synthesize Δ from the daily
+  // mcp-usage-snapshot fetcher's per-window snapshots. installsTotalNow
+  // is whichever lifetime total is most authoritative right now —
+  // metrics.installs_total wins; else the side-channel use count.
+  const installsTotalNow =
+    asNumber(metrics?.installs_total) ?? useCount ?? null;
+  const computeDelta = (
+    prev: McpUsageSnapshotEntry | undefined,
+  ): number | null => {
+    if (installsTotalNow === null || !prev) return null;
+    const prevTotal = prev.installs_total ?? prev.use_count;
+    if (prevTotal === undefined || !Number.isFinite(prevTotal)) return null;
+    const delta = installsTotalNow - prevTotal;
+    return Number.isFinite(delta) && delta >= 0 ? delta : null;
+  };
+  const installs24h =
+    installs24hPub ?? computeDelta(usagePrev1d) ?? null;
+  const installs7d =
+    installs7dPub ?? computeDelta(usagePrev7d) ?? null;
+  const installs30d =
+    installs30dPub ?? computeDelta(usagePrev30d) ?? null;
 
   return {
     transport,
@@ -1587,7 +1662,52 @@ function emptyMcpSideChannels(): McpSideChannels {
     dependentsSummary: {},
     smitheryRankSummary: {},
     hotnessPrev7d: {},
+    usagePrev1d: {},
+    usagePrev7d: {},
+    usagePrev30d: {},
   };
+}
+
+/**
+ * Read a per-day MCP usage snapshot keyed `mcp-usage-snapshot:<YYYY-MM-DD>`.
+ * Returns the slug → entry map (lowercased keys) or {} when the snapshot
+ * key is missing (cold-start, before that day's daily run accrued).
+ */
+async function loadMcpUsageSnapshot(
+  daysAgo: number,
+): Promise<Record<string, McpUsageSnapshotEntry>> {
+  const store = getDataStore();
+  const dateKey = isoDateNDaysAgoUtc(daysAgo);
+  const result = await store.read<unknown>(
+    `${MCP_USAGE_SNAPSHOT_PREFIX}:${dateKey}`,
+  );
+  const root = asRecord(result.data);
+  const totals = asRecord(root?.totals);
+  if (!totals) return {};
+  const out: Record<string, McpUsageSnapshotEntry> = {};
+  for (const [slug, raw] of Object.entries(totals)) {
+    const e = asRecord(raw);
+    if (!e) continue;
+    const entry: McpUsageSnapshotEntry = {};
+    const it = asNumber(e.installs_total);
+    if (it !== null) entry.installs_total = it;
+    const uc = asNumber(e.use_count);
+    if (uc !== null) entry.use_count = uc;
+    const v4 = asNumber(e.visitors_4w);
+    if (v4 !== null) entry.visitors_4w = v4;
+    const d7 = asNumber(e.downloads_7d);
+    if (d7 !== null) entry.downloads_7d = d7;
+    if (Object.keys(entry).length > 0) {
+      out[slug.toLowerCase()] = entry;
+    }
+  }
+  return out;
+}
+
+function isoDateNDaysAgoUtc(n: number): string {
+  const d = new Date();
+  d.setUTCDate(d.getUTCDate() - n);
+  return d.toISOString().slice(0, 10);
 }
 
 function emptySkillSideChannels(): SkillSideChannels {

@@ -162,35 +162,51 @@ export function NpmAdoptionPanel({
   return (
     <section
       aria-label="npm adoption"
-      className="v2-card overflow-hidden"
+      style={{
+        border: "1px solid var(--v4-line-200)",
+        background: "var(--v4-bg-025)",
+        borderRadius: 2,
+        overflow: "hidden",
+      }}
     >
-      <div className="v2-term-bar">
-        <span aria-hidden className="flex items-center gap-1.5">
-          <span className="block h-1.5 w-1.5 rounded-full v2-live-dot" />
-          <span
-            className="block h-1.5 w-1.5 rounded-full"
-            style={{ background: "var(--v2-line-200)" }}
-          />
-          <span
-            className="block h-1.5 w-1.5 rounded-full"
-            style={{ background: "var(--v2-line-200)" }}
-          />
-        </span>
+      <div
+        style={{
+          padding: "10px 12px",
+          borderBottom: "1px solid var(--v4-line-200)",
+          background: "var(--v4-bg-050)",
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
+          fontFamily: "var(--font-geist-mono), monospace",
+        }}
+      >
         <Package
           size={12}
-          className="shrink-0"
-          style={{ color: "var(--v2-acc)" }}
+          style={{ color: "var(--v4-acc)", flexShrink: 0 }}
           aria-hidden
         />
         <span
-          className="flex-1 truncate"
-          style={{ color: "var(--v2-ink-200)" }}
+          style={{
+            flex: 1,
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            color: "var(--v4-ink-200)",
+            fontSize: 11,
+            textTransform: "uppercase",
+            letterSpacing: "0.08em",
+          }}
         >
           {"// NPM ADOPTION · PACKAGE DOWNLOADS"}
         </span>
         <span
-          className="v2-stat shrink-0"
-          style={{ color: "var(--v2-ink-300)" }}
+          style={{
+            flexShrink: 0,
+            color: "var(--v4-ink-300)",
+            fontSize: 10,
+            textTransform: "uppercase",
+            letterSpacing: "0.08em",
+          }}
         >
           {packages.length} PACKAGE{packages.length === 1 ? "" : "S"}
         </span>
@@ -199,7 +215,7 @@ export function NpmAdoptionPanel({
       <div className="p-4">
         <p
           className="mb-4"
-          style={{ fontSize: 12, color: "var(--v2-ink-300)" }}
+          style={{ fontSize: 12, color: "var(--v4-ink-300)" }}
         >
           Real registry download windows for npm packages linked or related to
           this repo.
@@ -271,18 +287,18 @@ export function NpmAdoptionPanel({
       {topPackage && (
         <div
           className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1"
-          style={{ fontSize: 11, color: "var(--v2-ink-400)" }}
+          style={{ fontSize: 11, color: "var(--v4-ink-400)" }}
         >
           <p className="flex items-center gap-1">
-            <span style={{ color: "var(--v2-ink-400)" }}>
+            <span style={{ color: "var(--v4-ink-400)" }}>
               {"// LEADING PACKAGE: "}
             </span>
-            <span style={{ color: "var(--v2-ink-200)" }}>{topPackage.name}</span>
+            <span style={{ color: "var(--v4-ink-200)" }}>{topPackage.name}</span>
             <span>{" with "}</span>
             <span
               className="tabular-nums"
               style={{
-                color: "var(--v2-acc)",
+                color: "var(--v4-acc)",
                 fontFamily: "var(--font-geist-mono), monospace",
               }}
             >
@@ -297,7 +313,7 @@ export function NpmAdoptionPanel({
             >
               <span
                 className="v2-mono"
-                style={{ fontSize: 10, color: "var(--v2-ink-400)" }}
+                style={{ fontSize: 10, color: "var(--v4-ink-400)" }}
               >
                 30D
               </span>

@@ -173,6 +173,49 @@ export default async function SignalsPage({ searchParams: _sp }: SignalsPageProp
   await step("getTopTwitterPosts", () => getTopTwitterPosts(20));
   await step("getTwitterLatestUpdatedAt", () => getTwitterLatestUpdatedAt());
 
+  // BISECT 5: synthesis layer
+  const ghRows = getTrending("past_24_hours", "All").slice(0, 50);
+  const ghFetchedAt = getLastFetchedAt();
+  const hnTop = getHnTopStories(60);
+  const redditAll = getAllRedditPosts();
+  const bskyTop = getBlueskyTopPosts(60);
+  const devtoTop = getDevtoTopArticles(40);
+  const claudeTop = getClaudeRssTop(20);
+  const openaiTop = getOpenaiRssTop(20);
+  const twPosts = getTopTwitterPosts(20);
+
+  let items: SignalItem[] = [];
+  await step("hnToSignalItems", () => {
+    items = items.concat(hnToSignalItems(hnTop));
+  });
+  await step("redditToSignalItems", () => {
+    items = items.concat(redditToSignalItems(redditAll));
+  });
+  await step("bskyToSignalItems", () => {
+    items = items.concat(bskyToSignalItems(bskyTop));
+  });
+  await step("devtoToSignalItems", () => {
+    items = items.concat(devtoToSignalItems(devtoTop));
+  });
+  await step("githubToSignalItems", () => {
+    items = items.concat(githubToSignalItems(ghRows, ghFetchedAt));
+  });
+  await step("twitterToSignalItems", () => {
+    items = items.concat(twitterToSignalItems(twPosts));
+  });
+  await step("rssToSignalItems(claude)", () => {
+    items = items.concat(rssToSignalItems(claudeTop, "claude"));
+  });
+  await step("rssToSignalItems(openai)", () => {
+    items = items.concat(rssToSignalItems(openaiTop, "openai"));
+  });
+
+  await step("buildVolume", () => buildVolume(items, { nowMs: Date.now(), lookbackHours: 24 }));
+  await step("buildTagMomentum", () => buildTagMomentum(items, { nowMs: Date.now(), topN: 12, lookbackHours: 24 }));
+  await step("buildConsensus", () => buildConsensus(items, { nowMs: Date.now(), minSources: 3, limit: 8, lookbackHours: 24 }));
+
+  lines.push(`items: ${items.length}`);
+
   return (
     <main style={{ padding: 24, fontFamily: "monospace", fontSize: 12 }}>
       <h1>signals bisect — per-step</h1>

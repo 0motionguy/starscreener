@@ -274,3 +274,198 @@
     text-align: left;
   }
 }
+
+/* ---------------------------------------------------------------------------
+ * 06. Chip — selectable filter pill
+ * --------------------------------------------------------------------------- */
+.v4-chip {
+  height: 24px;
+  padding: 0 9px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: var(--v4-stroke-1) solid var(--v4-line-300);
+  background: var(--v4-bg-050);
+  color: var(--v4-ink-300);
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-9-5);
+  letter-spacing: var(--v4-track-10);
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color var(--v4-duration-fast) var(--v4-ease),
+    background-color var(--v4-duration-fast) var(--v4-ease),
+    border-color var(--v4-duration-fast) var(--v4-ease);
+}
+.v4-chip:hover:not(.v4-chip--disabled) {
+  color: var(--v4-ink-100);
+  border-color: var(--v4-line-400);
+}
+.v4-chip:focus-visible {
+  outline: 2px solid var(--v4-acc);
+  outline-offset: 2px;
+}
+.v4-chip--on {
+  background: var(--v4-ink-100);
+  color: #0a0a0a;
+  border-color: var(--v4-ink-100);
+  font-weight: 700;
+}
+.v4-chip--acc.v4-chip--on {
+  background: var(--v4-acc);
+  color: #1a0a04;
+  border-color: var(--v4-acc);
+}
+.v4-chip--disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+.v4-chip__swatch {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--v4-radius-2);
+  flex: none;
+}
+.v4-chip__icon {
+  display: inline-flex;
+  align-items: center;
+}
+.v4-chip__count {
+  color: var(--v4-ink-500);
+  font-size: var(--v4-text-9);
+  margin-left: 2px;
+}
+.v4-chip--on .v4-chip__count {
+  color: #5a5a5a;
+}
+.v4-chip--acc.v4-chip--on .v4-chip__count {
+  color: rgba(0, 0, 0, 0.55);
+}
+
+/* ---------------------------------------------------------------------------
+ * 07. ChipGroup + FilterBar
+ * --------------------------------------------------------------------------- */
+.v4-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border: var(--v4-stroke-1) solid var(--v4-line-200);
+  background: var(--v4-bg-025);
+  flex-wrap: wrap;
+}
+
+.v4-chip-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.v4-chip-group__label {
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-9-5);
+  letter-spacing: var(--v4-track-18);
+  color: var(--v4-ink-400);
+  text-transform: uppercase;
+  padding-right: 6px;
+}
+.v4-chip-group__items {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.v4-chip-group__right {
+  margin-left: 14px;
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-9-5);
+  letter-spacing: var(--v4-track-16);
+  color: var(--v4-ink-400);
+  text-transform: uppercase;
+}
+.v4-chip-group__divider {
+  width: 1px;
+  height: 18px;
+  background: var(--v4-line-200);
+  margin: 0 6px;
+  flex: none;
+}
+
+/* ---------------------------------------------------------------------------
+ * 08. TabBar
+ * --------------------------------------------------------------------------- */
+.v4-tab-bar {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  border-bottom: var(--v4-stroke-1) solid var(--v4-line-200);
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.v4-tab {
+  height: 42px;
+  padding: 0 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-10-5);
+  letter-spacing: var(--v4-track-14);
+  text-transform: uppercase;
+  color: var(--v4-ink-300);
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  border-bottom: 2px solid transparent;
+  flex: none;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: color var(--v4-duration-fast) var(--v4-ease),
+    border-color var(--v4-duration-fast) var(--v4-ease),
+    background-color var(--v4-duration-fast) var(--v4-ease);
+}
+.v4-tab:hover:not(.v4-tab--disabled) {
+  color: var(--v4-ink-100);
+}
+.v4-tab:focus-visible {
+  outline: 2px solid var(--v4-acc);
+  outline-offset: -2px;
+}
+.v4-tab--on {
+  color: var(--v4-ink-000);
+  border-bottom-color: var(--v4-acc);
+  background: linear-gradient(180deg, transparent, var(--v4-acc-soft));
+}
+.v4-tab--disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+.v4-tab__icon {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+}
+.v4-tab__count {
+  font-size: var(--v4-text-9-5);
+  color: var(--v4-ink-500);
+  padding: 1px 6px;
+  background: var(--v4-bg-100);
+  border-radius: var(--v4-radius-2);
+}
+.v4-tab--on .v4-tab__count {
+  color: var(--v4-acc);
+  background: var(--v4-bg-100);
+}
+.v4-tab-bar__right {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 4px;
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-9-5);
+  letter-spacing: var(--v4-track-16);
+  color: var(--v4-ink-400);
+  text-transform: uppercase;
+  white-space: nowrap;
+}

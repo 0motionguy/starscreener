@@ -1,8 +1,132 @@
 {
-  "fetchedAt": "2026-04-30T02:06:01.312Z",
+  "fetchedAt": "2026-04-30T08:06:21.682Z",
   "source": "funding-news-scraper",
   "windowDays": 21,
   "signals": [
+    {
+      "id": "tech.eu-98eae4d",
+      "headline": "Rocsys launches first multi-bay hands-free robotaxi charger, raises a $13M Series A extension",
+      "description": "Hands-free EV charging company Rocsys has introduced the Rocsys M1, ahands-free charging solution designed specifically for robotaxi depotoperations. The system is positioned as the first system capab...",
+      "sourceUrl": "https://tech.eu/2026/04/30/rocsys-launches-first-multi-bay-hands-free-robotaxi-charger-raises-13m-series-a-extension/",
+      "sourcePlatform": "techeu",
+      "publishedAt": "2026-04-30T07:15:00.000Z",
+      "discoveredAt": "2026-04-30T08:06:21.682Z",
+      "extracted": {
+        "companyName": "Rocsys",
+        "companyWebsite": "https://rocsys.com",
+        "companyLogoUrl": "https://logo.clearbit.com/rocsys.com",
+        "amount": 13000000,
+        "amountDisplay": "$13M",
+        "currency": "USD",
+        "roundType": "series-a",
+        "investors": [
+          "Capricorn Partners"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Capricorn Partners",
+            "isKnown": false,
+            "confidence": "medium"
+          }
+        ],
+        "confidence": "high"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "tech.eu-aad5d6ca",
+      "headline": "Online Oceans raises £4M to scale autonomous fleets for maritime security",
+      "description": "UK-based maritime defencestartup Online Oceans has raised £4 million in funding to scale its autonomoussurface vessels and fleet software platform. The round was led by Seraphim Space, with participat...",
+      "sourceUrl": "https://tech.eu/2026/04/30/online-oceans-raises-ps4m-to-scale-autonomous-fleets-for-maritime-security/",
+      "sourcePlatform": "techeu",
+      "publishedAt": "2026-04-30T07:00:00.000Z",
+      "discoveredAt": "2026-04-30T08:06:21.682Z",
+      "extracted": {
+        "companyName": "Online Oceans",
+        "companyWebsite": "https://onlineoceans.com",
+        "companyLogoUrl": "https://logo.clearbit.com/onlineoceans.com",
+        "amount": 4000000,
+        "amountDisplay": "$4M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "Seraphim Space"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Seraphim Space",
+            "isKnown": false,
+            "confidence": "medium"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai",
+        "europe",
+        "defense"
+      ]
+    },
+    {
+      "id": "tech.eu-bba907b0",
+      "headline": "ManaMind secures $1.5M to develop autonomous testing for gaming",
+      "description": "London-based ManaMind has raised $1.5 million in a pre-seed funding round to advance its AI-driven game testingplatform. The round was led by Sure Valley Ventures, with participation fromEWOR, Ascensi...",
+      "sourceUrl": "https://tech.eu/2026/04/30/manamind-secures-15m-to-develop-autonomous-testing-for-gaming/",
+      "sourcePlatform": "techeu",
+      "publishedAt": "2026-04-30T06:30:00.000Z",
+      "discoveredAt": "2026-04-30T08:06:21.682Z",
+      "extracted": {
+        "companyName": "ManaMind",
+        "companyWebsite": "https://manamind.ai",
+        "companyLogoUrl": "https://logo.clearbit.com/manamind.ai",
+        "amount": 1500000,
+        "amountDisplay": "$1.5M",
+        "currency": "USD",
+        "roundType": "pre-seed",
+        "investors": [
+          "Sure Valley Ventures"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Sure Valley Ventures",
+            "isKnown": false,
+            "confidence": "medium"
+          }
+        ],
+        "confidence": "high"
+      },
+      "tags": [
+        "ai",
+        "europe"
+      ]
+    },
+    {
+      "id": "sifted.eu-57281563",
+      "headline": "Exclusive: Groove Quantum raises €16m to ramp up chip production",
+      "description": "",
+      "sourceUrl": "https://sifted.eu/articles/groove-quantum-16m-seed/",
+      "sourcePlatform": "sifted",
+      "publishedAt": "2026-04-30T05:00:09.000Z",
+      "discoveredAt": "2026-04-30T08:06:21.682Z",
+      "extracted": {
+        "companyName": "Exclusive",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 16000000,
+        "amountDisplay": "$16M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [],
+        "investorsEnriched": [],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai",
+        "hardware"
+      ]
+    },
     {
       "id": "www.pymnts.com-76483837",
       "headline": "AI Spending Drives Business Equipment Investment to 6-Year High",
@@ -10,7 +134,7 @@
       "sourceUrl": "https://www.pymnts.com/artificial-intelligence-2/2026/ai-spending-drives-business-equipment-investment-to-6-year-high/",
       "sourcePlatform": "pymnts",
       "publishedAt": "2026-04-30T01:47:30.000Z",
-      "discoveredAt": "2026-04-30T02:06:01.312Z",
+      "discoveredAt": "2026-04-30T08:06:21.682Z",
       "extracted": {
         "companyName": "Spending Drives",
         "companyWebsite": "https://pymnts.com",
@@ -49,7 +173,7 @@
       "sourceUrl": "https://venturebeat.com/orchestration/ibm-launches-bob-with-multi-model-routing-and-human-checkpoints-to-turn-ai-coding-into-a-secure-production-system",
       "sourcePlatform": "venturebeat",
       "publishedAt": "2026-04-29T18:37:08.000Z",
-      "discoveredAt": "2026-04-30T02:06:01.312Z",
+      "discoveredAt": "2026-04-30T08:06:21.682Z",
       "extracted": {
         "companyName": "IBM launches Bob with multi-model routing and human checkpoints to turn AI coding into a",
         "companyWebsite": null,
@@ -75,7 +199,7 @@
       "sourceUrl": "https://techcrunch.com/2026/04/29/parallel-web-systems-hits-2b-valuation-five-months-after-its-last-big-raise/",
       "sourcePlatform": "techcrunch",
       "publishedAt": "2026-04-29T18:33:05.000Z",
-      "discoveredAt": "2026-04-30T02:06:01.312Z",
+      "discoveredAt": "2026-04-30T08:06:21.682Z",
       "extracted": {
         "companyName": "Parallel Web Systems",
         "companyWebsite": "https://parallel.ai",
@@ -113,7 +237,7 @@
       "sourceUrl": "https://techcrunch.com/2026/04/29/firestorm-labs-raises-82m-to-take-drone-factories-into-the-field/",
       "sourcePlatform": "techcrunch",
       "publishedAt": "2026-04-29T13:10:57.000Z",
-      "discoveredAt": "2026-04-30T02:06:01.312Z",
+      "discoveredAt": "2026-04-30T08:06:21.682Z",
       "extracted": {
         "companyName": "Firestorm Labs",
         "companyWebsite": "https://launchfirestorm.com",
@@ -147,7 +271,7 @@
       "sourceUrl": "https://tech.eu/2026/04/29/cleo-labs-secures-eur15m-to-scale-ai-driven-product-compliance-globally/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-29T10:00:00.000Z",
-      "discoveredAt": "2026-04-30T02:06:01.312Z",
+      "discoveredAt": "2026-04-30T08:06:21.682Z",
       "extracted": {
         "companyName": "Cleo Labs",
         "companyWebsite": "https://cleolabs.co",
@@ -180,7 +304,7 @@
       "sourceUrl": "https://tech.eu/2026/04/29/all3-raises-25m-to-boost-construction-productivity-with-robotics-and-ai/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-29T08:00:00.000Z",
-      "discoveredAt": "2026-04-30T02:06:01.312Z",
+      "discoveredAt": "2026-04-30T08:06:21.682Z",
       "extracted": {
         "companyName": "All3",
         "companyWebsite": "https://all3.com",
@@ -213,7 +337,7 @@
       "sourceUrl": "https://tech.eu/2026/04/29/spread-ai-raises-30m-series-b-for-industrial-ai/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-29T06:15:00.000Z",
-      "discoveredAt": "2026-04-30T02:06:01.312Z",
+      "discoveredAt": "2026-04-30T08:06:21.682Z",
       "extracted": {
         "companyName": "SPREAD AI",
         "companyWebsite": "https://spread.ai",
@@ -237,7 +361,7 @@
       "sourceUrl": "https://tech.eu/2026/04/28/ai-partner-for-financial-advisers-marloo-closes-10m-seed-round/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-28T10:15:00.000Z",
-      "discoveredAt": "2026-04-30T02:06:01.312Z",
+      "discoveredAt": "2026-04-30T08:06:21.682Z",
       "extracted": {
         "companyName": "partner for financial advisers Marloo",
         "companyWebsite": null,
@@ -270,7 +394,7 @@
       "sourceUrl": "https://sifted.eu/articles/e-bike-startup-forest-secures-40m-series-b-funding-round/",
       "sourcePlatform": "sifted",
       "publishedAt": "2026-04-28T10:06:29.000Z",
-      "discoveredAt": "2026-04-30T02:06:01.312Z",
+      "discoveredAt": "2026-04-30T08:06:21.682Z",
       "extracted": {
         "companyName": "E-bike startup Forest",
         "companyWebsite": null,
@@ -300,7 +424,7 @@
       "sourceUrl": "https://tech.eu/2026/04/28/neutonic-secures-6m-at-60m-valuation-to-grow-retail-and-new-markets/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-28T09:00:00.000Z",
-      "discoveredAt": "2026-04-30T02:06:01.312Z",
+      "discoveredAt": "2026-04-30T08:06:21.682Z",
       "extracted": {
         "companyName": "Neutonic",
         "companyWebsite": null,
@@ -326,7 +450,7 @@
       "sourceUrl": "https://tech.eu/2026/04/28/dehaze-raises-eur32m-for-ai-chronic-disease-detection/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-28T08:13:32.000Z",
-      "discoveredAt": "2026-04-30T02:06:01.312Z",
+      "discoveredAt": "2026-04-30T08:06:21.682Z",
       "extracted": {
         "companyName": "dehaze",
         "companyWebsite": "https://dehaze.de",
@@ -359,7 +483,7 @@
       "sourceUrl": "https://tech.eu/2026/04/28/tapaya-raises-eur1m-pre-seed-to-power-payments-on-any-device/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-28T08:00:00.000Z",
-      "discoveredAt": "2026-04-30T02:06:01.312Z",
+      "discoveredAt": "2026-04-30T08:06:21.682Z",
       "extracted": {
         "companyName": "Tapaya",
         "companyWebsite": "https://tapaya.com",
@@ -398,7 +522,7 @@
       "sourceUrl": "https://tech.eu/2026/04/28/always-friday-raises-eur105m-to-automate-corporate-event-planning-with-ai-agents/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-28T07:00:00.000Z",
-      "discoveredAt": "2026-04-30T02:06:01.312Z",
+      "discoveredAt": "2026-04-30T08:06:21.682Z",
       "extracted": {
         "companyName": "Always Friday",
         "companyWebsite": "https://alwaysfriday.it",
@@ -430,7 +554,7 @@
       "sourceUrl": "https://tech.eu/2026/04/28/cnuic-secures-eur3m-pre-seed-to-unlock-next-generation-photonic-chip-production/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-28T07:00:00.000Z",
-      "discoveredAt": "2026-04-30T02:06:01.312Z",
+      "discoveredAt": "2026-04-30T08:06:21.682Z",
       "extracted": {
         "companyName": "Cnuic",
         "companyWebsite": "https://cnuic.com",
@@ -464,7 +588,7 @@
       "sourceUrl": "https://tech.eu/2026/04/28/from-bedside-decoration-to-daily-use-patronus-raises-eur11m-for-senior-safety/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-28T05:30:00.000Z",
-      "discoveredAt": "2026-04-30T02:06:01.312Z",
+      "discoveredAt": "2026-04-30T08:06:21.682Z",
       "extracted": {
         "companyName": "Unknown",
         "companyWebsite": null,
@@ -497,7 +621,7 @@
       "sourceUrl": "https://tech.eu/2026/04/28/redpine-secures-eur68m-to-power-ai-with-premium-data/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-28T05:15:00.000Z",
-      "discoveredAt": "2026-04-30T02:06:01.312Z",
+      "discoveredAt": "2026-04-30T08:06:21.682Z",
       "extracted": {
         "companyName": "Redpine",
         "companyWebsite": "https://redpine.ai",
@@ -529,7 +653,7 @@
       "sourceUrl": "https://sifted.eu/articles/redpine-raises-e6-8m-to-give-ai-agents-access-to-non-public-data/",
       "sourcePlatform": "sifted",
       "publishedAt": "2026-04-28T05:00:55.000Z",
-      "discoveredAt": "2026-04-30T02:06:01.312Z",
+      "discoveredAt": "2026-04-30T08:06:21.682Z",
       "extracted": {
         "companyName": "Redpine",
         "companyWebsite": null,
@@ -561,7 +685,7 @@
       "sourceUrl": "https://sifted.eu/articles/zellify-funding-round-seed-project-europe/",
       "sourcePlatform": "sifted",
       "publishedAt": "2026-04-28T05:00:06.000Z",
-      "discoveredAt": "2026-04-30T02:06:01.312Z",
+      "discoveredAt": "2026-04-30T08:06:21.682Z",
       "extracted": {
         "companyName": "Voi",
         "companyWebsite": null,
@@ -583,7 +707,7 @@
       "sourceUrl": "https://techcrunch.com/2026/04/27/indias-snabbit-closes-56m-round-as-investor-interest-heats-up-in-on-demand-home-services/",
       "sourcePlatform": "techcrunch",
       "publishedAt": "2026-04-28T03:30:00.000Z",
-      "discoveredAt": "2026-04-30T02:06:01.312Z",
+      "discoveredAt": "2026-04-30T08:06:21.682Z",
       "extracted": {
         "companyName": "India",
         "companyWebsite": null,
@@ -610,37 +734,13 @@
       ]
     },
     {
-      "id": "tech.eu-e8383b64",
-      "headline": "Ineffable Intelligence launches with record-breaking $1.1B Seed round",
-      "description": "Startup Ineffable Intelligence has just come out of stealth.The company, with a mission to make first contact with superintelligence, has raised $1.1 billion in Seed funding, the largest ever in Europ...",
-      "sourceUrl": "https://tech.eu/2026/04/27/ineffable-intelligence-launches-with-record-breaking-11b-seed-round/",
-      "sourcePlatform": "techeu",
-      "publishedAt": "2026-04-27T14:53:00.000Z",
-      "discoveredAt": "2026-04-30T02:06:01.312Z",
-      "extracted": {
-        "companyName": "Ineffable Intelligence",
-        "companyWebsite": "https://ineffable.ai",
-        "companyLogoUrl": "https://logo.clearbit.com/ineffable.ai",
-        "amount": 1100000000,
-        "amountDisplay": "$1.1B",
-        "currency": "USD",
-        "roundType": "seed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high"
-      },
-      "tags": [
-        "ai"
-      ]
-    },
-    {
       "id": "www.bbc.com-6130368",
       "headline": "China blocks Meta's $2bn acquisition of AI start-up Manus",
       "description": "It comes after months of scrutiny by Chinese regulators over deal struck with Facebook owner.",
       "sourceUrl": "https://www.bbc.com/news/articles/cj0v0gr2yz7o?at_medium=RSS&at_campaign=rss",
       "sourcePlatform": "bbc",
       "publishedAt": "2026-04-27T12:21:42.000Z",
-      "discoveredAt": "2026-04-30T02:06:01.312Z",
+      "discoveredAt": "2026-04-30T08:06:21.682Z",
       "extracted": {
         "companyName": "China",
         "companyWebsite": "https://bbc.co.uk",
@@ -658,39 +758,13 @@
       ]
     },
     {
-      "id": "tech.eu-d42e5e57",
-      "headline": "Spacetech investor Seraphim Space targets £350M raise",
-      "description": "Spacetech investor Seraphim Space is looking to raise up to £350m, it said today, as it seeks to tap into the current fervour around the spacetech sector.The London-listed investment trust heralded th...",
-      "sourceUrl": "https://tech.eu/2026/04/27/spacetech-investor-seraphim-space-targets-350m-raise/",
-      "sourcePlatform": "techeu",
-      "publishedAt": "2026-04-27T11:15:00.000Z",
-      "discoveredAt": "2026-04-30T02:06:01.312Z",
-      "extracted": {
-        "companyName": "Spacetech",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 350000000,
-        "amountDisplay": "$350M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "medium"
-      },
-      "tags": [
-        "ai",
-        "europe",
-        "defense"
-      ]
-    },
-    {
       "id": "techcrunch.com-1d9d7fa5",
       "headline": "India’s Snabbit seeks fresh funding at a $400M valuation, sources say",
       "description": "Snabbit has scaled rapidly, crossing 1 million jobs in March, amid growing investor interest.",
       "sourceUrl": "https://techcrunch.com/2026/04/25/indias-snabbit-seeks-fresh-funding-at-a-400m-valuation-sources-say/",
       "sourcePlatform": "techcrunch",
       "publishedAt": "2026-04-25T14:57:26.000Z",
-      "discoveredAt": "2026-04-30T02:06:01.312Z",
+      "discoveredAt": "2026-04-30T08:06:21.682Z",
       "extracted": {
         "companyName": "India",
         "companyWebsite": null,
@@ -722,7 +796,7 @@
       "sourceUrl": "https://techcrunch.com/2026/04/24/two-college-kids-raise-a-5-1-million-pre-seed-to-build-an-ai-social-network-in-imessage/",
       "sourcePlatform": "techcrunch",
       "publishedAt": "2026-04-24T21:05:59.000Z",
-      "discoveredAt": "2026-04-30T02:06:01.312Z",
+      "discoveredAt": "2026-04-30T08:06:21.682Z",
       "extracted": {
         "companyName": "Two college kids",
         "companyWebsite": null,
@@ -747,7 +821,7 @@
       "sourceUrl": "https://sifted.eu/articles/verda-raises-e100m-to-build-european-hyperscaler/",
       "sourcePlatform": "sifted",
       "publishedAt": "2026-04-24T08:00:53.000Z",
-      "discoveredAt": "2026-04-30T02:06:01.312Z",
+      "discoveredAt": "2026-04-30T08:06:21.682Z",
       "extracted": {
         "companyName": "Verda",
         "companyWebsite": null,
@@ -817,7 +891,7 @@
         "saas",
         "devtools"
       ],
-      "discoveredAt": "2026-04-30T02:06:01.312Z"
+      "discoveredAt": "2026-04-30T08:06:21.682Z"
     },
     {
       "id": "seed-coreweave-series-c-2026",
@@ -863,7 +937,7 @@
         "hardware",
         "saas"
       ],
-      "discoveredAt": "2026-04-30T02:06:01.312Z"
+      "discoveredAt": "2026-04-30T08:06:21.682Z"
     },
     {
       "id": "seed-cognition-series-a-2026",
@@ -902,7 +976,7 @@
         "ai",
         "devtools"
       ],
-      "discoveredAt": "2026-04-30T02:06:01.312Z"
+      "discoveredAt": "2026-04-30T08:06:21.682Z"
     },
     {
       "id": "seed-anduril-series-f-2026",
@@ -947,7 +1021,7 @@
         "defense",
         "ai"
       ],
-      "discoveredAt": "2026-04-30T02:06:01.312Z"
+      "discoveredAt": "2026-04-30T08:06:21.682Z"
     },
     {
       "id": "seed-sambanova-series-e-2026",
@@ -992,7 +1066,7 @@
         "ai",
         "hardware"
       ],
-      "discoveredAt": "2026-04-30T02:06:01.312Z"
+      "discoveredAt": "2026-04-30T08:06:21.682Z"
     },
     {
       "id": "seed-poolside-series-a-2026",
@@ -1031,7 +1105,7 @@
         "ai",
         "devtools"
       ],
-      "discoveredAt": "2026-04-30T02:06:01.312Z"
+      "discoveredAt": "2026-04-30T08:06:21.682Z"
     },
     {
       "id": "seed-hebbia-series-b-2026",
@@ -1070,7 +1144,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-30T02:06:01.312Z"
+      "discoveredAt": "2026-04-30T08:06:21.682Z"
     },
     {
       "id": "seed-together-series-a-2026",
@@ -1109,7 +1183,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-30T02:06:01.312Z"
+      "discoveredAt": "2026-04-30T08:06:21.682Z"
     },
     {
       "id": "seed-sierra-series-b-2026",
@@ -1148,7 +1222,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-30T02:06:01.312Z"
+      "discoveredAt": "2026-04-30T08:06:21.682Z"
     },
     {
       "id": "seed-glean-series-d-2026",
@@ -1187,7 +1261,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-30T02:06:01.312Z"
+      "discoveredAt": "2026-04-30T08:06:21.682Z"
     },
     {
       "id": "seed-groq-series-d-2026",
@@ -1226,7 +1300,7 @@
         "ai",
         "hardware"
       ],
-      "discoveredAt": "2026-04-30T02:06:01.312Z"
+      "discoveredAt": "2026-04-30T08:06:21.682Z"
     },
     {
       "id": "seed-mistral-series-b-2026",
@@ -1271,7 +1345,7 @@
         "ai",
         "europe"
       ],
-      "discoveredAt": "2026-04-30T02:06:01.312Z"
+      "discoveredAt": "2026-04-30T08:06:21.682Z"
     },
     {
       "id": "seed-adept-series-b-2026",
@@ -1310,7 +1384,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-30T02:06:01.312Z"
+      "discoveredAt": "2026-04-30T08:06:21.682Z"
     },
     {
       "id": "seed-elevenlabs-series-c-2026",
@@ -1354,7 +1428,7 @@
       "tags": [
         "ai"
       ],
-      "discoveredAt": "2026-04-30T02:06:01.312Z"
+      "discoveredAt": "2026-04-30T08:06:21.682Z"
     },
     {
       "id": "seed-scale-series-f-2026",
@@ -1399,7 +1473,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-30T02:06:01.312Z"
+      "discoveredAt": "2026-04-30T08:06:21.682Z"
     },
     {
       "id": "seed-perplexity-series-c-2026",
@@ -1444,7 +1518,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-30T02:06:01.312Z"
+      "discoveredAt": "2026-04-30T08:06:21.682Z"
     }
   ]
 }

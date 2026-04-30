@@ -1,11 +1,7 @@
-// /predict — standalone repo forecasting tool (v2-styled).
-//
-// Wraps the PredictTool client component. When a ?repo= parameter is
-// present, the server fetches the repo's sparkline so the v2 forecast
-// cards can render a real past-to-future sparkline band.
+// /predict - standalone repo forecasting tool.
 
 import type { Metadata } from "next";
-import { LineChart, ShieldAlert } from "lucide-react";
+import Link from "next/link";
 
 import { PredictTool } from "@/components/predict/PredictTool";
 import { PREDICTION_MODEL_VERSION } from "@/lib/predictions";
@@ -13,13 +9,13 @@ import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: `Predict — repo trajectory forecast · ${SITE_NAME}`,
+  title: `Predict - repo trajectory forecast - ${SITE_NAME}`,
   description:
     "Transparent star-trajectory forecast for any tracked repo. 7d / 30d / 90d horizons with 80% confidence bands and per-driver explanations.",
   alternates: { canonical: absoluteUrl("/predict") },
   openGraph: {
     type: "website",
-    title: `Predict — ${SITE_NAME}`,
+    title: `Predict - ${SITE_NAME}`,
     description:
       "Forecast star growth for any tracked repo with transparent confidence bands.",
     url: absoluteUrl("/predict"),
@@ -35,53 +31,78 @@ interface PageProps {
 
 export default async function PredictPage({ searchParams }: PageProps) {
   const { repo } = await searchParams;
-
-  // If a repo is pre-selected, pull its sparkline so the v2 forecast
-  // cards can render the past→future SVG band with real data.
   const baseRepo = repo ? getDerivedRepoByFullName(repo.trim()) : null;
   const sparklineData = baseRepo?.sparklineData ?? null;
 
   return (
-    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
-      <div className="max-w-[1100px] mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6">
-        <header className="border-b border-border-primary pb-6">
-          <div className="flex flex-wrap items-baseline gap-3">
-            <h1 className="text-2xl font-bold uppercase tracking-wider inline-flex items-center gap-2">
-              <LineChart className="size-5 text-brand" aria-hidden />
-              Predict
-            </h1>
-            <span className="text-xs text-text-tertiary">
-              {"// star-trajectory forecast for any tracked repo"}
-            </span>
+    <main className="home-surface tools-page predict-page">
+      <section className="page-head">
+        <div>
+          <div className="crumb">
+            <b>Tools</b> / predict
           </div>
-          <p className="mt-2 max-w-2xl text-sm text-text-secondary">
-            Pick a repo. Get 7-day, 30-day, and 90-day forecasts with{" "}
-            <strong className="text-brand">80% confidence bands</strong> and a
-            short list of drivers (acceleration, volatility, baseline pace).
-            The model is transparent and reproducible — read{" "}
-            <code className="text-text-primary">src/lib/predictions.ts</code>.
+          <h1>Forecast repo trajectory.</h1>
+          <p className="lede">
+            Pick a tracked repo and inspect 7-day, 30-day, and 90-day star
+            projections with confidence bands and transparent drivers.
           </p>
-        </header>
+        </div>
+        <div className="clock">
+          <span className="big">v1</span>
+          <span className="live">baseline model</span>
+        </div>
+      </section>
 
-        <aside
-          className="rounded-card border border-warning/40 bg-warning/5 p-3 text-[11px] text-text-secondary inline-flex items-start gap-2"
-          role="note"
-        >
-          <ShieldAlert
-            className="size-3.5 text-warning mt-0.5"
-            aria-hidden
-          />
-          <div>
-            <strong className="text-warning">v1 baseline.</strong> Model{" "}
-            <code className="text-text-primary">{PREDICTION_MODEL_VERSION}</code>
-            : recent-velocity extrapolation with horizon damping.
-            Calibration scoring (how often actuals land in the band) starts
-            after 30 days of recorded predictions.
-          </div>
-        </aside>
+      <section className="tool-grid predict-tool-grid" aria-label="Tool context">
+        <Link className="tool active" href="/predict">
+          <span className="t-num">01 / active</span>
+          <span className="t-h">Prediction</span>
+          <span className="t-d">
+            Extrapolate star growth with confidence bands and driver notes.
+          </span>
+          <span className="t-foot">
+            <span className="live">live</span>
+            <span className="ar">-&gt;</span>
+          </span>
+        </Link>
+        <Link className="tool" href="/compare">
+          <span className="t-num">02 / compare</span>
+          <span className="t-h">Star History</span>
+          <span className="t-d">
+            Plot the same repo beside peers before trusting the forecast.
+          </span>
+          <span className="t-foot">
+            chart
+            <span className="ar">-&gt;</span>
+          </span>
+        </Link>
+        <Link className="tool" href="/repo/vercel/next.js">
+          <span className="t-num">03 / detail</span>
+          <span className="t-h">Repo Detail</span>
+          <span className="t-d">
+            Validate sources, revenue signals, and recent mentions.
+          </span>
+          <span className="t-foot">
+            profile
+            <span className="ar">-&gt;</span>
+          </span>
+        </Link>
+      </section>
 
-        <PredictTool initialRepo={repo ?? ""} sparklineData={sparklineData} />
-      </div>
+      <aside className="panel predict-note" role="note">
+        <div className="panel-head">
+          <span className="key">{"// MODEL BASELINE"}</span>
+          <span className="right">
+            <span>{PREDICTION_MODEL_VERSION}</span>
+          </span>
+        </div>
+        <div className="panel-body">
+          Recent-velocity extrapolation with horizon damping. Calibration
+          scoring starts after 30 days of recorded predictions.
+        </div>
+      </aside>
+
+      <PredictTool initialRepo={repo ?? ""} sparklineData={sparklineData} />
     </main>
   );
 }

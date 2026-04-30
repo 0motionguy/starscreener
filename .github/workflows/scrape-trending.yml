@@ -82,7 +82,7 @@ jobs:
         run: |
           git config user.name  "trendingrepo-bot"
           git config user.email "bot@trendingrepo.local"
-          git add data/trending.json data/deltas.json data/hot-collections.json data/recent-repos.json data/repo-metadata.json data/reddit-mentions.json data/reddit-all-posts.json data/hackernews-trending.json data/hackernews-repo-mentions.json data/_meta/reddit.json data/_meta/hackernews.json
+          git add data/trending.json data/deltas.json data/hot-collections.json data/recent-repos.json data/repo-metadata.json data/reddit-mentions.json data/reddit-all-posts.json data/hackernews-trending.json data/hackernews-repo-mentions.json data/_meta/reddit.json data/_meta/hackernews.json data/_meta/trending.json
           if git diff --quiet --staged; then
             echo "no changes - skipping commit"
             exit 0

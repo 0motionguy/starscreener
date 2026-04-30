@@ -1,0 +1,218 @@
+.compare-page {
+  gap: 10px;
+  padding-bottom: 34px;
+}
+
+.compare-page .compare-tool-grid {
+  margin-bottom: 0;
+}
+
+.compare-wave {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.compare-control-panel .panel-body,
+.compare-code-panel .panel-body {
+  padding: 12px;
+}
+
+.compare-control-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.compare-work-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 10px;
+  align-items: start;
+}
+
+.compare-chart-stack {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.compare-empty-chart,
+.compare-empty-state {
+  display: flex;
+  min-height: 220px;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--line-300);
+  background: var(--bg-025);
+  color: var(--ink-400);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xl);
+  letter-spacing: var(--tracking-control);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.compare-empty-state {
+  min-height: 260px;
+  flex-direction: column;
+  gap: 14px;
+  padding: 24px;
+}
+
+.compare-empty-state p {
+  max-width: 360px;
+  margin: 0;
+  color: var(--ink-300);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-7xl);
+  letter-spacing: 0;
+  line-height: var(--line-height-body);
+  text-transform: none;
+}
+
+.compare-empty-icon {
+  display: grid;
+  width: 56px;
+  height: 56px;
+  place-items: center;
+  border: 1px solid var(--line-300);
+  background: var(--bg-050);
+}
+
+.compare-profile-panel {
+  overflow: hidden;
+}
+
+.compare-profile-panel > nav,
+.compare-profile-panel > div:first-of-type {
+  padding-right: 12px;
+  padding-left: 12px;
+}
+
+.compare-profile-panel > nav {
+  padding-top: 12px;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-md);
+  letter-spacing: var(--tracking-control);
+  text-transform: uppercase;
+}
+
+.compare-profile-panel > div:first-of-type {
+  padding-top: 6px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line-200);
+}
+
+.compare-profile-panel h1 {
+  margin: 0;
+  color: var(--ink-000);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-title-sm);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--tracking-title);
+}
+
+.compare-profile-panel p {
+  margin: 4px 0 0;
+  color: var(--ink-300);
+  font-size: var(--font-size-3xl);
+}
+
+.compare-profile-panel > section {
+  padding: 12px;
+}
+
+.compare-code-panel {
+  overflow: hidden;
+}
+
+.compare-page .v2-card,
+.compare-page [class*="rounded-card"],
+.compare-page [class*="rounded-md"],
+.compare-page [class*="rounded-badge"] {
+  border-radius: var(--radius-none);
+}
+
+.compare-page .v2-card {
+  border: 1px solid var(--line-200);
+  background: var(--bg-025);
+  box-shadow: none;
+}
+
+.compare-page .v2-card:hover {
+  border-color: var(--line-300);
+}
+
+.compare-page .chart-wrap {
+  background:
+    linear-gradient(var(--line-100) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line-100) 1px, transparent 1px);
+  background-color: var(--bg-000);
+  background-size: 52px 52px;
+}
+
+.compare-page .recharts-legend-wrapper {
+  font-family: var(--font-mono);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+}
+
+.compare-page aside[aria-label="Share panel"] {
+  max-width: none;
+  border-radius: var(--radius-none);
+  border-color: var(--line-200);
+  background: var(--bg-025);
+  box-shadow: none;
+}
+
+.compare-page aside[aria-label="Share panel"] a,
+.compare-page aside[aria-label="Share panel"] button {
+  border-radius: var(--radius-none);
+}
+
+.compare-add-tile {
+  display: flex;
+  min-height: 140px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px dashed var(--line-300);
+  background: var(--bg-025);
+  color: var(--ink-400);
+}
+
+.compare-page .panel-head a {
+  color: var(--ink-300);
+  text-decoration: none;
+}
+
+.compare-page .panel-head a:hover {
+  color: var(--ink-100);
+}
+
+@media (max-width: 1100px) {
+  .compare-work-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .compare-page .compare-tool-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .compare-page .compare-tool-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .compare-control-panel .panel-body,
+  .compare-code-panel .panel-body,
+  .compare-profile-panel > section {
+    padding: 10px;
+  }
+}

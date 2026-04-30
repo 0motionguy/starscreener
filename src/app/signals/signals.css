@@ -42,3 +42,44 @@
   --heat-hot: 255, 107, 53;       /* matches --color-accent */
   --heat-cool: 58, 214, 197;      /* cyan companion */
 }
+
+/* Heatmap grid — desktop default. Mobile breakpoint below kills the 680-px
+ * min-width that would otherwise force horizontal scroll inside the panel. */
+.signals-heatmap-body {
+  overflow-x: auto;
+}
+.signals-heatmap-grid {
+  display: grid;
+  grid-template-columns: 120px repeat(24, minmax(0, 1fr));
+  gap: 2px;
+  align-items: center;
+  min-width: 680px;
+}
+.signals-heatmap-axis {
+  display: grid;
+  grid-template-columns: 120px repeat(24, minmax(0, 1fr));
+  gap: 2px;
+  padding-top: 6px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.10em;
+  color: var(--color-text-subtle);
+  text-transform: uppercase;
+  min-width: 680px;
+}
+
+/* Phone: drop the min-width so the grid fits the viewport, shrink the
+ * tag-label column, and trim the cell height. The heatmap still reads
+ * as a sparkline strip per row — fits without scroll. */
+@media (max-width: 767px) {
+  .signals-heatmap-body {
+    overflow-x: visible;
+  }
+  .signals-heatmap-grid,
+  .signals-heatmap-axis {
+    grid-template-columns: 76px repeat(24, minmax(0, 1fr));
+    min-width: 0;
+    gap: 1px;
+  }
+}
+

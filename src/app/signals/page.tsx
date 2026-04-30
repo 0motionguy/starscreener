@@ -175,8 +175,25 @@ export default async function SignalsPage() {
   // ── Cross-source synthesis -------------------------------------------------
   const nowMs = Date.now();
   const volume = buildVolume(items, { nowMs });
-  const consensus = buildConsensus(items, { nowMs, minSources: 3, limit: 8 });
   const tagMomentum = buildTagMomentum(items, { nowMs, topN: 12 });
+
+  // Consensus: strong signals (3+ sources) come first. When the panel would
+  // be sparse (< 5 strong stories), top up with the next-best near-consensus
+  // items so the slot doesn't read as half-empty. The KPI strip's
+  // "Consensus stories" count tracks the strong-only number.
+  const strongConsensus = buildConsensus(items, { nowMs, minSources: 3, limit: 8 });
+  const consensusCount = strongConsensus.length;
+  let consensus = strongConsensus;
+  if (consensus.length < 5) {
+    const nearConsensus = buildConsensus(items, {
+      nowMs,
+      minSources: 1,
+      limit: 12,
+    }).filter(
+      (s) => !strongConsensus.some((c) => c.key === s.key),
+    );
+    consensus = [...strongConsensus, ...nearConsensus].slice(0, 8);
+  }
 
   // ── KPI calculations -------------------------------------------------------
   const activeSources = (Object.entries(volume.perSource) as [SourceKey, number][])
@@ -424,7 +441,7 @@ export default async function SignalsPage() {
           topTag={tagMomentum.topTag?.tag ?? null}
           topTagDelta={tagMomentum.topTag?.delta ?? null}
           topTagCount={tagMomentum.topTag?.count ?? null}
-          consensusCount={consensus.length}
+          consensusCount={consensusCount}
           alphaScore={alphaScore}
           alphaDelta={alphaDelta}
           freshnessLabel={freshnessLabel}
@@ -449,7 +466,7 @@ export default async function SignalsPage() {
         <div className="col-5">
           <ConsensusRadar
             stories={consensus}
-            totalActive={consensus.length}
+            totalActive={consensusCount}
           />
         </div>
       </div>

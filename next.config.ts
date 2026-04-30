@@ -165,8 +165,21 @@ const nextConfig: NextConfig = {
         destination: "https://trendingrepo.com/:path*",
         permanent: true,
       },
-      // /news is now the primary News Terminal (v2-styled tabbed overview).
-      // /signals remains the cross-source aggregator.
+      // /news retired in favour of the V3 cross-source newsroom at /signals.
+      // 308s preserve external links / SEO; the sub-tabs (?tab=hackernews
+      // etc.) collapse to /signals since each native source page (eg.
+      // /hackernews/trending) already exists and is reachable from the
+      // sidebar.
+      {
+        source: "/news",
+        destination: "/signals",
+        permanent: true,
+      },
+      {
+        source: "/news/:path*",
+        destination: "/signals",
+        permanent: true,
+      },
     ];
   },
 };

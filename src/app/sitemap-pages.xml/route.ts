@@ -43,6 +43,7 @@ interface StaticHub {
 
 const STATIC_HUBS: StaticHub[] = [
   { path: "/", priority: 1.0, changefreq: "hourly" },
+  { path: "/top10", priority: 0.95, changefreq: "hourly" },
   { path: "/breakouts", priority: 0.9, changefreq: "hourly" },
   { path: "/funding", priority: 0.9, changefreq: "hourly" },
   { path: "/twitter", priority: 0.85, changefreq: "hourly" },
@@ -69,6 +70,7 @@ const STATIC_HUBS: StaticHub[] = [
 // path for O(1) lookup as we build the entry list.
 const HUBS_WITH_OG: Record<string, string> = {
   "/": "/opengraph-image",
+  "/top10": "/api/og/top10?cat=repos&aspect=h",
   "/breakouts": "/breakouts/opengraph-image",
   "/compare": "/compare/opengraph-image",
 };

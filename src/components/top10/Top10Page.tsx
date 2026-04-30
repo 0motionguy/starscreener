@@ -349,8 +349,43 @@ function PageHead() {
           corpus.
         </p>
       </div>
+      <SnapshotsLink />
       <RefreshClock />
     </header>
+  );
+}
+
+function SnapshotsLink() {
+  // Yesterday's UTC date — matches the snapshot cron's key format. We render
+  // the link unconditionally because the frozen route 404s gracefully when no
+  // snapshot exists (cold-start), so a dead link is the worst case during the
+  // first 24h post-deploy. After that it's a real archive door.
+  const yesterday = useMemo(() => {
+    const d = new Date(Date.now() - 24 * 60 * 60 * 1000);
+    return d.toISOString().slice(0, 10);
+  }, []);
+  return (
+    <Link
+      href={`/top10/${yesterday}`}
+      className="v2-mono"
+      style={{
+        height: 28,
+        padding: "0 11px",
+        border: "1px solid var(--v3-line-300, #3a444f)",
+        background: "var(--v3-bg-050, #101418)",
+        color: "var(--v3-ink-200, #b8c0c8)",
+        fontSize: 10.5,
+        letterSpacing: "0.14em",
+        textTransform: "uppercase",
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 7,
+        textDecoration: "none",
+        whiteSpace: "nowrap",
+      }}
+    >
+      ⟲ YESTERDAY · {yesterday}
+    </Link>
   );
 }
 

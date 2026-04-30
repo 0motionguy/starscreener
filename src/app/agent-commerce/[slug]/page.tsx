@@ -1,0 +1,292 @@
+// /agent-commerce/[slug] — entity detail page.
+//
+// Server component. Resolves slug → item from the data-store cache,
+// renders score breakdown + sources + linked actions.
+
+import type { Metadata } from "next";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+
+import { Card, CardBody, CardHeader } from "@/components/ui/Card";
+import {
+  CapabilityChips,
+  PricingBadge,
+  ProtocolList,
+  ScoreBar,
+  StatusBadges,
+} from "@/components/agent-commerce/AgentCommerceBadges";
+import {
+  getAgentCommerceItem,
+  getAgentCommerceItems,
+  refreshAgentCommerceFromStore,
+} from "@/lib/agent-commerce";
+import type { AgentCommerceItem } from "@/lib/agent-commerce/types";
+
+export const revalidate = 600;
+
+interface DetailProps {
+  params: Promise<{ slug: string }>;
+}
+
+export async function generateMetadata({
+  params,
+}: DetailProps): Promise<Metadata> {
+  const { slug } = await params;
+  await refreshAgentCommerceFromStore();
+  const item = getAgentCommerceItem(slug);
+  if (!item) return { title: "Agent Commerce · Not found" };
+  return {
+    title: `${item.name} · Agent Commerce`,
+    description: item.brief.slice(0, 160),
+    alternates: { canonical: `/agent-commerce/${item.slug}` },
+  };
+}
+
+function getInitials(name: string): string {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return "??";
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
+
+function getGradient(name: string): string {
+  const grads = [
+    "linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)",
+    "linear-gradient(135deg, #10b981 0%, #047857 100%)",
+    "linear-gradient(135deg, #f472b6 0%, #db2777 100%)",
+    "linear-gradient(135deg, #f59e0b 0%, #b45309 100%)",
+    "linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%)",
+    "linear-gradient(135deg, #06b6d4 0%, #0e7490 100%)",
+    "linear-gradient(135deg, #f97316 0%, #c2410c 100%)",
+  ];
+  let hash = 0;
+  for (const ch of name) hash = (hash * 31 + ch.charCodeAt(0)) >>> 0;
+  return grads[hash % grads.length];
+}
+
+function findRelated(
+  items: AgentCommerceItem[],
+  target: AgentCommerceItem,
+): AgentCommerceItem[] {
+  return items
+    .filter(
+      (it) =>
+        it.id !== target.id &&
+        (it.category === target.category || it.kind === target.kind),
+    )
+    .sort((a, b) => b.scores.composite - a.scores.composite)
+    .slice(0, 4);
+}
+
+const SCORE_LABELS: { key: keyof AgentCommerceItem["scores"]; label: string }[] = [
+  { key: "githubVelocity", label: "GitHub velocity" },
+  { key: "socialMentions", label: "Social mentions" },
+  { key: "pricingClarity", label: "Pricing clarity" },
+  { key: "apiClarity", label: "API clarity" },
+  { key: "aisoScore", label: "AISO score" },
+  { key: "portalReady", label: "Portal Ready" },
+];
+
+export default async function AgentCommerceDetailPage({ params }: DetailProps) {
+  const { slug } = await params;
+  await refreshAgentCommerceFromStore();
+  const item = getAgentCommerceItem(slug);
+  if (!item) notFound();
+
+  const related = findRelated(getAgentCommerceItems(), item);
+  const externalHref =
+    item.links.website ??
+    (item.links.github ? `https://github.com/${item.links.github}` : null) ??
+    item.links.docs ??
+    null;
+
+  return (
+    <main className="home-surface ac-detail">
+      <section className="page-head">
+        <div>
+          <div className="crumb">
+            <Link href="/agent-commerce">Agent Commerce</Link> / {item.kind} / {item.category}
+          </div>
+        </div>
+      </section>
+
+      <header className="ac-detail-head">
+        <div className="ac-logo" style={{ background: getGradient(item.name) }}>
+          {getInitials(item.name)}
+        </div>
+        <div>
+          <h1 className="ac-detail-name">{item.name}</h1>
+          <p className="ac-detail-brief">{item.brief}</p>
+          <div style={{ marginTop: 10 }}>
+            <ProtocolList protocols={item.protocols} />
+          </div>
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8 }}>
+          <ScoreBar score={item.scores.composite} />
+          {externalHref ? (
+            <a className="ac-link" href={externalHref} target="_blank" rel="noreferrer">
+              Visit ↗
+            </a>
+          ) : null}
+        </div>
+      </header>
+
+      <div className="ac-detail-grid">
+        <div style={{ display: "grid", gap: 12 }}>
+          <Card>
+            <CardHeader showCorner right={<span>composite {item.scores.composite}</span>}>
+              Score breakdown
+            </CardHeader>
+            <CardBody>
+              <div className="ac-score-rows">
+                {SCORE_LABELS.map(({ key, label }) => {
+                  const raw = item.scores[key];
+                  const n = typeof raw === "number" ? raw : 0;
+                  const display = raw === null ? "—" : String(n);
+                  return (
+                    <div className="ac-score-row" key={key}>
+                      <span>{label}</span>
+                      <span className="ac-score-track">
+                        <i style={{ width: `${n}%` }} />
+                      </span>
+                      <span className="ac-score-num">{display}</span>
+                    </div>
+                  );
+                })}
+                {item.scores.hypePenalty > 0 ? (
+                  <div className="ac-score-row" style={{ color: "#f87171" }}>
+                    <span>Hype penalty</span>
+                    <span className="ac-score-track">
+                      <i style={{ width: `${item.scores.hypePenalty * 3.33}%`, background: "#f87171" }} />
+                    </span>
+                    <span className="ac-score-num">−{item.scores.hypePenalty}</span>
+                  </div>
+                ) : null}
+              </div>
+            </CardBody>
+          </Card>
+
+          <Card>
+            <CardHeader showCorner right={<span>{item.sources.length}</span>}>
+              Sources
+            </CardHeader>
+            <CardBody>
+              <ul className="ac-source-list">
+                {item.sources.map((src, i) => (
+                  <li key={`${src.source}-${i}`}>
+                    <span style={{ textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--color-text-faint)" }}>
+                      {src.source}
+                    </span>
+                    <a href={src.url} target="_blank" rel="noreferrer">
+                      {src.url.replace(/^https?:\/\//, "")}
+                    </a>
+                    <span style={{ textAlign: "right" }}>{src.signalScore}</span>
+                  </li>
+                ))}
+              </ul>
+            </CardBody>
+          </Card>
+        </div>
+
+        <div style={{ display: "grid", gap: 12 }}>
+          <Card>
+            <CardHeader showCorner>Status</CardHeader>
+            <CardBody>
+              <div style={{ display: "grid", gap: 10 }}>
+                <StatusBadges badges={item.badges} />
+                <PricingBadge pricing={item.pricing} />
+                {item.capabilities.length > 0 ? (
+                  <CapabilityChips capabilities={item.capabilities} />
+                ) : null}
+              </div>
+            </CardBody>
+          </Card>
+
+          <Card>
+            <CardHeader showCorner>Links</CardHeader>
+            <CardBody>
+              <ul className="ac-source-list">
+                {item.links.website ? (
+                  <li>
+                    <span>WEBSITE</span>
+                    <a href={item.links.website} target="_blank" rel="noreferrer">
+                      {item.links.website.replace(/^https?:\/\//, "")}
+                    </a>
+                    <span />
+                  </li>
+                ) : null}
+                {item.links.github ? (
+                  <li>
+                    <span>GITHUB</span>
+                    <a
+                      href={`https://github.com/${item.links.github}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {item.links.github}
+                    </a>
+                    <span />
+                  </li>
+                ) : null}
+                {item.links.docs ? (
+                  <li>
+                    <span>DOCS</span>
+                    <a href={item.links.docs} target="_blank" rel="noreferrer">
+                      {item.links.docs.replace(/^https?:\/\//, "")}
+                    </a>
+                    <span />
+                  </li>
+                ) : null}
+                {item.links.portalManifest ? (
+                  <li>
+                    <span>PORTAL</span>
+                    <a href={item.links.portalManifest} target="_blank" rel="noreferrer">
+                      {item.links.portalManifest.replace(/^https?:\/\//, "")}
+                    </a>
+                    <span />
+                  </li>
+                ) : null}
+                {item.links.callEndpoint ? (
+                  <li>
+                    <span>CALL</span>
+                    <a href={item.links.callEndpoint} target="_blank" rel="noreferrer">
+                      {item.links.callEndpoint.replace(/^https?:\/\//, "")}
+                    </a>
+                    <span />
+                  </li>
+                ) : null}
+              </ul>
+            </CardBody>
+          </Card>
+
+          {related.length > 0 ? (
+            <Card>
+              <CardHeader showCorner>Related</CardHeader>
+              <CardBody>
+                <ul className="ac-source-list">
+                  {related.map((rel) => (
+                    <li key={rel.id}>
+                      <span style={{ textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--color-text-faint)" }}>
+                        {rel.kind}
+                      </span>
+                      <Link href={`/agent-commerce/${rel.slug}`}>{rel.name}</Link>
+                      <span style={{ textAlign: "right" }}>{rel.scores.composite}</span>
+                    </li>
+                  ))}
+                </ul>
+              </CardBody>
+            </Card>
+          ) : null}
+        </div>
+      </div>
+
+      <div style={{ display: "flex", gap: 12, marginTop: 16 }}>
+        {item.tags.map((tag) => (
+          <span key={tag} className="ac-cap">
+            {tag}
+          </span>
+        ))}
+      </div>
+    </main>
+  );
+}

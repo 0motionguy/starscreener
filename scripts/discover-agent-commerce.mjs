@@ -50,6 +50,37 @@ const MERGE_MIN_NPM_DOWNLOADS = parseNumberArg("--merge-min-npm-dl", 200);
 const MERGE_MAX_NEW = parseNumberArg("--merge-max-new", 50);
 const TOKEN = process.env.GITHUB_TOKEN ?? process.env.GH_TOKEN ?? "";
 
+// Auto-merge topic gate: a discovered repo only qualifies for auto-merge if
+// its GitHub `topics` array includes at least one of these. Prevents
+// tangentially-relevant repos (n8n, gemini-cli, etc.) sneaking through.
+const AUTO_MERGE_REQUIRED_TOPICS = [
+  "x402",
+  "mcp-server",
+  "agent-payments",
+  "agent-wallet",
+  "agent-commerce",
+  "a2a",
+];
+
+// Auto-merge push-recency floor (in days). A repo with a qualifying
+// topic but no push activity in the last year is likely abandoned —
+// reject so it lands in the rejected sidecar for human review instead
+// of inflating the seed.
+const AUTO_MERGE_MAX_PUSH_AGE_DAYS = 365;
+
+function qualifiesForAutoMerge(candidate) {
+  const topics = candidate?._discovery?.topics ?? [];
+  if (!topics.some((t) => AUTO_MERGE_REQUIRED_TOPICS.includes(t))) return false;
+  const pushedAt = candidate?._discovery?.pushedAt;
+  if (pushedAt) {
+    const ageDays = (Date.now() - new Date(pushedAt).getTime()) / 86_400_000;
+    if (Number.isFinite(ageDays) && ageDays > AUTO_MERGE_MAX_PUSH_AGE_DAYS) {
+      return false;
+    }
+  }
+  return true;
+}
+
 function parseNumberArg(name, fallback) {
   const idx = process.argv.indexOf(name);
   if (idx === -1 || idx === process.argv.length - 1) return fallback;

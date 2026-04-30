@@ -8,6 +8,7 @@
 
 import { writeFileSync, mkdirSync } from "fs";
 import { resolve, dirname } from "path";
+import { writeDataStore } from "./_data-store-write.mjs";
 
 const OUT_PATH = resolve(process.cwd(), ".data/solana-x402-onchain.json");
 const RPC_ENDPOINTS = (process.env.SOLANA_RPC_URL ?? "https://api.mainnet-beta.solana.com")
@@ -313,27 +314,24 @@ async function main() {
     console.log("[x402-sol] --dry-run");
     return;
   }
+  const payload = {
+    fetchedAt,
+    source: RPC_ENDPOINTS[0],
+    chain: "solana",
+    totalTxs,
+    totalSettlements,
+    byFacilitator,
+    byDay,
+    samples,
+    facilitatorAddresses: FACILITATORS,
+  };
   mkdirSync(dirname(OUT_PATH), { recursive: true });
-  writeFileSync(
-    OUT_PATH,
-    JSON.stringify(
-      {
-        fetchedAt,
-        source: RPC_ENDPOINTS[0],
-        chain: "solana",
-        totalTxs,
-        totalSettlements,
-        byFacilitator,
-        byDay,
-        samples,
-        facilitatorAddresses: FACILITATORS,
-      },
-      null,
-      2,
-    ),
-    "utf8",
-  );
+  writeFileSync(OUT_PATH, JSON.stringify(payload, null, 2), "utf8");
   console.log(`[x402-sol] wrote ${OUT_PATH}`);
+  const ds = await writeDataStore("solana-x402-onchain", payload, {
+    stampPerRecord: false,
+  });
+  console.log(`[x402-sol] data-store: ${ds.source} @ ${ds.writtenAt}`);
 }
 
 main().catch((err) => {

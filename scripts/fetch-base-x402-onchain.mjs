@@ -12,6 +12,11 @@ const DRY_RUN = process.argv.includes("--dry-run");
 const TIMEOUT_MS = 30_000;
 const USDC_BASE = "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913";
 
+// data-store mirror — collector dual-writes file + Redis per CLAUDE.md
+// convention. Skips silently when REDIS_URL/Upstash env is absent.
+// eslint-disable-next-line no-unused-vars
+import { writeDataStore as _writeDataStore } from "./_data-store-write.mjs";
+
 const FACILITATORS = {
   Coinbase: [
     "0xdbdf3d8ed80f84c35d01c6c9f9271761bad90ba6",

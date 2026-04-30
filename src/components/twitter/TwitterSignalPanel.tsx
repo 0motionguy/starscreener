@@ -75,7 +75,7 @@ export function TwitterSignalPanel({ panel }: TwitterSignalPanelProps) {
           </div>
         </header>
 
-      <div className="mt-4 grid grid-cols-2 lg:grid-cols-5 gap-3">
+      <div className="x-signal-stats">
         <Stat
           label="Mentions 24h"
           value={formatNumber(panel.summary.mentionCount24h)}
@@ -105,7 +105,7 @@ export function TwitterSignalPanel({ panel }: TwitterSignalPanelProps) {
         />
       </div>
 
-      <div className="mt-4 grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_280px] gap-4">
+      <div className="x-signal-body">
         <div>
           <div className="mb-2 font-mono text-[11px] uppercase tracking-wider text-text-tertiary">
             Top matched posts

@@ -95,8 +95,10 @@ import { triggerScanIfStale } from "@/lib/news/auto-rescrape";
 
 import "./signals.css";
 
-// ISR — same cadence as the homepage so collectors don't trigger redeploys.
-export const revalidate = 1800;
+// Force dynamic — bypasses build-time prerender (where Vercel was 500ing
+// without surfacing the error to error.tsx). Restore ISR (revalidate=1800)
+// once the underlying issue is identified via runtime logs.
+export const dynamic = "force-dynamic";
 
 // ---------------------------------------------------------------------------
 // Helpers

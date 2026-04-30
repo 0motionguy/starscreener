@@ -1444,6 +1444,53 @@ body::before {
   padding-bottom: 48px;
 }
 
+.signals-page {
+  padding-bottom: 48px;
+}
+
+.signals-page .kpi-strip,
+.signals-page .ds-metric-grid {
+  margin-bottom: 14px;
+}
+
+.signals-top-slot {
+  margin-bottom: 14px;
+}
+
+.signals-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+}
+
+.signals-rail {
+  display: none;
+}
+
+.filter-bar .sep {
+  width: 1px;
+  height: 18px;
+  margin: 0 4px;
+  background: var(--line-200);
+}
+
+.filter-bar .chip .ct,
+.signals-tabs .chip .ct {
+  margin-left: 6px;
+  color: var(--ink-400);
+  font-size: var(--font-size-sm);
+}
+
+@media (min-width: 1024px) {
+  .signals-layout {
+    grid-template-columns: minmax(0, 1fr) 280px;
+  }
+
+  .signals-rail {
+    display: block;
+  }
+}
+
 .repo-detail-stack {
   display: flex;
   flex-direction: column;

@@ -101,53 +101,44 @@ export function SignalSourcePage({
   const current = tabs.find((t) => t.id === activeTab) ?? tabs[0];
 
   return (
-    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-6 md:py-8">
-        {/* Compact eyebrow line — replaces the legacy H1+subtitle hero.
-            The sidebar nav already names the page; this strip carries the
-            freshness pill so readers can spot stale data at a glance. */}
-        <div
-          className="v2-mono mb-4 flex flex-wrap items-center justify-between gap-3 px-3 py-2"
-          style={{
-            background: "var(--v3-bg-025)",
-            border: "1px solid var(--v3-line-100)",
-            borderRadius: 2,
-          }}
-        >
-          <span
-            className="truncate text-[11px] uppercase tracking-[0.18em]"
-            style={{ color: "var(--v3-ink-200)" }}
-          >
-            <span aria-hidden style={{ color: "var(--v3-ink-400)" }}>
-              {"// "}
-            </span>
-            {sourceLabel}
-            <span aria-hidden className="mx-1.5" style={{ color: "var(--v3-ink-500)" }}>
-              ·
-            </span>
-            <span style={{ color: "var(--v3-ink-300)" }}>{mode}</span>
-            {subtitle ? (
-              <span
-                aria-hidden
-                className="ml-2 hidden truncate sm:inline"
-                style={{ color: "var(--v3-ink-400)" }}
-              >
-                / {subtitle}
-              </span>
-            ) : null}
-          </span>
-          <ScrapeAge
-            status={freshnessStatus}
-            ageLabel={ageLabel}
-            fetchedAt={fetchedAt}
-          />
+    <main className="home-surface signals-page">
+      <section className="page-head">
+        <div>
+          <div className="crumb">
+            <b>{sourceLabel}</b> / {mode} / signal terminal
+          </div>
+          <h1>The newsroom for AI &amp; dev tooling.</h1>
+          {subtitle ? <p className="lede">{subtitle}</p> : null}
         </div>
+        <div className="clock">
+          <span className="big">{ageLabel}</span>
+          <span className="live">Feed {freshnessStatus}</span>
+        </div>
+      </section>
 
-        {topSlot ? <div className="mb-6">{topSlot}</div> : null}
+      <div className="filter-bar signals-filter">
+        <span className="lbl">Sources</span>
+        <span className="chip on">All</span>
+        <span className="chip on">HN</span>
+        <span className="chip on">Reddit</span>
+        <span className="chip on">Bluesky</span>
+        <span className="chip on">Dev.to</span>
+        <span className="chip on">Lobsters</span>
+        <span className="sep" aria-hidden="true" />
+        <span className="lbl">Freshness</span>
+        <ScrapeAge
+          status={freshnessStatus}
+          ageLabel={ageLabel}
+          fetchedAt={fetchedAt}
+        />
+      </div>
+
+      {topSlot ? <div className="signals-top-slot">{topSlot}</div> : null}
 
         <SignalMetricStrip metrics={metrics} />
 
-        <section className="mb-4 flex flex-wrap items-center gap-1.5">
+        <section className="filter-bar signals-tabs">
+          <span className="lbl">View</span>
           {tabs.map((t) => {
             const active = t.id === current?.id;
             const count = t.content !== undefined ? null : t.rows.length;
@@ -156,21 +147,11 @@ export function SignalSourcePage({
                 key={t.id}
                 type="button"
                 onClick={() => switchTab(t.id)}
-                className="v2-mono px-3 py-1.5 text-[11px] uppercase tracking-[0.16em] transition"
-                style={{
-                  border: active
-                    ? "1px solid var(--v3-acc)"
-                    : "1px solid var(--v3-line-200)",
-                  background: active
-                    ? "rgba(146, 151, 246, 0.1)"
-                    : "var(--v3-bg-100)",
-                  color: active ? "var(--v3-ink-000)" : "var(--v3-ink-300)",
-                  borderRadius: 2,
-                }}
+                className={`chip ${active ? "on" : ""}`}
               >
                 {t.label}
                 {count !== null ? (
-                  <span className="ml-1.5" style={{ color: "var(--v3-ink-400)" }}>
+                  <span className="ct">
                     ({count})
                   </span>
                 ) : null}
@@ -179,7 +160,7 @@ export function SignalSourcePage({
           })}
         </section>
 
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_280px]">
+        <div className="signals-layout">
           <div className="min-w-0">
             {current ? (
               current.content !== undefined ? (
@@ -194,9 +175,8 @@ export function SignalSourcePage({
               )
             ) : null}
           </div>
-          {rightRail ? <aside className="hidden lg:block">{rightRail}</aside> : null}
+          {rightRail ? <aside className="signals-rail">{rightRail}</aside> : null}
         </div>
-      </div>
     </main>
   );
 }

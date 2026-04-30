@@ -137,3 +137,37 @@
 .watchlist-state-icon.muted {
   color: var(--ink-400);
 }
+
+.news-source-page {
+  gap: 10px;
+  padding-bottom: 34px;
+}
+
+.news-source-metrics {
+  margin-bottom: 0;
+}
+
+.news-source-tabs {
+  margin-top: 2px;
+}
+
+.news-source-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 12px;
+  min-width: 0;
+}
+
+.news-source-rail {
+  min-width: 0;
+}
+
+@media (max-width: 1100px) {
+  .news-source-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .news-source-rail {
+    display: none;
+  }
+}

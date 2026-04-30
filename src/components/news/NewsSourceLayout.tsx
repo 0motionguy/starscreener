@@ -1,20 +1,6 @@
 "use client";
 
-// Unified template for every news-source page (Reddit, HN, Bluesky,
-// dev.to, Lobsters, Twitter). The parent page is server-rendered, reads
-// its data, normalizes it into the row shapes below, and hands
-// everything to this client component which holds the tab state.
-//
-// Layout (top → bottom):
-//   1. Page title + ScrapeAge badge + description
-//   2. 3-4 source-specific metric tiles
-//   3. Tab strip: Repo Mentions (default) / Top News
-//   4. Active tab content
-//
-// Freshness handling: the small color-coded ScrapeAge pill in the
-// header is the only freshness signal. We always render the data —
-// no "source down" interstitial. Auto-rescrape runs server-side via
-// src/lib/news/auto-rescrape.ts.
+// Unified template for legacy news-source pages.
 
 import { useCallback, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -31,25 +17,18 @@ export interface MetricTile {
 }
 
 interface NewsSourceLayoutProps {
-  /** Source id passed to /api/admin/scan. */
   source: string;
   sourceLabel: string;
-  /** Subtitle next to the page title, e.g. "// AI-dev firehose". */
   tagline?: string;
   description?: string;
   fetchedAt: string | null | undefined;
-  /** Pre-computed by the parent (server-side) via classifyFreshness(). */
   freshnessStatus: FreshnessStatus;
-  /** Pre-formatted age label, e.g. "17m". */
   ageLabel: string;
-  /** Stale threshold ms — kept for backwards compat, no longer rendered. */
   staleAfterMs: number;
   metrics: MetricTile[];
   mentionsRows: RepoMentionRow[];
   newsItems: NewsItem[];
-  /** Optional right-rail content (lg+ only) — typically a leaderboard. */
   rightRail?: React.ReactNode;
-  /** Window label shown in the empty state — e.g. "7d". */
   mentionsWindowLabel?: string;
 }
 
@@ -60,14 +39,12 @@ function isTab(value: string | null): value is Tab {
 }
 
 export function NewsSourceLayout({
-  source: _source,
   sourceLabel,
   tagline,
   description,
   fetchedAt,
   freshnessStatus,
   ageLabel,
-  staleAfterMs: _staleAfterMs,
   metrics,
   mentionsRows,
   newsItems,
@@ -92,70 +69,69 @@ export function NewsSourceLayout({
   );
 
   return (
-    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
-      <div className="max-w-[1400px] mx-auto px-6 py-8">
-        <header className="mb-6 border-b border-border-primary pb-6">
-          <div className="flex flex-wrap items-baseline gap-3">
-            <h1 className="text-2xl font-bold uppercase tracking-wider">
-              {sourceLabel}
-            </h1>
-            {tagline ? (
-              <span className="text-xs text-text-tertiary">{tagline}</span>
-            ) : null}
-            <ScrapeAge
-              status={freshnessStatus}
-              ageLabel={ageLabel}
-              fetchedAt={fetchedAt}
-            />
+    <main className="home-surface news-source-page">
+      <section className="page-head">
+        <div>
+          <div className="crumb">
+            <b>{sourceLabel}</b> / source terminal
           </div>
-          {description ? (
-            <p className="mt-2 max-w-2xl text-sm text-text-secondary">
-              {description}
-            </p>
-          ) : null}
-        </header>
-
-        {metrics.length > 0 ? (
-          <section className="mb-6 grid grid-cols-2 gap-3 md:grid-cols-4">
-            {metrics.map((m) => (
-              <StatTile key={m.label} {...m} />
-            ))}
-          </section>
-        ) : null}
-
-        <section className="mb-4 flex flex-wrap items-center gap-2 text-xs">
-          <TabButton
-            active={tab === "mentions"}
-            onClick={() => switchTab("mentions")}
-            count={mentionsRows.length}
-          >
-            Repo Mentions
-          </TabButton>
-          <TabButton
-            active={tab === "news"}
-            onClick={() => switchTab("news")}
-            count={newsItems.length}
-          >
-            Top News
-          </TabButton>
-        </section>
-
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_280px]">
-          <div className="min-w-0">
-            {tab === "mentions" ? (
-              <RepoMentionsTab
-                rows={mentionsRows}
-                windowLabel={mentionsWindowLabel}
-                sourceLabel={sourceLabel}
-              />
-            ) : (
-              <NewsTab items={newsItems} sourceLabel={sourceLabel} />
-            )}
-          </div>
-          {rightRail ? (
-            <aside className="hidden lg:block">{rightRail}</aside>
-          ) : null}
+          <h1>{tagline ?? sourceLabel}</h1>
+          {description ? <p className="lede">{description}</p> : null}
         </div>
+        <div className="clock">
+          <span className="big">{ageLabel}</span>
+          <span className="live">Feed {freshnessStatus}</span>
+        </div>
+      </section>
+
+      <section className="filter-bar news-source-filter">
+        <span className="lbl">Freshness</span>
+        <ScrapeAge
+          status={freshnessStatus}
+          ageLabel={ageLabel}
+          fetchedAt={fetchedAt}
+        />
+      </section>
+
+      {metrics.length > 0 ? (
+        <section className="kpi-strip news-source-metrics">
+          {metrics.map((metric) => (
+            <StatTile key={metric.label} {...metric} />
+          ))}
+        </section>
+      ) : null}
+
+      <section className="filter-bar news-source-tabs">
+        <span className="lbl">View</span>
+        <TabButton
+          active={tab === "mentions"}
+          onClick={() => switchTab("mentions")}
+          count={mentionsRows.length}
+        >
+          Repo Mentions
+        </TabButton>
+        <TabButton
+          active={tab === "news"}
+          onClick={() => switchTab("news")}
+          count={newsItems.length}
+        >
+          Top News
+        </TabButton>
+      </section>
+
+      <div className="news-source-layout">
+        <div className="min-w-0">
+          {tab === "mentions" ? (
+            <RepoMentionsTab
+              rows={mentionsRows}
+              windowLabel={mentionsWindowLabel}
+              sourceLabel={sourceLabel}
+            />
+          ) : (
+            <NewsTab items={newsItems} sourceLabel={sourceLabel} />
+          )}
+        </div>
+        {rightRail ? <aside className="news-source-rail">{rightRail}</aside> : null}
       </div>
     </main>
   );
@@ -163,16 +139,10 @@ export function NewsSourceLayout({
 
 function StatTile({ label, value, hint }: MetricTile) {
   return (
-    <div className="v2-card p-3">
-      <div className="text-[10px] uppercase tracking-wider text-text-tertiary">
-        {label}
-      </div>
-      <div className="mt-1 text-base font-semibold tabular-nums">{value}</div>
-      {hint ? (
-        <div className="mt-1 text-[10px] text-text-tertiary truncate" title={typeof hint === "string" ? hint : undefined}>
-          {hint}
-        </div>
-      ) : null}
+    <div className="kpi">
+      <span className="lbl">{label}</span>
+      <span className="val">{value}</span>
+      {hint ? <span className="sub" title={hint}>{hint}</span> : null}
     </div>
   );
 }
@@ -192,17 +162,10 @@ function TabButton({
     <button
       type="button"
       onClick={onClick}
-      className={
-        "rounded-md border px-3 py-1.5 font-mono text-xs uppercase tracking-wider transition " +
-        (active
-          ? "border-brand bg-brand/10 text-text-primary"
-          : "border-border-primary bg-bg-muted text-text-secondary hover:text-text-primary")
-      }
+      className={`chip ${active ? "on" : ""}`}
     >
       {children}
-      {typeof count === "number" ? (
-        <span className="ml-1.5 text-text-tertiary">({count})</span>
-      ) : null}
+      {typeof count === "number" ? <span className="ct">({count})</span> : null}
     </button>
   );
 }

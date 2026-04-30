@@ -2,7 +2,7 @@
 // directly above RepoSignalSnapshot on the repo profile page.
 //
 // Server component. Consumes the `HumanReason[]` produced by
-// `getRepoReasons()` and renders a terminal-tone strip; returns `null` when
+// `getRepoReasons()` and renders a V4 strip; returns `null` when
 // no reasons are available (the common case for repos that didn't trigger
 // any detector during the last pipeline recompute).
 
@@ -31,9 +31,9 @@ const SEVERITY_EXPLANATION: Record<ReasonSeverity, string> = {
 };
 
 function dotColor(severity: ReasonSeverity): string {
-  if (severity === "critical") return "var(--v2-acc)";
-  if (severity === "strong") return "var(--v2-sig-green)";
-  return "var(--v2-ink-400)";
+  if (severity === "critical") return "var(--v4-acc)";
+  if (severity === "strong") return "var(--v4-money)";
+  return "var(--v4-ink-400)";
 }
 
 export function WhyTrending({ reasons }: WhyTrendingProps): JSX.Element | null {
@@ -42,29 +42,46 @@ export function WhyTrending({ reasons }: WhyTrendingProps): JSX.Element | null {
   return (
     <section
       aria-label="Why this repo is trending"
-      className="v2-card overflow-hidden"
+      style={{
+        border: "1px solid var(--v4-line-200)",
+        background: "var(--v4-bg-025)",
+        borderRadius: 2,
+        overflow: "hidden",
+      }}
     >
-      <div className="v2-term-bar">
-        <span aria-hidden className="flex items-center gap-1.5">
-          <span className="block h-1.5 w-1.5 rounded-full v2-live-dot" />
-          <span
-            className="block h-1.5 w-1.5 rounded-full"
-            style={{ background: "var(--v2-line-200)" }}
-          />
-          <span
-            className="block h-1.5 w-1.5 rounded-full"
-            style={{ background: "var(--v2-line-200)" }}
-          />
-        </span>
+      <div
+        style={{
+          padding: "10px 12px",
+          borderBottom: "1px solid var(--v4-line-200)",
+          background: "var(--v4-bg-050)",
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
+          fontFamily: "var(--font-geist-mono), monospace",
+        }}
+      >
         <span
           className="flex-1 truncate"
-          style={{ color: "var(--v2-ink-200)" }}
+          style={{
+            fontSize: 11,
+            color: "var(--v4-ink-200)",
+            textTransform: "uppercase",
+            letterSpacing: "0.08em",
+          }}
         >
           {"// WHY TRENDING"}
         </span>
         <span
-          className="v2-stat shrink-0"
-          style={{ color: "var(--v2-ink-300)" }}
+          className="shrink-0"
+          style={{
+            padding: "1px 6px",
+            border: "1px solid var(--v4-line-200)",
+            borderRadius: 2,
+            fontSize: 10,
+            color: "var(--v4-ink-300)",
+            textTransform: "uppercase",
+            letterSpacing: "0.06em",
+          }}
         >
           {reasons.length} SIGNAL{reasons.length === 1 ? "" : "S"}
         </span>
@@ -78,7 +95,7 @@ export function WhyTrending({ reasons }: WhyTrendingProps): JSX.Element | null {
             style={{
               borderRight:
                 i < reasons.length - 1
-                  ? "1px solid var(--v2-line-std)"
+                  ? "1px solid var(--v4-line-200)"
                   : "none",
             }}
           >
@@ -95,7 +112,7 @@ export function WhyTrending({ reasons }: WhyTrendingProps): JSX.Element | null {
                 style={{
                   fontFamily: "var(--font-geist), Inter, sans-serif",
                   fontSize: 13,
-                  color: "var(--v2-ink-100)",
+                  color: "var(--v4-ink-100)",
                 }}
               >
                 {reason.headline}
@@ -103,7 +120,7 @@ export function WhyTrending({ reasons }: WhyTrendingProps): JSX.Element | null {
               {reason.detail ? (
                 <p
                   className="mt-1 line-clamp-2 leading-snug"
-                  style={{ fontSize: 11, color: "var(--v2-ink-300)" }}
+                  style={{ fontSize: 11, color: "var(--v4-ink-300)" }}
                   title={reason.detail}
                 >
                   {reason.detail}
@@ -111,8 +128,12 @@ export function WhyTrending({ reasons }: WhyTrendingProps): JSX.Element | null {
               ) : null}
               {reason.sourceHint ? (
                 <p
-                  className="v2-mono mt-1.5"
-                  style={{ fontSize: 9, color: "var(--v2-ink-400)" }}
+                  className="mt-1.5"
+                  style={{
+                    fontFamily: "var(--font-geist-mono), monospace",
+                    fontSize: 9,
+                    color: "var(--v4-ink-400)",
+                  }}
                 >
                   {`// VIA ${reason.sourceHint.toUpperCase()}`}
                 </p>

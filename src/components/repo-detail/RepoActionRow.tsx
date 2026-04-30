@@ -9,6 +9,7 @@
 // Buttons are 44px+ tall to satisfy mobile touch-target minimums.
 
 import { useCallback } from "react";
+import type { CSSProperties } from "react";
 import { Eye, EyeOff, GitCompareArrows, ExternalLink } from "lucide-react";
 import type { Repo } from "@/lib/types";
 import { useWatchlistStore, useCompareStore } from "@/lib/store";
@@ -19,11 +20,40 @@ import {
   toastWatchAdded,
   toastWatchRemoved,
 } from "@/lib/toast";
-import { cn } from "@/lib/utils";
 
 interface RepoActionRowProps {
   repo: Repo;
 }
+
+const BTN_BASE: CSSProperties = {
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  minHeight: 44,
+  padding: "6px 12px",
+  borderRadius: 2,
+  border: "1px solid var(--v4-line-300)",
+  background: "var(--v4-bg-050)",
+  color: "var(--v4-ink-100)",
+  fontFamily: "var(--font-geist-mono), monospace",
+  fontSize: 10,
+  textTransform: "uppercase",
+  letterSpacing: "0.08em",
+  textDecoration: "none",
+  cursor: "pointer",
+};
+
+const BTN_PRIMARY: CSSProperties = {
+  ...BTN_BASE,
+  background: "var(--v4-acc-soft)",
+  borderColor: "var(--v4-acc)",
+  color: "var(--v4-acc)",
+};
+
+const BTN_DISABLED: CSSProperties = {
+  cursor: "not-allowed",
+  opacity: 0.5,
+};
 
 export function RepoActionRow({ repo }: RepoActionRowProps) {
   const isWatched = useWatchlistStore((s) => s.isWatched(repo.id));
@@ -64,10 +94,7 @@ export function RepoActionRow({ repo }: RepoActionRowProps) {
       <button
         type="button"
         onClick={handleWatch}
-        className={cn(
-          "v2-btn min-h-[44px]",
-          isWatched ? "v2-btn-primary" : "v2-btn-ghost",
-        )}
+        style={isWatched ? BTN_PRIMARY : BTN_BASE}
         aria-pressed={isWatched}
       >
         {isWatched ? (
@@ -89,13 +116,10 @@ export function RepoActionRow({ repo }: RepoActionRowProps) {
               ? "Remove from compare"
               : "Add to compare"
         }
-        className={cn(
-          "v2-btn min-h-[44px]",
-          isComparing
-            ? "v2-btn-primary"
-            : "v2-btn-ghost",
-          compareDisabled && "cursor-not-allowed opacity-50",
-        )}
+        style={{
+          ...(isComparing ? BTN_PRIMARY : BTN_BASE),
+          ...(compareDisabled ? BTN_DISABLED : null),
+        }}
         aria-pressed={isComparing}
       >
         <GitCompareArrows size={14} aria-hidden style={{ marginRight: 8 }} />
@@ -106,7 +130,8 @@ export function RepoActionRow({ repo }: RepoActionRowProps) {
         href={repo.url || `https://github.com/${repo.fullName}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="v2-btn v2-btn-ghost ml-auto min-h-[44px]"
+        className="ml-auto"
+        style={BTN_BASE}
       >
         <ExternalLink size={14} aria-hidden style={{ marginRight: 8 }} />
         OPEN ON GITHUB

@@ -4,6 +4,7 @@ import { test } from "node:test";
 import {
   extractFirstGithubRepoLink,
   extractGithubRepoFullNames,
+  extractTrackedBareRefs,
   githubFullNameToUrl,
   normalizeGithubFullName,
   normalizeGithubRepoUrl,
@@ -63,4 +64,55 @@ test("githubFullNameToUrl: rejects invalid full names", () => {
   assert.equal(githubFullNameToUrl("openai/gym"), "https://github.com/openai/gym");
   assert.equal(githubFullNameToUrl("openai"), null);
   assert.equal(githubFullNameToUrl("openai/gym/tree/main"), null);
+});
+
+test("extractTrackedBareRefs: matches bare owner/repo tokens in tracked set", () => {
+  const tracked = new Set(["openai/whisper", "vercel/next.js"]);
+  const hits = extractTrackedBareRefs(
+    "excited about openai/whisper today, also vercel/next.js fans",
+    tracked,
+  );
+  assert.deepEqual([...hits].sort(), ["openai/whisper", "vercel/next.js"]);
+});
+
+test("extractTrackedBareRefs: drops bare tokens that aren't tracked", () => {
+  const tracked = new Set(["openai/whisper"]);
+  const hits = extractTrackedBareRefs(
+    "openai/whisper and some/other-repo",
+    tracked,
+  );
+  assert.deepEqual([...hits], ["openai/whisper"]);
+});
+
+test("extractTrackedBareRefs: returns empty when tracked set is empty/null", () => {
+  assert.equal(extractTrackedBareRefs("openai/whisper", new Set()).size, 0);
+  assert.equal(extractTrackedBareRefs("openai/whisper", null).size, 0);
+});
+
+test("extractTrackedBareRefs: does not match owner/repo embedded in github.com URL", () => {
+  const tracked = new Set(["openai/whisper"]);
+  const hits = extractTrackedBareRefs(
+    "https://github.com/openai/whisper/blob/main",
+    tracked,
+  );
+  // The owner/repo here is followed by /blob/, so the lookahead rejects
+  // the match. The github.com path extractor is the right tool for this
+  // shape; the bare extractor stays out of its lane.
+  assert.equal(hits.size, 0);
+});
+
+test("extractTrackedBareRefs: does not match filesystem-path fragments", () => {
+  const tracked = new Set(["src/lib"]);
+  const hits = extractTrackedBareRefs(
+    "see src/lib/utils.ts for the helper",
+    tracked,
+  );
+  // src/lib is followed by /utils.ts, lookahead rejects.
+  assert.equal(hits.size, 0);
+});
+
+test("extractTrackedBareRefs: handles adjacent matches separated by punctuation", () => {
+  const tracked = new Set(["foo/bar", "baz/qux"]);
+  const hits = extractTrackedBareRefs("compare foo/bar,baz/qux quickly", tracked);
+  assert.deepEqual([...hits].sort(), ["baz/qux", "foo/bar"]);
 });

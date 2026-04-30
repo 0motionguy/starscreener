@@ -81,6 +81,33 @@ export function extractFirstGithubRepoLink(text) {
   };
 }
 
+// Bare `owner/repo` token — no `github.com/` prefix. Used to recover
+// mentions in social text that drops the host (tweets, Bluesky posts,
+// HN comments). Lookbehind/-ahead keep it from biting URL fragments
+// like `https://github.com/openai/whisper/blob/main` or filesystem
+// paths like `path/to/file`. The tracked-set membership check is the
+// safety net that makes this safe — we never emit a name we don't
+// already know about, so false positives are impossible.
+const BARE_REPO_TOKEN_RE =
+  /(?<![A-Za-z0-9._\/-])([A-Za-z0-9][A-Za-z0-9._-]*)\/([A-Za-z0-9][A-Za-z0-9._-]*)(?![A-Za-z0-9._\/-])/g;
+
+export function extractTrackedBareRefs(text, trackedLower) {
+  const hits = new Set();
+  if (!text || typeof text !== "string") return hits;
+  if (!trackedLower || trackedLower.size === 0) return hits;
+
+  BARE_REPO_TOKEN_RE.lastIndex = 0;
+  let match;
+  while ((match = BARE_REPO_TOKEN_RE.exec(text)) !== null) {
+    const fullName = normalizeGithubFullName(match[1], match[2]);
+    const [owner, repo] = fullName.split("/", 2);
+    if (!owner || !repo || isReservedGithubOwner(owner)) continue;
+    if (!trackedLower.has(fullName)) continue;
+    hits.add(fullName);
+  }
+  return hits;
+}
+
 export function normalizeGithubRepoUrl(raw) {
   if (!raw || typeof raw !== "string") return null;
   let parsed;

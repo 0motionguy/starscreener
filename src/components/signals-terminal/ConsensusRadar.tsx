@@ -66,15 +66,29 @@ export interface ConsensusRadarProps {
 }
 
 export function ConsensusRadar({ stories, totalActive }: ConsensusRadarProps) {
+  // Right-side count copy depends on how many strong (3+ source) stories
+  // we have vs how many "near-consensus" rows are padding the panel.
+  const nearCount = stories.length - totalActive;
+  const headerRight =
+    totalActive === 0
+      ? `${stories.length} NEAR`
+      : nearCount > 0
+        ? `${totalActive} ACTIVE · ${nearCount} NEAR`
+        : `${totalActive} ACTIVE`;
+
+  // Subtitle changes when we're in fallback mode so the user knows the
+  // panel isn't claiming false consensus.
+  const subtitle =
+    totalActive === 0
+      ? "· NO CONSENSUS YET · TOP SINGLE-SOURCE SIGNALS"
+      : "· STORIES IN 3+ SOURCES";
+
   return (
     <Card variant="panel" className="signals-panel">
-      <CardHeader
-        showCorner
-        right={<span>{totalActive} ACTIVE</span>}
-      >
+      <CardHeader showCorner right={<span>{headerRight}</span>}>
         <span>{"// 02 CONSENSUS RADAR"}</span>
         <span style={{ color: "var(--color-text-subtle)", marginLeft: "8px" }}>
-          · STORIES IN 3+ SOURCES
+          {subtitle}
         </span>
       </CardHeader>
 
@@ -89,7 +103,7 @@ export function ConsensusRadar({ stories, totalActive }: ConsensusRadarProps) {
               letterSpacing: "0.10em",
             }}
           >
-            no cross-source consensus stories yet — feeds warming up
+            no signals yet — collectors warming up
           </div>
         ) : (
           stories.map((story, i) => {
@@ -117,13 +131,21 @@ export function ConsensusRadar({ stories, totalActive }: ConsensusRadarProps) {
 
             const visibleSources = story.sources.slice(0, 5);
             const moreCount = story.sources.length - visibleSources.length;
+            // Near-consensus rows (< 3 sources) are dimmed so the eye still
+            // groups them apart from real cross-source consensus.
+            const isWeak = story.sources.length < 3;
+            const wrapperStyle: React.CSSProperties = {
+              display: "flex",
+              flexDirection: "column",
+              opacity: isWeak ? 0.78 : 1,
+            };
 
             const Wrapper = ({ children }: { children: React.ReactNode }) =>
               isInternal ? (
                 <Link
                   href={href}
                   className={`cons-row ${isTop ? "first" : ""}`}
-                  style={{ display: "flex", flexDirection: "column" }}
+                  style={wrapperStyle}
                 >
                   {children}
                 </Link>
@@ -133,7 +155,7 @@ export function ConsensusRadar({ stories, totalActive }: ConsensusRadarProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`cons-row ${isTop ? "first" : ""}`}
-                  style={{ display: "flex", flexDirection: "column" }}
+                  style={wrapperStyle}
                 >
                   {children}
                 </a>

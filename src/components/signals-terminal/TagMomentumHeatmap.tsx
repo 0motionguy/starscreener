@@ -73,8 +73,8 @@ export function TagMomentumHeatmap({ rows }: TagMomentumHeatmapProps) {
       </CardHeader>
 
       <div
-        className="ds-card-body"
-        style={{ padding: "8px 12px 12px", overflowX: "auto" }}
+        className="ds-card-body signals-heatmap-body"
+        style={{ padding: "8px 12px 12px" }}
       >
         {rows.length === 0 ? (
           <div
@@ -90,15 +90,7 @@ export function TagMomentumHeatmap({ rows }: TagMomentumHeatmapProps) {
           </div>
         ) : (
           <>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "120px repeat(24, 1fr)",
-                gap: 2,
-                alignItems: "center",
-                minWidth: 680,
-              }}
-            >
+            <div className="signals-heatmap-grid">
               {rows.map((tag) => {
                 const isCool = tag.trend === "cool";
                 return (
@@ -150,19 +142,7 @@ export function TagMomentumHeatmap({ rows }: TagMomentumHeatmapProps) {
               })}
             </div>
 
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "120px repeat(24, 1fr)",
-                gap: 2,
-                paddingTop: 6,
-                fontFamily: "var(--font-mono)",
-                fontSize: 9,
-                letterSpacing: "0.10em",
-                color: "var(--color-text-subtle)",
-                textTransform: "uppercase",
-              }}
-            >
+            <div className="signals-heatmap-axis">
               <div style={{ paddingLeft: 4 }}>UTC -&gt;</div>
               {Array.from({ length: 24 }, (_, i) => (
                 <div key={i} style={{ textAlign: "center" }}>

@@ -60,14 +60,49 @@ export interface RefreshResult {
   writtenAt: string | null;
 }
 
+function emptyComponent(): ConsensusSourceComponent {
+  return { present: false, rank: null, score: null, normalized: 0 };
+}
+
+// Forward-compat: the worker's consensus-v3 payload uses an expanded sources
+// map (gh/hf/hn/x/r/pdh/dev/bs/ours) — the legacy oss/trendshift slots may be
+// absent. Without this guard, the page renders `item.sources.oss.present` and
+// crashes during SSR when the new shape arrives. Fill missing slots with
+// emptyComponent so the page degrades to "−" placeholders cleanly.
+function normalizeItem(input: unknown): ConsensusItem | null {
+  if (!input || typeof input !== "object") return null;
+  const it = input as Partial<ConsensusItem> & { sources?: unknown };
+  if (typeof it.fullName !== "string" || !it.fullName.includes("/")) return null;
+  const rawSources =
+    it.sources && typeof it.sources === "object"
+      ? (it.sources as Record<string, ConsensusSourceComponent | undefined>)
+      : {};
+  const sources: Record<ConsensusSource, ConsensusSourceComponent> = {
+    ours: rawSources.ours ?? emptyComponent(),
+    oss: rawSources.oss ?? emptyComponent(),
+    trendshift: rawSources.trendshift ?? emptyComponent(),
+  };
+  return {
+    fullName: it.fullName,
+    rank: typeof it.rank === "number" ? it.rank : 0,
+    consensusScore: typeof it.consensusScore === "number" ? it.consensusScore : 0,
+    sourceCount: typeof it.sourceCount === "number" ? it.sourceCount : 0,
+    badges: Array.isArray(it.badges) ? (it.badges as ConsensusBadge[]) : [],
+    sources,
+  };
+}
+
 function normalizePayload(input: unknown): ConsensusTrendingPayload {
   if (!input || typeof input !== "object") return EMPTY_PAYLOAD;
   const parsed = input as Partial<ConsensusTrendingPayload>;
+  const items = Array.isArray(parsed.items)
+    ? parsed.items.map(normalizeItem).filter((x): x is ConsensusItem => x !== null)
+    : [];
   return {
     computedAt: typeof parsed.computedAt === "string" ? parsed.computedAt : "",
-    itemCount: typeof parsed.itemCount === "number" ? parsed.itemCount : 0,
+    itemCount: typeof parsed.itemCount === "number" ? parsed.itemCount : items.length,
     weights: parsed.weights ?? EMPTY_PAYLOAD.weights,
-    items: Array.isArray(parsed.items) ? parsed.items : [],
+    items,
   };
 }
 

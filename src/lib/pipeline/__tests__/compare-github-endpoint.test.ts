@@ -90,8 +90,9 @@ test(
 // Validation errors (fast; no network)
 // ---------------------------------------------------------------------------
 
-test("400 too_many_repos when more than 4 repos are requested", async () => {
-  const names = ["a/b", "c/d", "e/f", "g/h", "i/j"].join(",");
+test("400 too_many_repos when more than 5 repos are requested", async () => {
+  // MAX_REPOS = 5 in src/app/api/compare/github/route.ts; pass 6 to trip it.
+  const names = ["a/b", "c/d", "e/f", "g/h", "i/j", "k/l"].join(",");
   const res = await invokeRoute(`?repos=${encodeURIComponent(names)}`);
   assert.equal(res.status, 400);
   const body = (await res.json()) as GithubEnvelope;

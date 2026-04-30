@@ -1,54 +1,53 @@
 {
-  "fetchedAt": "2026-04-30T16:49:32.719Z",
+  "fetchedAt": "2026-04-30T20:20:23.906Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
-    "screenpipe/screenpipe": {
+    "openclaw/openclaw": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkq2swh53b2z",
-        "cid": "bafyreigqdd2bq4g3dutgsa4gkwlck3zqspgnwtwzhex4k4jjezyw3rsqdm",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkq2swh53b2z",
-        "text": "https://github.com/screenpipe/screenpipe",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkqcpurqn22i",
+        "cid": "bafyreiaf2cddmxdchpdrvfxcxcp7b5lve4zzz5ctv3dvvwnywv6kgm7pxu",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkqcpurqn22i",
+        "text": "🟠 OpenClaw v2026.4.29-beta.3 ships active-run steering, stronger visible-reply enforcement, and people-aware memory upgrades OpenClaw has released v2026.4.29-beta.3 with workflow-level changes that matter for... https://github.com/openclaw/openclaw/releases/tag/v2026.4.29-beta.3 #AI #AgentWyre",
         "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
+          "handle": "agentwyre.ai"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-04-30T16:45:39Z",
-        "hoursSincePosted": 0.5
+        "createdAt": "2026-04-30T19:07:05.767644+00:00",
+        "hoursSincePosted": 1.22
       },
       "posts": [
         {
-          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkq2swh53b2z",
-          "cid": "bafyreigqdd2bq4g3dutgsa4gkwlck3zqspgnwtwzhex4k4jjezyw3rsqdm",
-          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkq2swh53b2z",
-          "text": "https://github.com/screenpipe/screenpipe",
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkqcpurqn22i",
+          "cid": "bafyreiaf2cddmxdchpdrvfxcxcp7b5lve4zzz5ctv3dvvwnywv6kgm7pxu",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkqcpurqn22i",
+          "text": "🟠 OpenClaw v2026.4.29-beta.3 ships active-run steering, stronger visible-reply enforcement, and people-aware memory upgrades OpenClaw has released v2026.4.29-beta.3 with workflow-level changes that matter for... https://github.com/openclaw/openclaw/releases/tag/v2026.4.29-beta.3 #AI #AgentWyre",
           "author": {
-            "handle": "tom-doerr.bsky.social",
-            "displayName": "Tom Dörr "
+            "handle": "agentwyre.ai"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-04-30T16:45:39Z",
-          "createdUtc": 1777567539,
-          "ageHours": 0.5,
+          "createdAt": "2026-04-30T19:07:05.767644+00:00",
+          "createdUtc": 1777576025,
+          "ageHours": 1.22,
           "trendingScore": 0,
           "content_tags": [
-            "has-github-repo"
+            "has-github-repo",
+            "is-announcement"
           ],
-          "value_score": 1,
+          "value_score": 2,
           "linkedRepos": [
             {
-              "fullName": "screenpipe/screenpipe",
+              "fullName": "openclaw/openclaw",
               "matchType": "url",
               "confidence": 1
             }
@@ -56,129 +55,50 @@
         }
       ]
     },
-    "JuliusBrussee/caveman": {
+    "alash3al/stash": {
       "count7d": 1,
-      "likesSum7d": 5,
-      "repostsSum7d": 1,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:htmkf2ivo4guxp5n33lycrky/app.bsky.feed.post/3mkpzqlnflk2z",
-        "cid": "bafyreic5ng7awymybnzki4qcrwx2slbqttusvqilu6xhiiufxtfweikjpe",
-        "bskyUrl": "https://bsky.app/profile/spaceprez.bsky.social/post/3mkpzqlnflk2z",
-        "text": "I had an intuitive feeling that cutting a lot of flowery language in genAI prompts would get identical results, but I generally avoid genAI so haven't bothered testing it. But this confirms my suspicion. You are giving the model more credit than it deserves. github.com/JuliusBrusse...",
-        "author": {
-          "handle": "spaceprez.bsky.social",
-          "displayName": "SpacePrez"
-        },
-        "likeCount": 5,
-        "repostCount": 1,
-        "replyCount": 1,
-        "createdAt": "2026-04-30T16:26:27.646Z",
-        "hoursSincePosted": 0.5
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:htmkf2ivo4guxp5n33lycrky/app.bsky.feed.post/3mkpzqlnflk2z",
-          "cid": "bafyreic5ng7awymybnzki4qcrwx2slbqttusvqilu6xhiiufxtfweikjpe",
-          "bskyUrl": "https://bsky.app/profile/spaceprez.bsky.social/post/3mkpzqlnflk2z",
-          "text": "I had an intuitive feeling that cutting a lot of flowery language in genAI prompts would get identical results, but I generally avoid genAI so haven't bothered testing it. But this confirms my suspicion. You are giving the model more credit than it deserves. github.com/JuliusBrusse...",
-          "author": {
-            "handle": "spaceprez.bsky.social",
-            "displayName": "SpacePrez"
-          },
-          "likeCount": 5,
-          "repostCount": 1,
-          "replyCount": 1,
-          "createdAt": "2026-04-30T16:26:27.646Z",
-          "createdUtc": 1777566387,
-          "ageHours": 0.5,
-          "trendingScore": 7.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "JuliusBrussee/caveman",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "nex-crm/wuphf": {
-      "count7d": 2,
       "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:uwdw4rthvdkclv7n2skldjnm/app.bsky.feed.post/3mkpuyh4itc2u",
-        "cid": "bafyreifqhak7p7ley2i27so5epuh6czrhlvposwr64dufabnvjhzyg273u",
-        "bskyUrl": "https://bsky.app/profile/jeremymorgan.com/post/3mkpuyh4itc2u",
-        "text": "WUPHF stores agent memory as a local git repo of Markdown files. Diffable, lintable, recoverable. Not a memory correctness fix, but easier to audit than a vector store full of stale facts. github.com/nex-crm/wuphf",
+        "uri": "at://did:plc:uwdw4rthvdkclv7n2skldjnm/app.bsky.feed.post/3mkqcgeivbf2v",
+        "cid": "bafyreiftzntpl7bzhwlgnqqoqzsmfxxp7tg6s77oqmdluu4wwiglza5apm",
+        "bskyUrl": "https://bsky.app/profile/jeremymorgan.com/post/3mkqcgeivbf2v",
+        "text": "Stash is self-hosted agent memory built on Postgres, pgvector, and MCP. Useful because it's local. Risky because bad memory is just persistent misinformation. Test recall and deletion before trusting any \"memory\" claim. github.com/alash3al/stash",
         "author": {
           "handle": "jeremymorgan.com",
           "displayName": "Jeremy Morgan"
         },
         "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-30T15:01:21.703Z",
-        "hoursSincePosted": 1.8
+        "replyCount": 1,
+        "createdAt": "2026-04-30T19:01:47.506Z",
+        "hoursSincePosted": 1.31
       },
       "posts": [
         {
-          "uri": "at://did:plc:uwdw4rthvdkclv7n2skldjnm/app.bsky.feed.post/3mkpuyh4itc2u",
-          "cid": "bafyreifqhak7p7ley2i27so5epuh6czrhlvposwr64dufabnvjhzyg273u",
-          "bskyUrl": "https://bsky.app/profile/jeremymorgan.com/post/3mkpuyh4itc2u",
-          "text": "WUPHF stores agent memory as a local git repo of Markdown files. Diffable, lintable, recoverable. Not a memory correctness fix, but easier to audit than a vector store full of stale facts. github.com/nex-crm/wuphf",
+          "uri": "at://did:plc:uwdw4rthvdkclv7n2skldjnm/app.bsky.feed.post/3mkqcgeivbf2v",
+          "cid": "bafyreiftzntpl7bzhwlgnqqoqzsmfxxp7tg6s77oqmdluu4wwiglza5apm",
+          "bskyUrl": "https://bsky.app/profile/jeremymorgan.com/post/3mkqcgeivbf2v",
+          "text": "Stash is self-hosted agent memory built on Postgres, pgvector, and MCP. Useful because it's local. Risky because bad memory is just persistent misinformation. Test recall and deletion before trusting any \"memory\" claim. github.com/alash3al/stash",
           "author": {
             "handle": "jeremymorgan.com",
             "displayName": "Jeremy Morgan"
           },
           "likeCount": 1,
           "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-30T15:01:21.703Z",
-          "createdUtc": 1777561281,
-          "ageHours": 1.8,
-          "trendingScore": 1,
+          "replyCount": 1,
+          "createdAt": "2026-04-30T19:01:47.506Z",
+          "createdUtc": 1777575707,
+          "ageHours": 1.31,
+          "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
           ],
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "nex-crm/wuphf",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:6pmxrwbgzjt4gcyeilyc47as/app.bsky.feed.post/3mkpzjzurwrl2",
-          "cid": "bafyreid5vrnhlkvvz4funl3dnhlrhiilma2dgo26cn2bzajp4k5r7szvwe",
-          "bskyUrl": "https://bsky.app/profile/arrakeen-urbanite.universeodon.com.ap.brid.gy/post/3mkpzjzurwrl2",
-          "text": "Calling them “AI Employees” seems to be just begging for the Luddite torches and pitchforks https://github.com/nex-crm/wuphf",
-          "author": {
-            "handle": "arrakeen-urbanite.universeodon.com.ap.brid.gy",
-            "displayName": "arrakeen_urbanite"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-30T16:22:43.000Z",
-          "createdUtc": 1777566163,
-          "ageHours": 0.5,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "nex-crm/wuphf",
+              "fullName": "alash3al/stash",
               "matchType": "url",
               "confidence": 1
             }
@@ -186,509 +106,51 @@
         }
       ]
     },
-    "theori-io/copy-fail-CVE-2026-31431": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:35eruteodfvh4bk7y4zny7je/app.bsky.feed.post/3mkpz6kljg572",
-        "cid": "bafyreicnwypju6cagysl4lqnrpzcrcggy7zhal4yiruiemedjbyz7unqza",
-        "bskyUrl": "https://bsky.app/profile/lampsofgold.veoh.social.ap.brid.gy/post/3mkpz6kljg572",
-        "text": "@mntmn looks like there’s an aarch64 port https://github.com/theori-io/copy-fail-CVE-2026-31431/pull/25",
-        "author": {
-          "handle": "lampsofgold.veoh.social.ap.brid.gy",
-          "displayName": "lampsofgold"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-30T16:16:17.000Z",
-        "hoursSincePosted": 0.55
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:35eruteodfvh4bk7y4zny7je/app.bsky.feed.post/3mkpz6kljg572",
-          "cid": "bafyreicnwypju6cagysl4lqnrpzcrcggy7zhal4yiruiemedjbyz7unqza",
-          "bskyUrl": "https://bsky.app/profile/lampsofgold.veoh.social.ap.brid.gy/post/3mkpz6kljg572",
-          "text": "@mntmn looks like there’s an aarch64 port https://github.com/theori-io/copy-fail-CVE-2026-31431/pull/25",
-          "author": {
-            "handle": "lampsofgold.veoh.social.ap.brid.gy",
-            "displayName": "lampsofgold"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-30T16:16:17.000Z",
-          "createdUtc": 1777565777,
-          "ageHours": 0.55,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "theori-io/copy-fail-CVE-2026-31431",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "coreyhaines31/marketingskills": {
+    "anthropics/claude-code": {
       "count7d": 1,
       "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mkpytaf45v2s",
-        "cid": "bafyreigwlhoyzmgoblbfvcq65mh5nhsqx2znawnhz54vkoxow6z5ld4x3q",
-        "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mkpytaf45v2s",
-        "text": "Un dépôt qui transforme des skills marketing (CRO, SEO, copywriting) en fichiers markdown branchables sur vos agents IA — Claude Code, Cursor, Codex. Concret et immédiatement utilisable. 22K stars sur GitHub. https://github.com/coreyhaines31/marketingskills",
+        "uri": "at://did:plc:ngq4y7h2tlxtn6qi6zokimms/app.bsky.feed.post/3mkq7pnyebj22",
+        "cid": "bafyreidpnmjw4wwydhkfocl2p6kgb33x3watiximwo36civuqz6vw3jhhu",
+        "bskyUrl": "https://bsky.app/profile/newsyc250.bsky.social/post/3mkq7pnyebj22",
+        "text": "Regression: malware reminder on every read still causes subagent refusals https://github.com/anthropics/claude-code/issues/49363 (http://news.ycombinator.com/item?id=47942492)",
         "author": {
-          "handle": "camilleroux.com",
-          "displayName": "Camille Roux"
+          "handle": "newsyc250.bsky.social",
+          "displayName": "Hacker News 250 Points"
         },
         "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-30T18:10:02+02:00",
-        "hoursSincePosted": 0.66
+        "replyCount": 1,
+        "createdAt": "2026-04-30T21:13:18+03:00",
+        "hoursSincePosted": 2.12
       },
       "posts": [
         {
-          "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mkpytaf45v2s",
-          "cid": "bafyreigwlhoyzmgoblbfvcq65mh5nhsqx2znawnhz54vkoxow6z5ld4x3q",
-          "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mkpytaf45v2s",
-          "text": "Un dépôt qui transforme des skills marketing (CRO, SEO, copywriting) en fichiers markdown branchables sur vos agents IA — Claude Code, Cursor, Codex. Concret et immédiatement utilisable. 22K stars sur GitHub. https://github.com/coreyhaines31/marketingskills",
+          "uri": "at://did:plc:ngq4y7h2tlxtn6qi6zokimms/app.bsky.feed.post/3mkq7pnyebj22",
+          "cid": "bafyreidpnmjw4wwydhkfocl2p6kgb33x3watiximwo36civuqz6vw3jhhu",
+          "bskyUrl": "https://bsky.app/profile/newsyc250.bsky.social/post/3mkq7pnyebj22",
+          "text": "Regression: malware reminder on every read still causes subagent refusals https://github.com/anthropics/claude-code/issues/49363 (http://news.ycombinator.com/item?id=47942492)",
           "author": {
-            "handle": "camilleroux.com",
-            "displayName": "Camille Roux"
+            "handle": "newsyc250.bsky.social",
+            "displayName": "Hacker News 250 Points"
           },
           "likeCount": 1,
           "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-30T18:10:02+02:00",
-          "createdUtc": 1777565402,
-          "ageHours": 0.66,
-          "trendingScore": 1,
+          "replyCount": 1,
+          "createdAt": "2026-04-30T21:13:18+03:00",
+          "createdUtc": 1777572798,
+          "ageHours": 2.12,
+          "trendingScore": 1.5,
           "content_tags": [
-            "has-github-repo"
+            "has-github-repo",
+            "has-agent"
           ],
-          "value_score": 1,
+          "value_score": 2,
           "linkedRepos": [
             {
-              "fullName": "coreyhaines31/marketingskills",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "webadderallorg/Recordly": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:adrgozjdis3urmay3mqrsqcm/app.bsky.feed.post/3mkpxtv2zqnc2",
-        "cid": "bafyreigdm5dxhqtvcnl4lnnk54gw33w7t2u7dygbstotd76h3lpqdv3klu",
-        "bskyUrl": "https://bsky.app/profile/x.laoda.ge.ap.brid.gy/post/3mkpxtv2zqnc2",
-        "text": "GitHub - webadderallorg/Recordly: Create polished screen recordings for free. An open-source alternative to Screen Studio. · GitHub https://github.com/webadderallorg/Recordly",
-        "author": {
-          "handle": "x.laoda.ge.ap.brid.gy",
-          "displayName": "𝕏"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-30T15:52:27.000Z",
-        "hoursSincePosted": 0.95
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:adrgozjdis3urmay3mqrsqcm/app.bsky.feed.post/3mkpxtv2zqnc2",
-          "cid": "bafyreigdm5dxhqtvcnl4lnnk54gw33w7t2u7dygbstotd76h3lpqdv3klu",
-          "bskyUrl": "https://bsky.app/profile/x.laoda.ge.ap.brid.gy/post/3mkpxtv2zqnc2",
-          "text": "GitHub - webadderallorg/Recordly: Create polished screen recordings for free. An open-source alternative to Screen Studio. · GitHub https://github.com/webadderallorg/Recordly",
-          "author": {
-            "handle": "x.laoda.ge.ap.brid.gy",
-            "displayName": "𝕏"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-30T15:52:27.000Z",
-          "createdUtc": 1777564347,
-          "ageHours": 0.95,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "webadderallorg/Recordly",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "scanopy/scanopy": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkpxfkoole2y",
-        "cid": "bafyreicnispmmcrrq53gre7jwf3hltosddjw2t4ajtsirqh4poao33h5iu",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkpxfkoole2y",
-        "text": "https://github.com/scanopy/scanopy",
-        "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-30T15:44:29Z",
-        "hoursSincePosted": 1.08
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkpxfkoole2y",
-          "cid": "bafyreicnispmmcrrq53gre7jwf3hltosddjw2t4ajtsirqh4poao33h5iu",
-          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkpxfkoole2y",
-          "text": "https://github.com/scanopy/scanopy",
-          "author": {
-            "handle": "tom-doerr.bsky.social",
-            "displayName": "Tom Dörr "
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-30T15:44:29Z",
-          "createdUtc": 1777563869,
-          "ageHours": 1.08,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "scanopy/scanopy",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "Robbyant/lingbot-map": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:hm6svfyijdeb3yzv6pzsdtxr/app.bsky.feed.post/3mkpvrtplth2u",
-        "cid": "bafyreiboufhdns4lxmrinesvjfl4prn7cyufjc6adcufwyahf4s7bnwy5a",
-        "bskyUrl": "https://bsky.app/profile/pythonhub.dev/post/3mkpvrtplth2u",
-        "text": "lingbot-map A feed-forward 3D foundation model for reconstructing scenes from streaming data. https://github.com/Robbyant/lingbot-map",
-        "author": {
-          "handle": "pythonhub.dev",
-          "displayName": "Python Hub"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-30T15:15:34.614671+00:00",
-        "hoursSincePosted": 1.57
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:hm6svfyijdeb3yzv6pzsdtxr/app.bsky.feed.post/3mkpvrtplth2u",
-          "cid": "bafyreiboufhdns4lxmrinesvjfl4prn7cyufjc6adcufwyahf4s7bnwy5a",
-          "bskyUrl": "https://bsky.app/profile/pythonhub.dev/post/3mkpvrtplth2u",
-          "text": "lingbot-map A feed-forward 3D foundation model for reconstructing scenes from streaming data. https://github.com/Robbyant/lingbot-map",
-          "author": {
-            "handle": "pythonhub.dev",
-            "displayName": "Python Hub"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-30T15:15:34.614671+00:00",
-          "createdUtc": 1777562134,
-          "ageHours": 1.57,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "Robbyant/lingbot-map",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "willchen96/mike": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:a2anbsoy6odyey6geqvld42l/app.bsky.feed.post/3mkpvl4odpt22",
-        "cid": "bafyreied3tvnmfeqdy3mf5nu4x6ib5eirmpwl3nc25scewwfmvt5kwqoie",
-        "bskyUrl": "https://bsky.app/profile/projectnothing.bsky.social/post/3mkpvl4odpt22",
-        "text": "When AI legal tools go open-source and outpace creative apps, it’s a sign: devs want transparency and trust at the core of tomorrow’s compliance stack. https://github.com/willchen96/mike https://www.projectnothing.ai/experiments/signal-from-the-void",
-        "author": {
-          "handle": "projectnothing.bsky.social",
-          "displayName": "Project Nothing"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-30T15:11:47.842Z",
-        "hoursSincePosted": 1.63
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:a2anbsoy6odyey6geqvld42l/app.bsky.feed.post/3mkpvl4odpt22",
-          "cid": "bafyreied3tvnmfeqdy3mf5nu4x6ib5eirmpwl3nc25scewwfmvt5kwqoie",
-          "bskyUrl": "https://bsky.app/profile/projectnothing.bsky.social/post/3mkpvl4odpt22",
-          "text": "When AI legal tools go open-source and outpace creative apps, it’s a sign: devs want transparency and trust at the core of tomorrow’s compliance stack. https://github.com/willchen96/mike https://www.projectnothing.ai/experiments/signal-from-the-void",
-          "author": {
-            "handle": "projectnothing.bsky.social",
-            "displayName": "Project Nothing"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-30T15:11:47.842Z",
-          "createdUtc": 1777561907,
-          "ageHours": 1.63,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "willchen96/mike",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "thunderbird/thunderbolt": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:ek6n2jftadsbobqq2yeclcb4/app.bsky.feed.post/3mkpugqlimc2a",
-        "cid": "bafyreib7af7qvp2ma53iiadktqpopmhv527pwvxhrsygnbg3v4llglu4hu",
-        "bskyUrl": "https://bsky.app/profile/renatocan.bsky.social/post/3mkpugqlimc2a",
-        "text": "github.com/thunderbird/... open-source, cross-platform AI client by Mozilla",
-        "author": {
-          "handle": "renatocan.bsky.social",
-          "displayName": "Renato Candido"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-30T14:51:28.573Z",
-        "hoursSincePosted": 1.97
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:ek6n2jftadsbobqq2yeclcb4/app.bsky.feed.post/3mkpugqlimc2a",
-          "cid": "bafyreib7af7qvp2ma53iiadktqpopmhv527pwvxhrsygnbg3v4llglu4hu",
-          "bskyUrl": "https://bsky.app/profile/renatocan.bsky.social/post/3mkpugqlimc2a",
-          "text": "github.com/thunderbird/... open-source, cross-platform AI client by Mozilla",
-          "author": {
-            "handle": "renatocan.bsky.social",
-            "displayName": "Renato Candido"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-30T14:51:28.573Z",
-          "createdUtc": 1777560688,
-          "ageHours": 1.97,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "thunderbird/thunderbolt",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "ENTERPILOT/GoModel": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:3fe25qalw4rfzrty3xyutj7c/app.bsky.feed.post/3mkprku2v7m25",
-        "cid": "bafyreihjrlust5rjficadkgjccbaui24mpdm5l7ixvelcorrutjqs2oaca",
-        "bskyUrl": "https://bsky.app/profile/topickapp.bsky.social/post/3mkprku2v7m25",
-        "text": "https://github.com/ENTERPILOT/GOModel/ GoModelはAIプロバイダーを統合し、OpenAI互換APIを提供します。 Dockerで手軽に導入でき、多くのAIプロバイダーに対応しています。 キャッシュ、ガードレール、コスト管理でAI運用を支援します。",
-        "author": {
-          "handle": "topickapp.bsky.social",
-          "displayName": "topickapp (IT技術系ニュースサイト)"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-30T14:00:05.146107+00:00",
-        "hoursSincePosted": 2.82
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:3fe25qalw4rfzrty3xyutj7c/app.bsky.feed.post/3mkprku2v7m25",
-          "cid": "bafyreihjrlust5rjficadkgjccbaui24mpdm5l7ixvelcorrutjqs2oaca",
-          "bskyUrl": "https://bsky.app/profile/topickapp.bsky.social/post/3mkprku2v7m25",
-          "text": "https://github.com/ENTERPILOT/GOModel/ GoModelはAIプロバイダーを統合し、OpenAI互換APIを提供します。 Dockerで手軽に導入でき、多くのAIプロバイダーに対応しています。 キャッシュ、ガードレール、コスト管理でAI運用を支援します。",
-          "author": {
-            "handle": "topickapp.bsky.social",
-            "displayName": "topickapp (IT技術系ニュースサイト)"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-30T14:00:05.146107+00:00",
-          "createdUtc": 1777557605,
-          "ageHours": 2.82,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "ENTERPILOT/GoModel",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "GyulyVGC/sniffnet": {
-      "count7d": 1,
-      "likesSum7d": 7,
-      "repostsSum7d": 4,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mkppv55ais23",
-        "cid": "bafyreifi4xet4f2tt2wtuvsap6hjwxrcnn2lvt7voah4j7424cndqijxty",
-        "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mkppv55ais23",
-        "text": "Vous avez du trafic réseau bizarre et pas envie de vous battre avec Wireshark ? Sniffnet est une GUI cross-platform en Rust, avec géolocalisation et détection de trafic suspect, accessible sans expertise particulière. https://github.com/GyulyVGC/sniffnet",
-        "author": {
-          "handle": "camilleroux.com",
-          "displayName": "Camille Roux"
-        },
-        "likeCount": 7,
-        "repostCount": 4,
-        "replyCount": 0,
-        "createdAt": "2026-04-30T15:30:02+02:00",
-        "hoursSincePosted": 3.33
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mkppv55ais23",
-          "cid": "bafyreifi4xet4f2tt2wtuvsap6hjwxrcnn2lvt7voah4j7424cndqijxty",
-          "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mkppv55ais23",
-          "text": "Vous avez du trafic réseau bizarre et pas envie de vous battre avec Wireshark ? Sniffnet est une GUI cross-platform en Rust, avec géolocalisation et détection de trafic suspect, accessible sans expertise particulière. https://github.com/GyulyVGC/sniffnet",
-          "author": {
-            "handle": "camilleroux.com",
-            "displayName": "Camille Roux"
-          },
-          "likeCount": 7,
-          "repostCount": 4,
-          "replyCount": 0,
-          "createdAt": "2026-04-30T15:30:02+02:00",
-          "createdUtc": 1777555802,
-          "ageHours": 3.33,
-          "trendingScore": 15,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "GyulyVGC/sniffnet",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "warpdotdev/warp": {
-      "count7d": 1,
-      "likesSum7d": 2,
-      "repostsSum7d": 2,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:oklkinuievllgvhrv2nia4gu/app.bsky.feed.post/3mkppur7rrk2r",
-        "cid": "bafyreigug2cxzkw2u7g7qvofwefxo3aourae3xdmdzg5kzlhxbofd3njbm",
-        "bskyUrl": "https://bsky.app/profile/bearstech.com/post/3mkppur7rrk2r",
-        "text": "L'environnement de développement agentique Warp devient Open Source 👉 Le projet : github.com/warpdotde... 👉 En savoir plus : www.warp.dev/blog/wa...",
-        "author": {
-          "handle": "bearstech.com",
-          "displayName": "Bearstech"
-        },
-        "likeCount": 2,
-        "repostCount": 2,
-        "replyCount": 0,
-        "createdAt": "2026-04-30T13:29:49.000Z",
-        "hoursSincePosted": 3.33
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:oklkinuievllgvhrv2nia4gu/app.bsky.feed.post/3mkppur7rrk2r",
-          "cid": "bafyreigug2cxzkw2u7g7qvofwefxo3aourae3xdmdzg5kzlhxbofd3njbm",
-          "bskyUrl": "https://bsky.app/profile/bearstech.com/post/3mkppur7rrk2r",
-          "text": "L'environnement de développement agentique Warp devient Open Source 👉 Le projet : github.com/warpdotde... 👉 En savoir plus : www.warp.dev/blog/wa...",
-          "author": {
-            "handle": "bearstech.com",
-            "displayName": "Bearstech"
-          },
-          "likeCount": 2,
-          "repostCount": 2,
-          "replyCount": 0,
-          "createdAt": "2026-04-30T13:29:49.000Z",
-          "createdUtc": 1777555789,
-          "ageHours": 3.33,
-          "trendingScore": 6,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "warpdotdev/warp",
+              "fullName": "anthropics/claude-code",
               "matchType": "url",
               "confidence": 1
             }
@@ -699,67 +161,17 @@
   },
   "leaderboard": [
     {
-      "fullName": "GyulyVGC/sniffnet",
-      "count7d": 1,
-      "likesSum7d": 7
-    },
-    {
-      "fullName": "JuliusBrussee/caveman",
-      "count7d": 1,
-      "likesSum7d": 5
-    },
-    {
-      "fullName": "warpdotdev/warp",
-      "count7d": 1,
-      "likesSum7d": 2
-    },
-    {
-      "fullName": "nex-crm/wuphf",
-      "count7d": 2,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "coreyhaines31/marketingskills",
+      "fullName": "alash3al/stash",
       "count7d": 1,
       "likesSum7d": 1
     },
     {
-      "fullName": "ENTERPILOT/GoModel",
+      "fullName": "anthropics/claude-code",
       "count7d": 1,
-      "likesSum7d": 0
+      "likesSum7d": 1
     },
     {
-      "fullName": "Robbyant/lingbot-map",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "scanopy/scanopy",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "screenpipe/screenpipe",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "theori-io/copy-fail-CVE-2026-31431",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "thunderbird/thunderbolt",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "webadderallorg/Recordly",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "willchen96/mike",
+      "fullName": "openclaw/openclaw",
       "count7d": 1,
       "likesSum7d": 0
     }

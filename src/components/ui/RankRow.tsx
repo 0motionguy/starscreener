@@ -1,3 +1,5 @@
+"use client";
+
 // V4 — RankRow
 //
 // Generic row primitive used by:

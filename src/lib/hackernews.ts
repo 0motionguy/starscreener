@@ -13,6 +13,14 @@
 
 import hnMentionsData from "../../data/hackernews-repo-mentions.json";
 
+function slugIdFromFullName(fullName: string): string {
+  return String(fullName)
+    .toLowerCase()
+    .replace(/\//g, "--")
+    .replace(/\./g, "-")
+    .replace(/[^a-z0-9-]/g, "");
+}
+
 // data-store import is dynamic: pulling it statically here drags ioredis
 // (Node-only `dns` dep) into client bundles whenever a client component
 // imports `getHnMentions`. The refresh function below is server-only and
@@ -68,6 +76,7 @@ export interface HnMentionsFile {
   scannedAlgoliaHits: number;
   scannedFirebaseItems: number;
   mentions: Record<string, HnRepoMention>;
+  mentionsByRepoId?: Record<string, HnRepoMention>;
   leaderboard: HnLeaderboardEntry[];
 }
 
@@ -114,7 +123,24 @@ function buildMentionsByLowerName(file: HnMentionsFile): Map<string, HnRepoMenti
   return map;
 }
 
+function buildMentionsByRepoId(file: HnMentionsFile): Map<string, HnRepoMention> {
+  const map = new Map<string, HnRepoMention>();
+  // Prefer the writer-emitted `mentionsByRepoId` payload when present;
+  // fall back to walking the legacy `mentions` map and slugifying keys.
+  if (file.mentionsByRepoId && typeof file.mentionsByRepoId === "object") {
+    for (const [repoId, mention] of Object.entries(file.mentionsByRepoId)) {
+      map.set(repoId, mention);
+    }
+    return map;
+  }
+  for (const [fullName, mention] of Object.entries(file.mentions)) {
+    map.set(slugIdFromFullName(fullName), mention);
+  }
+  return map;
+}
+
 let mentionsByLowerName: Map<string, HnRepoMention> = buildMentionsByLowerName(mentionsFile);
+let mentionsByRepoId: Map<string, HnRepoMention> = buildMentionsByRepoId(mentionsFile);
 
 // ---------------------------------------------------------------------------
 // Public API — mentions side
@@ -127,6 +153,11 @@ export function getHnFile(): HnMentionsFile {
 export function getHnMentions(fullName: string): HnRepoMention | null {
   if (!fullName) return null;
   return mentionsByLowerName.get(fullName.toLowerCase()) ?? null;
+}
+
+export function getHackernewsMentionByRepoId(repoId: string): HnRepoMention | null {
+  if (!repoId) return null;
+  return mentionsByRepoId.get(repoId) ?? null;
 }
 
 export function getAllHnMentions(): Record<string, HnRepoMention> {
@@ -176,6 +207,7 @@ export async function refreshHackernewsMentionsFromStore(): Promise<{
     if (result.data && result.source !== "missing") {
       mentionsFile = result.data;
       mentionsByLowerName = buildMentionsByLowerName(mentionsFile);
+      mentionsByRepoId = buildMentionsByRepoId(mentionsFile);
     }
     lastRefreshMs = Date.now();
     return { source: result.source, ageMs: result.ageMs };

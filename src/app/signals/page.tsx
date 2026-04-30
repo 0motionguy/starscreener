@@ -646,7 +646,9 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
         title="Tag momentum Â· 24h heatmap"
         meta={`${tagMomentum.rows.length} tags Â· hourly buckets`}
       />
-      <TagMomentumHeatmap rows={tagMomentum.rows} />
+      <div style={{ padding: 16, fontFamily: "monospace", fontSize: 11 }}>
+        heatmap placeholder · {tagMomentum.rows.length} tags
+      </div>
 
       <LiveTicker items={tickerItems} />
     </main>

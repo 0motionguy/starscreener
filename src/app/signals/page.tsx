@@ -430,7 +430,26 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
 
   const tickerItems: TickerItem[] = buildTickerItems(filteredItems);
 
-  // ── Render ----------------------------------------------------------------
+  // BISECT 6: bare-bones JSX with all data computed but no V3 components
+  // rendered. If this is 200, one of the components is the SSR culprit.
+  // If still 500, the issue is at module-level / import-time of one of the
+  // components (just importing them to use breaks the build).
+  return (
+    <main style={{ padding: 24, fontFamily: "monospace", fontSize: 12 }}>
+      <h1>signals bisect 6 — bare JSX</h1>
+      <p>items={items.length} filtered={filteredItems.length}</p>
+      <p>volume.totalItems={volume.totalItems}</p>
+      <p>consensus={consensus.length} (strong={consensusCount})</p>
+      <p>tags={tagMomentum.rows.length}</p>
+      <p>ticker={tickerItems.length}</p>
+      <p>hnList={hnList.length} ghList={ghList.length} redditList={redditList.length}</p>
+      <p>xTweets={xTweetsOrBuzz.length} bskyTweets={bskyTweets.length}</p>
+      <p>devto={devtoArticles.length} claude={claudeArticles.length} openai={openaiArticles.length}</p>
+    </main>
+  );
+
+  // unreachable below — preserved so cherry-pick history stays clean
+  // eslint-disable-next-line @typescript-eslint/no-unreachable
   return (
     <main className="signals-page" style={{ padding: "14px 16px 60px" }}>
       <header

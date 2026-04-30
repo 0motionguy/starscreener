@@ -12,6 +12,14 @@
 
 import devtoMentionsData from "../../data/devto-mentions.json";
 
+function slugIdFromFullName(fullName: string): string {
+  return String(fullName)
+    .toLowerCase()
+    .replace(/\//g, "--")
+    .replace(/\./g, "-")
+    .replace(/[^a-z0-9-]/g, "");
+}
+
 // data-store import is dynamic: pulling it statically here drags ioredis
 // (Node-only `dns` dep) into client bundles whenever a client component
 // imports `getDevtoBadgeRollup`. The refresh function below is server-only
@@ -90,6 +98,7 @@ export interface DevtoMentionsFile {
   }>;
   sliceCounts?: Record<string, number>;
   mentions: Record<string, DevtoRepoMention>;
+  mentionsByRepoId?: Record<string, DevtoRepoMention>;
   leaderboard: DevtoLeaderboardEntry[];
 }
 
@@ -133,8 +142,26 @@ function buildDevtoMentionsByLowerName(file: DevtoMentionsFile): Map<string, Dev
   return map;
 }
 
+function buildDevtoMentionsByRepoId(file: DevtoMentionsFile): Map<string, DevtoRepoMention> {
+  const map = new Map<string, DevtoRepoMention>();
+  // Prefer payload's pre-computed mentionsByRepoId; fall back to walking
+  // mentions with slugIdFromFullName for backward-compat with older payloads.
+  if (file.mentionsByRepoId && typeof file.mentionsByRepoId === "object") {
+    for (const [repoId, mention] of Object.entries(file.mentionsByRepoId)) {
+      map.set(repoId, mention);
+    }
+    return map;
+  }
+  for (const [fullName, mention] of Object.entries(file.mentions ?? {})) {
+    map.set(slugIdFromFullName(fullName), mention);
+  }
+  return map;
+}
+
 let mentionsByLowerName: Map<string, DevtoRepoMention> =
   buildDevtoMentionsByLowerName(mentionsFile);
+let mentionsByRepoIdMap: Map<string, DevtoRepoMention> =
+  buildDevtoMentionsByRepoId(mentionsFile);
 
 // ---------------------------------------------------------------------------
 // Public API
@@ -147,6 +174,11 @@ export function getDevtoFile(): DevtoMentionsFile {
 export function getDevtoMentions(fullName: string): DevtoRepoMention | null {
   if (!fullName) return null;
   return mentionsByLowerName.get(fullName.toLowerCase()) ?? null;
+}
+
+export function getDevtoMentionByRepoId(repoId: string): DevtoRepoMention | null {
+  if (!repoId) return null;
+  return mentionsByRepoIdMap.get(repoId) ?? null;
 }
 
 export function getAllDevtoMentions(): Record<string, DevtoRepoMention> {
@@ -229,6 +261,7 @@ export async function refreshDevtoMentionsFromStore(): Promise<{
     if (result.data && result.source !== "missing") {
       mentionsFile = result.data;
       mentionsByLowerName = buildDevtoMentionsByLowerName(mentionsFile);
+      mentionsByRepoIdMap = buildDevtoMentionsByRepoId(mentionsFile);
     }
     lastRefreshMs = Date.now();
     return { source: result.source, ageMs: result.ageMs };

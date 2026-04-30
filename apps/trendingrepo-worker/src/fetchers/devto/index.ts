@@ -29,6 +29,14 @@ import {
   SOURCE_DISCOVERY_VERSION,
 } from '../../lib/util/source-watchers.js';
 
+function slugIdFromFullName(fullName: string): string {
+  return String(fullName)
+    .toLowerCase()
+    .replace(/\//g, '--')
+    .replace(/\./g, '-')
+    .replace(/[^a-z0-9-]/g, '');
+}
+
 const WINDOW_DAYS = 7;
 const PER_PAGE = 100;
 const TRENDING_KEEP = 100;
@@ -301,6 +309,9 @@ const fetcher: Fetcher = {
       discoverySlices: DEVTO_DISCOVERY_SLICES,
       sliceCounts,
       mentions,
+      mentionsByRepoId: Object.fromEntries(
+        Object.entries(mentions).map(([fullName, value]) => [slugIdFromFullName(fullName), value]),
+      ),
       leaderboard,
     };
     const trendingPayload = {

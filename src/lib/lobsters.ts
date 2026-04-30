@@ -11,6 +11,14 @@
 // flips true, badges render null, and the homepage keeps serving.
 
 import lobstersMentionsData from "../../data/lobsters-mentions.json";
+
+function slugIdFromFullName(fullName: string): string {
+  return String(fullName)
+    .toLowerCase()
+    .replace(/\//g, "--")
+    .replace(/\./g, "-")
+    .replace(/[^a-z0-9-]/g, "");
+}
 // data-store is loaded lazily (dynamic import) inside the async refresh
 // helper. Static-importing it pulls the ioredis dependency into client
 // bundles via /lib/lobsters → /components/repo-signals/RepoMentionBadges
@@ -68,6 +76,7 @@ export interface LobstersMentionsFile {
   windowDays: number;
   scannedStories: number;
   mentions: Record<string, LobstersRepoMention>;
+  mentionsByRepoId?: Record<string, LobstersRepoMention>;
   leaderboard: LobstersLeaderboardEntry[];
 }
 
@@ -104,8 +113,26 @@ function buildLobstersMentionsByLowerName(file: LobstersMentionsFile): Map<strin
   return map;
 }
 
+function buildLobstersMentionsByRepoId(file: LobstersMentionsFile): Map<string, LobstersRepoMention> {
+  const map = new Map<string, LobstersRepoMention>();
+  // Prefer payload's pre-computed mentionsByRepoId; fall back to walking
+  // mentions with slugIdFromFullName for backward-compat with older payloads.
+  if (file.mentionsByRepoId && typeof file.mentionsByRepoId === "object") {
+    for (const [repoId, mention] of Object.entries(file.mentionsByRepoId)) {
+      map.set(repoId, mention);
+    }
+    return map;
+  }
+  for (const [fullName, mention] of Object.entries(file.mentions ?? {})) {
+    map.set(slugIdFromFullName(fullName), mention);
+  }
+  return map;
+}
+
 let mentionsByLowerName: Map<string, LobstersRepoMention> =
   buildLobstersMentionsByLowerName(mentionsFile);
+let mentionsByRepoIdMap: Map<string, LobstersRepoMention> =
+  buildLobstersMentionsByRepoId(mentionsFile);
 
 // ---------------------------------------------------------------------------
 // Public API
@@ -120,6 +147,13 @@ export function getLobstersMentions(
 ): LobstersRepoMention | null {
   if (!fullName) return null;
   return mentionsByLowerName.get(fullName.toLowerCase()) ?? null;
+}
+
+export function getLobstersMentionByRepoId(
+  repoId: string,
+): LobstersRepoMention | null {
+  if (!repoId) return null;
+  return mentionsByRepoIdMap.get(repoId) ?? null;
 }
 
 export function getAllLobstersMentions(): Record<string, LobstersRepoMention> {
@@ -169,6 +203,7 @@ export async function refreshLobstersMentionsFromStore(): Promise<{
     if (result.data && result.source !== "missing") {
       mentionsFile = result.data;
       mentionsByLowerName = buildLobstersMentionsByLowerName(mentionsFile);
+      mentionsByRepoIdMap = buildLobstersMentionsByRepoId(mentionsFile);
     }
     lastRefreshMs = Date.now();
     return { source: result.source, ageMs: result.ageMs };

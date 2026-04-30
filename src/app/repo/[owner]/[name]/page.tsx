@@ -56,6 +56,14 @@ import { ErrorBoundary } from "@/components/shared/ErrorBoundary";
 import { buildMentionMarkers } from "@/components/repo-detail/MentionMarkers";
 import { CrossSignalBreakdown } from "@/components/repo-detail/CrossSignalBreakdown";
 import { RecentMentionsFeed } from "@/components/repo-detail/RecentMentionsFeed";
+import { MaintainerCard } from "@/components/repo-detail/MaintainerCard";
+import { RelatedRepoCard } from "@/components/repo-detail/RelatedRepoCard";
+import { ProfileTemplate } from "@/components/templates/ProfileTemplate";
+import { SectionHead } from "@/components/ui/SectionHead";
+import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
+import { KpiBand } from "@/components/ui/KpiBand";
+import { GaugeStrip } from "@/components/ui/GaugeStrip";
+import { getChannelStatus } from "@/lib/pipeline/cross-signal";
 // CompletenessStrip is a work-in-progress component parked in a local
 // stash; re-import once it lands on main and CanonicalRepoProfile
 // exposes the `completeness` field.
@@ -74,7 +82,6 @@ import { TwitterSignalPanel } from "@/components/twitter/TwitterSignalPanel";
 import { RepoRevenuePanel } from "@/components/repo-detail/RepoRevenuePanel";
 import { WhyTrending } from "@/components/repo-detail/WhyTrending";
 import { FundingPanel } from "@/components/repo-detail/FundingPanel";
-import { RelatedReposPanel } from "@/components/repo-detail/RelatedReposPanel";
 import { PredictionSnapshot } from "@/components/repo-detail/PredictionSnapshot";
 import { RelatedIdeasPanel } from "@/components/repo-detail/RelatedIdeasPanel";
 
@@ -251,201 +258,522 @@ export default async function RepoDetailPage({ params }: PageProps) {
       ))}
 
       <main className="home-surface repo-detail-page">
-        <section className="id-strip">
-          <div className="id-avatar">{repo.name.slice(0, 1).toLowerCase()}</div>
-          <div className="id-meta">
-            <div className="crumb">
-              <b>Repo</b>
-              <span className="sep">·</span>
-              <span>rank #{repo.rank}</span>
-              <span className="sep">·</span>
-              <span className="firing">{repo.channelsFiring ?? 0}/5 firing</span>
-              {repo.language ? (
+        <ProfileTemplate
+          crumb={
+            <>
+              <b>REPO</b> · TERMINAL · /{repo.fullName.toUpperCase()}
+            </>
+          }
+          identity={
+            <RepoIdentity repo={repo} lastRefresh={lastRefresh} />
+          }
+          clock={
+            <span
+              style={{
+                fontFamily: "var(--font-geist-mono), monospace",
+                fontSize: 10,
+                color: "var(--v4-ink-300)",
+                textTransform: "uppercase",
+                letterSpacing: "0.08em",
+              }}
+            >
+              refreshed {lastRefresh}
+            </span>
+          }
+          verdict={
+            <VerdictRibbon
+              tone="acc"
+              stamp={{
+                eyebrow: "// VERDICT",
+                headline: `#${repo.rank} in ${repo.language ?? "all repos"}`,
+                sub: `${(repo.crossSignalScore ?? 0).toFixed(2)} / 5.0 · ${
+                  repo.channelsFiring ?? 0
+                }/5 channels firing`,
+              }}
+              text={
                 <>
-                  <span className="sep">·</span>
-                  <span>{repo.language}</span>
+                  <b>{repo.fullName}</b> is ranked by live GitHub momentum and
+                  cross-source evidence. It moved{" "}
+                  <span
+                    style={{
+                      color:
+                        repo.starsDelta24h >= 0
+                          ? "var(--v4-money)"
+                          : "var(--v4-red)",
+                    }}
+                  >
+                    {repo.starsDelta24h >= 0 ? "+" : ""}
+                    {formatNumber(repo.starsDelta24h)} stars
+                  </span>{" "}
+                  in 24h with momentum score{" "}
+                  <span style={{ color: "var(--v4-acc)" }}>
+                    {repo.momentumScore.toFixed(1)}
+                  </span>
+                  .
+                </>
+              }
+              actionHref={`/repo/${repo.owner}/${repo.name}/star-activity`}
+              actionLabel="STAR ACTIVITY →"
+            />
+          }
+          kpiBand={
+            <KpiBand cells={buildKpiCells(repo, profile)} />
+          }
+          signalStrip={<RepoChannelStrip repo={repo} />}
+          mainPanels={
+            <>
+              <RepoActionRow repo={repo} />
+              <ObjectReactions
+                objectType="repo"
+                objectId={repo.fullName}
+                initialCounts={initialReactionCounts}
+              />
+
+              {profile.reasons.length > 0 ? (
+                <>
+                  <SectionHead num="// 01" title="Why trending" />
+                  <WhyTrending reasons={profile.reasons} />
                 </>
               ) : null}
-            </div>
-            <h1>
-              <span className="owner">{repo.owner} /</span> {repo.name}
-              <a
-                href={repo.url || `https://github.com/${repo.fullName}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="ext"
-                aria-label={`Open ${repo.fullName} on GitHub`}
-              >
-                ↗
-              </a>
-            </h1>
-            {repo.description ? <p className="desc">{repo.description}</p> : null}
-            <div className="row">
-              {repo.language ? <span className="lang">{repo.language}</span> : null}
-              {(repo.topics ?? []).slice(0, 5).map((topic) => (
-                <span key={topic} className="topic">
-                  {topic}
-                </span>
-              ))}
-              <span className="stat">
-                <span className="lbl">★</span>
-                <b>{formatNumber(repo.stars)}</b>
-              </span>
-              <span className="stat">
-                <span className="lbl">⑂</span>
-                {formatNumber(repo.forks)}
-              </span>
-              <span className="stat">
-                <span className="lbl">●</span>
-                refreshed {lastRefresh}
-              </span>
-            </div>
-          </div>
-          <div className="id-actions">
-            <Link href={`/repo/${repo.owner}/${repo.name}/star-activity`} className="btn">
-              Star activity
-            </Link>
-            <a
-              href={repo.url || `https://github.com/${repo.fullName}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn gh"
-            >
-              GitHub ↗
-            </a>
-          </div>
-        </section>
 
-        <section className="repo-verdict">
-          <div className="v-rank">
-            <span className="lbl">Rank</span>
-            <span className="num">#{repo.rank}</span>
-            <span className="sub">{repo.language ?? "all repos"}</span>
-          </div>
-          <div className="v-score">
-            <span className="lbl">Cross-signal</span>
-            <span>
-              <span className="big">{(repo.crossSignalScore ?? 0).toFixed(2)}</span>
-              <span className="max"> / 5.0</span>
-            </span>
-            <div className="gauge" aria-hidden="true">
-              {Array.from({ length: 5 }).map((_, index) => (
-                <i
-                  key={index}
-                  className={index < (repo.channelsFiring ?? 0) ? "on" : "dim"}
-                />
-              ))}
-            </div>
-            <span className="meta">
-              <b>{repo.channelsFiring ?? 0} / 5</b> channels firing
-            </span>
-          </div>
-          <p className="v-text">
-            <b>{repo.fullName}</b> is ranked by live GitHub momentum and
-            cross-source evidence. It moved{" "}
-            <span className={repo.starsDelta24h >= 0 ? "hl-money" : "hl-red"}>
-              {repo.starsDelta24h >= 0 ? "+" : ""}
-              {formatNumber(repo.starsDelta24h)} stars
-            </span>{" "}
-            in 24h with momentum score{" "}
-            <span className="hl">{repo.momentumScore.toFixed(1)}</span>.
-          </p>
-          <div className="v-spark">
-            <span className="lbl">30d stars</span>
-            <span className={repo.starsDelta30d >= 0 ? "pct" : "pct dn"}>
-              {repo.starsDelta30d >= 0 ? "+" : ""}
-              {formatNumber(repo.starsDelta30d)}
-            </span>
-          </div>
-        </section>
+              {profile.prediction ? (
+                <>
+                  <SectionHead num="// 02" title="Prediction" meta="+30D HORIZON" />
+                  <PredictionSnapshot
+                    prediction={profile.prediction}
+                    currentStars={repo.stars}
+                  />
+                </>
+              ) : null}
 
-        <div className="repo-detail-stack">
-          {/* Completeness strip — audit finding #1 trust fix.
-              Answers "how much of this profile is actually populated?"
-              before the user scrolls through modules that might be empty
-              because the pipeline hasn't scanned that source yet vs because
-              nothing exists. */}
-          {/* <CompletenessStrip> WIP — re-enable once merged from stash. */}
-          <RepoActionRow repo={repo} />
-          <ObjectReactions
-            objectType="repo"
-            objectId={repo.fullName}
-            initialCounts={initialReactionCounts}
-          />
-          {/*
-            Signal-first layout: "Why Trending" answers the user's first
-            question (why should I care?) above the quantitative snapshot.
-            Renders null when no reasons are available for this repo.
-          */}
-          <WhyTrending reasons={profile.reasons} />
-          <PredictionSnapshot
-            prediction={profile.prediction}
-            currentStars={repo.stars}
-          />
-          <RepoSignalSnapshot
-            repo={repo}
-            mentions={mentions}
-            npmPackages={profile.npm.packages}
-            productHuntLaunch={profile.productHunt}
-          />
+              <SectionHead num="// 03" title="Signal snapshot" />
+              <RepoSignalSnapshot
+                repo={repo}
+                mentions={mentions}
+                npmPackages={profile.npm.packages}
+                productHuntLaunch={profile.productHunt}
+              />
 
-          <RepoRevenuePanel
-            verified={profile.revenue.verified}
-            selfReported={profile.revenue.selfReported}
-            trustmrrClaim={profile.revenue.trustmrrClaim}
-          />
-          <FundingPanel events={profile.funding} />
+              {hasRevenueData(profile) ? (
+                <>
+                  <SectionHead num="// 04" title="Revenue" />
+                  <RepoRevenuePanel
+                    verified={profile.revenue.verified}
+                    selfReported={profile.revenue.selfReported}
+                    trustmrrClaim={profile.revenue.trustmrrClaim}
+                  />
+                </>
+              ) : null}
 
-          <div className="repo-detail-two-col">
-            <RepoDetailStatsStrip repo={repo} />
-            <RepoDetailStats repo={repo} />
-          </div>
+              {profile.funding.length > 0 ? (
+                <>
+                  <SectionHead
+                    num="// 05"
+                    title="Funding"
+                    meta={`${profile.funding.length} EVENTS`}
+                  />
+                  <FundingPanel events={profile.funding} />
+                </>
+              ) : null}
 
-          <NpmAdoptionPanel
-            packages={profile.npm.packages}
-            dailyDownloads={profile.npm.dailyDownloads}
-            dependentsByPackage={profile.npm.dependents}
-          />
-
-          <div className="repo-detail-split">
-            <ProjectSurfaceMap
-              repo={repo}
-              npmPackages={profile.npm.packages}
-              productHuntLaunch={profile.productHunt}
-            />
-            <CrossSignalBreakdown repo={repo} />
-          </div>
-
-          <RecentMentionsFeed
-            mentions={mentions}
-            freshness={profile.freshness}
-            repoFullName={repo.fullName}
-            initialCursor={profile.mentions.nextCursor}
-          />
-          <RelatedReposPanel items={profile.related} />
-          <RelatedIdeasPanel items={profile.ideas} />
-          <ErrorBoundary>
-            <RepoDetailChartLazy repo={repo} markers={markers} />
-          </ErrorBoundary>
-          <Link
-            href={`/repo/${repo.owner}/${repo.name}/star-activity`}
-            className="block rounded-card border border-border-primary bg-bg-secondary px-4 py-3 hover:bg-bg-tertiary transition-colors"
-          >
-            <div className="flex items-center justify-between gap-3">
-              <div>
-                <div className="text-[10px] font-mono uppercase tracking-[0.14em] text-text-tertiary">
-                  {"// STAR ACTIVITY · FULL HISTORY"}
-                </div>
-                <div className="text-sm text-text-secondary mt-1">
-                  Open the dedicated chart with toggles + share card.
-                </div>
+              <SectionHead num="// 06" title="Stats" />
+              <div className="repo-detail-two-col">
+                <RepoDetailStatsStrip repo={repo} />
+                <RepoDetailStats repo={repo} />
               </div>
-              <span className="text-text-tertiary font-mono">→</span>
-            </div>
-          </Link>
-          {profile.twitter ? <TwitterSignalPanel panel={profile.twitter} /> : null}
-        </div>
+
+              {profile.npm.packages.length > 0 ? (
+                <>
+                  <SectionHead
+                    num="// 07"
+                    title="npm adoption"
+                    meta={`${profile.npm.packages.length} PACKAGES`}
+                  />
+                  <NpmAdoptionPanel
+                    packages={profile.npm.packages}
+                    dailyDownloads={profile.npm.dailyDownloads}
+                    dependentsByPackage={profile.npm.dependents}
+                  />
+                </>
+              ) : null}
+
+              <SectionHead num="// 08" title="Cross-signal breakdown" />
+              <CrossSignalBreakdown repo={repo} />
+
+              <SectionHead num="// 09" title="Star history" meta="90D CUMULATIVE" />
+              <ErrorBoundary>
+                <RepoDetailChartLazy repo={repo} markers={markers} />
+              </ErrorBoundary>
+
+              <SectionHead
+                num="// 10"
+                title="Mentions evidence"
+                meta={`${mentions.length} MENTIONS`}
+              />
+              <RecentMentionsFeed
+                mentions={mentions}
+                freshness={profile.freshness}
+                repoFullName={repo.fullName}
+                initialCursor={profile.mentions.nextCursor}
+              />
+
+              {profile.ideas.length > 0 ? (
+                <>
+                  <SectionHead
+                    num="// 11"
+                    title="Related ideas"
+                    meta={`${profile.ideas.length} IDEAS`}
+                  />
+                  <RelatedIdeasPanel items={profile.ideas} />
+                </>
+              ) : null}
+
+              {profile.twitter ? (
+                <>
+                  <SectionHead num="// 12" title="Twitter signal" />
+                  <TwitterSignalPanel panel={profile.twitter} />
+                </>
+              ) : null}
+            </>
+          }
+          rightRail={
+            <>
+              <ProjectSurfaceMap
+                repo={repo}
+                npmPackages={profile.npm.packages}
+                productHuntLaunch={profile.productHunt}
+              />
+              <MaintainerCard
+                owner={repo.owner}
+                fallbackAvatarUrl={repo.ownerAvatarUrl}
+              />
+            </>
+          }
+          relatedEyebrow={`RELATED REPOS · ${profile.related.length}`}
+          related={
+            profile.related.length > 0
+              ? profile.related.map((item) => {
+                  const [itemOwner, itemName] = item.fullName.split("/");
+                  const href =
+                    itemOwner && itemName
+                      ? `/repo/${itemOwner}/${itemName}`
+                      : undefined;
+                  return (
+                    <RelatedRepoCard
+                      key={item.fullName}
+                      fullName={item.fullName}
+                      description={item.description ?? undefined}
+                      language={
+                        item.language ? item.language.toUpperCase() : undefined
+                      }
+                      stars={formatNumber(item.stars)}
+                      similarity={
+                        item.relation
+                          ? item.relation.toUpperCase()
+                          : undefined
+                      }
+                      href={href}
+                    />
+                  );
+                })
+              : null
+          }
+        />
       </main>
     </>
+  );
+}
+
+// --- Composition helpers --------------------------------------------------
+
+function RepoIdentity({
+  repo,
+  lastRefresh,
+}: {
+  repo: import("@/lib/types").Repo;
+  lastRefresh: string;
+}) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        gap: 16,
+        alignItems: "flex-start",
+        marginTop: 8,
+      }}
+    >
+      <div
+        aria-hidden
+        style={{
+          width: 56,
+          height: 56,
+          borderRadius: 4,
+          background: "var(--v4-bg-100)",
+          border: "1px solid var(--v4-line-200)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontFamily: "var(--font-geist-mono), monospace",
+          fontSize: 24,
+          color: "var(--v4-ink-200)",
+          flexShrink: 0,
+        }}
+      >
+        {repo.name.slice(0, 1).toLowerCase()}
+      </div>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <h1
+          className="v4-page-head__h1"
+          style={{ marginTop: 0, marginBottom: 4 }}
+        >
+          <span style={{ color: "var(--v4-ink-300)" }}>{repo.owner} /</span>{" "}
+          {repo.name}{" "}
+          <a
+            href={repo.url || `https://github.com/${repo.fullName}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Open ${repo.fullName} on GitHub`}
+            style={{
+              color: "var(--v4-ink-300)",
+              textDecoration: "none",
+              fontSize: "0.7em",
+              verticalAlign: "middle",
+            }}
+          >
+            ↗
+          </a>
+        </h1>
+        {repo.description ? (
+          <p
+            className="v4-page-head__lede"
+            style={{ marginTop: 0, marginBottom: 10 }}
+          >
+            {repo.description}
+          </p>
+        ) : null}
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: 12,
+            fontFamily: "var(--font-geist-mono), monospace",
+            fontSize: 11,
+            color: "var(--v4-ink-300)",
+            textTransform: "uppercase",
+            letterSpacing: "0.06em",
+          }}
+        >
+          {repo.language ? <span>{repo.language}</span> : null}
+          {(repo.topics ?? []).slice(0, 5).map((topic) => (
+            <span
+              key={topic}
+              style={{
+                padding: "1px 6px",
+                border: "1px solid var(--v4-line-200)",
+                borderRadius: 2,
+                color: "var(--v4-ink-300)",
+              }}
+            >
+              {topic}
+            </span>
+          ))}
+          <span>
+            ★ <b style={{ color: "var(--v4-ink-100)" }}>{formatNumber(repo.stars)}</b>
+          </span>
+          <span>
+            ⑂{" "}
+            <b style={{ color: "var(--v4-ink-100)" }}>
+              {formatNumber(repo.forks)}
+            </b>
+          </span>
+          <span style={{ color: "var(--v4-money)" }}>● {lastRefresh}</span>
+        </div>
+        <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
+          <Link
+            href={`/repo/${repo.owner}/${repo.name}/star-activity`}
+            style={{
+              fontFamily: "var(--font-geist-mono), monospace",
+              fontSize: 11,
+              padding: "6px 12px",
+              border: "1px solid var(--v4-line-300)",
+              borderRadius: 2,
+              color: "var(--v4-ink-100)",
+              background: "var(--v4-bg-050)",
+              textDecoration: "none",
+              textTransform: "uppercase",
+              letterSpacing: "0.06em",
+            }}
+          >
+            Star activity
+          </Link>
+          <a
+            href={repo.url || `https://github.com/${repo.fullName}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontFamily: "var(--font-geist-mono), monospace",
+              fontSize: 11,
+              padding: "6px 12px",
+              border: "1px solid var(--v4-line-300)",
+              borderRadius: 2,
+              color: "var(--v4-ink-100)",
+              background: "var(--v4-bg-050)",
+              textDecoration: "none",
+              textTransform: "uppercase",
+              letterSpacing: "0.06em",
+            }}
+          >
+            GitHub ↗
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function RepoChannelStrip({ repo }: { repo: import("@/lib/types").Repo }) {
+  const status = getChannelStatus(repo);
+  const channels = [
+    { key: "gh", label: "GitHub", on: status.github },
+    { key: "hn", label: "HN", on: status.hn },
+    { key: "reddit", label: "Reddit", on: status.reddit },
+    { key: "bsky", label: "Bluesky", on: status.bluesky },
+    { key: "dev", label: "Dev.to", on: status.devto },
+  ] as const;
+
+  const cellWidth = 96;
+  const gap = 8;
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 6,
+        width: "fit-content",
+      }}
+    >
+      <div style={{ display: "flex", gap }}>
+        {channels.map((c) => (
+          <div
+            key={c.key}
+            style={{
+              width: cellWidth,
+              fontFamily: "var(--font-geist-mono), monospace",
+              fontSize: 10,
+              color: "var(--v4-ink-300)",
+              textTransform: "uppercase",
+              letterSpacing: "0.08em",
+              display: "flex",
+              justifyContent: "space-between",
+              gap: 4,
+            }}
+          >
+            <span>{c.label}</span>
+            <span
+              style={{
+                color: c.on ? "var(--v4-money)" : "var(--v4-ink-400)",
+              }}
+            >
+              {c.on ? "firing" : "cold"}
+            </span>
+          </div>
+        ))}
+      </div>
+      <GaugeStrip
+        cells={channels.map((c) => ({
+          state: c.on ? "on" : "off",
+          title: `${c.label}: ${c.on ? "firing" : "cold"}`,
+        }))}
+        cellWidth={cellWidth}
+        cellHeight={6}
+        gap={gap}
+      />
+    </div>
+  );
+}
+
+function buildKpiCells(
+  repo: import("@/lib/types").Repo,
+  profile: NonNullable<
+    Awaited<ReturnType<typeof buildCanonicalRepoProfile>>
+  >,
+): import("@/components/ui/KpiBand").KpiCell[] {
+  const surfaces = countSurfaces(profile);
+  const starDelta = repo.starsDelta24h;
+  const contribDelta = repo.contributorsDelta30dMissing
+    ? null
+    : repo.contributorsDelta30d;
+
+  return [
+    {
+      label: "Stars",
+      value: formatNumber(repo.stars),
+      delta:
+        starDelta !== 0
+          ? `${starDelta > 0 ? "+" : ""}${formatNumber(starDelta)}`
+          : undefined,
+      sub: "24h",
+      tone: starDelta > 0 ? "money" : starDelta < 0 ? "red" : "default",
+    },
+    {
+      label: "Forks",
+      value: formatNumber(repo.forks),
+      sub: "all-time",
+    },
+    {
+      label: "Contribs",
+      value: formatNumber(repo.contributors),
+      delta:
+        contribDelta !== null && contribDelta !== 0
+          ? `${contribDelta > 0 ? "+" : ""}${formatNumber(contribDelta)}`
+          : undefined,
+      sub: contribDelta !== null ? "30d" : "all-time",
+    },
+    {
+      label: "Momentum",
+      value: repo.momentumScore.toFixed(1),
+      sub: "0-100 scale",
+      tone: repo.momentumScore >= 60 ? "money" : "default",
+    },
+    {
+      label: "Surface",
+      value: `${surfaces.found} / ${surfaces.total}`,
+      sub: surfaces.summary,
+    },
+  ];
+}
+
+function countSurfaces(
+  profile: NonNullable<
+    Awaited<ReturnType<typeof buildCanonicalRepoProfile>>
+  >,
+): { found: number; total: number; summary: string } {
+  const present: string[] = [];
+  // GitHub: always present (repo exists by definition)
+  present.push("github");
+  if (profile.npm.packages.length > 0) present.push("npm");
+  if (profile.productHunt) present.push("ph");
+  if (profile.funding.length > 0) present.push("funding");
+  if (profile.revenue.verified || profile.revenue.selfReported) {
+    present.push("revenue");
+  }
+  if (profile.twitter) present.push("twitter");
+  return {
+    found: present.length,
+    total: 6,
+    summary: present.join(" · "),
+  };
+}
+
+function hasRevenueData(
+  profile: NonNullable<
+    Awaited<ReturnType<typeof buildCanonicalRepoProfile>>
+  >,
+): boolean {
+  return Boolean(
+    profile.revenue.verified ||
+      profile.revenue.selfReported ||
+      profile.revenue.trustmrrClaim,
   );
 }

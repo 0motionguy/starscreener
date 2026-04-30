@@ -1,10 +1,10 @@
 // Repo detail smoke — guards /repo/:owner/:name.
 //
-// Invariants:
+// Invariants (V4 / W5 migration):
 //   1. GET /repo/vercel/next.js returns 200 (the repo is in our seeded set).
-//   2. The TerminalBar header reads "// REPO · VERCEL/NEXT.JS".
-//   3. The breadcrumb renders ("Home › vercel/next.js").
-//   4. At least one panel from the V3 18-panel layout mounts.
+//   2. The PageHead inside ProfileTemplate renders the V4 crumb + repo name.
+//   3. The VerdictRibbon mounts (per-repo verdict).
+//   4. The ProfileTemplate body renders with mainPanels content.
 //
 // If the seed data ever changes such that vercel/next.js isn't tracked, the
 // page should still 404 cleanly — the test will surface that as a failure
@@ -13,25 +13,33 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("repo detail", () => {
-  test("renders title, breadcrumb, and at least one panel", async ({ page }) => {
+  test("renders V4 head, verdict, and body chrome", async ({ page }) => {
     const response = await page.goto("/repo/vercel/next.js", {
       waitUntil: "domcontentloaded",
     });
     expect(response?.ok()).toBe(true);
 
-    // Breadcrumb — Home link + the repo full name.
-    const breadcrumb = page.getByRole("navigation", { name: /breadcrumb/i }).first();
-    await expect(breadcrumb).toBeVisible();
-    await expect(breadcrumb).toContainText("vercel/next.js");
+    // ProfileTemplate root — V4 page shell.
+    const template = page.locator(".v4-profile-template").first();
+    await expect(template).toBeAttached();
 
-    // Terminal-bar repo identity — case-insensitive because the bar uppercases.
-    const terminalBar = page.locator(".v2-term-bar").first();
-    await expect(terminalBar).toBeVisible();
-    await expect(terminalBar).toContainText(/REPO/i);
-    await expect(terminalBar).toContainText(/vercel\/next\.js/i);
+    // PageHead — repo identity hero.
+    const head = page.locator(".v4-page-head").first();
+    await expect(head).toBeVisible();
+    await expect(head).toContainText(/vercel/i);
+    await expect(head).toContainText(/next\.js/i);
 
-    // V3 panel chrome — at least one .v2-frame block is mounted.
-    const panel = page.locator(".v2-frame").first();
-    await expect(panel).toBeAttached();
+    // V4 crumb prefixed REPO eyebrow.
+    const crumb = head.locator(".v4-page-head__crumb").first();
+    await expect(crumb).toBeVisible();
+    await expect(crumb).toContainText(/REPO/i);
+
+    // VerdictRibbon — per-repo ranking + cross-signal score.
+    const verdict = page.locator(".v4-verdict-ribbon").first();
+    await expect(verdict).toBeVisible();
+
+    // Body main column mounts (mainPanels slot).
+    const main = page.locator(".v4-profile-template__main").first();
+    await expect(main).toBeAttached();
   });
 });

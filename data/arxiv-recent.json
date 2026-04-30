@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-04-30T04:24:29.121Z",
+  "fetchedAt": "2026-04-30T11:20:09.568Z",
   "source": "export.arxiv.org/api/query (cs.AI + cs.CL + cs.LG)",
   "count": 1000,
-  "linkedRepoCount": 0,
+  "linkedRepoCount": 1,
   "papers": [
     {
       "arxivId": "2604.26951v1",
@@ -71,7 +71,13 @@
       "pdfUrl": "https://arxiv.org/pdf/2604.26943v1",
       "publishedAt": "2026-04-29T17:52:17.000Z",
       "updatedAt": "2026-04-29T17:52:17.000Z",
-      "linkedRepos": []
+      "linkedRepos": [
+        {
+          "fullName": "princeton-vl/procfunc",
+          "matchType": "abstract",
+          "confidence": 1
+        }
+      ]
     },
     {
       "arxivId": "2604.26942v1",

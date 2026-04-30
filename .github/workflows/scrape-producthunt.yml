@@ -42,7 +42,7 @@ jobs:
         run: |
           git config user.name  "trendingrepo-bot"
           git config user.email "bot@trendingrepo.local"
-          git add data/producthunt-launches.json data/_meta/producthunt.json
+          git add data/producthunt-launches.json data/_meta/producthunt.json data/unknown-mentions.jsonl
           if git diff --quiet --staged; then
             echo "no changes - skipping commit"
             exit 0

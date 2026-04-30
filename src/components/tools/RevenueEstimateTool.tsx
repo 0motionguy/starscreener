@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { useMemo, useState } from "react";
 import { Calculator, LoaderCircle, Sparkles } from "lucide-react";
 
@@ -27,6 +28,14 @@ interface EstimateResponse {
   };
 }
 
+const FALLBACK_COPY: Record<EstimateResponse["result"]["fallback"], string> = {
+  exact: "Exact bucket match.",
+  ignored_ph: "No data for the PH-launched dimension; ignoring it for this estimate.",
+  ignored_stars: "No data for this star band; weighting across all bands in the category.",
+  category_only: "Sparse data; weighting across all bands and PH states in the category.",
+  none: "Not enough data; try a different category or star range.",
+};
+
 function fmtUsd(cents: number): string {
   const dollars = cents / 100;
   if (dollars >= 1_000_000) return `$${(dollars / 1_000_000).toFixed(1)}M`;
@@ -34,17 +43,6 @@ function fmtUsd(cents: number): string {
   if (dollars >= 1_000) return `$${(dollars / 1_000).toFixed(1)}K`;
   return `$${Math.round(dollars).toLocaleString("en-US")}`;
 }
-
-const FALLBACK_COPY: Record<
-  EstimateResponse["result"]["fallback"],
-  string
-> = {
-  exact: "Exact bucket match.",
-  ignored_ph: "No data for the PH-launched dimension — ignoring it for this estimate.",
-  ignored_stars: "No data for this star band — weighting across all bands in the category.",
-  category_only: "Sparse data — weighting across all bands + PH-launched states in the category.",
-  none: "Not enough data — try a different category or star range.",
-};
 
 export function RevenueEstimateTool({
   categories,
@@ -72,7 +70,9 @@ export function RevenueEstimateTool({
       const params = new URLSearchParams();
       if (category) params.set("category", category);
       if (starBand) params.set("starBand", starBand);
-      if (phLaunched !== "any") params.set("phLaunched", phLaunched === "yes" ? "true" : "false");
+      if (phLaunched !== "any") {
+        params.set("phLaunched", phLaunched === "yes" ? "true" : "false");
+      }
       const res = await fetch(`/api/tools/revenue-estimate?${params.toString()}`, {
         cache: "no-store",
       });
@@ -89,14 +89,17 @@ export function RevenueEstimateTool({
   }
 
   return (
-    <section className="space-y-6">
-      <div className="v2-card p-5">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <section className="tool-workbench">
+      <div className="tool-panel">
+        <PanelHead right={`buckets / ${totalBuckets.toLocaleString("en-US")}`}>
+          Estimator inputs
+        </PanelHead>
+        <div className="tool-form-grid">
           <Field label="Category" required>
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="w-full rounded-md border border-border-primary bg-bg-muted px-3 py-2 font-mono text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-brand"
+              className="tool-select"
             >
               {categories.length === 0 ? (
                 <option value="">(no data)</option>
@@ -113,7 +116,7 @@ export function RevenueEstimateTool({
             <select
               value={starBand}
               onChange={(e) => setStarBand(e.target.value)}
-              className="w-full rounded-md border border-border-primary bg-bg-muted px-3 py-2 font-mono text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-brand"
+              className="tool-select"
             >
               {starBands.map((b) => (
                 <option key={b} value={b}>
@@ -123,13 +126,13 @@ export function RevenueEstimateTool({
               <option value="unmatched">not on GitHub / not tracked</option>
             </select>
           </Field>
-          <Field label="Launched on ProductHunt">
+          <Field label="Product Hunt">
             <select
               value={phLaunched}
               onChange={(e) =>
                 setPhLaunched(e.target.value as "yes" | "no" | "any")
               }
-              className="w-full rounded-md border border-border-primary bg-bg-muted px-3 py-2 font-mono text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-brand"
+              className="tool-select"
             >
               <option value="any">any</option>
               <option value="yes">yes</option>
@@ -137,17 +140,17 @@ export function RevenueEstimateTool({
             </select>
           </Field>
         </div>
-
-        <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-border-primary pt-4">
-          <p className="text-[11px] text-text-tertiary">
-            {totalBuckets.toLocaleString("en-US")} bucket(s)
-            {generatedAt ? ` · built ${new Date(generatedAt).toISOString().slice(0, 10)}` : null}
+        <div className="tool-actions">
+          <p>
+            {generatedAt
+              ? `built ${new Date(generatedAt).toISOString().slice(0, 10)}`
+              : "benchmark build pending"}
           </p>
           <button
             type="button"
             onClick={() => void onEstimate()}
             disabled={loading || !category || !starBand}
-            className="inline-flex items-center gap-2 rounded-md border border-border-primary bg-brand/90 px-4 py-2 font-mono text-xs font-semibold uppercase tracking-wider text-bg-primary hover:bg-brand disabled:cursor-not-allowed disabled:opacity-50"
+            className="tool-button"
           >
             {loading ? (
               <LoaderCircle className="size-4 animate-spin" aria-hidden />
@@ -159,11 +162,7 @@ export function RevenueEstimateTool({
         </div>
       </div>
 
-      {error ? (
-        <div className="rounded-md border border-down/60 bg-down/5 px-4 py-3 text-sm text-down">
-          {error}
-        </div>
-      ) : null}
+      {error ? <div className="tool-error">{error}</div> : null}
 
       {result ? (
         <ResultCard
@@ -173,9 +172,9 @@ export function RevenueEstimateTool({
           result={result}
         />
       ) : (
-        <div className="rounded-card border border-dashed border-border-primary bg-bg-muted/40 p-6 text-sm text-text-tertiary">
-          <Sparkles className="mr-2 inline size-4" aria-hidden />
-          Set your category and star band, then hit estimate.
+        <div className="tool-empty">
+          <Sparkles className="size-4" aria-hidden />
+          <span>Set your category and star band, then run the estimate.</span>
         </div>
       )}
     </section>
@@ -195,39 +194,43 @@ function ResultCard({
 }) {
   if (!result.range || !result.bucket) {
     return (
-      <div className="v2-card p-5">
-        <p className="text-sm text-text-secondary">
-          {FALLBACK_COPY[result.fallback]}
-        </p>
+      <div className="tool-panel">
+        <PanelHead>No estimate</PanelHead>
+        <p className="tool-note">{FALLBACK_COPY[result.fallback]}</p>
       </div>
     );
   }
+
   const { lowCents, midCents, highCents } = result.range;
   return (
-    <div className="rounded-card border border-up/40 bg-up/5 p-5 shadow-card">
-      <div className="font-mono text-[10px] uppercase tracking-wider text-up">
+    <div className="tool-result">
+      <PanelHead right={`${result.bucket.n.toLocaleString("en-US")} comps`}>
         Estimated MRR
+      </PanelHead>
+      <div className="tool-range">
+        <span>
+          <b>{fmtUsd(lowCents)}</b>
+          <em>p25</em>
+        </span>
+        <span className="mid">
+          <b>{fmtUsd(midCents)}</b>
+          <em>median</em>
+        </span>
+        <span>
+          <b>{fmtUsd(highCents)}</b>
+          <em>p75</em>
+        </span>
       </div>
-      <div className="mt-2 flex flex-wrap items-baseline gap-3 font-mono tabular-nums">
-        <span className="text-text-tertiary text-sm">p25</span>
-        <span className="text-2xl font-semibold text-text-primary">{fmtUsd(lowCents)}</span>
-        <span className="text-text-tertiary">—</span>
-        <span className="text-2xl font-semibold text-up">{fmtUsd(midCents)}</span>
-        <span className="text-text-tertiary">—</span>
-        <span className="text-2xl font-semibold text-text-primary">{fmtUsd(highCents)}</span>
-        <span className="text-text-tertiary text-sm">p75</span>
-      </div>
-      <p className="mt-3 text-sm text-text-secondary">
-        Based on <strong>{result.bucket.n.toLocaleString("en-US")}</strong> comparable verified-revenue startup(s){" "}
-        in <strong>{category}</strong>, <strong>{starBand}</strong> stars
+      <p className="tool-result-copy">
+        Based on <strong>{result.bucket.n.toLocaleString("en-US")}</strong>{" "}
+        comparable verified-revenue startup(s) in <strong>{category}</strong>,{" "}
+        <strong>{starBand}</strong> stars
         {phLaunched !== "any"
-          ? `, ${phLaunched === "yes" ? "launched on" : "never launched on"} ProductHunt`
+          ? `, ${phLaunched === "yes" ? "launched on" : "never launched on"} Product Hunt`
           : ""}
         .
       </p>
-      <p className="mt-1 text-[11px] text-text-tertiary">
-        {FALLBACK_COPY[result.fallback]}
-      </p>
+      <p className="tool-result-meta">{FALLBACK_COPY[result.fallback]}</p>
     </div>
   );
 }
@@ -239,15 +242,29 @@ function Field({
 }: {
   label: string;
   required?: boolean;
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
-    <label className="flex flex-col gap-1.5">
-      <span className="font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
+    <label className="tool-field">
+      <span>
         {label}
-        {required ? <span className="text-down"> *</span> : null}
+        {required ? <b> *</b> : null}
       </span>
       {children}
     </label>
+  );
+}
+
+function PanelHead({ right, children }: { right?: ReactNode; children: ReactNode }) {
+  return (
+    <div className="tool-panel-head">
+      <span className="corner" aria-hidden="true">
+        <i />
+        <i />
+        <i />
+      </span>
+      <span className="key">{children}</span>
+      {right ? <span className="right">{right}</span> : null}
+    </div>
   );
 }

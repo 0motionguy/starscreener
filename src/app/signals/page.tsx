@@ -142,89 +142,11 @@ interface SignalsPageProps {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }
 
-export default async function SignalsPage({ searchParams: _sp }: SignalsPageProps) {
-  // BISECT phase 4: simple text log, no JSX magic.
-  const lines: string[] = [];
-  async function step(name: string, fn: () => unknown | Promise<unknown>) {
-    try {
-      await fn();
-      lines.push(`OK   ${name}`);
-    } catch (err) {
-      const m = err instanceof Error ? err.message : String(err);
-      lines.push(`FAIL ${name}: ${m}`);
-    }
-  }
-
-  await step("refresh:trending", () => refreshTrendingFromStore());
-  await step("refresh:hn", () => refreshHackernewsTrendingFromStore());
-  await step("refresh:bsky", () => refreshBlueskyTrendingFromStore());
-  await step("refresh:devto", () => refreshDevtoTrendingFromStore());
-  await step("refresh:claude", () => refreshClaudeRssFromStore());
-  await step("refresh:openai", () => refreshOpenaiRssFromStore());
-  await step("getTrending", () => getTrending("past_24_hours", "All"));
-  await step("getLastFetchedAt", () => getLastFetchedAt());
-  await step("getHnTopStories", () => getHnTopStories(60));
-  await step("getAllRedditPosts", () => getAllRedditPosts());
-  await step("getBlueskyTopPosts", () => getBlueskyTopPosts(60));
-  await step("getDevtoTopArticles", () => getDevtoTopArticles(40));
-  await step("getClaudeRssTop", () => getClaudeRssTop(20));
-  await step("getOpenaiRssTop", () => getOpenaiRssTop(20));
-  await step("getTopTwitterBuzz", () => getTopTwitterBuzz(20));
-  await step("getTopTwitterPosts", () => getTopTwitterPosts(20));
-  await step("getTwitterLatestUpdatedAt", () => getTwitterLatestUpdatedAt());
-
-  // BISECT 5: synthesis layer
-  const ghRows = getTrending("past_24_hours", "All").slice(0, 50);
-  const ghFetchedAt = getLastFetchedAt();
-  const hnTop = getHnTopStories(60);
-  const redditAll = getAllRedditPosts();
-  const bskyTop = getBlueskyTopPosts(60);
-  const devtoTop = getDevtoTopArticles(40);
-  const claudeTop = getClaudeRssTop(20);
-  const openaiTop = getOpenaiRssTop(20);
-  const twPosts = getTopTwitterPosts(20);
-
-  let items: SignalItem[] = [];
-  await step("hnToSignalItems", () => {
-    items = items.concat(hnToSignalItems(hnTop));
-  });
-  await step("redditToSignalItems", () => {
-    items = items.concat(redditToSignalItems(redditAll));
-  });
-  await step("bskyToSignalItems", () => {
-    items = items.concat(bskyToSignalItems(bskyTop));
-  });
-  await step("devtoToSignalItems", () => {
-    items = items.concat(devtoToSignalItems(devtoTop));
-  });
-  await step("githubToSignalItems", () => {
-    items = items.concat(githubToSignalItems(ghRows, ghFetchedAt));
-  });
-  await step("twitterToSignalItems", () => {
-    items = items.concat(twitterToSignalItems(twPosts));
-  });
-  await step("rssToSignalItems(claude)", () => {
-    items = items.concat(rssToSignalItems(claudeTop, "claude"));
-  });
-  await step("rssToSignalItems(openai)", () => {
-    items = items.concat(rssToSignalItems(openaiTop, "openai"));
-  });
-
-  await step("buildVolume", () => buildVolume(items, { nowMs: Date.now(), lookbackHours: 24 }));
-  await step("buildTagMomentum", () => buildTagMomentum(items, { nowMs: Date.now(), topN: 12, lookbackHours: 24 }));
-  await step("buildConsensus", () => buildConsensus(items, { nowMs: Date.now(), minSources: 3, limit: 8, lookbackHours: 24 }));
-
-  lines.push(`items: ${items.length}`);
-
-  return (
-    <main style={{ padding: 24, fontFamily: "monospace", fontSize: 12 }}>
-      <h1>signals bisect — per-step</h1>
-      <pre style={{ whiteSpace: "pre-wrap" }}>{lines.join("\n")}</pre>
-    </main>
-  );
-}
-
-async function _signalsPageBody({ searchParams }: SignalsPageProps) {
+export default async function SignalsPage({ searchParams }: SignalsPageProps) {
+  // Read the active source filter out of the URL. Empty / missing param →
+  // all 8 sources active (default). Filter applies to cross-source
+  // synthesis (consensus / volume / heatmap / ticker), NOT to per-source
+  // feed panels — those always render their native data.
   const sp = (await searchParams) ?? {};
   const srcParam = Array.isArray(sp.src) ? sp.src.join(",") : sp.src;
   const wParam = Array.isArray(sp.w) ? sp.w[0] : sp.w;
@@ -505,24 +427,6 @@ async function _signalsPageBody({ searchParams }: SignalsPageProps) {
   }));
 
   const tickerItems: TickerItem[] = buildTickerItems(filteredItems);
-
-  // TEMP bisect: minimal render to isolate data-layer vs JSX-layer
-  // failure. If this returns 200, the data layer is fine and the bug is
-  // in one of the V3 components. If it still 500s, the data layer
-  // (imports, refresh hooks, SignalItem builders) is the culprit.
-  if (process.env.NEXT_PUBLIC_SIGNALS_BISECT !== "off") {
-    return (
-      <main style={{ padding: 24, fontFamily: "monospace" }}>
-        <h1>signals bisect — data layer reached</h1>
-        <p>items: {items.length}</p>
-        <p>filtered: {filteredItems.length}</p>
-        <p>volume.totalItems: {volume.totalItems}</p>
-        <p>consensus: {consensus.length}</p>
-        <p>tags: {tagMomentum.rows.length}</p>
-        <p>ticker: {tickerItems.length}</p>
-      </main>
-    );
-  }
 
   // ── Render ----------------------------------------------------------------
   return (

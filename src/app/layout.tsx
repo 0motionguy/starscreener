@@ -30,6 +30,7 @@ import { MobileNav } from "@/components/layout/MobileNav";
 import { BrowserAlertBridge } from "@/components/alerts/BrowserAlertBridge";
 import { DesignSystemProvider } from "@/components/v3";
 import { SITE_URL, SITE_NAME, SITE_TAGLINE, SITE_DESCRIPTION } from "@/lib/seo";
+import "@/components/agent-commerce/agent-commerce.css";
 import "./globals.css";
 import "@/components/tier-list/tier-list.css";
 import "@/components/compare/compare.css";

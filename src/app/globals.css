@@ -1938,7 +1938,7 @@ body::before {
   box-shadow: var(--shadow-live);
 }
 
-.grid:not([class*="grid-cols-"]) {
+.home-surface .grid:not([class*="grid-cols-"]):not([class*="gap-"]) {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: 10px;
@@ -6547,4 +6547,107 @@ body::before {
   border-left-color: var(--v4-acc);
   background: linear-gradient(90deg, var(--v4-acc-soft), transparent 82%);
   color: var(--v4-ink-000);
+}
+
+.ac-tabs,
+.ac-filterbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--v4-space-3);
+  border: var(--v4-stroke-1) solid var(--v4-line-200);
+  border-radius: var(--v4-radius-2);
+  background:
+    linear-gradient(180deg, var(--v4-bg-050), color-mix(in oklab, var(--v4-bg-025) 86%, #000 14%));
+  box-shadow: var(--v4-shadow-card);
+}
+
+.ac-tabs {
+  padding: var(--v4-space-4);
+}
+
+.ac-filterbar {
+  gap: var(--v4-space-6);
+  padding: var(--v4-space-5) var(--v4-space-6);
+}
+
+.ac-fb-group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--v4-space-3);
+}
+
+.ac-fb-lbl {
+  color: var(--v4-ink-400);
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-10);
+  letter-spacing: var(--v4-track-16);
+  text-transform: uppercase;
+}
+
+.ac-tab,
+.ac-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--v4-space-3);
+  border: var(--v4-stroke-1) solid var(--v4-line-300);
+  border-radius: var(--v4-radius-2);
+  background: var(--v4-bg-050);
+  color: var(--v4-ink-300);
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-10);
+  letter-spacing: var(--v4-track-12);
+  line-height: var(--v4-leading-1);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.ac-tab {
+  min-height: 28px;
+  padding: 0 var(--v4-space-6);
+}
+
+.ac-chip {
+  min-height: 24px;
+  padding: 0 var(--v4-space-5);
+}
+
+.ac-tab:hover,
+.ac-chip:hover {
+  border-color: var(--v4-line-400);
+  background: var(--v4-bg-100);
+  color: var(--v4-ink-100);
+}
+
+.ac-tab.is-active,
+.ac-chip.is-on {
+  border-color: var(--v4-ink-100);
+  background: var(--v4-ink-100);
+  color: #0a0a0a;
+}
+
+.ac-tab-num,
+.ac-tab-count {
+  color: currentColor;
+  opacity: 0.72;
+}
+
+.ac-card,
+.ac-detail-card {
+  border: var(--v4-stroke-1) solid var(--v4-line-200);
+  border-radius: var(--v4-radius-2);
+  background: var(--v4-bg-025);
+  box-shadow: var(--v4-shadow-card);
+}
+
+.ac-card:hover,
+.ac-detail-card:hover {
+  border-color: var(--v4-line-300);
+  transform: translateY(-1px);
+}
+
+.ac-logo,
+.ac-cap,
+.ac-flag {
+  border-radius: var(--v4-radius-2);
 }

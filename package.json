@@ -91,6 +91,7 @@
     "audit:freshness": "tsx scripts/audit-source-freshness.ts",
     "snapshot:top10": "tsx scripts/snapshot-top10.ts",
     "snapshot:top10-sparklines": "tsx scripts/snapshot-top10-sparklines.ts",
+    "snapshot:consensus": "tsx scripts/snapshot-consensus.ts",
     "enrich:profiles": "node scripts/enrich-repo-profiles.mjs",
     "enrich:profiles:top": "node scripts/enrich-repo-profiles.mjs --mode top",
     "enrich:profiles:catchup": "node scripts/enrich-repo-profiles.mjs --mode catchup",

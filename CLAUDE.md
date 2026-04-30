@@ -59,6 +59,8 @@ Real-time trend-discovery scanner. Aggregates GitHub stars, Twitter buzz, Reddit
 - Don't use cookie-based Twitter scrapers — dead provider.
 - Don't `readFileSync(process.cwd(), "data", ...)` for new data sources — use the data-store. The reason filesystem reads worked at all is that bundled JSON is baked into each Vercel deploy; that coupled data freshness to deploys and caused 17-34 deploys/day from data churn alone (commit `87e3f4e`, 2026-04-26).
 - Don't add a new collector that only writes to a file — wire `writeDataStore("<slug>", payload)` from [scripts/_data-store-write.mjs](scripts/_data-store-write.mjs) so the write lands in Redis too. File mirror is allowed during transition but Redis is the truth.
+- **Kimi For Coding endpoint requires `stream: true`.** Non-stream calls hang silently (HTTP 000, fetch fails). The wrapper at [apps/trendingrepo-worker/src/fetchers/consensus-analyst/llm.ts](apps/trendingrepo-worker/src/fetchers/consensus-analyst/llm.ts) streams + accumulates; don't revert to non-streaming. Same endpoint also enforces a User-Agent allowlist (`claude-cli`, `RooCode`, `Kilo-Code`) — sending the OpenAI SDK's default UA gets `access_terminated_error`.
+- **Don't sequential-loop the consensus-analyst sweep.** K2.6 is ~80s per call; sequential 14 = 18 min, blowing the hourly slot. Use the bounded-concurrency queue pattern in [consensus-analyst/index.ts](apps/trendingrepo-worker/src/fetchers/consensus-analyst/index.ts) (concurrency 4 → ~5 min wall).
 
 ## References
 - Plans: `~/.claude/plans/`

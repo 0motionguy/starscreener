@@ -1873,3 +1873,368 @@
   text-transform: uppercase;
   margin-left: auto;
 }
+
+/* ===========================================================================
+ * BATCH F-2 — ChannelHeatStrip (breakouts hourly heatmap)
+ * ========================================================================= */
+
+.v4-heat-strip {
+  display: grid;
+  grid-template-columns: repeat(24, 1fr);
+  gap: 1px;
+  height: 24px;
+  width: 100%;
+}
+.v4-heat-strip__cell {
+  display: block;
+  background: var(--v4-bg-100);
+}
+.v4-heat-strip__cell--h1 { background: rgba(255, 102, 0, 0.20); }
+.v4-heat-strip__cell--h2 { background: rgba(255, 102, 0, 0.50); }
+.v4-heat-strip__cell--h3 { background: rgba(255, 102, 0, 0.85); }
+
+/* ===========================================================================
+ * BATCH G — Alerts feature primitives
+ * ========================================================================= */
+
+/* ---------------------------------------------------------------------------
+ * 26. AlertBadge — sidebar / nav unread count
+ * --------------------------------------------------------------------------- */
+.v4-alert-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 6px;
+  border-radius: var(--v4-radius-pill);
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-9-5);
+  letter-spacing: var(--v4-track-04);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  flex: none;
+}
+.v4-alert-badge--amber {
+  background: rgba(255, 181, 71, 0.14);
+  color: var(--v4-amber);
+  box-shadow: inset 0 0 0 1px rgba(255, 181, 71, 0.3);
+}
+.v4-alert-badge--money {
+  background: var(--v4-money-soft);
+  color: var(--v4-money);
+  box-shadow: inset 0 0 0 1px rgba(34, 197, 94, 0.3);
+}
+.v4-alert-badge--red {
+  background: var(--v4-red-soft);
+  color: var(--v4-red);
+  box-shadow: inset 0 0 0 1px rgba(255, 77, 77, 0.3);
+}
+.v4-alert-badge--compact {
+  min-width: 14px;
+  height: 14px;
+  padding: 0 4px;
+  font-size: 8.5px;
+}
+
+/* ---------------------------------------------------------------------------
+ * 27. AlertToggle — subscribe/unsubscribe pill
+ * --------------------------------------------------------------------------- */
+.v4-alert-toggle {
+  height: 28px;
+  padding: 0 10px;
+  border: var(--v4-stroke-1) solid var(--v4-line-300);
+  background: var(--v4-bg-050);
+  color: var(--v4-ink-300);
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-9-5);
+  letter-spacing: var(--v4-track-14);
+  text-transform: uppercase;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  transition: color var(--v4-duration-fast) var(--v4-ease),
+    background-color var(--v4-duration-fast) var(--v4-ease),
+    border-color var(--v4-duration-fast) var(--v4-ease);
+}
+.v4-alert-toggle:hover:not(:disabled) {
+  color: var(--v4-ink-100);
+  border-color: var(--v4-line-400);
+}
+.v4-alert-toggle:focus-visible {
+  outline: 2px solid var(--v4-acc);
+  outline-offset: 2px;
+}
+.v4-alert-toggle--on {
+  background: rgba(255, 181, 71, 0.10);
+  color: var(--v4-amber);
+  border-color: rgba(255, 181, 71, 0.5);
+}
+.v4-alert-toggle--on:hover:not(:disabled) {
+  border-color: var(--v4-amber);
+  color: var(--v4-amber);
+}
+.v4-alert-toggle--compact {
+  height: 22px;
+  padding: 0 7px;
+  font-size: 8.5px;
+}
+.v4-alert-toggle--pending {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+/* ---------------------------------------------------------------------------
+ * 28. AlertTriggerCard — alert-rule display + edit
+ * --------------------------------------------------------------------------- */
+.v4-trigger-card {
+  border: var(--v4-stroke-1) solid var(--v4-line-200);
+  background: var(--v4-bg-025);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.v4-trigger-card--off {
+  opacity: 0.6;
+}
+.v4-trigger-card__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.v4-trigger-card__pip {
+  width: 7px;
+  height: 7px;
+  flex: none;
+  border-radius: var(--v4-radius-2);
+}
+.v4-trigger-card__type {
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-10-5);
+  letter-spacing: var(--v4-track-16);
+  color: var(--v4-ink-100);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.v4-trigger-card__actions {
+  margin-left: auto;
+  display: inline-flex;
+  gap: 6px;
+}
+.v4-trigger-card__toggle {
+  height: 22px;
+  padding: 0 9px;
+  border: var(--v4-stroke-1) solid var(--v4-line-300);
+  background: var(--v4-bg-050);
+  color: var(--v4-ink-400);
+  font-family: var(--v4-mono);
+  font-size: 9px;
+  letter-spacing: var(--v4-track-14);
+  text-transform: uppercase;
+  cursor: pointer;
+  font-weight: 600;
+}
+.v4-trigger-card__toggle--on {
+  background: var(--v4-money-soft);
+  color: var(--v4-money);
+  border-color: rgba(34, 197, 94, 0.4);
+}
+.v4-trigger-card__delete {
+  height: 22px;
+  padding: 0 9px;
+  border: var(--v4-stroke-1) solid var(--v4-line-300);
+  background: var(--v4-bg-050);
+  color: var(--v4-ink-400);
+  font-family: var(--v4-mono);
+  font-size: 9px;
+  letter-spacing: var(--v4-track-14);
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color var(--v4-duration-fast) var(--v4-ease),
+    border-color var(--v4-duration-fast) var(--v4-ease);
+}
+.v4-trigger-card__delete:hover {
+  color: var(--v4-red);
+  border-color: rgba(255, 77, 77, 0.4);
+}
+.v4-trigger-card__target {
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-11);
+  color: var(--v4-ink-200);
+}
+.v4-trigger-card__meta {
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-9-5);
+  color: var(--v4-ink-400);
+  letter-spacing: var(--v4-track-06);
+}
+
+/* ---------------------------------------------------------------------------
+ * 29. AlertEventRow — fired event in inbox
+ * --------------------------------------------------------------------------- */
+.v4-alert-event {
+  border-bottom: var(--v4-stroke-1) solid var(--v4-line-100);
+  padding: 12px 14px;
+  position: relative;
+  transition: background-color var(--v4-duration-fast) var(--v4-ease);
+}
+.v4-alert-event:last-child {
+  border-bottom: none;
+}
+.v4-alert-event:hover {
+  background: var(--v4-bg-050);
+}
+.v4-alert-event--unread {
+  background: linear-gradient(90deg, var(--v4-amber-soft), transparent 70%);
+  padding-left: 14px;
+}
+.v4-alert-event--unread::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--v4-amber);
+}
+.v4-alert-event--read {
+  opacity: 0.7;
+}
+.v4-alert-event__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+.v4-alert-event__pip {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--v4-radius-2);
+  flex: none;
+}
+.v4-alert-event__type {
+  font-family: var(--v4-mono);
+  font-size: 9.5px;
+  letter-spacing: var(--v4-track-16);
+  color: var(--v4-ink-100);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.v4-alert-event__repo {
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-10-5);
+  color: var(--v4-ink-300);
+}
+.v4-alert-event__ago {
+  margin-left: auto;
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-9-5);
+  color: var(--v4-ink-400);
+  letter-spacing: var(--v4-track-06);
+}
+.v4-alert-event__title {
+  margin: 0 0 4px;
+  font-family: var(--v4-sans);
+  font-size: var(--v4-text-13);
+  color: var(--v4-ink-100);
+  font-weight: 500;
+  line-height: var(--v4-leading-13);
+}
+.v4-alert-event--unread .v4-alert-event__title {
+  color: var(--v4-ink-000);
+  font-weight: 600;
+}
+.v4-alert-event__body {
+  margin: 0;
+  font-family: var(--v4-sans);
+  font-size: var(--v4-text-12);
+  color: var(--v4-ink-300);
+  line-height: var(--v4-leading-15);
+}
+.v4-alert-event__actions {
+  display: inline-flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+.v4-alert-event__open,
+.v4-alert-event__mark {
+  height: 24px;
+  padding: 0 9px;
+  border: var(--v4-stroke-1) solid var(--v4-line-300);
+  background: var(--v4-bg-050);
+  color: var(--v4-ink-200);
+  font-family: var(--v4-mono);
+  font-size: 9px;
+  letter-spacing: var(--v4-track-14);
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: color var(--v4-duration-fast) var(--v4-ease),
+    border-color var(--v4-duration-fast) var(--v4-ease);
+}
+.v4-alert-event__open:hover {
+  color: var(--v4-acc);
+  border-color: var(--v4-acc);
+}
+.v4-alert-event__mark:hover {
+  color: var(--v4-money);
+  border-color: rgba(34, 197, 94, 0.4);
+}
+
+/* ---------------------------------------------------------------------------
+ * 30. AlertInbox — wrapper with grouping
+ * --------------------------------------------------------------------------- */
+.v4-alert-inbox {
+  display: flex;
+  flex-direction: column;
+  gap: var(--v4-space-7);
+}
+.v4-alert-inbox--empty {
+  padding: var(--v4-space-12);
+  text-align: center;
+  color: var(--v4-ink-400);
+  font-family: var(--v4-sans);
+  font-size: var(--v4-text-13);
+}
+.v4-alert-inbox__group {
+  border: var(--v4-stroke-1) solid var(--v4-line-200);
+  background: var(--v4-bg-025);
+}
+.v4-alert-inbox__head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: var(--v4-stroke-1) solid var(--v4-line-200);
+  background: linear-gradient(180deg, var(--v4-bg-050), var(--v4-bg-025));
+}
+.v4-alert-inbox__head-num {
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-10);
+  letter-spacing: var(--v4-track-20);
+  color: var(--v4-acc);
+  text-transform: uppercase;
+}
+.v4-alert-inbox__head-title {
+  margin: 0;
+  font-family: var(--v4-sans);
+  font-size: var(--v4-text-16);
+  font-weight: 500;
+  color: var(--v4-ink-000);
+  letter-spacing: var(--v4-track-tight-h2);
+}
+.v4-alert-inbox__head-meta {
+  margin-left: auto;
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-9-5);
+  color: var(--v4-ink-400);
+  letter-spacing: var(--v4-track-16);
+  text-transform: uppercase;
+}

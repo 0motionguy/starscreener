@@ -18,13 +18,45 @@ function Stat({
   hint?: string;
 }) {
   return (
-    <div className="rounded-md border border-border-primary bg-bg-secondary px-3 py-3">
-      <div className="text-[10px] uppercase tracking-wider text-text-tertiary">
+    <div
+      style={{
+        border: "1px solid var(--v4-line-200)",
+        background: "var(--v4-bg-050)",
+        borderRadius: 2,
+        padding: "12px 12px",
+      }}
+    >
+      <div
+        style={{
+          fontFamily: "var(--font-geist-mono), monospace",
+          fontSize: 10,
+          textTransform: "uppercase",
+          letterSpacing: "0.08em",
+          color: "var(--v4-ink-300)",
+        }}
+      >
         {label}
       </div>
-      <div className="mt-1 text-lg font-semibold text-text-primary">{value}</div>
+      <div
+        style={{
+          marginTop: 4,
+          fontSize: 18,
+          fontWeight: 600,
+          color: "var(--v4-ink-100)",
+        }}
+      >
+        {value}
+      </div>
       {hint ? (
-        <div className="mt-0.5 text-[11px] text-text-tertiary">{hint}</div>
+        <div
+          style={{
+            marginTop: 2,
+            fontSize: 11,
+            color: "var(--v4-ink-300)",
+          }}
+        >
+          {hint}
+        </div>
       ) : null}
     </div>
   );
@@ -32,28 +64,45 @@ function Stat({
 
 export function TwitterSignalPanel({ panel }: TwitterSignalPanelProps) {
   return (
-    <section className="v2-card overflow-hidden">
-      <div className="v2-term-bar">
-        <span aria-hidden className="flex items-center gap-1.5">
-          <span className="block h-1.5 w-1.5 rounded-full v2-live-dot" />
-          <span
-            className="block h-1.5 w-1.5 rounded-full"
-            style={{ background: "var(--v2-line-200)" }}
-          />
-          <span
-            className="block h-1.5 w-1.5 rounded-full"
-            style={{ background: "var(--v2-line-200)" }}
-          />
-        </span>
+    <section
+      style={{
+        border: "1px solid var(--v4-line-200)",
+        background: "var(--v4-bg-025)",
+        borderRadius: 2,
+        overflow: "hidden",
+      }}
+    >
+      <div
+        style={{
+          padding: "10px 12px",
+          borderBottom: "1px solid var(--v4-line-200)",
+          background: "var(--v4-bg-050)",
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
+          fontFamily: "var(--font-geist-mono), monospace",
+        }}
+      >
         <span
           className="flex-1 truncate"
-          style={{ color: "var(--v2-ink-200)" }}
+          style={{
+            color: "var(--v4-ink-200)",
+            fontSize: 11,
+            textTransform: "uppercase",
+            letterSpacing: "0.08em",
+          }}
         >
           {"// X · SIGNAL · 24H"}
         </span>
         <span
-          className="v2-stat shrink-0"
-          style={{ color: "var(--v2-ink-300)" }}
+          className="shrink-0"
+          style={{
+            color: "var(--v4-ink-300)",
+            fontFamily: "var(--font-geist-mono), monospace",
+            fontSize: 10,
+            textTransform: "uppercase",
+            letterSpacing: "0.08em",
+          }}
         >
           REFRESHED {getRelativeTime(panel.summary.lastScannedAt).toUpperCase()}
         </span>
@@ -66,7 +115,7 @@ export function TwitterSignalPanel({ panel }: TwitterSignalPanelProps) {
             <p
               style={{
                 fontSize: 13,
-                color: "var(--v2-ink-300)",
+                color: "var(--v4-ink-300)",
               }}
             >
               Ranked confirmation layer for repo-specific X buzz in the last
@@ -107,17 +156,51 @@ export function TwitterSignalPanel({ panel }: TwitterSignalPanelProps) {
 
       <div className="x-signal-body">
         <div>
-          <div className="mb-2 font-mono text-[11px] uppercase tracking-wider text-text-tertiary">
+          <div
+            className="mb-2"
+            style={{
+              fontFamily: "var(--font-geist-mono), monospace",
+              fontSize: 11,
+              textTransform: "uppercase",
+              letterSpacing: "0.08em",
+              color: "var(--v4-ink-300)",
+            }}
+          >
             Top matched posts
           </div>
           {panel.topPosts.length === 0 ? (
-            <div className="rounded-md border border-dashed border-border-primary bg-bg-secondary/40 px-4 py-5 text-sm text-text-tertiary">
+            <div
+              style={{
+                border: "1px dashed var(--v4-line-200)",
+                background: "var(--v4-bg-050)",
+                borderRadius: 2,
+                padding: "20px 16px",
+                fontSize: 14,
+                color: "var(--v4-ink-300)",
+              }}
+            >
               No high-signal X matches were stored for the latest scan.
             </div>
           ) : (
-            <ul className="divide-y divide-border-primary/40 rounded-md border border-border-primary bg-bg-secondary">
-              {panel.topPosts.map((post) => (
-                <li key={post.postId} className="px-4 py-3">
+            <ul
+              style={{
+                border: "1px solid var(--v4-line-200)",
+                background: "var(--v4-bg-050)",
+                borderRadius: 2,
+                listStyle: "none",
+                padding: 0,
+                margin: 0,
+              }}
+            >
+              {panel.topPosts.map((post, idx) => (
+                <li
+                  key={post.postId}
+                  style={{
+                    padding: "12px 16px",
+                    borderTop:
+                      idx === 0 ? "none" : "1px solid var(--v4-line-200)",
+                  }}
+                >
                   <a
                     href={post.postUrl}
                     target="_blank"
@@ -125,17 +208,43 @@ export function TwitterSignalPanel({ panel }: TwitterSignalPanelProps) {
                     className="group block"
                   >
                     <div className="flex items-center justify-between gap-3">
-                      <span className="font-mono text-xs text-text-secondary">
+                      <span
+                        style={{
+                          fontFamily: "var(--font-geist-mono), monospace",
+                          fontSize: 12,
+                          color: "var(--v4-ink-200)",
+                        }}
+                      >
                         @{post.authorHandle}
                       </span>
-                      <span className="font-mono text-[11px] text-text-tertiary">
+                      <span
+                        style={{
+                          fontFamily: "var(--font-geist-mono), monospace",
+                          fontSize: 11,
+                          color: "var(--v4-ink-300)",
+                        }}
+                      >
                         {formatNumber(post.engagement)} eng
                       </span>
                     </div>
-                    <p className="mt-1 text-sm text-text-primary leading-relaxed group-hover:text-brand transition-colors">
+                    <p
+                      className="mt-1 group-hover:text-brand transition-colors"
+                      style={{
+                        fontSize: 14,
+                        lineHeight: 1.5,
+                        color: "var(--v4-ink-100)",
+                      }}
+                    >
                       {post.text}
                     </p>
-                    <div className="mt-2 flex items-center gap-3 flex-wrap font-mono text-[11px] text-text-tertiary">
+                    <div
+                      className="mt-2 flex items-center gap-3 flex-wrap"
+                      style={{
+                        fontFamily: "var(--font-geist-mono), monospace",
+                        fontSize: 11,
+                        color: "var(--v4-ink-300)",
+                      }}
+                    >
                       <span>{post.confidence}</span>
                       <span>{post.matchedBy}</span>
                       <span>{getRelativeTime(post.postedAt)}</span>
@@ -143,7 +252,10 @@ export function TwitterSignalPanel({ panel }: TwitterSignalPanelProps) {
                         open <ExternalLink size={10} aria-hidden />
                       </span>
                     </div>
-                    <p className="mt-1 text-[11px] text-text-tertiary">
+                    <p
+                      className="mt-1"
+                      style={{ fontSize: 11, color: "var(--v4-ink-300)" }}
+                    >
                       {post.whyMatched}
                     </p>
                   </a>
@@ -153,51 +265,101 @@ export function TwitterSignalPanel({ panel }: TwitterSignalPanelProps) {
           )}
         </div>
 
-        <aside className="rounded-md border border-border-primary bg-bg-secondary px-4 py-4">
-          <div className="font-mono text-[11px] uppercase tracking-wider text-text-tertiary">
+        <aside
+          style={{
+            border: "1px solid var(--v4-line-200)",
+            background: "var(--v4-bg-050)",
+            borderRadius: 2,
+            padding: "16px 16px",
+          }}
+        >
+          <div
+            style={{
+              fontFamily: "var(--font-geist-mono), monospace",
+              fontSize: 11,
+              textTransform: "uppercase",
+              letterSpacing: "0.08em",
+              color: "var(--v4-ink-300)",
+            }}
+          >
             Confidence summary
           </div>
           <dl className="mt-3 space-y-2 text-sm">
             <div className="flex items-center justify-between gap-3">
-              <dt className="text-text-tertiary">High</dt>
-              <dd className="font-mono text-text-primary">
+              <dt style={{ color: "var(--v4-ink-300)" }}>High</dt>
+              <dd
+                style={{
+                  fontFamily: "var(--font-geist-mono), monospace",
+                  color: "var(--v4-ink-100)",
+                }}
+              >
                 {panel.confidenceSummary.highCount}
               </dd>
             </div>
             <div className="flex items-center justify-between gap-3">
-              <dt className="text-text-tertiary">Medium</dt>
-              <dd className="font-mono text-text-primary">
+              <dt style={{ color: "var(--v4-ink-300)" }}>Medium</dt>
+              <dd
+                style={{
+                  fontFamily: "var(--font-geist-mono), monospace",
+                  color: "var(--v4-ink-100)",
+                }}
+              >
                 {panel.confidenceSummary.mediumCount}
               </dd>
             </div>
             <div className="flex items-center justify-between gap-3">
-              <dt className="text-text-tertiary">Low</dt>
-              <dd className="font-mono text-text-primary">
+              <dt style={{ color: "var(--v4-ink-300)" }}>Low</dt>
+              <dd
+                style={{
+                  fontFamily: "var(--font-geist-mono), monospace",
+                  color: "var(--v4-ink-100)",
+                }}
+              >
                 {panel.confidenceSummary.lowCount}
               </dd>
             </div>
             <div className="divider-dashed my-2" />
             <div className="flex items-center justify-between gap-3">
-              <dt className="text-text-tertiary">Confidence ratio</dt>
-              <dd className="font-mono text-text-primary">
+              <dt style={{ color: "var(--v4-ink-300)" }}>Confidence ratio</dt>
+              <dd
+                style={{
+                  fontFamily: "var(--font-geist-mono), monospace",
+                  color: "var(--v4-ink-100)",
+                }}
+              >
                 {panel.confidenceSummary.confidenceRatio.toFixed(1)}
               </dd>
             </div>
             <div className="flex items-center justify-between gap-3">
-              <dt className="text-text-tertiary">Exact match ratio</dt>
-              <dd className="font-mono text-text-primary">
+              <dt style={{ color: "var(--v4-ink-300)" }}>Exact match ratio</dt>
+              <dd
+                style={{
+                  fontFamily: "var(--font-geist-mono), monospace",
+                  color: "var(--v4-ink-100)",
+                }}
+              >
                 {panel.confidenceSummary.exactMatchRatio.toFixed(1)}
               </dd>
             </div>
             <div className="flex items-center justify-between gap-3">
-              <dt className="text-text-tertiary">Author diversity</dt>
-              <dd className="font-mono text-text-primary">
+              <dt style={{ color: "var(--v4-ink-300)" }}>Author diversity</dt>
+              <dd
+                style={{
+                  fontFamily: "var(--font-geist-mono), monospace",
+                  color: "var(--v4-ink-100)",
+                }}
+              >
                 {panel.confidenceSummary.authorDiversityRatio.toFixed(1)}
               </dd>
             </div>
             <div className="flex items-center justify-between gap-3">
-              <dt className="text-text-tertiary">Dominant author share</dt>
-              <dd className="font-mono text-text-primary">
+              <dt style={{ color: "var(--v4-ink-300)" }}>Dominant author share</dt>
+              <dd
+                style={{
+                  fontFamily: "var(--font-geist-mono), monospace",
+                  color: "var(--v4-ink-100)",
+                }}
+              >
                 {panel.confidenceSummary.dominantAuthorShare.toFixed(1)}
               </dd>
             </div>
@@ -208,7 +370,11 @@ export function TwitterSignalPanel({ panel }: TwitterSignalPanelProps) {
               href={panel.summary.topPostUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-4 inline-flex items-center gap-1 text-sm text-brand hover:text-brand/80 transition-colors"
+              className="mt-4 inline-flex items-center gap-1 transition-colors"
+              style={{
+                fontSize: 14,
+                color: "var(--v4-acc)",
+              }}
             >
               Top post
               <ExternalLink size={12} aria-hidden />

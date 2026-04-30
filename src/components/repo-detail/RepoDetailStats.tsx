@@ -53,33 +53,49 @@ export function RepoDetailStats({ repo }: RepoDetailStatsProps): JSX.Element {
   return (
     <section
       aria-label="Repo statistics"
-      className="v2-card overflow-hidden"
+      style={{
+        border: "1px solid var(--v4-line-200)",
+        background: "var(--v4-bg-025)",
+        borderRadius: 2,
+        overflow: "hidden",
+      }}
     >
-      <div className="v2-term-bar">
-        <span aria-hidden className="flex items-center gap-1.5">
-          <span className="block h-1.5 w-1.5 rounded-full v2-live-dot" />
-          <span
-            className="block h-1.5 w-1.5 rounded-full"
-            style={{ background: "var(--v2-line-200)" }}
-          />
-          <span
-            className="block h-1.5 w-1.5 rounded-full"
-            style={{ background: "var(--v2-line-200)" }}
-          />
-        </span>
+      <div
+        style={{
+          padding: "10px 12px",
+          borderBottom: "1px solid var(--v4-line-200)",
+          background: "var(--v4-bg-050)",
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
+          fontFamily: "var(--font-geist-mono), monospace",
+        }}
+      >
         <span
-          className="flex-1 truncate"
-          style={{ color: "var(--v2-ink-200)" }}
+          style={{
+            flex: 1,
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            color: "var(--v4-ink-200)",
+            fontSize: 11,
+            textTransform: "uppercase",
+            letterSpacing: "0.08em",
+          }}
         >
           {"// STATS · SNAPSHOT"}
         </span>
         <span
-          className="v2-stat shrink-0 tabular-nums"
-          style={{ color: "var(--v2-ink-300)" }}
+          className="shrink-0 tabular-nums"
+          style={{
+            color: "var(--v4-ink-300)",
+            fontFamily: "var(--font-geist-mono), monospace",
+            fontSize: 11,
+          }}
           title="Momentum score (0-100)"
         >
           MOMENTUM{" "}
-          <span style={{ color: "var(--v2-acc)" }}>
+          <span style={{ color: "var(--v4-acc)" }}>
             {repo.momentumScore.toFixed(1)}
           </span>
         </span>
@@ -108,13 +124,14 @@ export function RepoDetailStats({ repo }: RepoDetailStatsProps): JSX.Element {
         </div>
 
         <div
-          className="mt-4 pt-3 flex flex-wrap items-center gap-x-3 gap-y-1.5 v2-mono-tight"
+          className="mt-4 pt-3 flex flex-wrap items-center gap-x-3 gap-y-1.5"
           style={{
             fontSize: 11,
-            borderTop: "1px solid var(--v2-line-std)",
+            borderTop: "1px solid var(--v4-line-200)",
+            fontFamily: "var(--font-geist-mono), monospace",
           }}
         >
-          <span style={{ color: "var(--v2-ink-400)" }}>{"// TREND"}</span>
+          <span style={{ color: "var(--v4-ink-400)" }}>{"// TREND"}</span>
           <DeltaChip label="24h" value={repo.starsDelta24h} />
           <DeltaChip label="7d" value={repo.starsDelta7d} />
           <DeltaChip label="30d" value={repo.starsDelta30d} />
@@ -128,17 +145,17 @@ function DeltaChip({ label, value }: { label: string; value: number }) {
   const tone = deltaTone(value);
   const color =
     tone === "up"
-      ? "var(--v2-sig-green)"
+      ? "var(--v3-sig-green)"
       : tone === "down"
-        ? "var(--v2-sig-red)"
-        : "var(--v2-ink-400)";
+        ? "var(--v3-sig-red)"
+        : "var(--v4-ink-400)";
   return (
     <span className="inline-flex items-baseline gap-1">
-      <span style={{ color: "var(--v2-ink-400)" }}>{label}</span>
+      <span style={{ color: "var(--v4-ink-400)" }}>{label}</span>
       <span className="tabular-nums" style={{ color }}>
         {formatDelta(value)}
       </span>
-      <span style={{ color: "var(--v2-ink-400)" }}>★</span>
+      <span style={{ color: "var(--v4-ink-400)" }}>★</span>
     </span>
   );
 }

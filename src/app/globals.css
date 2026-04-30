@@ -2955,7 +2955,8 @@ body::before {
   text-align: right;
 }
 
-.funding-page .stock-row {
+.funding-page .stock-row,
+.agent-commerce-page .stock-row {
   display: grid;
   grid-template-columns: 12px minmax(0, 1fr) 54px 44px;
   align-items: center;
@@ -2964,16 +2965,19 @@ body::before {
   border-bottom: 1px solid var(--line-100);
 }
 
-.funding-page .stock-row:last-child {
+.funding-page .stock-row,
+.agent-commerce-page .stock-row:last-child {
   border-bottom: none;
 }
 
-.funding-page .stock-row .col-pip {
+.funding-page .stock-row,
+.agent-commerce-page .stock-row .col-pip {
   width: 10px;
   height: 10px;
 }
 
-.funding-page .stock-row .nm {
+.funding-page .stock-row,
+.agent-commerce-page .stock-row .nm {
   overflow: hidden;
   color: var(--ink-200);
   font-size: var(--font-size-md);
@@ -2983,22 +2987,27 @@ body::before {
   white-space: nowrap;
 }
 
-.funding-page .stock-row .px,
-.funding-page .stock-row .ch {
+.funding-page .stock-row,
+.agent-commerce-page .stock-row .px,
+.funding-page .stock-row,
+.agent-commerce-page .stock-row .ch {
   font-family: var(--font-mono);
   font-size: var(--font-size-md);
   text-align: right;
 }
 
-.funding-page .stock-row .px {
+.funding-page .stock-row,
+.agent-commerce-page .stock-row .px {
   color: var(--ink-100);
 }
 
-.funding-page .stock-row .ch.up {
+.funding-page .stock-row,
+.agent-commerce-page .stock-row .ch.up {
   color: var(--sig-green);
 }
 
-.funding-page .mover-row {
+.funding-page .mover-row,
+.agent-commerce-page .mover-row {
   display: grid;
   grid-template-columns: 28px minmax(0, 1fr) 110px auto;
   align-items: center;
@@ -3009,39 +3018,46 @@ body::before {
   text-decoration: none;
 }
 
-.funding-page .mover-row:last-child {
+.funding-page .mover-row,
+.agent-commerce-page .mover-row:last-child {
   border-bottom: none;
 }
 
-.funding-page .mover-row:hover {
+.funding-page .mover-row,
+.agent-commerce-page .mover-row:hover {
   background: var(--bg-050);
 }
 
-.funding-page .mover-row.first {
+.funding-page .mover-row,
+.agent-commerce-page .mover-row.first {
   padding-left: 10px;
   border-left: 2px solid var(--sig-green);
   background: linear-gradient(90deg, rgba(34, 197, 94, 0.1), transparent 70%);
 }
 
-.funding-page .mover-row .rk {
+.funding-page .mover-row,
+.agent-commerce-page .mover-row .rk {
   color: var(--ink-400);
   font-family: var(--font-mono);
   font-size: var(--font-size-md);
 }
 
-.funding-page .mover-row.first .rk {
+.funding-page .mover-row,
+.agent-commerce-page .mover-row.first .rk {
   color: var(--sig-green);
   font-weight: var(--font-weight-bold);
 }
 
-.funding-page .mover-row .nm {
+.funding-page .mover-row,
+.agent-commerce-page .mover-row .nm {
   display: flex;
   min-width: 0;
   flex-direction: column;
   gap: 2px;
 }
 
-.funding-page .mover-row .h {
+.funding-page .mover-row,
+.agent-commerce-page .mover-row .h {
   overflow: hidden;
   color: var(--ink-100);
   font-family: var(--font-mono);
@@ -3050,7 +3066,8 @@ body::before {
   white-space: nowrap;
 }
 
-.funding-page .mover-row .meta {
+.funding-page .mover-row,
+.agent-commerce-page .mover-row .meta {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -3060,14 +3077,16 @@ body::before {
   text-transform: uppercase;
 }
 
-.funding-page .mover-row .tag {
+.funding-page .mover-row,
+.agent-commerce-page .mover-row .tag {
   border: 1px solid var(--line-300);
   padding: 0 5px;
   color: var(--ink-200);
   font-size: 8.5px;
 }
 
-.funding-page .mover-row .amt {
+.funding-page .mover-row,
+.agent-commerce-page .mover-row .amt {
   color: var(--sig-green);
   font-family: var(--font-mono);
   font-size: 13.5px;
@@ -3075,7 +3094,8 @@ body::before {
   text-align: right;
 }
 
-.funding-page .mover-row .amt .lbl {
+.funding-page .mover-row,
+.agent-commerce-page .mover-row .amt .lbl {
   display: block;
   margin-top: 1px;
   color: var(--ink-400);
@@ -3085,7 +3105,8 @@ body::before {
   text-transform: uppercase;
 }
 
-.funding-page .mover-row .stage {
+.funding-page .mover-row,
+.agent-commerce-page .mover-row .stage {
   border: 1px solid var(--line-300);
   padding: 3px 7px;
   color: var(--ink-200);
@@ -3474,12 +3495,15 @@ body::before {
     border-bottom: none;
   }
 
-  .funding-page .mover-row {
+  .funding-page .mover-row,
+.agent-commerce-page .mover-row {
     grid-template-columns: 24px minmax(0, 1fr);
   }
 
-  .funding-page .mover-row .amt,
-  .funding-page .mover-row .stage {
+  .funding-page .mover-row,
+.agent-commerce-page .mover-row .amt,
+  .funding-page .mover-row,
+.agent-commerce-page .mover-row .stage {
     grid-column: 2;
     text-align: left;
     width: fit-content;
@@ -5891,3 +5915,212 @@ body::before {
 .sd-pdh { background: #da552f; color: #ffffff; }
 .sd-dev { background: #3ad6c5; color: #0a0a0a; }
 .sd-bs  { background: #60a5fa; color: #0a0a0a; }
+
+/* ===========================================================================
+ * V4 (CORPUS) tokens — alias bridge to V3 hex.
+ *
+ * Source of truth: design/v4/tokens.css (canonical reference + documentation).
+ * This block makes the same `--v4-*` names resolvable at runtime by aliasing
+ * to existing V3 `--color-*` tokens (or to the hex directly when V3 has no
+ * matching token). No hex value is duplicated — one source per color.
+ *
+ * Migration sequence:
+ *   1. (DONE) Tokens declared here so V4 components compile.
+ *   2. Phase 1.2 primitives consume `--v4-*` names exclusively.
+ *   3. Phase 2 worktrees migrate page-level CSS from `--color-*` → `--v4-*`.
+ *   4. After full migration: drop V3 tokens, drop these aliases, leave V4
+ *      as the only namespace.
+ *
+ * See design/v4/MIGRATION_PLAN.md for the per-token mapping table.
+ * ========================================================================= */
+:root {
+  /* Surfaces */
+  --v4-bg-000: var(--color-bg-canvas);
+  --v4-bg-025: var(--color-bg-shell);
+  --v4-bg-050: var(--color-bg-raised);
+  --v4-bg-100: var(--color-bg-muted);
+  --v4-bg-200: var(--color-bg-fill);
+  --v4-bg-300: var(--color-bg-strong);
+
+  /* Lines */
+  --v4-line-100: var(--color-border-subtle);
+  --v4-line-200: var(--color-border-default);
+  --v4-line-300: var(--color-border-strong);
+  --v4-line-400: var(--color-border-hover);
+
+  /* Ink ramp */
+  --v4-ink-000: #ffffff;
+  --v4-ink-100: var(--color-text-default);
+  --v4-ink-200: var(--color-text-muted);
+  --v4-ink-300: var(--color-text-subtle);
+  --v4-ink-400: var(--color-text-faint);
+  --v4-ink-500: var(--color-text-disabled);
+
+  /* Brand */
+  --v4-acc: var(--color-accent);
+  --v4-acc-hover: var(--color-accent-hover);
+  --v4-acc-dim: var(--color-accent-dim);
+  --v4-acc-soft: var(--color-accent-soft);
+  --v4-acc-wash: var(--color-accent-wash);
+  --v4-acc-glow: var(--color-accent-glow);
+
+  /* Semantic deltas */
+  --v4-money: var(--color-positive);
+  --v4-money-soft: var(--color-positive-soft);
+  --v4-money-glow: rgba(34, 197, 94, 0.18);
+  --v4-red: var(--color-negative);
+  --v4-red-soft: var(--color-negative-soft);
+  --v4-amber: var(--color-warning);
+  --v4-amber-soft: rgba(255, 181, 71, 0.10);
+  --v4-cyan: var(--color-cyan);
+  --v4-cyan-soft: rgba(58, 214, 197, 0.10);
+
+  /* Decorative palette */
+  --v4-violet: var(--color-violet);
+  --v4-violet-soft: var(--color-violet-soft);
+  --v4-blue: var(--color-blue);
+  --v4-blue-soft: rgba(96, 165, 250, 0.10);
+  --v4-pink: var(--color-pink);
+  --v4-pink-soft: rgba(244, 114, 182, 0.10);
+  --v4-gold: var(--color-gold);
+  --v4-silver: var(--color-silver);
+  --v4-bronze: #cd7f32;
+
+  /* Source channel colors (8 sources) */
+  --v4-src-hn: #ff7a3d;
+  --v4-src-gh: #c8d3df;
+  --v4-src-x: #7aa7ff;
+  --v4-src-reddit: #ff5a4a;
+  --v4-src-bsky: #3aa4ff;
+  --v4-src-dev: #b08bff;
+  --v4-src-claude: #ffb547;
+  --v4-src-openai: #5cd6c0;
+
+  /* Funding source palette (8 sources) */
+  --v4-fund-cb: #3a4a8e;
+  --v4-fund-tc: #22c55e;
+  --v4-fund-vb: #3a86ff;
+  --v4-fund-info: #f4f4f4;
+  --v4-fund-bb: #ff6b35;
+  --v4-fund-pb: #a78bfa;
+  --v4-fund-trx: #3ad6c5;
+  --v4-fund-tr: #ffb547;
+
+  /* Tier colors (S → F) */
+  --v4-tier-s: #ff4d4d;
+  --v4-tier-a: #ff8a4d;
+  --v4-tier-b: #ffd24d;
+  --v4-tier-c: #3ad27a;
+  --v4-tier-d: #3aa9ff;
+  --v4-tier-e: #a78bfa;
+  --v4-tier-f: #f472b6;
+
+  /* Type families */
+  --v4-mono: var(--font-mono);
+  --v4-sans: var(--font-sans);
+
+  /* Type scale (px-precise per mockup) */
+  --v4-text-9: 9px;
+  --v4-text-9-5: 9.5px;
+  --v4-text-10: 10px;
+  --v4-text-10-5: 10.5px;
+  --v4-text-11: 11px;
+  --v4-text-11-5: 11.5px;
+  --v4-text-12: 12px;
+  --v4-text-12-5: 12.5px;
+  --v4-text-13: 13px;
+  --v4-text-14: 14px;
+  --v4-text-16: 16px;
+  --v4-text-18: 18px;
+  --v4-text-20: 20px;
+  --v4-text-22: 22px;
+  --v4-text-24: 24px;
+  --v4-text-26: 26px;
+  --v4-text-30: 30px;
+  --v4-text-34: 34px;
+  --v4-text-38: 38px;
+  --v4-text-42: 42px;
+  --v4-text-48: 48px;
+
+  /* Letter-spacing — caps tracking */
+  --v4-track-04: 0.04em;
+  --v4-track-06: 0.06em;
+  --v4-track-10: 0.10em;
+  --v4-track-12: 0.12em;
+  --v4-track-14: 0.14em;
+  --v4-track-16: 0.16em;
+  --v4-track-18: 0.18em;
+  --v4-track-20: 0.20em;
+  --v4-track-22: 0.22em;
+  --v4-track-30: 0.30em;
+
+  /* Negative tracking — display headlines */
+  --v4-track-tight-h1: -0.024em;
+  --v4-track-tight-h2: -0.018em;
+  --v4-track-tight-num: -0.02em;
+
+  /* Line-heights */
+  --v4-leading-1: 1;
+  --v4-leading-105: 1.05;
+  --v4-leading-12: 1.20;
+  --v4-leading-13: 1.32;
+  --v4-leading-14: 1.4;
+  --v4-leading-15: 1.5;
+  --v4-leading-155: 1.55;
+  --v4-leading-165: 1.65;
+
+  /* Spacing scale (4px base) */
+  --v4-space-1: 2px;
+  --v4-space-2: 4px;
+  --v4-space-3: 6px;
+  --v4-space-4: 8px;
+  --v4-space-5: 10px;
+  --v4-space-6: 12px;
+  --v4-space-7: 14px;
+  --v4-space-8: 16px;
+  --v4-space-9: 18px;
+  --v4-space-10: 20px;
+  --v4-space-12: 24px;
+  --v4-space-14: 28px;
+  --v4-space-16: 32px;
+  --v4-space-18: 36px;
+  --v4-space-20: 40px;
+  --v4-space-24: 48px;
+  --v4-space-32: 64px;
+
+  /* Component-level constants */
+  --v4-topbar-height: 52px;
+  --v4-sidebar-width: 230px;
+  --v4-panel-pad-x: 12px;
+  --v4-panel-pad-y: 8px;
+  --v4-row-pad-y: 9px;
+  --v4-grid-gap: 10px;
+
+  /* Border radii */
+  --v4-radius-0: 0;
+  --v4-radius-2: 2px;
+  --v4-radius-pill: 99px;
+
+  /* Stroke widths */
+  --v4-stroke-1: 1px;
+  --v4-stroke-1-5: 1.5px;
+  --v4-stroke-2: 2px;
+
+  /* Shadows */
+  --v4-shadow-card: 0 0 0 1px rgba(0, 0, 0, 0.4);
+  --v4-shadow-pulse-money: 0 0 0 3px rgba(34, 197, 94, 0.18);
+
+  /* Motion */
+  --v4-duration-fast: 150ms;
+  --v4-duration-base: 250ms;
+  --v4-duration-slow: 500ms;
+  --v4-duration-pulse: 1.6s;
+  --v4-duration-ticker: 60s;
+  --v4-ease: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Z-index */
+  --v4-z-topbar: 30;
+  --v4-z-band-head: 5;
+  --v4-z-thead: 4;
+  --v4-z-modal: 100;
+}

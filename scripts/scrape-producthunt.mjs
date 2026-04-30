@@ -33,6 +33,8 @@ import {
   enrichWithGithub,
   sleep,
 } from "./_ph-shared.mjs";
+import { extractUnknownRepoCandidates } from "./_github-repo-links.mjs";
+import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import {
   loadTrackedReposFromFiles,
   recentRepoRows,
@@ -476,6 +478,21 @@ async function main() {
     `  launches kept: ${launches.length} (${aiCount} AI-adjacent · ${withGhCount} with github · ${linkedCount} linked to tracked repos · ${enrichedCount} enriched)`,
   );
   log(`  top: ${top3 || "(none)"}`);
+
+  // F3 unknown-mentions lake — every github URL surfaced in PH launches.
+  const unknownsAccumulator = new Set();
+  for (const launch of launches) {
+    const blob = `${launch.name ?? ""} ${launch.tagline ?? ""} ${launch.description ?? ""} ${launch.githubUrl ?? ""} ${launch.website ?? ""}`;
+    for (const u of extractUnknownRepoCandidates(blob, null)) {
+      unknownsAccumulator.add(u);
+    }
+  }
+  if (unknownsAccumulator.size > 0) {
+    await appendUnknownMentions(
+      Array.from(unknownsAccumulator, (fullName) => ({ source: "producthunt", fullName })),
+    );
+    log(`  lake: ${unknownsAccumulator.size} candidates → data/unknown-mentions.jsonl`);
+  }
 }
 
 const invokedPath = process.argv[1] ? resolve(process.argv[1]) : null;

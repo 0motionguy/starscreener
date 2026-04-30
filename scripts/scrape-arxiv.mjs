@@ -34,7 +34,8 @@ import { writeFile, mkdir } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { fetchWithTimeout, sleep, parseRetryAfterMs } from "./_fetch-json.mjs";
-import { extractGithubRepoFullNames } from "./_github-repo-links.mjs";
+import { extractGithubRepoFullNames, extractUnknownRepoCandidates } from "./_github-repo-links.mjs";
+import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { loadTrackedReposFromFiles } from "./_tracked-repos.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
@@ -263,6 +264,22 @@ async function main() {
   log(`wrote ${OUT_PATH} [redis: ${redis.source}]`);
   log(`  ${papers.length} recent papers; ${linkedCount} cross-link to tracked repos`);
   log(`  top 3: ${papers.slice(0, 3).map((p) => p.arxivId).join(", ")}`);
+
+  // F3 unknown-mentions lake — every github URL we found in any abstract,
+  // even repos we don't yet track. Drives the discovery promotion job.
+  const unknownsAccumulator = new Set();
+  for (const paper of papers) {
+    const blob = `${paper.title ?? ""} ${paper.summary ?? ""}`;
+    for (const u of extractUnknownRepoCandidates(blob, null)) {
+      unknownsAccumulator.add(u);
+    }
+  }
+  if (unknownsAccumulator.size > 0) {
+    await appendUnknownMentions(
+      Array.from(unknownsAccumulator, (fullName) => ({ source: "arxiv", fullName })),
+    );
+    log(`  unknown candidates: ${unknownsAccumulator.size} (lake: data/unknown-mentions.jsonl)`);
+  }
 }
 
 const invokedPath = process.argv[1] ? resolve(process.argv[1]) : null;

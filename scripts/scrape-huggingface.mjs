@@ -28,6 +28,8 @@ import { writeFile, mkdir } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { fetchJsonWithRetry } from "./_fetch-json.mjs";
+import { extractGithubRepoFullNames } from "./_github-repo-links.mjs";
+import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 
@@ -195,6 +197,7 @@ async function main() {
       HF_CARD_INTER_TASK_SLEEP_MS,
       (model) => fetchModelCardGithubRepos(model.id),
     );
+    const unknownsAccumulator = new Set();
     for (let i = 0; i < cardsToFetch.length; i += 1) {
       const repos = cardResults[i];
       if (repos === null) continue;
@@ -202,7 +205,15 @@ async function main() {
       if (repos.length > 0) {
         cardsToFetch[i].githubRepos = repos;
         withGithubRepos += 1;
+        // F3 lake — every github URL in HF cardData is a discovery candidate.
+        for (const fullName of repos) unknownsAccumulator.add(fullName);
       }
+    }
+    if (unknownsAccumulator.size > 0) {
+      await appendUnknownMentions(
+        Array.from(unknownsAccumulator, (fullName) => ({ source: "huggingface", fullName })),
+      );
+      log(`  lake: ${unknownsAccumulator.size} candidates → data/unknown-mentions.jsonl`);
     }
     log(
       `  cardData: ${cardsFetched}/${cardsToFetch.length} fetched, ${withGithubRepos} with github links`,

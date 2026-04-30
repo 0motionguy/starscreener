@@ -1,14 +1,6 @@
 "use client";
 
-// TopSharePngButton — primary CTA in the editor toolbar.
-//
-// One-click download of the 1200×675 PNG (the X-friendly aspect). Falls
-// back to the `state=<base64>` query when the list isn't saved yet so the
-// download works even on a brand-new draft.
-//
-// The full ShareBar still lives in the right rail for the secondary actions
-// (other aspects, copy link, embed snippets, save & share). This is just
-// the headline action surfaced where the eye lands first.
+// TopSharePngButton - primary CTA in the editor toolbar.
 
 import { Download } from "lucide-react";
 
@@ -37,17 +29,15 @@ export function TopSharePngButton() {
       download={`tierlist-${savedShortId ?? "draft"}-h.png`}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center gap-1.5 rounded-[3px] bg-brand text-bg-primary px-3 py-1.5 font-mono uppercase tracking-[0.14em] text-[11px] font-bold no-underline hover:bg-brand-hover transition-colors"
+      className="ico-btn acc"
     >
       <Download size={12} aria-hidden />
-      <span>↓ Share PNG</span>
+      <span>Share PNG</span>
     </a>
   );
 }
 
 function encodeUnsavedState(draft: TierListDraft): string {
-  // Mirrors ShareBar's `encodeUnsavedState`. Send a payload-shape so the
-  // server-side schema in /api/og/tier-list accepts it.
   const stateLike = {
     shortId: "DRAFT0AA",
     title: draft.title,

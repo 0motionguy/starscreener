@@ -1,9 +1,9 @@
 "use client";
 
-// TierListEditor — top-level client orchestrator for /tierlist.
+// TierListEditor - top-level client orchestrator for /tierlist.
 //
-// - Hydrates the Zustand store on mount from URL state (or the props seed).
-// - Hosts the title input, search box, drag-drop board, and share bar.
+// Hydrates the Zustand store from URL state, then hosts the title input,
+// search box, drag-drop board, and share/export controls.
 
 import { useEffect, useRef } from "react";
 
@@ -62,75 +62,61 @@ export function TierListEditor({ initial }: TierListEditorProps) {
   }, [hydrate, initial]);
 
   return (
-    <div
-      // Single column on mobile (<768px) so the right rail (Share /
-      // Templates / Hint) stacks below the main editor instead of squeezing
-      // the tier grid. Two-column at md+ keeps the desktop layout we had.
-      className="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_280px] gap-4 md:gap-6 p-4 md:p-6 mx-auto max-w-[1280px] text-text-primary font-sans"
-    >
-      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-        {/* Top header row — info-line on the left, static "share-ready" meta
-            on the right. Mirrors the meme-format reference. */}
-        <div className="flex flex-wrap items-center justify-between gap-3 font-mono uppercase tracking-[0.06em] text-[12px] text-text-tertiary">
-          <span>
-            {`// 01 · TIER LIST · ${totalCount} REPOS · ${today}`}
+    <div className="grid tier-workbench">
+      <section className="panel col-9 tier-editor-panel">
+        <div className="panel-head">
+          <span className="corner"><i /><i /><i /></span>
+          <span className="key">{"// Tier list"}</span>
+          <span className="tier-head-meta">
+            AI / {totalCount} repos / {today}
           </span>
-          <span className="text-text-muted">
-            CLASSIC S → F · DRAG & DROP · SHARE-READY
+          <span className="right">
+            <TopSharePngButton />
           </span>
         </div>
-        {/* Title + secondary toolbar (reset / + add row / share png). */}
-        <div className="flex flex-col gap-2">
+
+        <div className="tier-title-shell">
           <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value.slice(0, 80))}
             aria-label="Tier list title"
-            style={{
-              width: "100%",
-              padding: "4px 0",
-              fontSize: 32,
-              fontWeight: 800,
-              backgroundColor: "transparent",
-              border: "none",
-              borderBottom: "1px solid #2B2B2F",
-              color: "#FBFBFB",
-              outline: "none",
-              fontFamily:
-                "ui-monospace, SFMono-Regular, Menlo, monospace",
-            }}
+            className="tier-title-input"
           />
-          <div className="flex flex-wrap items-center gap-2">
-            <button
-              type="button"
-              onClick={addTier}
-              className="inline-flex items-center gap-1 rounded-[3px] border border-border-primary bg-bg-secondary px-2.5 py-1 font-mono uppercase tracking-[0.14em] text-[11px] text-text-secondary hover:bg-bg-tertiary hover:text-text-primary cursor-pointer"
-            >
-              + add row
+          <span className="tier-title-meta">
+            classic S to F / drag and drop / share-ready
+          </span>
+        </div>
+
+        <div className="tier-toolbar">
+          <span className="lbl">Pool</span>
+          <RepoSearchBox />
+          <span className="lbl tier-template-label">Templates</span>
+          <TemplatePicker />
+          <div className="right">
+            <button type="button" onClick={addTier} className="ico-btn">
+              + Add row
             </button>
             <button
               type="button"
               onClick={() => {
                 if (confirm("Clear the whole list?")) resetAll();
               }}
-              className="inline-flex items-center gap-1 rounded-[3px] border border-border-primary bg-bg-secondary px-2.5 py-1 font-mono uppercase tracking-[0.14em] text-[11px] text-text-secondary hover:bg-bg-tertiary hover:text-text-primary cursor-pointer"
+              className="ico-btn"
             >
-              reset
+              Reset
             </button>
-            <span className="flex-1" />
-            <TopSharePngButton />
           </div>
         </div>
-        <RepoSearchBox />
-        <TemplatePicker />
+
         <TierBoard />
-      </div>
-      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+      </section>
+
+      <aside className="col-3 tier-side">
         <ShareBar />
         <Hint />
-      </div>
-      {/* Modal — only renders when pickerTarget !== null. Mobile-only path
-          but cheap enough to mount at the editor root regardless. */}
+      </aside>
+
       <MobileTierPicker />
     </div>
   );
@@ -138,34 +124,16 @@ export function TierListEditor({ initial }: TierListEditorProps) {
 
 function Hint() {
   return (
-    <div
-      style={{
-        fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
-        fontSize: 11,
-        color: "#5A5A5C",
-        lineHeight: 1.7,
-        padding: 12,
-        border: "1px dashed #2B2B2F",
-        borderRadius: 4,
-      }}
-    >
-      <div
-        style={{
-          marginBottom: 6,
-          color: "#878787",
-          textTransform: "uppercase",
-          letterSpacing: "0.06em",
-        }}
-      >
-        {"// how it works"}
+    <div className="panel tier-hint">
+      <div className="panel-head">
+        <span className="key">{"// How it works"}</span>
       </div>
-      1. search repos to add to the unranked pool
-      <br />
-      2. drag onto a tier — or use the &quot;→ tier&quot; dropdown
-      <br />
-      3. rename tiers / pick new colors via the swatch
-      <br />
-      4. hit Save &amp; Share when you&apos;re happy
+      <div className="tier-hint-body">
+        <div><b>1.</b><span>Search repos to add to the unranked pool.</span></div>
+        <div><b>2.</b><span>Drag onto a tier, or use the mobile tier picker.</span></div>
+        <div><b>3.</b><span>Rename tiers and pick new row colors.</span></div>
+        <div><b>4.</b><span>Save, export PNG, copy link, or embed.</span></div>
+      </div>
     </div>
   );
 }

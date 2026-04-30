@@ -1,4 +1,4 @@
-// TrendingRepo — Daily digest archive index (/digest)
+// TrendingRepo — Daily digest archive index (/digest) — V4 chrome.
 //
 // Server component. Lists every date that has a digest snapshot. Today
 // is always present; historical dates land here once the collector job
@@ -15,6 +15,11 @@ import {
   absoluteUrl,
   safeJsonLd,
 } from "@/lib/seo";
+
+// V4 (CORPUS) primitives.
+import { PageHead } from "@/components/ui/PageHead";
+import { SectionHead } from "@/components/ui/SectionHead";
+import { LiveDot } from "@/components/ui/LiveDot";
 
 // ISR — the digest index changes at most once per scrape cycle. 1h cache
 // matches the sub-sitemap revalidate window so /sitemap-digest.xml and
@@ -70,79 +75,141 @@ export default async function DigestIndexPage() {
   const onlyToday = sorted.length <= 1;
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
-      {/* Hero */}
-      <div className="mb-8">
-        <nav
-          aria-label="Breadcrumb"
-          className="flex items-center gap-1.5 text-xs text-text-tertiary mb-3"
-        >
-          <Link href="/" className="hover:text-text-primary transition-colors">
-            Home
-          </Link>
-          <span aria-hidden="true">›</span>
-          <span className="text-text-primary">Digest</span>
-        </nav>
-        <h1 className="font-display text-3xl md:text-4xl font-bold text-text-primary mb-2">
-          Daily digest archive — what trended each day
-        </h1>
-        <p className="text-text-secondary text-sm md:text-base leading-relaxed max-w-2xl">
-          Permanent URLs for each day&apos;s trending GitHub repositories,
-          ranked by 24-hour star momentum. Each snapshot is an evergreen
-          page — bookmark a date to come back to it.
-        </p>
-      </div>
+    <main className="home-surface">
+      <PageHead
+        crumb={
+          <>
+            <b>DIGEST</b> · TERMINAL · /DIGEST
+          </>
+        }
+        h1="Daily digest archive — what trended each day."
+        lede="Permanent URLs for each day's trending GitHub repositories, ranked by 24-hour star momentum. Each snapshot is an evergreen page — bookmark a date to come back to it."
+        clock={
+          <>
+            <span className="big">{sorted.length}</span>
+            <span className="muted">DAILY {sorted.length === 1 ? "SNAPSHOT" : "SNAPSHOTS"}</span>
+            <LiveDot label="ARCHIVE LIVE" />
+          </>
+        }
+      />
 
-      {/* When only today is available, the prominent message becomes the
-          primary CTA — there is no archive to browse yet, but today's
-          snapshot is still one click away. */}
       {onlyToday ? (
-        <div className="bg-bg-card border border-border-primary rounded-[var(--radius-card)] p-6">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-              <p className="text-text-primary font-semibold mb-1">
-                Daily digests start today
-              </p>
-              <p className="text-text-secondary text-sm">
-                Check back tomorrow for the first archive — every day from
-                now on produces a new permanent URL.
-              </p>
-            </div>
-            {sorted[0] && (
-              <Link
-                href={`/digest/${sorted[0]}`}
-                className="shrink-0 inline-flex items-center justify-center px-4 py-2 rounded-md bg-brand text-white text-sm font-medium hover:bg-brand/90 transition-colors"
-              >
-                View today&apos;s digest →
-              </Link>
-            )}
-          </div>
-        </div>
-      ) : (
-        <ul
-          className="border-y divide-y"
-          style={{ borderColor: "var(--border-primary, #2B2B2F)" }}
+        <section
+          className="panel"
+          style={{
+            padding: "20px 24px",
+            display: "flex",
+            flexDirection: "column",
+            gap: 16,
+          }}
         >
-          {sorted.map((date) => (
-            <li
-              key={date}
-              style={{ borderColor: "var(--border-primary, #2B2B2F)" }}
+          <div>
+            <p style={{ color: "var(--v4-ink-100)", fontWeight: 600, marginBottom: 4 }}>
+              Daily digests start today.
+            </p>
+            <p style={{ color: "var(--v4-ink-300)", fontSize: 13 }}>
+              Check back tomorrow for the first archive — every day from now on
+              produces a new permanent URL.
+            </p>
+          </div>
+          {sorted[0] ? (
+            <Link
+              href={`/digest/${sorted[0]}`}
+              style={{
+                alignSelf: "flex-start",
+                display: "inline-flex",
+                alignItems: "center",
+                padding: "8px 16px",
+                background: "var(--v4-acc)",
+                color: "var(--v4-ink-000)",
+                fontFamily: "var(--v4-mono)",
+                fontSize: 11,
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                fontWeight: 600,
+              }}
             >
-              <Link
-                href={`/digest/${date}`}
-                className="flex items-center justify-between gap-4 py-3 px-1 hover:bg-bg-card-hover transition-colors"
+              View today&apos;s digest →
+            </Link>
+          ) : null}
+        </section>
+      ) : (
+        <>
+          <SectionHead
+            num="// 01"
+            title="Archive index"
+            meta={
+              <>
+                <b>{sorted.length}</b> · most recent first
+              </>
+            }
+          />
+          <ul
+            style={{
+              listStyle: "none",
+              padding: 0,
+              margin: 0,
+              borderTop: "1px solid var(--v4-line-200)",
+              borderBottom: "1px solid var(--v4-line-200)",
+              background: "var(--v4-bg-025)",
+            }}
+          >
+            {sorted.map((date) => (
+              <li
+                key={date}
+                style={{ borderTop: "1px solid var(--v4-line-100)" }}
               >
-                <span className="font-mono text-sm text-text-primary tabular-nums">
-                  {date}
-                </span>
-                <span className="text-sm text-text-secondary truncate">
-                  {formatHumanDate(date)}
-                </span>
-                <span className="text-xs text-text-tertiary shrink-0">→</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
+                <Link
+                  href={`/digest/${date}`}
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "120px 1fr auto",
+                    alignItems: "center",
+                    gap: 16,
+                    padding: "12px 16px",
+                    color: "var(--v4-ink-100)",
+                    transition: "background-color var(--v4-duration-fast) var(--v4-ease)",
+                  }}
+                  className="v4-digest-row"
+                >
+                  <span
+                    style={{
+                      fontFamily: "var(--v4-mono)",
+                      fontSize: 13,
+                      fontVariantNumeric: "tabular-nums",
+                      color: "var(--v4-ink-100)",
+                    }}
+                  >
+                    {date}
+                  </span>
+                  <span
+                    style={{
+                      fontSize: 13,
+                      color: "var(--v4-ink-300)",
+                    }}
+                  >
+                    {formatHumanDate(date)}
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: "var(--v4-mono)",
+                      fontSize: 11,
+                      color: "var(--v4-ink-400)",
+                      letterSpacing: "0.14em",
+                    }}
+                  >
+                    OPEN →
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <style>{`
+            .v4-digest-row:hover {
+              background: var(--v4-bg-100);
+            }
+          `}</style>
+        </>
       )}
 
       {/* CollectionPage JSON-LD — declares the index as a curated collection
@@ -202,6 +269,6 @@ export default async function DigestIndexPage() {
           }),
         }}
       />
-    </div>
+    </main>
   );
 }

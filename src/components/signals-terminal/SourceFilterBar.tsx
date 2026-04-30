@@ -15,6 +15,9 @@
 
 import Link from "next/link";
 import type { SourceKey } from "@/lib/signals/types";
+import { allTopics, type TopicKey } from "@/lib/signals/topics";
+
+export { parseTopic } from "@/lib/signals/topics";
 
 const SOURCES: Array<{ key: SourceKey; label: string; color: string }> = [
   { key: "hn", label: "HN", color: "var(--source-hackernews)" },
@@ -91,17 +94,24 @@ export function parseActiveSources(raw: string | null | undefined): Set<SourceKe
 }
 
 /**
- * Compose a /signals href that preserves the current source + window state
- * but applies a single override. Used by both source toggles and window
- * switches so each chip click stays inside the user's current filter.
+ * Compose a /signals href that preserves the current source / window /
+ * topic state and applies a single override. Used by every chip toggle so
+ * each click stays inside the user's current filter combo.
  */
 function makeHref(
   source: Set<SourceKey>,
   timeWindow: TimeWindow,
-  override: { source?: Set<SourceKey>; timeWindow?: TimeWindow },
+  topic: TopicKey | null,
+  override: {
+    source?: Set<SourceKey>;
+    timeWindow?: TimeWindow;
+    topic?: TopicKey | null;
+  },
 ): string {
   const finalSource = override.source ?? source;
   const finalWindow = override.timeWindow ?? timeWindow;
+  const finalTopic =
+    override.topic === undefined ? topic : override.topic;
 
   const params = new URLSearchParams();
   if (finalSource.size !== ALL_KEYS.size && finalSource.size > 0) {
@@ -110,6 +120,9 @@ function makeHref(
   if (finalWindow !== DEFAULT_WINDOW) {
     params.set("w", finalWindow);
   }
+  if (finalTopic) {
+    params.set("topic", finalTopic);
+  }
   const qs = params.toString();
   return qs ? `/signals?${qs}` : "/signals";
 }
@@ -117,11 +130,12 @@ function makeHref(
 function buildSourceHref(
   active: Set<SourceKey>,
   timeWindow: TimeWindow,
+  topic: TopicKey | null,
   toggling: SourceKey | null,
 ): string {
-  // toggling=null → "ALL" reset (clear source filter, keep window).
+  // toggling=null → "ALL" reset (clear source filter, keep window + topic).
   if (toggling === null) {
-    return makeHref(active, timeWindow, { source: new Set(ALL_KEYS) });
+    return makeHref(active, timeWindow, topic, { source: new Set(ALL_KEYS) });
   }
 
   const next = new Set(active);
@@ -131,34 +145,52 @@ function buildSourceHref(
   // Don't allow filtering down to zero — clicking the last active chip is
   // a no-op so the user can't accidentally hide the page.
   if (next.size === 0) {
-    return makeHref(active, timeWindow, { source: active });
+    return makeHref(active, timeWindow, topic, { source: active });
   }
-  return makeHref(active, timeWindow, { source: next });
+  return makeHref(active, timeWindow, topic, { source: next });
 }
 
 function buildWindowHref(
   source: Set<SourceKey>,
   current: TimeWindow,
+  topic: TopicKey | null,
   target: TimeWindow,
 ): string {
-  if (current === target) return makeHref(source, current, {});
-  return makeHref(source, current, { timeWindow: target });
+  if (current === target) return makeHref(source, current, topic, {});
+  return makeHref(source, current, topic, { timeWindow: target });
+}
+
+function buildTopicHref(
+  source: Set<SourceKey>,
+  timeWindow: TimeWindow,
+  current: TopicKey | null,
+  target: TopicKey | null,
+): string {
+  // Clicking the active topic clears it (toggles back to ALL).
+  if (current === target) {
+    return makeHref(source, timeWindow, current, { topic: null });
+  }
+  return makeHref(source, timeWindow, current, { topic: target });
 }
 
 export interface SourceFilterBarProps {
   active: Set<SourceKey>;
   /** Renamed from `window` to dodge the global-name shadow in RSC bundling. */
   timeWindow: TimeWindow;
-  /** Total signals across the active sources/window, shown on the right. */
+  /** null = all topics. */
+  topic: TopicKey | null;
+  /** Total signals across the active sources/window/topic, shown on the right. */
   totalSignals: number;
 }
 
 export function SourceFilterBar({
   active,
   timeWindow,
+  topic,
   totalSignals,
 }: SourceFilterBarProps) {
   const isAllOn = active.size === ALL_KEYS.size;
+  const topics = allTopics();
 
   return (
     <div
@@ -188,7 +220,7 @@ export function SourceFilterBar({
 
       {/* ALL chip — clears the source filter. Active when nothing filtered. */}
       <Link
-        href={buildSourceHref(active, timeWindow, null)}
+        href={buildSourceHref(active, timeWindow, topic, null)}
         prefetch={false}
         className={`signals-chip${isAllOn ? " signals-chip-on" : ""}`}
         aria-pressed={isAllOn}
@@ -201,7 +233,7 @@ export function SourceFilterBar({
         return (
           <Link
             key={s.key}
-            href={buildSourceHref(active, timeWindow, s.key)}
+            href={buildSourceHref(active, timeWindow, topic, s.key)}
             prefetch={false}
             className={`signals-chip${on ? " signals-chip-on" : ""}`}
             aria-pressed={on}
@@ -235,12 +267,52 @@ export function SourceFilterBar({
         return (
           <Link
             key={w.key}
-            href={buildWindowHref(active, timeWindow, w.key)}
+            href={buildWindowHref(active, timeWindow, topic, w.key)}
             prefetch={false}
             className={`signals-chip signals-chip-time${on ? " signals-chip-on" : ""}`}
             aria-pressed={on}
           >
             {w.label}
+          </Link>
+        );
+      })}
+
+      <span className="signals-chip-sep" aria-hidden />
+
+      <span
+        style={{
+          fontSize: 9.5,
+          letterSpacing: "0.20em",
+          color: "var(--color-text-subtle)",
+          textTransform: "uppercase",
+          padding: "0 6px 0 2px",
+          fontFamily: "var(--font-mono)",
+        }}
+      >
+        Topic
+      </span>
+      {/* ALL-topic chip clears ?topic. */}
+      <Link
+        href={buildTopicHref(active, timeWindow, topic, null)}
+        prefetch={false}
+        className={`signals-chip signals-chip-topic${
+          topic === null ? " signals-chip-on" : ""
+        }`}
+        aria-pressed={topic === null}
+      >
+        ALL
+      </Link>
+      {topics.map((t) => {
+        const on = topic === t.key;
+        return (
+          <Link
+            key={t.key}
+            href={buildTopicHref(active, timeWindow, topic, t.key)}
+            prefetch={false}
+            className={`signals-chip signals-chip-topic${on ? " signals-chip-on" : ""}`}
+            aria-pressed={on}
+          >
+            {t.label}
           </Link>
         );
       })}

@@ -85,9 +85,11 @@ import {
   SourceFilterBar,
   parseActiveSources,
   parseTimeWindow,
+  parseTopic,
   windowHours,
   windowLabel,
 } from "@/components/signals-terminal/SourceFilterBar";
+import { matchesTopic } from "@/lib/signals/topics";
 
 import { triggerScanIfStale } from "@/lib/news/auto-rescrape";
 
@@ -148,8 +150,10 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
   const sp = (await searchParams) ?? {};
   const srcParam = Array.isArray(sp.src) ? sp.src.join(",") : sp.src;
   const wParam = Array.isArray(sp.w) ? sp.w[0] : sp.w;
+  const topicParam = Array.isArray(sp.topic) ? sp.topic[0] : sp.topic;
   const activeSourceFilter = parseActiveSources(srcParam);
   const activeWindow = parseTimeWindow(wParam);
+  const activeTopic = parseTopic(topicParam);
   const lookbackHours = windowHours(activeWindow);
   const activeWindowLabel = windowLabel(activeWindow);
 
@@ -205,7 +209,13 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
   const filteredItems = items.filter(
     (it) =>
       activeSourceFilter.has(it.source) &&
-      (it.postedAtMs === 0 || it.postedAtMs >= cutoffMs),
+      // Items missing a usable timestamp (some GitHub trending rows) are
+      // kept so they don't disappear on shorter windows. They cluster at
+      // the dataset's fetchedAt which lives inside any reasonable window.
+      (it.postedAtMs === 0 || it.postedAtMs >= cutoffMs) &&
+      // Topic filter is inclusive — null = all topics, otherwise the
+      // item must hit at least one of the topic's keyword patterns.
+      (activeTopic === null || matchesTopic(it, activeTopic)),
   );
 
   const volume = buildVolume(filteredItems, { nowMs, lookbackHours });
@@ -482,6 +492,7 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
       <SourceFilterBar
         active={activeSourceFilter}
         timeWindow={activeWindow}
+        topic={activeTopic}
         totalSignals={volume.totalItems}
       />
 

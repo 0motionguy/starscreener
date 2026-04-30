@@ -537,51 +537,9 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
         title="Primary feeds"
         meta="4 Â· sorted by velocity"
       />
-      <div className="grid">
-        <div className="col-3">
-          <SourceFeedPanel
-            source="hn"
-            title="HACKER NEWS"
-            countLabel={String(hnTop.length)}
-            freshLabel={`updated ${ageLabel(hnFetchedAt)}`}
-            footerHref="/hackernews/trending"
-            footerLabel={`view all ${hnTop.length}`}
-            feed={{ variant: "list", items: hnList }}
-          />
-        </div>
-        <div className="col-3">
-          <SourceFeedPanel
-            source="github"
-            title="GITHUB Â· TRENDING"
-            countLabel={String(ghRows.length)}
-            freshLabel={`updated ${ageLabel(ghFetchedAt)}`}
-            footerHref="/"
-            footerLabel="view trending"
-            feed={{ variant: "list", items: ghList }}
-          />
-        </div>
-        <div className="col-3">
-          <SourceFeedPanel
-            source="x"
-            title="X Â· KOL FEED"
-            countLabel={String(twPosts.length || twBuzz.length)}
-            freshLabel={`updated ${ageLabel(twLatestAt)}`}
-            footerHref="/"
-            footerLabel="view all"
-            feed={{ variant: "tweet", items: xTweetsOrBuzz }}
-          />
-        </div>
-        <div className="col-3">
-          <SourceFeedPanel
-            source="reddit"
-            title="REDDIT Â· ML/LLM"
-            countLabel={String(redditAll.length)}
-            freshLabel={`updated ${ageLabel(getRedditFetchedAt())}`}
-            footerHref="/reddit/trending"
-            footerLabel={`view all ${redditAll.length}`}
-            feed={{ variant: "list", items: redditList }}
-          />
-        </div>
+      <div style={{ padding: 8, fontFamily: "monospace", fontSize: 11 }}>
+        primary panels placeholder · hn={hnList.length} gh={ghList.length} x=
+        {xTweetsOrBuzz.length} reddit={redditList.length}
       </div>
 
       <SectionHead
@@ -589,51 +547,10 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
         title="Secondary & editorial"
         meta="4 Â· curated"
       />
-      <div className="grid">
-        <div className="col-3">
-          <SourceFeedPanel
-            source="bluesky"
-            title="BLUESKY"
-            countLabel={String(bskyTop.length)}
-            freshLabel={`updated ${ageLabel(blueskyFetchedAt)}`}
-            footerHref="/bluesky/trending"
-            footerLabel="view all"
-            feed={{ variant: "tweet", items: bskyTweets }}
-          />
-        </div>
-        <div className="col-3">
-          <SourceFeedPanel
-            source="devto"
-            title="DEV.TO"
-            countLabel={String(devtoTop.length)}
-            freshLabel={`updated ${ageLabel(devtoFetchedAt)}`}
-            footerHref="/devto"
-            footerLabel={`view all ${devtoTop.length}`}
-            feed={{ variant: "rss", items: devtoArticles }}
-          />
-        </div>
-        <div className="col-3">
-          <SourceFeedPanel
-            source="claude"
-            title="CLAUDE Â· RSS"
-            countLabel={String(claudeTop.length)}
-            freshLabel={`updated ${ageLabel(claudeFetchedAt())}`}
-            footerHref="https://www.anthropic.com/news"
-            footerLabel="anthropic.com/news"
-            feed={{ variant: "rss", items: claudeArticles }}
-          />
-        </div>
-        <div className="col-3">
-          <SourceFeedPanel
-            source="openai"
-            title="OPENAI Â· RSS"
-            countLabel={String(openaiTop.length)}
-            freshLabel={`updated ${ageLabel(openaiFetchedAt())}`}
-            footerHref="https://openai.com/news"
-            footerLabel="openai.com/news"
-            feed={{ variant: "rss", items: openaiArticles }}
-          />
-        </div>
+      <div style={{ padding: 8, fontFamily: "monospace", fontSize: 11 }}>
+        secondary panels placeholder · bsky={bskyTweets.length} devto=
+        {devtoArticles.length} claude={claudeArticles.length} openai=
+        {openaiArticles.length}
       </div>
 
       <SectionHead

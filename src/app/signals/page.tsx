@@ -428,6 +428,24 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
 
   const tickerItems: TickerItem[] = buildTickerItems(filteredItems);
 
+  // TEMP bisect: minimal render to isolate data-layer vs JSX-layer
+  // failure. If this returns 200, the data layer is fine and the bug is
+  // in one of the V3 components. If it still 500s, the data layer
+  // (imports, refresh hooks, SignalItem builders) is the culprit.
+  if (process.env.NEXT_PUBLIC_SIGNALS_BISECT !== "off") {
+    return (
+      <main style={{ padding: 24, fontFamily: "monospace" }}>
+        <h1>signals bisect — data layer reached</h1>
+        <p>items: {items.length}</p>
+        <p>filtered: {filteredItems.length}</p>
+        <p>volume.totalItems: {volume.totalItems}</p>
+        <p>consensus: {consensus.length}</p>
+        <p>tags: {tagMomentum.rows.length}</p>
+        <p>ticker: {tickerItems.length}</p>
+      </main>
+    );
+  }
+
   // ── Render ----------------------------------------------------------------
   return (
     <main className="signals-page" style={{ padding: "14px 16px 60px" }}>

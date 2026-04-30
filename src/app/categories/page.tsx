@@ -1,15 +1,10 @@
-// StarScreener — Categories hub (Phase 3)
-//
-// Server component. Simple stats grid showing every category with live
-// repoCount + avgMomentum pulled from the pipeline facade. Each card
-// links into its category-detail terminal surface.
+// StarScreener - Categories hub.
 
 import Link from "next/link";
 import type { Metadata } from "next";
 
-// ISR — data/*.json only changes on GHA scrape. 30-min edge cache skips
-// the per-request getDerivedCategoryStats() recompute.
 export const revalidate = 1800;
+
 import { CATEGORIES } from "@/lib/constants";
 import { getCategoryIcon } from "@/lib/category-icons";
 import { getDerivedCategoryStats } from "@/lib/derived-insights";
@@ -18,10 +13,10 @@ import { formatNumber } from "@/lib/utils";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 
 const CATEGORIES_DESCRIPTION =
-  "Browse every tracked GitHub repo sector — AI & ML, web frameworks, devtools, infra, databases, security, mobile, data, crypto, and Rust — each ranked by live momentum.";
+  "Browse every tracked GitHub repo sector: AI and ML, web frameworks, devtools, infra, databases, security, mobile, data, crypto, and Rust.";
 
 export const metadata: Metadata = {
-  title: `Categories — ${SITE_NAME}`,
+  title: `Categories - ${SITE_NAME}`,
   description: CATEGORIES_DESCRIPTION,
   keywords: [
     "GitHub categories",
@@ -33,12 +28,12 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: absoluteUrl("/categories"),
-    title: `Categories — ${SITE_NAME}`,
+    title: `Categories - ${SITE_NAME}`,
     description: CATEGORIES_DESCRIPTION,
   },
   twitter: {
     card: "summary_large_image",
-    title: `Categories — ${SITE_NAME}`,
+    title: `Categories - ${SITE_NAME}`,
     description: CATEGORIES_DESCRIPTION,
   },
 };
@@ -49,60 +44,62 @@ export default async function CategoriesPage() {
   );
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-      <div className="mb-8">
-        <h1 className="font-display text-2xl sm:text-3xl font-bold text-text-primary mb-2">
-          Categories
-        </h1>
-        <p className="text-text-secondary">
-          Repo sectors ranked by momentum and activity.
-        </p>
-      </div>
+    <main className="home-surface categories-page">
+      <section className="page-head">
+        <div>
+          <div className="crumb">
+            <b>Trend terminal</b> / categories
+          </div>
+          <h1>Repo sectors ranked by momentum.</h1>
+          <p className="lede">
+            Browse every tracked GitHub repo sector with live repo counts,
+            average momentum, and direct jumps into each terminal surface.
+          </p>
+        </div>
+        <div className="clock">
+          <span className="big">{CATEGORIES.length}</span>
+          <span className="live">sectors live</span>
+        </div>
+      </section>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {CATEGORIES.map((cat, i) => {
+      <section className="tool-grid categories-grid" aria-label="Categories">
+        {CATEGORIES.map((cat) => {
           const Icon = getCategoryIcon(cat.icon);
           const s = stats.get(cat.id);
           return (
             <Link
               key={cat.id}
               href={`/categories/${cat.id}`}
-              className="block bg-bg-card border border-border-primary rounded-[var(--radius-card)] p-5 hover:border-brand/40 hover:bg-bg-card-hover transition-all animate-slide-up opacity-0"
-              style={{
-                animationDelay: `${i * 40}ms`,
-                animationFillMode: "both",
-              }}
+              className="tool category-card"
+              style={{ borderTopColor: cat.color }}
             >
-              <div className="flex items-center gap-3 mb-3">
+              <span className="t-num">
+                {formatNumber(s?.repoCount ?? 0)} repos
+              </span>
+              <span className="category-card-title">
                 {Icon && (
                   <Icon
-                    size={22}
+                    size={18}
                     style={{ color: cat.color }}
                     className="shrink-0"
                     aria-hidden="true"
                   />
                 )}
-                <span className="font-semibold text-lg text-text-primary truncate">
-                  {cat.name}
-                </span>
-              </div>
-              <p className="text-sm text-text-secondary line-clamp-2 leading-snug mb-4">
-                {cat.description}
-              </p>
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-mono text-text-tertiary">
-                  {formatNumber(s?.repoCount ?? 0)} repos
-                </span>
+                <span>{cat.name}</span>
+              </span>
+              <span className="t-d">{cat.description}</span>
+              <span className="t-foot">
                 <MomentumBadge
                   score={s?.avgMomentum ?? 0}
                   size="sm"
                   showLabel
                 />
-              </div>
+                <span className="ar">-&gt;</span>
+              </span>
             </Link>
           );
         })}
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }

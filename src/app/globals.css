@@ -5679,6 +5679,156 @@ body::before {
   background: #84909b;
 }
 
+.board .lb-head,
+.board .lb-row {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) 92px 102px 96px 100px;
+  gap: 10px;
+  align-items: center;
+  padding: 9px 12px;
+}
+
+.board .lb-head {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--line-200, #222a32);
+  background: var(--bg-050, #101418);
+  font-size: 9px;
+  letter-spacing: 0.20em;
+}
+
+.board .lb-row {
+  color: inherit;
+  text-decoration: none;
+}
+
+.board .lb-row .rk {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.board .lb-row .rk .n {
+  min-width: 22px;
+  color: var(--ink-100, #eef0f2);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.board .lb-row.first .rk .n,
+.board .lb-row .rb.us .v {
+  color: var(--acc, #ff6b35);
+}
+
+.board .lb-row .rk .star {
+  color: var(--acc, #ff6b35);
+  font-size: 10px;
+}
+
+.board .lb-row .repo {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 9px;
+}
+
+.board .lb-row .repo .nm-wrap {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.board .lb-row .repo .nm {
+  font-family: var(--font-mono, "JetBrains Mono"), ui-monospace, Menlo, monospace;
+  font-size: 12px;
+}
+
+.board .lb-row .repo .desc {
+  overflow: hidden;
+  color: var(--ink-300, #84909b);
+  font-family: var(--font-sans, "Geist", ui-sans-serif, system-ui), sans-serif;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.board .lb-row .score {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  text-align: right;
+}
+
+.board .lb-row .score .v {
+  color: var(--ink-000, #ffffff);
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.board .lb-row .score .conf-bar {
+  width: 78px;
+  height: 3px;
+}
+
+.board .lb-row .badge {
+  justify-self: start;
+  max-width: 100%;
+}
+
+.board .lb-row .ranks {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono, "JetBrains Mono"), ui-monospace, Menlo, monospace;
+  font-size: 10.5px;
+}
+
+.board .lb-row .rb .lab {
+  color: var(--ink-400, #909caa);
+  font-size: 8px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+}
+
+.board .lb-row .rb .v {
+  color: var(--ink-100, #eef0f2);
+  font-weight: 600;
+}
+
+.board .lb-row .rb.hf .v {
+  color: var(--sig-amber, #ffb547);
+}
+
+.board .lb-row .rb.dash {
+  color: var(--ink-500, #3c444d);
+}
+
+@media (max-width: 900px) {
+  .board .lb-head {
+    display: none;
+  }
+
+  .board .lb-row {
+    grid-template-columns: 32px minmax(0, 1fr);
+  }
+
+  .board .lb-row .score,
+  .board .lb-row .badge,
+  .board .lb-row .gauge,
+  .board .lb-row .ranks {
+    grid-column: 2;
+  }
+
+  .board .lb-row .score {
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+
 /* 8-dot source presence row gauge inside the leaderboard */
 .lb-row .gauge {
   display: flex;

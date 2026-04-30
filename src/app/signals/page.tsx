@@ -93,7 +93,7 @@ import { matchesTopic } from "@/lib/signals/topics";
 
 import { triggerScanIfStale } from "@/lib/news/auto-rescrape";
 
-import "./signals.css";
+// import "./signals.css";  // TEMP removed for bisect
 
 // Force dynamic â€” bypasses build-time prerender (where Vercel was 500ing
 // without surfacing the error to error.tsx). Restore ISR (revalidate=1800)
@@ -485,9 +485,9 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
             away.
           </p>
         </div>
-        <Suspense fallback={null}>
-          <LiveClock initialIso={new Date().toISOString()} />
-        </Suspense>
+        <span style={{ marginLeft: "auto", fontFamily: "monospace" }}>
+          clock placeholder
+        </span>
       </header>
 
       <div style={{ padding: 8, fontFamily: "monospace", fontSize: 11 }}>

@@ -1,9 +1,4 @@
-// TrendingRepo — /top canonical "Top 100 by stars" landing.
-//
-// Served as a dedicated URL (not /search?sort=stars-total&limit=100)
-// so Google, social-share previews, and inbound links all hit a
-// stable canonical. Server-rendered from the same derived repo index
-// so first paint is fast and the list is SSR'd for SEO.
+// TrendingRepo - /top canonical "Top 100 by stars" landing.
 
 import type { Metadata } from "next";
 import { getDerivedRepos } from "@/lib/derived-repos";
@@ -27,22 +22,29 @@ export default async function TopPage() {
     .slice(0, TOP_N);
 
   const heading = (
-    <div className="px-4 sm:px-6 pt-6 pb-2">
-      <span className="label-micro">Top 100</span>
-      <h1 className="font-display text-3xl md:text-4xl font-bold text-text-primary mt-2">
-        The 100 most-starred repos in the index.
-      </h1>
-      <p className="mt-2 text-text-secondary text-sm md:text-base leading-relaxed">
-        Ranked by total stars across the tracked AI + developer-tools
-        universe. Sort the grid by momentum, 24h/7d/30d velocity, or any
-        other column to re-cut the list without leaving the page.
-      </p>
-    </div>
+    <section className="page-head">
+      <div>
+        <div className="crumb">
+          <b>Trend terminal</b> / top 100
+        </div>
+        <h1>The 100 most-starred repos in the index.</h1>
+        <p className="lede">
+          Ranked by total stars across the tracked AI and developer-tools
+          universe. Sort the grid by momentum, 24h, 7d, 30d velocity, or any
+          other column to recut the list without leaving the terminal.
+        </p>
+      </div>
+      <div className="clock">
+        <span className="big">{TOP_N}</span>
+        <span className="live">repos ranked</span>
+      </div>
+    </section>
   );
 
   return (
     <TerminalLayout
       repos={repos}
+      className="home-surface terminal-page top-page"
       filterBarVariant="search"
       showFeatured={false}
       heading={heading}

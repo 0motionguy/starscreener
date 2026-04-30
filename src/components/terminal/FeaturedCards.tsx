@@ -200,9 +200,9 @@ export function FeaturedCards({
             type="button"
             onClick={handleRecompute}
             disabled={recomputing}
-            className="v3-button v3-button-primary disabled:opacity-60 disabled:cursor-not-allowed"
+            className="v4-button v4-button-primary disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            {recomputing ? "RUNNING…" : "RUN RECOMPUTE"}
+            {recomputing ? "RUNNING..." : "RUN RECOMPUTE"}
           </button>
         </div>
       ) : (

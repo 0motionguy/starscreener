@@ -44,10 +44,10 @@ const WINDOW_TABS: Array<{ key: TopicWindowKey; label: string }> = [
 ];
 
 const TIER_LEGEND: Array<{ tier: BaselineTier; label: string; color: string }> = [
-  { tier: "breakout", label: "Breakout", color: "var(--v3-tier-breakout-fill)" },
-  { tier: "above-average", label: "Above avg", color: "var(--v3-tier-heating-fill)" },
-  { tier: "normal", label: "Normal", color: "var(--v3-tier-stable-fill)" },
-  { tier: "no-baseline", label: "No baseline", color: "var(--v3-tier-dormant-fill)" },
+  { tier: "breakout", label: "Breakout", color: "var(--v4-tier-breakout-fill)" },
+  { tier: "above-average", label: "Above avg", color: "var(--v4-tier-heating-fill)" },
+  { tier: "normal", label: "Normal", color: "var(--v4-tier-stable-fill)" },
+  { tier: "no-baseline", label: "No baseline", color: "var(--v4-tier-dormant-fill)" },
 ];
 
 export function TopicMindshareCanvas({

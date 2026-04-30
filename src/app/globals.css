@@ -6018,6 +6018,22 @@ body::before {
   --v4-tier-d: #3aa9ff;
   --v4-tier-e: #a78bfa;
   --v4-tier-f: #f472b6;
+  --v4-tier-breakout-fill: #ff6600;
+  --v4-tier-breakout-end: #ff4500;
+  --v4-tier-breakout-glow: rgba(255, 102, 0, 0.25);
+  --v4-tier-heating-fill: #10b981;
+  --v4-tier-heating-end: #22c55e;
+  --v4-tier-heating-glow: rgba(16, 185, 129, 0.20);
+  --v4-tier-stable-fill: #2d5a3d;
+  --v4-tier-stable-end: #22c55e;
+  --v4-tier-stable-glow: rgba(45, 90, 61, 0.15);
+  --v4-tier-cooling-fill: #4a5568;
+  --v4-tier-cooling-end: #6b7b8d;
+  --v4-tier-cooling-glow: rgba(74, 85, 104, 0.20);
+  --v4-tier-dormant-fill: #374151;
+  --v4-tier-dormant-end: #4b5563;
+  --v4-tier-dormant-glow: rgba(55, 65, 81, 0.15);
+  --v4-tier-text: #ffffff;
 
   /* Type families */
   --v4-mono: var(--font-mono);

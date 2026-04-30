@@ -61,13 +61,13 @@ export default function PortalDocsClient({
             package.json (linked below). */}
         <p
           className="mt-1 text-[11px] font-mono uppercase tracking-[0.18em]"
-          style={{ color: "var(--v3-ink-400)" }}
+          style={{ color: "var(--v4-ink-400)" }}
         >
           Wire protocol version · App build v{APP_VERSION} ·{" "}
           <Link
             href="/api/health/portal"
-            className="hover:text-[color:var(--v3-acc)]"
-            style={{ color: "var(--v3-ink-300)" }}
+            className="hover:text-[color:var(--v4-acc)]"
+            style={{ color: "var(--v4-ink-300)" }}
           >
             /api/health/portal
           </Link>

@@ -95,13 +95,13 @@ describe("TagsBar", () => {
     const btn = getByRole("button", {
       name: new RegExp(FIRST_TAG.label, "i"),
     }) as HTMLElement;
-    expect(btn.style.borderColor).toContain("--v3-line-200");
+    expect(btn.style.borderColor).toContain("--v4-line-200");
 
     act(() => {
       fireEvent.click(btn);
     });
-    expect(btn.style.borderColor).toContain("--v3-acc");
-    expect(btn.style.borderColor).not.toContain("--v3-line-200");
+    expect(btn.style.borderColor).toContain("--v4-acc");
+    expect(btn.style.borderColor).not.toContain("--v4-line-200");
   });
 
   it("group is exposed under the AI-focus-tags label for a11y", () => {

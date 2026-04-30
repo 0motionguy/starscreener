@@ -380,7 +380,7 @@ export async function ProjectSurfaceMap({
               href={aisoScan.resultUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="v3-button"
+              className="v4-button"
             >
               View report
               <ExternalLink className="size-3" aria-hidden />

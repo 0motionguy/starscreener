@@ -95,11 +95,11 @@ export function BaselinePill({
     // arbitrary-class build. Reuses existing `pulse-glow` keyframe.
     const style: CSSProperties = {
       background:
-        "linear-gradient(135deg, var(--v3-tier-breakout-fill) 0%, var(--v3-tier-breakout-end) 100%)",
+        "linear-gradient(135deg, var(--v4-tier-breakout-fill) 0%, var(--v4-tier-breakout-end) 100%)",
       animation: "pulse-glow 2.5s ease-in-out infinite",
       boxShadow: isHyperviral
-        ? "0 0 0 1px rgba(220, 38, 38, 0.85), 0 0 14px var(--v3-tier-breakout-glow)"
-        : "0 0 8px var(--v3-tier-breakout-glow)",
+        ? "0 0 0 1px rgba(220, 38, 38, 0.85), 0 0 14px var(--v4-tier-breakout-glow)"
+        : "0 0 8px var(--v4-tier-breakout-glow)",
     };
 
     return (

@@ -668,14 +668,14 @@ export default async function HomePage() {
           <SectionHead num="07" title="FAQ" meta={<><b>Operator</b> notes</>} />
 
           <div
-            className="v3-faq-list border-y"
+            className="v4-faq-list border-y"
             style={{ borderColor: "var(--v4-line-100)" }}
           >
             <style>{`
-              .v3-faq-list .toggle-open { display: none; }
-              .v3-faq-list details[open] .toggle-closed { display: none; }
-              .v3-faq-list details[open] .toggle-open { display: inline; }
-              .v3-faq-list details[open] > summary {
+              .v4-faq-list .toggle-open { display: none; }
+              .v4-faq-list details[open] .toggle-closed { display: none; }
+              .v4-faq-list details[open] .toggle-open { display: inline; }
+              .v4-faq-list details[open] > summary {
                 color: var(--v4-ink-100);
                 background: var(--v4-bg-050);
               }

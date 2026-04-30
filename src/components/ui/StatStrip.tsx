@@ -3,7 +3,7 @@
 // /signals, /reddit, /funding, /revenue, /research).
 //
 // One eyebrow line + 3-5 stat tiles + optional rightSlot for nav/tabs.
-// v3-panel chrome with 4 corner brackets (matches CardShell in
+// V4 panel chrome with 4 corner brackets (matches CardShell in
 // NewsTopHeaderV3.tsx).
 
 import type { ReactNode } from "react";
@@ -29,7 +29,7 @@ interface StatStripProps {
   stats: StatStripStat[];
   /** Optional right-aligned slot (tabs, links). */
   rightSlot?: ReactNode;
-  /** Page accent for the corner-bracket markers. Defaults to v3-acc. */
+  /** Page accent for the corner-bracket markers. Defaults to v4-acc. */
   accent?: string;
 }
 

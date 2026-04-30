@@ -90,7 +90,7 @@ export function MobileDrawer() {
             role="dialog"
             aria-modal="true"
             aria-label="Navigation"
-            className="v3-panel md:hidden fixed inset-y-0 left-0 w-[85vw] max-w-[320px] z-[60] flex flex-col"
+            className="v4-panel md:hidden fixed inset-y-0 left-0 w-[85vw] max-w-[320px] z-[60] flex flex-col"
             style={{
               borderRight: "1px solid var(--v4-line-200)",
               borderTopRightRadius: 2,
@@ -138,7 +138,7 @@ export function MobileDrawer() {
                 type="button"
                 onClick={close}
                 aria-label="Close menu"
-                className="v3-button"
+                className="v4-button"
                 style={{
                   height: 28,
                   width: 28,

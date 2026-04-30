@@ -48,31 +48,31 @@ function tierFor(ratio: number, breakoutCount: number): Tier {
   if (breakoutCount >= 3 || ratio > 5) {
     return {
       label: "BREAKOUT",
-      badgeBg: "var(--v3-tier-breakout-glow)",
-      badgeFg: "var(--v3-tier-breakout-fill)",
+      badgeBg: "var(--v4-tier-breakout-glow)",
+      badgeFg: "var(--v4-tier-breakout-fill)",
       arrow: "↑",
     };
   }
   if (ratio > 1.3) {
     return {
       label: "HEATING",
-      badgeBg: "var(--v3-tier-heating-glow)",
-      badgeFg: "var(--v3-tier-heating-fill)",
+      badgeBg: "var(--v4-tier-heating-glow)",
+      badgeFg: "var(--v4-tier-heating-fill)",
       arrow: "↑",
     };
   }
   if (ratio >= 0.7) {
     return {
       label: "STABLE",
-      badgeBg: "var(--v3-tier-stable-glow)",
-      badgeFg: "var(--v3-tier-heating-end)",
+      badgeBg: "var(--v4-tier-stable-glow)",
+      badgeFg: "var(--v4-tier-heating-end)",
       arrow: "→",
     };
   }
   return {
     label: "COOLING",
-    badgeBg: "var(--v3-tier-cooling-glow)",
-    badgeFg: "var(--v3-tier-cooling-end)",
+    badgeBg: "var(--v4-tier-cooling-glow)",
+    badgeFg: "var(--v4-tier-cooling-end)",
     arrow: "↓",
   };
 }

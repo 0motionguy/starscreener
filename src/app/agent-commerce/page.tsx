@@ -24,6 +24,18 @@ import {
   refreshAgentCommerceFromStore,
 } from "@/lib/agent-commerce";
 import {
+  getBaseX402Onchain,
+  refreshBaseX402OnchainFromStore,
+} from "@/lib/base-x402-onchain";
+import {
+  getSolanaX402Onchain,
+  refreshSolanaX402OnchainFromStore,
+} from "@/lib/solana-x402-onchain";
+import {
+  getDuneX402Volume,
+  refreshDuneX402VolumeFromStore,
+} from "@/lib/dune-x402-volume";
+import {
   applyFilter,
   parseCategory,
   parsePortalReady,
@@ -284,7 +296,12 @@ const synthSparkline = (() => {
 })();
 
 export default async function AgentCommercePage({ searchParams }: PageProps) {
-  await refreshAgentCommerceFromStore();
+  await Promise.all([
+    refreshAgentCommerceFromStore(),
+    refreshBaseX402OnchainFromStore(),
+    refreshSolanaX402OnchainFromStore(),
+    refreshDuneX402VolumeFromStore(),
+  ]);
   const sp = (await searchParams) ?? {};
   const baseQuery = buildBaseQuery(sp);
 
@@ -1361,43 +1378,91 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
             </>
           ) : null}
 
+          {/* ========== 04bx — CROSS-CHAIN COMBINED TOTALS ========== */}
+          {(() => {
+            const base = getBaseX402Onchain();
+            const sol = getSolanaX402Onchain();
+            const baseTotal = base?.totalSettlements ?? 0;
+            const solTotal = sol?.totalSettlements ?? 0;
+            const total = baseTotal + solTotal;
+            if (total <= 0) return null;
+            const baseFacs = Object.keys(base?.byFacilitator ?? {}).length;
+            const solFacs = Object.keys(sol?.byFacilitator ?? {}).length;
+            const facs = baseFacs + solFacs;
+            const basePct = (baseTotal / total) * 100;
+            const solPct = 100 - basePct;
+            const have: string[] = [];
+            if (baseTotal > 0) have.push("Base");
+            if (solTotal > 0) have.push("Solana");
+            return (
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 12,
+                  padding: "10px 14px",
+                  margin: "0 0 12px",
+                  border: "1px solid var(--color-border-subtle)",
+                  borderLeft: "2px solid var(--color-accent)",
+                  background: "var(--color-bg-canvas)",
+                  fontFamily: "var(--font-mono, ui-monospace)",
+                  fontSize: 12,
+                  flexWrap: "wrap",
+                }}
+              >
+                <span style={{ color: "var(--color-text-faint)", letterSpacing: "0.06em", textTransform: "uppercase" }}>
+                  cross-chain x402 ·
+                </span>
+                <span style={{ color: "var(--color-text-default)" }}>
+                  <b>{total.toLocaleString("en-US")}</b> settlements
+                </span>
+                <span style={{ color: "var(--color-text-faint)" }}>·</span>
+                <span style={{ color: "var(--color-text-default)" }}>
+                  <b>{facs}</b> facilitators
+                </span>
+                <span style={{ color: "var(--color-text-faint)" }}>·</span>
+                <span style={{ color: "var(--color-text-faint)" }}>
+                  {have.join(" + ")}
+                </span>
+                {baseTotal > 0 && solTotal > 0 ? (
+                  <span
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 8,
+                      marginLeft: "auto",
+                      minWidth: 220,
+                    }}
+                  >
+                    <span style={{ color: "#3b82f6" }}>Base {basePct.toFixed(0)}%</span>
+                    <span
+                      style={{
+                        position: "relative",
+                        flex: 1,
+                        height: 6,
+                        background: "var(--color-border-subtle)",
+                        borderRadius: 3,
+                        overflow: "hidden",
+                        minWidth: 80,
+                      }}
+                    >
+                      <span style={{ position: "absolute", inset: 0, width: `${basePct}%`, background: "#3b82f6" }} />
+                      <span style={{ position: "absolute", top: 0, bottom: 0, left: `${basePct}%`, width: `${solPct}%`, background: "#a78bfa" }} />
+                    </span>
+                    <span style={{ color: "#a78bfa" }}>Sol {solPct.toFixed(0)}%</span>
+                  </span>
+                ) : null}
+              </div>
+            );
+          })()}
+
           {/* ========== 04c — ON-CHAIN x402 SETTLEMENTS (Base) ========== */}
           {(() => {
-            // Inline read of the on-chain indexer output.
             // Source: scripts/fetch-base-x402-onchain.mjs → .data/base-x402-onchain.json
             // (free Blockscout v2 + Merit-Systems/x402scan address book)
-            // eslint-disable-next-line @typescript-eslint/no-require-imports
-            const fs = require("fs") as typeof import("fs");
-            // eslint-disable-next-line @typescript-eslint/no-require-imports
-            const path = require("path") as typeof import("path");
-            let onchain: {
-              fetchedAt?: string;
-              totalSettlements?: number;
-              byFacilitator?: Record<
-                string,
-                { addressCount: number; totalTxs: number; x402Settlements: number }
-              >;
-              byDay?: Record<
-                string,
-                { txs: number; byFacilitator: Record<string, number> }
-              >;
-              samples?: Array<{
-                facilitator: string;
-                txHash: string;
-                from?: string;
-                timestamp: string;
-                blockNumber?: number;
-              }>;
-            } | null = null;
-            try {
-              const raw = fs.readFileSync(
-                path.resolve(process.cwd(), ".data/base-x402-onchain.json"),
-                "utf8",
-              );
-              onchain = JSON.parse(raw);
-            } catch {
-              return null;
-            }
+            // Read via data-store (Redis-first, .data/ file fallback) — refresh
+            // hook is awaited at the top of the page component.
+            const onchain = getBaseX402Onchain();
             if (!onchain || !onchain.totalSettlements) return null;
             const total = onchain.totalSettlements;
             const facs = Object.entries(onchain.byFacilitator ?? {})
@@ -1616,42 +1681,11 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
 
           {/* ========== 04c-sol — ON-CHAIN x402 SETTLEMENTS (Solana) ========== */}
           {(() => {
-            // Inline read of the Solana on-chain indexer output.
             // Source: scripts/fetch-solana-x402-onchain.mjs → .data/solana-x402-onchain.json
             // (free Solana RPC + Merit-Systems/x402scan address book)
-            // eslint-disable-next-line @typescript-eslint/no-require-imports
-            const fs = require("fs") as typeof import("fs");
-            // eslint-disable-next-line @typescript-eslint/no-require-imports
-            const path = require("path") as typeof import("path");
-            let onchain: {
-              fetchedAt?: string;
-              totalSettlements?: number;
-              byFacilitator?: Record<
-                string,
-                { addressCount: number; totalTxs: number; x402Settlements: number }
-              >;
-              byDay?: Record<
-                string,
-                { txs: number; byFacilitator: Record<string, number> }
-              >;
-              samples?: Array<{
-                facilitator: string;
-                txSig: string;
-                from?: string | null;
-                to?: string | null;
-                blockTime: string | null;
-                slot?: number | null;
-              }>;
-            } | null = null;
-            try {
-              const raw = fs.readFileSync(
-                path.resolve(process.cwd(), ".data/solana-x402-onchain.json"),
-                "utf8",
-              );
-              onchain = JSON.parse(raw);
-            } catch {
-              return null;
-            }
+            // Read via data-store (Redis-first, .data/ file fallback) — refresh
+            // hook is awaited at the top of the page component.
+            const onchain = getSolanaX402Onchain();
             if (!onchain || !onchain.totalSettlements) return null;
             const total = onchain.totalSettlements;
             const facs = Object.entries(onchain.byFacilitator ?? {})
@@ -1885,29 +1919,9 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
             // Source: scripts/fetch-dune-x402.mjs → .data/dune-x402-volume.json
             // Rendered only when the JSON exists. Run the fetcher once a saved
             // Dune query id is available (paste .dune/x402-volume.sql first).
-            // eslint-disable-next-line @typescript-eslint/no-require-imports
-            const fs = require("fs") as typeof import("fs");
-            // eslint-disable-next-line @typescript-eslint/no-require-imports
-            const path = require("path") as typeof import("path");
-            let dune: {
-              fetchedAt?: string;
-              lastDay?: string | null;
-              rows?: Array<{
-                day: string;
-                facilitator: string;
-                txCount: number;
-                volumeUsdc: string;
-              }>;
-            } | null = null;
-            try {
-              const raw = fs.readFileSync(
-                path.resolve(process.cwd(), ".data/dune-x402-volume.json"),
-                "utf8",
-              );
-              dune = JSON.parse(raw);
-            } catch {
-              return null;
-            }
+            // Read via data-store (Redis-first, .data/ file fallback) — refresh
+            // hook is awaited at the top of the page component.
+            const dune = getDuneX402Volume();
             if (!dune?.rows?.length) return null;
             const byDay = new Map<string, number>();
             const byFac = new Map<string, number>();

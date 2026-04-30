@@ -1916,7 +1916,7 @@ body::before {
   box-shadow: var(--shadow-live);
 }
 
-.grid {
+.grid:not([class*="grid-cols-"]) {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: 10px;

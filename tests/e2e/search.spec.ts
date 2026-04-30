@@ -1,29 +1,25 @@
 // Search smoke — guards /search empty state + query handoff.
 //
-// Invariants:
-//   1. GET /search returns 200 and shows the empty-state prompt.
-//   2. Typing "react" + pressing Enter pushes the URL to /search?q=react
-//      and renders WITHOUT crashing. Result content is not asserted —
-//      seed data may or may not contain React; both outcomes are valid
-//      so long as the page doesn't blow up.
+// Invariants (V4):
+//   1. GET /search returns 200 and renders the .page-head hero.
+//   2. The h1 reads "Search every repo in the live index." (V4 chrome).
+//   3. The SearchBar input is mounted and accepts a query.
+//   4. Typing "react" + pressing Enter pushes the URL to /search?q=react
+//      and the page survives — the .page-head still renders.
 
 import { test, expect } from "@playwright/test";
 
 test.describe("search", () => {
-  test("loads empty-state copy and accepts a query", async ({ page }) => {
+  test("loads page-head hero and accepts a query", async ({ page }) => {
     const response = await page.goto("/search", { waitUntil: "domcontentloaded" });
     expect(response?.ok()).toBe(true);
 
-    // Empty-state mono comment.
-    await expect(
-      page.getByText(/START TYPING TO SEARCH/i).first(),
-    ).toBeVisible();
+    // V4-style page-head hero — replaces the V3 // SEARCH · GLOBAL eyebrow.
+    const pageHead = page.locator(".page-head").first();
+    await expect(pageHead).toBeVisible();
+    await expect(pageHead.locator("h1")).toContainText(/search every repo/i);
 
-    // SearchBar input — aria-label mirrors the placeholder.
-    const input = page.getByRole("combobox").first().or(
-      page.getByPlaceholder(/Search repos/i).first(),
-    );
-    // Either resolves; prefer a placeholder-based match.
+    // SearchBar input — placeholder is "Search repos..." (see SearchBar.tsx).
     const searchInput = page.getByPlaceholder(/Search repos/i).first();
     await expect(searchInput).toBeVisible();
 
@@ -32,8 +28,7 @@ test.describe("search", () => {
 
     await expect(page).toHaveURL(/\/search\?q=react/i, { timeout: 10_000 });
 
-    // Page is not in a crashed state — the search heading section still mounts.
-    await expect(page.getByText(/SEARCH · GLOBAL/i).first()).toBeVisible();
-    void input; // dual-locator kept for future debugging
+    // Page survived the navigation — the page-head still renders.
+    await expect(page.locator(".page-head").first()).toBeVisible();
   });
 });

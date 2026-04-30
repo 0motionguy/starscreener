@@ -1,8 +1,111 @@
 {
-  "fetchedAt": "2026-04-29T13:25:51.780Z",
+  "fetchedAt": "2026-04-30T02:06:01.312Z",
   "source": "funding-news-scraper",
   "windowDays": 21,
   "signals": [
+    {
+      "id": "www.pymnts.com-76483837",
+      "headline": "AI Spending Drives Business Equipment Investment to 6-Year High",
+      "description": "The boom in artificial intelligence products and infrastructure drove a closely watched measure of business spending to a six-year high in March. New orders for nondefense capital goods, excluding aircraft, rose 3.3% in March, accelerating from the increase of 1.6% in February, the Census Bureau reported Wednesday (April 29). This metric, dubbed “core capital […] The post AI Spending Drives Business Equipment Investment to 6-Year High appeared first on PYMNTS.com .",
+      "sourceUrl": "https://www.pymnts.com/artificial-intelligence-2/2026/ai-spending-drives-business-equipment-investment-to-6-year-high/",
+      "sourcePlatform": "pymnts",
+      "publishedAt": "2026-04-30T01:47:30.000Z",
+      "discoveredAt": "2026-04-30T02:06:01.312Z",
+      "extracted": {
+        "companyName": "Spending Drives",
+        "companyWebsite": "https://pymnts.com",
+        "companyLogoUrl": "https://logo.clearbit.com/pymnts.com",
+        "amount": null,
+        "amountDisplay": "Undisclosed",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "news organization had expected a 0",
+          "strength"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "news organization had expected a 0",
+            "isKnown": false,
+            "confidence": "medium"
+          },
+          {
+            "name": "strength",
+            "isKnown": false,
+            "confidence": "medium"
+          }
+        ],
+        "confidence": "low"
+      },
+      "tags": [
+        "ai",
+        "defense"
+      ]
+    },
+    {
+      "id": "venturebeat.com-e623b71e",
+      "headline": "IBM launches Bob with multi-model routing and human checkpoints to turn AI coding into a secure production system",
+      "description": "Bringing AI agents into the enterprise software development lifecycle is fast becoming the norm. As developers experiment with new platforms, organizations are exposed to potential security and orchestration failures. Systems that work in pilots may fail once the agents start working with real-time data. Legacy tech giant IBM is one of several companies trying to address that gap by introducing more structure into how these workflows run. Yesterday, it announced the global launch of its AI-powered software development platform Bob , designed to write and test code across the development cycle, already in use by more than 80,000 of its employees after starting with just 100 internal users in summer 2025. Bob introduces a structured layer that constantly pauses for human-led checkpoints, yet by harnessing AI models to perform agentic tasks, IBM says it has saved some teams up to 70% of time \"on selected tasks...equaling an average time savings of 10 hours per week.\" Specific models supported include IBM's own Granite series , Anthropic's Claude, some from French AI firm Mistral and other smaller distilled models — no Alibaba Qwen or other fully open source ones. This approach reflects a shift in how enterprises want to approach AI-led development: to build systems that not only build applications but also execute complex, multi-step workflows that do not rely on a single model or a single orchestration framework. It provides a structured, guarded approach to automation that seeks to center humans more in the process and fill audit gaps. Neal Sundaresan, general manager, Automation and AI at IBM, told VentureBeat in an exclusive interview that a large part of using AI for software development is being systematic. “Model capability alone isn’t enough,” Sundaresan said. “How you deploy it, how you structure context, and how you keep humans in the loop is what determines whether AI actually delivers.” That divide is shaping how enterprises choose AI tools, whether they prioritize flexibility and experimentation or reliability and auditability. Varying approaches to AI-led development A growing class of open or autonomous agent systems has pushed the boundaries of what developers can do. They can now run extended or stateful workflows without much human intervention. The rise of OpenClaw showed enterprises how far experimentation can go, especially when trained on local data and run in sandboxes. But it also meant that the choice between easier agent and workflow creation and security. Some companies have embraced this spirit of experimentation. Enterprise providers like Nvidia chose to embrace OpenClaw-like systems by adding a fence around the sandbox environment that runs autonomous agents, using NemoClaw . Kilo launched Kilo Claw , aimed at providing security for autonomous agents. OpenAI, in its updated Agents SDK , added support for sandbox agent implementations that mirror a lot of the usage patterns of systems like OpenClaw. Sundaresan said enterprises continue to experiment with how they want to approach coding and agent building. He doesn’t want to close the door on fully autonomous agents proactively completing tasks, but he believes enterprises will want to exercise more caution as well. “If you tell me that the final answer will be OpenClaw, then we will get there,” he said. “But it's better to open the gate slowly than say, 'oops, how do I close it now?'” Bob reflects that thought process, highlighting the increasing shift for enterprises. How Bob compares Bob acts as a coding platform, but unlike similar products, it aims to standardize and govern the agent workflows created on it. Tools like Cursor and Claude Code position the user at the beginning of the task. They are writing the prompts, chaining steps and debugging. LangGraph does similarly while also allowing teams to define agent flows. The difference is not about capabilities but about control, and whether the system enterprises use explores potential solutions or delivers predictable execution. In this case, the human employee starts and ends the process. If the agent is unable to complete its task or makes a mistake, this is handled after the fact. Bob, on the other hand, essentially pre-structures the development lifecycle into role-based stages. The agents will often check-in with the user for approval as a natural workflow checkpoint. Sundaresan said the idea is to combine the human and automated workflows. What is becoming clear is that the next phase of enterprise AI no longer relies on model power, but rather on how well tools are designed to balance autonomy and control. Pricing and availability As mentioned previously, Bob is now available for all regions where IBM does business. IBM's pricing structure for Bob consists of four primary subscription tiers for each user/seat and is built around its own internal credits system called \"Bobcoins,\" which serves as the primary metric for transparency and predictability. These are set at a fixed valuation of 1 Bobcoin per $0.50 USD. Users consume these coins by performing specific actions, such as generating code, running commands, or performing file operations. If a user exhausts their balance, they must upgrade their plan to continue using the service. Here are the plans currently offered and how many Bobcoins the user obtains by subscribing to each tier. 30-day Free Trial providing 40 Bobcoins Pro plan at $20 per month with 40 Bobcoins Pro+ plan at $60 per month with 160 Bobcoins Ultra tier priced at $200 per month for 500 Bobcoins. All standard plans provide access to core features including specialized agentic modes, literate coding, the Bob Shell for intelligent CLI workflows, and Model Context Protocol (MCP) integration. While all individual plans are restricted to a single user, an Enterprise plan is available through sales contact, offering centralized team management, flexible role assignments, and the ability to distribute Bobcoins across an organization. Enterprise subscribers receive additional benefits such as priority support and a dashboard to track entitlements and usage awareness.",
+      "sourceUrl": "https://venturebeat.com/orchestration/ibm-launches-bob-with-multi-model-routing-and-human-checkpoints-to-turn-ai-coding-into-a-secure-production-system",
+      "sourcePlatform": "venturebeat",
+      "publishedAt": "2026-04-29T18:37:08.000Z",
+      "discoveredAt": "2026-04-30T02:06:01.312Z",
+      "extracted": {
+        "companyName": "IBM launches Bob with multi-model routing and human checkpoints to turn AI coding into a",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 200,
+        "amountDisplay": "$200",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [],
+        "investorsEnriched": [],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai",
+        "fintech",
+        "saas"
+      ]
+    },
+    {
+      "id": "techcrunch.com-bb00a867",
+      "headline": "Parallel Web Systems hits $2B valuation five months after its last big raise",
+      "description": "The AI agent-tool startup founded by former Twitter CEO Parag Agrawal has raised $100 million, led by Sequoia, months after raising a previous $100 million.",
+      "sourceUrl": "https://techcrunch.com/2026/04/29/parallel-web-systems-hits-2b-valuation-five-months-after-its-last-big-raise/",
+      "sourcePlatform": "techcrunch",
+      "publishedAt": "2026-04-29T18:33:05.000Z",
+      "discoveredAt": "2026-04-30T02:06:01.312Z",
+      "extracted": {
+        "companyName": "Parallel Web Systems",
+        "companyWebsite": "https://parallel.ai",
+        "companyLogoUrl": "https://logo.clearbit.com/parallel.ai",
+        "amount": 100,
+        "amountDisplay": "$100",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "Sequoia",
+          "Kleiner"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Sequoia",
+            "isKnown": true,
+            "confidence": "high"
+          },
+          {
+            "name": "Kleiner",
+            "isKnown": false,
+            "confidence": "medium"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
     {
       "id": "techcrunch.com-cf80a204",
       "headline": "Firestorm Labs raises $82M to take drone factories into the field",
@@ -10,7 +113,7 @@
       "sourceUrl": "https://techcrunch.com/2026/04/29/firestorm-labs-raises-82m-to-take-drone-factories-into-the-field/",
       "sourcePlatform": "techcrunch",
       "publishedAt": "2026-04-29T13:10:57.000Z",
-      "discoveredAt": "2026-04-29T13:25:51.780Z",
+      "discoveredAt": "2026-04-30T02:06:01.312Z",
       "extracted": {
         "companyName": "Firestorm Labs",
         "companyWebsite": "https://launchfirestorm.com",
@@ -44,7 +147,7 @@
       "sourceUrl": "https://tech.eu/2026/04/29/cleo-labs-secures-eur15m-to-scale-ai-driven-product-compliance-globally/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-29T10:00:00.000Z",
-      "discoveredAt": "2026-04-29T13:25:51.780Z",
+      "discoveredAt": "2026-04-30T02:06:01.312Z",
       "extracted": {
         "companyName": "Cleo Labs",
         "companyWebsite": "https://cleolabs.co",
@@ -77,7 +180,7 @@
       "sourceUrl": "https://tech.eu/2026/04/29/all3-raises-25m-to-boost-construction-productivity-with-robotics-and-ai/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-29T08:00:00.000Z",
-      "discoveredAt": "2026-04-29T13:25:51.780Z",
+      "discoveredAt": "2026-04-30T02:06:01.312Z",
       "extracted": {
         "companyName": "All3",
         "companyWebsite": "https://all3.com",
@@ -110,7 +213,7 @@
       "sourceUrl": "https://tech.eu/2026/04/29/spread-ai-raises-30m-series-b-for-industrial-ai/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-29T06:15:00.000Z",
-      "discoveredAt": "2026-04-29T13:25:51.780Z",
+      "discoveredAt": "2026-04-30T02:06:01.312Z",
       "extracted": {
         "companyName": "SPREAD AI",
         "companyWebsite": "https://spread.ai",
@@ -128,24 +231,13 @@
       ]
     },
     {
-      "id": "arstechnica.com-552a6d62",
-      "headline": "A billion miles in less than a decade: GM's Super Cruise reaches a milestone",
-      "description": "",
-      "sourceUrl": "https://arstechnica.com/cars/2026/04/gms-super-cruise-passes-a-billion-driven-miles-since-2017/",
-      "sourcePlatform": "arstechnica",
-      "publishedAt": "2026-04-28T14:00:26.000Z",
-      "discoveredAt": "2026-04-29T13:25:51.780Z",
-      "extracted": null,
-      "tags": []
-    },
-    {
       "id": "tech.eu-a739ec89",
       "headline": "AI partner for financial advisers Marloo closes $10M seed round",
       "description": "London-based Marloo, an AI partner for financial advisers,has raised $10 million in a seed funding round led by Blackbird Ventures, whichalso participated in the company’s earlier pre-seed round. The ...",
       "sourceUrl": "https://tech.eu/2026/04/28/ai-partner-for-financial-advisers-marloo-closes-10m-seed-round/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-28T10:15:00.000Z",
-      "discoveredAt": "2026-04-29T13:25:51.780Z",
+      "discoveredAt": "2026-04-30T02:06:01.312Z",
       "extracted": {
         "companyName": "partner for financial advisers Marloo",
         "companyWebsite": null,
@@ -178,7 +270,7 @@
       "sourceUrl": "https://sifted.eu/articles/e-bike-startup-forest-secures-40m-series-b-funding-round/",
       "sourcePlatform": "sifted",
       "publishedAt": "2026-04-28T10:06:29.000Z",
-      "discoveredAt": "2026-04-29T13:25:51.780Z",
+      "discoveredAt": "2026-04-30T02:06:01.312Z",
       "extracted": {
         "companyName": "E-bike startup Forest",
         "companyWebsite": null,
@@ -208,7 +300,7 @@
       "sourceUrl": "https://tech.eu/2026/04/28/neutonic-secures-6m-at-60m-valuation-to-grow-retail-and-new-markets/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-28T09:00:00.000Z",
-      "discoveredAt": "2026-04-29T13:25:51.780Z",
+      "discoveredAt": "2026-04-30T02:06:01.312Z",
       "extracted": {
         "companyName": "Neutonic",
         "companyWebsite": null,
@@ -234,7 +326,7 @@
       "sourceUrl": "https://tech.eu/2026/04/28/dehaze-raises-eur32m-for-ai-chronic-disease-detection/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-28T08:13:32.000Z",
-      "discoveredAt": "2026-04-29T13:25:51.780Z",
+      "discoveredAt": "2026-04-30T02:06:01.312Z",
       "extracted": {
         "companyName": "dehaze",
         "companyWebsite": "https://dehaze.de",
@@ -267,7 +359,7 @@
       "sourceUrl": "https://tech.eu/2026/04/28/tapaya-raises-eur1m-pre-seed-to-power-payments-on-any-device/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-28T08:00:00.000Z",
-      "discoveredAt": "2026-04-29T13:25:51.780Z",
+      "discoveredAt": "2026-04-30T02:06:01.312Z",
       "extracted": {
         "companyName": "Tapaya",
         "companyWebsite": "https://tapaya.com",
@@ -306,7 +398,7 @@
       "sourceUrl": "https://tech.eu/2026/04/28/always-friday-raises-eur105m-to-automate-corporate-event-planning-with-ai-agents/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-28T07:00:00.000Z",
-      "discoveredAt": "2026-04-29T13:25:51.780Z",
+      "discoveredAt": "2026-04-30T02:06:01.312Z",
       "extracted": {
         "companyName": "Always Friday",
         "companyWebsite": "https://alwaysfriday.it",
@@ -338,7 +430,7 @@
       "sourceUrl": "https://tech.eu/2026/04/28/cnuic-secures-eur3m-pre-seed-to-unlock-next-generation-photonic-chip-production/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-28T07:00:00.000Z",
-      "discoveredAt": "2026-04-29T13:25:51.780Z",
+      "discoveredAt": "2026-04-30T02:06:01.312Z",
       "extracted": {
         "companyName": "Cnuic",
         "companyWebsite": "https://cnuic.com",
@@ -372,7 +464,7 @@
       "sourceUrl": "https://tech.eu/2026/04/28/from-bedside-decoration-to-daily-use-patronus-raises-eur11m-for-senior-safety/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-28T05:30:00.000Z",
-      "discoveredAt": "2026-04-29T13:25:51.780Z",
+      "discoveredAt": "2026-04-30T02:06:01.312Z",
       "extracted": {
         "companyName": "Unknown",
         "companyWebsite": null,
@@ -405,7 +497,7 @@
       "sourceUrl": "https://tech.eu/2026/04/28/redpine-secures-eur68m-to-power-ai-with-premium-data/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-28T05:15:00.000Z",
-      "discoveredAt": "2026-04-29T13:25:51.780Z",
+      "discoveredAt": "2026-04-30T02:06:01.312Z",
       "extracted": {
         "companyName": "Redpine",
         "companyWebsite": "https://redpine.ai",
@@ -437,7 +529,7 @@
       "sourceUrl": "https://sifted.eu/articles/redpine-raises-e6-8m-to-give-ai-agents-access-to-non-public-data/",
       "sourcePlatform": "sifted",
       "publishedAt": "2026-04-28T05:00:55.000Z",
-      "discoveredAt": "2026-04-29T13:25:51.780Z",
+      "discoveredAt": "2026-04-30T02:06:01.312Z",
       "extracted": {
         "companyName": "Redpine",
         "companyWebsite": null,
@@ -469,7 +561,7 @@
       "sourceUrl": "https://sifted.eu/articles/zellify-funding-round-seed-project-europe/",
       "sourcePlatform": "sifted",
       "publishedAt": "2026-04-28T05:00:06.000Z",
-      "discoveredAt": "2026-04-29T13:25:51.780Z",
+      "discoveredAt": "2026-04-30T02:06:01.312Z",
       "extracted": {
         "companyName": "Voi",
         "companyWebsite": null,
@@ -491,7 +583,7 @@
       "sourceUrl": "https://techcrunch.com/2026/04/27/indias-snabbit-closes-56m-round-as-investor-interest-heats-up-in-on-demand-home-services/",
       "sourcePlatform": "techcrunch",
       "publishedAt": "2026-04-28T03:30:00.000Z",
-      "discoveredAt": "2026-04-29T13:25:51.780Z",
+      "discoveredAt": "2026-04-30T02:06:01.312Z",
       "extracted": {
         "companyName": "India",
         "companyWebsite": null,
@@ -518,35 +610,13 @@
       ]
     },
     {
-      "id": "arstechnica.com-9e2fc",
-      "headline": "Open source package with 1 million monthly downloads stole user credentials",
-      "description": "",
-      "sourceUrl": "https://arstechnica.com/security/2026/04/open-source-package-with-1-million-monthly-downloads-stole-user-credentials/",
-      "sourcePlatform": "arstechnica",
-      "publishedAt": "2026-04-27T21:04:03.000Z",
-      "discoveredAt": "2026-04-29T13:25:51.780Z",
-      "extracted": {
-        "companyName": "Open",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 1000000,
-        "amountDisplay": "$1M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "medium"
-      },
-      "tags": []
-    },
-    {
       "id": "tech.eu-e8383b64",
       "headline": "Ineffable Intelligence launches with record-breaking $1.1B Seed round",
       "description": "Startup Ineffable Intelligence has just come out of stealth.The company, with a mission to make first contact with superintelligence, has raised $1.1 billion in Seed funding, the largest ever in Europ...",
       "sourceUrl": "https://tech.eu/2026/04/27/ineffable-intelligence-launches-with-record-breaking-11b-seed-round/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-27T14:53:00.000Z",
-      "discoveredAt": "2026-04-29T13:25:51.780Z",
+      "discoveredAt": "2026-04-30T02:06:01.312Z",
       "extracted": {
         "companyName": "Ineffable Intelligence",
         "companyWebsite": "https://ineffable.ai",
@@ -570,7 +640,7 @@
       "sourceUrl": "https://www.bbc.com/news/articles/cj0v0gr2yz7o?at_medium=RSS&at_campaign=rss",
       "sourcePlatform": "bbc",
       "publishedAt": "2026-04-27T12:21:42.000Z",
-      "discoveredAt": "2026-04-29T13:25:51.780Z",
+      "discoveredAt": "2026-04-30T02:06:01.312Z",
       "extracted": {
         "companyName": "China",
         "companyWebsite": "https://bbc.co.uk",
@@ -594,7 +664,7 @@
       "sourceUrl": "https://tech.eu/2026/04/27/spacetech-investor-seraphim-space-targets-350m-raise/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-27T11:15:00.000Z",
-      "discoveredAt": "2026-04-29T13:25:51.780Z",
+      "discoveredAt": "2026-04-30T02:06:01.312Z",
       "extracted": {
         "companyName": "Spacetech",
         "companyWebsite": null,
@@ -620,7 +690,7 @@
       "sourceUrl": "https://techcrunch.com/2026/04/25/indias-snabbit-seeks-fresh-funding-at-a-400m-valuation-sources-say/",
       "sourcePlatform": "techcrunch",
       "publishedAt": "2026-04-25T14:57:26.000Z",
-      "discoveredAt": "2026-04-29T13:25:51.780Z",
+      "discoveredAt": "2026-04-30T02:06:01.312Z",
       "extracted": {
         "companyName": "India",
         "companyWebsite": null,
@@ -652,7 +722,7 @@
       "sourceUrl": "https://techcrunch.com/2026/04/24/two-college-kids-raise-a-5-1-million-pre-seed-to-build-an-ai-social-network-in-imessage/",
       "sourcePlatform": "techcrunch",
       "publishedAt": "2026-04-24T21:05:59.000Z",
-      "discoveredAt": "2026-04-29T13:25:51.780Z",
+      "discoveredAt": "2026-04-30T02:06:01.312Z",
       "extracted": {
         "companyName": "Two college kids",
         "companyWebsite": null,
@@ -677,7 +747,7 @@
       "sourceUrl": "https://sifted.eu/articles/verda-raises-e100m-to-build-european-hyperscaler/",
       "sourcePlatform": "sifted",
       "publishedAt": "2026-04-24T08:00:53.000Z",
-      "discoveredAt": "2026-04-29T13:25:51.780Z",
+      "discoveredAt": "2026-04-30T02:06:01.312Z",
       "extracted": {
         "companyName": "Verda",
         "companyWebsite": null,
@@ -747,7 +817,7 @@
         "saas",
         "devtools"
       ],
-      "discoveredAt": "2026-04-29T13:25:51.780Z"
+      "discoveredAt": "2026-04-30T02:06:01.312Z"
     },
     {
       "id": "seed-coreweave-series-c-2026",
@@ -793,7 +863,7 @@
         "hardware",
         "saas"
       ],
-      "discoveredAt": "2026-04-29T13:25:51.780Z"
+      "discoveredAt": "2026-04-30T02:06:01.312Z"
     },
     {
       "id": "seed-cognition-series-a-2026",
@@ -832,7 +902,7 @@
         "ai",
         "devtools"
       ],
-      "discoveredAt": "2026-04-29T13:25:51.780Z"
+      "discoveredAt": "2026-04-30T02:06:01.312Z"
     },
     {
       "id": "seed-anduril-series-f-2026",
@@ -877,7 +947,7 @@
         "defense",
         "ai"
       ],
-      "discoveredAt": "2026-04-29T13:25:51.780Z"
+      "discoveredAt": "2026-04-30T02:06:01.312Z"
     },
     {
       "id": "seed-sambanova-series-e-2026",
@@ -922,7 +992,7 @@
         "ai",
         "hardware"
       ],
-      "discoveredAt": "2026-04-29T13:25:51.780Z"
+      "discoveredAt": "2026-04-30T02:06:01.312Z"
     },
     {
       "id": "seed-poolside-series-a-2026",
@@ -961,7 +1031,7 @@
         "ai",
         "devtools"
       ],
-      "discoveredAt": "2026-04-29T13:25:51.780Z"
+      "discoveredAt": "2026-04-30T02:06:01.312Z"
     },
     {
       "id": "seed-hebbia-series-b-2026",
@@ -1000,7 +1070,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-29T13:25:51.780Z"
+      "discoveredAt": "2026-04-30T02:06:01.312Z"
     },
     {
       "id": "seed-together-series-a-2026",
@@ -1039,7 +1109,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-29T13:25:51.780Z"
+      "discoveredAt": "2026-04-30T02:06:01.312Z"
     },
     {
       "id": "seed-sierra-series-b-2026",
@@ -1078,7 +1148,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-29T13:25:51.780Z"
+      "discoveredAt": "2026-04-30T02:06:01.312Z"
     },
     {
       "id": "seed-glean-series-d-2026",
@@ -1117,7 +1187,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-29T13:25:51.780Z"
+      "discoveredAt": "2026-04-30T02:06:01.312Z"
     },
     {
       "id": "seed-groq-series-d-2026",
@@ -1156,7 +1226,7 @@
         "ai",
         "hardware"
       ],
-      "discoveredAt": "2026-04-29T13:25:51.780Z"
+      "discoveredAt": "2026-04-30T02:06:01.312Z"
     },
     {
       "id": "seed-mistral-series-b-2026",
@@ -1201,7 +1271,7 @@
         "ai",
         "europe"
       ],
-      "discoveredAt": "2026-04-29T13:25:51.780Z"
+      "discoveredAt": "2026-04-30T02:06:01.312Z"
     },
     {
       "id": "seed-adept-series-b-2026",
@@ -1240,7 +1310,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-29T13:25:51.780Z"
+      "discoveredAt": "2026-04-30T02:06:01.312Z"
     },
     {
       "id": "seed-elevenlabs-series-c-2026",
@@ -1284,7 +1354,7 @@
       "tags": [
         "ai"
       ],
-      "discoveredAt": "2026-04-29T13:25:51.780Z"
+      "discoveredAt": "2026-04-30T02:06:01.312Z"
     },
     {
       "id": "seed-scale-series-f-2026",
@@ -1329,7 +1399,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-29T13:25:51.780Z"
+      "discoveredAt": "2026-04-30T02:06:01.312Z"
     },
     {
       "id": "seed-perplexity-series-c-2026",
@@ -1374,7 +1444,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-29T13:25:51.780Z"
+      "discoveredAt": "2026-04-30T02:06:01.312Z"
     }
   ]
 }

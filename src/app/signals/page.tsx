@@ -430,6 +430,7 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
 
   const tickerItems: TickerItem[] = buildTickerItems(filteredItems);
 
+  if (false) {
   // BISECT 6: bare-bones JSX with all data computed but no V3 components
   // rendered. If this is 200, one of the components is the SSR culprit.
   // If still 500, the issue is at module-level / import-time of one of the
@@ -449,7 +450,8 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
   );
 
   // unreachable below — preserved so cherry-pick history stays clean
-  // eslint-disable-next-line @typescript-eslint/no-unreachable
+  }
+
   return (
     <main className="signals-page" style={{ padding: "14px 16px 60px" }}>
       <header

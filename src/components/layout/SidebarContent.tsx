@@ -45,7 +45,6 @@ import {
   Library,
   Lightbulb,
   LineChart,
-  Newspaper,
   Network,
   Package,
   Plug,
@@ -282,7 +281,6 @@ export function SidebarContent({
 }: SidebarContentProps) {
   const router = useRouter();
   const pathname = usePathname() ?? "/";
-  const [newsTab, setNewsTab] = useState<string | null>(null);
   const activeMetaFilter = useFilterStore((s) => s.activeMetaFilter);
   const setActiveMetaFilter = useFilterStore((s) => s.setActiveMetaFilter);
   const setActiveTag = useFilterStore((s) => s.setActiveTag);
@@ -292,10 +290,6 @@ export function SidebarContent({
 
   const watchCount = useWatchlistStore((s) => s.repos.length);
   const compareCount = useCompareStore((s) => s.repos.length);
-
-  useEffect(() => {
-    setNewsTab(new URLSearchParams(window.location.search).get("tab"));
-  }, [pathname]);
 
   function goToReposTerminal(filter: "breakouts" | "new" | null) {
     setActiveTag(null);
@@ -435,8 +429,7 @@ export function SidebarContent({
             badgeTone="delta"
             active={
               pathname === "/hackernews" ||
-              pathname.startsWith("/hackernews/") ||
-              (pathname === "/news" && (!newsTab || newsTab === "hackernews"))
+              pathname.startsWith("/hackernews/")
             }
           />
           <V2NavRow
@@ -446,9 +439,7 @@ export function SidebarContent({
             badge={deltaChip(sourceCounts?.lobstersStories ?? 0) || undefined}
             badgeTone="delta"
             active={
-              pathname === "/lobsters" ||
-              pathname.startsWith("/lobsters/") ||
-              (pathname === "/news" && newsTab === "lobsters")
+              pathname === "/lobsters" || pathname.startsWith("/lobsters/")
             }
           />
           <V2NavRow
@@ -458,9 +449,7 @@ export function SidebarContent({
             badge={deltaChip(sourceCounts?.devtoArticles ?? 0) || undefined}
             badgeTone="delta"
             active={
-              pathname === "/devto" ||
-              pathname.startsWith("/devto/") ||
-              (pathname === "/news" && newsTab === "devto")
+              pathname === "/devto" || pathname.startsWith("/devto/")
             }
           />
           <V2NavRow
@@ -470,9 +459,7 @@ export function SidebarContent({
             badge={deltaChip(sourceCounts?.blueskyPosts ?? 0) || undefined}
             badgeTone="delta"
             active={
-              pathname === "/bluesky" ||
-              pathname.startsWith("/bluesky/") ||
-              (pathname === "/news" && newsTab === "bluesky")
+              pathname === "/bluesky" || pathname.startsWith("/bluesky/")
             }
           />
           <V2NavRow
@@ -499,8 +486,7 @@ export function SidebarContent({
             badgeTone="delta"
             active={
               pathname === "/producthunt" ||
-              pathname.startsWith("/producthunt/") ||
-              (pathname === "/news" && newsTab === "producthunt")
+              pathname.startsWith("/producthunt/")
             }
           />
         </V2Section>
@@ -620,12 +606,6 @@ export function SidebarContent({
 
         {/* EXPLORE */}
         <V2Section label="EXPLORE">
-          <V2NavRow
-            href="/news"
-            icon={Newspaper}
-            label="News Desk"
-            active={pathname === "/news"}
-          />
           <V2NavRow
             href="/digest"
             icon={CalendarDays}

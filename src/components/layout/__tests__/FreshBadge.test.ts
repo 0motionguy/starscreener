@@ -85,17 +85,20 @@ describe("readAge", () => {
 });
 
 describe("formatAge", () => {
-  it('returns "—" for null', () => {
-    expect(formatAge(null)).toBe("—");
+  // Design-system pass (commit 238271f5) standardized FreshBadge's "no value"
+  // placeholder from em-dash "—" to ASCII "--" — same affordance, monospace-
+  // friendly, no Unicode-encoding hazards. Tests align with that convention.
+  it('returns "--" for null', () => {
+    expect(formatAge(null)).toBe("--");
   });
 
-  it('returns "—" for NaN', () => {
-    expect(formatAge(Number.NaN)).toBe("—");
+  it('returns "--" for NaN', () => {
+    expect(formatAge(Number.NaN)).toBe("--");
   });
 
-  it('returns "—" for Infinity', () => {
-    expect(formatAge(Number.POSITIVE_INFINITY)).toBe("—");
-    expect(formatAge(Number.NEGATIVE_INFINITY)).toBe("—");
+  it('returns "--" for Infinity', () => {
+    expect(formatAge(Number.POSITIVE_INFINITY)).toBe("--");
+    expect(formatAge(Number.NEGATIVE_INFINITY)).toBe("--");
   });
 
   it('returns "live" for any value < 60s', () => {

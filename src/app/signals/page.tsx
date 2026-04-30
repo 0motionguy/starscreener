@@ -81,6 +81,10 @@ import {
   type RssArticleItem,
 } from "@/components/signals-terminal/SourceFeedPanel";
 import { TagMomentumHeatmap } from "@/components/signals-terminal/TagMomentumHeatmap";
+import {
+  SourceFilterBar,
+  parseActiveSources,
+} from "@/components/signals-terminal/SourceFilterBar";
 
 import { triggerScanIfStale } from "@/lib/news/auto-rescrape";
 
@@ -128,7 +132,20 @@ function safeTrigger(
 // Page
 // ---------------------------------------------------------------------------
 
-export default async function SignalsPage() {
+interface SignalsPageProps {
+  // Next 15 hands searchParams as a Promise. Reading is async.
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+}
+
+export default async function SignalsPage({ searchParams }: SignalsPageProps) {
+  // Read the active source filter out of the URL. Empty / missing param →
+  // all 8 sources active (default). Filter applies to cross-source
+  // synthesis (consensus / volume / heatmap / ticker), NOT to per-source
+  // feed panels — those always render their native data.
+  const sp = (await searchParams) ?? {};
+  const srcParam = Array.isArray(sp.src) ? sp.src.join(",") : sp.src;
+  const activeSourceFilter = parseActiveSources(srcParam);
+
   // Refresh every source from the data-store in parallel. None of these
   // throw — they degrade silently to bundled JSON / memory when Redis is
   // unreachable.
@@ -173,19 +190,34 @@ export default async function SignalsPage() {
   ];
 
   // ── Cross-source synthesis -------------------------------------------------
+  // The synthesis layer (volume / consensus / heatmap / ticker) operates on
+  // a filtered view of items; per-source feed panels always render their
+  // own native data regardless of the URL filter.
+  const filteredItems =
+    activeSourceFilter.size === 8
+      ? items
+      : items.filter((it) => activeSourceFilter.has(it.source));
+
   const nowMs = Date.now();
-  const volume = buildVolume(items, { nowMs });
-  const tagMomentum = buildTagMomentum(items, { nowMs, topN: 12 });
+  const volume = buildVolume(filteredItems, { nowMs });
+  const tagMomentum = buildTagMomentum(filteredItems, { nowMs, topN: 12 });
 
   // Consensus: strong signals (3+ sources) come first. When the panel would
   // be sparse (< 5 strong stories), top up with the next-best near-consensus
   // items so the slot doesn't read as half-empty. The KPI strip's
   // "Consensus stories" count tracks the strong-only number.
-  const strongConsensus = buildConsensus(items, { nowMs, minSources: 3, limit: 8 });
+  // When the user filters down to <3 sources, consensus drops minSources
+  // proportionally so the radar still has something to show.
+  const minStrongSources = Math.min(3, activeSourceFilter.size);
+  const strongConsensus = buildConsensus(filteredItems, {
+    nowMs,
+    minSources: minStrongSources,
+    limit: 8,
+  });
   const consensusCount = strongConsensus.length;
   let consensus = strongConsensus;
   if (consensus.length < 5) {
-    const nearConsensus = buildConsensus(items, {
+    const nearConsensus = buildConsensus(filteredItems, {
       nowMs,
       minSources: 1,
       limit: 12,
@@ -369,7 +401,7 @@ export default async function SignalsPage() {
     reads: null,
   }));
 
-  const tickerItems: TickerItem[] = buildTickerItems(items);
+  const tickerItems: TickerItem[] = buildTickerItems(filteredItems);
 
   // ── Render ----------------------------------------------------------------
   return (
@@ -431,6 +463,11 @@ export default async function SignalsPage() {
           <LiveClock initialIso={new Date().toISOString()} />
         </Suspense>
       </header>
+
+      <SourceFilterBar
+        active={activeSourceFilter}
+        totalSignals={volume.totalItems}
+      />
 
       <div style={{ marginBottom: 10 }}>
         <KpiStrip

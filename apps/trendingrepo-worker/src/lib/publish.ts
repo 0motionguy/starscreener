@@ -14,6 +14,20 @@ export interface LeaderboardItem {
     downloads_7d?: number;
     stars_total?: number;
     installs_total?: number;
+    // MCP usage telemetry — aggregated across all 4 MCP source fetchers
+    // (pulsemcp, smithery, glama, official) by `pickMcpUsage`. Each source
+    // writes its own copy under `raw.<source>.metrics.{visitors_4w,
+    // use_count, popularity_24h, popularity_7d, popularity_30d,
+    // quality_score}`; we take the MAX across sources for each window so
+    // a server present in multiple registries doesn't get summed redundantly
+    // (the same monthly visitor pool would appear in every registry).
+    // null when none of the sources reported the field; undefined-stripped
+    // before publish for payload size.
+    installs_24h?: number | null;
+    installs_7d?: number | null;
+    installs_30d?: number | null;
+    visitors_4w?: number | null;
+    use_count?: number | null;
   };
   // Rich fields — projected from `trending_items` columns that the merger
   // populates. Without these the consumer page (`coerceMcpItem` etc.) sees
@@ -52,11 +66,12 @@ export interface LeaderboardPayload {
   items: LeaderboardItem[];
 }
 
-// Default top-N to publish per type. 500 keeps the JSON under a few hundred
-// KB while giving the front-end enough headroom to render multiple
-// sub-leaderboards (Hottest / Most Downloaded / Liveness Champions / New)
-// from the same payload without re-querying. Override per-call when needed.
-const DEFAULT_LIMIT = 500;
+// Default top-N to publish per type. Sprint bump 500→3000 (Phase-5
+// escalation 2026-04-29): same calculus that lifted skillsmp 200→5000 —
+// the front-end can now show "All Time (N)" leaderboards that read like
+// a real catalog, not a top-N teaser. Payload still ~few MB, in line
+// with /skills' bundled output.
+const DEFAULT_LIMIT = 3000;
 
 export async function publishLeaderboard(
   db: SupabaseClient,
@@ -94,7 +109,7 @@ function projectRow(r: TrendingItemRow, rank: number): LeaderboardItem {
     title: r.title,
     url: r.url,
     trending_score: r.trending_score,
-    metrics: pickMetrics(r),
+    metrics: { ...pickMetrics(r), ...pickMcpUsage(r) },
     description: r.description,
     vendor: r.vendor,
     author: r.author,
@@ -160,6 +175,77 @@ function pickPackage(
   }
   return { name: null, registry: null };
 }
+
+// MCP source slugs the merger writes to `raw.<source>` — must match
+// `McpSource` in apps/trendingrepo-worker/src/lib/mcp/types.ts. We walk
+// each one and take MAX across sources for each install window so a server
+// present in multiple registries doesn't get its visitors/use-counts
+// summed redundantly (the same monthly visitor pool would otherwise
+// appear in every registry that lists the server).
+const MCP_USAGE_SOURCES = ['pulsemcp', 'smithery', 'glama', 'official'] as const;
+const MCP_USAGE_FIELDS = [
+  'installs_24h',
+  'installs_7d',
+  'installs_30d',
+  'visitors_4w',
+  'use_count',
+] as const;
+
+type McpUsageBlock = {
+  installs_24h?: number | null;
+  installs_7d?: number | null;
+  installs_30d?: number | null;
+  visitors_4w?: number | null;
+  use_count?: number | null;
+};
+
+// Per-source metric key → unified install-window key. The metric names
+// the source fetchers emit (`popularity_24h`, `popularity_7d`,
+// `popularity_30d`) collapse to `installs_24h/7d/30d` on the leaderboard
+// surface so the consumer doesn't need to know each source's vocabulary.
+const SOURCE_TO_UNIFIED: Record<string, keyof McpUsageBlock> = {
+  popularity_24h: 'installs_24h',
+  popularity_7d: 'installs_7d',
+  popularity_30d: 'installs_30d',
+  visitors_4w: 'visitors_4w',
+  use_count: 'use_count',
+};
+
+function pickMcpUsage(r: TrendingItemRow): McpUsageBlock {
+  if (r.type !== 'mcp') return {};
+  const acc: Record<keyof McpUsageBlock, number | null> = {
+    installs_24h: null,
+    installs_7d: null,
+    installs_30d: null,
+    visitors_4w: null,
+    use_count: null,
+  };
+  for (const src of MCP_USAGE_SOURCES) {
+    const nested = r.raw?.[src];
+    if (!nested || typeof nested !== 'object') continue;
+    const metrics = (nested as Record<string, unknown>).metrics;
+    if (!metrics || typeof metrics !== 'object') continue;
+    for (const [srcKey, unifiedKey] of Object.entries(SOURCE_TO_UNIFIED)) {
+      const v = (metrics as Record<string, unknown>)[srcKey];
+      const n = pickNumber(v);
+      if (n === null) continue;
+      const cur = acc[unifiedKey];
+      if (cur === null || n > cur) acc[unifiedKey] = n;
+    }
+  }
+  // Strip null entries so the payload only carries what's known.
+  const out: McpUsageBlock = {};
+  for (const f of MCP_USAGE_FIELDS) {
+    if (acc[f] !== null) out[f] = acc[f] as number;
+  }
+  return out;
+}
+
+function pickNumber(v: unknown): number | null {
+  if (typeof v !== 'number' || !Number.isFinite(v)) return null;
+  return v;
+}
+
 
 function pickString(v: unknown): string | null {
   if (typeof v !== 'string') return null;

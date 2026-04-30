@@ -65,8 +65,7 @@ function LaunchpadStrip() {
   return (
     <nav
       aria-label="Launchpad"
-      className="grid grid-cols-3 gap-1.5 px-3 pt-3 pb-3 border-b"
-      style={{ borderColor: "var(--v2-line-100)" }}
+      className="group grid grid-cols-3 gap-1.5 px-3 pb-3 pt-2"
     >
       {LAUNCHPAD_TILES.map((tile) => {
         const active = pathname === tile.href
@@ -78,15 +77,14 @@ function LaunchpadStrip() {
             href={tile.href}
             aria-label={tile.label}
             className={cn(
-              "v2-mono relative h-9 flex items-center justify-center gap-1.5",
+              "nav relative flex h-8 items-center justify-center gap-1.5 px-1",
               "text-[10px] transition-colors duration-150",
               active && "v2-bracket",
             )}
             style={{
-              background: active ? "var(--v2-acc-soft)" : "var(--v2-bg-050)",
-              border: `1px solid ${active ? "var(--v2-acc)" : "var(--v2-line-200)"}`,
-              borderRadius: 2,
-              color: active ? "var(--v2-acc)" : "var(--v2-ink-200)",
+              background: active ? "var(--acc-soft)" : "var(--bg-050)",
+              border: `1px solid ${active ? "var(--acc)" : "var(--line-200)"}`,
+              color: active ? "var(--acc)" : "var(--ink-200)",
             }}
           >
             <Icon className="w-3.5 h-3.5" strokeWidth={2} aria-hidden />
@@ -105,19 +103,18 @@ function LaunchpadStrip() {
 function SidebarStatusHeader() {
   return (
     <div
-      className="px-3 py-2.5 border-b flex items-center justify-between shrink-0"
-      style={{ borderColor: "var(--v2-line-100)" }}
+      className="group flex shrink-0 items-center justify-between px-3 pb-2 pt-3"
     >
       <span
-        className="v2-mono inline-flex items-center gap-2"
-        style={{ color: "var(--v2-ink-300)", fontSize: 10 }}
+        className="group-label inline-flex items-center gap-2"
+        style={{ color: "var(--ink-300)", fontSize: 10 }}
       >
         <SystemMark size={12} />
         {"// TRENDINGREPO"}
       </span>
       <span
-        className="v2-mono tabular-nums"
-        style={{ color: "var(--v2-ink-500)", fontSize: 9 }}
+        className="font-mono tabular-nums"
+        style={{ color: "var(--ink-500)", fontSize: 9 }}
       >
         v{APP_VERSION}
       </span>
@@ -245,11 +242,7 @@ export function Sidebar({
   // outer aside clip overflow when the column is narrow.
   return (
     <aside
-      className="v3-chrome hidden md:flex md:flex-col w-full h-[calc(100vh-56px)] sticky top-14 border-r overflow-hidden"
-      style={{
-        borderColor: "var(--v3-line-200)",
-        backdropFilter: "blur(8px)",
-      }}
+      className="sidebar hidden w-full overflow-hidden md:flex md:flex-col"
     >
       <SidebarStatusHeader />
       <LaunchpadStrip />

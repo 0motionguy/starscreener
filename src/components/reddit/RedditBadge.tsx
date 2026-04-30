@@ -1,13 +1,12 @@
 "use client";
 
+import { Chip } from "@/components/ui/Badge";
 import type { Repo } from "@/lib/types";
 
 interface RedditBadgeProps {
   mention: Repo["reddit"];
   size?: "sm" | "md";
 }
-
-const REDDIT_ORANGE = "#ff4500";
 
 function redditHref(post: NonNullable<NonNullable<Repo["reddit"]>["topPost"]>): string {
   if (post.permalink.startsWith("http")) return post.permalink;
@@ -28,12 +27,12 @@ export function RedditBadge({ mention, size = "sm" }: RedditBadgeProps) {
   if (!mention || mention.mentions7d <= 0) return null;
 
   const href = mention.topPost ? redditHref(mention.topPost) : "https://www.reddit.com";
-  const sizeClasses = size === "md" ? "px-2 py-1 text-xs" : "px-1.5 py-0.5";
+  const sizeClasses =
+    size === "md" ? "h-6 px-2 text-xs" : "h-5 px-1.5 text-[10px]";
   const isHighSignal = mention.mentions7d >= 3 || mention.upvotes7d >= 100;
 
   return (
-    <button
-      type="button"
+    <Chip
       onClick={(e) => {
         e.stopPropagation();
         e.preventDefault();
@@ -41,20 +40,24 @@ export function RedditBadge({ mention, size = "sm" }: RedditBadgeProps) {
       }}
       title={buildTooltip(mention)}
       aria-label={`${mention.mentions7d} Reddit mentions`}
-      className={`inline-flex items-center gap-1 rounded-md border font-mono text-[10px] transition-colors cursor-pointer ${sizeClasses} ${
-        isHighSignal ? "bg-[#ff4500]/10" : ""
-      }`}
-      style={{ color: REDDIT_ORANGE, borderColor: `${REDDIT_ORANGE}4D` }}
+      className={sizeClasses}
+      style={{
+        color: "var(--source-reddit)",
+        borderColor:
+          "color-mix(in oklab, var(--source-reddit) 45%, transparent)",
+        background: isHighSignal
+          ? "color-mix(in oklab, var(--source-reddit) 10%, transparent)"
+          : "var(--bg-050)",
+      }}
     >
       <span
-        className="flex h-3 w-3 items-center justify-center rounded-sm text-[8px] font-bold leading-none text-white"
-        style={{ backgroundColor: REDDIT_ORANGE }}
+        className="flex size-3 items-center justify-center bg-[var(--source-reddit)] text-[8px] font-bold leading-none text-[var(--bg-000)]"
         aria-hidden
       >
         R
       </span>
       {mention.mentions7d}
-    </button>
+    </Chip>
   );
 }
 

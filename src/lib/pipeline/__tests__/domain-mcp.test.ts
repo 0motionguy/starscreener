@@ -200,3 +200,84 @@ test("mcp ranking: high downloads + uptime + tools beats stub", () => {
     assert.ok(v >= 0 && v <= 100, `value out of range: ${v}`);
   }
 });
+
+// ---------------------------------------------------------------------------
+// Q4 cold-start absolute-fallback tests (Phase 4 escalation 2026-04-29).
+// Day-1 of deployment: npm-downloads / pypi-downloads workflows have not
+// yet populated their 7d-ago snapshots. Without abs fallbacks the scorer
+// produces a flat ranking. With them an MCP with installsTotal lifts.
+// ---------------------------------------------------------------------------
+
+test("mcp abs fallback: installsTotal=12000 + no 7d downloads lifts score above 50", () => {
+  const [s] = mcpScorer.computeRaw([
+    mk({
+      npmDownloads7d: undefined,
+      pypiDownloads7d: undefined,
+      installsTotal: 12_000,
+      isStdio: true, // skip liveness for a clean abs-only path
+      toolCount: undefined,
+      smitheryRank: undefined,
+      smitheryTotal: undefined,
+      npmDependents: undefined,
+      p50LatencyMs: undefined,
+      lastReleaseAt: undefined,
+    }),
+  ]);
+  assert.ok(s.rawComponents.installsAbs !== undefined, "installsAbs should fire");
+  assert.equal(s.rawComponents.downloadsCombined7d, undefined);
+  assert.equal(s.primaryMetric.label, "Installs");
+  assert.ok(s.rawScore > 50, `expected score > 50, got ${s.rawScore}`);
+});
+
+test("mcp abs fallback: installsAbs and downloadsCombined7d are mutually exclusive", () => {
+  const [s] = mcpScorer.computeRaw([
+    mk({ npmDownloads7d: 5_000, installsTotal: 12_000, isStdio: true }),
+  ]);
+  assert.ok(s.rawComponents.downloadsCombined7d !== undefined);
+  assert.equal(s.rawComponents.installsAbs, undefined, "installsAbs must not fire when 7d delta is present");
+  assert.equal(s.primaryMetric.label, "Downloads");
+});
+
+test("mcp abs fallback: starsAbs is final fallback when nothing else available", () => {
+  const [s] = mcpScorer.computeRaw([
+    mk({
+      npmDownloads7d: undefined,
+      pypiDownloads7d: undefined,
+      installsTotal: undefined,
+      stars: 800,
+      isStdio: true,
+      toolCount: undefined,
+      smitheryRank: undefined,
+      smitheryTotal: undefined,
+      npmDependents: undefined,
+      p50LatencyMs: undefined,
+      lastReleaseAt: undefined,
+    }),
+  ]);
+  assert.ok(s.rawComponents.starsAbs !== undefined, "starsAbs should fire");
+  assert.equal(s.rawComponents.installsAbs, undefined);
+  assert.equal(s.primaryMetric.label, "Stars");
+});
+
+test("mcp abs fallback: cold-start no-data path is unchanged (low score, no abs fires)", () => {
+  const [s] = mcpScorer.computeRaw([
+    mk({
+      npmDownloads7d: undefined,
+      pypiDownloads7d: undefined,
+      installsTotal: undefined,
+      stars: undefined,
+      isStdio: true,
+      toolCount: undefined,
+      smitheryRank: undefined,
+      smitheryTotal: undefined,
+      npmDependents: undefined,
+      p50LatencyMs: undefined,
+      lastReleaseAt: undefined,
+    }),
+  ]);
+  assert.equal(s.rawComponents.installsAbs, undefined);
+  assert.equal(s.rawComponents.starsAbs, undefined);
+  // Only crossSourceCount fires by default.
+  assert.equal(s.primaryMetric.label, "—");
+});
+

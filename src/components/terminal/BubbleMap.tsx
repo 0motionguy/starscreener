@@ -16,7 +16,8 @@ import type { Repo } from "@/lib/types";
 import { CATEGORIES } from "@/lib/constants";
 import { packBubbles } from "@/lib/bubble-pack";
 import { ErrorBoundary } from "@/components/shared/ErrorBoundary";
-import { TerminalBar } from "@/components/v2/TerminalBar";
+import { CardHeader } from "@/components/ui/Card";
+import { ChartShell } from "@/components/ui/ChartShell";
 import {
   BubbleMapCanvas,
   type BubbleSeed,
@@ -204,8 +205,13 @@ export function BubbleMap({ repos, limit = 220 }: BubbleMapProps) {
   const hasAny = totalNodes > 0;
   if (!hasAny) {
     return (
-      <div className="v2-card overflow-hidden">
-        <TerminalBar label={headerLabel} status={headerStatus} live />
+      <ChartShell variant="map">
+        <CardHeader
+          right={<span className="live">{headerStatus}</span>}
+          showCorner
+        >
+          {headerLabel}
+        </CardHeader>
         <div
           className="w-full flex items-center justify-center"
           style={{
@@ -228,20 +234,25 @@ export function BubbleMap({ repos, limit = 220 }: BubbleMapProps) {
             Warming up the firehose…
           </span>
         </div>
-      </div>
+      </ChartShell>
     );
   }
 
   return (
     <ErrorBoundary>
-      <div className="v2-card overflow-hidden">
-        <TerminalBar label={headerLabel} status={headerStatus} live />
+      <ChartShell variant="map">
+        <CardHeader
+          right={<span className="live">{headerStatus}</span>}
+          showCorner
+        >
+          {headerLabel}
+        </CardHeader>
         <BubbleMapCanvas
           windows={windows}
           width={MAP_WIDTH}
           height={MAP_HEIGHT}
         />
-      </div>
+      </ChartShell>
     </ErrorBoundary>
   );
 }

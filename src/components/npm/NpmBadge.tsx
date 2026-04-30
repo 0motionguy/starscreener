@@ -1,5 +1,7 @@
 "use client";
 
+import { Chip } from "@/components/ui/Badge";
+
 // Small inline npm badge for repo rows. Shows only when npm registry metadata
 // links a package back to the repo. This is adoption/download velocity, not a
 // social mention count, so the chip displays 7d downloads.
@@ -35,10 +37,10 @@ export function NpmBadge({ packages, size = "sm" }: NpmBadgeProps) {
   const top = published[0];
   if (!top) return null;
 
-  const sizeClasses = size === "md" ? "px-2 py-1 text-xs" : "px-1.5 py-0.5";
+  const sizeClasses =
+    size === "md" ? "h-6 px-2 text-xs" : "h-5 px-1.5 text-[10px]";
   return (
-    <button
-      type="button"
+    <Chip
       onClick={(e) => {
         e.stopPropagation();
         e.preventDefault();
@@ -46,22 +48,24 @@ export function NpmBadge({ packages, size = "sm" }: NpmBadgeProps) {
       }}
       title={buildTooltip(top, published.length)}
       aria-label={`${top.name} has ${top.downloads7d} npm downloads in the last 7 days`}
-      className={`inline-flex items-center gap-1 rounded-md text-[10px] font-mono border transition-colors cursor-pointer ${sizeClasses}`}
+      className={sizeClasses}
       style={{
-        color: "#cb3837",
-        borderColor: "#cb38374D",
-        backgroundColor: top.downloads7d >= 1_000_000 ? "#cb38371A" : "transparent",
+        color: "var(--red)",
+        borderColor: "rgba(255, 77, 77, 0.4)",
+        background:
+          top.downloads7d >= 1_000_000
+            ? "rgba(255, 77, 77, 0.12)"
+            : "var(--bg-050)",
       }}
     >
       <span
-        className="text-white text-[8px] font-bold w-3 h-3 leading-none rounded-sm flex items-center justify-center"
-        style={{ backgroundColor: "#cb3837" }}
+        className="flex size-3 items-center justify-center bg-[var(--red)] text-[8px] font-bold leading-none text-[#0a0a0a]"
         aria-hidden
       >
         N
       </span>
       {formatCompact(top.downloads7d)}
-    </button>
+    </Chip>
   );
 }
 

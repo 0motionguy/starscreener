@@ -140,15 +140,15 @@ function TerminalRowBase({
         // Hairline dashed divider — V2 motif. Inline so it survives the
         // border-collapse: separate / border-spacing-0 table model used
         // by the parent.
-        borderBottom: "1px dashed var(--v2-line-100)",
+        borderBottom: "1px solid var(--line-100)",
         // Leave background unset when not focused so the CSS `.v2-row:hover`
         // rule can paint the luminance step + accent rail on hover.
-        background: focused ? "var(--v2-bg-100)" : undefined,
+        background: focused ? "var(--bg-050)" : undefined,
         // Single-side outline mark for the focused row, drawn as a
         // pseudo border-left via box-shadow so we don't double up with
         // the dashed bottom border.
         boxShadow: focused
-          ? "inset 2px 0 0 var(--v2-acc)"
+          ? "inset 2px 0 0 var(--acc)"
           : undefined,
       }}
       className={cn(

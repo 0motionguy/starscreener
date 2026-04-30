@@ -1,6 +1,6 @@
 "use client";
 
-import { Flame } from "lucide-react";
+import { Badge, type BadgeTone } from "@/components/ui/Badge";
 
 interface MomentumBadgeProps {
   score: number;
@@ -13,27 +13,23 @@ type HeatTier = "hot" | "warm" | "neutral" | "cool";
 
 const HEAT_CONFIG: Record<
   HeatTier,
-  { label: string; color: string; bg: string }
+  { label: string; tone: BadgeTone }
 > = {
   hot: {
     label: "Hot",
-    color: "text-momentum-hot",
-    bg: "bg-momentum-hot/12",
+    tone: "hot",
   },
   warm: {
     label: "Warm",
-    color: "text-momentum-warm",
-    bg: "bg-momentum-warm/12",
+    tone: "warning",
   },
   neutral: {
     label: "Neutral",
-    color: "text-momentum-neutral",
-    bg: "bg-momentum-neutral/12",
+    tone: "neutral",
   },
   cool: {
     label: "Cool",
-    color: "text-momentum-cool",
-    bg: "bg-momentum-cool/12",
+    tone: "external",
   },
 };
 
@@ -57,25 +53,20 @@ export function MomentumBadge({
   const tier = getTier(score);
   const config = HEAT_CONFIG[tier];
 
-  const sizeClasses = size === "sm" ? "text-xs px-2 py-0.5" : "text-sm px-2.5 py-1";
-  const iconSize = size === "sm" ? 11 : 13;
   const isHot = tier === "hot";
 
   return (
-    <span
-      className={`inline-flex flex-col items-center ${className}`}
-    >
-      <span
-        className={`inline-flex items-center gap-1 font-mono font-bold rounded-badge ${config.color} ${config.bg} ${sizeClasses} ${isHot ? "animate-pulse-glow" : ""}`}
+    <span className={`inline-flex flex-col items-center ${className}`}>
+      <Badge
+        tone={config.tone}
+        size={size === "sm" ? "xs" : "sm"}
+        className={isHot ? "animate-pulse-glow" : ""}
       >
-        {isHot && (
-          <Flame size={iconSize} strokeWidth={2.5} className="shrink-0" />
-        )}
         {score}
-      </span>
+      </Badge>
       {showLabel && (
         <span
-          className={`mt-0.5 text-[10px] font-medium uppercase tracking-wider ${config.color}`}
+          className="mt-0.5 text-[10px] font-medium uppercase tracking-wider text-[var(--ink-300)]"
         >
           {config.label}
         </span>

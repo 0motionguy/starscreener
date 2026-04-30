@@ -1,0 +1,42 @@
+name: Refresh skill smithery
+
+# Every 6h at :30. Populates `trending-skill-smithery` Redis key.
+on:
+  schedule:
+    - cron: "30 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: skill-smithery
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/trendingrepo-worker
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: apps/trendingrepo-worker/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run smithery-skills fetcher
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+          SMITHERY_API_KEY: ${{ secrets.SMITHERY_API_KEY }}
+        run: npx tsx src/index.ts smithery-skills

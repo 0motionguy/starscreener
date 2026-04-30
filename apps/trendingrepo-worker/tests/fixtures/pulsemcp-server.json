@@ -1,0 +1,45 @@
+{
+  "withAllMetrics": {
+    "server": {
+      "name": "io.github.stripe/agent-toolkit",
+      "title": "Stripe Agent Toolkit",
+      "description": "Charge cards via the Stripe API",
+      "repository": { "url": "https://github.com/stripe/agent-toolkit" },
+      "packages": [
+        { "registryType": "npm", "identifier": "@stripe/agent-toolkit" }
+      ],
+      "remotes": [
+        { "url": "https://stripe.com/mcp", "type": "streamable-http" }
+      ]
+    },
+    "_meta": {
+      "com.pulsemcp/server": {
+        "visitorsEstimateLastFourWeeks": 42000,
+        "useCount": 1234,
+        "last24Hours": 50,
+        "last7Days": 320,
+        "last30Days": 1500,
+        "isOfficial": true
+      }
+    }
+  },
+  "withActiveInstallsFallback": {
+    "server": {
+      "name": "io.github.acme/mcp",
+      "description": "Acme MCP",
+      "repository": { "url": "https://github.com/acme/mcp" }
+    },
+    "_meta": {
+      "com.pulsemcp/server": {
+        "visitorsEstimateLastFourWeeks": 100,
+        "activeInstalls": 7
+      }
+    }
+  },
+  "withNoMetrics": {
+    "server": {
+      "name": "io.github.bare/mcp",
+      "description": "No upstream metrics emitted"
+    }
+  }
+}

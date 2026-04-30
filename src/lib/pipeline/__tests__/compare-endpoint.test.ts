@@ -105,13 +105,14 @@ test("mixed known/unknown: unknown row reports error=not_found without failing t
 // Validation errors
 // ---------------------------------------------------------------------------
 
-test("400 too_many_repos when more than 4 repos are requested", async () => {
+test("400 too_many_repos when more than 5 repos are requested", async () => {
   const names = [
     "a/b",
     "c/d",
     "e/f",
     "g/h",
-    "i/j", // 5 — one over the cap
+    "i/j",
+    "k/l", // 6 — one over the cap (MAX_REPOS = 5 in src/app/api/compare/route.ts)
   ].join(",");
   const res = await invokeRoute(`?repos=${encodeURIComponent(names)}`);
   assert.equal(res.status, 400);

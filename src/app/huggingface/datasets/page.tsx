@@ -24,6 +24,7 @@ import {
   type FeedColumn,
 } from "@/components/feed/TerminalFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
+import { huggingFaceLogoUrl } from "@/lib/logos";
 
 const HF_ACCENT = "rgba(255, 159, 28, 0.85)";
 const HF_ACCENT_BAR = "#FF9F1C";
@@ -130,7 +131,7 @@ function buildHuggingFaceDatasetsHeader(
       value: count,
       valueLabel: count.toLocaleString("en-US"),
       color: HF_ACCENT_BAR,
-      logoUrl: `https://huggingface.co/${encodeURIComponent(author)}/avatar.png`,
+      logoUrl: huggingFaceLogoUrl(),
       logoName: author,
     }));
 
@@ -184,7 +185,7 @@ function buildHuggingFaceDatasetsHeader(
     ageHours: d.lastModified
       ? Math.max(0, (Date.now() - Date.parse(d.lastModified)) / 3_600_000)
       : null,
-    logoUrl: `https://huggingface.co/${encodeURIComponent(d.author)}/avatar.png`,
+    logoUrl: huggingFaceLogoUrl(),
     logoName: d.author ?? d.id,
   }));
 
@@ -218,7 +219,7 @@ function HfDatasetFeed({ datasets }: { datasets: HfDatasetTrending[] }) {
       render: (d) => (
         <div className="flex min-w-0 items-center gap-2">
           <EntityLogo
-            src={`https://huggingface.co/${encodeURIComponent(d.author)}/avatar.png`}
+            src={huggingFaceLogoUrl()}
             name={d.author ?? d.id}
             size={20}
             shape="square"

@@ -1,6 +1,6 @@
 "use client";
 
-import { Crown, ChevronUp, ChevronDown } from "lucide-react";
+import type { CSSProperties } from "react";
 
 interface RankBadgeProps {
   rank: number;
@@ -9,23 +9,21 @@ interface RankBadgeProps {
   className?: string;
 }
 
-function getRankStyle(rank: number): { color: string; style?: React.CSSProperties } {
+function getRankStyle(rank: number): CSSProperties | undefined {
   switch (rank) {
     case 1:
-      return { color: "text-accent-amber" };
+      return { color: "var(--gold)" };
     case 2:
-      return { color: "", style: { color: "#C0C0C0" } };
+      return { color: "#c0c5cc" };
     case 3:
-      return { color: "", style: { color: "#CD7F32" } };
+      return { color: "#cd7f32" };
     default:
-      return { color: "text-text-secondary" };
+      return undefined;
   }
 }
 
 /**
- * Rank display badge with positional flair.
- * Gold crown for #1, silver for #2, bronze for #3.
- * Shows rank change arrow when previousRank is provided.
+ * Rank display using the mockup's square leaderboard treatment.
  */
 export function RankBadge({
   rank,
@@ -33,49 +31,28 @@ export function RankBadge({
   size = "sm",
   className = "",
 }: RankBadgeProps) {
-  const rankStyle = getRankStyle(rank);
-
-  const sizeClasses = size === "sm" ? "text-xs" : "text-sm";
-  const iconSize = size === "sm" ? 11 : 13;
-  const deltaIconSize = size === "sm" ? 10 : 12;
-
   const delta =
     previousRank !== undefined && previousRank !== rank
       ? previousRank - rank
       : null;
 
+  const sizeClasses = size === "sm" ? "text-xs" : "text-sm";
+
   return (
     <span
-      className={`inline-flex items-center gap-1 font-mono font-bold ${sizeClasses} ${rankStyle.color} ${className}`}
-      style={rankStyle.style}
+      className={`rank inline-flex items-baseline gap-1 font-sans font-semibold ${sizeClasses} ${className}`}
+      style={getRankStyle(rank)}
     >
-      {rank === 1 && (
-        <Crown
-          size={iconSize}
-          strokeWidth={2.5}
-          className="shrink-0 text-accent-amber"
-        />
-      )}
       <span>#{rank}</span>
-      {delta !== null && (
+      {delta !== null ? (
         <span
-          className={`inline-flex items-center text-[10px] font-semibold ${
-            delta > 0 ? "text-accent-green" : "text-accent-red"
+          className={`font-mono text-[10px] font-semibold ${
+            delta > 0 ? "text-[var(--sig-green)]" : "text-[var(--sig-red)]"
           }`}
         >
-          {delta > 0 ? (
-            <>
-              <ChevronUp size={deltaIconSize} strokeWidth={2.5} className="shrink-0" />
-              {delta}
-            </>
-          ) : (
-            <>
-              <ChevronDown size={deltaIconSize} strokeWidth={2.5} className="shrink-0" />
-              {Math.abs(delta)}
-            </>
-          )}
+          {delta > 0 ? `+${delta}` : `-${Math.abs(delta)}`}
         </span>
-      )}
+      ) : null}
     </span>
   );
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { Chip } from "@/components/ui/Badge";
 import type { Repo } from "@/lib/types";
 
 interface TwitterMentionBadgeProps {
@@ -25,11 +26,11 @@ export function TwitterMentionBadge({
 
   const href = signal.topPostUrl || searchUrl(fullName);
   const breakout = signal.badgeState === "x_fire" || signal.finalTwitterScore >= 70;
-  const sizeClasses = size === "md" ? "px-2 py-1 text-xs" : "px-1.5 py-0.5";
+  const sizeClasses =
+    size === "md" ? "h-6 px-2 text-xs" : "h-5 px-1.5 text-[10px]";
 
   return (
-    <button
-      type="button"
+    <Chip
       onClick={(e) => {
         e.stopPropagation();
         e.preventDefault();
@@ -37,22 +38,26 @@ export function TwitterMentionBadge({
       }}
       title={buildTooltip(fullName, signal)}
       aria-label={`${signal.mentionCount24h} X mentions for ${fullName}`}
-      className={`inline-flex items-center gap-1 rounded-md border font-mono text-[10px] transition-colors cursor-pointer ${sizeClasses} ${
-        breakout
-          ? "border-brand/40 bg-brand/10 text-brand"
-          : "border-[#1d9bf0]/35 bg-[#1d9bf0]/10 text-[#4db7ff]"
-      }`}
+      className={sizeClasses}
+      style={{
+        color: breakout ? "var(--acc)" : "var(--source-x)",
+        borderColor: breakout
+          ? "rgba(255, 107, 53, 0.4)"
+          : "color-mix(in oklab, var(--source-x) 45%, transparent)",
+        background: breakout
+          ? "var(--acc-soft)"
+          : "color-mix(in oklab, var(--source-x) 10%, transparent)",
+      }}
     >
       <span
-        className={`flex h-3 w-3 items-center justify-center rounded-sm text-[8px] font-bold leading-none ${
-          breakout ? "bg-brand text-white" : "bg-[#1d9bf0] text-white"
-        }`}
+        className="flex size-3 items-center justify-center text-[8px] font-bold leading-none text-[var(--bg-000)]"
+        style={{ background: breakout ? "var(--acc)" : "var(--source-x)" }}
         aria-hidden
       >
         X
       </span>
       {signal.mentionCount24h}
-    </button>
+    </Chip>
   );
 }
 

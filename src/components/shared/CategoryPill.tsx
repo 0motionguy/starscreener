@@ -1,5 +1,6 @@
 "use client";
 
+import { Badge } from "@/components/ui/Badge";
 import { CATEGORIES } from "@/lib/constants";
 
 interface CategoryPillProps {
@@ -39,42 +40,38 @@ export function CategoryPill({
 
   if (variant === "brand") {
     return (
-      <span
+      <Badge
+        size={size === "sm" ? "xs" : "sm"}
+        dot
         className={`${baseClasses} ${className}`}
         style={{
           background: "var(--v3-acc-soft)",
           border: "1px solid var(--v3-acc-dim)",
           color: "var(--v3-acc)",
         }}
+        dotStyle={{
+          background: "var(--v3-acc)",
+          boxShadow: "0 0 4px var(--v3-acc-glow)",
+        }}
       >
-        <span
-          className="shrink-0 size-1.5"
-          style={{
-            background: "var(--v3-acc)",
-            boxShadow: "0 0 4px var(--v3-acc-glow)",
-          }}
-          aria-hidden="true"
-        />
         {category.shortName}
-      </span>
+      </Badge>
     );
   }
 
   return (
-    <span
+    <Badge
+      size={size === "sm" ? "xs" : "sm"}
+      dot
       className={`${baseClasses} ${className}`}
       style={{
         background: "var(--v3-bg-050)",
         border: "1px solid var(--v3-line-200)",
         color: "var(--v3-ink-200)",
       }}
+      dotStyle={{ backgroundColor: category.color }}
     >
-      <span
-        className="shrink-0 size-1.5"
-        style={{ backgroundColor: category.color }}
-        aria-hidden="true"
-      />
       {category.shortName}
-    </span>
+    </Badge>
   );
 }

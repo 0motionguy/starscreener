@@ -11,11 +11,40 @@ const MAX_PAGES = 100;
 const PULSE_META_NS = 'com.pulsemcp/server';
 
 // PulseMCP `_meta` extensions documented on https://www.pulsemcp.com/api
+//
+// As of 2026-04-29 the public docs only formally document
+// `visitorsEstimateLastFourWeeks`; the page also says "more in the works".
+// We additionally probe a handful of plausibly-emitted install/usage fields
+// (useCount, activeInstalls, last24Hours/last7Days/last30Days) so that if/when
+// PulseMCP enables them on a tenant key they'll flow through automatically.
+// Fields not emitted by upstream stay `undefined` in the metrics subobject
+// (we never fabricate values).
 interface PulseMeta {
   visitorsEstimateLastFourWeeks?: number;
   isOfficial?: boolean;
+  // Below are speculative — only forwarded if upstream emits them as numbers.
+  useCount?: number;
+  activeInstalls?: number;
+  last24Hours?: number;
+  last7Days?: number;
+  last30Days?: number;
   // Security analysis varies by vendor; tolerated as a generic blob.
   [k: string]: unknown;
+}
+
+// Unified metrics subobject persisted at `trending_items.raw.pulsemcp.metrics`.
+// Field names are the contract M4 (publish/projection) consumes.
+export interface PulseMcpMetrics {
+  /** _meta.com.pulsemcp/server.visitorsEstimateLastFourWeeks */
+  visitors_4w?: number;
+  /** _meta.com.pulsemcp/server.useCount, falling back to activeInstalls */
+  use_count?: number;
+  /** _meta.com.pulsemcp/server.last24Hours — undefined when upstream omits */
+  popularity_24h?: number;
+  /** _meta.com.pulsemcp/server.last7Days — undefined when upstream omits */
+  popularity_7d?: number;
+  /** _meta.com.pulsemcp/server.last30Days — undefined when upstream omits */
+  popularity_30d?: number;
 }
 
 // Each entry in the servers array is wrapped: { server: {...}, _meta: {...} }
@@ -103,6 +132,16 @@ export function normalizePulse(envelope: PulseServerEnvelope): McpServerNormaliz
     ? meta.visitorsEstimateLastFourWeeks
     : null;
 
+  const metrics = buildMetrics(meta);
+
+  // Preserve the upstream envelope verbatim AND add a normalized `metrics`
+  // sibling. Downstream readers that already poke at _meta keep working;
+  // M4's publish/projection layer reads `raw.pulsemcp.metrics.*` instead.
+  const rawWithMetrics: Record<string, unknown> = {
+    ...(envelope as unknown as Record<string, unknown>),
+    metrics,
+  };
+
   return {
     source: 'pulsemcp',
     source_id: name,
@@ -118,8 +157,40 @@ export function normalizePulse(envelope: PulseServerEnvelope): McpServerNormaliz
     security_grade: null,
     is_remote: Array.isArray(s.remotes) && s.remotes.length > 0,
     description: s.description?.trim() ?? null,
-    raw: envelope as unknown as Record<string, unknown>,
+    raw: rawWithMetrics,
   };
+}
+
+// Build the unified metrics subobject. Each field is only set when the
+// upstream payload contains a finite number — we never coerce nulls/strings.
+// Missing fields stay `undefined`, NOT 0, so consumers can distinguish
+// "PulseMCP doesn't expose this for this tenant" from "metric is zero".
+export function buildMetrics(meta: PulseMeta): PulseMcpMetrics {
+  const out: PulseMcpMetrics = {};
+  if (isFiniteNumber(meta.visitorsEstimateLastFourWeeks)) {
+    out.visitors_4w = meta.visitorsEstimateLastFourWeeks;
+  }
+  // useCount preferred; fall back to activeInstalls (some integrations name
+  // it that). Only one of the two will land in `use_count`.
+  if (isFiniteNumber(meta.useCount)) {
+    out.use_count = meta.useCount;
+  } else if (isFiniteNumber(meta.activeInstalls)) {
+    out.use_count = meta.activeInstalls;
+  }
+  if (isFiniteNumber(meta.last24Hours)) {
+    out.popularity_24h = meta.last24Hours;
+  }
+  if (isFiniteNumber(meta.last7Days)) {
+    out.popularity_7d = meta.last7Days;
+  }
+  if (isFiniteNumber(meta.last30Days)) {
+    out.popularity_30d = meta.last30Days;
+  }
+  return out;
+}
+
+function isFiniteNumber(v: unknown): v is number {
+  return typeof v === 'number' && Number.isFinite(v);
 }
 
 interface PickedPackage {

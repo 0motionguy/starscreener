@@ -6,11 +6,62 @@ const BASE = 'https://registry.modelcontextprotocol.io/v0';
 const PAGE_LIMIT = 100;
 const MAX_PAGES = 50; // hard cap so a buggy cursor can't loop forever
 
+// Namespaces under `_meta` that registry-spec implementations may use to
+// surface install/usage metrics. The official Anthropic registry currently
+// does NOT emit any of these (as of 2026-04-29) — entries return only
+// publishing metadata (publisher, version, packages, remotes). We probe these
+// namespaces so that if/when the upstream adds telemetry it flows through
+// automatically without a code change.
+const META_NS_OFFICIAL = 'io.modelcontextprotocol/server';
+const META_NS_OFFICIAL_ALT = 'io.modelcontextprotocol/registry';
+const META_NS_PULSEMCP = 'com.pulsemcp/server';
+
 export interface OfficialServerEntry {
   // The actual registry response wraps each entry as { server: {...}, _meta: {...} }.
   server?: OfficialServerCore;
   _meta?: Record<string, unknown>;
   [k: string]: unknown;
+}
+
+// Plausibly-emitted numeric fields under any of the META_NS_* namespaces.
+// Mirrors the speculative probe-set used by pulsemcp; only finite numbers
+// make it into the metrics subobject.
+interface OfficialMeta {
+  visitorsEstimateLastFourWeeks?: number;
+  visitors_4w?: number;
+  visitors?: number;
+  useCount?: number;
+  use_count?: number;
+  installs?: number;
+  install_count?: number;
+  activeInstalls?: number;
+  popularity_24h?: number;
+  popularity_7d?: number;
+  popularity_30d?: number;
+  last24Hours?: number;
+  last7Days?: number;
+  last30Days?: number;
+  [k: string]: unknown;
+}
+
+// Unified metrics subobject persisted at `trending_items.raw.official.metrics`.
+// Field names are the contract M4 (publish/projection) consumes. Mirrors the
+// glama / pulsemcp shape so the UI can read either source uniformly.
+//
+// As of 2026-04-29 the official Anthropic registry does NOT expose any of
+// these fields, so this subobject is almost always `{}`. Shape is kept
+// uniform with the other MCP sources so M4 doesn't branch on source.
+export interface OfficialMetrics {
+  /** Trailing-4-week visitor count (gap upstream — kept for forward compat). */
+  visitors_4w?: number;
+  /** Total install/use count (gap upstream — kept for forward compat). */
+  use_count?: number;
+  /** Trailing-24h popularity (gap upstream — kept for forward compat). */
+  popularity_24h?: number;
+  /** Trailing-7d popularity (gap upstream — kept for forward compat). */
+  popularity_7d?: number;
+  /** Trailing-30d popularity (gap upstream — kept for forward compat). */
+  popularity_30d?: number;
 }
 
 export interface OfficialServerCore {
@@ -74,6 +125,16 @@ export function normalizeOfficial(entry: OfficialServerEntry): McpServerNormaliz
   const pkg = pickPackage(s.packages ?? []);
   const title = s.title?.trim() || name;
 
+  const metrics = buildMetrics(entry);
+
+  // Preserve upstream envelope verbatim AND add a normalized `metrics`
+  // sibling. Existing readers that walk `raw.official._meta.*` keep working;
+  // M4's projection layer reads `raw.official.metrics.*`.
+  const rawWithMetrics: Record<string, unknown> = {
+    ...(entry as unknown as Record<string, unknown>),
+    metrics,
+  };
+
   return {
     source: 'official',
     source_id: name,
@@ -89,8 +150,63 @@ export function normalizeOfficial(entry: OfficialServerEntry): McpServerNormaliz
     security_grade: null,
     is_remote: Array.isArray(s.remotes) && s.remotes.length > 0,
     description: s.description?.trim() ?? null,
-    raw: entry as unknown as Record<string, unknown>,
+    raw: rawWithMetrics,
   };
+}
+
+// Build the unified metrics subobject. Reads `_meta` under any of the known
+// registry-spec namespaces. Each field is only set when upstream returns a
+// finite number — undefined fields stay undefined so consumers can
+// distinguish "registry doesn't expose this" from "metric is zero".
+export function buildMetrics(entry: OfficialServerEntry): OfficialMetrics {
+  const meta = readMeta(entry);
+  const out: OfficialMetrics = {};
+
+  const visitors4w =
+    pickFinite(meta.visitorsEstimateLastFourWeeks) ??
+    pickFinite(meta.visitors_4w) ??
+    pickFinite(meta.visitors);
+  if (visitors4w !== undefined) out.visitors_4w = visitors4w;
+
+  const useCount =
+    pickFinite(meta.useCount) ??
+    pickFinite(meta.use_count) ??
+    pickFinite(meta.installs) ??
+    pickFinite(meta.install_count) ??
+    pickFinite(meta.activeInstalls);
+  if (useCount !== undefined) out.use_count = useCount;
+
+  const pop24 = pickFinite(meta.popularity_24h) ?? pickFinite(meta.last24Hours);
+  if (pop24 !== undefined) out.popularity_24h = pop24;
+  const pop7 = pickFinite(meta.popularity_7d) ?? pickFinite(meta.last7Days);
+  if (pop7 !== undefined) out.popularity_7d = pop7;
+  const pop30 = pickFinite(meta.popularity_30d) ?? pickFinite(meta.last30Days);
+  if (pop30 !== undefined) out.popularity_30d = pop30;
+
+  return out;
+}
+
+function readMeta(entry: OfficialServerEntry): OfficialMeta {
+  const m = entry._meta;
+  if (!m || typeof m !== 'object') return {};
+  const merged: OfficialMeta = {};
+  for (const ns of [META_NS_OFFICIAL, META_NS_OFFICIAL_ALT, META_NS_PULSEMCP]) {
+    const nested = (m as Record<string, unknown>)[ns];
+    if (nested && typeof nested === 'object') {
+      Object.assign(merged, nested as OfficialMeta);
+    }
+    // Flat dotted keys: "<ns>.<field>": value
+    for (const [k, v] of Object.entries(m as Record<string, unknown>)) {
+      if (k.startsWith(`${ns}.`)) {
+        merged[k.slice(ns.length + 1)] = v;
+      }
+    }
+  }
+  return merged;
+}
+
+function pickFinite(v: unknown): number | undefined {
+  return typeof v === 'number' && Number.isFinite(v) ? v : undefined;
 }
 
 function pickGithubUrl(s: OfficialServerCore): string | null {

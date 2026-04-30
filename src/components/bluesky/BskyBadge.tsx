@@ -1,5 +1,7 @@
 "use client";
 
+import { Chip } from "@/components/ui/Badge";
+
 // Small inline Bluesky badge for repo rows. Mirrors HnBadge structure —
 // self-contained prop types so surface components can import without
 // forcing the loader into their bundle when the badge is hidden.
@@ -27,10 +29,6 @@ interface BskyBadgeProps {
   size?: "sm" | "md";
 }
 
-// Bluesky brand sky blue. Matches the "B butterfly" in-app mark closely
-// enough at small sizes that a plain "B" monogram reads as Bluesky.
-const BSKY_BLUE = "#0085FF";
-
 function buildTooltip(m: BskyMentionForBadge): string {
   const base = `${m.count7d} Bluesky mention${m.count7d === 1 ? "" : "s"} · ${m.likesSum7d} likes`;
   if (!m.topPost) return base;
@@ -50,21 +48,19 @@ export function BskyBadge({ mention, size = "sm" }: BskyBadgeProps) {
   if (!mention || mention.count7d === 0) return null;
 
   const href = mention.topPost?.bskyUrl ?? "https://bsky.app";
-  const sizeClasses = size === "md" ? "px-2 py-1 text-xs" : "px-1.5 py-0.5";
+  const sizeClasses =
+    size === "md" ? "h-6 px-2 text-xs" : "h-5 px-1.5 text-[10px]";
 
   // High-engagement fill tier: any post with ≥50 likes OR ≥5 reposts gets
   // a subtle blue wash so the row pops on scroll. Parallels HnBadge's
   // everHitFrontPage fill tier.
   const isHighSignal =
     (mention.topPost?.likeCount ?? 0) >= 50 || mention.repostsSum7d >= 5;
-  const fillClass = isHighSignal ? "bg-[#0085FF]/10" : "";
-
   // <button> not <a> — these badges live inside parent <Link> rows
   // (CrossSignalBreakouts, RepoCard, sidebar, terminal). Nested <a> is
   // invalid HTML and breaks Next hydration.
   return (
-    <button
-      type="button"
+    <Chip
       onClick={(e) => {
         e.stopPropagation();
         e.preventDefault();
@@ -72,21 +68,24 @@ export function BskyBadge({ mention, size = "sm" }: BskyBadgeProps) {
       }}
       title={buildTooltip(mention)}
       aria-label={`${mention.count7d} Bluesky mentions${mention.topPost ? `, top by @${mention.topPost.author.handle}` : ""}`}
-      className={`inline-flex items-center gap-1 rounded-md text-[10px] font-mono border transition-colors cursor-pointer ${sizeClasses} ${fillClass}`}
+      className={sizeClasses}
       style={{
-        color: BSKY_BLUE,
-        borderColor: `${BSKY_BLUE}4D`,
+        color: "var(--source-bluesky)",
+        borderColor:
+          "color-mix(in oklab, var(--source-bluesky) 45%, transparent)",
+        background: isHighSignal
+          ? "color-mix(in oklab, var(--source-bluesky) 10%, transparent)"
+          : "var(--bg-050)",
       }}
     >
       <span
-        className="text-white text-[8px] font-bold w-3 h-3 leading-none rounded-sm flex items-center justify-center"
-        style={{ backgroundColor: BSKY_BLUE }}
+        className="flex size-3 items-center justify-center bg-[var(--source-bluesky)] text-[8px] font-bold leading-none text-[var(--bg-000)]"
         aria-hidden
       >
         B
       </span>
       {mention.count7d}
-    </button>
+    </Chip>
   );
 }
 

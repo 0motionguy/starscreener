@@ -209,3 +209,71 @@ test("skill ranking: high installs+forks beats low-stars-only repo", () => {
     assert.ok(s >= 0 && s <= 100);
   }
 });
+
+// ---------------------------------------------------------------------------
+// Q4 cold-start absolute-fallback tests (Phase 4 escalation 2026-04-29).
+// Real-world day-1 deployment: worker fetchers run, but no 7d-ago snapshot
+// exists yet. Delta components drop. Without abs fallbacks the scorer pins
+// at ~28 for every skill (freshness + agent support only). With abs
+// fallbacks an active skill should rank meaningfully higher.
+// ---------------------------------------------------------------------------
+
+test("skill abs fallback: forks=12000 + no forks7dAgo lifts score above 50", () => {
+  const [s] = skillScorer.computeRaw([
+    mk({
+      installs7d: undefined,
+      installsPrev7d: undefined,
+      forks: 12_000,
+      forks7dAgo: undefined,
+      derivativeRepoCount: undefined,
+      commitVelocity30d: undefined,
+      inAwesomeLists: undefined,
+    }),
+  ]);
+  // forksAbs fires; forkVelocity7d does NOT.
+  assert.ok(s.rawComponents.forksAbs !== undefined, "forksAbs should fire");
+  assert.equal(s.rawComponents.forkVelocity7d, undefined);
+  assert.ok(s.weights.forksAbs !== undefined && s.weights.forksAbs > 0);
+  assert.ok(Math.abs(weightSum(s.weights) - 1) < 1e-9);
+  // Score lifted above the 28 floor.
+  assert.ok(s.rawScore > 50, `expected score > 50, got ${s.rawScore}`);
+});
+
+test("skill abs fallback: forksAbs and forkVelocity7d are mutually exclusive", () => {
+  const [s] = skillScorer.computeRaw([
+    mk({ forks: 12_000, forks7dAgo: 10_000 }),
+  ]);
+  assert.ok(s.rawComponents.forkVelocity7d !== undefined, "forkVelocity7d fires when delta computable");
+  assert.equal(s.rawComponents.forksAbs, undefined, "forksAbs should NOT fire when delta is present");
+});
+
+test("skill abs fallback: installsAbs fires when installs7d present but installsPrev7d absent", () => {
+  const [s] = skillScorer.computeRaw([
+    mk({ installs7d: 5_000, installsPrev7d: undefined }),
+  ]);
+  assert.ok(s.rawComponents.installsAbs !== undefined, "installsAbs should fire");
+  assert.equal(s.rawComponents.installsDelta7d, undefined, "installsDelta7d should not fire");
+  assert.ok(Math.abs(weightSum(s.weights) - 1) < 1e-9);
+});
+
+test("skill abs fallback: cold-start no-data still produces freshness-only score in 25-30 range", () => {
+  const [s] = skillScorer.computeRaw([
+    mk({
+      installs7d: undefined,
+      installsPrev7d: undefined,
+      stars: undefined,
+      forks: undefined,
+      forks7dAgo: undefined,
+      derivativeRepoCount: undefined,
+      commitVelocity30d: undefined,
+      inAwesomeLists: undefined,
+      agents: [],
+    }),
+  ]);
+  // No abs fallbacks fire (no forks, no installs).
+  assert.equal(s.rawComponents.forksAbs, undefined);
+  assert.equal(s.rawComponents.installsAbs, undefined);
+  // Score remains in the prior cold-start range (freshness + zeros).
+  assert.ok(s.rawScore < 50, `expected < 50 in pure cold start, got ${s.rawScore}`);
+});
+

@@ -235,7 +235,7 @@ export const MOVEMENT_STATUS_CONFIG: Record<
 // App-wide constants
 // ---------------------------------------------------------------------------
 
-export const MAX_COMPARE_REPOS = 4;
+export const MAX_COMPARE_REPOS = 5;
 export const SPARKLINE_POINTS = 30;
 export const MAX_WATCHLIST_REPOS = 50;
 export const DEFAULT_PAGE_SIZE = 20;

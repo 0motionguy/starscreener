@@ -1,5 +1,7 @@
 "use client";
 
+import { Chip } from "@/components/ui/Badge";
+
 // Small inline dev.to badge for repo rows. Mirrors HnBadge / BskyBadge
 // structure — self-contained prop types so surface components can import
 // without forcing the loader into their bundle when the badge is hidden.
@@ -48,19 +50,17 @@ export function DevtoBadge({ mention, size = "sm" }: DevtoBadgeProps) {
   if (!mention || mention.mentions7d === 0) return null;
 
   const href = mention.topArticle?.url ?? "https://dev.to";
-  const sizeClasses = size === "md" ? "px-2 py-1 text-xs" : "px-1.5 py-0.5";
+  const sizeClasses =
+    size === "md" ? "h-6 px-2 text-xs" : "h-5 px-1.5 text-[10px]";
 
   // High-engagement fill tier: top article ≥50 reactions OR ≥3 mentions.
   // Parallels HnBadge.everHitFrontPage and BskyBadge isHighSignal tiers.
   const isHighSignal =
     (mention.topArticle?.reactions ?? 0) >= 50 || mention.mentions7d >= 3;
-  const fillClass = isHighSignal ? "bg-black/10 dark:bg-white/10" : "";
-
   // <button> not <a> — these badges live inside parent <Link> rows.
   // Nested <a> is invalid HTML and breaks Next hydration.
   return (
-    <button
-      type="button"
+    <Chip
       onClick={(e) => {
         e.stopPropagation();
         e.preventDefault();
@@ -68,16 +68,23 @@ export function DevtoBadge({ mention, size = "sm" }: DevtoBadgeProps) {
       }}
       title={buildTooltip(mention)}
       aria-label={`${mention.mentions7d} dev.to tutorials${mention.topArticle ? `, top by @${mention.topArticle.author}` : ""}`}
-      className={`inline-flex items-center gap-1 rounded-md text-[10px] font-mono border transition-colors cursor-pointer text-[#0a0a0a] dark:text-white border-[#0a0a0a]/30 dark:border-white/30 ${sizeClasses} ${fillClass}`}
+      className={sizeClasses}
+      style={{
+        color: "var(--source-dev)",
+        borderColor: "color-mix(in oklab, var(--source-dev) 45%, transparent)",
+        background: isHighSignal
+          ? "color-mix(in oklab, var(--source-dev) 10%, transparent)"
+          : "var(--bg-050)",
+      }}
     >
       <span
-        className="text-white dark:text-[#0a0a0a] text-[7px] font-extrabold w-3 h-3 leading-none rounded-sm flex items-center justify-center bg-[#0a0a0a] dark:bg-white"
+        className="flex size-3 items-center justify-center bg-[var(--source-dev)] text-[7px] font-extrabold leading-none text-[var(--bg-000)]"
         aria-hidden
       >
         DEV
       </span>
       {mention.mentions7d}
-    </button>
+    </Chip>
   );
 }
 

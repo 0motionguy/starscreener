@@ -1,22 +1,10 @@
-// /breakouts — full-page Cross-Signal Breakouts.
-//
-// Surfaces every repo where multiple channels (GitHub momentum + Reddit 48h
-// velocity + HN 7d presence) agree, sorted by crossSignalScore. The compact
-// 5-row homepage section lives in components/cross-signal/CrossSignalBreakouts;
-// this page is the deeper drill-down with stat tiles + filter chips.
-//
-// URL-driven filter: ?filter=all|multi|three. Default = multi. Single-channel
-// firing is just the homepage trending feed — multi-channel is real signal.
-//
-// Server component + force-static: data comes from getDerivedRepos() which is
-// process-cached and built from committed JSON, so every request is identical
-// until the next build.
+// /breakouts - full-page Cross-Signal Breakouts.
 
 import Link from "next/link";
-import { Star } from "lucide-react";
+import type { ReactNode } from "react";
+
+import { Metric, MetricGrid } from "@/components/ui/Metric";
 import { getDerivedRepos } from "@/lib/derived-repos";
-import { ChannelDots } from "@/components/cross-signal/ChannelDots";
-import { CategoryPill } from "@/components/shared/CategoryPill";
 import { getChannelStatus } from "@/lib/pipeline/cross-signal";
 import { formatNumber } from "@/lib/utils";
 import type { Repo } from "@/lib/types";
@@ -28,7 +16,7 @@ type FilterKey = "all" | "multi" | "three";
 const FILTER_LABELS: Record<FilterKey, string> = {
   all: "All firing",
   multi: "2+ channels",
-  three: "3 channels only",
+  three: "3 channels",
 };
 
 function parseFilter(raw: string | undefined): FilterKey {
@@ -36,12 +24,6 @@ function parseFilter(raw: string | undefined): FilterKey {
   return "multi";
 }
 
-/**
- * Recompute firing-count using only the 3 visible channels (github+reddit+hn)
- * — Repo.channelsFiring includes Bluesky upstream, but this page renders a
- * 3-dot indicator and uses 3-channel terminology in the UI ("ALL THREE").
- * Counting locally keeps the stat tiles + filter consistent with the dots.
- */
 function visibleFiring(repo: Repo, nowMs: number): number {
   const s = getChannelStatus(repo, nowMs);
   return (s.github ? 1 : 0) + (s.reddit ? 1 : 0) + (s.hn ? 1 : 0);
@@ -53,6 +35,29 @@ function applyFilter(repos: Array<Repo & { _firing: number }>, filter: FilterKey
   return repos.filter((r) => r._firing >= 2);
 }
 
+function SectionHead({
+  num,
+  title,
+  meta,
+}: {
+  num: string;
+  title: string;
+  meta: ReactNode;
+}) {
+  return (
+    <div className="sec-head">
+      <span className="sec-num">{`// ${num}`}</span>
+      <h2 className="sec-title">{title}</h2>
+      <span className="sec-meta">{meta}</span>
+    </div>
+  );
+}
+
+function channelRank(repo: Repo, nowMs: number, channel: "github" | "reddit" | "hn") {
+  const status = getChannelStatus(repo, nowMs);
+  return status[channel] ? "ON" : "-";
+}
+
 export default async function BreakoutsPage({
   searchParams,
 }: {
@@ -60,226 +65,154 @@ export default async function BreakoutsPage({
 }) {
   const params = await searchParams;
   const filter = parseFilter(params.filter);
-
-  const allRepos = getDerivedRepos();
   const nowMs = Date.now();
 
-  // Annotate every repo with the 3-channel-visible firing count once.
-  const annotated = allRepos.map((r) => ({
-    ...r,
-    _firing: visibleFiring(r, nowMs),
+  const annotated = getDerivedRepos().map((repo) => ({
+    ...repo,
+    _firing: visibleFiring(repo, nowMs),
   }));
 
-  // Stats — all derived from the same annotated list, regardless of filter.
   const totalFiring = annotated.filter((r) => r._firing >= 1).length;
   const multiChannel = annotated.filter((r) => r._firing >= 2).length;
   const allThree = annotated.filter((r) => r._firing === 3).length;
+  const oneChannel = totalFiring - multiChannel;
   const topScore = annotated.reduce(
-    (max, r) => Math.max(max, r.crossSignalScore ?? 0),
+    (max, repo) => Math.max(max, repo.crossSignalScore ?? 0),
     0,
   );
 
-  // Filtered + sorted view.
   const view = applyFilter(annotated, filter)
     .sort((a, b) => (b.crossSignalScore ?? 0) - (a.crossSignalScore ?? 0))
     .slice(0, 50);
 
   return (
-    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
-      <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        {/* Header */}
-        <header className="mb-6 border-b border-border-primary pb-6">
-          <div className="flex items-baseline gap-3 flex-wrap">
-            <h1 className="text-2xl font-bold uppercase tracking-wider">
-              CROSS-SIGNAL BREAKOUTS
-            </h1>
-            <span className="text-xs text-text-tertiary">
-              {"// where GitHub momentum + Reddit + HN agree"}
-            </span>
+    <main className="home-surface breakouts-page">
+      <section className="page-head">
+        <div>
+          <div className="crumb">
+            <b>Breakouts</b> / cross-signal / github + reddit + hn
           </div>
-          <p className="mt-2 text-sm text-text-secondary max-w-3xl">
-            Each repo gets a score 0–3 by summing GitHub movement-status weight,
-            Reddit 48h trending velocity (corpus-normalized), and HN 7d
-            mention/front-page tier. One channel is noise; multi-channel firing
-            is real signal.
+          <h1>Where independent channels fire together.</h1>
+          <p className="lede">
+            Multi-channel repo momentum, ranked by cross-signal score and
+            filtered by visible firing count.
           </p>
-        </header>
-
-        {/* Stat tiles */}
-        <section className="mb-6 grid grid-cols-2 md:grid-cols-4 gap-3">
-          <StatTile
-            label="TOTAL FIRING"
-            value={totalFiring.toLocaleString("en-US")}
-            hint=">=1 channel active"
-          />
-          <StatTile
-            label="MULTI-CHANNEL"
-            value={multiChannel.toLocaleString("en-US")}
-            hint=">=2 channels firing"
-          />
-          <StatTile
-            label="ALL THREE"
-            value={allThree.toLocaleString("en-US")}
-            hint="github + reddit + hn"
-          />
-          <StatTile
-            label="TOP SCORE"
-            value={topScore.toFixed(2)}
-            hint="highest cross-signal in corpus"
-          />
-        </section>
-
-        {/* Filter chips — horizontally scrollable on mobile so the row
-            doesn't wrap into 3 lines on a narrow viewport. */}
-        <nav
-          aria-label="Filter breakouts"
-          className="mb-4 flex items-center gap-2 flex-nowrap md:flex-wrap overflow-x-auto md:overflow-visible scrollbar-hide"
-        >
-          <span className="text-[11px] uppercase tracking-wider text-text-tertiary mr-1 shrink-0">
-            {"// filter"}
-          </span>
-          {(Object.keys(FILTER_LABELS) as FilterKey[]).map((key) => {
-            const active = key === filter;
-            return (
-              <Link
-                key={key}
-                href={`/breakouts?filter=${key}`}
-                scroll={false}
-                className="v2-mono px-3 min-h-[40px] inline-flex items-center transition-colors shrink-0"
-                style={{
-                  fontSize: 11,
-                  border: "1px solid",
-                  borderRadius: 2,
-                  background: active ? "var(--v2-acc-soft)" : "transparent",
-                  color: active ? "var(--v2-acc)" : "var(--v2-ink-300)",
-                  borderColor: active ? "var(--v2-acc)" : "var(--v2-line-200)",
-                }}
-                aria-current={active ? "page" : undefined}
-              >
-                {FILTER_LABELS[key]}
-              </Link>
-            );
-          })}
-          <span className="ml-auto text-[11px] text-text-tertiary tabular-nums shrink-0 pl-2">
-            {view.length} {view.length === 1 ? "repo" : "repos"}
-          </span>
-        </nav>
-
-        {/* Table */}
-        {view.length === 0 ? (
-          <EmptyState />
-        ) : (
-          <section className="v2-card overflow-hidden">
-            {/* Header row — hidden on mobile (the row contents are
-                self-describing and the column packing is too tight for
-                phones). */}
-            <div className="hidden md:grid grid-cols-[40px_70px_1fr_120px_80px_80px_60px] gap-2 items-center px-4 py-2 border-b border-border-primary bg-bg-secondary text-[10px] uppercase tracking-wider text-text-tertiary">
-              <span>#</span>
-              <span>Channels</span>
-              <span>Repo</span>
-              <span>Category</span>
-              <span className="text-right">Stars</span>
-              <span className="text-right">24h</span>
-              <span className="text-right">Score</span>
-            </div>
-
-            <ol className="divide-y divide-border-primary/40">
-              {view.map((repo, i) => {
-                const delta24 = repo.starsDelta24h;
-                const deltaClass =
-                  delta24 > 0
-                    ? "text-up"
-                    : delta24 < 0
-                      ? "text-down"
-                      : "text-text-tertiary";
-                const deltaLabel =
-                  delta24 > 0
-                    ? `+${formatNumber(delta24)}`
-                    : delta24 < 0
-                      ? formatNumber(delta24)
-                      : "0";
-                return (
-                  <li key={repo.id}>
-                    <Link
-                      href={`/repo/${repo.owner}/${repo.name}`}
-                      className="grid grid-cols-[28px_auto_1fr_auto_auto] md:grid-cols-[40px_70px_1fr_120px_80px_80px_60px] gap-2 items-center px-3 md:px-4 min-h-[48px] md:h-11 py-2 md:py-0 hover:bg-bg-card-hover transition-colors"
-                    >
-                      <span className="font-mono text-[10px] text-text-tertiary tabular-nums">
-                        {i + 1}
-                      </span>
-                      <ChannelDots repo={repo} size="md" />
-                      <span className="text-[12px] text-text-primary truncate font-medium min-w-0">
-                        {repo.fullName}
-                      </span>
-                      {/* Category pill + stars hidden on mobile to keep
-                          the row 5-col instead of 7-col. */}
-                      <span className="hidden md:inline-flex min-w-0 truncate">
-                        <CategoryPill categoryId={repo.categoryId} size="sm" />
-                      </span>
-                      <span className="hidden md:inline-flex items-center justify-end gap-1 font-mono text-[11px] text-text-secondary tabular-nums">
-                        <Star
-                          size={11}
-                          className="text-warning shrink-0"
-                          fill="currentColor"
-                        />
-                        {formatNumber(repo.stars)}
-                      </span>
-                      <span
-                        className={`text-right font-mono text-[11px] tabular-nums whitespace-nowrap ${deltaClass}`}
-                        title={`${deltaLabel} stars / 24h`}
-                      >
-                        {deltaLabel}
-                      </span>
-                      <span className="text-right font-mono text-[11px] tabular-nums text-text-primary">
-                        {(repo.crossSignalScore ?? 0).toFixed(2)}
-                      </span>
-                    </Link>
-                  </li>
-                );
-              })}
-            </ol>
-          </section>
-        )}
-      </div>
-    </main>
-  );
-}
-
-// ---------------------------------------------------------------------------
-// Pieces
-// ---------------------------------------------------------------------------
-
-function StatTile({
-  label,
-  value,
-  hint,
-}: {
-  label: string;
-  value: string;
-  hint?: string;
-}) {
-  return (
-    <div className="border border-border-primary rounded-md px-4 py-3 bg-bg-secondary">
-      <div className="text-[10px] uppercase tracking-wider text-text-tertiary">
-        {label}
-      </div>
-      <div className="mt-1 text-xl font-bold truncate">{value}</div>
-      {hint ? (
-        <div className="mt-0.5 text-[11px] text-text-tertiary truncate">
-          {hint}
         </div>
-      ) : null}
-    </div>
-  );
-}
+        <div className="clock">
+          <span className="big">{view.length}</span>
+          <span className="live">repos</span>
+        </div>
+      </section>
 
-function EmptyState() {
-  return (
-    <section className="border border-dashed border-border-primary rounded-md p-8 bg-bg-secondary/40">
-      <p className="text-sm text-text-secondary">
-        No repos match this filter right now — check back after the next data
-        refresh.
-      </p>
-    </section>
+      <section className="verdict">
+        <div className="v-stamp">
+          <span>breakout board</span>
+          <span className="ts">{multiChannel}</span>
+          <span className="ago">multi-channel</span>
+        </div>
+        <p className="v-text">
+          <b>{totalFiring} repos</b> are firing on at least one visible channel.{" "}
+          <span className="hl-early">{multiChannel} multi-channel</span>{" "}
+          candidates clear the noise filter, with{" "}
+          <span className="hl-div">{allThree} all-three</span> consensus hits.
+        </p>
+        <div className="v-actions">
+          <Link href="/feeds/breakouts.xml">RSS</Link>
+          <Link href="/consensus">Consensus</Link>
+        </div>
+      </section>
+
+      <MetricGrid columns={5} className="kpi-band">
+        <Metric label="Firing" value={totalFiring} sub=">=1 channel" pip />
+        <Metric label="Multi" value={multiChannel} sub=">=2 channels" tone="positive" pip />
+        <Metric label="All three" value={allThree} sub="gh + r + hn" tone="accent" pip />
+        <Metric label="Noise" value={oneChannel} sub="single channel" tone="warning" pip />
+        <Metric label="Top score" value={topScore.toFixed(2)} sub="max signal" tone="external" pip />
+      </MetricGrid>
+
+      <SectionHead
+        num="01"
+        title="Breakout leaderboard"
+        meta={<><b>{view.length}</b> / {FILTER_LABELS[filter]}</>}
+      />
+      <section className="board">
+        <div className="filter-bar">
+          <span className="lbl">Filter</span>
+          {(Object.keys(FILTER_LABELS) as FilterKey[]).map((key) => (
+            <Link
+              key={key}
+              href={`/breakouts?filter=${key}`}
+              scroll={false}
+              className={`chip ${key === filter ? "on" : ""}`}
+              aria-current={key === filter ? "page" : undefined}
+            >
+              {FILTER_LABELS[key]}
+            </Link>
+          ))}
+          <span className="right">{view.length} repos</span>
+        </div>
+        {view.length === 0 ? (
+          <div className="p-8 text-sm text-text-secondary">
+            No repos match this filter right now.
+          </div>
+        ) : (
+          <>
+            <div className="lb-head">
+              <span>#</span>
+              <span>Repository</span>
+              <span className="num">Score</span>
+              <span>Channels</span>
+              <span>Signals</span>
+              <span>24h</span>
+            </div>
+            {view.map((repo, index) => {
+              const delta24 = repo.starsDelta24h;
+              const deltaLabel =
+                delta24 > 0
+                  ? `+${formatNumber(delta24)}`
+                  : delta24 < 0
+                    ? formatNumber(delta24)
+                    : "0";
+              const score = Math.max(4, Math.min(100, Math.round((repo.crossSignalScore ?? 0) * 32)));
+              return (
+                <Link
+                  key={repo.id}
+                  href={`/repo/${repo.owner}/${repo.name}`}
+                  className={`lb-row ${index === 0 ? "first" : ""}`}
+                >
+                  <span className="rk">
+                    <span className="n">{String(index + 1).padStart(2, "0")}</span>
+                  </span>
+                  <span className="repo">
+                    <span className="av">{repo.fullName.slice(0, 2).toUpperCase()}</span>
+                    <span className="nm-wrap">
+                      <span className="nm">{repo.fullName}</span>
+                      <span className="desc">
+                        {repo.categoryId ?? "uncategorized"} / {formatNumber(repo.stars)} stars
+                      </span>
+                    </span>
+                  </span>
+                  <span className="score">
+                    <span className="v">{(repo.crossSignalScore ?? 0).toFixed(2)}</span>
+                    <span className="conf-bar"><i style={{ width: `${score}%` }} /></span>
+                  </span>
+                  <span className="ranks">
+                    <span className="rb us"><span className="lab">GH</span><span className="v">{channelRank(repo, nowMs, "github")}</span></span>
+                  </span>
+                  <span className="ranks">
+                    <span className="rb gh"><span className="lab">R</span><span className="v">{channelRank(repo, nowMs, "reddit")}</span></span>
+                    <span className="rb hf"><span className="lab">HN</span><span className="v">{channelRank(repo, nowMs, "hn")}</span></span>
+                  </span>
+                  <span className="badge cons">
+                    <span className="pip" aria-hidden="true" />
+                    {deltaLabel}
+                  </span>
+                </Link>
+              );
+            })}
+          </>
+        )}
+      </section>
+    </main>
   );
 }

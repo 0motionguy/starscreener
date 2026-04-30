@@ -40,6 +40,8 @@ import { MomentumBadge } from "@/components/shared/MomentumBadge";
 import { RankBadge } from "@/components/shared/RankBadge";
 import { Sparkline } from "@/components/shared/Sparkline";
 import { RepoMentionBadges } from "@/components/repo-signals/RepoMentionBadges";
+import { EntityLogo } from "@/components/ui/EntityLogo";
+import { repoDisplayLogoUrl } from "@/lib/logos";
 
 interface TerminalMobileCardProps {
   repo: Repo;
@@ -107,6 +109,13 @@ export function TerminalMobileCard({
             #{displayRank}
           </span>
         )}
+        <EntityLogo
+          src={repoDisplayLogoUrl(repo.fullName, repo.ownerAvatarUrl, 24)}
+          name={repo.fullName}
+          size={24}
+          shape="square"
+          alt=""
+        />
         <span className="min-w-0 flex-1 basis-[60%] truncate text-[13px] font-semibold text-text-primary">
           {repo.fullName}
         </span>

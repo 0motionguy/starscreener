@@ -1,0 +1,42 @@
+name: Snapshot /top10 sparklines daily
+
+# 23:50 UTC daily — captures one data point per slug per non-repo category
+# (LLMS / MCPS / SKILLS / NEWS / FUNDING) so the live page can paint real
+# 7-14 day sparklines on those rows. Runs 5 min BEFORE the bundle snapshot
+# so today's points are already persisted when /top10 reads them. After
+# ~7 days of runs, sparklines start showing up in the UI on those columns.
+on:
+  schedule:
+    - cron: "50 23 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: top10-sparklines
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Capture per-slug sparkline points
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run snapshot:top10-sparklines

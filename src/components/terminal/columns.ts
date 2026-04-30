@@ -16,6 +16,8 @@ import { MomentumBadge } from "@/components/shared/MomentumBadge";
 import { RankBadge } from "@/components/shared/RankBadge";
 import { Sparkline } from "@/components/shared/Sparkline";
 import { RepoMentionBadges } from "@/components/repo-signals/RepoMentionBadges";
+import { EntityLogo } from "@/components/ui/EntityLogo";
+import { repoDisplayLogoUrl } from "@/lib/logos";
 import type { ColumnId, Repo } from "@/lib/types";
 
 // Inlined instead of imported from @/lib/collections to keep node:fs out
@@ -293,18 +295,12 @@ export const COLUMNS: Column[] = [
           ),
         },
         // Avatar — V2: sharp 1px corner radius + V2 hairline border.
-        createElement("img", {
-          src: repo.ownerAvatarUrl,
+        createElement(EntityLogo, {
+          src: repoDisplayLogoUrl(repo.fullName, repo.ownerAvatarUrl, 22),
+          name: repo.fullName,
+          size: 20,
+          shape: "square",
           alt: "",
-          width: 22,
-          height: 22,
-          loading: "lazy",
-          className: "size-[22px] shrink-0",
-          style: {
-            border: "1px solid var(--v2-line-200)",
-            background: "var(--v2-bg-100)",
-            borderRadius: 1,
-          },
         }),
         // Right stack: line1 + optional line2 (spacious)
         createElement(

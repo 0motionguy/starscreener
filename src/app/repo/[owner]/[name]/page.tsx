@@ -19,7 +19,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { Flame, TrendingUp, Zap } from "lucide-react";
 
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import { formatNumber, getRelativeTime } from "@/lib/utils";
@@ -50,8 +49,6 @@ import { refreshProducthuntLaunchesFromStore } from "@/lib/producthunt";
 // Group C (funding + profiles + revenue) is refreshed inside
 // buildCanonicalRepoProfile() — no need to re-call here.
 
-import { TerminalBar, MonoLabel, BarcodeTicker } from "@/components/v2";
-import { RepoDetailHeader } from "@/components/repo-detail/RepoDetailHeader";
 import { RepoDetailStats } from "@/components/repo-detail/RepoDetailStats";
 import { RepoDetailStatsStrip } from "@/components/repo-detail/RepoDetailStatsStrip";
 import { RepoDetailChartLazy } from "@/components/repo-detail/RepoDetailChartLazy";
@@ -73,7 +70,6 @@ import {
   countReactions,
   listReactionsForObject,
 } from "@/lib/reactions";
-import { MaintainerCard } from "@/components/repo-detail/MaintainerCard";
 import { TwitterSignalPanel } from "@/components/twitter/TwitterSignalPanel";
 import { RepoRevenuePanel } from "@/components/repo-detail/RepoRevenuePanel";
 import { WhyTrending } from "@/components/repo-detail/WhyTrending";
@@ -254,85 +250,122 @@ export default async function RepoDetailPage({ params }: PageProps) {
         />
       ))}
 
-      {/* Sticky breadcrumb strip — unchanged behavior, terminal tone. */}
-      <div className="sticky top-14 z-30 bg-bg-primary/90 backdrop-blur-md border-b border-border-primary">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4 flex-wrap">
-          <nav
-            aria-label="Breadcrumb"
-            className="flex items-center gap-1.5 font-mono text-xs text-text-tertiary"
-          >
-            <Link
-              href="/"
-              className="hover:text-text-primary transition-colors"
-            >
-              Home
-            </Link>
-            <span aria-hidden>›</span>
-            <span className="text-text-primary font-medium truncate max-w-[260px] sm:max-w-none">
-              {repo.fullName}
-            </span>
-          </nav>
-          <div className="flex items-center gap-3 font-mono text-xs tabular-nums">
-            <span className="hidden sm:inline-flex items-center gap-1.5 text-text-tertiary">
-              <TrendingUp size={12} aria-hidden />
-              <span>Rank:</span>
-              <span className="text-text-primary">#{repo.rank}</span>
-            </span>
-            <span className="inline-flex items-center gap-1.5 text-brand">
-              <Flame size={12} aria-hidden />
-              <span className="text-text-tertiary">Momentum:</span>
-              <span>{repo.momentumScore.toFixed(1)}</span>
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <Zap size={12} className="text-warning" aria-hidden />
-              <span className="text-text-tertiary">24h:</span>
-              <span
-                className={repo.starsDelta24h >= 0 ? "text-up" : "text-down"}
+      <main className="home-surface repo-detail-page">
+        <section className="id-strip">
+          <div className="id-avatar">{repo.name.slice(0, 1).toLowerCase()}</div>
+          <div className="id-meta">
+            <div className="crumb">
+              <b>Repo</b>
+              <span className="sep">·</span>
+              <span>rank #{repo.rank}</span>
+              <span className="sep">·</span>
+              <span className="firing">{repo.channelsFiring ?? 0}/5 firing</span>
+              {repo.language ? (
+                <>
+                  <span className="sep">·</span>
+                  <span>{repo.language}</span>
+                </>
+              ) : null}
+            </div>
+            <h1>
+              <span className="owner">{repo.owner} /</span> {repo.name}
+              <a
+                href={repo.url || `https://github.com/${repo.fullName}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ext"
+                aria-label={`Open ${repo.fullName} on GitHub`}
               >
-                {repo.starsDelta24h >= 0 ? "+" : ""}
-                {formatNumber(repo.starsDelta24h)} ★
+                ↗
+              </a>
+            </h1>
+            {repo.description ? <p className="desc">{repo.description}</p> : null}
+            <div className="row">
+              {repo.language ? <span className="lang">{repo.language}</span> : null}
+              {(repo.topics ?? []).slice(0, 5).map((topic) => (
+                <span key={topic} className="topic">
+                  {topic}
+                </span>
+              ))}
+              <span className="stat">
+                <span className="lbl">★</span>
+                <b>{formatNumber(repo.stars)}</b>
               </span>
-            </span>
-            <span className="hidden md:inline text-text-tertiary">
-              · refreshed {lastRefresh}
-            </span>
+              <span className="stat">
+                <span className="lbl">⑂</span>
+                {formatNumber(repo.forks)}
+              </span>
+              <span className="stat">
+                <span className="lbl">●</span>
+                refreshed {lastRefresh}
+              </span>
+            </div>
           </div>
-        </div>
-      </div>
+          <div className="id-actions">
+            <Link href={`/repo/${repo.owner}/${repo.name}/star-activity`} className="btn">
+              Star activity
+            </Link>
+            <a
+              href={repo.url || `https://github.com/${repo.fullName}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn gh"
+            >
+              GitHub ↗
+            </a>
+          </div>
+        </section>
 
-      {/* Page body — terminal-tone, monospace baseline, 1400px container
-          to match /breakouts and the rest of the modernized surfaces. */}
-      <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6">
-          {/* V2 terminal-bar header — operator identity + live status */}
-          <div className="v2-frame overflow-hidden">
-            <TerminalBar
-              label={`// REPO · ${repo.fullName.toUpperCase()}`}
-              status={`${formatNumber(repo.stars)} ★ · LIVE`}
-              live
-            />
-            <BarcodeTicker count={120} height={12} seed={repo.stars} />
+        <section className="repo-verdict">
+          <div className="v-rank">
+            <span className="lbl">Rank</span>
+            <span className="num">#{repo.rank}</span>
+            <span className="sub">{repo.language ?? "all repos"}</span>
           </div>
+          <div className="v-score">
+            <span className="lbl">Cross-signal</span>
+            <span>
+              <span className="big">{(repo.crossSignalScore ?? 0).toFixed(2)}</span>
+              <span className="max"> / 5.0</span>
+            </span>
+            <div className="gauge" aria-hidden="true">
+              {Array.from({ length: 5 }).map((_, index) => (
+                <i
+                  key={index}
+                  className={index < (repo.channelsFiring ?? 0) ? "on" : "dim"}
+                />
+              ))}
+            </div>
+            <span className="meta">
+              <b>{repo.channelsFiring ?? 0} / 5</b> channels firing
+            </span>
+          </div>
+          <p className="v-text">
+            <b>{repo.fullName}</b> is ranked by live GitHub momentum and
+            cross-source evidence. It moved{" "}
+            <span className={repo.starsDelta24h >= 0 ? "hl-money" : "hl-red"}>
+              {repo.starsDelta24h >= 0 ? "+" : ""}
+              {formatNumber(repo.starsDelta24h)} stars
+            </span>{" "}
+            in 24h with momentum score{" "}
+            <span className="hl">{repo.momentumScore.toFixed(1)}</span>.
+          </p>
+          <div className="v-spark">
+            <span className="lbl">30d stars</span>
+            <span className={repo.starsDelta30d >= 0 ? "pct" : "pct dn"}>
+              {repo.starsDelta30d >= 0 ? "+" : ""}
+              {formatNumber(repo.starsDelta30d)}
+            </span>
+          </div>
+        </section>
+
+        <div className="repo-detail-stack">
           {/* Completeness strip — audit finding #1 trust fix.
               Answers "how much of this profile is actually populated?"
               before the user scrolls through modules that might be empty
               because the pipeline hasn't scanned that source yet vs because
               nothing exists. */}
           {/* <CompletenessStrip> WIP — re-enable once merged from stash. */}
-          {/* Header + Maintainer card sit side-by-side on lg+, stack on mobile.
-              Maintainer card lives in a right rail (~280px) so the header
-              keeps room to breathe, and the action row + stats below run
-              full width as before. */}
-          <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_280px] gap-4">
-            <RepoDetailHeader
-              repo={repo}
-              twitterBadge={profile.twitter?.rowBadge ?? null}
-            />
-            <MaintainerCard
-              owner={repo.owner}
-              fallbackAvatarUrl={repo.ownerAvatarUrl}
-            />
-          </div>
           <RepoActionRow repo={repo} />
           <ObjectReactions
             objectType="repo"
@@ -394,6 +427,22 @@ export default async function RepoDetailPage({ params }: PageProps) {
           <ErrorBoundary>
             <RepoDetailChartLazy repo={repo} markers={markers} />
           </ErrorBoundary>
+          <Link
+            href={`/repo/${repo.owner}/${repo.name}/star-activity`}
+            className="block rounded-card border border-border-primary bg-bg-secondary px-4 py-3 hover:bg-bg-tertiary transition-colors"
+          >
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <div className="text-[10px] font-mono uppercase tracking-[0.14em] text-text-tertiary">
+                  {"// STAR ACTIVITY · FULL HISTORY"}
+                </div>
+                <div className="text-sm text-text-secondary mt-1">
+                  Open the dedicated chart with toggles + share card.
+                </div>
+              </div>
+              <span className="text-text-tertiary font-mono">→</span>
+            </div>
+          </Link>
           {profile.twitter ? <TwitterSignalPanel panel={profile.twitter} /> : null}
         </div>
       </main>

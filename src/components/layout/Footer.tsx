@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { cn } from "@/lib/utils";
+import { FooterBar, FooterLink } from "@/components/ui/FooterBar";
 
 const FOOTER_LINKS = [
   {
@@ -18,14 +17,8 @@ const FOOTER_LINKS = [
 
 export function Footer() {
   return (
-    <footer
-      className={cn(
-        "w-full border-t border-border-primary",
-        "bg-bg-primary",
-        "px-4 md:px-6 py-6 pb-24 md:pb-6"
-      )}
-    >
-      <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+    <footer className="w-full bg-bg-primary px-4 md:px-6 py-6 pb-24 md:pb-6">
+      <FooterBar as="div" className="mx-auto max-w-7xl">
         <p className="text-xs text-text-muted">
           <span className="font-mono font-medium text-text-tertiary">
             TrendingRepo
@@ -42,29 +35,13 @@ export function Footer() {
         </p>
 
         <nav className="flex items-center gap-4">
-          {FOOTER_LINKS.map(({ href, label, external }) =>
-            external ? (
-              <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-xs text-text-muted hover:text-text-secondary transition-colors"
-              >
-                {label}
-              </a>
-            ) : (
-              <Link
-                key={label}
-                href={href}
-                className="text-xs text-text-muted hover:text-text-secondary transition-colors"
-              >
-                {label}
-              </Link>
-            )
-          )}
+          {FOOTER_LINKS.map(({ href, label, external }) => (
+            <FooterLink key={label} href={href} external={external}>
+              {label}
+            </FooterLink>
+          ))}
         </nav>
-      </div>
+      </FooterBar>
     </footer>
   );
 }

@@ -1,5 +1,7 @@
 "use client";
 
+import { Chip } from "@/components/ui/Badge";
+
 // Small inline HN badge for repo rows. Self-contained: defines its own prop
 // types so it can ship before src/lib/hackernews.ts lands. The orchestrator
 // will wire it into terminal/sidebar/compare/feed afterward.
@@ -44,16 +46,14 @@ export function HnBadge({ mention, size = "sm" }: HnBadgeProps) {
     ? `https://news.ycombinator.com/item?id=${mention.topStory.id}`
     : "https://news.ycombinator.com";
 
-  const sizeClasses = size === "md" ? "px-2 py-1 text-xs" : "px-1.5 py-0.5";
-  const fillClass = mention.everHitFrontPage ? "bg-[#ff6600]/10" : "";
+  const sizeClasses = size === "md" ? "h-6 px-2 text-xs" : "h-5 px-1.5 text-[10px]";
 
   // <button> not <a> — these badges live inside parent <Link> rows
   // (CrossSignalBreakouts, RepoCard, sidebar watchlist, terminal repo cell).
   // Nested <a> is invalid HTML and breaks Next hydration. Click handler
   // stops propagation + opens HN in a new tab via window.open.
   return (
-    <button
-      type="button"
+    <Chip
       onClick={(e) => {
         e.stopPropagation();
         e.preventDefault();
@@ -61,13 +61,20 @@ export function HnBadge({ mention, size = "sm" }: HnBadgeProps) {
       }}
       title={buildTooltip(mention)}
       aria-label={`${mention.count7d} HackerNews mentions, top story ${mention.topStory?.title ?? ""}`}
-      className={`inline-flex items-center gap-1 rounded-md text-[10px] font-mono text-[#ff6600] border border-[#ff6600]/30 hover:border-[#ff6600]/60 transition-colors cursor-pointer ${sizeClasses} ${fillClass}`}
+      className={sizeClasses}
+      style={{
+        color: "var(--source-hackernews)",
+        borderColor: "color-mix(in oklab, var(--source-hackernews) 45%, transparent)",
+        background: mention.everHitFrontPage
+          ? "color-mix(in oklab, var(--source-hackernews) 10%, transparent)"
+          : "var(--bg-050)",
+      }}
     >
-      <span className="bg-[#ff6600] text-white text-[8px] font-bold w-3 h-3 leading-none rounded-sm flex items-center justify-center">
+      <span className="flex size-3 items-center justify-center bg-[var(--source-hackernews)] text-[8px] font-bold leading-none text-[var(--bg-000)]">
         Y
       </span>
       {mention.count7d}
-    </button>
+    </Chip>
   );
 }
 

@@ -14,6 +14,8 @@ import { absoluteUrl } from "@/lib/seo";
 import { ObjectReactions } from "@/components/reactions/ObjectReactions";
 import { ShareToX } from "@/components/share/ShareToX";
 import { ReactionBar, ConvictionBar } from "@/components/v2";
+import { EntityLogo } from "@/components/ui/EntityLogo";
+import { profileLogoUrl, repoLogoUrl } from "@/lib/logos";
 
 interface IdeaCardProps {
   idea: PublicIdea;
@@ -139,6 +141,13 @@ export function IdeaCard({
       <header className="flex flex-wrap items-center justify-between gap-2">
         <div className="flex flex-wrap items-center gap-2">
           {rank !== undefined ? <RankMedal rank={rank} /> : null}
+          <EntityLogo
+            src={profileLogoUrl(idea.authorHandle, 20)}
+            name={idea.authorHandle}
+            size={20}
+            shape="circle"
+            alt=""
+          />
           <span className="font-mono text-[11px] uppercase tracking-wider text-text-tertiary">
             @{idea.authorHandle}
           </span>
@@ -171,8 +180,15 @@ export function IdeaCard({
             <Link
               key={fullName}
               href={`/repo/${fullName}`}
-              className="rounded border border-border-primary bg-bg-muted px-1.5 py-0.5 font-mono text-[10px] text-text-secondary hover:text-text-primary"
+              className="inline-flex items-center gap-1 rounded border border-border-primary bg-bg-muted px-1.5 py-0.5 font-mono text-[10px] text-text-secondary hover:text-text-primary"
             >
+              <EntityLogo
+                src={repoLogoUrl(fullName, 16)}
+                name={fullName}
+                size={16}
+                shape="square"
+                alt=""
+              />
               {fullName}
             </Link>
           ))}

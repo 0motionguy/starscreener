@@ -26,10 +26,17 @@ import type {
 
 const REDIS_SLUG = 'trending-skill-sh';
 
+// Note: requiresFirecrawl is intentionally NOT set. skills.sh is
+// server-side-rendered (the leaderboard ships in initial HTML), so the
+// scraper falls back to a plain ctx.http.text() fetch + cheerio parse when
+// FIRECRAWL_API_KEY is unset. The pre-2026-04-29 setup had requiresFirecrawl=true
+// which made the runner short-circuit to 0 items on Railway whenever the
+// Firecrawl key was unprovisioned — that's how this fetcher silently
+// produced 0 rows for weeks. Keeping Firecrawl as the preferred path (LLM
+// extract is more robust to UI churn) but no longer requiring it.
 const fetcher: Fetcher = {
   name: 'skills-sh',
   schedule: '15 */2 * * *',
-  requiresFirecrawl: true,
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
     if (ctx.dryRun) {
@@ -39,8 +46,9 @@ const fetcher: Fetcher = {
 
     const firecrawl = FirecrawlClient.fromEnv();
     if (!firecrawl) {
-      ctx.log.warn('FIRECRAWL_API_KEY not set - skills-sh skipped');
-      return done(startedAt, 0, false, []);
+      ctx.log.warn(
+        'FIRECRAWL_API_KEY not set - falling back to direct ctx.http scrape of skills.sh',
+      );
     }
 
     const { rows, perView, errors } = await scrapeSkillsSh(

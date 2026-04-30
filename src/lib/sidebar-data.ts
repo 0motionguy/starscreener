@@ -55,14 +55,14 @@ export interface BuildSidebarDataOptions {
   /**
    * Cap `reposById` to the top N entries by momentumScore.
    *
-   * `getDerivedRepos()` returns the full assembled set (thousands of
-   * repos with sparkline arrays — easily 500 KB – 2 MB serialized). The
-   * API route returns the full map for backward compat with the mobile
-   * drawer (user-driven, off the critical path). The root layout MUST
-   * cap — it inlines the payload into every page's RSC stream including
-   * mobile, where the sidebar is hidden behind `md:flex` and the bytes
-   * would never paint a pixel. Top-200 covers virtually every watchlist
-   * (the only consumer of this map is the 5-item watchlist preview).
+   * `getDerivedRepos()` returns the full assembled set (thousands of repos
+   * with sparkline arrays — easily 500 KB – 2 MB serialized). The API
+   * route returns the full map for backward compat with the mobile drawer
+   * (user-driven, off the critical path). The root layout MUST cap — it
+   * inlines the payload into every page's RSC stream including mobile,
+   * where the sidebar is hidden behind `md:flex` and the bytes would never
+   * paint a pixel. Top-200 covers virtually every watchlist (the only
+   * consumer of this map is the 5-item watchlist preview).
    */
   reposByIdTopN?: number;
 }

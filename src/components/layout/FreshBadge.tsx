@@ -1,19 +1,5 @@
 "use client";
 
-/**
- * FreshBadge — header-mounted "is the firehose live?" indicator.
- *
- * Polls /api/health once on mount and then every 60s. The pill shows the
- * age of the GitHub scrape (the main user-visible data path) and tints
- * based on the endpoint's overall `status`:
- *   - ok     → green dot, "LIVE · 4m"
- *   - stale  → amber dot, "STALE · 2h"    (any source past its SLO)
- *   - error  → muted dot, "—"             (endpoint errored)
- *
- * Hover surfaces the per-source ages so ops can sanity-check which
- * feed is cold without leaving the page.
- */
-
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
@@ -32,11 +18,6 @@ interface AgeSeconds {
 
 interface HealthSnapshot {
   status: HealthStatus;
-  /**
-   * Per-source ages. APP-12 strips this object from `/api/health?soft=1`
-   * for unauthorized callers, so it can be missing entirely — every
-   * read goes through `readAge()` which returns null when absent.
-   */
   ageSeconds?: AgeSeconds;
 }
 
@@ -59,7 +40,6 @@ function isHealthStatus(value: unknown): value is HealthStatus {
   return value === "ok" || value === "stale" || value === "error";
 }
 
-/** Coerce any health-shaped JSON into a safe HealthSnapshot. */
 export function normalizeHealth(raw: unknown): HealthSnapshot {
   const obj = (raw && typeof raw === "object" ? raw : {}) as Record<string, unknown>;
   const status = isHealthStatus(obj.status) ? obj.status : "error";
@@ -83,12 +63,8 @@ export function normalizeHealth(raw: unknown): HealthSnapshot {
   };
 }
 
-/**
- * Pretty-print a second count as "4m" / "2h" / "3d". Returns "—"
- * when input is null so the UI never shows NaN.
- */
 export function formatAge(seconds: number | null): string {
-  if (seconds === null || !Number.isFinite(seconds)) return "—";
+  if (seconds === null || !Number.isFinite(seconds)) return "--";
   if (seconds < 60) return "live";
   const m = Math.floor(seconds / 60);
   if (m < 60) return `${m}m`;
@@ -128,12 +104,10 @@ export function FreshBadge() {
     };
   }, []);
 
-  // Skeleton while the first fetch is in flight — same width as the
-  // populated state so the header doesn't shift.
   if (snap === null) {
     return (
       <div
-        className="hidden md:inline-flex h-8 w-[92px] items-center justify-center rounded-card border border-border-primary bg-bg-secondary"
+        className="pill hidden w-[92px] md:inline-flex"
         aria-hidden="true"
       />
     );
@@ -145,28 +119,25 @@ export function FreshBadge() {
   const { label, dotClass, textClass } = (() => {
     if (status === "error") {
       return {
-        label: "—",
-        dotClass: "bg-text-muted",
-        textClass: "text-text-muted",
+        label: "--",
+        dotClass: "bg-[var(--ink-500)]",
+        textClass: "text-[var(--ink-500)]",
       };
     }
     if (status === "stale") {
       return {
-        label: `STALE · ${formatAge(scraperSec)}`,
-        dotClass: "bg-warning",
-        textClass: "text-warning",
+        label: `STALE / ${formatAge(scraperSec)}`,
+        dotClass: "bg-[var(--sig-amber)]",
+        textClass: "text-[var(--sig-amber)]",
       };
     }
     return {
-      label: `LIVE · ${formatAge(scraperSec)}`,
-      dotClass: "bg-functional",
-      textClass: "text-functional",
+      label: `LIVE / ${formatAge(scraperSec)}`,
+      dotClass: "bg-[var(--sig-green)]",
+      textClass: "text-[var(--sig-green)]",
     };
   })();
 
-  // Tooltip — every age read goes through `readAge()` so the
-  // unauthorized `/api/health?soft=1` shape (which has no
-  // `ageSeconds`) renders "—" instead of crashing the React tree.
   const tooltip = [
     ["GitHub", readAge(snap, "scraper")],
     ["Reddit", readAge(snap, "reddit")],
@@ -182,8 +153,7 @@ export function FreshBadge() {
   return (
     <div
       className={cn(
-        "hidden md:inline-flex h-8 items-center gap-2 rounded-card",
-        "border border-border-primary bg-bg-secondary px-3",
+        "pill live hidden md:inline-flex",
         "font-mono text-[11px] uppercase tracking-wider",
       )}
       title={`Data freshness\n${tooltip}`}
@@ -191,7 +161,7 @@ export function FreshBadge() {
     >
       <span
         className={cn(
-          "inline-block h-1.5 w-1.5 rounded-full",
+          "dot inline-block",
           dotClass,
           status === "ok" && "animate-pulse",
         )}

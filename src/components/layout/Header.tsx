@@ -11,9 +11,9 @@ import { SystemMark } from "@/components/v3";
 
 export function Header() {
   return (
-    <header className="v3-chrome sticky top-0 z-40 h-14 w-full border-b backdrop-blur">
-      <div className="flex h-full items-center justify-between gap-3 px-4 md:px-6">
-        <div className="flex shrink-0 items-center gap-3">
+    <header className="topbar">
+      <div className="flex h-full w-full items-center gap-[14px]">
+        <div className="brand">
           <HamburgerButton />
           <Link
             href={ROUTES.HOME}
@@ -22,19 +22,18 @@ export function Header() {
           >
             <span
               aria-hidden
-              className="relative inline-flex"
-              style={{ boxShadow: "0 0 12px var(--v3-acc-glow)" }}
+              className="brand-mark"
             >
               <SystemMark size={20} />
             </span>
 
             <span className="flex flex-col leading-none">
-              <span className="v3-wordmark inline-flex items-center leading-none">
-                TRENDING<span style={{ color: "var(--v3-acc)" }}>REPO</span>
+              <span className="brand-name inline-flex items-center leading-none">
+                TRENDING<span style={{ color: "var(--acc)" }}>REPO</span>
               </span>
               <span
                 aria-hidden="true"
-                className="v3-label mt-0.5 hidden leading-none sm:inline"
+                className="brand-sub mt-0.5 hidden leading-none sm:inline"
               >
                 {"// TRENDINGREPO / TREND MAP FOR OPEN SOURCE"}
               </span>
@@ -42,15 +41,15 @@ export function Header() {
           </Link>
         </div>
 
-        <div className="hidden flex-1 sm:flex max-w-md mx-2 md:mx-6">
+        <div className="hidden flex-1 sm:flex">
           <SearchBar placeholder="search repos..." fullWidth />
         </div>
 
-        <div className="flex shrink-0 items-center gap-1 md:gap-2">
+        <div className="topbar-actions">
           <FreshBadge />
           <Link
             href={ROUTES.SUBMIT}
-            className="v3-button v3-button-primary"
+            className="pill cta"
             aria-label="Drop your repo"
           >
             <Send className="size-3.5" aria-hidden />

@@ -3,6 +3,8 @@
 //
 // Spec rule: max 3 badges per row. Caller decides how many to render.
 
+import { Badge, type BadgeTone } from "@/components/ui/Badge";
+
 export type SignalBadgeKind =
   | "hot"
   | "rising"
@@ -17,54 +19,54 @@ export type SignalBadgeKind =
   | "llm"
   | "verified";
 
-const STYLES: Record<SignalBadgeKind, { label: string; cls: string }> = {
+const STYLES: Record<SignalBadgeKind, { label: string; tone: BadgeTone }> = {
   hot: {
     label: "HOT",
-    cls: "border-warning/60 bg-warning/10 text-warning",
+    tone: "hot",
   },
   rising: {
     label: "RISING",
-    cls: "border-up/60 bg-up/10 text-up",
+    tone: "positive",
   },
   fire: {
     label: "FIRE",
-    cls: "border-brand/60 bg-brand/10 text-brand",
+    tone: "accent",
   },
   new: {
     label: "NEW",
-    cls: "border-functional/60 bg-functional/10 text-functional",
+    tone: "new",
   },
   launch: {
     label: "LAUNCH",
-    cls: "border-brand/60 bg-brand/10 text-brand",
+    tone: "accent",
   },
   funding: {
     label: "FUNDING",
-    cls: "border-up/60 bg-up/10 text-up",
+    tone: "positive",
   },
   "front-page": {
     label: "FRONT-PAGE",
-    cls: "border-warning/60 bg-warning/10 text-warning",
+    tone: "warning",
   },
   "linked-repo": {
     label: "LINKED",
-    cls: "border-functional/60 bg-functional/10 text-functional",
+    tone: "external",
   },
   agents: {
     label: "AGENTS",
-    cls: "border-border-primary bg-bg-muted text-text-secondary",
+    tone: "neutral",
   },
   mcp: {
     label: "MCP",
-    cls: "border-border-primary bg-bg-muted text-text-secondary",
+    tone: "neutral",
   },
   llm: {
     label: "LLM",
-    cls: "border-border-primary bg-bg-muted text-text-secondary",
+    tone: "neutral",
   },
   verified: {
     label: "VERIFIED",
-    cls: "border-up/60 bg-up/10 text-up",
+    tone: "positive",
   },
 };
 
@@ -75,13 +77,11 @@ interface SignalBadgeProps {
 }
 
 export function SignalBadge({ kind, override }: SignalBadgeProps) {
-  const { label, cls } = STYLES[kind];
+  const { label, tone } = STYLES[kind];
   return (
-    <span
-      className={`inline-flex items-center rounded-sm border px-1.5 py-px font-mono text-[9px] font-semibold uppercase tracking-[0.12em] ${cls}`}
-    >
+    <Badge tone={tone} size="xs">
       {override ?? label}
-    </span>
+    </Badge>
   );
 }
 

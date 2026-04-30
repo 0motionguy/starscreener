@@ -10,7 +10,7 @@ import Link from "next/link";
 import type { Repo } from "@/lib/types";
 import type { EcosystemLeaderboardItem } from "@/lib/ecosystem-leaderboards";
 import { EntityLogo } from "@/components/ui/EntityLogo";
-import { repoLogoUrl, resolveLogoUrl } from "@/lib/logos";
+import { mcpEntityLogoUrl, repoLogoUrl, resolveLogoUrl } from "@/lib/logos";
 
 interface CrossSourceTriBoxesProps {
   repos: Repo[];
@@ -51,13 +51,11 @@ function formatSignedNumber(n: number): string {
 //
 // Logo fallback chain mirrors `ecosystemBoardToRows` so the home tri-boxes
 // don't render as monograms-only just because skills.sh / GitHub-skill items
-// ship `logoUrl: null`. Order:
-//   1. explicit logoUrl (set on MCP items where vendor detection ran)
-//   2. GitHub owner avatar via linkedRepo
-//   3. Google favicon for the item URL's hostname
+// ship `logoUrl: null`. The central MCP resolver also sanitizes stale
+// registry `.invalid` URLs that can arrive in the published payload.
 function ecosystemRow(item: EcosystemLeaderboardItem): BoxRow {
   const fallbackLogo =
-    item.logoUrl ??
+    mcpEntityLogoUrl(item, 64) ??
     repoLogoUrl(item.linkedRepo, 40) ??
     resolveLogoUrl(item.url, item.title, 64);
   return {

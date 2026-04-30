@@ -14,6 +14,7 @@ import {
   topicBars,
 } from "../news/newsTopMetrics";
 import { resolveLogoUrl } from "@/lib/logo-url";
+import { mcpEntityLogoUrl } from "@/lib/logos";
 import type { EcosystemLeaderboardItem } from "@/lib/ecosystem-leaderboards";
 
 const SOURCE_PALETTE = [
@@ -85,7 +86,7 @@ export function buildEcosystemHeader({
         ? "https://skills.sh"
         : lower === "smithery" || lower === "smthy"
           ? "https://smithery.ai"
-          : lower === "mcp.so" || lower === "mcp"
+          : lower === "mcp.so" || lower === "mcp" || lower === "mcp registries"
             ? "https://mcp.so"
             : lower === "claudeai" || lower === "claude"
               ? "https://claude.com"
@@ -163,6 +164,7 @@ export function buildEcosystemHeader({
       ? `https://github.com/${encodeURIComponent(it.linkedRepo.split("/", 1)[0] ?? "")}.png?size=64`
       : null;
     const urlFavicon = resolveLogoUrl(it.url, it.title, 64);
+    const ecosystemLogo = mcpEntityLogoUrl(it, 64);
     return {
       title: it.title,
       href: it.url,
@@ -173,7 +175,7 @@ export function buildEcosystemHeader({
       byline: it.author ?? it.vendor ?? undefined,
       scoreLabel: `${Math.round(it.signalScore).toLocaleString("en-US")} SCORE`,
       ageHours: null,
-      logoUrl: it.logoUrl ?? repoAvatar ?? urlFavicon,
+      logoUrl: ecosystemLogo ?? it.logoUrl ?? repoAvatar ?? urlFavicon,
       logoName: it.title,
     };
   });

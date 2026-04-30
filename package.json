@@ -87,6 +87,8 @@
     "collect:twitter:dry": "tsx scripts/collect-twitter-signals.ts --dry-run --output .tmp/twitter-collector-preview.json",
     "purge:twitter:synthetic": "tsx scripts/purge-twitter-synthetic-data.ts",
     "audit:freshness": "tsx scripts/audit-source-freshness.ts",
+    "snapshot:top10": "tsx scripts/snapshot-top10.ts",
+    "snapshot:top10-sparklines": "tsx scripts/snapshot-top10-sparklines.ts",
     "enrich:profiles": "node scripts/enrich-repo-profiles.mjs",
     "enrich:profiles:top": "node scripts/enrich-repo-profiles.mjs --mode top",
     "enrich:profiles:catchup": "node scripts/enrich-repo-profiles.mjs --mode catchup",
@@ -105,6 +107,9 @@
     "portal:conformance": "node scripts/portal-conformance.mjs"
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
     "@sentry/nextjs": "^10.50.0",
     "@upstash/redis": "^1.37.0",
     "framer-motion": "^12.38.0",

@@ -34,7 +34,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
 const OUT_PATH = resolve(DATA_DIR, "huggingface-trending.json");
 
-const ENDPOINT = "https://huggingface.co/api/models?limit=100";
+const ENDPOINT = "https://huggingface.co/api/models?limit=1000&full=true";
 const USER_AGENT = "TrendingRepo/1.0 (+https://trendingrepo.com)";
 
 function log(msg) {

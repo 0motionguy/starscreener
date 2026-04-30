@@ -33,7 +33,7 @@ export const runtime = "nodejs";
 
 export const dynamic = "force-dynamic";
 
-const MAX_REPOS = 4;
+const MAX_REPOS = 5;
 
 interface CompareGithubOkBody {
   ok: true;

@@ -23,10 +23,10 @@ import {
   type FeedColumn,
 } from "@/components/feed/TerminalFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
+import { huggingFaceLogoUrl } from "@/lib/logos";
 
 const HF_ACCENT = "rgba(255, 159, 28, 0.85)"; // HF "yellow" (warm orange)
 const HF_ACCENT_BAR = "#FF9F1C";
-const HF_LOGO = "https://huggingface.co/front/assets/huggingface_logo-noborder.svg";
 
 export const dynamic = "force-static";
 export const revalidate = 1800; // 30 min
@@ -123,7 +123,7 @@ function buildHuggingFaceHeader(
       value: count,
       valueLabel: count.toLocaleString("en-US"),
       color: HF_ACCENT_BAR,
-      logoUrl: `https://huggingface.co/${encodeURIComponent(author)}/avatar.png`,
+      logoUrl: huggingFaceLogoUrl(),
       logoName: author,
     }));
 
@@ -173,7 +173,7 @@ function buildHuggingFaceHeader(
     ageHours: m.lastModified
       ? Math.max(0, (Date.now() - Date.parse(m.lastModified)) / 3_600_000)
       : null,
-    logoUrl: `https://huggingface.co/${encodeURIComponent(m.author)}/avatar.png`,
+    logoUrl: huggingFaceLogoUrl(),
     logoName: m.author ?? m.id,
   }));
 
@@ -207,7 +207,7 @@ function HfModelFeed({ models }: { models: HfModelTrending[] }) {
       render: (m) => (
         <div className="flex min-w-0 items-center gap-2">
           <EntityLogo
-            src={`https://huggingface.co/${encodeURIComponent(m.author)}/avatar.png`}
+            src={huggingFaceLogoUrl()}
             name={m.author ?? m.id}
             size={20}
             shape="square"
@@ -348,10 +348,6 @@ function MomentumBar({ value, accent }: { value: number; accent: string }) {
     </div>
   );
 }
-
-// Suppress unused-import lint for HF_LOGO when Next tree-shakes it; kept
-// here so the brand source-of-truth is documented even if not yet rendered.
-void HF_LOGO;
 
 // ---------------------------------------------------------------------------
 // Cold state

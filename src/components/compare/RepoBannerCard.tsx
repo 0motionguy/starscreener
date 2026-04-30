@@ -1,5 +1,4 @@
 import type { JSX } from "react";
-import Image from "next/image";
 import {
   Star,
   GitFork,
@@ -17,6 +16,8 @@ import { BskyBadge } from "@/components/bluesky/BskyBadge";
 import { getBlueskyMentions } from "@/lib/bluesky";
 import { PhBadge } from "@/components/producthunt/PhBadge";
 import { getLaunchForRepo } from "@/lib/producthunt";
+import { EntityLogo } from "@/components/ui/EntityLogo";
+import { repoDisplayLogoUrl } from "@/lib/logos";
 
 interface RepoBannerCardProps {
   bundle: CompareRepoBundle;
@@ -68,11 +69,12 @@ export function RepoBannerCard({
     >
       {/* Header row: avatar + owner/name + license + language chips */}
       <div className="flex items-start gap-3 mb-2">
-        <Image
-          src={bundle.avatarUrl}
+        <EntityLogo
+          src={repoDisplayLogoUrl(bundle.fullName, bundle.avatarUrl, 36)}
+          name={bundle.fullName}
+          size={40}
+          shape="circle"
           alt={bundle.owner}
-          width={36}
-          height={36}
           className="size-9 shrink-0 rounded-full border border-border-primary object-cover"
         />
         <div className="flex-1 min-w-0">

@@ -1,0 +1,42 @@
+name: Refresh skill lobehub
+
+# Every 12h at :45. Populates `trending-skill-lobehub` Redis key.
+on:
+  schedule:
+    - cron: "45 */12 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: skill-lobehub
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/trendingrepo-worker
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: apps/trendingrepo-worker/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run lobehub-skills fetcher
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_PAT_DEFAULT || secrets.GITHUB_TOKEN }}
+        run: npx tsx src/index.ts lobehub-skills

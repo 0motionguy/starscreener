@@ -1,7 +1,7 @@
 import type { SignalRow } from "@/components/signal/SignalTable";
 import { getDataStore, type DataReadResult, type DataSource } from "./data-store";
 import { resolveLogoUrl } from "./logo-url";
-import { repoLogoUrl } from "./logos";
+import { mcpEntityLogoUrl, repoLogoUrl } from "./logos";
 import { skillScorer, type SkillItem } from "./pipeline/scoring/domain/skill";
 import { mcpScorer, type McpItem } from "./pipeline/scoring/domain/mcp";
 import { computeCrossDomainMomentum } from "./pipeline/scoring/cross-domain";
@@ -70,6 +70,29 @@ export interface McpDisplayFields {
   smitheryRank: number | null;
   smitheryTotal: number | null;
   npmDependents: number | null;
+  /**
+   * Q3 escalation (2026-04-29): absolute snapshots from the publish
+   * payload (`metrics.installs_total`, `metrics.stars_total`). Surfaced
+   * here so the Weekly DL cell can fall through to them when no per-
+   * registry 7d delta or dependents count is available — fixes the
+   * day-1 cold-start blackout where every row rendered `—`.
+   */
+  installsTotal: number | null;
+  starsTotal: number | null;
+  /**
+   * MCP usage telemetry windowed at 24h / 7d / 30d. Aggregated by the
+   * worker's publish layer (`pickMcpUsage`) — MAX across the 4 registry
+   * source fetchers (pulsemcp, smithery, glama, official). null when no
+   * source reported the corresponding window. Populated from the publish
+   * payload's `metrics.installs_24h / installs_7d / installs_30d`.
+   */
+  installs24h: number | null;
+  installs7d: number | null;
+  installs30d: number | null;
+  /** Monthly-ish visitor estimate (~4w window) — pulsemcp / glama. */
+  visitors4w: number | null;
+  /** Lifetime use / activation counter — smithery / glama. */
+  useCount: number | null;
   /**
    * Per-registry source tags from the merger's `raw.sources` array. Each
    * entry is one of "official" (Anthropic), "smithery", "glama",
@@ -186,6 +209,7 @@ const MCP_DOWNLOADS_KEY = "mcp-downloads";
 const MCP_DOWNLOADS_PYPI_KEY = "mcp-downloads-pypi";
 const MCP_DEPENDENTS_KEY = "mcp-dependents";
 const MCP_SMITHERY_RANK_KEY = "mcp-smithery-rank";
+const MCP_USAGE_SNAPSHOT_PREFIX = "mcp-usage-snapshot";
 const SKILL_DERIVATIVES_KEY = "skill-derivative-count";
 const SKILL_INSTALL_SNAPSHOT_PREFIX = "skill-install-snapshot";
 const SKILL_FORKS_SNAPSHOT_PREFIX = "skill-forks-snapshot";
@@ -242,6 +266,25 @@ interface McpSideChannels {
    * absolute hotness in the UI.
    */
   hotnessPrev7d: Record<string, number>;
+  /**
+   * Per-MCP usage totals from 1d / 7d / 30d ago, keyed by lowercased
+   * slug. Sourced from `mcp-usage-snapshot:<YYYY-MM-DD>` keys captured
+   * daily by the mcp-usage-snapshot fetcher. The reader subtracts these
+   * from today's totals to synthesize installs_24h / installs_7d /
+   * installs_30d windows the upstream MCP registries don't expose.
+   * Each entry is { installs_total, use_count, visitors_4w, downloads_7d }
+   * with finite numbers when present, undefined otherwise.
+   */
+  usagePrev1d: Record<string, McpUsageSnapshotEntry>;
+  usagePrev7d: Record<string, McpUsageSnapshotEntry>;
+  usagePrev30d: Record<string, McpUsageSnapshotEntry>;
+}
+
+interface McpUsageSnapshotEntry {
+  installs_total?: number;
+  use_count?: number;
+  visitors_4w?: number;
+  downloads_7d?: number;
 }
 
 interface SkillDerivativeMeta {
@@ -491,11 +534,132 @@ async function loadAwesomeSkillsIndex(): Promise<Record<string, string[]>> {
   return out;
 }
 
+// Phase-4 escalation 2026-04-29: the skills page was reading only 2 of the
+// 5 worker-side skill fetchers (skills-sh + claude-skills via GITHUB key),
+// capping the leaderboard at ~500 items vs the ~91k+ user reference. These
+// 3 keys are now wired into the combined board: skillsmp (1M+ catalog),
+// lobehub-skills, smithery-skills. Each new source flows through the
+// existing skill scorer + dedupe.
+const SKILLSMP_KEY = "trending-skill-skillsmp";
+const LOBEHUB_SKILLS_KEY = "trending-skill-lobehub";
+const SMITHERY_SKILLS_KEY = "trending-skill-smithery";
+
+/**
+ * Adapter that maps each new fetcher's row shape into the
+ * `coerceGithubSkillItem` input shape (which only requires
+ * `full_name`, `title`, `url`). Field union covers skillsmp /
+ * lobehub-skills / smithery-skills row variants.
+ */
+function adaptExtraSkillRow(raw: unknown): Record<string, unknown> | null {
+  const r = asRecord(raw);
+  if (!r) return null;
+  // Resolve title across the 3 shapes: skillsmp `name`, lobehub `title`,
+  // smithery `displayName` / `slug`.
+  const title =
+    asString(r.title) ??
+    asString(r.name) ??
+    asString(r.displayName) ??
+    asString(r.slug) ??
+    asString(r.id);
+  // Resolve linkedRepo (full_name owner/name) across `githubUrl`,
+  // `gitUrl`, or fall through to `id` / `source_id` when they're slug-shaped.
+  const candidateUrls = [
+    asString(r.githubUrl),
+    asString(r.gitUrl),
+    asString(r.repository),
+  ].filter((s): s is string => Boolean(s));
+  let fullName: string | null = null;
+  for (const u of candidateUrls) {
+    const m = u.match(/github\.com\/([^/\s]+\/[^/\s?#]+)/i);
+    if (m) {
+      fullName = m[1].replace(/\.git$/i, "");
+      break;
+    }
+  }
+  // Smithery `namespace/slug` is the canonical id; fall back to a
+  // composed slug-like full_name when no GitHub URL exists, so the row
+  // still has a stable id/title.
+  const namespace = asString(r.namespace);
+  const slug = asString(r.slug);
+  if (!fullName && namespace && slug) {
+    fullName = `${namespace}/${slug}`;
+  }
+  if (!fullName) {
+    fullName = asString(r.source_id) ?? asString(r.id) ?? null;
+  }
+  if (!fullName || !title) return null;
+  const url = asString(r.url) ?? `https://github.com/${fullName}`;
+  // Lobehub carries `installs` directly — map onto the field
+  // coerceSkillsShItem already uses.
+  const installs = asNumber(r.installs) ?? asNumber(r.totalActivations) ?? null;
+  // Phase-5 escalation 2026-04-29: per-skill identity. skillsmp's adapter
+  // previously emitted full_name = parent repo URL for every child SKILL.md,
+  // so 13 siblings under mattpocock/skills all collapsed to one row at
+  // dedupe time. We now build a composite source-id from the parent +
+  // slug so siblings survive while linkedRepo stays the parent.
+  const skillSlug =
+    asString(r.slug) ?? asString(r.id) ?? asString(r.source_id);
+  const sourceUid =
+    skillSlug && !skillSlug.includes("/")
+      ? `${fullName}#${skillSlug}`
+      : fullName;
+  return {
+    full_name: fullName,
+    source_id: sourceUid,
+    title,
+    url,
+    description: asString(r.description) ?? null,
+    author: asString(r.author) ?? asString(r.namespace) ?? fullName.split("/")[0],
+    rank: asNumber(r.rank) ?? null,
+    stars: asNumber(r.stars) ?? null,
+    forks: asNumber(r.forks) ?? null,
+    pushed_at: asString(r.updatedAt) ?? null,
+    source_topics: Array.isArray(r.categories) ? r.categories : [],
+    installs,
+  };
+}
+
+function coerceExtraSkillsBoard(
+  result: DataReadResult<unknown>,
+  key: string,
+  label: string,
+  sideChannels: SkillSideChannels,
+): EcosystemBoard {
+  const obj = asRecord(result.data);
+  const fetchedAt = asString(obj?.fetchedAt) ?? result.writtenAt ?? null;
+  const rows = Array.isArray(obj?.items) ? obj.items : [];
+  const pairs = rows
+    .map((row, idx) =>
+      coerceGithubSkillItem(adaptExtraSkillRow(row) ?? row, idx + 1),
+    )
+    .filter((p): p is { item: EcosystemLeaderboardItem; raw: Record<string, unknown> } => p !== null);
+  const items = applySkillMomentum(pairs, sideChannels);
+  return {
+    id: "github",
+    kind: "skill",
+    label,
+    key,
+    fetchedAt,
+    source: result.source,
+    ageMs: result.ageMs,
+    items,
+    meta: {
+      seen: rows.length,
+      // Surface the upstream total when the fetcher reports it (skillsmp
+      // pagination.total exposes the full catalog size — 1M+).
+      total: asNumber(asRecord(obj?.pagination)?.total) ?? null,
+    },
+  };
+}
+
 export async function getSkillsSignalData(): Promise<SkillsSignalData> {
   const store = getDataStore();
   const [
     skillsShRaw,
     githubRaw,
+    skillsmpRaw,
+    lobehubRaw,
+    smitheryRaw,
     awesomeIndex,
     derivativeBundle,
     installsPrev7d,
@@ -505,6 +669,9 @@ export async function getSkillsSignalData(): Promise<SkillsSignalData> {
   ] = await Promise.all([
     store.read<unknown>(SKILLS_SH_KEY),
     store.read<unknown>(GITHUB_SKILLS_KEY),
+    store.read<unknown>(SKILLSMP_KEY),
+    store.read<unknown>(LOBEHUB_SKILLS_KEY),
+    store.read<unknown>(SMITHERY_SKILLS_KEY),
     loadAwesomeSkillsIndex(),
     loadSkillDerivatives(),
     loadSkillInstallsPrev7d(),
@@ -529,22 +696,60 @@ export async function getSkillsSignalData(): Promise<SkillsSignalData> {
   };
   const skillsSh = coerceSkillsShBoard(skillsShRaw, sideChannels);
   const github = coerceGithubSkillsBoard(githubRaw, sideChannels);
-  const combinedItems = dedupeItems([...skillsSh.items, ...github.items])
+  const skillsmp = coerceExtraSkillsBoard(skillsmpRaw, SKILLSMP_KEY, "skillsmp", sideChannels);
+  const lobehub = coerceExtraSkillsBoard(lobehubRaw, LOBEHUB_SKILLS_KEY, "lobehub", sideChannels);
+  const smithery = coerceExtraSkillsBoard(smitheryRaw, SMITHERY_SKILLS_KEY, "smithery", sideChannels);
+  const combinedItems = dedupeItems([
+    ...skillsSh.items,
+    ...github.items,
+    ...skillsmp.items,
+    ...lobehub.items,
+    ...smithery.items,
+  ])
     .sort((a, b) => b.signalScore - a.signalScore)
     .map((item, idx) => ({ ...item, rank: idx + 1 }));
+
+  const totalSeen =
+    (asNumber(skillsmp.meta?.total) ?? skillsmp.items.length) +
+    skillsSh.items.length +
+    github.items.length +
+    lobehub.items.length +
+    smithery.items.length;
 
   const combined: EcosystemBoard = {
     id: "skills-sh",
     kind: "skill",
     label: "All Skills",
-    key: `${SKILLS_SH_KEY}+${GITHUB_SKILLS_KEY}`,
-    fetchedAt: freshestIso([skillsSh.fetchedAt, github.fetchedAt]),
-    source: bestSource([skillsSh.source, github.source]),
-    ageMs: minFinite([skillsSh.ageMs, github.ageMs]),
+    key: `${SKILLS_SH_KEY}+${GITHUB_SKILLS_KEY}+${SKILLSMP_KEY}+${LOBEHUB_SKILLS_KEY}+${SMITHERY_SKILLS_KEY}`,
+    fetchedAt: freshestIso([
+      skillsSh.fetchedAt,
+      github.fetchedAt,
+      skillsmp.fetchedAt,
+      lobehub.fetchedAt,
+      smithery.fetchedAt,
+    ]),
+    source: bestSource([
+      skillsSh.source,
+      github.source,
+      skillsmp.source,
+      lobehub.source,
+      smithery.source,
+    ]),
+    ageMs: minFinite([
+      skillsSh.ageMs,
+      github.ageMs,
+      skillsmp.ageMs,
+      lobehub.ageMs,
+      smithery.ageMs,
+    ]),
     items: combinedItems,
     meta: {
       skillsSh: skillsSh.items.length,
       github: github.items.length,
+      skillsmp: skillsmp.items.length,
+      lobehub: lobehub.items.length,
+      smithery: smithery.items.length,
+      total: totalSeen,
     },
   };
 
@@ -567,6 +772,9 @@ export async function getMcpSignalData(): Promise<McpSignalData> {
     dependentsSummary,
     smitheryRankSummary,
     hotnessPrev7d,
+    usagePrev1d,
+    usagePrev7d,
+    usagePrev30d,
   ] = await Promise.all([
     store.read<unknown>(MCP_KEY),
     loadMcpLivenessSummary(),
@@ -574,6 +782,9 @@ export async function getMcpSignalData(): Promise<McpSignalData> {
     loadMcpDependentsSummary(),
     loadMcpSmitheryRankSummary(),
     loadHotnessPrev7d("trending-mcp"),
+    loadMcpUsageSnapshot(1),
+    loadMcpUsageSnapshot(7),
+    loadMcpUsageSnapshot(30),
   ]);
   const sideChannels: McpSideChannels = {
     livenessSummary,
@@ -581,6 +792,9 @@ export async function getMcpSignalData(): Promise<McpSignalData> {
     dependentsSummary,
     smitheryRankSummary,
     hotnessPrev7d,
+    usagePrev1d,
+    usagePrev7d,
+    usagePrev30d,
   };
   const board = coerceMcpBoard(raw, sideChannels);
   return {
@@ -605,7 +819,10 @@ export function ecosystemBoardToRows(board: EcosystemBoard): SignalRow[] {
       ? `https://github.com/${encodeURIComponent(item.linkedRepo.split("/", 1)[0] ?? "")}.png?size=40`
       : null;
     const urlFavicon = resolveLogoUrl(item.url, item.title, 64);
-    const resolvedLogo = item.logoUrl ?? repoAvatar ?? urlFavicon;
+    const resolvedLogo =
+      board.kind === "mcp"
+        ? mcpEntityLogoUrl(item, 40)
+        : item.logoUrl ?? repoAvatar ?? urlFavicon;
     return {
       id: `${board.kind}:${item.id}`,
       title: item.title,
@@ -792,9 +1009,16 @@ function coerceGithubSkillItem(
   const url = asString(item.url);
   if (!fullName || !title || !url) return null;
 
+  // Phase-5 escalation: source_id is set by adaptExtraSkillRow for adapter-
+  // routed feeds (skillsmp / lobehub / smithery) so individual SKILL.md
+  // children get a per-skill identity (`owner/repo#slug`) instead of all
+  // collapsing to the parent repo's full_name. Original GitHub-topic feed
+  // doesn't set source_id and falls back to the prior behavior.
+  const sourceUid = asString(item.source_id) ?? fullName;
+
   return {
     item: {
-      id: fullName,
+      id: sourceUid,
       title,
       url,
       author: asString(item.author) ?? fullName.split("/")[0] ?? null,
@@ -804,8 +1028,8 @@ function coerceGithubSkillItem(
       tags: asStringArray(item.source_topics).slice(0, 4),
       agents: [],
       linkedRepo: fullName,
-      popularity: asNumber(item.stars),
-      popularityLabel: "Stars",
+      popularity: asNumber(item.stars) ?? asNumber(item.installs),
+      popularityLabel: asNumber(item.installs) !== null ? "Installs" : "Stars",
       // Placeholder — overwritten by applySkillMomentum below.
       signalScore: 0,
       postedAt: asString(item.pushed_at) ?? asString(item.created_at),
@@ -908,6 +1132,22 @@ function coerceMcpItem(
   // UI-shaped mirror of the same side-channel data. Lets the /mcp page
   // render columns without re-doing the lookups. Kept separate from
   // buildMcpItem (the scorer-input mapper) per chunk ownership.
+  // Daily-snapshot side-channels for synthesized 24h/7d/30d windows.
+  // The reader joins today's `metrics.installs_total` against snapshots
+  // captured 1d / 7d / 30d ago by the mcp-usage-snapshot fetcher. Until
+  // those snapshots accrue (one tick per day), the resulting deltas
+  // are undefined and the column falls through to the publish-side
+  // pickMcpUsage value (which itself is undefined today).
+  const usagePrev1dEntry = legacy
+    ? undefined
+    : pickByKeys(sideChannels.usagePrev1d, lookupKeys);
+  const usagePrev7dEntry = legacy
+    ? undefined
+    : pickByKeys(sideChannels.usagePrev7d, lookupKeys);
+  const usagePrev30dEntry = legacy
+    ? undefined
+    : pickByKeys(sideChannels.usagePrev30d, lookupKeys);
+
   const mcpDisplay = buildMcpDisplayFields({
     raw: item,
     metrics,
@@ -915,6 +1155,9 @@ function coerceMcpItem(
     downloadsEntry,
     dependentsCount,
     smitheryRankEntry,
+    usagePrev1d: usagePrev1dEntry,
+    usagePrev7d: usagePrev7dEntry,
+    usagePrev30d: usagePrev30dEntry,
   });
 
   return {
@@ -959,8 +1202,11 @@ function buildMcpDisplayFields(args: {
   downloadsEntry: McpDownloadsEntry | undefined;
   dependentsCount: number | undefined;
   smitheryRankEntry: McpSmitheryRankEntry | undefined;
+  usagePrev1d?: McpUsageSnapshotEntry;
+  usagePrev7d?: McpUsageSnapshotEntry;
+  usagePrev30d?: McpUsageSnapshotEntry;
 }): McpDisplayFields {
-  const { raw, metrics, livenessEntry, downloadsEntry, dependentsCount, smitheryRankEntry } = args;
+  const { raw, metrics, livenessEntry, downloadsEntry, dependentsCount, smitheryRankEntry, usagePrev1d, usagePrev7d, usagePrev30d } = args;
 
   const npm7d = downloadsEntry?.npm7d ?? null;
   const pypi7d = downloadsEntry?.pypi7d ?? null;
@@ -1011,6 +1257,44 @@ function buildMcpDisplayFields(args: {
         .filter((s): s is string => Boolean(s))
     : [];
 
+  // Q3 escalation: surface absolute snapshots so the Weekly DL cell can
+  // gracefully fall back when no per-registry 7d delta is available.
+  const installsTotal = asNumber(metrics?.installs_total) ?? null;
+  const starsTotal = asNumber(metrics?.stars_total) ?? null;
+
+  // MCP install windows + usage counters. Pre-aggregated by the worker's
+  // `pickMcpUsage` (MAX across all 4 MCP source fetchers). snake_case in
+  // the publish payload, camelCase on display.
+  const installs24hPub = asNumber(metrics?.installs_24h);
+  const installs7dPub = asNumber(metrics?.installs_7d);
+  const installs30dPub = asNumber(metrics?.installs_30d);
+  const visitors4w = asNumber(metrics?.visitors_4w) ?? null;
+  const useCount = asNumber(metrics?.use_count) ?? null;
+
+  // Snapshot-based fallback: when the publish layer's installs_24h /
+  // installs_7d / installs_30d aren't populated yet (waiting on M1-M3
+  // metrics writes + Railway cron), synthesize Δ from the daily
+  // mcp-usage-snapshot fetcher's per-window snapshots. installsTotalNow
+  // is whichever lifetime total is most authoritative right now —
+  // metrics.installs_total wins; else the side-channel use count.
+  const installsTotalNow =
+    asNumber(metrics?.installs_total) ?? useCount ?? null;
+  const computeDelta = (
+    prev: McpUsageSnapshotEntry | undefined,
+  ): number | null => {
+    if (installsTotalNow === null || !prev) return null;
+    const prevTotal = prev.installs_total ?? prev.use_count;
+    if (prevTotal === undefined || !Number.isFinite(prevTotal)) return null;
+    const delta = installsTotalNow - prevTotal;
+    return Number.isFinite(delta) && delta >= 0 ? delta : null;
+  };
+  const installs24h =
+    installs24hPub ?? computeDelta(usagePrev1d) ?? null;
+  const installs7d =
+    installs7dPub ?? computeDelta(usagePrev7d) ?? null;
+  const installs30d =
+    installs30dPub ?? computeDelta(usagePrev30d) ?? null;
+
   return {
     transport,
     isStdio,
@@ -1026,6 +1310,13 @@ function buildMcpDisplayFields(args: {
     smitheryRank: smitheryRankEntry?.rank ?? null,
     smitheryTotal: smitheryRankEntry?.total ?? null,
     npmDependents: dependentsCount ?? null,
+    installsTotal,
+    starsTotal,
+    installs24h,
+    installs7d,
+    installs30d,
+    visitors4w,
+    useCount,
     sources: rawSources,
   };
 }
@@ -1270,6 +1561,12 @@ function buildMcpItem(
     ? leafName(item.linkedRepo) ?? undefined
     : undefined;
 
+  // Q3+Q4 escalation (2026-04-29): pass through absolute snapshots from the
+  // publish payload so the scorer can fall back to `installsAbs` / `starsAbs`
+  // during the day-1 cold-start window when no 7d-ago snapshot exists yet.
+  const installsTotalAbs = asNumber(metrics?.installs_total) ?? undefined;
+  const starsTotalAbs = asNumber(metrics?.stars_total) ?? undefined;
+
   return {
     domainKey: "mcp",
     id: item.id,
@@ -1286,6 +1583,8 @@ function buildMcpItem(
     p50LatencyMs: liveness ? asNumber(liveness.p50LatencyMs) ?? undefined : undefined,
     isStdio: liveness ? asBoolean(liveness.isStdio) : false,
     lastReleaseAt,
+    installsTotal: installsTotalAbs,
+    stars: starsTotalAbs,
   };
 }
 
@@ -1293,7 +1592,15 @@ function dedupeItems(items: EcosystemLeaderboardItem[]): EcosystemLeaderboardIte
   const seen = new Set<string>();
   const out: EcosystemLeaderboardItem[] = [];
   for (const item of items) {
-    const key = (item.linkedRepo ?? item.id).toLowerCase();
+    // Phase-5 escalation: previously keyed only on linkedRepo, which
+    // collapsed every individual SKILL.md inside a multi-skill collection
+    // (e.g. mattpocock/skills has ~13 children) to a single row. The new
+    // key uses linkedRepo + the per-skill `id` so siblings survive while
+    // true cross-source duplicates (same skill seen by both skillsmp
+    // and skills-sh) still collapse on shared id.
+    const repo = (item.linkedRepo ?? "").toLowerCase();
+    const id = item.id.toLowerCase();
+    const key = repo ? `${repo}::${id}` : id;
     if (seen.has(key)) continue;
     seen.add(key);
     out.push(item);
@@ -1355,7 +1662,52 @@ function emptyMcpSideChannels(): McpSideChannels {
     dependentsSummary: {},
     smitheryRankSummary: {},
     hotnessPrev7d: {},
+    usagePrev1d: {},
+    usagePrev7d: {},
+    usagePrev30d: {},
   };
+}
+
+/**
+ * Read a per-day MCP usage snapshot keyed `mcp-usage-snapshot:<YYYY-MM-DD>`.
+ * Returns the slug → entry map (lowercased keys) or {} when the snapshot
+ * key is missing (cold-start, before that day's daily run accrued).
+ */
+async function loadMcpUsageSnapshot(
+  daysAgo: number,
+): Promise<Record<string, McpUsageSnapshotEntry>> {
+  const store = getDataStore();
+  const dateKey = isoDateNDaysAgoUtc(daysAgo);
+  const result = await store.read<unknown>(
+    `${MCP_USAGE_SNAPSHOT_PREFIX}:${dateKey}`,
+  );
+  const root = asRecord(result.data);
+  const totals = asRecord(root?.totals);
+  if (!totals) return {};
+  const out: Record<string, McpUsageSnapshotEntry> = {};
+  for (const [slug, raw] of Object.entries(totals)) {
+    const e = asRecord(raw);
+    if (!e) continue;
+    const entry: McpUsageSnapshotEntry = {};
+    const it = asNumber(e.installs_total);
+    if (it !== null) entry.installs_total = it;
+    const uc = asNumber(e.use_count);
+    if (uc !== null) entry.use_count = uc;
+    const v4 = asNumber(e.visitors_4w);
+    if (v4 !== null) entry.visitors_4w = v4;
+    const d7 = asNumber(e.downloads_7d);
+    if (d7 !== null) entry.downloads_7d = d7;
+    if (Object.keys(entry).length > 0) {
+      out[slug.toLowerCase()] = entry;
+    }
+  }
+  return out;
+}
+
+function isoDateNDaysAgoUtc(n: number): string {
+  const d = new Date();
+  d.setUTCDate(d.getUTCDate() - n);
+  return d.toISOString().slice(0, 10);
 }
 
 function emptySkillSideChannels(): SkillSideChannels {

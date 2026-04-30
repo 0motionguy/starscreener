@@ -1,0 +1,113 @@
+{
+  "_comment": "Synthetic Firecrawl JSON-extract response shape, mirrors what skills.sh returns when scraped via formats:['json']. The HTML fixture skills-sh-response.html is the real upstream response and exercises the direct/cheerio path (production on Railway without FIRECRAWL_API_KEY).",
+  "skills": [
+    {
+      "rank": 1,
+      "skill_name": "find-skills",
+      "owner": "vercel-labs",
+      "repo": "skills",
+      "installs": "1.2M",
+      "agents": ["claude-code", "openclaw", "cursor"],
+      "url": "https://skills.sh/vercel-labs/skills/find-skills"
+    },
+    {
+      "rank": 2,
+      "skill_name": "vercel-react-best-practices",
+      "owner": "vercel-labs",
+      "repo": "agent-skills",
+      "installs": "357.5K",
+      "agents": ["claude-code", "cursor", "windsurf"],
+      "url": "https://skills.sh/vercel-labs/agent-skills/vercel-react-best-practices"
+    },
+    {
+      "rank": 3,
+      "skill_name": "frontend-design",
+      "owner": "anthropics",
+      "repo": "skills",
+      "installs": "348.6K",
+      "agents": ["claude-code", "openclaw"],
+      "url": "https://skills.sh/anthropics/skills/frontend-design"
+    },
+    {
+      "rank": 4,
+      "skill_name": "soultrace",
+      "owner": "soultrace-ai",
+      "repo": "soultrace-skill",
+      "installs": "319.2K",
+      "agents": ["claude-code"],
+      "url": "https://skills.sh/soultrace-ai/soultrace-skill/soultrace"
+    },
+    {
+      "rank": 5,
+      "skill_name": "web-design-guidelines",
+      "owner": "vercel-labs",
+      "repo": "agent-skills",
+      "installs": "284.6K",
+      "agents": ["claude-code", "cursor"],
+      "url": "https://skills.sh/vercel-labs/agent-skills/web-design-guidelines"
+    },
+    {
+      "rank": 6,
+      "skill_name": "ai-image-generation",
+      "owner": "infsh-skills",
+      "repo": "skills",
+      "installs": "28.3K",
+      "agents": ["claude-code", "openclaw"],
+      "url": "https://skills.sh/infsh-skills/skills/ai-image-generation"
+    },
+    {
+      "rank": 7,
+      "skill_name": "microsoft-foundry",
+      "owner": "microsoft",
+      "repo": "azure-skills",
+      "installs": "6.8K",
+      "agents": ["claude-code", "github-copilot"],
+      "url": "https://skills.sh/microsoft/azure-skills/microsoft-foundry"
+    },
+    {
+      "rank": 8,
+      "skill_name": "grill-me",
+      "owner": "mattpocock",
+      "repo": "skills",
+      "installs": "6.1K",
+      "agents": ["claude-code"],
+      "url": "https://skills.sh/mattpocock/skills/grill-me"
+    },
+    {
+      "rank": 9,
+      "skill_name": "impeccable",
+      "owner": "pbakaus",
+      "repo": "impeccable",
+      "installs": "4.1K",
+      "agents": ["claude-code", "cursor"],
+      "url": "https://skills.sh/pbakaus/impeccable/impeccable"
+    },
+    {
+      "rank": 10,
+      "skill_name": "auth-helper",
+      "owner": "someone",
+      "repo": "their-skills",
+      "installs": "320",
+      "agents": ["cursor"],
+      "url": "https://skills.sh/someone/their-skills/auth-helper"
+    },
+    {
+      "rank": 11,
+      "skill_name": "openclaw-bootstrap",
+      "owner": "agnt",
+      "repo": "openclaw-skills",
+      "installs": "210",
+      "agents": ["openclaw", "claude-code"],
+      "url": "https://skills.sh/agnt/openclaw-skills/openclaw-bootstrap"
+    },
+    {
+      "rank": 12,
+      "skill_name": "linter-fix",
+      "owner": "tooling-co",
+      "repo": "skills",
+      "installs": "150",
+      "agents": ["claude-code", "cursor", "windsurf"],
+      "url": "https://skills.sh/tooling-co/skills/linter-fix"
+    }
+  ]
+}

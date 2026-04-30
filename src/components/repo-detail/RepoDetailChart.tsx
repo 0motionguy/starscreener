@@ -21,6 +21,7 @@ import {
 } from "recharts";
 
 import type { Repo, TimeRange } from "@/lib/types";
+import { ChartShell } from "@/components/ui/ChartShell";
 import { cn, formatNumber } from "@/lib/utils";
 import {
   MENTION_PLATFORM_COLORS,
@@ -494,8 +495,9 @@ export function RepoDetailChart({
   }, [signalSeries]);
 
   return (
-    <section
-      className="v2-card p-4"
+    <ChartShell
+      variant="chart"
+      className="p-4"
       aria-label={`Star growth and daily mentions over ${periodDays} days`}
     >
       <div className="flex items-center justify-between gap-4 mb-4 flex-wrap">
@@ -541,7 +543,7 @@ export function RepoDetailChart({
         </div>
       </div>
 
-      <div className="h-[180px] w-full sm:h-[220px] xl:h-[260px]">
+      <div className="chart-wrap h-[180px] w-full sm:h-[220px] xl:h-[260px]">
         <div className="h-full w-full">
           {isSparse ? (
             <div className="h-full w-full flex items-center justify-center">
@@ -751,7 +753,7 @@ export function RepoDetailChart({
           })}
         </div>
       )}
-    </section>
+    </ChartShell>
   );
 }
 

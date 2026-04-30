@@ -476,10 +476,17 @@ test("route: v=2 sort=stars order=asc returns ascending stars", async () => {
   const res = await invokeSearch("?v=2&sort=stars&order=asc&limit=10");
   assert.equal(res.status, 200);
   const body = (await res.json()) as { results: Repo[] };
+  // Mirror sortKey()'s `repo.stars ?? 0` semantics — JSON serialization drops
+  // `undefined` fields, so a Repo with no stars value comes back as a missing
+  // key. Treat both as 0 the way the production sort does.
+  const stars = (r: Repo): number =>
+    typeof r.stars === "number" ? r.stars : 0;
   for (let i = 1; i < body.results.length; i++) {
+    const prev = stars(body.results[i - 1]);
+    const cur = stars(body.results[i]);
     assert.ok(
-      body.results[i - 1].stars <= body.results[i].stars,
-      `asc sort violated at i=${i}: ${body.results[i - 1].stars} > ${body.results[i].stars}`,
+      prev <= cur,
+      `asc sort violated at i=${i}: ${prev} > ${cur}`,
     );
   }
 });

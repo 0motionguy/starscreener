@@ -17,8 +17,15 @@ import { writeDataStore } from '../../lib/redis.js';
 
 const BASE = 'https://skillsmp.com/api/skills';
 const PAGE_LIMIT = 100;
-const MAX_PAGES = 5;
-const TOP_KEEP = 200;
+// Bumped 5→50 (per Phase-4 escalation) so the page renders ~5k skills
+// for the All-Time leaderboard instead of capping at 500. Upstream has
+// no published rate limit; 50 sequential pages at PAGE_LIMIT=100 takes
+// ~25s with the existing 500ms inter-page sleep — well inside the 6h
+// cron window.
+const MAX_PAGES = 50;
+// Keep up to 5k items so the combined /skills board can render multi-
+// page leaderboards (was 200, capping the page at ~500 total skills).
+const TOP_KEEP = 5000;
 const RECENCY_HALF_LIFE_DAYS = 30;
 
 interface SkillsmpSkill {

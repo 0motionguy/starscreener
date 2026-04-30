@@ -75,13 +75,17 @@ export const useWatchlistStore = create<WatchlistState>()(
 // ---------------------------------------------------------------------------
 
 interface CompareState {
-  repos: string[]; // max 4 repo IDs
+  // Cap is MAX_COMPARE_REPOS (5). Persisted across sessions.
+  repos: string[];
   addRepo: (id: string) => void;
   removeRepo: (id: string) => void;
+  setRepos: (ids: string[]) => void;
   clearAll: () => void;
   isComparing: (id: string) => boolean;
   isFull: () => boolean;
 }
+
+const COMPARE_CAP = 5;
 
 export const useCompareStore = create<CompareState>()(
   persist(
@@ -90,12 +94,28 @@ export const useCompareStore = create<CompareState>()(
 
       addRepo: (id) => {
         const { repos } = get();
-        if (repos.length >= 4 || repos.includes(id)) return;
+        if (repos.length >= COMPARE_CAP || repos.includes(id)) return;
         set({ repos: [...repos, id] });
       },
 
       removeRepo: (id) => {
         set({ repos: get().repos.filter((r) => r !== id) });
+      },
+
+      setRepos: (ids) => {
+        // Hard-cap at COMPARE_CAP and dedupe in declaration order — used
+        // by starter-pack picker so a click swaps the entire compare slot
+        // set in one shot.
+        const seen = new Set<string>();
+        const out: string[] = [];
+        for (const id of ids) {
+          if (out.length >= COMPARE_CAP) break;
+          if (!seen.has(id)) {
+            seen.add(id);
+            out.push(id);
+          }
+        }
+        set({ repos: out });
       },
 
       clearAll: () => {
@@ -107,7 +127,7 @@ export const useCompareStore = create<CompareState>()(
       },
 
       isFull: () => {
-        return get().repos.length >= 4;
+        return get().repos.length >= COMPARE_CAP;
       },
     }),
     {

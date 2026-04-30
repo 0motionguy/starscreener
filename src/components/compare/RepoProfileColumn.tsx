@@ -8,7 +8,6 @@
 // error placeholder — the grid keeps every slot populated so the layout
 // doesn't jitter when one lookup fails.
 
-import Image from "next/image";
 import Link from "next/link";
 import { Star } from "lucide-react";
 import type { CompareRepoRow, DiffTone } from "./CompareProfileGrid";
@@ -21,6 +20,8 @@ import { NpmCompact } from "./NpmCompact";
 import { MentionsRecentCompact } from "./MentionsRecentCompact";
 import { cn } from "@/lib/utils";
 import { COMPARE_PALETTE as PALETTE } from "./palette";
+import { EntityLogo } from "@/components/ui/EntityLogo";
+import { repoDisplayLogoUrl } from "@/lib/logos";
 
 interface RepoProfileColumnProps {
   row: CompareRepoRow;
@@ -82,17 +83,13 @@ export function RepoProfileColumn({
     >
       {/* Header */}
       <header className="flex items-center gap-2 min-w-0">
-        {repo.ownerAvatarUrl ? (
-          <Image
-            src={repo.ownerAvatarUrl}
-            alt=""
-            width={28}
-            height={28}
-            className="size-7 rounded-full bg-bg-card-hover shrink-0"
-          />
-        ) : (
-          <div className="size-7 rounded-full bg-bg-card-hover shrink-0" />
-        )}
+        <EntityLogo
+          src={repoDisplayLogoUrl(repo.fullName, repo.ownerAvatarUrl, 28)}
+          name={repo.fullName}
+          size={28}
+          shape="circle"
+          alt=""
+        />
         <div className="min-w-0 flex-1">
           <Link
             href={`/repo/${owner}/${name}`}

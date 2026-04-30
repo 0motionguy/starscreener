@@ -35,7 +35,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 import { fetchJsonWithRetry } from "./_fetch-json.mjs";
-import { extractGithubRepoFullNames } from "./_github-repo-links.mjs";
+import { extractAllRepoMentions } from "./_github-repo-links.mjs";
 import { loadTrackedReposFromFiles } from "./_tracked-repos.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 
@@ -123,7 +123,7 @@ function normalizeStory(raw, tracked, nowSec) {
 }
 
 function extractRepoMentions(text, tracked) {
-  const hits = extractGithubRepoFullNames(text, tracked);
+  const hits = extractAllRepoMentions(text, tracked);
   return Array.from(hits, (lower) => ({
     fullName: tracked.get(lower) ?? lower,
     matchType: "url",

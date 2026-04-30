@@ -23,7 +23,7 @@ import {
   type BlueskyPost,
 } from '../../lib/sources/bluesky.js';
 import { classifyPost } from '../../lib/util/classify-post.js';
-import { extractGithubRepoFullNames } from '../../lib/util/github-repo-links.js';
+import { extractAllRepoMentions } from '../../lib/util/github-repo-links.js';
 import { loadTrackedRepos } from '../../lib/util/tracked-repos.js';
 import {
   BLUESKY_QUERY_FAMILIES,
@@ -94,7 +94,7 @@ function normalizePost(post: BlueskyPost, tracked: Map<string, string>, nowSec: 
   const embedUrls = collectPostUrls(post);
   const textBlob = `${text}\n${embedUrls.join('\n')}`;
 
-  const linkedLower = extractGithubRepoFullNames(textBlob, tracked);
+  const linkedLower = extractAllRepoMentions(textBlob, tracked);
   const linkedRepos = Array.from(linkedLower, (lower) => ({
     fullName: tracked.get(lower) ?? lower,
     matchType: 'url' as const,

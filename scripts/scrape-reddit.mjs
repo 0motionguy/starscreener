@@ -41,7 +41,7 @@ import {
   recentRepoRows,
 } from "./_tracked-repos.mjs";
 import {
-  extractGithubRepoFullNames,
+  extractAllRepoMentions,
   normalizeGithubFullName,
 } from "./_github-repo-links.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
@@ -684,7 +684,7 @@ export function extractRepoMentions(post, trackedLower, aliasMatchers = []) {
     }
   };
   const text = `${post.title ?? ""}\n${post.url ?? ""}\n${post.selftext ?? ""}`;
-  for (const full of extractGithubRepoFullNames(text, trackedLower)) {
+  for (const full of extractAllRepoMentions(text, trackedLower)) {
     remember(full, "url", 1.0);
   }
 

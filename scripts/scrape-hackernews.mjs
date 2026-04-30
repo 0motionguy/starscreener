@@ -33,7 +33,7 @@ import {
   recentRepoRows,
 } from "./_tracked-repos.mjs";
 import {
-  extractGithubRepoFullNames,
+  extractAllRepoMentions,
   normalizeGithubFullName,
 } from "./_github-repo-links.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
@@ -78,7 +78,7 @@ export function extractRepoMentions(text, trackedLower) {
   // Scan any text blob for github.com/<owner>/<repo> hits, returning
   // lowercase canonical fullNames restricted to the `trackedLower` set.
   // If `trackedLower` is null/undefined, returns ALL parsed hits.
-  return extractGithubRepoFullNames(text, trackedLower);
+  return extractAllRepoMentions(text, trackedLower);
 }
 
 export function computeVelocityFields(score, createdUtc, nowSec = Math.floor(Date.now() / 1000)) {

@@ -312,8 +312,11 @@ export function NpmAdoptionPanel({
               title={`${topPackage.name} — last ${topSeries.length} days of downloads`}
             >
               <span
-                className="v2-mono"
-                style={{ fontSize: 10, color: "var(--v4-ink-400)" }}
+                style={{
+                  fontFamily: "var(--font-geist-mono), monospace",
+                  fontSize: 10,
+                  color: "var(--v4-ink-400)",
+                }}
               >
                 30D
               </span>

@@ -145,9 +145,9 @@ function DeltaChip({ label, value }: { label: string; value: number }) {
   const tone = deltaTone(value);
   const color =
     tone === "up"
-      ? "var(--v3-sig-green)"
+      ? "var(--v4-money)"
       : tone === "down"
-        ? "var(--v3-sig-red)"
+        ? "var(--v4-red)"
         : "var(--v4-ink-400)";
   return (
     <span className="inline-flex items-baseline gap-1">

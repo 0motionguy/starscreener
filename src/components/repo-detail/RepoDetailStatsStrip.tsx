@@ -120,9 +120,9 @@ function MiniCard({
     deltaMissing
       ? "var(--v4-ink-400)"
       : tone === "up"
-        ? "var(--v3-sig-green)"
+        ? "var(--v4-money)"
         : tone === "down"
-          ? "var(--v3-sig-red)"
+          ? "var(--v4-red)"
           : "var(--v4-ink-400)";
 
   return (

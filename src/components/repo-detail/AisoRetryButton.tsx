@@ -170,7 +170,13 @@ export function AisoRetryButton({
       onClick={onClick}
       disabled={disabled}
       aria-busy={busy}
-      className="inline-flex items-center gap-1 rounded-md border border-border-primary bg-bg-secondary/60 px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-text-secondary transition-colors hover:border-brand/40 hover:text-brand disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:border-border-primary disabled:hover:text-text-secondary"
+      className="inline-flex items-center gap-1 px-2 py-1 font-mono text-[10px] uppercase tracking-wider transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+      style={{
+        border: "1px solid var(--v4-line-200)",
+        background: "var(--v4-bg-050)",
+        color: "var(--v4-ink-200)",
+        borderRadius: 4,
+      }}
     >
       {buttonLabel}
     </button>

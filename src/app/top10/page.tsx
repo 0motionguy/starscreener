@@ -56,10 +56,14 @@ import {
   buildSkillsTop10,
   emptyBundle,
   reposToSlice,
+  type BuildExtras,
 } from "@/lib/top10/builders";
+import { loadPriorTopSlugs } from "@/lib/top10/snapshots";
+import { readSparklineBatch } from "@/lib/top10/sparkline-store";
 import {
   CATEGORY_META,
   type RepoSliceLite,
+  type Top10Category,
   type Top10Payload,
 } from "@/lib/top10/types";
 import { Top10Page } from "@/components/top10/Top10Page";
@@ -125,34 +129,82 @@ export default async function Top10RootPage() {
   const ph = getRecentLaunches(7, 40);
   const funding = getFundingSignalsThisWeek();
 
-  const [skillsRes, mcpRes] = await Promise.allSettled([
+  const [skillsRes, mcpRes, priorSlugsRes] = await Promise.allSettled([
     getSkillsSignalData(),
     getMcpSignalData(),
+    // Yesterday's snapshot drives the NEW ENTRY badge. allSettled because the
+    // snapshot may not exist yet (cold-start before any cron has run).
+    loadPriorTopSlugs(),
   ]);
 
   const skillsBoard =
     skillsRes.status === "fulfilled" ? skillsRes.value.combined : null;
   const mcpBoard = mcpRes.status === "fulfilled" ? mcpRes.value.board : null;
+  const priorSlugs =
+    priorSlugsRes.status === "fulfilled" ? priorSlugsRes.value : null;
+
+  // Resolve the "today's slugs" we need sparklines for, then batch-read them.
+  // Per-category slug lists drive 5 small batched Redis reads (one per
+  // non-repo category, fanned out 8-at-a-time inside the helper) so the
+  // sparkline payload arrives with the rest of the bundle data.
+  const llmSlugs = hfModels.slice(0, 10).map((m) => m.id);
+  const mcpSlugs = (mcpBoard?.items ?? []).slice(0, 10).map((it) => it.id);
+  const skillSlugs = (skillsBoard?.items ?? []).slice(0, 10).map((it) => it.id);
+  const fundingSlugs = funding.slice(0, 10).map((s) => s.id);
+  const newsSlugs = buildNewsTop10({
+    hn,
+    bluesky: bsky,
+    devto,
+    lobsters,
+    producthunt: ph,
+  }).items.map((i) => i.slug);
+
+  const [llmSpark, mcpSpark, skillSpark, newsSpark, fundingSpark] =
+    await Promise.all([
+      readSparklineBatch("llms", llmSlugs).catch(() => new Map()),
+      readSparklineBatch("mcps", mcpSlugs).catch(() => new Map()),
+      readSparklineBatch("skills", skillSlugs).catch(() => new Map()),
+      readSparklineBatch("news", newsSlugs).catch(() => new Map()),
+      readSparklineBatch("funding", fundingSlugs).catch(() => new Map()),
+    ]);
+
+  // Per-category extras package — NEW ENTRY badge from prior snapshot +
+  // sparklines from the per-category ring buffer.
+  const extras = (cat: Top10Category, sparklines?: Map<string, number[]>): BuildExtras => ({
+    priorTopSlugs: priorSlugs ? priorSlugs[cat] : undefined,
+    sparklines,
+  });
 
   // Build all 8 bundles. Each builder handles empty input gracefully (returns
   // an emptyBundle when its slice is empty) so the page still renders even on
   // a cold lambda with no Redis.
   const payload: Top10Payload = {
-    repos: repos.length > 0 ? buildRepoTop10(repos, "7d") : emptyBundle("7d"),
-    llms: hfModels.length > 0 ? buildLlmTop10(hfModels, "7d") : emptyBundle("7d"),
-    agents: repos.length > 0 ? buildAgentTop10(repos, "7d") : emptyBundle("7d"),
-    mcps: buildMcpTop10(mcpBoard, "7d"),
-    skills: buildSkillsTop10(skillsBoard, "7d"),
+    repos:
+      repos.length > 0
+        ? buildRepoTop10(repos, "7d", "cross-signal", extras("repos"))
+        : emptyBundle("7d"),
+    llms:
+      hfModels.length > 0
+        ? buildLlmTop10(hfModels, "7d", extras("llms", llmSpark))
+        : emptyBundle("7d"),
+    agents:
+      repos.length > 0
+        ? buildAgentTop10(repos, "7d", "cross-signal", extras("agents"))
+        : emptyBundle("7d"),
+    mcps: buildMcpTop10(mcpBoard, "7d", extras("mcps", mcpSpark)),
+    skills: buildSkillsTop10(skillsBoard, "7d", extras("skills", skillSpark)),
     movers:
-      repos.length > 0 ? buildMoversTop10(repos, "24h") : emptyBundle("24h"),
-    news: buildNewsTop10({
-      hn,
-      bluesky: bsky,
-      devto,
-      lobsters,
-      producthunt: ph,
-    }),
-    funding: funding.length > 0 ? buildFundingTop10(funding) : emptyBundle("7d"),
+      repos.length > 0
+        ? buildMoversTop10(repos, "24h", extras("movers"))
+        : emptyBundle("24h"),
+    news: buildNewsTop10(
+      { hn, bluesky: bsky, devto, lobsters, producthunt: ph },
+      extras("news", newsSpark),
+    ),
+    funding:
+      funding.length > 0
+        ? buildFundingTop10(funding, extras("funding", fundingSpark))
+        : emptyBundle("7d"),
   };
 
   // Top-80 repo slice for client-side window/metric switching of REPOS /

@@ -1,7 +1,7 @@
-// /lobsters - full Lobsters story feed.
+// /lobsters — V4 SourceFeedTemplate consumer.
 //
-// Renders data/lobsters-trending.json, produced by scripts/scrape-lobsters.mjs.
-// The compact version also appears inside /news?tab=lobsters.
+// Renders data/lobsters-trending.json (scripts/scrape-lobsters.mjs).
+// Side-by-side: story feed + repo leaderboard.
 
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -17,18 +17,19 @@ import {
   repoFullNameToHref,
   type LobstersStory,
 } from "@/lib/lobsters";
-import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
-import { buildLobstersHeader } from "@/components/news/newsTopMetrics";
 import { TerminalFeedTable, type FeedColumn } from "@/components/feed/TerminalFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { repoLogoUrl, resolveLogoUrl } from "@/lib/logos";
 
-const LOBSTERS_ACCENT = "rgba(172, 19, 13, 0.85)";
+// V4 (CORPUS) primitives.
+import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
+import { KpiBand } from "@/components/ui/KpiBand";
+import { LiveDot } from "@/components/ui/LiveDot";
 
 export const dynamic = "force-static";
 
 export const metadata: Metadata = {
-  title: "TrendingRepo - Lobsters Trending",
+  title: "TrendingRepo — Lobsters Trending",
   description:
     "Lobsters stories ranked by recent score velocity and cross-linked to tracked GitHub repositories.",
 };
@@ -42,6 +43,11 @@ function formatAgeHours(ageHours: number | undefined): string {
   return `${Math.round(ageHours / 24)}d`;
 }
 
+function formatClock(iso: string | undefined): string {
+  if (!iso) return "warming";
+  return new Date(iso).toISOString().slice(11, 19);
+}
+
 export default async function LobstersPage() {
   await Promise.all([
     refreshLobstersTrendingFromStore(),
@@ -53,49 +59,93 @@ export default async function LobstersPage() {
   const leaderboard = getLobstersLeaderboard();
   const cold = allStories.length === 0;
 
-  return (
-    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
-      <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        {cold ? (
-          <ColdState />
-        ) : (
-          <>
-            {/* V3 top header — 3 charts + 3 hero stories. The legacy stat
-                tiles below this were dropped — covered by the V3 snapshot. */}
-            <div className="mb-6">
-              <NewsTopHeaderV3
-                routeTitle="LOBSTERS · TOP STORIES"
-                liveLabel={`LIVE · ${file.windowHours}H`}
-                eyebrow="// LOBSTE.RS · LIVE FIREHOSE"
-                meta={[
-                  { label: "TRACKED", value: allStories.length.toLocaleString("en-US") },
-                  { label: "WINDOW", value: `${file.windowHours}H` },
-                ]}
-                {...buildLobstersHeader(file, getLobstersTopStories(3))}
-                accent={LOBSTERS_ACCENT}
-                caption={[
-                  "// LAYOUT compact-v1",
-                  "· 3-COL · 320 / 1FR / 1FR",
-                  "· DATA UNCHANGED",
-                ]}
-              />
-            </div>
+  if (cold) {
+    return (
+      <main className="home-surface">
+        <SourceFeedTemplate
+          crumb={
+            <>
+              <b>LOBSTERS</b> · TERMINAL · /LOBSTERS
+            </>
+          }
+          title="Lobsters · top stories"
+          lede="Stories ranked by recent score velocity, cross-linked to GitHub repos. The Lobsters firehose runs every cron tick and keeps the rolling 24h list fresh."
+        />
+        <ColdState />
+      </main>
+    );
+  }
 
-            <div
-              className={
-                leaderboard.length > 0
-                  ? "grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6"
-                  : ""
-              }
-            >
-              <StoryFeed stories={stories} />
-              {leaderboard.length > 0 ? (
-                <Leaderboard entries={leaderboard.slice(0, 15)} />
-              ) : null}
-            </div>
+  const topScore = allStories.reduce((m, s) => Math.max(m, s.score), 0);
+  const linkedRepoCount = allStories.filter(
+    (s) => Array.isArray(s.linkedRepos) && s.linkedRepos.length > 0,
+  ).length;
+
+  return (
+    <main className="home-surface">
+      <SourceFeedTemplate
+        crumb={
+          <>
+            <b>LOBSTERS</b> · TERMINAL · /LOBSTERS
           </>
-        )}
-      </div>
+        }
+        title="Lobsters · top stories"
+        lede="Stories ranked by recent score velocity, cross-linked to GitHub repos. The Lobsters firehose runs every cron tick and keeps the rolling 24h list fresh."
+        clock={
+          <>
+            <span className="big">{formatClock(file.fetchedAt)}</span>
+            <span className="muted">UTC · SCRAPED</span>
+            <LiveDot label={`LIVE · ${file.windowHours}H`} />
+          </>
+        }
+        snapshot={
+          <KpiBand
+            cells={[
+              {
+                label: "TRACKED",
+                value: allStories.length.toLocaleString("en-US"),
+                sub: `${file.windowHours}h rolling`,
+                pip: LOBSTERS_RED,
+              },
+              {
+                label: "TOP SCORE",
+                value: topScore.toLocaleString("en-US"),
+                sub: "velocity peak",
+                tone: "acc",
+                pip: "var(--v4-acc)",
+              },
+              {
+                label: "LEADERBOARD",
+                value: leaderboard.length,
+                sub: "tracked repos · 7d",
+                tone: "money",
+                pip: "var(--v4-money)",
+              },
+              {
+                label: "GH-LINKED",
+                value: linkedRepoCount,
+                sub: "stories with repo",
+                pip: "var(--v4-blue)",
+              },
+            ]}
+          />
+        }
+        listEyebrow="Story feed · top 50 by score · repo leaderboard"
+        list={
+          <div
+            className={
+              leaderboard.length > 0
+                ? "grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6"
+                : ""
+            }
+          >
+            <StoryFeed stories={stories} />
+            {leaderboard.length > 0 ? (
+              <Leaderboard entries={leaderboard.slice(0, 15)} />
+            ) : null}
+          </div>
+        }
+      />
     </main>
   );
 }
@@ -110,7 +160,7 @@ function StoryFeed({ stories }: { stories: LobstersStory[] }) {
       render: (_, i) => (
         <span
           className="font-mono text-[12px] tabular-nums font-semibold"
-          style={{ color: i < 10 ? LOBSTERS_RED : "var(--v3-ink-400)" }}
+          style={{ color: i < 10 ? LOBSTERS_RED : "var(--v4-ink-400)" }}
         >
           {String(i + 1).padStart(2, "0")}
         </span>
@@ -137,8 +187,8 @@ function StoryFeed({ stories }: { stories: LobstersStory[] }) {
               href={commentsHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="truncate text-[13px] font-medium transition-colors hover:text-[color:var(--v3-acc)]"
-              style={{ color: "var(--v3-ink-100)" }}
+              className="truncate text-[13px] font-medium transition-colors hover:text-[color:var(--v4-acc)]"
+              style={{ color: "var(--v4-ink-100)" }}
               title={story.title}
             >
               {story.title}
@@ -148,8 +198,8 @@ function StoryFeed({ stories }: { stories: LobstersStory[] }) {
                 href={story.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="v2-mono shrink-0 text-[10px] tracking-[0.14em] uppercase hover:text-[color:var(--v3-acc)]"
-                style={{ color: "var(--v3-ink-400)" }}
+                className="v2-mono shrink-0 text-[10px] tracking-[0.14em] uppercase hover:text-[color:var(--v4-acc)]"
+                style={{ color: "var(--v4-ink-400)" }}
               >
                 src
               </a>
@@ -157,11 +207,11 @@ function StoryFeed({ stories }: { stories: LobstersStory[] }) {
             {linkedRepo ? (
               <Link
                 href={repoFullNameToHref(linkedRepo)}
-                className="v2-mono shrink-0 px-1.5 py-0.5 text-[10px] tracking-[0.14em] uppercase transition-colors hover:text-[color:var(--v3-acc)]"
+                className="v2-mono shrink-0 px-1.5 py-0.5 text-[10px] tracking-[0.14em] uppercase transition-colors hover:text-[color:var(--v4-acc)]"
                 style={{
-                  border: "1px solid var(--v3-line-200)",
-                  background: "var(--v3-bg-100)",
-                  color: "var(--v3-ink-300)",
+                  border: "1px solid var(--v4-line-200)",
+                  background: "var(--v4-bg-100)",
+                  color: "var(--v4-ink-300)",
                   borderRadius: 2,
                 }}
                 title={`Linked repo: ${linkedRepo}`}
@@ -182,7 +232,7 @@ function StoryFeed({ stories }: { stories: LobstersStory[] }) {
       render: (story) => {
         const tags = (story.tags ?? []).slice(0, 3);
         if (tags.length === 0) {
-          return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+          return <span style={{ color: "var(--v4-ink-500)" }}>—</span>;
         }
         return (
           <div className="flex min-w-0 items-center gap-1">
@@ -191,8 +241,8 @@ function StoryFeed({ stories }: { stories: LobstersStory[] }) {
                 key={tag}
                 className="v2-mono max-w-full truncate px-1.5 py-0.5 text-[10px] tracking-[0.14em] uppercase"
                 style={{
-                  border: "1px solid var(--v3-line-200)",
-                  color: "var(--v3-ink-400)",
+                  border: "1px solid var(--v4-line-200)",
+                  color: "var(--v4-ink-400)",
                   borderRadius: 2,
                 }}
                 title={tag}
@@ -212,7 +262,7 @@ function StoryFeed({ stories }: { stories: LobstersStory[] }) {
       render: (story) => (
         <span
           className="font-mono text-[12px] tabular-nums"
-          style={{ color: story.score >= 25 ? LOBSTERS_RED : "var(--v3-ink-100)" }}
+          style={{ color: story.score >= 25 ? LOBSTERS_RED : "var(--v4-ink-100)" }}
         >
           {story.score.toLocaleString("en-US")}
         </span>
@@ -227,7 +277,7 @@ function StoryFeed({ stories }: { stories: LobstersStory[] }) {
       render: (story) => (
         <span
           className="font-mono text-[12px] tabular-nums"
-          style={{ color: "var(--v3-ink-300)" }}
+          style={{ color: "var(--v4-ink-300)" }}
         >
           {story.commentCount.toLocaleString("en-US")}
         </span>
@@ -242,7 +292,7 @@ function StoryFeed({ stories }: { stories: LobstersStory[] }) {
       render: (story) => (
         <span
           className="font-mono text-[12px] tabular-nums"
-          style={{ color: "var(--v3-ink-400)" }}
+          style={{ color: "var(--v4-ink-400)" }}
         >
           {formatAgeHours(story.ageHours)}
         </span>
@@ -271,27 +321,27 @@ function Leaderboard({
     <aside
       className="hidden h-fit overflow-hidden lg:block"
       style={{
-        background: "var(--v3-bg-050)",
-        border: "1px solid var(--v3-line-200)",
+        background: "var(--v4-bg-050)",
+        border: "1px solid var(--v4-line-200)",
         borderRadius: 2,
       }}
     >
       <div
         className="v2-mono flex h-9 items-center justify-between px-3"
         style={{
-          borderBottom: "1px solid var(--v3-line-100)",
-          background: "var(--v3-bg-025)",
+          borderBottom: "1px solid var(--v4-line-100)",
+          background: "var(--v4-bg-025)",
         }}
       >
         <span
           className="text-[10px] uppercase tracking-[0.18em]"
-          style={{ color: "var(--v3-ink-300)" }}
+          style={{ color: "var(--v4-ink-300)" }}
         >
           REPO LEADERBOARD
         </span>
         <span
           className="text-[10px] tabular-nums tracking-[0.14em]"
-          style={{ color: "var(--v3-ink-400)" }}
+          style={{ color: "var(--v4-ink-400)" }}
         >
           {entries.length}
         </span>
@@ -299,8 +349,8 @@ function Leaderboard({
       <div
         className="v2-mono grid h-7 grid-cols-[28px_1fr_40px_50px] items-center gap-2 px-3 text-[10px] uppercase tracking-[0.18em]"
         style={{
-          borderBottom: "1px solid var(--v3-line-100)",
-          color: "var(--v3-ink-400)",
+          borderBottom: "1px solid var(--v4-line-100)",
+          color: "var(--v4-ink-400)",
         }}
       >
         <div>#</div>
@@ -316,34 +366,34 @@ function Leaderboard({
               key={entry.fullName}
               className="v2-row group grid h-9 grid-cols-[28px_1fr_40px_50px] items-center gap-2 px-3"
               style={{
-                borderBottom: "1px dashed var(--v3-line-100)",
+                borderBottom: "1px dashed var(--v4-line-100)",
                 animation: "slide-up 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both",
                 animationDelay: stagger > 0 ? `${stagger}ms` : undefined,
               }}
             >
               <div
                 className="font-mono text-xs tabular-nums"
-                style={{ color: "var(--v3-ink-400)" }}
+                style={{ color: "var(--v4-ink-400)" }}
               >
                 {index + 1}
               </div>
               <Link
                 href={repoFullNameToHref(entry.fullName)}
-                className="truncate text-xs transition-colors hover:text-[color:var(--v3-acc)]"
-                style={{ color: "var(--v3-ink-100)" }}
+                className="truncate text-xs transition-colors hover:text-[color:var(--v4-acc)]"
+                style={{ color: "var(--v4-ink-100)" }}
                 title={entry.fullName}
               >
                 {entry.fullName}
               </Link>
               <div
                 className="text-right text-xs tabular-nums"
-                style={{ color: "var(--v3-ink-200)" }}
+                style={{ color: "var(--v4-ink-200)" }}
               >
                 {entry.count7d.toLocaleString("en-US")}
               </div>
               <div
                 className="text-right text-xs tabular-nums"
-                style={{ color: "var(--v3-ink-400)" }}
+                style={{ color: "var(--v4-ink-400)" }}
               >
                 {entry.scoreSum7d.toLocaleString("en-US")}
               </div>
@@ -355,31 +405,33 @@ function Leaderboard({
   );
 }
 
-
 function ColdState() {
   return (
     <section
-      className="p-8"
       style={{
-        background: "var(--v3-bg-025)",
-        border: "1px dashed var(--v3-line-100)",
+        padding: 32,
+        background: "var(--v4-bg-025)",
+        border: "1px dashed var(--v4-line-100)",
         borderRadius: 2,
       }}
     >
       <h2
-        className="v2-mono text-lg font-bold uppercase tracking-[0.18em]"
-        style={{ color: LOBSTERS_RED }}
+        className="v2-mono"
+        style={{
+          color: LOBSTERS_RED,
+          fontSize: 18,
+          fontWeight: 700,
+          textTransform: "uppercase",
+          letterSpacing: "0.18em",
+        }}
       >
         {"// no lobsters data yet"}
       </h2>
-      <p
-        className="mt-3 max-w-xl text-sm"
-        style={{ color: "var(--v3-ink-300)" }}
-      >
+      <p style={{ marginTop: 12, maxWidth: "32rem", fontSize: 13, color: "var(--v4-ink-300)" }}>
         The Lobsters scraper has not produced data yet. Run{" "}
-        <code style={{ color: "var(--v3-ink-100)" }}>npm run scrape:lobsters</code>{" "}
+        <code style={{ color: "var(--v4-ink-100)" }}>npm run scrape:lobsters</code>{" "}
         locally to populate{" "}
-        <code style={{ color: "var(--v3-ink-100)" }}>data/lobsters-trending.json</code>
+        <code style={{ color: "var(--v4-ink-100)" }}>data/lobsters-trending.json</code>
         , then refresh this page.
       </p>
     </section>

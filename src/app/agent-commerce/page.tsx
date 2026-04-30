@@ -1597,6 +1597,272 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
             );
           })()}
 
+          {/* ========== 04c-sol — ON-CHAIN x402 SETTLEMENTS (Solana) ========== */}
+          {(() => {
+            // Inline read of the Solana on-chain indexer output.
+            // Source: scripts/fetch-solana-x402-onchain.mjs → .data/solana-x402-onchain.json
+            // (free Solana RPC + Merit-Systems/x402scan address book)
+            // eslint-disable-next-line @typescript-eslint/no-require-imports
+            const fs = require("fs") as typeof import("fs");
+            // eslint-disable-next-line @typescript-eslint/no-require-imports
+            const path = require("path") as typeof import("path");
+            let onchain: {
+              fetchedAt?: string;
+              totalSettlements?: number;
+              byFacilitator?: Record<
+                string,
+                { addressCount: number; totalTxs: number; x402Settlements: number }
+              >;
+              byDay?: Record<
+                string,
+                { txs: number; byFacilitator: Record<string, number> }
+              >;
+              samples?: Array<{
+                facilitator: string;
+                txSig: string;
+                from?: string | null;
+                to?: string | null;
+                blockTime: string | null;
+                slot?: number | null;
+              }>;
+            } | null = null;
+            try {
+              const raw = fs.readFileSync(
+                path.resolve(process.cwd(), ".data/solana-x402-onchain.json"),
+                "utf8",
+              );
+              onchain = JSON.parse(raw);
+            } catch {
+              return null;
+            }
+            if (!onchain || !onchain.totalSettlements) return null;
+            const total = onchain.totalSettlements;
+            const facs = Object.entries(onchain.byFacilitator ?? {})
+              .map(([name, v]) => ({
+                name,
+                count: v.x402Settlements,
+                share: total > 0 ? (v.x402Settlements / total) * 100 : 0,
+              }))
+              .sort((a, b) => b.count - a.count);
+            const days = Object.entries(onchain.byDay ?? {})
+              .sort(([a], [b]) => (a < b ? -1 : 1))
+              .slice(-21);
+            const maxDay = Math.max(...days.map(([, v]) => v.txs), 1);
+            const facColor: Record<string, string> = {
+              CodeNut: "#f59e0b",
+              PayAI: "#22d3ee",
+              Dexter: "#a78bfa",
+              Bitrefill: "#fbbf24",
+              RelAI: "#34d399",
+              UltravioletaDAO: "#c084fc",
+              AnySpend: "#60a5fa",
+              AurraCloud: "#f472b6",
+              Cascade: "#38bdf8",
+              Corbits: "#fb7185",
+              Daydreams: "#a3e635",
+              OpenFacilitator: "#94a3b8",
+              OpenX402: "#f87171",
+              x402jobs: "#fde047",
+            };
+            return (
+              <>
+                <div className="sec-head">
+                  <span className="sec-num">{"// 04c-sol"}</span>
+                  <h2 className="sec-title">On-chain x402 settlements</h2>
+                  <span className="sec-meta">
+                    Solana · <b>{total.toLocaleString("en-US")}</b> settlements ·{" "}
+                    <b>{Object.keys(onchain.byFacilitator ?? {}).length}</b>{" "}
+                    facilitators · free via mainnet-beta RPC
+                  </span>
+                </div>
+                <div className="grid">
+                  <Card className="col-6">
+                    <CardHeader showCorner right={<span>by facilitator</span>}>
+                      Facilitator share
+                    </CardHeader>
+                    <CardBody>
+                      {facs.map((f) => {
+                        const tone = facColor[f.name] ?? "#cbd5e1";
+                        return (
+                          <div
+                            key={f.name}
+                            style={{
+                              display: "grid",
+                              gridTemplateColumns:
+                                "120px minmax(0, 1fr) 60px 50px",
+                              alignItems: "center",
+                              gap: 10,
+                              padding: "8px 12px",
+                              borderBottom:
+                                "1px solid var(--color-border-subtle)",
+                              fontFamily: "var(--font-mono, ui-monospace)",
+                              fontSize: 12,
+                            }}
+                          >
+                            <span style={{ color: tone, fontWeight: 700 }}>
+                              {f.name}
+                            </span>
+                            <span
+                              style={{
+                                position: "relative",
+                                height: 6,
+                                background: "var(--color-bg-canvas)",
+                                borderRadius: 3,
+                                overflow: "hidden",
+                              }}
+                            >
+                              <span
+                                style={{
+                                  position: "absolute",
+                                  inset: 0,
+                                  width: `${f.share}%`,
+                                  background: tone,
+                                }}
+                              />
+                            </span>
+                            <span
+                              style={{
+                                textAlign: "right",
+                                color: "var(--color-text-default)",
+                                fontWeight: 700,
+                              }}
+                            >
+                              {f.count}
+                            </span>
+                            <span
+                              style={{
+                                textAlign: "right",
+                                color: "var(--color-text-faint)",
+                              }}
+                            >
+                              {f.share.toFixed(1)}%
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </CardBody>
+                  </Card>
+                  <Card className="col-6">
+                    <CardHeader
+                      showCorner
+                      right={<span>{days.length}d window</span>}
+                    >
+                      Daily settlements
+                    </CardHeader>
+                    <CardBody>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "flex-end",
+                          gap: 3,
+                          padding: "16px 14px 8px",
+                          height: 110,
+                        }}
+                      >
+                        {days.map(([day, v]) => {
+                          const h = Math.max(
+                            2,
+                            Math.round((v.txs / maxDay) * 90),
+                          );
+                          return (
+                            <span
+                              key={day}
+                              title={`${day} · ${v.txs} settlements`}
+                              style={{
+                                flex: 1,
+                                height: `${h}px`,
+                                background: "var(--color-accent)",
+                                opacity: 0.85,
+                                borderTop: "1px solid var(--color-accent)",
+                              }}
+                            />
+                          );
+                        })}
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          padding: "0 14px 10px",
+                          fontSize: 10,
+                          color: "var(--color-text-faint)",
+                          fontFamily: "var(--font-mono, ui-monospace)",
+                          letterSpacing: "0.06em",
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        <span>{days[0]?.[0]}</span>
+                        <span>{days[days.length - 1]?.[0]}</span>
+                      </div>
+                    </CardBody>
+                  </Card>
+                </div>
+                {(onchain.samples ?? []).length > 0 ? (
+                  <Card>
+                    <CardHeader
+                      showCorner
+                      right={<span>most recent on-chain settlements</span>}
+                    >
+                      Sample tx signatures
+                    </CardHeader>
+                    <CardBody>
+                      {(onchain.samples ?? []).slice(0, 6).map((s) => (
+                        <a
+                          key={s.txSig}
+                          href={`https://solscan.io/tx/${s.txSig}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          style={{
+                            display: "grid",
+                            gridTemplateColumns: "120px minmax(0, 1fr) 100px",
+                            alignItems: "center",
+                            gap: 12,
+                            padding: "6px 14px",
+                            borderBottom:
+                              "1px solid var(--color-border-subtle)",
+                            color: "inherit",
+                            textDecoration: "none",
+                            fontFamily: "var(--font-mono, ui-monospace)",
+                            fontSize: 11,
+                          }}
+                        >
+                          <span
+                            style={{
+                              color: facColor[s.facilitator] ?? "#cbd5e1",
+                              fontWeight: 700,
+                            }}
+                          >
+                            {s.facilitator}
+                          </span>
+                          <span
+                            style={{
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              whiteSpace: "nowrap",
+                              color: "var(--color-text-default)",
+                            }}
+                          >
+                            {s.txSig}
+                          </span>
+                          <span
+                            style={{
+                              textAlign: "right",
+                              color: "var(--color-text-faint)",
+                            }}
+                          >
+                            {s.blockTime
+                              ? new Date(s.blockTime).toISOString().slice(0, 10)
+                              : "—"}
+                          </span>
+                        </a>
+                      ))}
+                    </CardBody>
+                  </Card>
+                ) : null}
+              </>
+            );
+          })()}
+
           {/* ========== 05 — CAPABILITY CLOUD ========== */}
           {topCapabilities.length > 0 ? (
             <>

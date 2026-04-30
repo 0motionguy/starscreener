@@ -13,6 +13,10 @@ import { AgentCommerceCard } from "@/components/agent-commerce/AgentCommerceCard
 import { AgentCommerceFilterBar } from "@/components/agent-commerce/AgentCommerceFilterBar";
 import { AgentCommerceTabs } from "@/components/agent-commerce/AgentCommerceTabs";
 import {
+  AgentCommerceTicker,
+  type AgentCommerceTickerItem,
+} from "@/components/agent-commerce/AgentCommerceTicker";
+import {
   getAgentCommerceFile,
   getAgentCommerceItems,
   getAgentCommerceStats,
@@ -473,6 +477,97 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
   const topMcp = topMcpServers();
   const topX402List = topX402();
 
+  // Token-economy boards (CoinGecko). Filter to entities with a tokenSymbol.
+  const tokenItems = all.filter((i) => i.live?.tokenSymbol);
+  const topTokensByMcap = tokenItems
+    .slice()
+    .sort(
+      (a, b) =>
+        (b.live?.marketCapUsd ?? 0) - (a.live?.marketCapUsd ?? 0),
+    )
+    .slice(0, 8);
+  const topTokenGainers = tokenItems
+    .filter((i) => Number.isFinite(i.live?.priceChange24hPct))
+    .slice()
+    .sort(
+      (a, b) =>
+        (b.live?.priceChange24hPct ?? 0) -
+        (a.live?.priceChange24hPct ?? 0),
+    )
+    .slice(0, 8);
+  const tokenMcapTotal = tokenItems.reduce(
+    (a, b) => a + (b.live?.marketCapUsd ?? 0),
+    0,
+  );
+
+  // Live ticker items: top token movers ± freshly-pushed GitHub repos +
+  // newest verified entities. Capped at 24 total (12 unique × 2 looped).
+  const tickerItems: AgentCommerceTickerItem[] = [];
+  for (const item of topTokenGainers.slice(0, 5)) {
+    const change = item.live?.priceChange24hPct ?? 0;
+    tickerItems.push({
+      kind: change >= 0 ? "token-up" : "token-down",
+      href: `/agent-commerce/${item.slug}`,
+      label: `$${item.live?.tokenSymbol ?? ""}`,
+      text: item.name,
+      value: `${change >= 0 ? "+" : ""}${change.toFixed(1)}%`,
+      down: change < 0,
+    });
+  }
+  const tokenLosers = tokenItems
+    .filter((i) => Number.isFinite(i.live?.priceChange24hPct))
+    .slice()
+    .sort(
+      (a, b) =>
+        (a.live?.priceChange24hPct ?? 0) -
+        (b.live?.priceChange24hPct ?? 0),
+    )
+    .slice(0, 3);
+  for (const item of tokenLosers) {
+    const change = item.live?.priceChange24hPct ?? 0;
+    tickerItems.push({
+      kind: "token-down",
+      href: `/agent-commerce/${item.slug}`,
+      label: `$${item.live?.tokenSymbol ?? ""}`,
+      text: item.name,
+      value: `${change.toFixed(1)}%`,
+      down: true,
+    });
+  }
+  const freshGithub = all
+    .filter(
+      (i): i is AgentCommerceItem & {
+        live: { pushedAt: string; stars: number };
+      } =>
+        Boolean(
+          i.live?.pushedAt &&
+            typeof i.live.stars === "number" &&
+            i.live.stars > 50,
+        ),
+    )
+    .slice()
+    .sort(
+      (a, b) =>
+        new Date(b.live.pushedAt).getTime() -
+        new Date(a.live.pushedAt).getTime(),
+    )
+    .slice(0, 4);
+  for (const item of freshGithub) {
+    const days = Math.max(
+      0,
+      Math.floor(
+        (Date.now() - new Date(item.live.pushedAt).getTime()) / 86_400_000,
+      ),
+    );
+    tickerItems.push({
+      kind: "github-push",
+      href: `/agent-commerce/${item.slug}`,
+      label: item.name,
+      text: `★${item.live.stars.toLocaleString("en-US")}`,
+      value: days === 0 ? "today" : `${days}d ago`,
+    });
+  }
+
   return (
     <main className="home-surface agent-commerce-page">
       <section className="page-head">
@@ -521,6 +616,8 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
         <Metric label="MCP" value={stats.mcpServerCount} sub="servers" tone="consensus" pip />
         <Metric label="AISO ≥80" value={stats.highAisoCount} sub="visible" tone="warning" pip />
       </MetricGrid>
+
+      <AgentCommerceTicker items={tickerItems} />
 
       <AgentCommerceTabs active={filter.tab} counts={tabCounts} baseQuery={baseQuery} />
 
@@ -824,6 +921,39 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
                           dev·{item.live?.devtoMentions?.count ?? 0}
                         </span>
                       ) : null}
+                      {item.live?.tokenSymbol ? (
+                        <span
+                          style={{
+                            marginLeft: 6,
+                            color: "#a78bfa",
+                            fontWeight: 700,
+                          }}
+                          title={
+                            item.live.marketCapUsd
+                              ? `Market cap $${(item.live.marketCapUsd / 1e6).toFixed(0)}M`
+                              : undefined
+                          }
+                        >
+                          ${item.live.tokenSymbol}
+                          {Number.isFinite(item.live.priceChange24hPct) ? (
+                            <em
+                              style={{
+                                fontStyle: "normal",
+                                marginLeft: 3,
+                                color:
+                                  (item.live.priceChange24hPct ?? 0) >= 0
+                                    ? "#34d399"
+                                    : "#f87171",
+                              }}
+                            >
+                              {(item.live.priceChange24hPct ?? 0) >= 0
+                                ? "+"
+                                : ""}
+                              {(item.live.priceChange24hPct ?? 0).toFixed(1)}%
+                            </em>
+                          ) : null}
+                        </span>
+                      ) : null}
                     </span>
                   </span>
                   <span style={{ color: tone, alignSelf: "center" }}>
@@ -1075,6 +1205,144 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
               </CardBody>
             </Card>
           </div>
+
+          {/* ========== 04b — TOKEN ECONOMY (CoinGecko) ========== */}
+          {tokenItems.length > 0 ? (
+            <>
+              <div className="sec-head">
+                <span className="sec-num">{"// 04b"}</span>
+                <h2 className="sec-title">Agent token economy</h2>
+                <span className="sec-meta">
+                  <b>{tokenItems.length}</b> tokens · combined mcap{" "}
+                  <b>${(tokenMcapTotal / 1e9).toFixed(2)}B</b>
+                </span>
+              </div>
+              <div className="grid">
+                <Card className="col-6">
+                  <CardHeader showCorner right={<span>by mcap</span>}>
+                    Top agent tokens
+                  </CardHeader>
+                  <CardBody>
+                    {topTokensByMcap.map((item, idx) => {
+                      const mcap = item.live?.marketCapUsd ?? 0;
+                      const change = item.live?.priceChange24hPct ?? 0;
+                      const positive = change >= 0;
+                      return (
+                        <Link
+                          key={item.id}
+                          href={`/agent-commerce/${item.slug}`}
+                          style={{
+                            display: "grid",
+                            gridTemplateColumns:
+                              "20px 70px minmax(0, 1fr) 80px 64px",
+                            alignItems: "center",
+                            gap: 10,
+                            padding: "8px 12px",
+                            borderBottom:
+                              "1px solid var(--color-border-subtle)",
+                            textDecoration: "none",
+                            color: "inherit",
+                            fontFamily: "var(--font-mono, ui-monospace)",
+                            fontSize: 12,
+                          }}
+                        >
+                          <span style={{ color: "var(--color-text-faint)" }}>
+                            {String(idx + 1).padStart(2, "0")}
+                          </span>
+                          <span style={{ color: "#a78bfa", fontWeight: 700 }}>
+                            ${item.live?.tokenSymbol}
+                          </span>
+                          <span
+                            style={{
+                              color: "var(--color-text-default)",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              whiteSpace: "nowrap",
+                            }}
+                          >
+                            {item.name}
+                          </span>
+                          <span style={{ textAlign: "right", color: "#fbbf24" }}>
+                            {mcap >= 1e9
+                              ? `$${(mcap / 1e9).toFixed(2)}B`
+                              : `$${(mcap / 1e6).toFixed(0)}M`}
+                          </span>
+                          <span
+                            style={{
+                              textAlign: "right",
+                              color: positive ? "#34d399" : "#f87171",
+                              fontWeight: 700,
+                            }}
+                          >
+                            {positive ? "+" : ""}
+                            {change.toFixed(1)}%
+                          </span>
+                        </Link>
+                      );
+                    })}
+                  </CardBody>
+                </Card>
+                <Card className="col-6">
+                  <CardHeader showCorner right={<span>24h gainers</span>}>
+                    Top movers
+                  </CardHeader>
+                  <CardBody>
+                    {topTokenGainers.map((item, idx) => {
+                      const change = item.live?.priceChange24hPct ?? 0;
+                      const positive = change >= 0;
+                      return (
+                        <Link
+                          key={item.id}
+                          href={`/agent-commerce/${item.slug}`}
+                          style={{
+                            display: "grid",
+                            gridTemplateColumns:
+                              "20px 70px minmax(0, 1fr) 64px",
+                            alignItems: "center",
+                            gap: 10,
+                            padding: "8px 12px",
+                            borderBottom:
+                              "1px solid var(--color-border-subtle)",
+                            textDecoration: "none",
+                            color: "inherit",
+                            fontFamily: "var(--font-mono, ui-monospace)",
+                            fontSize: 12,
+                          }}
+                        >
+                          <span style={{ color: "var(--color-text-faint)" }}>
+                            {String(idx + 1).padStart(2, "0")}
+                          </span>
+                          <span style={{ color: "#a78bfa", fontWeight: 700 }}>
+                            ${item.live?.tokenSymbol}
+                          </span>
+                          <span
+                            style={{
+                              color: "var(--color-text-default)",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              whiteSpace: "nowrap",
+                            }}
+                          >
+                            {item.name}
+                          </span>
+                          <span
+                            style={{
+                              textAlign: "right",
+                              color: positive ? "#34d399" : "#f87171",
+                              fontWeight: 700,
+                            }}
+                          >
+                            {positive ? "+" : ""}
+                            {change.toFixed(1)}%
+                          </span>
+                        </Link>
+                      );
+                    })}
+                  </CardBody>
+                </Card>
+              </div>
+            </>
+          ) : null}
 
           {/* ========== 05 — CAPABILITY CLOUD ========== */}
           {topCapabilities.length > 0 ? (

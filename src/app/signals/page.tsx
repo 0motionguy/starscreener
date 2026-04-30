@@ -84,6 +84,9 @@ import { TagMomentumHeatmap } from "@/components/signals-terminal/TagMomentumHea
 import {
   SourceFilterBar,
   parseActiveSources,
+  parseTimeWindow,
+  windowHours,
+  windowLabel,
 } from "@/components/signals-terminal/SourceFilterBar";
 
 import { triggerScanIfStale } from "@/lib/news/auto-rescrape";
@@ -144,7 +147,11 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
   // feed panels — those always render their native data.
   const sp = (await searchParams) ?? {};
   const srcParam = Array.isArray(sp.src) ? sp.src.join(",") : sp.src;
+  const wParam = Array.isArray(sp.w) ? sp.w[0] : sp.w;
   const activeSourceFilter = parseActiveSources(srcParam);
+  const activeWindow = parseTimeWindow(wParam);
+  const lookbackHours = windowHours(activeWindow);
+  const activeWindowLabel = windowLabel(activeWindow);
 
   // Refresh every source from the data-store in parallel. None of these
   // throw — they degrade silently to bundled JSON / memory when Redis is
@@ -193,14 +200,20 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
   // The synthesis layer (volume / consensus / heatmap / ticker) operates on
   // a filtered view of items; per-source feed panels always render their
   // own native data regardless of the URL filter.
-  const filteredItems =
-    activeSourceFilter.size === 8
-      ? items
-      : items.filter((it) => activeSourceFilter.has(it.source));
-
   const nowMs = Date.now();
-  const volume = buildVolume(filteredItems, { nowMs });
-  const tagMomentum = buildTagMomentum(filteredItems, { nowMs, topN: 12 });
+  const cutoffMs = nowMs - lookbackHours * 3_600_000;
+  const filteredItems = items.filter(
+    (it) =>
+      activeSourceFilter.has(it.source) &&
+      (it.postedAtMs === 0 || it.postedAtMs >= cutoffMs),
+  );
+
+  const volume = buildVolume(filteredItems, { nowMs, lookbackHours });
+  const tagMomentum = buildTagMomentum(filteredItems, {
+    nowMs,
+    topN: 12,
+    lookbackHours,
+  });
 
   // Consensus: strong signals (3+ sources) come first. When the panel would
   // be sparse (< 5 strong stories), top up with the next-best near-consensus
@@ -213,6 +226,7 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
     nowMs,
     minSources: minStrongSources,
     limit: 8,
+    lookbackHours,
   });
   const consensusCount = strongConsensus.length;
   let consensus = strongConsensus;
@@ -221,6 +235,7 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
       nowMs,
       minSources: 1,
       limit: 12,
+      lookbackHours,
     }).filter(
       (s) => !strongConsensus.some((c) => c.key === s.key),
     );
@@ -466,6 +481,7 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
 
       <SourceFilterBar
         active={activeSourceFilter}
+        timeWindow={activeWindow}
         totalSignals={volume.totalItems}
       />
 
@@ -482,6 +498,7 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
           alphaScore={alphaScore}
           alphaDelta={alphaDelta}
           freshnessLabel={freshnessLabel}
+          windowLabel={activeWindowLabel}
         />
       </div>
 

@@ -68,8 +68,16 @@ const SOURCE_TO_KEY: Record<SourceKey, keyof HourBucket> = {
 
 export interface BuildVolumeOpts {
   nowMs?: number;
-  /** Optional prior-24h count for change% calculation. */
+  /** Optional prior-window count for change% calculation. */
   priorTotal?: number;
+  /**
+   * Look-back window in hours. Default 24. The volume buckets stay at 24
+   * hour-of-day slots regardless — for windows > 24h the chart shows
+   * "hour-of-day distribution" across the longer window, which is still
+   * informative and keeps the X-axis readable. For windows < 24h only the
+   * relevant hour-of-day buckets fill in.
+   */
+  lookbackHours?: number;
 }
 
 export function buildVolume(
@@ -77,6 +85,7 @@ export function buildVolume(
   opts: BuildVolumeOpts = {},
 ): VolumeSummary {
   const nowMs = opts.nowMs ?? Date.now();
+  const lookbackHours = Math.max(1, opts.lookbackHours ?? 24);
   const buckets: HourBucket[] = [];
   for (let i = 0; i < 24; i++) buckets.push(emptyBucket(i));
 
@@ -91,7 +100,7 @@ export function buildVolume(
     openai: 0,
   };
 
-  const cutoff = nowMs - 24 * 3_600_000;
+  const cutoff = nowMs - lookbackHours * 3_600_000;
   let total = 0;
 
   for (const item of items) {

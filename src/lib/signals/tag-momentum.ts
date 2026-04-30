@@ -70,6 +70,8 @@ export interface BuildTagMomentumOpts {
   nowMs?: number;
   /** Number of tag rows to keep. Default 12. */
   topN?: number;
+  /** Look-back window in hours. Default 24. */
+  lookbackHours?: number;
 }
 
 export function buildTagMomentum(
@@ -78,14 +80,17 @@ export function buildTagMomentum(
 ): TagMomentumSummary {
   const nowMs = opts.nowMs ?? Date.now();
   const topN = opts.topN ?? 12;
+  const lookbackHours = Math.max(1, opts.lookbackHours ?? 24);
 
-  const cutoff = nowMs - 24 * 3_600_000;
+  const cutoff = nowMs - lookbackHours * 3_600_000;
   const tagBuckets = new Map<string, number[]>();
   const tagCounts = new Map<string, number>();
   const tagRecent = new Map<string, number>();
   const tagPrior = new Map<string, number>();
 
-  const recentCutoff = nowMs - 12 * 3_600_000;
+  // Recent vs prior split = top half of the window (so trend detection
+  // scales with the user's chosen window, not hard-coded to 12h).
+  const recentCutoff = nowMs - (lookbackHours / 2) * 3_600_000;
 
   for (const item of items) {
     if (!item.postedAtMs || item.postedAtMs < cutoff || item.postedAtMs > nowMs)

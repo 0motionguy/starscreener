@@ -1,21 +1,18 @@
 // Signals smoke — guards /signals cross-source aggregator.
 //
-// Invariants:
+// Invariants (V4):
 //   1. GET /signals returns 200.
-//   2. The V3 NewsTopHeaderV3 chrome renders with the
-//      "// MARKET SIGNALS" eyebrow (the actual string is
-//      "// MARKET SIGNALS · ALL SOURCES" — we match the prefix to stay
-//      reskin-tolerant if the suffix is renamed).
-//   3. The per-source bar chart card renders with the
-//      "// VOLUME · PER SOURCE" title.
-//   4. At least one source row is present — we look for any of the
-//      five source labels (HACKERNEWS / BLUESKY / DEV.TO / LOBSTERS /
-//      REDDIT) being attached to the DOM.
+//   2. The V4 PageHead crumb renders ("SIGNAL · TERMINAL · /SIGNALS").
+//   3. The "// 03 Primary feeds" SectionHead mounts above the source panels.
+//   4. At least one source panel header is attached — we look for any of
+//      the rendered SourceFeedPanel titles (HACKER NEWS / GITHUB ·
+//      TRENDING / X · KOL FEED / REDDIT · ML/LLM / BLUESKY / DEV.TO /
+//      CLAUDE · RSS / OPENAI · RSS).
 
 import { test, expect } from "@playwright/test";
 
 test.describe("signals", () => {
-  test("renders V3 header eyebrow, per-source bar chart, source rows", async ({
+  test("renders V4 PageHead, primary-feeds section, and source panels", async ({
     page,
   }) => {
     const response = await page.goto("/signals", {
@@ -23,20 +20,22 @@ test.describe("signals", () => {
     });
     expect(response?.ok()).toBe(true);
 
-    // V3 eyebrow row — match MARKET SIGNALS prefix.
+    // V4 PageHead crumb — replaces the V3 // MARKET SIGNALS eyebrow.
     await expect(
-      page.getByText(/\/\/\s*MARKET SIGNALS/i).first(),
+      page.getByText(/SIGNAL\s*·\s*TERMINAL/i).first(),
     ).toBeVisible({ timeout: 10_000 });
 
-    // Per-source bar chart card title.
+    // SectionHead that owns the source-panel grid (replaces V3 //
+    // VOLUME · PER SOURCE chart-card title).
     await expect(
-      page.getByText(/\/\/\s*VOLUME.*PER SOURCE/i).first(),
+      page.getByText(/Primary feeds/i).first(),
     ).toBeVisible();
 
-    // At least one of the source labels is attached. Use a single
-    // alternation regex so the match is one network-stable lookup.
+    // At least one source panel header is attached. Single alternation
+    // regex so the match is one network-stable lookup. SourceFeedPanel
+    // titles are uppercase with spaces / dots / dashes.
     const sourceLabel = page
-      .getByText(/\b(HACKERNEWS|BLUESKY|DEV\.TO|LOBSTERS|REDDIT)\b/i)
+      .getByText(/\b(HACKER NEWS|GITHUB|REDDIT|BLUESKY|DEV\.TO|CLAUDE|OPENAI)\b/i)
       .first();
     await expect(sourceLabel).toBeAttached();
   });

@@ -1,0 +1,255 @@
+/* ===========================================================================
+ * TRENDINGREPO V4 (CORPUS) — canonical design tokens.
+ *
+ * This file is the source of truth. Every component in V4 reads from these
+ * tokens; no component declares hex values inline. The legacy V3 tokens in
+ * src/app/globals.css remain in place as compatibility aliases until the
+ * full migration completes (see design/v4/MIGRATION_PLAN.md).
+ *
+ * Token vocabulary mirrors the 11 HTML mockups (home / signals / consensus /
+ * funding / repo-detail / tools / top10 / star-history-themes / logo-lab /
+ * polish-pass / sub-pages). All values were extracted from the mockup
+ * `:root` blocks and normalized.
+ *
+ * Loaded by src/app/globals.css via `@import` so Tailwind 4's @theme
+ * directive can reference --v4-* names directly.
+ * ========================================================================= */
+
+:root {
+  /* === Surfaces ============================================================
+   * 6-stop dark canvas ramp. bg-000 is the page chrome; bg-300 is the
+   * deepest fill (hover states, raised pills). Strict 6-stop scale prevents
+   * the V3 drift where panels could pick from too many "dark grey" values. */
+  --v4-bg-000: #08090a;
+  --v4-bg-025: #0b0d0f;
+  --v4-bg-050: #101418;
+  --v4-bg-100: #151a20;
+  --v4-bg-200: #1d242b;
+  --v4-bg-300: #2a323a;
+
+  /* === Lines / borders =====================================================
+   * 4-stop hairline ramp. line-100 is the default panel border; line-400 is
+   * hover/focus emphasis. Mockup-canonical. */
+  --v4-line-100: #1a2026;
+  --v4-line-200: #222a32;
+  --v4-line-300: #2f3942;
+  --v4-line-400: #4d5865;
+
+  /* === Ink ramp ============================================================
+   * 6-stop text ramp. ink-000 = pure white (rare, hero only). ink-100 is
+   * default body text. ink-500 is the muted "—" placeholder shade. */
+  --v4-ink-000: #ffffff;
+  --v4-ink-100: #eef0f2;
+  --v4-ink-200: #b8c0c8;
+  --v4-ink-300: #84909b;
+  --v4-ink-400: #909caa;
+  --v4-ink-500: #3c444d;
+
+  /* === Brand accent (Liquid Lava) =========================================
+   * Single hue. Used for: brand mark, primary CTA, #1 row emphasis,
+   * section number prefix, hot tag pip. Never used as decorative fill. */
+  --v4-acc: #ff6b35;
+  --v4-acc-hover: #ff8458;
+  --v4-acc-dim: #c44a1f;
+  --v4-acc-soft: rgba(255, 107, 53, 0.14);
+  --v4-acc-wash: rgba(255, 107, 53, 0.06);
+  --v4-acc-glow: rgba(255, 107, 53, 0.45);
+
+  /* === Semantic deltas =====================================================
+   * Locked contract:
+   *   money / positive  → up, gain, ARR climber, "firing", live-good
+   *   red / negative    → down, drop, breakage, error
+   *   amber / warning   → stale, warn, "data 21h ago"
+   *   cyan / info       → secondary info, neutral chart series
+   * No other meaning may attach to these — keep the contract pure or the
+   * scanner reflex breaks. */
+  --v4-money: #22c55e;
+  --v4-money-soft: rgba(34, 197, 94, 0.10);
+  --v4-money-glow: rgba(34, 197, 94, 0.18);
+
+  --v4-red: #ff4d4d;
+  --v4-red-soft: rgba(255, 77, 77, 0.10);
+
+  --v4-amber: #ffb547;
+  --v4-amber-soft: rgba(255, 181, 71, 0.10);
+
+  --v4-cyan: #3ad6c5;
+  --v4-cyan-soft: rgba(58, 214, 197, 0.10);
+
+  /* === Decorative palette ==================================================
+   * Use sparingly: chart series, tag chips, secondary highlights. NEVER for
+   * delta semantics. Keeps the screen calm. */
+  --v4-violet: #a78bfa;
+  --v4-violet-soft: rgba(167, 139, 250, 0.10);
+  --v4-blue: #60a5fa;
+  --v4-blue-soft: rgba(96, 165, 250, 0.10);
+  --v4-pink: #f472b6;
+  --v4-pink-soft: rgba(244, 114, 182, 0.10);
+  --v4-gold: #ffd24d;
+  --v4-silver: #c0c5cc;
+  --v4-bronze: #cd7f32;
+
+  /* === Source channel colors (8 sources) ==================================
+   * One color per signal source. Locked across signals.html, consensus.html,
+   * funding.html, repo-detail.html, sub-pages.html. Source pips, filter
+   * chips, volume-chart series all read these names. */
+  --v4-src-hn:     #ff7a3d;
+  --v4-src-gh:     #c8d3df;
+  --v4-src-x:      #7aa7ff;
+  --v4-src-reddit: #ff5a4a;
+  --v4-src-bsky:   #3aa4ff;
+  --v4-src-dev:    #b08bff;
+  --v4-src-claude: #ffb547;
+  --v4-src-openai: #5cd6c0;
+
+  /* === Funding source palette (8 sources) =================================
+   * funding.html source strip — Crunchbase, TechCrunch, VentureBeat,
+   * The Information, Bloomberg, Pitchbook, Tracxn, TrustMrr. */
+  --v4-fund-cb:   #3a4a8e;  /* crunchbase */
+  --v4-fund-tc:   #22c55e;  /* techcrunch */
+  --v4-fund-vb:   #3a86ff;  /* venturebeat */
+  --v4-fund-info: #f4f4f4;  /* information */
+  --v4-fund-bb:   #ff6b35;  /* bloomberg */
+  --v4-fund-pb:   #a78bfa;  /* pitchbook */
+  --v4-fund-trx:  #3ad6c5;  /* tracxn */
+  --v4-fund-tr:   #ffb547;  /* trustmrr */
+
+  /* === Tier colors (S → F) ================================================
+   * tools.html tier list. Strictly ordinal — saturation drops with tier. */
+  --v4-tier-s: #ff4d4d;
+  --v4-tier-a: #ff8a4d;
+  --v4-tier-b: #ffd24d;
+  --v4-tier-c: #3ad27a;
+  --v4-tier-d: #3aa9ff;
+  --v4-tier-e: #a78bfa;
+  --v4-tier-f: #f472b6;
+
+  /* === Type ===============================================================
+   * Two families. Mono for data + UI chrome (KPI numbers, table cells,
+   * panel headers, sidebar). Sans for hero headlines, deck copy, card
+   * descriptions. No third family. */
+  --v4-mono: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+  --v4-sans: 'Geist', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+             'Segoe UI', Roboto, sans-serif;
+
+  /* === Type scale =========================================================
+   * Mockup-extracted. Sizes in px (Tailwind-rem-equivalent in comments). */
+  --v4-text-9:    9px;     /* 0.5625rem — caps labels, source pips */
+  --v4-text-9-5:  9.5px;   /* — ALMOST always pair with letter-spacing */
+  --v4-text-10:   10px;    /* meta strips, tab counters */
+  --v4-text-10-5: 10.5px;
+  --v4-text-11:   11px;    /* sidebar nav, panel-head subtitles */
+  --v4-text-11-5: 11.5px;  /* table cells, list rows */
+  --v4-text-12:   12px;
+  --v4-text-12-5: 12.5px;  /* card descriptions */
+  --v4-text-13:   13px;    /* default body (mono) */
+  --v4-text-14:   14px;    /* default body (sans) */
+  --v4-text-16:   16px;
+  --v4-text-18:   18px;    /* section titles, KPI numerics */
+  --v4-text-20:   20px;
+  --v4-text-22:   22px;    /* funding KPI big number */
+  --v4-text-24:   24px;    /* consensus KPI big number */
+  --v4-text-26:   26px;
+  --v4-text-30:   30px;    /* page H1 */
+  --v4-text-34:   34px;    /* logo-lab hero H1 */
+  --v4-text-38:   38px;    /* repo-detail hero number, blueprint serif H3 */
+  --v4-text-42:   42px;    /* neon synthwave H3 */
+  --v4-text-48:   48px;    /* polish-pass big number */
+
+  /* Letter-spacing — always paired with caps text per mockup. */
+  --v4-track-04:  0.04em;
+  --v4-track-06:  0.06em;
+  --v4-track-10:  0.10em;
+  --v4-track-12:  0.12em;
+  --v4-track-14:  0.14em;
+  --v4-track-16:  0.16em;
+  --v4-track-18:  0.18em;
+  --v4-track-20:  0.20em;
+  --v4-track-22:  0.22em;
+  --v4-track-30:  0.30em;  /* logo-lab brand-sub */
+
+  /* Negative letter-spacing — sans display headlines only. */
+  --v4-track-tight-h1: -0.024em;  /* page H1 (Geist 30px) */
+  --v4-track-tight-h2: -0.018em;  /* section H2 (Geist 18-22px) */
+  --v4-track-tight-num: -0.02em;  /* KPI big numerics */
+
+  /* Line-heights. */
+  --v4-leading-1:    1;       /* hero numerics, big H1 */
+  --v4-leading-105:  1.05;
+  --v4-leading-12:   1.20;    /* card titles */
+  --v4-leading-13:   1.32;    /* row titles */
+  --v4-leading-14:   1.4;
+  --v4-leading-15:   1.5;     /* prose */
+  --v4-leading-155:  1.55;
+  --v4-leading-165:  1.65;    /* dv-list bullet copy */
+
+  /* === Spacing scale ======================================================
+   * 4px base. Use these. No component should hand-pick 5/7/9/11/13/etc. */
+  --v4-space-1:  2px;
+  --v4-space-2:  4px;
+  --v4-space-3:  6px;
+  --v4-space-4:  8px;
+  --v4-space-5:  10px;
+  --v4-space-6:  12px;
+  --v4-space-7:  14px;
+  --v4-space-8:  16px;
+  --v4-space-9:  18px;
+  --v4-space-10: 20px;
+  --v4-space-12: 24px;
+  --v4-space-14: 28px;
+  --v4-space-16: 32px;
+  --v4-space-18: 36px;
+  --v4-space-20: 40px;
+  --v4-space-24: 48px;
+  --v4-space-32: 64px;
+
+  /* === Component-level constants ==========================================
+   * Lifted out of page CSS so primitives reference one source of truth. */
+  --v4-topbar-height: 52px;
+  --v4-sidebar-width: 230px;
+  --v4-panel-pad-x: 12px;          /* panel inner gutter (mockup: 12-14) */
+  --v4-panel-pad-y: 8px;
+  --v4-row-pad-y: 9px;             /* row vertical padding default */
+  --v4-grid-gap: 10px;             /* 12-col grid gap, mockup-canonical */
+
+  /* === Border radii =======================================================
+   * V4 is mostly square. Pills are 99px. Cards are 0. Two values total. */
+  --v4-radius-0: 0;
+  --v4-radius-2: 2px;              /* tiny chips, pip squares */
+  --v4-radius-pill: 99px;          /* status dots, sidebar nav badges */
+
+  /* === Stroke / line widths ================================================ */
+  --v4-stroke-1: 1px;              /* hairline default */
+  --v4-stroke-1-5: 1.5px;          /* spark line */
+  --v4-stroke-2: 2px;              /* #1 row left rail */
+
+  /* === Shadows =============================================================
+   * Two shadows total. The aesthetic doesn't lean on elevation. */
+  --v4-shadow-card: 0 0 0 1px rgba(0, 0, 0, 0.4);
+  --v4-shadow-pulse-money: 0 0 0 3px rgba(34, 197, 94, 0.18);
+
+  /* === Motion / duration ==================================================
+   * Mockup conventions. */
+  --v4-duration-fast: 150ms;
+  --v4-duration-base: 250ms;
+  --v4-duration-slow: 500ms;
+  --v4-duration-pulse: 1.6s;       /* live-status pulse */
+  --v4-duration-ticker: 60s;       /* /signals live wire scroll */
+  --v4-ease: cubic-bezier(0.2, 0, 0, 1);
+
+  /* === Z-index ============================================================
+   * Lifted from inline mockup styles. */
+  --v4-z-topbar: 30;
+  --v4-z-band-head: 5;             /* consensus banded leaderboard sticky */
+  --v4-z-thead: 4;                 /* table header sticky */
+  --v4-z-modal: 100;
+}
+
+/* ============================================================================
+ * Source-color helpers — useful when a component wants `var(--v4-src-{key})`
+ * indirection. Not strictly required (consumers can use the explicit names)
+ * but documented here so we don't see one-off lookup tables in components.
+ * ========================================================================== */
+
+/* (Intentionally empty — JS components map SourceKey → var name themselves;
+ *  CSS-only consumers should use the named tokens above directly.) */

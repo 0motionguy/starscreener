@@ -1,26 +1,21 @@
-// MaintainerCard — surfaces the human/org behind a repo.
+// MaintainerCard — V4. Surfaces the human/org behind a repo.
 //
 // Server component. Pulls the GitHub user/org profile via
 // fetchGithubUserProfile (24h ISR). Renders avatar, login, display name,
-// bio, location, twitter, blog, and a "View on GitHub →" link.
+// bio, location, twitter, blog, and a "View on GitHub →" link inside a
+// V4 PanelHead-titled aside.
 //
 // Graceful degradation policy:
 //   - No data at all (rate-limited / network / deleted user) → render a
 //     minimal fallback using the `repo.ownerAvatarUrl` + login.
 //   - Full data is unusable (invalid login on first call return) → return
-//     `null` and let the parent omit the column. The page must still look
-//     correct without this card.
+//     a minimal fallback so the rail layout doesn't collapse.
 //
 // Org vs user: GitHub's user endpoint returns `type: "Organization"` when
-// the login owns an org account. We swap the card's eyebrow label from
-// MAINTAINER to ORGANIZATION accordingly so the card reads truthfully
-// (no individual on the other side).
-//
-// All external links are `target="_blank" rel="noopener noreferrer"` with
-// the lucide ExternalLink icon for the consistent affordance the rest of
-// the detail page uses.
+// the login owns an org account. We swap the panel head label from
+// MAINTAINER to ORGANIZATION accordingly so the card reads truthfully.
 
-import type { JSX } from "react";
+import type { JSX, ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ExternalLink, MapPin, Globe } from "lucide-react";
@@ -29,6 +24,7 @@ import {
   fetchGithubUserProfile,
   type GithubUserProfile,
 } from "@/lib/github-user";
+import { PanelHead } from "@/components/ui/PanelHead";
 
 interface MaintainerCardProps {
   /** GitHub login (owner slug) — `repo.owner`. */
@@ -44,19 +40,12 @@ function truncate(s: string, max: number): string {
   return `${s.slice(0, max - 1).trimEnd()}…`;
 }
 
-/**
- * Normalize the `blog` field from GitHub into a usable href. Many users
- * type their site without a protocol ("example.com"); we prepend https:// so
- * the link works without forcing the user to type it.
- */
 function normalizeBlogUrl(raw: string): string {
   if (/^https?:\/\//i.test(raw)) return raw;
   return `https://${raw}`;
 }
 
 function blogDisplayLabel(raw: string): string {
-  // Strip protocol + trailing slash for the visible label so the link
-  // doesn't dominate the card on tall screens.
   return raw.replace(/^https?:\/\//i, "").replace(/\/$/, "");
 }
 
@@ -65,7 +54,7 @@ interface CardShellProps {
   avatarUrl: string;
   login: string;
   htmlUrl: string;
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
 function CardShell({
@@ -77,58 +66,73 @@ function CardShell({
 }: CardShellProps): JSX.Element {
   return (
     <aside
-      className="v2-card overflow-hidden font-mono"
       aria-label={`${eyebrow.toLowerCase()} — ${login}`}
+      style={{
+        border: "1px solid var(--v4-line-200)",
+        background: "var(--v4-bg-025)",
+        borderRadius: 2,
+        overflow: "hidden",
+        fontFamily: "var(--font-geist-mono), monospace",
+      }}
     >
-      <div className="v2-term-bar">
-        <span aria-hidden className="flex items-center gap-1.5">
-          <span
-            className="block h-1.5 w-1.5 rounded-full"
-            style={{ background: "var(--v2-acc)" }}
-          />
-          <span
-            className="block h-1.5 w-1.5 rounded-full"
-            style={{ background: "var(--v2-line-200)" }}
-          />
-          <span
-            className="block h-1.5 w-1.5 rounded-full"
-            style={{ background: "var(--v2-line-200)" }}
-          />
-        </span>
-        <span className="flex-1 truncate" style={{ color: "var(--v2-ink-200)" }}>
-          {`// ${eyebrow} · ${login.toUpperCase()}`}
-        </span>
+      <div
+        style={{
+          padding: "10px 12px",
+          borderBottom: "1px solid var(--v4-line-200)",
+          background: "var(--v4-bg-050)",
+        }}
+      >
+        <PanelHead k={`// ${eyebrow}`} sub={login.toUpperCase()} />
       </div>
 
-      <div className="p-4">
-        <div className="flex items-start gap-3">
+      <div style={{ padding: 16 }}>
+        <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
           <Image
             src={avatarUrl}
             alt={login}
             width={48}
             height={48}
-            className="size-12 shrink-0 object-cover"
             style={{
+              width: 48,
+              height: 48,
+              flexShrink: 0,
+              objectFit: "cover",
               borderRadius: 2,
-              border: "1px solid var(--v2-line-200)",
+              border: "1px solid var(--v4-line-200)",
             }}
           />
-          <div className="flex-1 min-w-0">{children}</div>
+          <div style={{ flex: 1, minWidth: 0 }}>{children}</div>
         </div>
 
         <div
-          className="mt-4 pt-3"
-          style={{ borderTop: "1px solid var(--v2-line-std)" }}
+          style={{
+            marginTop: 16,
+            paddingTop: 12,
+            borderTop: "1px solid var(--v4-line-200)",
+          }}
         >
           <a
             href={htmlUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="v2-btn v2-btn-ghost"
-            style={{ height: 32, padding: "0 12px", fontSize: 10 }}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              fontFamily: "var(--font-geist-mono), monospace",
+              fontSize: 10,
+              padding: "6px 12px",
+              border: "1px solid var(--v4-line-300)",
+              borderRadius: 2,
+              color: "var(--v4-ink-100)",
+              background: "var(--v4-bg-050)",
+              textDecoration: "none",
+              textTransform: "uppercase",
+              letterSpacing: "0.08em",
+            }}
           >
             VIEW ON GITHUB
-            <ExternalLink size={11} aria-hidden style={{ marginLeft: 8 }} />
+            <ExternalLink size={11} aria-hidden />
           </a>
         </div>
       </div>
@@ -151,19 +155,29 @@ function MaintainerCardFallback({
         href={`https://github.com/${owner}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="block truncate"
         style={{
+          display: "block",
           fontFamily: "var(--font-geist), Inter, sans-serif",
           fontSize: 16,
           fontWeight: 510,
-          color: "var(--v2-ink-100)",
+          color: "var(--v4-ink-100)",
+          textDecoration: "none",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          whiteSpace: "nowrap",
         }}
       >
         {owner}
       </Link>
       <p
-        className="v2-mono mt-1"
-        style={{ fontSize: 10, color: "var(--v2-ink-400)" }}
+        style={{
+          marginTop: 4,
+          fontFamily: "var(--font-geist-mono), monospace",
+          fontSize: 10,
+          color: "var(--v4-ink-400)",
+          textTransform: "uppercase",
+          letterSpacing: "0.08em",
+        }}
       >
         {"// PROFILE UNAVAILABLE"}
       </p>
@@ -180,9 +194,6 @@ function MaintainerCardContent({
 }): JSX.Element {
   const isOrg = profile.type === "Organization";
   const eyebrow = isOrg ? "ORGANIZATION" : "MAINTAINER";
-  // Some accounts respond without an avatar_url field (extremely rare —
-  // we already guard for it in the loader, but keep a hard fallback so a
-  // partial profile never renders a broken image).
   const avatar = profile.avatarUrl || fallbackAvatarUrl;
   const displayName =
     profile.name && profile.name !== profile.login ? profile.name : null;
@@ -199,62 +210,103 @@ function MaintainerCardContent({
         href={profile.htmlUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="block truncate"
         style={{
+          display: "block",
           fontFamily: "var(--font-geist), Inter, sans-serif",
           fontSize: 16,
           fontWeight: 510,
-          color: "var(--v2-ink-100)",
+          color: "var(--v4-ink-100)",
+          textDecoration: "none",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          whiteSpace: "nowrap",
         }}
       >
         {profile.login}
       </Link>
-      {displayName && (
+      {displayName ? (
         <p
-          className="mt-0.5 truncate"
-          style={{ fontSize: 12, color: "var(--v2-ink-300)" }}
+          style={{
+            marginTop: 2,
+            fontSize: 12,
+            color: "var(--v4-ink-300)",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+          }}
         >
           {displayName}
         </p>
-      )}
+      ) : null}
 
-      {bio && (
+      {bio ? (
         <p
-          className="mt-2 leading-snug"
-          style={{ fontSize: 12, color: "var(--v2-ink-200)" }}
+          style={{
+            marginTop: 8,
+            fontSize: 12,
+            color: "var(--v4-ink-200)",
+            lineHeight: 1.4,
+          }}
         >
           {bio}
         </p>
-      )}
+      ) : null}
 
-      {(profile.location ||
-        profile.twitterUsername ||
-        profile.blog) && (
-        <ul className="mt-3 space-y-1.5" style={{ fontSize: 11 }}>
-          {profile.location && (
+      {profile.location || profile.twitterUsername || profile.blog ? (
+        <ul
+          style={{
+            marginTop: 12,
+            display: "flex",
+            flexDirection: "column",
+            gap: 6,
+            fontSize: 11,
+            listStyle: "none",
+            padding: 0,
+          }}
+        >
+          {profile.location ? (
             <li
-              className="inline-flex items-center gap-1.5"
-              style={{ color: "var(--v2-ink-300)" }}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+                color: "var(--v4-ink-300)",
+              }}
             >
               <MapPin size={11} aria-hidden />
-              <span className="truncate">{profile.location}</span>
+              <span
+                style={{
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {profile.location}
+              </span>
             </li>
-          )}
-          {profile.twitterUsername && (
+          ) : null}
+          {profile.twitterUsername ? (
             <li>
               <a
                 href={`https://x.com/${profile.twitterUsername}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 transition-colors"
-                style={{ color: "var(--v2-ink-200)" }}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 6,
+                  color: "var(--v4-ink-200)",
+                  textDecoration: "none",
+                }}
               >
                 <span
                   aria-hidden
-                  className="flex items-center justify-center"
                   style={{
-                    background: "var(--v2-ink-100)",
-                    color: "var(--v2-bg-000)",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    background: "var(--v4-ink-100)",
+                    color: "var(--v4-bg-000)",
                     fontSize: 8,
                     fontWeight: 700,
                     width: 12,
@@ -265,46 +317,66 @@ function MaintainerCardContent({
                 >
                   X
                 </span>
-                <span className="truncate">@{profile.twitterUsername}</span>
+                <span
+                  style={{
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  @{profile.twitterUsername}
+                </span>
                 <ExternalLink
                   size={10}
                   aria-hidden
-                  style={{ color: "var(--v2-ink-400)" }}
+                  style={{ color: "var(--v4-ink-400)" }}
                 />
               </a>
             </li>
-          )}
-          {profile.blog && (
+          ) : null}
+          {profile.blog ? (
             <li>
               <a
                 href={normalizeBlogUrl(profile.blog)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 max-w-full transition-colors"
-                style={{ color: "var(--v2-ink-200)" }}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 6,
+                  maxWidth: "100%",
+                  color: "var(--v4-ink-200)",
+                  textDecoration: "none",
+                }}
               >
                 <Globe size={11} aria-hidden />
-                <span className="truncate">{blogDisplayLabel(profile.blog)}</span>
+                <span
+                  style={{
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {blogDisplayLabel(profile.blog)}
+                </span>
                 <ExternalLink
                   size={10}
                   aria-hidden
-                  className="shrink-0"
-                  style={{ color: "var(--v2-ink-400)" }}
+                  style={{ color: "var(--v4-ink-400)", flexShrink: 0 }}
                 />
               </a>
             </li>
-          )}
+          ) : null}
         </ul>
-      )}
+      ) : null}
     </CardShell>
   );
 }
 
 /**
  * MaintainerCard — async server component. Fetches the owner's GitHub
- * profile and renders an at-a-glance card. Returns a minimal fallback
- * card on any fetch failure (never throws, never returns null when the
- * caller already mounted it — we always render *something* useful).
+ * profile and renders an at-a-glance V4 card. Returns a minimal fallback
+ * on any fetch failure (never throws).
  */
 export async function MaintainerCard({
   owner,

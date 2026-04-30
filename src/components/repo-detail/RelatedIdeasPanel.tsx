@@ -10,8 +10,9 @@
 //   - Reaction chip ("build 4 · use 12") when any count is present
 //   - Footer: "by @author · 2d ago"
 //
-// Chrome mirrors RelatedReposPanel / WhyTrending: rounded-card container,
-// font-mono uppercase header, no invented colors.
+// Chrome mirrors RelatedReposPanel / WhyTrending: V4-token container
+// (border + 2px radius via inline style), font-mono uppercase header, no
+// invented colors.
 
 import type { JSX } from "react";
 import Link from "next/link";
@@ -50,26 +51,43 @@ export function RelatedIdeasPanel({
   return (
     <section
       aria-label="Ideas targeting this repo"
-      className="rounded-card border border-border-primary bg-bg-primary p-3 sm:p-4"
+      className="p-3 sm:p-4"
+      style={{
+        borderRadius: 2,
+        border: "1px solid var(--v4-line-200)",
+        background: "var(--v4-bg-000)",
+      }}
     >
       <header className="mb-3 flex items-center gap-2">
-        <Lightbulb className="size-4 text-text-primary" aria-hidden />
-        <h2 className="font-mono text-[11px] uppercase tracking-wider text-text-tertiary">
+        <Lightbulb className="size-4" aria-hidden style={{ color: "var(--v4-ink-100)" }} />
+        <h2
+          className="font-mono text-[11px] uppercase tracking-wider"
+          style={{ color: "var(--v4-ink-300)" }}
+        >
           Ideas targeting this repo
         </h2>
-        <span className="ml-auto font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
+        <span
+          className="ml-auto font-mono text-[10px] uppercase tracking-wider"
+          style={{ color: "var(--v4-ink-300)" }}
+        >
           {items.length} {items.length === 1 ? "idea" : "ideas"}
         </span>
       </header>
 
-      <ul className="flex flex-col divide-y divide-border-primary">
-        {items.map((item) => {
+      <ul className="flex flex-col">
+        {items.map((item, idx) => {
           const reactionsLabel = formatReactions(item.reactions);
           const handle = item.author ? item.author.replace(/^@+/, "") : null;
           const posted = safeRelativeTime(item.createdAt);
 
           return (
-            <li key={item.id} className="py-3 first:pt-0 last:pb-0">
+            <li
+              key={item.id}
+              className="py-3 first:pt-0 last:pb-0"
+              style={
+                idx > 0 ? { borderTop: "1px solid var(--v4-line-200)" } : undefined
+              }
+            >
               <Link
                 href={item.url}
                 className="group block"
@@ -77,13 +95,22 @@ export function RelatedIdeasPanel({
               >
                 <div className="flex items-start gap-3">
                   <div className="min-w-0 flex-1">
-                    <p className="truncate font-mono text-[13px] text-text-primary group-hover:text-brand">
+                    <p
+                      className="truncate font-mono text-[13px] group-hover:text-brand"
+                      style={{ color: "var(--v4-ink-100)" }}
+                    >
                       {item.title}
                     </p>
-                    <p className="mt-1 truncate font-mono text-[11px] text-text-secondary">
+                    <p
+                      className="mt-1 truncate font-mono text-[11px]"
+                      style={{ color: "var(--v4-ink-200)" }}
+                    >
                       {item.summary}
                     </p>
-                    <div className="mt-1.5 flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
+                    <div
+                      className="mt-1.5 flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider"
+                      style={{ color: "var(--v4-ink-300)" }}
+                    >
                       {handle ? <span>by @{handle}</span> : null}
                       {handle ? <span aria-hidden>·</span> : null}
                       <span>{posted}</span>
@@ -91,7 +118,13 @@ export function RelatedIdeasPanel({
                   </div>
 
                   {reactionsLabel ? (
-                    <span className="inline-flex shrink-0 items-center rounded-full border border-border-primary bg-bg-muted px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-text-secondary">
+                    <span
+                      className="inline-flex shrink-0 items-center rounded-full bg-bg-muted px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider"
+                      style={{
+                        border: "1px solid var(--v4-line-200)",
+                        color: "var(--v4-ink-200)",
+                      }}
+                    >
                       {reactionsLabel}
                     </span>
                   ) : null}

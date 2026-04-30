@@ -1,12 +1,63 @@
 {
-  "fetchedAt": "2026-04-30T22:11:39.344Z",
+  "fetchedAt": "2026-04-30T23:11:57.263Z",
   "windowDays": 7,
   "scannedPosts": 99,
   "searchQuery": "github.com",
   "pagesFetched": 1,
   "mentions": {
+    "rootsecdev/cve_2026_31431": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:a56dbiks5wmzacs5hsdsxw55/app.bsky.feed.post/3mkqoe6zxsg2s",
+        "cid": "bafyreifjrv77v46y5z7opekzgvh2jqaz4gdtp3brjy3x7pil6nmmyaxb3m",
+        "bskyUrl": "https://bsky.app/profile/mm-hacker-news.bsky.social/post/3mkqoe6zxsg2s",
+        "text": "Patch Your Kernel NOW: 732byte Python rootkit, cracks all distros since 2017 https://github.com/rootsecdev/cve_2026_31431",
+        "author": {
+          "handle": "mm-hacker-news.bsky.social",
+          "displayName": "Hacker News"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-04-30T22:35:20.010Z",
+        "hoursSincePosted": 0.61
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:a56dbiks5wmzacs5hsdsxw55/app.bsky.feed.post/3mkqoe6zxsg2s",
+          "cid": "bafyreifjrv77v46y5z7opekzgvh2jqaz4gdtp3brjy3x7pil6nmmyaxb3m",
+          "bskyUrl": "https://bsky.app/profile/mm-hacker-news.bsky.social/post/3mkqoe6zxsg2s",
+          "text": "Patch Your Kernel NOW: 732byte Python rootkit, cracks all distros since 2017 https://github.com/rootsecdev/cve_2026_31431",
+          "author": {
+            "handle": "mm-hacker-news.bsky.social",
+            "displayName": "Hacker News"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-04-30T22:35:20.010Z",
+          "createdUtc": 1777588520,
+          "ageHours": 0.61,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "rootsecdev/cve_2026_31431",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "openclaw/openclaw": {
-      "count7d": 6,
+      "count7d": 4,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
@@ -22,7 +73,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-30T22:08:26.715748+00:00",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.06
       },
       "posts": [
         {
@@ -38,7 +89,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-30T22:08:26.715748+00:00",
           "createdUtc": 1777586906,
-          "ageHours": 0.5,
+          "ageHours": 1.06,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -66,7 +117,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-30T22:05:28.709535+00:00",
           "createdUtc": 1777586728,
-          "ageHours": 0.5,
+          "ageHours": 1.11,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -94,7 +145,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-30T21:48:39.288516+00:00",
           "createdUtc": 1777585719,
-          "ageHours": 0.5,
+          "ageHours": 1.39,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -122,63 +173,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-30T21:32:01.267191+00:00",
           "createdUtc": 1777584721,
-          "ageHours": 0.66,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo",
-            "is-announcement"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "openclaw/openclaw",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkqjwbxqoo2l",
-          "cid": "bafyreid7r35le3lmcslt6ca3rq25dzz5l4egp44tmyjymasajjznwhfco4",
-          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkqjwbxqoo2l",
-          "text": "🟠 OpenClaw v2026.4.29 ships active-run steering and people-aware memory controls OpenClaw just shipped v2026.4.29 with active-run steering turned on by default for messaging and automation flows, plus stricter... https://github.com/openclaw/openclaw/releases/tag/v2026.4.29 #AI #AgentWyre",
-          "author": {
-            "handle": "agentwyre.ai"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-30T21:15:57.154247+00:00",
-          "createdUtc": 1777583757,
-          "ageHours": 0.93,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo",
-            "is-announcement"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "openclaw/openclaw",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkqjigwisa2l",
-          "cid": "bafyreiamujwsiioeezqnyg553dxqzmtinbndmqww22huio6ar5lxg7humi",
-          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkqjigwisa2l",
-          "text": "🟠 OpenClaw v2026.4.29 ships active-run steering and people-aware memory controls OpenClaw just shipped v2026.4.29 with active-run steering turned on by default for messaging and automation flows, plus stricter... https://github.com/openclaw/openclaw/releases/tag/v2026.4.29 #AI #AgentWyre",
-          "author": {
-            "handle": "agentwyre.ai"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-30T21:08:12.686251+00:00",
-          "createdUtc": 1777583292,
-          "ageHours": 1.06,
+          "ageHours": 1.67,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -213,7 +208,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-04-30T22:06:22.781Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.09
       },
       "posts": [
         {
@@ -230,7 +225,7 @@
           "replyCount": 0,
           "createdAt": "2026-04-30T22:06:22.781Z",
           "createdUtc": 1777586782,
-          "ageHours": 0.5,
+          "ageHours": 1.09,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -245,63 +240,12 @@
           ]
         }
       ]
-    },
-    "rootsecdev/cve_2026_31431": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:jmuhjrotgvcquoaqtpcuxjii/app.bsky.feed.post/3mkqjsao2ek2d",
-        "cid": "bafyreifcitv3z7yhjjqrz2h4ish3fnuxl3iizmey2aasm66wn3tyf5f3kq",
-        "bskyUrl": "https://bsky.app/profile/hnws.bsky.social/post/3mkqjsao2ek2d",
-        "text": "Patch Your Kernel NOW: 732byte Python rootkit, cracks all distros since 2017 L: https://github.com/rootsecdev/cve_2026_31431 C: https://news.ycombinator.com/item?id=47968027 posted on 2026.04.30 at 16:48:48 (c=3, p=4)",
-        "author": {
-          "handle": "hnws.bsky.social",
-          "displayName": "HN"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-30T21:13:42.827464+00:00",
-        "hoursSincePosted": 0.97
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:jmuhjrotgvcquoaqtpcuxjii/app.bsky.feed.post/3mkqjsao2ek2d",
-          "cid": "bafyreifcitv3z7yhjjqrz2h4ish3fnuxl3iizmey2aasm66wn3tyf5f3kq",
-          "bskyUrl": "https://bsky.app/profile/hnws.bsky.social/post/3mkqjsao2ek2d",
-          "text": "Patch Your Kernel NOW: 732byte Python rootkit, cracks all distros since 2017 L: https://github.com/rootsecdev/cve_2026_31431 C: https://news.ycombinator.com/item?id=47968027 posted on 2026.04.30 at 16:48:48 (c=3, p=4)",
-          "author": {
-            "handle": "hnws.bsky.social",
-            "displayName": "HN"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-30T21:13:42.827464+00:00",
-          "createdUtc": 1777583622,
-          "ageHours": 0.97,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "rootsecdev/cve_2026_31431",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
     }
   },
   "leaderboard": [
     {
       "fullName": "openclaw/openclaw",
-      "count7d": 6,
+      "count7d": 4,
       "likesSum7d": 0
     },
     {

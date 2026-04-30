@@ -5538,3 +5538,141 @@ body::before {
 .v3-barcode span {
   background: var(--v3-ink-200);
 }
+
+/* ===== Consensus v3 — verdict-banded leaderboard, daily verdict, row gauge ===== */
+
+.band {
+  border-bottom: 1px solid var(--line-200, #222a32);
+}
+.band:last-child {
+  border-bottom: none;
+}
+.band-head {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 14px;
+  align-items: center;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line-300, #2f3942);
+  background: linear-gradient(180deg, var(--bg-050, #101418), var(--bg-025, #0b0d0f));
+  position: sticky;
+  top: 52px;
+  z-index: 5;
+}
+.band-head .b-pip {
+  width: 8px;
+  height: 32px;
+  background: var(--ink-300, #84909b);
+}
+.band-head .b-title {
+  font-family: var(--font-sans, "Geist", ui-sans-serif, system-ui), sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-000, #ffffff);
+  letter-spacing: -0.012em;
+}
+.band-head .b-sub {
+  font-family: var(--font-mono, "JetBrains Mono"), ui-monospace, Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  color: var(--ink-400, #909caa);
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+.band-head .b-meta {
+  font-family: var(--font-mono, "JetBrains Mono"), ui-monospace, Menlo, monospace;
+  font-size: 11px;
+  color: var(--ink-300, #84909b);
+  text-align: right;
+}
+.band-head .b-meta b {
+  color: var(--ink-000, #ffffff);
+  font-weight: 600;
+}
+.band.cons .band-head {
+  background: linear-gradient(180deg, rgba(34, 197, 94, 0.06), var(--bg-025, #0b0d0f));
+}
+.band.cons .band-head .b-pip {
+  background: #22c55e;
+}
+.band.early .band-head {
+  background: linear-gradient(180deg, rgba(167, 139, 250, 0.06), var(--bg-025, #0b0d0f));
+}
+.band.early .band-head .b-pip {
+  background: #a78bfa;
+}
+.band.div .band-head {
+  background: linear-gradient(180deg, rgba(255, 181, 71, 0.06), var(--bg-025, #0b0d0f));
+}
+.band.div .band-head .b-pip {
+  background: #ffb547;
+}
+.band.ext .band-head .b-pip {
+  background: #60a5fa;
+}
+.band.single .band-head .b-pip {
+  background: #84909b;
+}
+
+/* 8-dot source presence row gauge inside the leaderboard */
+.lb-row .gauge {
+  display: flex;
+  gap: 2px;
+}
+.lb-row .gauge .g {
+  width: 10px;
+  height: 14px;
+  background: var(--bg-200, #1d242b);
+  position: relative;
+}
+.lb-row .gauge .g.on {
+  background: #22c55e;
+}
+.lb-row .gauge .g.weak {
+  background: rgba(34, 197, 94, 0.3);
+}
+
+/* Daily verdict panel bullet list */
+.dv-list {
+  padding: 6px 14px 14px;
+  font-family: var(--font-sans, "Geist", ui-sans-serif, system-ui), sans-serif;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--ink-200, #b8c0c8);
+}
+.dv-list p {
+  margin: 8px 0;
+  padding-left: 14px;
+  position: relative;
+}
+.dv-list p::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 9px;
+  width: 6px;
+  height: 1px;
+  background: var(--ink-400, #909caa);
+}
+.dv-list b {
+  color: var(--ink-000, #ffffff);
+  font-weight: 600;
+}
+
+/* Confidence percent label below the bar (consensus rows) */
+.lb-row .score .conf-pct {
+  font-size: 8.5px;
+  letter-spacing: 0.1em;
+  color: var(--ink-400, #909caa);
+  text-transform: uppercase;
+}
+
+/* Source-dot color tokens used by the source strip & per-row badges */
+.sd-gh { background: #c8d3df; color: #0a0a0a; }
+.sd-hf { background: #ffb547; color: #0a0a0a; }
+.sd-hn { background: #ff7a3d; color: #0a0a0a; }
+.sd-x  { background: #7aa7ff; color: #0a0a0a; }
+.sd-r  { background: #ff5a4a; color: #ffffff; }
+.sd-pdh { background: #da552f; color: #ffffff; }
+.sd-dev { background: #3ad6c5; color: #0a0a0a; }
+.sd-bs  { background: #60a5fa; color: #0a0a0a; }

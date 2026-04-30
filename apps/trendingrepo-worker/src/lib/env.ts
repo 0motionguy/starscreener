@@ -54,6 +54,11 @@ const envSchema = z
     MANUAL_DATA_SOURCE_BRANCH: z.string().optional(),
 
     SENTRY_DSN: z.string().url().optional(),
+
+    KIMI_API_KEY: z.string().optional(),
+    KIMI_BASE_URL: z.string().url().optional(),
+    KIMI_MODEL: z.string().optional(),
+
     NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
     PORT: z.coerce.number().int().positive().default(8080),
     LOG_LEVEL: z.enum(['trace', 'debug', 'info', 'warn', 'error', 'fatal']).default('info'),

@@ -1,3 +1,5 @@
+"use client";
+
 // V4 — Chip
 //
 // The reusable selectable pill used in every filter strip and tab bar.

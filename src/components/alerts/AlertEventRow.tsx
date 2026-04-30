@@ -1,3 +1,5 @@
+"use client";
+
 // V4 — AlertEventRow
 //
 // One fired alert event in the inbox. Mockup-canonical row:

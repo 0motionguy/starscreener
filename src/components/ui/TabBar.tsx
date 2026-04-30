@@ -1,3 +1,5 @@
+"use client";
+
 // V4 — TabBar
 //
 // Horizontal tab navigation used by signals.html (mention feed tabs),

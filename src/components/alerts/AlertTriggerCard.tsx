@@ -1,3 +1,5 @@
+"use client";
+
 // V4 — AlertTriggerCard
 //
 // Display + edit one AlertRule. Used on /alerts settings tab:

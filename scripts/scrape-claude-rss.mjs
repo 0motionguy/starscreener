@@ -18,6 +18,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT = resolve(__dirname, "..", "data", "claude-rss.json");
@@ -162,7 +163,30 @@ async function main() {
   await closeDataStore();
 }
 
-main().catch((err) => {
-  process.stderr.write(`[claude-rss] FATAL: ${err?.stack ?? err}\n`);
-  process.exit(1);
-});
+const startedAt = Date.now();
+main()
+  .then(async () => {
+    try {
+      await writeSourceMetaFromOutcome({
+        source: "claude-rss",
+        count: 1,
+        durationMs: Date.now() - startedAt,
+      });
+    } catch (metaErr) {
+      console.error("[meta] claude-rss.json write failed:", metaErr);
+    }
+  })
+  .catch(async (err) => {
+    process.stderr.write(`[claude-rss] FATAL: ${err?.stack ?? err}\n`);
+    try {
+      await writeSourceMetaFromOutcome({
+        source: "claude-rss",
+        count: 0,
+        durationMs: Date.now() - startedAt,
+        error: err,
+      });
+    } catch (metaErr) {
+      console.error("[meta] claude-rss.json error-write failed:", metaErr);
+    }
+    process.exit(1);
+  });

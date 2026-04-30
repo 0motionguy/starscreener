@@ -1,5 +1,4 @@
 import Link from "next/link";
-import type { ReactNode } from "react";
 
 import {
   getConsensusTrendingItems,
@@ -11,11 +10,17 @@ import {
   getConsensusVerdictsPayload,
   refreshConsensusVerdictsFromStore,
 } from "@/lib/consensus-verdicts";
-import { Metric, MetricGrid } from "@/components/ui/Metric";
 import { AgreementMatrix } from "@/components/consensus/AgreementMatrix";
 import { ConsensusBoard } from "@/components/consensus/ConsensusBoard";
-import { DailyVerdictPanel, VerdictRibbon } from "@/components/consensus/DailyVerdictPanel";
+import { DailyVerdictPanel } from "@/components/consensus/DailyVerdictPanel";
 import { SourceStrip } from "@/components/consensus/SourceStrip";
+
+// V4 (CORPUS) primitives — page chrome + verdict + KPI band.
+import { PageHead } from "@/components/ui/PageHead";
+import { SectionHead } from "@/components/ui/SectionHead";
+import { KpiBand } from "@/components/ui/KpiBand";
+import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
+import { LiveDot } from "@/components/ui/LiveDot";
 
 export const runtime = "nodejs";
 // ISR: page rebuilds every 10 minutes (consensus fetcher publishes hourly,
@@ -31,16 +36,6 @@ function consensusHref(fullName: string): string {
   const [owner, name] = fullName.split("/");
   if (!owner || !name) return "#";
   return `/consensus/${owner}/${name}`;
-}
-
-function SectionHead({ num, title, meta }: { num: string; title: string; meta?: ReactNode }) {
-  return (
-    <div className="sec-head">
-      <span className="sec-num">{`// ${num}`}</span>
-      <h2 className="sec-title">{title}</h2>
-      {meta ? <span className="sec-meta">{meta}</span> : null}
-    </div>
-  );
 }
 
 function EarlyCallList({ items }: { items: ConsensusItem[] }) {
@@ -133,82 +128,100 @@ export default async function ConsensusPage() {
   const earlyItems = items.filter((i) => i.verdict === "early_call").slice(0, 7);
   const divItems = items.filter((i) => i.verdict === "divergence").slice(0, 7);
 
-  const computed = meta.computedAt ? fmtClock(meta.computedAt) : "warming";
+  const computedAt = verdicts.computedAt || meta.computedAt;
+  const computedClock = computedAt ? fmtClock(computedAt) : "warming";
+  const computedAgo = computedAt
+    ? `${Math.max(0, Math.floor((Date.now() - new Date(computedAt).getTime()) / 60000))}m ago`
+    : "";
+
+  // V4 verdict-ribbon copy: prefer the analyst headline, otherwise derive
+  // a deterministic summary from band counts. Same fallback the V3 ribbon used.
+  const verdictText =
+    verdicts.ribbon.headline ||
+    `${meta.bandCounts.strong_consensus} strong consensus picks today across 8 sources · ` +
+      `${meta.bandCounts.early_call} early calls · ${meta.bandCounts.divergence} divergences to watch.`;
 
   return (
     <main className="home-surface">
-      <section className="page-head">
-        <div>
-          <div className="crumb">
-            <b>CONSENSUS</b> · TERMINAL · /
-          </div>
-          <h1>What 8 signal feeds agree on — right now.</h1>
-          <p className="lede">
-            An AI-curated leaderboard. Every repo, model, skill, and MCP is cross-validated against
-            eight independent discovery feeds. Composite score = weighted agreement.
-          </p>
-        </div>
-        <div className="clock">
-          <span className="big">{computed}</span>
-          UTC · COMPUTED
-          <div style={{ marginTop: 4 }}>
-            <span className="live">FEED LIVE</span>
-          </div>
-          <div style={{ marginTop: 6 }}>
+      <PageHead
+        crumb={
+          <>
+            <b>CONSENSUS</b> · TERMINAL · /CONSENSUS
+          </>
+        }
+        h1="What 8 signal feeds agree on — right now."
+        lede="An AI-curated leaderboard. Every repo, model, skill, and MCP is cross-validated against eight independent discovery feeds. Composite score = weighted agreement."
+        clock={
+          <>
+            <span className="big">{computedClock}</span>
+            <span className="muted">UTC · COMPUTED</span>
+            <LiveDot label="FEED LIVE" />
             <Link href="/api/scoring/consensus?limit=100" className="json-link">
               JSON →
             </Link>
-          </div>
-        </div>
-      </section>
-
-      <VerdictRibbon
-        ribbon={verdicts.ribbon}
-        computedAt={verdicts.computedAt || meta.computedAt}
-        poolSize={meta.itemCount}
-        bandCounts={{
-          strong_consensus: meta.bandCounts.strong_consensus,
-          early_call: meta.bandCounts.early_call,
-          divergence: meta.bandCounts.divergence,
-        }}
+          </>
+        }
       />
 
-      <MetricGrid columns={5} className="kpi-band">
-        <Metric label="Pool" value={meta.itemCount} sub="candidates · 24h" pip />
-        <Metric
-          label="Strong consensus"
-          value={meta.bandCounts.strong_consensus}
-          sub="≥ 5 / 8 sources agree"
-          tone="consensus"
-          pip
-        />
-        <Metric
-          label="Early calls"
-          value={meta.bandCounts.early_call}
-          sub="we ranked first"
-          tone="early"
-          pip
-        />
-        <Metric
-          label="Divergence"
-          value={meta.bandCounts.divergence}
-          sub="feeds disagree · gap > 30"
-          tone="divergence"
-          pip
-        />
-        <Metric
-          label="External-only"
-          value={meta.bandCounts.external_only}
-          sub="not yet on our radar"
-          tone="external"
-          pip
-        />
-      </MetricGrid>
+      <VerdictRibbon
+        tone="acc"
+        stamp={{
+          eyebrow: "// TODAY'S VERDICT",
+          headline: computedAt
+            ? new Date(computedAt).toISOString().replace("T", " · ").slice(0, 16) + " UTC"
+            : "warming",
+          sub: computedAt
+            ? `computed ${computedAgo} · ${meta.itemCount} candidates`
+            : "awaiting first analyst run",
+        }}
+        text={verdictText}
+        actionHref="#consensus-leaderboard"
+        actionLabel="JUMP TO BOARD →"
+      />
+
+      <KpiBand
+        className="kpi-band"
+        cells={[
+          {
+            label: "POOL",
+            value: meta.itemCount,
+            sub: "candidates · 24h",
+            pip: "var(--v4-ink-300)",
+          },
+          {
+            label: "STRONG CONSENSUS",
+            value: meta.bandCounts.strong_consensus,
+            sub: "≥ 5 / 8 sources agree",
+            tone: "money",
+            pip: "var(--v4-money)",
+          },
+          {
+            label: "EARLY CALLS",
+            value: meta.bandCounts.early_call,
+            sub: "we ranked first",
+            tone: "acc",
+            pip: "var(--v4-violet)",
+          },
+          {
+            label: "DIVERGENCE",
+            value: meta.bandCounts.divergence,
+            sub: "feeds disagree · gap > 30",
+            tone: "amber",
+            pip: "var(--v4-amber)",
+          },
+          {
+            label: "EXTERNAL-ONLY",
+            value: meta.bandCounts.external_only,
+            sub: "not yet on our radar",
+            pip: "var(--v4-blue)",
+          },
+        ]}
+      />
 
       <SourceStrip stats={meta.sourceStats} />
 
       <SectionHead
-        num="01"
+        num="// 01"
         title="Agreement matrix · OURS rank × external composite"
         meta={
           <>
@@ -220,26 +233,26 @@ export default async function ConsensusPage() {
         <section className="panel col-8">
           <div className="panel-head">
             <span className="key">{"// MATRIX · X · OURS RANK → · Y · EXTERNAL RANK ↓"}</span>
-            <span style={{ color: "var(--ink-400, #84909b)" }}>· COLOR · VERDICT BAND</span>
+            <span style={{ color: "var(--v4-ink-400)" }}>· COLOR · VERDICT BAND</span>
             <span className="right">
-              <span className="live">LIVE</span>
+              <LiveDot label="LIVE" />
             </span>
           </div>
           <div className="matrix-legend">
             <span>
-              <i className="pip" style={{ background: "#22c55e" }} /> Strong consensus
+              <i className="pip" style={{ background: "var(--v4-money)" }} /> Strong consensus
             </span>
             <span>
-              <i className="pip" style={{ background: "#a78bfa" }} /> Early call
+              <i className="pip" style={{ background: "var(--v4-violet)" }} /> Early call
             </span>
             <span>
-              <i className="pip" style={{ background: "#ffb547" }} /> Divergence
+              <i className="pip" style={{ background: "var(--v4-amber)" }} /> Divergence
             </span>
             <span>
-              <i className="pip" style={{ background: "#60a5fa" }} /> External-only
+              <i className="pip" style={{ background: "var(--v4-blue)" }} /> External-only
             </span>
             <span>
-              <i className="pip" style={{ background: "#84909b" }} /> Single source
+              <i className="pip" style={{ background: "var(--v4-ink-300)" }} /> Single source
             </span>
             <span className="right">click any band row · open detail</span>
           </div>
@@ -256,7 +269,7 @@ export default async function ConsensusPage() {
       </div>
 
       <SectionHead
-        num="02"
+        num="// 02"
         title="Receipts · early calls and divergences"
         meta={
           <>
@@ -268,9 +281,9 @@ export default async function ConsensusPage() {
         <section className="panel col-6">
           <div className="panel-head">
             <span className="key">{"// EARLY-CALL HALL OF FAME"}</span>
-            <span style={{ color: "var(--ink-400, #84909b)" }}>· OURS BEFORE EXTERNAL</span>
+            <span style={{ color: "var(--v4-ink-400)" }}>· OURS BEFORE EXTERNAL</span>
             <span className="right">
-              <span style={{ color: "#a78bfa" }}>↑ {earlyItems.length} ACTIVE</span>
+              <span style={{ color: "var(--v4-violet)" }}>↑ {earlyItems.length} ACTIVE</span>
             </span>
           </div>
           <EarlyCallList items={earlyItems} />
@@ -279,9 +292,9 @@ export default async function ConsensusPage() {
         <section className="panel col-6">
           <div className="panel-head">
             <span className="key">{"// DIVERGENCE WATCH"}</span>
-            <span style={{ color: "var(--ink-400, #84909b)" }}>· FEEDS DISAGREE &gt; 30 RANKS</span>
+            <span style={{ color: "var(--v4-ink-400)" }}>· FEEDS DISAGREE &gt; 30 RANKS</span>
             <span className="right">
-              <span style={{ color: "#ffb547" }}>⚠ {divItems.length} ACTIVE</span>
+              <span style={{ color: "var(--v4-amber)" }}>⚠ {divItems.length} ACTIVE</span>
             </span>
           </div>
           <DivergenceList items={divItems} />
@@ -289,7 +302,7 @@ export default async function ConsensusPage() {
       </div>
 
       <SectionHead
-        num="03"
+        num="// 03"
         title="Consensus leaderboard · 100 candidates"
         meta={
           <>
@@ -298,14 +311,16 @@ export default async function ConsensusPage() {
         }
       />
 
-      {items.length === 0 ? (
-        <div className="panel" style={{ padding: 24, color: "var(--ink-300, #84909b)" }}>
-          Consensus pool is warming. The worker publishes after engagement-composite + 8 source
-          fetchers refresh.
-        </div>
-      ) : (
-        <ConsensusBoard items={items} perBand={20} />
-      )}
+      <div id="consensus-leaderboard">
+        {items.length === 0 ? (
+          <div className="panel" style={{ padding: 24, color: "var(--v4-ink-300)" }}>
+            Consensus pool is warming. The worker publishes after engagement-composite + 8 source
+            fetchers refresh.
+          </div>
+        ) : (
+          <ConsensusBoard items={items} perBand={20} />
+        )}
+      </div>
     </main>
   );
 }

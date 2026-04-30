@@ -328,7 +328,7 @@ export async function ProjectSurfaceMap({
       <div className="p-4">
         <p
           className="mb-4 font-mono text-[10px] uppercase tracking-[0.16em]"
-          style={{ color: "var(--v3-ink-300)" }}
+          style={{ color: "var(--v4-ink-300)" }}
         >
           {"// KNOWN REPO · PACKAGE · LAUNCH · SITE SURFACES"}
         </p>
@@ -338,40 +338,40 @@ export async function ProjectSurfaceMap({
           aria-label="AI discoverability (AISO)"
           className="mb-4 rounded-[2px] p-3"
           style={{
-            background: "var(--v3-bg-025)",
-            border: "1px solid var(--v3-line-200)",
-            boxShadow: "inset 2px 0 0 var(--v3-sig-green)",
+            background: "var(--v4-bg-025)",
+            border: "1px solid var(--v4-line-200)",
+            boxShadow: "inset 2px 0 0 var(--v4-money)",
           }}
         >
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
               <p
                 className="font-mono text-[10px] uppercase tracking-[0.16em]"
-                style={{ color: "var(--v3-ink-300)" }}
+                style={{ color: "var(--v4-ink-300)" }}
               >
                 AI discoverability
                 <span
                   className="ml-2"
-                  style={{ color: "var(--v3-ink-400)" }}
+                  style={{ color: "var(--v4-ink-400)" }}
                 >
                   {"// AISO"}
                 </span>
               </p>
               <p
                 className="mt-1 font-mono text-3xl font-semibold tabular-nums"
-                style={{ color: "var(--v3-sig-green)" }}
+                style={{ color: "var(--v4-money)" }}
               >
                 {aisoScan.score}
                 <span
                   className="ml-1 text-sm"
-                  style={{ color: "var(--v3-ink-400)" }}
+                  style={{ color: "var(--v4-ink-400)" }}
                 >
                   /100
                 </span>
               </p>
               <p
                 className="mt-1 text-[11px]"
-                style={{ color: "var(--v3-ink-300)" }}
+                style={{ color: "var(--v4-ink-300)" }}
               >
                 Strong surface for AI agents and citation engines.
               </p>
@@ -393,14 +393,14 @@ export async function ProjectSurfaceMap({
                   key={dimension.key}
                   className="rounded-[2px] px-2.5 py-2"
                   style={{
-                    background: "var(--v3-bg-050)",
-                    border: "1px solid var(--v3-line-100)",
+                    background: "var(--v4-bg-050)",
+                    border: "1px solid var(--v4-line-100)",
                   }}
                 >
                   <div className="flex items-center justify-between gap-2">
                     <span
                       className="truncate text-[11px]"
-                      style={{ color: "var(--v3-ink-200)" }}
+                      style={{ color: "var(--v4-ink-200)" }}
                     >
                       {dimension.label}
                     </span>
@@ -414,7 +414,7 @@ export async function ProjectSurfaceMap({
                   </div>
                   <div
                     className="mt-1 h-1 overflow-hidden rounded-[1px]"
-                    style={{ background: "var(--v3-bg-200)" }}
+                    style={{ background: "var(--v4-bg-200)" }}
                   >
                     <div
                       className="h-full rounded-full"
@@ -422,10 +422,10 @@ export async function ProjectSurfaceMap({
                         width: `${pctOfWeight(dimension)}%`,
                         background:
                           dimension.status === "pass"
-                            ? "var(--v3-sig-green)"
+                            ? "var(--v4-money)"
                             : dimension.status === "warn"
-                              ? "var(--v3-sig-amber)"
-                              : "var(--v3-sig-red)",
+                              ? "var(--v4-amber)"
+                              : "var(--v4-red)",
                       }}
                     />
                   </div>
@@ -455,8 +455,8 @@ export async function ProjectSurfaceMap({
                     aria-hidden
                     style={{
                       color: surface.active
-                        ? "var(--v3-acc)"
-                        : "var(--v3-ink-400)",
+                        ? "var(--v4-acc)"
+                        : "var(--v4-ink-400)",
                     }}
                   />
                 ) : null}
@@ -464,7 +464,7 @@ export async function ProjectSurfaceMap({
               <span className="min-w-0 flex-1">
                 <span
                   className="block font-mono text-[10px] uppercase tracking-[0.16em]"
-                  style={{ color: "var(--v3-ink-400)" }}
+                  style={{ color: "var(--v4-ink-400)" }}
                 >
                   {surface.label}
                 </span>
@@ -472,15 +472,15 @@ export async function ProjectSurfaceMap({
                   className="block truncate text-sm"
                   style={{
                     color: surface.active
-                      ? "var(--v3-ink-100)"
-                      : "var(--v3-ink-400)",
+                      ? "var(--v4-ink-100)"
+                      : "var(--v4-ink-400)",
                   }}
                 >
                   {surface.value}
                 </span>
                 <span
                   className="block truncate text-[11px]"
-                  style={{ color: "var(--v3-ink-400)" }}
+                  style={{ color: "var(--v4-ink-400)" }}
                 >
                   {surface.detail}
                 </span>
@@ -488,7 +488,7 @@ export async function ProjectSurfaceMap({
               {surface.href && (
                 <ExternalLink
                   className="size-3"
-                  style={{ color: "var(--v3-ink-400)" }}
+                  style={{ color: "var(--v4-ink-400)" }}
                   aria-hidden
                 />
               )}
@@ -501,10 +501,10 @@ export async function ProjectSurfaceMap({
               href={surface.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2.5 rounded-[2px] p-2.5 transition-colors hover:[background:var(--v3-bg-100)] hover:[border-color:var(--v3-line-300)]"
+              className="flex items-center gap-2.5 rounded-[2px] p-2.5 transition-colors hover:[background:var(--v4-bg-100)] hover:[border-color:var(--v4-line-300)]"
               style={{
-                background: "var(--v3-bg-050)",
-                border: "1px solid var(--v3-line-100)",
+                background: "var(--v4-bg-050)",
+                border: "1px solid var(--v4-line-100)",
               }}
             >
               {content}
@@ -514,8 +514,8 @@ export async function ProjectSurfaceMap({
               key={surface.label}
               className="flex items-center gap-2.5 rounded-[2px] p-2.5 opacity-70"
               style={{
-                background: "var(--v3-bg-025)",
-                border: "1px dashed var(--v3-line-100)",
+                background: "var(--v4-bg-025)",
+                border: "1px dashed var(--v4-line-100)",
               }}
             >
               {content}
@@ -528,14 +528,14 @@ export async function ProjectSurfaceMap({
         <div
           className="mt-4 flex items-center justify-between gap-3 rounded-[2px] p-3"
           style={{
-            background: "var(--v3-bg-025)",
-            border: "1px solid var(--v3-line-100)",
+            background: "var(--v4-bg-025)",
+            border: "1px solid var(--v4-line-100)",
           }}
         >
           <div className="min-w-0">
             <p
               className="font-mono text-[10px] uppercase tracking-[0.16em]"
-              style={{ color: "var(--v3-ink-400)" }}
+              style={{ color: "var(--v4-ink-400)" }}
             >
               AISO scan
             </p>
@@ -559,8 +559,8 @@ export async function ProjectSurfaceMap({
         <div
           className="mt-4 rounded-[2px] p-3"
           style={{
-            background: "var(--v3-bg-025)",
-            border: "1px solid var(--v3-line-100)",
+            background: "var(--v4-bg-025)",
+            border: "1px solid var(--v4-line-100)",
           }}
         >
           <div className="flex items-center justify-between gap-3">
@@ -569,11 +569,11 @@ export async function ProjectSurfaceMap({
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em] transition-colors"
-              style={{ color: "var(--v3-ink-200)" }}
+              style={{ color: "var(--v4-ink-200)" }}
             >
               <Search
                 className="size-3.5"
-                style={{ color: "var(--v3-acc)" }}
+                style={{ color: "var(--v4-acc)" }}
                 aria-hidden
               />
               AISO real website scan
@@ -585,12 +585,12 @@ export async function ProjectSurfaceMap({
                 style={{
                   color:
                     aisoScan.score != null
-                      ? "var(--v3-ink-100)"
+                      ? "var(--v4-ink-100)"
                       : aisoUiStatus === "failed"
-                        ? "var(--v3-sig-red)"
+                        ? "var(--v4-red)"
                         : aisoUiStatus === "rate_limited" || aisoUiStatus === "queued"
-                          ? "var(--v3-sig-amber)"
-                          : "var(--v3-ink-400)",
+                          ? "var(--v4-amber)"
+                          : "var(--v4-ink-400)",
                 }}
               >
                 {aisoScan.score != null
@@ -610,14 +610,14 @@ export async function ProjectSurfaceMap({
           {aisoScan.score != null && (
             <div
               className="mt-2 h-2 overflow-hidden rounded-[1px]"
-              style={{ background: "var(--v3-bg-200)" }}
+              style={{ background: "var(--v4-bg-200)" }}
             >
               <div
                 className="h-full rounded-full"
                 style={{
                   width: `${aisoScan.score}%`,
-                  background: "var(--v3-acc)",
-                  boxShadow: "0 0 8px var(--v3-acc-glow)",
+                  background: "var(--v4-acc)",
+                  boxShadow: "0 0 8px var(--v4-acc-glow)",
                 }}
               />
             </div>
@@ -629,14 +629,14 @@ export async function ProjectSurfaceMap({
                 key={dimension.key}
                 className="rounded-[2px] px-2.5 py-2"
                 style={{
-                  background: "var(--v3-bg-050)",
-                  border: "1px solid var(--v3-line-100)",
+                  background: "var(--v4-bg-050)",
+                  border: "1px solid var(--v4-line-100)",
                 }}
               >
                 <div className="flex items-center justify-between gap-2">
                   <span
                     className="truncate text-[11px]"
-                    style={{ color: "var(--v3-ink-200)" }}
+                    style={{ color: "var(--v4-ink-200)" }}
                   >
                     {dimension.label}
                   </span>
@@ -650,7 +650,7 @@ export async function ProjectSurfaceMap({
                 </div>
                 <div
                   className="mt-1 h-1 overflow-hidden rounded-[1px]"
-                  style={{ background: "var(--v3-bg-200)" }}
+                  style={{ background: "var(--v4-bg-200)" }}
                 >
                   <div
                     className="h-full rounded-full"
@@ -658,17 +658,17 @@ export async function ProjectSurfaceMap({
                       width: `${pctOfWeight(dimension)}%`,
                       background:
                         dimension.status === "pass"
-                          ? "var(--v3-sig-green)"
+                          ? "var(--v4-money)"
                           : dimension.status === "warn"
-                            ? "var(--v3-sig-amber)"
-                            : "var(--v3-sig-red)",
+                            ? "var(--v4-amber)"
+                            : "var(--v4-red)",
                     }}
                   />
                 </div>
                 {dimension.issuesCount > 0 && (
                   <p
                     className="mt-1 text-[10px]"
-                    style={{ color: "var(--v3-ink-400)" }}
+                    style={{ color: "var(--v4-ink-400)" }}
                   >
                     {dimension.issuesCount} issue{dimension.issuesCount === 1 ? "" : "s"}
                   </p>
@@ -680,13 +680,13 @@ export async function ProjectSurfaceMap({
           <div
             className="mt-3 rounded-[2px] p-2.5"
             style={{
-              background: "var(--v3-bg-050)",
-              border: "1px solid var(--v3-line-100)",
+              background: "var(--v4-bg-050)",
+              border: "1px solid var(--v4-line-100)",
             }}
           >
             <p
               className="font-mono text-[10px] uppercase tracking-[0.16em]"
-              style={{ color: "var(--v3-ink-400)" }}
+              style={{ color: "var(--v4-ink-400)" }}
             >
               Technical signal board
             </p>
@@ -724,14 +724,14 @@ export async function ProjectSurfaceMap({
             <div
               className="mt-3 rounded-[2px] p-2.5"
               style={{
-                background: "var(--v3-bg-050)",
-                border: "1px solid var(--v3-line-100)",
+                background: "var(--v4-bg-050)",
+                border: "1px solid var(--v4-line-100)",
               }}
             >
               <div className="flex items-center justify-between gap-3">
                 <p
                   className="font-mono text-[10px] uppercase tracking-[0.16em]"
-                  style={{ color: "var(--v3-ink-400)" }}
+                  style={{ color: "var(--v4-ink-400)" }}
                 >
                   Agent readiness
                 </p>
@@ -749,14 +749,14 @@ export async function ProjectSurfaceMap({
                     style={
                       signal.active
                         ? {
-                            background: "var(--v3-bg-100)",
-                            border: "1px solid var(--v3-line-200)",
-                            color: "var(--v3-sig-green)",
+                            background: "var(--v4-bg-100)",
+                            border: "1px solid var(--v4-line-200)",
+                            color: "var(--v4-money)",
                           }
                         : {
-                            background: "var(--v3-bg-025)",
-                            border: "1px solid var(--v3-line-100)",
-                            color: "var(--v3-ink-400)",
+                            background: "var(--v4-bg-025)",
+                            border: "1px solid var(--v4-line-100)",
+                            color: "var(--v4-ink-400)",
                           }
                     }
                   >
@@ -764,8 +764,8 @@ export async function ProjectSurfaceMap({
                       className="shrink-0 size-1.5"
                       style={{
                         background: signal.active
-                          ? "var(--v3-sig-green)"
-                          : "var(--v3-ink-500)",
+                          ? "var(--v4-money)"
+                          : "var(--v4-ink-500)",
                       }}
                       aria-hidden
                     />
@@ -780,13 +780,13 @@ export async function ProjectSurfaceMap({
             <div
               className="mt-3 rounded-[2px] p-2.5"
               style={{
-                background: "var(--v3-bg-050)",
-                border: "1px solid var(--v3-line-100)",
+                background: "var(--v4-bg-050)",
+                border: "1px solid var(--v4-line-100)",
               }}
             >
               <p
                 className="font-mono text-[10px] uppercase tracking-[0.16em]"
-                style={{ color: "var(--v3-ink-400)" }}
+                style={{ color: "var(--v4-ink-400)" }}
               >
                 AI citation engines
               </p>
@@ -796,13 +796,13 @@ export async function ProjectSurfaceMap({
                     key={engine.engine}
                     className="rounded-[2px] px-2 py-2"
                     style={{
-                      background: "var(--v3-bg-025)",
-                      border: "1px solid var(--v3-line-100)",
+                      background: "var(--v4-bg-025)",
+                      border: "1px solid var(--v4-line-100)",
                     }}
                   >
                     <p
                       className="truncate font-mono text-[10px] uppercase tracking-[0.16em]"
-                      style={{ color: "var(--v3-ink-300)" }}
+                      style={{ color: "var(--v4-ink-300)" }}
                     >
                       {engine.engine}
                     </p>
@@ -811,15 +811,15 @@ export async function ProjectSurfaceMap({
                       style={{
                         color:
                           engine.cited > 0
-                            ? "var(--v3-sig-green)"
-                            : "var(--v3-ink-400)",
+                            ? "var(--v4-money)"
+                            : "var(--v4-ink-400)",
                       }}
                     >
                       {engine.cited}/{engine.total || 0} cited
                     </p>
                     <p
                       className="mt-0.5 text-[10px]"
-                      style={{ color: "var(--v3-ink-400)" }}
+                      style={{ color: "var(--v4-ink-400)" }}
                     >
                       {engine.mentioned} mentions | pos {engine.bestPosition || "-"}
                     </p>
@@ -835,15 +835,15 @@ export async function ProjectSurfaceMap({
                 <li
                   key={`${issue.severity}-${issue.title}`}
                   className="text-[11px] leading-snug"
-                  style={{ color: "var(--v3-ink-300)" }}
+                  style={{ color: "var(--v4-ink-300)" }}
                 >
                   <span
                     className="font-mono uppercase tracking-[0.16em]"
-                    style={{ color: "var(--v3-sig-amber)" }}
+                    style={{ color: "var(--v4-amber)" }}
                   >
                     {issue.severity}
                   </span>{" "}
-                  <span style={{ color: "var(--v3-ink-200)" }}>{issue.title}</span>
+                  <span style={{ color: "var(--v4-ink-200)" }}>{issue.title}</span>
                 </li>
               ))}
             </ul>
@@ -851,7 +851,7 @@ export async function ProjectSurfaceMap({
 
           <p
             className="mt-3 font-mono text-[10px] uppercase tracking-[0.16em]"
-            style={{ color: "var(--v3-ink-400)" }}
+            style={{ color: "var(--v4-ink-400)" }}
           >
             {aisoScan.completedAt
               ? `scanned ${getRelativeTime(aisoScan.completedAt)}`
@@ -888,20 +888,20 @@ function TechSignal({
     <div
       className="rounded-[2px] px-2 py-2"
       style={{
-        background: "var(--v3-bg-025)",
-        border: "1px solid var(--v3-line-100)",
+        background: "var(--v4-bg-025)",
+        border: "1px solid var(--v4-line-100)",
       }}
     >
       <p
         className="truncate font-mono text-[10px] uppercase tracking-[0.16em]"
-        style={{ color: "var(--v3-ink-400)" }}
+        style={{ color: "var(--v4-ink-400)" }}
       >
         {label}
       </p>
       <p
         className="mt-1 font-mono text-xs tabular-nums"
         style={{
-          color: positive ? "var(--v3-sig-green)" : "var(--v3-sig-amber)",
+          color: positive ? "var(--v4-money)" : "var(--v4-amber)",
         }}
       >
         {formatDetailValue(raw)}

@@ -611,6 +611,9 @@ function webPostToRawPost(post: TwitterWebPost): CollectorRawPost {
     replies: post.replyCount,
     quotes: post.quoteCount,
     sourceUrl: "https://api.x.com/graphql/SearchTimeline",
+    ...(post.expandedUrls && post.expandedUrls.length > 0
+      ? { expandedUrls: post.expandedUrls }
+      : {}),
   };
 }
 
@@ -907,13 +910,26 @@ async function main(): Promise<void> {
 
   // F3 unknown-mentions lake — Twitter is the highest-volume mention source;
   // every github URL we see in tweet text becomes a discovery candidate.
-  // Walk all collected posts across all payloads and feed the lake.
+  // Walk all collected posts across all payloads and feed the lake. We walk
+  // both `text` (catches bare github.com mentions) AND `expandedUrls`
+  // (catches t.co-shortened links: tweet text shows the t.co form which
+  // doesn't pattern-match github.com, but Apify's entities.urls[].expanded_url
+  // resolves them).
   const unknownsAccumulator = new Set<string>();
   for (const payload of payloads) {
     for (const post of payload.posts ?? []) {
       const text = String((post as { text?: unknown }).text ?? "");
       for (const u of extractUnknownRepoCandidates(text, null) as Set<string>) {
         unknownsAccumulator.add(u);
+      }
+      const expanded = (post as { expandedUrls?: unknown }).expandedUrls;
+      if (Array.isArray(expanded)) {
+        for (const u of expanded) {
+          if (typeof u !== "string" || !u) continue;
+          for (const cand of extractUnknownRepoCandidates(u, null) as Set<string>) {
+            unknownsAccumulator.add(cand);
+          }
+        }
       }
     }
   }

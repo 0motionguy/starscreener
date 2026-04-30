@@ -66,6 +66,13 @@ export interface TwitterWebPost {
   quoteCount: number;
   viewCount: number | null;
   matchedQuery: string;
+  /**
+   * Resolved URLs from `entities.urls[].expanded_url` when the upstream
+   * provider exposes them (Apify's apidojo/tweet-scraper does). Tweet text
+   * shows the t.co shortened form; without these, github.com URLs hidden
+   * behind t.co are invisible to mention extractors.
+   */
+  expandedUrls?: string[];
 }
 
 export interface SearchOptions {

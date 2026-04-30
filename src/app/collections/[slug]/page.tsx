@@ -1,14 +1,4 @@
-// StarScreener — Collection detail
-//
-// Server component. Resolves the slug to a YAML collection under
-// data/collections/, intersects the curated items against the live
-// pipeline repoStore, and renders a unified TerminalLayout table.
-// Curated items missing from live trending appear as muted stub rows
-// (see isCuratedQuietStub in src/lib/collections.ts) — the table stays
-// unified; styling degrades.
-//
-// Collection data is Apache 2.0 from pingcap/ossinsight (see
-// data/collections/NOTICE.md).
+// StarScreener - Collection detail.
 
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -38,13 +28,13 @@ export async function generateMetadata({
   const canonical = absoluteUrl(`/collections/${slug}`);
   if (!collection) {
     return {
-      title: `Collection Not Found — ${SITE_NAME}`,
-      description: "This collection doesn't exist or was removed.",
+      title: `Collection Not Found - ${SITE_NAME}`,
+      description: "This collection does not exist or was removed.",
       alternates: { canonical },
       robots: { index: false, follow: true },
     };
   }
-  const title = `${collection.name} — ${SITE_NAME}`;
+  const title = `${collection.name} - ${SITE_NAME}`;
   const description = `${collection.items.length} curated repos in ${collection.name}, ranked live against current trending data on ${SITE_NAME}.`;
   return {
     title,
@@ -84,63 +74,30 @@ export default async function CollectionDetailPage({ params }: PageProps) {
   const live = liveCountFor(collection, liveIndex);
 
   const heading = (
-    <div className="px-4 sm:px-6 pt-6 pb-2">
-      <nav
-        aria-label="Breadcrumb"
-        className="flex items-center gap-1.5 text-xs text-text-tertiary mb-3"
-      >
-        <Link href="/" className="hover:text-text-secondary">
-          Home
-        </Link>
-        <span>/</span>
-        <Link href="/collections" className="hover:text-text-secondary">
-          Collections
-        </Link>
-        <span>/</span>
-        <span className="text-text-secondary">{collection.name}</span>
-      </nav>
-
-      <div className="flex flex-col gap-2 mb-2">
-        <h1 className="font-display text-2xl sm:text-3xl font-bold text-text-primary">
-          {collection.name}
-        </h1>
-        <div className="flex items-baseline gap-2 font-mono text-xs">
-          <span className="text-text-primary font-semibold tabular-nums">
-            {collection.items.length} repos
-          </span>
-          <span className="text-text-tertiary tabular-nums">
-            {live} with live data
-          </span>
+    <section className="page-head">
+      <div>
+        <div className="crumb">
+          <Link href="/collections">Trend terminal / collections</Link>
+          <span> / </span>
+          <b>{collection.name}</b>
         </div>
+        <h1>{collection.name}</h1>
+        <p className="lede">
+          Curated list from OSS Insight, ranked live against the current
+          TrendingRepo terminal index.
+        </p>
       </div>
-
-      <p className="text-[11px] text-text-tertiary">
-        Curated list from{" "}
-        <a
-          href="https://github.com/pingcap/ossinsight"
-          className="underline hover:text-text-secondary"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          OSS Insight
-        </a>{" "}
-        (Apache 2.0) —{" "}
-        <a
-          href="https://github.com/Kermit457/starscreener/blob/main/data/collections/NOTICE.md"
-          className="underline hover:text-text-secondary"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          attribution
-        </a>
-        .
-      </p>
-    </div>
+      <div className="clock">
+        <span className="big">{collection.items.length}</span>
+        <span className="live">{live} with live data</span>
+      </div>
+    </section>
   );
 
   return (
     <TerminalLayout
       repos={repos}
+      className="home-surface terminal-page collection-detail-page"
       filterBarVariant="category"
       showFeatured={false}
       heading={heading}

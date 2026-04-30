@@ -43,10 +43,10 @@ function deriveAisoUiStatus(
 }
 
 function aisoStatusTone(status: AisoUiStatus): string {
-  if (status === "scanned") return "text-up";
-  if (status === "rate_limited" || status === "queued") return "text-warning";
-  if (status === "failed") return "text-down";
-  return "text-text-tertiary";
+  if (status === "scanned") return "var(--v4-money)";
+  if (status === "rate_limited" || status === "queued") return "var(--v4-amber)";
+  if (status === "failed") return "var(--v4-red)";
+  return "var(--v4-ink-300)";
 }
 
 interface ProjectSurfaceMapProps {
@@ -86,9 +86,9 @@ function hostname(url: string): string {
 }
 
 function statusTone(status: "pass" | "warn" | "fail"): string {
-  if (status === "pass") return "text-up";
-  if (status === "warn") return "text-warning";
-  return "text-down";
+  if (status === "pass") return "var(--v4-money)";
+  if (status === "warn") return "var(--v4-amber)";
+  return "var(--v4-red)";
 }
 
 function formatDetailValue(value: unknown): string {
@@ -405,7 +405,8 @@ export async function ProjectSurfaceMap({
                       {dimension.label}
                     </span>
                     <span
-                      className={`font-mono text-[11px] tabular-nums ${statusTone(dimension.status)}`}
+                      className="font-mono text-[11px] tabular-nums"
+                      style={{ color: statusTone(dimension.status) }}
                     >
                       {dimension.weight > 0
                         ? `${dimension.score}/${dimension.weight}`
@@ -539,7 +540,7 @@ export async function ProjectSurfaceMap({
             >
               AISO scan
             </p>
-            <p className={`mt-1 text-[11px] ${aisoStatusTone(aisoUiStatus)}`}>
+            <p className="mt-1 text-[11px]" style={{ color: aisoStatusTone(aisoUiStatus) }}>
               {aisoUiStatus === "failed"
                 ? "Last scan failed — retry to enqueue another."
                 : aisoUiStatus === "rate_limited"
@@ -736,7 +737,8 @@ export async function ProjectSurfaceMap({
                   Agent readiness
                 </p>
                 <span
-                  className={`font-mono text-[11px] tabular-nums ${statusTone(agentDimension.status)}`}
+                  className="font-mono text-[11px] tabular-nums"
+                  style={{ color: statusTone(agentDimension.status) }}
                 >
                   {agentDimension.score}/{agentDimension.weight}
                 </span>

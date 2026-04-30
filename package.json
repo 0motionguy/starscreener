@@ -60,7 +60,7 @@
     "test:devto": "node --test scripts/__tests__/scrape-devto.test.mjs",
     "test:npm": "node --test scripts/__tests__/scrape-npm.test.mjs",
     "test:funding": "node --test scripts/__tests__/scrape-funding.test.mjs",
-    "test:twitter-collector": "tsx --test scripts/__tests__/twitter-collector.test.ts",
+    "test:twitter-collector": "tsx --test scripts/__tests__/twitter-collector.test.ts scripts/__tests__/apify-twitter-provider.test.ts",
     "test:tools": "tsx --test src/tools/__tests__/*.test.ts",
     "test:portal": "tsx --test src/portal/__tests__/*.test.ts",
     "test:hooks": "vitest run --config vitest.config.ts",

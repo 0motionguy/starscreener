@@ -35,9 +35,10 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 import { fetchJsonWithRetry } from "./_fetch-json.mjs";
-import { extractAllRepoMentions } from "./_github-repo-links.mjs";
+import { extractAllRepoMentions, extractUnknownRepoCandidates } from "./_github-repo-links.mjs";
 import { loadTrackedReposFromFiles } from "./_tracked-repos.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 
 function slugIdFromFullName(fullName) {
   return String(fullName)
@@ -168,6 +169,7 @@ async function main() {
 
   const seen = new Set();
   const stories = [];
+  const unknownsAccumulator = new Set();
   for (const url of feedUrls) {
     try {
       const page = await fetchLobstersPage(url);
@@ -181,6 +183,10 @@ async function main() {
         if (seen.has(norm.shortId)) continue;
         seen.add(norm.shortId);
         stories.push(norm);
+        const textBlob = `${String(raw.title ?? "")}\n${String(raw.url ?? "")}\n${String(raw.description ?? "")}`;
+        for (const u of extractUnknownRepoCandidates(textBlob, tracked)) {
+          unknownsAccumulator.add(u);
+        }
       }
       log(`${url} → ${page.length} raw, ${stories.length} total unique`);
     } catch (err) {
@@ -188,6 +194,13 @@ async function main() {
       // Continue on per-URL failure so one 503 doesn't kill the whole scrape.
     }
     await sleep(PER_REQUEST_DELAY_MS);
+  }
+
+  if (unknownsAccumulator.size > 0) {
+    await appendUnknownMentions(
+      Array.from(unknownsAccumulator, (fullName) => ({ source: "lobsters", fullName })),
+    );
+    log(`unknown candidates: ${unknownsAccumulator.size} (lake: data/unknown-mentions.jsonl)`);
   }
 
   if (stories.length === 0) {

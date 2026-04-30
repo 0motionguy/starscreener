@@ -142,7 +142,28 @@ interface SignalsPageProps {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }
 
-export default async function SignalsPage({ searchParams }: SignalsPageProps) {
+export default async function SignalsPage(props: SignalsPageProps) {
+  try {
+    return await renderSignalsPage(props);
+  } catch (err) {
+    // TEMP diagnostic: render the error inline so we can see it via curl
+    // on Vercel preview without needing dashboard log access. Removing
+    // once the underlying issue is identified + fixed.
+    const message = err instanceof Error ? err.message : String(err);
+    const stack = err instanceof Error ? err.stack ?? "" : "";
+    return (
+      <main style={{ padding: 24, fontFamily: "monospace", fontSize: 12 }}>
+        <h1 style={{ color: "#ff4d4d" }}>SignalsPage render error (diagnostic)</h1>
+        <pre style={{ whiteSpace: "pre-wrap", color: "#ff8458" }}>{message}</pre>
+        <pre style={{ whiteSpace: "pre-wrap", color: "#84909b", fontSize: 11 }}>
+          {stack}
+        </pre>
+      </main>
+    );
+  }
+}
+
+async function renderSignalsPage({ searchParams }: SignalsPageProps) {
   // Read the active source filter out of the URL. Empty / missing param →
   // all 8 sources active (default). Filter applies to cross-source
   // synthesis (consensus / volume / heatmap / ticker), NOT to per-source

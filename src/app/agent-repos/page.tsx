@@ -19,28 +19,28 @@ export default async function AgentReposPage() {
   const repos = selectAgentRepos(getDerivedRepos());
 
   const heading = (
-    <div className="px-4 sm:px-6 pt-6 pb-2">
-      <span className="label-micro">Agent Repos</span>
-      <h1 className="mt-2 font-display text-3xl font-bold text-text-primary md:text-4xl">
-        Top agent runtimes and frameworks by total GitHub stars.
-      </h1>
-      <p className="mt-2 max-w-4xl text-sm leading-relaxed text-text-secondary md:text-base">
-        Curated from GitHub agent searches and the OpenClaw ecosystem. This
-        board stays focused on runtimes, frameworks, orchestrators, and
-        OpenClaw-like systems such as OpenClaw, Hermes, NanoClaw, and
-        NemoClaw.
-      </p>
-      <p className="mt-1 text-xs text-text-muted">
-        Tracking {repos.length} repos from a curated {AGENT_REPO_TARGET_COUNT}
-        -repo list. Agent plugins, skills, tutorials, and awesome lists still
-        remain in the general repo views.
-      </p>
-    </div>
+    <section className="page-head">
+      <div>
+        <div className="crumb">
+          <b>Trend terminal</b> / agent repos
+        </div>
+        <h1>Top agent runtimes and frameworks by stars.</h1>
+        <p className="lede">
+          Curated from GitHub agent searches and the OpenClaw ecosystem:
+          runtimes, frameworks, orchestrators, and OpenClaw-like systems.
+        </p>
+      </div>
+      <div className="clock">
+        <span className="big">{repos.length}</span>
+        <span className="live">of {AGENT_REPO_TARGET_COUNT} tracked</span>
+      </div>
+    </section>
   );
 
   return (
     <TerminalLayout
       repos={repos}
+      className="home-surface terminal-page agent-repos-page"
       filterBarVariant="minimal"
       showFeatured={false}
       heading={heading}

@@ -143,10 +143,20 @@ interface SignalsPageProps {
 }
 
 export default async function SignalsPage({ searchParams }: SignalsPageProps) {
-  // Read the active source filter out of the URL. Empty / missing param →
-  // all 8 sources active (default). Filter applies to cross-source
-  // synthesis (consensus / volume / heatmap / ticker), NOT to per-source
-  // feed panels — those always render their native data.
+  // BISECT phase 2: return immediately. If this 500s, the bug is at
+  // module IMPORT time (top-of-file `import` statements) — one of my new
+  // libs has a side-effect throw at load. If 200, the bug is in the
+  // function body (data fetch / synthesis / JSX).
+  return (
+    <main style={{ padding: 24, fontFamily: "monospace" }}>
+      <h1>signals bisect — function entry reached</h1>
+      <p>imports loaded · function ran · returning early</p>
+      <p>searchParams is Promise: {String(searchParams instanceof Promise)}</p>
+    </main>
+  );
+}
+
+async function _signalsPageBody({ searchParams }: SignalsPageProps) {
   const sp = (await searchParams) ?? {};
   const srcParam = Array.isArray(sp.src) ? sp.src.join(",") : sp.src;
   const wParam = Array.isArray(sp.w) ? sp.w[0] : sp.w;

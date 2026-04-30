@@ -894,3 +894,508 @@
     justify-self: start;
   }
 }
+
+/* ===========================================================================
+ * BATCH D — Funding primitives
+ * ========================================================================= */
+
+/* ---------------------------------------------------------------------------
+ * 14. MoverRow — funding § biggest rounds
+ * --------------------------------------------------------------------------- */
+.v4-mover-row {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) auto auto;
+  gap: 10px;
+  padding: 10px 12px;
+  border-bottom: var(--v4-stroke-1) solid var(--v4-line-100);
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  transition: background-color var(--v4-duration-fast) var(--v4-ease);
+}
+.v4-mover-row:last-child {
+  border-bottom: none;
+}
+.v4-mover-row:hover {
+  background: var(--v4-bg-050);
+}
+.v4-mover-row--first {
+  background: linear-gradient(90deg, var(--v4-money-soft), transparent 70%);
+  padding-left: 10px;
+}
+.v4-mover-row--first::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--v4-money);
+}
+.v4-mover-row__rank {
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-10-5);
+  color: var(--v4-ink-400);
+  font-variant-numeric: tabular-nums;
+}
+.v4-mover-row--first .v4-mover-row__rank {
+  color: var(--v4-money);
+  font-weight: 700;
+}
+.v4-mover-row__body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.v4-mover-row__name {
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-11-5);
+  color: var(--v4-ink-100);
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.v4-mover-row__meta {
+  font-size: var(--v4-text-9);
+  letter-spacing: var(--v4-track-10);
+  color: var(--v4-ink-400);
+  text-transform: uppercase;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.v4-mover-row__amt {
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-13);
+  color: var(--v4-money);
+  font-weight: 600;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.v4-mover-row__amt-lbl {
+  display: block;
+  font-size: 8.5px;
+  color: var(--v4-ink-400);
+  letter-spacing: var(--v4-track-18);
+  font-weight: 400;
+  text-transform: uppercase;
+  margin-top: 1px;
+}
+.v4-mover-row__stage {
+  font-family: var(--v4-mono);
+  font-size: 9px;
+  letter-spacing: var(--v4-track-16);
+  color: var(--v4-ink-200);
+  text-transform: uppercase;
+  padding: 3px 7px;
+  border: var(--v4-stroke-1) solid var(--v4-line-300);
+  white-space: nowrap;
+  flex: none;
+}
+.v4-mover-row__stage--mega {
+  background: var(--v4-acc);
+  color: #1a0a04;
+  border-color: var(--v4-acc);
+  font-weight: 700;
+}
+.v4-mover-row__stage--d {
+  color: var(--v4-pink);
+  border-color: rgba(244, 114, 182, 0.5);
+}
+.v4-mover-row__stage--c {
+  color: var(--v4-amber);
+  border-color: rgba(255, 181, 71, 0.5);
+}
+.v4-mover-row__stage--b {
+  color: var(--v4-violet);
+  border-color: rgba(167, 139, 250, 0.5);
+}
+.v4-mover-row__stage--a {
+  color: var(--v4-blue);
+  border-color: rgba(96, 165, 250, 0.5);
+}
+.v4-mover-row__stage--seed {
+  color: var(--v4-cyan);
+  border-color: rgba(58, 214, 197, 0.5);
+}
+
+/* ---------------------------------------------------------------------------
+ * 15. ARRClimberRow
+ * --------------------------------------------------------------------------- */
+.v4-arr-row {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  column-gap: 10px;
+  row-gap: 6px;
+  padding: 10px 12px;
+  border-bottom: var(--v4-stroke-1) solid var(--v4-line-100);
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+}
+.v4-arr-row:last-child {
+  border-bottom: none;
+}
+.v4-arr-row:hover {
+  background: var(--v4-bg-050);
+}
+.v4-arr-row--first {
+  background: linear-gradient(90deg, var(--v4-acc-soft), transparent 70%);
+  padding-left: 10px;
+}
+.v4-arr-row--first::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--v4-acc);
+}
+.v4-arr-row__rank {
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-10-5);
+  color: var(--v4-ink-400);
+  grid-row: 1 / span 2;
+  align-self: start;
+  padding-top: 2px;
+  font-variant-numeric: tabular-nums;
+}
+.v4-arr-row--first .v4-arr-row__rank {
+  color: var(--v4-acc);
+  font-weight: 700;
+}
+.v4-arr-row__body {
+  min-width: 0;
+}
+.v4-arr-row__name {
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-11-5);
+  color: var(--v4-ink-100);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.v4-arr-row__meta {
+  font-size: 9px;
+  letter-spacing: var(--v4-track-10);
+  color: var(--v4-ink-400);
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+.v4-arr-row__stats {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.v4-arr-row__arr {
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-11-5);
+  color: var(--v4-ink-100);
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.v4-arr-row__lbl {
+  font-size: 8.5px;
+  color: var(--v4-ink-400);
+  letter-spacing: var(--v4-track-18);
+  text-transform: uppercase;
+}
+.v4-arr-row__bar {
+  height: 3px;
+  background: var(--v4-bg-200);
+  position: relative;
+  overflow: hidden;
+  flex: 1;
+  max-width: 80px;
+}
+.v4-arr-row__bar i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: var(--v4-money);
+}
+.v4-arr-row__pct {
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-11);
+  color: var(--v4-money);
+  font-weight: 600;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-left: auto;
+}
+.v4-arr-row__pct--down {
+  color: var(--v4-red);
+}
+
+/* ---------------------------------------------------------------------------
+ * 16. DealTapeRow + LiveTape
+ * --------------------------------------------------------------------------- */
+.v4-live-tape {
+  padding: 0;
+  overflow: auto;
+}
+.v4-live-tape::-webkit-scrollbar {
+  width: 6px;
+}
+.v4-live-tape::-webkit-scrollbar-thumb {
+  background: var(--v4-line-200);
+}
+
+.v4-tape-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 10px;
+  padding: 9px 12px;
+  border-bottom: var(--v4-stroke-1) solid var(--v4-line-100);
+  align-items: flex-start;
+  text-decoration: none;
+  color: inherit;
+}
+.v4-tape-row:hover {
+  background: var(--v4-bg-050);
+}
+.v4-tape-row--fresh {
+  background: linear-gradient(
+    90deg,
+    rgba(34, 197, 94, 0.08),
+    transparent 70%
+  );
+}
+.v4-tape-row__ts {
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-9-5);
+  color: var(--v4-ink-400);
+  letter-spacing: var(--v4-track-06);
+  padding-top: 2px;
+  flex: none;
+  min-width: 42px;
+  font-variant-numeric: tabular-nums;
+}
+.v4-tape-row--fresh .v4-tape-row__ts {
+  color: var(--v4-money);
+  font-weight: 600;
+}
+.v4-tape-row__body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.v4-tape-row__title {
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-11-5);
+  color: var(--v4-ink-100);
+}
+.v4-tape-row__title b {
+  color: var(--v4-money);
+  font-weight: 600;
+}
+.v4-tape-row__desc {
+  font-family: var(--v4-sans);
+  font-size: var(--v4-text-11);
+  color: var(--v4-ink-300);
+  line-height: var(--v4-leading-14);
+}
+.v4-tape-row__meta {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-size: 9px;
+  letter-spacing: var(--v4-track-10);
+  color: var(--v4-ink-400);
+  text-transform: uppercase;
+  margin-top: 1px;
+}
+.v4-tape-row__src {
+  color: var(--v4-ink-200);
+  padding: 0 5px;
+  border: var(--v4-stroke-1) solid var(--v4-line-300);
+  font-size: 8.5px;
+}
+.v4-tape-row__stage {
+  padding: 0 5px;
+  font-size: 8.5px;
+  border: var(--v4-stroke-1) solid var(--v4-line-300);
+  color: var(--v4-ink-200);
+}
+.v4-tape-row__amt {
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-12);
+  color: var(--v4-money);
+  font-weight: 600;
+  text-align: right;
+  flex: none;
+  padding-top: 1px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------------------------------------------------------------------------
+ * 17. StockSparkline (StockRow)
+ * --------------------------------------------------------------------------- */
+.v4-stock-row {
+  display: grid;
+  grid-template-columns: 18px 36px 1fr 60px 50px;
+  gap: 8px;
+  padding: 7px 12px;
+  border-bottom: var(--v4-stroke-1) solid var(--v4-line-100);
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+.v4-stock-row:last-child {
+  border-bottom: none;
+}
+.v4-stock-row:hover {
+  background: var(--v4-bg-050);
+}
+.v4-stock-row__pip {
+  width: 10px;
+  height: 10px;
+  flex: none;
+}
+.v4-stock-row__pip--empty {
+  background: var(--v4-ink-500);
+}
+.v4-stock-row__tic {
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-11);
+  color: var(--v4-ink-100);
+  font-weight: 600;
+}
+.v4-stock-row__nm {
+  font-size: var(--v4-text-9-5);
+  letter-spacing: var(--v4-track-10);
+  color: var(--v4-ink-400);
+  text-transform: uppercase;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.v4-stock-row__px {
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-11);
+  color: var(--v4-ink-100);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.v4-stock-row__ch {
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-10-5);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.v4-stock-row__ch--up { color: var(--v4-money); }
+.v4-stock-row__ch--down { color: var(--v4-red); }
+.v4-stock-row__ch--flat { color: var(--v4-ink-400); }
+
+/* ---------------------------------------------------------------------------
+ * 18. CapitalFlowChart (SVG-only, no extra CSS needed)
+ * --------------------------------------------------------------------------- */
+.v4-capital-flow {
+  width: 100%;
+  display: block;
+}
+
+/* ---------------------------------------------------------------------------
+ * 19. SectorHeatmap
+ * --------------------------------------------------------------------------- */
+.v4-sector-heatmap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px;
+}
+.v4-sector-heatmap__row {
+  display: grid;
+  grid-template-columns: 130px repeat(6, 1fr) 80px;
+  gap: 2px;
+  align-items: stretch;
+}
+.v4-sector-heatmap__row--head .v4-sector-heatmap__label-head,
+.v4-sector-heatmap__row--head .v4-sector-heatmap__col-head,
+.v4-sector-heatmap__row--head .v4-sector-heatmap__total-head {
+  font-size: 9px;
+  letter-spacing: var(--v4-track-16);
+  color: var(--v4-ink-400);
+  text-transform: uppercase;
+  padding: 6px 4px;
+  text-align: center;
+}
+.v4-sector-heatmap__label-head {
+  text-align: left !important;
+  padding-left: 0 !important;
+}
+.v4-sector-heatmap__label {
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-10-5);
+  color: var(--v4-ink-200);
+  padding: 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.v4-sector-heatmap__pip {
+  width: 8px;
+  height: 8px;
+  flex: none;
+}
+.v4-sector-heatmap__cell {
+  aspect-ratio: 1.6 / 1;
+  border: var(--v4-stroke-1) solid var(--v4-bg-200);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-11);
+  color: var(--v4-ink-100);
+  position: relative;
+  cursor: default;
+  min-height: 42px;
+  transition: outline var(--v4-duration-fast) var(--v4-ease);
+}
+.v4-sector-heatmap__cell:hover {
+  outline: 1px solid var(--v4-acc);
+  z-index: 2;
+}
+.v4-sector-heatmap__cell-v {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.v4-sector-heatmap__total {
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-11-5);
+  color: var(--v4-ink-100);
+  font-weight: 600;
+  padding: 8px;
+  text-align: right;
+  background: var(--v4-bg-050);
+  font-variant-numeric: tabular-nums;
+}
+.v4-sector-heatmap__total-lbl {
+  display: block;
+  font-size: 8.5px;
+  color: var(--v4-ink-400);
+  letter-spacing: var(--v4-track-16);
+  text-transform: uppercase;
+  font-weight: 400;
+  margin-top: 1px;
+}
+
+@media (max-width: 768px) {
+  .v4-sector-heatmap__row {
+    grid-template-columns: 100px repeat(6, 1fr) 60px;
+  }
+  .v4-sector-heatmap__cell {
+    font-size: var(--v4-text-9-5);
+  }
+}

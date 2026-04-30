@@ -20,7 +20,7 @@
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { readDataStore, writeDataStore } from '../../lib/redis.js';
 import { classifyPost } from '../../lib/util/classify-post.js';
-import { extractGithubRepoFullNames } from '../../lib/util/github-repo-links.js';
+import { extractAllRepoMentions } from '../../lib/util/github-repo-links.js';
 import { loadTrackedRepos } from '../../lib/util/tracked-repos.js';
 import { SUBREDDITS } from '../../lib/util/source-watchers.js';
 import {
@@ -76,7 +76,7 @@ function computeVelocityFields(score: number, createdUtc: number): {
 
 function extractRepoMentions(post: RedditPostData, tracked: Map<string, string>): string[] {
   const text = `${post.title ?? ''}\n${post.url ?? ''}\n${post.selftext ?? ''}`;
-  const lower = extractGithubRepoFullNames(text, tracked.size > 0 ? tracked : null);
+  const lower = extractAllRepoMentions(text, tracked.size > 0 ? tracked : null);
   // Map to canonical casing
   return Array.from(lower, (l) => tracked.get(l) ?? l);
 }

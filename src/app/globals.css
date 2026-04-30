@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* V4 (CORPUS) primitives — loaded after Tailwind so utility classes keep
+   precedence but V4 component selectors take over inside their blocks. */
+@import "../components/ui/v4.css";
+
 /* ---------------------------------------------------------------------------
    TrendingRepo Design System — Tailwind 4 CSS-first configuration
    Dark Void + Liquid Lava dual-accent system.

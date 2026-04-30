@@ -1,0 +1,276 @@
+/* ===========================================================================
+ * V4 (CORPUS) primitive styles.
+ *
+ * One stylesheet for every --v4-* prefixed primitive component. Imported by
+ * globals.css after the @theme block so V4 selectors take precedence over
+ * legacy V3 styles when classes overlap.
+ *
+ * Convention: every selector here is `v4-*` prefixed. No conflict with the
+ * legacy `.ds-*` and unprefixed terminal classes.
+ *
+ * See:
+ *   - design/v4/tokens.css        — tokens reference
+ *   - design/v4/DESIGN_SYSTEM.md  — anatomy + usage rules
+ * ========================================================================= */
+
+/* ---------------------------------------------------------------------------
+ * 01. CornerDots — three 4×4px squares for panel-head decoration
+ * --------------------------------------------------------------------------- */
+.v4-corner-dots {
+  display: inline-flex;
+  gap: 3px;
+  margin-right: 4px;
+  flex: none;
+}
+.v4-corner-dots > i {
+  width: 4px;
+  height: 4px;
+  display: block;
+  background: var(--v4-acc);
+  opacity: 0.7;
+}
+.v4-corner-dots > i:nth-child(2) {
+  background: var(--v4-cyan);
+}
+.v4-corner-dots > i:nth-child(3) {
+  background: var(--v4-ink-300);
+}
+
+/* ---------------------------------------------------------------------------
+ * 02. LiveDot — pulsing status indicator
+ * --------------------------------------------------------------------------- */
+@keyframes v4-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 3px var(--v4-money-glow);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.05);
+  }
+}
+
+.v4-live-dot {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-10);
+  letter-spacing: var(--v4-track-18);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.v4-live-dot__pip {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--v4-radius-pill);
+  flex: none;
+  display: inline-block;
+}
+
+.v4-live-dot--money {
+  color: var(--v4-money);
+}
+.v4-live-dot--money .v4-live-dot__pip {
+  background: var(--v4-money);
+  box-shadow: var(--v4-shadow-pulse-money);
+  animation: v4-pulse var(--v4-duration-pulse) ease-in-out infinite;
+}
+
+.v4-live-dot--amber {
+  color: var(--v4-amber);
+}
+.v4-live-dot--amber .v4-live-dot__pip {
+  background: var(--v4-amber);
+}
+
+.v4-live-dot--red {
+  color: var(--v4-red);
+}
+.v4-live-dot--red .v4-live-dot__pip {
+  background: var(--v4-red);
+}
+
+.v4-live-dot--none {
+  color: var(--v4-ink-400);
+}
+.v4-live-dot--none .v4-live-dot__pip {
+  background: var(--v4-ink-500);
+}
+
+.v4-live-dot__label {
+  font-weight: 600;
+}
+
+/* Reduced motion — kill the pulse for users who opted out. */
+@media (prefers-reduced-motion: reduce) {
+  .v4-live-dot--money .v4-live-dot__pip {
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * 03. PanelHead — every panel's top strip
+ * --------------------------------------------------------------------------- */
+.v4-panel-head {
+  display: flex;
+  align-items: center;
+  gap: var(--v4-space-4);
+  padding: var(--v4-panel-pad-y) var(--v4-panel-pad-x);
+  border-bottom: var(--v4-stroke-1) solid var(--v4-line-200);
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-10);
+  letter-spacing: var(--v4-track-20);
+  text-transform: uppercase;
+  color: var(--v4-ink-300);
+  background: linear-gradient(180deg, var(--v4-bg-050), var(--v4-bg-025));
+  min-height: 32px; /* keep alignment when right meta is absent */
+}
+
+.v4-panel-head__key {
+  color: var(--v4-ink-100);
+  font-weight: 600;
+}
+
+.v4-panel-head__sub {
+  color: var(--v4-ink-300);
+  font-weight: 400;
+  /* leading dot lives inside the rendered string ("· STACKED") so spacing
+     is consistent across composed sub-titles */
+}
+
+.v4-panel-head__right {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--v4-space-5);
+  color: var(--v4-ink-400);
+  font-weight: 400;
+}
+
+/* ---------------------------------------------------------------------------
+ * 04. SectionHead — between major page sections
+ * --------------------------------------------------------------------------- */
+.v4-section-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--v4-space-6);
+  margin: var(--v4-space-9) 0 var(--v4-space-5);
+}
+
+.v4-section-head__num {
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-10);
+  letter-spacing: var(--v4-track-20);
+  color: var(--v4-acc);
+  text-transform: uppercase;
+  flex: none;
+}
+
+.v4-section-head__title {
+  margin: 0;
+  font-family: var(--v4-sans);
+  font-size: var(--v4-text-18);
+  font-weight: 500;
+  letter-spacing: var(--v4-track-tight-h2);
+  color: var(--v4-ink-000);
+  line-height: var(--v4-leading-13);
+}
+
+.v4-section-head__meta {
+  margin-left: auto;
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-10);
+  letter-spacing: var(--v4-track-18);
+  color: var(--v4-ink-400);
+  text-transform: uppercase;
+}
+.v4-section-head__meta b {
+  color: var(--v4-ink-100);
+  font-weight: 600;
+}
+
+/* Phone — section heads stack title above meta to preserve readability. */
+@media (max-width: 640px) {
+  .v4-section-head {
+    flex-wrap: wrap;
+  }
+  .v4-section-head__meta {
+    margin-left: 0;
+    flex-basis: 100%;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * 05. PageHead — top-of-page hero
+ * --------------------------------------------------------------------------- */
+.v4-page-head {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--v4-space-9);
+  padding: var(--v4-space-2) 0 var(--v4-space-6);
+  border-bottom: var(--v4-stroke-1) solid var(--v4-line-200);
+  margin-bottom: var(--v4-space-7);
+}
+
+.v4-page-head--no-border {
+  border-bottom: none;
+}
+
+.v4-page-head__main {
+  min-width: 0; /* allow text to ellipsize/wrap inside flex */
+}
+
+.v4-page-head__crumb {
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-10);
+  letter-spacing: var(--v4-track-20);
+  color: var(--v4-ink-400);
+  text-transform: uppercase;
+}
+.v4-page-head__crumb b {
+  color: var(--v4-acc);
+  font-weight: 600;
+}
+
+.v4-page-head__h1 {
+  margin: var(--v4-space-3) 0 0;
+  font-family: var(--v4-sans);
+  font-weight: 500;
+  font-size: var(--v4-text-30);
+  letter-spacing: var(--v4-track-tight-h1);
+  color: var(--v4-ink-000);
+  line-height: var(--v4-leading-105);
+}
+
+.v4-page-head__lede {
+  margin: var(--v4-space-3) 0 0;
+  color: var(--v4-ink-300);
+  font-family: var(--v4-sans);
+  font-size: var(--v4-text-13);
+  line-height: var(--v4-leading-15);
+  max-width: 640px;
+}
+
+.v4-page-head__clock {
+  margin-left: auto;
+  text-align: right;
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-10-5);
+  letter-spacing: var(--v4-track-14);
+  color: var(--v4-ink-300);
+  text-transform: uppercase;
+  flex: none;
+}
+
+/* Phone — clock collapses below the headline rather than fighting for width. */
+@media (max-width: 640px) {
+  .v4-page-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--v4-space-5);
+  }
+  .v4-page-head__clock {
+    margin-left: 0;
+    text-align: left;
+  }
+}

@@ -17,7 +17,9 @@ import { fileURLToPath } from "url";
 import pLimit from "p-limit";
 import { fetchWithTimeout, sleep } from "./_fetch-json.mjs";
 import { fetchArticleData } from "./_funding-article.mjs";
+import { extractGithubRepoFullNames } from "./_github-repo-links.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = resolve(__dirname, "..");
@@ -104,11 +106,23 @@ function parseRssItems(xml, sourceUrl) {
 
     if (!title || !link) continue;
 
+    const headline = stripHtml(title);
+    const desc = stripHtml(description);
+    // Open-source-focused funding rounds (especially in dev tools) often link
+    // back to a GitHub repo in the headline or RSS body. Pass `null` to
+    // collect every owner/repo we see — discovery signal, not just tracked
+    // repos. Downstream consumers can intersect with the tracked set when
+    // they need to attribute mentions to entity profiles.
+    const repos = Array.from(
+      extractGithubRepoFullNames(`${headline} ${desc}`, null),
+    );
+
     posts.push({
-      headline: stripHtml(title),
-      description: stripHtml(description),
+      headline,
+      description: desc,
       sourceUrl: link,
       publishedAt: pubDate ? new Date(pubDate).toISOString() : new Date().toISOString(),
+      ...(repos.length > 0 ? { repos } : {}),
     });
   }
 
@@ -667,9 +681,31 @@ function extractCompanyNameFromArticle(text, currentName) {
 
 // Guard so tests can import without auto-running
 if (process.argv[1] && process.argv[1].includes("scrape-funding-news")) {
+  const startedAt = Date.now();
   main()
-    .catch((err) => {
+    .then(async () => {
+      try {
+        await writeSourceMetaFromOutcome({
+          source: "funding-news",
+          count: 1,
+          durationMs: Date.now() - startedAt,
+        });
+      } catch (metaErr) {
+        console.error("[meta] funding-news.json write failed:", metaErr);
+      }
+    })
+    .catch(async (err) => {
       console.error("[funding] fatal:", err);
+      try {
+        await writeSourceMetaFromOutcome({
+          source: "funding-news",
+          count: 0,
+          durationMs: Date.now() - startedAt,
+          error: err,
+        });
+      } catch (metaErr) {
+        console.error("[meta] funding-news.json error-write failed:", metaErr);
+      }
       process.exitCode = 1;
     })
     .finally(async () => {

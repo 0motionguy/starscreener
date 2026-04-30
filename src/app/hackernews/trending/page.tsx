@@ -1,10 +1,9 @@
-// /hackernews/trending — velocity-scored HN story feed.
+// /hackernews/trending — V4 SourceFeedTemplate consumer.
 //
-// Single-tab v1: top 50 stories from data/hackernews-trending.json
-// (Firebase top-500 + Algolia 7d github-mention sweep, deduped, scored
-// by velocity * log10(score)). Mirrors the structural/visual rhythm of
-// /reddit/trending: header strip, 4 stat tiles, list below. No topic
-// mindshare map (HN has no n-gram topics yet).
+// Top 50 HN stories by velocity-weighted trending score (Firebase top-500 +
+// Algolia 7d github-mention sweep). Template provides PageHead + KpiBand
+// snapshot + list slot; HnStoryFeed table renders inside the list slot
+// unchanged.
 
 import {
   getHnTopStories,
@@ -17,13 +16,14 @@ import {
   repoFullNameToHref,
   type HnStory,
 } from "@/lib/hackernews";
-import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
-import { buildHackerNewsHeader } from "@/components/news/newsTopMetrics";
 import { TerminalFeedTable, type FeedColumn } from "@/components/feed/TerminalFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { repoLogoUrl, resolveLogoUrl } from "@/lib/logos";
 
-const HN_ACCENT = "rgba(245, 110, 15, 0.85)";
+// V4 (CORPUS) primitives.
+import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
+import { KpiBand } from "@/components/ui/KpiBand";
+import { LiveDot } from "@/components/ui/LiveDot";
 
 export const dynamic = "force-static";
 
@@ -36,6 +36,11 @@ function formatAgeHours(ageHours: number | undefined): string {
   return `${Math.round(ageHours / 24)}d`;
 }
 
+function formatClock(iso: string | undefined): string {
+  if (!iso) return "warming";
+  return new Date(iso).toISOString().slice(11, 19);
+}
+
 export default async function HackerNewsTrendingPage() {
   await Promise.all([
     refreshHackernewsTrendingFromStore(),
@@ -46,36 +51,81 @@ export default async function HackerNewsTrendingPage() {
   const allStories = trendingFile.stories;
   const cold = allStories.length === 0;
 
-  return (
-    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
-      <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        {cold ? (
-          <ColdState />
-        ) : (
-          <>
-            <div className="mb-6">
-              <NewsTopHeaderV3
-                routeTitle="HACKERNEWS · TRENDING"
-                liveLabel={`LIVE · ${trendingFile.windowHours}H`}
-                eyebrow="// HACKERNEWS · LIVE FIREHOSE"
-                meta={[
-                  { label: "TRACKED", value: allStories.length.toLocaleString("en-US") },
-                  { label: "WINDOW", value: `${trendingFile.windowHours}H` },
-                ]}
-                {...buildHackerNewsHeader(trendingFile, getHnTopStories(3))}
-                accent={HN_ACCENT}
-                caption={[
-                  "// LAYOUT compact-v1",
-                  "· 3-COL · 320 / 1FR / 1FR",
-                  "· DATA UNCHANGED",
-                ]}
-              />
-            </div>
+  if (cold) {
+    return (
+      <main className="home-surface">
+        <SourceFeedTemplate
+          crumb={
+            <>
+              <b>HN</b> · TERMINAL · /HACKERNEWS
+            </>
+          }
+          title="Hacker News · trending"
+          lede="Top stories ranked by velocity-weighted trending score. Firebase top-500 cross-checked with the 7-day Algolia GitHub-mention sweep, deduped, scored."
+        />
+        <ColdState />
+      </main>
+    );
+  }
 
-            <HnStoryFeed stories={stories} />
+  const topScore = allStories.reduce((m, s) => Math.max(m, s.score), 0);
+  const frontPageHits = allStories.filter((s) => s.everHitFrontPage).length;
+  const linkedRepoCount = allStories.filter(
+    (s) => Array.isArray(s.linkedRepos) && s.linkedRepos.length > 0,
+  ).length;
+
+  return (
+    <main className="home-surface">
+      <SourceFeedTemplate
+        crumb={
+          <>
+            <b>HN</b> · TERMINAL · /HACKERNEWS
           </>
-        )}
-      </div>
+        }
+        title="Hacker News · trending"
+        lede="Top stories ranked by velocity-weighted trending score. Firebase top-500 cross-checked with the 7-day Algolia GitHub-mention sweep, deduped, scored."
+        clock={
+          <>
+            <span className="big">{formatClock(trendingFile.fetchedAt)}</span>
+            <span className="muted">UTC · SCRAPED</span>
+            <LiveDot label={`LIVE · ${trendingFile.windowHours}H`} />
+          </>
+        }
+        snapshot={
+          <KpiBand
+            cells={[
+              {
+                label: "TRACKED",
+                value: allStories.length.toLocaleString("en-US"),
+                sub: `${trendingFile.windowHours}h rolling`,
+                pip: "var(--v4-src-hn)",
+              },
+              {
+                label: "TOP SCORE",
+                value: topScore.toLocaleString("en-US"),
+                sub: "velocity peak",
+                tone: "acc",
+                pip: "var(--v4-acc)",
+              },
+              {
+                label: "FRONT PAGE",
+                value: frontPageHits,
+                sub: "ever hit FP",
+                tone: "money",
+                pip: "var(--v4-money)",
+              },
+              {
+                label: "GH-LINKED",
+                value: linkedRepoCount,
+                sub: "repos in feed",
+                pip: "var(--v4-blue)",
+              },
+            ]}
+          />
+        }
+        listEyebrow="Story feed · top 50 by score"
+        list={<HnStoryFeed stories={stories} />}
+      />
     </main>
   );
 }
@@ -89,7 +139,7 @@ function HnStoryFeed({ stories }: { stories: HnStory[] }) {
       render: (_, i) => (
         <span
           className="font-mono text-[12px] tabular-nums font-semibold"
-          style={{ color: i < 10 ? HN_ORANGE : "var(--v3-ink-400)" }}
+          style={{ color: i < 10 ? HN_ORANGE : "var(--v4-ink-400)" }}
         >
           {String(i + 1).padStart(2, "0")}
         </span>
@@ -114,8 +164,8 @@ function HnStoryFeed({ stories }: { stories: HnStory[] }) {
               href={hnItemHref(s.id)}
               target="_blank"
               rel="noopener noreferrer"
-              className="truncate text-[13px] font-medium transition-colors hover:text-[color:var(--v3-acc)]"
-              style={{ color: "var(--v3-ink-100)" }}
+              className="truncate text-[13px] font-medium transition-colors hover:text-[color:var(--v4-acc)]"
+              style={{ color: "var(--v4-ink-100)" }}
               title={s.title}
             >
               {s.title}
@@ -123,11 +173,11 @@ function HnStoryFeed({ stories }: { stories: HnStory[] }) {
             {linkedRepo ? (
               <a
                 href={repoFullNameToHref(linkedRepo)}
-                className="v2-mono shrink-0 px-1.5 py-0.5 text-[10px] tracking-[0.14em] uppercase transition-colors hover:text-[color:var(--v3-acc)]"
+                className="v2-mono shrink-0 px-1.5 py-0.5 text-[10px] tracking-[0.14em] uppercase transition-colors hover:text-[color:var(--v4-acc)]"
                 style={{
-                  border: "1px solid var(--v3-line-200)",
-                  background: "var(--v3-bg-100)",
-                  color: "var(--v3-ink-300)",
+                  border: "1px solid var(--v4-line-200)",
+                  background: "var(--v4-bg-100)",
+                  color: "var(--v4-ink-300)",
                   borderRadius: 2,
                 }}
                 title={`Linked repo: ${linkedRepo}`}
@@ -154,7 +204,7 @@ function HnStoryFeed({ stories }: { stories: HnStory[] }) {
             Y
           </span>
         ) : (
-          <span style={{ color: "var(--v3-ink-500)" }}>—</span>
+          <span style={{ color: "var(--v4-ink-500)" }}>—</span>
         ),
     },
     {
@@ -165,7 +215,7 @@ function HnStoryFeed({ stories }: { stories: HnStory[] }) {
       render: (s) => (
         <span
           className="font-mono text-[12px] tabular-nums"
-          style={{ color: s.score >= 100 ? HN_ORANGE : "var(--v3-ink-100)" }}
+          style={{ color: s.score >= 100 ? HN_ORANGE : "var(--v4-ink-100)" }}
         >
           {s.score.toLocaleString("en-US")}
         </span>
@@ -180,7 +230,7 @@ function HnStoryFeed({ stories }: { stories: HnStory[] }) {
       render: (s) => (
         <span
           className="font-mono text-[12px] tabular-nums"
-          style={{ color: "var(--v3-ink-300)" }}
+          style={{ color: "var(--v4-ink-300)" }}
         >
           {s.descendants.toLocaleString("en-US")}
         </span>
@@ -195,7 +245,7 @@ function HnStoryFeed({ stories }: { stories: HnStory[] }) {
       render: (s) => (
         <span
           className="font-mono text-[12px] tabular-nums"
-          style={{ color: "var(--v3-ink-400)" }}
+          style={{ color: "var(--v4-ink-400)" }}
         >
           {formatAgeHours(s.ageHours)}
         </span>
@@ -215,33 +265,36 @@ function HnStoryFeed({ stories }: { stories: HnStory[] }) {
 }
 
 // ---------------------------------------------------------------------------
-// Pieces
+// Cold-state fallback
 // ---------------------------------------------------------------------------
 
 function ColdState() {
   return (
     <section
-      className="p-8"
       style={{
-        background: "var(--v3-bg-025)",
-        border: "1px dashed var(--v3-line-100)",
+        padding: 32,
+        background: "var(--v4-bg-025)",
+        border: "1px dashed var(--v4-line-100)",
         borderRadius: 2,
       }}
     >
       <h2
-        className="v2-mono text-lg font-bold uppercase tracking-[0.18em]"
-        style={{ color: HN_ORANGE }}
+        className="v2-mono"
+        style={{
+          color: HN_ORANGE,
+          fontSize: 18,
+          fontWeight: 700,
+          textTransform: "uppercase",
+          letterSpacing: "0.18em",
+        }}
       >
         {"// no data yet"}
       </h2>
-      <p
-        className="mt-3 max-w-xl text-sm"
-        style={{ color: "var(--v3-ink-300)" }}
-      >
+      <p style={{ marginTop: 12, maxWidth: "32rem", fontSize: 13, color: "var(--v4-ink-300)" }}>
         The Hacker News scraper hasn&apos;t run yet. Run{" "}
-        <code style={{ color: "var(--v3-ink-100)" }}>npm run scrape:hn</code>{" "}
+        <code style={{ color: "var(--v4-ink-100)" }}>npm run scrape:hn</code>{" "}
         locally to populate{" "}
-        <code style={{ color: "var(--v3-ink-100)" }}>
+        <code style={{ color: "var(--v4-ink-100)" }}>
           data/hackernews-trending.json
         </code>
         , then refresh this page.

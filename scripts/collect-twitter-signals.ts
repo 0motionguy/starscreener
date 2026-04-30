@@ -25,6 +25,8 @@ import {
   type TwitterWebPost,
 } from "./_twitter-web-provider";
 import { ApifyTwitterProvider } from "./_apify-twitter-provider";
+import { extractUnknownRepoCandidates } from "./_github-repo-links.mjs";
+import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 
 // Brand-migration shim: prefer the new TRENDINGREPO_* env name, fall back
 // to the legacy STARSCREENER_*. Inlined here (no warn) because scripts run
@@ -902,6 +904,25 @@ async function main(): Promise<void> {
     );
   }
   log(`done payloads=${payloads.length} posts=${postCount}`);
+
+  // F3 unknown-mentions lake — Twitter is the highest-volume mention source;
+  // every github URL we see in tweet text becomes a discovery candidate.
+  // Walk all collected posts across all payloads and feed the lake.
+  const unknownsAccumulator = new Set<string>();
+  for (const payload of payloads) {
+    for (const post of payload.posts ?? []) {
+      const text = String((post as { text?: unknown }).text ?? "");
+      for (const u of extractUnknownRepoCandidates(text, null) as Set<string>) {
+        unknownsAccumulator.add(u);
+      }
+    }
+  }
+  if (unknownsAccumulator.size > 0) {
+    await appendUnknownMentions(
+      Array.from(unknownsAccumulator, (fullName) => ({ source: "twitter", fullName })),
+    );
+    log(`lake: ${unknownsAccumulator.size} candidates → data/unknown-mentions.jsonl`);
+  }
 }
 
 main().catch((error) => {

@@ -13,7 +13,6 @@ import {
   refreshHfModelsFromStore,
   type HfModelTrending,
 } from "@/lib/huggingface";
-import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
 import {
   applyCompactV1,
   compactNumber,
@@ -24,6 +23,7 @@ import {
 } from "@/components/feed/TerminalFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { huggingFaceLogoUrl } from "@/lib/logos";
+import { SourceFeedTemplate } from "@/components/source-feed/SourceFeedTemplate";
 
 const HF_ACCENT = "rgba(255, 159, 28, 0.85)"; // HF "yellow" (warm orange)
 const HF_ACCENT_BAR = "#FF9F1C";
@@ -48,36 +48,28 @@ export default async function HuggingFaceTrendingPage() {
   const cold = (file.models ?? []).length === 0;
 
   return (
-    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
-      <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        {cold ? (
-          <ColdState />
-        ) : (
-          <>
-            <div className="mb-6">
-              <NewsTopHeaderV3
-                routeTitle="HUGGINGFACE · TRENDING"
-                liveLabel="LIVE · 30M"
-                eyebrow="// HUGGINGFACE · MODELS"
-                meta={[
-                  { label: "TRACKED", value: (file.models?.length ?? 0).toLocaleString("en-US") },
-                  { label: "TOP", value: String(models.length) },
-                ]}
-                {...buildHuggingFaceHeader(file.models ?? [], models)}
-                accent={HF_ACCENT}
-                caption={[
-                  "// LAYOUT compact-v1",
-                  "· DOMAIN hf-model",
-                  "· SCORER weeklyDownloads + recency",
-                ]}
-              />
-            </div>
-
-            <HfModelFeed models={models} />
-          </>
-        )}
-      </div>
-    </main>
+    <SourceFeedTemplate
+      cold={cold}
+      coldState={<ColdState />}
+      header={{
+        routeTitle: "HUGGINGFACE - TRENDING",
+        liveLabel: "LIVE - 30M",
+        eyebrow: "// HUGGINGFACE - MODELS",
+        meta: [
+          { label: "TRACKED", value: (file.models?.length ?? 0).toLocaleString("en-US") },
+          { label: "TOP", value: String(models.length) },
+        ],
+        ...buildHuggingFaceHeader(file.models ?? [], models),
+        accent: HF_ACCENT,
+        caption: [
+          "// LAYOUT compact-v1",
+          "- DOMAIN hf-model",
+          "- SCORER weeklyDownloads + recency",
+        ],
+      }}
+    >
+      <HfModelFeed models={models} />
+    </SourceFeedTemplate>
   );
 }
 

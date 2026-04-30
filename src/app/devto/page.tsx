@@ -1,4 +1,4 @@
-// /devto — long-form developer writing surface.
+// /devto â€” long-form developer writing surface.
 //
 // Mirrors the structural rhythm of /hackernews/trending: header strip,
 // 4 stat tiles, top-N article feed. Adds a right-rail leaderboard of
@@ -8,7 +8,7 @@
 // joined with data/devto-trending.json (top-100 by velocity score), both
 // produced by scripts/scrape-devto.mjs (cron daily).
 //
-// Server component, force-static — every request renders identical HTML
+// Server component, force-static â€” every request renders identical HTML
 // until the next deploy / cron-bumped commit lands.
 
 import Link from "next/link";
@@ -23,11 +23,11 @@ import {
   refreshDevtoTrendingFromStore,
 } from "@/lib/devto-trending";
 import { repoFullNameToHref } from "@/lib/hackernews";
-import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
 import { buildDevtoHeaderFromArticles } from "@/components/news/newsTopMetrics";
 import { TerminalFeedTable, type FeedColumn } from "@/components/feed/TerminalFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { userLogoUrl, resolveLogoUrl } from "@/lib/logos";
+import { SourceFeedTemplate } from "@/components/source-feed/SourceFeedTemplate";
 
 const DEVTO_ACCENT = "rgba(102, 153, 255, 0.85)";
 const DEVTO_BLUE = "#6699ff";
@@ -40,7 +40,7 @@ export const dynamic = "force-static";
 
 function formatAgeFromIso(iso: string): string {
   const t = new Date(iso).getTime();
-  if (!Number.isFinite(t)) return "—";
+  if (!Number.isFinite(t)) return "â€”";
   const diff = Date.now() - t;
   const hours = diff / 3_600_000;
   if (hours < 1) return "<1h";
@@ -66,55 +66,38 @@ export default async function DevtoPage() {
   const cold = totalArticles === 0 && reposLinked === 0;
 
   return (
-    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
-      <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        {cold ? (
-          <ColdState />
-        ) : (
-          <>
-            {/* V3 top header — 3 charts + 3 hero articles. The legacy stat
-                tiles below this were dropped — covered by the V3 snapshot. */}
-            <div className="mb-6">
-              <NewsTopHeaderV3
-                routeTitle="DEV.TO · TOP ARTICLES"
-                liveLabel={`LIVE · ${trendingFile.windowDays}D`}
-                eyebrow="// DEV.TO · LIVE FIREHOSE"
-                meta={[
-                  { label: "TRACKED", value: totalArticles.toLocaleString("en-US") },
-                  { label: "WINDOW", value: `${trendingFile.windowDays}D` },
-                ]}
-                {...buildDevtoHeaderFromArticles(
-                  trendingFile.articles,
-                  leaderboard,
-                )}
-                accent={DEVTO_ACCENT}
-                caption={[
-                  "// LAYOUT compact-v1",
-                  "· 3-COL · 320 / 1FR / 1FR",
-                  "· DATA UNCHANGED",
-                ]}
-              />
-            </div>
-
-            {/* Two-column layout */}
-            <div className="grid grid-cols-1 md:grid-cols-[1fr_320px] gap-6">
-              {/* Left: top articles feed */}
-              <section>
-                <ArticlesFeed articles={articles} />
-              </section>
-
-              {/* Right: leaderboard (≥md only) */}
-              <aside className="hidden md:block">
-                <Leaderboard
-                  entries={leaderboard.slice(0, 15)}
-                  totalRepos={reposLinked}
-                />
-              </aside>
-            </div>
-          </>
-        )}
+    <SourceFeedTemplate
+      cold={cold}
+      coldState={<ColdState />}
+      header={{
+        routeTitle: "DEV.TO - TOP ARTICLES",
+        liveLabel: `LIVE - ${trendingFile.windowDays}D`,
+        eyebrow: "// DEV.TO - LIVE FIREHOSE",
+        meta: [
+          { label: "TRACKED", value: totalArticles.toLocaleString("en-US") },
+          { label: "WINDOW", value: `${trendingFile.windowDays}D` },
+        ],
+        ...buildDevtoHeaderFromArticles(trendingFile.articles, leaderboard),
+        accent: DEVTO_ACCENT,
+        caption: [
+          "// LAYOUT compact-v1",
+          "- 3-COL - 320 / 1FR / 1FR",
+          "- DATA UNCHANGED",
+        ],
+      }}
+    >
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-[1fr_320px]">
+        <section>
+          <ArticlesFeed articles={articles} />
+        </section>
+        <aside className="hidden md:block">
+          <Leaderboard
+            entries={leaderboard.slice(0, 15)}
+            totalRepos={reposLinked}
+          />
+        </aside>
       </div>
-    </main>
+    </SourceFeedTemplate>
   );
 }
 
@@ -141,7 +124,7 @@ function ArticlesFeed({ articles }: { articles: DevtoArticle[] }) {
     },
     {
       id: "title",
-      header: "Title · Author",
+      header: "Title Â· Author",
       render: (a) => (
         <div className="flex min-w-0 items-center gap-2">
           <EntityLogo
@@ -185,7 +168,7 @@ function ArticlesFeed({ articles }: { articles: DevtoArticle[] }) {
             className="truncate text-[11px]"
             style={{ color: "var(--v4-ink-400)" }}
           >
-            by @{a.author.username} · {a.readingTime} min read
+            by @{a.author.username} Â· {a.readingTime} min read
           </div>
           </div>
         </div>
@@ -230,7 +213,7 @@ function ArticlesFeed({ articles }: { articles: DevtoArticle[] }) {
       hideBelow: "md",
       render: (a) => {
         const tag = a.tags?.[0];
-        if (!tag) return <span style={{ color: "var(--v4-ink-500)" }}>—</span>;
+        if (!tag) return <span style={{ color: "var(--v4-ink-500)" }}>â€”</span>;
         return (
           <span
             className="v2-mono inline-block max-w-full truncate px-1.5 py-0.5 text-[10px] tracking-[0.14em] uppercase"
@@ -304,7 +287,7 @@ function Leaderboard({
           className="mt-2 text-[11px]"
           style={{ color: "var(--v4-ink-400)" }}
         >
-          {"// no articles cross-linked to tracked repos yet — broaden the scrape window or wait for fresh data"}
+          {"// no articles cross-linked to tracked repos yet â€” broaden the scrape window or wait for fresh data"}
         </p>
       </div>
     );
@@ -449,3 +432,4 @@ function HeartIcon({ className }: { className?: string }) {
     </svg>
   );
 }
+

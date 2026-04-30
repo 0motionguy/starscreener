@@ -18,11 +18,11 @@ import {
   repoFullNameToHref,
   type BskyPost,
 } from "@/lib/bluesky";
-import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
 import { buildBlueskyHeader } from "@/components/news/newsTopMetrics";
 import { TerminalFeedTable, type FeedColumn } from "@/components/feed/TerminalFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { repoLogoUrl, userLogoUrl, resolveLogoUrl } from "@/lib/logos";
+import { SourceFeedTemplate } from "@/components/source-feed/SourceFeedTemplate";
 
 const BSKY_ACCENT = "rgba(58, 214, 197, 0.85)";
 
@@ -53,36 +53,28 @@ export default async function BlueskyTrendingPage() {
   const cold = blueskyCold || allPosts.length === 0;
 
   return (
-    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
-      <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        {cold ? (
-          <ColdState />
-        ) : (
-          <>
-            <div className="mb-6">
-              <NewsTopHeaderV3
-                routeTitle="BLUESKY · TOP POSTS"
-                liveLabel="LIVE · 24H"
-                eyebrow="// BLUESKY · LIVE FIREHOSE"
-                meta={[
-                  { label: "TRACKED", value: allPosts.length.toLocaleString("en-US") },
-                  { label: "WINDOW", value: "24H" },
-                ]}
-                {...buildBlueskyHeader(trendingFile, getBlueskyTopPosts(3))}
-                accent={BSKY_ACCENT}
-                caption={[
-                  "// LAYOUT compact-v1",
-                  "· 3-COL · 320 / 1FR / 1FR",
-                  "· DATA UNCHANGED",
-                ]}
-              />
-            </div>
-
-            <BskyPostFeed posts={posts} />
-          </>
-        )}
-      </div>
-    </main>
+    <SourceFeedTemplate
+      cold={cold}
+      coldState={<ColdState />}
+      header={{
+        routeTitle: "BLUESKY - TOP POSTS",
+        liveLabel: "LIVE - 24H",
+        eyebrow: "// BLUESKY - LIVE FIREHOSE",
+        meta: [
+          { label: "TRACKED", value: allPosts.length.toLocaleString("en-US") },
+          { label: "WINDOW", value: "24H" },
+        ],
+        ...buildBlueskyHeader(trendingFile, getBlueskyTopPosts(3)),
+        accent: BSKY_ACCENT,
+        caption: [
+          "// LAYOUT compact-v1",
+          "- 3-COL - 320 / 1FR / 1FR",
+          "- DATA UNCHANGED",
+        ],
+      }}
+    >
+      <BskyPostFeed posts={posts} />
+    </SourceFeedTemplate>
   );
 }
 

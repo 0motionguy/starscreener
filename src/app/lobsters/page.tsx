@@ -17,11 +17,11 @@ import {
   repoFullNameToHref,
   type LobstersStory,
 } from "@/lib/lobsters";
-import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
 import { buildLobstersHeader } from "@/components/news/newsTopMetrics";
 import { TerminalFeedTable, type FeedColumn } from "@/components/feed/TerminalFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { repoLogoUrl, resolveLogoUrl } from "@/lib/logos";
+import { SourceFeedTemplate } from "@/components/source-feed/SourceFeedTemplate";
 
 const LOBSTERS_ACCENT = "rgba(172, 19, 13, 0.85)";
 
@@ -54,49 +54,39 @@ export default async function LobstersPage() {
   const cold = allStories.length === 0;
 
   return (
-    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
-      <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        {cold ? (
-          <ColdState />
-        ) : (
-          <>
-            {/* V3 top header — 3 charts + 3 hero stories. The legacy stat
-                tiles below this were dropped — covered by the V3 snapshot. */}
-            <div className="mb-6">
-              <NewsTopHeaderV3
-                routeTitle="LOBSTERS · TOP STORIES"
-                liveLabel={`LIVE · ${file.windowHours}H`}
-                eyebrow="// LOBSTE.RS · LIVE FIREHOSE"
-                meta={[
-                  { label: "TRACKED", value: allStories.length.toLocaleString("en-US") },
-                  { label: "WINDOW", value: `${file.windowHours}H` },
-                ]}
-                {...buildLobstersHeader(file, getLobstersTopStories(3))}
-                accent={LOBSTERS_ACCENT}
-                caption={[
-                  "// LAYOUT compact-v1",
-                  "· 3-COL · 320 / 1FR / 1FR",
-                  "· DATA UNCHANGED",
-                ]}
-              />
-            </div>
-
-            <div
-              className={
-                leaderboard.length > 0
-                  ? "grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6"
-                  : ""
-              }
-            >
-              <StoryFeed stories={stories} />
-              {leaderboard.length > 0 ? (
-                <Leaderboard entries={leaderboard.slice(0, 15)} />
-              ) : null}
-            </div>
-          </>
-        )}
+    <SourceFeedTemplate
+      cold={cold}
+      coldState={<ColdState />}
+      header={{
+        routeTitle: "LOBSTERS - TOP STORIES",
+        liveLabel: `LIVE - ${file.windowHours}H`,
+        eyebrow: "// LOBSTE.RS - LIVE FIREHOSE",
+        meta: [
+          { label: "TRACKED", value: allStories.length.toLocaleString("en-US") },
+          { label: "WINDOW", value: `${file.windowHours}H` },
+        ],
+        ...buildLobstersHeader(file, getLobstersTopStories(3)),
+        accent: LOBSTERS_ACCENT,
+        caption: [
+          "// LAYOUT compact-v1",
+          "- 3-COL - 320 / 1FR / 1FR",
+          "- DATA UNCHANGED",
+        ],
+      }}
+    >
+      <div
+        className={
+          leaderboard.length > 0
+            ? "grid grid-cols-1 gap-6 lg:grid-cols-[1fr_320px]"
+            : ""
+        }
+      >
+        <StoryFeed stories={stories} />
+        {leaderboard.length > 0 ? (
+          <Leaderboard entries={leaderboard.slice(0, 15)} />
+        ) : null}
       </div>
-    </main>
+    </SourceFeedTemplate>
   );
 }
 

@@ -1,9 +1,9 @@
-// /huggingface/datasets — domain-scored Hugging Face dataset feed.
+// /huggingface/datasets â€” domain-scored Hugging Face dataset feed.
 //
 // Reads `huggingface-datasets` Redis payload (populated by
 // scripts/scrape-huggingface-datasets.mjs) through the new domain
 // pipeline:
-//   hfDatasetScorer.computeRaw() → computeCrossDomainMomentum() → top 100
+//   hfDatasetScorer.computeRaw() â†’ computeCrossDomainMomentum() â†’ top 100
 //
 // Mirrors /huggingface/trending visually: NewsTopHeaderV3 strip + a dense
 // TerminalFeedTable below. ISR-cached at 30 min per project convention.
@@ -14,7 +14,6 @@ import {
   refreshHfDatasetsFromStore,
   type HfDatasetTrending,
 } from "@/lib/hf-datasets";
-import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
 import {
   applyCompactV1,
   compactNumber,
@@ -25,6 +24,7 @@ import {
 } from "@/components/feed/TerminalFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { huggingFaceLogoUrl } from "@/lib/logos";
+import { SourceFeedTemplate } from "@/components/source-feed/SourceFeedTemplate";
 
 const HF_ACCENT = "rgba(255, 159, 28, 0.85)";
 const HF_ACCENT_BAR = "#FF9F1C";
@@ -33,9 +33,9 @@ export const dynamic = "force-static";
 export const revalidate = 1800; // 30 min
 
 function formatAgeIso(iso: string | null | undefined, nowMs: number): string {
-  if (!iso) return "—";
+  if (!iso) return "â€”";
   const t = Date.parse(iso);
-  if (!Number.isFinite(t)) return "—";
+  if (!Number.isFinite(t)) return "â€”";
   const hours = Math.max(0, (nowMs - t) / 3_600_000);
   if (hours < 1) return "<1h";
   if (hours < 24) return `${Math.round(hours)}h`;
@@ -49,39 +49,31 @@ export default async function HuggingFaceDatasetsPage() {
   const cold = (file.datasets ?? []).length === 0;
 
   return (
-    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
-      <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        {cold ? (
-          <ColdState />
-        ) : (
-          <>
-            <div className="mb-6">
-              <NewsTopHeaderV3
-                routeTitle="HUGGINGFACE · DATASETS"
-                liveLabel="LIVE · 30M"
-                eyebrow="// HUGGINGFACE · DATASETS"
-                meta={[
-                  {
-                    label: "TRACKED",
-                    value: (file.datasets?.length ?? 0).toLocaleString("en-US"),
-                  },
-                  { label: "TOP", value: String(datasets.length) },
-                ]}
-                {...buildHuggingFaceDatasetsHeader(file.datasets ?? [], datasets)}
-                accent={HF_ACCENT}
-                caption={[
-                  "// LAYOUT compact-v1",
-                  "· DOMAIN hf-dataset",
-                  "· SCORER weeklyDownloads + recency",
-                ]}
-              />
-            </div>
-
-            <HfDatasetFeed datasets={datasets} />
-          </>
-        )}
-      </div>
-    </main>
+    <SourceFeedTemplate
+      cold={cold}
+      coldState={<ColdState />}
+      header={{
+        routeTitle: "HUGGINGFACE - DATASETS",
+        liveLabel: "LIVE - 30M",
+        eyebrow: "// HUGGINGFACE - DATASETS",
+        meta: [
+          {
+            label: "TRACKED",
+            value: (file.datasets?.length ?? 0).toLocaleString("en-US"),
+          },
+          { label: "TOP", value: String(datasets.length) },
+        ],
+        ...buildHuggingFaceDatasetsHeader(file.datasets ?? [], datasets),
+        accent: HF_ACCENT,
+        caption: [
+          "// LAYOUT compact-v1",
+          "- DOMAIN hf-dataset",
+          "- SCORER weeklyDownloads + recency",
+        ],
+      }}
+    >
+      <HfDatasetFeed datasets={datasets} />
+    </SourceFeedTemplate>
   );
 }
 
@@ -100,7 +92,7 @@ function buildHuggingFaceDatasetsHeader(
     0,
   );
 
-  // Tag distribution (top 6) — substitutes for "topics" panel.
+  // Tag distribution (top 6) â€” substitutes for "topics" panel.
   const tagCounts = new Map<string, number>();
   for (const r of raws) {
     for (const t of r.tags ?? []) {
@@ -139,7 +131,7 @@ function buildHuggingFaceDatasetsHeader(
     [
       {
         variant: "snapshot",
-        title: "// SNAPSHOT · NOW",
+        title: "// SNAPSHOT Â· NOW",
         rightLabel: `${raws.length} DATASETS`,
         label: "DATASETS TRACKED",
         value: compactNumber(raws.length),
@@ -156,7 +148,7 @@ function buildHuggingFaceDatasetsHeader(
       },
       {
         variant: "bars",
-        title: "// AUTHORS · TOP 6",
+        title: "// AUTHORS Â· TOP 6",
         rightLabel: `${authorBars.length}`,
         bars: authorBars,
         labelWidth: 96,
@@ -164,7 +156,7 @@ function buildHuggingFaceDatasetsHeader(
       },
       {
         variant: "bars",
-        title: "// TAGS · MIX",
+        title: "// TAGS Â· MIX",
         rightLabel: `TOP ${tagBars.length}`,
         bars: tagBars,
         labelWidth: 96,
@@ -174,14 +166,14 @@ function buildHuggingFaceDatasetsHeader(
     { totalItems: raws.length },
   );
 
-  // Hero stories — top 3 datasets by momentum.
+  // Hero stories â€” top 3 datasets by momentum.
   const topStories = scored.slice(0, 3).map((d) => ({
     title: d.id,
     href: d.url,
     external: true,
     sourceCode: "HF",
     byline: d.tags?.[0] ?? undefined,
-    scoreLabel: `${compactNumber(d.downloads ?? 0)} dl · ${compactNumber(d.likes ?? 0)} ♥`,
+    scoreLabel: `${compactNumber(d.downloads ?? 0)} dl Â· ${compactNumber(d.likes ?? 0)} â™¥`,
     ageHours: d.lastModified
       ? Math.max(0, (Date.now() - Date.parse(d.lastModified)) / 3_600_000)
       : null,
@@ -374,3 +366,4 @@ function ColdState() {
     </section>
   );
 }
+

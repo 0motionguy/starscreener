@@ -17,11 +17,11 @@ import {
   repoFullNameToHref,
   type HnStory,
 } from "@/lib/hackernews";
-import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
 import { buildHackerNewsHeader } from "@/components/news/newsTopMetrics";
 import { TerminalFeedTable, type FeedColumn } from "@/components/feed/TerminalFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { repoLogoUrl, resolveLogoUrl } from "@/lib/logos";
+import { SourceFeedTemplate } from "@/components/source-feed/SourceFeedTemplate";
 
 const HN_ACCENT = "rgba(245, 110, 15, 0.85)";
 
@@ -47,36 +47,28 @@ export default async function HackerNewsTrendingPage() {
   const cold = allStories.length === 0;
 
   return (
-    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
-      <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        {cold ? (
-          <ColdState />
-        ) : (
-          <>
-            <div className="mb-6">
-              <NewsTopHeaderV3
-                routeTitle="HACKERNEWS · TRENDING"
-                liveLabel={`LIVE · ${trendingFile.windowHours}H`}
-                eyebrow="// HACKERNEWS · LIVE FIREHOSE"
-                meta={[
-                  { label: "TRACKED", value: allStories.length.toLocaleString("en-US") },
-                  { label: "WINDOW", value: `${trendingFile.windowHours}H` },
-                ]}
-                {...buildHackerNewsHeader(trendingFile, getHnTopStories(3))}
-                accent={HN_ACCENT}
-                caption={[
-                  "// LAYOUT compact-v1",
-                  "· 3-COL · 320 / 1FR / 1FR",
-                  "· DATA UNCHANGED",
-                ]}
-              />
-            </div>
-
-            <HnStoryFeed stories={stories} />
-          </>
-        )}
-      </div>
-    </main>
+    <SourceFeedTemplate
+      cold={cold}
+      coldState={<ColdState />}
+      header={{
+        routeTitle: "HACKERNEWS - TRENDING",
+        liveLabel: `LIVE - ${trendingFile.windowHours}H`,
+        eyebrow: "// HACKERNEWS - LIVE FIREHOSE",
+        meta: [
+          { label: "TRACKED", value: allStories.length.toLocaleString("en-US") },
+          { label: "WINDOW", value: `${trendingFile.windowHours}H` },
+        ],
+        ...buildHackerNewsHeader(trendingFile, getHnTopStories(3)),
+        accent: HN_ACCENT,
+        caption: [
+          "// LAYOUT compact-v1",
+          "- 3-COL - 320 / 1FR / 1FR",
+          "- DATA UNCHANGED",
+        ],
+      }}
+    >
+      <HnStoryFeed stories={stories} />
+    </SourceFeedTemplate>
   );
 }
 

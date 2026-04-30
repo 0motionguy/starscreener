@@ -1,8 +1,8 @@
-// /arxiv/trending — domain-scored arXiv paper feed.
+// /arxiv/trending â€” domain-scored arXiv paper feed.
 //
 // Reads `arxiv-recent` Redis payload (populated by scripts/scrape-arxiv.mjs)
 // through the new domain pipeline:
-//   arxivScorer.computeRaw() → computeCrossDomainMomentum() → top 100
+//   arxivScorer.computeRaw() â†’ computeCrossDomainMomentum() â†’ top 100
 //
 // MVP CAVEAT: citation velocity / social mentions / HF adoption come from
 // a future enrichment job (Chunk C). Until that ships, ranking is driven
@@ -15,7 +15,6 @@ import {
   refreshArxivFromStore,
   type ArxivPaperTrending,
 } from "@/lib/arxiv";
-import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
 import {
   applyCompactV1,
   compactNumber,
@@ -25,6 +24,7 @@ import {
   type FeedColumn,
 } from "@/components/feed/TerminalFeedTable";
 import { repoLogoUrl } from "@/lib/logos";
+import { SourceFeedTemplate } from "@/components/source-feed/SourceFeedTemplate";
 
 const ARXIV_ACCENT = "rgba(178, 34, 52, 0.85)"; // Cornell crimson
 const ARXIV_ACCENT_BAR = "#B22234";
@@ -33,14 +33,14 @@ export const dynamic = "force-static";
 export const revalidate = 1800; // 30 min
 
 function formatAgeDays(days: number): string {
-  if (!Number.isFinite(days)) return "—";
+  if (!Number.isFinite(days)) return "â€”";
   if (days < 1) return "<1d";
   if (days < 30) return `${Math.round(days)}d`;
   return `${Math.round(days / 30)}mo`;
 }
 
 function formatAuthors(authors: string[]): string {
-  if (!authors || authors.length === 0) return "—";
+  if (!authors || authors.length === 0) return "â€”";
   if (authors.length <= 3) return authors.join(", ");
   return `${authors.slice(0, 3).join(", ")} et al.`;
 }
@@ -52,49 +52,40 @@ export default async function ArxivTrendingPage() {
   const cold = (file.papers ?? []).length === 0;
 
   return (
-    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
-      <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        {cold ? (
-          <ColdState />
-        ) : (
-          <>
-            <div className="mb-6">
-              <NewsTopHeaderV3
-                routeTitle="ARXIV · TRENDING"
-                liveLabel="LIVE · 30M"
-                eyebrow="// ARXIV · CS.AI / CS.CL / CS.LG"
-                meta={[
-                  {
-                    label: "TRACKED",
-                    value: (file.papers?.length ?? 0).toLocaleString("en-US"),
-                  },
-                  {
-                    label: "REPO LINKED",
-                    value: String(file.linkedRepoCount ?? 0),
-                  },
-                ]}
-                {...buildArxivHeader(file.papers ?? [], papers)}
-                accent={ARXIV_ACCENT}
-                caption={[
-                  "// LAYOUT compact-v1",
-                  "· DOMAIN arxiv",
-                  "· SCORER recency + linkedRepoMomentum",
-                ]}
-              />
-            </div>
-
-            <EnrichmentBanner />
-
-            <ArxivPaperFeed papers={papers} />
-          </>
-        )}
-      </div>
-    </main>
+    <SourceFeedTemplate
+      cold={cold}
+      coldState={<ColdState />}
+      header={{
+        routeTitle: "ARXIV - TRENDING",
+        liveLabel: "LIVE - 30M",
+        eyebrow: "// ARXIV - CS.AI / CS.CL / CS.LG",
+        meta: [
+          {
+            label: "TRACKED",
+            value: (file.papers?.length ?? 0).toLocaleString("en-US"),
+          },
+          {
+            label: "REPO LINKED",
+            value: String(file.linkedRepoCount ?? 0),
+          },
+        ],
+        ...buildArxivHeader(file.papers ?? [], papers),
+        accent: ARXIV_ACCENT,
+        caption: [
+          "// LAYOUT compact-v1",
+          "- DOMAIN arxiv",
+          "- SCORER recency + linkedRepoMomentum",
+        ],
+      }}
+    >
+      <EnrichmentBanner />
+      <ArxivPaperFeed papers={papers} />
+    </SourceFeedTemplate>
   );
 }
 
 // ---------------------------------------------------------------------------
-// Enrichment banner — explicit MVP-scope notice
+// Enrichment banner â€” explicit MVP-scope notice
 // ---------------------------------------------------------------------------
 
 function EnrichmentBanner() {
@@ -108,7 +99,7 @@ function EnrichmentBanner() {
         borderRadius: 2,
       }}
     >
-      <span style={{ color: ARXIV_ACCENT_BAR }}>{"// HEADS-UP · "}</span>
+      <span style={{ color: ARXIV_ACCENT_BAR }}>{"// HEADS-UP Â· "}</span>
       Citation + social-mention enrichment lands in the next iteration.
       Current ranking blends linked-repo momentum + cold-start recency.
     </div>
@@ -168,7 +159,7 @@ function buildArxivHeader(
     [
       {
         variant: "snapshot",
-        title: "// SNAPSHOT · NOW",
+        title: "// SNAPSHOT Â· NOW",
         rightLabel: `${raws.length} PAPERS`,
         label: "PAPERS TRACKED",
         value: compactNumber(raws.length),
@@ -181,7 +172,7 @@ function buildArxivHeader(
       },
       {
         variant: "bars",
-        title: "// LINKED REPOS · TOP 6",
+        title: "// LINKED REPOS Â· TOP 6",
         rightLabel: `${repoBars.length}`,
         bars: repoBars,
         labelWidth: 96,
@@ -189,7 +180,7 @@ function buildArxivHeader(
       },
       {
         variant: "bars",
-        title: "// CATEGORIES · MIX",
+        title: "// CATEGORIES Â· MIX",
         rightLabel: `TOP ${catBars.length}`,
         bars: catBars,
         labelWidth: 80,
@@ -199,14 +190,14 @@ function buildArxivHeader(
     { totalItems: raws.length },
   );
 
-  // Hero stories — top 3 papers by momentum.
+  // Hero stories â€” top 3 papers by momentum.
   const topStories = scored.slice(0, 3).map((p) => ({
     title: p.title,
     href: p.absUrl,
     external: true,
     sourceCode: "AX",
     byline: p.primaryCategory ?? undefined,
-    scoreLabel: `momentum ${Math.round(p.momentum)} · ${p.authors?.length ?? 0} authors`,
+    scoreLabel: `momentum ${Math.round(p.momentum)} Â· ${p.authors?.length ?? 0} authors`,
     ageHours: Math.max(0, p.daysSincePublished * 24),
     logoUrl: repoLogoUrl(p.linkedRepos?.[0]?.fullName ?? null),
     logoName: p.linkedRepos?.[0]?.fullName ?? p.primaryCategory ?? p.title,
@@ -268,7 +259,7 @@ function ArxivPaperFeed({ papers }: { papers: ArxivPaperTrending[] }) {
                   }}
                   title={`Linked repo: ${linkedRepo}`}
                 >
-                  ↳ {linkedRepo}
+                  â†³ {linkedRepo}
                 </span>
               ) : null}
             </span>
@@ -283,7 +274,7 @@ function ArxivPaperFeed({ papers }: { papers: ArxivPaperTrending[] }) {
       hideBelow: "sm",
       render: (p) => {
         const cat = p.primaryCategory;
-        if (!cat) return <span style={{ color: "var(--v4-ink-500)" }}>—</span>;
+        if (!cat) return <span style={{ color: "var(--v4-ink-500)" }}>â€”</span>;
         return (
           <span
             className="v2-mono inline-block px-1.5 py-0.5 text-[10px] tracking-[0.14em] uppercase"

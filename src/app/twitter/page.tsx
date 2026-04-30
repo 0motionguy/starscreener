@@ -13,8 +13,8 @@ import {
   getTwitterOverviewStats,
   getTwitterTrendingRepoLeaderboard,
 } from "@/lib/twitter/service";
-import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
 import { buildTwitterHeader } from "@/components/twitter/twitterTopMetrics";
+import { SourceFeedTemplate } from "@/components/source-feed/SourceFeedTemplate";
 
 const TWITTER_ACCENT = "rgba(29, 155, 240, 0.85)";
 
@@ -280,226 +280,225 @@ export default async function TwitterPage({
   const { cards, topStories } = buildTwitterHeader(rows, stats);
 
   return (
-    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
-      <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        <TwitterTabNav
-          activeTab={activeTab}
-          trendingCount={trendingRows.length}
-          globalCount={globalRows.length}
-        />
+    <SourceFeedTemplate
+      cold={false}
+      coldState={null}
+      header={{
+        cards,
+        topStories,
+        accent: TWITTER_ACCENT,
+        routeTitle: "X - TOP TWEETS",
+        liveLabel: "LIVE - 24H",
+        eyebrow: "// X - TWITTER - LIVE FIREHOSE",
+        meta: [
+          { label: "ROWS", value: rows.length.toLocaleString("en-US") },
+          { label: "WINDOW", value: "24H" },
+        ],
+        caption: [
+          "// LAYOUT compact-v1",
+          "- 3-COL - 320 / 1FR / 1FR",
+          "- DATA UNCHANGED",
+        ],
+      }}
+    >
+      <TwitterTabNav
+        activeTab={activeTab}
+        trendingCount={trendingRows.length}
+        globalCount={globalRows.length}
+      />
 
-        <div className="mb-6">
-          <NewsTopHeaderV3
-            cards={cards}
-            topStories={topStories}
-            accent={TWITTER_ACCENT}
-            routeTitle="X · TOP TWEETS"
-            liveLabel="LIVE · 24H"
-            eyebrow="// X · TWITTER · LIVE FIREHOSE"
-            meta={[
-              { label: "ROWS", value: rows.length.toLocaleString("en-US") },
-              { label: "WINDOW", value: "24H" },
-            ]}
-            caption={[
-              "// LAYOUT compact-v1",
-              "· 3-COL · 320 / 1FR / 1FR",
-              "· DATA UNCHANGED",
-            ]}
-          />
-        </div>
-
-        {rows.length === 0 ? (
-          <section
-            className="p-8"
-            style={{
-              background: "var(--v4-bg-025)",
-              border: "1px dashed var(--v4-line-100)",
-              borderRadius: 2,
-            }}
+      {rows.length === 0 ? (
+        <section
+          className="p-8"
+          style={{
+            background: "var(--v4-bg-025)",
+            border: "1px dashed var(--v4-line-100)",
+            borderRadius: 2,
+          }}
+        >
+          <h2
+            className="v2-mono text-lg font-bold uppercase tracking-[0.18em]"
+            style={{ color: "var(--v4-acc)" }}
           >
-            <h2
-              className="v2-mono text-lg font-bold uppercase tracking-[0.18em]"
-              style={{ color: "var(--v4-acc)" }}
-            >
-              {activeTab === "global"
-                ? "// no global X findings yet"
-                : "// no trending repo X findings yet"}
-            </h2>
-            <p
-              className="mt-3 max-w-xl text-sm"
-              style={{ color: "var(--v4-ink-300)" }}
-            >
-              Post a completed OpenClaw scan to{" "}
-              <code style={{ color: "var(--v4-ink-100)" }}>
-                /api/internal/signals/twitter/v1/ingest
-              </code>{" "}
-              to populate this leaderboard.
-            </p>
-          </section>
-        ) : (
-          <section
-            className="overflow-x-auto"
-            style={{
-              background: "var(--v4-bg-050)",
-              border: "1px solid var(--v4-line-200)",
-              borderRadius: 2,
-            }}
+            {activeTab === "global"
+              ? "// no global X findings yet"
+              : "// no trending repo X findings yet"}
+          </h2>
+          <p
+            className="mt-3 max-w-xl text-sm"
+            style={{ color: "var(--v4-ink-300)" }}
           >
-            <div className="min-w-[840px]">
-              <div
-                className="v2-mono grid h-9 grid-cols-[36px_56px_minmax(260px,1.7fr)_72px_72px_72px_72px_88px] items-center gap-3 px-3 text-[10px] uppercase tracking-[0.18em]"
-                style={{
-                  borderBottom: "1px solid var(--v4-line-100)",
-                  background: "var(--v4-bg-025)",
-                  color: "var(--v4-ink-400)",
-                }}
-              >
-                <div>{activeTab === "global" ? "#" : "TR"}</div>
-                <div className="text-center">Top</div>
-                <div>Repo</div>
-                <div className="text-right">Mentions</div>
-                <div className="text-right">Likes</div>
-                <div className="text-right">Reposts</div>
-                <div className="text-right">Score</div>
-                <div>Badge</div>
-              </div>
-              <ol>
-                {rows.map((row, index) => {
-                  const [owner, name] = row.githubFullName.split("/", 2);
-                  const badgeLabel =
-                    row.badgeState === "x_fire"
-                      ? "X FIRE"
-                      : row.badgeState === "x"
-                        ? "X"
-                        : "--";
-                  const rankLabel =
-                    activeTab === "trending" && row.trendingRank
-                      ? `#${row.trendingRank}`
-                      : `#${index + 1}`;
-                  const stagger = Math.min(index, 6) * 50;
-
-                  const badgeStyle =
-                    row.badgeState === "x_fire"
-                      ? {
-                          border: "1px solid rgba(245, 110, 15, 0.4)",
-                          background: "rgba(245, 110, 15, 0.1)",
-                          color: "var(--v4-acc)",
-                        }
-                      : row.badgeState === "x"
-                        ? {
-                            border: "1px solid rgba(29, 155, 240, 0.4)",
-                            background: "rgba(29, 155, 240, 0.1)",
-                            color: "#4db7ff",
-                          }
-                        : {
-                            border: "1px solid var(--v4-line-200)",
-                            color: "var(--v4-ink-400)",
-                          };
-
-                  return (
-                    <li
-                      key={row.repoId}
-                      className="v2-row group grid grid-cols-[36px_56px_minmax(260px,1.7fr)_72px_72px_72px_72px_88px] items-center gap-3 px-3 py-2"
-                      style={{
-                        borderBottom: "1px dashed var(--v4-line-100)",
-                        animation:
-                          "slide-up 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both",
-                        animationDelay: stagger > 0 ? `${stagger}ms` : undefined,
-                      }}
-                    >
-                      <div
-                        className="text-xs tabular-nums"
-                        style={{ color: "var(--v4-ink-400)" }}
-                      >
-                        {rankLabel}
-                      </div>
-                      <div className="flex items-center justify-center">
-                        <MentionAuthorBubbles authors={row.topMentionAuthors} />
-                      </div>
-                      <div className="min-w-0">
-                        <div className="flex min-w-0 items-center justify-between gap-2">
-                          <div className="flex min-w-0 items-center gap-2">
-                            <Image
-                              src={getRepoAvatarUrl(row)}
-                              alt=""
-                              width={18}
-                              height={18}
-                              unoptimized
-                              className="h-[18px] w-[18px] shrink-0 rounded-full"
-                              style={{
-                                border: "1px solid var(--v4-line-200)",
-                                background: "var(--v4-bg-100)",
-                              }}
-                            />
-                            <Link
-                              href={`/repo/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`}
-                              className="truncate text-sm font-medium transition-colors hover:text-[color:var(--v4-acc)]"
-                              style={{ color: "var(--v4-ink-100)" }}
-                            >
-                              {row.githubFullName}
-                            </Link>
-                          </div>
-                          <RepoActionLinks row={row} />
-                        </div>
-                        {activeTab === "trending" ? (
-                          <div
-                            className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[10px]"
-                            style={{ color: "var(--v4-ink-400)" }}
-                          >
-                            {row.momentumScore !== undefined ? (
-                              <span>{row.momentumScore.toFixed(1)} momentum</span>
-                            ) : null}
-                            {row.starsDelta24h !== undefined ? (
-                              <span>
-                                {formatSignedNumber(row.starsDelta24h)} stars 24h
-                              </span>
-                            ) : null}
-                            {row.stars !== undefined ? (
-                              <span>{formatNumber(row.stars)} stars</span>
-                            ) : null}
-                          </div>
-                        ) : null}
-                      </div>
-                      <div
-                        className="text-right text-xs tabular-nums"
-                        style={{ color: "var(--v4-ink-100)" }}
-                      >
-                        {formatNumber(row.mentionCount24h)}
-                      </div>
-                      <div
-                        className="text-right text-xs tabular-nums"
-                        style={{ color: "var(--v4-ink-100)" }}
-                      >
-                        {formatNumber(row.totalLikes24h)}
-                      </div>
-                      <div
-                        className="text-right text-xs tabular-nums"
-                        style={{ color: "var(--v4-ink-100)" }}
-                      >
-                        {formatNumber(row.totalReposts24h)}
-                      </div>
-                      <div
-                        className="text-right text-xs font-semibold tabular-nums"
-                        style={{ color: "var(--v4-acc)" }}
-                      >
-                        {row.finalTwitterScore.toFixed(1)}
-                      </div>
-                      <div>
-                        <span
-                          className="v2-mono inline-flex items-center px-2 py-0.5 text-[10px] uppercase tracking-[0.16em]"
-                          style={{ ...badgeStyle, borderRadius: 2 }}
-                        >
-                          {badgeLabel}
-                        </span>
-                      </div>
-                    </li>
-                  );
-                })}
-              </ol>
+            Post a completed OpenClaw scan to{" "}
+            <code style={{ color: "var(--v4-ink-100)" }}>
+              /api/internal/signals/twitter/v1/ingest
+            </code>{" "}
+            to populate this leaderboard.
+          </p>
+        </section>
+      ) : (
+        <section
+          className="overflow-x-auto"
+          style={{
+            background: "var(--v4-bg-050)",
+            border: "1px solid var(--v4-line-200)",
+            borderRadius: 2,
+          }}
+        >
+          <div className="min-w-[840px]">
+            <div
+              className="v2-mono grid h-9 grid-cols-[36px_56px_minmax(260px,1.7fr)_72px_72px_72px_72px_88px] items-center gap-3 px-3 text-[10px] uppercase tracking-[0.18em]"
+              style={{
+                borderBottom: "1px solid var(--v4-line-100)",
+                background: "var(--v4-bg-025)",
+                color: "var(--v4-ink-400)",
+              }}
+            >
+              <div>{activeTab === "global" ? "#" : "TR"}</div>
+              <div className="text-center">Top</div>
+              <div>Repo</div>
+              <div className="text-right">Mentions</div>
+              <div className="text-right">Likes</div>
+              <div className="text-right">Reposts</div>
+              <div className="text-right">Score</div>
+              <div>Badge</div>
             </div>
-          </section>
-        )}
-      </div>
-    </main>
+            <ol>
+              {rows.map((row, index) => {
+                const [owner, name] = row.githubFullName.split("/", 2);
+                const badgeLabel =
+                  row.badgeState === "x_fire"
+                    ? "X FIRE"
+                    : row.badgeState === "x"
+                      ? "X"
+                      : "--";
+                const rankLabel =
+                  activeTab === "trending" && row.trendingRank
+                    ? `#${row.trendingRank}`
+                    : `#${index + 1}`;
+                const stagger = Math.min(index, 6) * 50;
+
+                const badgeStyle =
+                  row.badgeState === "x_fire"
+                    ? {
+                        border: "1px solid rgba(245, 110, 15, 0.4)",
+                        background: "rgba(245, 110, 15, 0.1)",
+                        color: "var(--v4-acc)",
+                      }
+                    : row.badgeState === "x"
+                      ? {
+                          border: "1px solid rgba(29, 155, 240, 0.4)",
+                          background: "rgba(29, 155, 240, 0.1)",
+                          color: "#4db7ff",
+                        }
+                      : {
+                          border: "1px solid var(--v4-line-200)",
+                          color: "var(--v4-ink-400)",
+                        };
+
+                return (
+                  <li
+                    key={row.repoId}
+                    className="v2-row group grid grid-cols-[36px_56px_minmax(260px,1.7fr)_72px_72px_72px_72px_88px] items-center gap-3 px-3 py-2"
+                    style={{
+                      borderBottom: "1px dashed var(--v4-line-100)",
+                      animation:
+                        "slide-up 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both",
+                      animationDelay: stagger > 0 ? `${stagger}ms` : undefined,
+                    }}
+                  >
+                    <div
+                      className="text-xs tabular-nums"
+                      style={{ color: "var(--v4-ink-400)" }}
+                    >
+                      {rankLabel}
+                    </div>
+                    <div className="flex items-center justify-center">
+                      <MentionAuthorBubbles authors={row.topMentionAuthors} />
+                    </div>
+                    <div className="min-w-0">
+                      <div className="flex min-w-0 items-center justify-between gap-2">
+                        <div className="flex min-w-0 items-center gap-2">
+                          <Image
+                            src={getRepoAvatarUrl(row)}
+                            alt=""
+                            width={18}
+                            height={18}
+                            unoptimized
+                            className="h-[18px] w-[18px] shrink-0 rounded-full"
+                            style={{
+                              border: "1px solid var(--v4-line-200)",
+                              background: "var(--v4-bg-100)",
+                            }}
+                          />
+                          <Link
+                            href={`/repo/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`}
+                            className="truncate text-sm font-medium transition-colors hover:text-[color:var(--v4-acc)]"
+                            style={{ color: "var(--v4-ink-100)" }}
+                          >
+                            {row.githubFullName}
+                          </Link>
+                        </div>
+                        <RepoActionLinks row={row} />
+                      </div>
+                      {activeTab === "trending" ? (
+                        <div
+                          className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[10px]"
+                          style={{ color: "var(--v4-ink-400)" }}
+                        >
+                          {row.momentumScore !== undefined ? (
+                            <span>{row.momentumScore.toFixed(1)} momentum</span>
+                          ) : null}
+                          {row.starsDelta24h !== undefined ? (
+                            <span>
+                              {formatSignedNumber(row.starsDelta24h)} stars 24h
+                            </span>
+                          ) : null}
+                          {row.stars !== undefined ? (
+                            <span>{formatNumber(row.stars)} stars</span>
+                          ) : null}
+                        </div>
+                      ) : null}
+                    </div>
+                    <div
+                      className="text-right text-xs tabular-nums"
+                      style={{ color: "var(--v4-ink-100)" }}
+                    >
+                      {formatNumber(row.mentionCount24h)}
+                    </div>
+                    <div
+                      className="text-right text-xs tabular-nums"
+                      style={{ color: "var(--v4-ink-100)" }}
+                    >
+                      {formatNumber(row.totalLikes24h)}
+                    </div>
+                    <div
+                      className="text-right text-xs tabular-nums"
+                      style={{ color: "var(--v4-ink-100)" }}
+                    >
+                      {formatNumber(row.totalReposts24h)}
+                    </div>
+                    <div
+                      className="text-right text-xs font-semibold tabular-nums"
+                      style={{ color: "var(--v4-acc)" }}
+                    >
+                      {row.finalTwitterScore.toFixed(1)}
+                    </div>
+                    <div>
+                      <span
+                        className="v2-mono inline-flex items-center px-2 py-0.5 text-[10px] uppercase tracking-[0.16em]"
+                        style={{ ...badgeStyle, borderRadius: 2 }}
+                      >
+                        {badgeLabel}
+                      </span>
+                    </div>
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
+        </section>
+      )}
+    </SourceFeedTemplate>
   );
 }
+

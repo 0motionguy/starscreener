@@ -10,8 +10,8 @@ import {
   refreshRedditAllPostsFromStore,
 } from "@/lib/reddit-all-data";
 import { AllTrendingTabs } from "@/components/reddit-trending/AllTrendingTabs";
-import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
 import { buildRedditHeader } from "@/components/news/newsTopMetrics";
+import { SourceFeedTemplate } from "@/components/source-feed/SourceFeedTemplate";
 
 const REDDIT_ACCENT = "rgba(255, 77, 77, 0.85)";
 
@@ -38,45 +38,32 @@ export default async function RedditTrendingPage() {
   const stats = getAllPostsStats();
 
   return (
-    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
-      <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        {allPostsCold ? (
-          <ColdState />
-        ) : (
-          <>
-            <div className="mb-6">
-              <NewsTopHeaderV3
-                routeTitle="REDDIT · TOP POSTS"
-                liveLabel="LIVE · 7D"
-                eyebrow={`// REDDIT · LIVE FIREHOSE · ${
-                  allPostsFetchedAt
-                    ? formatRelative(allPostsFetchedAt).toUpperCase()
-                    : "COLD"
-                }`}
-                meta={[
-                  {
-                    label: "TRACKED",
-                    value: stats.totalPosts.toLocaleString("en-US"),
-                  },
-                  { label: "WINDOW", value: "7D" },
-                ]}
-                {...buildRedditHeader(posts, stats)}
-                accent={REDDIT_ACCENT}
-                caption={[
-                  "// LAYOUT compact-v1",
-                  "· 3-COL · 320 / 1FR / 1FR",
-                  "· DATA UNCHANGED",
-                ]}
-              />
-            </div>
-
-            <Suspense fallback={<FeedSkeleton />}>
-              <AllTrendingTabs posts={posts} />
-            </Suspense>
-          </>
-        )}
-      </div>
-    </main>
+    <SourceFeedTemplate
+      cold={allPostsCold}
+      coldState={<ColdState />}
+      header={{
+        routeTitle: "REDDIT - TOP POSTS",
+        liveLabel: "LIVE - 7D",
+        eyebrow: `// REDDIT - LIVE FIREHOSE - ${
+          allPostsFetchedAt ? formatRelative(allPostsFetchedAt).toUpperCase() : "COLD"
+        }`,
+        meta: [
+          { label: "TRACKED", value: stats.totalPosts.toLocaleString("en-US") },
+          { label: "WINDOW", value: "7D" },
+        ],
+        ...buildRedditHeader(posts, stats),
+        accent: REDDIT_ACCENT,
+        caption: [
+          "// LAYOUT compact-v1",
+          "- 3-COL - 320 / 1FR / 1FR",
+          "- DATA UNCHANGED",
+        ],
+      }}
+    >
+      <Suspense fallback={<FeedSkeleton />}>
+        <AllTrendingTabs posts={posts} />
+      </Suspense>
+    </SourceFeedTemplate>
   );
 }
 

@@ -18,11 +18,11 @@ import {
   type NpmWindow,
 } from "@/lib/npm";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
-import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
 import { buildNpmHeader } from "@/components/npm/npmTopMetrics";
 import { TerminalFeedTable, type FeedColumn } from "@/components/feed/TerminalFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { npmLogoUrl } from "@/lib/logos";
+import { SourceFeedTemplate } from "@/components/source-feed/SourceFeedTemplate";
 
 const NPM_ACCENT = "rgba(203, 56, 55, 0.85)";
 const NPM_RED = "#cb3837";
@@ -85,39 +85,30 @@ export default async function NpmPage({ searchParams }: NpmPageProps) {
   const header = buildNpmHeader(packages, file);
 
   return (
-    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
-      <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        {cold ? (
-          <ColdState />
-        ) : (
-          <>
-            <div className="mb-6">
-              <NewsTopHeaderV3
-                routeTitle="NPM · TOP PACKAGES"
-                liveLabel={`LIVE · ${activeWindow.toUpperCase()}`}
-                eyebrow="// NPM · REGISTRY · TRENDING"
-                meta={[
-                  { label: "TRACKED", value: packages.length.toLocaleString("en-US") },
-                  { label: "WINDOW", value: activeWindow.toUpperCase() },
-                ]}
-                cards={header.cards}
-                topStories={header.topStories}
-                accent={NPM_ACCENT}
-                caption={[
-                  "// LAYOUT compact-v1",
-                  "· 3-COL · 320 / 1FR / 1FR",
-                  "· DATA UNCHANGED",
-                ]}
-              />
-            </div>
-
-            <TabNav active={activeWindow} />
-
-            <PackageFeed packages={packages} activeWindow={activeWindow} />
-          </>
-        )}
-      </div>
-    </main>
+    <SourceFeedTemplate
+      cold={cold}
+      coldState={<ColdState />}
+      header={{
+        routeTitle: "NPM - TOP PACKAGES",
+        liveLabel: `LIVE - ${activeWindow.toUpperCase()}`,
+        eyebrow: "// NPM - REGISTRY - TRENDING",
+        meta: [
+          { label: "TRACKED", value: packages.length.toLocaleString("en-US") },
+          { label: "WINDOW", value: activeWindow.toUpperCase() },
+        ],
+        cards: header.cards,
+        topStories: header.topStories,
+        accent: NPM_ACCENT,
+        caption: [
+          "// LAYOUT compact-v1",
+          "- 3-COL - 320 / 1FR / 1FR",
+          "- DATA UNCHANGED",
+        ],
+      }}
+    >
+      <TabNav active={activeWindow} />
+      <PackageFeed packages={packages} activeWindow={activeWindow} />
+    </SourceFeedTemplate>
   );
 }
 
@@ -351,7 +342,7 @@ function Metric({
         : "var(--v4-ink-400)";
   return (
     <div className="text-right text-xs tabular-nums">
-      {/* Total installs — primary, large, ink-100. NPM's whole point is
+      {/* Total installs â€” primary, large, ink-100. NPM's whole point is
           "how many installs?" so this beats the delta in visual weight.
           Active window goes brighter (ink-000 + 600 weight). */}
       <div
@@ -369,14 +360,14 @@ function Metric({
           {" "}dl
         </span>
       </div>
-      {/* Signed delta — secondary, color-coded green/red. */}
+      {/* Signed delta â€” secondary, color-coded green/red. */}
       <div
         className="mt-0.5 text-[11px] font-medium"
         style={{ color: deltaColor }}
       >
         {formatSignedCompact(delta)}
       </div>
-      {/* Pct change — tertiary. */}
+      {/* Pct change â€” tertiary. */}
       {typeof deltaPct === "number" ? (
         <div
           className="mt-0.5 text-[10px] font-normal"
@@ -436,3 +427,4 @@ function ColdState() {
     </section>
   );
 }
+

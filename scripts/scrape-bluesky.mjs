@@ -47,7 +47,7 @@ import {
   recentRepoRows,
 } from "./_tracked-repos.mjs";
 import {
-  extractGithubRepoFullNames,
+  extractAllRepoMentions,
   normalizeGithubFullName,
 } from "./_github-repo-links.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
@@ -96,7 +96,7 @@ export function normalizeFullName(owner, name) {
 }
 
 export function extractRepoMentions(text, trackedLower) {
-  return extractGithubRepoFullNames(text, trackedLower);
+  return extractAllRepoMentions(text, trackedLower);
 }
 
 /**

@@ -21,7 +21,7 @@ import {
   devtoKeyPoolSize,
   type DevtoArticle,
 } from '../../lib/sources/devto.js';
-import { extractGithubRepoFullNames } from '../../lib/util/github-repo-links.js';
+import { extractAllRepoMentions } from '../../lib/util/github-repo-links.js';
 import { loadTrackedRepos } from '../../lib/util/tracked-repos.js';
 import {
   DEVTO_DISCOVERY_SLICES,
@@ -120,7 +120,7 @@ function normalizeArticle(
   };
 
   const blob = `${title}\n${description}\n${tags.join(' ')}\n${body ?? ''}`;
-  const linkedLower = extractGithubRepoFullNames(blob, tracked.size > 0 ? tracked : null);
+  const linkedLower = extractAllRepoMentions(blob, tracked.size > 0 ? tracked : null);
   const linkedRepos = Array.from(linkedLower, (lower) => ({
     fullName: tracked.get(lower) ?? lower,
     location: classifyMentionLocation({

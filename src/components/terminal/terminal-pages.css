@@ -89,3 +89,51 @@
 .search-state-icon.muted {
   color: var(--ink-400);
 }
+
+.watchlist-alerts {
+  margin-top: 12px;
+  padding: 0;
+}
+
+.watchlist-alert-body {
+  padding: 14px;
+}
+
+.watchlist-state {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding: 72px 18px;
+  color: var(--ink-300);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  letter-spacing: var(--tracking-label);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.watchlist-state p {
+  margin: 0;
+}
+
+.watchlist-state .hint {
+  max-width: 500px;
+  color: var(--ink-400);
+  font-size: var(--font-size-micro);
+  line-height: 1.6;
+}
+
+.watchlist-state-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--line-200);
+  background: var(--bg-050);
+  color: var(--acc);
+}
+
+.watchlist-state-icon.muted {
+  color: var(--ink-400);
+}

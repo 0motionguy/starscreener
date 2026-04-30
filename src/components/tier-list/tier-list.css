@@ -7,6 +7,28 @@
   align-items: start;
 }
 
+.tier-remix-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+  border: 1px solid var(--line-200);
+  background: linear-gradient(90deg, var(--acc-soft), var(--bg-025) 70%);
+  padding: 9px 12px;
+  color: var(--ink-300);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-md);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.tier-remix-banner b {
+  color: var(--ink-000);
+  font-weight: var(--font-weight-semibold);
+}
+
 .tier-editor-panel {
   overflow: visible;
 }

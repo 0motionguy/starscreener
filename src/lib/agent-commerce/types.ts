@@ -92,6 +92,47 @@ export interface AgentCommerceSourceRef {
   capturedAt: string;
 }
 
+export interface AgentCommerceSocialMention {
+  count: number;
+  topUrl?: string;
+  topTitle?: string;
+}
+
+export interface AgentCommerceLiveSnapshot {
+  // GitHub repo metadata
+  stars?: number;
+  forks?: number;
+  openIssues?: number;
+  pushedAt?: string;
+  updatedAt?: string;
+  defaultBranch?: string;
+  language?: string | null;
+  // HN
+  hnMentions90d?: number;
+  hnTopUrl?: string;
+  // npm
+  npmName?: string;
+  npmLatestVersion?: string | null;
+  npmWeeklyDownloads?: number | null;
+  npmRegistryUrl?: string;
+  // social cross-source
+  redditMentions?: AgentCommerceSocialMention;
+  blueskyMentions?: AgentCommerceSocialMention;
+  devtoMentions?: AgentCommerceSocialMention;
+  lobstersMentions?: AgentCommerceSocialMention;
+  huggingfaceSpaces?: AgentCommerceSocialMention;
+  socialTotal?: number;
+  // CoinGecko / token-economy enrichment
+  tokenSymbol?: string;
+  marketCapUsd?: number | null;
+  marketCapRank?: number | null;
+  priceUsd?: number | null;
+  priceChange24hPct?: number | null;
+  priceChange7dPct?: number | null;
+  volume24hUsd?: number | null;
+  fetchedAt?: string;
+}
+
 export interface AgentCommerceItem {
   id: string;
   slug: string;
@@ -106,6 +147,7 @@ export interface AgentCommerceItem {
   badges: AgentCommerceBadges;
   scores: AgentCommerceScores;
   sources: AgentCommerceSourceRef[];
+  live?: AgentCommerceLiveSnapshot;
   firstSeenAt: string;
   lastUpdatedAt: string;
   tags: string[];

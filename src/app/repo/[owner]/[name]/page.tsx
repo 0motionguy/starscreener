@@ -396,7 +396,7 @@ export default async function RepoDetailPage({ params }: PageProps) {
           />
           <FundingPanel events={profile.funding} />
 
-          <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_420px] gap-6">
+          <div className="repo-detail-two-col">
             <RepoDetailStatsStrip repo={repo} />
             <RepoDetailStats repo={repo} />
           </div>
@@ -407,7 +407,7 @@ export default async function RepoDetailPage({ params }: PageProps) {
             dependentsByPackage={profile.npm.dependents}
           />
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="repo-detail-split">
             <ProjectSurfaceMap
               repo={repo}
               npmPackages={profile.npm.packages}

@@ -80,7 +80,7 @@ export default function DemoPage() {
   );
 
   return (
-    <main className="min-h-screen bg-bg-primary text-text-primary font-mono overflow-x-hidden">
+    <main className="v4-root overflow-x-hidden font-mono">
       {/* Ambient animated backdrop gradient */}
       <div
         aria-hidden

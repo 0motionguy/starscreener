@@ -131,7 +131,7 @@ export default async function McpDetailPage({ params }: PageProps) {
     Date.now() - Date.parse(lastReleaseAt) < SEVEN_DAYS_MS;
 
   return (
-    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
+    <main className="v4-root font-mono">
       <div className="mx-auto max-w-[1100px] space-y-6 px-4 py-6 sm:px-6 sm:py-8">
         {/* Breadcrumb */}
         <nav

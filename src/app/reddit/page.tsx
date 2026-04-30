@@ -45,7 +45,7 @@ export default async function RedditPage() {
   const breakouts24h = getBreakoutCountLast24h(allPosts);
 
   return (
-    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
+    <main className="v4-root font-mono">
       <div className="max-w-[1400px] mx-auto px-6 py-8">
         <div className="mb-6">
           <StatStrip

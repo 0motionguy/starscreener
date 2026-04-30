@@ -99,7 +99,6 @@ export interface AgentCommerceSocialMention {
 }
 
 export interface AgentCommerceLiveSnapshot {
-  // GitHub repo metadata
   stars?: number;
   forks?: number;
   openIssues?: number;
@@ -107,15 +106,12 @@ export interface AgentCommerceLiveSnapshot {
   updatedAt?: string;
   defaultBranch?: string;
   language?: string | null;
-  // HN
   hnMentions90d?: number;
   hnTopUrl?: string;
-  // npm
   npmName?: string;
   npmLatestVersion?: string | null;
   npmWeeklyDownloads?: number | null;
   npmRegistryUrl?: string;
-  // social cross-source
   redditMentions?: AgentCommerceSocialMention;
   blueskyMentions?: AgentCommerceSocialMention;
   devtoMentions?: AgentCommerceSocialMention;

@@ -131,6 +131,155 @@ export default async function AgentCommerceDetailPage({ params }: DetailProps) {
         </div>
       </header>
 
+      {item.live ? (
+        <Card>
+          <CardHeader
+            showCorner
+            right={
+              item.live.fetchedAt ? (
+                <span>
+                  refreshed{" "}
+                  {(() => {
+                    const ms = Date.now() - new Date(item.live.fetchedAt).getTime();
+                    const mins = Math.floor(ms / 60_000);
+                    if (mins < 60) return `${mins}m ago`;
+                    const hrs = Math.floor(mins / 60);
+                    if (hrs < 48) return `${hrs}h ago`;
+                    return `${Math.floor(hrs / 24)}d ago`;
+                  })()}
+                </span>
+              ) : null
+            }
+          >
+            Live signals
+          </CardHeader>
+          <CardBody>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
+                gap: 14,
+                padding: "12px 14px",
+                fontFamily: "var(--font-mono, ui-monospace)",
+                fontSize: 12,
+              }}
+            >
+              {typeof item.live.stars === "number" ? (
+                <div>
+                  <div style={{ color: "var(--color-text-faint)", fontSize: 10, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                    Stars
+                  </div>
+                  <div style={{ color: "#fbbf24", fontSize: 20, fontWeight: 700 }}>
+                    {item.live.stars.toLocaleString("en-US")}
+                  </div>
+                </div>
+              ) : null}
+              {typeof item.live.forks === "number" ? (
+                <div>
+                  <div style={{ color: "var(--color-text-faint)", fontSize: 10, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                    Forks
+                  </div>
+                  <div style={{ color: "var(--color-text-default)", fontSize: 20, fontWeight: 700 }}>
+                    {item.live.forks.toLocaleString("en-US")}
+                  </div>
+                </div>
+              ) : null}
+              {item.live.pushedAt ? (
+                <div>
+                  <div style={{ color: "var(--color-text-faint)", fontSize: 10, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                    Last pushed
+                  </div>
+                  <div style={{ color: "#34d399", fontSize: 14, fontWeight: 700 }}>
+                    {(() => {
+                      const days = Math.max(
+                        0,
+                        Math.floor((Date.now() - new Date(item.live.pushedAt).getTime()) / 86_400_000),
+                      );
+                      return days === 0
+                        ? "today"
+                        : days === 1
+                          ? "1 day ago"
+                          : days < 30
+                            ? `${days} days ago`
+                            : days < 365
+                              ? `${Math.floor(days / 30)} months ago`
+                              : `${Math.floor(days / 365)} years ago`;
+                    })()}
+                  </div>
+                  <div style={{ color: "var(--color-text-faint)", fontSize: 10 }}>
+                    {new Date(item.live.pushedAt).toISOString().slice(0, 10)}
+                  </div>
+                </div>
+              ) : null}
+              {item.live.language ? (
+                <div>
+                  <div style={{ color: "var(--color-text-faint)", fontSize: 10, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                    Language
+                  </div>
+                  <div style={{ color: "var(--color-text-default)", fontSize: 14, fontWeight: 700 }}>
+                    {item.live.language}
+                  </div>
+                </div>
+              ) : null}
+              {typeof item.live.openIssues === "number" ? (
+                <div>
+                  <div style={{ color: "var(--color-text-faint)", fontSize: 10, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                    Open Issues
+                  </div>
+                  <div style={{ color: "var(--color-text-default)", fontSize: 14, fontWeight: 700 }}>
+                    {item.live.openIssues.toLocaleString("en-US")}
+                  </div>
+                </div>
+              ) : null}
+              {typeof item.live.hnMentions90d === "number" && item.live.hnMentions90d > 0 ? (
+                <div>
+                  <div style={{ color: "var(--color-text-faint)", fontSize: 10, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                    HN mentions (90d)
+                  </div>
+                  <div style={{ color: "#f97316", fontSize: 20, fontWeight: 700 }}>
+                    {item.live.hnMentions90d}
+                  </div>
+                  {item.live.hnTopUrl ? (
+                    <a
+                      href={item.live.hnTopUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      style={{ color: "var(--color-text-faint)", fontSize: 10, textDecoration: "none" }}
+                    >
+                      top story →
+                    </a>
+                  ) : null}
+                </div>
+              ) : null}
+              {typeof item.live.npmWeeklyDownloads === "number" && item.live.npmWeeklyDownloads > 0 ? (
+                <div>
+                  <div style={{ color: "var(--color-text-faint)", fontSize: 10, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                    npm /wk
+                  </div>
+                  <div style={{ color: "#cbd5e1", fontSize: 20, fontWeight: 700 }}>
+                    {item.live.npmWeeklyDownloads >= 1_000_000
+                      ? `${(item.live.npmWeeklyDownloads / 1_000_000).toFixed(2)}M`
+                      : item.live.npmWeeklyDownloads >= 1000
+                        ? `${(item.live.npmWeeklyDownloads / 1000).toFixed(1)}k`
+                        : `${item.live.npmWeeklyDownloads}`}
+                  </div>
+                  {item.live.npmName ? (
+                    <a
+                      href={item.live.npmRegistryUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      style={{ color: "var(--color-text-faint)", fontSize: 10, textDecoration: "none" }}
+                    >
+                      {item.live.npmName} {item.live.npmLatestVersion ? `@${item.live.npmLatestVersion}` : ""} →
+                    </a>
+                  ) : null}
+                </div>
+              ) : null}
+            </div>
+          </CardBody>
+        </Card>
+      ) : null}
+
       <div className="ac-detail-grid">
         <div style={{ display: "grid", gap: 12 }}>
           <Card>

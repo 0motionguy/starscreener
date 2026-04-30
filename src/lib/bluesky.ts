@@ -12,6 +12,10 @@
 
 import bskyMentionsData from "../../data/bluesky-mentions.json";
 
+function slugIdFromFullName(fullName: string): string {
+  return String(fullName).toLowerCase().replace(/\//g, "--").replace(/\./g, "-").replace(/[^a-z0-9-]/g, "");
+}
+
 // data-store import is dynamic: pulling it statically here drags ioredis
 // (Node-only `dns` dep) into client bundles whenever a client component
 // imports `getBlueskyMentions`. The refresh function below is server-only
@@ -89,6 +93,7 @@ export interface BskyMentionsFile {
   searchQuery: string;
   pagesFetched: number;
   mentions: Record<string, BskyRepoMention>;
+  mentionsByRepoId?: Record<string, BskyRepoMention>;
   leaderboard: BskyLeaderboardEntry[];
 }
 
@@ -144,8 +149,24 @@ function buildBskyMentionsByLowerName(file: BskyMentionsFile): Map<string, BskyR
   return map;
 }
 
+function buildBskyMentionsByRepoId(file: BskyMentionsFile): Map<string, BskyRepoMention> {
+  const map = new Map<string, BskyRepoMention>();
+  if (file.mentionsByRepoId) {
+    for (const [repoId, mention] of Object.entries(file.mentionsByRepoId)) {
+      map.set(repoId, mention);
+    }
+  } else {
+    for (const [fullName, mention] of Object.entries(file.mentions)) {
+      map.set(slugIdFromFullName(fullName), mention);
+    }
+  }
+  return map;
+}
+
 let mentionsByLowerName: Map<string, BskyRepoMention> =
   buildBskyMentionsByLowerName(mentionsFile);
+let mentionsByRepoId: Map<string, BskyRepoMention> =
+  buildBskyMentionsByRepoId(mentionsFile);
 
 // ---------------------------------------------------------------------------
 // Public API — mentions side
@@ -158,6 +179,16 @@ export function getBlueskyFile(): BskyMentionsFile {
 export function getBlueskyMentions(fullName: string): BskyRepoMention | null {
   if (!fullName) return null;
   return mentionsByLowerName.get(fullName.toLowerCase()) ?? null;
+}
+
+export function getBskyMentionByRepoId(repoId: string): BskyRepoMention | null {
+  if (!repoId) return null;
+  const direct = mentionsByRepoId.get(repoId);
+  if (direct) return direct;
+  for (const [fullName, mention] of Object.entries(mentionsFile.mentions)) {
+    if (slugIdFromFullName(fullName) === repoId) return mention;
+  }
+  return null;
 }
 
 export function getAllBlueskyMentions(): Record<string, BskyRepoMention> {
@@ -213,6 +244,7 @@ export async function refreshBlueskyMentionsFromStore(): Promise<{
     if (result.data && result.source !== "missing") {
       mentionsFile = result.data;
       mentionsByLowerName = buildBskyMentionsByLowerName(mentionsFile);
+      mentionsByRepoId = buildBskyMentionsByRepoId(mentionsFile);
     }
     lastRefreshMs = Date.now();
     return { source: result.source, ageMs: result.ageMs };

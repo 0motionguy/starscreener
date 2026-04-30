@@ -16,8 +16,13 @@ const RPC_ENDPOINTS = (process.env.SOLANA_RPC_URL ?? "https://api.mainnet-beta.s
   .filter(Boolean);
 const USDC_MINT = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v";
 const PAGE_SIZE = 1000;
-const RPC_DELAY_MS = 120;
-const TX_CONCURRENCY = 4;
+// Public api.mainnet-beta.solana.com has a per-method cap of 40 req/10s
+// (= 4 rps) for getTransaction. Concurrency 1 + 250ms sleep keeps us at
+// ~4 rps single-threaded — anything higher 429s in seconds and never
+// recovers under exponential backoff. Operators with a paid endpoint
+// can override by setting CONCURRENCY env var.
+const RPC_DELAY_MS = 250;
+const TX_CONCURRENCY = parseNumberArg("--concurrency", 1);
 const BACKOFF_START_MS = 1000;
 const BACKOFF_CAP_MS = 30_000;
 const TIMEOUT_MS = 30_000;

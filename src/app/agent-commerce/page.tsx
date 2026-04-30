@@ -921,6 +921,23 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
                           dev·{item.live?.devtoMentions?.count ?? 0}
                         </span>
                       ) : null}
+                      {typeof item.scores.aisoScore === "number" ? (
+                        <span
+                          style={{
+                            marginLeft: 6,
+                            color:
+                              item.scores.aisoScore >= 80
+                                ? "#fbbf24"
+                                : item.scores.aisoScore >= 60
+                                  ? "#f59e0b"
+                                  : "var(--color-text-faint)",
+                            fontWeight: 700,
+                          }}
+                          title={`AISO score ${item.scores.aisoScore}`}
+                        >
+                          aiso·{item.scores.aisoScore}
+                        </span>
+                      ) : null}
                       {item.live?.tokenSymbol ? (
                         <span
                           style={{
@@ -1859,6 +1876,190 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
                     </CardBody>
                   </Card>
                 ) : null}
+              </>
+            );
+          })()}
+
+          {/* ========== 04d — HISTORICAL VOLUME (Dune) ========== */}
+          {(() => {
+            // Source: scripts/fetch-dune-x402.mjs → .data/dune-x402-volume.json
+            // Rendered only when the JSON exists. Run the fetcher once a saved
+            // Dune query id is available (paste .dune/x402-volume.sql first).
+            // eslint-disable-next-line @typescript-eslint/no-require-imports
+            const fs = require("fs") as typeof import("fs");
+            // eslint-disable-next-line @typescript-eslint/no-require-imports
+            const path = require("path") as typeof import("path");
+            let dune: {
+              fetchedAt?: string;
+              lastDay?: string | null;
+              rows?: Array<{
+                day: string;
+                facilitator: string;
+                txCount: number;
+                volumeUsdc: string;
+              }>;
+            } | null = null;
+            try {
+              const raw = fs.readFileSync(
+                path.resolve(process.cwd(), ".data/dune-x402-volume.json"),
+                "utf8",
+              );
+              dune = JSON.parse(raw);
+            } catch {
+              return null;
+            }
+            if (!dune?.rows?.length) return null;
+            const byDay = new Map<string, number>();
+            const byFac = new Map<string, number>();
+            for (const r of dune.rows) {
+              const v = parseFloat(r.volumeUsdc) || 0;
+              byDay.set(r.day, (byDay.get(r.day) ?? 0) + v);
+              byFac.set(r.facilitator, (byFac.get(r.facilitator) ?? 0) + v);
+            }
+            const dayEntries = [...byDay.entries()].sort(([a], [b]) =>
+              a < b ? -1 : 1,
+            );
+            const maxDayVol = Math.max(...dayEntries.map(([, v]) => v), 1);
+            const facEntries = [...byFac.entries()].sort(
+              (a, b) => b[1] - a[1],
+            );
+            const totalVol = facEntries.reduce((acc, [, v]) => acc + v, 0);
+            const facColor: Record<string, string> = {
+              Coinbase: "#3b82f6",
+              Heurist: "#a78bfa",
+              CodeNut: "#f59e0b",
+              Thirdweb: "#34d399",
+            };
+            const fmtUsd = (n: number) =>
+              n >= 1_000_000
+                ? `$${(n / 1_000_000).toFixed(1)}M`
+                : n >= 1_000
+                  ? `$${(n / 1_000).toFixed(1)}k`
+                  : `$${n.toFixed(0)}`;
+            return (
+              <>
+                <div className="sec-head">
+                  <span className="sec-num">{"// 04d"}</span>
+                  <h2 className="sec-title">x402 historical volume</h2>
+                  <span className="sec-meta">
+                    Base · <b>{fmtUsd(totalVol)}</b> over{" "}
+                    <b>{dayEntries.length}</b> days · via Dune
+                  </span>
+                </div>
+                <div className="grid">
+                  <Card className="col-8">
+                    <CardHeader
+                      showCorner
+                      right={<span>last day · {dune.lastDay}</span>}
+                    >
+                      Daily USDC volume
+                    </CardHeader>
+                    <CardBody>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "flex-end",
+                          gap: 1,
+                          padding: "16px 14px 8px",
+                          height: 140,
+                        }}
+                      >
+                        {dayEntries.map(([day, v]) => {
+                          const h = Math.max(
+                            2,
+                            Math.round((v / maxDayVol) * 120),
+                          );
+                          return (
+                            <span
+                              key={day}
+                              title={`${day} · ${fmtUsd(v)}`}
+                              style={{
+                                flex: 1,
+                                height: `${h}px`,
+                                background: "var(--color-accent)",
+                                opacity: 0.85,
+                              }}
+                            />
+                          );
+                        })}
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          padding: "0 14px 10px",
+                          fontSize: 10,
+                          color: "var(--color-text-faint)",
+                          fontFamily: "var(--font-mono, ui-monospace)",
+                          letterSpacing: "0.06em",
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        <span>{dayEntries[0]?.[0]}</span>
+                        <span>{dayEntries[dayEntries.length - 1]?.[0]}</span>
+                      </div>
+                    </CardBody>
+                  </Card>
+                  <Card className="col-4">
+                    <CardHeader showCorner right={<span>USDC total</span>}>
+                      Volume by facilitator
+                    </CardHeader>
+                    <CardBody>
+                      {facEntries.map(([name, v]) => {
+                        const tone = facColor[name] ?? "#cbd5e1";
+                        const share = totalVol > 0 ? (v / totalVol) * 100 : 0;
+                        return (
+                          <div
+                            key={name}
+                            style={{
+                              display: "grid",
+                              gridTemplateColumns:
+                                "90px minmax(0, 1fr) 70px",
+                              alignItems: "center",
+                              gap: 10,
+                              padding: "8px 12px",
+                              borderBottom:
+                                "1px solid var(--color-border-subtle)",
+                              fontFamily: "var(--font-mono, ui-monospace)",
+                              fontSize: 12,
+                            }}
+                          >
+                            <span style={{ color: tone, fontWeight: 700 }}>
+                              {name}
+                            </span>
+                            <span
+                              style={{
+                                position: "relative",
+                                height: 6,
+                                background: "var(--color-bg-canvas)",
+                                borderRadius: 3,
+                                overflow: "hidden",
+                              }}
+                            >
+                              <span
+                                style={{
+                                  position: "absolute",
+                                  inset: 0,
+                                  width: `${share}%`,
+                                  background: tone,
+                                }}
+                              />
+                            </span>
+                            <span
+                              style={{
+                                textAlign: "right",
+                                color: "var(--color-text-default)",
+                                fontWeight: 700,
+                              }}
+                            >
+                              {fmtUsd(v)}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </CardBody>
+                  </Card>
+                </div>
               </>
             );
           })()}

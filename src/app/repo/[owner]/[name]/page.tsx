@@ -78,13 +78,13 @@ import { RelatedReposPanel } from "@/components/repo-detail/RelatedReposPanel";
 import { PredictionSnapshot } from "@/components/repo-detail/PredictionSnapshot";
 import { RelatedIdeasPanel } from "@/components/repo-detail/RelatedIdeasPanel";
 
-// force-dynamic: the page aggregates per-source mention JSON at request
-// time and has ~thousands of possible (owner, name) tuples. Static
-// prerender of all of them blows the build-time chunk graph (Sprint 1
-// audit finding #2: ./<N>.js module-not-found). On-demand rendering is
-// fast enough — each request reads committed JSON + runs a small compose
-// — and matches the pre-rewrite behavior.
-export const dynamic = "force-dynamic";
+// ISR over force-dynamic: the 12+ refresh hooks above each share the
+// data-store's 30s rate-limit + dedupe, so calling them on every request
+// costs CPU without buying any freshness. 5-min revalidate keeps repos
+// plenty fresh while letting Vercel's edge cache serve repeat hits.
+// Each (owner, name) tuple gets its own ISR cache entry on first hit;
+// stale-while-revalidate handles long-tail repos cheaply.
+export const revalidate = 300;
 
 const SLUG_PART_PATTERN = /^[A-Za-z0-9._-]+$/;
 

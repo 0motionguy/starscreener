@@ -63,7 +63,7 @@ import {
   buildLobstersHeader,
 } from "@/components/news/newsTopMetrics";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 const SOURCE_META: Record<TabId, { code: string; color: string; label: string }> = {
   hackernews: { code: "HN", color: "rgba(245, 110, 15, 0.85)", label: "HACKERNEWS" },

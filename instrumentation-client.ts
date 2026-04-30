@@ -10,15 +10,21 @@ if (SENTRY_DSN) {
 
     tracesSampleRate: process.env.NODE_ENV === "production" ? 0.1 : 0,
 
-    replaysOnErrorSampleRate: 1.0,
+    // Replay integration ships ~50–80 KB to every browser. Gate it behind
+    // an opt-in flag so the bytes only land when an active incident wants
+    // them. Flip NEXT_PUBLIC_SENTRY_REPLAY=true on the deploy that needs
+    // replays, then unset.
+    replaysOnErrorSampleRate: process.env.NEXT_PUBLIC_SENTRY_REPLAY === "true" ? 1.0 : 0,
     replaysSessionSampleRate: 0,
 
-    integrations: [
-      Sentry.replayIntegration({
-        maskAllText: false,
-        blockAllMedia: false,
-      }),
-    ],
+    integrations: process.env.NEXT_PUBLIC_SENTRY_REPLAY === "true"
+      ? [
+          Sentry.replayIntegration({
+            maskAllText: false,
+            blockAllMedia: false,
+          }),
+        ]
+      : [],
 
     beforeSend(event, hint) {
       const error = hint.originalException;

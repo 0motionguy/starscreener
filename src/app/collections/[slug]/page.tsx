@@ -24,7 +24,7 @@ import {
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 import { TerminalLayout } from "@/components/terminal/TerminalLayout";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 600;
 
 interface PageProps {
   params: Promise<{ slug: string }>;

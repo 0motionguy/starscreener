@@ -15,7 +15,7 @@ import { buildRedditHeader } from "@/components/news/newsTopMetrics";
 
 const REDDIT_ACCENT = "rgba(255, 77, 77, 0.85)";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 function formatRelative(iso: string): string {
   const t = new Date(iso).getTime();

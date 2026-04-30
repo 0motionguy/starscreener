@@ -15,7 +15,7 @@ import {
 } from "@/lib/funding-news";
 import type { FundingSignal } from "@/lib/funding/types";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 600;
 
 export const metadata: Metadata = {
   title: "TrendingRepo - Funding Radar",

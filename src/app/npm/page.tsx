@@ -30,8 +30,10 @@ const NPM_RED = "#cb3837";
 const WINDOWS: NpmWindow[] = ["24h", "7d", "30d"];
 const DEFAULT_WINDOW: NpmWindow = "24h";
 
-// Dynamic because the active window comes from searchParams.
-export const dynamic = "force-dynamic";
+// ISR with 10-min revalidate. Each `?range=...` variant gets its own
+// cache entry (ISR keys by URL incl. query string), so window switching
+// still works without paying full SSR per hit.
+export const revalidate = 600;
 
 export const metadata: Metadata = {
   title: "TrendingRepo - NPM Trending Packages",

@@ -1,27 +1,127 @@
 {
-  "fetchedAt": "2026-04-29T02:06:08.972Z",
+  "fetchedAt": "2026-04-29T13:25:51.780Z",
   "source": "funding-news-scraper",
   "windowDays": 21,
   "signals": [
     {
-      "id": "www.pymnts.com-6e76c7b6",
-      "headline": "The AI Boom Is Funding a Caribbean Island Two Letters at a Time",
-      "description": "Anguilla did not build an artificial intelligence model. It did not raise venture capital or hire researchers. In the 1980s, it was assigned two letters by an international standards body: .ai. The island has been collecting a fee on the AI industry ever since. The .ai suffix is Anguilla’s country code domain, assigned decades […] The post The AI Boom Is Funding a Caribbean Island Two Letters at a Time appeared first on PYMNTS.com .",
-      "sourceUrl": "https://www.pymnts.com/artificial-intelligence-2/2026/the-ai-boom-is-funding-a-caribbean-island-two-letters-at-a-time/",
-      "sourcePlatform": "pymnts",
-      "publishedAt": "2026-04-29T00:05:40.000Z",
-      "discoveredAt": "2026-04-29T02:06:08.972Z",
+      "id": "techcrunch.com-cf80a204",
+      "headline": "Firestorm Labs raises $82M to take drone factories into the field",
+      "description": "A defense startup just raised $82 million to put drone factories inside shipping containers and bring manufacturing to the front lines.",
+      "sourceUrl": "https://techcrunch.com/2026/04/29/firestorm-labs-raises-82m-to-take-drone-factories-into-the-field/",
+      "sourcePlatform": "techcrunch",
+      "publishedAt": "2026-04-29T13:10:57.000Z",
+      "discoveredAt": "2026-04-29T13:25:51.780Z",
       "extracted": {
-        "companyName": "AI Boom",
-        "companyWebsite": "https://pymnts.com",
-        "companyLogoUrl": "https://logo.clearbit.com/pymnts.com",
-        "amount": null,
-        "amountDisplay": "Undisclosed",
+        "companyName": "Firestorm Labs",
+        "companyWebsite": "https://launchfirestorm.com",
+        "companyLogoUrl": "https://logo.clearbit.com/launchfirestorm.com",
+        "amount": 82000000,
+        "amountDisplay": "$82M",
         "currency": "USD",
         "roundType": "undisclosed",
+        "investors": [
+          "Washington Harbour Partners"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Washington Harbour Partners",
+            "isKnown": false,
+            "confidence": "medium"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai",
+        "hardware",
+        "defense"
+      ]
+    },
+    {
+      "id": "tech.eu-a94c0e42",
+      "headline": "Cleo Labs secures €1.5M to scale AI-driven product compliance globally",
+      "description": "Cleo Labs, a Paris-based company specialising inproduct regulatory compliance, has raised €1.5 million in a funding round toaccelerate the development of its AI-powered platform for internationalcompl...",
+      "sourceUrl": "https://tech.eu/2026/04/29/cleo-labs-secures-eur15m-to-scale-ai-driven-product-compliance-globally/",
+      "sourcePlatform": "techeu",
+      "publishedAt": "2026-04-29T10:00:00.000Z",
+      "discoveredAt": "2026-04-29T13:25:51.780Z",
+      "extracted": {
+        "companyName": "Cleo Labs",
+        "companyWebsite": "https://cleolabs.co",
+        "companyLogoUrl": "https://logo.clearbit.com/cleolabs.co",
+        "amount": 1500000,
+        "amountDisplay": "$1.5M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "Larry Berger"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Larry Berger",
+            "isKnown": false,
+            "confidence": "medium"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai",
+        "europe"
+      ]
+    },
+    {
+      "id": "tech.eu-e3de257a",
+      "headline": "All3 raises $25M to boost construction productivity with robotics and AI",
+      "description": "All3, acompany developing a robotic platform for construction, has raised $25 millionin a seed funding round led by RTP Global, with significant participation fromSuperSeed and additional backing from...",
+      "sourceUrl": "https://tech.eu/2026/04/29/all3-raises-25m-to-boost-construction-productivity-with-robotics-and-ai/",
+      "sourcePlatform": "techeu",
+      "publishedAt": "2026-04-29T08:00:00.000Z",
+      "discoveredAt": "2026-04-29T13:25:51.780Z",
+      "extracted": {
+        "companyName": "All3",
+        "companyWebsite": "https://all3.com",
+        "companyLogoUrl": "https://logo.clearbit.com/all3.com",
+        "amount": 25000000,
+        "amountDisplay": "$25M",
+        "currency": "USD",
+        "roundType": "seed",
+        "investors": [
+          "RTP Global"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "RTP Global",
+            "isKnown": false,
+            "confidence": "medium"
+          }
+        ],
+        "confidence": "high"
+      },
+      "tags": [
+        "ai",
+        "hardware"
+      ]
+    },
+    {
+      "id": "tech.eu-be85cd7",
+      "headline": "SPREAD AI raises $30M Series B for industrial AI",
+      "description": "SPREAD AI has raised $30 million in Series B funding to supportinternational expansion, enhance its platform capabilities, and strengthen itsposition across key industries. The round included new inve...",
+      "sourceUrl": "https://tech.eu/2026/04/29/spread-ai-raises-30m-series-b-for-industrial-ai/",
+      "sourcePlatform": "techeu",
+      "publishedAt": "2026-04-29T06:15:00.000Z",
+      "discoveredAt": "2026-04-29T13:25:51.780Z",
+      "extracted": {
+        "companyName": "SPREAD AI",
+        "companyWebsite": "https://spread.ai",
+        "companyLogoUrl": "https://logo.clearbit.com/spread.ai",
+        "amount": 30000000,
+        "amountDisplay": "$30M",
+        "currency": "USD",
+        "roundType": "series-b",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "low"
+        "confidence": "high"
       },
       "tags": [
         "ai"
@@ -34,7 +134,7 @@
       "sourceUrl": "https://arstechnica.com/cars/2026/04/gms-super-cruise-passes-a-billion-driven-miles-since-2017/",
       "sourcePlatform": "arstechnica",
       "publishedAt": "2026-04-28T14:00:26.000Z",
-      "discoveredAt": "2026-04-29T02:06:08.972Z",
+      "discoveredAt": "2026-04-29T13:25:51.780Z",
       "extracted": null,
       "tags": []
     },
@@ -45,7 +145,7 @@
       "sourceUrl": "https://tech.eu/2026/04/28/ai-partner-for-financial-advisers-marloo-closes-10m-seed-round/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-28T10:15:00.000Z",
-      "discoveredAt": "2026-04-29T02:06:08.972Z",
+      "discoveredAt": "2026-04-29T13:25:51.780Z",
       "extracted": {
         "companyName": "partner for financial advisers Marloo",
         "companyWebsite": null,
@@ -78,7 +178,7 @@
       "sourceUrl": "https://sifted.eu/articles/e-bike-startup-forest-secures-40m-series-b-funding-round/",
       "sourcePlatform": "sifted",
       "publishedAt": "2026-04-28T10:06:29.000Z",
-      "discoveredAt": "2026-04-29T02:06:08.972Z",
+      "discoveredAt": "2026-04-29T13:25:51.780Z",
       "extracted": {
         "companyName": "E-bike startup Forest",
         "companyWebsite": null,
@@ -108,7 +208,7 @@
       "sourceUrl": "https://tech.eu/2026/04/28/neutonic-secures-6m-at-60m-valuation-to-grow-retail-and-new-markets/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-28T09:00:00.000Z",
-      "discoveredAt": "2026-04-29T02:06:08.972Z",
+      "discoveredAt": "2026-04-29T13:25:51.780Z",
       "extracted": {
         "companyName": "Neutonic",
         "companyWebsite": null,
@@ -134,7 +234,7 @@
       "sourceUrl": "https://tech.eu/2026/04/28/dehaze-raises-eur32m-for-ai-chronic-disease-detection/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-28T08:13:32.000Z",
-      "discoveredAt": "2026-04-29T02:06:08.972Z",
+      "discoveredAt": "2026-04-29T13:25:51.780Z",
       "extracted": {
         "companyName": "dehaze",
         "companyWebsite": "https://dehaze.de",
@@ -167,7 +267,7 @@
       "sourceUrl": "https://tech.eu/2026/04/28/tapaya-raises-eur1m-pre-seed-to-power-payments-on-any-device/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-28T08:00:00.000Z",
-      "discoveredAt": "2026-04-29T02:06:08.972Z",
+      "discoveredAt": "2026-04-29T13:25:51.780Z",
       "extracted": {
         "companyName": "Tapaya",
         "companyWebsite": "https://tapaya.com",
@@ -206,7 +306,7 @@
       "sourceUrl": "https://tech.eu/2026/04/28/always-friday-raises-eur105m-to-automate-corporate-event-planning-with-ai-agents/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-28T07:00:00.000Z",
-      "discoveredAt": "2026-04-29T02:06:08.972Z",
+      "discoveredAt": "2026-04-29T13:25:51.780Z",
       "extracted": {
         "companyName": "Always Friday",
         "companyWebsite": "https://alwaysfriday.it",
@@ -238,7 +338,7 @@
       "sourceUrl": "https://tech.eu/2026/04/28/cnuic-secures-eur3m-pre-seed-to-unlock-next-generation-photonic-chip-production/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-28T07:00:00.000Z",
-      "discoveredAt": "2026-04-29T02:06:08.972Z",
+      "discoveredAt": "2026-04-29T13:25:51.780Z",
       "extracted": {
         "companyName": "Cnuic",
         "companyWebsite": "https://cnuic.com",
@@ -272,7 +372,7 @@
       "sourceUrl": "https://tech.eu/2026/04/28/from-bedside-decoration-to-daily-use-patronus-raises-eur11m-for-senior-safety/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-28T05:30:00.000Z",
-      "discoveredAt": "2026-04-29T02:06:08.972Z",
+      "discoveredAt": "2026-04-29T13:25:51.780Z",
       "extracted": {
         "companyName": "Unknown",
         "companyWebsite": null,
@@ -305,7 +405,7 @@
       "sourceUrl": "https://tech.eu/2026/04/28/redpine-secures-eur68m-to-power-ai-with-premium-data/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-28T05:15:00.000Z",
-      "discoveredAt": "2026-04-29T02:06:08.972Z",
+      "discoveredAt": "2026-04-29T13:25:51.780Z",
       "extracted": {
         "companyName": "Redpine",
         "companyWebsite": "https://redpine.ai",
@@ -337,7 +437,7 @@
       "sourceUrl": "https://sifted.eu/articles/redpine-raises-e6-8m-to-give-ai-agents-access-to-non-public-data/",
       "sourcePlatform": "sifted",
       "publishedAt": "2026-04-28T05:00:55.000Z",
-      "discoveredAt": "2026-04-29T02:06:08.972Z",
+      "discoveredAt": "2026-04-29T13:25:51.780Z",
       "extracted": {
         "companyName": "Redpine",
         "companyWebsite": null,
@@ -369,7 +469,7 @@
       "sourceUrl": "https://sifted.eu/articles/zellify-funding-round-seed-project-europe/",
       "sourcePlatform": "sifted",
       "publishedAt": "2026-04-28T05:00:06.000Z",
-      "discoveredAt": "2026-04-29T02:06:08.972Z",
+      "discoveredAt": "2026-04-29T13:25:51.780Z",
       "extracted": {
         "companyName": "Voi",
         "companyWebsite": null,
@@ -391,7 +491,7 @@
       "sourceUrl": "https://techcrunch.com/2026/04/27/indias-snabbit-closes-56m-round-as-investor-interest-heats-up-in-on-demand-home-services/",
       "sourcePlatform": "techcrunch",
       "publishedAt": "2026-04-28T03:30:00.000Z",
-      "discoveredAt": "2026-04-29T02:06:08.972Z",
+      "discoveredAt": "2026-04-29T13:25:51.780Z",
       "extracted": {
         "companyName": "India",
         "companyWebsite": null,
@@ -424,7 +524,7 @@
       "sourceUrl": "https://arstechnica.com/security/2026/04/open-source-package-with-1-million-monthly-downloads-stole-user-credentials/",
       "sourcePlatform": "arstechnica",
       "publishedAt": "2026-04-27T21:04:03.000Z",
-      "discoveredAt": "2026-04-29T02:06:08.972Z",
+      "discoveredAt": "2026-04-29T13:25:51.780Z",
       "extracted": {
         "companyName": "Open",
         "companyWebsite": null,
@@ -440,37 +540,13 @@
       "tags": []
     },
     {
-      "id": "arstechnica.com-49462132",
-      "headline": "China kills Meta’s acquisition of Manus as US-China AI rivalry deepens",
-      "description": "",
-      "sourceUrl": "https://arstechnica.com/ai/2026/04/china-kills-metas-acquisition-of-manus-as-us-china-ai-rivalry-deepens/",
-      "sourcePlatform": "arstechnica",
-      "publishedAt": "2026-04-27T18:12:04.000Z",
-      "discoveredAt": "2026-04-29T02:06:08.972Z",
-      "extracted": {
-        "companyName": "China",
-        "companyWebsite": "https://thewirechina.com",
-        "companyLogoUrl": "https://logo.clearbit.com/thewirechina.com",
-        "amount": null,
-        "amountDisplay": "Undisclosed",
-        "currency": "USD",
-        "roundType": "acquisition",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "medium"
-      },
-      "tags": [
-        "ai"
-      ]
-    },
-    {
       "id": "tech.eu-e8383b64",
       "headline": "Ineffable Intelligence launches with record-breaking $1.1B Seed round",
       "description": "Startup Ineffable Intelligence has just come out of stealth.The company, with a mission to make first contact with superintelligence, has raised $1.1 billion in Seed funding, the largest ever in Europ...",
       "sourceUrl": "https://tech.eu/2026/04/27/ineffable-intelligence-launches-with-record-breaking-11b-seed-round/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-27T14:53:00.000Z",
-      "discoveredAt": "2026-04-29T02:06:08.972Z",
+      "discoveredAt": "2026-04-29T13:25:51.780Z",
       "extracted": {
         "companyName": "Ineffable Intelligence",
         "companyWebsite": "https://ineffable.ai",
@@ -494,7 +570,7 @@
       "sourceUrl": "https://www.bbc.com/news/articles/cj0v0gr2yz7o?at_medium=RSS&at_campaign=rss",
       "sourcePlatform": "bbc",
       "publishedAt": "2026-04-27T12:21:42.000Z",
-      "discoveredAt": "2026-04-29T02:06:08.972Z",
+      "discoveredAt": "2026-04-29T13:25:51.780Z",
       "extracted": {
         "companyName": "China",
         "companyWebsite": "https://bbc.co.uk",
@@ -518,7 +594,7 @@
       "sourceUrl": "https://tech.eu/2026/04/27/spacetech-investor-seraphim-space-targets-350m-raise/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-27T11:15:00.000Z",
-      "discoveredAt": "2026-04-29T02:06:08.972Z",
+      "discoveredAt": "2026-04-29T13:25:51.780Z",
       "extracted": {
         "companyName": "Spacetech",
         "companyWebsite": null,
@@ -538,118 +614,13 @@
       ]
     },
     {
-      "id": "tech.eu-85795f55",
-      "headline": "German robotics startup Sereact raises $110M",
-      "description": "German robotics startup Sereact has raised $110m in a Series B funding round, with the funding used to develop and scale its latest AI model and US expansion, it announced today.The round was led by S...",
-      "sourceUrl": "https://tech.eu/2026/04/27/german-robotics-startup-sereact-raises-110m/",
-      "sourcePlatform": "techeu",
-      "publishedAt": "2026-04-27T09:24:00.000Z",
-      "discoveredAt": "2026-04-29T02:06:08.972Z",
-      "extracted": {
-        "companyName": "German robotics startup Sereact",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 110000000,
-        "amountDisplay": "$110M",
-        "currency": "USD",
-        "roundType": "series-b",
-        "investors": [
-          "San Francisco",
-          "Creandum"
-        ],
-        "investorsEnriched": [
-          {
-            "name": "San Francisco",
-            "isKnown": false,
-            "confidence": "medium"
-          },
-          {
-            "name": "Creandum",
-            "isKnown": false,
-            "confidence": "medium"
-          }
-        ],
-        "confidence": "high"
-      },
-      "tags": [
-        "ai",
-        "hardware"
-      ]
-    },
-    {
-      "id": "tech.eu-45fa06ab",
-      "headline": "QuoIntelligence raises €7.3M Series A to deliver “finished” threat intelligence at scale",
-      "description": "Threat intelligence company QuoIntelligence today announced the close of a €7.3 million Series A financing round. QuoIntelligence is building the Unified Risk Intelligence standard for European mid-m...",
-      "sourceUrl": "https://tech.eu/2026/04/27/quointelligence-raises-eur73m-series-a-to-deliver-finished-threat-intelligence-at-scale/",
-      "sourcePlatform": "techeu",
-      "publishedAt": "2026-04-27T08:58:00.000Z",
-      "discoveredAt": "2026-04-29T02:06:08.972Z",
-      "extracted": {
-        "companyName": "QuoIntelligence",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 7300000,
-        "amountDisplay": "$7.3M",
-        "currency": "USD",
-        "roundType": "series-a",
-        "investors": [
-          "Elevator Ventures"
-        ],
-        "investorsEnriched": [
-          {
-            "name": "Elevator Ventures",
-            "isKnown": false,
-            "confidence": "medium"
-          }
-        ],
-        "confidence": "high"
-      },
-      "tags": [
-        "ai",
-        "europe"
-      ]
-    },
-    {
-      "id": "tech.eu-2bbb0270",
-      "headline": "Atech raises Pre-Seed to unlock a new era of Physical AI builders with the \"Lovable for hardware\"",
-      "description": "AI hardware startup Atech has raised a Pre-Seed round with participation from Nordic Makers, Emblem, Lovable, Sequoia Scout Fund (Sequoia), and Andreessen Horowitz Scout Fund (A16z). Founded by Vladi...",
-      "sourceUrl": "https://tech.eu/2026/04/27/atech-raises-pre-seed-to-unlock-the-next-wave-of-physical-ai-builders/",
-      "sourcePlatform": "techeu",
-      "publishedAt": "2026-04-27T06:00:00.000Z",
-      "discoveredAt": "2026-04-29T02:06:08.972Z",
-      "extracted": {
-        "companyName": "Atech",
-        "companyWebsite": "https://atech.dev",
-        "companyLogoUrl": "https://logo.clearbit.com/atech.dev",
-        "amount": null,
-        "amountDisplay": "Undisclosed",
-        "currency": "USD",
-        "roundType": "pre-seed",
-        "investors": [
-          "platform"
-        ],
-        "investorsEnriched": [
-          {
-            "name": "platform",
-            "isKnown": false,
-            "confidence": "medium"
-          }
-        ],
-        "confidence": "medium"
-      },
-      "tags": [
-        "ai",
-        "hardware"
-      ]
-    },
-    {
       "id": "techcrunch.com-1d9d7fa5",
       "headline": "India’s Snabbit seeks fresh funding at a $400M valuation, sources say",
       "description": "Snabbit has scaled rapidly, crossing 1 million jobs in March, amid growing investor interest.",
       "sourceUrl": "https://techcrunch.com/2026/04/25/indias-snabbit-seeks-fresh-funding-at-a-400m-valuation-sources-say/",
       "sourcePlatform": "techcrunch",
       "publishedAt": "2026-04-25T14:57:26.000Z",
-      "discoveredAt": "2026-04-29T02:06:08.972Z",
+      "discoveredAt": "2026-04-29T13:25:51.780Z",
       "extracted": {
         "companyName": "India",
         "companyWebsite": null,
@@ -681,7 +652,7 @@
       "sourceUrl": "https://techcrunch.com/2026/04/24/two-college-kids-raise-a-5-1-million-pre-seed-to-build-an-ai-social-network-in-imessage/",
       "sourcePlatform": "techcrunch",
       "publishedAt": "2026-04-24T21:05:59.000Z",
-      "discoveredAt": "2026-04-29T02:06:08.972Z",
+      "discoveredAt": "2026-04-29T13:25:51.780Z",
       "extracted": {
         "companyName": "Two college kids",
         "companyWebsite": null,
@@ -706,7 +677,7 @@
       "sourceUrl": "https://sifted.eu/articles/verda-raises-e100m-to-build-european-hyperscaler/",
       "sourcePlatform": "sifted",
       "publishedAt": "2026-04-24T08:00:53.000Z",
-      "discoveredAt": "2026-04-29T02:06:08.972Z",
+      "discoveredAt": "2026-04-29T13:25:51.780Z",
       "extracted": {
         "companyName": "Verda",
         "companyWebsite": null,
@@ -730,45 +701,6 @@
       "tags": [
         "ai",
         "europe"
-      ]
-    },
-    {
-      "id": "techcrunch.com-39fa8006",
-      "headline": "Era raises $11M to build a software platform for AI gadgets",
-      "description": "Era thinks that we will see many form factors of AI hardware, including glasses, rings, and pendants.",
-      "sourceUrl": "https://techcrunch.com/2026/04/23/era-computer-raises-11m-to-build-a-software-platform-for-ai-gadgets/",
-      "sourcePlatform": "techcrunch",
-      "publishedAt": "2026-04-23T16:00:00.000Z",
-      "discoveredAt": "2026-04-29T02:06:08.972Z",
-      "extracted": {
-        "companyName": "Era",
-        "companyWebsite": "https://era.world",
-        "companyLogoUrl": "https://logo.clearbit.com/era.world",
-        "amount": 11000000,
-        "amountDisplay": "$11M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [
-          "Abstract Ventures",
-          "Topology Ventures"
-        ],
-        "investorsEnriched": [
-          {
-            "name": "Abstract Ventures",
-            "isKnown": false,
-            "confidence": "medium"
-          },
-          {
-            "name": "Topology Ventures",
-            "isKnown": false,
-            "confidence": "medium"
-          }
-        ],
-        "confidence": "medium"
-      },
-      "tags": [
-        "ai",
-        "hardware"
       ]
     },
     {
@@ -815,7 +747,7 @@
         "saas",
         "devtools"
       ],
-      "discoveredAt": "2026-04-29T02:06:08.972Z"
+      "discoveredAt": "2026-04-29T13:25:51.780Z"
     },
     {
       "id": "seed-coreweave-series-c-2026",
@@ -861,7 +793,7 @@
         "hardware",
         "saas"
       ],
-      "discoveredAt": "2026-04-29T02:06:08.972Z"
+      "discoveredAt": "2026-04-29T13:25:51.780Z"
     },
     {
       "id": "seed-cognition-series-a-2026",
@@ -900,7 +832,7 @@
         "ai",
         "devtools"
       ],
-      "discoveredAt": "2026-04-29T02:06:08.972Z"
+      "discoveredAt": "2026-04-29T13:25:51.780Z"
     },
     {
       "id": "seed-anduril-series-f-2026",
@@ -945,7 +877,7 @@
         "defense",
         "ai"
       ],
-      "discoveredAt": "2026-04-29T02:06:08.972Z"
+      "discoveredAt": "2026-04-29T13:25:51.780Z"
     },
     {
       "id": "seed-sambanova-series-e-2026",
@@ -990,7 +922,7 @@
         "ai",
         "hardware"
       ],
-      "discoveredAt": "2026-04-29T02:06:08.972Z"
+      "discoveredAt": "2026-04-29T13:25:51.780Z"
     },
     {
       "id": "seed-poolside-series-a-2026",
@@ -1029,7 +961,7 @@
         "ai",
         "devtools"
       ],
-      "discoveredAt": "2026-04-29T02:06:08.972Z"
+      "discoveredAt": "2026-04-29T13:25:51.780Z"
     },
     {
       "id": "seed-hebbia-series-b-2026",
@@ -1068,7 +1000,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-29T02:06:08.972Z"
+      "discoveredAt": "2026-04-29T13:25:51.780Z"
     },
     {
       "id": "seed-together-series-a-2026",
@@ -1107,7 +1039,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-29T02:06:08.972Z"
+      "discoveredAt": "2026-04-29T13:25:51.780Z"
     },
     {
       "id": "seed-sierra-series-b-2026",
@@ -1146,7 +1078,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-29T02:06:08.972Z"
+      "discoveredAt": "2026-04-29T13:25:51.780Z"
     },
     {
       "id": "seed-glean-series-d-2026",
@@ -1185,7 +1117,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-29T02:06:08.972Z"
+      "discoveredAt": "2026-04-29T13:25:51.780Z"
     },
     {
       "id": "seed-groq-series-d-2026",
@@ -1224,7 +1156,7 @@
         "ai",
         "hardware"
       ],
-      "discoveredAt": "2026-04-29T02:06:08.972Z"
+      "discoveredAt": "2026-04-29T13:25:51.780Z"
     },
     {
       "id": "seed-mistral-series-b-2026",
@@ -1269,7 +1201,7 @@
         "ai",
         "europe"
       ],
-      "discoveredAt": "2026-04-29T02:06:08.972Z"
+      "discoveredAt": "2026-04-29T13:25:51.780Z"
     },
     {
       "id": "seed-adept-series-b-2026",
@@ -1308,7 +1240,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-29T02:06:08.972Z"
+      "discoveredAt": "2026-04-29T13:25:51.780Z"
     },
     {
       "id": "seed-elevenlabs-series-c-2026",
@@ -1352,7 +1284,7 @@
       "tags": [
         "ai"
       ],
-      "discoveredAt": "2026-04-29T02:06:08.972Z"
+      "discoveredAt": "2026-04-29T13:25:51.780Z"
     },
     {
       "id": "seed-scale-series-f-2026",
@@ -1397,7 +1329,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-29T02:06:08.972Z"
+      "discoveredAt": "2026-04-29T13:25:51.780Z"
     },
     {
       "id": "seed-perplexity-series-c-2026",
@@ -1442,7 +1374,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-04-29T02:06:08.972Z"
+      "discoveredAt": "2026-04-29T13:25:51.780Z"
     }
   ]
 }

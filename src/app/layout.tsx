@@ -1,18 +1,26 @@
 import type { Metadata, Viewport } from "next";
-// Trimmed from 4 fonts to 3: Instrument Serif (--font-editorial) was
-// defined but not referenced anywhere in src/components or src/app.
-// Dropping it saves ~30 KB of font payload + one <link rel="preload">.
-import { Geist, Geist_Mono, Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
-import { Toaster } from "sonner";
+// Trimmed to 3 actively-rendered fonts (Geist sans, Geist Mono, Space
+// Grotesk display). Inter and JetBrains Mono lived only as CSS-fallback
+// strings in globals.css after `var(--font-geist*)` and never painted
+// when geist loaded successfully — dropping the next/font loads saves
+// ~60 KB of font payload + 2 <link rel="preload"> head entries. The
+// named "Inter" / "JetBrains Mono" strings remain in the font-family
+// chains so locally-installed copies still work as system fallbacks.
+import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
 // Validate environment variables at server boot. Must stay first so misconfig
 // crashes the app before any routes load.
 import "@/lib/bootstrap";
+import { ToasterLazy } from "@/components/feedback/ToasterLazy";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { StoreProvider } from "@/components/providers/StoreProvider";
 import { PostHogProvider } from "@/components/providers/PostHogProvider";
 import { AppShell } from "@/components/layout/AppShell";
 import { Header } from "@/components/layout/Header";
 import { Sidebar } from "@/components/layout/Sidebar";
+import {
+  buildSidebarData,
+  type SidebarDataResponse,
+} from "@/lib/sidebar-data";
 // MobileDrawer is deferred via a thin client wrapper so framer-motion (the
 // drawer's biggest dep, ~30 kB gzipped) lands in its own chunk instead of
 // the shared bundle. The win propagates to every route. The wrapper file
@@ -36,23 +44,13 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
-  subsets: ["latin"],
-  display: "swap",
-});
-
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
   subsets: ["latin"],
   display: "swap",
-  weight: ["400", "500", "600", "700"],
+  // Only 400 (default body), 600 (font-semibold), and 700 (font-bold)
+  // are referenced via `font-display` utilities — 500 was unused.
+  weight: ["400", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -131,15 +129,32 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Build the desktop sidebar payload server-side and pass it to <Sidebar>
+  // as initialData. Eliminates the post-hydration fetch + skeleton flash
+  // that used to delay every desktop page paint. Cap reposById at top-200
+  // by momentum: the layout inlines this payload into every page's RSC
+  // stream (mobile included, even though the sidebar is desktop-only).
+  // The mobile-drawer API path stays uncapped for backward compat — that
+  // fetch only fires on user-tap and isn't on any critical path. Wrapped
+  // in try/catch so a transient pipeline / data-store hiccup doesn't take
+  // the whole site down — if it fails we pass null and Sidebar falls back
+  // to its existing client-fetch path.
+  let initialSidebarData: SidebarDataResponse | null = null;
+  try {
+    initialSidebarData = await buildSidebarData({ reposByIdTopN: 200 });
+  } catch {
+    initialSidebarData = null;
+  }
+
   return (
     <html
       lang="en"
-      className={`${geist.variable} ${geistMono.variable} ${inter.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable}`}
+      className={`${geist.variable} ${geistMono.variable} ${spaceGrotesk.variable}`}
       suppressHydrationWarning
     >
       <head>
@@ -150,7 +165,7 @@ export default function RootLayout({
             // don't lose state. Migrates the value forward so subsequent
             // reads (next-themes, Zustand persist middleware, browser
             // alerts) find it on the new key next render.
-            __html: `(function(){try{var pairs=[["trendingrepo-theme","starscreener-theme"],["trendingrepo-watchlist","starscreener-watchlist"],["trendingrepo-compare","starscreener-compare"],["trendingrepo-filters","starscreener-filters"],["trendingrepo-sidebar","starscreener-sidebar"],["trendingrepo-browser-alerts-enabled","starscreener-browser-alerts-enabled"],["trendingrepo-browser-alerts-seen","starscreener-browser-alerts-seen"],["trendingrepo-browser-alerts-changed","starscreener-browser-alerts-changed"]];for(var i=0;i<pairs.length;i++){var nk=pairs[i][0],ok=pairs[i][1];if(localStorage.getItem(nk)===null){var v=localStorage.getItem(ok);if(v!==null){localStorage.setItem(nk,v);}}}var t=localStorage.getItem("trendingrepo-theme");if(t==="light")document.documentElement.classList.add("light");else document.documentElement.classList.add("dark")}catch(e){document.documentElement.classList.add("dark")}})();`,
+            __html: `(function(){try{var MIG="trendingrepo-migrated-v1";if(!localStorage.getItem(MIG)){var pairs=[["trendingrepo-theme","starscreener-theme"],["trendingrepo-watchlist","starscreener-watchlist"],["trendingrepo-compare","starscreener-compare"],["trendingrepo-filters","starscreener-filters"],["trendingrepo-sidebar","starscreener-sidebar"],["trendingrepo-browser-alerts-enabled","starscreener-browser-alerts-enabled"],["trendingrepo-browser-alerts-seen","starscreener-browser-alerts-seen"],["trendingrepo-browser-alerts-changed","starscreener-browser-alerts-changed"]];for(var i=0;i<pairs.length;i++){var nk=pairs[i][0],ok=pairs[i][1];if(localStorage.getItem(nk)===null){var v=localStorage.getItem(ok);if(v!==null){localStorage.setItem(nk,v);}}}localStorage.setItem(MIG,"1")}var t=localStorage.getItem("trendingrepo-theme");if(t==="light")document.documentElement.classList.add("light");else document.documentElement.classList.add("dark")}catch(e){document.documentElement.classList.add("dark")}})();`,
           }}
         />
         <script
@@ -176,34 +191,12 @@ export default function RootLayout({
               <Header />
               <MobileDrawerLazy />
               <AppShell>
-                <Sidebar />
+                <Sidebar initialData={initialSidebarData} />
                 <main className="app-main">{children}</main>
               </AppShell>
               <MobileNav />
               <BrowserAlertBridge />
-              <Toaster
-                theme="dark"
-                position="bottom-right"
-                richColors={false}
-                closeButton={false}
-                toastOptions={{
-                  classNames: {
-                    toast:
-                      "!bg-[var(--v3-bg-050)] !border !border-[var(--v3-line-200)] !text-[var(--v3-ink-100)] !rounded-[2px] !shadow-[var(--shadow-popover)] !font-sans !text-[13px]",
-                    title:
-                      "!text-[var(--v3-ink-000)] !font-medium !tracking-[-0.005em]",
-                    description: "!text-[var(--v3-ink-300)] !text-[12px]",
-                    success:
-                      "!border-l-[3px] !border-l-[var(--v3-sig-green)]",
-                    error:
-                      "!border-l-[3px] !border-l-[var(--v3-sig-red)]",
-                    info:
-                      "!border-l-[3px] !border-l-[var(--v3-acc)]",
-                    warning:
-                      "!border-l-[3px] !border-l-[var(--v3-sig-amber)]",
-                  },
-                }}
-              />
+              <ToasterLazy />
               </DesignSystemProvider>
             </StoreProvider>
           </PostHogProvider>

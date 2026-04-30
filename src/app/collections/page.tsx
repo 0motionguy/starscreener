@@ -23,7 +23,7 @@ import {
 } from "@/lib/collection-rankings";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 600;
 
 const DESCRIPTION =
   "Curated AI repo collections — agents, RAG, inference, vector DBs, MCP, and more — ranked live against current trending data.";

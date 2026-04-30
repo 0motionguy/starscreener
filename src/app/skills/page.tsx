@@ -18,7 +18,7 @@ import { SkillsTerminalTable, type SkillSourceFilter } from "@/components/skills
 const SKILLS_ACCENT = "rgba(167, 139, 250, 0.85)";
 const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 
-export const dynamic = "force-dynamic";
+export const revalidate = 600;
 
 export const metadata: Metadata = {
   title: "Trending Skills - TrendingRepo",

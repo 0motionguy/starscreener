@@ -497,21 +497,18 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
         totalSignals={volume.totalItems}
       />
 
-      <div style={{ marginBottom: 10 }}>
-        <KpiStrip
-          totalSignals={volume.totalItems}
-          changePct={volume.changePct}
-          activeSources={activeSources}
-          totalSources={8}
-          topTag={tagMomentum.topTag?.tag ?? null}
-          topTagDelta={tagMomentum.topTag?.delta ?? null}
-          topTagCount={tagMomentum.topTag?.count ?? null}
-          consensusCount={consensusCount}
-          alphaScore={alphaScore}
-          alphaDelta={alphaDelta}
-          freshnessLabel={freshnessLabel}
-          windowLabel={activeWindowLabel}
-        />
+      <div
+        style={{
+          marginBottom: 10,
+          padding: 12,
+          fontFamily: "monospace",
+          fontSize: 11,
+          border: "1px solid var(--color-border-default)",
+        }}
+      >
+        kpi placeholder · signals={volume.totalItems} · sources={activeSources}/
+        8 · consensus={consensusCount} · alpha={alphaScore.toFixed(1)} ·
+        window={activeWindowLabel}
       </div>
 
       {/* Row 1: Volume chart + Consensus radar */}

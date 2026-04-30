@@ -518,17 +518,20 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
       {/* Row 1: Volume chart + Consensus radar */}
       <div className="grid">
         <div className="col-7">
-          <VolumeAreaChart
-            buckets={volume.buckets}
-            totalItems={volume.totalItems}
-            changePct={volume.changePct}
-            peakHour={volume.peakHour}
-            peakTotal={volume.peakTotal}
-            quietHour={volume.quietHour}
-            quietTotal={volume.quietTotal}
-            dominantSource={volume.dominantSource}
-            dominantPct={dominantPct}
-          />
+          {/* TEMP: VolumeAreaChart commented out to test if Recharts is the
+              SSR culprit. Restore once root cause is fixed. */}
+          <div
+            style={{
+              border: "1px solid var(--color-border-default)",
+              padding: 24,
+              fontFamily: "monospace",
+              fontSize: 12,
+              minHeight: 320,
+            }}
+          >
+            chart placeholder · totalItems={volume.totalItems} · peak=
+            {volume.peakTotal} · dominant={volume.dominantSource}
+          </div>
         </div>
         <div className="col-5">
           <ConsensusRadar

@@ -84,7 +84,7 @@ jobs:
         run: |
           git config user.name  "trendingrepo-bot"
           git config user.email "bot@trendingrepo.local"
-          git add .data/twitter-repo-signals.jsonl .data/twitter-scans.jsonl .data/twitter-ingestion-audit.jsonl
+          git add .data/twitter-repo-signals.jsonl .data/twitter-scans.jsonl .data/twitter-ingestion-audit.jsonl data/unknown-mentions.jsonl
           if git diff --quiet --staged; then
             echo "no changes to twitter data — skipping commit"
             exit 0

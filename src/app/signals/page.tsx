@@ -1,11 +1,11 @@
-﻿// /signals â€” V3 cross-source newsroom terminal.
+// /signals — V3 cross-source newsroom terminal.
 //
 // Replaces the older 5-source tabs shell. This page renders eight source
 // panels (HN, GitHub, X, Reddit, Bluesky, Dev.to, Claude RSS, OpenAI RSS)
 // plus four cross-source widgets:
 //   - Signal Volume chart (24h stacked area, src/lib/signals/volume.ts)
 //   - Consensus Radar (stories in 3+ sources, src/lib/signals/consensus.ts)
-//   - Tag Momentum heatmap (12 tags Ã— 24h, src/lib/signals/tag-momentum.ts)
+//   - Tag Momentum heatmap (12 tags × 24h, src/lib/signals/tag-momentum.ts)
 //   - Live ticker (cross-source highlights)
 //
 // Every panel reads through the data-store refresh pattern so cold Vercel
@@ -93,12 +93,10 @@ import { matchesTopic } from "@/lib/signals/topics";
 
 import { triggerScanIfStale } from "@/lib/news/auto-rescrape";
 
-// import "./signals.css";  // TEMP removed for bisect
+import "./signals.css";
 
-// Force dynamic â€” bypasses build-time prerender (where Vercel was 500ing
-// without surfacing the error to error.tsx). Restore ISR (revalidate=1800)
-// once the underlying issue is identified via runtime logs.
-export const dynamic = "force-dynamic";
+// ISR — same cadence as the homepage so collectors don't trigger redeploys.
+export const revalidate = 1800;
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -144,11 +142,89 @@ interface SignalsPageProps {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }
 
-export default async function SignalsPage({ searchParams }: SignalsPageProps) {
-  // Read the active source filter out of the URL. Empty / missing param â†’
-  // all 8 sources active (default). Filter applies to cross-source
-  // synthesis (consensus / volume / heatmap / ticker), NOT to per-source
-  // feed panels â€” those always render their native data.
+export default async function SignalsPage({ searchParams: _sp }: SignalsPageProps) {
+  // BISECT phase 4: simple text log, no JSX magic.
+  const lines: string[] = [];
+  async function step(name: string, fn: () => unknown | Promise<unknown>) {
+    try {
+      await fn();
+      lines.push(`OK   ${name}`);
+    } catch (err) {
+      const m = err instanceof Error ? err.message : String(err);
+      lines.push(`FAIL ${name}: ${m}`);
+    }
+  }
+
+  await step("refresh:trending", () => refreshTrendingFromStore());
+  await step("refresh:hn", () => refreshHackernewsTrendingFromStore());
+  await step("refresh:bsky", () => refreshBlueskyTrendingFromStore());
+  await step("refresh:devto", () => refreshDevtoTrendingFromStore());
+  await step("refresh:claude", () => refreshClaudeRssFromStore());
+  await step("refresh:openai", () => refreshOpenaiRssFromStore());
+  await step("getTrending", () => getTrending("past_24_hours", "All"));
+  await step("getLastFetchedAt", () => getLastFetchedAt());
+  await step("getHnTopStories", () => getHnTopStories(60));
+  await step("getAllRedditPosts", () => getAllRedditPosts());
+  await step("getBlueskyTopPosts", () => getBlueskyTopPosts(60));
+  await step("getDevtoTopArticles", () => getDevtoTopArticles(40));
+  await step("getClaudeRssTop", () => getClaudeRssTop(20));
+  await step("getOpenaiRssTop", () => getOpenaiRssTop(20));
+  await step("getTopTwitterBuzz", () => getTopTwitterBuzz(20));
+  await step("getTopTwitterPosts", () => getTopTwitterPosts(20));
+  await step("getTwitterLatestUpdatedAt", () => getTwitterLatestUpdatedAt());
+
+  // BISECT 5: synthesis layer
+  const ghRows = getTrending("past_24_hours", "All").slice(0, 50);
+  const ghFetchedAt = getLastFetchedAt();
+  const hnTop = getHnTopStories(60);
+  const redditAll = getAllRedditPosts();
+  const bskyTop = getBlueskyTopPosts(60);
+  const devtoTop = getDevtoTopArticles(40);
+  const claudeTop = getClaudeRssTop(20);
+  const openaiTop = getOpenaiRssTop(20);
+  const twPosts = getTopTwitterPosts(20);
+
+  let items: SignalItem[] = [];
+  await step("hnToSignalItems", () => {
+    items = items.concat(hnToSignalItems(hnTop));
+  });
+  await step("redditToSignalItems", () => {
+    items = items.concat(redditToSignalItems(redditAll));
+  });
+  await step("bskyToSignalItems", () => {
+    items = items.concat(bskyToSignalItems(bskyTop));
+  });
+  await step("devtoToSignalItems", () => {
+    items = items.concat(devtoToSignalItems(devtoTop));
+  });
+  await step("githubToSignalItems", () => {
+    items = items.concat(githubToSignalItems(ghRows, ghFetchedAt));
+  });
+  await step("twitterToSignalItems", () => {
+    items = items.concat(twitterToSignalItems(twPosts));
+  });
+  await step("rssToSignalItems(claude)", () => {
+    items = items.concat(rssToSignalItems(claudeTop, "claude"));
+  });
+  await step("rssToSignalItems(openai)", () => {
+    items = items.concat(rssToSignalItems(openaiTop, "openai"));
+  });
+
+  await step("buildVolume", () => buildVolume(items, { nowMs: Date.now(), lookbackHours: 24 }));
+  await step("buildTagMomentum", () => buildTagMomentum(items, { nowMs: Date.now(), topN: 12, lookbackHours: 24 }));
+  await step("buildConsensus", () => buildConsensus(items, { nowMs: Date.now(), minSources: 3, limit: 8, lookbackHours: 24 }));
+
+  lines.push(`items: ${items.length}`);
+
+  return (
+    <main style={{ padding: 24, fontFamily: "monospace", fontSize: 12 }}>
+      <h1>signals bisect — per-step</h1>
+      <pre style={{ whiteSpace: "pre-wrap" }}>{lines.join("\n")}</pre>
+    </main>
+  );
+}
+
+async function _signalsPageBody({ searchParams }: SignalsPageProps) {
   const sp = (await searchParams) ?? {};
   const srcParam = Array.isArray(sp.src) ? sp.src.join(",") : sp.src;
   const wParam = Array.isArray(sp.w) ? sp.w[0] : sp.w;
@@ -160,7 +236,7 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
   const activeWindowLabel = windowLabel(activeWindow);
 
   // Refresh every source from the data-store in parallel. None of these
-  // throw â€” they degrade silently to bundled JSON / memory when Redis is
+  // throw — they degrade silently to bundled JSON / memory when Redis is
   // unreachable.
   await Promise.all([
     refreshTrendingFromStore(),
@@ -171,7 +247,7 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
     refreshOpenaiRssFromStore(),
   ]);
 
-  // â”€â”€ Pull source records ----------------------------------------------------
+  // ── Pull source records ----------------------------------------------------
   const ghRows = getTrending("past_24_hours", "All").slice(0, 50);
   const ghFetchedAt = getLastFetchedAt();
   const hnTop = getHnTopStories(60);
@@ -184,13 +260,13 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
   const twPosts = getTopTwitterPosts(20);
   const twLatestAt = getTwitterLatestUpdatedAt();
 
-  // â”€â”€ Auto-rescrape stale sources (best-effort) -----------------------------
+  // ── Auto-rescrape stale sources (best-effort) -----------------------------
   safeTrigger("hackernews", hnFetchedAt || null);
   safeTrigger("reddit", getRedditFetchedAt());
   safeTrigger("bluesky", blueskyFetchedAt);
   safeTrigger("devto", devtoFetchedAt || null);
 
-  // â”€â”€ Build SignalItem[] across all 8 sources -------------------------------
+  // ── Build SignalItem[] across all 8 sources -------------------------------
   const items: SignalItem[] = [
     ...hnToSignalItems(hnTop),
     ...redditToSignalItems(redditAll),
@@ -202,7 +278,7 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
     ...rssToSignalItems(openaiTop, "openai"),
   ];
 
-  // â”€â”€ Cross-source synthesis -------------------------------------------------
+  // ── Cross-source synthesis -------------------------------------------------
   // The synthesis layer (volume / consensus / heatmap / ticker) operates on
   // a filtered view of items; per-source feed panels always render their
   // own native data regardless of the URL filter.
@@ -215,7 +291,7 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
       // kept so they don't disappear on shorter windows. They cluster at
       // the dataset's fetchedAt which lives inside any reasonable window.
       (it.postedAtMs === 0 || it.postedAtMs >= cutoffMs) &&
-      // Topic filter is inclusive â€” null = all topics, otherwise the
+      // Topic filter is inclusive — null = all topics, otherwise the
       // item must hit at least one of the topic's keyword patterns.
       (activeTopic === null || matchesTopic(it, activeTopic)),
   );
@@ -254,7 +330,7 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
     consensus = [...strongConsensus, ...nearConsensus].slice(0, 8);
   }
 
-  // â”€â”€ KPI calculations -------------------------------------------------------
+  // ── KPI calculations -------------------------------------------------------
   const activeSources = (Object.entries(volume.perSource) as [SourceKey, number][])
     .filter(([, n]) => n > 0).length;
 
@@ -290,7 +366,7 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
       .pop() ?? null;
   const freshnessLabel = ageLabel(freshnessIso);
 
-  // â”€â”€ Per-source feed payloads ---------------------------------------------
+  // ── Per-source feed payloads ---------------------------------------------
   const hnList: ListItem[] = hnTop.slice(0, 7).map((s) => ({
     id: `hn:${s.id}`,
     title: s.title,
@@ -298,7 +374,7 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
     external: true,
     attribution: s.by,
     age: ageLabel(new Date(s.createdUtc * 1000).toISOString()),
-    pts: `${s.score}â†‘`,
+    pts: `${s.score}↑`,
     chg: s.descendants ? `${s.descendants}c` : null,
     chgDown: false,
   }));
@@ -310,7 +386,7 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
       title: r.repo_name,
       href: `/repo/${r.repo_name}`,
       external: false,
-      attribution: r.primary_language || "â€”",
+      attribution: r.primary_language || "—",
       age: ageLabel(ghFetchedAt),
       pts: compactNumber(stars),
       chg: r.total_score ? `+${Math.round(Number(r.total_score))}` : null,
@@ -327,9 +403,9 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
       title: p.title,
       href: p.url || `https://www.reddit.com${p.permalink}`,
       external: true,
-      attribution: `r/${p.subreddit} Â· u/${p.author}`,
+      attribution: `r/${p.subreddit} · u/${p.author}`,
       age: ageLabel(new Date(p.createdUtc * 1000).toISOString()),
-      pts: `${compactNumber(p.score)}â†‘`,
+      pts: `${compactNumber(p.score)}↑`,
       chg: p.numComments ? `${p.numComments}c` : null,
       chgDown: false,
     }));
@@ -360,13 +436,13 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
       : twBuzz.slice(0, 5).map((b) => ({
           id: `xbuzz:${b.fullName}`,
           avatar: (b.repoName || b.fullName).slice(0, 2).toUpperCase(),
-          // Prefix "BUZZ Â·" so the card visually signals it's a per-repo
+          // Prefix "BUZZ ·" so the card visually signals it's a per-repo
           // aggregate, not an individual tweet. Avoids reading like a fake
           // KOL display name (would mislead the eye).
-          name: `BUZZ Â· ${b.fullName}`,
+          name: `BUZZ · ${b.fullName}`,
           handle: `${b.mentionCount24h} mentions / 24h`,
           age: ageLabel(b.updatedAt),
-          text: `${b.uniqueAuthors24h} unique authors Â· ${compactNumber(
+          text: `${b.uniqueAuthors24h} unique authors · ${compactNumber(
             b.engagementTotal,
           )} engagement total.${
             b.badgeLabel ? ` Badge: ${b.badgeLabel}.` : ""
@@ -386,7 +462,7 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
     age: ageLabel(p.createdAt),
     text: p.text || "(no text)",
     stats: [
-      { label: "â™¥", value: compactNumber(p.likeCount) },
+      { label: "♥", value: compactNumber(p.likeCount) },
       { label: "rt", value: compactNumber(p.repostCount) },
     ],
     href: p.bskyUrl || "#",
@@ -399,7 +475,7 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
     title: a.title,
     desc: a.description,
     href: a.url,
-    author: a.author?.username ?? "â€”",
+    author: a.author?.username ?? "—",
     age: ageLabel(a.publishedAt),
     reads: a.reactionsCount ? `${compactNumber(a.reactionsCount)}` : null,
   }));
@@ -430,6 +506,25 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
 
   const tickerItems: TickerItem[] = buildTickerItems(filteredItems);
 
+  // TEMP bisect: minimal render to isolate data-layer vs JSX-layer
+  // failure. If this returns 200, the data layer is fine and the bug is
+  // in one of the V3 components. If it still 500s, the data layer
+  // (imports, refresh hooks, SignalItem builders) is the culprit.
+  if (process.env.NEXT_PUBLIC_SIGNALS_BISECT !== "off") {
+    return (
+      <main style={{ padding: 24, fontFamily: "monospace" }}>
+        <h1>signals bisect — data layer reached</h1>
+        <p>items: {items.length}</p>
+        <p>filtered: {filteredItems.length}</p>
+        <p>volume.totalItems: {volume.totalItems}</p>
+        <p>consensus: {consensus.length}</p>
+        <p>tags: {tagMomentum.rows.length}</p>
+        <p>ticker: {tickerItems.length}</p>
+      </main>
+    );
+  }
+
+  // ── Render ----------------------------------------------------------------
   return (
     <main className="signals-page" style={{ padding: "14px 16px 60px" }}>
       <header
@@ -455,7 +550,7 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
             <b style={{ color: "var(--color-accent)", fontWeight: 600 }}>
               SIGNAL
             </b>{" "}
-            Â· TERMINAL Â· /SIGNALS
+            · TERMINAL · /SIGNALS
           </div>
           <h1
             style={{
@@ -481,32 +576,37 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
             }}
           >
             Eight sources, one editorial layer. Cross-source consensus
-            surfaces the stories that matter â€” everything else stays one click
+            surfaces the stories that matter — everything else stays one click
             away.
           </p>
         </div>
-        <span style={{ marginLeft: "auto", fontFamily: "monospace" }}>
-          clock placeholder
-        </span>
+        <Suspense fallback={null}>
+          <LiveClock initialIso={new Date().toISOString()} />
+        </Suspense>
       </header>
 
-      <div style={{ padding: 8, fontFamily: "monospace", fontSize: 11 }}>
-        filter placeholder · src={activeSourceFilter.size}/8 · w=
-        {activeWindow} · topic={activeTopic ?? "all"}
-      </div>
+      <SourceFilterBar
+        active={activeSourceFilter}
+        timeWindow={activeWindow}
+        topic={activeTopic}
+        totalSignals={volume.totalItems}
+      />
 
-      <div
-        style={{
-          marginBottom: 10,
-          padding: 12,
-          fontFamily: "monospace",
-          fontSize: 11,
-          border: "1px solid var(--color-border-default)",
-        }}
-      >
-        kpi placeholder · signals={volume.totalItems} · sources={activeSources}/
-        8 · consensus={consensusCount} · alpha={alphaScore.toFixed(1)} ·
-        window={activeWindowLabel}
+      <div style={{ marginBottom: 10 }}>
+        <KpiStrip
+          totalSignals={volume.totalItems}
+          changePct={volume.changePct}
+          activeSources={activeSources}
+          totalSources={8}
+          topTag={tagMomentum.topTag?.tag ?? null}
+          topTagDelta={tagMomentum.topTag?.delta ?? null}
+          topTagCount={tagMomentum.topTag?.count ?? null}
+          consensusCount={consensusCount}
+          alphaScore={alphaScore}
+          alphaDelta={alphaDelta}
+          freshnessLabel={freshnessLabel}
+          windowLabel={activeWindowLabel}
+        />
       </div>
 
       {/* Row 1: Volume chart + Consensus radar */}
@@ -535,40 +635,121 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
       <SectionHead
         num="// 03"
         title="Primary feeds"
-        meta="4 Â· sorted by velocity"
+        meta="4 · sorted by velocity"
       />
-      <div style={{ padding: 8, fontFamily: "monospace", fontSize: 11 }}>
-        primary panels placeholder · hn={hnList.length} gh={ghList.length} x=
-        {xTweetsOrBuzz.length} reddit={redditList.length}
+      <div className="grid">
+        <div className="col-3">
+          <SourceFeedPanel
+            source="hn"
+            title="HACKER NEWS"
+            countLabel={String(hnTop.length)}
+            freshLabel={`updated ${ageLabel(hnFetchedAt)}`}
+            footerHref="/hackernews/trending"
+            footerLabel={`view all ${hnTop.length}`}
+            feed={{ variant: "list", items: hnList }}
+          />
+        </div>
+        <div className="col-3">
+          <SourceFeedPanel
+            source="github"
+            title="GITHUB · TRENDING"
+            countLabel={String(ghRows.length)}
+            freshLabel={`updated ${ageLabel(ghFetchedAt)}`}
+            footerHref="/"
+            footerLabel="view trending"
+            feed={{ variant: "list", items: ghList }}
+          />
+        </div>
+        <div className="col-3">
+          <SourceFeedPanel
+            source="x"
+            title="X · KOL FEED"
+            countLabel={String(twPosts.length || twBuzz.length)}
+            freshLabel={`updated ${ageLabel(twLatestAt)}`}
+            footerHref="/"
+            footerLabel="view all"
+            feed={{ variant: "tweet", items: xTweetsOrBuzz }}
+          />
+        </div>
+        <div className="col-3">
+          <SourceFeedPanel
+            source="reddit"
+            title="REDDIT · ML/LLM"
+            countLabel={String(redditAll.length)}
+            freshLabel={`updated ${ageLabel(getRedditFetchedAt())}`}
+            footerHref="/reddit/trending"
+            footerLabel={`view all ${redditAll.length}`}
+            feed={{ variant: "list", items: redditList }}
+          />
+        </div>
       </div>
 
       <SectionHead
         num="// 04"
         title="Secondary & editorial"
-        meta="4 Â· curated"
+        meta="4 · curated"
       />
-      <div style={{ padding: 8, fontFamily: "monospace", fontSize: 11 }}>
-        secondary panels placeholder · bsky={bskyTweets.length} devto=
-        {devtoArticles.length} claude={claudeArticles.length} openai=
-        {openaiArticles.length}
+      <div className="grid">
+        <div className="col-3">
+          <SourceFeedPanel
+            source="bluesky"
+            title="BLUESKY"
+            countLabel={String(bskyTop.length)}
+            freshLabel={`updated ${ageLabel(blueskyFetchedAt)}`}
+            footerHref="/bluesky/trending"
+            footerLabel="view all"
+            feed={{ variant: "tweet", items: bskyTweets }}
+          />
+        </div>
+        <div className="col-3">
+          <SourceFeedPanel
+            source="devto"
+            title="DEV.TO"
+            countLabel={String(devtoTop.length)}
+            freshLabel={`updated ${ageLabel(devtoFetchedAt)}`}
+            footerHref="/devto"
+            footerLabel={`view all ${devtoTop.length}`}
+            feed={{ variant: "rss", items: devtoArticles }}
+          />
+        </div>
+        <div className="col-3">
+          <SourceFeedPanel
+            source="claude"
+            title="CLAUDE · RSS"
+            countLabel={String(claudeTop.length)}
+            freshLabel={`updated ${ageLabel(claudeFetchedAt())}`}
+            footerHref="https://www.anthropic.com/news"
+            footerLabel="anthropic.com/news"
+            feed={{ variant: "rss", items: claudeArticles }}
+          />
+        </div>
+        <div className="col-3">
+          <SourceFeedPanel
+            source="openai"
+            title="OPENAI · RSS"
+            countLabel={String(openaiTop.length)}
+            freshLabel={`updated ${ageLabel(openaiFetchedAt())}`}
+            footerHref="https://openai.com/news"
+            footerLabel="openai.com/news"
+            feed={{ variant: "rss", items: openaiArticles }}
+          />
+        </div>
       </div>
 
       <SectionHead
         num="// 05"
-        title="Tag momentum Â· 24h heatmap"
-        meta={`${tagMomentum.rows.length} tags Â· hourly buckets`}
+        title="Tag momentum · 24h heatmap"
+        meta={`${tagMomentum.rows.length} tags · hourly buckets`}
       />
       <TagMomentumHeatmap rows={tagMomentum.rows} />
 
-      <div style={{ padding: 16, fontFamily: "monospace", fontSize: 11 }}>
-        ticker placeholder · {tickerItems.length}
-      </div>
+      <LiveTicker items={tickerItems} />
     </main>
   );
 }
 
 // ---------------------------------------------------------------------------
-// SectionHead â€” uses existing .sec-head / .sec-num / .sec-title / .sec-meta
+// SectionHead — uses existing .sec-head / .sec-num / .sec-title / .sec-meta
 // utilities from src/app/globals.css so it inherits the project-wide mobile
 // flex-direction collapse instead of fighting it with inline styles.
 // ---------------------------------------------------------------------------
@@ -592,7 +773,7 @@ function SectionHead({
 }
 
 // ---------------------------------------------------------------------------
-// Build ticker â€” most-recent items across all sources, capped 24
+// Build ticker — most-recent items across all sources, capped 24
 // ---------------------------------------------------------------------------
 
 function buildTickerItems(items: SignalItem[]): TickerItem[] {
@@ -616,8 +797,8 @@ function buildTickerItems(items: SignalItem[]): TickerItem[] {
   return byTime.map((it) => ({
     source: it.source,
     label: SRC_LABEL[it.source],
-    text: it.title.length > 80 ? it.title.slice(0, 77) + "â€¦" : it.title,
-    value: it.engagement > 0 ? `${shortNum(it.engagement)}â†‘` : "NEW",
+    text: it.title.length > 80 ? it.title.slice(0, 77) + "…" : it.title,
+    value: it.engagement > 0 ? `${shortNum(it.engagement)}↑` : "NEW",
     down: false,
   }));
 }

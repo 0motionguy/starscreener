@@ -944,9 +944,9 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
                             marginLeft: 6,
                             color:
                               item.scores.aisoScore >= 80
-                                ? "#fbbf24"
+                                ? "var(--color-gold)"
                                 : item.scores.aisoScore >= 60
-                                  ? "#f59e0b"
+                                  ? "var(--color-warning)"
                                   : "var(--color-text-faint)",
                             fontWeight: 700,
                           }}
@@ -1478,7 +1478,7 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
             const maxDay = Math.max(...days.map(([, v]) => v.txs), 1);
             const facColor: Record<string, string> = {
               Coinbase: "#3b82f6",
-              Heurist: "#a78bfa",
+              Heurist: "var(--color-violet)",
               CodeNut: "#f59e0b",
               Thirdweb: "#34d399",
             };
@@ -1702,12 +1702,12 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
             const facColor: Record<string, string> = {
               CodeNut: "#f59e0b",
               PayAI: "#22d3ee",
-              Dexter: "#a78bfa",
+              Dexter: "var(--color-violet)",
               Bitrefill: "#fbbf24",
               RelAI: "#34d399",
               UltravioletaDAO: "#c084fc",
-              AnySpend: "#60a5fa",
-              AurraCloud: "#f472b6",
+              AnySpend: "var(--color-blue)",
+              AurraCloud: "var(--color-pink)",
               Cascade: "#38bdf8",
               Corbits: "#fb7185",
               Daydreams: "#a3e635",
@@ -1940,7 +1940,7 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
             const totalVol = facEntries.reduce((acc, [, v]) => acc + v, 0);
             const facColor: Record<string, string> = {
               Coinbase: "#3b82f6",
-              Heurist: "#a78bfa",
+              Heurist: "var(--color-violet)",
               CodeNut: "#f59e0b",
               Thirdweb: "#34d399",
             };

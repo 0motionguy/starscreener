@@ -34,8 +34,10 @@ import {
 } from "./_tracked-repos.mjs";
 import {
   extractAllRepoMentions,
+  extractUnknownRepoCandidates,
   normalizeGithubFullName,
 } from "./_github-repo-links.mjs";
+import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 
 function slugIdFromFullName(fullName) {
@@ -179,7 +181,7 @@ async function loadTrackedRepos() {
 // Shape helpers
 // ---------------------------------------------------------------------------
 
-export function normalizeFirebaseItem(item, tracked, nowSec) {
+export function normalizeFirebaseItem(item, tracked, nowSec, unknownsAccumulator) {
   // Normalize a Firebase /item/{id}.json object into the internal shape
   // we persist. Returns null for items we don't care about (jobs, polls,
   // dead/deleted stories).
@@ -207,6 +209,11 @@ export function normalizeFirebaseItem(item, tracked, nowSec) {
     matchType: "url",
     confidence: 1.0,
   }));
+  if (unknownsAccumulator) {
+    for (const u of extractUnknownRepoCandidates(textBlob, tracked)) {
+      unknownsAccumulator.add(u);
+    }
+  }
 
   const classification = classifyPost({
     title,
@@ -234,7 +241,7 @@ export function normalizeFirebaseItem(item, tracked, nowSec) {
   };
 }
 
-export function normalizeAlgoliaHit(hit, tracked, nowSec) {
+export function normalizeAlgoliaHit(hit, tracked, nowSec, unknownsAccumulator) {
   // Algolia's story object uses different field names than Firebase:
   // objectID (string) vs id (number), points vs score, num_comments vs
   // descendants, created_at_i vs time, story_text vs text.
@@ -259,6 +266,11 @@ export function normalizeAlgoliaHit(hit, tracked, nowSec) {
     matchType: "url",
     confidence: 1.0,
   }));
+  if (unknownsAccumulator) {
+    for (const u of extractUnknownRepoCandidates(textBlob, tracked)) {
+      unknownsAccumulator.add(u);
+    }
+  }
 
   const classification = classifyPost({
     title,
@@ -304,6 +316,10 @@ async function main() {
   const trendingCutoff = nowSec - TRENDING_WINDOW_SECONDS;
   const mentionsCutoff = nowSec - MENTIONS_WINDOW_SECONDS;
 
+  // F3: accumulate untracked github.com/<owner>/<repo> candidates seen in
+  // both passes so the unknown-mentions lake can promote new repos later.
+  const unknownsAccumulator = new Set();
+
   // --------- Firebase: top 500 stories ---------
   log("fetching topstories.json from Firebase…");
   const topIds = await fetchTopStoryIds();
@@ -328,7 +344,7 @@ async function main() {
   // without the cross-signal boost.
   const trendingStories = [];
   for (const item of rawItems) {
-    const n = normalizeFirebaseItem(item, tracked, nowSec);
+    const n = normalizeFirebaseItem(item, tracked, nowSec, unknownsAccumulator);
     if (!n) continue;
     if (n.createdUtc < trendingCutoff) continue;
     n.everHitFrontPage = frontPageIdSet.has(n.id);
@@ -345,7 +361,7 @@ async function main() {
 
   const algoliaStories = [];
   for (const hit of algoliaHits) {
-    const n = normalizeAlgoliaHit(hit, tracked, nowSec);
+    const n = normalizeAlgoliaHit(hit, tracked, nowSec, unknownsAccumulator);
     if (!n) continue;
     if (n.createdUtc < mentionsCutoff) continue;
     // Cross-reference: an Algolia hit currently sitting in the top
@@ -457,6 +473,13 @@ async function main() {
     ),
     leaderboard,
   };
+
+  if (unknownsAccumulator.size > 0) {
+    await appendUnknownMentions(
+      Array.from(unknownsAccumulator, (fullName) => ({ source: "hackernews", fullName })),
+    );
+    log(`unknown candidates: ${unknownsAccumulator.size}`);
+  }
 
   await mkdir(DATA_DIR, { recursive: true });
   await writeFile(TRENDING_OUT, JSON.stringify(trendingPayload, null, 2) + "\n", "utf8");

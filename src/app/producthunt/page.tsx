@@ -1,13 +1,10 @@
-// /producthunt — full ProductHunt launches view.
+// /producthunt — V4 SourceFeedTemplate consumer.
 //
-// Mirrors the structural/visual rhythm of /hackernews/trending: header strip,
-// 4 stat tiles, list below. Renders the top 50 AI-adjacent launches from the
-// last 7-day window, ordered by votes desc. The compact 10-row tab inside
-// /news?tab=producthunt is the morning glance — this page is the deep dive.
-//
-// Server component + force-static: data comes from the producthunt loader,
-// which reads committed JSON, so every request is identical until the next
-// scrape lands.
+// Top 50 PH launches in the last 7 days, ordered by votes desc. AI vs All
+// tabs share the same source JSON; "AI" filters via the aiAdjacent flag,
+// "All" shows everything. Template provides PageHead + KpiBand snapshot +
+// list slot; the existing LaunchFeed / CrossLinkedReposPanel / TabNav
+// render inside the list slot unchanged.
 
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -20,13 +17,15 @@ import {
   producthuntCold,
   refreshProducthuntLaunchesFromStore,
   type Launch,
-  type ProductHuntFile,
 } from "@/lib/producthunt";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
-import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
-import { buildProductHuntHeader } from "@/components/news/newsTopMetrics";
 
-const PH_ACCENT = "rgba(218, 85, 47, 0.85)";
+// V4 (CORPUS) primitives.
+import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
+import { KpiBand } from "@/components/ui/KpiBand";
+import { LiveDot } from "@/components/ui/LiveDot";
+
+const PH_RED = "#DA552F";
 
 type PhTab = "ai" | "all";
 const VALID_TABS: PhTab[] = ["ai", "all"];
@@ -39,10 +38,9 @@ function parseTab(raw: string | string[] | undefined): PhTab {
     : DEFAULT_TAB;
 }
 
-// ISR with 10-min revalidate. Each `?tab=...` variant gets its own
-// cache entry (ISR keys by URL incl. query string), so tab switching
-// still works while popular tabs serve from edge cache instead of
-// rebuilding per request. Underlying data is committed JSON.
+// ISR with 10-min revalidate. Each `?tab=...` variant gets its own cache
+// entry (ISR keys by URL incl. query string), so tab switching still works
+// while popular tabs serve from edge cache.
 export const revalidate = 600;
 
 export const metadata: Metadata = {
@@ -50,8 +48,6 @@ export const metadata: Metadata = {
   description:
     "Daily ProductHunt launches scored by votes/comments, cross-linked to GitHub repos when the maker mentions one.",
 };
-
-const PH_RED = "#DA552F";
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -69,6 +65,11 @@ function formatRelative(iso: string | null | undefined): string {
   if (hours < 24) return `${hours}h ago`;
   const days = Math.floor(hours / 24);
   return `${days}d ago`;
+}
+
+function formatClock(iso: string | undefined): string {
+  if (!iso) return "warming";
+  return new Date(iso).toISOString().slice(11, 19);
 }
 
 // ---------------------------------------------------------------------------
@@ -92,10 +93,6 @@ export default async function ProductHuntPage({
   const all7d = getRecentLaunches(7);
   const ai7d = getAiLaunches(7);
   const current = activeTab === "ai" ? ai7d : all7d;
-
-  // Only `current` (the filtered tab feed) and `topLaunches` are read
-  // below now that the legacy stat tiles are gone. The 24h/linked-repo
-  // counts are exposed by the V3 snapshot card via the builder math.
   const cold = producthuntCold;
 
   // Top 50 of the current tab, sorted by votes desc. Getter preserves
@@ -104,58 +101,105 @@ export default async function ProductHuntPage({
     .sort((a, b) => b.votesCount - a.votesCount)
     .slice(0, 50);
 
-  return (
-    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
-      <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        {cold ? (
-          <ColdState />
-        ) : (
-          <>
-            {/* V3 top header — 3 charts + 3 hero launches. Reflects the
-                currently-selected tab (`ai` or `all`) by passing a file-
-                shaped wrapper around `current` so the metric math sees
-                only what the user is actually looking at. */}
-            <div className="mb-6">
-              <NewsTopHeaderV3
-                routeTitle={`PRODUCTHUNT · ${activeTab === "ai" ? "AI LAUNCHES" : "ALL LAUNCHES"}`}
-                liveLabel="LIVE · 7D"
-                eyebrow="// PRODUCTHUNT · LIVE FIREHOSE"
-                meta={[
-                  { label: "TRACKED", value: current.length.toLocaleString("en-US") },
-                  { label: "WINDOW", value: "7D" },
-                ]}
-                {...buildProductHuntHeader(
-                  ({ launches: current } as Pick<ProductHuntFile, "launches">) as ProductHuntFile,
-                  topLaunches.slice(0, 3),
-                )}
-                accent={PH_ACCENT}
-                caption={[
-                  "// LAYOUT compact-v1",
-                  "· 3-COL · 320 / 1FR / 1FR",
-                  "· DATA UNCHANGED",
-                ]}
-              />
-            </div>
+  // Pull lastFetchedAt off the loader's getter — we don't need to import
+  // the file shape directly because getPhFile() drives off the same cache.
+  // The clock value is fine to fall back to "warming" when the store is cold.
+  const fetchedAt = !cold ? topLaunches[0]?.createdAt : undefined;
 
-            {/* Tab nav — AI Launches (filtered) vs All (full PH feed) */}
-            <div className="mb-6">
+  if (cold) {
+    return (
+      <main className="home-surface">
+        <SourceFeedTemplate
+          crumb={
+            <>
+              <b>PH</b> · TERMINAL · /PRODUCTHUNT
+            </>
+          }
+          title="ProductHunt · launches"
+          lede="Top launches in the last 7 days, ordered by votes desc. AI tab filters to llm / agent / mcp / skill / rag adjacent products; All tab shows the full PH feed."
+        />
+        <ColdState />
+      </main>
+    );
+  }
+
+  // KpiBand math.
+  const topVotes = current.reduce((m, l) => Math.max(m, l.votesCount), 0);
+  const makerSet = new Set<string>();
+  for (const l of current) {
+    for (const m of l.makers ?? []) {
+      if (m.username) makerSet.add(m.username.toLowerCase());
+    }
+  }
+  const makerCount = makerSet.size;
+  const ghLinkedCount = current.filter((l) => Boolean(l.linkedRepo)).length;
+
+  return (
+    <main className="home-surface">
+      <SourceFeedTemplate
+        crumb={
+          <>
+            <b>PH</b> · TERMINAL · /PRODUCTHUNT
+          </>
+        }
+        title={`ProductHunt · ${activeTab === "ai" ? "AI launches" : "all launches"}`}
+        lede="Top launches in the last 7 days, ordered by votes desc. AI tab filters to llm / agent / mcp / skill / rag adjacent products; All tab shows the full PH feed."
+        clock={
+          <>
+            <span className="big">{formatClock(fetchedAt)}</span>
+            <span className="muted">UTC · LATEST POST</span>
+            <LiveDot label="LIVE · 7D" />
+          </>
+        }
+        snapshot={
+          <KpiBand
+            cells={[
+              {
+                label: "TRACKED",
+                value: current.length.toLocaleString("en-US"),
+                sub: "7d rolling",
+                pip: PH_RED,
+              },
+              {
+                label: "TOP VOTES",
+                value: topVotes.toLocaleString("en-US"),
+                sub: "engagement peak",
+                tone: "acc",
+                pip: "var(--v4-acc)",
+              },
+              {
+                label: "MAKERS",
+                value: makerCount.toLocaleString("en-US"),
+                sub: "unique shippers",
+                tone: "money",
+                pip: "var(--v4-money)",
+              },
+              {
+                label: "GH-LINKED",
+                value: ghLinkedCount,
+                sub: "launches w/ repo",
+                pip: "var(--v4-blue)",
+              },
+            ]}
+          />
+        }
+        listEyebrow={`Launch feed · top 50 by votes (${activeTab === "ai" ? "AI" : "ALL"})`}
+        list={
+          <>
+            <div className="mb-4">
               <TabNav active={activeTab} aiCount={ai7d.length} allCount={all7d.length} />
             </div>
-
-            {/* Main feed */}
             {topLaunches.length > 0 ? (
               <>
                 <LaunchFeed launches={topLaunches} />
-
-                {/* Cross-linked repos panel — only when at least one match */}
                 <CrossLinkedReposPanel launches={current} />
               </>
             ) : (
               <EmptyState tab={activeTab} />
             )}
           </>
-        )}
-      </div>
+        }
+      />
     </main>
   );
 }
@@ -407,22 +451,39 @@ function CrossLinkedReposPanel({ launches }: { launches: Launch[] }) {
   );
 }
 
+// ---------------------------------------------------------------------------
+// Cold-state + empty fallback
+// ---------------------------------------------------------------------------
 
 function ColdState() {
   return (
-    <section className="border border-dashed border-border-primary rounded-md p-8 bg-bg-secondary/40">
+    <section
+      style={{
+        padding: 32,
+        background: "var(--v4-bg-025)",
+        border: "1px dashed var(--v4-line-100)",
+        borderRadius: 2,
+      }}
+    >
       <h2
-        className="text-lg font-bold uppercase tracking-wider"
-        style={{ color: PH_RED }}
+        className="v2-mono"
+        style={{
+          color: PH_RED,
+          fontSize: 18,
+          fontWeight: 700,
+          textTransform: "uppercase",
+          letterSpacing: "0.18em",
+        }}
       >
         {"// no producthunt data yet"}
       </h2>
-      <p className="mt-3 text-sm text-text-secondary max-w-xl">
+      <p style={{ marginTop: 12, maxWidth: "32rem", fontSize: 13, color: "var(--v4-ink-300)" }}>
         No ProductHunt launches loaded. Set{" "}
-        <code className="text-text-primary">PRODUCTHUNT_TOKEN</code> and run{" "}
-        <code className="text-text-primary">npm run scrape:ph</code> locally to
-        populate{" "}
-        <code className="text-text-primary">data/producthunt-launches.json</code>
+        <code style={{ color: "var(--v4-ink-100)" }}>PRODUCTHUNT_TOKEN</code>{" "}
+        and run{" "}
+        <code style={{ color: "var(--v4-ink-100)" }}>npm run scrape:ph</code>{" "}
+        locally to populate{" "}
+        <code style={{ color: "var(--v4-ink-100)" }}>data/producthunt-launches.json</code>
         , then refresh this page.
       </p>
     </section>
@@ -435,14 +496,29 @@ function EmptyState({ tab }: { tab: PhTab }) {
       ? "The ProductHunt scrape completed, but no launches matched the AI-adjacent 7-day filter. Try the All Launches tab for the full PH feed."
       : "The ProductHunt scrape completed, but returned zero launches in the last 7 days. Fresh empty data, not a missing token or failed scraper run.";
   return (
-    <section className="border border-dashed border-border-primary rounded-md p-8 bg-bg-secondary/40">
+    <section
+      style={{
+        padding: 32,
+        background: "var(--v4-bg-025)",
+        border: "1px dashed var(--v4-line-100)",
+        borderRadius: 2,
+      }}
+    >
       <h2
-        className="text-lg font-bold uppercase tracking-wider"
-        style={{ color: PH_RED }}
+        className="v2-mono"
+        style={{
+          color: PH_RED,
+          fontSize: 18,
+          fontWeight: 700,
+          textTransform: "uppercase",
+          letterSpacing: "0.18em",
+        }}
       >
         {"// no matching launches in this window"}
       </h2>
-      <p className="mt-3 text-sm text-text-secondary max-w-xl">{body}</p>
+      <p style={{ marginTop: 12, maxWidth: "32rem", fontSize: 13, color: "var(--v4-ink-300)" }}>
+        {body}
+      </p>
     </section>
   );
 }
@@ -473,7 +549,7 @@ function TabNav({
   return (
     <nav
       aria-label="ProductHunt tabs"
-      className="mb-6 flex items-center gap-1 border-b border-border-primary overflow-x-auto scrollbar-hide"
+      className="flex items-center gap-1 border-b border-border-primary overflow-x-auto scrollbar-hide"
     >
       {tabs.map((t) => {
         const isActive = t.id === active;

@@ -1,12 +1,12 @@
-// /huggingface/datasets — domain-scored Hugging Face dataset feed.
+// /huggingface/datasets — V4 SourceFeedTemplate consumer.
 //
-// Reads `huggingface-datasets` Redis payload (populated by
-// scripts/scrape-huggingface-datasets.mjs) through the new domain
-// pipeline:
+// Domain-scored Hugging Face dataset feed (top 100). Reads
+// `huggingface-datasets` Redis payload via the data-store and runs the
+// new domain pipeline:
 //   hfDatasetScorer.computeRaw() → computeCrossDomainMomentum() → top 100
 //
-// Mirrors /huggingface/trending visually: NewsTopHeaderV3 strip + a dense
-// TerminalFeedTable below. ISR-cached at 30 min per project convention.
+// Template provides PageHead + KpiBand snapshot + list slot. The dense
+// TerminalFeedTable renders inside the list slot unchanged.
 
 import {
   getHfDatasetsTrending,
@@ -14,11 +14,7 @@ import {
   refreshHfDatasetsFromStore,
   type HfDatasetTrending,
 } from "@/lib/hf-datasets";
-import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
-import {
-  applyCompactV1,
-  compactNumber,
-} from "@/components/news/newsTopMetrics";
+import { compactNumber } from "@/components/news/newsTopMetrics";
 import {
   TerminalFeedTable,
   type FeedColumn,
@@ -26,8 +22,12 @@ import {
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { huggingFaceLogoUrl } from "@/lib/logos";
 
-const HF_ACCENT = "rgba(255, 159, 28, 0.85)";
-const HF_ACCENT_BAR = "#FF9F1C";
+// V4 (CORPUS) primitives.
+import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
+import { KpiBand } from "@/components/ui/KpiBand";
+import { LiveDot } from "@/components/ui/LiveDot";
+
+const HF_ACCENT_BAR = "#FFD21E"; // HF brand yellow
 
 export const dynamic = "force-static";
 export const revalidate = 1800; // 30 min
@@ -42,154 +42,101 @@ function formatAgeIso(iso: string | null | undefined, nowMs: number): string {
   return `${Math.round(hours / 24)}d`;
 }
 
+function formatClock(iso: string | undefined): string {
+  if (!iso) return "warming";
+  return new Date(iso).toISOString().slice(11, 19);
+}
+
 export default async function HuggingFaceDatasetsPage() {
   await refreshHfDatasetsFromStore();
   const file = getHfDatasetsFile();
   const datasets = getHfDatasetsTrending(100);
-  const cold = (file.datasets ?? []).length === 0;
+  const allDatasets = file.datasets ?? [];
+  const cold = allDatasets.length === 0;
 
-  return (
-    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
-      <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        {cold ? (
-          <ColdState />
-        ) : (
-          <>
-            <div className="mb-6">
-              <NewsTopHeaderV3
-                routeTitle="HUGGINGFACE · DATASETS"
-                liveLabel="LIVE · 30M"
-                eyebrow="// HUGGINGFACE · DATASETS"
-                meta={[
-                  {
-                    label: "TRACKED",
-                    value: (file.datasets?.length ?? 0).toLocaleString("en-US"),
-                  },
-                  { label: "TOP", value: String(datasets.length) },
-                ]}
-                {...buildHuggingFaceDatasetsHeader(file.datasets ?? [], datasets)}
-                accent={HF_ACCENT}
-                caption={[
-                  "// LAYOUT compact-v1",
-                  "· DOMAIN hf-dataset",
-                  "· SCORER weeklyDownloads + recency",
-                ]}
-              />
-            </div>
+  if (cold) {
+    return (
+      <main className="home-surface">
+        <SourceFeedTemplate
+          crumb={
+            <>
+              <b>HF</b> · TERMINAL · /HUGGINGFACE · DATASETS
+            </>
+          }
+          title="Hugging Face · datasets"
+          lede="Top datasets ranked by domain-scored momentum. Weekly downloads + recency drive ranking through hfDatasetScorer + computeCrossDomainMomentum."
+        />
+        <ColdState />
+      </main>
+    );
+  }
 
-            <HfDatasetFeed datasets={datasets} />
-          </>
-        )}
-      </div>
-    </main>
-  );
-}
-
-// ---------------------------------------------------------------------------
-// Header builder
-// ---------------------------------------------------------------------------
-
-function buildHuggingFaceDatasetsHeader(
-  raws: { downloads: number; likes: number; tags: string[]; author: string }[],
-  scored: HfDatasetTrending[],
-) {
-  const totalDownloads = raws.reduce((s, d) => s + (d.downloads ?? 0), 0);
-  const totalLikes = raws.reduce((s, d) => s + (d.likes ?? 0), 0);
-  const topDownloads = raws.reduce(
-    (m, r) => Math.max(m, r.downloads ?? 0),
+  const topDownloads = allDatasets.reduce(
+    (m, d) => Math.max(m, d.downloads ?? 0),
     0,
   );
+  const totalLikes = allDatasets.reduce((s, d) => s + (d.likes ?? 0), 0);
+  const nowMs = Date.now();
+  const weekMs = 7 * 24 * 3_600_000;
+  const newThisWeek = allDatasets.filter((d) => {
+    const t = Date.parse(d.createdAt ?? "");
+    return Number.isFinite(t) && nowMs - t < weekMs;
+  }).length;
 
-  // Tag distribution (top 6) — substitutes for "topics" panel.
-  const tagCounts = new Map<string, number>();
-  for (const r of raws) {
-    for (const t of r.tags ?? []) {
-      tagCounts.set(t, (tagCounts.get(t) ?? 0) + 1);
-    }
-  }
-  const tagBars = Array.from(tagCounts.entries())
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 6)
-    .map(([tag, count], i) => ({
-      label: tag.toUpperCase(),
-      value: count,
-      valueLabel: count.toLocaleString("en-US"),
-      color: ["#FF9F1C", "#F472B6", "#3AD6C5", "#A78BFA", "#34D399", "#FBBF24"][i % 6],
-    }));
-
-  // Top authors (top 6 by appearance count).
-  const authorCounts = new Map<string, number>();
-  for (const r of raws) {
-    const a = r.author ?? "unknown";
-    authorCounts.set(a, (authorCounts.get(a) ?? 0) + 1);
-  }
-  const authorBars = Array.from(authorCounts.entries())
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 6)
-    .map(([author, count]) => ({
-      label: author.toUpperCase(),
-      value: count,
-      valueLabel: count.toLocaleString("en-US"),
-      color: HF_ACCENT_BAR,
-      logoUrl: huggingFaceLogoUrl(),
-      logoName: author,
-    }));
-
-  const cards = applyCompactV1(
-    [
-      {
-        variant: "snapshot",
-        title: "// SNAPSHOT · NOW",
-        rightLabel: `${raws.length} DATASETS`,
-        label: "DATASETS TRACKED",
-        value: compactNumber(raws.length),
-        hint: `${tagCounts.size} TAGS`,
-        rows: [
-          { label: "TOTAL DOWNLOADS", value: compactNumber(totalDownloads) },
-          {
-            label: "TOP DOWNLOADS",
-            value: compactNumber(topDownloads),
-            tone: "accent",
-          },
-          { label: "TOTAL LIKES", value: compactNumber(totalLikes) },
-        ],
-      },
-      {
-        variant: "bars",
-        title: "// AUTHORS · TOP 6",
-        rightLabel: `${authorBars.length}`,
-        bars: authorBars,
-        labelWidth: 96,
-        emptyText: "NO AUTHORS YET",
-      },
-      {
-        variant: "bars",
-        title: "// TAGS · MIX",
-        rightLabel: `TOP ${tagBars.length}`,
-        bars: tagBars,
-        labelWidth: 96,
-        emptyText: "NO TAGS YET",
-      },
-    ],
-    { totalItems: raws.length },
+  return (
+    <main className="home-surface">
+      <SourceFeedTemplate
+        crumb={
+          <>
+            <b>HF</b> · TERMINAL · /HUGGINGFACE · DATASETS
+          </>
+        }
+        title="Hugging Face · datasets"
+        lede="Top datasets ranked by domain-scored momentum. Weekly downloads + recency drive ranking through hfDatasetScorer + computeCrossDomainMomentum."
+        clock={
+          <>
+            <span className="big">{formatClock(file.fetchedAt)}</span>
+            <span className="muted">UTC · SCRAPED</span>
+            <LiveDot label="LIVE · 30M" />
+          </>
+        }
+        snapshot={
+          <KpiBand
+            cells={[
+              {
+                label: "DATASETS",
+                value: allDatasets.length.toLocaleString("en-US"),
+                sub: "tracked",
+                pip: HF_ACCENT_BAR,
+              },
+              {
+                label: "TOP DOWNLOADS",
+                value: compactNumber(topDownloads),
+                sub: "peak dataset",
+                tone: "acc",
+                pip: "var(--v4-acc)",
+              },
+              {
+                label: "NEW THIS WEEK",
+                value: newThisWeek.toLocaleString("en-US"),
+                sub: "created <7d",
+                tone: "money",
+                pip: "var(--v4-money)",
+              },
+              {
+                label: "LIKES",
+                value: compactNumber(totalLikes),
+                sub: "total ♥",
+                pip: "var(--v4-blue)",
+              },
+            ]}
+          />
+        }
+        listEyebrow="Dataset feed · top 100 by momentum"
+        list={<HfDatasetFeed datasets={datasets} />}
+      />
+    </main>
   );
-
-  // Hero stories — top 3 datasets by momentum.
-  const topStories = scored.slice(0, 3).map((d) => ({
-    title: d.id,
-    href: d.url,
-    external: true,
-    sourceCode: "HF",
-    byline: d.tags?.[0] ?? undefined,
-    scoreLabel: `${compactNumber(d.downloads ?? 0)} dl · ${compactNumber(d.likes ?? 0)} ♥`,
-    ageHours: d.lastModified
-      ? Math.max(0, (Date.now() - Date.parse(d.lastModified)) / 3_600_000)
-      : null,
-    logoUrl: huggingFaceLogoUrl(),
-    logoName: d.author ?? d.id,
-  }));
-
-  return { cards, topStories };
 }
 
 // ---------------------------------------------------------------------------
@@ -207,7 +154,7 @@ function HfDatasetFeed({ datasets }: { datasets: HfDatasetTrending[] }) {
       render: (_, i) => (
         <span
           className="font-mono text-[12px] tabular-nums font-semibold"
-          style={{ color: i < 10 ? HF_ACCENT_BAR : "var(--v3-ink-400)" }}
+          style={{ color: i < 10 ? HF_ACCENT_BAR : "var(--v4-ink-400)" }}
         >
           {String(i + 1).padStart(2, "0")}
         </span>
@@ -229,8 +176,8 @@ function HfDatasetFeed({ datasets }: { datasets: HfDatasetTrending[] }) {
             href={d.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="truncate text-[13px] font-medium transition-colors hover:text-[color:var(--v3-acc)]"
-            style={{ color: "var(--v3-ink-100)" }}
+            className="truncate text-[13px] font-medium transition-colors hover:text-[color:var(--v4-acc)]"
+            style={{ color: "var(--v4-ink-100)" }}
             title={d.id}
           >
             {d.id}
@@ -247,7 +194,7 @@ function HfDatasetFeed({ datasets }: { datasets: HfDatasetTrending[] }) {
         <span
           className="font-mono text-[12px] tabular-nums"
           style={{
-            color: (d.downloads ?? 0) >= 100_000 ? HF_ACCENT_BAR : "var(--v3-ink-100)",
+            color: (d.downloads ?? 0) >= 100_000 ? HF_ACCENT_BAR : "var(--v4-ink-100)",
           }}
         >
           {compactNumber(d.downloads ?? 0)}
@@ -263,7 +210,7 @@ function HfDatasetFeed({ datasets }: { datasets: HfDatasetTrending[] }) {
       render: (d) => (
         <span
           className="font-mono text-[12px] tabular-nums"
-          style={{ color: "var(--v3-ink-300)" }}
+          style={{ color: "var(--v4-ink-300)" }}
         >
           {compactNumber(d.likes ?? 0)}
         </span>
@@ -285,7 +232,7 @@ function HfDatasetFeed({ datasets }: { datasets: HfDatasetTrending[] }) {
       render: (d) => (
         <span
           className="font-mono text-[12px] tabular-nums"
-          style={{ color: "var(--v3-ink-400)" }}
+          style={{ color: "var(--v4-ink-400)" }}
         >
           {formatAgeIso(d.lastModified ?? d.createdAt, nowMs)}
         </span>
@@ -312,7 +259,7 @@ function MomentumBar({ value, accent }: { value: number; accent: string }) {
         className="flex-1"
         style={{
           height: 6,
-          background: "var(--v3-bg-100)",
+          background: "var(--v4-bg-100)",
           borderRadius: 1,
           overflow: "hidden",
           minWidth: 40,
@@ -329,7 +276,7 @@ function MomentumBar({ value, accent }: { value: number; accent: string }) {
       </div>
       <span
         className="font-mono text-[10px] tabular-nums shrink-0"
-        style={{ color: "var(--v3-ink-300)", width: 24, textAlign: "right" }}
+        style={{ color: "var(--v4-ink-300)", width: 24, textAlign: "right" }}
       >
         {Math.round(pct)}
       </span>
@@ -338,35 +285,38 @@ function MomentumBar({ value, accent }: { value: number; accent: string }) {
 }
 
 // ---------------------------------------------------------------------------
-// Cold state
+// Cold-state fallback
 // ---------------------------------------------------------------------------
 
 function ColdState() {
   return (
     <section
-      className="p-8"
       style={{
-        background: "var(--v3-bg-025)",
-        border: "1px dashed var(--v3-line-100)",
+        padding: 32,
+        background: "var(--v4-bg-025)",
+        border: "1px dashed var(--v4-line-100)",
         borderRadius: 2,
       }}
     >
       <h2
-        className="v2-mono text-lg font-bold uppercase tracking-[0.18em]"
-        style={{ color: HF_ACCENT_BAR }}
+        className="v2-mono"
+        style={{
+          color: HF_ACCENT_BAR,
+          fontSize: 18,
+          fontWeight: 700,
+          textTransform: "uppercase",
+          letterSpacing: "0.18em",
+        }}
       >
         {"// no data yet"}
       </h2>
-      <p
-        className="mt-3 max-w-xl text-sm"
-        style={{ color: "var(--v3-ink-300)" }}
-      >
+      <p style={{ marginTop: 12, maxWidth: "32rem", fontSize: 13, color: "var(--v4-ink-300)" }}>
         The Hugging Face datasets scraper hasn&apos;t run yet. Run{" "}
-        <code style={{ color: "var(--v3-ink-100)" }}>
+        <code style={{ color: "var(--v4-ink-100)" }}>
           node scripts/scrape-huggingface-datasets.mjs
         </code>{" "}
         locally to populate{" "}
-        <code style={{ color: "var(--v3-ink-100)" }}>
+        <code style={{ color: "var(--v4-ink-100)" }}>
           data/huggingface-datasets.json
         </code>
         , then refresh this page.

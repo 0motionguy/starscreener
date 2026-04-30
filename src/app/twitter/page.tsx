@@ -1,3 +1,9 @@
+// /twitter — V4 SourceFeedTemplate consumer.
+//
+// Trending repos with X/Twitter mentions in the last 24 hours, scored by the
+// Apify-backed signal pipeline. Two tabs: trending pipeline overlap vs. the
+// global X score.
+
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -13,10 +19,13 @@ import {
   getTwitterOverviewStats,
   getTwitterTrendingRepoLeaderboard,
 } from "@/lib/twitter/service";
-import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
-import { buildTwitterHeader } from "@/components/twitter/twitterTopMetrics";
 
-const TWITTER_ACCENT = "rgba(29, 155, 240, 0.85)";
+// V4 (CORPUS) primitives.
+import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
+import { KpiBand } from "@/components/ui/KpiBand";
+import { LiveDot } from "@/components/ui/LiveDot";
+
+const X_BLUE = "var(--v4-src-x)";
 
 export const revalidate = 300;
 
@@ -34,11 +43,16 @@ function parseTwitterTab(raw: string | string[] | undefined): TwitterTab {
   return candidate === "global" ? "global" : "trending";
 }
 
+function formatClock(iso: string | undefined | null): string {
+  if (!iso) return "warming";
+  return new Date(iso).toISOString().slice(11, 19);
+}
+
 const AUTHOR_BUBBLE_TONES = [
   {
-    backgroundColor: "rgba(29, 155, 240, 0.16)",
-    borderColor: "rgba(29, 155, 240, 0.36)",
-    color: "#8fd2ff",
+    backgroundColor: "rgba(122, 167, 255, 0.16)",
+    borderColor: "rgba(122, 167, 255, 0.36)",
+    color: "#bcd2ff",
   },
   {
     backgroundColor: "rgba(16, 185, 129, 0.16)",
@@ -97,9 +111,9 @@ function RepoActionLinks({ row }: { row: TwitterLeaderboardRow }) {
           rel="noopener noreferrer"
           className="inline-flex h-6 w-6 items-center justify-center rounded-full transition-colors"
           style={{
-            border: "1px solid var(--v3-line-200)",
-            background: "var(--v3-bg-100)",
-            color: "var(--v3-ink-400)",
+            border: "1px solid var(--v4-line-200)",
+            background: "var(--v4-bg-100)",
+            color: "var(--v4-ink-400)",
           }}
           aria-label={`Open the strongest X mention for ${row.githubFullName}`}
           title={`Open the strongest X mention for ${row.githubFullName}`}
@@ -124,9 +138,9 @@ function RepoActionLinks({ row }: { row: TwitterLeaderboardRow }) {
           rel="noopener noreferrer"
           className="inline-flex h-6 w-6 items-center justify-center rounded-full transition-colors"
           style={{
-            border: "1px solid var(--v3-line-200)",
-            background: "var(--v3-bg-100)",
-            color: "var(--v3-ink-400)",
+            border: "1px solid var(--v4-line-200)",
+            background: "var(--v4-bg-100)",
+            color: "var(--v4-ink-400)",
           }}
           aria-label={
             row.homepageUrl
@@ -218,12 +232,11 @@ function TwitterTabNav({
     },
   ];
 
-  const TWITTER_BLUE = "#1d9bf0";
   return (
     <nav
       aria-label="Twitter leaderboard tabs"
       className="mb-6 flex items-center gap-1 overflow-x-auto scrollbar-hide"
-      style={{ borderBottom: "1px solid var(--v3-line-100)" }}
+      style={{ borderBottom: "1px solid var(--v4-line-100)" }}
     >
       {tabs.map((tab) => {
         const isActive = tab.id === activeTab;
@@ -234,9 +247,9 @@ function TwitterTabNav({
             aria-current={isActive ? "page" : undefined}
             className="v2-mono inline-flex min-h-[40px] shrink-0 items-center gap-2 px-3 text-[11px] uppercase tracking-[0.18em] transition-colors"
             style={{
-              color: isActive ? "var(--v3-ink-100)" : "var(--v3-ink-400)",
+              color: isActive ? "var(--v4-ink-100)" : "var(--v4-ink-400)",
               borderBottom: isActive
-                ? `2px solid ${TWITTER_BLUE}`
+                ? `2px solid ${X_BLUE}`
                 : "2px solid transparent",
             }}
           >
@@ -244,9 +257,9 @@ function TwitterTabNav({
             <span
               className="inline-flex h-[18px] min-w-[22px] items-center justify-center px-1 text-[10px] tabular-nums"
               style={{
-                border: "1px solid var(--v3-line-200)",
-                background: "var(--v3-bg-100)",
-                color: "var(--v3-ink-400)",
+                border: "1px solid var(--v4-line-200)",
+                background: "var(--v4-bg-100)",
+                color: "var(--v4-ink-400)",
                 borderRadius: 2,
               }}
             >
@@ -277,229 +290,329 @@ export default async function TwitterPage({
     getTwitterOverviewStats(),
   ]);
   const rows = activeTab === "global" ? globalRows : trendingRows;
-  const { cards, topStories } = buildTwitterHeader(rows, stats);
+
+  const cold = rows.length === 0;
+
+  if (cold) {
+    return (
+      <main className="home-surface">
+        <SourceFeedTemplate
+          crumb={
+            <>
+              <b>X</b> · TERMINAL · /TWITTER
+            </>
+          }
+          title="X · top tweets"
+          lede="TrendingRepo-ranked repositories with real X/Twitter mentions in the last 24 hours, sourced from the Apify tweet-scraper pipeline."
+          clock={
+            <>
+              <span className="big">{formatClock(stats.lastScannedAt)}</span>
+              <span className="muted">UTC · SCRAPED</span>
+              <LiveDot label="LIVE · 24H" />
+            </>
+          }
+        />
+        <ColdState activeTab={activeTab} />
+      </main>
+    );
+  }
+
+  // KPI snapshot.
+  const trackedTweets = stats.totalMentions24h;
+  const topLikes = rows.reduce((m, r) => Math.max(m, r.totalLikes24h), 0);
+  const topReposts = rows.reduce((m, r) => Math.max(m, r.totalReposts24h), 0);
+  const peakEngagement = Math.max(topLikes, topReposts);
+  const peakEngagementLabel = topLikes >= topReposts ? "TOP LIKES" : "TOP RTS";
+  const kolHandles = new Set<string>();
+  for (const row of rows) {
+    for (const author of row.topMentionAuthors) {
+      if (author.authorHandle) kolHandles.add(author.authorHandle.toLowerCase());
+    }
+  }
 
   return (
-    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
-      <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        <TwitterTabNav
-          activeTab={activeTab}
-          trendingCount={trendingRows.length}
-          globalCount={globalRows.length}
-        />
-
-        <div className="mb-6">
-          <NewsTopHeaderV3
-            cards={cards}
-            topStories={topStories}
-            accent={TWITTER_ACCENT}
-            routeTitle="X · TOP TWEETS"
-            liveLabel="LIVE · 24H"
-            eyebrow="// X · TWITTER · LIVE FIREHOSE"
-            meta={[
-              { label: "ROWS", value: rows.length.toLocaleString("en-US") },
-              { label: "WINDOW", value: "24H" },
-            ]}
-            caption={[
-              "// LAYOUT compact-v1",
-              "· 3-COL · 320 / 1FR / 1FR",
-              "· DATA UNCHANGED",
+    <main className="home-surface">
+      <SourceFeedTemplate
+        crumb={
+          <>
+            <b>X</b> · TERMINAL · /TWITTER
+          </>
+        }
+        title="X · top tweets"
+        lede="TrendingRepo-ranked repositories with real X/Twitter mentions in the last 24 hours, sourced from the Apify tweet-scraper pipeline."
+        clock={
+          <>
+            <span className="big">{formatClock(stats.lastScannedAt)}</span>
+            <span className="muted">UTC · SCRAPED</span>
+            <LiveDot label="LIVE · 24H" />
+          </>
+        }
+        snapshot={
+          <KpiBand
+            cells={[
+              {
+                label: "TRACKED",
+                value: trackedTweets.toLocaleString("en-US"),
+                sub: "tweets 24h",
+                pip: "var(--v4-src-x)",
+              },
+              {
+                label: peakEngagementLabel,
+                value: peakEngagement.toLocaleString("en-US"),
+                sub: "engagement peak",
+                tone: "acc",
+                pip: "var(--v4-acc)",
+              },
+              {
+                label: "KOLS",
+                value: kolHandles.size.toLocaleString("en-US"),
+                sub: "unique authors",
+                tone: "money",
+                pip: "var(--v4-money)",
+              },
+              {
+                label: "GH-LINKED",
+                value: rows.length.toLocaleString("en-US"),
+                sub: "repos with buzz",
+                pip: "var(--v4-blue)",
+              },
             ]}
           />
-        </div>
+        }
+        listEyebrow={
+          activeTab === "global"
+            ? "Tweet feed · global X score"
+            : "Tweet feed · trending repos with X mentions"
+        }
+        list={
+          <>
+            <TwitterTabNav
+              activeTab={activeTab}
+              trendingCount={trendingRows.length}
+              globalCount={globalRows.length}
+            />
+            <TwitterLeaderboardTable rows={rows} activeTab={activeTab} />
+          </>
+        }
+      />
+    </main>
+  );
+}
 
-        {rows.length === 0 ? (
-          <section
-            className="p-8"
-            style={{
-              background: "var(--v3-bg-025)",
-              border: "1px dashed var(--v3-line-100)",
-              borderRadius: 2,
-            }}
-          >
-            <h2
-              className="v2-mono text-lg font-bold uppercase tracking-[0.18em]"
-              style={{ color: "var(--v3-acc)" }}
-            >
-              {activeTab === "global"
-                ? "// no global X findings yet"
-                : "// no trending repo X findings yet"}
-            </h2>
-            <p
-              className="mt-3 max-w-xl text-sm"
-              style={{ color: "var(--v3-ink-300)" }}
-            >
-              Post a completed OpenClaw scan to{" "}
-              <code style={{ color: "var(--v3-ink-100)" }}>
-                /api/internal/signals/twitter/v1/ingest
-              </code>{" "}
-              to populate this leaderboard.
-            </p>
-          </section>
-        ) : (
-          <section
-            className="overflow-x-auto"
-            style={{
-              background: "var(--v3-bg-050)",
-              border: "1px solid var(--v3-line-200)",
-              borderRadius: 2,
-            }}
-          >
-            <div className="min-w-[840px]">
-              <div
-                className="v2-mono grid h-9 grid-cols-[36px_56px_minmax(260px,1.7fr)_72px_72px_72px_72px_88px] items-center gap-3 px-3 text-[10px] uppercase tracking-[0.18em]"
+function TwitterLeaderboardTable({
+  rows,
+  activeTab,
+}: {
+  rows: TwitterLeaderboardRow[];
+  activeTab: TwitterTab;
+}) {
+  return (
+    <section
+      className="overflow-x-auto"
+      style={{
+        background: "var(--v4-bg-050)",
+        border: "1px solid var(--v4-line-200)",
+        borderRadius: 2,
+      }}
+    >
+      <div className="min-w-[840px]">
+        <div
+          className="v2-mono grid h-9 grid-cols-[36px_56px_minmax(260px,1.7fr)_72px_72px_72px_72px_88px] items-center gap-3 px-3 text-[10px] uppercase tracking-[0.18em]"
+          style={{
+            borderBottom: "1px solid var(--v4-line-100)",
+            background: "var(--v4-bg-025)",
+            color: "var(--v4-ink-400)",
+          }}
+        >
+          <div>{activeTab === "global" ? "#" : "TR"}</div>
+          <div className="text-center">Top</div>
+          <div>Repo</div>
+          <div className="text-right">Mentions</div>
+          <div className="text-right">Likes</div>
+          <div className="text-right">Reposts</div>
+          <div className="text-right">Score</div>
+          <div>Badge</div>
+        </div>
+        <ol>
+          {rows.map((row, index) => {
+            const [owner, name] = row.githubFullName.split("/", 2);
+            const badgeLabel =
+              row.badgeState === "x_fire"
+                ? "X FIRE"
+                : row.badgeState === "x"
+                  ? "X"
+                  : "--";
+            const rankLabel =
+              activeTab === "trending" && row.trendingRank
+                ? `#${row.trendingRank}`
+                : `#${index + 1}`;
+            const stagger = Math.min(index, 6) * 50;
+
+            const badgeStyle =
+              row.badgeState === "x_fire"
+                ? {
+                    border: "1px solid rgba(245, 110, 15, 0.4)",
+                    background: "rgba(245, 110, 15, 0.1)",
+                    color: "var(--v4-acc)",
+                  }
+                : row.badgeState === "x"
+                  ? {
+                      border: `1px solid ${X_BLUE}66`,
+                      background: `${X_BLUE}1A`,
+                      color: X_BLUE,
+                    }
+                  : {
+                      border: "1px solid var(--v4-line-200)",
+                      color: "var(--v4-ink-400)",
+                    };
+
+            return (
+              <li
+                key={row.repoId}
+                className="v2-row group grid grid-cols-[36px_56px_minmax(260px,1.7fr)_72px_72px_72px_72px_88px] items-center gap-3 px-3 py-2"
                 style={{
-                  borderBottom: "1px solid var(--v3-line-100)",
-                  background: "var(--v3-bg-025)",
-                  color: "var(--v3-ink-400)",
+                  borderBottom: "1px dashed var(--v4-line-100)",
+                  animation:
+                    "slide-up 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both",
+                  animationDelay: stagger > 0 ? `${stagger}ms` : undefined,
                 }}
               >
-                <div>{activeTab === "global" ? "#" : "TR"}</div>
-                <div className="text-center">Top</div>
-                <div>Repo</div>
-                <div className="text-right">Mentions</div>
-                <div className="text-right">Likes</div>
-                <div className="text-right">Reposts</div>
-                <div className="text-right">Score</div>
-                <div>Badge</div>
-              </div>
-              <ol>
-                {rows.map((row, index) => {
-                  const [owner, name] = row.githubFullName.split("/", 2);
-                  const badgeLabel =
-                    row.badgeState === "x_fire"
-                      ? "X FIRE"
-                      : row.badgeState === "x"
-                        ? "X"
-                        : "--";
-                  const rankLabel =
-                    activeTab === "trending" && row.trendingRank
-                      ? `#${row.trendingRank}`
-                      : `#${index + 1}`;
-                  const stagger = Math.min(index, 6) * 50;
-
-                  const badgeStyle =
-                    row.badgeState === "x_fire"
-                      ? {
-                          border: "1px solid rgba(245, 110, 15, 0.4)",
-                          background: "rgba(245, 110, 15, 0.1)",
-                          color: "var(--v3-acc)",
-                        }
-                      : row.badgeState === "x"
-                        ? {
-                            border: "1px solid rgba(29, 155, 240, 0.4)",
-                            background: "rgba(29, 155, 240, 0.1)",
-                            color: "#4db7ff",
-                          }
-                        : {
-                            border: "1px solid var(--v3-line-200)",
-                            color: "var(--v3-ink-400)",
-                          };
-
-                  return (
-                    <li
-                      key={row.repoId}
-                      className="v2-row group grid grid-cols-[36px_56px_minmax(260px,1.7fr)_72px_72px_72px_72px_88px] items-center gap-3 px-3 py-2"
-                      style={{
-                        borderBottom: "1px dashed var(--v3-line-100)",
-                        animation:
-                          "slide-up 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both",
-                        animationDelay: stagger > 0 ? `${stagger}ms` : undefined,
-                      }}
+                <div
+                  className="text-xs tabular-nums"
+                  style={{ color: "var(--v4-ink-400)" }}
+                >
+                  {rankLabel}
+                </div>
+                <div className="flex items-center justify-center">
+                  <MentionAuthorBubbles authors={row.topMentionAuthors} />
+                </div>
+                <div className="min-w-0">
+                  <div className="flex min-w-0 items-center justify-between gap-2">
+                    <div className="flex min-w-0 items-center gap-2">
+                      <Image
+                        src={getRepoAvatarUrl(row)}
+                        alt=""
+                        width={18}
+                        height={18}
+                        unoptimized
+                        className="h-[18px] w-[18px] shrink-0 rounded-full"
+                        style={{
+                          border: "1px solid var(--v4-line-200)",
+                          background: "var(--v4-bg-100)",
+                        }}
+                      />
+                      <Link
+                        href={`/repo/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`}
+                        className="truncate text-sm font-medium transition-colors hover:text-[color:var(--v4-acc)]"
+                        style={{ color: "var(--v4-ink-100)" }}
+                      >
+                        {row.githubFullName}
+                      </Link>
+                    </div>
+                    <RepoActionLinks row={row} />
+                  </div>
+                  {activeTab === "trending" ? (
+                    <div
+                      className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[10px]"
+                      style={{ color: "var(--v4-ink-400)" }}
                     >
-                      <div
-                        className="text-xs tabular-nums"
-                        style={{ color: "var(--v3-ink-400)" }}
-                      >
-                        {rankLabel}
-                      </div>
-                      <div className="flex items-center justify-center">
-                        <MentionAuthorBubbles authors={row.topMentionAuthors} />
-                      </div>
-                      <div className="min-w-0">
-                        <div className="flex min-w-0 items-center justify-between gap-2">
-                          <div className="flex min-w-0 items-center gap-2">
-                            <Image
-                              src={getRepoAvatarUrl(row)}
-                              alt=""
-                              width={18}
-                              height={18}
-                              unoptimized
-                              className="h-[18px] w-[18px] shrink-0 rounded-full"
-                              style={{
-                                border: "1px solid var(--v3-line-200)",
-                                background: "var(--v3-bg-100)",
-                              }}
-                            />
-                            <Link
-                              href={`/repo/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`}
-                              className="truncate text-sm font-medium transition-colors hover:text-[color:var(--v3-acc)]"
-                              style={{ color: "var(--v3-ink-100)" }}
-                            >
-                              {row.githubFullName}
-                            </Link>
-                          </div>
-                          <RepoActionLinks row={row} />
-                        </div>
-                        {activeTab === "trending" ? (
-                          <div
-                            className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[10px]"
-                            style={{ color: "var(--v3-ink-400)" }}
-                          >
-                            {row.momentumScore !== undefined ? (
-                              <span>{row.momentumScore.toFixed(1)} momentum</span>
-                            ) : null}
-                            {row.starsDelta24h !== undefined ? (
-                              <span>
-                                {formatSignedNumber(row.starsDelta24h)} stars 24h
-                              </span>
-                            ) : null}
-                            {row.stars !== undefined ? (
-                              <span>{formatNumber(row.stars)} stars</span>
-                            ) : null}
-                          </div>
-                        ) : null}
-                      </div>
-                      <div
-                        className="text-right text-xs tabular-nums"
-                        style={{ color: "var(--v3-ink-100)" }}
-                      >
-                        {formatNumber(row.mentionCount24h)}
-                      </div>
-                      <div
-                        className="text-right text-xs tabular-nums"
-                        style={{ color: "var(--v3-ink-100)" }}
-                      >
-                        {formatNumber(row.totalLikes24h)}
-                      </div>
-                      <div
-                        className="text-right text-xs tabular-nums"
-                        style={{ color: "var(--v3-ink-100)" }}
-                      >
-                        {formatNumber(row.totalReposts24h)}
-                      </div>
-                      <div
-                        className="text-right text-xs font-semibold tabular-nums"
-                        style={{ color: "var(--v3-acc)" }}
-                      >
-                        {row.finalTwitterScore.toFixed(1)}
-                      </div>
-                      <div>
-                        <span
-                          className="v2-mono inline-flex items-center px-2 py-0.5 text-[10px] uppercase tracking-[0.16em]"
-                          style={{ ...badgeStyle, borderRadius: 2 }}
-                        >
-                          {badgeLabel}
+                      {row.momentumScore !== undefined ? (
+                        <span>{row.momentumScore.toFixed(1)} momentum</span>
+                      ) : null}
+                      {row.starsDelta24h !== undefined ? (
+                        <span>
+                          {formatSignedNumber(row.starsDelta24h)} stars 24h
                         </span>
-                      </div>
-                    </li>
-                  );
-                })}
-              </ol>
-            </div>
-          </section>
-        )}
+                      ) : null}
+                      {row.stars !== undefined ? (
+                        <span>{formatNumber(row.stars)} stars</span>
+                      ) : null}
+                    </div>
+                  ) : null}
+                </div>
+                <div
+                  className="text-right text-xs tabular-nums"
+                  style={{ color: "var(--v4-ink-100)" }}
+                >
+                  {formatNumber(row.mentionCount24h)}
+                </div>
+                <div
+                  className="text-right text-xs tabular-nums"
+                  style={{ color: "var(--v4-ink-100)" }}
+                >
+                  {formatNumber(row.totalLikes24h)}
+                </div>
+                <div
+                  className="text-right text-xs tabular-nums"
+                  style={{ color: "var(--v4-ink-100)" }}
+                >
+                  {formatNumber(row.totalReposts24h)}
+                </div>
+                <div
+                  className="text-right text-xs font-semibold tabular-nums"
+                  style={{ color: "var(--v4-acc)" }}
+                >
+                  {row.finalTwitterScore.toFixed(1)}
+                </div>
+                <div>
+                  <span
+                    className="v2-mono inline-flex items-center px-2 py-0.5 text-[10px] uppercase tracking-[0.16em]"
+                    style={{ ...badgeStyle, borderRadius: 2 }}
+                  >
+                    {badgeLabel}
+                  </span>
+                </div>
+              </li>
+            );
+          })}
+        </ol>
       </div>
-    </main>
+    </section>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Cold-state fallback
+// ---------------------------------------------------------------------------
+
+function ColdState({ activeTab }: { activeTab: TwitterTab }) {
+  return (
+    <section
+      style={{
+        padding: 32,
+        background: "var(--v4-bg-025)",
+        border: "1px dashed var(--v4-line-100)",
+        borderRadius: 2,
+      }}
+    >
+      <h2
+        className="v2-mono"
+        style={{
+          color: X_BLUE,
+          fontSize: 18,
+          fontWeight: 700,
+          textTransform: "uppercase",
+          letterSpacing: "0.18em",
+        }}
+      >
+        {activeTab === "global"
+          ? "// no global X findings yet"
+          : "// no trending repo X findings yet"}
+      </h2>
+      <p
+        style={{
+          marginTop: 12,
+          maxWidth: "32rem",
+          fontSize: 13,
+          color: "var(--v4-ink-300)",
+        }}
+      >
+        Post a completed OpenClaw scan to{" "}
+        <code style={{ color: "var(--v4-ink-100)" }}>
+          /api/internal/signals/twitter/v1/ingest
+        </code>{" "}
+        to populate this leaderboard.
+      </p>
+    </section>
   );
 }

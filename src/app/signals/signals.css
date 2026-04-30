@@ -1,0 +1,44 @@
+/* Page-scoped utilities for /signals.
+ * Kept separate from globals.css so the V3 newsroom rebuild doesn't
+ * mix with unrelated mid-flight edits to the global stylesheet.
+ *
+ * Only contains:
+ *   1. Missing col-* tokens (`.col-7`, `.col-5`) + responsive grid
+ *      collapse for the page-level 12-col rows.
+ *   2. Heat palette tokens for the tag-momentum heatmap.
+ */
+
+.signals-page .col-7 {
+  grid-column: span 7;
+}
+.signals-page .col-5 {
+  grid-column: span 5;
+}
+
+/* Tablet: collapse the 12-col rows to 2 columns so wide panels stack
+ * cleanly. Source-feed grids keep two-up so cards stay readable. */
+@media (max-width: 1023px) {
+  .signals-page .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .signals-page .col-7,
+  .signals-page .col-5,
+  .signals-page .col-3,
+  .signals-page .col-12 {
+    grid-column: span 1;
+  }
+}
+
+/* Phone: full-width single-column. */
+@media (max-width: 640px) {
+  .signals-page .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Heat palette — referenced by tag-momentum heatmap cells + legend.
+ * Defined here (not globals.css) to keep this PR tidy. */
+.signals-page {
+  --heat-hot: 255, 107, 53;       /* matches --color-accent */
+  --heat-cool: 58, 214, 197;      /* cyan companion */
+}

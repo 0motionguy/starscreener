@@ -76,6 +76,8 @@
     "scrape:ph": "node scripts/scrape-producthunt.mjs",
     "scrape:devto": "node scripts/scrape-devto.mjs",
     "scrape:lobsters": "node scripts/scrape-lobsters.mjs",
+    "scrape:claude-rss": "node scripts/scrape-claude-rss.mjs",
+    "scrape:openai-rss": "node scripts/scrape-openai-rss.mjs",
     "scrape:hf": "node scripts/scrape-huggingface.mjs",
     "scrape:arxiv": "node scripts/scrape-arxiv.mjs",
     "scrape:huggingface": "node scripts/scrape-huggingface.mjs",

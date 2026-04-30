@@ -93,6 +93,12 @@ import { matchesTopic } from "@/lib/signals/topics";
 
 import { triggerScanIfStale } from "@/lib/news/auto-rescrape";
 
+// V4 (CORPUS) primitives — page chrome.
+// /signals is the proof-of-concept consumer; this is the canonical
+// migration shape other Phase 2 worktrees will follow.
+import { PageHead } from "@/components/ui/PageHead";
+import { SectionHead } from "@/components/ui/SectionHead";
+
 import "./signals.css";
 
 // ISR — same cadence as the homepage so collectors don't trigger redeploys.
@@ -427,63 +433,20 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
   // ── Render ----------------------------------------------------------------
   return (
     <main className="signals-page" style={{ padding: "14px 16px 60px" }}>
-      <header
-        style={{
-          display: "flex",
-          alignItems: "flex-end",
-          gap: 18,
-          padding: "4px 0 12px",
-          borderBottom: "1px solid var(--color-border-default)",
-          marginBottom: 14,
-        }}
-      >
-        <div>
-          <div
-            style={{
-              fontSize: 10,
-              letterSpacing: "0.20em",
-              color: "var(--color-text-subtle)",
-              textTransform: "uppercase",
-              fontFamily: "var(--font-mono)",
-            }}
-          >
-            <b style={{ color: "var(--color-accent)", fontWeight: 600 }}>
-              SIGNAL
-            </b>{" "}
-            · TERMINAL · /SIGNALS
-          </div>
-          <h1
-            style={{
-              margin: "6px 0 0",
-              fontFamily: "var(--font-sans)",
-              fontWeight: 500,
-              fontSize: 30,
-              letterSpacing: "-0.024em",
-              color: "var(--color-text-default)",
-              lineHeight: 1.05,
-            }}
-          >
-            The newsroom for AI &amp; dev tooling.
-          </h1>
-          <p
-            style={{
-              margin: "6px 0 0",
-              color: "var(--color-text-subtle)",
-              fontFamily: "var(--font-sans)",
-              fontSize: 13,
-              lineHeight: 1.5,
-              maxWidth: 560,
-            }}
-          >
-            Eight sources, one editorial layer. Cross-source consensus
-            surfaces the stories that matter — everything else stays one click
-            away.
-          </p>
-        </div>
-        <Suspense fallback={null}>
-          <LiveClock initialIso={new Date().toISOString()} />
-        </Suspense>
-      </header>
+      <PageHead
+        crumb={
+          <>
+            <b>SIGNAL</b> · TERMINAL · /SIGNALS
+          </>
+        }
+        h1="The newsroom for AI & dev tooling."
+        lede="Eight sources, one editorial layer. Cross-source consensus surfaces the stories that matter — everything else stays one click away."
+        clock={
+          <Suspense fallback={null}>
+            <LiveClock initialIso={new Date().toISOString()} />
+          </Suspense>
+        }
+      />
 
       <SourceFilterBar
         active={activeSourceFilter}
@@ -649,28 +612,10 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
 }
 
 // ---------------------------------------------------------------------------
-// SectionHead — uses existing .sec-head / .sec-num / .sec-title / .sec-meta
-// utilities from src/app/globals.css so it inherits the project-wide mobile
-// flex-direction collapse instead of fighting it with inline styles.
+// SectionHead — replaced by the V4 primitive at @/components/ui/SectionHead
+// (same API). Kept as a comment trail so future edits remember this page
+// previously had a private inline copy.
 // ---------------------------------------------------------------------------
-
-function SectionHead({
-  num,
-  title,
-  meta,
-}: {
-  num: string;
-  title: string;
-  meta: string;
-}) {
-  return (
-    <div className="sec-head">
-      <span className="sec-num">{num}</span>
-      <h2 className="sec-title">{title}</h2>
-      <span className="sec-meta">{meta}</span>
-    </div>
-  );
-}
 
 // ---------------------------------------------------------------------------
 // Build ticker — most-recent items across all sources, capped 24

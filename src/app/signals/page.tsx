@@ -490,12 +490,10 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
         </Suspense>
       </header>
 
-      <SourceFilterBar
-        active={activeSourceFilter}
-        timeWindow={activeWindow}
-        topic={activeTopic}
-        totalSignals={volume.totalItems}
-      />
+      <div style={{ padding: 8, fontFamily: "monospace", fontSize: 11 }}>
+        filter placeholder · src={activeSourceFilter.size}/8 · w=
+        {activeWindow} · topic={activeTopic ?? "all"}
+      </div>
 
       <div
         style={{

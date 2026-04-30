@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-29T03:40:18.441Z",
+  "generatedAt": "2026-04-30T05:34:07.365Z",
   "sources": [
     {
       "slug": "trending",
@@ -13,39 +13,43 @@
     },
     {
       "slug": "repo-profiles",
-      "total": 540,
+      "total": 659,
       "stale": 0,
       "thresholdHours": 4,
       "examples": [],
       "notes": [
-        "540/540 records have no lastRefreshedAt — pre-B2 data, recount on next cron"
+        "659/659 records have no lastRefreshedAt — pre-B2 data, recount on next cron"
       ]
     },
     {
       "slug": "huggingface-trending",
-      "total": 100,
+      "total": 1000,
       "stale": 0,
       "thresholdHours": 4,
       "examples": [],
       "notes": [
-        "100/100 records have no lastRefreshedAt — pre-B2 data, recount on next cron"
+        "1000/1000 records have no lastRefreshedAt — pre-B2 data, recount on next cron"
       ]
     },
     {
       "slug": "huggingface-datasets",
-      "total": 0,
+      "total": 1000,
       "stale": 0,
       "thresholdHours": 4,
       "examples": [],
-      "notes": []
+      "notes": [
+        "1000/1000 records have no lastRefreshedAt — pre-B2 data, recount on next cron"
+      ]
     },
     {
       "slug": "huggingface-spaces",
-      "total": 0,
+      "total": 1000,
       "stale": 0,
       "thresholdHours": 4,
       "examples": [],
-      "notes": []
+      "notes": [
+        "1000/1000 records have no lastRefreshedAt — pre-B2 data, recount on next cron"
+      ]
     },
     {
       "slug": "npm-packages",
@@ -59,12 +63,12 @@
     },
     {
       "slug": "producthunt-launches",
-      "total": 69,
+      "total": 66,
       "stale": 0,
       "thresholdHours": 32,
       "examples": [],
       "notes": [
-        "69/69 records have no lastRefreshedAt — pre-B2 data, recount on next cron"
+        "66/66 records have no lastRefreshedAt — pre-B2 data, recount on next cron"
       ]
     },
     {

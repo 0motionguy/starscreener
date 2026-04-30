@@ -102,9 +102,9 @@ function EnrichmentBanner() {
     <div
       className="mb-4 px-3 py-2 v2-mono text-[10.5px] tracking-[0.14em]"
       style={{
-        border: "1px dashed var(--v3-line-200)",
-        background: "var(--v3-bg-025)",
-        color: "var(--v3-ink-300)",
+        border: "1px dashed var(--v4-line-200)",
+        background: "var(--v4-bg-025)",
+        color: "var(--v4-ink-300)",
         borderRadius: 2,
       }}
     >
@@ -228,7 +228,7 @@ function ArxivPaperFeed({ papers }: { papers: ArxivPaperTrending[] }) {
       render: (_, i) => (
         <span
           className="font-mono text-[12px] tabular-nums font-semibold"
-          style={{ color: i < 10 ? ARXIV_ACCENT_BAR : "var(--v3-ink-400)" }}
+          style={{ color: i < 10 ? ARXIV_ACCENT_BAR : "var(--v4-ink-400)" }}
         >
           {String(i + 1).padStart(2, "0")}
         </span>
@@ -245,15 +245,15 @@ function ArxivPaperFeed({ papers }: { papers: ArxivPaperTrending[] }) {
               href={p.absUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="truncate text-[13px] font-medium transition-colors hover:text-[color:var(--v3-acc)]"
-              style={{ color: "var(--v3-ink-100)" }}
+              className="truncate text-[13px] font-medium transition-colors hover:text-[color:var(--v4-acc)]"
+              style={{ color: "var(--v4-ink-100)" }}
               title={p.title}
             >
               {p.title}
             </a>
             <span
               className="truncate text-[10.5px]"
-              style={{ color: "var(--v3-ink-400)" }}
+              style={{ color: "var(--v4-ink-400)" }}
               title={p.authors?.join(", ")}
             >
               {formatAuthors(p.authors ?? [])}
@@ -261,9 +261,9 @@ function ArxivPaperFeed({ papers }: { papers: ArxivPaperTrending[] }) {
                 <span
                   className="v2-mono ml-2 px-1.5 py-0.5 text-[9px] tracking-[0.14em] uppercase"
                   style={{
-                    border: "1px solid var(--v3-line-200)",
-                    background: "var(--v3-bg-100)",
-                    color: "var(--v3-ink-300)",
+                    border: "1px solid var(--v4-line-200)",
+                    background: "var(--v4-bg-100)",
+                    color: "var(--v4-ink-300)",
                     borderRadius: 2,
                   }}
                   title={`Linked repo: ${linkedRepo}`}
@@ -283,14 +283,14 @@ function ArxivPaperFeed({ papers }: { papers: ArxivPaperTrending[] }) {
       hideBelow: "sm",
       render: (p) => {
         const cat = p.primaryCategory;
-        if (!cat) return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+        if (!cat) return <span style={{ color: "var(--v4-ink-500)" }}>—</span>;
         return (
           <span
             className="v2-mono inline-block px-1.5 py-0.5 text-[10px] tracking-[0.14em] uppercase"
             style={{
-              border: "1px solid var(--v3-line-200)",
-              background: "var(--v3-bg-100)",
-              color: "var(--v3-ink-300)",
+              border: "1px solid var(--v4-line-200)",
+              background: "var(--v4-bg-100)",
+              color: "var(--v4-ink-300)",
               borderRadius: 2,
             }}
           >
@@ -311,8 +311,8 @@ function ArxivPaperFeed({ papers }: { papers: ArxivPaperTrending[] }) {
           style={{
             color:
               (p.primaryMetric?.value ?? 0) > 0
-                ? "var(--v3-ink-100)"
-                : "var(--v3-ink-500)",
+                ? "var(--v4-ink-100)"
+                : "var(--v4-ink-500)",
           }}
           title="Citation count (enrichment lands in next iteration)"
         >
@@ -336,7 +336,7 @@ function ArxivPaperFeed({ papers }: { papers: ArxivPaperTrending[] }) {
       render: (p) => (
         <span
           className="font-mono text-[12px] tabular-nums"
-          style={{ color: "var(--v3-ink-400)" }}
+          style={{ color: "var(--v4-ink-400)" }}
         >
           {formatAgeDays(p.daysSincePublished)}
         </span>
@@ -363,7 +363,7 @@ function MomentumBar({ value, accent }: { value: number; accent: string }) {
         className="flex-1"
         style={{
           height: 6,
-          background: "var(--v3-bg-100)",
+          background: "var(--v4-bg-100)",
           borderRadius: 1,
           overflow: "hidden",
           minWidth: 40,
@@ -380,7 +380,7 @@ function MomentumBar({ value, accent }: { value: number; accent: string }) {
       </div>
       <span
         className="font-mono text-[10px] tabular-nums shrink-0"
-        style={{ color: "var(--v3-ink-300)", width: 24, textAlign: "right" }}
+        style={{ color: "var(--v4-ink-300)", width: 24, textAlign: "right" }}
       >
         {Math.round(pct)}
       </span>
@@ -397,8 +397,8 @@ function ColdState() {
     <section
       className="p-8"
       style={{
-        background: "var(--v3-bg-025)",
-        border: "1px dashed var(--v3-line-100)",
+        background: "var(--v4-bg-025)",
+        border: "1px dashed var(--v4-line-100)",
         borderRadius: 2,
       }}
     >
@@ -410,12 +410,12 @@ function ColdState() {
       </h2>
       <p
         className="mt-3 max-w-xl text-sm"
-        style={{ color: "var(--v3-ink-300)" }}
+        style={{ color: "var(--v4-ink-300)" }}
       >
         The arXiv scraper hasn&apos;t run yet. Run{" "}
-        <code style={{ color: "var(--v3-ink-100)" }}>npm run scrape:arxiv</code>{" "}
+        <code style={{ color: "var(--v4-ink-100)" }}>npm run scrape:arxiv</code>{" "}
         locally to populate{" "}
-        <code style={{ color: "var(--v3-ink-100)" }}>data/arxiv-recent.json</code>
+        <code style={{ color: "var(--v4-ink-100)" }}>data/arxiv-recent.json</code>
         , then refresh this page.
       </p>
     </section>

@@ -95,7 +95,7 @@ function BskyPostFeed({ posts }: { posts: BskyPost[] }) {
       render: (_, i) => (
         <span
           className="font-mono text-[12px] tabular-nums font-semibold"
-          style={{ color: i < 10 ? BSKY_BLUE : "var(--v3-ink-400)" }}
+          style={{ color: i < 10 ? BSKY_BLUE : "var(--v4-ink-400)" }}
         >
           {String(i + 1).padStart(2, "0")}
         </span>
@@ -136,8 +136,8 @@ function BskyPostFeed({ posts }: { posts: BskyPost[] }) {
               href={p.bskyUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="line-clamp-2 text-[13px] font-medium transition-colors hover:text-[color:var(--v3-acc)]"
-              style={{ color: "var(--v3-ink-100)" }}
+              className="line-clamp-2 text-[13px] font-medium transition-colors hover:text-[color:var(--v4-acc)]"
+              style={{ color: "var(--v4-ink-100)" }}
               title={p.text}
             >
               {snippet}
@@ -145,7 +145,7 @@ function BskyPostFeed({ posts }: { posts: BskyPost[] }) {
             <div className="mt-0.5 flex flex-wrap items-center gap-2">
               <span
                 className="text-[10px]"
-                style={{ color: "var(--v3-ink-400)" }}
+                style={{ color: "var(--v4-ink-400)" }}
                 title={
                   p.author.displayName
                     ? `${p.author.displayName} (@${p.author.handle})`
@@ -157,11 +157,11 @@ function BskyPostFeed({ posts }: { posts: BskyPost[] }) {
               {linkedRepo ? (
                 <a
                   href={repoFullNameToHref(linkedRepo)}
-                  className="v2-mono shrink-0 px-1.5 py-0.5 text-[10px] tracking-[0.14em] uppercase transition-colors hover:text-[color:var(--v3-acc)]"
+                  className="v2-mono shrink-0 px-1.5 py-0.5 text-[10px] tracking-[0.14em] uppercase transition-colors hover:text-[color:var(--v4-acc)]"
                   style={{
-                    border: "1px solid var(--v3-line-200)",
-                    background: "var(--v3-bg-100)",
-                    color: "var(--v3-ink-300)",
+                    border: "1px solid var(--v4-line-200)",
+                    background: "var(--v4-bg-100)",
+                    color: "var(--v4-ink-300)",
                     borderRadius: 2,
                   }}
                   title={`Linked repo: ${linkedRepo}`}
@@ -183,7 +183,7 @@ function BskyPostFeed({ posts }: { posts: BskyPost[] }) {
       render: (p) => {
         const topicLabel = p.matchedTopicLabel ?? p.matchedKeyword;
         if (!topicLabel) {
-          return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+          return <span style={{ color: "var(--v4-ink-500)" }}>—</span>;
         }
         return (
           <span
@@ -218,7 +218,7 @@ function BskyPostFeed({ posts }: { posts: BskyPost[] }) {
             color:
               p.likeCount >= 50 || p.repostCount >= 5
                 ? BSKY_BLUE
-                : "var(--v3-ink-100)",
+                : "var(--v4-ink-100)",
           }}
         >
           {p.likeCount.toLocaleString("en-US")}
@@ -234,7 +234,7 @@ function BskyPostFeed({ posts }: { posts: BskyPost[] }) {
       render: (p) => (
         <span
           className="font-mono text-[12px] tabular-nums"
-          style={{ color: "var(--v3-ink-300)" }}
+          style={{ color: "var(--v4-ink-300)" }}
         >
           {p.repostCount.toLocaleString("en-US")}
         </span>
@@ -249,7 +249,7 @@ function BskyPostFeed({ posts }: { posts: BskyPost[] }) {
       render: (p) => (
         <span
           className="font-mono text-[12px] tabular-nums"
-          style={{ color: "var(--v3-ink-300)" }}
+          style={{ color: "var(--v4-ink-300)" }}
         >
           {p.replyCount.toLocaleString("en-US")}
         </span>
@@ -264,7 +264,7 @@ function BskyPostFeed({ posts }: { posts: BskyPost[] }) {
       render: (p) => (
         <span
           className="font-mono text-[12px] tabular-nums"
-          style={{ color: "var(--v3-ink-400)" }}
+          style={{ color: "var(--v4-ink-400)" }}
         >
           {formatAgeHours(p.ageHours)}
         </span>
@@ -292,8 +292,8 @@ function ColdState() {
     <section
       className="p-8"
       style={{
-        background: "var(--v3-bg-025)",
-        border: "1px dashed var(--v3-line-100)",
+        background: "var(--v4-bg-025)",
+        border: "1px dashed var(--v4-line-100)",
         borderRadius: 2,
       }}
     >
@@ -305,14 +305,14 @@ function ColdState() {
       </h2>
       <p
         className="mt-3 max-w-xl text-sm"
-        style={{ color: "var(--v3-ink-300)" }}
+        style={{ color: "var(--v4-ink-300)" }}
       >
         The Bluesky scraper hasn&apos;t run yet. Run{" "}
-        <code style={{ color: "var(--v3-ink-100)" }}>npm run scrape:bsky</code>{" "}
-        locally (with <code style={{ color: "var(--v3-ink-100)" }}>BLUESKY_HANDLE</code>{" "}
-        + <code style={{ color: "var(--v3-ink-100)" }}>BLUESKY_APP_PASSWORD</code>{" "}
+        <code style={{ color: "var(--v4-ink-100)" }}>npm run scrape:bsky</code>{" "}
+        locally (with <code style={{ color: "var(--v4-ink-100)" }}>BLUESKY_HANDLE</code>{" "}
+        + <code style={{ color: "var(--v4-ink-100)" }}>BLUESKY_APP_PASSWORD</code>{" "}
         in env) to populate{" "}
-        <code style={{ color: "var(--v3-ink-100)" }}>data/bluesky-trending.json</code>,
+        <code style={{ color: "var(--v4-ink-100)" }}>data/bluesky-trending.json</code>,
         then refresh this page.
       </p>
     </section>

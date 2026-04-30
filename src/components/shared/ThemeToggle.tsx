@@ -15,7 +15,7 @@ export function ThemeToggle() {
   if (!mounted) {
     // Render a placeholder with identical dimensions to prevent layout shift
     return (
-      <div className="h-9 w-9 border border-[color:var(--v3-line-300)] bg-[color:var(--v3-bg-100)]" />
+      <div className="h-9 w-9 border border-[color:var(--v4-line-300)] bg-[color:var(--v4-bg-100)]" />
     );
   }
 

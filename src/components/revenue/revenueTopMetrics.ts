@@ -18,7 +18,7 @@ import type { VerifiedStartup } from "@/lib/revenue-startups";
 import { trustmrrProfileUrl } from "@/lib/trustmrr-url";
 
 const TIER_PALETTE = [
-  "var(--v3-acc)",
+  "var(--v4-acc)",
   "#F59E0B",
   "#3AD6C5",
   "#F472B6",
@@ -27,7 +27,7 @@ const TIER_PALETTE = [
 ];
 
 const CATEGORY_PALETTE = [
-  "var(--v3-acc)",
+  "var(--v4-acc)",
   "#F472B6",
   "#3AD6C5",
   "#F59E0B",

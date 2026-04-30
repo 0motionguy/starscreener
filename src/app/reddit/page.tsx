@@ -113,8 +113,8 @@ function ColdStart({ subreddits }: { subreddits: string[] }) {
     <section
       className="p-8"
       style={{
-        background: "var(--v3-bg-025)",
-        border: "1px dashed var(--v3-line-100)",
+        background: "var(--v4-bg-025)",
+        border: "1px dashed var(--v4-line-100)",
         borderRadius: 2,
       }}
     >
@@ -127,7 +127,7 @@ function ColdStart({ subreddits }: { subreddits: string[] }) {
         </h2>
         <p
           className="mt-3 text-sm leading-relaxed"
-          style={{ color: "var(--v3-ink-300)" }}
+          style={{ color: "var(--v4-ink-300)" }}
         >
           The Reddit scraper has not run yet. It uses Reddit&apos;s public JSON
           endpoints (no OAuth, no app registration required) and scans the most
@@ -137,20 +137,20 @@ function ColdStart({ subreddits }: { subreddits: string[] }) {
         <div
           className="mt-6 p-4"
           style={{
-            background: "var(--v3-bg-000)",
-            border: "1px solid var(--v3-line-200)",
+            background: "var(--v4-bg-000)",
+            border: "1px solid var(--v4-line-200)",
             borderRadius: 2,
           }}
         >
           <div
             className="v2-mono mb-2 text-[11px] uppercase tracking-[0.18em]"
-            style={{ color: "var(--v3-ink-400)" }}
+            style={{ color: "var(--v4-ink-400)" }}
           >
             run locally
           </div>
           <pre
             className="overflow-x-auto text-xs"
-            style={{ color: "var(--v3-ink-100)" }}
+            style={{ color: "var(--v4-ink-100)" }}
           >
 {`node scripts/scrape-reddit.mjs
 # or
@@ -158,7 +158,7 @@ npm run scrape:reddit`}
           </pre>
           <p
             className="mt-3 text-[11px]"
-            style={{ color: "var(--v3-ink-400)" }}
+            style={{ color: "var(--v4-ink-400)" }}
           >
             Takes about 4 minutes ({subreddits.length} subs x 5s pause each),
             plus request time. Writes `data/reddit-mentions.json`. Refresh this
@@ -169,7 +169,7 @@ npm run scrape:reddit`}
         <div className="mt-6">
           <div
             className="v2-mono mb-2 text-[11px] uppercase tracking-[0.18em]"
-            style={{ color: "var(--v3-ink-400)" }}
+            style={{ color: "var(--v4-ink-400)" }}
           >
             subreddits scanned ({subreddits.length})
           </div>
@@ -182,8 +182,8 @@ npm run scrape:reddit`}
                 rel="noopener noreferrer"
                 className="v2-mono px-2 py-1 text-[11px] tracking-[0.14em] uppercase transition-colors"
                 style={{
-                  border: "1px solid var(--v3-line-200)",
-                  color: "var(--v3-ink-300)",
+                  border: "1px solid var(--v4-line-200)",
+                  color: "var(--v4-ink-300)",
                   borderRadius: 2,
                 }}
               >
@@ -202,10 +202,10 @@ function FeedSkeleton() {
     <div
       className="p-6 text-sm"
       style={{
-        background: "var(--v3-bg-025)",
-        border: "1px solid var(--v3-line-200)",
+        background: "var(--v4-bg-025)",
+        border: "1px solid var(--v4-line-200)",
         borderRadius: 2,
-        color: "var(--v3-ink-400)",
+        color: "var(--v4-ink-400)",
       }}
     >
       Loading feed...
@@ -223,7 +223,7 @@ function Leaderboard({
     <aside>
       <h2
         className="v2-mono mb-3 text-[11px] uppercase tracking-[0.18em]"
-        style={{ color: "var(--v3-ink-400)" }}
+        style={{ color: "var(--v4-ink-400)" }}
       >
         {"// repo leaderboard"}
       </h2>
@@ -235,8 +235,8 @@ function Leaderboard({
               key={repo.fullName}
               className="v2-row group px-3 py-2"
               style={{
-                background: "var(--v3-bg-050)",
-                border: "1px solid var(--v3-line-200)",
+                background: "var(--v4-bg-050)",
+                border: "1px solid var(--v4-line-200)",
                 borderRadius: 2,
                 animation: "slide-up 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both",
                 animationDelay: stagger > 0 ? `${stagger}ms` : undefined,
@@ -249,20 +249,20 @@ function Leaderboard({
                 <span className="flex min-w-0 items-center gap-2">
                   <span
                     className="w-5 text-right tabular-nums"
-                    style={{ color: "var(--v3-ink-400)" }}
+                    style={{ color: "var(--v4-ink-400)" }}
                   >
                     {index + 1}
                   </span>
                   <span
-                    className="truncate transition-colors group-hover:text-[color:var(--v3-acc)]"
-                    style={{ color: "var(--v3-ink-100)" }}
+                    className="truncate transition-colors group-hover:text-[color:var(--v4-acc)]"
+                    style={{ color: "var(--v4-ink-100)" }}
                   >
                     {repo.fullName}
                   </span>
                 </span>
                 <span
                   className="flex-shrink-0 tabular-nums"
-                  style={{ color: "var(--v3-ink-400)" }}
+                  style={{ color: "var(--v4-ink-400)" }}
                 >
                   {repo.upvotes7d}↑ · {repo.count7d}x
                 </span>

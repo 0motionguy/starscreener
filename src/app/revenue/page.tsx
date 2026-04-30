@@ -151,19 +151,19 @@ export default async function RevenuePage({ searchParams }: PageProps) {
         >
           <span
             className="v2-mono text-[10px] font-semibold uppercase tracking-[0.18em]"
-            style={{ color: "var(--v3-sig-green)" }}
+            style={{ color: "var(--v4-money)" }}
           >
             <BadgeCheck className="mr-1 inline size-3" aria-hidden />
             Founders
           </span>
-          <span style={{ color: "var(--v3-ink-300)" }}>
+          <span style={{ color: "var(--v4-ink-300)" }}>
             Don&apos;t see your project? Link a verified-revenue profile or
             self-report your MRR.
           </span>
           <Link
             href="/submit/revenue"
             className="ml-auto inline-flex items-center gap-1 font-mono text-xs font-semibold hover:underline"
-            style={{ color: "var(--v3-ink-100)" }}
+            style={{ color: "var(--v4-ink-100)" }}
           >
             Claim or submit revenue →
           </Link>
@@ -175,13 +175,13 @@ export default async function RevenuePage({ searchParams }: PageProps) {
             <h2
               id="tracked-heading"
               className="v2-mono text-[13px] font-bold uppercase tracking-[0.18em]"
-              style={{ color: "var(--v3-ink-100)" }}
+              style={{ color: "var(--v4-ink-100)" }}
             >
               {"// Tracked repos with verified revenue"}
             </h2>
             <span
               className="v2-mono text-[11px] tracking-[0.14em]"
-              style={{ color: "var(--v3-ink-400)" }}
+              style={{ color: "var(--v4-ink-400)" }}
             >
               {tracked.length.toLocaleString("en-US")} match
               {tracked.length === 1 ? "" : "es"} ·{" "}
@@ -219,13 +219,13 @@ export default async function RevenuePage({ searchParams }: PageProps) {
               <h2
                 id="leaderboard-heading"
                 className="v2-mono text-[13px] font-bold uppercase tracking-[0.18em]"
-                style={{ color: "var(--v3-ink-100)" }}
+                style={{ color: "var(--v4-ink-100)" }}
               >
                 {"// Verified revenue leaderboard"}
               </h2>
               <p
                 className="mt-1 text-[11px]"
-                style={{ color: "var(--v3-ink-400)" }}
+                style={{ color: "var(--v4-ink-400)" }}
               >
                 Top {Math.min(LEADERBOARD_LIMIT, leaderboard.rows.length)} of{" "}
                 {leaderboard.totalInFilter.toLocaleString("en-US")} verified-revenue
@@ -233,7 +233,7 @@ export default async function RevenuePage({ searchParams }: PageProps) {
                 {category === "__all__" ? (
                   "every category"
                 ) : category ? (
-                  <span style={{ color: "var(--v3-ink-100)" }}>{category}</span>
+                  <span style={{ color: "var(--v4-ink-100)" }}>{category}</span>
                 ) : (
                   "developer-adjacent categories"
                 )}
@@ -242,7 +242,7 @@ export default async function RevenuePage({ searchParams }: PageProps) {
             </div>
             <span
               className="v2-mono text-[11px] tracking-[0.14em]"
-              style={{ color: "var(--v3-ink-300)" }}
+              style={{ color: "var(--v4-ink-300)" }}
             >
               Combined MRR: {formatUsd(leaderboard.totalMrrCents)}
             </span>
@@ -257,10 +257,10 @@ export default async function RevenuePage({ searchParams }: PageProps) {
             <div
               className="px-4 py-6 text-sm"
               style={{
-                background: "var(--v3-bg-025)",
-                border: "1px dashed var(--v3-line-100)",
+                background: "var(--v4-bg-025)",
+                border: "1px dashed var(--v4-line-100)",
                 borderRadius: 2,
-                color: "var(--v3-ink-400)",
+                color: "var(--v4-ink-400)",
               }}
             >
               No startups in this filter.
@@ -286,20 +286,20 @@ export default async function RevenuePage({ searchParams }: PageProps) {
 
           <footer
             className="mt-8 flex flex-wrap items-center gap-3 text-xs"
-            style={{ color: "var(--v3-ink-400)" }}
+            style={{ color: "var(--v4-ink-400)" }}
           >
             <Link
               href="/tools/revenue-estimate"
-              className="transition-colors hover:text-[color:var(--v3-ink-100)]"
-              style={{ color: "var(--v3-ink-300)" }}
+              className="transition-colors hover:text-[color:var(--v4-ink-100)]"
+              style={{ color: "var(--v4-ink-300)" }}
             >
               Try the MRR estimator →
             </Link>
-            <span aria-hidden style={{ color: "var(--v3-line-300)" }}>·</span>
+            <span aria-hidden style={{ color: "var(--v4-line-300)" }}>·</span>
             <Link
               href="/submit/revenue"
-              className="transition-colors hover:text-[color:var(--v3-ink-100)]"
-              style={{ color: "var(--v3-ink-300)" }}
+              className="transition-colors hover:text-[color:var(--v4-ink-100)]"
+              style={{ color: "var(--v4-ink-300)" }}
             >
               Claim or submit revenue →
             </Link>
@@ -345,12 +345,12 @@ function CategoryFilter({
           className="v2-mono px-2.5 py-1 text-[11px] uppercase tracking-[0.16em] transition"
           style={{
             border: chip.active
-              ? "1px solid var(--v3-sig-green)"
-              : "1px solid var(--v3-line-200)",
+              ? "1px solid var(--v4-money)"
+              : "1px solid var(--v4-line-200)",
             background: chip.active
               ? "rgba(34, 197, 94, 0.1)"
-              : "var(--v3-bg-100)",
-            color: chip.active ? "var(--v3-ink-000)" : "var(--v3-ink-300)",
+              : "var(--v4-bg-100)",
+            color: chip.active ? "var(--v4-ink-000)" : "var(--v4-ink-300)",
             borderRadius: 2,
           }}
         >
@@ -366,10 +366,10 @@ function TrackedColdState() {
     <div
       className="px-4 py-6 text-sm"
       style={{
-        background: "var(--v3-bg-025)",
-        border: "1px dashed var(--v3-line-100)",
+        background: "var(--v4-bg-025)",
+        border: "1px dashed var(--v4-line-100)",
         borderRadius: 2,
-        color: "var(--v3-ink-400)",
+        color: "var(--v4-ink-400)",
       }}
     >
       No tracked repos currently match a verified-revenue startup. Most

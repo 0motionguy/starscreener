@@ -97,9 +97,9 @@ function RepoActionLinks({ row }: { row: TwitterLeaderboardRow }) {
           rel="noopener noreferrer"
           className="inline-flex h-6 w-6 items-center justify-center rounded-full transition-colors"
           style={{
-            border: "1px solid var(--v3-line-200)",
-            background: "var(--v3-bg-100)",
-            color: "var(--v3-ink-400)",
+            border: "1px solid var(--v4-line-200)",
+            background: "var(--v4-bg-100)",
+            color: "var(--v4-ink-400)",
           }}
           aria-label={`Open the strongest X mention for ${row.githubFullName}`}
           title={`Open the strongest X mention for ${row.githubFullName}`}
@@ -124,9 +124,9 @@ function RepoActionLinks({ row }: { row: TwitterLeaderboardRow }) {
           rel="noopener noreferrer"
           className="inline-flex h-6 w-6 items-center justify-center rounded-full transition-colors"
           style={{
-            border: "1px solid var(--v3-line-200)",
-            background: "var(--v3-bg-100)",
-            color: "var(--v3-ink-400)",
+            border: "1px solid var(--v4-line-200)",
+            background: "var(--v4-bg-100)",
+            color: "var(--v4-ink-400)",
           }}
           aria-label={
             row.homepageUrl
@@ -223,7 +223,7 @@ function TwitterTabNav({
     <nav
       aria-label="Twitter leaderboard tabs"
       className="mb-6 flex items-center gap-1 overflow-x-auto scrollbar-hide"
-      style={{ borderBottom: "1px solid var(--v3-line-100)" }}
+      style={{ borderBottom: "1px solid var(--v4-line-100)" }}
     >
       {tabs.map((tab) => {
         const isActive = tab.id === activeTab;
@@ -234,7 +234,7 @@ function TwitterTabNav({
             aria-current={isActive ? "page" : undefined}
             className="v2-mono inline-flex min-h-[40px] shrink-0 items-center gap-2 px-3 text-[11px] uppercase tracking-[0.18em] transition-colors"
             style={{
-              color: isActive ? "var(--v3-ink-100)" : "var(--v3-ink-400)",
+              color: isActive ? "var(--v4-ink-100)" : "var(--v4-ink-400)",
               borderBottom: isActive
                 ? `2px solid ${TWITTER_BLUE}`
                 : "2px solid transparent",
@@ -244,9 +244,9 @@ function TwitterTabNav({
             <span
               className="inline-flex h-[18px] min-w-[22px] items-center justify-center px-1 text-[10px] tabular-nums"
               style={{
-                border: "1px solid var(--v3-line-200)",
-                background: "var(--v3-bg-100)",
-                color: "var(--v3-ink-400)",
+                border: "1px solid var(--v4-line-200)",
+                background: "var(--v4-bg-100)",
+                color: "var(--v4-ink-400)",
                 borderRadius: 2,
               }}
             >
@@ -312,14 +312,14 @@ export default async function TwitterPage({
           <section
             className="p-8"
             style={{
-              background: "var(--v3-bg-025)",
-              border: "1px dashed var(--v3-line-100)",
+              background: "var(--v4-bg-025)",
+              border: "1px dashed var(--v4-line-100)",
               borderRadius: 2,
             }}
           >
             <h2
               className="v2-mono text-lg font-bold uppercase tracking-[0.18em]"
-              style={{ color: "var(--v3-acc)" }}
+              style={{ color: "var(--v4-acc)" }}
             >
               {activeTab === "global"
                 ? "// no global X findings yet"
@@ -327,10 +327,10 @@ export default async function TwitterPage({
             </h2>
             <p
               className="mt-3 max-w-xl text-sm"
-              style={{ color: "var(--v3-ink-300)" }}
+              style={{ color: "var(--v4-ink-300)" }}
             >
               Post a completed OpenClaw scan to{" "}
-              <code style={{ color: "var(--v3-ink-100)" }}>
+              <code style={{ color: "var(--v4-ink-100)" }}>
                 /api/internal/signals/twitter/v1/ingest
               </code>{" "}
               to populate this leaderboard.
@@ -340,8 +340,8 @@ export default async function TwitterPage({
           <section
             className="overflow-x-auto"
             style={{
-              background: "var(--v3-bg-050)",
-              border: "1px solid var(--v3-line-200)",
+              background: "var(--v4-bg-050)",
+              border: "1px solid var(--v4-line-200)",
               borderRadius: 2,
             }}
           >
@@ -349,9 +349,9 @@ export default async function TwitterPage({
               <div
                 className="v2-mono grid h-9 grid-cols-[36px_56px_minmax(260px,1.7fr)_72px_72px_72px_72px_88px] items-center gap-3 px-3 text-[10px] uppercase tracking-[0.18em]"
                 style={{
-                  borderBottom: "1px solid var(--v3-line-100)",
-                  background: "var(--v3-bg-025)",
-                  color: "var(--v3-ink-400)",
+                  borderBottom: "1px solid var(--v4-line-100)",
+                  background: "var(--v4-bg-025)",
+                  color: "var(--v4-ink-400)",
                 }}
               >
                 <div>{activeTab === "global" ? "#" : "TR"}</div>
@@ -383,7 +383,7 @@ export default async function TwitterPage({
                       ? {
                           border: "1px solid rgba(245, 110, 15, 0.4)",
                           background: "rgba(245, 110, 15, 0.1)",
-                          color: "var(--v3-acc)",
+                          color: "var(--v4-acc)",
                         }
                       : row.badgeState === "x"
                         ? {
@@ -392,8 +392,8 @@ export default async function TwitterPage({
                             color: "#4db7ff",
                           }
                         : {
-                            border: "1px solid var(--v3-line-200)",
-                            color: "var(--v3-ink-400)",
+                            border: "1px solid var(--v4-line-200)",
+                            color: "var(--v4-ink-400)",
                           };
 
                   return (
@@ -401,7 +401,7 @@ export default async function TwitterPage({
                       key={row.repoId}
                       className="v2-row group grid grid-cols-[36px_56px_minmax(260px,1.7fr)_72px_72px_72px_72px_88px] items-center gap-3 px-3 py-2"
                       style={{
-                        borderBottom: "1px dashed var(--v3-line-100)",
+                        borderBottom: "1px dashed var(--v4-line-100)",
                         animation:
                           "slide-up 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both",
                         animationDelay: stagger > 0 ? `${stagger}ms` : undefined,
@@ -409,7 +409,7 @@ export default async function TwitterPage({
                     >
                       <div
                         className="text-xs tabular-nums"
-                        style={{ color: "var(--v3-ink-400)" }}
+                        style={{ color: "var(--v4-ink-400)" }}
                       >
                         {rankLabel}
                       </div>
@@ -427,14 +427,14 @@ export default async function TwitterPage({
                               unoptimized
                               className="h-[18px] w-[18px] shrink-0 rounded-full"
                               style={{
-                                border: "1px solid var(--v3-line-200)",
-                                background: "var(--v3-bg-100)",
+                                border: "1px solid var(--v4-line-200)",
+                                background: "var(--v4-bg-100)",
                               }}
                             />
                             <Link
                               href={`/repo/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`}
-                              className="truncate text-sm font-medium transition-colors hover:text-[color:var(--v3-acc)]"
-                              style={{ color: "var(--v3-ink-100)" }}
+                              className="truncate text-sm font-medium transition-colors hover:text-[color:var(--v4-acc)]"
+                              style={{ color: "var(--v4-ink-100)" }}
                             >
                               {row.githubFullName}
                             </Link>
@@ -444,7 +444,7 @@ export default async function TwitterPage({
                         {activeTab === "trending" ? (
                           <div
                             className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[10px]"
-                            style={{ color: "var(--v3-ink-400)" }}
+                            style={{ color: "var(--v4-ink-400)" }}
                           >
                             {row.momentumScore !== undefined ? (
                               <span>{row.momentumScore.toFixed(1)} momentum</span>
@@ -462,25 +462,25 @@ export default async function TwitterPage({
                       </div>
                       <div
                         className="text-right text-xs tabular-nums"
-                        style={{ color: "var(--v3-ink-100)" }}
+                        style={{ color: "var(--v4-ink-100)" }}
                       >
                         {formatNumber(row.mentionCount24h)}
                       </div>
                       <div
                         className="text-right text-xs tabular-nums"
-                        style={{ color: "var(--v3-ink-100)" }}
+                        style={{ color: "var(--v4-ink-100)" }}
                       >
                         {formatNumber(row.totalLikes24h)}
                       </div>
                       <div
                         className="text-right text-xs tabular-nums"
-                        style={{ color: "var(--v3-ink-100)" }}
+                        style={{ color: "var(--v4-ink-100)" }}
                       >
                         {formatNumber(row.totalReposts24h)}
                       </div>
                       <div
                         className="text-right text-xs font-semibold tabular-nums"
-                        style={{ color: "var(--v3-acc)" }}
+                        style={{ color: "var(--v4-acc)" }}
                       >
                         {row.finalTwitterScore.toFixed(1)}
                       </div>

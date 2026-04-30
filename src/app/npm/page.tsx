@@ -126,7 +126,7 @@ function TabNav({ active }: { active: NpmWindow }) {
     <nav
       aria-label="npm time windows"
       className="mb-6 flex items-center gap-1 overflow-x-auto scrollbar-hide"
-      style={{ borderBottom: "1px solid var(--v3-line-100)" }}
+      style={{ borderBottom: "1px solid var(--v4-line-100)" }}
     >
       {WINDOWS.map((window) => {
         const isActive = window === active;
@@ -137,7 +137,7 @@ function TabNav({ active }: { active: NpmWindow }) {
             aria-current={isActive ? "page" : undefined}
             className="v2-mono inline-flex min-h-[40px] items-center gap-2 px-3 text-[11px] uppercase tracking-[0.18em] whitespace-nowrap transition-colors"
             style={{
-              color: isActive ? "var(--v3-ink-100)" : "var(--v3-ink-400)",
+              color: isActive ? "var(--v4-ink-100)" : "var(--v4-ink-400)",
               borderBottom: isActive
                 ? `2px solid ${NPM_RED}`
                 : "2px solid transparent",
@@ -168,7 +168,7 @@ function PackageFeed({
       render: (_, i) => (
         <span
           className="font-mono text-[12px] tabular-nums font-semibold"
-          style={{ color: i < 10 ? NPM_RED : "var(--v3-ink-400)" }}
+          style={{ color: i < 10 ? NPM_RED : "var(--v4-ink-400)" }}
         >
           {String(i + 1).padStart(2, "0")}
         </span>
@@ -280,15 +280,15 @@ function PackageIdentity({ pkg }: { pkg: NpmPackageRow }) {
           href={pkg.npmUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="block truncate text-[13px] font-semibold transition-colors hover:text-[color:var(--v3-acc)]"
-          style={{ color: "var(--v3-ink-100)" }}
+          className="block truncate text-[13px] font-semibold transition-colors hover:text-[color:var(--v4-acc)]"
+          style={{ color: "var(--v4-ink-100)" }}
           title={pkg.name}
         >
           {pkg.name}
         </a>
         <div
           className="truncate text-[11px]"
-          style={{ color: "var(--v3-ink-400)" }}
+          style={{ color: "var(--v4-ink-400)" }}
         >
           {pkg.description ?? "repo-linked npm package"}
         </div>
@@ -303,8 +303,8 @@ function RepoLink({ pkg }: { pkg: NpmPackageRow }) {
     return (
       <Link
         href={`/repo/${derived.owner}/${derived.name}`}
-        className="block truncate text-xs transition-colors hover:text-[color:var(--v3-acc)]"
-        style={{ color: "var(--v3-ink-100)" }}
+        className="block truncate text-xs transition-colors hover:text-[color:var(--v4-acc)]"
+        style={{ color: "var(--v4-ink-100)" }}
         title={pkg.linkedRepo}
       >
         {pkg.linkedRepo}
@@ -316,8 +316,8 @@ function RepoLink({ pkg }: { pkg: NpmPackageRow }) {
       href={pkg.repositoryUrl ?? `https://github.com/${pkg.linkedRepo}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="block truncate text-xs transition-colors hover:text-[color:var(--v3-acc)]"
-      style={{ color: "var(--v3-ink-300)" }}
+      className="block truncate text-xs transition-colors hover:text-[color:var(--v4-acc)]"
+      style={{ color: "var(--v4-ink-300)" }}
       title={pkg.linkedRepo}
     >
       {pkg.linkedRepo}
@@ -339,16 +339,16 @@ function Metric({
   const pct = Number(deltaPct) || 0;
   const deltaColor =
     delta > 0
-      ? "var(--v3-sig-green)"
+      ? "var(--v4-money)"
       : delta < 0
-        ? "var(--v3-sig-red)"
-        : "var(--v3-ink-300)";
+        ? "var(--v4-red)"
+        : "var(--v4-ink-300)";
   const pctColor =
     pct > 0
-      ? "var(--v3-sig-green)"
+      ? "var(--v4-money)"
       : pct < 0
-        ? "var(--v3-sig-red)"
-        : "var(--v3-ink-400)";
+        ? "var(--v4-red)"
+        : "var(--v4-ink-400)";
   return (
     <div className="text-right text-xs tabular-nums">
       {/* Total installs — primary, large, ink-100. NPM's whole point is
@@ -357,14 +357,14 @@ function Metric({
       <div
         className="font-mono text-[13px]"
         style={{
-          color: active ? "var(--v3-ink-000)" : "var(--v3-ink-100)",
+          color: active ? "var(--v4-ink-000)" : "var(--v4-ink-100)",
           fontWeight: active ? 600 : 500,
         }}
       >
         {formatCompact(current)}
         <span
           className="ml-0.5 text-[10px]"
-          style={{ color: "var(--v3-ink-400)" }}
+          style={{ color: "var(--v4-ink-400)" }}
         >
           {" "}dl
         </span>
@@ -413,8 +413,8 @@ function ColdState() {
     <section
       className="p-8"
       style={{
-        background: "var(--v3-bg-025)",
-        border: "1px dashed var(--v3-line-100)",
+        background: "var(--v4-bg-025)",
+        border: "1px dashed var(--v4-line-100)",
         borderRadius: 2,
       }}
     >
@@ -426,12 +426,12 @@ function ColdState() {
       </h2>
       <p
         className="mt-3 max-w-xl text-sm"
-        style={{ color: "var(--v3-ink-300)" }}
+        style={{ color: "var(--v4-ink-300)" }}
       >
-        Run <code style={{ color: "var(--v3-ink-100)" }}>npm run scrape:npm</code>{" "}
+        Run <code style={{ color: "var(--v4-ink-100)" }}>npm run scrape:npm</code>{" "}
         to discover npm packages, keep only packages with GitHub repos attached,
         and populate{" "}
-        <code style={{ color: "var(--v3-ink-100)" }}>data/npm-packages.json</code>.
+        <code style={{ color: "var(--v4-ink-100)" }}>data/npm-packages.json</code>.
       </p>
     </section>
   );

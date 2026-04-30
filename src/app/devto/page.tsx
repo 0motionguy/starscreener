@@ -133,7 +133,7 @@ function ArticlesFeed({ articles }: { articles: DevtoArticle[] }) {
       render: (_, i) => (
         <span
           className="font-mono text-[12px] tabular-nums font-semibold"
-          style={{ color: i < 10 ? DEVTO_BLUE : "var(--v3-ink-400)" }}
+          style={{ color: i < 10 ? DEVTO_BLUE : "var(--v4-ink-400)" }}
         >
           {String(i + 1).padStart(2, "0")}
         </span>
@@ -175,15 +175,15 @@ function ArticlesFeed({ articles }: { articles: DevtoArticle[] }) {
             href={devtoArticleHref(a.url)}
             target="_blank"
             rel="noopener noreferrer"
-            className="block truncate text-[13px] font-medium transition-colors hover:text-[color:var(--v3-acc)]"
-            style={{ color: "var(--v3-ink-100)" }}
+            className="block truncate text-[13px] font-medium transition-colors hover:text-[color:var(--v4-acc)]"
+            style={{ color: "var(--v4-ink-100)" }}
             title={a.title}
           >
             {a.title}
           </a>
           <div
             className="truncate text-[11px]"
-            style={{ color: "var(--v3-ink-400)" }}
+            style={{ color: "var(--v4-ink-400)" }}
           >
             by @{a.author.username} · {a.readingTime} min read
           </div>
@@ -200,7 +200,7 @@ function ArticlesFeed({ articles }: { articles: DevtoArticle[] }) {
         <span
           className="inline-flex items-center justify-end gap-1 font-mono text-[12px] tabular-nums"
           style={{
-            color: a.reactionsCount >= 50 ? "var(--v3-sig-green)" : "var(--v3-ink-200)",
+            color: a.reactionsCount >= 50 ? "var(--v4-money)" : "var(--v4-ink-200)",
           }}
         >
           <HeartIcon className="h-3 w-3" />
@@ -217,7 +217,7 @@ function ArticlesFeed({ articles }: { articles: DevtoArticle[] }) {
       render: (a) => (
         <span
           className="font-mono text-[12px] tabular-nums"
-          style={{ color: "var(--v3-ink-300)" }}
+          style={{ color: "var(--v4-ink-300)" }}
         >
           {a.commentsCount.toLocaleString("en-US")}
         </span>
@@ -230,13 +230,13 @@ function ArticlesFeed({ articles }: { articles: DevtoArticle[] }) {
       hideBelow: "md",
       render: (a) => {
         const tag = a.tags?.[0];
-        if (!tag) return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+        if (!tag) return <span style={{ color: "var(--v4-ink-500)" }}>—</span>;
         return (
           <span
             className="v2-mono inline-block max-w-full truncate px-1.5 py-0.5 text-[10px] tracking-[0.14em] uppercase"
             style={{
-              border: "1px solid var(--v3-line-200)",
-              color: "var(--v3-ink-400)",
+              border: "1px solid var(--v4-line-200)",
+              color: "var(--v4-ink-400)",
               borderRadius: 2,
             }}
             title={a.tags.join(", ")}
@@ -254,7 +254,7 @@ function ArticlesFeed({ articles }: { articles: DevtoArticle[] }) {
       render: (a) => (
         <span
           className="font-mono text-[12px] tabular-nums"
-          style={{ color: "var(--v3-ink-400)" }}
+          style={{ color: "var(--v4-ink-400)" }}
         >
           {formatAgeFromIso(a.publishedAt)}
         </span>
@@ -289,20 +289,20 @@ function Leaderboard({
       <div
         className="p-4"
         style={{
-          background: "var(--v3-bg-025)",
-          border: "1px dashed var(--v3-line-100)",
+          background: "var(--v4-bg-025)",
+          border: "1px dashed var(--v4-line-100)",
           borderRadius: 2,
         }}
       >
         <h3
           className="v2-mono text-[11px] uppercase tracking-[0.18em]"
-          style={{ color: "var(--v3-ink-300)" }}
+          style={{ color: "var(--v4-ink-300)" }}
         >
           REPO LEADERBOARD
         </h3>
         <p
           className="mt-2 text-[11px]"
-          style={{ color: "var(--v3-ink-400)" }}
+          style={{ color: "var(--v4-ink-400)" }}
         >
           {"// no articles cross-linked to tracked repos yet — broaden the scrape window or wait for fresh data"}
         </p>
@@ -314,27 +314,27 @@ function Leaderboard({
     <div
       className="overflow-hidden"
       style={{
-        background: "var(--v3-bg-050)",
-        border: "1px solid var(--v3-line-200)",
+        background: "var(--v4-bg-050)",
+        border: "1px solid var(--v4-line-200)",
         borderRadius: 2,
       }}
     >
       <div
         className="v2-mono flex h-9 items-center justify-between px-3"
         style={{
-          borderBottom: "1px solid var(--v3-line-100)",
-          background: "var(--v3-bg-025)",
+          borderBottom: "1px solid var(--v4-line-100)",
+          background: "var(--v4-bg-025)",
         }}
       >
         <span
           className="text-[10px] uppercase tracking-[0.18em]"
-          style={{ color: "var(--v3-ink-300)" }}
+          style={{ color: "var(--v4-ink-300)" }}
         >
           REPO LEADERBOARD
         </span>
         <span
           className="text-[10px] tabular-nums tracking-[0.14em]"
-          style={{ color: "var(--v3-ink-400)" }}
+          style={{ color: "var(--v4-ink-400)" }}
         >
           {entries.length}/{totalRepos}
         </span>
@@ -342,8 +342,8 @@ function Leaderboard({
       <div
         className="v2-mono grid h-7 grid-cols-[28px_1fr_40px_50px] items-center gap-2 px-3 text-[10px] uppercase tracking-[0.18em]"
         style={{
-          borderBottom: "1px solid var(--v3-line-100)",
-          color: "var(--v3-ink-400)",
+          borderBottom: "1px solid var(--v4-line-100)",
+          color: "var(--v4-ink-400)",
         }}
       >
         <div>#</div>
@@ -359,22 +359,22 @@ function Leaderboard({
               key={entry.fullName}
               className="v2-row group grid h-9 grid-cols-[28px_1fr_40px_50px] items-center gap-2 px-3"
               style={{
-                borderBottom: "1px dashed var(--v3-line-100)",
+                borderBottom: "1px dashed var(--v4-line-100)",
                 animation: "slide-up 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both",
                 animationDelay: stagger > 0 ? `${stagger}ms` : undefined,
               }}
             >
               <div
                 className="font-mono text-xs tabular-nums"
-                style={{ color: "var(--v3-ink-400)" }}
+                style={{ color: "var(--v4-ink-400)" }}
               >
                 {i + 1}
               </div>
               <div className="min-w-0">
                 <Link
                   href={repoFullNameToHref(entry.fullName)}
-                  className="block truncate text-xs transition-colors hover:text-[color:var(--v3-acc)]"
-                  style={{ color: "var(--v3-ink-100)" }}
+                  className="block truncate text-xs transition-colors hover:text-[color:var(--v4-acc)]"
+                  style={{ color: "var(--v4-ink-100)" }}
                   title={entry.fullName}
                 >
                   {entry.fullName}
@@ -382,13 +382,13 @@ function Leaderboard({
               </div>
               <div
                 className="text-right text-xs tabular-nums"
-                style={{ color: "var(--v3-ink-200)" }}
+                style={{ color: "var(--v4-ink-200)" }}
               >
                 {entry.count7d.toLocaleString("en-US")}
               </div>
               <div
                 className="inline-flex items-center justify-end gap-1 text-right text-xs tabular-nums"
-                style={{ color: "var(--v3-ink-400)" }}
+                style={{ color: "var(--v4-ink-400)" }}
               >
                 <HeartIcon className="h-2.5 w-2.5" />
                 {entry.reactionsSum7d.toLocaleString("en-US")}
@@ -410,8 +410,8 @@ function ColdState() {
     <section
       className="p-8"
       style={{
-        background: "var(--v3-bg-025)",
-        border: "1px dashed var(--v3-line-100)",
+        background: "var(--v4-bg-025)",
+        border: "1px dashed var(--v4-line-100)",
         borderRadius: 2,
       }}
     >
@@ -423,14 +423,14 @@ function ColdState() {
       </h2>
       <p
         className="mt-3 max-w-xl text-sm"
-        style={{ color: "var(--v3-ink-300)" }}
+        style={{ color: "var(--v4-ink-300)" }}
       >
         The dev.to scraper hasn&apos;t produced data yet. Run{" "}
-        <code style={{ color: "var(--v3-ink-100)" }}>npm run scrape:devto</code>{" "}
+        <code style={{ color: "var(--v4-ink-100)" }}>npm run scrape:devto</code>{" "}
         locally to populate{" "}
-        <code style={{ color: "var(--v3-ink-100)" }}>data/devto-mentions.json</code>{" "}
+        <code style={{ color: "var(--v4-ink-100)" }}>data/devto-mentions.json</code>{" "}
         and{" "}
-        <code style={{ color: "var(--v3-ink-100)" }}>data/devto-trending.json</code>,
+        <code style={{ color: "var(--v4-ink-100)" }}>data/devto-trending.json</code>,
         then refresh this page.
       </p>
     </section>

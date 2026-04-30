@@ -85,10 +85,10 @@ function FeedSkeleton() {
     <div
       className="p-6 text-sm"
       style={{
-        background: "var(--v3-bg-025)",
-        border: "1px solid var(--v3-line-200)",
+        background: "var(--v4-bg-025)",
+        border: "1px solid var(--v4-line-200)",
         borderRadius: 2,
-        color: "var(--v3-ink-400)",
+        color: "var(--v4-ink-400)",
       }}
     >
       Loading feed...
@@ -101,8 +101,8 @@ function ColdState() {
     <section
       className="p-8"
       style={{
-        background: "var(--v3-bg-025)",
-        border: "1px dashed var(--v3-line-100)",
+        background: "var(--v4-bg-025)",
+        border: "1px dashed var(--v4-line-100)",
         borderRadius: 2,
       }}
     >
@@ -114,12 +114,12 @@ function ColdState() {
       </h2>
       <p
         className="mt-3 max-w-xl text-sm"
-        style={{ color: "var(--v3-ink-300)" }}
+        style={{ color: "var(--v4-ink-300)" }}
       >
         The Reddit scraper has not run yet. Run{" "}
-        <code style={{ color: "var(--v3-ink-100)" }}>npm run scrape:reddit</code>{" "}
+        <code style={{ color: "var(--v4-ink-100)" }}>npm run scrape:reddit</code>{" "}
         locally to populate{" "}
-        <code style={{ color: "var(--v3-ink-100)" }}>data/reddit-all-posts.json</code>,
+        <code style={{ color: "var(--v4-ink-100)" }}>data/reddit-all-posts.json</code>,
         then refresh this page.
       </p>
     </section>

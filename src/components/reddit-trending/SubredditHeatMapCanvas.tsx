@@ -188,9 +188,9 @@ function truncate(s: string, max: number): string {
 }
 
 function deltaColor(ratio: number): { color: string; arrow: "↑" | "↓" | "→" } {
-  if (ratio > 1.3) return { color: "var(--v3-sig-green)", arrow: "↑" };
+  if (ratio > 1.3) return { color: "var(--v4-money)", arrow: "↑" };
   if (ratio >= 0.7) return { color: "rgba(255,255,255,0.65)", arrow: "→" };
-  return { color: "var(--v3-sig-red)", arrow: "↓" };
+  return { color: "var(--v4-red)", arrow: "↓" };
 }
 
 function deltaText(ratio: number): string {

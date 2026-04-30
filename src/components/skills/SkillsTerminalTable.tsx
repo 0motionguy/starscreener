@@ -160,10 +160,10 @@ function CollectionSummaryRow({
     <details className="group">
       <summary
         className="cursor-pointer list-none font-mono text-[11px] uppercase tracking-[0.16em] hover:underline"
-        style={{ color: "var(--v3-ink-300)" }}
+        style={{ color: "var(--v4-ink-300)" }}
       >
         +{row.siblingCount} more from{" "}
-        <span style={{ color: "var(--v3-ink-200)" }}>{row.parentRepo}</span>{" "}
+        <span style={{ color: "var(--v4-ink-200)" }}>{row.parentRepo}</span>{" "}
         ({totalLabel}) ▾
       </summary>
       <ul className="mt-1 ml-4 space-y-1 text-[11px]">
@@ -174,14 +174,14 @@ function CollectionSummaryRow({
               target="_blank"
               rel="noopener noreferrer"
               className="font-mono hover:underline"
-              style={{ color: "var(--v3-ink-200)" }}
+              style={{ color: "var(--v4-ink-200)" }}
             >
               {s.title}
             </a>
             {s.popularity !== null ? (
               <span
                 className="font-mono tabular-nums"
-                style={{ color: "var(--v3-ink-400)" }}
+                style={{ color: "var(--v4-ink-400)" }}
               >
                 {formatCompactNumber(s.popularity)}
               </span>
@@ -191,7 +191,7 @@ function CollectionSummaryRow({
         {row.siblings.length > 30 ? (
           <li
             className="font-mono italic"
-            style={{ color: "var(--v3-ink-500)" }}
+            style={{ color: "var(--v4-ink-500)" }}
           >
             +{row.siblings.length - 30} more not shown
           </li>
@@ -214,7 +214,7 @@ const SKILL_COLUMNS: FeedColumn<EcosystemLeaderboardItem>[] = [
     render: (row) => (
       <span
         className="font-mono tabular-nums"
-        style={{ color: "var(--v3-ink-300)" }}
+        style={{ color: "var(--v4-ink-300)" }}
       >
         {row.rank}
       </span>
@@ -258,7 +258,7 @@ const SKILL_COLUMNS: FeedColumn<EcosystemLeaderboardItem>[] = [
     render: (row) => (
       <span
         className="font-mono tabular-nums"
-        style={{ color: "var(--v3-ink-300)" }}
+        style={{ color: "var(--v4-ink-300)" }}
       >
         {fmtRelativeAge(row.lastPushedAt)}
       </span>
@@ -307,22 +307,22 @@ function TerminalCellSkillTitle({ row }: { row: EcosystemLeaderboardItem }) {
           href={row.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="line-clamp-1 font-medium transition-colors hover:text-[color:var(--v3-acc)]"
-          style={{ color: "var(--v3-ink-100)" }}
+          className="line-clamp-1 font-medium transition-colors hover:text-[color:var(--v4-acc)]"
+          style={{ color: "var(--v4-ink-100)" }}
         >
           {row.title}
         </a>
         <div
           className="mt-0.5 flex flex-wrap items-center gap-1.5 text-[10px]"
-          style={{ color: "var(--v3-ink-400)" }}
+          style={{ color: "var(--v4-ink-400)" }}
         >
           {owner ? <span className="truncate">{owner}</span> : null}
           {usedByLabel ? (
             <span
               className="v2-mono inline-flex items-center px-1 py-0.5 uppercase tracking-[0.16em]"
               style={{
-                border: "1px solid var(--v3-line-200)",
-                color: "var(--v3-ink-300)",
+                border: "1px solid var(--v4-line-200)",
+                color: "var(--v4-ink-300)",
                 borderRadius: 2,
               }}
               title={
@@ -349,16 +349,16 @@ function TerminalCellSkillNumber({
   signed?: boolean;
 }) {
   if (value === undefined || value === null || !Number.isFinite(value)) {
-    return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+    return <span style={{ color: "var(--v4-ink-500)" }}>—</span>;
   }
   const formatted = formatCompactNumber(Math.abs(value));
   const sign = signed ? (value > 0 ? "+" : value < 0 ? "−" : "") : "";
   const color =
     signed && value > 0
-      ? "var(--v3-sig-green)"
+      ? "var(--v4-money)"
       : signed && value < 0
-        ? "var(--v3-sig-red, #ff6b6b)"
-        : "var(--v3-ink-200)";
+        ? "var(--v4-red, #ff4d4d)"
+        : "var(--v4-ink-200)";
   return (
     <span className="font-mono tabular-nums" style={{ color }}>
       {sign}
@@ -376,18 +376,18 @@ function TerminalCellForksWithFallback({ row }: { row: EcosystemLeaderboardItem 
   }
   if (typeof row.forks === "number" && Number.isFinite(row.forks) && row.forks > 0) {
     return (
-      <span className="font-mono tabular-nums" style={{ color: "var(--v3-ink-300)" }}>
+      <span className="font-mono tabular-nums" style={{ color: "var(--v4-ink-300)" }}>
         {formatCompactNumber(row.forks)}
         <span
           className="ml-1 text-[9px] uppercase tracking-[0.16em]"
-          style={{ color: "var(--v3-ink-500)" }}
+          style={{ color: "var(--v4-ink-500)" }}
         >
           abs
         </span>
       </span>
     );
   }
-  return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+  return <span style={{ color: "var(--v4-ink-500)" }}>—</span>;
 }
 
 function TerminalCellInstallsWithFallback({ row }: { row: EcosystemLeaderboardItem }) {
@@ -396,23 +396,23 @@ function TerminalCellInstallsWithFallback({ row }: { row: EcosystemLeaderboardIt
   }
   if (typeof row.installs7d === "number" && Number.isFinite(row.installs7d) && row.installs7d > 0) {
     return (
-      <span className="font-mono tabular-nums" style={{ color: "var(--v3-ink-300)" }}>
+      <span className="font-mono tabular-nums" style={{ color: "var(--v4-ink-300)" }}>
         {formatCompactNumber(row.installs7d)}
         <span
           className="ml-1 text-[9px] uppercase tracking-[0.16em]"
-          style={{ color: "var(--v3-ink-500)" }}
+          style={{ color: "var(--v4-ink-500)" }}
         >
           abs
         </span>
       </span>
     );
   }
-  return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+  return <span style={{ color: "var(--v4-ink-500)" }}>—</span>;
 }
 
 function TerminalCellSkillDerivative({ row }: { row: EcosystemLeaderboardItem }) {
   if (row.derivativeRepoCount === undefined || row.derivativeRepoCount === null) {
-    return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+    return <span style={{ color: "var(--v4-ink-500)" }}>—</span>;
   }
   // E3: tooltip surfaces sample sources (registry the count was derived from)
   // when present. Today's payload carries roster keys ("trending-skill",
@@ -430,7 +430,7 @@ function TerminalCellSkillDerivative({ row }: { row: EcosystemLeaderboardItem })
   return (
     <span
       className="font-mono tabular-nums"
-      style={{ color: "var(--v3-ink-100)" }}
+      style={{ color: "var(--v4-ink-100)" }}
       title={tooltip}
     >
       {formatCompactNumber(row.derivativeRepoCount)}
@@ -452,7 +452,7 @@ export function TerminalCellHotness({
 }) {
   const value = rawScore ?? signalScore;
   if (value === undefined || value === null || !Number.isFinite(value)) {
-    return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+    return <span style={{ color: "var(--v4-ink-500)" }}>—</span>;
   }
   const pct = Math.max(0, Math.min(100, value));
   return (
@@ -463,7 +463,7 @@ export function TerminalCellHotness({
         style={{
           width: 28,
           height: 4,
-          background: "var(--v3-bg-100)",
+          background: "var(--v4-bg-100)",
           borderRadius: 1,
           overflow: "hidden",
         }}
@@ -479,7 +479,7 @@ export function TerminalCellHotness({
       </span>
       <span
         className="font-mono font-semibold tabular-nums"
-        style={{ color: "var(--v3-ink-000)" }}
+        style={{ color: "var(--v4-ink-000)" }}
       >
         {Math.round(pct)}
       </span>
@@ -500,8 +500,8 @@ function TerminalCellSkillSource({ row }: { row: EcosystemLeaderboardItem }) {
         rel="noopener noreferrer"
         className="v2-mono inline-flex items-center px-1.5 py-0.5 text-[10px] uppercase tracking-[0.16em] hover:underline"
         style={{
-          border: "1px solid var(--v3-line-200)",
-          color: "var(--v3-ink-200)",
+          border: "1px solid var(--v4-line-200)",
+          color: "var(--v4-ink-200)",
           borderRadius: 2,
         }}
       >
@@ -512,8 +512,8 @@ function TerminalCellSkillSource({ row }: { row: EcosystemLeaderboardItem }) {
           href={repoUrl}
           className="v2-mono inline-flex items-center px-1.5 py-0.5 text-[10px] uppercase tracking-[0.16em] hover:underline"
           style={{
-            border: "1px solid var(--v3-line-200)",
-            color: "var(--v3-sig-green)",
+            border: "1px solid var(--v4-line-200)",
+            color: "var(--v4-money)",
             borderRadius: 2,
           }}
           title={row.linkedRepo ?? undefined}

@@ -64,7 +64,7 @@ export function TerminalCellRank({ index }: { index: number }) {
   return (
     <span
       className="font-mono text-[12px] tabular-nums font-semibold"
-      style={{ color: index < 10 ? "var(--v3-acc)" : "var(--v3-ink-400)" }}
+      style={{ color: index < 10 ? "var(--v4-acc)" : "var(--v4-ink-400)" }}
     >
       {String(index + 1).padStart(2, "0")}
     </span>
@@ -88,15 +88,15 @@ export function TerminalCellTitle({ item }: { item: EcosystemLeaderboardItem }) 
       <div className="min-w-0">
         <Link
           href={`/mcp/${slugForMcp(item)}`}
-          className="block truncate text-[13px] font-semibold transition-colors hover:text-[color:var(--v3-acc)]"
-          style={{ color: "var(--v3-ink-100)" }}
+          className="block truncate text-[13px] font-semibold transition-colors hover:text-[color:var(--v4-acc)]"
+          style={{ color: "var(--v4-ink-100)" }}
           title={item.title}
         >
           {item.title}
         </Link>
         <div
           className="truncate text-[11px]"
-          style={{ color: "var(--v3-ink-400)" }}
+          style={{ color: "var(--v4-ink-400)" }}
         >
           {item.vendor ?? item.description ?? item.linkedRepo ?? "MCP server"}
         </div>
@@ -107,16 +107,16 @@ export function TerminalCellTitle({ item }: { item: EcosystemLeaderboardItem }) 
 
 export function TerminalCellPackage({ mcp }: { mcp: McpDisplayFields | undefined }) {
   if (!mcp || !mcp.packageName) {
-    return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+    return <span style={{ color: "var(--v4-ink-500)" }}>—</span>;
   }
   const reg = mcp.packageRegistry;
   const regColor =
-    reg === "npm" ? "#cb3837" : reg === "pypi" ? "#3776ab" : "var(--v3-ink-400)";
+    reg === "npm" ? "#cb3837" : reg === "pypi" ? "#3776ab" : "var(--v4-ink-400)";
   return (
     <div className="flex min-w-0 flex-col gap-0.5">
       <span
         className="block truncate font-mono text-[12px]"
-        style={{ color: "var(--v3-ink-100)" }}
+        style={{ color: "var(--v4-ink-100)" }}
         title={mcp.packageName}
       >
         {mcp.packageName}
@@ -155,7 +155,7 @@ export function TerminalCellWeeklyDownloads({
   mcp: McpDisplayFields | undefined;
 }) {
   if (!mcp) {
-    return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+    return <span style={{ color: "var(--v4-ink-500)" }}>—</span>;
   }
 
   // Primary path: combined 7d downloads available.
@@ -170,14 +170,14 @@ export function TerminalCellWeeklyDownloads({
       <div className="flex flex-col items-end gap-1 tabular-nums">
         <span
           className="font-mono text-[12px] font-semibold"
-          style={{ color: "var(--v3-ink-100)" }}
+          style={{ color: "var(--v4-ink-100)" }}
         >
           {fmtCompact(mcp.downloadsCombined7d)}
         </span>
         {showSplit ? (
           <div
             className="flex h-1 w-14 overflow-hidden rounded-sm"
-            style={{ background: "var(--v3-bg-100)" }}
+            style={{ background: "var(--v4-bg-100)" }}
             title={`npm ${fmtCompact(npm)} · pypi ${fmtCompact(pypi)}`}
           >
             <span style={{ width: `${npmPct}%`, background: "#cb3837" }} />
@@ -202,12 +202,12 @@ export function TerminalCellWeeklyDownloads({
     return (
       <span
         className="font-mono text-[12px] tabular-nums"
-        style={{ color: "var(--v3-ink-300)" }}
+        style={{ color: "var(--v4-ink-300)" }}
       >
         {fmtCompact(sum)}
         <span
           className="ml-1 text-[9px] uppercase tracking-[0.16em]"
-          style={{ color: "var(--v3-ink-500)" }}
+          style={{ color: "var(--v4-ink-500)" }}
         >
           abs
         </span>
@@ -224,12 +224,12 @@ export function TerminalCellWeeklyDownloads({
     return (
       <span
         className="font-mono text-[12px] tabular-nums"
-        style={{ color: "var(--v3-ink-300)" }}
+        style={{ color: "var(--v4-ink-300)" }}
       >
         {fmtCompact(mcp.npmDependents)}
         <span
           className="ml-1 text-[9px] uppercase tracking-[0.16em]"
-          style={{ color: "var(--v3-ink-500)" }}
+          style={{ color: "var(--v4-ink-500)" }}
         >
           abs
         </span>
@@ -249,12 +249,12 @@ export function TerminalCellWeeklyDownloads({
     return (
       <span
         className="font-mono text-[12px] tabular-nums"
-        style={{ color: "var(--v3-ink-300)" }}
+        style={{ color: "var(--v4-ink-300)" }}
       >
         {fmtCompact(mcp.installsTotal)}
         <span
           className="ml-1 text-[9px] uppercase tracking-[0.16em]"
-          style={{ color: "var(--v3-ink-500)" }}
+          style={{ color: "var(--v4-ink-500)" }}
           title="lifetime installs (cold-start fallback)"
         >
           abs
@@ -273,12 +273,12 @@ export function TerminalCellWeeklyDownloads({
     return (
       <span
         className="font-mono text-[12px] tabular-nums"
-        style={{ color: "var(--v3-ink-300)" }}
+        style={{ color: "var(--v4-ink-300)" }}
       >
         {fmtCompact(mcp.starsTotal)}
         <span
           className="ml-1 text-[9px] uppercase tracking-[0.16em]"
-          style={{ color: "var(--v3-ink-500)" }}
+          style={{ color: "var(--v4-ink-500)" }}
           title="GitHub stars (final fallback)"
         >
           stars
@@ -287,7 +287,7 @@ export function TerminalCellWeeklyDownloads({
     );
   }
 
-  return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+  return <span style={{ color: "var(--v4-ink-500)" }}>—</span>;
 }
 
 // ---------------------------------------------------------------------------
@@ -301,12 +301,12 @@ export function TerminalCellWeeklyDownloads({
 
 function renderInstallWindow(value: number | null | undefined) {
   if (value === null || value === undefined || !Number.isFinite(value)) {
-    return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+    return <span style={{ color: "var(--v4-ink-500)" }}>—</span>;
   }
   return (
     <span
       className="font-mono text-[12px] tabular-nums"
-      style={{ color: "var(--v3-ink-100)" }}
+      style={{ color: "var(--v4-ink-100)" }}
     >
       {fmtCompact(value)}
     </span>
@@ -343,12 +343,12 @@ export function TerminalCellToolCount({
   mcp: McpDisplayFields | undefined;
 }) {
   if (!mcp || mcp.toolCount === null) {
-    return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+    return <span style={{ color: "var(--v4-ink-500)" }}>—</span>;
   }
   return (
     <span
       className="font-mono text-[12px] tabular-nums"
-      style={{ color: "var(--v3-ink-100)" }}
+      style={{ color: "var(--v4-ink-100)" }}
     >
       {mcp.toolCount}
     </span>
@@ -365,19 +365,19 @@ export function TerminalCellTransports({
 }: {
   mcp: McpDisplayFields | undefined;
 }) {
-  if (!mcp) return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+  if (!mcp) return <span style={{ color: "var(--v4-ink-500)" }}>—</span>;
   const transports: Array<{ label: string; tone: string }> = [];
   if (mcp.isStdio) {
-    transports.push({ label: "stdio", tone: "var(--v3-ink-300)" });
+    transports.push({ label: "stdio", tone: "var(--v4-ink-300)" });
   } else if (mcp.transport === "http") {
-    transports.push({ label: "http", tone: "var(--v3-sig-green)" });
+    transports.push({ label: "http", tone: "var(--v4-money)" });
   } else if (mcp.transport === "sse") {
-    transports.push({ label: "sse", tone: "var(--v3-acc)" });
+    transports.push({ label: "sse", tone: "var(--v4-acc)" });
   } else if (mcp.transport === "streamable-http") {
-    transports.push({ label: "stream", tone: "var(--v3-acc)" });
+    transports.push({ label: "stream", tone: "var(--v4-acc)" });
   }
   if (transports.length === 0) {
-    return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+    return <span style={{ color: "var(--v4-ink-500)" }}>—</span>;
   }
   return (
     <div className="flex flex-wrap gap-1">
@@ -413,7 +413,7 @@ export function TerminalCellLiveness({
       {c.state !== "unknown" && c.uptime7d !== null ? (
         <span
           className="font-mono text-[10px] tabular-nums"
-          style={{ color: "var(--v3-ink-400)" }}
+          style={{ color: "var(--v4-ink-400)" }}
         >
           {(c.uptime7d * 100).toFixed(1)}%
         </span>
@@ -428,12 +428,12 @@ export function TerminalCellLastRelease({
   mcp: McpDisplayFields | undefined;
 }) {
   if (!mcp || !mcp.lastReleaseAt) {
-    return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+    return <span style={{ color: "var(--v4-ink-500)" }}>—</span>;
   }
   return (
     <span
       className="font-mono text-[11px] tabular-nums"
-      style={{ color: "var(--v3-ink-200)" }}
+      style={{ color: "var(--v4-ink-200)" }}
       title={mcp.lastReleaseAt}
     >
       {fmtRelativeAge(mcp.lastReleaseAt)}
@@ -472,9 +472,9 @@ export function TerminalCellRegistries({
             key={src}
             className="v2-mono inline-flex items-center px-1.5 py-px text-[9px] uppercase tracking-[0.14em]"
             style={{
-              border: "1px solid var(--v3-line-200)",
-              background: "var(--v3-bg-100)",
-              color: "var(--v3-ink-200)",
+              border: "1px solid var(--v4-line-200)",
+              background: "var(--v4-bg-100)",
+              color: "var(--v4-ink-200)",
               borderRadius: 2,
             }}
             title={`Listed in ${src}`}
@@ -486,9 +486,9 @@ export function TerminalCellRegistries({
         <span
           className="v2-mono inline-flex items-center px-1.5 py-px text-[9px] uppercase tracking-[0.14em]"
           style={{
-            border: "1px solid var(--v3-line-200)",
-            background: "var(--v3-bg-100)",
-            color: "var(--v3-ink-200)",
+            border: "1px solid var(--v4-line-200)",
+            background: "var(--v4-bg-100)",
+            color: "var(--v4-ink-200)",
             borderRadius: 2,
           }}
           title={`Listed in ${count} registr${count === 1 ? "y" : "ies"}`}
@@ -500,9 +500,9 @@ export function TerminalCellRegistries({
         <span
           className="v2-mono inline-flex items-center px-1.5 py-px text-[9px] uppercase tracking-[0.14em]"
           style={{
-            border: "1px solid var(--v3-sig-green)66",
-            background: "var(--v3-sig-green)1A",
-            color: "var(--v3-sig-green)",
+            border: "1px solid var(--v4-money)66",
+            background: "var(--v4-money)1A",
+            color: "var(--v4-money)",
             borderRadius: 2,
           }}
           title="Official vendor"
@@ -525,12 +525,12 @@ export function TerminalCellHotness({
   const value =
     typeof item.hotness === "number" ? item.hotness : item.signalScore;
   if (value === null || value === undefined || !Number.isFinite(value)) {
-    return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+    return <span style={{ color: "var(--v4-ink-500)" }}>—</span>;
   }
   return (
     <span
       className="font-mono text-[13px] font-semibold tabular-nums"
-      style={{ color: "var(--v3-ink-000)" }}
+      style={{ color: "var(--v4-ink-000)" }}
     >
       {Math.round(value)}
     </span>
@@ -545,13 +545,13 @@ export function TerminalCellLinkedRepo({
   item: EcosystemLeaderboardItem;
 }) {
   if (!item.linkedRepo) {
-    return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+    return <span style={{ color: "var(--v4-ink-500)" }}>—</span>;
   }
   return (
     <Link
       href={`/repo/${item.linkedRepo}`}
       className="block truncate font-mono text-[11px] hover:underline"
-      style={{ color: "var(--v3-sig-green)" }}
+      style={{ color: "var(--v4-money)" }}
       title={item.linkedRepo}
     >
       {item.linkedRepo}

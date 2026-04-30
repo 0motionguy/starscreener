@@ -92,7 +92,7 @@ export function MobileDrawer() {
             aria-label="Navigation"
             className="v3-panel md:hidden fixed inset-y-0 left-0 w-[85vw] max-w-[320px] z-[60] flex flex-col"
             style={{
-              borderRight: "1px solid var(--v3-line-200)",
+              borderRight: "1px solid var(--v4-line-200)",
               borderTopRightRadius: 2,
               borderBottomRightRadius: 2,
             }}
@@ -107,29 +107,29 @@ export function MobileDrawer() {
             <div
               className="shrink-0 flex items-center gap-2 px-3 py-2"
               style={{
-                borderBottom: "1px solid var(--v3-line-std)",
-                background: "var(--v3-bg-050)",
+                borderBottom: "1px solid var(--v4-line-200)",
+                background: "var(--v4-bg-050)",
               }}
             >
               <span aria-hidden className="flex items-center gap-1.5">
                 <span
                   className="block w-1.5 h-1.5 rounded-full"
-                  style={{ background: "var(--v3-acc)" }}
+                  style={{ background: "var(--v4-acc)" }}
                 />
                 <span
                   className="block w-1.5 h-1.5 rounded-full"
-                  style={{ background: "var(--v3-line-200)" }}
+                  style={{ background: "var(--v4-line-200)" }}
                 />
                 <span
                   className="block w-1.5 h-1.5 rounded-full"
-                  style={{ background: "var(--v3-line-200)" }}
+                  style={{ background: "var(--v4-line-200)" }}
                 />
               </span>
               <span
                 className="v2-mono flex-1 truncate"
                 style={{
                   fontSize: 11,
-                  color: "var(--v3-ink-200)",
+                  color: "var(--v4-ink-200)",
                 }}
               >
                 {"// MENU · MOBILE"}

@@ -328,7 +328,7 @@ function MomentumBar({ value }: { value: number }) {
       style={{
         width: 28,
         height: 6,
-        background: "var(--v3-bg-100)",
+        background: "var(--v4-bg-100)",
         borderRadius: 1,
         overflow: "hidden",
       }}

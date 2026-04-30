@@ -71,10 +71,10 @@ export function SidebarFilters({ languages }: SidebarFiltersProps) {
                   style={
                     selected
                       ? {
-                          borderColor: "var(--v3-sig-green)",
+                          borderColor: "var(--v4-money)",
                           background:
-                            "color-mix(in srgb, var(--v3-sig-green) 12%, transparent)",
-                          color: "var(--v3-sig-green)",
+                            "color-mix(in srgb, var(--v4-money) 12%, transparent)",
+                          color: "var(--v4-money)",
                         }
                       : undefined
                   }
@@ -109,10 +109,10 @@ export function SidebarFilters({ languages }: SidebarFiltersProps) {
                 style={
                   active
                     ? {
-                        borderColor: "var(--v3-sig-green)",
+                        borderColor: "var(--v4-money)",
                         background:
-                          "color-mix(in srgb, var(--v3-sig-green) 12%, transparent)",
-                        color: "var(--v3-sig-green)",
+                          "color-mix(in srgb, var(--v4-money) 12%, transparent)",
+                        color: "var(--v4-money)",
                       }
                     : undefined
                 }
@@ -192,8 +192,8 @@ function ToggleRow({
         style={
           checked
             ? {
-                borderColor: "var(--v3-sig-green)",
-                background: "var(--v3-sig-green)",
+                borderColor: "var(--v4-money)",
+                background: "var(--v4-money)",
               }
             : undefined
         }
@@ -246,8 +246,8 @@ export function SidebarFiltersHeader() {
       <span
         className="font-mono text-[10px] px-1.5 py-0.5 rounded-[2px] tabular-nums tracking-[0.14em]"
         style={{
-          background: "color-mix(in srgb, var(--v3-sig-green) 12%, transparent)",
-          color: "var(--v3-sig-green)",
+          background: "color-mix(in srgb, var(--v4-money) 12%, transparent)",
+          color: "var(--v4-money)",
         }}
       >
         {activeCount}

@@ -210,7 +210,7 @@ function HfSpaceFeed({ spaces }: { spaces: HfSpaceTrending[] }) {
       render: (_, i) => (
         <span
           className="font-mono text-[12px] tabular-nums font-semibold"
-          style={{ color: i < 10 ? HF_ACCENT_BAR : "var(--v3-ink-400)" }}
+          style={{ color: i < 10 ? HF_ACCENT_BAR : "var(--v4-ink-400)" }}
         >
           {String(i + 1).padStart(2, "0")}
         </span>
@@ -232,8 +232,8 @@ function HfSpaceFeed({ spaces }: { spaces: HfSpaceTrending[] }) {
             href={s.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="truncate text-[13px] font-medium transition-colors hover:text-[color:var(--v3-acc)]"
-            style={{ color: "var(--v3-ink-100)" }}
+            className="truncate text-[13px] font-medium transition-colors hover:text-[color:var(--v4-acc)]"
+            style={{ color: "var(--v4-ink-100)" }}
             title={s.id}
           >
             {s.id}
@@ -248,14 +248,14 @@ function HfSpaceFeed({ spaces }: { spaces: HfSpaceTrending[] }) {
       hideBelow: "sm",
       render: (s) => {
         const sdk = s.sdk;
-        if (!sdk) return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+        if (!sdk) return <span style={{ color: "var(--v4-ink-500)" }}>—</span>;
         return (
           <span
             className="v2-mono inline-block px-1.5 py-0.5 text-[10px] tracking-[0.14em] uppercase"
             style={{
-              border: "1px solid var(--v3-line-200)",
-              background: "var(--v3-bg-100)",
-              color: "var(--v3-ink-300)",
+              border: "1px solid var(--v4-line-200)",
+              background: "var(--v4-bg-100)",
+              color: "var(--v4-ink-300)",
               borderRadius: 2,
             }}
             title={sdk}
@@ -287,7 +287,7 @@ function HfSpaceFeed({ spaces }: { spaces: HfSpaceTrending[] }) {
           <span
             className="font-mono text-[12px] tabular-nums"
             style={{
-              color: count >= 3 ? HF_ACCENT_BAR : "var(--v3-ink-300)",
+              color: count >= 3 ? HF_ACCENT_BAR : "var(--v4-ink-300)",
               cursor: count > 0 ? "help" : "default",
             }}
             title={tooltip}
@@ -306,7 +306,7 @@ function HfSpaceFeed({ spaces }: { spaces: HfSpaceTrending[] }) {
       render: (s) => (
         <span
           className="font-mono text-[12px] tabular-nums"
-          style={{ color: "var(--v3-ink-300)" }}
+          style={{ color: "var(--v4-ink-300)" }}
         >
           {compactNumber(s.likes ?? 0)}
         </span>
@@ -328,7 +328,7 @@ function HfSpaceFeed({ spaces }: { spaces: HfSpaceTrending[] }) {
       render: (s) => (
         <span
           className="font-mono text-[12px] tabular-nums"
-          style={{ color: "var(--v3-ink-400)" }}
+          style={{ color: "var(--v4-ink-400)" }}
         >
           {formatAgeIso(s.lastModified ?? s.createdAt, nowMs)}
         </span>
@@ -355,7 +355,7 @@ function MomentumBar({ value, accent }: { value: number; accent: string }) {
         className="flex-1"
         style={{
           height: 6,
-          background: "var(--v3-bg-100)",
+          background: "var(--v4-bg-100)",
           borderRadius: 1,
           overflow: "hidden",
           minWidth: 40,
@@ -372,7 +372,7 @@ function MomentumBar({ value, accent }: { value: number; accent: string }) {
       </div>
       <span
         className="font-mono text-[10px] tabular-nums shrink-0"
-        style={{ color: "var(--v3-ink-300)", width: 24, textAlign: "right" }}
+        style={{ color: "var(--v4-ink-300)", width: 24, textAlign: "right" }}
       >
         {Math.round(pct)}
       </span>
@@ -389,8 +389,8 @@ function ColdState() {
     <section
       className="p-8"
       style={{
-        background: "var(--v3-bg-025)",
-        border: "1px dashed var(--v3-line-100)",
+        background: "var(--v4-bg-025)",
+        border: "1px dashed var(--v4-line-100)",
         borderRadius: 2,
       }}
     >
@@ -402,14 +402,14 @@ function ColdState() {
       </h2>
       <p
         className="mt-3 max-w-xl text-sm"
-        style={{ color: "var(--v3-ink-300)" }}
+        style={{ color: "var(--v4-ink-300)" }}
       >
         The Hugging Face spaces scraper hasn&apos;t run yet. Run{" "}
-        <code style={{ color: "var(--v3-ink-100)" }}>
+        <code style={{ color: "var(--v4-ink-100)" }}>
           node scripts/scrape-huggingface-spaces.mjs
         </code>{" "}
         locally to populate{" "}
-        <code style={{ color: "var(--v3-ink-100)" }}>
+        <code style={{ color: "var(--v4-ink-100)" }}>
           data/huggingface-spaces.json
         </code>
         , then refresh this page.

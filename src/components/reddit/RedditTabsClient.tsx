@@ -84,7 +84,7 @@ export function RedditTabsClient({ posts }: { posts: RedditPost[] }) {
       <div
         role="tablist"
         className="mb-4 flex gap-1"
-        style={{ borderBottom: "1px solid var(--v3-line-100)" }}
+        style={{ borderBottom: "1px solid var(--v4-line-100)" }}
       >
         {REDDIT_TAB_IDS.map((tab) => {
           const active = tab === activeTab;
@@ -99,7 +99,7 @@ export function RedditTabsClient({ posts }: { posts: RedditPost[] }) {
                 "v2-mono -mb-[2px] px-3 py-2 text-[11px] uppercase tracking-[0.18em] transition-colors",
               )}
               style={{
-                color: active ? "var(--v3-ink-100)" : "var(--v3-ink-400)",
+                color: active ? "var(--v4-ink-100)" : "var(--v4-ink-400)",
                 borderBottom: active
                   ? `2px solid ${REDDIT_ORANGE}`
                   : "2px solid transparent",
@@ -116,14 +116,14 @@ export function RedditTabsClient({ posts }: { posts: RedditPost[] }) {
         <div
           className="p-6 text-sm"
           style={{
-            background: "var(--v3-bg-025)",
-            border: "1px dashed var(--v3-line-100)",
+            background: "var(--v4-bg-025)",
+            border: "1px dashed var(--v4-line-100)",
             borderRadius: 2,
-            color: "var(--v3-ink-400)",
+            color: "var(--v4-ink-400)",
           }}
         >
           No posts in this window. Try another tab or re-run{" "}
-          <code style={{ color: "var(--v3-ink-100)" }}>npm run scrape:reddit</code>.
+          <code style={{ color: "var(--v4-ink-100)" }}>npm run scrape:reddit</code>.
         </div>
       ) : (
         <ul className="space-y-2">
@@ -134,8 +134,8 @@ export function RedditTabsClient({ posts }: { posts: RedditPost[] }) {
                 key={`${p.id}-${p.repoFullName ?? "nomatch"}`}
                 className="v2-row group px-4 py-3"
                 style={{
-                  background: "var(--v3-bg-050)",
-                  border: "1px solid var(--v3-line-200)",
+                  background: "var(--v4-bg-050)",
+                  border: "1px solid var(--v4-line-200)",
                   borderRadius: 2,
                   animation: "slide-up 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both",
                   animationDelay: stagger > 0 ? `${stagger}ms` : undefined,
@@ -155,7 +155,7 @@ export function RedditTabsClient({ posts }: { posts: RedditPost[] }) {
                   <div className="min-w-0 flex-1">
                     <div
                       className="mb-1.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px]"
-                      style={{ color: "var(--v3-ink-400)" }}
+                      style={{ color: "var(--v4-ink-400)" }}
                     >
                       <span
                         className="font-semibold"
@@ -163,9 +163,9 @@ export function RedditTabsClient({ posts }: { posts: RedditPost[] }) {
                       >
                         r/{p.subreddit}
                       </span>
-                      <span aria-hidden style={{ color: "var(--v3-line-300)" }}>·</span>
+                      <span aria-hidden style={{ color: "var(--v4-line-300)" }}>·</span>
                       <span>u/{p.author}</span>
-                      <span aria-hidden style={{ color: "var(--v3-line-300)" }}>·</span>
+                      <span aria-hidden style={{ color: "var(--v4-line-300)" }}>·</span>
                       <span>{formatPostAge(p.ageHours)}</span>
                       <VelocityIndicator trendingScore={p.trendingScore} />
                       <BaselinePill
@@ -176,11 +176,11 @@ export function RedditTabsClient({ posts }: { posts: RedditPost[] }) {
                       />
                       {p.repoFullName ? (
                         <>
-                          <span aria-hidden style={{ color: "var(--v3-line-300)" }}>·</span>
+                          <span aria-hidden style={{ color: "var(--v4-line-300)" }}>·</span>
                           <Link
                             href={repoFullNameToHref(p.repoFullName)}
                             className="truncate hover:underline"
-                            style={{ color: "var(--v3-sig-green)" }}
+                            style={{ color: "var(--v4-money)" }}
                           >
                             {p.repoFullName}
                           </Link>
@@ -191,19 +191,19 @@ export function RedditTabsClient({ posts }: { posts: RedditPost[] }) {
                       href={redditPostHref(p.permalink, p.url)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="line-clamp-2 text-sm font-medium transition-colors hover:text-[color:var(--v3-acc)]"
-                      style={{ color: "var(--v3-ink-100)" }}
+                      className="line-clamp-2 text-sm font-medium transition-colors hover:text-[color:var(--v4-acc)]"
+                      style={{ color: "var(--v4-ink-100)" }}
                     >
                       {p.title}
                     </a>
                   </div>
                   <div
                     className="flex flex-shrink-0 flex-col items-end text-[11px] tabular-nums"
-                    style={{ color: "var(--v3-ink-400)" }}
+                    style={{ color: "var(--v4-ink-400)" }}
                   >
                     <span
                       className="text-sm font-bold"
-                      style={{ color: "var(--v3-ink-100)" }}
+                      style={{ color: "var(--v4-ink-100)" }}
                     >
                       ▲ {p.score}
                     </span>

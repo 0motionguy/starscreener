@@ -141,20 +141,20 @@ export function SignalTable({
       <div
         className="rounded-[2px] border border-dashed px-4 py-10 text-center"
         style={{
-          borderColor: "var(--v3-line-100)",
-          background: "var(--v3-bg-025)",
+          borderColor: "var(--v4-line-100)",
+          background: "var(--v4-bg-025)",
         }}
       >
         <p
           className="v2-mono text-[11px] tracking-[0.18em] uppercase"
-          style={{ color: "var(--v3-ink-300)" }}
+          style={{ color: "var(--v4-ink-300)" }}
         >
           {emptyTitle}
         </p>
         {emptySubtitle ? (
           <p
             className="mt-1 text-[11px]"
-            style={{ color: "var(--v3-ink-400)" }}
+            style={{ color: "var(--v4-ink-400)" }}
           >
             {emptySubtitle}
           </p>
@@ -170,8 +170,8 @@ export function SignalTable({
     <div
       className="overflow-x-auto"
       style={{
-        background: "var(--v3-bg-050)",
-        border: "1px solid var(--v3-line-200)",
+        background: "var(--v4-bg-050)",
+        border: "1px solid var(--v4-line-200)",
         borderRadius: 2,
       }}
     >
@@ -179,8 +179,8 @@ export function SignalTable({
         <thead className="text-left">
           <tr
             style={{
-              borderBottom: "1px solid var(--v3-line-100)",
-              background: "var(--v3-bg-025)",
+              borderBottom: "1px solid var(--v4-line-100)",
+              background: "var(--v4-bg-025)",
             }}
           >
             {cols.map((c) => {
@@ -208,7 +208,7 @@ export function SignalTable({
                   key={c}
                   scope="col"
                   className={`v2-mono px-3 py-2 text-[10px] uppercase tracking-[0.18em] ${widthCls}`}
-                  style={{ color: "var(--v3-ink-400)", fontWeight: 500 }}
+                  style={{ color: "var(--v4-ink-400)", fontWeight: 500 }}
                 >
                   {header}
                 </th>
@@ -225,7 +225,7 @@ export function SignalTable({
                 key={row.id}
                 className={"v2-row group " + (old ? "opacity-60" : "")}
                 style={{
-                  borderBottom: "1px dashed var(--v3-line-100)",
+                  borderBottom: "1px dashed var(--v4-line-100)",
                   animation: "slide-up 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both",
                   animationDelay: stagger > 0 ? `${stagger}ms` : undefined,
                 }}
@@ -236,7 +236,7 @@ export function SignalTable({
                       <td
                         key={c}
                         className="px-3 py-2.5 align-top font-mono tabular-nums"
-                        style={{ color: "var(--v3-ink-300)" }}
+                        style={{ color: "var(--v4-ink-300)" }}
                       >
                         {idx + 1}
                       </td>
@@ -244,8 +244,8 @@ export function SignalTable({
                   }
                   if (c === "title") {
                     const titleClass =
-                      "line-clamp-2 font-medium transition-colors hover:text-[color:var(--v3-acc)]";
-                    const titleStyle = { color: "var(--v3-ink-100)" };
+                      "line-clamp-2 font-medium transition-colors hover:text-[color:var(--v4-acc)]";
+                    const titleStyle = { color: "var(--v4-ink-100)" };
                     const titleNode = row.href ? (
                       row.external ? (
                         <a
@@ -269,7 +269,7 @@ export function SignalTable({
                     ) : (
                       <span
                         className="line-clamp-2 font-medium"
-                        style={{ color: "var(--v3-ink-100)" }}
+                        style={{ color: "var(--v4-ink-100)" }}
                       >
                         {row.title}
                       </span>
@@ -289,7 +289,7 @@ export function SignalTable({
                             {row.attribution || (row.badges && row.badges.length) ? (
                               <div
                                 className="mt-0.5 flex flex-wrap items-center gap-1.5 text-[10px]"
-                                style={{ color: "var(--v3-ink-400)" }}
+                                style={{ color: "var(--v4-ink-400)" }}
                               >
                                 {row.attribution ? <span>{row.attribution}</span> : null}
                                 {row.badges?.slice(0, 3).map((b) => (
@@ -316,16 +316,16 @@ export function SignalTable({
                           <span
                             className="v2-mono inline-flex items-center px-2 py-0.5 text-[10px] uppercase tracking-[0.16em]"
                             style={{
-                              border: "1px solid var(--v3-line-200)",
-                              background: "var(--v3-bg-100)",
-                              color: "var(--v3-ink-200)",
+                              border: "1px solid var(--v4-line-200)",
+                              background: "var(--v4-bg-100)",
+                              color: "var(--v4-ink-200)",
                               borderRadius: 2,
                             }}
                           >
                             {row.topic}
                           </span>
                         ) : (
-                          <span style={{ color: "var(--v3-ink-500)" }}>—</span>
+                          <span style={{ color: "var(--v4-ink-500)" }}>—</span>
                         )}
                       </td>
                     );
@@ -337,13 +337,13 @@ export function SignalTable({
                           <Link
                             href={`/repo/${row.linkedRepo}`}
                             className="inline-flex items-center gap-1.5 font-mono text-[11px] hover:underline"
-                            style={{ color: "var(--v3-sig-green)" }}
+                            style={{ color: "var(--v4-money)" }}
                           >
                             <SignalBadge kind="linked-repo" override="↳" />
                             <span className="truncate">{row.linkedRepo}</span>
                           </Link>
                         ) : (
-                          <span style={{ color: "var(--v3-ink-500)" }}>—</span>
+                          <span style={{ color: "var(--v4-ink-500)" }}>—</span>
                         )}
                       </td>
                     );
@@ -353,7 +353,7 @@ export function SignalTable({
                       <td
                         key={c}
                         className="px-3 py-2.5 align-top tabular-nums hidden md:table-cell"
-                        style={{ color: "var(--v3-ink-200)" }}
+                        style={{ color: "var(--v4-ink-200)" }}
                       >
                         {fmtNum(row.engagement)}
                       </td>
@@ -364,7 +364,7 @@ export function SignalTable({
                       <td
                         key={c}
                         className="px-3 py-2.5 align-top tabular-nums hidden md:table-cell"
-                        style={{ color: "var(--v3-ink-200)" }}
+                        style={{ color: "var(--v4-ink-200)" }}
                       >
                         {fmtNum(row.comments)}
                       </td>
@@ -382,7 +382,7 @@ export function SignalTable({
                       <td
                         key={c}
                         className="px-3 py-2.5 align-top font-mono tabular-nums"
-                        style={{ color: "var(--v3-ink-300)" }}
+                        style={{ color: "var(--v4-ink-300)" }}
                       >
                         {fmtAge(row.postedAt)}
                       </td>
@@ -393,7 +393,7 @@ export function SignalTable({
                       <td
                         key={c}
                         className="px-3 py-2.5 align-top font-mono font-semibold tabular-nums"
-                        style={{ color: "var(--v3-ink-000)" }}
+                        style={{ color: "var(--v4-ink-000)" }}
                       >
                         {row.signalScore !== null && row.signalScore !== undefined
                           ? Math.round(row.signalScore)

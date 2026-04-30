@@ -669,31 +669,31 @@ export default async function HomePage() {
 
           <div
             className="v3-faq-list border-y"
-            style={{ borderColor: "var(--v3-line-100)" }}
+            style={{ borderColor: "var(--v4-line-100)" }}
           >
             <style>{`
               .v3-faq-list .toggle-open { display: none; }
               .v3-faq-list details[open] .toggle-closed { display: none; }
               .v3-faq-list details[open] .toggle-open { display: inline; }
               .v3-faq-list details[open] > summary {
-                color: var(--v3-ink-100);
-                background: var(--v3-bg-050);
+                color: var(--v4-ink-100);
+                background: var(--v4-bg-050);
               }
             `}</style>
             {HOMEPAGE_FAQ.map(({ q, a }, i) => (
               <details
                 key={q}
                 className="group block border-t first:border-t-0 transition-colors"
-                style={{ borderColor: "var(--v3-line-100)" }}
+                style={{ borderColor: "var(--v4-line-100)" }}
               >
                 <summary
-                  className="v2-mono flex cursor-pointer select-none items-center justify-between gap-4 px-4 py-3.5 text-[11px] tracking-[0.12em] transition-colors hover:bg-[var(--v3-bg-050)]"
-                  style={{ color: "var(--v3-ink-200)" }}
+                  className="v2-mono flex cursor-pointer select-none items-center justify-between gap-4 px-4 py-3.5 text-[11px] tracking-[0.12em] transition-colors hover:bg-[var(--v4-bg-050)]"
+                  style={{ color: "var(--v4-ink-200)" }}
                 >
                   <span className="flex items-baseline gap-3 min-w-0">
                     <span
                       className="tabular-nums shrink-0"
-                      style={{ color: "var(--v3-ink-400)" }}
+                      style={{ color: "var(--v4-ink-400)" }}
                       aria-hidden
                     >
                       Q.{String(i + 1).padStart(2, "0")}
@@ -702,7 +702,7 @@ export default async function HomePage() {
                   </span>
                   <span
                     className="shrink-0 tabular-nums"
-                    style={{ color: "var(--v3-acc)" }}
+                    style={{ color: "var(--v4-acc)" }}
                     aria-hidden
                   >
                     <span className="toggle-closed">[+]</span>
@@ -711,7 +711,7 @@ export default async function HomePage() {
                 </summary>
                 <div
                   className="px-4 pb-4 pt-1 text-[13px] leading-relaxed"
-                  style={{ color: "var(--v3-ink-300)" }}
+                  style={{ color: "var(--v4-ink-300)" }}
                 >
                   {a}
                 </div>

@@ -260,7 +260,7 @@ const BubbleNode = memo(function BubbleNode({
           reduceMotion ? { duration: 0 } : { duration: 0.6, ease: "easeInOut" }
         }
         fill={`url(#${gradientId})`}
-        stroke={isActive ? "var(--v3-ink-000)" : s.stroke}
+        stroke={isActive ? "var(--v4-ink-000)" : s.stroke}
         strokeWidth={
           isActive
             ? 2.5
@@ -362,7 +362,7 @@ const BubbleNode = memo(function BubbleNode({
             y={outside.ty}
             textAnchor={outside.anchor}
             dominantBaseline="middle"
-            fill="var(--v3-ink-200)"
+            fill="var(--v4-ink-200)"
             fontSize={NAME_FONT_OUTSIDE}
             fontWeight={600}
             style={{

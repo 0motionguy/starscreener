@@ -143,7 +143,7 @@ export function TopicMindshareCanvas({
           <circle
             r={s.r}
             fill={`url(#tgrad-${s.id})`}
-            stroke={isActive ? "var(--v3-ink-000)" : s.stroke}
+            stroke={isActive ? "var(--v4-ink-000)" : s.stroke}
             strokeWidth={isActive ? 2.5 : isDragging ? 2.25 : 1.5}
             style={{
               transition: "stroke-width 120ms ease-out",

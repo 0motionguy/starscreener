@@ -195,7 +195,7 @@ function HfModelFeed({ models }: { models: HfModelTrending[] }) {
       render: (_, i) => (
         <span
           className="font-mono text-[12px] tabular-nums font-semibold"
-          style={{ color: i < 10 ? HF_ACCENT_BAR : "var(--v3-ink-400)" }}
+          style={{ color: i < 10 ? HF_ACCENT_BAR : "var(--v4-ink-400)" }}
         >
           {String(i + 1).padStart(2, "0")}
         </span>
@@ -217,8 +217,8 @@ function HfModelFeed({ models }: { models: HfModelTrending[] }) {
             href={m.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="truncate text-[13px] font-medium transition-colors hover:text-[color:var(--v3-acc)]"
-            style={{ color: "var(--v3-ink-100)" }}
+            className="truncate text-[13px] font-medium transition-colors hover:text-[color:var(--v4-acc)]"
+            style={{ color: "var(--v4-ink-100)" }}
             title={m.id}
           >
             {m.id}
@@ -233,14 +233,14 @@ function HfModelFeed({ models }: { models: HfModelTrending[] }) {
       hideBelow: "sm",
       render: (m) => {
         const tag = m.pipelineTag ?? m.libraryName ?? null;
-        if (!tag) return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+        if (!tag) return <span style={{ color: "var(--v4-ink-500)" }}>—</span>;
         return (
           <span
             className="v2-mono inline-block px-1.5 py-0.5 text-[10px] tracking-[0.14em] uppercase"
             style={{
-              border: "1px solid var(--v3-line-200)",
-              background: "var(--v3-bg-100)",
-              color: "var(--v3-ink-300)",
+              border: "1px solid var(--v4-line-200)",
+              background: "var(--v4-bg-100)",
+              color: "var(--v4-ink-300)",
               borderRadius: 2,
             }}
             title={tag}
@@ -259,7 +259,7 @@ function HfModelFeed({ models }: { models: HfModelTrending[] }) {
         <span
           className="font-mono text-[12px] tabular-nums"
           style={{
-            color: (m.downloads ?? 0) >= 100_000 ? HF_ACCENT_BAR : "var(--v3-ink-100)",
+            color: (m.downloads ?? 0) >= 100_000 ? HF_ACCENT_BAR : "var(--v4-ink-100)",
           }}
         >
           {compactNumber(m.downloads ?? 0)}
@@ -275,7 +275,7 @@ function HfModelFeed({ models }: { models: HfModelTrending[] }) {
       render: (m) => (
         <span
           className="font-mono text-[12px] tabular-nums"
-          style={{ color: "var(--v3-ink-300)" }}
+          style={{ color: "var(--v4-ink-300)" }}
         >
           {compactNumber(m.likes ?? 0)}
         </span>
@@ -297,7 +297,7 @@ function HfModelFeed({ models }: { models: HfModelTrending[] }) {
       render: (m) => (
         <span
           className="font-mono text-[12px] tabular-nums"
-          style={{ color: "var(--v3-ink-400)" }}
+          style={{ color: "var(--v4-ink-400)" }}
         >
           {formatAgeIso(m.lastModified ?? m.createdAt, nowMs)}
         </span>
@@ -324,7 +324,7 @@ function MomentumBar({ value, accent }: { value: number; accent: string }) {
         className="flex-1"
         style={{
           height: 6,
-          background: "var(--v3-bg-100)",
+          background: "var(--v4-bg-100)",
           borderRadius: 1,
           overflow: "hidden",
           minWidth: 40,
@@ -341,7 +341,7 @@ function MomentumBar({ value, accent }: { value: number; accent: string }) {
       </div>
       <span
         className="font-mono text-[10px] tabular-nums shrink-0"
-        style={{ color: "var(--v3-ink-300)", width: 24, textAlign: "right" }}
+        style={{ color: "var(--v4-ink-300)", width: 24, textAlign: "right" }}
       >
         {Math.round(pct)}
       </span>
@@ -358,8 +358,8 @@ function ColdState() {
     <section
       className="p-8"
       style={{
-        background: "var(--v3-bg-025)",
-        border: "1px dashed var(--v3-line-100)",
+        background: "var(--v4-bg-025)",
+        border: "1px dashed var(--v4-line-100)",
         borderRadius: 2,
       }}
     >
@@ -371,14 +371,14 @@ function ColdState() {
       </h2>
       <p
         className="mt-3 max-w-xl text-sm"
-        style={{ color: "var(--v3-ink-300)" }}
+        style={{ color: "var(--v4-ink-300)" }}
       >
         The Hugging Face scraper hasn&apos;t run yet. Run{" "}
-        <code style={{ color: "var(--v3-ink-100)" }}>
+        <code style={{ color: "var(--v4-ink-100)" }}>
           npm run scrape:huggingface
         </code>{" "}
         locally to populate{" "}
-        <code style={{ color: "var(--v3-ink-100)" }}>
+        <code style={{ color: "var(--v4-ink-100)" }}>
           data/huggingface-trending.json
         </code>
         , then refresh this page.

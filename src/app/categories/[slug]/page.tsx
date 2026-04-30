@@ -1,9 +1,4 @@
-// StarScreener — Category detail (Phase 3)
-//
-// Server component. Resolves the category from the slug, loads the full
-// set of repos in that category via the pipeline facade, and renders the
-// dense terminal surface with a category-specific heading and FilterBar
-// variant. No more card grid — category pages are full terminal pages.
+// StarScreener - Category detail.
 
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -29,13 +24,13 @@ export async function generateMetadata({
   const canonical = absoluteUrl(`/categories/${slug}`);
   if (!category) {
     return {
-      title: `Category Not Found — ${SITE_NAME}`,
-      description: "This category doesn't exist or was removed.",
+      title: `Category Not Found - ${SITE_NAME}`,
+      description: "This category does not exist or was removed.",
       alternates: { canonical },
       robots: { index: false, follow: true },
     };
   }
-  const title = `${category.name} — ${SITE_NAME}`;
+  const title = `${category.name} - ${SITE_NAME}`;
   const description = `${category.description}. Live momentum ranks for every ${category.shortName} repo on ${SITE_NAME}.`;
   return {
     title,
@@ -72,51 +67,44 @@ export default async function CategoryDetailPage({ params }: PageProps) {
   const Icon = getCategoryIcon(category.icon);
 
   const heading = (
-    <div className="px-4 sm:px-6 pt-6 pb-2">
-      <nav
-        aria-label="Breadcrumb"
-        className="flex items-center gap-1.5 text-xs text-text-tertiary mb-3"
-      >
-        <Link
-          href="/"
-          className="hover:text-text-primary transition-colors"
-        >
-          Home
-        </Link>
-        <span aria-hidden="true">›</span>
-        <Link
-          href="/categories"
-          className="text-text-secondary hover:text-text-primary transition-colors"
-        >
-          Categories
-        </Link>
-        <span aria-hidden="true">›</span>
-        <span className="text-text-primary">{category.name}</span>
-      </nav>
-      <div className="flex items-center gap-3">
-        {Icon && (
-          <Icon size={28} style={{ color: category.color }} aria-hidden="true" />
-        )}
-        <h1 className="font-display text-3xl font-bold text-text-primary">
-          {category.name}
-        </h1>
-      </div>
-      <p className="mt-2 text-text-secondary max-w-2xl">
-        {category.description}
-      </p>
-      <div className="mt-4">
-        <CategoryNewsRollup
-          repos={repos}
-          categorySlug={slug}
-          categoryLabel={category.name}
-        />
-      </div>
-    </div>
+    <>
+      <section className="page-head category-detail-head">
+        <div>
+          <div className="crumb">
+            <Link href="/categories">Trend terminal / categories</Link>
+            <span> / </span>
+            <b>{category.name}</b>
+          </div>
+          <h1>
+            {Icon && (
+              <Icon
+                size={28}
+                style={{ color: category.color }}
+                aria-hidden="true"
+              />
+            )}
+            <span>{category.name}</span>
+          </h1>
+          <p className="lede">{category.description}</p>
+        </div>
+        <div className="clock">
+          <span className="big">{repos.length}</span>
+          <span className="live">repos tracked</span>
+        </div>
+      </section>
+
+      <CategoryNewsRollup
+        repos={repos}
+        categorySlug={slug}
+        categoryLabel={category.name}
+      />
+    </>
   );
 
   return (
     <TerminalLayout
       repos={repos}
+      className="home-surface terminal-page category-detail-page"
       filterBarVariant="category"
       featuredCount={4}
       heading={heading}

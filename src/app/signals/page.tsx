@@ -142,77 +142,41 @@ interface SignalsPageProps {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }
 
-export default async function SignalsPage({ searchParams }: SignalsPageProps) {
-  // BISECT phase 3: per-step try/catch to find which data-layer step
-  // throws. Each step adds a row with status + error message.
-  const log: Array<{ step: string; ok: boolean; msg: string }> = [];
-  const wrap = async <T,>(step: string, fn: () => T | Promise<T>): Promise<T | null> => {
+export default async function SignalsPage({ searchParams: _sp }: SignalsPageProps) {
+  // BISECT phase 4: simple text log, no JSX magic.
+  const lines: string[] = [];
+  async function step(name: string, fn: () => unknown | Promise<unknown>) {
     try {
-      const v = await fn();
-      log.push({ step, ok: true, msg: `ok` });
-      return v;
+      await fn();
+      lines.push(`OK   ${name}`);
     } catch (err) {
-      const m = err instanceof Error ? `${err.message}\n${err.stack ?? ""}` : String(err);
-      log.push({ step, ok: false, msg: m });
-      return null;
+      const m = err instanceof Error ? err.message : String(err);
+      lines.push(`FAIL ${name}: ${m}`);
     }
-  };
+  }
 
-  await wrap("searchParams", async () => (await searchParams) ?? {});
-  await wrap("refresh:trending", () => refreshTrendingFromStore());
-  await wrap("refresh:hn", () => refreshHackernewsTrendingFromStore());
-  await wrap("refresh:bsky", () => refreshBlueskyTrendingFromStore());
-  await wrap("refresh:devto", () => refreshDevtoTrendingFromStore());
-  await wrap("refresh:claude", () => refreshClaudeRssFromStore());
-  await wrap("refresh:openai", () => refreshOpenaiRssFromStore());
-
-  await wrap("getTrending", () => getTrending("past_24_hours", "All").slice(0, 50));
-  await wrap("getLastFetchedAt", () => getLastFetchedAt());
-  await wrap("getHnTopStories", () => getHnTopStories(60));
-  await wrap("getAllRedditPosts", () => getAllRedditPosts());
-  await wrap("getBlueskyTopPosts", () => getBlueskyTopPosts(60));
-  await wrap("getDevtoTopArticles", () => getDevtoTopArticles(40));
-  await wrap("getClaudeRssTop", () => getClaudeRssTop(20));
-  await wrap("getOpenaiRssTop", () => getOpenaiRssTop(20));
-  await wrap("getTopTwitterBuzz", () => getTopTwitterBuzz(20));
-  await wrap("getTopTwitterPosts", () => getTopTwitterPosts(20));
-  await wrap("getTwitterLatestUpdatedAt", () => getTwitterLatestUpdatedAt());
+  await step("refresh:trending", () => refreshTrendingFromStore());
+  await step("refresh:hn", () => refreshHackernewsTrendingFromStore());
+  await step("refresh:bsky", () => refreshBlueskyTrendingFromStore());
+  await step("refresh:devto", () => refreshDevtoTrendingFromStore());
+  await step("refresh:claude", () => refreshClaudeRssFromStore());
+  await step("refresh:openai", () => refreshOpenaiRssFromStore());
+  await step("getTrending", () => getTrending("past_24_hours", "All"));
+  await step("getLastFetchedAt", () => getLastFetchedAt());
+  await step("getHnTopStories", () => getHnTopStories(60));
+  await step("getAllRedditPosts", () => getAllRedditPosts());
+  await step("getBlueskyTopPosts", () => getBlueskyTopPosts(60));
+  await step("getDevtoTopArticles", () => getDevtoTopArticles(40));
+  await step("getClaudeRssTop", () => getClaudeRssTop(20));
+  await step("getOpenaiRssTop", () => getOpenaiRssTop(20));
+  await step("getTopTwitterBuzz", () => getTopTwitterBuzz(20));
+  await step("getTopTwitterPosts", () => getTopTwitterPosts(20));
+  await step("getTwitterLatestUpdatedAt", () => getTwitterLatestUpdatedAt());
 
   return (
-    <main style={{ padding: 24, fontFamily: "monospace", fontSize: 11 }}>
-      <h1>signals bisect — per-step diagnostic</h1>
-      <table style={{ width: "100%", borderCollapse: "collapse" }}>
-        <thead>
-          <tr>
-            <th align="left">step</th>
-            <th align="left">ok</th>
-            <th align="left">msg</th>
-          </tr>
-        </thead>
-        <tbody>
-          {log.map((row, i) => (
-            <tr
-              key={i}
-              style={{ background: row.ok ? "transparent" : "#3a0000" }}
-            >
-              <td style={{ padding: 4 }}>{row.step}</td>
-              <td style={{ padding: 4, color: row.ok ? "#22c55e" : "#ff4d4d" }}>
-                {row.ok ? "✓" : "✗"}
-              </td>
-              <td
-                style={{
-                  padding: 4,
-                  whiteSpace: "pre-wrap",
-                  fontSize: 10,
-                  color: row.ok ? "#84909b" : "#ff8458",
-                }}
-              >
-                {row.msg.slice(0, 800)}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <main style={{ padding: 24, fontFamily: "monospace", fontSize: 12 }}>
+      <h1>signals bisect — per-step</h1>
+      <pre style={{ whiteSpace: "pre-wrap" }}>{lines.join("\n")}</pre>
     </main>
   );
 }

@@ -1,0 +1,54 @@
+name: Refresh Claude (Anthropic) news
+
+on:
+  schedule:
+    # Daily — Anthropic posts a few times per week, hourly polling
+    # would burn rate limits for nothing. Runs off-peak vs other scrapers.
+    - cron: "22 7 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: claude-rss-refresh
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        # _data-store-write.mjs dynamic-imports ioredis when REDIS_URL is
+        # set. Same defensive install as scrape-devto.yml.
+        run: npm ci
+
+      - name: Refresh Anthropic news (sitemap-derived)
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+        run: node scripts/scrape-claude-rss.mjs
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "trendingrepo-bot"
+          git config user.email "bot@trendingrepo.local"
+          git add data/claude-rss.json
+          if git diff --quiet --staged; then
+            echo "no changes - skipping commit"
+            exit 0
+          fi
+          TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          git commit -m "chore(data): refresh Claude (Anthropic) news ${TS}"
+          git pull --rebase origin main
+          git push

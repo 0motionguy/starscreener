@@ -143,15 +143,76 @@ interface SignalsPageProps {
 }
 
 export default async function SignalsPage({ searchParams }: SignalsPageProps) {
-  // BISECT phase 2: return immediately. If this 500s, the bug is at
-  // module IMPORT time (top-of-file `import` statements) — one of my new
-  // libs has a side-effect throw at load. If 200, the bug is in the
-  // function body (data fetch / synthesis / JSX).
+  // BISECT phase 3: per-step try/catch to find which data-layer step
+  // throws. Each step adds a row with status + error message.
+  const log: Array<{ step: string; ok: boolean; msg: string }> = [];
+  const wrap = async <T,>(step: string, fn: () => T | Promise<T>): Promise<T | null> => {
+    try {
+      const v = await fn();
+      log.push({ step, ok: true, msg: `ok` });
+      return v;
+    } catch (err) {
+      const m = err instanceof Error ? `${err.message}\n${err.stack ?? ""}` : String(err);
+      log.push({ step, ok: false, msg: m });
+      return null;
+    }
+  };
+
+  await wrap("searchParams", async () => (await searchParams) ?? {});
+  await wrap("refresh:trending", () => refreshTrendingFromStore());
+  await wrap("refresh:hn", () => refreshHackernewsTrendingFromStore());
+  await wrap("refresh:bsky", () => refreshBlueskyTrendingFromStore());
+  await wrap("refresh:devto", () => refreshDevtoTrendingFromStore());
+  await wrap("refresh:claude", () => refreshClaudeRssFromStore());
+  await wrap("refresh:openai", () => refreshOpenaiRssFromStore());
+
+  await wrap("getTrending", () => getTrending("past_24_hours", "All").slice(0, 50));
+  await wrap("getLastFetchedAt", () => getLastFetchedAt());
+  await wrap("getHnTopStories", () => getHnTopStories(60));
+  await wrap("getAllRedditPosts", () => getAllRedditPosts());
+  await wrap("getBlueskyTopPosts", () => getBlueskyTopPosts(60));
+  await wrap("getDevtoTopArticles", () => getDevtoTopArticles(40));
+  await wrap("getClaudeRssTop", () => getClaudeRssTop(20));
+  await wrap("getOpenaiRssTop", () => getOpenaiRssTop(20));
+  await wrap("getTopTwitterBuzz", () => getTopTwitterBuzz(20));
+  await wrap("getTopTwitterPosts", () => getTopTwitterPosts(20));
+  await wrap("getTwitterLatestUpdatedAt", () => getTwitterLatestUpdatedAt());
+
   return (
-    <main style={{ padding: 24, fontFamily: "monospace" }}>
-      <h1>signals bisect — function entry reached</h1>
-      <p>imports loaded · function ran · returning early</p>
-      <p>searchParams is Promise: {String(searchParams instanceof Promise)}</p>
+    <main style={{ padding: 24, fontFamily: "monospace", fontSize: 11 }}>
+      <h1>signals bisect — per-step diagnostic</h1>
+      <table style={{ width: "100%", borderCollapse: "collapse" }}>
+        <thead>
+          <tr>
+            <th align="left">step</th>
+            <th align="left">ok</th>
+            <th align="left">msg</th>
+          </tr>
+        </thead>
+        <tbody>
+          {log.map((row, i) => (
+            <tr
+              key={i}
+              style={{ background: row.ok ? "transparent" : "#3a0000" }}
+            >
+              <td style={{ padding: 4 }}>{row.step}</td>
+              <td style={{ padding: 4, color: row.ok ? "#22c55e" : "#ff4d4d" }}>
+                {row.ok ? "✓" : "✗"}
+              </td>
+              <td
+                style={{
+                  padding: 4,
+                  whiteSpace: "pre-wrap",
+                  fontSize: 10,
+                  color: row.ok ? "#84909b" : "#ff8458",
+                }}
+              >
+                {row.msg.slice(0, 800)}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </main>
   );
 }

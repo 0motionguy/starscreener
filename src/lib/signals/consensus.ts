@@ -111,11 +111,15 @@ function pickTopTag(items: SignalItem[]): string | null {
 
 /**
  * Build a 12-bucket density sparkline of postedAtMs across the group.
- * Buckets span the past 24h. Empty groups (no timestamps) → flat zeros.
+ * Buckets span the past `lookbackHours`. Empty groups → flat zeros.
  */
-function buildSpark(items: SignalItem[], nowMs: number): number[] {
+function buildSpark(
+  items: SignalItem[],
+  nowMs: number,
+  lookbackHours: number,
+): number[] {
   const buckets = new Array(12).fill(0);
-  const windowMs = 24 * 3_600_000;
+  const windowMs = lookbackHours * 3_600_000;
   const start = nowMs - windowMs;
   const bucketMs = windowMs / 12;
   for (const it of items) {
@@ -126,16 +130,21 @@ function buildSpark(items: SignalItem[], nowMs: number): number[] {
   return buckets;
 }
 
-function computeDelta(items: SignalItem[], nowMs: number): number {
-  // Recent half (12h) count minus older half (12h-24h).
-  const twelveAgo = nowMs - 12 * 3_600_000;
-  const twentyFour = nowMs - 24 * 3_600_000;
+function computeDelta(
+  items: SignalItem[],
+  nowMs: number,
+  lookbackHours: number,
+): number {
+  // Recent half count minus older half count. Splits the window in two.
+  const halfMs = (lookbackHours / 2) * 3_600_000;
+  const halfAgo = nowMs - halfMs;
+  const fullAgo = nowMs - lookbackHours * 3_600_000;
   let recent = 0;
   let prior = 0;
   for (const it of items) {
     if (!it.postedAtMs) continue;
-    if (it.postedAtMs >= twelveAgo) recent += 1;
-    else if (it.postedAtMs >= twentyFour) prior += 1;
+    if (it.postedAtMs >= halfAgo) recent += 1;
+    else if (it.postedAtMs >= fullAgo) prior += 1;
   }
   return recent - prior;
 }
@@ -144,6 +153,8 @@ export interface BuildConsensusOpts {
   nowMs?: number;
   minSources?: number;
   limit?: number;
+  /** Look-back window in hours for the sparkline + delta. Default 24. */
+  lookbackHours?: number;
 }
 
 export function buildConsensus(
@@ -153,6 +164,7 @@ export function buildConsensus(
   const nowMs = opts.nowMs ?? Date.now();
   const minSources = opts.minSources ?? MIN_SOURCES;
   const limit = opts.limit ?? 8;
+  const lookbackHours = Math.max(1, opts.lookbackHours ?? 24);
 
   const groups = new Map<string, SignalItem[]>();
   for (const item of items) {
@@ -190,8 +202,8 @@ export function buildConsensus(
       linkedRepo: arr.find((x) => x.linkedRepo)?.linkedRepo ?? null,
       topTag: pickTopTag(arr),
       score,
-      delta: computeDelta(arr, nowMs),
-      spark: buildSpark(arr, nowMs),
+      delta: computeDelta(arr, nowMs, lookbackHours),
+      spark: buildSpark(arr, nowMs, lookbackHours),
     });
   }
 

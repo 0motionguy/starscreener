@@ -121,4 +121,26 @@
   border-radius: 1px;
   flex: none;
 }
+/* Time-window chips: tighter letter-spacing, accent fill when on (vs the
+ * white fill source chips use). Visual cue that they control a different
+ * axis — time, not source. */
+.signals-chip-time {
+  letter-spacing: 0.14em;
+}
+.signals-chip-time.signals-chip-on {
+  background: var(--color-accent);
+  color: var(--color-bg-canvas);
+  border-color: var(--color-accent);
+}
+.signals-chip-time.signals-chip-on:hover {
+  background: var(--color-accent);
+  color: var(--color-bg-canvas);
+}
+.signals-chip-sep {
+  width: 1px;
+  height: 18px;
+  background: var(--color-border-subtle);
+  margin: 0 6px;
+  display: inline-block;
+}
 

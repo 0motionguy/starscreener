@@ -1,0 +1,34 @@
+name: Source health watch
+
+# Reads data/_meta/<source>.json sidecars and fails the workflow if any
+# source is in a bad state (reason != "ok") or stale beyond its freshness
+# threshold. GitHub Actions emails workflow owners on failure — the
+# "alert" mechanism is the workflow-failure notification, not a separate
+# integration. Tune thresholds in scripts/check-source-health.mjs.
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: health-watch
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Check source health
+        run: node scripts/check-source-health.mjs

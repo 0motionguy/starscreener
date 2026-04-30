@@ -45,7 +45,7 @@ jobs:
         run: |
           git config user.name  "trendingrepo-bot"
           git config user.email "bot@trendingrepo.com"
-          git add data/arxiv-recent.json
+          git add data/arxiv-recent.json data/_meta/arxiv.json
           if git diff --quiet --staged; then
             echo "no changes - skipping commit"
             exit 0

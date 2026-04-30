@@ -43,7 +43,7 @@ jobs:
         run: |
           git config user.name  "trendingrepo-bot"
           git config user.email "bot@trendingrepo.com"
-          git add data/huggingface-trending.json
+          git add data/huggingface-trending.json data/_meta/huggingface.json
           if git diff --quiet --staged; then
             echo "no changes - skipping commit"
             exit 0

@@ -1565,3 +1565,311 @@
   width: 100%;
   display: block;
 }
+
+/* ===========================================================================
+ * BATCH F — Home + repo-detail primitives (CategoryPanel, MentionRow,
+ * RelatedRepoCard). ChannelHeatStrip lands in batch F-2.
+ * ========================================================================= */
+
+/* ---------------------------------------------------------------------------
+ * 23. CategoryPanel — home § 01 hero card
+ * --------------------------------------------------------------------------- */
+.v4-cat-panel {
+  border: var(--v4-stroke-1) solid var(--v4-line-200);
+  background: var(--v4-bg-025);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.v4-cat-panel__head {
+  display: flex;
+  align-items: center;
+  gap: var(--v4-space-4);
+  padding: 8px 12px;
+  border-bottom: var(--v4-stroke-1) solid var(--v4-line-200);
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-10);
+  letter-spacing: var(--v4-track-20);
+  text-transform: uppercase;
+  color: var(--v4-ink-300);
+  background: linear-gradient(180deg, var(--v4-bg-050), var(--v4-bg-025));
+}
+.v4-cat-panel__pip {
+  width: 7px;
+  height: 7px;
+  flex: none;
+  border-radius: var(--v4-radius-2);
+}
+.v4-cat-panel__title {
+  color: var(--v4-ink-100);
+  font-weight: 600;
+}
+.v4-cat-panel__count {
+  color: var(--v4-ink-400);
+}
+.v4-cat-panel__live {
+  margin-left: auto;
+  display: inline-flex;
+}
+.v4-cat-panel__body {
+  display: flex;
+  flex-direction: column;
+}
+.v4-cat-panel__foot {
+  padding: 8px 12px;
+  border-top: var(--v4-stroke-1) solid var(--v4-line-200);
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-9);
+  letter-spacing: var(--v4-track-20);
+  color: var(--v4-ink-400);
+  text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+.v4-cat-panel__foot a {
+  color: var(--v4-ink-200);
+  text-decoration: none;
+  transition: color var(--v4-duration-fast) var(--v4-ease);
+}
+.v4-cat-panel__foot a:hover {
+  color: var(--v4-acc);
+}
+
+/* ---------------------------------------------------------------------------
+ * 24. MentionRow — repo-detail § evidence feed
+ * --------------------------------------------------------------------------- */
+.v4-mention-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 14px;
+  padding: 14px;
+  border-bottom: var(--v4-stroke-1) solid var(--v4-line-200);
+  align-items: flex-start;
+  transition: background-color var(--v4-duration-fast) var(--v4-ease);
+}
+.v4-mention-row:last-child {
+  border-bottom: none;
+}
+.v4-mention-row:hover {
+  background: var(--v4-bg-050);
+}
+.v4-mention-row__avatar {
+  flex: none;
+  display: inline-flex;
+  align-items: flex-start;
+  padding-top: 2px;
+}
+.v4-mention-row__body {
+  min-width: 0;
+}
+.v4-mention-row__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+.v4-mention-row__author {
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-11-5);
+  color: var(--v4-ink-100);
+  font-weight: 600;
+}
+.v4-mention-row__handle {
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-10-5);
+  color: var(--v4-ink-400);
+}
+.v4-mention-row__source {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 1px 7px;
+  border: var(--v4-stroke-1) solid var(--v4-line-300);
+  font-size: 9px;
+  letter-spacing: var(--v4-track-14);
+  color: var(--v4-ink-200);
+  text-transform: uppercase;
+}
+.v4-mention-row__ts {
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-9-5);
+  color: var(--v4-ink-400);
+  letter-spacing: var(--v4-track-06);
+}
+.v4-mention-row__ts::before {
+  content: "·";
+  margin-right: 4px;
+  color: var(--v4-ink-500);
+}
+.v4-mention-row__text {
+  font-family: var(--v4-sans);
+  font-size: var(--v4-text-13);
+  color: var(--v4-ink-100);
+  line-height: var(--v4-leading-15);
+}
+.v4-mention-row__text b,
+.v4-mention-row__text strong {
+  color: var(--v4-acc);
+  font-weight: 600;
+  padding: 0 2px;
+  background: var(--v4-acc-soft);
+}
+.v4-mention-row__text a {
+  color: var(--v4-blue);
+  text-decoration: none;
+}
+.v4-mention-row__text a:hover {
+  text-decoration: underline;
+}
+.v4-mention-row__meta {
+  display: flex;
+  gap: 14px;
+  margin-top: 8px;
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-10);
+  color: var(--v4-ink-400);
+  letter-spacing: var(--v4-track-06);
+  flex-wrap: wrap;
+  align-items: center;
+}
+.v4-mention-row__stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.v4-mention-row__stat--up {
+  color: var(--v4-money);
+}
+.v4-mention-row__stat--down {
+  color: var(--v4-red);
+}
+.v4-mention-row__url {
+  color: var(--v4-ink-300);
+  padding-left: 10px;
+  border-left: var(--v4-stroke-1) solid var(--v4-line-200);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 280px;
+}
+.v4-mention-row__open {
+  flex: none;
+  align-self: flex-start;
+  height: 26px;
+  padding: 0 9px;
+  border: var(--v4-stroke-1) solid var(--v4-line-300);
+  background: var(--v4-bg-050);
+  color: var(--v4-ink-300);
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-9-5);
+  letter-spacing: var(--v4-track-14);
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  transition: color var(--v4-duration-fast) var(--v4-ease),
+    border-color var(--v4-duration-fast) var(--v4-ease);
+}
+.v4-mention-row__open:hover {
+  color: var(--v4-ink-100);
+  border-color: var(--v4-line-400);
+}
+
+@media (max-width: 640px) {
+  .v4-mention-row {
+    grid-template-columns: auto 1fr;
+  }
+  .v4-mention-row__open {
+    grid-column: 2;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * 25. RelatedRepoCard — repo-detail § related repos grid card
+ * --------------------------------------------------------------------------- */
+.v4-related-card {
+  border: var(--v4-stroke-1) solid var(--v4-line-200);
+  background: var(--v4-bg-025);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color var(--v4-duration-fast) var(--v4-ease);
+}
+.v4-related-card--interactive {
+  cursor: pointer;
+}
+.v4-related-card--interactive:hover {
+  border-color: var(--v4-line-400);
+}
+.v4-related-card__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.v4-related-card__avatar {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+}
+.v4-related-card__nm {
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-11);
+  color: var(--v4-ink-100);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+}
+.v4-related-card__desc {
+  margin: 0;
+  font-family: var(--v4-sans);
+  font-size: var(--v4-text-11-5);
+  color: var(--v4-ink-300);
+  line-height: var(--v4-leading-14);
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.v4-related-card__row {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 6px;
+  flex-wrap: wrap;
+}
+.v4-related-card__lang {
+  height: 18px;
+  padding: 0 7px;
+  background: rgba(96, 165, 250, 0.14);
+  color: #7dd3fc;
+  font-family: var(--v4-mono);
+  font-size: 9px;
+  letter-spacing: var(--v4-track-14);
+  display: inline-flex;
+  align-items: center;
+  text-transform: uppercase;
+}
+.v4-related-card__stars {
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-9-5);
+  color: var(--v4-ink-400);
+  letter-spacing: var(--v4-track-10);
+}
+.v4-related-card__why {
+  font-family: var(--v4-mono);
+  font-size: 9px;
+  letter-spacing: var(--v4-track-10);
+  color: var(--v4-ink-400);
+  text-transform: uppercase;
+  margin-left: auto;
+}

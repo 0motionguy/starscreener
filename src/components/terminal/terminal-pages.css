@@ -1,0 +1,24 @@
+.terminal-page {
+  gap: 10px;
+  padding-bottom: 34px;
+}
+
+.terminal-page .filter-bar,
+.terminal-page [data-terminal-filter],
+.terminal-page .terminal-filter {
+  margin: 0;
+}
+
+.terminal-page .terminal-shell,
+.terminal-page .v2-card {
+  border-radius: var(--radius-none);
+}
+
+.terminal-page .page-head {
+  margin-bottom: 0;
+}
+
+.terminal-page table,
+.terminal-page [role="table"] {
+  border-radius: var(--radius-none);
+}

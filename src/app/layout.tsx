@@ -34,6 +34,7 @@ import "./globals.css";
 import "@/components/tier-list/tier-list.css";
 import "@/components/compare/compare.css";
 import "@/components/predict/predict.css";
+import "@/components/terminal/terminal-pages.css";
 
 const geist = Geist({
   variable: "--font-geist",

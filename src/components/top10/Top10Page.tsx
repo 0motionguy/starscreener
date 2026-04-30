@@ -237,7 +237,7 @@ function Main({
 }: MainProps) {
   const totalCount = bundle.items.length;
   return (
-    <main className="px-3 sm:px-6 py-4 sm:py-6 mx-auto" style={{ maxWidth: 1640 }}>
+    <main className="home-surface top10-page">
       <PageHead />
 
       <CategoryTabs
@@ -277,23 +277,6 @@ function Main({
         onPick={onCategory}
       />
 
-      {/* Mobile responsive: stack share below ranking on <md, side-by-side
-          above. Inline so the rule travels with the surface; the rest of
-          the app's grid utilities are Tailwind-driven and we don't need a
-          new top-10-specific class set in globals.css. */}
-      <style>{`
-        .top10-layout {
-          display: grid;
-          gap: 12px;
-          grid-template-columns: 1fr;
-          align-items: flex-start;
-        }
-        @media (min-width: 1024px) {
-          .top10-layout {
-            grid-template-columns: minmax(0, 1fr) 380px;
-          }
-        }
-      `}</style>
     </main>
   );
 }
@@ -304,46 +287,13 @@ function Main({
 
 function PageHead() {
   return (
-    <header
-      className="flex items-end gap-4 pb-3 mb-3"
-      style={{ borderBottom: "1px solid var(--v3-line-200, #29323b)" }}
-    >
-      <div className="flex-1 min-w-0">
-        <div
-          className="v2-mono"
-          style={{
-            fontSize: 10,
-            letterSpacing: "0.20em",
-            color: "var(--v3-ink-400, #909caa)",
-            textTransform: "uppercase",
-          }}
-        >
-          <b style={{ color: "var(--v2-acc, #f56e0f)" }}>TOOL · 05</b>{" "}
-          {"// TOP 10 · SHAREABLE RANKINGS"}
+    <header className="page-head">
+      <div>
+        <div className="crumb">
+          <b>Tool · 05</b> / top 10 · shareable rankings
         </div>
-        <h1
-          className="font-display"
-          style={{
-            margin: "6px 0 0",
-            fontWeight: 500,
-            fontSize: 30,
-            letterSpacing: "-0.024em",
-            color: "var(--v3-ink-000, #fff)",
-            lineHeight: 1.05,
-          }}
-        >
-          Top 10 — every category, ready to ship.
-        </h1>
-        <p
-          className="font-display"
-          style={{
-            margin: "6px 0 0",
-            color: "var(--v3-ink-300, #84909b)",
-            fontSize: 13,
-            maxWidth: 760,
-            lineHeight: 1.5,
-          }}
-        >
+        <h1>Top 10 — every category, ready to ship.</h1>
+        <p className="lede">
           Pick a category, snapshot a chart, and post it. Every ranking renders
           to four social formats in your brand. Updated every 6 hours from the
           corpus.
@@ -367,22 +317,7 @@ function SnapshotsLink() {
   return (
     <Link
       href={`/top10/${yesterday}`}
-      className="v2-mono"
-      style={{
-        height: 28,
-        padding: "0 11px",
-        border: "1px solid var(--v3-line-300, #3a444f)",
-        background: "var(--v3-bg-050, #101418)",
-        color: "var(--v3-ink-200, #b8c0c8)",
-        fontSize: 10.5,
-        letterSpacing: "0.14em",
-        textTransform: "uppercase",
-        display: "inline-flex",
-        alignItems: "center",
-        gap: 7,
-        textDecoration: "none",
-        whiteSpace: "nowrap",
-      }}
+      className="pill"
     >
       ⟲ YESTERDAY · {yesterday}
     </Link>
@@ -417,23 +352,9 @@ function RefreshClock() {
   }, []);
   return (
     <div
-      className="v2-mono tabular-nums"
-      style={{
-        textAlign: "right",
-        fontSize: 10.5,
-        color: "var(--v3-ink-300, #84909b)",
-        letterSpacing: "0.14em",
-        textTransform: "uppercase",
-      }}
+      className="clock tabular-nums"
     >
-      <span
-        style={{
-          display: "block",
-          color: "var(--v3-ink-100, #eef0f2)",
-          fontSize: 14,
-          letterSpacing: "0.10em",
-        }}
-      >
+      <span className="big">
         {text}
       </span>
       UNTIL NEXT REFRESH
@@ -1655,14 +1576,7 @@ function MoreGrid({
   // we have 7 visible). Keep stable order from TOP10_CATEGORIES.
   const cats = TOP10_CATEGORIES.filter((c) => c !== active).slice(0, 6);
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(3, 1fr)",
-        gap: 10,
-        marginTop: 14,
-      }}
-    >
+    <div className="more-grid">
       {cats.map((c) => (
         <Mini
           key={c}
@@ -1692,36 +1606,14 @@ function Mini({
     <button
       type="button"
       onClick={onOpen}
-      className="text-left"
-      style={{
-        border: "1px solid var(--v3-line-200, #29323b)",
-        background: "var(--v3-bg-025, #0b0d0f)",
-        padding: "11px 14px",
-        cursor: "pointer",
-      }}
+      className="mini text-left"
     >
-      <div className="flex items-center gap-2 mb-1.5">
-        <span style={{ fontSize: 14 }}>{meta.emoji}</span>
-        <span
-          className="v2-mono"
-          style={{
-            fontSize: 10.5,
-            letterSpacing: "0.16em",
-            color: "var(--v3-ink-200, #b8c0c8)",
-            textTransform: "uppercase",
-          }}
-        >
+      <div className="h">
+        <span className="em">{meta.emoji}</span>
+        <span className="nm">
           TOP 10 · {meta.label}
         </span>
-        <span
-          className="v2-mono"
-          style={{
-            marginLeft: "auto",
-            fontSize: 9,
-            color: "var(--v3-ink-400, #909caa)",
-            letterSpacing: "0.14em",
-          }}
-        >
+        <span className="ct">
           {windowLabel(bundle.window).toUpperCase()}
         </span>
       </div>

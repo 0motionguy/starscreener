@@ -3,7 +3,7 @@ import { Download, ExternalLink, Package, TrendingUp } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { NpmPackageRow } from "@/lib/npm";
 import type { DailyDownload } from "@/lib/npm-daily";
-import { cn, formatNumber, getRelativeTime } from "@/lib/utils";
+import { formatNumber, getRelativeTime } from "@/lib/utils";
 
 interface NpmAdoptionPanelProps {
   packages: NpmPackageRow[];
@@ -84,19 +84,18 @@ function windowMetric(packages: NpmPackageRow[], label: DownloadWindow): WindowM
   };
 }
 
-function deltaClass(delta: number): string {
+function deltaColor(delta: number): string {
   const tone = toneForDelta(delta);
-  if (tone === "up") return "text-up";
-  if (tone === "down") return "text-down";
-  return "text-text-tertiary";
+  if (tone === "up") return "var(--v4-money)";
+  if (tone === "down") return "var(--v4-red)";
+  return "var(--v4-ink-400)";
 }
 
 /**
  * Render a compact 30-day sparkline as an inline SVG polyline.
  *
  * Zero-width stroke / zero-only series render as a flat mid-line rather
- * than a div-by-zero NaN. Color + dimensions stay in the terminal palette
- * (text-text-tertiary, no new accent).
+ * than a div-by-zero NaN. Uses var(--v4-ink-300) via the SVG color attr.
  */
 function Sparkline({ series }: { series: DailyDownload[] }): JSX.Element | null {
   if (series.length < 2) return null;
@@ -121,7 +120,7 @@ function Sparkline({ series }: { series: DailyDownload[] }): JSX.Element | null 
       width={width}
       height={height}
       viewBox={`0 0 ${width} ${height}`}
-      className="text-text-tertiary"
+      style={{ color: "var(--v4-ink-300)" }}
       role="img"
     >
       <polyline
@@ -221,110 +220,188 @@ export function NpmAdoptionPanel({
           this repo.
         </p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        {metrics.map((metric) => {
-          const Icon = metric.icon;
-          const pct = percentDelta(metric.delta, metric.previous);
-          return (
-            <div
-              key={metric.label}
-              className="rounded-md border border-border-primary bg-bg-secondary/70 p-3"
-            >
-              <div className="flex items-center justify-between gap-2">
-                <span className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
-                  <Icon className="size-3" aria-hidden />
-                  {metric.label}
-                </span>
-                <span
-                  className={cn(
-                    "font-mono text-[11px] tabular-nums",
-                    deltaClass(metric.delta),
-                  )}
-                >
-                  {formatPercent(pct)}
-                </span>
-              </div>
-              <p className="mt-2 font-mono text-2xl font-semibold leading-none text-text-primary tabular-nums">
-                {formatNumber(metric.downloads)}
-              </p>
-              <p
-                className={cn(
-                  "mt-1 font-mono text-[11px] tabular-nums",
-                  deltaClass(metric.delta),
-                )}
-              >
-                {formatSignedNumber(metric.delta)}
-                <span className="ml-1 text-text-tertiary">vs previous</span>
-              </p>
-            </div>
-          );
-        })}
-      </div>
-
-      <div className="mt-4 overflow-x-auto">
-        <table className="w-full min-w-[720px] text-left">
-          <thead>
-            <tr className="border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
-              <th className="py-2 pr-3 font-mono font-medium">Package</th>
-              <th className="py-2 px-3 font-mono font-medium">24h</th>
-              <th className="py-2 px-3 font-mono font-medium">7d</th>
-              <th className="py-2 px-3 font-mono font-medium">30d</th>
-              <th className="py-2 pl-3 font-mono font-medium">Latest</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-border-primary/50">
-            {rankedPackages.slice(0, 5).map((pkg) => (
-              <PackageRow
-                key={pkg.name}
-                pkg={pkg}
-                dependents={dependentsByPackage?.[pkg.name] ?? null}
-              />
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {topPackage && (
-        <div
-          className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1"
-          style={{ fontSize: 11, color: "var(--v4-ink-400)" }}
-        >
-          <p className="flex items-center gap-1">
-            <span style={{ color: "var(--v4-ink-400)" }}>
-              {"// LEADING PACKAGE: "}
-            </span>
-            <span style={{ color: "var(--v4-ink-200)" }}>{topPackage.name}</span>
-            <span>{" with "}</span>
-            <span
-              className="tabular-nums"
-              style={{
-                color: "var(--v4-acc)",
-                fontFamily: "var(--font-geist-mono), monospace",
-              }}
-            >
-              {formatNumber(topPackage.downloads7d)}
-            </span>
-            <span>{" downloads in 7d"}</span>
-          </p>
-          {topSeries && topSeries.length >= 2 && (
-            <span
-              className="inline-flex items-center gap-1"
-              title={`${topPackage.name} — last ${topSeries.length} days of downloads`}
-            >
-              <span
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          {metrics.map((metric) => {
+            const Icon = metric.icon;
+            const pct = percentDelta(metric.delta, metric.previous);
+            const dColor = deltaColor(metric.delta);
+            return (
+              <div
+                key={metric.label}
+                className="p-3"
                 style={{
-                  fontFamily: "var(--font-geist-mono), monospace",
+                  border: "1px solid var(--v4-line-200)",
+                  background: "var(--v4-bg-050)",
+                  borderRadius: 2,
+                }}
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <span
+                    className="inline-flex items-center gap-1.5"
+                    style={{
+                      fontFamily: "var(--font-geist-mono), monospace",
+                      fontSize: 10,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.08em",
+                      color: "var(--v4-ink-400)",
+                    }}
+                  >
+                    <Icon className="size-3" aria-hidden />
+                    {metric.label}
+                  </span>
+                  <span
+                    className="tabular-nums"
+                    style={{
+                      fontFamily: "var(--font-geist-mono), monospace",
+                      fontSize: 11,
+                      color: dColor,
+                    }}
+                  >
+                    {formatPercent(pct)}
+                  </span>
+                </div>
+                <p
+                  className="mt-2 tabular-nums"
+                  style={{
+                    fontFamily: "var(--font-geist-mono), monospace",
+                    fontSize: 24,
+                    fontWeight: 600,
+                    lineHeight: 1,
+                    color: "var(--v4-ink-100)",
+                  }}
+                >
+                  {formatNumber(metric.downloads)}
+                </p>
+                <p
+                  className="mt-1 tabular-nums"
+                  style={{
+                    fontFamily: "var(--font-geist-mono), monospace",
+                    fontSize: 11,
+                    color: dColor,
+                  }}
+                >
+                  {formatSignedNumber(metric.delta)}
+                  <span style={{ marginLeft: 4, color: "var(--v4-ink-400)" }}>
+                    vs previous
+                  </span>
+                </p>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="mt-4 overflow-x-auto">
+          <table className="w-full min-w-[720px] text-left">
+            <thead>
+              <tr
+                style={{
+                  borderBottom: "1px solid var(--v4-line-200)",
                   fontSize: 10,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.08em",
                   color: "var(--v4-ink-400)",
                 }}
               >
-                30D
-              </span>
-              <Sparkline series={topSeries} />
-            </span>
-          )}
+                <th
+                  className="py-2 pr-3"
+                  style={{
+                    fontFamily: "var(--font-geist-mono), monospace",
+                    fontWeight: 500,
+                  }}
+                >
+                  Package
+                </th>
+                <th
+                  className="py-2 px-3"
+                  style={{
+                    fontFamily: "var(--font-geist-mono), monospace",
+                    fontWeight: 500,
+                  }}
+                >
+                  24h
+                </th>
+                <th
+                  className="py-2 px-3"
+                  style={{
+                    fontFamily: "var(--font-geist-mono), monospace",
+                    fontWeight: 500,
+                  }}
+                >
+                  7d
+                </th>
+                <th
+                  className="py-2 px-3"
+                  style={{
+                    fontFamily: "var(--font-geist-mono), monospace",
+                    fontWeight: 500,
+                  }}
+                >
+                  30d
+                </th>
+                <th
+                  className="py-2 pl-3"
+                  style={{
+                    fontFamily: "var(--font-geist-mono), monospace",
+                    fontWeight: 500,
+                  }}
+                >
+                  Latest
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {rankedPackages.slice(0, 5).map((pkg) => (
+                <PackageRow
+                  key={pkg.name}
+                  pkg={pkg}
+                  dependents={dependentsByPackage?.[pkg.name] ?? null}
+                />
+              ))}
+            </tbody>
+          </table>
         </div>
-      )}
+
+        {topPackage && (
+          <div
+            className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1"
+            style={{ fontSize: 11, color: "var(--v4-ink-400)" }}
+          >
+            <p className="flex items-center gap-1">
+              <span style={{ color: "var(--v4-ink-400)" }}>
+                {"// LEADING PACKAGE: "}
+              </span>
+              <span style={{ color: "var(--v4-ink-200)" }}>{topPackage.name}</span>
+              <span>{" with "}</span>
+              <span
+                className="tabular-nums"
+                style={{
+                  color: "var(--v4-acc)",
+                  fontFamily: "var(--font-geist-mono), monospace",
+                }}
+              >
+                {formatNumber(topPackage.downloads7d)}
+              </span>
+              <span>{" downloads in 7d"}</span>
+            </p>
+            {topSeries && topSeries.length >= 2 && (
+              <span
+                className="inline-flex items-center gap-1"
+                title={`${topPackage.name} — last ${topSeries.length} days of downloads`}
+              >
+                <span
+                  style={{
+                    fontFamily: "var(--font-geist-mono), monospace",
+                    fontSize: 10,
+                    color: "var(--v4-ink-400)",
+                  }}
+                >
+                  30D
+                </span>
+                <Sparkline series={topSeries} />
+              </span>
+            )}
+          </div>
+        )}
       </div>
     </section>
   );
@@ -338,28 +415,49 @@ function PackageRow({
   dependents: number | null;
 }) {
   return (
-    <tr className="text-sm text-text-secondary">
+    <tr
+      style={{
+        borderBottom: "1px solid var(--v4-line-100)",
+        fontSize: 14,
+        color: "var(--v4-ink-200)",
+      }}
+    >
       <td className="py-3 pr-3">
         <a
           href={pkg.npmUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="group inline-flex max-w-[260px] items-center gap-1.5 text-text-primary hover:text-brand"
+          className="group inline-flex max-w-[260px] items-center gap-1.5"
+          style={{ color: "var(--v4-ink-100)", textDecoration: "none" }}
         >
-          <Package className="size-3.5 shrink-0 text-text-tertiary group-hover:text-brand" />
+          <Package
+            className="size-3.5 shrink-0"
+            style={{ color: "var(--v4-ink-300)" }}
+          />
           <span className="truncate">{pkg.name}</span>
-          <ExternalLink className="size-3 shrink-0 text-text-tertiary" />
+          <ExternalLink
+            className="size-3 shrink-0"
+            style={{ color: "var(--v4-ink-300)" }}
+          />
         </a>
         {dependents != null && dependents > 0 && (
           <span
-            className="ml-1 font-mono text-[10px] text-text-tertiary tabular-nums"
+            className="ml-1 tabular-nums"
+            style={{
+              fontFamily: "var(--font-geist-mono), monospace",
+              fontSize: 10,
+              color: "var(--v4-ink-400)",
+            }}
             title={`${formatNumber(dependents)} packages depend on ${pkg.name}`}
           >
             {"·"} {formatNumber(dependents)} deps
           </span>
         )}
         {pkg.description && (
-          <p className="mt-0.5 max-w-[320px] truncate text-[11px] text-text-tertiary">
+          <p
+            className="mt-0.5 max-w-[320px] truncate"
+            style={{ fontSize: 11, color: "var(--v4-ink-400)" }}
+          >
             {pkg.description}
           </p>
         )}
@@ -367,8 +465,15 @@ function PackageRow({
       <WindowCell downloads={pkg.downloads24h} delta={pkg.delta24h} pct={pkg.deltaPct24h} />
       <WindowCell downloads={pkg.downloads7d} delta={pkg.delta7d} pct={pkg.deltaPct7d} />
       <WindowCell downloads={pkg.downloads30d} delta={pkg.delta30d} pct={pkg.deltaPct30d} />
-      <td className="py-3 pl-3 font-mono text-[11px] text-text-tertiary">
-        <span className="block text-text-secondary">
+      <td
+        className="py-3 pl-3 tabular-nums"
+        style={{
+          fontFamily: "var(--font-geist-mono), monospace",
+          fontSize: 11,
+          color: "var(--v4-ink-400)",
+        }}
+      >
+        <span className="block" style={{ color: "var(--v4-ink-200)" }}>
           {pkg.latestVersion ?? "unknown"}
         </span>
         {pkg.publishedAt && (
@@ -389,11 +494,18 @@ function WindowCell({
   pct: number;
 }) {
   return (
-    <td className="py-3 px-3 font-mono tabular-nums">
-      <span className="block text-text-primary">{formatNumber(downloads)}</span>
-      <span className={cn("block text-[11px]", deltaClass(delta))}>
+    <td
+      className="py-3 px-3 tabular-nums"
+      style={{ fontFamily: "var(--font-geist-mono), monospace" }}
+    >
+      <span className="block" style={{ color: "var(--v4-ink-100)" }}>
+        {formatNumber(downloads)}
+      </span>
+      <span className="block" style={{ fontSize: 11, color: deltaColor(delta) }}>
         {formatSignedNumber(delta)}
-        <span className="ml-1 text-text-tertiary">{formatPercent(pct)}</span>
+        <span className="ml-1" style={{ color: "var(--v4-ink-400)" }}>
+          {formatPercent(pct)}
+        </span>
       </span>
     </td>
   );

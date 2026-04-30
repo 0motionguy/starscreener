@@ -147,6 +147,9 @@ export interface RedditMentionsFile {
   scannedSubreddits: string[];
   scannedPostsTotal: number;
   mentions: Record<string, RedditRepoMention>;
+  /** F2 dual-key transition: same buckets as `mentions`, but indexed by
+   * the repoId slug (slugIdFromFullName) instead of the raw fullName. */
+  mentionsByRepoId?: Record<string, RedditRepoMention>;
   topPosts: RedditPost[];
   allPosts?: RedditPost[];
   leaderboard?: RedditLeaderboardEntry[];

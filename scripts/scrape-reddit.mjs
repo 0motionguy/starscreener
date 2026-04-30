@@ -46,6 +46,17 @@ import {
 } from "./_github-repo-links.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 
+// F2 dual-key transition: stable repoId derived from fullName.
+// MUST match src/lib/utils.ts:slugToId so consumers can index by repoId
+// without needing the original fullName.
+function slugIdFromFullName(fullName) {
+  return String(fullName)
+    .toLowerCase()
+    .replace(/\//g, "--")
+    .replace(/\./g, "-")
+    .replace(/[^a-z0-9-]/g, "");
+}
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
 const TRENDING_IN = resolve(DATA_DIR, "trending.json");
@@ -928,6 +939,12 @@ async function main() {
     scannedSubreddits: SUBREDDITS,
     scannedPostsTotal: scannedTotal,
     mentions: mentionsOut,
+    mentionsByRepoId: Object.fromEntries(
+      Object.entries(mentionsOut).map(([fullName, value]) => [
+        slugIdFromFullName(fullName),
+        value,
+      ]),
+    ),
     allPosts: allPostsOut,
     topPosts,
     leaderboard,

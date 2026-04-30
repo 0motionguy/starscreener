@@ -1399,3 +1399,169 @@
     font-size: var(--v4-text-9-5);
   }
 }
+
+/* ===========================================================================
+ * BATCH E — Tools primitives (ToolTile, MiniListCard, Treemap)
+ * ========================================================================= */
+
+/* ---------------------------------------------------------------------------
+ * 20. ToolTile
+ * --------------------------------------------------------------------------- */
+.v4-tool-tile {
+  border: var(--v4-stroke-1) solid var(--v4-line-200);
+  background: var(--v4-bg-025);
+  padding: 14px;
+  cursor: pointer;
+  min-height: 130px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color var(--v4-duration-fast) var(--v4-ease);
+}
+.v4-tool-tile--interactive:hover {
+  border-color: var(--v4-line-400);
+}
+.v4-tool-tile--active {
+  border-color: var(--v4-acc);
+  background: linear-gradient(
+    135deg,
+    var(--v4-acc-soft),
+    var(--v4-bg-025) 70%
+  );
+}
+.v4-tool-tile__num {
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-9-5);
+  letter-spacing: var(--v4-track-20);
+  color: var(--v4-ink-400);
+  text-transform: uppercase;
+}
+.v4-tool-tile--active .v4-tool-tile__num {
+  color: var(--v4-acc);
+}
+.v4-tool-tile__title {
+  font-family: var(--v4-sans);
+  font-size: var(--v4-text-18);
+  font-weight: 500;
+  color: var(--v4-ink-000);
+  letter-spacing: -0.012em;
+  line-height: var(--v4-leading-12);
+}
+.v4-tool-tile__desc {
+  font-family: var(--v4-sans);
+  font-size: var(--v4-text-11-5);
+  color: var(--v4-ink-300);
+  line-height: var(--v4-leading-14);
+}
+.v4-tool-tile__foot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-9);
+  letter-spacing: var(--v4-track-16);
+  color: var(--v4-ink-400);
+  text-transform: uppercase;
+}
+.v4-tool-tile__preview {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------------------------------
+ * 21. MiniListCard
+ * --------------------------------------------------------------------------- */
+.v4-mini-list {
+  border: var(--v4-stroke-1) solid var(--v4-line-200);
+  background: var(--v4-bg-025);
+  padding: 11px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color var(--v4-duration-fast) var(--v4-ease);
+}
+.v4-mini-list--interactive:hover {
+  border-color: var(--v4-line-400);
+}
+.v4-mini-list__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.v4-mini-list__icon {
+  display: inline-flex;
+  align-items: center;
+  font-size: 14px;
+}
+.v4-mini-list__title {
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-10-5);
+  letter-spacing: var(--v4-track-16);
+  color: var(--v4-ink-200);
+  text-transform: uppercase;
+}
+.v4-mini-list__badge {
+  margin-left: auto;
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-9);
+  letter-spacing: var(--v4-track-14);
+  color: var(--v4-ink-400);
+}
+.v4-mini-list__items {
+  margin: 0;
+  padding-left: 18px;
+  font-family: var(--v4-sans);
+  font-size: var(--v4-text-11-5);
+  color: var(--v4-ink-200);
+  line-height: var(--v4-leading-155);
+}
+.v4-mini-list__items li {
+  list-style-type: decimal;
+  padding-left: 4px;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+.v4-mini-list__name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.v4-mini-list__value {
+  color: var(--v4-money);
+  font-weight: 600;
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-10);
+  letter-spacing: var(--v4-track-04);
+  flex: none;
+  font-variant-numeric: tabular-nums;
+}
+.v4-mini-list__cta {
+  margin-top: 8px;
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-9);
+  letter-spacing: var(--v4-track-16);
+  color: var(--v4-acc);
+  text-transform: uppercase;
+}
+
+/* ---------------------------------------------------------------------------
+ * 22. Treemap (SVG-only — minimal CSS)
+ * --------------------------------------------------------------------------- */
+.v4-treemap {
+  width: 100%;
+  display: block;
+}

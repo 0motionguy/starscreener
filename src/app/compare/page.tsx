@@ -1,20 +1,7 @@
 // StarScreener - Compare page.
-//
-// Renders the canonical-profile grid at the top and the salvaged legacy
-// "code activity" visuals (commit heatmap, contributor grid, winner chips,
-// star-activity chart) as a sibling section below. The grid owns its own
-// `<main>` wrapper; the embedded extras section sits alongside it inside
-// the same max-width container to keep the page rhythm consistent.
-//
-// Endpoints behind this page:
-//   - /api/compare        → canonical profiles (30s / 60s SWR)
-//   - /api/compare/github → rich GitHub bundle (5 min / 1 h SWR),
-//                           powering the embedded `<CompareClient />` below.
-//
-// Query-param back-compat for `?repos=a/b,c/d` is preserved via the
-// CompareProfileGrid client's compare store.
 
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { CompareProfileGrid } from "@/components/compare/CompareProfileGrid";
 import { CompareClient } from "@/components/compare/CompareClient";
@@ -33,14 +20,6 @@ interface ComparePageProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
 
-/**
- * Per-request OG metadata so X auto-unfurls with the actual repos chosen
- * via ?repos=. Without this, the layout-level static og:image fires for
- * every URL regardless of which repos are being compared.
- *
- * Falls through to layout defaults when no repos are specified — the
- * static `/compare/opengraph-image.tsx` route handler still wins.
- */
 export async function generateMetadata({
   searchParams,
 }: ComparePageProps): Promise<Metadata> {
@@ -84,35 +63,89 @@ export default async function ComparePage({ searchParams }: ComparePageProps) {
   const shareState = decodeStarActivityUrl(sp);
 
   return (
-    <>
-      {/* W3 — Star History Chart wave: redesigned headline section.
-          Owns the new 5-series chart, metric/window/mode/scale/theme
-          toggles, starter-pack chips, bottom stat-card strip, and the
-          right-rail multi-format SHARE panel. */}
-      <CompareWaveTop />
+    <main className="home-surface tools-page compare-page">
+      <section className="page-head">
+        <div>
+          <div className="crumb">
+            <b>Tools</b> / compare
+          </div>
+          <h1>The creator suite - visualize. compare. share.</h1>
+          <p className="lede">
+            Plot star history against multiple repos, inspect canonical
+            signals, and export branded share cards from one dense workbench.
+          </p>
+        </div>
+        <div className="clock">
+          <span className="big">{shareState.repos.length || 0}</span>
+          <span className="live">series selected</span>
+        </div>
+      </section>
 
-      {/* Existing canonical-profile grid: deeper-dive per-repo signals
-          (momentum, why-trending, cross-signal, npm, mentions). Kept
-          as-is below the new wave so existing inbound links still
-          resolve to a useful surface. */}
+      <section className="tool-grid compare-tool-grid" aria-label="Creator tools">
+        <Link className="tool active" href="/compare">
+          <span className="t-num">01 / active</span>
+          <span className="t-h">Star History</span>
+          <span className="t-d">
+            Compare momentum curves across repos and export the chart.
+          </span>
+          <span className="t-foot">
+            <span className="live">live</span>
+            <span className="ar">-&gt;</span>
+          </span>
+        </Link>
+        <Link className="tool" href="/mindshare">
+          <span className="t-num">02 / analog</span>
+          <span className="t-h">Mindshare</span>
+          <span className="t-d">
+            Map cross-source attention and category gravity.
+          </span>
+          <span className="t-foot">
+            map
+            <span className="ar">-&gt;</span>
+          </span>
+        </Link>
+        <Link className="tool" href="/top10">
+          <span className="t-num">03 / share</span>
+          <span className="t-h">Top 10 Card</span>
+          <span className="t-d">
+            Turn ranked movers into a social-ready terminal card.
+          </span>
+          <span className="t-foot">
+            export
+            <span className="ar">-&gt;</span>
+          </span>
+        </Link>
+        <Link className="tool" href="/tierlist">
+          <span className="t-num">04 / board</span>
+          <span className="t-h">Tier List</span>
+          <span className="t-d">
+            Rank stacks with drag-and-drop rows and share links.
+          </span>
+          <span className="t-foot">
+            rank
+            <span className="ar">-&gt;</span>
+          </span>
+        </Link>
+      </section>
+
+      <CompareWaveTop />
       <CompareProfileGrid />
 
       <section
         aria-label="Code activity side-by-side"
-        className="max-w-7xl mx-auto px-4 sm:px-6 pb-10"
+        className="panel compare-code-panel"
       >
-        <div className="border-t border-border-primary pt-6">
-          <h2 className="font-mono text-[10px] uppercase tracking-wider text-text-tertiary mb-3">
-            Code activity side-by-side
-          </h2>
+        <div className="panel-head">
+          <span className="key">{"// CODE ACTIVITY SIDE-BY-SIDE"}</span>
+          <span className="right">
+            <span>{shareState.repos.length >= 2 ? "shareable" : "select 2+"}</span>
+          </span>
+        </div>
+        <div className="panel-body">
           <CompareClient embedded />
-          {shareState.repos.length >= 2 && (
-            <div className="mt-4">
-              <ShareBar state={shareState} />
-            </div>
-          )}
+          {shareState.repos.length >= 2 && <ShareBar state={shareState} />}
         </div>
       </section>
-    </>
+    </main>
   );
 }

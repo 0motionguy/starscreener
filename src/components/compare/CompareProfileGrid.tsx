@@ -23,10 +23,8 @@ import { GitCompareArrows, Plus } from "lucide-react";
 import { useCompareStore } from "@/lib/store";
 import { useCompareRepos } from "@/hooks/useCompareRepos";
 import { slugToId } from "@/lib/utils";
-import { CompareSelector } from "@/components/compare/CompareSelector";
 import { RepoProfileColumn } from "@/components/compare/RepoProfileColumn";
 import { resolveCompareFullNames } from "@/lib/compare-selection";
-import type { Repo } from "@/lib/types";
 import type { CanonicalRepoProfile } from "@/lib/api/repo-profile";
 import { cn } from "@/lib/utils";
 import { COMPARE_MAX_SLOTS as MAX_SLOTS } from "./palette";
@@ -226,26 +224,24 @@ export function CompareProfileGrid() {
 
   if (isEmpty) {
     return (
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-8">
+      <section className="panel compare-profile-panel">
         <PageHeader />
-        <CompareSelector />
-        <div className="flex flex-col items-center justify-center py-20 gap-4 animate-fade-in">
-          <div className="p-4 rounded-full bg-bg-card border border-border-primary">
+        <div className="compare-empty-state">
+          <div className="compare-empty-icon">
             <GitCompareArrows size={32} className="text-text-tertiary" />
           </div>
-          <p className="text-text-tertiary text-sm text-center max-w-xs">
+          <p>
             Select at least 2 repos to compare their momentum, signals, and
             revenue side by side.
           </p>
         </div>
-      </main>
+      </section>
     );
   }
 
   return (
-    <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-8">
+    <section className="panel compare-profile-panel">
       <PageHeader />
-      <CompareSelector />
 
       <section
         aria-label="Side-by-side repo profiles"
@@ -275,7 +271,7 @@ export function CompareProfileGrid() {
           <AddRepoTile />
         )}
       </section>
-    </main>
+    </section>
   );
 }
 

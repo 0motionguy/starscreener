@@ -2,9 +2,9 @@
 //
 // Invariants:
 //   1. GET /repo/vercel/next.js returns 200 (the repo is in our seeded set).
-//   2. The TerminalBar header reads "// REPO · VERCEL/NEXT.JS".
-//   3. The breadcrumb renders ("Home › vercel/next.js").
-//   4. At least one panel from the V3 18-panel layout mounts.
+//   2. The .id-strip identity hero renders with "vercel" + "next.js".
+//   3. The crumb inside .id-strip mounts (Repo · rank #N · …).
+//   4. At least one body section from the repo-detail layout mounts.
 //
 // If the seed data ever changes such that vercel/next.js isn't tracked, the
 // page should still 404 cleanly — the test will surface that as a failure
@@ -13,25 +13,25 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("repo detail", () => {
-  test("renders title, breadcrumb, and at least one panel", async ({ page }) => {
+  test("renders title, crumb, and body chrome", async ({ page }) => {
     const response = await page.goto("/repo/vercel/next.js", {
       waitUntil: "domcontentloaded",
     });
     expect(response?.ok()).toBe(true);
 
-    // Breadcrumb — Home link + the repo full name.
-    const breadcrumb = page.getByRole("navigation", { name: /breadcrumb/i }).first();
-    await expect(breadcrumb).toBeVisible();
-    await expect(breadcrumb).toContainText("vercel/next.js");
+    // Identity strip — repo-detail's hero block.
+    const idStrip = page.locator(".id-strip").first();
+    await expect(idStrip).toBeVisible();
+    await expect(idStrip).toContainText(/vercel/i);
+    await expect(idStrip).toContainText(/next\.js/i);
 
-    // Terminal-bar repo identity — case-insensitive because the bar uppercases.
-    const terminalBar = page.locator(".v2-term-bar").first();
-    await expect(terminalBar).toBeVisible();
-    await expect(terminalBar).toContainText(/REPO/i);
-    await expect(terminalBar).toContainText(/vercel\/next\.js/i);
+    // Crumb inside the identity strip — replaces the V3 breadcrumb-role nav.
+    const crumb = idStrip.locator(".crumb").first();
+    await expect(crumb).toBeVisible();
+    await expect(crumb).toContainText(/Repo/i);
 
-    // V3 panel chrome — at least one .v2-frame block is mounted.
-    const panel = page.locator(".v2-frame").first();
-    await expect(panel).toBeAttached();
+    // Body chrome — at least the repo-detail stack mounts.
+    const stack = page.locator(".repo-detail-stack").first();
+    await expect(stack).toBeAttached();
   });
 });

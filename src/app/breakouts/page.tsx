@@ -1,13 +1,18 @@
-// /breakouts - full-page Cross-Signal Breakouts.
+// /breakouts — full-page Cross-Signal Breakouts (V4 chrome).
 
 import Link from "next/link";
-import type { ReactNode } from "react";
 
-import { Metric, MetricGrid } from "@/components/ui/Metric";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { getChannelStatus } from "@/lib/pipeline/cross-signal";
 import { formatNumber } from "@/lib/utils";
 import type { Repo } from "@/lib/types";
+
+// V4 (CORPUS) primitives.
+import { PageHead } from "@/components/ui/PageHead";
+import { SectionHead } from "@/components/ui/SectionHead";
+import { KpiBand } from "@/components/ui/KpiBand";
+import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
+import { LiveDot } from "@/components/ui/LiveDot";
 
 export const dynamic = "force-static";
 
@@ -33,24 +38,6 @@ function applyFilter(repos: Array<Repo & { _firing: number }>, filter: FilterKey
   if (filter === "all") return repos.filter((r) => r._firing >= 1);
   if (filter === "three") return repos.filter((r) => r._firing === 3);
   return repos.filter((r) => r._firing >= 2);
-}
-
-function SectionHead({
-  num,
-  title,
-  meta,
-}: {
-  num: string;
-  title: string;
-  meta: ReactNode;
-}) {
-  return (
-    <div className="sec-head">
-      <span className="sec-num">{`// ${num}`}</span>
-      <h2 className="sec-title">{title}</h2>
-      <span className="sec-meta">{meta}</span>
-    </div>
-  );
 }
 
 function channelRank(repo: Repo, nowMs: number, channel: "github" | "reddit" | "hn") {
@@ -87,53 +74,90 @@ export default async function BreakoutsPage({
 
   return (
     <main className="home-surface breakouts-page">
-      <section className="page-head">
-        <div>
-          <div className="crumb">
-            <b>Breakouts</b> / cross-signal / github + reddit + hn
-          </div>
-          <h1>Where independent channels fire together.</h1>
-          <p className="lede">
-            Multi-channel repo momentum, ranked by cross-signal score and
-            filtered by visible firing count.
-          </p>
-        </div>
-        <div className="clock">
-          <span className="big">{view.length}</span>
-          <span className="live">repos</span>
-        </div>
-      </section>
+      <PageHead
+        crumb={
+          <>
+            <b>BREAKOUTS</b> · TERMINAL · /BREAKOUTS
+          </>
+        }
+        h1="Where independent channels fire together."
+        lede="Multi-channel repo momentum, ranked by cross-signal score and filtered by visible firing count. Three signal sources: GitHub stars · Reddit submissions · Hacker News."
+        clock={
+          <>
+            <span className="big">{view.length}</span>
+            <span className="muted">REPOS · {FILTER_LABELS[filter].toUpperCase()}</span>
+            <LiveDot label="LIVE" />
+          </>
+        }
+      />
 
-      <section className="verdict">
-        <div className="v-stamp">
-          <span>breakout board</span>
-          <span className="ts">{multiChannel}</span>
-          <span className="ago">multi-channel</span>
-        </div>
-        <p className="v-text">
-          <b>{totalFiring} repos</b> are firing on at least one visible channel.{" "}
-          <span className="hl-early">{multiChannel} multi-channel</span>{" "}
-          candidates clear the noise filter, with{" "}
-          <span className="hl-div">{allThree} all-three</span> consensus hits.
-        </p>
-        <div className="v-actions">
-          <Link href="/feeds/breakouts.xml">RSS</Link>
-          <Link href="/consensus">Consensus</Link>
-        </div>
-      </section>
+      <VerdictRibbon
+        tone="acc"
+        stamp={{
+          eyebrow: "// BREAKOUT BOARD",
+          headline: `${multiChannel} MULTI-CHANNEL`,
+          sub: `of ${totalFiring} firing · ${allThree} all-three · refreshed live`,
+        }}
+        text={
+          <>
+            <b>{totalFiring} repos</b> are firing on at least one visible channel.{" "}
+            <span style={{ color: "var(--v4-violet)" }}>{multiChannel} multi-channel</span>{" "}
+            candidates clear the noise filter, with{" "}
+            <span style={{ color: "var(--v4-amber)" }}>{allThree} all-three</span> consensus
+            hits.
+          </>
+        }
+        actionHref="/feeds/breakouts.xml"
+        actionLabel="RSS →"
+      />
 
-      <MetricGrid columns={5} className="kpi-band">
-        <Metric label="Firing" value={totalFiring} sub=">=1 channel" pip />
-        <Metric label="Multi" value={multiChannel} sub=">=2 channels" tone="positive" pip />
-        <Metric label="All three" value={allThree} sub="gh + r + hn" tone="accent" pip />
-        <Metric label="Noise" value={oneChannel} sub="single channel" tone="warning" pip />
-        <Metric label="Top score" value={topScore.toFixed(2)} sub="max signal" tone="external" pip />
-      </MetricGrid>
+      <KpiBand
+        className="kpi-band"
+        cells={[
+          {
+            label: "FIRING",
+            value: totalFiring,
+            sub: "≥ 1 channel",
+            pip: "var(--v4-ink-300)",
+          },
+          {
+            label: "MULTI",
+            value: multiChannel,
+            sub: "≥ 2 channels",
+            tone: "money",
+            pip: "var(--v4-money)",
+          },
+          {
+            label: "ALL THREE",
+            value: allThree,
+            sub: "GH + R + HN",
+            tone: "acc",
+            pip: "var(--v4-acc)",
+          },
+          {
+            label: "NOISE",
+            value: oneChannel,
+            sub: "single channel",
+            tone: "amber",
+            pip: "var(--v4-amber)",
+          },
+          {
+            label: "TOP SCORE",
+            value: topScore.toFixed(2),
+            sub: "max signal",
+            pip: "var(--v4-blue)",
+          },
+        ]}
+      />
 
       <SectionHead
-        num="01"
+        num="// 01"
         title="Breakout leaderboard"
-        meta={<><b>{view.length}</b> / {FILTER_LABELS[filter]}</>}
+        meta={
+          <>
+            <b>{view.length}</b> · {FILTER_LABELS[filter]}
+          </>
+        }
       />
       <section className="board">
         <div className="filter-bar">

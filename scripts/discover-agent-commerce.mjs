@@ -62,9 +62,23 @@ const AUTO_MERGE_REQUIRED_TOPICS = [
   "a2a",
 ];
 
+// Auto-merge push-recency floor (in days). A repo with a qualifying
+// topic but no push activity in the last year is likely abandoned —
+// reject so it lands in the rejected sidecar for human review instead
+// of inflating the seed.
+const AUTO_MERGE_MAX_PUSH_AGE_DAYS = 365;
+
 function qualifiesForAutoMerge(candidate) {
   const topics = candidate?._discovery?.topics ?? [];
-  return topics.some((t) => AUTO_MERGE_REQUIRED_TOPICS.includes(t));
+  if (!topics.some((t) => AUTO_MERGE_REQUIRED_TOPICS.includes(t))) return false;
+  const pushedAt = candidate?._discovery?.pushedAt;
+  if (pushedAt) {
+    const ageDays = (Date.now() - new Date(pushedAt).getTime()) / 86_400_000;
+    if (Number.isFinite(ageDays) && ageDays > AUTO_MERGE_MAX_PUSH_AGE_DAYS) {
+      return false;
+    }
+  }
+  return true;
 }
 
 function parseNumberArg(name, fallback) {

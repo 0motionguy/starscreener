@@ -60,10 +60,15 @@ jobs:
         run: node scripts/fetch-base-x402-onchain.mjs --max-pages-per-addr 3
 
       - name: Fetch Solana x402 on-chain settlements
-        # Public mainnet-beta RPC; throttled to ~8 rps per fetcher's
-        # internal sleep. Operators can set SOLANA_RPC_URL secret to a
-        # paid endpoint for higher throughput.
+        # Public mainnet-beta RPC caps getTransaction at 4 req/s per IP;
+        # script defaults to concurrency 1 + 250ms throttle. Operators
+        # can set SOLANA_RPC_URL secret to a paid endpoint (Helius /
+        # Alchemy) for higher throughput. continue-on-error so a single
+        # 429 storm doesn't fail the daily pipeline — fetcher is
+        # idempotent and the next tick recovers.
+        continue-on-error: true
         env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
           SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
         run: node scripts/fetch-solana-x402-onchain.mjs --max-pages-per-addr 3
 

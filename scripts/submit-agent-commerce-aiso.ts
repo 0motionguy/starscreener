@@ -33,10 +33,18 @@ interface AgentCommerceFile {
   items: AgentCommerceItem[];
 }
 
+function parseLimit(args: string[]): number | null {
+  const idx = args.indexOf("--limit");
+  if (idx === -1 || idx === args.length - 1) return null;
+  const n = parseInt(args[idx + 1], 10);
+  return Number.isFinite(n) && n > 0 ? n : null;
+}
+
 async function main(): Promise<void> {
   const args = process.argv.slice(2);
   const dryRun = args.includes("--dry-run");
   const force = args.includes("--force");
+  const limit = parseLimit(args);
 
   const filePath = path.join(process.cwd(), "data", "agent-commerce.json");
   const raw = readFileSync(filePath, "utf8");
@@ -49,6 +57,10 @@ async function main(): Promise<void> {
   const now = new Date().toISOString();
 
   for (const item of data.items) {
+    if (limit !== null && enqueued >= limit) {
+      console.log(`[stop] reached --limit ${limit}`);
+      break;
+    }
     const websiteUrl = item.links?.website;
 
     if (!websiteUrl) {

@@ -484,7 +484,7 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
 
       <SourceFilterBar
         active={activeSourceFilter}
-        window={activeWindow}
+        timeWindow={activeWindow}
         totalSignals={volume.totalItems}
       />
 
@@ -501,6 +501,7 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
           alphaScore={alphaScore}
           alphaDelta={alphaDelta}
           freshnessLabel={freshnessLabel}
+          windowLabel={activeWindowLabel}
         />
       </div>
 

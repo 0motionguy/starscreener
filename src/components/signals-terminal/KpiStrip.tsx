@@ -12,6 +12,8 @@ export interface KpiStripProps {
   alphaScore: number;
   alphaDelta: number;
   freshnessLabel: string;
+  /** "1H" / "24H" / "7D" / "30D" — drives volume + change-vs-prior copy. */
+  windowLabel: string;
 }
 
 function formatPct(v: number | null): string {
@@ -38,6 +40,7 @@ export function KpiStrip({
   alphaScore,
   alphaDelta,
   freshnessLabel,
+  windowLabel,
 }: KpiStripProps) {
   const changeTone = changePct !== null && changePct < 0 ? "negative" : "positive";
   const tagTone =
@@ -47,7 +50,7 @@ export function KpiStrip({
   return (
     <MetricGrid columns={6}>
       <Metric
-        label="Signal volume · 24h"
+        label={`Signal volume · ${windowLabel}`}
         value={totalSignals.toLocaleString("en-US")}
         delta={
           <span
@@ -61,7 +64,7 @@ export function KpiStrip({
             {formatPct(changePct)}
           </span>
         }
-        sub="vs prev 24h"
+        sub={`vs prev ${windowLabel}`}
       />
       <Metric
         label="Sources · live"

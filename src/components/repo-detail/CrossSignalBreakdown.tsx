@@ -152,34 +152,52 @@ export function CrossSignalBreakdown({
   return (
     <section
       aria-label="Cross-signal breakdown"
-      className="v2-card overflow-hidden"
+      style={{
+        border: "1px solid var(--v4-line-200)",
+        background: "var(--v4-bg-025)",
+        borderRadius: 2,
+        overflow: "hidden",
+      }}
     >
-      <div className="v2-term-bar">
-        <span aria-hidden className="flex items-center gap-1.5">
-          <span className="block h-1.5 w-1.5 rounded-full v2-live-dot" />
-          <span
-            className="block h-1.5 w-1.5 rounded-full"
-            style={{ background: "var(--v2-line-200)" }}
-          />
-          <span
-            className="block h-1.5 w-1.5 rounded-full"
-            style={{ background: "var(--v2-line-200)" }}
-          />
-        </span>
+      <div
+        style={{
+          padding: "10px 12px",
+          borderBottom: "1px solid var(--v4-line-200)",
+          background: "var(--v4-bg-050)",
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
+          fontFamily: "var(--font-geist-mono), monospace",
+        }}
+      >
         <span
-          className="flex-1 truncate"
-          style={{ color: "var(--v2-ink-200)" }}
+          style={{
+            flex: 1,
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            color: "var(--v4-ink-200)",
+            fontSize: 11,
+            textTransform: "uppercase",
+            letterSpacing: "0.08em",
+          }}
         >
           {"// CROSS-SIGNAL BREAKDOWN · PER-CHANNEL COMPONENTS"}
         </span>
         <span
-          className="v2-stat shrink-0 tabular-nums"
-          style={{ color: "var(--v2-ink-300)" }}
+          className="tabular-nums"
+          style={{
+            flexShrink: 0,
+            color: "var(--v4-ink-300)",
+            fontSize: 10,
+            textTransform: "uppercase",
+            letterSpacing: "0.08em",
+          }}
           title="Cross-signal score (0-5): weighted sum of per-channel components. 5.0 = strong signal across >=4 channels in 7d. 4.0 = strong on >=3. 3.0 = strong on >=2. 2.0+ = active on 1+. Below 1.0 = low or no cross-channel activity."
         >
-          <span style={{ color: "var(--v2-acc)" }}>{score.toFixed(2)}</span>
+          <span style={{ color: "var(--v4-acc)" }}>{score.toFixed(2)}</span>
           {"/5.0 · "}
-          <span style={{ color: "var(--v2-ink-100)" }}>{firing}</span>
+          <span style={{ color: "var(--v4-ink-100)" }}>{firing}</span>
           {"/5 FIRING"}
         </span>
       </div>
@@ -260,7 +278,7 @@ export function CrossSignalBreakdown({
 
       <p
         className="mt-3 leading-snug"
-        style={{ fontSize: 10, color: "var(--v2-ink-400)" }}
+        style={{ fontSize: 10, color: "var(--v4-ink-400)" }}
       >
         <span className="font-mono">*</span> Reddit bar shows a per-repo
         velocity proxy (raw score / 100); the score formula uses the

@@ -530,10 +530,10 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
           />
         </div>
         <div className="col-5">
-          <div style={{ padding: 16, fontFamily: "monospace", fontSize: 11 }}>
-            radar placeholder · {consensus.length} stories · strong=
-            {consensusCount}
-          </div>
+          <ConsensusRadar
+            stories={consensus}
+            totalActive={consensusCount}
+          />
         </div>
       </div>
 
@@ -646,11 +646,11 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
         title="Tag momentum Â· 24h heatmap"
         meta={`${tagMomentum.rows.length} tags Â· hourly buckets`}
       />
-      <div style={{ padding: 16, fontFamily: "monospace", fontSize: 11 }}>
-        heatmap placeholder · {tagMomentum.rows.length} tags
-      </div>
+      <TagMomentumHeatmap rows={tagMomentum.rows} />
 
-      <LiveTicker items={tickerItems} />
+      <div style={{ padding: 16, fontFamily: "monospace", fontSize: 11 }}>
+        ticker placeholder · {tickerItems.length}
+      </div>
     </main>
   );
 }

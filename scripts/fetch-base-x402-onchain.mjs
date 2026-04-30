@@ -14,8 +14,7 @@ const USDC_BASE = "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913";
 
 // data-store mirror — collector dual-writes file + Redis per CLAUDE.md
 // convention. Skips silently when REDIS_URL/Upstash env is absent.
-// eslint-disable-next-line no-unused-vars
-import { writeDataStore as _writeDataStore } from "./_data-store-write.mjs";
+import { writeDataStore } from "./_data-store-write.mjs";
 
 const FACILITATORS = {
   Coinbase: [
@@ -159,13 +158,23 @@ async function main() {
     console.log("[x402] --dry-run");
     return;
   }
+  const payload = {
+    fetchedAt,
+    source: "base.blockscout.com/api/v2",
+    totalTxs,
+    totalSettlements,
+    byFacilitator,
+    byDay,
+    samples,
+    facilitatorAddresses: FACILITATORS,
+  };
   mkdirSync(dirname(OUT_PATH), { recursive: true });
-  writeFileSync(
-    OUT_PATH,
-    JSON.stringify({ fetchedAt, source: "base.blockscout.com/api/v2", totalTxs, totalSettlements, byFacilitator, byDay, samples, facilitatorAddresses: FACILITATORS }, null, 2),
-    "utf8",
-  );
+  writeFileSync(OUT_PATH, JSON.stringify(payload, null, 2), "utf8");
   console.log(`[x402] wrote ${OUT_PATH}`);
+  const ds = await writeDataStore("base-x402-onchain", payload, {
+    stampPerRecord: false,
+  });
+  console.log(`[x402] data-store: ${ds.source} @ ${ds.writtenAt}`);
 }
 
 main().catch((err) => {

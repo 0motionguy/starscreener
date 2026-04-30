@@ -97,6 +97,7 @@ jobs:
         run: npx tsx scripts/submit-agent-commerce-aiso.ts
 
       - name: Commit if changed
+        id: commit-step
         run: |
           git config user.name  "trendingrepo-bot"
           git config user.email "bot@trendingrepo.local"
@@ -112,9 +113,49 @@ jobs:
             2>/dev/null || true
           if git diff --quiet --staged; then
             echo "no changes - skipping commit"
+            echo "committed=false" >> $GITHUB_OUTPUT
+            echo "files_changed=0" >> $GITHUB_OUTPUT
             exit 0
           fi
+          FILES_CHANGED=$(git diff --staged --name-only | wc -l | tr -d ' ')
           TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
           git commit -m "data(agent-commerce): refresh pipeline ${TS}"
           git pull --rebase origin main
           git push
+          echo "committed=true" >> $GITHUB_OUTPUT
+          echo "files_changed=${FILES_CHANGED}" >> $GITHUB_OUTPUT
+
+      - name: Notify completion
+        if: always()
+        env:
+          WEBHOOK_URL: ${{ secrets.AGENT_COMMERCE_WEBHOOK_URL }}
+          JOB_STATUS: ${{ job.status }}
+          COMMITTED: ${{ steps.commit-step.outputs.committed }}
+          FILES_CHANGED: ${{ steps.commit-step.outputs.files_changed }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          COMMITTED_DISPLAY="${COMMITTED:-unknown}"
+          FILES_DISPLAY="${FILES_CHANGED:-0}"
+          SUMMARY_LINE="agent-commerce refresh: status=${JOB_STATUS} committed=${COMMITTED_DISPLAY} files=${FILES_DISPLAY} ts=${TS} run=${RUN_URL}"
+
+          {
+            echo "### Agent-commerce refresh"
+            echo ""
+            echo "- Status: \`${JOB_STATUS}\`"
+            echo "- Committed: \`${COMMITTED_DISPLAY}\`"
+            echo "- Files changed: \`${FILES_DISPLAY}\`"
+            echo "- Timestamp (UTC): \`${TS}\`"
+            echo "- Run: ${RUN_URL}"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if [ -z "${WEBHOOK_URL}" ]; then
+            echo "AGENT_COMMERCE_WEBHOOK_URL not set - skipping webhook"
+            exit 0
+          fi
+
+          PAYLOAD=$(printf '{"text":"%s"}' "${SUMMARY_LINE}")
+          curl -sS -X POST -H "Content-Type: application/json" \
+            --data "${PAYLOAD}" \
+            --max-time 10 \
+            "${WEBHOOK_URL}" || echo "webhook POST failed - ignoring"

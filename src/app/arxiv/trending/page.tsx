@@ -97,7 +97,7 @@ export default async function ArxivTrendingPage() {
           <>
             <span className="big">{formatClock(file.fetchedAt)}</span>
             <span className="muted">UTC · SCRAPED</span>
-            <LiveDot label="LIVE · 30M" />
+            <LiveDot label="FRESH · 3H" />
           </>
         }
         snapshot={

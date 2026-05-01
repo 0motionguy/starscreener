@@ -49,6 +49,13 @@ const EnvSchema = z.object({
   // ── Cron protection ────────────────────────────────────────────────────
   CRON_SECRET: z.string().min(16).optional(),
 
+  // ── Observability ──────────────────────────────────────────────────────
+  // PostHog project API key (EU region). Consumed by
+  // src/lib/analytics/posthog.ts for fire-and-forget per-call captures
+  // (e.g. github_api_call from the pool-aware fetch paths). When unset,
+  // the helper is a silent no-op — analytics is best-effort.
+  POSTHOG_KEY: z.string().optional(),
+
   // ── Persistence ────────────────────────────────────────────────────────
   // Both legacy STARSCREENER_* and new TRENDINGREPO_* are accepted during
   // the brand-migration transition. Resolution lives below in the derived

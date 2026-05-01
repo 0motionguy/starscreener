@@ -10,6 +10,7 @@ import type {
   GitHubRepoRaw,
   GitHubReleaseRaw,
 } from "../types";
+import { posthogCapture } from "@/lib/analytics/posthog";
 import {
   GitHubTokenPoolEmptyError,
   GitHubTokenPoolExhaustedError,
@@ -309,6 +310,22 @@ export class GitHubApiAdapter implements GitHubAdapter {
         this.rateLimit.remaining === null ? "?" : String(this.rateLimit.remaining);
       const tokenLabel = token ? redactToken(token) : "unauth";
       console.log(`[github] GET ${path} tok=${tokenLabel} rl=${remaining}`);
+
+      void posthogCapture("github_api_call", {
+        distinct_id: "github-pool",
+        tokenLabel,
+        remaining: this.rateLimit.remaining,
+        reset_in_sec: this.rateLimit.reset
+          ? Math.max(
+              0,
+              Math.floor(new Date(this.rateLimit.reset).getTime() / 1000) -
+                Math.floor(Date.now() / 1000),
+            )
+          : null,
+        status: res.status,
+        path,
+        method: "GET",
+      });
 
       // Retry on transient errors. 403 with remaining=0 is a rate limit on
       // the token we just used — the pool will skip it on the next attempt

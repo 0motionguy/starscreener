@@ -25,6 +25,7 @@
 //   - Returns null on persistent network errors so callers can branch on
 //     success without try/catch noise.
 
+import { posthogCapture } from "./analytics/posthog";
 import {
   GitHubTokenPoolEmptyError,
   GitHubTokenPoolExhaustedError,
@@ -141,11 +142,9 @@ export async function githubFetch(
     }
     clearTimeout(timer);
 
-    if (token) {
-      const headerLimits = parseRateLimitHeaders(res.headers);
-      if (headerLimits) {
-        pool.recordRateLimit(token, headerLimits.remaining, headerLimits.resetUnixSec);
-      }
+    const headerLimits = parseRateLimitHeaders(res.headers);
+    if (token && headerLimits) {
+      pool.recordRateLimit(token, headerLimits.remaining, headerLimits.resetUnixSec);
     }
 
     // 401 → token is invalid; quarantine and retry with a different PAT.
@@ -169,6 +168,18 @@ export async function githubFetch(
       );
       continue;
     }
+
+    void posthogCapture("github_api_call", {
+      distinct_id: "github-pool",
+      tokenLabel: token ? redactToken(token) : "unauth",
+      remaining: headerLimits?.remaining ?? null,
+      reset_in_sec: headerLimits
+        ? Math.max(0, headerLimits.resetUnixSec - Math.floor(Date.now() / 1000))
+        : null,
+      status: res.status,
+      path: pathOrUrl.startsWith("http") ? new URL(pathOrUrl).pathname : pathOrUrl,
+      method,
+    });
 
     return {
       response: res,

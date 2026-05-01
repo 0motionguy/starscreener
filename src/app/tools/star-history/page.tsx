@@ -69,15 +69,26 @@ export async function generateMetadata(): Promise<Metadata> {
  * history" placeholder), then sorts by momentum and trims to the top 3.
  */
 function pickDemoRepos(repos: Repo[], limit = 3): Repo[] {
-  const usable = repos.filter((r) => {
+  // Prefer repos with a meaningful sparkline (≥7 non-zero points) so the
+  // demo chart renders dense lines on first paint. If the bundled JSON
+  // seed hasn't accumulated that history yet (cold deploy / fresh repo
+  // set), fall back to top-momentum repos with ANY sparkline data, then
+  // to top-momentum repos period — empty chart is the worst outcome.
+  const sortByMomentum = (a: Repo, b: Repo) => b.momentumScore - a.momentumScore;
+  const dense = repos.filter((r) => {
     const series = r.sparklineData ?? [];
     if (series.length < 7) return false;
     const nonZero = series.filter((n) => Number.isFinite(n) && n !== 0).length;
     return nonZero >= 7;
   });
-  return [...usable]
-    .sort((a, b) => b.momentumScore - a.momentumScore)
-    .slice(0, limit);
+  if (dense.length >= limit) {
+    return [...dense].sort(sortByMomentum).slice(0, limit);
+  }
+  const anyHistory = repos.filter((r) => (r.sparklineData ?? []).some((n) => Number.isFinite(n) && n !== 0));
+  if (anyHistory.length >= limit) {
+    return [...anyHistory].sort(sortByMomentum).slice(0, limit);
+  }
+  return [...repos].sort(sortByMomentum).slice(0, limit);
 }
 
 export default async function StarHistoryToolPage() {

@@ -22,6 +22,8 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 import { fetchJsonWithRetry, HttpStatusError, sleep } from "./_fetch-json.mjs";
+import { extractUnknownRepoCandidates } from "./_github-repo-links.mjs";
+import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -565,6 +567,28 @@ export async function main({ log = console.log, fetchImpl = fetch } = {}) {
   log(
     `wrote ${OUT} (${rows.length} top repo-linked npm packages) [redis: ${result.source}]`,
   );
+
+  // F3 unknown-mentions lake — every github URL surfaced via npm package
+  // metadata (description + homepage + repository.url + keywords).
+  const unknownsAccumulator = new Set();
+  for (const row of rows) {
+    const blob = [
+      row.description ?? "",
+      row.homepage ?? "",
+      row.repositoryUrl ?? row.repository?.url ?? "",
+      Array.isArray(row.keywords) ? row.keywords.join(" ") : "",
+    ].join(" ");
+    for (const u of extractUnknownRepoCandidates(blob, null)) {
+      unknownsAccumulator.add(u);
+    }
+  }
+  if (unknownsAccumulator.size > 0) {
+    await appendUnknownMentions(
+      Array.from(unknownsAccumulator, (fullName) => ({ source: "npm", fullName })),
+    );
+    log(`  lake: ${unknownsAccumulator.size} candidates → data/unknown-mentions.jsonl`);
+  }
+
   return payload;
 }
 

@@ -23,6 +23,12 @@ export interface CollectorRawPost {
   replies?: number;
   quotes?: number;
   sourceUrl?: string;
+  /**
+   * Resolved URLs from `entities.urls[].expanded_url` (Apify provider). Tweet
+   * text only carries the t.co form; mention extractors must walk these to
+   * catch shortened github.com URLs.
+   */
+  expandedUrls?: string[];
 }
 
 export interface CollectorOptions {

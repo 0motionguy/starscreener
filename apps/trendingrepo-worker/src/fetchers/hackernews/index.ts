@@ -20,6 +20,14 @@ import { classifyPost } from '../../lib/util/classify-post.js';
 import { extractAllRepoMentions } from '../../lib/util/github-repo-links.js';
 import { loadTrackedRepos } from '../../lib/util/tracked-repos.js';
 
+function slugIdFromFullName(fullName: string): string {
+  return String(fullName)
+    .toLowerCase()
+    .replace(/\//g, '--')
+    .replace(/\./g, '-')
+    .replace(/[^a-z0-9-]/g, '');
+}
+
 const TRENDING_WINDOW_HOURS = 72;
 const MENTIONS_WINDOW_DAYS = 7;
 const TRENDING_WINDOW_SECONDS = TRENDING_WINDOW_HOURS * 60 * 60;
@@ -343,6 +351,9 @@ const fetcher: Fetcher = {
       scannedAlgoliaHits: algoliaHits.length,
       scannedFirebaseItems: rawItems.length,
       mentions,
+      mentionsByRepoId: Object.fromEntries(
+        Object.entries(mentions).map(([fullName, value]) => [slugIdFromFullName(fullName), value]),
+      ),
       leaderboard,
     };
 

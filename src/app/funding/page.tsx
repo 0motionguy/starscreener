@@ -1,11 +1,9 @@
-// /funding - Funding Radar (Signal Radar Phase 1)
+// /funding — V4 W4 Funding Radar.
 
 import type { Metadata } from "next";
 import Link from "next/link";
-import type { ReactNode } from "react";
 
 import { Card, CardBody, CardHeader } from "@/components/ui/Card";
-import { Metric, MetricGrid } from "@/components/ui/Metric";
 import {
   getFundingFile,
   getFundingSignals,
@@ -15,10 +13,18 @@ import {
 } from "@/lib/funding-news";
 import type { FundingSignal } from "@/lib/funding/types";
 
+// V4 (CORPUS) primitives.
+import { PageHead } from "@/components/ui/PageHead";
+import { SectionHead } from "@/components/ui/SectionHead";
+import { KpiBand } from "@/components/ui/KpiBand";
+import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
+import { LiveDot } from "@/components/ui/LiveDot";
+import { MoverRow, type FundingStage } from "@/components/funding/MoverRow";
+
 export const revalidate = 600;
 
 export const metadata: Metadata = {
-  title: "TrendingRepo - Funding Radar",
+  title: "TrendingRepo — Funding Radar",
   description:
     "AI and tech startup funding rounds aggregated from TechCrunch, VentureBeat, and more. Structured extraction with confidence scoring.",
   alternates: { canonical: "/funding" },
@@ -36,17 +42,17 @@ const SOURCE_LABELS: Record<string, string> = {
   newsapi: "NewsAPI",
 };
 
-const ROUND_LABELS: Record<string, string> = {
-  "pre-seed": "Pre-seed",
+const ROUND_LABELS: Record<string, FundingStage | string> = {
+  "pre-seed": "Seed",
   seed: "Seed",
   "series-a": "Series A",
   "series-b": "Series B",
   "series-c": "Series C",
-  "series-d-plus": "Series D+",
+  "series-d-plus": "Series D",
   growth: "Growth",
   ipo: "IPO",
   acquisition: "M&A",
-  undisclosed: "Undisclosed",
+  undisclosed: "Series A",
 };
 
 function compactNumber(value: number | null | undefined): string {
@@ -84,7 +90,7 @@ function sourceName(source: string): string {
 
 function roundName(signal: FundingSignal): string {
   const round = signal.extracted?.roundType ?? "undisclosed";
-  return ROUND_LABELS[round] ?? round;
+  return String(ROUND_LABELS[round] ?? round);
 }
 
 function amountValue(signal: FundingSignal): number {
@@ -109,27 +115,9 @@ function sourceRows(signals: FundingSignal[]) {
     .sort((a, b) => b.count - a.count);
 }
 
-function SectionHead({
-  num,
-  title,
-  meta,
-}: {
-  num: string;
-  title: string;
-  meta: ReactNode;
-}) {
-  return (
-    <div className="sec-head">
-      <span className="sec-num">{`// ${num}`}</span>
-      <h2 className="sec-title">{title}</h2>
-      <span className="sec-meta">{meta}</span>
-    </div>
-  );
-}
-
 function EmptyState({ cold }: { cold: boolean }) {
   return (
-    <Card className="p-8 text-sm text-text-secondary">
+    <Card className="p-8 text-sm" style={{ color: "var(--v4-ink-300)" }}>
       {cold
         ? "Funding data has not landed yet. Run the scraper to populate the radar."
         : "The scraper ran but found no funding-related headlines in the current window."}
@@ -161,50 +149,92 @@ export default async function FundingPage() {
 
   return (
     <main className="home-surface funding-page">
-      <section className="page-head">
-        <div>
-          <div className="crumb">
-            <b>Funding</b> / launch terminal / 7d radar
-          </div>
-          <h1>Who just raised money.</h1>
-          <p className="lede">
-            Funding signals from startup and venture feeds, normalized into
-            amount, stage, source, and confidence.
-          </p>
-        </div>
-        <div className="clock">
-          <span className="big">{computed}</span>
-          <span className="live">updated</span>
-        </div>
-      </section>
+      <PageHead
+        crumb={
+          <>
+            <b>FUNDING</b> · TERMINAL · /FUNDING
+          </>
+        }
+        h1="Who just raised money."
+        lede="Funding signals from startup and venture feeds, normalized into amount, stage, source, and confidence. Structured extraction with confidence scoring."
+        clock={
+          <>
+            <span className="big">{computed}</span>
+            <span className="muted">UTC · UPDATED</span>
+            <LiveDot label={`LIVE · ${file.windowDays}D`} />
+          </>
+        }
+      />
 
-      <section className="verdict">
-        <div className="v-stamp">
-          <span>capital radar</span>
-          <span className="ts">{money(totalAmount)}</span>
-          <span className="ago">{file.windowDays}d window</span>
-        </div>
-        <p className="v-text">
-          <b>{signals.length} funding signals</b> are in the current window.{" "}
-          <span className="hl-early">{extracted} extracted rounds</span> include{" "}
-          <span className="hl-div">{megaRounds} mega rounds</span> and{" "}
-          <span className="hl-early">{highConfidence} high-confidence</span>{" "}
-          company matches.
-        </p>
-        <div className="v-actions">
-          <Link href="/revenue">Revenue</Link>
-          <Link href="/feeds/funding.xml">RSS</Link>
-        </div>
-      </section>
+      <VerdictRibbon
+        tone="money"
+        stamp={{
+          eyebrow: "// CAPITAL RADAR",
+          headline: money(totalAmount),
+          sub: `${file.windowDays}d window · computed ${computed} UTC`,
+        }}
+        text={
+          <>
+            <b>{signals.length} funding signals</b> are in the current window.{" "}
+            <span style={{ color: "var(--v4-violet)" }}>{extracted} extracted rounds</span>{" "}
+            include{" "}
+            <span style={{ color: "var(--v4-amber)" }}>{megaRounds} mega rounds</span> and{" "}
+            <span style={{ color: "var(--v4-money)" }}>
+              {highConfidence} high-confidence
+            </span>{" "}
+            company matches.
+          </>
+        }
+        actionHref="/feeds/funding.xml"
+        actionLabel="RSS →"
+      />
 
-      <MetricGrid columns={6} className="kpi-band">
-        <Metric label="Signals" value={signals.length} sub="tracked" pip />
-        <Metric label="Extracted" value={extracted} sub="structured" tone="positive" pip />
-        <Metric label="Capital" value={money(totalAmount)} sub="parsed total" tone="positive" pip />
-        <Metric label="This week" value={stats.thisWeekCount} sub="fresh items" tone="external" pip />
-        <Metric label="Mega" value={megaRounds} sub="$100M+" tone="accent" pip />
-        <Metric label="Confidence" value={highConfidence} sub={`${mediumConfidence} medium`} tone="warning" pip />
-      </MetricGrid>
+      <KpiBand
+        className="kpi-band"
+        cells={[
+          {
+            label: "SIGNALS",
+            value: signals.length,
+            sub: "tracked",
+            pip: "var(--v4-ink-300)",
+          },
+          {
+            label: "EXTRACTED",
+            value: extracted,
+            sub: "structured",
+            tone: "money",
+            pip: "var(--v4-money)",
+          },
+          {
+            label: "CAPITAL",
+            value: money(totalAmount),
+            sub: "parsed total",
+            tone: "money",
+            pip: "var(--v4-money)",
+          },
+          {
+            label: "THIS WEEK",
+            value: stats.thisWeekCount,
+            sub: "fresh items",
+            tone: "acc",
+            pip: "var(--v4-blue)",
+          },
+          {
+            label: "MEGA",
+            value: megaRounds,
+            sub: "$100M+",
+            tone: "acc",
+            pip: "var(--v4-acc)",
+          },
+          {
+            label: "CONFIDENCE",
+            value: highConfidence,
+            sub: `${mediumConfidence} medium`,
+            tone: "amber",
+            pip: "var(--v4-amber)",
+          },
+        ]}
+      />
 
       <div className="src-strip funding-sources">
         {sources.length > 0 ? (
@@ -243,9 +273,13 @@ export default async function FundingPage() {
       ) : (
         <>
           <SectionHead
-            num="01"
+            num="// 01"
             title="Capital movement"
-            meta={<><b>{topRounds.length}</b> / largest rounds</>}
+            meta={
+              <>
+                <b>{topRounds.length}</b> · largest rounds
+              </>
+            }
           />
           <div className="grid">
             <Card className="col-8 funding-chart">
@@ -291,40 +325,37 @@ export default async function FundingPage() {
           </div>
 
           <SectionHead
-            num="02"
+            num="// 02"
             title="Top rounds"
-            meta={<><b>{topRounds.length}</b> / extracted</>}
+            meta={
+              <>
+                <b>{topRounds.length}</b> · extracted
+              </>
+            }
           />
           <section className="board funding-board">
             {topRounds.map((signal, index) => (
-              <Link
+              <MoverRow
                 key={signal.id}
+                rank={index + 1}
+                first={index === 0}
+                name={signalTitle(signal)}
+                meta={`${sourceName(signal.sourcePlatform)} · ${formatAge(signal.publishedAt)}`}
+                amount={signal.extracted?.amountDisplay ?? "Undisclosed"}
+                stage={roundName(signal)}
                 href={signal.sourceUrl}
-                className={`mover-row ${index === 0 ? "first" : ""}`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <span className="rk">{String(index + 1).padStart(2, "0")}</span>
-                <span className="nm">
-                  <span className="h">{signalTitle(signal)}</span>
-                  <span className="meta">
-                    <span className="tag">{sourceName(signal.sourcePlatform)}</span>
-                    {formatAge(signal.publishedAt)}
-                  </span>
-                </span>
-                <span className="amt">
-                  {signal.extracted?.amountDisplay ?? "Undisclosed"}
-                  <span className="lbl">raised</span>
-                </span>
-                <span className="stage">{roundName(signal)}</span>
-              </Link>
+              />
             ))}
           </section>
 
           <SectionHead
-            num="03"
+            num="// 03"
             title="Recent signals"
-            meta={<><b>{recent.length}</b> / latest</>}
+            meta={
+              <>
+                <b>{recent.length}</b> · latest
+              </>
+            }
           />
           <div className="grid">
             <Card className="col-6">

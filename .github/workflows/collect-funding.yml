@@ -31,7 +31,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/funding-news.json data/_meta/funding-news.json
+          git add data/funding-news.json data/_meta/funding-news.json data/unknown-mentions.jsonl
           git diff --cached --quiet || (git commit -m "chore: auto-update funding signals [skip ci]" && git push)
       - if: failure()
         uses: actions/upload-artifact@v4

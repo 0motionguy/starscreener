@@ -90,6 +90,17 @@ export async function ingestRepo(
     const merged: Repo = mergePreserving(existing, normalized);
     repoStore.upsert(merged);
 
+    // Audit F8: GitHub repo rename → mention reassociation.
+    // The API resolves redirects so `rawRepo.full_name` (and thus merged.id,
+    // derived from it) can differ from the `fullName` we asked for. Without
+    // this, the OLD repoId still owns the mention history while the new one
+    // appears empty. mentionStore.reassociate is a no-op when there's nothing
+    // to move, so we can call it unconditionally on rename.
+    const requestedId = slugIdFromFullName(fullName);
+    if (mentionStore && requestedId !== merged.id) {
+      mentionStore.reassociate(requestedId, merged.id);
+    }
+
     // Snapshot the point-in-time metrics for the delta engine.
     const snapshot: RepoSnapshot = buildSnapshot(merged, source, fetchedAt);
     snapshotStore.append(snapshot);

@@ -19,6 +19,12 @@ import { recordRun } from './server.js';
 
 export interface RunOptions {
   dryRun?: boolean;
+  /**
+   * Caller-supplied `since` override (one-shot CLI backfill mode). Wins
+   * over `Fetcher.defaultLookbackHours`. The scheduler does NOT pass this,
+   * so cron ticks always use the rolling 24h (or per-fetcher) window.
+   */
+  since?: Date;
 }
 
 export async function runFetcher(
@@ -60,18 +66,30 @@ export async function runFetcher(
     }
 
     const httpClient = createHttpClient({ redis, log });
+    const sinceDate =
+      opts.since ??
+      new Date(Date.now() - (fetcher.defaultLookbackHours ?? 24) * 3600_000);
+    const sinceSource: 'cli' | 'fetcher' | 'default' = opts.since
+      ? 'cli'
+      : fetcher.defaultLookbackHours
+        ? 'fetcher'
+        : 'default';
     const ctx: FetcherContext = {
       db,
       redis: redis ?? throwOnUseRedisHandle(),
       http: httpClient,
       log: log.child({ fetcher: fetcher.name }),
       dryRun,
-      since: new Date(Date.now() - 24 * 60 * 60 * 1000),
+      since: sinceDate,
       signalRunComplete: async () => {
         recordRun();
       },
     };
 
+    log.info(
+      { since: ctx.since.toISOString(), source: sinceSource },
+      'fetcher since window',
+    );
     log.info(
       { fetcher: fetcher.name, dryRun, requiresDb: fetcher.requiresDb === true },
       'fetcher start',

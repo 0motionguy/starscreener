@@ -30,6 +30,11 @@ export default defineConfig({
       "src/hooks/__tests__/**/*.test.{ts,tsx}",
       "src/components/**/__tests__/**/*.test.{ts,tsx}",
       "src/lib/__vitest__/**/*.test.{ts,tsx}",
+      // V4 funding aggregate tests live alongside the helper. The
+      // `npm test` glob only sees `src/lib/__tests__/*.test.ts` (top
+      // level, no nesting) so funding/__tests__/ doesn't double-run
+      // under tsx --test.
+      "src/lib/funding/__tests__/**/*.test.{ts,tsx}",
     ],
     // src/lib/__tests__/* and src/lib/pipeline/__tests__/* run under
     // node:test via `npm test` — vitest can't read those (no

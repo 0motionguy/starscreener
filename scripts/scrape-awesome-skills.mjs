@@ -27,7 +27,8 @@
 import { writeFile, mkdir } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { extractGithubRepoFullNames } from "./_github-repo-links.mjs";
+import { extractGithubRepoFullNames, extractUnknownRepoCandidates } from "./_github-repo-links.mjs";
+import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 
@@ -154,6 +155,17 @@ async function main() {
 
   log(`wrote ${OUT_PATH} [redis: ${result.source}]`);
   log(`  ${payload.counts.uniqueSkills} unique skill repos across ${payload.counts.lists}/${payload.counts.listsAttempted} lists`);
+
+  // F3 unknown-mentions lake — awesome-lists are pure discovery surfaces;
+  // every github repo we found is a skill candidate by definition. Feed
+  // them all to the lake for promotion-job triage. (Tracked-set check
+  // happens downstream in the promotion job, not here.)
+  if (indexBySkill.size > 0) {
+    await appendUnknownMentions(
+      Array.from(indexBySkill.keys(), (fullName) => ({ source: "awesome-skills", fullName })),
+    );
+    log(`  lake: ${indexBySkill.size} skill candidates → data/unknown-mentions.jsonl`);
+  }
 }
 
 const invokedPath = process.argv[1] ? resolve(process.argv[1]) : null;

@@ -11,7 +11,6 @@
 // formula stays source-of-truth in one place (src/lib/seo.ts).
 
 import { getDerivedRepos } from "@/lib/derived-repos";
-import type { ReactNode } from "react";
 import { lastFetchedAt } from "@/lib/trending";
 import {
   getSkillsSignalData,
@@ -24,6 +23,7 @@ import { Card, CardHeader } from "@/components/ui/Card";
 import { ChartStat, ChartStats } from "@/components/ui/ChartShell";
 import { Metric, MetricGrid } from "@/components/ui/Metric";
 import { FooterBar } from "@/components/ui/FooterBar";
+import { SectionHead } from "@/components/ui/SectionHead";
 import { CATEGORIES } from "@/lib/constants";
 import type { Repo } from "@/lib/types";
 import {
@@ -220,24 +220,6 @@ function Sparkline({
     <svg className={className} viewBox="0 0 72 24" preserveAspectRatio="none">
       <path d={d} fill="none" stroke={color} strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
     </svg>
-  );
-}
-
-function SectionHead({
-  num,
-  title,
-  meta,
-}: {
-  num: string;
-  title: string;
-  meta: ReactNode;
-}) {
-  return (
-    <div className="sec-head">
-      <span className="sec-num">{`// ${num}`}</span>
-      <h2 className="sec-title">{title}</h2>
-      <span className="sec-meta">{meta}</span>
-    </div>
   );
 }
 
@@ -522,7 +504,7 @@ export default async function HomePage() {
         </MetricGrid>
 
         <SectionHead
-          num="01"
+          num="// 01"
           title="Trending now / top 7 by category"
           meta={<><b>Repos</b> / Skills / MCP</>}
         />
@@ -533,7 +515,7 @@ export default async function HomePage() {
         </div>
 
         <SectionHead
-          num="02"
+          num="// 02"
           title="What multiple feeds agree on"
           meta={<><b>Cross-source</b> / 24h</>}
         />
@@ -561,14 +543,14 @@ export default async function HomePage() {
         </div>
 
         <SectionHead
-          num="03"
+          num="// 03"
           title="Signal map / momentum vs scale"
           meta={<><b>Top 120</b> / 24h window</>}
         />
         <BubbleMap repos={repos} limit={120} />
 
         <SectionHead
-          num="04"
+          num="// 04"
           title="Featured / curated this week"
           meta={<><b>3</b> picks</>}
         />
@@ -579,7 +561,7 @@ export default async function HomePage() {
         </div>
 
         <SectionHead
-          num="05"
+          num="// 05"
           title="Live / top 50"
           meta={<><b>{refreshedTime}</b> / refreshed</>}
         />
@@ -625,7 +607,7 @@ export default async function HomePage() {
         </Card>
 
         <SectionHead
-          num="06"
+          num="// 06"
           title="TrendingRepo Index / last 30 days"
           meta={<><b>Top 100</b> stars / day</>}
         />
@@ -665,35 +647,38 @@ export default async function HomePage() {
 
       <section id="faq" className="home-surface faq-surface">
         <div className="max-w-3xl space-y-3">
-          <SectionHead num="07" title="FAQ" meta={<><b>Operator</b> notes</>} />
+          <SectionHead num="// 07" title="FAQ" meta={<><b>Operator</b> notes</>} />
 
           <div
-            className="v3-faq-list border-y"
-            style={{ borderColor: "var(--v3-line-100)" }}
+            className="v4-faq-list border-y"
+            style={{ borderColor: "var(--v4-line-100)" }}
           >
             <style>{`
-              .v3-faq-list .toggle-open { display: none; }
-              .v3-faq-list details[open] .toggle-closed { display: none; }
-              .v3-faq-list details[open] .toggle-open { display: inline; }
-              .v3-faq-list details[open] > summary {
-                color: var(--v3-ink-100);
-                background: var(--v3-bg-050);
+              .v4-faq-list .toggle-open { display: none; }
+              .v4-faq-list details[open] .toggle-closed { display: none; }
+              .v4-faq-list details[open] .toggle-open { display: inline; }
+              .v4-faq-list details[open] > summary {
+                color: var(--v4-ink-100);
+                background: var(--v4-bg-050);
               }
             `}</style>
             {HOMEPAGE_FAQ.map(({ q, a }, i) => (
               <details
                 key={q}
                 className="group block border-t first:border-t-0 transition-colors"
-                style={{ borderColor: "var(--v3-line-100)" }}
+                style={{ borderColor: "var(--v4-line-100)" }}
               >
                 <summary
-                  className="v2-mono flex cursor-pointer select-none items-center justify-between gap-4 px-4 py-3.5 text-[11px] tracking-[0.12em] transition-colors hover:bg-[var(--v3-bg-050)]"
-                  style={{ color: "var(--v3-ink-200)" }}
+                  className="flex cursor-pointer select-none items-center justify-between gap-4 px-4 py-3.5 text-[11px] tracking-[0.12em] transition-colors hover:bg-[var(--v4-bg-050)]"
+                  style={{
+                    color: "var(--v4-ink-200)",
+                    fontFamily: "var(--font-geist-mono), monospace",
+                  }}
                 >
                   <span className="flex items-baseline gap-3 min-w-0">
                     <span
                       className="tabular-nums shrink-0"
-                      style={{ color: "var(--v3-ink-400)" }}
+                      style={{ color: "var(--v4-ink-400)" }}
                       aria-hidden
                     >
                       Q.{String(i + 1).padStart(2, "0")}
@@ -702,7 +687,7 @@ export default async function HomePage() {
                   </span>
                   <span
                     className="shrink-0 tabular-nums"
-                    style={{ color: "var(--v3-acc)" }}
+                    style={{ color: "var(--v4-acc)" }}
                     aria-hidden
                   >
                     <span className="toggle-closed">[+]</span>
@@ -711,7 +696,7 @@ export default async function HomePage() {
                 </summary>
                 <div
                   className="px-4 pb-4 pt-1 text-[13px] leading-relaxed"
-                  style={{ color: "var(--v3-ink-300)" }}
+                  style={{ color: "var(--v4-ink-300)" }}
                 >
                   {a}
                 </div>

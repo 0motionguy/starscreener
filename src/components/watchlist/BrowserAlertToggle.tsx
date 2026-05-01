@@ -1,13 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
+// V4 — BrowserAlertToggle (W10-B migration).
+//
+// Browser-notification opt-in pill rendered alongside alert rule lists.
+// Behavior is unchanged from the V3 version (notification permission flow,
+// localStorage persistence, BROWSER_ALERTS_CHANGE_EVENT broadcast); only
+// chrome moved from V3 token aliases (border-primary / accent-green / …)
+// to V4 inline styles using `var(--v4-*)` so the pill matches the W10 alert
+// surfaces (PageHead → SectionHead → AlertTriggerCard rail).
+
+import { useEffect, useState, type CSSProperties } from "react";
 import { Bell, BellOff } from "lucide-react";
 import {
   BROWSER_ALERTS_CHANGE_EVENT,
   readBrowserAlertsEnabled,
   writeBrowserAlertsEnabled,
 } from "@/lib/browser-alerts";
-import { cn } from "@/lib/utils";
 import { toast, toastAlertError } from "@/lib/toast";
 
 function getPermission(): NotificationPermission | "unsupported" {
@@ -15,6 +23,45 @@ function getPermission(): NotificationPermission | "unsupported" {
     return "unsupported";
   }
   return Notification.permission;
+}
+
+type ToggleState = "on" | "blocked" | "unsupported" | "off";
+
+function toneStyle(state: ToggleState): CSSProperties {
+  // Visual state vocabulary maps to the V4 token palette:
+  //   on         → money (positive — alerts armed)
+  //   blocked    → red (browser-denied permission)
+  //   unsupported→ ink-300 muted disabled chrome
+  //   off        → neutral default
+  switch (state) {
+    case "on":
+      return {
+        borderColor: "var(--v4-money)",
+        background: "var(--v4-money-soft)",
+        color: "var(--v4-money)",
+      };
+    case "blocked":
+      return {
+        borderColor: "var(--v4-red)",
+        background: "var(--v4-red-soft)",
+        color: "var(--v4-red)",
+      };
+    case "unsupported":
+      return {
+        borderColor: "var(--v4-line-200)",
+        background: "var(--v4-bg-050)",
+        color: "var(--v4-ink-300)",
+        opacity: 0.6,
+        cursor: "not-allowed",
+      };
+    case "off":
+    default:
+      return {
+        borderColor: "var(--v4-line-200)",
+        background: "var(--v4-bg-050)",
+        color: "var(--v4-ink-200)",
+      };
+  }
 }
 
 export function BrowserAlertToggle() {
@@ -68,25 +115,46 @@ export function BrowserAlertToggle() {
     toast.success("Browser alerts enabled");
   };
 
+  const state: ToggleState = enabled
+    ? "on"
+    : blocked
+      ? "blocked"
+      : unsupported
+        ? "unsupported"
+        : "off";
+
   return (
-    <div className="flex flex-col items-end gap-1">
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-end",
+        gap: 4,
+      }}
+    >
       <button
         type="button"
         onClick={handleClick}
         disabled={unsupported}
-        className={cn(
-          "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--radius-button)] text-xs font-medium min-h-[36px]",
-          "border transition-colors duration-150",
-          enabled
-            ? "border-accent-green/40 bg-accent-green/10 text-accent-green"
-            : blocked
-              ? "border-accent-red/40 bg-accent-red/10 text-accent-red"
-              : unsupported
-                ? "border-border-primary bg-bg-card text-text-tertiary opacity-60 cursor-not-allowed"
-                : "border-border-primary bg-bg-card text-text-secondary hover:border-text-tertiary",
-        )}
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 6,
+          padding: "6px 12px",
+          minHeight: 32,
+          border: "1px solid",
+          borderRadius: 2,
+          fontFamily: "var(--font-geist-mono), monospace",
+          fontSize: 11,
+          fontWeight: 500,
+          textTransform: "uppercase",
+          letterSpacing: "0.06em",
+          cursor: unsupported ? "not-allowed" : "pointer",
+          transition: "border-color 150ms ease, background 150ms ease",
+          ...toneStyle(state),
+        }}
       >
-        {enabled ? <BellOff size={13} /> : <Bell size={13} />}
+        {enabled ? <BellOff size={12} /> : <Bell size={12} />}
         {enabled
           ? "Browser alerts on"
           : blocked
@@ -95,7 +163,16 @@ export function BrowserAlertToggle() {
               ? "Alerts unavailable"
               : "Enable alerts"}
       </button>
-      <p className="text-[10px] text-text-tertiary">
+      <p
+        style={{
+          fontFamily: "var(--font-geist-mono), monospace",
+          fontSize: 10,
+          color: "var(--v4-ink-300)",
+          margin: 0,
+          textTransform: "uppercase",
+          letterSpacing: "0.04em",
+        }}
+      >
         Open-tab browser notifications
       </p>
     </div>

@@ -1412,6 +1412,19 @@ function applySkillMomentum(
       installs7d !== undefined && installsPrev7d !== undefined
         ? installs7d - installsPrev7d
         : undefined;
+    // W5-SKILLS24H — installsDelta1d / installsDelta30d surfaced on the row
+    // so the /skills page can re-rank by the active tab's window without
+    // recomputing.
+    const installsPrev1d = skillItem?.installsPrev1d;
+    const installsDelta1d =
+      installs7d !== undefined && installsPrev1d !== undefined
+        ? installs7d - installsPrev1d
+        : undefined;
+    const installsPrev30d = skillItem?.installsPrev30d;
+    const installsDelta30d =
+      installs7d !== undefined && installsPrev30d !== undefined
+        ? installs7d - installsPrev30d
+        : undefined;
     const linkedRepoLower = p.item.linkedRepo?.toLowerCase() ?? null;
     const slugCandidates = [
       asString(p.raw.slug),
@@ -1437,6 +1450,10 @@ function applySkillMomentum(
       installs7d,
       installsPrev7d,
       installsDelta7d,
+      installsPrev1d,
+      installsDelta1d,
+      installsPrev30d,
+      installsDelta30d,
       derivativeRepoCount: skillItem?.derivativeRepoCount,
       derivativeSampledAt: derivativeMeta?.sampledAt ?? null,
       derivativeSources: derivativeMeta?.sources,
@@ -1540,6 +1557,9 @@ function buildSkillItem(
     .filter((s): s is string => Boolean(s))
     .map((s) => s.toLowerCase());
   const installsPrev = pickByKeys(sideChannels.installsPrev7d, slugCandidates);
+  // W5-SKILLS24H — 24h + 30d snapshots for instant velocity / sustained adoption.
+  const installsPrev1d = pickByKeys(sideChannels.installsPrev1d, slugCandidates);
+  const installsPrev30d = pickByKeys(sideChannels.installsPrev30d, slugCandidates);
   const forksPrev = pickByKeys(sideChannels.forksPrev7d, slugCandidates);
   const derivativeRepoCount = pickByKeys(sideChannels.derivatives, slugCandidates);
   // commitVelocity30d returns to its real meaning now that derivativeRepoCount
@@ -1555,6 +1575,8 @@ function buildSkillItem(
     joinKeys: { repoFullName: item.linkedRepo ?? undefined },
     installs7d: installsCurrent !== null ? installsCurrent : undefined,
     installsPrev7d: installsPrev,
+    installsPrev1d,
+    installsPrev30d,
     stars: stars !== null ? stars : undefined,
     forks: forks !== null ? forks : undefined,
     forks7dAgo: forksPrev,

@@ -129,6 +129,18 @@ Ingestion does not run in the request path. A GitHub Actions workflow scrapes OS
 
 After ingestion, the UI doesn't hot-reload automatically — call `/api/pipeline/recompute` so derived stores are fresh. In production the committed JSON is refreshed hourly by the scrape workflow and a Vercel rebuild picks it up; no recompute call is needed on the request path.
 
+## trendingrepo-worker overlap
+
+A sister Railway service (`apps/trendingrepo-worker/`, branched in worktrees not yet merged to `main`) hosts ~37 fetchers — MCP registries, funding sources, agent-commerce discovery, the consensus K2.6 analyst, scoring shadow runs, and several signal sources that overlap the main repo's collectors. The two systems share the same Redis data-store but have **different ownership** for 5 sources where the main repo wins:
+
+- **arxiv** — `scripts/scrape-arxiv*` (main) is canonical; worker's arxiv fetcher is a backup / cross-check
+- **bluesky** — `scripts/scrape-bluesky*` (main) owns the mention pipeline; worker only enriches profile metadata
+- **devto** — `scripts/scrape-devto*` (main) owns the article corpus
+- **hackernews** — `scripts/scrape-hn*` (main) owns story + count rollups
+- **funding** — `scripts/collect-funding*` (main) owns the FundingEvent ETL; worker pulls a parallel feed for cross-validation only
+
+When a signal exists in both, the main repo's payload is the source of truth. Worker payloads land in Redis under namespaced keys (e.g. `worker:arxiv:*`) so they can't shadow the main payloads at `arxiv:*`. Audit cross-reference: `docs/ultra-audit-2026-05-01.md` A6.
+
 ## Related docs
 
 - [INGESTION.md](./INGESTION.md) — operator guide to GitHub ingestion

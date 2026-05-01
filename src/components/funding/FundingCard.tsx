@@ -81,15 +81,52 @@ function getVcDomain(name: string): string | null {
 // Logo / initials avatar (deterministic colors)
 // ---------------------------------------------------------------------------
 
+// W3-FUNDCARD: hardcoded hex tones swapped for V4 palette tokens via color-mix.
+// No `--v4-fund-*` tokens exist in v4.css; falling back to the nearest 8-bucket
+// V4 palette (`--v4-src-*` brand channels + semantic colors) so the deterministic
+// hash → tone mapping still picks from a stable, themeable color set. Original
+// alphas preserved: bg ~20%, border ~50%, text uses the raw token (full color).
 const LOGO_TONES = [
-  { bg: "rgba(59, 130, 246, 0.2)", border: "rgba(59, 130, 246, 0.5)", text: "#60a5fa" },   // blue
-  { bg: "rgba(16, 185, 129, 0.2)", border: "rgba(16, 185, 129, 0.5)", text: "#34d399" },   // emerald
-  { bg: "rgba(244, 114, 182, 0.2)", border: "rgba(244, 114, 182, 0.5)", text: "#f472b6" },  // pink
-  { bg: "rgba(251, 191, 36, 0.2)", border: "rgba(251, 191, 36, 0.5)", text: "#fbbf24" },   // amber
-  { bg: "rgba(168, 85, 247, 0.2)", border: "rgba(168, 85, 247, 0.5)", text: "#a78bfa" },   // violet
-  { bg: "rgba(239, 68, 68, 0.2)", border: "rgba(239, 68, 68, 0.5)", text: "#f87171" },     // red
-  { bg: "rgba(6, 182, 212, 0.2)", border: "rgba(6, 182, 212, 0.5)", text: "#22d3ee" },     // cyan
-  { bg: "rgba(249, 115, 22, 0.2)", border: "rgba(249, 115, 22, 0.5)", text: "#fb923c" },   // orange
+  {
+    bg: "color-mix(in srgb, var(--v4-src-x) 20%, transparent)",
+    border: "color-mix(in srgb, var(--v4-src-x) 50%, transparent)",
+    text: "var(--v4-src-x)",
+  }, // blue → src-x
+  {
+    bg: "color-mix(in srgb, var(--v4-money) 20%, transparent)",
+    border: "color-mix(in srgb, var(--v4-money) 50%, transparent)",
+    text: "var(--v4-money)",
+  }, // emerald → money
+  {
+    bg: "color-mix(in srgb, var(--v4-src-reddit) 20%, transparent)",
+    border: "color-mix(in srgb, var(--v4-src-reddit) 50%, transparent)",
+    text: "var(--v4-src-reddit)",
+  }, // pink → src-reddit
+  {
+    bg: "color-mix(in srgb, var(--v4-amber) 20%, transparent)",
+    border: "color-mix(in srgb, var(--v4-amber) 50%, transparent)",
+    text: "var(--v4-amber)",
+  }, // amber
+  {
+    bg: "color-mix(in srgb, var(--v4-src-dev) 20%, transparent)",
+    border: "color-mix(in srgb, var(--v4-src-dev) 50%, transparent)",
+    text: "var(--v4-src-dev)",
+  }, // violet → src-dev
+  {
+    bg: "color-mix(in srgb, var(--v4-red) 20%, transparent)",
+    border: "color-mix(in srgb, var(--v4-red) 50%, transparent)",
+    text: "var(--v4-red)",
+  }, // red
+  {
+    bg: "color-mix(in srgb, var(--v4-cyan) 20%, transparent)",
+    border: "color-mix(in srgb, var(--v4-cyan) 50%, transparent)",
+    text: "var(--v4-cyan)",
+  }, // cyan
+  {
+    bg: "color-mix(in srgb, var(--v4-src-hn) 20%, transparent)",
+    border: "color-mix(in srgb, var(--v4-src-hn) 50%, transparent)",
+    text: "var(--v4-src-hn)",
+  }, // orange → src-hn
 ];
 
 function getLogoTone(name: string) {

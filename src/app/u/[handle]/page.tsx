@@ -507,8 +507,8 @@ function RecentActivityFeed({
           background: "var(--v4-bg-025)",
         }}
       >
-        // NO RECENT ACTIVITY
-      </div>
+        {"// NO RECENT ACTIVITY"}
+"}      </div>
     );
   }
   return (
@@ -638,8 +638,8 @@ function TopRepoGrid({ items }: { items: TopRepoEntry[] }): JSX.Element {
           background: "var(--v4-bg-025)",
         }}
       >
-        // NO REPO REACTIONS YET
-      </div>
+        {"// NO REPO REACTIONS YET"}
+"}      </div>
     );
   }
   return (
@@ -710,8 +710,8 @@ function AboutCard({
             letterSpacing: "0.06em",
           }}
         >
-          // NO BIO AVAILABLE
-        </p>
+          {"// NO BIO AVAILABLE"}
+"}        </p>
       )}
       {ghProfile ? (
         <dl
@@ -799,8 +799,8 @@ function LinksCard({
             letterSpacing: "0.06em",
           }}
         >
-          // NO PUBLIC LINKS
-        </p>
+          {"// NO PUBLIC LINKS"}
+"}        </p>
       ) : (
         <ul
           style={{

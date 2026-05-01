@@ -9,6 +9,7 @@
 // Auth: same cookie session as /admin/pool. Same redirect contract too.
 
 import type { Metadata } from "next";
+import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -149,12 +150,12 @@ export default async function AdminPoolAggregatePage() {
       <p style={{ fontSize: 12, opacity: 0.7, marginTop: 0 }}>
         Last-write-wins aggregate across all Vercel lambdas (Redis-backed).
         For the per-process snapshot of a single lambda, see{" "}
-        <a
+        <Link
           href="/admin/pool"
           style={{ color: "#7dd3fc", textDecoration: "underline" }}
         >
           /admin/pool
-        </a>
+        </Link>
         . Refresh to re-read.
       </p>
 

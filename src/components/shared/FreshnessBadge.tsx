@@ -1,9 +1,10 @@
 // FreshnessBadge — small V4 pill that surfaces classifyFreshness() output.
+// W4-FRESHBADGE / audit Top 5 #5 / F1.
 //
-// Audit Top 5 #5 / F1: routes were rendering data with no visible age, so a
-// user couldn't tell 30-min fresh from 4h stale. This badge wraps
-// `classifyFreshness()` (single source of truth for live/warn/cold) and
-// renders it as a compact mono pill at request time.
+// Routes were rendering data with no visible age, so a user couldn't tell
+// 30-min fresh from 4h stale. This badge wraps `classifyFreshness()`
+// (single source of truth for live/warn/cold) and renders it as a compact
+// mono pill at request time.
 //
 // Server-renderable. Static "as of X" — no client tick. Per the F1 spec:
 // one badge per page, rendered next to the existing PageHead clock.

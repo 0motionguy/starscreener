@@ -77,6 +77,16 @@ export interface SourceFeedTemplateProps {
 
   /** Main body — the feed list / table / cards. */
   mainPanels?: ReactNode;
+  /**
+   * Snapshot strip — small status/freshness slot rendered above the feed body
+   * (between PageHead and the KPI band). Used by source feeds that surface a
+   * "last refreshed / N rows / online" line outside the main feed.
+   */
+  snapshot?: ReactNode;
+  /** Small label rendered above the main feed content (e.g. "// LIVE FEED"). */
+  listEyebrow?: ReactNode;
+  /** Alias for mainPanels — the feed list/table. Takes priority when both set. */
+  list?: ReactNode;
   /** Optional right rail — freshness, related sources, share/embed. */
   rightRail?: ReactNode;
 
@@ -110,6 +120,9 @@ export function SourceFeedTemplate({
   filterBar,
   tabBar,
   mainPanels,
+  snapshot,
+  listEyebrow,
+  list,
   rightRail,
   footer,
   className,
@@ -122,6 +135,10 @@ export function SourceFeedTemplate({
           <PageHead crumb={crumb} h1={title} lede={lede} clock={clock} />
         )}
       </div>
+
+      {snapshot ? (
+        <div className="v4-source-feed-template__snapshot">{snapshot}</div>
+      ) : null}
 
       {kpiBand ? (
         <div className={cn("v4-source-feed-template__kpi", classNames?.kpi)}>
@@ -154,7 +171,12 @@ export function SourceFeedTemplate({
         )}
       >
         <div className={cn("v4-source-feed-template__main", classNames?.main)}>
-          {mainPanels}
+          {listEyebrow ? (
+            <div className="v4-source-feed-template__list-eyebrow">
+              {listEyebrow}
+            </div>
+          ) : null}
+          {list ?? mainPanels}
         </div>
         {rightRail ? (
           <aside

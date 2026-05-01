@@ -8,6 +8,7 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
+import * as Sentry from "@sentry/nextjs";
 import { RefreshCw, Home } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -18,8 +19,7 @@ interface ErrorProps {
 
 export default function RootError({ error, reset }: ErrorProps) {
   useEffect(() => {
-    // Log to the browser console so devtools picks it up. Production
-    // observability (Sentry/Logtail) can be wired on top of this later.
+    Sentry.captureException(error);
     console.error("[app/error] unhandled render error", error);
   }, [error]);
 

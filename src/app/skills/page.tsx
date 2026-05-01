@@ -25,7 +25,6 @@ import { PageHead } from "@/components/ui/PageHead";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
-import { LiveDot } from "@/components/ui/LiveDot";
 import { RankRow } from "@/components/ui/RankRow";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 
@@ -185,7 +184,6 @@ export default async function SkillsPage({ searchParams }: SkillsPageProps = {})
           <>
             <span className="big">{totalLabel}</span>
             <span className="muted">SKILLS · 5 REGISTRIES</span>
-            <LiveDot label="LIVE" />
             <FreshnessBadge source="skills" lastUpdatedAt={data.combined.fetchedAt} />
           </>
         }

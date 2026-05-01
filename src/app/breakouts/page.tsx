@@ -13,7 +13,6 @@ import { PageHead } from "@/components/ui/PageHead";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
-import { LiveDot } from "@/components/ui/LiveDot";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 
 export const dynamic = "force-static";
@@ -88,7 +87,6 @@ export default async function BreakoutsPage({
           <>
             <span className="big">{view.length}</span>
             <span className="muted">REPOS · {FILTER_LABELS[filter].toUpperCase()}</span>
-            <LiveDot label="LIVE" />
             <FreshnessBadge source="mcp" lastUpdatedAt={lastFetchedAt} />
           </>
         }

@@ -41,7 +41,10 @@ export function SidebarSkeleton() {
         <Row />
         <Row />
       </div>
-      <div className="h-12 border-t border-border-primary" />
+      <div
+        className="h-12"
+        style={{ borderTop: "1px solid var(--v4-line-200)" }}
+      />
     </div>
   );
 }

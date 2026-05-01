@@ -12,7 +12,7 @@ export function SidebarFooter() {
   return (
     <div
       className="shrink-0 space-y-3 border-t px-3 py-3"
-      style={{ borderColor: "var(--v3-line-100)" }}
+      style={{ borderColor: "var(--v4-line-100)" }}
     >
       <BgThemePicker compact />
       <AccentPicker compact />

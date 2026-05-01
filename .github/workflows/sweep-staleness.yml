@@ -38,6 +38,8 @@ jobs:
       # workflow lean keeps the daily run cheap.
 
       - name: Run sweeper
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
         run: node scripts/sweep-staleness.mjs
 
       - name: Commit if changed
@@ -51,5 +53,9 @@ jobs:
           fi
           TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
           git commit -m "chore(data): refresh staleness report ${TS}"
-          git pull --rebase origin main
-          git push
+          for i in 1 2 3; do
+            if git pull --rebase origin main && git push; then exit 0; fi
+            echo "push attempt $i failed; retrying"
+            sleep 2
+          done
+          exit 1

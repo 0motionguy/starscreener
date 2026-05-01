@@ -34,6 +34,8 @@ jobs:
         run: npm ci
 
       - name: Refresh OSSInsight collection rankings
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
         run: node scripts/scrape-trending.mjs --only-collection-rankings
 
       - name: Commit if changed
@@ -47,5 +49,9 @@ jobs:
           fi
           TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
           git commit -m "chore(data): refresh collection rankings ${TS}"
-          git pull --rebase origin main
-          git push
+          for i in 1 2 3; do
+            if git pull --rebase origin main && git push; then exit 0; fi
+            echo "push attempt $i failed; retrying"
+            sleep 2
+          done
+          exit 1

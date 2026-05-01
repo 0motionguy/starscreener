@@ -28,6 +28,7 @@ import { npmLogoUrl } from "@/lib/logos";
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 
 // npm brand red — no --v4-src-npm token exists in v4.css yet, so we hardcode
 // it once on the KpiBand pip and reuse the same hex for the active-tab
@@ -138,6 +139,7 @@ export default async function NpmPage({ searchParams }: NpmPageProps) {
             <span className="big">{formatClock(file.fetchedAt)}</span>
             <span className="muted">UTC · SCRAPED</span>
             <LiveDot label={`LIVE · ${activeWindow.toUpperCase()}`} />
+            <FreshnessBadge source="npm" lastUpdatedAt={file.fetchedAt} />
           </>
         }
         snapshot={

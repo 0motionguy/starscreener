@@ -36,7 +36,8 @@ import {
   type PredictionRecord,
 } from "@/lib/predictions";
 import { getDerivedRepos } from "@/lib/derived-repos";
-import { refreshTrendingFromStore } from "@/lib/trending";
+import { lastFetchedAt, refreshTrendingFromStore } from "@/lib/trending";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 import { formatNumber, getRelativeTime } from "@/lib/utils";
 import type { Repo } from "@/lib/types";
@@ -163,6 +164,7 @@ export default async function PredictPage() {
           <>
             <span className="big">{breakoutCount}</span>
             <span className="muted">FORECASTS · 30D</span>
+            <FreshnessBadge source="mcp" lastUpdatedAt={lastFetchedAt} />
           </>
         }
       />

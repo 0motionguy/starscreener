@@ -14,8 +14,8 @@ import { PageHead } from "@/components/ui/PageHead";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
-import { LiveDot } from "@/components/ui/LiveDot";
 import { RankRow } from "@/components/ui/RankRow";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 
 import {
   getMcpSignalData,
@@ -122,7 +122,7 @@ export default async function McpPage() {
           <>
             <span className="big">{total.toLocaleString("en-US")}</span>
             <span className="muted">SERVERS · TRACKED</span>
-            <LiveDot label="LIVE · 30M" />
+            <FreshnessBadge source="mcp" lastUpdatedAt={data.fetchedAt} />
           </>
         }
       />

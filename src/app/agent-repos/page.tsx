@@ -14,6 +14,7 @@ import {
   selectAgentRepos,
 } from "@/lib/agent-repos";
 import { getDerivedRepos } from "@/lib/derived-repos";
+import { lastFetchedAt } from "@/lib/trending";
 import { formatNumber, slugToId } from "@/lib/utils";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 
@@ -22,6 +23,7 @@ import { SectionHead } from "@/components/ui/SectionHead";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
 import { RankRow } from "@/components/ui/RankRow";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 
 export const revalidate = 1800;
 
@@ -61,6 +63,7 @@ export default async function AgentReposPage() {
             <span className="muted">
               REPOS · OF {AGENT_REPO_TARGET_COUNT}
             </span>
+            <FreshnessBadge source="mcp" lastUpdatedAt={lastFetchedAt} />
           </>
         }
       />

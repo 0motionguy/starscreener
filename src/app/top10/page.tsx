@@ -15,6 +15,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 import { getDerivedRepos } from "@/lib/derived-repos";
+import { lastFetchedAt } from "@/lib/trending";
 
 import { SITE_NAME, absoluteUrl } from "@/lib/seo";
 import {
@@ -30,6 +31,7 @@ import { SectionHead } from "@/components/ui/SectionHead";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
 import { RankRow } from "@/components/ui/RankRow";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 
 // ISR — 10-minute cadence matches the V4 leaderboard surfaces. Underlying
 // readers refresh every 6 hours via cron; tighter cache wastes work
@@ -156,6 +158,7 @@ export default async function Top10RootPage() {
           <>
             <span className="big">{computedClock}</span>
             <span className="muted">UTC · COMPUTED</span>
+            <FreshnessBadge source="mcp" lastUpdatedAt={lastFetchedAt} />
           </>
         }
       />

@@ -22,10 +22,11 @@ import { Card, CardBody, CardHeader } from "@/components/ui/Card";
 import { PageHead } from "@/components/ui/PageHead";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { CHART_THEME_OPTIONS } from "@/components/compare/themes";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 import { buildAbsoluteShareImageUrl } from "@/lib/star-activity-url";
-import { refreshTrendingFromStore } from "@/lib/trending";
+import { lastFetchedAt, refreshTrendingFromStore } from "@/lib/trending";
 import type { Repo } from "@/lib/types";
 
 import { StarHistoryToolClient } from "./StarHistoryToolClient";
@@ -134,6 +135,7 @@ export default async function StarHistoryToolPage() {
           <>
             <span className="big">{seed.length} / 3</span>
             <span className="muted">SEEDED REPOS</span>
+            <FreshnessBadge source="mcp" lastUpdatedAt={lastFetchedAt} />
           </>
         }
       />

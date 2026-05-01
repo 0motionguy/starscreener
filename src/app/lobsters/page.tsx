@@ -25,6 +25,7 @@ import { repoLogoUrl, resolveLogoUrl } from "@/lib/logos";
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 
 export const dynamic = "force-static";
 
@@ -96,6 +97,7 @@ export default async function LobstersPage() {
             <span className="big">{formatClock(file.fetchedAt)}</span>
             <span className="muted">UTC · SCRAPED</span>
             <LiveDot label={`LIVE · ${file.windowHours}H`} />
+            <FreshnessBadge source="lobsters" lastUpdatedAt={file.fetchedAt} />
           </>
         }
         snapshot={

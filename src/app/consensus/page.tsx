@@ -21,6 +21,7 @@ import { SectionHead } from "@/components/ui/SectionHead";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
 import { LiveDot } from "@/components/ui/LiveDot";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 
 export const runtime = "nodejs";
 // ISR: page rebuilds every 10 minutes (consensus fetcher publishes hourly,
@@ -156,6 +157,7 @@ export default async function ConsensusPage() {
             <span className="big">{computedClock}</span>
             <span className="muted">UTC · COMPUTED</span>
             <LiveDot label="FEED LIVE" />
+            <FreshnessBadge source="mcp" lastUpdatedAt={computedAt || null} />
             <Link href="/api/scoring/consensus?limit=100" className="json-link">
               JSON →
             </Link>

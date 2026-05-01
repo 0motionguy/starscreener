@@ -20,6 +20,7 @@ import { repoLogoUrl } from "@/lib/logos";
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 
 export const dynamic = "force-static";
 export const revalidate = 1800; // 30 min
@@ -106,6 +107,7 @@ export default async function PapersPage() {
             <span className="big">{formatClock(file.fetchedAt)}</span>
             <span className="muted">UTC · SCRAPED</span>
             <LiveDot label="LIVE · 30M" />
+            <FreshnessBadge source="mcp" lastUpdatedAt={file.fetchedAt} />
           </>
         }
         snapshot={

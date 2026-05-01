@@ -18,6 +18,7 @@ import {
   loadCategoryMetricsPrev7d,
   loadCategoryMetricsPrev30d,
 } from "@/lib/ecosystem-leaderboards";
+import { lastFetchedAt } from "@/lib/trending";
 import { formatNumber } from "@/lib/utils";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 
@@ -25,6 +26,7 @@ import { KpiBand } from "@/components/ui/KpiBand";
 import { PageHead } from "@/components/ui/PageHead";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 
 // W5-CATWINDOW — supported sort windows. Default is 7d (matches the
 // existing "MOST ACTIVE · 7D" verdict on detail pages).
@@ -152,6 +154,7 @@ export default async function CategoriesPage({
           <>
             <span className="big">{CATEGORIES.length}</span>
             <span className="muted">SECTORS</span>
+            <FreshnessBadge source="mcp" lastUpdatedAt={lastFetchedAt} />
           </>
         }
       />

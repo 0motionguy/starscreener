@@ -16,7 +16,7 @@ export function Header() {
           <HamburgerButton />
           <Link
             href={ROUTES.HOME}
-            className="group flex items-center gap-2.5"
+            className="group flex items-center gap-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent focus-visible:rounded"
             aria-label="TrendingRepo home"
           >
             <span
@@ -48,7 +48,7 @@ export function Header() {
           <FreshBadge />
           <Link
             href={ROUTES.SUBMIT}
-            className="pill cta"
+            className="pill cta focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent focus-visible:rounded"
             aria-label="Drop your repo"
           >
             <Send className="size-3.5" aria-hidden />

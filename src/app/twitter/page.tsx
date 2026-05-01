@@ -18,7 +18,7 @@ import {
   getTwitterLeaderboard,
   getTwitterOverviewStats,
   getTwitterTrendingRepoLeaderboard,
-} from "@/lib/twitter/service";
+} from "@/lib/twitter";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";

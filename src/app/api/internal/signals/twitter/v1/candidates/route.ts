@@ -3,7 +3,7 @@ import {
   internalAgentAuthFailureResponse,
   verifyInternalAgentAuth,
 } from "@/lib/api/auth";
-import { getTwitterScanCandidates } from "@/lib/twitter/service";
+import { getTwitterScanCandidates } from "@/lib/twitter";
 
 export const runtime = "nodejs";
 

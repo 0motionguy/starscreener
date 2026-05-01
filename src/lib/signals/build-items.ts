@@ -10,7 +10,7 @@ import type { DevtoArticle } from "../devto";
 import type { RedditPost } from "../reddit";
 import type { TrendingRow } from "../trending";
 import type { RssItem } from "../rss-feeds";
-import type { TwitterPostItem } from "../twitter/trending-tweets";
+import type { TwitterPostItem } from "../twitter";
 import type { SignalItem } from "./types";
 
 function clamp01(v: number): number {

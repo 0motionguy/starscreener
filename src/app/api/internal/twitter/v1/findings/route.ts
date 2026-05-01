@@ -9,7 +9,7 @@ import { LegacyTwitterFindingsPayloadSchema } from "@/lib/twitter/ingest-contrac
 import {
   ingestTwitterFindings,
   isTwitterIngestError,
-} from "@/lib/twitter/service";
+} from "@/lib/twitter";
 
 export const runtime = "nodejs";
 

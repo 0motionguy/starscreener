@@ -50,7 +50,7 @@ import {
   getTopTwitterBuzz,
   getTopTwitterPosts,
   getTwitterLatestUpdatedAt,
-} from "@/lib/twitter/trending-tweets";
+} from "@/lib/twitter";
 
 import {
   hnToSignalItems,

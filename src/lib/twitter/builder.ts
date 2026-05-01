@@ -35,6 +35,10 @@ import {
   getTwitterLatestUpdatedAt,
   getTwitterTrackedRepoCount,
 } from "./trending-tweets";
+import type {
+  TwitterBuzzItem,
+  TwitterPostItem,
+} from "./trending-tweets";
 import { buildTwitterQueryBundle } from "./query-bundle";
 
 export const TwitterSignalBuilder = {
@@ -83,3 +87,7 @@ export {
   getTwitterTrackedRepoCount,
   buildTwitterQueryBundle,
 };
+
+// Public types that originate in non-types modules — re-exported here so the
+// barrel is the single import surface for both runtime + type consumers.
+export type { TwitterBuzzItem, TwitterPostItem };

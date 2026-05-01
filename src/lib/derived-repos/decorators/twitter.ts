@@ -5,7 +5,7 @@
 // same X mention counts as /twitter.
 
 import type { Repo } from "../../types";
-import { getTwitterSignalSync } from "../../twitter/signal-data";
+import { getTwitterSignalSync } from "../../twitter";
 
 export function decorateWithTwitter(repos: Repo[]): Repo[] {
   return repos.map((r) => {

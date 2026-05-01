@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getTwitterRepoPanel } from "@/lib/twitter/service";
+import { getTwitterRepoPanel } from "@/lib/twitter";
 import { READ_CACHE_HEADERS } from "@/lib/api/cache";
 import { errorEnvelope } from "@/lib/api/error-response";
 import { checkRateLimitAsync } from "@/lib/api/rate-limit";

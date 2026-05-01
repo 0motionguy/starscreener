@@ -35,7 +35,7 @@ import { decorateWithCrossSignal } from "./derived-repos/decorators/cross-signal
 import { decorateWithProductHunt } from "./derived-repos/decorators/producthunt";
 import { decorateWithTwitter } from "./derived-repos/decorators/twitter";
 import { getRedditDataVersion } from "./reddit-data";
-import { getTwitterSignalsDataVersion } from "./twitter/signal-data";
+import { getTwitterSignalsDataVersion } from "./twitter";
 import {
   __resetPipelineReposCacheForTests,
   getPipelineRepos,

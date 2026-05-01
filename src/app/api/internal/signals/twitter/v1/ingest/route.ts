@@ -13,7 +13,7 @@ import { TwitterIngestRequestSchema } from "@/lib/twitter/ingest-contract";
 import {
   ingestTwitterAgentFindings,
   isTwitterIngestError,
-} from "@/lib/twitter/service";
+} from "@/lib/twitter";
 
 export const runtime = "nodejs";
 

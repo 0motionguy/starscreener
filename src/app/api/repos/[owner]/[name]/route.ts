@@ -37,7 +37,7 @@ import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import type { SocialMention } from "@/lib/types";
 import type { RepoMention } from "@/lib/pipeline/types";
 import { READ_CACHE_HEADERS } from "@/lib/api/cache";
-import { getTwitterRepoPanel } from "@/lib/twitter/service";
+import { getTwitterRepoPanel } from "@/lib/twitter";
 import { buildCanonicalRepoProfile } from "@/lib/api/repo-profile";
 import { refreshRepoMetadataFromStore } from "@/lib/repo-metadata";
 import { refreshNpmFromStore } from "@/lib/npm";

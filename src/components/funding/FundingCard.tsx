@@ -149,8 +149,14 @@ function CompanyLogo({
   if (resolved && !failed) {
     return (
       <div
-        className="shrink-0 rounded-lg overflow-hidden border border-border-primary/50 bg-bg-muted"
-        style={{ width: size, height: size }}
+        className="shrink-0 overflow-hidden"
+        style={{
+          width: size,
+          height: size,
+          borderRadius: 2,
+          border: "1px solid var(--v4-line-200)",
+          background: "var(--v4-bg-100)",
+        }}
       >
         <Image
           src={resolved}
@@ -189,14 +195,22 @@ function InvestorBadge({ name }: { name: string }) {
   const logoUrl = resolveLogoUrl(domain, name, 64);
 
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full border border-border-primary bg-bg-tertiary px-2.5 py-1 text-xs text-text-secondary">
+    <span
+      className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs"
+      style={{
+        border: "1px solid var(--v4-line-200)",
+        background: "var(--v4-bg-100)",
+        color: "var(--v4-ink-200)",
+      }}
+    >
       {logoUrl && !failed ? (
         <Image
           src={logoUrl}
           alt=""
           width={16}
           height={16}
-          className="rounded-full object-contain bg-bg-muted"
+          className="rounded-full object-contain"
+          style={{ background: "var(--v4-bg-100)" }}
           onError={() => setFailed(true)}
         />
       ) : (
@@ -274,8 +288,8 @@ export function FundingCard({ signal }: FundingCardProps) {
     <article
       className="overflow-hidden transition-colors"
       style={{
-        background: "var(--v2-bg-050)",
-        border: "1px solid var(--v2-line-std)",
+        background: "var(--v4-bg-050)",
+        border: "1px solid var(--v4-line-200)",
         borderRadius: 2,
       }}
     >
@@ -285,7 +299,10 @@ export function FundingCard({ signal }: FundingCardProps) {
         <div className="flex items-center gap-3 min-w-0 flex-1">
           <CompanyLogo name={companyName} logoUrl={ext?.companyLogoUrl} />
           <div className="min-w-0">
-            <div className="text-sm font-bold text-text-primary truncate">
+            <div
+              className="text-sm font-bold truncate"
+              style={{ color: "var(--v4-ink-100)" }}
+            >
               {companyName}
             </div>
             {hasExtraction && ext.companyWebsite && (
@@ -293,7 +310,8 @@ export function FundingCard({ signal }: FundingCardProps) {
                 href={ext.companyWebsite}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[11px] text-text-tertiary hover:text-brand transition-colors truncate block"
+                className="text-[11px] hover:text-[var(--v4-acc)] transition-colors truncate block"
+                style={{ color: "var(--v4-ink-300)" }}
               >
                 {ext.companyWebsite.replace(/^https?:\/\//, "")}
               </a>
@@ -304,31 +322,54 @@ export function FundingCard({ signal }: FundingCardProps) {
         {/* Right: Raised Amount */}
         {hasExtraction && ext.amount !== null ? (
           <div className="shrink-0 text-right">
-            <div className="text-[10px] uppercase tracking-wider text-text-tertiary">
+            <div
+              className="text-[10px] uppercase tracking-wider"
+              style={{ color: "var(--v4-ink-300)" }}
+            >
               Raised
             </div>
-            <div className="text-2xl font-black text-brand leading-tight">
+            <div
+              className="text-2xl font-black leading-tight"
+              style={{ color: "var(--v4-money)" }}
+            >
               {ext.amountDisplay}
             </div>
             <div className="mt-0.5">
-              <span className="inline-flex items-center rounded border px-1.5 py-px text-[10px] uppercase tracking-wider border-border-primary text-text-tertiary">
+              <span
+                className="inline-flex items-center rounded px-1.5 py-px text-[10px] uppercase tracking-wider"
+                style={{
+                  border: "1px solid var(--v4-line-200)",
+                  color: "var(--v4-ink-300)",
+                }}
+              >
                 {roundTypeLabel(ext.roundType)}
               </span>
             </div>
           </div>
         ) : (
           <div className="shrink-0 text-right">
-            <div className="text-[10px] uppercase tracking-wider text-text-tertiary">
+            <div
+              className="text-[10px] uppercase tracking-wider"
+              style={{ color: "var(--v4-ink-300)" }}
+            >
               Raised
             </div>
-            <div className="text-lg font-bold text-text-tertiary">—</div>
+            <div
+              className="text-lg font-bold"
+              style={{ color: "var(--v4-ink-300)" }}
+            >
+              —
+            </div>
           </div>
         )}
       </div>
 
       {/* Description */}
       <div className="px-5 pb-3">
-        <p className="text-xs text-text-secondary line-clamp-2">
+        <p
+          className="text-xs line-clamp-2"
+          style={{ color: "var(--v4-ink-200)" }}
+        >
           {signal.description || signal.headline}
         </p>
       </div>
@@ -336,9 +377,15 @@ export function FundingCard({ signal }: FundingCardProps) {
       {/* Investors row */}
       {investors.length > 0 && (
         <div className="px-5 pb-3">
-          <div className="flex items-center gap-2 text-[10px] uppercase tracking-wider text-text-tertiary mb-2">
+          <div
+            className="flex items-center gap-2 text-[10px] uppercase tracking-wider mb-2"
+            style={{ color: "var(--v4-ink-300)" }}
+          >
             <span>Investors</span>
-            <span className="flex-1 h-px bg-border-primary/40" />
+            <span
+              className="flex-1 h-px"
+              style={{ background: "var(--v4-line-200)" }}
+            />
           </div>
           <div className="flex flex-wrap gap-2">
             {investors.map((investor, i) => (
@@ -355,8 +402,14 @@ export function FundingCard({ signal }: FundingCardProps) {
             {signal.tags.map((tag) => (
               <span
                 key={tag}
-                className="v2-tag"
-                style={{ fontSize: 9, padding: "1px 4px" }}
+                className="inline-flex items-center"
+                style={{
+                  fontSize: 9,
+                  padding: "1px 4px",
+                  border: "1px solid var(--v4-line-200)",
+                  color: "var(--v4-ink-300)",
+                  borderRadius: 2,
+                }}
               >
                 {tag}
               </span>
@@ -366,12 +419,16 @@ export function FundingCard({ signal }: FundingCardProps) {
       )}
 
       {/* Footer: source + time */}
-      <div className="px-5 py-3 border-t border-border-primary/40 flex items-center justify-between gap-2">
+      <div
+        className="px-5 py-3 flex items-center justify-between gap-2"
+        style={{ borderTop: "1px solid var(--v4-line-200)" }}
+      >
         <a
           href={signal.sourceUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-[11px] text-text-tertiary hover:text-brand transition-colors truncate"
+          className="text-[11px] hover:text-[var(--v4-acc)] transition-colors truncate"
+          style={{ color: "var(--v4-ink-300)" }}
           title={signal.sourceUrl}
         >
           → {signal.sourceUrl.replace(/^https?:\/\//, "").split("/")[0]}
@@ -379,19 +436,24 @@ export function FundingCard({ signal }: FundingCardProps) {
         <div className="flex items-center gap-2 shrink-0">
           {hasExtraction && (
             <span
-              className={`text-[10px] ${
-                ext.confidence === "high"
-                  ? "text-emerald-400"
-                  : ext.confidence === "medium"
-                    ? "text-amber-400"
-                    : "text-text-tertiary"
-              }`}
+              className="text-[10px]"
+              style={{
+                color:
+                  ext.confidence === "high"
+                    ? "var(--v4-money)"
+                    : ext.confidence === "medium"
+                      ? "var(--v4-amber)"
+                      : "var(--v4-ink-300)",
+              }}
               title={`Extraction confidence: ${ext.confidence}`}
             >
               {ext.confidence === "high" ? "●" : ext.confidence === "medium" ? "◐" : "○"}
             </span>
           )}
-          <span className="text-[10px] text-text-tertiary tabular-nums">
+          <span
+            className="text-[10px] tabular-nums"
+            style={{ color: "var(--v4-ink-300)" }}
+          >
             {formatRelative(signal.publishedAt)}
           </span>
         </div>

@@ -1,3 +1,9 @@
+/**
+ * @internal
+ * In-memory + JSONL persistence for Twitter ingest. Consumed only by
+ * ./service.ts (and ./__tests__ for fixture reset). Do not import from
+ * outside src/lib/twitter/ — the public surface is TwitterSignalBuilder.
+ */
 import { promises as fs } from "node:fs";
 import path from "node:path";
 

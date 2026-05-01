@@ -1,3 +1,11 @@
+/**
+ * @internal
+ * Zod schemas for Twitter ingest payloads. Consumed by ./service.ts and the
+ * two route handlers under /api/internal/(signals/)?twitter/v1/. Public
+ * surface is exposed via TwitterSignalBuilder.ingestTwitterAgentFindings /
+ * .ingestTwitterFindings; the schemas themselves are kept here as
+ * implementation detail and may move.
+ */
 import { z } from "zod";
 import type {
   OpenClawTwitterFindingsPayload,

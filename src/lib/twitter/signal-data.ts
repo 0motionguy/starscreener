@@ -1,3 +1,11 @@
+/**
+ * @internal
+ * Per-repo Twitter signal sync reader. Consumed only by ./trending-tweets.ts
+ * and re-exported through TwitterSignalBuilder.getTwitterSignalSync /
+ * .getTwitterSignalsDataVersion in ./builder.ts. Cross-signal pipeline +
+ * derived-repos decorators may continue to import via the builder; do not
+ * add new direct importers from outside src/lib/twitter/.
+ */
 import { readFileSync, statSync } from "node:fs";
 import { resolve } from "node:path";
 

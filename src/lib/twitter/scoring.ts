@@ -1,3 +1,9 @@
+/**
+ * @internal
+ * Twitter scoring kernel — consumed only by ./service.ts.
+ * Public surface is exposed via ./builder.ts (TwitterSignalBuilder).
+ * Do not import from outside src/lib/twitter/.
+ */
 import { clamp } from "@/lib/utils";
 import { repoNameNeedsStrongContext } from "./query-bundle";
 import type {

@@ -7,6 +7,9 @@
 //
 // Storage piggy-backs on the existing JSONL file-persistence layer.
 // Writes are atomic via appendJsonlFile.
+//
+// @internal — consumed only by /api/cron/twitter-* routes; outbound is a
+// separate seam from the read/ingest builder and is kept isolated here.
 
 import { randomUUID } from "node:crypto";
 

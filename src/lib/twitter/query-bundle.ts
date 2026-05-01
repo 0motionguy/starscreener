@@ -1,3 +1,9 @@
+/**
+ * @internal
+ * Twitter query-bundle builder — consumed only by ./service.ts and re-exported
+ * via TwitterSignalBuilder.buildTwitterQueryBundle in ./builder.ts. Do not
+ * import from outside src/lib/twitter/.
+ */
 import type { TwitterQuery, TwitterRepoInput } from "./types";
 
 const GENERIC_TERMS = new Set([

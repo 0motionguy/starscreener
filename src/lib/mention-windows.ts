@@ -84,3 +84,14 @@ export function countMentionsInWindow<T extends MentionWindowEntry>(
 export const WINDOW_24H = 24 * 60 * 60 * 1000;
 export const WINDOW_7D = 7 * 24 * 60 * 60 * 1000;
 export const WINDOW_30D = 30 * 24 * 60 * 60 * 1000;
+
+/**
+ * Mixin type for source-specific RepoMention rollups so each loader can
+ * spread the same windowed-count slot rather than redeclaring three
+ * optionals. Kept additive — `count7d` lives on the per-source rollup
+ * type itself with its source-specific semantics intact.
+ */
+export interface WindowedMentionCounts {
+  count24h?: number;
+  count30d?: number;
+}

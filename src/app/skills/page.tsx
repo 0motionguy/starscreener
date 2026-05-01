@@ -1,347 +1,479 @@
+// /skills — V4 leaderboard list (W8 leaderboard pattern).
+//
+// Migrated off the legacy SignalSourcePage + SkillsTerminalTable chrome to
+// V4 primitives: PageHead + VerdictRibbon + KpiBand + SectionHead + RankRow.
+// Two main sections — `// 01 Top skills` (signal-score leaderboard) and
+// `// 02 New / breakout` (recent + Δhotness pickup). Right rail surfaces
+// the Most-cited list and worker keys.
+//
+// Mockup reference: home.html top10 panel + breakouts.html leaderboard.
+
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import {
-  SignalSourcePage,
-  type SignalTabSpec,
-} from "@/components/signal/SignalSourcePage";
-import {
-  getSkillsSignalData,
-  type EcosystemBoard,
-} from "@/lib/ecosystem-leaderboards";
-import { classifyFreshness, findOldestRecordAt } from "@/lib/news/freshness";
-import { absoluteUrl } from "@/lib/seo";
-import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
-import { buildEcosystemHeader } from "@/components/signal/ecosystemTopHeader";
-import { SkillsTerminalTable, type SkillSourceFilter } from "@/components/skills/SkillsTerminalTable";
+import { getSkillsSignalData } from "@/lib/ecosystem-leaderboards";
+import { absoluteUrl, SITE_NAME } from "@/lib/seo";
+import { formatNumber } from "@/lib/utils";
 
-const SKILLS_ACCENT = "rgba(167, 139, 250, 0.85)";
+import { PageHead } from "@/components/ui/PageHead";
+import { SectionHead } from "@/components/ui/SectionHead";
+import { KpiBand } from "@/components/ui/KpiBand";
+import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
+import { LiveDot } from "@/components/ui/LiveDot";
+import { RankRow } from "@/components/ui/RankRow";
+
+import { encodeSkillSlug } from "./_slug";
+
+export const revalidate = 1800;
+
 const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000;
-
-export const revalidate = 600;
+const TOP_N = 20;
+const DESCRIPTION =
+  "Top Claude / Codex / agent skills merged from skills.sh, GitHub, Smithery, lobehub, and skillsmp.";
 
 export const metadata: Metadata = {
-  title: "Trending Skills - TrendingRepo",
-  description:
-    "Top Claude / Codex / agent skills merged from skills.sh leaderboard and GitHub topic signals.",
+  title: `Trending Skills - ${SITE_NAME}`,
+  description: DESCRIPTION,
   alternates: { canonical: absoluteUrl("/skills") },
   openGraph: {
-    title: "Trending Skills - TrendingRepo",
-    description:
-      "A live leaderboard for AI agent skills across skills.sh and GitHub topic feeds.",
+    title: `Trending Skills - ${SITE_NAME}`,
+    description: DESCRIPTION,
     url: absoluteUrl("/skills"),
   },
 };
 
 export default async function SkillsPage() {
   const data = await getSkillsSignalData();
-  // Per-record floor: if the underlying rows haven't refreshed in 2× the cron
-  // cadence, force STALE/COLD even when the top-level fetchedAt advanced.
-  // The writer (_data-store-write.mjs) stamps `lastRefreshedAt` on every
-  // tracked-repo record; missing rows fall through to fetchedAt-only.
-  const oldestRecordAt = findOldestRecordAt(data.combined.items);
-  const freshness = classifyFreshness(
-    "skills",
-    data.fetchedAt,
-    undefined,
-    oldestRecordAt,
-  );
-
-  // Sub-leaderboard datasets: same source list, different sort/filter.
   const items = data.combined.items;
   const now = Date.now();
 
-  // 1. Hottest This Week — rank by Δhotness (current - 7d-prior) when EITHER
-  //    side has a 7d-ago snapshot (cold-start: usually neither does, in which
-  //    case all deltas collapse to 0 and we drop to the absolute fallback
-  //    chain). Falls through to absolute hotness, then signalScore, then
-  //    most-recently-pushed as the final tiebreak so day-1 ranking is useful
-  //    instead of a flat list.
-  const hottest = [...items]
-    .sort((a, b) => {
-      const aHasPrev = a.hotnessPrev7d !== undefined;
-      const bHasPrev = b.hotnessPrev7d !== undefined;
-      if (aHasPrev || bHasPrev) {
-        const aDelta = (a.hotness ?? 0) - (a.hotnessPrev7d ?? a.hotness ?? 0);
-        const bDelta = (b.hotness ?? 0) - (b.hotnessPrev7d ?? b.hotness ?? 0);
-        if (aDelta !== bDelta) return bDelta - aDelta;
-      }
-      const aH = a.hotness ?? a.signalScore ?? 0;
-      const bH = b.hotness ?? b.signalScore ?? 0;
-      if (aH !== bH) return bH - aH;
-      return (
-        (Date.parse(b.lastPushedAt ?? "") || 0) -
-        (Date.parse(a.lastPushedAt ?? "") || 0)
-      );
-    })
-    .map((item, idx) => ({ ...item, rank: idx + 1 }));
+  // Top by signal score — primary leaderboard (also the page's #1 row).
+  const topByScore = [...items]
+    .sort((a, b) => b.signalScore - a.signalScore)
+    .slice(0, TOP_N);
 
-  // (Phase-5 escalation 2026-04-29) Old `mostForked` / `newThisWeek` /
-  // `mostAdopted` arrays removed when the four-tab UI was replaced with
-  // three (All Time / Trending 24h / Hot). The signals they surfaced
-  // (forkVelocity7d, createdAt, derivativeRepoCount) are still on the
-  // EcosystemLeaderboardItem and consumed by other surfaces.
+  // Top by stars — leaderboard tile in the KPI band.
+  const topByStars = [...items]
+    .filter((it) => typeof it.popularity === "number" && it.popularity! > 0)
+    .sort((a, b) => (b.popularity ?? 0) - (a.popularity ?? 0))[0];
 
-  // V3 3-card top header — replaces the legacy 6-tile mini-strip with the
-  // same chrome the news pages use (snapshot + per-source bars + topics).
-  const { cards, topStories } = buildEcosystemHeader({
-    items: data.combined.items,
-    snapshotEyebrow: "// SNAPSHOT · NOW",
-    snapshotLabel: "SKILLS TRACKED",
-    snapshotRight: `${data.combined.items.length.toLocaleString("en-US")} ITEMS`,
-    volumeEyebrow: "// VOLUME · PER SOURCE",
-    topicsEyebrow: "// TOPICS · MENTIONED MOST",
-    sourceLabelMap: {
-      "skills.sh": "SKLSH",
-      "github": "GH",
-      "GitHub": "GH",
-    },
+  // New in last 7 days — by createdAt fallback to lastPushedAt.
+  const newRecent = items.filter((it) => {
+    const iso = it.createdAt ?? it.lastPushedAt;
+    if (!iso) return false;
+    const t = Date.parse(iso);
+    return Number.isFinite(t) && now - t <= ONE_WEEK_MS;
   });
 
-  const topHeader = (
-    <NewsTopHeaderV3
-      routeTitle="SKILLS · TRENDING"
-      liveLabel="LIVE · 30M"
-      eyebrow={`// SKILLS · ${data.source.toUpperCase()} · ${freshness.ageLabel.toUpperCase()}`}
-      meta={[
-        {
-          label: "TRACKED",
-          value: data.combined.items.length.toLocaleString("en-US"),
-        },
-        {
-          label: "SKLSH",
-          value: data.skillsSh.items.length.toLocaleString("en-US"),
-        },
-        { label: "GH", value: data.github.items.length.toLocaleString("en-US") },
-      ]}
-      cards={cards}
-      topStories={topStories}
-      accent={SKILLS_ACCENT}
-      caption={[
-        "// LAYOUT compact-v1",
-        "· 3-COL · 320 / 1FR / 1FR",
-        "· DATA UNCHANGED",
-      ]}
-    />
-  );
+  // Most-cited (derivative repo count >= 1) — used for KPI + right rail.
+  const mostCited = [...items]
+    .filter((it) => (it.derivativeRepoCount ?? 0) > 0)
+    .sort(
+      (a, b) =>
+        (b.derivativeRepoCount ?? 0) - (a.derivativeRepoCount ?? 0) ||
+        b.signalScore - a.signalScore,
+    );
 
-  // Single source-filter passed to all four tabs as a secondary control.
-  // We surface it via the search-param pattern that SignalSourcePage already
-  // uses — read it server-side so the rendered table is correct on first
-  // paint. Default = "all".
-  const sourceFilter: SkillSourceFilter = "all";
-
-  // Phase-5 escalation 2026-04-29: replaced 4 weekly-themed tabs with 3
-  // user-facing tabs that match the reference UI (All Time / Trending 24h
-  // / Hot). The underlying sort comparators stay (hottest = Δhotness with
-  // absolute fallback chain; mostForked/mostAdopted retired since their
-  // signal isn't surfaced as a tab anymore).
-  //
-  // 1. All Time — sort by popularity desc (installs > downloads > stars per
-  //    coercer priority); falls through to signalScore. Counts upstream
-  //    pagination.total when present (e.g. skillsmp 1M+ catalog).
-  const allTime = [...items]
+  // Breakout slice — new-this-week sorted by Δhotness fallback to absolute hotness.
+  const breakout = [...newRecent]
     .sort((a, b) => {
-      const aP = a.popularity ?? a.signalScore ?? 0;
-      const bP = b.popularity ?? b.signalScore ?? 0;
-      if (aP !== bP) return bP - aP;
-      return (
-        (Date.parse(b.lastPushedAt ?? "") || 0) -
-        (Date.parse(a.lastPushedAt ?? "") || 0)
-      );
+      const aDelta = (a.hotness ?? 0) - (a.hotnessPrev7d ?? a.hotness ?? 0);
+      const bDelta = (b.hotness ?? 0) - (b.hotnessPrev7d ?? b.hotness ?? 0);
+      if (aDelta !== bDelta) return bDelta - aDelta;
+      return (b.hotness ?? b.signalScore) - (a.hotness ?? a.signalScore);
     })
-    .map((item, idx) => ({ ...item, rank: idx + 1 }));
+    .slice(0, 10);
 
-  // 2. Trending (24h) — Δhotness (current - prev) when at least one side
-  //    has a 7d-prior snapshot. Cold-start fallback chain hottest → above.
-  //    Reuses the `hottest` array built earlier in this file.
-  const trending24h = hottest;
+  // Average accuracy proxy = average signal score across the top 20 (used as
+  // the verdict ribbon stamp). Not a true accuracy metric — the leaderboard
+  // doesn't have one — but mirrors the V4 verdict-ribbon stamp slot used on
+  // /consensus. Cold-start safe: fallback to 0.
+  const avgScore =
+    topByScore.length > 0
+      ? Math.round(
+          topByScore.reduce((acc, it) => acc + it.signalScore, 0) /
+            topByScore.length,
+        )
+      : 0;
 
-  // 3. Hot — items pushed in the last 7d, ranked by absolute hotness desc.
-  //    Surfaces "what's actively churning" without needing a 1h-snapshot
-  //    fetcher (defer that until snapshots ship in a follow-up).
-  const hotRecent = items
-    .filter((item) => {
-      const iso = item.lastPushedAt ?? item.createdAt;
-      if (!iso) return false;
-      const t = Date.parse(iso);
-      if (!Number.isFinite(t)) return false;
-      return now - t <= ONE_WEEK_MS;
-    })
-    .sort((a, b) => {
-      const aH = a.hotness ?? a.signalScore ?? 0;
-      const bH = b.hotness ?? b.signalScore ?? 0;
-      if (aH !== bH) return bH - aH;
-      return (
-        (Date.parse(b.lastPushedAt ?? "") || 0) -
-        (Date.parse(a.lastPushedAt ?? "") || 0)
-      );
-    })
-    .map((item, idx) => ({ ...item, rank: idx + 1 }));
-
-  const totalLabel =
-    typeof data.combined.meta?.total === "number" && data.combined.meta.total > 0
-      ? data.combined.meta.total.toLocaleString("en-US")
-      : data.combined.items.length.toLocaleString("en-US");
-
-  const tabs: SignalTabSpec[] = [
-    {
-      id: "all-time",
-      label: `All Time (${totalLabel})`,
-      rows: [],
-      content: (
-        <SkillsTerminalTable
-          items={allTime}
-          accent={SKILLS_ACCENT}
-          sourceFilter={sourceFilter}
-          emptyTitle="No skills leaderboard rows have landed yet."
-          emptySubtitle="Waiting for upstream skill fetchers to populate Redis."
-        />
-      ),
-    },
-    {
-      id: "trending-24h",
-      label: "Trending (24h)",
-      rows: [],
-      content: (
-        <SkillsTerminalTable
-          items={trending24h}
-          accent={SKILLS_ACCENT}
-          sourceFilter={sourceFilter}
-          emptyTitle="No 24h trending data yet."
-          emptySubtitle="Cold-start: ranking falls back to absolute hotness until 7d-prior snapshots fill in."
-        />
-      ),
-    },
-    {
-      id: "hot",
-      label: "Hot",
-      rows: [],
-      content: (
-        <SkillsTerminalTable
-          items={hotRecent}
-          accent={SKILLS_ACCENT}
-          sourceFilter={sourceFilter}
-          emptyTitle="Nothing pushed in the last 7d."
-          emptySubtitle="Hot tab surfaces actively-churning skills."
-        />
-      ),
-    },
-  ];
+  const totalLabel = formatNumber(items.length);
+  const newCount = newRecent.length;
+  const citedCount = mostCited.length;
 
   return (
-    <SignalSourcePage
-      source="skills"
-      sourceLabel="SKILLS"
-      mode="TRENDING"
-      fetchedAt={data.fetchedAt}
-      freshnessStatus={freshness.status}
-      ageLabel={freshness.ageLabel}
-      metrics={[]}
-      topSlot={topHeader}
-      tabs={tabs}
-      rightRail={<SkillsRightRail board={data.combined} />}
-    />
-  );
-}
+    <main className="home-surface">
+      <PageHead
+        crumb={
+          <>
+            <b>SKILLS</b> · TERMINAL · /SKILLS
+          </>
+        }
+        h1="Top AI agent skills, ranked across five registries."
+        lede="A live leaderboard merging skills.sh, GitHub topic feeds, Smithery, lobehub, and skillsmp into one signal-scored list. Ranked by combined popularity, freshness, and derivative-repo citations."
+        clock={
+          <>
+            <span className="big">{totalLabel}</span>
+            <span className="muted">SKILLS · 5 REGISTRIES</span>
+            <LiveDot label="LIVE" />
+          </>
+        }
+      />
 
-function SkillsRightRail({ board }: { board: EcosystemBoard }) {
-  return (
-    <aside className="flex flex-col gap-4">
-      <div className="rounded-card border border-border-primary bg-bg-card p-3">
-        <h3 className="font-mono text-[10px] uppercase tracking-[0.16em] text-text-tertiary">
-          Top Skills
-        </h3>
-        {board.items.length === 0 ? (
-          <p className="mt-2 text-[11px] text-text-tertiary">No rows yet.</p>
-        ) : (
-          <ul className="mt-2 space-y-1.5">
-            {board.items.slice(0, 10).map((item) => (
-              <li key={item.id} className="flex items-center gap-2 text-[11px]">
-                {item.logoUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={item.logoUrl}
-                    alt=""
-                    width={16}
-                    height={16}
-                    loading="lazy"
-                    className="h-4 w-4 flex-none rounded-sm object-contain"
-                  />
-                ) : (
-                  <span className="h-4 w-4 flex-none rounded-sm bg-bg-muted" />
-                )}
-                <a
-                  href={item.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 truncate font-mono text-functional hover:underline"
-                  title={item.author ? `${item.title} — ${item.author}` : item.title}
-                >
-                  {item.title}
-                </a>
-                {item.verified ? (
-                  <span className="font-mono text-[9px] uppercase tracking-wider text-up" title="Verified author">
-                    ✓
-                  </span>
-                ) : null}
-                <MomentumBar value={item.signalScore} />
-                <span className="font-mono tabular-nums text-text-secondary">
-                  {item.signalScore}
+      <VerdictRibbon
+        tone="acc"
+        stamp={{
+          eyebrow: "// SKILLS BOARD",
+          headline: `${avgScore}/100 avg signal · top ${topByScore.length}`,
+          sub: `${data.skillsSh.items.length} skills.sh · ${data.github.items.length} github · ${citedCount} cited`,
+        }}
+        text={
+          <>
+            <b>{totalLabel} skills</b> tracked across five registries.{" "}
+            {newCount > 0 ? (
+              <>
+                <span style={{ color: "var(--v4-money)" }}>
+                  {newCount} new this week
                 </span>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+                {", "}
+              </>
+            ) : null}
+            <span style={{ color: "var(--v4-acc)" }}>
+              {citedCount} cited by downstream repos
+            </span>
+            {topByScore[0] ? (
+              <>
+                {" · "}top pick{" "}
+                <span style={{ color: "var(--v4-ink-100)" }}>
+                  {topByScore[0].title}
+                </span>
+              </>
+            ) : null}
+            .
+          </>
+        }
+        actionHref="/api/skills"
+        actionLabel="API →"
+      />
 
-      <div className="rounded-card border border-border-primary bg-bg-card p-3">
-        <h3 className="font-mono text-[10px] uppercase tracking-[0.16em] text-text-tertiary">
-          Worker Keys
-        </h3>
-        <p className="mt-2 text-[11px] text-text-secondary">
-          Skills are merged from
-          <span className="font-mono text-text-primary"> trending-skill-sh </span>
-          and
-          <span className="font-mono text-text-primary"> trending-skill</span>.
-        </p>
-        <Link
-          href="/api/skills"
-          className="mt-3 inline-flex font-mono text-[11px] text-functional hover:underline"
+      <KpiBand
+        cells={[
+          {
+            label: "Total skills",
+            value: totalLabel,
+            sub: "across 5 registries",
+            pip: "var(--v4-ink-300)",
+          },
+          {
+            label: "Top by stars",
+            value: topByStars
+              ? formatNumber(topByStars.popularity ?? 0)
+              : "—",
+            sub: topByStars ? topByStars.title : "no popularity data",
+            tone: "money",
+            pip: "var(--v4-money)",
+          },
+          {
+            label: "New · 7d",
+            value: formatNumber(newCount),
+            sub: newCount > 0 ? "created or pushed" : "no new skills",
+            tone: newCount > 0 ? "acc" : "default",
+            pip: "var(--v4-acc)",
+          },
+          {
+            label: "Most-cited",
+            value: formatNumber(citedCount),
+            sub: "derivative repos found",
+            tone: citedCount > 0 ? "amber" : "default",
+            pip: "var(--v4-amber)",
+          },
+        ]}
+      />
+
+      <SectionHead
+        num="// 01"
+        title="Top skills"
+        meta={
+          <>
+            <b>{topByScore.length}</b> · ranked by signal score
+          </>
+        }
+      />
+      {topByScore.length > 0 ? (
+        <section
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            border: "1px solid var(--v4-line-200)",
+            borderRadius: 4,
+            background: "var(--v4-bg-050)",
+            marginBottom: 24,
+          }}
         >
-          api preview
-        </Link>
-      </div>
-    </aside>
+          {topByScore.map((item, idx) => (
+            <RankRow
+              key={item.id}
+              rank={idx + 1}
+              first={idx === 0}
+              avatar={
+                <SkillAvatar
+                  logoUrl={item.logoUrl}
+                  fallback={item.title}
+                />
+              }
+              title={
+                <>
+                  {item.author ? (
+                    <>
+                      <span style={{ color: "var(--v4-ink-300)" }}>
+                        {item.author}
+                      </span>
+                      <span style={{ color: "var(--v4-ink-400)" }}> / </span>
+                    </>
+                  ) : null}
+                  <span style={{ color: "var(--v4-ink-100)" }}>
+                    {item.title}
+                  </span>
+                </>
+              }
+              desc={item.description ?? item.sourceLabel}
+              metric={{
+                value: item.signalScore.toFixed(0),
+                label: "/ 100",
+              }}
+              delta={
+                item.derivativeRepoCount && item.derivativeRepoCount > 0
+                  ? {
+                      value: `${formatNumber(item.derivativeRepoCount)} cited`,
+                      direction: "up",
+                    }
+                  : item.popularity
+                    ? {
+                        value: `${formatNumber(item.popularity)} ${item.popularityLabel}`,
+                        direction: "flat",
+                      }
+                    : undefined
+              }
+              href={`/skills/${encodeSkillSlug(item.id)}`}
+            />
+          ))}
+        </section>
+      ) : (
+        <p
+          style={{
+            fontFamily: "var(--font-geist-mono), monospace",
+            fontSize: 12,
+            color: "var(--v4-ink-300)",
+            padding: "24px 0",
+          }}
+        >
+          No skills leaderboard rows have landed yet. Waiting for upstream
+          fetchers to populate Redis.
+        </p>
+      )}
+
+      <SectionHead
+        num="// 02"
+        title="New / breakout"
+        meta={
+          <>
+            <b>{breakout.length}</b> · last 7d
+          </>
+        }
+      />
+      {breakout.length > 0 ? (
+        <section
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            border: "1px solid var(--v4-line-200)",
+            borderRadius: 4,
+            background: "var(--v4-bg-050)",
+          }}
+        >
+          {breakout.map((item, idx) => {
+            const delta =
+              (item.hotness ?? 0) - (item.hotnessPrev7d ?? item.hotness ?? 0);
+            return (
+              <RankRow
+                key={item.id}
+                rank={idx + 1}
+                avatar={
+                  <SkillAvatar
+                    logoUrl={item.logoUrl}
+                    fallback={item.title}
+                  />
+                }
+                title={
+                  <>
+                    {item.author ? (
+                      <>
+                        <span style={{ color: "var(--v4-ink-300)" }}>
+                          {item.author}
+                        </span>
+                        <span style={{ color: "var(--v4-ink-400)" }}> / </span>
+                      </>
+                    ) : null}
+                    <span style={{ color: "var(--v4-ink-100)" }}>
+                      {item.title}
+                    </span>
+                  </>
+                }
+                desc={item.description ?? item.sourceLabel}
+                metric={{
+                  value: (item.hotness ?? item.signalScore).toFixed(0),
+                  label: "hot",
+                }}
+                delta={
+                  delta !== 0
+                    ? {
+                        value: `${delta > 0 ? "+" : ""}${delta.toFixed(0)}`,
+                        direction: delta > 0 ? "up" : "down",
+                      }
+                    : undefined
+                }
+                href={`/skills/${encodeSkillSlug(item.id)}`}
+              />
+            );
+          })}
+        </section>
+      ) : (
+        <p
+          style={{
+            fontFamily: "var(--font-geist-mono), monospace",
+            fontSize: 12,
+            color: "var(--v4-ink-300)",
+            padding: "24px 0",
+          }}
+        >
+          No skills created or pushed in the last 7 days.
+        </p>
+      )}
+
+      <SectionHead num="// 03" title="Most-cited skills" as="h3" />
+      {mostCited.length > 0 ? (
+        <ul
+          style={{
+            listStyle: "none",
+            margin: 0,
+            padding: 0,
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+            gap: 8,
+            marginBottom: 24,
+          }}
+        >
+          {mostCited.slice(0, 12).map((item) => (
+            <li key={item.id}>
+              <Link
+                href={`/skills/${encodeSkillSlug(item.id)}`}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                  padding: "8px 10px",
+                  border: "1px solid var(--v4-line-200)",
+                  borderRadius: 3,
+                  background: "var(--v4-bg-050)",
+                  fontFamily: "var(--font-geist-mono), monospace",
+                  fontSize: 11,
+                  color: "var(--v4-ink-200)",
+                  textDecoration: "none",
+                }}
+              >
+                <span style={{ flex: 1, minWidth: 0 }}>
+                  <span
+                    style={{
+                      display: "block",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      color: "var(--v4-ink-100)",
+                    }}
+                  >
+                    {item.title}
+                  </span>
+                  <span
+                    style={{
+                      display: "block",
+                      color: "var(--v4-ink-400)",
+                      fontSize: 10,
+                    }}
+                  >
+                    {item.author ?? item.sourceLabel}
+                  </span>
+                </span>
+                <span
+                  style={{
+                    color: "var(--v4-amber)",
+                    fontWeight: 600,
+                  }}
+                >
+                  {formatNumber(item.derivativeRepoCount ?? 0)}
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p
+          style={{
+            fontFamily: "var(--font-geist-mono), monospace",
+            fontSize: 12,
+            color: "var(--v4-ink-300)",
+            padding: "12px 0",
+          }}
+        >
+          No derivative repo citations recorded yet.
+        </p>
+      )}
+    </main>
   );
 }
 
-// Tiny inline momentum bar, mirrors the HF/arXiv pages' MomentumBar shape so
-// the visual language is consistent across all four trending domains.
-const SKILLS_BAR_ACCENT = "rgba(167, 139, 250, 0.85)";
-function MomentumBar({ value }: { value: number }) {
-  const pct = Math.max(0, Math.min(100, value));
-  return (
-    <span
-      aria-label={`Momentum ${pct}`}
-      className="inline-block"
-      style={{
-        width: 28,
-        height: 6,
-        background: "var(--v3-bg-100)",
-        borderRadius: 1,
-        overflow: "hidden",
-      }}
-    >
-      <span
-        className="block"
+interface SkillAvatarProps {
+  logoUrl: string | null;
+  fallback: string;
+}
+
+function SkillAvatar({ logoUrl, fallback }: SkillAvatarProps) {
+  if (logoUrl) {
+    // eslint-disable-next-line @next/next/no-img-element
+    return (
+      <img
+        src={logoUrl}
+        alt=""
+        width={28}
+        height={28}
+        loading="lazy"
         style={{
-          width: `${pct}%`,
-          height: "100%",
-          background: SKILLS_BAR_ACCENT,
-          boxShadow: pct > 0 ? `0 0 4px ${SKILLS_BAR_ACCENT}66` : undefined,
+          width: 28,
+          height: 28,
+          borderRadius: 3,
+          objectFit: "contain",
+          background: "var(--v4-bg-100)",
         }}
       />
+    );
+  }
+  const text = fallback.slice(0, 2).toUpperCase();
+  return (
+    <span
+      aria-hidden="true"
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        width: 28,
+        height: 28,
+        borderRadius: 3,
+        background: "var(--v4-bg-100)",
+        border: "1px solid var(--v4-line-200)",
+        fontFamily: "var(--font-geist-mono), monospace",
+        fontSize: 11,
+        color: "var(--v4-ink-200)",
+      }}
+    >
+      {text}
     </span>
   );
 }

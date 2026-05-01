@@ -3,7 +3,7 @@ name: Refresh skill smithery
 # Every 6h at :30. Populates `trending-skill-smithery` Redis key.
 on:
   schedule:
-    - cron: "30 */6 * * *"
+    - cron: "30 3 * * *"
   workflow_dispatch:
 
 permissions:

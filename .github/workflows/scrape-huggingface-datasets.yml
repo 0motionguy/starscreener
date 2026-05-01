@@ -6,7 +6,7 @@ name: Refresh HuggingFace dataset signals
 # site without burning rate budget.
 on:
   schedule:
-    - cron: "25 */3 * * *"
+    - cron: "25 */6 * * *"
   workflow_dispatch:
 
 permissions:

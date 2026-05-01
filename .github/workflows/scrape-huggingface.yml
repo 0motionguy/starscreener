@@ -6,7 +6,7 @@ name: Refresh HuggingFace signals
 # the trending half-life on the site without burning rate budget.
 on:
   schedule:
-    - cron: "13 */3 * * *"
+    - cron: "13 */6 * * *"
   workflow_dispatch:
 
 permissions:

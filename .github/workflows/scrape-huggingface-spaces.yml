@@ -6,7 +6,7 @@ name: Refresh HuggingFace space signals
 # site without burning rate budget.
 on:
   schedule:
-    - cron: "35 */3 * * *"
+    - cron: "35 */6 * * *"
   workflow_dispatch:
 
 permissions:

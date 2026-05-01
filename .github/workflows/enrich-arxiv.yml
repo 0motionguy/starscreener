@@ -10,7 +10,7 @@ name: Enrich arXiv signals
 # steady-state is well under 100 fetches/run.
 on:
   schedule:
-    - cron: "13 */6 * * *"
+    - cron: "13 */12 * * *"
   workflow_dispatch:
 
 permissions:

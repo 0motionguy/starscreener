@@ -1,49 +1,76 @@
-// Lightweight PostHog capture helper — POSTs directly to the EU capture
-// endpoint without pulling in `posthog-node` or any other SDK.
+// PostHog capture helper backed by the official `posthog-node` SDK so events
+// are batched + flushed periodically instead of one POST per call.
 //
 // Used by the pool-aware GitHub fetch paths (src/lib/github-fetch.ts and
 // src/lib/pipeline/adapters/github-adapter.ts) so we get per-call
 // observability on token burn-rate, status codes, and rate-limit posture.
 //
 // Contract:
-//   - Fire-and-forget: callers should `void posthogCapture(...)` so a slow
-//     PostHog ingest never blocks a hot fetch path.
+//   - Fire-and-forget: callers `void posthogCapture(...)`. The SDK queues the
+//     event in memory and flushes asynchronously (every 20 events or 10s).
 //   - Silent no-op when `POSTHOG_KEY` is unset (dev / preview without
-//     analytics provisioned).
-//   - Swallows ALL errors — analytics failure must never surface to users.
+//     analytics provisioned). Warns once.
+//   - Distinct ID convention: pass `distinct_id` in `properties`. Falls back
+//     to "system" so the capture call is always well-formed for PostHog.
 //
-// Distinct ID convention: pass `distinct_id` in `properties` to identify
-// the entity being tracked (e.g. "github-pool"). Falls back to "system"
-// so the capture call is always well-formed for PostHog.
-//
-// Endpoint: https://eu.i.posthog.com/capture/ (project lives in EU region).
+// Endpoint: https://eu.i.posthog.com (project lives in EU region).
 
-const POSTHOG_CAPTURE_URL = "https://eu.i.posthog.com/capture/";
+import { PostHog } from "posthog-node";
+
+let client: PostHog | null = null;
+let warned = false;
+
+function getClient(): PostHog | null {
+  const key = process.env.POSTHOG_KEY;
+  if (!key) {
+    if (!warned) {
+      warned = true;
+      console.warn("[posthog] POSTHOG_KEY not set; events suppressed");
+    }
+    return null;
+  }
+  if (!client) {
+    client = new PostHog(key, {
+      host: "https://eu.i.posthog.com",
+      flushAt: 20,
+      flushInterval: 10_000,
+    });
+  }
+  return client;
+}
 
 /**
- * Fire-and-forget PostHog `/capture/` POST. Returns a resolved promise even
- * on network failure so callers can `void` it without unhandled-rejection
- * noise. No-ops when `POSTHOG_KEY` is missing.
+ * Fire-and-forget PostHog capture. Queues to the SDK's internal batch; never
+ * throws. No-ops when `POSTHOG_KEY` is missing.
  */
-export async function posthogCapture(
+export function posthogCapture(
   event: string,
   properties: Record<string, unknown>,
-): Promise<void> {
-  const key = process.env.POSTHOG_KEY;
-  if (!key) return;
+): void {
+  const c = getClient();
+  if (!c) return;
   try {
-    await fetch(POSTHOG_CAPTURE_URL, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({
-        api_key: key,
-        event,
-        distinct_id: properties.distinct_id ?? "system",
-        properties: { ...properties, $lib: "trendingrepo-server" },
-        timestamp: new Date().toISOString(),
-      }),
+    const distinctId = String(properties.distinct_id ?? "system");
+    c.capture({
+      distinctId,
+      event,
+      properties: { ...properties, $lib: "trendingrepo-server" },
     });
   } catch {
-    // fire-and-forget; analytics failure must never throw upstream
+    // analytics failure must never throw upstream
+  }
+}
+
+/**
+ * Flush + close the PostHog client. Call from graceful-shutdown paths so
+ * queued events make it to the wire before the process exits.
+ */
+export async function posthogShutdown(): Promise<void> {
+  if (client) {
+    try {
+      await client.shutdown();
+    } catch {
+      // shutdown failure must never throw upstream
+    }
   }
 }

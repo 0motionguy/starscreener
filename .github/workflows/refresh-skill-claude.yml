@@ -5,7 +5,7 @@ name: Refresh skill claude (anthropics + community SKILL.md)
 # dispatch — this puts it on a schedule so the data stops going stale.
 on:
   schedule:
-    - cron: "12 */6 * * *"
+    - cron: "12 3 * * *"
   workflow_dispatch:
 
 permissions:

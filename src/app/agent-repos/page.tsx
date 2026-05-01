@@ -24,6 +24,7 @@ import { KpiBand } from "@/components/ui/KpiBand";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
 import { RankRow } from "@/components/ui/RankRow";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
+import { LetterAvatar } from "@/components/shared/LetterAvatar";
 
 export const revalidate = 1800;
 
@@ -162,6 +163,12 @@ export default async function AgentReposPage() {
               <RankRow
                 key={repo.id}
                 rank={index + 1}
+                avatar={
+                  <LetterAvatar
+                    seed={repo.owner ?? repo.name ?? repo.id}
+                    size={28}
+                  />
+                }
                 title={
                   <>
                     {repo.owner}{" "}

@@ -32,6 +32,7 @@ import { KpiBand } from "@/components/ui/KpiBand";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
 import { RankRow } from "@/components/ui/RankRow";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
+import { LetterAvatar } from "@/components/shared/LetterAvatar";
 
 // ISR — 10-minute cadence matches the V4 leaderboard surfaces. Underlying
 // readers refresh every 6 hours via cron; tighter cache wastes work
@@ -246,6 +247,12 @@ export default async function Top10RootPage() {
             <RankRow
               key={item.slug}
               rank={item.rank}
+              avatar={
+                <LetterAvatar
+                  seed={item.owner ?? item.title ?? item.slug}
+                  size={28}
+                />
+              }
               title={
                 item.owner ? (
                   <>

@@ -1,10 +1,161 @@
 {
-  "fetchedAt": "2026-05-01T07:38:31.620Z",
+  "fetchedAt": "2026-05-01T09:58:54.884Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
+    "ssrajadh/sentrysearch": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkrpu434yw2q",
+        "cid": "bafyreiauk7jz456z5h2m3sysck6dj22a6rjd6l5renpxup66nmsokgmhzu",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkrpu434yw2q",
+        "text": "https://github.com/ssrajadh/sentrysearch",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-01T08:34:47Z",
+        "hoursSincePosted": 1.4
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkrpu434yw2q",
+          "cid": "bafyreiauk7jz456z5h2m3sysck6dj22a6rjd6l5renpxup66nmsokgmhzu",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkrpu434yw2q",
+          "text": "https://github.com/ssrajadh/sentrysearch",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T08:34:47Z",
+          "createdUtc": 1777624487,
+          "ageHours": 1.4,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ssrajadh/sentrysearch",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "tiagozip/cap": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkro5yulof2s",
+        "cid": "bafyreieqsurlza6undx4re4uiwfef2xl7p2k56g56tvdfmpwpmulunwin4",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkro5yulof2s",
+        "text": "https://github.com/tiagozip/cap",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-01T08:04:31Z",
+        "hoursSincePosted": 1.91
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkro5yulof2s",
+          "cid": "bafyreieqsurlza6undx4re4uiwfef2xl7p2k56g56tvdfmpwpmulunwin4",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkro5yulof2s",
+          "text": "https://github.com/tiagozip/cap",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T08:04:31Z",
+          "createdUtc": 1777622671,
+          "ageHours": 1.91,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "tiagozip/cap",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "openai/codex-plugin-cc": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:lowvryocas54fph3iy3mhthr/app.bsky.feed.post/3mkrnwxr4ai24",
+        "cid": "bafyreieherngof6qdbmtdjxzd7ljz5mzsofglug627lvwrx3cj45loq6be",
+        "bskyUrl": "https://bsky.app/profile/ai-linkstream.bsky.social/post/3mkrnwxr4ai24",
+        "text": "The openai/codex-plugin-cc repository offers a Claude Code plugin for Codex, enabling code reviews and task management with commands for standard and challenging reviews, simplifying developers' workflows. https://github.com/openai/codex-plugin-cc",
+        "author": {
+          "handle": "ai-linkstream.bsky.social"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-01T08:00:36.177721+00:00",
+        "hoursSincePosted": 1.97
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lowvryocas54fph3iy3mhthr/app.bsky.feed.post/3mkrnwxr4ai24",
+          "cid": "bafyreieherngof6qdbmtdjxzd7ljz5mzsofglug627lvwrx3cj45loq6be",
+          "bskyUrl": "https://bsky.app/profile/ai-linkstream.bsky.social/post/3mkrnwxr4ai24",
+          "text": "The openai/codex-plugin-cc repository offers a Claude Code plugin for Codex, enabling code reviews and task management with commands for standard and challenging reviews, simplifying developers' workflows. https://github.com/openai/codex-plugin-cc",
+          "author": {
+            "handle": "ai-linkstream.bsky.social"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-01T08:00:36.177721+00:00",
+          "createdUtc": 1777622436,
+          "ageHours": 1.97,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "openai/codex-plugin-cc",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "openai/openai-agents-python": {
       "count7d": 1,
       "likesSum7d": 0,
@@ -22,7 +173,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-01T07:08:04.922969+00:00",
-        "hoursSincePosted": 0.51
+        "hoursSincePosted": 2.85
       },
       "posts": [
         {
@@ -38,7 +189,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T07:08:04.922969+00:00",
           "createdUtc": 1777619284,
-          "ageHours": 0.51,
+          "ageHours": 2.85,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -73,7 +224,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-01T06:19:18.000Z",
-        "hoursSincePosted": 1.32
+        "hoursSincePosted": 3.66
       },
       "posts": [
         {
@@ -89,7 +240,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T06:19:18.000Z",
           "createdUtc": 1777616358,
-          "ageHours": 1.32,
+          "ageHours": 3.66,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -123,7 +274,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-01T06:13:47.000Z",
-        "hoursSincePosted": 1.41
+        "hoursSincePosted": 3.75
       },
       "posts": [
         {
@@ -140,7 +291,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T06:13:47.000Z",
           "createdUtc": 1777616027,
-          "ageHours": 1.41,
+          "ageHours": 3.75,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -174,7 +325,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-01T05:50:07.435Z",
-        "hoursSincePosted": 1.81
+        "hoursSincePosted": 4.15
       },
       "posts": [
         {
@@ -191,7 +342,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T05:50:07.435Z",
           "createdUtc": 1777614607,
-          "ageHours": 1.81,
+          "ageHours": 4.15,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -226,7 +377,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-01T05:10:16.000Z",
-        "hoursSincePosted": 2.47
+        "hoursSincePosted": 4.81
       },
       "posts": [
         {
@@ -243,7 +394,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T05:10:16.000Z",
           "createdUtc": 1777612216,
-          "ageHours": 2.47,
+          "ageHours": 4.81,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -259,60 +410,160 @@
           ]
         }
       ]
-    },
-    "Uzaaft/libghostty-rs": {
+    }
+  },
+  "mentionsByRepoId": {
+    "ssrajadh--sentrysearch": {
       "count7d": 1,
-      "likesSum7d": 3,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:k644h4rq5bjfzcetgsa6tuby/app.bsky.feed.post/3mkr3tgu7w22f",
-        "cid": "bafyreibdeqwfcecwttp4u7ee2a4sozgr6a4eu5a47lryngu2na2o5udkve",
-        "bskyUrl": "https://bsky.app/profile/natalie.sh/post/3mkr3tgu7w22f",
-        "text": "if ur making a terminal wrapper in rust this is such a decent crate to use i think: github.com/Uzaaft/libgh...",
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkrpu434yw2q",
+        "cid": "bafyreiauk7jz456z5h2m3sysck6dj22a6rjd6l5renpxup66nmsokgmhzu",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkrpu434yw2q",
+        "text": "https://github.com/ssrajadh/sentrysearch",
         "author": {
-          "handle": "natalie.sh",
-          "displayName": "midwest emo fan"
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
         },
-        "likeCount": 3,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-01T02:36:30.513Z",
-        "hoursSincePosted": 5.03
+        "createdAt": "2026-05-01T08:34:47Z",
+        "hoursSincePosted": 1.4
       },
       "posts": [
         {
-          "uri": "at://did:plc:k644h4rq5bjfzcetgsa6tuby/app.bsky.feed.post/3mkr3tgu7w22f",
-          "cid": "bafyreibdeqwfcecwttp4u7ee2a4sozgr6a4eu5a47lryngu2na2o5udkve",
-          "bskyUrl": "https://bsky.app/profile/natalie.sh/post/3mkr3tgu7w22f",
-          "text": "if ur making a terminal wrapper in rust this is such a decent crate to use i think: github.com/Uzaaft/libgh...",
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkrpu434yw2q",
+          "cid": "bafyreiauk7jz456z5h2m3sysck6dj22a6rjd6l5renpxup66nmsokgmhzu",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkrpu434yw2q",
+          "text": "https://github.com/ssrajadh/sentrysearch",
           "author": {
-            "handle": "natalie.sh",
-            "displayName": "midwest emo fan"
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
           },
-          "likeCount": 3,
+          "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-01T02:36:30.513Z",
-          "createdUtc": 1777602990,
-          "ageHours": 5.03,
-          "trendingScore": 3,
+          "createdAt": "2026-05-01T08:34:47Z",
+          "createdUtc": 1777624487,
+          "ageHours": 1.4,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "Uzaaft/libghostty-rs",
+              "fullName": "ssrajadh/sentrysearch",
               "matchType": "url",
               "confidence": 1
             }
           ]
         }
       ]
-    }
-  },
-  "mentionsByRepoId": {
+    },
+    "tiagozip--cap": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkro5yulof2s",
+        "cid": "bafyreieqsurlza6undx4re4uiwfef2xl7p2k56g56tvdfmpwpmulunwin4",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkro5yulof2s",
+        "text": "https://github.com/tiagozip/cap",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-01T08:04:31Z",
+        "hoursSincePosted": 1.91
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkro5yulof2s",
+          "cid": "bafyreieqsurlza6undx4re4uiwfef2xl7p2k56g56tvdfmpwpmulunwin4",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkro5yulof2s",
+          "text": "https://github.com/tiagozip/cap",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T08:04:31Z",
+          "createdUtc": 1777622671,
+          "ageHours": 1.91,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "tiagozip/cap",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "openai--codex-plugin-cc": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:lowvryocas54fph3iy3mhthr/app.bsky.feed.post/3mkrnwxr4ai24",
+        "cid": "bafyreieherngof6qdbmtdjxzd7ljz5mzsofglug627lvwrx3cj45loq6be",
+        "bskyUrl": "https://bsky.app/profile/ai-linkstream.bsky.social/post/3mkrnwxr4ai24",
+        "text": "The openai/codex-plugin-cc repository offers a Claude Code plugin for Codex, enabling code reviews and task management with commands for standard and challenging reviews, simplifying developers' workflows. https://github.com/openai/codex-plugin-cc",
+        "author": {
+          "handle": "ai-linkstream.bsky.social"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-01T08:00:36.177721+00:00",
+        "hoursSincePosted": 1.97
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lowvryocas54fph3iy3mhthr/app.bsky.feed.post/3mkrnwxr4ai24",
+          "cid": "bafyreieherngof6qdbmtdjxzd7ljz5mzsofglug627lvwrx3cj45loq6be",
+          "bskyUrl": "https://bsky.app/profile/ai-linkstream.bsky.social/post/3mkrnwxr4ai24",
+          "text": "The openai/codex-plugin-cc repository offers a Claude Code plugin for Codex, enabling code reviews and task management with commands for standard and challenging reviews, simplifying developers' workflows. https://github.com/openai/codex-plugin-cc",
+          "author": {
+            "handle": "ai-linkstream.bsky.social"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-01T08:00:36.177721+00:00",
+          "createdUtc": 1777622436,
+          "ageHours": 1.97,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "openai/codex-plugin-cc",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "openai--openai-agents-python": {
       "count7d": 1,
       "likesSum7d": 0,
@@ -330,7 +581,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-01T07:08:04.922969+00:00",
-        "hoursSincePosted": 0.51
+        "hoursSincePosted": 2.85
       },
       "posts": [
         {
@@ -346,7 +597,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T07:08:04.922969+00:00",
           "createdUtc": 1777619284,
-          "ageHours": 0.51,
+          "ageHours": 2.85,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -381,7 +632,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-01T06:19:18.000Z",
-        "hoursSincePosted": 1.32
+        "hoursSincePosted": 3.66
       },
       "posts": [
         {
@@ -397,7 +648,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T06:19:18.000Z",
           "createdUtc": 1777616358,
-          "ageHours": 1.32,
+          "ageHours": 3.66,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -431,7 +682,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-01T06:13:47.000Z",
-        "hoursSincePosted": 1.41
+        "hoursSincePosted": 3.75
       },
       "posts": [
         {
@@ -448,7 +699,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T06:13:47.000Z",
           "createdUtc": 1777616027,
-          "ageHours": 1.41,
+          "ageHours": 3.75,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -482,7 +733,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-01T05:50:07.435Z",
-        "hoursSincePosted": 1.81
+        "hoursSincePosted": 4.15
       },
       "posts": [
         {
@@ -499,7 +750,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T05:50:07.435Z",
           "createdUtc": 1777614607,
-          "ageHours": 1.81,
+          "ageHours": 4.15,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -534,7 +785,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-01T05:10:16.000Z",
-        "hoursSincePosted": 2.47
+        "hoursSincePosted": 4.81
       },
       "posts": [
         {
@@ -551,7 +802,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T05:10:16.000Z",
           "createdUtc": 1777612216,
-          "ageHours": 2.47,
+          "ageHours": 4.81,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -567,65 +818,9 @@
           ]
         }
       ]
-    },
-    "uzaaft--libghostty-rs": {
-      "count7d": 1,
-      "likesSum7d": 3,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:k644h4rq5bjfzcetgsa6tuby/app.bsky.feed.post/3mkr3tgu7w22f",
-        "cid": "bafyreibdeqwfcecwttp4u7ee2a4sozgr6a4eu5a47lryngu2na2o5udkve",
-        "bskyUrl": "https://bsky.app/profile/natalie.sh/post/3mkr3tgu7w22f",
-        "text": "if ur making a terminal wrapper in rust this is such a decent crate to use i think: github.com/Uzaaft/libgh...",
-        "author": {
-          "handle": "natalie.sh",
-          "displayName": "midwest emo fan"
-        },
-        "likeCount": 3,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-01T02:36:30.513Z",
-        "hoursSincePosted": 5.03
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:k644h4rq5bjfzcetgsa6tuby/app.bsky.feed.post/3mkr3tgu7w22f",
-          "cid": "bafyreibdeqwfcecwttp4u7ee2a4sozgr6a4eu5a47lryngu2na2o5udkve",
-          "bskyUrl": "https://bsky.app/profile/natalie.sh/post/3mkr3tgu7w22f",
-          "text": "if ur making a terminal wrapper in rust this is such a decent crate to use i think: github.com/Uzaaft/libgh...",
-          "author": {
-            "handle": "natalie.sh",
-            "displayName": "midwest emo fan"
-          },
-          "likeCount": 3,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T02:36:30.513Z",
-          "createdUtc": 1777602990,
-          "ageHours": 5.03,
-          "trendingScore": 3,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "Uzaaft/libghostty-rs",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
     }
   },
   "leaderboard": [
-    {
-      "fullName": "Uzaaft/libghostty-rs",
-      "count7d": 1,
-      "likesSum7d": 3
-    },
     {
       "fullName": "anthropics/claude-code",
       "count7d": 1,
@@ -642,7 +837,22 @@
       "likesSum7d": 0
     },
     {
+      "fullName": "openai/codex-plugin-cc",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
       "fullName": "openai/openai-agents-python",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "ssrajadh/sentrysearch",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "tiagozip/cap",
       "count7d": 1,
       "likesSum7d": 0
     },

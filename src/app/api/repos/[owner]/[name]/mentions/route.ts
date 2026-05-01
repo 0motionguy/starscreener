@@ -19,6 +19,7 @@
 // the edge can absorb spiky page fan-out without hitting origin per page.
 
 import { NextRequest, NextResponse } from "next/server";
+import * as Sentry from "@sentry/nextjs";
 
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import { pipeline, mentionStore } from "@/lib/pipeline/pipeline";
@@ -110,12 +111,16 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ owner: string; name: string }> },
 ) {
+  Sentry.setTag("route", "api/repos/[owner]/[name]/mentions");
+
   const { owner, name } = await params;
 
   // --- 1. Slug validation ----------------------------------------------------
   if (!SLUG_PART_PATTERN.test(owner) || !SLUG_PART_PATTERN.test(name)) {
     return errorResponse("Invalid repo slug", 400, "invalid_slug");
   }
+
+  Sentry.setTag("repo", `${owner}/${name}`);
 
   // --- 2. Query parameter parsing (fails fast with 400) ----------------------
   const url = new URL(request.url);
@@ -177,6 +182,13 @@ export async function GET(
     await pipeline.ensureReady();
   } catch (err) {
     console.error("[api:mentions] pipeline.ensureReady failed", err);
+    Sentry.captureException(err, {
+      tags: {
+        route: "api/repos/[owner]/[name]/mentions",
+        phase: "ensureReady",
+        repo: repo.fullName,
+      },
+    });
     // Don't fail the request — fall through with an empty store.
   }
 
@@ -206,6 +218,15 @@ export async function GET(
       `[api:mentions] store read failed for ${repo.fullName}`,
       err,
     );
+    Sentry.captureException(err, {
+      tags: {
+        route: "api/repos/[owner]/[name]/mentions",
+        phase: "store_read",
+        repo: repo.fullName,
+        ...(source ? { source } : {}),
+      },
+      extra: { limit, hasCursor: cursor !== undefined },
+    });
     return errorResponse("Internal error", 500, "internal_error");
   }
 }

@@ -20,6 +20,7 @@
 import { ImageResponse } from "next/og";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import * as Sentry from "@sentry/nextjs";
 
 import { getDataStore } from "@/lib/data-store";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
@@ -876,6 +877,8 @@ function truncate(s: string, max: number): string {
 // ---------------------------------------------------------------------------
 
 export async function GET(request: NextRequest) {
+  Sentry.setTag("route", "api/og/star-activity");
+
   const { searchParams } = new URL(request.url);
   const parsed = parseQuery(searchParams);
 
@@ -894,66 +897,84 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const dim = ASPECT_DIMENSIONS[parsed.aspect];
-  const bundles = await loadRepos(parsed.repos);
-  const seriesBundle = buildAllSeries(
-    bundles,
-    parsed.mode,
-    parsed.scale,
-    parsed.metric,
-    parsed.window,
-    parsed.theme,
-  );
+  Sentry.setTag("og.aspect", parsed.aspect);
+  Sentry.setTag("og.format", parsed.format);
+  Sentry.setTag("og.mode", parsed.mode);
+  Sentry.setTag("og.repoCount", String(parsed.repos.length));
 
-  if (parsed.format === "svg") {
-    const body = buildSvgDocument(seriesBundle, dim.width, dim.height);
-    return new NextResponse(body, {
-      headers: {
-        "Content-Type": "image/svg+xml; charset=utf-8",
-        "Cache-Control": CACHE_HEADER,
-        // Encourage browsers to download rather than render inline when
-        // the user clicks the SVG download button. The interactive embed
-        // path uses image/svg+xml without this header.
-        ...(searchParams.get("download") === "1"
-          ? {
-              "Content-Disposition": `attachment; filename="star-activity-${todayStamp()}.svg"`,
-            }
-          : {}),
-      },
-    });
-  }
+  try {
+    const dim = ASPECT_DIMENSIONS[parsed.aspect];
+    const bundles = await loadRepos(parsed.repos);
+    const seriesBundle = buildAllSeries(
+      bundles,
+      parsed.mode,
+      parsed.scale,
+      parsed.metric,
+      parsed.window,
+      parsed.theme,
+    );
 
-  // No real series available even after fallback — render the error card so
-  // X never gets a broken image. ImageResponse will still emit a valid PNG.
-  if (seriesBundle.series.length === 0) {
+    if (parsed.format === "svg") {
+      const body = buildSvgDocument(seriesBundle, dim.width, dim.height);
+      return new NextResponse(body, {
+        headers: {
+          "Content-Type": "image/svg+xml; charset=utf-8",
+          "Cache-Control": CACHE_HEADER,
+          // Encourage browsers to download rather than render inline when
+          // the user clicks the SVG download button. The interactive embed
+          // path uses image/svg+xml without this header.
+          ...(searchParams.get("download") === "1"
+            ? {
+                "Content-Disposition": `attachment; filename="star-activity-${todayStamp()}.svg"`,
+              }
+            : {}),
+        },
+      });
+    }
+
+    // No real series available even after fallback — render the error card so
+    // X never gets a broken image. ImageResponse will still emit a valid PNG.
+    if (seriesBundle.series.length === 0) {
+      return new ImageResponse(
+        <ErrorCard
+          width={dim.width}
+          height={dim.height}
+          message="no history yet"
+        />,
+        {
+          ...dim,
+          headers: { "Cache-Control": "public, s-maxage=60" },
+        },
+      );
+    }
+
     return new ImageResponse(
-      <ErrorCard
-        width={dim.width}
-        height={dim.height}
-        message="no history yet"
-      />,
+      (
+        <StarActivityCard
+          bundles={bundles}
+          seriesBundle={seriesBundle}
+          mode={parsed.mode}
+          scale={parsed.scale}
+          aspect={parsed.aspect}
+          theme={parsed.theme}
+          watermark={parsed.watermark}
+        />
+      ),
       {
         ...dim,
-        headers: { "Cache-Control": "public, s-maxage=60" },
+        headers: { "Cache-Control": CACHE_HEADER },
       },
     );
+  } catch (err) {
+    Sentry.captureException(err, {
+      tags: {
+        route: "api/og/star-activity",
+        aspect: parsed.aspect,
+        format: parsed.format,
+        mode: parsed.mode,
+      },
+      extra: { repos: parsed.repos.join(",") },
+    });
+    throw err;
   }
-
-  return new ImageResponse(
-    (
-      <StarActivityCard
-        bundles={bundles}
-        seriesBundle={seriesBundle}
-        mode={parsed.mode}
-        scale={parsed.scale}
-        aspect={parsed.aspect}
-        theme={parsed.theme}
-        watermark={parsed.watermark}
-      />
-    ),
-    {
-      ...dim,
-      headers: { "Cache-Control": CACHE_HEADER },
-    },
-  );
 }

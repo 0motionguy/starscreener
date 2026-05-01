@@ -21,7 +21,7 @@ import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
 import { MoverRow, type FundingStage } from "@/components/funding/MoverRow";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 
-export const revalidate = 600;
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "TrendingRepo — Funding Radar",

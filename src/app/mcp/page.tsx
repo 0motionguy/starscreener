@@ -23,7 +23,7 @@ import {
 } from "@/lib/ecosystem-leaderboards";
 import { absoluteUrl } from "@/lib/seo";
 
-export const revalidate = 1800;
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Trending MCP - TrendingRepo",

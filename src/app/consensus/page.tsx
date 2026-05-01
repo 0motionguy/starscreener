@@ -27,7 +27,7 @@ import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 export const runtime = "nodejs";
 // ISR: page rebuilds every 10 minutes (consensus fetcher publishes hourly,
 // analyst follows ~10 min later — 600s gives one cache miss per fetcher tick).
-export const revalidate = 600;
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Trending Consensus",

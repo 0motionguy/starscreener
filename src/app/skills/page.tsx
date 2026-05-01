@@ -30,7 +30,7 @@ import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 
 import { encodeSkillSlug } from "./_slug";
 
-export const revalidate = 1800;
+export const revalidate = 60;
 
 const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 const TOP_N = 20;

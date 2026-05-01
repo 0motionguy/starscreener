@@ -44,7 +44,7 @@ const WINDOW_LABEL: Record<SortWindow, string> = {
   "30d": "30D",
 };
 
-export const revalidate = 1800;
+export const revalidate = 60;
 
 const CATEGORIES_DESCRIPTION =
   "Browse every tracked GitHub repo sector: AI and ML, web frameworks, devtools, infra, databases, security, mobile, data, crypto, and Rust.";

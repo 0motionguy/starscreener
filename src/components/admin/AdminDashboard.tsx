@@ -353,6 +353,13 @@ export function AdminDashboard() {
                 >
                   /admin/revenue-queue
                 </Link>
+                <Link
+                  href="/admin/unknown-mentions"
+                  className="underline"
+                  style={{ color: "var(--v2-ink-300)" }}
+                >
+                  /admin/unknown-mentions
+                </Link>
               </div>
             </div>
 

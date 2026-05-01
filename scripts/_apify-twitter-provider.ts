@@ -209,6 +209,11 @@ export function mapApifyTweetToWebPost(
   const resolvedUrl =
     urlValue ?? `https://x.com/${handle}/status/${id}`;
 
+  // entities.urls[].expanded_url — apidojo/tweet-scraper exposes resolved
+  // links so we can surface github.com URLs hidden behind t.co. Some actor
+  // versions nest under r.entities, others under r.legacy.entities; read both.
+  const expandedUrls = extractExpandedUrls(r);
+
   return {
     id,
     url: resolvedUrl,
@@ -222,7 +227,33 @@ export function mapApifyTweetToWebPost(
     quoteCount,
     viewCount,
     matchedQuery,
+    ...(expandedUrls.length > 0 ? { expandedUrls } : {}),
   };
+}
+
+function extractExpandedUrls(r: Record<string, unknown>): string[] {
+  const out: string[] = [];
+  const seen = new Set<string>();
+  const sources: unknown[] = [
+    (r.entities as Record<string, unknown> | undefined)?.urls,
+    ((r.legacy as Record<string, unknown> | undefined)?.entities as
+      | Record<string, unknown>
+      | undefined)?.urls,
+  ];
+  for (const arr of sources) {
+    if (!Array.isArray(arr)) continue;
+    for (const entry of arr) {
+      if (!entry || typeof entry !== "object") continue;
+      const e = entry as Record<string, unknown>;
+      const expanded =
+        str(e.expanded_url) ?? str(e.expandedUrl) ?? str(e.unwound_url);
+      if (!expanded) continue;
+      if (seen.has(expanded)) continue;
+      seen.add(expanded);
+      out.push(expanded);
+    }
+  }
+  return out;
 }
 
 /**

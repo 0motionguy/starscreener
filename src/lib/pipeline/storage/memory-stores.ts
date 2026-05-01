@@ -667,6 +667,52 @@ export class InMemoryMentionStore implements MentionStore {
     notifyMutation();
   }
 
+  /**
+   * Move every mention currently keyed under `oldRepoId` to `newRepoId`.
+   *
+   * Called by the ingest path when a GitHub repo rename produces a new
+   * derived repoId (e.g. "vercel--next" → "vercel--next-js"). Without this,
+   * mention history orphans under the stale key forever — see audit F8.
+   *
+   * Behaviour:
+   *  - No-op when oldRepoId === newRepoId or when oldRepoId has no mentions.
+   *  - When newRepoId already has mentions, merges the two arrays and dedupes
+   *    by id (newer / incoming row wins) so the renamed key carries the union
+   *    of history. Resulting array stays sorted newest-first by postedAt.
+   */
+  reassociate(oldRepoId: string, newRepoId: string): void {
+    if (oldRepoId === newRepoId) return;
+    const oldMentions = this.byRepo.get(oldRepoId);
+    if (!oldMentions) return;
+
+    // Rewrite each row's repoId so a downstream persist() emits the correct
+    // foreign key. Mutating in place is safe — the array was owned by the
+    // map slot we're about to delete.
+    for (const m of oldMentions) {
+      m.repoId = newRepoId;
+    }
+
+    const existing = this.byRepo.get(newRepoId);
+    if (!existing || existing.length === 0) {
+      this.byRepo.set(newRepoId, oldMentions);
+    } else {
+      // Merge: incoming (oldMentions, just-rewritten) wins on id collisions.
+      // Build an id index of the incoming set, drop colliding rows from the
+      // existing set, then binary-insert each surviving incoming row into
+      // the existing array to preserve newest-first postedAt ordering.
+      const incomingIds = new Set(oldMentions.map((m) => m.id));
+      const merged = existing.filter((m) => !incomingIds.has(m.id));
+      for (const m of oldMentions) {
+        insertMentionSortedDesc(merged, m);
+      }
+      this.byRepo.set(newRepoId, merged);
+    }
+
+    this.byRepo.delete(oldRepoId);
+    this.markDirty();
+    notifyMutation();
+  }
+
   markDirty(): void {
     this.dirty = true;
   }

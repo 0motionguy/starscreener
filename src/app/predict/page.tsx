@@ -30,7 +30,6 @@ import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { RankRow } from "@/components/ui/RankRow";
-import { LiveDot } from "@/components/ui/LiveDot";
 import {
   PREDICTION_MODEL_VERSION,
   predictTrajectory,
@@ -164,7 +163,6 @@ export default async function PredictPage() {
           <>
             <span className="big">{breakoutCount}</span>
             <span className="muted">FORECASTS · 30D</span>
-            <LiveDot label="LIVE" />
           </>
         }
       />

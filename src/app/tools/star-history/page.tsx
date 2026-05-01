@@ -19,7 +19,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { Card, CardBody, CardHeader } from "@/components/ui/Card";
-import { LiveDot } from "@/components/ui/LiveDot";
 import { PageHead } from "@/components/ui/PageHead";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { CHART_THEME_OPTIONS } from "@/components/compare/themes";
@@ -135,7 +134,6 @@ export default async function StarHistoryToolPage() {
           <>
             <span className="big">{seed.length} / 3</span>
             <span className="muted">SEEDED REPOS</span>
-            <LiveDot label="LIVE" />
           </>
         }
       />

@@ -13,7 +13,6 @@ import type { Metadata } from "next";
 
 import { PageHead } from "@/components/ui/PageHead";
 import { SectionHead } from "@/components/ui/SectionHead";
-import { LiveDot } from "@/components/ui/LiveDot";
 import { ToolTile } from "@/components/tools/ToolTile";
 import { absoluteUrl } from "@/lib/seo";
 
@@ -194,7 +193,6 @@ function ToolGrid({ tools }: { tools: ToolEntry[] }) {
             foot={
               tool.status === "live" ? (
                 <>
-                  <LiveDot label="LIVE" />
                   <span>OPEN →</span>
                 </>
               ) : (
@@ -231,7 +229,6 @@ export default function ToolsPage() {
               {liveCount} / {allTools.length}
             </span>
             <span className="muted">TOOLS LIVE</span>
-            <LiveDot label="PIPELINE LIVE" />
           </>
         }
       />

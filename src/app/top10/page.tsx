@@ -29,7 +29,6 @@ import { PageHead } from "@/components/ui/PageHead";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
-import { LiveDot } from "@/components/ui/LiveDot";
 import { RankRow } from "@/components/ui/RankRow";
 
 // ISR — 10-minute cadence matches the V4 leaderboard surfaces. Underlying
@@ -157,7 +156,6 @@ export default async function Top10RootPage() {
           <>
             <span className="big">{computedClock}</span>
             <span className="muted">UTC · COMPUTED</span>
-            <LiveDot label="FEED LIVE" />
           </>
         }
       />
@@ -228,9 +226,6 @@ export default async function Top10RootPage() {
         <div style={PANEL_HEAD_STYLE}>
           <span style={{ color: "var(--v4-acc)" }}>{"// LEADERBOARD"}</span>
           <span>· CROSS-SIGNAL · 7D</span>
-          <span style={{ marginLeft: "auto" }}>
-            <LiveDot label="LIVE" />
-          </span>
         </div>
         {topItems.length === 0 ? (
           <div

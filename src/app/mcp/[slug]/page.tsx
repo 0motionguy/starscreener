@@ -24,7 +24,6 @@ import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 import { ProfileTemplate } from "@/components/templates/ProfileTemplate";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { KpiBand } from "@/components/ui/KpiBand";
-import { LiveDot } from "@/components/ui/LiveDot";
 
 // ISR mirrors the /mcp index page's revalidate cadence.
 export const revalidate = 1800;
@@ -508,7 +507,6 @@ export default async function McpDetailPage({ params }: PageProps) {
           <>
             <span className="big">{compactNumber(stars)}</span>
             <span className="muted">STARS</span>
-            <LiveDot label="LIVE" />
           </>
         }
         kpiBand={kpiBand}

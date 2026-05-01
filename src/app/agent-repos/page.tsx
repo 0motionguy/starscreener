@@ -21,7 +21,6 @@ import { PageHead } from "@/components/ui/PageHead";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
-import { LiveDot } from "@/components/ui/LiveDot";
 import { RankRow } from "@/components/ui/RankRow";
 
 export const revalidate = 1800;
@@ -62,7 +61,6 @@ export default async function AgentReposPage() {
             <span className="muted">
               REPOS · OF {AGENT_REPO_TARGET_COUNT}
             </span>
-            <LiveDot label="LIVE" />
           </>
         }
       />

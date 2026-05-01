@@ -22,7 +22,6 @@ import { formatNumber } from "@/lib/utils";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 
 import { KpiBand } from "@/components/ui/KpiBand";
-import { LiveDot } from "@/components/ui/LiveDot";
 import { PageHead } from "@/components/ui/PageHead";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
@@ -153,7 +152,6 @@ export default async function CategoriesPage({
           <>
             <span className="big">{CATEGORIES.length}</span>
             <span className="muted">SECTORS</span>
-            <LiveDot label="LIVE" />
           </>
         }
       />

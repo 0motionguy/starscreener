@@ -50,6 +50,10 @@ const ALLOWED_SOURCES: ReadonlySet<SocialPlatform> = new Set<SocialPlatform>([
   "devto",
   "github",
   "producthunt",
+  "lobsters",
+  "npm",
+  "huggingface",
+  "arxiv",
 ]);
 
 interface ErrorEnvelope {

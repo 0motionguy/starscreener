@@ -25,7 +25,11 @@ export type SocialPlatform =
   | "github"
   | "devto"
   | "bluesky"
-  | "producthunt";
+  | "producthunt"
+  | "lobsters"
+  | "npm"
+  | "huggingface"
+  | "arxiv";
 
 export type Sentiment = "positive" | "neutral" | "negative";
 

@@ -20,6 +20,10 @@ const PLATFORM_LABEL: Record<SocialPlatform, string> = {
   twitter: "x",
   github: "gh",
   producthunt: "ph",
+  lobsters: "lob",
+  npm: "npm",
+  huggingface: "hf",
+  arxiv: "arxiv",
 };
 
 function formatAge(iso: string): string {

@@ -50,6 +50,13 @@ import {
 import { getNpmDependentsCount } from "@/lib/npm-dependents";
 import { getLaunchForRepo, type Launch } from "@/lib/producthunt";
 import {
+  getLobstersMentions,
+  lobstersStoryHref,
+  type LobstersStory,
+} from "@/lib/lobsters";
+import { getHfTrendingFile, type HfModelRaw } from "@/lib/huggingface";
+import { getArxivRecentFile, type ArxivPaperRaw } from "@/lib/arxiv";
+import {
   getRevenueOverlay,
   getSelfReportedOverlay,
   getTrustmrrClaimOverlay,
@@ -230,6 +237,203 @@ function synthesizeProductHuntMention(
   };
 }
 
+/**
+ * Synthesize RepoMention rows from Lobsters per-repo stories.
+ *
+ * Lobsters stories live in data/lobsters-mentions.json keyed by repo
+ * fullName; getLobstersMentions(fullName) returns the per-repo bucket.
+ * Each story becomes one mention. ID is `lobsters-<shortId>`. postedAt
+ * is reconstructed from `createdUtc` (seconds since epoch).
+ */
+function synthesizeLobstersMentions(
+  stories: LobstersStory[] | undefined,
+  repoId: string,
+  discoveredAt: string,
+): RepoMention[] {
+  if (!stories?.length) return [];
+  const out: RepoMention[] = [];
+  for (const s of stories) {
+    const postedAt =
+      typeof s.createdUtc === "number" && Number.isFinite(s.createdUtc)
+        ? new Date(s.createdUtc * 1000).toISOString()
+        : discoveredAt;
+    out.push({
+      id: `lobsters-${s.shortId}`,
+      repoId,
+      platform: "lobsters",
+      author: s.by ?? "",
+      authorFollowers: null,
+      content: s.title,
+      url: s.commentsUrl || lobstersStoryHref(s.shortId),
+      sentiment: "neutral",
+      engagement: (s.score ?? 0) + (s.commentCount ?? 0),
+      reach: 0,
+      postedAt,
+      discoveredAt,
+      isInfluencer: false,
+      confidence: 1.0,
+      matchReason: s.linkedRepos?.[0]?.matchType ?? "url_link",
+      normalizedUrl: s.url,
+    });
+  }
+  return out;
+}
+
+/**
+ * Synthesize one RepoMention per linked NPM package.
+ *
+ * Each NpmPackageRow already in the profile is projected as a mention so
+ * the recent-feed/countsBySource surface adoption alongside social signals.
+ * Engagement uses weekly downloads when available; postedAt = the package's
+ * latest publish timestamp.
+ */
+function synthesizeNpmMentions(
+  packages: NpmPackageRow[],
+  repoId: string,
+  discoveredAt: string,
+): RepoMention[] {
+  if (!packages.length) return [];
+  const out: RepoMention[] = [];
+  for (const pkg of packages) {
+    if (!pkg.publishedAt) continue;
+    const tagline = pkg.description?.trim() || "";
+    const content = tagline ? `${pkg.name} — ${tagline}` : pkg.name;
+    out.push({
+      id: `npm-${pkg.name}`,
+      repoId,
+      platform: "npm",
+      author: pkg.name,
+      authorFollowers: null,
+      content,
+      url: pkg.npmUrl,
+      sentiment: "neutral",
+      engagement:
+        pkg.discovery?.weeklyDownloads ?? pkg.downloads7d ?? 0,
+      reach: 0,
+      postedAt: pkg.publishedAt,
+      discoveredAt,
+      isInfluencer: false,
+      confidence: 1.0,
+      matchReason: "linked_repo_field",
+      normalizedUrl: pkg.npmUrl,
+    });
+  }
+  return out;
+}
+
+/**
+ * Synthesize one RepoMention per linked HuggingFace model.
+ *
+ * Repo carries `linkedHfModels: string[]` (org/model ids) populated by the
+ * cross-domain join resolver; we look each up in the current HF trending
+ * cache to enrich the mention with downloads/likes/url. Models not in the
+ * trending snapshot are skipped (no metadata to render).
+ */
+function synthesizeHuggingFaceMentions(
+  modelIds: string[] | undefined,
+  hfModels: HfModelRaw[],
+  repoId: string,
+  discoveredAt: string,
+): RepoMention[] {
+  if (!modelIds?.length || !hfModels.length) return [];
+  const byId = new Map<string, HfModelRaw>();
+  for (const m of hfModels) byId.set(m.id, m);
+  const out: RepoMention[] = [];
+  for (const id of modelIds) {
+    const m = byId.get(id);
+    if (!m) continue;
+    const postedAt =
+      m.lastModified || m.createdAt || discoveredAt;
+    out.push({
+      id: `huggingface-${id}`,
+      repoId,
+      platform: "huggingface",
+      author: m.author ?? "",
+      authorFollowers: null,
+      content: id,
+      url: m.url,
+      sentiment: "neutral",
+      engagement: (m.likes ?? 0) + (m.downloads ?? 0),
+      reach: 0,
+      postedAt,
+      discoveredAt,
+      isInfluencer: false,
+      confidence: 1.0,
+      matchReason: "cross_domain_join",
+      normalizedUrl: m.url,
+    });
+  }
+  return out;
+}
+
+/**
+ * Synthesize one RepoMention per arxiv paper that cites this repo.
+ *
+ * Repo carries `linkedArxivIds: string[]` (bare IDs, no version suffix); we
+ * scan the arxiv-recent cache for matching papers. Papers whose linkedRepos
+ * include this repo also count, so the resolution is two-way:
+ *   - via repo.linkedArxivIds (cross-domain join precomputed)
+ *   - via paper.linkedRepos (direct citation in scrape output)
+ * Either path yields a mention; we dedupe by arxivId.
+ */
+function synthesizeArxivMentions(
+  linkedArxivIds: string[] | undefined,
+  repoFullName: string,
+  arxivPapers: ArxivPaperRaw[],
+  repoId: string,
+  discoveredAt: string,
+): RepoMention[] {
+  if (!arxivPapers.length) return [];
+  const lowerFull = repoFullName.toLowerCase();
+  const idSet = new Set<string>();
+  if (linkedArxivIds) {
+    for (const id of linkedArxivIds) idSet.add(id);
+  }
+  // Direct citations from paper side — handles cases where the cross-domain
+  // join hasn't been attached yet but the scrape already linked the repo.
+  for (const p of arxivPapers) {
+    if (
+      p.linkedRepos?.some(
+        (r) => r.fullName?.toLowerCase() === lowerFull,
+      )
+    ) {
+      // Strip version suffix to dedupe with the linkedArxivIds path.
+      const bare = p.arxivId.replace(/v\d+$/i, "");
+      idSet.add(bare);
+    }
+  }
+  if (idSet.size === 0) return [];
+
+  const out: RepoMention[] = [];
+  const seen = new Set<string>();
+  for (const p of arxivPapers) {
+    const bare = p.arxivId.replace(/v\d+$/i, "");
+    if (!idSet.has(bare) && !idSet.has(p.arxivId)) continue;
+    if (seen.has(bare)) continue;
+    seen.add(bare);
+    const author = p.authors?.[0] ?? "";
+    out.push({
+      id: `arxiv-${bare}`,
+      repoId,
+      platform: "arxiv",
+      author,
+      authorFollowers: null,
+      content: p.title,
+      url: p.absUrl,
+      sentiment: "neutral",
+      engagement: 0,
+      reach: 0,
+      postedAt: p.publishedAt,
+      discoveredAt,
+      isInfluencer: false,
+      confidence: 1.0,
+      matchReason: "paper_citation",
+      normalizedUrl: p.absUrl,
+    });
+  }
+  return out;
+}
+
 // ---------------------------------------------------------------------------
 // Public API
 // ---------------------------------------------------------------------------
@@ -324,15 +528,44 @@ export async function buildCanonicalRepoProfile(
     twitter = null;
   }
 
-  // Synthesize Twitter + ProductHunt mentions (these signals live outside
-  // the general mentionStore — see synthesizeTwitterMentions docstring) and
-  // mix them into the recent slice + countsBySource. Sort newest-first by
-  // postedAt and re-cap to PROFILE_MENTIONS_LIMIT so a viral repo doesn't
-  // push HN/Reddit out of the slice.
+  // Synthesize Twitter + ProductHunt + Lobsters + NPM + HuggingFace + ArXiv
+  // mentions (these signals live outside the general mentionStore — see
+  // synthesizeTwitterMentions docstring) and mix them into the recent slice +
+  // countsBySource. Sort newest-first by postedAt and re-cap to
+  // PROFILE_MENTIONS_LIMIT so a viral repo doesn't push HN/Reddit out of the
+  // slice.
   const fetchedAtIso = new Date().toISOString();
   const twitterSynth = synthesizeTwitterMentions(twitter, repo.id, fetchedAtIso);
   const phSynth = synthesizeProductHuntMention(productHunt, repo.id, fetchedAtIso);
-  const synthMentions: RepoMention[] = [...twitterSynth];
+  const lobstersBucket = getLobstersMentions(repo.fullName);
+  const lobstersSynth = synthesizeLobstersMentions(
+    lobstersBucket?.stories,
+    repo.id,
+    fetchedAtIso,
+  );
+  const npmSynth = synthesizeNpmMentions(npmPackages, repo.id, fetchedAtIso);
+  const hfModels = getHfTrendingFile().models ?? [];
+  const hfSynth = synthesizeHuggingFaceMentions(
+    repo.linkedHfModels,
+    hfModels,
+    repo.id,
+    fetchedAtIso,
+  );
+  const arxivPapers = getArxivRecentFile().papers ?? [];
+  const arxivSynth = synthesizeArxivMentions(
+    repo.linkedArxivIds,
+    repo.fullName,
+    arxivPapers,
+    repo.id,
+    fetchedAtIso,
+  );
+  const synthMentions: RepoMention[] = [
+    ...twitterSynth,
+    ...lobstersSynth,
+    ...npmSynth,
+    ...hfSynth,
+    ...arxivSynth,
+  ];
   if (phSynth) synthMentions.push(phSynth);
 
   const mergedRecent =

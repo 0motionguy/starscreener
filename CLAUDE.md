@@ -46,6 +46,7 @@ Real-time trend-discovery scanner. Aggregates GitHub stars, Twitter buzz, Reddit
 - Verify Redis data-store: `npm run verify:data-store` (requires `REDIS_URL` for Railway, OR `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` for Upstash)
 
 ## Where to Look First
+- **Engine map (62 workflows + every API key + every cron + pool architecture)** → [docs/ENGINE.md](docs/ENGINE.md) — read FIRST when you need to know what runs where, on what cadence, with which keys. Refreshed 2026-05-02.
 - New here? `docs/ARCHITECTURE.md`
 - Data layer (Redis-backed)? [tasks/data-api.md](tasks/data-api.md) — full plan, provisioning steps, phased roadmap
 - Ingest pipeline? `docs/INGESTION.md` + `docs/TWITTER_SIGNAL_LAYER.md`

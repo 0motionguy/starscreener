@@ -6,7 +6,13 @@
 // `// 02 New / breakout` (recent + Δhotness pickup). Right rail surfaces
 // the Most-cited list and worker keys.
 //
+// W5-SKILLS24H — adds a 24h / 7d / 30d tab strip above "// 01 Top skills".
+// The active window re-ranks the leaderboard by `installsDeltaNd` (when
+// the corresponding snapshot is available) so users can spot instant
+// velocity vs. sustained adoption. Default is 7d (matches the old behavior).
+//
 // Mockup reference: home.html top10 panel + breakouts.html leaderboard.
+// W5-CATWINDOW (categories/page.tsx) precedent for the tab strip.
 
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -32,6 +38,40 @@ const TOP_N = 20;
 const DESCRIPTION =
   "Top Claude / Codex / agent skills merged from skills.sh, GitHub, Smithery, lobehub, and skillsmp.";
 
+// W5-SKILLS24H — supported tracking windows. Default 7d preserves the
+// behavior the page had before the windowed tabs landed.
+const SORT_WINDOWS = ["24h", "7d", "30d"] as const;
+type SortWindow = (typeof SORT_WINDOWS)[number];
+
+const WINDOW_LABEL: Record<SortWindow, string> = {
+  "24h": "24H",
+  "7d": "7D",
+  "30d": "30D",
+};
+
+function parseSortWindow(value: string | string[] | undefined): SortWindow {
+  const v = Array.isArray(value) ? value[0] : value;
+  return SORT_WINDOWS.includes(v as SortWindow) ? (v as SortWindow) : "7d";
+}
+
+/**
+ * Pull the install delta for the active window off a leaderboard row.
+ * Returns undefined when the snapshot for that window isn't populated yet
+ * (cold start — first 24h / 7d / 30d after the worker fetcher ships).
+ */
+function pickInstallsDelta(
+  item: {
+    installsDelta1d?: number;
+    installsDelta7d?: number;
+    installsDelta30d?: number;
+  },
+  win: SortWindow,
+): number | undefined {
+  if (win === "24h") return item.installsDelta1d;
+  if (win === "30d") return item.installsDelta30d;
+  return item.installsDelta7d;
+}
+
 export const metadata: Metadata = {
   title: `Trending Skills - ${SITE_NAME}`,
   description: DESCRIPTION,
@@ -43,14 +83,44 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function SkillsPage() {
+interface SkillsPageProps {
+  searchParams?: Promise<{ window?: string | string[] }>;
+}
+
+export default async function SkillsPage({ searchParams }: SkillsPageProps = {}) {
+  const params = (await searchParams) ?? {};
+  const sortWindow = parseSortWindow(params.window);
+
   const data = await getSkillsSignalData();
   const items = data.combined.items;
   const now = Date.now();
 
-  // Top by signal score — primary leaderboard (also the page's #1 row).
+  // W5-SKILLS24H — pre-compute the active-window install delta per row so
+  // the leaderboard sort + the delta column on each RankRow share the same
+  // value. Empty during cold-start; in that case we fall through to the
+  // original signal-score ordering.
+  const deltaByItem = new Map<string, number>();
+  for (const it of items) {
+    const d = pickInstallsDelta(it, sortWindow);
+    if (d !== undefined && Number.isFinite(d)) deltaByItem.set(it.id, d);
+  }
+  const haveWindowedData = deltaByItem.size > 0;
+
+  // Top — primary leaderboard. When the active window's snapshot is
+  // populated, sort by the window delta (descending). Otherwise fall back
+  // to the static signalScore ordering. Items missing delta-data sink below
+  // items that have it so a cold deploy doesn't bury warmed rows.
   const topByScore = [...items]
-    .sort((a, b) => b.signalScore - a.signalScore)
+    .sort((a, b) => {
+      if (haveWindowedData) {
+        const da = deltaByItem.get(a.id);
+        const db = deltaByItem.get(b.id);
+        if (da !== undefined && db !== undefined && da !== db) return db - da;
+        if (da !== undefined && db === undefined) return -1;
+        if (db !== undefined && da === undefined) return 1;
+      }
+      return b.signalScore - a.signalScore;
+    })
     .slice(0, TOP_N);
 
   // Top by stars — leaderboard tile in the KPI band.
@@ -196,10 +266,68 @@ export default async function SkillsPage() {
         title="Top skills"
         meta={
           <>
-            <b>{topByScore.length}</b> · ranked by signal score
+            <b>{topByScore.length}</b> · ranked by{" "}
+            {haveWindowedData ? (
+              <>installs Δ <b>{WINDOW_LABEL[sortWindow]}</b></>
+            ) : (
+              <>signal score</>
+            )}
           </>
         }
       />
+
+      {/* W5-SKILLS24H — tracking-window tab strip. Server-rendered links so
+          the URL is canonical + shareable; default 7d (no query param). */}
+      <nav
+        aria-label="Re-rank skills by tracking window"
+        style={{
+          display: "flex",
+          gap: 6,
+          padding: "6px 0 12px",
+          fontFamily: "var(--font-geist-mono), monospace",
+          fontSize: 11,
+          textTransform: "uppercase",
+          letterSpacing: "0.08em",
+        }}
+      >
+        <span style={{ color: "var(--v4-ink-400)", paddingRight: 6 }}>
+          WINDOW ·
+        </span>
+        {SORT_WINDOWS.map((w) => {
+          const active = w === sortWindow;
+          const href = w === "7d" ? "/skills" : `/skills?window=${w}`;
+          return (
+            <Link
+              key={w}
+              href={href}
+              aria-current={active ? "page" : undefined}
+              style={{
+                padding: "2px 8px",
+                borderRadius: 2,
+                border: `1px solid ${active ? "var(--v4-acc)" : "var(--v4-line-200)"}`,
+                color: active ? "var(--v4-ink-000)" : "var(--v4-ink-300)",
+                background: active
+                  ? "color-mix(in oklab, var(--v4-acc) 14%, transparent)"
+                  : "transparent",
+                textDecoration: "none",
+              }}
+            >
+              {WINDOW_LABEL[w]}
+            </Link>
+          );
+        })}
+        {!haveWindowedData ? (
+          <span
+            style={{
+              marginLeft: "auto",
+              color: "var(--v4-ink-400)",
+              fontStyle: "italic",
+            }}
+          >
+            cold start — falling back to signal score
+          </span>
+        ) : null}
+      </nav>
       {topByScore.length > 0 ? (
         <section
           style={{
@@ -211,53 +339,71 @@ export default async function SkillsPage() {
             marginBottom: 24,
           }}
         >
-          {topByScore.map((item, idx) => (
-            <RankRow
-              key={item.id}
-              rank={idx + 1}
-              first={idx === 0}
-              avatar={
-                <SkillAvatar
-                  logoUrl={item.logoUrl}
-                  fallback={item.title}
-                />
-              }
-              title={
-                <>
-                  {item.author ? (
-                    <>
-                      <span style={{ color: "var(--v4-ink-300)" }}>
-                        {item.author}
-                      </span>
-                      <span style={{ color: "var(--v4-ink-400)" }}> / </span>
-                    </>
-                  ) : null}
-                  <span style={{ color: "var(--v4-ink-100)" }}>
-                    {item.title}
-                  </span>
-                </>
-              }
-              desc={item.description ?? item.sourceLabel}
-              metric={{
-                value: item.signalScore.toFixed(0),
-                label: "/ 100",
-              }}
-              delta={
-                item.derivativeRepoCount && item.derivativeRepoCount > 0
+          {topByScore.map((item, idx) => {
+            // W5-SKILLS24H — when the active window has data for this row,
+            // surface the install delta as the primary delta chip.
+            // Otherwise keep the original derivative-or-popularity chip.
+            const windowDelta = deltaByItem.get(item.id);
+            const windowDeltaChip =
+              windowDelta !== undefined && windowDelta > 0
+                ? {
+                    value: `+${formatNumber(windowDelta)} ${WINDOW_LABEL[sortWindow]}`,
+                    direction: "up" as const,
+                  }
+                : windowDelta !== undefined && windowDelta < 0
                   ? {
-                      value: `${formatNumber(item.derivativeRepoCount)} cited`,
-                      direction: "up",
+                      value: `${formatNumber(windowDelta)} ${WINDOW_LABEL[sortWindow]}`,
+                      direction: "down" as const,
                     }
-                  : item.popularity
-                    ? {
-                        value: `${formatNumber(item.popularity)} ${item.popularityLabel}`,
-                        direction: "flat",
-                      }
-                    : undefined
-              }
-              href={`/skills/${encodeSkillSlug(item.id)}`}
-            />
-          ))}
+                  : undefined;
+            const fallbackChip =
+              item.derivativeRepoCount && item.derivativeRepoCount > 0
+                ? {
+                    value: `${formatNumber(item.derivativeRepoCount)} cited`,
+                    direction: "up" as const,
+                  }
+                : item.popularity
+                  ? {
+                      value: `${formatNumber(item.popularity)} ${item.popularityLabel}`,
+                      direction: "flat" as const,
+                    }
+                  : undefined;
+            return (
+              <RankRow
+                key={item.id}
+                rank={idx + 1}
+                first={idx === 0}
+                avatar={
+                  <SkillAvatar
+                    logoUrl={item.logoUrl}
+                    fallback={item.title}
+                  />
+                }
+                title={
+                  <>
+                    {item.author ? (
+                      <>
+                        <span style={{ color: "var(--v4-ink-300)" }}>
+                          {item.author}
+                        </span>
+                        <span style={{ color: "var(--v4-ink-400)" }}> / </span>
+                      </>
+                    ) : null}
+                    <span style={{ color: "var(--v4-ink-100)" }}>
+                      {item.title}
+                    </span>
+                  </>
+                }
+                desc={item.description ?? item.sourceLabel}
+                metric={{
+                  value: item.signalScore.toFixed(0),
+                  label: "/ 100",
+                }}
+                delta={windowDeltaChip ?? fallbackChip}
+                href={`/skills/${encodeSkillSlug(item.id)}`}
+              />
+            );
+          })}
         </section>
       ) : (
         <p

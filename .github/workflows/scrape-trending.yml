@@ -90,6 +90,15 @@ jobs:
           REDIS_URL: ${{ secrets.REDIS_URL }}
         run: node scripts/snapshot-stars.mjs
 
+      - name: Snapshot per-category metrics into rolling history (W5-CATWINDOW)
+        # Writes category-metrics-snapshot:{24h,7d,30d} keys consumed by the
+        # /categories index + detail surfaces (loadCategoryMetricsPrev{1d,7d,30d}).
+        # Cold-start safe: empty Map → UI falls back to lifetime totals.
+        continue-on-error: true
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+        run: node scripts/snapshot-category-metrics.mjs
+
       - name: Commit if changed
         run: |
           git config user.name  "trendingrepo-bot"

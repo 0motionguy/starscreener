@@ -128,9 +128,9 @@ function DigestRow({ entry }: { entry: DigestEntry }) {
   const isUp = entry.starsDelta24h > 0;
   const isDown = entry.starsDelta24h < 0;
   const deltaColor = isUp
-    ? "text-up"
+    ? "text-[var(--v4-money)]"
     : isDown
-      ? "text-down"
+      ? "text-[var(--v4-red)]"
       : "text-text-tertiary";
 
   return (

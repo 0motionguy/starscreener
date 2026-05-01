@@ -24,9 +24,9 @@ export interface SignalMetricCardProps {
 
 const SPARK_STROKE: Record<NonNullable<SignalMetricCardProps["sparkTone"]>, string> = {
   brand: "stroke-brand text-brand",
-  up: "stroke-up text-up",
-  down: "stroke-down text-down",
-  warning: "stroke-warning text-warning",
+  up: "stroke-up text-[var(--v4-money)]",
+  down: "stroke-down text-[var(--v4-red)]",
+  warning: "stroke-warning text-[var(--v4-amber)]",
   info: "stroke-functional text-functional",
 };
 
@@ -41,9 +41,9 @@ export function SignalMetricCard({
 }: SignalMetricCardProps) {
   const deltaColor =
     deltaTone === "pos"
-      ? "text-up"
+      ? "text-[var(--v4-money)]"
       : deltaTone === "neg"
-        ? "text-down"
+        ? "text-[var(--v4-red)]"
         : "text-text-tertiary";
 
   return (

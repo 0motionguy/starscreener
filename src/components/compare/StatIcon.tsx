@@ -13,9 +13,9 @@ export interface StatIconProps {
 const TONE_CLASS: Record<NonNullable<StatIconProps["tone"]>, string> = {
   default: "text-text-primary",
   brand: "text-brand",
-  up: "text-up",
-  down: "text-down",
-  warn: "text-warning",
+  up: "text-[var(--v4-money)]",
+  down: "text-[var(--v4-red)]",
+  warn: "text-[var(--v4-amber)]",
 };
 
 /**

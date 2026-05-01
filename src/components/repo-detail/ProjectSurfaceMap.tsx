@@ -43,9 +43,9 @@ function deriveAisoUiStatus(
 }
 
 function aisoStatusTone(status: AisoUiStatus): string {
-  if (status === "scanned") return "text-up";
-  if (status === "rate_limited" || status === "queued") return "text-warning";
-  if (status === "failed") return "text-down";
+  if (status === "scanned") return "text-[var(--v4-money)]";
+  if (status === "rate_limited" || status === "queued") return "text-[var(--v4-amber)]";
+  if (status === "failed") return "text-[var(--v4-red)]";
   return "text-text-tertiary";
 }
 
@@ -86,9 +86,9 @@ function hostname(url: string): string {
 }
 
 function statusTone(status: "pass" | "warn" | "fail"): string {
-  if (status === "pass") return "text-up";
-  if (status === "warn") return "text-warning";
-  return "text-down";
+  if (status === "pass") return "text-[var(--v4-money)]";
+  if (status === "warn") return "text-[var(--v4-amber)]";
+  return "text-[var(--v4-red)]";
 }
 
 function formatDetailValue(value: unknown): string {

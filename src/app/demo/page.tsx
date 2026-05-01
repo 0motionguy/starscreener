@@ -149,7 +149,7 @@ export default function DemoPage() {
                   </span>
                 </div>
               </div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-up/40 bg-up/10 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-up">
+              <div className="inline-flex items-center gap-2 rounded-full border border-up/40 bg-up/10 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-[var(--v4-money)]">
                 <LivePulse />
                 CALIBRATED · 7d · 30d · 90d
               </div>
@@ -214,7 +214,7 @@ function TopBanner({
       </div>
       <div className="flex items-center gap-5 font-mono text-[11px]">
         <span className="text-text-tertiary">
-          <span className="text-up font-semibold tabular-nums">
+          <span className="text-[var(--v4-money)] font-semibold tabular-nums">
             {aggregateLive}
           </span>{" "}
           builders active now
@@ -318,12 +318,12 @@ function HeroIdeaCard({ idea }: { idea: IdeaMock }): JSX.Element {
             <Trophy className="size-3" aria-hidden />
             Rank #{idea.rank}
           </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-up/40 bg-up/10 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-up">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-up/40 bg-up/10 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-[var(--v4-money)]">
             <LivePulse />
             {idea.liveNow} building now
           </span>
           <span className="inline-flex items-center gap-1 rounded-full border border-border-primary bg-bg-muted/60 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
-            <Zap className="size-2.5 text-warning" aria-hidden />
+            <Zap className="size-2.5 text-[var(--v4-amber)]" aria-hidden />
             {idea.streakDays}d streak
           </span>
         </div>
@@ -422,7 +422,7 @@ function HeroIdeaCard({ idea }: { idea: IdeaMock }): JSX.Element {
               label="Invest"
               count={idea.reactions.invest}
               delta={idea.reactions24h.invest}
-              accent="text-up"
+              accent="text-[var(--v4-money)]"
               border="border-up/40"
               bg="bg-up/10"
               high
@@ -438,7 +438,7 @@ function HeroIdeaCard({ idea }: { idea: IdeaMock }): JSX.Element {
               <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-brand font-bold">
                 Conviction
               </span>
-              <span className="inline-flex items-center gap-1 text-[10px] text-up font-semibold">
+              <span className="inline-flex items-center gap-1 text-[10px] text-[var(--v4-money)] font-semibold">
                 <TrendingUp className="size-3" aria-hidden />
                 +{total24h} today
               </span>
@@ -534,7 +534,7 @@ function RepoChip({ repo }: { repo: { fullName: string; stars: number } }): JSX.
       <span className="font-mono text-[11px] text-text-primary">
         {repo.fullName}
       </span>
-      <span className="inline-flex items-center gap-0.5 text-[10px] text-warning">
+      <span className="inline-flex items-center gap-0.5 text-[10px] text-[var(--v4-amber)]">
         <Sparkles className="size-2.5" aria-hidden />
         {fmtStars(repo.stars)}
       </span>
@@ -580,7 +580,7 @@ function ReactionTile({
       <div className="flex items-center justify-between">
         <Icon className={`size-4 ${accent}`} aria-hidden />
         {delta > 0 ? (
-          <span className="font-mono text-[9px] font-semibold tabular-nums text-up">
+          <span className="font-mono text-[9px] font-semibold tabular-nums text-[var(--v4-money)]">
             +{delta}
           </span>
         ) : null}
@@ -622,9 +622,9 @@ function MicroStat({
 }): JSX.Element {
   const color =
     tone === "up"
-      ? "text-up"
+      ? "text-[var(--v4-money)]"
       : tone === "warning"
-        ? "text-warning"
+        ? "text-[var(--v4-amber)]"
         : "text-text-primary";
   return (
     <div>
@@ -743,7 +743,7 @@ function RankIdeaCard({ idea }: { idea: IdeaMock }): JSX.Element {
   const total24h = totalReactions(idea.reactions24h);
   const tier = c >= 60 ? "high" : c >= 30 ? "mid" : "low";
   const convictionColor =
-    tier === "high" ? "text-up" : tier === "mid" ? "text-warning" : "text-text-tertiary";
+    tier === "high" ? "text-[var(--v4-money)]" : tier === "mid" ? "text-[var(--v4-amber)]" : "text-text-tertiary";
   const convictionGlow =
     tier === "high"
       ? "shadow-[0_0_40px_rgba(34,197,94,0.12)]"
@@ -789,7 +789,7 @@ function RankIdeaCard({ idea }: { idea: IdeaMock }): JSX.Element {
         </div>
         <div className="flex items-center gap-1.5">
           {idea.liveNow > 0 ? (
-            <span className="inline-flex items-center gap-1 rounded-full bg-up/10 border border-up/30 px-2 py-0.5 font-mono text-[9px] uppercase tracking-wider text-up">
+            <span className="inline-flex items-center gap-1 rounded-full bg-up/10 border border-up/30 px-2 py-0.5 font-mono text-[9px] uppercase tracking-wider text-[var(--v4-money)]">
               <LivePulse />
               {idea.liveNow}
             </span>
@@ -834,17 +834,17 @@ function RankIdeaCard({ idea }: { idea: IdeaMock }): JSX.Element {
               <Play className="size-2.5" aria-hidden />
               {idea.reactions.use}
             </span>
-            <span className="inline-flex items-center gap-0.5 text-warning">
+            <span className="inline-flex items-center gap-0.5 text-[var(--v4-amber)]">
               <ShoppingCart className="size-2.5" aria-hidden />
               {idea.reactions.buy}
             </span>
-            <span className="inline-flex items-center gap-0.5 text-up">
+            <span className="inline-flex items-center gap-0.5 text-[var(--v4-money)]">
               <DollarSign className="size-2.5" aria-hidden />
               {idea.reactions.invest}
             </span>
             <span className="ml-auto">
               {total24h > 0 ? (
-                <span className="text-up font-bold tabular-nums">
+                <span className="text-[var(--v4-money)] font-bold tabular-nums">
                   ↑ +{total24h} 24h
                 </span>
               ) : (
@@ -866,7 +866,7 @@ function RankIdeaCard({ idea }: { idea: IdeaMock }): JSX.Element {
           href={idea.shippedRepoUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 pt-2 border-t border-up/30 font-mono text-[11px] text-up hover:underline"
+          className="inline-flex items-center gap-1 pt-2 border-t border-up/30 font-mono text-[11px] text-[var(--v4-money)] hover:underline"
         >
           <Sparkles className="size-3" aria-hidden />
           {idea.shippedRepoUrl.replace(/^https?:\/\//, "")}
@@ -962,7 +962,7 @@ function BuildStatusPill({
     },
     scoping: {
       label: "Scoping",
-      classes: "text-warning border-warning/40 bg-warning/10",
+      classes: "text-[var(--v4-amber)] border-warning/40 bg-warning/10",
       Icon: BarChart3,
     },
     building: {
@@ -972,12 +972,12 @@ function BuildStatusPill({
     },
     shipped: {
       label: "Shipped",
-      classes: "text-up border-up/40 bg-up/10",
+      classes: "text-[var(--v4-money)] border-up/40 bg-up/10",
       Icon: Sparkles,
     },
     abandoned: {
       label: "Abandoned",
-      classes: "text-down border-down/40 bg-down/5",
+      classes: "text-[var(--v4-red)] border-down/40 bg-down/5",
       Icon: TrendingDown,
     },
   };
@@ -1031,10 +1031,10 @@ function ForecastCard({ forecast }: { forecast: ForecastDemo }): JSX.Element {
     confidence >= 75 ? "high" : confidence >= 50 ? "mid" : "low";
   const confColor =
     confTier === "high"
-      ? "text-up"
+      ? "text-[var(--v4-money)]"
       : confTier === "mid"
-        ? "text-warning"
-        : "text-down";
+        ? "text-[var(--v4-amber)]"
+        : "text-[var(--v4-red)]";
   const glow =
     confTier === "high"
       ? "shadow-[0_0_40px_rgba(34,197,94,0.12)]"
@@ -1078,7 +1078,7 @@ function ForecastCard({ forecast }: { forecast: ForecastDemo }): JSX.Element {
           </span>{" "}
           ·{" "}
           <span
-            className={`${delta >= 0 ? "text-up" : "text-down"} font-bold`}
+            className={`${delta >= 0 ? "text-[var(--v4-money)]" : "text-[var(--v4-red)]"} font-bold`}
           >
             {delta >= 0 ? "+" : ""}
             {fmtStars(delta)} ({deltaPct.toFixed(1)}%)
@@ -1117,9 +1117,9 @@ function ForecastCard({ forecast }: { forecast: ForecastDemo }): JSX.Element {
             <span
               className={`inline-flex items-center gap-1 font-mono uppercase tracking-wider font-bold whitespace-nowrap ${
                 d.tone === "positive"
-                  ? "text-up"
+                  ? "text-[var(--v4-money)]"
                   : d.tone === "negative"
-                    ? "text-down"
+                    ? "text-[var(--v4-red)]"
                     : "text-text-tertiary"
               }`}
             >
@@ -1222,8 +1222,8 @@ function StatPill({
   tone: "up" | "down" | "brand";
 }): JSX.Element {
   const colorMap = {
-    up: "border-up/30 bg-up/5 text-up",
-    down: "border-down/30 bg-down/5 text-down",
+    up: "border-up/30 bg-up/5 text-[var(--v4-money)]",
+    down: "border-down/30 bg-down/5 text-[var(--v4-red)]",
     brand: "border-brand/40 bg-brand/10 text-brand",
   };
   return (

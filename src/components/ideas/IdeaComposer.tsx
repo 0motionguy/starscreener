@@ -164,12 +164,12 @@ export function IdeaComposer({ onPublished }: IdeaComposerProps) {
       </div>
 
       {authMissing ? (
-        <p className="text-[11px] text-warning">
+        <p className="text-[11px] text-[var(--v4-amber)]">
           Sign in to post ideas. Browser auth flow lands next sprint.
         </p>
       ) : null}
       {error ? (
-        <p className="text-[11px] text-down" role="alert">
+        <p className="text-[11px] text-[var(--v4-red)]" role="alert">
           {error}
         </p>
       ) : null}

@@ -23,14 +23,14 @@ export function ScrapeAge({
     if (status === "cold") {
       return {
         dotClass: "bg-down",
-        textClass: "text-down",
+        textClass: "text-[var(--v4-red)]",
         label: `COLD · ${ageLabel}`,
       };
     }
     if (status === "warn") {
       return {
         dotClass: "bg-warning",
-        textClass: "text-warning",
+        textClass: "text-[var(--v4-amber)]",
         label: `STALE · ${ageLabel}`,
       };
     }

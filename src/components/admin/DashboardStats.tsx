@@ -76,9 +76,9 @@ function formatResetTime(iso: string | null): string {
 
 function rateLimitColor(remaining: number | null): string {
   if (remaining === null) return "text-text-muted";
-  if (remaining < 500) return "text-down";
-  if (remaining < 1000) return "text-warning";
-  return "text-up";
+  if (remaining < 500) return "text-[var(--v4-red)]";
+  if (remaining < 1000) return "text-[var(--v4-amber)]";
+  return "text-[var(--v4-money)]";
 }
 
 function Tile({
@@ -202,7 +202,7 @@ export default function DashboardStats() {
       <Tile label="Stale signals">
         <div
           className={`mt-1 text-lg font-semibold ${
-            allFresh ? "text-up" : "text-down"
+            allFresh ? "text-[var(--v4-money)]" : "text-[var(--v4-red)]"
           }`}
         >
           {allFresh ? "all fresh" : trueSignals.join(" · ")}

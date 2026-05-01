@@ -78,9 +78,9 @@ export function CrossSignalBreakouts({
           const delta24 = repo.starsDelta24h;
           const deltaClass =
             delta24 > 0
-              ? "text-up"
+              ? "text-[var(--v4-money)]"
               : delta24 < 0
-                ? "text-down"
+                ? "text-[var(--v4-red)]"
                 : "text-text-tertiary";
           const deltaLabel =
             delta24 > 0
@@ -133,7 +133,7 @@ export function CrossSignalBreakouts({
                     overflowing. The 24h delta is the load-bearing signal. */}
                 <span className="hidden md:inline-flex"><HnBadge mention={hnMention} size="sm" /></span>
                 <span className="hidden md:inline-flex items-center gap-1 font-mono text-[11px] text-text-secondary tabular-nums">
-                  <Star size={11} className="text-warning shrink-0" fill="currentColor" />
+                  <Star size={11} className="text-[var(--v4-amber)] shrink-0" fill="currentColor" />
                   {formatNumber(repo.stars)}
                 </span>
                 <span

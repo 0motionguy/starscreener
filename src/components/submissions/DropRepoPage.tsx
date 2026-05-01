@@ -230,7 +230,7 @@ export function DropRepoPage() {
           </p>
 
           <div className="mt-4 flex flex-wrap items-center gap-3 rounded-card border border-up/30 bg-up/5 px-4 py-3 text-sm">
-            <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-up">
+            <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-[var(--v4-money)]">
               Founders
             </span>
             <span className="text-text-secondary">
@@ -461,7 +461,7 @@ export function DropRepoPage() {
                     </p>
                   )}
                   {submission.lastScanError && (
-                    <p className="mt-2 text-xs leading-5 text-down">
+                    <p className="mt-2 text-xs leading-5 text-[var(--v4-red)]">
                       {submission.lastScanError}
                     </p>
                   )}

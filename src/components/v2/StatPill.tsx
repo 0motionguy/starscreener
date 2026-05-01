@@ -4,8 +4,8 @@
 type Tone = "up" | "down" | "brand" | "neutral";
 
 const toneMap: Record<Tone, string> = {
-  up: "border-up/30 bg-up/5 text-up",
-  down: "border-down/30 bg-down/5 text-down",
+  up: "border-up/30 bg-up/5 text-[var(--v4-money)]",
+  down: "border-down/30 bg-down/5 text-[var(--v4-red)]",
   brand: "border-brand/40 bg-brand/10 text-brand",
   neutral: "border-border-primary bg-bg-muted/60 text-text-secondary",
 };

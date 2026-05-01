@@ -57,17 +57,17 @@ export function LivenessPill({ liveness }: LivenessPillProps) {
   switch (c.state) {
     case "live":
       label = "LIVE";
-      cls = "border-up/60 bg-up/10 text-up";
+      cls = "border-up/60 bg-up/10 text-[var(--v4-money)]";
       title = `Live - uptime 7d: ${((c.uptime7d ?? 0) * 100).toFixed(1)}%`;
       break;
     case "degraded":
       label = "DEGRADED";
-      cls = "border-warning/60 bg-warning/10 text-warning";
+      cls = "border-warning/60 bg-warning/10 text-[var(--v4-amber)]";
       title = `Degraded - uptime 7d: ${((c.uptime7d ?? 0) * 100).toFixed(1)}%`;
       break;
     case "offline":
       label = "OFFLINE";
-      cls = "border-down/60 bg-down/10 text-down";
+      cls = "border-down/60 bg-down/10 text-[var(--v4-red)]";
       title = `Offline - uptime 7d: ${((c.uptime7d ?? 0) * 100).toFixed(1)}%`;
       break;
     case "unknown":

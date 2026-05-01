@@ -92,7 +92,7 @@ export function FreshnessChips({ sources }: FreshnessChipsProps) {
                 : `${CHIP_LABEL[key]} never scanned`
             }
           >
-            <span className={isStale ? "text-warning" : undefined}>
+            <span className={isStale ? "text-[var(--v4-amber)]" : undefined}>
               {CHIP_LABEL[key]}{" "}
               <span className="tabular-nums">{ageLabel}</span>
               {isStale ? "*" : ""}

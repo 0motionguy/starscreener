@@ -105,7 +105,7 @@ export function IdeasQueueAdmin() {
         <header className="mb-6 flex flex-wrap items-start justify-between gap-3 border-b border-border-primary pb-6">
           <div>
             <h1 className="text-2xl font-bold uppercase tracking-wider inline-flex items-center gap-2">
-              <ShieldAlert className="size-5 text-warning" aria-hidden />
+              <ShieldAlert className="size-5 text-[var(--v4-amber)]" aria-hidden />
               Ideas Moderation Queue
             </h1>
             <p className="mt-2 max-w-2xl text-sm text-text-secondary">
@@ -130,7 +130,7 @@ export function IdeasQueueAdmin() {
         </header>
 
         {error ? (
-          <div className="mb-4 rounded-md border border-down/60 bg-down/5 px-3 py-2 text-sm text-down">
+          <div className="mb-4 rounded-md border border-down/60 bg-down/5 px-3 py-2 text-sm text-[var(--v4-red)]">
             {error}
           </div>
         ) : null}
@@ -206,7 +206,7 @@ function ModerationRow({
       <header className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <div className="flex items-center gap-2">
-            <Lightbulb className="size-3.5 text-warning" aria-hidden />
+            <Lightbulb className="size-3.5 text-[var(--v4-amber)]" aria-hidden />
             <span className="font-mono text-xs text-text-tertiary">
               @{row.authorHandle} · {new Date(row.createdAt).toISOString().slice(0, 16).replace("T", " ")}
             </span>
@@ -219,9 +219,9 @@ function ModerationRow({
           className={
             "rounded-[2px] border px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] " +
             (row.status === "published" || row.status === "shipped"
-              ? "border-up/60 bg-up/10 text-up"
+              ? "border-up/60 bg-up/10 text-[var(--v4-money)]"
               : row.status === "rejected"
-                ? "border-down/60 bg-down/10 text-down"
+                ? "border-down/60 bg-down/10 text-[var(--v4-red)]"
                 : "border-border-primary bg-bg-muted text-text-secondary")
           }
         >
@@ -243,7 +243,7 @@ function ModerationRow({
             type="button"
             onClick={() => onAction("approve")}
             disabled={busy}
-            className="inline-flex items-center gap-1.5 rounded-md border border-up/60 bg-up/10 px-3 py-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-up hover:bg-up/20 disabled:cursor-not-allowed disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-md border border-up/60 bg-up/10 px-3 py-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-[var(--v4-money)] hover:bg-up/20 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {busy ? (
               <LoaderCircle className="size-3.5 animate-spin" aria-hidden />
@@ -256,7 +256,7 @@ function ModerationRow({
             type="button"
             onClick={() => onAction("reject")}
             disabled={busy}
-            className="inline-flex items-center gap-1.5 rounded-md border border-down/60 bg-down/10 px-3 py-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-down hover:bg-down/20 disabled:cursor-not-allowed disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-md border border-down/60 bg-down/10 px-3 py-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-[var(--v4-red)] hover:bg-down/20 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {busy ? (
               <LoaderCircle className="size-3.5 animate-spin" aria-hidden />

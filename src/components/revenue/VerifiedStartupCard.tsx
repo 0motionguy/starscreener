@@ -182,9 +182,9 @@ export function VerifiedStartupCard({
             className={
               "inline-flex items-center gap-1 font-mono text-sm font-semibold tabular-nums " +
               (growth.tone === "up"
-                ? "text-up"
+                ? "text-[var(--v4-money)]"
                 : growth.tone === "down"
-                  ? "text-down"
+                  ? "text-[var(--v4-red)]"
                   : "text-text-secondary")
             }
           >
@@ -253,7 +253,7 @@ export function VerifiedStartupCard({
       </footer>
 
       <BadgeCheck
-        className="absolute right-3 top-3 size-3 text-up/50"
+        className="absolute right-3 top-3 size-3 text-[var(--v4-money)]/50"
         aria-hidden
       />
     </article>

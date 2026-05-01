@@ -314,7 +314,7 @@ export function SearchBar({
                       <span className="inline-flex items-center gap-1 text-[11px] font-mono text-text-tertiary tabular-nums whitespace-nowrap">
                         <Star
                           size={10}
-                          className="text-warning"
+                          className="text-[var(--v4-amber)]"
                           fill="currentColor"
                           aria-hidden
                         />

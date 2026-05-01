@@ -39,7 +39,7 @@ const BUILD_STATUS_COPY: Record<IdeaBuildStatus, { label: string; tone: string; 
   },
   scoping: {
     label: "Scoping",
-    tone: "text-warning",
+    tone: "text-[var(--v4-amber)]",
     bg: "bg-warning/10",
     border: "border-warning/40",
   },
@@ -51,13 +51,13 @@ const BUILD_STATUS_COPY: Record<IdeaBuildStatus, { label: string; tone: string; 
   },
   shipped: {
     label: "Shipped",
-    tone: "text-up",
+    tone: "text-[var(--v4-money)]",
     bg: "bg-up/10",
     border: "border-up/40",
   },
   abandoned: {
     label: "Abandoned",
-    tone: "text-down",
+    tone: "text-[var(--v4-red)]",
     bg: "bg-down/5",
     border: "border-down/40",
   },
@@ -217,7 +217,7 @@ export function IdeaCard({
               Conviction
             </span>
             {total24h > 0 ? (
-              <span className="font-mono text-[10px] text-up font-semibold">
+              <span className="font-mono text-[10px] text-[var(--v4-money)] font-semibold">
                 +{total24h} today
               </span>
             ) : (
@@ -253,11 +253,11 @@ export function IdeaCard({
               <span className="size-1.5 rounded-full bg-[#C4C4C6]" />
               {reactionCounts.use}
             </span>
-            <span className="inline-flex items-center gap-0.5 text-warning">
+            <span className="inline-flex items-center gap-0.5 text-[var(--v4-amber)]">
               <span className="size-1.5 rounded-full bg-[#FBBF24]" />
               {reactionCounts.buy}
             </span>
-            <span className="inline-flex items-center gap-0.5 text-up">
+            <span className="inline-flex items-center gap-0.5 text-[var(--v4-money)]">
               <span className="size-1.5 rounded-full bg-up" />
               {reactionCounts.invest}
             </span>

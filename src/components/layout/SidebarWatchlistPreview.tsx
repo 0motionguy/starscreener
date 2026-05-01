@@ -76,9 +76,9 @@ export function SidebarWatchlistPreview({
           missing
             ? "text-text-muted"
             : delta > 0
-              ? "text-up"
+              ? "text-[var(--v4-money)]"
               : delta < 0
-                ? "text-down"
+                ? "text-[var(--v4-red)]"
                 : "text-text-tertiary";
         const deltaLabel = missing
           ? "—"

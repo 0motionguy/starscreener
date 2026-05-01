@@ -619,9 +619,9 @@ export const COLUMNS: Column[] = [
       const n = repo.openIssues;
       const color =
         n > 2000
-          ? "text-down"
+          ? "text-[var(--v4-red)]"
           : n > 500
-            ? "text-warning"
+            ? "text-[var(--v4-amber)]"
             : "text-text-secondary";
       return createElement(
         "span",

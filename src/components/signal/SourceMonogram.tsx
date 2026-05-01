@@ -15,11 +15,11 @@ export type MonoSource =
   | "skills";
 
 const STYLES: Record<MonoSource, { label: string; cls: string }> = {
-  reddit: { label: "R", cls: "border-warning/60 bg-warning/10 text-warning" },
+  reddit: { label: "R", cls: "border-warning/60 bg-warning/10 text-[var(--v4-amber)]" },
   hackernews: { label: "HN", cls: "border-brand/60 bg-brand/10 text-brand" },
   bluesky: { label: "BL", cls: "border-functional/60 bg-functional/10 text-functional" },
-  devto: { label: "DT", cls: "border-up/60 bg-up/10 text-up" },
-  lobsters: { label: "LB", cls: "border-down/60 bg-down/10 text-down" },
+  devto: { label: "DT", cls: "border-up/60 bg-up/10 text-[var(--v4-money)]" },
+  lobsters: { label: "LB", cls: "border-down/60 bg-down/10 text-[var(--v4-red)]" },
   twitter: {
     label: "X",
     cls: "border-border-primary bg-bg-muted text-text-primary",
@@ -30,7 +30,7 @@ const STYLES: Record<MonoSource, { label: string; cls: string }> = {
     cls: "border-border-primary bg-bg-muted text-text-secondary",
   },
   mcp: { label: "MCP", cls: "border-functional/60 bg-functional/10 text-functional" },
-  skills: { label: "SK", cls: "border-up/60 bg-up/10 text-up" },
+  skills: { label: "SK", cls: "border-up/60 bg-up/10 text-[var(--v4-money)]" },
 };
 
 interface SourceMonogramProps {

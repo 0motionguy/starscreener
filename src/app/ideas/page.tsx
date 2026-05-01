@@ -160,7 +160,7 @@ export default async function IdeasPage({ searchParams }: PageProps) {
           <MonoLabel index="01" name="IDEAS" hint="BUILDERS' QUEUE" tone="muted" />
           <div className="flex flex-wrap items-baseline gap-3">
             <h1 className="font-display text-2xl font-bold uppercase tracking-wider inline-flex items-center gap-2">
-              <Lightbulb className="size-5 text-warning" aria-hidden />
+              <Lightbulb className="size-5 text-[var(--v4-amber)]" aria-hidden />
               Ideas
             </h1>
             <span className="text-xs text-text-tertiary">

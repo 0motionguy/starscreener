@@ -152,7 +152,7 @@ export function PredictTool({ initialRepo = "", sparklineData }: PredictToolProp
       {error ? (
         <div
           role="alert"
-          className="rounded-md border border-down/60 bg-down/5 px-4 py-3 text-sm text-down inline-flex items-center gap-2"
+          className="rounded-md border border-down/60 bg-down/5 px-4 py-3 text-sm text-[var(--v4-red)] inline-flex items-center gap-2"
         >
           <AlertTriangle className="size-4" aria-hidden />
           {error}
@@ -241,10 +241,10 @@ function ForecastCard({
     confidence >= 75 ? "high" : confidence >= 50 ? "mid" : "low";
   const confColor =
     confTier === "high"
-      ? "text-up"
+      ? "text-[var(--v4-money)]"
       : confTier === "mid"
-        ? "text-warning"
-        : "text-down";
+        ? "text-[var(--v4-amber)]"
+        : "text-[var(--v4-red)]";
   const glow =
     confTier === "high"
       ? "shadow-[0_0_40px_rgba(34,197,94,0.12)]"
@@ -287,7 +287,7 @@ function ForecastCard({
             {fmtNumber(prediction.inputs.stars)}
           </span>{" "}
           ·{" "}
-          <span className={`${delta >= 0 ? "text-up" : "text-down"} font-bold`}>
+          <span className={`${delta >= 0 ? "text-[var(--v4-money)]" : "text-[var(--v4-red)]"} font-bold`}>
             {delta >= 0 ? "+" : ""}
             {fmtNumber(delta)} ({deltaPct.toFixed(1)}%)
           </span>
@@ -323,9 +323,9 @@ function ForecastCard({
               <span
                 className={`inline-flex items-center gap-1 font-mono uppercase tracking-wider font-bold whitespace-nowrap ${
                   d.tone === "positive"
-                    ? "text-up"
+                    ? "text-[var(--v4-money)]"
                     : d.tone === "negative"
-                      ? "text-down"
+                      ? "text-[var(--v4-red)]"
                       : "text-text-tertiary"
                 }`}
               >

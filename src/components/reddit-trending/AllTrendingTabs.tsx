@@ -579,7 +579,7 @@ function PostRow({ post: p, velocityP90, velocityStats, onSubClick }: PostRowPro
           <span className="inline-flex items-center gap-1 text-sm font-bold font-mono tabular-nums text-text-primary leading-none">
             <ChevronUp
               size={14}
-              className={velocityIsHot ? "text-up" : "text-text-muted"}
+              className={velocityIsHot ? "text-[var(--v4-money)]" : "text-text-muted"}
               aria-hidden="true"
               strokeWidth={3}
             />
@@ -776,7 +776,7 @@ function PostRowCompact({
           <span className="inline-flex items-center gap-0.5 text-xs font-bold font-mono tabular-nums text-text-primary leading-none">
             <ChevronUp
               size={12}
-              className={velocityIsHot ? "text-up" : "text-text-muted"}
+              className={velocityIsHot ? "text-[var(--v4-money)]" : "text-text-muted"}
               aria-hidden="true"
               strokeWidth={3}
             />

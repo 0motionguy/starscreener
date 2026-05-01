@@ -6,7 +6,7 @@ interface ConfidenceGaugeProps {
   color?: string;
 }
 
-export function ConfidenceGauge({ value, color = "text-up" }: ConfidenceGaugeProps): React.ReactElement {
+export function ConfidenceGauge({ value, color = "text-[var(--v4-money)]" }: ConfidenceGaugeProps): React.ReactElement {
   const R = 22;
   const W = R * 2 + 6;
   const H = R + 6;

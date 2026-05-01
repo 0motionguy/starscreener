@@ -86,8 +86,8 @@ function windowMetric(packages: NpmPackageRow[], label: DownloadWindow): WindowM
 
 function deltaClass(delta: number): string {
   const tone = toneForDelta(delta);
-  if (tone === "up") return "text-up";
-  if (tone === "down") return "text-down";
+  if (tone === "up") return "text-[var(--v4-money)]";
+  if (tone === "down") return "text-[var(--v4-red)]";
   return "text-text-tertiary";
 }
 

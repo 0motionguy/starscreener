@@ -131,7 +131,7 @@ export function DropRevenuePage() {
         <header className="mb-6 border-b border-border-primary pb-6">
           <div className="flex flex-wrap items-baseline gap-3">
             <h1 className="text-2xl font-bold uppercase tracking-wider inline-flex items-center gap-2">
-              <BadgeCheck className="size-5 text-up" aria-hidden />
+              <BadgeCheck className="size-5 text-[var(--v4-money)]" aria-hidden />
               Claim or Submit Revenue
             </h1>
             <span className="text-xs text-text-tertiary">
@@ -265,7 +265,7 @@ export function DropRevenuePage() {
             </div>
 
             {error ? (
-              <div className="rounded-md border border-down/60 bg-down/5 px-3 py-2 text-sm text-down">
+              <div className="rounded-md border border-down/60 bg-down/5 px-3 py-2 text-sm text-[var(--v4-red)]">
                 {error}
               </div>
             ) : null}
@@ -373,7 +373,7 @@ function Field({
     <label className="flex flex-col gap-1.5">
       <span className="font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
         {label}
-        {required ? <span className="text-down"> *</span> : null}
+        {required ? <span className="text-[var(--v4-red)]"> *</span> : null}
         {hint ? (
           <span className="ml-1.5 text-text-tertiary normal-case tracking-normal">
             — {hint}
@@ -401,7 +401,7 @@ function SuccessPanel({
         borderColor: "var(--v2-sig-green)",
       }}
     >
-      <div className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider text-up">
+      <div className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider text-[var(--v4-money)]">
         <BadgeCheck className="size-4" aria-hidden />
         {kind === "duplicate" ? "Already in the queue" : "Submitted"}
       </div>

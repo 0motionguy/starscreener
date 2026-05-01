@@ -609,3 +609,16 @@ export async function buildCanonicalRepoProfile(
     ideas,
   };
 }
+
+// Re-exported for unit tests. Internal helpers should not be consumed by app code.
+export const __test = {
+  PROFILE_MENTIONS_LIMIT,
+  encodeCursor,
+  countMentionsByPlatform,
+  synthesizeTwitterMentions,
+  synthesizeProductHuntMention,
+  synthesizeLobstersMentions,
+  synthesizeNpmMentions,
+  synthesizeHuggingFaceMentions,
+  synthesizeArxivMentions,
+};

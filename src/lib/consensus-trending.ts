@@ -1,4 +1,4 @@
-import { getDataStore } from "./data-store";
+import { createPayloadReader } from "./data-store-reader";
 
 export type ConsensusInternalSource = "ours";
 export type ConsensusExternalSource =
@@ -114,18 +114,6 @@ const EMPTY_PAYLOAD: ConsensusTrendingPayload = {
   items: [],
 };
 
-interface CacheEntry {
-  payload: ConsensusTrendingPayload;
-  source: "redis" | "file" | "memory" | "missing";
-  writtenAt: string | null;
-  ageMs: number;
-}
-
-let cache: CacheEntry | null = null;
-let inflight: Promise<RefreshResult> | null = null;
-let lastRefreshMs = 0;
-const MIN_REFRESH_INTERVAL_MS = 30_000;
-
 export interface RefreshResult {
   source: "redis" | "file" | "memory" | "missing";
   ageMs: number;
@@ -229,61 +217,23 @@ function normalizePayload(input: unknown): ConsensusTrendingPayload {
   };
 }
 
-export async function refreshConsensusTrendingFromStore(): Promise<RefreshResult> {
-  if (inflight) return inflight;
-  const sinceLast = Date.now() - lastRefreshMs;
-  if (sinceLast < MIN_REFRESH_INTERVAL_MS && lastRefreshMs > 0) {
-    return {
-      source: cache?.source ?? "memory",
-      ageMs: cache?.ageMs ?? 0,
-      writtenAt: cache?.writtenAt ?? null,
-    };
-  }
+const reader = createPayloadReader<ConsensusTrendingPayload>({
+  key: "consensus-trending",
+  emptyPayload: EMPTY_PAYLOAD,
+  normalize: normalizePayload,
+});
 
-  inflight = (async (): Promise<RefreshResult> => {
-    try {
-      const store = getDataStore();
-      const result = await store.read<unknown>("consensus-trending");
-      if (result.data && result.source !== "missing") {
-        cache = {
-          payload: normalizePayload(result.data),
-          source: result.source,
-          writtenAt: result.writtenAt ?? null,
-          ageMs: result.ageMs,
-        };
-      }
-      lastRefreshMs = Date.now();
-      return {
-        source: result.source,
-        ageMs: result.ageMs,
-        writtenAt: result.writtenAt ?? null,
-      };
-    } catch {
-      lastRefreshMs = Date.now();
-      return {
-        source: cache?.source ?? "missing",
-        ageMs: cache?.ageMs ?? 0,
-        writtenAt: cache?.writtenAt ?? null,
-      };
-    }
-  })().finally(() => {
-    inflight = null;
-  });
-
-  return inflight;
-}
+export const refreshConsensusTrendingFromStore = reader.refresh;
 
 export function getConsensusTrendingItems(limit?: number): ConsensusItem[] {
-  const items = cache?.payload.items ?? [];
+  const items = reader.getPayload().items;
   if (typeof limit === "number" && limit >= 0 && limit < items.length) {
     return items.slice(0, limit);
   }
   return items;
 }
 
-export function getConsensusTrendingPayload(): ConsensusTrendingPayload {
-  return cache?.payload ?? EMPTY_PAYLOAD;
-}
+export const getConsensusTrendingPayload = reader.getPayload;
 
 export function getConsensusTrendingMeta(): {
   computedAt: string;
@@ -294,20 +244,17 @@ export function getConsensusTrendingMeta(): {
   bandCounts: Record<ConsensusVerdictBand, number>;
   sourceStats: Record<ConsensusExternalSource, { count: number; rows: number }>;
 } {
-  const payload = cache?.payload ?? EMPTY_PAYLOAD;
+  const entry = reader.getEntry();
+  const payload = entry?.payload ?? EMPTY_PAYLOAD;
   return {
     computedAt: payload.computedAt,
     itemCount: payload.itemCount,
-    source: cache?.source ?? "missing",
-    writtenAt: cache?.writtenAt ?? null,
-    ageSeconds: cache ? Math.max(0, Math.floor(cache.ageMs / 1000)) : 0,
+    source: entry?.source ?? "missing",
+    writtenAt: entry?.writtenAt ?? null,
+    ageSeconds: entry ? Math.max(0, Math.floor(entry.ageMs / 1000)) : 0,
     bandCounts: payload.bandCounts,
     sourceStats: payload.sourceStats,
   };
 }
 
-export function _resetConsensusTrendingCacheForTests(): void {
-  cache = null;
-  lastRefreshMs = 0;
-  inflight = null;
-}
+export const _resetConsensusTrendingCacheForTests = reader.reset;

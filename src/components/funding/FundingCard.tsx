@@ -82,10 +82,11 @@ function getVcDomain(name: string): string | null {
 // ---------------------------------------------------------------------------
 
 // W3-FUNDCARD: hardcoded hex tones swapped for V4 palette tokens via color-mix.
-// No `--v4-fund-*` tokens exist in v4.css; falling back to the nearest 8-bucket
-// V4 palette (`--v4-src-*` brand channels + semantic colors) so the deterministic
-// hash → tone mapping still picks from a stable, themeable color set. Original
-// alphas preserved: bg ~20%, border ~50%, text uses the raw token (full color).
+// No `--v4-fund-*` tokens exist in v4.css yet; falling back to the nearest
+// 8-bucket V4 palette (`--v4-src-*` brand channels + the semantic money/red/
+// amber/cyan tokens) so the deterministic hash → tone mapping still picks from
+// a stable, themeable color set. Original alphas preserved: bg ~20%, border
+// ~50%, text uses the raw token (full color, mirrors the old "bright" hex).
 const LOGO_TONES = [
   {
     bg: "color-mix(in srgb, var(--v4-src-x) 20%, transparent)",

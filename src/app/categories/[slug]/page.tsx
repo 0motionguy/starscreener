@@ -15,6 +15,11 @@ import { CATEGORIES } from "@/lib/constants";
 import { getCategoryIcon } from "@/lib/category-icons";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { getDerivedCategoryStats } from "@/lib/derived-insights";
+import {
+  loadCategoryMetricsPrev1d,
+  loadCategoryMetricsPrev7d,
+  loadCategoryMetricsPrev30d,
+} from "@/lib/ecosystem-leaderboards";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 import { formatNumber } from "@/lib/utils";
 import type { Repo } from "@/lib/types";
@@ -27,8 +32,25 @@ import { RelatedRepoCard } from "@/components/repo-detail/RelatedRepoCard";
 
 export const revalidate = 1800;
 
+// W5-CATWINDOW — supported tracking windows for the per-category tabs.
+// Default 7d on first paint; URL `?window=24h | 7d | 30d` controls active.
+const TRACK_WINDOWS = ["24h", "7d", "30d"] as const;
+type TrackWindow = (typeof TRACK_WINDOWS)[number];
+
+const TRACK_LABEL: Record<TrackWindow, string> = {
+  "24h": "24H",
+  "7d": "7D",
+  "30d": "30D",
+};
+
+function parseTrackWindow(value: string | string[] | undefined): TrackWindow {
+  const v = Array.isArray(value) ? value[0] : value;
+  return TRACK_WINDOWS.includes(v as TrackWindow) ? (v as TrackWindow) : "7d";
+}
+
 interface PageProps {
   params: Promise<{ slug: string }>;
+  searchParams?: Promise<{ window?: string | string[] }>;
 }
 
 export async function generateMetadata({
@@ -73,10 +95,28 @@ export async function generateMetadata({
   };
 }
 
-export default async function CategoryDetailPage({ params }: PageProps) {
+export default async function CategoryDetailPage({
+  params,
+  searchParams,
+}: PageProps) {
   const { slug } = await params;
   const category = CATEGORIES.find((c) => c.id === slug);
   if (!category) notFound();
+
+  const sp = (await searchParams) ?? {};
+  const trackWindow = parseTrackWindow(sp.window);
+
+  // W5-CATWINDOW — pull the matching window's prev-snapshot Map. Empty
+  // during cold-start; we render the tab as `—` then.
+  const prevByWindowLoader: Record<
+    TrackWindow,
+    () => Promise<Map<string, number>>
+  > = {
+    "24h": loadCategoryMetricsPrev1d,
+    "7d": loadCategoryMetricsPrev7d,
+    "30d": loadCategoryMetricsPrev30d,
+  };
+  const prevWindowMap = await prevByWindowLoader[trackWindow]();
 
   const repos = getDerivedRepos().filter((r) => r.categoryId === slug);
 
@@ -87,6 +127,15 @@ export default async function CategoryDetailPage({ params }: PageProps) {
     if (r.language) languageSet.add(r.language);
   }
   const languageCount = languageSet.size;
+
+  // W5-CATWINDOW — sector-level windowed star delta. Subtract this
+  // category's prev-window total from the current totalStars. `null`
+  // during cold-start (snapshot key not warmed yet).
+  const prevWindowStars = prevWindowMap.get(slug);
+  const sectorWindowDelta =
+    prevWindowStars !== undefined && Number.isFinite(prevWindowStars)
+      ? Math.max(0, totalStars - prevWindowStars)
+      : null;
 
   // Most-active 7d — top repo by 7d star delta in this sector.
   const mostActive7d = [...repos]
@@ -225,12 +274,20 @@ export default async function CategoryDetailPage({ params }: PageProps) {
                 pip: "var(--v4-ink-300)",
               },
               {
-                label: "MOST ACTIVE · 7D",
-                value: mostActive7d
-                  ? `+${formatNumber(mostActive7d.starsDelta7d)}`
-                  : "—",
-                sub: mostActive7d ? mostActive7d.fullName : "no movement",
-                tone: mostActive7d ? "money" : "default",
+                label: `SECTOR Δ · ${TRACK_LABEL[trackWindow]}`,
+                value:
+                  sectorWindowDelta !== null
+                    ? `+${formatNumber(sectorWindowDelta)}`
+                    : mostActive7d
+                      ? `+${formatNumber(mostActive7d.starsDelta7d)}`
+                      : "—",
+                sub:
+                  sectorWindowDelta !== null
+                    ? "stars added in window"
+                    : mostActive7d
+                      ? `top mover · ${mostActive7d.fullName}`
+                      : "no movement",
+                tone: sectorWindowDelta !== null || mostActive7d ? "money" : "default",
                 pip: "var(--v4-amber)",
               },
             ]}
@@ -246,10 +303,67 @@ export default async function CategoryDetailPage({ params }: PageProps) {
                   <b>{gridRepos.length}</b> shown ·{" "}
                   {repos.length > gridRepos.length
                     ? `${repos.length} total`
-                    : "all"}
+                    : "all"}{" "}
+                  · window <b>{TRACK_LABEL[trackWindow]}</b>
                 </>
               }
             />
+            {/* W5-CATWINDOW — tracking window tabs. Server-rendered
+                <Link>s so the URL stays canonical/shareable + the page
+                stays a server component. */}
+            <nav
+              aria-label="Tracking window"
+              style={{
+                display: "flex",
+                gap: 6,
+                paddingBottom: 12,
+                fontFamily: "var(--font-geist-mono), monospace",
+                fontSize: 11,
+                textTransform: "uppercase",
+                letterSpacing: "0.08em",
+              }}
+            >
+              <span style={{ color: "var(--v4-ink-400)", paddingRight: 6 }}>
+                WINDOW ·
+              </span>
+              {TRACK_WINDOWS.map((w) => {
+                const active = w === trackWindow;
+                const href =
+                  w === "7d"
+                    ? `/categories/${slug}`
+                    : `/categories/${slug}?window=${w}`;
+                return (
+                  <Link
+                    key={w}
+                    href={href}
+                    aria-current={active ? "page" : undefined}
+                    style={{
+                      padding: "2px 8px",
+                      borderRadius: 2,
+                      border: `1px solid ${active ? "var(--v4-acc)" : "var(--v4-line-200)"}`,
+                      color: active ? "var(--v4-ink-000)" : "var(--v4-ink-300)",
+                      background: active
+                        ? "color-mix(in oklab, var(--v4-acc) 14%, transparent)"
+                        : "transparent",
+                      textDecoration: "none",
+                    }}
+                  >
+                    {TRACK_LABEL[w]}
+                  </Link>
+                );
+              })}
+              {sectorWindowDelta !== null ? (
+                <span
+                  style={{ color: "var(--v4-money)", marginLeft: 12 }}
+                >
+                  +{formatNumber(sectorWindowDelta)} stars · sector
+                </span>
+              ) : (
+                <span style={{ color: "var(--v4-ink-400)", marginLeft: 12 }}>
+                  warming
+                </span>
+              )}
+            </nav>
             {gridRepos.length > 0 ? (
               <div className="v4-profile-template__related">
                 {gridRepos.map((repo) => {

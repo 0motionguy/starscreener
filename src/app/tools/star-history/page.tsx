@@ -69,26 +69,40 @@ export async function generateMetadata(): Promise<Metadata> {
  * history" placeholder), then sorts by momentum and trims to the top 3.
  */
 function pickDemoRepos(repos: Repo[], limit = 3): Repo[] {
-  // Prefer repos with a meaningful sparkline (≥7 non-zero points) so the
-  // demo chart renders dense lines on first paint. If the bundled JSON
-  // seed hasn't accumulated that history yet (cold deploy / fresh repo
-  // set), fall back to top-momentum repos with ANY sparkline data, then
-  // to top-momentum repos period — empty chart is the worst outcome.
-  const sortByMomentum = (a: Repo, b: Repo) => b.momentumScore - a.momentumScore;
-  const dense = repos.filter((r) => {
+  // Demo seed prefers RECOGNIZABLE repos so the chart shows meaningful
+  // baseline lines (vercel/next.js, facebook/react, etc.) rather than
+  // obscure top-momentum micro-repos. Sort by stars first (≥5k threshold
+  // catches the well-known repos), with momentum as the tiebreak.
+  // Three-tier fallback so the chart never renders empty:
+  //   1) Famous: dense sparkline (≥7 non-zero) AND ≥5k stars, by stars desc
+  //   2) Any meaningful sparkline, by stars desc
+  //   3) Top stars regardless of sparkline (chart placeholder is fine)
+  const byStarsDesc = (a: Repo, b: Repo) => {
+    if (b.stars !== a.stars) return b.stars - a.stars;
+    return b.momentumScore - a.momentumScore;
+  };
+  const hasDenseSparkline = (r: Repo): boolean => {
     const series = r.sparklineData ?? [];
     if (series.length < 7) return false;
     const nonZero = series.filter((n) => Number.isFinite(n) && n !== 0).length;
     return nonZero >= 7;
-  });
+  };
+  const hasAnyHistory = (r: Repo): boolean =>
+    (r.sparklineData ?? []).some((n) => Number.isFinite(n) && n !== 0);
+
+  const famous = repos.filter((r) => hasDenseSparkline(r) && r.stars >= 5000);
+  if (famous.length >= limit) {
+    return [...famous].sort(byStarsDesc).slice(0, limit);
+  }
+  const dense = repos.filter(hasDenseSparkline);
   if (dense.length >= limit) {
-    return [...dense].sort(sortByMomentum).slice(0, limit);
+    return [...dense].sort(byStarsDesc).slice(0, limit);
   }
-  const anyHistory = repos.filter((r) => (r.sparklineData ?? []).some((n) => Number.isFinite(n) && n !== 0));
+  const anyHistory = repos.filter(hasAnyHistory);
   if (anyHistory.length >= limit) {
-    return [...anyHistory].sort(sortByMomentum).slice(0, limit);
+    return [...anyHistory].sort(byStarsDesc).slice(0, limit);
   }
-  return [...repos].sort(sortByMomentum).slice(0, limit);
+  return [...repos].sort(byStarsDesc).slice(0, limit);
 }
 
 export default async function StarHistoryToolPage() {

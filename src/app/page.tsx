@@ -24,6 +24,7 @@ import { ChartStat, ChartStats } from "@/components/ui/ChartShell";
 import { Metric, MetricGrid } from "@/components/ui/Metric";
 import { FooterBar } from "@/components/ui/FooterBar";
 import { SectionHead } from "@/components/ui/SectionHead";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import { CATEGORIES } from "@/lib/constants";
 import type { Repo } from "@/lib/types";
 import {
@@ -486,6 +487,7 @@ export default async function HomePage() {
           <div className="clock" aria-label={`Data refreshed at ${refreshedTime} UTC`}>
             <span className="big">{refreshedTime} UTC</span>
             <span className="live">live ingest</span>
+            <FreshnessBadge source="mcp" lastUpdatedAt={lastFetchedAt} />
           </div>
         </section>
 

@@ -48,6 +48,7 @@ export function SidebarSection({
       <button
         type="button"
         id={headerId}
+        aria-label={`${collapsed ? "Expand" : "Collapse"} ${label}`}
         onClick={() => toggleSection(id)}
         aria-expanded={!collapsed}
         aria-controls={bodyId}

@@ -189,6 +189,18 @@ export default async function RootLayout({
         />
       </head>
       <body>
+        {/* A11Y: Skip-to-content link for keyboard users */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:z-[100] focus:px-4 focus:py-2"
+          style={{
+            background: "var(--v4-acc)",
+            color: "var(--v4-bg-025)",
+            fontWeight: "bold",
+          }}
+        >
+          Skip to main content
+        </a>
         <ThemeProvider>
           <PostHogProvider>
             <StoreProvider>
@@ -197,7 +209,7 @@ export default async function RootLayout({
               <MobileDrawerLazy />
               <AppShell>
                 <Sidebar initialData={initialSidebarData} />
-                <main className="app-main">{children}</main>
+                <main id="main-content" className="app-main">{children}</main>
               </AppShell>
               <MobileNav />
               <BrowserAlertBridge />

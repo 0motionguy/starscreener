@@ -1,8 +1,10 @@
-// /npm - top repo-linked npm packages by download movement.
+// /npm — V4 SourceFeedTemplate consumer.
 //
-// npm is its own terminal because it is registry adoption telemetry, not a
-// news/social mention source. The scraper discovers package candidates,
-// keeps only rows whose metadata links to GitHub, then ranks 24h/7d/30d.
+// npm is registry adoption telemetry, not a news/social mention source. The
+// scraper discovers package candidates, keeps only rows whose metadata links
+// to GitHub, then ranks 24h/7d/30d. Template renders PageHead + KpiBand
+// snapshot + list slot; existing window TabNav + PackageFeed table render
+// inside the list slot unchanged.
 
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -18,13 +20,18 @@ import {
   type NpmWindow,
 } from "@/lib/npm";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
-import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
-import { buildNpmHeader } from "@/components/npm/npmTopMetrics";
 import { TerminalFeedTable, type FeedColumn } from "@/components/feed/TerminalFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { npmLogoUrl } from "@/lib/logos";
 
-const NPM_ACCENT = "rgba(203, 56, 55, 0.85)";
+// V4 (CORPUS) primitives.
+import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
+import { KpiBand } from "@/components/ui/KpiBand";
+import { LiveDot } from "@/components/ui/LiveDot";
+
+// npm brand red — no --v4-src-npm token exists in v4.css yet, so we hardcode
+// it once on the KpiBand pip and reuse the same hex for the active-tab
+// underline + accents below. Everything else stays tokenized via var(--v4-*).
 const NPM_RED = "#cb3837";
 
 const WINDOWS: NpmWindow[] = ["24h", "7d", "30d"];
@@ -74,6 +81,11 @@ function formatDeltaPct(n: number | null | undefined): string {
   return "0.0%";
 }
 
+function formatClock(iso: string | undefined): string {
+  if (!iso) return "warming";
+  return new Date(iso).toISOString().slice(11, 19);
+}
+
 export default async function NpmPage({ searchParams }: NpmPageProps) {
   const { range } = await searchParams;
   // Refresh npm-packages cache from the data-store before reading sync getters.
@@ -82,41 +94,92 @@ export default async function NpmPage({ searchParams }: NpmPageProps) {
   const file = getNpmPackagesFile();
   const packages = getTopNpmPackages(activeWindow, 100);
   const cold = getNpmCold() || packages.length === 0;
-  const header = buildNpmHeader(packages, file);
+
+  if (cold) {
+    return (
+      <main className="home-surface">
+        <SourceFeedTemplate
+          crumb={
+            <>
+              <b>NPM</b> · TERMINAL · /NPM
+            </>
+          }
+          title="npm · top packages"
+          lede="Top npm package movement over 24h, 7d, and 30d windows. Discovery sweep keeps only packages whose registry metadata links back to a GitHub repo, then ranks by download velocity."
+        />
+        <ColdState />
+      </main>
+    );
+  }
+
+  // KpiBand snapshot — tracked packages, top 24h downloader, linked-repo
+  // count, active window. Window cell echoes the active tab so the snapshot
+  // stays stable when users flip ranges.
+  const topByDownloads = packages.reduce<NpmPackageRow | null>((best, pkg) => {
+    if (!best) return pkg;
+    return pkg.downloads24h > best.downloads24h ? pkg : best;
+  }, null);
+  const topDownloadValue = topByDownloads?.downloads24h ?? 0;
+  const topDownloadName = topByDownloads?.name ?? "—";
+  const linkedRepoCount = file.counts?.linkedRepos ?? packages.length;
 
   return (
-    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
-      <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        {cold ? (
-          <ColdState />
-        ) : (
+    <main className="home-surface">
+      <SourceFeedTemplate
+        crumb={
           <>
-            <div className="mb-6">
-              <NewsTopHeaderV3
-                routeTitle="NPM · TOP PACKAGES"
-                liveLabel={`LIVE · ${activeWindow.toUpperCase()}`}
-                eyebrow="// NPM · REGISTRY · TRENDING"
-                meta={[
-                  { label: "TRACKED", value: packages.length.toLocaleString("en-US") },
-                  { label: "WINDOW", value: activeWindow.toUpperCase() },
-                ]}
-                cards={header.cards}
-                topStories={header.topStories}
-                accent={NPM_ACCENT}
-                caption={[
-                  "// LAYOUT compact-v1",
-                  "· 3-COL · 320 / 1FR / 1FR",
-                  "· DATA UNCHANGED",
-                ]}
-              />
-            </div>
-
+            <b>NPM</b> · TERMINAL · /NPM
+          </>
+        }
+        title="npm · top packages"
+        lede="Top npm package movement over 24h, 7d, and 30d windows. Discovery sweep keeps only packages whose registry metadata links back to a GitHub repo, then ranks by download velocity."
+        clock={
+          <>
+            <span className="big">{formatClock(file.fetchedAt)}</span>
+            <span className="muted">UTC · SCRAPED</span>
+            <LiveDot label={`LIVE · ${activeWindow.toUpperCase()}`} />
+          </>
+        }
+        snapshot={
+          <KpiBand
+            cells={[
+              {
+                label: "TRACKED",
+                value: packages.length.toLocaleString("en-US"),
+                sub: "repo-linked pkgs",
+                pip: NPM_RED,
+              },
+              {
+                label: "TOP 24H DL",
+                value: formatCompact(topDownloadValue),
+                sub: topDownloadName,
+                tone: "acc",
+                pip: "var(--v4-acc)",
+              },
+              {
+                label: "LINKED REPOS",
+                value: linkedRepoCount.toLocaleString("en-US"),
+                sub: "github attached",
+                tone: "money",
+                pip: "var(--v4-money)",
+              },
+              {
+                label: "WINDOW",
+                value: activeWindow.toUpperCase(),
+                sub: "active rank",
+                pip: "var(--v4-blue)",
+              },
+            ]}
+          />
+        }
+        listEyebrow={`Package feed · top ${packages.length} by ${activeWindow} velocity`}
+        list={
+          <>
             <TabNav active={activeWindow} />
-
             <PackageFeed packages={packages} activeWindow={activeWindow} />
           </>
-        )}
-      </div>
+        }
+      />
     </main>
   );
 }
@@ -125,8 +188,8 @@ function TabNav({ active }: { active: NpmWindow }) {
   return (
     <nav
       aria-label="npm time windows"
-      className="mb-6 flex items-center gap-1 overflow-x-auto scrollbar-hide"
-      style={{ borderBottom: "1px solid var(--v3-line-100)" }}
+      className="mb-4 flex items-center gap-1 overflow-x-auto scrollbar-hide"
+      style={{ borderBottom: "1px solid var(--v4-line-100)" }}
     >
       {WINDOWS.map((window) => {
         const isActive = window === active;
@@ -137,7 +200,7 @@ function TabNav({ active }: { active: NpmWindow }) {
             aria-current={isActive ? "page" : undefined}
             className="v2-mono inline-flex min-h-[40px] items-center gap-2 px-3 text-[11px] uppercase tracking-[0.18em] whitespace-nowrap transition-colors"
             style={{
-              color: isActive ? "var(--v3-ink-100)" : "var(--v3-ink-400)",
+              color: isActive ? "var(--v4-ink-100)" : "var(--v4-ink-400)",
               borderBottom: isActive
                 ? `2px solid ${NPM_RED}`
                 : "2px solid transparent",
@@ -168,7 +231,7 @@ function PackageFeed({
       render: (_, i) => (
         <span
           className="font-mono text-[12px] tabular-nums font-semibold"
-          style={{ color: i < 10 ? NPM_RED : "var(--v3-ink-400)" }}
+          style={{ color: i < 10 ? NPM_RED : "var(--v4-ink-400)" }}
         >
           {String(i + 1).padStart(2, "0")}
         </span>
@@ -280,15 +343,15 @@ function PackageIdentity({ pkg }: { pkg: NpmPackageRow }) {
           href={pkg.npmUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="block truncate text-[13px] font-semibold transition-colors hover:text-[color:var(--v3-acc)]"
-          style={{ color: "var(--v3-ink-100)" }}
+          className="block truncate text-[13px] font-semibold transition-colors hover:text-[color:var(--v4-acc)]"
+          style={{ color: "var(--v4-ink-100)" }}
           title={pkg.name}
         >
           {pkg.name}
         </a>
         <div
           className="truncate text-[11px]"
-          style={{ color: "var(--v3-ink-400)" }}
+          style={{ color: "var(--v4-ink-400)" }}
         >
           {pkg.description ?? "repo-linked npm package"}
         </div>
@@ -303,8 +366,8 @@ function RepoLink({ pkg }: { pkg: NpmPackageRow }) {
     return (
       <Link
         href={`/repo/${derived.owner}/${derived.name}`}
-        className="block truncate text-xs transition-colors hover:text-[color:var(--v3-acc)]"
-        style={{ color: "var(--v3-ink-100)" }}
+        className="block truncate text-xs transition-colors hover:text-[color:var(--v4-acc)]"
+        style={{ color: "var(--v4-ink-100)" }}
         title={pkg.linkedRepo}
       >
         {pkg.linkedRepo}
@@ -316,8 +379,8 @@ function RepoLink({ pkg }: { pkg: NpmPackageRow }) {
       href={pkg.repositoryUrl ?? `https://github.com/${pkg.linkedRepo}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="block truncate text-xs transition-colors hover:text-[color:var(--v3-acc)]"
-      style={{ color: "var(--v3-ink-300)" }}
+      className="block truncate text-xs transition-colors hover:text-[color:var(--v4-acc)]"
+      style={{ color: "var(--v4-ink-300)" }}
       title={pkg.linkedRepo}
     >
       {pkg.linkedRepo}
@@ -339,16 +402,16 @@ function Metric({
   const pct = Number(deltaPct) || 0;
   const deltaColor =
     delta > 0
-      ? "var(--v3-sig-green)"
+      ? "var(--v4-sig-green)"
       : delta < 0
-        ? "var(--v3-sig-red)"
-        : "var(--v3-ink-300)";
+        ? "var(--v4-sig-red)"
+        : "var(--v4-ink-300)";
   const pctColor =
     pct > 0
-      ? "var(--v3-sig-green)"
+      ? "var(--v4-sig-green)"
       : pct < 0
-        ? "var(--v3-sig-red)"
-        : "var(--v3-ink-400)";
+        ? "var(--v4-sig-red)"
+        : "var(--v4-ink-400)";
   return (
     <div className="text-right text-xs tabular-nums">
       {/* Total installs — primary, large, ink-100. NPM's whole point is
@@ -357,14 +420,14 @@ function Metric({
       <div
         className="font-mono text-[13px]"
         style={{
-          color: active ? "var(--v3-ink-000)" : "var(--v3-ink-100)",
+          color: active ? "var(--v4-ink-000)" : "var(--v4-ink-100)",
           fontWeight: active ? 600 : 500,
         }}
       >
         {formatCompact(current)}
         <span
           className="ml-0.5 text-[10px]"
-          style={{ color: "var(--v3-ink-400)" }}
+          style={{ color: "var(--v4-ink-400)" }}
         >
           {" "}dl
         </span>
@@ -408,30 +471,37 @@ function VersionPill({ pkg }: { pkg: NpmPackageRow }) {
   );
 }
 
+// ---------------------------------------------------------------------------
+// Cold-state fallback
+// ---------------------------------------------------------------------------
+
 function ColdState() {
   return (
     <section
-      className="p-8"
       style={{
-        background: "var(--v3-bg-025)",
-        border: "1px dashed var(--v3-line-100)",
+        padding: 32,
+        background: "var(--v4-bg-025)",
+        border: "1px dashed var(--v4-line-100)",
         borderRadius: 2,
       }}
     >
       <h2
-        className="v2-mono text-lg font-bold uppercase tracking-[0.18em]"
-        style={{ color: NPM_RED }}
+        className="v2-mono"
+        style={{
+          color: NPM_RED,
+          fontSize: 18,
+          fontWeight: 700,
+          textTransform: "uppercase",
+          letterSpacing: "0.18em",
+        }}
       >
         {"// no repo-linked npm data yet"}
       </h2>
-      <p
-        className="mt-3 max-w-xl text-sm"
-        style={{ color: "var(--v3-ink-300)" }}
-      >
-        Run <code style={{ color: "var(--v3-ink-100)" }}>npm run scrape:npm</code>{" "}
+      <p style={{ marginTop: 12, maxWidth: "32rem", fontSize: 13, color: "var(--v4-ink-300)" }}>
+        Run <code style={{ color: "var(--v4-ink-100)" }}>npm run scrape:npm</code>{" "}
         to discover npm packages, keep only packages with GitHub repos attached,
         and populate{" "}
-        <code style={{ color: "var(--v3-ink-100)" }}>data/npm-packages.json</code>.
+        <code style={{ color: "var(--v4-ink-100)" }}>data/npm-packages.json</code>.
       </p>
     </section>
   );

@@ -1,15 +1,8 @@
-// /devto — long-form developer writing surface.
+// /devto — V4 SourceFeedTemplate consumer.
 //
-// Mirrors the structural rhythm of /hackernews/trending: header strip,
-// 4 stat tiles, top-N article feed. Adds a right-rail leaderboard of
-// repos cross-linked from article bodies/tags so readers can pivot from
-// "what is dev.to writing about" to "which tracked repo is on fire in
-// long-form". Single-source: data/devto-mentions.json (per-repo bucket)
-// joined with data/devto-trending.json (top-100 by velocity score), both
-// produced by scripts/scrape-devto.mjs (cron daily).
-//
-// Server component, force-static — every request renders identical HTML
-// until the next deploy / cron-bumped commit lands.
+// Long-form developer writing surface. Top 50 articles by velocity score
+// + repo leaderboard sidebar (≥md). Single-source from data/devto-* files
+// produced by scripts/scrape-devto.mjs.
 
 import Link from "next/link";
 import {
@@ -23,20 +16,18 @@ import {
   refreshDevtoTrendingFromStore,
 } from "@/lib/devto-trending";
 import { repoFullNameToHref } from "@/lib/hackernews";
-import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
-import { buildDevtoHeaderFromArticles } from "@/components/news/newsTopMetrics";
 import { TerminalFeedTable, type FeedColumn } from "@/components/feed/TerminalFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { userLogoUrl, resolveLogoUrl } from "@/lib/logos";
 
-const DEVTO_ACCENT = "rgba(102, 153, 255, 0.85)";
+// V4 (CORPUS) primitives.
+import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
+import { KpiBand } from "@/components/ui/KpiBand";
+import { LiveDot } from "@/components/ui/LiveDot";
+
 const DEVTO_BLUE = "#6699ff";
 
 export const dynamic = "force-static";
-
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
 
 function formatAgeFromIso(iso: string): string {
   const t = new Date(iso).getTime();
@@ -48,9 +39,10 @@ function formatAgeFromIso(iso: string): string {
   return `${Math.round(hours / 24)}d`;
 }
 
-// ---------------------------------------------------------------------------
-// Page
-// ---------------------------------------------------------------------------
+function formatClock(iso: string | undefined): string {
+  if (!iso) return "warming";
+  return new Date(iso).toISOString().slice(11, 19);
+}
 
 export default async function DevtoPage() {
   await Promise.all([
@@ -65,62 +57,95 @@ export default async function DevtoPage() {
   const reposLinked = leaderboard.length;
   const cold = totalArticles === 0 && reposLinked === 0;
 
+  if (cold) {
+    return (
+      <main className="home-surface">
+        <SourceFeedTemplate
+          crumb={
+            <>
+              <b>DEV.TO</b> · TERMINAL · /DEVTO
+            </>
+          }
+          title="dev.to · top articles"
+          lede="Long-form developer writing ranked by velocity score (reactions × time decay), with a sidebar leaderboard of cross-linked tracked repos."
+        />
+        <ColdState />
+      </main>
+    );
+  }
+
+  const topReactions = trendingFile.articles.reduce(
+    (m, a) => Math.max(m, a.reactionsCount ?? 0),
+    0,
+  );
+
   return (
-    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
-      <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        {cold ? (
-          <ColdState />
-        ) : (
+    <main className="home-surface">
+      <SourceFeedTemplate
+        crumb={
           <>
-            {/* V3 top header — 3 charts + 3 hero articles. The legacy stat
-                tiles below this were dropped — covered by the V3 snapshot. */}
-            <div className="mb-6">
-              <NewsTopHeaderV3
-                routeTitle="DEV.TO · TOP ARTICLES"
-                liveLabel={`LIVE · ${trendingFile.windowDays}D`}
-                eyebrow="// DEV.TO · LIVE FIREHOSE"
-                meta={[
-                  { label: "TRACKED", value: totalArticles.toLocaleString("en-US") },
-                  { label: "WINDOW", value: `${trendingFile.windowDays}D` },
-                ]}
-                {...buildDevtoHeaderFromArticles(
-                  trendingFile.articles,
-                  leaderboard,
-                )}
-                accent={DEVTO_ACCENT}
-                caption={[
-                  "// LAYOUT compact-v1",
-                  "· 3-COL · 320 / 1FR / 1FR",
-                  "· DATA UNCHANGED",
-                ]}
-              />
-            </div>
-
-            {/* Two-column layout */}
-            <div className="grid grid-cols-1 md:grid-cols-[1fr_320px] gap-6">
-              {/* Left: top articles feed */}
-              <section>
-                <ArticlesFeed articles={articles} />
-              </section>
-
-              {/* Right: leaderboard (≥md only) */}
-              <aside className="hidden md:block">
-                <Leaderboard
-                  entries={leaderboard.slice(0, 15)}
-                  totalRepos={reposLinked}
-                />
-              </aside>
-            </div>
+            <b>DEV.TO</b> · TERMINAL · /DEVTO
           </>
-        )}
-      </div>
+        }
+        title="dev.to · top articles"
+        lede="Long-form developer writing ranked by velocity score (reactions × time decay), with a sidebar leaderboard of cross-linked tracked repos."
+        clock={
+          <>
+            <span className="big">{formatClock(trendingFile.fetchedAt)}</span>
+            <span className="muted">UTC · SCRAPED</span>
+            <LiveDot label={`LIVE · ${trendingFile.windowDays}D`} />
+          </>
+        }
+        snapshot={
+          <KpiBand
+            cells={[
+              {
+                label: "TRACKED",
+                value: totalArticles.toLocaleString("en-US"),
+                sub: `${trendingFile.windowDays}d rolling`,
+                pip: "var(--v4-src-dev)",
+              },
+              {
+                label: "TOP REACTIONS",
+                value: topReactions.toLocaleString("en-US"),
+                sub: "engagement peak",
+                tone: "acc",
+                pip: "var(--v4-acc)",
+              },
+              {
+                label: "LEADERBOARD",
+                value: reposLinked,
+                sub: "tracked repos · 7d",
+                tone: "money",
+                pip: "var(--v4-money)",
+              },
+              {
+                label: "FEED LEN",
+                value: articles.length,
+                sub: "shown · top 50",
+                pip: "var(--v4-blue)",
+              },
+            ]}
+          />
+        }
+        listEyebrow="Article feed · top 50 · repo leaderboard"
+        list={
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_320px] gap-6">
+            <section>
+              <ArticlesFeed articles={articles} />
+            </section>
+            <aside className="hidden md:block">
+              <Leaderboard
+                entries={leaderboard.slice(0, 15)}
+                totalRepos={reposLinked}
+              />
+            </aside>
+          </div>
+        }
+      />
     </main>
   );
 }
-
-// ---------------------------------------------------------------------------
-// Articles feed
-// ---------------------------------------------------------------------------
 
 type DevtoArticle = ReturnType<typeof getDevtoTopArticles>[number];
 
@@ -133,7 +158,7 @@ function ArticlesFeed({ articles }: { articles: DevtoArticle[] }) {
       render: (_, i) => (
         <span
           className="font-mono text-[12px] tabular-nums font-semibold"
-          style={{ color: i < 10 ? DEVTO_BLUE : "var(--v3-ink-400)" }}
+          style={{ color: i < 10 ? DEVTO_BLUE : "var(--v4-ink-400)" }}
         >
           {String(i + 1).padStart(2, "0")}
         </span>
@@ -171,22 +196,22 @@ function ArticlesFeed({ articles }: { articles: DevtoArticle[] }) {
             alt=""
           />
           <div className="min-w-0">
-          <a
-            href={devtoArticleHref(a.url)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block truncate text-[13px] font-medium transition-colors hover:text-[color:var(--v3-acc)]"
-            style={{ color: "var(--v3-ink-100)" }}
-            title={a.title}
-          >
-            {a.title}
-          </a>
-          <div
-            className="truncate text-[11px]"
-            style={{ color: "var(--v3-ink-400)" }}
-          >
-            by @{a.author.username} · {a.readingTime} min read
-          </div>
+            <a
+              href={devtoArticleHref(a.url)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block truncate text-[13px] font-medium transition-colors hover:text-[color:var(--v4-acc)]"
+              style={{ color: "var(--v4-ink-100)" }}
+              title={a.title}
+            >
+              {a.title}
+            </a>
+            <div
+              className="truncate text-[11px]"
+              style={{ color: "var(--v4-ink-400)" }}
+            >
+              by @{a.author.username} · {a.readingTime} min read
+            </div>
           </div>
         </div>
       ),
@@ -200,7 +225,7 @@ function ArticlesFeed({ articles }: { articles: DevtoArticle[] }) {
         <span
           className="inline-flex items-center justify-end gap-1 font-mono text-[12px] tabular-nums"
           style={{
-            color: a.reactionsCount >= 50 ? "var(--v3-sig-green)" : "var(--v3-ink-200)",
+            color: a.reactionsCount >= 50 ? "var(--v4-money)" : "var(--v4-ink-200)",
           }}
         >
           <HeartIcon className="h-3 w-3" />
@@ -217,7 +242,7 @@ function ArticlesFeed({ articles }: { articles: DevtoArticle[] }) {
       render: (a) => (
         <span
           className="font-mono text-[12px] tabular-nums"
-          style={{ color: "var(--v3-ink-300)" }}
+          style={{ color: "var(--v4-ink-300)" }}
         >
           {a.commentsCount.toLocaleString("en-US")}
         </span>
@@ -230,13 +255,13 @@ function ArticlesFeed({ articles }: { articles: DevtoArticle[] }) {
       hideBelow: "md",
       render: (a) => {
         const tag = a.tags?.[0];
-        if (!tag) return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+        if (!tag) return <span style={{ color: "var(--v4-ink-500)" }}>—</span>;
         return (
           <span
             className="v2-mono inline-block max-w-full truncate px-1.5 py-0.5 text-[10px] tracking-[0.14em] uppercase"
             style={{
-              border: "1px solid var(--v3-line-200)",
-              color: "var(--v3-ink-400)",
+              border: "1px solid var(--v4-line-200)",
+              color: "var(--v4-ink-400)",
               borderRadius: 2,
             }}
             title={a.tags.join(", ")}
@@ -254,7 +279,7 @@ function ArticlesFeed({ articles }: { articles: DevtoArticle[] }) {
       render: (a) => (
         <span
           className="font-mono text-[12px] tabular-nums"
-          style={{ color: "var(--v3-ink-400)" }}
+          style={{ color: "var(--v4-ink-400)" }}
         >
           {formatAgeFromIso(a.publishedAt)}
         </span>
@@ -273,10 +298,6 @@ function ArticlesFeed({ articles }: { articles: DevtoArticle[] }) {
   );
 }
 
-// ---------------------------------------------------------------------------
-// Leaderboard (right rail)
-// ---------------------------------------------------------------------------
-
 function Leaderboard({
   entries,
   totalRepos,
@@ -289,20 +310,20 @@ function Leaderboard({
       <div
         className="p-4"
         style={{
-          background: "var(--v3-bg-025)",
-          border: "1px dashed var(--v3-line-100)",
+          background: "var(--v4-bg-025)",
+          border: "1px dashed var(--v4-line-100)",
           borderRadius: 2,
         }}
       >
         <h3
           className="v2-mono text-[11px] uppercase tracking-[0.18em]"
-          style={{ color: "var(--v3-ink-300)" }}
+          style={{ color: "var(--v4-ink-300)" }}
         >
           REPO LEADERBOARD
         </h3>
         <p
           className="mt-2 text-[11px]"
-          style={{ color: "var(--v3-ink-400)" }}
+          style={{ color: "var(--v4-ink-400)" }}
         >
           {"// no articles cross-linked to tracked repos yet — broaden the scrape window or wait for fresh data"}
         </p>
@@ -314,27 +335,27 @@ function Leaderboard({
     <div
       className="overflow-hidden"
       style={{
-        background: "var(--v3-bg-050)",
-        border: "1px solid var(--v3-line-200)",
+        background: "var(--v4-bg-050)",
+        border: "1px solid var(--v4-line-200)",
         borderRadius: 2,
       }}
     >
       <div
         className="v2-mono flex h-9 items-center justify-between px-3"
         style={{
-          borderBottom: "1px solid var(--v3-line-100)",
-          background: "var(--v3-bg-025)",
+          borderBottom: "1px solid var(--v4-line-100)",
+          background: "var(--v4-bg-025)",
         }}
       >
         <span
           className="text-[10px] uppercase tracking-[0.18em]"
-          style={{ color: "var(--v3-ink-300)" }}
+          style={{ color: "var(--v4-ink-300)" }}
         >
           REPO LEADERBOARD
         </span>
         <span
           className="text-[10px] tabular-nums tracking-[0.14em]"
-          style={{ color: "var(--v3-ink-400)" }}
+          style={{ color: "var(--v4-ink-400)" }}
         >
           {entries.length}/{totalRepos}
         </span>
@@ -342,8 +363,8 @@ function Leaderboard({
       <div
         className="v2-mono grid h-7 grid-cols-[28px_1fr_40px_50px] items-center gap-2 px-3 text-[10px] uppercase tracking-[0.18em]"
         style={{
-          borderBottom: "1px solid var(--v3-line-100)",
-          color: "var(--v3-ink-400)",
+          borderBottom: "1px solid var(--v4-line-100)",
+          color: "var(--v4-ink-400)",
         }}
       >
         <div>#</div>
@@ -359,22 +380,22 @@ function Leaderboard({
               key={entry.fullName}
               className="v2-row group grid h-9 grid-cols-[28px_1fr_40px_50px] items-center gap-2 px-3"
               style={{
-                borderBottom: "1px dashed var(--v3-line-100)",
+                borderBottom: "1px dashed var(--v4-line-100)",
                 animation: "slide-up 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both",
                 animationDelay: stagger > 0 ? `${stagger}ms` : undefined,
               }}
             >
               <div
                 className="font-mono text-xs tabular-nums"
-                style={{ color: "var(--v3-ink-400)" }}
+                style={{ color: "var(--v4-ink-400)" }}
               >
                 {i + 1}
               </div>
               <div className="min-w-0">
                 <Link
                   href={repoFullNameToHref(entry.fullName)}
-                  className="block truncate text-xs transition-colors hover:text-[color:var(--v3-acc)]"
-                  style={{ color: "var(--v3-ink-100)" }}
+                  className="block truncate text-xs transition-colors hover:text-[color:var(--v4-acc)]"
+                  style={{ color: "var(--v4-ink-100)" }}
                   title={entry.fullName}
                 >
                   {entry.fullName}
@@ -382,13 +403,13 @@ function Leaderboard({
               </div>
               <div
                 className="text-right text-xs tabular-nums"
-                style={{ color: "var(--v3-ink-200)" }}
+                style={{ color: "var(--v4-ink-200)" }}
               >
                 {entry.count7d.toLocaleString("en-US")}
               </div>
               <div
                 className="inline-flex items-center justify-end gap-1 text-right text-xs tabular-nums"
-                style={{ color: "var(--v3-ink-400)" }}
+                style={{ color: "var(--v4-ink-400)" }}
               >
                 <HeartIcon className="h-2.5 w-2.5" />
                 {entry.reactionsSum7d.toLocaleString("en-US")}
@@ -401,36 +422,35 @@ function Leaderboard({
   );
 }
 
-// ---------------------------------------------------------------------------
-// Pieces
-// ---------------------------------------------------------------------------
-
 function ColdState() {
   return (
     <section
-      className="p-8"
       style={{
-        background: "var(--v3-bg-025)",
-        border: "1px dashed var(--v3-line-100)",
+        padding: 32,
+        background: "var(--v4-bg-025)",
+        border: "1px dashed var(--v4-line-100)",
         borderRadius: 2,
       }}
     >
       <h2
-        className="v2-mono text-lg font-bold uppercase tracking-[0.18em]"
-        style={{ color: DEVTO_BLUE }}
+        className="v2-mono"
+        style={{
+          color: DEVTO_BLUE,
+          fontSize: 18,
+          fontWeight: 700,
+          textTransform: "uppercase",
+          letterSpacing: "0.18em",
+        }}
       >
         {"// no dev.to data yet"}
       </h2>
-      <p
-        className="mt-3 max-w-xl text-sm"
-        style={{ color: "var(--v3-ink-300)" }}
-      >
+      <p style={{ marginTop: 12, maxWidth: "32rem", fontSize: 13, color: "var(--v4-ink-300)" }}>
         The dev.to scraper hasn&apos;t produced data yet. Run{" "}
-        <code style={{ color: "var(--v3-ink-100)" }}>npm run scrape:devto</code>{" "}
+        <code style={{ color: "var(--v4-ink-100)" }}>npm run scrape:devto</code>{" "}
         locally to populate{" "}
-        <code style={{ color: "var(--v3-ink-100)" }}>data/devto-mentions.json</code>{" "}
+        <code style={{ color: "var(--v4-ink-100)" }}>data/devto-mentions.json</code>{" "}
         and{" "}
-        <code style={{ color: "var(--v3-ink-100)" }}>data/devto-trending.json</code>,
+        <code style={{ color: "var(--v4-ink-100)" }}>data/devto-trending.json</code>,
         then refresh this page.
       </p>
     </section>

@@ -9,7 +9,9 @@
 //
 // Run: cd apps/trendingrepo-worker && npx tsx --test src/__tests__/run-since.test.ts
 
-import { test } from 'node:test';
+// vitest exposes a compatible `test` runner; we keep node:assert for
+// strict equality semantics matching the rest of the worker test suite.
+import { test } from 'vitest';
 import assert from 'node:assert/strict';
 
 // Disable data-store and silence pino before importing the worker code so

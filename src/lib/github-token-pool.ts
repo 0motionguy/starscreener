@@ -1,3 +1,7 @@
+import * as Sentry from "@sentry/nextjs";
+
+import { getDataStore } from "./data-store";
+
 // StarScreener — GitHub PAT pool with per-token rate-limit accounting.
 //
 // PROBLEM
@@ -69,6 +73,15 @@ export interface TokenState {
    * so a re-issued token recovers without a process restart.
    */
   quarantinedUntilMs: number | null;
+  /**
+   * Hysteresis flag for the low-quota Sentry warning. Set to `true` when a
+   * `recordRateLimit` observation drops `remaining` below 500, preventing
+   * subsequent calls from re-firing the warning. Reset to `false` when
+   * `remaining` climbs back above 1000 (typical post-reset recovery), so
+   * the next dip pages operators again. Without hysteresis, a single
+   * exhaustion would flood Sentry with one warning per request.
+   */
+  lowQuotaWarned: boolean;
 }
 
 export interface GitHubTokenPool {
@@ -176,6 +189,7 @@ class DefaultGitHubTokenPool implements GitHubTokenPool {
       resetUnixSec: null,
       lastObservedMs: null,
       quarantinedUntilMs: null,
+      lowQuotaWarned: false,
     }));
     for (const state of this.states) {
       this.index.set(state.token, state);
@@ -250,10 +264,25 @@ class DefaultGitHubTokenPool implements GitHubTokenPool {
     }
 
     if (candidates.length === 0) {
-      throw new GitHubTokenPoolExhaustedError(soonestReset, {
-        allQuarantined:
-          quarantinedCount > 0 && quarantinedCount === this.states.length,
+      const allQuarantined =
+        quarantinedCount > 0 && quarantinedCount === this.states.length;
+      const exhaustedError = new GitHubTokenPoolExhaustedError(soonestReset, {
+        allQuarantined,
       });
+      // Sentry alert: pool exhaustion is the canonical "page operators NOW"
+      // event. Captured at the throw site so callers don't need to repeat
+      // this — they re-throw / bubble whatever they want for app-level UX.
+      Sentry.captureException(exhaustedError, {
+        tags: {
+          pool: "github",
+          all_quarantined: String(allQuarantined),
+          soonest_reset_iso:
+            soonestReset !== null
+              ? new Date(soonestReset * 1000).toISOString()
+              : "none",
+        },
+      });
+      throw exhaustedError;
     }
 
     // Pick the highest effective remaining. On ties, advance the round-robin
@@ -289,6 +318,39 @@ class DefaultGitHubTokenPool implements GitHubTokenPool {
       state.resetUnixSec = Math.floor(resetUnixSec);
     }
     state.lastObservedMs = this.now();
+    this._emitLowQuotaWarning(state);
+    // Fire-and-forget publish so sibling Vercel lambdas can build a
+    // fleet-wide aggregate at /admin/pool-aggregate. Never blocks the
+    // request and never throws if Redis is missing.
+    void publishTokenStateToRedis(state);
+  }
+
+  /**
+   * Fire a Sentry warning the FIRST time a token's `remaining` drops below
+   * 500 in a given low-quota episode. Hysteresis: the flag stays set until
+   * `remaining` recovers above 1000 (typical post-reset jump back to the
+   * full 5000 quota). Without this, every subsequent `recordRateLimit`
+   * call below 500 would page Sentry — noisy and useless.
+   */
+  private _emitLowQuotaWarning(state: TokenState): void {
+    if (state.remaining === null) return;
+    if (state.remaining < 500 && !state.lowQuotaWarned) {
+      state.lowQuotaWarned = true;
+      Sentry.captureMessage(
+        `[github-token-pool] Low quota: ${redactToken(state.token)} has ${state.remaining} remaining`,
+        {
+          level: "warning",
+          tags: {
+            pool: "github",
+            token: redactToken(state.token),
+            remaining: String(state.remaining),
+          },
+        },
+      );
+    } else if (state.remaining > 1000 && state.lowQuotaWarned) {
+      // Recovery: clear the flag so the next dip below 500 fires again.
+      state.lowQuotaWarned = false;
+    }
   }
 
   quarantine(token: string): void {
@@ -296,6 +358,23 @@ class DefaultGitHubTokenPool implements GitHubTokenPool {
     if (!state) return;
     state.quarantinedUntilMs = this.now() + QUARANTINE_TTL_MS;
     state.lastObservedMs = this.now();
+    // Sentry alert: a quarantine means GitHub returned 401 for this PAT —
+    // the operator must rotate it. Distinct from rate-limit exhaustion
+    // (which self-heals at reset) so we tag `reason: "401"` so the alert
+    // routing can differentiate.
+    Sentry.captureMessage(
+      `[github-token-pool] PAT quarantined (401 invalid/revoked): ${redactToken(token)}`,
+      {
+        level: "error",
+        tags: {
+          pool: "github",
+          token: redactToken(token),
+          reason: "401",
+        },
+      },
+    );
+    // Fire-and-forget publish — same rationale as recordRateLimit.
+    void publishTokenStateToRedis(state);
   }
 }
 
@@ -434,4 +513,93 @@ export function parseRateLimitHeaders(
     return null;
   }
   return { remaining, resetUnixSec };
+}
+
+// ---------------------------------------------------------------------------
+// Fleet-wide pool aggregation (Redis publish)
+//
+// Each lambda's pool is process-local. To answer "is the FLEET healthy?"
+// recordRateLimit / quarantine ALSO publish the token's state to Redis under
+// `pool:github:tokens:<redactedLabel>`. Sibling lambdas read these keys at
+// /admin/pool-aggregate.
+//
+// The full PAT is NEVER written. Only the redactToken() form is used both
+// as the key suffix and as the in-payload `tokenLabel`. TTL is 30 days so
+// dead lambdas don't pollute the keyspace forever.
+// ---------------------------------------------------------------------------
+
+/** Key prefix for per-token fleet-aggregate state. Read by the aggregator. */
+export const POOL_REDIS_KEY_PREFIX = "pool:github:tokens";
+
+/** TTL (seconds) on each per-token key. 30d covers a normal "operator forgot to rotate" window. */
+export const POOL_REDIS_TTL_SECONDS = 30 * 24 * 60 * 60;
+
+/**
+ * Wire-format payload published per token. NEVER includes the raw PAT.
+ * `lambdaId` is best-effort identification of the writer so the aggregator
+ * can surface "how many distinct lambdas have reported on this token".
+ */
+export interface PublishedTokenState {
+  tokenLabel: string;
+  remaining: number | null;
+  resetUnixSec: number | null;
+  lastObservedMs: number | null;
+  quarantinedUntilMs: number | null;
+  lambdaId: string;
+  writtenAt: string;
+}
+
+/** Build the Redis key that holds the latest state for one token label. */
+export function poolRedisKeyFor(tokenLabel: string): string {
+  return `${POOL_REDIS_KEY_PREFIX}:${tokenLabel}`;
+}
+
+function currentLambdaId(): string {
+  const region =
+    typeof process !== "undefined" && process.env
+      ? (process.env.VERCEL_REGION ?? process.env.AWS_REGION ?? "local")
+      : "local";
+  const pid =
+    typeof process !== "undefined" && typeof process.pid === "number"
+      ? process.pid
+      : 0;
+  return `${region}:${pid}`;
+}
+
+/**
+ * Fire-and-forget publish of one token's state to Redis. NEVER awaits, NEVER
+ * throws — any Redis failure is swallowed so a brownout cannot break the
+ * GitHub call that triggered it. No-op when the data-store has no Redis
+ * client (env-missing fallback).
+ */
+function publishTokenStateToRedis(state: TokenState): void {
+  try {
+    const store = getDataStore();
+    const client = store.redisClient();
+    if (!client) return;
+    const tokenLabel = redactToken(state.token);
+    const payload: PublishedTokenState = {
+      tokenLabel,
+      remaining: state.remaining,
+      resetUnixSec: state.resetUnixSec,
+      lastObservedMs: state.lastObservedMs,
+      quarantinedUntilMs: state.quarantinedUntilMs,
+      lambdaId: currentLambdaId(),
+      writtenAt: new Date().toISOString(),
+    };
+    // Pool keys live in their own `pool:github:tokens:*` namespace, distinct
+    // from the data-store's `ss:data:v1:*` payload namespace, so we go
+    // through the raw Redis client rather than store.write().
+    const json = JSON.stringify(payload);
+    void Promise.resolve(
+      client.set(poolRedisKeyFor(tokenLabel), json, {
+        ex: POOL_REDIS_TTL_SECONDS,
+      }),
+    ).catch(() => {
+      // Swallow — fire-and-forget. A failure here MUST NOT affect the
+      // GitHub call that triggered it.
+    });
+  } catch {
+    // getDataStore / redisClient threw synchronously; swallow.
+  }
 }

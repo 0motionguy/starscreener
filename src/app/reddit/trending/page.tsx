@@ -64,7 +64,7 @@ export default async function RedditTrendingPage() {
           <>
             <span className="big">{formatClock(allPostsFetchedAt ?? undefined)}</span>
             <span className="muted">UTC · SCRAPED</span>
-            <LiveDot label="LIVE · 7D" />
+            <LiveDot label="FRESH · 1H" />
           </>
         }
         snapshot={

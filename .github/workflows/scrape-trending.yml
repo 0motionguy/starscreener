@@ -78,6 +78,18 @@ jobs:
           REDIS_URL: ${{ secrets.REDIS_URL }}
         run: node scripts/compute-deltas.mjs
 
+      - name: Snapshot star totals into rolling history (immediate-mode deltas)
+        # W2-PROD producer: writes star-snapshot:{24h,7d,30d} keys consumed
+        # by /api/pipeline/deltas. Drops home-page staleness from 4h (legacy
+        # git-history compute-deltas.mjs) to 30min (cron cadence).
+        # Failures don't fail the workflow — the legacy deltas pipeline above
+        # still ships data, and the consumer falls back to prior=null/fresh=false
+        # gracefully.
+        continue-on-error: true
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+        run: node scripts/snapshot-stars.mjs
+
       - name: Commit if changed
         run: |
           git config user.name  "trendingrepo-bot"

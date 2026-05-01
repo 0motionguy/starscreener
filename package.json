@@ -100,6 +100,7 @@
     "discover:recent": "node scripts/discover-recent-repos.mjs",
     "fetch:metadata": "node scripts/fetch-repo-metadata.mjs",
     "compute-deltas": "node scripts/compute-deltas.mjs",
+    "snapshot:stars": "node scripts/snapshot-stars.mjs",
     "recompute": "curl -X POST http://localhost:3023/api/pipeline/recompute",
     "ingest:sample": "curl -X POST http://localhost:3023/api/pipeline/ingest -H 'Content-Type: application/json' -d '{\"fullNames\":[\"vercel/next.js\",\"ollama/ollama\",\"anthropics/claude-code\"]}'",
     "reset:data": "node scripts/reset-data.mjs",

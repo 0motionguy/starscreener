@@ -1,0 +1,50 @@
+name: Audit - source freshness
+
+# Hourly fail-loud gate for collector freshness. Closes audit I2:
+# scripts/collect-twitter-signals.ts depends on the Apify
+# `apidojo~tweet-scraper` actor; cookie-based providers are dead
+# post-2026, so the actor is a single point of failure with no fallback.
+# This workflow surfaces the breakage as a red-X within 1 hour instead of
+# being noticed by a human eyeballing /api/health.
+#
+# How it works: scripts/audit-freshness.mjs reads every data/_meta/*.json
+# sidecar (written by scripts/_data-meta.mjs:writeSourceMeta), classifies
+# each source against a per-source freshness budget, and exits non-zero if
+# ANY source is stale OR a REQUIRED source has no meta file.
+#
+# The workflow only reads the repo — no Redis access, no secrets, no commit
+# back to main. It's intentionally cheap so we can run it hourly.
+#
+# To extend: drop a new source meta file under data/_meta/, optionally add
+# a row to DEFAULT_BUDGETS_MS in audit-freshness.mjs (or set
+# `freshnessBudgetMs` inside the meta file itself for per-source override).
+
+on:
+  schedule:
+    - cron: "0 * * * *"  # UTC, every hour on the hour
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: audit-freshness
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Run freshness gate
+        run: node scripts/audit-freshness.mjs

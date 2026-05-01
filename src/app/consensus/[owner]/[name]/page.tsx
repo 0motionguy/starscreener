@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -7,6 +8,7 @@ import {
   type ConsensusItem,
   type ConsensusExternalSource,
 } from "@/lib/consensus-trending";
+import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 import {
   getConsensusItemReport,
   refreshConsensusVerdictsFromStore,
@@ -67,6 +69,41 @@ const VERDICT_TONE: Record<ConsensusItemReport["verdict"], VerdictTone> = {
 
 interface PageProps {
   params: Promise<{ owner: string; name: string }>;
+}
+
+const SLUG_PART_PATTERN = /^[A-Za-z0-9._-]+$/;
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { owner, name } = await params;
+  if (!SLUG_PART_PATTERN.test(owner) || !SLUG_PART_PATTERN.test(name)) {
+    return {
+      title: `Invalid consensus URL — ${SITE_NAME}`,
+      description: "Invalid repo URL.",
+      robots: { index: false, follow: false },
+    };
+  }
+  const fullName = `${owner}/${name}`;
+  const canonical = absoluteUrl(`/consensus/${owner}/${name}`);
+  const title = `${fullName} — Consensus`;
+  const description = `Cross-ranking agreement scores across 8 external sources for ${fullName}, with K2.6 analyst verdict + 6-axis signal scores.`;
+  return {
+    title,
+    description,
+    alternates: { canonical },
+    openGraph: {
+      title: `${fullName} — Consensus — ${SITE_NAME}`,
+      description,
+      url: canonical,
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${fullName} — Consensus — ${SITE_NAME}`,
+      description,
+    },
+  };
 }
 
 export default async function ConsensusDetailPage({ params }: PageProps) {

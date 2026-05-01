@@ -7,6 +7,7 @@
 // scoped twin. Template provides PageHead + KpiBand snapshot + list slot;
 // PaperFeed table renders inside the list slot.
 
+import type { Metadata } from "next";
 import {
   getArxivPapersTrending,
   getArxivRecentFile,
@@ -23,6 +24,24 @@ import { LiveDot } from "@/components/ui/LiveDot";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 
 export const dynamic = "force-static";
+
+export const metadata: Metadata = {
+  title: "Trending AI Papers",
+  description:
+    "Domain-scored arXiv papers across cs.AI / cs.CL / cs.LG with linked-repo momentum, citation velocity, and cross-source mentions.",
+  alternates: { canonical: "/papers" },
+  openGraph: {
+    title: "Trending AI Papers — TrendingRepo",
+    description: "Domain-scored arXiv papers with repo momentum and citation velocity.",
+    url: "/papers",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Trending AI Papers — TrendingRepo",
+    description: "Domain-scored arXiv papers with repo momentum and citation velocity.",
+  },
+};
 export const revalidate = 1800; // 30 min
 
 const ARXIV_VIOLET = "var(--v4-violet)";

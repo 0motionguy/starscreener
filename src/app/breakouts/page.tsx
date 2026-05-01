@@ -1,5 +1,6 @@
 // /breakouts — full-page Cross-Signal Breakouts (V4 chrome).
 
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import { getDerivedRepos } from "@/lib/derived-repos";
@@ -16,6 +17,26 @@ import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 
 export const dynamic = "force-static";
+
+export const metadata: Metadata = {
+  title: "Cross-Signal Breakouts",
+  description:
+    "Repos firing across multiple signal channels right now — GitHub stars, Reddit, Hacker News, Bluesky, dev.to, and X/Twitter — surfaced before they go mainstream.",
+  alternates: { canonical: "/breakouts" },
+  openGraph: {
+    title: "Cross-Signal Breakouts — TrendingRepo",
+    description:
+      "Repos firing across multiple signal channels at once. The earliest cross-source breakout view.",
+    url: "/breakouts",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Cross-Signal Breakouts — TrendingRepo",
+    description:
+      "Repos firing across multiple signal channels at once. The earliest cross-source breakout view.",
+  },
+};
 
 type FilterKey = "all" | "multi" | "three";
 

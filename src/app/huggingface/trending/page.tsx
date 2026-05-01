@@ -7,6 +7,7 @@
 // Template provides PageHead + KpiBand snapshot + list slot; HfModelFeed
 // table renders inside the list slot unchanged.
 
+import type { Metadata } from "next";
 import {
   getHfModelsTrending,
   getHfTrendingFile,
@@ -31,6 +32,24 @@ const HF_YELLOW = "#FFD21E";
 
 export const dynamic = "force-static";
 export const revalidate = 1800; // 30 min
+
+export const metadata: Metadata = {
+  title: "Trending Hugging Face Models",
+  description:
+    "Top 100 Hugging Face models by domain-scored momentum — downloads, likes, recency, and cross-source mentions. Live model leaderboard.",
+  alternates: { canonical: "/huggingface/trending" },
+  openGraph: {
+    title: "Trending Hugging Face Models — TrendingRepo",
+    description: "Top HF models by domain-scored momentum.",
+    url: "/huggingface/trending",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Trending Hugging Face Models — TrendingRepo",
+    description: "Top HF models by domain-scored momentum.",
+  },
+};
 
 function formatAgeIso(iso: string | null | undefined, nowMs: number): string {
   if (!iso) return "—";

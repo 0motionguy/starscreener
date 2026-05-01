@@ -9,6 +9,7 @@
 // almost entirely by recency + (where present) linked-repo momentum.
 // A banner above the table makes that explicit to users.
 
+import type { Metadata } from "next";
 import {
   getArxivPapersTrending,
   getArxivRecentFile,
@@ -32,6 +33,24 @@ const ARXIV_BRAND = "#B22234";
 
 export const dynamic = "force-static";
 export const revalidate = 1800; // 30 min
+
+export const metadata: Metadata = {
+  title: "Trending arXiv Papers",
+  description:
+    "Top arXiv papers by recency + linked-repo momentum across cs.AI / cs.CL / cs.LG. Source-scoped twin of the /papers feed.",
+  alternates: { canonical: "/arxiv/trending" },
+  openGraph: {
+    title: "Trending arXiv Papers — TrendingRepo",
+    description: "arXiv papers by recency and linked-repo momentum.",
+    url: "/arxiv/trending",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Trending arXiv Papers — TrendingRepo",
+    description: "arXiv papers by recency and linked-repo momentum.",
+  },
+};
 
 function formatAgeDays(days: number): string {
   if (!Number.isFinite(days)) return "—";

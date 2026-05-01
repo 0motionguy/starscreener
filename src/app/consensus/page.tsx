@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import {
@@ -27,6 +28,26 @@ export const runtime = "nodejs";
 // ISR: page rebuilds every 10 minutes (consensus fetcher publishes hourly,
 // analyst follows ~10 min later — 600s gives one cache miss per fetcher tick).
 export const revalidate = 600;
+
+export const metadata: Metadata = {
+  title: "Trending Consensus",
+  description:
+    "Cross-ranking agreement across 8 weighted external sources (GitHub, Hugging Face, Hacker News, X, Reddit, Product Hunt, Dev.to, Bluesky) plus K2.6 analyst verdicts on top picks.",
+  alternates: { canonical: "/consensus" },
+  openGraph: {
+    title: "Trending Consensus — TrendingRepo",
+    description:
+      "8-source agreement engine with AI analyst verdicts on the top breakouts.",
+    url: "/consensus",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Trending Consensus — TrendingRepo",
+    description:
+      "8-source agreement engine with AI analyst verdicts on the top breakouts.",
+  },
+};
 
 function fmtClock(iso: string): string {
   if (!iso) return "—";

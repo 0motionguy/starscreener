@@ -1,5 +1,6 @@
 // /reddit/trending — V4 SourceFeedTemplate consumer.
 
+import type { Metadata } from "next";
 import { Suspense } from "react";
 
 import {
@@ -17,6 +18,24 @@ import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
 
 export const revalidate = 300;
+
+export const metadata: Metadata = {
+  title: "Trending on Reddit",
+  description:
+    "Top Reddit posts across the tech subreddits, scored for velocity. Cross-subreddit signal terminal with breakout flagging.",
+  alternates: { canonical: "/reddit/trending" },
+  openGraph: {
+    title: "Trending on Reddit — TrendingRepo",
+    description: "Top Reddit tech posts by velocity, cross-subreddit signal.",
+    url: "/reddit/trending",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Trending on Reddit — TrendingRepo",
+    description: "Top Reddit tech posts by velocity, cross-subreddit signal.",
+  },
+};
 
 function formatClock(iso: string | undefined): string {
   if (!iso) return "warming";

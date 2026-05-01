@@ -8,6 +8,7 @@
 // Template provides PageHead + KpiBand snapshot + list slot. The dense
 // TerminalFeedTable renders inside the list slot unchanged.
 
+import type { Metadata } from "next";
 import {
   getHfDatasetsTrending,
   getHfDatasetsFile,
@@ -31,6 +32,24 @@ const HF_ACCENT_BAR = "#FFD21E"; // HF brand yellow
 
 export const dynamic = "force-static";
 export const revalidate = 1800; // 30 min
+
+export const metadata: Metadata = {
+  title: "Trending Hugging Face Datasets",
+  description:
+    "Top 100 Hugging Face datasets by domain-scored momentum — downloads, likes, recency. Live dataset leaderboard.",
+  alternates: { canonical: "/huggingface/datasets" },
+  openGraph: {
+    title: "Trending Hugging Face Datasets — TrendingRepo",
+    description: "Top HF datasets by domain-scored momentum.",
+    url: "/huggingface/datasets",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Trending Hugging Face Datasets — TrendingRepo",
+    description: "Top HF datasets by domain-scored momentum.",
+  },
+};
 
 function formatAgeIso(iso: string | null | undefined, nowMs: number): string {
   if (!iso) return "—";

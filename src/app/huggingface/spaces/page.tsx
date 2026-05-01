@@ -8,6 +8,7 @@
 // + TerminalFeedTable list slot. ISR-cached at 30 min per project
 // convention.
 
+import type { Metadata } from "next";
 import {
   getHfSpacesTrending,
   getHfSpacesFile,
@@ -30,6 +31,24 @@ const HF_YELLOW = "#FFD21E";
 
 export const dynamic = "force-static";
 export const revalidate = 1800; // 30 min
+
+export const metadata: Metadata = {
+  title: "Trending Hugging Face Spaces",
+  description:
+    "Top 100 Hugging Face Spaces by domain-scored momentum — interactive demos, gradio apps, and live model showcases. Live Spaces leaderboard.",
+  alternates: { canonical: "/huggingface/spaces" },
+  openGraph: {
+    title: "Trending Hugging Face Spaces — TrendingRepo",
+    description: "Top HF Spaces by domain-scored momentum.",
+    url: "/huggingface/spaces",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Trending Hugging Face Spaces — TrendingRepo",
+    description: "Top HF Spaces by domain-scored momentum.",
+  },
+};
 
 function formatAgeIso(iso: string | null | undefined, nowMs: number): string {
   if (!iso) return "—";

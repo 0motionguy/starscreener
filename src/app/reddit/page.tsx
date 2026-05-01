@@ -3,6 +3,7 @@
 // Reads the latest data/reddit-mentions.json on each request so local
 // scraper runs show up without restarting Next.js.
 
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import Link from "next/link";
 
@@ -21,6 +22,24 @@ import { StatStrip } from "@/components/ui/StatStrip";
 const REDDIT_ORANGE = "#ff4500";
 
 export const revalidate = 300;
+
+export const metadata: Metadata = {
+  title: "Repos Trending on Reddit",
+  description:
+    "GitHub repos breaking out across r/programming, r/webdev, r/MachineLearning and the wider tech subreddits. Live mention scoring and breakout flagging.",
+  alternates: { canonical: "/reddit" },
+  openGraph: {
+    title: "Repos Trending on Reddit — TrendingRepo",
+    description: "GitHub repos breaking out across the tech subreddits, live-scored.",
+    url: "/reddit",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Repos Trending on Reddit — TrendingRepo",
+    description: "GitHub repos breaking out across the tech subreddits, live-scored.",
+  },
+};
 
 function formatRelative(iso: string): string {
   const t = new Date(iso).getTime();

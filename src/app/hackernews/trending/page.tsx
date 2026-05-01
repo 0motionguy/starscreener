@@ -5,6 +5,7 @@
 // snapshot + list slot; HnStoryFeed table renders inside the list slot
 // unchanged.
 
+import type { Metadata } from "next";
 import {
   getHnTopStories,
   getHnTrendingFile,
@@ -26,6 +27,24 @@ import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
 
 export const dynamic = "force-static";
+
+export const metadata: Metadata = {
+  title: "Trending on Hacker News",
+  description:
+    "Top Hacker News stories by velocity-weighted trending score (Firebase top-500 plus Algolia 7-day GitHub-mention sweep). Live HN signal terminal.",
+  alternates: { canonical: "/hackernews/trending" },
+  openGraph: {
+    title: "Trending on Hacker News — TrendingRepo",
+    description: "HN top 50 by velocity-weighted score with linked-repo overlap.",
+    url: "/hackernews/trending",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Trending on Hacker News — TrendingRepo",
+    description: "HN top 50 by velocity-weighted score with linked-repo overlap.",
+  },
+};
 
 const HN_ORANGE = "#ff6600";
 

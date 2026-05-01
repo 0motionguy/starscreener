@@ -4,6 +4,7 @@
 // likes + 2*reposts + 0.5*replies. Posts linking to tracked github.com
 // repos surface a clickable pill.
 
+import type { Metadata } from "next";
 import {
   BLUESKY_TRENDING_KEYWORDS,
   getBlueskyTopPosts,
@@ -26,6 +27,24 @@ import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
 
 export const dynamic = "force-static";
+
+export const metadata: Metadata = {
+  title: "Trending on Bluesky",
+  description:
+    "Top Bluesky posts about AI, dev tools, and open source — scored by likes, reposts, and replies. Posts linking to tracked GitHub repos surface inline.",
+  alternates: { canonical: "/bluesky/trending" },
+  openGraph: {
+    title: "Trending on Bluesky — TrendingRepo",
+    description: "Top Bluesky tech posts, scored by engagement and tracked-repo overlap.",
+    url: "/bluesky/trending",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Trending on Bluesky — TrendingRepo",
+    description: "Top Bluesky tech posts, scored by engagement and tracked-repo overlap.",
+  },
+};
 
 const BSKY_BLUE = "#0085FF";
 

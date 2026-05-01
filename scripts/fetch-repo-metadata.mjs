@@ -306,6 +306,22 @@ async function main() {
   console.log(
     `wrote ${OUT_FILE} (${items.length}/${fullNames.length} repos, ${failures.length} failures) [redis: ${result.source}]`,
   );
+
+  // Failure-rate guard: if a high % of repos failed (rate-limited token,
+  // GraphQL outage, mass-deletion of upstream feeds, ...), we still keep
+  // the file + Redis writes above as a best-effort baseline so the UI
+  // doesn't go fully blank — but we mark the run failed (exitCode=2) so
+  // the GHA workflow goes red and operators investigate before the next
+  // cron tick. Use process.exitCode (NOT process.exit) so the .finally
+  // closeDataStore() handler still runs.
+  const failureRate = failures.length / Math.max(1, fullNames.length);
+  const MAX_FAILURE_RATE = Number(process.env.METADATA_MAX_FAILURE_RATE ?? "0.5");
+  if (failureRate > MAX_FAILURE_RATE) {
+    console.error(
+      `[fetch-repo-metadata] FAIL: ${failures.length}/${fullNames.length} (${(failureRate * 100).toFixed(1)}%) failures exceeds threshold ${(MAX_FAILURE_RATE * 100).toFixed(0)}%`,
+    );
+    process.exitCode = 2;
+  }
 }
 
 main()

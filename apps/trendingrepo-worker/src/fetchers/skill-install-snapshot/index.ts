@@ -4,24 +4,27 @@
 //                 Redis and writes a daily install-count snapshot
 //   Auth          none
 //   Rate limit    n/a (one Redis read + one write per day)
-//   Cache TTL     7d per snapshot (skill-install-snapshot:<YYYY-MM-DD>)
+//   Cache TTL     31d per snapshot (skill-install-snapshot:<YYYY-MM-DD>)
 //   Cadence       daily 03:00 UTC (refresh-skill-install-snapshot.yml)
 //
 // Why this exists
-//   The skill scorer wants `installsDelta7d = installs7d - installsPrev7d`,
-//   but cold-start has no history. This fetcher snapshots `installs7d` per
-//   skill once a day, so 7 days from now buildSkillItem can join against
-//   `skill-install-snapshot:<7d-ago>` and populate `installsPrev7d`.
+//   The skill scorer wants installs deltas at 24h / 7d / 30d windows, but
+//   cold-start has no history. This fetcher snapshots `installs7d` per skill
+//   once a day, so the reader can join today's totals against
+//   `skill-install-snapshot:<N-d-ago>` for N in {1, 7, 30}.
 //
-//   Rolling window: we purge entries older than 7d at the end of each run by
-//   over-writing them with empty payloads (Redis TTL handles the actual
-//   expiry — the deletion is belt-and-braces).
+//   Rolling window: we keep 31 days of snapshots so the prev30d window has at
+//   least one valid candidate even if cron skips a tick. TTL handles expiry;
+//   the explicit purge is belt-and-braces for keys that aged out.
+//
+// W5-SKILLS24H — extended retention from 8d to 31d so prev1d + prev30d
+// readers can land. Existing prev7d behavior unchanged.
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { writeDataStore, readDataStore, getRedis } from '../../lib/redis.js';
 
-const SNAPSHOT_TTL_SECONDS = 8 * 24 * 60 * 60; // 8d (one extra day for read-tolerance)
-const ROLLING_DAYS = 7;
+const SNAPSHOT_TTL_SECONDS = 31 * 24 * 60 * 60; // 31d (covers 24h/7d/30d windows)
+const ROLLING_DAYS = 30;
 const NAMESPACE = 'ss:data:v1';
 
 interface RosterSkillItem {
@@ -98,6 +101,29 @@ const fetcher: Fetcher = {
       }
     } catch (err) {
       errors.push({ stage: 'purge', message: (err as Error).message });
+    }
+
+    // W5-SKILLS24H: ALSO mirror today's snapshot to fixed window slot keys so
+    // the reader can do a single Redis read per window (prev1d/prev7d/prev30d)
+    // without needing to know today's UTC date. Each slot points to the
+    // snapshot that was current N days ago. Same payload shape — buildItem
+    // reads `.installs`. TTL = window + 1d grace so the slot survives
+    // between cron ticks.
+    //
+    // This is additive; the dated keys above remain the canonical history
+    // and the prev7d reader keeps working.
+    for (const w of [
+      { name: '1d', days: 1 },
+      { name: '7d', days: 7 },
+      { name: '30d', days: 30 },
+    ]) {
+      const targetDate = isoDateNDaysAgo(w.days);
+      const targetKey = `skill-install-snapshot:${targetDate}`;
+      const targetPayload = await readDataStore<SnapshotPayload>(targetKey);
+      if (!targetPayload || !targetPayload.installs) continue;
+      await writeDataStore(`skill-install-snapshot:prev:${w.name}`, targetPayload, {
+        ttlSeconds: (w.days + 1) * 24 * 60 * 60,
+      });
     }
 
     ctx.log.info(

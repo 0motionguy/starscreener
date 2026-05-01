@@ -15,7 +15,8 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 import { getDerivedRepos } from "@/lib/derived-repos";
-import { lastFetchedAt } from "@/lib/trending";
+import { lastFetchedAt, refreshTrendingFromStore } from "@/lib/trending";
+import { refreshRecentReposFromStore } from "@/lib/recent-repos";
 
 import { SITE_NAME, absoluteUrl } from "@/lib/seo";
 import {
@@ -99,10 +100,14 @@ const PANEL_HEAD_STYLE = {
 };
 
 export default async function Top10RootPage() {
-  // Repo set is the only signal this page renders. getDerivedRepos pulls
-  // from the same in-memory cache the homepage primes; the bundled JSON
-  // seed handles cold-start. No per-render refresh hook needed —
-  // cross-signal score on a 7d window is steady across 10-minute ticks.
+  // Hydrate the in-memory cache from Redis before reading it. Without
+  // this the cold-start lambda would render whatever bundled JSON was
+  // baked into the deploy (often stale or empty). Per CLAUDE.md
+  // "Critical Conventions" rule.
+  await Promise.all([
+    refreshTrendingFromStore(),
+    refreshRecentReposFromStore(),
+  ]);
   const repos = getDerivedRepos();
 
   // Reuse the canonical top-10 repo bundle so /top10 and the per-category
@@ -244,15 +249,36 @@ export default async function Top10RootPage() {
             fetchers refresh.
           </div>
         ) : (
-          topItems.map((item, i) => (
+          topItems.map((item, i) => {
+            const sourceRepo = repoByFullName.get(item.slug);
+            return (
             <RankRow
               key={item.slug}
               rank={item.rank}
               avatar={
-                <LetterAvatar
-                  seed={item.owner ?? item.title ?? item.slug}
-                  size={28}
-                />
+                sourceRepo?.ownerAvatarUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={sourceRepo.ownerAvatarUrl}
+                    alt=""
+                    width={28}
+                    height={28}
+                    style={{
+                      width: 28,
+                      height: 28,
+                      borderRadius: "50%",
+                      objectFit: "cover",
+                      flexShrink: 0,
+                    }}
+                    loading="lazy"
+                    referrerPolicy="no-referrer"
+                  />
+                ) : (
+                  <LetterAvatar
+                    seed={item.owner ?? item.title ?? item.slug}
+                    size={28}
+                  />
+                )
               }
               title={
                 item.owner ? (
@@ -266,7 +292,10 @@ export default async function Top10RootPage() {
                 )
               }
               desc={item.description}
-              metric={{ value: item.score.toFixed(2), label: "/ 5.0" }}
+              metric={{
+                value: formatNumber(sourceRepo?.stars ?? 0),
+                label: "STARS",
+              }}
               delta={
                 item.deltaPct !== undefined
                   ? {
@@ -292,7 +321,8 @@ export default async function Top10RootPage() {
               href={item.href}
               first={i === 0}
             />
-          ))
+            );
+          })
         )}
       </section>
 

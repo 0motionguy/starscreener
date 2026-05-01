@@ -165,10 +165,29 @@ export default async function AgentReposPage() {
                 key={repo.id}
                 rank={index + 1}
                 avatar={
-                  <LetterAvatar
-                    seed={repo.owner ?? repo.name ?? repo.id}
-                    size={28}
-                  />
+                  repo.ownerAvatarUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={repo.ownerAvatarUrl}
+                      alt=""
+                      width={28}
+                      height={28}
+                      style={{
+                        width: 28,
+                        height: 28,
+                        borderRadius: "50%",
+                        objectFit: "cover",
+                        flexShrink: 0,
+                      }}
+                      loading="lazy"
+                      referrerPolicy="no-referrer"
+                    />
+                  ) : (
+                    <LetterAvatar
+                      seed={repo.owner ?? repo.name ?? repo.id}
+                      size={28}
+                    />
+                  )
                 }
                 title={
                   <>

@@ -55,8 +55,13 @@ jobs:
         #   message: short human description for the alert payload
         run: |
           set +e
+          # ?soft=1 — /api/health returns 503 when ANY source is stale by
+          # default, which trips this workflow on normal hourly drift. Soft
+          # mode returns 200 with status="stale" in the body; the parser
+          # below already inspects body.status, so we still alert correctly
+          # without false-positive page failures.
           code=$(curl -sS -o /tmp/out -w "%{http_code}" \
-            "$BASE_URL/api/health")
+            "$BASE_URL/api/health?soft=1")
           curl_rc=$?
           set -e
           echo "HTTP $code (curl_rc=$curl_rc)"

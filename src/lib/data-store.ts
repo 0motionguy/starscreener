@@ -536,6 +536,12 @@ function defaultRedisFactory(url: string, token?: string): RedisClientLike {
     // a 5 s ceiling is generous enough for cold connect from a cold
     // Lambda without blocking the request meaningfully.
     connectTimeout: 5_000,
+    // Command timeout — caps any individual Redis command at 30 s so a
+    // slow/hung Redis can't block snapshot scripts (`Promise.all` over
+    // multiple `store.read()` calls) for the full GitHub Actions 6 h
+    // ceiling. Without this, snapshot-{top10,consensus,sparklines} were
+    // being cancelled at 6 h instead of failing fast (audit 2026-05-04).
+    commandTimeout: 30_000,
     // enableOfflineQueue stays at the ioredis default (`true`). Setting
     // it to `false` made the FIRST command on a fresh client fail
     // immediately when the TCP handshake hadn't completed yet — verify

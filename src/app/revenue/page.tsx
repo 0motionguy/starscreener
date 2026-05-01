@@ -1,18 +1,8 @@
-// /revenue — Revenue Terminal
+// /revenue — V4 W4 Revenue Terminal.
 //
 // Two sections:
-//  1. Tracked repos with verified revenue — cards whose product matched one
-//     of our trending repos. Anchored to /repo/[owner]/[name].
-//  2. Verified revenue leaderboard — broader catalog of verified-revenue
-//     startups in dev/AI-adjacent categories, for audience relevance even
-//     when the tracked-repo match count is small.
-//
-// Reads:
-//  - data/revenue-overlays.json  (via src/lib/revenue-overlays.ts)
-//  - data/trustmrr-startups.json (via src/lib/revenue-startups.ts)
-//
-// Section 2 supports ?category=<name> for drilldowns, ?category=__all__ for
-// every category in the catalog.
+//  1. Tracked repos with verified revenue
+//  2. Verified revenue leaderboard (broader dev-adjacent catalog)
 
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -28,10 +18,12 @@ import {
   refreshRevenueOverlaysFromStore,
 } from "@/lib/revenue-overlays";
 import { VerifiedStartupCard } from "@/components/revenue/VerifiedStartupCard";
-import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
-import { buildRevenueHeader } from "@/components/revenue/revenueTopMetrics";
 
-const REVENUE_ACCENT = "rgba(34, 197, 94, 0.85)";
+// V4 (CORPUS) primitives.
+import { PageHead } from "@/components/ui/PageHead";
+import { SectionHead } from "@/components/ui/SectionHead";
+import { KpiBand } from "@/components/ui/KpiBand";
+import { LiveDot } from "@/components/ui/LiveDot";
 
 export const revalidate = 600;
 
@@ -49,7 +41,7 @@ interface PageProps {
 }
 
 function formatUsd(cents: number | null): string {
-  if (cents === null || !Number.isFinite(cents)) return "-";
+  if (cents === null || !Number.isFinite(cents)) return "—";
   const dollars = cents / 100;
   if (dollars >= 1_000_000) return `$${(dollars / 1_000_000).toFixed(1)}M`;
   if (dollars >= 10_000) return `$${(dollars / 1_000).toFixed(0)}K`;
@@ -70,10 +62,12 @@ function formatRelative(iso: string | null | undefined): string {
   return `${Math.floor(hours / 24)}d ago`;
 }
 
+function formatClock(iso: string | undefined): string {
+  if (!iso) return "warming";
+  return new Date(iso).toISOString().slice(11, 19);
+}
+
 export default async function RevenuePage({ searchParams }: PageProps) {
-  // Refresh both Redis-backed payloads before any sync getter runs. Both
-  // refreshes are internally rate-limited (30s) so concurrent renders never
-  // burn more than 2 Redis calls per process per refresh window.
   await Promise.all([
     refreshRevenueStartupsFromStore(),
     refreshRevenueOverlaysFromStore(),
@@ -89,16 +83,11 @@ export default async function RevenuePage({ searchParams }: PageProps) {
 
   const trackedMeta = getRevenueOverlaysMeta();
 
-  // Full-catalog leaderboard (independent of tracked-repo matches) filtered
-  // by the active category. Default = dev-adjacent allowlist.
   const leaderboard = getLeaderboard({
     category,
     limit: LEADERBOARD_LIMIT,
   });
 
-  // Tracked section = every matched row, independent of category filter.
-  // Always shows them even if the user narrowed the leaderboard to a
-  // category the tracked matches aren't in.
   const tracked = getLeaderboard({
     category: "__all__",
     limit: 1000,
@@ -106,206 +95,196 @@ export default async function RevenuePage({ searchParams }: PageProps) {
     Boolean(r.matchedRepoFullName),
   );
 
-  const { cards, topStories } = buildRevenueHeader({
-    rows: leaderboard.rows,
-    totalInFilter: leaderboard.totalInFilter,
-    totalMrrCents: leaderboard.totalMrrCents,
-    topMrrCents: leaderboard.topMrrCents,
-    trackedMatches: tracked.length,
-  });
-
   return (
-    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
-      <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
-        <div className="mb-6">
-          <NewsTopHeaderV3
-            routeTitle="REVENUE · VERIFIED MRR"
-            liveLabel="LIVE"
-            eyebrow="// REVENUE · TRUSTMRR · LIVE"
-            meta={[
-              {
-                label: "STARTUPS",
-                value: leaderboard.totalInFilter.toLocaleString("en-US"),
-              },
-              { label: "TRACKED", value: tracked.length.toLocaleString("en-US") },
-            ]}
-            cards={cards}
-            topStories={topStories}
-            accent={REVENUE_ACCENT}
-            caption={[
-              "// LAYOUT compact-v1",
-              "· 3-COL · 320 / 1FR / 1FR",
-              "· DATA UNCHANGED",
-            ]}
-          />
-        </div>
+    <main className="home-surface">
+      <PageHead
+        crumb={
+          <>
+            <b>REVENUE</b> · TERMINAL · /REVENUE
+          </>
+        }
+        h1="Verified MRR for trending repos."
+        lede="Revenue verified via direct read-only sync with each product's payment provider — Stripe, Lemon Squeezy, Paddle. Tracked OSS matches up top, broader dev-adjacent catalog below."
+        clock={
+          <>
+            <span className="big">{formatClock(trackedMeta.catalogGeneratedAt ?? undefined)}</span>
+            <span className="muted">UTC · CATALOG SYNC</span>
+            <LiveDot label="LIVE · TRUSTMRR" />
+          </>
+        }
+      />
 
-        {/* Founders CTA — compact, beside the header */}
-        <div
-          className="mb-6 flex flex-wrap items-center gap-3 px-4 py-3 text-xs"
-          style={{
-            background: "rgba(34, 197, 94, 0.05)",
-            border: "1px solid rgba(34, 197, 94, 0.3)",
-            borderRadius: 2,
-          }}
+      <KpiBand
+        className="kpi-band"
+        cells={[
+          {
+            label: "STARTUPS",
+            value: leaderboard.totalInFilter.toLocaleString("en-US"),
+            sub: "in current filter",
+            pip: "var(--v4-money)",
+          },
+          {
+            label: "TRACKED",
+            value: tracked.length.toLocaleString("en-US"),
+            sub: "matched OSS",
+            tone: "money",
+            pip: "var(--v4-money)",
+          },
+          {
+            label: "COMBINED MRR",
+            value: formatUsd(leaderboard.totalMrrCents),
+            sub: "in filter",
+            tone: "acc",
+            pip: "var(--v4-acc)",
+          },
+          {
+            label: "TOP MRR",
+            value: formatUsd(leaderboard.topMrrCents),
+            sub: "leader's MRR",
+            tone: "acc",
+            pip: "var(--v4-blue)",
+          },
+        ]}
+      />
+
+      {/* Founders CTA — compact, beside the header */}
+      <div
+        className="mb-6 flex flex-wrap items-center gap-3 px-4 py-3 text-xs"
+        style={{
+          background: "var(--v4-money-soft)",
+          border: "1px solid var(--v4-money)",
+          borderRadius: 2,
+        }}
+      >
+        <span
+          className="v2-mono text-[10px] font-semibold uppercase tracking-[0.18em]"
+          style={{ color: "var(--v4-money)" }}
         >
-          <span
-            className="v2-mono text-[10px] font-semibold uppercase tracking-[0.18em]"
-            style={{ color: "var(--v3-sig-green)" }}
+          <BadgeCheck className="mr-1 inline size-3" aria-hidden />
+          Founders
+        </span>
+        <span style={{ color: "var(--v4-ink-300)" }}>
+          Don&apos;t see your project? Link a verified-revenue profile or
+          self-report your MRR.
+        </span>
+        <Link
+          href="/submit/revenue"
+          className="ml-auto inline-flex items-center gap-1 font-mono text-xs font-semibold hover:underline"
+          style={{ color: "var(--v4-ink-100)" }}
+        >
+          Claim or submit revenue →
+        </Link>
+      </div>
+
+      <SectionHead
+        num="// 01"
+        title="Tracked repos with verified revenue"
+        meta={
+          <>
+            <b>{tracked.length.toLocaleString("en-US")}</b>{" "}
+            match{tracked.length === 1 ? "" : "es"} ·{" "}
+            {trackedMeta.catalogGeneratedAt
+              ? `updated ${formatRelative(trackedMeta.catalogGeneratedAt)}`
+              : "never synced"}
+          </>
+        }
+      />
+      <section className="mb-12">
+        {tracked.length === 0 ? (
+          <TrackedColdState />
+        ) : (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            {tracked.map((startup, i) => {
+              const stagger = Math.min(i, 6) * 50;
+              return (
+                <div
+                  key={startup.slug}
+                  style={{
+                    animation: "slide-up 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both",
+                    animationDelay: stagger > 0 ? `${stagger}ms` : undefined,
+                  }}
+                >
+                  <VerifiedStartupCard startup={startup} rank={i + 1} />
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </section>
+
+      <SectionHead
+        num="// 02"
+        title="Verified revenue leaderboard"
+        meta={
+          <>
+            <b>{Math.min(LEADERBOARD_LIMIT, leaderboard.rows.length)}</b> of{" "}
+            {leaderboard.totalInFilter.toLocaleString("en-US")} ·{" "}
+            {category === "__all__"
+              ? "every category"
+              : category ?? "dev-adjacent"}
+            {" · "}
+            {formatUsd(leaderboard.totalMrrCents)} combined
+          </>
+        }
+      />
+      <section>
+        <CategoryFilter
+          active={category}
+          available={leaderboard.availableCategories}
+        />
+
+        {leaderboard.rows.length === 0 ? (
+          <div
+            className="px-4 py-6 text-sm"
+            style={{
+              background: "var(--v4-bg-025)",
+              border: "1px dashed var(--v4-line-100)",
+              borderRadius: 2,
+              color: "var(--v4-ink-400)",
+            }}
           >
-            <BadgeCheck className="mr-1 inline size-3" aria-hidden />
-            Founders
-          </span>
-          <span style={{ color: "var(--v3-ink-300)" }}>
-            Don&apos;t see your project? Link a verified-revenue profile or
-            self-report your MRR.
-          </span>
+            No startups in this filter.
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            {leaderboard.rows.map((startup, i) => {
+              const stagger = Math.min(i, 6) * 50;
+              return (
+                <div
+                  key={startup.slug}
+                  style={{
+                    animation: "slide-up 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both",
+                    animationDelay: stagger > 0 ? `${stagger}ms` : undefined,
+                  }}
+                >
+                  <VerifiedStartupCard startup={startup} rank={i + 1} />
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        <footer
+          className="mt-8 flex flex-wrap items-center gap-3 text-xs"
+          style={{ color: "var(--v4-ink-400)" }}
+        >
+          <Link
+            href="/tools/revenue-estimate"
+            className="transition-colors hover:text-[color:var(--v4-ink-100)]"
+            style={{ color: "var(--v4-ink-300)" }}
+          >
+            Try the MRR estimator →
+          </Link>
+          <span aria-hidden style={{ color: "var(--v4-line-300)" }}>·</span>
           <Link
             href="/submit/revenue"
-            className="ml-auto inline-flex items-center gap-1 font-mono text-xs font-semibold hover:underline"
-            style={{ color: "var(--v3-ink-100)" }}
+            className="transition-colors hover:text-[color:var(--v4-ink-100)]"
+            style={{ color: "var(--v4-ink-300)" }}
           >
             Claim or submit revenue →
           </Link>
-        </div>
-
-        {/* SECTION 1 — tracked repos ----------------------------------- */}
-        <section className="mb-12" aria-labelledby="tracked-heading">
-          <div className="mb-4 flex flex-wrap items-baseline justify-between gap-3">
-            <h2
-              id="tracked-heading"
-              className="v2-mono text-[13px] font-bold uppercase tracking-[0.18em]"
-              style={{ color: "var(--v3-ink-100)" }}
-            >
-              {"// Tracked repos with verified revenue"}
-            </h2>
-            <span
-              className="v2-mono text-[11px] tracking-[0.14em]"
-              style={{ color: "var(--v3-ink-400)" }}
-            >
-              {tracked.length.toLocaleString("en-US")} match
-              {tracked.length === 1 ? "" : "es"} ·{" "}
-              {trackedMeta.catalogGeneratedAt
-                ? `updated ${formatRelative(trackedMeta.catalogGeneratedAt)}`
-                : "never synced"}
-            </span>
-          </div>
-          {tracked.length === 0 ? (
-            <TrackedColdState />
-          ) : (
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
-              {tracked.map((startup, i) => {
-                const stagger = Math.min(i, 6) * 50;
-                return (
-                  <div
-                    key={startup.slug}
-                    style={{
-                      animation: "slide-up 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both",
-                      animationDelay: stagger > 0 ? `${stagger}ms` : undefined,
-                    }}
-                  >
-                    <VerifiedStartupCard startup={startup} rank={i + 1} />
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </section>
-
-        {/* SECTION 2 — broader leaderboard ---------------------------- */}
-        <section aria-labelledby="leaderboard-heading">
-          <div className="mb-4 flex flex-wrap items-baseline justify-between gap-3">
-            <div>
-              <h2
-                id="leaderboard-heading"
-                className="v2-mono text-[13px] font-bold uppercase tracking-[0.18em]"
-                style={{ color: "var(--v3-ink-100)" }}
-              >
-                {"// Verified revenue leaderboard"}
-              </h2>
-              <p
-                className="mt-1 text-[11px]"
-                style={{ color: "var(--v3-ink-400)" }}
-              >
-                Top {Math.min(LEADERBOARD_LIMIT, leaderboard.rows.length)} of{" "}
-                {leaderboard.totalInFilter.toLocaleString("en-US")} verified-revenue
-                startup(s) in{" "}
-                {category === "__all__" ? (
-                  "every category"
-                ) : category ? (
-                  <span style={{ color: "var(--v3-ink-100)" }}>{category}</span>
-                ) : (
-                  "developer-adjacent categories"
-                )}
-                .
-              </p>
-            </div>
-            <span
-              className="v2-mono text-[11px] tracking-[0.14em]"
-              style={{ color: "var(--v3-ink-300)" }}
-            >
-              Combined MRR: {formatUsd(leaderboard.totalMrrCents)}
-            </span>
-          </div>
-
-          <CategoryFilter
-            active={category}
-            available={leaderboard.availableCategories}
-          />
-
-          {leaderboard.rows.length === 0 ? (
-            <div
-              className="px-4 py-6 text-sm"
-              style={{
-                background: "var(--v3-bg-025)",
-                border: "1px dashed var(--v3-line-100)",
-                borderRadius: 2,
-                color: "var(--v3-ink-400)",
-              }}
-            >
-              No startups in this filter.
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
-              {leaderboard.rows.map((startup, i) => {
-                const stagger = Math.min(i, 6) * 50;
-                return (
-                  <div
-                    key={startup.slug}
-                    style={{
-                      animation: "slide-up 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both",
-                      animationDelay: stagger > 0 ? `${stagger}ms` : undefined,
-                    }}
-                  >
-                    <VerifiedStartupCard startup={startup} rank={i + 1} />
-                  </div>
-                );
-              })}
-            </div>
-          )}
-
-          <footer
-            className="mt-8 flex flex-wrap items-center gap-3 text-xs"
-            style={{ color: "var(--v3-ink-400)" }}
-          >
-            <Link
-              href="/tools/revenue-estimate"
-              className="transition-colors hover:text-[color:var(--v3-ink-100)]"
-              style={{ color: "var(--v3-ink-300)" }}
-            >
-              Try the MRR estimator →
-            </Link>
-            <span aria-hidden style={{ color: "var(--v3-line-300)" }}>·</span>
-            <Link
-              href="/submit/revenue"
-              className="transition-colors hover:text-[color:var(--v3-ink-100)]"
-              style={{ color: "var(--v3-ink-300)" }}
-            >
-              Claim or submit revenue →
-            </Link>
-          </footer>
-        </section>
-      </div>
+        </footer>
+      </section>
     </main>
   );
 }
@@ -345,12 +324,12 @@ function CategoryFilter({
           className="v2-mono px-2.5 py-1 text-[11px] uppercase tracking-[0.16em] transition"
           style={{
             border: chip.active
-              ? "1px solid var(--v3-sig-green)"
-              : "1px solid var(--v3-line-200)",
+              ? "1px solid var(--v4-money)"
+              : "1px solid var(--v4-line-200)",
             background: chip.active
-              ? "rgba(34, 197, 94, 0.1)"
-              : "var(--v3-bg-100)",
-            color: chip.active ? "var(--v3-ink-000)" : "var(--v3-ink-300)",
+              ? "var(--v4-money-soft)"
+              : "var(--v4-bg-100)",
+            color: chip.active ? "var(--v4-ink-000)" : "var(--v4-ink-300)",
             borderRadius: 2,
           }}
         >
@@ -366,10 +345,10 @@ function TrackedColdState() {
     <div
       className="px-4 py-6 text-sm"
       style={{
-        background: "var(--v3-bg-025)",
-        border: "1px dashed var(--v3-line-100)",
+        background: "var(--v4-bg-025)",
+        border: "1px dashed var(--v4-line-100)",
         borderRadius: 2,
-        color: "var(--v3-ink-400)",
+        color: "var(--v4-ink-400)",
       }}
     >
       No tracked repos currently match a verified-revenue startup. Most

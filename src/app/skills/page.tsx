@@ -86,7 +86,7 @@ interface SkillsPageProps {
   searchParams?: Promise<{ window?: string | string[] }>;
 }
 
-export default async function SkillsPage({ searchParams }: SkillsPageProps = {}) {
+export default async function SkillsPage({ searchParams }: SkillsPageProps) {
   const params = (await searchParams) ?? {};
   const sortWindow = parseSortWindow(params.window);
 

@@ -78,7 +78,7 @@ interface CategoriesPageProps {
 
 export default async function CategoriesPage({
   searchParams,
-}: CategoriesPageProps = {}) {
+}: CategoriesPageProps) {
   const params = (await searchParams) ?? {};
   const sortWindow = parseSortWindow(params.window);
 

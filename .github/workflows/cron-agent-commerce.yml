@@ -1,0 +1,161 @@
+name: Refresh agent-commerce pipeline
+
+on:
+  schedule:
+    # Daily at 04:31 UTC. Offset from scrape-trending (every :27) and
+    # other hourly crons to avoid stomping the runner pool.
+    - cron: "31 4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: agent-commerce-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Fetch Agentic Market services
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+        run: node scripts/fetch-agentic-market.mjs
+
+      - name: Fetch OpenRouter models
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+        run: node scripts/fetch-openrouter-models.mjs
+
+      - name: Fetch CoinGecko AI agents
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+        run: node scripts/fetch-coingecko-agents.mjs
+
+      - name: Fetch Artificial Analysis benchmarks
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+          AA_API_KEY: ${{ secrets.AA_API_KEY }}
+        run: node scripts/fetch-artificial-analysis.mjs
+
+      - name: Fetch Base x402 on-chain settlements
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+        run: node scripts/fetch-base-x402-onchain.mjs --max-pages-per-addr 3
+
+      - name: Fetch Solana x402 on-chain settlements
+        # Public mainnet-beta RPC caps getTransaction at 4 req/s per IP;
+        # script defaults to concurrency 1 + 250ms throttle. Operators
+        # can set SOLANA_RPC_URL secret to a paid endpoint (Helius /
+        # Alchemy) for higher throughput. continue-on-error so a single
+        # 429 storm doesn't fail the daily pipeline — fetcher is
+        # idempotent and the next tick recovers.
+        continue-on-error: true
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+          SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
+        run: node scripts/fetch-solana-x402-onchain.mjs --max-pages-per-addr 3
+
+      - name: Enrich agent-commerce live signals
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN_POOL || github.token }}
+        run: node scripts/fetch-agent-commerce-live.mjs --concurrency 6
+
+      - name: Enrich agent-commerce social mentions
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+          REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
+        run: node scripts/fetch-agent-commerce-social.mjs
+
+      - name: Rebuild agent-commerce seed
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+        run: node scripts/build-agent-commerce-seed.mjs
+
+      - name: Submit AISO scans for new entities
+        # Enqueues rows into .data/aiso-rescan-queue.jsonl. The
+        # cron-aiso-drain workflow (every 30min) processes them.
+        run: npx tsx scripts/submit-agent-commerce-aiso.ts
+
+      - name: Commit if changed
+        id: commit-step
+        run: |
+          git config user.name  "trendingrepo-bot"
+          git config user.email "bot@trendingrepo.local"
+          git add \
+            data/agent-commerce.json \
+            .data/base-x402-onchain.json \
+            .data/solana-x402-onchain.json \
+            .data/agentic-market.json \
+            .data/openrouter-models.json \
+            .data/coingecko-agents.json \
+            .data/artificial-analysis.json \
+            .data/aiso-rescan-queue.jsonl \
+            2>/dev/null || true
+          if git diff --quiet --staged; then
+            echo "no changes - skipping commit"
+            echo "committed=false" >> $GITHUB_OUTPUT
+            echo "files_changed=0" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          FILES_CHANGED=$(git diff --staged --name-only | wc -l | tr -d ' ')
+          TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          git commit -m "data(agent-commerce): refresh pipeline ${TS}"
+          git pull --rebase origin main
+          git push
+          echo "committed=true" >> $GITHUB_OUTPUT
+          echo "files_changed=${FILES_CHANGED}" >> $GITHUB_OUTPUT
+
+      - name: Notify completion
+        if: always()
+        env:
+          WEBHOOK_URL: ${{ secrets.AGENT_COMMERCE_WEBHOOK_URL }}
+          JOB_STATUS: ${{ job.status }}
+          COMMITTED: ${{ steps.commit-step.outputs.committed }}
+          FILES_CHANGED: ${{ steps.commit-step.outputs.files_changed }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          COMMITTED_DISPLAY="${COMMITTED:-unknown}"
+          FILES_DISPLAY="${FILES_CHANGED:-0}"
+          SUMMARY_LINE="agent-commerce refresh: status=${JOB_STATUS} committed=${COMMITTED_DISPLAY} files=${FILES_DISPLAY} ts=${TS} run=${RUN_URL}"
+
+          {
+            echo "### Agent-commerce refresh"
+            echo ""
+            echo "- Status: \`${JOB_STATUS}\`"
+            echo "- Committed: \`${COMMITTED_DISPLAY}\`"
+            echo "- Files changed: \`${FILES_DISPLAY}\`"
+            echo "- Timestamp (UTC): \`${TS}\`"
+            echo "- Run: ${RUN_URL}"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if [ -z "${WEBHOOK_URL}" ]; then
+            echo "AGENT_COMMERCE_WEBHOOK_URL not set - skipping webhook"
+            exit 0
+          fi
+
+          PAYLOAD=$(printf '{"text":"%s"}' "${SUMMARY_LINE}")
+          curl -sS -X POST -H "Content-Type: application/json" \
+            --data "${PAYLOAD}" \
+            --max-time 10 \
+            "${WEBHOOK_URL}" || echo "webhook POST failed - ignoring"

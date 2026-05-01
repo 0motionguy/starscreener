@@ -1,0 +1,4494 @@
+{
+  "version": 1,
+  "description": "Hand-curated Agent Commerce seed. Inputs feed scoring; composite is derived by scripts/build-agent-commerce-seed.mjs.",
+  "entries": [
+    {
+      "name": "x402",
+      "kind": "protocol",
+      "category": "payments",
+      "brief": "HTTP 402 Payment Required reincarnated as a stablecoin-settled per-call protocol for agent-to-agent payments.",
+      "protocols": [
+        "x402",
+        "http"
+      ],
+      "pricing": {
+        "type": "free",
+        "value": "free protocol"
+      },
+      "capabilities": [
+        "per-call-payment",
+        "stablecoin-settlement",
+        "header-based"
+      ],
+      "links": {
+        "website": "https://www.x402.org",
+        "github": "coinbase/x402",
+        "docs": "https://docs.x402.org"
+      },
+      "badges": {
+        "x402Enabled": true,
+        "verified": true,
+        "agentActionable": true
+      },
+      "stars7dDelta": 320,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/coinbase/x402",
+          "signalScore": 95
+        },
+        {
+          "source": "hn",
+          "url": "https://news.ycombinator.com/item?id=42096890",
+          "signalScore": 88
+        }
+      ],
+      "tags": [
+        "x402",
+        "payments",
+        "stablecoin",
+        "protocol"
+      ]
+    },
+    {
+      "name": "x402scan",
+      "kind": "tool",
+      "category": "payments",
+      "brief": "Block-explorer-style index of live x402-priced services across the web. List, filter, inspect.",
+      "protocols": [
+        "x402",
+        "http"
+      ],
+      "pricing": {
+        "type": "free"
+      },
+      "capabilities": [
+        "service-discovery",
+        "x402-monitoring"
+      ],
+      "links": {
+        "website": "https://www.x402scan.com"
+      },
+      "badges": {
+        "x402Enabled": true,
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://www.x402scan.com",
+          "signalScore": 70
+        }
+      ],
+      "tags": [
+        "x402",
+        "discovery",
+        "explorer"
+      ]
+    },
+    {
+      "name": "Skyfire",
+      "kind": "infra",
+      "category": "payments",
+      "brief": "Payment + identity rails for AI agents. Spend caps, audit trails, KYC for autonomous agents.",
+      "protocols": [
+        "http"
+      ],
+      "pricing": {
+        "type": "subscription",
+        "value": "tiered"
+      },
+      "capabilities": [
+        "agent-payments",
+        "identity",
+        "spend-controls"
+      ],
+      "links": {
+        "website": "https://www.skyfire.xyz"
+      },
+      "badges": {
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://www.skyfire.xyz",
+          "signalScore": 60
+        }
+      ],
+      "tags": [
+        "payments",
+        "identity",
+        "agents"
+      ]
+    },
+    {
+      "name": "Coinbase Agent Wallet",
+      "kind": "wallet",
+      "category": "auth",
+      "brief": "MPC-backed wallets agents can spin up with one API call. Spend limits, x402 native.",
+      "protocols": [
+        "x402",
+        "http"
+      ],
+      "pricing": {
+        "type": "per_call",
+        "value": "$0.01/wallet-action",
+        "currency": "USD",
+        "chains": [
+          "base",
+          "ethereum"
+        ]
+      },
+      "capabilities": [
+        "wallet-creation",
+        "x402-payment",
+        "spend-limits"
+      ],
+      "links": {
+        "website": "https://www.coinbase.com/developer-platform/products/agent-wallet",
+        "docs": "https://docs.cdp.coinbase.com"
+      },
+      "badges": {
+        "x402Enabled": true,
+        "verified": true,
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://www.coinbase.com/developer-platform",
+          "signalScore": 80
+        }
+      ],
+      "tags": [
+        "wallet",
+        "x402",
+        "coinbase",
+        "mpc"
+      ]
+    },
+    {
+      "name": "Crossmint",
+      "kind": "wallet",
+      "category": "auth",
+      "brief": "Wallets-as-a-service for agents. Email/social login, embedded smart wallets, fiat onramp.",
+      "protocols": [
+        "http"
+      ],
+      "pricing": {
+        "type": "subscription",
+        "value": "tiered"
+      },
+      "capabilities": [
+        "embedded-wallet",
+        "fiat-onramp",
+        "agent-mpc"
+      ],
+      "links": {
+        "website": "https://www.crossmint.com",
+        "docs": "https://docs.crossmint.com"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 12,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://www.crossmint.com",
+          "signalScore": 70
+        }
+      ],
+      "tags": [
+        "wallet",
+        "smart-wallet",
+        "agents"
+      ]
+    },
+    {
+      "name": "Privy",
+      "kind": "wallet",
+      "category": "auth",
+      "brief": "Embedded wallets + auth for human + agent flows. Server-signing for autonomous use.",
+      "protocols": [
+        "http"
+      ],
+      "pricing": {
+        "type": "subscription",
+        "value": "$249/mo+"
+      },
+      "capabilities": [
+        "embedded-wallet",
+        "server-signing",
+        "auth"
+      ],
+      "links": {
+        "website": "https://www.privy.io",
+        "docs": "https://docs.privy.io"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 4,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://www.privy.io",
+          "signalScore": 70
+        }
+      ],
+      "tags": [
+        "wallet",
+        "auth",
+        "embedded"
+      ]
+    },
+    {
+      "name": "Turnkey",
+      "kind": "wallet",
+      "category": "auth",
+      "brief": "Programmable signing infra. Policy-engine for agent transactions, hardware-backed root keys.",
+      "protocols": [
+        "http"
+      ],
+      "pricing": {
+        "type": "per_call",
+        "value": "$0.05/sig"
+      },
+      "capabilities": [
+        "signing",
+        "policy-engine",
+        "agent-keys"
+      ],
+      "links": {
+        "website": "https://www.turnkey.com",
+        "docs": "https://docs.turnkey.com"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://www.turnkey.com",
+          "signalScore": 65
+        }
+      ],
+      "tags": [
+        "wallet",
+        "signing",
+        "policy"
+      ]
+    },
+    {
+      "name": "Magic",
+      "kind": "wallet",
+      "category": "auth",
+      "brief": "Passwordless auth + non-custodial wallet SDK. Used as identity layer for many agent apps.",
+      "protocols": [
+        "http"
+      ],
+      "pricing": {
+        "type": "subscription",
+        "value": "free → $649/mo"
+      },
+      "capabilities": [
+        "passwordless",
+        "embedded-wallet"
+      ],
+      "links": {
+        "website": "https://magic.link"
+      },
+      "badges": {
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://magic.link",
+          "signalScore": 55
+        }
+      ],
+      "tags": [
+        "wallet",
+        "auth"
+      ]
+    },
+    {
+      "name": "Dynamic",
+      "kind": "wallet",
+      "category": "auth",
+      "brief": "Multi-chain wallet auth + embedded wallets. Smart-account abstractions baked in.",
+      "protocols": [
+        "http"
+      ],
+      "pricing": {
+        "type": "subscription",
+        "value": "free → enterprise"
+      },
+      "capabilities": [
+        "wallet-auth",
+        "smart-account"
+      ],
+      "links": {
+        "website": "https://www.dynamic.xyz"
+      },
+      "badges": {
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://www.dynamic.xyz",
+          "signalScore": 55
+        }
+      ],
+      "tags": [
+        "wallet",
+        "auth"
+      ]
+    },
+    {
+      "name": "ERC-8004",
+      "kind": "protocol",
+      "category": "auth",
+      "brief": "Trustless agent identity standard. Cryptographic proofs for agent provenance + reputation.",
+      "protocols": [
+        "http"
+      ],
+      "pricing": {
+        "type": "free"
+      },
+      "capabilities": [
+        "agent-identity",
+        "reputation",
+        "verifiable-claims"
+      ],
+      "links": {
+        "website": "https://eips.ethereum.org/EIPS/eip-8004",
+        "github": "ethereum/EIPs"
+      },
+      "badges": {
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://eips.ethereum.org/EIPS/eip-8004",
+          "signalScore": 45
+        }
+      ],
+      "tags": [
+        "identity",
+        "erc-8004",
+        "standard"
+      ]
+    },
+    {
+      "name": "Smithery",
+      "kind": "marketplace",
+      "category": "marketplace",
+      "brief": "MCP server registry + 1-click install. The npm of Model Context Protocol.",
+      "protocols": [
+        "mcp",
+        "http"
+      ],
+      "pricing": {
+        "type": "free"
+      },
+      "capabilities": [
+        "mcp-discovery",
+        "mcp-install",
+        "registry"
+      ],
+      "links": {
+        "website": "https://smithery.ai",
+        "github": "smithery-ai/registry"
+      },
+      "badges": {
+        "mcpServer": false,
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 80,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://smithery.ai",
+          "signalScore": 80
+        },
+        {
+          "source": "github",
+          "url": "https://github.com/smithery-ai/registry",
+          "signalScore": 70
+        }
+      ],
+      "tags": [
+        "mcp",
+        "marketplace",
+        "registry"
+      ]
+    },
+    {
+      "name": "MCP.run",
+      "kind": "marketplace",
+      "category": "marketplace",
+      "brief": "Hosted MCP servers + agent harness. Run MCP tools without managing the server lifecycle.",
+      "protocols": [
+        "mcp",
+        "http"
+      ],
+      "pricing": {
+        "type": "subscription",
+        "value": "free → paid"
+      },
+      "capabilities": [
+        "mcp-hosting",
+        "agent-runtime"
+      ],
+      "links": {
+        "website": "https://www.mcp.run"
+      },
+      "badges": {
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://www.mcp.run",
+          "signalScore": 55
+        }
+      ],
+      "tags": [
+        "mcp",
+        "hosting"
+      ]
+    },
+    {
+      "name": "Awesome MCP Servers",
+      "kind": "marketplace",
+      "category": "marketplace",
+      "brief": "Curated list of MCP servers. The de-facto starting point for MCP discovery.",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "free"
+      },
+      "capabilities": [
+        "mcp-discovery"
+      ],
+      "links": {
+        "github": "punkpeye/awesome-mcp-servers"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 220,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/punkpeye/awesome-mcp-servers",
+          "signalScore": 90
+        }
+      ],
+      "tags": [
+        "mcp",
+        "awesome-list"
+      ]
+    },
+    {
+      "name": "Agentic.market",
+      "kind": "marketplace",
+      "category": "marketplace",
+      "brief": "Marketplace + directory for agent-callable services and tools.",
+      "protocols": [
+        "http"
+      ],
+      "pricing": {
+        "type": "free"
+      },
+      "capabilities": [
+        "service-discovery",
+        "agent-tools"
+      ],
+      "links": {
+        "website": "https://agentic.market"
+      },
+      "badges": {
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://agentic.market",
+          "signalScore": 50
+        }
+      ],
+      "tags": [
+        "marketplace",
+        "agents"
+      ]
+    },
+    {
+      "name": "OpenRouter",
+      "kind": "marketplace",
+      "category": "inference",
+      "brief": "Single API gateway to 200+ LLMs. Pay-per-token across providers, automatic failover.",
+      "protocols": [
+        "http",
+        "rest"
+      ],
+      "pricing": {
+        "type": "per_call",
+        "value": "varies/model",
+        "currency": "USD"
+      },
+      "capabilities": [
+        "llm-routing",
+        "multi-provider",
+        "failover"
+      ],
+      "links": {
+        "website": "https://openrouter.ai",
+        "docs": "https://openrouter.ai/docs"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 18,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://openrouter.ai",
+          "signalScore": 85
+        }
+      ],
+      "tags": [
+        "llm",
+        "inference",
+        "marketplace"
+      ]
+    },
+    {
+      "name": "Replicate",
+      "kind": "marketplace",
+      "category": "inference",
+      "brief": "Run open-source ML models via API. Per-second pricing, agent-friendly.",
+      "protocols": [
+        "http",
+        "rest"
+      ],
+      "pricing": {
+        "type": "per_call",
+        "value": "$0.0002/sec+",
+        "currency": "USD"
+      },
+      "capabilities": [
+        "model-hosting",
+        "inference"
+      ],
+      "links": {
+        "website": "https://replicate.com",
+        "docs": "https://replicate.com/docs"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 25,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://replicate.com",
+          "signalScore": 80
+        }
+      ],
+      "tags": [
+        "inference",
+        "marketplace",
+        "ml"
+      ]
+    },
+    {
+      "name": "Hugging Face Spaces",
+      "kind": "marketplace",
+      "category": "inference",
+      "brief": "Hosted ML demo apps + serverless inference. Many expose API endpoints agents can call.",
+      "protocols": [
+        "http",
+        "rest"
+      ],
+      "pricing": {
+        "type": "free",
+        "value": "free + paid hardware"
+      },
+      "capabilities": [
+        "model-hosting",
+        "inference"
+      ],
+      "links": {
+        "website": "https://huggingface.co/spaces"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://huggingface.co/spaces",
+          "signalScore": 75
+        }
+      ],
+      "tags": [
+        "ml",
+        "inference",
+        "huggingface"
+      ]
+    },
+    {
+      "name": "Tavily",
+      "kind": "api",
+      "category": "data",
+      "brief": "Search API tuned for AI agents. Real-time web results, citations, content extraction.",
+      "protocols": [
+        "http",
+        "rest"
+      ],
+      "pricing": {
+        "type": "per_call",
+        "value": "$0.005/req+",
+        "currency": "USD"
+      },
+      "capabilities": [
+        "websearch",
+        "citations",
+        "extraction"
+      ],
+      "links": {
+        "website": "https://tavily.com",
+        "docs": "https://docs.tavily.com"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 5,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://tavily.com",
+          "signalScore": 75
+        }
+      ],
+      "tags": [
+        "search",
+        "api",
+        "agents"
+      ]
+    },
+    {
+      "name": "Exa",
+      "kind": "api",
+      "category": "data",
+      "brief": "Embeddings-based search engine for AI. Find URLs by meaning, not keywords.",
+      "protocols": [
+        "http",
+        "rest"
+      ],
+      "pricing": {
+        "type": "per_call",
+        "value": "$0.005/req+",
+        "currency": "USD"
+      },
+      "capabilities": [
+        "semantic-search",
+        "embeddings"
+      ],
+      "links": {
+        "website": "https://exa.ai",
+        "docs": "https://docs.exa.ai"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 8,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://exa.ai",
+          "signalScore": 70
+        }
+      ],
+      "tags": [
+        "search",
+        "embeddings"
+      ]
+    },
+    {
+      "name": "Brave Search API",
+      "kind": "api",
+      "category": "data",
+      "brief": "Independent search index with API access. Used by many agent stacks for grounded retrieval.",
+      "protocols": [
+        "http",
+        "rest"
+      ],
+      "pricing": {
+        "type": "per_call",
+        "value": "free → $5/CPM",
+        "currency": "USD"
+      },
+      "capabilities": [
+        "websearch",
+        "news"
+      ],
+      "links": {
+        "website": "https://brave.com/search/api",
+        "docs": "https://api.search.brave.com/app/documentation"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://brave.com/search/api",
+          "signalScore": 65
+        }
+      ],
+      "tags": [
+        "search",
+        "api"
+      ]
+    },
+    {
+      "name": "Perplexity Sonar API",
+      "kind": "api",
+      "category": "data",
+      "brief": "Live-web LLM with citations exposed as a per-call API. Drop-in for grounded chat.",
+      "protocols": [
+        "http",
+        "rest"
+      ],
+      "pricing": {
+        "type": "per_call",
+        "value": "$5/M tokens+",
+        "currency": "USD"
+      },
+      "capabilities": [
+        "search",
+        "citations",
+        "llm"
+      ],
+      "links": {
+        "website": "https://docs.perplexity.ai"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://docs.perplexity.ai",
+          "signalScore": 70
+        }
+      ],
+      "tags": [
+        "search",
+        "llm"
+      ]
+    },
+    {
+      "name": "Anthropic API",
+      "kind": "api",
+      "category": "inference",
+      "brief": "Claude models via API. Tool use, prompt caching, extended thinking, MCP-native.",
+      "protocols": [
+        "http",
+        "rest"
+      ],
+      "pricing": {
+        "type": "per_call",
+        "value": "$3/M input tokens (Sonnet)+",
+        "currency": "USD"
+      },
+      "capabilities": [
+        "llm",
+        "tool-use",
+        "vision",
+        "mcp"
+      ],
+      "links": {
+        "website": "https://www.anthropic.com",
+        "docs": "https://docs.anthropic.com"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true,
+        "mcpServer": false
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://www.anthropic.com",
+          "signalScore": 95
+        }
+      ],
+      "tags": [
+        "llm",
+        "claude"
+      ]
+    },
+    {
+      "name": "OpenAI API",
+      "kind": "api",
+      "category": "inference",
+      "brief": "GPT-4o + reasoning models, embeddings, vision, audio. Function calling baseline.",
+      "protocols": [
+        "http",
+        "rest"
+      ],
+      "pricing": {
+        "type": "per_call",
+        "value": "$2.5/M input tokens (gpt-4o)+",
+        "currency": "USD"
+      },
+      "capabilities": [
+        "llm",
+        "tool-use",
+        "vision",
+        "audio",
+        "embeddings"
+      ],
+      "links": {
+        "website": "https://platform.openai.com",
+        "docs": "https://platform.openai.com/docs"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://platform.openai.com",
+          "signalScore": 95
+        }
+      ],
+      "tags": [
+        "llm",
+        "openai"
+      ]
+    },
+    {
+      "name": "Together AI",
+      "kind": "api",
+      "category": "inference",
+      "brief": "Open-source LLM inference at scale. DeepSeek, Llama, Qwen via per-token API.",
+      "protocols": [
+        "http",
+        "rest"
+      ],
+      "pricing": {
+        "type": "per_call",
+        "value": "$0.18/M tokens+",
+        "currency": "USD"
+      },
+      "capabilities": [
+        "llm",
+        "inference",
+        "fine-tuning"
+      ],
+      "links": {
+        "website": "https://www.together.ai"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://www.together.ai",
+          "signalScore": 75
+        }
+      ],
+      "tags": [
+        "llm",
+        "inference",
+        "open-source"
+      ]
+    },
+    {
+      "name": "Fireworks AI",
+      "kind": "api",
+      "category": "inference",
+      "brief": "Fast inference for open-source models. Function-calling tuned, agent workloads.",
+      "protocols": [
+        "http",
+        "rest"
+      ],
+      "pricing": {
+        "type": "per_call",
+        "value": "$0.20/M tokens+",
+        "currency": "USD"
+      },
+      "capabilities": [
+        "llm",
+        "inference",
+        "function-calling"
+      ],
+      "links": {
+        "website": "https://fireworks.ai"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://fireworks.ai",
+          "signalScore": 70
+        }
+      ],
+      "tags": [
+        "llm",
+        "inference"
+      ]
+    },
+    {
+      "name": "Groq",
+      "kind": "api",
+      "category": "inference",
+      "brief": "LPU-backed inference at sub-100ms latency. Ideal for agent loops.",
+      "protocols": [
+        "http",
+        "rest"
+      ],
+      "pricing": {
+        "type": "per_call",
+        "value": "$0.05/M tokens+",
+        "currency": "USD"
+      },
+      "capabilities": [
+        "llm",
+        "low-latency-inference"
+      ],
+      "links": {
+        "website": "https://groq.com"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://groq.com",
+          "signalScore": 75
+        }
+      ],
+      "tags": [
+        "llm",
+        "inference",
+        "low-latency"
+      ]
+    },
+    {
+      "name": "FireCrawl",
+      "kind": "api",
+      "category": "data",
+      "brief": "Crawl + clean web content into LLM-ready markdown. JS rendering, sitemap walk.",
+      "protocols": [
+        "http",
+        "rest"
+      ],
+      "pricing": {
+        "type": "per_call",
+        "value": "$19/mo+ free tier"
+      },
+      "capabilities": [
+        "webcrawl",
+        "extraction",
+        "markdown"
+      ],
+      "links": {
+        "website": "https://www.firecrawl.dev",
+        "github": "mendableai/firecrawl"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true,
+        "mcpServer": true
+      },
+      "stars7dDelta": 95,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/mendableai/firecrawl",
+          "signalScore": 85
+        }
+      ],
+      "tags": [
+        "crawl",
+        "extraction",
+        "mcp"
+      ]
+    },
+    {
+      "name": "Apify",
+      "kind": "marketplace",
+      "category": "data",
+      "brief": "Web-scraping marketplace. 5000+ pre-built actors with usage-based pricing.",
+      "protocols": [
+        "http",
+        "rest"
+      ],
+      "pricing": {
+        "type": "per_call",
+        "value": "$0.25/1000 results+",
+        "currency": "USD"
+      },
+      "capabilities": [
+        "scraping",
+        "actor-marketplace"
+      ],
+      "links": {
+        "website": "https://apify.com"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://apify.com",
+          "signalScore": 75
+        }
+      ],
+      "tags": [
+        "scraping",
+        "marketplace"
+      ]
+    },
+    {
+      "name": "Diffbot",
+      "kind": "api",
+      "category": "data",
+      "brief": "Knowledge graph + structured extraction APIs. Article, product, image classification.",
+      "protocols": [
+        "http",
+        "rest"
+      ],
+      "pricing": {
+        "type": "subscription",
+        "value": "$299/mo+"
+      },
+      "capabilities": [
+        "extraction",
+        "knowledge-graph"
+      ],
+      "links": {
+        "website": "https://www.diffbot.com"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://www.diffbot.com",
+          "signalScore": 50
+        }
+      ],
+      "tags": [
+        "extraction",
+        "kg"
+      ]
+    },
+    {
+      "name": "Serper",
+      "kind": "api",
+      "category": "data",
+      "brief": "Google SERP API. Cheap, fast, no scraping headaches.",
+      "protocols": [
+        "http",
+        "rest"
+      ],
+      "pricing": {
+        "type": "per_call",
+        "value": "$0.30/1000 reqs+",
+        "currency": "USD"
+      },
+      "capabilities": [
+        "websearch",
+        "serp"
+      ],
+      "links": {
+        "website": "https://serper.dev"
+      },
+      "badges": {
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://serper.dev",
+          "signalScore": 60
+        }
+      ],
+      "tags": [
+        "search",
+        "serp"
+      ]
+    },
+    {
+      "name": "GitHub MCP Server",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "Official MCP server for GitHub. Repos, issues, PRs, search — all callable from any MCP client.",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "free"
+      },
+      "capabilities": [
+        "github",
+        "issues",
+        "pr-management"
+      ],
+      "links": {
+        "github": "github/github-mcp-server"
+      },
+      "badges": {
+        "mcpServer": true,
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 180,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/github/github-mcp-server",
+          "signalScore": 90
+        }
+      ],
+      "tags": [
+        "mcp",
+        "github"
+      ]
+    },
+    {
+      "name": "Slack MCP Server",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "MCP server for Slack workspaces. Read channels, post messages, manage threads.",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "free"
+      },
+      "capabilities": [
+        "slack",
+        "messaging"
+      ],
+      "links": {
+        "github": "modelcontextprotocol/servers"
+      },
+      "badges": {
+        "mcpServer": true,
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/modelcontextprotocol/servers",
+          "signalScore": 80
+        }
+      ],
+      "tags": [
+        "mcp",
+        "slack"
+      ]
+    },
+    {
+      "name": "Stripe MCP Server",
+      "kind": "tool",
+      "category": "payments",
+      "brief": "Stripe-native MCP. Charges, customers, subscriptions — let agents handle billing.",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "free",
+        "value": "Stripe fees apply on calls"
+      },
+      "capabilities": [
+        "stripe",
+        "billing",
+        "payments"
+      ],
+      "links": {
+        "website": "https://docs.stripe.com/agents",
+        "github": "stripe/agent-toolkit"
+      },
+      "badges": {
+        "mcpServer": true,
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 35,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/stripe/agent-toolkit",
+          "signalScore": 80
+        }
+      ],
+      "tags": [
+        "mcp",
+        "stripe",
+        "payments"
+      ]
+    },
+    {
+      "name": "Linear MCP",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "Linear issue tracker as MCP. Create issues, query backlogs, transition states. Multiple community implementations.",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "free"
+      },
+      "capabilities": [
+        "linear",
+        "issue-tracking"
+      ],
+      "links": {
+        "github": "tacticlaunch/mcp-linear",
+        "website": "https://linear.app/integrations/mcp"
+      },
+      "badges": {
+        "mcpServer": true,
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/tacticlaunch/mcp-linear",
+          "signalScore": 60
+        }
+      ],
+      "tags": [
+        "mcp",
+        "linear"
+      ]
+    },
+    {
+      "name": "Notion MCP",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "Notion workspace as MCP. Pages, databases, search — all agent-readable.",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "free"
+      },
+      "capabilities": [
+        "notion",
+        "knowledge-base"
+      ],
+      "links": {
+        "github": "makenotion/notion-mcp-server"
+      },
+      "badges": {
+        "mcpServer": true,
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 14,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/makenotion/notion-mcp-server",
+          "signalScore": 65
+        }
+      ],
+      "tags": [
+        "mcp",
+        "notion"
+      ]
+    },
+    {
+      "name": "Postgres MCP",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "Read-only Postgres for MCP clients. Schema introspection + parameterized queries.",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "free"
+      },
+      "capabilities": [
+        "postgres",
+        "sql"
+      ],
+      "links": {
+        "github": "modelcontextprotocol/servers"
+      },
+      "badges": {
+        "mcpServer": true,
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/modelcontextprotocol/servers",
+          "signalScore": 70
+        }
+      ],
+      "tags": [
+        "mcp",
+        "postgres",
+        "database"
+      ]
+    },
+    {
+      "name": "Filesystem MCP",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "Sandboxed filesystem read/write for MCP clients. The 'hello world' of MCP servers.",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "free"
+      },
+      "capabilities": [
+        "filesystem",
+        "read",
+        "write"
+      ],
+      "links": {
+        "github": "modelcontextprotocol/servers"
+      },
+      "badges": {
+        "mcpServer": true,
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/modelcontextprotocol/servers",
+          "signalScore": 75
+        }
+      ],
+      "tags": [
+        "mcp",
+        "filesystem"
+      ]
+    },
+    {
+      "name": "Puppeteer MCP",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "Headless browser as MCP. Navigate, click, scrape — for agents that need a real browser.",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "free"
+      },
+      "capabilities": [
+        "browser",
+        "scraping",
+        "automation"
+      ],
+      "links": {
+        "github": "modelcontextprotocol/servers"
+      },
+      "badges": {
+        "mcpServer": true,
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/modelcontextprotocol/servers",
+          "signalScore": 70
+        }
+      ],
+      "tags": [
+        "mcp",
+        "browser"
+      ]
+    },
+    {
+      "name": "Memory MCP",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "Knowledge-graph memory store for MCP clients. Persistent agent context across sessions.",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "free"
+      },
+      "capabilities": [
+        "memory",
+        "knowledge-graph"
+      ],
+      "links": {
+        "github": "modelcontextprotocol/servers"
+      },
+      "badges": {
+        "mcpServer": true,
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/modelcontextprotocol/servers",
+          "signalScore": 60
+        }
+      ],
+      "tags": [
+        "mcp",
+        "memory"
+      ]
+    },
+    {
+      "name": "Brave Search MCP",
+      "kind": "tool",
+      "category": "data",
+      "brief": "Brave Search exposed as MCP. Web + local search for any MCP client.",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "free",
+        "value": "Brave free tier applies"
+      },
+      "capabilities": [
+        "search",
+        "mcp"
+      ],
+      "links": {
+        "github": "modelcontextprotocol/servers"
+      },
+      "badges": {
+        "mcpServer": true,
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/modelcontextprotocol/servers",
+          "signalScore": 55
+        }
+      ],
+      "tags": [
+        "mcp",
+        "search"
+      ]
+    },
+    {
+      "name": "Toolhouse",
+      "kind": "marketplace",
+      "category": "marketplace",
+      "brief": "Production tool registry for AI agents. Auth-aware, observability built-in.",
+      "protocols": [
+        "http",
+        "rest"
+      ],
+      "pricing": {
+        "type": "subscription",
+        "value": "tiered"
+      },
+      "capabilities": [
+        "tool-registry",
+        "auth",
+        "observability"
+      ],
+      "links": {
+        "website": "https://toolhouse.ai"
+      },
+      "badges": {
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://toolhouse.ai",
+          "signalScore": 50
+        }
+      ],
+      "tags": [
+        "tools",
+        "marketplace"
+      ]
+    },
+    {
+      "name": "Composio",
+      "kind": "marketplace",
+      "category": "marketplace",
+      "brief": "150+ pre-built integrations as agent tools. OAuth, retries, schemas — handled.",
+      "protocols": [
+        "http",
+        "mcp"
+      ],
+      "pricing": {
+        "type": "subscription",
+        "value": "free → $99/mo+"
+      },
+      "capabilities": [
+        "integrations",
+        "oauth",
+        "tool-registry"
+      ],
+      "links": {
+        "website": "https://composio.dev",
+        "github": "ComposioHQ/composio"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true,
+        "mcpServer": true
+      },
+      "stars7dDelta": 130,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/ComposioHQ/composio",
+          "signalScore": 85
+        }
+      ],
+      "tags": [
+        "integrations",
+        "marketplace",
+        "mcp"
+      ]
+    },
+    {
+      "name": "Daimo Pay",
+      "kind": "infra",
+      "category": "payments",
+      "brief": "Stablecoin payments SDK. Cross-chain checkout, agent-callable, low-fee.",
+      "protocols": [
+        "http"
+      ],
+      "pricing": {
+        "type": "per_call",
+        "value": "0.1% + gas",
+        "currency": "USDC",
+        "chains": [
+          "base",
+          "optimism",
+          "arbitrum"
+        ]
+      },
+      "capabilities": [
+        "stablecoin-payments",
+        "checkout"
+      ],
+      "links": {
+        "website": "https://daimo.com/pay"
+      },
+      "badges": {
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://daimo.com/pay",
+          "signalScore": 55
+        }
+      ],
+      "tags": [
+        "payments",
+        "stablecoin"
+      ]
+    },
+    {
+      "name": "Lit Protocol",
+      "kind": "protocol",
+      "category": "auth",
+      "brief": "Decentralized signing + access control. Agents can hold keys without custody.",
+      "protocols": [
+        "http"
+      ],
+      "pricing": {
+        "type": "per_call",
+        "value": "varies/op"
+      },
+      "capabilities": [
+        "signing",
+        "access-control",
+        "decentralized-keys"
+      ],
+      "links": {
+        "website": "https://litprotocol.com"
+      },
+      "badges": {
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://litprotocol.com",
+          "signalScore": 55
+        }
+      ],
+      "tags": [
+        "signing",
+        "access-control"
+      ]
+    },
+    {
+      "name": "Privado ID",
+      "kind": "protocol",
+      "category": "auth",
+      "brief": "ZK-based decentralized identity. Verifiable credentials for agent provenance.",
+      "protocols": [
+        "http"
+      ],
+      "pricing": {
+        "type": "free"
+      },
+      "capabilities": [
+        "did",
+        "verifiable-credentials",
+        "zk"
+      ],
+      "links": {
+        "website": "https://www.privado.id"
+      },
+      "badges": {
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://www.privado.id",
+          "signalScore": 40
+        }
+      ],
+      "tags": [
+        "did",
+        "zk",
+        "identity"
+      ]
+    },
+    {
+      "name": "OpenAI Agents SDK",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "Official agent loop, handoffs, and guardrails from OpenAI. Production-ready.",
+      "protocols": [
+        "http",
+        "rest"
+      ],
+      "pricing": {
+        "type": "free",
+        "value": "free SDK; per-call API costs"
+      },
+      "capabilities": [
+        "agent-loop",
+        "tool-use",
+        "handoffs"
+      ],
+      "links": {
+        "website": "https://openai.github.io/openai-agents-python",
+        "github": "openai/openai-agents-python"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 200,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/openai/openai-agents-python",
+          "signalScore": 90
+        }
+      ],
+      "tags": [
+        "sdk",
+        "openai",
+        "agents"
+      ]
+    },
+    {
+      "name": "LangChain",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "Agent + chain framework. Massive integration surface, OSS-first.",
+      "protocols": [
+        "http"
+      ],
+      "pricing": {
+        "type": "free",
+        "value": "free OSS; LangSmith paid"
+      },
+      "capabilities": [
+        "agent-framework",
+        "chains",
+        "memory"
+      ],
+      "links": {
+        "website": "https://langchain.com",
+        "github": "langchain-ai/langchain"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 110,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/langchain-ai/langchain",
+          "signalScore": 90
+        }
+      ],
+      "tags": [
+        "framework",
+        "langchain"
+      ]
+    },
+    {
+      "name": "LlamaIndex",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "Data framework for LLM agents. RAG, indices, agent abstractions.",
+      "protocols": [
+        "http"
+      ],
+      "pricing": {
+        "type": "free",
+        "value": "free OSS; LlamaCloud paid"
+      },
+      "capabilities": [
+        "rag",
+        "agent-framework",
+        "indexing"
+      ],
+      "links": {
+        "website": "https://www.llamaindex.ai",
+        "github": "run-llama/llama_index"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 60,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/run-llama/llama_index",
+          "signalScore": 85
+        }
+      ],
+      "tags": [
+        "rag",
+        "framework"
+      ]
+    },
+    {
+      "name": "Modal",
+      "kind": "infra",
+      "category": "infra",
+      "brief": "Serverless GPU/CPU compute. Function-as-an-API for agent workloads.",
+      "protocols": [
+        "http"
+      ],
+      "pricing": {
+        "type": "per_call",
+        "value": "$0.000164/CPU-sec+",
+        "currency": "USD"
+      },
+      "capabilities": [
+        "serverless",
+        "gpu",
+        "function-runtime"
+      ],
+      "links": {
+        "website": "https://modal.com"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://modal.com",
+          "signalScore": 75
+        }
+      ],
+      "tags": [
+        "compute",
+        "serverless"
+      ]
+    },
+    {
+      "name": "ElevenLabs",
+      "kind": "api",
+      "category": "inference",
+      "brief": "Voice synthesis API. Per-character pricing, agent-friendly streaming.",
+      "protocols": [
+        "http",
+        "rest"
+      ],
+      "pricing": {
+        "type": "per_call",
+        "value": "$5/mo+ tiered",
+        "currency": "USD"
+      },
+      "capabilities": [
+        "voice",
+        "tts",
+        "streaming"
+      ],
+      "links": {
+        "website": "https://elevenlabs.io"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://elevenlabs.io",
+          "signalScore": 80
+        }
+      ],
+      "tags": [
+        "voice",
+        "tts"
+      ]
+    },
+    {
+      "name": "Browserbase",
+      "kind": "infra",
+      "category": "infra",
+      "brief": "Headless-browser-as-a-service for agents. Stealth, captchas, session replay.",
+      "protocols": [
+        "http"
+      ],
+      "pricing": {
+        "type": "per_call",
+        "value": "$39/mo+ tiered"
+      },
+      "capabilities": [
+        "browser",
+        "automation",
+        "scraping"
+      ],
+      "links": {
+        "website": "https://browserbase.com"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://browserbase.com",
+          "signalScore": 70
+        }
+      ],
+      "tags": [
+        "browser",
+        "infra"
+      ]
+    },
+    {
+      "name": "Para",
+      "kind": "wallet",
+      "category": "auth",
+      "brief": "MPC embedded + server wallets across EVM/Solana/Cosmos. Identity-portable agent wallets — KYC once, delegate to agent. Formerly Capsule.",
+      "protocols": [
+        "http"
+      ],
+      "pricing": {
+        "type": "subscription",
+        "value": "free → $1,000/mo (25K MAU)",
+        "currency": "USD"
+      },
+      "capabilities": [
+        "mpc",
+        "server-signing",
+        "agent-wallets-identity-linked",
+        "passkeys",
+        "cross-app-portability"
+      ],
+      "links": {
+        "website": "https://www.getpara.com",
+        "docs": "https://docs.getpara.com"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://www.getpara.com/pricing",
+          "signalScore": 70
+        }
+      ],
+      "tags": [
+        "wallet",
+        "auth",
+        "mpc",
+        "agent-identity"
+      ]
+    },
+    {
+      "name": "Fireblocks",
+      "kind": "infra",
+      "category": "payments",
+      "brief": "Institutional MPC custody with AI Suite (AI Link MCP + Genie). Policy engine + spend limits drive agent ops; embedded wallets support x402 + MPP.",
+      "protocols": [
+        "http",
+        "mcp",
+        "x402"
+      ],
+      "pricing": {
+        "type": "subscription",
+        "value": "$699/mo essentials → $18K/yr enterprise",
+        "currency": "USD"
+      },
+      "capabilities": [
+        "mpc-cmp",
+        "policy-engine",
+        "embedded-wallets",
+        "ai-link-mcp",
+        "x402",
+        "mpp"
+      ],
+      "links": {
+        "website": "https://www.fireblocks.com/solutions/agentic-digital-asset-infrastructure",
+        "docs": "https://developers.fireblocks.com"
+      },
+      "badges": {
+        "x402Enabled": true,
+        "mcpServer": true,
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://www.fireblocks.com/pricing",
+          "signalScore": 70
+        }
+      ],
+      "tags": [
+        "wallet",
+        "payments",
+        "institutional",
+        "mpc",
+        "x402"
+      ]
+    },
+    {
+      "name": "MetaMask Embedded Wallets",
+      "kind": "wallet",
+      "category": "auth",
+      "brief": "Web3Auth rebranded under MetaMask. MPC TSS + SSS, OAuth login, MetaMask smart accounts integration. No agent-specific story today.",
+      "protocols": [
+        "http"
+      ],
+      "pricing": {
+        "type": "subscription",
+        "value": "free 1K MAW → $399/mo 10K MAW",
+        "currency": "USD"
+      },
+      "capabilities": [
+        "mpc-tss",
+        "sss",
+        "oauth-login",
+        "non-custodial"
+      ],
+      "links": {
+        "website": "https://web3auth.io",
+        "docs": "https://web3auth.io/docs"
+      },
+      "badges": {
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://web3auth.io/pricing.html",
+          "signalScore": 50
+        }
+      ],
+      "tags": [
+        "wallet",
+        "auth",
+        "metamask"
+      ]
+    },
+    {
+      "name": "Braintrust",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "End-to-end LLM eval, prompt playground, and observability. Used by OpenAI, Stripe, Notion to ship agents safely.",
+      "protocols": [
+        "http",
+        "rest"
+      ],
+      "pricing": {
+        "type": "subscription",
+        "value": "free → $249/mo+ enterprise"
+      },
+      "capabilities": [
+        "llm-eval",
+        "observability",
+        "prompt-playground",
+        "tracing"
+      ],
+      "links": {
+        "website": "https://www.braintrust.dev",
+        "docs": "https://www.braintrust.dev/docs"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://www.braintrust.dev",
+          "signalScore": 75
+        }
+      ],
+      "tags": [
+        "eval",
+        "observability",
+        "agents"
+      ]
+    },
+    {
+      "name": "Helicone",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "Open-source LLM observability gateway. Drop-in proxy logs every prompt, token, latency, cost, and error.",
+      "protocols": [
+        "http",
+        "rest"
+      ],
+      "pricing": {
+        "type": "subscription",
+        "value": "free → $80/mo growth",
+        "currency": "USD"
+      },
+      "capabilities": [
+        "observability",
+        "proxy",
+        "rate-limiting",
+        "caching"
+      ],
+      "links": {
+        "website": "https://www.helicone.ai",
+        "github": "Helicone/helicone",
+        "docs": "https://docs.helicone.ai"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 35,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/Helicone/helicone",
+          "signalScore": 70
+        }
+      ],
+      "tags": [
+        "observability",
+        "open-source"
+      ]
+    },
+    {
+      "name": "LangSmith",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "LangChain's hosted observability + eval platform. Trace agent runs, debug tool calls, run datasets through prompt versions.",
+      "protocols": [
+        "http",
+        "rest"
+      ],
+      "pricing": {
+        "type": "subscription",
+        "value": "free → $39/mo plus",
+        "currency": "USD"
+      },
+      "capabilities": [
+        "observability",
+        "tracing",
+        "eval",
+        "datasets"
+      ],
+      "links": {
+        "website": "https://smith.langchain.com",
+        "docs": "https://docs.smith.langchain.com"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://smith.langchain.com",
+          "signalScore": 75
+        }
+      ],
+      "tags": [
+        "observability",
+        "langchain"
+      ]
+    },
+    {
+      "name": "Langfuse",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "Open-source LLM observability. Self-hostable, OpenTelemetry-compatible, full tracing + eval + prompt management.",
+      "protocols": [
+        "http",
+        "rest"
+      ],
+      "pricing": {
+        "type": "subscription",
+        "value": "free OSS → $59/mo cloud"
+      },
+      "capabilities": [
+        "observability",
+        "tracing",
+        "eval",
+        "prompt-mgmt",
+        "self-hosted"
+      ],
+      "links": {
+        "website": "https://langfuse.com",
+        "github": "langfuse/langfuse",
+        "docs": "https://langfuse.com/docs"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 80,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/langfuse/langfuse",
+          "signalScore": 80
+        }
+      ],
+      "tags": [
+        "observability",
+        "open-source"
+      ]
+    },
+    {
+      "name": "Arize Phoenix",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "OSS LLM observability + eval from Arize. Local-first OpenTelemetry tracing for agents, RAG, eval pipelines.",
+      "protocols": [
+        "http"
+      ],
+      "pricing": {
+        "type": "free",
+        "value": "free OSS; cloud add-on"
+      },
+      "capabilities": [
+        "observability",
+        "tracing",
+        "eval",
+        "rag-debug"
+      ],
+      "links": {
+        "website": "https://phoenix.arize.com",
+        "github": "Arize-ai/phoenix"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 60,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/Arize-ai/phoenix",
+          "signalScore": 70
+        }
+      ],
+      "tags": [
+        "observability",
+        "open-source",
+        "arize"
+      ]
+    },
+    {
+      "name": "Stagehand",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "Browserbase's LLM-driven browser action SDK. Natural-language instructions translated into Playwright steps.",
+      "protocols": [
+        "http"
+      ],
+      "pricing": {
+        "type": "free",
+        "value": "free OSS; Browserbase usage charges"
+      },
+      "capabilities": [
+        "browser-automation",
+        "llm-actions",
+        "playwright"
+      ],
+      "links": {
+        "github": "browserbase/stagehand",
+        "website": "https://stagehand.dev"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 110,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/browserbase/stagehand",
+          "signalScore": 80
+        }
+      ],
+      "tags": [
+        "browser",
+        "automation",
+        "open-source"
+      ]
+    },
+    {
+      "name": "browser-use",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "OSS Python library: enable any LLM to control a browser. Powers many vertical agent stacks; very fast-moving repo.",
+      "protocols": [
+        "http"
+      ],
+      "pricing": {
+        "type": "free",
+        "value": "free OSS"
+      },
+      "capabilities": [
+        "browser-automation",
+        "llm-control",
+        "playwright"
+      ],
+      "links": {
+        "github": "browser-use/browser-use",
+        "website": "https://browser-use.com"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 280,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/browser-use/browser-use",
+          "signalScore": 90
+        }
+      ],
+      "tags": [
+        "browser",
+        "automation",
+        "open-source"
+      ]
+    },
+    {
+      "name": "Hyperbrowser",
+      "kind": "infra",
+      "category": "infra",
+      "brief": "Headless-browser cloud built for AI agents. Anti-detection, session replay, scrape APIs.",
+      "protocols": [
+        "http",
+        "rest"
+      ],
+      "pricing": {
+        "type": "subscription",
+        "value": "$30/mo+ tiered"
+      },
+      "capabilities": [
+        "browser",
+        "anti-detect",
+        "session-replay",
+        "scrape"
+      ],
+      "links": {
+        "website": "https://hyperbrowser.ai"
+      },
+      "badges": {
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://hyperbrowser.ai",
+          "signalScore": 60
+        }
+      ],
+      "tags": [
+        "browser",
+        "infra"
+      ]
+    },
+    {
+      "name": "Steel",
+      "kind": "infra",
+      "category": "infra",
+      "brief": "Open browser API for agents. Sessions, anti-detection, observability, cloud + self-host.",
+      "protocols": [
+        "http"
+      ],
+      "pricing": {
+        "type": "subscription",
+        "value": "free OSS; $20/mo+ cloud"
+      },
+      "capabilities": [
+        "browser",
+        "automation",
+        "self-hosted"
+      ],
+      "links": {
+        "website": "https://steel.dev",
+        "github": "steel-dev/steel-browser"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 45,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/steel-dev/steel-browser",
+          "signalScore": 65
+        }
+      ],
+      "tags": [
+        "browser",
+        "open-source"
+      ]
+    },
+    {
+      "name": "E2B",
+      "kind": "infra",
+      "category": "infra",
+      "brief": "Sandboxed cloud runtime for AI-generated code. Spin up Linux VMs in <200ms; ideal for agent code-execution.",
+      "protocols": [
+        "http",
+        "rest"
+      ],
+      "pricing": {
+        "type": "per_call",
+        "value": "$0.000043/sec+ tiered",
+        "currency": "USD"
+      },
+      "capabilities": [
+        "sandbox",
+        "code-execution",
+        "vm"
+      ],
+      "links": {
+        "website": "https://e2b.dev",
+        "github": "e2b-dev/e2b",
+        "docs": "https://e2b.dev/docs"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 70,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/e2b-dev/e2b",
+          "signalScore": 80
+        }
+      ],
+      "tags": [
+        "sandbox",
+        "code-execution",
+        "infra"
+      ]
+    },
+    {
+      "name": "Daytona",
+      "kind": "infra",
+      "category": "infra",
+      "brief": "Open-source secure dev-environment runtime, repositioned as agent sandbox. Per-second billing, snapshots, root-access.",
+      "protocols": [
+        "http"
+      ],
+      "pricing": {
+        "type": "per_call",
+        "value": "free OSS; $0.0008/min cloud"
+      },
+      "capabilities": [
+        "sandbox",
+        "code-execution",
+        "snapshots",
+        "self-hosted"
+      ],
+      "links": {
+        "website": "https://www.daytona.io",
+        "github": "daytonaio/daytona"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 90,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/daytonaio/daytona",
+          "signalScore": 75
+        }
+      ],
+      "tags": [
+        "sandbox",
+        "open-source"
+      ]
+    },
+    {
+      "name": "Vercel Sandbox",
+      "kind": "infra",
+      "category": "infra",
+      "brief": "Vercel's secure code-execution sandbox for agents. Serverless VMs spin up per-request, billed per ms.",
+      "protocols": [
+        "http"
+      ],
+      "pricing": {
+        "type": "per_call",
+        "value": "$0.00001/sec compute+"
+      },
+      "capabilities": [
+        "sandbox",
+        "code-execution",
+        "serverless"
+      ],
+      "links": {
+        "website": "https://vercel.com/docs/sandbox"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://vercel.com/docs/sandbox",
+          "signalScore": 65
+        }
+      ],
+      "tags": [
+        "sandbox",
+        "vercel",
+        "serverless"
+      ]
+    },
+    {
+      "name": "CrewAI",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "Multi-agent orchestration framework. Role-based agents collaborate on complex tasks via task delegation + memory.",
+      "protocols": [
+        "http"
+      ],
+      "pricing": {
+        "type": "free",
+        "value": "free OSS; CrewAI+ enterprise"
+      },
+      "capabilities": [
+        "multi-agent",
+        "framework",
+        "task-delegation"
+      ],
+      "links": {
+        "website": "https://www.crewai.com",
+        "github": "crewAIInc/crewAI"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 130,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/crewAIInc/crewAI",
+          "signalScore": 85
+        }
+      ],
+      "tags": [
+        "framework",
+        "multi-agent",
+        "open-source"
+      ]
+    },
+    {
+      "name": "Microsoft AutoGen",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "Microsoft Research's multi-agent conversational framework. Production-grade, Python + .NET, async + group chat.",
+      "protocols": [
+        "http"
+      ],
+      "pricing": {
+        "type": "free",
+        "value": "free OSS"
+      },
+      "capabilities": [
+        "multi-agent",
+        "framework",
+        "group-chat",
+        "async"
+      ],
+      "links": {
+        "website": "https://microsoft.github.io/autogen",
+        "github": "microsoft/autogen"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 120,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/microsoft/autogen",
+          "signalScore": 88
+        }
+      ],
+      "tags": [
+        "framework",
+        "multi-agent",
+        "microsoft",
+        "open-source"
+      ]
+    },
+    {
+      "name": "LangGraph",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "Stateful agent runtime from LangChain. DAG/cyclic graphs of LLM calls + tools with checkpointing + human-in-loop.",
+      "protocols": [
+        "http"
+      ],
+      "pricing": {
+        "type": "free",
+        "value": "free OSS; Cloud add-on"
+      },
+      "capabilities": [
+        "agent-runtime",
+        "stateful",
+        "checkpointing",
+        "human-in-loop"
+      ],
+      "links": {
+        "website": "https://langchain-ai.github.io/langgraph",
+        "github": "langchain-ai/langgraph"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 90,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/langchain-ai/langgraph",
+          "signalScore": 85
+        }
+      ],
+      "tags": [
+        "framework",
+        "langchain",
+        "stateful"
+      ]
+    },
+    {
+      "name": "smolagents",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "Hugging Face's minimalist agent framework. <1k lines, code-action paradigm where the LLM writes Python tool calls directly.",
+      "protocols": [
+        "http"
+      ],
+      "pricing": {
+        "type": "free"
+      },
+      "capabilities": [
+        "framework",
+        "code-action",
+        "minimal"
+      ],
+      "links": {
+        "github": "huggingface/smolagents",
+        "docs": "https://huggingface.co/docs/smolagents"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 80,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/huggingface/smolagents",
+          "signalScore": 80
+        }
+      ],
+      "tags": [
+        "framework",
+        "huggingface",
+        "minimal"
+      ]
+    },
+    {
+      "name": "Pydantic AI",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "Type-safe agent framework from the Pydantic team. Schema-first tool definitions, structured outputs, model-agnostic.",
+      "protocols": [
+        "http"
+      ],
+      "pricing": {
+        "type": "free"
+      },
+      "capabilities": [
+        "framework",
+        "type-safe",
+        "structured-outputs"
+      ],
+      "links": {
+        "website": "https://ai.pydantic.dev",
+        "github": "pydantic/pydantic-ai"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 75,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/pydantic/pydantic-ai",
+          "signalScore": 75
+        }
+      ],
+      "tags": [
+        "framework",
+        "pydantic",
+        "type-safe"
+      ]
+    },
+    {
+      "name": "Cloudflare MCP",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "Cloudflare's MCP server suite + Workers MCP runtime. Deploy MCP servers globally on Cloudflare's edge with x402 baked in.",
+      "protocols": [
+        "mcp",
+        "x402"
+      ],
+      "pricing": {
+        "type": "free",
+        "value": "free + Cloudflare Workers compute"
+      },
+      "capabilities": [
+        "mcp",
+        "edge-runtime",
+        "x402"
+      ],
+      "links": {
+        "github": "cloudflare/mcp-server-cloudflare",
+        "docs": "https://developers.cloudflare.com/agents/"
+      },
+      "badges": {
+        "mcpServer": true,
+        "x402Enabled": true,
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 70,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/cloudflare/mcp-server-cloudflare",
+          "signalScore": 80
+        }
+      ],
+      "tags": [
+        "mcp",
+        "cloudflare",
+        "x402",
+        "edge"
+      ]
+    },
+    {
+      "name": "Sentry MCP",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "Official Sentry MCP server. Query issues, releases, performance traces from any MCP client.",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "free"
+      },
+      "capabilities": [
+        "mcp",
+        "error-tracking",
+        "observability"
+      ],
+      "links": {
+        "github": "getsentry/sentry-mcp"
+      },
+      "badges": {
+        "mcpServer": true,
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 25,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/getsentry/sentry-mcp",
+          "signalScore": 65
+        }
+      ],
+      "tags": [
+        "mcp",
+        "sentry",
+        "observability"
+      ]
+    },
+    {
+      "name": "ClickHouse MCP",
+      "kind": "tool",
+      "category": "data",
+      "brief": "MCP server for ClickHouse. Schema introspection + parameterized queries against analytical workloads.",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "free"
+      },
+      "capabilities": [
+        "mcp",
+        "sql",
+        "analytics"
+      ],
+      "links": {
+        "github": "ClickHouse/mcp-clickhouse"
+      },
+      "badges": {
+        "mcpServer": true,
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 18,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/ClickHouse/mcp-clickhouse",
+          "signalScore": 60
+        }
+      ],
+      "tags": [
+        "mcp",
+        "clickhouse",
+        "analytics"
+      ]
+    },
+    {
+      "name": "Vercel MCP",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "Vercel-hosted MCP servers + the @vercel/mcp-adapter for serverless MCP runtimes.",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "free"
+      },
+      "capabilities": [
+        "mcp",
+        "serverless"
+      ],
+      "links": {
+        "github": "vercel-labs/mcp-for-next.js",
+        "docs": "https://vercel.com/docs/mcp"
+      },
+      "badges": {
+        "mcpServer": true,
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 14,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/vercel-labs/mcp-for-next.js",
+          "signalScore": 60
+        }
+      ],
+      "tags": [
+        "mcp",
+        "vercel"
+      ]
+    },
+    {
+      "name": "Supabase MCP",
+      "kind": "tool",
+      "category": "data",
+      "brief": "Official Supabase MCP server. Query Postgres, manage auth, edit storage from any MCP client.",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "free"
+      },
+      "capabilities": [
+        "mcp",
+        "postgres",
+        "auth",
+        "storage"
+      ],
+      "links": {
+        "github": "supabase-community/supabase-mcp"
+      },
+      "badges": {
+        "mcpServer": true,
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 30,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/supabase-community/supabase-mcp",
+          "signalScore": 70
+        }
+      ],
+      "tags": [
+        "mcp",
+        "supabase",
+        "database"
+      ]
+    },
+    {
+      "name": "RapidAPI",
+      "kind": "marketplace",
+      "category": "data",
+      "brief": "Largest API marketplace — 40K+ APIs with unified billing, OAuth, monitoring. Heavily used as agent tool source.",
+      "protocols": [
+        "http",
+        "rest"
+      ],
+      "pricing": {
+        "type": "per_call",
+        "value": "varies by API; free tiers common"
+      },
+      "capabilities": [
+        "api-marketplace",
+        "unified-billing",
+        "monitoring"
+      ],
+      "links": {
+        "website": "https://rapidapi.com"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://rapidapi.com",
+          "signalScore": 70
+        }
+      ],
+      "tags": [
+        "marketplace",
+        "apis"
+      ]
+    },
+    {
+      "name": "Alpha Vantage",
+      "kind": "api",
+      "category": "data",
+      "brief": "Free + paid market-data API. Stock prices, forex, crypto, fundamentals, technical indicators.",
+      "protocols": [
+        "http",
+        "rest"
+      ],
+      "pricing": {
+        "type": "subscription",
+        "value": "free 25 req/day → $49.99/mo+"
+      },
+      "capabilities": [
+        "market-data",
+        "stocks",
+        "forex",
+        "crypto"
+      ],
+      "links": {
+        "website": "https://www.alphavantage.co",
+        "docs": "https://www.alphavantage.co/documentation"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://www.alphavantage.co",
+          "signalScore": 60
+        }
+      ],
+      "tags": [
+        "finance",
+        "api"
+      ]
+    },
+    {
+      "name": "Etherscan API",
+      "kind": "api",
+      "category": "data",
+      "brief": "Ethereum block-explorer API. Account balances, transaction history, contract source — universal on-chain data tool.",
+      "protocols": [
+        "http",
+        "rest"
+      ],
+      "pricing": {
+        "type": "subscription",
+        "value": "free 5 calls/sec → $999/mo enterprise"
+      },
+      "capabilities": [
+        "onchain-data",
+        "accounts",
+        "transactions",
+        "contracts"
+      ],
+      "links": {
+        "website": "https://etherscan.io/apis",
+        "docs": "https://docs.etherscan.io"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://etherscan.io/apis",
+          "signalScore": 65
+        }
+      ],
+      "tags": [
+        "onchain",
+        "ethereum",
+        "api"
+      ]
+    },
+    {
+      "name": "Polygon ID",
+      "kind": "protocol",
+      "category": "auth",
+      "brief": "ZK-based decentralized identity from Polygon. Verifiable credentials for agent provenance + selective disclosure.",
+      "protocols": [
+        "http"
+      ],
+      "pricing": {
+        "type": "free"
+      },
+      "capabilities": [
+        "did",
+        "verifiable-credentials",
+        "zk",
+        "selective-disclosure"
+      ],
+      "links": {
+        "website": "https://polygon.technology/polygon-id",
+        "github": "0xPolygonID/issuer-node"
+      },
+      "badges": {
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://polygon.technology/polygon-id",
+          "signalScore": 50
+        }
+      ],
+      "tags": [
+        "did",
+        "zk",
+        "identity",
+        "polygon"
+      ]
+    },
+    {
+      "name": "World",
+      "kind": "protocol",
+      "category": "auth",
+      "brief": "Worldcoin's proof-of-personhood protocol + World Chain. World ID verifies a human (or human-controlled agent) without revealing identity.",
+      "protocols": [
+        "http"
+      ],
+      "pricing": {
+        "type": "free"
+      },
+      "capabilities": [
+        "proof-of-personhood",
+        "world-id",
+        "world-chain"
+      ],
+      "links": {
+        "website": "https://world.org",
+        "docs": "https://docs.world.org"
+      },
+      "badges": {
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://world.org",
+          "signalScore": 55
+        }
+      ],
+      "tags": [
+        "identity",
+        "worldcoin"
+      ]
+    },
+    {
+      "name": "Artificial Analysis",
+      "kind": "tool",
+      "category": "inference",
+      "brief": "LLM benchmarking + price aggregation. Cross-provider quality, latency, $/M-token leaderboard updated weekly.",
+      "protocols": [
+        "http"
+      ],
+      "pricing": {
+        "type": "free",
+        "value": "free with optional API tier"
+      },
+      "capabilities": [
+        "benchmarks",
+        "price-aggregation",
+        "leaderboard"
+      ],
+      "links": {
+        "website": "https://artificialanalysis.ai"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://artificialanalysis.ai",
+          "signalScore": 70
+        }
+      ],
+      "tags": [
+        "benchmarks",
+        "pricing",
+        "leaderboard"
+      ]
+    },
+    {
+      "name": "x402-rs",
+      "kind": "tool",
+      "category": "payments",
+      "brief": "Production-grade Rust SDK for x402 — verify, settle, monitor. Used in latency-sensitive facilitator deployments.",
+      "protocols": [
+        "x402",
+        "http"
+      ],
+      "pricing": {
+        "type": "free",
+        "value": "free OSS"
+      },
+      "capabilities": [
+        "x402-sdk",
+        "rust",
+        "facilitator"
+      ],
+      "links": {
+        "github": "x402-rs/x402-rs"
+      },
+      "badges": {
+        "x402Enabled": true,
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 35,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/x402-rs/x402-rs",
+          "signalScore": 70
+        }
+      ],
+      "tags": [
+        "x402",
+        "rust",
+        "sdk"
+      ]
+    },
+    {
+      "name": "x402-openai (Python)",
+      "kind": "tool",
+      "category": "payments",
+      "brief": "Drop-in OpenAI Python client that handles x402 challenges transparently. Pays per-call when servers return 402.",
+      "protocols": [
+        "x402",
+        "http",
+        "rest"
+      ],
+      "pricing": {
+        "type": "free",
+        "value": "free OSS; per-call x402 fees"
+      },
+      "capabilities": [
+        "x402",
+        "openai-client",
+        "auto-pay"
+      ],
+      "links": {
+        "github": "qntx/x402-openai-python"
+      },
+      "badges": {
+        "x402Enabled": true,
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 35,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/qntx/x402-openai-python",
+          "signalScore": 65
+        }
+      ],
+      "tags": [
+        "x402",
+        "openai",
+        "python"
+      ]
+    },
+    {
+      "name": "a2a-x402",
+      "kind": "protocol",
+      "category": "payments",
+      "brief": "Google's Agent-to-Agent x402 extension. Brings HTTP 402 settlement into the A2A agent communication layer.",
+      "protocols": [
+        "x402",
+        "a2a",
+        "http"
+      ],
+      "pricing": {
+        "type": "free",
+        "value": "free OSS"
+      },
+      "capabilities": [
+        "a2a",
+        "x402",
+        "agent-to-agent"
+      ],
+      "links": {
+        "github": "google-agentic-commerce/a2a-x402"
+      },
+      "badges": {
+        "x402Enabled": true,
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 60,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/google-agentic-commerce/a2a-x402",
+          "signalScore": 80
+        }
+      ],
+      "tags": [
+        "x402",
+        "a2a",
+        "google"
+      ]
+    },
+    {
+      "name": "ACP (Agentic Commerce Protocol)",
+      "kind": "protocol",
+      "category": "payments",
+      "brief": "OpenAI + Stripe spec for agent ↔ merchant commerce. Cart, items, fulfillment — complementary to x402's payment rail.",
+      "protocols": [
+        "http"
+      ],
+      "pricing": {
+        "type": "free"
+      },
+      "capabilities": [
+        "agent-commerce",
+        "checkout",
+        "fulfillment"
+      ],
+      "links": {
+        "website": "https://www.agenticcommerce.dev"
+      },
+      "badges": {
+        "agentActionable": true,
+        "verified": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://www.agenticcommerce.dev",
+          "signalScore": 65
+        }
+      ],
+      "tags": [
+        "protocol",
+        "openai",
+        "stripe",
+        "commerce"
+      ]
+    },
+    {
+      "name": "AP2 (Agent Payments Protocol)",
+      "kind": "protocol",
+      "category": "payments",
+      "brief": "Google's Agent Payments Protocol. Cryptographically signed mandates authorize specific agent purchases — often paired with x402.",
+      "protocols": [
+        "http"
+      ],
+      "pricing": {
+        "type": "free"
+      },
+      "capabilities": [
+        "agent-mandates",
+        "spend-authorization",
+        "policy"
+      ],
+      "links": {
+        "website": "https://ap2-protocol.org"
+      },
+      "badges": {
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://ap2-protocol.org",
+          "signalScore": 55
+        }
+      ],
+      "tags": [
+        "protocol",
+        "google",
+        "mandates"
+      ]
+    },
+    {
+      "name": "Cubist",
+      "kind": "infra",
+      "category": "auth",
+      "brief": "TEE-based key management for agents. Hardware-isolated signing with policy controls; Solana + EVM.",
+      "protocols": [
+        "http"
+      ],
+      "pricing": {
+        "type": "subscription",
+        "value": "free 100 wallets → enterprise"
+      },
+      "capabilities": [
+        "mpc",
+        "tee",
+        "signing",
+        "policy-engine"
+      ],
+      "links": {
+        "website": "https://cubist.dev",
+        "docs": "https://docs.cubist.dev"
+      },
+      "badges": {
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "manual",
+          "url": "https://cubist.dev",
+          "signalScore": 55
+        }
+      ],
+      "tags": [
+        "wallet",
+        "tee",
+        "signing"
+      ]
+    },
+    {
+      "name": "MotleyCrew",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "Multi-agent orchestration framework. Combines CrewAI/LangChain/LlamaIndex into a single declarative graph.",
+      "protocols": [
+        "http"
+      ],
+      "pricing": {
+        "type": "free"
+      },
+      "capabilities": [
+        "multi-agent",
+        "framework",
+        "graph",
+        "open-source"
+      ],
+      "links": {
+        "github": "ShoggothAI/motleycrew"
+      },
+      "badges": {
+        "agentActionable": true
+      },
+      "stars7dDelta": 12,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/ShoggothAI/motleycrew",
+          "signalScore": 50
+        }
+      ],
+      "tags": [
+        "framework",
+        "multi-agent",
+        "open-source"
+      ]
+    },
+    {
+      "name": "n8n",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "Fair-code workflow automation platform with native AI capabilities. Combine visual building with custom code, self-host or cloud, 400+ integrations.",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "unknown"
+      },
+      "capabilities": [
+        "mcp"
+      ],
+      "links": {
+        "website": "https://n8n.io",
+        "github": "n8n-io/n8n"
+      },
+      "badges": {
+        "x402Enabled": false,
+        "mcpServer": true,
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/n8n-io/n8n",
+          "signalScore": 90
+        }
+      ],
+      "tags": [
+        "mcp",
+        "ai",
+        "apis",
+        "automation",
+        "cli",
+        "data-flow",
+        "auto-discovered"
+      ]
+    },
+    {
+      "name": "gemini-cli",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "An open-source AI agent that brings the power of Gemini directly into your terminal.",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "unknown"
+      },
+      "capabilities": [
+        "mcp"
+      ],
+      "links": {
+        "website": "https://geminicli.com",
+        "github": "google-gemini/gemini-cli"
+      },
+      "badges": {
+        "x402Enabled": false,
+        "mcpServer": true,
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/google-gemini/gemini-cli",
+          "signalScore": 90
+        }
+      ],
+      "tags": [
+        "mcp",
+        "ai",
+        "ai-agents",
+        "cli",
+        "gemini",
+        "gemini-api",
+        "auto-discovered"
+      ]
+    },
+    {
+      "name": "TrendRadar",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "⭐AI-driven public opinion & trend monitor with multi-platform aggregation, RSS, and smart alerts.🎯 告别信息过载，你的 AI 舆情监控助手与热点筛选工具！聚合多平台热点 +  RSS 订阅，支持关键词精准筛选。AI 智能筛选新闻 + AI 翻译 +  AI 分析简报直推手机，也支持接入 MCP 架构",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "unknown"
+      },
+      "capabilities": [
+        "mcp"
+      ],
+      "links": {
+        "website": "https://sansan0.github.io/TrendRadar/",
+        "github": "sansan0/TrendRadar"
+      },
+      "badges": {
+        "x402Enabled": false,
+        "mcpServer": true,
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/sansan0/TrendRadar",
+          "signalScore": 90
+        }
+      ],
+      "tags": [
+        "mcp",
+        "ai",
+        "bark",
+        "data-analysis",
+        "docker",
+        "hot-news",
+        "auto-discovered"
+      ]
+    },
+    {
+      "name": "context7",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "Context7 Platform -- Up-to-date code documentation for LLMs and AI code editors",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "unknown"
+      },
+      "capabilities": [
+        "mcp"
+      ],
+      "links": {
+        "website": "https://context7.com",
+        "github": "upstash/context7"
+      },
+      "badges": {
+        "x402Enabled": false,
+        "mcpServer": true,
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/upstash/context7",
+          "signalScore": 90
+        }
+      ],
+      "tags": [
+        "mcp",
+        "llm",
+        "mcp-server",
+        "vibe-coding",
+        "auto-discovered"
+      ]
+    },
+    {
+      "name": "Scrapling",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "🕷️ An adaptive Web Scraping framework that handles everything from a single request to a full-scale crawl!",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "unknown"
+      },
+      "capabilities": [
+        "mcp"
+      ],
+      "links": {
+        "website": "https://scrapling.readthedocs.io/en/latest/",
+        "github": "D4Vinci/Scrapling"
+      },
+      "badges": {
+        "x402Enabled": false,
+        "mcpServer": true,
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/D4Vinci/Scrapling",
+          "signalScore": 90
+        }
+      ],
+      "tags": [
+        "mcp",
+        "ai",
+        "ai-scraping",
+        "automation",
+        "crawler",
+        "crawling",
+        "auto-discovered"
+      ]
+    },
+    {
+      "name": "chrome-devtools-mcp",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "Chrome DevTools for coding agents",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "unknown"
+      },
+      "capabilities": [
+        "mcp"
+      ],
+      "links": {
+        "website": "https://npmjs.org/package/chrome-devtools-mcp",
+        "github": "ChromeDevTools/chrome-devtools-mcp"
+      },
+      "badges": {
+        "x402Enabled": false,
+        "mcpServer": true,
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/ChromeDevTools/chrome-devtools-mcp",
+          "signalScore": 90
+        }
+      ],
+      "tags": [
+        "mcp",
+        "browser",
+        "chrome",
+        "chrome-devtools",
+        "debugging",
+        "devtools",
+        "auto-discovered"
+      ]
+    },
+    {
+      "name": "ruflo",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "🌊 The leading agent orchestration platform for Claude. Deploy intelligent multi-agent swarms, coordinate autonomous workflows, and build conversational AI systems. Features    enterprise-grade archit",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "unknown"
+      },
+      "capabilities": [
+        "mcp"
+      ],
+      "links": {
+        "website": "https://Cognitum.One",
+        "github": "ruvnet/ruflo"
+      },
+      "badges": {
+        "x402Enabled": false,
+        "mcpServer": true,
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/ruvnet/ruflo",
+          "signalScore": 89
+        }
+      ],
+      "tags": [
+        "mcp",
+        "agentic-ai",
+        "agentic-engineering",
+        "agentic-framework",
+        "agentic-rag",
+        "agentic-workflow",
+        "auto-discovered"
+      ]
+    },
+    {
+      "name": "UI-TARS-desktop",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "The Open-Source Multimodal AI Agent Stack: Connecting Cutting-Edge AI Models and Agent Infra",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "unknown"
+      },
+      "capabilities": [
+        "mcp"
+      ],
+      "links": {
+        "website": "https://agent-tars.com",
+        "github": "bytedance/UI-TARS-desktop"
+      },
+      "badges": {
+        "x402Enabled": false,
+        "mcpServer": true,
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/bytedance/UI-TARS-desktop",
+          "signalScore": 89
+        }
+      ],
+      "tags": [
+        "mcp",
+        "agent",
+        "agent-tars",
+        "browser-use",
+        "computer-use",
+        "cowork",
+        "auto-discovered"
+      ]
+    },
+    {
+      "name": "gpt-researcher",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "An autonomous agent that conducts deep research on any data using any LLM providers",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "unknown"
+      },
+      "capabilities": [
+        "mcp"
+      ],
+      "links": {
+        "website": "https://gptr.dev",
+        "github": "assafelovic/gpt-researcher"
+      },
+      "badges": {
+        "x402Enabled": false,
+        "mcpServer": true,
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/assafelovic/gpt-researcher",
+          "signalScore": 88
+        }
+      ],
+      "tags": [
+        "mcp",
+        "agent",
+        "ai",
+        "automation",
+        "deepresearch",
+        "llms",
+        "auto-discovered"
+      ]
+    },
+    {
+      "name": "serena",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "A powerful MCP toolkit for coding, providing semantic retrieval and editing capabilities  - the IDE for your agent",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "unknown"
+      },
+      "capabilities": [
+        "mcp"
+      ],
+      "links": {
+        "website": "https://oraios.github.io/serena",
+        "github": "oraios/serena"
+      },
+      "badges": {
+        "x402Enabled": false,
+        "mcpServer": true,
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/oraios/serena",
+          "signalScore": 87
+        }
+      ],
+      "tags": [
+        "mcp",
+        "agent",
+        "ai",
+        "ai-coding",
+        "claude",
+        "claude-code",
+        "auto-discovered"
+      ]
+    },
+    {
+      "name": "A2A",
+      "kind": "protocol",
+      "category": "infra",
+      "brief": "Agent2Agent (A2A) is an open protocol enabling communication and interoperability between opaque agentic applications.",
+      "protocols": [
+        "a2a",
+        "http"
+      ],
+      "pricing": {
+        "type": "unknown"
+      },
+      "capabilities": [
+        "a2a"
+      ],
+      "links": {
+        "website": "https://a2a-protocol.org/",
+        "github": "a2aproject/A2A"
+      },
+      "badges": {
+        "x402Enabled": false,
+        "mcpServer": false,
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/a2aproject/A2A",
+          "signalScore": 87
+        }
+      ],
+      "tags": [
+        "a2a",
+        "a2a-mcp",
+        "a2a-protocol",
+        "a2a-server",
+        "agents",
+        "auto-discovered"
+      ]
+    },
+    {
+      "name": "activepieces",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "AI Agents & MCPs & AI Workflow Automation • (~400 MCP servers for AI agents) • AI Automation / AI Agent with MCPs • AI Workflows & AI Agents • MCPs for AI Agents",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "unknown"
+      },
+      "capabilities": [
+        "mcp"
+      ],
+      "links": {
+        "website": "https://www.activepieces.com",
+        "github": "activepieces/activepieces"
+      },
+      "badges": {
+        "x402Enabled": false,
+        "mcpServer": true,
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/activepieces/activepieces",
+          "signalScore": 87
+        }
+      ],
+      "tags": [
+        "mcp",
+        "ai-agent",
+        "ai-agent-tools",
+        "ai-agents",
+        "ai-agents-framework",
+        "auto-discovered"
+      ]
+    },
+    {
+      "name": "MaxKB",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "🔥 MaxKB is an open-source platform for building enterprise-grade agents.  强大易用的开源企业级智能体平台。",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "unknown"
+      },
+      "capabilities": [
+        "mcp"
+      ],
+      "links": {
+        "website": "https://maxkb.cn",
+        "github": "1Panel-dev/MaxKB"
+      },
+      "badges": {
+        "x402Enabled": false,
+        "mcpServer": true,
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/1Panel-dev/MaxKB",
+          "signalScore": 87
+        }
+      ],
+      "tags": [
+        "mcp",
+        "agent",
+        "agentic-ai",
+        "chatbot",
+        "deepseek-r1",
+        "knowledgebase",
+        "auto-discovered"
+      ]
+    },
+    {
+      "name": "n8n-mcp",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "A MCP for Claude Desktop / Claude Code / Windsurf / Cursor to build n8n workflows for you ",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "unknown"
+      },
+      "capabilities": [
+        "mcp"
+      ],
+      "links": {
+        "website": "https://www.n8n-mcp.com/",
+        "github": "czlonkowski/n8n-mcp"
+      },
+      "badges": {
+        "x402Enabled": false,
+        "mcpServer": true,
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/czlonkowski/n8n-mcp",
+          "signalScore": 86
+        }
+      ],
+      "tags": [
+        "mcp",
+        "mcp-server",
+        "n8n",
+        "workflows",
+        "auto-discovered"
+      ]
+    },
+    {
+      "name": "nuclear",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "Streaming music player that finds free music for you",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "unknown"
+      },
+      "capabilities": [
+        "mcp"
+      ],
+      "links": {
+        "website": "https://nuclearplayer.com",
+        "github": "nukeop/nuclear"
+      },
+      "badges": {
+        "x402Enabled": false,
+        "mcpServer": true,
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/nukeop/nuclear",
+          "signalScore": 86
+        }
+      ],
+      "tags": [
+        "mcp",
+        "ai",
+        "desktop-app",
+        "linux",
+        "mac",
+        "auto-discovered"
+      ]
+    },
+    {
+      "name": "mcp-for-beginners",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "This open-source curriculum introduces the fundamentals of Model Context Protocol (MCP) through real-world, cross-language examples in .NET, Java, TypeScript, JavaScript, Rust and Python. Designed for",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "unknown"
+      },
+      "capabilities": [
+        "mcp"
+      ],
+      "links": {
+        "github": "microsoft/mcp-for-beginners"
+      },
+      "badges": {
+        "x402Enabled": false,
+        "mcpServer": true,
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/microsoft/mcp-for-beginners",
+          "signalScore": 85
+        }
+      ],
+      "tags": [
+        "mcp",
+        "csharp",
+        "java",
+        "javascript",
+        "javascript-applications",
+        "auto-discovered"
+      ]
+    },
+    {
+      "name": "trigger.dev",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "Trigger.dev – build and deploy fully‑managed AI agents and workflows",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "unknown"
+      },
+      "capabilities": [
+        "mcp"
+      ],
+      "links": {
+        "website": "https://trigger.dev/changelog",
+        "github": "triggerdotdev/trigger.dev"
+      },
+      "badges": {
+        "x402Enabled": false,
+        "mcpServer": true,
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/triggerdotdev/trigger.dev",
+          "signalScore": 85
+        }
+      ],
+      "tags": [
+        "mcp",
+        "ai",
+        "ai-agent-framework",
+        "ai-agents",
+        "automation",
+        "background-jobs",
+        "auto-discovered"
+      ]
+    },
+    {
+      "name": "OpenMetadata",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "OpenMetadata is a unified metadata platform for data discovery, data observability, and data governance powered by a central metadata repository, in-depth column level lineage, and seamless team colla",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "unknown"
+      },
+      "capabilities": [
+        "mcp"
+      ],
+      "links": {
+        "website": "https://open-metadata.org",
+        "github": "open-metadata/OpenMetadata"
+      },
+      "badges": {
+        "x402Enabled": false,
+        "mcpServer": true,
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/open-metadata/OpenMetadata",
+          "signalScore": 85
+        }
+      ],
+      "tags": [
+        "mcp",
+        "data-catalog",
+        "data-collaboration",
+        "data-contracts",
+        "data-discovery",
+        "data-governance",
+        "auto-discovered"
+      ]
+    },
+    {
+      "name": "Skill_Seekers",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "Convert documentation websites, GitHub repositories, and PDFs into Claude AI skills with automatic conflict detection",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "unknown"
+      },
+      "capabilities": [
+        "mcp"
+      ],
+      "links": {
+        "website": "https://skillseekersweb.com/",
+        "github": "yusufkaraaslan/Skill_Seekers"
+      },
+      "badges": {
+        "x402Enabled": false,
+        "mcpServer": true,
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/yusufkaraaslan/Skill_Seekers",
+          "signalScore": 84
+        }
+      ],
+      "tags": [
+        "mcp",
+        "ai-tools",
+        "ast-parser",
+        "automation",
+        "claude-ai",
+        "claude-skills",
+        "auto-discovered"
+      ]
+    },
+    {
+      "name": "xiaohongshu-mcp",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "MCP for xiaohongshu.com",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "unknown"
+      },
+      "capabilities": [
+        "mcp"
+      ],
+      "links": {
+        "website": "https://www.haha.ai/xiaohongshu-mcp",
+        "github": "xpzouying/xiaohongshu-mcp"
+      },
+      "badges": {
+        "x402Enabled": false,
+        "mcpServer": true,
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/xpzouying/xiaohongshu-mcp",
+          "signalScore": 84
+        }
+      ],
+      "tags": [
+        "mcp",
+        "mcp-server",
+        "xiaohongshu-mcp",
+        "auto-discovered"
+      ]
+    },
+    {
+      "name": "nofx",
+      "kind": "tool",
+      "category": "payments",
+      "brief": "Your personal AI trading assistant. Any market. Any model. Pay with USDC, not API keys.",
+      "protocols": [
+        "x402",
+        "http"
+      ],
+      "pricing": {
+        "type": "unknown"
+      },
+      "capabilities": [
+        "x402",
+        "payments"
+      ],
+      "links": {
+        "website": "https://vergex.trade",
+        "github": "NoFxAiOS/nofx"
+      },
+      "badges": {
+        "x402Enabled": true,
+        "mcpServer": false,
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/NoFxAiOS/nofx",
+          "signalScore": 84
+        }
+      ],
+      "tags": [
+        "x402",
+        "payments",
+        "agentictrading",
+        "ai",
+        "ai-trading",
+        "arbitrage",
+        "binance",
+        "auto-discovered"
+      ]
+    },
+    {
+      "name": "fastapi_mcp",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "Expose your FastAPI endpoints as Model Context Protocol (MCP) tools, with Auth!",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "unknown"
+      },
+      "capabilities": [
+        "mcp"
+      ],
+      "links": {
+        "website": "https://fastapi-mcp.tadata.com/",
+        "github": "tadata-org/fastapi_mcp"
+      },
+      "badges": {
+        "x402Enabled": false,
+        "mcpServer": true,
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/tadata-org/fastapi_mcp",
+          "signalScore": 84
+        }
+      ],
+      "tags": [
+        "mcp",
+        "ai",
+        "authentication",
+        "authorization",
+        "claude",
+        "cursor",
+        "auto-discovered"
+      ]
+    },
+    {
+      "name": "context-mode",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "Context window optimization for AI coding agents. Sandboxes tool output, 98% reduction. 14 platforms",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "unknown"
+      },
+      "capabilities": [
+        "mcp"
+      ],
+      "links": {
+        "website": "https://context-mode.com",
+        "github": "mksglu/context-mode"
+      },
+      "badges": {
+        "x402Enabled": false,
+        "mcpServer": true,
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/mksglu/context-mode",
+          "signalScore": 84
+        }
+      ],
+      "tags": [
+        "mcp",
+        "antigravity",
+        "claude",
+        "claude-code",
+        "claude-code-hooks",
+        "claude-code-plugins",
+        "auto-discovered"
+      ]
+    },
+    {
+      "name": "nginx-ui",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "Yet another WebUI for Nginx",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "unknown"
+      },
+      "capabilities": [
+        "mcp"
+      ],
+      "links": {
+        "website": "https://nginxui.com",
+        "github": "0xJacky/nginx-ui"
+      },
+      "badges": {
+        "x402Enabled": false,
+        "mcpServer": true,
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/0xJacky/nginx-ui",
+          "signalScore": 84
+        }
+      ],
+      "tags": [
+        "mcp",
+        "chatgpt-app",
+        "code-completion",
+        "copilot",
+        "cron",
+        "deepseek-r1",
+        "auto-discovered"
+      ]
+    },
+    {
+      "name": "XHS-Downloader",
+      "kind": "tool",
+      "category": "infra",
+      "brief": "小红书（XiaoHongShu、RedNote）链接提取/作品采集工具：提取账号发布、收藏、点赞、专辑作品链接；提取搜索结果作品、用户链接；采集小红书作品信息；提取小红书作品下载地址；下载小红书作品文件",
+      "protocols": [
+        "mcp"
+      ],
+      "pricing": {
+        "type": "unknown"
+      },
+      "capabilities": [
+        "mcp"
+      ],
+      "links": {
+        "website": "https://discord.com/invite/ZYtmgKud9Y",
+        "github": "JoeanAmier/XHS-Downloader"
+      },
+      "badges": {
+        "x402Enabled": false,
+        "mcpServer": true,
+        "agentActionable": true
+      },
+      "stars7dDelta": 0,
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/JoeanAmier/XHS-Downloader",
+          "signalScore": 83
+        }
+      ],
+      "tags": [
+        "mcp",
+        "api",
+        "docker",
+        "download",
+        "fastapi",
+        "httpx",
+        "auto-discovered"
+      ]
+    }
+  ]
+}

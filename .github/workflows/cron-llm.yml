@@ -1,0 +1,98 @@
+name: Cron - LLM telemetry
+
+# Two scheduled jobs for the model-usage telemetry layer:
+#   - aggregate: hourly. Drains the LLM events stream into daily blobs.
+#   - sync-models: daily 02:15 UTC. Refreshes the OpenRouter model catalogue.
+#
+# Both call /api/cron/llm/* on the main app. CRON_SECRET bearer auth is
+# enforced server-side via verifyCronAuth (src/lib/api/auth.ts).
+#
+# Required repo config (same as the existing cron-* workflows):
+#   secrets.CRON_SECRET
+#   vars.TRENDINGREPO_URL  — defaults to prod URL
+
+on:
+  schedule:
+    - cron: "10 * * * *"   # hourly aggregate at :10 past
+    - cron: "15 2 * * *"   # daily sync-models at 02:15 UTC
+  workflow_dispatch:
+    inputs:
+      job:
+        description: "Which job to run (aggregate | sync-models)"
+        required: true
+        default: aggregate
+        type: choice
+        options:
+          - aggregate
+          - sync-models
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cron-llm
+  cancel-in-progress: false
+
+env:
+  BASE_URL: ${{ vars.TRENDINGREPO_URL || vars.STARSCREENER_URL || 'https://trendingrepo.com' }}
+
+jobs:
+  aggregate:
+    if: |
+      github.event_name == 'schedule' && github.event.schedule == '10 * * * *'
+      || (github.event_name == 'workflow_dispatch' && inputs.job == 'aggregate')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: GET /api/cron/llm/aggregate
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          if [ -z "$CRON_SECRET" ]; then
+            echo "::error::CRON_SECRET unset — refusing to fire"
+            exit 1
+          fi
+          code=$(curl -sS -o /tmp/out -w "%{http_code}" \
+            "$BASE_URL/api/cron/llm/aggregate" \
+            -H "Authorization: Bearer $CRON_SECRET")
+          echo "HTTP $code"
+          if command -v jq >/dev/null 2>&1 && jq . /tmp/out >/dev/null 2>&1; then
+            jq . /tmp/out | head -c 2000
+          else
+            head -c 2000 /tmp/out
+          fi
+          echo
+          if [ "$code" != "200" ]; then
+            echo "::error::aggregate call failed ($code)"
+            exit 1
+          fi
+
+  sync-models:
+    if: |
+      github.event_name == 'schedule' && github.event.schedule == '15 2 * * *'
+      || (github.event_name == 'workflow_dispatch' && inputs.job == 'sync-models')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: GET /api/cron/llm/sync-models
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          if [ -z "$CRON_SECRET" ]; then
+            echo "::error::CRON_SECRET unset — refusing to fire"
+            exit 1
+          fi
+          code=$(curl -sS -o /tmp/out -w "%{http_code}" \
+            "$BASE_URL/api/cron/llm/sync-models" \
+            -H "Authorization: Bearer $CRON_SECRET")
+          echo "HTTP $code"
+          if command -v jq >/dev/null 2>&1 && jq . /tmp/out >/dev/null 2>&1; then
+            jq . /tmp/out | head -c 2000
+          else
+            head -c 2000 /tmp/out
+          fi
+          echo
+          if [ "$code" != "200" ]; then
+            echo "::error::sync-models call failed ($code)"
+            exit 1
+          fi

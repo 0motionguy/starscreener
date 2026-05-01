@@ -1,10 +1,265 @@
 {
-  "fetchedAt": "2026-05-01T04:20:07.423Z",
+  "fetchedAt": "2026-05-01T07:38:31.620Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
+    "openai/openai-agents-python": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkrkz33l6n2i",
+        "cid": "bafyreihjclj7gai465zxudtjsx2xz3n6xedq5hpurxuksxqf3q67bojc2e",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkrkz33l6n2i",
+        "text": "🟠 OpenAI Agents Python v0.15.0 changes refusal handling into explicit errors OpenAI shipped openai-agents-python v0.15.0 with a behavior change that now surfaces refusal-only model responses as ModelRefusalError... https://github.com/openai/openai-agents-python/releases/tag/v0.15.0 #AI #AgentWyre",
+        "author": {
+          "handle": "agentwyre.ai"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-01T07:08:04.922969+00:00",
+        "hoursSincePosted": 0.51
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkrkz33l6n2i",
+          "cid": "bafyreihjclj7gai465zxudtjsx2xz3n6xedq5hpurxuksxqf3q67bojc2e",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkrkz33l6n2i",
+          "text": "🟠 OpenAI Agents Python v0.15.0 changes refusal handling into explicit errors OpenAI shipped openai-agents-python v0.15.0 with a behavior change that now surfaces refusal-only model responses as ModelRefusalError... https://github.com/openai/openai-agents-python/releases/tag/v0.15.0 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T07:08:04.922969+00:00",
+          "createdUtc": 1777619284,
+          "ageHours": 0.51,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent",
+            "is-announcement"
+          ],
+          "value_score": 3,
+          "linkedRepos": [
+            {
+              "fullName": "openai/openai-agents-python",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "iss4cf0ng/CVE-2026-31431-Linux-Copy-Fail": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:fmu7xpo2cd4g26vl4dob7cfb/app.bsky.feed.post/3mkrid6wtl2d2",
+        "cid": "bafyreifr2td7ns5dkzsh4635pvieegzr7lzucqxejcpuatfiafbe5gktpa",
+        "bskyUrl": "https://bsky.app/profile/bontchev.infosec.exchange.ap.brid.gy/post/3mkrid6wtl2d2",
+        "text": "CopyFail implementation in Rust: https://github.com/iss4cf0ng/CVE-2026-31431-Linux-Copy-Fail",
+        "author": {
+          "handle": "bontchev.infosec.exchange.ap.brid.gy"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-01T06:19:18.000Z",
+        "hoursSincePosted": 1.32
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:fmu7xpo2cd4g26vl4dob7cfb/app.bsky.feed.post/3mkrid6wtl2d2",
+          "cid": "bafyreifr2td7ns5dkzsh4635pvieegzr7lzucqxejcpuatfiafbe5gktpa",
+          "bskyUrl": "https://bsky.app/profile/bontchev.infosec.exchange.ap.brid.gy/post/3mkrid6wtl2d2",
+          "text": "CopyFail implementation in Rust: https://github.com/iss4cf0ng/CVE-2026-31431-Linux-Copy-Fail",
+          "author": {
+            "handle": "bontchev.infosec.exchange.ap.brid.gy"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T06:19:18.000Z",
+          "createdUtc": 1777616358,
+          "ageHours": 1.32,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "iss4cf0ng/CVE-2026-31431-Linux-Copy-Fail",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "garrytan/gbrain": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mkriigmey42y",
+        "cid": "bafyreibs6uuk25ve7bv6zbca2dcqvnmsgzspwf2ip3pf24mhv6umhwjasi",
+        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mkriigmey42y",
+        "text": "If you use Hermes Agent or OpenClaw, installing GBrain on top of your Karpathy-style Knowledge Wiki will pay you massive dividends. GBrain is MIT-licensed and open source, and can help your project immensely. https://github.com/garrytan/gbrain",
+        "author": {
+          "handle": "garrytan-mirr.selfhosted.social",
+          "displayName": "Garry Tan [UNOFFICIAL]"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-01T06:13:47.000Z",
+        "hoursSincePosted": 1.41
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mkriigmey42y",
+          "cid": "bafyreibs6uuk25ve7bv6zbca2dcqvnmsgzspwf2ip3pf24mhv6umhwjasi",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mkriigmey42y",
+          "text": "If you use Hermes Agent or OpenClaw, installing GBrain on top of your Karpathy-style Knowledge Wiki will pay you massive dividends. GBrain is MIT-licensed and open source, and can help your project immensely. https://github.com/garrytan/gbrain",
+          "author": {
+            "handle": "garrytan-mirr.selfhosted.social",
+            "displayName": "Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T06:13:47.000Z",
+          "createdUtc": 1777616027,
+          "ageHours": 1.41,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "UzenUPozitiv4ik/gpt-image-2-skill": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:a2anbsoy6odyey6geqvld42l/app.bsky.feed.post/3mkrgnosj6u2c",
+        "cid": "bafyreidgh3ioab3csjqbogh22deffhee3fg5wnfkoyexrsux7dei63bodu",
+        "bskyUrl": "https://bsky.app/profile/projectnothing.bsky.social/post/3mkrgnosj6u2c",
+        "text": "When universal AI skills for image generation explode in popularity, it’s a signal: devs crave plug-and-play intelligence over yet another agent framework. https://github.com/UzenUPozitiv4ik/gpt-image-2-skill https://www.projectnothing.ai/experiments/signal-from-the-void",
+        "author": {
+          "handle": "projectnothing.bsky.social",
+          "displayName": "Project Nothing"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-01T05:50:07.435Z",
+        "hoursSincePosted": 1.81
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:a2anbsoy6odyey6geqvld42l/app.bsky.feed.post/3mkrgnosj6u2c",
+          "cid": "bafyreidgh3ioab3csjqbogh22deffhee3fg5wnfkoyexrsux7dei63bodu",
+          "bskyUrl": "https://bsky.app/profile/projectnothing.bsky.social/post/3mkrgnosj6u2c",
+          "text": "When universal AI skills for image generation explode in popularity, it’s a signal: devs crave plug-and-play intelligence over yet another agent framework. https://github.com/UzenUPozitiv4ik/gpt-image-2-skill https://www.projectnothing.ai/experiments/signal-from-the-void",
+          "author": {
+            "handle": "projectnothing.bsky.social",
+            "displayName": "Project Nothing"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T05:50:07.435Z",
+          "createdUtc": 1777614607,
+          "ageHours": 1.81,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "UzenUPozitiv4ik/gpt-image-2-skill",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "anthropics/claude-code": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:2pv6hfvcxgndy4lqtphrizsx/app.bsky.feed.post/3mkregvk27dy2",
+        "cid": "bafyreicssj3dooialmgnbfc5chy6fkfbtcemdrdh2yg7obx3mfefrmu5tq",
+        "bskyUrl": "https://bsky.app/profile/eulanov.m.eula.dev.ap.brid.gy/post/3mkregvk27dy2",
+        "text": "https://github.com/anthropics/claude-code/issues/49500#issuecomment-4330181528 以下をやってみろとのことだったので、やってみる。 Claude Code がブチブチ切れちゃうの、つらい。 ``` \"env\": { \"CLAUDE_STREAM_IDLE_TIMEOUT_MS\": \"1800000\" } ```",
+        "author": {
+          "handle": "eulanov.m.eula.dev.ap.brid.gy",
+          "displayName": "ゆらのふ"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-01T05:10:16.000Z",
+        "hoursSincePosted": 2.47
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:2pv6hfvcxgndy4lqtphrizsx/app.bsky.feed.post/3mkregvk27dy2",
+          "cid": "bafyreicssj3dooialmgnbfc5chy6fkfbtcemdrdh2yg7obx3mfefrmu5tq",
+          "bskyUrl": "https://bsky.app/profile/eulanov.m.eula.dev.ap.brid.gy/post/3mkregvk27dy2",
+          "text": "https://github.com/anthropics/claude-code/issues/49500#issuecomment-4330181528 以下をやってみろとのことだったので、やってみる。 Claude Code がブチブチ切れちゃうの、つらい。 ``` \"env\": { \"CLAUDE_STREAM_IDLE_TIMEOUT_MS\": \"1800000\" } ```",
+          "author": {
+            "handle": "eulanov.m.eula.dev.ap.brid.gy",
+            "displayName": "ゆらのふ"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T05:10:16.000Z",
+          "createdUtc": 1777612216,
+          "ageHours": 2.47,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-code-block"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "Uzaaft/libghostty-rs": {
       "count7d": 1,
       "likesSum7d": 3,
@@ -23,7 +278,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-01T02:36:30.513Z",
-        "hoursSincePosted": 1.73
+        "hoursSincePosted": 5.03
       },
       "posts": [
         {
@@ -40,7 +295,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T02:36:30.513Z",
           "createdUtc": 1777602990,
-          "ageHours": 1.73,
+          "ageHours": 5.03,
           "trendingScore": 3,
           "content_tags": [
             "has-github-repo"
@@ -58,6 +313,261 @@
     }
   },
   "mentionsByRepoId": {
+    "openai--openai-agents-python": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkrkz33l6n2i",
+        "cid": "bafyreihjclj7gai465zxudtjsx2xz3n6xedq5hpurxuksxqf3q67bojc2e",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkrkz33l6n2i",
+        "text": "🟠 OpenAI Agents Python v0.15.0 changes refusal handling into explicit errors OpenAI shipped openai-agents-python v0.15.0 with a behavior change that now surfaces refusal-only model responses as ModelRefusalError... https://github.com/openai/openai-agents-python/releases/tag/v0.15.0 #AI #AgentWyre",
+        "author": {
+          "handle": "agentwyre.ai"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-01T07:08:04.922969+00:00",
+        "hoursSincePosted": 0.51
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkrkz33l6n2i",
+          "cid": "bafyreihjclj7gai465zxudtjsx2xz3n6xedq5hpurxuksxqf3q67bojc2e",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkrkz33l6n2i",
+          "text": "🟠 OpenAI Agents Python v0.15.0 changes refusal handling into explicit errors OpenAI shipped openai-agents-python v0.15.0 with a behavior change that now surfaces refusal-only model responses as ModelRefusalError... https://github.com/openai/openai-agents-python/releases/tag/v0.15.0 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T07:08:04.922969+00:00",
+          "createdUtc": 1777619284,
+          "ageHours": 0.51,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent",
+            "is-announcement"
+          ],
+          "value_score": 3,
+          "linkedRepos": [
+            {
+              "fullName": "openai/openai-agents-python",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "iss4cf0ng--cve-2026-31431-linux-copy-fail": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:fmu7xpo2cd4g26vl4dob7cfb/app.bsky.feed.post/3mkrid6wtl2d2",
+        "cid": "bafyreifr2td7ns5dkzsh4635pvieegzr7lzucqxejcpuatfiafbe5gktpa",
+        "bskyUrl": "https://bsky.app/profile/bontchev.infosec.exchange.ap.brid.gy/post/3mkrid6wtl2d2",
+        "text": "CopyFail implementation in Rust: https://github.com/iss4cf0ng/CVE-2026-31431-Linux-Copy-Fail",
+        "author": {
+          "handle": "bontchev.infosec.exchange.ap.brid.gy"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-01T06:19:18.000Z",
+        "hoursSincePosted": 1.32
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:fmu7xpo2cd4g26vl4dob7cfb/app.bsky.feed.post/3mkrid6wtl2d2",
+          "cid": "bafyreifr2td7ns5dkzsh4635pvieegzr7lzucqxejcpuatfiafbe5gktpa",
+          "bskyUrl": "https://bsky.app/profile/bontchev.infosec.exchange.ap.brid.gy/post/3mkrid6wtl2d2",
+          "text": "CopyFail implementation in Rust: https://github.com/iss4cf0ng/CVE-2026-31431-Linux-Copy-Fail",
+          "author": {
+            "handle": "bontchev.infosec.exchange.ap.brid.gy"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T06:19:18.000Z",
+          "createdUtc": 1777616358,
+          "ageHours": 1.32,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "iss4cf0ng/CVE-2026-31431-Linux-Copy-Fail",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "garrytan--gbrain": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mkriigmey42y",
+        "cid": "bafyreibs6uuk25ve7bv6zbca2dcqvnmsgzspwf2ip3pf24mhv6umhwjasi",
+        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mkriigmey42y",
+        "text": "If you use Hermes Agent or OpenClaw, installing GBrain on top of your Karpathy-style Knowledge Wiki will pay you massive dividends. GBrain is MIT-licensed and open source, and can help your project immensely. https://github.com/garrytan/gbrain",
+        "author": {
+          "handle": "garrytan-mirr.selfhosted.social",
+          "displayName": "Garry Tan [UNOFFICIAL]"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-01T06:13:47.000Z",
+        "hoursSincePosted": 1.41
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mkriigmey42y",
+          "cid": "bafyreibs6uuk25ve7bv6zbca2dcqvnmsgzspwf2ip3pf24mhv6umhwjasi",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mkriigmey42y",
+          "text": "If you use Hermes Agent or OpenClaw, installing GBrain on top of your Karpathy-style Knowledge Wiki will pay you massive dividends. GBrain is MIT-licensed and open source, and can help your project immensely. https://github.com/garrytan/gbrain",
+          "author": {
+            "handle": "garrytan-mirr.selfhosted.social",
+            "displayName": "Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T06:13:47.000Z",
+          "createdUtc": 1777616027,
+          "ageHours": 1.41,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "uzenupozitiv4ik--gpt-image-2-skill": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:a2anbsoy6odyey6geqvld42l/app.bsky.feed.post/3mkrgnosj6u2c",
+        "cid": "bafyreidgh3ioab3csjqbogh22deffhee3fg5wnfkoyexrsux7dei63bodu",
+        "bskyUrl": "https://bsky.app/profile/projectnothing.bsky.social/post/3mkrgnosj6u2c",
+        "text": "When universal AI skills for image generation explode in popularity, it’s a signal: devs crave plug-and-play intelligence over yet another agent framework. https://github.com/UzenUPozitiv4ik/gpt-image-2-skill https://www.projectnothing.ai/experiments/signal-from-the-void",
+        "author": {
+          "handle": "projectnothing.bsky.social",
+          "displayName": "Project Nothing"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-01T05:50:07.435Z",
+        "hoursSincePosted": 1.81
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:a2anbsoy6odyey6geqvld42l/app.bsky.feed.post/3mkrgnosj6u2c",
+          "cid": "bafyreidgh3ioab3csjqbogh22deffhee3fg5wnfkoyexrsux7dei63bodu",
+          "bskyUrl": "https://bsky.app/profile/projectnothing.bsky.social/post/3mkrgnosj6u2c",
+          "text": "When universal AI skills for image generation explode in popularity, it’s a signal: devs crave plug-and-play intelligence over yet another agent framework. https://github.com/UzenUPozitiv4ik/gpt-image-2-skill https://www.projectnothing.ai/experiments/signal-from-the-void",
+          "author": {
+            "handle": "projectnothing.bsky.social",
+            "displayName": "Project Nothing"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T05:50:07.435Z",
+          "createdUtc": 1777614607,
+          "ageHours": 1.81,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "UzenUPozitiv4ik/gpt-image-2-skill",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "anthropics--claude-code": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:2pv6hfvcxgndy4lqtphrizsx/app.bsky.feed.post/3mkregvk27dy2",
+        "cid": "bafyreicssj3dooialmgnbfc5chy6fkfbtcemdrdh2yg7obx3mfefrmu5tq",
+        "bskyUrl": "https://bsky.app/profile/eulanov.m.eula.dev.ap.brid.gy/post/3mkregvk27dy2",
+        "text": "https://github.com/anthropics/claude-code/issues/49500#issuecomment-4330181528 以下をやってみろとのことだったので、やってみる。 Claude Code がブチブチ切れちゃうの、つらい。 ``` \"env\": { \"CLAUDE_STREAM_IDLE_TIMEOUT_MS\": \"1800000\" } ```",
+        "author": {
+          "handle": "eulanov.m.eula.dev.ap.brid.gy",
+          "displayName": "ゆらのふ"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-01T05:10:16.000Z",
+        "hoursSincePosted": 2.47
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:2pv6hfvcxgndy4lqtphrizsx/app.bsky.feed.post/3mkregvk27dy2",
+          "cid": "bafyreicssj3dooialmgnbfc5chy6fkfbtcemdrdh2yg7obx3mfefrmu5tq",
+          "bskyUrl": "https://bsky.app/profile/eulanov.m.eula.dev.ap.brid.gy/post/3mkregvk27dy2",
+          "text": "https://github.com/anthropics/claude-code/issues/49500#issuecomment-4330181528 以下をやってみろとのことだったので、やってみる。 Claude Code がブチブチ切れちゃうの、つらい。 ``` \"env\": { \"CLAUDE_STREAM_IDLE_TIMEOUT_MS\": \"1800000\" } ```",
+          "author": {
+            "handle": "eulanov.m.eula.dev.ap.brid.gy",
+            "displayName": "ゆらのふ"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T05:10:16.000Z",
+          "createdUtc": 1777612216,
+          "ageHours": 2.47,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-code-block"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "uzaaft--libghostty-rs": {
       "count7d": 1,
       "likesSum7d": 3,
@@ -76,7 +586,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-01T02:36:30.513Z",
-        "hoursSincePosted": 1.73
+        "hoursSincePosted": 5.03
       },
       "posts": [
         {
@@ -93,7 +603,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T02:36:30.513Z",
           "createdUtc": 1777602990,
-          "ageHours": 1.73,
+          "ageHours": 5.03,
           "trendingScore": 3,
           "content_tags": [
             "has-github-repo"
@@ -115,6 +625,31 @@
       "fullName": "Uzaaft/libghostty-rs",
       "count7d": 1,
       "likesSum7d": 3
+    },
+    {
+      "fullName": "anthropics/claude-code",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "garrytan/gbrain",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "iss4cf0ng/CVE-2026-31431-Linux-Copy-Fail",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "openai/openai-agents-python",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "UzenUPozitiv4ik/gpt-image-2-skill",
+      "count7d": 1,
+      "likesSum7d": 0
     }
   ]
 }

@@ -152,6 +152,84 @@ function countMentionsByPlatform(
   return out;
 }
 
+/**
+ * Synthesize RepoMention rows from a TwitterRepoPanel's `topPosts` array.
+ *
+ * Twitter signals live in their own per-repo store (twitter-repo-signals.jsonl)
+ * and bypass the general mentionStore. Until the Twitter pipeline writes
+ * directly into mentionStore, we project the panel's topPosts into RepoMention
+ * shape at profile-assembly time so the recent-mentions feed and the
+ * countsBySource breakdown surface Twitter activity alongside HN/Reddit/etc.
+ *
+ * IDs are namespaced (`twitter-<postId>`) so they never collide with native
+ * mentionStore rows. Confidence is mapped from the Apify scorer's tiering:
+ * high→1.0, medium→0.6, low→0.3 (mirrors the same band the Twitter scorer uses).
+ */
+function synthesizeTwitterMentions(
+  panel: TwitterRepoPanel | null,
+  repoId: string,
+  discoveredAt: string,
+): RepoMention[] {
+  if (!panel?.topPosts?.length) return [];
+  const out: RepoMention[] = [];
+  for (const p of panel.topPosts) {
+    const conf =
+      p.confidence === "high" ? 1.0 : p.confidence === "medium" ? 0.6 : 0.3;
+    out.push({
+      id: `twitter-${p.postId}`,
+      repoId,
+      platform: "twitter",
+      author: p.authorHandle,
+      authorFollowers: null,
+      content: p.text,
+      url: p.postUrl,
+      sentiment: "neutral",
+      engagement: p.engagement ?? 0,
+      reach: 0,
+      postedAt: p.postedAt,
+      discoveredAt,
+      isInfluencer: false,
+      confidence: conf,
+      matchReason: p.matchedBy,
+      normalizedUrl: p.postUrl,
+    });
+  }
+  return out;
+}
+
+/**
+ * Synthesize a single RepoMention row from a ProductHunt Launch.
+ *
+ * ProductHunt launches are a per-repo singleton (one launch per repo at most
+ * per cycle). We project the launch into a RepoMention so it shows up in the
+ * recent feed. ID is `producthunt-<launch.id>`.
+ */
+function synthesizeProductHuntMention(
+  launch: Launch | null,
+  repoId: string,
+  discoveredAt: string,
+): RepoMention | null {
+  if (!launch) return null;
+  return {
+    id: `producthunt-${launch.id}`,
+    repoId,
+    platform: "producthunt",
+    author: launch.makers?.[0]?.username ?? launch.name,
+    authorFollowers: null,
+    content: launch.tagline || launch.description || launch.name,
+    url: launch.url,
+    sentiment: "neutral",
+    engagement: (launch.votesCount ?? 0) + (launch.commentsCount ?? 0),
+    reach: 0,
+    postedAt: launch.createdAt,
+    discoveredAt,
+    isInfluencer: false,
+    confidence: 1.0,
+    matchReason: "github_repo_field",
+    normalizedUrl: launch.url,
+  };
+}
+
 // ---------------------------------------------------------------------------
 // Public API
 // ---------------------------------------------------------------------------
@@ -246,10 +324,30 @@ export async function buildCanonicalRepoProfile(
     twitter = null;
   }
 
+  // Synthesize Twitter + ProductHunt mentions (these signals live outside
+  // the general mentionStore — see synthesizeTwitterMentions docstring) and
+  // mix them into the recent slice + countsBySource. Sort newest-first by
+  // postedAt and re-cap to PROFILE_MENTIONS_LIMIT so a viral repo doesn't
+  // push HN/Reddit out of the slice.
+  const fetchedAtIso = new Date().toISOString();
+  const twitterSynth = synthesizeTwitterMentions(twitter, repo.id, fetchedAtIso);
+  const phSynth = synthesizeProductHuntMention(productHunt, repo.id, fetchedAtIso);
+  const synthMentions: RepoMention[] = [...twitterSynth];
+  if (phSynth) synthMentions.push(phSynth);
+
+  const mergedRecent =
+    synthMentions.length > 0
+      ? [...page.items, ...synthMentions]
+          .sort((a, b) => (a.postedAt < b.postedAt ? 1 : -1))
+          .slice(0, PROFILE_MENTIONS_LIMIT)
+      : page.items;
+  const mergedAll =
+    synthMentions.length > 0 ? [...allMentions, ...synthMentions] : allMentions;
+
   const mentions: CanonicalRepoProfileMentions = {
-    recent: page.items,
+    recent: mergedRecent,
     nextCursor: page.nextCursor ? encodeCursor(page.nextCursor) : null,
-    countsBySource: countMentionsByPlatform(allMentions),
+    countsBySource: countMentionsByPlatform(mergedAll),
   };
 
   return {

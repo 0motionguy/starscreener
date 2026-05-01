@@ -19,6 +19,7 @@ const PLATFORM_LABEL: Record<SocialPlatform, string> = {
   devto: "dev.to",
   twitter: "x",
   github: "gh",
+  producthunt: "ph",
 };
 
 function formatAge(iso: string): string {

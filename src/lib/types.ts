@@ -24,7 +24,8 @@ export type SocialPlatform =
   | "hackernews"
   | "github"
   | "devto"
-  | "bluesky";
+  | "bluesky"
+  | "producthunt";
 
 export type Sentiment = "positive" | "neutral" | "negative";
 

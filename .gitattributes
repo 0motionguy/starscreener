@@ -1,0 +1,13 @@
+# Merge strategy for append-only data files written by many concurrent
+# workflows. Without `merge=union`, two scrape workflows committing to
+# the same JSONL within the same minute trigger a rebase conflict in
+# the bot push step and the run fails red. union keeps both sides'
+# new lines, which is the correct semantics for these files (each line
+# is an independent event/observation).
+data/unknown-mentions.jsonl merge=union
+.data/twitter-repo-signals.jsonl merge=union
+.data/twitter-scans.jsonl merge=union
+.data/twitter-ingestion-audit.jsonl merge=union
+.data/ideas.jsonl merge=union
+.data/reactions.jsonl merge=union
+.data/predictions.jsonl merge=union

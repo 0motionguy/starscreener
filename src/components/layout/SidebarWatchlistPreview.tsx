@@ -40,6 +40,7 @@ export interface SidebarWatchlistPreviewRepo {
     hn: boolean;
     bluesky: boolean;
     devto: boolean;
+    twitter: boolean;
   };
 }
 

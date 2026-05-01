@@ -95,6 +95,7 @@ function packForRepos(
       hn: false,
       bluesky: false,
       devto: false,
+      twitter: false,
     };
     rows.push({
       id: r.fullName,

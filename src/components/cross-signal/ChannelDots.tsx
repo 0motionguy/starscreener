@@ -1,7 +1,8 @@
 "use client";
 
-// ChannelDots — five small inline dots representing GitHub / Reddit / HN /
-// Bluesky / dev.to channel state. Filled = component > 0; outlined = inactive.
+// ChannelDots — six small inline dots representing GitHub / Reddit / HN /
+// Bluesky / dev.to / Twitter channel state. Filled = component > 0;
+// outlined = inactive.
 //
 // PREVIOUSLY this component imported getChannelStatus from
 // @/lib/pipeline/cross-signal, which transitively pulled every per-source
@@ -21,6 +22,7 @@ interface ChannelStatus {
   hn: boolean;
   bluesky: boolean;
   devto: boolean;
+  twitter: boolean;
 }
 
 type ChannelKey = keyof ChannelStatus;
@@ -54,6 +56,7 @@ const CHANNEL_COLORS = {
   hn: "#ff6600",
   bluesky: "#0085FF",
   devto: "#0a0a0a",
+  twitter: "#1d9bf0",
 };
 
 function buildTooltip(status: ChannelStatus, firing: number): string {
@@ -63,8 +66,9 @@ function buildTooltip(status: ChannelStatus, firing: number): string {
     `HN: ${status.hn ? "active" : "—"}`,
     `Bluesky: ${status.bluesky ? "active" : "—"}`,
     `dev.to: ${status.devto ? "active" : "—"}`,
+    `X: ${status.twitter ? "active" : "—"}`,
   ];
-  return `${firing}/5 channels firing\n${parts.join(" · ")}`;
+  return `${firing}/6 channels firing\n${parts.join(" · ")}`;
 }
 
 const ZERO_STATUS: ChannelStatus = {
@@ -73,6 +77,7 @@ const ZERO_STATUS: ChannelStatus = {
   hn: false,
   bluesky: false,
   devto: false,
+  twitter: false,
 };
 
 function resolveStatus(props: ChannelDotsProps): ChannelStatus {
@@ -87,6 +92,7 @@ const CHANNEL_DEFAULT_LABEL: Record<ChannelKey, string> = {
   hn: "HackerNews",
   bluesky: "Bluesky",
   devto: "dev.to",
+  twitter: "X",
 };
 
 export function ChannelDots(props: ChannelDotsProps) {
@@ -97,7 +103,8 @@ export function ChannelDots(props: ChannelDotsProps) {
     (status.reddit ? 1 : 0) +
     (status.hn ? 1 : 0) +
     (status.bluesky ? 1 : 0) +
-    (status.devto ? 1 : 0);
+    (status.devto ? 1 : 0) +
+    (status.twitter ? 1 : 0);
   if (firing === 0 && hideWhenEmpty) return null;
 
   const dotSize = size === "md" ? "w-2 h-2" : "w-1.5 h-1.5";
@@ -127,13 +134,14 @@ export function ChannelDots(props: ChannelDotsProps) {
     <span
       className={`inline-flex items-center ${gap} shrink-0`}
       title={buildTooltip(status, firing)}
-      aria-label={`${firing} of 5 cross-signal channels firing`}
+      aria-label={`${firing} of 6 cross-signal channels firing`}
     >
       {dot("github", status.github, CHANNEL_COLORS.github)}
       {dot("reddit", status.reddit, CHANNEL_COLORS.reddit)}
       {dot("hn", status.hn, CHANNEL_COLORS.hn)}
       {dot("bluesky", status.bluesky, CHANNEL_COLORS.bluesky)}
       {dot("devto", status.devto, CHANNEL_COLORS.devto)}
+      {dot("twitter", status.twitter, CHANNEL_COLORS.twitter)}
     </span>
   );
 }

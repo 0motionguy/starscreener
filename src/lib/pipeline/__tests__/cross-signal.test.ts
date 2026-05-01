@@ -5,7 +5,7 @@ import type { Repo } from "../../types";
 import { getDevtoLeaderboard } from "../../devto";
 import { attachCrossSignal, getChannelStatus, __test } from "../cross-signal";
 
-const { githubComponent, hnComponent, blueskyComponent, devtoComponent } = __test;
+const { githubComponent, hnComponent, blueskyComponent, devtoComponent, twitterComponent } = __test;
 
 // Minimal Repo factory — only the fields cross-signal touches need to be
 // real. Everything else gets dummy values that satisfy the type.
@@ -84,6 +84,14 @@ test("blueskyComponent: returns 0 for an unknown repo", () => {
 
 test("devtoComponent: returns 0 for an unknown repo", () => {
   assert.equal(devtoComponent("definitely/not-a-real-repo-devto-123"), 0);
+});
+
+// ---------------------------------------------------------------------------
+// twitterComponent: tiered by mentionCount24h
+// ---------------------------------------------------------------------------
+
+test("twitterComponent: returns 0 for an unknown repo", () => {
+  assert.equal(twitterComponent("definitely/not-a-real-repo-twitter-123"), 0);
 });
 
 test("devtoComponent: real repo with mentions ≥1 lights at least 0.4", () => {
@@ -177,6 +185,7 @@ test("getChannelStatus: stable + unknown repo lights nothing", () => {
     hn: false,
     bluesky: false,
     devto: false,
+    twitter: false,
   });
 });
 
@@ -191,9 +200,10 @@ test("getChannelStatus: hot status lights github", () => {
   assert.equal(status.hn, false);
   assert.equal(status.bluesky, false);
   assert.equal(status.devto, false);
+  assert.equal(status.twitter, false);
 });
 
-test("attachCrossSignal: score + firing range is 0-5 (five channels)", () => {
+test("attachCrossSignal: score + firing range is 0-6 (six channels)", () => {
   const repos = [
     makeRepo({
       fullName: "ghost/repo-breakout",
@@ -202,12 +212,12 @@ test("attachCrossSignal: score + firing range is 0-5 (five channels)", () => {
   ];
   const out = attachCrossSignal(repos);
   assert.ok(
-    (out[0].crossSignalScore ?? 0) <= 5.0,
-    `score must be in 0..5, got ${out[0].crossSignalScore}`,
+    (out[0].crossSignalScore ?? 0) <= 6.0,
+    `score must be in 0..6, got ${out[0].crossSignalScore}`,
   );
   assert.ok(
-    (out[0].channelsFiring ?? 0) <= 5,
-    `firing count must be in 0..5, got ${out[0].channelsFiring}`,
+    (out[0].channelsFiring ?? 0) <= 6,
+    `firing count must be in 0..6, got ${out[0].channelsFiring}`,
   );
 });
 

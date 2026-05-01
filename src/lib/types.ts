@@ -146,6 +146,7 @@ export interface Repo {
     hn: boolean;
     bluesky: boolean;
     devto: boolean;
+    twitter: boolean;
   };
 
   /**

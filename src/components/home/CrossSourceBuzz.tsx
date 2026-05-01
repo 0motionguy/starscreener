@@ -28,6 +28,7 @@ const CHANNEL_LABEL: Record<ChannelKey, string> = {
   hn: "HN",
   bluesky: "BSKY",
   devto: "DEVTO",
+  twitter: "X",
 };
 
 const CHANNEL_HREF: Record<ChannelKey, string> = {
@@ -36,6 +37,7 @@ const CHANNEL_HREF: Record<ChannelKey, string> = {
   hn: "/hackernews/trending",
   bluesky: "/bluesky/trending",
   devto: "/devto",
+  twitter: "/twitter",
 };
 
 const CHANNEL_ORDER: ChannelKey[] = [
@@ -44,6 +46,7 @@ const CHANNEL_ORDER: ChannelKey[] = [
   "hn",
   "bluesky",
   "devto",
+  "twitter",
 ];
 
 function formatAgo(ts?: string | number): string {

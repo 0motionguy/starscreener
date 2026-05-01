@@ -134,6 +134,7 @@ function packForRepos(repos: Repo[]): BubbleRow[] {
       hn: false,
       bluesky: false,
       devto: false,
+      twitter: false,
     };
     rows.push({
       id: r.fullName,

@@ -2,7 +2,7 @@
 
 // Compact cross-signal strip. Translates `countsBySource` (per-platform
 // mention totals from the canonical profile) into ChannelDots props so a
-// platform with >=1 mention counts as "firing". Keeps the same 5-dot
+// platform with >=1 mention counts as "firing". Keeps the same 6-dot
 // vocabulary the rest of the product uses.
 
 import { ChannelDots } from "@/components/cross-signal/ChannelDots";
@@ -17,6 +17,7 @@ export function CrossSignalStrip({ mentions }: CrossSignalStripProps) {
   const hnCount = mentions.hackernews ?? 0;
   const blueskyCount = mentions.bluesky ?? 0;
   const devtoCount = mentions.devto ?? 0;
+  const twitterCount = mentions.twitter ?? 0;
   // GitHub is always "active" when we have a profile row — the repo exists
   // in the index. This mirrors how ChannelDots is wired on the detail page
   // (getChannelStatus sets github=true when the repo is tracked).
@@ -26,13 +27,15 @@ export function CrossSignalStrip({ mentions }: CrossSignalStripProps) {
     hn: hnCount > 0,
     bluesky: blueskyCount > 0,
     devto: devtoCount > 0,
+    twitter: twitterCount > 0,
   };
   const firing =
     (status.github ? 1 : 0) +
     (status.reddit ? 1 : 0) +
     (status.hn ? 1 : 0) +
     (status.bluesky ? 1 : 0) +
-    (status.devto ? 1 : 0);
+    (status.devto ? 1 : 0) +
+    (status.twitter ? 1 : 0);
 
   return (
     <div className="space-y-1.5">
@@ -41,7 +44,7 @@ export function CrossSignalStrip({ mentions }: CrossSignalStripProps) {
           Cross-Signal
         </span>
         <span className="text-xs font-mono text-text-tertiary tabular-nums">
-          {firing}/5
+          {firing}/6
         </span>
       </div>
       <ChannelDots
@@ -61,6 +64,9 @@ export function CrossSignalStrip({ mentions }: CrossSignalStripProps) {
           devto: devtoCount
             ? `dev.to: ${devtoCount} mention(s)`
             : "dev.to: not firing",
+          twitter: twitterCount
+            ? `X: ${twitterCount} mention(s)`
+            : "X: not firing",
         }}
       />
     </div>

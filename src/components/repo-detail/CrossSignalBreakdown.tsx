@@ -1,4 +1,4 @@
-// Cross-signal breakdown card — five horizontal bars, one per channel.
+// Cross-signal breakdown card — six horizontal bars, one per channel.
 //
 // Server component. Reads the per-channel raw component values via the
 // __test export from src/lib/pipeline/cross-signal so we render the
@@ -26,7 +26,7 @@ interface CrossSignalBreakdownProps {
 }
 
 interface ChannelRow {
-  key: "github" | "reddit" | "hn" | "bluesky" | "devto";
+  key: "github" | "reddit" | "hn" | "bluesky" | "devto" | "twitter";
   label: string;
   color: string;
   value: number; // 0..1
@@ -42,6 +42,7 @@ const CHANNEL_COLORS = {
   hn: "#ff6600",
   bluesky: "#0085FF",
   devto: "#0a0a0a",
+  twitter: "#1d9bf0",
 };
 
 /**
@@ -71,6 +72,7 @@ export function CrossSignalBreakdown({
   const hnVal = crossSignalInternals.hnComponent(repo.fullName);
   const bskyVal = crossSignalInternals.blueskyComponent(repo.fullName);
   const devtoVal = crossSignalInternals.devtoComponent(repo.fullName);
+  const twitterVal = crossSignalInternals.twitterComponent(repo.fullName);
 
   const rows: ChannelRow[] = [
     {
@@ -144,6 +146,21 @@ export function CrossSignalBreakdown({
               ? "1 article / 7d (0.4)"
               : "no dev.to writeups",
     },
+    {
+      key: "twitter",
+      label: "X (Twitter)",
+      color: CHANNEL_COLORS.twitter,
+      value: twitterVal,
+      active: status.twitter,
+      hint:
+        twitterVal === 1.0
+          ? "≥10 mentions / 24h (1.0)"
+          : twitterVal === 0.7
+            ? "3-9 mentions / 24h (0.7)"
+            : twitterVal === 0.4
+              ? "1-2 mentions / 24h (0.4)"
+              : "no X chatter",
+    },
   ];
 
   const score = repo.crossSignalScore ?? 0;
@@ -175,12 +192,12 @@ export function CrossSignalBreakdown({
         <span
           className="v2-stat shrink-0 tabular-nums"
           style={{ color: "var(--v2-ink-300)" }}
-          title="Cross-signal score (0-5): weighted sum of per-channel components. 5.0 = strong signal across >=4 channels in 7d. 4.0 = strong on >=3. 3.0 = strong on >=2. 2.0+ = active on 1+. Below 1.0 = low or no cross-channel activity."
+          title="Cross-signal score (0-6): weighted sum of per-channel components. 6.0 = strong signal across >=5 channels. 5.0 = strong on >=4. 4.0 = strong on >=3. 3.0+ = active on 2+. Below 1.0 = low or no cross-channel activity."
         >
           <span style={{ color: "var(--v2-acc)" }}>{score.toFixed(2)}</span>
-          {"/5.0 · "}
+          {"/6.0 · "}
           <span style={{ color: "var(--v2-ink-100)" }}>{firing}</span>
-          {"/5 FIRING"}
+          {"/6 FIRING"}
         </span>
       </div>
 
@@ -192,14 +209,14 @@ export function CrossSignalBreakdown({
       <div className="mb-3">
         <RubricPopover summary="How is this scored?">
           <dl className="grid grid-cols-[minmax(0,1fr)_auto] gap-x-4 gap-y-1.5 font-mono text-[11px]">
+            <dt className="text-text-tertiary uppercase tracking-wider">6.0</dt>
+            <dd className="text-text-secondary">strong signal across &ge;5 of 6 channels</dd>
             <dt className="text-text-tertiary uppercase tracking-wider">5.0</dt>
-            <dd className="text-text-secondary">strong signal across &ge;4 of 5 channels</dd>
+            <dd className="text-text-secondary">strong signal across &ge;4 of 6 channels</dd>
             <dt className="text-text-tertiary uppercase tracking-wider">4.0</dt>
-            <dd className="text-text-secondary">strong signal across &ge;3 of 5 channels</dd>
-            <dt className="text-text-tertiary uppercase tracking-wider">3.0</dt>
-            <dd className="text-text-secondary">strong signal across &ge;2 of 5 channels</dd>
-            <dt className="text-text-tertiary uppercase tracking-wider">2.0+</dt>
-            <dd className="text-text-secondary">active on at least 1 channel</dd>
+            <dd className="text-text-secondary">strong signal across &ge;3 of 6 channels</dd>
+            <dt className="text-text-tertiary uppercase tracking-wider">3.0+</dt>
+            <dd className="text-text-secondary">active on 2+ channels</dd>
             <dt className="text-text-tertiary uppercase tracking-wider">&lt;1.0</dt>
             <dd className="text-text-secondary">low or no cross-channel activity</dd>
           </dl>
@@ -208,7 +225,7 @@ export function CrossSignalBreakdown({
             hot 0.7 / rising 0.4), HN (front-page 1.0 / &ge;3 mentions 0.7 / 1-2
             mentions 0.4), Bluesky (&ge;5 mentions 1.0 / 2-4 0.7 / 1 0.4), dev.to
             (&ge;3 articles 1.0 / 2 0.7 / 1 0.4), Reddit (corpus-normalized 48h
-            velocity).
+            velocity), X (&ge;10 mentions 24h 1.0 / 3-9 0.7 / 1-2 0.4).
           </p>
         </RubricPopover>
       </div>

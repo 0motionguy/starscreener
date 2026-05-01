@@ -1,12 +1,13 @@
-// Five-channel cross-signal fusion.
+// Six-channel cross-signal fusion.
 //
 // Combines GitHub momentum classification + Reddit 48h trending velocity +
 // HN front-page presence + Bluesky mentions + dev.to tutorials/writeups
-// into a single score per repo. The premise: any one channel can be noise
-// (a github star spike, a viral reddit post, a Show HN flash, a trending
-// bsky post, a tutorial pumped by one author). Two channels lit at once =
-// signal. Three or more = a real breakout. A 5/5 firing repo is rare and
-// indicates the repo broke out across every social surface we track.
+// + Twitter/X 24h mention burst into a single score per repo. The premise:
+// any one channel can be noise (a github star spike, a viral reddit post,
+// a Show HN flash, a trending bsky post, a tutorial pumped by one author,
+// a single influencer's tweet). Two channels lit at once = signal. Three
+// or more = a real breakout. A 6/6 firing repo is rare and indicates the
+// repo broke out across every social surface we track.
 //
 // Formula:
 //   github  = movementStatus ∈ {breakout: 1.0, hot: 0.7, rising: 0.4, *: 0}
@@ -25,8 +26,18 @@
 //             : DEVTO.count7d >= 2 ? 0.7
 //             : DEVTO.count7d >= 1 ? 0.4
 //             : 0
-//   crossSignalScore = github + reddit + hn + bluesky + devto   (range 0..5)
-//   channelsFiring   = count of components > 0                  (range 0..5)
+//   twitter = TW.mentionCount24h >= 10 ? 1.0
+//             : TW.mentionCount24h >= 3 ? 0.7
+//             : TW.mentionCount24h >= 1 ? 0.4
+//             : 0
+//   crossSignalScore = github + reddit + hn + bluesky + devto + twitter (range 0..6)
+//   channelsFiring   = count of components > 0                          (range 0..6)
+//
+// Why Twitter thresholds are higher than Bluesky's: Twitter publishes
+// orders of magnitude more posts on the same keywords, so one tweet
+// is comparatively cheaper signal. We require ≥10 mentions in 24h to
+// max the channel — comparable to a sustained author-diverse burst —
+// versus Bluesky's ≥5 in 7d.
 //
 // Why dev.to thresholds are tighter than Bluesky's: dev.to publishes
 // ~50-200 articles per AI tag per week vs. thousands of bsky posts on
@@ -45,6 +56,7 @@ import { getRedditMentions } from "../reddit-data";
 import { getHnMentions } from "../hackernews";
 import { getBlueskyMentions } from "../bluesky";
 import { getDevtoMentions } from "../devto";
+import { getTwitterSignalSync } from "../twitter/signal-data";
 
 const REDDIT_WINDOW_MS = 48 * 60 * 60 * 1000;
 
@@ -94,6 +106,16 @@ function devtoComponent(fullName: string): number {
   return 0;
 }
 
+function twitterComponent(fullName: string): number {
+  const s = getTwitterSignalSync(fullName);
+  if (!s) return 0;
+  const c = s.metrics.mentionCount24h ?? 0;
+  if (c >= 10) return 1.0;
+  if (c >= 3) return 0.7;
+  if (c >= 1) return 0.4;
+  return 0;
+}
+
 /**
  * Attach `crossSignalScore`, `channelsFiring`, and the `bluesky` rollup
  * to every repo.
@@ -120,13 +142,15 @@ export function attachCrossSignal(
     const hn = hnComponent(repo.fullName);
     const bs = blueskyComponent(repo.fullName);
     const dv = devtoComponent(repo.fullName);
-    const score = gh + rd + hn + bs + dv;
+    const tw = twitterComponent(repo.fullName);
+    const score = gh + rd + hn + bs + dv + tw;
     const firing =
       (gh > 0 ? 1 : 0) +
       (rd > 0 ? 1 : 0) +
       (hn > 0 ? 1 : 0) +
       (bs > 0 ? 1 : 0) +
-      (dv > 0 ? 1 : 0);
+      (dv > 0 ? 1 : 0) +
+      (tw > 0 ? 1 : 0);
 
     const bskyMention = getBlueskyMentions(repo.fullName);
     const bskyRollup = bskyMention
@@ -209,6 +233,7 @@ export function attachCrossSignal(
         hn: hn > 0,
         bluesky: bs > 0,
         devto: dv > 0,
+        twitter: tw > 0,
       },
       reddit: redditRollup,
       bluesky: bskyRollup,
@@ -229,6 +254,7 @@ export interface ChannelStatus {
   hn: boolean;
   bluesky: boolean;
   devto: boolean;
+  twitter: boolean;
 }
 
 /** Minimal shape getChannelStatus needs — accepts a full Repo or any object
@@ -254,6 +280,7 @@ export function getChannelStatus(
     hn: hnComponent(target.fullName) > 0,
     bluesky: blueskyComponent(target.fullName) > 0,
     devto: devtoComponent(target.fullName) > 0,
+    twitter: twitterComponent(target.fullName) > 0,
   };
 }
 
@@ -264,4 +291,5 @@ export const __test = {
   hnComponent,
   blueskyComponent,
   devtoComponent,
+  twitterComponent,
 };

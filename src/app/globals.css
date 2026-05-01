@@ -1157,9 +1157,9 @@ body::before {
    --------------------------------------------------------------------------- */
 .app-shell {
   display: grid;
-  grid-template-columns: var(--layout-sidebar-width) 1fr;
+  grid-template-columns: var(--v4-sidebar-width) 1fr;
   column-gap: 0;
-  min-height: calc(100vh - var(--layout-topbar-height));
+  min-height: calc(100vh - var(--v4-topbar-height));
 }
 
 .app-shell[data-mode="focused"] {
@@ -3753,18 +3753,18 @@ body::before {
   display: flex;
   align-items: center;
   width: 100%;
-  height: var(--layout-topbar-height);
+  height: var(--v4-topbar-height);
   gap: 14px;
   padding: 0 14px;
-  border-bottom: 1px solid var(--line-200);
-  background: var(--bg-025);
+  border-bottom: 1px solid var(--v4-line-200);
+  background: var(--v4-bg-025);
 }
 
 .brand {
   display: flex;
   align-items: center;
   gap: 10px;
-  min-width: var(--layout-sidebar-width);
+  min-width: var(--v4-sidebar-width);
 }
 
 .brand-mark {
@@ -3773,22 +3773,22 @@ body::before {
   justify-content: center;
   width: 24px;
   height: 24px;
-  border: 1px solid var(--acc);
-  color: var(--acc);
+  border: 1px solid var(--v4-acc);
+  color: var(--v4-acc);
   font-size: 13px;
   font-weight: var(--font-weight-bold);
   box-shadow: none;
 }
 
 .brand-name {
-  color: var(--ink-100);
+  color: var(--v4-ink-100);
   font-size: var(--font-size-4xl);
   font-weight: var(--font-weight-bold);
   letter-spacing: var(--tracking-wide);
 }
 
 .brand-sub {
-  color: var(--ink-400);
+  color: var(--v4-ink-400);
   font-size: var(--font-size-sm);
   letter-spacing: var(--tracking-ui);
   line-height: 1.2;
@@ -3803,13 +3803,13 @@ body::before {
 
 .sidebar {
   position: sticky;
-  top: var(--layout-topbar-height);
-  height: calc(100vh - var(--layout-topbar-height));
+  top: var(--v4-topbar-height);
+  height: calc(100vh - var(--v4-topbar-height));
   padding: 10px 0 24px;
   overflow: auto;
-  border-right: 1px solid var(--line-200);
-  background: var(--bg-025);
-  font-family: var(--font-mono);
+  border-right: 1px solid var(--v4-line-200);
+  background: var(--v4-bg-025);
+  font-family: var(--v4-mono);
 }
 
 .sidebar::-webkit-scrollbar {
@@ -3817,13 +3817,13 @@ body::before {
 }
 
 .sidebar::-webkit-scrollbar-thumb {
-  background: var(--line-200);
+  background: var(--v4-line-200);
 }
 
 .sidebar .group {
   margin-top: 4px;
   padding: 14px 0 4px;
-  border-top: 1px solid var(--line-200);
+  border-top: 1px solid var(--v4-line-200);
 }
 
 .sidebar .group:first-child {
@@ -3837,7 +3837,7 @@ body::before {
   align-items: center;
   gap: 8px;
   padding: 0 16px 8px;
-  color: var(--ink-400);
+  color: var(--v4-ink-400);
   font-size: var(--font-size-sm);
   letter-spacing: var(--tracking-ui);
   text-transform: uppercase;

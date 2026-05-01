@@ -21,6 +21,7 @@ import { KpiBand } from "@/components/ui/KpiBand";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
 import { LiveDot } from "@/components/ui/LiveDot";
 import { RankRow } from "@/components/ui/RankRow";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 
 import { encodeSkillSlug } from "./_slug";
 
@@ -115,6 +116,7 @@ export default async function SkillsPage() {
             <span className="big">{totalLabel}</span>
             <span className="muted">SKILLS · 5 REGISTRIES</span>
             <LiveDot label="LIVE" />
+            <FreshnessBadge source="skills" lastUpdatedAt={data.combined.fetchedAt} />
           </>
         }
       />

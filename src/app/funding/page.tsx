@@ -20,6 +20,7 @@ import { KpiBand } from "@/components/ui/KpiBand";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
 import { LiveDot } from "@/components/ui/LiveDot";
 import { MoverRow, type FundingStage } from "@/components/funding/MoverRow";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 
 export const revalidate = 600;
 
@@ -162,6 +163,7 @@ export default async function FundingPage() {
             <span className="big">{computed}</span>
             <span className="muted">UTC · UPDATED</span>
             <LiveDot label={`LIVE · ${file.windowDays}D`} />
+            <FreshnessBadge source="skills" lastUpdatedAt={file.fetchedAt} />
           </>
         }
       />

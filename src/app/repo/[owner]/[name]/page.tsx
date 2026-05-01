@@ -77,6 +77,7 @@ import { FundingPanel } from "@/components/repo-detail/FundingPanel";
 import { RelatedReposPanel } from "@/components/repo-detail/RelatedReposPanel";
 import { PredictionSnapshot } from "@/components/repo-detail/PredictionSnapshot";
 import { RelatedIdeasPanel } from "@/components/repo-detail/RelatedIdeasPanel";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 
 // ISR over force-dynamic: the 12+ refresh hooks above each share the
 // data-store's 30s rate-limit + dedupe, so calling them on every request
@@ -299,6 +300,7 @@ export default async function RepoDetailPage({ params }: PageProps) {
                 <span className="lbl">●</span>
                 refreshed {lastRefresh}
               </span>
+              <FreshnessBadge source="mcp" lastUpdatedAt={profile.fetchedAt} />
             </div>
           </div>
           <div className="id-actions">

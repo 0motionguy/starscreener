@@ -4,7 +4,6 @@ import Link from "next/link";
 import { Send } from "lucide-react";
 import { ROUTES } from "@/lib/constants";
 import { SearchBar } from "@/components/shared/SearchBar";
-import { ThemeToggle } from "@/components/shared/ThemeToggle";
 import { HamburgerButton } from "@/components/layout/HamburgerButton";
 import { FreshBadge } from "@/components/layout/FreshBadge";
 import { SystemMark } from "@/components/v3";
@@ -56,7 +55,6 @@ export function Header() {
             <span className="hidden md:inline">Drop repo</span>
             <span aria-hidden>-&gt;</span>
           </Link>
-          <ThemeToggle />
         </div>
       </div>
     </header>

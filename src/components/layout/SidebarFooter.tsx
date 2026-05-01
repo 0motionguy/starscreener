@@ -1,7 +1,6 @@
 "use client";
 
 import { Code2, X } from "lucide-react";
-import { ThemeToggle } from "@/components/shared/ThemeToggle";
 import { APP_VERSION } from "@/lib/app-meta";
 import { AccentPicker, BgThemePicker, SystemBarcode } from "@/components/v3";
 
@@ -23,7 +22,6 @@ export function SidebarFooter() {
         height={18}
       />
       <div className="flex items-center gap-2">
-        <ThemeToggle />
         <a
           href={REPO_URL}
           target="_blank"

@@ -11,6 +11,11 @@
 // repo lookup, leaderboard accessor, fetched-at exposure.
 
 import devtoMentionsData from "../../data/devto-mentions.json";
+import {
+  countMentionsInWindow,
+  WINDOW_24H,
+  WINDOW_30D,
+} from "./mention-windows";
 
 // data-store import is dynamic: pulling it statically here drags ioredis
 // (Node-only `dns` dep) into client bundles whenever a client component
@@ -64,6 +69,13 @@ export interface DevtoRepoMention {
   commentsSum7d: number;
   topArticle: DevtoTopArticleRef | null;
   articles: DevtoArticle[];
+  /**
+   * Windowed mention counts (W5-MENTWINDOW). Derived from `articles` at
+   * load time via {@link countMentionsInWindow} (mapping `publishedAt`
+   * onto `postedAt`). Optional so legacy / cold-seed JSON keeps loading.
+   */
+  count24h?: number;
+  count30d?: number;
 }
 
 export interface DevtoLeaderboardEntry {
@@ -100,6 +112,25 @@ export interface DevtoMentionsFile {
 // Mutable in-memory cache — seeded from bundled JSON, replaced via
 // refreshDevtoMentionsFromStore().
 let mentionsFile: DevtoMentionsFile = devtoMentionsData as unknown as DevtoMentionsFile;
+enrichDevtoWindowedCounts(mentionsFile);
+
+/**
+ * Backfill `count24h` / `count30d` on each repo mention from the raw
+ * `articles` array. dev.to articles carry `publishedAt` (ISO); we map
+ * onto the helper's `postedAt` slot. Mutates `file` in place.
+ */
+function enrichDevtoWindowedCounts(
+  file: DevtoMentionsFile,
+  nowMs: number = Date.now(),
+): void {
+  if (!file?.mentions) return;
+  for (const mention of Object.values(file.mentions)) {
+    if (!Array.isArray(mention.articles)) continue;
+    const rows = mention.articles.map((a) => ({ postedAt: a.publishedAt }));
+    mention.count24h = countMentionsInWindow(rows, WINDOW_24H, nowMs);
+    mention.count30d = countMentionsInWindow(rows, WINDOW_30D, nowMs);
+  }
+}
 
 export const devtoFetchedAt: string = mentionsFile.fetchedAt;
 export const devtoBodyFetchMode: DevtoBodyFetchMode = mentionsFile.bodyFetchMode;
@@ -228,6 +259,7 @@ export async function refreshDevtoMentionsFromStore(): Promise<{
     );
     if (result.data && result.source !== "missing") {
       mentionsFile = result.data;
+      enrichDevtoWindowedCounts(mentionsFile);
       mentionsByLowerName = buildDevtoMentionsByLowerName(mentionsFile);
     }
     lastRefreshMs = Date.now();

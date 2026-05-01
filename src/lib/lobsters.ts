@@ -11,6 +11,11 @@
 // flips true, badges render null, and the homepage keeps serving.
 
 import lobstersMentionsData from "../../data/lobsters-mentions.json";
+import {
+  countMentionsInWindow,
+  WINDOW_24H,
+  WINDOW_30D,
+} from "./mention-windows";
 // data-store is loaded lazily (dynamic import) inside the async refresh
 // helper. Static-importing it pulls the ioredis dependency into client
 // bundles via /lib/lobsters → /components/repo-signals/RepoMentionBadges
@@ -55,6 +60,13 @@ export interface LobstersRepoMention {
   scoreSum7d: number;
   topStory: LobstersStoryRef | null;
   stories: LobstersStory[];
+  /**
+   * Windowed mention counts (W5-MENTWINDOW). Derived from `stories` at
+   * load time via {@link countMentionsInWindow}. Optional so legacy /
+   * cold-seed JSON keeps loading.
+   */
+  count24h?: number;
+  count30d?: number;
 }
 
 export interface LobstersLeaderboardEntry {
@@ -78,6 +90,31 @@ export interface LobstersMentionsFile {
 // Mutable in-memory cache — seeded from bundled JSON, replaced via
 // refreshLobstersMentionsFromStore().
 let mentionsFile: LobstersMentionsFile = lobstersMentionsData as unknown as LobstersMentionsFile;
+enrichLobstersWindowedCounts(mentionsFile);
+
+/**
+ * Backfill `count24h` / `count30d` on each repo mention from the raw
+ * `stories` array (createdUtc epoch sec). Mutates `file` in place.
+ */
+function enrichLobstersWindowedCounts(
+  file: LobstersMentionsFile,
+  nowMs: number = Date.now(),
+): void {
+  if (!file?.mentions) return;
+  for (const mention of Object.values(file.mentions)) {
+    if (!Array.isArray(mention.stories)) continue;
+    mention.count24h = countMentionsInWindow(
+      mention.stories,
+      WINDOW_24H,
+      nowMs,
+    );
+    mention.count30d = countMentionsInWindow(
+      mention.stories,
+      WINDOW_30D,
+      nowMs,
+    );
+  }
+}
 
 export const lobstersFetchedAt: string = mentionsFile.fetchedAt ?? "";
 
@@ -168,6 +205,7 @@ export async function refreshLobstersMentionsFromStore(): Promise<{
     );
     if (result.data && result.source !== "missing") {
       mentionsFile = result.data;
+      enrichLobstersWindowedCounts(mentionsFile);
       mentionsByLowerName = buildLobstersMentionsByLowerName(mentionsFile);
     }
     lastRefreshMs = Date.now();

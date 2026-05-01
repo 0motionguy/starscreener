@@ -13,6 +13,11 @@ import type { Metadata } from "next";
 import { CATEGORIES } from "@/lib/constants";
 import { getCategoryIcon } from "@/lib/category-icons";
 import { getDerivedCategoryStats } from "@/lib/derived-insights";
+import {
+  loadCategoryMetricsPrev1d,
+  loadCategoryMetricsPrev7d,
+  loadCategoryMetricsPrev30d,
+} from "@/lib/ecosystem-leaderboards";
 import { formatNumber } from "@/lib/utils";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 
@@ -21,6 +26,22 @@ import { LiveDot } from "@/components/ui/LiveDot";
 import { PageHead } from "@/components/ui/PageHead";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
+
+// W5-CATWINDOW — supported sort windows. Default is 7d (matches the
+// existing "MOST ACTIVE · 7D" verdict on detail pages).
+const SORT_WINDOWS = ["24h", "7d", "30d"] as const;
+type SortWindow = (typeof SORT_WINDOWS)[number];
+
+function parseSortWindow(value: string | string[] | undefined): SortWindow {
+  const v = Array.isArray(value) ? value[0] : value;
+  return SORT_WINDOWS.includes(v as SortWindow) ? (v as SortWindow) : "7d";
+}
+
+const WINDOW_LABEL: Record<SortWindow, string> = {
+  "24h": "24H",
+  "7d": "7D",
+  "30d": "30D",
+};
 
 export const revalidate = 1800;
 
@@ -50,9 +71,51 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function CategoriesPage() {
+interface CategoriesPageProps {
+  searchParams?: Promise<{ window?: string | string[] }>;
+}
+
+export default async function CategoriesPage({
+  searchParams,
+}: CategoriesPageProps = {}) {
+  const params = (await searchParams) ?? {};
+  const sortWindow = parseSortWindow(params.window);
+
+  // Pull the matching window snapshot so we can rank categories by
+  // window-delta in addition to the static avg-momentum sort. Empty Map
+  // during cold-start; we fall through to lifetime totals below.
+  const prevByWindowLoader: Record<SortWindow, () => Promise<Map<string, number>>> = {
+    "24h": loadCategoryMetricsPrev1d,
+    "7d": loadCategoryMetricsPrev7d,
+    "30d": loadCategoryMetricsPrev30d,
+  };
+  const prevWindowMap = await prevByWindowLoader[sortWindow]();
+
   const statsList = getDerivedCategoryStats();
   const stats = new Map(statsList.map((s) => [s.categoryId, s]));
+
+  // W5-CATWINDOW — windowed star delta per category. Positive numbers
+  // mean stars added during the window. Empty during cold-start.
+  const deltaByCategory = new Map<string, number>();
+  for (const s of statsList) {
+    const prev = prevWindowMap.get(s.categoryId);
+    if (prev !== undefined && Number.isFinite(prev)) {
+      deltaByCategory.set(s.categoryId, Math.max(0, s.totalStars - prev));
+    }
+  }
+
+  // W5-CATWINDOW — sort the grid by window delta when we have data,
+  // otherwise preserve the canonical CATEGORIES order. A category with
+  // missing delta-data sinks below all categories that have data, so the
+  // first sort-cycle after a cold deploy still groups warmed sectors first.
+  const sortedCategoriesByWindow = [...CATEGORIES].sort((a, b) => {
+    const da = deltaByCategory.get(a.id);
+    const db = deltaByCategory.get(b.id);
+    if (da === undefined && db === undefined) return 0;
+    if (da === undefined) return 1;
+    if (db === undefined) return -1;
+    return db - da;
+  });
 
   // KPI aggregates across the populated cohort.
   const totalRepos = statsList.reduce((sum, s) => sum + s.repoCount, 0);
@@ -163,10 +226,52 @@ export default async function CategoriesPage() {
         title="Sectors · ranked by momentum"
         meta={
           <>
-            <b>{CATEGORIES.length}</b> total · <b>{populated}</b> populated
+            <b>{CATEGORIES.length}</b> total · <b>{populated}</b> populated · sort{" "}
+            <b>{WINDOW_LABEL[sortWindow]}</b>
           </>
         }
       />
+
+      {/* W5-CATWINDOW — sort-by-window control. Server-rendered links so the
+          URL is canonical + shareable; default 7d when no query param set. */}
+      <nav
+        aria-label="Sort categories by time window"
+        style={{
+          display: "flex",
+          gap: 6,
+          padding: "6px 0 12px",
+          fontFamily: "var(--font-geist-mono), monospace",
+          fontSize: 11,
+          textTransform: "uppercase",
+          letterSpacing: "0.08em",
+        }}
+      >
+        <span style={{ color: "var(--v4-ink-400)", paddingRight: 6 }}>
+          SORT BY ·
+        </span>
+        {SORT_WINDOWS.map((w) => {
+          const active = w === sortWindow;
+          const href =
+            w === "7d" ? "/categories" : `/categories?window=${w}`;
+          return (
+            <Link
+              key={w}
+              href={href}
+              aria-current={active ? "page" : undefined}
+              style={{
+                padding: "2px 8px",
+                borderRadius: 2,
+                border: `1px solid ${active ? "var(--v4-acc)" : "var(--v4-line-200)"}`,
+                color: active ? "var(--v4-ink-000)" : "var(--v4-ink-300)",
+                background: active ? "color-mix(in oklab, var(--v4-acc) 14%, transparent)" : "transparent",
+                textDecoration: "none",
+              }}
+            >
+              {WINDOW_LABEL[w]}
+            </Link>
+          );
+        })}
+      </nav>
 
       <section
         id="categories-grid"
@@ -179,11 +284,12 @@ export default async function CategoriesPage() {
           padding: "12px 0",
         }}
       >
-        {CATEGORIES.map((cat) => {
+        {sortedCategoriesByWindow.map((cat) => {
           const Icon = getCategoryIcon(cat.icon);
           const s = stats.get(cat.id);
           const repoCount = s?.repoCount ?? 0;
           const avg = s?.avgMomentum ?? 0;
+          const windowDelta = deltaByCategory.get(cat.id);
           return (
             <Link
               key={cat.id}
@@ -262,6 +368,11 @@ export default async function CategoriesPage() {
                   <b style={{ color: "var(--v4-ink-100)" }}>
                     {avg.toFixed(1)}
                   </b>
+                  {windowDelta !== undefined && windowDelta > 0 ? (
+                    <span style={{ color: "var(--v4-money)", marginLeft: 8 }}>
+                      +{formatNumber(windowDelta)} {WINDOW_LABEL[sortWindow]}
+                    </span>
+                  ) : null}
                 </span>
                 <span style={{ color: "var(--v4-acc)" }} aria-hidden="true">
                   →

@@ -11,6 +11,11 @@
 // canonical repo href helper, leaderboard surface.
 
 import bskyMentionsData from "../../data/bluesky-mentions.json";
+import {
+  countMentionsInWindow,
+  WINDOW_24H,
+  WINDOW_30D,
+} from "./mention-windows";
 
 // data-store import is dynamic: pulling it statically here drags ioredis
 // (Node-only `dns` dep) into client bundles whenever a client component
@@ -74,6 +79,13 @@ export interface BskyRepoMention {
   repliesSum7d: number;
   topPost: BskyPostRef | null;
   posts: BskyPost[];
+  /**
+   * Windowed mention counts (W5-MENTWINDOW). Derived from `posts` at
+   * load time via {@link countMentionsInWindow}. Optional so legacy /
+   * cold-seed JSON keeps loading.
+   */
+  count24h?: number;
+  count30d?: number;
 }
 
 export interface BskyLeaderboardEntry {
@@ -115,6 +127,24 @@ export interface BskyTrendingFile {
 // Mutable in-memory cache — seeded from bundled JSON, replaced via
 // refreshBlueskyMentionsFromStore().
 let mentionsFile: BskyMentionsFile = bskyMentionsData as unknown as BskyMentionsFile;
+enrichBskyWindowedCounts(mentionsFile);
+
+/**
+ * Backfill `count24h` / `count30d` on each repo mention from the raw
+ * `posts` array (createdUtc epoch sec + createdAt ISO both available).
+ * Mutates `file` so lookup maps see the enriched fields.
+ */
+function enrichBskyWindowedCounts(
+  file: BskyMentionsFile,
+  nowMs: number = Date.now(),
+): void {
+  if (!file?.mentions) return;
+  for (const mention of Object.values(file.mentions)) {
+    if (!Array.isArray(mention.posts)) continue;
+    mention.count24h = countMentionsInWindow(mention.posts, WINDOW_24H, nowMs);
+    mention.count30d = countMentionsInWindow(mention.posts, WINDOW_30D, nowMs);
+  }
+}
 
 // Exposed as `null` when the stub epoch-zero fetchedAt is still in place,
 // so /api/health can distinguish "never scraped" from "fresh" without
@@ -212,6 +242,7 @@ export async function refreshBlueskyMentionsFromStore(): Promise<{
     );
     if (result.data && result.source !== "missing") {
       mentionsFile = result.data;
+      enrichBskyWindowedCounts(mentionsFile);
       mentionsByLowerName = buildBskyMentionsByLowerName(mentionsFile);
     }
     lastRefreshMs = Date.now();

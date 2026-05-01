@@ -12,6 +12,11 @@
 // lookup, canonical repo route helper.
 
 import hnMentionsData from "../../data/hackernews-repo-mentions.json";
+import {
+  countMentionsInWindow,
+  WINDOW_24H,
+  WINDOW_30D,
+} from "./mention-windows";
 
 function slugIdFromFullName(fullName: string): string {
   return String(fullName)
@@ -62,6 +67,13 @@ export interface HnRepoMention {
   topStory: HnStoryRef | null;
   everHitFrontPage: boolean;
   stories: HnStory[];
+  /**
+   * Windowed mention counts (W5-MENTWINDOW). Derived from `stories` at
+   * load time via {@link countMentionsInWindow}; optional so cold-seed /
+   * legacy bundled JSON without these fields keeps loading.
+   */
+  count24h?: number;
+  count30d?: number;
 }
 
 export interface HnLeaderboardEntry {
@@ -96,6 +108,32 @@ export interface HnTrendingFile {
 // Mutable in-memory cache — seeded from the bundled JSON, replaced by Redis
 // payloads via refreshHackernewsMentionsFromStore().
 let mentionsFile: HnMentionsFile = hnMentionsData as unknown as HnMentionsFile;
+enrichHnWindowedCounts(mentionsFile);
+
+/**
+ * Backfill `count24h` / `count30d` on each repo mention from the raw
+ * `stories` array (which carries `createdUtc` epoch seconds). Mutates
+ * `file` in place so the lookup maps see the enriched fields.
+ */
+function enrichHnWindowedCounts(
+  file: HnMentionsFile,
+  nowMs: number = Date.now(),
+): void {
+  if (!file?.mentions) return;
+  for (const mention of Object.values(file.mentions)) {
+    if (!Array.isArray(mention.stories)) continue;
+    mention.count24h = countMentionsInWindow(
+      mention.stories,
+      WINDOW_24H,
+      nowMs,
+    );
+    mention.count30d = countMentionsInWindow(
+      mention.stories,
+      WINDOW_30D,
+      nowMs,
+    );
+  }
+}
 
 export const hnFetchedAt: string = mentionsFile.fetchedAt;
 
@@ -206,6 +244,7 @@ export async function refreshHackernewsMentionsFromStore(): Promise<{
     );
     if (result.data && result.source !== "missing") {
       mentionsFile = result.data;
+      enrichHnWindowedCounts(mentionsFile);
       mentionsByLowerName = buildMentionsByLowerName(mentionsFile);
       mentionsByRepoId = buildMentionsByRepoId(mentionsFile);
     }

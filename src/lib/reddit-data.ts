@@ -9,6 +9,11 @@ import type {
   RedditStats,
 } from "./reddit";
 import { buildGlobalRedditPosts, buildRedditStats } from "./reddit";
+import {
+  countMentionsInWindow,
+  WINDOW_24H,
+  WINDOW_30D,
+} from "./mention-windows";
 const REDDIT_MENTIONS_PATH = resolve(
   process.cwd(),
   "data",
@@ -144,6 +149,7 @@ function loadRedditCache(): RedditCache {
     file = createFallbackFile();
   }
 
+  enrichWindowedCounts(file);
   const mentionsByLowerName = new Map<string, RedditRepoMention>();
   for (const [fullName, mention] of Object.entries(file.mentions)) {
     mentionsByLowerName.set(fullName.toLowerCase(), mention);
@@ -155,6 +161,23 @@ function loadRedditCache(): RedditCache {
     mentionsByLowerName,
   };
   return cache;
+}
+
+/**
+ * Backfill `count24h` / `count30d` on each repo mention from the raw
+ * `posts` array. The on-disk file already carries `count7d`; we leave
+ * that semantics intact and only add the missing windows. Mutates the
+ * passed `file` so the cache + lookup map both observe the new fields.
+ */
+function enrichWindowedCounts(
+  file: RedditMentionsFile,
+  nowMs: number = Date.now(),
+): void {
+  for (const mention of Object.values(file.mentions)) {
+    if (!Array.isArray(mention.posts)) continue;
+    mention.count24h = countMentionsInWindow(mention.posts, WINDOW_24H, nowMs);
+    mention.count30d = countMentionsInWindow(mention.posts, WINDOW_30D, nowMs);
+  }
 }
 
 export function getRedditDataVersion(): string {
@@ -243,6 +266,7 @@ export async function refreshRedditMentionsFromStore(): Promise<{
     );
     if (result.data && result.source !== "missing") {
       const file = normalizeFile(result.data);
+      enrichWindowedCounts(file);
       const mentionsByLowerName = new Map<string, RedditRepoMention>();
       for (const [fullName, mention] of Object.entries(file.mentions)) {
         mentionsByLowerName.set(fullName.toLowerCase(), mention);

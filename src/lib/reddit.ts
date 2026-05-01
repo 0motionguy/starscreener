@@ -125,6 +125,14 @@ export interface RedditRepoMention {
   count7d: number;
   upvotes7d: number;
   posts: RedditPost[];
+  /**
+   * Windowed mention counts (W5-MENTWINDOW). Derived from `posts` at load
+   * time via {@link countMentionsInWindow}; not required to exist on
+   * cold-seed/legacy bundled JSON. Consumers that haven't been updated
+   * keep working off `count7d`.
+   */
+  count24h?: number;
+  count30d?: number;
 }
 
 export interface RedditLeaderboardEntry {

@@ -5,8 +5,8 @@ import { useSidebarStore } from "@/lib/store";
 /**
  * HamburgerButton — mobile-only trigger that opens the MobileDrawer.
  *
- * V2 chrome (visual only): 1.5px-stroke icon at `--v2-ink-200`, no border
- * at rest, `--v2-line-200` 1px border + faint `--v2-bg-050` wash on hover.
+ * V4 chrome (visual only): 1.5px-stroke icon at `--v4-ink-200`, no border
+ * at rest, `--v4-line-200` 1px border + faint `--v4-bg-050` wash on hover.
  * Open behavior, accessibility, and store wiring are unchanged.
  */
 export function HamburgerButton() {
@@ -20,17 +20,17 @@ export function HamburgerButton() {
         background: "transparent",
         border: "1px solid transparent",
         borderRadius: 2,
-        color: "var(--v3-ink-200)",
+        color: "var(--v4-ink-200)",
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.borderColor = "var(--v3-line-200)";
-        e.currentTarget.style.background = "var(--v3-bg-050)";
-        e.currentTarget.style.color = "var(--v3-ink-100)";
+        e.currentTarget.style.borderColor = "var(--v4-line-200)";
+        e.currentTarget.style.background = "var(--v4-bg-050)";
+        e.currentTarget.style.color = "var(--v4-ink-100)";
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.borderColor = "transparent";
         e.currentTarget.style.background = "transparent";
-        e.currentTarget.style.color = "var(--v3-ink-200)";
+        e.currentTarget.style.color = "var(--v4-ink-200)";
       }}
       aria-label="Open menu"
     >

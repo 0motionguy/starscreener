@@ -519,6 +519,13 @@ export interface MentionStore {
   listForRepo(repoId: string, limit?: number): RepoMention[];
   aggregateForRepo(repoId: string): SocialAggregate | undefined;
   saveAggregate(agg: SocialAggregate): void;
+  /**
+   * Move every mention currently keyed under `oldRepoId` to `newRepoId`.
+   * Called by ingest on GitHub repo rename so mention history doesn't
+   * orphan under the stale slug. Implementations must no-op when oldRepoId
+   * has no mentions or oldRepoId === newRepoId. See audit F8.
+   */
+  reassociate(oldRepoId: string, newRepoId: string): void;
 }
 
 export interface AlertRuleStore {

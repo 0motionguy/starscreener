@@ -41,7 +41,10 @@ export function SidebarSection({
   const bodyId = `sidebar-section-body-${id}`;
 
   return (
-    <section className="border-b border-border-secondary last:border-b-0">
+    <section
+      className="last:border-b-0"
+      style={{ borderBottom: "1px solid var(--v4-line-100)" }}
+    >
       <button
         type="button"
         id={headerId}
@@ -50,16 +53,23 @@ export function SidebarSection({
         aria-controls={bodyId}
         className={cn(
           "group w-full flex items-center justify-between",
-          "px-3 pt-4 pb-2",
-          "hover:bg-bg-card-hover transition-colors",
+          "px-3 pt-4 pb-2 transition-colors",
         )}
+        style={{ background: "transparent" }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.background = "var(--v4-bg-100)";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = "transparent";
+        }}
       >
         <span className="flex items-center gap-2">
           <ChevronDown
             className={cn(
-              "w-3 h-3 text-text-tertiary shrink-0 transition-transform duration-200 motion-reduce:transition-none",
+              "w-3 h-3 shrink-0 transition-transform duration-200 motion-reduce:transition-none",
               collapsed ? "-rotate-90" : "rotate-0",
             )}
+            style={{ color: "var(--v4-ink-300)" }}
             strokeWidth={2.5}
             aria-hidden="true"
           />

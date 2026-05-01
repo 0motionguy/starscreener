@@ -48,9 +48,21 @@ import {
 } from "./_tracked-repos.mjs";
 import {
   extractAllRepoMentions,
+  extractUnknownRepoCandidates,
   normalizeGithubFullName,
 } from "./_github-repo-links.mjs";
+import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+
+// F3 unknown-mentions accumulator — per-run Set populated inside the
+// extractRepoMentions wrapper. Flushed via appendUnknownMentions at end
+// of main() so the lake gets every github.com URL we couldn't attribute
+// to a tracked repo.
+const unknownsAccumulator = new Set();
+
+function slugIdFromFullName(fullName) {
+  return String(fullName).toLowerCase().replace(/\//g, "--").replace(/\./g, "-").replace(/[^a-z0-9-]/g, "");
+}
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
@@ -96,6 +108,9 @@ export function normalizeFullName(owner, name) {
 }
 
 export function extractRepoMentions(text, trackedLower) {
+  for (const u of extractUnknownRepoCandidates(text, trackedLower)) {
+    unknownsAccumulator.add(u);
+  }
   return extractAllRepoMentions(text, trackedLower);
 }
 
@@ -440,6 +455,9 @@ async function main() {
     searchQuery: REPO_QUERY,
     pagesFetched: mentionsPagesFetched,
     mentions,
+    mentionsByRepoId: Object.fromEntries(
+      Object.entries(mentions).map(([fullName, value]) => [slugIdFromFullName(fullName), value]),
+    ),
     leaderboard,
   };
   const trendingPayload = {
@@ -481,6 +499,13 @@ async function main() {
     throw new Error(
       "both mentions + trending returned zero posts — check auth or API status",
     );
+  }
+
+  if (unknownsAccumulator.size > 0) {
+    await appendUnknownMentions(
+      Array.from(unknownsAccumulator, (fullName) => ({ source: "bluesky", fullName })),
+    );
+    log(`unknown candidates: ${unknownsAccumulator.size} (lake: data/unknown-mentions.jsonl)`);
   }
 }
 

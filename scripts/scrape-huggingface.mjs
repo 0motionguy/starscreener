@@ -29,6 +29,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { fetchJsonWithRetry } from "./_fetch-json.mjs";
 import { extractGithubRepoFullNames } from "./_github-repo-links.mjs";
+import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 
@@ -39,8 +40,83 @@ const OUT_PATH = resolve(DATA_DIR, "huggingface-trending.json");
 const ENDPOINT = "https://huggingface.co/api/models?limit=1000&full=true";
 const USER_AGENT = "TrendingRepo/1.0 (+https://trendingrepo.com)";
 
+// Per-model cardData fetch — top-N models get a follow-up GET to
+// /api/models/{id} so we can extract github.com/<owner>/<repo> links
+// from cardData.repository / source / code_repository / github / homepage
+// / url and the (uncapped) tags array. Default 100 keeps wall-time under
+// ~10s extra; HF API has no documented rate limit but courteous-fetch
+// culture applies. Set HF_CARD_FETCH_LIMIT=0 to disable.
+const HF_CARD_FETCH_LIMIT = (() => {
+  const raw = Number.parseInt(process.env.HF_CARD_FETCH_LIMIT ?? "100", 10);
+  if (!Number.isFinite(raw)) return 100;
+  return Math.max(0, Math.min(500, raw));
+})();
+const HF_CARD_CONCURRENCY = 5;
+const HF_CARD_INTER_TASK_SLEEP_MS = 100;
+
 function log(msg) {
   console.log(`[huggingface] ${msg}`);
+}
+
+function sleep(ms) {
+  return new Promise((res) => setTimeout(res, ms));
+}
+
+// Bounded-concurrency runner for the per-model card fetch. Workers pull
+// the next index from a shared counter; a small inter-task sleep on
+// workers past the initial batch keeps the API gentle. Per-task errors
+// surface to the caller (each `task` call wraps its own try/catch).
+async function runWithConcurrency(items, concurrency, sleepMs, task) {
+  if (items.length === 0) return [];
+  const results = new Array(items.length);
+  let next = 0;
+  const width = Math.min(concurrency, items.length);
+  const workers = Array.from({ length: width }, async () => {
+    while (true) {
+      const idx = next++;
+      if (idx >= items.length) return;
+      if (idx >= concurrency && sleepMs > 0) await sleep(sleepMs);
+      results[idx] = await task(items[idx], idx);
+    }
+  });
+  await Promise.all(workers);
+  return results;
+}
+
+// Fetch a single model's detail and extract every github.com/<owner>/<repo>
+// URL we can find in cardData / homepage / tags. Returns sorted unique
+// fullNames, or null on fetch failure (caller leaves the field unset).
+async function fetchModelCardGithubRepos(modelId) {
+  const url = `https://huggingface.co/api/models/${encodeURIComponent(modelId)}`;
+  try {
+    const detail = await fetchJsonWithRetry(url, {
+      headers: { "User-Agent": USER_AGENT, Accept: "application/json" },
+      timeoutMs: 15_000,
+      attempts: 2,
+      retryDelayMs: 500,
+    });
+    const card = detail && typeof detail.cardData === "object" && detail.cardData
+      ? detail.cardData
+      : {};
+    const tags = Array.isArray(detail?.tags) ? detail.tags : [];
+    const text = [
+      String(card.repository ?? ""),
+      String(card.source ?? ""),
+      String(card.code_repository ?? ""),
+      String(card.github ?? ""),
+      String(card.homepage ?? ""),
+      String(card.url ?? ""),
+      tags.map(String).join(" "),
+    ].join(" ");
+    // Discovery-mode: pass null trackedLower so we surface every github
+    // mention. Downstream consumers can intersect with the tracked set
+    // when attributing to entity profiles.
+    const hits = extractGithubRepoFullNames(text, null);
+    return Array.from(hits).sort();
+  } catch (err) {
+    log(`warn: card fetch failed for ${modelId}: ${err?.message ?? err}`);
+    return null;
+  }
 }
 
 // HF model row shape (stable across the API's lifetime, partial coverage):
@@ -103,6 +179,45 @@ async function main() {
 
   if (models.length === 0) {
     throw new Error("no models in HF trending response — API shape changed?");
+  }
+
+  // Per-model cardData fetch — extract github cross-links for the top N.
+  // Mutates models in-place (adds githubRepos: string[] when found, else
+  // leaves it unset so the JSON stays compact).
+  const cardsToFetch = models.slice(0, HF_CARD_FETCH_LIMIT);
+  let cardsFetched = 0;
+  let withGithubRepos = 0;
+  if (cardsToFetch.length > 0) {
+    log(
+      `fetching cardData for top ${cardsToFetch.length} models (concurrency ${HF_CARD_CONCURRENCY})…`,
+    );
+    const cardResults = await runWithConcurrency(
+      cardsToFetch,
+      HF_CARD_CONCURRENCY,
+      HF_CARD_INTER_TASK_SLEEP_MS,
+      (model) => fetchModelCardGithubRepos(model.id),
+    );
+    const unknownsAccumulator = new Set();
+    for (let i = 0; i < cardsToFetch.length; i += 1) {
+      const repos = cardResults[i];
+      if (repos === null) continue;
+      cardsFetched += 1;
+      if (repos.length > 0) {
+        cardsToFetch[i].githubRepos = repos;
+        withGithubRepos += 1;
+        // F3 lake — every github URL in HF cardData is a discovery candidate.
+        for (const fullName of repos) unknownsAccumulator.add(fullName);
+      }
+    }
+    if (unknownsAccumulator.size > 0) {
+      await appendUnknownMentions(
+        Array.from(unknownsAccumulator, (fullName) => ({ source: "huggingface", fullName })),
+      );
+      log(`  lake: ${unknownsAccumulator.size} candidates → data/unknown-mentions.jsonl`);
+    }
+    log(
+      `  cardData: ${cardsFetched}/${cardsToFetch.length} fetched, ${withGithubRepos} with github links`,
+    );
   }
 
   // Trending order from HF is already meaningful; preserve it as `rank`.

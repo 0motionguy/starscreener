@@ -111,3 +111,80 @@ export interface FundingStats {
   thisWeekCount: number;
   sourcesBreakdown: Record<string, number>;
 }
+
+// ---------------------------------------------------------------------------
+// V4 — structured funding event shape
+// ---------------------------------------------------------------------------
+//
+// The V4 funding vertical (W4) consumes a clean, normalized event record
+// rather than raw signals. Producers (PitchBook / Tracxn ingestion in
+// phase 2.1, or a future internal extractor) write `FundingEvent[]` to
+// the data-store under the `funding-events` key; the aggregate ETL in
+// `src/lib/funding/aggregate.ts` reads from there.
+//
+// Distinct from `FundingRound` above — that's the legacy phase-2 shape
+// that mixes display fields (logoUrl, amountDisplay) with structural
+// fields. `FundingEvent` is structural-only; the UI derives display
+// strings from `amountUsd` etc. at render time.
+
+/**
+ * V4 round taxonomy — independent of the legacy `FundingRoundType`.
+ *
+ * Named `FundingEventRound` (not `FundingRound`) because the latter is
+ * already taken by the legacy phase-2 record interface above. The two
+ * shapes are unrelated; new code should prefer the V4 shape.
+ */
+export type FundingEventRound =
+  | "pre-seed"
+  | "seed"
+  | "series-a"
+  | "series-b"
+  | "series-c"
+  | "series-d+"
+  | "bridge"
+  | "acquisition"
+  | "ipo";
+
+/**
+ * How confident the producer is that this event is correctly attributed
+ * to the named company / repo:
+ *   - exact-domain: companyWebsite host matched a tracked repo's homepage
+ *   - exact-name:   companyName matched the repo owner or repo name
+ *   - alias:        companyName matched a curated alias (funding-aliases)
+ *   - fuzzy:        normalized similarity above the matcher threshold
+ */
+export type FundingEventConfidence =
+  | "exact-domain"
+  | "exact-name"
+  | "alias"
+  | "fuzzy";
+
+/** A normalized funding event — the V4 record shape. */
+export interface FundingEvent {
+  /** Stable producer-assigned id (used for dedupe). */
+  id: string;
+  companyName: string;
+  /** Slugified company name — UI uses this for `/funding/<slug>` links. */
+  companySlug?: string;
+  /** owner/name when the event is attributed to a tracked GitHub repo. */
+  repoFullName?: string;
+  roundType: FundingEventRound;
+  /** Round size in USD. Null for undisclosed rounds. */
+  amountUsd?: number;
+  /** ISO 8601 timestamp the round was announced / closed. */
+  closedAt: string;
+  /** Investor names — order = press-release order; first slot is usually the lead. */
+  investors: string[];
+  sourceUrl: string;
+  sourceName: string;
+  confidence: FundingEventConfidence;
+  /** Optional sector tag (ai, fintech, climate, ...) — used by sector aggregates. */
+  sector?: string;
+}
+
+/** Data-store payload shape for the `funding-events` key. */
+export interface FundingEventsFile {
+  fetchedAt: string;
+  source: string;
+  events: FundingEvent[];
+}

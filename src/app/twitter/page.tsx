@@ -308,7 +308,7 @@ export default async function TwitterPage({
             <>
               <span className="big">{formatClock(stats.lastScannedAt)}</span>
               <span className="muted">UTC · SCRAPED</span>
-              <LiveDot label="LIVE · 24H" />
+              <LiveDot label="FRESH · 3H" />
             </>
           }
         />
@@ -344,7 +344,7 @@ export default async function TwitterPage({
           <>
             <span className="big">{formatClock(stats.lastScannedAt)}</span>
             <span className="muted">UTC · SCRAPED</span>
-            <LiveDot label="LIVE · 24H" />
+            <LiveDot label="FRESH · 3H" />
           </>
         }
         snapshot={

@@ -56,7 +56,7 @@ import { getRedditMentions } from "../reddit-data";
 import { getHnMentions } from "../hackernews";
 import { getBlueskyMentions } from "../bluesky";
 import { getDevtoMentions } from "../devto";
-import { getTwitterSignalSync } from "../twitter/signal-data";
+import { getTwitterSignalSync } from "../twitter";
 
 const REDDIT_WINDOW_MS = 48 * 60 * 60 * 1000;
 

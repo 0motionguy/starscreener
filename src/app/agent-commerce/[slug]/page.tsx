@@ -300,7 +300,7 @@ export default async function AgentCommerceDetailPage({ params }: DetailProps) {
               ) : null
             }
           >
-            // AS · AISO score
+            {/* AS · AISO score */}
           </CardHeader>
           <CardBody>
             <div style={{ padding: "12px 14px", display: "grid", gap: 14 }}>

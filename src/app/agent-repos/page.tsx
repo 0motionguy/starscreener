@@ -27,7 +27,7 @@ import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import { LetterAvatar } from "@/components/shared/LetterAvatar";
 import { Sparkline } from "@/components/shared/Sparkline";
 
-export const revalidate = 1800;
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: `Agent Repos — ${SITE_NAME}`,

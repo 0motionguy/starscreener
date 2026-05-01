@@ -40,7 +40,7 @@ import {
 // data, so serving the homepage from a 30-minute edge cache is safe. Drops
 // per-request getDerivedRepos() re-runs (15 passes x ~2.4k rows + full
 // scoreBatch) from ~300 ms to a lookup. `force-dynamic` is no longer needed.
-export const revalidate = 1800;
+export const revalidate = 60;
 
 // Single source of truth for the homepage FAQ. Renders both the visible
 // <details> list and the FAQPage JSON-LD below - keeping them in one array

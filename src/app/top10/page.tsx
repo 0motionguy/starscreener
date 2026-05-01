@@ -40,7 +40,10 @@ import { Sparkline } from "@/components/shared/Sparkline";
 // readers refresh every 6 hours via cron; tighter cache wastes work
 // without buying freshness, looser one drifts from the consensus board
 // users land on next.
-export const revalidate = 600;
+// 60s ISR: page re-renders against fresh Redis at most every minute.
+// Refresh hooks at the top of the route handler dedupe within a 30s
+// window, so a true cold-render only happens after the cache expires.
+export const revalidate = 60;
 
 const TITLE = `Top 10 — ${SITE_NAME}`;
 const DESCRIPTION =

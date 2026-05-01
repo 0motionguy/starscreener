@@ -47,7 +47,7 @@ export const runtime = "nodejs";
 // which itself only refreshes when the scraper writes new sparkline data.
 // 10 min keeps the page responsive on first paint without blowing the
 // cache budget.
-export const revalidate = 600;
+export const revalidate = 60;
 
 const FORECAST_HORIZON_DAYS = 30;
 const FORECAST_LIMIT = 12;
@@ -249,7 +249,28 @@ export default async function PredictPage() {
               rank={idx + 1}
               first={idx === 0}
               href={`/repo/${f.repo.owner}/${f.repo.name}`}
-              avatar={f.repo.name.slice(0, 1).toUpperCase()}
+              avatar={
+                f.repo.ownerAvatarUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={f.repo.ownerAvatarUrl}
+                    alt=""
+                    width={28}
+                    height={28}
+                    style={{
+                      width: 28,
+                      height: 28,
+                      borderRadius: "50%",
+                      objectFit: "cover",
+                      flexShrink: 0,
+                    }}
+                    loading="lazy"
+                    referrerPolicy="no-referrer"
+                  />
+                ) : (
+                  f.repo.name.slice(0, 1).toUpperCase()
+                )
+              }
               title={
                 <>
                   {f.repo.owner} <span className="o">/</span> {f.repo.name}

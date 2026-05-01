@@ -21,6 +21,7 @@ const envSchema = z
     BLUESKY_HANDLE: z.string().optional(),
     BLUESKY_APP_PASSWORD: z.string().optional(),
     FIRECRAWL_API_KEY: z.string().optional(),
+    FIRECRAWL_API_KEYS: z.string().optional(),
     PULSEMCP_API_KEY: z.string().optional(),
     PULSEMCP_TENANT_ID: z.string().optional(),
     SMITHERY_API_KEY: z.string().optional(),

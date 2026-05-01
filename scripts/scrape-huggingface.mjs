@@ -32,6 +32,18 @@ import { extractGithubRepoFullNames } from "./_github-repo-links.mjs";
 import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
+import {
+  loadHuggingfaceTokens,
+  pickToken,
+  authHeader,
+} from "./_huggingface-shared.mjs";
+
+// Token pool — HF_TOKENS (CSV) + HF_TOKEN (single fallback). Empty pool
+// = unauth requests, matching legacy behaviour. Cursor advances per
+// OUTER iteration (main listing + each card fetch) so the load spreads
+// evenly without thrashing tokens within a single page-of-results call.
+const HF_TOKENS = loadHuggingfaceTokens();
+let hfCursor = 0;
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
@@ -88,9 +100,14 @@ async function runWithConcurrency(items, concurrency, sleepMs, task) {
 // fullNames, or null on fetch failure (caller leaves the field unset).
 async function fetchModelCardGithubRepos(modelId) {
   const url = `https://huggingface.co/api/models/${encodeURIComponent(modelId)}`;
+  const token = pickToken(HF_TOKENS, hfCursor++);
   try {
     const detail = await fetchJsonWithRetry(url, {
-      headers: { "User-Agent": USER_AGENT, Accept: "application/json" },
+      headers: {
+        "User-Agent": USER_AGENT,
+        Accept: "application/json",
+        ...authHeader(token),
+      },
       timeoutMs: 15_000,
       attempts: 2,
       retryDelayMs: 500,
@@ -158,8 +175,13 @@ function normalizeModel(raw) {
 async function main() {
   const fetchedAt = new Date().toISOString();
 
+  const listToken = pickToken(HF_TOKENS, hfCursor++);
   const raw = await fetchJsonWithRetry(ENDPOINT, {
-    headers: { "User-Agent": USER_AGENT, Accept: "application/json" },
+    headers: {
+      "User-Agent": USER_AGENT,
+      Accept: "application/json",
+      ...authHeader(listToken),
+    },
     timeoutMs: 20_000,
     attempts: 3,
     retryDelayMs: 750,

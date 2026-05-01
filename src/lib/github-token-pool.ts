@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/nextjs";
 
-import { getDataStore } from "./data-store";
+import { getDataStore, type RedisClientLike } from "./data-store";
 
 // StarScreener — GitHub PAT pool with per-token rate-limit accounting.
 //
@@ -128,6 +128,14 @@ export interface CreateGitHubTokenPoolOptions {
    * the operator sees the missing-config in logs.
    */
   onEmpty?: () => void;
+  /**
+   * COLD-START-HYDRATE — when `true`, the first `getNextToken()` call
+   * fire-and-forget kicks off `hydrateFromRedis()` so subsequent picks
+   * see last-known per-token state published by sibling lambdas. Default
+   * `false` so the test factory stays synchronous and offline. The
+   * singleton path opts in.
+   */
+  hydrate?: boolean;
 }
 
 // ---------------------------------------------------------------------------
@@ -180,9 +188,21 @@ class DefaultGitHubTokenPool implements GitHubTokenPool {
   private readonly now: () => number;
   /** Round-robin cursor used to break ties between equally-healthy tokens. */
   private cursor = 0;
+  /**
+   * COLD-START-HYDRATE state. `hydrationEnabled` opts the pool into reading
+   * Redis on first use (singleton path = true; test factory = false).
+   * `hydrationPromise` is the in-flight fire-and-forget promise; presence of
+   * a non-null value means hydration has started (we never block on it).
+   * `hasHydrated` flips true after a successful Redis read so callers can
+   * tell if the pool is operating on warm vs cold state.
+   */
+  private readonly hydrationEnabled: boolean;
+  private hydrationPromise: Promise<void> | null = null;
+  private hasHydrated = false;
 
-  constructor(tokens: string[], now: () => number) {
+  constructor(tokens: string[], now: () => number, hydrationEnabled = false) {
     this.now = now;
+    this.hydrationEnabled = hydrationEnabled;
     this.states = tokens.map((token) => ({
       token,
       remaining: null,
@@ -208,6 +228,16 @@ class DefaultGitHubTokenPool implements GitHubTokenPool {
   getNextToken(): string {
     if (this.states.length === 0) {
       throw new GitHubTokenPoolEmptyError();
+    }
+
+    // COLD-START-HYDRATE — kick off Redis read on first call. Fire-and-forget
+    // so we never add latency to the first pick; subsequent picks (and any
+    // recordRateLimit between them) benefit from the warm state. Errors are
+    // swallowed: a Redis brownout must NEVER break a GitHub call.
+    if (this.hydrationEnabled && this.hydrationPromise === null) {
+      this.hydrationPromise = this.hydrateFromRedis()
+        .then(() => undefined)
+        .catch(() => undefined);
     }
 
     const nowMs = this.now();
@@ -376,6 +406,96 @@ class DefaultGitHubTokenPool implements GitHubTokenPool {
     // Fire-and-forget publish — same rationale as recordRateLimit.
     void publishTokenStateToRedis(state);
   }
+
+  /**
+   * COLD-START-HYDRATE — read each pool token's last-known state from Redis
+   * (published by POOL-REDIS via `recordRateLimit` / `quarantine` from any
+   * lambda) and seed the in-memory state. Idempotent: safe to call multiple
+   * times. Returns `{ hydrated, total }` for observability.
+   *
+   * Tokens with no Redis entry are left at their constructor default (null
+   * remaining/reset, treated as healthy at DEFAULT_GITHUB_QUOTA), matching
+   * the existing "benefit of the doubt" semantics.
+   *
+   * Never throws — Redis brownouts return `{ hydrated: 0, total }` so the
+   * caller's fire-and-forget pattern stays safe.
+   */
+  async hydrateFromRedis(): Promise<{ hydrated: number; total: number }> {
+    const total = this.states.length;
+    if (total === 0) return { hydrated: 0, total: 0 };
+
+    let client: RedisClientLike | null;
+    try {
+      client = getDataStore().redisClient();
+    } catch {
+      return { hydrated: 0, total };
+    }
+    if (!client) return { hydrated: 0, total };
+
+    let hydrated = 0;
+    for (const state of this.states) {
+      const tokenLabel = redactToken(state.token);
+      let raw: unknown;
+      try {
+        raw = await client.get(poolRedisKeyFor(tokenLabel));
+      } catch {
+        continue;
+      }
+      if (raw === null || raw === undefined) continue;
+      const parsed = parsePublishedTokenState(raw);
+      if (!parsed) continue;
+      // Match by label — `tokenLabel` is the canonical Redis key, but we
+      // also defend against a payload that drifted from its key.
+      if (parsed.tokenLabel !== tokenLabel) continue;
+
+      if (parsed.remaining !== null) state.remaining = parsed.remaining;
+      if (parsed.resetUnixSec !== null) state.resetUnixSec = parsed.resetUnixSec;
+      if (parsed.lastObservedMs !== null) state.lastObservedMs = parsed.lastObservedMs;
+      // Only seed the quarantine if it's still in the future per OUR clock —
+      // a stale entry from before a quarantine TTL elapsed shouldn't lock
+      // out a freshly-rotated PAT.
+      if (
+        parsed.quarantinedUntilMs !== null &&
+        parsed.quarantinedUntilMs > this.now()
+      ) {
+        state.quarantinedUntilMs = parsed.quarantinedUntilMs;
+      }
+      hydrated++;
+    }
+    this.hasHydrated = true;
+    return { hydrated, total };
+  }
+}
+
+/**
+ * Parse a `PublishedTokenState` blob as written by `publishTokenStateToRedis`.
+ * Accepts either a raw JSON string (Upstash REST returns strings) or an
+ * already-decoded object (some clients pre-parse). Returns `null` on any
+ * shape mismatch so a malformed entry never crashes hydration.
+ */
+function parsePublishedTokenState(raw: unknown): PublishedTokenState | null {
+  let obj: unknown = raw;
+  if (typeof raw === "string") {
+    try {
+      obj = JSON.parse(raw);
+    } catch {
+      return null;
+    }
+  }
+  if (!obj || typeof obj !== "object") return null;
+  const r = obj as Record<string, unknown>;
+  if (typeof r.tokenLabel !== "string") return null;
+  const numOrNull = (v: unknown): number | null =>
+    typeof v === "number" && Number.isFinite(v) ? v : v === null ? null : null;
+  return {
+    tokenLabel: r.tokenLabel,
+    remaining: numOrNull(r.remaining),
+    resetUnixSec: numOrNull(r.resetUnixSec),
+    lastObservedMs: numOrNull(r.lastObservedMs),
+    quarantinedUntilMs: numOrNull(r.quarantinedUntilMs),
+    lambdaId: typeof r.lambdaId === "string" ? r.lambdaId : "",
+    writtenAt: typeof r.writtenAt === "string" ? r.writtenAt : "",
+  };
 }
 
 // ---------------------------------------------------------------------------

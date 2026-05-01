@@ -1,10 +1,9 @@
-// Unit tests for V4 layout templates: SourceFeedTemplate, LeaderboardTemplate,
-// ProfileTemplate.
+// Unit tests for V4 layout templates: LeaderboardTemplate, ProfileTemplate.
+// SourceFeedTemplate has its own dedicated suite at v4-source-feed-template.test.tsx.
 
 import { cleanup, render } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 
-import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import {
   LeaderboardTemplate,
   type LeaderboardBand,
@@ -13,71 +12,6 @@ import { ProfileTemplate } from "@/components/templates/ProfileTemplate";
 
 afterEach(() => {
   cleanup();
-});
-
-describe("SourceFeedTemplate", () => {
-  it("renders crumb / h1 / lede via PageHead", () => {
-    const { container, getByText } = render(
-      <SourceFeedTemplate
-        crumb={
-          <>
-            <b>HN</b> · TERMINAL
-          </>
-        }
-        title="Hacker News"
-        lede="Stories from the past 72 hours"
-      />,
-    );
-    expect(container.querySelector(".v4-page-head__h1")?.textContent).toBe(
-      "Hacker News",
-    );
-    expect(getByText("HN").tagName).toBe("B");
-  });
-
-  it("only renders top strip when at least one of snapshot/volume/topics is set", () => {
-    const { container, rerender } = render(
-      <SourceFeedTemplate title="x" />,
-    );
-    expect(
-      container.querySelector(".v4-source-feed-template__strip"),
-    ).toBeNull();
-    rerender(
-      <SourceFeedTemplate
-        title="x"
-        snapshot={<div data-testid="snap">snap</div>}
-      />,
-    );
-    expect(
-      container.querySelector(".v4-source-feed-template__strip"),
-    ).not.toBeNull();
-  });
-
-  it("renders one featured slot per array entry", () => {
-    const { container } = render(
-      <SourceFeedTemplate
-        title="x"
-        featured={[<div key="1">a</div>, <div key="2">b</div>, <div key="3">c</div>]}
-      />,
-    );
-    expect(
-      container.querySelector(".v4-source-feed-template__featured")
-        ?.children.length,
-    ).toBe(3);
-  });
-
-  it("renders list section only when list prop is provided", () => {
-    const { container, rerender } = render(<SourceFeedTemplate title="x" />);
-    expect(container.querySelector(".v4-source-feed-template__list")).toBeNull();
-    rerender(<SourceFeedTemplate title="x" list={<div data-testid="l">l</div>} />);
-    expect(container.querySelector(".v4-source-feed-template__list")).not.toBeNull();
-  });
-
-  it("renders foot only when prop is provided", () => {
-    const { container } = render(
-      <SourceFeedTemplate title="x" foot={<span data-testid="ft">ft</span>} />,
-    );
-    expect(container.querySelector(".v4-source-feed-template__foot")).not.toBeNull();
-  });
 });
 
 describe("LeaderboardTemplate", () => {

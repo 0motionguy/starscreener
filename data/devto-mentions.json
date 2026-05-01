@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-01T13:48:42.666Z",
+  "fetchedAt": "2026-05-01T13:56:59.042Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1312,
+  "scannedArticles": 1310,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -216,7 +216,7 @@
         "author": "blackgirlbytes",
         "reactions": 9,
         "comments": 2,
-        "hoursSincePosted": 140.8,
+        "hoursSincePosted": 140.9,
         "readingTime": 6
       },
       "articles": [
@@ -261,7 +261,7 @@
         "author": "peter-gpuyard",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 7.5,
+        "hoursSincePosted": 7.6,
         "readingTime": 2
       },
       "articles": [
@@ -306,7 +306,7 @@
         "author": "_4f268336f6580845cdc475",
         "reactions": 6,
         "comments": 1,
-        "hoursSincePosted": 59.6,
+        "hoursSincePosted": 59.7,
         "readingTime": 6
       },
       "articles": [
@@ -370,7 +370,7 @@
             "angular",
             "ngrx"
           ],
-          "trendingScore": 1.1,
+          "trendingScore": 1.05,
           "linkedRepos": [
             {
               "fullName": "anthropics/skills",
@@ -419,7 +419,7 @@
         "author": "salimcodes",
         "reactions": 8,
         "comments": 0,
-        "hoursSincePosted": 102.8,
+        "hoursSincePosted": 102.9,
         "readingTime": 11
       },
       "articles": [
@@ -552,7 +552,7 @@
         "author": "_4f268336f6580845cdc475",
         "reactions": 6,
         "comments": 1,
-        "hoursSincePosted": 59.6,
+        "hoursSincePosted": 59.7,
         "readingTime": 6
       },
       "articles": [
@@ -609,7 +609,7 @@
         "author": "_4f268336f6580845cdc475",
         "reactions": 6,
         "comments": 1,
-        "hoursSincePosted": 59.6,
+        "hoursSincePosted": 59.7,
         "readingTime": 6
       },
       "articles": [
@@ -822,7 +822,7 @@
         "author": "_4f268336f6580845cdc475",
         "reactions": 6,
         "comments": 1,
-        "hoursSincePosted": 59.6,
+        "hoursSincePosted": 59.7,
         "readingTime": 6
       },
       "articles": [
@@ -879,7 +879,7 @@
         "author": "094459",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 101.7,
+        "hoursSincePosted": 101.8,
         "readingTime": 3
       },
       "articles": [
@@ -928,7 +928,7 @@
         "author": "094459",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 101.7,
+        "hoursSincePosted": 101.8,
         "readingTime": 3
       },
       "articles": [
@@ -1201,7 +1201,7 @@
         "author": "mukeshswamy",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 99.4,
+        "hoursSincePosted": 99.6,
         "readingTime": 9
       },
       "articles": [
@@ -1298,7 +1298,7 @@
         "author": "wonderlab",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 79.7,
+        "hoursSincePosted": 79.8,
         "readingTime": 9
       },
       "articles": [
@@ -1395,7 +1395,7 @@
         "author": "alanwest",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 49.4,
+        "hoursSincePosted": 49.6,
         "readingTime": 4
       },
       "articles": [
@@ -1472,7 +1472,7 @@
         "author": "gabrielanhaia",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 119,
+        "hoursSincePosted": 119.1,
         "readingTime": 7
       },
       "articles": [
@@ -1591,7 +1591,7 @@
       ]
     },
     "anthropics/claude-code": {
-      "count7d": 10,
+      "count7d": 11,
       "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
@@ -1601,7 +1601,7 @@
         "author": "recca0120",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 134.5,
+        "hoursSincePosted": 134.7,
         "readingTime": 7
       },
       "articles": [
@@ -1811,6 +1811,34 @@
           ]
         },
         {
+          "id": 3557078,
+          "title": "Claude Code's Prompt Cache TTL Dropped From 1h to 5m",
+          "description": "A TTL change on Claude Code's prompt cache rewrote billing for affected sessions. The instrumentation that catches it before payday.",
+          "url": "https://dev.to/gabrielanhaia/claude-codes-prompt-cache-ttl-dropped-from-1h-to-5m-35g",
+          "author": {
+            "username": "gabrielanhaia",
+            "name": "Gabriel Anhaia",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F425693%2F531a245a-bc24-453e-bb2b-eb7077a3da8b.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 6,
+          "publishedAt": "2026-04-27T11:14:43Z",
+          "tags": [
+            "ai",
+            "llm",
+            "observability",
+            "devops"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
+        },
+        {
           "id": 3553099,
           "title": "Building a Complete Developer Terminal Setup for Claude Code — Part 4: Plugin Stack",
           "description": "By Avinash, GenAI Practice Lead | Part 1 | Part 2 | Part 3 | Part 4 of 6     Claude Code has a...",
@@ -1875,10 +1903,6 @@
             {
               "fullName": "anthropics/claude-code",
               "location": "body"
-            },
-            {
-              "fullName": "zilliztech/memsearch",
-              "location": "body"
             }
           ]
         },
@@ -1923,7 +1947,7 @@
         "author": "earthbound_misfit",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 139.6,
+        "hoursSincePosted": 139.8,
         "readingTime": 5
       },
       "articles": [
@@ -1972,7 +1996,7 @@
         "author": "guilherme44",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 10.5,
+        "hoursSincePosted": 10.6,
         "readingTime": 5
       },
       "articles": [
@@ -2062,51 +2086,6 @@
         }
       ]
     },
-    "gitleaks/gitleaks": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 1,
-      "topArticle": {
-        "id": 3563834,
-        "title": "When Your AI Coding Tool Disappears Overnight: The Case for Provider-Agnostic Quality Gates",
-        "url": "https://dev.to/toniantunovic/when-your-ai-coding-tool-disappears-overnight-the-case-for-provider-agnostic-quality-gates-51l7",
-        "author": "toniantunovic",
-        "reactions": 1,
-        "comments": 1,
-        "hoursSincePosted": 68.8,
-        "readingTime": 6
-      },
-      "articles": [
-        {
-          "id": 3563834,
-          "title": "When Your AI Coding Tool Disappears Overnight: The Case for Provider-Agnostic Quality Gates",
-          "description": "Claude Code, Cursor, and Copilot can vanish from your workflow with a single pricing change or API outage. Here is how to build quality enforcement that survives any provider.",
-          "url": "https://dev.to/toniantunovic/when-your-ai-coding-tool-disappears-overnight-the-case-for-provider-agnostic-quality-gates-51l7",
-          "author": {
-            "username": "toniantunovic",
-            "name": "Toni Antunovic",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3821075%2F3c54d596-46ae-4910-a2ed-042aa3c86933.png"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 1,
-          "readingTime": 6,
-          "publishedAt": "2026-04-28T17:02:55Z",
-          "tags": [
-            "claudecode",
-            "devtools",
-            "aicode",
-            "qualitygate"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "gitleaks/gitleaks",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "pbakaus/impeccable": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -2118,7 +2097,7 @@
         "author": "stevengonsalvez",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 114,
+        "hoursSincePosted": 114.1,
         "readingTime": 12
       },
       "articles": [
@@ -2163,7 +2142,7 @@
         "author": "jun0-ds",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 10.6,
+        "hoursSincePosted": 10.7,
         "readingTime": 3
       },
       "articles": [
@@ -2220,7 +2199,7 @@
         "author": "jun0-ds",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 10.6,
+        "hoursSincePosted": 10.7,
         "readingTime": 3
       },
       "articles": [
@@ -2266,6 +2245,51 @@
         }
       ]
     },
+    "jarrodwatts/claude-hud": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3595258,
+        "title": "Claude Code 状态栏统一布局，两条数据链路：OpenRouter 直连 vs CCR 代理",
+        "url": "https://dev.to/lizhaopengcn/claude-code-zhuang-tai-lan-tong-bu-ju-liang-tiao-shu-ju-lian-lu-openrouter-zhi-lian-vs-ccr-dai-li-1id2",
+        "author": "lizhaopengcn",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 4.2,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3595258,
+          "title": "Claude Code 状态栏统一布局，两条数据链路：OpenRouter 直连 vs CCR 代理",
+          "description": "给 Claude Code 做了一套四行树形状态栏，一份给 bare claude 走 OpenRouter，一份给 ccr code 走本地代理。记录颜色、图标、进度条的打磨过程，以及两条链路数据源差异带来的坑。",
+          "url": "https://dev.to/lizhaopengcn/claude-code-zhuang-tai-lan-tong-bu-ju-liang-tiao-shu-ju-lian-lu-openrouter-zhi-lian-vs-ccr-dai-li-1id2",
+          "author": {
+            "username": "lizhaopengcn",
+            "name": "lizhaopeng-cn",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3895162%2F3d029651-5359-4fda-92b7-87a7171460f8.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-05-01T09:46:29Z",
+          "tags": [
+            "claude",
+            "claudecode",
+            "ccr",
+            "devtools"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "jarrodwatts/claude-hud",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "musistudio/claude-code-router": {
       "count7d": 2,
       "reactionsSum7d": 0,
@@ -2277,7 +2301,7 @@
         "author": "lizhaopengcn",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 76.7,
+        "hoursSincePosted": 76.9,
         "readingTime": 8
       },
       "articles": [
@@ -2349,7 +2373,7 @@
         "author": "max_quimby",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 153.6,
+        "hoursSincePosted": 153.7,
         "readingTime": 5
       },
       "articles": [
@@ -2398,7 +2422,7 @@
         "author": "max_quimby",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 153.6,
+        "hoursSincePosted": 153.7,
         "readingTime": 5
       },
       "articles": [
@@ -2447,7 +2471,7 @@
         "author": "moonrunnerkc",
         "reactions": 1,
         "comments": 6,
-        "hoursSincePosted": 59.3,
+        "hoursSincePosted": 59.4,
         "readingTime": 7
       },
       "articles": [
@@ -2492,7 +2516,7 @@
         "author": "sundr_dev",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 24.4,
+        "hoursSincePosted": 24.5,
         "readingTime": 14
       },
       "articles": [
@@ -2541,7 +2565,7 @@
         "author": "sundr_dev",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 24.4,
+        "hoursSincePosted": 24.5,
         "readingTime": 14
       },
       "articles": [
@@ -2630,7 +2654,7 @@
         "author": "frr149",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 22.4,
+        "hoursSincePosted": 22.5,
         "readingTime": 5
       },
       "articles": [
@@ -2727,7 +2751,7 @@
         "author": "wonderlab",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 103.6,
+        "hoursSincePosted": 103.8,
         "readingTime": 8
       },
       "articles": [
@@ -2772,7 +2796,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 82.1,
+        "hoursSincePosted": 82.3,
         "readingTime": 9
       },
       "articles": [
@@ -2841,7 +2865,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 82.1,
+        "hoursSincePosted": 82.3,
         "readingTime": 9
       },
       "articles": [
@@ -2910,7 +2934,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 82.1,
+        "hoursSincePosted": 82.3,
         "readingTime": 9
       },
       "articles": [
@@ -2979,7 +3003,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 82.1,
+        "hoursSincePosted": 82.3,
         "readingTime": 9
       },
       "articles": [
@@ -3048,7 +3072,7 @@
         "author": "truongpx396",
         "reactions": 7,
         "comments": 0,
-        "hoursSincePosted": 78.2,
+        "hoursSincePosted": 78.3,
         "readingTime": 18
       },
       "articles": [
@@ -3110,6 +3134,51 @@
         }
       ]
     },
+    "nextlevelbuilder/goclaw": {
+      "count7d": 1,
+      "reactionsSum7d": 5,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3561446,
+        "title": "🦊 GoClaw Deep Dive 🤖 — A Builder's Guide to a Multi-Tenant AI Agent Platform 📘",
+        "url": "https://dev.to/truongpx396/goclaw-deep-dive-a-builders-guide-to-a-multi-tenant-ai-agent-platform-5d6c",
+        "author": "truongpx396",
+        "reactions": 5,
+        "comments": 0,
+        "hoursSincePosted": 76.5,
+        "readingTime": 23
+      },
+      "articles": [
+        {
+          "id": 3561446,
+          "title": "🦊 GoClaw Deep Dive 🤖 — A Builder's Guide to a Multi-Tenant AI Agent Platform 📘",
+          "description": "Source: https://github.com/nextlevelbuilder/goclaw — a Go-based, multi-tenant AI agent gateway with...",
+          "url": "https://dev.to/truongpx396/goclaw-deep-dive-a-builders-guide-to-a-multi-tenant-ai-agent-platform-5d6c",
+          "author": {
+            "username": "truongpx396",
+            "name": "Truong Phung",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2215325%2Ff0dca1b8-525d-45b6-bafc-f3d3141bc934.jpg"
+          },
+          "reactionsCount": 5,
+          "commentsCount": 0,
+          "readingTime": 23,
+          "publishedAt": "2026-04-28T09:29:56Z",
+          "tags": [
+            "ai",
+            "llm",
+            "webdev",
+            "tutorial"
+          ],
+          "trendingScore": 0.05,
+          "linkedRepos": [
+            {
+              "fullName": "nextlevelbuilder/goclaw",
+              "location": "description"
+            }
+          ]
+        }
+      ]
+    },
     "BerriAI/litellm": {
       "count7d": 2,
       "reactionsSum7d": 9,
@@ -3121,7 +3190,7 @@
         "author": "truongpx396",
         "reactions": 5,
         "comments": 0,
-        "hoursSincePosted": 79.2,
+        "hoursSincePosted": 79.3,
         "readingTime": 31
       },
       "articles": [
@@ -3194,7 +3263,7 @@
         "author": "truongpx396",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 149.2,
+        "hoursSincePosted": 149.4,
         "readingTime": 6
       },
       "articles": [
@@ -3228,96 +3297,6 @@
         }
       ]
     },
-    "nextlevelbuilder/goclaw": {
-      "count7d": 1,
-      "reactionsSum7d": 5,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3561446,
-        "title": "🦊 GoClaw Deep Dive 🤖 — A Builder's Guide to a Multi-Tenant AI Agent Platform 📘",
-        "url": "https://dev.to/truongpx396/goclaw-deep-dive-a-builders-guide-to-a-multi-tenant-ai-agent-platform-5d6c",
-        "author": "truongpx396",
-        "reactions": 5,
-        "comments": 0,
-        "hoursSincePosted": 76.3,
-        "readingTime": 23
-      },
-      "articles": [
-        {
-          "id": 3561446,
-          "title": "🦊 GoClaw Deep Dive 🤖 — A Builder's Guide to a Multi-Tenant AI Agent Platform 📘",
-          "description": "Source: https://github.com/nextlevelbuilder/goclaw — a Go-based, multi-tenant AI agent gateway with...",
-          "url": "https://dev.to/truongpx396/goclaw-deep-dive-a-builders-guide-to-a-multi-tenant-ai-agent-platform-5d6c",
-          "author": {
-            "username": "truongpx396",
-            "name": "Truong Phung",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2215325%2Ff0dca1b8-525d-45b6-bafc-f3d3141bc934.jpg"
-          },
-          "reactionsCount": 5,
-          "commentsCount": 0,
-          "readingTime": 23,
-          "publishedAt": "2026-04-28T09:29:56Z",
-          "tags": [
-            "ai",
-            "llm",
-            "webdev",
-            "tutorial"
-          ],
-          "trendingScore": 0.05,
-          "linkedRepos": [
-            {
-              "fullName": "nextlevelbuilder/goclaw",
-              "location": "description"
-            }
-          ]
-        }
-      ]
-    },
-    "alejandrobalderas/claude-code-from-source": {
-      "count7d": 1,
-      "reactionsSum7d": 5,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3556904,
-        "title": "🏗️ Building Agents Like Claude Code — A Source-Derived Blueprint 📘",
-        "url": "https://dev.to/truongpx396/building-agents-like-claude-code-a-source-derived-blueprint-1lep",
-        "author": "truongpx396",
-        "reactions": 5,
-        "comments": 0,
-        "hoursSincePosted": 99.1,
-        "readingTime": 31
-      },
-      "articles": [
-        {
-          "id": 3556904,
-          "title": "🏗️ Building Agents Like Claude Code — A Source-Derived Blueprint 📘",
-          "description": "A comprehensive synthesis of the claude-code-from-source project (and companion site...",
-          "url": "https://dev.to/truongpx396/building-agents-like-claude-code-a-source-derived-blueprint-1lep",
-          "author": {
-            "username": "truongpx396",
-            "name": "Truong Phung",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2215325%2Ff0dca1b8-525d-45b6-bafc-f3d3141bc934.jpg"
-          },
-          "reactionsCount": 5,
-          "commentsCount": 0,
-          "readingTime": 31,
-          "publishedAt": "2026-04-27T10:39:46Z",
-          "tags": [
-            "ai",
-            "llm",
-            "webdev",
-            "tutorial"
-          ],
-          "trendingScore": 0.04,
-          "linkedRepos": [
-            {
-              "fullName": "alejandrobalderas/claude-code-from-source",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "sipeed/picoclaw": {
       "count7d": 1,
       "reactionsSum7d": 4,
@@ -3329,7 +3308,7 @@
         "author": "truongpx396",
         "reactions": 4,
         "comments": 0,
-        "hoursSincePosted": 76.9,
+        "hoursSincePosted": 77,
         "readingTime": 22
       },
       "articles": [
@@ -3363,45 +3342,45 @@
         }
       ]
     },
-    "Agent-FM/agentfm-core": {
+    "alejandrobalderas/claude-code-from-source": {
       "count7d": 1,
-      "reactionsSum7d": 1,
+      "reactionsSum7d": 5,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3559085,
-        "title": "I pointed the OpenAI SDK at my friend's gaming PC. It just worked.",
-        "url": "https://dev.to/saifrehman/i-pointed-the-openai-sdk-at-my-friends-gaming-pc-it-just-worked-55kp",
-        "author": "saifrehman",
-        "reactions": 1,
+        "id": 3556904,
+        "title": "🏗️ Building Agents Like Claude Code — A Source-Derived Blueprint 📘",
+        "url": "https://dev.to/truongpx396/building-agents-like-claude-code-a-source-derived-blueprint-1lep",
+        "author": "truongpx396",
+        "reactions": 5,
         "comments": 0,
-        "hoursSincePosted": 89,
-        "readingTime": 6
+        "hoursSincePosted": 99.3,
+        "readingTime": 31
       },
       "articles": [
         {
-          "id": 3559085,
-          "title": "I pointed the OpenAI SDK at my friend's gaming PC. It just worked.",
-          "description": "I changed two strings in a Python script — base_url and api_key — and it stopped calling...",
-          "url": "https://dev.to/saifrehman/i-pointed-the-openai-sdk-at-my-friends-gaming-pc-it-just-worked-55kp",
+          "id": 3556904,
+          "title": "🏗️ Building Agents Like Claude Code — A Source-Derived Blueprint 📘",
+          "description": "A comprehensive synthesis of the claude-code-from-source project (and companion site...",
+          "url": "https://dev.to/truongpx396/building-agents-like-claude-code-a-source-derived-blueprint-1lep",
           "author": {
-            "username": "saifrehman",
-            "name": "SaifRehman",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1393359%2F4ae8683c-19ab-4b63-94e6-a332b543c6bd.jpeg"
+            "username": "truongpx396",
+            "name": "Truong Phung",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2215325%2Ff0dca1b8-525d-45b6-bafc-f3d3141bc934.jpg"
           },
-          "reactionsCount": 1,
+          "reactionsCount": 5,
           "commentsCount": 0,
-          "readingTime": 6,
-          "publishedAt": "2026-04-27T20:46:46Z",
+          "readingTime": 31,
+          "publishedAt": "2026-04-27T10:39:46Z",
           "tags": [
-            "opensource",
-            "p2p",
+            "ai",
             "llm",
-            "ai"
+            "webdev",
+            "tutorial"
           ],
-          "trendingScore": 0,
+          "trendingScore": 0.04,
           "linkedRepos": [
             {
-              "fullName": "Agent-FM/agentfm-core",
+              "fullName": "alejandrobalderas/claude-code-from-source",
               "location": "body"
             }
           ]
@@ -3419,7 +3398,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 20.3,
+        "hoursSincePosted": 20.5,
         "readingTime": 7
       },
       "articles": [
@@ -3488,7 +3467,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 20.3,
+        "hoursSincePosted": 20.5,
         "readingTime": 7
       },
       "articles": [
@@ -3557,7 +3536,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 20.3,
+        "hoursSincePosted": 20.5,
         "readingTime": 7
       },
       "articles": [
@@ -3666,7 +3645,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 20.3,
+        "hoursSincePosted": 20.5,
         "readingTime": 7
       },
       "articles": [
@@ -3735,7 +3714,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 20.3,
+        "hoursSincePosted": 20.5,
         "readingTime": 7
       },
       "articles": [
@@ -3804,7 +3783,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 20.3,
+        "hoursSincePosted": 20.5,
         "readingTime": 7
       },
       "articles": [
@@ -3873,7 +3852,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 20.3,
+        "hoursSincePosted": 20.5,
         "readingTime": 7
       },
       "articles": [
@@ -3963,51 +3942,6 @@
         }
       ]
     },
-    "ggml-org/llama.cpp": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3557067,
-        "title": "Google's TurboQuant: 6x KV Cache Compression Without Retraining",
-        "url": "https://dev.to/gabrielanhaia/googles-turboquant-6x-kv-cache-compression-without-retraining-1f3g",
-        "author": "gabrielanhaia",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 98.6,
-        "readingTime": 8
-      },
-      "articles": [
-        {
-          "id": 3557067,
-          "title": "Google's TurboQuant: 6x KV Cache Compression Without Retraining",
-          "description": "TurboQuant pairs PolarQuant with a QJL residual to shrink KV cache 6x at near-zero quality loss. What it changes for long-context self-hosting.",
-          "url": "https://dev.to/gabrielanhaia/googles-turboquant-6x-kv-cache-compression-without-retraining-1f3g",
-          "author": {
-            "username": "gabrielanhaia",
-            "name": "Gabriel Anhaia",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F425693%2F531a245a-bc24-453e-bb2b-eb7077a3da8b.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 8,
-          "publishedAt": "2026-04-27T11:12:24Z",
-          "tags": [
-            "ai",
-            "llm",
-            "architecture",
-            "observability"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "ggml-org/llama.cpp",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "github/github-mcp-server": {
       "count7d": 1,
       "reactionsSum7d": 1,
@@ -4019,7 +3953,7 @@
         "author": "aigal",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 93.2,
+        "hoursSincePosted": 93.3,
         "readingTime": 4
       },
       "articles": [
@@ -4063,7 +3997,7 @@
         "author": "daviidy",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 114,
+        "hoursSincePosted": 114.1,
         "readingTime": 5
       },
       "articles": [
@@ -4108,7 +4042,7 @@
         "author": "bradleymatera",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 39.1,
+        "hoursSincePosted": 39.3,
         "readingTime": 3
       },
       "articles": [
@@ -4281,7 +4215,7 @@
         "author": "dharshan_a_23835c7dc05682",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 79.3,
+        "hoursSincePosted": 79.4,
         "readingTime": 4
       },
       "articles": [
@@ -4326,7 +4260,7 @@
         "author": "programmersd21",
         "reactions": 5,
         "comments": 1,
-        "hoursSincePosted": 59.7,
+        "hoursSincePosted": 59.8,
         "readingTime": 4
       },
       "articles": [
@@ -4371,7 +4305,7 @@
         "author": "gursharansingh",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 80.3,
+        "hoursSincePosted": 80.5,
         "readingTime": 13
       },
       "articles": [
@@ -4416,7 +4350,7 @@
         "author": "gabrielanhaia",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 113.2,
+        "hoursSincePosted": 113.3,
         "readingTime": 8
       },
       "articles": [
@@ -4489,7 +4423,7 @@
         "author": "mindmnml",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 97.8,
+        "hoursSincePosted": 97.9,
         "readingTime": 5
       },
       "articles": [
@@ -4534,7 +4468,7 @@
         "author": "dengkui_yang_fcb5dbe2da32",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 33.5,
+        "hoursSincePosted": 33.6,
         "readingTime": 7
       },
       "articles": [
@@ -4579,7 +4513,7 @@
         "author": "yohann_streibel_7e1f7b4b8",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 25.3,
+        "hoursSincePosted": 25.5,
         "readingTime": 15
       },
       "articles": [
@@ -4624,7 +4558,7 @@
         "author": "passandscore",
         "reactions": 5,
         "comments": 0,
-        "hoursSincePosted": 84.3,
+        "hoursSincePosted": 84.5,
         "readingTime": 3
       },
       "articles": [
@@ -4669,7 +4603,7 @@
         "author": "dengkui_yang_fcb5dbe2da32",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 53.5,
+        "hoursSincePosted": 53.6,
         "readingTime": 10
       },
       "articles": [
@@ -4703,100 +4637,6 @@
         }
       ]
     },
-    "temporalio/temporal": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3549878,
-        "title": "9 Tools Big Tech Uses Internally (Now Open Source)",
-        "url": "https://dev.to/sonotommy/9-tools-big-tech-uses-internally-now-open-source-1j4g",
-        "author": "sonotommy",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 144.8,
-        "readingTime": 8
-      },
-      "articles": [
-        {
-          "id": 3549878,
-          "title": "9 Tools Big Tech Uses Internally (Now Open Source)",
-          "description": "Most \"best tools\" lists are just GitHub trending with extra steps.  Same 10 repos. Same README...",
-          "url": "https://dev.to/sonotommy/9-tools-big-tech-uses-internally-now-open-source-1j4g",
-          "author": {
-            "username": "sonotommy",
-            "name": "Tommaso Bertocchi",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3399256%2F111d6919-72dc-4992-a6c6-2b20a4ccf85b.jpeg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 8,
-          "publishedAt": "2026-04-25T12:59:02Z",
-          "tags": [
-            "devops",
-            "opensource",
-            "webdev",
-            "tooling"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "temporalio/temporal",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "zilliztech/memsearch": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3550670,
-        "title": "Claude Code Ecosystem 2026: Memory, Sync, and Mobile Tools",
-        "url": "https://dev.to/sahil_kat/claude-code-ecosystem-2026-memory-sync-and-mobile-tools-5788",
-        "author": "sahil_kat",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 140.3,
-        "readingTime": 9
-      },
-      "articles": [
-        {
-          "id": 3550670,
-          "title": "Claude Code Ecosystem 2026: Memory, Sync, and Mobile Tools",
-          "description": "Claude Code is one of the most capable AI coding agents available today, but it ships with three...",
-          "url": "https://dev.to/sahil_kat/claude-code-ecosystem-2026-memory-sync-and-mobile-tools-5788",
-          "author": {
-            "username": "sahil_kat",
-            "name": "Sahil Kathpal",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3855263%2Fbad52ee6-c66a-49f1-846f-440b94963de2.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 9,
-          "publishedAt": "2026-04-25T17:30:15Z",
-          "tags": [
-            "agents",
-            "claude",
-            "productivity",
-            "tooling"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            },
-            {
-              "fullName": "zilliztech/memsearch",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "zilliztech/claude-context": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -4808,7 +4648,7 @@
         "author": "kalpesh47",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 163,
+        "hoursSincePosted": 163.1,
         "readingTime": 2
       },
       "articles": [
@@ -4857,7 +4697,7 @@
         "author": "shricodev",
         "reactions": 17,
         "comments": 5,
-        "hoursSincePosted": 71.3,
+        "hoursSincePosted": 71.5,
         "readingTime": 6
       },
       "articles": [
@@ -4890,6 +4730,79 @@
           ]
         }
       ]
+    },
+    "gogpu/ui": {
+      "count7d": 2,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3562702,
+        "title": "GoGPU - 790K Lines of Pure Go: Multi-Window GPU Apps, DXIL Compiler, and Why We Don't Need CGO",
+        "url": "https://dev.to/kolkov/gogpu-790k-lines-of-pure-go-multi-window-gpu-apps-dxil-compiler-and-why-we-dont-need-cgo-3i94",
+        "author": "kolkov",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 72.7,
+        "readingTime": 13
+      },
+      "articles": [
+        {
+          "id": 3562702,
+          "title": "GoGPU - 790K Lines of Pure Go: Multi-Window GPU Apps, DXIL Compiler, and Why We Don't Need CGO",
+          "description": "GoGPU ecosystem reaches 790K LOC. Multi-window architecture, first Pure Go DXIL generator, 22-widget GUI toolkit, and a Quake engine — all without a single line of C.",
+          "url": "https://dev.to/kolkov/gogpu-790k-lines-of-pure-go-multi-window-gpu-apps-dxil-compiler-and-why-we-dont-need-cgo-3i94",
+          "author": {
+            "username": "kolkov",
+            "name": "Andrey Kolkov",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F277150%2Fdc37d68a-1fc4-4584-a7a6-0e640febd7a8.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 13,
+          "publishedAt": "2026-04-28T13:14:08Z",
+          "tags": [
+            "go",
+            "opensource",
+            "programming",
+            "webdev"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "gogpu/ui",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3593508,
+          "title": "We Built a Pure Go System Tray Library Because Every Alternative Requires CGO, GoGPU May 2026",
+          "description": "gogpu/systray — the first cross-platform system tray library for Go that doesn't need a C compiler. Win32, macOS, Linux. Dark mode. Notifications. Zero CGO.",
+          "url": "https://dev.to/kolkov/we-built-a-pure-go-system-tray-library-because-every-alternative-requires-cgo-gogpu-may-2026-3h2i",
+          "author": {
+            "username": "kolkov",
+            "name": "Andrey Kolkov",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F277150%2Fdc37d68a-1fc4-4584-a7a6-0e640febd7a8.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 5,
+          "publishedAt": "2026-04-30T21:10:33Z",
+          "tags": [
+            "go",
+            "opensource",
+            "programming",
+            "linux"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "gogpu/ui",
+              "location": "body"
+            }
+          ]
+        }
+      ]
     }
   },
   "mentionsByRepoId": {
@@ -4904,7 +4817,7 @@
         "author": "blackgirlbytes",
         "reactions": 9,
         "comments": 2,
-        "hoursSincePosted": 140.8,
+        "hoursSincePosted": 140.9,
         "readingTime": 6
       },
       "articles": [
@@ -4949,7 +4862,7 @@
         "author": "peter-gpuyard",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 7.5,
+        "hoursSincePosted": 7.6,
         "readingTime": 2
       },
       "articles": [
@@ -4994,7 +4907,7 @@
         "author": "_4f268336f6580845cdc475",
         "reactions": 6,
         "comments": 1,
-        "hoursSincePosted": 59.6,
+        "hoursSincePosted": 59.7,
         "readingTime": 6
       },
       "articles": [
@@ -5058,7 +4971,7 @@
             "angular",
             "ngrx"
           ],
-          "trendingScore": 1.1,
+          "trendingScore": 1.05,
           "linkedRepos": [
             {
               "fullName": "anthropics/skills",
@@ -5107,7 +5020,7 @@
         "author": "salimcodes",
         "reactions": 8,
         "comments": 0,
-        "hoursSincePosted": 102.8,
+        "hoursSincePosted": 102.9,
         "readingTime": 11
       },
       "articles": [
@@ -5240,7 +5153,7 @@
         "author": "_4f268336f6580845cdc475",
         "reactions": 6,
         "comments": 1,
-        "hoursSincePosted": 59.6,
+        "hoursSincePosted": 59.7,
         "readingTime": 6
       },
       "articles": [
@@ -5297,7 +5210,7 @@
         "author": "_4f268336f6580845cdc475",
         "reactions": 6,
         "comments": 1,
-        "hoursSincePosted": 59.6,
+        "hoursSincePosted": 59.7,
         "readingTime": 6
       },
       "articles": [
@@ -5510,7 +5423,7 @@
         "author": "_4f268336f6580845cdc475",
         "reactions": 6,
         "comments": 1,
-        "hoursSincePosted": 59.6,
+        "hoursSincePosted": 59.7,
         "readingTime": 6
       },
       "articles": [
@@ -5567,7 +5480,7 @@
         "author": "094459",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 101.7,
+        "hoursSincePosted": 101.8,
         "readingTime": 3
       },
       "articles": [
@@ -5616,7 +5529,7 @@
         "author": "094459",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 101.7,
+        "hoursSincePosted": 101.8,
         "readingTime": 3
       },
       "articles": [
@@ -5889,7 +5802,7 @@
         "author": "mukeshswamy",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 99.4,
+        "hoursSincePosted": 99.6,
         "readingTime": 9
       },
       "articles": [
@@ -5986,7 +5899,7 @@
         "author": "wonderlab",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 79.7,
+        "hoursSincePosted": 79.8,
         "readingTime": 9
       },
       "articles": [
@@ -6083,7 +5996,7 @@
         "author": "alanwest",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 49.4,
+        "hoursSincePosted": 49.6,
         "readingTime": 4
       },
       "articles": [
@@ -6160,7 +6073,7 @@
         "author": "gabrielanhaia",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 119,
+        "hoursSincePosted": 119.1,
         "readingTime": 7
       },
       "articles": [
@@ -6279,7 +6192,7 @@
       ]
     },
     "anthropics--claude-code": {
-      "count7d": 10,
+      "count7d": 11,
       "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
@@ -6289,7 +6202,7 @@
         "author": "recca0120",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 134.5,
+        "hoursSincePosted": 134.7,
         "readingTime": 7
       },
       "articles": [
@@ -6499,6 +6412,34 @@
           ]
         },
         {
+          "id": 3557078,
+          "title": "Claude Code's Prompt Cache TTL Dropped From 1h to 5m",
+          "description": "A TTL change on Claude Code's prompt cache rewrote billing for affected sessions. The instrumentation that catches it before payday.",
+          "url": "https://dev.to/gabrielanhaia/claude-codes-prompt-cache-ttl-dropped-from-1h-to-5m-35g",
+          "author": {
+            "username": "gabrielanhaia",
+            "name": "Gabriel Anhaia",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F425693%2F531a245a-bc24-453e-bb2b-eb7077a3da8b.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 6,
+          "publishedAt": "2026-04-27T11:14:43Z",
+          "tags": [
+            "ai",
+            "llm",
+            "observability",
+            "devops"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
+        },
+        {
           "id": 3553099,
           "title": "Building a Complete Developer Terminal Setup for Claude Code — Part 4: Plugin Stack",
           "description": "By Avinash, GenAI Practice Lead | Part 1 | Part 2 | Part 3 | Part 4 of 6     Claude Code has a...",
@@ -6563,10 +6504,6 @@
             {
               "fullName": "anthropics/claude-code",
               "location": "body"
-            },
-            {
-              "fullName": "zilliztech/memsearch",
-              "location": "body"
             }
           ]
         },
@@ -6611,7 +6548,7 @@
         "author": "earthbound_misfit",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 139.6,
+        "hoursSincePosted": 139.8,
         "readingTime": 5
       },
       "articles": [
@@ -6660,7 +6597,7 @@
         "author": "guilherme44",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 10.5,
+        "hoursSincePosted": 10.6,
         "readingTime": 5
       },
       "articles": [
@@ -6750,51 +6687,6 @@
         }
       ]
     },
-    "gitleaks--gitleaks": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 1,
-      "topArticle": {
-        "id": 3563834,
-        "title": "When Your AI Coding Tool Disappears Overnight: The Case for Provider-Agnostic Quality Gates",
-        "url": "https://dev.to/toniantunovic/when-your-ai-coding-tool-disappears-overnight-the-case-for-provider-agnostic-quality-gates-51l7",
-        "author": "toniantunovic",
-        "reactions": 1,
-        "comments": 1,
-        "hoursSincePosted": 68.8,
-        "readingTime": 6
-      },
-      "articles": [
-        {
-          "id": 3563834,
-          "title": "When Your AI Coding Tool Disappears Overnight: The Case for Provider-Agnostic Quality Gates",
-          "description": "Claude Code, Cursor, and Copilot can vanish from your workflow with a single pricing change or API outage. Here is how to build quality enforcement that survives any provider.",
-          "url": "https://dev.to/toniantunovic/when-your-ai-coding-tool-disappears-overnight-the-case-for-provider-agnostic-quality-gates-51l7",
-          "author": {
-            "username": "toniantunovic",
-            "name": "Toni Antunovic",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3821075%2F3c54d596-46ae-4910-a2ed-042aa3c86933.png"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 1,
-          "readingTime": 6,
-          "publishedAt": "2026-04-28T17:02:55Z",
-          "tags": [
-            "claudecode",
-            "devtools",
-            "aicode",
-            "qualitygate"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "gitleaks/gitleaks",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "pbakaus--impeccable": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -6806,7 +6698,7 @@
         "author": "stevengonsalvez",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 114,
+        "hoursSincePosted": 114.1,
         "readingTime": 12
       },
       "articles": [
@@ -6851,7 +6743,7 @@
         "author": "jun0-ds",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 10.6,
+        "hoursSincePosted": 10.7,
         "readingTime": 3
       },
       "articles": [
@@ -6908,7 +6800,7 @@
         "author": "jun0-ds",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 10.6,
+        "hoursSincePosted": 10.7,
         "readingTime": 3
       },
       "articles": [
@@ -6954,6 +6846,51 @@
         }
       ]
     },
+    "jarrodwatts--claude-hud": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3595258,
+        "title": "Claude Code 状态栏统一布局，两条数据链路：OpenRouter 直连 vs CCR 代理",
+        "url": "https://dev.to/lizhaopengcn/claude-code-zhuang-tai-lan-tong-bu-ju-liang-tiao-shu-ju-lian-lu-openrouter-zhi-lian-vs-ccr-dai-li-1id2",
+        "author": "lizhaopengcn",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 4.2,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3595258,
+          "title": "Claude Code 状态栏统一布局，两条数据链路：OpenRouter 直连 vs CCR 代理",
+          "description": "给 Claude Code 做了一套四行树形状态栏，一份给 bare claude 走 OpenRouter，一份给 ccr code 走本地代理。记录颜色、图标、进度条的打磨过程，以及两条链路数据源差异带来的坑。",
+          "url": "https://dev.to/lizhaopengcn/claude-code-zhuang-tai-lan-tong-bu-ju-liang-tiao-shu-ju-lian-lu-openrouter-zhi-lian-vs-ccr-dai-li-1id2",
+          "author": {
+            "username": "lizhaopengcn",
+            "name": "lizhaopeng-cn",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3895162%2F3d029651-5359-4fda-92b7-87a7171460f8.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-05-01T09:46:29Z",
+          "tags": [
+            "claude",
+            "claudecode",
+            "ccr",
+            "devtools"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "jarrodwatts/claude-hud",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "musistudio--claude-code-router": {
       "count7d": 2,
       "reactionsSum7d": 0,
@@ -6965,7 +6902,7 @@
         "author": "lizhaopengcn",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 76.7,
+        "hoursSincePosted": 76.9,
         "readingTime": 8
       },
       "articles": [
@@ -7037,7 +6974,7 @@
         "author": "max_quimby",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 153.6,
+        "hoursSincePosted": 153.7,
         "readingTime": 5
       },
       "articles": [
@@ -7086,7 +7023,7 @@
         "author": "max_quimby",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 153.6,
+        "hoursSincePosted": 153.7,
         "readingTime": 5
       },
       "articles": [
@@ -7135,7 +7072,7 @@
         "author": "moonrunnerkc",
         "reactions": 1,
         "comments": 6,
-        "hoursSincePosted": 59.3,
+        "hoursSincePosted": 59.4,
         "readingTime": 7
       },
       "articles": [
@@ -7180,7 +7117,7 @@
         "author": "sundr_dev",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 24.4,
+        "hoursSincePosted": 24.5,
         "readingTime": 14
       },
       "articles": [
@@ -7229,7 +7166,7 @@
         "author": "sundr_dev",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 24.4,
+        "hoursSincePosted": 24.5,
         "readingTime": 14
       },
       "articles": [
@@ -7318,7 +7255,7 @@
         "author": "frr149",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 22.4,
+        "hoursSincePosted": 22.5,
         "readingTime": 5
       },
       "articles": [
@@ -7415,7 +7352,7 @@
         "author": "wonderlab",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 103.6,
+        "hoursSincePosted": 103.8,
         "readingTime": 8
       },
       "articles": [
@@ -7460,7 +7397,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 82.1,
+        "hoursSincePosted": 82.3,
         "readingTime": 9
       },
       "articles": [
@@ -7529,7 +7466,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 82.1,
+        "hoursSincePosted": 82.3,
         "readingTime": 9
       },
       "articles": [
@@ -7598,7 +7535,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 82.1,
+        "hoursSincePosted": 82.3,
         "readingTime": 9
       },
       "articles": [
@@ -7667,7 +7604,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 82.1,
+        "hoursSincePosted": 82.3,
         "readingTime": 9
       },
       "articles": [
@@ -7736,7 +7673,7 @@
         "author": "truongpx396",
         "reactions": 7,
         "comments": 0,
-        "hoursSincePosted": 78.2,
+        "hoursSincePosted": 78.3,
         "readingTime": 18
       },
       "articles": [
@@ -7798,6 +7735,51 @@
         }
       ]
     },
+    "nextlevelbuilder--goclaw": {
+      "count7d": 1,
+      "reactionsSum7d": 5,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3561446,
+        "title": "🦊 GoClaw Deep Dive 🤖 — A Builder's Guide to a Multi-Tenant AI Agent Platform 📘",
+        "url": "https://dev.to/truongpx396/goclaw-deep-dive-a-builders-guide-to-a-multi-tenant-ai-agent-platform-5d6c",
+        "author": "truongpx396",
+        "reactions": 5,
+        "comments": 0,
+        "hoursSincePosted": 76.5,
+        "readingTime": 23
+      },
+      "articles": [
+        {
+          "id": 3561446,
+          "title": "🦊 GoClaw Deep Dive 🤖 — A Builder's Guide to a Multi-Tenant AI Agent Platform 📘",
+          "description": "Source: https://github.com/nextlevelbuilder/goclaw — a Go-based, multi-tenant AI agent gateway with...",
+          "url": "https://dev.to/truongpx396/goclaw-deep-dive-a-builders-guide-to-a-multi-tenant-ai-agent-platform-5d6c",
+          "author": {
+            "username": "truongpx396",
+            "name": "Truong Phung",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2215325%2Ff0dca1b8-525d-45b6-bafc-f3d3141bc934.jpg"
+          },
+          "reactionsCount": 5,
+          "commentsCount": 0,
+          "readingTime": 23,
+          "publishedAt": "2026-04-28T09:29:56Z",
+          "tags": [
+            "ai",
+            "llm",
+            "webdev",
+            "tutorial"
+          ],
+          "trendingScore": 0.05,
+          "linkedRepos": [
+            {
+              "fullName": "nextlevelbuilder/goclaw",
+              "location": "description"
+            }
+          ]
+        }
+      ]
+    },
     "berriai--litellm": {
       "count7d": 2,
       "reactionsSum7d": 9,
@@ -7809,7 +7791,7 @@
         "author": "truongpx396",
         "reactions": 5,
         "comments": 0,
-        "hoursSincePosted": 79.2,
+        "hoursSincePosted": 79.3,
         "readingTime": 31
       },
       "articles": [
@@ -7882,7 +7864,7 @@
         "author": "truongpx396",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 149.2,
+        "hoursSincePosted": 149.4,
         "readingTime": 6
       },
       "articles": [
@@ -7916,96 +7898,6 @@
         }
       ]
     },
-    "nextlevelbuilder--goclaw": {
-      "count7d": 1,
-      "reactionsSum7d": 5,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3561446,
-        "title": "🦊 GoClaw Deep Dive 🤖 — A Builder's Guide to a Multi-Tenant AI Agent Platform 📘",
-        "url": "https://dev.to/truongpx396/goclaw-deep-dive-a-builders-guide-to-a-multi-tenant-ai-agent-platform-5d6c",
-        "author": "truongpx396",
-        "reactions": 5,
-        "comments": 0,
-        "hoursSincePosted": 76.3,
-        "readingTime": 23
-      },
-      "articles": [
-        {
-          "id": 3561446,
-          "title": "🦊 GoClaw Deep Dive 🤖 — A Builder's Guide to a Multi-Tenant AI Agent Platform 📘",
-          "description": "Source: https://github.com/nextlevelbuilder/goclaw — a Go-based, multi-tenant AI agent gateway with...",
-          "url": "https://dev.to/truongpx396/goclaw-deep-dive-a-builders-guide-to-a-multi-tenant-ai-agent-platform-5d6c",
-          "author": {
-            "username": "truongpx396",
-            "name": "Truong Phung",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2215325%2Ff0dca1b8-525d-45b6-bafc-f3d3141bc934.jpg"
-          },
-          "reactionsCount": 5,
-          "commentsCount": 0,
-          "readingTime": 23,
-          "publishedAt": "2026-04-28T09:29:56Z",
-          "tags": [
-            "ai",
-            "llm",
-            "webdev",
-            "tutorial"
-          ],
-          "trendingScore": 0.05,
-          "linkedRepos": [
-            {
-              "fullName": "nextlevelbuilder/goclaw",
-              "location": "description"
-            }
-          ]
-        }
-      ]
-    },
-    "alejandrobalderas--claude-code-from-source": {
-      "count7d": 1,
-      "reactionsSum7d": 5,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3556904,
-        "title": "🏗️ Building Agents Like Claude Code — A Source-Derived Blueprint 📘",
-        "url": "https://dev.to/truongpx396/building-agents-like-claude-code-a-source-derived-blueprint-1lep",
-        "author": "truongpx396",
-        "reactions": 5,
-        "comments": 0,
-        "hoursSincePosted": 99.1,
-        "readingTime": 31
-      },
-      "articles": [
-        {
-          "id": 3556904,
-          "title": "🏗️ Building Agents Like Claude Code — A Source-Derived Blueprint 📘",
-          "description": "A comprehensive synthesis of the claude-code-from-source project (and companion site...",
-          "url": "https://dev.to/truongpx396/building-agents-like-claude-code-a-source-derived-blueprint-1lep",
-          "author": {
-            "username": "truongpx396",
-            "name": "Truong Phung",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2215325%2Ff0dca1b8-525d-45b6-bafc-f3d3141bc934.jpg"
-          },
-          "reactionsCount": 5,
-          "commentsCount": 0,
-          "readingTime": 31,
-          "publishedAt": "2026-04-27T10:39:46Z",
-          "tags": [
-            "ai",
-            "llm",
-            "webdev",
-            "tutorial"
-          ],
-          "trendingScore": 0.04,
-          "linkedRepos": [
-            {
-              "fullName": "alejandrobalderas/claude-code-from-source",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "sipeed--picoclaw": {
       "count7d": 1,
       "reactionsSum7d": 4,
@@ -8017,7 +7909,7 @@
         "author": "truongpx396",
         "reactions": 4,
         "comments": 0,
-        "hoursSincePosted": 76.9,
+        "hoursSincePosted": 77,
         "readingTime": 22
       },
       "articles": [
@@ -8051,45 +7943,45 @@
         }
       ]
     },
-    "agent-fm--agentfm-core": {
+    "alejandrobalderas--claude-code-from-source": {
       "count7d": 1,
-      "reactionsSum7d": 1,
+      "reactionsSum7d": 5,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3559085,
-        "title": "I pointed the OpenAI SDK at my friend's gaming PC. It just worked.",
-        "url": "https://dev.to/saifrehman/i-pointed-the-openai-sdk-at-my-friends-gaming-pc-it-just-worked-55kp",
-        "author": "saifrehman",
-        "reactions": 1,
+        "id": 3556904,
+        "title": "🏗️ Building Agents Like Claude Code — A Source-Derived Blueprint 📘",
+        "url": "https://dev.to/truongpx396/building-agents-like-claude-code-a-source-derived-blueprint-1lep",
+        "author": "truongpx396",
+        "reactions": 5,
         "comments": 0,
-        "hoursSincePosted": 89,
-        "readingTime": 6
+        "hoursSincePosted": 99.3,
+        "readingTime": 31
       },
       "articles": [
         {
-          "id": 3559085,
-          "title": "I pointed the OpenAI SDK at my friend's gaming PC. It just worked.",
-          "description": "I changed two strings in a Python script — base_url and api_key — and it stopped calling...",
-          "url": "https://dev.to/saifrehman/i-pointed-the-openai-sdk-at-my-friends-gaming-pc-it-just-worked-55kp",
+          "id": 3556904,
+          "title": "🏗️ Building Agents Like Claude Code — A Source-Derived Blueprint 📘",
+          "description": "A comprehensive synthesis of the claude-code-from-source project (and companion site...",
+          "url": "https://dev.to/truongpx396/building-agents-like-claude-code-a-source-derived-blueprint-1lep",
           "author": {
-            "username": "saifrehman",
-            "name": "SaifRehman",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1393359%2F4ae8683c-19ab-4b63-94e6-a332b543c6bd.jpeg"
+            "username": "truongpx396",
+            "name": "Truong Phung",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2215325%2Ff0dca1b8-525d-45b6-bafc-f3d3141bc934.jpg"
           },
-          "reactionsCount": 1,
+          "reactionsCount": 5,
           "commentsCount": 0,
-          "readingTime": 6,
-          "publishedAt": "2026-04-27T20:46:46Z",
+          "readingTime": 31,
+          "publishedAt": "2026-04-27T10:39:46Z",
           "tags": [
-            "opensource",
-            "p2p",
+            "ai",
             "llm",
-            "ai"
+            "webdev",
+            "tutorial"
           ],
-          "trendingScore": 0,
+          "trendingScore": 0.04,
           "linkedRepos": [
             {
-              "fullName": "Agent-FM/agentfm-core",
+              "fullName": "alejandrobalderas/claude-code-from-source",
               "location": "body"
             }
           ]
@@ -8107,7 +7999,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 20.3,
+        "hoursSincePosted": 20.5,
         "readingTime": 7
       },
       "articles": [
@@ -8176,7 +8068,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 20.3,
+        "hoursSincePosted": 20.5,
         "readingTime": 7
       },
       "articles": [
@@ -8245,7 +8137,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 20.3,
+        "hoursSincePosted": 20.5,
         "readingTime": 7
       },
       "articles": [
@@ -8354,7 +8246,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 20.3,
+        "hoursSincePosted": 20.5,
         "readingTime": 7
       },
       "articles": [
@@ -8423,7 +8315,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 20.3,
+        "hoursSincePosted": 20.5,
         "readingTime": 7
       },
       "articles": [
@@ -8492,7 +8384,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 20.3,
+        "hoursSincePosted": 20.5,
         "readingTime": 7
       },
       "articles": [
@@ -8561,7 +8453,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 20.3,
+        "hoursSincePosted": 20.5,
         "readingTime": 7
       },
       "articles": [
@@ -8651,51 +8543,6 @@
         }
       ]
     },
-    "ggml-org--llama-cpp": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3557067,
-        "title": "Google's TurboQuant: 6x KV Cache Compression Without Retraining",
-        "url": "https://dev.to/gabrielanhaia/googles-turboquant-6x-kv-cache-compression-without-retraining-1f3g",
-        "author": "gabrielanhaia",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 98.6,
-        "readingTime": 8
-      },
-      "articles": [
-        {
-          "id": 3557067,
-          "title": "Google's TurboQuant: 6x KV Cache Compression Without Retraining",
-          "description": "TurboQuant pairs PolarQuant with a QJL residual to shrink KV cache 6x at near-zero quality loss. What it changes for long-context self-hosting.",
-          "url": "https://dev.to/gabrielanhaia/googles-turboquant-6x-kv-cache-compression-without-retraining-1f3g",
-          "author": {
-            "username": "gabrielanhaia",
-            "name": "Gabriel Anhaia",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F425693%2F531a245a-bc24-453e-bb2b-eb7077a3da8b.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 8,
-          "publishedAt": "2026-04-27T11:12:24Z",
-          "tags": [
-            "ai",
-            "llm",
-            "architecture",
-            "observability"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "ggml-org/llama.cpp",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "github--github-mcp-server": {
       "count7d": 1,
       "reactionsSum7d": 1,
@@ -8707,7 +8554,7 @@
         "author": "aigal",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 93.2,
+        "hoursSincePosted": 93.3,
         "readingTime": 4
       },
       "articles": [
@@ -8751,7 +8598,7 @@
         "author": "daviidy",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 114,
+        "hoursSincePosted": 114.1,
         "readingTime": 5
       },
       "articles": [
@@ -8796,7 +8643,7 @@
         "author": "bradleymatera",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 39.1,
+        "hoursSincePosted": 39.3,
         "readingTime": 3
       },
       "articles": [
@@ -8969,7 +8816,7 @@
         "author": "dharshan_a_23835c7dc05682",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 79.3,
+        "hoursSincePosted": 79.4,
         "readingTime": 4
       },
       "articles": [
@@ -9014,7 +8861,7 @@
         "author": "programmersd21",
         "reactions": 5,
         "comments": 1,
-        "hoursSincePosted": 59.7,
+        "hoursSincePosted": 59.8,
         "readingTime": 4
       },
       "articles": [
@@ -9059,7 +8906,7 @@
         "author": "gursharansingh",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 80.3,
+        "hoursSincePosted": 80.5,
         "readingTime": 13
       },
       "articles": [
@@ -9104,7 +8951,7 @@
         "author": "gabrielanhaia",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 113.2,
+        "hoursSincePosted": 113.3,
         "readingTime": 8
       },
       "articles": [
@@ -9177,7 +9024,7 @@
         "author": "mindmnml",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 97.8,
+        "hoursSincePosted": 97.9,
         "readingTime": 5
       },
       "articles": [
@@ -9222,7 +9069,7 @@
         "author": "dengkui_yang_fcb5dbe2da32",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 33.5,
+        "hoursSincePosted": 33.6,
         "readingTime": 7
       },
       "articles": [
@@ -9267,7 +9114,7 @@
         "author": "yohann_streibel_7e1f7b4b8",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 25.3,
+        "hoursSincePosted": 25.5,
         "readingTime": 15
       },
       "articles": [
@@ -9312,7 +9159,7 @@
         "author": "passandscore",
         "reactions": 5,
         "comments": 0,
-        "hoursSincePosted": 84.3,
+        "hoursSincePosted": 84.5,
         "readingTime": 3
       },
       "articles": [
@@ -9357,7 +9204,7 @@
         "author": "dengkui_yang_fcb5dbe2da32",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 53.5,
+        "hoursSincePosted": 53.6,
         "readingTime": 10
       },
       "articles": [
@@ -9391,100 +9238,6 @@
         }
       ]
     },
-    "temporalio--temporal": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3549878,
-        "title": "9 Tools Big Tech Uses Internally (Now Open Source)",
-        "url": "https://dev.to/sonotommy/9-tools-big-tech-uses-internally-now-open-source-1j4g",
-        "author": "sonotommy",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 144.8,
-        "readingTime": 8
-      },
-      "articles": [
-        {
-          "id": 3549878,
-          "title": "9 Tools Big Tech Uses Internally (Now Open Source)",
-          "description": "Most \"best tools\" lists are just GitHub trending with extra steps.  Same 10 repos. Same README...",
-          "url": "https://dev.to/sonotommy/9-tools-big-tech-uses-internally-now-open-source-1j4g",
-          "author": {
-            "username": "sonotommy",
-            "name": "Tommaso Bertocchi",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3399256%2F111d6919-72dc-4992-a6c6-2b20a4ccf85b.jpeg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 8,
-          "publishedAt": "2026-04-25T12:59:02Z",
-          "tags": [
-            "devops",
-            "opensource",
-            "webdev",
-            "tooling"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "temporalio/temporal",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "zilliztech--memsearch": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3550670,
-        "title": "Claude Code Ecosystem 2026: Memory, Sync, and Mobile Tools",
-        "url": "https://dev.to/sahil_kat/claude-code-ecosystem-2026-memory-sync-and-mobile-tools-5788",
-        "author": "sahil_kat",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 140.3,
-        "readingTime": 9
-      },
-      "articles": [
-        {
-          "id": 3550670,
-          "title": "Claude Code Ecosystem 2026: Memory, Sync, and Mobile Tools",
-          "description": "Claude Code is one of the most capable AI coding agents available today, but it ships with three...",
-          "url": "https://dev.to/sahil_kat/claude-code-ecosystem-2026-memory-sync-and-mobile-tools-5788",
-          "author": {
-            "username": "sahil_kat",
-            "name": "Sahil Kathpal",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3855263%2Fbad52ee6-c66a-49f1-846f-440b94963de2.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 9,
-          "publishedAt": "2026-04-25T17:30:15Z",
-          "tags": [
-            "agents",
-            "claude",
-            "productivity",
-            "tooling"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            },
-            {
-              "fullName": "zilliztech/memsearch",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "zilliztech--claude-context": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -9496,7 +9249,7 @@
         "author": "kalpesh47",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 163,
+        "hoursSincePosted": 163.1,
         "readingTime": 2
       },
       "articles": [
@@ -9545,7 +9298,7 @@
         "author": "shricodev",
         "reactions": 17,
         "comments": 5,
-        "hoursSincePosted": 71.3,
+        "hoursSincePosted": 71.5,
         "readingTime": 6
       },
       "articles": [
@@ -9573,6 +9326,79 @@
           "linkedRepos": [
             {
               "fullName": "charmbracelet/bubbletea",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "gogpu--ui": {
+      "count7d": 2,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3562702,
+        "title": "GoGPU - 790K Lines of Pure Go: Multi-Window GPU Apps, DXIL Compiler, and Why We Don't Need CGO",
+        "url": "https://dev.to/kolkov/gogpu-790k-lines-of-pure-go-multi-window-gpu-apps-dxil-compiler-and-why-we-dont-need-cgo-3i94",
+        "author": "kolkov",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 72.7,
+        "readingTime": 13
+      },
+      "articles": [
+        {
+          "id": 3562702,
+          "title": "GoGPU - 790K Lines of Pure Go: Multi-Window GPU Apps, DXIL Compiler, and Why We Don't Need CGO",
+          "description": "GoGPU ecosystem reaches 790K LOC. Multi-window architecture, first Pure Go DXIL generator, 22-widget GUI toolkit, and a Quake engine — all without a single line of C.",
+          "url": "https://dev.to/kolkov/gogpu-790k-lines-of-pure-go-multi-window-gpu-apps-dxil-compiler-and-why-we-dont-need-cgo-3i94",
+          "author": {
+            "username": "kolkov",
+            "name": "Andrey Kolkov",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F277150%2Fdc37d68a-1fc4-4584-a7a6-0e640febd7a8.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 13,
+          "publishedAt": "2026-04-28T13:14:08Z",
+          "tags": [
+            "go",
+            "opensource",
+            "programming",
+            "webdev"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "gogpu/ui",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3593508,
+          "title": "We Built a Pure Go System Tray Library Because Every Alternative Requires CGO, GoGPU May 2026",
+          "description": "gogpu/systray — the first cross-platform system tray library for Go that doesn't need a C compiler. Win32, macOS, Linux. Dark mode. Notifications. Zero CGO.",
+          "url": "https://dev.to/kolkov/we-built-a-pure-go-system-tray-library-because-every-alternative-requires-cgo-gogpu-may-2026-3h2i",
+          "author": {
+            "username": "kolkov",
+            "name": "Andrey Kolkov",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F277150%2Fdc37d68a-1fc4-4584-a7a6-0e640febd7a8.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 5,
+          "publishedAt": "2026-04-30T21:10:33Z",
+          "tags": [
+            "go",
+            "opensource",
+            "programming",
+            "linux"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "gogpu/ui",
               "location": "body"
             }
           ]
@@ -9707,11 +9533,6 @@
       "reactionsSum7d": 1
     },
     {
-      "fullName": "Agent-FM/agentfm-core",
-      "count7d": 1,
-      "reactionsSum7d": 1
-    },
-    {
       "fullName": "code-yeongyu/oh-my-openagent",
       "count7d": 1,
       "reactionsSum7d": 1
@@ -9723,11 +9544,6 @@
     },
     {
       "fullName": "github/github-mcp-server",
-      "count7d": 1,
-      "reactionsSum7d": 1
-    },
-    {
-      "fullName": "gitleaks/gitleaks",
       "count7d": 1,
       "reactionsSum7d": 1
     },
@@ -9778,7 +9594,7 @@
     },
     {
       "fullName": "anthropics/claude-code",
-      "count7d": 10,
+      "count7d": 11,
       "reactionsSum7d": 0
     },
     {
@@ -9788,6 +9604,11 @@
     },
     {
       "fullName": "anthropics/claude-plugins-official",
+      "count7d": 2,
+      "reactionsSum7d": 0
+    },
+    {
+      "fullName": "gogpu/ui",
       "count7d": 2,
       "reactionsSum7d": 0
     },
@@ -9837,11 +9658,6 @@
       "reactionsSum7d": 0
     },
     {
-      "fullName": "ggml-org/llama.cpp",
-      "count7d": 1,
-      "reactionsSum7d": 0
-    },
-    {
       "fullName": "github/spec-kit",
       "count7d": 1,
       "reactionsSum7d": 0
@@ -9853,6 +9669,11 @@
     },
     {
       "fullName": "gsd-build/gsd-2",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
+      "fullName": "jarrodwatts/claude-hud",
       "count7d": 1,
       "reactionsSum7d": 0
     },
@@ -9872,11 +9693,6 @@
       "reactionsSum7d": 0
     },
     {
-      "fullName": "temporalio/temporal",
-      "count7d": 1,
-      "reactionsSum7d": 0
-    },
-    {
       "fullName": "tobi/qmd",
       "count7d": 1,
       "reactionsSum7d": 0
@@ -9888,11 +9704,6 @@
     },
     {
       "fullName": "zilliztech/claude-context",
-      "count7d": 1,
-      "reactionsSum7d": 0
-    },
-    {
-      "fullName": "zilliztech/memsearch",
       "count7d": 1,
       "reactionsSum7d": 0
     }

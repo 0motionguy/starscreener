@@ -7,15 +7,15 @@
  * maintain one navigation layout. Framer Motion drives the slide + fade,
  * with a `prefers-reduced-motion` bypass that snaps the drawer open/closed.
  *
- * V2 chrome:
- *   - Panel: `--v2-bg-050` background, `--v2-line-200` right hairline,
- *     2px corner radius (matches V2 cards).
- *   - Backdrop: black/60 (unchanged) — V2 has no opinion on overlay tint.
+ * V4 chrome:
+ *   - Panel: bg-025 background, line-200 right hairline,
+ *     2px corner radius.
+ *   - Backdrop: black/60 (unchanged) — V4 has no opinion on overlay tint.
  *   - Header strip: terminal-bar `// MENU · MOBILE` (mono uppercase,
- *     `--v2-line-std` bottom border) + ghost close button.
- *   - The inner V1 mobile-only header strip rendered by SidebarContent
+ *     line-200 bottom border) + ghost close button.
+ *   - The inner mobile-only header strip rendered by SidebarContent
  *     (when `onClose` is provided) is suppressed via a scoped arbitrary
- *     selector so we present a single V2 header. We still pass `onClose`
+ *     selector so we present a single V4 header. We still pass `onClose`
  *     because SidebarContent's nav handlers call it to dismiss the drawer
  *     after a tap — that behavior must remain identical.
  *
@@ -90,9 +90,11 @@ export function MobileDrawer() {
             role="dialog"
             aria-modal="true"
             aria-label="Navigation"
-            className="v3-panel md:hidden fixed inset-y-0 left-0 w-[85vw] max-w-[320px] z-[60] flex flex-col"
+            className="md:hidden fixed inset-y-0 left-0 w-[85vw] max-w-[320px] z-[60] flex flex-col min-w-0"
             style={{
-              borderRight: "1px solid var(--v3-line-200)",
+              background: "var(--v4-bg-025)",
+              border: "1px solid var(--v4-line-200)",
+              borderRight: "1px solid var(--v4-line-200)",
               borderTopRightRadius: 2,
               borderBottomRightRadius: 2,
             }}
@@ -107,29 +109,31 @@ export function MobileDrawer() {
             <div
               className="shrink-0 flex items-center gap-2 px-3 py-2"
               style={{
-                borderBottom: "1px solid var(--v3-line-std)",
-                background: "var(--v3-bg-050)",
+                borderBottom: "1px solid var(--v4-line-200)",
+                background: "var(--v4-bg-050)",
               }}
             >
               <span aria-hidden className="flex items-center gap-1.5">
                 <span
                   className="block w-1.5 h-1.5 rounded-full"
-                  style={{ background: "var(--v3-acc)" }}
+                  style={{ background: "var(--v4-acc)" }}
                 />
                 <span
                   className="block w-1.5 h-1.5 rounded-full"
-                  style={{ background: "var(--v3-line-200)" }}
+                  style={{ background: "var(--v4-line-200)" }}
                 />
                 <span
                   className="block w-1.5 h-1.5 rounded-full"
-                  style={{ background: "var(--v3-line-200)" }}
+                  style={{ background: "var(--v4-line-200)" }}
                 />
               </span>
               <span
-                className="v2-mono flex-1 truncate"
+                className="flex-1 truncate uppercase"
                 style={{
+                  fontFamily: "var(--v4-mono)",
                   fontSize: 11,
-                  color: "var(--v3-ink-200)",
+                  letterSpacing: "var(--v4-track-18)",
+                  color: "var(--v4-ink-200)",
                 }}
               >
                 {"// MENU · MOBILE"}
@@ -138,7 +142,6 @@ export function MobileDrawer() {
                 type="button"
                 onClick={close}
                 aria-label="Close menu"
-                className="v3-button"
                 style={{
                   height: 28,
                   width: 28,
@@ -147,22 +150,25 @@ export function MobileDrawer() {
                   alignItems: "center",
                   justifyContent: "center",
                   borderRadius: 2,
+                  border: "1px solid var(--v4-line-300)",
+                  background: "var(--v4-bg-050)",
+                  color: "var(--v4-ink-200)",
                 }}
               >
                 <X className="w-3.5 h-3.5" strokeWidth={1.5} aria-hidden="true" />
               </button>
             </div>
 
-            {/* Body wrapper. Suppress the V1 mobile-only header strip
+            {/* Body wrapper. Suppress the inner mobile-only header strip
                 that SidebarContent renders when `onClose` is provided —
-                we already show our V2 terminal-bar above. The scoped
-                style hides only the V1 strip (the first child div of
+                we already show our V4 terminal-bar above. The scoped
+                style hides only the inner strip (the first child div of
                 SidebarContent's root that is itself `md:hidden`) without
                 touching the shared component. */}
             <style>{`
-              .v2-mobile-drawer-body > div > div.md\\:hidden:first-child { display: none; }
+              .v4-mobile-drawer-body > div > div.md\\:hidden:first-child { display: none; }
             `}</style>
-            <div className="v2-mobile-drawer-body flex-1 min-h-0 flex flex-col">
+            <div className="v4-mobile-drawer-body flex-1 min-h-0 flex flex-col">
               {data ? (
                 <SidebarContent
                   categoryStats={data.categoryStats}

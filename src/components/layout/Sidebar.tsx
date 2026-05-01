@@ -79,7 +79,6 @@ function LaunchpadStrip() {
             className={cn(
               "nav relative flex h-8 items-center justify-center gap-1.5 px-1",
               "text-[10px] transition-colors duration-150",
-              active && "v2-bracket",
             )}
             style={{
               background: active ? "var(--v4-acc-soft)" : "var(--v4-bg-050)",

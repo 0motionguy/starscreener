@@ -322,18 +322,26 @@ export function SidebarContent({
       {onClose && (
         <div
           className="md:hidden flex items-center justify-between p-3 border-b shrink-0"
-          style={{ borderColor: "var(--v2-line-100)" }}
+          style={{ borderColor: "var(--v4-line-100)" }}
         >
           <span
-            className="inline-flex items-center gap-2 v2-mono"
-            style={{ color: "var(--v2-ink-100)", fontSize: 12 }}
+            className="inline-flex items-center gap-2 uppercase"
+            style={{
+              fontFamily: "var(--v4-mono)",
+              letterSpacing: "var(--v4-track-18)",
+              color: "var(--v4-ink-100)",
+              fontSize: 12,
+            }}
           >
             {APP_NAME}
             <span
-              className="v2-tag"
+              className="uppercase"
               style={{
-                color: "var(--v2-acc)",
-                borderColor: "var(--v2-acc)",
+                fontFamily: "var(--v4-mono)",
+                letterSpacing: "var(--v4-track-18)",
+                color: "var(--v4-acc)",
+                border: "1px solid var(--v4-acc)",
+                padding: "1px 4px",
                 fontSize: 9,
               }}
             >
@@ -345,7 +353,7 @@ export function SidebarContent({
             onClick={onClose}
             aria-label="Close menu"
             className="w-9 h-9 flex items-center justify-center"
-            style={{ color: "var(--v2-ink-300)" }}
+            style={{ color: "var(--v4-ink-300)" }}
           >
             <X className="w-4 h-4" />
           </button>

@@ -1,352 +1,743 @@
-// /alerts — V4 W10 (UI phase) — alerts inbox + trigger management.
-//
-// MVP / Phase 1: seed data only. Backend (Redis storage + worker job
-// at apps/trendingrepo-worker/src/fetchers/alerts) ships in W10 phase 2.
-// The page renders today via static seed events + rules so the route is
-// live, the V4 chrome is wired, and the user can navigate from the
-// sidebar AlertBadge to a real surface.
+"use client";
 
-import type { Metadata } from "next";
+// /alerts — V4 W10-A alerts inbox.
+//
+// ProfileTemplate consumer composing AlertInbox / AlertEventRow /
+// AlertTriggerCard primitives. Data is per-user (cookie-derived userId),
+// so the surface is client-rendered behind a best-effort
+// /api/auth/session cookie bootstrap — same approach as /watchlist
+// (the V4 W9 user-surface reference). Pure presentation; CRUD + mark-read
+// hit the existing /api/pipeline/alerts(/rules) endpoints.
+//
+// Empty states cover both "no rules" and "no events".
+
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 
-import { AlertInbox } from "@/components/alerts/AlertInbox";
-import { AlertTriggerCard } from "@/components/alerts/AlertTriggerCard";
+import type { Repo } from "@/lib/types";
 import type { AlertEvent, AlertRule } from "@/lib/pipeline/types";
+import { getRelativeTime } from "@/lib/utils";
+import { toastAlertDeleted, toastAlertError } from "@/lib/toast";
 
-// V4 (CORPUS) primitives.
-import { PageHead } from "@/components/ui/PageHead";
+import { ProfileTemplate } from "@/components/templates/ProfileTemplate";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { KpiBand } from "@/components/ui/KpiBand";
-import { LiveDot } from "@/components/ui/LiveDot";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
+import { AlertInbox } from "@/components/alerts/AlertInbox";
+import { AlertTriggerCard } from "@/components/alerts/AlertTriggerCard";
 
-export const dynamic = "force-static";
-
-export const metadata: Metadata = {
-  title: "Alerts — TrendingRepo",
-  description:
-    "Per-repo alert rules + the inbox of recent firings. Toggle alerts from /watchlist or any repo detail page.",
-  alternates: { canonical: "/alerts" },
+const USER_FETCH_INIT: RequestInit = {
+  credentials: "include",
+  cache: "no-store",
 };
 
-// ---------------------------------------------------------------------------
-// Seed data — demo until the worker writes real events to Redis.
-// ---------------------------------------------------------------------------
-
-const NOW = Date.now();
-const HOURS = 3_600_000;
-const DAYS = 24 * HOURS;
-
-const SEED_RULES: AlertRule[] = [
-  {
-    id: "rule-claude",
-    userId: "local",
-    repoId: "anthropic/claude-code",
-    categoryId: null,
-    trigger: "star_spike",
-    threshold: 500,
-    cooldownMinutes: 60,
-    enabled: true,
-    createdAt: new Date(NOW - 14 * DAYS).toISOString(),
-    lastFiredAt: new Date(NOW - 4 * HOURS).toISOString(),
-  },
-  {
-    id: "rule-skills",
-    userId: "local",
-    repoId: "anthropics/skills",
-    categoryId: null,
-    trigger: "rank_jump",
-    threshold: 10,
-    cooldownMinutes: 120,
-    enabled: true,
-    createdAt: new Date(NOW - 7 * DAYS).toISOString(),
-    lastFiredAt: new Date(NOW - 1 * DAYS).toISOString(),
-  },
-  {
-    id: "rule-mcp",
-    userId: "local",
-    repoId: null,
-    categoryId: "mcp",
-    trigger: "breakout_detected",
-    threshold: 1,
-    cooldownMinutes: 30,
-    enabled: true,
-    createdAt: new Date(NOW - 30 * DAYS).toISOString(),
-    lastFiredAt: new Date(NOW - 2 * HOURS).toISOString(),
-  },
-  {
-    id: "rule-digest",
-    userId: "local",
-    repoId: null,
-    categoryId: null,
-    trigger: "daily_digest",
-    threshold: 0,
-    cooldownMinutes: 1440,
-    enabled: false,
-    createdAt: new Date(NOW - 60 * DAYS).toISOString(),
-    lastFiredAt: null,
-  },
-];
-
-const SEED_EVENTS: AlertEvent[] = [
-  {
-    id: "evt-1",
-    ruleId: "rule-claude",
-    repoId: "anthropic/claude-code",
-    userId: "local",
-    trigger: "star_spike",
-    title: "+824 stars in 24h",
-    body: "anthropic/claude-code crossed your 500-star threshold.",
-    url: "/repo/anthropic/claude-code",
-    firedAt: new Date(NOW - 4 * HOURS).toISOString(),
-    readAt: null,
-    conditionValue: 824,
-    threshold: 500,
-  },
-  {
-    id: "evt-2",
-    ruleId: "rule-mcp",
-    repoId: "modelcontextprotocol/servers",
-    userId: "local",
-    trigger: "breakout_detected",
-    title: "Breakout: GitHub + HN agreement",
-    body: "modelcontextprotocol/servers fired on 2 signal channels in the last hour.",
-    url: "/repo/modelcontextprotocol/servers",
-    firedAt: new Date(NOW - 2 * HOURS).toISOString(),
-    readAt: null,
-    conditionValue: 2,
-    threshold: 1,
-  },
-  {
-    id: "evt-3",
-    ruleId: "rule-skills",
-    repoId: "anthropics/skills",
-    userId: "local",
-    trigger: "rank_jump",
-    title: "Rank jump: #18 → #4",
-    body: "anthropics/skills moved up 14 ranks in the last 24h.",
-    url: "/repo/anthropics/skills",
-    firedAt: new Date(NOW - 1 * DAYS).toISOString(),
-    readAt: new Date(NOW - 18 * HOURS).toISOString(),
-    conditionValue: 14,
-    threshold: 10,
-  },
-  {
-    id: "evt-4",
-    ruleId: "rule-claude",
-    repoId: "anthropic/claude-code",
-    userId: "local",
-    trigger: "star_spike",
-    title: "+612 stars in 24h",
-    body: "anthropic/claude-code crossed your 500-star threshold.",
-    url: "/repo/anthropic/claude-code",
-    firedAt: new Date(NOW - 3 * DAYS).toISOString(),
-    readAt: new Date(NOW - 3 * DAYS + 30 * 60_000).toISOString(),
-    conditionValue: 612,
-    threshold: 500,
-  },
-  {
-    id: "evt-5",
-    ruleId: "rule-mcp",
-    repoId: "punkpeye/awesome-mcp-servers",
-    userId: "local",
-    trigger: "breakout_detected",
-    title: "Breakout: HN front page",
-    body: "punkpeye/awesome-mcp-servers hit the HN front page.",
-    url: "/repo/punkpeye/awesome-mcp-servers",
-    firedAt: new Date(NOW - 5 * DAYS).toISOString(),
-    readAt: new Date(NOW - 5 * DAYS + 4 * HOURS).toISOString(),
-    conditionValue: 1,
-    threshold: 1,
-  },
-];
-
-function formatAge(event: AlertEvent): string {
-  const t = Date.parse(event.firedAt);
-  if (!Number.isFinite(t)) return "—";
-  const diff = NOW - t;
-  if (diff < HOURS) return `${Math.max(1, Math.floor(diff / 60_000))}M`;
-  if (diff < DAYS) return `${Math.floor(diff / HOURS)}H`;
-  return `${Math.floor(diff / DAYS)}D`;
+// Best-effort cookie bootstrap so first-time visitors can read their feed.
+// Mirrors the /watchlist pattern — the alerts API derives userId from the
+// ss_user cookie via verifyUserAuth.
+async function ensureSessionCookie(): Promise<void> {
+  try {
+    await fetch("/api/auth/session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({}),
+      credentials: "include",
+      cache: "no-store",
+    });
+  } catch {
+    /* non-fatal */
+  }
 }
 
-function repoLabel(event: AlertEvent): string {
-  return event.repoId;
-}
+const DAY_MS = 86_400_000;
 
 export default function AlertsPage() {
-  const events = [...SEED_EVENTS].sort(
-    (a, b) => Date.parse(b.firedAt) - Date.parse(a.firedAt),
-  );
-  const rules = SEED_RULES;
+  useEffect(() => {
+    document.title = "Alerts — TrendingRepo";
+  }, []);
 
-  const unread = events.filter((e) => e.readAt === null).length;
-  const todayCount = events.filter(
-    (e) => NOW - Date.parse(e.firedAt) < DAYS,
-  ).length;
-  const enabledRules = rules.filter((r) => r.enabled).length;
-  const lastFiredAt = events.length > 0 ? events[0].firedAt : null;
+  const [hasHydrated, setHasHydrated] = useState(false);
+  const [rules, setRules] = useState<AlertRule[]>([]);
+  const [events, setEvents] = useState<AlertEvent[]>([]);
+  const [reposById, setReposById] = useState<Record<string, Repo>>({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setHasHydrated(true);
+  }, []);
+
+  const refreshRules = useCallback(async () => {
+    try {
+      const res = await fetch(
+        "/api/pipeline/alerts/rules",
+        USER_FETCH_INIT,
+      );
+      if (!res.ok) return;
+      const data = (await res.json()) as {
+        ok: boolean;
+        rules?: AlertRule[];
+      };
+      if (data.ok && data.rules) setRules(data.rules);
+    } catch (err) {
+      console.error("[alerts] rules fetch failed", err);
+    }
+  }, []);
+
+  const refreshEvents = useCallback(async () => {
+    try {
+      const res = await fetch("/api/pipeline/alerts", USER_FETCH_INIT);
+      if (!res.ok) return;
+      const data = (await res.json()) as {
+        ok: boolean;
+        events?: AlertEvent[];
+      };
+      if (data.ok && data.events) setEvents(data.events);
+    } catch (err) {
+      console.error("[alerts] events fetch failed", err);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!hasHydrated) return;
+    let active = true;
+    (async () => {
+      setLoading(true);
+      await ensureSessionCookie();
+      if (!active) return;
+      await Promise.all([refreshRules(), refreshEvents()]);
+      if (!active) return;
+      setLoading(false);
+    })();
+    return () => {
+      active = false;
+    };
+  }, [hasHydrated, refreshRules, refreshEvents]);
+
+  // Hydrate repo display names from the catalog. We collect every repoId
+  // referenced by rules + events, then resolve via /api/repos?ids=… so the
+  // primitives can render "anthropic/claude-code" instead of opaque ids.
+  const repoIdKey = useMemo(() => {
+    const ids = new Set<string>();
+    for (const r of rules) {
+      if (r.repoId) ids.add(r.repoId);
+    }
+    for (const e of events) {
+      if (e.repoId) ids.add(e.repoId);
+    }
+    return Array.from(ids).sort().join(",");
+  }, [rules, events]);
+
+  useEffect(() => {
+    if (!hasHydrated || repoIdKey === "") {
+      setReposById({});
+      return;
+    }
+    const controller = new AbortController();
+    (async () => {
+      try {
+        const res = await fetch(
+          `/api/repos?ids=${encodeURIComponent(repoIdKey)}`,
+          { signal: controller.signal },
+        );
+        if (!res.ok) throw new Error(`status ${res.status}`);
+        const data = (await res.json()) as { repos?: Repo[] };
+        const next: Record<string, Repo> = {};
+        for (const r of Array.isArray(data.repos) ? data.repos : []) {
+          next[r.id] = r;
+        }
+        setReposById(next);
+      } catch (err) {
+        if ((err as { name?: string }).name === "AbortError") return;
+        console.error("[alerts] repo names fetch failed", err);
+      }
+    })();
+    return () => controller.abort();
+  }, [repoIdKey, hasHydrated]);
+
+  const repoNamesById = useMemo(() => {
+    const map: Record<string, string> = {};
+    for (const r of Object.values(reposById)) map[r.id] = r.fullName;
+    return map;
+  }, [reposById]);
+
+  // -------------------------------------------------------------------------
+  // Mutations
+  // -------------------------------------------------------------------------
+
+  const handleToggleRule = useCallback(
+    (rule: AlertRule, next: boolean) => {
+      // Rules API doesn't expose PUT today; mirror /watchlist and keep the
+      // toggle local for visual affordance only.
+      setRules((prev) =>
+        prev.map((r) => (r.id === rule.id ? { ...r, enabled: next } : r)),
+      );
+    },
+    [],
+  );
+
+  const handleDeleteRule = useCallback(async (rule: AlertRule) => {
+    try {
+      const res = await fetch(
+        `/api/pipeline/alerts/rules?id=${encodeURIComponent(rule.id)}`,
+        { method: "DELETE", credentials: "include" },
+      );
+      const data = (await res.json().catch(() => ({ ok: false }))) as {
+        ok: boolean;
+        error?: string;
+      };
+      if (!res.ok || !data.ok) {
+        toastAlertError(data.error ?? "failed to delete alert");
+        return;
+      }
+      setRules((prev) => prev.filter((r) => r.id !== rule.id));
+      toastAlertDeleted();
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      toastAlertError(msg);
+    }
+  }, []);
+
+  const handleMarkRead = useCallback(async (event: AlertEvent) => {
+    try {
+      const res = await fetch("/api/pipeline/alerts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ eventId: event.id }),
+      });
+      const data = (await res.json().catch(() => ({ ok: false }))) as {
+        ok: boolean;
+      };
+      if (!res.ok || !data.ok) return;
+      setEvents((prev) =>
+        prev.map((e) =>
+          e.id === event.id
+            ? { ...e, readAt: new Date().toISOString() }
+            : e,
+        ),
+      );
+    } catch (err) {
+      console.error("[alerts] markRead failed", err);
+    }
+  }, []);
+
+  // -------------------------------------------------------------------------
+  // Derived metrics
+  // -------------------------------------------------------------------------
+
+  const activeRulesCount = rules.filter((r) => r.enabled).length;
+  const unreadCount = events.filter((e) => e.readAt === null).length;
+
+  const firedToday = useMemo(() => {
+    const cutoff = Date.now() - DAY_MS;
+    return events.filter((e) => {
+      const t = Date.parse(e.firedAt);
+      return Number.isFinite(t) && t >= cutoff;
+    }).length;
+  }, [events]);
+
+  const fired7d = useMemo(() => {
+    const cutoff = Date.now() - DAY_MS * 7;
+    return events.filter((e) => {
+      const t = Date.parse(e.firedAt);
+      return Number.isFinite(t) && t >= cutoff;
+    }).length;
+  }, [events]);
+
+  // Most recent fired event (events arrive newest-first from the store, but
+  // we sort defensively so verdict copy is always anchored to the latest).
+  const latestEvent = useMemo(() => {
+    let best: AlertEvent | null = null;
+    let bestT = -Infinity;
+    for (const e of events) {
+      const t = Date.parse(e.firedAt);
+      if (Number.isFinite(t) && t > bestT) {
+        bestT = t;
+        best = e;
+      }
+    }
+    return best;
+  }, [events]);
+
+  // Cooldowns — rules whose lastFiredAt is recent enough that the next fire
+  // is still gated by the rule's cooldownMinutes window.
+  const cooldownRules = useMemo(() => {
+    const now = Date.now();
+    return rules
+      .filter((r) => {
+        if (!r.lastFiredAt) return false;
+        const t = Date.parse(r.lastFiredAt);
+        if (!Number.isFinite(t)) return false;
+        return now - t < r.cooldownMinutes * 60_000;
+      })
+      .map((r) => {
+        const t = Date.parse(r.lastFiredAt as string);
+        const elapsedMin = Math.max(0, (now - t) / 60_000);
+        const remainingMin = Math.max(
+          0,
+          Math.round(r.cooldownMinutes - elapsedMin),
+        );
+        return { rule: r, remainingMin };
+      });
+  }, [rules]);
+
+  const verdictTone =
+    activeRulesCount === 0 ? "amber" : firedToday > 0 ? "money" : "acc";
 
   return (
-    <main className="home-surface">
-      <PageHead
+    <main className="home-surface alerts-page">
+      <ProfileTemplate
         crumb={
           <>
             <b>ALERTS</b> · TERMINAL · /ALERTS
           </>
         }
-        h1="Alerts inbox · trigger control."
-        lede="Per-repo alert rules + the live firing inbox. Toggle alerts from the watchlist row or any repo detail page; everything fires here in real time once the worker is wired (Phase 2)."
+        identity={
+          <div
+            style={{
+              marginTop: 8,
+              display: "flex",
+              flexDirection: "column",
+              gap: 6,
+            }}
+          >
+            <h1
+              className="v4-page-head__h1"
+              style={{ marginTop: 0, marginBottom: 4 }}
+            >
+              Alerts inbox.
+            </h1>
+            <p
+              className="v4-page-head__lede"
+              style={{ marginTop: 0, marginBottom: 0 }}
+            >
+              Movement triggers fire when your watched repos cross the
+              thresholds you set. Manage rules, mark events read, work the
+              tape.
+            </p>
+          </div>
+        }
         clock={
-          <>
-            <span className="big">{unread}</span>
-            <span className="muted">UNREAD · {events.length} TOTAL</span>
-            <LiveDot
-              tone={unread > 0 ? "money" : "amber"}
-              label={unread > 0 ? "LIVE" : "QUIET"}
-            />
-          </>
+          <span
+            style={{
+              fontFamily: "var(--font-geist-mono), monospace",
+              fontSize: 10,
+              color: "var(--v4-ink-300)",
+              textTransform: "uppercase",
+              letterSpacing: "0.08em",
+            }}
+          >
+            {activeRulesCount} active · {unreadCount} unread
+          </span>
         }
-      />
-
-      <VerdictRibbon
-        tone={unread > 0 ? "money" : "amber"}
-        stamp={{
-          eyebrow: "// ALERT TAPE",
-          headline: lastFiredAt
-            ? `LAST FIRED ${formatAge({ firedAt: lastFiredAt } as AlertEvent)} AGO`
-            : "QUIET",
-          sub: `${enabledRules} rule${enabledRules === 1 ? "" : "s"} active · ${rules.length - enabledRules} paused`,
-        }}
-        text={
-          unread > 0 ? (
-            <>
-              <b>{unread} unread</b> alert{unread === 1 ? "" : "s"} in your
-              inbox.{" "}
-              <span style={{ color: "var(--v4-violet)" }}>
-                {todayCount} today
-              </span>
-              . Worker fires every 30 min once Phase 2 ships — for now this
-              page renders seed events to validate the V4 chrome.
-            </>
-          ) : (
-            <>
-              No unread alerts. {rules.length} rule
-              {rules.length === 1 ? "" : "s"} configured;{" "}
-              <span style={{ color: "var(--v4-money)" }}>{enabledRules} active</span>.
-              Toggle a rule below or add new triggers from{" "}
-              <Link href="/watchlist" style={{ color: "var(--v4-acc)" }}>
-                /watchlist
-              </Link>
-              .
-            </>
-          )
-        }
-        actionHref="/watchlist"
-        actionLabel="WATCHLIST →"
-      />
-
-      <KpiBand
-        className="kpi-band"
-        cells={[
-          {
-            label: "UNREAD",
-            value: unread,
-            sub: "in inbox",
-            tone: unread > 0 ? "money" : "default",
-            pip: unread > 0 ? "var(--v4-money)" : "var(--v4-ink-300)",
-          },
-          {
-            label: "TODAY",
-            value: todayCount,
-            sub: "fired in 24h",
-            tone: "acc",
-            pip: "var(--v4-acc)",
-          },
-          {
-            label: "RULES",
-            value: rules.length,
-            sub: `${enabledRules} active`,
-            pip: "var(--v4-violet)",
-          },
-          {
-            label: "TOTAL FIRED",
-            value: events.length,
-            sub: "all time",
-            pip: "var(--v4-blue)",
-          },
-        ]}
-      />
-
-      <SectionHead
-        num="// 01"
-        title="Inbox"
-        meta={
-          <>
-            <b>{events.length}</b> events · grouped by recency
-          </>
-        }
-      />
-      <AlertInbox
-        events={events}
-        formatAge={formatAge}
-        repoLabel={repoLabel}
-      />
-
-      <SectionHead
-        num="// 02"
-        title="Trigger rules"
-        meta={
-          <>
-            <b>{enabledRules}</b>/{rules.length} active · cooldown enforced
-          </>
-        }
-      />
-      <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-        {rules.map((rule) => (
-          <AlertTriggerCard
-            key={rule.id}
-            rule={rule}
-            repoLabel={rule.repoId ?? rule.categoryId ?? "all repos"}
+        verdict={
+          <VerdictRibbon
+            tone={verdictTone}
+            stamp={{
+              eyebrow: "// VERDICT",
+              headline:
+                latestEvent && Number.isFinite(Date.parse(latestEvent.firedAt))
+                  ? `LAST FIRE · ${getRelativeTime(latestEvent.firedAt).toUpperCase()}`
+                  : activeRulesCount === 0
+                    ? "NO RULES"
+                    : "NO RECENT FIRES",
+              sub:
+                rules.length > 0
+                  ? `${activeRulesCount} of ${rules.length} rule${rules.length === 1 ? "" : "s"} active`
+                  : "no rules configured",
+            }}
+            text={
+              activeRulesCount === 0 ? (
+                <>
+                  No alert rules configured yet. Head to{" "}
+                  <Link
+                    href="/watchlist"
+                    style={{ color: "var(--v4-acc)", textDecoration: "none" }}
+                  >
+                    /watchlist
+                  </Link>{" "}
+                  to track repos and configure triggers.
+                </>
+              ) : latestEvent ? (
+                <>
+                  Last fire on{" "}
+                  <span style={{ color: "var(--v4-acc)" }}>
+                    {repoNamesById[latestEvent.repoId] ?? latestEvent.repoId}
+                  </span>{" "}
+                  — {latestEvent.title}.{" "}
+                  {firedToday > 0 ? (
+                    <>
+                      <b>{firedToday}</b> fire{firedToday === 1 ? "" : "s"}{" "}
+                      today, <b>{fired7d}</b> over 7d.
+                    </>
+                  ) : (
+                    <>{fired7d} fires over the last 7d.</>
+                  )}
+                </>
+              ) : (
+                <>
+                  All <b>{activeRulesCount}</b> rule
+                  {activeRulesCount === 1 ? "" : "s"} armed. No events fired
+                  yet — your thresholds may not have been crossed.
+                </>
+              )
+            }
+            actionHref="/watchlist"
+            actionLabel="MANAGE RULES →"
           />
-        ))}
-      </div>
+        }
+        kpiBand={
+          <KpiBand
+            cells={[
+              {
+                label: "Active rules",
+                value: String(activeRulesCount),
+                sub:
+                  rules.length > activeRulesCount
+                    ? `${rules.length - activeRulesCount} off`
+                    : "all enabled",
+                tone: activeRulesCount > 0 ? "money" : "default",
+              },
+              {
+                label: "Fired today",
+                value: String(firedToday),
+                sub: "24h window",
+                tone: firedToday > 0 ? "acc" : "default",
+              },
+              {
+                label: "Fired · 7d",
+                value: String(fired7d),
+                sub: "rolling week",
+                tone: fired7d > 0 ? "money" : "default",
+              },
+              {
+                label: "Unread",
+                value: String(unreadCount),
+                sub: unreadCount > 0 ? "needs attention" : "all read",
+                tone: unreadCount > 0 ? "amber" : "default",
+              },
+            ]}
+          />
+        }
+        mainPanels={
+          <>
+            <SectionHead
+              num="// 01"
+              title="Recent events"
+              meta={
+                <>
+                  {events.length} EVENT{events.length === 1 ? "" : "S"} ·{" "}
+                  <b>{unreadCount} UNREAD</b>
+                </>
+              }
+            />
+            {!hasHydrated || loading ? (
+              <LoadingLine label="// LOADING ALERT EVENTS…" />
+            ) : (
+              <AlertInbox
+                events={events}
+                repoLabel={(e) => repoNamesById[e.repoId] ?? e.repoId}
+                formatAge={(e) => getRelativeTime(e.firedAt)}
+                onMarkRead={handleMarkRead}
+                emptyLabel={
+                  rules.length === 0
+                    ? "No alerts fired yet — configure a rule on /watchlist to start receiving events."
+                    : "No alerts fired yet. Your rules are armed; events will appear here once thresholds are crossed."
+                }
+              />
+            )}
 
-      <SectionHead
-        num="// 03"
-        title="What fires here"
-        meta={<>8 trigger types · cross-source signal grade</>}
+            <SectionHead
+              num="// 02"
+              title="Active rules"
+              meta={
+                <>
+                  {rules.length} RULE{rules.length === 1 ? "" : "S"} ·{" "}
+                  <b>{activeRulesCount} ON</b>
+                </>
+              }
+            />
+            {loading ? (
+              <LoadingLine label="// LOADING RULES…" />
+            ) : rules.length === 0 ? (
+              <EmptyRulesState />
+            ) : (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 8,
+                }}
+              >
+                {rules.map((rule) => (
+                  <AlertTriggerCard
+                    key={rule.id}
+                    rule={rule}
+                    repoLabel={
+                      rule.repoId
+                        ? repoNamesById[rule.repoId] ?? rule.repoId
+                        : undefined
+                    }
+                    lastFiredLabel={
+                      rule.lastFiredAt
+                        ? getRelativeTime(rule.lastFiredAt)
+                        : undefined
+                    }
+                    onToggle={handleToggleRule}
+                    onDelete={handleDeleteRule}
+                  />
+                ))}
+              </div>
+            )}
+          </>
+        }
+        rightRail={
+          <>
+            <SectionHead num="// 03" title="Quick add" />
+            <QuickAddCallout />
+
+            <SectionHead
+              num="// 04"
+              title="Cooldowns"
+              meta={
+                cooldownRules.length > 0
+                  ? `${cooldownRules.length} GATED`
+                  : undefined
+              }
+            />
+            {cooldownRules.length === 0 ? (
+              <p
+                style={{
+                  fontSize: 12,
+                  color: "var(--v4-ink-300)",
+                  padding: "8px 0",
+                  margin: 0,
+                }}
+              >
+                No rules in cooldown. Rules re-arm immediately after firing
+                unless they crossed the threshold within the last cooldown
+                window.
+              </p>
+            ) : (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 6,
+                }}
+              >
+                {cooldownRules.map(({ rule, remainingMin }) => (
+                  <CooldownRow
+                    key={rule.id}
+                    label={
+                      rule.repoId
+                        ? repoNamesById[rule.repoId] ?? rule.repoId
+                        : "all repos"
+                    }
+                    trigger={rule.trigger}
+                    remainingMin={remainingMin}
+                  />
+                ))}
+              </div>
+            )}
+          </>
+        }
       />
-      <div
+    </main>
+  );
+}
+
+// -----------------------------------------------------------------------------
+// Local presentation helpers
+// -----------------------------------------------------------------------------
+
+function LoadingLine({ label }: { label: string }) {
+  return (
+    <div
+      style={{
+        fontFamily: "var(--font-geist-mono), monospace",
+        fontSize: 12,
+        color: "var(--v4-ink-300)",
+        padding: "16px 0",
+        textTransform: "uppercase",
+        letterSpacing: "0.06em",
+      }}
+    >
+      {label}
+    </div>
+  );
+}
+
+function EmptyRulesState() {
+  return (
+    <div
+      style={{
+        border: "1px dashed var(--v4-line-200)",
+        borderRadius: 4,
+        padding: "32px 24px",
+        textAlign: "center",
+        background: "var(--v4-bg-050)",
+      }}
+    >
+      <p
         style={{
-          padding: 20,
-          background: "var(--v4-bg-025)",
-          border: "1px solid var(--v4-line-100)",
-          borderRadius: 2,
-          fontSize: 13,
+          fontFamily: "var(--font-geist-mono), monospace",
+          fontSize: 11,
           color: "var(--v4-ink-300)",
-          lineHeight: 1.6,
+          textTransform: "uppercase",
+          letterSpacing: "0.08em",
+          margin: 0,
+          marginBottom: 8,
         }}
       >
-        <p style={{ marginBottom: 12, color: "var(--v4-ink-100)" }}>
-          <b>Phase 1 (today):</b> page surface live, seed events render so you
-          can see the chrome. <Link href="/watchlist" style={{ color: "var(--v4-acc)" }}>/watchlist</Link> +{" "}
-          <Link href="/repo/[owner]/[name]" style={{ color: "var(--v4-acc)" }}>repo detail</Link> have AlertToggle wired.
-        </p>
-        <p style={{ marginBottom: 12 }}>
-          <b style={{ color: "var(--v4-ink-100)" }}>Phase 2 (next):</b> worker
-          job at <code>apps/trendingrepo-worker/src/fetchers/alerts/</code>{" "}
-          evaluates rules every 30 min, writes events to Redis (
-          <code>alerts:&#123;userId&#125;:events</code>), and fans out via the{" "}
-          <code>BrowserAlertBridge</code> for real-time inbox updates without a
-          page refresh.
-        </p>
-        <p>
-          <b style={{ color: "var(--v4-ink-100)" }}>Trigger types:</b>{" "}
-          star_spike · rank_jump · breakout_detected · momentum_threshold ·
-          discussion_spike · new_release · daily_digest · weekly_digest.
-        </p>
+        {"// NO ALERT RULES"}
+      </p>
+      <p
+        style={{
+          fontSize: 13,
+          color: "var(--v4-ink-200)",
+          maxWidth: 360,
+          margin: "0 auto 16px",
+        }}
+      >
+        Track a repo on /watchlist, then configure a star-spike, release, or
+        rank-jump trigger. Rules fire as soon as their thresholds are
+        crossed.
+      </p>
+      <Link
+        href="/watchlist"
+        style={{
+          display: "inline-block",
+          fontFamily: "var(--font-geist-mono), monospace",
+          fontSize: 11,
+          padding: "6px 12px",
+          border: "1px solid var(--v4-line-300)",
+          borderRadius: 2,
+          color: "var(--v4-ink-100)",
+          background: "var(--v4-bg-050)",
+          textDecoration: "none",
+          textTransform: "uppercase",
+          letterSpacing: "0.06em",
+        }}
+      >
+        Configure on /watchlist →
+      </Link>
+    </div>
+  );
+}
+
+function QuickAddCallout() {
+  return (
+    <div
+      style={{
+        border: "1px solid var(--v4-line-200)",
+        borderRadius: 4,
+        padding: "12px 14px",
+        background: "var(--v4-bg-050)",
+        display: "flex",
+        flexDirection: "column",
+        gap: 8,
+      }}
+    >
+      <div
+        style={{
+          fontFamily: "var(--font-geist-mono), monospace",
+          fontSize: 10,
+          color: "var(--v4-ink-300)",
+          textTransform: "uppercase",
+          letterSpacing: "0.08em",
+        }}
+      >
+        {"// NEW RULE"}
       </div>
-    </main>
+      <p
+        style={{
+          fontSize: 12,
+          lineHeight: 1.5,
+          color: "var(--v4-ink-200)",
+          margin: 0,
+        }}
+      >
+        Rule creation lives next to each tracked repo. Toggle alerts on a
+        watchlist row to mint a default rule, then tune the threshold from
+        the trigger card.
+      </p>
+      <Link
+        href="/watchlist"
+        style={{
+          display: "inline-block",
+          fontFamily: "var(--font-geist-mono), monospace",
+          fontSize: 11,
+          padding: "6px 10px",
+          border: "1px solid var(--v4-line-300)",
+          borderRadius: 2,
+          color: "var(--v4-ink-100)",
+          textDecoration: "none",
+          textTransform: "uppercase",
+          letterSpacing: "0.06em",
+          alignSelf: "flex-start",
+        }}
+      >
+        Open /watchlist →
+      </Link>
+    </div>
+  );
+}
+
+function CooldownRow({
+  label,
+  trigger,
+  remainingMin,
+}: {
+  label: string;
+  trigger: string;
+  remainingMin: number;
+}) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+        padding: "8px 10px",
+        border: "1px solid var(--v4-line-200)",
+        borderRadius: 4,
+        background: "var(--v4-bg-050)",
+      }}
+    >
+      <span
+        style={{
+          fontFamily: "var(--font-geist-mono), monospace",
+          fontSize: 9,
+          color: "var(--v4-amber)",
+          textTransform: "uppercase",
+          letterSpacing: "0.08em",
+        }}
+      >
+        {trigger.replace(/_/g, " ")}
+      </span>
+      <span
+        style={{
+          flex: 1,
+          fontSize: 12,
+          color: "var(--v4-ink-100)",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          whiteSpace: "nowrap",
+        }}
+      >
+        {label}
+      </span>
+      <span
+        style={{
+          fontFamily: "var(--font-geist-mono), monospace",
+          fontSize: 10,
+          color: "var(--v4-ink-300)",
+          textTransform: "uppercase",
+          letterSpacing: "0.06em",
+        }}
+      >
+        {remainingMin}m left
+      </span>
+    </div>
   );
 }

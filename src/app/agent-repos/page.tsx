@@ -25,6 +25,7 @@ import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
 import { RankRow } from "@/components/ui/RankRow";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import { LetterAvatar } from "@/components/shared/LetterAvatar";
+import { Sparkline } from "@/components/shared/Sparkline";
 
 export const revalidate = 1800;
 
@@ -188,6 +189,15 @@ export default async function AgentReposPage() {
                   value: deltaLabel,
                   direction,
                   label: "24H",
+                  sparkline:
+                    repo.sparklineData && repo.sparklineData.length >= 2 ? (
+                      <Sparkline
+                        data={repo.sparklineData}
+                        width={72}
+                        height={20}
+                        positive={direction !== "down"}
+                      />
+                    ) : undefined,
                 }}
                 href={`/agent-repos/${slug}`}
                 first={index === 0}

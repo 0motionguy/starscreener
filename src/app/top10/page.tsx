@@ -33,6 +33,7 @@ import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
 import { RankRow } from "@/components/ui/RankRow";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import { LetterAvatar } from "@/components/shared/LetterAvatar";
+import { Sparkline } from "@/components/shared/Sparkline";
 
 // ISR — 10-minute cadence matches the V4 leaderboard surfaces. Underlying
 // readers refresh every 6 hours via cron; tighter cache wastes work
@@ -276,6 +277,15 @@ export default async function Top10RootPage() {
                           : item.deltaPct < 0
                             ? "down"
                             : "flat",
+                      sparkline:
+                        item.sparkline && item.sparkline.length >= 2 ? (
+                          <Sparkline
+                            data={item.sparkline}
+                            width={72}
+                            height={20}
+                            positive={(item.deltaPct ?? 0) >= 0}
+                          />
+                        ) : undefined,
                     }
                   : undefined
               }

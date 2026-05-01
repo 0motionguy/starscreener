@@ -421,7 +421,7 @@ export default function WatchlistPage() {
                   letterSpacing: "0.06em",
                 }}
               >
-                // LOADING WATCHLIST…
+                {"// LOADING WATCHLIST…"}
               </div>
             ) : watchedRepos.length === 0 ? (
               <EmptyTrackedState />
@@ -488,7 +488,7 @@ export default function WatchlistPage() {
                   letterSpacing: "0.06em",
                 }}
               >
-                // LOADING ALERT RULES…
+                {"// LOADING ALERT RULES…"}
               </div>
             ) : rules.length === 0 ? (
               <p
@@ -557,7 +557,7 @@ export default function WatchlistPage() {
                   letterSpacing: "0.06em",
                 }}
               >
-                // LOADING…
+                {"// LOADING…"}
               </div>
             ) : events.length === 0 ? (
               <p
@@ -619,7 +619,7 @@ function EmptyTrackedState() {
           marginBottom: 8,
         }}
       >
-        // WATCHLIST IS EMPTY
+        {"// WATCHLIST IS EMPTY"}
       </p>
       <p
         style={{

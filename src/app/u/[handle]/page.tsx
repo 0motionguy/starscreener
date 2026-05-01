@@ -508,7 +508,7 @@ function RecentActivityFeed({
         }}
       >
         {"// NO RECENT ACTIVITY"}
-"}      </div>
+      </div>
     );
   }
   return (
@@ -639,7 +639,7 @@ function TopRepoGrid({ items }: { items: TopRepoEntry[] }): JSX.Element {
         }}
       >
         {"// NO REPO REACTIONS YET"}
-"}      </div>
+      </div>
     );
   }
   return (
@@ -711,7 +711,7 @@ function AboutCard({
           }}
         >
           {"// NO BIO AVAILABLE"}
-"}        </p>
+        </p>
       )}
       {ghProfile ? (
         <dl
@@ -800,7 +800,7 @@ function LinksCard({
           }}
         >
           {"// NO PUBLIC LINKS"}
-"}        </p>
+        </p>
       ) : (
         <ul
           style={{

@@ -152,6 +152,14 @@ export interface EcosystemLeaderboardItem {
   installs7d?: number;
   installsPrev7d?: number;
   installsDelta7d?: number;
+  /** W5-SKILLS24H: 24h-old install count (skill-install-snapshot:prev:1d). */
+  installsPrev1d?: number;
+  /** W5-SKILLS24H: 24h installs delta — drives the "24h" tab ranking. */
+  installsDelta1d?: number;
+  /** W5-SKILLS24H: 30d-old install count. */
+  installsPrev30d?: number;
+  /** W5-SKILLS24H: 30d installs delta — drives the "30d" tab ranking. */
+  installsDelta30d?: number;
   derivativeRepoCount?: number;
   derivativeSampledAt?: string | null;
   derivativeSources?: string[];
@@ -298,6 +306,10 @@ interface SkillSideChannels {
   derivatives: Record<string, number>;
   derivativesMeta: Record<string, SkillDerivativeMeta>;
   installsPrev7d: Record<string, number>;
+  /** W5-SKILLS24H: 24h-old install snapshot for instant velocity. */
+  installsPrev1d: Record<string, number>;
+  /** W5-SKILLS24H: 30d-old install snapshot for sustained adoption. */
+  installsPrev30d: Record<string, number>;
   forksPrev7d: Record<string, number>;
   /**
    * Merged 7-day-old hotness snapshot keyed by lowercased item id, sourced
@@ -445,16 +457,52 @@ async function loadSkillDerivatives(): Promise<{
 }
 
 async function loadSkillInstallsPrev7d(): Promise<Record<string, number>> {
+  return loadSkillInstallsPrevWindow(7);
+}
+
+/**
+ * W5-SKILLS24H — 24h-old install snapshot. Mirrors loadSkillInstallsPrev7d
+ * but reads the 1-day-old slot. Powers the "instant velocity" component on
+ * the skill scorer + the 24h tab on /skills.
+ */
+async function loadSkillInstallsPrev1d(): Promise<Record<string, number>> {
+  return loadSkillInstallsPrevWindow(1);
+}
+
+/**
+ * W5-SKILLS24H — 30-day-old install snapshot. Powers the "sustained adoption"
+ * component on the skill scorer + the 30d tab on /skills.
+ */
+async function loadSkillInstallsPrev30d(): Promise<Record<string, number>> {
+  return loadSkillInstallsPrevWindow(30);
+}
+
+/**
+ * Read a windowed skill-install-snapshot. Tries the fixed slot key written
+ * by the worker fetcher (`skill-install-snapshot:prev:<Nd>`) first; falls
+ * back to the dated key (`skill-install-snapshot:<YYYY-MM-DD>`) for back-
+ * compat with the original prev7d-only deployment. When neither key is
+ * present yet (cold start), returns an empty map and the scorer drops the
+ * dependent component via weight renormalization.
+ */
+async function loadSkillInstallsPrevWindow(days: 1 | 7 | 30): Promise<Record<string, number>> {
   if (legacyScoringEnabled()) return {};
-  // 7-day-old snapshot. When the snapshot key isn't present yet (first 7
-  // days of the rolling window) we return an empty map and the scorer drops
-  // installsDelta7d via existing renormalization.
-  const d = new Date();
-  d.setUTCDate(d.getUTCDate() - 7);
-  const dateKey = d.toISOString().slice(0, 10);
   const store = getDataStore();
-  const result = await store.read<unknown>(`${SKILL_INSTALL_SNAPSHOT_PREFIX}:${dateKey}`);
-  const installs = asRecord(asRecord(result.data)?.installs);
+  // Slot-key path (preferred — single read, no date math).
+  const slot = await store.read<unknown>(
+    `${SKILL_INSTALL_SNAPSHOT_PREFIX}:prev:${days}d`,
+  );
+  let installs = asRecord(asRecord(slot.data)?.installs);
+  if (!installs || Object.keys(installs).length === 0) {
+    // Fallback to dated key.
+    const d = new Date();
+    d.setUTCDate(d.getUTCDate() - days);
+    const dateKey = d.toISOString().slice(0, 10);
+    const result = await store.read<unknown>(
+      `${SKILL_INSTALL_SNAPSHOT_PREFIX}:${dateKey}`,
+    );
+    installs = asRecord(asRecord(result.data)?.installs);
+  }
   if (!installs) return {};
   const out: Record<string, number> = {};
   for (const [slug, raw] of Object.entries(installs)) {
@@ -663,6 +711,8 @@ export async function getSkillsSignalData(): Promise<SkillsSignalData> {
     awesomeIndex,
     derivativeBundle,
     installsPrev7d,
+    installsPrev1d,
+    installsPrev30d,
     forksPrev7d,
     hotnessPrevSkill,
     hotnessPrevSkillsSh,
@@ -675,6 +725,8 @@ export async function getSkillsSignalData(): Promise<SkillsSignalData> {
     loadAwesomeSkillsIndex(),
     loadSkillDerivatives(),
     loadSkillInstallsPrev7d(),
+    loadSkillInstallsPrev1d(),
+    loadSkillInstallsPrev30d(),
     loadSkillForksPrev7d(),
     loadHotnessPrev7d("trending-skill"),
     loadHotnessPrev7d("trending-skill-sh"),
@@ -691,6 +743,8 @@ export async function getSkillsSignalData(): Promise<SkillsSignalData> {
     derivatives: derivativeBundle.counts,
     derivativesMeta: derivativeBundle.meta,
     installsPrev7d,
+    installsPrev1d,
+    installsPrev30d,
     forksPrev7d,
     hotnessPrev7d,
   };
@@ -1716,6 +1770,8 @@ function emptySkillSideChannels(): SkillSideChannels {
     derivatives: {},
     derivativesMeta: {},
     installsPrev7d: {},
+    installsPrev1d: {},
+    installsPrev30d: {},
     forksPrev7d: {},
     hotnessPrev7d: {},
   };
@@ -1744,4 +1800,117 @@ function bestSource(sources: DataSource[]): DataSource {
 function minFinite(values: number[]): number {
   const finite = values.filter(Number.isFinite);
   return finite.length > 0 ? Math.min(...finite) : 0;
+}
+
+// ---------------------------------------------------------------------------
+// W5-CATWINDOW — Category-metrics window readers.
+//
+// Producer: scripts/snapshot-category-metrics.mjs writes per-category
+// total-stars snapshots into Redis under
+//   `category-metrics-snapshot:24h | 7d | 30d`
+// with shape `{ items: { "<category-id>": metric_value, ... }, ts, basis }`.
+//
+// These readers expose Maps keyed by category-id so /categories surfaces
+// can compute deltas (current_total_stars - prev_total_stars) for any of
+// the three rolling windows.
+//
+// Cold-start: returns empty Map. UI falls back to lifetime totals.
+// All reads are best-effort; never throws — Redis miss returns empty Map.
+// Follows the refresh-hook convention from src/lib/trending.ts:
+// 30s rate-limit + in-flight dedupe.
+// ---------------------------------------------------------------------------
+
+const CATEGORY_METRICS_SNAPSHOT_PREFIX = "category-metrics-snapshot";
+const CATEGORY_METRICS_MIN_REFRESH_INTERVAL_MS = 30_000;
+
+type CategoryMetricsWindowKey = "24h" | "7d" | "30d";
+
+interface CategoryMetricsCacheEntry {
+  data: Map<string, number>;
+  fetchedAt: number;
+}
+
+const categoryMetricsCache: Record<
+  CategoryMetricsWindowKey,
+  CategoryMetricsCacheEntry | null
+> = {
+  "24h": null,
+  "7d": null,
+  "30d": null,
+};
+
+const categoryMetricsInflight: Record<
+  CategoryMetricsWindowKey,
+  Promise<Map<string, number>> | null
+> = {
+  "24h": null,
+  "7d": null,
+  "30d": null,
+};
+
+async function loadCategoryMetricsWindow(
+  windowKey: CategoryMetricsWindowKey,
+): Promise<Map<string, number>> {
+  const pending = categoryMetricsInflight[windowKey];
+  if (pending) return pending;
+  const cached = categoryMetricsCache[windowKey];
+  if (
+    cached &&
+    Date.now() - cached.fetchedAt < CATEGORY_METRICS_MIN_REFRESH_INTERVAL_MS
+  ) {
+    return cached.data;
+  }
+
+  const promise = (async (): Promise<Map<string, number>> => {
+    const store = getDataStore();
+    const result = await store.read<unknown>(
+      `${CATEGORY_METRICS_SNAPSHOT_PREFIX}:${windowKey}`,
+    );
+    const root = asRecord(result.data);
+    const items = asRecord(root?.items);
+    const map = new Map<string, number>();
+    if (items) {
+      for (const [categoryId, raw] of Object.entries(items)) {
+        const n = asNumber(raw);
+        if (n !== null) map.set(categoryId, n);
+      }
+    }
+    // Only swap into cache when we got real data; otherwise preserve
+    // last-known-good. Always populate on first read so subsequent calls
+    // skip the rate-limit window.
+    if (map.size > 0 || !categoryMetricsCache[windowKey]) {
+      categoryMetricsCache[windowKey] = { data: map, fetchedAt: Date.now() };
+    }
+    return categoryMetricsCache[windowKey]?.data ?? map;
+  })().finally(() => {
+    categoryMetricsInflight[windowKey] = null;
+  });
+
+  categoryMetricsInflight[windowKey] = promise;
+  return promise;
+}
+
+/**
+ * Map of `<category-id> -> total_stars_24h_ago`. Empty during cold-start
+ * (before the snapshot producer's first run, or when Redis is unavailable).
+ * Reader for the /categories 24h-window UI surface.
+ */
+export async function loadCategoryMetricsPrev1d(): Promise<Map<string, number>> {
+  return loadCategoryMetricsWindow("24h");
+}
+
+/**
+ * Map of `<category-id> -> total_stars_7d_ago`. Empty during cold-start.
+ * Reader for the /categories 7d-window (default) UI surface.
+ */
+export async function loadCategoryMetricsPrev7d(): Promise<Map<string, number>> {
+  return loadCategoryMetricsWindow("7d");
+}
+
+/**
+ * Map of `<category-id> -> total_stars_30d_ago`. Empty during cold-start.
+ * Reader for the /categories 30d-window UI surface.
+ */
+export async function loadCategoryMetricsPrev30d(): Promise<Map<string, number>> {
+  return loadCategoryMetricsWindow("30d");
 }

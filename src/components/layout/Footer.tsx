@@ -17,10 +17,19 @@ const FOOTER_LINKS = [
 
 export function Footer() {
   return (
-    <footer className="w-full bg-bg-primary px-4 md:px-6 py-6 pb-24 md:pb-6">
+    <footer
+      className="w-full px-4 md:px-6 py-6 pb-24 md:pb-6"
+      style={{ background: "var(--v4-bg-000)" }}
+    >
       <FooterBar as="div" className="mx-auto max-w-7xl">
-        <p className="text-xs text-text-muted">
-          <span className="font-mono font-medium text-text-tertiary">
+        <p
+          className="text-xs"
+          style={{ color: "var(--v4-ink-400)" }}
+        >
+          <span
+            className="font-mono font-medium"
+            style={{ color: "var(--v4-ink-300)" }}
+          >
             TrendingRepo
           </span>{" "}
           by{" "}
@@ -28,7 +37,8 @@ export function Footer() {
             href="https://agntdot.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-text-tertiary hover:text-text-secondary transition-colors"
+            className="transition-colors hover:[color:var(--v4-ink-200)]"
+            style={{ color: "var(--v4-ink-300)" }}
           >
             AGNTDOT.com
           </a>

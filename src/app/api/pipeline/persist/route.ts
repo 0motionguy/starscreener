@@ -9,6 +9,7 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 
 import { NextRequest, NextResponse } from "next/server";
+import * as Sentry from "@sentry/nextjs";
 
 import { persistPipeline, pipeline } from "@/lib/pipeline/pipeline";
 import {
@@ -29,6 +30,8 @@ export interface PersistResponse {
 }
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
+  Sentry.setTag("route", "api/pipeline/persist");
+
   const deny = authFailureResponse(verifyCronAuth(request));
   if (deny) return deny;
 
@@ -64,6 +67,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       files,
     });
   } catch (err) {
+    Sentry.captureException(err, {
+      tags: { route: "api/pipeline/persist" },
+    });
     const message = err instanceof Error ? err.message : String(err);
     return NextResponse.json(
       { ok: false, error: message },

@@ -30,6 +30,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import * as Sentry from "@sentry/nextjs";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import { parseBody } from "@/lib/api/parse-body";
@@ -141,6 +142,8 @@ interface ErrResponse {
 export async function POST(
   request: NextRequest,
 ): Promise<NextResponse<DeltaResponse | ErrResponse>> {
+  Sentry.setTag("route", "api/pipeline/deltas");
+
   const deny = authFailureResponse(verifyCronAuth(request));
   if (deny) return deny as NextResponse<ErrResponse>;
 
@@ -148,37 +151,51 @@ export async function POST(
   if (!parsed.ok) return parsed.response as NextResponse<ErrResponse>;
   const { repo, window } = parsed.data;
 
-  const store = getDataStore();
-  const [trendingResult, snapshotResult] = await Promise.all([
-    store.read<TrendingFileLike>("trending"),
-    store.read<SnapshotPayload>(computeSnapshotKey(window)),
-  ]);
+  Sentry.setTag("repo", repo);
+  Sentry.setTag("window", window);
 
-  const current = readCurrentStarsFromTrending(trendingResult.data, repo);
-  if (current === null) {
+  try {
+    const store = getDataStore();
+    const [trendingResult, snapshotResult] = await Promise.all([
+      store.read<TrendingFileLike>("trending"),
+      store.read<SnapshotPayload>(computeSnapshotKey(window)),
+    ]);
+
+    const current = readCurrentStarsFromTrending(trendingResult.data, repo);
+    if (current === null) {
+      return NextResponse.json(
+        { ok: false, error: `repo '${repo}' not found in trending payload` },
+        { status: 404 },
+      );
+    }
+
+    const prior = readPriorStarsFromSnapshot(snapshotResult.data, repo);
+    const delta = prior === null ? null : current - prior;
+    const fresh = trendingResult.fresh && snapshotResult.fresh && prior !== null;
+
+    const value: DeltaResponse = {
+      ok: true,
+      repo,
+      window,
+      current,
+      prior,
+      delta,
+      fresh,
+    };
+
+    // 25h TTL — covers a full 24h window plus 1h grace so a delayed producer
+    // tick never serves a stale-but-still-cached value.
+    await store.write(`deltas:${repo}:${window}`, value, { ttlSeconds: 90000 });
+
+    return NextResponse.json(value);
+  } catch (err) {
+    Sentry.captureException(err, {
+      tags: { route: "api/pipeline/deltas", repo, window },
+    });
+    const message = err instanceof Error ? err.message : String(err);
     return NextResponse.json(
-      { ok: false, error: `repo '${repo}' not found in trending payload` },
-      { status: 404 },
+      { ok: false, error: message },
+      { status: 500 },
     );
   }
-
-  const prior = readPriorStarsFromSnapshot(snapshotResult.data, repo);
-  const delta = prior === null ? null : current - prior;
-  const fresh = trendingResult.fresh && snapshotResult.fresh && prior !== null;
-
-  const value: DeltaResponse = {
-    ok: true,
-    repo,
-    window,
-    current,
-    prior,
-    delta,
-    fresh,
-  };
-
-  // 25h TTL — covers a full 24h window plus 1h grace so a delayed producer
-  // tick never serves a stale-but-still-cached value.
-  await store.write(`deltas:${repo}:${window}`, value, { ttlSeconds: 90000 });
-
-  return NextResponse.json(value);
 }

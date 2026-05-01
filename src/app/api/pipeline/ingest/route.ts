@@ -145,6 +145,7 @@ function parseBody(raw: unknown): {
 }
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
+  Sentry.setTag("route", "api/pipeline/ingest");
   const startedAt = Date.now();
 
   const deny = authFailureResponse(verifyCronAuth(request));
@@ -171,6 +172,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   const { fullNames: explicitFullNames, useMock, recomputeAfter } = parsed.value;
   const fullNames = explicitFullNames ?? autoDiscoverFullNames();
   const autoDiscovered = explicitFullNames === undefined;
+
+  Sentry.setTag("ingest.autoDiscovered", String(autoDiscovered));
+  Sentry.setTag("ingest.batchSize", String(fullNames.length));
 
   if (fullNames.length === 0) {
     return NextResponse.json(
@@ -230,6 +234,16 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       durationMs: Date.now() - startedAt,
     });
   } catch (err) {
+    Sentry.captureException(err, {
+      tags: {
+        route: "api/pipeline/ingest",
+        autoDiscovered: String(autoDiscovered),
+      },
+      extra: {
+        batchSize: fullNames.length,
+        recomputeAfter: recomputeAfter ?? true,
+      },
+    });
     const message = err instanceof Error ? err.message : String(err);
     return NextResponse.json(
       { ok: false, error: message },

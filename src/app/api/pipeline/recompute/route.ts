@@ -12,6 +12,7 @@
 // once the caller is authenticated.
 
 import { NextRequest, NextResponse } from "next/server";
+import * as Sentry from "@sentry/nextjs";
 import { pipeline } from "@/lib/pipeline/pipeline";
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 
@@ -31,6 +32,8 @@ const COOLDOWN_MS = 15_000;
 let lastFinishedAt = 0;
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
+  Sentry.setTag("route", "api/pipeline/recompute");
+
   const deny = authFailureResponse(verifyCronAuth(request));
   if (deny) return deny;
 
@@ -59,6 +62,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       durationMs: summary.durationMs,
     });
   } catch (err) {
+    Sentry.captureException(err, {
+      tags: { route: "api/pipeline/recompute", phase: "recomputeAll" },
+    });
     const message = err instanceof Error ? err.message : String(err);
     return NextResponse.json(
       { ok: false, error: message },

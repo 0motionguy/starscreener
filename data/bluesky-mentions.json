@@ -1,323 +1,107 @@
 {
-  "fetchedAt": "2026-05-01T00:08:12.351Z",
+  "fetchedAt": "2026-05-01T04:20:07.423Z",
   "windowDays": 7,
-  "scannedPosts": 199,
+  "scannedPosts": 300,
   "searchQuery": "github.com",
-  "pagesFetched": 2,
+  "pagesFetched": 3,
   "mentions": {
-    "rootsecdev/cve_2026_31431": {
-      "count7d": 2,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:a56dbiks5wmzacs5hsdsxw55/app.bsky.feed.post/3mkqoe6zxsg2s",
-        "cid": "bafyreifjrv77v46y5z7opekzgvh2jqaz4gdtp3brjy3x7pil6nmmyaxb3m",
-        "bskyUrl": "https://bsky.app/profile/mm-hacker-news.bsky.social/post/3mkqoe6zxsg2s",
-        "text": "Patch Your Kernel NOW: 732byte Python rootkit, cracks all distros since 2017 https://github.com/rootsecdev/cve_2026_31431",
-        "author": {
-          "handle": "mm-hacker-news.bsky.social",
-          "displayName": "Hacker News"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-30T22:35:20.010Z",
-        "hoursSincePosted": 1.55
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:a56dbiks5wmzacs5hsdsxw55/app.bsky.feed.post/3mkqoe6zxsg2s",
-          "cid": "bafyreifjrv77v46y5z7opekzgvh2jqaz4gdtp3brjy3x7pil6nmmyaxb3m",
-          "bskyUrl": "https://bsky.app/profile/mm-hacker-news.bsky.social/post/3mkqoe6zxsg2s",
-          "text": "Patch Your Kernel NOW: 732byte Python rootkit, cracks all distros since 2017 https://github.com/rootsecdev/cve_2026_31431",
-          "author": {
-            "handle": "mm-hacker-news.bsky.social",
-            "displayName": "Hacker News"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-30T22:35:20.010Z",
-          "createdUtc": 1777588520,
-          "ageHours": 1.55,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "rootsecdev/cve_2026_31431",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:jmuhjrotgvcquoaqtpcuxjii/app.bsky.feed.post/3mkqjsao2ek2d",
-          "cid": "bafyreifcitv3z7yhjjqrz2h4ish3fnuxl3iizmey2aasm66wn3tyf5f3kq",
-          "bskyUrl": "https://bsky.app/profile/hnws.bsky.social/post/3mkqjsao2ek2d",
-          "text": "Patch Your Kernel NOW: 732byte Python rootkit, cracks all distros since 2017 L: https://github.com/rootsecdev/cve_2026_31431 C: https://news.ycombinator.com/item?id=47968027 posted on 2026.04.30 at 16:48:48 (c=3, p=4)",
-          "author": {
-            "handle": "hnws.bsky.social",
-            "displayName": "HN"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-30T21:13:42.827464+00:00",
-          "createdUtc": 1777583622,
-          "ageHours": 2.91,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "rootsecdev/cve_2026_31431",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "openclaw/openclaw": {
-      "count7d": 6,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkqmu5d64x2i",
-        "cid": "bafyreievdgjxsgbssb4ozhpb4hjlyfix6s7z4yyoiigued3emxbosrnhwi",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkqmu5d64x2i",
-        "text": "🟠 OpenClaw v2026.4.29 ships active-run steering and people-aware memory controls OpenClaw just shipped v2026.4.29 with active-run steering turned on by default for messaging and automation flows, plus stricter... https://github.com/openclaw/openclaw/releases/tag/v2026.4.29 #AI #AgentWyre",
-        "author": {
-          "handle": "agentwyre.ai"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-30T22:08:26.715748+00:00",
-        "hoursSincePosted": 2
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkqmu5d64x2i",
-          "cid": "bafyreievdgjxsgbssb4ozhpb4hjlyfix6s7z4yyoiigued3emxbosrnhwi",
-          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkqmu5d64x2i",
-          "text": "🟠 OpenClaw v2026.4.29 ships active-run steering and people-aware memory controls OpenClaw just shipped v2026.4.29 with active-run steering turned on by default for messaging and automation flows, plus stricter... https://github.com/openclaw/openclaw/releases/tag/v2026.4.29 #AI #AgentWyre",
-          "author": {
-            "handle": "agentwyre.ai"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-30T22:08:26.715748+00:00",
-          "createdUtc": 1777586906,
-          "ageHours": 2,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo",
-            "is-announcement"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "openclaw/openclaw",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkqmotk4mf2h",
-          "cid": "bafyreiajxvkfmliuimk5xfvmoeuohnetjg2izhxhykqjgg7pncdllckjry",
-          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkqmotk4mf2h",
-          "text": "🟠 OpenClaw v2026.4.29 ships active-run steering and people-aware memory controls OpenClaw just shipped v2026.4.29 with active-run steering turned on by default for messaging and automation flows, plus stricter... https://github.com/openclaw/openclaw/releases/tag/v2026.4.29 #AI #AgentWyre",
-          "author": {
-            "handle": "agentwyre.ai"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-30T22:05:28.709535+00:00",
-          "createdUtc": 1777586728,
-          "ageHours": 2.05,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo",
-            "is-announcement"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "openclaw/openclaw",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkqlqqwzsm2s",
-          "cid": "bafyreiczqtlethmh7fj6osikw36rlwjrjqknzkthnzjsepslor4qt3xhzi",
-          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkqlqqwzsm2s",
-          "text": "🟠 OpenClaw v2026.4.29 ships active-run steering and people-aware memory controls OpenClaw just shipped v2026.4.29 with active-run steering turned on by default for messaging and automation flows, plus stricter... https://github.com/openclaw/openclaw/releases/tag/v2026.4.29 #AI #AgentWyre",
-          "author": {
-            "handle": "agentwyre.ai"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-30T21:48:39.288516+00:00",
-          "createdUtc": 1777585719,
-          "ageHours": 2.33,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo",
-            "is-announcement"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "openclaw/openclaw",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkqksysnpq2h",
-          "cid": "bafyreihclwxgd3totuc6alyebxdne46vrtzqe6nyfdwt7o474h3jkw5xhm",
-          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkqksysnpq2h",
-          "text": "🟠 OpenClaw v2026.4.29 ships active-run steering and people-aware memory controls OpenClaw just shipped v2026.4.29 with active-run steering turned on by default for messaging and automation flows, plus stricter... https://github.com/openclaw/openclaw/releases/tag/v2026.4.29 #AI #AgentWyre",
-          "author": {
-            "handle": "agentwyre.ai"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-30T21:32:01.267191+00:00",
-          "createdUtc": 1777584721,
-          "ageHours": 2.6,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo",
-            "is-announcement"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "openclaw/openclaw",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkqjwbxqoo2l",
-          "cid": "bafyreid7r35le3lmcslt6ca3rq25dzz5l4egp44tmyjymasajjznwhfco4",
-          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkqjwbxqoo2l",
-          "text": "🟠 OpenClaw v2026.4.29 ships active-run steering and people-aware memory controls OpenClaw just shipped v2026.4.29 with active-run steering turned on by default for messaging and automation flows, plus stricter... https://github.com/openclaw/openclaw/releases/tag/v2026.4.29 #AI #AgentWyre",
-          "author": {
-            "handle": "agentwyre.ai"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-30T21:15:57.154247+00:00",
-          "createdUtc": 1777583757,
-          "ageHours": 2.87,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo",
-            "is-announcement"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "openclaw/openclaw",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkqjigwisa2l",
-          "cid": "bafyreiamujwsiioeezqnyg553dxqzmtinbndmqww22huio6ar5lxg7humi",
-          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkqjigwisa2l",
-          "text": "🟠 OpenClaw v2026.4.29 ships active-run steering and people-aware memory controls OpenClaw just shipped v2026.4.29 with active-run steering turned on by default for messaging and automation flows, plus stricter... https://github.com/openclaw/openclaw/releases/tag/v2026.4.29 #AI #AgentWyre",
-          "author": {
-            "handle": "agentwyre.ai"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-30T21:08:12.686251+00:00",
-          "createdUtc": 1777583292,
-          "ageHours": 3,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo",
-            "is-announcement"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "openclaw/openclaw",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "anthropics/claude-code": {
+    "Uzaaft/libghostty-rs": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 3,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:n2wtla6czvo6xdohffxnarld/app.bsky.feed.post/3mkqmqfz5wl2f",
-        "cid": "bafyreicarmehtpezxp5f72qrs6lwiy4kr3vdr3dbfn74qayubhnos5vl5y",
-        "bskyUrl": "https://bsky.app/profile/winsontang.com/post/3mkqmqfz5wl2f",
-        "text": "On March 6th, Anthropic made a significant update by downgrading the cache TTL. This change aims to enhance performance and reliability. Stay tuned for further developments as they optimize their systems! #TechUpdate #Anthropic https://github.com/anthropics/claude-code/issues/46829",
+        "uri": "at://did:plc:k644h4rq5bjfzcetgsa6tuby/app.bsky.feed.post/3mkr3tgu7w22f",
+        "cid": "bafyreibdeqwfcecwttp4u7ee2a4sozgr6a4eu5a47lryngu2na2o5udkve",
+        "bskyUrl": "https://bsky.app/profile/natalie.sh/post/3mkr3tgu7w22f",
+        "text": "if ur making a terminal wrapper in rust this is such a decent crate to use i think: github.com/Uzaaft/libgh...",
         "author": {
-          "handle": "winsontang.com",
-          "displayName": "Winson Tang"
+          "handle": "natalie.sh",
+          "displayName": "midwest emo fan"
         },
-        "likeCount": 0,
+        "likeCount": 3,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-04-30T22:06:22.781Z",
-        "hoursSincePosted": 2.03
+        "createdAt": "2026-05-01T02:36:30.513Z",
+        "hoursSincePosted": 1.73
       },
       "posts": [
         {
-          "uri": "at://did:plc:n2wtla6czvo6xdohffxnarld/app.bsky.feed.post/3mkqmqfz5wl2f",
-          "cid": "bafyreicarmehtpezxp5f72qrs6lwiy4kr3vdr3dbfn74qayubhnos5vl5y",
-          "bskyUrl": "https://bsky.app/profile/winsontang.com/post/3mkqmqfz5wl2f",
-          "text": "On March 6th, Anthropic made a significant update by downgrading the cache TTL. This change aims to enhance performance and reliability. Stay tuned for further developments as they optimize their systems! #TechUpdate #Anthropic https://github.com/anthropics/claude-code/issues/46829",
+          "uri": "at://did:plc:k644h4rq5bjfzcetgsa6tuby/app.bsky.feed.post/3mkr3tgu7w22f",
+          "cid": "bafyreibdeqwfcecwttp4u7ee2a4sozgr6a4eu5a47lryngu2na2o5udkve",
+          "bskyUrl": "https://bsky.app/profile/natalie.sh/post/3mkr3tgu7w22f",
+          "text": "if ur making a terminal wrapper in rust this is such a decent crate to use i think: github.com/Uzaaft/libgh...",
           "author": {
-            "handle": "winsontang.com",
-            "displayName": "Winson Tang"
+            "handle": "natalie.sh",
+            "displayName": "midwest emo fan"
           },
-          "likeCount": 0,
+          "likeCount": 3,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-04-30T22:06:22.781Z",
-          "createdUtc": 1777586782,
-          "ageHours": 2.03,
-          "trendingScore": 0,
+          "createdAt": "2026-05-01T02:36:30.513Z",
+          "createdUtc": 1777602990,
+          "ageHours": 1.73,
+          "trendingScore": 3,
           "content_tags": [
             "has-github-repo"
           ],
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "anthropics/claude-code",
+              "fullName": "Uzaaft/libghostty-rs",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "mentionsByRepoId": {
+    "uzaaft--libghostty-rs": {
+      "count7d": 1,
+      "likesSum7d": 3,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:k644h4rq5bjfzcetgsa6tuby/app.bsky.feed.post/3mkr3tgu7w22f",
+        "cid": "bafyreibdeqwfcecwttp4u7ee2a4sozgr6a4eu5a47lryngu2na2o5udkve",
+        "bskyUrl": "https://bsky.app/profile/natalie.sh/post/3mkr3tgu7w22f",
+        "text": "if ur making a terminal wrapper in rust this is such a decent crate to use i think: github.com/Uzaaft/libgh...",
+        "author": {
+          "handle": "natalie.sh",
+          "displayName": "midwest emo fan"
+        },
+        "likeCount": 3,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-01T02:36:30.513Z",
+        "hoursSincePosted": 1.73
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:k644h4rq5bjfzcetgsa6tuby/app.bsky.feed.post/3mkr3tgu7w22f",
+          "cid": "bafyreibdeqwfcecwttp4u7ee2a4sozgr6a4eu5a47lryngu2na2o5udkve",
+          "bskyUrl": "https://bsky.app/profile/natalie.sh/post/3mkr3tgu7w22f",
+          "text": "if ur making a terminal wrapper in rust this is such a decent crate to use i think: github.com/Uzaaft/libgh...",
+          "author": {
+            "handle": "natalie.sh",
+            "displayName": "midwest emo fan"
+          },
+          "likeCount": 3,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T02:36:30.513Z",
+          "createdUtc": 1777602990,
+          "ageHours": 1.73,
+          "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Uzaaft/libghostty-rs",
               "matchType": "url",
               "confidence": 1
             }
@@ -328,19 +112,9 @@
   },
   "leaderboard": [
     {
-      "fullName": "openclaw/openclaw",
-      "count7d": 6,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "rootsecdev/cve_2026_31431",
-      "count7d": 2,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "anthropics/claude-code",
+      "fullName": "Uzaaft/libghostty-rs",
       "count7d": 1,
-      "likesSum7d": 0
+      "likesSum7d": 3
     }
   ]
 }

@@ -29,7 +29,7 @@ export function Header() {
 
             <span className="flex flex-col leading-none">
               <span className="brand-name inline-flex items-center leading-none">
-                TRENDING<span style={{ color: "var(--acc)" }}>REPO</span>
+                TRENDING<span style={{ color: "var(--v4-acc)" }}>REPO</span>
               </span>
               <span
                 aria-hidden="true"

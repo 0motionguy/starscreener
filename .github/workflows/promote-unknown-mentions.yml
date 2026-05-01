@@ -1,19 +1,24 @@
-name: Refresh dev.to signals
+name: Promote unknown mentions
+
+# Daily compaction of data/unknown-mentions.jsonl into a ranked top-N JSON
+# (data/unknown-mentions-promoted.json) for the admin discovery UI. Closes the
+# discovery loop: hourly scrapers fill the lake, this job surfaces what they
+# caught.
 
 on:
   schedule:
-    - cron: "30 8 * * *"
+    - cron: "30 4 * * *"
   workflow_dispatch:
 
 permissions:
   contents: write
 
 concurrency:
-  group: devto-refresh
+  group: promote-unknown-mentions
   cancel-in-progress: false
 
 jobs:
-  scrape:
+  promote:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -28,26 +33,21 @@ jobs:
           cache: "npm"
 
       - name: Install dependencies
-        # Defensive: scripts/scrape-devto.mjs imports _data-store-write.mjs
-        # which dynamic-imports `ioredis` when REDIS_URL is set. (PR #9
-        # boundary.)
         run: npm ci
 
-      - name: Refresh dev.to mentions + AI-tag trending
-        env:
-          DEVTO_API_KEY: ${{ secrets.DEVTO_API_KEY }}
-        run: node scripts/scrape-devto.mjs
+      - name: Promote top-N unknown mentions
+        run: node scripts/promote-unknown-mentions.mjs
 
       - name: Commit if changed
         run: |
           git config user.name  "trendingrepo-bot"
           git config user.email "bot@trendingrepo.local"
-          git add data/devto-mentions.json data/devto-trending.json data/_meta/devto.json data/unknown-mentions.jsonl
+          git add data/unknown-mentions-promoted.json
           if git diff --quiet --staged; then
             echo "no changes - skipping commit"
             exit 0
           fi
           TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-          git commit -m "chore(data): refresh dev.to signals ${TS}"
+          git commit -m "chore(data): promote unknown mentions ${TS}"
           git pull --rebase origin main
           git push

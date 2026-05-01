@@ -17,7 +17,8 @@ import { fileURLToPath } from "url";
 import pLimit from "p-limit";
 import { fetchWithTimeout, sleep } from "./_fetch-json.mjs";
 import { fetchArticleData } from "./_funding-article.mjs";
-import { extractGithubRepoFullNames } from "./_github-repo-links.mjs";
+import { extractGithubRepoFullNames, extractUnknownRepoCandidates } from "./_github-repo-links.mjs";
+import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 
@@ -653,6 +654,23 @@ async function main() {
   console.log(
     `[funding] wrote ${allSignals.length} signals (${extractedCount} with extraction, ${enrichedCount} enriched) to ${outputPath}${redisInfo}`,
   );
+
+  // F3 unknown-mentions lake — every github URL surfaced in funding articles
+  // (headlines + descriptions) gets fed to the promotion-job pipeline.
+  // OSS-funding rounds often mention the funded repo by URL.
+  const unknownsAccumulator = new Set();
+  for (const signal of allSignals) {
+    const blob = `${signal.headline ?? ""} ${signal.description ?? ""}`;
+    for (const u of extractUnknownRepoCandidates(blob, null)) {
+      unknownsAccumulator.add(u);
+    }
+  }
+  if (unknownsAccumulator.size > 0) {
+    await appendUnknownMentions(
+      Array.from(unknownsAccumulator, (fullName) => ({ source: "funding-news", fullName })),
+    );
+    console.log(`[funding] lake: ${unknownsAccumulator.size} candidates → data/unknown-mentions.jsonl`);
+  }
 }
 
 // Try to find a better company name from article text

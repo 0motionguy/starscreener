@@ -155,6 +155,9 @@ export class PostgresMentionStore implements MentionStore {
   saveAggregate(_agg: SocialAggregate): void {
     throw NOT_IMPLEMENTED;
   }
+  reassociate(_oldRepoId: string, _newRepoId: string): void {
+    throw NOT_IMPLEMENTED;
+  }
 }
 
 // ---------------------------------------------------------------------------

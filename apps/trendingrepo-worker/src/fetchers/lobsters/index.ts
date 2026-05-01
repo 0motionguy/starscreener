@@ -9,7 +9,7 @@
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { writeDataStore } from '../../lib/redis.js';
-import { extractGithubRepoFullNames } from '../../lib/util/github-repo-links.js';
+import { extractAllRepoMentions } from '../../lib/util/github-repo-links.js';
 import { loadTrackedRepos } from '../../lib/util/tracked-repos.js';
 
 const USER_AGENT =
@@ -81,7 +81,7 @@ function normalizeStory(
   const trendingScore = score / Math.pow(ageHours + 2, 1.5);
 
   const blob = `${title}\n${url}\n${description}`;
-  const linkedLower = extractGithubRepoFullNames(blob, tracked.size > 0 ? tracked : null);
+  const linkedLower = extractAllRepoMentions(blob, tracked.size > 0 ? tracked : null);
   const linkedRepos = Array.from(linkedLower, (lower) => ({
     fullName: tracked.get(lower) ?? lower,
     matchType: 'url' as const,

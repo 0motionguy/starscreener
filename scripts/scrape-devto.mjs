@@ -41,10 +41,25 @@ import {
   recentRepoRows,
 } from "./_tracked-repos.mjs";
 import {
-  extractGithubRepoFullNames,
+  extractAllRepoMentions,
+  extractUnknownRepoCandidates,
   normalizeGithubFullName,
 } from "./_github-repo-links.mjs";
+import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+
+// F3 unknown-mentions accumulator — per-run Set populated inside the
+// extractRepoMentions wrapper. Flushed at end of main() so the lake
+// gets every github.com URL we couldn't attribute to a tracked repo.
+const unknownsAccumulator = new Set();
+
+function slugIdFromFullName(fullName) {
+  return String(fullName)
+    .toLowerCase()
+    .replace(/\//g, "--")
+    .replace(/\./g, "-")
+    .replace(/[^a-z0-9-]/g, "");
+}
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
@@ -75,7 +90,10 @@ export function normalizeFullName(owner, name) {
 }
 
 export function extractRepoMentions(text, trackedLower) {
-  return extractGithubRepoFullNames(text, trackedLower);
+  for (const u of extractUnknownRepoCandidates(text, trackedLower)) {
+    unknownsAccumulator.add(u);
+  }
+  return extractAllRepoMentions(text, trackedLower);
 }
 
 export function computeTrendingScore(reactions, comments, publishedAtIso, nowMs = Date.now()) {
@@ -373,6 +391,9 @@ async function main() {
     discoverySlices: DEVTO_DISCOVERY_SLICES,
     sliceCounts,
     mentions,
+    mentionsByRepoId: Object.fromEntries(
+      Object.entries(mentions).map(([fullName, value]) => [slugIdFromFullName(fullName), value]),
+    ),
     leaderboard,
   };
   const trendingPayload = {
@@ -401,6 +422,13 @@ async function main() {
     `  trending articles: ${trendingArticles.length} ` +
       `(mode: ${bodyFetchMode}, slices: ${DEVTO_DISCOVERY_SLICES.length}, tags: ${DEVTO_PRIORITY_TAGS.length})`,
   );
+
+  if (unknownsAccumulator.size > 0) {
+    await appendUnknownMentions(
+      Array.from(unknownsAccumulator, (fullName) => ({ source: "devto", fullName })),
+    );
+    log(`unknown candidates: ${unknownsAccumulator.size} (lake: data/unknown-mentions.jsonl)`);
+  }
 }
 
 // Direct-run guard: must require argv[1] to be a non-empty path. The naive

@@ -1,43 +1,45 @@
 {
-  "fetchedAt": "2026-05-01T18:14:29.060Z",
+  "fetchedAt": "2026-05-01T21:09:28.934Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
-    "ggml-org/llama.cpp": {
+    "Adam-CAD/CADAM": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkspunekm32g",
-        "cid": "bafyreibsod65ynd4z4cxqf4fx7o2frez6qjsn3dnd2tfjgdf6raiulcgvi",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkspunekm32g",
-        "text": "🟠 llama.cpp adds mixed-quant Flash Attention support to its Vulkan coopmat2 path llama.cpp build b8995 adds asymmetric Flash Attention support in the Vulkan coopmat2 path, enabling mixed quantization combinations that were... https://github.com/ggml-org/llama.cpp/releases/tag/b8995 #AI #AgentWyre",
+        "uri": "at://did:plc:mwh42v5a756u5huo3qdis3ed/app.bsky.feed.post/3mksz6hviyxb2",
+        "cid": "bafyreicpxonx6ytv2k3avbqgtp3hjcormtuizuhzdhzf3pvbxxiipsef7u",
+        "bskyUrl": "https://bsky.app/profile/henk.waag.social.ap.brid.gy/post/3mksz6hviyxb2",
+        "text": "https://github.com/Adam-CAD/CADAM ⛮ The Open Source Text to CAD Web App ⛮ Features: - Describe your 3D model in plain English - Upload images to guide model generation - See your model update instantly with Three.js -Automatically identifies adjustable […] [Original post on waag.social]",
         "author": {
-          "handle": "agentwyre.ai"
+          "handle": "henk.waag.social.ap.brid.gy",
+          "displayName": "henk ✅"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-01T18:07:44.701018+00:00",
+        "createdAt": "2026-05-01T20:54:07.000Z",
         "hoursSincePosted": 0.5
       },
       "posts": [
         {
-          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkspunekm32g",
-          "cid": "bafyreibsod65ynd4z4cxqf4fx7o2frez6qjsn3dnd2tfjgdf6raiulcgvi",
-          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkspunekm32g",
-          "text": "🟠 llama.cpp adds mixed-quant Flash Attention support to its Vulkan coopmat2 path llama.cpp build b8995 adds asymmetric Flash Attention support in the Vulkan coopmat2 path, enabling mixed quantization combinations that were... https://github.com/ggml-org/llama.cpp/releases/tag/b8995 #AI #AgentWyre",
+          "uri": "at://did:plc:mwh42v5a756u5huo3qdis3ed/app.bsky.feed.post/3mksz6hviyxb2",
+          "cid": "bafyreicpxonx6ytv2k3avbqgtp3hjcormtuizuhzdhzf3pvbxxiipsef7u",
+          "bskyUrl": "https://bsky.app/profile/henk.waag.social.ap.brid.gy/post/3mksz6hviyxb2",
+          "text": "https://github.com/Adam-CAD/CADAM ⛮ The Open Source Text to CAD Web App ⛮ Features: - Describe your 3D model in plain English - Upload images to guide model generation - See your model update instantly with Three.js -Automatically identifies adjustable […] [Original post on waag.social]",
           "author": {
-            "handle": "agentwyre.ai"
+            "handle": "henk.waag.social.ap.brid.gy",
+            "displayName": "henk ✅"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-01T18:07:44.701018+00:00",
-          "createdUtc": 1777658864,
+          "createdAt": "2026-05-01T20:54:07.000Z",
+          "createdUtc": 1777668847,
           "ageHours": 0.5,
           "trendingScore": 0,
           "content_tags": [
@@ -46,7 +48,59 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "ggml-org/llama.cpp",
+              "fullName": "Adam-CAD/CADAM",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "zeroclaw-labs/zeroclaw": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:n76bbphkeqxirgpyjxiznxqj/app.bsky.feed.post/3mksymg4msc2x",
+        "cid": "bafyreiaxb6zt4iu4z7w7eiv5wk3jxbezakukxsvrqjvnvnpqpl3ml2jmvu",
+        "bskyUrl": "https://bsky.app/profile/jperlow.bsky.social/post/3mksymg4msc2x",
+        "text": "Named contributor to Zeroclaw 0.7.4 today—proud to be part of this release with solid improvements and stability fixes. Rust-based agent running in ~5MB RAM, ideal for edge agentic deployments and lightweight apps. github.com/zeroclaw-lab... #Zeroclaw #RustLang #EdgeAI",
+        "author": {
+          "handle": "jperlow.bsky.social",
+          "displayName": "Jason Perlow"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-01T20:44:13.109Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:n76bbphkeqxirgpyjxiznxqj/app.bsky.feed.post/3mksymg4msc2x",
+          "cid": "bafyreiaxb6zt4iu4z7w7eiv5wk3jxbezakukxsvrqjvnvnpqpl3ml2jmvu",
+          "bskyUrl": "https://bsky.app/profile/jperlow.bsky.social/post/3mksymg4msc2x",
+          "text": "Named contributor to Zeroclaw 0.7.4 today—proud to be part of this release with solid improvements and stability fixes. Rust-based agent running in ~5MB RAM, ideal for edge agentic deployments and lightweight apps. github.com/zeroclaw-lab... #Zeroclaw #RustLang #EdgeAI",
+          "author": {
+            "handle": "jperlow.bsky.social",
+            "displayName": "Jason Perlow"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-01T20:44:13.109Z",
+          "createdUtc": 1777668253,
+          "ageHours": 0.5,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "zeroclaw-labs/zeroclaw",
               "matchType": "url",
               "confidence": 1
             }
@@ -55,26 +109,110 @@
       ]
     },
     "Lum1104/Understand-Anything": {
-      "count7d": 2,
+      "count7d": 5,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mkspimbuhk25",
-        "cid": "bafyreiduv3jix6bn2mwxbzum4azxnrxksi27blyhrtlupa7te7yt7pfypa",
-        "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mkspimbuhk25",
-        "text": "Understand Anything https://github.com/Lum1104/Understand-Anything",
+        "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mksy4ko52d2k",
+        "cid": "bafyreigxhofj5eidxfpugxlx5yztdpgrvyz3izz3s7ajai3ayqhval4llu",
+        "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mksy4ko52d2k",
+        "text": "Understand Anything https://github.com/Lum1104/Understand-Anything (https://news.ycombinator.com/item?id=47977470)",
         "author": {
-          "handle": "hnbot.gsuscs.xyz",
-          "displayName": "HackerNews Compilator"
+          "handle": "betterhn50.e-work.xyz",
+          "displayName": "Hacker News 50"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-01T18:01:01.670Z",
-        "hoursSincePosted": 0.5
+        "createdAt": "2026-05-01T20:35:20.685Z",
+        "hoursSincePosted": 0.57
       },
       "posts": [
+        {
+          "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mksy4ko52d2k",
+          "cid": "bafyreigxhofj5eidxfpugxlx5yztdpgrvyz3izz3s7ajai3ayqhval4llu",
+          "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mksy4ko52d2k",
+          "text": "Understand Anything https://github.com/Lum1104/Understand-Anything (https://news.ycombinator.com/item?id=47977470)",
+          "author": {
+            "handle": "betterhn50.e-work.xyz",
+            "displayName": "Hacker News 50"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T20:35:20.685Z",
+          "createdUtc": 1777667720,
+          "ageHours": 0.57,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Lum1104/Understand-Anything",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:6clcp32vg7hejrq4v7hff3gs/app.bsky.feed.post/3mkswfilhko24",
+          "cid": "bafyreigeiffmzbsmpl7ij3fcrpevfak43wuyhxwkndmljuoe7mfubzmh6i",
+          "bskyUrl": "https://bsky.app/profile/hackernewstop5.bsky.social/post/3mkswfilhko24",
+          "text": "Understand Anything #HackerNews https://github.com/Lum1104/Understand-Anything",
+          "author": {
+            "handle": "hackernewstop5.bsky.social",
+            "displayName": "HackerNewsTop5"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T20:04:33.268Z",
+          "createdUtc": 1777665873,
+          "ageHours": 1.08,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Lum1104/Understand-Anything",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mkst3flwy52p",
+          "cid": "bafyreicsozant4zawmfld523qs2zs2cosqlz4wlrbhgyd7j7tqvvvcexqi",
+          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mkst3flwy52p",
+          "text": "Understand Anything https://github.com/Lum1104/Understand-Anything (https://news.ycombinator.com/item?id=47977470)",
+          "author": {
+            "handle": "betterhn20.e-work.xyz",
+            "displayName": "Hacker News 20"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T19:05:12.284Z",
+          "createdUtc": 1777662312,
+          "ageHours": 2.07,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Lum1104/Understand-Anything",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mkspimbuhk25",
           "cid": "bafyreiduv3jix6bn2mwxbzum4azxnrxksi27blyhrtlupa7te7yt7pfypa",
@@ -89,7 +227,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T18:01:01.670Z",
           "createdUtc": 1777658461,
-          "ageHours": 0.5,
+          "ageHours": 3.14,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -117,7 +255,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T17:55:12.317892+00:00",
           "createdUtc": 1777658112,
-          "ageHours": 0.5,
+          "ageHours": 3.24,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -126,6 +264,394 @@
           "linkedRepos": [
             {
               "fullName": "Lum1104/Understand-Anything",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "graykode/abtop": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:tuovdf4ql53zt4tgpfxaer7z/app.bsky.feed.post/3mksxkty2wc2s",
+        "cid": "bafyreigrxsewiqhpub6cb56uhmjcspfss362f6gokcwnpd444zlwzuqede",
+        "bskyUrl": "https://bsky.app/profile/ekropotin.bsky.social/post/3mksxkty2wc2s",
+        "text": "1/2 [abtop](github.com/graykode/abtop) is a very handy TUI for monitoring agent's sessions. I think I've found the perfect way to integrate into #tmux - centric workflows:",
+        "author": {
+          "handle": "ekropotin.bsky.social",
+          "displayName": "Evgeny Kropotin"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-01T20:25:26.789Z",
+        "hoursSincePosted": 0.73
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:tuovdf4ql53zt4tgpfxaer7z/app.bsky.feed.post/3mksxkty2wc2s",
+          "cid": "bafyreigrxsewiqhpub6cb56uhmjcspfss362f6gokcwnpd444zlwzuqede",
+          "bskyUrl": "https://bsky.app/profile/ekropotin.bsky.social/post/3mksxkty2wc2s",
+          "text": "1/2 [abtop](github.com/graykode/abtop) is a very handy TUI for monitoring agent's sessions. I think I've found the perfect way to integrate into #tmux - centric workflows:",
+          "author": {
+            "handle": "ekropotin.bsky.social",
+            "displayName": "Evgeny Kropotin"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T20:25:26.789Z",
+          "createdUtc": 1777667126,
+          "ageHours": 0.73,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "graykode/abtop",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "awalol/DS5Dongle": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:2c54s5gfttam7oumcdkkopbu/app.bsky.feed.post/3mksvg55zxk2p",
+        "cid": "bafyreiggqk7wti6j5gemmluic3oqpz2zcijy4xnietvi5aroidfr3aqrzu",
+        "bskyUrl": "https://bsky.app/profile/rayneyoruka.yorukasworld.org/post/3mksvg55zxk2p",
+        "text": "github.com/awalol/DS5Do...",
+        "author": {
+          "handle": "rayneyoruka.yorukasworld.org",
+          "displayName": "𝕲𝖎𝖗𝖑𝖞𝖕𝖔𝖕 𝖔𝖋 𝕺𝖓𝖎 ⛩️"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-01T19:47:01.167Z",
+        "hoursSincePosted": 1.37
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:2c54s5gfttam7oumcdkkopbu/app.bsky.feed.post/3mksvg55zxk2p",
+          "cid": "bafyreiggqk7wti6j5gemmluic3oqpz2zcijy4xnietvi5aroidfr3aqrzu",
+          "bskyUrl": "https://bsky.app/profile/rayneyoruka.yorukasworld.org/post/3mksvg55zxk2p",
+          "text": "github.com/awalol/DS5Do...",
+          "author": {
+            "handle": "rayneyoruka.yorukasworld.org",
+            "displayName": "𝕲𝖎𝖗𝖑𝖞𝖕𝖔𝖕 𝖔𝖋 𝕺𝖓𝖎 ⛩️"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T19:47:01.167Z",
+          "createdUtc": 1777664821,
+          "ageHours": 1.37,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "awalol/DS5Dongle",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "webadderallorg/Recordly": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:h4pw4ukmg4q5iuvc4comj6yv/app.bsky.feed.post/3mkstn5my5g22",
+        "cid": "bafyreihyhlv6g3ybo7wvwijri3ctyo6fv3nqitswgqtnmemsknnxiy62j4",
+        "bskyUrl": "https://bsky.app/profile/githubprojects.bsky.social/post/3mkstn5my5g22",
+        "text": "Explore more: github.com/webadderall...",
+        "author": {
+          "handle": "githubprojects.bsky.social",
+          "displayName": "GitHub Projects"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-01T19:15:08.846747Z",
+        "hoursSincePosted": 1.91
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:h4pw4ukmg4q5iuvc4comj6yv/app.bsky.feed.post/3mkstn5my5g22",
+          "cid": "bafyreihyhlv6g3ybo7wvwijri3ctyo6fv3nqitswgqtnmemsknnxiy62j4",
+          "bskyUrl": "https://bsky.app/profile/githubprojects.bsky.social/post/3mkstn5my5g22",
+          "text": "Explore more: github.com/webadderall...",
+          "author": {
+            "handle": "githubprojects.bsky.social",
+            "displayName": "GitHub Projects"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T19:15:08.846747Z",
+          "createdUtc": 1777662908,
+          "ageHours": 1.91,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "webadderallorg/Recordly",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "darrylmorley/whatcable": {
+      "count7d": 4,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:5ny2yyrvukferphydimr3rmb/app.bsky.feed.post/3mkst2h27xk2w",
+        "cid": "bafyreieppyujecs5axbiblpfbi6ey2xi76qcy6apap7ols3dqbzdjtmjfy",
+        "bskyUrl": "https://bsky.app/profile/jonbc.bsky.social/post/3mkst2h27xk2w",
+        "text": "Someone made WhatCable to fix this. See github.com/darrylmorley... Discussed on HN (news.ycombinator.com/item?id=4797...)",
+        "author": {
+          "handle": "jonbc.bsky.social",
+          "displayName": "Jonathan Carlson"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-01T19:04:41.391Z",
+        "hoursSincePosted": 2.08
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:5ny2yyrvukferphydimr3rmb/app.bsky.feed.post/3mkst2h27xk2w",
+          "cid": "bafyreieppyujecs5axbiblpfbi6ey2xi76qcy6apap7ols3dqbzdjtmjfy",
+          "bskyUrl": "https://bsky.app/profile/jonbc.bsky.social/post/3mkst2h27xk2w",
+          "text": "Someone made WhatCable to fix this. See github.com/darrylmorley... Discussed on HN (news.ycombinator.com/item?id=4797...)",
+          "author": {
+            "handle": "jonbc.bsky.social",
+            "displayName": "Jonathan Carlson"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T19:04:41.391Z",
+          "createdUtc": 1777662281,
+          "ageHours": 2.08,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "darrylmorley/whatcable",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:j5jiovhowtgvvuvr2shke2ae/app.bsky.feed.post/3mksrvsavch2g",
+          "cid": "bafyreibxaqdfb6pyomw7ew4xmd5njmuk4kx7mzye7y77fw4gycnbtww4ya",
+          "bskyUrl": "https://bsky.app/profile/betterhn300.e-work.xyz/post/3mksrvsavch2g",
+          "text": "Show HN: WhatCable, a tiny menu bar app for inspecting USB-C cables https://github.com/darrylmorley/whatcable (https://news.ycombinator.com/item?id=47972511)",
+          "author": {
+            "handle": "betterhn300.e-work.xyz",
+            "displayName": "Hacker News 300"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T18:44:10.905Z",
+          "createdUtc": 1777661050,
+          "ageHours": 2.42,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "darrylmorley/whatcable",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:d76ifp32sz6xqg7tvk5msqwn/app.bsky.feed.post/3mksrjmi3t52i",
+          "cid": "bafyreibu4q6ytxkf5s52a6acbqgu4ujbtw6325udu67lphivctqzq3aj24",
+          "bskyUrl": "https://bsky.app/profile/hot.hn/post/3mksrjmi3t52i",
+          "text": "📰 Show HN: WhatCable, a tiny menu bar app for inspecting USB-C cables 🔗 https://github.com/darrylmorley/whatcable 💬 Discuss on HN",
+          "author": {
+            "handle": "hot.hn",
+            "displayName": "Hacker News Hot 100"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T18:37:22.847Z",
+          "createdUtc": 1777660642,
+          "ageHours": 2.54,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "darrylmorley/whatcable",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:l5gupr4kifwasjek7vblnoy2/app.bsky.feed.post/3mksnad4zhu2y",
+          "cid": "bafyreigegj6jfwk6c63n4oyixz3adag6ycv6v5nbfjxjmvbm56rfnnrhwq",
+          "bskyUrl": "https://bsky.app/profile/hn.rbrt.fr/post/3mksnad4zhu2y",
+          "text": "Show HN: WhatCable, a tiny menu bar app for inspecting USB-C cables https://github.com/darrylmorley/whatcable https://news.ycombinator.com/item?id=47972511",
+          "author": {
+            "handle": "hn.rbrt.fr",
+            "displayName": "Hacker News RSS"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T17:20:36Z",
+          "createdUtc": 1777656036,
+          "ageHours": 3.81,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "darrylmorley/whatcable",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "Tracer-Cloud/opensre": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:uwdw4rthvdkclv7n2skldjnm/app.bsky.feed.post/3mksswtrpeq2i",
+        "cid": "bafyreifj6ydxcdsvomkl7s54hycb2gve6on4gpazmdrpkrpi2j7kihaf3q",
+        "bskyUrl": "https://bsky.app/profile/jeremymorgan.com/post/3mksswtrpeq2i",
+        "text": "Open-source SRE agents that pull from Datadog, correlate logs across your stack, and post RCAs to Slack. Ships with synthetic incident tests so you can validate before it touches prod. One-line install. github.com/Tracer-Cloud...",
+        "author": {
+          "handle": "jeremymorgan.com",
+          "displayName": "Jeremy Morgan"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-01T19:02:39.389Z",
+        "hoursSincePosted": 2.11
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:uwdw4rthvdkclv7n2skldjnm/app.bsky.feed.post/3mksswtrpeq2i",
+          "cid": "bafyreifj6ydxcdsvomkl7s54hycb2gve6on4gpazmdrpkrpi2j7kihaf3q",
+          "bskyUrl": "https://bsky.app/profile/jeremymorgan.com/post/3mksswtrpeq2i",
+          "text": "Open-source SRE agents that pull from Datadog, correlate logs across your stack, and post RCAs to Slack. Ships with synthetic incident tests so you can validate before it touches prod. One-line install. github.com/Tracer-Cloud...",
+          "author": {
+            "handle": "jeremymorgan.com",
+            "displayName": "Jeremy Morgan"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T19:02:39.389Z",
+          "createdUtc": 1777662159,
+          "ageHours": 2.11,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Tracer-Cloud/opensre",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "ggml-org/llama.cpp": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkspunekm32g",
+        "cid": "bafyreibsod65ynd4z4cxqf4fx7o2frez6qjsn3dnd2tfjgdf6raiulcgvi",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkspunekm32g",
+        "text": "🟠 llama.cpp adds mixed-quant Flash Attention support to its Vulkan coopmat2 path llama.cpp build b8995 adds asymmetric Flash Attention support in the Vulkan coopmat2 path, enabling mixed quantization combinations that were... https://github.com/ggml-org/llama.cpp/releases/tag/b8995 #AI #AgentWyre",
+        "author": {
+          "handle": "agentwyre.ai"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-01T18:07:44.701018+00:00",
+        "hoursSincePosted": 3.03
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkspunekm32g",
+          "cid": "bafyreibsod65ynd4z4cxqf4fx7o2frez6qjsn3dnd2tfjgdf6raiulcgvi",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkspunekm32g",
+          "text": "🟠 llama.cpp adds mixed-quant Flash Attention support to its Vulkan coopmat2 path llama.cpp build b8995 adds asymmetric Flash Attention support in the Vulkan coopmat2 path, enabling mixed quantization combinations that were... https://github.com/ggml-org/llama.cpp/releases/tag/b8995 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T18:07:44.701018+00:00",
+          "createdUtc": 1777658864,
+          "ageHours": 3.03,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ggml-org/llama.cpp",
               "matchType": "url",
               "confidence": 1
             }
@@ -151,7 +677,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-01T17:55:40.545Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 3.23
       },
       "posts": [
         {
@@ -168,7 +694,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T17:55:40.545Z",
           "createdUtc": 1777658140,
-          "ageHours": 0.5,
+          "ageHours": 3.23,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -196,7 +722,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T17:00:06.062974+00:00",
           "createdUtc": 1777654806,
-          "ageHours": 1.24,
+          "ageHours": 4.16,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -205,113 +731,6 @@
           "linkedRepos": [
             {
               "fullName": "mattpocock/skills",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "darrylmorley/whatcable": {
-      "count7d": 3,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:l5gupr4kifwasjek7vblnoy2/app.bsky.feed.post/3mksnad4zhu2y",
-        "cid": "bafyreigegj6jfwk6c63n4oyixz3adag6ycv6v5nbfjxjmvbm56rfnnrhwq",
-        "bskyUrl": "https://bsky.app/profile/hn.rbrt.fr/post/3mksnad4zhu2y",
-        "text": "Show HN: WhatCable, a tiny menu bar app for inspecting USB-C cables https://github.com/darrylmorley/whatcable https://news.ycombinator.com/item?id=47972511",
-        "author": {
-          "handle": "hn.rbrt.fr",
-          "displayName": "Hacker News RSS"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-01T17:20:36Z",
-        "hoursSincePosted": 0.9
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:l5gupr4kifwasjek7vblnoy2/app.bsky.feed.post/3mksnad4zhu2y",
-          "cid": "bafyreigegj6jfwk6c63n4oyixz3adag6ycv6v5nbfjxjmvbm56rfnnrhwq",
-          "bskyUrl": "https://bsky.app/profile/hn.rbrt.fr/post/3mksnad4zhu2y",
-          "text": "Show HN: WhatCable, a tiny menu bar app for inspecting USB-C cables https://github.com/darrylmorley/whatcable https://news.ycombinator.com/item?id=47972511",
-          "author": {
-            "handle": "hn.rbrt.fr",
-            "displayName": "Hacker News RSS"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T17:20:36Z",
-          "createdUtc": 1777656036,
-          "ageHours": 0.9,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "darrylmorley/whatcable",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:ngq4y7h2tlxtn6qi6zokimms/app.bsky.feed.post/3mksg4r2fiq2t",
-          "cid": "bafyreibj4jnlukqtet2orzb6n7eeufhzd4au3h2xva2tznlfiq7hahmvei",
-          "bskyUrl": "https://bsky.app/profile/newsyc250.bsky.social/post/3mksg4r2fiq2t",
-          "text": "Show HN: WhatCable, a tiny menu bar app for inspecting USB-C cables https://github.com/darrylmorley/whatcable (http://news.ycombinator.com/item?id=47972511)",
-          "author": {
-            "handle": "newsyc250.bsky.social",
-            "displayName": "Hacker News 250 Points"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T18:13:19+03:00",
-          "createdUtc": 1777648399,
-          "ageHours": 3.02,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "darrylmorley/whatcable",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:tnfqyyktoyszfco5lcxnyiax/app.bsky.feed.post/3mksbnopv242m",
-          "cid": "bafyreihm2a6a2t2jtqbib2hjip27ez4wstptt3sx7pwbwglaa33rug77ky",
-          "bskyUrl": "https://bsky.app/profile/newsyc200.bsky.social/post/3mksbnopv242m",
-          "text": "Show HN: WhatCable, a tiny menu bar app for inspecting USB-C cables https://github.com/darrylmorley/whatcable (http://news.ycombinator.com/item?id=47972511)",
-          "author": {
-            "handle": "newsyc200.bsky.social",
-            "displayName": "Hacker News 200 Points"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T16:53:19+03:00",
-          "createdUtc": 1777643599,
-          "ageHours": 4.35,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "darrylmorley/whatcable",
               "matchType": "url",
               "confidence": 1
             }
@@ -337,7 +756,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-01T18:40:29+02:00",
-        "hoursSincePosted": 1.57
+        "hoursSincePosted": 4.48
       },
       "posts": [
         {
@@ -354,7 +773,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T18:40:29+02:00",
           "createdUtc": 1777653629,
-          "ageHours": 1.57,
+          "ageHours": 4.48,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -389,7 +808,7 @@
         "repostCount": 1,
         "replyCount": 0,
         "createdAt": "2026-05-01T16:37:20.392Z",
-        "hoursSincePosted": 1.62
+        "hoursSincePosted": 4.54
       },
       "posts": [
         {
@@ -406,7 +825,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T16:37:20.392Z",
           "createdUtc": 1777653440,
-          "ageHours": 1.62,
+          "ageHours": 4.54,
           "trendingScore": 3,
           "content_tags": [
             "has-github-repo"
@@ -440,7 +859,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-01T15:55:01.666Z",
-        "hoursSincePosted": 2.32
+        "hoursSincePosted": 5.24
       },
       "posts": [
         {
@@ -457,7 +876,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T15:55:01.666Z",
           "createdUtc": 1777650901,
-          "ageHours": 2.32,
+          "ageHours": 5.24,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -472,297 +891,44 @@
           ]
         }
       ]
-    },
-    "NVlabs/GR00T-WholeBodyControl": {
-      "count7d": 1,
-      "likesSum7d": 4,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:kbkxlq3pev226dltcsrlf56o/app.bsky.feed.post/3mkshtmdc7c2q",
-        "cid": "bafyreidqtc3vcioqipcspzjtikujgmvg6iusq4o6t4tt7dspn3o2dchlyq",
-        "bskyUrl": "https://bsky.app/profile/chrlaf.bsky.social/post/3mkshtmdc7c2q",
-        "text": "- A unified smart primitive interface for locomotion, object interaction, and scene interaction, giving creators fine-grained control over generated behaviors. Code: lnkd.in/gmb9VuKx Paper: github.com/NVlabs/GR00T...",
-        "author": {
-          "handle": "chrlaf.bsky.social",
-          "displayName": "Christian Laforte"
-        },
-        "likeCount": 4,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-01T15:43:56.079Z",
-        "hoursSincePosted": 2.51
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:kbkxlq3pev226dltcsrlf56o/app.bsky.feed.post/3mkshtmdc7c2q",
-          "cid": "bafyreidqtc3vcioqipcspzjtikujgmvg6iusq4o6t4tt7dspn3o2dchlyq",
-          "bskyUrl": "https://bsky.app/profile/chrlaf.bsky.social/post/3mkshtmdc7c2q",
-          "text": "- A unified smart primitive interface for locomotion, object interaction, and scene interaction, giving creators fine-grained control over generated behaviors. Code: lnkd.in/gmb9VuKx Paper: github.com/NVlabs/GR00T...",
-          "author": {
-            "handle": "chrlaf.bsky.social",
-            "displayName": "Christian Laforte"
-          },
-          "likeCount": 4,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T15:43:56.079Z",
-          "createdUtc": 1777650236,
-          "ageHours": 2.51,
-          "trendingScore": 4,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "NVlabs/GR00T-WholeBodyControl",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "garrytan/gbrain": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mksfqz5e7v2y",
-        "cid": "bafyreifb57vklocyudhtss7upmkkr5paydk2r5m7y3hoqw52zfxixqhqsi",
-        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mksfqz5e7v2y",
-        "text": "Mine is still Apple I level - it's 2 hours to set it up, it's duct tape and solder to make it work, but boy does it work well when you got it going It's called GBrain https://github.com/garrytan/gbrain",
-        "author": {
-          "handle": "garrytan-mirr.selfhosted.social",
-          "displayName": "Garry Tan [UNOFFICIAL]"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-01T14:58:35.000Z",
-        "hoursSincePosted": 3.27
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mksfqz5e7v2y",
-          "cid": "bafyreifb57vklocyudhtss7upmkkr5paydk2r5m7y3hoqw52zfxixqhqsi",
-          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mksfqz5e7v2y",
-          "text": "Mine is still Apple I level - it's 2 hours to set it up, it's duct tape and solder to make it work, but boy does it work well when you got it going It's called GBrain https://github.com/garrytan/gbrain",
-          "author": {
-            "handle": "garrytan-mirr.selfhosted.social",
-            "displayName": "Garry Tan [UNOFFICIAL]"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T14:58:35.000Z",
-          "createdUtc": 1777647515,
-          "ageHours": 3.27,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "garrytan/gbrain",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "garrytan/gstack": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mkse55pfjn2y",
-        "cid": "bafyreiemdc4rv6aq4ctncq2uhfmfbsuv7zc6qv4c6t5vvghfsfgzb725de",
-        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mkse55pfjn2y",
-        "text": "https://github.com/garrytan/gstack",
-        "author": {
-          "handle": "garrytan-mirr.selfhosted.social",
-          "displayName": "Garry Tan [UNOFFICIAL]"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-01T14:29:15.000Z",
-        "hoursSincePosted": 3.75
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mkse55pfjn2y",
-          "cid": "bafyreiemdc4rv6aq4ctncq2uhfmfbsuv7zc6qv4c6t5vvghfsfgzb725de",
-          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mkse55pfjn2y",
-          "text": "https://github.com/garrytan/gstack",
-          "author": {
-            "handle": "garrytan-mirr.selfhosted.social",
-            "displayName": "Garry Tan [UNOFFICIAL]"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T14:29:15.000Z",
-          "createdUtc": 1777645755,
-          "ageHours": 3.75,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "garrytan/gstack",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "watany-dev/gitreal": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3mksdgnlmza2l",
-        "cid": "bafyreid24y3zo6xwxdhieu5vmt227ldpmisb6be227bb7cthrrdddmbyva",
-        "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3mksdgnlmza2l",
-        "text": "GitHub - watany-dev/gitreal https://github.com/watany-dev/gitreal",
-        "author": {
-          "handle": "tech-trending.bsky.social",
-          "displayName": "Tech Trending"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-01T14:25:11.014Z",
-        "hoursSincePosted": 3.82
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3mksdgnlmza2l",
-          "cid": "bafyreid24y3zo6xwxdhieu5vmt227ldpmisb6be227bb7cthrrdddmbyva",
-          "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3mksdgnlmza2l",
-          "text": "GitHub - watany-dev/gitreal https://github.com/watany-dev/gitreal",
-          "author": {
-            "handle": "tech-trending.bsky.social",
-            "displayName": "Tech Trending"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T14:25:11.014Z",
-          "createdUtc": 1777645511,
-          "ageHours": 3.82,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "watany-dev/gitreal",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "cjpais/Handy": {
-      "count7d": 1,
-      "likesSum7d": 2,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:q4qncp24gret5uriyumcq2nf/app.bsky.feed.post/3mksbok4tgc2q",
-        "cid": "bafyreidt2ewfnky7xdvwzlrp56onxz3eq2oyeeiaueojfxngz4apvgzfgy",
-        "bskyUrl": "https://bsky.app/profile/richie.zilahi.fi/post/3mksbok4tgc2q",
-        "text": "by handy you mean this one right? github.com/cjpais/handy",
-        "author": {
-          "handle": "richie.zilahi.fi",
-          "displayName": "zilahir"
-        },
-        "likeCount": 2,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-01T13:53:48.356Z",
-        "hoursSincePosted": 4.34
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:q4qncp24gret5uriyumcq2nf/app.bsky.feed.post/3mksbok4tgc2q",
-          "cid": "bafyreidt2ewfnky7xdvwzlrp56onxz3eq2oyeeiaueojfxngz4apvgzfgy",
-          "bskyUrl": "https://bsky.app/profile/richie.zilahi.fi/post/3mksbok4tgc2q",
-          "text": "by handy you mean this one right? github.com/cjpais/handy",
-          "author": {
-            "handle": "richie.zilahi.fi",
-            "displayName": "zilahir"
-          },
-          "likeCount": 2,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T13:53:48.356Z",
-          "createdUtc": 1777643628,
-          "ageHours": 4.34,
-          "trendingScore": 2,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "cjpais/Handy",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
     }
   },
   "mentionsByRepoId": {
-    "ggml-org--llama-cpp": {
+    "adam-cad--cadam": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkspunekm32g",
-        "cid": "bafyreibsod65ynd4z4cxqf4fx7o2frez6qjsn3dnd2tfjgdf6raiulcgvi",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkspunekm32g",
-        "text": "🟠 llama.cpp adds mixed-quant Flash Attention support to its Vulkan coopmat2 path llama.cpp build b8995 adds asymmetric Flash Attention support in the Vulkan coopmat2 path, enabling mixed quantization combinations that were... https://github.com/ggml-org/llama.cpp/releases/tag/b8995 #AI #AgentWyre",
+        "uri": "at://did:plc:mwh42v5a756u5huo3qdis3ed/app.bsky.feed.post/3mksz6hviyxb2",
+        "cid": "bafyreicpxonx6ytv2k3avbqgtp3hjcormtuizuhzdhzf3pvbxxiipsef7u",
+        "bskyUrl": "https://bsky.app/profile/henk.waag.social.ap.brid.gy/post/3mksz6hviyxb2",
+        "text": "https://github.com/Adam-CAD/CADAM ⛮ The Open Source Text to CAD Web App ⛮ Features: - Describe your 3D model in plain English - Upload images to guide model generation - See your model update instantly with Three.js -Automatically identifies adjustable […] [Original post on waag.social]",
         "author": {
-          "handle": "agentwyre.ai"
+          "handle": "henk.waag.social.ap.brid.gy",
+          "displayName": "henk ✅"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-01T18:07:44.701018+00:00",
+        "createdAt": "2026-05-01T20:54:07.000Z",
         "hoursSincePosted": 0.5
       },
       "posts": [
         {
-          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkspunekm32g",
-          "cid": "bafyreibsod65ynd4z4cxqf4fx7o2frez6qjsn3dnd2tfjgdf6raiulcgvi",
-          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkspunekm32g",
-          "text": "🟠 llama.cpp adds mixed-quant Flash Attention support to its Vulkan coopmat2 path llama.cpp build b8995 adds asymmetric Flash Attention support in the Vulkan coopmat2 path, enabling mixed quantization combinations that were... https://github.com/ggml-org/llama.cpp/releases/tag/b8995 #AI #AgentWyre",
+          "uri": "at://did:plc:mwh42v5a756u5huo3qdis3ed/app.bsky.feed.post/3mksz6hviyxb2",
+          "cid": "bafyreicpxonx6ytv2k3avbqgtp3hjcormtuizuhzdhzf3pvbxxiipsef7u",
+          "bskyUrl": "https://bsky.app/profile/henk.waag.social.ap.brid.gy/post/3mksz6hviyxb2",
+          "text": "https://github.com/Adam-CAD/CADAM ⛮ The Open Source Text to CAD Web App ⛮ Features: - Describe your 3D model in plain English - Upload images to guide model generation - See your model update instantly with Three.js -Automatically identifies adjustable […] [Original post on waag.social]",
           "author": {
-            "handle": "agentwyre.ai"
+            "handle": "henk.waag.social.ap.brid.gy",
+            "displayName": "henk ✅"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-01T18:07:44.701018+00:00",
-          "createdUtc": 1777658864,
+          "createdAt": "2026-05-01T20:54:07.000Z",
+          "createdUtc": 1777668847,
           "ageHours": 0.5,
           "trendingScore": 0,
           "content_tags": [
@@ -771,7 +937,59 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "ggml-org/llama.cpp",
+              "fullName": "Adam-CAD/CADAM",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "zeroclaw-labs--zeroclaw": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:n76bbphkeqxirgpyjxiznxqj/app.bsky.feed.post/3mksymg4msc2x",
+        "cid": "bafyreiaxb6zt4iu4z7w7eiv5wk3jxbezakukxsvrqjvnvnpqpl3ml2jmvu",
+        "bskyUrl": "https://bsky.app/profile/jperlow.bsky.social/post/3mksymg4msc2x",
+        "text": "Named contributor to Zeroclaw 0.7.4 today—proud to be part of this release with solid improvements and stability fixes. Rust-based agent running in ~5MB RAM, ideal for edge agentic deployments and lightweight apps. github.com/zeroclaw-lab... #Zeroclaw #RustLang #EdgeAI",
+        "author": {
+          "handle": "jperlow.bsky.social",
+          "displayName": "Jason Perlow"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-01T20:44:13.109Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:n76bbphkeqxirgpyjxiznxqj/app.bsky.feed.post/3mksymg4msc2x",
+          "cid": "bafyreiaxb6zt4iu4z7w7eiv5wk3jxbezakukxsvrqjvnvnpqpl3ml2jmvu",
+          "bskyUrl": "https://bsky.app/profile/jperlow.bsky.social/post/3mksymg4msc2x",
+          "text": "Named contributor to Zeroclaw 0.7.4 today—proud to be part of this release with solid improvements and stability fixes. Rust-based agent running in ~5MB RAM, ideal for edge agentic deployments and lightweight apps. github.com/zeroclaw-lab... #Zeroclaw #RustLang #EdgeAI",
+          "author": {
+            "handle": "jperlow.bsky.social",
+            "displayName": "Jason Perlow"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-01T20:44:13.109Z",
+          "createdUtc": 1777668253,
+          "ageHours": 0.5,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "zeroclaw-labs/zeroclaw",
               "matchType": "url",
               "confidence": 1
             }
@@ -780,26 +998,110 @@
       ]
     },
     "lum1104--understand-anything": {
-      "count7d": 2,
+      "count7d": 5,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mkspimbuhk25",
-        "cid": "bafyreiduv3jix6bn2mwxbzum4azxnrxksi27blyhrtlupa7te7yt7pfypa",
-        "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mkspimbuhk25",
-        "text": "Understand Anything https://github.com/Lum1104/Understand-Anything",
+        "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mksy4ko52d2k",
+        "cid": "bafyreigxhofj5eidxfpugxlx5yztdpgrvyz3izz3s7ajai3ayqhval4llu",
+        "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mksy4ko52d2k",
+        "text": "Understand Anything https://github.com/Lum1104/Understand-Anything (https://news.ycombinator.com/item?id=47977470)",
         "author": {
-          "handle": "hnbot.gsuscs.xyz",
-          "displayName": "HackerNews Compilator"
+          "handle": "betterhn50.e-work.xyz",
+          "displayName": "Hacker News 50"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-01T18:01:01.670Z",
-        "hoursSincePosted": 0.5
+        "createdAt": "2026-05-01T20:35:20.685Z",
+        "hoursSincePosted": 0.57
       },
       "posts": [
+        {
+          "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mksy4ko52d2k",
+          "cid": "bafyreigxhofj5eidxfpugxlx5yztdpgrvyz3izz3s7ajai3ayqhval4llu",
+          "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mksy4ko52d2k",
+          "text": "Understand Anything https://github.com/Lum1104/Understand-Anything (https://news.ycombinator.com/item?id=47977470)",
+          "author": {
+            "handle": "betterhn50.e-work.xyz",
+            "displayName": "Hacker News 50"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T20:35:20.685Z",
+          "createdUtc": 1777667720,
+          "ageHours": 0.57,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Lum1104/Understand-Anything",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:6clcp32vg7hejrq4v7hff3gs/app.bsky.feed.post/3mkswfilhko24",
+          "cid": "bafyreigeiffmzbsmpl7ij3fcrpevfak43wuyhxwkndmljuoe7mfubzmh6i",
+          "bskyUrl": "https://bsky.app/profile/hackernewstop5.bsky.social/post/3mkswfilhko24",
+          "text": "Understand Anything #HackerNews https://github.com/Lum1104/Understand-Anything",
+          "author": {
+            "handle": "hackernewstop5.bsky.social",
+            "displayName": "HackerNewsTop5"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T20:04:33.268Z",
+          "createdUtc": 1777665873,
+          "ageHours": 1.08,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Lum1104/Understand-Anything",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mkst3flwy52p",
+          "cid": "bafyreicsozant4zawmfld523qs2zs2cosqlz4wlrbhgyd7j7tqvvvcexqi",
+          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mkst3flwy52p",
+          "text": "Understand Anything https://github.com/Lum1104/Understand-Anything (https://news.ycombinator.com/item?id=47977470)",
+          "author": {
+            "handle": "betterhn20.e-work.xyz",
+            "displayName": "Hacker News 20"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T19:05:12.284Z",
+          "createdUtc": 1777662312,
+          "ageHours": 2.07,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Lum1104/Understand-Anything",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mkspimbuhk25",
           "cid": "bafyreiduv3jix6bn2mwxbzum4azxnrxksi27blyhrtlupa7te7yt7pfypa",
@@ -814,7 +1116,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T18:01:01.670Z",
           "createdUtc": 1777658461,
-          "ageHours": 0.5,
+          "ageHours": 3.14,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -842,7 +1144,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T17:55:12.317892+00:00",
           "createdUtc": 1777658112,
-          "ageHours": 0.5,
+          "ageHours": 3.24,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -851,6 +1153,394 @@
           "linkedRepos": [
             {
               "fullName": "Lum1104/Understand-Anything",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "graykode--abtop": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:tuovdf4ql53zt4tgpfxaer7z/app.bsky.feed.post/3mksxkty2wc2s",
+        "cid": "bafyreigrxsewiqhpub6cb56uhmjcspfss362f6gokcwnpd444zlwzuqede",
+        "bskyUrl": "https://bsky.app/profile/ekropotin.bsky.social/post/3mksxkty2wc2s",
+        "text": "1/2 [abtop](github.com/graykode/abtop) is a very handy TUI for monitoring agent's sessions. I think I've found the perfect way to integrate into #tmux - centric workflows:",
+        "author": {
+          "handle": "ekropotin.bsky.social",
+          "displayName": "Evgeny Kropotin"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-01T20:25:26.789Z",
+        "hoursSincePosted": 0.73
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:tuovdf4ql53zt4tgpfxaer7z/app.bsky.feed.post/3mksxkty2wc2s",
+          "cid": "bafyreigrxsewiqhpub6cb56uhmjcspfss362f6gokcwnpd444zlwzuqede",
+          "bskyUrl": "https://bsky.app/profile/ekropotin.bsky.social/post/3mksxkty2wc2s",
+          "text": "1/2 [abtop](github.com/graykode/abtop) is a very handy TUI for monitoring agent's sessions. I think I've found the perfect way to integrate into #tmux - centric workflows:",
+          "author": {
+            "handle": "ekropotin.bsky.social",
+            "displayName": "Evgeny Kropotin"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T20:25:26.789Z",
+          "createdUtc": 1777667126,
+          "ageHours": 0.73,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "graykode/abtop",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "awalol--ds5dongle": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:2c54s5gfttam7oumcdkkopbu/app.bsky.feed.post/3mksvg55zxk2p",
+        "cid": "bafyreiggqk7wti6j5gemmluic3oqpz2zcijy4xnietvi5aroidfr3aqrzu",
+        "bskyUrl": "https://bsky.app/profile/rayneyoruka.yorukasworld.org/post/3mksvg55zxk2p",
+        "text": "github.com/awalol/DS5Do...",
+        "author": {
+          "handle": "rayneyoruka.yorukasworld.org",
+          "displayName": "𝕲𝖎𝖗𝖑𝖞𝖕𝖔𝖕 𝖔𝖋 𝕺𝖓𝖎 ⛩️"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-01T19:47:01.167Z",
+        "hoursSincePosted": 1.37
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:2c54s5gfttam7oumcdkkopbu/app.bsky.feed.post/3mksvg55zxk2p",
+          "cid": "bafyreiggqk7wti6j5gemmluic3oqpz2zcijy4xnietvi5aroidfr3aqrzu",
+          "bskyUrl": "https://bsky.app/profile/rayneyoruka.yorukasworld.org/post/3mksvg55zxk2p",
+          "text": "github.com/awalol/DS5Do...",
+          "author": {
+            "handle": "rayneyoruka.yorukasworld.org",
+            "displayName": "𝕲𝖎𝖗𝖑𝖞𝖕𝖔𝖕 𝖔𝖋 𝕺𝖓𝖎 ⛩️"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T19:47:01.167Z",
+          "createdUtc": 1777664821,
+          "ageHours": 1.37,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "awalol/DS5Dongle",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "webadderallorg--recordly": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:h4pw4ukmg4q5iuvc4comj6yv/app.bsky.feed.post/3mkstn5my5g22",
+        "cid": "bafyreihyhlv6g3ybo7wvwijri3ctyo6fv3nqitswgqtnmemsknnxiy62j4",
+        "bskyUrl": "https://bsky.app/profile/githubprojects.bsky.social/post/3mkstn5my5g22",
+        "text": "Explore more: github.com/webadderall...",
+        "author": {
+          "handle": "githubprojects.bsky.social",
+          "displayName": "GitHub Projects"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-01T19:15:08.846747Z",
+        "hoursSincePosted": 1.91
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:h4pw4ukmg4q5iuvc4comj6yv/app.bsky.feed.post/3mkstn5my5g22",
+          "cid": "bafyreihyhlv6g3ybo7wvwijri3ctyo6fv3nqitswgqtnmemsknnxiy62j4",
+          "bskyUrl": "https://bsky.app/profile/githubprojects.bsky.social/post/3mkstn5my5g22",
+          "text": "Explore more: github.com/webadderall...",
+          "author": {
+            "handle": "githubprojects.bsky.social",
+            "displayName": "GitHub Projects"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T19:15:08.846747Z",
+          "createdUtc": 1777662908,
+          "ageHours": 1.91,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "webadderallorg/Recordly",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "darrylmorley--whatcable": {
+      "count7d": 4,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:5ny2yyrvukferphydimr3rmb/app.bsky.feed.post/3mkst2h27xk2w",
+        "cid": "bafyreieppyujecs5axbiblpfbi6ey2xi76qcy6apap7ols3dqbzdjtmjfy",
+        "bskyUrl": "https://bsky.app/profile/jonbc.bsky.social/post/3mkst2h27xk2w",
+        "text": "Someone made WhatCable to fix this. See github.com/darrylmorley... Discussed on HN (news.ycombinator.com/item?id=4797...)",
+        "author": {
+          "handle": "jonbc.bsky.social",
+          "displayName": "Jonathan Carlson"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-01T19:04:41.391Z",
+        "hoursSincePosted": 2.08
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:5ny2yyrvukferphydimr3rmb/app.bsky.feed.post/3mkst2h27xk2w",
+          "cid": "bafyreieppyujecs5axbiblpfbi6ey2xi76qcy6apap7ols3dqbzdjtmjfy",
+          "bskyUrl": "https://bsky.app/profile/jonbc.bsky.social/post/3mkst2h27xk2w",
+          "text": "Someone made WhatCable to fix this. See github.com/darrylmorley... Discussed on HN (news.ycombinator.com/item?id=4797...)",
+          "author": {
+            "handle": "jonbc.bsky.social",
+            "displayName": "Jonathan Carlson"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T19:04:41.391Z",
+          "createdUtc": 1777662281,
+          "ageHours": 2.08,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "darrylmorley/whatcable",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:j5jiovhowtgvvuvr2shke2ae/app.bsky.feed.post/3mksrvsavch2g",
+          "cid": "bafyreibxaqdfb6pyomw7ew4xmd5njmuk4kx7mzye7y77fw4gycnbtww4ya",
+          "bskyUrl": "https://bsky.app/profile/betterhn300.e-work.xyz/post/3mksrvsavch2g",
+          "text": "Show HN: WhatCable, a tiny menu bar app for inspecting USB-C cables https://github.com/darrylmorley/whatcable (https://news.ycombinator.com/item?id=47972511)",
+          "author": {
+            "handle": "betterhn300.e-work.xyz",
+            "displayName": "Hacker News 300"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T18:44:10.905Z",
+          "createdUtc": 1777661050,
+          "ageHours": 2.42,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "darrylmorley/whatcable",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:d76ifp32sz6xqg7tvk5msqwn/app.bsky.feed.post/3mksrjmi3t52i",
+          "cid": "bafyreibu4q6ytxkf5s52a6acbqgu4ujbtw6325udu67lphivctqzq3aj24",
+          "bskyUrl": "https://bsky.app/profile/hot.hn/post/3mksrjmi3t52i",
+          "text": "📰 Show HN: WhatCable, a tiny menu bar app for inspecting USB-C cables 🔗 https://github.com/darrylmorley/whatcable 💬 Discuss on HN",
+          "author": {
+            "handle": "hot.hn",
+            "displayName": "Hacker News Hot 100"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T18:37:22.847Z",
+          "createdUtc": 1777660642,
+          "ageHours": 2.54,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "darrylmorley/whatcable",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:l5gupr4kifwasjek7vblnoy2/app.bsky.feed.post/3mksnad4zhu2y",
+          "cid": "bafyreigegj6jfwk6c63n4oyixz3adag6ycv6v5nbfjxjmvbm56rfnnrhwq",
+          "bskyUrl": "https://bsky.app/profile/hn.rbrt.fr/post/3mksnad4zhu2y",
+          "text": "Show HN: WhatCable, a tiny menu bar app for inspecting USB-C cables https://github.com/darrylmorley/whatcable https://news.ycombinator.com/item?id=47972511",
+          "author": {
+            "handle": "hn.rbrt.fr",
+            "displayName": "Hacker News RSS"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T17:20:36Z",
+          "createdUtc": 1777656036,
+          "ageHours": 3.81,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "darrylmorley/whatcable",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "tracer-cloud--opensre": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:uwdw4rthvdkclv7n2skldjnm/app.bsky.feed.post/3mksswtrpeq2i",
+        "cid": "bafyreifj6ydxcdsvomkl7s54hycb2gve6on4gpazmdrpkrpi2j7kihaf3q",
+        "bskyUrl": "https://bsky.app/profile/jeremymorgan.com/post/3mksswtrpeq2i",
+        "text": "Open-source SRE agents that pull from Datadog, correlate logs across your stack, and post RCAs to Slack. Ships with synthetic incident tests so you can validate before it touches prod. One-line install. github.com/Tracer-Cloud...",
+        "author": {
+          "handle": "jeremymorgan.com",
+          "displayName": "Jeremy Morgan"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-01T19:02:39.389Z",
+        "hoursSincePosted": 2.11
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:uwdw4rthvdkclv7n2skldjnm/app.bsky.feed.post/3mksswtrpeq2i",
+          "cid": "bafyreifj6ydxcdsvomkl7s54hycb2gve6on4gpazmdrpkrpi2j7kihaf3q",
+          "bskyUrl": "https://bsky.app/profile/jeremymorgan.com/post/3mksswtrpeq2i",
+          "text": "Open-source SRE agents that pull from Datadog, correlate logs across your stack, and post RCAs to Slack. Ships with synthetic incident tests so you can validate before it touches prod. One-line install. github.com/Tracer-Cloud...",
+          "author": {
+            "handle": "jeremymorgan.com",
+            "displayName": "Jeremy Morgan"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T19:02:39.389Z",
+          "createdUtc": 1777662159,
+          "ageHours": 2.11,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Tracer-Cloud/opensre",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "ggml-org--llama-cpp": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkspunekm32g",
+        "cid": "bafyreibsod65ynd4z4cxqf4fx7o2frez6qjsn3dnd2tfjgdf6raiulcgvi",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkspunekm32g",
+        "text": "🟠 llama.cpp adds mixed-quant Flash Attention support to its Vulkan coopmat2 path llama.cpp build b8995 adds asymmetric Flash Attention support in the Vulkan coopmat2 path, enabling mixed quantization combinations that were... https://github.com/ggml-org/llama.cpp/releases/tag/b8995 #AI #AgentWyre",
+        "author": {
+          "handle": "agentwyre.ai"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-01T18:07:44.701018+00:00",
+        "hoursSincePosted": 3.03
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkspunekm32g",
+          "cid": "bafyreibsod65ynd4z4cxqf4fx7o2frez6qjsn3dnd2tfjgdf6raiulcgvi",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkspunekm32g",
+          "text": "🟠 llama.cpp adds mixed-quant Flash Attention support to its Vulkan coopmat2 path llama.cpp build b8995 adds asymmetric Flash Attention support in the Vulkan coopmat2 path, enabling mixed quantization combinations that were... https://github.com/ggml-org/llama.cpp/releases/tag/b8995 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T18:07:44.701018+00:00",
+          "createdUtc": 1777658864,
+          "ageHours": 3.03,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ggml-org/llama.cpp",
               "matchType": "url",
               "confidence": 1
             }
@@ -876,7 +1566,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-01T17:55:40.545Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 3.23
       },
       "posts": [
         {
@@ -893,7 +1583,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T17:55:40.545Z",
           "createdUtc": 1777658140,
-          "ageHours": 0.5,
+          "ageHours": 3.23,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -921,7 +1611,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T17:00:06.062974+00:00",
           "createdUtc": 1777654806,
-          "ageHours": 1.24,
+          "ageHours": 4.16,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -930,113 +1620,6 @@
           "linkedRepos": [
             {
               "fullName": "mattpocock/skills",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "darrylmorley--whatcable": {
-      "count7d": 3,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:l5gupr4kifwasjek7vblnoy2/app.bsky.feed.post/3mksnad4zhu2y",
-        "cid": "bafyreigegj6jfwk6c63n4oyixz3adag6ycv6v5nbfjxjmvbm56rfnnrhwq",
-        "bskyUrl": "https://bsky.app/profile/hn.rbrt.fr/post/3mksnad4zhu2y",
-        "text": "Show HN: WhatCable, a tiny menu bar app for inspecting USB-C cables https://github.com/darrylmorley/whatcable https://news.ycombinator.com/item?id=47972511",
-        "author": {
-          "handle": "hn.rbrt.fr",
-          "displayName": "Hacker News RSS"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-01T17:20:36Z",
-        "hoursSincePosted": 0.9
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:l5gupr4kifwasjek7vblnoy2/app.bsky.feed.post/3mksnad4zhu2y",
-          "cid": "bafyreigegj6jfwk6c63n4oyixz3adag6ycv6v5nbfjxjmvbm56rfnnrhwq",
-          "bskyUrl": "https://bsky.app/profile/hn.rbrt.fr/post/3mksnad4zhu2y",
-          "text": "Show HN: WhatCable, a tiny menu bar app for inspecting USB-C cables https://github.com/darrylmorley/whatcable https://news.ycombinator.com/item?id=47972511",
-          "author": {
-            "handle": "hn.rbrt.fr",
-            "displayName": "Hacker News RSS"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T17:20:36Z",
-          "createdUtc": 1777656036,
-          "ageHours": 0.9,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "darrylmorley/whatcable",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:ngq4y7h2tlxtn6qi6zokimms/app.bsky.feed.post/3mksg4r2fiq2t",
-          "cid": "bafyreibj4jnlukqtet2orzb6n7eeufhzd4au3h2xva2tznlfiq7hahmvei",
-          "bskyUrl": "https://bsky.app/profile/newsyc250.bsky.social/post/3mksg4r2fiq2t",
-          "text": "Show HN: WhatCable, a tiny menu bar app for inspecting USB-C cables https://github.com/darrylmorley/whatcable (http://news.ycombinator.com/item?id=47972511)",
-          "author": {
-            "handle": "newsyc250.bsky.social",
-            "displayName": "Hacker News 250 Points"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T18:13:19+03:00",
-          "createdUtc": 1777648399,
-          "ageHours": 3.02,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "darrylmorley/whatcable",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:tnfqyyktoyszfco5lcxnyiax/app.bsky.feed.post/3mksbnopv242m",
-          "cid": "bafyreihm2a6a2t2jtqbib2hjip27ez4wstptt3sx7pwbwglaa33rug77ky",
-          "bskyUrl": "https://bsky.app/profile/newsyc200.bsky.social/post/3mksbnopv242m",
-          "text": "Show HN: WhatCable, a tiny menu bar app for inspecting USB-C cables https://github.com/darrylmorley/whatcable (http://news.ycombinator.com/item?id=47972511)",
-          "author": {
-            "handle": "newsyc200.bsky.social",
-            "displayName": "Hacker News 200 Points"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T16:53:19+03:00",
-          "createdUtc": 1777643599,
-          "ageHours": 4.35,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "darrylmorley/whatcable",
               "matchType": "url",
               "confidence": 1
             }
@@ -1062,7 +1645,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-01T18:40:29+02:00",
-        "hoursSincePosted": 1.57
+        "hoursSincePosted": 4.48
       },
       "posts": [
         {
@@ -1079,7 +1662,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T18:40:29+02:00",
           "createdUtc": 1777653629,
-          "ageHours": 1.57,
+          "ageHours": 4.48,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -1114,7 +1697,7 @@
         "repostCount": 1,
         "replyCount": 0,
         "createdAt": "2026-05-01T16:37:20.392Z",
-        "hoursSincePosted": 1.62
+        "hoursSincePosted": 4.54
       },
       "posts": [
         {
@@ -1131,7 +1714,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T16:37:20.392Z",
           "createdUtc": 1777653440,
-          "ageHours": 1.62,
+          "ageHours": 4.54,
           "trendingScore": 3,
           "content_tags": [
             "has-github-repo"
@@ -1165,7 +1748,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-01T15:55:01.666Z",
-        "hoursSincePosted": 2.32
+        "hoursSincePosted": 5.24
       },
       "posts": [
         {
@@ -1182,7 +1765,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T15:55:01.666Z",
           "createdUtc": 1777650901,
-          "ageHours": 2.32,
+          "ageHours": 5.24,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -1197,274 +1780,9 @@
           ]
         }
       ]
-    },
-    "nvlabs--gr00t-wholebodycontrol": {
-      "count7d": 1,
-      "likesSum7d": 4,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:kbkxlq3pev226dltcsrlf56o/app.bsky.feed.post/3mkshtmdc7c2q",
-        "cid": "bafyreidqtc3vcioqipcspzjtikujgmvg6iusq4o6t4tt7dspn3o2dchlyq",
-        "bskyUrl": "https://bsky.app/profile/chrlaf.bsky.social/post/3mkshtmdc7c2q",
-        "text": "- A unified smart primitive interface for locomotion, object interaction, and scene interaction, giving creators fine-grained control over generated behaviors. Code: lnkd.in/gmb9VuKx Paper: github.com/NVlabs/GR00T...",
-        "author": {
-          "handle": "chrlaf.bsky.social",
-          "displayName": "Christian Laforte"
-        },
-        "likeCount": 4,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-01T15:43:56.079Z",
-        "hoursSincePosted": 2.51
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:kbkxlq3pev226dltcsrlf56o/app.bsky.feed.post/3mkshtmdc7c2q",
-          "cid": "bafyreidqtc3vcioqipcspzjtikujgmvg6iusq4o6t4tt7dspn3o2dchlyq",
-          "bskyUrl": "https://bsky.app/profile/chrlaf.bsky.social/post/3mkshtmdc7c2q",
-          "text": "- A unified smart primitive interface for locomotion, object interaction, and scene interaction, giving creators fine-grained control over generated behaviors. Code: lnkd.in/gmb9VuKx Paper: github.com/NVlabs/GR00T...",
-          "author": {
-            "handle": "chrlaf.bsky.social",
-            "displayName": "Christian Laforte"
-          },
-          "likeCount": 4,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T15:43:56.079Z",
-          "createdUtc": 1777650236,
-          "ageHours": 2.51,
-          "trendingScore": 4,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "NVlabs/GR00T-WholeBodyControl",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "garrytan--gbrain": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mksfqz5e7v2y",
-        "cid": "bafyreifb57vklocyudhtss7upmkkr5paydk2r5m7y3hoqw52zfxixqhqsi",
-        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mksfqz5e7v2y",
-        "text": "Mine is still Apple I level - it's 2 hours to set it up, it's duct tape and solder to make it work, but boy does it work well when you got it going It's called GBrain https://github.com/garrytan/gbrain",
-        "author": {
-          "handle": "garrytan-mirr.selfhosted.social",
-          "displayName": "Garry Tan [UNOFFICIAL]"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-01T14:58:35.000Z",
-        "hoursSincePosted": 3.27
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mksfqz5e7v2y",
-          "cid": "bafyreifb57vklocyudhtss7upmkkr5paydk2r5m7y3hoqw52zfxixqhqsi",
-          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mksfqz5e7v2y",
-          "text": "Mine is still Apple I level - it's 2 hours to set it up, it's duct tape and solder to make it work, but boy does it work well when you got it going It's called GBrain https://github.com/garrytan/gbrain",
-          "author": {
-            "handle": "garrytan-mirr.selfhosted.social",
-            "displayName": "Garry Tan [UNOFFICIAL]"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T14:58:35.000Z",
-          "createdUtc": 1777647515,
-          "ageHours": 3.27,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "garrytan/gbrain",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "garrytan--gstack": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mkse55pfjn2y",
-        "cid": "bafyreiemdc4rv6aq4ctncq2uhfmfbsuv7zc6qv4c6t5vvghfsfgzb725de",
-        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mkse55pfjn2y",
-        "text": "https://github.com/garrytan/gstack",
-        "author": {
-          "handle": "garrytan-mirr.selfhosted.social",
-          "displayName": "Garry Tan [UNOFFICIAL]"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-01T14:29:15.000Z",
-        "hoursSincePosted": 3.75
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mkse55pfjn2y",
-          "cid": "bafyreiemdc4rv6aq4ctncq2uhfmfbsuv7zc6qv4c6t5vvghfsfgzb725de",
-          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mkse55pfjn2y",
-          "text": "https://github.com/garrytan/gstack",
-          "author": {
-            "handle": "garrytan-mirr.selfhosted.social",
-            "displayName": "Garry Tan [UNOFFICIAL]"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T14:29:15.000Z",
-          "createdUtc": 1777645755,
-          "ageHours": 3.75,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "garrytan/gstack",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "watany-dev--gitreal": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3mksdgnlmza2l",
-        "cid": "bafyreid24y3zo6xwxdhieu5vmt227ldpmisb6be227bb7cthrrdddmbyva",
-        "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3mksdgnlmza2l",
-        "text": "GitHub - watany-dev/gitreal https://github.com/watany-dev/gitreal",
-        "author": {
-          "handle": "tech-trending.bsky.social",
-          "displayName": "Tech Trending"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-01T14:25:11.014Z",
-        "hoursSincePosted": 3.82
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3mksdgnlmza2l",
-          "cid": "bafyreid24y3zo6xwxdhieu5vmt227ldpmisb6be227bb7cthrrdddmbyva",
-          "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3mksdgnlmza2l",
-          "text": "GitHub - watany-dev/gitreal https://github.com/watany-dev/gitreal",
-          "author": {
-            "handle": "tech-trending.bsky.social",
-            "displayName": "Tech Trending"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T14:25:11.014Z",
-          "createdUtc": 1777645511,
-          "ageHours": 3.82,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "watany-dev/gitreal",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "cjpais--handy": {
-      "count7d": 1,
-      "likesSum7d": 2,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:q4qncp24gret5uriyumcq2nf/app.bsky.feed.post/3mksbok4tgc2q",
-        "cid": "bafyreidt2ewfnky7xdvwzlrp56onxz3eq2oyeeiaueojfxngz4apvgzfgy",
-        "bskyUrl": "https://bsky.app/profile/richie.zilahi.fi/post/3mksbok4tgc2q",
-        "text": "by handy you mean this one right? github.com/cjpais/handy",
-        "author": {
-          "handle": "richie.zilahi.fi",
-          "displayName": "zilahir"
-        },
-        "likeCount": 2,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-01T13:53:48.356Z",
-        "hoursSincePosted": 4.34
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:q4qncp24gret5uriyumcq2nf/app.bsky.feed.post/3mksbok4tgc2q",
-          "cid": "bafyreidt2ewfnky7xdvwzlrp56onxz3eq2oyeeiaueojfxngz4apvgzfgy",
-          "bskyUrl": "https://bsky.app/profile/richie.zilahi.fi/post/3mksbok4tgc2q",
-          "text": "by handy you mean this one right? github.com/cjpais/handy",
-          "author": {
-            "handle": "richie.zilahi.fi",
-            "displayName": "zilahir"
-          },
-          "likeCount": 2,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T13:53:48.356Z",
-          "createdUtc": 1777643628,
-          "ageHours": 4.34,
-          "trendingScore": 2,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "cjpais/Handy",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
     }
   },
   "leaderboard": [
-    {
-      "fullName": "NVlabs/GR00T-WholeBodyControl",
-      "count7d": 1,
-      "likesSum7d": 4
-    },
-    {
-      "fullName": "cjpais/Handy",
-      "count7d": 1,
-      "likesSum7d": 2
-    },
     {
       "fullName": "JuliusBrussee/caveman",
       "count7d": 1,
@@ -1476,13 +1794,18 @@
       "likesSum7d": 1
     },
     {
-      "fullName": "darrylmorley/whatcable",
-      "count7d": 3,
-      "likesSum7d": 0
+      "fullName": "zeroclaw-labs/zeroclaw",
+      "count7d": 1,
+      "likesSum7d": 1
     },
     {
       "fullName": "Lum1104/Understand-Anything",
-      "count7d": 2,
+      "count7d": 5,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "darrylmorley/whatcable",
+      "count7d": 4,
       "likesSum7d": 0
     },
     {
@@ -1491,17 +1814,17 @@
       "likesSum7d": 0
     },
     {
+      "fullName": "Adam-CAD/CADAM",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
       "fullName": "AIDC-AI/Pixelle-Video",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "garrytan/gbrain",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "garrytan/gstack",
+      "fullName": "awalol/DS5Dongle",
       "count7d": 1,
       "likesSum7d": 0
     },
@@ -1511,7 +1834,17 @@
       "likesSum7d": 0
     },
     {
-      "fullName": "watany-dev/gitreal",
+      "fullName": "graykode/abtop",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "Tracer-Cloud/opensre",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "webadderallorg/Recordly",
       "count7d": 1,
       "likesSum7d": 0
     }

@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-01T00:11:13.901Z",
+  "fetchedAt": "2026-05-01T13:42:08.849Z",
   "rows": [
     {
       "id": 2,
@@ -122,6 +122,16 @@
       "repoRankChanges": 1
     },
     {
+      "id": 10020,
+      "name": "CICD",
+      "repos": 23,
+      "repoId": 222824662,
+      "repoName": "dagger/dagger",
+      "repoCurrentPeriodRank": 3,
+      "repoPastPeriodRank": 6,
+      "repoRankChanges": 3
+    },
+    {
       "id": 10078,
       "name": "ChatGPT Apps",
       "repos": 38,
@@ -135,21 +145,41 @@
       "id": 10079,
       "name": "Stable Diffusion Ecosystem",
       "repos": 31,
-      "repoId": 527591471,
-      "repoName": "AUTOMATIC1111/stable-diffusion-webui",
-      "repoCurrentPeriodRank": 1,
-      "repoPastPeriodRank": 1,
-      "repoRankChanges": 0
-    },
-    {
-      "id": 10079,
-      "name": "Stable Diffusion Ecosystem",
-      "repos": 31,
       "repoId": 595893961,
       "repoName": "lllyasviel/ControlNet",
       "repoCurrentPeriodRank": 2,
       "repoPastPeriodRank": 2,
       "repoRankChanges": 0
+    },
+    {
+      "id": 10020,
+      "name": "CICD",
+      "repos": 23,
+      "repoId": 163883279,
+      "repoName": "nektos/act",
+      "repoCurrentPeriodRank": 1,
+      "repoPastPeriodRank": 1,
+      "repoRankChanges": 0
+    },
+    {
+      "id": 10020,
+      "name": "CICD",
+      "repos": 23,
+      "repoId": 120896210,
+      "repoName": "argoproj/argo-cd",
+      "repoCurrentPeriodRank": 2,
+      "repoPastPeriodRank": 2,
+      "repoRankChanges": 0
+    },
+    {
+      "id": 10010,
+      "name": "Artificial Intelligence",
+      "repos": 36,
+      "repoId": 65600975,
+      "repoName": "pytorch/pytorch",
+      "repoCurrentPeriodRank": 3,
+      "repoPastPeriodRank": 4,
+      "repoRankChanges": 1
     },
     {
       "id": 10078,
@@ -162,14 +192,14 @@
       "repoRankChanges": 3
     },
     {
-      "id": 10010,
-      "name": "Artificial Intelligence",
-      "repos": 36,
-      "repoId": 65600975,
-      "repoName": "pytorch/pytorch",
-      "repoCurrentPeriodRank": 3,
-      "repoPastPeriodRank": 4,
-      "repoRankChanges": 1
+      "id": 10079,
+      "name": "Stable Diffusion Ecosystem",
+      "repos": 31,
+      "repoId": 527591471,
+      "repoName": "AUTOMATIC1111/stable-diffusion-webui",
+      "repoCurrentPeriodRank": 1,
+      "repoPastPeriodRank": 1,
+      "repoRankChanges": 0
     },
     {
       "id": 10078,
@@ -195,16 +225,6 @@
       "id": 10010,
       "name": "Artificial Intelligence",
       "repos": 36,
-      "repoId": 458588993,
-      "repoName": "nebuly-ai/optimate",
-      "repoCurrentPeriodRank": 2,
-      "repoPastPeriodRank": 2,
-      "repoRankChanges": 0
-    },
-    {
-      "id": 10010,
-      "name": "Artificial Intelligence",
-      "repos": 36,
       "repoId": 155220641,
       "repoName": "huggingface/transformers",
       "repoCurrentPeriodRank": 1,
@@ -212,34 +232,44 @@
       "repoRankChanges": 0
     },
     {
-      "id": 10020,
-      "name": "CICD",
-      "repos": 23,
-      "repoId": 163883279,
-      "repoName": "nektos/act",
-      "repoCurrentPeriodRank": 1,
-      "repoPastPeriodRank": 1,
-      "repoRankChanges": 0
-    },
-    {
-      "id": 10020,
-      "name": "CICD",
-      "repos": 23,
-      "repoId": 120896210,
-      "repoName": "argoproj/argo-cd",
+      "id": 10010,
+      "name": "Artificial Intelligence",
+      "repos": 36,
+      "repoId": 458588993,
+      "repoName": "nebuly-ai/optimate",
       "repoCurrentPeriodRank": 2,
       "repoPastPeriodRank": 2,
       "repoRankChanges": 0
     },
     {
-      "id": 10020,
-      "name": "CICD",
-      "repos": 23,
-      "repoId": 222824662,
-      "repoName": "dagger/dagger",
+      "id": 10064,
+      "name": "Javascript Build Tool",
+      "repos": 13,
+      "repoId": 476642602,
+      "repoName": "web-infra-dev/rspack",
+      "repoCurrentPeriodRank": 1,
+      "repoPastPeriodRank": null,
+      "repoRankChanges": null
+    },
+    {
+      "id": 10064,
+      "name": "Javascript Build Tool",
+      "repos": 13,
+      "repoId": 257485422,
+      "repoName": "vitejs/vite",
+      "repoCurrentPeriodRank": 2,
+      "repoPastPeriodRank": 1,
+      "repoRankChanges": -1
+    },
+    {
+      "id": 10064,
+      "name": "Javascript Build Tool",
+      "repos": 13,
+      "repoId": 413918947,
+      "repoName": "vercel/turborepo",
       "repoCurrentPeriodRank": 3,
-      "repoPastPeriodRank": 6,
-      "repoRankChanges": 3
+      "repoPastPeriodRank": 2,
+      "repoRankChanges": -1
     },
     {
       "id": 10067,
@@ -262,91 +292,11 @@
       "repoRankChanges": 0
     },
     {
-      "id": 10064,
-      "name": "Javascript Build Tool",
-      "repos": 13,
-      "repoId": 257485422,
-      "repoName": "vitejs/vite",
-      "repoCurrentPeriodRank": 2,
-      "repoPastPeriodRank": 1,
-      "repoRankChanges": -1
-    },
-    {
-      "id": 10064,
-      "name": "Javascript Build Tool",
-      "repos": 13,
-      "repoId": 476642602,
-      "repoName": "web-infra-dev/rspack",
-      "repoCurrentPeriodRank": 1,
-      "repoPastPeriodRank": null,
-      "repoRankChanges": null
-    },
-    {
-      "id": 10064,
-      "name": "Javascript Build Tool",
-      "repos": 13,
-      "repoId": 413918947,
-      "repoName": "vercel/turborepo",
-      "repoCurrentPeriodRank": 3,
-      "repoPastPeriodRank": 2,
-      "repoRankChanges": -1
-    },
-    {
       "id": 10067,
       "name": "Robotics",
       "repos": 12,
       "repoId": 919161,
       "repoName": "arduino/Arduino",
-      "repoCurrentPeriodRank": 3,
-      "repoPastPeriodRank": 3,
-      "repoRankChanges": 0
-    },
-    {
-      "id": 10031,
-      "name": "Web3",
-      "repos": 36,
-      "repoId": 238797860,
-      "repoName": "ethereum-optimism/optimism",
-      "repoCurrentPeriodRank": 2,
-      "repoPastPeriodRank": 1,
-      "repoRankChanges": -1
-    },
-    {
-      "id": 10098,
-      "name": "AI Agent Frameworks",
-      "repos": 17,
-      "repoId": 680120071,
-      "repoName": "microsoft/autogen",
-      "repoCurrentPeriodRank": null,
-      "repoPastPeriodRank": null,
-      "repoRankChanges": null
-    },
-    {
-      "id": 10031,
-      "name": "Web3",
-      "repos": 36,
-      "repoId": 15452919,
-      "repoName": "ethereum/go-ethereum",
-      "repoCurrentPeriodRank": 1,
-      "repoPastPeriodRank": 2,
-      "repoRankChanges": 1
-    },
-    {
-      "id": 10098,
-      "name": "AI Agent Frameworks",
-      "repos": 17,
-      "repoId": 946380199,
-      "repoName": "openai/openai-agents-python",
-      "repoCurrentPeriodRank": null,
-      "repoPastPeriodRank": null,
-      "repoRankChanges": null
-    },
-    {
-      "id": 10031,
-      "name": "Web3",
-      "repos": 36,
-      "repoId": 64700934,
-      "repoName": "OpenZeppelin/openzeppelin-contracts",
       "repoCurrentPeriodRank": 3,
       "repoPastPeriodRank": 3,
       "repoRankChanges": 0
@@ -360,6 +310,116 @@
       "repoCurrentPeriodRank": null,
       "repoPastPeriodRank": null,
       "repoRankChanges": null
+    },
+    {
+      "id": 10023,
+      "name": "Javascript Charting",
+      "repos": 19,
+      "repoId": 943149,
+      "repoName": "d3/d3",
+      "repoCurrentPeriodRank": 1,
+      "repoPastPeriodRank": 2,
+      "repoRankChanges": 1
+    },
+    {
+      "id": 10030,
+      "name": "Finance",
+      "repos": 14,
+      "repoId": 287463830,
+      "repoName": "microsoft/qlib",
+      "repoCurrentPeriodRank": 3,
+      "repoPastPeriodRank": 5,
+      "repoRankChanges": 2
+    },
+    {
+      "id": 10031,
+      "name": "Web3",
+      "repos": 36,
+      "repoId": 15452919,
+      "repoName": "ethereum/go-ethereum",
+      "repoCurrentPeriodRank": 1,
+      "repoPastPeriodRank": 2,
+      "repoRankChanges": 1
+    },
+    {
+      "id": 10031,
+      "name": "Web3",
+      "repos": 36,
+      "repoId": 238797860,
+      "repoName": "ethereum-optimism/optimism",
+      "repoCurrentPeriodRank": 2,
+      "repoPastPeriodRank": 1,
+      "repoRankChanges": -1
+    },
+    {
+      "id": 10031,
+      "name": "Web3",
+      "repos": 36,
+      "repoId": 64700934,
+      "repoName": "OpenZeppelin/openzeppelin-contracts",
+      "repoCurrentPeriodRank": 3,
+      "repoPastPeriodRank": 3,
+      "repoRankChanges": 0
+    },
+    {
+      "id": 10030,
+      "name": "Finance",
+      "repos": 14,
+      "repoId": 31522041,
+      "repoName": "vnpy/vnpy",
+      "repoCurrentPeriodRank": 2,
+      "repoPastPeriodRank": 2,
+      "repoRankChanges": 0
+    },
+    {
+      "id": 10098,
+      "name": "AI Agent Frameworks",
+      "repos": 17,
+      "repoId": 946380199,
+      "repoName": "openai/openai-agents-python",
+      "repoCurrentPeriodRank": null,
+      "repoPastPeriodRank": null,
+      "repoRankChanges": null
+    },
+    {
+      "id": 10098,
+      "name": "AI Agent Frameworks",
+      "repos": 17,
+      "repoId": 680120071,
+      "repoName": "microsoft/autogen",
+      "repoCurrentPeriodRank": null,
+      "repoPastPeriodRank": null,
+      "repoRankChanges": null
+    },
+    {
+      "id": 10023,
+      "name": "Javascript Charting",
+      "repos": 19,
+      "repoId": 9185792,
+      "repoName": "apache/echarts",
+      "repoCurrentPeriodRank": 2,
+      "repoPastPeriodRank": 1,
+      "repoRankChanges": -1
+    },
+    {
+      "id": 10023,
+      "name": "Javascript Charting",
+      "repos": 19,
+      "repoId": 8843683,
+      "repoName": "chartjs/Chart.js",
+      "repoCurrentPeriodRank": 3,
+      "repoPastPeriodRank": 3,
+      "repoRankChanges": 0
+    },
+    {
+      "id": 10030,
+      "name": "Finance",
+      "repos": 14,
+      "repoId": 323048702,
+      "repoName": "OpenBB-finance/OpenBB",
+      "repoCurrentPeriodRank": 1,
+      "repoPastPeriodRank": 1,
+      "repoRankChanges": 0
     },
     {
       "id": 10024,
@@ -392,91 +452,11 @@
       "repoRankChanges": -1
     },
     {
-      "id": 10023,
-      "name": "Javascript Charting",
-      "repos": 19,
-      "repoId": 9185792,
-      "repoName": "apache/echarts",
-      "repoCurrentPeriodRank": 2,
-      "repoPastPeriodRank": 1,
-      "repoRankChanges": -1
-    },
-    {
-      "id": 10023,
-      "name": "Javascript Charting",
-      "repos": 19,
-      "repoId": 943149,
-      "repoName": "d3/d3",
-      "repoCurrentPeriodRank": 1,
-      "repoPastPeriodRank": 2,
-      "repoRankChanges": 1
-    },
-    {
-      "id": 10023,
-      "name": "Javascript Charting",
-      "repos": 19,
-      "repoId": 8843683,
-      "repoName": "chartjs/Chart.js",
-      "repoCurrentPeriodRank": 3,
-      "repoPastPeriodRank": 3,
-      "repoRankChanges": 0
-    },
-    {
-      "id": 10030,
-      "name": "Finance",
-      "repos": 14,
-      "repoId": 323048702,
-      "repoName": "OpenBB-finance/OpenBB",
-      "repoCurrentPeriodRank": 1,
-      "repoPastPeriodRank": 1,
-      "repoRankChanges": 0
-    },
-    {
-      "id": 10030,
-      "name": "Finance",
-      "repos": 14,
-      "repoId": 31522041,
-      "repoName": "vnpy/vnpy",
-      "repoCurrentPeriodRank": 2,
-      "repoPastPeriodRank": 2,
-      "repoRankChanges": 0
-    },
-    {
-      "id": 10030,
-      "name": "Finance",
-      "repos": 14,
-      "repoId": 287463830,
-      "repoName": "microsoft/qlib",
-      "repoCurrentPeriodRank": 3,
-      "repoPastPeriodRank": 5,
-      "repoRankChanges": 2
-    },
-    {
       "id": 10106,
       "name": "Coding Agents",
       "repos": 20,
-      "repoId": 824874689,
-      "repoName": "cline/cline",
-      "repoCurrentPeriodRank": null,
-      "repoPastPeriodRank": null,
-      "repoRankChanges": null
-    },
-    {
-      "id": 10063,
-      "name": "Kubernetes Tooling",
-      "repos": 33,
-      "repoId": 59239347,
-      "repoName": "portainer/portainer",
-      "repoCurrentPeriodRank": 1,
-      "repoPastPeriodRank": 2,
-      "repoRankChanges": 1
-    },
-    {
-      "id": 10106,
-      "name": "Coding Agents",
-      "repos": 20,
-      "repoId": 937253475,
-      "repoName": "anthropics/claude-code",
+      "repoId": 953683578,
+      "repoName": "oraios/serena",
       "repoCurrentPeriodRank": null,
       "repoPastPeriodRank": null,
       "repoRankChanges": null
@@ -495,8 +475,8 @@
       "id": 10106,
       "name": "Coding Agents",
       "repos": 20,
-      "repoId": 953683578,
-      "repoName": "oraios/serena",
+      "repoId": 937253475,
+      "repoName": "anthropics/claude-code",
       "repoCurrentPeriodRank": null,
       "repoPastPeriodRank": null,
       "repoRankChanges": null
@@ -512,14 +492,34 @@
       "repoRankChanges": 6
     },
     {
-      "id": 10002,
-      "name": "Google Analytics Alternative",
-      "repos": 10,
-      "repoId": 235901813,
-      "repoName": "PostHog/posthog",
-      "repoCurrentPeriodRank": 3,
-      "repoPastPeriodRank": 3,
-      "repoRankChanges": 0
+      "id": 10063,
+      "name": "Kubernetes Tooling",
+      "repos": 33,
+      "repoId": 59239347,
+      "repoName": "portainer/portainer",
+      "repoCurrentPeriodRank": 1,
+      "repoPastPeriodRank": 2,
+      "repoRankChanges": 1
+    },
+    {
+      "id": 10106,
+      "name": "Coding Agents",
+      "repos": 20,
+      "repoId": 824874689,
+      "repoName": "cline/cline",
+      "repoCurrentPeriodRank": null,
+      "repoPastPeriodRank": null,
+      "repoRankChanges": null
+    },
+    {
+      "id": 10026,
+      "name": "WebAssembly Runtime",
+      "repos": 12,
+      "repoId": 152572186,
+      "repoName": "wasmerio/wasmer",
+      "repoCurrentPeriodRank": 1,
+      "repoPastPeriodRank": 2,
+      "repoRankChanges": 1
     },
     {
       "id": 10002,
@@ -542,34 +542,14 @@
       "repoRankChanges": 0
     },
     {
-      "id": 10026,
-      "name": "WebAssembly Runtime",
-      "repos": 12,
-      "repoId": 101767772,
-      "repoName": "bytecodealliance/wasmtime",
-      "repoCurrentPeriodRank": 2,
-      "repoPastPeriodRank": 1,
-      "repoRankChanges": -1
-    },
-    {
-      "id": 10026,
-      "name": "WebAssembly Runtime",
-      "repos": 12,
-      "repoId": 152572186,
-      "repoName": "wasmerio/wasmer",
-      "repoCurrentPeriodRank": 1,
-      "repoPastPeriodRank": 2,
-      "repoRankChanges": 1
-    },
-    {
-      "id": 10025,
-      "name": "Distributed File Storage",
-      "repos": 16,
-      "repoId": 327859577,
-      "repoName": "juicedata/juicefs",
+      "id": 10002,
+      "name": "Google Analytics Alternative",
+      "repos": 10,
+      "repoId": 235901813,
+      "repoName": "PostHog/posthog",
       "repoCurrentPeriodRank": 3,
-      "repoPastPeriodRank": 2,
-      "repoRankChanges": -1
+      "repoPastPeriodRank": 3,
+      "repoRankChanges": 0
     },
     {
       "id": 10025,
@@ -590,6 +570,26 @@
       "repoCurrentPeriodRank": 2,
       "repoPastPeriodRank": 3,
       "repoRankChanges": 1
+    },
+    {
+      "id": 10025,
+      "name": "Distributed File Storage",
+      "repos": 16,
+      "repoId": 327859577,
+      "repoName": "juicedata/juicefs",
+      "repoCurrentPeriodRank": 3,
+      "repoPastPeriodRank": 2,
+      "repoRankChanges": -1
+    },
+    {
+      "id": 10026,
+      "name": "WebAssembly Runtime",
+      "repos": 12,
+      "repoId": 101767772,
+      "repoName": "bytecodealliance/wasmtime",
+      "repoCurrentPeriodRank": 2,
+      "repoPastPeriodRank": 1,
+      "repoRankChanges": -1
     },
     {
       "id": 10026,

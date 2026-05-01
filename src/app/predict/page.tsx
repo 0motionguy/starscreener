@@ -23,6 +23,7 @@
 // is plenty fresh while keeping per-request work bounded.
 
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { PageHead } from "@/components/ui/PageHead";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
@@ -276,9 +277,9 @@ export default async function PredictPage() {
           No repos in the current trending window have enough star history to
           forecast. Check back after the next collector run, or pick a repo
           manually from the{" "}
-          <a className="link" href="/compare">
+          <Link className="link" href="/compare">
             compare tool
-          </a>
+          </Link>
           .
         </p>
       )}

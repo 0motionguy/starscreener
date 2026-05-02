@@ -1,209 +1,74 @@
 {
-  "fetchedAt": "2026-05-02T00:07:46.496Z",
+  "fetchedAt": "2026-05-02T03:53:08.616Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
-    "darrylmorley/whatcable": {
-      "count7d": 4,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:3tadq4w54a5yc27m6azfghwe/app.bsky.feed.post/3mktdkx4lvj2e",
-        "cid": "bafyreigvt73aow6vtlfjuqrsypgup4wj5nt7gc43avpjvtkvpcsydu4clm",
-        "bskyUrl": "https://bsky.app/profile/hnbest.bsky.social/post/3mktdkx4lvj2e",
-        "text": "Show HN: WhatCable, a tiny menu bar app for inspecting USB-C cables https://github.com/darrylmorley/whatcable comments #github.com",
-        "author": {
-          "handle": "hnbest.bsky.social",
-          "displayName": "Hacker News Best"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-02T00:00:14.934296+00:00",
-        "hoursSincePosted": 0.5
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:3tadq4w54a5yc27m6azfghwe/app.bsky.feed.post/3mktdkx4lvj2e",
-          "cid": "bafyreigvt73aow6vtlfjuqrsypgup4wj5nt7gc43avpjvtkvpcsydu4clm",
-          "bskyUrl": "https://bsky.app/profile/hnbest.bsky.social/post/3mktdkx4lvj2e",
-          "text": "Show HN: WhatCable, a tiny menu bar app for inspecting USB-C cables https://github.com/darrylmorley/whatcable comments #github.com",
-          "author": {
-            "handle": "hnbest.bsky.social",
-            "displayName": "Hacker News Best"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-02T00:00:14.934296+00:00",
-          "createdUtc": 1777680014,
-          "ageHours": 0.5,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "darrylmorley/whatcable",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:5ny2yyrvukferphydimr3rmb/app.bsky.feed.post/3mkst2h27xk2w",
-          "cid": "bafyreieppyujecs5axbiblpfbi6ey2xi76qcy6apap7ols3dqbzdjtmjfy",
-          "bskyUrl": "https://bsky.app/profile/jonbc.bsky.social/post/3mkst2h27xk2w",
-          "text": "Someone made WhatCable to fix this. See github.com/darrylmorley... Discussed on HN (news.ycombinator.com/item?id=4797...)",
-          "author": {
-            "handle": "jonbc.bsky.social",
-            "displayName": "Jonathan Carlson"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T19:04:41.391Z",
-          "createdUtc": 1777662281,
-          "ageHours": 5.05,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "darrylmorley/whatcable",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:j5jiovhowtgvvuvr2shke2ae/app.bsky.feed.post/3mksrvsavch2g",
-          "cid": "bafyreibxaqdfb6pyomw7ew4xmd5njmuk4kx7mzye7y77fw4gycnbtww4ya",
-          "bskyUrl": "https://bsky.app/profile/betterhn300.e-work.xyz/post/3mksrvsavch2g",
-          "text": "Show HN: WhatCable, a tiny menu bar app for inspecting USB-C cables https://github.com/darrylmorley/whatcable (https://news.ycombinator.com/item?id=47972511)",
-          "author": {
-            "handle": "betterhn300.e-work.xyz",
-            "displayName": "Hacker News 300"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T18:44:10.905Z",
-          "createdUtc": 1777661050,
-          "ageHours": 5.39,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "darrylmorley/whatcable",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:d76ifp32sz6xqg7tvk5msqwn/app.bsky.feed.post/3mksrjmi3t52i",
-          "cid": "bafyreibu4q6ytxkf5s52a6acbqgu4ujbtw6325udu67lphivctqzq3aj24",
-          "bskyUrl": "https://bsky.app/profile/hot.hn/post/3mksrjmi3t52i",
-          "text": "📰 Show HN: WhatCable, a tiny menu bar app for inspecting USB-C cables 🔗 https://github.com/darrylmorley/whatcable 💬 Discuss on HN",
-          "author": {
-            "handle": "hot.hn",
-            "displayName": "Hacker News Hot 100"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T18:37:22.847Z",
-          "createdUtc": 1777660642,
-          "ageHours": 5.51,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "darrylmorley/whatcable",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "Adam-CAD/CADAM": {
+    "rtk-ai/rtk": {
       "count7d": 2,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mktc3kpcwb2d",
-        "cid": "bafyreigdtw6r3o2zffqdcize23cqyf2jdrwvfm3vqb36h5ndruxr5daxpm",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mktc3kpcwb2d",
-        "text": "https://github.com/Adam-CAD/CADAM",
+        "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3mktba42b3t2v",
+        "cid": "bafyreiez2ldxpmnqidzzobg4a2yts2txi6d6mcgiqr2plxgl4erunzbcbi",
+        "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3mktba42b3t2v",
+        "text": "GitHub - rtk-ai/rtk: CLI proxy that reduces LLM token consumption by 60-90% on common dev commands. Single Rust binary, zero dependencies https://github.com/rtk-ai/rtk",
         "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
+          "handle": "tech-trending.bsky.social",
+          "displayName": "Tech Trending"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-01T23:33:44Z",
-        "hoursSincePosted": 0.57
+        "createdAt": "2026-05-01T23:18:23.515Z",
+        "hoursSincePosted": 4.58
       },
       "posts": [
         {
-          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mktc3kpcwb2d",
-          "cid": "bafyreigdtw6r3o2zffqdcize23cqyf2jdrwvfm3vqb36h5ndruxr5daxpm",
-          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mktc3kpcwb2d",
-          "text": "https://github.com/Adam-CAD/CADAM",
+          "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3mktba42b3t2v",
+          "cid": "bafyreiez2ldxpmnqidzzobg4a2yts2txi6d6mcgiqr2plxgl4erunzbcbi",
+          "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3mktba42b3t2v",
+          "text": "GitHub - rtk-ai/rtk: CLI proxy that reduces LLM token consumption by 60-90% on common dev commands. Single Rust binary, zero dependencies https://github.com/rtk-ai/rtk",
           "author": {
-            "handle": "tom-doerr.bsky.social",
-            "displayName": "Tom Dörr "
+            "handle": "tech-trending.bsky.social",
+            "displayName": "Tech Trending"
           },
-          "likeCount": 0,
+          "likeCount": 1,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-01T23:33:44Z",
-          "createdUtc": 1777678424,
-          "ageHours": 0.57,
-          "trendingScore": 0,
+          "createdAt": "2026-05-01T23:18:23.515Z",
+          "createdUtc": 1777677503,
+          "ageHours": 4.58,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
           ],
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "Adam-CAD/CADAM",
+              "fullName": "rtk-ai/rtk",
               "matchType": "url",
               "confidence": 1
             }
           ]
         },
         {
-          "uri": "at://did:plc:mwh42v5a756u5huo3qdis3ed/app.bsky.feed.post/3mksz6hviyxb2",
-          "cid": "bafyreicpxonx6ytv2k3avbqgtp3hjcormtuizuhzdhzf3pvbxxiipsef7u",
-          "bskyUrl": "https://bsky.app/profile/henk.waag.social.ap.brid.gy/post/3mksz6hviyxb2",
-          "text": "https://github.com/Adam-CAD/CADAM ⛮ The Open Source Text to CAD Web App ⛮ Features: - Describe your 3D model in plain English - Upload images to guide model generation - See your model update instantly with Three.js -Automatically identifies adjustable […] [Original post on waag.social]",
+          "uri": "at://did:plc:tg32e4stp4tzh5ca74vi5hh4/app.bsky.feed.post/3mktod7bmt4i2",
+          "cid": "bafyreihlq2uyziiabirjqkkuyiidg5du64oawfhtvugumk75elyeyovgfu",
+          "bskyUrl": "https://bsky.app/profile/fohte.social.fohte.net.ap.brid.gy/post/3mktod7bmt4i2",
+          "text": "かしこい https://github.com/rtk-ai/rtk",
           "author": {
-            "handle": "henk.waag.social.ap.brid.gy",
-            "displayName": "henk ✅"
+            "handle": "fohte.social.fohte.net.ap.brid.gy",
+            "displayName": "Fohte (ふぉーて)"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-01T20:54:07.000Z",
-          "createdUtc": 1777668847,
-          "ageHours": 3.23,
+          "createdAt": "2026-05-02T03:12:38.000Z",
+          "createdUtc": 1777691558,
+          "ageHours": 0.68,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -211,7 +76,7 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "Adam-CAD/CADAM",
+              "fullName": "rtk-ai/rtk",
               "matchType": "url",
               "confidence": 1
             }
@@ -220,41 +85,41 @@
       ]
     },
     "Lum1104/Understand-Anything": {
-      "count7d": 4,
+      "count7d": 2,
       "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mksy4ko52d2k",
-        "cid": "bafyreigxhofj5eidxfpugxlx5yztdpgrvyz3izz3s7ajai3ayqhval4llu",
-        "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mksy4ko52d2k",
-        "text": "Understand Anything https://github.com/Lum1104/Understand-Anything (https://news.ycombinator.com/item?id=47977470)",
+        "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mkthrdy6by2p",
+        "cid": "bafyreicvlr6waqzv5csiuvz6r6xvx7ik3t4stszdua4hllni3s6smfg2zu",
+        "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mkthrdy6by2p",
+        "text": "Understand Anything https://github.com/Lum1104/Understand-Anything https://news.ycombinator.com/item?id=47977470",
         "author": {
-          "handle": "betterhn50.e-work.xyz",
-          "displayName": "Hacker News 50"
+          "handle": "hn100.atproto.rocks",
+          "displayName": "Hacker News 100"
         },
         "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-01T20:35:20.685Z",
-        "hoursSincePosted": 3.54
+        "createdAt": "2026-05-02T01:15:24.676624+00:00",
+        "hoursSincePosted": 2.63
       },
       "posts": [
         {
-          "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mksy4ko52d2k",
-          "cid": "bafyreigxhofj5eidxfpugxlx5yztdpgrvyz3izz3s7ajai3ayqhval4llu",
-          "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mksy4ko52d2k",
-          "text": "Understand Anything https://github.com/Lum1104/Understand-Anything (https://news.ycombinator.com/item?id=47977470)",
+          "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mkthrdy6by2p",
+          "cid": "bafyreicvlr6waqzv5csiuvz6r6xvx7ik3t4stszdua4hllni3s6smfg2zu",
+          "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mkthrdy6by2p",
+          "text": "Understand Anything https://github.com/Lum1104/Understand-Anything https://news.ycombinator.com/item?id=47977470",
           "author": {
-            "handle": "betterhn50.e-work.xyz",
-            "displayName": "Hacker News 50"
+            "handle": "hn100.atproto.rocks",
+            "displayName": "Hacker News 100"
           },
           "likeCount": 1,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-01T20:35:20.685Z",
-          "createdUtc": 1777667720,
-          "ageHours": 3.54,
+          "createdAt": "2026-05-02T01:15:24.676624+00:00",
+          "createdUtc": 1777684524,
+          "ageHours": 2.63,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -282,7 +147,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T23:23:11.968118Z",
           "createdUtc": 1777677791,
-          "ageHours": 0.74,
+          "ageHours": 4.5,
           "trendingScore": 0,
           "content_tags": [],
           "value_score": 0,
@@ -293,101 +158,45 @@
               "confidence": 1
             }
           ]
-        },
-        {
-          "uri": "at://did:plc:6clcp32vg7hejrq4v7hff3gs/app.bsky.feed.post/3mkswfilhko24",
-          "cid": "bafyreigeiffmzbsmpl7ij3fcrpevfak43wuyhxwkndmljuoe7mfubzmh6i",
-          "bskyUrl": "https://bsky.app/profile/hackernewstop5.bsky.social/post/3mkswfilhko24",
-          "text": "Understand Anything #HackerNews https://github.com/Lum1104/Understand-Anything",
-          "author": {
-            "handle": "hackernewstop5.bsky.social",
-            "displayName": "HackerNewsTop5"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T20:04:33.268Z",
-          "createdUtc": 1777665873,
-          "ageHours": 4.05,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "Lum1104/Understand-Anything",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mkst3flwy52p",
-          "cid": "bafyreicsozant4zawmfld523qs2zs2cosqlz4wlrbhgyd7j7tqvvvcexqi",
-          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mkst3flwy52p",
-          "text": "Understand Anything https://github.com/Lum1104/Understand-Anything (https://news.ycombinator.com/item?id=47977470)",
-          "author": {
-            "handle": "betterhn20.e-work.xyz",
-            "displayName": "Hacker News 20"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T19:05:12.284Z",
-          "createdUtc": 1777662312,
-          "ageHours": 5.04,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "Lum1104/Understand-Anything",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
         }
       ]
     },
-    "rtk-ai/rtk": {
-      "count7d": 1,
+    "browserbase/skills": {
+      "count7d": 2,
       "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3mktba42b3t2v",
-        "cid": "bafyreiez2ldxpmnqidzzobg4a2yts2txi6d6mcgiqr2plxgl4erunzbcbi",
-        "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3mktba42b3t2v",
-        "text": "GitHub - rtk-ai/rtk: CLI proxy that reduces LLM token consumption by 60-90% on common dev commands. Single Rust binary, zero dependencies https://github.com/rtk-ai/rtk",
+        "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mktflzipyv2b",
+        "cid": "bafyreifflaqjmtvhbxrcsucvltahrmplgrntyadjwcfur4pivelbqbfzgu",
+        "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mktflzipyv2b",
+        "text": "Claude CodeなどのAIエージェントにWebブラウザ操作機能を追加するスキルセットらしい AIで効率的に自動テストや調査を行いたい時に便利そう yug1224 starred browserbase/skills https://github.com/browserbase/skills",
         "author": {
-          "handle": "tech-trending.bsky.social",
-          "displayName": "Tech Trending"
+          "handle": "yug1224.com",
+          "displayName": "ぷーじ"
         },
         "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-01T23:18:23.515Z",
-        "hoursSincePosted": 0.82
+        "createdAt": "2026-05-02T00:36:38.259Z",
+        "hoursSincePosted": 3.28
       },
       "posts": [
         {
-          "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3mktba42b3t2v",
-          "cid": "bafyreiez2ldxpmnqidzzobg4a2yts2txi6d6mcgiqr2plxgl4erunzbcbi",
-          "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3mktba42b3t2v",
-          "text": "GitHub - rtk-ai/rtk: CLI proxy that reduces LLM token consumption by 60-90% on common dev commands. Single Rust binary, zero dependencies https://github.com/rtk-ai/rtk",
+          "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mktflzipyv2b",
+          "cid": "bafyreifflaqjmtvhbxrcsucvltahrmplgrntyadjwcfur4pivelbqbfzgu",
+          "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mktflzipyv2b",
+          "text": "Claude CodeなどのAIエージェントにWebブラウザ操作機能を追加するスキルセットらしい AIで効率的に自動テストや調査を行いたい時に便利そう yug1224 starred browserbase/skills https://github.com/browserbase/skills",
           "author": {
-            "handle": "tech-trending.bsky.social",
-            "displayName": "Tech Trending"
+            "handle": "yug1224.com",
+            "displayName": "ぷーじ"
           },
           "likeCount": 1,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-01T23:18:23.515Z",
-          "createdUtc": 1777677503,
-          "ageHours": 0.82,
+          "createdAt": "2026-05-02T00:36:38.259Z",
+          "createdUtc": 1777682198,
+          "ageHours": 3.28,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -395,7 +204,35 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "rtk-ai/rtk",
+              "fullName": "browserbase/skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:n6zzgg5g4qwn4kwwvxs6xjn3/app.bsky.feed.post/3mkthj3d52s2e",
+          "cid": "bafyreifeogxw4d76cxi7dob2mfxa4iflw5xgn27b3pqqicnipgz25zpc6y",
+          "bskyUrl": "https://bsky.app/profile/technews4869.bsky.social/post/3mkthj3d52s2e",
+          "text": "github.com/browserbase/skills GitHub - browserbase/skills: Claude Agent SDK with a web browsing tool",
+          "author": {
+            "handle": "technews4869.bsky.social",
+            "displayName": "technews4869"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T01:10:46.832Z",
+          "createdUtc": 1777684246,
+          "ageHours": 2.71,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "browserbase/skills",
               "matchType": "url",
               "confidence": 1
             }
@@ -403,42 +240,42 @@
         }
       ]
     },
-    "xodn348/destiny": {
-      "count7d": 4,
+    "warpdotdev/warp": {
+      "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:a56dbiks5wmzacs5hsdsxw55/app.bsky.feed.post/3mkt6sr2yx22r",
-        "cid": "bafyreibhngwbimcvuwtmwkag44qdpotitgoiikjykzsrv7t5ifonexyfnu",
-        "bskyUrl": "https://bsky.app/profile/mm-hacker-news.bsky.social/post/3mkt6sr2yx22r",
-        "text": "Show HN: Destiny – Claude Code's fortune Teller skill https://github.com/xodn348/destiny",
+        "uri": "at://did:plc:n6zzgg5g4qwn4kwwvxs6xjn3/app.bsky.feed.post/3mkthiz3dlk2k",
+        "cid": "bafyreidrf7iyi4bzuffh7l2gmgliqhjwabf3ysctttgaq45v5txqbdm4cy",
+        "bskyUrl": "https://bsky.app/profile/technews4869.bsky.social/post/3mkthiz3dlk2k",
+        "text": "github.com/warpdotdev/warp GitHub - warpdotdev/warp: Warp is an agentic development environment, born out of the terminal.",
         "author": {
-          "handle": "mm-hacker-news.bsky.social",
-          "displayName": "Hacker News"
+          "handle": "technews4869.bsky.social",
+          "displayName": "technews4869"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-01T22:35:08.155Z",
-        "hoursSincePosted": 1.54
+        "createdAt": "2026-05-02T01:10:44.478Z",
+        "hoursSincePosted": 2.71
       },
       "posts": [
         {
-          "uri": "at://did:plc:a56dbiks5wmzacs5hsdsxw55/app.bsky.feed.post/3mkt6sr2yx22r",
-          "cid": "bafyreibhngwbimcvuwtmwkag44qdpotitgoiikjykzsrv7t5ifonexyfnu",
-          "bskyUrl": "https://bsky.app/profile/mm-hacker-news.bsky.social/post/3mkt6sr2yx22r",
-          "text": "Show HN: Destiny – Claude Code's fortune Teller skill https://github.com/xodn348/destiny",
+          "uri": "at://did:plc:n6zzgg5g4qwn4kwwvxs6xjn3/app.bsky.feed.post/3mkthiz3dlk2k",
+          "cid": "bafyreidrf7iyi4bzuffh7l2gmgliqhjwabf3ysctttgaq45v5txqbdm4cy",
+          "bskyUrl": "https://bsky.app/profile/technews4869.bsky.social/post/3mkthiz3dlk2k",
+          "text": "github.com/warpdotdev/warp GitHub - warpdotdev/warp: Warp is an agentic development environment, born out of the terminal.",
           "author": {
-            "handle": "mm-hacker-news.bsky.social",
-            "displayName": "Hacker News"
+            "handle": "technews4869.bsky.social",
+            "displayName": "technews4869"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-01T22:35:08.155Z",
-          "createdUtc": 1777674908,
-          "ageHours": 1.54,
+          "createdAt": "2026-05-02T01:10:44.478Z",
+          "createdUtc": 1777684244,
+          "ageHours": 2.71,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -446,27 +283,78 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "xodn348/destiny",
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "1jehuang/jcode": {
+      "count7d": 2,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mktfluebvi2r",
+        "cid": "bafyreibki5egn3ageun4kvp2a4tjphcozxilot4rpz2zdhum2wmuoeozzi",
+        "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mktfluebvi2r",
+        "text": "Unicodeの漢字を日本の文字コードや特定のエンコーディングへ変換できるツールっぽい 文字化けに悩まされる時にサッと使えそうかな yug1224 starred 1jehuang/jcode https://github.com/1jehuang/jcode",
+        "author": {
+          "handle": "yug1224.com",
+          "displayName": "ぷーじ"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-02T00:36:32.688Z",
+        "hoursSincePosted": 3.28
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mktfluebvi2r",
+          "cid": "bafyreibki5egn3ageun4kvp2a4tjphcozxilot4rpz2zdhum2wmuoeozzi",
+          "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mktfluebvi2r",
+          "text": "Unicodeの漢字を日本の文字コードや特定のエンコーディングへ変換できるツールっぽい 文字化けに悩まされる時にサッと使えそうかな yug1224 starred 1jehuang/jcode https://github.com/1jehuang/jcode",
+          "author": {
+            "handle": "yug1224.com",
+            "displayName": "ぷーじ"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T00:36:32.688Z",
+          "createdUtc": 1777682192,
+          "ageHours": 3.28,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "1jehuang/jcode",
               "matchType": "url",
               "confidence": 1
             }
           ]
         },
         {
-          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mkt3hzpg3x24",
-          "cid": "bafyreia6lf5pnls5l7uioui377tonqpgjheybyg7jlhad2idzrkdgqs4ra",
-          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mkt3hzpg3x24",
-          "text": "Show HN: Destiny – Claude Code's fortune Teller skill https://github.com/xodn348/destiny (https://news.ycombinator.com/item?id=47979438)",
+          "uri": "at://did:plc:n6zzgg5g4qwn4kwwvxs6xjn3/app.bsky.feed.post/3mkthip45kn2t",
+          "cid": "bafyreidohrb2a6fawoa34bgg4hwh2vhp22hd6n7awwv7dzcsjxbxjf7usa",
+          "bskyUrl": "https://bsky.app/profile/technews4869.bsky.social/post/3mkthip45kn2t",
+          "text": "github.com/1jehuang/jcode GitHub - 1jehuang/jcode: Coding Agent Harness",
           "author": {
-            "handle": "betterhn20.e-work.xyz",
-            "displayName": "Hacker News 20"
+            "handle": "technews4869.bsky.social",
+            "displayName": "technews4869"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-01T21:35:26.172Z",
-          "createdUtc": 1777671326,
-          "ageHours": 2.54,
+          "createdAt": "2026-05-02T01:10:34.021Z",
+          "createdUtc": 1777684234,
+          "ageHours": 2.71,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -474,27 +362,48 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "xodn348/destiny",
+              "fullName": "1jehuang/jcode",
               "matchType": "url",
               "confidence": 1
             }
           ]
+        }
+      ]
+    },
+    "mattpocock/skills": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:y4aj7oojk4hq64nr3lbxbz6q/app.bsky.feed.post/3mkte4orxh42u",
+        "cid": "bafyreiaxldfbtughll5yhif3ggcuoybg74tslrnj3i73akp4lqzaet6ii4",
+        "bskyUrl": "https://bsky.app/profile/rickqian.bsky.social/post/3mkte4orxh42u",
+        "text": "📡 Builder signal of the day mattpocock/skills - Skills for Real Engineers — via github-trending Daily channel → https://t.me/inforadar_signals Project radar → https://t.me/inforadar_agentbot https://github.com/mattpocock/skills",
+        "author": {
+          "handle": "rickqian.bsky.social"
         },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-02T00:10:09.856620+00:00",
+        "hoursSincePosted": 3.72
+      },
+      "posts": [
         {
-          "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mksxust3yk25",
-          "cid": "bafyreigglloo5t4yfryp3ehkxlsdkifm4y5ty43jrjaaot6eqy2v5eti4i",
-          "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mksxust3yk25",
-          "text": "Show HN: Destiny – Claude Code's fortune Teller skill https://github.com/xodn348/destiny",
+          "uri": "at://did:plc:y4aj7oojk4hq64nr3lbxbz6q/app.bsky.feed.post/3mkte4orxh42u",
+          "cid": "bafyreiaxldfbtughll5yhif3ggcuoybg74tslrnj3i73akp4lqzaet6ii4",
+          "bskyUrl": "https://bsky.app/profile/rickqian.bsky.social/post/3mkte4orxh42u",
+          "text": "📡 Builder signal of the day mattpocock/skills - Skills for Real Engineers — via github-trending Daily channel → https://t.me/inforadar_signals Project radar → https://t.me/inforadar_agentbot https://github.com/mattpocock/skills",
           "author": {
-            "handle": "hnbot.gsuscs.xyz",
-            "displayName": "HackerNews Compilator"
+            "handle": "rickqian.bsky.social"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-01T20:31:01.112Z",
-          "createdUtc": 1777667461,
-          "ageHours": 3.61,
+          "createdAt": "2026-05-02T00:10:09.856620+00:00",
+          "createdUtc": 1777680609,
+          "ageHours": 3.72,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -502,27 +411,50 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "xodn348/destiny",
+              "fullName": "mattpocock/skills",
               "matchType": "url",
               "confidence": 1
             }
           ]
+        }
+      ]
+    },
+    "darrylmorley/whatcable": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:3tadq4w54a5yc27m6azfghwe/app.bsky.feed.post/3mktdkx4lvj2e",
+        "cid": "bafyreigvt73aow6vtlfjuqrsypgup4wj5nt7gc43avpjvtkvpcsydu4clm",
+        "bskyUrl": "https://bsky.app/profile/hnbest.bsky.social/post/3mktdkx4lvj2e",
+        "text": "Show HN: WhatCable, a tiny menu bar app for inspecting USB-C cables https://github.com/darrylmorley/whatcable comments #github.com",
+        "author": {
+          "handle": "hnbest.bsky.social",
+          "displayName": "Hacker News Best"
         },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-02T00:00:14.934296+00:00",
+        "hoursSincePosted": 3.88
+      },
+      "posts": [
         {
-          "uri": "at://did:plc:jmuhjrotgvcquoaqtpcuxjii/app.bsky.feed.post/3mksxdd4xuz2g",
-          "cid": "bafyreidl72p26cccvsugnnisjotjuduxl6mle3aw67h7vzqxpej6ncr7q4",
-          "bskyUrl": "https://bsky.app/profile/hnws.bsky.social/post/3mksxdd4xuz2g",
-          "text": "Show HN: Destiny – Claude Code's fortune Teller skill L: https://github.com/xodn348/destiny C: https://news.ycombinator.com/item?id=47979438 posted on 2026.05.01 at 15:56:18 (c=0, p=4)",
+          "uri": "at://did:plc:3tadq4w54a5yc27m6azfghwe/app.bsky.feed.post/3mktdkx4lvj2e",
+          "cid": "bafyreigvt73aow6vtlfjuqrsypgup4wj5nt7gc43avpjvtkvpcsydu4clm",
+          "bskyUrl": "https://bsky.app/profile/hnbest.bsky.social/post/3mktdkx4lvj2e",
+          "text": "Show HN: WhatCable, a tiny menu bar app for inspecting USB-C cables https://github.com/darrylmorley/whatcable comments #github.com",
           "author": {
-            "handle": "hnws.bsky.social",
-            "displayName": "HN"
+            "handle": "hnbest.bsky.social",
+            "displayName": "Hacker News Best"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-01T20:21:13.970749+00:00",
-          "createdUtc": 1777666873,
-          "ageHours": 3.78,
+          "createdAt": "2026-05-02T00:00:14.934296+00:00",
+          "createdUtc": 1777680014,
+          "ageHours": 3.88,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -530,7 +462,58 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "xodn348/destiny",
+              "fullName": "darrylmorley/whatcable",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "Adam-CAD/CADAM": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mktc3kpcwb2d",
+        "cid": "bafyreigdtw6r3o2zffqdcize23cqyf2jdrwvfm3vqb36h5ndruxr5daxpm",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mktc3kpcwb2d",
+        "text": "https://github.com/Adam-CAD/CADAM",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-01T23:33:44Z",
+        "hoursSincePosted": 4.32
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mktc3kpcwb2d",
+          "cid": "bafyreigdtw6r3o2zffqdcize23cqyf2jdrwvfm3vqb36h5ndruxr5daxpm",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mktc3kpcwb2d",
+          "text": "https://github.com/Adam-CAD/CADAM",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T23:33:44Z",
+          "createdUtc": 1777678424,
+          "ageHours": 4.32,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Adam-CAD/CADAM",
               "matchType": "url",
               "confidence": 1
             }
@@ -556,7 +539,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-01T22:23:19.153Z",
-        "hoursSincePosted": 1.74
+        "hoursSincePosted": 5.5
       },
       "posts": [
         {
@@ -573,7 +556,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T22:23:19.153Z",
           "createdUtc": 1777674199,
-          "ageHours": 1.74,
+          "ageHours": 5.5,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo",
@@ -608,7 +591,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-01T22:02:23.379Z",
-        "hoursSincePosted": 2.09
+        "hoursSincePosted": 5.85
       },
       "posts": [
         {
@@ -625,7 +608,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T22:02:23.379Z",
           "createdUtc": 1777672943,
-          "ageHours": 2.09,
+          "ageHours": 5.85,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -640,515 +623,73 @@
           ]
         }
       ]
-    },
-    "smol-machines/smolvm": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:h4pw4ukmg4q5iuvc4comj6yv/app.bsky.feed.post/3mkt36tl6rm2q",
-        "cid": "bafyreic7q72a3rrf5l7ah33bbouri32t2mmduluywgs2itkuks3wbbhtq4",
-        "bskyUrl": "https://bsky.app/profile/githubprojects.bsky.social/post/3mkt36tl6rm2q",
-        "text": "Tool to build & run portable, lightweight, self-contained virtual machines. Explore more: github.com/smol-machin...",
-        "author": {
-          "handle": "githubprojects.bsky.social",
-          "displayName": "GitHub Projects"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-01T21:30:18.599689Z",
-        "hoursSincePosted": 2.62
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:h4pw4ukmg4q5iuvc4comj6yv/app.bsky.feed.post/3mkt36tl6rm2q",
-          "cid": "bafyreic7q72a3rrf5l7ah33bbouri32t2mmduluywgs2itkuks3wbbhtq4",
-          "bskyUrl": "https://bsky.app/profile/githubprojects.bsky.social/post/3mkt36tl6rm2q",
-          "text": "Tool to build & run portable, lightweight, self-contained virtual machines. Explore more: github.com/smol-machin...",
-          "author": {
-            "handle": "githubprojects.bsky.social",
-            "displayName": "GitHub Projects"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T21:30:18.599689Z",
-          "createdUtc": 1777671018,
-          "ageHours": 2.62,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "smol-machines/smolvm",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "zeroclaw-labs/zeroclaw": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:n76bbphkeqxirgpyjxiznxqj/app.bsky.feed.post/3mksymg4msc2x",
-        "cid": "bafyreiaxb6zt4iu4z7w7eiv5wk3jxbezakukxsvrqjvnvnpqpl3ml2jmvu",
-        "bskyUrl": "https://bsky.app/profile/jperlow.bsky.social/post/3mksymg4msc2x",
-        "text": "Named contributor to Zeroclaw 0.7.4 today—proud to be part of this release with solid improvements and stability fixes. Rust-based agent running in ~5MB RAM, ideal for edge agentic deployments and lightweight apps. github.com/zeroclaw-lab... #Zeroclaw #RustLang #EdgeAI",
-        "author": {
-          "handle": "jperlow.bsky.social",
-          "displayName": "Jason Perlow"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-01T20:44:13.109Z",
-        "hoursSincePosted": 3.39
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:n76bbphkeqxirgpyjxiznxqj/app.bsky.feed.post/3mksymg4msc2x",
-          "cid": "bafyreiaxb6zt4iu4z7w7eiv5wk3jxbezakukxsvrqjvnvnpqpl3ml2jmvu",
-          "bskyUrl": "https://bsky.app/profile/jperlow.bsky.social/post/3mksymg4msc2x",
-          "text": "Named contributor to Zeroclaw 0.7.4 today—proud to be part of this release with solid improvements and stability fixes. Rust-based agent running in ~5MB RAM, ideal for edge agentic deployments and lightweight apps. github.com/zeroclaw-lab... #Zeroclaw #RustLang #EdgeAI",
-          "author": {
-            "handle": "jperlow.bsky.social",
-            "displayName": "Jason Perlow"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-01T20:44:13.109Z",
-          "createdUtc": 1777668253,
-          "ageHours": 3.39,
-          "trendingScore": 1.5,
-          "content_tags": [
-            "has-github-repo",
-            "is-announcement"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "zeroclaw-labs/zeroclaw",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "graykode/abtop": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:tuovdf4ql53zt4tgpfxaer7z/app.bsky.feed.post/3mksxkty2wc2s",
-        "cid": "bafyreigrxsewiqhpub6cb56uhmjcspfss362f6gokcwnpd444zlwzuqede",
-        "bskyUrl": "https://bsky.app/profile/ekropotin.bsky.social/post/3mksxkty2wc2s",
-        "text": "1/2 [abtop](github.com/graykode/abtop) is a very handy TUI for monitoring agent's sessions. I think I've found the perfect way to integrate into #tmux - centric workflows:",
-        "author": {
-          "handle": "ekropotin.bsky.social",
-          "displayName": "Evgeny Kropotin"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-01T20:25:26.789Z",
-        "hoursSincePosted": 3.71
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:tuovdf4ql53zt4tgpfxaer7z/app.bsky.feed.post/3mksxkty2wc2s",
-          "cid": "bafyreigrxsewiqhpub6cb56uhmjcspfss362f6gokcwnpd444zlwzuqede",
-          "bskyUrl": "https://bsky.app/profile/ekropotin.bsky.social/post/3mksxkty2wc2s",
-          "text": "1/2 [abtop](github.com/graykode/abtop) is a very handy TUI for monitoring agent's sessions. I think I've found the perfect way to integrate into #tmux - centric workflows:",
-          "author": {
-            "handle": "ekropotin.bsky.social",
-            "displayName": "Evgeny Kropotin"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T20:25:26.789Z",
-          "createdUtc": 1777667126,
-          "ageHours": 3.71,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "graykode/abtop",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "awalol/DS5Dongle": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:2c54s5gfttam7oumcdkkopbu/app.bsky.feed.post/3mksvg55zxk2p",
-        "cid": "bafyreiggqk7wti6j5gemmluic3oqpz2zcijy4xnietvi5aroidfr3aqrzu",
-        "bskyUrl": "https://bsky.app/profile/rayneyoruka.yorukasworld.org/post/3mksvg55zxk2p",
-        "text": "github.com/awalol/DS5Do...",
-        "author": {
-          "handle": "rayneyoruka.yorukasworld.org",
-          "displayName": "𝕲𝖎𝖗𝖑𝖞𝖕𝖔𝖕 𝖔𝖋 𝕺𝖓𝖎 ⛩️"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-01T19:47:01.167Z",
-        "hoursSincePosted": 4.35
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:2c54s5gfttam7oumcdkkopbu/app.bsky.feed.post/3mksvg55zxk2p",
-          "cid": "bafyreiggqk7wti6j5gemmluic3oqpz2zcijy4xnietvi5aroidfr3aqrzu",
-          "bskyUrl": "https://bsky.app/profile/rayneyoruka.yorukasworld.org/post/3mksvg55zxk2p",
-          "text": "github.com/awalol/DS5Do...",
-          "author": {
-            "handle": "rayneyoruka.yorukasworld.org",
-            "displayName": "𝕲𝖎𝖗𝖑𝖞𝖕𝖔𝖕 𝖔𝖋 𝕺𝖓𝖎 ⛩️"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T19:47:01.167Z",
-          "createdUtc": 1777664821,
-          "ageHours": 4.35,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "awalol/DS5Dongle",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "webadderallorg/Recordly": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:h4pw4ukmg4q5iuvc4comj6yv/app.bsky.feed.post/3mkstn5my5g22",
-        "cid": "bafyreihyhlv6g3ybo7wvwijri3ctyo6fv3nqitswgqtnmemsknnxiy62j4",
-        "bskyUrl": "https://bsky.app/profile/githubprojects.bsky.social/post/3mkstn5my5g22",
-        "text": "Explore more: github.com/webadderall...",
-        "author": {
-          "handle": "githubprojects.bsky.social",
-          "displayName": "GitHub Projects"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-01T19:15:08.846747Z",
-        "hoursSincePosted": 4.88
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:h4pw4ukmg4q5iuvc4comj6yv/app.bsky.feed.post/3mkstn5my5g22",
-          "cid": "bafyreihyhlv6g3ybo7wvwijri3ctyo6fv3nqitswgqtnmemsknnxiy62j4",
-          "bskyUrl": "https://bsky.app/profile/githubprojects.bsky.social/post/3mkstn5my5g22",
-          "text": "Explore more: github.com/webadderall...",
-          "author": {
-            "handle": "githubprojects.bsky.social",
-            "displayName": "GitHub Projects"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T19:15:08.846747Z",
-          "createdUtc": 1777662908,
-          "ageHours": 4.88,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "webadderallorg/Recordly",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "Tracer-Cloud/opensre": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:uwdw4rthvdkclv7n2skldjnm/app.bsky.feed.post/3mksswtrpeq2i",
-        "cid": "bafyreifj6ydxcdsvomkl7s54hycb2gve6on4gpazmdrpkrpi2j7kihaf3q",
-        "bskyUrl": "https://bsky.app/profile/jeremymorgan.com/post/3mksswtrpeq2i",
-        "text": "Open-source SRE agents that pull from Datadog, correlate logs across your stack, and post RCAs to Slack. Ships with synthetic incident tests so you can validate before it touches prod. One-line install. github.com/Tracer-Cloud...",
-        "author": {
-          "handle": "jeremymorgan.com",
-          "displayName": "Jeremy Morgan"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-01T19:02:39.389Z",
-        "hoursSincePosted": 5.09
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:uwdw4rthvdkclv7n2skldjnm/app.bsky.feed.post/3mksswtrpeq2i",
-          "cid": "bafyreifj6ydxcdsvomkl7s54hycb2gve6on4gpazmdrpkrpi2j7kihaf3q",
-          "bskyUrl": "https://bsky.app/profile/jeremymorgan.com/post/3mksswtrpeq2i",
-          "text": "Open-source SRE agents that pull from Datadog, correlate logs across your stack, and post RCAs to Slack. Ships with synthetic incident tests so you can validate before it touches prod. One-line install. github.com/Tracer-Cloud...",
-          "author": {
-            "handle": "jeremymorgan.com",
-            "displayName": "Jeremy Morgan"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T19:02:39.389Z",
-          "createdUtc": 1777662159,
-          "ageHours": 5.09,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "Tracer-Cloud/opensre",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
     }
   },
   "mentionsByRepoId": {
-    "darrylmorley--whatcable": {
-      "count7d": 4,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:3tadq4w54a5yc27m6azfghwe/app.bsky.feed.post/3mktdkx4lvj2e",
-        "cid": "bafyreigvt73aow6vtlfjuqrsypgup4wj5nt7gc43avpjvtkvpcsydu4clm",
-        "bskyUrl": "https://bsky.app/profile/hnbest.bsky.social/post/3mktdkx4lvj2e",
-        "text": "Show HN: WhatCable, a tiny menu bar app for inspecting USB-C cables https://github.com/darrylmorley/whatcable comments #github.com",
-        "author": {
-          "handle": "hnbest.bsky.social",
-          "displayName": "Hacker News Best"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-02T00:00:14.934296+00:00",
-        "hoursSincePosted": 0.5
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:3tadq4w54a5yc27m6azfghwe/app.bsky.feed.post/3mktdkx4lvj2e",
-          "cid": "bafyreigvt73aow6vtlfjuqrsypgup4wj5nt7gc43avpjvtkvpcsydu4clm",
-          "bskyUrl": "https://bsky.app/profile/hnbest.bsky.social/post/3mktdkx4lvj2e",
-          "text": "Show HN: WhatCable, a tiny menu bar app for inspecting USB-C cables https://github.com/darrylmorley/whatcable comments #github.com",
-          "author": {
-            "handle": "hnbest.bsky.social",
-            "displayName": "Hacker News Best"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-02T00:00:14.934296+00:00",
-          "createdUtc": 1777680014,
-          "ageHours": 0.5,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "darrylmorley/whatcable",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:5ny2yyrvukferphydimr3rmb/app.bsky.feed.post/3mkst2h27xk2w",
-          "cid": "bafyreieppyujecs5axbiblpfbi6ey2xi76qcy6apap7ols3dqbzdjtmjfy",
-          "bskyUrl": "https://bsky.app/profile/jonbc.bsky.social/post/3mkst2h27xk2w",
-          "text": "Someone made WhatCable to fix this. See github.com/darrylmorley... Discussed on HN (news.ycombinator.com/item?id=4797...)",
-          "author": {
-            "handle": "jonbc.bsky.social",
-            "displayName": "Jonathan Carlson"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T19:04:41.391Z",
-          "createdUtc": 1777662281,
-          "ageHours": 5.05,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "darrylmorley/whatcable",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:j5jiovhowtgvvuvr2shke2ae/app.bsky.feed.post/3mksrvsavch2g",
-          "cid": "bafyreibxaqdfb6pyomw7ew4xmd5njmuk4kx7mzye7y77fw4gycnbtww4ya",
-          "bskyUrl": "https://bsky.app/profile/betterhn300.e-work.xyz/post/3mksrvsavch2g",
-          "text": "Show HN: WhatCable, a tiny menu bar app for inspecting USB-C cables https://github.com/darrylmorley/whatcable (https://news.ycombinator.com/item?id=47972511)",
-          "author": {
-            "handle": "betterhn300.e-work.xyz",
-            "displayName": "Hacker News 300"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T18:44:10.905Z",
-          "createdUtc": 1777661050,
-          "ageHours": 5.39,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "darrylmorley/whatcable",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:d76ifp32sz6xqg7tvk5msqwn/app.bsky.feed.post/3mksrjmi3t52i",
-          "cid": "bafyreibu4q6ytxkf5s52a6acbqgu4ujbtw6325udu67lphivctqzq3aj24",
-          "bskyUrl": "https://bsky.app/profile/hot.hn/post/3mksrjmi3t52i",
-          "text": "📰 Show HN: WhatCable, a tiny menu bar app for inspecting USB-C cables 🔗 https://github.com/darrylmorley/whatcable 💬 Discuss on HN",
-          "author": {
-            "handle": "hot.hn",
-            "displayName": "Hacker News Hot 100"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T18:37:22.847Z",
-          "createdUtc": 1777660642,
-          "ageHours": 5.51,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "darrylmorley/whatcable",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "adam-cad--cadam": {
+    "rtk-ai--rtk": {
       "count7d": 2,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mktc3kpcwb2d",
-        "cid": "bafyreigdtw6r3o2zffqdcize23cqyf2jdrwvfm3vqb36h5ndruxr5daxpm",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mktc3kpcwb2d",
-        "text": "https://github.com/Adam-CAD/CADAM",
+        "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3mktba42b3t2v",
+        "cid": "bafyreiez2ldxpmnqidzzobg4a2yts2txi6d6mcgiqr2plxgl4erunzbcbi",
+        "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3mktba42b3t2v",
+        "text": "GitHub - rtk-ai/rtk: CLI proxy that reduces LLM token consumption by 60-90% on common dev commands. Single Rust binary, zero dependencies https://github.com/rtk-ai/rtk",
         "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
+          "handle": "tech-trending.bsky.social",
+          "displayName": "Tech Trending"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-01T23:33:44Z",
-        "hoursSincePosted": 0.57
+        "createdAt": "2026-05-01T23:18:23.515Z",
+        "hoursSincePosted": 4.58
       },
       "posts": [
         {
-          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mktc3kpcwb2d",
-          "cid": "bafyreigdtw6r3o2zffqdcize23cqyf2jdrwvfm3vqb36h5ndruxr5daxpm",
-          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mktc3kpcwb2d",
-          "text": "https://github.com/Adam-CAD/CADAM",
+          "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3mktba42b3t2v",
+          "cid": "bafyreiez2ldxpmnqidzzobg4a2yts2txi6d6mcgiqr2plxgl4erunzbcbi",
+          "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3mktba42b3t2v",
+          "text": "GitHub - rtk-ai/rtk: CLI proxy that reduces LLM token consumption by 60-90% on common dev commands. Single Rust binary, zero dependencies https://github.com/rtk-ai/rtk",
           "author": {
-            "handle": "tom-doerr.bsky.social",
-            "displayName": "Tom Dörr "
+            "handle": "tech-trending.bsky.social",
+            "displayName": "Tech Trending"
           },
-          "likeCount": 0,
+          "likeCount": 1,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-01T23:33:44Z",
-          "createdUtc": 1777678424,
-          "ageHours": 0.57,
-          "trendingScore": 0,
+          "createdAt": "2026-05-01T23:18:23.515Z",
+          "createdUtc": 1777677503,
+          "ageHours": 4.58,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
           ],
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "Adam-CAD/CADAM",
+              "fullName": "rtk-ai/rtk",
               "matchType": "url",
               "confidence": 1
             }
           ]
         },
         {
-          "uri": "at://did:plc:mwh42v5a756u5huo3qdis3ed/app.bsky.feed.post/3mksz6hviyxb2",
-          "cid": "bafyreicpxonx6ytv2k3avbqgtp3hjcormtuizuhzdhzf3pvbxxiipsef7u",
-          "bskyUrl": "https://bsky.app/profile/henk.waag.social.ap.brid.gy/post/3mksz6hviyxb2",
-          "text": "https://github.com/Adam-CAD/CADAM ⛮ The Open Source Text to CAD Web App ⛮ Features: - Describe your 3D model in plain English - Upload images to guide model generation - See your model update instantly with Three.js -Automatically identifies adjustable […] [Original post on waag.social]",
+          "uri": "at://did:plc:tg32e4stp4tzh5ca74vi5hh4/app.bsky.feed.post/3mktod7bmt4i2",
+          "cid": "bafyreihlq2uyziiabirjqkkuyiidg5du64oawfhtvugumk75elyeyovgfu",
+          "bskyUrl": "https://bsky.app/profile/fohte.social.fohte.net.ap.brid.gy/post/3mktod7bmt4i2",
+          "text": "かしこい https://github.com/rtk-ai/rtk",
           "author": {
-            "handle": "henk.waag.social.ap.brid.gy",
-            "displayName": "henk ✅"
+            "handle": "fohte.social.fohte.net.ap.brid.gy",
+            "displayName": "Fohte (ふぉーて)"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-01T20:54:07.000Z",
-          "createdUtc": 1777668847,
-          "ageHours": 3.23,
+          "createdAt": "2026-05-02T03:12:38.000Z",
+          "createdUtc": 1777691558,
+          "ageHours": 0.68,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -1156,7 +697,7 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "Adam-CAD/CADAM",
+              "fullName": "rtk-ai/rtk",
               "matchType": "url",
               "confidence": 1
             }
@@ -1165,41 +706,41 @@
       ]
     },
     "lum1104--understand-anything": {
-      "count7d": 4,
+      "count7d": 2,
       "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mksy4ko52d2k",
-        "cid": "bafyreigxhofj5eidxfpugxlx5yztdpgrvyz3izz3s7ajai3ayqhval4llu",
-        "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mksy4ko52d2k",
-        "text": "Understand Anything https://github.com/Lum1104/Understand-Anything (https://news.ycombinator.com/item?id=47977470)",
+        "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mkthrdy6by2p",
+        "cid": "bafyreicvlr6waqzv5csiuvz6r6xvx7ik3t4stszdua4hllni3s6smfg2zu",
+        "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mkthrdy6by2p",
+        "text": "Understand Anything https://github.com/Lum1104/Understand-Anything https://news.ycombinator.com/item?id=47977470",
         "author": {
-          "handle": "betterhn50.e-work.xyz",
-          "displayName": "Hacker News 50"
+          "handle": "hn100.atproto.rocks",
+          "displayName": "Hacker News 100"
         },
         "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-01T20:35:20.685Z",
-        "hoursSincePosted": 3.54
+        "createdAt": "2026-05-02T01:15:24.676624+00:00",
+        "hoursSincePosted": 2.63
       },
       "posts": [
         {
-          "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mksy4ko52d2k",
-          "cid": "bafyreigxhofj5eidxfpugxlx5yztdpgrvyz3izz3s7ajai3ayqhval4llu",
-          "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mksy4ko52d2k",
-          "text": "Understand Anything https://github.com/Lum1104/Understand-Anything (https://news.ycombinator.com/item?id=47977470)",
+          "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mkthrdy6by2p",
+          "cid": "bafyreicvlr6waqzv5csiuvz6r6xvx7ik3t4stszdua4hllni3s6smfg2zu",
+          "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mkthrdy6by2p",
+          "text": "Understand Anything https://github.com/Lum1104/Understand-Anything https://news.ycombinator.com/item?id=47977470",
           "author": {
-            "handle": "betterhn50.e-work.xyz",
-            "displayName": "Hacker News 50"
+            "handle": "hn100.atproto.rocks",
+            "displayName": "Hacker News 100"
           },
           "likeCount": 1,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-01T20:35:20.685Z",
-          "createdUtc": 1777667720,
-          "ageHours": 3.54,
+          "createdAt": "2026-05-02T01:15:24.676624+00:00",
+          "createdUtc": 1777684524,
+          "ageHours": 2.63,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -1227,7 +768,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T23:23:11.968118Z",
           "createdUtc": 1777677791,
-          "ageHours": 0.74,
+          "ageHours": 4.5,
           "trendingScore": 0,
           "content_tags": [],
           "value_score": 0,
@@ -1238,101 +779,45 @@
               "confidence": 1
             }
           ]
-        },
-        {
-          "uri": "at://did:plc:6clcp32vg7hejrq4v7hff3gs/app.bsky.feed.post/3mkswfilhko24",
-          "cid": "bafyreigeiffmzbsmpl7ij3fcrpevfak43wuyhxwkndmljuoe7mfubzmh6i",
-          "bskyUrl": "https://bsky.app/profile/hackernewstop5.bsky.social/post/3mkswfilhko24",
-          "text": "Understand Anything #HackerNews https://github.com/Lum1104/Understand-Anything",
-          "author": {
-            "handle": "hackernewstop5.bsky.social",
-            "displayName": "HackerNewsTop5"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T20:04:33.268Z",
-          "createdUtc": 1777665873,
-          "ageHours": 4.05,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "Lum1104/Understand-Anything",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mkst3flwy52p",
-          "cid": "bafyreicsozant4zawmfld523qs2zs2cosqlz4wlrbhgyd7j7tqvvvcexqi",
-          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mkst3flwy52p",
-          "text": "Understand Anything https://github.com/Lum1104/Understand-Anything (https://news.ycombinator.com/item?id=47977470)",
-          "author": {
-            "handle": "betterhn20.e-work.xyz",
-            "displayName": "Hacker News 20"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T19:05:12.284Z",
-          "createdUtc": 1777662312,
-          "ageHours": 5.04,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "Lum1104/Understand-Anything",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
         }
       ]
     },
-    "rtk-ai--rtk": {
-      "count7d": 1,
+    "browserbase--skills": {
+      "count7d": 2,
       "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3mktba42b3t2v",
-        "cid": "bafyreiez2ldxpmnqidzzobg4a2yts2txi6d6mcgiqr2plxgl4erunzbcbi",
-        "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3mktba42b3t2v",
-        "text": "GitHub - rtk-ai/rtk: CLI proxy that reduces LLM token consumption by 60-90% on common dev commands. Single Rust binary, zero dependencies https://github.com/rtk-ai/rtk",
+        "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mktflzipyv2b",
+        "cid": "bafyreifflaqjmtvhbxrcsucvltahrmplgrntyadjwcfur4pivelbqbfzgu",
+        "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mktflzipyv2b",
+        "text": "Claude CodeなどのAIエージェントにWebブラウザ操作機能を追加するスキルセットらしい AIで効率的に自動テストや調査を行いたい時に便利そう yug1224 starred browserbase/skills https://github.com/browserbase/skills",
         "author": {
-          "handle": "tech-trending.bsky.social",
-          "displayName": "Tech Trending"
+          "handle": "yug1224.com",
+          "displayName": "ぷーじ"
         },
         "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-01T23:18:23.515Z",
-        "hoursSincePosted": 0.82
+        "createdAt": "2026-05-02T00:36:38.259Z",
+        "hoursSincePosted": 3.28
       },
       "posts": [
         {
-          "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3mktba42b3t2v",
-          "cid": "bafyreiez2ldxpmnqidzzobg4a2yts2txi6d6mcgiqr2plxgl4erunzbcbi",
-          "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3mktba42b3t2v",
-          "text": "GitHub - rtk-ai/rtk: CLI proxy that reduces LLM token consumption by 60-90% on common dev commands. Single Rust binary, zero dependencies https://github.com/rtk-ai/rtk",
+          "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mktflzipyv2b",
+          "cid": "bafyreifflaqjmtvhbxrcsucvltahrmplgrntyadjwcfur4pivelbqbfzgu",
+          "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mktflzipyv2b",
+          "text": "Claude CodeなどのAIエージェントにWebブラウザ操作機能を追加するスキルセットらしい AIで効率的に自動テストや調査を行いたい時に便利そう yug1224 starred browserbase/skills https://github.com/browserbase/skills",
           "author": {
-            "handle": "tech-trending.bsky.social",
-            "displayName": "Tech Trending"
+            "handle": "yug1224.com",
+            "displayName": "ぷーじ"
           },
           "likeCount": 1,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-01T23:18:23.515Z",
-          "createdUtc": 1777677503,
-          "ageHours": 0.82,
+          "createdAt": "2026-05-02T00:36:38.259Z",
+          "createdUtc": 1777682198,
+          "ageHours": 3.28,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -1340,7 +825,35 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "rtk-ai/rtk",
+              "fullName": "browserbase/skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:n6zzgg5g4qwn4kwwvxs6xjn3/app.bsky.feed.post/3mkthj3d52s2e",
+          "cid": "bafyreifeogxw4d76cxi7dob2mfxa4iflw5xgn27b3pqqicnipgz25zpc6y",
+          "bskyUrl": "https://bsky.app/profile/technews4869.bsky.social/post/3mkthj3d52s2e",
+          "text": "github.com/browserbase/skills GitHub - browserbase/skills: Claude Agent SDK with a web browsing tool",
+          "author": {
+            "handle": "technews4869.bsky.social",
+            "displayName": "technews4869"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T01:10:46.832Z",
+          "createdUtc": 1777684246,
+          "ageHours": 2.71,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "browserbase/skills",
               "matchType": "url",
               "confidence": 1
             }
@@ -1348,42 +861,42 @@
         }
       ]
     },
-    "xodn348--destiny": {
-      "count7d": 4,
+    "warpdotdev--warp": {
+      "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:a56dbiks5wmzacs5hsdsxw55/app.bsky.feed.post/3mkt6sr2yx22r",
-        "cid": "bafyreibhngwbimcvuwtmwkag44qdpotitgoiikjykzsrv7t5ifonexyfnu",
-        "bskyUrl": "https://bsky.app/profile/mm-hacker-news.bsky.social/post/3mkt6sr2yx22r",
-        "text": "Show HN: Destiny – Claude Code's fortune Teller skill https://github.com/xodn348/destiny",
+        "uri": "at://did:plc:n6zzgg5g4qwn4kwwvxs6xjn3/app.bsky.feed.post/3mkthiz3dlk2k",
+        "cid": "bafyreidrf7iyi4bzuffh7l2gmgliqhjwabf3ysctttgaq45v5txqbdm4cy",
+        "bskyUrl": "https://bsky.app/profile/technews4869.bsky.social/post/3mkthiz3dlk2k",
+        "text": "github.com/warpdotdev/warp GitHub - warpdotdev/warp: Warp is an agentic development environment, born out of the terminal.",
         "author": {
-          "handle": "mm-hacker-news.bsky.social",
-          "displayName": "Hacker News"
+          "handle": "technews4869.bsky.social",
+          "displayName": "technews4869"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-01T22:35:08.155Z",
-        "hoursSincePosted": 1.54
+        "createdAt": "2026-05-02T01:10:44.478Z",
+        "hoursSincePosted": 2.71
       },
       "posts": [
         {
-          "uri": "at://did:plc:a56dbiks5wmzacs5hsdsxw55/app.bsky.feed.post/3mkt6sr2yx22r",
-          "cid": "bafyreibhngwbimcvuwtmwkag44qdpotitgoiikjykzsrv7t5ifonexyfnu",
-          "bskyUrl": "https://bsky.app/profile/mm-hacker-news.bsky.social/post/3mkt6sr2yx22r",
-          "text": "Show HN: Destiny – Claude Code's fortune Teller skill https://github.com/xodn348/destiny",
+          "uri": "at://did:plc:n6zzgg5g4qwn4kwwvxs6xjn3/app.bsky.feed.post/3mkthiz3dlk2k",
+          "cid": "bafyreidrf7iyi4bzuffh7l2gmgliqhjwabf3ysctttgaq45v5txqbdm4cy",
+          "bskyUrl": "https://bsky.app/profile/technews4869.bsky.social/post/3mkthiz3dlk2k",
+          "text": "github.com/warpdotdev/warp GitHub - warpdotdev/warp: Warp is an agentic development environment, born out of the terminal.",
           "author": {
-            "handle": "mm-hacker-news.bsky.social",
-            "displayName": "Hacker News"
+            "handle": "technews4869.bsky.social",
+            "displayName": "technews4869"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-01T22:35:08.155Z",
-          "createdUtc": 1777674908,
-          "ageHours": 1.54,
+          "createdAt": "2026-05-02T01:10:44.478Z",
+          "createdUtc": 1777684244,
+          "ageHours": 2.71,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -1391,27 +904,78 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "xodn348/destiny",
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "1jehuang--jcode": {
+      "count7d": 2,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mktfluebvi2r",
+        "cid": "bafyreibki5egn3ageun4kvp2a4tjphcozxilot4rpz2zdhum2wmuoeozzi",
+        "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mktfluebvi2r",
+        "text": "Unicodeの漢字を日本の文字コードや特定のエンコーディングへ変換できるツールっぽい 文字化けに悩まされる時にサッと使えそうかな yug1224 starred 1jehuang/jcode https://github.com/1jehuang/jcode",
+        "author": {
+          "handle": "yug1224.com",
+          "displayName": "ぷーじ"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-02T00:36:32.688Z",
+        "hoursSincePosted": 3.28
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mktfluebvi2r",
+          "cid": "bafyreibki5egn3ageun4kvp2a4tjphcozxilot4rpz2zdhum2wmuoeozzi",
+          "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mktfluebvi2r",
+          "text": "Unicodeの漢字を日本の文字コードや特定のエンコーディングへ変換できるツールっぽい 文字化けに悩まされる時にサッと使えそうかな yug1224 starred 1jehuang/jcode https://github.com/1jehuang/jcode",
+          "author": {
+            "handle": "yug1224.com",
+            "displayName": "ぷーじ"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T00:36:32.688Z",
+          "createdUtc": 1777682192,
+          "ageHours": 3.28,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "1jehuang/jcode",
               "matchType": "url",
               "confidence": 1
             }
           ]
         },
         {
-          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mkt3hzpg3x24",
-          "cid": "bafyreia6lf5pnls5l7uioui377tonqpgjheybyg7jlhad2idzrkdgqs4ra",
-          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mkt3hzpg3x24",
-          "text": "Show HN: Destiny – Claude Code's fortune Teller skill https://github.com/xodn348/destiny (https://news.ycombinator.com/item?id=47979438)",
+          "uri": "at://did:plc:n6zzgg5g4qwn4kwwvxs6xjn3/app.bsky.feed.post/3mkthip45kn2t",
+          "cid": "bafyreidohrb2a6fawoa34bgg4hwh2vhp22hd6n7awwv7dzcsjxbxjf7usa",
+          "bskyUrl": "https://bsky.app/profile/technews4869.bsky.social/post/3mkthip45kn2t",
+          "text": "github.com/1jehuang/jcode GitHub - 1jehuang/jcode: Coding Agent Harness",
           "author": {
-            "handle": "betterhn20.e-work.xyz",
-            "displayName": "Hacker News 20"
+            "handle": "technews4869.bsky.social",
+            "displayName": "technews4869"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-01T21:35:26.172Z",
-          "createdUtc": 1777671326,
-          "ageHours": 2.54,
+          "createdAt": "2026-05-02T01:10:34.021Z",
+          "createdUtc": 1777684234,
+          "ageHours": 2.71,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -1419,27 +983,48 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "xodn348/destiny",
+              "fullName": "1jehuang/jcode",
               "matchType": "url",
               "confidence": 1
             }
           ]
+        }
+      ]
+    },
+    "mattpocock--skills": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:y4aj7oojk4hq64nr3lbxbz6q/app.bsky.feed.post/3mkte4orxh42u",
+        "cid": "bafyreiaxldfbtughll5yhif3ggcuoybg74tslrnj3i73akp4lqzaet6ii4",
+        "bskyUrl": "https://bsky.app/profile/rickqian.bsky.social/post/3mkte4orxh42u",
+        "text": "📡 Builder signal of the day mattpocock/skills - Skills for Real Engineers — via github-trending Daily channel → https://t.me/inforadar_signals Project radar → https://t.me/inforadar_agentbot https://github.com/mattpocock/skills",
+        "author": {
+          "handle": "rickqian.bsky.social"
         },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-02T00:10:09.856620+00:00",
+        "hoursSincePosted": 3.72
+      },
+      "posts": [
         {
-          "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mksxust3yk25",
-          "cid": "bafyreigglloo5t4yfryp3ehkxlsdkifm4y5ty43jrjaaot6eqy2v5eti4i",
-          "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mksxust3yk25",
-          "text": "Show HN: Destiny – Claude Code's fortune Teller skill https://github.com/xodn348/destiny",
+          "uri": "at://did:plc:y4aj7oojk4hq64nr3lbxbz6q/app.bsky.feed.post/3mkte4orxh42u",
+          "cid": "bafyreiaxldfbtughll5yhif3ggcuoybg74tslrnj3i73akp4lqzaet6ii4",
+          "bskyUrl": "https://bsky.app/profile/rickqian.bsky.social/post/3mkte4orxh42u",
+          "text": "📡 Builder signal of the day mattpocock/skills - Skills for Real Engineers — via github-trending Daily channel → https://t.me/inforadar_signals Project radar → https://t.me/inforadar_agentbot https://github.com/mattpocock/skills",
           "author": {
-            "handle": "hnbot.gsuscs.xyz",
-            "displayName": "HackerNews Compilator"
+            "handle": "rickqian.bsky.social"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-01T20:31:01.112Z",
-          "createdUtc": 1777667461,
-          "ageHours": 3.61,
+          "createdAt": "2026-05-02T00:10:09.856620+00:00",
+          "createdUtc": 1777680609,
+          "ageHours": 3.72,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -1447,27 +1032,50 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "xodn348/destiny",
+              "fullName": "mattpocock/skills",
               "matchType": "url",
               "confidence": 1
             }
           ]
+        }
+      ]
+    },
+    "darrylmorley--whatcable": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:3tadq4w54a5yc27m6azfghwe/app.bsky.feed.post/3mktdkx4lvj2e",
+        "cid": "bafyreigvt73aow6vtlfjuqrsypgup4wj5nt7gc43avpjvtkvpcsydu4clm",
+        "bskyUrl": "https://bsky.app/profile/hnbest.bsky.social/post/3mktdkx4lvj2e",
+        "text": "Show HN: WhatCable, a tiny menu bar app for inspecting USB-C cables https://github.com/darrylmorley/whatcable comments #github.com",
+        "author": {
+          "handle": "hnbest.bsky.social",
+          "displayName": "Hacker News Best"
         },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-02T00:00:14.934296+00:00",
+        "hoursSincePosted": 3.88
+      },
+      "posts": [
         {
-          "uri": "at://did:plc:jmuhjrotgvcquoaqtpcuxjii/app.bsky.feed.post/3mksxdd4xuz2g",
-          "cid": "bafyreidl72p26cccvsugnnisjotjuduxl6mle3aw67h7vzqxpej6ncr7q4",
-          "bskyUrl": "https://bsky.app/profile/hnws.bsky.social/post/3mksxdd4xuz2g",
-          "text": "Show HN: Destiny – Claude Code's fortune Teller skill L: https://github.com/xodn348/destiny C: https://news.ycombinator.com/item?id=47979438 posted on 2026.05.01 at 15:56:18 (c=0, p=4)",
+          "uri": "at://did:plc:3tadq4w54a5yc27m6azfghwe/app.bsky.feed.post/3mktdkx4lvj2e",
+          "cid": "bafyreigvt73aow6vtlfjuqrsypgup4wj5nt7gc43avpjvtkvpcsydu4clm",
+          "bskyUrl": "https://bsky.app/profile/hnbest.bsky.social/post/3mktdkx4lvj2e",
+          "text": "Show HN: WhatCable, a tiny menu bar app for inspecting USB-C cables https://github.com/darrylmorley/whatcable comments #github.com",
           "author": {
-            "handle": "hnws.bsky.social",
-            "displayName": "HN"
+            "handle": "hnbest.bsky.social",
+            "displayName": "Hacker News Best"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-01T20:21:13.970749+00:00",
-          "createdUtc": 1777666873,
-          "ageHours": 3.78,
+          "createdAt": "2026-05-02T00:00:14.934296+00:00",
+          "createdUtc": 1777680014,
+          "ageHours": 3.88,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -1475,7 +1083,58 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "xodn348/destiny",
+              "fullName": "darrylmorley/whatcable",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "adam-cad--cadam": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mktc3kpcwb2d",
+        "cid": "bafyreigdtw6r3o2zffqdcize23cqyf2jdrwvfm3vqb36h5ndruxr5daxpm",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mktc3kpcwb2d",
+        "text": "https://github.com/Adam-CAD/CADAM",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-01T23:33:44Z",
+        "hoursSincePosted": 4.32
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mktc3kpcwb2d",
+          "cid": "bafyreigdtw6r3o2zffqdcize23cqyf2jdrwvfm3vqb36h5ndruxr5daxpm",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mktc3kpcwb2d",
+          "text": "https://github.com/Adam-CAD/CADAM",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-01T23:33:44Z",
+          "createdUtc": 1777678424,
+          "ageHours": 4.32,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Adam-CAD/CADAM",
               "matchType": "url",
               "confidence": 1
             }
@@ -1501,7 +1160,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-01T22:23:19.153Z",
-        "hoursSincePosted": 1.74
+        "hoursSincePosted": 5.5
       },
       "posts": [
         {
@@ -1518,7 +1177,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T22:23:19.153Z",
           "createdUtc": 1777674199,
-          "ageHours": 1.74,
+          "ageHours": 5.5,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo",
@@ -1553,7 +1212,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-01T22:02:23.379Z",
-        "hoursSincePosted": 2.09
+        "hoursSincePosted": 5.85
       },
       "posts": [
         {
@@ -1570,7 +1229,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T22:02:23.379Z",
           "createdUtc": 1777672943,
-          "ageHours": 2.09,
+          "ageHours": 5.85,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -1585,319 +1244,27 @@
           ]
         }
       ]
-    },
-    "smol-machines--smolvm": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:h4pw4ukmg4q5iuvc4comj6yv/app.bsky.feed.post/3mkt36tl6rm2q",
-        "cid": "bafyreic7q72a3rrf5l7ah33bbouri32t2mmduluywgs2itkuks3wbbhtq4",
-        "bskyUrl": "https://bsky.app/profile/githubprojects.bsky.social/post/3mkt36tl6rm2q",
-        "text": "Tool to build & run portable, lightweight, self-contained virtual machines. Explore more: github.com/smol-machin...",
-        "author": {
-          "handle": "githubprojects.bsky.social",
-          "displayName": "GitHub Projects"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-01T21:30:18.599689Z",
-        "hoursSincePosted": 2.62
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:h4pw4ukmg4q5iuvc4comj6yv/app.bsky.feed.post/3mkt36tl6rm2q",
-          "cid": "bafyreic7q72a3rrf5l7ah33bbouri32t2mmduluywgs2itkuks3wbbhtq4",
-          "bskyUrl": "https://bsky.app/profile/githubprojects.bsky.social/post/3mkt36tl6rm2q",
-          "text": "Tool to build & run portable, lightweight, self-contained virtual machines. Explore more: github.com/smol-machin...",
-          "author": {
-            "handle": "githubprojects.bsky.social",
-            "displayName": "GitHub Projects"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T21:30:18.599689Z",
-          "createdUtc": 1777671018,
-          "ageHours": 2.62,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "smol-machines/smolvm",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "zeroclaw-labs--zeroclaw": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:n76bbphkeqxirgpyjxiznxqj/app.bsky.feed.post/3mksymg4msc2x",
-        "cid": "bafyreiaxb6zt4iu4z7w7eiv5wk3jxbezakukxsvrqjvnvnpqpl3ml2jmvu",
-        "bskyUrl": "https://bsky.app/profile/jperlow.bsky.social/post/3mksymg4msc2x",
-        "text": "Named contributor to Zeroclaw 0.7.4 today—proud to be part of this release with solid improvements and stability fixes. Rust-based agent running in ~5MB RAM, ideal for edge agentic deployments and lightweight apps. github.com/zeroclaw-lab... #Zeroclaw #RustLang #EdgeAI",
-        "author": {
-          "handle": "jperlow.bsky.social",
-          "displayName": "Jason Perlow"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-01T20:44:13.109Z",
-        "hoursSincePosted": 3.39
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:n76bbphkeqxirgpyjxiznxqj/app.bsky.feed.post/3mksymg4msc2x",
-          "cid": "bafyreiaxb6zt4iu4z7w7eiv5wk3jxbezakukxsvrqjvnvnpqpl3ml2jmvu",
-          "bskyUrl": "https://bsky.app/profile/jperlow.bsky.social/post/3mksymg4msc2x",
-          "text": "Named contributor to Zeroclaw 0.7.4 today—proud to be part of this release with solid improvements and stability fixes. Rust-based agent running in ~5MB RAM, ideal for edge agentic deployments and lightweight apps. github.com/zeroclaw-lab... #Zeroclaw #RustLang #EdgeAI",
-          "author": {
-            "handle": "jperlow.bsky.social",
-            "displayName": "Jason Perlow"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-01T20:44:13.109Z",
-          "createdUtc": 1777668253,
-          "ageHours": 3.39,
-          "trendingScore": 1.5,
-          "content_tags": [
-            "has-github-repo",
-            "is-announcement"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "zeroclaw-labs/zeroclaw",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "graykode--abtop": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:tuovdf4ql53zt4tgpfxaer7z/app.bsky.feed.post/3mksxkty2wc2s",
-        "cid": "bafyreigrxsewiqhpub6cb56uhmjcspfss362f6gokcwnpd444zlwzuqede",
-        "bskyUrl": "https://bsky.app/profile/ekropotin.bsky.social/post/3mksxkty2wc2s",
-        "text": "1/2 [abtop](github.com/graykode/abtop) is a very handy TUI for monitoring agent's sessions. I think I've found the perfect way to integrate into #tmux - centric workflows:",
-        "author": {
-          "handle": "ekropotin.bsky.social",
-          "displayName": "Evgeny Kropotin"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-01T20:25:26.789Z",
-        "hoursSincePosted": 3.71
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:tuovdf4ql53zt4tgpfxaer7z/app.bsky.feed.post/3mksxkty2wc2s",
-          "cid": "bafyreigrxsewiqhpub6cb56uhmjcspfss362f6gokcwnpd444zlwzuqede",
-          "bskyUrl": "https://bsky.app/profile/ekropotin.bsky.social/post/3mksxkty2wc2s",
-          "text": "1/2 [abtop](github.com/graykode/abtop) is a very handy TUI for monitoring agent's sessions. I think I've found the perfect way to integrate into #tmux - centric workflows:",
-          "author": {
-            "handle": "ekropotin.bsky.social",
-            "displayName": "Evgeny Kropotin"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T20:25:26.789Z",
-          "createdUtc": 1777667126,
-          "ageHours": 3.71,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "graykode/abtop",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "awalol--ds5dongle": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:2c54s5gfttam7oumcdkkopbu/app.bsky.feed.post/3mksvg55zxk2p",
-        "cid": "bafyreiggqk7wti6j5gemmluic3oqpz2zcijy4xnietvi5aroidfr3aqrzu",
-        "bskyUrl": "https://bsky.app/profile/rayneyoruka.yorukasworld.org/post/3mksvg55zxk2p",
-        "text": "github.com/awalol/DS5Do...",
-        "author": {
-          "handle": "rayneyoruka.yorukasworld.org",
-          "displayName": "𝕲𝖎𝖗𝖑𝖞𝖕𝖔𝖕 𝖔𝖋 𝕺𝖓𝖎 ⛩️"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-01T19:47:01.167Z",
-        "hoursSincePosted": 4.35
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:2c54s5gfttam7oumcdkkopbu/app.bsky.feed.post/3mksvg55zxk2p",
-          "cid": "bafyreiggqk7wti6j5gemmluic3oqpz2zcijy4xnietvi5aroidfr3aqrzu",
-          "bskyUrl": "https://bsky.app/profile/rayneyoruka.yorukasworld.org/post/3mksvg55zxk2p",
-          "text": "github.com/awalol/DS5Do...",
-          "author": {
-            "handle": "rayneyoruka.yorukasworld.org",
-            "displayName": "𝕲𝖎𝖗𝖑𝖞𝖕𝖔𝖕 𝖔𝖋 𝕺𝖓𝖎 ⛩️"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T19:47:01.167Z",
-          "createdUtc": 1777664821,
-          "ageHours": 4.35,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "awalol/DS5Dongle",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "webadderallorg--recordly": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:h4pw4ukmg4q5iuvc4comj6yv/app.bsky.feed.post/3mkstn5my5g22",
-        "cid": "bafyreihyhlv6g3ybo7wvwijri3ctyo6fv3nqitswgqtnmemsknnxiy62j4",
-        "bskyUrl": "https://bsky.app/profile/githubprojects.bsky.social/post/3mkstn5my5g22",
-        "text": "Explore more: github.com/webadderall...",
-        "author": {
-          "handle": "githubprojects.bsky.social",
-          "displayName": "GitHub Projects"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-01T19:15:08.846747Z",
-        "hoursSincePosted": 4.88
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:h4pw4ukmg4q5iuvc4comj6yv/app.bsky.feed.post/3mkstn5my5g22",
-          "cid": "bafyreihyhlv6g3ybo7wvwijri3ctyo6fv3nqitswgqtnmemsknnxiy62j4",
-          "bskyUrl": "https://bsky.app/profile/githubprojects.bsky.social/post/3mkstn5my5g22",
-          "text": "Explore more: github.com/webadderall...",
-          "author": {
-            "handle": "githubprojects.bsky.social",
-            "displayName": "GitHub Projects"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T19:15:08.846747Z",
-          "createdUtc": 1777662908,
-          "ageHours": 4.88,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "webadderallorg/Recordly",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "tracer-cloud--opensre": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:uwdw4rthvdkclv7n2skldjnm/app.bsky.feed.post/3mksswtrpeq2i",
-        "cid": "bafyreifj6ydxcdsvomkl7s54hycb2gve6on4gpazmdrpkrpi2j7kihaf3q",
-        "bskyUrl": "https://bsky.app/profile/jeremymorgan.com/post/3mksswtrpeq2i",
-        "text": "Open-source SRE agents that pull from Datadog, correlate logs across your stack, and post RCAs to Slack. Ships with synthetic incident tests so you can validate before it touches prod. One-line install. github.com/Tracer-Cloud...",
-        "author": {
-          "handle": "jeremymorgan.com",
-          "displayName": "Jeremy Morgan"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-01T19:02:39.389Z",
-        "hoursSincePosted": 5.09
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:uwdw4rthvdkclv7n2skldjnm/app.bsky.feed.post/3mksswtrpeq2i",
-          "cid": "bafyreifj6ydxcdsvomkl7s54hycb2gve6on4gpazmdrpkrpi2j7kihaf3q",
-          "bskyUrl": "https://bsky.app/profile/jeremymorgan.com/post/3mksswtrpeq2i",
-          "text": "Open-source SRE agents that pull from Datadog, correlate logs across your stack, and post RCAs to Slack. Ships with synthetic incident tests so you can validate before it touches prod. One-line install. github.com/Tracer-Cloud...",
-          "author": {
-            "handle": "jeremymorgan.com",
-            "displayName": "Jeremy Morgan"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T19:02:39.389Z",
-          "createdUtc": 1777662159,
-          "ageHours": 5.09,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "Tracer-Cloud/opensre",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
     }
   },
   "leaderboard": [
     {
+      "fullName": "1jehuang/jcode",
+      "count7d": 2,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "browserbase/skills",
+      "count7d": 2,
+      "likesSum7d": 1
+    },
+    {
       "fullName": "Lum1104/Understand-Anything",
-      "count7d": 4,
+      "count7d": 2,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "rtk-ai/rtk",
+      "count7d": 2,
       "likesSum7d": 1
     },
     {
@@ -1911,52 +1278,22 @@
       "likesSum7d": 1
     },
     {
-      "fullName": "rtk-ai/rtk",
+      "fullName": "Adam-CAD/CADAM",
       "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "zeroclaw-labs/zeroclaw",
-      "count7d": 1,
-      "likesSum7d": 1
+      "likesSum7d": 0
     },
     {
       "fullName": "darrylmorley/whatcable",
-      "count7d": 4,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "xodn348/destiny",
-      "count7d": 4,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "Adam-CAD/CADAM",
-      "count7d": 2,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "awalol/DS5Dongle",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "graykode/abtop",
+      "fullName": "mattpocock/skills",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "smol-machines/smolvm",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "Tracer-Cloud/opensre",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "webadderallorg/Recordly",
+      "fullName": "warpdotdev/warp",
       "count7d": 1,
       "likesSum7d": 0
     }

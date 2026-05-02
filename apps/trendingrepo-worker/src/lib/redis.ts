@@ -112,18 +112,51 @@ export async function writeDataStore(
   value: unknown,
   opts: { ttlSeconds?: number } = {},
 ): Promise<DataStoreWriteResult> {
-  const writtenAt = new Date().toISOString();
+  // AUDIT-2026-05-04 §B2 — write WriterMeta envelope so dual-writer
+  // observability can show "worker won the last write to <key>" vs
+  // "GHA won". Back-compat: parseWriterMeta in src/lib/data-store.ts
+  // accepts both envelopes and bare ISO strings.
+  const writerMeta = buildWorkerWriterMeta();
+  const writtenAt = writerMeta.ts;
   const handle = await getRedis();
   if (!handle) {
     return { source: 'skipped', writtenAt };
   }
   const payload = JSON.stringify(value);
+  const metaPayload = JSON.stringify(writerMeta);
   const setOpts = opts.ttlSeconds && opts.ttlSeconds > 0 ? { ex: opts.ttlSeconds } : undefined;
   await Promise.all([
     handle.set(`${NAMESPACE}:${key}`, payload, setOpts),
-    handle.set(`${META_NAMESPACE}:${key}`, writtenAt, setOpts),
+    handle.set(`${META_NAMESPACE}:${key}`, metaPayload, setOpts),
   ]);
   return { source: 'redis', writtenAt };
+}
+
+/**
+ * WriterMeta envelope — mirrors src/lib/data-store.ts WriterMeta. Worker
+ * writerId defaults to "worker:<service>:<fetcher>" using FETCHER_NAME (set
+ * by run.ts before invoking each fetcher) or RAILWAY_SERVICE_NAME.
+ */
+interface WorkerWriterMeta {
+  ts: string;
+  writerId?: string;
+  sourceWorkflow?: string;
+  commitSha?: string;
+}
+
+function buildWorkerWriterMeta(): WorkerWriterMeta {
+  const meta: WorkerWriterMeta = { ts: new Date().toISOString() };
+  const explicit = process.env.WRITER_ID?.trim();
+  if (explicit) {
+    meta.writerId = explicit;
+  } else {
+    const service = process.env.RAILWAY_SERVICE_NAME?.trim() ?? 'trendingrepo-worker';
+    const fetcher = process.env.FETCHER_NAME?.trim();
+    meta.writerId = fetcher ? `worker:${service}:${fetcher}` : `worker:${service}`;
+  }
+  const sha = process.env.RAILWAY_GIT_COMMIT_SHA?.trim() ?? process.env.GITHUB_SHA?.trim();
+  if (sha) meta.commitSha = sha;
+  return meta;
 }
 
 /**

@@ -183,7 +183,14 @@ function stampTrackedRepos(value, ts, depth = 0) {
  * @returns {Promise<{ source: "redis" | "skipped"; writtenAt: string }>}
  */
 export async function writeDataStore(key, value, opts = {}) {
-  const writtenAt = new Date().toISOString();
+  // AUDIT-2026-05-04 §B2 — meta carries WriterMeta envelope:
+  //   { ts, writerId, sourceWorkflow, commitSha }
+  // so /admin/staleness can show "GHA scrape-trending wrote this last"
+  // vs "worker oss-trending wrote this last". The reader in
+  // src/lib/data-store.ts (parseWriterMeta) accepts both this envelope
+  // and legacy bare-ISO meta values for back-compat.
+  const writerMeta = buildScriptWriterMeta();
+  const writtenAt = writerMeta.ts;
 
   if (opts.stampPerRecord !== false && value && typeof value === "object") {
     stampTrackedRepos(value, writtenAt);
@@ -195,6 +202,7 @@ export async function writeDataStore(key, value, opts = {}) {
   }
 
   const payload = JSON.stringify(value);
+  const metaPayload = JSON.stringify(writerMeta);
   const setOpts =
     opts.ttlSeconds && opts.ttlSeconds > 0
       ? { ex: opts.ttlSeconds }
@@ -207,10 +215,33 @@ export async function writeDataStore(key, value, opts = {}) {
   // read after meta lands sees both.
   await Promise.all([
     client.set(`${NAMESPACE}:${key}`, payload, setOpts),
-    client.set(`${META_NAMESPACE}:${key}`, writtenAt, setOpts),
+    client.set(`${META_NAMESPACE}:${key}`, metaPayload, setOpts),
   ]);
 
   return { source: "redis", writtenAt };
+}
+
+/**
+ * Build the WriterMeta envelope. Mirrors src/lib/data-store.ts
+ * buildWriterMeta — same shape, same env-var precedence, so dual-writer
+ * observability sees consistent provenance regardless of which path wrote.
+ *
+ * @returns {{ ts: string; writerId?: string; sourceWorkflow?: string; commitSha?: string }}
+ */
+function buildScriptWriterMeta() {
+  const meta = { ts: new Date().toISOString() };
+  const explicit = process.env.WRITER_ID?.trim();
+  if (explicit) meta.writerId = explicit;
+  else if (process.env.GITHUB_WORKFLOW) {
+    meta.writerId = `gha:${process.env.GITHUB_WORKFLOW}`;
+  } else {
+    meta.writerId = "script:local";
+  }
+  const wf = process.env.GITHUB_WORKFLOW?.trim();
+  if (wf) meta.sourceWorkflow = wf;
+  const sha = process.env.GITHUB_SHA?.trim();
+  if (sha) meta.commitSha = sha;
+  return meta;
 }
 
 /**

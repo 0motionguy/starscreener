@@ -94,7 +94,17 @@ export async function runFetcher(
       { fetcher: fetcher.name, dryRun, requiresDb: fetcher.requiresDb === true },
       'fetcher start',
     );
-    const result = await fetcher.run(ctx);
+    // AUDIT-2026-05-04 §B2 — surface fetcher.name to writeDataStore so
+    // the WriterMeta envelope records "worker:<service>:<fetcher>".
+    const prevFetcherEnv = process.env.FETCHER_NAME;
+    process.env.FETCHER_NAME = fetcher.name;
+    let result: RunResult;
+    try {
+      result = await fetcher.run(ctx);
+    } finally {
+      if (prevFetcherEnv === undefined) delete process.env.FETCHER_NAME;
+      else process.env.FETCHER_NAME = prevFetcherEnv;
+    }
     log.info(
       {
         fetcher: fetcher.name,

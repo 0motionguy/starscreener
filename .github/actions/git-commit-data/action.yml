@@ -1,0 +1,83 @@
+name: Commit data files with retry
+description: |
+  Stage an explicit allowlist of paths, short-circuit if there is no diff,
+  commit, then push to origin/main with exponential backoff + jitter to
+  survive the cross-workflow git-push race documented in AUDIT-2026-05-04.
+
+  Why this exists: 14+ data-writing workflows commit to main, each with
+  its own concurrency.group. When 5+ workflows commit in the same minute,
+  the legacy 3×2s retry loop ran out of attempts. This action centralises
+  the retry policy so every data-writing workflow shares the same backoff
+  curve, and a future tweak only touches one file.
+
+  Path allowlist is required (CLAUDE.md anti-pattern: never `git add -A`).
+
+inputs:
+  paths:
+    description: Newline-separated list of paths to git add (NEVER use globs covering untracked dirs).
+    required: true
+  message:
+    description: Commit message.
+    required: true
+  actor-name:
+    description: git config user.name
+    required: false
+    default: trendingrepo-bot
+  actor-email:
+    description: git config user.email
+    required: false
+    default: bot@trendingrepo.local
+  max-attempts:
+    description: How many pull-rebase-push attempts before giving up.
+    required: false
+    default: "6"
+
+runs:
+  using: composite
+  steps:
+    - name: Commit and push with backoff
+      shell: bash
+      env:
+        INPUT_PATHS: ${{ inputs.paths }}
+        INPUT_MESSAGE: ${{ inputs.message }}
+        INPUT_ACTOR_NAME: ${{ inputs.actor-name }}
+        INPUT_ACTOR_EMAIL: ${{ inputs.actor-email }}
+        INPUT_MAX_ATTEMPTS: ${{ inputs.max-attempts }}
+      run: |
+        set -euo pipefail
+        git config user.name  "$INPUT_ACTOR_NAME"
+        git config user.email "$INPUT_ACTOR_EMAIL"
+
+        # Stage each path on its own line. Empty / commented lines skipped.
+        # `xargs` is intentionally avoided — paths may contain spaces.
+        while IFS= read -r p; do
+          p="${p#"${p%%[![:space:]]*}"}"   # trim leading whitespace
+          p="${p%"${p##*[![:space:]]}"}"   # trim trailing whitespace
+          [[ -z "$p" || "$p" == \#* ]] && continue
+          git add -- "$p"
+        done <<< "$INPUT_PATHS"
+
+        if git diff --quiet --staged; then
+          echo "no changes - skipping commit"
+          exit 0
+        fi
+
+        git commit -m "$INPUT_MESSAGE"
+
+        max="$INPUT_MAX_ATTEMPTS"
+        for ((i=1; i<=max; i++)); do
+          if git pull --rebase --autostash origin main && git push; then
+            echo "pushed on attempt $i"
+            exit 0
+          fi
+          if (( i == max )); then break; fi
+          # Exponential backoff capped at 60s, plus 1-5s jitter to break herds.
+          base=$((2 ** (i - 1) * 2))
+          if (( base > 60 )); then base=60; fi
+          jitter=$(( (RANDOM % 5) + 1 ))
+          sleep_s=$(( base + jitter ))
+          echo "push attempt $i failed; sleeping ${sleep_s}s before retry"
+          sleep "$sleep_s"
+        done
+        echo "push failed after $max attempts"
+        exit 1

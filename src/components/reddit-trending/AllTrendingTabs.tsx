@@ -29,12 +29,22 @@ import type { RedditAllPost } from "@/lib/reddit-all";
 import { redditPostHref, repoFullNameToHref } from "@/lib/reddit";
 import { cn, formatNumber } from "@/lib/utils";
 
-export type TrendingTab = "trending-now" | "hot-7d" | "by-subreddit";
+export type TrendingTab =
+  | "trending-now"
+  | "hot-7d"
+  | "hot-30d"
+  | "by-subreddit";
 
-const TAB_IDS: TrendingTab[] = ["trending-now", "hot-7d", "by-subreddit"];
+const TAB_IDS: TrendingTab[] = [
+  "trending-now",
+  "hot-7d",
+  "hot-30d",
+  "by-subreddit",
+];
 const TAB_LABELS: Record<TrendingTab, string> = {
-  "trending-now": "Trending Now",
+  "trending-now": "Trending 24h",
   "hot-7d": "Hot 7d",
+  "hot-30d": "Hot 30d",
   "by-subreddit": "By Subreddit",
 };
 
@@ -42,6 +52,7 @@ type TabIcon = ComponentType<SVGProps<SVGSVGElement> & { size?: number }>;
 const TAB_ICONS: Record<TrendingTab, TabIcon> = {
   "trending-now": TrendingUp,
   "hot-7d": Flame,
+  "hot-30d": Flame,
   "by-subreddit": Users,
 };
 
@@ -272,6 +283,8 @@ export function AllTrendingTabs({ posts }: { posts: RedditAllPost[] }) {
         return sortTrendingNow(filterByWindow(chipFiltered, 24, nowMs)).slice(0, 50);
       case "hot-7d":
         return sortHot7d(filterByWindow(chipFiltered, 168, nowMs)).slice(0, 50);
+      case "hot-30d":
+        return sortHot7d(filterByWindow(chipFiltered, 30 * 24, nowMs)).slice(0, 50);
       case "by-subreddit":
         return filterByWindow(chipFiltered, 168, nowMs);
     }
@@ -317,6 +330,7 @@ export function AllTrendingTabs({ posts }: { posts: RedditAllPost[] }) {
     return {
       "trending-now": filterByWindow(chipFiltered, 24, nowMs).length,
       "hot-7d": filterByWindow(chipFiltered, 168, nowMs).length,
+      "hot-30d": filterByWindow(chipFiltered, 30 * 24, nowMs).length,
       "by-subreddit": filterByWindow(chipFiltered, 168, nowMs).length,
     };
   }, [topicFiltered, activeChips, showAll, nowMs]);

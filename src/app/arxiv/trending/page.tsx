@@ -20,6 +20,7 @@ import {
   TerminalFeedTable,
   type FeedColumn,
 } from "@/components/feed/TerminalFeedTable";
+import { WindowedFeedTable } from "@/components/feed/WindowedFeedTable";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
@@ -151,15 +152,43 @@ export default async function ArxivTrendingPage() {
             ]}
           />
         }
-        listEyebrow="Paper feed · top 100 by domain momentum"
+        listEyebrow="Paper feed · 24h / 7d / 30d window · domain momentum"
         list={
           <>
             <EnrichmentBanner />
-            <ArxivPaperFeed papers={papers} />
+            <WindowedArxivFeed papers={papers} />
           </>
         }
       />
     </main>
+  );
+}
+
+// AUDIT-2026-05-04 follow-up: 24h / 7d / 30d toggle on /arxiv/trending.
+// Each ArxivPaperTrending carries `daysSincePublished` (computed by the
+// scorer from `publishedAt`). Papers are already sorted by domain
+// momentum descending — we just slice by age window and let the client
+// toggle which of the three pre-sorted lists to render. Default 7d
+// matches arXiv's normal "this week" reading rhythm.
+function WindowedArxivFeed({ papers }: { papers: ArxivPaperTrending[] }) {
+  const inWindow = (maxDays: number) =>
+    papers.filter((p) => {
+      const d = p.daysSincePublished;
+      return typeof d === "number" && d <= maxDays;
+    });
+  const w24h = inWindow(1);
+  const w7d = inWindow(7);
+  const w30d = inWindow(30);
+  return (
+    <WindowedFeedTable
+      count24h={w24h.length}
+      count7d={w7d.length}
+      count30d={w30d.length}
+      table24h={<ArxivPaperFeed papers={w24h} />}
+      table7d={<ArxivPaperFeed papers={w7d} />}
+      table30d={<ArxivPaperFeed papers={w30d} />}
+      defaultWindow="7d"
+    />
   );
 }
 

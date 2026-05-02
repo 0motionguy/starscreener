@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-02T13:48:51.743Z",
+  "fetchedAt": "2026-05-02T19:17:55.951Z",
   "period": "past_28_days",
   "collections": {
     "10010": {
@@ -7,13 +7,24 @@
         {
           "repoId": 155220641,
           "repoName": "huggingface/transformers",
-          "currentPeriodGrowth": 274,
+          "currentPeriodGrowth": 276,
           "pastPeriodGrowth": 268,
-          "growthPop": 2.24,
+          "growthPop": 2.99,
           "rankPop": 0,
-          "total": 151945,
+          "total": 151947,
           "currentPeriodRank": 1,
           "pastPeriodRank": 1
+        },
+        {
+          "repoId": 268163609,
+          "repoName": "qdrant/qdrant",
+          "currentPeriodGrowth": 162,
+          "pastPeriodGrowth": 161,
+          "growthPop": 0.62,
+          "rankPop": -2,
+          "total": 25629,
+          "currentPeriodRank": 2,
+          "pastPeriodRank": 4
         },
         {
           "repoId": 65600975,
@@ -21,43 +32,32 @@
           "currentPeriodGrowth": 161,
           "pastPeriodGrowth": 213,
           "growthPop": -24.41,
-          "rankPop": 0,
+          "rankPop": 1,
           "total": 98795,
-          "currentPeriodRank": 2,
-          "pastPeriodRank": 2
-        },
-        {
-          "repoId": 268163609,
-          "repoName": "qdrant/qdrant",
-          "currentPeriodGrowth": 161,
-          "pastPeriodGrowth": 161,
-          "growthPop": 0,
-          "rankPop": -1,
-          "total": 25628,
           "currentPeriodRank": 3,
-          "pastPeriodRank": 4
+          "pastPeriodRank": 2
         },
         {
           "repoId": 45717250,
           "repoName": "tensorflow/tensorflow",
-          "currentPeriodGrowth": 123,
+          "currentPeriodGrowth": 124,
           "pastPeriodGrowth": 180,
-          "growthPop": -31.67,
+          "growthPop": -31.11,
           "rankPop": 1,
-          "total": 215803,
+          "total": 215804,
           "currentPeriodRank": 4,
           "pastPeriodRank": 3
         },
         {
           "repoId": 208728772,
           "repoName": "milvus-io/milvus",
-          "currentPeriodGrowth": 89,
+          "currentPeriodGrowth": 90,
           "pastPeriodGrowth": 90,
-          "growthPop": -1.11,
-          "rankPop": -3,
-          "total": 40648,
+          "growthPop": 0,
+          "rankPop": -2,
+          "total": 40649,
           "currentPeriodRank": 5,
-          "pastPeriodRank": 8
+          "pastPeriodRank": 7
         },
         {
           "repoId": 136202695,
@@ -84,13 +84,13 @@
         {
           "repoId": 843222,
           "repoName": "scikit-learn/scikit-learn",
-          "currentPeriodGrowth": 80,
+          "currentPeriodGrowth": 82,
           "pastPeriodGrowth": 90,
-          "growthPop": -11.11,
-          "rankPop": 1,
-          "total": 69746,
+          "growthPop": -8.89,
+          "rankPop": 0,
+          "total": 69748,
           "currentPeriodRank": 8,
-          "pastPeriodRank": 7
+          "pastPeriodRank": 8
         },
         {
           "repoId": 181436799,
@@ -106,11 +106,11 @@
         {
           "repoId": 33015583,
           "repoName": "keras-team/keras",
-          "currentPeriodGrowth": 38,
+          "currentPeriodGrowth": 39,
           "pastPeriodGrowth": 48,
-          "growthPop": -20.83,
+          "growthPop": -18.75,
           "rankPop": 0,
-          "total": 70149,
+          "total": 70150,
           "currentPeriodRank": 10,
           "pastPeriodRank": 10
         },
@@ -164,9 +164,20 @@
           "currentPeriodGrowth": 12,
           "pastPeriodGrowth": 18,
           "growthPop": -33.33,
-          "rankPop": 1,
+          "rankPop": 0,
           "total": 32539,
           "currentPeriodRank": 15,
+          "pastPeriodRank": 15
+        },
+        {
+          "repoId": 154747577,
+          "repoName": "google-research/bert",
+          "currentPeriodGrowth": 10,
+          "pastPeriodGrowth": 18,
+          "growthPop": -44.44,
+          "rankPop": 2,
+          "total": 40511,
+          "currentPeriodRank": 16,
           "pastPeriodRank": 14
         },
         {
@@ -175,21 +186,10 @@
           "currentPeriodGrowth": 9,
           "pastPeriodGrowth": 16,
           "growthPop": -43.75,
-          "rankPop": 0,
+          "rankPop": 1,
           "total": 27874,
-          "currentPeriodRank": 16,
-          "pastPeriodRank": 16
-        },
-        {
-          "repoId": 154747577,
-          "repoName": "google-research/bert",
-          "currentPeriodGrowth": 9,
-          "pastPeriodGrowth": 18,
-          "growthPop": -50,
-          "rankPop": 2,
-          "total": 40510,
           "currentPeriodRank": 17,
-          "pastPeriodRank": 15
+          "pastPeriodRank": 16
         },
         {
           "repoId": 65711522,
@@ -214,26 +214,26 @@
           "pastPeriodRank": 21
         },
         {
-          "repoId": 63484632,
-          "repoName": "facebookresearch/fastText",
-          "currentPeriodGrowth": 6,
-          "pastPeriodGrowth": 11,
-          "growthPop": -45.45,
-          "rankPop": 1,
-          "total": 27926,
-          "currentPeriodRank": 20,
-          "pastPeriodRank": 19
-        },
-        {
           "repoId": 102973646,
           "repoName": "fastai/fastai",
           "currentPeriodGrowth": 6,
           "pastPeriodGrowth": 20,
           "growthPop": -70,
-          "rankPop": 8,
+          "rankPop": 7,
           "total": 28561,
-          "currentPeriodRank": 21,
+          "currentPeriodRank": 20,
           "pastPeriodRank": 13
+        },
+        {
+          "repoId": 63484632,
+          "repoName": "facebookresearch/fastText",
+          "currentPeriodGrowth": 6,
+          "pastPeriodGrowth": 11,
+          "growthPop": -45.45,
+          "rankPop": 2,
+          "total": 27926,
+          "currentPeriodRank": 21,
+          "pastPeriodRank": 19
         },
         {
           "repoId": 58157629,
@@ -241,10 +241,10 @@
           "currentPeriodGrowth": 5,
           "pastPeriodGrowth": 2,
           "growthPop": 150,
-          "rankPop": -5,
+          "rankPop": -4,
           "total": 20912,
           "currentPeriodRank": 22,
-          "pastPeriodRank": 27
+          "pastPeriodRank": 26
         },
         {
           "repoId": 12791642,
@@ -258,26 +258,37 @@
           "pastPeriodRank": 24
         },
         {
-          "repoId": 135673451,
-          "repoName": "microsoft/nni",
-          "currentPeriodGrowth": 3,
-          "pastPeriodGrowth": 6,
-          "growthPop": -50,
-          "rankPop": 1,
-          "total": 14883,
-          "currentPeriodRank": 24,
-          "pastPeriodRank": 23
-        },
-        {
           "repoId": 34864402,
           "repoName": "apache/mxnet",
           "currentPeriodGrowth": 3,
           "pastPeriodGrowth": 1,
           "growthPop": 200,
-          "rankPop": -4,
+          "rankPop": -8,
           "total": 23243,
+          "currentPeriodRank": 24,
+          "pastPeriodRank": 32
+        },
+        {
+          "repoId": 135673451,
+          "repoName": "microsoft/nni",
+          "currentPeriodGrowth": 3,
+          "pastPeriodGrowth": 6,
+          "growthPop": -50,
+          "rankPop": 2,
+          "total": 14883,
           "currentPeriodRank": 25,
-          "pastPeriodRank": 29
+          "pastPeriodRank": 23
+        },
+        {
+          "repoId": 114898943,
+          "repoName": "SeldonIO/seldon-core",
+          "currentPeriodGrowth": 2,
+          "pastPeriodGrowth": 1,
+          "growthPop": 100,
+          "rankPop": -5,
+          "total": 4575,
+          "currentPeriodRank": 26,
+          "pastPeriodRank": 31
         },
         {
           "repoId": 46918116,
@@ -287,19 +298,8 @@
           "growthPop": 0,
           "rankPop": 0,
           "total": 19977,
-          "currentPeriodRank": 26,
-          "pastPeriodRank": 26
-        },
-        {
-          "repoId": 114898943,
-          "repoName": "SeldonIO/seldon-core",
-          "currentPeriodGrowth": 2,
-          "pastPeriodGrowth": 1,
-          "growthPop": 100,
-          "rankPop": -3,
-          "total": 4575,
           "currentPeriodRank": 27,
-          "pastPeriodRank": 30
+          "pastPeriodRank": 27
         },
         {
           "repoId": 14734876,
@@ -313,17 +313,6 @@
           "pastPeriodRank": 25
         },
         {
-          "repoId": 34275045,
-          "repoName": "kaldi-asr/kaldi",
-          "currentPeriodGrowth": 1,
-          "pastPeriodGrowth": 7,
-          "growthPop": -85.71,
-          "rankPop": 7,
-          "total": 15688,
-          "currentPeriodRank": 29,
-          "pastPeriodRank": 22
-        },
-        {
           "repoId": 89322848,
           "repoName": "Angel-ML/angel",
           "currentPeriodGrowth": 1,
@@ -331,7 +320,7 @@
           "growthPop": 0,
           "rankPop": 0,
           "total": 7257,
-          "currentPeriodRank": 30,
+          "currentPeriodRank": 29,
           "pastPeriodRank": 0
         },
         {
@@ -342,8 +331,19 @@
           "growthPop": 0,
           "rankPop": -4,
           "total": 8168,
+          "currentPeriodRank": 30,
+          "pastPeriodRank": 34
+        },
+        {
+          "repoId": 34275045,
+          "repoName": "kaldi-asr/kaldi",
+          "currentPeriodGrowth": 1,
+          "pastPeriodGrowth": 7,
+          "growthPop": -85.71,
+          "rankPop": 9,
+          "total": 15688,
           "currentPeriodRank": 31,
-          "pastPeriodRank": 35
+          "pastPeriodRank": 22
         },
         {
           "repoId": 2183193,
@@ -351,10 +351,10 @@
           "currentPeriodGrowth": 1,
           "pastPeriodGrowth": 1,
           "growthPop": 0,
-          "rankPop": -1,
+          "rankPop": 3,
           "total": 11606,
           "currentPeriodRank": 32,
-          "pastPeriodRank": 33
+          "pastPeriodRank": 29
         }
       ],
       "issues": [
@@ -376,7 +376,7 @@
           "pastPeriodGrowth": 28,
           "growthPop": -39.29,
           "rankPop": -1,
-          "total": 14972,
+          "total": 14974,
           "currentPeriodRank": 2,
           "pastPeriodRank": 3
         },
@@ -425,37 +425,26 @@
           "pastPeriodRank": 8
         },
         {
-          "repoId": 268163609,
-          "repoName": "qdrant/qdrant",
-          "currentPeriodGrowth": 4,
-          "pastPeriodGrowth": 3,
-          "growthPop": 33.33,
-          "rankPop": -4,
-          "total": 1628,
-          "currentPeriodRank": 7,
-          "pastPeriodRank": 11
-        },
-        {
           "repoId": 5108051,
           "repoName": "opencv/opencv",
           "currentPeriodGrowth": 4,
           "pastPeriodGrowth": 12,
           "growthPop": -66.67,
-          "rankPop": 1,
+          "rankPop": 0,
           "total": 11334,
-          "currentPeriodRank": 8,
+          "currentPeriodRank": 7,
           "pastPeriodRank": 7
         },
         {
-          "repoId": 843222,
-          "repoName": "scikit-learn/scikit-learn",
-          "currentPeriodGrowth": 3,
+          "repoId": 268163609,
+          "repoName": "qdrant/qdrant",
+          "currentPeriodGrowth": 4,
           "pastPeriodGrowth": 3,
-          "growthPop": 0,
-          "rankPop": -1,
-          "total": 11595,
-          "currentPeriodRank": 9,
-          "pastPeriodRank": 10
+          "growthPop": 33.33,
+          "rankPop": -3,
+          "total": 1628,
+          "currentPeriodRank": 8,
+          "pastPeriodRank": 11
         },
         {
           "repoId": 65711522,
@@ -463,21 +452,21 @@
           "currentPeriodGrowth": 3,
           "pastPeriodGrowth": 6,
           "growthPop": -50,
-          "rankPop": 1,
+          "rankPop": 0,
           "total": 19054,
-          "currentPeriodRank": 10,
+          "currentPeriodRank": 9,
           "pastPeriodRank": 9
         },
         {
-          "repoId": 33015583,
-          "repoName": "keras-team/keras",
-          "currentPeriodGrowth": 2,
-          "pastPeriodGrowth": 14,
-          "growthPop": -85.71,
-          "rankPop": 5,
-          "total": 13263,
-          "currentPeriodRank": 11,
-          "pastPeriodRank": 6
+          "repoId": 843222,
+          "repoName": "scikit-learn/scikit-learn",
+          "currentPeriodGrowth": 3,
+          "pastPeriodGrowth": 3,
+          "growthPop": 0,
+          "rankPop": 0,
+          "total": 11595,
+          "currentPeriodRank": 10,
+          "pastPeriodRank": 10
         },
         {
           "repoId": 178626720,
@@ -487,19 +476,19 @@
           "growthPop": 0,
           "rankPop": -1,
           "total": 7486,
-          "currentPeriodRank": 12,
-          "pastPeriodRank": 13
+          "currentPeriodRank": 11,
+          "pastPeriodRank": 12
         },
         {
-          "repoId": 95879426,
-          "repoName": "Tencent/ncnn",
-          "currentPeriodGrowth": 1,
-          "pastPeriodGrowth": 0,
-          "growthPop": 0,
-          "rankPop": 0,
-          "total": 3647,
-          "currentPeriodRank": 13,
-          "pastPeriodRank": 0
+          "repoId": 33015583,
+          "repoName": "keras-team/keras",
+          "currentPeriodGrowth": 2,
+          "pastPeriodGrowth": 14,
+          "growthPop": -85.71,
+          "rankPop": 6,
+          "total": 13263,
+          "currentPeriodRank": 12,
+          "pastPeriodRank": 6
         },
         {
           "repoId": 2183193,
@@ -509,7 +498,7 @@
           "growthPop": 0,
           "rankPop": 0,
           "total": 2660,
-          "currentPeriodRank": 14,
+          "currentPeriodRank": 13,
           "pastPeriodRank": 0
         },
         {
@@ -520,7 +509,7 @@
           "growthPop": 0,
           "rankPop": 0,
           "total": 2308,
-          "currentPeriodRank": 15,
+          "currentPeriodRank": 14,
           "pastPeriodRank": 0
         },
         {
@@ -529,10 +518,21 @@
           "currentPeriodGrowth": 1,
           "pastPeriodGrowth": 2,
           "growthPop": -50,
-          "rankPop": 2,
+          "rankPop": 1,
           "total": 4571,
-          "currentPeriodRank": 16,
+          "currentPeriodRank": 15,
           "pastPeriodRank": 14
+        },
+        {
+          "repoId": 95879426,
+          "repoName": "Tencent/ncnn",
+          "currentPeriodGrowth": 1,
+          "pastPeriodGrowth": 0,
+          "growthPop": 0,
+          "rankPop": 0,
+          "total": 3647,
+          "currentPeriodRank": 16,
+          "pastPeriodRank": 0
         }
       ]
     },
@@ -541,11 +541,11 @@
         {
           "repoId": 612354784,
           "repoName": "ggml-org/llama.cpp",
-          "currentPeriodGrowth": 1114,
+          "currentPeriodGrowth": 1119,
           "pastPeriodGrowth": 783,
-          "growthPop": 42.27,
+          "growthPop": 42.91,
           "rankPop": 0,
-          "total": 89888,
+          "total": 89893,
           "currentPeriodRank": 1,
           "pastPeriodRank": 1
         },
@@ -563,13 +563,13 @@
         {
           "repoId": 619959033,
           "repoName": "nomic-ai/gpt4all",
-          "currentPeriodGrowth": 51,
+          "currentPeriodGrowth": 52,
           "pastPeriodGrowth": 40,
-          "growthPop": 27.5,
-          "rankPop": 0,
-          "total": 73230,
+          "growthPop": 30,
+          "rankPop": -1,
+          "total": 73231,
           "currentPeriodRank": 3,
-          "pastPeriodRank": 3
+          "pastPeriodRank": 4
         },
         {
           "repoId": 288108533,
@@ -577,10 +577,10 @@
           "currentPeriodGrowth": 37,
           "pastPeriodGrowth": 40,
           "growthPop": -7.5,
-          "rankPop": 0,
+          "rankPop": 1,
           "total": 22399,
           "currentPeriodRank": 4,
-          "pastPeriodRank": 4
+          "pastPeriodRank": 3
         },
         {
           "repoId": 601538369,
@@ -605,17 +605,6 @@
           "pastPeriodRank": 7
         },
         {
-          "repoId": 615882673,
-          "repoName": "lm-sys/FastChat",
-          "currentPeriodGrowth": 11,
-          "pastPeriodGrowth": 23,
-          "growthPop": -52.17,
-          "rankPop": 1,
-          "total": 37874,
-          "currentPeriodRank": 7,
-          "pastPeriodRank": 6
-        },
-        {
           "repoId": 612427246,
           "repoName": "tatsu-lab/stanford_alpaca",
           "currentPeriodGrowth": 11,
@@ -623,8 +612,19 @@
           "growthPop": 266.67,
           "rankPop": -4,
           "total": 29069,
+          "currentPeriodRank": 7,
+          "pastPeriodRank": 11
+        },
+        {
+          "repoId": 615882673,
+          "repoName": "lm-sys/FastChat",
+          "currentPeriodGrowth": 11,
+          "pastPeriodGrowth": 23,
+          "growthPop": -52.17,
+          "rankPop": 2,
+          "total": 37874,
           "currentPeriodRank": 8,
-          "pastPeriodRank": 12
+          "pastPeriodRank": 6
         },
         {
           "repoId": 422274596,
@@ -671,6 +671,17 @@
           "pastPeriodRank": 0
         },
         {
+          "repoId": 618511002,
+          "repoName": "databrickslabs/dolly",
+          "currentPeriodGrowth": 1,
+          "pastPeriodGrowth": 2,
+          "growthPop": -50,
+          "rankPop": 0,
+          "total": 10429,
+          "currentPeriodRank": 13,
+          "pastPeriodRank": 13
+        },
+        {
           "repoId": 608892940,
           "repoName": "togethercomputer/OpenChatKit",
           "currentPeriodGrowth": 1,
@@ -678,19 +689,8 @@
           "growthPop": -66.67,
           "rankPop": 2,
           "total": 8724,
-          "currentPeriodRank": 13,
-          "pastPeriodRank": 11
-        },
-        {
-          "repoId": 618511002,
-          "repoName": "databrickslabs/dolly",
-          "currentPeriodGrowth": 1,
-          "pastPeriodGrowth": 2,
-          "growthPop": -50,
-          "rankPop": 1,
-          "total": 10429,
           "currentPeriodRank": 14,
-          "pastPeriodRank": 13
+          "pastPeriodRank": 12
         },
         {
           "repoId": 591782276,
@@ -698,21 +698,21 @@
           "currentPeriodGrowth": 1,
           "pastPeriodGrowth": 1,
           "growthPop": 0,
-          "rankPop": 0,
+          "rankPop": -2,
           "total": 3392,
           "currentPeriodRank": 15,
-          "pastPeriodRank": 15
+          "pastPeriodRank": 17
         }
       ],
       "issues": [
         {
           "repoId": 612354784,
           "repoName": "ggml-org/llama.cpp",
-          "currentPeriodGrowth": 50,
+          "currentPeriodGrowth": 51,
           "pastPeriodGrowth": 69,
-          "growthPop": -27.54,
+          "growthPop": -26.09,
           "rankPop": 0,
-          "total": 6858,
+          "total": 6859,
           "currentPeriodRank": 1,
           "pastPeriodRank": 1
         },
@@ -734,55 +734,55 @@
         {
           "repoId": 626805178,
           "repoName": "langgenius/dify",
-          "currentPeriodGrowth": 702,
+          "currentPeriodGrowth": 707,
           "pastPeriodGrowth": 834,
-          "growthPop": -15.83,
+          "growthPop": -15.23,
           "rankPop": 0,
-          "total": 111074,
+          "total": 111079,
           "currentPeriodRank": 1,
           "pastPeriodRank": 1
         },
         {
           "repoId": 552661142,
           "repoName": "langchain-ai/langchain",
-          "currentPeriodGrowth": 560,
+          "currentPeriodGrowth": 562,
           "pastPeriodGrowth": 724,
-          "growthPop": -22.65,
+          "growthPop": -22.38,
           "rankPop": 0,
-          "total": 116453,
+          "total": 116455,
           "currentPeriodRank": 2,
           "pastPeriodRank": 2
         },
         {
           "repoId": 656099147,
           "repoName": "mem0ai/mem0",
-          "currentPeriodGrowth": 438,
+          "currentPeriodGrowth": 440,
           "pastPeriodGrowth": 547,
-          "growthPop": -19.93,
+          "growthPop": -19.56,
           "rankPop": 0,
-          "total": 39739,
+          "total": 39741,
           "currentPeriodRank": 3,
           "pastPeriodRank": 3
         },
         {
           "repoId": 642497346,
           "repoName": "langfuse/langfuse",
-          "currentPeriodGrowth": 302,
+          "currentPeriodGrowth": 304,
           "pastPeriodGrowth": 276,
-          "growthPop": 9.42,
+          "growthPop": 10.14,
           "rankPop": 0,
-          "total": 16370,
+          "total": 16372,
           "currentPeriodRank": 4,
           "pastPeriodRank": 4
         },
         {
           "repoId": 967530387,
           "repoName": "VoltAgent/voltagent",
-          "currentPeriodGrowth": 243,
+          "currentPeriodGrowth": 242,
           "pastPeriodGrowth": 142,
-          "growthPop": 71.13,
+          "growthPop": 70.42,
           "rankPop": -4,
-          "total": 3974,
+          "total": 3973,
           "currentPeriodRank": 5,
           "pastPeriodRank": 9
         },
@@ -800,11 +800,11 @@
         {
           "repoId": 560704231,
           "repoName": "run-llama/llama_index",
-          "currentPeriodGrowth": 134,
+          "currentPeriodGrowth": 135,
           "pastPeriodGrowth": 140,
-          "growthPop": -4.29,
+          "growthPop": -3.57,
           "rankPop": -3,
-          "total": 43097,
+          "total": 43098,
           "currentPeriodRank": 7,
           "pastPeriodRank": 10
         },
@@ -844,11 +844,11 @@
         {
           "repoId": 676829188,
           "repoName": "confident-ai/deepeval",
-          "currentPeriodGrowth": 96,
+          "currentPeriodGrowth": 97,
           "pastPeriodGrowth": 75,
-          "growthPop": 28,
+          "growthPop": 29.33,
           "rankPop": -1,
-          "total": 9953,
+          "total": 9954,
           "currentPeriodRank": 11,
           "pastPeriodRank": 12
         },
@@ -880,10 +880,10 @@
           "currentPeriodGrowth": 36,
           "pastPeriodGrowth": 36,
           "growthPop": 0,
-          "rankPop": -1,
+          "rankPop": -2,
           "total": 10122,
           "currentPeriodRank": 14,
-          "pastPeriodRank": 15
+          "pastPeriodRank": 16
         },
         {
           "repoId": 640182997,
@@ -891,10 +891,10 @@
           "currentPeriodGrowth": 25,
           "pastPeriodGrowth": 36,
           "growthPop": -30.56,
-          "rankPop": -1,
+          "rankPop": 0,
           "total": 16113,
           "currentPeriodRank": 15,
-          "pastPeriodRank": 16
+          "pastPeriodRank": 15
         },
         {
           "repoId": 449649393,
@@ -924,10 +924,10 @@
           "currentPeriodGrowth": 6,
           "pastPeriodGrowth": 4,
           "growthPop": 50,
-          "rankPop": -2,
+          "rankPop": -1,
           "total": 20174,
           "currentPeriodRank": 18,
-          "pastPeriodRank": 20
+          "pastPeriodRank": 19
         },
         {
           "repoId": 618276831,
@@ -935,10 +935,10 @@
           "currentPeriodGrowth": 6,
           "pastPeriodGrowth": 2,
           "growthPop": 200,
-          "rankPop": -3,
+          "rankPop": -4,
           "total": 7364,
           "currentPeriodRank": 19,
-          "pastPeriodRank": 22
+          "pastPeriodRank": 23
         },
         {
           "repoId": 1109510791,
@@ -952,6 +952,17 @@
           "pastPeriodRank": 18
         },
         {
+          "repoId": 577429312,
+          "repoName": "promptslab/Promptify",
+          "currentPeriodGrowth": 2,
+          "pastPeriodGrowth": 2,
+          "growthPop": 0,
+          "rankPop": 0,
+          "total": 3931,
+          "currentPeriodRank": 21,
+          "pastPeriodRank": 21
+        },
+        {
           "repoId": 613486352,
           "repoName": "rustformers/llm",
           "currentPeriodGrowth": 2,
@@ -959,19 +970,8 @@
           "growthPop": -50,
           "rankPop": 2,
           "total": 5961,
-          "currentPeriodRank": 21,
-          "pastPeriodRank": 19
-        },
-        {
-          "repoId": 577429312,
-          "repoName": "promptslab/Promptify",
-          "currentPeriodGrowth": 2,
-          "pastPeriodGrowth": 2,
-          "growthPop": 0,
-          "rankPop": -1,
-          "total": 3931,
           "currentPeriodRank": 22,
-          "pastPeriodRank": 23
+          "pastPeriodRank": 20
         },
         {
           "repoId": 504625145,
@@ -1037,7 +1037,7 @@
           "pastPeriodGrowth": 11,
           "growthPop": -45.45,
           "rankPop": 0,
-          "total": 9441,
+          "total": 9442,
           "currentPeriodRank": 5,
           "pastPeriodRank": 5
         },
@@ -1064,14 +1064,25 @@
           "pastPeriodRank": 6
         },
         {
+          "repoId": 449649393,
+          "repoName": "keploy/keploy",
+          "currentPeriodGrowth": 3,
+          "pastPeriodGrowth": 1,
+          "growthPop": 200,
+          "rankPop": -7,
+          "total": 1590,
+          "currentPeriodRank": 8,
+          "pastPeriodRank": 15
+        },
+        {
           "repoId": 967530387,
           "repoName": "VoltAgent/voltagent",
           "currentPeriodGrowth": 3,
           "pastPeriodGrowth": 4,
           "growthPop": -25,
-          "rankPop": -2,
+          "rankPop": -1,
           "total": 177,
-          "currentPeriodRank": 8,
+          "currentPeriodRank": 9,
           "pastPeriodRank": 10
         },
         {
@@ -1080,21 +1091,10 @@
           "currentPeriodGrowth": 3,
           "pastPeriodGrowth": 1,
           "growthPop": 200,
-          "rankPop": -3,
+          "rankPop": -2,
           "total": 421,
-          "currentPeriodRank": 9,
-          "pastPeriodRank": 12
-        },
-        {
-          "repoId": 449649393,
-          "repoName": "keploy/keploy",
-          "currentPeriodGrowth": 3,
-          "pastPeriodGrowth": 1,
-          "growthPop": 200,
-          "rankPop": -5,
-          "total": 1590,
           "currentPeriodRank": 10,
-          "pastPeriodRank": 15
+          "pastPeriodRank": 12
         },
         {
           "repoId": 613984283,
@@ -1125,33 +1125,33 @@
         {
           "repoId": 522158088,
           "repoName": "zhayujie/chatgpt-on-wechat",
-          "currentPeriodGrowth": 196,
+          "currentPeriodGrowth": 197,
           "pastPeriodGrowth": 173,
-          "growthPop": 13.29,
+          "growthPop": 13.87,
           "rankPop": -2,
-          "total": 38951,
+          "total": 38952,
           "currentPeriodRank": 1,
           "pastPeriodRank": 3
         },
         {
           "repoId": 599320067,
           "repoName": "langflow-ai/langflow",
-          "currentPeriodGrowth": 189,
+          "currentPeriodGrowth": 191,
           "pastPeriodGrowth": 270,
-          "growthPop": -30,
+          "growthPop": -29.26,
           "rankPop": 1,
-          "total": 104960,
+          "total": 104962,
           "currentPeriodRank": 2,
           "pastPeriodRank": 1
         },
         {
           "repoId": 614765452,
           "repoName": "Significant-Gravitas/AutoGPT",
-          "currentPeriodGrowth": 176,
+          "currentPeriodGrowth": 177,
           "pastPeriodGrowth": 210,
-          "growthPop": -16.19,
+          "growthPop": -15.71,
           "rankPop": 1,
-          "total": 175192,
+          "total": 175193,
           "currentPeriodRank": 3,
           "pastPeriodRank": 2
         },
@@ -1189,26 +1189,26 @@
           "pastPeriodRank": 8
         },
         {
-          "repoId": 624681066,
-          "repoName": "reworkd/AgentGPT",
-          "currentPeriodGrowth": 33,
-          "pastPeriodGrowth": 40,
-          "growthPop": -17.5,
-          "rankPop": 0,
-          "total": 33804,
-          "currentPeriodRank": 7,
-          "pastPeriodRank": 7
-        },
-        {
           "repoId": 574506496,
           "repoName": "lss233/kirara-ai",
           "currentPeriodGrowth": 33,
           "pastPeriodGrowth": 52,
           "growthPop": -36.54,
-          "rankPop": 2,
+          "rankPop": 1,
           "total": 16917,
-          "currentPeriodRank": 8,
+          "currentPeriodRank": 7,
           "pastPeriodRank": 6
+        },
+        {
+          "repoId": 624681066,
+          "repoName": "reworkd/AgentGPT",
+          "currentPeriodGrowth": 33,
+          "pastPeriodGrowth": 40,
+          "growthPop": -17.5,
+          "rankPop": 1,
+          "total": 33804,
+          "currentPeriodRank": 8,
+          "pastPeriodRank": 7
         },
         {
           "repoId": 575340621,
@@ -1290,24 +1290,13 @@
         {
           "repoId": 628419800,
           "repoName": "Vision-CAIR/MiniGPT-4",
-          "currentPeriodGrowth": 5,
+          "currentPeriodGrowth": 6,
           "pastPeriodGrowth": 4,
-          "growthPop": 25,
+          "growthPop": 50,
           "rankPop": -7,
-          "total": 24964,
+          "total": 24965,
           "currentPeriodRank": 16,
           "pastPeriodRank": 23
-        },
-        {
-          "repoId": 602366280,
-          "repoName": "yihong0618/xiaogpt",
-          "currentPeriodGrowth": 4,
-          "pastPeriodGrowth": 6,
-          "growthPop": -33.33,
-          "rankPop": 1,
-          "total": 6549,
-          "currentPeriodRank": 17,
-          "pastPeriodRank": 16
         },
         {
           "repoId": 599394820,
@@ -1315,9 +1304,9 @@
           "currentPeriodGrowth": 4,
           "pastPeriodGrowth": 4,
           "growthPop": 0,
-          "rankPop": -3,
+          "rankPop": -4,
           "total": 32291,
-          "currentPeriodRank": 18,
+          "currentPeriodRank": 17,
           "pastPeriodRank": 21
         },
         {
@@ -1328,8 +1317,41 @@
           "growthPop": 0,
           "rankPop": 0,
           "total": 4320,
-          "currentPeriodRank": 19,
+          "currentPeriodRank": 18,
           "pastPeriodRank": 0
+        },
+        {
+          "repoId": 602366280,
+          "repoName": "yihong0618/xiaogpt",
+          "currentPeriodGrowth": 4,
+          "pastPeriodGrowth": 6,
+          "growthPop": -33.33,
+          "rankPop": 3,
+          "total": 6549,
+          "currentPeriodRank": 19,
+          "pastPeriodRank": 16
+        },
+        {
+          "repoId": 614656648,
+          "repoName": "sqlchat/sqlchat",
+          "currentPeriodGrowth": 3,
+          "pastPeriodGrowth": 5,
+          "growthPop": -40,
+          "rankPop": 2,
+          "total": 5258,
+          "currentPeriodRank": 20,
+          "pastPeriodRank": 18
+        },
+        {
+          "repoId": 598539671,
+          "repoName": "ConnectAI-E/feishu-openai",
+          "currentPeriodGrowth": 3,
+          "pastPeriodGrowth": 5,
+          "growthPop": -40,
+          "rankPop": 4,
+          "total": 5474,
+          "currentPeriodRank": 21,
+          "pastPeriodRank": 17
         },
         {
           "repoId": 574965758,
@@ -1339,41 +1361,19 @@
           "growthPop": 0,
           "rankPop": 0,
           "total": 13603,
-          "currentPeriodRank": 20,
+          "currentPeriodRank": 22,
           "pastPeriodRank": 0
         },
         {
-          "repoId": 614656648,
-          "repoName": "sqlchat/sqlchat",
-          "currentPeriodGrowth": 3,
-          "pastPeriodGrowth": 5,
-          "growthPop": -40,
-          "rankPop": 4,
-          "total": 5258,
-          "currentPeriodRank": 21,
-          "pastPeriodRank": 17
-        },
-        {
-          "repoId": 598539671,
-          "repoName": "ConnectAI-E/feishu-openai",
-          "currentPeriodGrowth": 3,
-          "pastPeriodGrowth": 5,
-          "growthPop": -40,
-          "rankPop": 2,
-          "total": 5474,
-          "currentPeriodRank": 22,
-          "pastPeriodRank": 20
-        },
-        {
-          "repoId": 449649595,
-          "repoName": "pingcap/ossinsight",
+          "repoId": 614258120,
+          "repoName": "ChatGPTBox-dev/chatGPTBox",
           "currentPeriodGrowth": 2,
           "pastPeriodGrowth": 5,
           "growthPop": -60,
-          "rankPop": 5,
-          "total": 2086,
+          "rankPop": 4,
+          "total": 10306,
           "currentPeriodRank": 23,
-          "pastPeriodRank": 18
+          "pastPeriodRank": 19
         },
         {
           "repoId": 606913964,
@@ -1392,21 +1392,21 @@
           "currentPeriodGrowth": 2,
           "pastPeriodGrowth": 1,
           "growthPop": 100,
-          "rankPop": -6,
+          "rankPop": -3,
           "total": 4955,
           "currentPeriodRank": 25,
-          "pastPeriodRank": 31
+          "pastPeriodRank": 28
         },
         {
-          "repoId": 614258120,
-          "repoName": "ChatGPTBox-dev/chatGPTBox",
+          "repoId": 449649595,
+          "repoName": "pingcap/ossinsight",
           "currentPeriodGrowth": 2,
           "pastPeriodGrowth": 5,
           "growthPop": -60,
-          "rankPop": 7,
-          "total": 10306,
+          "rankPop": 6,
+          "total": 2086,
           "currentPeriodRank": 26,
-          "pastPeriodRank": 19
+          "pastPeriodRank": 20
         },
         {
           "repoId": 608555244,
@@ -1414,10 +1414,10 @@
           "currentPeriodGrowth": 1,
           "pastPeriodGrowth": 2,
           "growthPop": -50,
-          "rankPop": 2,
+          "rankPop": 1,
           "total": 33922,
           "currentPeriodRank": 27,
-          "pastPeriodRank": 25
+          "pastPeriodRank": 26
         }
       ],
       "issues": [
@@ -1527,55 +1527,55 @@
         {
           "repoId": 946380199,
           "repoName": "openai/openai-agents-python",
-          "currentPeriodGrowth": 904,
+          "currentPeriodGrowth": 905,
           "pastPeriodGrowth": 200,
-          "growthPop": 352,
+          "growthPop": 352.5,
           "rankPop": -5,
-          "total": 14758,
+          "total": 14759,
           "currentPeriodRank": 1,
           "pastPeriodRank": 6
         },
         {
           "repoId": 552661142,
           "repoName": "langchain-ai/langchain",
-          "currentPeriodGrowth": 560,
+          "currentPeriodGrowth": 562,
           "pastPeriodGrowth": 724,
-          "growthPop": -22.65,
+          "growthPop": -22.38,
           "rankPop": 1,
-          "total": 116453,
+          "total": 116455,
           "currentPeriodRank": 2,
           "pastPeriodRank": 1
         },
         {
           "repoId": 710601088,
           "repoName": "crewAIInc/crewAI",
-          "currentPeriodGrowth": 427,
+          "currentPeriodGrowth": 428,
           "pastPeriodGrowth": 450,
-          "growthPop": -5.11,
+          "growthPop": -4.89,
           "rankPop": 1,
-          "total": 37417,
+          "total": 37418,
           "currentPeriodRank": 3,
           "pastPeriodRank": 2
         },
         {
           "repoId": 967530387,
           "repoName": "VoltAgent/voltagent",
-          "currentPeriodGrowth": 243,
+          "currentPeriodGrowth": 242,
           "pastPeriodGrowth": 142,
-          "growthPop": 71.13,
+          "growthPop": 70.42,
           "rankPop": -5,
-          "total": 3974,
+          "total": 3973,
           "currentPeriodRank": 4,
           "pastPeriodRank": 9
         },
         {
           "repoId": 660551251,
           "repoName": "FoundationAgents/MetaGPT",
-          "currentPeriodGrowth": 202,
+          "currentPeriodGrowth": 203,
           "pastPeriodGrowth": 337,
-          "growthPop": -40.06,
+          "growthPop": -39.76,
           "rankPop": 2,
-          "total": 59546,
+          "total": 59547,
           "currentPeriodRank": 5,
           "pastPeriodRank": 3
         },
@@ -1593,22 +1593,22 @@
         {
           "repoId": 614765452,
           "repoName": "Significant-Gravitas/AutoGPT",
-          "currentPeriodGrowth": 176,
+          "currentPeriodGrowth": 177,
           "pastPeriodGrowth": 210,
-          "growthPop": -16.19,
+          "growthPop": -15.71,
           "rankPop": 2,
-          "total": 175192,
+          "total": 175193,
           "currentPeriodRank": 7,
           "pastPeriodRank": 5
         },
         {
           "repoId": 839037098,
           "repoName": "mastra-ai/mastra",
-          "currentPeriodGrowth": 120,
+          "currentPeriodGrowth": 121,
           "pastPeriodGrowth": 154,
-          "growthPop": -22.08,
+          "growthPop": -21.43,
           "rankPop": 1,
-          "total": 16048,
+          "total": 16049,
           "currentPeriodRank": 8,
           "pastPeriodRank": 7
         },
@@ -1679,26 +1679,26 @@
           "pastPeriodRank": 15
         },
         {
-          "repoId": 1156780833,
-          "repoName": "omega-memory/omega-memory",
-          "currentPeriodGrowth": 7,
-          "pastPeriodGrowth": 4,
-          "growthPop": 75,
-          "rankPop": -2,
-          "total": 25,
-          "currentPeriodRank": 15,
-          "pastPeriodRank": 17
-        },
-        {
           "repoId": 622737738,
           "repoName": "yoheinakajima/babyagi",
           "currentPeriodGrowth": 7,
           "pastPeriodGrowth": 22,
           "growthPop": -68.18,
-          "rankPop": 3,
+          "rankPop": 2,
           "total": 20979,
-          "currentPeriodRank": 16,
+          "currentPeriodRank": 15,
           "pastPeriodRank": 13
+        },
+        {
+          "repoId": 1156780833,
+          "repoName": "omega-memory/omega-memory",
+          "currentPeriodGrowth": 7,
+          "pastPeriodGrowth": 4,
+          "growthPop": 75,
+          "rankPop": -1,
+          "total": 25,
+          "currentPeriodRank": 16,
+          "pastPeriodRank": 17
         },
         {
           "repoId": 667645956,
@@ -1716,9 +1716,9 @@
         {
           "repoId": 621118467,
           "repoName": "microsoft/JARVIS",
-          "currentPeriodGrowth": 71,
+          "currentPeriodGrowth": 72,
           "pastPeriodGrowth": 110,
-          "growthPop": -35.45,
+          "growthPop": -34.55,
           "rankPop": 0,
           "total": 816,
           "currentPeriodRank": 1,
@@ -1749,13 +1749,13 @@
         {
           "repoId": 818331198,
           "repoName": "pydantic/pydantic-ai",
-          "currentPeriodGrowth": 12,
+          "currentPeriodGrowth": 13,
           "pastPeriodGrowth": 16,
-          "growthPop": -25,
-          "rankPop": -1,
-          "total": 1689,
+          "growthPop": -18.75,
+          "rankPop": 0,
+          "total": 1690,
           "currentPeriodRank": 4,
-          "pastPeriodRank": 5
+          "pastPeriodRank": 4
         },
         {
           "repoId": 488641606,
@@ -1763,10 +1763,10 @@
           "currentPeriodGrowth": 11,
           "pastPeriodGrowth": 16,
           "growthPop": -31.25,
-          "rankPop": 1,
+          "rankPop": 0,
           "total": 1701,
           "currentPeriodRank": 5,
-          "pastPeriodRank": 4
+          "pastPeriodRank": 5
         },
         {
           "repoId": 710601088,
@@ -1863,22 +1863,22 @@
         {
           "repoId": 890668799,
           "repoName": "modelcontextprotocol/servers",
-          "currentPeriodGrowth": 356,
+          "currentPeriodGrowth": 357,
           "pastPeriodGrowth": 453,
-          "growthPop": -21.41,
+          "growthPop": -21.19,
           "rankPop": 0,
-          "total": 60379,
+          "total": 60380,
           "currentPeriodRank": 2,
           "pastPeriodRank": 2
         },
         {
           "repoId": 952688112,
           "repoName": "microsoft/playwright-mcp",
-          "currentPeriodGrowth": 255,
+          "currentPeriodGrowth": 254,
           "pastPeriodGrowth": 356,
-          "growthPop": -28.37,
+          "growthPop": -28.65,
           "rankPop": 0,
-          "total": 18764,
+          "total": 18763,
           "currentPeriodRank": 3,
           "pastPeriodRank": 3
         },
@@ -1896,22 +1896,22 @@
         {
           "repoId": 942771284,
           "repoName": "github/github-mcp-server",
-          "currentPeriodGrowth": 140,
+          "currentPeriodGrowth": 141,
           "pastPeriodGrowth": 169,
-          "growthPop": -17.16,
+          "growthPop": -16.57,
           "rankPop": 1,
-          "total": 19882,
+          "total": 19883,
           "currentPeriodRank": 5,
           "pastPeriodRank": 4
         },
         {
           "repoId": 896296825,
           "repoName": "PrefectHQ/fastmcp",
-          "currentPeriodGrowth": 129,
+          "currentPeriodGrowth": 130,
           "pastPeriodGrowth": 152,
-          "growthPop": -15.13,
+          "growthPop": -14.47,
           "rankPop": 1,
-          "total": 16152,
+          "total": 16153,
           "currentPeriodRank": 6,
           "pastPeriodRank": 5
         },
@@ -1929,22 +1929,22 @@
         {
           "repoId": 953335676,
           "repoName": "LaurieWired/GhidraMCP",
-          "currentPeriodGrowth": 85,
+          "currentPeriodGrowth": 86,
           "pastPeriodGrowth": 58,
-          "growthPop": 46.55,
+          "growthPop": 48.28,
           "rankPop": -4,
-          "total": 5765,
+          "total": 5766,
           "currentPeriodRank": 8,
           "pastPeriodRank": 12
         },
         {
           "repoId": 849553306,
           "repoName": "anthropics/anthropic-quickstarts",
-          "currentPeriodGrowth": 80,
+          "currentPeriodGrowth": 81,
           "pastPeriodGrowth": 124,
-          "growthPop": -35.48,
+          "growthPop": -34.68,
           "rankPop": 2,
-          "total": 11108,
+          "total": 11109,
           "currentPeriodRank": 9,
           "pastPeriodRank": 7
         },
@@ -2006,11 +2006,11 @@
         {
           "repoId": 956472076,
           "repoName": "mcp-use/mcp-use",
-          "currentPeriodGrowth": 38,
+          "currentPeriodGrowth": 39,
           "pastPeriodGrowth": 50,
-          "growthPop": -24,
+          "growthPop": -22,
           "rankPop": 0,
-          "total": 6191,
+          "total": 6192,
           "currentPeriodRank": 15,
           "pastPeriodRank": 15
         },
@@ -2094,26 +2094,26 @@
           "pastPeriodRank": 1
         },
         {
-          "repoId": 942771284,
-          "repoName": "github/github-mcp-server",
+          "repoId": 952238700,
+          "repoName": "awslabs/mcp",
           "currentPeriodGrowth": 4,
-          "pastPeriodGrowth": 10,
-          "growthPop": -60,
-          "rankPop": -1,
-          "total": 636,
+          "pastPeriodGrowth": 4,
+          "growthPop": 0,
+          "rankPop": -4,
+          "total": 415,
           "currentPeriodRank": 3,
-          "pastPeriodRank": 4
+          "pastPeriodRank": 7
         },
         {
-          "repoId": 573661753,
-          "repoName": "activepieces/activepieces",
+          "repoId": 952688112,
+          "repoName": "microsoft/playwright-mcp",
           "currentPeriodGrowth": 4,
-          "pastPeriodGrowth": 10,
-          "growthPop": -60,
-          "rankPop": -1,
-          "total": 3106,
+          "pastPeriodGrowth": 3,
+          "growthPop": 33.33,
+          "rankPop": -7,
+          "total": 610,
           "currentPeriodRank": 4,
-          "pastPeriodRank": 5
+          "pastPeriodRank": 11
         },
         {
           "repoId": 812044182,
@@ -2127,26 +2127,26 @@
           "pastPeriodRank": 6
         },
         {
-          "repoId": 952688112,
-          "repoName": "microsoft/playwright-mcp",
+          "repoId": 573661753,
+          "repoName": "activepieces/activepieces",
           "currentPeriodGrowth": 4,
-          "pastPeriodGrowth": 3,
-          "growthPop": 33.33,
-          "rankPop": -4,
-          "total": 610,
+          "pastPeriodGrowth": 10,
+          "growthPop": -60,
+          "rankPop": 2,
+          "total": 3106,
           "currentPeriodRank": 6,
-          "pastPeriodRank": 10
+          "pastPeriodRank": 4
         },
         {
-          "repoId": 952238700,
-          "repoName": "awslabs/mcp",
+          "repoId": 942771284,
+          "repoName": "github/github-mcp-server",
           "currentPeriodGrowth": 4,
-          "pastPeriodGrowth": 4,
-          "growthPop": 0,
-          "rankPop": 0,
-          "total": 415,
+          "pastPeriodGrowth": 10,
+          "growthPop": -60,
+          "rankPop": 2,
+          "total": 636,
           "currentPeriodRank": 7,
-          "pastPeriodRank": 7
+          "pastPeriodRank": 5
         },
         {
           "repoId": 956472076,
@@ -2171,26 +2171,15 @@
           "pastPeriodRank": 3
         },
         {
-          "repoId": 931892749,
-          "repoName": "GLips/Figma-Context-MCP",
-          "currentPeriodGrowth": 2,
-          "pastPeriodGrowth": 1,
-          "growthPop": 100,
-          "rankPop": -6,
-          "total": 139,
-          "currentPeriodRank": 10,
-          "pastPeriodRank": 16
-        },
-        {
           "repoId": 998796026,
           "repoName": "hangwin/mcp-chrome",
           "currentPeriodGrowth": 2,
           "pastPeriodGrowth": 3,
           "growthPop": -33.33,
-          "rankPop": 0,
+          "rankPop": 1,
           "total": 148,
-          "currentPeriodRank": 11,
-          "pastPeriodRank": 11
+          "currentPeriodRank": 10,
+          "pastPeriodRank": 9
         },
         {
           "repoId": 867337374,
@@ -2198,10 +2187,32 @@
           "currentPeriodGrowth": 2,
           "pastPeriodGrowth": 2,
           "growthPop": 0,
-          "rankPop": -2,
+          "rankPop": -4,
           "total": 419,
+          "currentPeriodRank": 11,
+          "pastPeriodRank": 15
+        },
+        {
+          "repoId": 931892749,
+          "repoName": "GLips/Figma-Context-MCP",
+          "currentPeriodGrowth": 2,
+          "pastPeriodGrowth": 1,
+          "growthPop": 100,
+          "rankPop": -5,
+          "total": 139,
           "currentPeriodRank": 12,
-          "pastPeriodRank": 14
+          "pastPeriodRank": 17
+        },
+        {
+          "repoId": 906447572,
+          "repoName": "supabase-community/supabase-mcp",
+          "currentPeriodGrowth": 1,
+          "pastPeriodGrowth": 2,
+          "growthPop": -50,
+          "rankPop": 1,
+          "total": 67,
+          "currentPeriodRank": 13,
+          "pastPeriodRank": 12
         },
         {
           "repoId": 849553306,
@@ -2209,9 +2220,9 @@
           "currentPeriodGrowth": 1,
           "pastPeriodGrowth": 1,
           "growthPop": 0,
-          "rankPop": -5,
+          "rankPop": -4,
           "total": 178,
-          "currentPeriodRank": 13,
+          "currentPeriodRank": 14,
           "pastPeriodRank": 18
         },
         {
@@ -2222,7 +2233,7 @@
           "growthPop": 0,
           "rankPop": 0,
           "total": 57,
-          "currentPeriodRank": 14,
+          "currentPeriodRank": 15,
           "pastPeriodRank": 0
         },
         {
@@ -2233,17 +2244,6 @@
           "growthPop": -50,
           "rankPop": 3,
           "total": 24,
-          "currentPeriodRank": 15,
-          "pastPeriodRank": 12
-        },
-        {
-          "repoId": 906447572,
-          "repoName": "supabase-community/supabase-mcp",
-          "currentPeriodGrowth": 1,
-          "pastPeriodGrowth": 2,
-          "growthPop": -50,
-          "rankPop": 3,
-          "total": 67,
           "currentPeriodRank": 16,
           "pastPeriodRank": 13
         }
@@ -2254,99 +2254,99 @@
         {
           "repoId": 975734319,
           "repoName": "anomalyco/opencode",
-          "currentPeriodGrowth": 2595,
+          "currentPeriodGrowth": 2608,
           "pastPeriodGrowth": 3439,
-          "growthPop": -24.54,
+          "growthPop": -24.16,
           "rankPop": -1,
-          "total": 53901,
+          "total": 53914,
           "currentPeriodRank": 1,
           "pastPeriodRank": 2
         },
         {
           "repoId": 937253475,
           "repoName": "anthropics/claude-code",
-          "currentPeriodGrowth": 1925,
+          "currentPeriodGrowth": 1930,
           "pastPeriodGrowth": 4920,
-          "growthPop": -60.87,
+          "growthPop": -60.77,
           "rankPop": 1,
-          "total": 43748,
+          "total": 43753,
           "currentPeriodRank": 2,
           "pastPeriodRank": 1
         },
         {
           "repoId": 1035029907,
           "repoName": "badlogic/pi-mono",
-          "currentPeriodGrowth": 1914,
+          "currentPeriodGrowth": 1922,
           "pastPeriodGrowth": 1854,
-          "growthPop": 3.24,
+          "growthPop": 3.67,
           "rankPop": 0,
-          "total": 10194,
+          "total": 10202,
           "currentPeriodRank": 3,
           "pastPeriodRank": 3
         },
         {
           "repoId": 846698999,
           "repoName": "block/goose",
-          "currentPeriodGrowth": 1522,
+          "currentPeriodGrowth": 1523,
           "pastPeriodGrowth": 664,
-          "growthPop": 129.22,
+          "growthPop": 129.37,
           "rankPop": -2,
-          "total": 22673,
+          "total": 22674,
           "currentPeriodRank": 4,
           "pastPeriodRank": 6
         },
         {
           "repoId": 965415649,
           "repoName": "openai/codex",
-          "currentPeriodGrowth": 1065,
+          "currentPeriodGrowth": 1070,
           "pastPeriodGrowth": 1410,
-          "growthPop": -24.47,
+          "growthPop": -24.11,
           "rankPop": 1,
-          "total": 43859,
+          "total": 43863,
           "currentPeriodRank": 5,
           "pastPeriodRank": 4
         },
         {
           "repoId": 968197216,
           "repoName": "google-gemini/gemini-cli",
-          "currentPeriodGrowth": 535,
+          "currentPeriodGrowth": 537,
           "pastPeriodGrowth": 719,
-          "growthPop": -25.59,
+          "growthPop": -25.31,
           "rankPop": 1,
-          "total": 54504,
+          "total": 54506,
           "currentPeriodRank": 6,
           "pastPeriodRank": 5
         },
         {
           "repoId": 340547520,
           "repoName": "zed-industries/zed",
-          "currentPeriodGrowth": 410,
+          "currentPeriodGrowth": 416,
           "pastPeriodGrowth": 340,
-          "growthPop": 20.59,
+          "growthPop": 22.35,
           "rankPop": 0,
-          "total": 68329,
+          "total": 68335,
           "currentPeriodRank": 7,
           "pastPeriodRank": 7
         },
         {
           "repoId": 771302083,
           "repoName": "All-Hands-AI/OpenHands",
-          "currentPeriodGrowth": 310,
+          "currentPeriodGrowth": 312,
           "pastPeriodGrowth": 314,
-          "growthPop": -1.27,
+          "growthPop": -0.64,
           "rankPop": 0,
-          "total": 60330,
+          "total": 60332,
           "currentPeriodRank": 8,
           "pastPeriodRank": 8
         },
         {
           "repoId": 987670088,
           "repoName": "charmbracelet/crush",
-          "currentPeriodGrowth": 226,
+          "currentPeriodGrowth": 227,
           "pastPeriodGrowth": 279,
-          "growthPop": -19,
+          "growthPop": -18.64,
           "rankPop": 0,
-          "total": 11067,
+          "total": 11068,
           "currentPeriodRank": 9,
           "pastPeriodRank": 9
         },
@@ -2386,22 +2386,22 @@
         {
           "repoId": 881506708,
           "repoName": "RooCodeInc/Roo-Code",
-          "currentPeriodGrowth": 186,
+          "currentPeriodGrowth": 187,
           "pastPeriodGrowth": 78,
-          "growthPop": 138.46,
+          "growthPop": 139.74,
           "rankPop": -2,
-          "total": 17766,
+          "total": 17767,
           "currentPeriodRank": 13,
           "pastPeriodRank": 15
         },
         {
           "repoId": 644686905,
           "repoName": "continuedev/continue",
-          "currentPeriodGrowth": 102,
+          "currentPeriodGrowth": 104,
           "pastPeriodGrowth": 114,
-          "growthPop": -10.53,
+          "growthPop": -8.77,
           "rankPop": 0,
-          "total": 28286,
+          "total": 28288,
           "currentPeriodRank": 14,
           "pastPeriodRank": 14
         },
@@ -2465,22 +2465,22 @@
         {
           "repoId": 937253475,
           "repoName": "anthropics/claude-code",
-          "currentPeriodGrowth": 1374,
+          "currentPeriodGrowth": 1379,
           "pastPeriodGrowth": 1702,
-          "growthPop": -19.27,
+          "growthPop": -18.98,
           "rankPop": 0,
-          "total": 32865,
+          "total": 32880,
           "currentPeriodRank": 1,
           "pastPeriodRank": 1
         },
         {
           "repoId": 965415649,
           "repoName": "openai/codex",
-          "currentPeriodGrowth": 247,
+          "currentPeriodGrowth": 253,
           "pastPeriodGrowth": 251,
-          "growthPop": -1.59,
+          "growthPop": 0.8,
           "rankPop": -1,
-          "total": 6317,
+          "total": 6329,
           "currentPeriodRank": 2,
           "pastPeriodRank": 3
         },
@@ -2491,7 +2491,7 @@
           "pastPeriodGrowth": 394,
           "growthPop": -40.61,
           "rankPop": 1,
-          "total": 9319,
+          "total": 9322,
           "currentPeriodRank": 3,
           "pastPeriodRank": 2
         },
@@ -2502,29 +2502,29 @@
           "pastPeriodGrowth": 215,
           "growthPop": -56.28,
           "rankPop": 0,
-          "total": 10418,
+          "total": 10422,
           "currentPeriodRank": 4,
           "pastPeriodRank": 4
         },
         {
           "repoId": 1035029907,
           "repoName": "badlogic/pi-mono",
-          "currentPeriodGrowth": 89,
+          "currentPeriodGrowth": 90,
           "pastPeriodGrowth": 101,
-          "growthPop": -11.88,
+          "growthPop": -10.89,
           "rankPop": -1,
-          "total": 931,
+          "total": 932,
           "currentPeriodRank": 5,
           "pastPeriodRank": 6
         },
         {
           "repoId": 340547520,
           "repoName": "zed-industries/zed",
-          "currentPeriodGrowth": 71,
+          "currentPeriodGrowth": 73,
           "pastPeriodGrowth": 82,
-          "growthPop": -13.41,
+          "growthPop": -10.98,
           "rankPop": -1,
-          "total": 16861,
+          "total": 16867,
           "currentPeriodRank": 6,
           "pastPeriodRank": 7
         },
@@ -2557,9 +2557,20 @@
           "pastPeriodGrowth": 16,
           "growthPop": -12.5,
           "rankPop": -2,
-          "total": 2820,
+          "total": 2821,
           "currentPeriodRank": 9,
           "pastPeriodRank": 11
+        },
+        {
+          "repoId": 987670088,
+          "repoName": "charmbracelet/crush",
+          "currentPeriodGrowth": 12,
+          "pastPeriodGrowth": 9,
+          "growthPop": 33.33,
+          "rankPop": -2,
+          "total": 537,
+          "currentPeriodRank": 10,
+          "pastPeriodRank": 12
         },
         {
           "repoId": 771302083,
@@ -2567,21 +2578,10 @@
           "currentPeriodGrowth": 11,
           "pastPeriodGrowth": 17,
           "growthPop": -35.29,
-          "rankPop": 0,
+          "rankPop": 1,
           "total": 3692,
-          "currentPeriodRank": 10,
-          "pastPeriodRank": 10
-        },
-        {
-          "repoId": 987670088,
-          "repoName": "charmbracelet/crush",
-          "currentPeriodGrowth": 11,
-          "pastPeriodGrowth": 9,
-          "growthPop": 22.22,
-          "rankPop": -1,
-          "total": 536,
           "currentPeriodRank": 11,
-          "pastPeriodRank": 12
+          "pastPeriodRank": 10
         },
         {
           "repoId": 644686905,
@@ -2634,55 +2634,55 @@
         {
           "repoId": 626805178,
           "repoName": "langgenius/dify",
-          "currentPeriodGrowth": 702,
+          "currentPeriodGrowth": 707,
           "pastPeriodGrowth": 834,
-          "growthPop": -15.83,
+          "growthPop": -15.23,
           "rankPop": 0,
-          "total": 111074,
+          "total": 111079,
           "currentPeriodRank": 1,
           "pastPeriodRank": 1
         },
         {
           "repoId": 997220241,
           "repoName": "HKUDS/RAG-Anything",
-          "currentPeriodGrowth": 589,
+          "currentPeriodGrowth": 592,
           "pastPeriodGrowth": 216,
-          "growthPop": 172.69,
+          "growthPop": 174.07,
           "rankPop": -3,
-          "total": 7438,
+          "total": 7441,
           "currentPeriodRank": 2,
           "pastPeriodRank": 5
         },
         {
           "repoId": 552661142,
           "repoName": "langchain-ai/langchain",
-          "currentPeriodGrowth": 560,
+          "currentPeriodGrowth": 562,
           "pastPeriodGrowth": 724,
-          "growthPop": -22.65,
+          "growthPop": -22.38,
           "rankPop": 1,
-          "total": 116453,
+          "total": 116455,
           "currentPeriodRank": 3,
           "pastPeriodRank": 2
         },
         {
           "repoId": 730534580,
           "repoName": "infiniflow/ragflow",
-          "currentPeriodGrowth": 390,
+          "currentPeriodGrowth": 400,
           "pastPeriodGrowth": 500,
-          "growthPop": -22,
+          "growthPop": -20,
           "rankPop": 1,
-          "total": 61215,
+          "total": 61225,
           "currentPeriodRank": 4,
           "pastPeriodRank": 3
         },
         {
           "repoId": 649170660,
           "repoName": "Mintplex-Labs/anything-llm",
-          "currentPeriodGrowth": 284,
+          "currentPeriodGrowth": 286,
           "pastPeriodGrowth": 343,
-          "growthPop": -17.2,
+          "growthPop": -16.62,
           "rankPop": 1,
-          "total": 47937,
+          "total": 47939,
           "currentPeriodRank": 5,
           "pastPeriodRank": 4
         },
@@ -2700,11 +2700,11 @@
         {
           "repoId": 560704231,
           "repoName": "run-llama/llama_index",
-          "currentPeriodGrowth": 134,
+          "currentPeriodGrowth": 135,
           "pastPeriodGrowth": 140,
-          "growthPop": -4.29,
+          "growthPop": -3.57,
           "rankPop": 0,
-          "total": 43097,
+          "total": 43098,
           "currentPeriodRank": 7,
           "pastPeriodRank": 7
         },
@@ -2747,10 +2747,10 @@
           "currentPeriodGrowth": 4,
           "pastPeriodGrowth": 2,
           "growthPop": 100,
-          "rankPop": -2,
+          "rankPop": -1,
           "total": 4064,
           "currentPeriodRank": 11,
-          "pastPeriodRank": 13
+          "pastPeriodRank": 12
         },
         {
           "repoId": 752576871,
@@ -2827,7 +2827,7 @@
           "pastPeriodGrowth": 11,
           "growthPop": -45.45,
           "rankPop": 2,
-          "total": 9441,
+          "total": 9442,
           "currentPeriodRank": 6,
           "pastPeriodRank": 4
         },
@@ -2860,22 +2860,22 @@
         {
           "repoId": 612354784,
           "repoName": "ggml-org/llama.cpp",
-          "currentPeriodGrowth": 1114,
+          "currentPeriodGrowth": 1119,
           "pastPeriodGrowth": 783,
-          "growthPop": 42.27,
+          "growthPop": 42.91,
           "rankPop": 0,
-          "total": 89888,
+          "total": 89893,
           "currentPeriodRank": 1,
           "pastPeriodRank": 1
         },
         {
           "repoId": 701547123,
           "repoName": "open-webui/open-webui",
-          "currentPeriodGrowth": 824,
+          "currentPeriodGrowth": 826,
           "pastPeriodGrowth": 721,
-          "growthPop": 14.29,
+          "growthPop": 14.56,
           "rankPop": 0,
-          "total": 105526,
+          "total": 105528,
           "currentPeriodRank": 2,
           "pastPeriodRank": 2
         },
@@ -2893,11 +2893,11 @@
         {
           "repoId": 599547518,
           "repoName": "vllm-project/vllm",
-          "currentPeriodGrowth": 592,
+          "currentPeriodGrowth": 594,
           "pastPeriodGrowth": 570,
-          "growthPop": 3.86,
+          "growthPop": 4.21,
           "rankPop": 0,
-          "total": 57246,
+          "total": 57248,
           "currentPeriodRank": 4,
           "pastPeriodRank": 4
         },
@@ -2915,22 +2915,22 @@
         {
           "repoId": 615869301,
           "repoName": "mudler/LocalAI",
-          "currentPeriodGrowth": 192,
+          "currentPeriodGrowth": 193,
           "pastPeriodGrowth": 312,
-          "growthPop": -38.46,
+          "growthPop": -38.14,
           "rankPop": 1,
-          "total": 36613,
+          "total": 36614,
           "currentPeriodRank": 6,
           "pastPeriodRank": 5
         },
         {
           "repoId": 580642043,
           "repoName": "oobabooga/text-generation-webui",
-          "currentPeriodGrowth": 83,
+          "currentPeriodGrowth": 84,
           "pastPeriodGrowth": 61,
-          "growthPop": 36.07,
+          "growthPop": 37.7,
           "rankPop": 0,
-          "total": 43679,
+          "total": 43680,
           "currentPeriodRank": 7,
           "pastPeriodRank": 7
         },
@@ -2948,22 +2948,22 @@
         {
           "repoId": 619959033,
           "repoName": "nomic-ai/gpt4all",
-          "currentPeriodGrowth": 51,
+          "currentPeriodGrowth": 52,
           "pastPeriodGrowth": 40,
-          "growthPop": 27.5,
+          "growthPop": 30,
           "rankPop": 1,
-          "total": 73230,
+          "total": 73231,
           "currentPeriodRank": 9,
           "pastPeriodRank": 8
         },
         {
           "repoId": 763774926,
           "repoName": "EricLBuehler/mistral.rs",
-          "currentPeriodGrowth": 45,
+          "currentPeriodGrowth": 44,
           "pastPeriodGrowth": 32,
-          "growthPop": 40.63,
+          "growthPop": 37.5,
           "rankPop": -2,
-          "total": 5892,
+          "total": 5891,
           "currentPeriodRank": 10,
           "pastPeriodRank": 12
         },
@@ -3038,11 +3038,11 @@
         {
           "repoId": 612354784,
           "repoName": "ggml-org/llama.cpp",
-          "currentPeriodGrowth": 50,
+          "currentPeriodGrowth": 51,
           "pastPeriodGrowth": 69,
-          "growthPop": -27.54,
+          "growthPop": -26.09,
           "rankPop": 0,
-          "total": 6858,
+          "total": 6859,
           "currentPeriodRank": 2,
           "pastPeriodRank": 2
         },
@@ -3102,17 +3102,6 @@
           "pastPeriodRank": 6
         },
         {
-          "repoId": 833984877,
-          "repoName": "kvcache-ai/ktransformers",
-          "currentPeriodGrowth": 2,
-          "pastPeriodGrowth": 3,
-          "growthPop": -33.33,
-          "rankPop": -1,
-          "total": 1034,
-          "currentPeriodRank": 8,
-          "pastPeriodRank": 9
-        },
-        {
           "repoId": 615882673,
           "repoName": "lm-sys/FastChat",
           "currentPeriodGrowth": 2,
@@ -3120,19 +3109,19 @@
           "growthPop": 0,
           "rankPop": -2,
           "total": 2146,
-          "currentPeriodRank": 9,
-          "pastPeriodRank": 11
+          "currentPeriodRank": 8,
+          "pastPeriodRank": 10
         },
         {
-          "repoId": 627561173,
-          "repoName": "mlc-ai/web-llm",
-          "currentPeriodGrowth": 1,
-          "pastPeriodGrowth": 1,
-          "growthPop": 0,
-          "rankPop": -2,
-          "total": 375,
-          "currentPeriodRank": 10,
-          "pastPeriodRank": 12
+          "repoId": 833984877,
+          "repoName": "kvcache-ai/ktransformers",
+          "currentPeriodGrowth": 2,
+          "pastPeriodGrowth": 3,
+          "growthPop": -33.33,
+          "rankPop": 0,
+          "total": 1034,
+          "currentPeriodRank": 9,
+          "pastPeriodRank": 9
         },
         {
           "repoId": 689773665,
@@ -3142,8 +3131,19 @@
           "growthPop": 0,
           "rankPop": 0,
           "total": 525,
-          "currentPeriodRank": 11,
+          "currentPeriodRank": 10,
           "pastPeriodRank": 0
+        },
+        {
+          "repoId": 627561173,
+          "repoName": "mlc-ai/web-llm",
+          "currentPeriodGrowth": 1,
+          "pastPeriodGrowth": 1,
+          "growthPop": 0,
+          "rankPop": -1,
+          "total": 375,
+          "currentPeriodRank": 11,
+          "pastPeriodRank": 12
         }
       ]
     },
@@ -3152,22 +3152,22 @@
         {
           "repoId": 725205304,
           "repoName": "unslothai/unsloth",
-          "currentPeriodGrowth": 667,
+          "currentPeriodGrowth": 668,
           "pastPeriodGrowth": 986,
-          "growthPop": -32.35,
+          "growthPop": -32.25,
           "rankPop": 0,
-          "total": 44464,
+          "total": 44465,
           "currentPeriodRank": 1,
           "pastPeriodRank": 1
         },
         {
           "repoId": 155220641,
           "repoName": "huggingface/transformers",
-          "currentPeriodGrowth": 274,
+          "currentPeriodGrowth": 276,
           "pastPeriodGrowth": 268,
-          "growthPop": 2.24,
+          "growthPop": 2.99,
           "rankPop": -2,
-          "total": 151945,
+          "total": 151947,
           "currentPeriodRank": 2,
           "pastPeriodRank": 4
         },
@@ -3185,11 +3185,11 @@
         {
           "repoId": 655099582,
           "repoName": "mlabonne/llm-course",
-          "currentPeriodGrowth": 195,
+          "currentPeriodGrowth": 198,
           "pastPeriodGrowth": 295,
-          "growthPop": -33.9,
+          "growthPop": -32.88,
           "rankPop": 2,
-          "total": 61719,
+          "total": 61722,
           "currentPeriodRank": 4,
           "pastPeriodRank": 2
         },
@@ -3199,10 +3199,10 @@
           "currentPeriodGrowth": 61,
           "pastPeriodGrowth": 43,
           "growthPop": 41.86,
-          "rankPop": -2,
+          "rankPop": -1,
           "total": 9748,
           "currentPeriodRank": 5,
-          "pastPeriodRank": 7
+          "pastPeriodRank": 6
         },
         {
           "repoId": 235860204,
@@ -3210,19 +3210,19 @@
           "currentPeriodGrowth": 53,
           "pastPeriodGrowth": 43,
           "growthPop": 23.26,
-          "rankPop": 0,
+          "rankPop": -1,
           "total": 39257,
           "currentPeriodRank": 6,
-          "pastPeriodRank": 6
+          "pastPeriodRank": 7
         },
         {
           "repoId": 250510075,
           "repoName": "huggingface/trl",
-          "currentPeriodGrowth": 52,
+          "currentPeriodGrowth": 53,
           "pastPeriodGrowth": 65,
-          "growthPop": -20,
+          "growthPop": -18.46,
           "rankPop": 2,
-          "total": 14973,
+          "total": 14974,
           "currentPeriodRank": 7,
           "pastPeriodRank": 5
         },
@@ -3339,26 +3339,26 @@
           "pastPeriodRank": 2
         },
         {
-          "repoId": 646410686,
-          "repoName": "hiyouga/LLaMA-Factory",
-          "currentPeriodGrowth": 3,
-          "pastPeriodGrowth": 5,
-          "growthPop": -40,
-          "rankPop": -1,
-          "total": 7721,
-          "currentPeriodRank": 3,
-          "pastPeriodRank": 4
-        },
-        {
           "repoId": 250510075,
           "repoName": "huggingface/trl",
           "currentPeriodGrowth": 3,
           "pastPeriodGrowth": 6,
           "growthPop": -50,
-          "rankPop": 1,
+          "rankPop": 0,
           "total": 2096,
-          "currentPeriodRank": 4,
+          "currentPeriodRank": 3,
           "pastPeriodRank": 3
+        },
+        {
+          "repoId": 646410686,
+          "repoName": "hiyouga/LLaMA-Factory",
+          "currentPeriodGrowth": 3,
+          "pastPeriodGrowth": 5,
+          "growthPop": -40,
+          "rankPop": 0,
+          "total": 7721,
+          "currentPeriodRank": 4,
+          "pastPeriodRank": 4
         },
         {
           "repoId": 627727693,
@@ -3366,10 +3366,10 @@
           "currentPeriodGrowth": 2,
           "pastPeriodGrowth": 3,
           "growthPop": -33.33,
-          "rankPop": -1,
+          "rankPop": -3,
           "total": 893,
           "currentPeriodRank": 5,
-          "pastPeriodRank": 6
+          "pastPeriodRank": 8
         },
         {
           "repoId": 942756187,
@@ -3388,21 +3388,10 @@
           "currentPeriodGrowth": 1,
           "pastPeriodGrowth": 3,
           "growthPop": -66.67,
-          "rankPop": -1,
+          "rankPop": 0,
           "total": 2847,
           "currentPeriodRank": 7,
-          "pastPeriodRank": 8
-        },
-        {
-          "repoId": 235860204,
-          "repoName": "microsoft/DeepSpeed",
-          "currentPeriodGrowth": 1,
-          "pastPeriodGrowth": 2,
-          "growthPop": -50,
-          "rankPop": -1,
-          "total": 3314,
-          "currentPeriodRank": 8,
-          "pastPeriodRank": 9
+          "pastPeriodRank": 7
         },
         {
           "repoId": 570384908,
@@ -3412,6 +3401,17 @@
           "growthPop": -50,
           "rankPop": -1,
           "total": 1291,
+          "currentPeriodRank": 8,
+          "pastPeriodRank": 9
+        },
+        {
+          "repoId": 235860204,
+          "repoName": "microsoft/DeepSpeed",
+          "currentPeriodGrowth": 1,
+          "pastPeriodGrowth": 2,
+          "growthPop": -50,
+          "rankPop": -1,
+          "total": 3314,
           "currentPeriodRank": 9,
           "pastPeriodRank": 10
         }
@@ -3422,22 +3422,22 @@
         {
           "repoId": 929121414,
           "repoName": "coleam00/Archon",
-          "currentPeriodGrowth": 1169,
+          "currentPeriodGrowth": 1170,
           "pastPeriodGrowth": 28,
-          "growthPop": 4075,
+          "growthPop": 4078.57,
           "rankPop": -6,
-          "total": 10471,
+          "total": 10472,
           "currentPeriodRank": 1,
           "pastPeriodRank": 7
         },
         {
           "repoId": 1032459340,
           "repoName": "Fission-AI/OpenSpec",
-          "currentPeriodGrowth": 1039,
+          "currentPeriodGrowth": 1045,
           "pastPeriodGrowth": 1563,
-          "growthPop": -33.53,
+          "growthPop": -33.14,
           "rankPop": 1,
-          "total": 12256,
+          "total": 12262,
           "currentPeriodRank": 2,
           "pastPeriodRank": 1
         },
@@ -3455,11 +3455,11 @@
         {
           "repoId": 614764248,
           "repoName": "TabbyML/tabby",
-          "currentPeriodGrowth": 46,
+          "currentPeriodGrowth": 45,
           "pastPeriodGrowth": 52,
-          "growthPop": -11.54,
+          "growthPop": -13.46,
           "rankPop": 1,
-          "total": 31144,
+          "total": 31143,
           "currentPeriodRank": 4,
           "pastPeriodRank": 3
         },
@@ -3502,10 +3502,10 @@
           "currentPeriodGrowth": 4,
           "pastPeriodGrowth": 2,
           "growthPop": 100,
-          "rankPop": -4,
+          "rankPop": -1,
           "total": 1321,
           "currentPeriodRank": 8,
-          "pastPeriodRank": 12
+          "pastPeriodRank": 9
         },
         {
           "repoId": 653574784,
@@ -3524,10 +3524,10 @@
           "currentPeriodGrowth": 3,
           "pastPeriodGrowth": 2,
           "growthPop": 50,
-          "rankPop": 1,
+          "rankPop": 0,
           "total": 2719,
           "currentPeriodRank": 10,
-          "pastPeriodRank": 9
+          "pastPeriodRank": 10
         },
         {
           "repoId": 156332497,
@@ -3546,23 +3546,34 @@
           "currentPeriodGrowth": 2,
           "pastPeriodGrowth": 2,
           "growthPop": 0,
-          "rankPop": 2,
+          "rankPop": 1,
           "total": 2023,
           "currentPeriodRank": 12,
-          "pastPeriodRank": 10
+          "pastPeriodRank": 11
         }
       ],
       "issues": [
         {
           "repoId": 929121414,
           "repoName": "coleam00/Archon",
-          "currentPeriodGrowth": 27,
+          "currentPeriodGrowth": 28,
           "pastPeriodGrowth": 0,
           "growthPop": 0,
           "rankPop": 0,
-          "total": 337,
+          "total": 338,
           "currentPeriodRank": 1,
           "pastPeriodRank": 0
+        },
+        {
+          "repoId": 1032459340,
+          "repoName": "Fission-AI/OpenSpec",
+          "currentPeriodGrowth": 2,
+          "pastPeriodGrowth": 6,
+          "growthPop": -66.67,
+          "rankPop": 1,
+          "total": 153,
+          "currentPeriodRank": 2,
+          "pastPeriodRank": 1
         },
         {
           "repoId": 860035177,
@@ -3572,30 +3583,8 @@
           "growthPop": -60,
           "rankPop": -1,
           "total": 359,
-          "currentPeriodRank": 2,
-          "pastPeriodRank": 3
-        },
-        {
-          "repoId": 1032459340,
-          "repoName": "Fission-AI/OpenSpec",
-          "currentPeriodGrowth": 2,
-          "pastPeriodGrowth": 6,
-          "growthPop": -66.67,
-          "rankPop": 2,
-          "total": 153,
           "currentPeriodRank": 3,
-          "pastPeriodRank": 1
-        },
-        {
-          "repoId": 842586148,
-          "repoName": "yetone/avante.nvim",
-          "currentPeriodGrowth": 1,
-          "pastPeriodGrowth": 2,
-          "growthPop": -50,
-          "rankPop": -1,
-          "total": 1032,
-          "currentPeriodRank": 4,
-          "pastPeriodRank": 5
+          "pastPeriodRank": 4
         },
         {
           "repoId": 609539715,
@@ -3603,9 +3592,9 @@
           "currentPeriodGrowth": 1,
           "pastPeriodGrowth": 5,
           "growthPop": -80,
-          "rankPop": 3,
+          "rankPop": 2,
           "total": 302,
-          "currentPeriodRank": 5,
+          "currentPeriodRank": 4,
           "pastPeriodRank": 2
         },
         {
@@ -3616,8 +3605,19 @@
           "growthPop": -80,
           "rankPop": 2,
           "total": 873,
+          "currentPeriodRank": 5,
+          "pastPeriodRank": 3
+        },
+        {
+          "repoId": 842586148,
+          "repoName": "yetone/avante.nvim",
+          "currentPeriodGrowth": 1,
+          "pastPeriodGrowth": 2,
+          "growthPop": -50,
+          "rankPop": 0,
+          "total": 1032,
           "currentPeriodRank": 6,
-          "pastPeriodRank": 4
+          "pastPeriodRank": 6
         }
       ]
     },
@@ -3626,22 +3626,22 @@
         {
           "repoId": 881458615,
           "repoName": "browser-use/browser-use",
-          "currentPeriodGrowth": 898,
+          "currentPeriodGrowth": 903,
           "pastPeriodGrowth": 1157,
-          "growthPop": -22.39,
+          "growthPop": -21.95,
           "rankPop": 0,
-          "total": 67400,
+          "total": 67405,
           "currentPeriodRank": 1,
           "pastPeriodRank": 1
         },
         {
           "repoId": 849553306,
           "repoName": "anthropics/claude-quickstarts",
-          "currentPeriodGrowth": 80,
+          "currentPeriodGrowth": 81,
           "pastPeriodGrowth": 124,
-          "growthPop": -35.48,
+          "growthPop": -34.68,
           "rankPop": 0,
-          "total": 11108,
+          "total": 11109,
           "currentPeriodRank": 2,
           "pastPeriodRank": 2
         },
@@ -3673,10 +3673,10 @@
           "currentPeriodGrowth": 25,
           "pastPeriodGrowth": 29,
           "growthPop": -13.79,
-          "rankPop": -1,
+          "rankPop": -2,
           "total": 21952,
           "currentPeriodRank": 5,
-          "pastPeriodRank": 6
+          "pastPeriodRank": 7
         },
         {
           "repoId": 740316987,
@@ -3695,19 +3695,19 @@
           "currentPeriodGrowth": 18,
           "pastPeriodGrowth": 29,
           "growthPop": -37.93,
-          "rankPop": 0,
+          "rankPop": 1,
           "total": 13824,
           "currentPeriodRank": 7,
-          "pastPeriodRank": 7
+          "pastPeriodRank": 6
         },
         {
           "repoId": 881448795,
           "repoName": "e2b-dev/open-computer-use",
-          "currentPeriodGrowth": 10,
+          "currentPeriodGrowth": 9,
           "pastPeriodGrowth": 25,
-          "growthPop": -60,
+          "growthPop": -64,
           "rankPop": 0,
-          "total": 1443,
+          "total": 1442,
           "currentPeriodRank": 8,
           "pastPeriodRank": 8
         },
@@ -3745,26 +3745,26 @@
           "pastPeriodRank": 13
         },
         {
-          "repoId": 900152988,
-          "repoName": "nottelabs/notte",
-          "currentPeriodGrowth": 2,
-          "pastPeriodGrowth": 3,
-          "growthPop": -33.33,
-          "rankPop": 1,
-          "total": 1280,
-          "currentPeriodRank": 12,
-          "pastPeriodRank": 11
-        },
-        {
           "repoId": 747508951,
           "repoName": "MinorJerry/WebVoyager",
           "currentPeriodGrowth": 2,
           "pastPeriodGrowth": 6,
           "growthPop": -66.67,
-          "rankPop": 4,
+          "rankPop": 3,
           "total": 859,
-          "currentPeriodRank": 13,
+          "currentPeriodRank": 12,
           "pastPeriodRank": 9
+        },
+        {
+          "repoId": 900152988,
+          "repoName": "nottelabs/notte",
+          "currentPeriodGrowth": 2,
+          "pastPeriodGrowth": 3,
+          "growthPop": -33.33,
+          "rankPop": 2,
+          "total": 1280,
+          "currentPeriodRank": 13,
+          "pastPeriodRank": 11
         }
       ],
       "issues": [
@@ -3785,10 +3785,10 @@
           "currentPeriodGrowth": 1,
           "pastPeriodGrowth": 1,
           "growthPop": 0,
-          "rankPop": -2,
+          "rankPop": -1,
           "total": 442,
           "currentPeriodRank": 2,
-          "pastPeriodRank": 4
+          "pastPeriodRank": 3
         },
         {
           "repoId": 849553306,
@@ -3796,10 +3796,10 @@
           "currentPeriodGrowth": 1,
           "pastPeriodGrowth": 1,
           "growthPop": 0,
-          "rankPop": -2,
+          "rankPop": -1,
           "total": 178,
           "currentPeriodRank": 3,
-          "pastPeriodRank": 5
+          "pastPeriodRank": 4
         }
       ]
     },
@@ -3808,33 +3808,33 @@
         {
           "repoId": 656099147,
           "repoName": "mem0ai/mem0",
-          "currentPeriodGrowth": 438,
+          "currentPeriodGrowth": 440,
           "pastPeriodGrowth": 547,
-          "growthPop": -19.93,
+          "growthPop": -19.56,
           "rankPop": 0,
-          "total": 39739,
+          "total": 39741,
           "currentPeriodRank": 1,
           "pastPeriodRank": 1
         },
         {
           "repoId": 991431142,
           "repoName": "memvid/memvid",
-          "currentPeriodGrowth": 279,
+          "currentPeriodGrowth": 281,
           "pastPeriodGrowth": 153,
-          "growthPop": 82.35,
+          "growthPop": 83.66,
           "rankPop": 0,
-          "total": 7689,
+          "total": 7691,
           "currentPeriodRank": 2,
           "pastPeriodRank": 2
         },
         {
           "repoId": 560704231,
           "repoName": "run-llama/llama_index",
-          "currentPeriodGrowth": 134,
+          "currentPeriodGrowth": 135,
           "pastPeriodGrowth": 140,
-          "growthPop": -4.29,
+          "growthPop": -3.57,
           "rankPop": 0,
-          "total": 43097,
+          "total": 43098,
           "currentPeriodRank": 3,
           "pastPeriodRank": 3
         },
@@ -3924,7 +3924,7 @@
           "pastPeriodGrowth": 11,
           "growthPop": -45.45,
           "rankPop": 0,
-          "total": 9441,
+          "total": 9442,
           "currentPeriodRank": 4,
           "pastPeriodRank": 4
         },
@@ -4023,11 +4023,11 @@
         {
           "repoId": 671629770,
           "repoName": "protectai/llm-guard",
-          "currentPeriodGrowth": 20,
+          "currentPeriodGrowth": 21,
           "pastPeriodGrowth": 25,
-          "growthPop": -20,
+          "growthPop": -16,
           "rankPop": 1,
-          "total": 2024,
+          "total": 2025,
           "currentPeriodRank": 7,
           "pastPeriodRank": 6
         },
@@ -4056,11 +4056,11 @@
         {
           "repoId": 204734444,
           "repoName": "meta-pytorch/captum",
-          "currentPeriodGrowth": 2,
+          "currentPeriodGrowth": 3,
           "pastPeriodGrowth": 7,
-          "growthPop": -71.43,
+          "growthPop": -57.14,
           "rankPop": 1,
-          "total": 5371,
+          "total": 5372,
           "currentPeriodRank": 10,
           "pastPeriodRank": 9
         },
@@ -4070,10 +4070,10 @@
           "currentPeriodGrowth": 2,
           "pastPeriodGrowth": 3,
           "growthPop": -33.33,
-          "rankPop": -2,
+          "rankPop": -1,
           "total": 2094,
           "currentPeriodRank": 11,
-          "pastPeriodRank": 13
+          "pastPeriodRank": 12
         },
         {
           "repoId": 277645425,
@@ -4139,11 +4139,11 @@
         {
           "repoId": 268163609,
           "repoName": "qdrant/qdrant",
-          "currentPeriodGrowth": 161,
+          "currentPeriodGrowth": 162,
           "pastPeriodGrowth": 161,
-          "growthPop": 0,
+          "growthPop": 0.62,
           "rankPop": 0,
-          "total": 25628,
+          "total": 25629,
           "currentPeriodRank": 1,
           "pastPeriodRank": 1
         },
@@ -4161,22 +4161,22 @@
         {
           "repoId": 156018,
           "repoName": "redis/redis",
-          "currentPeriodGrowth": 93,
+          "currentPeriodGrowth": 94,
           "pastPeriodGrowth": 99,
-          "growthPop": -6.06,
+          "growthPop": -5.05,
           "rankPop": 0,
-          "total": 75129,
+          "total": 75130,
           "currentPeriodRank": 3,
           "pastPeriodRank": 3
         },
         {
           "repoId": 208728772,
           "repoName": "milvus-io/milvus",
-          "currentPeriodGrowth": 89,
+          "currentPeriodGrowth": 90,
           "pastPeriodGrowth": 90,
-          "growthPop": -1.11,
+          "growthPop": 0,
           "rankPop": -1,
-          "total": 40648,
+          "total": 40649,
           "currentPeriodRank": 4,
           "pastPeriodRank": 5
         },
@@ -4205,11 +4205,11 @@
         {
           "repoId": 507775,
           "repoName": "elastic/elasticsearch",
-          "currentPeriodGrowth": 56,
+          "currentPeriodGrowth": 55,
           "pastPeriodGrowth": 80,
-          "growthPop": -30,
+          "growthPop": -31.25,
           "rankPop": 0,
-          "total": 80369,
+          "total": 80368,
           "currentPeriodRank": 7,
           "pastPeriodRank": 7
         },
@@ -4277,7 +4277,7 @@
           "pastPeriodGrowth": 28,
           "growthPop": -39.29,
           "rankPop": 0,
-          "total": 14972,
+          "total": 14974,
           "currentPeriodRank": 2,
           "pastPeriodRank": 2
         },
@@ -4365,22 +4365,22 @@
         {
           "repoId": 537603333,
           "repoName": "openai/whisper",
-          "currentPeriodGrowth": 296,
+          "currentPeriodGrowth": 298,
           "pastPeriodGrowth": 293,
-          "growthPop": 1.02,
+          "growthPop": 1.71,
           "rankPop": 0,
-          "total": 86184,
+          "total": 86186,
           "currentPeriodRank": 1,
           "pastPeriodRank": 1
         },
         {
           "repoId": 541269386,
           "repoName": "ggml-org/whisper.cpp",
-          "currentPeriodGrowth": 167,
+          "currentPeriodGrowth": 166,
           "pastPeriodGrowth": 153,
-          "growthPop": 9.15,
+          "growthPop": 8.5,
           "rankPop": 0,
-          "total": 42279,
+          "total": 42278,
           "currentPeriodRank": 2,
           "pastPeriodRank": 2
         },
@@ -4418,26 +4418,26 @@
           "pastPeriodRank": 3
         },
         {
-          "repoId": 725089041,
-          "repoName": "myshell-ai/OpenVoice",
-          "currentPeriodGrowth": 44,
-          "pastPeriodGrowth": 28,
-          "growthPop": 57.14,
-          "rankPop": -2,
-          "total": 33464,
-          "currentPeriodRank": 6,
-          "pastPeriodRank": 8
-        },
-        {
           "repoId": 265612440,
           "repoName": "coqui-ai/TTS",
-          "currentPeriodGrowth": 43,
+          "currentPeriodGrowth": 44,
           "pastPeriodGrowth": 56,
-          "growthPop": -23.21,
-          "rankPop": 2,
-          "total": 42065,
-          "currentPeriodRank": 7,
+          "growthPop": -21.43,
+          "rankPop": 1,
+          "total": 42066,
+          "currentPeriodRank": 6,
           "pastPeriodRank": 5
+        },
+        {
+          "repoId": 725089041,
+          "repoName": "myshell-ai/OpenVoice",
+          "currentPeriodGrowth": 43,
+          "pastPeriodGrowth": 28,
+          "growthPop": 53.57,
+          "rankPop": -1,
+          "total": 33463,
+          "currentPeriodRank": 7,
+          "pastPeriodRank": 8
         },
         {
           "repoId": 629102662,
@@ -4464,11 +4464,11 @@
         {
           "repoId": 618029110,
           "repoName": "facebookresearch/ImageBind",
-          "currentPeriodGrowth": 3,
+          "currentPeriodGrowth": 4,
           "pastPeriodGrowth": 2,
-          "growthPop": 50,
+          "growthPop": 100,
           "rankPop": -1,
-          "total": 8312,
+          "total": 8313,
           "currentPeriodRank": 10,
           "pastPeriodRank": 11
         },
@@ -4525,11 +4525,11 @@
         {
           "repoId": 612354784,
           "repoName": "ggml-org/llama.cpp",
-          "currentPeriodGrowth": 1114,
+          "currentPeriodGrowth": 1119,
           "pastPeriodGrowth": 783,
-          "growthPop": 42.27,
+          "growthPop": 42.91,
           "rankPop": 0,
-          "total": 89888,
+          "total": 89893,
           "currentPeriodRank": 1,
           "pastPeriodRank": 1
         },
@@ -4611,17 +4611,6 @@
           "pastPeriodRank": 8
         },
         {
-          "repoId": 627210550,
-          "repoName": "AutoGPTQ/AutoGPTQ",
-          "currentPeriodGrowth": 1,
-          "pastPeriodGrowth": 5,
-          "growthPop": -80,
-          "rankPop": 0,
-          "total": 4707,
-          "currentPeriodRank": 9,
-          "pastPeriodRank": 9
-        },
-        {
           "repoId": 554293908,
           "repoName": "IST-DASLab/gptq",
           "currentPeriodGrowth": 1,
@@ -4629,6 +4618,17 @@
           "growthPop": -80,
           "rankPop": 0,
           "total": 2123,
+          "currentPeriodRank": 9,
+          "pastPeriodRank": 9
+        },
+        {
+          "repoId": 627210550,
+          "repoName": "AutoGPTQ/AutoGPTQ",
+          "currentPeriodGrowth": 1,
+          "pastPeriodGrowth": 5,
+          "growthPop": -80,
+          "rankPop": 0,
+          "total": 4707,
           "currentPeriodRank": 10,
           "pastPeriodRank": 10
         }
@@ -4637,24 +4637,13 @@
         {
           "repoId": 612354784,
           "repoName": "ggml-org/llama.cpp",
-          "currentPeriodGrowth": 50,
+          "currentPeriodGrowth": 51,
           "pastPeriodGrowth": 69,
-          "growthPop": -27.54,
+          "growthPop": -26.09,
           "rankPop": 0,
-          "total": 6858,
+          "total": 6859,
           "currentPeriodRank": 1,
           "pastPeriodRank": 1
-        },
-        {
-          "repoId": 156939672,
-          "repoName": "microsoft/onnxruntime",
-          "currentPeriodGrowth": 10,
-          "pastPeriodGrowth": 10,
-          "growthPop": 0,
-          "rankPop": 0,
-          "total": 7772,
-          "currentPeriodRank": 2,
-          "pastPeriodRank": 2
         },
         {
           "repoId": 463628495,
@@ -4662,10 +4651,21 @@
           "currentPeriodGrowth": 10,
           "pastPeriodGrowth": 8,
           "growthPop": 25,
-          "rankPop": 0,
+          "rankPop": -1,
           "total": 1808,
-          "currentPeriodRank": 3,
+          "currentPeriodRank": 2,
           "pastPeriodRank": 3
+        },
+        {
+          "repoId": 156939672,
+          "repoName": "microsoft/onnxruntime",
+          "currentPeriodGrowth": 10,
+          "pastPeriodGrowth": 10,
+          "growthPop": 0,
+          "rankPop": 1,
+          "total": 7772,
+          "currentPeriodRank": 3,
+          "pastPeriodRank": 2
         },
         {
           "repoId": 235860204,
@@ -4789,10 +4789,10 @@
           "currentPeriodGrowth": 1,
           "pastPeriodGrowth": 1,
           "growthPop": 0,
-          "rankPop": 0,
+          "rankPop": -2,
           "total": 321,
           "currentPeriodRank": 1,
-          "pastPeriodRank": 1
+          "pastPeriodRank": 3
         },
         {
           "repoId": 854926165,
@@ -4812,22 +4812,22 @@
         {
           "repoId": 937253475,
           "repoName": "anthropics/claude-code",
-          "currentPeriodGrowth": 1925,
+          "currentPeriodGrowth": 1930,
           "pastPeriodGrowth": 4920,
-          "growthPop": -60.87,
+          "growthPop": -60.77,
           "rankPop": 0,
-          "total": 43748,
+          "total": 43753,
           "currentPeriodRank": 1,
           "pastPeriodRank": 1
         },
         {
           "repoId": 890668799,
           "repoName": "modelcontextprotocol/servers",
-          "currentPeriodGrowth": 356,
+          "currentPeriodGrowth": 357,
           "pastPeriodGrowth": 453,
-          "growthPop": -21.41,
+          "growthPop": -21.19,
           "rankPop": 0,
-          "total": 60379,
+          "total": 60380,
           "currentPeriodRank": 2,
           "pastPeriodRank": 2
         },
@@ -4845,11 +4845,11 @@
         {
           "repoId": 738733003,
           "repoName": "danielmiessler/Fabric",
-          "currentPeriodGrowth": 164,
+          "currentPeriodGrowth": 168,
           "pastPeriodGrowth": 186,
-          "growthPop": -11.83,
+          "growthPop": -9.68,
           "rankPop": 0,
-          "total": 34298,
+          "total": 34302,
           "currentPeriodRank": 4,
           "pastPeriodRank": 4
         },
@@ -4889,11 +4889,11 @@
         {
           "repoId": 653589102,
           "repoName": "567-labs/instructor",
-          "currentPeriodGrowth": 24,
+          "currentPeriodGrowth": 25,
           "pastPeriodGrowth": 28,
-          "growthPop": -14.29,
+          "growthPop": -10.71,
           "rankPop": 0,
-          "total": 10805,
+          "total": 10806,
           "currentPeriodRank": 8,
           "pastPeriodRank": 8
         },
@@ -4924,11 +4924,11 @@
         {
           "repoId": 937253475,
           "repoName": "anthropics/claude-code",
-          "currentPeriodGrowth": 1374,
+          "currentPeriodGrowth": 1379,
           "pastPeriodGrowth": 1702,
-          "growthPop": -19.27,
+          "growthPop": -18.98,
           "rankPop": 0,
-          "total": 32865,
+          "total": 32880,
           "currentPeriodRank": 1,
           "pastPeriodRank": 1
         },
@@ -4977,17 +4977,6 @@
           "pastPeriodRank": 0
         },
         {
-          "repoId": 1178833585,
-          "repoName": "iflytek/skillhub",
-          "currentPeriodGrowth": 1,
-          "pastPeriodGrowth": 7,
-          "growthPop": -85.71,
-          "rankPop": 3,
-          "total": 32,
-          "currentPeriodRank": 6,
-          "pastPeriodRank": 3
-        },
-        {
           "repoId": 564443255,
           "repoName": "guidance-ai/guidance",
           "currentPeriodGrowth": 1,
@@ -4995,8 +4984,19 @@
           "growthPop": 0,
           "rankPop": 0,
           "total": 587,
-          "currentPeriodRank": 7,
+          "currentPeriodRank": 6,
           "pastPeriodRank": 0
+        },
+        {
+          "repoId": 1178833585,
+          "repoName": "iflytek/skillhub",
+          "currentPeriodGrowth": 1,
+          "pastPeriodGrowth": 7,
+          "growthPop": -85.71,
+          "rankPop": 4,
+          "total": 32,
+          "currentPeriodRank": 7,
+          "pastPeriodRank": 3
         },
         {
           "repoId": 622352364,
@@ -5016,11 +5016,11 @@
         {
           "repoId": 642497346,
           "repoName": "langfuse/langfuse",
-          "currentPeriodGrowth": 302,
+          "currentPeriodGrowth": 304,
           "pastPeriodGrowth": 276,
-          "growthPop": 9.42,
+          "growthPop": 10.14,
           "rankPop": 0,
-          "total": 16370,
+          "total": 16372,
           "currentPeriodRank": 1,
           "pastPeriodRank": 1
         },
@@ -5197,10 +5197,10 @@
           "currentPeriodGrowth": 5,
           "pastPeriodGrowth": 2,
           "growthPop": 150,
-          "rankPop": -3,
+          "rankPop": -4,
           "total": 6189,
           "currentPeriodRank": 4,
-          "pastPeriodRank": 7
+          "pastPeriodRank": 8
         },
         {
           "repoId": 642497346,
@@ -5242,11 +5242,11 @@
         {
           "repoId": 612354784,
           "repoName": "ggml-org/llama.cpp",
-          "currentPeriodGrowth": 1114,
+          "currentPeriodGrowth": 1119,
           "pastPeriodGrowth": 783,
-          "growthPop": 42.27,
+          "growthPop": 42.91,
           "rankPop": 0,
-          "total": 89888,
+          "total": 89893,
           "currentPeriodRank": 1,
           "pastPeriodRank": 1
         },
@@ -5262,6 +5262,17 @@
           "pastPeriodRank": 3
         },
         {
+          "repoId": 191820100,
+          "repoName": "google-ai-edge/mediapipe",
+          "currentPeriodGrowth": 75,
+          "pastPeriodGrowth": 86,
+          "growthPop": -12.79,
+          "rankPop": 1,
+          "total": 31976,
+          "currentPeriodRank": 3,
+          "pastPeriodRank": 2
+        },
+        {
           "repoId": 689773665,
           "repoName": "Mozilla-Ocho/llamafile",
           "currentPeriodGrowth": 75,
@@ -5269,19 +5280,8 @@
           "growthPop": 97.37,
           "rankPop": -3,
           "total": 21407,
-          "currentPeriodRank": 3,
-          "pastPeriodRank": 6
-        },
-        {
-          "repoId": 191820100,
-          "repoName": "google-ai-edge/mediapipe",
-          "currentPeriodGrowth": 75,
-          "pastPeriodGrowth": 86,
-          "growthPop": -12.79,
-          "rankPop": 2,
-          "total": 31976,
           "currentPeriodRank": 4,
-          "pastPeriodRank": 2
+          "pastPeriodRank": 7
         },
         {
           "repoId": 181436799,
@@ -5344,10 +5344,10 @@
           "currentPeriodGrowth": 18,
           "pastPeriodGrowth": 38,
           "growthPop": -52.63,
-          "rankPop": 3,
+          "rankPop": 4,
           "total": 22501,
           "currentPeriodRank": 10,
-          "pastPeriodRank": 7
+          "pastPeriodRank": 6
         },
         {
           "repoId": 95862535,
@@ -5365,24 +5365,13 @@
         {
           "repoId": 612354784,
           "repoName": "ggml-org/llama.cpp",
-          "currentPeriodGrowth": 50,
+          "currentPeriodGrowth": 51,
           "pastPeriodGrowth": 69,
-          "growthPop": -27.54,
+          "growthPop": -26.09,
           "rankPop": 0,
-          "total": 6858,
+          "total": 6859,
           "currentPeriodRank": 1,
           "pastPeriodRank": 1
-        },
-        {
-          "repoId": 156939672,
-          "repoName": "microsoft/onnxruntime",
-          "currentPeriodGrowth": 10,
-          "pastPeriodGrowth": 10,
-          "growthPop": 0,
-          "rankPop": 0,
-          "total": 7772,
-          "currentPeriodRank": 2,
-          "pastPeriodRank": 2
         },
         {
           "repoId": 463628495,
@@ -5392,8 +5381,19 @@
           "growthPop": 25,
           "rankPop": -2,
           "total": 1808,
+          "currentPeriodRank": 2,
+          "pastPeriodRank": 4
+        },
+        {
+          "repoId": 156939672,
+          "repoName": "microsoft/onnxruntime",
+          "currentPeriodGrowth": 10,
+          "pastPeriodGrowth": 10,
+          "growthPop": 0,
+          "rankPop": 1,
+          "total": 7772,
           "currentPeriodRank": 3,
-          "pastPeriodRank": 5
+          "pastPeriodRank": 2
         },
         {
           "repoId": 153097643,
@@ -5401,10 +5401,10 @@
           "currentPeriodGrowth": 8,
           "pastPeriodGrowth": 8,
           "growthPop": 0,
-          "rankPop": 0,
+          "rankPop": -1,
           "total": 3326,
           "currentPeriodRank": 4,
-          "pastPeriodRank": 4
+          "pastPeriodRank": 5
         },
         {
           "repoId": 181436799,
@@ -5418,17 +5418,6 @@
           "pastPeriodRank": 3
         },
         {
-          "repoId": 689773665,
-          "repoName": "Mozilla-Ocho/llamafile",
-          "currentPeriodGrowth": 1,
-          "pastPeriodGrowth": 0,
-          "growthPop": 0,
-          "rankPop": 0,
-          "total": 525,
-          "currentPeriodRank": 6,
-          "pastPeriodRank": 0
-        },
-        {
           "repoId": 95879426,
           "repoName": "Tencent/ncnn",
           "currentPeriodGrowth": 1,
@@ -5436,7 +5425,7 @@
           "growthPop": 0,
           "rankPop": 0,
           "total": 3647,
-          "currentPeriodRank": 7,
+          "currentPeriodRank": 6,
           "pastPeriodRank": 0
         },
         {
@@ -5447,7 +5436,7 @@
           "growthPop": 0,
           "rankPop": 0,
           "total": 3052,
-          "currentPeriodRank": 8,
+          "currentPeriodRank": 7,
           "pastPeriodRank": 0
         },
         {
@@ -5458,6 +5447,17 @@
           "growthPop": 0,
           "rankPop": 0,
           "total": 5557,
+          "currentPeriodRank": 8,
+          "pastPeriodRank": 0
+        },
+        {
+          "repoId": 689773665,
+          "repoName": "Mozilla-Ocho/llamafile",
+          "currentPeriodGrowth": 1,
+          "pastPeriodGrowth": 0,
+          "growthPop": 0,
+          "rankPop": 0,
+          "total": 525,
           "currentPeriodRank": 9,
           "pastPeriodRank": 0
         }
@@ -5512,11 +5512,11 @@
         {
           "repoId": 204734444,
           "repoName": "meta-pytorch/captum",
-          "currentPeriodGrowth": 2,
+          "currentPeriodGrowth": 3,
           "pastPeriodGrowth": 7,
-          "growthPop": -71.43,
+          "growthPop": -57.14,
           "rankPop": 1,
-          "total": 5371,
+          "total": 5372,
           "currentPeriodRank": 5,
           "pastPeriodRank": 4
         },
@@ -5562,22 +5562,22 @@
         {
           "repoId": 671269505,
           "repoName": "BerriAI/litellm",
-          "currentPeriodGrowth": 489,
+          "currentPeriodGrowth": 490,
           "pastPeriodGrowth": 655,
-          "growthPop": -25.34,
+          "growthPop": -25.19,
           "rankPop": 0,
-          "total": 29527,
+          "total": 29528,
           "currentPeriodRank": 1,
           "pastPeriodRank": 1
         },
         {
           "repoId": 642497346,
           "repoName": "langfuse/langfuse",
-          "currentPeriodGrowth": 302,
+          "currentPeriodGrowth": 304,
           "pastPeriodGrowth": 276,
-          "growthPop": 9.42,
+          "growthPop": 10.14,
           "rankPop": 0,
-          "total": 16370,
+          "total": 16372,
           "currentPeriodRank": 2,
           "pastPeriodRank": 2
         },
@@ -5744,22 +5744,22 @@
         {
           "repoId": 679343504,
           "repoName": "topoteretes/cognee",
-          "currentPeriodGrowth": 321,
+          "currentPeriodGrowth": 322,
           "pastPeriodGrowth": 385,
-          "growthPop": -16.62,
+          "growthPop": -16.36,
           "rankPop": 0,
-          "total": 7843,
+          "total": 7844,
           "currentPeriodRank": 1,
           "pastPeriodRank": 1
         },
         {
           "repoId": 778431525,
           "repoName": "microsoft/graphrag",
-          "currentPeriodGrowth": 130,
+          "currentPeriodGrowth": 132,
           "pastPeriodGrowth": 120,
-          "growthPop": 8.33,
+          "growthPop": 10,
           "rankPop": 0,
-          "total": 27120,
+          "total": 27122,
           "currentPeriodRank": 2,
           "pastPeriodRank": 2
         },
@@ -5797,26 +5797,26 @@
           "pastPeriodRank": 4
         },
         {
-          "repoId": 672002598,
-          "repoName": "weaviate/Verba",
-          "currentPeriodGrowth": 5,
-          "pastPeriodGrowth": 9,
-          "growthPop": -44.44,
-          "rankPop": 0,
-          "total": 6982,
-          "currentPeriodRank": 6,
-          "pastPeriodRank": 6
-        },
-        {
           "repoId": 752946440,
           "repoName": "pingcap/autoflow",
           "currentPeriodGrowth": 5,
           "pastPeriodGrowth": 2,
           "growthPop": 150,
-          "rankPop": 0,
+          "rankPop": -1,
           "total": 2420,
-          "currentPeriodRank": 7,
+          "currentPeriodRank": 6,
           "pastPeriodRank": 7
+        },
+        {
+          "repoId": 672002598,
+          "repoName": "weaviate/Verba",
+          "currentPeriodGrowth": 5,
+          "pastPeriodGrowth": 9,
+          "growthPop": -44.44,
+          "rankPop": 1,
+          "total": 6982,
+          "currentPeriodRank": 7,
+          "pastPeriodRank": 6
         },
         {
           "repoId": 880113534,
@@ -5882,11 +5882,11 @@
         {
           "repoId": 642497346,
           "repoName": "langfuse/langfuse",
-          "currentPeriodGrowth": 302,
+          "currentPeriodGrowth": 304,
           "pastPeriodGrowth": 276,
-          "growthPop": 9.42,
+          "growthPop": 10.14,
           "rankPop": 0,
-          "total": 16370,
+          "total": 16372,
           "currentPeriodRank": 1,
           "pastPeriodRank": 1
         },
@@ -5957,26 +5957,26 @@
           "pastPeriodRank": 10
         },
         {
-          "repoId": 686364232,
-          "repoName": "traceloop/openllmetry",
-          "currentPeriodGrowth": 8,
-          "pastPeriodGrowth": 15,
-          "growthPop": -46.67,
-          "rankPop": 1,
-          "total": 6209,
-          "currentPeriodRank": 8,
-          "pastPeriodRank": 7
-        },
-        {
           "repoId": 790713784,
           "repoName": "pydantic/logfire",
           "currentPeriodGrowth": 8,
           "pastPeriodGrowth": 14,
           "growthPop": -42.86,
-          "rankPop": 1,
+          "rankPop": 0,
           "total": 3447,
-          "currentPeriodRank": 9,
+          "currentPeriodRank": 8,
           "pastPeriodRank": 8
+        },
+        {
+          "repoId": 686364232,
+          "repoName": "traceloop/openllmetry",
+          "currentPeriodGrowth": 8,
+          "pastPeriodGrowth": 15,
+          "growthPop": -46.67,
+          "rankPop": 2,
+          "total": 6209,
+          "currentPeriodRank": 9,
+          "pastPeriodRank": 7
         },
         {
           "repoId": 315977578,
@@ -6025,26 +6025,26 @@
           "pastPeriodRank": 1
         },
         {
-          "repoId": 642497346,
-          "repoName": "langfuse/langfuse",
-          "currentPeriodGrowth": 4,
-          "pastPeriodGrowth": 13,
-          "growthPop": -69.23,
-          "rankPop": 0,
-          "total": 2135,
-          "currentPeriodRank": 3,
-          "pastPeriodRank": 3
-        },
-        {
           "repoId": 686364232,
           "repoName": "traceloop/openllmetry",
           "currentPeriodGrowth": 4,
           "pastPeriodGrowth": 2,
           "growthPop": 100,
-          "rankPop": -3,
+          "rankPop": -5,
           "total": 296,
+          "currentPeriodRank": 3,
+          "pastPeriodRank": 8
+        },
+        {
+          "repoId": 642497346,
+          "repoName": "langfuse/langfuse",
+          "currentPeriodGrowth": 4,
+          "pastPeriodGrowth": 13,
+          "growthPop": -69.23,
+          "rankPop": 1,
+          "total": 2135,
           "currentPeriodRank": 4,
-          "pastPeriodRank": 7
+          "pastPeriodRank": 3
         },
         {
           "repoId": 747319327,
@@ -6052,10 +6052,10 @@
           "currentPeriodGrowth": 3,
           "pastPeriodGrowth": 2,
           "growthPop": 50,
-          "rankPop": -3,
+          "rankPop": -2,
           "total": 267,
           "currentPeriodRank": 5,
-          "pastPeriodRank": 8
+          "pastPeriodRank": 7
         },
         {
           "repoId": 595832198,
@@ -6097,24 +6097,13 @@
         {
           "repoId": 644686905,
           "repoName": "continuedev/continue",
-          "currentPeriodGrowth": 102,
+          "currentPeriodGrowth": 104,
           "pastPeriodGrowth": 114,
-          "growthPop": -10.53,
+          "growthPop": -8.77,
           "rankPop": 0,
-          "total": 28286,
+          "total": 28288,
           "currentPeriodRank": 1,
           "pastPeriodRank": 1
-        },
-        {
-          "repoId": 662766482,
-          "repoName": "qodo-ai/pr-agent",
-          "currentPeriodGrowth": 45,
-          "pastPeriodGrowth": 47,
-          "growthPop": -4.26,
-          "rankPop": -1,
-          "total": 8744,
-          "currentPeriodRank": 2,
-          "pastPeriodRank": 3
         },
         {
           "repoId": 780737106,
@@ -6122,10 +6111,21 @@
           "currentPeriodGrowth": 45,
           "pastPeriodGrowth": 54,
           "growthPop": -16.67,
-          "rankPop": 1,
+          "rankPop": 0,
           "total": 16401,
-          "currentPeriodRank": 3,
+          "currentPeriodRank": 2,
           "pastPeriodRank": 2
+        },
+        {
+          "repoId": 662766482,
+          "repoName": "qodo-ai/pr-agent",
+          "currentPeriodGrowth": 45,
+          "pastPeriodGrowth": 47,
+          "growthPop": -4.26,
+          "rankPop": 0,
+          "total": 8744,
+          "currentPeriodRank": 3,
+          "pastPeriodRank": 3
         },
         {
           "repoId": 592489166,
@@ -6152,11 +6152,11 @@
         {
           "repoId": 660489378,
           "repoName": "microsoft/promptflow",
-          "currentPeriodGrowth": 9,
+          "currentPeriodGrowth": 10,
           "pastPeriodGrowth": 9,
-          "growthPop": 0,
+          "growthPop": 11.11,
           "rankPop": 0,
-          "total": 10368,
+          "total": 10369,
           "currentPeriodRank": 6,
           "pastPeriodRank": 6
         },
@@ -6263,7 +6263,7 @@
           "pastPeriodGrowth": 33,
           "growthPop": -36.36,
           "rankPop": 0,
-          "total": 2196,
+          "total": 2197,
           "currentPeriodRank": 1,
           "pastPeriodRank": 1
         },
@@ -6285,11 +6285,11 @@
         {
           "repoId": 710601088,
           "repoName": "crewAIInc/crewAI",
-          "currentPeriodGrowth": 427,
+          "currentPeriodGrowth": 428,
           "pastPeriodGrowth": 450,
-          "growthPop": -5.11,
+          "growthPop": -4.89,
           "rankPop": 0,
-          "total": 37417,
+          "total": 37418,
           "currentPeriodRank": 1,
           "pastPeriodRank": 1
         },
@@ -6384,11 +6384,11 @@
         {
           "repoId": 660489378,
           "repoName": "microsoft/promptflow",
-          "currentPeriodGrowth": 9,
+          "currentPeriodGrowth": 10,
           "pastPeriodGrowth": 9,
-          "growthPop": 0,
+          "growthPop": 11.11,
           "rankPop": 0,
-          "total": 10368,
+          "total": 10369,
           "currentPeriodRank": 10,
           "pastPeriodRank": 10
         },

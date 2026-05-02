@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-01T09:22:23.558Z",
+  "fetchedAt": "2026-05-02T08:53:57.096Z",
   "source": "openai",
   "feedUrl": "https://openai.com/news/rss.xml",
   "error": null,
@@ -115,16 +115,6 @@
       "category": "POST"
     },
     {
-      "id": "https://openai.com/index/gpt-5-5-system-card",
-      "title": "GPT-5.5 System Card",
-      "url": "https://openai.com/index/gpt-5-5-system-card",
-      "summary": "",
-      "publishedAt": "2026-04-23T11:00:00.000Z",
-      "author": "",
-      "source": "openai",
-      "category": "MODEL"
-    },
-    {
       "id": "https://openai.com/index/introducing-gpt-5-5",
       "title": "Introducing GPT-5.5",
       "url": "https://openai.com/index/introducing-gpt-5-5",
@@ -135,14 +125,14 @@
       "category": "MODEL"
     },
     {
-      "id": "https://openai.com/academy/codex-how-to-start",
-      "title": "How to get started with Codex",
-      "url": "https://openai.com/academy/codex-how-to-start",
-      "summary": "Learn how to get started with Codex by setting up projects, creating threads, and completing your first tasks with step-by-step guidance.",
-      "publishedAt": "2026-04-23T10:00:00.000Z",
+      "id": "https://openai.com/index/gpt-5-5-system-card",
+      "title": "GPT-5.5 System Card",
+      "url": "https://openai.com/index/gpt-5-5-system-card",
+      "summary": "",
+      "publishedAt": "2026-04-23T11:00:00.000Z",
       "author": "",
       "source": "openai",
-      "category": "POST"
+      "category": "MODEL"
     },
     {
       "id": "https://openai.com/academy/what-is-codex",
@@ -155,10 +145,30 @@
       "category": "POST"
     },
     {
+      "id": "https://openai.com/academy/codex-how-to-start",
+      "title": "How to get started with Codex",
+      "url": "https://openai.com/academy/codex-how-to-start",
+      "summary": "Learn how to get started with Codex by setting up projects, creating threads, and completing your first tasks with step-by-step guidance.",
+      "publishedAt": "2026-04-23T10:00:00.000Z",
+      "author": "",
+      "source": "openai",
+      "category": "POST"
+    },
+    {
       "id": "https://openai.com/academy/codex-settings",
       "title": "Codex settings",
       "url": "https://openai.com/academy/codex-settings",
       "summary": "Learn how to configure Codex settings, including personalization, detail level, and permissions, to run tasks smoothly and customize your workflow.",
+      "publishedAt": "2026-04-23T10:00:00.000Z",
+      "author": "",
+      "source": "openai",
+      "category": "POST"
+    },
+    {
+      "id": "https://openai.com/academy/working-with-codex",
+      "title": "Working with Codex",
+      "url": "https://openai.com/academy/working-with-codex",
+      "summary": "Learn how to set up your Codex workspace, create threads and projects, manage files, and start completing tasks with step-by-step guidance.",
       "publishedAt": "2026-04-23T10:00:00.000Z",
       "author": "",
       "source": "openai",
@@ -195,16 +205,6 @@
       "category": "POST"
     },
     {
-      "id": "https://openai.com/academy/working-with-codex",
-      "title": "Working with Codex",
-      "url": "https://openai.com/academy/working-with-codex",
-      "summary": "Learn how to set up your Codex workspace, create threads and projects, manage files, and start completing tasks with step-by-step guidance.",
-      "publishedAt": "2026-04-23T10:00:00.000Z",
-      "author": "",
-      "source": "openai",
-      "category": "POST"
-    },
-    {
       "id": "https://openai.com/index/gpt-5-5-bio-bug-bounty",
       "title": "GPT-5.5 Bio Bug Bounty",
       "url": "https://openai.com/index/gpt-5-5-bio-bug-bounty",
@@ -225,16 +225,6 @@
       "category": "POST"
     },
     {
-      "id": "https://openai.com/index/speeding-up-agentic-workflows-with-websockets",
-      "title": "Speeding up agentic workflows with WebSockets in the Responses API",
-      "url": "https://openai.com/index/speeding-up-agentic-workflows-with-websockets",
-      "summary": "A deep dive into the Codex agent loop, showing how WebSockets and connection-scoped caching reduced API overhead and improved model latency.",
-      "publishedAt": "2026-04-22T10:00:00.000Z",
-      "author": "",
-      "source": "openai",
-      "category": "PLATFORM"
-    },
-    {
       "id": "https://openai.com/academy/workspace-agents",
       "title": "Workspace agents",
       "url": "https://openai.com/academy/workspace-agents",
@@ -243,6 +233,16 @@
       "author": "",
       "source": "openai",
       "category": "POST"
+    },
+    {
+      "id": "https://openai.com/index/speeding-up-agentic-workflows-with-websockets",
+      "title": "Speeding up agentic workflows with WebSockets in the Responses API",
+      "url": "https://openai.com/index/speeding-up-agentic-workflows-with-websockets",
+      "summary": "A deep dive into the Codex agent loop, showing how WebSockets and connection-scoped caching reduced API overhead and improved model latency.",
+      "publishedAt": "2026-04-22T10:00:00.000Z",
+      "author": "",
+      "source": "openai",
+      "category": "PLATFORM"
     },
     {
       "id": "https://openai.com/index/introducing-workspace-agents-in-chatgpt",

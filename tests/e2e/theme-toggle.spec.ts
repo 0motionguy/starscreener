@@ -13,7 +13,12 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("theme toggle", () => {
-  test("flips html class and persists to localStorage", async ({ page }) => {
+  // SKIPPED: ThemeToggle was removed in commit 84090fe5 (per
+  // ultra-audit-2026-05-02 finding V4: "V4 is dark-only per
+  // DESIGN_SYSTEM.md § 1"). Test left in place as a future scaffold if
+  // light-mode is ever reintroduced. Until then this was the only failing
+  // CI check on every PR including main itself.
+  test.skip("flips html class and persists to localStorage", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" });
 
     // Wait for client mount — ThemeToggle renders a placeholder until then.

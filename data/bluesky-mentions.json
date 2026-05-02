@@ -1,12 +1,12 @@
 {
-  "fetchedAt": "2026-05-02T03:53:08.616Z",
+  "fetchedAt": "2026-05-02T06:21:27.869Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
     "rtk-ai/rtk": {
-      "count7d": 2,
+      "count7d": 3,
       "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
@@ -23,7 +23,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-01T23:18:23.515Z",
-        "hoursSincePosted": 4.58
+        "hoursSincePosted": 7.05
       },
       "posts": [
         {
@@ -40,8 +40,36 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T23:18:23.515Z",
           "createdUtc": 1777677503,
-          "ageHours": 4.58,
+          "ageHours": 7.05,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "rtk-ai/rtk",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:3fe25qalw4rfzrty3xyutj7c/app.bsky.feed.post/3mktxaksc3q2v",
+          "cid": "bafyreicbre5uehkp5g4x5ik2nersa5masknkwfesg7givngyxxpgpl663m",
+          "bskyUrl": "https://bsky.app/profile/topickapp.bsky.social/post/3mktxaksc3q2v",
+          "text": "https://github.com/rtk-ai/rtk RTKはLLMのトークン消費を60-90%削減するCLIプロキシです。 コマンド出力をフィルタリング・圧縮し、AIの処理能力を向上させます。 様々なAIツールと連携し、開発効率を大幅に改善します。",
+          "author": {
+            "handle": "topickapp.bsky.social",
+            "displayName": "topickapp (IT技術系ニュースサイト)"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T05:52:21.285623+00:00",
+          "createdUtc": 1777701141,
+          "ageHours": 0.5,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -68,7 +96,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T03:12:38.000Z",
           "createdUtc": 1777691558,
-          "ageHours": 0.68,
+          "ageHours": 3.15,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -77,6 +105,161 @@
           "linkedRepos": [
             {
               "fullName": "rtk-ai/rtk",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "niri-wm/niri": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 2,
+      "topPost": {
+        "uri": "at://did:plc:4filgs73k7oxroktdu5g2lk6/app.bsky.feed.post/3mktrbwsd3222",
+        "cid": "bafyreihioa2b5dr2lp5l4anxdt7yyzo6oryflg56lmmobg7ripfbjnw35q",
+        "bskyUrl": "https://bsky.app/profile/nickgerace.dev/post/3mktrbwsd3222",
+        "text": "I’ve been a real “I just use GNOME” guy in recent years but I’m tempted to try Niri github.com/niri-wm/niri",
+        "author": {
+          "handle": "nickgerace.dev",
+          "displayName": "Nick Gerace"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 2,
+        "createdAt": "2026-05-02T04:05:45.045Z",
+        "hoursSincePosted": 2.26
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:4filgs73k7oxroktdu5g2lk6/app.bsky.feed.post/3mktrbwsd3222",
+          "cid": "bafyreihioa2b5dr2lp5l4anxdt7yyzo6oryflg56lmmobg7ripfbjnw35q",
+          "bskyUrl": "https://bsky.app/profile/nickgerace.dev/post/3mktrbwsd3222",
+          "text": "I’ve been a real “I just use GNOME” guy in recent years but I’m tempted to try Niri github.com/niri-wm/niri",
+          "author": {
+            "handle": "nickgerace.dev",
+            "displayName": "Nick Gerace"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 2,
+          "createdAt": "2026-05-02T04:05:45.045Z",
+          "createdUtc": 1777694745,
+          "ageHours": 2.26,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "niri-wm/niri",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "B-M-Capital-Research/honeclaw": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:h4pw4ukmg4q5iuvc4comj6yv/app.bsky.feed.post/3mktlx2hp2r2e",
+        "cid": "bafyreihfgiw6s6ycowfuzkjaggiphm5nbvk6ojfzugdwzevixhtgegb7mq",
+        "bskyUrl": "https://bsky.app/profile/githubprojects.bsky.social/post/3mktlx2hp2r2e",
+        "text": "Explore more: github.com/B-M-Capital...",
+        "author": {
+          "handle": "githubprojects.bsky.social",
+          "displayName": "GitHub Projects"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-02T02:30:09.786810Z",
+        "hoursSincePosted": 3.86
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:h4pw4ukmg4q5iuvc4comj6yv/app.bsky.feed.post/3mktlx2hp2r2e",
+          "cid": "bafyreihfgiw6s6ycowfuzkjaggiphm5nbvk6ojfzugdwzevixhtgegb7mq",
+          "bskyUrl": "https://bsky.app/profile/githubprojects.bsky.social/post/3mktlx2hp2r2e",
+          "text": "Explore more: github.com/B-M-Capital...",
+          "author": {
+            "handle": "githubprojects.bsky.social",
+            "displayName": "GitHub Projects"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T02:30:09.786810Z",
+          "createdUtc": 1777689009,
+          "ageHours": 3.86,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "B-M-Capital-Research/honeclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "xingkongliang/skills-manager": {
+      "count7d": 1,
+      "likesSum7d": 4,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mktjytml7r27",
+        "cid": "bafyreidn2wt2yf4pbq7r4adldddhjbkjjrz7dul672vyto4xrw55tqtai4",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mktjytml7r27",
+        "text": "xingkongliang / skills-manager: A lightweight desktop app to manage, sync, and organize AI agent skills across 15+ coding tools — Cursor, Claude Code, Codex, Copilot, and more. ★975 https://github.com/xingkongliang/skills-manager",
+        "author": {
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
+        },
+        "likeCount": 4,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-02T01:55:23.300451Z",
+        "hoursSincePosted": 4.43
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mktjytml7r27",
+          "cid": "bafyreidn2wt2yf4pbq7r4adldddhjbkjjrz7dul672vyto4xrw55tqtai4",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mktjytml7r27",
+          "text": "xingkongliang / skills-manager: A lightweight desktop app to manage, sync, and organize AI agent skills across 15+ coding tools — Cursor, Claude Code, Codex, Copilot, and more. ★975 https://github.com/xingkongliang/skills-manager",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 4,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T01:55:23.300451Z",
+          "createdUtc": 1777686923,
+          "ageHours": 4.43,
+          "trendingScore": 4,
+          "content_tags": [
+            "has-github-repo",
+            "has-skill",
+            "has-agent"
+          ],
+          "value_score": 3,
+          "linkedRepos": [
+            {
+              "fullName": "xingkongliang/skills-manager",
               "matchType": "url",
               "confidence": 1
             }
@@ -102,7 +285,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-02T01:15:24.676624+00:00",
-        "hoursSincePosted": 2.63
+        "hoursSincePosted": 5.1
       },
       "posts": [
         {
@@ -119,7 +302,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T01:15:24.676624+00:00",
           "createdUtc": 1777684524,
-          "ageHours": 2.63,
+          "ageHours": 5.1,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -147,7 +330,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T23:23:11.968118Z",
           "createdUtc": 1777677791,
-          "ageHours": 4.5,
+          "ageHours": 6.97,
           "trendingScore": 0,
           "content_tags": [],
           "value_score": 0,
@@ -163,7 +346,7 @@
     },
     "browserbase/skills": {
       "count7d": 2,
-      "likesSum7d": 1,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -175,11 +358,11 @@
           "handle": "yug1224.com",
           "displayName": "ぷーじ"
         },
-        "likeCount": 1,
+        "likeCount": 2,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-02T00:36:38.259Z",
-        "hoursSincePosted": 3.28
+        "hoursSincePosted": 5.75
       },
       "posts": [
         {
@@ -191,13 +374,13 @@
             "handle": "yug1224.com",
             "displayName": "ぷーじ"
           },
-          "likeCount": 1,
+          "likeCount": 2,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-02T00:36:38.259Z",
           "createdUtc": 1777682198,
-          "ageHours": 3.28,
-          "trendingScore": 1,
+          "ageHours": 5.75,
+          "trendingScore": 2,
           "content_tags": [
             "has-github-repo"
           ],
@@ -224,7 +407,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T01:10:46.832Z",
           "createdUtc": 1777684246,
-          "ageHours": 2.71,
+          "ageHours": 5.18,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -258,7 +441,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-02T01:10:44.478Z",
-        "hoursSincePosted": 2.71
+        "hoursSincePosted": 5.18
       },
       "posts": [
         {
@@ -275,7 +458,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T01:10:44.478Z",
           "createdUtc": 1777684244,
-          "ageHours": 2.71,
+          "ageHours": 5.18,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -309,7 +492,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-02T00:36:32.688Z",
-        "hoursSincePosted": 3.28
+        "hoursSincePosted": 5.75
       },
       "posts": [
         {
@@ -326,7 +509,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T00:36:32.688Z",
           "createdUtc": 1777682192,
-          "ageHours": 3.28,
+          "ageHours": 5.75,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -354,7 +537,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T01:10:34.021Z",
           "createdUtc": 1777684234,
-          "ageHours": 2.71,
+          "ageHours": 5.18,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -387,7 +570,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-02T00:10:09.856620+00:00",
-        "hoursSincePosted": 3.72
+        "hoursSincePosted": 6.19
       },
       "posts": [
         {
@@ -403,7 +586,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T00:10:09.856620+00:00",
           "createdUtc": 1777680609,
-          "ageHours": 3.72,
+          "ageHours": 6.19,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -412,6 +595,57 @@
           "linkedRepos": [
             {
               "fullName": "mattpocock/skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "SuperCmdLabs/SuperCmd": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:h4pw4ukmg4q5iuvc4comj6yv/app.bsky.feed.post/3mktdkye4pt2i",
+        "cid": "bafyreicm2j3asx644zdzswkdyilyuf7ho4ydqeoowjjq2zjsuzdh2ls4iu",
+        "bskyUrl": "https://bsky.app/profile/githubprojects.bsky.social/post/3mktdkye4pt2i",
+        "text": "Explore more: github.com/SuperCmdLab...",
+        "author": {
+          "handle": "githubprojects.bsky.social",
+          "displayName": "GitHub Projects"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-02T00:00:16.198085Z",
+        "hoursSincePosted": 6.35
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:h4pw4ukmg4q5iuvc4comj6yv/app.bsky.feed.post/3mktdkye4pt2i",
+          "cid": "bafyreicm2j3asx644zdzswkdyilyuf7ho4ydqeoowjjq2zjsuzdh2ls4iu",
+          "bskyUrl": "https://bsky.app/profile/githubprojects.bsky.social/post/3mktdkye4pt2i",
+          "text": "Explore more: github.com/SuperCmdLab...",
+          "author": {
+            "handle": "githubprojects.bsky.social",
+            "displayName": "GitHub Projects"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T00:00:16.198085Z",
+          "createdUtc": 1777680016,
+          "ageHours": 6.35,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "SuperCmdLabs/SuperCmd",
               "matchType": "url",
               "confidence": 1
             }
@@ -437,7 +671,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-02T00:00:14.934296+00:00",
-        "hoursSincePosted": 3.88
+        "hoursSincePosted": 6.35
       },
       "posts": [
         {
@@ -454,7 +688,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T00:00:14.934296+00:00",
           "createdUtc": 1777680014,
-          "ageHours": 3.88,
+          "ageHours": 6.35,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -488,7 +722,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-01T23:33:44Z",
-        "hoursSincePosted": 4.32
+        "hoursSincePosted": 6.8
       },
       "posts": [
         {
@@ -505,7 +739,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T23:33:44Z",
           "createdUtc": 1777678424,
-          "ageHours": 4.32,
+          "ageHours": 6.8,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -520,114 +754,11 @@
           ]
         }
       ]
-    },
-    "netbirdio/netbird": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:cz32h5hwdr67i7ecwdux6b4s/app.bsky.feed.post/3mkt65mrpwt2e",
-        "cid": "bafyreidcndp5e27qsabw7isckef5jxlyjndjfhth3wnbkkn4hipkhuxvba",
-        "bskyUrl": "https://bsky.app/profile/dbt3.ch/post/3mkt65mrpwt2e",
-        "text": "NetBird v0.70.4 patches MSI generation and adds installer tests. A small but important fix if you rely on Windows deployments for your network overlay. #selfhosted #homelab https://github.com/netbirdio/netbird/releases/tag/v0.70.4",
-        "author": {
-          "handle": "dbt3.ch",
-          "displayName": "David"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-01T22:23:19.153Z",
-        "hoursSincePosted": 5.5
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:cz32h5hwdr67i7ecwdux6b4s/app.bsky.feed.post/3mkt65mrpwt2e",
-          "cid": "bafyreidcndp5e27qsabw7isckef5jxlyjndjfhth3wnbkkn4hipkhuxvba",
-          "bskyUrl": "https://bsky.app/profile/dbt3.ch/post/3mkt65mrpwt2e",
-          "text": "NetBird v0.70.4 patches MSI generation and adds installer tests. A small but important fix if you rely on Windows deployments for your network overlay. #selfhosted #homelab https://github.com/netbirdio/netbird/releases/tag/v0.70.4",
-          "author": {
-            "handle": "dbt3.ch",
-            "displayName": "David"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T22:23:19.153Z",
-          "createdUtc": 1777674199,
-          "ageHours": 5.5,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo",
-            "is-announcement"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "netbirdio/netbird",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "Alishahryar1/free-claude-code": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:uwdw4rthvdkclv7n2skldjnm/app.bsky.feed.post/3mkt4y7qxqv2b",
-        "cid": "bafyreidsvyjbvhgo5iyo3w2fklqnub7423rd2dimew577b2o7qvqer5zwy",
-        "bskyUrl": "https://bsky.app/profile/jeremymorgan.com/post/3mkt4y7qxqv2b",
-        "text": "10k stars this week. Run Claude-style coding agents in your terminal without the per-token bill. Kills the cost barrier that was keeping teams from testing agentic coding on real repos. github.com/Alishahryar1...",
-        "author": {
-          "handle": "jeremymorgan.com",
-          "displayName": "Jeremy Morgan"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-01T22:02:23.379Z",
-        "hoursSincePosted": 5.85
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:uwdw4rthvdkclv7n2skldjnm/app.bsky.feed.post/3mkt4y7qxqv2b",
-          "cid": "bafyreidsvyjbvhgo5iyo3w2fklqnub7423rd2dimew577b2o7qvqer5zwy",
-          "bskyUrl": "https://bsky.app/profile/jeremymorgan.com/post/3mkt4y7qxqv2b",
-          "text": "10k stars this week. Run Claude-style coding agents in your terminal without the per-token bill. Kills the cost barrier that was keeping teams from testing agentic coding on real repos. github.com/Alishahryar1...",
-          "author": {
-            "handle": "jeremymorgan.com",
-            "displayName": "Jeremy Morgan"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T22:02:23.379Z",
-          "createdUtc": 1777672943,
-          "ageHours": 5.85,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "Alishahryar1/free-claude-code",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
     }
   },
   "mentionsByRepoId": {
     "rtk-ai--rtk": {
-      "count7d": 2,
+      "count7d": 3,
       "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
@@ -644,7 +775,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-01T23:18:23.515Z",
-        "hoursSincePosted": 4.58
+        "hoursSincePosted": 7.05
       },
       "posts": [
         {
@@ -661,8 +792,36 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T23:18:23.515Z",
           "createdUtc": 1777677503,
-          "ageHours": 4.58,
+          "ageHours": 7.05,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "rtk-ai/rtk",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:3fe25qalw4rfzrty3xyutj7c/app.bsky.feed.post/3mktxaksc3q2v",
+          "cid": "bafyreicbre5uehkp5g4x5ik2nersa5masknkwfesg7givngyxxpgpl663m",
+          "bskyUrl": "https://bsky.app/profile/topickapp.bsky.social/post/3mktxaksc3q2v",
+          "text": "https://github.com/rtk-ai/rtk RTKはLLMのトークン消費を60-90%削減するCLIプロキシです。 コマンド出力をフィルタリング・圧縮し、AIの処理能力を向上させます。 様々なAIツールと連携し、開発効率を大幅に改善します。",
+          "author": {
+            "handle": "topickapp.bsky.social",
+            "displayName": "topickapp (IT技術系ニュースサイト)"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T05:52:21.285623+00:00",
+          "createdUtc": 1777701141,
+          "ageHours": 0.5,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -689,7 +848,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T03:12:38.000Z",
           "createdUtc": 1777691558,
-          "ageHours": 0.68,
+          "ageHours": 3.15,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -698,6 +857,161 @@
           "linkedRepos": [
             {
               "fullName": "rtk-ai/rtk",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "niri-wm--niri": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 2,
+      "topPost": {
+        "uri": "at://did:plc:4filgs73k7oxroktdu5g2lk6/app.bsky.feed.post/3mktrbwsd3222",
+        "cid": "bafyreihioa2b5dr2lp5l4anxdt7yyzo6oryflg56lmmobg7ripfbjnw35q",
+        "bskyUrl": "https://bsky.app/profile/nickgerace.dev/post/3mktrbwsd3222",
+        "text": "I’ve been a real “I just use GNOME” guy in recent years but I’m tempted to try Niri github.com/niri-wm/niri",
+        "author": {
+          "handle": "nickgerace.dev",
+          "displayName": "Nick Gerace"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 2,
+        "createdAt": "2026-05-02T04:05:45.045Z",
+        "hoursSincePosted": 2.26
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:4filgs73k7oxroktdu5g2lk6/app.bsky.feed.post/3mktrbwsd3222",
+          "cid": "bafyreihioa2b5dr2lp5l4anxdt7yyzo6oryflg56lmmobg7ripfbjnw35q",
+          "bskyUrl": "https://bsky.app/profile/nickgerace.dev/post/3mktrbwsd3222",
+          "text": "I’ve been a real “I just use GNOME” guy in recent years but I’m tempted to try Niri github.com/niri-wm/niri",
+          "author": {
+            "handle": "nickgerace.dev",
+            "displayName": "Nick Gerace"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 2,
+          "createdAt": "2026-05-02T04:05:45.045Z",
+          "createdUtc": 1777694745,
+          "ageHours": 2.26,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "niri-wm/niri",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "b-m-capital-research--honeclaw": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:h4pw4ukmg4q5iuvc4comj6yv/app.bsky.feed.post/3mktlx2hp2r2e",
+        "cid": "bafyreihfgiw6s6ycowfuzkjaggiphm5nbvk6ojfzugdwzevixhtgegb7mq",
+        "bskyUrl": "https://bsky.app/profile/githubprojects.bsky.social/post/3mktlx2hp2r2e",
+        "text": "Explore more: github.com/B-M-Capital...",
+        "author": {
+          "handle": "githubprojects.bsky.social",
+          "displayName": "GitHub Projects"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-02T02:30:09.786810Z",
+        "hoursSincePosted": 3.86
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:h4pw4ukmg4q5iuvc4comj6yv/app.bsky.feed.post/3mktlx2hp2r2e",
+          "cid": "bafyreihfgiw6s6ycowfuzkjaggiphm5nbvk6ojfzugdwzevixhtgegb7mq",
+          "bskyUrl": "https://bsky.app/profile/githubprojects.bsky.social/post/3mktlx2hp2r2e",
+          "text": "Explore more: github.com/B-M-Capital...",
+          "author": {
+            "handle": "githubprojects.bsky.social",
+            "displayName": "GitHub Projects"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T02:30:09.786810Z",
+          "createdUtc": 1777689009,
+          "ageHours": 3.86,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "B-M-Capital-Research/honeclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "xingkongliang--skills-manager": {
+      "count7d": 1,
+      "likesSum7d": 4,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mktjytml7r27",
+        "cid": "bafyreidn2wt2yf4pbq7r4adldddhjbkjjrz7dul672vyto4xrw55tqtai4",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mktjytml7r27",
+        "text": "xingkongliang / skills-manager: A lightweight desktop app to manage, sync, and organize AI agent skills across 15+ coding tools — Cursor, Claude Code, Codex, Copilot, and more. ★975 https://github.com/xingkongliang/skills-manager",
+        "author": {
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
+        },
+        "likeCount": 4,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-02T01:55:23.300451Z",
+        "hoursSincePosted": 4.43
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mktjytml7r27",
+          "cid": "bafyreidn2wt2yf4pbq7r4adldddhjbkjjrz7dul672vyto4xrw55tqtai4",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mktjytml7r27",
+          "text": "xingkongliang / skills-manager: A lightweight desktop app to manage, sync, and organize AI agent skills across 15+ coding tools — Cursor, Claude Code, Codex, Copilot, and more. ★975 https://github.com/xingkongliang/skills-manager",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 4,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T01:55:23.300451Z",
+          "createdUtc": 1777686923,
+          "ageHours": 4.43,
+          "trendingScore": 4,
+          "content_tags": [
+            "has-github-repo",
+            "has-skill",
+            "has-agent"
+          ],
+          "value_score": 3,
+          "linkedRepos": [
+            {
+              "fullName": "xingkongliang/skills-manager",
               "matchType": "url",
               "confidence": 1
             }
@@ -723,7 +1037,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-02T01:15:24.676624+00:00",
-        "hoursSincePosted": 2.63
+        "hoursSincePosted": 5.1
       },
       "posts": [
         {
@@ -740,7 +1054,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T01:15:24.676624+00:00",
           "createdUtc": 1777684524,
-          "ageHours": 2.63,
+          "ageHours": 5.1,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -768,7 +1082,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T23:23:11.968118Z",
           "createdUtc": 1777677791,
-          "ageHours": 4.5,
+          "ageHours": 6.97,
           "trendingScore": 0,
           "content_tags": [],
           "value_score": 0,
@@ -784,7 +1098,7 @@
     },
     "browserbase--skills": {
       "count7d": 2,
-      "likesSum7d": 1,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -796,11 +1110,11 @@
           "handle": "yug1224.com",
           "displayName": "ぷーじ"
         },
-        "likeCount": 1,
+        "likeCount": 2,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-02T00:36:38.259Z",
-        "hoursSincePosted": 3.28
+        "hoursSincePosted": 5.75
       },
       "posts": [
         {
@@ -812,13 +1126,13 @@
             "handle": "yug1224.com",
             "displayName": "ぷーじ"
           },
-          "likeCount": 1,
+          "likeCount": 2,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-02T00:36:38.259Z",
           "createdUtc": 1777682198,
-          "ageHours": 3.28,
-          "trendingScore": 1,
+          "ageHours": 5.75,
+          "trendingScore": 2,
           "content_tags": [
             "has-github-repo"
           ],
@@ -845,7 +1159,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T01:10:46.832Z",
           "createdUtc": 1777684246,
-          "ageHours": 2.71,
+          "ageHours": 5.18,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -879,7 +1193,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-02T01:10:44.478Z",
-        "hoursSincePosted": 2.71
+        "hoursSincePosted": 5.18
       },
       "posts": [
         {
@@ -896,7 +1210,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T01:10:44.478Z",
           "createdUtc": 1777684244,
-          "ageHours": 2.71,
+          "ageHours": 5.18,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -930,7 +1244,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-02T00:36:32.688Z",
-        "hoursSincePosted": 3.28
+        "hoursSincePosted": 5.75
       },
       "posts": [
         {
@@ -947,7 +1261,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T00:36:32.688Z",
           "createdUtc": 1777682192,
-          "ageHours": 3.28,
+          "ageHours": 5.75,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -975,7 +1289,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T01:10:34.021Z",
           "createdUtc": 1777684234,
-          "ageHours": 2.71,
+          "ageHours": 5.18,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -1008,7 +1322,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-02T00:10:09.856620+00:00",
-        "hoursSincePosted": 3.72
+        "hoursSincePosted": 6.19
       },
       "posts": [
         {
@@ -1024,7 +1338,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T00:10:09.856620+00:00",
           "createdUtc": 1777680609,
-          "ageHours": 3.72,
+          "ageHours": 6.19,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -1033,6 +1347,57 @@
           "linkedRepos": [
             {
               "fullName": "mattpocock/skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "supercmdlabs--supercmd": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:h4pw4ukmg4q5iuvc4comj6yv/app.bsky.feed.post/3mktdkye4pt2i",
+        "cid": "bafyreicm2j3asx644zdzswkdyilyuf7ho4ydqeoowjjq2zjsuzdh2ls4iu",
+        "bskyUrl": "https://bsky.app/profile/githubprojects.bsky.social/post/3mktdkye4pt2i",
+        "text": "Explore more: github.com/SuperCmdLab...",
+        "author": {
+          "handle": "githubprojects.bsky.social",
+          "displayName": "GitHub Projects"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-02T00:00:16.198085Z",
+        "hoursSincePosted": 6.35
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:h4pw4ukmg4q5iuvc4comj6yv/app.bsky.feed.post/3mktdkye4pt2i",
+          "cid": "bafyreicm2j3asx644zdzswkdyilyuf7ho4ydqeoowjjq2zjsuzdh2ls4iu",
+          "bskyUrl": "https://bsky.app/profile/githubprojects.bsky.social/post/3mktdkye4pt2i",
+          "text": "Explore more: github.com/SuperCmdLab...",
+          "author": {
+            "handle": "githubprojects.bsky.social",
+            "displayName": "GitHub Projects"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T00:00:16.198085Z",
+          "createdUtc": 1777680016,
+          "ageHours": 6.35,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "SuperCmdLabs/SuperCmd",
               "matchType": "url",
               "confidence": 1
             }
@@ -1058,7 +1423,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-02T00:00:14.934296+00:00",
-        "hoursSincePosted": 3.88
+        "hoursSincePosted": 6.35
       },
       "posts": [
         {
@@ -1075,7 +1440,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T00:00:14.934296+00:00",
           "createdUtc": 1777680014,
-          "ageHours": 3.88,
+          "ageHours": 6.35,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -1109,7 +1474,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-01T23:33:44Z",
-        "hoursSincePosted": 4.32
+        "hoursSincePosted": 6.8
       },
       "posts": [
         {
@@ -1126,7 +1491,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-01T23:33:44Z",
           "createdUtc": 1777678424,
-          "ageHours": 4.32,
+          "ageHours": 6.8,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -1141,119 +1506,26 @@
           ]
         }
       ]
-    },
-    "netbirdio--netbird": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:cz32h5hwdr67i7ecwdux6b4s/app.bsky.feed.post/3mkt65mrpwt2e",
-        "cid": "bafyreidcndp5e27qsabw7isckef5jxlyjndjfhth3wnbkkn4hipkhuxvba",
-        "bskyUrl": "https://bsky.app/profile/dbt3.ch/post/3mkt65mrpwt2e",
-        "text": "NetBird v0.70.4 patches MSI generation and adds installer tests. A small but important fix if you rely on Windows deployments for your network overlay. #selfhosted #homelab https://github.com/netbirdio/netbird/releases/tag/v0.70.4",
-        "author": {
-          "handle": "dbt3.ch",
-          "displayName": "David"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-01T22:23:19.153Z",
-        "hoursSincePosted": 5.5
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:cz32h5hwdr67i7ecwdux6b4s/app.bsky.feed.post/3mkt65mrpwt2e",
-          "cid": "bafyreidcndp5e27qsabw7isckef5jxlyjndjfhth3wnbkkn4hipkhuxvba",
-          "bskyUrl": "https://bsky.app/profile/dbt3.ch/post/3mkt65mrpwt2e",
-          "text": "NetBird v0.70.4 patches MSI generation and adds installer tests. A small but important fix if you rely on Windows deployments for your network overlay. #selfhosted #homelab https://github.com/netbirdio/netbird/releases/tag/v0.70.4",
-          "author": {
-            "handle": "dbt3.ch",
-            "displayName": "David"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T22:23:19.153Z",
-          "createdUtc": 1777674199,
-          "ageHours": 5.5,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo",
-            "is-announcement"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "netbirdio/netbird",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "alishahryar1--free-claude-code": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:uwdw4rthvdkclv7n2skldjnm/app.bsky.feed.post/3mkt4y7qxqv2b",
-        "cid": "bafyreidsvyjbvhgo5iyo3w2fklqnub7423rd2dimew577b2o7qvqer5zwy",
-        "bskyUrl": "https://bsky.app/profile/jeremymorgan.com/post/3mkt4y7qxqv2b",
-        "text": "10k stars this week. Run Claude-style coding agents in your terminal without the per-token bill. Kills the cost barrier that was keeping teams from testing agentic coding on real repos. github.com/Alishahryar1...",
-        "author": {
-          "handle": "jeremymorgan.com",
-          "displayName": "Jeremy Morgan"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-01T22:02:23.379Z",
-        "hoursSincePosted": 5.85
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:uwdw4rthvdkclv7n2skldjnm/app.bsky.feed.post/3mkt4y7qxqv2b",
-          "cid": "bafyreidsvyjbvhgo5iyo3w2fklqnub7423rd2dimew577b2o7qvqer5zwy",
-          "bskyUrl": "https://bsky.app/profile/jeremymorgan.com/post/3mkt4y7qxqv2b",
-          "text": "10k stars this week. Run Claude-style coding agents in your terminal without the per-token bill. Kills the cost barrier that was keeping teams from testing agentic coding on real repos. github.com/Alishahryar1...",
-          "author": {
-            "handle": "jeremymorgan.com",
-            "displayName": "Jeremy Morgan"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-01T22:02:23.379Z",
-          "createdUtc": 1777672943,
-          "ageHours": 5.85,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "Alishahryar1/free-claude-code",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "1jehuang/jcode",
-      "count7d": 2,
-      "likesSum7d": 1
+      "fullName": "xingkongliang/skills-manager",
+      "count7d": 1,
+      "likesSum7d": 4
     },
     {
       "fullName": "browserbase/skills",
+      "count7d": 2,
+      "likesSum7d": 2
+    },
+    {
+      "fullName": "rtk-ai/rtk",
+      "count7d": 3,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "1jehuang/jcode",
       "count7d": 2,
       "likesSum7d": 1
     },
@@ -1263,22 +1535,12 @@
       "likesSum7d": 1
     },
     {
-      "fullName": "rtk-ai/rtk",
-      "count7d": 2,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "Alishahryar1/free-claude-code",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "netbirdio/netbird",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
       "fullName": "Adam-CAD/CADAM",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "B-M-Capital-Research/honeclaw",
       "count7d": 1,
       "likesSum7d": 0
     },
@@ -1289,6 +1551,16 @@
     },
     {
       "fullName": "mattpocock/skills",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "niri-wm/niri",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "SuperCmdLabs/SuperCmd",
       "count7d": 1,
       "likesSum7d": 0
     },

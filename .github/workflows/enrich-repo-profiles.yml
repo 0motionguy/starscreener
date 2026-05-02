@@ -36,6 +36,7 @@ jobs:
       - name: Refresh repo profiles incrementally
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          GH_TOKEN_POOL: ${{ secrets.GH_TOKEN_POOL }}
         run: node scripts/enrich-repo-profiles.mjs --mode incremental --limit 50 --max-scans 5
 
       - name: Commit if changed

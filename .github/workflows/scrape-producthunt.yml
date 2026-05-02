@@ -36,6 +36,7 @@ jobs:
           PRODUCTHUNT_TOKEN: ${{ secrets.PRODUCTHUNT_TOKEN }}
           PRODUCTHUNT_TOKENS: ${{ secrets.PRODUCTHUNT_TOKENS }}
           GITHUB_TOKEN: ${{ github.token }}
+          GH_TOKEN_POOL: ${{ secrets.GH_TOKEN_POOL }}
         run: node scripts/scrape-producthunt.mjs
 
       - name: Commit if changed

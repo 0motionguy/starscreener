@@ -150,7 +150,12 @@ function normalizeArticle(
 
 const fetcher: Fetcher = {
   name: 'devto',
-  schedule: '30 8 * * *',
+  // AUDIT-2026-05-04 fix (Phase B1): tightened from once-daily 08:30 to
+  // every 6h to match the GHA cadence and the 6h freshness budget per
+  // PLAN-FRESHNESS §0. The GHA workflow scrape-devto.yml has been failing
+  // (3.6-day stale data); the worker will now keep devto-mentions /
+  // devto-trending fresh independent of GHA recovery.
+  schedule: '30 */6 * * *',
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
     if (ctx.dryRun) {

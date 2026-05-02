@@ -49,5 +49,13 @@ jobs:
           fi
           TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
           git commit -m "chore(data): refresh awesome-skills index ${TS}"
-          git pull --rebase origin main
+          # AUDIT-2026-05-04 fix (Phase A1): retry rebase with -X ours when
+          # `data/unknown-mentions.jsonl` lake-file conflicts with parallel
+          # workflows. The lake is append-only and consumed daily by
+          # promote-unknown-mentions; losing one run's tail bytes is fine.
+          if ! git pull --rebase origin main; then
+            echo "::warning::rebase conflict — retrying with -X ours"
+            git rebase --abort || true
+            git pull --rebase -X ours origin main
+          fi
           git push

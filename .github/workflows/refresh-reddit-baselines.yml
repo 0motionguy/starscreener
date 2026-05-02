@@ -55,5 +55,12 @@ jobs:
           fi
           TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
           git commit -m "chore(data): refresh reddit baselines ${TS}"
-          git pull --rebase origin main
+          # AUDIT-2026-05-04 fix (Phase A1): retry rebase with -X ours when
+          # reddit-mentions/reddit-all-posts conflict with scrape-trending's
+          # hourly writes (same files, different cadences).
+          if ! git pull --rebase origin main; then
+            echo "::warning::rebase conflict — retrying with -X ours"
+            git rebase --abort || true
+            git pull --rebase -X ours origin main
+          fi
           git push

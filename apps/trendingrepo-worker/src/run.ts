@@ -106,6 +106,16 @@ export async function runFetcher(
       },
       'fetcher complete',
     );
+    // Diagnostic for AUDIT-2026-05-04: trending_items.last_seen_at lagged
+    // for sources like `glama` while worker lastRunAt was fresh. Surfaces
+    // requiresDb fetchers that ran but wrote zero rows so they're easy to
+    // spot in Sentry / log search instead of hiding behind aggregate health.
+    if (fetcher.requiresDb === true && result.itemsUpserted === 0) {
+      log.warn(
+        { fetcher: fetcher.name, itemsSeen: result.itemsSeen },
+        'requiresDb fetcher wrote zero rows — check trending_items.last_seen_at',
+      );
+    }
     recordRun();
     return result;
   } catch (err) {

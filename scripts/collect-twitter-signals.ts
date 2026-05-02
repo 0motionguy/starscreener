@@ -895,6 +895,16 @@ async function main(): Promise<void> {
     await flushTwitterPersist();
   }
 
+  // Diagnostic for AUDIT-2026-05-04: .data/twitter-*.jsonl was frozen at
+  // 2026-04-23 while the workflow ran green hourly. With this line the GHA
+  // log shows whether new lines accrued (>0) or whether Apify returned an
+  // empty set (=0). Helps decide between dedupe-bug vs upstream-stuck.
+  const flushScans = payloads.length;
+  const flushPosts = payloads.reduce((sum, p) => sum + p.posts.length, 0);
+  console.error(
+    `[twitter-collector] FLUSH SUMMARY repoSignals=${flushScans} scans=${flushScans} posts=${flushPosts} dryRun=${options.dryRun} mode=${options.mode}`,
+  );
+
   const postCount = payloads.reduce((sum, payload) => sum + payload.posts.length, 0);
   if (webProvider) {
     const stats = webProvider.getStats();

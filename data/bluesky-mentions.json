@@ -1,10 +1,318 @@
 {
-  "fetchedAt": "2026-05-02T15:06:41.850Z",
+  "fetchedAt": "2026-05-02T17:08:24.311Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
+    "zellij-org/zellij": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkv4dng7eh2e",
+        "cid": "bafyreifiv3duvs7mbetnphq6kffp2c2ow2ghlu2fbflgdojt3m2d5nik6m",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkv4dng7eh2e",
+        "text": "zellij-org / zellij: A terminal workspace with batteries included ★32108 https://github.com/zellij-org/zellij",
+        "author": {
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-02T16:56:13.103418Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkv4dng7eh2e",
+          "cid": "bafyreifiv3duvs7mbetnphq6kffp2c2ow2ghlu2fbflgdojt3m2d5nik6m",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkv4dng7eh2e",
+          "text": "zellij-org / zellij: A terminal workspace with batteries included ★32108 https://github.com/zellij-org/zellij",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T16:56:13.103418Z",
+          "createdUtc": 1777740973,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "zellij-org/zellij",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "anthropics/claude-code": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:n2wtla6czvo6xdohffxnarld/app.bsky.feed.post/3mkv3bwtpnx2o",
+        "cid": "bafyreihh7hnwfyt6mhog7eykkvo5adsidqmht2uo2pvkalt3cr54tpc36m",
+        "bskyUrl": "https://bsky.app/profile/winsontang.com/post/3mkv3bwtpnx2o",
+        "text": "Experiencing rapid quota exhaustion on your Pro Max? A recent report highlights 5x quota limits being reached in just 1.5 hours, even with moderate usage. This raises questions about resource management and user experience. Let's discuss solut… https://github.com/anthropics/claude-code/issues/45756",
+        "author": {
+          "handle": "winsontang.com",
+          "displayName": "Winson Tang"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-02T16:37:22.204Z",
+        "hoursSincePosted": 0.52
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:n2wtla6czvo6xdohffxnarld/app.bsky.feed.post/3mkv3bwtpnx2o",
+          "cid": "bafyreihh7hnwfyt6mhog7eykkvo5adsidqmht2uo2pvkalt3cr54tpc36m",
+          "bskyUrl": "https://bsky.app/profile/winsontang.com/post/3mkv3bwtpnx2o",
+          "text": "Experiencing rapid quota exhaustion on your Pro Max? A recent report highlights 5x quota limits being reached in just 1.5 hours, even with moderate usage. This raises questions about resource management and user experience. Let's discuss solut… https://github.com/anthropics/claude-code/issues/45756",
+          "author": {
+            "handle": "winsontang.com",
+            "displayName": "Winson Tang"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T16:37:22.204Z",
+          "createdUtc": 1777739842,
+          "ageHours": 0.52,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "tobi/qmd": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:edglm4muiyzty2snc55ysuqx/app.bsky.feed.post/3mkv2vgqszc27",
+        "cid": "bafyreibm44jwdkeg4zjak5xqupvolblnvzsaymrdlrtupu5o45ra6k3wje",
+        "bskyUrl": "https://bsky.app/profile/ssp.sh/post/3mkv2vgqszc27",
+        "text": "Yes i did myself too, at explore.ssp.sh. Or Tobi did another one github.com/tobi/qmd, and theres man more, thats the beauty of owning your data.",
+        "author": {
+          "handle": "ssp.sh",
+          "displayName": "Simon Späti 🏔️"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-02T16:30:22.721Z",
+        "hoursSincePosted": 0.63
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:edglm4muiyzty2snc55ysuqx/app.bsky.feed.post/3mkv2vgqszc27",
+          "cid": "bafyreibm44jwdkeg4zjak5xqupvolblnvzsaymrdlrtupu5o45ra6k3wje",
+          "bskyUrl": "https://bsky.app/profile/ssp.sh/post/3mkv2vgqszc27",
+          "text": "Yes i did myself too, at explore.ssp.sh. Or Tobi did another one github.com/tobi/qmd, and theres man more, thats the beauty of owning your data.",
+          "author": {
+            "handle": "ssp.sh",
+            "displayName": "Simon Späti 🏔️"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T16:30:22.721Z",
+          "createdUtc": 1777739422,
+          "ageHours": 0.63,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "tobi/qmd",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "rustfs/rustfs": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkuyy7cjdc2p",
+        "cid": "bafyreidsueq5ybope3jmjxyl4rlgc6dttwtpv623gxp52kbtmtgzzv6eky",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkuyy7cjdc2p",
+        "text": "rustfs: 🚀2.3x faster than MinIO for 4KB object payloads. RustFS is an open-source, S3-compatible high-performance object storage system supporting migration and coexistence with other S3-compatible platforms such as MinIO and Ceph. ★26943 https://github.com/rustfs/rustfs",
+        "author": {
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-02T15:56:07.950767Z",
+        "hoursSincePosted": 1.2
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkuyy7cjdc2p",
+          "cid": "bafyreidsueq5ybope3jmjxyl4rlgc6dttwtpv623gxp52kbtmtgzzv6eky",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkuyy7cjdc2p",
+          "text": "rustfs: 🚀2.3x faster than MinIO for 4KB object payloads. RustFS is an open-source, S3-compatible high-performance object storage system supporting migration and coexistence with other S3-compatible platforms such as MinIO and Ceph. ★26943 https://github.com/rustfs/rustfs",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T15:56:07.950767Z",
+          "createdUtc": 1777737367,
+          "ageHours": 1.2,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "rustfs/rustfs",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "garrytan/gbrain": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mkuytij6bn2y",
+        "cid": "bafyreiej445jfuj5t36vprq5m3wc2uu4elqufunqvjwuaflh75w27y5oji",
+        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mkuytij6bn2y",
+        "text": "GBrain is my personal OpenClaw/Hermes Agent setup including my own retrieval, graph db, and schema and skillpacks. More than 100 skills will be coming in the next month. Building my personal AI and it'll be open source so you can have it too, all free https://github.com/garrytan/gbrain",
+        "author": {
+          "handle": "garrytan-mirr.selfhosted.social",
+          "displayName": "Garry Tan [UNOFFICIAL]"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-02T15:49:34.000Z",
+        "hoursSincePosted": 1.31
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mkuytij6bn2y",
+          "cid": "bafyreiej445jfuj5t36vprq5m3wc2uu4elqufunqvjwuaflh75w27y5oji",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mkuytij6bn2y",
+          "text": "GBrain is my personal OpenClaw/Hermes Agent setup including my own retrieval, graph db, and schema and skillpacks. More than 100 skills will be coming in the next month. Building my personal AI and it'll be open source so you can have it too, all free https://github.com/garrytan/gbrain",
+          "author": {
+            "handle": "garrytan-mirr.selfhosted.social",
+            "displayName": "Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-02T15:49:34.000Z",
+          "createdUtc": 1777736974,
+          "ageHours": 1.31,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "TauricResearch/TradingAgents": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:s33lmvk7rwmlypc2qm6wn2lr/app.bsky.feed.post/3mkv3tfw2rfm2",
+        "cid": "bafyreifuw3guet5afxf3acif7dg6fshcwzyweq7iwvpxl6ym5ouornfxwa",
+        "bskyUrl": "https://bsky.app/profile/llms.activitypub.awakari.com.ap.brid.gy/post/3mkv3tfw2rfm2",
+        "text": "Show HN: TradingAgents without the API bill – run multi agents in Claude Code TradingAgents (github.com/TauricResearch/TradingAgents) is a great multi-agent stock analysis framework but requires ... Origin | Interest | Match",
+        "author": {
+          "handle": "llms.activitypub.awakari.com.ap.brid.gy",
+          "displayName": "LLMs"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-02T15:39:56.000Z",
+        "hoursSincePosted": 1.47
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:s33lmvk7rwmlypc2qm6wn2lr/app.bsky.feed.post/3mkv3tfw2rfm2",
+          "cid": "bafyreifuw3guet5afxf3acif7dg6fshcwzyweq7iwvpxl6ym5ouornfxwa",
+          "bskyUrl": "https://bsky.app/profile/llms.activitypub.awakari.com.ap.brid.gy/post/3mkv3tfw2rfm2",
+          "text": "Show HN: TradingAgents without the API bill – run multi agents in Claude Code TradingAgents (github.com/TauricResearch/TradingAgents) is a great multi-agent stock analysis framework but requires ... Origin | Interest | Match",
+          "author": {
+            "handle": "llms.activitypub.awakari.com.ap.brid.gy",
+            "displayName": "LLMs"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T15:39:56.000Z",
+          "createdUtc": 1777736396,
+          "ageHours": 1.47,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "TauricResearch/TradingAgents",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "chroma-core/chroma": {
       "count7d": 1,
       "likesSum7d": 0,
@@ -23,7 +331,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-02T14:56:00.983859Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 2.21
       },
       "posts": [
         {
@@ -40,7 +348,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T14:56:00.983859Z",
           "createdUtc": 1777733760,
-          "ageHours": 0.5,
+          "ageHours": 2.21,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -74,7 +382,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-02T14:15:20.814Z",
-        "hoursSincePosted": 0.86
+        "hoursSincePosted": 2.88
       },
       "posts": [
         {
@@ -91,7 +399,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-02T14:15:20.814Z",
           "createdUtc": 1777731320,
-          "ageHours": 0.86,
+          "ageHours": 2.88,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -125,7 +433,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-02T13:14:03.898Z",
-        "hoursSincePosted": 1.88
+        "hoursSincePosted": 3.91
       },
       "posts": [
         {
@@ -142,7 +450,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T13:14:03.898Z",
           "createdUtc": 1777727643,
-          "ageHours": 1.88,
+          "ageHours": 3.91,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -159,7 +467,7 @@
       ]
     },
     "Exocija/ZetaLib": {
-      "count7d": 3,
+      "count7d": 2,
       "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
@@ -176,7 +484,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-02T12:45:12.882Z",
-        "hoursSincePosted": 2.36
+        "hoursSincePosted": 4.39
       },
       "posts": [
         {
@@ -193,7 +501,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T12:45:12.882Z",
           "createdUtc": 1777725912,
-          "ageHours": 2.36,
+          "ageHours": 4.39,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo",
@@ -222,7 +530,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T13:11:04.639Z",
           "createdUtc": 1777727464,
-          "ageHours": 1.93,
+          "ageHours": 3.96,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -232,193 +540,6 @@
           "linkedRepos": [
             {
               "fullName": "Exocija/ZetaLib",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:3fe25qalw4rfzrty3xyutj7c/app.bsky.feed.post/3mkujxxc4lf2r",
-          "cid": "bafyreibbtyp4gzy5xjesh4l2bbddyogclcr6sd56xregkukjf4bw5hs5by",
-          "bskyUrl": "https://bsky.app/profile/topickapp.bsky.social/post/3mkujxxc4lf2r",
-          "text": "https://github.com/Exocija/ZetaLib/blob/main/The%20Gay%20Jailbreak/The%20Gay%20Jailbreak.md LLMの検閲を回避する「ゲイ・ジェイルブレイク」技術を紹介します。 LGBTQ+への配慮を逆手に取り、LLMの協調性を利用して回答を引き出します。 この技術は、より安全なAIほど効果を発揮する可能性があり、応用範囲は広いです。",
-          "author": {
-            "handle": "topickapp.bsky.social",
-            "displayName": "topickapp (IT技術系ニュースサイト)"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-02T11:27:33.487020+00:00",
-          "createdUtc": 1777721253,
-          "ageHours": 3.65,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo",
-            "has-md-file"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "Exocija/ZetaLib",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "Teaonly/SKILL.make": {
-      "count7d": 3,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mkuhu5qoch2y",
-        "cid": "bafyreifuodt7b4ugtxhibz7ohgday56ud7sedgt6bw6pkfghyactaixe7q",
-        "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mkuhu5qoch2y",
-        "text": "SKILL.make: Makefile Styled Skill File https://github.com/Teaonly/SKILL.make (https://news.ycombinator.com/item?id=47984486)",
-        "author": {
-          "handle": "betterhn20.e-work.xyz",
-          "displayName": "Hacker News 20"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-02T10:49:38.028Z",
-        "hoursSincePosted": 4.28
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mkuhu5qoch2y",
-          "cid": "bafyreifuodt7b4ugtxhibz7ohgday56ud7sedgt6bw6pkfghyactaixe7q",
-          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mkuhu5qoch2y",
-          "text": "SKILL.make: Makefile Styled Skill File https://github.com/Teaonly/SKILL.make (https://news.ycombinator.com/item?id=47984486)",
-          "author": {
-            "handle": "betterhn20.e-work.xyz",
-            "displayName": "Hacker News 20"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-02T10:49:38.028Z",
-          "createdUtc": 1777718978,
-          "ageHours": 4.28,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "Teaonly/SKILL.make",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:i3x5aev26bdajo5vh3ajo6j4/app.bsky.feed.post/3mkuhmbp7oc2q",
-          "cid": "bafyreigupitvuqvgklu4ywchrw7va3qulyb3445lztnr5p44m5fqlbhzu4",
-          "bskyUrl": "https://bsky.app/profile/toenobu.bsky.social/post/3mkuhmbp7oc2q",
-          "text": "github.com/Teaonly/SKIL... makefile",
-          "author": {
-            "handle": "toenobu.bsky.social",
-            "displayName": "toenobu"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-02T10:45:14.342Z",
-          "createdUtc": 1777718714,
-          "ageHours": 4.36,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "Teaonly/SKILL.make",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:a56dbiks5wmzacs5hsdsxw55/app.bsky.feed.post/3mkuh2bp3nn2s",
-          "cid": "bafyreia7qtqbijswq72hueoda5nbhz5oexuhww2inj63akja7kewgnswxe",
-          "bskyUrl": "https://bsky.app/profile/mm-hacker-news.bsky.social/post/3mkuh2bp3nn2s",
-          "text": "SKILL.make: Makefile Styled Skill File https://github.com/Teaonly/SKILL.make",
-          "author": {
-            "handle": "mm-hacker-news.bsky.social",
-            "displayName": "Hacker News"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-02T10:35:10.019Z",
-          "createdUtc": 1777718110,
-          "ageHours": 4.53,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "Teaonly/SKILL.make",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "Lum1104/Understand-Anything": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:6647tx44spwppvqz65t3kagy/app.bsky.feed.post/3mkugcyaqok26",
-        "cid": "bafyreihlycd5aquamagbsklaeslubyjxaa6gxmg3nanqiuuiaj7nlwblke",
-        "bskyUrl": "https://bsky.app/profile/ayourtch.bsky.social/post/3mkugcyaqok26",
-        "text": "Looks like a knowledge graph day today. github.com/Lum1104/Unde... - ambitious title, underatand anything. seems a little more bulky than “just” an MCP, being a plugin; and pointing agents to raw instructions is a bit iffy. Anyway, putting it here to look at two together at some point.",
-        "author": {
-          "handle": "ayourtch.bsky.social",
-          "displayName": "Andrew Yourtchenko"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-02T10:22:08.697Z",
-        "hoursSincePosted": 4.74
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:6647tx44spwppvqz65t3kagy/app.bsky.feed.post/3mkugcyaqok26",
-          "cid": "bafyreihlycd5aquamagbsklaeslubyjxaa6gxmg3nanqiuuiaj7nlwblke",
-          "bskyUrl": "https://bsky.app/profile/ayourtch.bsky.social/post/3mkugcyaqok26",
-          "text": "Looks like a knowledge graph day today. github.com/Lum1104/Unde... - ambitious title, underatand anything. seems a little more bulky than “just” an MCP, being a plugin; and pointing agents to raw instructions is a bit iffy. Anyway, putting it here to look at two together at some point.",
-          "author": {
-            "handle": "ayourtch.bsky.social",
-            "displayName": "Andrew Yourtchenko"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-02T10:22:08.697Z",
-          "createdUtc": 1777717328,
-          "ageHours": 4.74,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "Lum1104/Understand-Anything",
               "matchType": "url",
               "confidence": 1
             }
@@ -428,6 +549,314 @@
     }
   },
   "mentionsByRepoId": {
+    "zellij-org--zellij": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkv4dng7eh2e",
+        "cid": "bafyreifiv3duvs7mbetnphq6kffp2c2ow2ghlu2fbflgdojt3m2d5nik6m",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkv4dng7eh2e",
+        "text": "zellij-org / zellij: A terminal workspace with batteries included ★32108 https://github.com/zellij-org/zellij",
+        "author": {
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-02T16:56:13.103418Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkv4dng7eh2e",
+          "cid": "bafyreifiv3duvs7mbetnphq6kffp2c2ow2ghlu2fbflgdojt3m2d5nik6m",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkv4dng7eh2e",
+          "text": "zellij-org / zellij: A terminal workspace with batteries included ★32108 https://github.com/zellij-org/zellij",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T16:56:13.103418Z",
+          "createdUtc": 1777740973,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "zellij-org/zellij",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "anthropics--claude-code": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:n2wtla6czvo6xdohffxnarld/app.bsky.feed.post/3mkv3bwtpnx2o",
+        "cid": "bafyreihh7hnwfyt6mhog7eykkvo5adsidqmht2uo2pvkalt3cr54tpc36m",
+        "bskyUrl": "https://bsky.app/profile/winsontang.com/post/3mkv3bwtpnx2o",
+        "text": "Experiencing rapid quota exhaustion on your Pro Max? A recent report highlights 5x quota limits being reached in just 1.5 hours, even with moderate usage. This raises questions about resource management and user experience. Let's discuss solut… https://github.com/anthropics/claude-code/issues/45756",
+        "author": {
+          "handle": "winsontang.com",
+          "displayName": "Winson Tang"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-02T16:37:22.204Z",
+        "hoursSincePosted": 0.52
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:n2wtla6czvo6xdohffxnarld/app.bsky.feed.post/3mkv3bwtpnx2o",
+          "cid": "bafyreihh7hnwfyt6mhog7eykkvo5adsidqmht2uo2pvkalt3cr54tpc36m",
+          "bskyUrl": "https://bsky.app/profile/winsontang.com/post/3mkv3bwtpnx2o",
+          "text": "Experiencing rapid quota exhaustion on your Pro Max? A recent report highlights 5x quota limits being reached in just 1.5 hours, even with moderate usage. This raises questions about resource management and user experience. Let's discuss solut… https://github.com/anthropics/claude-code/issues/45756",
+          "author": {
+            "handle": "winsontang.com",
+            "displayName": "Winson Tang"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T16:37:22.204Z",
+          "createdUtc": 1777739842,
+          "ageHours": 0.52,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "tobi--qmd": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:edglm4muiyzty2snc55ysuqx/app.bsky.feed.post/3mkv2vgqszc27",
+        "cid": "bafyreibm44jwdkeg4zjak5xqupvolblnvzsaymrdlrtupu5o45ra6k3wje",
+        "bskyUrl": "https://bsky.app/profile/ssp.sh/post/3mkv2vgqszc27",
+        "text": "Yes i did myself too, at explore.ssp.sh. Or Tobi did another one github.com/tobi/qmd, and theres man more, thats the beauty of owning your data.",
+        "author": {
+          "handle": "ssp.sh",
+          "displayName": "Simon Späti 🏔️"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-02T16:30:22.721Z",
+        "hoursSincePosted": 0.63
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:edglm4muiyzty2snc55ysuqx/app.bsky.feed.post/3mkv2vgqszc27",
+          "cid": "bafyreibm44jwdkeg4zjak5xqupvolblnvzsaymrdlrtupu5o45ra6k3wje",
+          "bskyUrl": "https://bsky.app/profile/ssp.sh/post/3mkv2vgqszc27",
+          "text": "Yes i did myself too, at explore.ssp.sh. Or Tobi did another one github.com/tobi/qmd, and theres man more, thats the beauty of owning your data.",
+          "author": {
+            "handle": "ssp.sh",
+            "displayName": "Simon Späti 🏔️"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T16:30:22.721Z",
+          "createdUtc": 1777739422,
+          "ageHours": 0.63,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "tobi/qmd",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "rustfs--rustfs": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkuyy7cjdc2p",
+        "cid": "bafyreidsueq5ybope3jmjxyl4rlgc6dttwtpv623gxp52kbtmtgzzv6eky",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkuyy7cjdc2p",
+        "text": "rustfs: 🚀2.3x faster than MinIO for 4KB object payloads. RustFS is an open-source, S3-compatible high-performance object storage system supporting migration and coexistence with other S3-compatible platforms such as MinIO and Ceph. ★26943 https://github.com/rustfs/rustfs",
+        "author": {
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-02T15:56:07.950767Z",
+        "hoursSincePosted": 1.2
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkuyy7cjdc2p",
+          "cid": "bafyreidsueq5ybope3jmjxyl4rlgc6dttwtpv623gxp52kbtmtgzzv6eky",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkuyy7cjdc2p",
+          "text": "rustfs: 🚀2.3x faster than MinIO for 4KB object payloads. RustFS is an open-source, S3-compatible high-performance object storage system supporting migration and coexistence with other S3-compatible platforms such as MinIO and Ceph. ★26943 https://github.com/rustfs/rustfs",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T15:56:07.950767Z",
+          "createdUtc": 1777737367,
+          "ageHours": 1.2,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "rustfs/rustfs",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "garrytan--gbrain": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mkuytij6bn2y",
+        "cid": "bafyreiej445jfuj5t36vprq5m3wc2uu4elqufunqvjwuaflh75w27y5oji",
+        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mkuytij6bn2y",
+        "text": "GBrain is my personal OpenClaw/Hermes Agent setup including my own retrieval, graph db, and schema and skillpacks. More than 100 skills will be coming in the next month. Building my personal AI and it'll be open source so you can have it too, all free https://github.com/garrytan/gbrain",
+        "author": {
+          "handle": "garrytan-mirr.selfhosted.social",
+          "displayName": "Garry Tan [UNOFFICIAL]"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-02T15:49:34.000Z",
+        "hoursSincePosted": 1.31
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mkuytij6bn2y",
+          "cid": "bafyreiej445jfuj5t36vprq5m3wc2uu4elqufunqvjwuaflh75w27y5oji",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mkuytij6bn2y",
+          "text": "GBrain is my personal OpenClaw/Hermes Agent setup including my own retrieval, graph db, and schema and skillpacks. More than 100 skills will be coming in the next month. Building my personal AI and it'll be open source so you can have it too, all free https://github.com/garrytan/gbrain",
+          "author": {
+            "handle": "garrytan-mirr.selfhosted.social",
+            "displayName": "Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-02T15:49:34.000Z",
+          "createdUtc": 1777736974,
+          "ageHours": 1.31,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "tauricresearch--tradingagents": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:s33lmvk7rwmlypc2qm6wn2lr/app.bsky.feed.post/3mkv3tfw2rfm2",
+        "cid": "bafyreifuw3guet5afxf3acif7dg6fshcwzyweq7iwvpxl6ym5ouornfxwa",
+        "bskyUrl": "https://bsky.app/profile/llms.activitypub.awakari.com.ap.brid.gy/post/3mkv3tfw2rfm2",
+        "text": "Show HN: TradingAgents without the API bill – run multi agents in Claude Code TradingAgents (github.com/TauricResearch/TradingAgents) is a great multi-agent stock analysis framework but requires ... Origin | Interest | Match",
+        "author": {
+          "handle": "llms.activitypub.awakari.com.ap.brid.gy",
+          "displayName": "LLMs"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-02T15:39:56.000Z",
+        "hoursSincePosted": 1.47
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:s33lmvk7rwmlypc2qm6wn2lr/app.bsky.feed.post/3mkv3tfw2rfm2",
+          "cid": "bafyreifuw3guet5afxf3acif7dg6fshcwzyweq7iwvpxl6ym5ouornfxwa",
+          "bskyUrl": "https://bsky.app/profile/llms.activitypub.awakari.com.ap.brid.gy/post/3mkv3tfw2rfm2",
+          "text": "Show HN: TradingAgents without the API bill – run multi agents in Claude Code TradingAgents (github.com/TauricResearch/TradingAgents) is a great multi-agent stock analysis framework but requires ... Origin | Interest | Match",
+          "author": {
+            "handle": "llms.activitypub.awakari.com.ap.brid.gy",
+            "displayName": "LLMs"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T15:39:56.000Z",
+          "createdUtc": 1777736396,
+          "ageHours": 1.47,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "TauricResearch/TradingAgents",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "chroma-core--chroma": {
       "count7d": 1,
       "likesSum7d": 0,
@@ -446,7 +875,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-02T14:56:00.983859Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 2.21
       },
       "posts": [
         {
@@ -463,7 +892,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T14:56:00.983859Z",
           "createdUtc": 1777733760,
-          "ageHours": 0.5,
+          "ageHours": 2.21,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -497,7 +926,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-02T14:15:20.814Z",
-        "hoursSincePosted": 0.86
+        "hoursSincePosted": 2.88
       },
       "posts": [
         {
@@ -514,7 +943,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-02T14:15:20.814Z",
           "createdUtc": 1777731320,
-          "ageHours": 0.86,
+          "ageHours": 2.88,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -548,7 +977,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-02T13:14:03.898Z",
-        "hoursSincePosted": 1.88
+        "hoursSincePosted": 3.91
       },
       "posts": [
         {
@@ -565,7 +994,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T13:14:03.898Z",
           "createdUtc": 1777727643,
-          "ageHours": 1.88,
+          "ageHours": 3.91,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -582,7 +1011,7 @@
       ]
     },
     "exocija--zetalib": {
-      "count7d": 3,
+      "count7d": 2,
       "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
@@ -599,7 +1028,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-02T12:45:12.882Z",
-        "hoursSincePosted": 2.36
+        "hoursSincePosted": 4.39
       },
       "posts": [
         {
@@ -616,7 +1045,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T12:45:12.882Z",
           "createdUtc": 1777725912,
-          "ageHours": 2.36,
+          "ageHours": 4.39,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo",
@@ -645,7 +1074,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T13:11:04.639Z",
           "createdUtc": 1777727464,
-          "ageHours": 1.93,
+          "ageHours": 3.96,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -655,193 +1084,6 @@
           "linkedRepos": [
             {
               "fullName": "Exocija/ZetaLib",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:3fe25qalw4rfzrty3xyutj7c/app.bsky.feed.post/3mkujxxc4lf2r",
-          "cid": "bafyreibbtyp4gzy5xjesh4l2bbddyogclcr6sd56xregkukjf4bw5hs5by",
-          "bskyUrl": "https://bsky.app/profile/topickapp.bsky.social/post/3mkujxxc4lf2r",
-          "text": "https://github.com/Exocija/ZetaLib/blob/main/The%20Gay%20Jailbreak/The%20Gay%20Jailbreak.md LLMの検閲を回避する「ゲイ・ジェイルブレイク」技術を紹介します。 LGBTQ+への配慮を逆手に取り、LLMの協調性を利用して回答を引き出します。 この技術は、より安全なAIほど効果を発揮する可能性があり、応用範囲は広いです。",
-          "author": {
-            "handle": "topickapp.bsky.social",
-            "displayName": "topickapp (IT技術系ニュースサイト)"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-02T11:27:33.487020+00:00",
-          "createdUtc": 1777721253,
-          "ageHours": 3.65,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo",
-            "has-md-file"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "Exocija/ZetaLib",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "teaonly--skill-make": {
-      "count7d": 3,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mkuhu5qoch2y",
-        "cid": "bafyreifuodt7b4ugtxhibz7ohgday56ud7sedgt6bw6pkfghyactaixe7q",
-        "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mkuhu5qoch2y",
-        "text": "SKILL.make: Makefile Styled Skill File https://github.com/Teaonly/SKILL.make (https://news.ycombinator.com/item?id=47984486)",
-        "author": {
-          "handle": "betterhn20.e-work.xyz",
-          "displayName": "Hacker News 20"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-02T10:49:38.028Z",
-        "hoursSincePosted": 4.28
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mkuhu5qoch2y",
-          "cid": "bafyreifuodt7b4ugtxhibz7ohgday56ud7sedgt6bw6pkfghyactaixe7q",
-          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mkuhu5qoch2y",
-          "text": "SKILL.make: Makefile Styled Skill File https://github.com/Teaonly/SKILL.make (https://news.ycombinator.com/item?id=47984486)",
-          "author": {
-            "handle": "betterhn20.e-work.xyz",
-            "displayName": "Hacker News 20"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-02T10:49:38.028Z",
-          "createdUtc": 1777718978,
-          "ageHours": 4.28,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "Teaonly/SKILL.make",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:i3x5aev26bdajo5vh3ajo6j4/app.bsky.feed.post/3mkuhmbp7oc2q",
-          "cid": "bafyreigupitvuqvgklu4ywchrw7va3qulyb3445lztnr5p44m5fqlbhzu4",
-          "bskyUrl": "https://bsky.app/profile/toenobu.bsky.social/post/3mkuhmbp7oc2q",
-          "text": "github.com/Teaonly/SKIL... makefile",
-          "author": {
-            "handle": "toenobu.bsky.social",
-            "displayName": "toenobu"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-02T10:45:14.342Z",
-          "createdUtc": 1777718714,
-          "ageHours": 4.36,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "Teaonly/SKILL.make",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:a56dbiks5wmzacs5hsdsxw55/app.bsky.feed.post/3mkuh2bp3nn2s",
-          "cid": "bafyreia7qtqbijswq72hueoda5nbhz5oexuhww2inj63akja7kewgnswxe",
-          "bskyUrl": "https://bsky.app/profile/mm-hacker-news.bsky.social/post/3mkuh2bp3nn2s",
-          "text": "SKILL.make: Makefile Styled Skill File https://github.com/Teaonly/SKILL.make",
-          "author": {
-            "handle": "mm-hacker-news.bsky.social",
-            "displayName": "Hacker News"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-02T10:35:10.019Z",
-          "createdUtc": 1777718110,
-          "ageHours": 4.53,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "Teaonly/SKILL.make",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "lum1104--understand-anything": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:6647tx44spwppvqz65t3kagy/app.bsky.feed.post/3mkugcyaqok26",
-        "cid": "bafyreihlycd5aquamagbsklaeslubyjxaa6gxmg3nanqiuuiaj7nlwblke",
-        "bskyUrl": "https://bsky.app/profile/ayourtch.bsky.social/post/3mkugcyaqok26",
-        "text": "Looks like a knowledge graph day today. github.com/Lum1104/Unde... - ambitious title, underatand anything. seems a little more bulky than “just” an MCP, being a plugin; and pointing agents to raw instructions is a bit iffy. Anyway, putting it here to look at two together at some point.",
-        "author": {
-          "handle": "ayourtch.bsky.social",
-          "displayName": "Andrew Yourtchenko"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-02T10:22:08.697Z",
-        "hoursSincePosted": 4.74
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:6647tx44spwppvqz65t3kagy/app.bsky.feed.post/3mkugcyaqok26",
-          "cid": "bafyreihlycd5aquamagbsklaeslubyjxaa6gxmg3nanqiuuiaj7nlwblke",
-          "bskyUrl": "https://bsky.app/profile/ayourtch.bsky.social/post/3mkugcyaqok26",
-          "text": "Looks like a knowledge graph day today. github.com/Lum1104/Unde... - ambitious title, underatand anything. seems a little more bulky than “just” an MCP, being a plugin; and pointing agents to raw instructions is a bit iffy. Anyway, putting it here to look at two together at some point.",
-          "author": {
-            "handle": "ayourtch.bsky.social",
-            "displayName": "Andrew Yourtchenko"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-02T10:22:08.697Z",
-          "createdUtc": 1777717328,
-          "ageHours": 4.74,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "Lum1104/Understand-Anything",
               "matchType": "url",
               "confidence": 1
             }
@@ -853,12 +1095,12 @@
   "leaderboard": [
     {
       "fullName": "Exocija/ZetaLib",
-      "count7d": 3,
+      "count7d": 2,
       "likesSum7d": 1
     },
     {
-      "fullName": "Teaonly/SKILL.make",
-      "count7d": 3,
+      "fullName": "anthropics/claude-code",
+      "count7d": 1,
       "likesSum7d": 0
     },
     {
@@ -872,12 +1114,32 @@
       "likesSum7d": 0
     },
     {
+      "fullName": "garrytan/gbrain",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
       "fullName": "leigest519/OpenGame",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "Lum1104/Understand-Anything",
+      "fullName": "rustfs/rustfs",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "TauricResearch/TradingAgents",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "tobi/qmd",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "zellij-org/zellij",
       "count7d": 1,
       "likesSum7d": 0
     }

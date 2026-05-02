@@ -19,6 +19,7 @@ import { SectionHead } from "@/components/ui/SectionHead";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
 import { MoverRow, type FundingStage } from "@/components/funding/MoverRow";
+import { WindowedFundingBoard } from "@/components/funding/WindowedFundingBoard";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 
 export const revalidate = 60;
@@ -139,6 +140,35 @@ export default async function FundingPage() {
     .filter((signal) => signal.extracted)
     .sort((a, b) => amountValue(b) - amountValue(a));
   const topRounds = rounds.slice(0, 10);
+
+  // Windowed Top rounds — filter rounds by publishedAt age, then pre-render
+  // MoverRow trees server-side. Client switcher just swaps which list to
+  // render. AUDIT-2026-05-04 follow-up: user asked for 24h/7d/30d on every
+  // source page; funding had only a fixed all-time top.
+  const nowMs = Date.now();
+  const HOUR_MS = 3_600_000;
+  const renderRoundList = (windowMs: number) =>
+    rounds
+      .filter((signal) => {
+        const t = Date.parse(signal.publishedAt);
+        return Number.isFinite(t) && nowMs - t <= windowMs;
+      })
+      .slice(0, 10)
+      .map((signal, index) => (
+        <MoverRow
+          key={signal.id}
+          rank={index + 1}
+          first={index === 0}
+          name={signalTitle(signal)}
+          meta={`${sourceName(signal.sourcePlatform)} · ${formatAge(signal.publishedAt)}`}
+          amount={signal.extracted?.amountDisplay ?? "Undisclosed"}
+          stage={roundName(signal)}
+          href={signal.sourceUrl}
+        />
+      ));
+  const rounds24h = renderRoundList(24 * HOUR_MS);
+  const rounds7d = renderRoundList(7 * 24 * HOUR_MS);
+  const rounds30d = renderRoundList(30 * 24 * HOUR_MS);
   const recent = signals
     .slice()
     .sort((a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt))
@@ -329,24 +359,16 @@ export default async function FundingPage() {
             title="Top rounds"
             meta={
               <>
-                <b>{topRounds.length}</b> · extracted
+                <b>biggest</b> · 24h / 7d / 30d
               </>
             }
           />
-          <section className="board funding-board">
-            {topRounds.map((signal, index) => (
-              <MoverRow
-                key={signal.id}
-                rank={index + 1}
-                first={index === 0}
-                name={signalTitle(signal)}
-                meta={`${sourceName(signal.sourcePlatform)} · ${formatAge(signal.publishedAt)}`}
-                amount={signal.extracted?.amountDisplay ?? "Undisclosed"}
-                stage={roundName(signal)}
-                href={signal.sourceUrl}
-              />
-            ))}
-          </section>
+          <WindowedFundingBoard
+            rows24h={rounds24h}
+            rows7d={rounds7d}
+            rows30d={rounds30d}
+            defaultWindow="7d"
+          />
 
           <SectionHead
             num="// 03"

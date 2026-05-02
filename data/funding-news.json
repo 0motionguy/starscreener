@@ -1,8 +1,73 @@
 {
-  "fetchedAt": "2026-05-01T12:58:44.680Z",
+  "fetchedAt": "2026-05-02T01:57:35.577Z",
   "source": "funding-news-scraper",
   "windowDays": 21,
   "signals": [
+    {
+      "id": "www.pymnts.com-4b5d09c8",
+      "headline": "Fun Secures $72 Million To Power Global Capital Markets",
+      "description": "Fun raised $72 million in a Series A funding round to expand its payments infrastructure that powers Polymarket and other internet-native capital markets. The company was founded in 2022, has operated in stealth, and now processes over $18 billion in transaction volume per year, delivering a 99.999% success rate and supporting millions of users across 100 countries, it said in a […] The post Fun Secures $72 Million To Power Global Capital Markets appeared first on PYMNTS.com .",
+      "sourceUrl": "https://www.pymnts.com/news/investment-tracker/2026/fun-secures-72-million-to-power-global-capital-markets/",
+      "sourcePlatform": "pymnts",
+      "publishedAt": "2026-05-01T17:57:52.000Z",
+      "discoveredAt": "2026-05-02T01:57:35.577Z",
+      "extracted": {
+        "companyName": "Fun",
+        "companyWebsite": "https://fun.xyz",
+        "companyLogoUrl": "https://logo.clearbit.com/fun.xyz",
+        "amount": 72,
+        "amountDisplay": "$72",
+        "currency": "USD",
+        "roundType": "series-a",
+        "investors": [
+          "Multicoin Capital"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Multicoin Capital",
+            "isKnown": false,
+            "confidence": "medium"
+          }
+        ],
+        "confidence": "high"
+      },
+      "tags": [
+        "ai",
+        "fintech"
+      ]
+    },
+    {
+      "id": "www.pymnts.com-dccf791d",
+      "headline": "SoftBank-Backed OPay Eyes $4 Billion Valuation in US IPO",
+      "description": "OPay Digital Services, a payments platform focused on Nigeria and backed by SoftBank Vision Fund and Sequoia Capital, is preparing for an initial public offering (IPO) in the United States, Bloomberg reported Friday (May 1), citing unnamed sources. The company is seeking a valuation of $4 billion, which would double the $2 billion valuation it achieved in a 2021 funding round, […] The post SoftBank-Backed OPay Eyes $4 Billion Valuation in US IPO appeared first on PYMNTS.com .",
+      "sourceUrl": "https://www.pymnts.com/news/ipo/2026/softbank-backed-opay-eyes-4-billion-valuation-in-us-ipo/",
+      "sourcePlatform": "pymnts",
+      "publishedAt": "2026-05-01T17:43:34.000Z",
+      "discoveredAt": "2026-05-02T01:57:35.577Z",
+      "extracted": {
+        "companyName": "SoftBank-Backed OPay Eyes",
+        "companyWebsite": "https://visionfund.com",
+        "companyLogoUrl": "https://logo.clearbit.com/visionfund.com",
+        "amount": 4,
+        "amountDisplay": "$4",
+        "currency": "USD",
+        "roundType": "ipo",
+        "investors": [
+          "SoftBank Vision"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "SoftBank Vision",
+            "isKnown": false,
+            "confidence": "medium"
+          }
+        ],
+        "confidence": "high"
+      },
+      "tags": [
+        "fintech"
+      ]
+    },
     {
       "id": "sifted.eu-31b651a6",
       "headline": "How leftover fish skins landed this founder a billion-dollar exit: ‘My philosophy has always been to have fun’",
@@ -10,7 +75,7 @@
       "sourceUrl": "https://sifted.eu/articles/kerecis-iceland-innovation-week-interview/",
       "sourcePlatform": "sifted",
       "publishedAt": "2026-05-01T05:00:30.000Z",
-      "discoveredAt": "2026-05-01T12:58:44.680Z",
+      "discoveredAt": "2026-05-02T01:57:35.577Z",
       "extracted": {
         "companyName": "How",
         "companyWebsite": null,
@@ -32,7 +97,7 @@
       "sourceUrl": "https://techcrunch.com/2026/04/30/y-combinator-alum-skio-sells-for-105m-cash-only-raised-8m-founder-says/",
       "sourcePlatform": "techcrunch",
       "publishedAt": "2026-04-30T23:58:52.000Z",
-      "discoveredAt": "2026-05-01T12:58:44.680Z",
+      "discoveredAt": "2026-05-02T01:57:35.577Z",
       "extracted": {
         "companyName": "Y Combinator",
         "companyWebsite": "https://ycombinator.com",
@@ -58,7 +123,7 @@
       "sourceUrl": "https://techcrunch.com/2026/04/30/spacex-backer-137-ventures-raises-700m-for-two-growth-stage-funds/",
       "sourcePlatform": "techcrunch",
       "publishedAt": "2026-04-30T15:29:49.000Z",
-      "discoveredAt": "2026-05-01T12:58:44.680Z",
+      "discoveredAt": "2026-05-02T01:57:35.577Z",
       "extracted": {
         "companyName": "SpaceX backer 137 Ventures",
         "companyWebsite": null,
@@ -83,7 +148,7 @@
       "sourceUrl": "https://tech.eu/2026/04/30/featherlessai-secures-20m-to-expand-serverless-platform-for-open-source-ai/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-30T15:00:00.000Z",
-      "discoveredAt": "2026-05-01T12:58:44.680Z",
+      "discoveredAt": "2026-05-02T01:57:35.577Z",
       "extracted": {
         "companyName": "Featherless.ai",
         "companyWebsite": "https://featherless.ai",
@@ -110,41 +175,13 @@
       ]
     },
     {
-      "id": "venturebeat.com-9f371959",
-      "headline": "Netomi raises $110 million as Accenture and Adobe bet on AI for customer service",
-      "description": "Netomi , the San Francisco-based startup building AI systems for enterprise customer service, said Thursday that it has raised $110 million in new funding in a round led by Accenture Ventures , with participation from Adobe Ventures , WndrCo , Silver Lake Waterman , NAVER Ventures , Metis Strategy and Fin Capital . Jeffrey Katzenberg, managing partner of WndrCo and co-founder of DreamWorks, has joined the company's board. The round builds on early backing from a roster of AI luminaries that includes OpenAI co-founder Greg Brockman, Google DeepMind co-founder Demis Hassabis and Microsoft AI CEO Mustafa Suleyman. On its face, the financing is another large AI round in a market still awash in capital. But the deal is more revealing than that. It suggests that a new line is being drawn inside enterprise AI — not between companies that have a chatbot and companies that do not, but between companies that can show AI works in the messy, brittle, heavily governed environments where large businesses actually operate, and those that still mostly shine in demos. The market around Netomi makes the stakes clear. Sierra , the AI agent startup led by former Salesforce co-CEO Bret Taylor, raised $350 million at a $10 billion valuation in September 2025 and has since made three acquisitions in 2026 alone. Decagon tripled its valuation to $4.5 billion in January 2026 with a $250 million Series D. Salesforce, ServiceNow and Intercom are all racing to embed AI agents into their existing platforms; Intercom's Fin AI agent reportedly crossed $100 million in annual recurring revenue at $0.99 per resolution. Gartner predicts that 40 percent of enterprise applications will include task-specific AI agents by the end of 2026, up from less than 5 percent in 2025. Against that backdrop, Netomi's $110 million round is not the largest in the category, but it may be the most strategically constructed. The combination of Accenture's enterprise consulting network, Adobe's dominance in digital experience management and Netomi's track record in production deployments represents a coordinated play to embed AI not as a chatbot layer on top of websites, but as the fundamental intelligence governing how entire digital experiences behave. The company did not disclose its valuation, and in an interview tied to the announcement, Netomi executives declined to provide revenue or profitability figures. Instead, Chief Executive Puneet Mehta pointed to customer economics, saying a typical large deployment can generate at least tens of millions of dollars in impact, with some customers on a path to hundreds of millions. For technical decision-makers, though, the more important part of Thursday's news may be the partnerships attached to the money. Why Accenture and Adobe turned a venture deal into a global distribution play The structure of the deal reads like a map of how enterprise AI gets bought in 2026. Alongside the investment, Accenture has entered a global alliance with Netomi to bring the platform to its Fortune 100 client base worldwide. The alliance will involve hundreds of Accenture team members receiving training on Netomi's platform — a meaningful commitment from the world's largest consulting firm and a distribution channel that few AI startups can match. Adobe Ventures' participation comes with plans to integrate Netomi into Adobe's Brand Concierge agentic ecosystem, giving Netomi a path into the software layer many large brands already use to manage websites, content and digital journeys. Metis Strategy brings access to CIO advisory channels. Ndidi Oteh, CEO of Accenture Song , said in the press release that the partnership is designed to help clients \"reinvent how they serve their customers — seamlessly, responsibly and at scale.\" The result is not just more cash. It is a distribution network wrapped around a thesis. Justin Wexler , a partner at WndrCo who led the firm's Series B investment in Netomi in 2021, said most companies in the customer experience space are simply swapping a human for an AI. \"That's the extent of what they're building,\" Wexler said. \"What we're doing at Netomi, particularly with the Adobe partnership, is leapfrogging that altogether — merging the two layers. You don't have a 'How can I help you?' chatbot. This is anticipating the issue and eliminating the ticket altogether.\" The distinction matters because it describes a fundamentally different kind of product. Most customer service AI still sits downstream. A customer encounters a problem, opens a chat window, explains the issue and waits for a response. Even when AI speeds up that exchange, the friction has already happened. Netomi wants to move upstream, into the experience before the ticket exists. Mehta described the idea in blunt economic terms. \"Why are there so many customer service tickets? Why is $500 billion spent on human labor answering customer service phone calls, emails and chats?\" he asked. \"What we realized is that the world's largest companies wait for a problem to happen and then jump on it to solve it — but by that time, they've already created a lot of frustration, and it's very expensive to do that.\" The answer, in Mehta's view, is not to make downstream customer service faster with AI. It is to prevent the service ticket from being created in the first place. That logic sits behind almost every strategic decision the company has made — including the Adobe partnership . \"Most important websites run on Adobe Experience Manager,\" Mehta said. \"So we're saying, what if we bring that kind of context and awareness upstream — capturing that a customer might be affected before it even turns into a customer service ticket.\" The Wall Street trading floor origins behind Netomi's AI architecture To understand what Netomi is building, you have to understand where its founder came from. Mehta, who spent his early career constructing automated trading engines on Wall Street, told VentureBeat that the founding thesis was deceptively simple. \"When we started Netomi, the core thesis was that AI is going to become the new customer interface,\" he said. \"The Transformers [paper] did not exist, so we had literally stitched together a set of different models to create the same end result.\" That background in low-latency finance is not incidental. It is the intellectual architecture that undergirds everything Netomi builds. When asked what connects trading systems to customer experience platforms, Mehta drew a direct line. \"If you think about the low-latency trading world, that was the first technology application to use situational awareness and a variety of different signals at scale,\" he said. \"There was not one signal that it was making decisions on. You needed market data feeds. You needed situational awareness. You needed news. You needed awareness of your own book of business. You needed your own risk assessment.\" That multi-signal architecture, Mehta argued, translates directly to what enterprise customer experience demands. Rather than waiting passively for a customer to describe a problem — the way traditional chatbots and even most current AI agents operate — Netomi's system attempts to reconstruct the full situation before it acts. The request itself is only part of the story. \"What the customer tells you is very important, but the situation the customer is in is sometimes even more important,\" Mehta said. \"What if we borrowed that design pattern we built for low-latency trading? Because we can probably know why the customer is calling us. And if we can know that, we could maybe even reach out to them before they reach out to us and solve the problem.\" He summarized the philosophical distinction this way: \"What large language models by themselves did was they essentially democratized just raw intelligence. We are democratizing context, and that changes everything.\" That is a sharp line, and also a revealing one. Netomi is effectively betting that the defensible layer in enterprise AI will not be the foundation model alone. It will be the orchestration layer that turns general model capability into governed, auditable, domain-specific action. That governed approach extends to how the platform handles risk. Netomi uses what it calls an AI authority matrix — a real-time system that defines what the AI can do autonomously and when it must escalate to a human. \"It's a little bit like autonomous driving,\" Mehta said. The AI knows when it's approaching a boundary and pulls a human in. For regulated industries, specific endpoints can be locked to deterministic, rules-based flows while the agentic layer handles broader orchestration — and all of it is version-controlled and traceable, with metadata saved for seven years. Inside the AI system that rearranges websites and retail stores in real time The most technically ambitious element of Netomi's vision — and the one that most sharply distinguishes it from competitors — is what the company calls AI-embedded customer experience orchestration . Rather than placing a chatbot in the corner of a website, Netomi's system can rearrange the website itself based on what the AI infers about each individual customer's situation. Wexler demonstrated a live example during the interview. \"As we see most deployments, companies that want to deploy AI on their websites, they throw a chatbot on the corner,\" he said. \"If you embed agentic capabilities into the digital layer itself — and again, Adobe Experience Manager is the leading digital layer of enterprise — then you could do really unique things.\" Wexler described what this looks like in practice. In a typical deployment, he said, the AI doesn't just answer questions — it reshapes the page. Based on a customer's browsing behavior, purchase history and inferred intent, the system can reorganize a product page in real time: surfacing warnings one customer needs but another doesn't, prompting a sample order at the moment of hesitation, or flagging a compatibility issue before checkout. Two customers looking at the same product might see fundamentally different pages — not because a marketing team built two versions, but because the AI is composing the experience on the fly. \"The AI is playing the role of arranging the elements of the website to cater to me and my needs,\" Wexler said. \"It's anticipating my needs.\" The implication is a shift from static web pages to something closer to generative websites — pages that reconstruct themselves around each visitor the way a good salesperson adjusts a pitch mid-conversation. It is a fundamentally different model from bolting a chat widget onto a page that otherwise looks the same for everyone. That vision already extends beyond screens. Mehta revealed that Coach , the handbag company owned by Tapestry , deployed Netomi's platform in a physical flagship store during the holiday season to help customers navigate the retail space and is now rolling it out chainwide. The numbers Netomi is putting behind its production claims are equally ambitious. At DraftKings , the company said its platform can handle traffic surging to more than 40,000 concurrent customer requests per second during major sporting events, while delivering sub-three-second response times and 98 percent intent classification accuracy. At Paramount , the company said it deployed across chat and voice in two weeks and then scaled through a weekend that included a major UFC event and the AFC Championship . Those are company-reported numbers, and they are hard to benchmark against competitors because the industry lacks standard public reporting. But they illustrate the kind of problem Netomi wants buyers to think about. At that scale, an AI support product stops looking like a smarter FAQ bot and starts looking like a distributed systems challenge. You are not just asking whether a model can answer a question. You are asking whether an entire system can make decisions quickly, safely and consistently while traffic spikes and business rules collide. The $110 million question: can invisible AI beat the chatbot industrial complex? Whether Netomi can deliver on the full scope of its ambition — transforming from an AI customer service platform into an ambient intelligence layer that reshapes digital and physical experiences in real time — remains an open question. The company faces competitors with far larger war chests, deeper platform footprints and, in Sierra's case, a founder-level relationship with OpenAI. But Netomi's bet is fundamentally different from what much of the field is building. While Sierra and Decagon race to replace human agents with AI concierges, measuring success in conversations handled, Netomi is wagering that the highest form of customer service is the interaction that never needs to happen at all. \"There are new startups trying to convince enterprises that if every customer gets a 'concierge,' if there's 'an agent for every moment,' then loyalty follows,\" Mehta said. \"But most relationships with brands are functional. Customers don't want a conversational relationship with their airline or their bank. They want things to work — seamlessly, invisibly, without friction.\" In his closing comments during the interview, Mehta warned that many companies still underestimate the operational risk of deploying immature AI into sensitive customer environments. \"What large companies adopting AI don't fully realize yet is what kind of risk are they taking by adopting those platforms that are not really field tested for this kind of scale and situations,\" he said. That may be the most important line in the whole announcement. Because beneath the funding round, beneath the partner logos and beneath the talk of agents and orchestration, the real question in enterprise AI remains old-fashioned: which systems can be trusted when the environment gets ugly? \"We have built this technology more like how automated trading got built, or how autonomous driving got built, compared to coming at this from just a customer service lens,\" Mehta said. It is a fitting frame for a company whose founder left Wall Street to fix customer service. On the trading floor, the best systems were never the ones that made the most trades. They were the ones that knew, with precision, when not to act — and the ones nobody noticed until something went wrong and they held. Netomi's new investors are betting $110 million that the same principle applies when the person on the other end of the system is not a trader, but a customer who just wants their floor not to leak.",
-      "sourceUrl": "https://venturebeat.com/technology/netomi-raises-110-million-as-accenture-and-adobe-bet-on-ai-for-customer-service",
-      "sourcePlatform": "venturebeat",
-      "publishedAt": "2026-04-30T11:00:00.000Z",
-      "discoveredAt": "2026-05-01T12:58:44.680Z",
-      "extracted": {
-        "companyName": "Netomi",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 500,
-        "amountDisplay": "$500",
-        "currency": "USD",
-        "roundType": "series-b",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high"
-      },
-      "tags": [
-        "ai",
-        "fintech",
-        "saas",
-        "consumer",
-        "defense"
-      ]
-    },
-    {
       "id": "tech.eu-db2b13c9",
       "headline": "Mosaic SoC raises $3.8M pre-seed to build low-power perception chips for spatial computing",
       "description": "Mosaic SoC, which builds dedicated perception chips that bring spatial intelligence to energy-constrained devices, has raised a $3.8 million Pre-Seed round led by Founderful with participation from Ki...",
       "sourceUrl": "https://tech.eu/2026/04/30/mosaic-soc-raises-38m-pre-seed-to-build-low-power-perception-chips-for-spatial-computing/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-30T09:47:00.000Z",
-      "discoveredAt": "2026-05-01T12:58:44.680Z",
+      "discoveredAt": "2026-05-02T01:57:35.577Z",
       "extracted": {
         "companyName": "Mosaic SoC",
         "companyWebsite": "https://mosaic-soc.com",
@@ -177,7 +214,7 @@
       "sourceUrl": "https://tech.eu/2026/04/30/spiral-hydrogen-raises-eur27m-to-build-green-hydrogen-pilot-in-rotterdam/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-30T08:30:00.000Z",
-      "discoveredAt": "2026-05-01T12:58:44.680Z",
+      "discoveredAt": "2026-05-02T01:57:35.577Z",
       "extracted": {
         "companyName": "Spiral Hydrogen",
         "companyWebsite": "https://spiralhydrogen.com",
@@ -202,7 +239,7 @@
       "sourceUrl": "https://tech.eu/2026/04/30/software-10-companies-that-raised-the-most-in-2025/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-30T08:30:00.000Z",
-      "discoveredAt": "2026-05-01T12:58:44.680Z",
+      "discoveredAt": "2026-05-02T01:57:35.577Z",
       "extracted": {
         "companyName": "Software",
         "companyWebsite": null,
@@ -227,7 +264,7 @@
       "sourceUrl": "https://tech.eu/2026/04/30/rocsys-launches-first-multi-bay-hands-free-robotaxi-charger-raises-13m-series-a-extension/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-30T07:15:00.000Z",
-      "discoveredAt": "2026-05-01T12:58:44.680Z",
+      "discoveredAt": "2026-05-02T01:57:35.577Z",
       "extracted": {
         "companyName": "Rocsys",
         "companyWebsite": "https://rocsys.com",
@@ -259,7 +296,7 @@
       "sourceUrl": "https://tech.eu/2026/04/30/online-oceans-raises-ps4m-to-scale-autonomous-fleets-for-maritime-security/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-30T07:00:00.000Z",
-      "discoveredAt": "2026-05-01T12:58:44.680Z",
+      "discoveredAt": "2026-05-02T01:57:35.577Z",
       "extracted": {
         "companyName": "Online Oceans",
         "companyWebsite": "https://onlineoceans.com",
@@ -293,7 +330,7 @@
       "sourceUrl": "https://tech.eu/2026/04/30/manamind-secures-15m-to-develop-autonomous-testing-for-gaming/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-30T06:30:00.000Z",
-      "discoveredAt": "2026-05-01T12:58:44.680Z",
+      "discoveredAt": "2026-05-02T01:57:35.577Z",
       "extracted": {
         "companyName": "ManaMind",
         "companyWebsite": "https://manamind.ai",
@@ -326,7 +363,7 @@
       "sourceUrl": "https://sifted.eu/articles/groove-quantum-16m-seed/",
       "sourcePlatform": "sifted",
       "publishedAt": "2026-04-30T05:00:09.000Z",
-      "discoveredAt": "2026-05-01T12:58:44.680Z",
+      "discoveredAt": "2026-05-02T01:57:35.577Z",
       "extracted": {
         "companyName": "Exclusive",
         "companyWebsite": null,
@@ -351,7 +388,7 @@
       "sourceUrl": "https://techcrunch.com/2026/04/29/parallel-web-systems-hits-2b-valuation-five-months-after-its-last-big-raise/",
       "sourcePlatform": "techcrunch",
       "publishedAt": "2026-04-29T18:33:05.000Z",
-      "discoveredAt": "2026-05-01T12:58:44.680Z",
+      "discoveredAt": "2026-05-02T01:57:35.577Z",
       "extracted": {
         "companyName": "Parallel Web Systems",
         "companyWebsite": "https://parallel.ai",
@@ -389,7 +426,7 @@
       "sourceUrl": "https://techcrunch.com/2026/04/29/firestorm-labs-raises-82m-to-take-drone-factories-into-the-field/",
       "sourcePlatform": "techcrunch",
       "publishedAt": "2026-04-29T13:10:57.000Z",
-      "discoveredAt": "2026-05-01T12:58:44.680Z",
+      "discoveredAt": "2026-05-02T01:57:35.577Z",
       "extracted": {
         "companyName": "Firestorm Labs",
         "companyWebsite": "https://launchfirestorm.com",
@@ -423,7 +460,7 @@
       "sourceUrl": "https://tech.eu/2026/04/29/cleo-labs-secures-eur15m-to-scale-ai-driven-product-compliance-globally/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-29T10:00:00.000Z",
-      "discoveredAt": "2026-05-01T12:58:44.680Z",
+      "discoveredAt": "2026-05-02T01:57:35.577Z",
       "extracted": {
         "companyName": "Cleo Labs",
         "companyWebsite": "https://cleolabs.co",
@@ -456,7 +493,7 @@
       "sourceUrl": "https://tech.eu/2026/04/29/all3-raises-25m-to-boost-construction-productivity-with-robotics-and-ai/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-29T08:00:00.000Z",
-      "discoveredAt": "2026-05-01T12:58:44.680Z",
+      "discoveredAt": "2026-05-02T01:57:35.577Z",
       "extracted": {
         "companyName": "All3",
         "companyWebsite": "https://all3.com",
@@ -483,37 +520,13 @@
       ]
     },
     {
-      "id": "tech.eu-be85cd7",
-      "headline": "SPREAD AI raises $30M Series B for industrial AI",
-      "description": "SPREAD AI has raised $30 million in Series B funding to supportinternational expansion, enhance its platform capabilities, and strengthen itsposition across key industries. The round included new inve...",
-      "sourceUrl": "https://tech.eu/2026/04/29/spread-ai-raises-30m-series-b-for-industrial-ai/",
-      "sourcePlatform": "techeu",
-      "publishedAt": "2026-04-29T06:15:00.000Z",
-      "discoveredAt": "2026-05-01T12:58:44.680Z",
-      "extracted": {
-        "companyName": "SPREAD AI",
-        "companyWebsite": "https://spread.ai",
-        "companyLogoUrl": "https://logo.clearbit.com/spread.ai",
-        "amount": 30000000,
-        "amountDisplay": "$30M",
-        "currency": "USD",
-        "roundType": "series-b",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high"
-      },
-      "tags": [
-        "ai"
-      ]
-    },
-    {
       "id": "sifted.eu-f9120429",
       "headline": "E-bike startup Forest secures £40m Series B funding round",
       "description": "",
       "sourceUrl": "https://sifted.eu/articles/e-bike-startup-forest-secures-40m-series-b-funding-round/",
       "sourcePlatform": "sifted",
       "publishedAt": "2026-04-28T10:06:29.000Z",
-      "discoveredAt": "2026-05-01T12:58:44.680Z",
+      "discoveredAt": "2026-05-02T01:57:35.577Z",
       "extracted": {
         "companyName": "E-bike startup Forest",
         "companyWebsite": null,
@@ -543,7 +556,7 @@
       "sourceUrl": "https://sifted.eu/articles/redpine-raises-e6-8m-to-give-ai-agents-access-to-non-public-data/",
       "sourcePlatform": "sifted",
       "publishedAt": "2026-04-28T05:00:55.000Z",
-      "discoveredAt": "2026-05-01T12:58:44.680Z",
+      "discoveredAt": "2026-05-02T01:57:35.577Z",
       "extracted": {
         "companyName": "Redpine",
         "companyWebsite": null,
@@ -575,7 +588,7 @@
       "sourceUrl": "https://sifted.eu/articles/zellify-funding-round-seed-project-europe/",
       "sourcePlatform": "sifted",
       "publishedAt": "2026-04-28T05:00:06.000Z",
-      "discoveredAt": "2026-05-01T12:58:44.680Z",
+      "discoveredAt": "2026-05-02T01:57:35.577Z",
       "extracted": {
         "companyName": "Voi",
         "companyWebsite": null,
@@ -597,7 +610,7 @@
       "sourceUrl": "https://techcrunch.com/2026/04/27/indias-snabbit-closes-56m-round-as-investor-interest-heats-up-in-on-demand-home-services/",
       "sourcePlatform": "techcrunch",
       "publishedAt": "2026-04-28T03:30:00.000Z",
-      "discoveredAt": "2026-05-01T12:58:44.680Z",
+      "discoveredAt": "2026-05-02T01:57:35.577Z",
       "extracted": {
         "companyName": "India",
         "companyWebsite": null,
@@ -630,7 +643,7 @@
       "sourceUrl": "https://techcrunch.com/2026/04/25/indias-snabbit-seeks-fresh-funding-at-a-400m-valuation-sources-say/",
       "sourcePlatform": "techcrunch",
       "publishedAt": "2026-04-25T14:57:26.000Z",
-      "discoveredAt": "2026-05-01T12:58:44.680Z",
+      "discoveredAt": "2026-05-02T01:57:35.577Z",
       "extracted": {
         "companyName": "India",
         "companyWebsite": null,
@@ -699,7 +712,7 @@
         "saas",
         "devtools"
       ],
-      "discoveredAt": "2026-05-01T12:58:44.680Z"
+      "discoveredAt": "2026-05-02T01:57:35.577Z"
     },
     {
       "id": "seed-coreweave-series-c-2026",
@@ -745,7 +758,7 @@
         "hardware",
         "saas"
       ],
-      "discoveredAt": "2026-05-01T12:58:44.680Z"
+      "discoveredAt": "2026-05-02T01:57:35.577Z"
     },
     {
       "id": "seed-cognition-series-a-2026",
@@ -784,7 +797,7 @@
         "ai",
         "devtools"
       ],
-      "discoveredAt": "2026-05-01T12:58:44.680Z"
+      "discoveredAt": "2026-05-02T01:57:35.577Z"
     },
     {
       "id": "seed-anduril-series-f-2026",
@@ -829,7 +842,7 @@
         "defense",
         "ai"
       ],
-      "discoveredAt": "2026-05-01T12:58:44.680Z"
+      "discoveredAt": "2026-05-02T01:57:35.577Z"
     },
     {
       "id": "seed-sambanova-series-e-2026",
@@ -874,7 +887,7 @@
         "ai",
         "hardware"
       ],
-      "discoveredAt": "2026-05-01T12:58:44.680Z"
+      "discoveredAt": "2026-05-02T01:57:35.577Z"
     },
     {
       "id": "seed-poolside-series-a-2026",
@@ -913,7 +926,7 @@
         "ai",
         "devtools"
       ],
-      "discoveredAt": "2026-05-01T12:58:44.680Z"
+      "discoveredAt": "2026-05-02T01:57:35.577Z"
     },
     {
       "id": "seed-hebbia-series-b-2026",
@@ -952,7 +965,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-05-01T12:58:44.680Z"
+      "discoveredAt": "2026-05-02T01:57:35.577Z"
     },
     {
       "id": "seed-together-series-a-2026",
@@ -991,7 +1004,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-05-01T12:58:44.680Z"
+      "discoveredAt": "2026-05-02T01:57:35.577Z"
     },
     {
       "id": "seed-sierra-series-b-2026",
@@ -1030,7 +1043,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-05-01T12:58:44.680Z"
+      "discoveredAt": "2026-05-02T01:57:35.577Z"
     },
     {
       "id": "seed-glean-series-d-2026",
@@ -1069,7 +1082,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-05-01T12:58:44.680Z"
+      "discoveredAt": "2026-05-02T01:57:35.577Z"
     },
     {
       "id": "seed-groq-series-d-2026",
@@ -1108,7 +1121,7 @@
         "ai",
         "hardware"
       ],
-      "discoveredAt": "2026-05-01T12:58:44.680Z"
+      "discoveredAt": "2026-05-02T01:57:35.577Z"
     },
     {
       "id": "seed-mistral-series-b-2026",
@@ -1153,7 +1166,7 @@
         "ai",
         "europe"
       ],
-      "discoveredAt": "2026-05-01T12:58:44.680Z"
+      "discoveredAt": "2026-05-02T01:57:35.577Z"
     },
     {
       "id": "seed-adept-series-b-2026",
@@ -1192,7 +1205,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-05-01T12:58:44.680Z"
+      "discoveredAt": "2026-05-02T01:57:35.577Z"
     },
     {
       "id": "seed-elevenlabs-series-c-2026",
@@ -1236,7 +1249,7 @@
       "tags": [
         "ai"
       ],
-      "discoveredAt": "2026-05-01T12:58:44.680Z"
+      "discoveredAt": "2026-05-02T01:57:35.577Z"
     },
     {
       "id": "seed-scale-series-f-2026",
@@ -1281,7 +1294,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-05-01T12:58:44.680Z"
+      "discoveredAt": "2026-05-02T01:57:35.577Z"
     },
     {
       "id": "seed-perplexity-series-c-2026",
@@ -1326,7 +1339,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-05-01T12:58:44.680Z"
+      "discoveredAt": "2026-05-02T01:57:35.577Z"
     }
   ]
 }

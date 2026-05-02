@@ -74,16 +74,15 @@ jobs:
           REDIS_URL: ${{ secrets.REDIS_URL }}
         run: node scripts/compute-revenue-benchmarks.mjs
 
+      - name: Compute commit timestamp
+        id: ts
+        run: echo "value=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
+
       - name: Commit if changed
-        run: |
-          git config user.name  "trendingrepo-bot"
-          git config user.email "bot@trendingrepo.local"
-          git add data/trustmrr-startups.json data/revenue-overlays.json data/revenue-benchmarks.json
-          if git diff --quiet --staged; then
-            echo "no changes - skipping commit"
-            exit 0
-          fi
-          TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-          git commit -m "chore(data): refresh trustmrr overlays ${TS}"
-          git pull --rebase origin main
-          git push
+        uses: ./.github/actions/git-commit-data
+        with:
+          message: "chore(data): refresh trustmrr overlays ${{ steps.ts.outputs.value }}"
+          paths: |
+            data/trustmrr-startups.json
+            data/revenue-overlays.json
+            data/revenue-benchmarks.json

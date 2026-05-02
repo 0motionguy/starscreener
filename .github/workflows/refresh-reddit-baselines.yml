@@ -44,16 +44,15 @@ jobs:
           REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
         run: node scripts/scrape-reddit.mjs
 
+      - name: Compute commit timestamp
+        id: ts
+        run: echo "value=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
+
       - name: Commit if changed
-        run: |
-          git config user.name  "trendingrepo-bot"
-          git config user.email "bot@trendingrepo.local"
-          git add data/reddit-baselines.json data/reddit-mentions.json data/reddit-all-posts.json
-          if git diff --quiet --staged; then
-            echo "no changes - skipping commit"
-            exit 0
-          fi
-          TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-          git commit -m "chore(data): refresh reddit baselines ${TS}"
-          git pull --rebase origin main
-          git push
+        uses: ./.github/actions/git-commit-data
+        with:
+          message: "chore(data): refresh reddit baselines ${{ steps.ts.outputs.value }}"
+          paths: |
+            data/reddit-baselines.json
+            data/reddit-mentions.json
+            data/reddit-all-posts.json

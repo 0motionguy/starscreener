@@ -1,10 +1,111 @@
 {
-  "fetchedAt": "2026-05-02T21:01:42.853Z",
+  "fetchedAt": "2026-05-02T22:00:42.589Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
+    "anthropics/claude-plugins-official": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:bmpjq267zmo4zn6niphqislq/app.bsky.feed.post/3mkvmx7t5cn62",
+        "cid": "bafyreif2zesyplcdwdsjd5narjrlepah5xufe2lkyyg2hxkiyzpdfuh7aq",
+        "bskyUrl": "https://bsky.app/profile/alex0007.mastodon.social.ap.brid.gy/post/3mkvmx7t5cn62",
+        "text": "I can't believe how long I was using this useless (officially promoted!!) skill for automated reviews of other devs' PRs: https://github.com/anthropics/claude-plugins-official/tree/main/plugins/code-review It literally catches nothing. I had to introduce my own review skill, which is (at […]",
+        "author": {
+          "handle": "alex0007.mastodon.social.ap.brid.gy",
+          "displayName": "Alex0007"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-02T21:53:19.000Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:bmpjq267zmo4zn6niphqislq/app.bsky.feed.post/3mkvmx7t5cn62",
+          "cid": "bafyreif2zesyplcdwdsjd5narjrlepah5xufe2lkyyg2hxkiyzpdfuh7aq",
+          "bskyUrl": "https://bsky.app/profile/alex0007.mastodon.social.ap.brid.gy/post/3mkvmx7t5cn62",
+          "text": "I can't believe how long I was using this useless (officially promoted!!) skill for automated reviews of other devs' PRs: https://github.com/anthropics/claude-plugins-official/tree/main/plugins/code-review It literally catches nothing. I had to introduce my own review skill, which is (at […]",
+          "author": {
+            "handle": "alex0007.mastodon.social.ap.brid.gy",
+            "displayName": "Alex0007"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T21:53:19.000Z",
+          "createdUtc": 1777758799,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "openclaw/openclaw": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkvke6imsb2s",
+        "cid": "bafyreicwiolkjkalvr7jchxycbgaqzaumlll4fpbewvtx5nrvsiqi3bray",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkvke6imsb2s",
+        "text": "🟠 OpenClaw 2026.5.2-beta.2 lands with plugin cutover tooling and major large-install performance fixes OpenClaw shipped 2026.5.2-beta.2 with a broader external plugin installation path, startup and session-list... https://github.com/openclaw/openclaw/releases/tag/v2026.5.2-beta.2 #AI #AgentWyre",
+        "author": {
+          "handle": "agentwyre.ai"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-02T21:07:02.301092+00:00",
+        "hoursSincePosted": 0.89
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkvke6imsb2s",
+          "cid": "bafyreicwiolkjkalvr7jchxycbgaqzaumlll4fpbewvtx5nrvsiqi3bray",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkvke6imsb2s",
+          "text": "🟠 OpenClaw 2026.5.2-beta.2 lands with plugin cutover tooling and major large-install performance fixes OpenClaw shipped 2026.5.2-beta.2 with a broader external plugin installation path, startup and session-list... https://github.com/openclaw/openclaw/releases/tag/v2026.5.2-beta.2 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T21:07:02.301092+00:00",
+          "createdUtc": 1777756022,
+          "ageHours": 0.89,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "wuyoscar/gpt_image_2_skill": {
       "count7d": 1,
       "likesSum7d": 0,
@@ -23,7 +124,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-02T20:09:07Z",
-        "hoursSincePosted": 0.88
+        "hoursSincePosted": 1.86
       },
       "posts": [
         {
@@ -40,7 +141,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T20:09:07Z",
           "createdUtc": 1777752547,
-          "ageHours": 0.88,
+          "ageHours": 1.86,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -74,7 +175,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-02T19:56:27.701337Z",
-        "hoursSincePosted": 1.09
+        "hoursSincePosted": 2.07
       },
       "posts": [
         {
@@ -91,7 +192,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T19:56:27.701337Z",
           "createdUtc": 1777751787,
-          "ageHours": 1.09,
+          "ageHours": 2.07,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -125,7 +226,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-02T19:45:15.425Z",
-        "hoursSincePosted": 1.27
+        "hoursSincePosted": 2.26
       },
       "posts": [
         {
@@ -142,7 +243,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-02T19:45:15.425Z",
           "createdUtc": 1777751115,
-          "ageHours": 1.27,
+          "ageHours": 2.26,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo",
@@ -177,7 +278,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-02T16:56:13.103418Z",
-        "hoursSincePosted": 4.09
+        "hoursSincePosted": 5.07
       },
       "posts": [
         {
@@ -194,7 +295,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T16:56:13.103418Z",
           "createdUtc": 1777740973,
-          "ageHours": 4.09,
+          "ageHours": 5.07,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -209,44 +310,95 @@
           ]
         }
       ]
-    },
-    "anthropics/claude-code": {
+    }
+  },
+  "mentionsByRepoId": {
+    "anthropics--claude-plugins-official": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:n2wtla6czvo6xdohffxnarld/app.bsky.feed.post/3mkv3bwtpnx2o",
-        "cid": "bafyreihh7hnwfyt6mhog7eykkvo5adsidqmht2uo2pvkalt3cr54tpc36m",
-        "bskyUrl": "https://bsky.app/profile/winsontang.com/post/3mkv3bwtpnx2o",
-        "text": "Experiencing rapid quota exhaustion on your Pro Max? A recent report highlights 5x quota limits being reached in just 1.5 hours, even with moderate usage. This raises questions about resource management and user experience. Let's discuss solut… https://github.com/anthropics/claude-code/issues/45756",
+        "uri": "at://did:plc:bmpjq267zmo4zn6niphqislq/app.bsky.feed.post/3mkvmx7t5cn62",
+        "cid": "bafyreif2zesyplcdwdsjd5narjrlepah5xufe2lkyyg2hxkiyzpdfuh7aq",
+        "bskyUrl": "https://bsky.app/profile/alex0007.mastodon.social.ap.brid.gy/post/3mkvmx7t5cn62",
+        "text": "I can't believe how long I was using this useless (officially promoted!!) skill for automated reviews of other devs' PRs: https://github.com/anthropics/claude-plugins-official/tree/main/plugins/code-review It literally catches nothing. I had to introduce my own review skill, which is (at […]",
         "author": {
-          "handle": "winsontang.com",
-          "displayName": "Winson Tang"
+          "handle": "alex0007.mastodon.social.ap.brid.gy",
+          "displayName": "Alex0007"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-02T16:37:22.204Z",
-        "hoursSincePosted": 4.41
+        "createdAt": "2026-05-02T21:53:19.000Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
-          "uri": "at://did:plc:n2wtla6czvo6xdohffxnarld/app.bsky.feed.post/3mkv3bwtpnx2o",
-          "cid": "bafyreihh7hnwfyt6mhog7eykkvo5adsidqmht2uo2pvkalt3cr54tpc36m",
-          "bskyUrl": "https://bsky.app/profile/winsontang.com/post/3mkv3bwtpnx2o",
-          "text": "Experiencing rapid quota exhaustion on your Pro Max? A recent report highlights 5x quota limits being reached in just 1.5 hours, even with moderate usage. This raises questions about resource management and user experience. Let's discuss solut… https://github.com/anthropics/claude-code/issues/45756",
+          "uri": "at://did:plc:bmpjq267zmo4zn6niphqislq/app.bsky.feed.post/3mkvmx7t5cn62",
+          "cid": "bafyreif2zesyplcdwdsjd5narjrlepah5xufe2lkyyg2hxkiyzpdfuh7aq",
+          "bskyUrl": "https://bsky.app/profile/alex0007.mastodon.social.ap.brid.gy/post/3mkvmx7t5cn62",
+          "text": "I can't believe how long I was using this useless (officially promoted!!) skill for automated reviews of other devs' PRs: https://github.com/anthropics/claude-plugins-official/tree/main/plugins/code-review It literally catches nothing. I had to introduce my own review skill, which is (at […]",
           "author": {
-            "handle": "winsontang.com",
-            "displayName": "Winson Tang"
+            "handle": "alex0007.mastodon.social.ap.brid.gy",
+            "displayName": "Alex0007"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-02T16:37:22.204Z",
-          "createdUtc": 1777739842,
-          "ageHours": 4.41,
+          "createdAt": "2026-05-02T21:53:19.000Z",
+          "createdUtc": 1777758799,
+          "ageHours": 0.5,
           "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "openclaw--openclaw": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkvke6imsb2s",
+        "cid": "bafyreicwiolkjkalvr7jchxycbgaqzaumlll4fpbewvtx5nrvsiqi3bray",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkvke6imsb2s",
+        "text": "🟠 OpenClaw 2026.5.2-beta.2 lands with plugin cutover tooling and major large-install performance fixes OpenClaw shipped 2026.5.2-beta.2 with a broader external plugin installation path, startup and session-list... https://github.com/openclaw/openclaw/releases/tag/v2026.5.2-beta.2 #AI #AgentWyre",
+        "author": {
+          "handle": "agentwyre.ai"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-02T21:07:02.301092+00:00",
+        "hoursSincePosted": 0.89
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkvke6imsb2s",
+          "cid": "bafyreicwiolkjkalvr7jchxycbgaqzaumlll4fpbewvtx5nrvsiqi3bray",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkvke6imsb2s",
+          "text": "🟠 OpenClaw 2026.5.2-beta.2 lands with plugin cutover tooling and major large-install performance fixes OpenClaw shipped 2026.5.2-beta.2 with a broader external plugin installation path, startup and session-list... https://github.com/openclaw/openclaw/releases/tag/v2026.5.2-beta.2 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T21:07:02.301092+00:00",
+          "createdUtc": 1777756022,
+          "ageHours": 0.89,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo",
             "is-announcement"
@@ -254,7 +406,7 @@
           "value_score": 2,
           "linkedRepos": [
             {
-              "fullName": "anthropics/claude-code",
+              "fullName": "openclaw/openclaw",
               "matchType": "url",
               "confidence": 1
             }
@@ -262,161 +414,6 @@
         }
       ]
     },
-    "tobi/qmd": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:edglm4muiyzty2snc55ysuqx/app.bsky.feed.post/3mkv2vgqszc27",
-        "cid": "bafyreibm44jwdkeg4zjak5xqupvolblnvzsaymrdlrtupu5o45ra6k3wje",
-        "bskyUrl": "https://bsky.app/profile/ssp.sh/post/3mkv2vgqszc27",
-        "text": "Yes i did myself too, at explore.ssp.sh. Or Tobi did another one github.com/tobi/qmd, and theres man more, thats the beauty of owning your data.",
-        "author": {
-          "handle": "ssp.sh",
-          "displayName": "Simon Späti 🏔️"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-02T16:30:22.721Z",
-        "hoursSincePosted": 4.52
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:edglm4muiyzty2snc55ysuqx/app.bsky.feed.post/3mkv2vgqszc27",
-          "cid": "bafyreibm44jwdkeg4zjak5xqupvolblnvzsaymrdlrtupu5o45ra6k3wje",
-          "bskyUrl": "https://bsky.app/profile/ssp.sh/post/3mkv2vgqszc27",
-          "text": "Yes i did myself too, at explore.ssp.sh. Or Tobi did another one github.com/tobi/qmd, and theres man more, thats the beauty of owning your data.",
-          "author": {
-            "handle": "ssp.sh",
-            "displayName": "Simon Späti 🏔️"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-02T16:30:22.721Z",
-          "createdUtc": 1777739422,
-          "ageHours": 4.52,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "tobi/qmd",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "rustfs/rustfs": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkuyy7cjdc2p",
-        "cid": "bafyreidsueq5ybope3jmjxyl4rlgc6dttwtpv623gxp52kbtmtgzzv6eky",
-        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkuyy7cjdc2p",
-        "text": "rustfs: 🚀2.3x faster than MinIO for 4KB object payloads. RustFS is an open-source, S3-compatible high-performance object storage system supporting migration and coexistence with other S3-compatible platforms such as MinIO and Ceph. ★26943 https://github.com/rustfs/rustfs",
-        "author": {
-          "handle": "rusttrending.bsky.social",
-          "displayName": "RustTrending"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-02T15:56:07.950767Z",
-        "hoursSincePosted": 5.09
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkuyy7cjdc2p",
-          "cid": "bafyreidsueq5ybope3jmjxyl4rlgc6dttwtpv623gxp52kbtmtgzzv6eky",
-          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkuyy7cjdc2p",
-          "text": "rustfs: 🚀2.3x faster than MinIO for 4KB object payloads. RustFS is an open-source, S3-compatible high-performance object storage system supporting migration and coexistence with other S3-compatible platforms such as MinIO and Ceph. ★26943 https://github.com/rustfs/rustfs",
-          "author": {
-            "handle": "rusttrending.bsky.social",
-            "displayName": "RustTrending"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-02T15:56:07.950767Z",
-          "createdUtc": 1777737367,
-          "ageHours": 5.09,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "rustfs/rustfs",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "garrytan/gbrain": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mkuytij6bn2y",
-        "cid": "bafyreiej445jfuj5t36vprq5m3wc2uu4elqufunqvjwuaflh75w27y5oji",
-        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mkuytij6bn2y",
-        "text": "GBrain is my personal OpenClaw/Hermes Agent setup including my own retrieval, graph db, and schema and skillpacks. More than 100 skills will be coming in the next month. Building my personal AI and it'll be open source so you can have it too, all free https://github.com/garrytan/gbrain",
-        "author": {
-          "handle": "garrytan-mirr.selfhosted.social",
-          "displayName": "Garry Tan [UNOFFICIAL]"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-02T15:49:34.000Z",
-        "hoursSincePosted": 5.2
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mkuytij6bn2y",
-          "cid": "bafyreiej445jfuj5t36vprq5m3wc2uu4elqufunqvjwuaflh75w27y5oji",
-          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mkuytij6bn2y",
-          "text": "GBrain is my personal OpenClaw/Hermes Agent setup including my own retrieval, graph db, and schema and skillpacks. More than 100 skills will be coming in the next month. Building my personal AI and it'll be open source so you can have it too, all free https://github.com/garrytan/gbrain",
-          "author": {
-            "handle": "garrytan-mirr.selfhosted.social",
-            "displayName": "Garry Tan [UNOFFICIAL]"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-02T15:49:34.000Z",
-          "createdUtc": 1777736974,
-          "ageHours": 5.2,
-          "trendingScore": 0.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "garrytan/gbrain",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    }
-  },
-  "mentionsByRepoId": {
     "wuyoscar--gptimage2skill": {
       "count7d": 1,
       "likesSum7d": 0,
@@ -435,7 +432,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-02T20:09:07Z",
-        "hoursSincePosted": 0.88
+        "hoursSincePosted": 1.86
       },
       "posts": [
         {
@@ -452,7 +449,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T20:09:07Z",
           "createdUtc": 1777752547,
-          "ageHours": 0.88,
+          "ageHours": 1.86,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -486,7 +483,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-02T19:56:27.701337Z",
-        "hoursSincePosted": 1.09
+        "hoursSincePosted": 2.07
       },
       "posts": [
         {
@@ -503,7 +500,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T19:56:27.701337Z",
           "createdUtc": 1777751787,
-          "ageHours": 1.09,
+          "ageHours": 2.07,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -537,7 +534,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-02T19:45:15.425Z",
-        "hoursSincePosted": 1.27
+        "hoursSincePosted": 2.26
       },
       "posts": [
         {
@@ -554,7 +551,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-02T19:45:15.425Z",
           "createdUtc": 1777751115,
-          "ageHours": 1.27,
+          "ageHours": 2.26,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo",
@@ -589,7 +586,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-02T16:56:13.103418Z",
-        "hoursSincePosted": 4.09
+        "hoursSincePosted": 5.07
       },
       "posts": [
         {
@@ -606,7 +603,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T16:56:13.103418Z",
           "createdUtc": 1777740973,
-          "ageHours": 4.09,
+          "ageHours": 5.07,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -621,221 +618,16 @@
           ]
         }
       ]
-    },
-    "anthropics--claude-code": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:n2wtla6czvo6xdohffxnarld/app.bsky.feed.post/3mkv3bwtpnx2o",
-        "cid": "bafyreihh7hnwfyt6mhog7eykkvo5adsidqmht2uo2pvkalt3cr54tpc36m",
-        "bskyUrl": "https://bsky.app/profile/winsontang.com/post/3mkv3bwtpnx2o",
-        "text": "Experiencing rapid quota exhaustion on your Pro Max? A recent report highlights 5x quota limits being reached in just 1.5 hours, even with moderate usage. This raises questions about resource management and user experience. Let's discuss solut… https://github.com/anthropics/claude-code/issues/45756",
-        "author": {
-          "handle": "winsontang.com",
-          "displayName": "Winson Tang"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-02T16:37:22.204Z",
-        "hoursSincePosted": 4.41
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:n2wtla6czvo6xdohffxnarld/app.bsky.feed.post/3mkv3bwtpnx2o",
-          "cid": "bafyreihh7hnwfyt6mhog7eykkvo5adsidqmht2uo2pvkalt3cr54tpc36m",
-          "bskyUrl": "https://bsky.app/profile/winsontang.com/post/3mkv3bwtpnx2o",
-          "text": "Experiencing rapid quota exhaustion on your Pro Max? A recent report highlights 5x quota limits being reached in just 1.5 hours, even with moderate usage. This raises questions about resource management and user experience. Let's discuss solut… https://github.com/anthropics/claude-code/issues/45756",
-          "author": {
-            "handle": "winsontang.com",
-            "displayName": "Winson Tang"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-02T16:37:22.204Z",
-          "createdUtc": 1777739842,
-          "ageHours": 4.41,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo",
-            "is-announcement"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "tobi--qmd": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:edglm4muiyzty2snc55ysuqx/app.bsky.feed.post/3mkv2vgqszc27",
-        "cid": "bafyreibm44jwdkeg4zjak5xqupvolblnvzsaymrdlrtupu5o45ra6k3wje",
-        "bskyUrl": "https://bsky.app/profile/ssp.sh/post/3mkv2vgqszc27",
-        "text": "Yes i did myself too, at explore.ssp.sh. Or Tobi did another one github.com/tobi/qmd, and theres man more, thats the beauty of owning your data.",
-        "author": {
-          "handle": "ssp.sh",
-          "displayName": "Simon Späti 🏔️"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-02T16:30:22.721Z",
-        "hoursSincePosted": 4.52
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:edglm4muiyzty2snc55ysuqx/app.bsky.feed.post/3mkv2vgqszc27",
-          "cid": "bafyreibm44jwdkeg4zjak5xqupvolblnvzsaymrdlrtupu5o45ra6k3wje",
-          "bskyUrl": "https://bsky.app/profile/ssp.sh/post/3mkv2vgqszc27",
-          "text": "Yes i did myself too, at explore.ssp.sh. Or Tobi did another one github.com/tobi/qmd, and theres man more, thats the beauty of owning your data.",
-          "author": {
-            "handle": "ssp.sh",
-            "displayName": "Simon Späti 🏔️"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-02T16:30:22.721Z",
-          "createdUtc": 1777739422,
-          "ageHours": 4.52,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "tobi/qmd",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "rustfs--rustfs": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkuyy7cjdc2p",
-        "cid": "bafyreidsueq5ybope3jmjxyl4rlgc6dttwtpv623gxp52kbtmtgzzv6eky",
-        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkuyy7cjdc2p",
-        "text": "rustfs: 🚀2.3x faster than MinIO for 4KB object payloads. RustFS is an open-source, S3-compatible high-performance object storage system supporting migration and coexistence with other S3-compatible platforms such as MinIO and Ceph. ★26943 https://github.com/rustfs/rustfs",
-        "author": {
-          "handle": "rusttrending.bsky.social",
-          "displayName": "RustTrending"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-02T15:56:07.950767Z",
-        "hoursSincePosted": 5.09
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkuyy7cjdc2p",
-          "cid": "bafyreidsueq5ybope3jmjxyl4rlgc6dttwtpv623gxp52kbtmtgzzv6eky",
-          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkuyy7cjdc2p",
-          "text": "rustfs: 🚀2.3x faster than MinIO for 4KB object payloads. RustFS is an open-source, S3-compatible high-performance object storage system supporting migration and coexistence with other S3-compatible platforms such as MinIO and Ceph. ★26943 https://github.com/rustfs/rustfs",
-          "author": {
-            "handle": "rusttrending.bsky.social",
-            "displayName": "RustTrending"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-02T15:56:07.950767Z",
-          "createdUtc": 1777737367,
-          "ageHours": 5.09,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "rustfs/rustfs",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "garrytan--gbrain": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mkuytij6bn2y",
-        "cid": "bafyreiej445jfuj5t36vprq5m3wc2uu4elqufunqvjwuaflh75w27y5oji",
-        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mkuytij6bn2y",
-        "text": "GBrain is my personal OpenClaw/Hermes Agent setup including my own retrieval, graph db, and schema and skillpacks. More than 100 skills will be coming in the next month. Building my personal AI and it'll be open source so you can have it too, all free https://github.com/garrytan/gbrain",
-        "author": {
-          "handle": "garrytan-mirr.selfhosted.social",
-          "displayName": "Garry Tan [UNOFFICIAL]"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-02T15:49:34.000Z",
-        "hoursSincePosted": 5.2
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mkuytij6bn2y",
-          "cid": "bafyreiej445jfuj5t36vprq5m3wc2uu4elqufunqvjwuaflh75w27y5oji",
-          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mkuytij6bn2y",
-          "text": "GBrain is my personal OpenClaw/Hermes Agent setup including my own retrieval, graph db, and schema and skillpacks. More than 100 skills will be coming in the next month. Building my personal AI and it'll be open source so you can have it too, all free https://github.com/garrytan/gbrain",
-          "author": {
-            "handle": "garrytan-mirr.selfhosted.social",
-            "displayName": "Garry Tan [UNOFFICIAL]"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-02T15:49:34.000Z",
-          "createdUtc": 1777736974,
-          "ageHours": 5.2,
-          "trendingScore": 0.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "garrytan/gbrain",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "rustfs/rustfs",
+      "fullName": "openclaw/openclaw",
       "count7d": 1,
       "likesSum7d": 1
     },
     {
-      "fullName": "anthropics/claude-code",
+      "fullName": "anthropics/claude-plugins-official",
       "count7d": 1,
       "likesSum7d": 0
     },
@@ -846,16 +638,6 @@
     },
     {
       "fullName": "Exocija/ZetaLib",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "garrytan/gbrain",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "tobi/qmd",
       "count7d": 1,
       "likesSum7d": 0
     },

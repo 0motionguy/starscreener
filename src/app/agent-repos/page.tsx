@@ -25,6 +25,7 @@ import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
 import { RankRow } from "@/components/ui/RankRow";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import { LetterAvatar } from "@/components/shared/LetterAvatar";
+import { repoLogoUrl } from "@/lib/logos";
 import { Sparkline } from "@/components/shared/Sparkline";
 
 export const revalidate = 60;
@@ -165,10 +166,14 @@ export default async function AgentReposPage() {
                 key={repo.id}
                 rank={index + 1}
                 avatar={
-                  repo.ownerAvatarUrl ? (
+                  // 3-tier avatar fallback per AUDIT-2026-05-04 logo-coverage
+                  // criterion: enriched ownerAvatarUrl → derived GitHub avatar
+                  // (stable public endpoint, redirects to monogram on 404) →
+                  // deterministic LetterAvatar tile.
+                  repo.ownerAvatarUrl || repoLogoUrl(repo.fullName, 28) ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
-                      src={repo.ownerAvatarUrl}
+                      src={repo.ownerAvatarUrl ?? repoLogoUrl(repo.fullName, 28) ?? undefined}
                       alt=""
                       width={28}
                       height={28}

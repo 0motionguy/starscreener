@@ -31,11 +31,28 @@ inputs:
     description: How many pull-rebase-push attempts before giving up.
     required: false
     default: "6"
+  ignore-missing:
+    description: |
+      When "true", missing paths in the allowlist are silently skipped
+      (matches the legacy `git add ... 2>/dev/null || true` pattern used
+      by cron-agent-commerce, where some sub-fetchers may not produce
+      output every run). Default false: missing paths fail loud.
+    required: false
+    default: "false"
+
+outputs:
+  committed:
+    description: "true if a commit was created and pushed; false on no-diff."
+    value: ${{ steps.do-commit.outputs.committed }}
+  files_changed:
+    description: "Number of paths in the commit (0 when no commit)."
+    value: ${{ steps.do-commit.outputs.files_changed }}
 
 runs:
   using: composite
   steps:
     - name: Commit and push with backoff
+      id: do-commit
       shell: bash
       env:
         INPUT_PATHS: ${{ inputs.paths }}
@@ -43,6 +60,7 @@ runs:
         INPUT_ACTOR_NAME: ${{ inputs.actor-name }}
         INPUT_ACTOR_EMAIL: ${{ inputs.actor-email }}
         INPUT_MAX_ATTEMPTS: ${{ inputs.max-attempts }}
+        INPUT_IGNORE_MISSING: ${{ inputs.ignore-missing }}
       run: |
         set -euo pipefail
         git config user.name  "$INPUT_ACTOR_NAME"
@@ -54,20 +72,29 @@ runs:
           p="${p#"${p%%[![:space:]]*}"}"   # trim leading whitespace
           p="${p%"${p##*[![:space:]]}"}"   # trim trailing whitespace
           [[ -z "$p" || "$p" == \#* ]] && continue
-          git add -- "$p"
+          if [[ "$INPUT_IGNORE_MISSING" == "true" ]]; then
+            git add -- "$p" 2>/dev/null || true
+          else
+            git add -- "$p"
+          fi
         done <<< "$INPUT_PATHS"
 
         if git diff --quiet --staged; then
           echo "no changes - skipping commit"
+          echo "committed=false" >> "$GITHUB_OUTPUT"
+          echo "files_changed=0" >> "$GITHUB_OUTPUT"
           exit 0
         fi
 
+        FILES_CHANGED=$(git diff --staged --name-only | wc -l | tr -d ' ')
         git commit -m "$INPUT_MESSAGE"
 
         max="$INPUT_MAX_ATTEMPTS"
         for ((i=1; i<=max; i++)); do
           if git pull --rebase --autostash origin main && git push; then
             echo "pushed on attempt $i"
+            echo "committed=true" >> "$GITHUB_OUTPUT"
+            echo "files_changed=${FILES_CHANGED}" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           if (( i == max )); then break; fi

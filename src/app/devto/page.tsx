@@ -18,6 +18,7 @@ import {
 } from "@/lib/devto-trending";
 import { repoFullNameToHref } from "@/lib/hackernews";
 import { TerminalFeedTable, type FeedColumn } from "@/components/feed/TerminalFeedTable";
+import { WindowedFeedTable } from "@/components/feed/WindowedFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { userLogoUrl, resolveLogoUrl } from "@/lib/logos";
 
@@ -147,11 +148,11 @@ export default async function DevtoPage() {
             ]}
           />
         }
-        listEyebrow="Article feed · top 50 · repo leaderboard"
+        listEyebrow="Article feed · 24h / 7d / 30d window · repo leaderboard"
         list={
           <div className="grid grid-cols-1 md:grid-cols-[1fr_320px] gap-6">
             <section>
-              <ArticlesFeed articles={articles} />
+              <WindowedArticlesFeed allArticles={trendingFile.articles} />
             </section>
             <aside className="hidden md:block">
               <Leaderboard
@@ -163,6 +164,40 @@ export default async function DevtoPage() {
         }
       />
     </main>
+  );
+}
+
+// AUDIT-2026-05-04 follow-up: 24h/7d/30d window switcher on /devto.
+// Articles carry `publishedAt` ISO; filter into windows server-side and
+// let the client toggle which pre-rendered table to mount.
+function WindowedArticlesFeed({ allArticles }: { allArticles: DevtoArticle[] }) {
+  const HOUR_MS = 3_600_000;
+  const nowMs = Date.now();
+  const sortByScore = (list: DevtoArticle[]) =>
+    list
+      .slice()
+      .sort((a, b) => (b.trendingScore ?? 0) - (a.trendingScore ?? 0))
+      .slice(0, 50);
+  const inWindow = (windowMs: number) =>
+    sortByScore(
+      allArticles.filter((a) => {
+        const t = Date.parse(a.publishedAt);
+        return Number.isFinite(t) && nowMs - t <= windowMs;
+      }),
+    );
+  const w24h = inWindow(24 * HOUR_MS);
+  const w7d = inWindow(7 * 24 * HOUR_MS);
+  const w30d = inWindow(30 * 24 * HOUR_MS);
+  return (
+    <WindowedFeedTable
+      count24h={w24h.length}
+      count7d={w7d.length}
+      count30d={w30d.length}
+      table24h={<ArticlesFeed articles={w24h} />}
+      table7d={<ArticlesFeed articles={w7d} />}
+      table30d={<ArticlesFeed articles={w30d} />}
+      defaultWindow="7d"
+    />
   );
 }
 

@@ -112,7 +112,9 @@ async function main(): Promise<void> {
   console.log(`[snapshot-sparklines] wrote=${writes} ok`);
 }
 
-main().catch((err) => {
-  console.error("[snapshot-sparklines] FAILED", err);
-  process.exit(1);
-});
+main()
+  .then(() => process.exit(0))
+  .catch((err) => {
+    console.error("[snapshot-sparklines] FAILED", err);
+    process.exit(1);
+  });

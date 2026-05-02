@@ -105,6 +105,12 @@ export interface DataStore {
   write<T>(key: string, value: T, opts?: DataWriteOptions): Promise<void>;
   /** Last-write timestamp from Redis without fetching the payload. */
   writtenAt(key: string): Promise<string | null>;
+  /**
+   * WriterMeta envelope from Redis without fetching the payload.
+   * Returns null if Redis is disabled, the key is missing, or the meta
+   * value is in legacy bare-ISO format. AUDIT-2026-05-04 §B2.
+   */
+  writerMeta(key: string): Promise<WriterMeta | null>;
   /** Test/admin — drop a key from every tier. */
   reset(key: string): Promise<void>;
   /**
@@ -394,6 +400,17 @@ class DefaultDataStore implements DataStore {
     if (stat) return new Date(stat.mtimeMs).toISOString();
     const cached = this.memory.get(key);
     return cached?.writtenAt ?? null;
+  }
+
+  async writerMeta(key: string): Promise<WriterMeta | null> {
+    if (!this.redis) return null;
+    try {
+      const raw = await this.redis.get(metaKey(key));
+      return parseWriterMeta(raw);
+    } catch (err) {
+      this.onError(err, "read");
+      return null;
+    }
   }
 
   async reset(key: string): Promise<void> {

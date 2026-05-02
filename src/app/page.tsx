@@ -19,6 +19,11 @@ import {
 } from "@/lib/ecosystem-leaderboards";
 import { BubbleMap } from "@/components/terminal/BubbleMap";
 import { HomeEmptyState } from "@/components/home/HomeEmptyState";
+import {
+  LiveTopTable,
+  type LiveSkill,
+  type LiveMcp,
+} from "@/components/home/LiveTopTable";
 import { Card, CardHeader } from "@/components/ui/Card";
 import { ChartStat, ChartStats } from "@/components/ui/ChartShell";
 import { Metric, MetricGrid } from "@/components/ui/Metric";
@@ -446,9 +451,35 @@ export default async function HomePage() {
   const featured = [...repoBoard, ...skillsBoard, ...mcpBoard]
     .sort((a, b) => b.score + b.delta / 100 - (a.score + a.delta / 100))
     .slice(0, 3);
-  const liveRows = [...repos]
-    .sort((a, b) => b.momentumScore - a.momentumScore)
-    .slice(0, 15);
+  // 24h/7d/30d window switching is owned by <LiveTopTable> (client). We
+  // pass the full repo[] + ecosystem items so the user can re-sort without
+  // a round trip. Old fixed-momentum sort retained for the cold render
+  // (used until React hydrates). Top 50 by 24h delta gives a reasonable
+  // default view; LiveTopTable shows top `limit` per its own current sort.
+  const liveSkillItems: LiveSkill[] = (skillsItems ?? [])
+    .slice(0, 50)
+    .map((item): LiveSkill => ({
+      id: `skill-${item.id}`,
+      name: item.title,
+      href: item.url,
+      sub: item.sourceLabel ?? item.topic,
+      score: item.signalScore,
+      delta24h: item.installsDelta1d ?? 0,
+      delta7d: item.installsDelta7d ?? 0,
+      delta30d: item.installsDelta30d ?? 0,
+    }));
+  const liveMcpItems: LiveMcp[] = (mcpItems ?? [])
+    .slice(0, 50)
+    .map((item): LiveMcp => ({
+      id: `mcp-${item.id}`,
+      name: item.title,
+      href: item.url,
+      sub: item.vendor ?? item.sourceLabel ?? item.topic,
+      score: item.signalScore,
+      delta24h: item.mcp?.installs24h ?? 0,
+      delta7d: item.installsDelta7d ?? 0,
+      delta30d: item.installsDelta30d ?? 0,
+    }));
   const refreshed = new Date(lastFetchedAt);
   const refreshedTime = refreshed.toISOString().slice(11, 19);
   const total24h = repos.reduce(
@@ -568,44 +599,12 @@ export default async function HomePage() {
           meta={<><b>{refreshedTime}</b> / refreshed</>}
         />
         <Card>
-          <div className="tabs">
-            <span className="tab on">All<span className="ct">{repos.length}</span></span>
-            <span className="tab">Repos<span className="ct">{repos.length}</span></span>
-            <span className="tab">Skills<span className="ct">{skillsBoard.length}</span></span>
-            <span className="tab">MCP<span className="ct">{mcpBoard.length}</span></span>
-            <span className="right"><span>Sort / momentum</span><span className="live">live</span></span>
-          </div>
-          <div className="table-scroll">
-            <table className="tbl">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Name</th>
-                  <th className="num">Stars</th>
-                  <th className="num">24h</th>
-                  <th className="num">7d</th>
-                  <th className="num">Score</th>
-                </tr>
-              </thead>
-              <tbody>
-                {liveRows.map((repo, index) => (
-                  <tr key={repo.id}>
-                    <td>{String(index + 1).padStart(2, "0")}</td>
-                    <td>
-                      <a href={`/repo/${repo.owner}/${repo.name}`}>
-                        <span>{repo.fullName}</span>
-                        <small>{categoryLabel(repo)} / {repo.language ?? "mixed"}</small>
-                      </a>
-                    </td>
-                    <td className="num">{formatCompact(repo.stars)}</td>
-                    <td className="num up">{formatDelta(repo.starsDelta24h)}</td>
-                    <td className="num">{formatDelta(repo.starsDelta7d)}</td>
-                    <td className="num">{repo.momentumScore.toFixed(1)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <LiveTopTable
+            repos={repos.slice(0, 50)}
+            skills={liveSkillItems}
+            mcps={liveMcpItems}
+            limit={15}
+          />
         </Card>
 
         <SectionHead

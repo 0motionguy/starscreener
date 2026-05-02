@@ -224,6 +224,12 @@ function ArticlesFeed({ articles }: { articles: DevtoArticle[] }) {
       render: (a) => (
         <div className="flex min-w-0 items-center gap-2">
           <EntityLogo
+            // AUDIT-2026-05-04: dropped the `https://dev.to/<user>.png`
+            // fallback — that URL returns CORB-blocked redirects in
+            // production (ERR_BLOCKED_BY_ORB observed in audit Playwright
+            // pass). Falls straight through to the favicon service when
+            // the captured profile_image* fields are missing; EntityLogo
+            // renders a monogram if everything resolves to null.
             src={
               userLogoUrl(
                 (
@@ -238,11 +244,7 @@ function ArticlesFeed({ articles }: { articles: DevtoArticle[] }) {
                     } | null
                   )?.profile_image_90 ??
                   null,
-              ) ??
-              (a.author?.username
-                ? `https://dev.to/${encodeURIComponent(a.author.username)}.png`
-                : null) ??
-              resolveLogoUrl(a.url ?? null, a.title, 64)
+              ) ?? resolveLogoUrl(a.url ?? null, a.title, 64)
             }
             name={a.author?.username ?? a.title}
             size={20}

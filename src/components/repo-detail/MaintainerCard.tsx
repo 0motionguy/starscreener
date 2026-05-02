@@ -21,7 +21,6 @@
 // the detail page uses.
 
 import type { JSX } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { ExternalLink, MapPin, Globe } from "lucide-react";
 
@@ -29,6 +28,7 @@ import {
   fetchGithubUserProfile,
   type GithubUserProfile,
 } from "@/lib/github-user";
+import { EntityLogo } from "@/components/ui/EntityLogo";
 
 interface MaintainerCardProps {
   /** GitHub login (owner slug) — `repo.owner`. */
@@ -102,16 +102,16 @@ function CardShell({
 
       <div className="p-4">
         <div className="flex items-start gap-3">
-          <Image
+          {/* AUDIT-2026-05-04: switched from next/image to EntityLogo so a
+              broken/blocked avatar URL falls back to a monogram instead
+              of a dead grey square (next/image errors silently in prod
+              when remotePatterns blocks the domain). */}
+          <EntityLogo
             src={avatarUrl}
+            name={login}
+            size={48}
+            shape="square"
             alt={login}
-            width={48}
-            height={48}
-            className="size-12 shrink-0 object-cover"
-            style={{
-              borderRadius: 2,
-              border: "1px solid var(--v2-line-200)",
-            }}
           />
           <div className="flex-1 min-w-0">{children}</div>
         </div>
